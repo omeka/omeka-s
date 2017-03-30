@@ -220,4 +220,16 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             }
         }
     }
+
+    public function processBatchUpdateData(array $data, Request $request)
+    {
+        $rawData = $request->getContent();
+        $data = parent::processBatchUpdateData($data, $request);
+
+        if (isset($rawData['o:item_set'])) {
+            $data['o:item_set'] = $rawData['o:item_set'];
+        }
+
+        return $data;
+    }
 }

@@ -113,6 +113,15 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * {@inheritDoc}
      */
+    public function processBatchUpdateData(array $data, Request $request)
+    {
+        // Pass the data through by default.
+        return $data;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function delete(Request $request)
     {
         throw new Exception\OperationNotImplementedException(sprintf(

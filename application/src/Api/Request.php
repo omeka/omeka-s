@@ -40,6 +40,11 @@ class Request
     /**
      * @var array
      */
+    protected $ids = [];
+
+    /**
+     * @var array
+     */
     protected $fileData = [];
 
     /**
@@ -120,6 +125,27 @@ class Request
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set the request resource IDs.
+     *
+     * @param mixed $id
+     */
+    public function setIds(array $ids)
+    {
+        $this->ids = $ids;
+        return $this;
+    }
+
+    /**
+     * Get the request resource IDs.
+     *
+     * @return mixed
+     */
+    public function getIds()
+    {
+        return $this->ids;
     }
 
     /**

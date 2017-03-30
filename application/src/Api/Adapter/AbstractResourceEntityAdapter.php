@@ -326,23 +326,18 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             ->findBy(['valueResource' => $resource]);
     }
 
-    public function batchUpdate(Request $request)
+    public function processBatchUpdateData(array $data, Request $request)
     {
-        $ids = $request->getId();
-        $data = $request->getContent();
+        $rawData = $request->getContent();
 
-        $acceptData = [];
-        if (isset($data['o:is_public'])) {
-            $acceptData['o:is_public'] = $data['o:is_public'];
+        if (isset($rawData['o:is_public'])) {
+            $data['o:is_public'] = $rawData['o:is_public'];
         }
-        if (isset($data['o:resource_template'])) {
-            $acceptData['o:resource_template'] = $data['o:resource_template'];
+        if (isset($rawData['o:resource_template'])) {
+            $data['o:resource_template'] = $rawData['o:resource_template'];
         }
-        if (isset($data['o:resource_class'])) {
-            $acceptData['o:resource_class'] = $data['o:resource_class'];
-        }
-        if (isset($data['o:item_set'])) {
-            $acceptData['o:item_set'] = $data['o:item_set'];
+        if (isset($rawData['o:resource_class'])) {
+            $data['o:resource_class'] = $rawData['o:resource_class'];
         }
 
         // @todo Modify Adapter\ValueHydrator to allow clearing values by
@@ -352,15 +347,17 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         // because isPartial must be set to true.
 
         // Add values that satisfy the bare minimum needed to identify them.
-        foreach ($data as $property => $term => $valueObjects) {
+        foreach ($rawData as $term => $valueObjects) {
             if (!is_array($valueObjects)) {
                 continue;
             }
             foreach ($valueObjects as $valueObject) {
                 if (is_array($valueObject) && isset($valueObject['property_id'])) {
-                    $acceptData[$term][] = $valueObject;
+                    $data[$term][] = $valueObject;
                 }
             }
         }
+
+        return $data;
     }
 }

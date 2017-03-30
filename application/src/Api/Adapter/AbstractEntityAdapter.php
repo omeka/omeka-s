@@ -350,6 +350,55 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         return new Response($entity);
     }
 
+    public function batchUpdate(Request $request)
+    {
+        $data = $this->processBatchUpdateData([], $request);
+
+        $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $logger = $this->getServiceLocator()->get('Omeka\Logger');
+
+        $subresponses = [];
+        $subrequestOptions = [
+            'isPartial' => true, // Batch updates are always partial updates
+            'flushEntityManager' => false, // Flush once, after hydrating all entities
+            'responseContent' => 'resource', // Return entities to work directly on them
+            'finialize' => false, // Finalize only after flushing entities
+        ];
+        foreach ($request->getIds() as $key => $id) {
+            try {
+                $subresponse = $apiManager->update(
+                    $request->getResource(), $id, $data, [], $subrequestOptions
+                );
+            } catch (\Exception $e) {
+                if ($request->getOption('continueOnError', false)) {
+                    $logger->err((string) $e);
+                    continue;
+                }
+                // Detatch managed entities before re-throwing.
+                foreach ($subresponses as $subresponse) {
+                    $this->getEntityManager()->detach($subresponse->getContent());
+                }
+                throw $e;
+            }
+            $subresponses[$key] = $subresponse;
+        }
+        $this->getEntityManager()->flush();
+
+        $entities = [];
+        // Iterate each subresponse to finalize the execution of each updated
+        // entity; to detach each entity to ease subsequent flushes; and to
+        // build response content.
+        foreach ($subresponses as $key => $subresponse) {
+            $apiManager->finalize($this, $subresponse->getRequest(), $subresponse);
+            $entity = $subresponse->getContent();
+            $this->getEntityManager()->detach($entity);
+            $entities[$key] = $entity;
+        }
+
+        $request->setOption('responseContent', 'reference');
+        return new Response($entities);
+    }
+
     /**
      * {@inheritDoc}
      */

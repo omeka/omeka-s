@@ -152,6 +152,26 @@ class Api extends AbstractPlugin
     }
 
     /**
+     * Execute a batch update API request.
+     *
+     * @param string $resource
+     * @param array $ids
+     * @param array $data
+     * @param array $fileData
+     * @param array $options
+     * @return Response|false Returns false on validation error
+     */
+    public function batchUpdate($resource, array $ids, $data = [], $fileData = [], array $options = [])
+    {
+        try {
+            return $this->api->batchUpdate($resource, $ids, $data, $fileData, $options);
+        } catch (ValidationException $e) {
+            $this->handleValidationException($e);
+            return false;
+        }
+    }
+
+    /**
      * Execute a delete API request.
      *
      * @param string $resource

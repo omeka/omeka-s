@@ -141,7 +141,7 @@ class Manager
         array $options = []
     ) {
         $request = new Request(Request::BATCH_UPDATE, $resource);
-        $request->setId($ids)
+        $request->setIds($ids)
             ->setContent($data)
             ->setOption($options);
         return $this->execute($request);
@@ -215,8 +215,6 @@ class Manager
                 $response = $adapter->update($request);
                 break;
             case Request::BATCH_UPDATE:
-                // Batch updates will always be partial updates.
-                $request->setOption('isPartial', true);
                 $response = $adapter->batchUpdate($request);
                 break;
             case Request::DELETE:

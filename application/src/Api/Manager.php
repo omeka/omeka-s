@@ -137,6 +137,16 @@ class Manager
         return $this->execute($request);
     }
 
+    public function batchUpdate($resource, array $ids, array $data = [],
+        array $options = []
+    ) {
+        $request = new Request(Request::BATCH_UPDATE, $resource);
+        $request->setId($ids)
+            ->setContent($data)
+            ->setOption($options);
+        return $this->execute($request);
+    }
+
     /**
      * Execute a delete API request.
      *
@@ -203,6 +213,11 @@ class Manager
                 break;
             case Request::UPDATE:
                 $response = $adapter->update($request);
+                break;
+            case Request::BATCH_UPDATE:
+                // Batch updates will always be partial updates.
+                $request->setOption('isPartial', true);
+                $response = $adapter->batchUpdate($request);
                 break;
             case Request::DELETE:
                 $response = $adapter->delete($request);

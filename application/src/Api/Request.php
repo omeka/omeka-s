@@ -9,6 +9,7 @@ class Request
     const SEARCH = 'search';
     const CREATE = 'create';
     const BATCH_CREATE = 'batch_create';
+    const BATCH_UPDATE = 'batch_update';
     const READ = 'read';
     const UPDATE = 'update';
     const DELETE = 'delete';
@@ -17,7 +18,7 @@ class Request
      * @var array
      */
     protected $operations = [
-        self::SEARCH, self::CREATE, self::BATCH_CREATE,
+        self::SEARCH, self::CREATE, self::BATCH_CREATE, self::BATCH_UPDATE,
         self::READ, self::UPDATE, self::DELETE,
     ];
 

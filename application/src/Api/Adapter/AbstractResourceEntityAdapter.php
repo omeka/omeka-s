@@ -325,4 +325,42 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             ->getRepository('Omeka\Entity\Value')
             ->findBy(['valueResource' => $resource]);
     }
+
+    public function batchUpdate(Request $request)
+    {
+        $ids = $request->getId();
+        $data = $request->getContent();
+
+        $acceptData = [];
+        if (isset($data['o:is_public'])) {
+            $acceptData['o:is_public'] = $data['o:is_public'];
+        }
+        if (isset($data['o:resource_template'])) {
+            $acceptData['o:resource_template'] = $data['o:resource_template'];
+        }
+        if (isset($data['o:resource_class'])) {
+            $acceptData['o:resource_class'] = $data['o:resource_class'];
+        }
+        if (isset($data['o:item_set'])) {
+            $acceptData['o:item_set'] = $data['o:item_set'];
+        }
+
+        // @todo Modify Adapter\ValueHydrator to allow clearing values by
+        // property during isPartial (append). This is currently only possible
+        // during a non-isPartial (POST) request by including all values except
+        // the ones that need to be cleared. This won't work during batch_update
+        // because isPartial must be set to true.
+
+        // Add values that satisfy the bare minimum needed to identify them.
+        foreach ($data as $property => $term => $valueObjects) {
+            if (!is_array($valueObjects)) {
+                continue;
+            }
+            foreach ($valueObjects as $valueObject) {
+                if (is_array($valueObject) && isset($valueObject['property_id'])) {
+                    $acceptData[$term][] = $valueObject;
+                }
+            }
+        }
+    }
 }

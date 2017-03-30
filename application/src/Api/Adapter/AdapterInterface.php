@@ -65,6 +65,14 @@ interface AdapterInterface extends EventManagerAwareInterface, ResourceInterface
     public function update(Request $request);
 
     /**
+     * Batch update a resource.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function batchUpdate(Request $request);
+
+    /**
      * Delete a resource.
      *
      * @param Request $request

@@ -6,30 +6,16 @@ class BatchUpdate extends AbstractJob
     public function perform()
     {
         $api = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $resource = $this->getArg('resource');
 
-        // Get all resource IDs the passed query returns.
-        $limit = 100;
-        $offset = 0;
-        $resourceIds = [];
-        do {
-            $query = array_merge(
-                $this->getArg('query', []),
-                ['limit' => $limit, 'offset' => $offset]
-            );
-            $response = $api->search($this->getArg('resource'), $query);
-            foreach ($response->getContent() as $resource) {
-                $resourceIds[] = $resource->id();
-            }
-            $offset = $offset + $limit;
-        } while ($response->getTotalCount() > $offset);
+        $response = $api->search(
+            $resource, $this->getArg('query', []), ['returnScalar' => 'id']
+        );
 
         // Batch update the resources in chunks.
-        foreach (array_chunk($resourceIds, 100) as $resourceIdsChunk) {
+        foreach (array_chunk($response->getContent(), 100) as $idsChunk) {
             $response = $api->batchUpdate(
-                $this->getArg('resource'),
-                $resourceIdsChunk,
-                $this->getArg('data', []),
-                ['continueOnError' => true]
+                $resource, $idsChunk, $this->getArg('data', []), ['continueOnError' => true]
             );
         }
     }

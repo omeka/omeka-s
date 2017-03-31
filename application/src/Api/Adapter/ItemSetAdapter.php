@@ -117,4 +117,19 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
             $entity->setIsOpen($request->getValue('o:is_open'));
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function processBatchUpdateData(array $data, Request $request)
+    {
+        $rawData = $request->getContent();
+        $data = parent::processBatchUpdateData($data, $request);
+
+        if (isset($rawData['o:is_open'])) {
+            $data['o:is_open'] = $rawData['o:is_open'];
+        }
+
+        return $data;
+    }
 }

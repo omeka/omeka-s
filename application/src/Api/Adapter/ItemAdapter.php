@@ -221,6 +221,9 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function processBatchUpdateData(array $data, Request $request)
     {
         $rawData = $request->getContent();

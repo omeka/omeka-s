@@ -326,6 +326,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             ->findBy(['valueResource' => $resource]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function processBatchUpdateData(array $data, Request $request)
     {
         $rawData = $request->getContent();

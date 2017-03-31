@@ -350,6 +350,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         return new Response($entity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function batchUpdate(Request $request)
     {
         $data = $this->processBatchUpdateData([], $request);

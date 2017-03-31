@@ -302,12 +302,13 @@ class ResourceTemplateController extends AbstractActionController
             ];
         }
 
+        $filename = preg_replace('/[^a-zA-Z0-9]+/', '_', $template->label());
         $export = json_encode($export, JSON_PRETTY_PRINT);
 
         $response = $this->getResponse();
         $headers = $response->getHeaders();
         $headers->addHeaderLine('Content-Type', 'application/json')
-                ->addHeaderLine('Content-Disposition', 'attachment; filename="resource_template_export.json"')
+                ->addHeaderLine('Content-Disposition', sprintf('attachment; filename="%s.json"', $filename))
                 ->addHeaderLine('Content-Length', strlen($export));
         $response->setHeaders($headers);
         $response->setContent($export);

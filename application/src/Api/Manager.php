@@ -228,6 +228,14 @@ class Manager
         if (!$response instanceof Response) {
             throw new Exception\BadResponseException('The API response must implement Omeka\Api\Response');
         }
+
+        $response->setRequest($request);
+
+        // Return scalar content as-is; do not validate or finialize.
+        if (Request::SEARCH === $request->getOperation() && $request->getOption('returnScalar')) {
+            return $response;
+        }
+
         $validateContent = function ($value) {
             if (!$value instanceof ResourceInterface) {
                 throw new Exception\BadResponseException('API response content must implement Omeka\Api\ResourceInterface.');
@@ -240,7 +248,6 @@ class Manager
             $this->finalize($adapter, $request, $response);
         }
 
-        $response->setRequest($request);
         return $response;
     }
 

@@ -179,6 +179,9 @@ class Request
      * - finalize: (bool) Set whether to finalize the request during execute()
      *     (e.g. trigger API-post events and transform response content
      *     according to the "responseContent" option). Default is true.
+     * - returnScalar: (string) Set which field/column to return as an array of
+     *     scalars during a SEARCH request. The request will not finialize when
+     *     this option is set. Default is false (default behavior).
      * - isPartial: (bool) Set whether this is a partial UPDATE request (aka
      *     PATCH). Default is false.
      * - continueOnError: (bool) Set whether a BATCH_CREATE operation should

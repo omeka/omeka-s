@@ -220,6 +220,22 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $this->limitQuery($qb, $query);
         $qb->addOrderBy("$entityClass.id", $query['sort_order']);
 
+        $scalarField = $request->getOption('returnScalar');
+        if ($scalarField) {
+            $fieldNames = $this->getEntityManager()->getClassMetadata($entityClass)->getFieldNames();
+            if (!in_array($scalarField, $fieldNames)) {
+                throw new Exception\BadRequestException(sprintf(
+                    $this->getTranslator()->translate('The "%s" field is not available in the %s entity class.'),
+                    $scalarField, $entityClass
+                ));
+            }
+            $qb->select(sprintf('%s.%s', $entityClass, $scalarField));
+            $content = array_column($qb->getQuery()->getScalarResult(), $scalarField);
+            $response = new Response($content);
+            $response->setTotalResults(count($content));
+            return $response;
+        }
+
         $paginator = new Paginator($qb, false);
         $entities = [];
         // Don't make the request if the LIMIT is set to zero. Useful if the

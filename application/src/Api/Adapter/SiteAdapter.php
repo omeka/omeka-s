@@ -8,6 +8,7 @@ use Omeka\Entity\EntityInterface;
 use Omeka\Entity\SitePermission;
 use Omeka\Entity\SiteItemSet;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\Message;
 
 class SiteAdapter extends AbstractEntityAdapter
 {

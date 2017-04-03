@@ -342,12 +342,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         if (isset($rawData['o:resource_class'])) {
             $data['o:resource_class'] = $rawData['o:resource_class'];
         }
-
-        // @todo Modify Adapter\ValueHydrator to allow clearing values by
-        // property during isPartial (append). This is currently only possible
-        // during a non-isPartial (POST) request by including all values except
-        // the ones that need to be cleared. This won't work during batch_update
-        // because isPartial must be set to true.
+        if (isset($rawData['clear_property_values'])) {
+            $data['clear_property_values'] = $rawData['clear_property_values'];
+        }
 
         // Add values that satisfy the bare minimum needed to identify them.
         foreach ($rawData as $term => $valueObjects) {

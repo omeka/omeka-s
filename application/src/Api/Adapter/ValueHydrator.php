@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\Common\Collections\Criteria;
 use Omeka\Entity\Property;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
@@ -39,6 +40,20 @@ class ValueHydrator implements HydrationInterface
     {
         $newValues = [];
         $valueCollection = $resource->getValues();
+
+        // During isPartial UPDATE and BATCH_UPDATE, clear all values of all
+        // properties passed via the "clear_property_values" key.
+        if ($append && isset($nodeObject['clear_property_values'])
+            && is_array($nodeObject['clear_property_values'])
+        ) {
+            $criteria = Criteria::create()->where(
+                Criteria::expr()->in('property', $nodeObject['clear_property_values']
+            ));
+            foreach ($valueCollection->matching($criteria) as $value) {
+                $valueCollection->removeElement($value);
+            }
+        }
+
         $existingValues = $valueCollection->toArray();
         $dataTypes = $this->adapter->getServiceLocator()->get('Omeka\DataTypeManager');
 

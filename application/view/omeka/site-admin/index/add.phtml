@@ -3,7 +3,6 @@ $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/site-item-pool.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
 $form->prepare();
 $sectionNavs = [
     'admin' => $this->translate('Admin'),
@@ -32,7 +31,7 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
     <?php
     echo $this->partial('omeka/site-admin/index/theme-selector.phtml', [
         'themes' => $themes,
-        'escape' => $escape,
+        'defaultThemeId' => 'default',
         'fallbackThumbnailUrl' => $fallbackThumbnailUrl
     ]);
     ?>

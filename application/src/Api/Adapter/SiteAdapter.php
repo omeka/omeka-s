@@ -209,7 +209,7 @@ class SiteAdapter extends AbstractEntityAdapter
         if (!is_string($slug) || $slug === '') {
             $errorStore->addError('o:slug', 'The slug cannot be empty.'); // @translate
         }
-        if (preg_match('/[^a-zA-Z0-9-]/u', $slug)) {
+        if (preg_match('/[^a-zA-Z0-9_-]/u', $slug)) {
             $errorStore->addError('o:slug', 'A slug can only contain letters, numbers, and hyphens.'); // @translate
         }
         if (!$this->isUnique($entity, ['slug' => $slug])) {

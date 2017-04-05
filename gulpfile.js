@@ -244,7 +244,7 @@ gulp.task('clean', function (cb) {
 
 gulp.task('zip', gulp.series('clean', 'init', function () {
     return gulp.src(['./**', '!./**/*.dist', '!./build/**', '!./**/node_modules/**', '!./**/.git/**', '!./**/.gitattributes', '!./**/.gitignore'],
-        {base: '.'})
+        {base: '.', nodir: true, dot: true})
         .pipe(rename(function (path) {
             path.dirname = 'omeka-s/' + path.dirname;
         }))

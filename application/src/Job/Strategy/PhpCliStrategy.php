@@ -73,6 +73,9 @@ class PhpCliStrategy implements StrategyInterface
             escapeshellarg($this->basePath)
         );
 
-        $this->cli->execute(sprintf('%s > /dev/null 2>&1 &', $command));
+        $status = $this->cli->execute(sprintf('%s > /dev/null 2>&1 &', $command));
+        if ($status === false) {
+            throw new Exception\RuntimeException('PHP-CLI error: job script failed to execute.');
+        }
     }
 }

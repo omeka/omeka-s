@@ -26,7 +26,7 @@ class HtmlTextarea extends Textarea implements InputProviderInterface
                 [
                     'name' => 'callback',
                     'options' => [
-                        'callback' => [$this, 'purifyHtml']
+                        'callback' => [$this, 'purifyHtml'],
                     ],
                 ],
             ],

@@ -18,8 +18,8 @@ class SitePageAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     protected $sortFields = [
-        'id'       => 'id',
-        'created'  => 'created',
+        'id' => 'id',
+        'created' => 'created',
         'modified' => 'modified',
     ];
 
@@ -58,7 +58,6 @@ class SitePageAdapter extends AbstractEntityAdapter
         $blockData = $request->getValue('o:block', []);
 
         if (Request::CREATE === $request->getOperation() && isset($data['o:site']['o:id'])) {
-
             $site = $this->getAdapter('sites')->findEntity($data['o:site']['o:id']);
             $this->authorize($site, 'add-page');
             $entity->setSite($site);
@@ -89,7 +88,7 @@ class SitePageAdapter extends AbstractEntityAdapter
             $entity->setSlug($slug);
         }
 
-        $appendBlocks = $request->getOperation() === Request::UPDATE && $request->isPartial();
+        $appendBlocks = $request->getOperation() === Request::UPDATE && $request->getOption('isPartial', false);
         $this->hydrateBlocks($blockData, $entity, $errorStore, $appendBlocks);
     }
 
@@ -111,13 +110,13 @@ class SitePageAdapter extends AbstractEntityAdapter
         if (!is_string($slug) || $slug === '') {
             $errorStore->addError('o:slug', 'The slug cannot be empty.'); // @translate
         }
-        if (preg_match('/[^a-zA-Z0-9-]/u', $slug)) {
-            $errorStore->addError('o:slug', 'A slug can only contain letters, numbers, and hyphens.'); // @translate
+        if (preg_match('/[^a-zA-Z0-9_-]/u', $slug)) {
+            $errorStore->addError('o:slug', 'A slug can only contain letters, numbers, underscores, and hyphens.'); // @translate
         }
         $site = $entity->getSite();
         if ($site && $site->getId() && !$this->isUnique($entity, [
                 'slug' => $slug,
-                'site' => $entity->getSite()
+                'site' => $entity->getSite(),
         ])) {
             $errorStore->addError('o:slug', new Message(
                 'The slug "%s" is already taken.', // @translate
@@ -142,7 +141,7 @@ class SitePageAdapter extends AbstractEntityAdapter
         $position = 1;
         $fallbackBlock = [
             'o:layout' => null,
-            'o:data' => []
+            'o:data' => [],
         ];
 
         foreach ($blockData as $inputBlock) {

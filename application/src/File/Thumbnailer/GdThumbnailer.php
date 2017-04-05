@@ -2,12 +2,13 @@
 namespace Omeka\File\Thumbnailer;
 
 use Omeka\File\Exception;
+use Omeka\File\File;
 use Omeka\File\Manager as FileManager;
 
 class GdThumbnailer extends AbstractThumbnailer
 {
     /**
-     * @var "gd" resource
+     * @var resource
      */
     protected $origImage;
 
@@ -38,9 +39,29 @@ class GdThumbnailer extends AbstractThumbnailer
      *
      * {@inheritDoc}
      */
-    public function setSource($source)
+    public function setSource(File $source)
     {
-        $origImage = @imagecreatefromstring(@file_get_contents($source));
+        $mediaType = $source->getMediaType();
+        $sourcePath = $source->getTempPath();
+
+        switch ($mediaType) {
+            case 'image/gif':
+                $origImage = imagecreatefromgif($sourcePath);
+                break;
+            case 'image/jpeg':
+                $origImage = imagecreatefromjpeg($sourcePath);
+                break;
+            case 'image/png':
+                $origImage = imagecreatefrompng($sourcePath);
+                break;
+            case 'image/webp':
+                $origImage = imagecreatefromwebp($sourcePath);
+                break;
+            default:
+                throw new Exception\CannotCreateThumbnailException(
+                    sprintf('Cannot create thumbnail for type "%s"', $mediaType)
+                );
+        }
         if (false === $origImage) {
             throw new Exception\CannotCreateThumbnailException;
         }

@@ -10,10 +10,10 @@ use Zend\Session\Container;
  */
 class Messenger extends AbstractPlugin
 {
-    const ERROR   = 0;
+    const ERROR = 0;
     const SUCCESS = 1;
     const WARNING = 2;
-    const NOTICE  = 3;
+    const NOTICE = 3;
 
     /**
      * @var Container

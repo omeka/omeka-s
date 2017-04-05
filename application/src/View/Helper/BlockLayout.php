@@ -76,8 +76,7 @@ class BlockLayout extends AbstractHelper
      */
     public function form($layout, SiteRepresentation $site = null,
         SitePageRepresentation $page = null
-    )
-    {
+    ) {
         $view = $this->getView();
         $block = null;
         if ($layout instanceof SitePageBlockRepresentation) {

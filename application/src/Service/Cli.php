@@ -34,7 +34,8 @@ class Cli
      * @param string $command
      * @return string|false
      */
-    public function getCommandPath($command) {
+    public function getCommandPath($command)
+    {
         $command = sprintf('command -v %s', escapeshellarg($command));
         return $this->execute($command);
     }
@@ -72,7 +73,7 @@ class Cli
      *
      * Expects arguments to be properly escaped.
      *
-     * @param staring $command An executable command
+     * @param string $command An executable command
      * @return string|false The command's standard output or false on error
      */
     public function execute($command)
@@ -93,7 +94,7 @@ class Cli
     /**
      * Execute command using PHP's exec function.
      *
-     * @see http://php.net/manual/en/function.exec.php
+     * @link http://php.net/manual/en/function.exec.php
      * @param string $command
      * @return string|false
      */
@@ -101,6 +102,7 @@ class Cli
     {
         exec($command, $output, $exitCode);
         if (0 !== $exitCode) {
+            $this->logger->err(sprintf('Command "%s" failed with status code %s.', $command, $exitCode));
             return false;
         }
         return implode(PHP_EOL, $output);
@@ -111,7 +113,7 @@ class Cli
      *
      * For servers that allow proc_open. Logs standard error.
      *
-     * @see http://php.net/manual/en/function.proc-open.php
+     * @link http://php.net/manual/en/function.proc-open.php
      * @param string $command
      * @return string|false
      */
@@ -139,6 +141,7 @@ class Cli
         if (0 !== $exitCode) {
             // Log standard error
             $this->logger->err($errors);
+            $this->logger->err(sprintf('Command "%s" failed with status code %s.', $command, $exitCode));
             return false;
         }
         return trim($output);

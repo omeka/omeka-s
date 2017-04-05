@@ -1,10 +1,13 @@
 <?php
 namespace Omeka\Mvc;
 
+use Omeka\Site\Theme\Manager;
+use Omeka\Site\Theme\Theme;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\Application as ZendApplication;
 use Zend\Mvc\MvcEvent;
+use Zend\Session\Container;
 
 class MvcListeners extends AbstractListenerAggregate
 {
@@ -137,8 +140,9 @@ class MvcListeners extends AbstractListenerAggregate
             // This is an admin request.
             $url = $event->getRouter()->assemble([], [
                 'name' => 'login',
-                'query' => ['redirect' => $event->getRequest()->getUriString()]
             ]);
+            $session = Container::getDefaultManager()->getStorage();
+            $session->offsetSet('redirect_url', $event->getRequest()->getUriString());
             $response = $event->getResponse();
             $response->getHeaders()->addHeaderLine('Location', $url);
             $response->setStatusCode(302);
@@ -178,7 +182,7 @@ class MvcListeners extends AbstractListenerAggregate
     }
 
     /**
-     * Prepare the administrative interface.
+     * Prepare the site administrative interface.
      *
      * @param MvcEvent $event
      */
@@ -186,20 +190,15 @@ class MvcListeners extends AbstractListenerAggregate
     {
         $routeMatch = $event->getRouteMatch();
         if (!$routeMatch->getParam('__ADMIN__')) {
-            // Not an admin route; do nothing.
             return;
         }
 
-        $event->getApplication()->getServiceManager()
-            ->get('ViewTemplatePathStack')
-            ->addPath(sprintf('%s/application/view-admin', OMEKA_PATH));
+        $event->getViewModel()->setTemplate('layout/layout-admin');
 
         if ($routeMatch->getParam('__SITEADMIN__')
             && $routeMatch->getParam('site-slug')
         ) {
-            if (!$this->prepareSite($event)) {
-                return;
-            }
+            $this->prepareSite($event);
         }
     }
 
@@ -220,21 +219,25 @@ class MvcListeners extends AbstractListenerAggregate
 
         $services = $event->getApplication()->getServiceManager();
 
-        // Set the current theme.
-        $theme = $site->theme();
         $themeManager = $services->get('Omeka\Site\ThemeManager');
-        $themeManager->setCurrentTheme($theme);
+        $currentTheme = $themeManager->getCurrentTheme();
+        if (Manager::STATE_ACTIVE !== $currentTheme->getState()) {
+            $event->setError(ZendApplication::ERROR_EXCEPTION);
+            $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
+            $event->getApplication()->getEventManager()->triggerEvent($event);
+            return;
+        }
 
         // Add the theme view templates to the path stack.
         $services->get('ViewTemplatePathStack')
-            ->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $theme));
+            ->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $site->theme()));
 
         // Load theme view helpers on-demand.
         $helpers = $themeManager->getCurrentTheme()->getIni('helpers');
         if (is_array($helpers)) {
             foreach ($helpers as $helper) {
-                $factory = function ($pluginManager) use ($theme, $helper) {
-                    require_once sprintf('%s/themes/%s/helper/%s.php', OMEKA_PATH, $theme, $helper);
+                $factory = function ($pluginManager) use ($site, $helper) {
+                    require_once sprintf('%s/themes/%s/helper/%s.php', OMEKA_PATH, $site->theme(), $helper);
                     $helperClass = sprintf('\OmekaTheme\Helper\%s', $helper);
                     return new $helperClass;
                 };
@@ -273,6 +276,15 @@ class MvcListeners extends AbstractListenerAggregate
 
         // Set the site to the top level view model
         $event->getViewModel()->site = $site;
+
+        // Set the current theme for this site.
+        $themeManager = $services->get('Omeka\Site\ThemeManager');
+        $currentTheme = $themeManager->getTheme($site->theme());
+        if (!$currentTheme) {
+            $currentTheme = new Theme('not_found');
+            $currentTheme->setState(Manager::STATE_NOT_FOUND);
+        }
+        $themeManager->setCurrentTheme($currentTheme);
 
         return $site;
     }

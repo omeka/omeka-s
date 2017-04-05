@@ -14,7 +14,8 @@ class DeleteConfirm extends AbstractHelper
         $this->formElementManager = $formElementManager;
     }
 
-    public function __invoke($resource, $resourceLabel = null, $wrapSidebar = true) {
+    public function __invoke($resource, $resourceLabel = null, $wrapSidebar = true)
+    {
         $form = $this->formElementManager->get(ConfirmForm::class);
         $form->setAttribute('action', $resource->url('delete'));
 

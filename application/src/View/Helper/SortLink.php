@@ -41,7 +41,7 @@ class SortLink extends AbstractHelper
                 'query' => [
                     'sort_by' => $sortBy,
                     'sort_order' => $sortOrder,
-                ] + $params->fromQuery()
+                ] + $params->fromQuery(),
             ],
             true
         );
@@ -49,10 +49,10 @@ class SortLink extends AbstractHelper
         return $this->getView()->partial(
             $partialName,
             [
-                'label'     => $label,
-                'url'       => $url,
-                'class'     => $class,
-                'sortBy'    => $sortBy,
+                'label' => $label,
+                'url' => $url,
+                'class' => $class,
+                'sortBy' => $sortBy,
                 'sortOrder' => $sortOrder,
             ]
         );

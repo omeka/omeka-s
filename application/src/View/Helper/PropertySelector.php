@@ -23,21 +23,15 @@ class PropertySelector extends AbstractHelper
         }
 
         $vocabResponse = $this->getView()->api()->search('vocabularies');
-        if ($vocabResponse->isError()) {
-            return;
-        }
         $propResponse = $this->getView()->api()->search('properties', ['limit' => 0]);
-        if ($propResponse->isError()) {
-            return;
-        }
 
         return $this->getView()->partial(
             'common/property-selector',
             [
-                'vocabularies'       => $vocabResponse->getContent(),
+                'vocabularies' => $vocabResponse->getContent(),
                 'totalPropertyCount' => $propResponse->getTotalResults(),
-                'propertySelectorText'               => $propertySelectorText,
-                'state'              => $active ? 'always-open' : ''
+                'propertySelectorText' => $propertySelectorText,
+                'state' => $active ? 'always-open' : '',
             ]
         );
     }

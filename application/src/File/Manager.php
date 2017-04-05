@@ -98,7 +98,7 @@ class Manager
      */
     public function getThumbnailer()
     {
-        return $this->serviceLocator->get($this->config['thumbnailer']);
+        return $this->serviceLocator->build($this->config['thumbnailer']);
     }
 
     /**
@@ -162,7 +162,7 @@ class Manager
         $tempPaths = [];
 
         try {
-            $thumbnailer->setSource($file->getTempPath());
+            $thumbnailer->setSource($file);
             $thumbnailer->setOptions($this->config['thumbnail_options']);
             foreach ($this->config['thumbnail_types'] as $type => $config) {
                 $tempPaths[$type] = $thumbnailer->create(
@@ -217,7 +217,6 @@ class Manager
     public function getThumbnailUrl($type, Media $media)
     {
         if (!$media->hasThumbnails() || !$this->thumbnailTypeExists($type)) {
-
             $fallbacks = $this->config['thumbnail_fallbacks']['fallbacks'];
             $mediaType = $media->getMediaType();
             $topLevelType = strstr($mediaType, '/', true);
@@ -369,6 +368,8 @@ class Manager
     public function downloadFile($uri, $tempPath, ErrorStore $errorStore = null)
     {
         $client = $this->serviceLocator->get('Omeka\HttpClient');
+        $logger = $this->serviceLocator->get('Omeka\Logger');
+
         // Disable compressed response; it's broken alongside streaming
         $client->getRequest()->getHeaders()->addHeaderLine('Accept-Encoding', 'identity');
         $client->setUri($uri)->setStream($tempPath);
@@ -381,10 +382,15 @@ class Manager
                 break;
             } catch (\Exception $e) {
                 if (++$attempt === 3) {
+                    $logger->err((string) $e);
                     if ($errorStore) {
-                        $errorStore->addError('error', $e->getMessage());
+                        $message = sprintf(
+                            'Error downloading %s: %s',
+                            (string) $uri,
+                            $e->getMessage()
+                        );
+                        $errorStore->addError('error', $message);
                     }
-                    $this->serviceLocator->get('Omeka\Logger')->err((string) $e);
                     return false;
                 }
             }
@@ -392,7 +398,7 @@ class Manager
 
         if (!$response->isOk()) {
             $message = sprintf(
-                'Error downloading "%s": %s %s',
+                'Error downloading %s: %s %s',
                 (string) $uri,
                 $response->getStatusCode(),
                 $response->getReasonPhrase()
@@ -400,7 +406,7 @@ class Manager
             if ($errorStore) {
                 $errorStore->addError('error', $message);
             }
-            $this->serviceLocator->get('Omeka\Logger')->err($message);
+            $logger->err($message);
             return false;
         }
 

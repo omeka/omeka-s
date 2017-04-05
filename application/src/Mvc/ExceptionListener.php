@@ -51,7 +51,7 @@ class ExceptionListener extends AbstractListenerAggregate
         if ($exception instanceof AclException\PermissionDeniedException) {
             $template = 'error/403';
             $status = 403;
-        } else if ($exception instanceof ApiException\NotFoundException
+        } elseif ($exception instanceof ApiException\NotFoundException
             || $exception instanceof MvcException\NotFoundException) {
             $template = 'error/404';
             $status = 404;

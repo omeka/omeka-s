@@ -19,7 +19,7 @@ use Zend\EventManager\Event;
  * setting the name of the foreign key column, keyed by the related entity's
  * class name, to the event's "relatedEntities" param.
  *
- * @see http://doctrine-orm.readthedocs.org/en/latest/reference/filters.html
+ * @link http://doctrine-orm.readthedocs.org/en/latest/reference/filters.html
  */
 class ResourceVisibilityFilter extends SQLFilter
 {
@@ -30,8 +30,8 @@ class ResourceVisibilityFilter extends SQLFilter
 
     protected $relatedEntities;
 
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias) {
-
+    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
+    {
         if (null === $this->relatedEntities) {
             // Cache the related entities on the first pass.
             $eventManager = $this->serviceLocator->get('EventManager');

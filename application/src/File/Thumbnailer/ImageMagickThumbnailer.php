@@ -67,17 +67,23 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
                 ];
         }
 
+        if ($this->getOption('autoOrient', false)) {
+            array_unshift($args, '-auto-orient');
+        }
+
         $file = $fileManager->getTempFile();
         $tempPath = sprintf('%s.%s', $file->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
         $file->delete();
 
-        $command = sprintf(
-            '%s %s %s %s',
-            $this->convertPath,
-            escapeshellarg($origPath),
-            implode(' ', $args),
-            escapeshellarg($tempPath)
-        );
+        $commandArgs = [$this->convertPath];
+        if ($this->sourceFile->getMediaType() == 'application/pdf') {
+            $commandArgs[] = '-density 150';
+        }
+        $commandArgs[] = escapeshellarg($origPath);
+        $commandArgs += $args;
+        $commandArgs[] = escapeshellarg($tempPath);
+
+        $command = implode(' ', $commandArgs);
 
         $cli = $this->cli;
         $output = $cli->execute($command);

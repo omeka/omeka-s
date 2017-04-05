@@ -45,7 +45,7 @@ class JobController extends AbstractActionController
         $view->setVariable('resource', $job);
         $view->setVariable('confirmForm', $form);
 
-    return $view;
+        return $view;
     }
 
     public function logAction()

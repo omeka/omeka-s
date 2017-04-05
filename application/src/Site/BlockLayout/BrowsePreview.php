@@ -71,11 +71,11 @@ class BrowsePreview extends AbstractBlockLayout
         $response = $view->api()->search('items', $query);
         $items = $response->getContent();
 
-        return $view->partial('common/block-layout/browse-preview', array(
+        return $view->partial('common/block-layout/browse-preview', [
             'block' => $block,
             'items' => $items,
             'heading' => $heading,
-            'linkText' => $linkText
-        ));
+            'linkText' => $linkText,
+        ]);
     }
 }

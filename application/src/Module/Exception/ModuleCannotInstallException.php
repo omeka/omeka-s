@@ -6,4 +6,5 @@ namespace Omeka\Module\Exception;
  * installation are not met.
  */
 class ModuleCannotInstallException extends \RuntimeException implements ExceptionInterface
-{}
+{
+}

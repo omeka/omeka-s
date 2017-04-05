@@ -68,13 +68,13 @@ class Upload implements IngesterInterface
         $fileInput = new FileInput('file');
         $fileInput->getFilterChain()->attach(new RenameUpload([
             'target' => $file->getTempPath(),
-            'overwrite' => true
+            'overwrite' => true,
         ]));
 
         $fileData = $fileData['file'][$index];
         $fileInput->setValue($fileData);
         if (!$fileInput->isValid()) {
-            foreach($fileInput->getMessages() as $message) {
+            foreach ($fileInput->getMessages() as $message) {
                 $errorStore->addError('upload', $message);
             }
             return;
@@ -95,6 +95,7 @@ class Upload implements IngesterInterface
             $media->setSource($fileData['name']);
         }
         $fileManager->storeOriginal($file);
+        $file->delete();
     }
 
     /**
@@ -109,6 +110,7 @@ class Upload implements IngesterInterface
         ]);
         $fileInput->setAttributes([
             'id' => 'media-file-input-__index__',
+            'required' => true,
         ]);
         $field = $view->formRow($fileInput);
         return $field . '<input type="hidden" name="o:media[__index__][file_index]" value="__index__">';

@@ -15,7 +15,6 @@ $defaultVocabs = (new InstallDefaultVocabulariesTask)->getVocabularies();
 // Build the msgids and their comments.
 $msgids = [];
 foreach ($defaultVocabs as $defaultVocab) {
-
     $members = $rdfImporter->getMembers(
         $defaultVocab['strategy'],
         $defaultVocab['vocabulary']['o:namespace_uri'],
@@ -38,29 +37,29 @@ foreach ($defaultVocabs as $defaultVocab) {
         $defaultVocab['vocabulary']['o:label']
     );
 
-    foreach ($members['o:class'] as $class) {
-        $msgids[$class['o:label']][] = sprintf(
+    foreach ($members['classes'] as $localName => $info) {
+        $msgids[$info['label']][] = sprintf(
             '#. Class label for %s:%s',
             $defaultVocab['vocabulary']['o:label'],
-            $class['o:local_name']
+            $localName
         );
-        $msgids[$class['o:comment']][] = sprintf(
+        $msgids[$info['comment']][] = sprintf(
             '#. Class comment for %s:%s',
             $defaultVocab['vocabulary']['o:label'],
-            $class['o:local_name']
+            $localName
         );
     }
 
-    foreach ($members['o:property'] as $property) {
-        $msgids[$property['o:label']][] = sprintf(
+    foreach ($members['properties'] as $localName => $info) {
+        $msgids[$info['label']][] = sprintf(
             '#. Property label for %s:%s',
             $defaultVocab['vocabulary']['o:label'],
-            $property['o:local_name']
+            $localName
         );
-        $msgids[$property['o:comment']][] = sprintf(
+        $msgids[$info['comment']][] = sprintf(
             '#. Property comment for %s:%s',
             $defaultVocab['vocabulary']['o:label'],
-            $property['o:local_name']
+            $localName
         );
     }
 }

@@ -8,9 +8,17 @@
   "devDependencies": {
     "autoprefixer": "^6.4.0",
     "bluebird": "^3.4.6",
-    "gulp": "^3.9.1",
+    "dateformat": "^2.0.0",
+    "glob": "^7.1.1",
+    "gulp": "github:gulpjs/gulp#4.0",
     "gulp-postcss": "^6.1.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.3.2",
-    "susy": "^2.2.12"
+    "gulp-zip": "^4.0.0",
+    "minimist": "^1.2.0",
+    "rimraf": "^2.6.0",
+    "susy": "^2.2.12",
+    "tmp": "0.0.31"
   }
 }

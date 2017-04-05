@@ -50,7 +50,7 @@ class AbstractResourceRepresentationTest extends TestCase
             ->will($this->returnValue('o:fooType'));
 
         // test getId()
-        $this->assertEquals($id,  $abstractResourceRep->id());
+        $this->assertEquals($id, $abstractResourceRep->id());
 
         // test jsonSerialize()
         $this->assertEquals([

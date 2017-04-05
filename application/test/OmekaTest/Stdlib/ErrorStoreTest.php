@@ -35,7 +35,7 @@ class ErrorStoreTest extends TestCase
             'bar' => [
                 'foo_one_message',
                 'foo_two_message',
-            ]
+            ],
         ], $this->errorStore->getErrors());
     }
 
@@ -51,7 +51,7 @@ class ErrorStoreTest extends TestCase
             'foo' => [
                 'foo_message_one',
                 'foo_message_two',
-            ]
+            ],
         ], $this->errorStore->getErrors());
     }
 

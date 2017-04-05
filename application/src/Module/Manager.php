@@ -10,14 +10,14 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Manager implements ResourceInterface
 {
-    const STATE_ACTIVE         = 'active';
-    const STATE_NOT_ACTIVE     = 'not_active';
-    const STATE_NOT_INSTALLED  = 'not_installed';
-    const STATE_NOT_FOUND      = 'not_found';
+    const STATE_ACTIVE = 'active';
+    const STATE_NOT_ACTIVE = 'not_active';
+    const STATE_NOT_INSTALLED = 'not_installed';
+    const STATE_NOT_FOUND = 'not_found';
     const STATE_INVALID_MODULE = 'invalid_module';
-    const STATE_INVALID_INI    = 'invalid_ini';
+    const STATE_INVALID_INI = 'invalid_ini';
     const STATE_INVALID_OMEKA_VERSION = 'invalid_omeka_version';
-    const STATE_NEEDS_UPGRADE  = 'needs_upgrade';
+    const STATE_NEEDS_UPGRADE = 'needs_upgrade';
 
     /**
      * @var array Valid module states
@@ -57,7 +57,7 @@ class Manager implements ResourceInterface
     protected $translator;
 
     /**
-     * @var ServiceLocatorInterface;
+     * @var ServiceLocatorInterface
      */
     protected $serviceLocator;
 

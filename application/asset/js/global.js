@@ -40,7 +40,9 @@ var Omeka = {
         $('.section.active, .section-nav li.active').removeClass('active');
         section.addClass('active');
         $('.section-nav a[href="' + sectionId + '"]').parent().addClass('active');
-        history.replaceState(null, document.title, sectionId);
+        if (!$('body').hasClass('no-section-hashes')) {
+            history.replaceState(null, document.title, sectionId);
+        }
         this.reserveSidebarSpace();
         if (!closedSection.is(section)) {
             if (closedSection.length > 0) {
@@ -146,14 +148,23 @@ var Omeka = {
             formsToCheck.each(function () {
                 var form = $(this);
                 var originalData = form.data('omekaFormOriginalData');
+                var hasFile = false;
                 if (form.data('omekaFormSubmitted')) {
                     return;
                 }
 
                 form.trigger('o:before-form-unload');
 
+                form.find('input[type=file]').each(function () {
+                    if (this.files.length) {
+                        hasFile = true;
+                        return false;
+                    }
+                });
+
                 if (form.data('omekaFormDirty')
                     || (originalData && originalData !== form.serialize())
+                    || hasFile
                 ) {
                     preventNav = true;
                     return false;
@@ -352,6 +363,10 @@ var Omeka = {
             $('body').addClass('transitions-enabled');
 
             Omeka.warnIfUnsaved();
+        });
+
+        $('body').on('blur', 'input,textarea,select', function() {
+            $(this).addClass('touched');
         });
     });
 

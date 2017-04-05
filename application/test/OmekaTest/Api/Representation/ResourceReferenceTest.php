@@ -9,6 +9,7 @@ class ResourceReferenceTest extends TestCase
     protected $id;
     protected $data;
     protected $adapter;
+    protected $viewHelperManager;
 
     public function setUp()
     {
@@ -17,50 +18,33 @@ class ResourceReferenceTest extends TestCase
         $this->resource->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($this->id));
+
+        $this->viewHelperManager = $this->getMock('Interop\Container\ContainerInterface');
         $this->adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
         $this->adapter->expects($this->once())
             ->method('getServiceLocator')
             ->will($this->returnValue($this->getServiceManager([
-                'EventManager' => $this->getMock('Zend\EventManager\EventManager')
+                'EventManager' => $this->getMock('Zend\EventManager\EventManager'),
+                'ViewHelperManager' => $this->viewHelperManager,
             ])));
-    }
-
-    public function testGetRepresentation()
-    {
-        $this->adapter->expects($this->once())
-            ->method('getRepresentation')
-            ->with($this->equalTo($this->resource));
-
-        $resourceReference = new ResourceReference(
-            $this->resource, $this->adapter
-        );
-        $representation = $resourceReference->getRepresentation();
     }
 
     public function testJsonSerialize()
     {
         $jsonLdId = 'test_@id';
 
-        $resourceReference = $this->getMock(
-            'Omeka\Api\Representation\ResourceReference',
-            ['apiUrl'],
-            [$this->resource, $this->adapter]
-        );
-        $resourceReference->expects($this->once())
-            ->method('apiUrl')
-            ->will($this->returnValue($jsonLdId));
+        $this->viewHelperManager->expects($this->once())
+            ->method('get')
+            ->with('Url')
+            ->will($this->returnValue(function () use ($jsonLdId) {
+                return $jsonLdId;
+            }));
+
+        $resourceReference = new ResourceReference($this->resource, $this->adapter);
 
         $this->assertEquals([
             '@id' => $jsonLdId,
             'o:id' => $this->id,
         ], $resourceReference->jsonSerialize());
-    }
-
-    public function testGetJsonLd()
-    {
-        $resourceReference = new ResourceReference(
-            $this->resource, $this->adapter
-        );
-        $this->assertNull($resourceReference->getJsonLd());
     }
 }

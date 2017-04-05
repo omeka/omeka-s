@@ -15,12 +15,12 @@ class MediaAdapter extends AbstractResourceEntityAdapter
      * {@inheritDoc}
      */
     protected $sortFields = [
-        'id'        => 'id',
-        'ingester'  => 'ingester',
-        'renderer'  => 'renderer',
+        'id' => 'id',
+        'ingester' => 'ingester',
+        'renderer' => 'renderer',
         'is_public' => 'isPublic',
-        'created'   => 'created',
-        'modified'  => 'modified',
+        'created' => 'created',
+        'modified' => 'modified',
     ];
 
     /**

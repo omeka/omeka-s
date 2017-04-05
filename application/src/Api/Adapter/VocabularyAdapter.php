@@ -13,18 +13,21 @@ class VocabularyAdapter extends AbstractEntityAdapter
      * {@inheritDoc}
      */
     protected $sortFields = [
-        'id'            => 'id',
+        'id' => 'id',
         'namespace_uri' => 'namespaceUri',
-        'prefix'        => 'prefix',
-        'label'         => 'label',
-        'comment'       => 'comment',
+        'prefix' => 'prefix',
+        'label' => 'label',
+        'comment' => 'comment',
     ];
 
     /**
      * @var array Reserved vocabulary prefixes
      */
     protected $reservedPrefixes = [
-        '^o-?', '^time$', '^cnt$',
+        // Omeka and module prefixes
+        '^o$', '^o-',
+        // Prefixes introduced in core code
+        '^time$', '^cnt$',
     ];
 
     /**
@@ -168,7 +171,6 @@ class VocabularyAdapter extends AbstractEntityAdapter
                 }
             }
         }
-
     }
 
     /**

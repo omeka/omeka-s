@@ -8,11 +8,12 @@ use Omeka\Installation\Installer;
  */
 class CheckEnvironmentTask implements TaskInterface
 {
-    const PHP_MINIMUM_VERSION = '5.5';
+    const PHP_MINIMUM_VERSION = '5.6';
 
     public static $requiredExtensions = [
         'PDO',
         'pdo_mysql',
+        'xml',
     ];
 
     public function perform(Installer $installer)
@@ -32,6 +33,20 @@ class CheckEnvironmentTask implements TaskInterface
                     $ext
                 ));
             }
+        }
+
+        $this->testRandomGeneration();
+    }
+
+    /**
+     * Test if we can successfully generate random data. If not, refuse to install.
+     */
+    protected function testRandomGeneration()
+    {
+        try {
+            random_bytes(32);
+        } catch (Exception $e) {
+            $installer->addError('Omeka is unable to securely generate random numbers.');
         }
     }
 }

@@ -20,7 +20,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '1.0.0-beta';
+    const VERSION = '1.0.0-beta3';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -209,15 +209,15 @@ class Module extends AbstractModule
     public function navigationPageIsAllowed(ZendEvent $event)
     {
         $accepted = true;
-        $params   = $event->getParams();
-        $acl      = $params['acl'];
-        $page     = $params['page'];
+        $params = $event->getParams();
+        $acl = $params['acl'];
+        $page = $params['page'];
 
         if (!$acl) {
             return $accepted;
         }
 
-        $resource  = $page->getResource();
+        $resource = $page->getResource();
         $privilege = $page->getPrivilege();
 
         if ($resource || $privilege) {
@@ -245,7 +245,7 @@ class Module extends AbstractModule
 
         if ($media->hasThumbnails()) {
             $fileManager->deleteThumbnails($media);
-       }
+        }
     }
 
     /**

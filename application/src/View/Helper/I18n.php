@@ -7,11 +7,11 @@ use Zend\View\Helper\AbstractHelper;
 
 class i18n extends AbstractHelper
 {
-    const DATE_FORMAT_NONE   = 'none';
-    const DATE_FORMAT_FULL   = 'full';
-    const DATE_FORMAT_LONG   = 'long';
+    const DATE_FORMAT_NONE = 'none';
+    const DATE_FORMAT_FULL = 'full';
+    const DATE_FORMAT_LONG = 'long';
     const DATE_FORMAT_MEDIUM = 'medium';
-    const DATE_FORMAT_SHORT  = 'short';
+    const DATE_FORMAT_SHORT = 'short';
 
     /**
      * @var string
@@ -70,11 +70,11 @@ class i18n extends AbstractHelper
 
             // Map local constants to those in IntlDateFormatter.
             $constMap = [
-                self:: DATE_FORMAT_NONE   => \IntlDateFormatter::NONE,
-                self:: DATE_FORMAT_FULL   => \IntlDateFormatter::FULL,
-                self:: DATE_FORMAT_LONG   => \IntlDateFormatter::LONG,
+                self:: DATE_FORMAT_NONE => \IntlDateFormatter::NONE,
+                self:: DATE_FORMAT_FULL => \IntlDateFormatter::FULL,
+                self:: DATE_FORMAT_LONG => \IntlDateFormatter::LONG,
                 self:: DATE_FORMAT_MEDIUM => \IntlDateFormatter::MEDIUM,
-                self:: DATE_FORMAT_SHORT  => \IntlDateFormatter::SHORT,
+                self:: DATE_FORMAT_SHORT => \IntlDateFormatter::SHORT,
             ];
             $dateType = array_key_exists($dateType, $constMap)
                 ? $constMap[$dateType]

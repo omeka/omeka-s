@@ -9,20 +9,28 @@ class Theme
     protected $id;
 
     /**
+     * @var string
+     */
+    protected $state;
+
+    /**
      * @var array
      */
     protected $ini;
 
     /**
+     * @var array
+     */
+    protected $configSpec;
+
+    /**
      * Construct the theme.
      *
      * @param string $id The theme identifier, the directory name
-     * @param array $ini The theme INI configuration
      */
-    public function __construct($id, array $ini)
+    public function __construct($id)
     {
         $this->id = $id;
-        $this->ini = $ini;
     }
 
     /**
@@ -33,6 +41,36 @@ class Theme
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set the theme state.
+     *
+     * @param string $state
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+    }
+
+    /**
+     * Get the theme state.
+     *
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Set the theme INI data.
+     *
+     * @param array $ini
+     */
+    public function setIni($ini)
+    {
+        $this->ini = $ini;
     }
 
     /**
@@ -60,15 +98,33 @@ class Theme
     }
 
     /**
+     * Set the spec for this theme's configuration form.
+     *
+     * @param array $configSpec
+     */
+    public function setConfigSpec($configSpec)
+    {
+        $this->configSpec = $configSpec;
+    }
+
+    /**
      * Get the spec for this theme's configuration form.
      */
     public function getConfigSpec()
     {
-        return $this->getIni('config') ?: [];
+        return $this->configSpec;
     }
 
     public function getSettingsKey()
     {
         return "theme_settings_" . $this->getId();
+    }
+
+    public function getThumbnail($key = null)
+    {
+        if ($key) {
+            return '/themes/' . $key . "/theme.jpg";
+        }
+        return '/themes/' . $this->id . "/theme.jpg";
     }
 }

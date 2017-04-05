@@ -2,4 +2,5 @@
 namespace Omeka\Job\Exception;
 
 interface ExceptionInterface
-{}
+{
+}

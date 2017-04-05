@@ -54,8 +54,8 @@ class LoginController extends AbstractActionController
                 $result = $this->auth->authenticate();
                 if ($result->isValid()) {
                     $this->messenger()->addSuccess('Successfully logged in'); // @translate
-                    $redirectUrl = $this->params()->fromQuery('redirect');
-                    if ($redirectUrl) {
+                    $session = $sessionManager->getStorage();
+                    if ($redirectUrl = $session->offsetGet('redirect_url')) {
                         return $this->redirect()->toUrl($redirectUrl);
                     }
                     return $this->redirect()->toRoute('admin');
@@ -142,7 +142,7 @@ class LoginController extends AbstractActionController
             $data = $this->getRequest()->getPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $user =  $this->entityManager->getRepository('Omeka\Entity\User')
+                $user = $this->entityManager->getRepository('Omeka\Entity\User')
                     ->findOneBy([
                         'email' => $data['email'],
                         'isActive' => true,

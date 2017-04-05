@@ -84,13 +84,13 @@ class Html implements MutableIngesterInterface
         $textarea = new Ckeditor('o:media[__index__][html]');
         $textarea->setOptions([
             'label' => 'HTML', // @translate
-            'info'  => 'HTML or plain text.', // @translate
+            'info' => 'HTML or plain text.', // @translate
         ]);
         $textarea->setAttributes([
-            'rows'     => 15,
-            'id'       => $id,
-            'class'    => 'media-html',
-            'value'    => $value
+            'rows' => 15,
+            'id' => $id,
+            'class' => 'media-html',
+            'value' => $value,
         ]);
         return $view->formRow($textarea);
     }

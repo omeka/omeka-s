@@ -13,10 +13,10 @@ class ItemAdapter extends AbstractResourceEntityAdapter
      * {@inheritDoc}
      */
     protected $sortFields = [
-        'id'           => 'id',
-        'is_public'    => 'isPublic',
-        'created'      => 'created',
-        'modified'     => 'modified',
+        'id' => 'id',
+        'is_public' => 'isPublic',
+        'created' => 'created',
+        'modified' => 'modified',
     ];
 
     /**

@@ -1,0 +1,63 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'resource-template show');
+$escape = $this->plugin('escapeHtml');
+?>
+
+<?php echo $this->pageTitle(sprintf($this->translate('Resource Template: “%s”'), $resourceTemplate->label())); ?>
+
+<div id="page-actions">
+    <a class="button" href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'export'], true)); ?>"><?php echo $this->translate('Export'); ?></a>
+    <?php if ($resourceTemplate->userIsAllowed('update')): ?>
+    <a class="button" href="<?php echo $escape($resourceTemplate->url('edit')); ?>"><?php echo $this->translate('Edit Resource Template'); ?></a>
+    <?php endif; ?>
+</div>
+
+<?php if ($resourceTemplate->resourceClass()): ?>
+<div class="class-row">
+    <span class="class-label"><?php echo $this->translate('Class'); ?></span>
+    <span class="class-value"><?php echo $this->translate($resourceTemplate->resourceClass()->label()); ?></span>
+</div>
+<?php endif; ?>
+
+<table id="properties" class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
+    <thead>
+    <tr>
+        <th><?php echo $this->translate('Original Label'); ?></th>
+        <th><?php echo $this->translate('Data Type'); ?></th>
+        <th><?php echo $this->translate('Alternate Label'); ?></th>
+        <th><?php echo $this->translate('Alternate Comment'); ?></th>
+        <th><?php echo $this->translate('Required?'); ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($resourceTemplate->resourceTemplateProperties() as $resourceTemplateProperty): ?>
+        <?php $property = $resourceTemplateProperty->property(); ?>
+        <tr data-property-id="<?php echo $escape($property->id()); ?>">
+            <td>
+                <?php echo $escape($this->translate($property->label())); ?>
+                <ul class="actions">
+                    <li><a href="#"
+                        data-sidebar-content-url="<?php echo $escape($property->url('show-details')); ?>"
+                        class="o-icon-more sidebar-content"
+                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
+                        title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
+                </ul>
+            </td>
+            <td><?php echo $escape($resourceTemplateProperty->dataTypeLabel()); ?></td>
+            <td><?php echo $escape($resourceTemplateProperty->alternateLabel()); ?></td>
+            <td><?php echo $escape($resourceTemplateProperty->alternateComment()); ?></td>
+            <td><?php echo $resourceTemplateProperty->isRequired() ? $this->translate('Yes') : $this->translate('No'); ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <div class="sidebar-content"></div>
+</div>
+
+<?php $this->trigger('view.show.after'); ?>

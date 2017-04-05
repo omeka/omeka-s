@@ -26,9 +26,17 @@ class ImagickThumbnailer extends AbstractThumbnailer
     public function create(FileManager $fileManager, $strategy, $constraint, array $options = [])
     {
         try {
-            $imagick = new Imagick(sprintf('%s[%s]', $this->source, $this->getOption('page', 0)));
+            $imagick = new Imagick;
+            if ($this->sourceFile->getMediaType() == 'application/pdf') {
+                $imagick->setResolution(150, 150);
+            }
+            $imagick->readImage(sprintf('%s[%s]', $this->source, $this->getOption('page', 0)));
         } catch (ImagickException $e) {
             throw new Exception\CannotCreateThumbnailException;
+        }
+
+        if ($this->getOption('autoOrient', false)) {
+            $this->autoOrient($imagick);
         }
 
         $origWidth = $imagick->getImageWidth();
@@ -74,5 +82,45 @@ class ImagickThumbnailer extends AbstractThumbnailer
         $imagick->clear();
 
         return $tempPath;
+    }
+
+    /**
+     * Detect orientation flag and rotate image accordingly.
+     *
+     * @param Imagick $imagick
+     */
+    protected function autoOrient($imagick)
+    {
+        $orientation = $imagick->getImageOrientation();
+        $white = new ImagickPixel('#fff');
+        switch ($orientation) {
+            case Imagick::ORIENTATION_RIGHTTOP:
+                $imagick->rotateImage($white, 90);
+                break;
+            case Imagick::ORIENTATION_BOTTOMRIGHT:
+                $imagick->rotateImage($white, 180);
+                break;
+            case Imagick::ORIENTATION_LEFTBOTTOM:
+                $imagick->rotateImage($white, 270);
+                break;
+            case Imagick::ORIENTATION_TOPRIGHT:
+                $imagick->flopImage();
+                break;
+            case Imagick::ORIENTATION_RIGHTBOTTOM:
+                $imagick->flopImage();
+                $imagick->rotateImage($white, 90);
+                break;
+            case Imagick::ORIENTATION_BOTTOMLEFT:
+                $imagick->flopImage();
+                $imagick->rotateImage($white, 180);
+                break;
+            case Imagick::ORIENTATION_LEFTTOP:
+                $imagick->flopImage();
+                $imagick->rotateImage($white, 270);
+                break;
+            case Imagick::ORIENTATION_TOPLEFT:
+            default:
+                break;
+        }
     }
 }

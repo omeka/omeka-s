@@ -1,13 +1,10 @@
 <?php
 namespace Omeka\Controller;
 
-use Omeka\Api\Response;
-use Omeka\Event\Event;
 use Omeka\Mvc\Exception;
 use Omeka\Service\Paginator;
 use Omeka\View\Model\ApiJsonModel;
 use Zend\Json\Json;
-use Zend\Log\Logger;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\RequestInterface as Request;
@@ -20,23 +17,16 @@ class ApiController extends AbstractRestfulController
     protected $paginator;
 
     /**
-     * @var Logger
-     */
-    protected $logger;
-
-    /**
      * @var array
      */
     protected $viewOptions = [];
 
     /**
      * @param Paginator $paginator
-     * @param Logger $logger
      */
-    public function __construct(Paginator $paginator, Logger $logger)
+    public function __construct(Paginator $paginator)
     {
         $this->paginator = $paginator;
-        $this->logger = $logger;
     }
 
     /**
@@ -46,8 +36,8 @@ class ApiController extends AbstractRestfulController
     {
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs(['context' => []]);
-        $eventManager->triggerEvent(new Event(Event::API_CONTEXT, null, $args));
-        return new ApiJsonModel($args['context'], $this->getViewOptions());
+        $eventManager->triggerEvent(new MvcEvent('api.context', null, $args));
+        return new ApiJsonModel(['@context' => $args['context']], $this->getViewOptions());
     }
 
     /**
@@ -123,7 +113,7 @@ class ApiController extends AbstractRestfulController
     public function patch($id, $data)
     {
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api()->update($resource, $id, $data, [], true);
+        $response = $this->api()->update($resource, $id, $data, [], ['isPartial' => true]);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
@@ -163,7 +153,7 @@ class ApiController extends AbstractRestfulController
             $this->checkContentType($request);
             parent::onDispatch($event);
         } catch (\Exception $e) {
-            $this->logger->err((string) $e);
+            $this->logger()->err((string) $e);
             return $this->getErrorResult($event, $e);
         }
     }
@@ -247,10 +237,7 @@ class ApiController extends AbstractRestfulController
      */
     protected function getErrorResult(MvcEvent $event, \Exception $error)
     {
-        $response = new Response;
-        $response->setStatus(Response::ERROR);
-
-        $result = new ApiJsonModel($response, $this->getViewOptions());
+        $result = new ApiJsonModel(null, $this->getViewOptions());
         $result->setException($error);
 
         $event->setResult($result);

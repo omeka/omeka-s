@@ -1,0 +1,162 @@
+<?php
+use Omeka\Module\Manager;
+
+$this->htmlElement('body')->appendAttribute('class', 'modules browse');
+$escape = $this->plugin('escapeHtml');
+$this->plugin('formRow')->setPartial(null);
+?>
+
+<?php echo $this->pageTitle($this->translate('Modules')); ?>
+
+<form method="get" class="state-filter">
+    <select name="state">
+        <option value=""><?php echo $this->translate('All Modules'); ?></option>
+        <?php foreach ($filterStates as $value => $option): ?>
+        <option value="<?php echo $escape($value); ?>"<?php if ($value == $filterState): echo ' selected'; endif; ?>><?php echo $escape($option); ?></option>
+        <?php endforeach; ?>
+    </select>
+</form>
+<?php $this->trigger('view.browse.before'); ?>
+<?php if ($modules): ?>
+<div id="modules">
+        <?php foreach ($modules as $id => $module): ?>
+        <div class="module">
+            <div class="module-meta">
+                <?php if ($name = $module->getName()): ?>
+                <span class="module-name">
+                    <?php if ($moduleLink = $module->getIni('module_link')): ?>
+                    <?php echo $this->hyperlink($name, $moduleLink); ?>
+                    <?php else: ?>
+                    <?php echo $name; ?>
+                    <?php endif; ?>
+                </span>
+                <?php else: ?>
+                [<?php echo $this->translate('name not found'); ?>]
+                <?php endif; ?>
+                <?php if (($versionIni = $module->getIni('version')) || ($versionDb = $module->getDb('version'))): ?>
+                <span class="module-version"><?php echo sprintf($this->translate('version %s'), $escape($versionIni ?: $versionDb)); ?></span>
+                <?php endif; ?>
+                <?php if ($author = $module->getIni('author')): ?>
+                <span class="module-author">
+                    <?php if ($moduleLink = $module->getIni('author_link')): ?>
+                    <?php echo sprintf($this->translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'))); ?>
+                    <?php else: ?>
+                    <?php echo sprintf($this->translate('by %s'), $author); ?>
+                    <?php endif; ?>
+                </span>
+                <?php endif; ?>
+                <?php if ($description = $module->getIni('description')): ?>
+                <span class="module-description"><?php echo $description; ?></span>
+                <?php endif; ?>
+            </div>
+            <div class="module-actions">
+                <?php
+                // configure control
+                if (Manager::STATE_ACTIVE == $module->getState()
+                    && $module->isConfigurable()
+                    && $this->userIsAllowed('Omeka\Module\Manager', 'configure')
+                ) {
+                    echo $this->hyperlink($escape($this->translate('Configure')),
+                        $this->url(
+                            null,
+                            ['action' => 'configure'],
+                            ['query' => ['id' => $module->getId()]
+                        ], true),
+                        [
+                            'class' => 'o-icon-configure button',
+                            'title' => $escape($this->translate('Configure'))
+                        ]
+                    );
+                }
+                ?>
+
+                <?php
+                // activate control
+                if (Manager::STATE_NOT_ACTIVE == $module->getState()
+                    && $this->userIsAllowed('Omeka\Module\Manager', 'activate')
+                ) {
+                    $form = $stateChangeForm('activate', $module->getId());
+                    echo $this->form($form);
+                }
+                ?>
+
+                <?php
+                // deactivate control
+                if (Manager::STATE_ACTIVE == $module->getState()
+                    && $this->userIsAllowed('Omeka\Module\Manager', 'deactivate')
+                ) {
+                    $form = $stateChangeForm('deactivate', $module->getId());
+                    echo $this->form($form);
+                }
+                ?>
+
+                <?php
+                // install control
+                if (Manager::STATE_NOT_INSTALLED == $module->getState()
+                    && $this->userIsAllowed('Omeka\Module\Manager', 'install')
+                ) {
+                    $form = $stateChangeForm('install', $module->getId());
+                    echo $this->form($form);
+                }
+                ?>
+
+                <?php
+                // uninstall control
+                $canBeUninstalled = in_array(
+                    $module->getState(),
+                    [Manager::STATE_ACTIVE, Manager::STATE_NOT_ACTIVE]
+                );
+                if ($canBeUninstalled && $this->userIsAllowed('Omeka\Module\Manager', 'uninstall')):
+                ?>
+                <a href="#"
+                    data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'uninstall-confirm'], ['query' => ['id' => $module->getId()]], true)); ?>"
+                    class="o-icon-uninstall red button sidebar-content"
+                    aria-label="<?php echo $escape($this->translate('Uninstall')); ?>"><?php echo $escape($this->translate('Uninstall')); ?></a>
+                <?php endif; ?>
+
+                <?php
+                // upgrade control
+                if (Manager::STATE_NEEDS_UPGRADE == $module->getState()
+                    && $this->userIsAllowed('Omeka\Module\Manager', 'upgrade')
+                ) {
+                    $form = $stateChangeForm('upgrade', $module->getId());
+                    echo $this->form($form);
+                }
+                ?>
+
+                <?php if ($module->getState() === Manager::STATE_INVALID_MODULE): ?>
+                <span class="error"><?php echo $this->translate('Error: invalid Module.php file'); ?></span>
+                <?php elseif ($module->getState() === Manager::STATE_INVALID_INI): ?>
+                <span class="error"><?php echo $this->translate('Error: invalid config/module.ini file'); ?></span>
+                <?php elseif ($module->getState() === Manager::STATE_INVALID_OMEKA_VERSION): ?>
+                <span class="error"><?php echo sprintf($this->translate('Error: %1$s requires Omeka S %2$s'), $module->getName(), $module->getIni('omeka_version_constraint')); ?></span>
+                <?php elseif ($module->getState() === Manager::STATE_NOT_FOUND): ?>
+                <span class="error"><?php echo $this->translate('Error: module in database but not in filesystem'); ?></span>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php endforeach; ?>
+</div>
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <div class="sidebar-content"></div>
+</div>
+
+<?php else: ?>
+
+<div class="no-resources">
+    <p><?php echo $this->translate('Omeka could not find any modules.'); ?></p>
+</div>
+
+<?php endif; ?>
+
+<script>
+$(".state-filter select").change(function() {
+    $(this).closest('form').submit();
+});
+</script>
+
+<?php $this->trigger('view.browse.after'); ?>

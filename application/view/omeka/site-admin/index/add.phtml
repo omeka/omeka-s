@@ -1,0 +1,45 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'sites add');
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/site-item-pool.js', 'Omeka'));
+$form->prepare();
+$sectionNavs = [
+    'admin' => $this->translate('Admin'),
+    'theme' => $this->translate('Theme'),
+    'item-pool' => $this->translate('Item Pool')
+];
+$fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
+?>
+<?php echo $this->pageTitle('Add Site'); ?>
+<?php $this->trigger('view.add.before'); ?>
+<?php echo $this->form()->openTag($form); ?>
+
+<div id="page-actions">
+    <a href="#" class="o-icon-private button" aria-label=" <?php echo $this->translate('Make public'); ?>" title=" <?php echo $this->translate('Make public'); ?>"></a>
+    <input type="hidden" name="o:is_public" value="0">
+    <button><?php echo $this->translate('Add'); ?></button>
+</div>
+
+<?php echo $this->sectionNav($sectionNavs, 'view.add.section_nav'); ?>
+<?php $this->trigger('view.add.form.before', ['form' => $form]); ?>
+<fieldset id="admin" class="section active" aria-labelledby="admin-label">
+    <?php echo $this->formCollection($form, false); ?>
+</fieldset>
+
+<fieldset id="theme" class="section" aria-labelledby="theme-label">
+    <?php
+    echo $this->partial('omeka/site-admin/index/theme-selector.phtml', [
+        'themes' => $themes,
+        'defaultThemeId' => 'default',
+        'fallbackThumbnailUrl' => $fallbackThumbnailUrl
+    ]);
+    ?>
+</fieldset>
+
+<fieldset id="item-pool" class="section" aria-labelledby="item-pool-label">
+    <div id="advanced-search"><?php echo $this->partial('common/advanced-search', ['resourceType' => 'item']); ?></div>
+</fieldset>
+<?php $this->trigger('view.add.form.after', ['form' => $form]); ?>
+<?php echo $this->form()->closeTag(); ?>
+<?php $this->trigger('view.add.after'); ?>

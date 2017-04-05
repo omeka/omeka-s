@@ -1,145 +1,36 @@
 <?php
 namespace Omeka\Api;
 
-use Omeka\Stdlib\ErrorStore;
-use Zend\Stdlib\Response as ZendResponse;
-
 /**
  * Api response.
  */
-class Response extends ZendResponse
+class Response
 {
-    const SUCCESS           = 'success';
-    const ERROR             = 'error';
-    const ERROR_VALIDATION  = 'error_validation';
+    /**
+     * @var Request
+     */
+    protected $request;
 
     /**
-     * @var array
+     * @var int
      */
-    protected $validStatuses = [
-        self::SUCCESS,
-        self::ERROR,
-        self::ERROR_VALIDATION,
-    ];
-
-    /**
-     * @var array
-     */
-    protected $errorStatuses = [
-        self::ERROR,
-        self::ERROR_VALIDATION,
-    ];
+    protected $totalResults;
 
     /**
      * @var mixed
      */
-    protected $content = null;
+    protected $content;
 
     /**
      * Construct the API response.
      *
      * @param mixed $data
-     * @param null|Request $request
      */
     public function __construct($content = null)
     {
-        // Set the default metadata.
-        $this->setMetadata('status', self::SUCCESS);
-        $this->setMetadata('error_store', new ErrorStore);
         if (null !== $content) {
             $this->setContent($content);
         }
-    }
-
-    /**
-     * Set the response status.
-     *
-     * @param int $status
-     */
-    public function setStatus($status)
-    {
-        $this->setMetadata('status', $status);
-    }
-
-    /**
-     * Get the response status.
-     *
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->getMetadata('status');
-    }
-
-    /**
-     * Check whether a response status is valid.
-     *
-     * @return bool
-     */
-    public function isValidStatus($status)
-    {
-        return in_array($status, $this->validStatuses);
-    }
-
-    /**
-     * Merge errors of an ErrorStore.
-     *
-     * @param array $errors
-     */
-    public function mergeErrors(ErrorStore $errorStore)
-    {
-        $this->getMetadata('error_store')->mergeErrors($errorStore);
-    }
-
-    /**
-     * Add an error to the ErrorStore.
-     *
-     * @param string $key
-     * @param string $message
-     */
-    public function addError($key, $message)
-    {
-        $this->getMetadata('error_store')->addError($key, $message);
-    }
-
-    /**
-     * Get the error store.
-     *
-     * @return ErrorStore
-     */
-    public function getErrorStore()
-    {
-        return $this->getMetadata('error_store');
-    }
-
-    /**
-     * Get the errors from the ErrorStore.
-     *
-     * @return array
-     */
-    public function getErrors()
-    {
-        return $this->getMetadata('error_store')->getErrors();
-    }
-
-    /**
-     * Check whether this response is an error.
-     *
-     * @return bool
-     */
-    public function isError()
-    {
-        return in_array($this->getMetadata('status'), $this->errorStatuses);
-    }
-
-    /**
-     * Check whether the request was successful.
-     *
-     * @return bool
-     */
-    public function isSuccess()
-    {
-        return self::SUCCESS === $this->getMetadata('status');
     }
 
     /**
@@ -149,7 +40,7 @@ class Response extends ZendResponse
      */
     public function setRequest(Request $request)
     {
-        $this->setMetadata('request', $request);
+        $this->request = $request;
     }
 
     /**
@@ -159,26 +50,46 @@ class Response extends ZendResponse
      */
     public function getRequest()
     {
-        return $this->getMetadata('request');
+        return $this->request;
     }
 
     /**
-     * Set the total results of the query.
+     * Set the total results of this response.
      *
      * @param int
      */
     public function setTotalResults($totalResults)
     {
-        $this->setMetadata('total_results', $totalResults);
+        $this->totalResults = $totalResults;
     }
 
     /**
-     * Get the total results of the query.
+     * Get the total results of this response.
      *
      * @return int
      */
     public function getTotalResults()
     {
-        return $this->getMetadata('total_results');
+        return $this->totalResults;
+    }
+
+    /**
+     * Set request content.
+     *
+     * @param mixed $value
+     */
+    public function setContent($value)
+    {
+        $this->content = $value;
+    }
+
+    /**
+     * Get request content.
+     *
+     * @return mixed
+     */
+    public function getContent()
+    {
+        return $this->content;
     }
 }

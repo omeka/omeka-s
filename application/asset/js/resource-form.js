@@ -32,16 +32,15 @@
         });
 
         $('input.value-language').on('keyup', function(e) {
-            var thisInput = $(this);
-            var languageTag = thisInput.val();
+            var languageTag = this.value;
             // @see http://stackoverflow.com/questions/7035825/regular-expression-for-a-language-tag-as-defined-by-bcp47
             // Removes `|[A-Za-z]{4}|[A-Za-z]{5,8}` from the "language" portion
             // becuase, while in the spec, it does not represent current usage.
             if ('' == languageTag
                 || languageTag.match(/^(((en-GB-oed|i-ami|i-bnn|i-default|i-enochian|i-hak|i-klingon|i-lux|i-mingo|i-navajo|i-pwn|i-tao|i-tay|i-tsu|sgn-BE-FR|sgn-BE-NL|sgn-CH-DE)|(art-lojban|cel-gaulish|no-bok|no-nyn|zh-guoyu|zh-hakka|zh-min|zh-min-nan|zh-xiang))|((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?))(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+))$/)) {
-                thisInput.css('background-color', 'transparent');
+                this.setCustomValidity('');
             } else {
-                thisInput.css('background-color', '#f1dada');
+                this.setCustomValidity(Omeka.jsTranslate('Please enter a valid language tag'));
             }
         });
 

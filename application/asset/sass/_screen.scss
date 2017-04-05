@@ -90,19 +90,14 @@ body {
 
     table {
         width: 100%;
+        border-collapse: collapse;
     }
 
     th,
     table.tablesaw th {
         font-weight: bold;
         text-align: left;
-    }
-
-    td,
-    table.tablesaw td {
-        padding: #{$spacing-medium - 1px} $spacing-small 0;
-        border-top: 1px solid $border-gray;
-        vertical-align: middle;
+        padding: $spacing-small .5em;
     }
 
     table,
@@ -160,7 +155,7 @@ body {
         background-color: #fff;
         min-height: 3 * $spacing-large;
         max-height: 5 * $spacing-large;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     [contenteditable="true"] p {
@@ -287,12 +282,15 @@ body {
         padding-right: $spacing-medium;
     }
 
-    *:invalid {
-        outline-color: $red;
+    .touched:invalid {
+        box-shadow: 0 0 2px 2px $red;
     }
 
     .field {
         @include field-row;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
 
         &:first-child {
             border-color: transparent;
@@ -308,7 +306,6 @@ body {
 
         .field {
             width: 100%;
-            display:inline-block;
             margin:0 0 $spacing-small;
             padding:0;
             background-color: transparent;
@@ -452,6 +449,10 @@ div[role="main"] > .messages {
     .warning {
         background-color: lighten(orange, 45%);
     }
+
+    a {
+        text-decoration: underline;
+    }
 }
 
 .messages {
@@ -470,19 +471,22 @@ div[role="main"] > .messages {
 }
 
 .field .messages {
-    width: 100%;
+    width: 70%;
     color: $red;
 }
 
-.error {
+.error,
+.error a {
     color: $red;
 }
 
-.success {
+.success,
+.success a {
     color: green;
 }
 
-.warning {
+.warning,
+.warning a {
     color: orange;
 }
 
@@ -1468,7 +1472,6 @@ input[type="text"].value-language,
         width: span(3 of 10);
         padding-right: $spacing-small;
         position: relative;
-        display: inline-block;
 
         legend,
         label {
@@ -1781,12 +1784,11 @@ input[type="text"].value-language,
         display: block;
         font-size: 12px;
     }
+
     .inputs {
-        width: span(7 of 10);
-        display: inline-block;
+        flex: 1;
         vertical-align: top;
         position: relative;
-        margin-left: -4px;
         line-height: 1.5 * $spacing-large;
 
         &:only-child {
@@ -2362,6 +2364,37 @@ input[type="text"].value-language,
 
 /* @end */
 
+/* @group ----- Vocabulary: Update ----- */
+
+.vocabs.update td {
+    vertical-align: top;
+}
+
+.vocabs.update td:first-of-type,
+.vocabs.update td:nth-of-type(2) {
+    width: 15%;
+    word-break: break-word;
+}
+
+.vocabs.update td:nth-of-type(3),
+.vocabs.update td:nth-of-type(4) {
+    width: 35%;
+}
+
+.vocabs.update td:nth-of-type(3):last-child {
+    width: auto;
+}
+
+.vocabs.update td:nth-of-type(3):not(:last-child) {
+    background-color: lighten(red, 45%);
+}
+
+.vocabs.update td:nth-of-type(4) {
+    background-color: lighten(green, 65%);
+}
+
+/* @end */
+
 /* @group ----- Show Views ----- */
 
 .show .property,
@@ -2548,6 +2581,7 @@ input[type="text"].value-language,
         margin: 0 0 $spacing-medium 0;
         padding-bottom: $spacing-medium;
         position: relative;
+        width: 100%;
 
         &:after {
             content: "";
@@ -2565,6 +2599,7 @@ input[type="text"].value-language,
         background-color: transparent;
         padding: 0;
         margin-bottom: $spacing-large;
+        flex-wrap: wrap;
     }
 
     .button,
@@ -3355,6 +3390,118 @@ body.sidebar-open #content {
         margin-bottom: $spacing-medium;
     }
 
+    #nav-page-links {
+        width: 100%;
+    }
+
+    /* @end */
+
+    /* @group ----- Theme Settings ----- */
+
+    .selectable-themes,
+    .current-theme {
+        display: flex;
+        flex-wrap: wrap;
+
+        img {
+            max-width: 100%;
+            height: auto;
+            vertical-align: bottom;
+            position: relative;
+            z-index: 1;
+        }
+
+        .error {
+            background-color: lighten($red, 45%);
+            border-radius: 3px;
+            padding: $spacing-small 10px;
+            margin: $spacing-small 0;
+            display: block;
+            width: 100%;
+            order: 2;
+        }
+    }
+
+    .current-theme .error + ul {
+        font-family: monospace;
+        padding: $spacing-medium - 1px;
+        border: 1px solid $border-gray;
+        list-style-type: none;
+    }
+
+    .invalid .theme-thumbnail img {
+        opacity: .5;
+    }
+
+    .selectable-themes .theme {
+        width: calc(33.33% - #{$spacing-large});
+        margin: 0 $spacing-large $spacing-large 0;
+        padding: $spacing-medium - 1px;
+        border: 1px solid $border-gray;
+        background-color: #fff;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .selectable-themes .theme:hover {
+        border: 3px solid darken($border-gray, 25%);
+        padding: $spacing-medium - 3px;
+    }
+
+    .selectable-themes .invalid.theme:hover {
+        border: 1px solid $border-gray;
+        padding: $spacing-medium - 1px;
+    }
+
+    .selectable-themes .theme-thumbnail {
+        width: 100%;
+        margin-bottom: $spacing-medium;
+        border: 1px solid $border-gray;
+    }
+
+    .selectable-themes .active.theme {
+        background-color: #e7e7e7;
+        position: relative;
+        overflow: hidden;
+        border-width: 3px;
+        padding: $spacing-medium - 3px;
+
+        &:after {
+            content: $fa-var-check;
+            font-family: "FontAwesome";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            opacity: .15;
+            font-size: 6 * $base-font-size;
+            line-height: 4 * $base-line-height;
+        }
+    }
+
+    .current-theme {
+        padding-bottom: $spacing-large - 1px;
+        border-bottom: 1px solid $border-gray;
+        margin-bottom: $spacing-large;
+        flex-wrap: nowrap;
+    }
+
+    .current-theme .theme-thumbnail {
+        width: 50%;
+        margin: 0 $spacing-large 0 0;
+        border: 1px solid $border-gray;
+    }
+
+    .current-theme .theme-meta {
+        width: 50%;
+    }
+
+    .current-theme-label {
+        font-size: $base-font-size;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: $spacing-small;
+    }
+
     /* @end */
 
 /* @end */
@@ -3483,6 +3630,10 @@ body.minimal {
 
         &:empty {
             display: none;
+        }
+
+        a {
+            border-bottom: 1px solid $red;
         }
     }
 }

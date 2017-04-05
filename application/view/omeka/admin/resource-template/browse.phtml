@@ -1,0 +1,115 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'resource-templates browse');
+$escape = $this->plugin('escapeHtml');
+$sortHeadings = [
+    [
+        'label' => $this->translate('Label'),
+        'value' => 'label'
+    ],
+    [
+        'label' => $this->translate('Class'),
+        'value' => 'resource_class_label'
+    ],
+    [
+        'label' => $this->translate('Owner'),
+        'value' => 'owner_name'
+    ],
+    [
+        'label' => $this->translate('Items'),
+        'value' => 'item_count'
+    ]
+];
+?>
+
+<?php echo $this->pageTitle($this->translate('Resource Templates')); ?>
+
+<div id="page-actions">
+    <a class="button" href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'import'], true)); ?>"><?php echo $this->translate('Import'); ?></a>
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ResourceTemplateAdapter', 'create')): ?>
+    <?php echo $this->hyperlink($this->translate('Add new resource template'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
+    <?php endif; ?>
+</div>
+
+<?php if (count($resourceTemplates)): ?>
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+    <?php echo $this->sortSelector($sortHeadings); ?>
+</div>
+<?php $this->trigger('view.browse.before'); ?>
+<table class="tablesaw" data-tablesaw-mode="stack">
+    <thead>
+        <tr>
+            <th><?php echo $this->translate('Label'); ?></th>
+            <th><?php echo $this->translate('Class'); ?></th>
+            <th><?php echo $this->translate('Owner'); ?></th>
+            <th><?php echo $this->translate('Items'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($resourceTemplates as $resourceTemplate): ?>
+        <?php
+        if ($owner = $resourceTemplate->owner()) {
+            $ownerText = $this->hyperlink(
+                $owner->name(),
+                $this->url('admin/id', [
+                    'controller' => 'user',
+                    'action' => 'show',
+                    'id' => $owner->id()]
+                )
+            );
+        } else {
+            $ownerText = $this->translate('[no owner]');
+        }
+        ?>
+        <tr>
+            <td>
+                <span class="resource-name">
+                    <?php echo $resourceTemplate->link($resourceTemplate->label()); ?>
+                </span>
+                <ul class="actions">
+                    <?php if ($resourceTemplate->userIsAllowed('update')): ?>
+                    <li><?php echo $resourceTemplate->link('', 'edit', [
+                        'class' => 'o-icon-edit',
+                        'aria-label' => $escape($this->translate('Edit')),
+                        'title' => $escape($this->translate('Edit')),
+                    ]); ?></li>
+                    <?php endif; ?>
+                    <?php if ($resourceTemplate->userIsAllowed('delete')): ?>
+                    <li><a href="#"
+                        data-sidebar-content-url="<?php echo $escape($resourceTemplate->url('delete-confirm')); ?>"
+                        class="o-icon-delete sidebar-content"
+                        aria-label="<?php echo $escape($this->translate('Delete')); ?>"
+                        title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
+                    <?php endif; ?>
+                    <li><a href="#"
+                        data-sidebar-content-url="<?php echo $escape($resourceTemplate->url('show-details')); ?>"
+                        class="o-icon-more sidebar-content"
+                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
+                        title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
+                 </ul>
+            </td>
+            <td><?php echo $escape($resourceTemplate->displayResourceClassLabel()); ?></td>
+            <td><?php echo $ownerText; ?></td>
+            <td><?php echo $this->hyperlink($resourceTemplate->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['resource_template_id' => $resourceTemplate->id()]])); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<div class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <div class="sidebar-content"></div>
+</div>
+
+<?php else: ?>
+
+<div class="no-resources">
+    <p><?php echo $this->translate('Omeka could not find any resource templates.'); ?></p>
+</div>
+
+<?php endif; ?>
+
+<?php $this->trigger('view.browse.after'); ?>

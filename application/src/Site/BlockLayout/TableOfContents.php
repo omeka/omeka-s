@@ -55,10 +55,10 @@ class TableOfContents extends AbstractBlockLayout
 
         $depth = $block->dataValue('depth', 1);
 
-        return $view->partial('common/block-layout/table-of-contents', array(
+        return $view->partial('common/block-layout/table-of-contents', [
             'block' => $block,
             'subNav' => $subNav,
             'maxDepth' => $depth - 1,
-        ));
+        ]);
     }
 }

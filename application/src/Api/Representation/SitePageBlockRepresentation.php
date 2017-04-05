@@ -86,7 +86,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     {
         $attachments = [];
         foreach ($this->block->getAttachments() as $attachment) {
-            $attachments[]= new SiteBlockAttachmentRepresentation(
+            $attachments[] = new SiteBlockAttachmentRepresentation(
                 $attachment, $this->getServiceLocator());
         }
         return $attachments;

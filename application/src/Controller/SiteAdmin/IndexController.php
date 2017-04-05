@@ -52,13 +52,14 @@ class IndexController extends AbstractActionController
     public function addAction()
     {
         $form = $this->getForm(SiteForm::class);
+        $themes = $this->themes->getThemes();
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->create('sites', $formData);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Site successfully created'); // @translate
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
@@ -69,6 +70,7 @@ class IndexController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
+        $view->setVariable('themes', $themes);
         return $view;
     }
 
@@ -82,8 +84,8 @@ class IndexController extends AbstractActionController
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
-                if ($response->isSuccess()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
+                if ($response) {
                     $this->messenger()->addSuccess('Site successfully updated'); // @translate
                     // Explicitly re-read the site URL instead of using
                     // refresh() so we catch updates to the slug
@@ -150,7 +152,7 @@ class IndexController extends AbstractActionController
                 $formData = $form->getData();
                 $formData['o:site']['o:id'] = $site->id();
                 $response = $this->api($form)->create('site_pages', $formData);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Page successfully created'); // @translate
                     return $this->redirect()->toRoute(
                         'admin/site/slug/page',
@@ -180,8 +182,8 @@ class IndexController extends AbstractActionController
             $formData['o:navigation'] = $this->navTranslator->fromJstree($jstree);
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
-                if ($response->isSuccess()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
+                if ($response) {
                     $this->messenger()->addSuccess('Navigation successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -210,8 +212,8 @@ class IndexController extends AbstractActionController
             }
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
-                if ($response->isSuccess()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
+                if ($response) {
                     $this->messenger()->addSuccess('Site resources successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -250,8 +252,8 @@ class IndexController extends AbstractActionController
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
-                if ($response->isSuccess()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
+                if ($response) {
                     $this->messenger()->addSuccess('User permissions successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -270,6 +272,37 @@ class IndexController extends AbstractActionController
     }
 
     public function themeAction()
+    {
+        $site = $this->currentSite();
+        if (!$site->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException(
+                'User does not have permission to edit site theme settings'
+            );
+        }
+        $form = $this->getForm(Form::class)->setAttribute('id', 'site-theme-form');
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->params()->fromPost();
+            $form->setData($formData);
+            if ($form->isValid()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
+                if ($response) {
+                    $this->messenger()->addSuccess('Site theme successfully updated'); // @translate
+                    return $this->redirect()->refresh();
+                }
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        $view->setVariable('site', $site);
+        $view->setVariable('themes', $this->themes->getThemes());
+        $view->setVariable('currentTheme', $this->themes->getCurrentTheme());
+        return $view;
+    }
+
+    public function themeSettingsAction()
     {
         $site = $this->currentSite();
 
@@ -311,6 +344,7 @@ class IndexController extends AbstractActionController
             }
         }
         $view->setVariable('form', $form);
+        $view->setVariable('theme', $theme);
         return $view;
     }
 
@@ -321,7 +355,7 @@ class IndexController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('sites', ['slug' => $this->params('site-slug')]);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Site successfully deleted'); // @translate
                 }
             } else {

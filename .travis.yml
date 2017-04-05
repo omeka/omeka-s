@@ -3,14 +3,22 @@ language: php
 php:
   - 5.6
   - 7.0
+  - 7.1
 
 sudo: false
 
 cache:
   directories:
     - $HOME/.composer/cache
+    - build/cache
 
-install: ant init
+before_install:
+ - nvm install node
+ - nvm use node
+  
+install:
+  - npm install
+  - ./node_modules/gulp/bin/gulp.js init
 
 before_script:
   - mysql -e "create database IF NOT EXISTS omeka_test;" -uroot
@@ -18,4 +26,4 @@ before_script:
   - sed -i 's/^user.*/user = "root"/' application/test/config/database.ini
   - sed -i 's/^dbname.*/dbname = "omeka_test"/' application/test/config/database.ini
 
-script: ant test-all
+script: ./node_modules/gulp/bin/gulp.js test

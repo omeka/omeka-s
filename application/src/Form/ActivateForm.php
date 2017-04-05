@@ -30,7 +30,6 @@ class ActivateForm extends Form
             ],
         ]);
 
-
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'password',

@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\View\Renderer;
 
+use Omeka\Api\Exception\ValidationException;
+use Omeka\Api\Response;
 use Zend\Json\Json;
 use Zend\View\Renderer\JsonRenderer;
 
@@ -15,17 +17,15 @@ class ApiJsonRenderer extends JsonRenderer
     public function render($model, $values = null)
     {
         $response = $model->getApiResponse();
+        $exception = $model->getException();
 
-        if ($response instanceof \Omeka\Api\Response) {
-            if ($response->isError()) {
-                $errors = $response->getErrors();
-                if (($e = $model->getException())) {
-                    $errors[$response->getStatus()] = $e->getMessage();
-                }
-                $payload = ['errors' => $errors];
-            } else {
-                $payload = $response->getContent();
-            }
+        if ($response instanceof Response) {
+            $payload = $response->getContent();
+        } elseif ($exception instanceof ValidationException) {
+            $errors = $exception->getErrorStore()->getErrors();
+            $payload = ['errors' => $errors];
+        } elseif ($exception instanceof \Exception) {
+            $payload = ['errors' => ['error' => $exception->getMessage()]];
         } else {
             $payload = $response;
         }

@@ -1,0 +1,48 @@
+<?php
+use Omeka\Site\Theme\Manager;
+
+$this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
+?>
+<div class="selectable-themes">
+    <?php foreach ($themes as $theme): ?>
+    <?php
+        if (isset($currentTheme) && $theme->getId() === $currentTheme->getId()) {
+            continue;
+        }
+        $state = $theme->getState();
+        $thumbnailUrl = file_exists(OMEKA_PATH . $theme->getThumbnail())
+            ? $this->basePath() . $theme->getThumbnail()
+            : $fallbackThumbnailUrl;
+        $author = $theme->getIni('author');
+        $authorLink = $theme->getIni('author_link');
+        $description = $theme->getIni('description');
+        $selected = isset($defaultThemeId) && $defaultThemeId == $theme->getId();
+    ?>
+    <div class="theme<?php echo Manager::STATE_ACTIVE !== $state ? ' invalid' : ''; ?>">
+
+        <?php if (Manager::STATE_INVALID_INI === $state): ?>
+        <span class="error"><?php echo $this->translate('Invalid theme.ini file'); ?></span>
+        <?php elseif (Manager::STATE_INVALID_OMEKA_VERSION === $state): ?>
+        <span class="error"><?php echo sprintf($this->translate('This theme requires Omeka S %s'), $theme->getIni('omeka_version_constraint')); ?></span>
+        <?php endif; ?>
+
+        <div class="theme-thumbnail"><img src="<?php echo $this->escapeHtml($thumbnailUrl); ?>"></div>
+
+        <h4><?php echo $this->escapeHtml($theme->getName()); ?></h4>
+        <div class="theme-meta">
+            <span class="theme-author">
+                <?php if (isset($authorLink)): ?>
+                <a href="<?php echo $this->escapeHtml($authorLink); ?>" target="_blank"><?php echo $this->escapeHtml($author); ?></a>
+                <?php else: ?>
+                <?php echo $this->escapeHtml($author); ?>
+                <?php endif; ?>
+            </span>
+            <?php if ($description): ?>
+            <span class="theme-description"><?php echo $this->escapeHtml($description); ?></span>
+            <?php endif; ?>
+        </div>
+
+        <input type="hidden" name="o:theme" value="<?php echo $this->escapeHtml($theme->getId()); ?>" <?php echo $selected ? '' : 'disabled'; ?>>
+    </div>
+    <?php endforeach; ?>
+</div>

@@ -14,7 +14,7 @@ class SectionNav extends AbstractHelper
      * @param mixed The resource represented by the show page, if any
      * @return string
      */
-    public function __invoke(array $sectionNavs = array(),
+    public function __invoke(array $sectionNavs = [],
         $sectionNavEvent = null, $resource = null
     ) {
         $sectionNavArgs = [

@@ -52,7 +52,7 @@ class Media extends AbstractHelper
         if (!$this->titleId) {
             // Cache the ID of the dcterms:title property
             $this->titleId = $this->getView()->api()
-                ->searchOne('properties', ['term'=> 'dcterms:title'])
+                ->searchOne('properties', ['term' => 'dcterms:title'])
                 ->getContent()->id();
         }
 

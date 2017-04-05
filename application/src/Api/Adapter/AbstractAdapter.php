@@ -126,7 +126,6 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Compose a resource representation object.
      *
-     * @param string|int $id The unique identifier of the resource
      * @param mixed $data Whatever data is needed to compose the representation.
      * @return RepresentationInterface|null
      */

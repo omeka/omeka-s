@@ -37,7 +37,8 @@ class Item extends Resource
      */
     protected $itemSets;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->media = new ArrayCollection;
         $this->siteBlockAttachments = new ArrayCollection;

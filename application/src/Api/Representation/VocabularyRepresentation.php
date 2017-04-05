@@ -118,12 +118,12 @@ class VocabularyRepresentation extends AbstractEntityRepresentation
       */
      public function resourceClasses()
      {
-        $resourceClasses = [];
-        $resourceClassAdapter = $this->getAdapter('resource_classes');
-        foreach ($this->resource->getResourceClasses() as $resourceClass) {
-            $resourceClasses[] = $resourceClassAdapter->getRepresentation($resourceClass);
-        }
-        return $resourceClasses;
+         $resourceClasses = [];
+         $resourceClassAdapter = $this->getAdapter('resource_classes');
+         foreach ($this->resource->getResourceClasses() as $resourceClass) {
+             $resourceClasses[] = $resourceClassAdapter->getRepresentation($resourceClass);
+         }
+         return $resourceClasses;
      }
 
     /**

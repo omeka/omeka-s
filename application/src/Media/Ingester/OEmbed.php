@@ -19,7 +19,7 @@ class OEmbed implements IngesterInterface
     protected $whitelist;
 
     /**
-     * @var HttpClient;
+     * @var HttpClient
      */
     protected $httpClient;
 
@@ -104,6 +104,7 @@ class OEmbed implements IngesterInterface
                     $media->setHasThumbnails(true);
                 }
             }
+            $file->delete();
         }
 
         $media->setData($mediaData);
@@ -122,7 +123,7 @@ class OEmbed implements IngesterInterface
         ]);
         $urlInput->setAttributes([
             'id' => 'media-oembed-source-__index__',
-            'required' => true
+            'required' => true,
         ]);
         return $view->formRow($urlInput);
     }

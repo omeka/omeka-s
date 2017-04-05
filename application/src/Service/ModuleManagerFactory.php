@@ -48,7 +48,15 @@ class ModuleManagerFactory implements FactoryInterface
                 continue;
             }
 
-            $module->setIni($iniReader->fromFile($iniFile->getRealPath()));
+            $ini = $iniReader->fromFile($iniFile->getRealPath());
+
+            // The INI configuration must be under the [info] header.
+            if (!isset($ini['info'])) {
+                $module->setState(ModuleManager::STATE_INVALID_INI);
+                continue;
+            }
+
+            $module->setIni($ini['info']);
 
             // Module INI must be valid
             if (!$manager->iniIsValid($module)) {
@@ -95,7 +103,6 @@ class ModuleManagerFactory implements FactoryInterface
         }
 
         foreach ($dbModules as $moduleRow) {
-
             if (!$manager->isRegistered($moduleRow['id'])) {
                 // Module installed but not in filesystem
                 $module = $manager->registerModule($moduleRow['id']);

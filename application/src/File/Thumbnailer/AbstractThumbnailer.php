@@ -1,12 +1,19 @@
 <?php
 namespace Omeka\File\Thumbnailer;
 
+use Omeka\File\File;
+
 abstract class AbstractThumbnailer implements ThumbnailerInterface
 {
     /**
      * @var string
      */
     protected $source;
+
+    /**
+     * @var File
+     */
+    protected $sourceFile;
 
     /**
      * @var array
@@ -16,9 +23,10 @@ abstract class AbstractThumbnailer implements ThumbnailerInterface
     /**
      * {@inheritDoc}
      */
-    public function setSource($source)
+    public function setSource(File $source)
     {
-        $this->source = $source;
+        $this->source = $source->getTempPath();
+        $this->sourceFile = $source;
     }
 
     /**

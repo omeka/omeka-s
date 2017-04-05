@@ -24,7 +24,7 @@ class PageController extends AbstractActionController
             $form->setData($post);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('site_pages', $page->id(), $post);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Page successfully updated'); // @translate
                     // Explicitly re-read the site URL instead of using
                     // refresh() so we catch updates to the slug
@@ -47,8 +47,7 @@ class PageController extends AbstractActionController
         $site = $this->currentSite();
 
         $indents = [];
-        $iterate = function ($linksIn, $depth = 0) use (&$iterate, &$indents)
-        {
+        $iterate = function ($linksIn, $depth = 0) use (&$iterate, &$indents) {
             foreach ($linksIn as $key => $data) {
                 if ('page' === $data['type']) {
                     $indents[$data['data']['id']] = $depth;
@@ -91,7 +90,7 @@ class PageController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('site_pages', ['slug' => $this->params('page-slug')]);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Page successfully deleted'); // @translate
                 }
             } else {

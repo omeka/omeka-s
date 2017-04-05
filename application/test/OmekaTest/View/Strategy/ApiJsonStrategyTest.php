@@ -2,7 +2,6 @@
 namespace OmekaTest\View\Strategy;
 
 use Omeka\Api\Exception;
-use Omeka\Api\Response as ApiResponse;
 use Omeka\View\Strategy\ApiJsonStrategy;
 use Zend\Http\Response as HttpResponse;
 use Zend\Json\Exception as JsonException;
@@ -51,29 +50,29 @@ class ApiJsonStrategyTest extends TestCase
     public function statusProvider()
     {
         return [
-            [ApiResponse::SUCCESS, 'bar', null, 200],
-            [ApiResponse::SUCCESS, null, null, 204],
-            [ApiResponse::ERROR_VALIDATION, 'bar', null, 422],
-            [ApiResponse::ERROR, 'bar', new Exception\NotFoundException, 404],
-            [ApiResponse::ERROR, 'bar', new Exception\PermissionDeniedException, 403],
-            [ApiResponse::ERROR, 'bar', new \Exception, 500],
-            [ApiResponse::ERROR, 'bar', new JsonException\RuntimeException, 400],
-            ['foo', 'bar', null, 500]
+            ['bar', null, 200],
+            [null, null, 204],
+            ['bar', new Exception\ValidationException, 422],
+            ['bar', new Exception\NotFoundException, 404],
+            ['bar', new Exception\PermissionDeniedException, 403],
+            ['bar', new \Exception, 500],
+            ['bar', new JsonException\RuntimeException, 400],
         ];
     }
 
     /**
      * @dataProvider statusProvider
      */
-    public function testStrategySetsStatus($apiStatus, $apiContent, $apiException, $httpStatus)
+    public function testStrategySetsStatus($apiContent, $apiException, $httpStatus)
     {
-        $apiResponse = $this->getMock('Omeka\Api\Response');
-        $apiResponse->expects($this->once())
-                    ->method('getStatus')
-                    ->will($this->returnValue($apiStatus));
-        $apiResponse->expects($this->any())
-                    ->method('getContent')
-                    ->will($this->returnValue($apiContent));
+        if (!$apiException) {
+            $apiResponse = $this->getMock('Omeka\Api\Response');
+            $apiResponse->expects($this->any())
+                        ->method('getContent')
+                        ->will($this->returnValue($apiContent));
+        } else {
+            $apiResponse = null;
+        }
 
         $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
         $model->expects($this->once())
@@ -92,9 +91,6 @@ class ApiJsonStrategyTest extends TestCase
     public function testStrategySetsContentType()
     {
         $apiResponse = $this->getMock('Omeka\Api\Response');
-        $apiResponse->expects($this->once())
-                    ->method('getStatus')
-                    ->will($this->returnValue(200));
 
         $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
         $model->expects($this->once())

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Installation\Task;
 
+use Omeka\Api\Exception\ValidationException;
 use Omeka\Installation\Installer;
 
 /**
@@ -14,14 +15,15 @@ class CreateFirstUserTask implements TaskInterface
         $entityManager = $installer->getServiceLocator()->get('Omeka\EntityManager');
 
         $vars = $installer->getVars('Omeka\Installation\Task\CreateFirstUserTask');
-        $response = $apiManager->create('users', [
-            'o:is_active' => true,
-            'o:role'     => 'global_admin',
-            'o:name'     => $vars['name'],
-            'o:email'    => $vars['email'],
-        ]);
-        if ($response->isError()) {
-            $installer->addErrorStore($response->getErrorStore());
+        try {
+            $response = $apiManager->create('users', [
+                'o:is_active' => true,
+                'o:role' => 'global_admin',
+                'o:name' => $vars['name'],
+                'o:email' => $vars['email'],
+            ]);
+        } catch (ValidationException $e) {
+            $installer->addErrorStore($e->getErrorStore());
             return;
         }
 

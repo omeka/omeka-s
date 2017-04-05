@@ -30,9 +30,9 @@ class SortSelector extends AbstractHelper
         return $this->getView()->partial(
             $partialName,
             [
-                'sortBy'            => $sortBy,
-                'sortByQuery'       => $sortByQuery,
-                'sortOrderQuery'    => $sortOrderQuery
+                'sortBy' => $sortBy,
+                'sortByQuery' => $sortByQuery,
+                'sortOrderQuery' => $sortOrderQuery,
             ]
         );
     }

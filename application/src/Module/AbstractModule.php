@@ -41,7 +41,8 @@ abstract class AbstractModule implements ConfigProviderInterface
      * @param ServiceLocatorInterface $serviceLocator
      */
     public function install(ServiceLocatorInterface $serviceLocator)
-    {}
+    {
+    }
 
     /**
      * Uninstall this module.
@@ -49,7 +50,8 @@ abstract class AbstractModule implements ConfigProviderInterface
      * @param ServiceLocatorInterface $serviceLocator
      */
     public function uninstall(ServiceLocatorInterface $serviceLocator)
-    {}
+    {
+    }
 
     /**
      * Upgrade this module.
@@ -60,7 +62,8 @@ abstract class AbstractModule implements ConfigProviderInterface
      */
     public function upgrade($oldVersion, $newVersion,
         ServiceLocatorInterface $serviceLocator
-    ) {}
+    ) {
+    }
 
     /**
      * Get this module's configuration form.
@@ -69,7 +72,8 @@ abstract class AbstractModule implements ConfigProviderInterface
      * @return string
      */
     public function getConfigForm(PhpRenderer $renderer)
-    {}
+    {
+    }
 
     /**
      * Handle this module's configuration form.
@@ -78,7 +82,8 @@ abstract class AbstractModule implements ConfigProviderInterface
      * @return bool False if there was an error during handling
      */
     public function handleConfigForm(AbstractController $controller)
-    {}
+    {
+    }
 
     /**
      * Attach listeners to the $sharedEventManager for shared events:
@@ -97,7 +102,8 @@ abstract class AbstractModule implements ConfigProviderInterface
      * @param SharedEventManagerInterface $sharedEventManager
      */
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
-    {}
+    {
+    }
 
     /**
      * Return module-specific configuration.

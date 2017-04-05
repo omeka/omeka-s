@@ -59,19 +59,19 @@ class IIIF implements IngesterInterface
         if (!$response->isOk()) {
             $errorStore->addError('o:source', sprintf(
                 "Error reading %s: %s (%s)",
-                $type,
+                $this->getLabel(),
                 $response->getReasonPhrase(),
                 $response->getStatusCode()
             ));
             return false;
         }
         $IIIFData = json_decode($response->getBody(), true);
-        if(!$IIIFData) {
+        if (!$IIIFData) {
             $errorStore->addError('o:source', 'Error decoding IIIF JSON');
             return;
         }
         //Check if valid IIIF data
-        if($this->validate($IIIFData)) {
+        if ($this->validate($IIIFData)) {
             $media->setData($IIIFData);
         // Not IIIF
         } else {
@@ -84,7 +84,7 @@ class IIIF implements IngesterInterface
         if (isset($IIIFData['@context']) && $IIIFData['@context'] == 'http://iiif.io/api/image/2/context.json') {
             $URLString = '/full/full/0/default.jpg';
         // Earlier versions
-        } else  {
+        } else {
             $URLString = '/full/full/0/native.jpg';
         }
         if (isset($IIIFData['@id'])) {
@@ -96,6 +96,7 @@ class IIIF implements IngesterInterface
                     $media->setHasThumbnails(true);
                 }
             }
+            $file->delete();
         }
     }
 
@@ -110,27 +111,28 @@ class IIIF implements IngesterInterface
     }
 
     //This check comes from Open Seadragon's own validation check
-    public function validate($IIIFData) {
+    public function validate($IIIFData)
+    {
         // Version 2.0
         if (isset($IIIFData['protocol']) && $IIIFData['protocol'] == 'http://iiif.io/api/image') {
-                return true;
+            return true;
         // Version 1.1
-        } else if (isset($IIIFData['@context']) && (
+        } elseif (isset($IIIFData['@context']) && (
             $IIIFData['@context'] == "http://library.stanford.edu/iiif/image-api/1.1/context.json" ||
             $IIIFData['@context'] == "http://iiif.io/api/image/1/context.json")) {
             // N.B. the iiif.io context is wrong, but where the representation lives so likely to be used
                 return true;
         // Version 1.0
-        } else if (isset($IIIFData['profile']) &&
+        } elseif (isset($IIIFData['profile']) &&
             $IIIFData['profile'][0]("http://library.stanford.edu/iiif/image-api/compliance.html") === 0) {
-                return true;
-        } else if (isset($IIIFData['identifier']) && $IIIFData['width'] && $IIIFData['height']) {
-                return true;
-        } else if (isset($IIIFData['documentElement']) &&
+            return true;
+        } elseif (isset($IIIFData['identifier']) && $IIIFData['width'] && $IIIFData['height']) {
+            return true;
+        } elseif (isset($IIIFData['documentElement']) &&
             "info" == $IIIFData['documentElement']['tagName'] &&
             "http://library.stanford.edu/iiif/image-api/ns/" ==
                 $IIIFData['documentElement']['namespaceURI']) {
-                return true;
+            return true;
         }
     }
 }

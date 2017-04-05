@@ -4,6 +4,7 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
+use Omeka\Form\VocabularyUpdateForm;
 use Omeka\Mvc\Exception;
 use Omeka\Service\RdfImporter;
 use Omeka\Stdlib\Message;
@@ -78,7 +79,7 @@ class VocabularyController extends AbstractActionController
                         'file', $data, ['file' => $data['file']['tmp_name']]
                     );
                     $this->api($form)->detectError($response);
-                    if ($response->isSuccess()) {
+                    if ($response) {
                         $message = new Message(
                             'Vocabulary successfully imported. %s', // @translate
                             sprintf(
@@ -106,10 +107,7 @@ class VocabularyController extends AbstractActionController
     public function editAction()
     {
         $form = $this->getForm(VocabularyForm::class);
-        $id = $this->params('id');
-
-        $readResponse = $this->api()->read('vocabularies', $id);
-        $vocabulary = $readResponse->getContent();
+        $vocabulary = $this->api()->read('vocabularies', $this->params('id'))->getContent();
 
         if ($vocabulary->isPermanent()) {
             throw new Exception\PermissionDeniedException('Cannot edit a permanent vocabulary');
@@ -118,25 +116,57 @@ class VocabularyController extends AbstractActionController
         $data = $vocabulary->jsonSerialize();
         $form->setData($data);
 
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $form->setData($this->params()->fromPost());
+        $view = new ViewModel;
+        $view->setVariable('vocabulary', $vocabulary);
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
             if ($form->isValid()) {
-                $formData = $form->getData();
-                $response = $this->api($form)->update('vocabularies', $id, $formData);
-                if ($response->isSuccess()) {
-                    $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
-                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                $response = $this->api($form)->update('vocabularies', $this->params('id'), $data, [], ['isPartial' => true]);
+                if ($response) {
+                    $fileData = $this->params()->fromFiles('file');
+                    if (0 === $fileData['error']) {
+                        $this->messenger()->addSuccess('Please review these changes before you accept them.'); // @translate
+                        $diff = $this->rdfImporter->getDiff(
+                            'file',
+                            $vocabulary->namespaceUri(),
+                            ['file' => $fileData['tmp_name']]
+                        );
+                        $form = $this->getForm(VocabularyUpdateForm::class);
+                        $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'update'], true));
+                        $form->get('diff')->setValue(json_encode($diff));
+
+                        $view->setVariable('diff', $diff);
+                        $view->setTemplate('omeka/admin/vocabulary/update');
+                    } else {
+                        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
+                        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                    }
                 }
             } else {
                 $this->messenger()->addFormErrors($form);
             }
         }
 
-        $view = new ViewModel;
-        $view->setVariable('vocabulary', $vocabulary);
         $view->setVariable('form', $form);
         return $view;
+    }
+
+    public function updateAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form = $this->getForm(VocabularyUpdateForm::class);
+            $form->setData($data);
+            if ($form->isValid()) {
+                $this->rdfImporter->update($this->params('id'), json_decode($data['diff'], true));
+                $this->messenger()->addSuccess('Changes to the vocabulary successfully made'); // @translate
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
     public function deleteAction()
@@ -146,7 +176,7 @@ class VocabularyController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('vocabularies', $this->params('id'));
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Vocabulary successfully deleted'); // @translate
                 }
             } else {

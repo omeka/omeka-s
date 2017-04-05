@@ -1,11 +1,13 @@
 <?php
 namespace Omeka\Service;
 
+use Doctrine\ORM\EntityManager;
 use EasyRdf_Graph;
 use EasyRdf_Literal;
 use EasyRdf_Resource;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Entity\Property;
+use Omeka\Entity\ResourceClass;
 use Omeka\Entity\Vocabulary;
 
 class RdfImporter
@@ -14,6 +16,11 @@ class RdfImporter
      * @var Omeka\Api\Manager
      */
     protected $apiManager;
+
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
 
     /**
      * Class types to import.
@@ -44,9 +51,10 @@ class RdfImporter
         'owl:InverseFunctionalProperty',
     ];
 
-    public function __construct(ApiManager $apiManager)
+    public function __construct(ApiManager $apiManager, EntityManager $entityManager)
     {
         $this->apiManager = $apiManager;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -55,13 +63,12 @@ class RdfImporter
      * @param string $strategy The import strategy to use (e.g. "file", "url")
      * @param string $namespaceUri The namespace URI of the vocabulary
      * @param array $options
-     * - format: (optional)  The format of the RDF file. If not given, the RDF
-     *   parser will attempt to guess the format.
-     * - file: (required for "file" strategy) The RDF file in the /application/
-     *   /data/vocabularies directory.
-     * - url: (required for "url" strategy) The URL of the RDF file.
-     * - comment_property: (optional) The RDF property containing the preferred
-     *   property comment (defaults to "rdfs:comment")
+     *   - format: (optional)  The format of the RDF file. If not given, the RDF
+     *     parser will attempt to guess the format.
+     *   - file: (required for "file" strategy) The RDF file path
+     *   - url: (required for "url" strategy) The URL of the RDF file.
+     *   - comment_property: (optional) The RDF property containing the preferred
+     *     property comment (defaults to "rdfs:comment")
      * @return array
      */
     public function getMembers($strategy, $namespaceUri, array $options = [])
@@ -73,37 +80,12 @@ class RdfImporter
         if (!isset($options['comment_property'])) {
             $options['comment_property'] = 'rdfs:comment';
         }
-        $graph = $this->getGraph($strategy, $namespaceUri, $options);
-        return $this->extractMembers($graph, $namespaceUri, $options);
-    }
 
-    /**
-     * Import an RDF vocabulary, including its classes and properties.
-     *
-     * @param string $strategy The import strategy to use (e.g. "file", "url")
-     * @param string $vocabularyArray The vocabulary as supported by the
-     * vocabulary entity adapter.
-     * @param array $options See self::getMembers()
-     * @return Omeka\Api\Response
-     */
-    public function import($strategy, array $vocabularyArray, array $options = [])
-    {
-        // Get the RDF members.
-        $members = $this->getMembers(
-            $strategy, $vocabularyArray['o:namespace_uri'], $options
-        );
-
-        $vocabularyArray = array_merge($vocabularyArray, $members);
-
-        return $this->apiManager->create('vocabularies', $vocabularyArray);
-    }
-
-    protected function getGraph($strategy, $namespaceUri, $options)
-    {
+        // Get the full RDF graph from EasyRdf.
+        $graph = new EasyRdf_Graph;
         switch ($strategy) {
-
-            // Import from a file in /application/data/vocabularies directory.
             case 'file':
+                // Import from a file in /application/data/vocabularies.
                 if (!isset($options['file'])) {
                     throw new \Exception('No file specified for the file import strategy.');
                 }
@@ -115,40 +97,21 @@ class RdfImporter
                 if (!is_readable($file)) {
                     throw new \Exception('File not readable.');
                 }
-                $graph = new EasyRdf_Graph;
                 $graph->parseFile($file, $options['format'], $namespaceUri);
-                return $graph;
-
-            // Import from a URL.
+                break;
             case 'url':
+                // Import from a URL.
                 if (!isset($options['url'])) {
                     throw new \Exception('No URL specified for the URL import strategy.');
                 }
-                $graph = new EasyRdf_Graph;
                 $graph->load($options['url'], $options['format']);
-                return $graph;
-
+                break;
             default:
                 throw new \Exception('Unsupported import strategy.');
         }
-    }
 
-    /**
-     * Extract members (classes and properties) of the specified namespace.
-     *
-     * @param EasyRdf_Graph $graph
-     * @param array $data
-     * @return array
-     */
-    protected function extractMembers(
-        EasyRdf_Graph $graph,
-        $namespaceUri,
-        array $options
-    ) {
-        $members = [
-            'o:class' => [],
-            'o:property' => [],
-        ];
+        $members = ['classes' => [], 'properties' => []];
+
         // Iterate through all resources of the graph instead of selectively by
         // rdf:type becuase a resource may have more than one type, causing
         // illegal attempts to duplicate classes and properties.
@@ -163,22 +126,192 @@ class RdfImporter
             }
             // Get the vocabulary's classes.
             if (in_array($resource->type(), $this->classTypes)) {
-                $members['o:class'][] = [
-                    'o:local_name' => $resource->localName(),
-                    'o:label' => $this->getLabel($resource, $resource->localName()),
-                    'o:comment' => $this->getComment($resource, $options['comment_property']),
+                $members['classes'][$resource->localName()] = [
+                    'label' => $this->getLabel($resource, $resource->localName()),
+                    'comment' => $this->getComment($resource, $options['comment_property']),
                 ];
             }
             // Get the vocabulary's properties.
             if (in_array($resource->type(), $this->propertyTypes)) {
-                $members['o:property'][] = [
-                    'o:local_name' => $resource->localName(),
-                    'o:label' => $this->getLabel($resource, $resource->localName()),
-                    'o:comment' => $this->getComment($resource, $options['comment_property']),
+                $members['properties'][$resource->localName()] = [
+                    'label' => $this->getLabel($resource, $resource->localName()),
+                    'comment' => $this->getComment($resource, $options['comment_property']),
                 ];
             }
         }
         return $members;
+    }
+
+    /**
+     * Import an RDF vocabulary, including its classes and properties.
+     *
+     * @see self::getMembers()
+     * @param string $strategy
+     * @param array $vocab Vocab info supported by the vocabulary entity adapter
+     * @param array $options
+     * @return Omeka\Api\Response
+     */
+    public function import($strategy, array $vocab, array $options = [])
+    {
+        $members = $this->getMembers($strategy, $vocab['o:namespace_uri'], $options);
+
+        // Convert to format that the API understands.
+        $vocabMembers = ['o:class' => [], 'o:property' => []];
+        foreach ($members['classes'] as $localName => $info) {
+            $vocabMembers['o:class'][] = [
+                'o:local_name' => $localName,
+                'o:label' => $info['label'],
+                'o:comment' => $info['comment'],
+            ];
+        }
+        foreach ($members['properties'] as $localName => $info) {
+            $vocabMembers['o:property'][] = [
+                'o:local_name' => $localName,
+                'o:label' => $info['label'],
+                'o:comment' => $info['comment'],
+            ];
+        }
+
+        return $this->apiManager->create('vocabularies', array_merge($vocab, $vocabMembers));
+    }
+
+    /**
+     * Update a vocabulary given a diff.
+     *
+     * @param int $vocabId
+     * @param array $diff
+     */
+    public function update($vocabId, array $diff)
+    {
+        $em = $this->entityManager;
+        $vocabulary = $em->find('Omeka\Entity\Vocabulary', $vocabId);
+        $classRepo = $em->getRepository('Omeka\Entity\ResourceClass');
+        $propertyRepo = $em->getRepository('Omeka\Entity\Property');
+
+        foreach ($diff['properties']['new'] as $localName => $info) {
+            $property = new Property;
+            $property->setVocabulary($vocabulary);
+            $property->setLocalName($localName);
+            $property->setLabel($info[0]);
+            $property->setComment($info[1]);
+            $em->persist($property);
+        }
+        foreach ($diff['properties']['label'] as $localName => $change) {
+            $property = $propertyRepo->findOneBy([
+                'vocabulary' => $vocabulary,
+                'localName' => $localName,
+            ]);
+            $property->setLabel($change[1]);
+        }
+        foreach ($diff['properties']['comment'] as $localName => $change) {
+            $property = $propertyRepo->findOneBy([
+                'vocabulary' => $vocabulary,
+                'localName' => $localName,
+            ]);
+            $property->setComment($change[1]);
+        }
+
+        foreach ($diff['classes']['new'] as $localName => $info) {
+            $class = new ResourceClass;
+            $class->setVocabulary($vocabulary);
+            $class->setLocalName($localName);
+            $class->setLabel($info[0]);
+            $class->setComment($info[1]);
+            $em->persist($class);
+        }
+        foreach ($diff['classes']['label'] as $localName => $change) {
+            $class = $classRepo->findOneBy([
+                'vocabulary' => $vocabulary,
+                'localName' => $localName,
+            ]);
+            $class->setLabel($change[1]);
+        }
+        foreach ($diff['classes']['comment'] as $localName => $change) {
+            $class = $classRepo->findOneBy([
+                'vocabulary' => $vocabulary,
+                'localName' => $localName,
+            ]);
+            $class->setComment($change[1]);
+        }
+
+        $em->flush();
+    }
+
+    /**
+     * Get the diff between a stored vocab and one represented in an RDF graph.
+     *
+     * @see self::getMembers()
+     * @param string $strategy
+     * @param string $namespaceUri
+     * @param array $options
+     * @return array
+     */
+    public function getDiff($strategy, $namespaceUri, array $options = [])
+    {
+        // Get classes and properties from the database.
+        $classes = $this->apiManager->search(
+            'resource_classes',
+            ['vocabulary_namespace_uri' => $namespaceUri]
+        )->getContent();
+        $dbClasses = [];
+        foreach ($classes as $class) {
+            $dbClasses[$class->localName()] = [
+                'label' => $class->label(),
+                'comment' => $class->comment(),
+            ];
+        }
+        $properties = $this->apiManager->search(
+            'properties',
+            ['vocabulary_namespace_uri' => $namespaceUri]
+        )->getContent();
+        $dbProperties = [];
+        foreach ($properties as $property) {
+            $dbProperties[$property->localName()] = [
+                'label' => $property->label(),
+                'comment' => $property->comment(),
+            ];
+        }
+
+        // Get classes and properties from the RDF graph.
+        $members = $this->getMembers($strategy, $namespaceUri, $options);
+
+        return [
+            'classes' => $this->calculateDiff($dbClasses, $members['classes']),
+            'properties' => $this->calculateDiff($dbProperties, $members['properties']),
+        ];
+    }
+
+    /**
+     * Calculate the difference between two vocabulary members.
+     *
+     * Only gets the diffs that we can process safely: add new members and
+     * update existing labels and comments. It doesn't get the diffs we cannot
+     * process safely: delete existing members or update existing local names.
+     *
+     * @param array $from
+     * @param array $to
+     * @return array
+     */
+    protected function calculateDiff(array $from, array $to)
+    {
+        $diff = ['new' => [], 'label' => [], 'comment' => []];
+        foreach ($to as $localName => $info) {
+            if (array_key_exists($localName, $from)) {
+                // Existing member.
+                if ($from[$localName]['label'] !== $info['label']) {
+                    // Updated label.
+                    $diff['label'][$localName] = [$from[$localName]['label'], $info['label']];
+                }
+                if ($from[$localName]['comment'] !== $info['comment']) {
+                    // Updated comment.
+                    $diff['comment'][$localName] = [$from[$localName]['comment'], $info['comment']];
+                }
+            } else {
+                // New member.
+                $diff['new'][$localName] = [$info['label'], $info['comment']];
+            }
+        }
+        return $diff;
     }
 
     /**

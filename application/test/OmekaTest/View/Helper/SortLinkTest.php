@@ -23,8 +23,8 @@ class SortLinkTest extends TestCase
                 $this->equalTo([
                     'query' => [
                         'sort_by' => $sortBy,
-                        'sort_order' => 'asc'
-                    ]
+                        'sort_order' => 'asc',
+                    ],
                 ]),
                 $this->equalTo(true)
             );

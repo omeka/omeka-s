@@ -7,7 +7,8 @@ use Zend\View\Renderer\PhpRenderer;
 abstract class AbstractDataType implements DataTypeInterface
 {
     public function prepareForm(PhpRenderer $view)
-    {}
+    {
+    }
 
     public function toString(ValueRepresentation $value)
     {

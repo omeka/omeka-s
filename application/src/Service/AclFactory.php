@@ -183,7 +183,7 @@ class AclFactory implements FactoryInterface
 
         $adminAssertion = $this->aggregate([
             new OwnsEntityAssertion,
-            new HasSitePermissionAssertion('admin')
+            new HasSitePermissionAssertion('admin'),
         ], AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             null,
@@ -194,7 +194,7 @@ class AclFactory implements FactoryInterface
 
         $editorAssertion = $this->aggregate([
                 new OwnsEntityAssertion,
-                new HasSitePermissionAssertion('editor')
+                new HasSitePermissionAssertion('editor'),
             ], AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             null,
@@ -212,7 +212,7 @@ class AclFactory implements FactoryInterface
         $viewerAssertion = $this->aggregate([
             new SiteIsPublicAssertion,
             new OwnsEntityAssertion,
-            new HasSitePermissionAssertion('viewer')
+            new HasSitePermissionAssertion('viewer'),
         ], AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             null,
@@ -312,6 +312,11 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'researcher',
+            'Omeka\Controller\Admin\Asset',
+            'sidebar-select'
+        );
+        $acl->allow(
+            'researcher',
             'Omeka\Controller\Admin\Vocabulary',
             ['classes', 'properties']
         );
@@ -376,6 +381,11 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\ItemSet',
             ],
             ['sidebar-select', 'search']
+        );
+        $acl->allow(
+            null,
+            'Omeka\Controller\Admin\Asset',
+            'sidebar-select'
         );
         $acl->allow(
             'author',
@@ -492,6 +502,11 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\ItemSet',
             ],
             ['sidebar-select', 'search']
+        );
+        $acl->allow(
+            null,
+            'Omeka\Controller\Admin\Asset',
+            'sidebar-select'
         );
         $acl->allow(
             'reviewer',
@@ -614,6 +629,11 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\ItemSet',
             ],
             ['sidebar-select', 'search']
+        );
+        $acl->allow(
+            null,
+            'Omeka\Controller\Admin\Asset',
+            'sidebar-select'
         );
         $acl->allow(
             'editor',

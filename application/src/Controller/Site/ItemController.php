@@ -7,7 +7,8 @@ use Zend\View\Model\ViewModel;
 class ItemController extends AbstractActionController
 {
     public function searchAction()
-    {}
+    {
+    }
 
     public function browseAction()
     {

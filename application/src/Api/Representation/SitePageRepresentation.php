@@ -70,7 +70,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     {
         $blocks = [];
         foreach ($this->resource->getBlocks() as $block) {
-            $blocks[]= new SitePageBlockRepresentation(
+            $blocks[] = new SitePageBlockRepresentation(
                 $block, $this->getServiceLocator());
         }
         return $blocks;

@@ -25,7 +25,7 @@ class ItemSetController extends AbstractActionController
             $form->setData($data);
             if ($form->isValid()) {
                 $response = $this->api($form)->create('item_sets', $data);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $message = new Message(
                         'Item set successfully created. %s', // @translate
                         sprintf(
@@ -62,7 +62,7 @@ class ItemSetController extends AbstractActionController
             $form->setData($data);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('item_sets', $this->params('id'), $data);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Item set successfully updated'); // @translate
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
@@ -151,7 +151,7 @@ class ItemSetController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('item_sets', $this->params('id'));
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Item set successfully deleted'); // @translate
                 }
             } else {

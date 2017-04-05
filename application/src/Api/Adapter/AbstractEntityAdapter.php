@@ -4,7 +4,6 @@ namespace Omeka\Api\Adapter;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Omeka\Api\Exception;
-use Omeka\Api\Representation\ResourceReference;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Entity\User;
@@ -63,7 +62,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      * @param ErrorStore $errorStore
      */
     public function validateRequest(Request $request, ErrorStore $errorStore)
-    {}
+    {
+    }
 
     /**
      * Validate an entity.
@@ -77,7 +77,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      * @param ErrorStore $errorStore
      */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
-    {}
+    {
+    }
 
     /**
      * Build a conditional search query from an API request.
@@ -91,7 +92,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      * @param array $query
      */
     public function buildQuery(QueryBuilder $qb, array $query)
-    {}
+    {
+    }
 
     /**
      * Set sort_by and sort_order conditions to the query builder.
@@ -197,6 +199,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
 
         // Begin building the search query.
         $entityClass = $this->getEntityClass();
+        $this->index = 0;
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select($entityClass)
@@ -218,7 +221,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $qb->addOrderBy("$entityClass.id", $query['sort_order']);
 
         $paginator = new Paginator($qb, false);
-        $representations = [];
+        $entities = [];
         // Don't make the request if the LIMIT is set to zero. Useful if the
         // only information needed is total results.
         if ($qb->getMaxResults() || null === $qb->getMaxResults()) {
@@ -228,11 +231,11 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     // "AS HIDDEN {alias}" to avoid this condition.
                     $entity = $entity[0];
                 }
-                $representations[] = $this->getRepresentation($entity);
+                $entities[] = $entity;
             }
         }
 
-        $response = new Response($representations);
+        $response = new Response($entities);
         $response->setTotalResults($paginator->count());
         return $response;
     }
@@ -246,12 +249,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $entity = new $entityClass;
         $this->hydrateEntity($request, $entity, new ErrorStore);
         $this->getEntityManager()->persist($entity);
-        $this->getEntityManager()->flush();
-        // Refresh the entity on the chance that it contains associations that
-        // have not been loaded.
-        $this->getEntityManager()->refresh($entity);
-        $representation = $this->getRepresentation($entity);
-        return new Response($representation);
+        if ($request->getOption('flushEntityManager', true)) {
+            $this->getEntityManager()->flush();
+            // Refresh the entity on the chance that it contains associations
+            // that have not been loaded.
+            $this->getEntityManager()->refresh($entity);
+        }
+        return new Response($entity);
     }
 
     /**
@@ -263,8 +267,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      *
      * There are two outcomes if an exception is thrown during a batch. If
      * continueOnError is set to the request, the current entity is thrown away
-     * but the operation continues. Otherwise, all previously created entities
-     * are removed.
+     * but the operation continues. Otherwise, all previously persisted entities
+     * are detached from the entity manager.
      *
      * Detaches entities after they've been created to minimize memory usage.
      * Because the entities are detached, this returns resource references
@@ -274,38 +278,48 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      */
     public function batchCreate(Request $request)
     {
+        $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
-        $entities = [];
-        foreach ($request->getContent() as $key => $datum) {
-            $errorStore = new ErrorStore;
-            $entityClass = $this->getEntityClass();
-            $entity = new $entityClass;
-            $subRequest = new Request(Request::CREATE, $request->getResource());
-            $subRequest->setContent($datum);
+
+        $subresponses = [];
+        $subrequestOptions = [
+            'flushEntityManager' => false, // Flush once, after persisting all entities
+            'responseContent' => 'resource', // Return entities to work directly on them
+            'finialize' => false, // Finalize only after flushing entities
+        ];
+        foreach ($request->getContent() as $key => $subrequestData) {
             try {
-                $this->hydrateEntity($subRequest, $entity, $errorStore);
+                $subresponse = $apiManager->create(
+                    $request->getResource(), $subrequestData, [], $subrequestOptions
+                );
             } catch (\Exception $e) {
-                if ($request->continueOnError()) {
+                if ($request->getOption('continueOnError', false)) {
                     $logger->err((string) $e);
                     continue;
                 }
-                // Remove previously persisted entities before re-throwing.
-                foreach ($entities as $entity) {
-                    $this->getEntityManager()->remove($entity);
+                // Detatch previously persisted entities before re-throwing.
+                foreach ($subresponses as $subresponse) {
+                    $this->getEntityManager()->detach($subresponse->getContent());
                 }
-                $this->getEntityManager()->flush();
                 throw $e;
             }
-            $this->getEntityManager()->persist($entity);
-            $entities[$key] = $entity;
+            $subresponses[$key] = $subresponse;
         }
         $this->getEntityManager()->flush();
-        $references = [];
-        foreach ($entities as $key => $entity) {
-            $references[$key] = new ResourceReference($entity, $this);
+
+        $entities = [];
+        // Iterate each subresponse to finalize the execution of each created
+        // entity; to detach each entity to ease subsequent flushes; and to
+        // build response content.
+        foreach ($subresponses as $key => $subresponse) {
+            $apiManager->finalize($this, $subresponse->getRequest(), $subresponse);
+            $entity = $subresponse->getContent();
             $this->getEntityManager()->detach($entity);
+            $entities[$key] = $entity;
         }
-        return new Response($references);
+
+        $request->setOption('responseContent', 'reference');
+        return new Response($entities);
     }
 
     /**
@@ -320,8 +334,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'request' => $request,
         ]);
         $this->getEventManager()->triggerEvent($event);
-        $representation = $this->getRepresentation($entity);
-        return new Response($representation);
+        return new Response($entity);
     }
 
     /**
@@ -331,9 +344,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     {
         $entity = $this->findEntity($request->getId(), $request);
         $this->hydrateEntity($request, $entity, new ErrorStore);
-        $this->getEntityManager()->flush();
-        $representation = $this->getRepresentation($entity);
-        return new Response($representation);
+        if ($request->getOption('flushEntityManager', true)) {
+            $this->getEntityManager()->flush();
+        }
+        return new Response($entity);
     }
 
     /**
@@ -342,9 +356,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     public function delete(Request $request)
     {
         $entity = $this->deleteEntity($request);
-        $this->getEntityManager()->flush();
-        $representation = $this->getRepresentation($entity);
-        return new Response($representation);
+        if ($request->getOption('flushEntityManager', true)) {
+            $this->getEntityManager()->flush();
+        }
+        return new Response($entity);
     }
 
     /**
@@ -475,6 +490,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         }
 
         $entityClass = $this->getEntityClass();
+        $this->index = 0;
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select($entityClass)->from($entityClass, $entityClass);
         foreach ($criteria as $field => $value) {
@@ -553,6 +569,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      */
     public function isUnique(EntityInterface $entity, array $criteria)
     {
+        $this->index = 0;
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('e.id')
             ->from($this->getEntityClass(), 'e');
@@ -585,7 +602,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     public function shouldHydrate(Request $request, $key)
     {
         if ($request->getOperation() === Request::UPDATE
-            && $request->isPartial()
+            && $request->getOption('isPartial', false)
         ) {
             // Conditionally hydrate on partial_update operation.
             return array_key_exists($key, $request->getContent());

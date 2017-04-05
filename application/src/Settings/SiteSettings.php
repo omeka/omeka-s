@@ -22,7 +22,7 @@ class SiteSettings extends AbstractSettings
         $siteId = null;
         if ($site instanceof Site) {
             $siteId = $site->getId();
-        } else if ($site instanceof SiteRepresentation) {
+        } elseif ($site instanceof SiteRepresentation) {
             $siteId = $site->id();
         }
 

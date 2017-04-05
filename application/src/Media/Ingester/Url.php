@@ -89,6 +89,7 @@ class Url implements IngesterInterface
             $fileManager->storeOriginal($file);
             $media->setHasOriginal(true);
         }
+        $file->delete();
     }
 
     /**
@@ -103,7 +104,7 @@ class Url implements IngesterInterface
         ]);
         $urlInput->setAttributes([
             'id' => 'media-url-ingest-url-__index__',
-            'required' => true
+            'required' => true,
         ]);
         return $view->formRow($urlInput);
     }

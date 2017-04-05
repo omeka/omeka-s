@@ -24,7 +24,6 @@ class IpAddressTest extends TestCase
         $this->platform = $this->getMockForAbstractClass(
             'Doctrine\DBAL\Platforms\AbstractPlatform'
         );
-
     }
 
     public function testSqlDeclaration()

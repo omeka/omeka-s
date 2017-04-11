@@ -184,7 +184,7 @@ class Request
      *     this option is set. Default is false (default behavior).
      * - isPartial: (bool) Set whether this is a partial UPDATE request (aka
      *     PATCH). Default is false.
-     * - appendToCollections: (bool) Set whether to append to entity collections
+     * - appendToCollection: (bool) Set whether to append to entity collections
      *     during a partial UPDATE request. Otherwise, collections are replaced.
      *     Default is false.
      * - continueOnError: (bool) Set whether a BATCH_CREATE operation should

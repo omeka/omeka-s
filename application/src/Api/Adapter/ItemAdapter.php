@@ -143,6 +143,10 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     ) {
         parent::hydrate($request, $entity, $errorStore);
 
+        $appendToCollection = Request::UPDATE === $request->getOperation()
+            && $request->getOption('isPartial')
+            && $request->getOption('appendToCollection');
+
         if ($this->shouldHydrate($request, 'o:item_set')) {
             $itemSetsData = $request->getValue('o:item_set', []);
 
@@ -151,30 +155,27 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $itemSetsToRetain = [];
 
             foreach ($itemSetsData as $itemSetData) {
-                if (is_array($itemSetData)
-                    && array_key_exists('o:id', $itemSetData)
-                    && is_numeric($itemSetData['o:id'])
-                ) {
+                if (is_array($itemSetData) && isset($itemSetData['o:id'])) {
                     $itemSetId = $itemSetData['o:id'];
                 } elseif (is_numeric($itemSetData)) {
                     $itemSetId = $itemSetData;
                 } else {
                     continue;
                 }
-
                 if (!$itemSet = $itemSets->get($itemSetId)) {
                     // Item set not already assigned. Assign it.
                     $itemSet = $itemSetAdapter->findEntity($itemSetId);
                     $itemSets->add($itemSet);
                 }
-
                 $itemSetsToRetain[] = $itemSet;
             }
 
             // Unassign item sets that were not included in the passed data.
-            foreach ($itemSets as $itemSet) {
-                if (!in_array($itemSet, $itemSetsToRetain)) {
-                    $itemSets->removeElement($itemSet);
+            if (!$appendToCollection) {
+                foreach ($itemSets as $itemSet) {
+                    if (!in_array($itemSet, $itemSetsToRetain)) {
+                        $itemSets->removeElement($itemSet);
+                    }
                 }
             }
         }
@@ -213,9 +214,11 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 $position++;
             }
             // Remove media not included in request.
-            foreach ($entity->getMedia() as $media) {
-                if (!in_array($media, $retainMedia, true)) {
-                    $entity->getMedia()->removeElement($media);
+            if (!$appendToCollection) {
+                foreach ($entity->getMedia() as $media) {
+                    if (!in_array($media, $retainMedia, true)) {
+                        $entity->getMedia()->removeElement($media);
+                    }
                 }
             }
         }

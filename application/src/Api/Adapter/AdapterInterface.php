@@ -73,7 +73,7 @@ interface AdapterInterface extends EventManagerAwareInterface, ResourceInterface
     public function batchUpdate(Request $request);
 
     /**
-     * Process batch update data.
+     * Preprocess batch update data.
      *
      * Updating in batches can have undesirable consequences. This method gives
      * adapters the chance to filter out or otherwise modify problematic request
@@ -83,7 +83,7 @@ interface AdapterInterface extends EventManagerAwareInterface, ResourceInterface
      * @param Request $request A Request object containing the raw data
      * @return data The allowable data output
      */
-    public function processBatchUpdateData(array $data, Request $request);
+    public function preprocessBatchUpdate(array $data, Request $request);
 
     /**
      * Delete a resource.

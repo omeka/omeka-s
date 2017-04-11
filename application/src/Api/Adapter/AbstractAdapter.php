@@ -113,7 +113,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * {@inheritDoc}
      */
-    public function processBatchUpdateData(array $data, Request $request)
+    public function preprocessBatchUpdate(array $data, Request $request)
     {
         // Pass the data through by default.
         return $data;

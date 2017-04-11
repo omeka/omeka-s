@@ -224,10 +224,10 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function processBatchUpdateData(array $data, Request $request)
+    public function preprocessBatchUpdate(array $data, Request $request)
     {
         $rawData = $request->getContent();
-        $data = parent::processBatchUpdateData($data, $request);
+        $data = parent::preprocessBatchUpdate($data, $request);
 
         if (isset($rawData['o:item_set'])) {
             $data['o:item_set'] = $rawData['o:item_set'];

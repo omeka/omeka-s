@@ -371,7 +371,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      */
     public function batchUpdate(Request $request)
     {
-        $data = $this->processBatchUpdateData([], $request);
+        $data = $this->preprocessBatchUpdate([], $request);
 
         $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
         $logger = $this->getServiceLocator()->get('Omeka\Logger');

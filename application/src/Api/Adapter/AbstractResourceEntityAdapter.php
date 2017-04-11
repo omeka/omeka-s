@@ -326,7 +326,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     /**
      * {@inheritDoc}
      */
-    public function processBatchUpdateData(array $data, Request $request)
+    public function preprocessBatchUpdate(array $data, Request $request)
     {
         $rawData = $request->getContent();
 

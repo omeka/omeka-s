@@ -145,8 +145,8 @@ class ItemAdapter extends AbstractResourceEntityAdapter
 
         $isUpdate = Request::UPDATE === $request->getOperation();
         $isPartial = $isUpdate && $request->getOption('isPartial');
-        $appendToCollection = $isPartial && $request->getOption('appendToCollection');
-        $removeFromCollection = !$appendToCollection && $isPartial && $request->getOption('appendToCollection');
+        $append = $isPartial && 'append' === $request->getOption('collectionAction');
+        $remove = $isPartial && 'remove' === $request->getOption('collectionAction');
 
         if ($this->shouldHydrate($request, 'o:item_set')) {
             $itemSetsData = $request->getValue('o:item_set', []);
@@ -163,7 +163,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                     continue;
                 }
                 $itemSet = $itemSets->get($itemSetId);
-                if ($itemSet && $removeFromCollection) {
+                if ($itemSet && $remove) {
                     $itemSets->removeElement($itemSet);
                     continue;
                 }
@@ -175,7 +175,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 $itemSetsToRetain[] = $itemSet;
             }
 
-            if (!$appendToCollection && !$removeFromCollection) {
+            if (!$append && !$remove) {
                 // Remove item sets that were not included in the passed data.
                 foreach ($itemSets as $itemSet) {
                     if (!in_array($itemSet, $itemSetsToRetain)) {

@@ -143,13 +143,13 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     ) {
         parent::hydrate($request, $entity, $errorStore);
 
-        $appendToCollection = Request::UPDATE === $request->getOperation()
-            && $request->getOption('isPartial')
-            && $request->getOption('appendToCollection');
+        $isUpdate = Request::UPDATE === $request->getOperation();
+        $isPartial = $isUpdate && $request->getOption('isPartial');
+        $appendToCollection = $isPartial && $request->getOption('appendToCollection');
+        $removeFromCollection = !$appendToCollection && $isPartial && $request->getOption('appendToCollection');
 
         if ($this->shouldHydrate($request, 'o:item_set')) {
             $itemSetsData = $request->getValue('o:item_set', []);
-
             $itemSetAdapter = $this->getAdapter('item_sets');
             $itemSets = $entity->getItemSets();
             $itemSetsToRetain = [];
@@ -162,16 +162,21 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 } else {
                     continue;
                 }
-                if (!$itemSet = $itemSets->get($itemSetId)) {
-                    // Item set not already assigned. Assign it.
+                $itemSet = $itemSets->get($itemSetId);
+                if ($itemSet && $removeFromCollection) {
+                    $itemSets->removeElement($itemSet);
+                    continue;
+                }
+                if (!$itemSet) {
+                    // Assign item set that was not already assigned.
                     $itemSet = $itemSetAdapter->findEntity($itemSetId);
                     $itemSets->add($itemSet);
                 }
                 $itemSetsToRetain[] = $itemSet;
             }
 
-            // Unassign item sets that were not included in the passed data.
-            if (!$appendToCollection) {
+            if (!$appendToCollection && !$removeFromCollection) {
+                // Remove item sets that were not included in the passed data.
                 foreach ($itemSets as $itemSet) {
                     if (!in_array($itemSet, $itemSetsToRetain)) {
                         $itemSets->removeElement($itemSet);
@@ -214,11 +219,9 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 $position++;
             }
             // Remove media not included in request.
-            if (!$appendToCollection) {
-                foreach ($entity->getMedia() as $media) {
-                    if (!in_array($media, $retainMedia, true)) {
-                        $entity->getMedia()->removeElement($media);
-                    }
+            foreach ($entity->getMedia() as $media) {
+                if (!in_array($media, $retainMedia, true)) {
+                    $entity->getMedia()->removeElement($media);
                 }
             }
         }

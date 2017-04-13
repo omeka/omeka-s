@@ -184,9 +184,12 @@ class Request
      *     this option is set. Default is false (default behavior).
      * - isPartial: (bool) Set whether this is a partial UPDATE request (aka
      *     PATCH). Default is false.
-     * - appendToCollection: (bool) Set whether to append to entity collections
-     *     during a partial UPDATE request. Otherwise, collections are replaced.
-     *     Default is false.
+     * - appendToCollection: (bool) Set whether to append passed data to
+     *     collections during a partial UPDATE request. Otherwise, the passed
+     *     data replaces the collection. Default is false.
+     * - removeFromCollection: (bool) Set whether to remove passed data from
+     *     collections during a partial UPDATE request. Otherwise, the passed
+     *     data replaces the collection. Default is false.
      * - continueOnError: (bool) Set whether a BATCH_CREATE operation should
      *     continue processing on error. Default is false.
      * - flushEntityManager: (bool) Set whether to flush the entity manager

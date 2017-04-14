@@ -3,12 +3,14 @@ $escape = $this->plugin('escapeHtml');
 ?>
 <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
 
+<?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'create')): ?>
 <h3><?php echo $this->translate('Upload New Asset'); ?></h3>
 <form class="asset-upload" method="post" enctype="multipart/form-data" action="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'add'])); ?>">
     <input type="file" name="file" accept="image/jpeg,image/png,image/gif" required>
     <button type="submit"><?php echo $this->translate('Upload'); ?></button>
     <ul class="errors"></ul>
 </form>
+<?php endif; ?>
 
 <h3><?php echo $this->translate('Select Asset'); ?></h3>
 <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>

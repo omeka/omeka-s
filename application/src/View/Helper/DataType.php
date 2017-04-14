@@ -31,11 +31,12 @@ class DataType extends AbstractHelper
      * @param string $name
      * @param string $value
      */
-    public function getSelect($name, $value)
+    public function getSelect($name, $value, $attributes = [])
     {
         $element = new Select($name);
         $element->setEmptyOption('Default')
-            ->setValueOptions($this->valueOptions);
+            ->setValueOptions($this->valueOptions)
+            ->setAttributes($attributes);
         if (!array_key_exists($value, $this->valueOptions)) {
             $value = null;
         }

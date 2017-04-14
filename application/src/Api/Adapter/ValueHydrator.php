@@ -33,8 +33,8 @@ class ValueHydrator
         $representation = $request->getContent();
         $valueCollection = $entity->getValues();
 
-        // During isPartial UPDATE requests clear all values of all properties
-        // passed via the "clear_property_values" key.
+        // During UPDATE requests clear all values of all properties passed via
+        // the "clear_property_values" key.
         if ($isUpdate && isset($representation['clear_property_values'])
             && is_array($representation['clear_property_values'])
         ) {
@@ -44,6 +44,12 @@ class ValueHydrator
             foreach ($valueCollection->matching($criteria) as $value) {
                 $valueCollection->removeElement($value);
             }
+        }
+
+        if ($remove) {
+            // Value hydration does not support removal because individual
+            // values have no unambiguous identifiers.
+            return;
         }
 
         $newValues = [];
@@ -98,7 +104,7 @@ class ValueHydrator
         }
 
         // Remove any values that weren't reused.
-        if (!$append && !$remove) {
+        if (!$append) {
             foreach ($existingValues as $key => $existingValue) {
                 if ($existingValue !== null) {
                     $valueCollection->remove($key);

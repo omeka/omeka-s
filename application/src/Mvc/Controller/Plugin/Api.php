@@ -157,14 +157,13 @@ class Api extends AbstractPlugin
      * @param string $resource
      * @param array $ids
      * @param array $data
-     * @param array $fileData
      * @param array $options
      * @return Response|false Returns false on validation error
      */
-    public function batchUpdate($resource, array $ids, $data = [], $fileData = [], array $options = [])
+    public function batchUpdate($resource, array $ids, $data = [], array $options = [])
     {
         try {
-            return $this->api->batchUpdate($resource, $ids, $data, $fileData, $options);
+            return $this->api->batchUpdate($resource, $ids, $data, $options);
         } catch (ValidationException $e) {
             $this->handleValidationException($e);
             return false;

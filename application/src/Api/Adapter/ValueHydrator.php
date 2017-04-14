@@ -28,6 +28,7 @@ class ValueHydrator
         $isUpdate = Request::UPDATE === $request->getOperation();
         $isPartial = $isUpdate && $request->getOption('isPartial');
         $append = $isPartial && 'append' === $request->getOption('collectionAction');
+        $remove = $isPartial && 'remove' === $request->getOption('collectionAction');
 
         $representation = $request->getContent();
         $valueCollection = $entity->getValues();
@@ -97,7 +98,7 @@ class ValueHydrator
         }
 
         // Remove any values that weren't reused.
-        if (!$append) {
+        if (!$append && !$remove) {
             foreach ($existingValues as $key => $existingValue) {
                 if ($existingValue !== null) {
                     $valueCollection->remove($key);

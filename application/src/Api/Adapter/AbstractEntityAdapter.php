@@ -379,6 +379,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $subresponses = [];
         $subrequestOptions = [
             'isPartial' => true, // Batch updates are always partial updates
+            'collectionAction' => $request->getOption('collectionAction', 'replace'), // collection action carries over from parent request
             'flushEntityManager' => false, // Flush once, after hydrating all entities
             'responseContent' => 'resource', // Return entities to work directly on them
             'finialize' => false, // Finalize only after flushing entities

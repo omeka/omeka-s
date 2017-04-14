@@ -1,0 +1,28 @@
+<?php echo $this->pageTitle($this->translate('Batch Edit Items')); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+
+<?php foreach ($resourceIds as $resourceId): ?>
+<input type="hidden" name="resource_ids[]" value="<?php echo $resourceId; ?>">
+<?php endforeach; ?>
+
+<div id="page-actions">
+     <input type="submit" name="batch_update" value="Save">
+</div>
+
+<?php echo $this->formRow($form->get('is_public')); ?>
+<?php echo $this->formRow($form->get('o:resource_template[o:id]')); ?>
+<?php echo $this->formRow($form->get('o:resource_class[o:id]')); ?>
+<?php echo $this->formRow($form->get('add_to_item_set[]')); ?>
+<?php echo $this->formRow($form->get('remove_from_item_set[]')); ?>
+<?php echo $this->formRow($form->get('clear_property_values[]')); ?>
+
+<h4>Add Property Value</h4>
+<?php
+echo $this->formRow($form->get('value[1][property_id]'));
+echo $this->formRow($form->get('value[1][@value]'));
+echo $this->formRow($form->get('value[1][type]'));
+?>
+
+<?php echo $this->formRow($form->get('csrf')); ?>
+<?php echo $this->form()->closeTag();; ?>

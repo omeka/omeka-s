@@ -3,6 +3,7 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
+use Omeka\Form\ResourceBatchUpdateForm;
 use Omeka\Media\Ingester\Manager;
 use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -187,6 +188,65 @@ class ItemController extends AbstractActionController
         $view->setVariable('form', $form);
         $view->setVariable('item', $item);
         $view->setVariable('mediaForms', $this->getMediaForms());
+        return $view;
+    }
+
+    public function batchEditAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+        }
+
+        $resourceIds = $this->params()->fromPost('resource_ids');
+        if (!$resourceIds) {
+            $this->messenger()->addError('You must select at least one item to batch edit.'); // @translate
+            return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+        }
+
+        $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'item']);
+        if ($this->params()->fromPost('batch_update')) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+            if ($form->isValid()) {
+
+                // Always remove from collections first, so temporarily unset
+                // append data for a subsequent "append" request.
+                $values = $data['value'];
+                unset($data['value']);
+
+                // Assign o:is_public only if "1" or "0".
+                if (in_array($data['is_public'], ['0', '1'])) {
+                    $data['o:is_public'] = $data['is_public'];
+                }
+
+                // Assign o:item_set with the item sets to remove.
+                $data['o:item_set'] = $data['remove_from_item_set'];
+
+                // Batch update while removing from collections.
+                $response = $this->api($form)->batchUpdate('items', $resourceIds,
+                    $data, ['collectionAction' => 'remove']);
+                if ($response) {
+                    // Batch update while appending to collections.
+                    $data = [
+                        'values' => $values,
+                        'o:item_set' => $data['add_to_item_set'],
+                    ];
+                    $response = $this->api($form)->batchUpdate('items', $resourceIds,
+                        $data, ['collectionAction' => 'append']);
+                    if ($response) {
+                        $this->messenger()->addSuccess('Items successfully edited'); // @translate
+                        return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+                    }
+                }
+
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        $view->setVariable('resourceIds', $resourceIds);
         return $view;
     }
 

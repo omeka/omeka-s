@@ -23,12 +23,6 @@ $sortHeadings = [
 
 <?php echo $this->pageTitle($this->translate('Items')); ?>
 
-<div id="page-actions">
-    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
-    <?php endif; ?>
-</div>
-
 <?php echo $this->searchFilters(); ?>
 
 <div class="browse-controls">
@@ -36,11 +30,24 @@ $sortHeadings = [
 <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
 <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
+
+<form method="post" action="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
+
+<div id="page-actions">
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'batch_update')): ?>
+    <button>Edit selected</button>
+    <?php endif; ?>
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
+    <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
+    <?php endif; ?>
+</div>
+
 <?php $this->trigger('view.browse.before'); ?>
 <?php if ($items): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
+            <th></th>
             <th><?php echo $this->translate('Title'); ?></th>
             <th><?php echo $this->translate('Class'); ?></th>
             <th><?php echo $this->translate('Owner'); ?></th>
@@ -64,6 +71,7 @@ $sortHeadings = [
         }
         ?>
         <tr>
+            <td><input type="checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>"></td>
             <td>
                 <ul class="actions">
                     <?php if ($item->userIsAllowed('update')): ?>
@@ -103,6 +111,9 @@ $sortHeadings = [
         <?php endforeach; ?>
     </tbody>
 </table>
+
+</form>
+
 <?php $this->trigger('view.browse.after'); ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>

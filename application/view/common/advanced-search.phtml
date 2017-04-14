@@ -8,20 +8,6 @@ if (isset($query['resource_class_id'])) {
     $resourceClassId = null;
 }
 
-// Prepare the value queries.
-$values = [[]];
-if (isset($query['value'])) {
-    $values = [];
-    $types = ['eq', 'neq', 'in', 'nin'];
-    foreach ($types as $type) {
-        if (isset($query['value'][$type])) {
-            foreach ($query['value'][$type] as $text) {
-                $values[] = ['type' => $type, 'text' => $text];
-            }
-        }
-    }
-}
-
 // Prepare the property queries.
 $properties = [[]];
 if (isset($query['property'])) {

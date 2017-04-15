@@ -207,32 +207,39 @@ class ItemController extends AbstractActionController
         if ($this->params()->fromPost('batch_update')) {
             $data = $this->params()->fromPost();
             $form->setData($data);
+
             if ($form->isValid()) {
-
-                // Always remove from collections first, so temporarily unset
-                // append data for a subsequent "append" request.
-                $values = $data['value'];
-                unset($data['value']);
-
-                // Assign o:is_public only if "1" or "0".
-                if (in_array($data['is_public'], ['0', '1'])) {
-                    $data['o:is_public'] = $data['is_public'];
-                }
-
-                // Assign o:item_set with the item sets to remove.
-                $data['o:item_set'] = $data['remove_from_item_set'];
-
                 // Batch update while removing from collections.
+                $batchData = [];
+                if (in_array($data['is_public'], ['0', '1'])) {
+                    $batchData['o:is_public'] = $data['is_public'];
+                }
+                if ($data['resource_template_unset']) {
+                    $batchData['o:resource_template'] = ['o:id' => null];
+                } elseif (is_numeric($data['resource_template'])) {
+                    $batchData['o:resource_template'] = ['o:id' => $data['resource_template']];
+                }
+                if ($data['resource_class_unset']) {
+                    $batchData['o:resource_class'] = ['o:id' => null];
+                } elseif (is_numeric($data['resource_class'])) {
+                    $batchData['o:resource_class'] = ['o:id' => $data['resource_class']];
+                }
+                if (is_numeric($data['remove_from_item_set'][0])) {
+                    $batchData['o:item_set'] = $data['remove_from_item_set'];
+                }
                 $response = $this->api($form)->batchUpdate('items', $resourceIds,
-                    $data, ['collectionAction' => 'remove']);
+                    $batchData, ['collectionAction' => 'remove']);
+
                 if ($response) {
                     // Batch update while appending to collections.
-                    $data = [
-                        'values' => $values,
-                        'o:item_set' => $data['add_to_item_set'],
-                    ];
+                    $batchData = [];
+                    $batchData['values'] = $data['value'];
+                    if (is_numeric($data['add_to_item_set'][0])) {
+                        $batchData['o:item_set'] = $data['add_to_item_set'];
+                    }
                     $response = $this->api($form)->batchUpdate('items', $resourceIds,
-                        $data, ['collectionAction' => 'append']);
+                        $batchData, ['collectionAction' => 'append']);
+
                     if ($response) {
                         $this->messenger()->addSuccess('Items successfully edited'); // @translate
                         return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);

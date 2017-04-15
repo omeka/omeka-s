@@ -11,8 +11,10 @@
 </div>
 
 <?php echo $this->formRow($form->get('is_public')); ?>
-<?php echo $this->formRow($form->get('o:resource_template[o:id]')); ?>
-<?php echo $this->formRow($form->get('o:resource_class[o:id]')); ?>
+<?php echo $this->formRow($form->get('resource_template')); ?>
+<?php echo $this->formRow($form->get('resource_template_unset')); ?>
+<?php echo $this->formRow($form->get('resource_class')); ?>
+<?php echo $this->formRow($form->get('resource_class_unset')); ?>
 <?php echo $this->formRow($form->get('add_to_item_set[]')); ?>
 <?php echo $this->formRow($form->get('remove_from_item_set[]')); ?>
 <?php echo $this->formRow($form->get('clear_property_values[]')); ?>

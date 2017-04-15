@@ -35,11 +35,11 @@ class ResourceBatchUpdateForm extends Form
 
         // Resource template
         $this->add([
-            'name' => 'o:resource_template[o:id]',
+            'name' => 'resource_template',
             'type' => ResourceSelect::class,
             'options' => [
                 'label' => 'Set template',
-                'empty_option' => 'Select template',
+                'empty_option' => 'No change',
                 'resource_value_options' => [
                     'resource' => 'resource_templates',
                     'option_text_callback' => function ($resourceTemplate) {
@@ -48,14 +48,28 @@ class ResourceBatchUpdateForm extends Form
                 ],
             ],
         ]);
+        $this->add([
+            'name' => 'resource_template_unset',
+            'type' => Element\Checkbox::class,
+            'options' => [
+                'label' => 'Unset template?',
+            ],
+        ]);
 
         // Resource class
         $this->add([
-            'name' => 'o:resource_class[o:id]',
+            'name' => 'resource_class',
             'type' => ResourceClassSelect::class,
             'options' => [
                 'label' => 'Set class',
-                'empty_option' => 'Select class',
+                'empty_option' => 'No change',
+            ],
+        ]);
+        $this->add([
+            'name' => 'resource_class_unset',
+            'type' => Element\Checkbox::class,
+            'options' => [
+                'label' => 'Unset class?',
             ],
         ]);
 
@@ -142,11 +156,19 @@ class ResourceBatchUpdateForm extends Form
             'required' => false,
         ]);
         $inputFilter->add([
-            'name' => 'o:resource_template[o:id]',
+            'name' => 'resource_template',
             'required' => false,
         ]);
         $inputFilter->add([
-            'name' => 'o:resource_class[o:id]',
+            'name' => 'resource_template_unset',
+            'required' => false,
+        ]);
+        $inputFilter->add([
+            'name' => 'resource_class',
+            'required' => false,
+        ]);
+        $inputFilter->add([
+            'name' => 'resource_class_unset',
             'required' => false,
         ]);
         $inputFilter->add([

@@ -13,8 +13,10 @@ $escape = $this->plugin('escapeHtml');
 <?php if ($pages): ?>
 <table id="page-list" class="tablesaw" data-tablesaw-mode="stack">
     <thead>
-        <th><?php echo $this->translate('Title'); ?></th>
-        <th><?php echo $this->translate('Slug'); ?></th>
+        <tr>
+            <th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('Slug'); ?></th>
+        </tr>
     </thead>
     <tbody>
     <?php foreach ($pages as $page): ?>

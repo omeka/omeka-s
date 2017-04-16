@@ -73,7 +73,7 @@ $sectionNavs = [
     </div>
     <?php $this->trigger("view.$action.form.after", ['form' => $form]); ?>
     <?php echo $formElement($form->get('csrf')); ?>
-</form>
+<?php echo $this->form()->closeTag(); ?>
 
 <?php echo $this->partial('common/resource-form-templates.phtml'); ?>
 

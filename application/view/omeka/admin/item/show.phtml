@@ -90,5 +90,6 @@ $sectionNavs = [
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
+    <?php $this->trigger('view.details'); ?>
 </div>
 <?php $this->trigger('view.show.after'); ?>

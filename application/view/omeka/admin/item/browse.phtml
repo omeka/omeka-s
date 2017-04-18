@@ -72,7 +72,9 @@ $sortHeadings = [
         }
         ?>
         <tr>
-            <td><input type="checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>"></td>
+            <td><?php if ($item->userIsAllowed('update') || $item->userIsAllowed('delete')): ?>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
+            <?php endif; ?></td>
             <td>
                 <ul class="actions">
                     <?php if ($item->userIsAllowed('update')): ?>

@@ -62,8 +62,12 @@ trait SiteSlugTrait
      */
     protected function slugify($input)
     {
-        $transliterator = \Transliterator::createFromRules(':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;');
-        $slug = $transliterator->transliterate($input);
+        if (extension_loaded('intl')) {
+            $transliterator = \Transliterator::createFromRules(':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;');
+            $slug = $transliterator->transliterate($input);
+        } else {
+            $slug = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $input);
+        }
         $slug = mb_strtolower($slug, 'UTF-8');
         $slug = preg_replace('/[^a-z0-9-]+/u', '-', $slug);
         $slug = preg_replace('/-{2,}/', '-', $slug);

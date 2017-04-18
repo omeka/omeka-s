@@ -45,8 +45,22 @@
 }
 
 #advanced-search .value select:first-child,
-#advanced-search .value input:first-child {
+#advanced-search .value input:first-child,
+#advanced-search #property-queries .value:first-child select:nth-child(2) {
     margin-left: 0;
+}
+
+#advanced-search #property-queries .value:first-child .joiner {
+    display: none;
+}
+
+#advanced-search #property-queries .joiner {
+    width: initial;
+    min-width: initial;
+}
+
+#advanced-search #property-queries .query-text:disabled {
+    display: none;
 }
 
 #advanced-search .add-value {

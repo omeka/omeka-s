@@ -31,11 +31,12 @@ $sortHeadings = [
 <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
 
-<form method="post" action="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
+<form method="post">
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'batch_update')): ?>
-    <button>Edit selected</button>
+    <input type="submit" name="update_selected" value="Edit selected" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
+    <input type="submit" name="update_all" value="Edit all" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
     <?php endif; ?>
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>

@@ -4,6 +4,7 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
 use Omeka\Form\ResourceBatchUpdateForm;
+use Omeka\Job\Dispatcher;
 use Omeka\Media\Ingester\Manager;
 use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -18,11 +19,18 @@ class ItemController extends AbstractActionController
     protected $mediaIngesters;
 
     /**
-     * @param Manager $mediaIngesters
+     * @var Dispatcher
      */
-    public function __construct(Manager $mediaIngesters)
+    protected $dispatcher;
+
+    /**
+     * @param Manager $mediaIngesters
+     * @param Dispatcher $dispatcher
+     */
+    public function __construct(Manager $mediaIngesters, Dispatcher $dispatcher)
     {
         $this->mediaIngesters = $mediaIngesters;
+        $this->dispatcher = $dispatcher;
     }
 
     public function searchAction()
@@ -191,13 +199,16 @@ class ItemController extends AbstractActionController
         return $view;
     }
 
+    /**
+     * Batch update selected items.
+     */
     public function batchEditAction()
     {
         if (!$this->getRequest()->isPost()) {
             return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
         }
 
-        $resourceIds = $this->params()->fromPost('resource_ids');
+        $resourceIds = $this->params()->fromPost('resource_ids', []);
         if (!$resourceIds) {
             $this->messenger()->addError('You must select at least one item to batch edit.'); // @translate
             return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
@@ -209,52 +220,111 @@ class ItemController extends AbstractActionController
             $form->setData($data);
 
             if ($form->isValid()) {
-                // Batch update while removing from collections.
-                $batchData = [];
-                if (in_array($data['is_public'], ['0', '1'])) {
-                    $batchData['o:is_public'] = $data['is_public'];
-                }
-                if ($data['resource_template_unset']) {
-                    $batchData['o:resource_template'] = ['o:id' => null];
-                } elseif (is_numeric($data['resource_template'])) {
-                    $batchData['o:resource_template'] = ['o:id' => $data['resource_template']];
-                }
-                if ($data['resource_class_unset']) {
-                    $batchData['o:resource_class'] = ['o:id' => null];
-                } elseif (is_numeric($data['resource_class'])) {
-                    $batchData['o:resource_class'] = ['o:id' => $data['resource_class']];
-                }
-                if (is_numeric($data['remove_from_item_set'][0])) {
-                    $batchData['o:item_set'] = $data['remove_from_item_set'];
-                }
-                $response = $this->api($form)->batchUpdate('items', $resourceIds,
-                    $batchData, ['collectionAction' => 'remove']);
+                list($dataRemove, $dataAppend) = $this->preprocessBatchUpdateData($data);
 
-                if ($response) {
-                    // Batch update while appending to collections.
-                    $batchData = [];
-                    $batchData['values'] = $data['value'];
-                    if (is_numeric($data['add_to_item_set'][0])) {
-                        $batchData['o:item_set'] = $data['add_to_item_set'];
-                    }
-                    $response = $this->api($form)->batchUpdate('items', $resourceIds,
-                        $batchData, ['collectionAction' => 'append']);
+                $responseRemove = $this->api($form)->batchUpdate('items', $resourceIds,
+                    $dataRemove, ['collectionAction' => 'remove']);
+                $responseAppend = $this->api($form)->batchUpdate('items', $resourceIds,
+                    $dataAppend, ['collectionAction' => 'append']);
 
-                    if ($response) {
-                        $this->messenger()->addSuccess('Items successfully edited'); // @translate
-                        return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
-                    }
+                if ($responseRemove && $responseAppend) {
+                    $this->messenger()->addSuccess('Items successfully edited'); // @translate
+                    return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
                 }
-
             } else {
                 $this->messenger()->addFormErrors($form);
             }
         }
 
         $view = new ViewModel;
+        $view->setTemplate('omeka/admin/item/batch-edit.phtml');
         $view->setVariable('form', $form);
         $view->setVariable('resourceIds', $resourceIds);
         return $view;
+    }
+
+    /**
+     * Batch update all items returned from a query.
+     */
+    public function batchEditAllAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+        }
+
+        $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'item']);
+        if ($this->params()->fromPost('batch_update')) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+
+            if ($form->isValid()) {
+                list($dataRemove, $dataAppend) = $this->preprocessBatchUpdateData($data);
+
+                $job = $this->dispatcher->dispatch('Omeka\Job\BatchUpdate', [
+                    'resource' => 'items',
+                    'query' => $this->params()->fromQuery(),
+                    'data_remove' => $dataRemove,
+                    'data_append' => $dataAppend,
+                ]);
+
+                $this->messenger()->addSuccess('Editing items. This may take a while.'); // @translate
+                return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setTemplate('omeka/admin/item/batch-edit.phtml');
+        $view->setVariable('form', $form);
+        $view->setVariable('resourceIds', []);
+        return $view;
+
+    }
+
+    /**
+     * Preprocess batch update data.
+     *
+     * Batch update data contains instructions on what to update. It needs to be
+     * preprocessed before it's sent to the API.
+     *
+     * @param array $data
+     * @return array An array containing the collectionAction=remove data as the
+     * first element and the collectionAction=append data as the second.
+     */
+    protected function preprocessBatchUpdateData(array $data)
+    {
+        $dataRemove = [];
+        $dataAppend = [];
+
+        // Set the data to change and data to remove.
+        if (in_array($data['is_public'], ['0', '1'])) {
+            $dataRemove['o:is_public'] = $data['is_public'];
+        }
+        if ($data['resource_template_unset']) {
+            $dataRemove['o:resource_template'] = ['o:id' => null];
+        } elseif (is_numeric($data['resource_template'])) {
+            $dataRemove['o:resource_template'] = ['o:id' => $data['resource_template']];
+        }
+        if ($data['resource_class_unset']) {
+            $dataRemove['o:resource_class'] = ['o:id' => null];
+        } elseif (is_numeric($data['resource_class'])) {
+            $dataRemove['o:resource_class'] = ['o:id' => $data['resource_class']];
+        }
+        if (is_numeric($data['remove_from_item_set'][0])) {
+            $dataRemove['o:item_set'] = $data['remove_from_item_set'];
+        }
+        if (is_numeric($data['clear_property_values'][0])) {
+            $dataRemove['clear_property_values'] = $data['clear_property_values'];
+        }
+
+        // Set the data to append.
+        $dataAppend['values'] = $data['value'];
+        if (is_numeric($data['add_to_item_set'][0])) {
+            $dataAppend['o:item_set'] = $data['add_to_item_set'];
+        }
+
+        return [$dataRemove, $dataAppend];
     }
 
     protected function getMediaForms()

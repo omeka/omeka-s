@@ -1951,8 +1951,7 @@ input[type="text"].value-language,
 
     .inputs .value textarea,
     .inputs .value input[type="text"] {
-        width: calc(100% + #{2 * $spacing-small});
-        margin: 0 (-$spacing-small);
+        width: 100%;
     }
 
     [data-data-type="resource"] .default,

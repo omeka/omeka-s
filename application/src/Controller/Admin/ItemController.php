@@ -222,15 +222,17 @@ class ItemController extends AbstractActionController
             if ($form->isValid()) {
                 list($dataRemove, $dataAppend) = $this->preprocessBatchUpdateData($data);
 
-                $responseRemove = $this->api($form)->batchUpdate('items', $resourceIds,
-                    $dataRemove, ['collectionAction' => 'remove']);
-                $responseAppend = $this->api($form)->batchUpdate('items', $resourceIds,
-                    $dataAppend, ['collectionAction' => 'append']);
+                $this->api($form)->batchUpdate('items', $resourceIds, $dataRemove, [
+                    'continueOnError' => true,
+                    'collectionAction' => 'remove',
+                ]);
+                $this->api($form)->batchUpdate('items', $resourceIds, $dataAppend, [
+                    'continueOnError' => true,
+                    'collectionAction' => 'append',
+                ]);
 
-                if ($responseRemove && $responseAppend) {
-                    $this->messenger()->addSuccess('Items successfully edited'); // @translate
-                    return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
-                }
+                $this->messenger()->addSuccess('Items successfully edited'); // @translate
+                return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
             } else {
                 $this->messenger()->addFormErrors($form);
             }

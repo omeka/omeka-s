@@ -9,7 +9,7 @@ if (isset($query['resource_class_id'])) {
 }
 
 // Prepare the property queries.
-$properties = $query['property'] ?? [];
+$properties = isset($query['property']) ? $query['property'] : [];
 if (!$properties) {
     $properties[] = [];
 }
@@ -23,7 +23,7 @@ $queryOption = function($value, array $search, $key, $text) {
     return sprintf('<option value="%s"%s>%s</option>', $value, $selected, $text);
 };
 $queryText = function(array $search, $index) {
-    $text = $search['text'] ?? null;
+    $text = isset($search['text']) ? $search['text'] : null;
     return sprintf('<input type="text" class="query-text" name="%s" value="%s">',
         $this->escapeHtml("property[$index][text]"),
         $this->escapeHtml($text));

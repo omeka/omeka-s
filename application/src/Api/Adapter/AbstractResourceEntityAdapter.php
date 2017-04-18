@@ -193,8 +193,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             }
             $propertyId = $queryRow['property'];
             $queryType = $queryRow['type'];
-            $joiner = $queryRow['joiner'] ?? null;
-            $value = $queryRow['text'] ?? null;
+            $joiner = isset($queryRow['joiner']) ? $queryRow['joiner'] : null;
+            $value = isset($queryRow['text']) ? $queryRow['text'] : null;
 
             if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
                 continue;

@@ -259,7 +259,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 
             if ($where == '') {
                 $where = $whereClause;
-            } else if ($joiner == 'or') {
+            } elseif ($joiner == 'or') {
                 $where .= " OR $whereClause";
             } else {
                 $where .= " AND $whereClause";

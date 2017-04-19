@@ -134,6 +134,44 @@ class ItemController extends AbstractActionController
         );
     }
 
+    public function batchDeleteConfirmAction()
+    {
+        $form = $this->getForm(ConfirmForm::class);
+        $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], true));
+        $form->setButtonLabel('Confirm Delete'); // @translate
+        $form->setAttribute('id', 'confirm-batch-delete');
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('form', $form);
+        return $view;
+    }
+
+    public function batchDeleteAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $resourceIds = $this->params()->fromPost('resource_ids', []);
+        if (!$resourceIds) {
+            $this->messenger()->addError('You must select at least one item to batch delete.'); // @translate
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $form = $this->getForm(ConfirmForm::class);
+        $form->setData($this->getRequest()->getPost());
+        if ($form->isValid()) {
+            $response = $this->api($form)->batchDelete('items', $resourceIds, [], ['continueOnError' => true]);
+            if ($response) {
+                $this->messenger()->addSuccess('Items successfully deleted'); // @translate
+            }
+        } else {
+            $this->messenger()->addFormErrors($form);
+        }
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+    }
+
     public function addAction()
     {
         $form = $this->getForm(ResourceForm::class);

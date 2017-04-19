@@ -31,12 +31,13 @@ $sortHeadings = [
 <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
 
-<form method="post">
+<form method="post" id="batch-form">
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'batch_update')): ?>
     <input type="submit" name="update_selected" value="Edit selected" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
     <input type="submit" name="update_all" value="Edit all" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+    <a class="button sidebar-content" data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'batch-delete-confirm'], true)); ?>">Delete selected</button>
     <?php endif; ?>
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
@@ -129,6 +130,16 @@ $sortHeadings = [
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content"></div>
 </div>
+
+<script>
+$('.sidebar').on('submit', '#confirm-batch-delete', function(e) {
+    var confirmBatchForm = $(this);
+    var batchForm = $('#batch-form');
+    batchForm.find('input:checked').each(function() {
+        confirmBatchForm.append($(this).attr('type', 'hidden'));
+    });
+});
+</script>
 
 <?php else: ?>
 

@@ -37,7 +37,7 @@ $sortHeadings = [
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'batch_update')): ?>
     <input type="submit" name="update_selected" value="Edit selected" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
     <input type="submit" name="update_all" value="Edit all" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
-    <button class=" delete button sidebar-content" data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'batch-delete-confirm'], true)); ?>">Delete selected</button>
+    <a class="delete button sidebar-content" data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'batch-delete-confirm'], true)); ?>">Delete selected</a>
     <?php endif; ?>
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>

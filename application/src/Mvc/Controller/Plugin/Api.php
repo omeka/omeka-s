@@ -185,6 +185,24 @@ class Api extends AbstractPlugin
     }
 
     /**
+     * Execute a batch delete API request.
+     *
+     * @param string $resource
+     * @param array $ids
+     * @param array $data
+     * @param array $options
+     * @return Response|false Returns false on validation error
+     */
+    public function batchDelete($resource, array $ids, array $data = [], array $options = []) {
+        try {
+            return $this->api->batchDelete($resource, $ids, $data, $options);
+        } catch (ValidationException $e) {
+            $this->handleValidationException($e);
+            return false;
+        }
+    }
+
+    /**
      * Handle an API validation exception.
      *
      * @throws ValidationException

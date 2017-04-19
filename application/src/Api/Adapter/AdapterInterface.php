@@ -94,6 +94,14 @@ interface AdapterInterface extends EventManagerAwareInterface, ResourceInterface
     public function delete(Request $request);
 
     /**
+     * Batch delete a resource.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function batchDelete(Request $request);
+
+    /**
      * Compose a resource representation object.
      *
      * @param ApiResourceInterface $data Data needed to compose the representation.

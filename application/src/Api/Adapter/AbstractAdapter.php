@@ -133,6 +133,19 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function batchDelete(Request $request)
+    {
+        throw new Exception\OperationNotImplementedException(sprintf(
+            $this->getTranslator()->translate(
+                'The %1$s adapter does not implement the batch delete operation.'
+            ),
+            get_called_class()
+        ));
+    }
+
+    /**
      * Get an adapter by resource name.
      *
      * @param string $resourceName

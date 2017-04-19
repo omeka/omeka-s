@@ -10,6 +10,7 @@ class Request
     const CREATE = 'create';
     const BATCH_CREATE = 'batch_create';
     const BATCH_UPDATE = 'batch_update';
+    const BATCH_DELETE = 'batch_delete';
     const READ = 'read';
     const UPDATE = 'update';
     const DELETE = 'delete';
@@ -19,7 +20,7 @@ class Request
      */
     protected $operations = [
         self::SEARCH, self::CREATE, self::BATCH_CREATE, self::BATCH_UPDATE,
-        self::READ, self::UPDATE, self::DELETE,
+        self::READ, self::UPDATE, self::DELETE, self::BATCH_DELETE,
     ];
 
     /**

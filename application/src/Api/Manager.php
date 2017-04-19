@@ -166,6 +166,25 @@ class Manager
     }
 
     /**
+     * Execute a batch delete API request.
+     *
+     * @param string $resource
+     * @param mixed $id
+     * @param array $data
+     * @param array $options
+     * @return Response
+     */
+    public function batchDelete($resource, array $ids, array $data = [],
+        array $options = []
+    ) {
+        $request = new Request(Request::BATCH_DELETE, $resource);
+        $request->setIds($ids)
+            ->setContent($data)
+            ->setOption($options);
+        return $this->execute($request);
+    }
+
+    /**
      * Execute an API request.
      *
      * @param Request $request
@@ -219,6 +238,9 @@ class Manager
                 break;
             case Request::DELETE:
                 $response = $adapter->delete($request);
+                break;
+            case Request::BATCH_DELETE:
+                $response = $adapter->batchDelete($request);
                 break;
             default:
                 throw new Exception\BadRequestException('Invalid API request operation.');

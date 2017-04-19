@@ -1054,8 +1054,15 @@ div[role="main"] {
 }
 
 .browse td:first-child,
-.browse th:first-child {
+.browse th:first-child,
+.batch-edit td:nth-child(2),
+.batch-edit th:nth-child(2) {
     width: 50%;
+}
+
+.batch-edit td:first-child,
+.batch-edit th:first-child {
+    width: auto;
 }
 
 .browse td,

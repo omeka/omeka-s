@@ -368,6 +368,15 @@ var Omeka = {
         $('body').on('blur', 'input,textarea,select', function() {
             $(this).addClass('touched');
         });
+
+        $('.select-all').change(function() {
+            if (this.checked) {
+                $(".batch-edit td input[type=checkbox]").attr("checked", "checked");
+            } else {
+                $(".batch-edit td input[type=checkbox]").removeAttr("checked");
+            }
+        });
+
     });
 
 }(window.jQuery, window, document));

@@ -243,13 +243,13 @@ class ItemController extends AbstractActionController
     public function batchEditAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
 
         $resourceIds = $this->params()->fromPost('resource_ids', []);
         if (!$resourceIds) {
             $this->messenger()->addError('You must select at least one item to batch edit.'); // @translate
-            return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
 
         $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'item']);
@@ -270,7 +270,7 @@ class ItemController extends AbstractActionController
                 ]);
 
                 $this->messenger()->addSuccess('Items successfully edited'); // @translate
-                return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
             } else {
                 $this->messenger()->addFormErrors($form);
             }
@@ -289,7 +289,7 @@ class ItemController extends AbstractActionController
     public function batchEditAllAction()
     {
         if (!$this->getRequest()->isPost()) {
-            return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
 
         $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'item']);
@@ -308,7 +308,7 @@ class ItemController extends AbstractActionController
                 ]);
 
                 $this->messenger()->addSuccess('Editing items. This may take a while.'); // @translate
-                return $this->redirect()->toRoute('admin/default', ['action' => 'browse'], true);
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
             } else {
                 $this->messenger()->addFormErrors($form);
             }

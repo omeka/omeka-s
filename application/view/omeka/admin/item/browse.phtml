@@ -136,7 +136,7 @@ $('.sidebar').on('submit', '#confirm-batch-delete', function(e) {
     var confirmBatchForm = $(this);
     var batchForm = $('#batch-form');
     batchForm.find('input:checked').each(function() {
-        confirmBatchForm.append($(this).attr('type', 'hidden'));
+        confirmBatchForm.append($(this).clone().attr('type', 'hidden'));
     });
 });
 </script>

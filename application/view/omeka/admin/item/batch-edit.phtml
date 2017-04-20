@@ -5,6 +5,7 @@
 <?php foreach ($resourceIds as $resourceId): ?>
 <input type="hidden" name="resource_ids[]" value="<?php echo $resourceId; ?>">
 <?php endforeach; ?>
+<input type="hidden" name="query" value="<?php echo $this->escapeHtml(json_encode($query)); ?>">
 
 <div id="page-actions">
      <input type="submit" name="batch_update" value="Save">

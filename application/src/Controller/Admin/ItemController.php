@@ -277,9 +277,9 @@ class ItemController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        $view->setTemplate('omeka/admin/item/batch-edit.phtml');
         $view->setVariable('form', $form);
         $view->setVariable('resourceIds', $resourceIds);
+        $view->setVariable('query', []);
         return $view;
     }
 
@@ -292,6 +292,11 @@ class ItemController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
 
+        // Derive the query, removing limiting and sorting params.
+        $query = json_decode($this->params()->fromPost('query', []), true);
+        unset($query['submit'], $query['page'], $query['per_page'], $query['limit'],
+            $query['offset'], $query['sort_by'], $query['sort_order']);
+
         $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'item']);
         if ($this->params()->fromPost('batch_update')) {
             $data = $this->params()->fromPost();
@@ -302,7 +307,7 @@ class ItemController extends AbstractActionController
 
                 $job = $this->dispatcher->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'items',
-                    'query' => $this->params()->fromQuery(),
+                    'query' => $query,
                     'data_remove' => $dataRemove,
                     'data_append' => $dataAppend,
                 ]);
@@ -318,6 +323,7 @@ class ItemController extends AbstractActionController
         $view->setTemplate('omeka/admin/item/batch-edit.phtml');
         $view->setVariable('form', $form);
         $view->setVariable('resourceIds', []);
+        $view->setVariable('query', $query);
         return $view;
 
     }

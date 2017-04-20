@@ -392,7 +392,26 @@ class ItemController extends AbstractActionController
         }
 
         // Set the data to append.
-        $dataAppend['values'] = $data['value'];
+        if (isset($data['value'])) {
+            foreach ($data['value'] as $value) {
+                $valueObj = [
+                    'property_id' => $value['property_id'],
+                    'type' => $value['type'],
+                ];
+                switch ($value['type']) {
+                    case 'uri':
+                        $valueObj['@id'] = $value['value'];
+                        break;
+                    case 'resource':
+                        $valueObj['value_resource_id'] = $value['value'];
+                        break;
+                    case 'literal':
+                    default:
+                        $valueObj['@value'] = $value['value'];
+                }
+                $dataAppend[$value['property_id']][] = $valueObj;
+            }
+        }
         if (is_numeric($data['add_to_item_set'][0])) {
             $dataAppend['o:item_set'] = $data['add_to_item_set'];
         }

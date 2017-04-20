@@ -137,9 +137,11 @@ class ItemController extends AbstractActionController
     public function batchDeleteConfirmAction()
     {
         $form = $this->getForm(ConfirmForm::class);
-        $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], true));
+        $routeAction = $this->params()->fromQuery('all') ? 'batch-delete-all' : 'batch-delete';
+        $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => $routeAction], true));
         $form->setButtonLabel('Confirm Delete'); // @translate
-        $form->setAttribute('id', 'confirm-batch-delete');
+        $form->setAttribute('id', 'batch-delete-confirm');
+        $form->setAttribute('class', $routeAction);
 
         $view = new ViewModel;
         $view->setTerminal(true);
@@ -166,6 +168,31 @@ class ItemController extends AbstractActionController
             if ($response) {
                 $this->messenger()->addSuccess('Items successfully deleted'); // @translate
             }
+        } else {
+            $this->messenger()->addFormErrors($form);
+        }
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+    }
+
+    public function batchDeleteAllAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        // Derive the query, removing limiting and sorting params.
+        $query = json_decode($this->params()->fromPost('query', []), true);
+        unset($query['submit'], $query['page'], $query['per_page'], $query['limit'],
+            $query['offset'], $query['sort_by'], $query['sort_order']);
+
+        $form = $this->getForm(ConfirmForm::class);
+        $form->setData($this->getRequest()->getPost());
+        if ($form->isValid()) {
+                $job = $this->dispatcher->dispatch('Omeka\Job\BatchDelete', [
+                    'resource' => 'items',
+                    'query' => $query,
+                ]);
+                $this->messenger()->addSuccess('Deleting items. This may take a while.'); // @translate
         } else {
             $this->messenger()->addFormErrors($form);
         }

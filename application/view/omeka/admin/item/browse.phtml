@@ -31,14 +31,15 @@ $sortHeadings = [
 <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
 
-<form method="post" id="batch-form">
+<form method="post" id="batch-form" class="disable-unsaved-warning">
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'batch_update')): ?>
     <input type="submit" name="update_selected" value="Edit selected" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
     <input type="submit" name="update_all" value="Edit all" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
-    <input type="hidden" name="query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
+    <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
     <a class="delete button sidebar-content" data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'batch-delete-confirm'], true)); ?>">Delete selected</a>
+    <a class="delete button sidebar-content" data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'batch-delete-confirm'], ['query' => ['all' => true]], true)); ?>">Delete all</a>
     <?php endif; ?>
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
     <?php echo $this->hyperlink($this->translate('Add new item'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
@@ -133,12 +134,16 @@ $sortHeadings = [
 </div>
 
 <script>
-$('.sidebar').on('submit', '#confirm-batch-delete', function(e) {
-    var confirmBatchForm = $(this);
-    var batchForm = $('#batch-form');
-    batchForm.find('input:checked').each(function() {
-        confirmBatchForm.append($(this).clone().attr('type', 'hidden'));
-    });
+// Complete the batch delete form after confirmation.
+$('.sidebar').on('submit', '#batch-delete-confirm', function(e) {
+    var confirmForm = $(this);
+    if (confirmForm.hasClass('batch-delete-all')) {
+        confirmForm.append($('.batch-query').clone());
+    } else {
+        $('#batch-form').find('input:checked').each(function() {
+            confirmForm.append($(this).clone().attr('type', 'hidden'));
+        });
+    }
 });
 </script>
 

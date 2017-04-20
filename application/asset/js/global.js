@@ -371,9 +371,16 @@ var Omeka = {
 
         $('.select-all').change(function() {
             if (this.checked) {
-                $(".batch-edit td input[type=checkbox]").attr("checked", "checked");
+                $('.batch-edit td input[type=checkbox]').prop('checked', true);
             } else {
-                $(".batch-edit td input[type=checkbox]").removeAttr("checked");
+                $('.batch-edit td input[type=checkbox]:checked').prop('checked', false);
+            }
+        });
+
+        $('.batch-edit td input[type="checkbox"]').change(function() {
+            if ($('.select-all:checked').length > 0) {
+                $('.select-all').prop('checked', false); 
+                console.log('uncheck please');
             }
         });
 

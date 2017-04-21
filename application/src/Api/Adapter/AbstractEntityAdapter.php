@@ -220,6 +220,22 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $this->limitQuery($qb, $query);
         $qb->addOrderBy("$entityClass.id", $query['sort_order']);
 
+        $scalarField = $request->getOption('returnScalar');
+        if ($scalarField) {
+            $fieldNames = $this->getEntityManager()->getClassMetadata($entityClass)->getFieldNames();
+            if (!in_array($scalarField, $fieldNames)) {
+                throw new Exception\BadRequestException(sprintf(
+                    $this->getTranslator()->translate('The "%s" field is not available in the %s entity class.'),
+                    $scalarField, $entityClass
+                ));
+            }
+            $qb->select(sprintf('%s.%s', $entityClass, $scalarField));
+            $content = array_column($qb->getQuery()->getScalarResult(), $scalarField);
+            $response = new Response($content);
+            $response->setTotalResults(count($content));
+            return $response;
+        }
+
         $paginator = new Paginator($qb, false);
         $entities = [];
         // Don't make the request if the LIMIT is set to zero. Useful if the
@@ -353,6 +369,59 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     /**
      * {@inheritDoc}
      */
+    public function batchUpdate(Request $request)
+    {
+        $data = $this->preprocessBatchUpdate([], $request);
+
+        $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $logger = $this->getServiceLocator()->get('Omeka\Logger');
+
+        $subresponses = [];
+        $subrequestOptions = [
+            'isPartial' => true, // Batch updates are always partial updates
+            'collectionAction' => $request->getOption('collectionAction', 'replace'), // collection action carries over from parent request
+            'flushEntityManager' => false, // Flush once, after hydrating all entities
+            'responseContent' => 'resource', // Return entities to work directly on them
+            'finialize' => false, // Finalize only after flushing entities
+        ];
+        foreach ($request->getIds() as $key => $id) {
+            try {
+                $subresponse = $apiManager->update(
+                    $request->getResource(), $id, $data, [], $subrequestOptions
+                );
+            } catch (\Exception $e) {
+                if ($request->getOption('continueOnError', false)) {
+                    $logger->err((string) $e);
+                    continue;
+                }
+                // Detatch managed entities before re-throwing.
+                foreach ($subresponses as $subresponse) {
+                    $this->getEntityManager()->detach($subresponse->getContent());
+                }
+                throw $e;
+            }
+            $subresponses[$key] = $subresponse;
+        }
+        $this->getEntityManager()->flush();
+
+        $entities = [];
+        // Iterate each subresponse to finalize the execution of each updated
+        // entity; to detach each entity to ease subsequent flushes; and to
+        // build response content.
+        foreach ($subresponses as $key => $subresponse) {
+            $apiManager->finalize($this, $subresponse->getRequest(), $subresponse);
+            $entity = $subresponse->getContent();
+            $this->getEntityManager()->detach($entity);
+            $entities[$key] = $entity;
+        }
+
+        $request->setOption('responseContent', 'reference');
+        return new Response($entities);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function delete(Request $request)
     {
         $entity = $this->deleteEntity($request);
@@ -360,6 +429,55 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             $this->getEntityManager()->flush();
         }
         return new Response($entity);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function batchDelete(Request $request)
+    {
+        $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $logger = $this->getServiceLocator()->get('Omeka\Logger');
+
+        $subresponses = [];
+        $subrequestOptions = [
+            'flushEntityManager' => false, // Flush once, after removing all entities
+            'responseContent' => 'resource', // Return entities to work directly on them
+            'finialize' => false, // Finalize only after flushing entities
+        ];
+        foreach ($request->getIds() as $key => $id) {
+            try {
+                $subresponse = $apiManager->delete(
+                    $request->getResource(), $id, [], $subrequestOptions
+                );
+            } catch (\Exception $e) {
+                if ($request->getOption('continueOnError', false)) {
+                    $logger->err((string) $e);
+                    continue;
+                }
+                // Detatch managed entities before re-throwing.
+                foreach ($subresponses as $subresponse) {
+                    $this->getEntityManager()->detach($subresponse->getContent());
+                }
+                throw $e;
+            }
+            $subresponses[$key] = $subresponse;
+        }
+        $this->getEntityManager()->flush();
+
+        $entities = [];
+        // Iterate each subresponse to finalize the execution of each deleted
+        // entity; to detach each entity to ease subsequent flushes; and to
+        // build response content.
+        foreach ($subresponses as $key => $subresponse) {
+            $apiManager->finalize($this, $subresponse->getRequest(), $subresponse);
+            $entity = $subresponse->getContent();
+            $this->getEntityManager()->detach($entity);
+            $entities[$key] = $entity;
+        }
+
+        $request->setOption('responseContent', 'reference');
+        return new Response($entities);
     }
 
     /**

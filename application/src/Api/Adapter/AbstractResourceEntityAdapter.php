@@ -120,10 +120,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         }
 
         // Hydrate this resource's values.
-        $append = $request->getOperation() === Request::UPDATE
-            && $request->getOption('isPartial', false);
-        $valueHydrator = new ValueHydrator($this);
-        $valueHydrator->hydrate($data, $entity, $append);
+        $valueHydrator = (new ValueHydrator)->hydrate($request, $entity, $this);
 
         // o:owner
         $this->hydrateOwner($request, $entity);
@@ -324,5 +321,40 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         return $this->getEntityManager()
             ->getRepository('Omeka\Entity\Value')
             ->findBy(['valueResource' => $resource]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function preprocessBatchUpdate(array $data, Request $request)
+    {
+        $rawData = $request->getContent();
+
+        if (isset($rawData['o:is_public'])) {
+            $data['o:is_public'] = $rawData['o:is_public'];
+        }
+        if (isset($rawData['o:resource_template'])) {
+            $data['o:resource_template'] = $rawData['o:resource_template'];
+        }
+        if (isset($rawData['o:resource_class'])) {
+            $data['o:resource_class'] = $rawData['o:resource_class'];
+        }
+        if (isset($rawData['clear_property_values'])) {
+            $data['clear_property_values'] = $rawData['clear_property_values'];
+        }
+
+        // Add values that satisfy the bare minimum needed to identify them.
+        foreach ($rawData as $term => $valueObjects) {
+            if (!is_array($valueObjects)) {
+                continue;
+            }
+            foreach ($valueObjects as $valueObject) {
+                if (is_array($valueObject) && isset($valueObject['property_id'])) {
+                    $data[$term][] = $valueObject;
+                }
+            }
+        }
+
+        return $data;
     }
 }

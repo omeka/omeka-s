@@ -1,0 +1,236 @@
+<?php
+echo $this->pageTitle($this->translate('Batch Edit Items'));
+
+$selectProperty = $this->propertySelect([
+    'name' => 'value[__INDEX__][property_id]',
+    'options' => ['empty_option' => 'Select property'],
+]);
+$templateLiteral = <<<TEMPLATE
+<div class="field">
+    <div class="field-meta">
+        <label>Add text value</label>
+    </div>
+    <div class="inputs">
+        $selectProperty
+        <textarea name="value[__INDEX__][value]"></textarea>
+        <input type="hidden" name="value[__INDEX__][type]" value="literal">
+        <button type="button" class="remove-button">Remove</button>
+    </div>
+</div>
+TEMPLATE;
+$templateResource = <<<TEMPLATE
+<div class="field">
+    <div class="field-meta">
+        <label>Add resource value</label>
+    </div>
+    <div class="inputs">
+        $selectProperty
+        <input type="text" name="value[__INDEX__][value_resource_id]" placeholder="Resource ID">
+        <input type="hidden" name="value[__INDEX__][type]" value="resource">
+        <button type="button" class="remove-button">Remove</button>
+    </div>
+</div>
+TEMPLATE;
+$templateUri = <<<TEMPLATE
+<div class="field">
+    <div class="field-meta">
+        <label>Add URI value</label>
+    </div>
+    <div class="inputs">
+        $selectProperty
+        <input type="text" name="value[__INDEX__][id]" placeholder="URI">
+        <input type="text" name="value[__INDEX__][label]" placeholder="Label">
+        <input type="hidden" name="value[__INDEX__][type]" value="uri">
+        <button type="button" class="remove-button">Remove</button>
+    </div>
+</div>
+TEMPLATE;
+
+$selectItemSet = $this->itemSetSelect([
+    'name' => 'add_to_item_set[]',
+    'options' => ['empty_option' => 'Select item set'],
+]);
+$templateAddToItemSet = <<<TEMPLATE
+<div class="field">
+    <div class="field-meta">
+        <label>Add to item set</label>
+    </div>
+    <div class="inputs">
+        $selectItemSet
+        <button type="button" class="remove-button">Remove</button>
+    </div>
+</div>
+TEMPLATE;
+
+$selectItemSet = $this->itemSetSelect([
+    'name' => 'remove_from_item_set[]',
+    'options' => ['empty_option' => 'Select item set'],
+]);
+$templateRemoveFromItemSet = <<<TEMPLATE
+<div class="field">
+    <div class="field-meta">
+        <label>Remove from item set</label>
+    </div>
+    <div class="inputs">
+        $selectItemSet
+        <button type="button" class="remove-button">Remove</button>
+    </div>
+</div>
+TEMPLATE;
+
+$selectProperty = $this->propertySelect([
+    'name' => 'clear_property_values[]',
+    'options' => ['empty_option' => 'Select property'],
+]);
+$templateClearPropertyValues = <<<TEMPLATE
+<div class="field">
+    <div class="field-meta">
+        <label>Clear property values</label>
+    </div>
+    <div class="inputs">
+        $selectProperty
+        <button type="button" class="remove-button">Remove</button>
+    </div>
+</div>
+TEMPLATE;
+?>
+
+<?php echo $this->form()->openTag($form); ?>
+
+<?php foreach ($resourceIds as $resourceId): ?>
+<input type="hidden" name="resource_ids[]" value="<?php echo $resourceId; ?>">
+<?php endforeach; ?>
+<input type="hidden" name="query" value="<?php echo $this->escapeHtml(json_encode($query)); ?>">
+
+<div id="page-actions">
+     <input type="submit" name="batch_update" value="Save">
+</div>
+
+<div class="field">
+    <div class="field-meta">
+        <label>Set visibility</label>
+    </div>
+    <div class="inputs">
+        <select name="is_public">
+            <option value="" selected="selected">No change</option>
+            <option value="1">Public</option>
+            <option value="0">Not public</option>
+        </select>
+    </div>
+</div>
+
+<div class="field">
+    <div class="field-meta">
+        <label>Set template</label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->resourceSelect([
+            'name' => 'resource_template',
+            'options' => [
+                'empty_option' => 'No change',
+                'resource_value_options' => [
+                    'resource' => 'resource_templates',
+                    'option_text_callback' => function ($resourceTemplate) {
+                        return $resourceTemplate->label();
+                    },
+                ],
+            ],
+        ]); ?>
+        <input type="checkbox" name="resource_template_unset" value="1"> Unset?
+    </div>
+</div>
+
+<div class="field">
+    <div class="field-meta">
+        <label>Set class</label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->resourceClassSelect([
+            'name' => 'resource_class',
+            'options' => [
+                'empty_option' => 'No change',
+            ],
+        ]); ?>
+        <input type="checkbox" name="resource_class_unset" value="1"> Unset?
+    </div>
+</div>
+
+<div id="add-to-item-sets" data-template="<?php echo $this->escapeHtml($templateAddToItemSet); ?>">
+    <div class="field-container"></div>
+    <button type="button" class="add-button">Add another item set</button>
+</div>
+
+<div id="remove-from-item-sets" data-template="<?php echo $this->escapeHtml($templateRemoveFromItemSet); ?>">
+    <div class="field-container"></div>
+    <button type="button" class="add-button">Remove another item set</button>
+</div>
+
+<div id="clear_property_values" data-template="<?php echo $this->escapeHtml($templateClearPropertyValues); ?>">
+    <div class="field-container"></div>
+    <button type="button" class="add-button">Clear another property</button>
+</div>
+
+<div id="values"
+    data-template-literal="<?php echo $this->escapeHtml($templateLiteral); ?>"
+    data-template-resource="<?php echo $this->escapeHtml($templateResource); ?>"
+    data-template-uri="<?php echo $this->escapeHtml($templateUri); ?>"
+>
+    <div class="field-container"></div>
+    <button type="button" class="value-add-button" data-type="literal">Add text value</button>
+    <button type="button" class="value-add-button" data-type="resource">Add resource value</button>
+    <button type="button" class="value-add-button" data-type="uri">Add URI value</button>
+</div>
+
+<?php echo $this->formRow($form->get('csrf')); ?>
+<?php echo $this->form()->closeTag();; ?>
+
+<script>
+$(document).ready(function() {
+    // Add a value field.
+    var index = 0;
+    var addValueField = function(type) {
+        var container = $('#values');
+        switch (type) {
+            case 'resource':
+                template = container.data('template-resource');
+                break;
+            case 'uri':
+                template = container.data('template-uri');
+                break;
+            case 'literal':
+            default:
+                template = container.data('template-literal');
+        }
+        container.children('.field-container').append($.parseHTML(template.replace(/__INDEX__/g, index++)));
+        toggleRemoveButtons(container);
+    };
+    // Add a simple field.
+    var addField = function(container) {
+        container.children('.field-container').append($.parseHTML(container.data('template')));
+        toggleRemoveButtons(container);
+    };
+    // Toggle remove buttons.
+    var toggleRemoveButtons = function(container) {
+        var fields = container.find('.field');
+        var removeButtons = fields.find('.remove-button');
+        (1 === fields.length) ? removeButtons.hide() : removeButtons.show();
+    }
+    $('.value-add-button').on('click', function(e) {
+        addValueField($(this).data('type'));
+    });
+    $('.add-button').on('click', function(e) {
+        addField($(this).parent('div'));
+    });
+    $(document).on('click', '.remove-button', function(e) {
+        var thisField = $(this).closest('.field');
+        var fieldContainer = thisField.closest('.field-container');
+        thisField.remove();
+        toggleRemoveButtons(fieldContainer);
+    });
+    // Set the initial state of the form.
+    addValueField('literal');
+    addField($('#add-to-item-sets'));
+    addField($('#remove-from-item-sets'));
+    addField($('#clear_property_values'));
+});
+</script>

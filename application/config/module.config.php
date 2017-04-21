@@ -396,6 +396,7 @@ return [
             'resourceClassSelect' => 'Omeka\Service\ViewHelper\ResourceClassSelectFactory',
             'propertySelect' => 'Omeka\Service\ViewHelper\PropertySelectFactory',
             'itemSetSelect' => 'Omeka\Service\ViewHelper\ItemSetSelectFactory',
+            'resourceSelect' => 'Omeka\Service\ViewHelper\ResourceSelectFactory',
             'jsTranslate' => 'Omeka\Service\ViewHelper\JsTranslateFactory',
         ],
         'delegators' => [

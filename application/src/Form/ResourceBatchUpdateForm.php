@@ -73,26 +73,6 @@ class ResourceBatchUpdateForm extends Form
             ],
         ]);
 
-        // Add items to item set
-        if ('item' === $this->getOption('resource_type')) {
-            $this->add([
-                'name' => 'add_to_item_set[]',
-                'type' => ItemSetSelect::class,
-                'options' => [
-                    'label' => 'Add to item set',
-                    'empty_option' => 'Select item set',
-                ],
-            ]);
-            $this->add([
-                'name' => 'remove_from_item_set[]',
-                'type' => ItemSetSelect::class,
-                'options' => [
-                    'label' => 'Remove from item set',
-                    'empty_option' => 'Select item set',
-                ],
-            ]);
-        }
-
         // Set item set openness
         if ('item_set' === $this->getOption('resource_type')) {
             $this->add([
@@ -111,16 +91,6 @@ class ResourceBatchUpdateForm extends Form
                 ],
             ]);
         }
-
-        // Clear property value
-        $this->add([
-            'name' => 'clear_property_values[]',
-            'type' => PropertySelect::class,
-            'options' => [
-                'label' => 'Clear property values',
-                'empty_option' => 'Select property',
-            ],
-        ]);
 
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
@@ -145,18 +115,6 @@ class ResourceBatchUpdateForm extends Form
         ]);
         $inputFilter->add([
             'name' => 'resource_class_unset',
-            'required' => false,
-        ]);
-        $inputFilter->add([
-            'name' => 'add_to_item_set[]',
-            'required' => false,
-        ]);
-        $inputFilter->add([
-            'name' => 'remove_from_item_set[]',
-            'required' => false,
-        ]);
-        $inputFilter->add([
-            'name' => 'clear_property_values[]',
             'required' => false,
         ]);
 

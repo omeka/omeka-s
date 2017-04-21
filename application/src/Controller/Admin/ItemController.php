@@ -384,10 +384,10 @@ class ItemController extends AbstractActionController
         } elseif (is_numeric($data['resource_class'])) {
             $dataRemove['o:resource_class'] = ['o:id' => $data['resource_class']];
         }
-        if (is_numeric($data['remove_from_item_set'][0])) {
+        if (isset($data['remove_from_item_set'])) {
             $dataRemove['o:item_set'] = $data['remove_from_item_set'];
         }
-        if (is_numeric($data['clear_property_values'][0])) {
+        if (isset($data['clear_property_values'])) {
             $dataRemove['clear_property_values'] = $data['clear_property_values'];
         }
 
@@ -413,7 +413,7 @@ class ItemController extends AbstractActionController
                 $dataAppend[$value['property_id']][] = $valueObj;
             }
         }
-        if (is_numeric($data['add_to_item_set'][0])) {
+        if (isset($data['add_to_item_set'])) {
             $dataAppend['o:item_set'] = $data['add_to_item_set'];
         }
 

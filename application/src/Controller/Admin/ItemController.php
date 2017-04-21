@@ -188,11 +188,11 @@ class ItemController extends AbstractActionController
         $form = $this->getForm(ConfirmForm::class);
         $form->setData($this->getRequest()->getPost());
         if ($form->isValid()) {
-                $job = $this->dispatcher->dispatch('Omeka\Job\BatchDelete', [
-                    'resource' => 'items',
-                    'query' => $query,
-                ]);
-                $this->messenger()->addSuccess('Deleting items. This may take a while.'); // @translate
+            $job = $this->dispatcher->dispatch('Omeka\Job\BatchDelete', [
+                'resource' => 'items',
+                'query' => $query,
+            ]);
+            $this->messenger()->addSuccess('Deleting items. This may take a while.'); // @translate
         } else {
             $this->messenger()->addFormErrors($form);
         }
@@ -352,7 +352,6 @@ class ItemController extends AbstractActionController
         $view->setVariable('resourceIds', []);
         $view->setVariable('query', $query);
         return $view;
-
     }
 
     /**

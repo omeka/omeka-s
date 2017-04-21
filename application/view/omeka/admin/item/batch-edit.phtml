@@ -14,7 +14,7 @@ $templateLiteral = <<<TEMPLATE
         $selectProperty
         <textarea name="value[__INDEX__][value]"></textarea>
         <input type="hidden" name="value[__INDEX__][type]" value="literal">
-        <button type="button" class="remove-button">Remove</button>
+        <button type="button" class="remove-button remove-value">Remove</button>
     </div>
 </div>
 TEMPLATE;
@@ -27,7 +27,7 @@ $templateResource = <<<TEMPLATE
         $selectProperty
         <input type="text" name="value[__INDEX__][value_resource_id]" placeholder="Resource ID">
         <input type="hidden" name="value[__INDEX__][type]" value="resource">
-        <button type="button" class="remove-button">Remove</button>
+        <button type="button" class="remove-button remove-value">Remove</button>
     </div>
 </div>
 TEMPLATE;
@@ -41,7 +41,7 @@ $templateUri = <<<TEMPLATE
         <input type="text" name="value[__INDEX__][id]" placeholder="URI">
         <input type="text" name="value[__INDEX__][label]" placeholder="Label">
         <input type="hidden" name="value[__INDEX__][type]" value="uri">
-        <button type="button" class="remove-button">Remove</button>
+        <button type="button" class="remove-button remove-value">Remove</button>
     </div>
 </div>
 TEMPLATE;
@@ -213,7 +213,8 @@ $(document).ready(function() {
     var toggleRemoveButtons = function(container) {
         var fields = container.find('.field');
         var removeButtons = fields.find('.remove-button');
-        (1 === fields.length) ? removeButtons.hide() : removeButtons.show();
+        (1 === fields.length && !removeButtons.hasClass('remove-value'))
+            ? removeButtons.hide() : removeButtons.show();
     }
     $('.value-add-button').on('click', function(e) {
         addValueField($(this).data('type'));
@@ -228,7 +229,6 @@ $(document).ready(function() {
         toggleRemoveButtons(fieldContainer);
     });
     // Set the initial state of the form.
-    addValueField('literal');
     addField($('#add-to-item-sets'));
     addField($('#remove-from-item-sets'));
     addField($('#clear_property_values'));

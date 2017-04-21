@@ -380,7 +380,6 @@ var Omeka = {
         $('.batch-edit td input[type="checkbox"]').change(function() {
             if ($('.select-all:checked').length > 0) {
                 $('.select-all').prop('checked', false); 
-                console.log('uncheck please');
             }
         });
 

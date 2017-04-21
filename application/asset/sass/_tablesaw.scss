@@ -6,13 +6,15 @@
     position: absolute;
     top: $spacing-small;
     right: $spacing-medium;
+    transform: none;
 
     li {
         margin: 0;
     }
 }
 
-.tablesaw td:first-of-type {
+.tablesaw td:first-of-type,
+.batch-edit.tablesaw td:nth-of-type(2) {
     background-color: $gray-on-white;
     position: relative;
 
@@ -32,6 +34,36 @@
         display: inline-block;
         max-width: calc(100% - #{6 * $spacing-large});
         vertical-align: middle;
+    }
+}
+
+.batch-edit.tablesaw td:first-of-type {
+    width: 1.5 * $spacing-large;
+    float: left;
+    background-color: transparent;
+    position: relative;
+    z-index: 10;
+}
+
+.batch-edit.tablesaw td:nth-of-type(2) {
+    float: left;
+    width: calc(100% - #{1.5 * $spacing-large});
+    clear: none;
+    background-color: transparent;
+    overflow: visible;
+
+    &:after {
+        content: "";
+        background-color: $gray-on-white;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: -2 * $spacing-large;
+    }
+
+   .resource-name {
+        max-width: calc(100% - #{4 * $spacing-large});
     }
 }
 

@@ -106,11 +106,54 @@ TEMPLATE;
      <input type="submit" name="batch_update" value="Save">
 </div>
 
-<?php echo $this->formRow($form->get('is_public')); ?>
-<?php echo $this->formRow($form->get('resource_template')); ?>
-<?php echo $this->formRow($form->get('resource_template_unset')); ?>
-<?php echo $this->formRow($form->get('resource_class')); ?>
-<?php echo $this->formRow($form->get('resource_class_unset')); ?>
+<div class="field">
+    <div class="field-meta">
+        <label>Set visibility</label>
+    </div>
+    <div class="inputs">
+        <select name="is_public">
+            <option value="" selected="selected">No change</option>
+            <option value="1">Public</option>
+            <option value="0">Not public</option>
+        </select>
+    </div>
+</div>
+
+<div class="field">
+    <div class="field-meta">
+        <label>Set template</label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->resourceSelect([
+            'name' => 'resource_template',
+            'options' => [
+                'empty_option' => 'No change',
+                'resource_value_options' => [
+                    'resource' => 'resource_templates',
+                    'option_text_callback' => function ($resourceTemplate) {
+                        return $resourceTemplate->label();
+                    },
+                ],
+            ],
+        ]); ?>
+        <input type="checkbox" name="resource_template_unset" value="1"> Unset?
+    </div>
+</div>
+
+<div class="field">
+    <div class="field-meta">
+        <label>Set class</label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->resourceClassSelect([
+            'name' => 'resource_class',
+            'options' => [
+                'empty_option' => 'No change',
+            ],
+        ]); ?>
+        <input type="checkbox" name="resource_class_unset" value="1"> Unset?
+    </div>
+</div>
 
 <div id="add-to-item-sets" data-template="<?php echo $this->escapeHtml($templateAddToItemSet); ?>">
     <div class="field-container"></div>
@@ -137,12 +180,12 @@ TEMPLATE;
     <button type="button" class="value-add-button" data-type="resource">Add resource value</button>
     <button type="button" class="value-add-button" data-type="uri">Add URI value</button>
 </div>
+
 <?php echo $this->formRow($form->get('csrf')); ?>
 <?php echo $this->form()->closeTag();; ?>
 
 <script>
 $(document).ready(function() {
-
     // Add a value field.
     var index = 0;
     var addValueField = function(type) {
@@ -160,12 +203,10 @@ $(document).ready(function() {
         }
         values.children('.field-container').append($.parseHTML(template.replace(/__INDEX__/g, index++)));
     };
-
     // Add a simple field.
     var addField = function(container) {
         container.children('.field-container').append($.parseHTML(container.data('template')));
     };
-
     $('.value-add-button').on('click', function(e) {
         addValueField($(this).data('type'));
     });
@@ -175,7 +216,6 @@ $(document).ready(function() {
     $(document).on('click', '.remove-button', function(e) {
         $(this).closest('.field').remove();
     });
-
     // Set the initial state of the form.
     addValueField('literal');
     addField($('#add-to-item-sets'));

@@ -122,30 +122,6 @@ class ResourceBatchUpdateForm extends Form
             ],
         ]);
 
-        // Add property value
-        $this->add([
-            'name' => 'value[1][property_id]',
-            'type' => PropertySelect::class,
-            'options' => [
-                'label' => 'Property',
-                'empty_option' => 'Select property',
-            ],
-        ]);
-        $this->add([
-            'name' => 'value[1][@value]',
-            'type' => Element\Text::class,
-            'options' => [
-                'label' => 'Value',
-            ],
-        ]);
-        $this->add([
-            'name' => 'value[1][type]',
-            'type' => Element\Hidden::class,
-            'attributes' => [
-                'value' => 'literal',
-            ],
-        ]);
-
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 
@@ -181,18 +157,6 @@ class ResourceBatchUpdateForm extends Form
         ]);
         $inputFilter->add([
             'name' => 'clear_property_values[]',
-            'required' => false,
-        ]);
-        $inputFilter->add([
-            'name' => 'value[1][property_id]',
-            'required' => false,
-        ]);
-        $inputFilter->add([
-            'name' => 'value[1][@value]',
-            'required' => false,
-        ]);
-        $inputFilter->add([
-            'name' => 'value[1][type]',
             'required' => false,
         ]);
 

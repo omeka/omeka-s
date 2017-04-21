@@ -4,20 +4,42 @@ $propertySelect = $this->propertySelect([
     'name' => 'value[__INDEX__][property_id]',
     'options' => ['empty_option' => 'Select property'],
 ]);
-$valueField = <<<VALUE
+$templateLiteral = <<<VALUE
 <div class="field">
     <div class="field-meta">
-        <label>Add value</label>
+        <label>Add text value</label>
     </div>
     <div class="inputs">
         $propertySelect
-        <select name="value[__INDEX__][type]">
-            <option value="">Select type</option>
-            <option value="literal">Literal</option>
-            <option value="uri">URI</option>
-            <option value="resource">Resource</option>
-        </select>
-        <input type="text" name="value[__INDEX__][value]">
+        <textarea name="value[__INDEX__][value]"></textarea>
+        <input type="hidden" name="value[__INDEX__][type]" value="literal">
+        <button type="button" class="remove-value-button">Remove this value</button>
+    </div>
+</div>
+VALUE;
+$templateResource = <<<VALUE
+<div class="field">
+    <div class="field-meta">
+        <label>Add resource value</label>
+    </div>
+    <div class="inputs">
+        $propertySelect
+        <input type="text" name="value[__INDEX__][value_resource_id]" placeholder="Resource ID">
+        <input type="hidden" name="value[__INDEX__][type]" value="resource">
+        <button type="button" class="remove-value-button">Remove this value</button>
+    </div>
+</div>
+VALUE;
+$templateUri = <<<VALUE
+<div class="field">
+    <div class="field-meta">
+        <label>Add URI value</label>
+    </div>
+    <div class="inputs">
+        $propertySelect
+        <input type="text" name="value[__INDEX__][id]" placeholder="URI">
+        <input type="text" name="value[__INDEX__][label]" placeholder="Label">
+        <input type="hidden" name="value[__INDEX__][type]" value="uri">
         <button type="button" class="remove-value-button">Remove this value</button>
     </div>
 </div>
@@ -44,8 +66,14 @@ VALUE;
 <?php echo $this->formRow($form->get('remove_from_item_set[]')); ?>
 <?php echo $this->formRow($form->get('clear_property_values[]')); ?>
 
-<div id="values" data-template="<?php echo $this->escapeHtml($valueField); ?>"></div>
-<button type="button" id="add-value-button">Add another value</button>
+<div id="values"
+    data-template-literal="<?php echo $this->escapeHtml($templateLiteral); ?>"
+    data-template-resource="<?php echo $this->escapeHtml($templateResource); ?>"
+    data-template-uri="<?php echo $this->escapeHtml($templateUri); ?>"
+></div>
+<button type="button" class="add-value-button" data-type="literal">Add text value</button>
+<button type="button" class="add-value-button" data-type="resource">Add resource value</button>
+<button type="button" class="add-value-button" data-type="uri">Add URI value</button>
 
 <?php echo $this->formRow($form->get('csrf')); ?>
 <?php echo $this->form()->closeTag();; ?>
@@ -53,14 +81,27 @@ VALUE;
 <script>
 $(document).ready(function() {
     var values = $('#values');
-    var valueTemplate = values.data('template');
+    var templateLiteral = values.data('template-literal');
+    var templateResource = values.data('template-resource');
+    var templateUri = values.data('template-uri');
     var index = 0;
-    var addValue = function() {
-        values.append($.parseHTML(valueTemplate.replace(/__INDEX__/g, index++)));
+    var addValue = function(type) {
+        switch (type) {
+            case 'resource':
+                template = templateResource;
+                break;
+            case 'uri':
+                template = templateUri;
+                break;
+            case 'literal':
+            default:
+                template = templateLiteral;
+        }
+        values.append($.parseHTML(template.replace(/__INDEX__/g, index++)));
     }
-    addValue();
-    $('#add-value-button').on('click', function(e) {
-        addValue();
+    addValue('literal');
+    $('.add-value-button').on('click', function(e) {
+        addValue($(this).data('type'));
     });
     $('.remove-value-button').on('click', function(e) {
         $(this).closest('.field').remove();

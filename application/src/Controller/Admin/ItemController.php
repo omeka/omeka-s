@@ -400,10 +400,11 @@ class ItemController extends AbstractActionController
                 ];
                 switch ($value['type']) {
                     case 'uri':
-                        $valueObj['@id'] = $value['value'];
+                        $valueObj['@id'] = $value['id'];
+                        $valueObj['o:label'] = $value['label'];
                         break;
                     case 'resource':
-                        $valueObj['value_resource_id'] = $value['value'];
+                        $valueObj['value_resource_id'] = $value['value_resource_id'];
                         break;
                     case 'literal':
                     default:

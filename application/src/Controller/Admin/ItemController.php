@@ -373,12 +373,12 @@ class ItemController extends AbstractActionController
         if (in_array($data['is_public'], ['0', '1'])) {
             $dataRemove['o:is_public'] = $data['is_public'];
         }
-        if (isset($data['resource_template_unset'])) {
+        if (-1 == $data['resource_template']) {
             $dataRemove['o:resource_template'] = ['o:id' => null];
         } elseif (is_numeric($data['resource_template'])) {
             $dataRemove['o:resource_template'] = ['o:id' => $data['resource_template']];
         }
-        if (isset($data['resource_class_unset'])) {
+        if (-1 == $data['resource_class']) {
             $dataRemove['o:resource_class'] = ['o:id' => null];
         } elseif (is_numeric($data['resource_class'])) {
             $dataRemove['o:resource_class'] = ['o:id' => $data['resource_class']];

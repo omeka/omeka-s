@@ -112,7 +112,7 @@ TEMPLATE;
     </div>
     <div class="inputs">
         <select name="is_public">
-            <option value="" selected="selected">No change</option>
+            <option value="" selected="selected">[No change]</option>
             <option value="1">Public</option>
             <option value="0">Not public</option>
         </select>
@@ -127,7 +127,8 @@ TEMPLATE;
         <?php echo $this->resourceSelect([
             'name' => 'resource_template',
             'options' => [
-                'empty_option' => 'No change',
+                'empty_option' => '[No change]',
+                'prepend_value_options' => ['-1' => '[Unset template]'],
                 'resource_value_options' => [
                     'resource' => 'resource_templates',
                     'option_text_callback' => function ($resourceTemplate) {
@@ -136,7 +137,6 @@ TEMPLATE;
                 ],
             ],
         ]); ?>
-        <input type="checkbox" name="resource_template_unset" value="1"> Unset?
     </div>
 </div>
 
@@ -148,10 +148,10 @@ TEMPLATE;
         <?php echo $this->resourceClassSelect([
             'name' => 'resource_class',
             'options' => [
-                'empty_option' => 'No change',
+                'empty_option' => '[No change]',
+                'prepend_value_options' => ['-1' => '[Unset class]'],
             ],
         ]); ?>
-        <input type="checkbox" name="resource_class_unset" value="1"> Unset?
     </div>
 </div>
 

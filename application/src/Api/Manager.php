@@ -336,7 +336,7 @@ class Manager
                 case 'resource':
                     return $resource;
                 case 'reference':
-                    return new ResourceReference($resource, $adapter);
+                    return $adapter->getRepresentation($resource)->getReference();
                 case 'representation':
                 default:
                     return $adapter->getRepresentation($resource);

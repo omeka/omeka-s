@@ -1228,6 +1228,29 @@ td .o-icon-private {
 .sites .no-resources:before {
     content: $fa-var-laptop;
 }
+
+    /* @group ----- Batch Update ----- */
+
+    .batch-selected {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .batch-selected li {
+        padding: $spacing-medium 0 ($spacing-medium - 1px);
+        border-bottom: 1px solid $border-gray;
+
+        &:first-child {
+            padding-top: 0;
+        }
+
+        &:last-child {
+            border-color: transparent;
+        }
+    }
+
+    /* @end */
+
     /* @group ----- Search ----- */
 
     #advanced-options {

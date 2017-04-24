@@ -97,13 +97,13 @@ TEMPLATE;
 
 <?php echo $this->form()->openTag($form); ?>
 
-<?php foreach ($resourceIds as $resourceId): ?>
-<input type="hidden" name="resource_ids[]" value="<?php echo $resourceId; ?>">
+<?php foreach ($resources as $resource): ?>
+<input type="hidden" name="resource_ids[]" value="<?php echo $resource->id(); ?>">
 <?php endforeach; ?>
 <input type="hidden" name="query" value="<?php echo $this->escapeHtml(json_encode($query)); ?>">
 
 <div id="page-actions">
-     <input type="submit" name="batch_update" value="Save">
+    <input type="submit" name="batch_update" value="Save">
 </div>
 
 <div class="field">
@@ -183,6 +183,19 @@ TEMPLATE;
 
 <?php echo $this->formRow($form->get('csrf')); ?>
 <?php echo $this->form()->closeTag();; ?>
+
+<div class="sidebar always-open">
+    <h3>Affected Items</h3>
+    <?php if ($resources): ?>
+    <ul>
+        <?php foreach ($resources as $resource): ?>
+        <li><?php echo $resource->link($resource->displayTitle(), null, ['target' => '_blank']); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php else: ?>
+    <?php echo $this->hyperlink(sprintf('%s total items', number_format($count)), $this->url(null, ['action' => 'browse'], ['query' => $query], true), ['target' => '_blank']); ?>
+    <?php endif; ?>
+</div>
 
 <script>
 $(document).ready(function() {

@@ -383,6 +383,9 @@ var Omeka = {
             }
         });
 
+        $('.batch-actions > *').click(function() {
+            $(this).parent('.batch-actions').toggleClass('open');
+        });
     });
 
 }(window.jQuery, window, document));

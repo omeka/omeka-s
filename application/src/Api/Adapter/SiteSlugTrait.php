@@ -65,8 +65,10 @@ trait SiteSlugTrait
         if (extension_loaded('intl')) {
             $transliterator = \Transliterator::createFromRules(':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;');
             $slug = $transliterator->transliterate($input);
-        } else {
+        } elseif (extension_loaded('iconv')) {
             $slug = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $input);
+        } else {
+            $slug = $input;
         }
         $slug = mb_strtolower($slug, 'UTF-8');
         $slug = preg_replace('/[^a-z0-9-]+/u', '-', $slug);

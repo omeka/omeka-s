@@ -3,23 +3,6 @@ $(document).ready( function() {
 // Remove all names from query form elements.
 $('.query-type, .query-text, .query-property').attr('name', null);
 
-// Add a value.
-$('#advanced-search').on('click', '.add-value', function(e) {
-    e.preventDefault();
-    var first = $(this).parents('.field').find('.value').first();
-    var clone = first.clone();
-    clone.children('input[type="text"]').val(null);
-    clone.children('select').prop('selectedIndex', 0);
-    clone.insertBefore($(this));
-});
-
-// Remove a value.
-$('#advanced-search').on('click', '.remove-value', function(e) {
-    e.preventDefault();
-    var values = $(this).parents('.inputs').children('.value');
-    $(this).parent('.value').remove();
-});
-
 // Bypass regular form handling for value, property, and has property queries.
 $('#advanced-search').submit(function(event) {
     $('#property-queries').find('.value').each(function(index) {

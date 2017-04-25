@@ -386,6 +386,24 @@ var Omeka = {
         $('.batch-actions > *').click(function() {
             $(this).parent('.batch-actions').toggleClass('open');
         });
+
+
+        // Add a value.
+        $('form').on('click', '.multi-value .add-value', function(e) {
+            e.preventDefault();
+            var first = $(this).parents('.field').find('.value').first();
+            var clone = first.clone();
+            clone.children('input[type="text"]').val(null);
+            clone.children('select').prop('selectedIndex', 0);
+            clone.insertBefore($(this));
+        });
+        
+        // Remove a value.
+        $('form').on('click', '.multi-value .remove-value', function(e) {
+            e.preventDefault();
+            $(this).closest('.value').remove();
+        });
+        
     });
 
 }(window.jQuery, window, document));

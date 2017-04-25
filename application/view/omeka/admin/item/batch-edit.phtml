@@ -1,6 +1,21 @@
 <?php
 echo $this->pageTitle($this->translate('Batch Edit Items'));
 
+$selectItemSet = $this->itemSetSelect([
+    'name' => 'add_to_item_set[]',
+    'options' => ['empty_option' => 'Select item set'],
+]);
+
+$selectItemSet = $this->itemSetSelect([
+    'name' => 'remove_from_item_set[]',
+    'options' => ['empty_option' => 'Select item set'],
+]);
+
+$selectProperty = $this->propertySelect([
+    'name' => 'clear_property_values[]',
+    'options' => ['empty_option' => 'Select property'],
+]);
+
 $selectProperty = $this->propertySelect([
     'name' => 'value[__INDEX__][property_id]',
     'options' => ['empty_option' => 'Select property'],
@@ -14,7 +29,7 @@ $templateLiteral = <<<TEMPLATE
         $selectProperty
         <textarea name="value[__INDEX__][value]"></textarea>
         <input type="hidden" name="value[__INDEX__][type]" value="literal">
-        <button type="button" class="remove-button remove-value">Remove</button>
+        <button type="button" class="remove-value">Remove</button>
     </div>
 </div>
 TEMPLATE;
@@ -27,7 +42,7 @@ $templateResource = <<<TEMPLATE
         $selectProperty
         <input type="text" name="value[__INDEX__][value_resource_id]" placeholder="Resource ID">
         <input type="hidden" name="value[__INDEX__][type]" value="resource">
-        <button type="button" class="remove-button remove-value">Remove</button>
+        <button type="button" class="remove-value">Remove</button>
     </div>
 </div>
 TEMPLATE;
@@ -41,55 +56,7 @@ $templateUri = <<<TEMPLATE
         <input type="text" name="value[__INDEX__][id]" placeholder="URI">
         <input type="text" name="value[__INDEX__][label]" placeholder="Label">
         <input type="hidden" name="value[__INDEX__][type]" value="uri">
-        <button type="button" class="remove-button remove-value">Remove</button>
-    </div>
-</div>
-TEMPLATE;
-
-$selectItemSet = $this->itemSetSelect([
-    'name' => 'add_to_item_set[]',
-    'options' => ['empty_option' => 'Select item set'],
-]);
-$templateAddToItemSet = <<<TEMPLATE
-<div class="field">
-    <div class="field-meta">
-        <label>Add to item set</label>
-    </div>
-    <div class="inputs">
-        $selectItemSet
-        <button type="button" class="remove-button">Remove</button>
-    </div>
-</div>
-TEMPLATE;
-
-$selectItemSet = $this->itemSetSelect([
-    'name' => 'remove_from_item_set[]',
-    'options' => ['empty_option' => 'Select item set'],
-]);
-$templateRemoveFromItemSet = <<<TEMPLATE
-<div class="field">
-    <div class="field-meta">
-        <label>Remove from item set</label>
-    </div>
-    <div class="inputs">
-        $selectItemSet
-        <button type="button" class="remove-button">Remove</button>
-    </div>
-</div>
-TEMPLATE;
-
-$selectProperty = $this->propertySelect([
-    'name' => 'clear_property_values[]',
-    'options' => ['empty_option' => 'Select property'],
-]);
-$templateClearPropertyValues = <<<TEMPLATE
-<div class="field">
-    <div class="field-meta">
-        <label>Clear property values</label>
-    </div>
-    <div class="inputs">
-        $selectProperty
-        <button type="button" class="remove-button">Remove</button>
+        <button type="button" class="remove-value">Remove</button>
     </div>
 </div>
 TEMPLATE;
@@ -155,19 +122,43 @@ TEMPLATE;
     </div>
 </div>
 
-<div id="add-to-item-sets" data-template="<?php echo $this->escapeHtml($templateAddToItemSet); ?>">
-    <div class="field-container"></div>
-    <button type="button" class="add-button">Add another item set</button>
+<div class="field multi-value">
+    <div class="field-meta">
+        <label>Add to item set</label>
+    </div>
+    <div class="inputs">
+        <div class="value">
+          <?php echo $selectItemSet; ?>
+          <button type="button" class="o-icon-delete remove-value">Remove</button>
+        </div>
+        <button type="button" class="add-value button">Add another item set</button>
+    </div>
 </div>
 
-<div id="remove-from-item-sets" data-template="<?php echo $this->escapeHtml($templateRemoveFromItemSet); ?>">
-    <div class="field-container"></div>
-    <button type="button" class="add-button">Remove another item set</button>
+<div class="field multi-value">
+    <div class="field-meta">
+        <label>Remove from item set</label>
+    </div>
+    <div class="inputs">
+        <div class="value">
+        <?php echo $selectItemSet; ?>
+        <button type="button" class="o-icon-delete remove-value">Remove</button>
+        </div>
+        <button type="button" class="add-value button">Remove another item set</button>
+    </div>
 </div>
 
-<div id="clear_property_values" data-template="<?php echo $this->escapeHtml($templateClearPropertyValues); ?>">
-    <div class="field-container"></div>
-    <button type="button" class="add-button">Clear another property</button>
+<div class="field multi-value">
+    <div class="field-meta">
+        <label>Clear property values</label>
+    </div>
+    <div class="inputs">
+        <div class="value">
+            <?php echo $selectProperty; ?>
+            <button type="button" class="o-icon-delete remove-value">Remove</button>
+        </div>
+        <button type="button" class="add-value button">Clear another property</button>
+    </div>
 </div>
 
 <div id="values"
@@ -215,31 +206,16 @@ $(document).ready(function() {
                 template = container.data('template-literal');
         }
         container.children('.field-container').append($.parseHTML(template.replace(/__INDEX__/g, index++)));
-        toggleRemoveButtons(container);
     };
     // Add a simple field.
     var addField = function(container) {
-        container.children('.field-container').append($.parseHTML(container.data('template')));
-        toggleRemoveButtons(container);
+        container.children('.field').append($.parseHTML(container.data('template')));
     };
-    // Toggle remove buttons.
-    var toggleRemoveButtons = function(container) {
-        var fields = container.find('.field');
-        var removeButtons = fields.find('.remove-button');
-        (1 === fields.length && !removeButtons.hasClass('remove-value'))
-            ? removeButtons.hide() : removeButtons.show();
-    }
     $('.value-add-button').on('click', function(e) {
         addValueField($(this).data('type'));
     });
-    $('.add-button').on('click', function(e) {
-        addField($(this).parent('div'));
-    });
-    $(document).on('click', '.remove-button', function(e) {
-        var thisField = $(this).closest('.field');
-        var fieldContainer = thisField.closest('.field-container');
-        thisField.remove();
-        toggleRemoveButtons(fieldContainer);
+    $(document).on('click', '.field-container .remove-value', function(e) {
+        $(this).closest('.field').remove();
     });
     // Set the initial state of the form.
     addField($('#add-to-item-sets'));

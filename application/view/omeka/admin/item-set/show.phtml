@@ -65,7 +65,7 @@ $sectionNavs = [
         <h4><?php echo $this->translate('Items'); ?></h4>
         <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $itemSet->id()]])); ?></div>
     </div>
-    <?php $this->trigger('view.details'); ?>
+    <?php $this->trigger('view.sidebar'); ?>
 </div>
 
 <?php $this->trigger('view.show.after'); ?>

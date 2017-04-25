@@ -55,7 +55,10 @@ class IndexController extends AbstractActionController
         $themes = $this->themes->getThemes();
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
-            $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
+            $itemPool = $formData;
+            unset($itemPool['csrf'], $itemPool['o:is_public'], $itemPool['o:title'], $itemPool['o:slug'],
+                $itemPool['o:theme']);
+            $formData['o:item_pool'] = $itemPool;
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->create('sites', $formData);
@@ -206,13 +209,16 @@ class IndexController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
-            $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
-            if (!isset($formData['o:site_item_set'])) {
-                $formData['o:site_item_set'] = [];
-            }
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
+                $itemPool = $formData;
+                unset($itemPool['form_csrf']);
+                unset($itemPool['site_item_set']);
+
+                $itemSets = isset($formData['o:site_item_set']) ? $formData['o:site_item_set'] : [];
+
+                $updateData = ['o:item_pool' => $itemPool, 'o:site_item_set' => $itemSets];
+                $response = $this->api($form)->update('sites', $site->id(), $updateData, [], ['isPartial' => true]);
                 if ($response) {
                     $this->messenger()->addSuccess('Site resources successfully updated'); // @translate
                     return $this->redirect()->refresh();

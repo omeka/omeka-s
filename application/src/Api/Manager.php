@@ -3,7 +3,6 @@ namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Adapter\Manager as AdapterManager;
-use Omeka\Api\Representation\ResourceReference;
 use Omeka\Permissions\Acl;
 use Zend\Log\LoggerInterface;
 use Zend\I18n\Translator\TranslatorInterface;

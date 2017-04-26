@@ -189,8 +189,15 @@ body {
         margin: 0;
     }
 
-    input:disabled {
+    :disabled {
         background-color: $gray-on-white;
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+        color: lighten($copy-gray, 25);
+        cursor: default;
+
+        &:hover {
+            box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset !important;
+        }
     }
 
     ::placeholder {
@@ -1434,45 +1441,17 @@ fieldset.section > legend {
 
     .batch-actions {
         display: inline-block;
-        border: 1px solid $border-gray;
-        border-radius: 3px;
-        height: 1.5 * $base-line-height;
-        line-height: 1.5 * $base-line-height;
-        overflow: hidden;
+    }
 
-        &.open {
-            height: auto;
-            box-shadow: 0 0 10px $border-gray;
-            overflow: visible;
+    .batch-actions > a.button,
+    .batch-actions > button,
+    .batch-actions > input[type="submit"] {
+        display: none;
+        margin-right: $spacing-medium;
+
+        &.active {
+            display: inline-block;
         }
-    }
-
-    .batch-actions button:first-child {
-        background: #fff url('../img/select-arrow.svg') no-repeat;
-        background-position: right (.25 * $spacing-large) center;
-        background-size: .5 * $base-font-size;
-    }
-
-    .batch-actions input[type="submit"],
-    .batch-actions button,
-    .batch-actions a.button {
-        display: block;
-        margin: 0;
-        border-radius: 0;
-        background-color: #fff;
-        width: 100%;
-        box-shadow: none;
-        text-align: left;
-        border-bottom: 1px solid $border-gray;
-        padding: 0 $spacing-large 0 $spacing-small;
-
-        &:hover {
-            box-shadow: none;
-        }
-    }
-
-    .batch-actions a.button:last-child {
-        border-bottom: 0;
     }
 }
 

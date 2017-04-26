@@ -35,13 +35,20 @@ $sortHeadings = [
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'batch_update')): ?>
+    <select class="batch-actions-select">
+        <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
+        <option value="update-selected" disabled="true"><?php echo $this->translate('Edit selected'); ?></option>
+        <option value="update-all"><?php echo $this->translate('Edit all'); ?></option>
+        <option value="delete-selected" disabled="true"><?php echo $this->translate('Delete selected'); ?></option>
+        <option value="delete-all"><?php echo $this->translate('Delete all'); ?></option>
+    </select>
     <div class="batch-actions">
-        <button type="button">Batch actions</button>
-        <input type="submit" name="update_selected" value="Edit selected" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
-        <input type="submit" name="update_all" value="Edit all" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+        <button type="button" class="default active" disabled="true"><?php echo $this->translate('Go'); ?></button>
+        <input type="submit" class="update-selected" name="update_selected" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
+        <input type="submit" class="update-all" name="update_all" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
         <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
-        <a class="delete button sidebar-content" data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'batch-delete-confirm'], true)); ?>">Delete selected</a>
-        <a class="delete button sidebar-content" data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'batch-delete-confirm'], ['query' => ['all' => true]], true)); ?>">Delete all</a>
+        <a class="delete button sidebar-content delete-selected" data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'batch-delete-confirm'], true)); ?>"><?php echo $this->translate('Go'); ?></a>
+        <a class="delete button sidebar-content delete-all" data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'batch-delete-confirm'], ['query' => ['all' => true]], true)); ?>"><?php echo $this->translate('Go'); ?></a>
         <?php endif; ?>
     </div>
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>

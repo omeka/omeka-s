@@ -175,6 +175,18 @@ var Omeka = {
                 return 'You have unsaved changes.';
             }
         });
+    },
+
+    manageSelectedActions: function() {
+        var selectedOptions = $('[value="update-selected"], [value="delete-selected"]');
+        if ($('.batch-edit td input[type="checkbox"]:checked').length > 0) {
+            selectedOptions.removeAttr('disabled');
+        } else {
+            selectedOptions.attr('disabled', true);
+            $('.batch-actions-select').val('default');
+            $('.batch-actions .active').removeClass('active');
+            $('.batch-actions .default').addClass('active');
+        }
     }
 };
 
@@ -375,21 +387,14 @@ var Omeka = {
             } else {
                 $('.batch-edit td input[type=checkbox]:checked').prop('checked', false);
             }
+            Omeka.manageSelectedActions();
         });
 
         $('.batch-edit td input[type="checkbox"]').change(function() {
-            var selectedOptions = $('[value="update-selected"], [value="delete-selected"]');
-            if ($('.batch-edit td input[type="checkbox"]:checked').length > 0) {
-                selectedOptions.removeAttr('disabled');
-            } else {
-                selectedOptions.attr('disabled', true);
-                $('.batch-actions-select').val('default');
-                $('.batch-actions .active').removeClass('active');
-                $('.batch-actions .default').addClass('active');
-            }
             if ($('.select-all:checked').length > 0) {
                 $('.select-all').prop('checked', false); 
             }
+            Omeka.manageSelectedActions();
         });
 
         $('.batch-actions-select').change(function() {

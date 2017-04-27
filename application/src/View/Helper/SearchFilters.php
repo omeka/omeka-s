@@ -85,7 +85,7 @@ class SearchFilters extends AbstractHelper
                             $filterLabel = $propertyLabel . ' ' . $queryTypes[$queryType];
                             if ($joiner === 'or') {
                                 $filterLabel = $translate('OR') . ' ' . $filterLabel;
-                            } else if ($index > 0) {
+                            } elseif ($index > 0) {
                                 $filterLabel = $translate('AND') . ' ' . $filterLabel;
                             }
 

@@ -61,7 +61,7 @@ $queryText = function(array $search, $index) {
                 'name' => $stem . '[property]',
                 'attributes' => [
                     'class' => 'query-property',
-                    'value' => $property['property'] ?? null,
+                    'value' => isset($property['property']) ? $property['property'] : null,
                 ],
                 'options' => [
                     'empty_option' => '[Any Property]', // @translate

@@ -163,8 +163,10 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                     continue;
                 }
                 $itemSet = $itemSets->get($itemSetId);
-                if ($itemSet && $remove) {
-                    $itemSets->removeElement($itemSet);
+                if ($remove) {
+                    if ($itemSet) {
+                        $itemSets->removeElement($itemSet);
+                    }
                     continue;
                 }
                 if (!$itemSet) {

@@ -19,9 +19,6 @@ class AbstractResourceEntityAdapterTest extends TestCase
         $adapter->expects($this->once())
             ->method('buildPropertyQuery')
             ->with($this->equalTo($queryBuilder), $this->equalTo($query));
-        $adapter->expects($this->once())
-            ->method('buildHasPropertyQuery')
-            ->with($this->equalTo($queryBuilder), $this->equalTo($query));
         $adapter->buildQuery($queryBuilder, $query);
     }
 }

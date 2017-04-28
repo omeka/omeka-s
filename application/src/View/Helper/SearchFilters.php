@@ -27,12 +27,14 @@ class SearchFilters extends AbstractHelper
         $api = $this->getView()->api();
         $query = $this->getView()->params()->fromQuery();
         $queryTypes = [
-            'eq' => $translate('has exact value(s)'),
-            'neq' => $translate('does not have exact value(s)'),
-            'in' => $translate('contains value(s)'),
-            'nin' => $translate('does not contain value(s)'),
+            'eq' => $translate('is exactly'),
+            'neq' => $translate('is not exactly'),
+            'in' => $translate('contains'),
+            'nin' => $translate('does not contain'),
             'res' => $translate('has resource'),
             'nres' => $translate('does not have resource'),
+            'ex' => $translate('has any value'),
+            'nex' => $translate('has no values'),
         ];
 
         foreach ($query as $key => $value) {
@@ -52,44 +54,43 @@ class SearchFilters extends AbstractHelper
 
                     // Search values (by property or all)
                     case 'property':
-                        foreach ($value as $propertyRow => $propertyQuery) {
-                            if ($propertyRow) {
+                        $index = 0;
+                        foreach ($value as $queryRow) {
+                            if (!(is_array($queryRow)
+                                && array_key_exists('property', $queryRow)
+                                && array_key_exists('type', $queryRow)
+                            )) {
+                                continue;
+                            }
+                            $propertyId = $queryRow['property'];
+                            $queryType = $queryRow['type'];
+                            $joiner = isset($queryRow['joiner']) ? $queryRow['joiner'] : null;
+                            $value = isset($queryRow['text']) ? $queryRow['text'] : null;
+
+                            if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
+                                continue;
+                            }
+                            if ($propertyId) {
                                 try {
-                                    $propertyLabel = $api->read('properties', $propertyRow)->getContent()->label();
+                                    $propertyLabel = $api->read('properties', $propertyId)->getContent()->label();
                                 } catch (NotFoundException $e) {
                                     $propertyLabel = $translate('Unknown property');
                                 }
                             } else {
                                 $propertyLabel = $translate('[Any property]');
                             }
-                            foreach ($propertyQuery as $queryTypeKey => $filterValues) {
-                                if (!isset($queryTypes[$queryTypeKey])) {
-                                    break;
-                                }
-                                $filterLabel = $propertyLabel . ' ' . $queryTypes[$queryTypeKey];
-                                foreach ($filterValues as $filterValue) {
-                                    if (is_string($filterValue) && $filterValue !== '') {
-                                        $filters[$filterLabel][] = $filterValue;
-                                    }
-                                }
+                            if (!isset($queryTypes[$queryType])) {
+                                continue;
                             }
-                        }
-                        break;
+                            $filterLabel = $propertyLabel . ' ' . $queryTypes[$queryType];
+                            if ($joiner === 'or') {
+                                $filterLabel = $translate('OR') . ' ' . $filterLabel;
+                            } elseif ($index > 0) {
+                                $filterLabel = $translate('AND') . ' ' . $filterLabel;
+                            }
 
-                    // Search resources
-                    case 'has_property':
-                        foreach ($value as $propertyId => $status) {
-                            try {
-                                $propertyLabel = $api->read('properties', $propertyId)->getContent()->label();
-                            } catch (NotFoundException $e) {
-                                $propertyLabel = $translate('Unknown property');
-                            }
-                            if ($status == 0) {
-                                $filterLabel = $translate('Has properties');
-                            } else {
-                                $filterLabel = $translate('Does not have properties');
-                            }
-                            $filters[$filterLabel][] = $propertyLabel;
+                            $filters[$filterLabel][] = $value;
+                            $index++;
                         }
                         break;
 

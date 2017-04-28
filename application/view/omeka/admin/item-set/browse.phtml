@@ -25,22 +25,43 @@ $sortHeadings = [
 
 <?php echo $this->searchFilters(); ?>
 
-<div id="page-actions">
-    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Add new item set'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
-    <?php endif; ?>
-</div>
-
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
+
+<form method="post" id="batch-form" class="disable-unsaved-warning">
+
+<div id="page-actions">
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'batch_update')): ?>
+    <select class="batch-actions-select">
+        <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
+        <option value="update-selected" disabled="true"><?php echo $this->translate('Edit selected'); ?></option>
+        <option value="update-all"><?php echo $this->translate('Edit all'); ?></option>
+        <option value="delete-selected" disabled="true"><?php echo $this->translate('Delete selected'); ?></option>
+        <option value="delete-all"><?php echo $this->translate('Delete all'); ?></option>
+    </select>
+    <div class="batch-actions">
+        <button type="button" class="default active" disabled="true"><?php echo $this->translate('Go'); ?></button>
+        <input type="submit" class="update-selected" name="update_selected" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
+        <input type="submit" class="update-all" name="update_all" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+        <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
+        <a class="delete button sidebar-content delete-selected" data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'batch-delete-confirm'], true)); ?>"><?php echo $this->translate('Go'); ?></a>
+        <a class="delete button sidebar-content delete-all" data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'batch-delete-confirm'], ['query' => ['all' => true]], true)); ?>"><?php echo $this->translate('Go'); ?></a>
+    </div>
+    <?php endif; ?>
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'create')): ?>
+    <?php echo $this->hyperlink($this->translate('Add new item set'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
+    <?php endif; ?>
+</div>
+
 <?php $this->trigger('view.browse.before'); ?>
 <?php if($itemSets): ?>
-<table class="tablesaw" data-tablesaw-mode="stack">
+<table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
+            <th><input type="checkbox" class="select-all"></th>
             <th><?php echo $this->translate('Title'); ?></th>
             <th><?php echo $this->translate('Class'); ?></th>
             <th><?php echo $this->translate('Owner'); ?></th>
@@ -64,6 +85,9 @@ $sortHeadings = [
         }
         ?>
         <tr>
+            <td><?php if ($itemSet->userIsAllowed('update') || $itemSet->userIsAllowed('delete')): ?>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $itemSet->id(); ?>">
+            <?php endif; ?></td>
             <td>
                 <?php if ($media = $itemSet->primaryMedia()): ?>
                 <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
@@ -100,6 +124,9 @@ $sortHeadings = [
         <?php endforeach; ?>
     </tbody>
 </table>
+
+</form>
+
 <?php $this->trigger('view.browse.after'); ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
@@ -112,6 +139,20 @@ $sortHeadings = [
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content"></div>
 </div>
+
+<script>
+// Complete the batch delete form after confirmation.
+$('.sidebar').on('submit', '#batch-delete-confirm', function(e) {
+    var confirmForm = $(this);
+    if (confirmForm.hasClass('batch-delete-all')) {
+        confirmForm.append($('.batch-query').clone());
+    } else {
+        $('#batch-form').find('input:checked').each(function() {
+            confirmForm.append($(this).clone().attr('type', 'hidden'));
+        });
+    }
+});
+</script>
 
 <?php else: ?>
 

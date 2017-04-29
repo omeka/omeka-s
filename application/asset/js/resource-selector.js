@@ -37,6 +37,11 @@
             Omeka.closeSidebar($(e.delegateTarget));
             $(this).trigger('o:resource-selected');
         });
+
+        $('#select-resource').on('click', '.select-resources-button', function(e) {
+            Omeka.closeSidebar($(e.delegateTarget));
+            $(this).trigger('o:resources-selected');
+        });
     });
 })(jQuery);
 

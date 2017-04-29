@@ -38,15 +38,6 @@
             {itemId: itemId, mediaId: mediaId}
         ).done(function(data) {
             attachmentItem.html(data);
-
-            // Hide media selection and caption controls if these attachments
-            // are item-only.
-            if ($('.selecting-attachment').closest('.attachments-form').hasClass('attachments-item-only')) {
-                $('#attachment-options').addClass('attachment-item-only');
-            } else {
-                $('#attachment-options').removeClass('attachment-item-only');
-            }
-
             $('#attachment-caption .caption').val(caption);
             var sidebar = $('#attachment-options');
             Omeka.populateSidebarContent(sidebar, $(this).data('sidebar-content-url'));
@@ -75,6 +66,33 @@
             var name = thisInput.attr('name').replace('[__' + find + '__]', '[' + index + ']');
             thisInput.attr('name', name);
         });
+    }
+
+    /**
+     * Add an item attachment.
+     *
+     * Typically used when skipping attachment options.
+     *
+     * @param object selectingAttachment Add the item to this attachment
+     * @param object itemData The data of the item to add
+     */
+    function addItemAttachment(selectingAttachment, itemData)
+    {
+        var attachment = $(selectingAttachment.parents('.attachments').data('template'));
+
+        var title = itemData.display_title;
+        var thumbnailUrl = itemData.thumbnail_url;
+        var thumbnail;
+        if (thumbnailUrl) {
+            thumbnail = $('<img>', {src: thumbnailUrl});
+        }
+        attachment.find('input.item').val(itemData.value_resource_id);
+        attachment.find('.item-title').empty().append(thumbnail).append(title);
+        selectingAttachment.before(attachment);
+
+        if (selectingAttachment.closest('.attachments-form').hasClass('attachments-item-only')) {
+            attachment.find('.attachment-options-icon').closest('li').remove();
+        }
     }
 
     $(document).ready(function () {
@@ -207,22 +225,22 @@
             if (selectingAttachment.closest('.attachments-form').hasClass('attachments-item-only')) {
                 // This is an item-only attachment form.
                 Omeka.closeSidebar($('#attachment-options'));
-                var attachment = $(selectingAttachment.parents('.attachments').data('template'));
-                var title = resource.display_title;
-                var thumbnailUrl = resource.thumbnail_url;
-                var thumbnail;
-                if (thumbnailUrl) {
-                    thumbnail = $('<img>', {src: thumbnailUrl});
-                }
-                attachment.find('.attachment-options-icon').closest('li').remove();
-                attachment.find('input.item').val(resource.value_resource_id);
-                attachment.find('.item-title').empty().append(thumbnail).append(title);
-                selectingAttachment.before(attachment);
+                addItemAttachment(selectingAttachment, resource);
             } else {
                 // This is a normal attachment form.
                 openAttachmentOptions(resource.value_resource_id);
                 $('#select-resource').removeClass('active');
             }
+        });
+
+        // Add multiple item attachments.
+        $('#select-resource').on('o:resources-selected', '.select-resources-button', function(e) {
+            Omeka.closeSidebar($('#attachment-options'));
+            var selectingAttachment = $('.selecting-attachment');
+            $(this).closest('.resource-list').find('.resource')
+                .has('input.select-resource-checkbox:checked').each(function() {
+                    addItemAttachment(selectingAttachment, $(this).data('resource-values'));
+                });
         });
 
         // Change attached media.

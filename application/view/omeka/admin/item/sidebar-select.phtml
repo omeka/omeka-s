@@ -14,10 +14,10 @@ $escape = $this->plugin('escapeHtml');
 </div>
 
 <div class="resource-list">
-
-<!-- here to let me work on the javascript and ajax for showing resource details -->
+    <button type="button" class="select-resources-button">Add selected</button>
     <?php foreach ($items as $item):?>
     <div class="resource item" data-resource-values="<?php echo $escape(json_encode($item->valueRepresentation())); ?>">
+        <input type="checkbox" class="select-resource-checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
         <?php if ($media = $item->primaryMedia()): ?>
         <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
         <?php endif; ?>
@@ -30,6 +30,7 @@ $escape = $this->plugin('escapeHtml');
         </span>
     </div>
     <?php endforeach; ?>
+    <button type="button" class="select-resources-button">Add selected</button>
 </div>
 
 

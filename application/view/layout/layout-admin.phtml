@@ -51,8 +51,8 @@ $this->trigger('view.layout');
                 </div>
                 <div id="search">
                     <form action="" id="search-form">
-                        <?php $searchValue = isset($_GET['property'][0]['in'][0]) ? $_GET['property'][0]['in'][0] : ''; ?>
-                        <input type="text" name="property[0][in][]" value="<?php echo $escape($searchValue); ?>">
+                        <?php $searchValue = isset($_GET['search']) ? $_GET['search'] : ''; ?>
+                        <input type="text" name="search" value="<?php echo $escape($searchValue); ?>">
                         <button type="button" id="advanced"><?php echo $this->translate('Advanced Options'); ?></button>
                         <button type="submit"><?php echo $this->translate('Search'); ?></button>
                         <fieldset id="advanced-options">

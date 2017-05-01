@@ -22,7 +22,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             $this->buildPropertyQuery($qb, [[
                 'property' => null,
                 'type' => 'in',
-                'text' => $query['search']
+                'text' => $query['search'],
             ]]);
         }
 

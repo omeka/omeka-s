@@ -46,10 +46,22 @@ class ItemController extends AbstractActionController
         $response = $this->api()->search('items', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
+        $formDeleteSelected = $this->getForm(ConfirmForm::class);
+        $formDeleteSelected->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], true));
+        $formDeleteSelected->setButtonLabel('Confirm Delete'); // @translate
+        $formDeleteSelected->setAttribute('id', 'confirm-delete-selected');
+
+        $formDeleteAll = $this->getForm(ConfirmForm::class);
+        $formDeleteAll->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete-all'], true));
+        $formDeleteAll->setButtonLabel('Confirm Delete'); // @translate
+        $formDeleteAll->setAttribute('id', 'confirm-delete-all');
+
         $view = new ViewModel;
         $items = $response->getContent();
         $view->setVariable('items', $items);
         $view->setVariable('resources', $items);
+        $view->setVariable('formDeleteSelected', $formDeleteSelected);
+        $view->setVariable('formDeleteAll', $formDeleteAll);
         return $view;
     }
 
@@ -132,21 +144,6 @@ class ItemController extends AbstractActionController
             ['action' => 'browse'],
             true
         );
-    }
-
-    public function batchDeleteConfirmAction()
-    {
-        $form = $this->getForm(ConfirmForm::class);
-        $routeAction = $this->params()->fromQuery('all') ? 'batch-delete-all' : 'batch-delete';
-        $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => $routeAction], true));
-        $form->setButtonLabel('Confirm Delete'); // @translate
-        $form->setAttribute('id', 'batch-delete-confirm');
-        $form->setAttribute('class', $routeAction);
-
-        $view = new ViewModel;
-        $view->setTerminal(true);
-        $view->setVariable('form', $form);
-        return $view;
     }
 
     public function batchDeleteAction()

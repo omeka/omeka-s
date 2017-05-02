@@ -152,7 +152,7 @@ $templateUri = '
 <div class="sidebar always-open">
     <h3><?php echo $this->translate('Affected Item Sets'); ?></h3>
     <?php if ($resources): ?>
-    <p><?php echo sprintf($this->translate('You are editing the following item sets:'), count($resources)); ?></p>
+    <p><?php echo sprintf($this->translate('You are editing the following %s item sets:'), count($resources)); ?></p>
     <ul class="batch-selected">
         <?php foreach ($resources as $resource): ?>
         <li><?php echo $resource->link($resource->displayTitle(), null, ['target' => '_blank']); ?></li>

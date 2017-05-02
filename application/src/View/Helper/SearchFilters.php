@@ -83,10 +83,12 @@ class SearchFilters extends AbstractHelper
                                 continue;
                             }
                             $filterLabel = $propertyLabel . ' ' . $queryTypes[$queryType];
-                            if ($joiner === 'or') {
-                                $filterLabel = $translate('OR') . ' ' . $filterLabel;
-                            } elseif ($index > 0) {
-                                $filterLabel = $translate('AND') . ' ' . $filterLabel;
+                            if ($index > 0) {
+                                if ($joiner === 'or') {
+                                    $filterLabel = $translate('OR') . ' ' . $filterLabel;
+                                } else {
+                                    $filterLabel = $translate('AND') . ' ' . $filterLabel;
+                                }
                             }
 
                             $filters[$filterLabel][] = $value;

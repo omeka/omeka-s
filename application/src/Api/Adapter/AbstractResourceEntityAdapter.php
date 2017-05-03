@@ -137,6 +137,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 
         // o:resource_template
         $this->hydrateResourceTemplate($request, $entity);
+
+        $this->updateTimestamps($request, $entity);
     }
 
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Omeka\Api\Exception;
@@ -821,5 +822,20 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             }
         }
         $entity->setResourceTemplate($resourceTemplate);
+    }
+
+    /**
+     * Update created/modified timestamps as appropriate for a request.
+     *
+     * @param Request $request
+     * @param EntityInterface $entity
+     */
+    public function updateTimestamps(Request $request, EntityInterface $entity)
+    {
+        if (Request::CREATE === $request->getOperation()) {
+            $entity->setCreated(new DateTime('now'));
+        }
+
+        $entity->setModified(new DateTime('now'));
     }
 }

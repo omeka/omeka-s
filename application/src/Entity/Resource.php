@@ -3,8 +3,6 @@ namespace Omeka\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 /**
  * A resource, representing the subject in an RDF triple.
@@ -12,7 +10,6 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
  * Note that the discriminator map is loaded dynamically.
  *
  * @Entity
- * @HasLifecycleCallbacks
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
  *
@@ -155,21 +152,5 @@ abstract class Resource extends AbstractEntity
     public function getValues()
     {
         return $this->values;
-    }
-
-    /**
-     * @PrePersist
-     */
-    public function prePersist(LifecycleEventArgs $eventArgs)
-    {
-        $this->created = new DateTime('now');
-    }
-
-    /**
-     * @PreUpdate
-     */
-    public function preUpdate(PreUpdateEventArgs $eventArgs)
-    {
-        $this->modified = new DateTime('now');
     }
 }

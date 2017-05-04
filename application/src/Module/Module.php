@@ -137,4 +137,15 @@ class Module implements ResourceInterface
         // Could not find a name.
         return null;
     }
+
+    /**
+     * Get the weight of this module.
+     *
+     * @return string
+     */
+    public function getWeight(){
+        if ($weight = $this->getDb('weight')) {
+            return $weight;
+        }
+    }
 }

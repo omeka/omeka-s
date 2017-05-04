@@ -84,6 +84,7 @@ CREATE TABLE `module` (
   `id` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `version` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `weight` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `password_creation` (

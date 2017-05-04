@@ -143,6 +143,14 @@ class Manager implements ResourceInterface
                 $modules[$id] = $module;
             }
         }
+
+        uasort($modules, function ($a, $b) {
+
+            if((int)$a->getWeight() == (int)$b->getWeight()){ return 0 ; }
+            return ($a->getWeight() > $b->getWeight()) ? -1 : 1;
+
+        });
+
         return $modules;
     }
 

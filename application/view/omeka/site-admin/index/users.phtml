@@ -66,7 +66,7 @@ $roles = [
     </div>
     <div id="site-user-selector" class="selector sidebar active">
         <h3><?php echo $this->translate('Click on a user to add them to the site.'); ?></h3>
-        <input type="text" class="selector-filter" placeholder="Filter users">
+        <input type="text" class="selector-filter" placeholder="<?php echo $this->translate('Filter users'); ?>">
         <ul id="new-site-user">
             <li class="total-count-heading"><?php echo $this->translate('All Users'); ?> (<?php echo count($users); ?>)
                 <ul class="selectable-list">
@@ -82,14 +82,15 @@ $roles = [
                 }
                 ?>
                 <?php foreach ($usersByInitial as $initial => $users): ?>
-                    <li class="selector-parent"><span>
-                        <?php echo $initial; ?></span>
+                    <li class="selector-parent">
+                        <span><?php echo $initial; ?></span>
                         (<span class="selector-child-count"><?php echo count($usersByInitial[$initial]); ?></span>)
                         <ul>
                         <?php foreach($users as $user): ?>
                             <li class="selector-child" data-child-search="<?php echo $escape($user->name() . ' (' . $user->email() . ')'); ?>" data-user-id="<?php echo $escape($user->id()); ?>"><span><?php echo $escape($user->name()); ?><br><?php echo $escape($user->email()); ?></span></li>
                         <?php endforeach; ?>
                         </ul>
+                    </li>
                 <?php endforeach; ?>
                 </ul>
             </li>

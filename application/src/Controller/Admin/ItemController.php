@@ -206,7 +206,9 @@ class ItemController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
-            if ($form->isValid()) {
+            if (count($data) <= 0) {
+                $this->messenger()->addError('No form data received. Perhaps a file was too large?'); // @translate
+            } elseif ($form->isValid()) {
                 $fileData = $this->getRequest()->getFiles()->toArray();
                 $response = $this->api($form)->create('items', $data, $fileData);
                 if ($response) {

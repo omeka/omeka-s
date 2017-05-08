@@ -3,7 +3,6 @@ namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Adapter\Manager as AdapterManager;
-use Omeka\Api\Representation\ResourceReference;
 use Omeka\Permissions\Acl;
 use Zend\Log\LoggerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
@@ -336,7 +335,7 @@ class Manager
                 case 'resource':
                     return $resource;
                 case 'reference':
-                    return new ResourceReference($resource, $adapter);
+                    return $adapter->getRepresentation($resource)->getReference();
                 case 'representation':
                 default:
                     return $adapter->getRepresentation($resource);

@@ -2052,7 +2052,15 @@ input[type="text"].value-language,
     .input-body {
         clear: both;
         background-color: #fff;
+        padding: 0;
+    }
+
+    [data-data-type="resource"] .input-body {
         padding: 0 $spacing-small;
+    }
+
+    .inputs .input-body input[type="text"] {
+        margin: 0;
     }
 
     [data-data-type="resource"] .button:before {
@@ -2061,7 +2069,7 @@ input[type="text"].value-language,
 
     .value.delete span.restore-value {
         display: inline-block;
-        padding: $spacing-small (1.25 * $spacing-small);
+        padding: 0 (1.25 * $spacing-small);
     }
 
     .value.delete > *:not(.input-header) {

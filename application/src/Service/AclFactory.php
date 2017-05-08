@@ -404,6 +404,7 @@ class AclFactory implements FactoryInterface
                 'add',
                 'edit',
                 'delete',
+                'delete-confirm',
             ]
         );
         $acl->allow(
@@ -524,6 +525,7 @@ class AclFactory implements FactoryInterface
                 'add',
                 'edit',
                 'delete',
+                'delete-confirm',
             ]
         );
         $acl->allow(
@@ -652,6 +654,7 @@ class AclFactory implements FactoryInterface
                 'add',
                 'edit',
                 'delete',
+                'delete-confirm',
             ]
         );
         $acl->allow(

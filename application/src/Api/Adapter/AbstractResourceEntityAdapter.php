@@ -169,16 +169,20 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     }
 
     /**
-     * Build query on value (optionally by property).
+     * Build query on value.
      *
-     * Query types:
-     *   + property[{pid}][eq][]={value}:  has exact value
-     *   + property[{pid}][neq][]={value}: does not have exact value
-     *   + property[{pid}][in][]={value}:  contains value
-     *   + property[{pid}][nin][]={value}: does not contain value
+     * Query format:
      *
-     * If {pid} is zero/empty, queries are against all values. Otherwise, query results are limited
-     * to the given property.
+     *   - property[{index}][joiner]: "and" OR "or" joiner with previous query
+     *   - property[{index}][property]: property ID
+     *   - property[{index}][text]: search text
+     *   - property[{index}][type]: search type
+     *     - eq: is exactly
+     *     - neq: is not exactly
+     *     - in: contains
+     *     - nin: does not contain
+     *     - ex: has any value
+     *     - nex: has no value
      *
      * @param QueryBuilder $qb
      * @param array $query
@@ -190,7 +194,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         }
         $valuesJoin = $this->getEntityClass() . '.values';
         $where = '';
-        //var_dump($query['property']); die();
+
         foreach ($query['property'] as $queryRow) {
             if (!(is_array($queryRow)
                 && array_key_exists('property', $queryRow)

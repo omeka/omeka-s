@@ -19,11 +19,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         $this->buildPropertyQuery($qb, $query);
 
         if (isset($query['search'])) {
-            $this->buildPropertyQuery($qb, [[
+            $this->buildPropertyQuery($qb, ['property' => [[
                 'property' => null,
                 'type' => 'in',
                 'text' => $query['search'],
-            ]]);
+            ]]]);
         }
 
         if (isset($query['owner_id'])) {

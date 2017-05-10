@@ -152,8 +152,8 @@ gulp.task('deps:update', function () {
 gulp.task('deps:js', function (cb) {
     var deps = {
         'ckeditor': ['**', '!samples/**'],
-        'jquery': 'dist/**',
-        'jstree': 'dist/**',
+        'jquery': 'dist/jquery.min.js',
+        'jstree': 'dist/jstree.min.js',
         'openseadragon': 'build/openseadragon/**',
         'sortablejs': 'Sortable.min.js',
         'tablesaw': 'dist/stackonly/**'

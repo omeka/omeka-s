@@ -72,6 +72,7 @@ ENV OMEKA__LOG_PATH="/var/log/omeka/debug.log"
 RUN mkdir -p /var/log/omeka/ && \
     touch /var/log/omeka/debug.log && \
     chmod 755 /var/log/omeka/debug.log && \
+    chmod -R 777 /var/www/html/files && \
     ln -sf /dev/stdout /var/log/omeka/debug.log
 
 CMD ["/runtime/${configureServer}"]

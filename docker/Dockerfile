@@ -51,6 +51,8 @@ RUN cd /var/www/html && \
 
 COPY . /var/www/html
 
+COPY ./docker/configs/database.ini /var/www/html/config/database.ini
+
 RUN cd /var/www/html && ./node_modules/gulp/bin/gulp.js init
 
 COPY ./docker/configs/server/scripts/runtime/${configureServer} \
@@ -59,5 +61,17 @@ COPY ./docker/configs/server/scripts/runtime/${configureServer} \
 EXPOSE 80 443
 
 WORKDIR /var/www/html
+
+ENV OMEKA__DATABASE_HOST="127.0.0.1"
+ENV OMEKA__DATABASE_NAME="omeka"
+ENV OMEKA__DATABASE_PASSWORD=""
+ENV OMEKA__DATABASE_PORT=3306
+ENV OMEKA__DATABASE_USER="root"
+ENV OMEKA__LOG_PATH="/var/log/omeka/debug.log"
+
+RUN mkdir -p /var/log/omeka/ && \
+    touch /var/log/omeka/debug.log && \
+    chmod 755 /var/log/omeka/debug.log && \
+    ln -sf /dev/stdout /var/log/omeka/debug.log
 
 CMD ["/runtime/${configureServer}"]

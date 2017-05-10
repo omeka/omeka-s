@@ -7,7 +7,7 @@ cd "$parent_path"
 ### TO RUN, REMEMBER TO LOGIN.
 # docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
 
-DOCKER_USER='digiratiuk'
+DOCKER_USER='digirati'
 PACKAGE_NAME='omeka-s'
 PHP_VERSIONS=(7.0.18 7.1 5.6.30);
 WEB_SERVERS=(fpm apache);

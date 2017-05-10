@@ -7,10 +7,6 @@ RUN apt-get update && \
     curl \
     zlib1g-dev
 
-# Webserver configuration
-COPY ./docker/configs/server/scripts/${configureServer} /installation/${configureServer}
-RUN /installation/${configureServer}
-
 # PHP configuration
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
@@ -28,29 +24,40 @@ RUN apt-get install -y \
 
 RUN npm install --global gulp-cli
 
-RUN mkdir -p /srv/omeka
+RUN mkdir -p /var/www/html
 
-RUN cd /srv/omeka && npm install gulpjs/gulp#4.0
-COPY ./package.json /srv/omeka/package.json
-RUN cd /srv/omeka && npm install
+RUN cd /var/www/html && npm install gulpjs/gulp#4.0
+COPY ./package.json /var/www/html/package.json
+RUN cd /var/www/html && npm install
 
 # PHP warm
-COPY ./composer.json /srv/omeka/composer.json
+COPY ./composer.json /var/www/html/composer.json
 
-COPY ./composer.lock /srv/omeka/composer.lock
+COPY ./composer.lock /var/www/html/composer.lock
 
-COPY ./application/data/composer-addon-installer /srv/omeka/application/data/composer-addon-installer
+COPY ./application/data/composer-addon-installer /var/www/html/application/data/composer-addon-installer
+
+# Webserver configuration
+COPY ./docker/configs/server/scripts/installation/${configureServer}\
+    /installation/${configureServer}
+
+RUN /installation/${configureServer}
+
+${copyConfiguration}
 
 # Application configuration
-RUN cd /srv/omeka && \
+RUN cd /var/www/html && \
     composer install --no-autoloader --no-interaction
 
-COPY . /srv/omeka
+COPY . /var/www/html
 
-RUN cd /srv/omeka && ./node_modules/gulp/bin/gulp.js init
+RUN cd /var/www/html && ./node_modules/gulp/bin/gulp.js init
 
-COPY ./docker/configs/server/scripts/${configureServer}-runtime /runtime/${configureServer}-runtime
+COPY ./docker/configs/server/scripts/runtime/${configureServer} \
+     /runtime/${configureServer}
 
 EXPOSE 80 443
 
-CMD ["/runtime/${configureServer}-runtime"]
+WORKDIR /var/www/html
+
+CMD ["/runtime/${configureServer}"]

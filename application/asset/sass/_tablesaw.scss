@@ -10,6 +10,7 @@
 .tablesaw tr .actions {
     position: absolute;
     right: $spacing-medium;
+    transform: none;
 
     li {
         margin: 0;
@@ -30,6 +31,41 @@
         width: 100%;
         max-width: 100%;
     }
+
+    .resource-name {
+        display: inline-block;
+        max-width: calc(100% - #{6 * $spacing-large});
+        vertical-align: middle;
+    }
+}
+
+.batch-edit.tablesaw td:first-of-type {
+    width: 1.25 * $spacing-large;
+    background-color: transparent;
+    z-index: 10;
+}
+
+.batch-edit.tablesaw td:nth-of-type(2) {
+    width: 100%;
+    background: $gray-on-white;
+    margin-top: -1.5 * $spacing-large;
+
+    .tablesaw-cell-label {
+        width: 0;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    .tablesaw-cell-content {
+        padding-left: 1.25 * $spacing-large;
+        max-width: calc(100% - #{3 * $spacing-large});
+        width: calc(100% - #{3 * $spacing-large});
+    }
+}
+
+.tablesaw-cell-content {
+    width: 70%;
+    max-width: 70%;
 }
 
 .tablesaw-cell-content img {

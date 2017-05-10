@@ -7,6 +7,8 @@ class SitePageForm extends Form
 {
     public function init()
     {
+        $this->setAttribute('id', 'site-page-form');
+
         $this->add([
             'name' => 'o:title',
             'type' => 'Text',

@@ -110,6 +110,7 @@ class Upload implements IngesterInterface
         ]);
         $fileInput->setAttributes([
             'id' => 'media-file-input-__index__',
+            'required' => true,
         ]);
         $field = $view->formRow($fileInput);
         return $field . '<input type="hidden" name="o:media[__index__][file_index]" value="__index__">';

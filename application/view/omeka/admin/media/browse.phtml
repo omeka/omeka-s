@@ -70,11 +70,13 @@ $sortHeadings = [
                             'aria-label' => $escape($this->translate('Edit')),
                             'title' => $escape($this->translate('Edit')),
                         ]); ?></li>
+                        <?php if ($media->userIsAllowed('delete')): ?>
                         <li><a href="#"
                             data-sidebar-content-url="<?php echo $escape($media->url('delete-confirm')); ?>"
                             class="o-icon-delete sidebar-content"
                             aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                             title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
+                        <?php endif; ?>
                         <li><a href="#"
                             data-sidebar-content-url="<?php echo $escape($media->url('show-details')); ?>"
                             class="o-icon-more sidebar-content"

@@ -8,6 +8,7 @@ use Omeka\Entity\EntityInterface;
 use Omeka\Entity\SitePermission;
 use Omeka\Entity\SiteItemSet;
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\Message;
 
 class SiteAdapter extends AbstractEntityAdapter
 {
@@ -193,6 +194,8 @@ class SiteAdapter extends AbstractEntityAdapter
                 }
             }
         }
+
+        $this->updateTimestamps($request, $entity);
     }
 
     /**
@@ -208,8 +211,8 @@ class SiteAdapter extends AbstractEntityAdapter
         if (!is_string($slug) || $slug === '') {
             $errorStore->addError('o:slug', 'The slug cannot be empty.'); // @translate
         }
-        if (preg_match('/[^a-zA-Z0-9-]/u', $slug)) {
-            $errorStore->addError('o:slug', 'A slug can only contain letters, numbers, and hyphens.'); // @translate
+        if (preg_match('/[^a-zA-Z0-9_-]/u', $slug)) {
+            $errorStore->addError('o:slug', 'A slug can only contain letters, numbers, underscores, and hyphens.'); // @translate
         }
         if (!$this->isUnique($entity, ['slug' => $slug])) {
             $errorStore->addError('o:slug', new Message(

@@ -195,8 +195,15 @@ body {
         margin: 0;
     }
 
-    input:disabled {
+    :disabled {
         background-color: $gray-on-white;
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+        color: lighten($copy-gray, 25);
+        cursor: default;
+
+        &:hover {
+            box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset !important;
+        }
     }
 
     ::placeholder {
@@ -295,6 +302,8 @@ body {
     .field {
         @include field-row;
         display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
 
         &:first-child {
             border-color: transparent;
@@ -335,7 +344,7 @@ body {
         background: #fff url('../img/select-arrow.svg') no-repeat;
         background-position: right (.25 * $spacing-large) center;
         background-size: .5 * $base-font-size;
-        border: 1px solid #ccc;
+        border: 1px solid $border-gray;
         height: 1.5 * $spacing-large;
         line-height: 1.5 * $spacing-large;
         font-size: $base-font-size;
@@ -427,7 +436,7 @@ div[role="main"] > .messages {
 }
 
 .field .messages {
-    width: 100%;
+    width: 70%;
     color: $red;
 }
 
@@ -1003,8 +1012,15 @@ div[role="main"] {
 }
 
 .browse td:first-child,
-.browse th:first-child {
+.browse th:first-child,
+.batch-edit td:nth-child(2),
+.batch-edit th:nth-child(2) {
     width: 50%;
+}
+
+.batch-edit td:first-child,
+.batch-edit th:first-child {
+    width: auto;
 }
 
 .browse td,
@@ -1175,6 +1191,56 @@ td .o-icon-private {
 .sites .no-resources:before {
     content: $fa-var-laptop;
 }
+
+    /* @group ----- Batch Update ----- */
+
+    .batch-selected {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .batch-selected li {
+        padding: $spacing-medium 0 ($spacing-medium - 1px);
+        border-bottom: 1px solid $border-gray;
+
+        &:first-child {
+            padding-top: 0;
+        }
+
+        &:last-child {
+            border-color: transparent;
+        }
+    }
+
+    .multi-value.field .value:only-of-type .remove-value {
+        display: none;
+    }
+    
+    .multi-value.field .remove-value {
+        background-color: transparent;
+        color: $red;
+        display: inline-block;
+        text-indent: -9999px;
+        position: relative;
+        width: 1.5 * $base-line-height;
+        text-align: center;
+    
+        &:before{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1.5 * $base-line-height;
+            line-height: 1.5 * $base-line-height;
+            text-indent: 0;
+        }
+    
+        &:hover {
+            color: $red;
+        }
+    }
+
+    /* @end */
+
     /* @group ----- Search ----- */
 
     #advanced-options {
@@ -1326,6 +1392,21 @@ fieldset.section > legend {
 
         &:hover {
             box-shadow: 0 0 0 1px #DA8B8B inset;
+        }
+    }
+
+    .batch-actions {
+        display: inline-block;
+    }
+
+    .batch-actions > a.button,
+    .batch-actions > button,
+    .batch-actions > input[type="submit"] {
+        display: none;
+        margin-right: $spacing-medium;
+
+        &.active {
+            display: inline-block;
         }
     }
 }
@@ -1743,7 +1824,6 @@ input[type="text"].value-language,
         flex: 1;
         vertical-align: top;
         position: relative;
-        margin-left: -4px;
         line-height: 1.5 * $spacing-large;
 
         &:only-child {
@@ -1802,6 +1882,10 @@ input[type="text"].value-language,
                 margin-bottom: 0;
             }
         }
+    }
+
+    .multi-value .value {
+        display: flex;
     }
 
     .inputs p.no-values {
@@ -1906,8 +1990,7 @@ input[type="text"].value-language,
 
     .inputs .value textarea,
     .inputs .value input[type="text"] {
-        width: calc(100% + #{2 * $spacing-small});
-        margin: 0 (-$spacing-small);
+        width: 100%;
     }
 
     [data-data-type="resource"] .default,
@@ -1925,7 +2008,15 @@ input[type="text"].value-language,
     .input-body {
         clear: both;
         background-color: #fff;
+        padding: 0;
+    }
+
+    [data-data-type="resource"] .input-body {
         padding: 0 $spacing-small;
+    }
+
+    .inputs .input-body input[type="text"] {
+        margin: 0;
     }
 
     [data-data-type="resource"] .button:before {
@@ -1934,7 +2025,7 @@ input[type="text"].value-language,
 
     .value.delete span.restore-value {
         display: inline-block;
-        padding: $spacing-small (1.25 * $spacing-small);
+        padding: 0 (1.25 * $spacing-small);
     }
 
     .value.delete > *:not(.input-header) {

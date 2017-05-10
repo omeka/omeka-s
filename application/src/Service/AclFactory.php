@@ -312,6 +312,11 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'researcher',
+            'Omeka\Controller\Admin\Asset',
+            'sidebar-select'
+        );
+        $acl->allow(
+            'researcher',
             'Omeka\Controller\Admin\Vocabulary',
             ['classes', 'properties']
         );
@@ -378,6 +383,11 @@ class AclFactory implements FactoryInterface
             ['sidebar-select', 'search']
         );
         $acl->allow(
+            null,
+            'Omeka\Controller\Admin\Asset',
+            'sidebar-select'
+        );
+        $acl->allow(
             'author',
             'Omeka\Controller\Admin\Vocabulary',
             ['classes', 'properties']
@@ -394,6 +404,7 @@ class AclFactory implements FactoryInterface
                 'add',
                 'edit',
                 'delete',
+                'delete-confirm',
             ]
         );
         $acl->allow(
@@ -494,6 +505,11 @@ class AclFactory implements FactoryInterface
             ['sidebar-select', 'search']
         );
         $acl->allow(
+            null,
+            'Omeka\Controller\Admin\Asset',
+            'sidebar-select'
+        );
+        $acl->allow(
             'reviewer',
             'Omeka\Controller\Admin\Vocabulary',
             ['classes', 'properties']
@@ -509,6 +525,7 @@ class AclFactory implements FactoryInterface
                 'add',
                 'edit',
                 'delete',
+                'delete-confirm',
             ]
         );
         $acl->allow(
@@ -616,6 +633,11 @@ class AclFactory implements FactoryInterface
             ['sidebar-select', 'search']
         );
         $acl->allow(
+            null,
+            'Omeka\Controller\Admin\Asset',
+            'sidebar-select'
+        );
+        $acl->allow(
             'editor',
             'Omeka\Controller\Admin\Vocabulary',
             ['classes', 'properties']
@@ -632,6 +654,7 @@ class AclFactory implements FactoryInterface
                 'add',
                 'edit',
                 'delete',
+                'delete-confirm',
             ]
         );
         $acl->allow(

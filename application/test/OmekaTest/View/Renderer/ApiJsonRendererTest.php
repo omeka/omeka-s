@@ -1,8 +1,10 @@
 <?php
 namespace OmekaTest\View\Renderer;
 
+use Omeka\Api\Exception\ValidationException;
 use Omeka\View\Renderer\ApiJsonRenderer;
 use Zend\Json\Json;
+use Omeka\Stdlib\ErrorStore;
 use Omeka\Test\TestCase;
 
 class ApiJsonRendererTest extends TestCase
@@ -42,30 +44,20 @@ class ApiJsonRendererTest extends TestCase
 
     public function testRendererShowsErrors()
     {
-        $errors = ['foo' => 'bar'];
-
-        $response = $this->getMock('Omeka\Api\Response');
-        $response->expects($this->once())
-                 ->method('isError')
-                 ->will($this->returnValue(true));
-        $response->expects($this->once())
-                 ->method('getStatus')
-                 ->will($this->returnValue('status'));
-        $response->expects($this->once())
-                 ->method('getErrors')
-                 ->will($this->returnValue($errors));
+        $errorStore = new ErrorStore;
+        $errorStore->addError('foo', 'bar');
+        $exception = new ValidationException('exception message');
+        $exception->setErrorStore($errorStore);
 
         $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
         $model->expects($this->once())
               ->method('getApiResponse')
-              ->will($this->returnValue($response));
+              ->will($this->returnValue(null));
         $model->expects($this->once())
               ->method('getException')
-              ->will($this->returnValue(new \Exception('exception message')));
+              ->will($this->returnValue($exception));
 
         $renderer = new ApiJsonRenderer;
-
-        $errors['status'] = 'exception message';
-        $this->assertEquals(Json::encode(['errors' => $errors]), $renderer->render($model));
+        $this->assertEquals(Json::encode(['errors' => ['foo' => ['bar']]]), $renderer->render($model));
     }
 }

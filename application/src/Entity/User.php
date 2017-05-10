@@ -227,7 +227,7 @@ class User extends AbstractEntity implements RoleInterface
      */
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
-        $this->created = new DateTime('now');
+        $this->created = $this->modified = new DateTime('now');
     }
 
     /**

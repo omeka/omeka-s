@@ -119,4 +119,21 @@ class UserAdapter extends AbstractEntityAdapter
             $errorStore->addError('o:role', 'Users must have a role.'); // @translate
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function preprocessBatchUpdate(array $data, Request $request)
+    {
+        $rawData = $request->getContent();
+
+        if (isset($rawData['o:role'])) {
+            $data['o:role'] = $rawData['o:role'];
+        }
+        if (isset($rawData['o:is_active'])) {
+            $data['o:is_active'] = $rawData['o:is_active'];
+        }
+
+        return $data;
+    }
 }

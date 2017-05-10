@@ -1,71 +1,83 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\Common\Collections\Criteria;
+use Omeka\Api\Request;
 use Omeka\Entity\Property;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
-use Zend\Hydrator\HydrationInterface;
 
-class ValueHydrator implements HydrationInterface
+class ValueHydrator
 {
     /**
-     * @var AbstractEntityAdapter
-     */
-    protected $adapter;
-
-    /**
-     * @param AbstractEntityAdapter $adapter
-     */
-    public function __construct(AbstractEntityAdapter $adapter)
-    {
-        $this->adapter = $adapter;
-    }
-
-    /**
-     * Hydrate all value objects within a JSON-LD node object.
+     * Hydrate all resource entity values in a request.
      *
-     * The node object represents a resource entity. All values must contain a
-     * property ID (property_id). All values should conatin a data type (type).
-     * For an invalid or missing type the "literal" type will be used. A value
-     * object that is invalid is ignored and not saved.
+     * All values must contain a property ID (property_id). Values should
+     * conatin a data type (type). For an invalid or missing type the "literal"
+     * type will be used. A value object that is invalid is ignored and not
+     * saved.
      *
-     * @param array $nodeObject A JSON-LD node object representing a resource
-     * @param Resource $resource The owning resource entity instance
-     * @param bool $append Whether to simply append instead of replacing
-     *  existing values
+     * @param Request $request
+     * @param Resource $entity
+     * @param AbstractResourceEntityAdapter $adapter
      */
-    public function hydrate(array $nodeObject, $resource, $append = false)
-    {
+    public function hydrate(Request $request, Resource $entity,
+        AbstractResourceEntityAdapter $adapter
+    ) {
+        $isUpdate = Request::UPDATE === $request->getOperation();
+        $isPartial = $isUpdate && $request->getOption('isPartial');
+        $append = $isPartial && 'append' === $request->getOption('collectionAction');
+        $remove = $isPartial && 'remove' === $request->getOption('collectionAction');
+
+        $representation = $request->getContent();
+        $valueCollection = $entity->getValues();
+
+        // During UPDATE requests clear all values of all properties passed via
+        // the "clear_property_values" key.
+        if ($isUpdate && isset($representation['clear_property_values'])
+            && is_array($representation['clear_property_values'])
+        ) {
+            $criteria = Criteria::create()->where(
+                Criteria::expr()->in('property', $representation['clear_property_values']
+            ));
+            foreach ($valueCollection->matching($criteria) as $value) {
+                $valueCollection->removeElement($value);
+            }
+        }
+
+        if ($remove) {
+            // Value hydration does not support removal because individual
+            // values have no unambiguous identifiers.
+            return;
+        }
+
         $newValues = [];
-        $valueCollection = $resource->getValues();
         $existingValues = $valueCollection->toArray();
-        $dataTypes = $this->adapter->getServiceLocator()->get('Omeka\DataTypeManager');
+        $entityManager = $adapter->getEntityManager();
+        $dataTypes = $adapter->getServiceLocator()->get('Omeka\DataTypeManager');
 
-        // Iterate all properties in a node object. Note that we ignore terms.
-        foreach ($nodeObject as $property => $valueObjects) {
-            // Value objects must be contained in lists
-            if (!is_array($valueObjects)) {
+        // Iterate the representation data. Note that we ignore terms.
+        foreach ($representation as $term => $valuesData) {
+            if (!is_array($valuesData)) {
+                // Ignore invalid values data.
                 continue;
             }
-            // Iterate a node object list
-            foreach ($valueObjects as $valueObject) {
-
-                // Value objects must be lists and contain a property ID.
-                if (!(is_array($valueObject) && isset($valueObject['property_id']))) {
+            foreach ($valuesData as $valueData) {
+                if (!(is_array($valueData) && isset($valueData['property_id']))) {
+                    // Ignore invalid value data.
                     continue;
                 }
-
-                if (!isset($valueObject['type'])) {
-                    $valueObject['type'] = null;
+                if (!isset($valueData['type'])) {
+                    $valueData['type'] = null;
                 }
                 try {
-                    $dataType = $dataTypes->get($valueObject['type']);
+                    $dataType = $dataTypes->get($valueData['type']);
                 } catch (ServiceNotFoundException $e) {
                     // Ignore an invalid data type.
                     continue;
                 }
-                if (!$dataType->isValid($valueObject)) {
+                if (!$dataType->isValid($valueData)) {
                     // Ignore an invalid value.
                     continue;
                 }
@@ -75,24 +87,23 @@ class ValueHydrator implements HydrationInterface
                     $value = new Value;
                     $newValues[] = $value;
                 } else {
-                    // Null out values as we re-use them
+                    // Null out values as we re-use them.
                     $existingValues[key($existingValues)] = null;
                     next($existingValues);
                 }
 
-                // Hydrate a single JSON-LD value object
-                $property = $this->adapter->getEntityManager()->getReference(
-                    'Omeka\Entity\Property',
-                    $valueObject['property_id']
-                );
+                // Hydrate a single value.
+                $value->setResource($entity);
                 $value->setType($dataType->getName());
-                $value->setResource($resource);
-                $value->setProperty($property);
-                $dataType->hydrate($valueObject, $value, $this->adapter);
+                $value->setProperty($entityManager->getReference(
+                    'Omeka\Entity\Property',
+                    $valueData['property_id']
+                ));
+                $dataType->hydrate($valueData, $value, $adapter);
             }
         }
 
-        // Remove any values that weren't reused
+        // Remove any values that weren't reused.
         if (!$append) {
             foreach ($existingValues as $key => $existingValue) {
                 if ($existingValue !== null) {
@@ -101,7 +112,7 @@ class ValueHydrator implements HydrationInterface
             }
         }
 
-        // Add any new values that had to be created
+        // Add any new values that had to be created.
         foreach ($newValues as $newValue) {
             $valueCollection->add($newValue);
         }

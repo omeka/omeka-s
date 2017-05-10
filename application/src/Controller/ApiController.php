@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller;
 
-use Omeka\Api\Response;
 use Omeka\Mvc\Exception;
 use Omeka\Service\Paginator;
 use Omeka\View\Model\ApiJsonModel;
@@ -114,7 +113,7 @@ class ApiController extends AbstractRestfulController
     public function patch($id, $data)
     {
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api()->update($resource, $id, $data, [], true);
+        $response = $this->api()->update($resource, $id, $data, [], ['isPartial' => true]);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
@@ -176,7 +175,7 @@ class ApiController extends AbstractRestfulController
             $fileData = $request->getFiles()->toArray();
         } else {
             $content = $request->getContent();
-            $fileData = null;
+            $fileData = [];
         }
         $data = json_decode($content, true);
         return $this->create($data, $fileData);
@@ -238,10 +237,7 @@ class ApiController extends AbstractRestfulController
      */
     protected function getErrorResult(MvcEvent $event, \Exception $error)
     {
-        $response = new Response;
-        $response->setStatus(Response::ERROR);
-
-        $result = new ApiJsonModel($response, $this->getViewOptions());
+        $result = new ApiJsonModel(null, $this->getViewOptions());
         $result->setException($error);
 
         $event->setResult($result);

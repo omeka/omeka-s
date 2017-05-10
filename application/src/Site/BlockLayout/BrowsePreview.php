@@ -56,6 +56,7 @@ class BrowsePreview extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         parse_str($block->dataValue('query'), $query);
+        $originalQuery = $query;
         $heading = $block->dataValue('heading');
         $linkText = $block->dataValue('link-text');
 
@@ -76,6 +77,7 @@ class BrowsePreview extends AbstractBlockLayout
             'items' => $items,
             'heading' => $heading,
             'linkText' => $linkText,
+            'query' => $originalQuery,
         ]);
     }
 }

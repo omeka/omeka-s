@@ -95,7 +95,7 @@ class Pagination extends AbstractHelper
         );
     }
 
-    protected function getPaginator()
+    public function getPaginator()
     {
         return $this->paginator;
     }

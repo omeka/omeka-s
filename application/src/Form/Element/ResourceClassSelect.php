@@ -15,24 +15,26 @@ class ResourceClassSelect extends Select
     {
         $valueOptions = [];
         $response = $this->getApiManager()->search('vocabularies');
-        if (!$response->isError()) {
-            foreach ($response->getContent() as $vocabulary) {
-                $options = [];
-                foreach ($vocabulary->resourceClasses() as $resourceClass) {
-                    $options[] = [
-                        'label' => $resourceClass->label(),
-                        'value' => $resourceClass->id(),
-                        'attributes' => ['data-term' => $resourceClass->term()],
-                    ];
-                }
-                if (!$options) {
-                    continue;
-                }
-                $valueOptions[] = [
-                    'label' => $vocabulary->label(),
-                    'options' => $options,
+        foreach ($response->getContent() as $vocabulary) {
+            $options = [];
+            foreach ($vocabulary->resourceClasses() as $resourceClass) {
+                $options[] = [
+                    'label' => $resourceClass->label(),
+                    'value' => $resourceClass->id(),
+                    'attributes' => ['data-term' => $resourceClass->term()],
                 ];
             }
+            if (!$options) {
+                continue;
+            }
+            $valueOptions[] = [
+                'label' => $vocabulary->label(),
+                'options' => $options,
+            ];
+        }
+        $prependValueOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependValueOptions)) {
+            $valueOptions = $prependValueOptions + $valueOptions;
         }
         return $valueOptions;
     }

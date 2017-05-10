@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    $('.selectable-themes .theme input').not('[disabled]').each(function () {
+        $(this).closest('.theme').addClass('active');
+    });
     $('.selectable-themes .theme').not('.invalid').click(function() {
         var theme = $(this);
         if (theme.hasClass('active') && (theme.parents('#site-form').length == 0)) {

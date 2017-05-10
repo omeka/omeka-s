@@ -3,12 +3,9 @@ namespace Omeka\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 /**
  * @Entity
- * @HasLifecycleCallbacks
  */
 class Site extends AbstractEntity
 {
@@ -212,21 +209,5 @@ class Site extends AbstractEntity
     public function getSiteItemSets()
     {
         return $this->siteItemSets;
-    }
-
-    /**
-     * @PrePersist
-     */
-    public function prePersist(LifecycleEventArgs $eventArgs)
-    {
-        $this->created = new DateTime('now');
-    }
-
-    /**
-     * @PreUpdate
-     */
-    public function preUpdate(PreUpdateEventArgs $eventArgs)
-    {
-        $this->modified = new DateTime('now');
     }
 }

@@ -65,6 +65,7 @@ $escape = $this->plugin('escapeHtml');
         <?php endif; ?>
     </div>
     <?php endif; ?>
+    <?php $this->trigger('view.show.sidebar'); ?>
 </div>
 
 <?php $this->trigger('view.show.after'); ?>

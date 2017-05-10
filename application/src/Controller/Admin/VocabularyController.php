@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Omeka\Api\Exception\ValidationException;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
@@ -78,8 +79,7 @@ class VocabularyController extends AbstractActionController
                     $response = $this->rdfImporter->import(
                         'file', $data, ['file' => $data['file']['tmp_name']]
                     );
-                    $this->api($form)->detectError($response);
-                    if ($response->isSuccess()) {
+                    if ($response) {
                         $message = new Message(
                             'Vocabulary successfully imported. %s', // @translate
                             sprintf(
@@ -91,8 +91,8 @@ class VocabularyController extends AbstractActionController
                         $this->messenger()->addSuccess($message);
                         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                     }
-                } catch (\Exception $e) {
-                    $this->messenger()->addError($e->getMessage());
+                } catch (ValidationException $e) {
+                    $this->api($form)->handleValidationException($e);
                 }
             } else {
                 $this->messenger()->addFormErrors($form);
@@ -123,8 +123,8 @@ class VocabularyController extends AbstractActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('vocabularies', $this->params('id'), $data, [], true);
-                if ($response->isSuccess()) {
+                $response = $this->api($form)->update('vocabularies', $this->params('id'), $data, [], ['isPartial' => true]);
+                if ($response) {
                     $fileData = $this->params()->fromFiles('file');
                     if (0 === $fileData['error']) {
                         $this->messenger()->addSuccess('Please review these changes before you accept them.'); // @translate
@@ -176,7 +176,7 @@ class VocabularyController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('vocabularies', $this->params('id'));
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Vocabulary successfully deleted'); // @translate
                 }
             } else {

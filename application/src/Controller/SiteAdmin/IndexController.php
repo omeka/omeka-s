@@ -55,11 +55,14 @@ class IndexController extends AbstractActionController
         $themes = $this->themes->getThemes();
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
-            $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
+            $itemPool = $formData;
+            unset($itemPool['csrf'], $itemPool['o:is_public'], $itemPool['o:title'], $itemPool['o:slug'],
+                $itemPool['o:theme']);
+            $formData['o:item_pool'] = $itemPool;
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->create('sites', $formData);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Site successfully created'); // @translate
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
@@ -84,8 +87,8 @@ class IndexController extends AbstractActionController
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
-                if ($response->isSuccess()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
+                if ($response) {
                     $this->messenger()->addSuccess('Site successfully updated'); // @translate
                     // Explicitly re-read the site URL instead of using
                     // refresh() so we catch updates to the slug
@@ -152,7 +155,7 @@ class IndexController extends AbstractActionController
                 $formData = $form->getData();
                 $formData['o:site']['o:id'] = $site->id();
                 $response = $this->api($form)->create('site_pages', $formData);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Page successfully created'); // @translate
                     return $this->redirect()->toRoute(
                         'admin/site/slug/page',
@@ -182,8 +185,8 @@ class IndexController extends AbstractActionController
             $formData['o:navigation'] = $this->navTranslator->fromJstree($jstree);
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
-                if ($response->isSuccess()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
+                if ($response) {
                     $this->messenger()->addSuccess('Navigation successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -206,14 +209,17 @@ class IndexController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
-            $formData['o:item_pool'] = json_decode($formData['item_pool'], true);
-            if (!isset($formData['o:site_item_set'])) {
-                $formData['o:site_item_set'] = [];
-            }
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
-                if ($response->isSuccess()) {
+                $itemPool = $formData;
+                unset($itemPool['form_csrf']);
+                unset($itemPool['site_item_set']);
+
+                $itemSets = isset($formData['o:site_item_set']) ? $formData['o:site_item_set'] : [];
+
+                $updateData = ['o:item_pool' => $itemPool, 'o:site_item_set' => $itemSets];
+                $response = $this->api($form)->update('sites', $site->id(), $updateData, [], ['isPartial' => true]);
+                if ($response) {
                     $this->messenger()->addSuccess('Site resources successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -252,8 +258,8 @@ class IndexController extends AbstractActionController
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
-                if ($response->isSuccess()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
+                if ($response) {
                     $this->messenger()->addSuccess('User permissions successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -284,8 +290,8 @@ class IndexController extends AbstractActionController
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], true);
-                if ($response->isSuccess()) {
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
+                if ($response) {
                     $this->messenger()->addSuccess('Site theme successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
@@ -355,7 +361,7 @@ class IndexController extends AbstractActionController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $response = $this->api($form)->delete('sites', ['slug' => $this->params('site-slug')]);
-                if ($response->isSuccess()) {
+                if ($response) {
                     $this->messenger()->addSuccess('Site successfully deleted'); // @translate
                 }
             } else {

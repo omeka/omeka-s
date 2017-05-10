@@ -73,7 +73,7 @@ class Cli
      *
      * Expects arguments to be properly escaped.
      *
-     * @param staring $command An executable command
+     * @param string $command An executable command
      * @return string|false The command's standard output or false on error
      */
     public function execute($command)

@@ -1,0 +1,84 @@
+<?php
+$form->prepare();
+$this->htmlElement('body')->appendAttribute('class', 'resource-template');
+echo $this->pageTitle(sprintf($this->translate('Resource Template: Review “%s”'), $import['o:label']));
+?>
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <button><?php echo $this->translate('Complete import'); ?></button>
+</div>
+<?php echo $this->formCollection($form, false); ?>
+
+<?php if (isset($import['o:resource_class'])): ?>
+<?php
+$class = $import['o:resource_class'];
+$hasVocab = isset($class['vocabulary_prefix']);
+$hasClass = isset($class['o:id']);
+if (!$hasVocab) {
+    $errorText = sprintf('Unknown class "%s" and unknown vocabulary "%s": %s%s', $class['label'], $class['vocabulary_label'], $class['vocabulary_namespace_uri'], $class['local_name']);
+} elseif (!$hasClass) {
+    $errorText = sprintf('Unknown class "%s" in vocabulary "%s": %s:%s', $class['label'], $class['vocabulary_label'], $class['vocabulary_prefix'], $class['local_name']);
+}
+?>
+<div class="class-row" style="background-color:#<?php echo $hasClass ? 'cdffcd' : 'ffe6e6'; ?>;">
+    <span class="class-label"><?php echo $this->translate('Class'); ?></span>
+    <span class="class-value"><?php echo $this->escapeHtml($class['label']); ?></span>
+</div>
+<?php if (!$hasVocab || !$hasClass): ?>
+<div style="background-color:#ffe6e6; color:red;"><?php echo $this->escapeHtml($errorText); ?></div>
+<?php endif; ?>
+<?php endif; ?>
+
+<table id="properties" class="tablesaw" data-tablesaw-mode="stack">
+<thead>
+    <tr>
+        <th><?php echo $this->translate('Original Label'); ?></th>
+        <th><?php echo $this->translate('Data Type'); ?></th>
+        <th><?php echo $this->translate('Alternate Label'); ?></th>
+        <th><?php echo $this->translate('Alternate Comment'); ?></th>
+        <th><?php echo $this->translate('Required?'); ?></th>
+    </tr>
+</thead>
+<tbody>
+<?php foreach ($import['o:resource_template_property'] as $key => $property): ?>
+<?php
+$hasVocab = isset($property['vocabulary_prefix']);
+$hasProperty = isset($property['o:property']['o:id']);
+if (!$hasVocab) {
+    $errorText = sprintf('Unknown property "%s" and unknown vocabulary "%s": %s%s', $property['label'], $property['vocabulary_label'], $property['vocabulary_namespace_uri'], $property['local_name']);
+} elseif (!$hasProperty) {
+    $errorText = sprintf('Unknown property "%s" in vocabulary "%s": %s:%s', $property['label'], $property['vocabulary_label'], $property['vocabulary_prefix'], $property['local_name']);
+}
+// Set the data type
+if (is_null($property['data_type_name'])) {
+    $dataType = 'Default';
+} elseif (in_array($property['data_type_name'], ['literal', 'uri', 'resource'])) {
+    $dataType = $this->escapeHtml($property['data_type_label']);
+} elseif ($hasProperty) {
+    $dataTypeSelect = $this->dataType()->getSelect(
+        sprintf('data_types[%s]', $key),
+        isset($property['o:data_type']) ? $property['o:data_type'] : null,
+        ['style' => 'width:100%;']
+    );
+    $dataType = sprintf('%s<br>%s', $this->escapeHtml($property['data_type_label']), $dataTypeSelect);
+} else {
+    $dataType = $property['data_type_label'];
+}
+?>
+    <tr style="background-color:#<?php echo $hasProperty ? 'cdffcd;' : 'ffe6e6'; ?>">
+        <td><?php echo $this->escapeHtml($property['label']); ?></td>
+        <td><?php echo $dataType; ?></td>
+        <td><?php echo $this->escapeHtml($property['o:alternate_label']); ?></td>
+        <td><?php echo $this->escapeHtml($property['o:alternate_comment']); ?></td>
+        <td><?php echo $property['o:is_required'] ? 'Yes' : 'No'; ?></td>
+    </tr>
+    <?php if (!$hasProperty): ?>
+    <tr>
+        <td colspan="5" style="background-color:#ffe6e6; color:red;"><?php echo $this->escapeHtml($errorText); ?></td>
+    </tr>
+    <?php endif; ?>
+<?php endforeach; ?>
+</tbody>
+</table>
+
+<?php echo $this->form()->closeTag(); ?>

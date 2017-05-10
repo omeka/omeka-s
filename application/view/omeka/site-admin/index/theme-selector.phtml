@@ -1,5 +1,7 @@
 <?php
 use Omeka\Site\Theme\Manager;
+
+$this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
 ?>
 <div class="selectable-themes">
     <?php foreach ($themes as $theme): ?>
@@ -13,7 +15,8 @@ use Omeka\Site\Theme\Manager;
             : $fallbackThumbnailUrl;
         $author = $theme->getIni('author');
         $authorLink = $theme->getIni('author_link');
-        $description = $theme->getIni('description')
+        $description = $theme->getIni('description');
+        $selected = isset($defaultThemeId) && $defaultThemeId == $theme->getId();
     ?>
     <div class="theme<?php echo Manager::STATE_ACTIVE !== $state ? ' invalid' : ''; ?>">
 
@@ -29,7 +32,7 @@ use Omeka\Site\Theme\Manager;
         <div class="theme-meta">
             <span class="theme-author">
                 <?php if (isset($authorLink)): ?>
-                <a href="<?php echo $this->escapeHtml($authorLink); ?>" target="_blank"><?php echo $escape($author); ?></a>
+                <a href="<?php echo $this->escapeHtml($authorLink); ?>" target="_blank"><?php echo $this->escapeHtml($author); ?></a>
                 <?php else: ?>
                 <?php echo $this->escapeHtml($author); ?>
                 <?php endif; ?>
@@ -39,7 +42,7 @@ use Omeka\Site\Theme\Manager;
             <?php endif; ?>
         </div>
 
-        <input type="hidden" name="o:theme" value="<?php echo $this->escapeHtml($theme->getId()); ?>" disabled>
+        <input type="hidden" name="o:theme" value="<?php echo $this->escapeHtml($theme->getId()); ?>" <?php echo $selected ? '' : 'disabled'; ?>>
     </div>
     <?php endforeach; ?>
 </div>

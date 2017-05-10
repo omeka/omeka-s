@@ -1,5 +1,4 @@
 <?php
-use Zend\Form\Element\Textarea;
 $this->htmlElement('body')->appendAttribute('class', 'edit media');
 $escape = $this->plugin('escapeHtml');
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
@@ -58,7 +57,9 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         title=" <?php echo $escape($this->translate('Make public')); ?>"></a>
         <input type="hidden" name="o:is_public" value="0">
         <?php endif; ?>
+        <?php if ($media->userIsAllowed('delete')): ?>
         <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
+        <?php endif; ?>
         <input type="submit" name="add-item-submit" value=" <?php echo $escape($this->translate('Save')); ?>">
     </div>
     <?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>

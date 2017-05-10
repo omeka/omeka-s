@@ -143,38 +143,46 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     ) {
         parent::hydrate($request, $entity, $errorStore);
 
+        $isUpdate = Request::UPDATE === $request->getOperation();
+        $isPartial = $isUpdate && $request->getOption('isPartial');
+        $append = $isPartial && 'append' === $request->getOption('collectionAction');
+        $remove = $isPartial && 'remove' === $request->getOption('collectionAction');
+
         if ($this->shouldHydrate($request, 'o:item_set')) {
             $itemSetsData = $request->getValue('o:item_set', []);
-
             $itemSetAdapter = $this->getAdapter('item_sets');
             $itemSets = $entity->getItemSets();
             $itemSetsToRetain = [];
 
             foreach ($itemSetsData as $itemSetData) {
-                if (is_array($itemSetData)
-                    && array_key_exists('o:id', $itemSetData)
-                    && is_numeric($itemSetData['o:id'])
-                ) {
+                if (is_array($itemSetData) && isset($itemSetData['o:id'])) {
                     $itemSetId = $itemSetData['o:id'];
                 } elseif (is_numeric($itemSetData)) {
                     $itemSetId = $itemSetData;
                 } else {
                     continue;
                 }
-
-                if (!$itemSet = $itemSets->get($itemSetId)) {
-                    // Item set not already assigned. Assign it.
+                $itemSet = $itemSets->get($itemSetId);
+                if ($remove) {
+                    if ($itemSet) {
+                        $itemSets->removeElement($itemSet);
+                    }
+                    continue;
+                }
+                if (!$itemSet) {
+                    // Assign item set that was not already assigned.
                     $itemSet = $itemSetAdapter->findEntity($itemSetId);
                     $itemSets->add($itemSet);
                 }
-
                 $itemSetsToRetain[] = $itemSet;
             }
 
-            // Unassign item sets that were not included in the passed data.
-            foreach ($itemSets as $itemSet) {
-                if (!in_array($itemSet, $itemSetsToRetain)) {
-                    $itemSets->removeElement($itemSet);
+            if (!$append && !$remove) {
+                // Remove item sets that were not included in the passed data.
+                foreach ($itemSets as $itemSet) {
+                    if (!in_array($itemSet, $itemSetsToRetain)) {
+                        $itemSets->removeElement($itemSet);
+                    }
                 }
             }
         }
@@ -219,5 +227,20 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 }
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function preprocessBatchUpdate(array $data, Request $request)
+    {
+        $rawData = $request->getContent();
+        $data = parent::preprocessBatchUpdate($data, $request);
+
+        if (isset($rawData['o:item_set'])) {
+            $data['o:item_set'] = $rawData['o:item_set'];
+        }
+
+        return $data;
     }
 }

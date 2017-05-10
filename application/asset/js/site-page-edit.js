@@ -237,7 +237,7 @@
         $('#select-resource').on('o:resources-selected', '.select-resources-button', function(e) {
             Omeka.closeSidebar($('#attachment-options'));
             var selectingAttachment = $('.selecting-attachment');
-            $(this).closest('.resource-list').find('.resource')
+            $('#item-results').find('.resource')
                 .has('input.select-resource-checkbox:checked').each(function() {
                     addItemAttachment(selectingAttachment, $(this).data('resource-values'));
                 });

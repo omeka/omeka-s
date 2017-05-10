@@ -2,35 +2,41 @@
 $escape = $this->plugin('escapeHtml');
 ?>
 
-<h3><?php echo $this->translate('Select Item'); ?></h3>
-<div class="search-nav">
-    <div id="sidebar-resource-search" class="resource-search">
-        <input type="text" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
-        <button
-        data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>"
-        type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
+<div id="item-results">
+    <h3><?php echo $this->translate('Select Item'); ?></h3>
+    
+    <div class="search-nav">
+        <div id="sidebar-resource-search" class="resource-search">
+            <input type="text" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
+            <button
+            data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>"
+            type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
+        </div>
+    <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
     </div>
-<?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
-</div>
 
-<div class="resource-list">
-    <button type="button" class="select-resources-button">Add selected</button>
-    <?php foreach ($items as $item):?>
-    <div class="resource item" data-resource-values="<?php echo $escape(json_encode($item->valueRepresentation())); ?>">
-        <input type="checkbox" class="select-resource-checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
-        <?php if ($media = $item->primaryMedia()): ?>
-        <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
-        <?php endif; ?>
-        <span class="resource-name">
-            <?php if ($showDetails): ?>
-            <a href="#" class="sidebar-content" data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>" data-sidebar-selector="#resource-details"><?php echo $escape($item->displayTitle()); ?></a>
-            <?php else: ?>
-            <a href="#" class="select-resource"><?php echo $escape($item->displayTitle()); ?></a>
+    <button type="button" class="quick-select-toggle"><?php echo $this->translate('Quick Add'); ?></button>
+    
+    <div class="resource-list">
+        <?php foreach ($items as $item):?>
+        <div class="resource item" data-resource-values="<?php echo $escape(json_encode($item->valueRepresentation())); ?>">
+            <input type="checkbox" class="select-resource-checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
+            <?php if ($media = $item->primaryMedia()): ?>
+            <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
             <?php endif; ?>
-        </span>
+            <span class="resource-name">
+                <?php if ($showDetails): ?>
+                <a href="#" class="sidebar-content" data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>" data-sidebar-selector="#resource-details"><?php echo $escape($item->displayTitle()); ?></a>
+                <?php else: ?>
+                <a href="#" class="select-resource"><?php echo $escape($item->displayTitle()); ?></a>
+                <?php endif; ?>
+            </span>
+        </div>
+        <?php endforeach; ?>
     </div>
-    <?php endforeach; ?>
-    <button type="button" class="select-resources-button">Add selected</button>
 </div>
 
+<div class="confirm-panel">
+    <button type="button" class="select-resources-button">Add selected</button>
+</div>
 

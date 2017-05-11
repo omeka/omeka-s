@@ -106,14 +106,16 @@
         $('#select-resource').on('o:resources-selected', '.select-resources-button', function(e) {
             var value = $('.value.selecting-resource');
             var field = value.closest('.resource-values.field');
-            value.remove();
             $('#item-results').find('.resource')
-                .has('input.select-resource-checkbox:checked').each(function() {
-                    var newValue = makeNewValue(field.data('property-term'), null, 'resource');
+                .has('input.select-resource-checkbox:checked').each(function(index) {
+                    if (0 < index) {
+                        value = makeNewValue(field.data('property-term'), null, 'resource');
+                        field.find('.values').append(value);
+                    }
+                    console.log(value[0]);
                     var valueObj = $(this).data('resource-values');
-                    var namePrefix = newValue.data('name-prefix');
-                    field.find('.values').append(newValue);
-                    $(document).trigger('o:prepare-value', ['resource', newValue, valueObj, namePrefix]);
+                    var namePrefix = value.data('name-prefix');
+                    $(document).trigger('o:prepare-value', ['resource', value, valueObj, namePrefix]);
                 });
         });
 

@@ -1,7 +1,9 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'edit item');
-$deleteButton = '<a href="#" class="delete button">' . $this->translate('Delete') . '</a>';
+$deleteButton = $item->userIsAllowed('delete')
+    ? '<a href="#" class="delete button">' . $this->translate('Delete') . '</a>'
+    : null;
 ?>
 
 <script type='text/javascript'>

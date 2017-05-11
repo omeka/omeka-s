@@ -149,6 +149,32 @@ gulp.task('deps', function () {
 gulp.task('deps:update', function () {
     return composer(['update']);
 });
+gulp.task('deps:js', function (cb) {
+    var deps = {
+        'ckeditor': ['**', '!samples/**'],
+        'jquery': 'dist/jquery.min.js',
+        'jstree': 'dist/jstree.min.js',
+        'openseadragon': 'build/openseadragon/**',
+        'sortablejs': 'Sortable.min.js',
+        'tablesaw': 'dist/stackonly/**'
+    }
+
+    Object.keys(deps).forEach(function (module) {
+        var moduleDeps = deps[module];
+        if (!(moduleDeps instanceof Array)) {
+            moduleDeps = [moduleDeps];
+        }
+        moduleDeps = moduleDeps.map(function (value) {
+            if (value[0] === '!') {
+                return '!' + './node_modules/' + module + '/' + value.substr(1);
+            }
+            return './node_modules/' + module + '/' + value;
+        });
+        gulp.src(moduleDeps, {nodir: true})
+            .pipe(gulp.dest('./application/asset/vendor/' + module));
+    });
+    cb();
+})
 
 gulp.task('dedist', function () {
     return gulp.src(['./.htaccess.dist', './config/*.dist', './logs/*.dist', './application/test/config/*.dist'], {base: '.'})

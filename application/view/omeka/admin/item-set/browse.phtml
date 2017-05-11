@@ -167,6 +167,7 @@ $sortHeadings = [
                 sprintf('<strong>%s</strong>', $this->translate('Warning')),
                 sprintf('<strong>%s</strong>', number_format($this->pagination()->getPaginator()->getTotalCount()))
             ); ?></p>
+            <label><input type="checkbox" name="confirm-delete-all-check"> <?php echo $this->translate('Are you sure?'); ?></label>
             <?php echo $this->form($this->formDeleteAll); ?>
         </div>
     </div>
@@ -191,6 +192,9 @@ $('.delete-selected').on('click', function(e) {
     Omeka.closeSidebar($('#sidebar-delete-all'));
     var inputs = $('input[name="resource_ids[]"]');
     $('#delete-selected-count').text(inputs.filter(':checked').length);
+});
+$('#sidebar-delete-all').on('click', 'input[name="confirm-delete-all-check"]', function(e) {
+    $('#confirm-delete-all input[type="submit"]').prop('disabled', this.checked ? false : true);
 });
 </script>
 

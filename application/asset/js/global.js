@@ -381,6 +381,8 @@ var Omeka = {
             $(this).addClass('touched');
         });
 
+        $(document).trigger('enhance.tablesaw');
+
         $('.select-all').change(function() {
             if (this.checked) {
                 $('.batch-edit td input[type=checkbox]').prop('checked', true);
@@ -420,7 +422,6 @@ var Omeka = {
             e.preventDefault();
             $(this).closest('.value').remove();
         });
-        
     });
 
 }(window.jQuery, window, document));

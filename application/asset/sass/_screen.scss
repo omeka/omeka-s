@@ -105,8 +105,9 @@ body {
         margin-bottom: $spacing-medium;
     }
 
-    tr {
+    .tablesaw tr {
         background-color: #fff;
+        border-bottom: 1px solid $border-gray;
     }
 
     tr.delete {
@@ -115,15 +116,20 @@ body {
 
     td,
     table.tablesaw td {
-        padding: $spacing-small .5em;
+        padding: $spacing-small .5em ($spacing-small - 1px);
         position: relative;
         vertical-align: middle;
     }
 
-    tr:last-of-type td,
-    tr:last-of-type th {
-        padding-bottom: ($spacing-small - 1px);
-        border-bottom: 1px solid $border-gray;
+    table.tablesaw td:first-child a {
+        max-width: calc(100% - #{3 * $spacing-large});
+        display: inline-block;
+        vertical-align: middle;
+        word-break: break-word;
+    }
+
+    table.tablesaw td:first-child img + .resource-name a {
+        max-width: calc(100% - #{5 * $spacing-large});
     }
 
     table.tablesaw thead tr:first-child th {
@@ -375,54 +381,6 @@ body {
     .selector.sidebar .selector-parent {
         margin-bottom: 0;
     }
-
-    /* @group ----- CKEditor source dialog ----- */
-
-    .cke_dialog .cke_dialog_title,
-    .cke_dialog .cke_dialog_footer {
-        background-image: none;
-        border-radius: 0;
-        box-shadow: none;
-        background-color: #f2f2f2;
-        border-color: $border-gray;
-    }
-
-    .cke_dialog td:last-of-type,
-    .cke_dialog tr:last-of-type td {
-        border-bottom: 0;
-    }
-
-    .cke_dialog textarea.cke_dialog_ui_input_textarea {
-        border-radius: 0;
-        box-shadow: none;
-        border-color: #dfdfdf;
-    }
-
-    .cke_dialog a.cke_dialog_ui_button {
-        float: left;
-        margin: 0 6px 5px 0;
-        border: 1px solid #eee;
-        border-bottom-color: #979797;
-        color: #000;
-        background: #fff;
-        border-radius: 0px;
-
-        &:hover,
-        &:active {
-            background-color: #ddd;
-            background-image: none;
-            color: #000;
-            text-shadow: none;
-            box-shadow: none;
-            border-color: #ddd #ddd #979797 #ddd;
-        }
-
-        span {
-            text-shadow: none;
-        }
-    }
-
-    /* @end */
 
     /* @end */
 
@@ -1047,13 +1005,6 @@ div[role="main"] {
 
 /* @group ----- Browse views ----- */
 
-.browse .resource-name {
-    display: inline-block;
-    max-width: calc(100% - 9.5em);
-    vertical-align: middle;
-    word-wrap: break-word;
-}
-
 .browse .add.button,
 .browse .batch-edit.button {
     float: left;
@@ -1107,6 +1058,11 @@ div[role="main"] {
     right: $spacing-small;
     top: 50%;
     transform: translateY(-50%);
+}
+
+span.indent {
+    display: inline-block;
+    vertical-align: top;
 }
 
 .actions {
@@ -2052,7 +2008,15 @@ input[type="text"].value-language,
     .input-body {
         clear: both;
         background-color: #fff;
+        padding: 0;
+    }
+
+    [data-data-type="resource"] .input-body {
         padding: 0 $spacing-small;
+    }
+
+    .inputs .input-body input[type="text"] {
+        margin: 0;
     }
 
     [data-data-type="resource"] .button:before {
@@ -2061,7 +2025,7 @@ input[type="text"].value-language,
 
     .value.delete span.restore-value {
         display: inline-block;
-        padding: $spacing-small (1.25 * $spacing-small);
+        padding: 0 (1.25 * $spacing-small);
     }
 
     .value.delete > *:not(.input-header) {
@@ -2164,7 +2128,6 @@ input[type="text"].value-language,
     }
 
     .media.row .resource-name {
-        width: calc(100% - #{6 * $spacing-large});
         word-break: break-all;
         display: block;
     }
@@ -2347,19 +2310,69 @@ input[type="text"].value-language,
     }
 }
 
+#item-results {
+    padding: $spacing-medium;
+    margin: -$spacing-medium;
+    border-bottom: 1px solid $border-gray;
+
+    & + .confirm-panel,
+    .resource input[type="checkbox"] {
+        display: none;
+    }
+}
+
+#item-results.active {
+    padding-bottom: 3 * $spacing-large;
+
+    & + .confirm-panel {
+        display: block;
+    }
+
+    .resource input[type="checkbox"] {
+        display: inline-block;
+    }
+}
+
+.sidebar button.quick-select-toggle {
+    background-color: transparent;
+    color: $copy-gray;
+    box-shadow: none;
+    margin: $spacing-medium;
+    padding: 0;
+    line-height: 1;
+    min-height: 0;
+
+    &:before {
+        font-family: "FontAwesome";
+        content: $fa-var-toggle-off;
+        display: inline-block;
+        margin-right: $spacing-small;
+    }
+
+    &.active:before {
+        content: $fa-var-toggle-on;
+    }
+
+    & + .resource-list {
+        border-top: 1px solid $border-gray;
+    }
+}
+
 .resource-list {
     width: 100%;
 
     img {
         width: (1.5 * $spacing-large);
+        height: (1.5 * $spacing-large);
         float: left;
-        margin-left: $spacing-small;
+        margin-right: $spacing-medium;
     }
 
     .resource-name {
         display: inline-block;
         vertical-align: top;
-        margin: $spacing-small 0 0 $spacing-medium;
+        margin: 0;
+        width: calc(100% - #{$spacing-large});
 
         &:only-child {
             margin: 0 0 0 $spacing-small;
@@ -2367,15 +2380,17 @@ input[type="text"].value-language,
     }
 
     img + .resource-name {
-        width: calc(100% - #{2.5 * $spacing-large});
+        width: calc(100% - #{3 * $spacing-large});
     }
 
     .resource {
-        padding: $spacing-small 0 #{$spacing-small - 1px};
+        padding: $spacing-small $spacing-medium #{$spacing-small - 1px};
         border-bottom: 1px solid rgba(0,0,0,.08);
         position: relative;
         width: 100%;
         overflow: hidden;
+        display: flex;
+        align-items: center;
 
         &:hover {
             background-color: rgba(255,255,255,.8);
@@ -2384,7 +2399,14 @@ input[type="text"].value-language,
         &:hover .select {
             right: 0px;
         }
+
+        input[type="checkbox"] {
+            flex: 1;
+            height: $base-line-height;
+            margin-right: $spacing-small;
+        }
     }
+
 }
 
 #resource-details {
@@ -2410,10 +2432,14 @@ input[type="text"].value-language,
 
 #select-item,
 .confirm-panel {
-    position: absolute;
-    bottom: $spacing-medium;
-    right: $spacing-medium;
-    left: $spacing-medium;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: span(4 of 16);
+    padding: $spacing-medium;
+    background-color: #f7f7f7;
+    border-top: 1px solid $border-gray;
+    border-left: 1px solid $border-gray;
 
     button,
     .button {
@@ -3454,12 +3480,6 @@ body.sidebar-open #content {
         img {
             width: 100%;
             height: auto;
-        }
-    }
-
-    #attachment-options.attachment-item-only {
-        #attachment-item > .select-media, #attachment-caption {
-            display: none;
         }
     }
 

@@ -55,6 +55,7 @@ class ItemController extends AbstractActionController
         $formDeleteAll->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete-all'], true));
         $formDeleteAll->setButtonLabel('Confirm Delete'); // @translate
         $formDeleteAll->setAttribute('id', 'confirm-delete-all');
+        $formDeleteAll->get('submit')->setAttribute('disabled', true);
 
         $view = new ViewModel;
         $items = $response->getContent();

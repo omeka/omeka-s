@@ -103,6 +103,20 @@
             Omeka.closeSidebar($('#select-resource'));
         });
 
+        $('#select-resource').on('o:resources-selected', '.select-resources-button', function(e) {
+            var value = $('.value.selecting-resource');
+            var field = value.closest('.resource-values.field');
+            value.remove();
+            $('#item-results').find('.resource')
+                .has('input.select-resource-checkbox:checked').each(function() {
+                    var newValue = makeNewValue(field.data('property-term'), null, 'resource');
+                    var valueObj = $(this).data('resource-values');
+                    var namePrefix = newValue.data('name-prefix');
+                    field.find('.values').append(newValue);
+                    $(document).trigger('o:prepare-value', ['resource', newValue, valueObj, namePrefix]);
+                });
+        });
+
         $('.button.resource-select').on('click', function(e) {
             e.preventDefault();
             var selectButton = $(this);

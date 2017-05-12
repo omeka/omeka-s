@@ -29,9 +29,11 @@ $objects = $item->objectValues();
 <?php endif; ?>
 
 <?php if ($subjects || $objects): ?>
-<div id="item-linked" class="section">
+<div id="item-linked" class="property">
     <h4><?php echo $this->translate('Linked Resources'); ?></h4>
-    <?php echo $item->displayLinkedResources(); ?>
+    <div class="value">
+        <?php echo $item->displayLinkedResources(); ?>
+    </div>
 </div>
 <?php endif; ?>
 

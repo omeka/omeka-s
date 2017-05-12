@@ -151,6 +151,7 @@ gulp.task('deps:update', function () {
 });
 gulp.task('deps:js', function (cb) {
     var deps = {
+        'chosen-js': '**',
         'ckeditor': ['**', '!samples/**'],
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',

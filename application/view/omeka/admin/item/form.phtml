@@ -77,3 +77,10 @@ $sectionNavs = [
 
 <?php echo $this->partial('common/resource-form-templates.phtml'); ?>
 
+<script>
+$("#resource-template-select, #resource-class-select").chosen({
+    allow_single_deselect: true,
+    disable_search_threshold: 10,
+});
+</script>
+

@@ -36,12 +36,9 @@ class SearchFilters extends AbstractHelper
             'nex' => $translate('has no values'),
         ];
 
-        $exclude = ['submit' => null, 'page' => null, 'sort_by' => null, 'sort_order' => null, 'resource-type' => null];
-        $query = array_diff_key($query, $exclude);
         foreach ($query as $key => $value) {
             if ($value != null) {
                 switch ($key) {
-
                     // Search by class
                     case 'resource_class_id':
                         $filterLabel = $translate('Resource class');

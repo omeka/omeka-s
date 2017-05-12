@@ -93,6 +93,10 @@ class SearchFilters extends AbstractHelper
                             $index++;
                         }
                         break;
+                    case 'search':
+                        $filterLabel = $translate('Search');
+                        $filters[$filterLabel][] = $value;
+                        break;
 
                     // Search resource template
                     case 'resource_template_id':

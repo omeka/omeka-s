@@ -24,8 +24,7 @@ class Csrf implements InitializerInterface
                 'csrf_options' => [
                     'timeout' => 3600,
                 ],
-                'messages' => array(
-                    NotEmpty::IS_EMPTY => "No form data received. Perhaps a file was too large?",
+                'empty_option' => "No form data received. Perhaps a file was too large?", // @translate
                 ),
             ],
         ]);

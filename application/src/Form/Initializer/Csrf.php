@@ -4,6 +4,7 @@ namespace Omeka\Form\Initializer;
 use Interop\Container\ContainerInterface;
 use Zend\Form\Form;
 use Zend\ServiceManager\Initializer\InitializerInterface;
+use Zend\Validator\NotEmpty
 
 class Csrf implements InitializerInterface
 {

@@ -4,7 +4,6 @@ namespace Omeka\Form\Initializer;
 use Interop\Container\ContainerInterface;
 use Zend\Form\Form;
 use Zend\ServiceManager\Initializer\InitializerInterface;
-use Zend\Validator\NotEmpty
 
 class Csrf implements InitializerInterface
 {
@@ -17,17 +16,18 @@ class Csrf implements InitializerInterface
         // All forms should have CSRF protection. Must add this before building
         // the form so getInputFilter() knows about it.
         $name = $form->getName();
+        $csrf_name = $name ? $name . '_csrf' : 'csrf';
         $form->add([
             'type' => 'csrf',
-            'name' => $name ? $name . '_csrf' : 'csrf',
+            'name' => $csrf_name,
             'options' => [
                 'label' => 'CSRF',
                 'csrf_options' => [
                     'timeout' => 3600,
                 ],
-                'messages' => array(
-                    NotEmpty::IS_EMPTY => "No form data received. Perhaps a file was too large?",
             ],
         ]);
+        $form->getElement($csrf_name)->getValidator('NotEmpty')
+            ->setMessage("No form data received. Perhaps a file was too large?");
     }
 }

@@ -25,7 +25,6 @@ class Csrf implements InitializerInterface
                     'timeout' => 3600,
                 ],
                 'empty_option' => "No form data received. Perhaps a file was too large?", // @translate
-                ),
             ],
         ]);
     }

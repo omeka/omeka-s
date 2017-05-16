@@ -27,7 +27,7 @@ class Csrf implements InitializerInterface
                 ],
             ],
         ]);
-        $form->getElement($csrf_name)->getValidator('NotEmpty')
+        $form->get($csrf_name)->getCsrfValidator()->
             ->setMessage("No form data received. Perhaps a file was too large?");
     }
 }

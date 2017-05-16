@@ -33,7 +33,7 @@ class Csrf implements InitializerInterface
                 'NotEmpty',
                 array(
                     'messages' => array(
-                        NotEmpty::IS_EMPTY => "No form data received. Perhaps a file was too large?"
+                        NotEmpty::IS_EMPTY => "No form data received. Perhaps a file was too large?" // @translate
                     ),
                 ),
                 true

@@ -31,11 +31,11 @@ class Csrf implements InitializerInterface
         $form->getInputFilter()->get($csrfName)->getValidatorChain()
             ->prependByName(
                 'NotEmpty',
-                array(
-                    'messages' => array(
-                        NotEmpty::IS_EMPTY => "No form data received. Perhaps a file was too large?" // @translate
-                    ),
-                ),
+                [
+                    'messages' => [
+                        NotEmpty::IS_EMPTY => "No form data received. Perhaps a file was too large?", // @translate
+                    ],
+                ],
                 true
             );
     }

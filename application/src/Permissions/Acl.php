@@ -107,27 +107,24 @@ class Acl extends ZendAcl
      *
      * Add a role label to the ACL
      *
-     * @param $role
+     * @param $roleId
+     * @param $roleLabel
      */
 
-    public function addRoleLabel($role)
+    public function addRoleLabel($roleId, $roleLabel)
     {
-        $role_id = $role->getRoleId();
-        $role_id = str_replace(" ", "_", trim($role_id));
-
-        $this->roleLabels[strtolower($role_id)] = $role_id;
+        $this->roleLabels[$roleId] = $roleLabel;
     }
 
     /**
      *
      * Remove a role label from the ACL
      *
-     * @param $role_label
+     * @param $roleId
      */
 
-    public function removeRoleLabel($role_label)
+    public function removeRoleLabel($roleId)
     {
-        $role_label = str_replace(" ", "_", trim($role_label));
-        unset($this->roleLabels[strtolower($role_label)]);
+        unset($this->roleLabels[$roleId]);
     }
 }

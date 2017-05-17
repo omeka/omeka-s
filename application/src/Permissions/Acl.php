@@ -104,7 +104,6 @@ class Acl extends ZendAcl
     }
 
     /**
-     *
      * Add a role label to the ACL
      *
      * @param $roleId
@@ -117,7 +116,6 @@ class Acl extends ZendAcl
     }
 
     /**
-     *
      * Remove a role label from the ACL
      *
      * @param $roleId

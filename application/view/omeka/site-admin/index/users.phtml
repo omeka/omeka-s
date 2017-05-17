@@ -70,17 +70,17 @@ $roles = [
         <ul id="new-site-user">
             <li class="total-count-heading"><?php echo $this->translate('All Users'); ?> (<?php echo count($users); ?>)
                 <ul class="selectable-list">
-                <?php
-                $usersByInitial = [];
-                $initial = substr($users[0]->name(), 0, 1);
-                foreach ($users as $user) {
-                    $userInitial = substr($user->name(), 0, 1);
-                    if ($userInitial !== $initial) {
-                        $initial = $userInitial;
+                    <?php
+                    $usersByInitial = [];
+                    $initial = substr(strtoupper($users[0]->name()), 0, 1);
+                    foreach ($users as $user) {
+                        $userInitial = substr(strtoupper($user->name()), 0, 1);
+                        if ($userInitial !== $initial) {
+                            $initial = $userInitial;
+                        }
+                        $usersByInitial[$initial][] = $user;
                     }
-                    $usersByInitial[$initial][] = $user;
-                }
-                ?>
+                    ?>
                 <?php foreach ($usersByInitial as $initial => $users): ?>
                     <li class="selector-parent">
                         <span><?php echo $initial; ?></span>

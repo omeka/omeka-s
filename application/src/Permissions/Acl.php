@@ -109,7 +109,6 @@ class Acl extends ZendAcl
      * @param $roleId
      * @param $roleLabel
      */
-
     public function addRoleLabel($roleId, $roleLabel)
     {
         $this->roleLabels[$roleId] = $roleLabel;
@@ -120,7 +119,6 @@ class Acl extends ZendAcl
      *
      * @param $roleId
      */
-
     public function removeRoleLabel($roleId)
     {
         unset($this->roleLabels[$roleId]);

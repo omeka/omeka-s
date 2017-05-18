@@ -109,7 +109,7 @@ class SettingForm extends Form
             'options' => [
                 'label' => 'Default Site', // @translate
                 'info' => 'Select which site should appear when users go to the front page of the installation.', // @translate
-                'empty_option' => 'No default (Show index of sites)', // @translate
+                'empty_option' => '',
                 'resource_value_options' => [
                     'resource' => 'sites',
                     'query' => [],
@@ -119,6 +119,8 @@ class SettingForm extends Form
                 ],
             ],
             'attributes' => [
+                'class' => 'chosen-select',
+                'data-placeholder' => 'No default (show index of sites)', // @translate
                 'value' => $this->settings->get('default_site'),
                 'required' => false,
             ],

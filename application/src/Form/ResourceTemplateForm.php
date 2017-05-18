@@ -24,7 +24,11 @@ class ResourceTemplateForm extends Form
             'type' => ResourceClassSelect::class,
             'options' => [
                 'label' => 'Suggested Class', // @translate
-                'empty_option' => 'Select Class...', // @translate
+                'empty_option' => '',
+            ],
+            'attributes' => [
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select a class',
             ],
         ]);
 

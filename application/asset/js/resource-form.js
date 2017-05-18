@@ -103,6 +103,13 @@
             Omeka.closeSidebar($('#select-resource'));
         });
 
+        // Prevent resource details from opening when quick add is toggled on.
+        $('#select-resource').on('click', '.quick-select-toggle', function() {
+            $('#item-results').find('a.select-resource').each(function() {
+                $(this).toggleClass('sidebar-content');
+            });
+        });
+
         $('#select-resource').on('o:resources-selected', '.select-resources-button', function(e) {
             var value = $('.value.selecting-resource');
             var field = value.closest('.resource-values.field');

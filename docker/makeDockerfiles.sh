@@ -29,6 +29,15 @@ function buildDockerFile {
   echo -e "\033[00;32m====================S=U=C=C=E=S=S=======================\033[0m\n";
 }
 
+function pushLatest {
+     echo -e "\033[00;32m========================================================";
+     echo -e "Pushing PHP 7.1 FPM with the tag latest";
+     echo -e "========================================================\033[0m";
+
+     docker tag omeka-s:7.1-fpm ${DOCKER_USER}/${PACKAGE_NAME}:latest
+     docker push ${DOCKER_USER}/${PACKAGE_NAME}:latest
+}
+
 for php in "${PHP_VERSIONS[@]}"
 do
   :
@@ -55,3 +64,6 @@ do
     rm -f ../.dockerignore
   done
 done
+
+pushLatest
+

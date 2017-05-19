@@ -24,7 +24,7 @@ function buildDockerFile {
   docker tag ${PACKAGE_NAME}:${2} ${DOCKER_USER}/${PACKAGE_NAME}:${2}
   
   echo -e "\033[00;32m ===> Spinning up a container running ${2} and attempting to run unit tests \033[0m\n";
-  docker run --name ${2} -i -t ${PACKAGE_NAME}:${2} /bin/sh -c " ./node_modules/gulp/bin/gulp.js init"
+  docker run --name ${2} -i -t ${DOCKER_USER}/${PACKAGE_NAME}:${2} /bin/sh -c " ./node_modules/gulp/bin/gulp.js init"
   
   echo -e "\033[00;32m ===> Pushing to Dockerhub\033[0m\n";
   docker push ${DOCKER_USER}/${PACKAGE_NAME}:${2}

@@ -3664,7 +3664,7 @@ body.minimal {
         width: span(7 of 10);
     }
 
-    input {
+    .inputs input {
           width: calc(66.66% - 6px);
           vertical-align: top;
     }
@@ -3673,19 +3673,20 @@ body.minimal {
         width: 100%;
     }
 
-    button[type="submit"] {
+    [type="submit"] {
+        width: 100%;
         display: block;
         margin: auto;
         clear: both;
     }
 
-    .field:last-of-type {
+    .field:last-child {
         margin-bottom: 0;
     }
 }
 
 .forgot-password {
-    margin: 0;
+    margin: $spacing-small 0;
 }
 
 /* @end */

@@ -26,7 +26,7 @@ $escape = $this->plugin('escapeHtml');
             <?php endif; ?>
             <span class="resource-name">
                 <?php if ($showDetails): ?>
-                <a href="#" class="sidebar-content" data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>" data-sidebar-selector="#resource-details"><?php echo $escape($item->displayTitle()); ?></a>
+                <a href="#" class="sidebar-content select-resource" data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>" data-sidebar-selector="#resource-details"><?php echo $escape($item->displayTitle()); ?></a>
                 <?php else: ?>
                 <a href="#" class="select-resource"><?php echo $escape($item->displayTitle()); ?></a>
                 <?php endif; ?>

@@ -58,6 +58,7 @@ class ValueHydrator
         $dataTypes = $adapter->getServiceLocator()->get('Omeka\DataTypeManager');
 
         // Iterate the representation data. Note that we ignore terms.
+        $valuePassed = false;
         foreach ($representation as $term => $valuesData) {
             if (!is_array($valuesData)) {
                 // Ignore invalid values data.
@@ -82,6 +83,7 @@ class ValueHydrator
                     continue;
                 }
 
+                $valuePassed = true;
                 $value = current($existingValues);
                 if ($value === false || $append) {
                     $value = new Value;
@@ -103,8 +105,11 @@ class ValueHydrator
             }
         }
 
-        // Remove any values that weren't reused.
-        if (!$append) {
+        // Remove any values that weren't reused. This step should only happen
+        // during an UPDATE, or during a PATCH (isPartial=true) -if- it's a
+        // default collection (collectionAction=replace) -and- at least one
+        // value was passed in the request.
+        if (!$append && $valuePassed) {
             foreach ($existingValues as $key => $existingValue) {
                 if ($existingValue !== null) {
                     $valueCollection->remove($key);

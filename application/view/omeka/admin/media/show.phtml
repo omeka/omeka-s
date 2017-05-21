@@ -1,17 +1,21 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'media show');
 $escape = $this->plugin('escapeHtml');
+
+$sectionNavs = [
+    'media-metadata' => $this->translate('Metadata'),
+];
 ?>
 
 <?php echo $this->pageTitle(sprintf($this->translate('Media: “%s”'), $media->displayTitle())); ?>
-
 
 <div id="page-actions">
     <?php echo $media->link($this->translate('Edit media'), 'edit', ['class' => 'button']); ?>
 </div>
 
+<?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $media); ?>
 
-<div id="item-metadata" class="active section">
+<div id="media-metadata" class="active section">
     <?php echo $media->render(); ?>
     <?php if ( $media->resourceClass()): ?>
         <div class="meta-group">

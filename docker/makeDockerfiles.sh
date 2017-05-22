@@ -22,11 +22,15 @@ function buildDockerFile {
   DOCKERFILE="docker/build/${1}";
   docker build --file=${DOCKERFILE} -t ${PACKAGE_NAME}:${2} .
   docker tag ${PACKAGE_NAME}:${2} ${DOCKER_USER}/${PACKAGE_NAME}:${2}
+
+  docker run --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mysql:5.7
+  docker exec -it mysql /bin/sh -c 'mysql -e "create database IF NOT EXISTS omeka_test;" -uroot'
+
   
   docker images
   
   echo -e "\033[00;32m ===> Spinning up a container running ${2} and attempting to run unit tests \033[0m\n";
-  docker run -i -t ${PACKAGE_NAME}:${2} /bin/sh -c " ./node_modules/gulp/bin/gulp.js test:php"
+  docker run -i -t --link mysql:mysql ${PACKAGE_NAME}:${2} /bin/sh -c "sed -i 's/^host.*/host = "mysql"/' application/test/config/database.ini && sed -i 's/^user.*/user = "root"/' application/test/config/database.ini && sed -i 's/^dbname.*/dbname = "omeka_test"/' application/test/config/database.ini &&./node_modules/gulp/bin/gulp.js test:php"
   
   echo -e "\033[00;32m ===> Pushing to Dockerhub\033[0m\n";
   docker push ${DOCKER_USER}/${PACKAGE_NAME}:${2}

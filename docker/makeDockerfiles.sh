@@ -24,14 +24,18 @@ function buildDockerFile {
   docker tag ${PACKAGE_NAME}:${2} ${DOCKER_USER}/${PACKAGE_NAME}:${2}
 
   docker run --name mysql -d -p 3306:3306 -e "MYSQL_ALLOW_EMPTY_PASSWORD=yes"  mysql:5.7
-  docker exec -i mysql mysql -uroot  <<< "create database IF NOT EXISTS omeka_test;"
+  # docker exec -i mysql mysql -uroot  <<< "create database IF NOT EXISTS omeka_test;"
+  docker run -it --link mysql:mysql --rm mysql sh -c \
+     'exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" \
+     -P"$MYSQL_PORT_3306_TCP_PORT" -uroot \
+     -e "create database IF NOT EXISTS omeka_test;"'
 
 
   
   docker images
   
   echo -e "\033[00;32m ===> Spinning up a container running ${2} and attempting to run unit tests \033[0m\n";
-  docker run -i -t --link omekas-mysql:mysql ${PACKAGE_NAME}:${2} /bin/sh -c "sed -i 's/^host.*/host = "mysql"/' application/test/config/database.ini && sed -i 's/^user.*/user = "root"/' application/test/config/database.ini && sed -i 's/^dbname.*/dbname = "omeka_test"/' application/test/config/database.ini &&./node_modules/gulp/bin/gulp.js test:php"
+  docker run -i -t --link mysql:mysql ${PACKAGE_NAME}:${2} /bin/sh -c "sed -i 's/^host.*/host = "mysql"/' application/test/config/database.ini && sed -i 's/^user.*/user = "root"/' application/test/config/database.ini && sed -i 's/^dbname.*/dbname = "omeka_test"/' application/test/config/database.ini &&./node_modules/gulp/bin/gulp.js test:php"
   
   echo -e "\033[00;32m ===> Pushing to Dockerhub\033[0m\n";
   docker push ${DOCKER_USER}/${PACKAGE_NAME}:${2}

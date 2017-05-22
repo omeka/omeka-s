@@ -15,7 +15,8 @@ RUN echo "date.timezone = "Europe/London"" >> /usr/local/etc/php/conf.d/php.ini 
     zip \
     pdo \
     pdo_mysql \
-    pcntl
+    pcntl \
+    libpcre3-dev
 
 # Node JS.
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -

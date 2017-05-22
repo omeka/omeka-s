@@ -24,11 +24,7 @@ function buildDockerFile {
   docker tag ${PACKAGE_NAME}:${2} ${DOCKER_USER}/${PACKAGE_NAME}:${2}
 
   docker run --name mysql -d -p 3306:3306 -e "MYSQL_ALLOW_EMPTY_PASSWORD=yes"  mysql:5.7
-  # docker exec -i mysql mysql -uroot  <<< "create database IF NOT EXISTS omeka_test;"
-  docker run -it --link mysql:mysql --rm mysql sh -c \
-     'exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" \
-     -P"$MYSQL_PORT_3306_TCP_PORT" -uroot \
-     -e "create database IF NOT EXISTS omeka_test;"'
+  docker exec -i mysql mysql -uroot  <<< "create database IF NOT EXISTS omeka_test;"
 
 
   

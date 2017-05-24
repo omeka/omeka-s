@@ -1,4 +1,4 @@
 s/${server}/apache/
 s/${configureServer}/apache.sh/
-s/${copyConfiguration}/""/
+s/${copyConfiguration}/RUN echo 'no config needed'/
 

@@ -36,10 +36,14 @@ function buildDockerFile {
   if [ $? -ne 0 ]; then
    echo -e "\033[00;31m ERROR: Unit tests didn't pass, we won't we pushing this image\033[0m\n";
   else
-    echo -e "\033[00;32m ===> Pushing to Dockerhub\033[0m\n";
-    docker push ${DOCKER_USER}/${PACKAGE_NAME}:${2}
-    cd -;
-    echo -e "\033[00;32m====================S=U=C=C=E=S=S=======================\033[0m\n";
+    if [[ "$TRAVIS_BRANCH" = "develop" ]] && [[ "$TRAVIS_PULL_REQUEST" = "false" ]]; then
+      echo -e "\033[00;32m ===> Pushing to Dockerhub\033[0m\n";
+      docker push ${DOCKER_USER}/${PACKAGE_NAME}:${2}
+      cd -;
+      echo -e "\033[00;32m====================S=U=C=C=E=S=S=======================\033[0m\n";
+    else
+      echo -e "\033[00;31m Unit tests passed but we're not pushing this as its a PR or a feature branch\033[0m\n";
+    fi
   fi 
 }
 

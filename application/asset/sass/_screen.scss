@@ -122,14 +122,7 @@ body {
     }
 
     table.tablesaw td:first-child a {
-        max-width: calc(100% - #{3 * $spacing-large});
-        display: inline-block;
-        vertical-align: middle;
         word-break: break-word;
-    }
-
-    table.tablesaw td:first-child img + .resource-name a {
-        max-width: calc(100% - #{5 * $spacing-large});
     }
 
     table.tablesaw thead tr:first-child th {
@@ -1012,15 +1005,8 @@ div[role="main"] {
 }
 
 .browse td:first-child,
-.browse th:first-child,
-.batch-edit td:nth-child(2),
-.batch-edit th:nth-child(2) {
+.browse th:first-child {
     width: 50%;
-}
-
-.batch-edit td:first-child,
-.batch-edit th:first-child {
-    width: auto;
 }
 
 .browse td,
@@ -1053,11 +1039,20 @@ div[role="main"] {
     padding: 0 10px;
 }
 
+.browse .tablesaw-cell-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.browse .batch-edit input[type="checkbox"] {
+    margin-right: $spacing-medium;
+}
+
 .browse .actions {
-    position: absolute;
-    right: $spacing-small;
-    top: 50%;
-    transform: translateY(-50%);
+    order: 3;
+    margin-left: auto;
+    min-width: 4 * $spacing-large;
 }
 
 span.indent {

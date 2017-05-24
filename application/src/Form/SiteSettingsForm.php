@@ -17,6 +17,8 @@ class SiteSettingsForm extends Form
 
     public function init()
     {
+        $settings = $this->getSiteSettings();
+
         $this->add([
             'name' => 'browse_attached_items',
             'type' => 'checkbox',
@@ -24,7 +26,7 @@ class SiteSettingsForm extends Form
                 'label' => 'Restrict browse to attached items', // @translate
             ],
             'attributes' => [
-                'value' => (bool) $this->getSiteSettings()->get('browse_attached_items', false),
+                'value' => (bool) $settings->get('browse_attached_items', false),
             ],
         ]);
 
@@ -40,7 +42,18 @@ class SiteSettingsForm extends Form
                 ],
             ],
             'attributes' => [
-                'value' => $this->getSiteSettings()->get('attachment_link_type'),
+                'value' => $settings->get('attachment_link_type'),
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'item_media_embed',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Embed media on item pages', // @translate
+            ],
+            'attributes' => [
+                'value' => (bool) $settings->get('item_media_embed', false),
             ],
         ]);
 

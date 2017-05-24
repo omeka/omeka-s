@@ -3,11 +3,21 @@ $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'item resource show');
 $subjects = $item->subjectValues();
 $objects = $item->objectValues();
+$embedMedia = $this->siteSetting('item_media_embed', false);
+$itemMedia = $item->media();
 ?>
 
 <?php echo $this->pageTitle($item->displayTitle(), 2); ?>
 <h3><?php echo $this->translate('Item'); ?></h3>
 <?php $this->trigger('view.show.before'); ?>
+<?php if ($embedMedia && $itemMedia): ?>
+    <div class="media-embeds">
+    <?php foreach ($itemMedia as $media):
+        echo $media->render();
+    endforeach;
+    ?>
+    </div>
+<?php endif; ?>
 <?php echo $item->displayValues(); ?>
 <div class="property">
     <?php $itemSets = $item->itemSets(); ?>
@@ -18,9 +28,9 @@ $objects = $item->objectValues();
     <?php endforeach; ?>
     <?php endif; ?>
 </div>
-<?php if ($item->media()): ?>
+<?php if (!$embedMedia && $itemMedia): ?>
 <div class="media-list">
-    <?php foreach ($item->media() as $media): ?>
+    <?php foreach ($itemMedia as $media): ?>
         <a href="<?php echo $media->url(); ?>" class="media resource">
             <img src="<?php echo $escape($media->thumbnailUrl('medium')); ?>" title="<?php echo $escape($media->displayTitle()); ?>">
         </a>
@@ -29,9 +39,11 @@ $objects = $item->objectValues();
 <?php endif; ?>
 
 <?php if ($subjects || $objects): ?>
-<div id="item-linked" class="section">
+<div id="item-linked" class="property">
     <h4><?php echo $this->translate('Linked Resources'); ?></h4>
-    <?php echo $item->displayLinkedResources(); ?>
+    <div class="value">
+        <?php echo $item->displayLinkedResources(); ?>
+    </div>
 </div>
 <?php endif; ?>
 

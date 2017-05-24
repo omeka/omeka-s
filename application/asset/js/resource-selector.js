@@ -2,7 +2,7 @@
     function searchResources() {
         var searchInput = $('#resource-list-search');
         var searchValue = searchInput.val();
-        Omeka.populateSidebarContent(searchInput.closest('.sidebar'), $('#sidebar-resource-search .o-icon-search').data('search-url'), {'property[0][in][]': searchValue});
+        Omeka.populateSidebarContent(searchInput.closest('.sidebar'), $('#sidebar-resource-search .o-icon-search').data('search-url'), {'search': searchValue});
     }
 
     $(document).ready( function() {

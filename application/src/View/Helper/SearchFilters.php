@@ -23,7 +23,6 @@ class SearchFilters extends AbstractHelper
         $translate = $this->getView()->plugin('translate');
 
         $filters = [];
-        $exclude = ['submit', 'page', 'sort_by', 'sort_order', 'resource-type'];
         $api = $this->getView()->api();
         $query = $this->getView()->params()->fromQuery();
         $queryTypes = [
@@ -38,9 +37,8 @@ class SearchFilters extends AbstractHelper
         ];
 
         foreach ($query as $key => $value) {
-            if ($value != null && in_array($key, $exclude) == false) {
+            if ($value != null) {
                 switch ($key) {
-
                     // Search by class
                     case 'resource_class_id':
                         $filterLabel = $translate('Resource class');
@@ -95,6 +93,10 @@ class SearchFilters extends AbstractHelper
                             $index++;
                         }
                         break;
+                    case 'search':
+                        $filterLabel = $translate('Search');
+                        $filters[$filterLabel][] = $value;
+                        break;
 
                     // Search resource template
                     case 'resource_template_id':
@@ -146,15 +148,16 @@ class SearchFilters extends AbstractHelper
                         }
                         $filters[$filterLabel][] = $filterValue;
                         break;
-
-                    default:
-                        $filterLabel = ucfirst($key);
-                        $filterValue = $value;
-                        $filters[$filterLabel][] = $filterValue;
-                        break;
                 }
             }
         }
+
+        $result = $this->getView()->trigger(
+            'view.search.filters',
+            ['filters' => $filters, 'query' => $query],
+            true
+        );
+        $filters = $result['filters'];
 
         return $this->getView()->partial(
             $partialName,

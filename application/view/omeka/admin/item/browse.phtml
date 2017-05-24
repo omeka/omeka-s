@@ -61,8 +61,7 @@ $sortHeadings = [
 <table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><input type="checkbox" class="select-all"></th>
-            <th><?php echo $this->translate('Title'); ?></th>
+            <th><input type="checkbox" class="select-all"><?php echo $this->translate('Title'); ?></th>
             <th><?php echo $this->translate('Class'); ?></th>
             <th><?php echo $this->translate('Owner'); ?></th>
             <th><?php echo $this->translate('Date Created'); ?></th>
@@ -85,10 +84,10 @@ $sortHeadings = [
         }
         ?>
         <tr>
-            <td><?php if ($item->userIsAllowed('update') || $item->userIsAllowed('delete')): ?>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
-            <?php endif; ?></td>
             <td>
+                <?php if ($item->userIsAllowed('update') || $item->userIsAllowed('delete')): ?>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
+                <?php endif; ?>
                 <ul class="actions">
                     <?php if ($item->userIsAllowed('update')): ?>
                     <li><?php echo $item->link('', 'edit', [

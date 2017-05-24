@@ -102,4 +102,25 @@ class Acl extends ZendAcl
     {
         return in_array($role, $this->adminRoles);
     }
+
+    /**
+     * Add a role label to the ACL
+     *
+     * @param $roleId
+     * @param $roleLabel
+     */
+    public function addRoleLabel($roleId, $roleLabel)
+    {
+        $this->roleLabels[$roleId] = $roleLabel;
+    }
+
+    /**
+     * Remove a role label from the ACL
+     *
+     * @param $roleId
+     */
+    public function removeRoleLabel($roleId)
+    {
+        unset($this->roleLabels[$roleId]);
+    }
 }

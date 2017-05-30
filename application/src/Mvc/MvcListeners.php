@@ -40,6 +40,10 @@ class MvcListeners extends AbstractListenerAggregate
             MvcEvent::EVENT_ROUTE,
             [$this, 'preparePublicSite']
         );
+        $this->listeners[] = $events->attach(
+            MvcEvent::EVENT_ROUTE,
+            [$this, 'checkExcessivePost']
+        );
     }
 
     /**
@@ -243,6 +247,14 @@ class MvcListeners extends AbstractListenerAggregate
                 };
                 $services->get('ViewHelperManager')->setFactory($helper, $factory);
             }
+        }
+    }
+
+    public function checkExcessivePost(MvcEvent $event)
+    {
+        $request = $event->getRequest();
+        if ($request->isPost() && !$_POST && !$_FILES && $_SERVER['CONTENT_LENGTH'] > 0) {
+            throw new Exception\RuntimeException('POST request exceeded maximum size');
         }
     }
 

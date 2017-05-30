@@ -86,7 +86,7 @@ class ResourceTemplateController extends AbstractActionController
                     }
 
                     $response = $this->api($form)->create('resource_templates', $import);
-                    if ($response->isSuccess()) {
+                    if ($response) {
                         return $this->redirect()->toUrl($response->getContent()->url());
                     } else {
                         $form = $this->getForm(ResourceTemplateReviewImportForm::class);

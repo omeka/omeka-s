@@ -118,7 +118,7 @@ gulp.task('css', function () {
             includePaths: ['node_modules/susy/sass']
         }).on('error', sass.logError))
         .pipe(postcss([
-            autoprefixer({browsers: ['> 5%', '> 5% in US', 'last 2 versions']})
+            autoprefixer({browsers: ['> 5%', '> 1% in US']})
         ]))
         .pipe(gulp.dest('./application/asset/css'));
 });

@@ -5,9 +5,12 @@ $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1')
 $this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
 $this->headLink()->prependStylesheet($this->assetUrl('css/style.css', 'Omeka'));
 $this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
+$this->headLink()->prependStylesheet($this->assetUrl('vendor/chosen-js/chosen.css', 'Omeka'));
 $this->headLink()->prependStylesheet($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.css', 'Omeka'));
 $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
 $this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('js/chosen.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('vendor/chosen-js/chosen.jquery.js', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.jquery.js', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
 $this->jsTranslate();

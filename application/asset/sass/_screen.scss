@@ -139,6 +139,7 @@ body {
     /* @end */
 
     /* @group ----- Form elements ----- */
+
     legend {
         font-size: 1.25 * $base-font-size;
         padding: $spacing-medium 0;
@@ -374,6 +375,71 @@ body {
     .selector.sidebar .selector-parent {
         margin-bottom: 0;
     }
+
+        /* @group ----- Forms elements: Chosen selects ----- */
+    
+        .chosen-container-single .chosen-single {
+            background-image: none;
+            background-color: #fff;
+            box-shadow: none;
+            font-size: $base-font-size;
+            line-height: $base-line-height;
+            padding: $spacing-small;
+            height: auto;
+            border-radius: 3px;
+            border-collapse: $border-gray;
+            color: $copy-gray;
+        }
+
+        .chosen-container-active.chosen-with-drop .chosen-single {
+            background-image: none;
+        }
+
+        .chosen-container-single .chosen-single abbr {
+            top: $spacing-medium;
+        }
+
+        .chosen-container-single .chosen-single div b {
+            background: none !important;
+
+            &:after {
+                font-family: "FontAwesome";
+                content: $fa-var-caret-down;
+                line-height: $base-line-height;
+                padding: $spacing-small 0;
+                display: inline-block;
+            }
+        }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div b:after {
+            content: $fa-var-caret-up;
+        }
+
+        .chosen-container-single .chosen-search input[type="text"] {
+            background: none !important;
+        }
+
+        .chosen-search {
+            position: relative;
+
+            &:after  {
+                font-family: "FontAwesome";
+                content: $fa-var-search;
+                line-height: $base-line-height;
+                padding: $spacing-small 0;
+                display: block;
+                position: absolute;
+                top: .5 * $spacing-small;
+                right: $spacing-medium;
+            }
+        }
+
+        .chosen-container .chosen-results li.highlighted {
+            background-color: $copy-gray;
+            background-image: none;
+        }
+
+        /* @end */
 
     /* @end */
 

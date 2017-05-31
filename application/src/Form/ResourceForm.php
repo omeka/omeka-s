@@ -26,12 +26,14 @@ class ResourceForm extends Form
             'type' => ResourceSelect::class,
             'attributes' => [
                 'id' => 'resource-template-select',
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select a template', // @translate
                 'data-api-base-url' => $urlHelper('api/default', ['resource' => 'resource_templates']),
             ],
             'options' => [
                 'label' => 'Resource Template', // @translate
                 'info' => 'A pre-defined template for resource creation.', // @translate
-                'empty_option' => 'Select Template', // @translate
+                'empty_option' => '',
                 'resource_value_options' => [
                     'resource' => 'resource_templates',
                     'query' => [],
@@ -47,11 +49,13 @@ class ResourceForm extends Form
             'type' => ResourceClassSelect::class,
             'attributes' => [
                 'id' => 'resource-class-select',
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select a class', // @translate
             ],
             'options' => [
                 'label' => 'Class', // @translate
                 'info' => 'A type for the resource. Different types have different default properties attached to them.', // @translate
-                'empty_option' => 'Select Class', // @translate
+                'empty_option' => '',
             ],
         ]);
 

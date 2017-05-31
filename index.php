@@ -1,4 +1,6 @@
 <?php
+use Zend\View\Model\ViewModel;
+
 error_reporting(E_ALL);
 if ((isset($_SERVER['APPLICATION_ENV'])
         && 'development' == $_SERVER['APPLICATION_ENV'])
@@ -14,7 +16,22 @@ if ((isset($_SERVER['APPLICATION_ENV'])
 require 'bootstrap.php';
 
 try {
-    Omeka\Mvc\Application::init(require 'application/config/application.config.php')->run();
+    $application = Omeka\Mvc\Application::init(require 'application/config/application.config.php');
+    try {
+        $application->run();
+    } catch (\Exception $e) {
+        $viewRenderer = $application->getServiceManager()->get('ViewRenderer');
+        $model = new ViewModel;
+        $model->setTemplate('error/index');
+        $model->setVariable('exception', $e);
+        $content = $viewRenderer->render($model);
+        $parentModel = new ViewModel;
+        $parentModel->setTemplate('layout/layout');
+        $parentModel->setVariable('content', $viewRenderer->render($model));
+        http_response_code(500);
+        error_log($e);
+        echo $viewRenderer->render($parentModel);
+    }
 } catch (\Exception $e) {
     http_response_code(500);
     error_log($e);

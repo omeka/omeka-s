@@ -3,7 +3,6 @@ namespace Omeka\Db\Migrations;
 
 use Doctrine\DBAL\Connection;
 use Omeka\Db\Migration\MigrationInterface;
-use Omeka\File\Manager;
 
 class DedupeMediaTypes implements MigrationInterface
 {

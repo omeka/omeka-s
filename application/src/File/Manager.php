@@ -15,6 +15,7 @@ class Manager
     const THUMBNAIL_EXTENSION = 'jpg';
 
     const MEDIA_TYPE_WHITELIST = [
+        // application/*
         'application/msword',
         'application/ogg',
         'application/pdf',
@@ -31,36 +32,36 @@ class Manager
         'application/vnd.oasis.opendocument.presentation',
         'application/vnd.oasis.opendocument.spreadsheet',
         'application/vnd.oasis.opendocument.text',
-        'application/x-ms-wmp',
         'application/x-gzip',
+        'application/x-ms-wmp',
         'application/x-msdownload',
         'application/x-shockwave-flash',
         'application/x-tar',
         'application/zip',
-        'audio/aac',
-        'audio/aiff',
+        // audio/*
         'audio/midi',
         'audio/mp4',
         'audio/mpeg',
         'audio/ogg',
-        'audio/wav',
-        'audio/wma',
+        'audio/x-aac',
+        'audio/x-aiff',
+        'audio/x-ms-wma',
         'audio/x-ms-wax',
         'audio/x-realaudio',
+        'audio/x-wav',
+        // image/*
         'image/bmp',
         'image/gif',
-        'image/icon',
         'image/jpeg',
         'image/pjpeg',
         'image/png',
         'image/tiff',
-        'image/x-ms-bmp',
+        'image/x-icon',
+        // text/*
         'text/css',
         'text/plain',
         'text/richtext',
-        'text/rtf',
-        'video/asf',
-        'video/avi',
+        // video/*
         'video/divx',
         'video/mp4',
         'video/mpeg',
@@ -68,12 +69,16 @@ class Manager
         'video/ogg',
         'video/quicktime',
         'video/webm',
+        'video/x-ms-asf,',
+        'video/x-msvideo',
         'video/x-ms-wmv',
     ];
 
     const MEDIA_TYPE_ALIASES = [
         // application/ogg
         'application/x-ogg' => 'application/ogg',
+        // application/rtf
+        'text/rtf' => 'application/rtf',
         // audio/midi
         'audio/mid' => 'audio/midi',
         'audio/x-midi' => 'audio/midi',
@@ -84,25 +89,35 @@ class Manager
         'audio/x-mpeg' => 'audio/mpeg',
         'audio/x-mpeg3' => 'audio/mpeg',
         'audio/x-mpegaudio' => 'audio/mpeg',
-        // audio/aac
-        'audio/x-aac' => 'audio/aac',
-        // audio/aiff
-        'audio/x-aiff' => 'audio/aiff',
         // audio/ogg
         'audio/x-ogg' => 'audio/ogg',
-        // audio/wma
-        'audio/x-wma' => 'audio/wma',
+        // audio/x-aac
+        'audio/aac' => 'audio/x-aac',
+        // audio/x-aiff
+        'audio/aiff' => 'audio/x-aiff',
+        // audio/x-ms-wma
+        'audio/x-wma' => 'audio/x-ms-wma',
+        'audio/wma' => 'audio/x-ms-wma',
         // audio/mp4
         'audio/x-mp4' => 'audio/mp4',
         'audio/x-m4a' => 'audio/mp4',
-        // audio/wav
-        'audio/x-wav' => 'audio/wav',
-        // image/icon
-        'image/x-icon' => 'image/icon',
+        // audio/x-wav
+        'audio/wav' => 'audio/x-wav',
+        // image/bmp
+        'image/x-ms-bmp' => 'image/bmp',
+        // image/x-icon
+        'image/icon' => 'image/x-icon',
         // video/mp4
         'video/x-m4v' => 'video/mp4',
         // video/msvideo
         'video/x-msvideo' => 'video/msvideo',
+        // video/x-ms-asf
+        'video/asf' => 'video/x-ms-asf',
+        // video/x-ms-wmv
+        'video/wmv' => 'video/x-ms-wmv',
+        // video/x-msvideo
+        'video/avi' => 'video/x-msvideo',
+        'video/msvideo' => 'video/x-msvideo',
     ];
 
     const EXTENSION_WHITELIST = [

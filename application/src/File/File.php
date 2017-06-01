@@ -119,7 +119,11 @@ class File
             return $this->mediaType;
         }
         $finfo = new finfo(FILEINFO_MIME_TYPE);
-        $this->mediaType = $finfo->file($this->getTempPath());
+        $mediaType = $finfo->file($this->getTempPath());
+        if (isset(Manager::MEDIA_TYPE_ALIASES[$mediaType])) {
+            $mediaType = Manager::MEDIA_TYPE_ALIASES[$mediaType];
+        }
+        $this->mediaType = $mediaType;
         return $this->mediaType;
     }
 

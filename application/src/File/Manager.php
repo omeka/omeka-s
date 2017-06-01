@@ -89,6 +89,7 @@ class Manager
         'audio/x-mpeg' => 'audio/mpeg',
         'audio/x-mpeg3' => 'audio/mpeg',
         'audio/x-mpegaudio' => 'audio/mpeg',
+        'audio/x-mpg' => 'audio/mpeg',
         // audio/ogg
         'audio/x-ogg' => 'audio/ogg',
         // audio/x-aac

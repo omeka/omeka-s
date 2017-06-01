@@ -319,39 +319,39 @@ class Manager
     /**
      * Get the filename extension for the original file.
      *
-     * Checks the extension against a map of Internet media types. Returns a
-     * "best guess" extension if the media type is known but the original
-     * extension is unrecognized or nonexistent. Returns the original extension
-     * if it is unrecoginized, maps to a known media type, or maps to the
-     * catch-all media type, "application/octet-stream".
+     * Heuristically determines whether the passed file has an extension. The
+     * source name must contain at least one dot, the source name must not end
+     * with a dot, and the extension must not be over 12 characters.
+     *
+     * Returns the extension if found. Returns a "best guess" extension if the
+     * media type is known but the original extension is not found. Returns
+     * false if the file has no source name or the file has no extension and the
+     * media type cannot be mapped to an extension.
      *
      * @param File
-     * @return string
+     * @return string|false
      */
     public function getExtension(File $file)
     {
-        if (!$file->getSourceName()) {
-            return null;
+        $extension = false;
+        if (!$sourceName = $file->getSourceName()) {
+            return $extension;
         }
-
-        $mediaTypeMap = $this->serviceLocator->get('Omeka\File\MediaTypeMap');
-        $mediaType = $file->getMediaType();
-        $extension = strtolower(substr(strrchr($file->getSourceName(), '.'), 1));
-
-        if (isset($mediaTypeMap[$mediaType][0])
-            && !in_array($mediaType, ['application/octet-stream'])
-        ) {
-            if ($extension) {
-                if (!in_array($extension, $mediaTypeMap[$mediaType])) {
-                    // Unrecognized extension.
-                    $extension = $mediaTypeMap[$mediaType][0];
-                }
-            } else {
-                // No extension.
-                $extension = $mediaTypeMap[$mediaType][0];
+        $dotPos = strrpos($sourceName, '.');
+        if (false !== $dotPos) {
+            $sourceNameLen = strlen($sourceName);
+            $extensionPos = $dotPos + 1;
+            if ($sourceNameLen !== $extensionPos && (12 >= $sourceNameLen - $extensionPos)) {
+                $extension = strtolower(substr($sourceName, $extensionPos));
             }
         }
-
+        if (false === $extension) {
+            $mediaTypeMap = $this->serviceLocator->get('Omeka\File\MediaTypeMap');
+            $mediaType = $file->getMediaType();
+            if (isset($mediaTypeMap[$mediaType][0])) {
+                $extension = strtolower($mediaTypeMap[$mediaType][0]);
+            }
+        }
         return $extension;
     }
 

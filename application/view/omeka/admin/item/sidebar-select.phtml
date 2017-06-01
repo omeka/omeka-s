@@ -20,9 +20,11 @@ $escape = $this->plugin('escapeHtml');
     <div class="resource-list">
         <?php foreach ($items as $item):?>
         <div class="resource item" data-resource-values="<?php echo $escape(json_encode($item->valueRepresentation())); ?>">
-            <input type="checkbox" class="select-resource-checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
+            <div class="select-resource-checkbox-wrapper">
+              <input type="checkbox" class="select-resource-checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
+            </div>
             <?php if ($media = $item->primaryMedia()): ?>
-            <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
+            <a href="#" class="sidebar-content select-resource" data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>" data-sidebar-selector="#resource-details"><img src="<?php echo $escape($media->thumbnailUrl('square')); ?>"></a>
             <?php endif; ?>
             <span class="resource-name">
                 <?php if ($showDetails): ?>

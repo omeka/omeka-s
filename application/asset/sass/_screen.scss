@@ -2377,7 +2377,7 @@ input[type="text"].value-language,
     border-bottom: 1px solid $border-gray;
 
     & + .confirm-panel,
-    .resource input[type="checkbox"] {
+    .select-resource-checkbox-wrapper {
         display: none;
     }
 }
@@ -2389,8 +2389,9 @@ input[type="text"].value-language,
         display: block;
     }
 
-    .resource input[type="checkbox"] {
-        display: inline-block;
+    .select-resource-checkbox-wrapper {
+        display: inline-flex;
+        align-items: center;
     }
 }
 
@@ -2461,10 +2462,10 @@ input[type="text"].value-language,
             right: 0px;
         }
 
-        input[type="checkbox"] {
+        .select-resource-checkbox-wrapper {
             flex: 1;
             height: $base-line-height;
-            margin-right: $spacing-small;
+            margin-right: $spacing-medium;
         }
     }
 

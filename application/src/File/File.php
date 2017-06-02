@@ -120,7 +120,7 @@ class File
         }
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $mediaType = $finfo->file($this->getTempPath());
-        if (isset(Manager::MEDIA_TYPE_ALIASES[$mediaType])) {
+        if (array_key_exists($mediaType, Manager::MEDIA_TYPE_ALIASES)) {
             $mediaType = Manager::MEDIA_TYPE_ALIASES[$mediaType];
         }
         $this->mediaType = $mediaType;

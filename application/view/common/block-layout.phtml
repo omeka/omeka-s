@@ -1,0 +1,19 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+?>
+
+<div class="block value" data-block-layout="<?php echo $escape($layout); ?>">
+    <div class="input-header">
+        <span class="sortable-handle"></span>
+        <span class="block-type"><?php echo $this->translate($layoutLabel); ?></span>
+        <ul class="actions">
+            <li><a href="#" class="o-icon-delete remove-value"></a></li>
+            <li><a href="#" class="o-icon-undo restore-value"></a></li>
+        </ul>
+        <span class="restore-value">block to be removed</span>
+    </div>
+    <div class="block-content">
+    <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="<?php echo $escape($layout); ?>">
+    <?php echo $blockContent; ?>
+    </div>
+</div>

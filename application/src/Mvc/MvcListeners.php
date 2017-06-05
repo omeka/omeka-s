@@ -253,7 +253,10 @@ class MvcListeners extends AbstractListenerAggregate
     public function checkExcessivePost(MvcEvent $event)
     {
         $request = $event->getRequest();
-        if ($request->isPost() && !$_POST && !$_FILES
+        $contentType = $request->getHeader('Content-Type');
+        if ($request->isPost() && $contentType
+            && $contentType->match(['application/x-www-form-urlencoded', 'multipart/form-data'])
+            && !$_POST && !$_FILES
             && $request->getHeader('Content-Length', 0)
         ) {
             throw new Exception\RuntimeException('POST request exceeded maximum size');

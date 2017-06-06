@@ -385,7 +385,7 @@ class IndexController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('resourceLabel', 'site');
+        $view->setVariable('resourceLabel', 'site'); // @translate
         $view->setVariable('partialPath', 'omeka/site-admin/index/show-details');
         $view->setVariable('resource', $site);
         return $view;

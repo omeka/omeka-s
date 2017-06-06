@@ -25,7 +25,7 @@ class ItemSetSelect extends AbstractHelper
     {
         $spec['type'] = Select::class;
         if (!isset($spec['options']['empty_option'])) {
-            $spec['options']['empty_option'] = 'Select Item Set...'; // @translate
+            $spec['options']['empty_option'] = 'Select item set...'; // @translate
         }
         $factory = new Factory($this->formElementManager);
         $element = $factory->createElement($spec);

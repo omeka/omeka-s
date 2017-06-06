@@ -36,7 +36,7 @@ class SettingForm extends Form
             'name' => 'administrator_email',
             'type' => 'Email',
             'options' => [
-                'label' => 'Administrator Email', // @translate
+                'label' => 'Administrator email', // @translate
             ],
             'attributes' => [
                 'value' => $this->settings->get('administrator_email'),
@@ -48,7 +48,7 @@ class SettingForm extends Form
             'name' => 'installation_title',
             'type' => 'Text',
             'options' => [
-                'label' => 'Installation Title', // @translate
+                'label' => 'Installation title', // @translate
             ],
             'attributes' => [
                 'value' => $this->settings->get('installation_title'),
@@ -63,7 +63,7 @@ class SettingForm extends Form
             'name' => 'time_zone',
             'type' => 'Select',
             'options' => [
-                'label' => 'Time Zone', // @translate
+                'label' => 'Time zone', // @translate
                 'value_options' => $timeZones,
             ],
             'attributes' => [
@@ -90,7 +90,7 @@ class SettingForm extends Form
             'name' => 'property_label_information',
             'type' => 'Select',
             'options' => [
-                'label' => 'Property Label Information', // @translate
+                'label' => 'Property label information', // @translate
                 'info' => 'The additional information that accompanies labels on resource pages.', // @translate
                 'value_options' => [
                     'none' => 'None',
@@ -107,7 +107,7 @@ class SettingForm extends Form
             'name' => 'default_site',
             'type' => ResourceSelect::class,
             'options' => [
-                'label' => 'Default Site', // @translate
+                'label' => 'Default site', // @translate
                 'info' => 'Select which site should appear when users go to the front page of the installation.', // @translate
                 'empty_option' => '',
                 'resource_value_options' => [

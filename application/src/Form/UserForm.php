@@ -61,7 +61,7 @@ class UserForm extends Form
             'name' => 'o:name',
             'type' => 'Text',
             'options' => [
-                'label' => 'Display Name', // @translate
+                'label' => 'Display name', // @translate
             ],
             'attributes' => [
                 'id' => 'name',
@@ -91,7 +91,7 @@ class UserForm extends Form
                 'name' => 'o:is_active',
                 'type' => 'checkbox',
                 'options' => [
-                    'label' => 'Is Active', // @translate
+                    'label' => 'Is active', // @translate
                 ],
                 'attributes' => [
                     'id' => 'is-active',
@@ -105,7 +105,7 @@ class UserForm extends Form
                     'name' => 'current-password',
                     'type' => 'password',
                     'options' => [
-                        'label' => 'Current Password', // @translate
+                        'label' => 'Current password', // @translate
                     ],
                 ]);
             }
@@ -113,7 +113,7 @@ class UserForm extends Form
                 'name' => 'password',
                 'type' => 'Password',
                 'options' => [
-                    'label' => 'New Password', // @translate
+                    'label' => 'New password', // @translate
                 ],
                 'attributes' => [
                     'id' => 'password',
@@ -123,7 +123,7 @@ class UserForm extends Form
                 'name' => 'password-confirm',
                 'type' => 'Password',
                 'options' => [
-                    'label' => 'Confirm New Password', // @translate
+                    'label' => 'Confirm new password', // @translate
                 ],
                 'attributes' => [
                     'id' => 'password-confirm',
@@ -136,7 +136,7 @@ class UserForm extends Form
                 'name' => 'new-key-label',
                 'type' => 'Text',
                 'options' => [
-                    'label' => 'New Key Label', // @translate
+                    'label' => 'New key label', // @translate
                 ],
                 'attributes' => [
                     'id' => 'new-key-label',

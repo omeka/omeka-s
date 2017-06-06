@@ -22,7 +22,7 @@ class ActivateForm extends Form
             'name' => 'password-confirm',
             'type' => 'Password',
             'options' => [
-                'label' => 'Confirm Password', // @translate
+                'label' => 'Confirm password', // @translate
             ],
             'attributes' => [
                 'id' => 'password-confirm',

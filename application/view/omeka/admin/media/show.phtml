@@ -32,17 +32,17 @@ $sectionNavs = [
         <div class="value"><?php echo ($media->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
     </div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Part of Item'); ?></h4>
+        <h4><?php echo $this->translate('Part of item'); ?></h4>
         <?php $mediaItem = $media->item(); ?>
         <div class="value"><?php echo $mediaItem->link($mediaItem->displayTitle()); ?></div>
     </div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Date Created'); ?></h4>
+        <h4><?php echo $this->translate('Date created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($media->created())); ?></div>
     </div>
     <?php if ($media->mediaType()): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('MIME Type'); ?></h4>
+        <h4><?php echo $this->translate('MIME type'); ?></h4>
         <div class="value"><?php echo $escape($media->mediaType()); ?></div>
     </div>
     <?php endif; ?>

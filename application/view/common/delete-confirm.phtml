@@ -1,14 +1,15 @@
 <?php
 $this->form->setAttribute('action', $resource->url('delete'));
-$this->form->setButtonLabel('Confirm Delete'); // @translate
+$this->form->setButtonLabel('Confirm delete'); // @translate
 ?>
 <?php if ($this->wrapSidebar): ?>
 <div id="delete" class="sidebar">
     <a href="#" class="sidebar-close o-icon-close" aria-label="<?php echo $this->escapeHtml($this->translate('Close')); ?>" title="<?php echo $this->escapeHtml($this->translate('Close')); ?>"></a>
 <?php endif; ?>
     <div id="sidebar-confirm">
-        <h3><?php echo $this->translate(sprintf('Delete %s', ucwords($this->resourceLabel))); ?></h3>
-        <p><?php echo $this->translate(sprintf('Are you sure you would like to delete this %s?', $this->resourceLabel)); ?></p>
+        <?php $resourceLabel = $this->translate($this->resourceLabel); ?>
+        <h3><?php echo $this->translate(sprintf('Delete %s', $resourceLabel)); ?></h3>
+        <p><?php echo $this->translate(sprintf('Are you sure you would like to delete this %s?', $resourceLabel)); ?></p>
         <?php echo $this->form($this->form); ?>
     </div>
 <?php if ($this->wrapSidebar): ?>

@@ -61,7 +61,7 @@ return [
                 ],
             ],
             [
-                'label' => 'Item Sets', // @translate
+                'label' => 'Item sets', // @translate
                 'class' => 'item-sets',
                 'route' => 'admin/default',
                 'controller' => 'item-set',
@@ -103,7 +103,7 @@ return [
                 ],
             ],
             [
-                'label' => 'Resource Templates', // @translate
+                'label' => 'Resource templates', // @translate
                 'class' => 'resource-templates',
                 'route' => 'admin/default',
                 'controller' => 'resource-template',
@@ -174,29 +174,9 @@ return [
                 'privilege' => 'browse',
             ],
         ],
-        'user' => [
-            [
-                'label' => 'User Information', // @translate
-                'route' => 'admin/id',
-                'action' => 'edit',
-                'useRouteMatch' => true,
-            ],
-            [
-                'label' => 'Password', // @translate
-                'route' => 'admin/id',
-                'action' => 'change-password',
-                'useRouteMatch' => true,
-            ],
-            [
-                'label' => 'API Keys', // @translate
-                'route' => 'admin/id',
-                'action' => 'edit-keys',
-                'useRouteMatch' => true,
-            ],
-        ],
         'site' => [
             [
-                'label' => 'Site Info', // @translate
+                'label' => 'Site info', // @translate
                 'class' => 'site-info',
                 'route' => 'admin/site/slug',
                 'action' => 'edit',
@@ -238,7 +218,7 @@ return [
                 'useRouteMatch' => true,
             ],
             [
-                'label' => 'User Permissions', // @translate
+                'label' => 'User permissions', // @translate
                 'class' => 'users',
                 'route' => 'admin/site/slug/action',
                 'action' => 'users',

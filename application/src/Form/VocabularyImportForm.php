@@ -11,7 +11,7 @@ class VocabularyImportForm extends Form
             'name' => 'file',
             'type' => 'file',
             'options' => [
-                'label' => 'Vocabulary File', // @translate
+                'label' => 'Vocabulary file', // @translate
                 'info' => 'Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. See the Vocabulary Import Documentation for details.', // @translate
             ],
             'attributes' => [

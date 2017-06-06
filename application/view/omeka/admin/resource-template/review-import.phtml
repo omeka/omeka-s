@@ -1,7 +1,7 @@
 <?php
 $form->prepare();
 $this->htmlElement('body')->appendAttribute('class', 'resource-template');
-echo $this->pageTitle(sprintf($this->translate('Resource Template: Review “%s”'), $import['o:label']));
+echo $this->pageTitle(sprintf($this->translate('Resource template: Review “%s”'), $import['o:label']));
 ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
@@ -32,10 +32,10 @@ if (!$hasVocab) {
 <table id="properties" class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
-        <th><?php echo $this->translate('Original Label'); ?></th>
-        <th><?php echo $this->translate('Data Type'); ?></th>
-        <th><?php echo $this->translate('Alternate Label'); ?></th>
-        <th><?php echo $this->translate('Alternate Comment'); ?></th>
+        <th><?php echo $this->translate('Original label'); ?></th>
+        <th><?php echo $this->translate('Data type'); ?></th>
+        <th><?php echo $this->translate('Alternate label'); ?></th>
+        <th><?php echo $this->translate('Alternate comment'); ?></th>
         <th><?php echo $this->translate('Required?'); ?></th>
     </tr>
 </thead>

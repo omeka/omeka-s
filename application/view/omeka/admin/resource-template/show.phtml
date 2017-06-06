@@ -3,12 +3,12 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-template show');
 $escape = $this->plugin('escapeHtml');
 ?>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Resource Template: “%s”'), $resourceTemplate->label())); ?>
+<?php echo $this->pageTitle(sprintf($this->translate('Resource template: “%s”'), $resourceTemplate->label())); ?>
 
 <div id="page-actions">
     <a class="button" href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'export'], true)); ?>"><?php echo $this->translate('Export'); ?></a>
     <?php if ($resourceTemplate->userIsAllowed('update')): ?>
-    <a class="button" href="<?php echo $escape($resourceTemplate->url('edit')); ?>"><?php echo $this->translate('Edit Resource Template'); ?></a>
+    <a class="button" href="<?php echo $escape($resourceTemplate->url('edit')); ?>"><?php echo $this->translate('Edit resource template'); ?></a>
     <?php endif; ?>
 </div>
 
@@ -22,10 +22,10 @@ $escape = $this->plugin('escapeHtml');
 <table id="properties" class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
     <thead>
     <tr>
-        <th><?php echo $this->translate('Original Label'); ?></th>
-        <th><?php echo $this->translate('Data Type'); ?></th>
-        <th><?php echo $this->translate('Alternate Label'); ?></th>
-        <th><?php echo $this->translate('Alternate Comment'); ?></th>
+        <th><?php echo $this->translate('Original label'); ?></th>
+        <th><?php echo $this->translate('Data type'); ?></th>
+        <th><?php echo $this->translate('Alternate label'); ?></th>
+        <th><?php echo $this->translate('Alternate comment'); ?></th>
         <th><?php echo $this->translate('Required?'); ?></th>
     </tr>
     </thead>

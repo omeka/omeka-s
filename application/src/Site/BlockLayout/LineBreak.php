@@ -11,7 +11,7 @@ class LineBreak extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Line Break'; // @translate
+        return 'Line break'; // @translate
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
@@ -40,7 +40,7 @@ class LineBreak extends AbstractBlockLayout
         $select->setValueOptions($options)->setValue($breakType);
 
         $html = '<div class="field">';
-        $html .= '<div class="field-meta"><label>' . $view->translate('Break Type') . '</label></div>';
+        $html .= '<div class="field-meta"><label>' . $view->translate('Break type') . '</label></div>';
         $html .= '<div class="inputs">' . $view->formSelect($select) . '</div>';
         $html .= '</div>';
         return $html;

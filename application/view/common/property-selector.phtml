@@ -2,7 +2,7 @@
 $escape = $this->plugin('escapeHtml');
 ?>
 <div id="property-selector" class='selector sidebar <?php echo $state; ?>'>
-    <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close Me'); ?></span></a>
+    <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
     <?php if ($propertySelectorText) :?>
     <h3><?php echo $escape($this->translate($propertySelectorText)); ?></h3>
     <?php else: ?>
@@ -28,7 +28,7 @@ $escape = $this->plugin('escapeHtml');
                     data-property-id="<?php echo $escape($property->id()); ?>"
                     data-property-term="<?php echo $escape($property->term()); ?>">
                     <div class="description">
-                        <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More Info'); ?></span></p>
+                        <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More info'); ?></span></p>
                         <p class="field-comment"><?php echo $escape($this->translate($property->comment())); ?></p>
                     </div>
                     <span class="selectable"><?php echo $escape($this->translate($property->label())); ?></span>

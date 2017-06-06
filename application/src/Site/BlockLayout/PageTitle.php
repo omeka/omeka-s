@@ -10,7 +10,7 @@ class PageTitle extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Page Title'; // @translate
+        return 'Page title'; // @translate
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,

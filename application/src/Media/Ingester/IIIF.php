@@ -30,7 +30,7 @@ class IIIF implements IngesterInterface
 
     public function getLabel()
     {
-        return 'IIIF Image'; // @translate
+        return 'IIIF image'; // @translate
     }
 
     public function getRenderer()
@@ -42,14 +42,14 @@ class IIIF implements IngesterInterface
     {
         $data = $request->getContent();
         if (!isset($data['o:source'])) {
-            $errorStore->addError('o:source', 'No IIIF Image URL specified');
+            $errorStore->addError('o:source', 'No IIIF image URL specified');
             return;
         }
         $source = $data['o:source'];
         //Make a request and handle any errors that might occur.
         $uri = new HttpUri($source);
         if (!($uri->isValid() && $uri->isAbsolute())) {
-            $errorStore->addError('o:source', "Invalid url specified");
+            $errorStore->addError('o:source', "Invalid URL specified");
             return false;
         }
         $client = $this->httpClient;
@@ -104,7 +104,7 @@ class IIIF implements IngesterInterface
     {
         $urlInput = new UrlElement('o:media[__index__][o:source]');
         $urlInput->setOptions([
-            'label' => 'IIIF Image URL', // @translate
+            'label' => 'IIIF image URL', // @translate
             'info' => 'URL for the image to embed.', // @translate
         ]);
         return $view->formRow($urlInput);

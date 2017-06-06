@@ -25,7 +25,7 @@ class PropertySelect extends AbstractHelper
     {
         $spec['type'] = Select::class;
         if (!isset($spec['options']['empty_option'])) {
-            $spec['options']['empty_option'] = 'Select Property...'; // @translate
+            $spec['options']['empty_option'] = 'Select property...'; // @translate
         }
         $factory = new Factory($this->formElementManager);
         $element = $factory->createElement($spec);

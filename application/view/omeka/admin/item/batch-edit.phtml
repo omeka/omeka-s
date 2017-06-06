@@ -1,5 +1,5 @@
 <?php
-echo $this->pageTitle($this->translate('Batch Edit Items'));
+echo $this->pageTitle($this->translate('Batch edit items'));
 
 $selectItemSetToAdd = $this->itemSetSelect([
     'name' => 'add_to_item_set[]',
@@ -173,7 +173,7 @@ $templateUri = '
 <?php echo $this->form()->closeTag();; ?>
 
 <div class="sidebar always-open">
-    <h3><?php echo $this->translate('Affected Items'); ?></h3>
+    <h3><?php echo $this->translate('Affected items'); ?></h3>
     <?php if ($resources): ?>
     <p><?php echo sprintf($this->translate('You are editing the following %s items:'), count($resources)); ?></p>
     <ul class="batch-selected">

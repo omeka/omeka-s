@@ -31,7 +31,7 @@ class ResourceForm extends Form
                 'data-api-base-url' => $urlHelper('api/default', ['resource' => 'resource_templates']),
             ],
             'options' => [
-                'label' => 'Resource Template', // @translate
+                'label' => 'Resource template', // @translate
                 'info' => 'A pre-defined template for resource creation.', // @translate
                 'empty_option' => '',
                 'resource_value_options' => [

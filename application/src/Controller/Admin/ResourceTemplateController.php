@@ -323,7 +323,7 @@ class ResourceTemplateController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('resource', $resource);
-        $view->setVariable('resourceLabel', 'resource template');
+        $view->setVariable('resourceLabel', 'resource template'); // @translate
         $view->setVariable('partialPath', 'omeka/admin/resource-template/show-details');
         return $view;
     }

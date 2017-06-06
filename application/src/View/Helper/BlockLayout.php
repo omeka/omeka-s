@@ -97,7 +97,7 @@ class BlockLayout extends AbstractHelper
             [
                 'layout' => $layout,
                 'layoutLabel' => $this->getLayoutLabel($layout),
-                'blockContent' => $this->manager->get($layout)->form($this->getView(), $site, $page, $block)
+                'blockContent' => $this->manager->get($layout)->form($this->getView(), $site, $page, $block),
             ]
         );
     }

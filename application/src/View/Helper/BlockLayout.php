@@ -5,7 +5,6 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Site\BlockLayout\Manager as BlockLayoutManager;
-use Zend\Form\Element\Hidden;
 use Zend\View\Helper\AbstractHelper;
 
 class BlockLayout extends AbstractHelper
@@ -14,7 +13,6 @@ class BlockLayout extends AbstractHelper
      * The default partial view script.
      */
     const PARTIAL_NAME = 'common/block-layout';
-
 
     /**
      * @var BlockLayoutManager

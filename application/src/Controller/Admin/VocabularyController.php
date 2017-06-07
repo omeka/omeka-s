@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Omeka\Api\Exception\ValidationException;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
@@ -56,7 +57,7 @@ class VocabularyController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('resource', $vocabulary);
-        $view->setVariable('resourceLabel', 'vocabulary');
+        $view->setVariable('resourceLabel', 'vocabulary'); // @translate
         $view->setVariable('partialPath', 'omeka/admin/vocabulary/show-details');
         return $view;
     }
@@ -78,7 +79,6 @@ class VocabularyController extends AbstractActionController
                     $response = $this->rdfImporter->import(
                         'file', $data, ['file' => $data['file']['tmp_name']]
                     );
-                    $this->api($form)->detectError($response);
                     if ($response) {
                         $message = new Message(
                             'Vocabulary successfully imported. %s', // @translate
@@ -91,8 +91,8 @@ class VocabularyController extends AbstractActionController
                         $this->messenger()->addSuccess($message);
                         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                     }
-                } catch (\Exception $e) {
-                    $this->messenger()->addError($e->getMessage());
+                } catch (ValidationException $e) {
+                    $this->api($form)->handleValidationException($e);
                 }
             } else {
                 $this->messenger()->addFormErrors($form);

@@ -26,7 +26,7 @@ return [
         'use_externals' => true,
         'externals' => [
             'Omeka' => [
-                'js/jquery.js' => '//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js',
+                'vendor/jquery/jquery.min.js' => '//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js',
             ],
         ],
     ],
@@ -287,7 +287,6 @@ return [
             'Omeka\Controller\Site\Page' => 'Omeka\Controller\Site\PageController',
             'Omeka\Controller\Admin\Asset' => 'Omeka\Controller\Admin\AssetController',
             'Omeka\Controller\Admin\Index' => 'Omeka\Controller\Admin\IndexController',
-            'Omeka\Controller\Admin\ItemSet' => 'Omeka\Controller\Admin\ItemSetController',
             'Omeka\Controller\Admin\Property' => 'Omeka\Controller\Admin\PropertyController',
             'Omeka\Controller\Admin\ResourceClass' => 'Omeka\Controller\Admin\ResourceClassController',
             'Omeka\Controller\Admin\Media' => 'Omeka\Controller\Admin\MediaController',
@@ -306,6 +305,7 @@ return [
             'Omeka\Controller\Admin\SystemInfo' => 'Omeka\Service\Controller\Admin\SystemInfoControllerFactory',
             'Omeka\Controller\Admin\Vocabulary' => 'Omeka\Service\Controller\Admin\VocabularyControllerFactory',
             'Omeka\Controller\Admin\Item' => 'Omeka\Service\Controller\Admin\ItemControllerFactory',
+            'Omeka\Controller\Admin\ItemSet' => 'Omeka\Service\Controller\Admin\ItemSetControllerFactory',
             'Omeka\Controller\SiteAdmin\Index' => 'Omeka\Service\Controller\SiteAdmin\IndexControllerFactory',
         ],
     ],
@@ -396,6 +396,7 @@ return [
             'resourceClassSelect' => 'Omeka\Service\ViewHelper\ResourceClassSelectFactory',
             'propertySelect' => 'Omeka\Service\ViewHelper\PropertySelectFactory',
             'itemSetSelect' => 'Omeka\Service\ViewHelper\ItemSetSelectFactory',
+            'resourceSelect' => 'Omeka\Service\ViewHelper\ResourceSelectFactory',
             'jsTranslate' => 'Omeka\Service\ViewHelper\JsTranslateFactory',
         ],
         'delegators' => [
@@ -573,12 +574,12 @@ return [
         'Expand', // @translate
         'Collapse', // @translate
         'You have unsaved changes.', // @translate
-        'Undo remove item set', // @translate
+        'Restore item set', // @translate
         'Close icon set', // @translate
         'Open icon set', // @translate
         '[Untitled]', // @translate
         'Failed loading resource template from API', // @translate
-        'Undo remove property', // @translate
+        'Restore property', // @translate
         'There are no available pages.', // @translate
         'Please enter a valid language tag', // @translate
     ],

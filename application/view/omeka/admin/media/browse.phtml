@@ -15,7 +15,7 @@ $sortHeadings = [
         'value' => 'owner_name'
     ],
     [
-        'label' => $this->translate('Date Created'),
+        'label' => $this->translate('Date created'),
         'value' => 'created'
     ],
 ];
@@ -39,7 +39,7 @@ $sortHeadings = [
             <th><?php echo $this->translate('Title'); ?></th>
             <th><?php echo $this->translate('Class'); ?></th>
             <th><?php echo $this->translate('Owner'); ?></th>
-            <th><?php echo $this->translate('Date Created'); ?></th>
+            <th><?php echo $this->translate('Date created'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -70,11 +70,13 @@ $sortHeadings = [
                             'aria-label' => $escape($this->translate('Edit')),
                             'title' => $escape($this->translate('Edit')),
                         ]); ?></li>
+                        <?php if ($media->userIsAllowed('delete')): ?>
                         <li><a href="#"
                             data-sidebar-content-url="<?php echo $escape($media->url('delete-confirm')); ?>"
                             class="o-icon-delete sidebar-content"
                             aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                             title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
+                        <?php endif; ?>
                         <li><a href="#"
                             data-sidebar-content-url="<?php echo $escape($media->url('show-details')); ?>"
                             class="o-icon-more sidebar-content"

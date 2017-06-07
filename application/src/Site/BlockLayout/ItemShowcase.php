@@ -10,7 +10,7 @@ class ItemShowcase extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Item Showcase'; // @translate
+        return 'Item showcase'; // @translate
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,

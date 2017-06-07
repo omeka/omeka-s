@@ -2,13 +2,10 @@
 namespace Omeka\Entity;
 
 use DateTime;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity
- * @HasLifecycleCallbacks
  * @Table(
  *     uniqueConstraints={
  *         @UniqueConstraint(
@@ -131,21 +128,5 @@ class SitePage extends AbstractEntity
     public function getOwner()
     {
         return $this->getSite()->getOwner();
-    }
-
-    /**
-     * @PrePersist
-     */
-    public function prePersist(LifecycleEventArgs $eventArgs)
-    {
-        $this->created = new DateTime('now');
-    }
-
-    /**
-     * @PreUpdate
-     */
-    public function preUpdate(PreUpdateEventArgs $eventArgs)
-    {
-        $this->modified = new DateTime('now');
     }
 }

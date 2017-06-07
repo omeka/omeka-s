@@ -11,6 +11,7 @@ $escape = function ($text) {
 <body>
 
 <h1>Omeka S encountered an error</h1>
+<?php if (ini_get('display_errors')): ?>
 <p>
     <strong><?php echo $escape(get_class($e)); ?></strong><br>
     <?php echo $escape($e->getMessage()); ?>
@@ -19,5 +20,6 @@ $escape = function ($text) {
 <pre>
 <?php echo $escape($e); ?>
 </pre>
+<?php endif; ?>
 </body>
 </html>

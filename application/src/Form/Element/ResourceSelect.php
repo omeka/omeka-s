@@ -62,6 +62,10 @@ class ResourceSelect extends Select
                 $valueOptions[$representation->id()] = $value;
             }
         }
+        $prependValueOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependValueOptions)) {
+            $valueOptions = $prependValueOptions + $valueOptions;
+        }
         $this->setValueOptions($valueOptions);
         return $this;
     }

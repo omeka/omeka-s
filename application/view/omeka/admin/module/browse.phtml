@@ -10,7 +10,7 @@ $this->plugin('formRow')->setPartial(null);
 
 <form method="get" class="state-filter">
     <select name="state">
-        <option value=""><?php echo $this->translate('All Modules'); ?></option>
+        <option value=""><?php echo $this->translate('All modules'); ?></option>
         <?php foreach ($filterStates as $value => $option): ?>
         <option value="<?php echo $escape($value); ?>"<?php if ($value == $filterState): echo ' selected'; endif; ?>><?php echo $escape($option); ?></option>
         <?php endforeach; ?>

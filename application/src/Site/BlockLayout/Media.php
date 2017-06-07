@@ -57,7 +57,7 @@ class Media extends AbstractBlockLayout
         $alignment = $block ? $block->dataValue('alignment', 'left') : 'left';
         $select = new Select('o:block[__blockIndex__][o:data][alignment]');
         $select->setValueOptions(array_combine($alignments, $alignments))->setValue($alignment);
-        $selectLabel = 'Thumbnail Alignment'; // @translate
+        $selectLabel = 'Thumbnail alignment'; // @translate
         $html = '<div class="field"><div class="field-meta">';
         $html .= '<label class="thumbnail-option" for="o:block[__blockIndex__][o:data][alignment]">' . $selectLabel . '</label></div>';
         $html .= '<div class="inputs">' . $view->formSelect($select) . '</div></div>';

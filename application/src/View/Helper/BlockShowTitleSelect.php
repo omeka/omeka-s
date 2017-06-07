@@ -28,7 +28,7 @@ class BlockShowTitleSelect extends AbstractHelper
         $showTitleOption = $block ? $block->dataValue('show_title_option', 'transparent') : 'transparent';
 
         $html = '<div class="field">';
-        $html .= '<div class="field-meta"><label>' . $view->translate('Show Attachment Title') . '</label></div>';
+        $html .= '<div class="field-meta"><label>' . $view->translate('Show attachment title') . '</label></div>';
         $html .= '<div class="inputs">' . $view->formSelect($titleSelect) . '</div>';
         $html .= '</div>';
         return $html;

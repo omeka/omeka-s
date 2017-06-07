@@ -12,7 +12,7 @@ class TableOfContents extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Table of Contents'; // @translate
+        return 'Table of contents'; // @translate
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,

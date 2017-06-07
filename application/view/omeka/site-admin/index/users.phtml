@@ -12,7 +12,7 @@ $roles = [
 ];
 ?>
 
-<?php echo $this->pageTitle($this->translate('User Permissions')); ?>
+<?php echo $this->pageTitle($this->translate('User permissions')); ?>
 
 <?php echo $this->form()->openTag($form); ?>
 <?php echo $this->formCollection($form, false); ?>
@@ -66,30 +66,31 @@ $roles = [
     </div>
     <div id="site-user-selector" class="selector sidebar active">
         <h3><?php echo $this->translate('Click on a user to add them to the site.'); ?></h3>
-        <input type="text" class="selector-filter" placeholder="Filter users">
+        <input type="text" class="selector-filter" placeholder="<?php echo $this->translate('Filter users'); ?>">
         <ul id="new-site-user">
-            <li class="total-count-heading"><?php echo $this->translate('All Users'); ?> (<?php echo count($users); ?>)
+            <li class="total-count-heading"><?php echo $this->translate('All users'); ?> (<?php echo count($users); ?>)
                 <ul class="selectable-list">
-                <?php
-                $usersByInitial = [];
-                $initial = substr($users[0]->name(), 0, 1);
-                foreach ($users as $user) {
-                    $userInitial = substr($user->name(), 0, 1);
-                    if ($userInitial !== $initial) {
-                        $initial = $userInitial;
+                    <?php
+                    $usersByInitial = [];
+                    $initial = substr(strtoupper($users[0]->name()), 0, 1);
+                    foreach ($users as $user) {
+                        $userInitial = substr(strtoupper($user->name()), 0, 1);
+                        if ($userInitial !== $initial) {
+                            $initial = $userInitial;
+                        }
+                        $usersByInitial[$initial][] = $user;
                     }
-                    $usersByInitial[$initial][] = $user;
-                }
-                ?>
+                    ?>
                 <?php foreach ($usersByInitial as $initial => $users): ?>
-                    <li class="selector-parent"><span>
-                        <?php echo $initial; ?></span>
+                    <li class="selector-parent">
+                        <span><?php echo $initial; ?></span>
                         (<span class="selector-child-count"><?php echo count($usersByInitial[$initial]); ?></span>)
                         <ul>
                         <?php foreach($users as $user): ?>
                             <li class="selector-child" data-child-search="<?php echo $escape($user->name() . ' (' . $user->email() . ')'); ?>" data-user-id="<?php echo $escape($user->id()); ?>"><span><?php echo $escape($user->name()); ?><br><?php echo $escape($user->email()); ?></span></li>
                         <?php endforeach; ?>
                         </ul>
+                    </li>
                 <?php endforeach; ?>
                 </ul>
             </li>

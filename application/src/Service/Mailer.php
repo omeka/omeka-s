@@ -230,7 +230,7 @@ Your activation link will expire on %4$s. If you have not completed the user act
         $message = $this->createMessage();
         $message->addTo($user->getEmail(), $user->getName())
             ->setSubject(sprintf(
-                $translate('User Activation for %s'),
+                $translate('User activation for %s'),
                 $installationTitle
             ))
             ->setBody($body);

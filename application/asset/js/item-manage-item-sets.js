@@ -29,11 +29,11 @@ $('#item-item-sets').on('click', '.o-icon-delete', function(event) {
     var itemSetInput = removeLink.closest('td').find('input');
     itemSetInput.prop('disabled', true);
 
-    // Undo remove item set link.
+    // Restore item set link.
     var undoRemoveLink = $('<a>', {
         href: '#',
         class: 'fa fa-undo',
-        title: Omeka.jsTranslate('Undo remove item set'),
+        title: Omeka.jsTranslate('Restore item set'),
         click: function(event) {
             event.preventDefault();
             itemSetRow.toggleClass('delete');

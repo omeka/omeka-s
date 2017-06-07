@@ -5,11 +5,14 @@ $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1')
 $this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
 $this->headLink()->prependStylesheet($this->assetUrl('css/style.css', 'Omeka'));
 $this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
-$this->headLink()->prependStylesheet($this->assetUrl('css/tablesaw.bare.css', 'Omeka'));
+$this->headLink()->prependStylesheet($this->assetUrl('vendor/chosen-js/chosen.css', 'Omeka'));
+$this->headLink()->prependStylesheet($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.css', 'Omeka'));
 $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
 $this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
-$this->headScript()->prependFile($this->assetUrl('js/tablesaw.js', 'Omeka'));
-$this->headScript()->prependFile($this->assetUrl('js/jquery.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('js/chosen.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('vendor/chosen-js/chosen.jquery.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.jquery.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
 $this->jsTranslate();
 
 $escape = $this->plugin('escapeHtml');
@@ -34,9 +37,9 @@ $this->trigger('view.layout');
             <header>
                 <div class="logo"><a href="<?php echo $this->url('admin'); ?>"><?php echo $this->setting('installation_title', 'Omeka S'); ?></a></div>
                 <div id="mobile-nav">
-                    <a href="#" class="o-icon-menu button"><span class="screen-reader-text"><?php echo $this->translate('Navigation Menu'); ?></span></a>
-                    <a href="#" class="o-icon-search button"><span class="screen-reader-text"><?php echo $this->translate('Search Site'); ?></span></a>
-                    <a href="#" class="o-icon-user button"><span class="screen-reader-text"><?php echo $this->translate('User Menu'); ?></span></a>
+                    <a href="#" class="o-icon-menu button"><span class="screen-reader-text"><?php echo $this->translate('Navigation menu'); ?></span></a>
+                    <a href="#" class="o-icon-search button"><span class="screen-reader-text"><?php echo $this->translate('Search site'); ?></span></a>
+                    <a href="#" class="o-icon-user button"><span class="screen-reader-text"><?php echo $this->translate('User menu'); ?></span></a>
                 </div>
                 <div id="user">
                     <?php if ($this->identity()): ?>
@@ -51,22 +54,22 @@ $this->trigger('view.layout');
                 </div>
                 <div id="search">
                     <form action="" id="search-form">
-                        <?php $searchValue = isset($_GET['property'][0]['in'][0]) ? $_GET['property'][0]['in'][0] : ''; ?>
-                        <input type="text" name="property[0][in][]" value="<?php echo $escape($searchValue); ?>">
-                        <button type="button" id="advanced"><?php echo $this->translate('Advanced Options'); ?></button>
+                        <?php $searchValue = isset($_GET['search']) ? $_GET['search'] : ''; ?>
+                        <input type="text" name="search" value="<?php echo $escape($searchValue); ?>">
+                        <button type="button" id="advanced"><?php echo $this->translate('Advanced options'); ?></button>
                         <button type="submit"><?php echo $this->translate('Search'); ?></button>
                         <fieldset id="advanced-options">
-                            <legend><?php echo $this->translate('Resource Type'); ?></legend>
+                            <legend><?php echo $this->translate('Resource type'); ?></legend>
                             <input type="radio" name="resource-type" id="search-items" value="item" checked="checked"
-                                data-input-placeholder="<?php echo $escape($this->translate('Search Items')); ?>"
+                                data-input-placeholder="<?php echo $escape($this->translate('Search items')); ?>"
                                 data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'item', 'action' => 'browse'])); ?>">
                             <label for="search-items"><?php echo $this->translate('Items'); ?></label>
                             <input type="radio" name="resource-type" id="search-item-sets" value="item-set"
-                                data-input-placeholder="<?php echo $escape($this->translate('Search Item Sets')); ?>"
+                                data-input-placeholder="<?php echo $escape($this->translate('Search item sets')); ?>"
                                 data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'item-set', 'action' => 'browse'])); ?>">
-                            <label for="search-item-sets"><?php echo $this->translate('Item Sets'); ?></label>
+                            <label for="search-item-sets"><?php echo $this->translate('Item sets'); ?></label>
                             <input type="radio" name="resource-type" id="search-media" value="media"
-                                data-input-placeholder="<?php echo $escape($this->translate('Search Media')); ?>"
+                                data-input-placeholder="<?php echo $escape($this->translate('Search media')); ?>"
                                 data-action="<?php echo $escape($this->url('admin/default', ['controller' => 'media', 'action' => 'browse'])); ?>">
                             <label for="search-media"><?php echo $this->translate('Media'); ?></label>
                         </fieldset>
@@ -104,7 +107,7 @@ $this->trigger('view.layout');
         </div>
         <footer>
             <p class="site-version"><?php echo $this->translate('Omeka S'); ?> <span class="version-number"><?php echo $this->translate(sprintf('version %s', Omeka\Module::VERSION)); ?></span></p>
-            <a href="<?php echo $this->url('admin/default', ['controller' => 'system-info']); ?>"><?php echo $this->translate('System Information'); ?></a>
+            <a href="<?php echo $this->url('admin/default', ['controller' => 'system-info']); ?>"><?php echo $this->translate('System information'); ?></a>
         </footer>
     </body>
 </html>

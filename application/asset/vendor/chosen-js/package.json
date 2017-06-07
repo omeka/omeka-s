@@ -1,0 +1,102 @@
+{
+  "_args": [
+    [
+      "chosen-js@1.7.0",
+      "/var/www/html/omeka-s"
+    ]
+  ],
+  "_from": "chosen-js@1.7.0",
+  "_id": "chosen-js@1.7.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/chosen-js",
+  "_nodeVersion": "7.7.4",
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/chosen-js-1.7.0.tgz_1490389234489_0.23706221161410213"
+  },
+  "_npmUser": {
+    "email": "chosenjs@getharvest.com",
+    "name": "chosenjs"
+  },
+  "_npmVersion": "4.1.2",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "chosen-js",
+    "raw": "chosen-js@1.7.0",
+    "rawSpec": "1.7.0",
+    "scope": null,
+    "spec": "1.7.0",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/chosen-js/-/chosen-js-1.7.0.tgz",
+  "_shasum": "8ceb2e929e2a072886edd384d78989dfbffa58c3",
+  "_shrinkwrap": null,
+  "_spec": "chosen-js@1.7.0",
+  "_where": "/var/www/html/omeka-s",
+  "bugs": {
+    "url": "https://github.com/harvesthq/chosen/issues"
+  },
+  "contributors": [
+    {
+      "name": "Patrick Filler",
+      "url": "https://github.com/pfiller"
+    },
+    {
+      "name": "Christophe Coevoet",
+      "url": "https://github.com/stof"
+    },
+    {
+      "name": "Ken Earley",
+      "url": "https://github.com/kenearley"
+    },
+    {
+      "name": "Koen Punt",
+      "url": "https://github.com/koenpunt"
+    }
+  ],
+  "dependencies": {},
+  "description": "Chosen is a JavaScript plugin that makes select boxes user-friendly. It is currently available in both jQuery and Prototype flavors.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "8ceb2e929e2a072886edd384d78989dfbffa58c3",
+    "tarball": "https://registry.npmjs.org/chosen-js/-/chosen-js-1.7.0.tgz"
+  },
+  "files": [
+    "chosen-sprite.png",
+    "chosen-sprite@2x.png",
+    "chosen.css",
+    "chosen.jquery.js"
+  ],
+  "gitHead": "20457c69249226af89fda0b357591622b922b36a",
+  "homepage": "https://harvesthq.github.io/chosen/",
+  "keywords": [
+    "dropdown",
+    "form",
+    "input",
+    "multiselect",
+    "select",
+    "ui"
+  ],
+  "license": "MIT",
+  "main": "chosen.jquery.js",
+  "maintainers": [
+    {
+      "name": "chosenjs",
+      "email": "chosenjs@getharvest.com"
+    }
+  ],
+  "name": "chosen-js",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harvesthq/chosen.git"
+  },
+  "scripts": {},
+  "version": "1.7.0"
+}

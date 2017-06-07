@@ -194,6 +194,8 @@ class SiteAdapter extends AbstractEntityAdapter
                 }
             }
         }
+
+        $this->updateTimestamps($request, $entity);
     }
 
     /**

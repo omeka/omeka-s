@@ -7,7 +7,7 @@
 
 <div id="page-actions">
     <?php if ($user->userIsAllowed('update')): ?>
-        <a class="button" href="<?php echo $escape($user->url('edit')); ?>"><?php echo $this->translate('Edit User'); ?></a>
+        <a class="button" href="<?php echo $escape($user->url('edit')); ?>"><?php echo $this->translate('Edit user'); ?></a>
     <?php endif; ?>
 </div>
 
@@ -18,7 +18,7 @@
     </div>
 </div>
 <div class="property">
-    <h4><?php echo $this->translate('Display Name'); ?></h4>
+    <h4><?php echo $this->translate('Display name'); ?></h4>
     <div class="value">
         <?php echo $escape($user->name()); ?>
     </div>

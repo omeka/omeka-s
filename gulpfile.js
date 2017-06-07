@@ -118,7 +118,7 @@ gulp.task('css', function () {
             includePaths: ['node_modules/susy/sass']
         }).on('error', sass.logError))
         .pipe(postcss([
-            autoprefixer({browsers: ['> 5%', '> 5% in US', 'last 2 versions']})
+            autoprefixer({browsers: ['> 5%', '> 1% in US']})
         ]))
         .pipe(gulp.dest('./application/asset/css'));
 });
@@ -149,6 +149,33 @@ gulp.task('deps', function () {
 gulp.task('deps:update', function () {
     return composer(['update']);
 });
+gulp.task('deps:js', function (cb) {
+    var deps = {
+        'chosen-js': '**',
+        'ckeditor': ['**', '!samples/**'],
+        'jquery': 'dist/jquery.min.js',
+        'jstree': 'dist/jstree.min.js',
+        'openseadragon': 'build/openseadragon/**',
+        'sortablejs': 'Sortable.min.js',
+        'tablesaw': 'dist/stackonly/**'
+    }
+
+    Object.keys(deps).forEach(function (module) {
+        var moduleDeps = deps[module];
+        if (!(moduleDeps instanceof Array)) {
+            moduleDeps = [moduleDeps];
+        }
+        moduleDeps = moduleDeps.map(function (value) {
+            if (value[0] === '!') {
+                return '!' + './node_modules/' + module + '/' + value.substr(1);
+            }
+            return './node_modules/' + module + '/' + value;
+        });
+        gulp.src(moduleDeps, {nodir: true})
+            .pipe(gulp.dest('./application/asset/vendor/' + module));
+    });
+    cb();
+})
 
 gulp.task('dedist', function () {
     return gulp.src(['./.htaccess.dist', './config/*.dist', './logs/*.dist', './application/test/config/*.dist'], {base: '.'})
@@ -244,7 +271,7 @@ gulp.task('clean', function (cb) {
 
 gulp.task('zip', gulp.series('clean', 'init', function () {
     return gulp.src(['./**', '!./**/*.dist', '!./build/**', '!./**/node_modules/**', '!./**/.git/**', '!./**/.gitattributes', '!./**/.gitignore'],
-        {base: '.'})
+        {base: '.', nodir: true, dot: true})
         .pipe(rename(function (path) {
             path.dirname = 'omeka-s/' + path.dirname;
         }))

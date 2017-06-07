@@ -8,7 +8,7 @@ $formElement = $this->plugin('formElement');
 $sectionNavs = [
     'resource-values' => $this->translate('Values'),
     'item-media' => $this->translate('Media'),
-    'item-sets' => $this->translate('Item Sets'),
+    'item-sets' => $this->translate('Item sets'),
 ];
 ?>
 
@@ -73,7 +73,6 @@ $sectionNavs = [
     </div>
     <?php $this->trigger("view.$action.form.after", ['form' => $form]); ?>
     <?php echo $formElement($form->get('csrf')); ?>
-</form>
+<?php echo $this->form()->closeTag(); ?>
 
 <?php echo $this->partial('common/resource-form-templates.phtml'); ?>
-

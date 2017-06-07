@@ -41,6 +41,10 @@ class ItemSetSelect extends Select
             }
             $valueOptions[] = ['label' => $label, 'options' => $options];
         }
+        $prependValueOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependValueOptions)) {
+            $valueOptions = $prependValueOptions + $valueOptions;
+        }
         return $valueOptions;
     }
 

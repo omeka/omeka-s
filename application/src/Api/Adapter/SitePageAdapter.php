@@ -90,6 +90,7 @@ class SitePageAdapter extends AbstractEntityAdapter
 
         $appendBlocks = $request->getOperation() === Request::UPDATE && $request->getOption('isPartial', false);
         $this->hydrateBlocks($blockData, $entity, $errorStore, $appendBlocks);
+        $this->updateTimestamps($request, $entity);
     }
 
     /**

@@ -9,6 +9,8 @@ class Request
     const SEARCH = 'search';
     const CREATE = 'create';
     const BATCH_CREATE = 'batch_create';
+    const BATCH_UPDATE = 'batch_update';
+    const BATCH_DELETE = 'batch_delete';
     const READ = 'read';
     const UPDATE = 'update';
     const DELETE = 'delete';
@@ -17,8 +19,8 @@ class Request
      * @var array
      */
     protected $operations = [
-        self::SEARCH, self::CREATE, self::BATCH_CREATE,
-        self::READ, self::UPDATE, self::DELETE,
+        self::SEARCH, self::CREATE, self::BATCH_CREATE, self::BATCH_UPDATE,
+        self::READ, self::UPDATE, self::DELETE, self::BATCH_DELETE,
     ];
 
     /**
@@ -35,6 +37,11 @@ class Request
      * @var mixed
      */
     protected $id;
+
+    /**
+     * @var array
+     */
+    protected $ids = [];
 
     /**
      * @var array
@@ -122,6 +129,27 @@ class Request
     }
 
     /**
+     * Set the request resource IDs.
+     *
+     * @param mixed $id
+     */
+    public function setIds(array $ids)
+    {
+        $this->ids = $ids;
+        return $this;
+    }
+
+    /**
+     * Get the request resource IDs.
+     *
+     * @return mixed
+     */
+    public function getIds()
+    {
+        return $this->ids;
+    }
+
+    /**
      * Set the file data for the request.
      *
      * @param array $fileData
@@ -152,8 +180,17 @@ class Request
      * - finalize: (bool) Set whether to finalize the request during execute()
      *     (e.g. trigger API-post events and transform response content
      *     according to the "responseContent" option). Default is true.
+     * - returnScalar: (string) Set which field/column to return as an array of
+     *     scalars during a SEARCH request. The request will not finialize when
+     *     this option is set. Default is false (default behavior).
      * - isPartial: (bool) Set whether this is a partial UPDATE request (aka
      *     PATCH). Default is false.
+     * - collectionAction: (string) Set which action to take on certain
+     *     collections during a partial UPDATE request. Default is "replace",
+     *     which is normal UPDATE behavior. The actions are:
+     *     - replace: the passed data replaces the collection
+     *     - append: append passed data to collections
+     *     - remove: remove passed data from collections
      * - continueOnError: (bool) Set whether a BATCH_CREATE operation should
      *     continue processing on error. Default is false.
      * - flushEntityManager: (bool) Set whether to flush the entity manager

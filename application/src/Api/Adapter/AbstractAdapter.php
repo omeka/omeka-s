@@ -100,11 +100,46 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * {@inheritDoc}
      */
+    public function batchUpdate(Request $request)
+    {
+        throw new Exception\OperationNotImplementedException(sprintf(
+            $this->getTranslator()->translate(
+                'The %1$s adapter does not implement the batch update operation.'
+            ),
+            get_called_class()
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function preprocessBatchUpdate(array $data, Request $request)
+    {
+        // Pass the data through by default.
+        return $data;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function delete(Request $request)
     {
         throw new Exception\OperationNotImplementedException(sprintf(
             $this->getTranslator()->translate(
                 'The %1$s adapter does not implement the delete operation.'
+            ),
+            get_called_class()
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function batchDelete(Request $request)
+    {
+        throw new Exception\OperationNotImplementedException(sprintf(
+            $this->getTranslator()->translate(
+                'The %1$s adapter does not implement the batch delete operation.'
             ),
             get_called_class()
         ));

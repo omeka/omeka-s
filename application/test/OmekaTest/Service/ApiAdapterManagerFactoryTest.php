@@ -60,7 +60,16 @@ class TestAdapter implements AdapterInterface
     public function update(Request $request)
     {
     }
+    public function batchUpdate(Request $request)
+    {
+    }
+    public function preprocessBatchUpdate(array $data, Request $request)
+    {
+    }
     public function delete(Request $request)
+    {
+    }
+    public function batchDelete(Request $request)
     {
     }
     public function getRepresentation(ApiResourceInterface $data = null)

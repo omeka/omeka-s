@@ -15,36 +15,59 @@ $sortHeadings = [
         'value' => 'owner_name'
     ],
     [
-        'label' => $this->translate('Date Created'),
+        'label' => $this->translate('Date created'),
         'value' => 'created'
     ],
 ];
 ?>
 
-<?php echo $this->pageTitle($this->translate('Item Sets')); ?>
+<?php echo $this->pageTitle($this->translate('Item sets')); ?>
 
 <?php echo $this->searchFilters(); ?>
-
-<div id="page-actions">
-    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Add new item set'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
-    <?php endif; ?>
-</div>
 
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
+
+<form method="post" id="batch-form" class="disable-unsaved-warning">
+
+<div id="page-actions">
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'batch_update')): ?>
+    <select class="batch-actions-select">
+        <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
+        <option value="update-selected" disabled="true"><?php echo $this->translate('Edit selected'); ?></option>
+        <option value="update-all"><?php echo $this->translate('Edit all'); ?></option>
+        <option value="delete-selected" disabled="true"><?php echo $this->translate('Delete selected'); ?></option>
+        <option value="delete-all"><?php echo $this->translate('Delete all'); ?></option>
+    </select>
+    <div class="batch-actions">
+        <button type="button" class="default active" disabled="true"><?php echo $this->translate('Go'); ?></button>
+        <input type="submit" class="update-selected" name="update_selected" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
+        <input type="submit" class="update-all" name="update_all" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+        <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
+        <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $this->translate('Go'); ?></a>
+        <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $this->translate('Go'); ?></a>
+    </div>
+    <?php endif; ?>
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'create')): ?>
+    <?php echo $this->hyperlink($this->translate('Add new item set'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
+    <?php endif; ?>
+</div>
+
 <?php $this->trigger('view.browse.before'); ?>
 <?php if($itemSets): ?>
-<table class="tablesaw" data-tablesaw-mode="stack">
+<table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $this->translate('Title'); ?></th>
+            <th>
+                <input type="checkbox" class="select-all">
+                <?php echo $this->translate('Title'); ?>
+            </th>
             <th><?php echo $this->translate('Class'); ?></th>
             <th><?php echo $this->translate('Owner'); ?></th>
-            <th><?php echo $this->translate('Date Created'); ?></th>
+            <th><?php echo $this->translate('Date created'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -65,6 +88,9 @@ $sortHeadings = [
         ?>
         <tr>
             <td>
+                <?php if ($itemSet->userIsAllowed('update') || $itemSet->userIsAllowed('delete')): ?>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $itemSet->id(); ?>">
+                <?php endif; ?>
                 <?php if ($media = $itemSet->primaryMedia()): ?>
                 <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
                 <?php endif; ?>
@@ -81,12 +107,14 @@ $sortHeadings = [
                     <?php endif; ?>
                     <?php if ($itemSet->userIsAllowed('delete')): ?>
                     <li><a href="#"
+                        data-sidebar-selector="#sidebar"
                         data-sidebar-content-url="<?php echo $escape($itemSet->url('delete-confirm')); ?>"
                         class="o-icon-delete sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Delete')); ?>"
                         title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
                     <?php endif; ?>
                     <li><a href="#"
+                        data-sidebar-selector="#sidebar"
                         data-sidebar-content-url="<?php echo $escape($itemSet->url('show-details')); ?>"
                         class="o-icon-more sidebar-content"
                         aria-label="<?php echo $escape($this->translate('Details')); ?>"
@@ -100,18 +128,77 @@ $sortHeadings = [
         <?php endforeach; ?>
     </tbody>
 </table>
+
+</form>
+
 <?php $this->trigger('view.browse.after'); ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
 </div>
 
-<div class="sidebar">
+<div id="sidebar" class="sidebar">
     <a href="#"
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content"></div>
 </div>
+<div id="sidebar-delete-selected" class="sidebar">
+    <a href="#" class="sidebar-close o-icon-close" aria-label="<?php echo $escape($this->translate('Close')); ?>" title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <div class="sidebar-content">
+        <div id="sidebar-confirm">
+            <h3><?php echo $this->translate('Delete item sets'); ?></h3>
+            <p><?php echo $this->translate('Are you sure you would like to delete the selected item sets?'); ?></p>
+            <p class="error"><?php echo sprintf(
+                $this->translate('%s: this action will permanently delete %s item sets and cannot be undone.'),
+                sprintf('<strong>%s</strong>', $this->translate('Warning')),
+                '<strong><span id="delete-selected-count"></span></strong>'
+            ); ?></p>
+            <?php echo $this->form($this->formDeleteSelected); ?>
+        </div>
+    </div>
+</div>
+<div id="sidebar-delete-all" class="sidebar">
+    <a href="#" class="sidebar-close o-icon-close" aria-label="<?php echo $escape($this->translate('Close')); ?>" title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <div class="sidebar-content">
+        <div id="sidebar-confirm">
+            <h3><?php echo $this->translate('Delete item sets'); ?></h3>
+            <p><?php echo $this->translate('Are you sure you would like to delete all item sets on all pages of this result?'); ?></p>
+            <p class="error"><?php echo sprintf(
+                $this->translate('%s: this action will permanently delete %s item sets and cannot be undone.'),
+                sprintf('<strong>%s</strong>', $this->translate('Warning')),
+                sprintf('<strong>%s</strong>', number_format($this->pagination()->getPaginator()->getTotalCount()))
+            ); ?></p>
+            <label><input type="checkbox" name="confirm-delete-all-check"> <?php echo $this->translate('Are you sure?'); ?></label>
+            <?php echo $this->form($this->formDeleteAll); ?>
+        </div>
+    </div>
+</div>
+
+<script>
+// Complete the batch delete form after confirmation.
+$('#confirm-delete-selected, #confirm-delete-all').on('submit', function(e) {
+    var confirmForm = $(this);
+    if ('confirm-delete-all' === this.id) {
+        confirmForm.append($('.batch-query').clone());
+    } else {
+        $('#batch-form').find('input[name="resource_ids[]"]:checked').each(function() {
+            confirmForm.append($(this).clone().prop('disabled', false).attr('type', 'hidden'));
+        });
+    }
+});
+$('.delete-all').on('click', function(e) {
+    Omeka.closeSidebar($('#sidebar-delete-selected'));
+});
+$('.delete-selected').on('click', function(e) {
+    Omeka.closeSidebar($('#sidebar-delete-all'));
+    var inputs = $('input[name="resource_ids[]"]');
+    $('#delete-selected-count').text(inputs.filter(':checked').length);
+});
+$('#sidebar-delete-all').on('click', 'input[name="confirm-delete-all-check"]', function(e) {
+    $('#confirm-delete-all input[type="submit"]').prop('disabled', this.checked ? false : true);
+});
+</script>
 
 <?php else: ?>
 

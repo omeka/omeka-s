@@ -64,22 +64,4 @@ class ResourceTest extends TestCase
         $this->resource->setModified($dateTime);
         $this->assertSame($dateTime, $this->resource->getModified());
     }
-
-    public function testPrePersist()
-    {
-        $lifecycleEventArgs = $this->getMockBuilder('Doctrine\ORM\Event\LifecycleEventArgs')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->resource->prePersist($lifecycleEventArgs);
-        $this->assertInstanceOf('DateTime', $this->resource->getCreated());
-    }
-
-    public function testPreUpdate()
-    {
-        $preUpdateEventArgs = $this->getMockBuilder('Doctrine\ORM\Event\PreUpdateEventArgs')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->resource->preUpdate($preUpdateEventArgs);
-        $this->assertInstanceOf('DateTime', $this->resource->getModified());
-    }
 }

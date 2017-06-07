@@ -78,7 +78,7 @@ class PageController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('partialPath', 'omeka/site-admin/page/show-details');
-        $view->setVariable('resourceLabel', 'page');
+        $view->setVariable('resourceLabel', 'page'); // @translate
         $view->setVariable('resource', $page);
         return $view;
     }

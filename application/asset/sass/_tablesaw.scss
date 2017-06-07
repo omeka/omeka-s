@@ -1,20 +1,14 @@
-.tablesaw-stack tbody tr {
-    border-bottom: 0;
-}
+.tablesaw tr {
+    overflow: hidden;
+    margin-bottom: 0;
 
-.tablesaw tr .actions {
-    position: absolute;
-    top: $spacing-small;
-    right: $spacing-medium;
-
-    li {
-        margin: 0;
+    &:first-of-type {
+        border-top: 1px solid $border-gray;
     }
 }
 
 .tablesaw td:first-of-type {
     background-color: $gray-on-white;
-    position: relative;
 
     .tablesaw-cell-label {
         width: 0;
@@ -33,6 +27,30 @@
         max-width: calc(100% - #{6 * $spacing-large});
         vertical-align: middle;
     }
+
+    img {
+        width: 2 * $base-line-height;
+        margin-right: $spacing-medium;
+    }
+}
+
+.batch-edit.tablesaw td:first-of-type {
+    width: 100%;
+    background: $gray-on-white;
+
+    img {
+        margin-bottom: 0;
+    }
+
+    .tablesaw-cell-label {
+        width: 0;
+        overflow: hidden;
+        padding: 0;
+    }
+}
+
+.batch-edit .tablesaw-cell-content {
+    display: inline-flex;
 }
 
 .tablesaw-cell-content {
@@ -48,32 +66,17 @@
 .tablesaw tr:last-of-type th,
 .tablesaw th,
 .tablesaw td {
-    padding: $spacing-small $spacing-medium;
+    padding-top: $spacing-small;
+    padding-bottom: $spacing-small;
     vertical-align: top;
 }
 
+.tablesaw th:not(:last-of-type),
+.tablesaw td:not(:last-of-type) {
+    border-bottom: 1px solid $border-gray;
+}
+
 /* @group ----- Special cases ----- */
-
-.page.browse .tablesaw {
-    padding-bottom: -1px;
-    border-bottom: 1px solid $gray-on-white;
-}
-
-.page.browse .tablesaw tr {
-    position: relative;
-}
-
-.page.browse .tablesaw td:last-of-type {
-    position: absolute;
-    right: 0;
-    height: rhythm(1.5);
-    border: 0;
-}
-
-.modules.browse .tablesaw-cell-content > span {
-    display: block;
-    max-width: calc(100% - #{4 * $spacing-large});
-}
 
 .resource-template th:first-of-type,
 .resource-template td:first-of-type {

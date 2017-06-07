@@ -2,12 +2,11 @@
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/site-item-pool.js', 'Omeka'));
 $form->prepare();
 $sectionNavs = [
     'admin' => $this->translate('Admin'),
     'theme' => $this->translate('Theme'),
-    'item-pool' => $this->translate('Item Pool')
+    'item-pool' => $this->translate('Item pool')
 ];
 $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 ?>

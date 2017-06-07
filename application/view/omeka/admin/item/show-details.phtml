@@ -9,13 +9,13 @@ $escape = $this->plugin('escapeHtml');
     <?php endif; ?>
     <div class="o-description"><?php echo $escape($resource->displayDescription()); ?></div>
     <div class="meta-group">
-        <h4>Visibility</h4>
+        <h4><?php echo $escape($this->translate('Visibility')); ?></h4>
         <div class="value"><?php echo ($resource->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
     </div>
     <?php $itemsets = $resource->itemSets(); ?>
     <?php if (count($itemsets) > 0): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Item Sets'); ?></h4>
+        <h4><?php echo $this->translate('Item sets'); ?></h4>
         <?php foreach ($itemsets as $itemset): ?>
         <div class="value item-sets"><?php echo $itemset->link($itemset->displayTitle()); ?></div>
         <?php endforeach; ?>
@@ -28,7 +28,7 @@ $escape = $this->plugin('escapeHtml');
         <div class="value">
             <a href="<?php echo $media->url(); ?>">
                 <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
-                <span class="file-name"><?php echo $escape($media->displayTitle()); ?>
+                <span class="file-name"><?php echo $escape($media->displayTitle()); ?></span>
             </a>
         </div>
         <?php endforeach; ?>

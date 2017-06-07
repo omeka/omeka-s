@@ -2,7 +2,7 @@
 $escape = $this->plugin('escapeHtml');
 ?>
 
-<h3><?php echo $this->translate('Select Item Set'); ?></h3>
+<h3><?php echo $this->translate('Select item set'); ?></h3>
 <div class="search-nav">
     <div id="sidebar-resource-search" class="resource-search">
         <input type="text" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
@@ -21,7 +21,7 @@ $escape = $this->plugin('escapeHtml');
         <?php endif; ?>
         <span class="resource-name">
             <a href="#"
-            class="sidebar-content"
+            class="sidebar-content select-resource"
             data-sidebar-content-url="<?php echo $escape($itemSet->url('show-details')); ?>" data-sidebar-selector="#resource-details"><?php echo $escape($itemSet->displayTitle()); ?></a></span>
     </div>
     <?php endforeach; ?>

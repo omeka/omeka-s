@@ -3,7 +3,6 @@ namespace Omeka\Api;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Adapter\Manager as AdapterManager;
-use Omeka\Api\Representation\ResourceReference;
 use Omeka\Permissions\Acl;
 use Zend\Log\LoggerInterface;
 use Zend\I18n\Translator\TranslatorInterface;
@@ -137,6 +136,16 @@ class Manager
         return $this->execute($request);
     }
 
+    public function batchUpdate($resource, array $ids, array $data = [],
+        array $options = []
+    ) {
+        $request = new Request(Request::BATCH_UPDATE, $resource);
+        $request->setIds($ids)
+            ->setContent($data)
+            ->setOption($options);
+        return $this->execute($request);
+    }
+
     /**
      * Execute a delete API request.
      *
@@ -150,6 +159,25 @@ class Manager
     {
         $request = new Request(Request::DELETE, $resource);
         $request->setId($id)
+            ->setContent($data)
+            ->setOption($options);
+        return $this->execute($request);
+    }
+
+    /**
+     * Execute a batch delete API request.
+     *
+     * @param string $resource
+     * @param mixed $id
+     * @param array $data
+     * @param array $options
+     * @return Response
+     */
+    public function batchDelete($resource, array $ids, array $data = [],
+        array $options = []
+    ) {
+        $request = new Request(Request::BATCH_DELETE, $resource);
+        $request->setIds($ids)
             ->setContent($data)
             ->setOption($options);
         return $this->execute($request);
@@ -204,8 +232,14 @@ class Manager
             case Request::UPDATE:
                 $response = $adapter->update($request);
                 break;
+            case Request::BATCH_UPDATE:
+                $response = $adapter->batchUpdate($request);
+                break;
             case Request::DELETE:
                 $response = $adapter->delete($request);
+                break;
+            case Request::BATCH_DELETE:
+                $response = $adapter->batchDelete($request);
                 break;
             default:
                 throw new Exception\BadRequestException('Invalid API request operation.');
@@ -215,6 +249,14 @@ class Manager
         if (!$response instanceof Response) {
             throw new Exception\BadResponseException('The API response must implement Omeka\Api\Response');
         }
+
+        $response->setRequest($request);
+
+        // Return scalar content as-is; do not validate or finialize.
+        if (Request::SEARCH === $request->getOperation() && $request->getOption('returnScalar')) {
+            return $response;
+        }
+
         $validateContent = function ($value) {
             if (!$value instanceof ResourceInterface) {
                 throw new Exception\BadResponseException('API response content must implement Omeka\Api\ResourceInterface.');
@@ -227,7 +269,6 @@ class Manager
             $this->finalize($adapter, $request, $response);
         }
 
-        $response->setRequest($request);
         return $response;
     }
 
@@ -294,7 +335,7 @@ class Manager
                 case 'resource':
                     return $resource;
                 case 'reference':
-                    return new ResourceReference($resource, $adapter);
+                    return $adapter->getRepresentation($resource)->getReference();
                 case 'representation':
                 default:
                     return $adapter->getRepresentation($resource);

@@ -103,6 +103,29 @@
             Omeka.closeSidebar($('#select-resource'));
         });
 
+        // Prevent resource details from opening when quick add is toggled on.
+        $('#select-resource').on('click', '.quick-select-toggle', function() {
+            $('#item-results').find('a.select-resource').each(function() {
+                $(this).toggleClass('sidebar-content');
+            });
+        });
+
+        $('#select-resource').on('o:resources-selected', '.select-resources-button', function(e) {
+            var value = $('.value.selecting-resource');
+            var field = value.closest('.resource-values.field');
+            $('#item-results').find('.resource')
+                .has('input.select-resource-checkbox:checked').each(function(index) {
+                    if (0 < index) {
+                        value = makeNewValue(field.data('property-term'), null, 'resource');
+                        field.find('.values').append(value);
+                    }
+                    console.log(value[0]);
+                    var valueObj = $(this).data('resource-values');
+                    var namePrefix = value.data('name-prefix');
+                    $(document).trigger('o:prepare-value', ['resource', value, valueObj, namePrefix]);
+                });
+        });
+
         $('.button.resource-select').on('click', function(e) {
             e.preventDefault();
             var selectButton = $(this);

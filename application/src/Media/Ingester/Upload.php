@@ -105,7 +105,7 @@ class Upload implements IngesterInterface
     {
         $fileInput = new File('file[__index__]');
         $fileInput->setOptions([
-            'label' => 'Upload File', // @translate
+            'label' => 'Upload file', // @translate
             'info' => $view->uploadLimit(),
         ]);
         $fileInput->setAttributes([

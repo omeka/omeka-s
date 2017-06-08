@@ -325,7 +325,7 @@ body {
 
         .actions {
             font-size: $base-font-size;
-            padding: $spacing-small (.5 * $spacing-small);
+            padding: $spacing-small 0;
         }
     }
 
@@ -2144,7 +2144,7 @@ input[type="text"].value-language,
     }
 
     .media.row {
-        padding: $spacing-medium;
+        padding: $spacing-small;
         margin-bottom: $spacing-small;
         display: flex;
         align-items: center;
@@ -2192,12 +2192,14 @@ input[type="text"].value-language,
         top: (1.5 * $spacing-medium);
     }
 
-    .media-header h4 {
+    .media-header {
         font-size: $base-font-size;
         margin: $spacing-small (-$spacing-small);
         margin-top: -2 * $spacing-small;
         background-color: $gray-on-white;
-        padding: $spacing-small;
+        padding: 0 $spacing-small;
+        display: flex;
+        align-items: center;
     }
 
     .value.delete > .actions {

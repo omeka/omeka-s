@@ -2407,26 +2407,24 @@ input[type="text"].value-language,
 .resource-list {
     width: 100%;
 
+    .select-resource {
+        display: flex;
+        align-items: center;
+    }
+
     img {
         width: (1.5 * $spacing-large);
         height: (1.5 * $spacing-large);
-        float: left;
         margin-right: $spacing-medium;
     }
 
     .resource-name {
-        display: inline-block;
-        vertical-align: top;
         margin: 0;
         width: calc(100% - #{$spacing-large});
 
         &:only-child {
             margin: 0 0 0 $spacing-small;
         }
-    }
-
-    img + .resource-name {
-        width: calc(100% - #{3 * $spacing-large});
     }
 
     .resource {
@@ -2447,7 +2445,6 @@ input[type="text"].value-language,
         }
 
         .select-resource-checkbox-wrapper {
-            flex: 1;
             height: $base-line-height;
             margin-right: $spacing-medium;
         }

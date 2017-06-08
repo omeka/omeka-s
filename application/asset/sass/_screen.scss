@@ -1977,7 +1977,7 @@ input[type="text"].value-language,
 
     .input-header {
         width: 100%;
-        float: left;
+        display: flex;
         background-color: rgba(0,0,0,.15);
     }
 
@@ -2032,6 +2032,7 @@ input[type="text"].value-language,
     .inputs .value textarea,
     .inputs .value input[type="text"] {
         width: 100%;
+        margin-top: 0;
     }
 
     [data-data-type="resource"] .default,
@@ -3186,7 +3187,7 @@ body.sidebar-open #content {
         position: relative;
         display: flex;
         background-color: opacify($gray-on-white, .08);
-        padding: $spacing-small;
+        padding: 0 $spacing-small;
         font-weight: bold;
         line-height: 1.5 * $spacing-large;
 
@@ -3223,6 +3224,7 @@ body.sidebar-open #content {
 
     .block.value.delete span.restore-value {
         padding: 0 (.5 * $spacing-small);
+        text-transform: lowercase;
     }
 
     .block.value.delete a.restore-value:before {

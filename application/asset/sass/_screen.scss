@@ -3730,9 +3730,15 @@ body.minimal {
 
 .asset-upload {
     overflow: hidden;
+    margin-bottom: $spacing-large;
 
     button {
-        margin: $spacing-small 0 $spacing-large;
+        margin: $spacing-small 0 0;
+        display: none;
+
+        &.active {
+            display: inline-block;
+        }
     }
 
     ul.errors {

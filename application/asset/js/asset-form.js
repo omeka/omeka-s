@@ -26,6 +26,10 @@
             selectingForm = null;
         });
 
+        $('#content').on('change', '.asset-upload [type="file"]', function() {
+            $('.asset-upload button').addClass('active');
+        });
+
         $('#content').on('submit', '.asset-upload', function (e) {
             var form = $(this);
             e.preventDefault();

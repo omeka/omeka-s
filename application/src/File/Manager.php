@@ -65,7 +65,6 @@ class Manager
         'video/divx',
         'video/mp4',
         'video/mpeg',
-        'video/msvideo',
         'video/ogg',
         'video/quicktime',
         'video/webm',
@@ -110,8 +109,6 @@ class Manager
         'image/icon' => 'image/x-icon',
         // video/mp4
         'video/x-m4v' => 'video/mp4',
-        // video/msvideo
-        'video/x-msvideo' => 'video/msvideo',
         // video/x-ms-asf
         'video/asf' => 'video/x-ms-asf',
         // video/x-ms-wmv

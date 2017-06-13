@@ -10,7 +10,8 @@ cd "$parent_path"
 DOCKER_USER='digirati'
 PACKAGE_NAME='omeka-s'
 PHP_VERSIONS=(7.0.18 7.1 5.6.30);
-WEB_SERVERS=(fpm apache);
+# WEB_SERVERS=(fpm apache);
+WEB_SERVERS=(fpm);
 
 function buildDockerFile {
   echo -e "\033[00;32m========================================================";

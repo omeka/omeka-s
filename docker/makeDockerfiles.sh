@@ -83,10 +83,32 @@ do
   done
 done
 
-echo -e "\033[00;32m========================================================";
-echo -e "Pushing PHP 7.1 FPM with the tag latest";
-echo -e "========================================================\033[0m";
+if [[ "$TRAVIS_BRANCH" = "develop" ]] && [[ "$TRAVIS_PULL_REQUEST" = "false" ]]; then
+  echo -e "\033[00;32m========================================================";
+  echo -e "Pushing PHP 7.1 FPM with the tag latest";
+  echo -e "========================================================\033[0m";
 
-docker tag omeka-s:7.1-fpm ${DOCKER_USER}/${PACKAGE_NAME}:latest
-docker push ${DOCKER_USER}/${PACKAGE_NAME}:latest
+  docker tag omeka-s:7.1-fpm ${DOCKER_USER}/${PACKAGE_NAME}:latest
+  docker push ${DOCKER_USER}/${PACKAGE_NAME}:latest
+  
+  if [ $? -eq 0 ]; then
+    # Trigger a traverse into NLW build
+    body='{
+    "request": {
+    "branch":"master"
+    }}'
+
+    echo -e "\033[00;32m ===> Pushing this change downstream to the NLW omeka build \033[0m\n";
+
+    curl -s -X POST -H "Content-Type: application/json" -H "Accept: application/json" -H "Travis-API-Version: 3" -H "Authorization: token ${TRAVIS_ACCESS_TOKEN}" -d "$body" https://api.travis-ci.com/repo/digirati-co-uk%2Fnlw-omeka-build/requests
+    
+    echo -e "\033[00;32m ===> Pushing this change downstream to the Digirati omeka dev build \033[0m\n";
+
+    curl -s -X POST -H "Content-Type: application/json" -H "Accept: application/json" -H "Travis-API-Version: 3" -H "Authorization: token ${TRAVIS_ACCESS_TOKEN}" -d "$body" https://api.travis-ci.com/repo/digirati-co-uk%2Fomeka-s-dev/requests
+
+
+    echo -e "\033[00;32m====================S=U=C=C=E=S=S=======================\033[0m\n";
+  fi
+  
+fi
 

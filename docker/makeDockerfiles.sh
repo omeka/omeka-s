@@ -21,6 +21,12 @@ function buildDockerFile {
   echo -e " ===> Building Dockerfile: ${1} \n";
   DOCKERFILE="docker/build/${1}";
   docker build --file=${DOCKERFILE} -t ${PACKAGE_NAME}:${2} .
+  
+  if [[ "$(docker images -q ${PACKAGE_NAME}:${2} 2> /dev/null)" == "" ]]; then
+    echo -e "\033[00;32m ===> Image was NOT built, failing the build";
+    exit 1
+  fi
+  
   docker tag ${PACKAGE_NAME}:${2} ${DOCKER_USER}/${PACKAGE_NAME}:${2}
 
   docker exec -i mysql mysql -uroot  <<< "create database IF NOT EXISTS omeka_test;"

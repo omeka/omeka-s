@@ -10,7 +10,8 @@ cd "$parent_path"
 DOCKER_USER='digirati'
 PACKAGE_NAME='omeka-s'
 PHP_VERSIONS=(7.0.18 7.1 5.6.30);
-WEB_SERVERS=(fpm apache);
+# WEB_SERVERS=(fpm apache);
+WEB_SERVERS=(fpm);
 
 function buildDockerFile {
   echo -e "\033[00;32m========================================================";
@@ -21,6 +22,12 @@ function buildDockerFile {
   echo -e " ===> Building Dockerfile: ${1} \n";
   DOCKERFILE="docker/build/${1}";
   docker build --file=${DOCKERFILE} -t ${PACKAGE_NAME}:${2} .
+  
+  if [[ "$(docker images -q ${PACKAGE_NAME}:${2} 2> /dev/null)" == "" ]]; then
+    echo -e "\033[00;32m ===> Image was NOT built, failing the build";
+    exit 1
+  fi
+  
   docker tag ${PACKAGE_NAME}:${2} ${DOCKER_USER}/${PACKAGE_NAME}:${2}
 
   docker exec -i mysql mysql -uroot  <<< "create database IF NOT EXISTS omeka_test;"
@@ -39,12 +46,13 @@ function buildDockerFile {
     if [[ "$TRAVIS_BRANCH" = "develop" ]] && [[ "$TRAVIS_PULL_REQUEST" = "false" ]]; then
       echo -e "\033[00;32m ===> Pushing to Dockerhub\033[0m\n";
       docker push ${DOCKER_USER}/${PACKAGE_NAME}:${2}
-      cd -;
       echo -e "\033[00;32m====================S=U=C=C=E=S=S=======================\033[0m\n";
     else
       echo -e "\033[00;31m Unit tests passed but we're not pushing this as its a PR or a feature branch\033[0m\n";
     fi
   fi 
+  # This needs to always happen, see line 21
+  cd -;
 }
 
 echo -e "\033[00;32m ===> Creating database container for running tests\033[0m\n";

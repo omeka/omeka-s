@@ -7,7 +7,6 @@ use Omeka\Api\Response;
 use Omeka\Mvc\Exception as MvcException;
 use Omeka\View\Model\ApiJsonModel;
 use Omeka\View\Renderer\ApiJsonRenderer;
-use Zend\Json\Exception as JsonException;
 use Zend\View\Strategy\JsonStrategy;
 use Zend\View\ViewEvent;
 

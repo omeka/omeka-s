@@ -2,9 +2,9 @@
 namespace OmekaTest\View\Strategy;
 
 use Omeka\Api\Exception;
+use Omeka\Mvc\Exception as MvcException;
 use Omeka\View\Strategy\ApiJsonStrategy;
 use Zend\Http\Response as HttpResponse;
-use Zend\Json\Exception as JsonException;
 use Zend\View\ViewEvent;
 use Omeka\Test\TestCase;
 
@@ -56,7 +56,7 @@ class ApiJsonStrategyTest extends TestCase
             ['bar', new Exception\NotFoundException, 404],
             ['bar', new Exception\PermissionDeniedException, 403],
             ['bar', new \Exception, 500],
-            ['bar', new JsonException\RuntimeException, 400],
+            ['bar', new MvcException\InvalidJsonException, 400],
         ];
     }
 

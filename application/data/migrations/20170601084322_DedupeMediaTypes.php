@@ -42,8 +42,6 @@ class DedupeMediaTypes implements MigrationInterface
         'image/icon' => 'image/x-icon',
         // video/mp4
         'video/x-m4v' => 'video/mp4',
-        // video/msvideo
-        'video/x-msvideo' => 'video/msvideo',
         // video/x-ms-asf
         'video/asf' => 'video/x-ms-asf',
         // video/x-ms-wmv

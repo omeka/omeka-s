@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-06 18:16-0400\n"
+"POT-Creation-Date: 2017-06-14 14:49-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -709,7 +709,7 @@ msgstr ""
 msgid "Add new item set"
 msgstr ""
 
-#. #-#-#-#-#  tmp-31162BxOp65aRN4z6vocab.pot  #-#-#-#-#
+#. #-#-#-#-#  tmp-18541Vp7bHCF6ZPJmvocab.pot  #-#-#-#-#
 #. Property label for Dublin Core:subject
 #: application/view/common/linked-resources.phtml:7
 msgid "Subject"
@@ -742,7 +742,7 @@ msgstr ""
 msgid "Make private"
 msgstr ""
 
-#. #-#-#-#-#  tmp-31162BxOp65aRN4z6vocab.pot  #-#-#-#-#
+#. #-#-#-#-#  tmp-18541Vp7bHCF6ZPJmvocab.pot  #-#-#-#-#
 #. Property label for Dublin Core:type
 #: application/view/common/navigation-link-form/browse.phtml:6
 #: application/view/common/navigation-link-form/page.phtml:12
@@ -815,7 +815,7 @@ msgstr ""
 msgid "Add value"
 msgstr ""
 
-#. #-#-#-#-#  tmp-31162BxOp65aRN4z6vocab.pot  #-#-#-#-#
+#. #-#-#-#-#  tmp-18541Vp7bHCF6ZPJmvocab.pot  #-#-#-#-#
 #. Class label for Dublin Core Type:Text
 #: application/view/common/resource-form-templates.phtml:21
 msgid "Text"
@@ -1213,7 +1213,7 @@ msgstr ""
 msgid "You are editing %s item sets."
 msgstr ""
 
-#. #-#-#-#-#  tmp-31162BxOp65aRN4z6vocab.pot  #-#-#-#-#
+#. #-#-#-#-#  tmp-18541Vp7bHCF6ZPJmvocab.pot  #-#-#-#-#
 #. Property label for Dublin Core:title
 #: application/view/omeka/admin/item-set/browse.phtml:6
 #: application/view/omeka/admin/item-set/browse.phtml:66
@@ -1421,7 +1421,7 @@ msgstr ""
 
 #: application/view/omeka/admin/item-set/edit.phtml:13
 #, php-format
-msgid "Edit Item Set: “%s”"
+msgid "Edit item set: “%s”"
 msgstr ""
 
 #: application/view/omeka/admin/item-set/form.phtml:8
@@ -1718,7 +1718,7 @@ msgstr ""
 
 #: application/view/omeka/admin/media/edit.phtml:22
 #, php-format
-msgid "Edit Media: “%s”"
+msgid "Edit media: “%s”"
 msgstr ""
 
 #: application/view/omeka/admin/media/search.phtml:5
@@ -1747,7 +1747,7 @@ msgstr ""
 msgid "Ingester"
 msgstr ""
 
-#. #-#-#-#-#  tmp-31162BxOp65aRN4z6vocab.pot  #-#-#-#-#
+#. #-#-#-#-#  tmp-18541Vp7bHCF6ZPJmvocab.pot  #-#-#-#-#
 #. Property label for Dublin Core:source
 #: application/view/omeka/admin/media/show.phtml:55
 msgid "Source"
@@ -2119,7 +2119,7 @@ msgid "Install Omeka S"
 msgstr ""
 
 #: application/view/omeka/install/index.phtml:10
-msgid "Some installation requirements were not satisifed."
+msgid "Some installation requirements were not satisfied."
 msgstr ""
 
 #: application/view/omeka/login/create-password.phtml:5
@@ -2807,7 +2807,7 @@ msgstr ""
 msgid "Page successfully updated"
 msgstr ""
 
-#. #-#-#-#-#  tmp-31162BxOp65aRN4z6vocab.pot  #-#-#-#-#
+#. #-#-#-#-#  tmp-18541Vp7bHCF6ZPJmvocab.pot  #-#-#-#-#
 #. Property label for Friend of a Friend:page
 #: application/src/Controller/SiteAdmin/PageController.php:81
 msgid "page"

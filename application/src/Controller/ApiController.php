@@ -184,7 +184,7 @@ class ApiController extends AbstractRestfulController
             $content = $request->getContent();
             $fileData = [];
         }
-        $data = json_decode($content, true);
+        $data = $this->jsonDecode($content);
         return $this->create($data, $fileData);
     }
 
@@ -249,5 +249,29 @@ class ApiController extends AbstractRestfulController
 
         $event->setResult($result);
         return $result;
+    }
+
+    /**
+     * Decode a JSON string.
+     *
+     * Override ZF's default to always use json_decode and to add error checking.'
+     *
+     * @param string
+     * @return mixed
+     * @throws Exception\DomainException if no JSON decoding functionality is
+     *     available.
+     */
+    protected function jsonDecode($string)
+    {
+        $content = json_decode($string, (bool) $this->jsonDecodeType);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception\InvalidJsonException('JSON: ' . json_last_error_msg());
+        }
+
+        if (!is_array($content)) {
+            throw new Exception\InvalidJsonException('JSON: Content must be an object or array.');
+        }
+        return $content;
     }
 }

@@ -92,7 +92,7 @@ class ApiJsonStrategy extends JsonStrategy
      */
     protected function getStatusCodeForException(\Exception $exception = null)
     {
-        if ($exception instanceof JsonException\RuntimeException) {
+        if ($exception instanceof MvcException\InvalidJsonException) {
             return 400; // Bad Request
         }
         if ($exception instanceof ApiException\PermissionDeniedException) {

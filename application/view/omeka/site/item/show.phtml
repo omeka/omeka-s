@@ -2,7 +2,6 @@
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'item resource show');
 $subjects = $item->subjectValues();
-$objects = $item->objectValues();
 $embedMedia = $this->siteSetting('item_media_embed', false);
 $itemMedia = $item->media();
 ?>
@@ -38,11 +37,11 @@ $itemMedia = $item->media();
 </div>
 <?php endif; ?>
 
-<?php if ($subjects || $objects): ?>
+<?php if ($subjects): ?>
 <div id="item-linked" class="property">
     <h4><?php echo $this->translate('Linked resources'); ?></h4>
     <div class="value">
-        <?php echo $item->displayLinkedResources(); ?>
+        <?php echo $item->displayLinkedResources(['subjectValues' => $subjects, 'objectValues' => '']); ?>
     </div>
 </div>
 <?php endif; ?>

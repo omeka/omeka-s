@@ -419,8 +419,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $options['viewName'] = 'common/linked-resources';
         }
         $partial = $this->getViewHelper('partial');
-        $options['subjectValues'] = $this->subjectValues();
-        $options['objectValues'] = $this->objectValues();
+        if (!isset($options['subjectValues'])) {
+            $options['subjectValues'] = $this->subjectValues();
+        }
+        if (!isset($options['objectValues'])) {
+            $options['objectValues'] = $this->objectValues();
+        }
         return $partial($options['viewName'], $options);
     }
 

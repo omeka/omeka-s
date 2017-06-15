@@ -49,7 +49,7 @@ class InstallationForm extends Form
             'name' => 'email-confirm',
             'type' => 'Email',
             'options' => [
-                'label' => 'Confirm Email', // @translate
+                'label' => 'Confirm email', // @translate
             ],
             'attributes' => [
                 'id' => 'email-confirm',
@@ -71,7 +71,7 @@ class InstallationForm extends Form
             'name' => 'password-confirm',
             'type' => 'Password',
             'options' => [
-                'label' => 'Confirm Password', // @translate
+                'label' => 'Confirm password', // @translate
             ],
             'attributes' => [
                 'id' => 'password-confirm',
@@ -82,7 +82,7 @@ class InstallationForm extends Form
             'name' => 'name',
             'type' => 'Text',
             'options' => [
-                'label' => 'Display Name', // @translate
+                'label' => 'Display name', // @translate
             ],
             'attributes' => [
                 'id' => 'name',
@@ -93,7 +93,7 @@ class InstallationForm extends Form
             'name' => 'installation_title',
             'type' => 'Text',
             'options' => [
-                'label' => 'Installation Title', // @translate
+                'label' => 'Installation title', // @translate
             ],
             'attributes' => [
                 'id' => 'installation-title',
@@ -111,7 +111,7 @@ class InstallationForm extends Form
             'name' => 'time_zone',
             'type' => 'Select',
             'options' => [
-                'label' => 'Time Zone', // @translate
+                'label' => 'Time zone', // @translate
                 'value_options' => $timeZones,
             ],
             'attributes' => [

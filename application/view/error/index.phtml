@@ -1,4 +1,12 @@
-<p><?php echo $this->translate('There was an error.'); ?></p>
+<h1><?php echo $this->translate('Omeka S encountered an error'); ?></h1>
+
+<?php if (ini_get('display_errors')): ?>
+<p>
+<strong><?php echo $this->escapeHtml(get_class($this->exception)); ?></strong><br>
+<?php echo $this->escapeHtml($this->exception->getMessage()); ?>
+</p>
+<p><?php echo $this->translate('Details:'); ?></p>
 <pre>
-<?php echo $this->exception; ?>
+<?php echo $this->escapeHtml($this->exception); ?>
 </pre>
+<?php endif; ?>

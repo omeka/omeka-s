@@ -10,6 +10,7 @@ $escape = $this->plugin('escapeHtml');
         </tr>
     </thead>
     <tbody>
+        <?php if ($objectValues): ?>
         <?php foreach ($objectValues as $value): ?>
         <?php
         $resource = $value->valueResource();
@@ -21,7 +22,9 @@ $escape = $this->plugin('escapeHtml');
             <td><?php echo $resource->link($resource->displayTitle()); ?></td>
         </tr>
         <?php endforeach; ?>
+        <?php endif; ?>
 
+        <?php if ($subjectValues): ?>
         <?php foreach ($subjectValues as $value): ?>
         <?php
         $resource = $value->resource();
@@ -33,5 +36,6 @@ $escape = $this->plugin('escapeHtml');
             <td><?php echo $this->translate('This'); ?></td>
         </tr>
         <?php endforeach; ?>
+        <?php endif; ?>
     </tbody>
 </table>

@@ -18,11 +18,11 @@ if ($owner = $itemSet->owner()) {
 
 $sectionNavs = [
     'item-set-metadata' => $this->translate('Metadata'),
-    'item-set-linked' => $this->translate('Linked Resources'),
+    'item-set-linked' => $this->translate('Linked resources'),
 ];
 ?>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Item Set: “%s”'), $itemSet->displayTitle())); ?>
+<?php echo $this->pageTitle(sprintf($this->translate('Item set: “%s”'), $itemSet->displayTitle())); ?>
 
 <div id="page-actions">
     <?php if ($itemSet->userIsAllowed('update')): ?>
@@ -49,7 +49,7 @@ $sectionNavs = [
 
 <div class="active sidebar">
     <div class="meta-group">
-        <h4><?php echo $this->translate('Date Created'); ?></h4>
+        <h4><?php echo $this->translate('Date created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($itemSet->created())); ?></div>
     </div>
     <div class="meta-group">

@@ -100,7 +100,7 @@ class SearchFilters extends AbstractHelper
 
                     // Search resource template
                     case 'resource_template_id':
-                            $filterLabel = $translate('Resource Template');
+                            $filterLabel = $translate('Resource template');
                             try {
                                 $filterValue = $api->read('resource_templates', $value)->getContent()->label();
                             } catch (NotFoundException $e) {
@@ -118,7 +118,7 @@ class SearchFilters extends AbstractHelper
                             if (!is_numeric($subValue)) {
                                 continue;
                             }
-                            $filterLabel = $translate('Item Set');
+                            $filterLabel = $translate('Item set');
                             try {
                                 $filterValue = $api->read('item_sets', $subValue)->getContent()->displayTitle();
                             } catch (NotFoundException $e) {

@@ -11,7 +11,7 @@ class BrowsePreview extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Browse Preview'; // @translate
+        return 'Browse preview'; // @translate
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
@@ -36,7 +36,7 @@ class BrowsePreview extends AbstractBlockLayout
         $html .= '</div>';
 
         $html .= '<div class="field"><div class="field-meta">';
-        $html .= '<label>' . $view->translate('Preview Title') . '</label>';
+        $html .= '<label>' . $view->translate('Preview title') . '</label>';
         $html .= '<a href="#" class="expand"></a><div class="collapsible"><div class="field-description">' . $view->translate('Heading above resource list') . '</div></div>';
         $html .= '</div>';
         $html .= '<div class="inputs">' . $view->formRow($heading) . '</div>';

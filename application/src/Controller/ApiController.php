@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller;
 
+use Omeka\Api\Manager as ApiManager;
 use Omeka\Mvc\Exception;
 use Omeka\Service\Paginator;
 use Omeka\View\Model\ApiJsonModel;
@@ -22,11 +23,17 @@ class ApiController extends AbstractRestfulController
     protected $viewOptions = [];
 
     /**
+     * @var ApiManager
+     */
+    protected $api;
+
+    /**
      * @param Paginator $paginator
      */
-    public function __construct(Paginator $paginator)
+    public function __construct(Paginator $paginator, ApiManager $api)
     {
         $this->paginator = $paginator;
+        $this->api = $api;
     }
 
     /**
@@ -46,7 +53,7 @@ class ApiController extends AbstractRestfulController
     public function get($id)
     {
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api()->read($resource, $id);
+        $response = $this->api->read($resource, $id);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
@@ -58,7 +65,7 @@ class ApiController extends AbstractRestfulController
         $this->setBrowseDefaults('id', 'asc');
         $resource = $this->params()->fromRoute('resource');
         $query = $this->params()->fromQuery();
-        $response = $this->api()->search($resource, $query);
+        $response = $this->api->search($resource, $query);
 
         $this->paginator->setCurrentPage($query['page']);
         $this->paginator->setTotalCount($response->getTotalResults());
@@ -93,7 +100,7 @@ class ApiController extends AbstractRestfulController
     public function create($data, $fileData = [])
     {
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api()->create($resource, $data, $fileData);
+        $response = $this->api->create($resource, $data, $fileData);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
@@ -103,7 +110,7 @@ class ApiController extends AbstractRestfulController
     public function update($id, $data)
     {
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api()->update($resource, $id, $data);
+        $response = $this->api->update($resource, $id, $data);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
@@ -113,7 +120,7 @@ class ApiController extends AbstractRestfulController
     public function patch($id, $data)
     {
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api()->update($resource, $id, $data, [], ['isPartial' => true]);
+        $response = $this->api->update($resource, $id, $data, [], ['isPartial' => true]);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
@@ -123,7 +130,7 @@ class ApiController extends AbstractRestfulController
     public function delete($id)
     {
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api()->delete($resource, $id);
+        $response = $this->api->delete($resource, $id);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
@@ -177,7 +184,7 @@ class ApiController extends AbstractRestfulController
             $content = $request->getContent();
             $fileData = [];
         }
-        $data = json_decode($content, true);
+        $data = $this->jsonDecode($content);
         return $this->create($data, $fileData);
     }
 
@@ -242,5 +249,29 @@ class ApiController extends AbstractRestfulController
 
         $event->setResult($result);
         return $result;
+    }
+
+    /**
+     * Decode a JSON string.
+     *
+     * Override ZF's default to always use json_decode and to add error checking.'
+     *
+     * @param string
+     * @return mixed
+     * @throws Exception\DomainException if no JSON decoding functionality is
+     *     available.
+     */
+    protected function jsonDecode($string)
+    {
+        $content = json_decode($string, (bool) $this->jsonDecodeType);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception\InvalidJsonException('JSON: ' . json_last_error_msg());
+        }
+
+        if (!is_array($content)) {
+            throw new Exception\InvalidJsonException('JSON: Content must be an object or array.');
+        }
+        return $content;
     }
 }

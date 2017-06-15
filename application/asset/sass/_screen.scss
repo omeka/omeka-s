@@ -131,14 +131,10 @@ body {
         border-bottom: 1px solid $border-gray;
     }
 
-    table .sortable-handle:before {
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
     /* @end */
 
     /* @group ----- Form elements ----- */
+
     legend {
         font-size: 1.25 * $base-font-size;
         padding: $spacing-medium 0;
@@ -329,7 +325,7 @@ body {
 
         .actions {
             font-size: $base-font-size;
-            padding: $spacing-small (.5 * $spacing-small);
+            padding: $spacing-small 0;
         }
     }
 
@@ -374,6 +370,71 @@ body {
     .selector.sidebar .selector-parent {
         margin-bottom: 0;
     }
+
+        /* @group ----- Forms elements: Chosen selects ----- */
+    
+        .chosen-container-single .chosen-single {
+            background-image: none;
+            background-color: #fff;
+            box-shadow: none;
+            font-size: $base-font-size;
+            line-height: $base-line-height;
+            padding: $spacing-small;
+            height: auto;
+            border-radius: 3px;
+            border-collapse: $border-gray;
+            color: $copy-gray;
+        }
+
+        .chosen-container-active.chosen-with-drop .chosen-single {
+            background-image: none;
+        }
+
+        .chosen-container-single .chosen-single abbr {
+            top: $spacing-medium;
+        }
+
+        .chosen-container-single .chosen-single div b {
+            background: none !important;
+
+            &:after {
+                font-family: "FontAwesome";
+                content: $fa-var-caret-down;
+                line-height: $base-line-height;
+                padding: $spacing-small 0;
+                display: inline-block;
+            }
+        }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div b:after {
+            content: $fa-var-caret-up;
+        }
+
+        .chosen-container-single .chosen-search input[type="text"] {
+            background: none !important;
+        }
+
+        .chosen-search {
+            position: relative;
+
+            &:after  {
+                font-family: "FontAwesome";
+                content: $fa-var-search;
+                line-height: $base-line-height;
+                padding: $spacing-small 0;
+                display: block;
+                position: absolute;
+                top: .5 * $spacing-small;
+                right: $spacing-medium;
+            }
+        }
+
+        .chosen-container .chosen-results li.highlighted {
+            background-color: $copy-gray;
+            background-image: none;
+        }
+
+        /* @end */
 
     /* @end */
 
@@ -463,12 +524,10 @@ table .icon-sortable {
     cursor: move;
     content: $fa-var-reorder;
     font-family: "FontAwesome";
-    position: absolute;
-    left: .5em;
     opacity: .35;
-    top: $spacing-medium;
     font-size: 1.25 * $base-font-size;
     line-height: $base-line-height;
+    margin-right: $spacing-medium;
 }
 
 .o-description {
@@ -1049,27 +1108,19 @@ div[role="main"] {
     margin-right: $spacing-medium;
 }
 
-.browse .actions {
-    order: 3;
-    margin-left: auto;
-    min-width: 4 * $spacing-large;
-}
-
 span.indent {
     display: inline-block;
     vertical-align: top;
 }
 
 .actions {
-    margin: 0;
-    float: right;
-    display: inline-block;
+    margin: 0 0 0 auto;
+    display: flex;
+    order: 5;
 }
 
 .actions li {
-    display: inline-block;
-    margin-left: -3px;
-    vertical-align: top;
+    list-style-type: none;
  }
 
 .actions a,
@@ -1926,7 +1977,7 @@ input[type="text"].value-language,
 
     .input-header {
         width: 100%;
-        float: left;
+        display: flex;
         background-color: rgba(0,0,0,.15);
     }
 
@@ -1937,11 +1988,6 @@ input[type="text"].value-language,
     .input-header .actions a:before {
         line-height: 1.5 * $spacing-large;
         height: 1.5 * $spacing-large;
-    }
-
-    .input-header .actions li:not(:last-child) {
-        margin-left: 0;
-        margin-right: -3px;
     }
 
     .value.delete {
@@ -1986,6 +2032,7 @@ input[type="text"].value-language,
     .inputs .value textarea,
     .inputs .value input[type="text"] {
         width: 100%;
+        margin-top: 0;
     }
 
     [data-data-type="resource"] .default,
@@ -2097,34 +2144,37 @@ input[type="text"].value-language,
     }
 
     .media.row {
-        padding: $spacing-medium $spacing-small $spacing-medium (1.75 * $spacing-large);
+        padding: $spacing-small;
         margin-bottom: $spacing-small;
-        min-height: (2 * $spacing-large);
+        display: flex;
+        align-items: center;
     }
 
     .media.row img {
-        width: (1.5 * $spacing-large);
-        position: absolute;
-        top: $spacing-small;
+        width: 1.5 * $spacing-large;
+        height: auto;
+        order: 2;
+        margin-right: $spacing-medium;
     }
 
-    .media.row img + .resource-name {
-        margin: 0 0 0 (2 * $spacing-large);
+    .media.row .resource-name {
+        margin-right: $spacing-medium;
     }
 
-    .media.row .sortable-handle:before {
-        top: $spacing-medium;
+    .media.row .sortable-handle {
+        order: 1;
     }
 
     .media.row .actions {
-        position: absolute;
-        right: $spacing-small;
-        top: $spacing-medium;
+        order: 4;
+        margin-left: auto;
     }
 
     .media.row .resource-name {
         word-break: break-all;
-        display: block;
+        order: 3;
+        margin-right: $spacing-medium;
+        left: auto;
     }
 
     .media.value.delete span.restore-value {
@@ -2142,12 +2192,14 @@ input[type="text"].value-language,
         top: (1.5 * $spacing-medium);
     }
 
-    .media-header h4 {
+    .media-header {
         font-size: $base-font-size;
         margin: $spacing-small (-$spacing-small);
         margin-top: -2 * $spacing-small;
         background-color: $gray-on-white;
-        padding: $spacing-small;
+        padding: 0 $spacing-small;
+        display: flex;
+        align-items: center;
     }
 
     .value.delete > .actions {
@@ -2311,7 +2363,7 @@ input[type="text"].value-language,
     border-bottom: 1px solid $border-gray;
 
     & + .confirm-panel,
-    .resource input[type="checkbox"] {
+    .select-resource-checkbox-wrapper {
         display: none;
     }
 }
@@ -2323,8 +2375,9 @@ input[type="text"].value-language,
         display: block;
     }
 
-    .resource input[type="checkbox"] {
-        display: inline-block;
+    .select-resource-checkbox-wrapper {
+        display: inline-flex;
+        align-items: center;
     }
 }
 
@@ -2356,26 +2409,24 @@ input[type="text"].value-language,
 .resource-list {
     width: 100%;
 
+    .select-resource {
+        display: flex;
+        align-items: center;
+    }
+
     img {
         width: (1.5 * $spacing-large);
         height: (1.5 * $spacing-large);
-        float: left;
         margin-right: $spacing-medium;
     }
 
     .resource-name {
-        display: inline-block;
-        vertical-align: top;
         margin: 0;
         width: calc(100% - #{$spacing-large});
 
         &:only-child {
             margin: 0 0 0 $spacing-small;
         }
-    }
-
-    img + .resource-name {
-        width: calc(100% - #{3 * $spacing-large});
     }
 
     .resource {
@@ -2395,10 +2446,9 @@ input[type="text"].value-language,
             right: 0px;
         }
 
-        input[type="checkbox"] {
-            flex: 1;
+        .select-resource-checkbox-wrapper {
             height: $base-line-height;
-            margin-right: $spacing-small;
+            margin-right: $spacing-medium;
         }
     }
 
@@ -2858,7 +2908,9 @@ body.sidebar-open #content {
     top: 0;
     left: 0;
     height: (1.5 * $spacing-large);
+    line-height: 1.5 * $base-line-height;
     position: absolute;
+    padding-left: $spacing-small;
 
     &:before {
         top: $spacing-small;
@@ -3060,9 +3112,6 @@ body.sidebar-open #content {
 
     /* @group ----- User Permissions ----- */
 
-    tr.value .actions {
-        margin-right: -3px;
-    }
 
     tr.value.delete {
         position: relative;
@@ -3079,7 +3128,6 @@ body.sidebar-open #content {
     }
 
     .value.delete .o-icon-undo:before{
-        margin-left: -3px;
         padding-right: 3px;
     }
 
@@ -3136,10 +3184,9 @@ body.sidebar-open #content {
 
     .block .input-header {
         position: relative;
-        display: block;
+        display: flex;
         background-color: opacify($gray-on-white, .08);
-        padding-right: $spacing-small;
-        padding-left: (1.5 * $spacing-large);
+        padding: 0 $spacing-small;
         font-weight: bold;
         line-height: 1.5 * $spacing-large;
 
@@ -3148,26 +3195,9 @@ body.sidebar-open #content {
         }
     }
 
-    .block .sortable-handle {
-        position: absolute;
-        z-index: 1;
-        left: 0;
-
-        &:before {
-            top: 0;
-            left: 0;
-            right: (1.5 * $spacing-large);
-            padding: $spacing-small;
-        }
-    }
-
     .block .block-content input[type="hidden"] + * {
         padding-top: 0;
         margin-top: 0;
-    }
-
-    .block .attachment .sortable-handle:before {
-        padding: 0;
     }
 
     .block.html > div {
@@ -3193,28 +3223,30 @@ body.sidebar-open #content {
 
     .block.value.delete span.restore-value {
         padding: 0 (.5 * $spacing-small);
+        text-transform: lowercase;
     }
 
     .block.value.delete a.restore-value:before {
         padding: 0;
-        margin-right: -3px;
     }
 
-    .delete .block-type:before {
-        content: "'";
+    .delete .sortable-handle {
+        display: none;
     }
 
-    .delete .block-type:after {
-        content: "'";
+    .delete .block-type,
+    .block .delete div.item-title {
+        margin-left: 1.25 * $spacing-large;
+    }
+
+    .delete .block-type {
+        font-weight: bold;
     }
 
     .block div.item-title {
         margin: $spacing-small 0;
-        display: inline-block;
-        width: calc(100% - #{(3* $spacing-large)});
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        display: flex;
+        align-items: center;
     }
 
     .block .item-title img {
@@ -3240,30 +3272,21 @@ body.sidebar-open #content {
     .block .attachments-form {
         margin-bottom: $spacing-medium;
     }
+
     .block .attachments-form a h4 {
         display: inline-block;
     }
 
     .block .attachment .actions {
-        position: absolute;
-        right: $spacing-small;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    .block .attachment .actions li {
-        height: $base-line-height;
-    }
-
-    .block .attachment .actions a {
-        vertical-align: bottom;
+        order: 4;
+        margin-left: auto;
     }
 
     .block .attachment .actions .button {
-        display: inline-block;
         background-color: transparent;
         color: $red;
         padding: 0;
+        min-height: 0;
 
         &:hover {
             color: $red;
@@ -3285,25 +3308,15 @@ body.sidebar-open #content {
     }
 
     .block .attachment {
-        padding-left: (1.25 * $spacing-large);
+        display: flex;
+        align-items: center;
         position: relative;
         clear: both;
-        height: (2 * $spacing-large);
-        line-height: 1.5 * $spacing-large;
+        padding: 0 $spacing-small;
 
         &:not(:last-child) {
             border-bottom: 1px solid $border-gray;
             padding-bottom: -1px;
-        }
-    }
-
-    .block .attachment .sortable-handle {
-        top: 0;
-        bottom: 0;
-
-        &:before {
-            top: 50%;
-            transform: translateY(-50%);
         }
     }
 
@@ -3664,7 +3677,7 @@ body.minimal {
         width: span(7 of 10);
     }
 
-    input {
+    .inputs input {
           width: calc(66.66% - 6px);
           vertical-align: top;
     }
@@ -3673,19 +3686,20 @@ body.minimal {
         width: 100%;
     }
 
-    button[type="submit"] {
+    [type="submit"] {
+        width: 100%;
         display: block;
         margin: auto;
         clear: both;
     }
 
-    .field:last-of-type {
+    .field:last-child {
         margin-bottom: 0;
     }
 }
 
 .forgot-password {
-    margin: 0;
+    margin: $spacing-small 0;
 }
 
 /* @end */
@@ -3716,9 +3730,15 @@ body.minimal {
 
 .asset-upload {
     overflow: hidden;
+    margin-bottom: $spacing-large;
 
     button {
-        margin: $spacing-small 0 $spacing-large;
+        margin: $spacing-small 0 0;
+        display: none;
+
+        &.active {
+            display: inline-block;
+        }
     }
 
     ul.errors {

@@ -15,13 +15,13 @@ $sortHeadings = [
         'value' => 'owner_name'
     ],
     [
-        'label' => $this->translate('Date Created'),
+        'label' => $this->translate('Date created'),
         'value' => 'created'
     ],
 ];
 ?>
 
-<?php echo $this->pageTitle($this->translate('Item Sets')); ?>
+<?php echo $this->pageTitle($this->translate('Item sets')); ?>
 
 <?php echo $this->searchFilters(); ?>
 
@@ -67,7 +67,7 @@ $sortHeadings = [
             </th>
             <th><?php echo $this->translate('Class'); ?></th>
             <th><?php echo $this->translate('Owner'); ?></th>
-            <th><?php echo $this->translate('Date Created'); ?></th>
+            <th><?php echo $this->translate('Date created'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -147,7 +147,7 @@ $sortHeadings = [
     <a href="#" class="sidebar-close o-icon-close" aria-label="<?php echo $escape($this->translate('Close')); ?>" title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
-            <h3><?php echo $this->translate('Delete Item Sets'); ?></h3>
+            <h3><?php echo $this->translate('Delete item sets'); ?></h3>
             <p><?php echo $this->translate('Are you sure you would like to delete the selected item sets?'); ?></p>
             <p class="error"><?php echo sprintf(
                 $this->translate('%s: this action will permanently delete %s item sets and cannot be undone.'),
@@ -162,7 +162,7 @@ $sortHeadings = [
     <a href="#" class="sidebar-close o-icon-close" aria-label="<?php echo $escape($this->translate('Close')); ?>" title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
-            <h3><?php echo $this->translate('Delete Item Sets'); ?></h3>
+            <h3><?php echo $this->translate('Delete item sets'); ?></h3>
             <p><?php echo $this->translate('Are you sure you would like to delete all item sets on all pages of this result?'); ?></p>
             <p class="error"><?php echo sprintf(
                 $this->translate('%s: this action will permanently delete %s item sets and cannot be undone.'),

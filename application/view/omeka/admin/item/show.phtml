@@ -9,7 +9,7 @@ if ($owner = $item->owner()) {
 
 $sectionNavs = [
     'item-metadata' => $this->translate('Metadata'),
-    'item-linked' => $this->translate('Linked Resources'),
+    'item-linked' => $this->translate('Linked resources'),
 ];
 ?>
 <?php echo $this->pageTitle(sprintf($this->translate('Item: “%s”'), $item->displayTitle())); ?>
@@ -59,14 +59,14 @@ $sectionNavs = [
     <?php $itemsets = $item->itemSets(); ?>
     <?php if (count($itemsets) > 0): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Item Sets'); ?></h4>
+        <h4><?php echo $this->translate('Item sets'); ?></h4>
         <?php foreach ($itemsets as $itemset): ?>
         <div class="value item-sets"><?php echo $itemset->link($itemset->displayTitle()); ?></div>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Date Created'); ?></h4>
+        <h4><?php echo $this->translate('Date created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></div>
     </div>
     <div class="meta-group">

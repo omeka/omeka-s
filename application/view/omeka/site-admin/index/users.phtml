@@ -12,7 +12,7 @@ $roles = [
 ];
 ?>
 
-<?php echo $this->pageTitle($this->translate('User Permissions')); ?>
+<?php echo $this->pageTitle($this->translate('User permissions')); ?>
 
 <?php echo $this->form()->openTag($form); ?>
 <?php echo $this->formCollection($form, false); ?>
@@ -68,7 +68,7 @@ $roles = [
         <h3><?php echo $this->translate('Click on a user to add them to the site.'); ?></h3>
         <input type="text" class="selector-filter" placeholder="<?php echo $this->translate('Filter users'); ?>">
         <ul id="new-site-user">
-            <li class="total-count-heading"><?php echo $this->translate('All Users'); ?> (<?php echo count($users); ?>)
+            <li class="total-count-heading"><?php echo $this->translate('All users'); ?> (<?php echo count($users); ?>)
                 <ul class="selectable-list">
                     <?php
                     $usersByInitial = [];

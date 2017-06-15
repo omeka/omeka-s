@@ -92,7 +92,7 @@ class MediaController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('resource', $media);
-        $view->setVariable('resourceLabel', 'media');
+        $view->setVariable('resourceLabel', 'media'); // @translate
         $view->setVariable('partialPath', 'omeka/admin/media/show-details');
         $view->setVariable('linkTitle', $linkTitle);
         $view->setVariable('values', json_encode($values));

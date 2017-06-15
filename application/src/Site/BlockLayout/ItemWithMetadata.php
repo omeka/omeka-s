@@ -10,7 +10,7 @@ class ItemWithMetadata extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Item with Metadata'; // @translate
+        return 'Item with metadata'; // @translate
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,

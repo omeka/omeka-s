@@ -14,7 +14,7 @@
     "gulp-postcss": "^6.1.1",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
-    "gulp-sass": "^2.3.2",
+    "gulp-sass": "^3.1.0",
     "gulp-zip": "^4.0.0",
     "minimist": "^1.2.0",
     "rimraf": "^2.6.0",
@@ -22,6 +22,7 @@
     "tmp": "0.0.31"
   },
   "dependencies": {
+    "chosen-js": "^1.7.0",
     "ckeditor": "^4.6.2",
     "jquery": "^3.1.1",
     "jstree": "^3.3.3",

@@ -7,7 +7,6 @@ use Omeka\Api\Response;
 use Omeka\Mvc\Exception as MvcException;
 use Omeka\View\Model\ApiJsonModel;
 use Omeka\View\Renderer\ApiJsonRenderer;
-use Zend\Json\Exception as JsonException;
 use Zend\View\Strategy\JsonStrategy;
 use Zend\View\ViewEvent;
 
@@ -92,7 +91,7 @@ class ApiJsonStrategy extends JsonStrategy
      */
     protected function getStatusCodeForException(\Exception $exception = null)
     {
-        if ($exception instanceof JsonException\RuntimeException) {
+        if ($exception instanceof MvcException\InvalidJsonException) {
             return 400; // Bad Request
         }
         if ($exception instanceof ApiException\PermissionDeniedException) {

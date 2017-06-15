@@ -8,7 +8,7 @@ class BrowseItemSets implements LinkInterface
 {
     public function getName()
     {
-        return 'Browse Item Sets'; // @translate
+        return 'Browse item sets'; // @translate
     }
 
     public function getFormTemplate()

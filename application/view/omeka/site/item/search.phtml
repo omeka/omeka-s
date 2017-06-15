@@ -3,7 +3,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items search');
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 ?>
 
-<h2><?php echo $this->translate('Advanced Item Search'); ?></h2>
+<h2><?php echo $this->translate('Advanced item search'); ?></h2>
 <form id="advanced-search" method="get" action="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>">
 <?php echo $this->partial(
     'common/advanced-search',

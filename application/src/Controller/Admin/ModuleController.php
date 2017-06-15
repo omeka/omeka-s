@@ -67,20 +67,20 @@ class ModuleController extends AbstractActionController
         $view->setVariable('filterState', $state);
         $view->setVariable('filterStates', [
             'active' => $this->translate('Active'),
-            'not_active' => $this->translate('Not Active'),
-            'not_installed' => $this->translate('Not Installed'),
-            'needs_upgrade' => $this->translate('Needs Upgrade'),
+            'not_active' => $this->translate('Not active'),
+            'not_installed' => $this->translate('Not installed'),
+            'needs_upgrade' => $this->translate('Needs upgrade'),
             'error' => $this->translate('Error'),
         ]);
         $view->setVariable('states', [
             'active' => $this->translate('Active'),
-            'not_active' => $this->translate('Not Active'),
-            'not_installed' => $this->translate('Not Installed'),
-            'needs_upgrade' => $this->translate('Needs Upgrade'),
-            'not_found' => $this->translate('Not Found'),
-            'invalid_module' => $this->translate('Invalid Module'),
+            'not_active' => $this->translate('Not active'),
+            'not_installed' => $this->translate('Not installed'),
+            'needs_upgrade' => $this->translate('Needs upgrade'),
+            'not_found' => $this->translate('Not found'),
+            'invalid_module' => $this->translate('Invalid module'),
             'invalid_ini' => $this->translate('Invalid INI'),
-            'invalid_omeka_version' => $this->translate('Invalid Omeka S Version'),
+            'invalid_omeka_version' => $this->translate('Invalid Omeka S version'),
         ]);
         $view->setVariable('stateChangeForm', function ($action, $id) {
             return $this->getForm(ModuleStateChangeForm::class, [
@@ -140,7 +140,7 @@ class ModuleController extends AbstractActionController
         $form->setAttribute('action', $this->url()->fromRoute(
             null, ['action' => 'uninstall'], ['query' => ['id' => $module->getId()],
         ], true));
-        $form->setButtonLabel('Confirm Uninstall');
+        $form->setButtonLabel('Confirm uninstall'); // @translate
 
         $view = new ViewModel;
         $view->setTerminal(true);

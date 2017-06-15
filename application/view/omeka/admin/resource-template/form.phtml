@@ -19,8 +19,8 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 <ul id="properties" data-add-new-property-row-url="<?php echo $escape($this->url(null, ['action' => 'add-new-property-row'], true)); ?>">
     <li>
         <div class="property-heading" id="original-label"><?php echo $this->translate('Label'); ?></div>
-        <div class="property-heading" id="alternate-label"><?php echo $this->translate('Alternate Comment'); ?></div>
-        <div class="property-heading" id="alternate-comment"><?php echo $this->translate('Data Type'); ?></div>
+        <div class="property-heading" id="alternate-label"><?php echo $this->translate('Alternate comment'); ?></div>
+        <div class="property-heading" id="alternate-comment"><?php echo $this->translate('Data type'); ?></div>
     </li>
     <?php foreach ($propertyRows as $propertyRow): ?>
     <?php echo $this->partial(

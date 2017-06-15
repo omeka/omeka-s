@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[omeka-s.core]
+file_filter = application/language/<lang>.po
+source_file = application/language/template.pot
+source_lang = en
+minimum_perc = 10
+type = PO
+

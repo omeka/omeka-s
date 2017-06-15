@@ -1,0 +1,8 @@
+<?php
+$searchValue = $this->escapeHtml($this->params()->fromQuery('search', ''));
+?>
+
+<form action="<?php echo $this->escapeHtml($this->url('site/resource', ['controller' => 'item','action' => 'browse'], true)); ?>" id="search-form">
+    <input type="text" name="search" value="<?php echo $searchValue; ?>" placeholder="<?php echo $this->translate('Search'); ?>">
+    <button type="submit"><?php echo $this->translate('Search'); ?></button>
+</form>

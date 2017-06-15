@@ -1,11 +1,12 @@
 <?php
 // Prepare the item set queries
-$itemSetIds = [null];
-if (isset($query['item_set_id'])) {
-    $itemSetIds = $query['item_set_id'];
-    if (!is_array($itemSetIds)) {
-        $itemSetIds = [$itemSetIds];
-    }
+$ids = isset($query['item_set_id']) ? $query['item_set_id'] : [];
+if (!is_array($ids)) {
+    $ids = [$ids];
+}
+$ids = array_filter($ids);
+if (!$ids) {
+    $ids = [null];
 }
 ?>
 <div id="item-sets" class="field removable multi-value" role="group" aria-labelledby="by-item-set-label">
@@ -17,11 +18,11 @@ if (isset($query['item_set_id'])) {
         </div>
     </div>
     <div class="inputs">
-        <?php foreach ($itemSetIds as $itemSetId): ?>
+        <?php foreach ($ids as $id): ?>
         <div class="value">
             <?php echo $this->itemSetSelect([
                 'name' => 'item_set_id[]',
-                'attributes' => ['value' => $itemSetId],
+                'attributes' => ['value' => $id],
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>

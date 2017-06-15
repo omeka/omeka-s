@@ -109,7 +109,7 @@ class ValueHydrator
         // during an UPDATE, or during a PATCH (isPartial=true) -if- it's a
         // default collection (collectionAction=replace) -and- at least one
         // value was passed in the request.
-        if (!$append && $valuePassed) {
+        if (!$isPartial || (!$append && $valuePassed)) {
             foreach ($existingValues as $key => $existingValue) {
                 if ($existingValue !== null) {
                     $valueCollection->remove($key);

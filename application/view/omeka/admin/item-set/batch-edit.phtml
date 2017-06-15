@@ -1,5 +1,5 @@
 <?php
-echo $this->pageTitle($this->translate('Batch Edit Item Sets'));
+echo $this->pageTitle($this->translate('Batch edit item sets'));
 
 $selectPropertyToClear = $this->propertySelect([
     'name' => 'clear_property_values[]',
@@ -150,7 +150,7 @@ $templateUri = '
 <?php echo $this->form()->closeTag();; ?>
 
 <div class="sidebar always-open">
-    <h3><?php echo $this->translate('Affected Item Sets'); ?></h3>
+    <h3><?php echo $this->translate('Affected item sets'); ?></h3>
     <?php if ($resources): ?>
     <p><?php echo sprintf($this->translate('You are editing the following %s item sets:'), count($resources)); ?></p>
     <ul class="batch-selected">

@@ -1,7 +1,7 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'sites theme');
 ?>
-<h1><?php echo sprintf($this->translate('Theme Settings') . ': "%s"', $theme->getName()); ?></h1>
+<h1><?php echo sprintf($this->translate('Theme settings') . ': "%s"', $theme->getName()); ?></h1>
 <?php if(isset($this->form)): ?>
     <?php $form->prepare(); ?>
     <?php echo $this->form()->openTag($form); ?>

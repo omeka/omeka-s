@@ -5,11 +5,15 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Site\BlockLayout\Manager as BlockLayoutManager;
-use Zend\Form\Element\Hidden;
 use Zend\View\Helper\AbstractHelper;
 
 class BlockLayout extends AbstractHelper
 {
+    /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/block-layout';
+
     /**
      * @var BlockLayoutManager
      */
@@ -75,7 +79,7 @@ class BlockLayout extends AbstractHelper
      * @return string
      */
     public function form($layout, SiteRepresentation $site = null,
-        SitePageRepresentation $page = null
+        SitePageRepresentation $page = null, $partialName = null
     ) {
         $view = $this->getView();
         $block = null;
@@ -85,22 +89,15 @@ class BlockLayout extends AbstractHelper
             $page = $block->page();
             $site = $page->site();
         }
-        return '
-<div class="block value" data-block-layout="' . $view->escapeHtml($layout) . '">
-    <span class="sortable-handle"></span>
-    <div class="input-header">
-        <span class="block-type">' . $view->escapeHtml($view->translate($this->getLayoutLabel($layout))) . '</span>
-        <ul class="actions">
-            <li><a href="#" class="o-icon-delete remove-value"></a></li>
-            <li><a href="#" class="o-icon-undo restore-value"></a></li>
-        </ul>
-        <span class="restore-value">block to be removed</span>
-    </div>
-    <div class="block-content">
-    <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="' . $layout . '">' .
-    $this->manager->get($layout)->form($this->getView(), $site, $page, $block) .
-    '</div>
-</div>';
+        $partialName = $partialName ?: self::PARTIAL_NAME;
+        return $view->partial(
+            $partialName,
+            [
+                'layout' => $layout,
+                'layoutLabel' => $this->getLayoutLabel($layout),
+                'blockContent' => $this->manager->get($layout)->form($this->getView(), $site, $page, $block),
+            ]
+        );
     }
 
     /**

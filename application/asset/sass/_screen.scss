@@ -2067,7 +2067,7 @@ input[type="text"].value-language,
 
     .value.delete span.restore-value {
         display: inline-block;
-        padding: 0 (1.25 * $spacing-small);
+        padding: 0;
     }
 
     .value.delete > *:not(.input-header) {
@@ -3112,60 +3112,35 @@ body.sidebar-open #content {
 
     /* @group ----- User Permissions ----- */
 
-
-    tr.value.delete {
-        position: relative;
-    }
-
     tr.value.delete > td:not(.input-header) {
         display: table-cell;
     }
 
-    tr.value .o-icon-undo,
-    tr.value.delete > td *:not(.restore-value),
-    tr.value.delete > td .actions .o-icon-delete {
+    #site-user-permissions + .no-resources,
+    #site-user-permissions.empty,
+    tr.value:not(.delete) .o-icon-undo,
+    tr.value.delete .user-name,
+    tr.value.delete select, 
+    tr.value.delete .o-icon-delete {
         display: none;
-    }
-
-    .value.delete .o-icon-undo:before{
-        padding-right: 3px;
-    }
-
-    tr.value.delete > td .actions,
-    tr.value.delete > td .actions * {
-        display: inline-block;
-        position: relative;
-        z-index: 1;
-    }
-
-    tr.value.delete .restore-value {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: $delete-bg;
     }
 
     td.user-meta {
         width: 50%;
     }
 
-    #site-user-permissions + .no-resources {
-        display: none;
+    #site-user-permissions.empty  + .no-resources {
+        display: block;
+        padding: 0 $spacing-large;
+
+        &:before {
+            content: $fa-var-users;
+        }
     }
 
-    #site-user-permissions.empty {
-        display: none;
-
-        & + .no-resources {
-            display: block;
-            padding: 0 $spacing-large;
-
-            &:before {
-                content: $fa-var-users;
-            }
-        }
+    #site-user-permissions .actions {
+        justify-content: flex-end;
+        padding: $spacing-small 0;
     }
 
     /* @end */

@@ -35,11 +35,11 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
     propertyRow.data('property-id-element', propertyIdElement);
     propertyIdElement.remove();
 
-    // Undo remove property link.
+    // Restore property link.
     var undoRemoveLink = $('<a>', {
         href: '#',
         class: 'fa fa-undo',
-        title: Omeka.jsTranslate('Undo remove property'),
+        title: Omeka.jsTranslate('Restore property'),
         click: function(event) {
             event.preventDefault();
             propertyRow.toggleClass('delete');

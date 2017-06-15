@@ -10,7 +10,7 @@ $deleteButton = $itemSet->userIsAllowed('delete')
 var valuesJson = <?php echo json_encode($itemSet->values()); ?>;
 </script>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Edit Item Set: “%s”'), $itemSet->displayTitle())); ?>
+<?php echo $this->pageTitle(sprintf($this->translate('Edit item set: “%s”'), $itemSet->displayTitle())); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <?php
 echo $this->partial('omeka/admin/item-set/form.phtml', [

@@ -10,6 +10,9 @@ if (isset($query['resource_class_id'])) {
 
 // Prepare the property queries.
 $properties = isset($query['property']) ? $query['property'] : [];
+$properties = array_filter($properties, function ($value) {
+    return isset($value['text']) ? '' !== trim($value['text']) : true;
+});
 if (!$properties) {
     $properties[] = [];
 }

@@ -165,7 +165,7 @@ class ItemSetController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('resource', $itemSet);
-        $view->setVariable('resourceLabel', 'item set');
+        $view->setVariable('resourceLabel', 'item set'); // @translate
         $view->setVariable('partialPath', 'omeka/admin/item-set/show-details');
         $view->setVariable('linkTitle', $linkTitle);
         $view->setVariable('values', json_encode($values));

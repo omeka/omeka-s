@@ -574,12 +574,12 @@ return [
         'Expand', // @translate
         'Collapse', // @translate
         'You have unsaved changes.', // @translate
-        'Undo remove item set', // @translate
+        'Restore item set', // @translate
         'Close icon set', // @translate
         'Open icon set', // @translate
         '[Untitled]', // @translate
         'Failed loading resource template from API', // @translate
-        'Undo remove property', // @translate
+        'Restore property', // @translate
         'There are no available pages.', // @translate
         'Please enter a valid language tag', // @translate
     ],

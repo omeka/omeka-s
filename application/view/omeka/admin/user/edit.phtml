@@ -1,14 +1,14 @@
 <?php
 $form->prepare();
 $sectionNavs = [
-    'user-information' => $this->translate('User Information'),
+    'user-information' => $this->translate('User information'),
     'change-password' => $this->translate('Password'),
-    'edit-keys' => $this->translate('API Keys')
+    'edit-keys' => $this->translate('API keys')
 ];
 $formElement = $this->plugin('formElement');
 ?>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Edit User: “%s”'), $user->email())); ?>
+<?php echo $this->pageTitle(sprintf($this->translate('Edit user: “%s”'), $user->email())); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
@@ -47,7 +47,7 @@ $formElement = $this->plugin('formElement');
         <?php endforeach; ?>
     </table>
     <?php endif; ?>
-    <h3><?php echo $this->translate('Add a New Key'); ?></h3>
+    <h3><?php echo $this->translate('Add a new key'); ?></h3>
     <?php echo $this->formCollection($form->get('edit-keys'), false); ?>
 </fieldset>
 <?php $this->trigger('view.edit.form.after', array('form' => $form)); ?>

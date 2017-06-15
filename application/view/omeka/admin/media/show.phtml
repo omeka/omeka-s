@@ -1,17 +1,21 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'media show');
 $escape = $this->plugin('escapeHtml');
+
+$sectionNavs = [
+    'media-metadata' => $this->translate('Metadata'),
+];
 ?>
 
 <?php echo $this->pageTitle(sprintf($this->translate('Media: “%s”'), $media->displayTitle())); ?>
-
 
 <div id="page-actions">
     <?php echo $media->link($this->translate('Edit media'), 'edit', ['class' => 'button']); ?>
 </div>
 
+<?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $media); ?>
 
-<div id="item-metadata" class="active section">
+<div id="media-metadata" class="active section">
     <?php echo $media->render(); ?>
     <?php if ( $media->resourceClass()): ?>
         <div class="meta-group">
@@ -28,17 +32,17 @@ $escape = $this->plugin('escapeHtml');
         <div class="value"><?php echo ($media->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
     </div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Part of Item'); ?></h4>
+        <h4><?php echo $this->translate('Part of item'); ?></h4>
         <?php $mediaItem = $media->item(); ?>
         <div class="value"><?php echo $mediaItem->link($mediaItem->displayTitle()); ?></div>
     </div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Date Created'); ?></h4>
+        <h4><?php echo $this->translate('Date created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($media->created())); ?></div>
     </div>
     <?php if ($media->mediaType()): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('MIME Type'); ?></h4>
+        <h4><?php echo $this->translate('MIME type'); ?></h4>
         <div class="value"><?php echo $escape($media->mediaType()); ?></div>
     </div>
     <?php endif; ?>

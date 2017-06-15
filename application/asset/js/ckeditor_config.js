@@ -17,8 +17,7 @@ CKEDITOR.editorConfig = function( config ) {
                       "/",
                       { "items" :
                           ['Bold', 'Italic', 'Underline', 'Strike', '-',
-                           'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote', '-',
-                           'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'
+                           'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote'
                           ]
                       }
                      ];

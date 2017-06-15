@@ -31,24 +31,25 @@ class Manager
         'application/x-tar', 'application/zip', 'audio/aac', 'audio/aiff',
         'audio/mid', 'audio/midi', 'audio/mp3', 'audio/mp4', 'audio/mpeg',
         'audio/mpeg3', 'audio/ogg', 'audio/wav', 'audio/wma', 'audio/x-aac',
-        'audio/x-aiff', 'audio/x-midi', 'audio/x-mp3', 'audio/x-mp4',
+        'audio/x-aiff', 'audio/x-m4a', 'audio/x-midi', 'audio/x-mp3', 'audio/x-mp4',
         'audio/x-mpeg', 'audio/x-mpeg3', 'audio/x-mpegaudio', 'audio/x-ms-wax',
-        'audio/x-realaudio', 'audio/x-wav', 'audio/x-wma', 'image/bmp',
+        'audio/x-ogg', 'audio/x-realaudio', 'audio/x-wav', 'audio/x-wma', 'image/bmp',
         'image/gif', 'image/icon', 'image/jpeg', 'image/pjpeg', 'image/png',
         'image/tiff', 'image/x-icon', 'image/x-ms-bmp', 'text/css',
         'text/plain', 'text/richtext', 'text/rtf', 'video/asf', 'video/avi',
         'video/divx', 'video/mp4', 'video/mpeg', 'video/msvideo',
-        'video/ogg', 'video/quicktime', 'video/x-ms-wmv', 'video/x-msvideo',
+        'video/ogg', 'video/quicktime', 'video/webm', 'video/x-m4v',
+        'video/x-ms-wmv', 'video/x-msvideo',
     ];
 
     const EXTENSION_WHITELIST = [
         'aac', 'aif', 'aiff', 'asf', 'asx', 'avi', 'bmp', 'c', 'cc', 'class',
         'css', 'divx', 'doc', 'docx', 'exe', 'gif', 'gz', 'gzip', 'h', 'ico',
-        'j2k', 'jp2', 'jpe', 'jpeg', 'jpg', 'm4a', 'mdb', 'mid', 'midi', 'mov',
+        'j2k', 'jp2', 'jpe', 'jpeg', 'jpg', 'm4a', 'm4v', 'mdb', 'mid', 'midi', 'mov',
         'mp2', 'mp3', 'mp4', 'mpa', 'mpe', 'mpeg', 'mpg', 'mpp', 'odb', 'odc',
-        'odf', 'odg', 'odp', 'ods', 'odt', 'ogg', 'pdf', 'png', 'pot', 'pps',
+        'odf', 'odg', 'odp', 'ods', 'odt', 'ogg', 'opus', 'pdf', 'png', 'pot', 'pps',
         'ppt', 'pptx', 'qt', 'ra', 'ram', 'rtf', 'rtx', 'swf', 'tar', 'tif',
-        'tiff', 'txt', 'wav', 'wax', 'wma', 'wmv', 'wmx', 'wri', 'xla', 'xls',
+        'tiff', 'txt', 'wav', 'wax', 'webm', 'wma', 'wmv', 'wmx', 'wri', 'xla', 'xls',
         'xlsx', 'xlt', 'xlw', 'zip',
     ];
 
@@ -318,39 +319,39 @@ class Manager
     /**
      * Get the filename extension for the original file.
      *
-     * Checks the extension against a map of Internet media types. Returns a
-     * "best guess" extension if the media type is known but the original
-     * extension is unrecognized or nonexistent. Returns the original extension
-     * if it is unrecoginized, maps to a known media type, or maps to the
-     * catch-all media type, "application/octet-stream".
+     * Heuristically determines whether the passed file has an extension. The
+     * source name must contain at least one dot, the source name must not end
+     * with a dot, and the extension must not be over 12 characters.
+     *
+     * Returns the extension if found. Returns a "best guess" extension if the
+     * media type is known but the original extension is not found. Returns
+     * false if the file has no source name or the file has no extension and the
+     * media type cannot be mapped to an extension.
      *
      * @param File
-     * @return string
+     * @return string|false
      */
     public function getExtension(File $file)
     {
-        if (!$file->getSourceName()) {
-            return null;
+        $extension = false;
+        if (!$sourceName = $file->getSourceName()) {
+            return $extension;
         }
-
-        $mediaTypeMap = $this->serviceLocator->get('Omeka\File\MediaTypeMap');
-        $mediaType = $file->getMediaType();
-        $extension = strtolower(substr(strrchr($file->getSourceName(), '.'), 1));
-
-        if (isset($mediaTypeMap[$mediaType][0])
-            && !in_array($mediaType, ['application/octet-stream'])
-        ) {
-            if ($extension) {
-                if (!in_array($extension, $mediaTypeMap[$mediaType])) {
-                    // Unrecognized extension.
-                    $extension = $mediaTypeMap[$mediaType][0];
-                }
-            } else {
-                // No extension.
-                $extension = $mediaTypeMap[$mediaType][0];
+        $dotPos = strrpos($sourceName, '.');
+        if (false !== $dotPos) {
+            $sourceNameLen = strlen($sourceName);
+            $extensionPos = $dotPos + 1;
+            if ($sourceNameLen !== $extensionPos && (12 >= $sourceNameLen - $extensionPos)) {
+                $extension = strtolower(substr($sourceName, $extensionPos));
             }
         }
-
+        if (false === $extension) {
+            $mediaTypeMap = $this->serviceLocator->get('Omeka\File\MediaTypeMap');
+            $mediaType = $file->getMediaType();
+            if (isset($mediaTypeMap[$mediaType][0])) {
+                $extension = strtolower($mediaTypeMap[$mediaType][0]);
+            }
+        }
         return $extension;
     }
 

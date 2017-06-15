@@ -105,7 +105,7 @@ class UserController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('resource', $resource);
-        $view->setVariable('resourceLabel', 'user');
+        $view->setVariable('resourceLabel', 'user'); // @translate
         $view->setVariable('partialPath', 'omeka/admin/user/show-details');
         return $view;
     }

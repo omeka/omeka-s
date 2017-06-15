@@ -118,7 +118,7 @@ gulp.task('css', function () {
             includePaths: ['node_modules/susy/sass']
         }).on('error', sass.logError))
         .pipe(postcss([
-            autoprefixer({browsers: ['> 5%', '> 5% in US', 'last 2 versions']})
+            autoprefixer({browsers: ['> 5%', '> 1% in US']})
         ]))
         .pipe(gulp.dest('./application/asset/css'));
 });
@@ -151,6 +151,7 @@ gulp.task('deps:update', function () {
 });
 gulp.task('deps:js', function (cb) {
     var deps = {
+        'chosen-js': '**',
         'ckeditor': ['**', '!samples/**'],
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',

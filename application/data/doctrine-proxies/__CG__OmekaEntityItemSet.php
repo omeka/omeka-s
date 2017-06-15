@@ -389,28 +389,6 @@ class ItemSet extends \Omeka\Entity\ItemSet implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function prePersist(\Doctrine\ORM\Event\LifecycleEventArgs $eventArgs)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'prePersist', [$eventArgs]);
-
-        return parent::prePersist($eventArgs);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function preUpdate(\Doctrine\ORM\Event\PreUpdateEventArgs $eventArgs)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'preUpdate', [$eventArgs]);
-
-        return parent::preUpdate($eventArgs);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceId()
     {
 

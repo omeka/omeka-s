@@ -86,7 +86,7 @@ class ResourceTemplateController extends AbstractActionController
                     }
 
                     $response = $this->api($form)->create('resource_templates', $import);
-                    if ($response->isSuccess()) {
+                    if ($response) {
                         return $this->redirect()->toUrl($response->getContent()->url());
                     } else {
                         $form = $this->getForm(ResourceTemplateReviewImportForm::class);
@@ -323,7 +323,7 @@ class ResourceTemplateController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('resource', $resource);
-        $view->setVariable('resourceLabel', 'resource template');
+        $view->setVariable('resourceLabel', 'resource template'); // @translate
         $view->setVariable('partialPath', 'omeka/admin/resource-template/show-details');
         return $view;
     }

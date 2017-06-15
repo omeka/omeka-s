@@ -11,7 +11,7 @@ $rowTemplate = '
     <td class="site-item-set-owner-email"></td>
     <td>
         <a href="#" class="o-icon-delete" title="' . $this->translate('Remove item set') . '" aria-label="' . $this->translate('Remove item set') . '"></a>
-        <a href="#" class="o-icon-undo" title="' . $this->translate('Undo remove') . '" aria-label="' . $this->translate('Undo remove') . '" style="display: none;"></a>
+        <a href="#" class="o-icon-undo" title="' . $this->translate('Restore item set') . '" aria-label="' . $this->translate('Restore item set') . '" style="display: none;"></a>
         <input type="hidden" class="site-item-set-id" name="o:site_item_set[][o:item_set][o:id]">
     </td>
 </tr>';
@@ -19,8 +19,8 @@ $rowTemplate = '
 
 <?php echo $this->pageTitle($this->translate('Resources')); ?>
 <?php echo $this->sectionNav([
-    'item-pool-section' => $this->translate('Item Pool'),
-    'item-sets-section' => $this->translate('Item Sets'),
+    'item-pool-section' => $this->translate('Item pool'),
+    'item-sets-section' => $this->translate('Item sets'),
 ]); ?>
 
 <?php echo $this->form()->openTag($form); ?>

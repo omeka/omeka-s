@@ -14,6 +14,9 @@ class Manager
 
     const THUMBNAIL_EXTENSION = 'jpg';
 
+    /**
+     * The default media type whitelist.
+     */
     const MEDIA_TYPE_WHITELIST = [
         // application/*
         'application/msword',
@@ -73,6 +76,9 @@ class Manager
         'video/x-ms-wmv',
     ];
 
+    /**
+     * Map of nonstandard-to-standard media types.
+     */
     const MEDIA_TYPE_ALIASES = [
         // application/ogg
         'application/x-ogg' => 'application/ogg',

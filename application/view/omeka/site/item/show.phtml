@@ -9,7 +9,7 @@ $subjects = $item->subjectValues();
 foreach ($subjects as $value) {
     $resource = $value->resource();
     $property = $value->property();
-    $sortedSubjects[$property->label()][] = $resource->link($resource->displayTitle());
+    $sortedSubjects[$property->label()][] = $resource;
 }
 ?>
 
@@ -46,15 +46,22 @@ foreach ($subjects as $value) {
 
 <?php if ($subjects): ?>
 <div id="item-linked" class="property">
-    <h4><?php echo $this->translate('Linked resources'); ?></h4>
+    <h3><?php echo $this->translate('Linked resources'); ?></h3>
     <?php foreach ($sortedSubjects as $property => $resources): ?>
     <div class="value">
-        <span class="linked-property"><?php echo $this->translate(sprintf('As "%s"', $property)); ?></span>
-        <ul>
-            <?php foreach ($resources as $resource): ?>
-            <li class="resource value"><?php echo $resource; ?></li>
-            <?php endforeach; ?>
-        </ul>
+        <h4 class="linked-property"><?php echo $this->translate(sprintf('As "%s"', $property)); ?></h4>
+        <?php foreach ($resources as $resource): ?>
+        <div class="resource value">
+                <?php if ($thumbnail = $resource->primaryMedia()): ?>
+                <a href="<?php echo $resource->url(); ?>"><img
+                    src="<?php echo $escape($thumbnail->thumbnailUrl('square')); ?>"
+                    title="<?php echo $escape($thumbnail->displayTitle()); ?>"
+                    alt="<?php echo $escape($thumbnail->mediaType()); ?> thumbnail"
+                ></a>
+            <?php endif; ?>
+            <?php echo $resource->link($resource->displayTitle()); ?>
+        </div>
+        <?php endforeach; ?>
     </div>
     <?php endforeach; ?>
 </div>

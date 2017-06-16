@@ -1,9 +1,16 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'item resource show');
-$subjects = $item->subjectValues();
 $embedMedia = $this->siteSetting('item_media_embed', false);
 $itemMedia = $item->media();
+$subjects = $item->subjectValues();
+$sortedSubjects = [];
+$subjects = $item->subjectValues();
+foreach ($subjects as $value) {
+    $resource = $value->resource();
+    $property = $value->property();
+    $sortedSubjects[$property->label()][] = $resource->link($resource->displayTitle());
+}
 ?>
 
 <?php echo $this->pageTitle($item->displayTitle(), 2); ?>
@@ -40,9 +47,16 @@ $itemMedia = $item->media();
 <?php if ($subjects): ?>
 <div id="item-linked" class="property">
     <h4><?php echo $this->translate('Linked resources'); ?></h4>
+    <?php foreach ($sortedSubjects as $property => $resources): ?>
     <div class="value">
-        <?php echo $item->displayLinkedResources(['subjectValues' => $subjects, 'objectValues' => '']); ?>
+        <span class="linked-property"><?php echo $this->translate(sprintf('As "%s"', $property)); ?></span>
+        <ul>
+            <?php foreach ($resources as $resource): ?>
+            <li class="resource value"><?php echo $resource; ?></li>
+            <?php endforeach; ?>
+        </ul>
     </div>
+    <?php endforeach; ?>
 </div>
 <?php endif; ?>
 

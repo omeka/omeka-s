@@ -110,6 +110,10 @@ if [[ "$TRAVIS_BRANCH" = "develop" ]] && [[ "$TRAVIS_PULL_REQUEST" = "false" ]];
 
     curl -s -X POST -H "Content-Type: application/json" -H "Accept: application/json" -H "Travis-API-Version: 3" -H "Authorization: token ${TRAVIS_ACCESS_TOKEN}" -d "$body" https://api.travis-ci.com/repo/digirati-co-uk%2Fnlw-omeka-build/requests
     
+    echo -e "\033[00;32m ===> Pushing this change downstream to the RS omeka build \033[0m\n";
+
+    curl -s -X POST -H "Content-Type: application/json" -H "Accept: application/json" -H "Travis-API-Version: 3" -H "Authorization: token ${TRAVIS_ACCESS_TOKEN}" -d "$body" https://api.travis-ci.com/repo/digirati-co-uk%2Frs-omeka-build/requests
+    
     echo -e "\033[00;32m ===> Pushing this change downstream to the Digirati omeka dev build \033[0m\n";
 
     curl -s -X POST -H "Content-Type: application/json" -H "Accept: application/json" -H "Travis-API-Version: 3" -H "Authorization: token ${TRAVIS_ACCESS_TOKEN}" -d "$body" https://api.travis-ci.com/repo/digirati-co-uk%2Fomeka-s-dev/requests

@@ -45,11 +45,11 @@ foreach ($subjects as $value) {
 <?php endif; ?>
 
 <?php if ($subjects): ?>
-<div id="item-linked" class="property">
+<div id="item-linked">
     <h3><?php echo $this->translate('Linked resources'); ?></h3>
+    <div class="property">
     <?php foreach ($sortedSubjects as $property => $resources): ?>
-    <div class="value">
-        <h4 class="linked-property"><?php echo $this->translate(sprintf('As "%s"', $property)); ?></h4>
+        <h4><?php echo $this->translate(sprintf('As "%s"', $property)); ?></h4>
         <?php foreach ($resources as $resource): ?>
         <div class="resource value">
                 <?php if ($thumbnail = $resource->primaryMedia()): ?>
@@ -62,8 +62,8 @@ foreach ($subjects as $value) {
             <?php echo $resource->link($resource->displayTitle()); ?>
         </div>
         <?php endforeach; ?>
-    </div>
     <?php endforeach; ?>
+    </div>
 </div>
 <?php endif; ?>
 

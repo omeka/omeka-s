@@ -86,10 +86,14 @@ class PageController extends AbstractActionController
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
+            $site = $this->currentSite();
             $form = $this->getForm(ConfirmForm::class);
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $response = $this->api($form)->delete('site_pages', ['slug' => $this->params('page-slug')]);
+                $response = $this->api($form)->delete('site_pages', [
+                    'slug' => $this->params('page-slug'),
+                    'site' => $site->id(),
+                ]);
                 if ($response) {
                     $this->messenger()->addSuccess('Page successfully deleted'); // @translate
                 }
@@ -97,6 +101,7 @@ class PageController extends AbstractActionController
                 $this->messenger()->addFormErrors($form);
             }
         }
+
         return $this->redirect()->toRoute(
             'admin/site/slug/page',
             ['action' => 'index'],

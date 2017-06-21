@@ -1,28 +1,34 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+$item = $resource->item();
 ?>
-
 <div class="resource-details" data-resource-values="<?php echo $escape($values); ?>">
-    <img src="<?php echo $escape($resource->thumbnailUrl('square')); ?>">
+
+    <?php if ($linkTitle): ?>
     <h3 class="o-title"><?php echo $resource->link($resource->displayTitle()); ?></h3>
+    <?php else: ?>
+    <h3 class="o-title"><?php echo $escape($resource->displayTitle()); ?></h3>
+    <?php endif; ?>
+    <div class="o-description"><?php echo $escape($resource->displayDescription()); ?></div>
+
+    <img src="<?php echo $escape($resource->thumbnailUrl('square')); ?>">
+
+    <div class="meta-group">
+        <h4>Part of Item</h4>
+        <div class="value"><?php echo $item->link($item->displayTitle()); ?></div>
+    </div>
+
+    <?php if ($resource->mediaType()): ?>
+    <div class="meta-group">
+        <h4><?php echo $this->translate('MIME type'); ?></h4>
+        <div class="value"><?php echo $escape($resource->mediaType()); ?></div>
+    </div>
+    <?php endif; ?>
+
     <div class="meta-group">
         <h4><?php echo $escape($this->translate('Visibility')); ?></h4>
         <div class="value"><?php echo ($resource->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
     </div>
-    <div class="meta-group">
-        <h4>Part of Item</h4>
-        <?php $resourceItem = $resource->item(); ?>
-        <div class="value"><?php echo $resourceItem->link($resourceItem->displayTitle()); ?></div>
-    </div>
-    <?php if ($resource->mediaType()): ?>
-        <div class="meta-group">
-            <h4><?php echo $this->translate('MIME type'); ?></h4>
-            <div class="value"><?php echo $escape($resource->mediaType()); ?></div>
-        </div>
-    <?php endif; ?>
-    <div class="meta-group">
-        <h4>Type</h4>
-        <div class="value"><?php echo $resource->type(); ?></div>
-    </div>
+
     <?php $this->trigger('view.details', array('entity' => $resource)); ?>
 </div>

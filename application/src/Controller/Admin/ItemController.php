@@ -258,6 +258,7 @@ class ItemController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('item', $item);
+        $view->setVariable('resource', $item);
         $view->setVariable('mediaForms', $this->getMediaForms());
         return $view;
     }

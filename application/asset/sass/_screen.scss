@@ -2041,7 +2041,7 @@ input[type="text"].value-language,
         padding: $spacing-small;
         border-color: $border-gray;
         border-bottom: 1px solid $border-gray;
-        display: block;
+        display: flex;
         line-height: $base-line-height;
         max-width: 100%;
         word-break: break-word;
@@ -2572,13 +2572,18 @@ input[type="text"].value-language,
     .value {
         padding: $spacing-small;
         margin-bottom: 0;
-        word-wrap: break-word;
+        word-break: break-word;
         width: span(7 of 9);
         float: right;
+        display: flex;
 
         &:not(:first-of-type) {
             padding-top: 0;
         }
+    }
+
+    .value a {
+        padding-top: $spacing-small;
     }
 
     .language {

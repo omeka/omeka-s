@@ -302,7 +302,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $subrequestOptions = [
             'flushEntityManager' => false, // Flush once, after persisting all entities
             'responseContent' => 'resource', // Return entities to work directly on them
-            'finialize' => false, // Finalize only after flushing entities
+            'finalize' => false, // Finalize only after flushing entities
         ];
         foreach ($request->getContent() as $key => $subrequestData) {
             try {

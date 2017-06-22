@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
-use Omeka\Form\Factory\InvokableFactory;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

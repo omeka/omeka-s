@@ -455,6 +455,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:alternate_label' => $resTemProp->alternateLabel(),
                         'o:alternate_comment' => $resTemProp->alternateComment(),
                         'o:data_type' => $resTemProp->dataType(),
+                        'o:data_type_options' => $resTemProp->dataTypeOptions(),
                         'o:is_required' => $resTemProp->isRequired(),
                     ];
                 }
@@ -473,6 +474,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
                         'o:data_type' => null,
+                        'o:data_type_options' => null,
                         'o:is_required' => false,
                     ],
                     [
@@ -480,6 +482,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
                         'o:data_type' => null,
+                        'o:data_type_options' => null,
                         'o:is_required' => false,
                     ],
                 ];
@@ -506,6 +509,7 @@ class ResourceTemplateController extends AbstractActionController
             'o:alternate_label' => null,
             'o:alternate_comment' => null,
             'o:data_type' => null,
+            'o:data_type_options' => null,
             'o:is_required' => false,
         ];
 
@@ -513,6 +517,13 @@ class ResourceTemplateController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('omeka/admin/resource-template/show-property-row');
         $view->setVariable('propertyRow', $propertyRow);
+        return $view;
+    }
+
+    public function dataTypeOptionsResourceAction()
+    {
+        $view = new ViewModel;
+        $view->setTerminal(true);
         return $view;
     }
 }

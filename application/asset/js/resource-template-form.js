@@ -54,4 +54,17 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
     removeLink.hide();
 });
 
+$('#properties').on('change', '.data-type-select', function(e) {
+    var sidebar = $('#data-type-options-sidebar');
+    var dataType = $(this).find(':selected');
+    var optionsFormUrl = dataType.data('options-form-url');
+    Omeka.closeSidebar(sidebar);
+    $(e.delegateTarget).find('.property').removeClass('selected-data-type');
+    if (optionsFormUrl) {
+        Omeka.openSidebar(sidebar);
+        Omeka.populateSidebarContent(sidebar, optionsFormUrl)
+        dataType.closest('.property').addClass('selected-data-type');
+    }
+});
+
 });

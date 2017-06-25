@@ -26,6 +26,14 @@ interface DataTypeInterface
     public function getLabel();
 
     /**
+     * Get the URL to the data type options form.
+     *
+     * @param PhpRenderer $view
+     * @return string
+     */
+    public function getOptionsFormUrl(PhpRenderer $view);
+
+    /**
      * Prepare the view to enable the data types.
      *
      * Typically used to append JavaScript to the head.

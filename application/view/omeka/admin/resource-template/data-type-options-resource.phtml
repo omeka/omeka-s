@@ -1,0 +1,19 @@
+<h3>Resource data type</h3>
+
+<p>Select which resource or resources will be available to assign.</p>
+
+<input type="checkbox" name="item"> Item<br>
+<input type="checkbox" name="item-set"> Item set<br>
+<input type="checkbox" name="media"> Media<br><br>
+
+<button id="data-type-set">Set changes</button>
+
+<script>
+// @todo: populate above form using data from options input
+var options = $('.selected-data-type input.data-type-options');
+
+$('#data-type-set').on('click', function(e) {
+    // @todo: set the user-set options to the options input
+    Omeka.closeSidebar($('#data-type-options-sidebar'));
+});
+</script>

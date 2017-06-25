@@ -6,6 +6,10 @@ use Zend\View\Renderer\PhpRenderer;
 
 abstract class AbstractDataType implements DataTypeInterface
 {
+    public function getOptionsFormUrl(PhpRenderer $view)
+    {
+    }
+
     public function prepareForm(PhpRenderer $view)
     {
     }

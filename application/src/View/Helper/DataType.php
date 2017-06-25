@@ -14,15 +14,10 @@ class DataType extends AbstractHelper
 
     protected $dataTypes;
 
-    protected $valueOptions = [];
-
     public function __construct(DataTypeManager $dataTypeManager)
     {
         $this->manager = $dataTypeManager;
         $this->dataTypes = $this->manager->getRegisteredNames();
-        foreach ($this->dataTypes as $dataType) {
-            $this->valueOptions[$dataType] = $this->manager->get($dataType)->getLabel();
-        }
     }
 
     /**
@@ -33,11 +28,28 @@ class DataType extends AbstractHelper
      */
     public function getSelect($name, $value, $attributes = [])
     {
+        $valueOptions = [];
+        foreach ($this->dataTypes as $dataTypeName) {
+            $dataType = $this->manager->get($dataTypeName);
+            $valueOption = [
+                'value' => $dataTypeName,
+                'label' => $dataType->getLabel(),
+                'attributes' => [],
+            ];
+            $optionsFormUrl = $dataType->getOptionsFormUrl($this->getView());
+            if ($optionsFormUrl) {
+                $valueOption['attributes'] = [
+                    'data-options-form-url' => $optionsFormUrl,
+                ];
+            }
+            $valueOptions[] = $valueOption;
+        }
+
         $element = new Select($name);
         $element->setEmptyOption('Default')
-            ->setValueOptions($this->valueOptions)
+            ->setValueOptions($valueOptions)
             ->setAttributes($attributes);
-        if (!array_key_exists($value, $this->valueOptions)) {
+        if (!array_key_exists($value, $valueOptions)) {
             $value = null;
         }
         $element->setValue($value);

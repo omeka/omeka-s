@@ -54,18 +54,25 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
     removeLink.hide();
 });
 
+var dataTypeOptionsForms = {};
+$('#data-type-options-forms > span').each(function() {
+    var span = $(this);
+    dataTypeOptionsForms[span.data('data-type')] = span.data('options-form')
+});
+
 $('#properties').on('change', '.data-type-select', function(e) {
+    $('#properties .property').removeClass('selected-data-type');
+
     var sidebar = $('#data-type-options-sidebar');
-    var dataType = $(this).find(':selected');
-    var optionsForm = $('#data-type-options-forms > span').filter(function() {
-        return $(this).attr('data-data-type') === dataType.val();
-    }).data('options-form');
     Omeka.closeSidebar(sidebar);
-    $(e.delegateTarget).find('.property').removeClass('selected-data-type');
+
+    var dataTypeSelect = $(this).find(':selected');
+    var optionsForm = dataTypeOptionsForms[dataTypeSelect.val()];
+
     if (optionsForm) {
-        Omeka.openSidebar(sidebar);
+        dataTypeSelect.closest('.property').addClass('selected-data-type');
         sidebar.find('.sidebar-content').html(optionsForm);
-        dataType.closest('.property').addClass('selected-data-type');
+        Omeka.openSidebar(sidebar);
     }
 });
 

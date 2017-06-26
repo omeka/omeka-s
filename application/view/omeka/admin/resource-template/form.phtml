@@ -52,3 +52,9 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content"></div>
 </div>
+
+<div id="data-type-options-forms">
+    <?php foreach ($this->dataType()->getOptionsForms() as $dataTypeName => $optionsForm): ?>
+    <span data-data-type="<?php echo $escape($dataTypeName); ?>" data-options-form="<?php echo $escape($optionsForm); ?>"></span>
+    <?php endforeach; ?>
+</div>

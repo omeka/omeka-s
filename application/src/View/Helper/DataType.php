@@ -30,19 +30,7 @@ class DataType extends AbstractHelper
     {
         $valueOptions = [];
         foreach ($this->dataTypes as $dataTypeName) {
-            $dataType = $this->manager->get($dataTypeName);
-            $valueOption = [
-                'value' => $dataTypeName,
-                'label' => $dataType->getLabel(),
-                'attributes' => [],
-            ];
-            $optionsFormUrl = $dataType->getOptionsFormUrl($this->getView());
-            if ($optionsFormUrl) {
-                $valueOption['attributes'] = [
-                    'data-options-form-url' => $optionsFormUrl,
-                ];
-            }
-            $valueOptions[] = $valueOption;
+            $valueOptions[$dataTypeName] = $this->manager->get($dataTypeName)->getLabel();
         }
 
         $element = new Select($name);
@@ -54,6 +42,18 @@ class DataType extends AbstractHelper
         }
         $element->setValue($value);
         return $this->getView()->formSelect($element);
+    }
+
+    public function getOptionsForms()
+    {
+        $optionsForms = [];
+        foreach ($this->dataTypes as $dataTypeName) {
+            $optionsForm = $this->manager->get($dataTypeName)->optionsForm($this->getView());
+            if ($optionsForm) {
+                $optionsForms[$dataTypeName] = $optionsForm;
+            }
+        }
+        return $optionsForms;
     }
 
     public function getTemplates()

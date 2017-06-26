@@ -57,12 +57,14 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
 $('#properties').on('change', '.data-type-select', function(e) {
     var sidebar = $('#data-type-options-sidebar');
     var dataType = $(this).find(':selected');
-    var optionsFormUrl = dataType.data('options-form-url');
+    var optionsForm = $('#data-type-options-forms > span').filter(function() {
+        return $(this).attr('data-data-type') === dataType.val();
+    }).data('options-form');
     Omeka.closeSidebar(sidebar);
     $(e.delegateTarget).find('.property').removeClass('selected-data-type');
-    if (optionsFormUrl) {
+    if (optionsForm) {
         Omeka.openSidebar(sidebar);
-        Omeka.populateSidebarContent(sidebar, optionsFormUrl)
+        sidebar.find('.sidebar-content').html(optionsForm);
         dataType.closest('.property').addClass('selected-data-type');
     }
 });

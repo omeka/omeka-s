@@ -19,12 +19,9 @@ class Resource extends AbstractDataType
         return 'Resource';
     }
 
-    public function getOptionsFormUrl(PhpRenderer $view)
+    public function optionsForm(PhpRenderer $view)
     {
-        return $view->url('admin/default', [
-            'controller' => 'resource-template',
-            'action' => 'data-type-options-resource',
-        ]);
+        return $view->partial('common/data-type/resource-options');
     }
 
     public function form(PhpRenderer $view)

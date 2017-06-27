@@ -1,4 +1,9 @@
-<?php $escape = $this->plugin('escapeHtml'); ?>
+<?php 
+$escape = $this->plugin('escapeHtml'); 
+$this->headLink()->prependStylesheet($this->assetUrl('css/user-bar.css', 'Omeka'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
+$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
+?>
 <div id="user-bar">
     <span class="site-title">
         <a href="<?php echo $site->adminUrl('show'); ?>"><?php echo $site->title(); ?></a>

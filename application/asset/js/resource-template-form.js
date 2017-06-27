@@ -54,26 +54,37 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
     removeLink.hide();
 });
 
+var getDataTypeOptionsForm = function(dataType) {
+    var optionsForm = dataTypeOptionsForms[dataType];
+    return optionsForm ? optionsForm : null;
+}
+
+var openDataTypeOptionsForm = function(property) {
+    var dataType = property.find('.data-type-select :selected').val()
+    var sidebar = $('#data-type-options-sidebar');
+
+    Omeka.closeSidebar(sidebar);
+    $('#properties .property').removeClass('selected-data-type');
+
+    if (optionsForm = getDataTypeOptionsForm(dataType)) {
+        property.addClass('selected-data-type');
+        sidebar.find('.sidebar-content').html(optionsForm);
+        Omeka.openSidebar(sidebar);
+    }
+}
+
 var dataTypeOptionsForms = {};
 $('#data-type-options-forms > span').each(function() {
     var span = $(this);
     dataTypeOptionsForms[span.data('data-type')] = span.data('options-form')
 });
 
+$('#properties').on('click', '.data-type-button', function(e) {
+    openDataTypeOptionsForm($(this).closest('.property'));
+});
+
 $('#properties').on('change', '.data-type-select', function(e) {
-    $('#properties .property').removeClass('selected-data-type');
-
-    var sidebar = $('#data-type-options-sidebar');
-    Omeka.closeSidebar(sidebar);
-
-    var dataTypeSelect = $(this).find(':selected');
-    var optionsForm = dataTypeOptionsForms[dataTypeSelect.val()];
-
-    if (optionsForm) {
-        dataTypeSelect.closest('.property').addClass('selected-data-type');
-        sidebar.find('.sidebar-content').html(optionsForm);
-        Omeka.openSidebar(sidebar);
-    }
+    openDataTypeOptionsForm($(this).closest('.property'));
 });
 
 });

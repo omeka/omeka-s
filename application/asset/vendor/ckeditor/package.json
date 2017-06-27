@@ -1,21 +1,14 @@
 {
   "_args": [
     [
-      {
-        "raw": "ckeditor",
-        "scope": null,
-        "escapedName": "ckeditor",
-        "name": "ckeditor",
-        "rawSpec": "",
-        "spec": "latest",
-        "type": "tag"
-      },
-      "/var/www/localhost/htdocs/omeka-s"
+      "ckeditor@^4.6.2",
+      "/var/www/html/omeka-s"
     ]
   ],
-  "_from": "ckeditor@latest",
+  "_from": "ckeditor@>=4.6.2 <5.0.0",
   "_id": "ckeditor@4.6.2",
   "_inCache": true,
+  "_installable": true,
   "_location": "/ckeditor",
   "_nodeVersion": "6.8.0",
   "_npmOperationalInternal": {
@@ -23,29 +16,27 @@
     "tmp": "tmp/ckeditor-4.6.2.tgz_1484242954454_0.5392820932902396"
   },
   "_npmUser": {
-    "name": "cksource",
-    "email": "npm@cksource.com"
+    "email": "npm@cksource.com",
+    "name": "cksource"
   },
   "_npmVersion": "3.10.8",
   "_phantomChildren": {},
   "_requested": {
-    "raw": "ckeditor",
-    "scope": null,
-    "escapedName": "ckeditor",
     "name": "ckeditor",
-    "rawSpec": "",
-    "spec": "latest",
-    "type": "tag"
+    "raw": "ckeditor@^4.6.2",
+    "rawSpec": "^4.6.2",
+    "scope": null,
+    "spec": ">=4.6.2 <5.0.0",
+    "type": "range"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/ckeditor/-/ckeditor-4.6.2.tgz",
   "_shasum": "b1552b7a2f9537e165d7afd2d29d3d4959ff6bad",
   "_shrinkwrap": null,
-  "_spec": "ckeditor",
-  "_where": "/var/www/localhost/htdocs/omeka-s",
+  "_spec": "ckeditor@^4.6.2",
+  "_where": "/var/www/html/omeka-s",
   "author": {
     "name": "CKSource",
     "url": "http://cksource.com/"
@@ -65,13 +56,13 @@
   "homepage": "http://ckeditor.com",
   "keywords": [
     "ckeditor",
-    "fckeditor",
     "editor",
-    "wysiwyg",
+    "fckeditor",
     "html",
+    "javascript",
     "richtext",
     "text",
-    "javascript"
+    "wysiwyg"
   ],
   "license": "(GPL-2.0 OR LGPL-2.1 OR MPL-1.1)",
   "main": "ckeditor.js",

@@ -14,9 +14,10 @@
 
 #user-bar a {
     color: $red;
+    background-color: transparent;
 }
 
-#user-bar .site-title {
+#user-bar .current-site {
     margin-right: auto;
 }
 

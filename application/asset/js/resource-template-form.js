@@ -67,6 +67,12 @@ var propertyEdit = {
     renderDataTypeOptionsForm: function(dataType, options) {
         if (optionsForm = this.dataTypeOptionsForms[dataType]) {
             $('#data-type-options').html(optionsForm);
+            try {
+                options = JSON.parse(options);
+            } catch (e) {
+                // Malformed JSON is invalid.
+                options = {};
+            }
             /**
              * Event "o:data-type-options-form-render"
              *

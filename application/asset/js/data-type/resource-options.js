@@ -6,9 +6,6 @@ $(document).on(
         if ('resource' !== dataType) {
             return;
         }
-        console.log(dataType);
-        console.log(options);
-        console.log(optionsForm);
     }
 );
 
@@ -18,9 +15,6 @@ $(document).on(
         if ('resource' !== dataType) {
             return;
         }
-        console.log(dataType);
-        console.log(optionsForm);
-        console.log(optionsInput);
     }
 );
 

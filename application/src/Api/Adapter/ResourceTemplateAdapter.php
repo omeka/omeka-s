@@ -171,6 +171,12 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 ) {
                     $dataType = $resTemPropData['o:data_type'];
                 }
+                $dataTypeOptions = null;
+                if (isset($resTemPropData['o:data_type_options'])
+                    && '' !== trim($resTemPropData['o:data_type_options'])
+                ) {
+                    $dataTypeOptions = json_decode($resTemPropData['o:data_type_options'], true);
+                }
                 $isRequired = false;
                 if (isset($resTemPropData['o:is_required'])) {
                     $isRequired = (bool) $resTemPropData['o:is_required'];
@@ -192,6 +198,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 $resTemProp->setAlternateLabel($altLabel);
                 $resTemProp->setAlternateComment($altComment);
                 $resTemProp->setDataType($dataType);
+                $resTemProp->setDataTypeOptions($dataTypeOptions);
                 $resTemProp->setIsRequired($isRequired);
                 // Set the position of the property to its intrinsic order
                 // within the passed array.

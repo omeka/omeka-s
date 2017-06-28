@@ -160,6 +160,7 @@ CREATE TABLE `resource_template_property` (
   `alternate_comment` longtext COLLATE utf8mb4_unicode_ci,
   `position` int(11) DEFAULT NULL,
   `data_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `data_type_options` longtext COLLATE utf8mb4_unicode_ci COMMENT '(DC2Type:json_array)',
   `is_required` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_4689E2F116131EA549213EC` (`resource_template_id`,`property_id`),

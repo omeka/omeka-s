@@ -41,6 +41,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
             'o:alternate_label' => $this->alternateLabel(),
             'o:alternate_comment' => $this->alternateComment(),
             'o:data_type' => $this->dataType(),
+            'o:data_type_options' => $this->dataTypeOptions(),
             'o:is_required' => $this->isRequired(),
         ];
     }
@@ -99,6 +100,11 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
             $dataType = null;
         }
         return $dataType;
+    }
+
+    public function dataTypeOptions()
+    {
+        return $this->templateProperty->getDataTypeOptions();
     }
 
     /**

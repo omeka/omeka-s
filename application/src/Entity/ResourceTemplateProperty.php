@@ -53,6 +53,11 @@ class ResourceTemplateProperty extends AbstractEntity
     protected $dataType;
 
     /**
+     * @Column(type="json_array", nullable=true)
+     */
+    protected $dataTypeOptions;
+
+    /**
      * @Column(type="boolean")
      */
     protected $isRequired = false;
@@ -120,6 +125,16 @@ class ResourceTemplateProperty extends AbstractEntity
     public function getDataType()
     {
         return $this->dataType;
+    }
+
+    public function setDataTypeOptions($dataTypeOptions)
+    {
+        $this->dataTypeOptions = $dataTypeOptions;
+    }
+
+    public function getDataTypeOptions()
+    {
+        return $this->dataTypeOptions;
     }
 
     public function setIsRequired($isRequired)

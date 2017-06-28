@@ -54,53 +54,55 @@ $('#content').on('click', '.resource-template-property-remove', function(event) 
     removeLink.hide();
 });
 
-var setDataTypeOptionsForm = function(dataType) {
-    optionsForm = dataTypeOptionsForms[dataType];
-    if (optionsForm) {
-        $('#data-type-options').html(optionsForm);
-    } else {
-        $('#data-type-options').empty();
-    }
-}
+var propertyEdit = {
+    dataTypeOptionsForms: {},
+    setDataTypeOptionsForms: function() {
+        var optionsForms = {};
+        $('#data-type-options-forms > span').each(function() {
+            var span = $(this);
+            optionsForms[span.data('data-type')] = span.data('options-form')
+        });
+        this.dataTypeOptionsForms = optionsForms;
+    },
+    renderDataTypeOptionsForm: function(dataType) {
+        var optionsForm = this.dataTypeOptionsForms[dataType];
+        optionsForm
+            ? $('#data-type-options').html(optionsForm)
+            : $('#data-type-options').empty();
+    },
+    prepareEditForm: function(prop) {
+        var altLabel = prop.find('.alternate-label');
+        var altComment = prop.find('.alternate-comment');
+        var isRequired = prop.find('.is-required');
+        var dataType = prop.find('.data-type');
 
-var dataTypeOptionsForms = {};
-$('#data-type-options-forms > span').each(function() {
-    var span = $(this);
-    dataTypeOptionsForms[span.data('data-type')] = span.data('options-form')
-});
+        $('#alternate-label').val(altLabel.val());
+        $('#alternate-comment').val(altComment.val());
+        $('#is-required').prop('checked', isRequired.val());
+        $('#data-type').val(dataType.val());
+        this.renderDataTypeOptionsForm(dataType.val());
+
+        $('#set-changes').off().on('click', function(e) {
+            altLabel.val($('#alternate-label').val());
+            altComment.val($('#alternate-comment').val());
+            $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
+            dataType.val($('#data-type').val());
+
+            Omeka.closeSidebar($('#edit-sidebar'));
+        });
+    },
+};
+
+propertyEdit.setDataTypeOptionsForms();
 
 $('#properties').on('click', '.property-edit', function(e) {
     e.preventDefault();
-
-    var sidebar = $('#edit-sidebar');
-    Omeka.closeSidebar(sidebar);
-
-    var property = $(this).closest('.property');
-    var altLabel = property.find('.alternate-label')
-    var altComment = property.find('.alternate-comment')
-    var isRequired = property.find('.is-required')
-    var dataType = property.find('.data-type')
-
-    $('#alternate-label').val(altLabel.val());
-    $('#alternate-comment').val(altComment.val());
-    $('#is-required').prop('checked', isRequired.val());
-    $('#data-type').val(dataType.val());
-    setDataTypeOptionsForm(dataType.val());
-
-    $('#set-changes').off().on('click', function(e) {
-        altLabel.val($('#alternate-label').val());
-        altComment.val($('#alternate-comment').val());
-        $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
-        dataType.val($('#data-type').val());
-
-        Omeka.closeSidebar(sidebar);
-    });
-
-    Omeka.openSidebar(sidebar);
+    propertyEdit.prepareEditForm($(this).closest('.property'));
+    Omeka.openSidebar($('#edit-sidebar'));
 });
 
 $('#data-type').on('change', function(e) {
-    setDataTypeOptionsForm($(this).find(':selected').val());
+    propertyEdit.renderDataTypeOptionsForm($(this).find(':selected').val());
 });
 
 });

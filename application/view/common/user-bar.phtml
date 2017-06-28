@@ -5,6 +5,7 @@ $this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka
 $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
 ?>
 <div id="user-bar">
+    <div class="logo"><a href="<?php echo $this->url('admin'); ?>"><?php echo $this->setting('installation_title', 'Omeka S'); ?></a></div>
     <span class="current-site">
         <a href="<?php echo $site->adminUrl('show'); ?>"><?php echo $site->title(); ?></a>
         <?php if ($site->userIsAllowed('update')): ?>

@@ -58,10 +58,12 @@ class DataType extends AbstractHelper
 
     public function getTemplates()
     {
+        $view = $this->getView();
         $templates = '';
         foreach ($this->dataTypes as $dataType) {
-            $templates .= $this->getView()->partial('common/data-type-wrapper', [
+            $templates .= $view->partial('common/data-type-wrapper', [
                 'dataType' => $dataType,
+                'resource' => isset($view->resource) ? $view->resource : null,
             ]);
         }
         return $templates;

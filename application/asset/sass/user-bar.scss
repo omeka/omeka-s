@@ -28,7 +28,8 @@
     margin-right: auto;
 }
 
-#user-bar .logout {
+#user-bar .logout,
+#user-bar .login {
     font-size: .75 * $base-font-size;
     padding: 0 $spacing-small;
     background-color: darken($blue, 15%);

@@ -57,6 +57,17 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
+        $this->add([
+            'name' => 'show_user_bar',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Always show user bar on public views', // @translate
+            ],
+            'attributes' => [
+                'value' => $settings->get('show_user_bar', false),
+            ],
+        ]);
+
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 

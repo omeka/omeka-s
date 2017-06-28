@@ -4,11 +4,12 @@
 <p><?php echo $this->message; ?></p>
 <?php endif; ?>
 
+<?php if (ini_get('display_errors')): ?>
+    <?php if (isset($this->reason)): ?>
+    <p><?php echo sprintf($this->translate('Reason: %s'), "<tt>$this->reason</tt>"); ?></p>
+    <?php endif; ?>
 
-<?php if (isset($this->reason)): ?>
-<p><?php echo sprintf($this->translate('Reason: %s'), "<tt>$this->reason</tt>"); ?></p>
-<?php endif; ?>
-
-<?php if ($this->exception): ?>
-<pre><?php echo $this->exception; ?></pre>
+    <?php if ($this->exception): ?>
+    <pre><?php echo $this->exception; ?></pre>
+    <?php endif; ?>
 <?php endif; ?>

@@ -1,5 +1,7 @@
 <?php echo $this->pageTitle($this->translate('Forbidden')); ?>
 
+<?php if (ini_get('display_errors')): ?>
 <pre>
 <?php echo $this->exception; ?>
 </pre>
+<?php endif; ?>

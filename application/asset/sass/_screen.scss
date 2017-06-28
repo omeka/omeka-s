@@ -2037,10 +2037,14 @@ input[type="text"].value-language,
 
     [data-data-type="resource"] .default,
     [data-data-type="resource"] .o-title:not(:empty) {
-        @include bleed-x($spacing-small);
+        margin: 0 (-$spacing-small);
+        padding: $spacing-small;
         border-color: $border-gray;
         border-bottom: 1px solid $border-gray;
-        display: block;
+        display: flex;
+        line-height: $base-line-height;
+        max-width: 100%;
+        word-break: break-word;
     }
 
     [data-data-type="resource"].delete .o-icon-undo:before {
@@ -2100,6 +2104,10 @@ input[type="text"].value-language,
 
     .selected-resource .item_sets a:after {
         content: $fa-var-cubes;
+    }
+
+    .selected-resource .media a:after {
+        content: $fa-var-image;
     }
 
     [data-data-type="uri"] .input {
@@ -2564,13 +2572,18 @@ input[type="text"].value-language,
     .value {
         padding: $spacing-small;
         margin-bottom: 0;
-        word-wrap: break-word;
+        word-break: break-word;
         width: span(7 of 9);
         float: right;
+        display: flex;
 
         &:not(:first-of-type) {
             padding-top: 0;
         }
+    }
+
+    .value a {
+        padding-top: $spacing-small;
     }
 
     .language {
@@ -2596,6 +2609,10 @@ input[type="text"].value-language,
 
     .property .value.items a:after {
         content: $fa-var-cube;
+    }
+
+    .property .value.media a:after {
+        content: $fa-var-image;
     }
 
     .property .value img {

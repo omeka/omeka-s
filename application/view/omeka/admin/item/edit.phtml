@@ -16,6 +16,7 @@ var valuesJson = <?php echo json_encode($item->values()); ?>;
 echo $this->partial('omeka/admin/item/form.phtml', [
     'form' => $form,
     'item' => $item,
+    'resource' => $resource,
     'mediaForms' => $mediaForms,
     'submitLabel' => $this->translate('Save'),
     'deleteButton' => $deleteButton,

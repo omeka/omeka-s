@@ -71,10 +71,10 @@ var propertyEdit = {
                 options = JSON.parse(options);
             } catch (e) {
                 // Malformed JSON is invalid.
-                options = {};
+                options = null;
             }
             /**
-             * Event "o:data-type-options-form-render"
+             * Omeka event "o:data-type-options-form-render"
              *
              * Passed parameters:
              * - (string) The data type
@@ -107,7 +107,7 @@ var propertyEdit = {
             $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
             dataType.val($('#data-type').val());
             /**
-             * Event "o:data-type-options-form-set-changes"
+             * Omeka event "o:data-type-options-form-set-changes"
              *
              * Passed parameters:
              * - (string) The data type
@@ -124,6 +124,7 @@ var propertyEdit = {
         });
 
         $('#data-type').off().on('change', function(e) {
+            dataTypeOptions.val(null);
             propertyEdit.renderDataTypeOptionsForm(
                 $(this).find(':selected').val(),
                 dataTypeOptions.val()

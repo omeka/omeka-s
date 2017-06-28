@@ -3,6 +3,7 @@ $form->prepare();
 $escape = $this->plugin('escapeHtml');
 $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 'Omeka'));
+$this->dataType()->prepareOptionsForm();
 ?>
 
 <?php echo $this->form()->openTag($form); ?>

@@ -26,6 +26,15 @@ interface DataTypeInterface
     public function getLabel();
 
     /**
+     * Prepare the view to enable the data type options.
+     *
+     * Typically used to append JavaScript to the head.
+     *
+     * @param PhpRenderer $view
+     */
+    public function prepareOptionsForm(PhpRenderer $view);
+
+    /**
      * Get the data type options form.
      *
      * @param PhpRenderer $view

@@ -73,6 +73,16 @@ class DataType extends AbstractHelper
     }
 
     /**
+     * Prepare the view to enable the data type options.
+     */
+    public function prepareOptionsForm()
+    {
+        foreach ($this->dataTypes as $dataType) {
+            $this->manager->get($dataType)->prepareOptionsForm($this->getView());
+        }
+    }
+
+    /**
      * Prepare the view to enable the data types.
      */
     public function prepareForm()

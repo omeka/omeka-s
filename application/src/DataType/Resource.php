@@ -19,6 +19,11 @@ class Resource extends AbstractDataType
         return 'Resource';
     }
 
+    public function prepareOptionsForm(PhpRenderer $view)
+    {
+        $view->headScript()->appendFile($view->assetUrl('js/data-type/resource-options.js', 'Omeka'));
+    }
+
     public function optionsForm(PhpRenderer $view)
     {
         return $view->partial('common/data-type/resource-options');

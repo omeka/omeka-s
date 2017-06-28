@@ -64,31 +64,64 @@ var propertyEdit = {
         });
         this.dataTypeOptionsForms = optionsForms;
     },
-    renderDataTypeOptionsForm: function(dataType) {
-        var optionsForm = this.dataTypeOptionsForms[dataType];
-        optionsForm
-            ? $('#data-type-options').html(optionsForm)
-            : $('#data-type-options').empty();
+    renderDataTypeOptionsForm: function(dataType, options) {
+        if (optionsForm = this.dataTypeOptionsForms[dataType]) {
+            $('#data-type-options').html(optionsForm);
+            /**
+             * Event "o:data-type-options-form-render"
+             *
+             * Passed parameters:
+             * - (string) The data type
+             * - (mixed) The data type options
+             * - (DOM object) The data type options form
+             */
+            $(document).trigger('o:data-type-options-form-render', [
+                dataType, options, $('#data-type-options')[0],
+            ]);
+        } else {
+            $('#data-type-options').empty();
+        }
     },
     prepareEditForm: function(prop) {
         var altLabel = prop.find('.alternate-label');
         var altComment = prop.find('.alternate-comment');
         var isRequired = prop.find('.is-required');
         var dataType = prop.find('.data-type');
+        var dataTypeOptions = prop.find('.data-type-options');
 
         $('#alternate-label').val(altLabel.val());
         $('#alternate-comment').val(altComment.val());
         $('#is-required').prop('checked', isRequired.val());
         $('#data-type').val(dataType.val());
-        this.renderDataTypeOptionsForm(dataType.val());
+        this.renderDataTypeOptionsForm(dataType.val(), dataTypeOptions.val());
 
         $('#set-changes').off().on('click', function(e) {
             altLabel.val($('#alternate-label').val());
             altComment.val($('#alternate-comment').val());
             $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
             dataType.val($('#data-type').val());
+            /**
+             * Event "o:data-type-options-form-set-changes"
+             *
+             * Passed parameters:
+             * - (string) The data type
+             * - (DOM object) The data type options form
+             * - (DOM object) The data type options hidden input
+             */
+            $(document).trigger('o:data-type-options-form-set-changes', [
+                $('#data-type').val(),
+                $('#data-type-options')[0],
+                dataTypeOptions[0]
+            ]);
 
             Omeka.closeSidebar($('#edit-sidebar'));
+        });
+
+        $('#data-type').off().on('change', function(e) {
+            propertyEdit.renderDataTypeOptionsForm(
+                $(this).find(':selected').val(),
+                dataTypeOptions.val()
+            );
         });
     },
 };
@@ -99,10 +132,6 @@ $('#properties').on('click', '.property-edit', function(e) {
     e.preventDefault();
     propertyEdit.prepareEditForm($(this).closest('.property'));
     Omeka.openSidebar($('#edit-sidebar'));
-});
-
-$('#data-type').on('change', function(e) {
-    propertyEdit.renderDataTypeOptionsForm($(this).find(':selected').val());
 });
 
 });

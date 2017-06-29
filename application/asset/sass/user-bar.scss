@@ -1,6 +1,4 @@
 @import "base";
-@import "font-awesome/variables";
-@import "font-awesome/mixins";
 
 #user-bar {
     font-family: "Lato", sans-serif;
@@ -14,8 +12,7 @@
 }
 
 #user-bar .logo:after {
-    @include fa-icon;
-    content: $fa-var-caret-right;
+    content: "\2022";
     margin: 0 $spacing-medium;
 }
 

@@ -127,8 +127,13 @@ class ResourceTemplateProperty extends AbstractEntity
         $this->isRequired = (bool) $isRequired;
     }
 
-    public function isRequired()
+    public function getIsRequired()
     {
         return (bool) $this->isRequired;
+    }
+
+    public function isRequired()
+    {
+        return $this->getIsRequired();
     }
 }

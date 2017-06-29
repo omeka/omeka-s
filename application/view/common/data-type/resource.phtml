@@ -1,5 +1,14 @@
 <?php
+use Omeka\Api\Representation\ItemRepresentation;
+
 $escape = $this->plugin('escapeHtml');
+
+// Users can select media resources as values only when editing an item, and can
+// only assign media that's assigned ot the current item and ingested.
+$mediaContentUrlOptions = ['query' => []];
+if ($resource instanceof ItemRepresentation) {
+    $mediaContentUrlOptions['query']['item_id'] = $resource->id();
+}
 ?>
 <span class="o-icon-resource label"><?php echo $this->translate('Omeka resource'); ?></span>
 <span class="default"><?php echo $this->translate('No resource selected'); ?></span>
@@ -9,3 +18,6 @@ $escape = $this->plugin('escapeHtml');
 </p>
 <a href="#item-resource-select"  class="o-icon-items button resource-select" data-sidebar-content-url="<?php echo $escape($this->url('admin/default', ['controller' => 'item', 'action' => 'sidebar-select'], false)); ?>"><?php echo $this->translate('Items'); ?></a>
 <a href="#itemset-resource-select" class="o-icon-item-sets button resource-select" data-sidebar-content-url="<?php echo $escape($this->url('admin/default', ['controller' => 'item-set', 'action' => 'sidebar-select'], false)); ?>"><?php echo $this->translate('Item sets'); ?></a>
+<?php if ($resource instanceof ItemRepresentation): ?>
+<a href="#media-resource-select" class="o-icon-media button resource-select" data-sidebar-content-url="<?php echo $escape($this->url('admin/default', ['controller' => 'media', 'action' => 'sidebar-select'], $mediaContentUrlOptions, false)); ?>"><?php echo $this->translate('Media'); ?></a>
+<?php endif; ?>

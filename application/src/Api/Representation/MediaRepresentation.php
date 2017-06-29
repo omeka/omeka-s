@@ -270,4 +270,12 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             ['force_canonical' => $canonical]
         );
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function primaryMedia()
+    {
+        return $this;
+    }
 }

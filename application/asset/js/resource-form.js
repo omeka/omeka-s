@@ -125,7 +125,7 @@
                 });
         });
 
-        $('.button.resource-select').on('click', function(e) {
+        $(document).on('click', '.button.resource-select', function(e) {
             e.preventDefault();
             var selectButton = $(this);
             var sidebar = $('#select-resource');
@@ -201,24 +201,37 @@
      * Make a new value.
      */
     var makeNewValue = function(term, valueObj, type) {
-        var field = $('.resource-values.field[data-property-term="' + term + '"]');
-        // Get the value node from the templates.
+
         if (typeof type !== 'string') {
             type = valueObj['type'];
         }
 
+        // Get the value node from the templates.
+        var value;
+        var templateValue;
         var templateSelect = $('#resource-template-select');
-        var value = $('.value.template').filter('[data-data-type="' + type + '"]');
         if (templateSelect.val()) {
-            // Get the markup defined by the resource template.
-            value = value
-                .filter('[data-resource-template-id="' + templateSelect.val() + '"]')
+            // Get the data type markup defined by the resource template.
+            templateValue = $('#data-type-templates')
+                .children('[data-resource-template-id="' + templateSelect.val() + '"]')
+                .children('.value')
+                .filter('[data-data-type="' + type + '"]')
                 .filter('[data-property-term="' + term + '"]');
+            if (templateValue.length) {
+                value = templateValue;
+            }
+        }
+        if (!value) {
+            // Get the defult data type markup.
+            value = $('#data-type-templates')
+                .children('.value')
+                .filter('[data-data-type="' + type + '"]')
         }
         value = value.clone(true);
         value.removeClass('template');
 
         // Prepare the value node.
+        var field = $('.resource-values.field[data-property-term="' + term + '"]');
         var count = field.find('.value').length;
         var namePrefix = field.data('property-term') + '[' + count + ']';
         var valueLabelID = 'property-' + field.data('property-id') + '-value-' + count + '-label';
@@ -425,15 +438,16 @@
 
         var templateSelect = $('#resource-template-select');
         if (templateSelect.val()) {
-            var dataTypeTemplates = $('.data-type-templates[data-resource-template-id="' + templateSelect.val() + '"]')
+            var dataTypeTemplates = $('#data-type-templates')
+                .children('[data-resource-template-id="' + templateSelect.val() + '"]');
             if (dataTypeTemplates.length) {
                 // Data type templates already loaded.
                 _rewritePropertyFields(changeClass);
             } else {
                 // Load data type templates.
-                $.get('/omeka-s/admin/resource-template/data-type-templates', {id: templateSelect.val()})
+                $.get(templateSelect.data('data-type-templates-url'), {id: templateSelect.val()})
                     .done(function(data) {
-                        $('#content').append(data);
+                        $('#data-type-templates').append(data);
                         _rewritePropertyFields(changeClass);
                     })
                     .fail(function(data) {

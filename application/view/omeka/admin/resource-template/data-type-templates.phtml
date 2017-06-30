@@ -1,1 +1,3 @@
-<?php echo $this->dataType()->getTemplates($resource, $resourceTemplate); ?>
+<div class="data-type-templates" data-resource-template-id="<?php echo $resourceTemplate->id(); ?>">
+    <?php echo $this->dataType()->getTemplates($resource, $resourceTemplate); ?>
+</div>

@@ -206,19 +206,17 @@
         if (typeof type !== 'string') {
             type = valueObj['type'];
         }
-        var value = $('.value.template[data-data-type="' + type + '"]').clone(true);
+
+        var templateSelect = $('#resource-template-select');
+        var value = $('.value.template').filter('[data-data-type="' + type + '"]');
+        if (templateSelect.val()) {
+            // Get the markup defined by the resource template.
+            value = value
+                .filter('[data-resource-template-id="' + templateSelect.val() + '"]')
+                .filter('[data-property-term="' + term + '"]');
+        }
+        value = value.clone(true);
         value.removeClass('template');
-
-/******************************************************************************/
-
-/**
- * Get the data type (value) template on the page that matches the passed data
- * type -and- the selected resource template. If there is no selected resource
- * template, get the default template (the one not identified by a resource
- * template ID).
- */
-
-/******************************************************************************/
 
         // Prepare the value node.
         var count = field.find('.value').length;
@@ -380,45 +378,9 @@
         properties.prepend(field);
     };
 
-    /**
-     * Rewrite all property fields following the rules defined by the selected
-     * resource template.
-     */
-    var rewritePropertyFields = function(changeClass) {
-
-        // Fieldsets may have been marked as required in a previous state.
-        $('.field').removeClass('required');
-
+    var _rewritePropertyFields = function(changeClass) {
         var templateSelect = $('#resource-template-select');
-        var templateId = templateSelect.val();
-        var fields = $('#properties .resource-values');
-        if (!templateId) {
-            // Using the default resource template, so all properties should use the default
-            // selector.
-            fields.find('div.single-selector').hide();
-            fields.find('div.default-selector').show();
-            return;
-        }
-
-/******************************************************************************/
-
-/**
- * First, fetch the value templates for the selected resource template, modified
- * according to data type options set to the property. These templates must
- * identify themselves with "data-type" and "resource-template-id" so
- * makeNewValue() can clone the right template.
- */
-$.get('/omeka-s/admin/resource-template/data-type-templates', {id: templateId})
-    .done(function(data) {
-        // @todo: Append templates to the page.
-        // @todo: Put below code block in here.
-    })
-    .fail(function(data) {});
-
-/******************************************************************************/
-
-        var url = templateSelect.data('api-base-url') + '/' + templateId;
-        return $.get(url)
+        $.get(templateSelect.data('api-base-url') + '/' + templateSelect.val())
             .done(function(data) {
                 if (changeClass) {
                     // Change the resource class.
@@ -438,7 +400,7 @@ $.get('/omeka-s/admin/resource-template/data-type-templates', {id: templateId})
                     });
                 // Property fields that are not defined by the template should
                 // use the default selector.
-                fields.each(function() {
+                $('#properties .resource-values').each(function() {
                     var propertyId = $(this).data('property-id');
                     if (templatePropertyIds.indexOf(propertyId) === -1) {
                         var field = $(this);
@@ -450,6 +412,41 @@ $.get('/omeka-s/admin/resource-template/data-type-templates', {id: templateId})
             .fail(function() {
                 console.log('Failed loading resource template from API');
             });
+    };
+
+    /**
+     * Rewrite all property fields following the rules defined by the selected
+     * resource template.
+     */
+    var rewritePropertyFields = function(changeClass) {
+
+        // Fieldsets may have been marked as required in a previous state.
+        $('.field').removeClass('required');
+
+        var templateSelect = $('#resource-template-select');
+        if (templateSelect.val()) {
+            var dataTypeTemplates = $('.data-type-templates[data-resource-template-id="' + templateSelect.val() + '"]')
+            if (dataTypeTemplates.length) {
+                // Data type templates already loaded.
+                _rewritePropertyFields(changeClass);
+            } else {
+                // Load data type templates.
+                $.get('/omeka-s/admin/resource-template/data-type-templates', {id: templateSelect.val()})
+                    .done(function(data) {
+                        $('#content').append(data);
+                        _rewritePropertyFields(changeClass);
+                    })
+                    .fail(function(data) {
+                        console.log('Failed loading data types for the selected resource template.');
+                    });
+            }
+        } else {
+            // No resource template selected.
+            var fields = $('#properties .resource-values');
+            fields.find('div.single-selector').hide();
+            fields.find('div.default-selector').show();
+        }
+
     }
 
     var makeDefaultValue = function (term, type) {

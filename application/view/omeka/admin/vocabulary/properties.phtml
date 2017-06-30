@@ -38,7 +38,11 @@ $escape = $this->plugin('escapeHtml');
                 </ul>
             </td>
             <td><?php echo $escape($this->translate($property->term())); ?></td>
-            <td><?php echo $this->hyperlink($property->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ["has_property[{$property->id()}]" => 1]])); ?></td>
+            <td><?php echo $this->hyperlink($property->itemCount(), $this->url(
+                'admin/default',
+                ['controller' => 'item', 'action' => 'browse'],
+                ['query' => ['property' =>[['joiner' => 'and', 'property' => $property->id(), 'type' => 'ex']]]]
+            )); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

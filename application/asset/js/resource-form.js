@@ -119,7 +119,6 @@
                         value = makeNewValue(field.data('property-term'), null, 'resource');
                         field.find('.values').append(value);
                     }
-                    console.log(value[0]);
                     var valueObj = $(this).data('resource-values');
                     var namePrefix = value.data('name-prefix');
                     $(document).trigger('o:prepare-value', ['resource', value, valueObj, namePrefix]);
@@ -209,6 +208,17 @@
         }
         var value = $('.value.template[data-data-type="' + type + '"]').clone(true);
         value.removeClass('template');
+
+/******************************************************************************/
+
+/**
+ * Get the data type (value) template on the page that matches the passed data
+ * type -and- the selected resource template. If there is no selected resource
+ * template, get the default template (the one not identified by a resource
+ * template ID).
+ */
+
+/******************************************************************************/
 
         // Prepare the value node.
         var count = field.find('.value').length;
@@ -389,6 +399,24 @@
             fields.find('div.default-selector').show();
             return;
         }
+
+/******************************************************************************/
+
+/**
+ * First, fetch the value templates for the selected resource template, modified
+ * according to data type options set to the property. These templates must
+ * identify themselves with "data-type" and "resource-template-id" so
+ * makeNewValue() can clone the right template.
+ */
+$.get('/omeka-s/admin/resource-template/data-type-templates', {id: templateId})
+    .done(function(data) {
+        // @todo: Append templates to the page.
+        // @todo: Put below code block in here.
+    })
+    .fail(function(data) {});
+
+/******************************************************************************/
+
         var url = templateSelect.data('api-base-url') + '/' + templateId;
         return $.get(url)
             .done(function(data) {

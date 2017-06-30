@@ -2,6 +2,8 @@
 namespace Omeka\View\Helper;
 
 use Omeka\DataType\Manager as DataTypeManager;
+use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
+use Omeka\Api\Representation\ResourceTemplateRepresentation;
 use Zend\Form\Element\Select;
 use Zend\View\Helper\AbstractHelper;
 
@@ -56,22 +58,59 @@ class DataType extends AbstractHelper
         return $optionsForms;
     }
 
-    public function getTemplates()
-    {
+    /**
+     * Get the template markup for all data types.
+     *
+     * @param AbstractResourceEntityRepresentation $resource
+     * @param ResourceTemplateRepresentation $resourceTemplate
+     * @return string
+     */
+    public function getTemplates(
+        AbstractResourceEntityRepresentation $resource = null,
+        ResourceTemplateRepresentation $resourceTemplate = null
+    ) {
         $view = $this->getView();
-        $templates = '';
-        foreach ($this->dataTypes as $dataType) {
-            $templates .= $view->partial('common/data-type-wrapper', [
-                'dataType' => $dataType,
-                'resource' => isset($view->resource) ? $view->resource : null,
-            ]);
+        $templateVars = [];
+        if ($resourceTemplate) {
+            // Get markup defined by the passed resource template.
+            foreach ($resourceTemplate->resourceTemplateProperties() as $resTemProp) {
+                if ($resTemProp->dataType()) {
+                    $templateVars[] = [
+                        'resourceTemplateProperty' => $resTemProp,
+                        'dataType' => $resTemProp->dataType(),
+                    ];
+                }
+            }
+        } else {
+            // Get markup for the default data types.
+            foreach (['literal', 'uri', 'resource'] as $dataType) {
+                $templateVars[] = [
+                    'resourceTemplateProperty' => null,
+                    'dataType' => $dataType,
+                ];
+            }
         }
-        return $templates;
+        $templates = [];
+        foreach ($templateVars as $templateVar) {
+            $templateVar['resource'] = $resource;
+            $templateVar['resourceTemplate'] = $resourceTemplate;
+            $templates[] = $view->partial('common/data-type-wrapper', $templateVar);
+        }
+        return implode(PHP_EOL, $templates);
     }
 
-    public function getTemplate($dataType)
-    {
-        return $this->manager->get($dataType)->form($this->getView());
+    /**
+     * Get the template markup for a data type.
+     *
+     * @param AbstractResourceEntityRepresentation $resource
+     * @param mixed $options
+     */
+    public function getTemplate(
+        $dataType,
+        AbstractResourceEntityRepresentation $resource = null,
+        $options = null
+    ) {
+        return $this->manager->get($dataType)->form($this->getView(), $resource, $options);
     }
 
     /**

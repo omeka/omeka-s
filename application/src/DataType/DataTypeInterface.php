@@ -3,6 +3,7 @@ namespace Omeka\DataType;
 
 use Omeka\Entity\Value;
 use Omeka\Api\Adapter\AbstractEntityAdapter;
+use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\Api\Representation\ValueRepresentation;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -55,9 +56,11 @@ interface DataTypeInterface
      * Get the template markup used to render the value in the resource form.
      *
      * @param PhpRenderer $view
+     * @param AbstractResourceEntityRepresentation $resource
+     * @param mixed $options
      * @return string
      */
-    public function form(PhpRenderer $view);
+    public function form(PhpRenderer $view, AbstractResourceEntityRepresentation $resource = null, $options = null);
 
     /**
      * Is this value object valid?

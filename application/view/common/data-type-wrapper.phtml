@@ -1,7 +1,20 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+
+$resourceTemplateId = null;
+$propertyTerm = null;
+$dataTypeOptions = null;
+if (isset($this->resourceTemplate)) {
+    $resourceTemplateId = $this->resourceTemplate->id();
+    $propertyTerm = $this->resourceTemplateProperty->property()->term();
+    $dataTypeOptions = $this->resourceTemplateProperty->dataTypeOptions();
+}
 ?>
-<div class="template value" data-data-type="<?php echo $escape($this->dataType); ?>" role="group">
+<div class="value template" role="group"
+    data-data-type="<?php echo $escape($this->dataType); ?>"
+    data-resource-template-id="<?php echo $escape($resourceTemplateId); ?>"
+    data-property-term="<?php echo $escape($propertyTerm); ?>"
+>
     <input type="hidden" class="property">
     <input type="hidden" class="type">
     <div class="input-header">
@@ -11,5 +24,5 @@ $escape = $this->plugin('escapeHtml');
             <li><a href="#" class="o-icon-undo restore-value" title="<?php echo $escape($this->translate('Restore value')); ?>" aria-label="<?php echo $escape($this->translate('Restore value')); ?>"></a></li>
         </ul>
     </div>
-    <div class="input-body"><?php echo $this->dataType()->getTemplate($dataType); ?></div>
+    <div class="input-body"><?php echo $this->dataType()->getTemplate($dataType, $this->resource, $dataTypeOptions); ?></div>
 </div>

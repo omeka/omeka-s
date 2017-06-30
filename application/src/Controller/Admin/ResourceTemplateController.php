@@ -526,4 +526,16 @@ class ResourceTemplateController extends AbstractActionController
         $view->setTerminal(true);
         return $view;
     }
+
+    public function dataTypeTemplatesAction()
+    {
+        $id = $this->params()->fromQuery('id');
+        $resourceTemplate = $this->api()->read('resource_templates', $id)->getContent();
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('resource', null);
+        $view->setVariable('resourceTemplate', $resourceTemplate);
+        return $view;
+    }
 }

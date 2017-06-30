@@ -9,6 +9,10 @@ $mediaContentUrlOptions = ['query' => []];
 if ($resource instanceof ItemRepresentation) {
     $mediaContentUrlOptions['query']['item_id'] = $resource->id();
 }
+
+$itemButton = isset($options['item']) ? (bool) $options['item'] : true;
+$itemSetButton = isset($options['itemSet']) ? (bool) $options['itemSet'] : true;
+$mediaButton = isset($options['media']) ? (bool) $options['media'] : true;
 ?>
 <span class="o-icon-resource label"><?php echo $this->translate('Omeka resource'); ?></span>
 <span class="default"><?php echo $this->translate('No resource selected'); ?></span>
@@ -16,8 +20,15 @@ if ($resource instanceof ItemRepresentation) {
     <span class="o-title"></span>
     <input type="hidden" class="value to-require" data-value-key="value_resource_id">
 </p>
+
+<?php if ($itemButton): ?>
 <a href="#item-resource-select"  class="o-icon-items button resource-select" data-sidebar-content-url="<?php echo $escape($this->url('admin/default', ['controller' => 'item', 'action' => 'sidebar-select'], false)); ?>"><?php echo $this->translate('Items'); ?></a>
+<?php endif; ?>
+
+<?php if ($itemSetButton): ?>
 <a href="#itemset-resource-select" class="o-icon-item-sets button resource-select" data-sidebar-content-url="<?php echo $escape($this->url('admin/default', ['controller' => 'item-set', 'action' => 'sidebar-select'], false)); ?>"><?php echo $this->translate('Item sets'); ?></a>
-<?php if ($resource instanceof ItemRepresentation): ?>
+<?php endif; ?>
+
+<?php if ($mediaButton && $resource instanceof ItemRepresentation): ?>
 <a href="#media-resource-select" class="o-icon-media button resource-select" data-sidebar-content-url="<?php echo $escape($this->url('admin/default', ['controller' => 'media', 'action' => 'sidebar-select'], $mediaContentUrlOptions, false)); ?>"><?php echo $this->translate('Media'); ?></a>
 <?php endif; ?>

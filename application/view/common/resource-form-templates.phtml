@@ -3,7 +3,7 @@ $escape = $this->plugin('escapeHtml');
 $this->dataType()->prepareForm();
 ?>
 
-<div class="resource-values field template" role="group">
+<div class="field resource-values template" role="group">
     <div class="field-meta">
         <div class="field-label"></div>
         <a href="#" class="collapse" aria-label="<?php echo $escape($this->translate('Collapse')); ?>"></a>
@@ -29,4 +29,4 @@ $this->dataType()->prepareForm();
     </div>
 </div>
 
-<?php echo $this->dataType()->getTemplates(); ?>
+<?php echo $this->dataType()->getTemplates($this->resource); ?>

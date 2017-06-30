@@ -3,6 +3,7 @@ namespace Omeka\DataType;
 
 use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Exception;
+use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Value;
 use Zend\View\Renderer\PhpRenderer;
@@ -29,9 +30,12 @@ class Resource extends AbstractDataType
         return $view->partial('common/data-type/resource-options');
     }
 
-    public function form(PhpRenderer $view)
+    public function form(PhpRenderer $view, AbstractResourceEntityRepresentation $resource = null, $options = null)
     {
-        return $view->partial('common/data-type/resource');
+        return $view->partial('common/data-type/resource', [
+            'resource' => $resource,
+            'options' => $options,
+        ]);
     }
 
     public function isValid(array $valueObject)

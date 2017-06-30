@@ -2,6 +2,7 @@
 namespace Omeka\DataType;
 
 use Omeka\Api\Adapter\AbstractEntityAdapter;
+use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Value;
 use Zend\View\Renderer\PhpRenderer;
@@ -18,9 +19,12 @@ class Literal extends AbstractDataType
         return 'Text';
     }
 
-    public function form(PhpRenderer $view)
+    public function form(PhpRenderer $view, AbstractResourceEntityRepresentation $resource = null, $options = null)
     {
-        return $view->partial('common/data-type/literal');
+        return $view->partial('common/data-type/literal', [
+            'resource' => $resource,
+            'options' => $options,
+        ]);
     }
 
     public function isValid(array $valueObject)

@@ -1,6 +1,10 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 $this->dataType()->prepareForm();
+$resourceTemplate = null;
+if ($this->resource) {
+    $resourceTemplate = $this->resource->resourceTemplate();
+}
 ?>
 
 <div class="field resource-values template" role="group">
@@ -31,4 +35,9 @@ $this->dataType()->prepareForm();
 
 <div id="data-type-templates">
     <?php echo $this->dataType()->getTemplates($this->resource); ?>
+    <?php if ($resourceTemplate): ?>
+    <div data-resource-template-id="<?php echo $resourceTemplate->id(); ?>">
+        <?php echo $this->dataType()->getTemplates($this->resource, $resourceTemplate); ?>
+    </div>
+    <?php endif; ?>
 </div>

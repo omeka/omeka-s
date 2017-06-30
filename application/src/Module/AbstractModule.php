@@ -68,10 +68,9 @@ abstract class AbstractModule implements ConfigProviderInterface
     /**
      * Get this module's configuration form.
      *
-     * @param PhpRenderer $renderer
-     * @return string
+     * @return form
      */
-    public function getConfigForm(PhpRenderer $renderer)
+    public function getConfigForm()
     {
     }
 

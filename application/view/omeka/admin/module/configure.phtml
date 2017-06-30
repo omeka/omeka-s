@@ -1,12 +1,13 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'modules configure');
+$configForm->prepare();
 ?>
 
 <?php echo $this->pageTitle(sprintf($this->translate('Configure “%s”'), $module->getName())); ?>
 
-<form method="post">
+<?php echo $this->form()->openTag($configForm); ?>
 <div id="page-actions">
     <button><?php echo $this->translate('Submit'); ?></button>
 </div>
-<?php echo $configForm; ?>
-</form>
+<?php echo $this->form()->render($configForm); ?>
+<?php echo $this->form()->closeTag(); ?>

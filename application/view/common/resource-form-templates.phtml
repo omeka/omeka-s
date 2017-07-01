@@ -36,7 +36,9 @@ if ($this->resource) {
 <div id="data-type-templates">
     <?php echo $this->dataType()->getTemplates($this->resource); ?>
     <?php if ($resourceTemplate): ?>
-    <div data-resource-template-id="<?php echo $resourceTemplate->id(); ?>">
+    <div
+        data-resource-template-id="<?php echo $resourceTemplate->id(); ?>"
+        data-resource-template-data="<?php echo $escape(json_encode($resourceTemplate)); ?>">
         <?php echo $this->dataType()->getTemplates($this->resource, $resourceTemplate); ?>
     </div>
     <?php endif; ?>

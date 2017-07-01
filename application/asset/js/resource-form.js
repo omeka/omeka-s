@@ -393,38 +393,37 @@
 
     var _rewritePropertyFields = function(changeClass) {
         var templateSelect = $('#resource-template-select');
-        $.get(templateSelect.data('api-base-url') + '/' + templateSelect.val())
-            .done(function(data) {
-                if (changeClass) {
-                    // Change the resource class.
-                    var classSelect = $('#resource-class-select');
-                    if (data['o:resource_class'] && classSelect.val() === '') {
-                        classSelect.val(data['o:resource_class']['o:id']);
-                    }
-                }
+        var data = $('#data-type-templates')
+            .children('[data-resource-template-id="' + templateSelect.val() + '"]')
+            .attr('data-resource-template-data');
+        data = JSON.parse(data);
 
-                // Rewrite every property field defined by the template. We
-                // reverse the order so property fields on page that are not
-                // defined by the template are ultimately appended.
-                var templatePropertyIds = data['o:resource_template_property']
-                    .reverse().map(function(templateProperty) {
-                        rewritePropertyField(templateProperty);
-                        return templateProperty['o:property']['o:id'];
-                    });
-                // Property fields that are not defined by the template should
-                // use the default selector.
-                $('#properties .resource-values').each(function() {
-                    var propertyId = $(this).data('property-id');
-                    if (templatePropertyIds.indexOf(propertyId) === -1) {
-                        var field = $(this);
-                        field.find('div.single-selector').hide();
-                        field.find('div.default-selector').show();
-                    }
-                });
-            })
-            .fail(function() {
-                console.log('Failed loading resource template from API');
+        if (changeClass) {
+            // Change the resource class.
+            var classSelect = $('#resource-class-select');
+            if (data['o:resource_class'] && classSelect.val() === '') {
+                classSelect.val(data['o:resource_class']['o:id']);
+            }
+        }
+
+        // Rewrite every property field defined by the template. We
+        // reverse the order so property fields on page that are not
+        // defined by the template are ultimately appended.
+        var templatePropertyIds = data['o:resource_template_property']
+            .reverse().map(function(templateProperty) {
+                rewritePropertyField(templateProperty);
+                return templateProperty['o:property']['o:id'];
             });
+        // Property fields that are not defined by the template should
+        // use the default selector.
+        $('#properties .resource-values').each(function() {
+            var propertyId = $(this).data('property-id');
+            if (templatePropertyIds.indexOf(propertyId) === -1) {
+                var field = $(this);
+                field.find('div.single-selector').hide();
+                field.find('div.default-selector').show();
+            }
+        });
     };
 
     /**

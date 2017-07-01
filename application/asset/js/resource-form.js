@@ -332,23 +332,26 @@
     };
 
     /**
-     * Rewrite a property field following the rules defined by the selected
-     * resource template.
+     * Rewrite one property field. Called only by _rewritePropertyFields().
      */
-    var rewritePropertyField = function(template) {
-        var properties = $('div#properties');
-        var propertyId = template['o:property']['o:id'];
+    var _rewritePropertyField = function(templateProperty) {
+        var properties = $('#properties');
+        var propertyId = templateProperty['o:property']['o:id'];
         var field = properties.find('[data-property-id="' + propertyId + '"]');
 
         if (field.length == 0) {
             field = makeNewField(propertyId);
         }
 
-        if (template['o:data_type']) {
+        var singleSelector = field.find('.single-selector');
+        var defaultSelector = field.find('.default-selector');
+        var originalLabel = field.find('.field-label');
+        var originalDescription = field.find('.field-description');
+
+        if (templateProperty['o:data_type']) {
             // Use the single selector if the property has a data type.
-            field.find('div.default-selector').hide();
-            var singleSelector = field.find('div.single-selector');
-            singleSelector.find('a.add-value.button').data('type', template['o:data_type'])
+            defaultSelector.hide();
+            singleSelector.find('a.add-value.button').data('type', templateProperty['o:data_type'])
             singleSelector.show();
 
             // Remove any unchanged default values for this property so we start fresh.
@@ -357,41 +360,44 @@
             // Add an empty value if none already exist in the property.
             if (!field.find('.value').length) {
                 field.find('.values').append(makeNewValue(
-                    field.data('property-term'), null, template['o:data_type']
+                    field.data('property-term'), null, templateProperty['o:data_type']
                 ));
             }
         } else {
             // Use the default selector if the property has no data type.
-            field.find('div.single-selector').hide();
-            field.find('div.default-selector').show();
+            singleSelector.hide();
+            defaultSelector.show();
         }
 
-        var originalLabel = field.find('.field-label');
-        if (template['o:alternate_label']) {
-            var altLabel = originalLabel.clone();
-            altLabel.addClass('alternate');
-            altLabel.text(template['o:alternate_label']);
-            altLabel.insertAfter(originalLabel);
+        if (templateProperty['o:alternate_label']) {
+            originalLabel.clone()
+                .addClass('alternate')
+                .text(templateProperty['o:alternate_label'])
+                .insertAfter(originalLabel)
             originalLabel.hide();
         }
 
-        var originalDescription = field.find('.field-description');
-        if (template['o:alternate_comment']) {
-            var altDescription = originalDescription.clone();
-            altDescription.addClass('alternate');
-            altDescription.text(template['o:alternate_comment']);
-            altDescription.insertAfter(originalDescription);
+        if (templateProperty['o:alternate_comment']) {
+            originalDescription.clone()
+                .addClass('alternate')
+                .text(templateProperty['o:alternate_comment'])
+                .insertAfter(originalDescription);
             originalDescription.hide();
         }
 
-        if (template['o:is_required']) {
+        if (templateProperty['o:is_required']) {
             field.addClass('required');
         }
 
         properties.prepend(field);
     };
 
+    /**
+     * Rewrite all property fields. Called only by rewritePropertyFields().
+     */
     var _rewritePropertyFields = function() {
+
+        // Get the resource template data.
         var templateSelect = $('#resource-template-select');
         var data = $('#data-type-templates')
             .children('[data-resource-template-id="' + templateSelect.val() + '"]')
@@ -405,16 +411,17 @@
             classSelect.trigger('chosen:updated');
         }
 
-        // Rewrite every property field defined by the template. We
-        // reverse the order so property fields on page that are not
-        // defined by the template are ultimately appended.
+        // Rewrite every property field defined by the template. We reverse the
+        // order so property fields on page that are not defined by the template
+        // are ultimately appended.
         var templatePropertyIds = data['o:resource_template_property']
             .reverse().map(function(templateProperty) {
-                rewritePropertyField(templateProperty);
+                _rewritePropertyField(templateProperty);
                 return templateProperty['o:property']['o:id'];
             });
-        // Property fields that are not defined by the template should
-        // use the default selector.
+
+        // Property fields that are not defined by the template should use the
+        // default selector.
         $('#properties .resource-values').each(function() {
             var propertyId = $(this).data('property-id');
             if (templatePropertyIds.indexOf(propertyId) === -1) {
@@ -426,7 +433,7 @@
     };
 
     /**
-     * Rewrite all property fields following the rules defined by the selected
+     * Rewrite all property fields according to the criteria defined by the selected
      * resource template.
      */
     var rewritePropertyFields = function() {
@@ -436,6 +443,7 @@
 
         var templateSelect = $('#resource-template-select');
         if (templateSelect.val()) {
+            // A resource template is selected. Get its data type templates.
             var dataTypeTemplates = $('#data-type-templates')
                 .children('[data-resource-template-id="' + templateSelect.val() + '"]');
             if (dataTypeTemplates.length) {
@@ -449,7 +457,7 @@
                         _rewritePropertyFields();
                     })
                     .fail(function(data) {
-                        console.log('Failed loading data types for the selected resource template.');
+                        console.log('Failed loading data type templates for the selected resource template.');
                     });
             }
         } else {
@@ -458,7 +466,6 @@
             fields.find('div.single-selector').hide();
             fields.find('div.default-selector').show();
         }
-
     }
 
     var makeDefaultValue = function (term, type) {

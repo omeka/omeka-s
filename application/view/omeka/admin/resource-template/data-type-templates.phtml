@@ -1,5 +1,5 @@
 <div
     data-resource-template-id="<?php echo $resourceTemplate->id(); ?>"
-    data-resource-template-data="<?php echo $escape(json_encode($resourceTemplate)); ?>">
+    data-resource-template-data="<?php echo $this->escapeHtml(json_encode($resourceTemplate)); ?>">
     <?php echo $this->dataType()->getTemplates($resource, $resourceTemplate); ?>
 </div>

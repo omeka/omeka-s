@@ -19,7 +19,7 @@
             // Restore the original property label and comment.
             $('.alternate').remove();
             $('.field-label, .field-description').show();
-            rewritePropertyFields(true);
+            rewritePropertyFields();
         });
 
         $('a.value-language:not(.active)').on('click', function(e) {
@@ -391,19 +391,18 @@
         properties.prepend(field);
     };
 
-    var _rewritePropertyFields = function(changeClass) {
+    var _rewritePropertyFields = function() {
         var templateSelect = $('#resource-template-select');
         var data = $('#data-type-templates')
             .children('[data-resource-template-id="' + templateSelect.val() + '"]')
             .attr('data-resource-template-data');
         data = JSON.parse(data);
 
-        if (changeClass) {
-            // Change the resource class.
-            var classSelect = $('#resource-class-select');
-            if (data['o:resource_class'] && classSelect.val() === '') {
-                classSelect.val(data['o:resource_class']['o:id']);
-            }
+        // Change the resource class.
+        var classSelect = $('#resource-class-select');
+        if (data['o:resource_class'] && classSelect.val() === '') {
+            classSelect.val(data['o:resource_class']['o:id']);
+            classSelect.trigger('chosen:updated');
         }
 
         // Rewrite every property field defined by the template. We
@@ -430,7 +429,7 @@
      * Rewrite all property fields following the rules defined by the selected
      * resource template.
      */
-    var rewritePropertyFields = function(changeClass) {
+    var rewritePropertyFields = function() {
 
         // Fieldsets may have been marked as required in a previous state.
         $('.field').removeClass('required');
@@ -441,13 +440,13 @@
                 .children('[data-resource-template-id="' + templateSelect.val() + '"]');
             if (dataTypeTemplates.length) {
                 // Data type templates already loaded.
-                _rewritePropertyFields(changeClass);
+                _rewritePropertyFields();
             } else {
                 // Load data type templates.
                 $.get(templateSelect.data('data-type-templates-url'), {id: templateSelect.val()})
                     .done(function(data) {
                         $('#data-type-templates').append(data);
-                        _rewritePropertyFields(changeClass);
+                        _rewritePropertyFields();
                     })
                     .fail(function(data) {
                         console.log('Failed loading data types for the selected resource template.');
@@ -488,7 +487,7 @@
             });
         }
 
-        $.when(rewritePropertyFields(false)).done(function () {
+        $.when(rewritePropertyFields()).done(function () {
             $('#properties').closest('form').trigger('o:form-loaded');
         });
 

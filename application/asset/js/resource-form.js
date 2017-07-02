@@ -451,12 +451,13 @@
                 _rewritePropertyFields();
             } else {
                 // Load data type templates.
-                $.get(templateSelect.data('data-type-templates-url'), {id: templateSelect.val()})
-                    .done(function(data) {
+                $.get(templateSelect.data('data-type-templates-url'), {
+                        resource_template_id: templateSelect.val(),
+                        resource_id: null,
+                    }).done(function(data) {
                         $('#data-type-templates').append(data);
                         _rewritePropertyFields();
-                    })
-                    .fail(function(data) {
+                    }).fail(function(data) {
                         console.log('Failed loading data type templates for the selected resource template.');
                     });
             }

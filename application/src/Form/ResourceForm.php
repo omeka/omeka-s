@@ -28,9 +28,6 @@ class ResourceForm extends Form
                 'id' => 'resource-template-select',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a template', // @translate
-                'data-api-base-url' => $urlHelper('api/default', [
-                    'resource' => 'resource_templates',
-                ]),
                 'data-data-type-templates-url' => $urlHelper('admin/default', [
                     'controller' => 'resource-template',
                     'action' => 'data-type-templates',

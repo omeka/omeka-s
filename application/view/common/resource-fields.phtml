@@ -10,14 +10,17 @@ if (isset($resource)) {
     }
 }
 ?>
-<fieldset id="resource-values" class="section active" aria-labelledby="resource-values-label">
+<fieldset id="resource-values"
+    class="section active"
+    aria-labelledby="resource-values-label"
+    data-resource-id="<?php echo isset($resource) ? $resource->id() : ''; ?>">
     <div class="non-properties">
         <?php if ($resourceTemplateSelect->getValueOptions()): ?>
         <?php echo $this->formRow($resourceTemplateSelect); ?>
         <?php endif; ?>
         <?php echo $this->formRow($resourceClassSelect); ?>
     </div>
-    <div id='properties'></div>
+    <div id="properties"></div>
     <?php echo $this->propertySelector(); ?>
     <button id="property-selector-button" class="mobile-only" data-watch-target="#properties"><?php echo $this->translate('Add property'); ?></button>
     <?php echo $this->partial('common/resource-select-sidebar'); ?>

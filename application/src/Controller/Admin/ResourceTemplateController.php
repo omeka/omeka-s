@@ -533,15 +533,16 @@ class ResourceTemplateController extends AbstractActionController
             'resource_templates',
             $this->params()->fromQuery('resource_template_id')
         )->getContent();
-        //~ $resource = $this->api()->read(
-            //~ 'resources',
-            //~ $this->params()->fromQuery('resource_id')
-        //~ )->getContent();
+
+        $resource = null;
+        if ($resourceId = $this->params()->fromQuery('resource_id')) {
+            $resource = $this->api()->read('resources', $resourceId)->getContent();
+        }
 
         $view = new ViewModel;
         $view->setTerminal(true);
-        $view->setVariable('resource', null);
         $view->setVariable('resourceTemplate', $resourceTemplate);
+        $view->setVariable('resource', $resource);
         return $view;
     }
 }

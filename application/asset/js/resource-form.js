@@ -453,7 +453,7 @@
                 // Load data type templates.
                 $.get(templateSelect.data('data-type-templates-url'), {
                         resource_template_id: templateSelect.val(),
-                        resource_id: null,
+                        resource_id: $('#resource-values').data('resource-id'),
                     }).done(function(data) {
                         $('#data-type-templates').append(data);
                         _rewritePropertyFields();

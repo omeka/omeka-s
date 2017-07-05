@@ -28,7 +28,12 @@ class PropertyRepresentation extends AbstractVocabularyMemberRepresentation
     {
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
             ->search('items', [
-                'has_property' => [$this->id() => true],
+                'property' => [
+                    [
+                        'property' => $this->id(),
+                        'type' => 'ex',
+                    ],
+                ],
                 'limit' => 0,
             ]);
         return $response->getTotalResults();

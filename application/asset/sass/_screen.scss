@@ -1107,9 +1107,14 @@ div[role="main"] {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    word-break: break-word;
 
     & > * {
         flex: 1;
+    }
+
+    & > .actions {
+        flex: 0;
     }
 }
 

@@ -1130,9 +1130,10 @@ div[role="main"] {
     flex-grow: 0;
 }
 
-span.indent {
+.browse .tablesaw-cell-content > span.indent {
     display: inline-block;
     vertical-align: top;
+    flex: 0;
 }
 
 .actions {

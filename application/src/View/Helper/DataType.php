@@ -96,7 +96,7 @@ class DataType extends AbstractHelper
             $templateVar['resourceTemplate'] = $resourceTemplate;
             $templates[] = $view->partial('common/data-type-wrapper', $templateVar);
         }
-        return implode(PHP_EOL, $templates);
+        return implode("\n", $templates);
     }
 
     /**

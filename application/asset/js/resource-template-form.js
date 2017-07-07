@@ -101,7 +101,8 @@ var propertyEdit = {
         $('#data-type').val(dataType.val());
         this.renderDataTypeOptionsForm(dataType.val(), dataTypeOptions.val());
 
-        $('#set-changes').off().on('click', function(e) {
+        $('#set-changes').off('click.setchanges').on('click.setchanges', function(e) {
+            console.log('#set-changes click');
             altLabel.val($('#alternate-label').val());
             altComment.val($('#alternate-comment').val());
             $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
@@ -123,7 +124,7 @@ var propertyEdit = {
             Omeka.closeSidebar($('#edit-sidebar'));
         });
 
-        $('#data-type').off().on('change', function(e) {
+        $('#data-type').off('change.selectdatatype').on('change.selectdatatype', function(e) {
             dataTypeOptions.val(null);
             propertyEdit.renderDataTypeOptionsForm(
                 $(this).find(':selected').val(),

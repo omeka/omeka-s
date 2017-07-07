@@ -20,7 +20,7 @@
             });
         }
 
-        $.when(rewritePropertyFields()).done(function () {
+        $.when(applyResourceTemplate()).done(function () {
             $('#properties').closest('form').trigger('o:form-loaded');
         });
 
@@ -45,10 +45,9 @@
     };
 
     /**
-     * Rewrite all property fields according to the criteria defined by the
-     * selected resource template.
+     * Apply a resource template to the form.
      */
-    var rewritePropertyFields = function() {
+    var applyResourceTemplate = function() {
 
         // Fieldsets may have been marked as required in a previous state.
         $('.field').removeClass('required');
@@ -60,7 +59,7 @@
                 .children('[data-resource-template-id="' + templateSelect.val() + '"]');
             if (dataTypeTemplates.length) {
                 // Data type templates already loaded.
-                _rewritePropertyFields();
+                rewritePropertyFields();
             } else {
                 // Load data type templates.
                 $.get(templateSelect.data('data-type-templates-url'), {
@@ -68,7 +67,7 @@
                         resource_id: $('#resource-values').data('resource-id'),
                     }).done(function(data) {
                         $('#data-type-templates').append(data);
-                        _rewritePropertyFields();
+                        rewritePropertyFields();
                     }).fail(function(data) {
                         console.log('Failed loading data type templates for the selected resource template.');
                     });
@@ -82,9 +81,10 @@
     }
 
     /**
-     * Rewrite all property fields. Called by rewritePropertyFields().
+     * Rewrite all property fields according to the criteria defined by the
+     * selected resource template. Called by applyResourceTemplate().
      */
-    var _rewritePropertyFields = function() {
+    var rewritePropertyFields = function() {
 
         // Get the resource template data.
         var templateSelect = $('#resource-template-select');
@@ -105,7 +105,7 @@
         // are ultimately appended.
         var templatePropertyIds = data['o:resource_template_property']
             .reverse().map(function(templateProperty) {
-                _rewritePropertyField(templateProperty);
+                rewritePropertyField(templateProperty);
                 return templateProperty['o:property']['o:id'];
             });
 
@@ -122,9 +122,9 @@
     };
 
     /**
-     * Rewrite one property field. Called by _rewritePropertyFields().
+     * Rewrite one property field. Called by rewritePropertyFields().
      */
-    var _rewritePropertyField = function(templateProperty) {
+    var rewritePropertyField = function(templateProperty) {
         var properties = $('#properties');
         var propertyId = templateProperty['o:property']['o:id'];
         var field = properties.find('[data-property-id="' + propertyId + '"]');
@@ -313,7 +313,7 @@
             // Restore the original property label and comment.
             $('.alternate').remove();
             $('.field-label, .field-description').show();
-            rewritePropertyFields();
+            applyResourceTemplate();
         });
 
         $('a.value-language:not(.active)').on('click', function(e) {

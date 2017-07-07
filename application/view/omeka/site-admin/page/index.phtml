@@ -1,9 +1,9 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'site page browse');
+$this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
 $escape = $this->plugin('escapeHtml');
 ?>
 
-<?php echo $this->pageTitle($this->translate('Pages')); ?>
+<?php echo $this->pageTitle($this->translate('Pages'), 1, $this->translate('Sites')); ?>
 
 <div id="page-actions">
     <?php if ($site->userIsAllowed('add-page')): ?>

@@ -7,7 +7,7 @@ $sectionNavs = [
 ];
 ?>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Media: “%s”'), $media->displayTitle())); ?>
+<?php echo $this->pageTitle($media->displayTitle(), 1, $this->translate('Media')); ?>
 
 <div id="page-actions">
     <?php echo $media->link($this->translate('Edit media'), 'edit', ['class' => 'button']); ?>

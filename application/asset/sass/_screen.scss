@@ -686,7 +686,7 @@ div[role="main"] > h1:first-of-type {
     background-color: #fff;
     font-size: 1.5 * $base-font-size;
     position: fixed;
-    padding: 0 30% 0 gutter();
+    padding: (.5 * $spacing-small) 30% (.5 * $spacing-small) gutter();
     z-index: 3;
     top: 0;
     right: 0;
@@ -694,8 +694,46 @@ div[role="main"] > h1:first-of-type {
     height: 2 * $spacing-large;
     border-bottom: 1px solid $border-gray;
     overflow: hidden;
+    line-height: 1.5 * $base-line-height;
+}
+
+div[role="main"] > h1:first-of-type .title {
     text-overflow: ellipsis;
     white-space: nowrap;
+    max-width: 65%;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.subhead {
+    text-transform: uppercase;
+    font-size: .875 * $base-font-size;
+    padding: 0 $spacing-small;
+    background-color: #eee;
+    line-height: 1.5 * $base-line-height;
+    vertical-align: middle;
+    margin: 0 $spacing-medium 0 0;
+    font-weight: normal;
+    display: inline-block;
+}
+
+.subhead:before {
+    font-family: "FontAwesome";
+    display: inline-block;
+    margin-right: $spacing-small;
+    font-size: $base-font-size;
+    vertical-align: top;
+}
+
+.action {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.action:before {
+    content:"\00b7";
+    margin: 0 $spacing-medium;
 }
 
 /* @end */
@@ -864,43 +902,53 @@ nav.pagination + *:not(.sorting) {
         width: $spacing-large;
     }
 
-    header nav .items:before {
+    header nav .items:before,
+    .items .subhead:before {
         content: $fa-var-cube;
     }
 
-    header nav .media:before {
+    header nav .media:before,
+    .media .subhead:before {
         content: $fa-var-image;
     }
 
-    header nav .item-sets:before {
+    header nav .item-sets:before,
+    .item-sets .subhead:before {
         content: $fa-var-cubes;
     }
 
-    header nav .vocabularies:before {
+    header nav .vocabularies:before,
+    .vocabularies .subhead:before {
         content: $fa-var-book;
     }
 
-    header nav .resource-templates:before {
+    header nav .resource-templates:before,
+    .resource-templates .subhead:before {
         content: $fa-var-pencil-square;
     }
 
-    header nav .users:before {
+    header nav .users:before,
+    .users .subhead:before {
         content: $fa-var-user;
     }
 
-    header nav .modules:before {
+    header nav .modules:before,
+    .modules .subhead:before {
         content: $fa-var-plus-square;
     }
 
-    header nav .jobs:before {
+    header nav .jobs:before,
+    .jobs .subhead:before {
         content: $fa-var-tasks;
     }
 
-    header nav .sites:before {
+    header nav .sites:before,
+    .sites .subhead:before {
         content: $fa-var-laptop;
     }
 
-    header nav .settings:before {
+    header nav .settings:before,
+    .settings .subhead:before {
         content: $fa-var-gears;
     }
 
@@ -958,12 +1006,13 @@ nav.pagination + *:not(.sorting) {
         font-size: $base-font-size;
     }
 
-    #menu .pages:before {
+    #menu .pages:before,
+    .site-pages .subhead:before {
         content: $fa-var-file-o;
     }
 
     #menu a.navigation:before {
-        content: $fa-var-navicon;
+        content: $fa-var-sitemap;
     }
 
     #menu a.public {
@@ -974,15 +1023,16 @@ nav.pagination + *:not(.sorting) {
         margin-top: -(1.625 * $spacing-large);
     }
 
-    #menu a.item-pool:before {
-        content: $fa-var-cube;
+    #menu a.resources:before {
+        content: $fa-var-cubes;
     }
 
     #menu a.site-info:before {
         content: $fa-var-gears;
     }
 
-    #menu a.theme:before {
+    #menu a.theme:before,
+    .theme-settings .subhead:before {
         content: $fa-var-paint-brush;
     }
 
@@ -1245,7 +1295,8 @@ td .o-icon-private {
     content: $fa-var-book;
 }
 
-.resource-templates .no-resources:before {
+.resource-templates .no-resources:before,
+.resources-templates {
     content: $fa-var-pencil-square;
 }
 
@@ -2885,47 +2936,47 @@ body.sidebar-open #content {
 
 /* @group ----- Resource Template: Edit ----- */
 
-.resource-template #properties {
+.resource-templates #properties {
     list-style: none;
     padding-left: 0;
     margin-left: 0;
 }
 
-.resource-template table {
+.resource-templates table {
     width: 100%;
     background-color: rgba(0,0,0,.08);
 }
 
-.resource-template th,
-.resource-template td {
+.resource-templates th,
+.resource-templates td {
     padding: $spacing-small;
     vertical-align: top;
 }
 
-.resource-template textarea {
+.resource-templates textarea {
     height: 1.5 * $spacing-large;
     width: 100%;
 }
 
-.resource-template th:first-of-type,
-.resource-template td:first-of-type, {
+.resource-templates th:first-of-type,
+.resource-templates td:first-of-type, {
     width: span(2 of 10);
     padding-right: $spacing-large;
 }
 
-.resource-template th:nth-of-type(2) {
+.resource-templates th:nth-of-type(2) {
     width: span(2 of 10);
 }
 
-.resource-template th:nth-of-type(3) {
+.resource-templates th:nth-of-type(3) {
     width: span(4 of 10);
 }
 
-.resource-template .local-name {
+.resource-templates .local-name {
     font-style: italic;
 }
 
-.resource-template .property.row {
+.resource-templates .property.row {
     padding: (1.75 * $spacing-large) $spacing-small $spacing-small (2 * $spacing-large);
 
     &.delete {
@@ -2942,7 +2993,7 @@ body.sidebar-open #content {
     }
 }
 
-.resource-template .property.row .sortable-handle {
+.resource-templates .property.row .sortable-handle {
     background-color: $gray-on-white;
     width: 100%;
     top: 0;
@@ -2957,20 +3008,20 @@ body.sidebar-open #content {
     }
 }
 
-.resource-template .property.row label,
-.resource-template .property.row input[type="text"] {
+.resource-templates .property.row label,
+.resource-templates .property.row input[type="text"] {
     width: 100%;
     line-height: 1.5 * $spacing-large;
 }
 
-.resource-template .property.row .actions {
+.resource-templates .property.row .actions {
     position: absolute;
     right: $spacing-small;
     top: $spacing-small;
     padding: 0 $spacing-small;
 }
 
-.resource-template #properties {
+.resource-templates #properties {
     margin: $spacing-large 0 0;
     clear: both;
     padding: 0;
@@ -2981,39 +3032,39 @@ body.sidebar-open #content {
     }
 }
 
-.resource-template .property-heading {
+.resource-templates .property-heading {
     font-weight: bold;
     display: inline-block;
     width: span(3 of 9);
 }
 
-.resource-template .property-heading:not(:first-child) {
+.resource-templates .property-heading:not(:first-child) {
     margin-left: -4px;
 }
 
-.resource-template .property.row .property-label,
-.resource-template .property.row textarea,
-.resource-template .property.row select {
+.resource-templates .property.row .property-label,
+.resource-templates .property.row textarea,
+.resource-templates .property.row select {
     display: inline-block;
     width: calc(#{span(3 of 9)} - #{$spacing-small});
     margin-left: -4px;
     margin-right: $spacing-small;
 }
 
-.resource-template .property.row .property-label {
+.resource-templates .property.row .property-label {
     margin-top: -(1.75 * $spacing-large);
 }
 
-.resource-template .property.row label {
+.resource-templates .property.row label {
     margin-bottom: $spacing-small;
 }
 
-.resource-template .property.row select {
+.resource-templates .property.row select {
     width: span(3 of 9);
     margin-right: 0;
 }
 
-.resource-template .property.row label.require-property {
+.resource-templates .property.row label.require-property {
     margin: -(1.5 * $spacing-large) 0 0 -4px;
     display: block;
     width: auto;

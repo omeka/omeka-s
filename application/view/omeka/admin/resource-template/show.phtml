@@ -1,9 +1,9 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'resource-template show');
+$this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
 $escape = $this->plugin('escapeHtml');
 ?>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Resource template: “%s”'), $resourceTemplate->label())); ?>
+<?php echo $this->pageTitle($resourceTemplate->label(), 1, $this->translate('Resource templates')); ?>
 
 <div id="page-actions">
     <a class="button" href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'export'], true)); ?>"><?php echo $this->translate('Export'); ?></a>

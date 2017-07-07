@@ -3,6 +3,7 @@ $form->prepare();
 $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/site-item-sets.js', 'Omeka'));
+$this->htmlElement('body')->appendAttribute('class', 'sites resources');
 
 $rowTemplate = '
 <tr class="site-item-set-row">
@@ -17,7 +18,7 @@ $rowTemplate = '
 </tr>';
 ?>
 
-<?php echo $this->pageTitle($this->translate('Resources')); ?>
+<?php echo $this->pageTitle($this->translate('Resources'), 1, $this->translate('Sites')); ?>
 <?php echo $this->sectionNav([
     'item-pool-section' => $this->translate('Item pool'),
     'item-sets-section' => $this->translate('Item sets'),

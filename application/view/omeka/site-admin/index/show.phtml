@@ -7,7 +7,7 @@ $roles = [
 ];
 ?>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Site: “%s”'), $site->title())); ?>
+<?php echo $this->pageTitle($site->title(), 1, $this->translate('Sites')); ?>
 
 <div id="page-actions">
     <?php if ($site->userIsAllowed('update')): ?>

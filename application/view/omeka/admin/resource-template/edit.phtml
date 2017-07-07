@@ -1,6 +1,6 @@
-<?php $this->htmlElement('body')->appendAttribute('class', 'edit resource-template'); ?>
+<?php $this->htmlElement('body')->appendAttribute('class', 'edit resource-templates'); ?>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Edit resource template: “%s”'), $resourceTemplate->label())); ?>
+<?php echo $this->pageTitle($resourceTemplate->label(), 1, $this->translate('Resource templates')); ?>
 
 <?php
 echo $this->partial(

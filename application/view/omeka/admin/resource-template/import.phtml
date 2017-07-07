@@ -1,6 +1,7 @@
 <?php
 $form->prepare();
-echo $this->pageTitle($this->translate('Resource template: Import'));
+$this->htmlElement('body')->appendAttribute('class', 'resource-templates import');
+echo $this->pageTitle($this->translate('Import'), 1, $this->translate('Resource templates'));
 ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">

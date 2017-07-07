@@ -1,6 +1,9 @@
-<?php $form->prepare(); ?>
+<?php 
+$this->htmlElement('body')->appendAttribute('class', 'edit vocabularies');
+$form->prepare(); 
+?>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Edit vocabulary: “%s”'), $vocabulary->label())); ?>
+<?php echo $this->pageTitle($vocabulary->label(), 1, $this->translate('Vocabularies'), $this->translate('Edit')); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">

@@ -6,7 +6,8 @@ $this->htmlElement('body')->appendAttribute('class', 'sites theme');
 
 $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 ?>
-<h1><?php echo $this->translate('Theme'); ?></h1>
+<?php echo $this->pageTitle($this->translate('Theme'), 1, $this->translate('Sites')); ?>
+
 <?php if(isset($this->form)): ?>
     <?php $form->prepare(); ?>
     <?php echo $this->form()->openTag($form); ?>

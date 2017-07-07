@@ -1,6 +1,6 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$this->htmlElement('body')->appendAttribute('class', 'job show');
+$this->htmlElement('body')->appendAttribute('class', 'jobs show');
 if ($job->started()) {
     $started = $this->i18n()->dateFormat($job->started(), 'long', 'long');
 } else {
@@ -17,7 +17,7 @@ if ($owner = $job->owner()) {
     $ownerText = $this->translate('[no owner]');
 }
 ?>
-<h1><?php echo sprintf($this->translate('Job #%s'), $escape($job->id())); ?></h1>
+<?php echo $this->pageTitle('#' . $escape($job->id()), 1, $this->translate('Jobs')); ?>
 <div id="page-actions">
     <?php if ('in_progress' == $job->status()): ?>
         <?php echo $this->form($confirmForm); ?>

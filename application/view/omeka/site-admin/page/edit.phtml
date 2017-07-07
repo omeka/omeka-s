@@ -7,7 +7,7 @@ $this->blockLayout()->prepareForm();
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
 ?>
-<?php echo $this->pageTitle(sprintf($this->translate('Edit page: “%s”'), $page->title())); ?>
+<?php echo $this->pageTitle($page->title(), 1, $this->translate('Pages'), $this->translate('Edit')); ?>
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">

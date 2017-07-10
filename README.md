@@ -62,6 +62,12 @@ You can find Omeka-specific code under `application/`.
 6. Replace your original `/config/local.config.php` file, and the `/modules`, `/themes`, and `/files` directories that you copied.
 7. In your web browser, go to your site and run any migrations that are needed.
 
+## Creating a zipped release
+
+`gulp zip` will create a zipped version of Omeka S and store it in `/build`. Use the `--no-dev` flag to omit Composer
+dev dependencies for a smaller package suitable for end-users. Official releases follow this same process from a
+new, clean checkout.
+
 ## local.config.php options
 
 * `thumbnailer` Default is `Omeka\File\ImageMagickThumbnailer`. Also available are `Omeka\File\IMagickThumbnailer` and `Omeka\File\GdThumbnailer`

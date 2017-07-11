@@ -53,7 +53,7 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
         Alternate comment:<br><textarea id="alternate-comment"></textarea><br>
         Required? <input id="is-required" type="checkbox"><br>
         Data type:<br>
-        <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type']); ?>
+        <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type', 'class' => 'chosen-select']); ?>
         <button id="set-changes"><?php echo $this->translate('Set changes'); ?></button>
     </div>
 </div>

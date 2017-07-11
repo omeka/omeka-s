@@ -70,8 +70,8 @@ $sortHeadings = [
                     <?php if ($resourceTemplate->userIsAllowed('update')): ?>
                     <li><?php echo $resourceTemplate->link('', 'edit', [
                         'class' => 'o-icon-edit',
-                        'aria-label' => $escape($this->translate('Edit')),
-                        'title' => $escape($this->translate('Edit')),
+                        'aria-label' => $this->translate('Edit'),
+                        'title' => $this->translate('Edit'),
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($resourceTemplate->userIsAllowed('delete')): ?>

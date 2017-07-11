@@ -101,8 +101,8 @@ $sortHeadings = [
                     <?php if ($itemSet->userIsAllowed('update')): ?>
                     <li><?php echo $itemSet->link('', 'edit', [
                         'class' => 'o-icon-edit',
-                        'aria-label' => $escape($this->translate('Edit')),
-                        'title' => $escape($this->translate('Edit')),
+                        'aria-label' => $this->translate('Edit'),
+                        'title' => $this->translate('Edit'),
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($itemSet->userIsAllowed('delete')): ?>

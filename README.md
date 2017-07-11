@@ -55,7 +55,7 @@ You can find Omeka-specific code under `application/`.
 
 ### Updating from released zip file
 1. Download the latest release from the [release page](https://github.com/omeka/omeka-s/releases)
-2. Make a copy of your `/config/local.config.php` file.
+2. Make a copy of your `/config` directory. You will need to restore your `local.config.php` and `database.ini` files from that copy.
 3. Make a copy of your `/modules` and `/themes` directories.
 4. Make a copy of your `/files` directory.
 5. Remove all Omeka S files, and replace them with the files from the updated zip file.

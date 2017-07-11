@@ -17,11 +17,7 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 <?php echo $this->formCollection($form, false); ?>
 
 <ul id="properties" data-add-new-property-row-url="<?php echo $escape($this->url(null, ['action' => 'add-new-property-row'], true)); ?>">
-    <li>
-        <div class="property-heading" id="original-label"><?php echo $this->translate('Label'); ?></div>
-        <div class="property-heading" id="alternate-label"><?php echo $this->translate('Alternate comment'); ?></div>
-        <div class="property-heading" id="alternate-comment"><?php echo $this->translate('Data type'); ?></div>
-    </li>
+    <li></li>
     <?php foreach ($propertyRows as $propertyRow): ?>
     <?php echo $this->partial(
         'omeka/admin/resource-template/show-property-row',
@@ -43,4 +39,21 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content"></div>
+</div>
+
+<div id="edit-sidebar" class="sidebar">
+    <a href="#"
+        class="sidebar-close o-icon-close"
+        aria-label="<?php echo $escape($this->translate('Close')); ?>"
+        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <div class="sidebar-content">
+        <h3><?php echo $escape($this->translate('Edit property')); ?></h3>
+        Alternate label:<br>
+        <input id="alternate-label" type="text"><br>
+        Alternate comment:<br><textarea id="alternate-comment"></textarea><br>
+        Required? <input id="is-required" type="checkbox"><br>
+        Data type:<br>
+        <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type']); ?>
+        <button id="set-changes"><?php echo $this->translate('Set changes'); ?></button>
+    </div>
 </div>

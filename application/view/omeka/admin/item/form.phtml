@@ -4,75 +4,58 @@ $form->prepare();
 $escape = $this->plugin('escapeHtml');
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
-
-$sectionNavs = [
-    'resource-values' => $this->translate('Values'),
-    'item-media' => $this->translate('Media'),
-    'item-sets' => $this->translate('Item sets'),
-];
 ?>
 
 <?php echo $this->form()->openTag($form); ?>
 
-<?php echo $this->sectionNav($sectionNavs, $sectionNavEvent); ?>
-    <?php $this->trigger("view.$action.form.before", ['form' => $form]); ?>
-    <?php
-    //produces a <fieldset> with the id and class atts passed in.
-    //on, e.g., the item add/edit pages, the id will work with the classes on
-    //the nav lis above. (see globals.js)
-    echo $this->partial(
-        'common/resource-fields.phtml',
-        [
-            'id'                   => 'resource-values',
-            'class'                => 'section active',
-            'form'                 => $form,
-            'resource'             => $item,
-            'propertySelectorText' => 'Click on a property to add it to the add panel'
-        ]
-    );
-    ?>
+<?php echo $this->sectionNav([
+    'resource-values' => $this->translate('Values'),
+    'item-media' => $this->translate('Media'),
+    'item-sets' => $this->translate('Item sets'),
+], $sectionNavEvent); ?>
 
-    <fieldset id="item-media" class="section" aria-labelledby="media-label">
-        <?php
-        echo $this->partial('omeka/admin/item/manage-media',
-            [
-                'mediaForms' => $mediaForms,
-                'resource' => $item
-            ]
-        );
-        ?>
-    </fieldset>
-    <fieldset id='item-sets' class='section' aria-labelledby="item-sets-label">
-        <?php
-        echo $this->partial(
-            'omeka/admin/item/manage-item-sets',
-            ['item' => $item]
-        );
-        ?>
-    </fieldset>
+<?php $this->trigger("view.$action.form.before", ['form' => $form]); ?>
 
-    <div id="page-actions">
+<?php echo $this->partial('common/resource-fields.phtml', [
+    'form' => $form,
+    'resource' => $item,
+]); ?>
 
-        <?php if ($item && $item->isPublic() || !isset($item)): ?>
-        <a href="#"
+<fieldset id="item-media" class="section" aria-labelledby="media-label">
+    <?php echo $this->partial('omeka/admin/item/manage-media', [
+        'mediaForms' => $mediaForms,
+        'resource' => $item,
+    ]); ?>
+</fieldset>
+
+<fieldset id="item-sets" class="section" aria-labelledby="item-sets-label">
+    <?php echo $this->partial('omeka/admin/item/manage-item-sets', [
+        'item' => $item,
+    ]); ?>
+</fieldset>
+
+<div id="page-actions">
+    <?php if ($item && $item->isPublic() || !isset($item)): ?>
+    <a href="#"
         class="o-icon-public button"
         aria-label=" <?php echo $escape($this->translate('Make private')); ?>"
-        title=" <?php echo $escape($this->translate('Make private')); ?>">
-        </a>
-        <input type="hidden" name="o:is_public" value="1">
-        <?php else: ?>
-        <a href="#"
+        title=" <?php echo $escape($this->translate('Make private')); ?>"></a>
+    <input type="hidden" name="o:is_public" value="1">
+    <?php else: ?>
+    <a href="#"
         class="o-icon-private button"
         aria-label=" <?php echo $escape($this->translate('Make public')); ?>"
-        title=" <?php echo $escape($this->translate('Make public')); ?>">
-        </a>
-        <input type="hidden" name="o:is_public" value="0">
-        <?php endif; ?>
-        <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
-        <button type="submit" name="add-item-submit"><?php echo $escape($submitLabel); ?></button>
-    </div>
-    <?php $this->trigger("view.$action.form.after", ['form' => $form]); ?>
-    <?php echo $formElement($form->get('csrf')); ?>
+        title=" <?php echo $escape($this->translate('Make public')); ?>"></a>
+    <input type="hidden" name="o:is_public" value="0">
+    <?php endif; ?>
+    <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
+    <button type="submit" name="add-item-submit"><?php echo $escape($submitLabel); ?></button>
+</div>
+
+<?php $this->trigger("view.$action.form.after", ['form' => $form]); ?>
+
+<?php echo $formElement($form->get('csrf')); ?>
+
 <?php echo $this->form()->closeTag(); ?>
 
 <?php echo $this->partial('common/resource-form-templates.phtml'); ?>

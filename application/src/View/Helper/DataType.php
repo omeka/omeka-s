@@ -47,13 +47,13 @@ class DataType extends AbstractHelper
                 // Put resource data types before ones added by modules.
                 $optionsVal = in_array($dataTypeName, ['resource:all', 'resource:item', 'resource:itemset', 'resource:media'])
                     ? 'options' : 'optgroupOptions';
-                if (!isset($$optionsVal[$optgroupKey])) {
-                    $$optionsVal[$optgroupKey] = [
+                if (!isset(${$optionsVal}[$optgroupKey])) {
+                    ${$optionsVal}[$optgroupKey] = [
                         'label' => $optgroupLabel,
                         'options' => [],
                     ];
                 }
-                $$optionsVal[$optgroupKey]['options'][$dataTypeName] = $label;
+                ${$optionsVal}[$optgroupKey]['options'][$dataTypeName] = $label;
             } else {
                 $options[$dataTypeName] = $label;
             }

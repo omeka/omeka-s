@@ -18,7 +18,7 @@ class Manager extends AbstractPluginManager
         if (is_string($value->getUri())) {
             $dataTypeFallback = 'uri';
         } elseif ($value->getValueResource()) {
-            $dataTypeFallback = 'resource';
+            $dataTypeFallback = 'resource:all';
         }
         try {
             $instance = $this->get($dataType);

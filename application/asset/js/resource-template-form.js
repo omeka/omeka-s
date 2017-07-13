@@ -45,12 +45,16 @@ propertyList.on('click', '.property-restore', function(e) {
 propertyList.on('click', '.property-edit', function(e) {
     e.preventDefault();
     var prop = $(this).closest('.property');
+    var oriLabel = prop.find('.original-label');
     var altLabel = prop.find('.alternate-label');
+    var oriComment = prop.find('.original-comment');
     var altComment = prop.find('.alternate-comment');
     var isRequired = prop.find('.is-required');
     var dataType = prop.find('.data-type');
 
+    $('#original-label').text(oriLabel.val());
     $('#alternate-label').val(altLabel.val());
+    $('#original-comment').text(oriComment.val());
     $('#alternate-comment').val(altComment.val());
     $('#is-required').prop('checked', isRequired.val());
     $('#data-type option[value="' + dataType.val() + '"]').prop('selected', true);

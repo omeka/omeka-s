@@ -17,7 +17,6 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 <?php echo $this->formCollection($form, false); ?>
 
 <ul id="properties" data-add-new-property-row-url="<?php echo $escape($this->url(null, ['action' => 'add-new-property-row'], true)); ?>">
-    <li></li>
     <?php foreach ($propertyRows as $propertyRow): ?>
     <?php echo $this->partial(
         'omeka/admin/resource-template/show-property-row',
@@ -47,13 +46,35 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
     <div class="sidebar-content">
-        <h3><?php echo $escape($this->translate('Edit property')); ?></h3>
-        Alternate label:<br>
-        <input id="alternate-label" type="text"><br>
-        Alternate comment:<br><textarea id="alternate-comment"></textarea><br>
-        Required? <input id="is-required" type="checkbox"><br>
-        Data type:<br>
-        <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type', 'class' => 'chosen-select']); ?>
-        <button id="set-changes"><?php echo $this->translate('Set changes'); ?></button>
+        <div class="field">
+            <h3><?php echo $escape($this->translate('Label')); ?></h3>
+            <h4><?php echo $this->translate('Original'); ?></h4>
+            <span id="original-label"></span>
+            <label for="alternate-label"><?php echo $this->translate('Alternate'); ?></label>
+            <input id="alternate-label" type="text">
+        </div>
+        <div class="field">
+            <h3><?php echo $escape($this->translate('Comment')); ?></h3>
+            <h4><?php echo $this->translate('Original'); ?></h4>
+            <span id="original-comment"></span>
+            <label for="alternate-comment"><?php echo $this->translate('Alternate'); ?></label>
+            <textarea id="alternate-comment"></textarea>
+        </div>
+        <div class="field">
+            <h3><?php echo $this->translate('Other options'); ?></h3>
+            <div class="option">
+                <label for="is-required">
+                    <?php echo $this->translate('Required'); ?>
+                    <input id="is-required" type="checkbox">
+                </label>
+            </div>
+            <div class="option">
+                <label for="data-type"><?php echo $this->translate('Data type'); ?></label>
+                <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type', 'class' => 'chosen-select']); ?>
+            </div>
+        </div>
+        <div class="confirm-panel">
+            <button id="set-changes"><?php echo $this->translate('Set changes'); ?></button>
+        </div>
     </div>
 </div>

@@ -245,7 +245,7 @@
 
         // Prepare the markup for the resource data types.
         var resourceDataTypes = [
-            'resource:all',
+            'resource',
             'resource:item',
             'resource:itemset',
             'resource:media',

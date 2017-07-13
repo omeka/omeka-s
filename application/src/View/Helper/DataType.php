@@ -25,7 +25,7 @@ class DataType extends AbstractHelper
      *
      * By default, options are listed in this order:
      *
-     *   - Native data types (literal, uri, resource:*)
+     *   - Native data types (literal, uri, resource)
      *   - Data types not organized in option groups
      *   - Data types organized in option groups
      *
@@ -45,7 +45,7 @@ class DataType extends AbstractHelper
                 // data types without an optgroup.
                 $optgroupKey = md5($optgroupLabel);
                 // Put resource data types before ones added by modules.
-                $optionsVal = in_array($dataTypeName, ['resource:all', 'resource:item', 'resource:itemset', 'resource:media'])
+                $optionsVal = in_array($dataTypeName, ['resource', 'resource:item', 'resource:itemset', 'resource:media'])
                     ? 'options' : 'optgroupOptions';
                 if (!isset(${$optionsVal}[$optgroupKey])) {
                     ${$optionsVal}[$optgroupKey] = [

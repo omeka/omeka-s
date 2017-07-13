@@ -5,7 +5,7 @@ class All extends AbstractResource
 {
     public function getName()
     {
-        return 'resource:all';
+        return 'resource';
     }
 
     public function getLabel()

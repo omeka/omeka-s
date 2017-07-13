@@ -436,7 +436,7 @@ return [
         'invokables' => [
             'literal' => 'Omeka\DataType\Literal',
             'uri' => 'Omeka\DataType\Uri',
-            'resource:all' => 'Omeka\DataType\Resource\All',
+            'resource' => 'Omeka\DataType\Resource\All',
             'resource:item' => 'Omeka\DataType\Resource\Item',
             'resource:itemset' => 'Omeka\DataType\Resource\ItemSet',
             'resource:media' => 'Omeka\DataType\Resource\Media',

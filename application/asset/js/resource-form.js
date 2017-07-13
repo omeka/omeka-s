@@ -19,7 +19,7 @@
             // Restore the original property label and comment.
             $('.alternate').remove();
             $('.field-label, .field-description').show();
-            rewritePropertyFields(true);
+            applyResourceTemplate(true);
         });
 
         $('a.value-language:not(.active)').on('click', function(e) {
@@ -243,16 +243,14 @@
                 .val(valueObj ? valueObj[valueKey] : null);
         });
 
-        if (type === 'resource') {
-            prepareResource(value, valueObj, namePrefix);
-        }
-    });
-
-    /**
-     * Prepare the markup for the resource data type.
-     */
-    var prepareResource = function(value, valueObj, namePrefix) {
-        if (valueObj) {
+        // Prepare the markup for the resource data types.
+        var resourceDataTypes = [
+            'resource:all',
+            'resource:item',
+            'resource:itemset',
+            'resource:media',
+        ];
+        if (valueObj && resourceDataTypes.includes(type)) {
             value.find('span.default').hide();
             var resource = value.find('.selected-resource');
             if (typeof valueObj['display_title'] === 'undefined') {
@@ -267,7 +265,7 @@
                     .prepend($('<img>', {src: valueObj['thumbnail_url']}));
             }
         }
-    }
+    });
 
     /**
      * Make a new property field.
@@ -371,10 +369,11 @@
     };
 
     /**
-     * Rewrite all property fields following the rules defined by the selected
-     * resource template.
+     * Apply the selected resource template to the form.
+     *
+     * @param bool changeClass Whether to change the suggested class
      */
-    var rewritePropertyFields = function(changeClass) {
+    var applyResourceTemplate = function(changeClass) {
 
         // Fieldsets may have been marked as required in a previous state.
         $('.field').removeClass('required');
@@ -450,7 +449,7 @@
             });
         }
 
-        $.when(rewritePropertyFields(false)).done(function () {
+        $.when(applyResourceTemplate(false)).done(function () {
             $('#properties').closest('form').trigger('o:form-loaded');
         });
 

@@ -111,7 +111,7 @@ class ResourceTemplateController extends AbstractActionController
      * All members start as invalid until we determine whether the corresponding
      * vocabulary and member exists in this installation. All data types start
      * as "Default" (i.e. none declared) until we determine whether they match
-     * the native types (literal, uri, resource).
+     * the native types (literal, uri, resource:*).
      *
      * We flag a valid vocabulary by adding [vocabulary_prefix] to the member; a
      * valid class by adding [o:id]; and a valid property by adding
@@ -125,7 +125,14 @@ class ResourceTemplateController extends AbstractActionController
     protected function flagValid(array $import)
     {
         $vocabs = [];
-        $dataTypes = ['literal', 'uri', 'resource'];
+        $dataTypes = [
+            'literal',
+            'uri',
+            'resource:all',
+            'resource:item',
+            'resource:itemset',
+            'resource:media',
+        ];
 
         $getVocab = function ($namespaceUri) use (&$vocabs) {
             if (isset($vocabs[$namespaceUri])) {

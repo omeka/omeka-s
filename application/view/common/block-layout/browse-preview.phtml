@@ -7,8 +7,8 @@
 <ul class="resource-list preview">
 <?php foreach ($this->items as $item): ?>
 <?php
-$title = $item->value($titleProp->term(), ['default' => $item->displayTitle()]);
-$description = $item->value($descProp->term(), ['default' => $item->displayDescription()]);
+$heading = $item->value($headingProp->term(), ['default' => $item->displayTitle()]);
+$body = $item->value($bodyProp->term(), ['default' => $item->displayDescription()]);
 ?>
     <li class="item resource">
     <?php if ($primaryMedia = $item->primaryMedia()): ?>
@@ -18,9 +18,9 @@ $description = $item->value($descProp->term(), ['default' => $item->displayDescr
             alt="<?php echo $this->escapeHtml($primaryMedia->mediaType()); ?> thumbnail"
         >
     <?php endif; ?>
-        <h4><?php echo $item->link($title); ?></h4>
-        <?php if ($description): ?>
-        <div class="description"><?php echo $description; ?></div>
+        <h4><?php echo $item->link($heading); ?></h4>
+        <?php if ($body): ?>
+        <div class="description"><?php echo $body; ?></div>
         <?php endif; ?>
     </li>
 <?php endforeach; ?>

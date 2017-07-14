@@ -62,39 +62,39 @@ class BrowsePreview extends AbstractBlockLayout
         $html .= '<div class="inputs">' . $view->formRow($linkText) . '</div>';
         $html .= '</div>';
 
-        $titleProp = $this->getProperty('dcterms:title');
-        $descProp = $this->getProperty('dcterms:description');
+        $headingProp = $this->getProperty('dcterms:title');
+        $bodyProp = $this->getProperty('dcterms:description');
 
         $html .= '
 <div class="field">
     <div class="field-meta">
-        <label>Title property</label>
+        <label>Heading property</label>
         <a href="#" class="expand"></a>
         <div class="collapsible">
-            <div class="field-description">Display resource title using this property.</div>
+            <div class="field-description">Use this property for the heading of each resource.</div>
         </div>
     </div>
     <div class="inputs">' . $view->propertySelect([
-        'name' => 'o:block[__blockIndex__][o:data][title_id]',
+        'name' => 'o:block[__blockIndex__][o:data][heading_prop_id]',
         'attributes' => [
             'class' => 'chosen-select',
-            'value' => $block->dataValue('title_id', $titleProp->id()),
+            'value' => $block->dataValue('heading_prop_id', $headingProp->id()),
         ],
     ]) . '</div>
 </div>
 <div class="field">
     <div class="field-meta">
-        <label>Description property</label>
+        <label>Body property</label>
         <a href="#" class="expand"></a>
         <div class="collapsible">
-            <div class="field-description">Display resource description using this property.</div>
+            <div class="field-description">Use this property for the body of each resource.</div>
         </div>
     </div>
     <div class="inputs">' . $view->propertySelect([
-        'name' => 'o:block[__blockIndex__][o:data][desc_id]',
+        'name' => 'o:block[__blockIndex__][o:data][body_prop_id]',
         'attributes' => [
             'class' => 'chosen-select',
-            'value' => $block->dataValue('desc_id', $descProp->id()),
+            'value' => $block->dataValue('body_prop_id', $bodyProp->id()),
         ],
     ]) . '</div>
 </div>
@@ -110,8 +110,8 @@ class BrowsePreview extends AbstractBlockLayout
         $heading = $block->dataValue('heading');
         $linkText = $block->dataValue('link-text');
 
-        $titleProp = $this->getProperty($block->dataValue('title_id', 'dcterms:title'));
-        $descProp = $this->getProperty($block->dataValue('desc_id', 'dcterms:description'));
+        $headingProp = $this->getProperty($block->dataValue('heading_prop_id', 'dcterms:title'));
+        $bodyProp = $this->getProperty($block->dataValue('body_prop_id', 'dcterms:description'));
 
         $site = $block->page()->site();
         if ($view->siteSetting('browse_attached_items', false)) {
@@ -131,8 +131,8 @@ class BrowsePreview extends AbstractBlockLayout
             'heading' => $heading,
             'linkText' => $linkText,
             'query' => $originalQuery,
-            'titleProp' => $titleProp,
-            'descProp' => $descProp,
+            'headingProp' => $headingProp,
+            'bodyProp' => $bodyProp,
         ]);
     }
 

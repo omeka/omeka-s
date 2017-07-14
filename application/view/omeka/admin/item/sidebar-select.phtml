@@ -7,11 +7,35 @@ $escape = $this->plugin('escapeHtml');
     
     <div class="search-nav">
         <div id="sidebar-resource-search" class="resource-search">
-            <input type="text" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
+            <input type="text" value="<?php echo $escape($search); ?>" id="resource-list-search">
             <button
             data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>"
             type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
         </div>
+
+    <?php
+    echo $this->resourceClassSelect([
+        'name' => 'resource_class_id',
+        'options' => [
+            'empty_option' => 'Filter by class:', // @translate
+        ],
+        'attributes' => [
+            'id' => 'filter-resource-class',
+            'value' => $resourceClassId,
+        ],
+    ]);
+    echo $this->itemSetSelect([
+        'name' => 'item_set_id',
+        'options' => [
+            'empty_option' => 'Filter by item set:', // @translate
+        ],
+        'attributes' => [
+            'id' => 'filter-item-set',
+            'value' => $itemSetId,
+        ],
+    ]);
+    ?>
+
     <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
     </div>
 
@@ -41,4 +65,3 @@ $escape = $this->plugin('escapeHtml');
 <div class="confirm-panel">
     <button type="button" class="select-resources-button">Add selected</button>
 </div>
-

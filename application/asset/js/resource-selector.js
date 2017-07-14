@@ -1,8 +1,23 @@
 (function($) {
+
     function searchResources() {
         var searchInput = $('#resource-list-search');
-        var searchValue = searchInput.val();
-        Omeka.populateSidebarContent(searchInput.closest('.sidebar'), $('#sidebar-resource-search .o-icon-search').data('search-url'), {'search': searchValue});
+        var data = {'search': searchInput.val()};
+        var classId = $('#filter-resource-class').val();
+        var itemSetId = $('#filter-item-set').val();
+
+        if (classId) {
+            data['resource_class_id'] = classId;
+        }
+        if (itemSetId) {
+            data['item_set_id'] = itemSetId;
+        }
+
+        Omeka.populateSidebarContent(
+            searchInput.closest('.sidebar'),
+            searchInput.siblings('button').data('search-url'),
+            data
+        );
     }
 
     $(document).ready( function() {
@@ -56,6 +71,17 @@
             Omeka.closeSidebar($(e.delegateTarget));
             $(this).trigger('o:resources-selected');
         });
+
+        $('#select-resource').on('o:sidebar-content-loaded', function(e) {
+            // Make a shallow copy of the Chosen options so we can modify it
+            // without affecting subsequent Chosen instances.
+            var newOptions = $.extend({}, chosenOptions);
+            $('#filter-resource-class').chosen(newOptions);
+            // Group labels are too long for the item set select.
+            newOptions.include_group_label_in_selected = false;
+            $('#filter-item-set').chosen(newOptions);
+        });
+
     });
 })(jQuery);
 

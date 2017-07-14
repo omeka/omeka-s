@@ -6,6 +6,10 @@
 
 <ul class="resource-list preview">
 <?php foreach ($this->items as $item): ?>
+<?php
+$title = $item->value($titleProp->term(), ['default' => $item->displayTitle()]);
+$description = $item->value($descProp->term(), ['default' => $item->displayDescription()]);
+?>
     <li class="item resource">
     <?php if ($primaryMedia = $item->primaryMedia()): ?>
         <img
@@ -14,8 +18,8 @@
             alt="<?php echo $this->escapeHtml($primaryMedia->mediaType()); ?> thumbnail"
         >
     <?php endif; ?>
-        <h4><?php echo $item->link($item->displayTitle()); ?></h4>
-        <?php if ($description = $item->displayDescription()): ?>
+        <h4><?php echo $item->link($title); ?></h4>
+        <?php if ($description): ?>
         <div class="description"><?php echo $description; ?></div>
         <?php endif; ?>
     </li>

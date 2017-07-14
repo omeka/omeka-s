@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Site\BlockLayout;
 
+use Omeka\Api\Exception\NotFoundException;
+use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
@@ -9,6 +11,16 @@ use Zend\View\Renderer\PhpRenderer;
 
 class BrowsePreview extends AbstractBlockLayout
 {
+    /**
+     * @var ApiManager
+     */
+    protected $api;
+
+    public function __construct(ApiManager $api)
+    {
+        $this->api = $api;
+    }
+
     public function getLabel()
     {
         return 'Browse preview'; // @translate
@@ -50,6 +62,44 @@ class BrowsePreview extends AbstractBlockLayout
         $html .= '<div class="inputs">' . $view->formRow($linkText) . '</div>';
         $html .= '</div>';
 
+        $titleProp = $this->getProperty('dcterms:title');
+        $descProp = $this->getProperty('dcterms:description');
+
+        $html .= '
+<div class="field">
+    <div class="field-meta">
+        <label>Title property</label>
+        <a href="#" class="expand"></a>
+        <div class="collapsible">
+            <div class="field-description">Display resource title using this property.</div>
+        </div>
+    </div>
+    <div class="inputs">' . $view->propertySelect([
+        'name' => 'o:block[__blockIndex__][o:data][title_id]',
+        'attributes' => [
+            'class' => 'chosen-select',
+            'value' => $block->dataValue('title_id', $titleProp->id()),
+        ],
+    ]) . '</div>
+</div>
+<div class="field">
+    <div class="field-meta">
+        <label>Description property</label>
+        <a href="#" class="expand"></a>
+        <div class="collapsible">
+            <div class="field-description">Display resource description using this property.</div>
+        </div>
+    </div>
+    <div class="inputs">' . $view->propertySelect([
+        'name' => 'o:block[__blockIndex__][o:data][desc_id]',
+        'attributes' => [
+            'class' => 'chosen-select',
+            'value' => $block->dataValue('desc_id', $descProp->id()),
+        ],
+    ]) . '</div>
+</div>
+';
+
         return $html;
     }
 
@@ -59,6 +109,9 @@ class BrowsePreview extends AbstractBlockLayout
         $originalQuery = $query;
         $heading = $block->dataValue('heading');
         $linkText = $block->dataValue('link-text');
+
+        $titleProp = $this->getProperty($block->dataValue('title_id', 'dcterms:title'));
+        $descProp = $this->getProperty($block->dataValue('desc_id', 'dcterms:description'));
 
         $site = $block->page()->site();
         if ($view->siteSetting('browse_attached_items', false)) {
@@ -78,6 +131,30 @@ class BrowsePreview extends AbstractBlockLayout
             'heading' => $heading,
             'linkText' => $linkText,
             'query' => $originalQuery,
+            'titleProp' => $titleProp,
+            'descProp' => $descProp,
         ]);
+    }
+
+    /**
+     * Get a property by ID or term.
+     *
+     * @param int|string $id
+     * @return Property|false
+     */
+    protected function getProperty($id)
+    {
+        try {
+            if (is_numeric($id)) {
+                return $this->api->read('properties', $id)->getContent();
+            }
+            $property = $this->api->search('properties', [
+                'term' => $id,
+                'limit' => 1,
+            ])->getContent();
+            return $property[0];
+        } catch (NotFoundException $e) {
+            return false;
+        }
     }
 }

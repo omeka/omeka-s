@@ -14,32 +14,58 @@ class DataType extends AbstractHelper
 
     protected $dataTypes;
 
-    protected $valueOptions = [];
-
     public function __construct(DataTypeManager $dataTypeManager)
     {
         $this->manager = $dataTypeManager;
         $this->dataTypes = $this->manager->getRegisteredNames();
-        foreach ($this->dataTypes as $dataType) {
-            $this->valueOptions[$dataType] = $this->manager->get($dataType)->getLabel();
-        }
     }
 
     /**
      * Get the data type select markup.
      *
+     * By default, options are listed in this order:
+     *
+     *   - Native data types (literal, uri, resource)
+     *   - Data types not organized in option groups
+     *   - Data types organized in option groups
+     *
      * @param string $name
      * @param string $value
+     * @param array $attributes
      */
-    public function getSelect($name, $value, $attributes = [])
+    public function getSelect($name, $value = null, $attributes = [])
     {
+        $options = [];
+        $optgroupOptions = [];
+        foreach ($this->dataTypes as $dataTypeName) {
+            $dataType = $this->manager->get($dataTypeName);
+            $label = $dataType->getLabel();
+            if ($optgroupLabel = $dataType->getOptgroupLabel()) {
+                // Hash the optgroup key to avoid collisions when merging with
+                // data types without an optgroup.
+                $optgroupKey = md5($optgroupLabel);
+                // Put resource data types before ones added by modules.
+                $optionsVal = in_array($dataTypeName, ['resource', 'resource:item', 'resource:itemset', 'resource:media'])
+                    ? 'options' : 'optgroupOptions';
+                if (!isset(${$optionsVal}[$optgroupKey])) {
+                    ${$optionsVal}[$optgroupKey] = [
+                        'label' => $optgroupLabel,
+                        'options' => [],
+                    ];
+                }
+                ${$optionsVal}[$optgroupKey]['options'][$dataTypeName] = $label;
+            } else {
+                $options[$dataTypeName] = $label;
+            }
+        }
+        // Always put data types not organized in option groups before data
+        // types organized within option groups.
+        $options = array_merge($options, $optgroupOptions);
+
         $element = new Select($name);
         $element->setEmptyOption('Default')
-            ->setValueOptions($this->valueOptions)
+            ->setValueOptions($options)
             ->setAttributes($attributes);
-        if (!array_key_exists($value, $this->valueOptions)) {
-            $value = null;
-        }
         $element->setValue($value);
         return $this->getView()->formSelect($element);
     }

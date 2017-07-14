@@ -275,6 +275,11 @@ body {
         }
     }
 
+    label input[type="checkbox"] {
+        display: inline-block;
+        width: auto;
+    }
+
     label.required:after  {
         font-family: "FontAwesome";
         content: $fa-var-asterisk;
@@ -2756,6 +2761,8 @@ input[type="text"].value-language,
         vertical-align: middle;
     }
 
+    input,
+    textarea,
     select {
         width: 100%;
     }
@@ -2793,6 +2800,17 @@ input[type="text"].value-language,
         padding: 0;
         margin-bottom: $spacing-large;
         flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .field .option {
+        width: 100%;
+    }
+
+    .field .option + .option {
+        padding-top: ($spacing-medium - 1px);
+        border-top: 1px solid $border-gray;
+        margin-top: $spacing-medium;
     }
 
     .button,
@@ -2907,44 +2925,15 @@ body.sidebar-open #content {
     width: 100%;
 }
 
-.resource-template th:first-of-type,
-.resource-template td:first-of-type, {
-    width: span(2 of 10);
-    padding-right: $spacing-large;
-}
-
-.resource-template th:nth-of-type(2) {
-    width: span(2 of 10);
-}
-
-.resource-template th:nth-of-type(3) {
-    width: span(4 of 10);
-}
-
-.resource-template .local-name {
-    font-style: italic;
-}
-
 .resource-template .property.row {
-    padding: (1.75 * $spacing-large) $spacing-small $spacing-small (2 * $spacing-large);
+    padding: $spacing-small $spacing-small $spacing-small (2 * $spacing-large);
 
     &.delete {
         background-color: $delete-bg;
     }
-
-    label:first-child,
-    input[type="text"],
-    textarea,
-    select {
-        display: inline-block;
-        vertical-align: top;
-        resize: vertical;
-    }
 }
 
 .resource-template .property.row .sortable-handle {
-    background-color: $gray-on-white;
-    width: 100%;
     top: 0;
     left: 0;
     height: (1.5 * $spacing-large);
@@ -2955,12 +2944,6 @@ body.sidebar-open #content {
     &:before {
         top: $spacing-small;
     }
-}
-
-.resource-template .property.row label,
-.resource-template .property.row input[type="text"] {
-    width: 100%;
-    line-height: 1.5 * $spacing-large;
 }
 
 .resource-template .property.row .actions {
@@ -2974,50 +2957,35 @@ body.sidebar-open #content {
     margin: $spacing-large 0 0;
     clear: both;
     padding: 0;
+}
 
-    & > li:first-child {
-        @include field-row;
-        padding-left: (1.8333 * $spacing-large);
+.resource-template #edit-sidebar {
+    padding-bottom: 2 * $spacing-large;
+}
+
+.resource-template #edit-sidebar .field h4,
+.resource-template #edit-sidebar .field h4 + span {
+    width: 100%;
+}
+
+.resource-template #edit-sidebar .field h4 + span {
+    margin-bottom: $spacing-medium;
+}
+
+.resource-template #edit-sidebar .field label:not(:first-child),
+.resource-template #edit-sidebar .field .option label {
+    margin: 0;
+    padding-bottom: $spacing-small;
+
+    &:only-child {
+        padding-bottom: 0;
     }
-}
 
-.resource-template .property-heading {
-    font-weight: bold;
-    display: inline-block;
-    width: span(3 of 9);
-}
-
-.resource-template .property-heading:not(:first-child) {
-    margin-left: -4px;
-}
-
-.resource-template .property.row .property-label,
-.resource-template .property.row textarea,
-.resource-template .property.row select {
-    display: inline-block;
-    width: calc(#{span(3 of 9)} - #{$spacing-small});
-    margin-left: -4px;
-    margin-right: $spacing-small;
-}
-
-.resource-template .property.row .property-label {
-    margin-top: -(1.75 * $spacing-large);
-}
-
-.resource-template .property.row label {
-    margin-bottom: $spacing-small;
-}
-
-.resource-template .property.row select {
-    width: span(3 of 9);
-    margin-right: 0;
-}
-
-.resource-template .property.row label.require-property {
-    margin: -(1.5 * $spacing-large) 0 0 -4px;
-    display: block;
-    width: auto;
-    float: left;
+    &:after {
+        padding: 0;
+        margin: 0;
+        background: transparent;
+    }
 }
 
 /* @end */

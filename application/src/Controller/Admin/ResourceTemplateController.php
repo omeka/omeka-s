@@ -125,7 +125,14 @@ class ResourceTemplateController extends AbstractActionController
     protected function flagValid(array $import)
     {
         $vocabs = [];
-        $dataTypes = ['literal', 'uri', 'resource'];
+        $dataTypes = [
+            'literal',
+            'uri',
+            'resource',
+            'resource:item',
+            'resource:itemset',
+            'resource:media',
+        ];
 
         $getVocab = function ($namespaceUri) use (&$vocabs) {
             if (isset($vocabs[$namespaceUri])) {

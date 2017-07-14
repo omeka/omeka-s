@@ -26,6 +26,13 @@ interface DataTypeInterface
     public function getLabel();
 
     /**
+     * Get a human-readable optgroup label for this data type, if any.
+     *
+     * @return string
+     */
+    public function getOptgroupLabel();
+
+    /**
      * Prepare the view to enable the data types.
      *
      * Typically used to append JavaScript to the head.

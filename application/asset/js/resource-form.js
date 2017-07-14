@@ -250,7 +250,7 @@
             'resource:itemset',
             'resource:media',
         ];
-        if (valueObj && resourceDataTypes.includes(type)) {
+        if (valueObj && -1 !== resourceDataTypes.indexOf(type)) {
             value.find('span.default').hide();
             var resource = value.find('.selected-resource');
             if (typeof valueObj['display_title'] === 'undefined') {

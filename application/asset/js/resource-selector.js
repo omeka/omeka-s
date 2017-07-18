@@ -1,22 +1,11 @@
 (function($) {
 
     function searchResources() {
-        var searchInput = $('#resource-list-search');
-        var data = {'search': searchInput.val()};
-        var classId = $('#filter-resource-class').val();
-        var itemSetId = $('#filter-item-set').val();
-
-        if (classId) {
-            data['resource_class_id'] = classId;
-        }
-        if (itemSetId) {
-            data['item_set_id'] = itemSetId;
-        }
-
+        var sidebarResourceSearch = $('#sidebar-resource-search');
         Omeka.populateSidebarContent(
-            searchInput.closest('.sidebar'),
-            searchInput.siblings('button').data('search-url'),
-            data
+            sidebarResourceSearch.closest('.sidebar'),
+            sidebarResourceSearch.data('search-url'),
+            sidebarResourceSearch.children(':input').serialize()
         );
     }
 

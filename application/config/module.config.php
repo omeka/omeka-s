@@ -445,11 +445,11 @@ return [
     'block_layouts' => [
         'factories' => [
             'html' => 'Omeka\Service\BlockLayout\HtmlFactory',
-            'browsePreview' => 'Omeka\Service\BlockLayout\BrowsePreviewFactory',
         ],
         'invokables' => [
             'pageTitle' => 'Omeka\Site\BlockLayout\PageTitle',
             'media' => 'Omeka\Site\BlockLayout\Media',
+            'browsePreview' => 'Omeka\Site\BlockLayout\BrowsePreview',
             'itemShowCase' => 'Omeka\Site\BlockLayout\ItemShowcase',
             'tableOfContents' => 'Omeka\Site\BlockLayout\TableOfContents',
             'lineBreak' => 'Omeka\Site\BlockLayout\LineBreak',
@@ -457,7 +457,6 @@ return [
         ],
         'sorted_names' => [
             'html',
-            'browsePreview',
         ],
     ],
     'navigation_links' => [

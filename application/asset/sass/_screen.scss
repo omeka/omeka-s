@@ -2352,16 +2352,14 @@ input[type="text"].value-language,
 }
 
 .resource-search-filters {
-    display: flex;
-    flex-wrap: wrap;
     padding-bottom: $spacing-small - 1px;
     border-bottom: 1px solid $border-gray;
     margin-bottom: $spacing-medium;
     width: 100%;
 
-    a.expand,
-    a.collapse {
-        margin-left: auto;
+    a.expand:after,
+    a.collapse:after {
+        float: right;
     }
 
     .collapsible {

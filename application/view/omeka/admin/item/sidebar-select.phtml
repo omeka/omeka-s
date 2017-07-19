@@ -10,10 +10,10 @@ $escape = $this->plugin('escapeHtml');
             <input type="text" name="search" id="resource-list-search" value="<?php echo $escape($search); ?>">
             <button type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
             <div class="resource-search-filters">
-                <h4><?php echo $this->translate('Filter search'); ?></h4>
                 <a href="#"
                     class="<?php echo ($resourceClassId || $itemSetId) ? 'collapse' : 'expand'; ?>"
-                    aria-label="<?php echo ($resourceClassId || $itemSetId) ? $this->translate('Collapse') : $this->translate('Expand'); ?>"></a>
+                    aria-label="<?php echo ($resourceClassId || $itemSetId) ? $this->translate('Collapse') : $this->translate('Expand'); ?>"><?php echo $this->translate('Filter search'); ?>
+                </a>
                 <div class="collapsible">
                 <?php
                 echo $this->resourceClassSelect([

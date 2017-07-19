@@ -389,6 +389,7 @@ body {
             border-radius: 3px;
             border-collapse: $border-gray;
             color: $copy-gray;
+            border-color: $border-gray;
         }
 
         .chosen-container-active.chosen-with-drop .chosen-single {
@@ -2310,8 +2311,11 @@ input[type="text"].value-language,
     .resource-search {
         width: 100%;
         position: relative;
-        overflow: hidden;
-        margin-bottom: $spacing-large;
+        margin-bottom: $spacing-small;
+    }
+
+    .chosen-container {
+        margin-bottom: $spacing-small;
     }
 
     #resource-list-search {
@@ -2343,6 +2347,24 @@ input[type="text"].value-language,
     .resource-search > input[type="text"] {
         width: calc(100% - #{(1.5 * $spacing-large)});
         border-right: 0;
+        margin-bottom: $spacing-small;
+    }
+}
+
+.resource-search-filters {
+    padding-bottom: $spacing-small - 1px;
+    border-bottom: 1px solid $border-gray;
+    margin-bottom: $spacing-medium;
+    width: 100%;
+
+    a.expand:after,
+    a.collapse:after {
+        float: right;
+    }
+
+    .collapsible {
+        margin-top: $spacing-small;
+        overflow: visible;
     }
 }
 
@@ -2353,6 +2375,7 @@ input[type="text"].value-language,
         padding-bottom: ($spacing-medium - 1px);
         margin-bottom: 0;
         overflow: hidden;
+        width: 100%;
 
         li {
             float: left;

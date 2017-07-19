@@ -13,21 +13,23 @@ $escape = $this->plugin('escapeHtml');
             echo $this->resourceClassSelect([
                 'name' => 'resource_class_id',
                 'options' => [
-                    'empty_option' => 'Filter by class:', // @translate
+                    'empty_option' => '',
                 ],
                 'attributes' => [
                     'id' => 'filter-resource-class',
                     'value' => $resourceClassId,
+                    'data-placeholder' => 'Filter by class', // @translate
                 ],
             ]);
             echo $this->itemSetSelect([
                 'name' => 'item_set_id',
                 'options' => [
-                    'empty_option' => 'Filter by item set:', // @translate
+                    'empty_option' => '',
                 ],
                 'attributes' => [
                     'id' => 'filter-item-set',
                     'value' => $itemSetId,
+                    'data-placeholder' => 'Filter by item set', // @translate
                 ],
             ]);
             ?>

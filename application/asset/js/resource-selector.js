@@ -62,12 +62,13 @@
         });
 
         $('#select-resource').on('o:sidebar-content-loaded', function(e) {
+            console.log(chosenOptions);
             // Make a shallow copy of the Chosen options so we can modify it
             // without affecting subsequent Chosen instances.
             var newOptions = $.extend({}, chosenOptions);
-            $('#filter-resource-class').chosen(newOptions);
-            // Group labels are too long for the item set select.
+            // Group labels are too long for sidebar selects.
             newOptions.include_group_label_in_selected = false;
+            $('#filter-resource-class').chosen(newOptions);
             $('#filter-item-set').chosen(newOptions);
         });
 

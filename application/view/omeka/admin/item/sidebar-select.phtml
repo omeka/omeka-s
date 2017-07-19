@@ -9,30 +9,35 @@ $escape = $this->plugin('escapeHtml');
         <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
             <input type="text" name="search" id="resource-list-search" value="<?php echo $escape($search); ?>">
             <button type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
-            <?php
-            echo $this->resourceClassSelect([
-                'name' => 'resource_class_id',
-                'options' => [
-                    'empty_option' => '',
-                ],
-                'attributes' => [
-                    'id' => 'filter-resource-class',
-                    'value' => $resourceClassId,
-                    'data-placeholder' => 'Filter by class', // @translate
-                ],
-            ]);
-            echo $this->itemSetSelect([
-                'name' => 'item_set_id',
-                'options' => [
-                    'empty_option' => '',
-                ],
-                'attributes' => [
-                    'id' => 'filter-item-set',
-                    'value' => $itemSetId,
-                    'data-placeholder' => 'Filter by item set', // @translate
-                ],
-            ]);
-            ?>
+            <div class="resource-search-filters">
+                <h4><?php echo $this->translate('Filter search'); ?></h4><a href="#" class="expand" aria-label="<?php echo $this->translate('Expand'); ?>"></a>
+                <div class="collapsible">
+                <?php
+                echo $this->resourceClassSelect([
+                    'name' => 'resource_class_id',
+                    'options' => [
+                        'empty_option' => '',
+                    ],
+                    'attributes' => [
+                        'id' => 'filter-resource-class',
+                        'value' => $resourceClassId,
+                        'data-placeholder' => 'Filter by class', // @translate
+                    ],
+                ]);
+                echo $this->itemSetSelect([
+                    'name' => 'item_set_id',
+                    'options' => [
+                        'empty_option' => '',
+                    ],
+                    'attributes' => [
+                        'id' => 'filter-item-set',
+                        'value' => $itemSetId,
+                        'data-placeholder' => 'Filter by item set', // @translate
+                    ],
+                ]);
+                ?>
+                </div>
+            </div>
         </div>
         <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
     </div>

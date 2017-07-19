@@ -510,6 +510,7 @@ return [
             'video/x-msvideo' => 'video',
             'video/ogg' => 'video',
             'video/webm' => 'video',
+            'mp3' => 'audio',
         ],
     ],
     'oembed' => [

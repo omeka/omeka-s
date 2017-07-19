@@ -2459,10 +2459,7 @@ input[type="text"].value-language,
     .resource-name {
         margin: 0;
         width: calc(100% - #{$spacing-large});
-
-        &:only-child {
-            margin: 0 0 0 $spacing-small;
-        }
+        flex: 1;
     }
 
     .resource {

@@ -5,7 +5,7 @@
         Omeka.populateSidebarContent(
             sidebarResourceSearch.closest('.sidebar'),
             sidebarResourceSearch.data('search-url'),
-            sidebarResourceSearch.children(':input').serialize()
+            sidebarResourceSearch.find(':input').serialize()
         );
     }
 

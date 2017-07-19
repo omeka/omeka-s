@@ -14,14 +14,18 @@ class PropertySelect extends Select
     public function getValueOptions()
     {
         $valueOptions = [];
+        $termAsValue = $this->getOption('term_as_value', false);
         $response = $this->getApiManager()->search('vocabularies');
         foreach ($response->getContent() as $vocabulary) {
             $options = [];
             foreach ($vocabulary->properties() as $property) {
                 $options[] = [
                     'label' => $property->label(),
-                    'value' => $property->id(),
-                    'attributes' => ['data-term' => $property->term()],
+                    'value' => $termAsValue ? $property->term() : $property->id(),
+                    'attributes' => [
+                        'data-property-id' => $property->id(),
+                        'data-term' => $property->term(),
+                    ],
                 ];
             }
             if (!$options) {

@@ -6,6 +6,8 @@ if (isset($itemSet)):
     $this->htmlElement('body')->appendAttribute('class', 'item-set');
     $query['item_set_id'] = $itemSet->id();
 endif;
+$headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
+$bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
 ?>
 
 <?php if (isset($itemSet)): ?>
@@ -24,21 +26,25 @@ endif;
 <?php echo $this->pagination(); ?>
 <?php $this->trigger('view.browse.before'); ?>
 <ul class="resource-list">
-    <?php foreach ($items as $item): ?>
+<?php
+foreach ($items as $item):
+    $heading = $item->value($headingTerm, ['default' => $this->translate('[Untitled]')]);
+    $body = $item->value($bodyTerm);
+?>
     <li class="item resource">
         <?php if ($primaryMedia = $item->primaryMedia()): ?>
         <img
             src="<?php echo $escape($primaryMedia->thumbnailUrl('medium')); ?>"
-            title="<?php echo $escape($primaryMedia->displayTitle()); ?>"
+            title="<?php echo $escape($heading); ?>"
             alt="<?php echo $escape($primaryMedia->mediaType()); ?> thumbnail"
         >
         <?php endif; ?>
-        <h4><?php echo $item->link($item->displayTitle()); ?></h4>
-        <?php if ($description = $item->displayDescription()): ?>
-        <div class="description"><?php echo $description; ?></div>
+        <h4><?php echo $item->link($heading); ?></h4>
+        <?php if ($body): ?>
+        <div class="description"><?php echo $body; ?></div>
         <?php endif; ?>
     </li>
-    <?php endforeach; ?>
+<?php endforeach; ?>
 </ul>
 <?php $this->trigger('view.browse.after'); ?>
 <?php echo $this->pagination(); ?>

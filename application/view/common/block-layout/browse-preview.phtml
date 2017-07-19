@@ -5,18 +5,24 @@
 <?php endif; ?>
 
 <ul class="resource-list preview">
-<?php foreach ($this->items as $item): ?>
+<?php
+$headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
+$bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
+foreach ($this->items as $item):
+    $heading = $item->value($headingTerm, ['default' => $this->translate('[Untitled]')]);
+    $body = $item->value($bodyTerm);
+?>
     <li class="item resource">
     <?php if ($primaryMedia = $item->primaryMedia()): ?>
         <img
             src="<?php echo $this->escapeHtml($primaryMedia->thumbnailUrl('medium')); ?>"
-            title="<?php echo $this->escapeHtml($primaryMedia->displayTitle()); ?>"
+            title="<?php echo $this->escapeHtml($heading); ?>"
             alt="<?php echo $this->escapeHtml($primaryMedia->mediaType()); ?> thumbnail"
         >
     <?php endif; ?>
-        <h4><?php echo $item->link($item->displayTitle()); ?></h4>
-        <?php if ($description = $item->displayDescription()): ?>
-        <div class="description"><?php echo $description; ?></div>
+        <h4><?php echo $item->link($heading); ?></h4>
+        <?php if ($body): ?>
+        <div class="description"><?php echo $body; ?></div>
         <?php endif; ?>
     </li>
 <?php endforeach; ?>

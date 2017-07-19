@@ -57,8 +57,6 @@ class BrowsePreview extends AbstractBlockLayout
     {
         parse_str($block->dataValue('query'), $query);
         $originalQuery = $query;
-        $heading = $block->dataValue('heading');
-        $linkText = $block->dataValue('link-text');
 
         $site = $block->page()->site();
         if ($view->siteSetting('browse_attached_items', false)) {
@@ -73,10 +71,9 @@ class BrowsePreview extends AbstractBlockLayout
         $items = $response->getContent();
 
         return $view->partial('common/block-layout/browse-preview', [
-            'block' => $block,
             'items' => $items,
-            'heading' => $heading,
-            'linkText' => $linkText,
+            'heading' => $block->dataValue('heading'),
+            'linkText' => $block->dataValue('link-text'),
             'query' => $originalQuery,
         ]);
     }

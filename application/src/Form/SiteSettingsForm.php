@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Form\Element\PropertySelect;
 use Omeka\Settings\SiteSettings;
 use Zend\Form\Form;
 use Zend\EventManager\EventManagerAwareTrait;
@@ -57,11 +58,40 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
+        $headingTerm = $settings->get('browse_heading_property_term');
+        $this->add([
+            'name' => 'browse_heading_property_term',
+            'type' => PropertySelect::class,
+            'options' => [
+                'label' => 'Browse heading property', // @translate
+                'info' => 'Use this property for the heading of each resource on a browse page. Default is "Dublin Core: Title".', // @translate
+                'term_as_value' => true,
+            ],
+            'attributes' => [
+                'value' => $headingTerm ? $headingTerm : 'dcterms:title',
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select a property', // @translate
+            ],
+        ]);
+        $bodyTerm = $settings->get('browse_body_property_term');
+        $this->add([
+            'name' => 'browse_body_property_term',
+            'type' => PropertySelect::class,
+            'options' => [
+                'label' => 'Browse body property', // @translate
+                'info' => 'Use this property for the body of each resource on a browse page. Default is "Dublin Core: Description".', // @translate
+                'term_as_value' => true,
+            ],
+            'attributes' => [
+                'value' => $bodyTerm ? $bodyTerm : 'dcterms:description',
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select a property', // @translate
+            ],
+        ]);
+
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 
-        // Separate events because calling $form->getInputFilters()
-        // resets everythhing
         $inputFilter = $this->getInputFilter();
         $filterEvent = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($filterEvent);

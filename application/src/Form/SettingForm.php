@@ -3,7 +3,7 @@ namespace Omeka\Form;
 
 use DateTimeZone;
 use Omeka\File\Manager as FileManager;
-use Omeka\Form\Element\ResourceSelect;
+use Omeka\Form\Element\SiteSelect;
 use Omeka\Form\Element\RestoreTextarea;
 use Omeka\Settings\Settings;
 use Zend\Form\Form;
@@ -105,18 +105,11 @@ class SettingForm extends Form
 
         $generalFieldset->add([
             'name' => 'default_site',
-            'type' => ResourceSelect::class,
+            'type' => SiteSelect::class,
             'options' => [
                 'label' => 'Default site', // @translate
                 'info' => 'Select which site should appear when users go to the front page of the installation.', // @translate
                 'empty_option' => '',
-                'resource_value_options' => [
-                    'resource' => 'sites',
-                    'query' => [],
-                    'option_text_callback' => function ($site) {
-                        return $site->title();
-                    },
-                ],
             ],
             'attributes' => [
                 'class' => 'chosen-select',

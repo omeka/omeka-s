@@ -2787,6 +2787,11 @@ input[type="text"].value-language,
         width: 100%;
     }
 
+    input[type="checkbox"],
+    input[type="radio"] {
+        width: auto;
+    }
+
     h2 {
         font-size: 1.5 * $base-font-size;
         margin-bottom: $spacing-medium;

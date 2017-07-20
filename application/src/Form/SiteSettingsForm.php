@@ -98,6 +98,17 @@ class SiteSettingsForm extends Form
                 'value' => $settings->get('show_user_bar', false),
             ],
         ]);
+        $this->add([
+            'name' => 'locale',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Locale',
+                'description' => 'Locale/language code for this site. Leave blank to use the global locale setting.',
+            ],
+            'attributes' => [
+                'value' => $settings->get('locale'),
+            ],
+        ]);
 
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);

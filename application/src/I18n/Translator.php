@@ -41,4 +41,14 @@ class Translator implements TranslatorInterface
     {
         return $this->translator->translatePlural($singular, $plural, $number, $textDomain, $locale);
     }
+
+    /**
+     * Get the "real" translator this facade delegates to.
+     *
+     * @return TranslatorInterface
+     */
+    public function getDelegatedTranslator()
+    {
+        return $this->translator;
+    }
 }

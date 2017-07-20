@@ -9,13 +9,14 @@ class PageTitleTest extends TestCase
     public function testPageTitle()
     {
         $title = 'A Title';
+        $subhead = 'Section';
+        $action = 'Action';
 
         $view = $this->getMock('Zend\View\Renderer\PhpRenderer',
             ['escapeHtml', 'headTitle']
         );
-        $view->expects($this->once())
+        $view->expects($this->any())
             ->method('escapeHtml')
-            ->with($title)
             ->will($this->returnArgument(0));
         $view->expects($this->once())
             ->method('headTitle')
@@ -23,6 +24,6 @@ class PageTitleTest extends TestCase
 
         $helper = new PageTitle;
         $helper->setView($view);
-        $this->assertEquals("<h1>$title</h1>", $helper($title));
+        $this->assertEquals("<h1><span class=\"subhead\">$subhead</span><span class=\"title\">$title</span><span class=\"action\">$action</span></h1>", $helper($title, 1, $subhead, $action));
     }
 }

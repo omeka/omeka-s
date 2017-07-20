@@ -58,7 +58,7 @@ if (is_null($property['data_type_name'])) {
     $dataTypeSelect = $this->dataType()->getSelect(
         sprintf('data_types[%s]', $key),
         isset($property['o:data_type']) ? $property['o:data_type'] : null,
-        ['style' => 'width:100%;']
+        ['style' => 'width:100%;', 'class' => 'chosen-select']
     );
     $dataType = sprintf('%s<br>%s', $this->escapeHtml($property['data_type_label']), $dataTypeSelect);
 } else {

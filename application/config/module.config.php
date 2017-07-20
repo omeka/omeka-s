@@ -396,6 +396,7 @@ return [
             'resourceClassSelect' => 'Omeka\Service\ViewHelper\ResourceClassSelectFactory',
             'propertySelect' => 'Omeka\Service\ViewHelper\PropertySelectFactory',
             'itemSetSelect' => 'Omeka\Service\ViewHelper\ItemSetSelectFactory',
+            'siteSelect' => 'Omeka\Service\ViewHelper\SiteSelectFactory',
             'resourceSelect' => 'Omeka\Service\ViewHelper\ResourceSelectFactory',
             'jsTranslate' => 'Omeka\Service\ViewHelper\JsTranslateFactory',
         ],
@@ -426,6 +427,7 @@ return [
             'Omeka\Form\Element\ResourceClassSelect' => 'Omeka\Service\Form\Element\ResourceClassSelectFactory',
             'Omeka\Form\Element\PropertySelect' => 'Omeka\Service\Form\Element\PropertySelectFactory',
             'Omeka\Form\Element\ItemSetSelect' => 'Omeka\Service\Form\Element\ItemSetSelectFactory',
+            'Omeka\Form\Element\SiteSelect' => 'Omeka\Service\Form\Element\SiteSelectFactory',
             'Omeka\Form\Element\Recaptcha' => 'Omeka\Service\Form\Element\RecaptchaFactory',
             'Omeka\Form\Element\HtmlTextarea' => 'Omeka\Service\Form\Element\HtmlTextareaFactory',
             'Omeka\Form\Element\Ckeditor' => 'Omeka\Service\Form\Element\CkeditorFactory',
@@ -436,7 +438,10 @@ return [
         'invokables' => [
             'literal' => 'Omeka\DataType\Literal',
             'uri' => 'Omeka\DataType\Uri',
-            'resource' => 'Omeka\DataType\Resource',
+            'resource' => 'Omeka\DataType\Resource\All',
+            'resource:item' => 'Omeka\DataType\Resource\Item',
+            'resource:itemset' => 'Omeka\DataType\Resource\ItemSet',
+            'resource:media' => 'Omeka\DataType\Resource\Media',
         ],
     ],
     'block_layouts' => [
@@ -505,6 +510,7 @@ return [
             'video/x-msvideo' => 'video',
             'video/ogg' => 'video',
             'video/webm' => 'video',
+            'mp3' => 'audio',
         ],
     ],
     'oembed' => [

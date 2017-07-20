@@ -1,0 +1,41 @@
+@import "base";
+
+#user-bar {
+    font-family: "Lato", sans-serif;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+    color: #fff;
+    background-color: $blue;
+    padding: $spacing-small $spacing-large;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#user-bar .logo:after {
+    content: "\2022";
+    margin: 0 $spacing-medium;
+}
+
+#user-bar a {
+    color: lighten(saturate($blue, 20%), 50%);
+    background-color: transparent
+}
+
+#user-bar .current-site {
+    margin-right: auto;
+}
+
+#user-bar .logout,
+#user-bar .login {
+    font-size: .75 * $base-font-size;
+    padding: 0 $spacing-small;
+    background-color: darken($blue, 15%);
+    border-radius: 3px;
+    display: inline-block;
+    text-align: center;
+    margin-left: $spacing-medium;
+}
+
+#user-bar .o-icon-edit {
+    margin-left: $spacing-medium;
+}

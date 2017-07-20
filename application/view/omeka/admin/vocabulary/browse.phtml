@@ -57,8 +57,8 @@ $sortHeadings = [
                     <?php if ($vocabulary->userIsAllowed('update')): ?>
                     <li><?php echo $vocabulary->link('', 'edit', [
                         'class' => 'o-icon-edit',
-                        'aria-label' => $escape($this->translate('Edit')),
-                        'title' => $escape($this->translate('Edit')),
+                        'aria-label' => $this->translate('Edit'),
+                        'title' => $this->translate('Edit'),
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($vocabulary->userIsAllowed('delete')): ?>

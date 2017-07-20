@@ -4,27 +4,23 @@ $namePrefix = 'o:resource_template_property[' . $property->id() . ']';
 $escape = $this->plugin('escapeHtml');
 $propertyId = $escape($property->id());
 ?>
-<li class="property row"
-    data-property-id="<?php echo $propertyId; ?>">
+<li class="property row" data-property-id="<?php echo $propertyId; ?>">
+
+    <input class="property-id" type="hidden" name="<?php echo $escape($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escape($property->id()); ?>">
+    <input class="original-label" type="hidden" name="<?php echo $escape($namePrefix . '[o:original_label]'); ?>" value="<?php echo $property->label(); ?>">
+    <input class="alternate-label" type="hidden" name="<?php echo $escape($namePrefix . '[o:alternate_label]'); ?>" value="<?php echo $escape($propertyRow['o:alternate_label']); ?>">
+    <input class="original-comment" type="hidden" name="<?php echo $escape($namePrefix . '[o:original_comment]'); ?>" value="<?php echo $property->comment(); ?>">
+    <input class="alternate-comment" type="hidden" name="<?php echo $escape($namePrefix . '[o:alternate_comment]'); ?>" value="<?php echo $escape($propertyRow['o:alternate_comment']); ?>">
+    <input class="is-required" type="hidden" name="<?php echo $escape($namePrefix . '[o:is_required]'); ?>" value="<?php echo $escape($propertyRow['o:is_required']); ?>">
+    <input class="data-type" type="hidden" name="<?php echo $escape($namePrefix . '[o:data_type]'); ?>" value="<?php echo $escape($propertyRow['o:data_type']); ?>">
+
     <span class="sortable-handle"></span>
-    <div class="property-label">
-        <label id="property-<?php echo $propertyId; ?>" aria-labelledby="original-label"><?php echo $escape($property->label()); ?></label>
-        <input type="text" name="<?php echo $escape($namePrefix . '[o:alternate_label]'); ?>" value="<?php echo $escape($propertyRow['o:alternate_label']); ?>" aria-labelledby="property-<?php echo $propertyId; ?> alternate-label">
-    </div>
-    <textarea name="<?php echo $escape($namePrefix . '[o:alternate_comment]'); ?>" aria-labelledby="property-<?php echo $propertyId; ?> alternate-comment"><?php echo $escape($propertyRow['o:alternate_comment']); ?></textarea>
-    <input class="property-id-element" type="hidden" name="<?php echo $escape($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escape($property->id()); ?>">
-    <?php echo $this->dataType()->getSelect($namePrefix . '[o:data_type]', $propertyRow['o:data_type']); ?>
-    <label class="require-property"><input type="checkbox" name="<?php echo $escape($namePrefix . '[o:is_required]'); ?>"<?php echo $propertyRow['o:is_required'] ? ' checked="checked"' : null; ?>><?php echo $this->translate('Require'); ?></label>
+    <?php echo $escape($property->label()); ?>
+
     <ul class="actions">
-        <li><a href="#"
-            class="o-icon-delete resource-template-property-remove"
-            aria-label="<?php echo $escape($this->translate('Remove property')); ?>"
-            title="<?php echo $escape($this->translate('Remove property')); ?>"></a></li>
-        <li><a href="#"
-            data-sidebar-content-url="<?php echo $escape($property->url('show-details')); ?>"
-            data-sidebar-selector="#details"
-            class="o-icon-more sidebar-content"
-            aria-label="<?php echo $escape($this->translate('Details')); ?>"
-            title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
+        <li><a href="#" class="o-icon-edit property-edit" aria-label="<?php echo $escape($this->translate('Edit property')); ?>" title="<?php echo $escape($this->translate('Edit property')); ?>"></a></li>
+        <li><a href="#" class="o-icon-delete property-remove" aria-label="<?php echo $escape($this->translate('Remove property')); ?>" title="<?php echo $escape($this->translate('Remove property')); ?>"></a></li>
+        <li><a href="#" class="o-icon-undo property-restore" aria-label="<?php echo $escape($this->translate('Restore value')); ?>" title="<?php echo $escape($this->translate('Restore value')); ?>" style="display: none;"></a></li>
+        <li><a href="#" class="o-icon-more sidebar-content" aria-label="<?php echo $escape($this->translate('Details')); ?>" title="<?php echo $escape($this->translate('Details')); ?>" data-sidebar-content-url="<?php echo $escape($property->url('show-details')); ?>" data-sidebar-selector="#details"></a></li>
     </ul>
 </li>

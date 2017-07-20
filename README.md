@@ -55,12 +55,18 @@ You can find Omeka-specific code under `application/`.
 
 ### Updating from released zip file
 1. Download the latest release from the [release page](https://github.com/omeka/omeka-s/releases)
-2. Make a copy of your `/config/local.config.php` file.
+2. Make a copy of your `/config` directory. You will need to restore your `local.config.php` and `database.ini` files from that copy.
 3. Make a copy of your `/modules` and `/themes` directories.
 4. Make a copy of your `/files` directory.
 5. Remove all Omeka S files, and replace them with the files from the updated zip file.
 6. Replace your original `/config/local.config.php` file, and the `/modules`, `/themes`, and `/files` directories that you copied.
 7. In your web browser, go to your site and run any migrations that are needed.
+
+## Creating a zipped release
+
+`gulp zip` will create a zipped version of Omeka S and store it in `/build`. Use the `--no-dev` flag to omit Composer
+dev dependencies for a smaller package suitable for end-users. Official releases follow this same process from a
+new, clean checkout.
 
 ## local.config.php options
 

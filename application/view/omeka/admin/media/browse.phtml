@@ -67,8 +67,8 @@ $sortHeadings = [
                     <ul class="actions">
                         <li><?php echo $media->link('', 'edit', [
                             'class' => 'o-icon-edit',
-                            'aria-label' => $escape($this->translate('Edit')),
-                            'title' => $escape($this->translate('Edit')),
+                            'aria-label' => $this->translate('Edit'),
+                            'title' => $this->translate('Edit'),
                         ]); ?></li>
                         <?php if ($media->userIsAllowed('delete')): ?>
                         <li><a href="#"

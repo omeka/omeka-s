@@ -8,6 +8,13 @@ if (isset($query['resource_class_id'])) {
     $resourceClassId = null;
 }
 
+// Prepare the site query.
+if (isset($query['site_id'])) {
+    $siteId = $query['site_id'] ;
+} else {
+    $siteId = null;
+}
+
 // Prepare the property queries.
 $properties = isset($query['property']) ? $query['property'] : [];
 $properties = array_filter($properties, function ($value) {
@@ -95,6 +102,18 @@ $queryText = function(array $search, $index) {
         endforeach;
         ?>
         <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
+    </div>
+</div>
+
+<div class="field">
+    <div class="field-meta">
+        <label for="site_id"><?php echo $this->translate('In site pool'); ?></label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->siteSelect([
+            'name' => 'site_id',
+            'attributes' => ['id' => 'site_id', 'value' => $siteId]
+        ]); ?>
     </div>
 </div>
 

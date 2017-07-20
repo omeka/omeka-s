@@ -1,0 +1,31 @@
+<?php 
+$alwaysShowUserBar = $this->siteSetting('show_user_bar', false);
+$currentUser = $this->identity();
+?>
+
+<?php if ( $currentUser || $alwaysShowUserBar): ?>
+    <?php 
+    $escape = $this->plugin('escapeHtml'); 
+    $this->headLink()->prependStylesheet($this->assetUrl('css/user-bar.css', 'Omeka'));
+    $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
+    ?>
+    <div id="user-bar">
+        <?php if ($currentUser): ?>
+        <div class="logo"><a href="<?php echo $this->url('admin'); ?>"><?php echo $this->setting('installation_title', 'Omeka S'); ?></a></div>
+        <span class="current-site">
+            <a href="<?php echo $site->adminUrl('show'); ?>"><?php echo $site->title(); ?></a>
+        </span>
+        <span class="user-id">
+        <?php 
+        echo sprintf($this->translate('Signed in as %s'),  '<a href="' . $this->url('admin/id', [
+            'controller' => 'user',
+            'id' => $this->identity()->getId(),
+        ]) . '">' . $escape($this->identity()->getName()) . '</a>'); 
+        ?>
+        </span>
+        <span class="logout"><a href="<?php echo $this->url('logout'); ?>"><?php echo $this->translate('Logout'); ?></a></span>
+        <?php else: ?>
+        <span class="login"><a href="<?php echo $this->url('login'); ?>"><?php echo $this->translate('Log in'); ?></a></span>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

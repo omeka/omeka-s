@@ -275,6 +275,11 @@ body {
         }
     }
 
+    label input[type="checkbox"] {
+        display: inline-block;
+        width: auto;
+    }
+
     label.required:after  {
         font-family: "FontAwesome";
         content: $fa-var-asterisk;
@@ -384,6 +389,7 @@ body {
             border-radius: 3px;
             border-collapse: $border-gray;
             color: $copy-gray;
+            border-color: $border-gray;
         }
 
         .chosen-container-active.chosen-with-drop .chosen-single {
@@ -2356,8 +2362,11 @@ input[type="text"].value-language,
     .resource-search {
         width: 100%;
         position: relative;
-        overflow: hidden;
-        margin-bottom: $spacing-large;
+        margin-bottom: $spacing-small;
+    }
+
+    .chosen-container {
+        margin-bottom: $spacing-small;
     }
 
     #resource-list-search {
@@ -2389,6 +2398,24 @@ input[type="text"].value-language,
     .resource-search > input[type="text"] {
         width: calc(100% - #{(1.5 * $spacing-large)});
         border-right: 0;
+        margin-bottom: $spacing-small;
+    }
+}
+
+.resource-search-filters {
+    padding-bottom: $spacing-small - 1px;
+    border-bottom: 1px solid $border-gray;
+    margin-bottom: $spacing-medium;
+    width: 100%;
+
+    a.expand:after,
+    a.collapse:after {
+        float: right;
+    }
+
+    .collapsible {
+        margin-top: $spacing-small;
+        overflow: visible;
     }
 }
 
@@ -2399,6 +2426,7 @@ input[type="text"].value-language,
         padding-bottom: ($spacing-medium - 1px);
         margin-bottom: 0;
         overflow: hidden;
+        width: 100%;
 
         li {
             float: left;
@@ -2505,10 +2533,7 @@ input[type="text"].value-language,
     .resource-name {
         margin: 0;
         width: calc(100% - #{$spacing-large});
-
-        &:only-child {
-            margin: 0 0 0 $spacing-small;
-        }
+        flex: 1;
     }
 
     .resource {
@@ -2807,8 +2832,15 @@ input[type="text"].value-language,
         vertical-align: middle;
     }
 
+    input,
+    textarea,
     select {
         width: 100%;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        width: auto;
     }
 
     h2 {
@@ -2844,6 +2876,17 @@ input[type="text"].value-language,
         padding: 0;
         margin-bottom: $spacing-large;
         flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .field .option {
+        width: 100%;
+    }
+
+    .field .option + .option {
+        padding-top: ($spacing-medium - 1px);
+        border-top: 1px solid $border-gray;
+        margin-top: $spacing-medium;
     }
 
     .button,
@@ -2958,44 +3001,15 @@ body.sidebar-open #content {
     width: 100%;
 }
 
-.resource-templates th:first-of-type,
-.resource-templates td:first-of-type, {
-    width: span(2 of 10);
-    padding-right: $spacing-large;
-}
-
-.resource-templates th:nth-of-type(2) {
-    width: span(2 of 10);
-}
-
-.resource-templates th:nth-of-type(3) {
-    width: span(4 of 10);
-}
-
-.resource-templates .local-name {
-    font-style: italic;
-}
-
-.resource-templates .property.row {
-    padding: (1.75 * $spacing-large) $spacing-small $spacing-small (2 * $spacing-large);
+.resource-template .property.row {
+    padding: $spacing-small $spacing-small $spacing-small (2 * $spacing-large);
 
     &.delete {
         background-color: $delete-bg;
     }
-
-    label:first-child,
-    input[type="text"],
-    textarea,
-    select {
-        display: inline-block;
-        vertical-align: top;
-        resize: vertical;
-    }
 }
 
-.resource-templates .property.row .sortable-handle {
-    background-color: $gray-on-white;
-    width: 100%;
+.resource-template .property.row .sortable-handle {
     top: 0;
     left: 0;
     height: (1.5 * $spacing-large);
@@ -3008,13 +3022,7 @@ body.sidebar-open #content {
     }
 }
 
-.resource-templates .property.row label,
-.resource-templates .property.row input[type="text"] {
-    width: 100%;
-    line-height: 1.5 * $spacing-large;
-}
-
-.resource-templates .property.row .actions {
+.resource-template .property.row .actions {
     position: absolute;
     right: $spacing-small;
     top: $spacing-small;
@@ -3025,50 +3033,35 @@ body.sidebar-open #content {
     margin: $spacing-large 0 0;
     clear: both;
     padding: 0;
+}
 
-    & > li:first-child {
-        @include field-row;
-        padding-left: (1.8333 * $spacing-large);
+.resource-template #edit-sidebar {
+    padding-bottom: 2 * $spacing-large;
+}
+
+.resource-template #edit-sidebar .field h4,
+.resource-template #edit-sidebar .field h4 + span {
+    width: 100%;
+}
+
+.resource-template #edit-sidebar .field h4 + span {
+    margin-bottom: $spacing-medium;
+}
+
+.resource-template #edit-sidebar .field label:not(:first-child),
+.resource-template #edit-sidebar .field .option label {
+    margin: 0;
+    padding-bottom: $spacing-small;
+
+    &:only-child {
+        padding-bottom: 0;
     }
-}
 
-.resource-templates .property-heading {
-    font-weight: bold;
-    display: inline-block;
-    width: span(3 of 9);
-}
-
-.resource-templates .property-heading:not(:first-child) {
-    margin-left: -4px;
-}
-
-.resource-templates .property.row .property-label,
-.resource-templates .property.row textarea,
-.resource-templates .property.row select {
-    display: inline-block;
-    width: calc(#{span(3 of 9)} - #{$spacing-small});
-    margin-left: -4px;
-    margin-right: $spacing-small;
-}
-
-.resource-templates .property.row .property-label {
-    margin-top: -(1.75 * $spacing-large);
-}
-
-.resource-templates .property.row label {
-    margin-bottom: $spacing-small;
-}
-
-.resource-templates .property.row select {
-    width: span(3 of 9);
-    margin-right: 0;
-}
-
-.resource-templates .property.row label.require-property {
-    margin: -(1.5 * $spacing-large) 0 0 -4px;
-    display: block;
-    width: auto;
-    float: left;
+    &:after {
+        padding: 0;
+        margin: 0;
+        background: transparent;
+    }
 }
 
 /* @end */

@@ -422,6 +422,8 @@ var Omeka = {
             e.preventDefault();
             $(this).closest('.value').remove();
         });
+
+        $('.chosen-select').chosen(chosenOptions);
     });
 
 }(window.jQuery, window, document));

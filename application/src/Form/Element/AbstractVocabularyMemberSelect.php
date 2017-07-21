@@ -72,8 +72,10 @@ abstract class AbstractVocabularyMemberSelect extends Select
         }
 
         // Move Dublin Core vocabularies (dcterms & dctype) to the beginning.
-        $valueOptions = ['dcterms' => $valueOptions['dcterms']] + $valueOptions;
-        if ('resource_classes' === $resourceName) {
+        if (isset($valueOptions['dcterms'])) {
+            $valueOptions = ['dcterms' => $valueOptions['dcterms']] + $valueOptions;
+        }
+        if (isset($valueOptions['dctype'])) {
             $valueOptions = ['dctype' => $valueOptions['dctype']] + $valueOptions;
         }
 

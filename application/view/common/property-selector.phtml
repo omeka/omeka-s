@@ -23,13 +23,14 @@ $escape = $this->plugin('escapeHtml');
             <span><?php echo $escape($this->translate($vocabulary->label())); ?></span> (<span class="selector-child-count"><?php echo count($vocabulary->properties()); ?></span>)
             <ul>
                 <?php foreach ($properties as $property): ?>
+                <?php $propertyComment = $property->comment(); ?>
                 <li class='selector-child'
                     data-child-search="<?php echo $escape($this->translate($property->label())); ?>"
                     data-property-id="<?php echo $escape($property->id()); ?>"
                     data-property-term="<?php echo $escape($property->term()); ?>">
-                    <div class="description">
+                    <div class="description <?php echo (isset($propertyComment)) ? '' : 'no-comment'; ?>">
                         <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More info'); ?></span></p>
-                        <p class="field-comment"><?php echo $escape($this->translate($property->comment())); ?></p>
+                        <p class="field-comment"><?php echo $escape($this->translate($propertyComment)); ?></p>
                     </div>
                     <span class="selectable"><?php echo $escape($this->translate($property->label())); ?></span>
                 </li>

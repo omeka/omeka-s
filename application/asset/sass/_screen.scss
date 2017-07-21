@@ -372,10 +372,6 @@ body {
         margin: 0;
     }
 
-    .selector.sidebar .selector-parent {
-        margin-bottom: 0;
-    }
-
         /* @group ----- Forms elements: Chosen selects ----- */
     
         .chosen-container-single .chosen-single {
@@ -1661,18 +1657,21 @@ input[type="text"].value-language,
     }
 
     .selector .selectable-list li {
-        padding: $spacing-small 10px;
+        padding: $spacing-small $spacing-medium;
     }
 
-    .selector-parent {
+    .selector .selectable-list .selector-parent {
         cursor: pointer;
+        padding-right: $spacing-large;
+        margin-bottom: 0;
 
         &:after {
             content: $fa-var-caret-right;
             font-family: "FontAwesome";
             position: absolute;
-            right: (1.5 * $spacing-medium);
+            right: 0;
             top: $spacing-small;
+            width: 1.5 * $spacing-medium;
         }
 
         &.show:after {
@@ -1706,9 +1705,10 @@ input[type="text"].value-language,
         border-radius: 0;
         font-weight: normal;
         padding: $spacing-small 10px;
-        margin: 0 -10px;
+        margin: 0 (-$spacing-medium);
         font-size: $base-font-size;
         text-transform: none;
+        width: calc(100% + #{1.5 * $spacing-large});
 
         &:hover {
             background-color: $gray-on-white;
@@ -1722,6 +1722,10 @@ input[type="text"].value-language,
     .selector .description {
         display: inline-block;
         vertical-align: top;
+
+        &.no-comment {
+            opacity: 0;
+        }
 
         .o-icon-info {
             display: inline-block;
@@ -1769,16 +1773,13 @@ input[type="text"].value-language,
             top: -9999px;
             left: -9999px;
             width: calc(100% - 5px);
-
-            &:empty {
-                padding: 0;
-            }
         }
     }
 
     .selector .selectable {
         display: inline-block;
         width: calc(100% - #{(1.5 * $spacing-large)});
+        word-break: break-word;
     }
 
     .field-actions {
@@ -2100,7 +2101,7 @@ input[type="text"].value-language,
 
     .value.delete span.restore-value {
         display: inline-block;
-        padding: 0;
+        padding: 0 $spacing-small;
     }
 
     .value.delete > *:not(.input-header) {

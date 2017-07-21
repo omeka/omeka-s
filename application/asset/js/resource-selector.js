@@ -62,7 +62,6 @@
         });
 
         $('#select-resource').on('o:sidebar-content-loaded', function(e) {
-            console.log(chosenOptions);
             // Make a shallow copy of the Chosen options so we can modify it
             // without affecting subsequent Chosen instances.
             var newOptions = $.extend({}, chosenOptions);

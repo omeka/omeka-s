@@ -119,7 +119,6 @@
                         value = makeNewValue(field.data('property-term'), null, 'resource');
                         field.find('.values').append(value);
                     }
-                    console.log(value[0]);
                     var valueObj = $(this).data('resource-values');
                     var namePrefix = value.data('name-prefix');
                     $(document).trigger('o:prepare-value', ['resource', value, valueObj, namePrefix]);

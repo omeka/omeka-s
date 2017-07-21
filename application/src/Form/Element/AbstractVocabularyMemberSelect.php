@@ -86,4 +86,3 @@ abstract class AbstractVocabularyMemberSelect extends Select
         return $valueOptions;
     }
 }
-

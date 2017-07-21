@@ -86,4 +86,3 @@ abstract class AbstractGroupByOwnerSelect extends Select
         return $valueOptions;
     }
 }
-

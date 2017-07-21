@@ -422,7 +422,7 @@ class IndexController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('omeka/admin/item/sidebar-select');
         $value = $this->params()->fromQuery('value');
-        $view->setVariable('searchValue', $value ? $value['in'][0] : '');
+        $view->setVariable('search', $value ? $value['in'][0] : '');
         $view->setVariable('items', $items);
         $view->setVariable('showDetails', false);
         return $view;

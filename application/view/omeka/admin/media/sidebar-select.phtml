@@ -1,21 +1,30 @@
-<?php $escape = $this->plugin('escapeHtml'); ?>
+<?php 
+$escape = $this->plugin('escapeHtml'); 
+$mediaFound = count($media) > 0;
+?>
 
 <h3><?php echo $this->translate('Select media'); ?></h3>
 <div class="search-nav">
-    <div id="sidebar-resource-search" class="resource-search">
-        <input type="text" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
-        <button data-search-url="<?php echo $escape($this->url('admin/default', ['controller' => 'media', 'action' => 'sidebar-select'])); ?>" type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
+    <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
+        <input type="text" name="search" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
+        <button type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
     </div>
-<?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+    <?php if ($mediaFound): ?>
+    <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+    <?php endif; ?>
 </div>
 
 <div class="resource-list">
-    <?php foreach ($media as $m):?>
-    <div class="resource item-set">
-        <img src="<?php echo $escape($m->thumbnailUrl('square')); ?>">
-        <span class="resource-name">
-            <a href="#" class="sidebar-content select-resource" data-sidebar-content-url="<?php echo $escape($m->url('show-details')); ?>" data-sidebar-selector="#resource-details"><?php echo $escape($m->displayTitle()); ?></a>
-        </span>
-    </div>
-    <?php endforeach; ?>
+    <?php if ($mediaFound): ?>
+        <?php foreach ($media as $m):?>
+        <div class="resource item-set">
+            <img src="<?php echo $escape($m->thumbnailUrl('square')); ?>">
+            <span class="resource-name">
+                <a href="#" class="sidebar-content select-resource" data-sidebar-content-url="<?php echo $escape($m->url('show-details')); ?>" data-sidebar-selector="#resource-details"><?php echo $escape($m->displayTitle()); ?></a>
+            </span>
+        </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <span class="no-resources"><?php echo $this->translate(sprintf('No %s found.', $this->translate('media'))); ?></
+    <?php endif; ?>
 </div>

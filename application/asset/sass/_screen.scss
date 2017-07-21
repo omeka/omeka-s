@@ -2312,14 +2312,12 @@ input[type="text"].value-language,
         width: 100%;
         position: relative;
         margin-bottom: $spacing-small;
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .chosen-container {
         margin-bottom: $spacing-small;
-    }
-
-    #resource-list-search {
-        float: left;
     }
 
     button.o-icon-search {
@@ -2329,10 +2327,9 @@ input[type="text"].value-language,
         padding: 0 10px;
         border-radius: 0 3px 3px 0;
         min-height: 0;
-        position: absolute;
-        top: 0;
-        right: 0;
+        position: relative;
         text-indent: -9999px;
+        margin: 0;
 
         &:before {
             text-indent: 0px;
@@ -2354,7 +2351,7 @@ input[type="text"].value-language,
 .resource-search-filters {
     padding-bottom: $spacing-small - 1px;
     border-bottom: 1px solid $border-gray;
-    margin-bottom: $spacing-medium;
+    margin-bottom: $spacing-small;
     width: 100%;
 
     a.expand:after,
@@ -2419,7 +2416,6 @@ input[type="text"].value-language,
 #item-results {
     padding: $spacing-medium;
     margin: -$spacing-medium;
-    border-bottom: 1px solid $border-gray;
 
     & + .confirm-panel,
     .select-resource-checkbox-wrapper {

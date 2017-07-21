@@ -1,5 +1,6 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+$itemsFound = count($items) > 0;
 ?>
 
 <div id="item-results">
@@ -42,9 +43,12 @@ $escape = $this->plugin('escapeHtml');
                 </div>
             </div>
         </div>
+        <?php if ($itemsFound): ?>
         <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+        <?php endif; ?>
     </div>
 
+    <?php if ($itemsFound): ?>
     <button type="button" class="quick-select-toggle"><?php echo $this->translate('Quick add'); ?></button>
     
     <div class="resource-list">
@@ -66,6 +70,9 @@ $escape = $this->plugin('escapeHtml');
         </div>
         <?php endforeach; ?>
     </div>
+    <?php else: ?>
+    <span class="no-resources"><?php echo $this->translate(sprintf('No %s found.', $this->translate('items'))); ?></span>
+    <?php endif; ?>
 </div>
 
 <div class="confirm-panel">

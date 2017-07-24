@@ -1141,7 +1141,6 @@ div[role="main"] {
 .actions {
     margin: 0 0 0 auto;
     display: flex;
-    order: 5;
 }
 
 .actions li {
@@ -2191,28 +2190,16 @@ input[type="text"].value-language,
     .media.row img {
         width: 1.5 * $spacing-large;
         height: auto;
-        order: 2;
         margin-right: $spacing-medium;
     }
 
     .media.row .resource-name {
         margin-right: $spacing-medium;
-    }
-
-    .media.row .sortable-handle {
-        order: 1;
+        word-break: break-word;
     }
 
     .media.row .actions {
-        order: 4;
         margin-left: auto;
-    }
-
-    .media.row .resource-name {
-        word-break: break-all;
-        order: 3;
-        margin-right: $spacing-medium;
-        left: auto;
     }
 
     .media.value.delete span.restore-value {
@@ -3283,7 +3270,6 @@ body.sidebar-open #content {
     }
 
     .block .attachment .actions {
-        order: 4;
         margin-left: auto;
     }
 

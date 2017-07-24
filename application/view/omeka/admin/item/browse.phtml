@@ -88,6 +88,15 @@ $sortHeadings = [
                 <?php if ($item->userIsAllowed('update') || $item->userIsAllowed('delete')): ?>
                 <input type="checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
                 <?php endif; ?>
+                <?php if ($media = $item->primaryMedia()): ?>
+                <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
+                <?php endif; ?>
+                <span class="resource-name">
+                    <?php echo $item->link($item->displayTitle()); ?>
+                </span>
+                <?php if (!$item->isPublic()): ?>
+                    <span class="o-icon-private"></span>
+                <?php endif; ?>
                 <ul class="actions">
                     <?php if ($item->userIsAllowed('update')): ?>
                     <li><?php echo $item->link('', 'edit', [
@@ -111,15 +120,6 @@ $sortHeadings = [
                         aria-label="<?php echo $escape($this->translate('Details')); ?>"
                         title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
                 </ul>
-                <?php if ($media = $item->primaryMedia()): ?>
-                <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
-                <?php endif; ?>
-                <span class="resource-name">
-                    <?php echo $item->link($item->displayTitle()); ?>
-                </span>
-                <?php if (!$item->isPublic()): ?>
-                    <span class="o-icon-private"></span>
-                <?php endif; ?>
             </td>
             <td><?php echo $escape($item->displayResourceClassLabel()); ?></td>
             <td><?php echo $ownerText; ?></td>

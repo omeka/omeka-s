@@ -1,22 +1,25 @@
 # Omeka S
 
 Omeka S is a web publication system for universities, galleries, libraries,
-archives, and museums. It consists of a local network of independently curated exhibits sharing
-a collaboratively built pool of items, media, and their metadata.
+archives, and museums. It consists of a local network of independently curated
+exhibits sharing a collaboratively built pool of items, media, and their metadata.
 
 ## Installation
 
 ### Requirements
 * Linux
-* Apache
-* MySql 5.5.3+ and the MySQL driver for PDO
-* PHP 5.6+ (the latest stable version preferred) and the PHP extensions for PDO
+* Apache (with [AllowOverride](https://httpd.apache.org/docs/2.4/mod/core.html#allowoverride) set to "All" and [mod_rewrite](http://httpd.apache.org/docs/current/mod/mod_rewrite.html) enabled)
+* MySql 5.5.3+
+* PHP 5.6+ (latest stable version preferred, with [PDO](http://php.net/manual/en/intro.pdo.php), [pdo_mysql](http://php.net/manual/en/ref.pdo-mysql.php), and [xml](http://php.net/manual/en/intro.xml.php) extensions installed)
 
 ### Gotchas
-* The default library for generating thumbnails is ImageMagick, at least version 6.7.5. Older versions will not correctly produce thumbnails. See local.config.php options below. 
+* The default library for generating thumbnails is ImageMagick, at least version
+6.7.5. Older versions will not correctly produce thumbnails. See local.config.php
+options below. 
 
 ### Installing from GitHub
 
+1. Make sure [Node.js](https://nodejs.org/) and [npm](https://nodejs.org/) are installed
 1. Clone this repository in your Apache web directory:
    * `$ git clone https://github.com/omeka/omeka-s.git`
 1. Change into the Omeka S directory:

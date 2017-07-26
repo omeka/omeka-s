@@ -17,6 +17,9 @@ $escape = $this->plugin('escapeHtml');
 <div class="asset-list">
 <?php foreach ($assets as $asset): ?>
     <div class="asset">
+        <span class="actions" style='float: right'>
+            <a href="#" class="o-icon-delete remove-value delete-asset" title="Delete asset" aria-label="Delete asset"></a>
+        </span>
         <a class="select-asset" href="#" data-asset-id="<?php echo $escape($asset->id()); ?>">
             <img src="<?php echo $escape($asset->assetUrl()); ?>">
             <?php echo $escape($asset->name()); ?>

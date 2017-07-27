@@ -242,6 +242,8 @@ return [
             'Omeka\File\LocalStore' => 'Omeka\Service\LocalStoreFactory',
             'Omeka\File\MediaTypeMap' => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager' => 'Omeka\Service\FileManagerFactory',
+            'Omeka\File\Downloader' => 'Omeka\Service\File\DownloaderFactory',
+            'Omeka\File\Validator' => 'Omeka\Service\File\ValidatorFactory',
             'Omeka\Mailer' => 'Omeka\Service\MailerFactory',
             'Omeka\HtmlPurifier' => 'Omeka\Service\HtmlPurifierFactory',
             'Omeka\BlockLayoutManager' => 'Omeka\Service\BlockLayoutManagerFactory',
@@ -261,6 +263,7 @@ return [
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
             'Omeka\File\GdThumbnailer' => 'Omeka\File\Thumbnailer\GdThumbnailer',
             'Omeka\File\ImagickThumbnailer' => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
+            'Omeka\File\Uploader' => 'Omeka\File\Uploader',
         ],
         'delegators' => [
             'Zend\I18n\Translator\TranslatorInterface' => [

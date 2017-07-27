@@ -71,7 +71,7 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
             array_unshift($args, '-auto-orient');
         }
 
-        $file = $fileManager->getTempFile();
+        $file = $fileManager->createTempFile();
         $tempPath = sprintf('%s.%s', $file->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
         $file->delete();
 

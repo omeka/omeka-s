@@ -165,19 +165,49 @@ class Manager
     }
 
     /**
-     * Get the file store service.
+     * Factory for creating a new temporary file object.
      *
-     * @return StoreInterface
+     * @return TempFile
      */
-    public function getStore()
+    public function createTempFile()
     {
-        return $this->serviceLocator->get($this->config['store']);
+        return new TempFile($this);
+    }
+
+    /**
+     * Get the file manager configuration.
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * Get the configured temporary directory.
+     *
+     * @return string
+     */
+    public function getTempDir()
+    {
+        return $this->tempDir;
+    }
+
+    /**
+     * Get the media type map.
+     *
+     * @return array
+     */
+    public function getMediaTypeMap()
+    {
+        return $this->serviceLocator->get('Omeka\File\MediaTypeMap');
     }
 
     /**
      * Get the thumbnailer service.
      *
-     * @return ThumbnailerInterface
+     * @return \Omeka\File\Thumbnailer\ThumbnailerInterface
      */
     public function getThumbnailer()
     {
@@ -185,19 +215,43 @@ class Manager
     }
 
     /**
-     * Store original file.
+     * Get the file store service.
      *
-     * @param File $file
-     * @return string Storage-side path for the stored file
+     * @return \Omeka\File\Store\StoreInterface
      */
-    public function storeOriginal(File $file)
+    public function getStore()
     {
-        $storagePath = $this->getStoragePath(
-            self::ORIGINAL_PREFIX,
-            $this->getStorageName($file)
-        );
-        $this->getStore()->put($file->getTempPath(), $storagePath);
-        return $storagePath;
+        return $this->serviceLocator->get($this->config['store']);
+    }
+
+    /**
+     * Get the file downloader service.
+     *
+     * @return \Omeka\File\Downloader
+     */
+    public function getDownloader()
+    {
+        return $this->serviceLocator->get('Omeka\File\Downloader');
+    }
+
+    /**
+     * Get the file validator service.
+     *
+     * @return \Omeka\File\Validator
+     */
+    public function getValidator()
+    {
+        return $this->serviceLocator->get('Omeka\File\Validator');
+    }
+
+    /**
+     * Get the file uploader service.
+     *
+     * @return \Omeka\File\Uploader
+     */
+    public function getUploader()
+    {
+        return $this->serviceLocator->get('Omeka\File\Uploader');
     }
 
     /**
@@ -227,50 +281,6 @@ class Manager
             $media->getFilename()
         );
         return $this->getStore()->getUri($storagePath);
-    }
-
-    /**
-     * Create and store thumbnail derivatives.
-     *
-     * Gets the thumbnailer from the service manager for each call to this
-     * method. This gives thumbnailers an opportunity to be non-shared services,
-     * which can be useful for resolving memory allocation issues.
-     *
-     * @param string $source
-     * @return bool Whether thumbnails were created and stored
-     */
-    public function storeThumbnails(File $file)
-    {
-        $thumbnailer = $this->getThumbnailer();
-        $tempPaths = [];
-
-        try {
-            $thumbnailer->setSource($file);
-            $thumbnailer->setOptions($this->config['thumbnail_options']);
-            foreach ($this->config['thumbnail_types'] as $type => $config) {
-                $tempPaths[$type] = $thumbnailer->create(
-                    $this, $config['strategy'], $config['constraint'], $config['options']
-                );
-            }
-        } catch (Exception\CannotCreateThumbnailException $e) {
-            // Delete temporary files created before exception was thrown.
-            foreach ($tempPaths as $tempPath) {
-                @unlink($tempPath);
-            }
-            return false;
-        }
-
-        // Finally, store the thumbnails.
-        foreach ($tempPaths as $type => $tempPath) {
-            $storagePath = $this->getStoragePath(
-                $type, $file->getStorageId(), self::THUMBNAIL_EXTENSION
-            );
-            $this->getStore()->put($tempPath, $storagePath);
-            // Delete the temporary file in case the file store hasn't already.
-            @unlink($tempPath);
-        }
-
-        return true;
     }
 
     /**
@@ -384,164 +394,5 @@ class Manager
     public function getBasename($name)
     {
         return strstr($name, '.', true) ?: $name;
-    }
-
-    /**
-     * Get a File object for a new temporary file
-     *
-     * Reserves a new unique filename in the configured temp directory
-     *
-     * @return File
-     */
-    public function getTempFile()
-    {
-        return new File(tempnam($this->tempDir, 'omeka'));
-    }
-
-    /**
-     * Get the filename extension for the original file.
-     *
-     * Heuristically determines whether the passed file has an extension. The
-     * source name must contain at least one dot, the source name must not end
-     * with a dot, and the extension must not be over 12 characters.
-     *
-     * Returns the extension if found. Returns a "best guess" extension if the
-     * media type is known but the original extension is not found. Returns
-     * false if the file has no source name or the file has no extension and the
-     * media type cannot be mapped to an extension.
-     *
-     * @param File
-     * @return string|false
-     */
-    public function getExtension(File $file)
-    {
-        $extension = false;
-        if (!$sourceName = $file->getSourceName()) {
-            return $extension;
-        }
-        $dotPos = strrpos($sourceName, '.');
-        if (false !== $dotPos) {
-            $sourceNameLen = strlen($sourceName);
-            $extensionPos = $dotPos + 1;
-            if ($sourceNameLen !== $extensionPos && (12 >= $sourceNameLen - $extensionPos)) {
-                $extension = strtolower(substr($sourceName, $extensionPos));
-            }
-        }
-        if (false === $extension) {
-            $mediaTypeMap = $this->serviceLocator->get('Omeka\File\MediaTypeMap');
-            $mediaType = $file->getMediaType();
-            if (isset($mediaTypeMap[$mediaType][0])) {
-                $extension = strtolower($mediaTypeMap[$mediaType][0]);
-            }
-        }
-        return $extension;
-    }
-
-    /**
-     * Download a file.
-     *
-     * Pass the $errorStore object if an error should raise an API validation
-     * error. Returns true on success, false on error.
-     *
-     * @param Zend\Uri\Http|string $uri
-     * @param string $tempPath
-     * @param ErrorStore|null $errorStore
-     * @return bool
-     */
-    public function downloadFile($uri, $tempPath, ErrorStore $errorStore = null)
-    {
-        $client = $this->serviceLocator->get('Omeka\HttpClient');
-        $logger = $this->serviceLocator->get('Omeka\Logger');
-
-        // Disable compressed response; it's broken alongside streaming
-        $client->getRequest()->getHeaders()->addHeaderLine('Accept-Encoding', 'identity');
-        $client->setUri($uri)->setStream($tempPath);
-
-        // Attempt three requests before handling an exception.
-        $attempt = 0;
-        while (true) {
-            try {
-                $response = $client->send();
-                break;
-            } catch (\Exception $e) {
-                if (++$attempt === 3) {
-                    $logger->err((string) $e);
-                    if ($errorStore) {
-                        $message = sprintf(
-                            'Error downloading %s: %s',
-                            (string) $uri,
-                            $e->getMessage()
-                        );
-                        $errorStore->addError('error', $message);
-                    }
-                    return false;
-                }
-            }
-        }
-
-        if (!$response->isOk()) {
-            $message = sprintf(
-                'Error downloading %s: %s %s',
-                (string) $uri,
-                $response->getStatusCode(),
-                $response->getReasonPhrase()
-            );
-            if ($errorStore) {
-                $errorStore->addError('error', $message);
-            }
-            $logger->err($message);
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Get the storage-side name for an original file
-     */
-    protected function getStorageName(File $file)
-    {
-        $extension = $this->getExtension($file);
-        $storageName = sprintf('%s%s', $file->getStorageId(),
-            $extension ? ".$extension" : null);
-        return $storageName;
-    }
-
-    /**
-     * Validate a file.
-     *
-     * Validates a file against the media type and extension whitelists. Prior
-     * to calling this method the file must be saved to `File::$tempPath` and
-     * the file's original filename must be saved to `File::$sourceName`.
-     *
-     * @param File $file
-     * @param ErrorStore $errorStore
-     * @return bool
-     */
-    public function validateFile(File $file, ErrorStore $errorStore)
-    {
-        $settings = $this->serviceLocator->get('Omeka\Settings');
-        if ($settings->get('disable_file_validation')) {
-            return true;
-        }
-
-        $mediaType = $file->getMediaType();
-        $extension = $file->getExtension($this);
-        $mediaTypeIsValid = in_array($mediaType, $settings->get('media_type_whitelist', []));
-        $extensionIsValid = in_array($extension, $settings->get('extension_whitelist', []));
-
-        if (!$mediaTypeIsValid) {
-            $errorStore->addError('upload', new Message(
-                'Error ingesting "%s". Cannot store files with the media type "%s".', // @translate
-                $file->getSourceName(), $mediaType
-            ));
-        }
-        if (!$extensionIsValid) {
-            $errorStore->addError('upload', new Message(
-                'Error ingesting "%s". Cannot store files with the resolved extension "%s".', // @translate
-                $file->getSourceName(), $extension
-            ));
-        }
-        return $mediaTypeIsValid && $extensionIsValid;
     }
 }

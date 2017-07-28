@@ -16,7 +16,6 @@ class IIIFFactory implements FactoryInterface
     {
         return new IIIF(
             $services->get('Omeka\HttpClient'),
-            $services->get('Omeka\File\Manager'),
             $services->get('Omeka\File\Downloader')
         );
     }

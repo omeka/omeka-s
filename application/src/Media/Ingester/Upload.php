@@ -5,18 +5,12 @@ use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\File\Uploader;
 use Omeka\File\Validator;
-use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\File;
 use Zend\View\Renderer\PhpRenderer;
 
 class Upload implements IngesterInterface
 {
-    /**
-     * @var FileManager
-     */
-    protected $fileManager;
-
     /**
      * @var Validator
      */
@@ -27,10 +21,8 @@ class Upload implements IngesterInterface
      */
     protected $uploader;
 
-    public function __construct(FileManager $fileManager, Validator $validator,
-        Uploader $uploader
-    ) {
-        $this->fileManager = $fileManager;
+    public function __construct(Validator $validator, Uploader $uploader)
+    {
         $this->validator = $validator;
         $this->uploader = $uploader;
     }
@@ -74,8 +66,8 @@ class Upload implements IngesterInterface
             return;
         }
 
-        $tempFile = $this->fileManager->createTempFile();
-        if (!$this->uploader->upload($fileData['file'][$index], $tempFile, $errorStore)) {
+        $tempFile = $this->uploader->upload($fileData['file'][$index], $errorStore);
+        if (!$tempFile) {
             return;
         }
 

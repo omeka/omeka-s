@@ -4,7 +4,6 @@ namespace Omeka\Media\Ingester;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\File\Downloader;
-use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Dom\Query;
 use Zend\Form\Element\Url as UrlElement;
@@ -25,21 +24,15 @@ class OEmbed implements IngesterInterface
     protected $httpClient;
 
     /**
-     * @var FileManager
-     */
-    protected $fileManager;
-
-    /**
      * @var Downloader
      */
     protected $downloader;
 
     public function __construct(array $whitelist, HttpClient $httpClient,
-        FileManager $fileManager, Downloader $downloader
-    ){
+        Downloader $downloader
+    ) {
         $this->whitelist = $whitelist;
         $this->httpClient = $httpClient;
-        $this->fileManager = $fileManager;
         $this->downloader = $downloader;
     }
 
@@ -104,8 +97,8 @@ class OEmbed implements IngesterInterface
         }
 
         if (isset($mediaData['thumbnail_url'])) {
-            $tempFile = $this->fileManager->createTempFile();
-            if ($this->downloader->download($mediaData['thumbnail_url'], $tempFile->getTempPath())) {
+            $tempFile = $this->downloader->download($mediaData['thumbnail_url']);
+            if ($tempFile) {
                 if ($tempFile->storeThumbnails()) {
                     $media->setStorageId($tempFile->getStorageId());
                     $media->setHasThumbnails(true);

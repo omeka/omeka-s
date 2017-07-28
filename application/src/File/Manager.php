@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\File;
 
+use Omeka\Entity\Asset;
 use Omeka\Entity\Media;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -253,53 +254,69 @@ class Manager
     }
 
     /**
-     * Delete original file.
+     * Delete a file from the store.
+     *
+     * @param string $prefix The storage prefix
+     * @param string $name The file name, or basename if extension is passed
+     * @param null|string $extension The file extension
+     */
+    public function delete($prefix, $name, $extension = null)
+    {
+        $this->getStore()->delete($this->getStoragePath($prefix, $name, $extension));
+    }
+
+    /**
+     * Delete original media file.
      *
      * @param Media $media
      */
     public function deleteOriginal(Media $media)
     {
-        $storagePath = $this->getStoragePath(
-            self::ORIGINAL_PREFIX,
-            $media->getFilename()
-        );
-        $this->getStore()->delete($storagePath);
+        $this->delete(self::ORIGINAL_PREFIX, $media->getFilename());
     }
 
     /**
-     * Get the URL to the original file.
-     *
-     * @param Media $media
-     * @return string
-     */
-    public function getOriginalUrl(Media $media)
-    {
-        $storagePath = $this->getStoragePath(
-            self::ORIGINAL_PREFIX,
-            $media->getFilename()
-        );
-        return $this->getStore()->getUri($storagePath);
-    }
-
-    /**
-     * Delete thumbnail files.
+     * Delete thumbnail media files.
      *
      * @param Media $media
      */
     public function deleteThumbnails(Media $media)
     {
         foreach ($this->getThumbnailTypes() as $type) {
-            $storagePath = $this->getStoragePath(
-                $type,
-                $this->getBasename($media->getFilename()),
-                self::THUMBNAIL_EXTENSION
-            );
-            $this->getStore()->delete($storagePath);
+            $this->delete($type, $this->getBasename($media->getFilename()), self::THUMBNAIL_EXTENSION);
         }
     }
 
     /**
-     * Get the URL to the thumbnail file.
+     * Get a URL to a stored file.
+     *
+     * @param string $prefix The storage prefix
+     * @param string $name The file name, or basename if extension is passed
+     * @param null|string $extension The file extension
+     */
+    public function getUrl($prefix, $name, $extension = null)
+    {
+        return $this->getStore()->getUri($this->getStoragePath($prefix, $name, $extension));
+    }
+
+    /**
+     * Get the URL to the original media file.
+     *
+     * @param Media $media
+     * @return string
+     */
+    public function getOriginalUrl(Media $media)
+    {
+        return $this->getUrl(self::ORIGINAL_PREFIX, $media->getFilename());
+    }
+
+    public function getAssetUrl(Asset $asset)
+    {
+        return $this->getUrl(self::ASSET_PREFIX, $asset->getStorageId(), $asset->getExtension());
+    }
+
+    /**
+     * Get the URL to the thumbnail media file.
      *
      * @param string $type
      * @param Media $media
@@ -325,13 +342,7 @@ class Manager
             $assetUrl = $this->serviceLocator->get('ViewHelperManager')->get('assetUrl');
             return $assetUrl($fallback[0], $fallback[1]);
         }
-
-        $storagePath = $this->getStoragePath(
-            $type,
-            $this->getBasename($media->getFilename()),
-            self::THUMBNAIL_EXTENSION
-        );
-        return $this->getStore()->getUri($storagePath);
+        return $this->getUrl($type, $this->getBasename($media->getFilename()), self::THUMBNAIL_EXTENSION);
     }
 
     /**

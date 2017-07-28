@@ -266,7 +266,7 @@ class Manager
     }
 
     /**
-     * Delete original media file.
+     * Delete a media's original file.
      *
      * @param Media $media
      */
@@ -276,7 +276,17 @@ class Manager
     }
 
     /**
-     * Delete thumbnail media files.
+     * Delete an asset file.
+     *
+     * @param Media $media
+     */
+    public function deleteAsset(Asset $asset)
+    {
+        $this->delete(self::ASSET_PREFIX, $asset->getStorageId(), $asset->getExtension());
+    }
+
+    /**
+     * Delete a media's thumbnail files.
      *
      * @param Media $media
      */
@@ -300,7 +310,7 @@ class Manager
     }
 
     /**
-     * Get the URL to the original media file.
+     * Get the URL to a media's original file.
      *
      * @param Media $media
      * @return string
@@ -310,13 +320,19 @@ class Manager
         return $this->getUrl(self::ORIGINAL_PREFIX, $media->getFilename());
     }
 
+    /**
+     * Get the URL to an asset file.
+     *
+     * @param Asset $asset
+     * @return string
+     */
     public function getAssetUrl(Asset $asset)
     {
         return $this->getUrl(self::ASSET_PREFIX, $asset->getStorageId(), $asset->getExtension());
     }
 
     /**
-     * Get the URL to the thumbnail media file.
+     * Get the URL to a media's thumbnail file.
      *
      * @param string $type
      * @param Media $media
@@ -346,7 +362,7 @@ class Manager
     }
 
     /**
-     * Get all thumbnail URLs, keyed by type.
+     * Get all a media's thumbnail URLs, keyed by type.
      *
      * @param Media $media
      * @return array

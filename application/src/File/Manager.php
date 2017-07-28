@@ -8,6 +8,8 @@ class Manager
 {
     const ORIGINAL_PREFIX = 'original';
 
+    const ASSET_PREFIX = 'asset';
+
     const THUMBNAIL_EXTENSION = 'jpg';
 
     /**

@@ -61,7 +61,7 @@ class Validator
                 $isValid = false;
                 if ($errorStore) {
                     $errorStore->addError('file', sprintf(
-                        'Error ingesting "%s". Cannot store files with the media type "%s".', // @translate
+                        'Error validating "%s". Cannot store files with the media type "%s".', // @translate
                         $tempFile->getSourceName(), $mediaType
                     ));
                 }
@@ -73,7 +73,7 @@ class Validator
                 $isValid = false;
                 if ($errorStore) {
                     $errorStore->addError('file', new Message(
-                        'Error ingesting "%s". Cannot store files with the resolved extension "%s".', // @translate
+                        'Error validating "%s". Cannot store files with the resolved extension "%s".', // @translate
                         $tempFile->getSourceName(), $extension
                     ));
                 }

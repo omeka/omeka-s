@@ -136,12 +136,21 @@ class TempFile
     /**
      * Store original file.
      *
-     * @param File $file
      * @return string The path of the stored file
      */
     public function storeOriginal()
     {
         return $this->store(Manager::ORIGINAL_PREFIX);
+    }
+
+    /**
+     * Store asset file.
+     *
+     * @return string The path of the stored file
+     */
+    public function storeAsset()
+    {
+        return $this->store(Manager::ASSET_PREFIX);
     }
 
     /**

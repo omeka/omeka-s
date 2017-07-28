@@ -3,6 +3,7 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\File\Uploader;
 use Omeka\File\Validator;
 use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
@@ -21,10 +22,17 @@ class Upload implements IngesterInterface
      */
     protected $validator;
 
-    public function __construct(FileManager $fileManager, Validator $validator)
-    {
+    /**
+     * @var Uploader
+     */
+    protected $uploader;
+
+    public function __construct(FileManager $fileManager, Validator $validator,
+        Uploader $uploader
+    ) {
         $this->fileManager = $fileManager;
         $this->validator = $validator;
+        $this->uploader = $uploader;
     }
 
     /**
@@ -67,8 +75,7 @@ class Upload implements IngesterInterface
         }
 
         $tempFile = $this->fileManager->createTempFile();
-        $uploader = $this->fileManager->getUploader();
-        if (!$uploader->upload($fileData['file'][$index], $tempFile, $errorStore)) {
+        if (!$this->uploader->upload($fileData['file'][$index], $tempFile, $errorStore)) {
             return;
         }
 

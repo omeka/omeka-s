@@ -224,16 +224,6 @@ class Manager
     }
 
     /**
-     * Get the file uploader service.
-     *
-     * @return \Omeka\File\Uploader
-     */
-    public function getUploader()
-    {
-        return $this->serviceLocator->get('Omeka\File\Uploader');
-    }
-
-    /**
      * Delete a file from the store.
      *
      * @param string $prefix The storage prefix

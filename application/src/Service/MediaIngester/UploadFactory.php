@@ -16,7 +16,8 @@ class UploadFactory implements FactoryInterface
     {
         return new Upload(
             $services->get('Omeka\File\Manager'),
-            $services->get('Omeka\File\Validator')
+            $services->get('Omeka\File\Validator'),
+            $services->get('Omeka\File\Uploader')
         );
     }
 }

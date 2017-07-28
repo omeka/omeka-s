@@ -59,8 +59,9 @@ class AssetAdapter extends AbstractEntityAdapter
             }
 
             $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
+            $uploader = $this->getServiceLocator()->get('Omeka\File\Uploader');
+
             $tempFile = $fileManager->createTempFile();
-            $uploader = $fileManager->getUploader();
             if (!$uploader->upload($fileData['file'], $tempFile, $errorStore)) {
                 return;
             }

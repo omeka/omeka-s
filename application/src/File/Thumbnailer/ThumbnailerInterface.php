@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\File\Thumbnailer;
 
-use Omeka\File\File;
+use Omeka\File\TempFile;
 use Omeka\File\Manager;
 
 interface ThumbnailerInterface
@@ -11,7 +11,7 @@ interface ThumbnailerInterface
      *
      * @param File $source
      */
-    public function setSource(File $source);
+    public function setSource(TempFile $source);
 
     /**
      * Set options for all thumbnail strategies.

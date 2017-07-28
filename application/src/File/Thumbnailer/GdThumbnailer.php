@@ -2,7 +2,7 @@
 namespace Omeka\File\Thumbnailer;
 
 use Omeka\File\Exception;
-use Omeka\File\File;
+use Omeka\File\TempFile;
 use Omeka\File\Manager as FileManager;
 
 class GdThumbnailer extends AbstractThumbnailer
@@ -39,7 +39,7 @@ class GdThumbnailer extends AbstractThumbnailer
      *
      * {@inheritDoc}
      */
-    public function setSource(File $source)
+    public function setSource(TempFile $source)
     {
         $mediaType = $source->getMediaType();
         $sourcePath = $source->getTempPath();
@@ -85,7 +85,7 @@ class GdThumbnailer extends AbstractThumbnailer
         }
 
         // Save a temporary thumbnail image.
-        $file = $fileManager->getTempFile();
+        $file = $fileManager->createTempFile();
         $saveResult = imagejpeg($tempImage, $file->getTempPath());
 
         if (false === $saveResult) {

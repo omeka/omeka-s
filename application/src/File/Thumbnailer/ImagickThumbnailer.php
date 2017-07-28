@@ -74,7 +74,7 @@ class ImagickThumbnailer extends AbstractThumbnailer
                 }
         }
 
-        $file = $fileManager->getTempFile();
+        $file = $fileManager->createTempFile();
         $tempPath = sprintf('%s.%s', $file->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
         $file->delete();
 

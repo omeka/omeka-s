@@ -118,23 +118,26 @@ class TempFile
     }
 
     /**
-     * Store this file.
+     * Store a file.
      *
      * @param string $prefix The storage prefix
-     * @param null|string $extension The file extension
+     * @param null|string $extension The file extension, if different file
+     * @param null|string $tempPath The temp path, if different file
      * @return string The path of the stored file
      */
-    public function store($prefix, $extension = null)
+    public function store($prefix, $extension = null, $tempPath = null)
     {
+        $extension = $extension ? $extension : $this->getExtension();
+        $tempPath = $tempPath ? $tempPath : $this->getTempPath();
         $storagePath = $this->fileManager->getStoragePath(
-            $prefix, $this->getStorageId(), $extension ? $extension : $this->getExtension()
+            $prefix, $this->getStorageId(), $extension
         );
-        $this->fileManager->getStore()->put($this->getTempPath(), $storagePath);
+        $this->fileManager->getStore()->put($tempPath, $storagePath);
         return $storagePath;
     }
 
     /**
-     * Store original file.
+     * Store this as an "original" file.
      *
      * @return string The path of the stored file
      */
@@ -144,7 +147,7 @@ class TempFile
     }
 
     /**
-     * Store asset file.
+     * Store this as an "asset" file.
      *
      * @return string The path of the stored file
      */
@@ -154,7 +157,7 @@ class TempFile
     }
 
     /**
-     * Create and store thumbnail derivatives.
+     * Create and store thumbnail derivatives of this file.
      *
      * @return bool Whether thumbnails were created and stored
      */
@@ -182,7 +185,7 @@ class TempFile
 
         // Finally, store the thumbnails.
         foreach ($tempPaths as $type => $tempPath) {
-            $this->store($type, Manager::THUMBNAIL_EXTENSION);
+            $this->store($type, Manager::THUMBNAIL_EXTENSION, $tempPath);
            // Delete the temporary file in case the file store hasn't already.
             @unlink($tempPath);
         }

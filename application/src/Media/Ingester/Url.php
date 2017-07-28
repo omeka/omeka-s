@@ -3,6 +3,7 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\File\Downloader;
 use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Url as UrlElement;
@@ -16,9 +17,10 @@ class Url implements IngesterInterface
      */
     protected $fileManager;
 
-    public function __construct(FileManager $fileManager)
+    public function __construct(FileManager $fileManager, Downloader $downloader)
     {
         $this->fileManager = $fileManager;
+        $this->downloader = $downloader;
     }
 
     /**
@@ -68,8 +70,7 @@ class Url implements IngesterInterface
 
         $tempFile = $this->fileManager->createTempFile();
         $tempFile->setSourceName($uri->getPath());
-        $downloader = $this->fileManager->getDownloader();
-        if (!$downloader->download($uri, $tempFile->getTempPath(), $errorStore)) {
+        if (!$this->downloader->download($uri, $tempFile->getTempPath(), $errorStore)) {
             return;
         }
         $validator = $this->fileManager->getValidator();

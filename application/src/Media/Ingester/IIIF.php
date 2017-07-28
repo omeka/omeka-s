@@ -3,6 +3,7 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\File\Downloader;
 use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Url as UrlElement;
@@ -22,10 +23,16 @@ class IIIF implements IngesterInterface
      */
     protected $fileManager;
 
-    public function __construct(HttpClient $httpClient, FileManager $fileManager)
+    /**
+     * @var Downloader
+     */
+    protected $downloader;
+
+    public function __construct(HttpClient $httpClient, FileManager $fileManager, Downloader $downloader)
     {
         $this->httpClient = $httpClient;
         $this->fileManager = $fileManager;
+        $this->downloader = $downloader;
     }
 
     public function getLabel()
@@ -89,8 +96,7 @@ class IIIF implements IngesterInterface
         }
         if (isset($IIIFData['@id'])) {
             $tempFile = $this->fileManager->createTempFile();
-            $downloader = $this->fileManager->getDownloader();
-            if ($downloader->download($IIIFData['@id'] . $URLString, $tempFile->getTempPath())) {
+            if ($this->downloader->download($IIIFData['@id'] . $URLString, $tempFile->getTempPath())) {
                 if ($tempFile->storeThumbnails()) {
                     $media->setStorageId($tempFile->getStorageId());
                     $media->setHasThumbnails(true);

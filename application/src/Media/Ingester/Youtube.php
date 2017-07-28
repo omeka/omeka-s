@@ -3,6 +3,7 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\File\Downloader;
 use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Text;
@@ -17,9 +18,10 @@ class Youtube implements IngesterInterface
      */
     protected $fileManager;
 
-    public function __construct(FileManager $fileManager)
+    public function __construct(FileManager $fileManager, Downloader $downloader)
     {
         $this->fileManager = $fileManager;
+        $this->downloader = $downloader;
     }
 
     public function getLabel()
@@ -66,9 +68,8 @@ class Youtube implements IngesterInterface
         }
 
         $tempFile = $this->fileManager->createTempFile();
-        $downloader = $this->fileManager->getDownloader();
         $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $youtubeId);
-        if ($downloader->download($url, $tempFile->getTempPath())) {
+        if ($this->downloader->download($url, $tempFile->getTempPath())) {
             if ($tempFile->storeThumbnails()) {
                 $media->setStorageId($tempFile->getStorageId());
                 $media->setHasThumbnails(true);

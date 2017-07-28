@@ -15,9 +15,11 @@ class OEmbedFactory implements FactoryInterface
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $config = $services->get('Config');
-        $whitelist = $config['oembed']['whitelist'];
-        $httpClient = $services->get('Omeka\HttpClient');
-        $fileManager = $services->get('Omeka\File\Manager');
-        return new OEmbed($whitelist, $httpClient, $fileManager);
+        return new OEmbed(
+            $config['oembed']['whitelist'],
+            $services->get('Omeka\HttpClient'),
+            $services->get('Omeka\File\Manager'),
+            $services->get('Omeka\File\Downloader')
+        );
     }
 }

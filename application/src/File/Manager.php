@@ -224,16 +224,6 @@ class Manager
     }
 
     /**
-     * Get the file downloader service.
-     *
-     * @return \Omeka\File\Downloader
-     */
-    public function getDownloader()
-    {
-        return $this->serviceLocator->get('Omeka\File\Downloader');
-    }
-
-    /**
      * Get the file validator service.
      *
      * @return \Omeka\File\Validator

@@ -4,7 +4,6 @@ namespace Omeka\File;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Filter\File\RenameUpload;
 use Zend\InputFilter\FileInput;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * File uploader service

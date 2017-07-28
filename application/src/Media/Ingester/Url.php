@@ -92,8 +92,6 @@ class Url implements IngesterInterface
         $tempFile->delete();
     }
 
-    
-
     /**
      * {@inheritDoc}
      */

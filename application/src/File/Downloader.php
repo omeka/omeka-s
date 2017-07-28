@@ -52,12 +52,10 @@ class Downloader
                 if (++$attempt === 3) {
                     $logger->err((string) $e);
                     if ($errorStore) {
-                        $message = sprintf(
-                            'Error downloading %s: %s',
-                            (string) $uri,
-                            $e->getMessage()
-                        );
-                        $errorStore->addError('download', $message);
+                        $errorStore->addError('download', sprintf(
+                            'Error downloading %s: %s', // @translate
+                            (string) $uri, $e->getMessage()
+                        ));
                     }
                     return false;
                 }
@@ -65,14 +63,11 @@ class Downloader
         }
 
         if (!$response->isOk()) {
-            $message = sprintf(
-                'Error downloading %s: %s %s',
-                (string) $uri,
-                $response->getStatusCode(),
-                $response->getReasonPhrase()
-            );
             if ($errorStore) {
-                $errorStore->addError('download', $message);
+                $errorStore->addError('download', sprintf(
+                    'Error downloading %s: %s %s', // @translate
+                    (string) $uri, $response->getStatusCode(), $response->getReasonPhrase()
+                ));
             }
             $logger->err($message);
             return false;

@@ -1,11 +1,7 @@
 <?php
 namespace Omeka\File;
 
-use Omeka\File\Store\StoreInterface;
-use Omeka\File\Thumbnailer\ThumbnailerInterface;
 use Omeka\Entity\Media;
-use Omeka\Stdlib\ErrorStore;
-use Omeka\Stdlib\Message;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Manager

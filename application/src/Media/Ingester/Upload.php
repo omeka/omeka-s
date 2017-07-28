@@ -5,9 +5,7 @@ use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Filter\File\RenameUpload;
 use Zend\Form\Element\File;
-use Zend\InputFilter\FileInput;
 use Zend\View\Renderer\PhpRenderer;
 
 class Upload implements IngesterInterface

@@ -5,9 +5,6 @@ use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\File\Validator;
 use Omeka\Stdlib\ErrorStore;
-use Omeka\Stdlib\Message;
-use Zend\Filter\File\RenameUpload;
-use Zend\InputFilter\FileInput;
 
 class AssetAdapter extends AbstractEntityAdapter
 {

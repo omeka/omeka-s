@@ -224,16 +224,6 @@ class Manager
     }
 
     /**
-     * Get the file validator service.
-     *
-     * @return \Omeka\File\Validator
-     */
-    public function getValidator()
-    {
-        return $this->serviceLocator->get('Omeka\File\Validator');
-    }
-
-    /**
      * Get the file uploader service.
      *
      * @return \Omeka\File\Uploader

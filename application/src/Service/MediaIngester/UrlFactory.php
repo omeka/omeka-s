@@ -16,7 +16,8 @@ class UrlFactory implements FactoryInterface
     {
         return new Url(
             $services->get('Omeka\File\Manager'),
-            $services->get('Omeka\File\Downloader')
+            $services->get('Omeka\File\Downloader'),
+            $services->get('Omeka\File\Validator')
         );
     }
 }

@@ -3,6 +3,7 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
+use Omeka\File\Validator;
 use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\File;
@@ -15,9 +16,15 @@ class Upload implements IngesterInterface
      */
     protected $fileManager;
 
-    public function __construct(FileManager $fileManager)
+    /**
+     * @var Validator
+     */
+    protected $validator;
+
+    public function __construct(FileManager $fileManager, Validator $validator)
     {
         $this->fileManager = $fileManager;
+        $this->validator = $validator;
     }
 
     /**
@@ -66,8 +73,7 @@ class Upload implements IngesterInterface
         }
 
         $tempFile->setSourceName($fileData['file'][$index]['name']);
-        $validator = $this->fileManager->getValidator();
-        if (!$validator->validate($tempFile, $errorStore)) {
+        if (!$this->validator->validate($tempFile, $errorStore)) {
             return;
         }
 

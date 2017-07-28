@@ -118,20 +118,30 @@ class TempFile
     }
 
     /**
-     * Store original file.
+     * Store this file.
      *
-     * @param File $file
-     * @return string Storage-side path for the stored file
+     * @param string $prefix The storage prefix
+     * @param null|string $extension The file extension
+     * @return string The path of the stored file
      */
-    public function storeOriginal()
+    public function store($prefix, $extension = null)
     {
-        $extension = $this->getExtension();
         $storagePath = $this->fileManager->getStoragePath(
-            Manager::ORIGINAL_PREFIX,
-            sprintf('%s%s', $this->getStorageId(), $extension ? ".$extension" : null)
+            $prefix, $this->getStorageId(), $extension ? $extension : $this->getExtension()
         );
         $this->fileManager->getStore()->put($this->getTempPath(), $storagePath);
         return $storagePath;
+    }
+
+    /**
+     * Store original file.
+     *
+     * @param File $file
+     * @return string The path of the stored file
+     */
+    public function storeOriginal()
+    {
+        return $this->store(Manager::ORIGINAL_PREFIX);
     }
 
     /**
@@ -163,11 +173,8 @@ class TempFile
 
         // Finally, store the thumbnails.
         foreach ($tempPaths as $type => $tempPath) {
-            $storagePath = $this->fileManager->getStoragePath(
-                $type, $this->getStorageId(), Manager::THUMBNAIL_EXTENSION
-            );
-            $this->fileManager->getStore()->put($tempPath, $storagePath);
-            // Delete the temporary file in case the file store hasn't already.
+            $this->store($type, Manager::THUMBNAIL_EXTENSION);
+           // Delete the temporary file in case the file store hasn't already.
             @unlink($tempPath);
         }
 

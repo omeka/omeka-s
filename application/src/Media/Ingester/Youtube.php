@@ -65,12 +65,12 @@ class Youtube implements IngesterInterface
                 return;
         }
 
-        $fileManager = $this->fileManager;
-        $file = $fileManager->getTempFile();
+        $tempFile = $this->fileManager->createTempFile();
+        $downloader = $this->fileManager->getDownloader();
         $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $youtubeId);
-        if ($fileManager->downloadFile($url, $file->getTempPath())) {
-            if ($fileManager->storeThumbnails($file)) {
-                $media->setStorageId($file->getStorageId());
+        if ($downloader->download($url, $tempFile->getTempPath())) {
+            if ($tempFile->storeThumbnails()) {
+                $media->setStorageId($tempFile->getStorageId());
                 $media->setHasThumbnails(true);
             }
         }
@@ -85,7 +85,7 @@ class Youtube implements IngesterInterface
             $mediaData['end'] = $end;
         }
         $media->setData($mediaData);
-        $file->delete();
+        $tempFile->delete();
     }
 
     /**

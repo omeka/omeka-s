@@ -96,15 +96,15 @@ class OEmbed implements IngesterInterface
         }
 
         if (isset($mediaData['thumbnail_url'])) {
-            $fileManager = $this->fileManager;
-            $file = $fileManager->getTempFile();
-            if ($fileManager->downloadFile($mediaData['thumbnail_url'], $file->getTempPath())) {
-                if ($fileManager->storeThumbnails($file)) {
-                    $media->setStorageId($file->getStorageId());
+            $tempFile = $this->fileManager->createTempFile();
+            $downloader = $this->fileManager->getDownloader();
+            if ($downloader->download($mediaData['thumbnail_url'], $tempFile->getTempPath())) {
+                if ($tempFile->storeThumbnails()) {
+                    $media->setStorageId($tempFile->getStorageId());
                     $media->setHasThumbnails(true);
                 }
             }
-            $file->delete();
+            $tempFile->delete();
         }
 
         $media->setData($mediaData);

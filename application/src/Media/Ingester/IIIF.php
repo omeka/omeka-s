@@ -88,15 +88,15 @@ class IIIF implements IngesterInterface
             $URLString = '/full/full/0/native.jpg';
         }
         if (isset($IIIFData['@id'])) {
-            $fileManager = $this->fileManager;
-            $file = $fileManager->getTempFile();
-            if ($fileManager->downloadFile($IIIFData['@id'] . $URLString, $file->getTempPath())) {
-                if ($fileManager->storeThumbnails($file)) {
-                    $media->setStorageId($file->getStorageId());
+            $tempFile = $this->fileManager->createTempFile();
+            $downloader = $this->fileManager->getDownloader();
+            if ($downloader->download($IIIFData['@id'] . $URLString, $tempFile->getTempPath())) {
+                if ($tempFile->storeThumbnails()) {
+                    $media->setStorageId($tempFile->getStorageId());
                     $media->setHasThumbnails(true);
                 }
             }
-            $file->delete();
+            $tempFile->delete();
         }
     }
 

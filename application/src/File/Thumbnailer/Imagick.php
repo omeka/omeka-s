@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\File\Thumbnailer;
 
-use Imagick;
+use Imagick as ImagickPhp;
 use ImagickException;
 use Omeka\File\Exception;
 use Omeka\File\Manager as FileManager;
@@ -33,7 +33,7 @@ class Imagick extends AbstractThumbnailer
     public function create($strategy, $constraint, array $options = [])
     {
         try {
-            $imagick = new Imagick;
+            $imagick = new ImagickPhp;
             if ($this->sourceFile->getMediaType() == 'application/pdf') {
                 $imagick->setResolution(150, 150);
             }
@@ -52,7 +52,7 @@ class Imagick extends AbstractThumbnailer
         $imagick->setBackgroundColor('white');
         $imagick->setImageBackgroundColor('white');
         $imagick->setImagePage($origWidth, $origHeight, 0, 0);
-        $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+        $imagick = $imagick->mergeImageLayers(ImagickPhp::LAYERMETHOD_FLATTEN);
 
         switch ($strategy) {
             case 'square':
@@ -94,38 +94,38 @@ class Imagick extends AbstractThumbnailer
     /**
      * Detect orientation flag and rotate image accordingly.
      *
-     * @param Imagick $imagick
+     * @param ImagickPhp $imagick
      */
     protected function autoOrient($imagick)
     {
         $orientation = $imagick->getImageOrientation();
         $white = new ImagickPixel('#fff');
         switch ($orientation) {
-            case Imagick::ORIENTATION_RIGHTTOP:
+            case ImagickPhp::ORIENTATION_RIGHTTOP:
                 $imagick->rotateImage($white, 90);
                 break;
-            case Imagick::ORIENTATION_BOTTOMRIGHT:
+            case ImagickPhp::ORIENTATION_BOTTOMRIGHT:
                 $imagick->rotateImage($white, 180);
                 break;
-            case Imagick::ORIENTATION_LEFTBOTTOM:
+            case ImagickPhp::ORIENTATION_LEFTBOTTOM:
                 $imagick->rotateImage($white, 270);
                 break;
-            case Imagick::ORIENTATION_TOPRIGHT:
+            case ImagickPhp::ORIENTATION_TOPRIGHT:
                 $imagick->flopImage();
                 break;
-            case Imagick::ORIENTATION_RIGHTBOTTOM:
+            case ImagickPhp::ORIENTATION_RIGHTBOTTOM:
                 $imagick->flopImage();
                 $imagick->rotateImage($white, 90);
                 break;
-            case Imagick::ORIENTATION_BOTTOMLEFT:
+            case ImagickPhp::ORIENTATION_BOTTOMLEFT:
                 $imagick->flopImage();
                 $imagick->rotateImage($white, 180);
                 break;
-            case Imagick::ORIENTATION_LEFTTOP:
+            case ImagickPhp::ORIENTATION_LEFTTOP:
                 $imagick->flopImage();
                 $imagick->rotateImage($white, 270);
                 break;
-            case Imagick::ORIENTATION_TOPLEFT:
+            case ImagickPhp::ORIENTATION_TOPLEFT:
             default:
                 break;
         }

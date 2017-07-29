@@ -8,12 +8,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Manager
 {
-    const ORIGINAL_PREFIX = 'original';
-
-    const ASSET_PREFIX = 'asset';
-
-    const THUMBNAIL_EXTENSION = 'jpg';
-
     /**
      * The default media type whitelist.
      */
@@ -194,7 +188,7 @@ class Manager
      */
     public function getOriginalUrl(Media $media)
     {
-        return $this->getUrl(self::ORIGINAL_PREFIX, $media->getFilename());
+        return $this->getUrl('original', $media->getFilename());
     }
 
     /**
@@ -205,7 +199,7 @@ class Manager
      */
     public function getAssetUrl(Asset $asset)
     {
-        return $this->getUrl(self::ASSET_PREFIX, $asset->getStorageId(), $asset->getExtension());
+        return $this->getUrl('asset', $asset->getStorageId(), $asset->getExtension());
     }
 
     /**
@@ -235,7 +229,7 @@ class Manager
             $assetUrl = $this->serviceLocator->get('ViewHelperManager')->get('assetUrl');
             return $assetUrl($fallback[0], $fallback[1]);
         }
-        return $this->getUrl($type, $this->getBasename($media->getFilename()), self::THUMBNAIL_EXTENSION);
+        return $this->getUrl($type, $media->getStorageId(), 'jpg');
     }
 
     /**

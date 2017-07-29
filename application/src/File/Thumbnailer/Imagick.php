@@ -4,7 +4,6 @@ namespace Omeka\File\Thumbnailer;
 use Imagick as ImagickPhp;
 use ImagickException;
 use Omeka\File\Exception;
-use Omeka\File\Manager as FileManager;
 use Omeka\File\TempFileFactory;
 
 class Imagick extends AbstractThumbnailer
@@ -82,7 +81,7 @@ class Imagick extends AbstractThumbnailer
         }
 
         $tempFile = $this->tempFileFactory->create();
-        $tempPath = sprintf('%s.%s', $tempFile->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
+        $tempPath = sprintf('%s.%s', $tempFile->getTempPath(), 'jpg');
         $tempFile->delete();
 
         $imagick->writeImage($tempPath);

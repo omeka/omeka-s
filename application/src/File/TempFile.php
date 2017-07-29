@@ -174,7 +174,7 @@ class TempFile
      */
     public function storeOriginal()
     {
-        return $this->store(Manager::ORIGINAL_PREFIX);
+        return $this->store('original');
     }
 
     /**
@@ -184,7 +184,7 @@ class TempFile
      */
     public function storeAsset()
     {
-        return $this->store(Manager::ASSET_PREFIX);
+        return $this->store('asset');
     }
 
     /**
@@ -215,7 +215,7 @@ class TempFile
 
         // Finally, store the thumbnails.
         foreach ($tempPaths as $type => $tempPath) {
-            $this->store($type, Manager::THUMBNAIL_EXTENSION, $tempPath);
+            $this->store($type, 'jpg', $tempPath);
            // Delete the temporary file in case the file store hasn't already.
             @unlink($tempPath);
         }

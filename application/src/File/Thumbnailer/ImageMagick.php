@@ -2,7 +2,6 @@
 namespace Omeka\File\Thumbnailer;
 
 use Omeka\File\Exception;
-use Omeka\File\Manager as FileManager;
 use Omeka\File\TempFileFactory;
 use Omeka\Service\Cli;
 
@@ -80,7 +79,7 @@ class ImageMagick extends AbstractThumbnailer
         }
 
         $tempFile = $this->tempFileFactory->create();
-        $tempPath = sprintf('%s.%s', $tempFile->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
+        $tempPath = sprintf('%s.%s', $tempFile->getTempPath(), 'jpg');
         $tempFile->delete();
 
         $commandArgs = [$this->convertPath];

@@ -172,7 +172,7 @@ class TempFile
             $thumbnailer->setOptions($managerConfig['thumbnail_options']);
             foreach ($managerConfig['thumbnail_types'] as $type => $config) {
                 $tempPaths[$type] = $thumbnailer->create(
-                    $this->fileManager, $config['strategy'], $config['constraint'], $config['options']
+                    $config['strategy'], $config['constraint'], $config['options']
                 );
             }
         } catch (Exception\CannotCreateThumbnailException $e) {

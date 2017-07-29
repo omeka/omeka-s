@@ -164,16 +164,6 @@ class Manager
     }
 
     /**
-     * Factory for creating a new temporary file object.
-     *
-     * @return TempFile
-     */
-    public function createTempFile()
-    {
-        return new TempFile($this);
-    }
-
-    /**
      * Get the file manager configuration.
      *
      * @return array

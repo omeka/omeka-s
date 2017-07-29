@@ -3,6 +3,7 @@ namespace Omeka\File\Thumbnailer;
 
 use Omeka\File\Exception;
 use Omeka\File\Manager as FileManager;
+use Omeka\File\TempFileFactory;
 use Omeka\Service\Cli;
 
 class ImageMagickThumbnailer extends AbstractThumbnailer
@@ -20,11 +21,18 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
     protected $cli;
 
     /**
-     * @param Cli $cli
+     * @var TempFileFactory
      */
-    public function __construct(Cli $cli)
+    protected $tempFileFactory;
+
+    /**
+     * @param Cli $cli
+     * @param TempFileFactory $tempFileFactory
+     */
+    public function __construct(Cli $cli, TempFileFactory $tempFileFactory)
     {
         $this->cli = $cli;
+        $this->tempFileFactory = $tempFileFactory;
     }
 
     /**
@@ -41,7 +49,7 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
     /**
      * {@inheritDoc}
      */
-    public function create(FileManager $fileManager, $strategy, $constraint, array $options = [])
+    public function create($strategy, $constraint, array $options = [])
     {
         $origPath = sprintf('%s[%s]', $this->source, $this->getOption('page', 0));
 
@@ -71,9 +79,9 @@ class ImageMagickThumbnailer extends AbstractThumbnailer
             array_unshift($args, '-auto-orient');
         }
 
-        $file = $fileManager->createTempFile();
-        $tempPath = sprintf('%s.%s', $file->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
-        $file->delete();
+        $tempFile = $this->tempFileFactory->create();
+        $tempPath = sprintf('%s.%s', $tempFile->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
+        $tempFile->delete();
 
         $commandArgs = [$this->convertPath];
         if ($this->sourceFile->getMediaType() == 'application/pdf') {

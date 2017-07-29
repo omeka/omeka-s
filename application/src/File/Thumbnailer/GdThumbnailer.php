@@ -3,10 +3,15 @@ namespace Omeka\File\Thumbnailer;
 
 use Omeka\File\Exception;
 use Omeka\File\TempFile;
-use Omeka\File\Manager as FileManager;
+use Omeka\File\TempFileFactory;
 
 class GdThumbnailer extends AbstractThumbnailer
 {
+    /**
+     * @var TempFileFactory
+     */
+    protected $tempFileFactory;
+
     /**
      * @var resource
      */
@@ -27,11 +32,12 @@ class GdThumbnailer extends AbstractThumbnailer
      *
      * @throws Exception\InvalidThumbnailer
      */
-    public function __construct()
+    public function __construct(TempFileFactory $tempFileFactory)
     {
         if (!extension_loaded('gd')) {
             throw new Exception\InvalidThumbnailerException;
         }
+        $this->tempFileFactory = $tempFileFactory;
     }
 
     /**
@@ -73,7 +79,7 @@ class GdThumbnailer extends AbstractThumbnailer
     /**
      * {@inheritDoc}
      */
-    public function create(FileManager $fileManager, $strategy, $constraint, array $options = [])
+    public function create($strategy, $constraint, array $options = [])
     {
         switch ($strategy) {
             case 'square':
@@ -85,8 +91,8 @@ class GdThumbnailer extends AbstractThumbnailer
         }
 
         // Save a temporary thumbnail image.
-        $file = $fileManager->createTempFile();
-        $saveResult = imagejpeg($tempImage, $file->getTempPath());
+        $tempFile = $this->tempFileFactory->create();
+        $saveResult = imagejpeg($tempImage, $tempFile->getTempPath());
 
         if (false === $saveResult) {
             imagedestroy($tempImage);
@@ -94,7 +100,7 @@ class GdThumbnailer extends AbstractThumbnailer
         }
 
         imagedestroy($tempImage);
-        return $file->getTempPath();
+        return $tempFile->getTempPath();
     }
 
     /**

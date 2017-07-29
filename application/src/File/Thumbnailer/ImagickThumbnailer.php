@@ -5,25 +5,32 @@ use Imagick;
 use ImagickException;
 use Omeka\File\Exception;
 use Omeka\File\Manager as FileManager;
+use Omeka\File\TempFileFactory;
 
 class ImagickThumbnailer extends AbstractThumbnailer
 {
+    /**
+     * @var TempFileFactory
+     */
+    protected $tempFileFactory;
+
     /**
      * Check whether the GD entension is loaded.
      *
      * @throws Exception\InvalidThumbnailer
      */
-    public function __construct()
+    public function __construct(TempFileFactory $tempFileFactory)
     {
         if (!extension_loaded('imagick')) {
             throw new Exception\InvalidThumbnailerException('The imagick PHP extension must be loaded to use this thumbnailer.');
         }
+        $this->tempFileFactory = $tempFileFactory;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function create(FileManager $fileManager, $strategy, $constraint, array $options = [])
+    public function create($strategy, $constraint, array $options = [])
     {
         try {
             $imagick = new Imagick;
@@ -74,9 +81,9 @@ class ImagickThumbnailer extends AbstractThumbnailer
                 }
         }
 
-        $file = $fileManager->createTempFile();
-        $tempPath = sprintf('%s.%s', $file->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
-        $file->delete();
+        $tempFile = $this->tempFileFactory->create();
+        $tempPath = sprintf('%s.%s', $tempFile->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
+        $tempFile->delete();
 
         $imagick->writeImage($tempPath);
         $imagick->clear();

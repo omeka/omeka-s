@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\File;
 
-use Omeka\File\Manager as FileManager;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Filter\File\RenameUpload;
 use Zend\InputFilter\FileInput;
@@ -12,16 +11,16 @@ use Zend\InputFilter\FileInput;
 class Uploader
 {
     /**
-     * @var FileManager
+     * @var TempFileFactory
      */
-    protected $fileManager;
+    protected $tempFileFactory;
 
     /**
-     * @param FileManager $fileManager
+     * @param TempFileFactory $tempFileFactory
      */
-    public function __construct(FileManager $fileManager)
+    public function __construct(TempFileFactory $tempFileFactory)
     {
-        $this->fileManager = $fileManager;
+        $this->tempFileFactory = $tempFileFactory;
     }
 
     /**
@@ -36,7 +35,7 @@ class Uploader
      */
     public function upload(array $fileData, ErrorStore $errorStore = null)
     {
-        $tempFile = $this->fileManager->createTempFile();
+        $tempFile = $this->tempFileFactory->create();
         $fileInput = new FileInput('file');
         $fileInput->getFilterChain()->attach(new RenameUpload([
             'target' => $tempFile->getTempPath(),

@@ -239,9 +239,12 @@ return [
             'Omeka\Site\NavigationLinkManager' => 'Omeka\Service\NavigationLinkManagerFactory',
             'Omeka\Site\NavigationTranslator' => 'Omeka\Service\SiteNavigationTranslatorFactory',
             'Omeka\File\ImageMagickThumbnailer' => 'Omeka\Service\FileThumbnailer\ImageMagickFactory',
+            'Omeka\File\GdThumbnailer' => 'Omeka\Service\FileThumbnailer\GdFactory',
+            'Omeka\File\ImagickThumbnailer' => 'Omeka\Service\FileThumbnailer\ImagickFactory',
             'Omeka\File\LocalStore' => 'Omeka\Service\LocalStoreFactory',
             'Omeka\File\MediaTypeMap' => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager' => 'Omeka\Service\FileManagerFactory',
+            'Omeka\File\TempFileFactory' => 'Omeka\Service\File\TempFileFactoryFactory',
             'Omeka\File\Downloader' => 'Omeka\Service\File\DownloaderFactory',
             'Omeka\File\Uploader' => 'Omeka\Service\File\UploaderFactory',
             'Omeka\File\Validator' => 'Omeka\Service\File\ValidatorFactory',
@@ -262,8 +265,6 @@ return [
             'Omeka\MvcExceptionListener' => 'Omeka\Mvc\ExceptionListener',
             'Omeka\MvcListeners' => 'Omeka\Mvc\MvcListeners',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
-            'Omeka\File\GdThumbnailer' => 'Omeka\File\Thumbnailer\GdThumbnailer',
-            'Omeka\File\ImagickThumbnailer' => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
         ],
         'delegators' => [
             'Zend\I18n\Translator\TranslatorInterface' => [

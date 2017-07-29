@@ -2,6 +2,7 @@
 namespace Omeka\File;
 
 use Omeka\Stdlib\ErrorStore;
+use Zend\Log\Logger;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -14,18 +15,26 @@ class Downloader
      */
     protected $services;
 
-    protected $logger;
+    /**
+     * @var TempFileFactory
+     */
+    protected $tempFileFactory;
 
-    protected $fileManager;
+    /**
+     * @var Logger
+     */
+    protected $logger;
 
     /**
      * @param ServiceLocatorInterface $services
+     * @param TempFileFactory $tempFileFactory
      */
-    public function __construct(ServiceLocatorInterface $services)
-    {
+    public function __construct(ServiceLocatorInterface $services,
+        TempFileFactory $tempFileFactory, Logger $logger
+    ) {
         $this->services = $services;
-        $this->logger = $this->services->get('Omeka\Logger');
-        $this->fileManager = $this->services->get('Omeka\File\Manager');
+        $this->tempFileFactory = $tempFileFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -41,7 +50,7 @@ class Downloader
     public function download($uri, ErrorStore $errorStore = null)
     {
         $client = $this->services->get('Omeka\HttpClient'); // non-shared service
-        $tempFile = $this->fileManager->createTempFile();
+        $tempFile = $this->tempFileFactory->create();
 
         // Disable compressed response; it's broken alongside streaming
         $client->getRequest()->getHeaders()->addHeaderLine('Accept-Encoding', 'identity');

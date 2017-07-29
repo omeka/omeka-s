@@ -275,10 +275,9 @@ class TempFile
             }
         }
         if (false === $extension) {
-            $mediaTypeMap = $this->fileManager->getMediaTypeMap();
             $mediaType = $this->getMediaType();
-            if (isset($mediaTypeMap[$mediaType][0])) {
-                $extension = strtolower($mediaTypeMap[$mediaType][0]);
+            if (isset($this->mediaTypeMap[$mediaType][0])) {
+                $extension = strtolower($this->mediaTypeMap[$mediaType][0]);
             }
         }
         return $extension;

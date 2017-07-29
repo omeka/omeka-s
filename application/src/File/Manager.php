@@ -175,50 +175,6 @@ class Manager
     }
 
     /**
-     * Delete a file from the store.
-     *
-     * @param string $prefix The storage prefix
-     * @param string $name The file name, or basename if extension is passed
-     * @param null|string $extension The file extension
-     */
-    public function delete($prefix, $name, $extension = null)
-    {
-        $this->store->delete($this->getStoragePath($prefix, $name, $extension));
-    }
-
-    /**
-     * Delete a media's original file.
-     *
-     * @param Media $media
-     */
-    public function deleteOriginal(Media $media)
-    {
-        $this->delete(self::ORIGINAL_PREFIX, $media->getFilename());
-    }
-
-    /**
-     * Delete an asset file.
-     *
-     * @param Media $media
-     */
-    public function deleteAsset(Asset $asset)
-    {
-        $this->delete(self::ASSET_PREFIX, $asset->getStorageId(), $asset->getExtension());
-    }
-
-    /**
-     * Delete a media's thumbnail files.
-     *
-     * @param Media $media
-     */
-    public function deleteThumbnails(Media $media)
-    {
-        foreach ($this->getThumbnailTypes() as $type) {
-            $this->delete($type, $this->getBasename($media->getFilename()), self::THUMBNAIL_EXTENSION);
-        }
-    }
-
-    /**
      * Get a URL to a stored file.
      *
      * @param string $prefix The storage prefix

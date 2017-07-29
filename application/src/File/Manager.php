@@ -156,41 +156,10 @@ class Manager
      * @param string $tempDir
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(array $config, $tempDir, ServiceLocatorInterface $serviceLocator)
+    public function __construct(array $config, ServiceLocatorInterface $serviceLocator)
     {
         $this->config = $config;
-        $this->tempDir = $tempDir;
         $this->serviceLocator = $serviceLocator;
-    }
-
-    /**
-     * Get the file manager configuration.
-     *
-     * @return array
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * Get the configured temporary directory.
-     *
-     * @return string
-     */
-    public function getTempDir()
-    {
-        return $this->tempDir;
-    }
-
-    /**
-     * Get the media type map.
-     *
-     * @return array
-     */
-    public function getMediaTypeMap()
-    {
-        return $this->serviceLocator->get('Omeka\File\MediaTypeMap');
     }
 
     /**

@@ -12,9 +12,24 @@ class TempFile
     protected $fileManager;
 
     /**
-     * @var string Path to the temporary file
+     * @var string Directory where to save this temporary file
+     */
+    protected $tempDir;
+
+    /**
+     * @var string Path to this temprorary file
      */
     protected $tempPath;
+
+    /**
+     * @var array File manager configuration
+     */
+    protected $config;
+
+    /**
+     * @var array Media type map
+     */
+    protected $mediaTypeMap;
 
     /**
      * @var string The name of the original source file
@@ -39,11 +54,15 @@ class TempFile
     /**
      * @param Manager $fileManager
      */
-    public function __construct(Manager $fileManager)
+    public function __construct($tempDir, $config, $mediaTypeMap, Manager $fileManager)
     {
+        $this->tempDir = $tempDir;
+        $this->config = $config;
+        $this->mediaTypeMap = $mediaTypeMap;
         $this->fileManager = $fileManager;
+
         // Always create a new, uniquely named temporary file.
-        $this->setTempPath(tempnam($fileManager->getTempDir(), 'omeka'));
+        $this->setTempPath(tempnam($tempDir, 'omeka'));
     }
 
     /**
@@ -164,13 +183,12 @@ class TempFile
     public function storeThumbnails()
     {
         $thumbnailer = $this->fileManager->getThumbnailer();
-        $managerConfig = $this->fileManager->getConfig();
         $tempPaths = [];
 
         try {
             $thumbnailer->setSource($this);
-            $thumbnailer->setOptions($managerConfig['thumbnail_options']);
-            foreach ($managerConfig['thumbnail_types'] as $type => $config) {
+            $thumbnailer->setOptions($this->config['thumbnail_options']);
+            foreach ($this->config['thumbnail_types'] as $type => $config) {
                 $tempPaths[$type] = $thumbnailer->create(
                     $config['strategy'], $config['constraint'], $config['options']
                 );

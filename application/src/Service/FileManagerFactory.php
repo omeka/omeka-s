@@ -64,10 +64,6 @@ class FileManagerFactory implements FactoryInterface
             }
         }
 
-        if (!isset($config['temp_dir'])) {
-            throw new Exception\ConfigException('Missing temporary directory configuration');
-        }
-        $tempDir = $config['temp_dir'];
-        return new FileManager($config['file_manager'], $tempDir, $serviceLocator);
+        return new FileManager($config['file_manager'], $serviceLocator);
     }
 }

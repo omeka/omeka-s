@@ -14,6 +14,7 @@ class TempFileFactoryFactory implements FactoryInterface
             $config['temp_dir'],
             $config['file_manager'],
             $services->get('Omeka\File\MediaTypeMap'),
+            $services->get($config['file_manager']['store']),
             $services->get('Omeka\File\Manager')
         );
     }

@@ -2,6 +2,7 @@
 namespace Omeka\File;
 
 use finfo;
+use Omeka\File\Store\StoreInterface;
 use Zend\Math\Rand;
 
 class TempFile
@@ -10,6 +11,11 @@ class TempFile
      * @var Manager
      */
     protected $fileManager;
+
+    /**
+     * @var StoreInterface
+     */
+    protected $store;
 
     /**
      * @var string Directory where to save this temporary file
@@ -52,13 +58,19 @@ class TempFile
     protected $extension;
 
     /**
+     * @param string $tempDir
+     * @param array $config
+     * @param array $mediaTypeMap
+     * @param StoreInterface $store
      * @param Manager $fileManager
      */
-    public function __construct($tempDir, $config, $mediaTypeMap, Manager $fileManager)
-    {
+    public function __construct($tempDir, array $config, array $mediaTypeMap,
+        StoreInterface $store, Manager $fileManager
+    ) {
         $this->tempDir = $tempDir;
         $this->config = $config;
         $this->mediaTypeMap = $mediaTypeMap;
+        $this->store = $store;
         $this->fileManager = $fileManager;
 
         // Always create a new, uniquely named temporary file.
@@ -151,7 +163,7 @@ class TempFile
         $storagePath = $this->fileManager->getStoragePath(
             $prefix, $this->getStorageId(), $extension
         );
-        $this->fileManager->getStore()->put($tempPath, $storagePath);
+        $this->store->put($tempPath, $storagePath);
         return $storagePath;
     }
 

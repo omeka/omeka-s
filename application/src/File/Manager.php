@@ -3,6 +3,7 @@ namespace Omeka\File;
 
 use Omeka\Entity\Asset;
 use Omeka\Entity\Media;
+use Omeka\File\Store\StoreInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Manager
@@ -140,9 +141,9 @@ class Manager
     protected $config;
 
     /**
-     * @var string
+     * @var StoreInterface
      */
-    protected $tempDir;
+    protected $store;
 
     /**
      * @var ServiceLocatorInterface
@@ -153,12 +154,13 @@ class Manager
      * Set configuration during construction.
      *
      * @param array $config
-     * @param string $tempDir
+     * @param StoreInterface $store
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(array $config, ServiceLocatorInterface $serviceLocator)
+    public function __construct(array $config, StoreInterface $store, ServiceLocatorInterface $serviceLocator)
     {
         $this->config = $config;
+        $this->store = $store;
         $this->serviceLocator = $serviceLocator;
     }
 
@@ -173,16 +175,6 @@ class Manager
     }
 
     /**
-     * Get the file store service.
-     *
-     * @return \Omeka\File\Store\StoreInterface
-     */
-    public function getStore()
-    {
-        return $this->serviceLocator->get($this->config['store']);
-    }
-
-    /**
      * Delete a file from the store.
      *
      * @param string $prefix The storage prefix
@@ -191,7 +183,7 @@ class Manager
      */
     public function delete($prefix, $name, $extension = null)
     {
-        $this->getStore()->delete($this->getStoragePath($prefix, $name, $extension));
+        $this->store->delete($this->getStoragePath($prefix, $name, $extension));
     }
 
     /**
@@ -235,7 +227,7 @@ class Manager
      */
     public function getUrl($prefix, $name, $extension = null)
     {
-        return $this->getStore()->getUri($this->getStoragePath($prefix, $name, $extension));
+        return $this->store->getUri($this->getStoragePath($prefix, $name, $extension));
     }
 
     /**

@@ -5,7 +5,7 @@ use Omeka\File\Exception;
 use Omeka\File\TempFile;
 use Omeka\File\TempFileFactory;
 
-class GdThumbnailer extends AbstractThumbnailer
+class Gd extends AbstractThumbnailer
 {
     /**
      * @var TempFileFactory

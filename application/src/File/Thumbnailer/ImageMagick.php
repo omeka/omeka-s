@@ -6,7 +6,7 @@ use Omeka\File\Manager as FileManager;
 use Omeka\File\TempFileFactory;
 use Omeka\Service\Cli;
 
-class ImageMagickThumbnailer extends AbstractThumbnailer
+class ImageMagick extends AbstractThumbnailer
 {
     const CONVERT_COMMAND = 'convert';
 

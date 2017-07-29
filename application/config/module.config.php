@@ -182,8 +182,8 @@ return [
         'phpcli_path' => null,
     ],
     'file_manager' => [
-        'store' => 'Omeka\File\LocalStore',
-        'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
+        'store' => 'Omeka\File\Store\Local',
+        'thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
         'thumbnail_types' => [
             'large' => [
                 'strategy' => 'default',
@@ -238,12 +238,12 @@ return [
             'Omeka\Site\ThemeManager' => 'Omeka\Service\ThemeManagerFactory',
             'Omeka\Site\NavigationLinkManager' => 'Omeka\Service\NavigationLinkManagerFactory',
             'Omeka\Site\NavigationTranslator' => 'Omeka\Service\SiteNavigationTranslatorFactory',
-            'Omeka\File\ImageMagickThumbnailer' => 'Omeka\Service\FileThumbnailer\ImageMagickFactory',
-            'Omeka\File\GdThumbnailer' => 'Omeka\Service\FileThumbnailer\GdFactory',
-            'Omeka\File\ImagickThumbnailer' => 'Omeka\Service\FileThumbnailer\ImagickFactory',
-            'Omeka\File\LocalStore' => 'Omeka\Service\LocalStoreFactory',
+            'Omeka\File\Thumbnailer\ImageMagick' => 'Omeka\Service\File\Thumbnailer\ImageMagickFactory',
+            'Omeka\File\Thumbnailer\Gd' => 'Omeka\Service\File\Thumbnailer\GdFactory',
+            'Omeka\File\Thumbnailer\Imagick' => 'Omeka\Service\File\Thumbnailer\ImagickFactory',
+            'Omeka\File\Store\Local' => 'Omeka\Service\File\Store\LocalFactory',
             'Omeka\File\MediaTypeMap' => 'Omeka\Service\MediaTypeMapFactory',
-            'Omeka\File\Manager' => 'Omeka\Service\FileManagerFactory',
+            'Omeka\File\Manager' => 'Omeka\Service\File\ManagerFactory',
             'Omeka\File\TempFileFactory' => 'Omeka\Service\File\TempFileFactoryFactory',
             'Omeka\File\Downloader' => 'Omeka\Service\File\DownloaderFactory',
             'Omeka\File\Uploader' => 'Omeka\Service\File\UploaderFactory',

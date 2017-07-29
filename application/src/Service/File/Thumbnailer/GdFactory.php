@@ -1,8 +1,8 @@
 <?php
-namespace Omeka\Service\FileThumbnailer;
+namespace Omeka\Service\File\Thumbnailer;
 
 use Interop\Container\ContainerInterface;
-use Omeka\File\Thumbnailer\GdThumbnailer;
+use Omeka\File\Thumbnailer\Gd;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 class GdFactory implements FactoryInterface
@@ -10,10 +10,10 @@ class GdFactory implements FactoryInterface
     /**
      * Create the GD thumbnailer service.
      *
-     * @return GdThumbnailer
+     * @return Gd
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new GdThumbnailer($services->get('Omeka\File\TempFileFactory'));
+        return new Gd($services->get('Omeka\File\TempFileFactory'));
     }
 }

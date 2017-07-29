@@ -73,7 +73,7 @@ new, clean checkout.
 
 ## local.config.php options
 
-* `thumbnailer` Default is `Omeka\File\ImageMagickThumbnailer`. Also available are `Omeka\File\IMagickThumbnailer` and `Omeka\File\GdThumbnailer`
+* `thumbnailer` Default is `Omeka\File\Thumbnailer\ImageMagick`. Also available are `Omeka\File\Thumbnailer\Imagick` and `Omeka\File\Thumbnailer\Gd`
 * `phpcli_path` Default is to attempt to detect correct path to PHP. Use this option to specify a path if needed in your server configuration. For example: 
 ```
     'cli' => array(

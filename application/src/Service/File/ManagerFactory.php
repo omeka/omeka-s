@@ -1,11 +1,11 @@
 <?php
-namespace Omeka\Service;
+namespace Omeka\Service\File;
 
 use Omeka\File\Manager as FileManager;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
-class FileManagerFactory implements FactoryInterface
+class ManagerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {

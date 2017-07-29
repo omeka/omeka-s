@@ -1,19 +1,19 @@
 <?php
-namespace Omeka\Service\FileThumbnailer;
+namespace Omeka\Service\File\Thumbnailer;
 
 use Interop\Container\ContainerInterface;
-use Omeka\File\Thumbnailer\ImagickThumbnailer;
+use Omeka\File\Thumbnailer\Imagick;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 class ImagickFactory implements FactoryInterface
 {
     /**
-     * Create the ImageMagick thumbnailer service.
+     * Create the Imagick thumbnailer service.
      *
-     * @return ImageMagickThumbnailer
+     * @return Imagick
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new ImagickThumbnailer($services->get('Omeka\File\TempFileFactory'));
+        return new Imagick($services->get('Omeka\File\TempFileFactory'));
     }
 }

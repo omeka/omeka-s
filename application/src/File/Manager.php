@@ -177,7 +177,11 @@ class Manager
      */
     public function getUrl($prefix, $name, $extension = null)
     {
-        return $this->store->getUri($this->getStoragePath($prefix, $name, $extension));
+        if (null !== $extension) {
+            $extension = ".$extension";
+        }
+        $storagePath = sprintf('%s/%s%s', $prefix, $name, $extension);
+        return $this->store->getUri($storagePath);
     }
 
     /**
@@ -211,7 +215,8 @@ class Manager
      */
     public function getThumbnailUrl($type, Media $media)
     {
-        if (!$media->hasThumbnails() || !$this->thumbnailTypeExists($type)) {
+        $thumbnailTypeExists = array_key_exists($type, $this->config['thumbnail_types']);
+        if (!$media->hasThumbnails() || !$thumbnailTypeExists) {
             $fallbacks = $this->config['thumbnail_fallbacks']['fallbacks'];
             $mediaType = $media->getMediaType();
             $topLevelType = strstr($mediaType, '/', true);
@@ -248,17 +253,6 @@ class Manager
     }
 
     /**
-     * Check whether a thumbnail type exists.
-     *
-     * @param string $type
-     * @return bool
-     */
-    public function thumbnailTypeExists($type)
-    {
-        return array_key_exists($type, $this->config['thumbnail_types']);
-    }
-
-    /**
      * Get all thumbnail types.
      *
      * @return array
@@ -266,29 +260,5 @@ class Manager
     public function getThumbnailTypes()
     {
         return array_keys($this->config['thumbnail_types']);
-    }
-
-    /**
-     * Get a storage path.
-     *
-     * @param string $prefix The storage prefix
-     * @param string $name The file name, or basename if extension is passed
-     * @param null|string $extension The file extension
-     * @return string
-     */
-    public function getStoragePath($prefix, $name, $extension = null)
-    {
-        return sprintf('%s/%s%s', $prefix, $name, $extension ? ".$extension" : null);
-    }
-
-    /**
-     * Get the basename, given a file name.
-     *
-     * @param string $name
-     * @return string
-     */
-    public function getBasename($name)
-    {
-        return strstr($name, '.', true) ?: $name;
     }
 }

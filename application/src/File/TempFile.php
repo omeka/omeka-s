@@ -158,11 +158,16 @@ class TempFile
      */
     public function store($prefix, $extension = null, $tempPath = null)
     {
-        $extension = $extension ? $extension : $this->getExtension();
-        $tempPath = $tempPath ? $tempPath : $this->getTempPath();
-        $storagePath = $this->fileManager->getStoragePath(
-            $prefix, $this->getStorageId(), $extension
-        );
+        if (null === $extension) {
+            $extension = $this->getExtension(); // could return null
+        }
+        if (null !== $extension) {
+            $extension = ".$extension";
+        }
+        if (null === $tempPath) {
+            $tempPath = $this->getTempPath();
+        }
+        $storagePath = sprintf('%s/%s%s', $prefix, $this->getStorageId(), $extension);
         $this->store->put($tempPath, $storagePath);
         return $storagePath;
     }
@@ -252,17 +257,17 @@ class TempFile
      *
      * Returns the extension if found. Returns a "best guess" extension if the
      * media type is known but the original extension is not found. Returns
-     * false if the file has no source name or the file has no extension and the
+     * null if the file has no source name or the file has no extension and the
      * media type cannot be mapped to an extension.
      *
-     * @return string|false
+     * @return string|null
      */
     public function getExtension()
     {
         if (isset($this->extension)) {
             return $this->extension;
         }
-        $extension = false;
+        $extension = null;
         if (!$sourceName = $this->getSourceName()) {
             return $extension;
         }
@@ -274,7 +279,7 @@ class TempFile
                 $extension = strtolower(substr($sourceName, $extensionPos));
             }
         }
-        if (false === $extension) {
+        if (null === $extension) {
             $mediaType = $this->getMediaType();
             if (isset($this->mediaTypeMap[$mediaType][0])) {
                 $extension = strtolower($this->mediaTypeMap[$mediaType][0]);

@@ -50,5 +50,26 @@
                 })
             });
         });
+        $('#content').on('click', '.delete-asset', function (e) {
+            e.preventDefault();
+            var deleteUrl = $('.asset-list').data('delete-url');
+            var assetId = $(this).data('asset-id');
+            $.post({
+                url: deleteUrl,
+                data: { asset_id : assetId },
+                //contentType: false,
+                //processData: false
+            }).done(function () {
+                Omeka.populateSidebarContent(sidebar, selectingForm.find('.asset-form-select').data('sidebar-content-url'));
+            }).fail(function (jqXHR) {
+                var errorList = form.find('ul.errors');
+                errorList.empty();
+                $.each(JSON.parse(jqXHR.responseText), function () {
+                    errorList.append($('<li>', {
+                        text: this
+                    }));
+                })
+            });
+        });
     });
 })(jQuery);

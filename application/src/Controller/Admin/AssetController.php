@@ -51,4 +51,13 @@ class AssetController extends AbstractActionController
 
         return $httpResponse;
     }
+    
+    public function deleteAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $params = $this->params()->fromPost();
+            $assetId = $params['asset_id'];
+            $deleteResponse = $this->api()->delete('assets', $assetId);
+        }
+    }
 }

@@ -3,16 +3,11 @@ namespace Omeka\File;
 
 use Omeka\Entity\Asset;
 use Omeka\Entity\Media;
+use Omeka\File\Store\StoreInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Manager
 {
-    const ORIGINAL_PREFIX = 'original';
-
-    const ASSET_PREFIX = 'asset';
-
-    const THUMBNAIL_EXTENSION = 'jpg';
-
     /**
      * The default media type whitelist.
      */
@@ -140,9 +135,9 @@ class Manager
     protected $config;
 
     /**
-     * @var string
+     * @var StoreInterface
      */
-    protected $tempDir;
+    protected $store;
 
     /**
      * @var ServiceLocatorInterface
@@ -153,54 +148,14 @@ class Manager
      * Set configuration during construction.
      *
      * @param array $config
-     * @param string $tempDir
+     * @param StoreInterface $store
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(array $config, $tempDir, ServiceLocatorInterface $serviceLocator)
+    public function __construct(array $config, StoreInterface $store, ServiceLocatorInterface $serviceLocator)
     {
         $this->config = $config;
-        $this->tempDir = $tempDir;
+        $this->store = $store;
         $this->serviceLocator = $serviceLocator;
-    }
-
-    /**
-     * Factory for creating a new temporary file object.
-     *
-     * @return TempFile
-     */
-    public function createTempFile()
-    {
-        return new TempFile($this);
-    }
-
-    /**
-     * Get the file manager configuration.
-     *
-     * @return array
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * Get the configured temporary directory.
-     *
-     * @return string
-     */
-    public function getTempDir()
-    {
-        return $this->tempDir;
-    }
-
-    /**
-     * Get the media type map.
-     *
-     * @return array
-     */
-    public function getMediaTypeMap()
-    {
-        return $this->serviceLocator->get('Omeka\File\MediaTypeMap');
     }
 
     /**
@@ -214,90 +169,6 @@ class Manager
     }
 
     /**
-     * Get the file store service.
-     *
-     * @return \Omeka\File\Store\StoreInterface
-     */
-    public function getStore()
-    {
-        return $this->serviceLocator->get($this->config['store']);
-    }
-
-    /**
-     * Get the file downloader service.
-     *
-     * @return \Omeka\File\Downloader
-     */
-    public function getDownloader()
-    {
-        return $this->serviceLocator->get('Omeka\File\Downloader');
-    }
-
-    /**
-     * Get the file validator service.
-     *
-     * @return \Omeka\File\Validator
-     */
-    public function getValidator()
-    {
-        return $this->serviceLocator->get('Omeka\File\Validator');
-    }
-
-    /**
-     * Get the file uploader service.
-     *
-     * @return \Omeka\File\Uploader
-     */
-    public function getUploader()
-    {
-        return $this->serviceLocator->get('Omeka\File\Uploader');
-    }
-
-    /**
-     * Delete a file from the store.
-     *
-     * @param string $prefix The storage prefix
-     * @param string $name The file name, or basename if extension is passed
-     * @param null|string $extension The file extension
-     */
-    public function delete($prefix, $name, $extension = null)
-    {
-        $this->getStore()->delete($this->getStoragePath($prefix, $name, $extension));
-    }
-
-    /**
-     * Delete a media's original file.
-     *
-     * @param Media $media
-     */
-    public function deleteOriginal(Media $media)
-    {
-        $this->delete(self::ORIGINAL_PREFIX, $media->getFilename());
-    }
-
-    /**
-     * Delete an asset file.
-     *
-     * @param Media $media
-     */
-    public function deleteAsset(Asset $asset)
-    {
-        $this->delete(self::ASSET_PREFIX, $asset->getStorageId(), $asset->getExtension());
-    }
-
-    /**
-     * Delete a media's thumbnail files.
-     *
-     * @param Media $media
-     */
-    public function deleteThumbnails(Media $media)
-    {
-        foreach ($this->getThumbnailTypes() as $type) {
-            $this->delete($type, $this->getBasename($media->getFilename()), self::THUMBNAIL_EXTENSION);
-        }
-    }
-
-    /**
      * Get a URL to a stored file.
      *
      * @param string $prefix The storage prefix
@@ -306,7 +177,11 @@ class Manager
      */
     public function getUrl($prefix, $name, $extension = null)
     {
-        return $this->getStore()->getUri($this->getStoragePath($prefix, $name, $extension));
+        if (null !== $extension) {
+            $extension = ".$extension";
+        }
+        $storagePath = sprintf('%s/%s%s', $prefix, $name, $extension);
+        return $this->store->getUri($storagePath);
     }
 
     /**
@@ -317,7 +192,7 @@ class Manager
      */
     public function getOriginalUrl(Media $media)
     {
-        return $this->getUrl(self::ORIGINAL_PREFIX, $media->getFilename());
+        return $this->getUrl('original', $media->getFilename());
     }
 
     /**
@@ -328,7 +203,7 @@ class Manager
      */
     public function getAssetUrl(Asset $asset)
     {
-        return $this->getUrl(self::ASSET_PREFIX, $asset->getStorageId(), $asset->getExtension());
+        return $this->getUrl('asset', $asset->getStorageId(), $asset->getExtension());
     }
 
     /**
@@ -340,7 +215,8 @@ class Manager
      */
     public function getThumbnailUrl($type, Media $media)
     {
-        if (!$media->hasThumbnails() || !$this->thumbnailTypeExists($type)) {
+        $thumbnailTypeExists = array_key_exists($type, $this->config['thumbnail_types']);
+        if (!$media->hasThumbnails() || !$thumbnailTypeExists) {
             $fallbacks = $this->config['thumbnail_fallbacks']['fallbacks'];
             $mediaType = $media->getMediaType();
             $topLevelType = strstr($mediaType, '/', true);
@@ -358,7 +234,7 @@ class Manager
             $assetUrl = $this->serviceLocator->get('ViewHelperManager')->get('assetUrl');
             return $assetUrl($fallback[0], $fallback[1]);
         }
-        return $this->getUrl($type, $this->getBasename($media->getFilename()), self::THUMBNAIL_EXTENSION);
+        return $this->getUrl($type, $media->getStorageId(), 'jpg');
     }
 
     /**
@@ -377,17 +253,6 @@ class Manager
     }
 
     /**
-     * Check whether a thumbnail type exists.
-     *
-     * @param string $type
-     * @return bool
-     */
-    public function thumbnailTypeExists($type)
-    {
-        return array_key_exists($type, $this->config['thumbnail_types']);
-    }
-
-    /**
      * Get all thumbnail types.
      *
      * @return array
@@ -395,29 +260,5 @@ class Manager
     public function getThumbnailTypes()
     {
         return array_keys($this->config['thumbnail_types']);
-    }
-
-    /**
-     * Get a storage path.
-     *
-     * @param string $prefix The storage prefix
-     * @param string $name The file name, or basename if extension is passed
-     * @param null|string $extension The file extension
-     * @return string
-     */
-    public function getStoragePath($prefix, $name, $extension = null)
-    {
-        return sprintf('%s/%s%s', $prefix, $name, $extension ? ".$extension" : null);
-    }
-
-    /**
-     * Get the basename, given a file name.
-     *
-     * @param string $name
-     * @return string
-     */
-    public function getBasename($name)
-    {
-        return strstr($name, '.', true) ?: $name;
     }
 }

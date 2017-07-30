@@ -11,18 +11,31 @@ use Zend\InputFilter\FileInput;
 class Uploader
 {
     /**
+     * @var TempFileFactory
+     */
+    protected $tempFileFactory;
+
+    /**
+     * @param TempFileFactory $tempFileFactory
+     */
+    public function __construct(TempFileFactory $tempFileFactory)
+    {
+        $this->tempFileFactory = $tempFileFactory;
+    }
+
+    /**
      * Upload a file.
      *
      * Pass the $errorStore object if an error should raise an API validation
      * error.
      *
      * @param array $fileData
-     * @param TempFile $tempFile
      * @param null|ErrorStore $errorStore
-     * @return bool True on success, false on error
+     * @return TempFile|false False on error
      */
-    public function upload(array $fileData, TempFile $tempFile, ErrorStore $errorStore = null)
+    public function upload(array $fileData, ErrorStore $errorStore = null)
     {
+        $tempFile = $this->tempFileFactory->create();
         $fileInput = new FileInput('file');
         $fileInput->getFilterChain()->attach(new RenameUpload([
             'target' => $tempFile->getTempPath(),
@@ -38,6 +51,6 @@ class Uploader
             return false;
         }
         $fileInput->getValue();
-        return true;
+        return $tempFile;
     }
 }

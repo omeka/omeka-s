@@ -72,7 +72,7 @@ class Validator
             if (!in_array($extension, $this->extensions)) {
                 $isValid = false;
                 if ($errorStore) {
-                    $errorStore->addError('file', new Message(
+                    $errorStore->addError('file', sprintf(
                         'Error validating "%s". Cannot store files with the resolved extension "%s".', // @translate
                         $tempFile->getSourceName(), $extension
                     ));

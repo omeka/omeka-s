@@ -7,7 +7,7 @@ use Zend\Log\Logger;
 /**
  * Local filesystem file store
  */
-class LocalStore implements StoreInterface
+class Local implements StoreInterface
 {
     /**
      * Local base path.

@@ -11,6 +11,10 @@ class DownloaderFactory implements FactoryInterface
     {
         // Must pass the service locator because the Omeka\HttpClient service is
         // non-shared and must be reinstantiated for every call to download().
-        return new Downloader($services);
+        return new Downloader(
+            $services,
+            $services->get('Omeka\File\TempFileFactory'),
+            $services->get('Omeka\Logger')
+        );
     }
 }

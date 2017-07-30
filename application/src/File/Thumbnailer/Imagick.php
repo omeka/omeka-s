@@ -1,32 +1,38 @@
 <?php
 namespace Omeka\File\Thumbnailer;
 
-use Imagick;
+use Imagick as ImagickPhp;
 use ImagickException;
 use Omeka\File\Exception;
-use Omeka\File\Manager as FileManager;
+use Omeka\File\TempFileFactory;
 
-class ImagickThumbnailer extends AbstractThumbnailer
+class Imagick extends AbstractThumbnailer
 {
+    /**
+     * @var TempFileFactory
+     */
+    protected $tempFileFactory;
+
     /**
      * Check whether the GD entension is loaded.
      *
      * @throws Exception\InvalidThumbnailer
      */
-    public function __construct()
+    public function __construct(TempFileFactory $tempFileFactory)
     {
         if (!extension_loaded('imagick')) {
             throw new Exception\InvalidThumbnailerException('The imagick PHP extension must be loaded to use this thumbnailer.');
         }
+        $this->tempFileFactory = $tempFileFactory;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function create(FileManager $fileManager, $strategy, $constraint, array $options = [])
+    public function create($strategy, $constraint, array $options = [])
     {
         try {
-            $imagick = new Imagick;
+            $imagick = new ImagickPhp;
             if ($this->sourceFile->getMediaType() == 'application/pdf') {
                 $imagick->setResolution(150, 150);
             }
@@ -45,7 +51,7 @@ class ImagickThumbnailer extends AbstractThumbnailer
         $imagick->setBackgroundColor('white');
         $imagick->setImageBackgroundColor('white');
         $imagick->setImagePage($origWidth, $origHeight, 0, 0);
-        $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+        $imagick = $imagick->mergeImageLayers(ImagickPhp::LAYERMETHOD_FLATTEN);
 
         switch ($strategy) {
             case 'square':
@@ -74,9 +80,9 @@ class ImagickThumbnailer extends AbstractThumbnailer
                 }
         }
 
-        $file = $fileManager->createTempFile();
-        $tempPath = sprintf('%s.%s', $file->getTempPath(), FileManager::THUMBNAIL_EXTENSION);
-        $file->delete();
+        $tempFile = $this->tempFileFactory->create();
+        $tempPath = sprintf('%s.%s', $tempFile->getTempPath(), 'jpg');
+        $tempFile->delete();
 
         $imagick->writeImage($tempPath);
         $imagick->clear();
@@ -87,38 +93,38 @@ class ImagickThumbnailer extends AbstractThumbnailer
     /**
      * Detect orientation flag and rotate image accordingly.
      *
-     * @param Imagick $imagick
+     * @param ImagickPhp $imagick
      */
     protected function autoOrient($imagick)
     {
         $orientation = $imagick->getImageOrientation();
         $white = new ImagickPixel('#fff');
         switch ($orientation) {
-            case Imagick::ORIENTATION_RIGHTTOP:
+            case ImagickPhp::ORIENTATION_RIGHTTOP:
                 $imagick->rotateImage($white, 90);
                 break;
-            case Imagick::ORIENTATION_BOTTOMRIGHT:
+            case ImagickPhp::ORIENTATION_BOTTOMRIGHT:
                 $imagick->rotateImage($white, 180);
                 break;
-            case Imagick::ORIENTATION_LEFTBOTTOM:
+            case ImagickPhp::ORIENTATION_LEFTBOTTOM:
                 $imagick->rotateImage($white, 270);
                 break;
-            case Imagick::ORIENTATION_TOPRIGHT:
+            case ImagickPhp::ORIENTATION_TOPRIGHT:
                 $imagick->flopImage();
                 break;
-            case Imagick::ORIENTATION_RIGHTBOTTOM:
+            case ImagickPhp::ORIENTATION_RIGHTBOTTOM:
                 $imagick->flopImage();
                 $imagick->rotateImage($white, 90);
                 break;
-            case Imagick::ORIENTATION_BOTTOMLEFT:
+            case ImagickPhp::ORIENTATION_BOTTOMLEFT:
                 $imagick->flopImage();
                 $imagick->rotateImage($white, 180);
                 break;
-            case Imagick::ORIENTATION_LEFTTOP:
+            case ImagickPhp::ORIENTATION_LEFTTOP:
                 $imagick->flopImage();
                 $imagick->rotateImage($white, 270);
                 break;
-            case Imagick::ORIENTATION_TOPLEFT:
+            case ImagickPhp::ORIENTATION_TOPLEFT:
             default:
                 break;
         }

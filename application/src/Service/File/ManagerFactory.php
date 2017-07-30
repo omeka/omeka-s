@@ -1,11 +1,11 @@
 <?php
-namespace Omeka\Service;
+namespace Omeka\Service\File;
 
 use Omeka\File\Manager as FileManager;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
-class FileManagerFactory implements FactoryInterface
+class ManagerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
@@ -64,10 +64,10 @@ class FileManagerFactory implements FactoryInterface
             }
         }
 
-        if (!isset($config['temp_dir'])) {
-            throw new Exception\ConfigException('Missing temporary directory configuration');
-        }
-        $tempDir = $config['temp_dir'];
-        return new FileManager($config['file_manager'], $tempDir, $serviceLocator);
+        return new FileManager(
+            $config['file_manager'],
+            $serviceLocator->get($config['file_manager']['store']),
+            $serviceLocator
+        );
     }
 }

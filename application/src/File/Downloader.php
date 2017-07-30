@@ -2,6 +2,7 @@
 namespace Omeka\File;
 
 use Omeka\Stdlib\ErrorStore;
+use Zend\Log\Logger;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -15,32 +16,45 @@ class Downloader
     protected $services;
 
     /**
-     * @param ServiceLocatorInterface $services
+     * @var TempFileFactory
      */
-    public function __construct(ServiceLocatorInterface $services)
-    {
+    protected $tempFileFactory;
+
+    /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
+     * @param ServiceLocatorInterface $services
+     * @param TempFileFactory $tempFileFactory
+     */
+    public function __construct(ServiceLocatorInterface $services,
+        TempFileFactory $tempFileFactory, Logger $logger
+    ) {
         $this->services = $services;
+        $this->tempFileFactory = $tempFileFactory;
+        $this->logger = $logger;
     }
 
     /**
-     * Download a file.
+     * Download a file from a remote URI.
      *
-     * Downloads a file from a remote $uri to a local $filename. Pass the
-     * $errorStore object if an error should raise an API validation error.
+     * Pass the $errorStore object if an error should raise an API validation
+     * error.
      *
      * @param string/\Zend\Uri\Http $uri
-     * @param string $filename
      * @param null|ErrorStore $errorStore
-     * @return bool True on success, false on error
+     * @return TempFile|false False on error
      */
-    public function download($uri, $filename, ErrorStore $errorStore = null)
+    public function download($uri, ErrorStore $errorStore = null)
     {
-        $client = $this->services->get('Omeka\HttpClient');
-        $logger = $this->services->get('Omeka\Logger');
+        $client = $this->services->get('Omeka\HttpClient'); // non-shared service
+        $tempFile = $this->tempFileFactory->create();
 
         // Disable compressed response; it's broken alongside streaming
         $client->getRequest()->getHeaders()->addHeaderLine('Accept-Encoding', 'identity');
-        $client->setUri($uri)->setStream($filename);
+        $client->setUri($uri)->setStream($tempFile->getTempPath());
 
         // Attempt three requests before handling an exception.
         $attempt = 0;
@@ -50,7 +64,7 @@ class Downloader
                 break;
             } catch (\Exception $e) {
                 if (++$attempt === 3) {
-                    $logger->err((string) $e);
+                    $this->logger->err((string) $e);
                     if ($errorStore) {
                         $errorStore->addError('download', sprintf(
                             'Error downloading %s: %s', // @translate
@@ -69,10 +83,10 @@ class Downloader
                     (string) $uri, $response->getStatusCode(), $response->getReasonPhrase()
                 ));
             }
-            $logger->err($message);
+            $this->logger->err($message);
             return false;
         }
 
-        return true;
+        return $tempFile;
     }
 }

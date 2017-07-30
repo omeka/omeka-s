@@ -12,7 +12,7 @@ return [
         'phpcli_path' => null,
     ],
     'file_manager' => [
-        'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
+        'thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
         'thumbnail_types' => [
             'large' => ['constraint' => 800],
             'medium' => ['constraint' => 200],

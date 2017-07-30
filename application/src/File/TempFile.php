@@ -2,6 +2,7 @@
 namespace Omeka\File;
 
 use finfo;
+use Omeka\File\Store\StoreInterface;
 use Zend\Math\Rand;
 
 class TempFile
@@ -12,9 +13,29 @@ class TempFile
     protected $fileManager;
 
     /**
-     * @var string Path to the temporary file
+     * @var StoreInterface
+     */
+    protected $store;
+
+    /**
+     * @var string Directory where to save this temporary file
+     */
+    protected $tempDir;
+
+    /**
+     * @var string Path to this temprorary file
      */
     protected $tempPath;
+
+    /**
+     * @var array File manager configuration
+     */
+    protected $config;
+
+    /**
+     * @var array Media type map
+     */
+    protected $mediaTypeMap;
 
     /**
      * @var string The name of the original source file
@@ -37,13 +58,23 @@ class TempFile
     protected $extension;
 
     /**
+     * @param string $tempDir
+     * @param array $config
+     * @param array $mediaTypeMap
+     * @param StoreInterface $store
      * @param Manager $fileManager
      */
-    public function __construct(Manager $fileManager)
-    {
+    public function __construct($tempDir, array $config, array $mediaTypeMap,
+        StoreInterface $store, Manager $fileManager
+    ) {
+        $this->tempDir = $tempDir;
+        $this->config = $config;
+        $this->mediaTypeMap = $mediaTypeMap;
+        $this->store = $store;
         $this->fileManager = $fileManager;
+
         // Always create a new, uniquely named temporary file.
-        $this->setTempPath(tempnam($fileManager->getTempDir(), 'omeka'));
+        $this->setTempPath(tempnam($tempDir, 'omeka'));
     }
 
     /**
@@ -118,58 +149,65 @@ class TempFile
     }
 
     /**
-     * Store this file.
+     * Store a file.
      *
      * @param string $prefix The storage prefix
-     * @param null|string $extension The file extension
+     * @param null|string $extension The file extension, if different file
+     * @param null|string $tempPath The temp path, if different file
      * @return string The path of the stored file
      */
-    public function store($prefix, $extension = null)
+    public function store($prefix, $extension = null, $tempPath = null)
     {
-        $storagePath = $this->fileManager->getStoragePath(
-            $prefix, $this->getStorageId(), $extension ? $extension : $this->getExtension()
-        );
-        $this->fileManager->getStore()->put($this->getTempPath(), $storagePath);
+        if (null === $extension) {
+            $extension = $this->getExtension(); // could return null
+        }
+        if (null !== $extension) {
+            $extension = ".$extension";
+        }
+        if (null === $tempPath) {
+            $tempPath = $this->getTempPath();
+        }
+        $storagePath = sprintf('%s/%s%s', $prefix, $this->getStorageId(), $extension);
+        $this->store->put($tempPath, $storagePath);
         return $storagePath;
     }
 
     /**
-     * Store original file.
+     * Store this as an "original" file.
      *
      * @return string The path of the stored file
      */
     public function storeOriginal()
     {
-        return $this->store(Manager::ORIGINAL_PREFIX);
+        return $this->store('original');
     }
 
     /**
-     * Store asset file.
+     * Store this as an "asset" file.
      *
      * @return string The path of the stored file
      */
     public function storeAsset()
     {
-        return $this->store(Manager::ASSET_PREFIX);
+        return $this->store('asset');
     }
 
     /**
-     * Create and store thumbnail derivatives.
+     * Create and store thumbnail derivatives of this file.
      *
      * @return bool Whether thumbnails were created and stored
      */
     public function storeThumbnails()
     {
         $thumbnailer = $this->fileManager->getThumbnailer();
-        $managerConfig = $this->fileManager->getConfig();
         $tempPaths = [];
 
         try {
             $thumbnailer->setSource($this);
-            $thumbnailer->setOptions($managerConfig['thumbnail_options']);
-            foreach ($managerConfig['thumbnail_types'] as $type => $config) {
+            $thumbnailer->setOptions($this->config['thumbnail_options']);
+            foreach ($this->config['thumbnail_types'] as $type => $config) {
                 $tempPaths[$type] = $thumbnailer->create(
-                    $this->fileManager, $config['strategy'], $config['constraint'], $config['options']
+                    $config['strategy'], $config['constraint'], $config['options']
                 );
             }
         } catch (Exception\CannotCreateThumbnailException $e) {
@@ -182,7 +220,7 @@ class TempFile
 
         // Finally, store the thumbnails.
         foreach ($tempPaths as $type => $tempPath) {
-            $this->store($type, Manager::THUMBNAIL_EXTENSION);
+            $this->store($type, 'jpg', $tempPath);
            // Delete the temporary file in case the file store hasn't already.
             @unlink($tempPath);
         }
@@ -219,17 +257,17 @@ class TempFile
      *
      * Returns the extension if found. Returns a "best guess" extension if the
      * media type is known but the original extension is not found. Returns
-     * false if the file has no source name or the file has no extension and the
+     * null if the file has no source name or the file has no extension and the
      * media type cannot be mapped to an extension.
      *
-     * @return string|false
+     * @return string|null
      */
     public function getExtension()
     {
         if (isset($this->extension)) {
             return $this->extension;
         }
-        $extension = false;
+        $extension = null;
         if (!$sourceName = $this->getSourceName()) {
             return $extension;
         }
@@ -241,11 +279,10 @@ class TempFile
                 $extension = strtolower(substr($sourceName, $extensionPos));
             }
         }
-        if (false === $extension) {
-            $mediaTypeMap = $this->fileManager->getMediaTypeMap();
+        if (null === $extension) {
             $mediaType = $this->getMediaType();
-            if (isset($mediaTypeMap[$mediaType][0])) {
-                $extension = strtolower($mediaTypeMap[$mediaType][0]);
+            if (isset($this->mediaTypeMap[$mediaType][0])) {
+                $extension = strtolower($this->mediaTypeMap[$mediaType][0]);
             }
         }
         return $extension;

@@ -2,6 +2,7 @@
 namespace Omeka\Service\File;
 
 use Omeka\File\Manager as FileManager;
+use Omeka\Service\Exception;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
@@ -64,10 +65,6 @@ class ManagerFactory implements FactoryInterface
             }
         }
 
-        return new FileManager(
-            $config['file_manager'],
-            $serviceLocator->get($config['file_manager']['store']),
-            $serviceLocator
-        );
+        return new FileManager($config['file_manager'], $serviceLocator);
     }
 }

@@ -1,9 +1,6 @@
 <?php
 namespace Omeka\File;
 
-use Omeka\Entity\Asset;
-use Omeka\Entity\Media;
-use Omeka\File\Store\StoreInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Manager
@@ -135,11 +132,6 @@ class Manager
     protected $config;
 
     /**
-     * @var StoreInterface
-     */
-    protected $store;
-
-    /**
      * @var ServiceLocatorInterface
      */
     protected $serviceLocator;
@@ -148,13 +140,11 @@ class Manager
      * Set configuration during construction.
      *
      * @param array $config
-     * @param StoreInterface $store
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(array $config, StoreInterface $store, ServiceLocatorInterface $serviceLocator)
+    public function __construct(array $config, ServiceLocatorInterface $serviceLocator)
     {
         $this->config = $config;
-        $this->store = $store;
         $this->serviceLocator = $serviceLocator;
     }
 
@@ -166,90 +156,6 @@ class Manager
     public function getThumbnailer()
     {
         return $this->serviceLocator->build($this->config['thumbnailer']);
-    }
-
-    /**
-     * Get a URL to a stored file.
-     *
-     * @param string $prefix The storage prefix
-     * @param string $name The file name, or basename if extension is passed
-     * @param null|string $extension The file extension
-     */
-    public function getUrl($prefix, $name, $extension = null)
-    {
-        if (null !== $extension) {
-            $extension = ".$extension";
-        }
-        $storagePath = sprintf('%s/%s%s', $prefix, $name, $extension);
-        return $this->store->getUri($storagePath);
-    }
-
-    /**
-     * Get the URL to a media's original file.
-     *
-     * @param Media $media
-     * @return string
-     */
-    public function getOriginalUrl(Media $media)
-    {
-        return $this->getUrl('original', $media->getFilename());
-    }
-
-    /**
-     * Get the URL to an asset file.
-     *
-     * @param Asset $asset
-     * @return string
-     */
-    public function getAssetUrl(Asset $asset)
-    {
-        return $this->getUrl('asset', $asset->getStorageId(), $asset->getExtension());
-    }
-
-    /**
-     * Get the URL to a media's thumbnail file.
-     *
-     * @param string $type
-     * @param Media $media
-     * @return string
-     */
-    public function getThumbnailUrl($type, Media $media)
-    {
-        $thumbnailTypeExists = array_key_exists($type, $this->config['thumbnail_types']);
-        if (!$media->hasThumbnails() || !$thumbnailTypeExists) {
-            $fallbacks = $this->config['thumbnail_fallbacks']['fallbacks'];
-            $mediaType = $media->getMediaType();
-            $topLevelType = strstr($mediaType, '/', true);
-
-            if (isset($fallbacks[$mediaType])) {
-                // Prioritize a match against the full media type, e.g. "image/jpeg"
-                $fallback = $fallbacks[$mediaType];
-            } elseif ($topLevelType && isset($fallbacks[$topLevelType])) {
-                // Then fall back on a match against the top-level type, e.g. "image"
-                $fallback = $fallbacks[$topLevelType];
-            } else {
-                $fallback = $this->config['thumbnail_fallbacks']['default'];
-            }
-
-            $assetUrl = $this->serviceLocator->get('ViewHelperManager')->get('assetUrl');
-            return $assetUrl($fallback[0], $fallback[1]);
-        }
-        return $this->getUrl($type, $media->getStorageId(), 'jpg');
-    }
-
-    /**
-     * Get all a media's thumbnail URLs, keyed by type.
-     *
-     * @param Media $media
-     * @return array
-     */
-    public function getThumbnailUrls(Media $media)
-    {
-        $urls = [];
-        foreach ($this->getThumbnailTypes() as $type) {
-            $urls[$type] = $this->getThumbnailUrl($type, $media);
-        }
-        return $urls;
     }
 
     /**

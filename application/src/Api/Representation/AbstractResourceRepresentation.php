@@ -239,6 +239,24 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Get a URL to a stored file.
+     *
+     * @param string $prefix The storage prefix
+     * @param string $name The file name, or basename if extension is passed
+     * @param null|string $extension The file extension
+     */
+    public function getFileUrl($prefix, $name, $extension = null)
+    {
+        $config = $this->getServiceLocator()->get('Config');
+        $store = $this->getServiceLocator()->get($config['file_manager']['store']);
+        if (null !== $extension) {
+            $extension = ".$extension";
+        }
+        $storagePath = sprintf('%s/%s%s', $prefix, $name, $extension);
+        return $store->getUri($storagePath);
+    }
+
+    /**
      * Get the name for the controller that handles this kind of resource.
      *
      * @return string|null

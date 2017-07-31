@@ -19,9 +19,11 @@ $escape = $this->plugin('escapeHtml');
 <div class="asset-list" data-delete-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'delete'])); ?>">
 <?php foreach ($assets as $asset): ?>
     <div class="asset" data-asset-id='<?php echo $escape($asset->id()); ?>'>
+        <?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'delete')): ?>
         <span class="actions">
             <a href="#" class="o-icon-delete remove-value delete-asset" title="Delete asset" aria-label="Delete asset"></a>
         </span>
+        <?php endif; ?>
         <a class="select-asset" href="#" data-asset-id="<?php echo $escape($asset->id()); ?>">
             <img src="<?php echo $escape($asset->assetUrl()); ?>">
             <?php echo $escape($asset->name()); ?>

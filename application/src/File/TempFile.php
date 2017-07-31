@@ -3,19 +3,20 @@ namespace Omeka\File;
 
 use finfo;
 use Omeka\File\Store\StoreInterface;
+use Omeka\File\Thumbnailer\ThumbnailerFactory;
 use Zend\Math\Rand;
 
 class TempFile
 {
     /**
-     * @var Manager
-     */
-    protected $fileManager;
-
-    /**
      * @var StoreInterface
      */
     protected $store;
+
+    /**
+     * @var ThumbnailerFactory
+     */
+    protected $thumbnailerFactory;
 
     /**
      * @var string Directory where to save this temporary file
@@ -26,11 +27,6 @@ class TempFile
      * @var string Path to this temprorary file
      */
     protected $tempPath;
-
-    /**
-     * @var array File manager configuration
-     */
-    protected $config;
 
     /**
      * @var array Media type map
@@ -62,16 +58,15 @@ class TempFile
      * @param array $config
      * @param array $mediaTypeMap
      * @param StoreInterface $store
-     * @param Manager $fileManager
+     * @param ThumbnailerFactory $thumbnailerFactory
      */
-    public function __construct($tempDir, array $config, array $mediaTypeMap,
-        StoreInterface $store, Manager $fileManager
+    public function __construct($tempDir, array $mediaTypeMap,
+        StoreInterface $store, ThumbnailerFactory $thumbnailerFactory
     ) {
         $this->tempDir = $tempDir;
-        $this->config = $config;
         $this->mediaTypeMap = $mediaTypeMap;
         $this->store = $store;
-        $this->fileManager = $fileManager;
+        $this->thumbnailerFactory = $thumbnailerFactory;
 
         // Always create a new, uniquely named temporary file.
         $this->setTempPath(tempnam($tempDir, 'omeka'));
@@ -199,13 +194,16 @@ class TempFile
      */
     public function storeThumbnails()
     {
-        $thumbnailer = $this->fileManager->getThumbnailer();
+        $thumbnailer = $this->thumbnailerFactory->build();
+        $thumbnailOptions = $this->thumbnailerFactory->getThumbnailOptions();
+        $thumbnailTypes = $this->thumbnailerFactory->getThumbnailTypes();
+
         $tempPaths = [];
 
         try {
             $thumbnailer->setSource($this);
-            $thumbnailer->setOptions($this->config['thumbnail_options']);
-            foreach ($this->config['thumbnail_types'] as $type => $config) {
+            $thumbnailer->setOptions($thumbnailOptions);
+            foreach ($thumbnailTypes as $type => $config) {
                 $tempPaths[$type] = $thumbnailer->create(
                     $config['strategy'], $config['constraint'], $config['options']
                 );

@@ -80,7 +80,7 @@ class Imagick extends AbstractThumbnailer
                 }
         }
 
-        $tempFile = $this->tempFileFactory->create();
+        $tempFile = $this->tempFileFactory->build();
         $tempPath = sprintf('%s.%s', $tempFile->getTempPath(), 'jpg');
         $tempFile->delete();
 

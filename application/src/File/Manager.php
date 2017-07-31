@@ -1,8 +1,6 @@
 <?php
 namespace Omeka\File;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-
 class Manager
 {
     /**
@@ -132,30 +130,13 @@ class Manager
     protected $config;
 
     /**
-     * @var ServiceLocatorInterface
-     */
-    protected $serviceLocator;
-
-    /**
      * Set configuration during construction.
      *
      * @param array $config
-     * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(array $config, ServiceLocatorInterface $serviceLocator)
+    public function __construct(array $config)
     {
         $this->config = $config;
-        $this->serviceLocator = $serviceLocator;
-    }
-
-    /**
-     * Get the thumbnailer service.
-     *
-     * @return \Omeka\File\Thumbnailer\ThumbnailerInterface
-     */
-    public function getThumbnailer()
-    {
-        return $this->serviceLocator->build($this->config['thumbnailer']);
     }
 
     /**

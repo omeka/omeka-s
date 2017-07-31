@@ -1,14 +1,14 @@
 <?php
-namespace Omeka\Service\File;
+namespace Omeka\Service\File\Thumbnailer;
 
-use Omeka\File\TempFileFactory;
+use Omeka\File\Thumbnailer\ThumbnailerFactory;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
-class TempFileFactoryFactory implements FactoryInterface
+class ThumbnailerFactoryFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new TempFileFactory($services);
+        return new ThumbnailerFactory($services);
     }
 }

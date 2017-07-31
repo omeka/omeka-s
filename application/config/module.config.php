@@ -244,6 +244,7 @@ return [
             'Omeka\File\Store\Local' => 'Omeka\Service\File\Store\LocalFactory',
             'Omeka\File\MediaTypeMap' => 'Omeka\Service\MediaTypeMapFactory',
             'Omeka\File\Manager' => 'Omeka\Service\File\ManagerFactory',
+            'Omeka\File\ThumbnailerFactory' => 'Omeka\Service\File\Thumbnailer\ThumbnailerFactoryFactory',
             'Omeka\File\TempFileFactory' => 'Omeka\Service\File\TempFileFactoryFactory',
             'Omeka\File\Downloader' => 'Omeka\Service\File\DownloaderFactory',
             'Omeka\File\Uploader' => 'Omeka\Service\File\UploaderFactory',

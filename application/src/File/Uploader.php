@@ -35,7 +35,7 @@ class Uploader
      */
     public function upload(array $fileData, ErrorStore $errorStore = null)
     {
-        $tempFile = $this->tempFileFactory->create();
+        $tempFile = $this->tempFileFactory->build();
         $fileInput = new FileInput('file');
         $fileInput->getFilterChain()->attach(new RenameUpload([
             'target' => $tempFile->getTempPath(),

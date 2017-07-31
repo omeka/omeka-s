@@ -65,6 +65,6 @@ class ManagerFactory implements FactoryInterface
             }
         }
 
-        return new FileManager($config['file_manager'], $serviceLocator);
+        return new FileManager($config['file_manager']);
     }
 }

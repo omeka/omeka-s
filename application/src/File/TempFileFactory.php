@@ -33,7 +33,7 @@ class TempFileFactory
         $config = $services->get('Config');
         $this->tempDir = $config['temp_dir'];
         $this->mediaTypeMap = $services->get('Omeka\File\MediaTypeMap');
-        $this->store = $services->get($config['file_manager']['store']);
+        $this->store = $services->get('Omeka\File\Store');
         $this->thumbnailerFactory = $services->get('Omeka\File\ThumbnailerFactory');
     }
 

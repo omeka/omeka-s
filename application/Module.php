@@ -237,8 +237,7 @@ class Module extends AbstractModule
     public function deleteMediaFiles(ZendEvent $event)
     {
         $media = $event->getTarget();
-        $config = $this->getServiceLocator()->get('Config');
-        $store = $this->getServiceLocator()->get($config['file_manager']['store']);
+        $store = $this->getServiceLocator()->get('Omeka\File\Store');
 
         if ($media->hasOriginal()) {
             $storagePath = sprintf('original/%s', $media->getFilename());

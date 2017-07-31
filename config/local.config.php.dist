@@ -12,7 +12,6 @@ return [
         'phpcli_path' => null,
     ],
     'file_manager' => [
-        'thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
         'thumbnail_types' => [
             'large' => ['constraint' => 800],
             'medium' => ['constraint' => 200],
@@ -24,5 +23,11 @@ return [
     ],
     'translator' => [
         'locale' => 'en_US',
+    ],
+    'service_manager' => [
+        'aliases' => [
+            'Omeka\File\Store' => 'Omeka\File\Store\Local',
+            'Omeka\File\Thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
+        ],
     ],
 ];

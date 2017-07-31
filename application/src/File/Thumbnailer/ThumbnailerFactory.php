@@ -32,7 +32,7 @@ class ThumbnailerFactory
      */
     public function build()
     {
-        return $this->services->build($this->config['thumbnailer']);
+        return $this->services->build('Omeka\File\Thumbnailer');
     }
 
     /**

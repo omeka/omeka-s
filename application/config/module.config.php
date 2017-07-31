@@ -182,8 +182,6 @@ return [
         'phpcli_path' => null,
     ],
     'file_manager' => [
-        'store' => 'Omeka\File\Store\Local',
-        'thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
         'thumbnail_types' => [
             'large' => [
                 'strategy' => 'default',
@@ -272,6 +270,8 @@ return [
             ],
         ],
         'aliases' => [
+            'Omeka\File\Store' => 'Omeka\File\Store\Local',
+            'Omeka\File\Thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService',
         ],

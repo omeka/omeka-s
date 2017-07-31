@@ -51,7 +51,7 @@ class AssetController extends AbstractActionController
 
         return $httpResponse;
     }
-    
+
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {
@@ -59,5 +59,9 @@ class AssetController extends AbstractActionController
             $assetId = $params['asset_id'];
             $deleteResponse = $this->api()->delete('assets', $assetId);
         }
+        $httpResponse = $this->getResponse();
+        $httpResponse->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+        $httpResponse->setContent(json_encode([]));
+        return $httpResponse;
     }
 }

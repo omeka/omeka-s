@@ -54,14 +54,11 @@
             e.preventDefault();
             var deleteUrl = $('.asset-list').data('delete-url');
             var assetId = $(this).data('asset-id');
-            $.post({
-                url: deleteUrl,
-                data: { asset_id : assetId },
-                //contentType: false,
-                //processData: false
-            }).done(function () {
+            $.post(deleteUrl, { asset_id: assetId }
+            ).done(function () {
                 Omeka.populateSidebarContent(sidebar, selectingForm.find('.asset-form-select').data('sidebar-content-url'));
             }).fail(function (jqXHR) {
+                var form = $('form.asset-upload');
                 var errorList = form.find('ul.errors');
                 errorList.empty();
                 $.each(JSON.parse(jqXHR.responseText), function () {

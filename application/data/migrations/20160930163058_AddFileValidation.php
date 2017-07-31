@@ -3,7 +3,7 @@ namespace Omeka\Db\Migrations;
 
 use Doctrine\DBAL\Connection;
 use Omeka\Db\Migration\ConstructedMigrationInterface;
-use Omeka\File\Manager as FileManager;
+use Omeka\Form\SettingForm;
 use Omeka\Settings\Settings;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -21,9 +21,9 @@ class AddFileValidation implements ConstructedMigrationInterface
 
     public function up(Connection $conn)
     {
-        $mediaTypes = FileManager::MEDIA_TYPE_WHITELIST;
+        $mediaTypes = SettingForm::MEDIA_TYPE_WHITELIST;
         $this->settings->set('media_type_whitelist', $mediaTypes);
-        $extensions = FileManager::EXTENSION_WHITELIST;
+        $extensions = SettingForm::EXTENSION_WHITELIST;
         $this->settings->set('extension_whitelist', $extensions);
     }
 

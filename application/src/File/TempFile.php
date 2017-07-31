@@ -103,7 +103,6 @@ class TempFile
 
     /**
      * @param string $tempDir
-     * @param array $config
      * @param array $mediaTypeMap
      * @param StoreInterface $store
      * @param ThumbnailerFactory $thumbnailerFactory

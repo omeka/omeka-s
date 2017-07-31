@@ -21,9 +21,9 @@ class TempFileFactory
     protected $store;
 
     /**
-     * @var Omeka\File\Thumbnailer\ThumbnailerFactory
+     * @var Omeka\File\ThumbnailManager
      */
-    protected $thumbnailerFactory;
+    protected $thumbnailManager;
 
     /**
      * @param ServiceLocatorInterface $services
@@ -34,7 +34,7 @@ class TempFileFactory
         $this->tempDir = $config['temp_dir'];
         $this->mediaTypeMap = $services->get('Omeka\File\MediaTypeMap');
         $this->store = $services->get('Omeka\File\Store');
-        $this->thumbnailerFactory = $services->get('Omeka\File\ThumbnailerFactory');
+        $this->thumbnailManager = $services->get('Omeka\File\ThumbnailManager');
     }
 
     /**
@@ -44,6 +44,6 @@ class TempFileFactory
      */
     public function build()
     {
-        return new TempFile($this->tempDir, $this->mediaTypeMap, $this->store, $this->thumbnailerFactory);
+        return new TempFile($this->tempDir, $this->mediaTypeMap, $this->store, $this->thumbnailManager);
     }
 }

@@ -11,13 +11,13 @@ return [
     'cli' => [
         'phpcli_path' => null,
     ],
-    'file_manager' => [
-        'thumbnail_types' => [
+    'thumbnails' => [
+        'types' => [
             'large' => ['constraint' => 800],
             'medium' => ['constraint' => 200],
             'square' => ['constraint' => 200],
         ],
-        'thumbnail_options' => [
+        'thumbnailer_options' => [
             'imagemagick_dir' => null,
         ],
     ],

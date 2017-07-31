@@ -53,13 +53,22 @@
 
         $('#content').on('click', '.delete-asset', function (e) {
             e.preventDefault();
-            
-            var assetId = $(this).data('asset-id');
+            $(this).toggle();
+            $(this).siblings('.cancel-delete').toggle();
             var deleteWarning = $('#delete-warning');
             var assetDiv = $(e.target).parents('.asset');
-            assetDiv.find('.confirm-delete').data('asset-id', assetId);
             assetDiv.append(deleteWarning);
             deleteWarning.show();
+        });
+
+        $('#content').on('click', '.cancel-delete', function (e) {
+            e.preventDefault();
+            $(this).toggle();
+            $(this).siblings('.delete-asset').toggle();
+            var deleteWarning = $('#delete-warning');
+            var assetDiv = $(e.target).parents('.asset');
+            assetDiv.append(deleteWarning);
+            deleteWarning.hide();
         });
 
         $('#content').on('click', '.confirm-delete', function (e) {

@@ -21,7 +21,16 @@ $escape = $this->plugin('escapeHtml');
     <div class="asset" data-asset-id='<?php echo $escape($asset->id()); ?>'>
         <?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'delete')): ?>
         <span class="actions">
-            <a href="#" class="o-icon-delete remove-value delete-asset" title="Delete asset" aria-label="Delete asset"></a>
+            <a href="#"
+               aria-label="<?php echo $escape($this->translate('Delete asset')); ?>"
+               class="o-icon-delete remove-value delete-asset"
+               title="<?php echo $escape($this->translate('Delete asset')); ?>">
+            </a>
+            <a href="#"
+               aria-label="<?php echo $escape($this->translate('Cancel delete')); ?>"
+               title="<?php echo $escape($this->translate('Cancel delete')); ?>"
+               class="o-icon-undo cancel-delete" style="display: none;">
+            </a>
         </span>
         <?php endif; ?>
         <a class="select-asset" href="#" data-asset-id="<?php echo $escape($asset->id()); ?>">

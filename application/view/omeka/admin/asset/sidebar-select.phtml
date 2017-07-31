@@ -1,6 +1,8 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+
 ?>
+
 <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
 
 <?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'create')): ?>
@@ -16,9 +18,9 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
 <div class="asset-list" data-delete-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'delete'])); ?>">
 <?php foreach ($assets as $asset): ?>
-    <div class="asset">
-        <span class="actions" style='float: right'>
-            <a href="#" class="o-icon-delete remove-value delete-asset" data-asset-id='<?php echo $escape($asset->id()); ?>' title="Delete asset" aria-label="Delete asset"></a>
+    <div class="asset" data-asset-id='<?php echo $escape($asset->id()); ?>'>
+        <span class="actions">
+            <a href="#" class="o-icon-delete remove-value delete-asset" title="Delete asset" aria-label="Delete asset"></a>
         </span>
         <a class="select-asset" href="#" data-asset-id="<?php echo $escape($asset->id()); ?>">
             <img src="<?php echo $escape($asset->assetUrl()); ?>">
@@ -26,4 +28,9 @@ $escape = $this->plugin('escapeHtml');
         </a>
     </div>
 <?php endforeach; ?>
+</div>
+
+<div id="delete-warning" style="display:none">
+    <p><?php echo $this->translate("Are you sure you want to delete this asset? It will no longer be available to any sites currently using it.");?></p>
+    <a class="button confirm-delete"><?php echo $this->translate("Confirm delete");?></a>
 </div>

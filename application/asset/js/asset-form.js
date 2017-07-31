@@ -50,10 +50,23 @@
                 })
             });
         });
+
         $('#content').on('click', '.delete-asset', function (e) {
             e.preventDefault();
-            var deleteUrl = $('.asset-list').data('delete-url');
+            
             var assetId = $(this).data('asset-id');
+            var deleteWarning = $('#delete-warning');
+            var assetDiv = $(e.target).parents('.asset');
+            assetDiv.find('.confirm-delete').data('asset-id', assetId);
+            assetDiv.append(deleteWarning);
+            deleteWarning.show();
+        });
+
+        $('#content').on('click', '.confirm-delete', function (e) {
+            var assetDiv = $(e.target).parents('.asset');
+            var deleteUrl = $('.asset-list').data('delete-url');
+            var assetId = assetDiv.data('asset-id');
+            
             $.post(deleteUrl, { asset_id: assetId }
             ).done(function () {
                 Omeka.populateSidebarContent(sidebar, selectingForm.find('.asset-form-select').data('sidebar-content-url'));

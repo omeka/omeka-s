@@ -1,0 +1,10 @@
+.asset .confirm-delete {
+   background-color: #A91919;
+   color: #fff;
+   box-shadow: none;
+   width: 100%;
+}
+
+.asset .actions {
+    float: right;
+}

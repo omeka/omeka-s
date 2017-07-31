@@ -2,6 +2,7 @@
 namespace Omeka\Service\File;
 
 use Omeka\File\Manager as FileManager;
+use Omeka\Service\Exception;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 

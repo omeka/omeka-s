@@ -53,6 +53,8 @@
 
         $('#content').on('click', '.delete-asset', function (e) {
             e.preventDefault();
+            $('.cancel-delete').hide();
+            $('.delete-asset').show();
             $(this).toggle();
             $(this).siblings('.cancel-delete').toggle();
             var deleteWarning = $('#delete-warning');

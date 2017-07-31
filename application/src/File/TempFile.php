@@ -3,7 +3,6 @@ namespace Omeka\File;
 
 use finfo;
 use Omeka\File\Store\StoreInterface;
-use Omeka\File\ThumbnailManager;
 use Zend\Math\Rand;
 
 class TempFile

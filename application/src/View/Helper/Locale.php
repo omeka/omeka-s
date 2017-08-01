@@ -12,7 +12,8 @@ class Locale extends AbstractHelper
 
     public function __construct($locale)
     {
-        $this->locale = $locale;
+        // BCP47 specifies that subtags are separated by hyphens.
+        $this->locale = str_replace('_', '-', $locale);
     }
 
     public function __invoke()

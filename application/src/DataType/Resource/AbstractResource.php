@@ -65,8 +65,14 @@ abstract class AbstractResource extends AbstractDataType
 
     public function render(PhpRenderer $view, ValueRepresentation $value)
     {
+        $escape = $view->plugin('escapeHtml');
         $valueResource = $value->valueResource();
-        return $valueResource->link($valueResource->displayTitle());
+        $html = '';
+        if ('resource' == $value->type() && $thumbnail = $valueResource->primaryMedia()) {
+            $html .= sprintf('<img src="%s" title="%s" alt="%s thumbnail">', $escape($thumbnail->thumbnailUrl('square')), $escape($thumbnail->displayTitle()), $escape($thumbnail->mediaType()));
+        }
+        $html .= $valueResource->link($valueResource->displayTitle());
+        return $html;
     }
 
     public function toString(ValueRepresentation $value)

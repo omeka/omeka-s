@@ -2593,34 +2593,37 @@ input[type="text"].value-language,
 .show .property,
 .show .meta-group {
     overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
 
     h4 {
         width: span(2 of 9);
         vertical-align: top;
         padding: $spacing-small 0;
-        float: left;
     }
 
-    .value {
+    h4 + .value,
+    .values {
         padding: $spacing-small;
         margin-bottom: 0;
         word-wrap: break-word;
         width: span(7 of 9);
-        float: right;
-        display: flex;
 
         &:not(:first-of-type) {
             padding-top: 0;
         }
     }
 
-    .value a {
-        padding-top: $spacing-small;
+    .resource {
+        display: flex;
+        align-items: center;
     }
 
     .language {
         font-size: .75 * $base-font-size;
-        padding: rhythm(.25, .75 * $base-font-size);
+        padding: 0 $spacing-small;
+        margin-right: $spacing-small;
         background-color: $gray-on-white;
     }
 }
@@ -2628,6 +2631,10 @@ input[type="text"].value-language,
 /* @end */
 
     /* @group ----- Item: Show----- */
+
+    .property .value a {
+        width: calc(100% - #{1.5 * $spacing-large});
+    }
 
     .property .value a:after {
         font-family: "FontAwesome";

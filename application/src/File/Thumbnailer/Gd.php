@@ -91,7 +91,7 @@ class Gd extends AbstractThumbnailer
         }
 
         // Save a temporary thumbnail image.
-        $tempFile = $this->tempFileFactory->create();
+        $tempFile = $this->tempFileFactory->build();
         $saveResult = imagejpeg($tempImage, $tempFile->getTempPath());
 
         if (false === $saveResult) {

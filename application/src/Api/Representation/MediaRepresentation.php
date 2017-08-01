@@ -70,11 +70,10 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function thumbnailUrl($type)
     {
-        $config = $this->getServiceLocator()->get('Config');
-        $thumbnailTypeExists = array_key_exists($type, $config['file_manager']['thumbnail_types']);
+        $thumbnailManager = $this->getServiceLocator()->get('Omeka\File\ThumbnailManager');
 
-        if (!$this->hasThumbnails() || !$thumbnailTypeExists) {
-            $fallbacks = $config['file_manager']['thumbnail_fallbacks']['fallbacks'];
+        if (!$this->hasThumbnails() || !$thumbnailManager->typeExists($type)) {
+            $fallbacks = $thumbnailManager->getFallbacks();
             $mediaType = $this->mediaType();
             $topLevelType = strstr($mediaType, '/', true);
 
@@ -85,10 +84,10 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
                 // Then fall back on a match against the top-level type, e.g. "image"
                 $fallback = $fallbacks[$topLevelType];
             } else {
-                $fallback = $config['file_manager']['thumbnail_fallbacks']['default'];
+                $fallback = $thumbnailManager->getDefaultFallback();
             }
 
-            $assetUrl = $this->serviceLocator->get('ViewHelperManager')->get('assetUrl');
+            $assetUrl = $this->getServiceLocator()->get('ViewHelperManager')->get('assetUrl');
             return $assetUrl($fallback[0], $fallback[1]);
         }
         return $this->getFileUrl($type, $this->storageId(), 'jpg');
@@ -104,9 +103,9 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         if (!$this->hasThumbnails()) {
             return [];
         }
-        $config = $this->getServiceLocator()->get('Config');
+        $thumbnailManager = $this->getServiceLocator()->get('Omeka\File\ThumbnailManager');
         $urls = [];
-        foreach (array_keys($config['file_manager']['thumbnail_types']) as $type) {
+        foreach ($thumbnailManager->getTypes() as $type) {
             $urls[$type] = $this->thumbnailUrl($type);
         }
         return $urls;

@@ -181,10 +181,8 @@ return [
         'execute_strategy' => 'exec',
         'phpcli_path' => null,
     ],
-    'file_manager' => [
-        'store' => 'Omeka\File\Store\Local',
-        'thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
-        'thumbnail_types' => [
+    'thumbnails' => [
+        'types' => [
             'large' => [
                 'strategy' => 'default',
                 'constraint' => 800,
@@ -203,17 +201,17 @@ return [
                 ],
             ],
         ],
-        'thumbnail_options' => [
-            'imagemagick_dir' => null,
-            'page' => 0,
-        ],
-        'thumbnail_fallbacks' => [
+        'fallbacks' => [
             'default' => ['thumbnails/default.png', 'Omeka'],
             'fallbacks' => [
                 'image' => ['thumbnails/image.png', 'Omeka'],
                 'video' => ['thumbnails/video.png', 'Omeka'],
                 'audio' => ['thumbnails/audio.png', 'Omeka'],
             ],
+        ],
+        'thumbnailer_options' => [
+            'imagemagick_dir' => null,
+            'page' => 0,
         ],
     ],
     'service_manager' => [
@@ -243,7 +241,7 @@ return [
             'Omeka\File\Thumbnailer\Imagick' => 'Omeka\Service\File\Thumbnailer\ImagickFactory',
             'Omeka\File\Store\Local' => 'Omeka\Service\File\Store\LocalFactory',
             'Omeka\File\MediaTypeMap' => 'Omeka\Service\MediaTypeMapFactory',
-            'Omeka\File\Manager' => 'Omeka\Service\File\ManagerFactory',
+            'Omeka\File\ThumbnailManager' => 'Omeka\Service\File\ThumbnailManagerFactory',
             'Omeka\File\TempFileFactory' => 'Omeka\Service\File\TempFileFactoryFactory',
             'Omeka\File\Downloader' => 'Omeka\Service\File\DownloaderFactory',
             'Omeka\File\Uploader' => 'Omeka\Service\File\UploaderFactory',
@@ -272,6 +270,8 @@ return [
             ],
         ],
         'aliases' => [
+            'Omeka\File\Store' => 'Omeka\File\Store\Local',
+            'Omeka\File\Thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
             'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService',
         ],

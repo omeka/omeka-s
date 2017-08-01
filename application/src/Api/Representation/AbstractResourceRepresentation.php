@@ -247,8 +247,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      */
     public function getFileUrl($prefix, $name, $extension = null)
     {
-        $config = $this->getServiceLocator()->get('Config');
-        $store = $this->getServiceLocator()->get($config['file_manager']['store']);
+        $store = $this->getServiceLocator()->get('Omeka\File\Store');
         if (null !== $extension) {
             $extension = ".$extension";
         }

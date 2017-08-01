@@ -50,7 +50,7 @@ class Downloader
     public function download($uri, ErrorStore $errorStore = null)
     {
         $client = $this->services->get('Omeka\HttpClient'); // non-shared service
-        $tempFile = $this->tempFileFactory->create();
+        $tempFile = $this->tempFileFactory->build();
 
         // Disable compressed response; it's broken alongside streaming
         $client->getRequest()->getHeaders()->addHeaderLine('Accept-Encoding', 'identity');

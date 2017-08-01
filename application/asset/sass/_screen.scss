@@ -1105,7 +1105,8 @@ div[role="main"] {
     margin-right: $spacing-medium;
 }
 
-.browse .tablesaw-cell-content {
+.browse .tablesaw-cell-content,
+#properties .tablesaw-cell-content {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -2591,7 +2592,7 @@ input[type="text"].value-language,
 /* @group ----- Show Views ----- */
 
 .show .property,
-.show .meta-group {
+#item-metadata .meta-group {
     overflow: hidden;
     display: flex;
     justify-content: flex-end;

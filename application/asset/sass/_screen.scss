@@ -122,7 +122,7 @@ body {
     }
 
     table.tablesaw td:first-child a {
-        word-break: break-word;
+        word-wrap: break-word;
     }
 
     table.tablesaw thead tr:first-child th {
@@ -1109,7 +1109,7 @@ div[role="main"] {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    word-break: break-word;
+    word-wrap: break-word;
 
     & > * {
         flex: 1;
@@ -1778,7 +1778,7 @@ input[type="text"].value-language,
     .selector .selectable {
         display: inline-block;
         width: calc(100% - #{(1.5 * $spacing-large)});
-        word-break: break-word;
+        word-wrap: break-word;
     }
 
     .field-actions {
@@ -2073,7 +2073,7 @@ input[type="text"].value-language,
         display: flex;
         line-height: $base-line-height;
         max-width: 100%;
-        word-break: break-word;
+        word-wrap: break-word;
     }
 
     [data-data-type="resource"].delete .o-icon-undo:before {
@@ -2195,7 +2195,7 @@ input[type="text"].value-language,
 
     .media.row .resource-name {
         margin-right: $spacing-medium;
-        word-break: break-word;
+        word-wrap: break-word;
     }
 
     .media.row .actions {
@@ -2566,7 +2566,7 @@ input[type="text"].value-language,
 .vocabs.update td:first-of-type,
 .vocabs.update td:nth-of-type(2) {
     width: 15%;
-    word-break: break-word;
+    word-wrap: break-word;
 }
 
 .vocabs.update td:nth-of-type(3),
@@ -2604,7 +2604,7 @@ input[type="text"].value-language,
     .value {
         padding: $spacing-small;
         margin-bottom: 0;
-        word-break: break-word;
+        word-wrap: break-word;
         width: span(7 of 9);
         float: right;
         display: flex;

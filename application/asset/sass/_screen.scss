@@ -359,6 +359,7 @@ body {
         margin: 0 0 $spacing-large;
         border: 0;
         padding: 0;
+        min-width: 100%;
     }
 
     .selector input[type="text"],
@@ -1573,7 +1574,7 @@ input[type="text"].value-language,
     }
 
     .field-meta {
-        width: span(3 of 10);
+        min-width: span(3 of 10);
         padding-right: $spacing-small;
         position: relative;
 
@@ -1896,7 +1897,7 @@ input[type="text"].value-language,
 
     .inputs {
         line-height: 1.5 * $spacing-large;
-        width: 70%;
+        min-width: 70%;
 
         &:only-child {
             width: 100%;

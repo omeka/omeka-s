@@ -27,7 +27,7 @@ $labelInfo = $this->setting('property_label_information');
                 $class .= ' uri';
             }
             ?>
-            <div class="<?php echo $class; ?>">
+            <div class="<?php echo $class; ?>" lang="<?php echo $escape($this->lang($value->lang())); ?>">
                 <?php if ($language = $value->lang()): ?>
                 <span class="language"><?php echo $language; ?></span>
                 <?php endif; ?>

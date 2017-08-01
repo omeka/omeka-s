@@ -399,7 +399,7 @@ return [
             'siteSelect' => 'Omeka\Service\ViewHelper\SiteSelectFactory',
             'resourceSelect' => 'Omeka\Service\ViewHelper\ResourceSelectFactory',
             'jsTranslate' => 'Omeka\Service\ViewHelper\JsTranslateFactory',
-            'locale' => 'Omeka\Service\ViewHelper\LocaleFactory',
+            'lang' => 'Omeka\Service\ViewHelper\LangFactory',
         ],
         'delegators' => [
             'Zend\Form\View\Helper\FormElement' => [

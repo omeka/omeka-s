@@ -296,8 +296,6 @@ body {
     .field {
         @include field-row;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-end;
 
         &:first-child {
             border-color: transparent;
@@ -1897,10 +1895,8 @@ input[type="text"].value-language,
     }
 
     .inputs {
-        flex: 1;
-        vertical-align: top;
-        position: relative;
         line-height: 1.5 * $spacing-large;
+        width: 70%;
 
         &:only-child {
             width: 100%;
@@ -1932,6 +1928,7 @@ input[type="text"].value-language,
             resize: vertical;
             line-height: 1.5;
             background-color: #fff;
+            min-width: 0;
         }
 
         label {
@@ -2069,11 +2066,9 @@ input[type="text"].value-language,
     [data-data-type="resource"] .o-title:not(:empty) {
         margin: 0 (-$spacing-small);
         padding: $spacing-small;
-        border-color: $border-gray;
         border-bottom: 1px solid $border-gray;
         display: flex;
         line-height: $base-line-height;
-        max-width: 100%;
         word-wrap: break-word;
     }
 
@@ -2112,15 +2107,13 @@ input[type="text"].value-language,
         margin: 0;
     }
 
-    .selected-resource img {
-        height: $base-line-height;
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: $spacing-small;
+    .selected-resource a {
+        width: calc(100% - #{3 * $spacing-large});
     }
 
-    .selected-resource a {
-        vertical-align: middle;
+    .selected-resource img {
+        height: $base-line-height;
+        margin-right: $spacing-small;
     }
 
     .selected-resource .o-title a:after {

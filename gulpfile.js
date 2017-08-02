@@ -3,6 +3,7 @@
 var child_process = require('child_process');
 var fs = require('fs');
 var readline = require('readline');
+var path = require('path');
 
 var Promise = require('bluebird');
 var dateFormat = require('dateformat');
@@ -256,6 +257,24 @@ gulp.task('i18n:template', function () {
         return runCommand('msgcat', tempFiles.concat(['-o', pot]));
     });
 });
+
+gulp.task('i18n:compile', function () {
+    function compileToMo(file) {
+        var outFile = path.join(path.dirname(file), path.basename(file, '.po') + '.mo');
+        return runCommand('msgfmt', [file, '-o', outFile]);
+    }
+    return new Promise(function (resolve, reject) {
+        glob('application/language/*.po', function (err, files) {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(files);
+        });
+    }).then(function (files) {
+        return Promise.all(files.map(compileToMo));
+    });
+})
 
 gulp.task('create-media-type-map', function () {
     return runPhpCommand(scriptsDir + '/create-media-type-map.php');

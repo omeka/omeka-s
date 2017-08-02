@@ -429,6 +429,7 @@ return [
             'Omeka\Form\Element\PropertySelect' => 'Omeka\Service\Form\Element\PropertySelectFactory',
             'Omeka\Form\Element\ItemSetSelect' => 'Omeka\Service\Form\Element\ItemSetSelectFactory',
             'Omeka\Form\Element\SiteSelect' => 'Omeka\Service\Form\Element\SiteSelectFactory',
+            'Omeka\Form\Element\LocaleSelect' => 'Omeka\Service\Form\Element\LocaleSelectFactory',
             'Omeka\Form\Element\Recaptcha' => 'Omeka\Service\Form\Element\RecaptchaFactory',
             'Omeka\Form\Element\HtmlTextarea' => 'Omeka\Service\Form\Element\HtmlTextareaFactory',
             'Omeka\Form\Element\Ckeditor' => 'Omeka\Service\Form\Element\CkeditorFactory',

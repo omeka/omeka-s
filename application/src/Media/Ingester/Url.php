@@ -3,7 +3,8 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
-use Omeka\File\Manager as FileManager;
+use Omeka\File\Downloader;
+use Omeka\File\Validator;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Url as UrlElement;
 use Zend\Uri\Http as HttpUri;
@@ -12,13 +13,19 @@ use Zend\View\Renderer\PhpRenderer;
 class Url implements IngesterInterface
 {
     /**
-     * @var FileManager
+     * @var Downloader
      */
-    protected $fileManager;
+    protected $downloader;
 
-    public function __construct(FileManager $fileManager)
+    /**
+     * @var Validator
+     */
+    protected $validator;
+
+    public function __construct(Downloader $downloader, Validator $validator)
     {
-        $this->fileManager = $fileManager;
+        $this->downloader = $downloader;
+        $this->validator = $validator;
     }
 
     /**
@@ -52,9 +59,8 @@ class Url implements IngesterInterface
      *
      * {@inheritDoc}
      */
-    public function ingest(Media $media, Request $request,
-        ErrorStore $errorStore
-    ) {
+    public function ingest(Media $media, Request $request, ErrorStore $errorStore)
+    {
         $data = $request->getContent();
         if (!isset($data['ingest_url'])) {
             $errorStore->addError('error', 'No ingest URL specified');
@@ -67,29 +73,28 @@ class Url implements IngesterInterface
             return;
         }
 
-        $fileManager = $this->fileManager;
-        $file = $fileManager->getTempFile();
-        $file->setSourceName($uri->getPath());
-        if (!$fileManager->downloadFile($uri, $file->getTempPath(), $errorStore)) {
+        $tempFile = $this->downloader->download($uri, $errorStore);
+        if (!$tempFile) {
             return;
         }
-        if (!$fileManager->validateFile($file, $errorStore)) {
+        $tempFile->setSourceName($uri->getPath());
+        if (!$this->validator->validate($tempFile, $errorStore)) {
             return;
         }
-
-        $media->setStorageId($file->getStorageId());
-        $media->setExtension($file->getExtension($fileManager));
-        $media->setMediaType($file->getMediaType());
-        $media->setSha256($file->getSha256());
-        $media->setHasThumbnails($fileManager->storeThumbnails($file));
+        $media->setStorageId($tempFile->getStorageId());
+        $media->setExtension($tempFile->getExtension());
+        $media->setMediaType($tempFile->getMediaType());
+        $media->setSha256($tempFile->getSha256());
+        $hasThumbnails = $tempFile->storeThumbnails();
+        $media->setHasThumbnails($hasThumbnails);
         if (!array_key_exists('o:source', $data)) {
             $media->setSource($uri);
         }
         if (!isset($data['store_original']) || $data['store_original']) {
-            $fileManager->storeOriginal($file);
+            $tempFile->storeOriginal();
             $media->setHasOriginal(true);
         }
-        $file->delete();
+        $tempFile->delete();
     }
 
     /**

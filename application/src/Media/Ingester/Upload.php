@@ -3,23 +3,28 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
-use Omeka\File\Manager as FileManager;
+use Omeka\File\Uploader;
+use Omeka\File\Validator;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Filter\File\RenameUpload;
 use Zend\Form\Element\File;
-use Zend\InputFilter\FileInput;
 use Zend\View\Renderer\PhpRenderer;
 
 class Upload implements IngesterInterface
 {
     /**
-     * @var FileManager
+     * @var Validator
      */
-    protected $fileManager;
+    protected $validator;
 
-    public function __construct(FileManager $fileManager)
+    /**
+     * @var Uploader
+     */
+    protected $uploader;
+
+    public function __construct(Validator $validator, Uploader $uploader)
     {
-        $this->fileManager = $fileManager;
+        $this->validator = $validator;
+        $this->uploader = $uploader;
     }
 
     /**
@@ -41,9 +46,8 @@ class Upload implements IngesterInterface
     /**
      * {@inheritDoc}
      */
-    public function ingest(Media $media, Request $request,
-        ErrorStore $errorStore
-    ) {
+    public function ingest(Media $media, Request $request, ErrorStore $errorStore)
+    {
         $data = $request->getContent();
         $fileData = $request->getFileData();
         if (!isset($fileData['file'])) {
@@ -62,40 +66,28 @@ class Upload implements IngesterInterface
             return;
         }
 
-        $fileManager = $this->fileManager;
-        $file = $fileManager->getTempFile();
-
-        $fileInput = new FileInput('file');
-        $fileInput->getFilterChain()->attach(new RenameUpload([
-            'target' => $file->getTempPath(),
-            'overwrite' => true,
-        ]));
-
-        $fileData = $fileData['file'][$index];
-        $fileInput->setValue($fileData);
-        if (!$fileInput->isValid()) {
-            foreach ($fileInput->getMessages() as $message) {
-                $errorStore->addError('upload', $message);
-            }
-            return;
-        }
-        $fileInput->getValue();
-        $file->setSourceName($fileData['name']);
-        if (!$fileManager->validateFile($file, $errorStore)) {
+        $tempFile = $this->uploader->upload($fileData['file'][$index], $errorStore);
+        if (!$tempFile) {
             return;
         }
 
-        $media->setStorageId($file->getStorageId());
-        $media->setExtension($file->getExtension($fileManager));
-        $media->setMediaType($file->getMediaType());
-        $media->setSha256($file->getSha256());
-        $media->setHasThumbnails($fileManager->storeThumbnails($file));
+        $tempFile->setSourceName($fileData['file'][$index]['name']);
+        if (!$this->validator->validate($tempFile, $errorStore)) {
+            return;
+        }
+
+        $media->setStorageId($tempFile->getStorageId());
+        $media->setExtension($tempFile->getExtension());
+        $media->setMediaType($tempFile->getMediaType());
+        $media->setSha256($tempFile->getSha256());
+        $hasThumbnails = $tempFile->storeThumbnails();
+        $media->setHasThumbnails($hasThumbnails);
         $media->setHasOriginal(true);
         if (!array_key_exists('o:source', $data)) {
-            $media->setSource($fileData['name']);
+            $media->setSource($fileData['file'][$index]['name']);
         }
-        $fileManager->storeOriginal($file);
-        $file->delete();
+        $tempFile->storeOriginal();
+        $tempFile->delete();
     }
 
     /**

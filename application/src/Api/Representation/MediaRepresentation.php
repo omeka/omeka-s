@@ -59,8 +59,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         if (!$this->hasOriginal()) {
             return null;
         }
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-        return $fileManager->getOriginalUrl($this->resource);
+        return $this->getFileUrl('original', $this->filename());
     }
 
     /**
@@ -71,8 +70,27 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      */
     public function thumbnailUrl($type)
     {
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-        return $fileManager->getThumbnailUrl($type, $this->resource);
+        $thumbnailManager = $this->getServiceLocator()->get('Omeka\File\ThumbnailManager');
+
+        if (!$this->hasThumbnails() || !$thumbnailManager->typeExists($type)) {
+            $fallbacks = $thumbnailManager->getFallbacks();
+            $mediaType = $this->mediaType();
+            $topLevelType = strstr($mediaType, '/', true);
+
+            if (isset($fallbacks[$mediaType])) {
+                // Prioritize a match against the full media type, e.g. "image/jpeg"
+                $fallback = $fallbacks[$mediaType];
+            } elseif ($topLevelType && isset($fallbacks[$topLevelType])) {
+                // Then fall back on a match against the top-level type, e.g. "image"
+                $fallback = $fallbacks[$topLevelType];
+            } else {
+                $fallback = $thumbnailManager->getDefaultFallback();
+            }
+
+            $assetUrl = $this->getServiceLocator()->get('ViewHelperManager')->get('assetUrl');
+            return $assetUrl($fallback[0], $fallback[1]);
+        }
+        return $this->getFileUrl($type, $this->storageId(), 'jpg');
     }
 
     /**
@@ -85,8 +103,12 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         if (!$this->hasThumbnails()) {
             return [];
         }
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-        return $fileManager->getThumbnailUrls($this->resource);
+        $thumbnailManager = $this->getServiceLocator()->get('Omeka\File\ThumbnailManager');
+        $urls = [];
+        foreach ($thumbnailManager->getTypes() as $type) {
+            $urls[$type] = $this->thumbnailUrl($type);
+        }
+        return $urls;
     }
 
     /**

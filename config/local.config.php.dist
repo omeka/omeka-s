@@ -11,18 +11,23 @@ return [
     'cli' => [
         'phpcli_path' => null,
     ],
-    'file_manager' => [
-        'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
-        'thumbnail_types' => [
+    'thumbnails' => [
+        'types' => [
             'large' => ['constraint' => 800],
             'medium' => ['constraint' => 200],
             'square' => ['constraint' => 200],
         ],
-        'thumbnail_options' => [
+        'thumbnailer_options' => [
             'imagemagick_dir' => null,
         ],
     ],
     'translator' => [
         'locale' => 'en_US',
+    ],
+    'service_manager' => [
+        'aliases' => [
+            'Omeka\File\Store' => 'Omeka\File\Store\Local',
+            'Omeka\File\Thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
+        ],
     ],
 ];

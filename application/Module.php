@@ -236,15 +236,20 @@ class Module extends AbstractModule
      */
     public function deleteMediaFiles(ZendEvent $event)
     {
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
         $media = $event->getTarget();
+        $store = $this->getServiceLocator()->get('Omeka\File\Store');
+        $thumbnailMananger = $this->getServiceLocator()->get('Omeka\File\ThumbnailManager');
 
         if ($media->hasOriginal()) {
-            $fileManager->deleteOriginal($media);
+            $storagePath = sprintf('original/%s', $media->getFilename());
+            $store->delete($storagePath);
         }
 
         if ($media->hasThumbnails()) {
-            $fileManager->deleteThumbnails($media);
+            foreach ($thumbnailMananger->getTypes() as $type) {
+                $storagePath = sprintf('%s/%s.jpg', $type, $media->getStorageId());
+                $store->delete($storagePath);
+            }
         }
     }
 

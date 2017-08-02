@@ -3,10 +3,8 @@ namespace Omeka\Api\Adapter;
 
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
+use Omeka\File\Validator;
 use Omeka\Stdlib\ErrorStore;
-use Omeka\Stdlib\Message;
-use Zend\Filter\File\RenameUpload;
-use Zend\InputFilter\FileInput;
 
 class AssetAdapter extends AbstractEntityAdapter
 {
@@ -60,46 +58,25 @@ class AssetAdapter extends AbstractEntityAdapter
                 return;
             }
 
-            $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-            $fileStore = $fileManager->getStore();
-            $file = $fileManager->getTempFile();
-
-            $fileInput = new FileInput('file');
-            $fileInput->getFilterChain()->attach(new RenameUpload([
-                'target' => $file->getTempPath(),
-                'overwrite' => true,
-            ]));
-
-            $fileData = $fileData['file'];
-            $fileInput->setValue($fileData);
-            if (!$fileInput->isValid()) {
-                foreach ($fileInput->getMessages() as $message) {
-                    $errorStore->addError('file', $message);
-                }
-                return;
-            }
-            $fileInput->getValue();
-            $file->setSourceName($fileData['name']);
-            $mediaType = $file->getMediaType();
-
-            if (!in_array($mediaType, self::ALLOWED_MEDIA_TYPES)) {
-                $errorStore->addError('file', new Message(
-                    'Cannot store assets with the media type "%s".', // @translate
-                    $mediaType
-                ));
+            $uploader = $this->getServiceLocator()->get('Omeka\File\Uploader');
+            $tempFile = $uploader->upload($fileData['file'], $errorStore);
+            if (!$tempFile) {
                 return;
             }
 
-            $storageId = $file->getStorageId();
-            $extension = $fileManager->getExtension($file);
-            $entity->setStorageId($storageId);
-            $entity->setExtension($extension);
-            $entity->setMediaType($file->getMediaType());
-            $entity->setName($request->getValue('o:name', $fileData['name']));
+            $tempFile->setSourceName($fileData['file']['name']);
+            $validator = new Validator(self::ALLOWED_MEDIA_TYPES);
+            if (!$validator->validate($tempFile, $errorStore)) {
+                return;
+            }
 
-            $storagePath = $fileManager->getStoragePath('asset', $storageId, $extension);
-            $fileStore->put($file->getTempPath(), $storagePath);
-            $file->delete();
+            $entity->setStorageId($tempFile->getStorageId());
+            $entity->setExtension($tempFile->getExtension());
+            $entity->setMediaType($tempFile->getMediaType());
+            $entity->setName($request->getValue('o:name', $fileData['file']['name']));
+
+            $tempFile->storeAsset();
+            $tempFile->delete();
         } else {
             if ($this->shouldHydrate($request, 'o:name')) {
                 $entity->setName($request->getValue('o:name'));

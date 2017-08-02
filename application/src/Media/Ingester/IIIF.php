@@ -3,7 +3,7 @@ namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
-use Omeka\File\Manager as FileManager;
+use Omeka\File\Downloader;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Url as UrlElement;
 use Zend\Http\Client as HttpClient;
@@ -18,14 +18,14 @@ class IIIF implements IngesterInterface
     protected $httpClient;
 
     /**
-     * @var FileManager
+     * @var Downloader
      */
-    protected $fileManager;
+    protected $downloader;
 
-    public function __construct(HttpClient $httpClient, FileManager $fileManager)
+    public function __construct(HttpClient $httpClient, Downloader $downloader)
     {
         $this->httpClient = $httpClient;
-        $this->fileManager = $fileManager;
+        $this->downloader = $downloader;
     }
 
     public function getLabel()
@@ -88,15 +88,14 @@ class IIIF implements IngesterInterface
             $URLString = '/full/full/0/native.jpg';
         }
         if (isset($IIIFData['@id'])) {
-            $fileManager = $this->fileManager;
-            $file = $fileManager->getTempFile();
-            if ($fileManager->downloadFile($IIIFData['@id'] . $URLString, $file->getTempPath())) {
-                if ($fileManager->storeThumbnails($file)) {
-                    $media->setStorageId($file->getStorageId());
+            $tempFile = $this->downloader->download($IIIFData['@id'] . $URLString);
+            if ($tempFile) {
+                if ($tempFile->storeThumbnails()) {
+                    $media->setStorageId($tempFile->getStorageId());
                     $media->setHasThumbnails(true);
                 }
             }
-            $file->delete();
+            $tempFile->delete();
         }
     }
 

@@ -15,6 +15,7 @@ $escape = $this->plugin('escapeHtml');
 <?php endif; ?>
 
 <h3><?php echo $this->translate('Select asset'); ?></h3>
+<?php if (count($assets) > 0): ?>
 <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
 <div class="asset-list" data-delete-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'delete'])); ?>">
 <?php foreach ($assets as $asset): ?>
@@ -39,6 +40,9 @@ $escape = $this->plugin('escapeHtml');
         </a>
     </div>
 <?php endforeach; ?>
+<?php else: ?>
+<span class="no-resources"><?php echo $this->translate(sprintf('No %s found.', $this->translate('assets'))); ?></span>
+<?php endif; ?>
 </div>
 
 <div id="delete-warning" style="display:none">

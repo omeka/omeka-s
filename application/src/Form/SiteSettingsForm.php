@@ -100,10 +100,11 @@ class SiteSettingsForm extends Form
         ]);
         $this->add([
             'name' => 'locale',
-            'type' => 'text',
+            'type' => 'Omeka\Form\Element\LocaleSelect',
             'options' => [
-                'label' => 'Locale',
-                'description' => 'Locale/language code for this site. Leave blank to use the global locale setting.',
+                'label' => 'Locale', // @translate
+                'description' => 'Locale/language code for this site. Leave blank to use the global locale setting.', // @tranlate
+                'empty_option' => '',
             ],
             'attributes' => [
                 'value' => $settings->get('locale'),
@@ -114,6 +115,10 @@ class SiteSettingsForm extends Form
         $this->getEventManager()->triggerEvent($addEvent);
 
         $inputFilter = $this->getInputFilter();
+        $inputFilter->add([
+            'name' => 'locale',
+            'allow_empty' => true,
+        ]);
         $filterEvent = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($filterEvent);
     }

@@ -10,7 +10,7 @@ $this->headScript()->appendFile($this->assetUrl('js/global.js', 'Omeka'));
 $this->trigger('view.layout');
 ?>
 <?php echo $this->doctype(); ?>
-<?php echo $this->htmlElement('html')->setAttribute('lang', 'en'); ?>
+<?php echo $this->htmlElement('html')->setAttribute('lang', $this->lang()); ?>
     <head>
         <?php echo $this->headMeta(); ?>
         <?php echo $this->headTitle(); ?>

@@ -122,7 +122,7 @@ body {
     }
 
     table.tablesaw td:first-child a {
-        word-break: break-word;
+        word-wrap: break-word;
     }
 
     table.tablesaw thead tr:first-child th {
@@ -296,8 +296,6 @@ body {
     .field {
         @include field-row;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-end;
 
         &:first-child {
             border-color: transparent;
@@ -361,6 +359,7 @@ body {
         margin: 0 0 $spacing-large;
         border: 0;
         padding: 0;
+        min-width: 100%;
     }
 
     .selector input[type="text"],
@@ -1105,11 +1104,12 @@ div[role="main"] {
     margin-right: $spacing-medium;
 }
 
-.browse .tablesaw-cell-content {
+.browse .tablesaw-cell-content,
+#properties .tablesaw-cell-content {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    word-break: break-word;
+    word-wrap: break-word;
 
     & > * {
         flex: 1;
@@ -1574,7 +1574,7 @@ input[type="text"].value-language,
     }
 
     .field-meta {
-        width: span(3 of 10);
+        min-width: span(3 of 10);
         padding-right: $spacing-small;
         position: relative;
 
@@ -1778,7 +1778,7 @@ input[type="text"].value-language,
     .selector .selectable {
         display: inline-block;
         width: calc(100% - #{(1.5 * $spacing-large)});
-        word-break: break-word;
+        word-wrap: break-word;
     }
 
     .field-actions {
@@ -1896,10 +1896,8 @@ input[type="text"].value-language,
     }
 
     .inputs {
-        flex: 1;
-        vertical-align: top;
-        position: relative;
         line-height: 1.5 * $spacing-large;
+        min-width: 70%;
 
         &:only-child {
             width: 100%;
@@ -1931,6 +1929,7 @@ input[type="text"].value-language,
             resize: vertical;
             line-height: 1.5;
             background-color: #fff;
+            min-width: 0;
         }
 
         label {
@@ -2068,12 +2067,10 @@ input[type="text"].value-language,
     [data-data-type="resource"] .o-title:not(:empty) {
         margin: 0 (-$spacing-small);
         padding: $spacing-small;
-        border-color: $border-gray;
         border-bottom: 1px solid $border-gray;
         display: flex;
         line-height: $base-line-height;
-        max-width: 100%;
-        word-break: break-word;
+        word-wrap: break-word;
     }
 
     [data-data-type="resource"].delete .o-icon-undo:before {
@@ -2111,15 +2108,13 @@ input[type="text"].value-language,
         margin: 0;
     }
 
-    .selected-resource img {
-        height: $base-line-height;
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: $spacing-small;
+    .selected-resource a {
+        width: calc(100% - #{3 * $spacing-large});
     }
 
-    .selected-resource a {
-        vertical-align: middle;
+    .selected-resource img {
+        height: $base-line-height;
+        margin-right: $spacing-small;
     }
 
     .selected-resource .o-title a:after {
@@ -2195,7 +2190,7 @@ input[type="text"].value-language,
 
     .media.row .resource-name {
         margin-right: $spacing-medium;
-        word-break: break-word;
+        word-wrap: break-word;
     }
 
     .media.row .actions {
@@ -2566,7 +2561,7 @@ input[type="text"].value-language,
 .vocabs.update td:first-of-type,
 .vocabs.update td:nth-of-type(2) {
     width: 15%;
-    word-break: break-word;
+    word-wrap: break-word;
 }
 
 .vocabs.update td:nth-of-type(3),
@@ -2591,36 +2586,39 @@ input[type="text"].value-language,
 /* @group ----- Show Views ----- */
 
 .show .property,
-.show .meta-group {
+#item-metadata .meta-group {
     overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
 
     h4 {
         width: span(2 of 9);
         vertical-align: top;
         padding: $spacing-small 0;
-        float: left;
     }
 
-    .value {
+    h4 + .value,
+    .values {
         padding: $spacing-small;
         margin-bottom: 0;
-        word-break: break-word;
+        word-wrap: break-word;
         width: span(7 of 9);
-        float: right;
-        display: flex;
 
         &:not(:first-of-type) {
             padding-top: 0;
         }
     }
 
-    .value a {
-        padding-top: $spacing-small;
+    .resource {
+        display: flex;
+        align-items: center;
     }
 
     .language {
         font-size: .75 * $base-font-size;
-        padding: rhythm(.25, .75 * $base-font-size);
+        padding: 0 $spacing-small;
+        margin-right: $spacing-small;
         background-color: $gray-on-white;
     }
 }
@@ -2628,6 +2626,10 @@ input[type="text"].value-language,
 /* @end */
 
     /* @group ----- Item: Show----- */
+
+    .property .value a {
+        width: calc(100% - #{1.5 * $spacing-large});
+    }
 
     .property .value a:after {
         font-family: "FontAwesome";
@@ -2816,7 +2818,7 @@ input[type="text"].value-language,
         width: 100%;
     }
 
-    .field .option + .option {
+    .field div.option + div.option {
         padding-top: ($spacing-medium - 1px);
         border-top: 1px solid $border-gray;
         margin-top: $spacing-medium;

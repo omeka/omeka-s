@@ -2818,7 +2818,7 @@ input[type="text"].value-language,
         width: 100%;
     }
 
-    .field .option + .option {
+    .field div.option + div.option {
         padding-top: ($spacing-medium - 1px);
         border-top: 1px solid $border-gray;
         margin-top: $spacing-medium;

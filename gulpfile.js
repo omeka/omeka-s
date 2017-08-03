@@ -7,15 +7,16 @@ var path = require('path');
 
 var Promise = require('bluebird');
 var dateFormat = require('dateformat');
-var glob = require('glob');
 var minimist = require('minimist');
 var rimraf = require('rimraf');
-var tmp = require('tmp');
 
 var gulp = require('gulp');
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
 var zip = require('gulp-zip');
+
+var glob = Promise.promisify(require('glob'));
+var tmpFile = Promise.promisify(require('tmp').file, {multiArgs: true});
 
 var sass = require('gulp-sass');
 var postcss = require('gulp-postcss');
@@ -86,25 +87,15 @@ function composer(args) {
     var composerPath = buildDir + '/composer.phar';
     var installerPath = buildDir + '/composer-installer';
     var installerUrl = 'https://getcomposer.org/installer';
-    return new Promise(function (resolve, reject) {
-        fs.stat(composerPath, function(err, stats) {
-            if (!err) {
-                resolve();
-            } else {
-                download(installerUrl, installerPath)
-                    .then(function () {
-                        return runPhpCommand(installerPath, [], {cwd: buildDir})
-                    })
-                    .then(function () {
-                        resolve();
-                    });
-            }
+    var stat = Promise.promisify(fs.stat);
+
+    return stat(composerPath).catch(function (e) {
+        return download(installerUrl, installerPath).then(function () {
+            return runPhpCommand(installerPath, [], {cwd: buildDir});
         });
-    })
-    .then(function () {
+    }).then(function () {
         return runPhpCommand(composerPath, ['self-update']);
-    })
-    .then(function () {
+    }).then(function () {
         if (!cliOptions['dev']) {
             args.push('--no-dev');
         }
@@ -211,49 +202,29 @@ gulp.task('db', gulp.series('db:schema', 'db:proxies'));
 
 gulp.task('i18n:template', function () {
     var pot = langDir + '/template.pot';
-    return Promise.all([
-        new Promise(function(resolve, reject) {
-            glob('**/*.{php,phtml}', {ignore: ['themes/**', 'modules/**']}, function (err, files) {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                tmp.file({postfix: 'xgettext.pot'}, function (err, path, fd) {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-                    var args = ['--language=php', '--from-code=utf-8', '--keyword=translate', '-o', path];
-                    runCommand('xgettext', args.concat(files)).then(function () {
-                        resolve(path);
-                    });
-                });
+
+    var xgettext = glob('**/*.{php,phtml}', {ignore: ['themes/**', 'modules/**']}).then(function (files) {
+        return tmpFile({postfix: 'xgettext.pot'}).spread(function (path, fd) {
+            var args = ['--language=php', '--from-code=utf-8', '--keyword=translate', '-o', path];
+            return runCommand('xgettext', args.concat(files)).then(function () {
+                return Promise.resolve(path);
             });
-        }),
-        new Promise(function (resolve, reject) {
-            tmp.file({postfix: 'tagged.pot'}, function (err, path, fd) {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                runPhpCommand(composerDir + '/extract-tagged-strings.php', [], {stdio: ['pipe', fd, 'pipe']}).then(function () {
-                    resolve(path);
-                });
-            });
-        }),
-        new Promise(function (resolve, reject) {
-            tmp.file({postfix: 'vocab.pot'}, function (err, path, fd) {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                runPhpCommand(scriptsDir + '/extract-vocab-strings.php', [], {stdio: ['pipe', fd, 'pipe']}).then(function () {
-                    resolve(path);
-                });
-            });
-        })
-    ])
-    .then(function (tempFiles) {
+        });
+    });
+    var taggedStrings = tmpFile({postfix: 'tagged.pot'}).spread(function (path, fd) {
+        return runPhpCommand(composerDir + '/extract-tagged-strings.php', [], {stdio: ['pipe', fd, 'pipe']})
+        .then(function () {
+            return Promise.resolve(path);
+        });
+    });
+    var vocabStrings = tmpFile({postfix: 'vocab.pot'}).spread(function (path, fd) {
+        return runPhpCommand(scriptsDir + '/extract-vocab-strings.php', [], {stdio: ['pipe', fd, 'pipe']})
+        .then(function () {
+            return Promise.resolve(path);
+        });
+    });
+
+    return Promise.all([xgettext, taggedStrings, vocabStrings]).then(function (tempFiles) {
         return runCommand('msgcat', tempFiles.concat(['-o', pot]));
     });
 });
@@ -263,15 +234,7 @@ gulp.task('i18n:compile', function () {
         var outFile = path.join(path.dirname(file), path.basename(file, '.po') + '.mo');
         return runCommand('msgfmt', [file, '-o', outFile]);
     }
-    return new Promise(function (resolve, reject) {
-        glob('application/language/*.po', function (err, files) {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve(files);
-        });
-    }).then(function (files) {
+    return glob('application/language/*.po').then(function (files) {
         return Promise.all(files.map(compileToMo));
     });
 })

@@ -1,21 +1,22 @@
 'use strict';
 
 var child_process = require('child_process');
-var fs = require('fs');
 var readline = require('readline');
 var path = require('path');
 
 var Promise = require('bluebird');
 var dateFormat = require('dateformat');
 var minimist = require('minimist');
-var rimraf = require('rimraf');
 
 var gulp = require('gulp');
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
 var zip = require('gulp-zip');
 
+var fs = require('fs');
+Promise.promisifyAll(fs);
 var glob = Promise.promisify(require('glob'));
+var rimraf = Promise.promisify(require('rimraf'));
 var tmpFile = Promise.promisify(require('tmp').file, {multiArgs: true});
 
 var sass = require('gulp-sass');
@@ -35,27 +36,28 @@ var cliOptions = minimist(process.argv.slice(2), {
 });
 
 function ensureBuildDir() {
-    if (!fs.existsSync(buildDir)) {
-        fs.mkdirSync(buildDir);
-    }
-
-    if (!fs.existsSync(buildDir + '/cache')) {
-        fs.mkdirSync(buildDir + '/cache');
-    }
+    return fs.statAsync(buildDir).catch(function (e) {
+        return fs.mkdirAsync(buildDir);
+    }).then(function () {
+        return fs.statAsync(buildDir + '/cache');
+    }).catch(function (e) {
+        fs.mkdirAsync(buildDir + '/cache');
+    });
 }
 
 function download(url, path) {
-    return new Promise(function (resolve, reject) {
-        ensureBuildDir();
-        var https = require('https');
-        var file = fs.createWriteStream(path);
-        file.on('finish', function () {
-            file.close(resolve());
-        });
-        https.get(url, function (response) {
-            response.pipe(file);
-        }).on('error', function(err) {
-            reject(err);
+    return ensureBuildDir().then(function () {
+        return new Promise(function (resolve, reject) {
+            var https = require('https');
+            var file = fs.createWriteStream(path);
+            file.on('finish', function () {
+                file.close(resolve());
+            });
+            https.get(url, function (response) {
+                response.pipe(file);
+            }).on('error', function(err) {
+                reject(err);
+            });
         });
     });
 }
@@ -121,17 +123,19 @@ gulp.task('css:watch', function () {
 
 
 gulp.task('test:cs', function () {
-    ensureBuildDir();
-    return runCommand('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--verbose', '--diff', '--cache-file=build/cache/.php_cs.cache']);
+    return ensureBuildDir().then(function () {
+        return runCommand('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--verbose', '--diff', '--cache-file=build/cache/.php_cs.cache']);
+    });
 });
 gulp.task('test:php', function () {
-    ensureBuildDir();
-    return runCommand(composerDir + '/phpunit', [
-        '-d',
-        'date.timezone=America/New_York',
-        '--log-junit',
-        buildDir + '/test-results.xml'
-    ], {cwd: 'application/test'});
+    return ensureBuildDir().then(function () {
+        return runCommand(composerDir + '/phpunit', [
+            '-d',
+            'date.timezone=America/New_York',
+            '--log-junit',
+            buildDir + '/test-results.xml'
+        ], {cwd: 'application/test'});
+    });
 });
 gulp.task('test', gulp.series('test:cs', 'test:php'));
 
@@ -245,10 +249,10 @@ gulp.task('create-media-type-map', function () {
 
 gulp.task('init', gulp.series('dedist', 'deps'));
 
-gulp.task('clean', function (cb) {
-    rimraf.sync(buildDir);
-    rimraf.sync(__dirname + '/vendor');
-    cb();
+gulp.task('clean', function () {
+    return rimraf(buildDir).then(function () {
+        rimraf(__dirname + '/vendor');
+    });
 });
 
 gulp.task('zip', gulp.series('clean', 'init', function () {

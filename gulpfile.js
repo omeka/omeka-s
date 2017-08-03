@@ -207,20 +207,20 @@ gulp.task('i18n:template', function () {
         return tmpFile({postfix: 'xgettext.pot'}).spread(function (path, fd) {
             var args = ['--language=php', '--from-code=utf-8', '--keyword=translate', '-o', path];
             return runCommand('xgettext', args.concat(files)).then(function () {
-                return Promise.resolve(path);
+                return path;
             });
         });
     });
     var taggedStrings = tmpFile({postfix: 'tagged.pot'}).spread(function (path, fd) {
         return runPhpCommand(composerDir + '/extract-tagged-strings.php', [], {stdio: ['pipe', fd, 'pipe']})
         .then(function () {
-            return Promise.resolve(path);
+            return path;
         });
     });
     var vocabStrings = tmpFile({postfix: 'vocab.pot'}).spread(function (path, fd) {
         return runPhpCommand(scriptsDir + '/extract-vocab-strings.php', [], {stdio: ['pipe', fd, 'pipe']})
         .then(function () {
-            return Promise.resolve(path);
+            return path;
         });
     });
 

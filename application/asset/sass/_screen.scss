@@ -436,6 +436,19 @@ body {
             background-image: none;
         }
 
+        .chosen-container.chosen-drop-up .chosen-drop {
+            top: auto;
+            bottom: 100%;
+            border-radius: 4px 4px 0 0;
+            box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.15);
+            border-top: 1px solid #aaa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chosen-container-active.chosen-drop-up.chosen-with-drop .chosen-single {
+            border-radius: 0 0 4px 4px;
+        }
+
         /* @end */
 
     /* @end */

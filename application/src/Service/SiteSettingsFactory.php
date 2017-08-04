@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Service;
 
-use Omeka\Settings\Site as SiteSettings;
+use Omeka\Settings\SiteSettings;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 

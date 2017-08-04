@@ -2,7 +2,7 @@
 namespace Omeka\Form;
 
 use Omeka\Form\Element\PropertySelect;
-use Omeka\Settings\Site as SiteSettings;
+use Omeka\Settings\SiteSettings;
 use Zend\Form\Form;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\EventManager\Event;

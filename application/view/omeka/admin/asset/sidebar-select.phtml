@@ -36,7 +36,7 @@ $escape = $this->plugin('escapeHtml');
         <?php endif; ?>
         <a class="select-asset" href="#" data-asset-id="<?php echo $escape($asset->id()); ?>">
             <img src="<?php echo $escape($asset->assetUrl()); ?>">
-            <?php echo $escape($asset->name()); ?>
+            <span class="asset-name"><?php echo $escape($asset->name()); ?></span>
         </a>
     </div>
 <?php endforeach; ?>

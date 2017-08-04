@@ -2709,14 +2709,23 @@ input[type="text"].value-language,
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
-    padding: $spacing-medium;
     border-left: 1px solid $border-gray;
     overflow-y: auto;
     overflow-x: hidden;
     width: span(4 of 16);
 
+    .sidebar-content {
+        padding: $spacing-medium;
+        overflow: auto;
+        height: 100%;
+    }
+
     body.transitions-enabled & {
         transition: left .5s, visibility .5s;
+    }
+
+    &.always-open {
+        padding: $spacing-medium;
     }
 
     &.active,
@@ -3781,10 +3790,15 @@ body.minimal {
 .asset-list .select-asset {
     display: flex;
     align-items: center;
+    word-wrap: break-word;
 }
 
 .asset-list .select-asset img {
     margin-right: $spacing-small;
+}
+
+.asset-list .select-asset .asset-name {
+    min-width: 0;
 }
 
 #asset-sidebar input[type="file"] {

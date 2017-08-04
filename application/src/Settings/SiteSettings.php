@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Settings;
 
-class SiteSettings extends AbstractSettings
+class SiteSettings extends AbstractTargetSettings
 {
     public function getTableName()
     {

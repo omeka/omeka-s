@@ -7,8 +7,4 @@ class Settings extends AbstractSettings
     {
         return 'setting';
     }
-
-    public function getTargetIdColumnName()
-    {
-    }
 }

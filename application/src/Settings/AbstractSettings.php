@@ -22,11 +22,6 @@ abstract class AbstractSettings implements SettingsInterface
     protected $cache;
 
     /**
-     * @var int
-     */
-    protected $targetId;
-
-    /**
      * @param Connection $connection
      * @param Status $status
      */
@@ -42,31 +37,6 @@ abstract class AbstractSettings implements SettingsInterface
      * @return string
      */
     abstract public function getTableName();
-
-    /**
-     * Get the target ID column name of the targeting setting table.
-     *
-     * A targeting setting table uses this column to differentiate collections
-     * of settings stored in the table. Return null if there is no target table.
-     *
-     * @return string
-     */
-    abstract public function getTargetIdColumnName();
-
-    /**
-     * Set the ID of the target entity.
-     *
-     * A target ID must be set to manage targeting setting tables.
-     *
-     * @param int $site
-     */
-    public function setTargetId($targetId)
-    {
-        if ($targetId !== $this->targetId) {
-            $this->cache = null;
-        }
-        $this->targetId = $targetId;
-    }
 
     /**
      * Set a setting
@@ -106,9 +76,7 @@ abstract class AbstractSettings implements SettingsInterface
             $this->cache[$id] = $value;
         }
 
-        $this->getTargetIdColumnName()
-            ? $this->setTargetSetting($id, $value)
-            : $this->setSetting($id, $value);
+        $this->setSetting($id, $value);
     }
 
     /**
@@ -154,9 +122,7 @@ abstract class AbstractSettings implements SettingsInterface
         // Delete setting from cache
         unset($this->cache[$id]);
 
-        $this->getTargetIdColumnName()
-            ? $this->deleteTargetSetting($id)
-            : $this->deleteSetting($id);
+        $this->deleteSetting($id);
     }
 
     /**
@@ -179,27 +145,13 @@ abstract class AbstractSettings implements SettingsInterface
         if (!$this->status->isInstalled()) {
             return;
         }
-        $this->getTargetIdColumnName()
-            ? $this->setTargetCache()
-            : $this->setCache();
+        $this->setCache();
     }
 
     protected function setCache()
     {
         $sql = sprintf('SELECT * FROM %s', $this->getTableName());
         $settings = $this->connection->fetchAll($sql);
-        foreach ($settings as $setting) {
-            $this->cache[$setting['id']] = $this->connection->convertToPHPValue($setting['value'], 'json_array');
-        }
-    }
-
-    protected function setTargetCache()
-    {
-        if (!$this->targetId) {
-            throw new Exception\RuntimeException('Cannot manage a targeting setting table when no target ID is set.');
-        }
-        $sql = sprintf('SELECT * FROM %s WHERE %s = ?', $this->getTableName(), $this->getTargetIdColumnName());
-        $settings = $this->connection->fetchAll($sql, [$this->targetId]);
         foreach ($settings as $setting) {
             $this->cache[$setting['id']] = $this->connection->convertToPHPValue($setting['value'], 'json_array');
         }
@@ -225,43 +177,8 @@ abstract class AbstractSettings implements SettingsInterface
         }
     }
 
-    protected function setTargetSetting($id, $value)
-    {
-        if (!$this->targetId) {
-            throw new Exception\RuntimeException('Cannot manage a targeting setting table when no target ID is set.');
-        }
-        $sql = sprintf('SELECT * FROM %s WHERE id = ? AND %s = ?', $this->getTableName(), $this->getTargetIdColumnName());
-        $setting = $this->connection->fetchAssoc($sql, [$id, $this->targetId]);
-        if ($setting) {
-            $this->connection->update(
-                $this->getTableName(),
-                ['value' => $value],
-                ['id' => $id, $this->getTargetIdColumnName() => $this->targetId],
-                ['json_array']
-            );
-        } else {
-            $this->connection->insert(
-                $this->getTableName(),
-                ['value' => $value, $this->getTargetIdColumnName() => $this->targetId, 'id' => $id],
-                ['json_array', \PDO::PARAM_INT]
-            );
-        }
-    }
-
     protected function deleteSetting($id)
     {
         $this->connection->delete($this->getTableName(), ['id' => $id]);
-    }
-
-    protected function deleteTargetSetting($id)
-    {
-        if (!$this->targetId) {
-            throw new Exception\RuntimeException('Cannot manage a targeting setting table when no target ID is set.');
-        }
-        $this->connection->delete(
-            $this->getTableName(),
-            [$this->getTargetIdColumnName() => $this->targetId, 'id' => $id],
-            [\PDO::PARAM_INT]
-        );
     }
 }

@@ -255,6 +255,7 @@ return [
             'Omeka\RdfImporter' => 'Omeka\Service\RdfImporterFactory',
             'Omeka\Settings' => 'Omeka\Service\Settings\SettingsFactory',
             'Omeka\Settings\Site' => 'Omeka\Service\Settings\SiteSettingsFactory',
+            'Omeka\Settings\User' => 'Omeka\Service\Settings\UserSettingsFactory',
             'Omeka\JobDispatchStrategy\PhpCli' => 'Omeka\Service\JobDispatchStrategy\PhpCliFactory',
             'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Service\JobDispatchStrategy\SynchronousFactory',
         ],

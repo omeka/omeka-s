@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Service;
+namespace Omeka\Service\Settings;
 
 use Omeka\Settings\SiteSettings;
 use Zend\ServiceManager\Factory\FactoryInterface;

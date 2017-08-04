@@ -1,7 +1,7 @@
 <?php
-namespace Omeka\Service;
+namespace Omeka\Service\Settings;
 
-use Omeka\Settings\Settings as Settings;
+use Omeka\Settings\Settings;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
@@ -14,8 +14,9 @@ class SettingsFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
-        $connection = $serviceLocator->get('Omeka\Connection');
-        $status = $serviceLocator->get('Omeka\Status');
-        return new Settings($connection, $status);
+        return new Settings(
+            $serviceLocator->get('Omeka\Connection'),
+            $serviceLocator->get('Omeka\Status')
+        );
     }
 }

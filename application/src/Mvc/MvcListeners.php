@@ -249,7 +249,7 @@ class MvcListeners extends AbstractListenerAggregate
             }
         }
 
-        $siteSettings = $services->get('Omeka\SiteSettings');
+        $siteSettings = $services->get('Omeka\Settings\Site');
         $locale = $siteSettings->get('locale');
         if ($locale) {
             $translator = $services->get('Zend\I18n\Translator\TranslatorInterface')->getDelegatedTranslator();
@@ -295,7 +295,7 @@ class MvcListeners extends AbstractListenerAggregate
         }
 
         // Inject the site into things that need it.
-        $services->get('Omeka\SiteSettings')->setTargetId($site->id());
+        $services->get('Omeka\Settings\Site')->setTargetId($site->id());
         $services->get('ControllerPluginManager')->get('currentSite')->setSite($site);
 
         // Set the site to the top level view model

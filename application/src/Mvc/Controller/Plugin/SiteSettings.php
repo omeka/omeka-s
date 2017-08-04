@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
-use Omeka\Settings\SiteSettings as SiteSettingsService;
+use Omeka\Settings\Site as SiteSettingsService;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 class SiteSettings extends AbstractPlugin

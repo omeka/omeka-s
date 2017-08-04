@@ -295,7 +295,7 @@ class MvcListeners extends AbstractListenerAggregate
         }
 
         // Inject the site into things that need it.
-        $services->get('Omeka\SiteSettings')->setSite($site);
+        $services->get('Omeka\SiteSettings')->setTargetId($site->id());
         $services->get('ControllerPluginManager')->get('currentSite')->setSite($site);
 
         // Set the site to the top level view model

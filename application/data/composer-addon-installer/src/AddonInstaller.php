@@ -7,16 +7,34 @@ use Composer\Installer\LibraryInstaller;
 class AddonInstaller extends LibraryInstaller
 {
     /**
+     * Gets the name this package is to be installed with, either from the
+     * <pre>extra.install-name</pre> property or the package name.
+     *
+     * @return string
+     */
+    public static function getInstallName(PackageInterface $package)
+    {
+        $extra = $package->getExtra();
+        if (isset($extra['install-name'])) {
+            return $extra['install-name'];
+        }
+
+        $packageName = $package->getPrettyName();
+        $slashPos = strpos($packageName, '/');
+        if ($slashPos === false) {
+            throw new \InvalidArgumentException('Addon package names must contain a slash');
+        }
+
+        $addonName = substr($packageName, $slashPos + 1);
+        return $addonName;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getInstallPath(PackageInterface $package)
     {
-        $prettyName = $package->getPrettyName();
-        $slashPos = strpos($package->getPrettyName(), '/');
-        if ($slashPos === false) {
-            throw new \InvalidArgumentException('Addon package names must contain a slash');
-        }
-        $addonName = substr($prettyName, $slashPos + 1);
+        $addonName = static::getInstallName($package);
         switch ($package->getType()) {
             case 'omeka-s-theme':
                 return 'themes/' . $addonName;

@@ -108,6 +108,8 @@ class SiteSettingsForm extends Form
             ],
             'attributes' => [
                 'value' => $settings->get('locale'),
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select a locale', // @translate
             ],
         ]);
 

@@ -18,11 +18,12 @@ class LocaleSelectFactory implements FactoryInterface
                     ? \Locale::getDisplayName($localeId)
                     : $localeId;
                 if ($localeId !== $localeName) {
-                    $localeName = sprintf('%s (%s)', $localeName, $localeId);
+                    $localeName = sprintf('%s [%s]', $localeName, $localeId);
                 }
                 $locales[$localeId] = $localeName;
             }
         }
+        natcasesort($locales);
 
         $element = new Select;
         $element->setValueOptions($locales);

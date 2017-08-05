@@ -32,9 +32,11 @@
         });
 
         $('input.value-language').on('keyup', function(e) {
-            this.setCustomValidity(
-                Omeka.langIsValid(this.value) ? '' : Omeka.jsTranslate('Please enter a valid language tag')
-            )
+            if ('' === this.value || Omeka.langIsValid(this.value)) {
+                this.setCustomValidity('');
+            } else {
+                this.setCustomValidity(Omeka.jsTranslate('Please enter a valid language tag'))
+            }
         });
 
         // Make new value inputs whenever "add value" button clicked.

@@ -249,11 +249,11 @@ class MvcListeners extends AbstractListenerAggregate
             }
         }
 
+        // Set the configured site locale to the translator.
         $siteSettings = $services->get('Omeka\Settings\Site');
         $locale = $siteSettings->get('locale');
         if ($locale) {
-            $translator = $services->get('Zend\I18n\Translator\TranslatorInterface')->getDelegatedTranslator();
-            $translator->setLocale($locale);
+            $services->get('MvcTranslator')->getDelegatedTranslator()->setLocale($locale);
         }
     }
 

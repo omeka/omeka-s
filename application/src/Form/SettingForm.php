@@ -194,6 +194,21 @@ class SettingForm extends Form
             ],
         ]);
 
+        $generalFieldset->add([
+            'name' => 'locale',
+            'type' => 'Omeka\Form\Element\LocaleSelect',
+            'options' => [
+                'label' => 'Locale', // @translate
+                'info' => 'Global locale/language code for all interfaces.', // @tranlate
+                'empty_option' => '',
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('locale'),
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Default', // @translate
+            ],
+        ]);
+
         // Security fieldset
 
         $this->add([
@@ -289,6 +304,10 @@ class SettingForm extends Form
         ]);
         $generalInputFilter->add([
             'name' => 'default_site',
+            'allow_empty' => true,
+        ]);
+        $generalInputFilter->add([
+            'name' => 'locale',
             'allow_empty' => true,
         ]);
 

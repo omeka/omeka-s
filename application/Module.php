@@ -49,7 +49,8 @@ class Module extends AbstractModule
         AbstractValidator::setDefaultTranslator($translator);
 
         // Set the configured global locale to the translator.
-        if ($locale = $settings->get('locale')) {
+        $locale = $settings->get('locale');
+        if ($locale) {
             $translator->getDelegatedTranslator()->setLocale($locale);
         }
     }

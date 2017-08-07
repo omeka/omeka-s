@@ -251,7 +251,8 @@ class MvcListeners extends AbstractListenerAggregate
 
         // Set the configured site locale to the translator.
         $siteSettings = $services->get('Omeka\SiteSettings');
-        if ($locale = $siteSettings->get('locale')) {
+        $locale = $siteSettings->get('locale');
+        if ($locale) {
             $services->get('MvcTranslator')->getDelegatedTranslator()->setLocale($locale);
         }
     }

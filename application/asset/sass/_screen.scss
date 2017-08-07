@@ -2416,14 +2416,9 @@ input[type="text"].value-language,
     }
 }
 
-#item-results {
-    padding: $spacing-medium;
-    margin: -$spacing-medium;
-
-    & + .confirm-panel,
-    .select-resource-checkbox-wrapper {
-        display: none;
-    }
+#item-results + .confirm-panel,
+#item-results .select-resource-checkbox-wrapper {
+    display: none;
 }
 
 #item-results.active {
@@ -2520,26 +2515,25 @@ input[type="text"].value-language,
     }
 }
 
-#resource-details-main {
+.confirm-main {
     position: absolute;
     top: 0;
     bottom: (2.5 * $spacing-large);
     overflow-y: auto;
-    width: 100%;
+    left: 0;
+    right: 0;
     padding: $spacing-medium $spacing-medium 0;
 }
 
 
-#select-item,
 .confirm-panel {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     right: 0;
-    width: span(4 of 16);
+    left: 0;
     padding: $spacing-medium;
     background-color: #f7f7f7;
     border-top: 1px solid $border-gray;
-    border-left: 1px solid $border-gray;
 
     button,
     .button {
@@ -2713,19 +2707,10 @@ input[type="text"].value-language,
     overflow-y: auto;
     overflow-x: hidden;
     width: span(4 of 16);
-
-    .sidebar-content {
-        padding: $spacing-medium;
-        overflow: auto;
-        height: 100%;
-    }
+    padding: $spacing-medium;
 
     body.transitions-enabled & {
         transition: left .5s, visibility .5s;
-    }
-
-    &.always-open {
-        padding: $spacing-medium;
     }
 
     &.active,
@@ -3406,17 +3391,6 @@ body.sidebar-open #content {
         padding-bottom: 0;
     }
 
-    #attachment-options-main {
-        position: absolute;
-        top: 0;
-        bottom: (2.5 * $spacing-large);
-        left: 0;
-        right: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding: 0 $spacing-medium;
-    }
-
     #attachment-options .option {
         position: relative;
         margin-bottom: $spacing-medium;
@@ -3441,6 +3415,7 @@ body.sidebar-open #content {
 
     #attachment-options .selected-attachment {
         margin-bottom: $spacing-medium;
+        margin-top: -$spacing-medium;
         @include bleed-x($spacing-medium);
         padding-top: $spacing-medium;
         padding-bottom: $spacing-medium;

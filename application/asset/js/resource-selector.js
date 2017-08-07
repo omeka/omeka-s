@@ -53,7 +53,7 @@
 
         $('#select-resource').on('click', '.quick-select-toggle', function() {
             $(this).toggleClass('active');
-            $('#item-results').toggleClass('active');
+            $('#item-results').toggleClass('active').toggleClass('confirm-main');
         });
 
         $('#select-resource').on('click', '.select-resources-button', function(e) {

@@ -39,14 +39,14 @@ class SiteSettingsTest extends DbTestCase
     {
         $siteSettings = $this->getSiteSettings();
 
-        $siteSettings->setSite($this->site1);
+        $siteSettings->setTargetId(1);
         $siteSettings->set('site_title', $this->site1->title());
         $this->assertEquals($siteSettings->get('site_title'), $this->site1->title());
-        $siteSettings->setSite($this->site2);
+        $siteSettings->setTargetId(2);
         $siteSettings->set('site_title', $this->site2->title());
         $this->assertEquals($siteSettings->get('site_title'), $this->site2->title());
 
-        $siteSettings->setSite($this->site1);
+        $siteSettings->setTargetId(1);
         $this->assertEquals($siteSettings->get('site_title'), $this->site1->title());
     }
 
@@ -57,6 +57,6 @@ class SiteSettingsTest extends DbTestCase
 
     protected function getSiteSettings()
     {
-        return $this->getServiceLocator()->get('Omeka\SiteSettings');
+        return $this->getServiceLocator()->get('Omeka\Settings\Site');
     }
 }

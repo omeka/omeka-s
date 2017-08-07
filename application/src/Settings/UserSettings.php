@@ -1,15 +1,15 @@
 <?php
 namespace Omeka\Settings;
 
-class SiteSettings extends AbstractTargetSettings
+class UserSettings extends AbstractTargetSettings
 {
     public function getTableName()
     {
-        return 'site_setting';
+        return 'user_setting';
     }
 
     public function getTargetIdColumnName()
     {
-        return 'site_id';
+        return 'user_id';
     }
 }

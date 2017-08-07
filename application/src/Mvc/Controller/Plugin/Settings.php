@@ -1,17 +1,17 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
-use Omeka\Settings\Settings as SettingsService;
+use Omeka\Settings\SettingsInterface;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 class Settings extends AbstractPlugin
 {
     /**
-     * @var SettingsService
+     * @var SettingsInterface
      */
     protected $settings;
 
-    public function __construct(SettingsService $settings)
+    public function __construct(SettingsInterface $settings)
     {
         $this->settings = $settings;
     }

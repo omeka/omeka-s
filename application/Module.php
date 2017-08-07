@@ -41,8 +41,17 @@ class Module extends AbstractModule
 
         $this->bootstrapSession();
 
+        $services = $this->getServiceLocator();
+
         // Enable automatic translation for validation error messages
-        AbstractValidator::setDefaultTranslator($this->getServiceLocator()->get('MvcTranslator'));
+        AbstractValidator::setDefaultTranslator($services->get('MvcTranslator'));
+
+        $settings = $services->get('Omeka\Settings');
+        $locale = $settings->get('locale');
+        if ($locale) {
+            $translator = $services->get('Zend\I18n\Translator\TranslatorInterface')->getDelegatedTranslator();
+            $translator->setLocale($locale);
+        }
     }
 
     /**

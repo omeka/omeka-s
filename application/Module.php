@@ -41,8 +41,17 @@ class Module extends AbstractModule
 
         $this->bootstrapSession();
 
+        $services = $this->getServiceLocator();
+        $translator = $services->get('MvcTranslator');
+        $settings = $services->get('Omeka\Settings');
+
         // Enable automatic translation for validation error messages
-        AbstractValidator::setDefaultTranslator($this->getServiceLocator()->get('MvcTranslator'));
+        AbstractValidator::setDefaultTranslator($translator);
+
+        // Set the configured global locale to the translator.
+        if ($locale = $settings->get('locale')) {
+            $translator->getDelegatedTranslator()->setLocale($locale);
+        }
     }
 
     /**

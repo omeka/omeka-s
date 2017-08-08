@@ -18,7 +18,7 @@ class DispatcherTest extends TestCase
     public function setUp()
     {
         $strategy = $this->getMock(
-            'Omeka\Job\Strategy\StrategyInterface',
+            'Omeka\Job\DispatchStrategy\StrategyInterface',
             ['send', 'setServiceLocator', 'getServiceLocator']
         );
 
@@ -34,7 +34,7 @@ class DispatcherTest extends TestCase
     public function testGetDispatchStrategy()
     {
         $this->assertInstanceOf(
-            'Omeka\Job\Strategy\StrategyInterface',
+            'Omeka\Job\DispatchStrategy\StrategyInterface',
             $this->dispatcher->getDispatchStrategy()
         );
     }

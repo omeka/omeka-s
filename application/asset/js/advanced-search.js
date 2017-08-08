@@ -1,5 +1,6 @@
 $(document).ready( function() {
     var values = $('#property-queries .value');
+    var itemSets = $('#item-sets .value');
     var index = values.length;
 
     // Avoid duplicate functionality on admin side.
@@ -23,7 +24,7 @@ $(document).ready( function() {
     // Add a value.
     $('#item-sets').on('click', '.add-value', function(e) {
         e.preventDefault();
-        var first = $(this).parents('.field').find('.value').first();
+        var first = itemSets.first();
         var clone = first.clone();
         clone.children('select').prop('selectedIndex', 0);
         clone.insertBefore($(this));

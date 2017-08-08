@@ -12,7 +12,7 @@ $sectionNavs = [
     'item-linked' => $this->translate('Linked resources'),
 ];
 ?>
-<?php echo $this->pageTitle(sprintf($this->translate('Item: “%s”'), $item->displayTitle())); ?>
+<?php echo $this->pageTitle($item->displayTitle(), 1, $this->translate('Items')); ?>
 <div id="page-actions">
     <?php if ($item->userIsAllowed('update')): ?>
     <?php echo $item->link($this->translate('Edit item'), 'edit', ['class' => 'button']); ?>

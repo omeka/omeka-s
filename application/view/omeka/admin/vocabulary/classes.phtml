@@ -1,5 +1,5 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'browse');
+$this->htmlElement('body')->appendAttribute('class', 'browse vocabularies');
 $escape = $this->plugin('escapeHtml');
 $sortHeadings = [
     [
@@ -17,7 +17,7 @@ $sortHeadings = [
 ];
 ?>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Classes in “%s”'), $vocabulary->label())); ?>
+<?php echo $this->pageTitle($vocabulary->label(), 1, $this->translate('Vocabularies'), $this->translate('Classes')); ?>
 
 <p><?php echo $escape($this->translate($vocabulary->comment())); ?></p>
 <p><strong><?php echo $this->translate('Prefix:'); ?></strong> <?php echo $escape($vocabulary->prefix()); ?><br>

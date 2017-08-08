@@ -1,6 +1,6 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$this->htmlElement('body')->appendAttribute('class', 'edit item');
+$this->htmlElement('body')->appendAttribute('class', 'edit items');
 $deleteButton = $item->userIsAllowed('delete')
     ? '<a href="#" class="delete button">' . $this->translate('Delete') . '</a>'
     : null;
@@ -10,7 +10,7 @@ $deleteButton = $item->userIsAllowed('delete')
 var valuesJson = <?php echo json_encode($item->values()); ?>;
 </script>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Edit item: “%s”'), $item->displayTitle())); ?>
+<?php echo $this->pageTitle($item->displayTitle(), 1, $this->translate('Items'), $this->translate('Edit')); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <?php
 echo $this->partial('omeka/admin/item/form.phtml', [

@@ -17,14 +17,24 @@ class PageTitle extends AbstractHelper
      *  or a negative value will omit the heading tag.
      * @return string
      */
-    public function __invoke($title, $level = 1)
+    public function __invoke($title, $level = 1, $subheadLabel = null, $actionLabel = null)
     {
         $view = $this->getView();
+        $view->headTitle($actionLabel, AbstractContainer::PREPEND);
         $view->headTitle($title, AbstractContainer::PREPEND);
+        $view->headTitle($subheadLabel, AbstractContainer::PREPEND);
+        $subhead = '';
+        $action = '';
+        if ($subheadLabel) {
+            $subhead = '<span class="subhead">' . $view->escapeHtml($subheadLabel) . '</span>';
+        }
+        if ($actionLabel) {
+            $action = '<span class="action">' . $view->escapeHtml($actionLabel) . '</span>';
+        }
 
         $level = (int) $level;
         if ($level > 0) {
-            return "<h$level>" . $view->escapeHtml($title) . "</h$level>";
+            return "<h$level>" . $subhead . '<span class="title">' . $view->escapeHtml($title) . '</span>' . $action . "</h$level>";
         }
 
         return $view->escapeHtml($title);

@@ -3,7 +3,7 @@
     $escape = $this->plugin('escapeHtml');
 ?>
 
-<?php echo $this->pageTitle(sprintf($this->translate('User: “%s”'), $user->email())); ?>
+<?php echo $this->pageTitle($user->email(), 1, $this->translate('Users')); ?>
 
 <div id="page-actions">
     <?php if ($user->userIsAllowed('update')): ?>

@@ -2,7 +2,7 @@
 $this->htmlElement('body')->appendAttribute('class', 'site-pages add');
 $form->prepare();
 ?>
-<?php echo $this->pageTitle($this->translate('Add page')); ?>
+<?php echo $this->pageTitle($this->translate('New page'), 1, $this->translate('Pages')); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <button><?php echo $this->translate('Add'); ?></button>

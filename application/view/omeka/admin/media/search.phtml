@@ -2,7 +2,7 @@
 $this->htmlElement('body')->appendAttribute('class', 'media search');
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 ?>
-<?php echo $this->pageTitle($this->translate('Advanced media search')); ?>
+<?php echo $this->pageTitle($this->translate('Advanced search'), 1, $this->translate('Media')); ?>
 <form id="advanced-search" method="get" action="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>">
 <?php echo $this->partial(
     'common/advanced-search',

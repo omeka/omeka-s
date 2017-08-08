@@ -1,5 +1,5 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'edit item-set');
+$this->htmlElement('body')->appendAttribute('class', 'edit item-sets');
 $escape = $this->plugin('escapeHtml');
 $deleteButton = $itemSet->userIsAllowed('delete')
     ? '<a href="#" class="delete button">' . $this->translate('Delete') . '</a>'
@@ -10,7 +10,7 @@ $deleteButton = $itemSet->userIsAllowed('delete')
 var valuesJson = <?php echo json_encode($itemSet->values()); ?>;
 </script>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Edit item set: “%s”'), $itemSet->displayTitle())); ?>
+<?php echo $this->pageTitle($itemSet->displayTitle(), 1, $this->translate('Item sets'), $this->translate('Edit')); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <?php
 echo $this->partial('omeka/admin/item-set/form.phtml', [

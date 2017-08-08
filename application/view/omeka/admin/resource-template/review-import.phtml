@@ -1,7 +1,7 @@
 <?php
 $form->prepare();
-$this->htmlElement('body')->appendAttribute('class', 'resource-template');
-echo $this->pageTitle(sprintf($this->translate('Resource template: Review “%s”'), $import['o:label']));
+$this->htmlElement('body')->appendAttribute('class', 'resource-templates review');
+echo $this->pageTitle($import['o:label'], 1, $this->translate('Resource templates'), $this->translate('Review'));
 ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">

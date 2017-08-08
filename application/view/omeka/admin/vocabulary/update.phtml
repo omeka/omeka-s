@@ -1,5 +1,5 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'vocabs update');
+$this->htmlElement('body')->appendAttribute('class', 'vocabularies update');
 $changedProperties = [];
 foreach ($diff['properties']['label'] as $localName => $change) {
     $changedProperties[] = ['label', $localName, $change];
@@ -16,7 +16,7 @@ foreach ($diff['classes']['comment'] as $localName => $change) {
     $changedClasses[] = ['comment', $localName, $change];
 }
 ?>
-<?php echo $this->pageTitle(sprintf($this->translate('Update vocabulary: “%s”'), $vocabulary->label())); ?>
+<?php echo $this->pageTitle($vocabulary->label(), 1, $this->translate('Vocabularies'), $this->translate('Update')); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <a href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>" class="button"><?php echo $this->translate('Cancel'); ?></a>

@@ -19,7 +19,7 @@ if ($mediaForm) {
 var valuesJson = <?php echo json_encode($media->values()); ?>;
 </script>
 
-<?php echo $this->pageTitle(sprintf($this->translate('Edit media: “%s”'), $media->displayTitle())); ?>
+<?php echo $this->pageTitle($media->displayTitle(), 1, $this->translate('Media')); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <form method='post' id='edit-media'>
 

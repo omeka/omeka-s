@@ -1,6 +1,6 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$this->htmlElement('body')->appendAttribute('class', 'sites add');
+$this->htmlElement('body')->appendAttribute('class', 'site add');
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $form->prepare();
 $sectionNavs = [
@@ -10,7 +10,7 @@ $sectionNavs = [
 ];
 $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 ?>
-<?php echo $this->pageTitle('Add Site'); ?>
+<?php echo $this->pageTitle($this->translate('New site'), 1, $this->translate('Sites')); ?>
 <?php $this->trigger('view.add.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 

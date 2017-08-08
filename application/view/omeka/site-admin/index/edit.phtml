@@ -3,7 +3,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites edit');
 $escape = $this->plugin('escapeHtml');
 $form->prepare();
 ?>
-<?php echo $this->pageTitle(sprintf($this->translate('Edit info for site: “%s”'), $site->title())); ?>
+<?php echo $this->pageTitle($site->title(), 1, $this->translate('Sites')); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 

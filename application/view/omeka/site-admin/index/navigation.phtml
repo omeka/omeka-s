@@ -6,7 +6,7 @@ $this->headScript()->appendFile($this->assetUrl('js/site-navigation.js', 'Omeka'
 $this->headLink()->appendStylesheet($this->assetUrl('css/jstree.css', 'Omeka'));
 $escape = $this->plugin('escapeHtml');
 ?>
-<?php echo $this->pageTitle(sprintf($this->translate('Navigation'), $site->title())); ?>
+<?php echo $this->pageTitle($this->translate('Navigation'), 1, $this->translate('Sites')); ?>
 
 <?php echo $this->form()->openTag($form); ?>
 <?php echo $this->formCollection($form, false); ?>

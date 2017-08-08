@@ -17,6 +17,11 @@ $this->headScript()->appendFile($this->assetUrl('js/item-manage-media.js', 'Omek
     foreach ($resource->media() as $media):
     ?>
     <div class="media value row">
+        <span class="sortable-handle"></span>
+        <span class='restore-value'><?php echo $this->translate('Media to be removed'); ?></span>
+        <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
+        <span class="resource-name"><?php echo $escape($media->displayTitle()); ?></span>
+        <input type="hidden" name="o:media[<?php echo $i; ?>][o:id]" value="<?php echo $escape($media->id()); ?>">
         <ul class='actions'>
             <li>
             <?php if ($media->isPublic()): ?>
@@ -56,11 +61,6 @@ $this->headScript()->appendFile($this->assetUrl('js/item-manage-media.js', 'Omek
                 </a>
             </li>
         </ul>
-        <span class='restore-value'><?php echo $this->translate('Media to be removed'); ?></span>
-        <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
-        <span class="resource-name"><?php echo $escape($media->displayTitle()); ?></span>
-        <input type="hidden" name="o:media[<?php echo $i; ?>][o:id]" value="<?php echo $escape($media->id()); ?>">
-        <span class="sortable-handle"></span>
     </div>
     <?php
     $i++;

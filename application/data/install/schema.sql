@@ -279,6 +279,14 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `user_setting` (
+  `id` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `value` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
+  PRIMARY KEY (`id`,`user_id`),
+  KEY `IDX_C779A692A76ED395` (`user_id`),
+  CONSTRAINT `FK_C779A692A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `value` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `resource_id` int(11) NOT NULL,

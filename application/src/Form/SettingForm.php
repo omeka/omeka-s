@@ -2,7 +2,6 @@
 namespace Omeka\Form;
 
 use DateTimeZone;
-use Omeka\File\Manager as FileManager;
 use Omeka\Form\Element\SiteSelect;
 use Omeka\Form\Element\RestoreTextarea;
 use Omeka\Settings\Settings;
@@ -13,6 +12,82 @@ use Zend\EventManager\Event;
 class SettingForm extends Form
 {
     use EventManagerAwareTrait;
+
+    /**
+     * The default file media type whitelist.
+     */
+    const MEDIA_TYPE_WHITELIST = [
+        // application/*
+        'application/msword',
+        'application/ogg',
+        'application/pdf',
+        'application/rtf',
+        'application/vnd.ms-access',
+        'application/vnd.ms-excel',
+        'application/vnd.ms-powerpoint',
+        'application/vnd.ms-project',
+        'application/vnd.ms-write',
+        'application/vnd.oasis.opendocument.chart',
+        'application/vnd.oasis.opendocument.database',
+        'application/vnd.oasis.opendocument.formula',
+        'application/vnd.oasis.opendocument.graphics',
+        'application/vnd.oasis.opendocument.presentation',
+        'application/vnd.oasis.opendocument.spreadsheet',
+        'application/vnd.oasis.opendocument.text',
+        'application/x-gzip',
+        'application/x-ms-wmp',
+        'application/x-msdownload',
+        'application/x-shockwave-flash',
+        'application/x-tar',
+        'application/zip',
+        // audio/*
+        'audio/midi',
+        'audio/mp4',
+        'audio/mpeg',
+        'audio/ogg',
+        'audio/x-aac',
+        'audio/x-aiff',
+        'audio/x-ms-wma',
+        'audio/x-ms-wax',
+        'audio/x-realaudio',
+        'audio/x-wav',
+        // image/*
+        'image/bmp',
+        'image/gif',
+        'image/jpeg',
+        'image/pjpeg',
+        'image/png',
+        'image/tiff',
+        'image/x-icon',
+        // text/*
+        'text/css',
+        'text/plain',
+        'text/richtext',
+        // video/*
+        'video/divx',
+        'video/mp4',
+        'video/mpeg',
+        'video/ogg',
+        'video/quicktime',
+        'video/webm',
+        'video/x-ms-asf,',
+        'video/x-msvideo',
+        'video/x-ms-wmv',
+    ];
+
+    /**
+     * The default file extension whitelist.
+     */
+    const EXTENSION_WHITELIST = [
+        'aac', 'aif', 'aiff', 'asf', 'asx', 'avi', 'bmp', 'c', 'cc', 'class',
+        'css', 'divx', 'doc', 'docx', 'exe', 'gif', 'gz', 'gzip', 'h', 'ico',
+        'j2k', 'jp2', 'jpe', 'jpeg', 'jpg', 'm4a', 'm4v', 'mdb', 'mid', 'midi', 'mov',
+        'mp2', 'mp3', 'mp4', 'mpa', 'mpe', 'mpeg', 'mpg', 'mpp', 'odb', 'odc',
+        'odf', 'odg', 'odp', 'ods', 'odt', 'ogg', 'opus', 'pdf', 'png', 'pot', 'pps',
+        'ppt', 'pptx', 'qt', 'ra', 'ram', 'rtf', 'rtx', 'swf', 'tar', 'tif',
+        'tiff', 'txt', 'wav', 'wax', 'webm', 'wma', 'wmv', 'wmx', 'wri', 'xla', 'xls',
+        'xlsx', 'xlt', 'xlw', 'zip',
+    ];
 
     /**
      * @var Settings
@@ -119,6 +194,19 @@ class SettingForm extends Form
             ],
         ]);
 
+        $generalFieldset->add([
+            'name' => 'locale',
+            'type' => 'Omeka\Form\Element\LocaleSelect',
+            'options' => [
+                'label' => 'Locale', // @translate
+                'info' => 'Global locale/language code for all interfaces.', // @tranlate
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('locale'),
+                'class' => 'chosen-select',
+            ],
+        ]);
+
         // Security fieldset
 
         $this->add([
@@ -160,7 +248,7 @@ class SettingForm extends Form
             ->setAttribute('rows', '4')
             ->setRestoreButtonText('Restore default media types')
             ->setValue(implode(',', $this->settings->get('media_type_whitelist', [])))
-            ->setRestoreValue(implode(',', FileManager::MEDIA_TYPE_WHITELIST));
+            ->setRestoreValue(implode(',', self::MEDIA_TYPE_WHITELIST));
         $securityFieldset->add($mediaTypeWhitelist);
 
         $extensionWhitelist = new RestoreTextarea('extension_whitelist');
@@ -170,7 +258,7 @@ class SettingForm extends Form
             ->setAttribute('rows', '4')
             ->setRestoreButtonText('Restore default extensions')
             ->setValue(implode(',', $this->settings->get('extension_whitelist', [])))
-            ->setRestoreValue(implode(',', FileManager::EXTENSION_WHITELIST));
+            ->setRestoreValue(implode(',', self::EXTENSION_WHITELIST));
         $securityFieldset->add($extensionWhitelist);
 
         $securityFieldset->add([
@@ -214,6 +302,10 @@ class SettingForm extends Form
         ]);
         $generalInputFilter->add([
             'name' => 'default_site',
+            'allow_empty' => true,
+        ]);
+        $generalInputFilter->add([
+            'name' => 'locale',
             'allow_empty' => true,
         ]);
 

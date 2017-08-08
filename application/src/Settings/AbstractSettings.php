@@ -7,12 +7,7 @@ use Omeka\Mvc\Status;
 abstract class AbstractSettings implements SettingsInterface
 {
     /**
-     * @var array
-     */
-    protected $cache;
-
-    /**
-     * @var Doctrine\DBAL\Connection
+     * @var Connection
      */
     protected $connection;
 
@@ -22,31 +17,26 @@ abstract class AbstractSettings implements SettingsInterface
     protected $status;
 
     /**
-     * Cache all settings from a data store.
+     * @var array
      */
-    abstract protected function setCache();
+    protected $cache;
 
     /**
-     * Set a setting to a data store.
-     *
-     * @param string $id
-     * @param mixed $value
+     * @param Connection $connection
+     * @param Status $status
      */
-    abstract protected function setSetting($id, $value);
-
-    /**
-     * Delete a setting from a data store.
-     *
-     * @param string $id
-     * @param mixed $value
-     */
-    abstract protected function deleteSetting($id);
-
     public function __construct(Connection $connection, Status $status)
     {
         $this->connection = $connection;
         $this->status = $status;
     }
+
+    /**
+     * Get the setting table name.
+     *
+     * @return string
+     */
+    abstract public function getTableName();
 
     /**
      * Set a setting
@@ -158,13 +148,37 @@ abstract class AbstractSettings implements SettingsInterface
         $this->setCache();
     }
 
-    /**
-     * Get the DBAL connection
-     *
-     * @return Doctrine\DBAL\Connection
-     */
-    protected function getConnection()
+    protected function setCache()
     {
-        return $this->connection;
+        $sql = sprintf('SELECT * FROM %s', $this->getTableName());
+        $settings = $this->connection->fetchAll($sql);
+        foreach ($settings as $setting) {
+            $this->cache[$setting['id']] = $this->connection->convertToPHPValue($setting['value'], 'json_array');
+        }
+    }
+
+    protected function setSetting($id, $value)
+    {
+        $sql = sprintf('SELECT * FROM %s WHERE id = ?', $this->getTableName());
+        $setting = $this->connection->fetchAssoc($sql, [$id]);
+        if ($setting) {
+            $this->connection->update(
+                $this->getTableName(),
+                ['value' => $value],
+                ['id' => $id],
+                ['json_array']
+            );
+        } else {
+            $this->connection->insert(
+                $this->getTableName(),
+                ['value' => $value, 'id' => $id],
+                ['json_array']
+            );
+        }
+    }
+
+    protected function deleteSetting($id)
+    {
+        $this->connection->delete($this->getTableName(), ['id' => $id]);
     }
 }

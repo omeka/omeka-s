@@ -2,20 +2,19 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Omeka\File\Manager as FileManager;
 use Zend\Form\Element\Select;
 use Zend\View\Helper\AbstractHelper;
 
 class BlockThumbnailTypeSelect extends AbstractHelper
 {
     /**
-     * @var FileManager
+     * @var array
      */
-    protected $fileManager;
+    protected $thumbnailTypes;
 
-    public function __construct(FileManager $fileManager)
+    public function __construct(array $thumbnailTypes)
     {
-        $this->fileManager = $fileManager;
+        $this->thumbnailTypes = $thumbnailTypes;
     }
 
     /**
@@ -27,14 +26,13 @@ class BlockThumbnailTypeSelect extends AbstractHelper
     public function __invoke(SitePageBlockRepresentation $block = null)
     {
         $view = $this->getView();
-        $types = $this->fileManager->getThumbnailTypes();
         $type = null;
         if ($block) {
             $type = $block->dataValue('thumbnail_type');
         }
 
         $select = new Select('o:block[__blockIndex__][o:data][thumbnail_type]');
-        $select->setValueOptions(array_combine($types, $types))->setValue($type);
+        $select->setValueOptions(array_combine($this->thumbnailTypes, $this->thumbnailTypes))->setValue($type);
         $html = '<div class="field"><div class="field-meta">';
         $html .= '<label class="thumbnail-option" for="o:block[__blockIndex__][o:data][thumbnail_type]">' . $view->translate('Thumbnail type') . '</label></div>';
         $html .= '<div class="inputs">' . $view->formSelect($select) . '</div></div>';

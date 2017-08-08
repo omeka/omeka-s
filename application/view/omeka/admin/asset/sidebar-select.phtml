@@ -1,6 +1,8 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+
 ?>
+
 <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
 
 <?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'create')): ?>
@@ -13,14 +15,37 @@ $escape = $this->plugin('escapeHtml');
 <?php endif; ?>
 
 <h3><?php echo $this->translate('Select asset'); ?></h3>
+<?php if (count($assets) > 0): ?>
 <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
-<div class="asset-list">
+<div class="asset-list" data-delete-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'delete'])); ?>">
 <?php foreach ($assets as $asset): ?>
-    <div class="asset">
+    <div class="asset" data-asset-id='<?php echo $escape($asset->id()); ?>'>
+        <?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'delete')): ?>
+        <span class="actions">
+            <a href="#"
+               aria-label="<?php echo $escape($this->translate('Delete asset')); ?>"
+               class="o-icon-delete remove-value delete-asset"
+               title="<?php echo $escape($this->translate('Delete asset')); ?>">
+            </a>
+            <a href="#"
+               aria-label="<?php echo $escape($this->translate('Cancel delete')); ?>"
+               title="<?php echo $escape($this->translate('Cancel delete')); ?>"
+               class="o-icon-undo cancel-delete" style="display: none;">
+            </a>
+        </span>
+        <?php endif; ?>
         <a class="select-asset" href="#" data-asset-id="<?php echo $escape($asset->id()); ?>">
             <img src="<?php echo $escape($asset->assetUrl()); ?>">
-            <?php echo $escape($asset->name()); ?>
+            <span class="asset-name"><?php echo $escape($asset->name()); ?></span>
         </a>
     </div>
 <?php endforeach; ?>
+<?php else: ?>
+<span class="no-resources"><?php echo $this->translate(sprintf('No %s found.', $this->translate('assets'))); ?></span>
+<?php endif; ?>
+</div>
+
+<div id="delete-warning" style="display:none">
+    <p><?php echo $this->translate("Are you sure you want to delete this asset? It will no longer be available to any sites currently using it.");?></p>
+    <a class="button confirm-delete"><?php echo $this->translate("Confirm delete");?></a>
 </div>

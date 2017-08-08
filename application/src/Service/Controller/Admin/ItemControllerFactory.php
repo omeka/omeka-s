@@ -11,7 +11,7 @@ class ItemControllerFactory implements FactoryInterface
     {
         return new ItemController(
             $services->get('Omeka\MediaIngesterManager'),
-            $services->get('Omeka\JobDispatcher')
+            $services->get('Omeka\Job\Dispatcher')
         );
     }
 }

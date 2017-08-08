@@ -20,7 +20,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '1.0.0-beta5';
+    const VERSION = '1.0.0-beta6';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -41,8 +41,18 @@ class Module extends AbstractModule
 
         $this->bootstrapSession();
 
+        $services = $this->getServiceLocator();
+        $translator = $services->get('MvcTranslator');
+        $settings = $services->get('Omeka\Settings');
+
         // Enable automatic translation for validation error messages
-        AbstractValidator::setDefaultTranslator($this->getServiceLocator()->get('MvcTranslator'));
+        AbstractValidator::setDefaultTranslator($translator);
+
+        // Set the configured global locale to the translator.
+        $locale = $settings->get('locale');
+        if ($locale) {
+            $translator->getDelegatedTranslator()->setLocale($locale);
+        }
     }
 
     /**
@@ -236,15 +246,20 @@ class Module extends AbstractModule
      */
     public function deleteMediaFiles(ZendEvent $event)
     {
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
         $media = $event->getTarget();
+        $store = $this->getServiceLocator()->get('Omeka\File\Store');
+        $thumbnailMananger = $this->getServiceLocator()->get('Omeka\File\ThumbnailManager');
 
         if ($media->hasOriginal()) {
-            $fileManager->deleteOriginal($media);
+            $storagePath = sprintf('original/%s', $media->getFilename());
+            $store->delete($storagePath);
         }
 
         if ($media->hasThumbnails()) {
-            $fileManager->deleteThumbnails($media);
+            foreach ($thumbnailMananger->getTypes() as $type) {
+                $storagePath = sprintf('%s/%s.jpg', $type, $media->getStorageId());
+                $store->delete($storagePath);
+            }
         }
     }
 

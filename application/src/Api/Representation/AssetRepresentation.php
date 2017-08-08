@@ -52,11 +52,6 @@ class AssetRepresentation extends AbstractEntityRepresentation
 
     public function assetUrl()
     {
-        $fileManager = $this->getServiceLocator()->get('Omeka\File\Manager');
-        $fileStore = $fileManager->getStore();
-
-        return $fileStore->getUri($fileManager->getStoragePath(
-            'asset', $this->resource->getStorageId(), $this->resource->getExtension()
-        ));
+        return $this->getFileUrl('asset', $this->filename());
     }
 }

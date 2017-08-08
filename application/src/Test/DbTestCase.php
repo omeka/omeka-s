@@ -106,6 +106,7 @@ class DbTestCase extends TestCase
                     'administrator_email' => 'admin@example.com',
                     'installation_title' => 'Omeka S Test',
                     'time_zone' => 'UTC',
+                    'locale' => 'en_US',
                 ]);
 
             if (!$installer->install()) {

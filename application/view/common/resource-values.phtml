@@ -16,29 +16,24 @@ $labelInfo = $this->setting('property_label_information');
         <span class="field-term">(<?php echo $escape($propertyData['property']->vocabulary()->label()); ?>)</span>
         <?php endif; ?>
         </h4>
+        <div class="values">
         <?php foreach ($propertyData['values'] as $value): ?>
             <?php
             $class = 'value';
             if ('resource' == $value->type()) {
                 $valueResource = $value->valueResource();
-                $class .= ' ' . $escape($valueResource->resourceName());
+                $class .= ' resource ' . $escape($valueResource->resourceName());
             } elseif ('uri' == $value->type()) {
                 $class .= ' uri';
             }
             ?>
-            <div class="<?php echo $class; ?>">
-                <?php if ('resource' == $value->type() && $thumbnail = $valueResource->primaryMedia()): ?>
-                    <img
-                        src="<?php echo $escape($thumbnail->thumbnailUrl('square')); ?>"
-                        title="<?php echo $escape($thumbnail->displayTitle()); ?>"
-                        alt="<?php echo $escape($thumbnail->mediaType()); ?> thumbnail"
-                    >
-                <?php endif; ?>
+            <div class="<?php echo $class; ?>" lang="<?php echo $escape($this->lang($value->lang())); ?>">
                 <?php if ($language = $value->lang()): ?>
                 <span class="language"><?php echo $language; ?></span>
                 <?php endif; ?>
                 <?php echo $value->asHtml(); ?>
             </div>
         <?php endforeach; ?>
+        </div>
     </div>
 <?php endforeach; ?>

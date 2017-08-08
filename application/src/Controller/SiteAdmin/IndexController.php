@@ -101,6 +101,8 @@ class IndexController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('resourceClassId', $this->params()->fromQuery('resource_class_id'));
+        $view->setVariable('itemSetId', $this->params()->fromQuery('item_set_id'));
         $view->setVariable('form', $form);
         return $view;
     }
@@ -422,7 +424,9 @@ class IndexController extends AbstractActionController
         $view->setTerminal(true);
         $view->setTemplate('omeka/admin/item/sidebar-select');
         $value = $this->params()->fromQuery('value');
-        $view->setVariable('searchValue', $value ? $value['in'][0] : '');
+        $view->setVariable('search', $value ? $value['in'][0] : '');
+        $view->setVariable('resourceClassId', $this->params()->fromQuery('resource_class_id'));
+        $view->setVariable('itemSetId', $this->params()->fromQuery('item_set_id'));
         $view->setVariable('items', $items);
         $view->setVariable('showDetails', false);
         return $view;

@@ -121,6 +121,14 @@ class InstallationForm extends Form
             ],
         ]);
 
+        $this->get('settings')->add([
+            'name' => 'locale',
+            'type' => 'Omeka\Form\Element\LocaleSelect',
+            'options' => [
+                'label' => 'Locale', // @translate
+            ],
+        ]);
+
         $inputFilter = $this->getInputFilter();
         $inputFilter->get('user')->add([
             'name' => 'password',

@@ -41,11 +41,11 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 </div>
 
 <div id="edit-sidebar" class="sidebar">
+    <div class="confirm-main">
     <a href="#"
         class="sidebar-close o-icon-close"
         aria-label="<?php echo $escape($this->translate('Close')); ?>"
         title="<?php echo $escape($this->translate('Close')); ?>"></a>
-    <div class="sidebar-content">
         <div class="field">
             <h3><?php echo $escape($this->translate('Label')); ?></h3>
             <h4><?php echo $this->translate('Original'); ?></h4>
@@ -73,8 +73,8 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
                 <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type', 'class' => 'chosen-select']); ?>
             </div>
         </div>
-        <div class="confirm-panel">
-            <button id="set-changes"><?php echo $this->translate('Set changes'); ?></button>
-        </div>
+    </div>
+    <div class="confirm-panel">
+        <button id="set-changes"><?php echo $this->translate('Set changes'); ?></button>
     </div>
 </div>

@@ -44,6 +44,7 @@ class InstallController extends AbstractActionController
                         'administrator_email' => $data['user']['email'],
                         'installation_title' => $data['settings']['installation_title'],
                         'time_zone' => $data['settings']['time_zone'],
+                        'locale' => $data['settings']['locale'],
                     ]
                 );
                 if ($this->installer->install()) {

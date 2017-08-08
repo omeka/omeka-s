@@ -26,4 +26,4 @@ before_script:
   - sed -i 's/^user.*/user = "root"/' application/test/config/database.ini
   - sed -i 's/^dbname.*/dbname = "omeka_test"/' application/test/config/database.ini
 
-script: ./node_modules/gulp/bin/gulp.js test
+script: ./node_modules/gulp/bin/gulp.js test --continue

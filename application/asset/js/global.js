@@ -187,6 +187,13 @@ var Omeka = {
             $('.batch-actions .active').removeClass('active');
             $('.batch-actions .default').addClass('active');
         }
+    },
+
+    // @see http://stackoverflow.com/questions/7035825/regular-expression-for-a-language-tag-as-defined-by-bcp47
+    // Removes `|[A-Za-z]{4}|[A-Za-z]{5,8}` from the "language" portion becuase,
+    // while in the spec, it does not represent current usage.
+    langIsValid: function(lang) {
+        return lang.match(/^(((en-GB-oed|i-ami|i-bnn|i-default|i-enochian|i-hak|i-klingon|i-lux|i-mingo|i-navajo|i-pwn|i-tao|i-tay|i-tsu|sgn-BE-FR|sgn-BE-NL|sgn-CH-DE)|(art-lojban|cel-gaulish|no-bok|no-nyn|zh-guoyu|zh-hakka|zh-min|zh-min-nan|zh-xiang))|((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?))(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+))$/);
     }
 };
 
@@ -424,6 +431,23 @@ var Omeka = {
         });
 
         $('.chosen-select').chosen(chosenOptions);
+
+        // Along with CSS, this fixes a known bug where a Chosen dropdown at the
+        // bottom of the page breaks layout.
+        // @see https://github.com/harvesthq/chosen/issues/155#issuecomment-173238083
+        $(document).on('chosen:showing_dropdown', '.chosen-select', function(e) {
+            var chosenContainer = $(e.target).next('.chosen-container');
+            var dropdown = chosenContainer.find('.chosen-drop');
+            var dropdownTop = dropdown.offset().top - $(window).scrollTop();
+            var dropdownHeight = dropdown.height();
+            var viewportHeight = $(window).height();
+            if (dropdownTop + dropdownHeight > viewportHeight) {
+                chosenContainer.addClass('chosen-drop-up');
+            }
+        });
+        $(document).on('chosen:hiding_dropdown', '.chosen-select', function(e) {
+            $(e.target).next('.chosen-container').removeClass('chosen-drop-up');
+        });
     });
 
 }(window.jQuery, window, document));

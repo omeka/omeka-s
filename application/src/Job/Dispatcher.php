@@ -3,7 +3,7 @@ namespace Omeka\Job;
 
 use DateTime;
 use Doctrine\ORM\EntityManager;
-use Omeka\Job\Strategy\StrategyInterface;
+use Omeka\Job\DispatchStrategy\StrategyInterface;
 use Omeka\Entity\Job;
 use Omeka\Log\Writer\Job as JobWriter;
 use Zend\Authentication\AuthenticationService;

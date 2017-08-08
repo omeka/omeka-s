@@ -181,10 +181,8 @@ return [
         'execute_strategy' => 'exec',
         'phpcli_path' => null,
     ],
-    'file_manager' => [
-        'store' => 'Omeka\File\LocalStore',
-        'thumbnailer' => 'Omeka\File\ImageMagickThumbnailer',
-        'thumbnail_types' => [
+    'thumbnails' => [
+        'types' => [
             'large' => [
                 'strategy' => 'default',
                 'constraint' => 800,
@@ -203,17 +201,17 @@ return [
                 ],
             ],
         ],
-        'thumbnail_options' => [
-            'imagemagick_dir' => null,
-            'page' => 0,
-        ],
-        'thumbnail_fallbacks' => [
+        'fallbacks' => [
             'default' => ['thumbnails/default.png', 'Omeka'],
             'fallbacks' => [
                 'image' => ['thumbnails/image.png', 'Omeka'],
                 'video' => ['thumbnails/video.png', 'Omeka'],
                 'audio' => ['thumbnails/audio.png', 'Omeka'],
             ],
+        ],
+        'thumbnailer_options' => [
+            'imagemagick_dir' => null,
+            'page' => 0,
         ],
     ],
     'service_manager' => [
@@ -233,15 +231,20 @@ return [
             'Omeka\MediaRendererManager' => 'Omeka\Service\MediaRendererManagerFactory',
             'Omeka\MigrationManager' => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
-            'Omeka\JobDispatcher' => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient' => 'Omeka\Service\HttpClientFactory',
             'Omeka\Site\ThemeManager' => 'Omeka\Service\ThemeManagerFactory',
             'Omeka\Site\NavigationLinkManager' => 'Omeka\Service\NavigationLinkManagerFactory',
             'Omeka\Site\NavigationTranslator' => 'Omeka\Service\SiteNavigationTranslatorFactory',
-            'Omeka\File\ImageMagickThumbnailer' => 'Omeka\Service\FileThumbnailer\ImageMagickFactory',
-            'Omeka\File\LocalStore' => 'Omeka\Service\LocalStoreFactory',
+            'Omeka\File\Thumbnailer\ImageMagick' => 'Omeka\Service\File\Thumbnailer\ImageMagickFactory',
+            'Omeka\File\Thumbnailer\Gd' => 'Omeka\Service\File\Thumbnailer\GdFactory',
+            'Omeka\File\Thumbnailer\Imagick' => 'Omeka\Service\File\Thumbnailer\ImagickFactory',
+            'Omeka\File\Store\Local' => 'Omeka\Service\File\Store\LocalFactory',
             'Omeka\File\MediaTypeMap' => 'Omeka\Service\MediaTypeMapFactory',
-            'Omeka\File\Manager' => 'Omeka\Service\FileManagerFactory',
+            'Omeka\File\ThumbnailManager' => 'Omeka\Service\File\ThumbnailManagerFactory',
+            'Omeka\File\TempFileFactory' => 'Omeka\Service\File\TempFileFactoryFactory',
+            'Omeka\File\Downloader' => 'Omeka\Service\File\DownloaderFactory',
+            'Omeka\File\Uploader' => 'Omeka\Service\File\UploaderFactory',
+            'Omeka\File\Validator' => 'Omeka\Service\File\ValidatorFactory',
             'Omeka\Mailer' => 'Omeka\Service\MailerFactory',
             'Omeka\HtmlPurifier' => 'Omeka\Service\HtmlPurifierFactory',
             'Omeka\BlockLayoutManager' => 'Omeka\Service\BlockLayoutManagerFactory',
@@ -249,18 +252,18 @@ return [
             'Omeka\Cli' => 'Omeka\Service\CliFactory',
             'Omeka\Paginator' => 'Omeka\Service\PaginatorFactory',
             'Omeka\RdfImporter' => 'Omeka\Service\RdfImporterFactory',
-            'Omeka\Settings' => 'Omeka\Service\SettingsFactory',
-            'Omeka\SiteSettings' => 'Omeka\Service\SiteSettingsFactory',
-            'Omeka\JobDispatchStrategy\PhpCli' => 'Omeka\Service\JobDispatchStrategy\PhpCliFactory',
-            'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Service\JobDispatchStrategy\SynchronousFactory',
+            'Omeka\Settings' => 'Omeka\Service\Settings\SettingsFactory',
+            'Omeka\Settings\Site' => 'Omeka\Service\Settings\SiteSettingsFactory',
+            'Omeka\Settings\User' => 'Omeka\Service\Settings\UserSettingsFactory',
+            'Omeka\Job\Dispatcher' => 'Omeka\Service\Job\DispatcherFactory',
+            'Omeka\Job\DispatchStrategy\PhpCli' => 'Omeka\Service\Job\DispatchStrategy\PhpCliFactory',
+            'Omeka\Job\DispatchStrategy\Synchronous' => 'Omeka\Service\Job\DispatchStrategy\SynchronousFactory',
         ],
         'invokables' => [
             'ModuleRouteListener' => 'Zend\Mvc\ModuleRouteListener',
             'Omeka\MvcExceptionListener' => 'Omeka\Mvc\ExceptionListener',
             'Omeka\MvcListeners' => 'Omeka\Mvc\MvcListeners',
             'Omeka\ViewApiJsonRenderer' => 'Omeka\View\Renderer\ApiJsonRenderer',
-            'Omeka\File\GdThumbnailer' => 'Omeka\File\Thumbnailer\GdThumbnailer',
-            'Omeka\File\ImagickThumbnailer' => 'Omeka\File\Thumbnailer\ImagickThumbnailer',
         ],
         'delegators' => [
             'Zend\I18n\Translator\TranslatorInterface' => [
@@ -268,7 +271,10 @@ return [
             ],
         ],
         'aliases' => [
-            'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
+            'Omeka\File\Store' => 'Omeka\File\Store\Local',
+            'Omeka\File\Thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
+            'Omeka\Job\DispatchStrategy' => 'Omeka\Job\DispatchStrategy\PhpCli',
+            'Omeka\JobDispatcher' => 'Omeka\Job\Dispatcher',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService',
         ],
         'shared' => [
@@ -399,6 +405,7 @@ return [
             'siteSelect' => 'Omeka\Service\ViewHelper\SiteSelectFactory',
             'resourceSelect' => 'Omeka\Service\ViewHelper\ResourceSelectFactory',
             'jsTranslate' => 'Omeka\Service\ViewHelper\JsTranslateFactory',
+            'lang' => 'Omeka\Service\ViewHelper\LangFactory',
         ],
         'delegators' => [
             'Zend\Form\View\Helper\FormElement' => [
@@ -428,6 +435,7 @@ return [
             'Omeka\Form\Element\PropertySelect' => 'Omeka\Service\Form\Element\PropertySelectFactory',
             'Omeka\Form\Element\ItemSetSelect' => 'Omeka\Service\Form\Element\ItemSetSelectFactory',
             'Omeka\Form\Element\SiteSelect' => 'Omeka\Service\Form\Element\SiteSelectFactory',
+            'Omeka\Form\Element\LocaleSelect' => 'Omeka\Service\Form\Element\LocaleSelectFactory',
             'Omeka\Form\Element\Recaptcha' => 'Omeka\Service\Form\Element\RecaptchaFactory',
             'Omeka\Form\Element\HtmlTextarea' => 'Omeka\Service\Form\Element\HtmlTextareaFactory',
             'Omeka\Form\Element\Ckeditor' => 'Omeka\Service\Form\Element\CkeditorFactory',

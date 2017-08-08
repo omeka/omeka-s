@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Job\Strategy;
 
-use Omeka\Job\Strategy\SynchronousStrategy;
+use Omeka\Job\DispatchStrategy\Synchronous;
 use Omeka\Entity\Job;
 use Omeka\Test\TestCase;
 
@@ -18,7 +18,7 @@ class SynchronousStrategyTest extends TestCase
         $serviceLocator = $this->getServiceManager([
             'Omeka\EntityManager' => $entityManager,
         ]);
-        $synchronousStrategy = new SynchronousStrategy($serviceLocator);
+        $synchronousStrategy = new Synchronous($serviceLocator);
         $this->synchronousStrategy = $synchronousStrategy;
     }
 

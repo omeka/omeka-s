@@ -421,7 +421,7 @@ class ItemController extends AbstractActionController
             }
         }
         if (isset($data['add_to_item_set'])) {
-            $dataAppend['o:item_set'] = $data['add_to_item_set'];
+            $dataAppend['o:item_set'] = array_unique($data['add_to_item_set']);
         }
 
         return [$dataRemove, $dataAppend];

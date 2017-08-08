@@ -1,30 +1,37 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+$itemSetsFound = count($itemSets) > 0;
 ?>
 
 <h3><?php echo $this->translate('Select item set'); ?></h3>
 <div class="search-nav">
-    <div id="sidebar-resource-search" class="resource-search">
-        <input type="text" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
-        <button
-        data-search-url="<?php echo $escape($this->url('admin/default', ['controller' => 'item-set', 'action' => 'sidebar-select'])); ?>"
-        type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
+    <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
+        <input type="text" name="search" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
+        <button type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
     </div>
-<?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+    <?php if ($itemSetsFound): ?>
+        <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+    <?php endif; ?>
 </div>
 
 <div class="resource-list">
-    <?php foreach ($itemSets as $itemSet):?>
-    <div class="resource item-set">
-        <?php if ($media = $itemSet->primaryMedia()): ?>
-        <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
-        <?php endif; ?>
-        <span class="resource-name">
+    <?php if ($itemSetsFound): ?>
+        <?php foreach ($itemSets as $itemSet):?>
+        <div class="resource item-set">
             <a href="#"
-            class="sidebar-content select-resource"
-            data-sidebar-content-url="<?php echo $escape($itemSet->url('show-details')); ?>" data-sidebar-selector="#resource-details"><?php echo $escape($itemSet->displayTitle()); ?></a></span>
-    </div>
-    <?php endforeach; ?>
+            class="select-resource"
+            data-sidebar-content-url="<?php echo $escape($itemSet->url('show-details')); ?>" data-sidebar-selector="#resource-details">
+                <?php if ($media = $itemSet->primaryMedia()): ?>
+                <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
+                <?php endif; ?>
+                <span class="resource-name">
+    <?php echo $escape($itemSet->displayTitle()); ?></span>
+            </a>
+        </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <span class="no-resources"><?php echo $this->translate(sprintf('No %s found.', $this->translate('item sets'))); ?></span>
+    <?php endif; ?>
 </div>
 
 

@@ -61,7 +61,6 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#data-type').trigger('chosen:updated');
 
     $('#set-changes').off('click.setchanges').on('click.setchanges', function(e) {
-        console.log('#set-changes click');
         altLabel.val($('#alternate-label').val());
         altComment.val($('#alternate-comment').val());
         $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);

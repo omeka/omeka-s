@@ -91,6 +91,7 @@ body {
     table {
         width: 100%;
         border-collapse: collapse;
+        table-layout: fixed;
     }
 
     th,
@@ -122,7 +123,7 @@ body {
     }
 
     table.tablesaw td:first-child a {
-        word-break: break-word;
+        word-wrap: break-word;
     }
 
     table.tablesaw thead tr:first-child th {
@@ -296,8 +297,6 @@ body {
     .field {
         @include field-row;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-end;
 
         &:first-child {
             border-color: transparent;
@@ -361,6 +360,7 @@ body {
         margin: 0 0 $spacing-large;
         border: 0;
         padding: 0;
+        min-width: 100%;
     }
 
     .selector input[type="text"],
@@ -370,10 +370,6 @@ body {
 
     .selector > ul {
         margin: 0;
-    }
-
-    .selector.sidebar .selector-parent {
-        margin-bottom: 0;
     }
 
         /* @group ----- Forms elements: Chosen selects ----- */
@@ -438,6 +434,19 @@ body {
         .chosen-container .chosen-results li.highlighted {
             background-color: $copy-gray;
             background-image: none;
+        }
+
+        .chosen-container.chosen-drop-up .chosen-drop {
+            top: auto;
+            bottom: 100%;
+            border-radius: 4px 4px 0 0;
+            box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.15);
+            border-top: 1px solid #aaa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chosen-container-active.chosen-drop-up.chosen-with-drop .chosen-single {
+            border-radius: 0 0 4px 4px;
         }
 
         /* @end */
@@ -1159,18 +1168,25 @@ div[role="main"] {
     margin-right: $spacing-medium;
 }
 
-.browse .tablesaw-cell-content {
+.browse .tablesaw-cell-content,
+#properties .tablesaw-cell-content {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    word-break: break-word;
+    word-wrap: break-word;
 
     & > * {
         flex: 1;
+        min-width: 0;
+    }
+
+    .resource-name a {
+        min-width: 100%;
     }
 
     & > .actions {
         flex: 0;
+        min-width: 4 * $spacing-large;
     }
 }
 
@@ -1195,7 +1211,6 @@ div[role="main"] {
 .actions {
     margin: 0 0 0 auto;
     display: flex;
-    order: 5;
 }
 
 .actions li {
@@ -1630,7 +1645,7 @@ input[type="text"].value-language,
     }
 
     .field-meta {
-        width: span(3 of 10);
+        min-width: span(3 of 10);
         padding-right: $spacing-small;
         position: relative;
 
@@ -1712,18 +1727,21 @@ input[type="text"].value-language,
     }
 
     .selector .selectable-list li {
-        padding: $spacing-small 10px;
+        padding: $spacing-small $spacing-medium;
     }
 
-    .selector-parent {
+    .selector .selectable-list .selector-parent {
         cursor: pointer;
+        padding-right: $spacing-large;
+        margin-bottom: 0;
 
         &:after {
             content: $fa-var-caret-right;
             font-family: "FontAwesome";
             position: absolute;
-            right: (1.5 * $spacing-medium);
+            right: 0;
             top: $spacing-small;
+            width: 1.5 * $spacing-medium;
         }
 
         &.show:after {
@@ -1757,9 +1775,10 @@ input[type="text"].value-language,
         border-radius: 0;
         font-weight: normal;
         padding: $spacing-small 10px;
-        margin: 0 -10px;
+        margin: 0 (-$spacing-medium);
         font-size: $base-font-size;
         text-transform: none;
+        width: calc(100% + #{1.5 * $spacing-large});
 
         &:hover {
             background-color: $gray-on-white;
@@ -1773,6 +1792,10 @@ input[type="text"].value-language,
     .selector .description {
         display: inline-block;
         vertical-align: top;
+
+        &.no-comment {
+            opacity: 0;
+        }
 
         .o-icon-info {
             display: inline-block;
@@ -1820,16 +1843,13 @@ input[type="text"].value-language,
             top: -9999px;
             left: -9999px;
             width: calc(100% - 5px);
-
-            &:empty {
-                padding: 0;
-            }
         }
     }
 
     .selector .selectable {
         display: inline-block;
         width: calc(100% - #{(1.5 * $spacing-large)});
+        word-wrap: break-word;
     }
 
     .field-actions {
@@ -1947,10 +1967,8 @@ input[type="text"].value-language,
     }
 
     .inputs {
-        flex: 1;
-        vertical-align: top;
-        position: relative;
         line-height: 1.5 * $spacing-large;
+        min-width: 70%;
 
         &:only-child {
             width: 100%;
@@ -1982,6 +2000,7 @@ input[type="text"].value-language,
             resize: vertical;
             line-height: 1.5;
             background-color: #fff;
+            min-width: 0;
         }
 
         label {
@@ -2119,12 +2138,10 @@ input[type="text"].value-language,
     [data-data-type="resource"] .o-title:not(:empty) {
         margin: 0 (-$spacing-small);
         padding: $spacing-small;
-        border-color: $border-gray;
         border-bottom: 1px solid $border-gray;
         display: flex;
         line-height: $base-line-height;
-        max-width: 100%;
-        word-break: break-word;
+        word-wrap: break-word;
     }
 
     [data-data-type="resource"].delete .o-icon-undo:before {
@@ -2151,7 +2168,7 @@ input[type="text"].value-language,
 
     .value.delete span.restore-value {
         display: inline-block;
-        padding: 0;
+        padding: 0 $spacing-small;
     }
 
     .value.delete > *:not(.input-header) {
@@ -2162,15 +2179,13 @@ input[type="text"].value-language,
         margin: 0;
     }
 
-    .selected-resource img {
-        height: $base-line-height;
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: $spacing-small;
+    .selected-resource a {
+        width: calc(100% - #{3 * $spacing-large});
     }
 
-    .selected-resource a {
-        vertical-align: middle;
+    .selected-resource img {
+        height: $base-line-height;
+        margin-right: $spacing-small;
     }
 
     .selected-resource .o-title a:after {
@@ -2236,33 +2251,22 @@ input[type="text"].value-language,
         margin-bottom: $spacing-small;
         display: flex;
         align-items: center;
+        word-wrap: break-word;
     }
 
     .media.row img {
         width: 1.5 * $spacing-large;
         height: auto;
-        order: 2;
         margin-right: $spacing-medium;
     }
 
     .media.row .resource-name {
         margin-right: $spacing-medium;
-    }
-
-    .media.row .sortable-handle {
-        order: 1;
+        min-width: 0;
     }
 
     .media.row .actions {
-        order: 4;
         margin-left: auto;
-    }
-
-    .media.row .resource-name {
-        word-break: break-all;
-        order: 3;
-        margin-right: $spacing-medium;
-        left: auto;
     }
 
     .media.value.delete span.restore-value {
@@ -2363,14 +2367,12 @@ input[type="text"].value-language,
         width: 100%;
         position: relative;
         margin-bottom: $spacing-small;
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .chosen-container {
         margin-bottom: $spacing-small;
-    }
-
-    #resource-list-search {
-        float: left;
     }
 
     button.o-icon-search {
@@ -2380,10 +2382,9 @@ input[type="text"].value-language,
         padding: 0 10px;
         border-radius: 0 3px 3px 0;
         min-height: 0;
-        position: absolute;
-        top: 0;
-        right: 0;
+        position: relative;
         text-indent: -9999px;
+        margin: 0;
 
         &:before {
             text-indent: 0px;
@@ -2405,7 +2406,7 @@ input[type="text"].value-language,
 .resource-search-filters {
     padding-bottom: $spacing-small - 1px;
     border-bottom: 1px solid $border-gray;
-    margin-bottom: $spacing-medium;
+    margin-bottom: $spacing-small;
     width: 100%;
 
     a.expand:after,
@@ -2467,15 +2468,9 @@ input[type="text"].value-language,
     }
 }
 
-#item-results {
-    padding: $spacing-medium;
-    margin: -$spacing-medium;
-    border-bottom: 1px solid $border-gray;
-
-    & + .confirm-panel,
-    .select-resource-checkbox-wrapper {
-        display: none;
-    }
+#item-results + .confirm-panel,
+#item-results .select-resource-checkbox-wrapper {
+    display: none;
 }
 
 #item-results.active {
@@ -2522,6 +2517,7 @@ input[type="text"].value-language,
     .select-resource {
         display: flex;
         align-items: center;
+        min-width: 0;
     }
 
     img {
@@ -2532,8 +2528,8 @@ input[type="text"].value-language,
 
     .resource-name {
         margin: 0;
-        width: calc(100% - #{$spacing-large});
         flex: 1;
+        min-width: 0;
     }
 
     .resource {
@@ -2544,6 +2540,7 @@ input[type="text"].value-language,
         overflow: hidden;
         display: flex;
         align-items: center;
+        word-wrap: break-word;
 
         &:hover {
             background-color: rgba(255,255,255,.8);
@@ -2572,26 +2569,25 @@ input[type="text"].value-language,
     }
 }
 
-#resource-details-main {
+.confirm-main {
     position: absolute;
     top: 0;
     bottom: (2.5 * $spacing-large);
     overflow-y: auto;
-    width: 100%;
+    left: 0;
+    right: 0;
     padding: $spacing-medium $spacing-medium 0;
 }
 
 
-#select-item,
 .confirm-panel {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     right: 0;
-    width: span(4 of 16);
+    left: 0;
     padding: $spacing-medium;
     background-color: #f7f7f7;
     border-top: 1px solid $border-gray;
-    border-left: 1px solid $border-gray;
 
     button,
     .button {
@@ -2633,7 +2629,7 @@ input[type="text"].value-language,
 .vocabs.update td:first-of-type,
 .vocabs.update td:nth-of-type(2) {
     width: 15%;
-    word-break: break-word;
+    word-wrap: break-word;
 }
 
 .vocabs.update td:nth-of-type(3),
@@ -2658,36 +2654,39 @@ input[type="text"].value-language,
 /* @group ----- Show Views ----- */
 
 .show .property,
-.show .meta-group {
+#item-metadata .meta-group {
     overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
 
     h4 {
         width: span(2 of 9);
         vertical-align: top;
         padding: $spacing-small 0;
-        float: left;
     }
 
-    .value {
+    h4 + .value,
+    .values {
         padding: $spacing-small;
         margin-bottom: 0;
-        word-break: break-word;
+        word-wrap: break-word;
         width: span(7 of 9);
-        float: right;
-        display: flex;
 
         &:not(:first-of-type) {
             padding-top: 0;
         }
     }
 
-    .value a {
-        padding-top: $spacing-small;
+    .resource {
+        display: flex;
+        align-items: center;
     }
 
     .language {
         font-size: .75 * $base-font-size;
-        padding: rhythm(.25, .75 * $base-font-size);
+        padding: 0 $spacing-small;
+        margin-right: $spacing-small;
         background-color: $gray-on-white;
     }
 }
@@ -2695,6 +2694,10 @@ input[type="text"].value-language,
 /* @end */
 
     /* @group ----- Item: Show----- */
+
+    .property .value a {
+        width: calc(100% - #{1.5 * $spacing-large});
+    }
 
     .property .value a:after {
         font-family: "FontAwesome";
@@ -2754,11 +2757,11 @@ input[type="text"].value-language,
     bottom: 0;
     background-color: #f7f7f7;
     z-index: 3;
-    padding: $spacing-medium;
     border-left: 1px solid $border-gray;
     overflow-y: auto;
     overflow-x: hidden;
     width: span(4 of 16);
+    padding: $spacing-medium;
 
     body.transitions-enabled & {
         transition: left .5s, visibility .5s;
@@ -2883,7 +2886,7 @@ input[type="text"].value-language,
         width: 100%;
     }
 
-    .field .option + .option {
+    .field div.option + div.option {
         padding-top: ($spacing-medium - 1px);
         border-top: 1px solid $border-gray;
         margin-top: $spacing-medium;
@@ -3337,7 +3340,6 @@ body.sidebar-open #content {
     }
 
     .block .attachment .actions {
-        order: 4;
         margin-left: auto;
     }
 
@@ -3443,17 +3445,6 @@ body.sidebar-open #content {
         padding-bottom: 0;
     }
 
-    #attachment-options-main {
-        position: absolute;
-        top: 0;
-        bottom: (2.5 * $spacing-large);
-        left: 0;
-        right: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding: 0 $spacing-medium;
-    }
-
     #attachment-options .option {
         position: relative;
         margin-bottom: $spacing-medium;
@@ -3478,6 +3469,7 @@ body.sidebar-open #content {
 
     #attachment-options .selected-attachment {
         margin-bottom: $spacing-medium;
+        margin-top: -$spacing-medium;
         @include bleed-x($spacing-medium);
         padding-top: $spacing-medium;
         padding-bottom: $spacing-medium;
@@ -3827,10 +3819,15 @@ body.minimal {
 .asset-list .select-asset {
     display: flex;
     align-items: center;
+    word-wrap: break-word;
 }
 
 .asset-list .select-asset img {
     margin-right: $spacing-small;
+}
+
+.asset-list .select-asset .asset-name {
+    min-width: 0;
 }
 
 #asset-sidebar input[type="file"] {

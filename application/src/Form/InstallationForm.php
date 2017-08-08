@@ -126,7 +126,6 @@ class InstallationForm extends Form
             'type' => 'Omeka\Form\Element\LocaleSelect',
             'options' => [
                 'label' => 'Locale', // @translate
-                'empty_option' => 'Default',
             ],
         ]);
 

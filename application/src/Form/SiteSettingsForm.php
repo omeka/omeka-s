@@ -104,12 +104,10 @@ class SiteSettingsForm extends Form
             'options' => [
                 'label' => 'Locale', // @translate
                 'info' => 'Locale/language code for this site. Leave blank to use the global locale setting.', // @tranlate
-                'empty_option' => '',
             ],
             'attributes' => [
                 'value' => $settings->get('locale'),
                 'class' => 'chosen-select',
-                'data-placeholder' => 'Default', // @translate
             ],
         ]);
 

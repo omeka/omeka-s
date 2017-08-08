@@ -200,12 +200,10 @@ class SettingForm extends Form
             'options' => [
                 'label' => 'Locale', // @translate
                 'info' => 'Global locale/language code for all interfaces.', // @tranlate
-                'empty_option' => '',
             ],
             'attributes' => [
                 'value' => $this->settings->get('locale'),
                 'class' => 'chosen-select',
-                'data-placeholder' => 'Default', // @translate
             ],
         ]);
 

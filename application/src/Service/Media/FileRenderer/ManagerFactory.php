@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Service;
+namespace Omeka\Service\Media\FileRenderer;
 
 use Omeka\Media\FileRenderer\Manager;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -8,7 +8,7 @@ use Interop\Container\ContainerInterface;
 /**
  * File renderer manager factory.
  */
-class FileRendererManagerFactory implements FactoryInterface
+class ManagerFactory implements FactoryInterface
 {
     /**
      * Create the file renderer manager service.

@@ -224,11 +224,8 @@ return [
             'Omeka\ApiManager' => 'Omeka\Service\ApiManagerFactory',
             'Omeka\AuthenticationService' => 'Omeka\Service\AuthenticationServiceFactory',
             'Omeka\EntityManager' => 'Omeka\Service\EntityManagerFactory',
-            'Omeka\FileRendererManager' => 'Omeka\Service\FileRendererManagerFactory',
             'Omeka\Installer' => 'Omeka\Service\InstallerFactory',
             'Omeka\Logger' => 'Omeka\Service\LoggerFactory',
-            'Omeka\MediaIngesterManager' => 'Omeka\Service\MediaIngesterManagerFactory',
-            'Omeka\MediaRendererManager' => 'Omeka\Service\MediaRendererManagerFactory',
             'Omeka\MigrationManager' => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
             'Omeka\HttpClient' => 'Omeka\Service\HttpClientFactory',
@@ -258,6 +255,9 @@ return [
             'Omeka\Job\Dispatcher' => 'Omeka\Service\Job\DispatcherFactory',
             'Omeka\Job\DispatchStrategy\PhpCli' => 'Omeka\Service\Job\DispatchStrategy\PhpCliFactory',
             'Omeka\Job\DispatchStrategy\Synchronous' => 'Omeka\Service\Job\DispatchStrategy\SynchronousFactory',
+            'Omeka\Media\Ingester\Manager' => 'Omeka\Service\Media\Ingester\ManagerFactory',
+            'Omeka\Media\Renderer\Manager' => 'Omeka\Service\Media\Renderer\ManagerFactory',
+            'Omeka\Media\FileRenderer\Manager' => 'Omeka\Service\Media\FileRenderer\ManagerFactory',
         ],
         'invokables' => [
             'ModuleRouteListener' => 'Zend\Mvc\ModuleRouteListener',
@@ -479,12 +479,12 @@ return [
     ],
     'media_ingesters' => [
         'factories' => [
-            'upload' => 'Omeka\Service\MediaIngester\UploadFactory',
-            'url' => 'Omeka\Service\MediaIngester\UrlFactory',
-            'html' => 'Omeka\Service\MediaIngester\HtmlFactory',
-            'iiif' => 'Omeka\Service\MediaIngester\IIIFFactory',
-            'oembed' => 'Omeka\Service\MediaIngester\OEmbedFactory',
-            'youtube' => 'Omeka\Service\MediaIngester\YoutubeFactory',
+            'upload' => 'Omeka\Service\Media\Ingester\UploadFactory',
+            'url' => 'Omeka\Service\Media\Ingester\UrlFactory',
+            'html' => 'Omeka\Service\Media\Ingester\HtmlFactory',
+            'iiif' => 'Omeka\Service\Media\Ingester\IIIFFactory',
+            'oembed' => 'Omeka\Service\Media\Ingester\OEmbedFactory',
+            'youtube' => 'Omeka\Service\Media\Ingester\YoutubeFactory',
         ],
     ],
     'media_renderers' => [
@@ -495,7 +495,7 @@ return [
             'iiif' => 'Omeka\Media\Renderer\IIIF',
         ],
         'factories' => [
-            'file' => 'Omeka\Service\MediaRenderer\FileFactory',
+            'file' => 'Omeka\Service\Media\Renderer\FileFactory',
         ],
     ],
     'file_renderers' => [

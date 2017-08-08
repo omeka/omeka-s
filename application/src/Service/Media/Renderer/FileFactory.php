@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Service\MediaRenderer;
+namespace Omeka\Service\Media\Renderer;
 
 use Omeka\Media\Renderer\File;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -14,6 +14,6 @@ class FileFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new File($services->get('Omeka\FileRendererManager'));
+        return new File($services->get('Omeka\Media\FileRenderer\Manager'));
     }
 }

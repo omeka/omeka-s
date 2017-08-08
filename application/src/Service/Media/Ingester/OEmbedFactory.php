@@ -1,20 +1,22 @@
 <?php
-namespace Omeka\Service\MediaIngester;
+namespace Omeka\Service\Media\Ingester;
 
-use Omeka\Media\Ingester\IIIF;
+use Omeka\Media\Ingester\OEmbed;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
-class IIIFFactory implements FactoryInterface
+class OEmbedFactory implements FactoryInterface
 {
     /**
-     * Create the IIIF media ingester service.
+     * Create the oEmbed media ingester service.
      *
-     * @return IIIF
+     * @return OEmbed
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new IIIF(
+        $config = $services->get('Config');
+        return new OEmbed(
+            $config['oembed']['whitelist'],
             $services->get('Omeka\HttpClient'),
             $services->get('Omeka\File\Downloader')
         );

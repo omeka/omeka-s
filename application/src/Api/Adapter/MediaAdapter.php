@@ -124,7 +124,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             $ingesterName = $entity->getIngester();
         }
         $ingester = $this->getServiceLocator()
-            ->get('Omeka\MediaIngesterManager')
+            ->get('Omeka\Media\Ingester\Manager')
             ->get($ingesterName);
 
         if (Request::CREATE === $request->getOperation()) {

@@ -1,11 +1,11 @@
 <?php
-namespace Omeka\Service;
+namespace Omeka\Service\Media\Renderer;
 
 use Omeka\Media\Renderer\Manager;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
-class MediaRendererManagerFactory implements FactoryInterface
+class ManagerFactory implements FactoryInterface
 {
     /**
      * Create the media renderer manager service.

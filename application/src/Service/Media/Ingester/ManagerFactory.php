@@ -1,11 +1,11 @@
 <?php
-namespace Omeka\Service;
+namespace Omeka\Service\Media\Ingester;
 
 use Omeka\Media\Ingester\Manager;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
-class MediaIngesterManagerFactory implements FactoryInterface
+class ManagerFactory implements FactoryInterface
 {
     /**
      * Create the media ingester manager service.

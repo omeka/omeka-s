@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Service\MediaIngester;
+namespace Omeka\Service\Media\Ingester;
 
 use Omeka\Media\Ingester\Youtube;
 use Zend\ServiceManager\Factory\FactoryInterface;

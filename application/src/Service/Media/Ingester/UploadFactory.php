@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Service\MediaIngester;
+namespace Omeka\Service\Media\Ingester;
 
 use Omeka\Media\Ingester\Upload;
 use Zend\ServiceManager\Factory\FactoryInterface;

@@ -1,7 +1,7 @@
 <?php
-namespace Omeka\Service\JobDispatchStrategy;
+namespace Omeka\Service\Job\DispatchStrategy;
 
-use Omeka\Job\Strategy\SynchronousStrategy;
+use Omeka\Job\DispatchStrategy\Synchronous;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
@@ -12,8 +12,8 @@ class SynchronousFactory implements FactoryInterface
      *
      * @return SynchronousStrategy
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new SynchronousStrategy($serviceLocator);
+        return new Synchronous($services);
     }
 }

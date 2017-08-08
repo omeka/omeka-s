@@ -1,12 +1,12 @@
 <?php
-namespace Omeka\Job\Strategy;
+namespace Omeka\Job\DispatchStrategy;
 
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class SynchronousStrategy implements StrategyInterface
+class Synchronous implements StrategyInterface
 {
     /**
      * @var ServiceLocatorInterface

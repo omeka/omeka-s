@@ -231,7 +231,6 @@ return [
             'Omeka\MediaRendererManager' => 'Omeka\Service\MediaRendererManagerFactory',
             'Omeka\MigrationManager' => 'Omeka\Service\MigrationManagerFactory',
             'Omeka\ViewApiJsonStrategy' => 'Omeka\Service\ViewApiJsonStrategyFactory',
-            'Omeka\JobDispatcher' => 'Omeka\Service\JobDispatcherFactory',
             'Omeka\HttpClient' => 'Omeka\Service\HttpClientFactory',
             'Omeka\Site\ThemeManager' => 'Omeka\Service\ThemeManagerFactory',
             'Omeka\Site\NavigationLinkManager' => 'Omeka\Service\NavigationLinkManagerFactory',
@@ -256,8 +255,9 @@ return [
             'Omeka\Settings' => 'Omeka\Service\Settings\SettingsFactory',
             'Omeka\Settings\Site' => 'Omeka\Service\Settings\SiteSettingsFactory',
             'Omeka\Settings\User' => 'Omeka\Service\Settings\UserSettingsFactory',
-            'Omeka\JobDispatchStrategy\PhpCli' => 'Omeka\Service\JobDispatchStrategy\PhpCliFactory',
-            'Omeka\JobDispatchStrategy\Synchronous' => 'Omeka\Service\JobDispatchStrategy\SynchronousFactory',
+            'Omeka\Job\Dispatcher' => 'Omeka\Service\Job\DispatcherFactory',
+            'Omeka\Job\DispatchStrategy\PhpCli' => 'Omeka\Service\Job\DispatchStrategy\PhpCliFactory',
+            'Omeka\Job\DispatchStrategy\Synchronous' => 'Omeka\Service\Job\DispatchStrategy\SynchronousFactory',
         ],
         'invokables' => [
             'ModuleRouteListener' => 'Zend\Mvc\ModuleRouteListener',
@@ -273,7 +273,8 @@ return [
         'aliases' => [
             'Omeka\File\Store' => 'Omeka\File\Store\Local',
             'Omeka\File\Thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
-            'Omeka\JobDispatchStrategy' => 'Omeka\JobDispatchStrategy\PhpCli',
+            'Omeka\Job\DispatchStrategy' => 'Omeka\Job\DispatchStrategy\PhpCli',
+            'Omeka\JobDispatcher' => 'Omeka\Job\Dispatcher',
             'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService',
         ],
         'shared' => [

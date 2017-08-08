@@ -9,6 +9,6 @@ class JobDispatcherFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new JobDispatcher($services->get('Omeka\JobDispatcher'));
+        return new JobDispatcher($services->get('Omeka\Job\Dispatcher'));
     }
 }

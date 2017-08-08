@@ -1,11 +1,11 @@
 <?php
-namespace Omeka\Job\Strategy;
+namespace Omeka\Job\DispatchStrategy;
 
 use Omeka\Job\Exception;
 use Omeka\Entity\Job;
 use Omeka\Service\Cli;
 
-class PhpCliStrategy implements StrategyInterface
+class PhpCli implements StrategyInterface
 {
     /**
      * @var Cli

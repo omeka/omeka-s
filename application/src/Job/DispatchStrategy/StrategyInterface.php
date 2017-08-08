@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Job\Strategy;
+namespace Omeka\Job\DispatchStrategy;
 
 use Omeka\Entity\Job;
 

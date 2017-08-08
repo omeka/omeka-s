@@ -23,8 +23,7 @@
     margin-left: 0;
 }
 
-#advanced-search .multi-value .value:first-child .joiner,
-#advanced-search .multi-value .value:only-of-type .remove-value {
+#advanced-search .multi-value .value:first-child .joiner {
     display: none;
 }
 

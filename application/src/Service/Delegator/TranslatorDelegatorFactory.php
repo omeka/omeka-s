@@ -2,7 +2,7 @@
 namespace Omeka\Service\Delegator;
 
 use Interop\Container\ContainerInterface;
-use Omeka\I18n\Translator;
+use Zend\I18n\Translator\Translator;
 use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
 
 class TranslatorDelegatorFactory implements DelegatorFactoryInterface

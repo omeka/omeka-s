@@ -18,13 +18,15 @@ $itemSetsFound = count($itemSets) > 0;
     <?php if ($itemSetsFound): ?>
         <?php foreach ($itemSets as $itemSet):?>
         <div class="resource item-set">
-            <?php if ($media = $itemSet->primaryMedia()): ?>
-            <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
-            <?php endif; ?>
-            <span class="resource-name">
-                <a href="#"
-                class="sidebar-content select-resource"
-                data-sidebar-content-url="<?php echo $escape($itemSet->url('show-details')); ?>" data-sidebar-selector="#resource-details"><?php echo $escape($itemSet->displayTitle()); ?></a></span>
+            <a href="#"
+            class="select-resource"
+            data-sidebar-content-url="<?php echo $escape($itemSet->url('show-details')); ?>" data-sidebar-selector="#resource-details">
+                <?php if ($media = $itemSet->primaryMedia()): ?>
+                <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
+                <?php endif; ?>
+                <span class="resource-name">
+    <?php echo $escape($itemSet->displayTitle()); ?></span>
+            </a>
         </div>
         <?php endforeach; ?>
     <?php else: ?>

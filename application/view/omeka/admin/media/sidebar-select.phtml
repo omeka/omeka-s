@@ -18,10 +18,12 @@ $mediaFound = count($media) > 0;
     <?php if ($mediaFound): ?>
         <?php foreach ($media as $m):?>
         <div class="resource item-set">
-            <img src="<?php echo $escape($m->thumbnailUrl('square')); ?>">
-            <span class="resource-name">
-                <a href="#" class="sidebar-content select-resource" data-sidebar-content-url="<?php echo $escape($m->url('show-details')); ?>" data-sidebar-selector="#resource-details"><?php echo $escape($m->displayTitle()); ?></a>
-            </span>
+            <a href="#" class="select-resource" data-sidebar-content-url="<?php echo $escape($m->url('show-details')); ?>" data-sidebar-selector="#resource-details">
+                <img src="<?php echo $escape($m->thumbnailUrl('square')); ?>">
+                <span class="resource-name">
+    <?php echo $escape($m->displayTitle()); ?>
+                </span>
+            </a>
         </div>
         <?php endforeach; ?>
     <?php else: ?>

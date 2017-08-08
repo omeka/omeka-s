@@ -17,6 +17,9 @@ class BatchUpdate extends AbstractJob
 
         // Batch update the resources in chunks.
         foreach (array_chunk($response->getContent(), 100) as $idsChunk) {
+            if ($this->shouldStop()) {
+                return;
+            }
             if ($data) {
                 $api->batchUpdate($resource, $idsChunk, $data, [
                     'continueOnError' => true,

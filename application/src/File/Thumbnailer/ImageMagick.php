@@ -87,11 +87,10 @@ class ImageMagick extends AbstractThumbnailer
             $commandArgs[] = '-density 150';
         }
         $commandArgs[] = escapeshellarg($origPath);
-        $commandArgs += $args;
+        $commandArgs = array_merge($commandArgs, $args);
         $commandArgs[] = escapeshellarg($tempPath);
 
         $command = implode(' ', $commandArgs);
-
         $cli = $this->cli;
         $output = $cli->execute($command);
         if (false === $output) {

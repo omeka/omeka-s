@@ -2200,6 +2200,7 @@ input[type="text"].value-language,
         margin-bottom: $spacing-small;
         display: flex;
         align-items: center;
+        word-wrap: break-word;
     }
 
     .media.row img {
@@ -2210,7 +2211,7 @@ input[type="text"].value-language,
 
     .media.row .resource-name {
         margin-right: $spacing-medium;
-        word-wrap: break-word;
+        min-width: 0;
     }
 
     .media.row .actions {
@@ -2465,6 +2466,7 @@ input[type="text"].value-language,
     .select-resource {
         display: flex;
         align-items: center;
+        min-width: 0;
     }
 
     img {
@@ -2475,8 +2477,8 @@ input[type="text"].value-language,
 
     .resource-name {
         margin: 0;
-        width: calc(100% - #{$spacing-large});
         flex: 1;
+        min-width: 0;
     }
 
     .resource {
@@ -2487,6 +2489,7 @@ input[type="text"].value-language,
         overflow: hidden;
         display: flex;
         align-items: center;
+        word-wrap: break-word;
 
         &:hover {
             background-color: rgba(255,255,255,.8);

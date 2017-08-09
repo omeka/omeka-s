@@ -112,22 +112,20 @@ class Gd extends AbstractThumbnailer
      */
     public function createDefault($constraint, array $options)
     {
-        // Original is smaller than constraint
         if ($this->origWidth < $constraint && $this->origHeight < $constraint) {
+            // Original is smaller than constraint
             $tempWidth = $this->origWidth;
             $tempHeight = $this->origHeight;
-        // Original is landscape
         } elseif ($this->origWidth > $this->origHeight) {
+            // Original is smaller than constraint
             $tempWidth = $constraint;
             $tempHeight = round($this->origHeight * $constraint / $this->origWidth);
-        }
-        // Original is portrait
-        elseif ($this->origWidth < $this->origHeight) {
+        } elseif ($this->origWidth < $this->origHeight) {
+            // Original is portrait
             $tempWidth = round($this->origWidth * $constraint / $this->origHeight);
             $tempHeight = $constraint;
-        }
-        // Original is square
-        else {
+        } else {
+            // Original is square
             $tempWidth = $constraint;
             $tempHeight = $constraint;
         }

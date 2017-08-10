@@ -4,12 +4,12 @@ $attachments = $block ? $block->attachments() : [];
 $attachmentRowTemplate = '
  <div class="attachment">
     <span class="sortable-handle"></span>
+    <div class="item-title">'. $escape($this->translate('No item selected')) . '</div>
     <ul class="actions">
         <li><a href="#" class="attachment-options-icon o-icon-configure button" aria-label="' . $escape($this->translate('Open attachment options')) . '" title="' . $escape($this->translate('Open attachment options')) . '"></a></li>
         <li class="delete"><a href="#" class="o-icon-delete button" aria-label="' . $escape($this->translate('Delete attachment')) . '" title="' .$escape($this->translate('Delete attachment')) . '"></a></li>
         <li class="undo"><a href="#" class="o-icon-undo button" aria-label="' . $escape($this->translate('Restore attachment')) . '" title="' . $escape($this->translate('Restore attachment')) . '"></a></li>
     </ul>
-    <div class="item-title">'. $escape($this->translate('No item selected')) . '</div>
     <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]">
     <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]">
     <input type="hidden" class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]">
@@ -44,12 +44,12 @@ $attachmentRowTemplate = '
         ?>
         <div class="attachment">
             <span class="sortable-handle"></span>
+            <div class="item-title"><?php echo $thumbnail . $escape($title); ?></div>
             <ul class="actions">
                 <?php if (!$this->itemOnly): ?><li><a href="#" class="attachment-options-icon o-icon-configure button" aria-label="<?php echo $escape($this->translate('Open attachment options')); ?>" title="<?php echo $escape($this->translate('Open attachment options')); ?>"></a></li><?php endif; ?>
                 <li class="delete"><a href="#" class="o-icon-delete button" aria-label="<?php echo $escape($this->translate('Delete attachment')); ?>" title="<?php echo $escape($this->translate('Delete attachment')); ?>"></a></li>
                 <li class="undo"><a href="#" class="o-icon-undo button" aria-label="<?php echo $escape($this->translate('Restore attachment')); ?>" title="<?php echo $escape($this->translate('Restore attachment')); ?>"></a></li>
             </ul>
-            <div class="item-title"><?php echo $thumbnail . $escape($title); ?></div>
             <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]" value="<?php echo $escape($itemId); ?>">
             <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]" value="<?php echo $escape($mediaId); ?>">
             <input type="hidden" class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]" value="<?php echo $escape($caption); ?>">

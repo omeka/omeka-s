@@ -28,11 +28,12 @@ var buildDir = __dirname + '/build';
 var dataDir = __dirname + '/application/data';
 var scriptsDir = dataDir + '/scripts';
 var langDir = __dirname + '/application/language';
+var pot = langDir + '/template.pot';
 
 var cliOptions = minimist(process.argv.slice(2), {
-    string: 'php-path',
+    string: ['php-path', 'module'],
     boolean: 'dev',
-    default: {'php-path': 'php', 'dev': true}
+    default: {'php-path': 'php', 'dev': true, 'module': null}
 });
 
 function ensureBuildDir() {
@@ -62,7 +63,7 @@ function download(url, path) {
     });
 }
 
-function runCommand(cmd, args, options) {
+function runCommand(cmd, args, options, resolveWith) {
     return new Promise(function (resolve, reject) {
         if (!options) {
             options = {};
@@ -75,14 +76,14 @@ function runCommand(cmd, args, options) {
                 if (code !== 0) {
                     reject(new Error('Command "' + cmd + '" exited with code ' +  code));
                 } else {
-                    resolve();
+                    resolve(resolveWith);
                 }
             });
     });
 }
 
-function runPhpCommand(cmd, args, options) {
-    return runCommand(cliOptions['php-path'], [cmd].concat(args), options);
+function runPhpCommand(cmd, args, options, resolveWith) {
+    return runCommand(cliOptions['php-path'], [cmd].concat(args), options, resolveWith);
 }
 
 function composer(args) {
@@ -103,6 +104,49 @@ function composer(args) {
         }
         return runPhpCommand(composerPath, args);
     });
+}
+
+function i18nXgettext(dir) {
+    return glob('**/*.{php,phtml}', {ignore: ['themes/**', 'modules/**'], cwd: dir}).then(function (files) {
+        return tmpFile({postfix: 'xgettext.pot'}).spread(function (path, fd) {
+            var args = ['--language=php', '--from-code=utf-8', '--keyword=translate', '-o', path];
+            return runCommand('xgettext', args.concat(files), {cwd: dir}, path);
+        });
+    });
+}
+
+function i18nTaggedStrings(dir) {
+    return tmpFile({postfix: 'tagged.pot'}).spread(function (path, fd) {
+        return runPhpCommand(composerDir + '/extract-tagged-strings.php', [],
+            {stdio: ['pipe', fd, process.stderr], cwd: dir}, path);
+    });
+}
+
+function i18nVocabStrings() {
+    return tmpFile({postfix: 'vocab.pot'}).spread(function (path, fd) {
+        return runPhpCommand(scriptsDir + '/extract-vocab-strings.php', [],
+            {stdio: ['pipe', fd, process.stderr]}, path);
+    });
+}
+
+function getModulePath(module) {
+    if (!module) {
+        return Promise.reject(new Error('No module given! Use --module to specify the module to work on.'));
+    }
+
+    var modulePath = path.join(__dirname, 'modules', module);
+    return fs.statAsync(modulePath).then(function (stats) {
+        if (!stats.isDirectory()) {
+            return Promise.reject(new Error('Invalid module given! (not a directory)'))
+        }
+
+        return modulePath;
+    });
+}
+
+function compileToMo(file) {
+    var outFile = path.join(path.dirname(file), path.basename(file, '.po') + '.mo');
+    return runCommand('msgfmt', [file, '-o', outFile]);
 }
 
 gulp.task('css', function () {
@@ -205,43 +249,64 @@ gulp.task('db:create-migration', function () {
 gulp.task('db', gulp.series('db:schema', 'db:proxies'));
 
 gulp.task('i18n:template', function () {
-    var pot = langDir + '/template.pot';
-
-    var xgettext = glob('**/*.{php,phtml}', {ignore: ['themes/**', 'modules/**']}).then(function (files) {
-        return tmpFile({postfix: 'xgettext.pot'}).spread(function (path, fd) {
-            var args = ['--language=php', '--from-code=utf-8', '--keyword=translate', '-o', path];
-            return runCommand('xgettext', args.concat(files)).then(function () {
-                return path;
-            });
-        });
-    });
-    var taggedStrings = tmpFile({postfix: 'tagged.pot'}).spread(function (path, fd) {
-        return runPhpCommand(composerDir + '/extract-tagged-strings.php', [], {stdio: ['pipe', fd, 'pipe']})
-        .then(function () {
-            return path;
-        });
-    });
-    var vocabStrings = tmpFile({postfix: 'vocab.pot'}).spread(function (path, fd) {
-        return runPhpCommand(scriptsDir + '/extract-vocab-strings.php', [], {stdio: ['pipe', fd, 'pipe']})
-        .then(function () {
-            return path;
-        });
-    });
-
-    return Promise.all([xgettext, taggedStrings, vocabStrings]).then(function (tempFiles) {
-        return runCommand('msgcat', tempFiles.concat(['-o', pot]));
+    return Promise.all([
+        i18nXgettext('.'),
+        i18nTaggedStrings('.'),
+        i18nVocabStrings()
+    ]).then(function (tempFiles) {
+        return runCommand('msgcat', tempFiles.concat(['--use-first', '-o', pot]));
     });
 });
 
 gulp.task('i18n:compile', function () {
-    function compileToMo(file) {
-        var outFile = path.join(path.dirname(file), path.basename(file, '.po') + '.mo');
-        return runCommand('msgfmt', [file, '-o', outFile]);
-    }
     return glob('application/language/*.po').then(function (files) {
         return Promise.all(files.map(compileToMo));
     });
 })
+
+gulp.task('i18n:module:template', function () {
+    var modulePathPromise = getModulePath(cliOptions.module);
+    var preDedupePromise = modulePathPromise.then(function (modulePath) {
+        return Promise.all([
+            i18nXgettext(modulePath),
+            i18nTaggedStrings(modulePath)
+        ]);
+    }).then(function (tempFiles) {
+        return tmpFile({postfix: 'module-prededupe.pot'}).spread(function (path, fd) {
+            return runCommand('msgcat', tempFiles.concat(['-o', path]), {}, path);
+        });
+    });
+    var dupesPromise = preDedupePromise.then(function (preDedupePot) {
+        return tmpFile({postfix: 'module-dupes.pot'}).spread(function (path, fd) {
+            return runCommand('msgcomm', ['--omit-header', '-o', path, preDedupePot, pot], {}, path);
+        });
+    });
+    var languageDirPromise = modulePathPromise.then(function (modulePath) {
+        var languageDir = path.join(modulePath, 'language');
+        return fs.statAsync(languageDir).then(function (stats) {
+            if (!stats.isDirectory()) {
+                throw new Error('Language dir path exists, but is not a directory!');
+            }
+        }, function () {
+            return fs.mkdirAsync(languageDir);
+        }).then(function () {
+            return languageDir;
+        });
+    })
+
+    return Promise.join(languageDirPromise, preDedupePromise, dupesPromise, function (languageDir, preDedupePot, dupesPot) {
+        var modulePot = path.join(languageDir, 'template.pot');
+        return runCommand('msgcomm', ['--unique', '--to-code=utf-8', '-o', modulePot, preDedupePot, dupesPot]);
+    });
+});
+
+gulp.task('i18n:module:compile', function () {
+    return getModulePath(cliOptions.module).then(function (modulePath) {
+        return glob('language/*.po', {cwd: modulePath, absolute: true}).then(function (files) {
+            return Promise.all(files.map(compileToMo));
+        });
+    });
+});
 
 gulp.task('create-media-type-map', function () {
     return runPhpCommand(scriptsDir + '/create-media-type-map.php');

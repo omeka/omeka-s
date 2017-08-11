@@ -33,12 +33,12 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      */
     abstract public function getJsonLd();
 
-     /**
-      * Get the linked data type or types for this resource
-      *
-      * @return string|array|null
-      */
-     abstract public function getJsonLdType();
+    /**
+     * Get the linked data type or types for this resource
+     *
+     * @return string|array|null
+     */
+    abstract public function getJsonLdType();
 
     /**
      * Construct the resource representation object.

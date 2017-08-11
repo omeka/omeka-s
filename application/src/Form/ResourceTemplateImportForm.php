@@ -12,7 +12,6 @@ class ResourceTemplateImportForm extends Form
             'type' => 'file',
             'options' => [
                 'label' => 'Resource template file', // @translate
-                'info' => '', // @translate
             ],
             'attributes' => [
                 'required' => true,

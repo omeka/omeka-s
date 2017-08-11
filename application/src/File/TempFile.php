@@ -263,7 +263,7 @@ class TempFile
         // Finally, store the thumbnails.
         foreach ($tempPaths as $type => $tempPath) {
             $this->store($type, 'jpg', $tempPath);
-           // Delete the temporary file in case the file store hasn't already.
+            // Delete the temporary file in case the file store hasn't already.
             @unlink($tempPath);
         }
 

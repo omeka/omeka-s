@@ -29,9 +29,9 @@ $formElement = $this->plugin('formElement');
     <table class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
         <thead>
             <tr>
-                <th><?php echo $this->translate('Label'); ?></th>
-                <th><?php echo $this->translate('ID'); ?></th>
-                <th><?php echo $this->translate('Delete'); ?>?</th>
+                <th class="api-label"><?php echo $this->translate('Label'); ?></th>
+                <th class="api-id"><?php echo $this->translate('ID'); ?></th>
+                <th class="api-delete"><?php echo $this->translate('Delete'); ?>?</th>
             </tr>
         </thead>
         <?php foreach ($keys as $id => $label): ?>

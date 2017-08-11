@@ -1206,6 +1206,7 @@ div[role="main"] {
     display: inline-block;
     vertical-align: top;
     flex: 0;
+    min-width: 1em;
 }
 
 .actions {
@@ -3139,6 +3140,22 @@ body.sidebar-open #content {
     &:hover {
         box-shadow: 0 0 0 1px #DA8B8B inset;
     }
+}
+
+/* @end */
+
+/* @group ----- Users ----- */
+
+#edit-keys td {
+    word-wrap: break-word;
+}
+
+.api-delete {
+    width: 10%;
+}
+
+.api-label {
+    width: 25%;
 }
 
 /* @end */

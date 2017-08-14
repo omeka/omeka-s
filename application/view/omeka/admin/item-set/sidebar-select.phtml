@@ -19,7 +19,7 @@ $itemSetsFound = count($itemSets) > 0;
         <?php foreach ($itemSets as $itemSet):?>
         <div class="resource item-set">
             <a href="#"
-            class="select-resource"
+            class="sidebar-content select-resource"
             data-sidebar-content-url="<?php echo $escape($itemSet->url('show-details')); ?>" data-sidebar-selector="#resource-details">
                 <?php if ($media = $itemSet->primaryMedia()): ?>
                 <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">

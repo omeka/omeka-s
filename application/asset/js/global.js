@@ -418,7 +418,8 @@ var Omeka = {
         $('.multi-value.field').each(function() {
             var field = $(this);
             var value = field.find('.value').first().clone();
-            field.attr('data-field-template', value.wrap('<div></div>').parent().html());
+            var valueHtml = value.wrap('<div></div>').parent().html();
+            field.data('field-template', valueHtml);
         });
 
 
@@ -426,10 +427,10 @@ var Omeka = {
         $('form').on('click', '.multi-value .add-value', function(e) {
             e.preventDefault();
             var template = $(this).parents('.field').data('field-template');
-            var clone = $(template);
-            clone.children('input[type="text"]').val(null);
-            clone.children('select').prop('selectedIndex', 0);
-            clone.insertBefore($(this));
+            var newValue = $(template);
+            newValue.children('input[type="text"]').val(null);
+            newValue.children('select').prop('selectedIndex', 0);
+            newValue.insertBefore($(this)).trigger('o:value-created');
         });
         
         // Remove a value.

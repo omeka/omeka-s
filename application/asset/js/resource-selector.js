@@ -31,7 +31,8 @@
         });
 
         $('#select-item a').on('click', function (e) {
-            e.preventDefault()
+            e.preventDefault();
+            Omeka.closeSidebar($('#select-resource'));
             Omeka.closeSidebar($('#resource-details'));
             $(this).trigger('o:resource-selected');
         });
@@ -46,7 +47,6 @@
                     selectCheckbox.prop('checked', true);
                 }
             } else {
-                Omeka.closeSidebar($(e.delegateTarget));
                 $(this).trigger('o:resource-selected');
             }
         });

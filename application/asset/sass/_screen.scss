@@ -1175,31 +1175,18 @@ div[role="main"] {
     justify-content: flex-start;
     word-wrap: break-word;
 
-    & > * {
+    .resource-name {
         flex: 1;
         min-width: 0;
     }
 
-    .resource-name a {
-        min-width: 100%;
-    }
-
     & > .actions {
-        flex: 0;
-        min-width: 4 * $spacing-large;
+        white-space: nowrap;
     }
 }
 
 .browse .batch-edit .tablesaw-cell-content > input[type="checkbox"] {
     margin-right: $spacing-medium;
-    flex: 1;
-    flex-basis: $spacing-medium;
-    flex-grow: 0;
-}
-
-.browse .tablesaw-cell-content > img {
-    flex-basis: $spacing-large;
-    flex-grow: 0;
 }
 
 .browse .tablesaw-cell-content > span.indent {

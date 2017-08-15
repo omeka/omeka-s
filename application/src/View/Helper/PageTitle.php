@@ -20,9 +20,9 @@ class PageTitle extends AbstractHelper
     public function __invoke($title, $level = 1, $subheadLabel = null, $actionLabel = null)
     {
         $view = $this->getView();
-        $view->headTitle($actionLabel, AbstractContainer::PREPEND);
-        $view->headTitle($title, AbstractContainer::PREPEND);
         $view->headTitle($subheadLabel, AbstractContainer::PREPEND);
+        $view->headTitle($title, AbstractContainer::PREPEND);
+        $view->headTitle($actionLabel, AbstractContainer::PREPEND);
         $subhead = '';
         $action = '';
         if ($subheadLabel) {

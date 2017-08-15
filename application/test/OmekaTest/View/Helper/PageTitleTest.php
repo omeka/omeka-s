@@ -20,7 +20,7 @@ class PageTitleTest extends TestCase
             ->will($this->returnArgument(0));
         $view->expects($this->exactly(3))
             ->method('headTitle')
-            ->withConsecutive([$action], [$title], [$subhead]);
+            ->withConsecutive([$subhead], [$title], [$action]);
 
         $helper = new PageTitle;
         $helper->setView($view);

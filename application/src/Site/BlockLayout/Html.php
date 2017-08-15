@@ -5,7 +5,7 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
-use Omeka\Service\HtmlPurifier;
+use Omeka\Stdlib\HtmlPurifier;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Textarea;
 use Zend\View\Renderer\PhpRenderer;

@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
-use Omeka\Service\Mailer as MailerService;
+use Omeka\Stdlib\Mailer as MailerService;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 class Mailer extends AbstractPlugin

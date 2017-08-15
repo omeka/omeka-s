@@ -30,7 +30,7 @@ class PaginationTest extends TestCase
             ->will($this->returnValue($query));
 
         // Omeka\Pagination
-        $paginator = $this->getMock('Omeka\Service\Paginator');
+        $paginator = $this->getMock('Omeka\Stdlib\Paginator');
         $paginator->expects($this->any())
             ->method('setTotalCount')
             ->with($this->equalTo($totalCount));

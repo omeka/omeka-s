@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Service;
 
+use Omeka\Stdlib\RdfImporter;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 

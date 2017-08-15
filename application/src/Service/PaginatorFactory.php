@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Service;
 
+use Omeka\Stdlib\Paginator;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 

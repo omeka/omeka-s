@@ -3,7 +3,7 @@ namespace Omeka\Job\DispatchStrategy;
 
 use Omeka\Job\Exception;
 use Omeka\Entity\Job;
-use Omeka\Service\Cli;
+use Omeka\Stdlib\Cli;
 
 class PhpCli implements StrategyInterface
 {

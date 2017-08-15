@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Service;
 
-use Omeka\Service\Paginator;
+use Omeka\Stdlib\Paginator;
 use Omeka\Test\TestCase;
 
 class PaginatorTest extends TestCase

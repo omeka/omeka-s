@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Service;
+namespace Omeka\Stdlib;
 
 /**
  * Class for performing pagination calculations.

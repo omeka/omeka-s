@@ -3,7 +3,7 @@ namespace Omeka\File\Thumbnailer;
 
 use Omeka\File\Exception;
 use Omeka\File\TempFileFactory;
-use Omeka\Service\Cli;
+use Omeka\Stdlib\Cli;
 
 class ImageMagick extends AbstractThumbnailer
 {

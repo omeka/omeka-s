@@ -4,7 +4,7 @@ namespace Omeka\Installation\Task;
 use Omeka\Form\SettingForm;
 use Omeka\Installation\Installer;
 use Omeka\Module;
-use Omeka\Service\Paginator;
+use Omeka\Stdlib\Paginator;
 
 class AddDefaultSettingsTask implements TaskInterface
 {

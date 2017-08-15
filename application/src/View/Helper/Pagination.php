@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Omeka\Service\Paginator;
+use Omeka\Stdlib\Paginator;
 use Zend\View\Helper\AbstractHelper;
 
 class Pagination extends AbstractHelper
@@ -12,7 +12,7 @@ class Pagination extends AbstractHelper
     const PARTIAL_NAME = 'common/pagination';
 
     /**
-     * @var \Omeka\Service\Paginator
+     * @var \Omeka\Stdlib\Paginator
      */
     protected $paginator;
 

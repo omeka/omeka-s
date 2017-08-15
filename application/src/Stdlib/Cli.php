@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Service;
+namespace Omeka\Stdlib;
 
 use Zend\Log\LoggerInterface;
 

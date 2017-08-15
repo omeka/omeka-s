@@ -5,7 +5,7 @@ use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\Form\Element\Ckeditor;
-use Omeka\Service\HtmlPurifier;
+use Omeka\Stdlib\HtmlPurifier;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
 

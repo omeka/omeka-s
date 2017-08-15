@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\Service;
+namespace Omeka\Stdlib;
 
 use Doctrine\ORM\EntityManager;
 use EasyRdf_Graph;

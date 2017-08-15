@@ -7,7 +7,7 @@ use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyImportForm;
 use Omeka\Form\VocabularyUpdateForm;
 use Omeka\Mvc\Exception;
-use Omeka\Service\RdfImporter;
+use Omeka\Stdlib\RdfImporter;
 use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;

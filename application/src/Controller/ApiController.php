@@ -3,7 +3,7 @@ namespace Omeka\Controller;
 
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Mvc\Exception;
-use Omeka\Service\Paginator;
+use Omeka\Stdlib\Paginator;
 use Omeka\View\Model\ApiJsonModel;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;

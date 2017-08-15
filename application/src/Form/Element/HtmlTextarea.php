@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Form\Element;
 
-use Omeka\Service\HtmlPurifier;
+use Omeka\Stdlib\HtmlPurifier;
 use Zend\Form\Element\Textarea;
 use Zend\InputFilter\InputProviderInterface;
 

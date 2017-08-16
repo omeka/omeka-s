@@ -25,13 +25,13 @@ class LocaleSelectFactory implements FactoryInterface
         }
         natcasesort($locales);
 
-        $element = new Select;
-        $element->setValueOptions($locales);
-        $emptyOption = sprintf(
+        $locales = [$this->getDefaultLocaleId() => sprintf(
             'Default—%s', // @translate
             $this->getValueOption($this->getDefaultLocaleId())
-        );
-        $element->setEmptyOption($emptyOption);
+        )] + $locales;
+
+        $element = new Select;
+        $element->setValueOptions($locales);
         return $element;
     }
 

@@ -1205,6 +1205,7 @@ div[role="main"] {
 .actions {
     margin: 0 0 0 auto;
     display: flex;
+    padding: 0;
 }
 
 .actions li {
@@ -1557,7 +1558,7 @@ fieldset.section > legend {
     vertical-align: top;
     position: absolute;
     top: 0;
-    left: (1.5 * $spacing-large);
+    left: 0;
     height: (1.5 * $spacing-large);
     width: (1.5 * $spacing-large);
     line-height: (1.5 * $spacing-large);
@@ -1576,18 +1577,26 @@ fieldset.section > legend {
         opacity: 1;
         color: #000;
     }
+
+    & ~ textarea {
+        text-indent: 1.25 * $spacing-large;
+    }
+
+    &.active ~ textarea {
+        text-indent: 4 * $spacing-large;
+    }
 }
 
 .inputs input[type="text"].value-language.active {
     position: absolute;
     top: $spacing-small;
-    left: (1.5 * $spacing-large);
+    left: 0;
     margin: 0 0 0 $spacing-small;
     line-height: $base-line-height;
     background-color: transparent;
     border: 0;
     border-bottom: 2px solid $gray-on-white;
-    width: 6em;
+    width: 3.5 * $spacing-large;
     min-height: 0;
     padding: 0 0 0 (1.5 * $spacing-large);
     height: $base-line-height;
@@ -2006,6 +2015,10 @@ input[type="text"].value-language,
         }
     }
 
+    #resource-values .value {
+        display: flex;
+    }
+
     .value {
         margin-bottom: $spacing-small;
         position: relative;
@@ -2016,6 +2029,10 @@ input[type="text"].value-language,
             .remove-value {
                 margin-bottom: 0;
             }
+        }
+
+        &.template {
+            display: none;
         }
     }
 
@@ -2064,17 +2081,16 @@ input[type="text"].value-language,
         vertical-align: top;
     }
 
-    .input-header {
-        width: 100%;
+    .input-footer {
         display: flex;
-        background-color: rgba(0,0,0,.15);
+        width: 1.25 * $spacing-large;
     }
 
-    .input-header .actions {
-        padding-right: $spacing-small;
+    .input-footer .actions {
+        margin-left: 0;
     }
 
-    .input-header .actions a:before {
+    .input-footer .actions a:before {
         line-height: 1.5 * $spacing-large;
         height: 1.5 * $spacing-large;
     }
@@ -2090,8 +2106,9 @@ input[type="text"].value-language,
         display: none;
     }
 
-    .value.delete .input-header {
+    .value.delete .input-footer {
         background-color: transparent;
+        width: 100%;
     }
 
     .value [class*="o-icon-"].label {
@@ -2121,7 +2138,7 @@ input[type="text"].value-language,
     .inputs .value textarea,
     .inputs .value input[type="text"] {
         width: 100%;
-        margin-top: 0;
+        margin: 0;
     }
 
     [data-data-type="resource"] .default,
@@ -2141,10 +2158,11 @@ input[type="text"].value-language,
     .input-body {
         clear: both;
         background-color: #fff;
-        padding: 0;
+        width: calc(100% - #{1.5 * $spacing-large});
     }
 
     [data-data-type="resource"] .input-body {
+        border: 1px solid $border-gray;
         padding: 0 $spacing-small;
     }
 
@@ -2152,21 +2170,30 @@ input[type="text"].value-language,
         margin: 0;
     }
 
-    [data-data-type="resource"] .button:before {
-        margin-right: .5em;
+    [data-data-type="resource"] .button {
+        font-size: .875 * $base-font-size;
+        padding: 0 $spacing-small;
+        line-height: $base-line-height;
+        min-height: 0;
+
+        &:before {
+            margin-right: $spacing-small;
+        }
     }
 
     .value.delete span.restore-value {
         display: inline-block;
         padding: 0 $spacing-small;
+        width: calc(100% - #{1.5 * $spacing-large});
     }
 
-    .value.delete > *:not(.input-header) {
+    .value.delete > *:not(.input-footer) {
         display: none;
     }
 
     p.selected-resource {
         margin: 0;
+        position: relative;
     }
 
     .selected-resource a {
@@ -2180,7 +2207,9 @@ input[type="text"].value-language,
 
     .selected-resource .o-title a:after {
         font-family: "FontAwesome";
-        margin-left: .5em;
+        position: absolute;
+        top: $spacing-small;
+        right: $spacing-small;
     }
 
     .selected-resource .items a:after {

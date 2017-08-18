@@ -106,8 +106,8 @@ function composer(args) {
     });
 }
 
-function i18nXgettext(dir) {
-    return glob('**/*.{php,phtml}', {ignore: ['themes/**', 'modules/**'], cwd: dir}).then(function (files) {
+function i18nXgettext(dir, ignore) {
+    return glob('**/*.{php,phtml}', {ignore: ignore, cwd: dir}).then(function (files) {
         return tmpFile({postfix: 'xgettext.pot'}).spread(function (path, fd) {
             var args = ['--language=php', '--from-code=utf-8', '--keyword=translate', '-o', path];
             return runCommand('xgettext', args.concat(files), {cwd: dir}, path);
@@ -250,7 +250,7 @@ gulp.task('db', gulp.series('db:schema', 'db:proxies'));
 
 gulp.task('i18n:template', function () {
     return Promise.all([
-        i18nXgettext('.'),
+        i18nXgettext('.', ['themes/**', 'modules/**']),
         i18nTaggedStrings('.'),
         i18nVocabStrings()
     ]).then(function (tempFiles) {

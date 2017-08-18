@@ -264,6 +264,13 @@ gulp.task('i18n:compile', function () {
     });
 })
 
+gulp.task('i18n:debug', function () {
+    var debugPo = path.join(langDir, 'debug.po');
+    return runCommand('podebug', ['-i', pot, '-o', debugPo, '--rewrite=unicode']).then(function () {
+        return compileToMo(debugPo);
+    });
+})
+
 gulp.task('i18n:module:template', function () {
     var modulePathPromise = getModulePath(cliOptions.module);
     var preDedupePromise = modulePathPromise.then(function (modulePath) {

@@ -273,7 +273,7 @@ gulp.task('i18n:module:template', function () {
         ]);
     }).then(function (tempFiles) {
         return tmpFile({postfix: 'module-prededupe.pot'}).spread(function (path, fd) {
-            return runCommand('msgcat', tempFiles.concat(['-o', path]), {}, path);
+            return runCommand('msgcat', tempFiles.concat(['--use-first', '-o', path]), {}, path);
         });
     });
     var dupesPromise = preDedupePromise.then(function (preDedupePot) {

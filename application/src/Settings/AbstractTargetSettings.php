@@ -23,7 +23,7 @@ abstract class AbstractTargetSettings extends AbstractSettings
     /**
      * Set the ID of the target entity.
      *
-     * @param int $site
+     * @param int $targetId
      */
     public function setTargetId($targetId)
     {

@@ -14,7 +14,7 @@ class ValueHydrator
      * Hydrate all resource entity values in a request.
      *
      * All values must contain a property ID (property_id). Values should
-     * conatin a data type (type). For an invalid or missing type the "literal"
+     * contain a data type (type). For an invalid or missing type the "literal"
      * type will be used. A value object that is invalid is ignored and not
      * saved.
      *

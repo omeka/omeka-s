@@ -9,12 +9,12 @@ class JobRepresentation extends AbstractEntityRepresentation
      * @var array
      */
     protected $statusLabels = [
-        Job::STATUS_STARTING => 'Starting',
-        Job::STATUS_STOPPING => 'Stopping',
-        Job::STATUS_IN_PROGRESS => 'In Progress',
-        Job::STATUS_COMPLETED => 'Completed',
-        Job::STATUS_STOPPED => 'Stopped',
-        Job::STATUS_ERROR => 'Error',
+        Job::STATUS_STARTING => 'Starting', // @translate
+        Job::STATUS_STOPPING => 'Stopping', // @translate
+        Job::STATUS_IN_PROGRESS => 'In Progress', // @translate
+        Job::STATUS_COMPLETED => 'Completed', // @translate
+        Job::STATUS_STOPPED => 'Stopped', // @translate
+        Job::STATUS_ERROR => 'Error', // @translate
     ];
 
     /**

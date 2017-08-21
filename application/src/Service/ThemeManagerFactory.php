@@ -17,7 +17,6 @@ class ThemeManagerFactory implements FactoryInterface
     {
         $manager = new ThemeManager;
         $iniReader = new IniReader;
-        $connection = $serviceLocator->get('Omeka\Connection');
 
         // Get all themes from the filesystem.
         foreach (new DirectoryIterator(OMEKA_PATH . '/themes') as $dir) {

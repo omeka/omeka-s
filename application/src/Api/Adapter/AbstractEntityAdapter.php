@@ -723,7 +723,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         if ($request->getOperation() === Request::UPDATE
             && $request->getOption('isPartial', false)
         ) {
-            // Conditionally hydrate on partial_update operation.
+            // Conditionally hydrate on partial update operation.
             return array_key_exists($key, $request->getContent());
         }
         // Always hydrate on create and update operations.

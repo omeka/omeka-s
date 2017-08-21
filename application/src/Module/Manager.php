@@ -399,8 +399,8 @@ class Manager implements ResourceInterface
         if (!$acl->userIsAllowed($this, $privilege)) {
             throw new AclException\PermissionDeniedException(sprintf(
                 $this->getTranslator()->translate(
-                    'Permission denied for the current user to %s the %s module.
-                '),
+                    'Permission denied for the current user to %s the %s module.'
+                ),
                 $privilege, $module->getId()
             ));
         }

@@ -85,6 +85,7 @@ abstract class AbstractSettings implements SettingsInterface
      * Will return null if no setting exists with the passed ID.
      *
      * @param string $id
+     * @param mixed $default
      * @return mixed
      */
     public function get($id, $default = null)

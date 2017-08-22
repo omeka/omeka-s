@@ -411,6 +411,9 @@ return [
             'Zend\Form\View\Helper\FormElement' => [
                 'Omeka\Service\Delegator\FormElementDelegatorFactory',
             ],
+            'Zend\Form\View\Helper\FormSelect' => [
+                'Omeka\Service\Delegator\FormSelectDelegatorFactory',
+            ],
             'Zend\Form\View\Helper\FormRow' => [
                 'Omeka\Service\Delegator\FormRowDelegatorFactory',
             ],

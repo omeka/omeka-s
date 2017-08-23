@@ -15,7 +15,7 @@ $propertyId = $escape($property->id());
     <input class="data-type" type="hidden" name="<?php echo $escape($namePrefix . '[o:data_type]'); ?>" value="<?php echo $escape($propertyRow['o:data_type']); ?>">
 
     <span class="sortable-handle"></span>
-    <?php echo $escape($property->label()); ?>
+    <?php echo $escape($this->translate($property->label())); ?>
 
     <ul class="actions">
         <li><a href="#" class="o-icon-edit property-edit" aria-label="<?php echo $escape($this->translate('Edit property')); ?>" title="<?php echo $escape($this->translate('Edit property')); ?>"></a></li>

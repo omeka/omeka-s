@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-21 16:09-0400\n"
+"POT-Creation-Date: 2017-08-23 13:48-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -244,9 +244,7 @@ msgstr ""
 
 #: application/src/Module/Manager.php:402
 #, php-format
-msgid ""
-"Permission denied for the current user to %s the %s module.\n"
-"                "
+msgid "Permission denied for the current user to %s the %s module."
 msgstr ""
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:31
@@ -1726,6 +1724,10 @@ msgstr ""
 msgid "Omeka could not find any media."
 msgstr ""
 
+#: application/view/omeka/admin/media/show-details.phtml:17
+msgid "Part of Item"
+msgstr ""
+
 #: application/view/omeka/admin/media/show-details.phtml:23
 #: application/view/omeka/admin/media/show.phtml:45
 msgid "MIME type"
@@ -2209,6 +2211,10 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/navigation.phtml:36
 msgid "Add a link to a site page"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/navigation.phtml:52
+msgid "There are no available pages."
 msgstr ""
 
 #: application/view/omeka/site-admin/index/resources.phtml:15
@@ -3439,35 +3445,31 @@ msgstr ""
 msgid "Site info"
 msgstr ""
 
-#: application/config/module.config.php:570
+#: application/config/module.config.php:573
 msgid "Something went wrong"
 msgstr ""
 
-#: application/config/module.config.php:575
+#: application/config/module.config.php:578
 msgid "You have unsaved changes."
 msgstr ""
 
-#: application/config/module.config.php:577
+#: application/config/module.config.php:580
 msgid "Close icon set"
 msgstr ""
 
-#: application/config/module.config.php:578
+#: application/config/module.config.php:581
 msgid "Open icon set"
 msgstr ""
 
-#: application/config/module.config.php:580
+#: application/config/module.config.php:583
 msgid "Failed loading resource template from API"
 msgstr ""
 
-#: application/config/module.config.php:581
+#: application/config/module.config.php:584
 msgid "Restore property"
 msgstr ""
 
-#: application/config/module.config.php:582
-msgid "There are no available pages."
-msgstr ""
-
-#: application/config/module.config.php:583
+#: application/config/module.config.php:586
 msgid "Please enter a valid language tag"
 msgstr ""
 

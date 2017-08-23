@@ -64,7 +64,7 @@ $sortHeadings = [
                 </span>
             </td>
             <td><?php echo $escape($job->jobClass()); ?></td>
-            <td><?php echo $escape($job->statusLabel()); ?></td>
+            <td><?php echo $escape($this->translate($job->statusLabel())); ?></td>
             <td><?php echo $ownerText; ?></td>
         </tr>
         <?php endforeach; ?>

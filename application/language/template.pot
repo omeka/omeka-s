@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-23 13:48-0400\n"
+"POT-Creation-Date: 2017-08-23 16:02-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -679,6 +679,16 @@ msgstr ""
 #: application/view/omeka/site-admin/page/index.phtml:63
 #: application/view/omeka/site-admin/page/index.phtml:64
 msgid "Close"
+msgstr ""
+
+#: application/view/common/delete-confirm.phtml:11
+#, php-format
+msgid "Delete %s"
+msgstr ""
+
+#: application/view/common/delete-confirm.phtml:12
+#, php-format
+msgid "Are you sure you would like to delete this %s?"
 msgstr ""
 
 #: application/view/common/form-row.phtml:11

@@ -49,7 +49,7 @@ $escape = $this->plugin('escapeHtml');
         <?php endforeach; ?>
         </div>
         <?php else: ?>
-        <p>There are no available pages.</p>
+        <p><?php echo $this->translate('There are no available pages.'); ?></p>
         <?php endif; ?>
     </div>
 </div>

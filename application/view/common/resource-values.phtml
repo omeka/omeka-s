@@ -8,7 +8,7 @@ $labelInfo = $this->setting('property_label_information');
         <?php if ($propertyData['alternate_label']): ?>
         <?php echo $escape($propertyData['alternate_label']); ?>
         <?php else: ?>
-        <?php echo $escape($propertyData['property']->label()); ?>
+        <?php echo $escape($this->translate($propertyData['property']->label())); ?>
         <?php endif; ?>
         <?php if ('term' === $labelInfo): ?>
         <span class="field-term">(<?php echo $escape($propertyData['property']->term()); ?>)</span>

@@ -20,14 +20,14 @@ $roles = [
 </div>
 
 <div class="property">
-    <h4>URL slug</h4>
+    <h4><?php echo $escape($this->translate('URL slug')); ?></h4>
     <div class="value"><?php echo $escape($site->slug()); ?></div>
 </div>
 <div class="property">
-    <h4>Title</h4>
+    <h4><?php echo $escape($this->translate('Title')); ?></h4>
     <div class="value"><?php echo $escape($site->title()); ?></div>
 </div>
 <div class="property">
-    <h4>Theme</h4>
+    <h4><?php echo $escape($this->translate('Theme')); ?></h4>
     <div class="value"><?php echo $escape($site->theme()); ?></div>
 </div>

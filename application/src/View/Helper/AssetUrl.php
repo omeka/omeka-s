@@ -27,7 +27,7 @@ class AssetUrl extends AbstractHelper
     /**
      * Construct the helper.
      *
-     * @param string|null $currentTheme
+     * @param Theme|null $currentTheme
      * @param array $modules
      */
     public function __construct($currentTheme, $modules, $externals)
@@ -41,14 +41,24 @@ class AssetUrl extends AbstractHelper
      * Return a path to an asset.
      *
      * Returns the asset URL for the current theme if no module specified.
-     * Otherwise, returns the asset URL for the specified module, only if the
-     * module is active. Does not check if the asset file exists.
+     * Otherwise, the url depends on whether a fallback is allowed or not.
+     * - If a fallback is allowed and if the module is set and active, returns
+     * the asset URL for the current theme if the file exists, else returns the
+     * asset URL for the specified module (without checking if the asset file
+     * exists in it, because it’s a prerequisite). If the module is disabled,
+     * returns null.
+     * - If it is not allowed, returns the asset URL for the specified module,
+     * only if the module is active. Does not check if the asset file exists.
+     *
+     * In all cases, if the module is set and if the file is marked as external,
+     * the external url will be returned by priority, without any check.
      *
      * @param string $file
      * @param string|null $module
+     * @param bool $fallback
      * @return string|null
      */
-    public function __invoke($file, $module = null)
+    public function __invoke($file, $module = null, $fallback = false)
     {
         if (isset($this->externals[$module][$file])) {
             return $this->externals[$module][$file];
@@ -59,6 +69,17 @@ class AssetUrl extends AbstractHelper
             return sprintf(self::THEME_ASSETS_PATH, $basePath,
                 $this->currentTheme->getId(), $file);
         }
+
+        if ($fallback && $this->currentTheme
+            && ($module === 'Omeka' || array_key_exists($module, $this->activeModules))
+        ) {
+            $themeId = $this->currentTheme->getId();
+            $filepath = sprintf(self::THEME_ASSETS_PATH, OMEKA_PATH, $themeId, $file);
+            if (is_readable($filepath)) {
+                return sprintf(self::THEME_ASSETS_PATH, $basePath, $themeId, $file);
+            }
+        }
+
         if ('Omeka' == $module) {
             return sprintf(self::OMEKA_ASSETS_PATH, $basePath, $file);
         }

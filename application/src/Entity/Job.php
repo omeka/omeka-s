@@ -20,12 +20,12 @@ class Job extends AbstractEntity
      * STATUS_STOPPED:     The job was stopped and most likely incomplete.
      * STATUS_ERROR:       There was an unrecoverable error during the job.
      */
-    const STATUS_STARTING = 'starting';
-    const STATUS_STOPPING = 'stopping';
-    const STATUS_IN_PROGRESS = 'in_progress';
-    const STATUS_COMPLETED = 'completed';
-    const STATUS_STOPPED = 'stopped';
-    const STATUS_ERROR = 'error';
+    const STATUS_STARTING = 'starting'; // @translate
+    const STATUS_STOPPING = 'stopping'; // @translate
+    const STATUS_IN_PROGRESS = 'in_progress'; // @translate
+    const STATUS_COMPLETED = 'completed'; // @translate
+    const STATUS_STOPPED = 'stopped'; // @translate
+    const STATUS_ERROR = 'error'; // @translate
     /**#@-*/
 
     /**

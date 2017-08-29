@@ -1342,10 +1342,6 @@ td .o-icon-private {
         }
     }
 
-    .multi-value.field .value:only-of-type .remove-value {
-        display: none;
-    }
-    
     .multi-value.field .remove-value {
         background-color: transparent;
         color: $red;

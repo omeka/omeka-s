@@ -14,7 +14,7 @@ $item = $resource->item();
     <img src="<?php echo $escape($resource->thumbnailUrl('square')); ?>">
 
     <div class="meta-group">
-        <h4>Part of Item</h4>
+        <h4><?php echo $this->translate('Part of Item'); ?></h4>
         <div class="value"><?php echo $item->link($item->displayTitle()); ?></div>
     </div>
 

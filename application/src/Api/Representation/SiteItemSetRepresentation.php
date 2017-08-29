@@ -14,7 +14,7 @@ class SiteItemSetRepresentation extends AbstractRepresentation
     /**
      * Construct the site item set representation object.
      *
-     * @param SitePermission $itemSet
+     * @param SiteItemSet $itemSet
      * @param ServiceLocatorInterface $serviceLocator
      */
     public function __construct(SiteItemSet $itemSet, ServiceLocatorInterface $serviceLocator)

@@ -413,15 +413,24 @@ var Omeka = {
             $(selectedActionClass).addClass('active');
         });
 
+        // Set up multi-value templates
+
+        $('.multi-value.field').each(function() {
+            var field = $(this);
+            var value = field.find('.value').first().clone();
+            var valueHtml = value.wrap('<div></div>').parent().html();
+            field.data('field-template', valueHtml);
+        });
+
 
         // Add a value.
         $('form').on('click', '.multi-value .add-value', function(e) {
             e.preventDefault();
-            var first = $(this).parents('.field').find('.value').first();
-            var clone = first.clone();
-            clone.children('input[type="text"]').val(null);
-            clone.children('select').prop('selectedIndex', 0);
-            clone.insertBefore($(this));
+            var template = $(this).parents('.field').data('field-template');
+            var newValue = $(template);
+            newValue.children('input[type="text"]').val(null);
+            newValue.children('select').prop('selectedIndex', 0);
+            newValue.insertBefore($(this)).trigger('o:value-created');
         });
         
         // Remove a value.

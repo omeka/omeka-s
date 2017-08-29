@@ -17,12 +17,12 @@ class Acl extends ZendAcl
      * @var array
      */
     protected $roleLabels = [
-        self::ROLE_GLOBAL_ADMIN => 'Global Administrator',
-        self::ROLE_SITE_ADMIN => 'Site Administrator',
-        self::ROLE_EDITOR => 'Editor',
-        self::ROLE_REVIEWER => 'Reviewer',
-        self::ROLE_AUTHOR => 'Author',
-        self::ROLE_RESEARCHER => 'Researcher',
+        self::ROLE_GLOBAL_ADMIN => 'Global Administrator', // @translate
+        self::ROLE_SITE_ADMIN => 'Site Administrator', // @translate
+        self::ROLE_EDITOR => 'Editor', // @translate
+        self::ROLE_REVIEWER => 'Reviewer', // @translate
+        self::ROLE_AUTHOR => 'Author', // @translate
+        self::ROLE_RESEARCHER => 'Researcher', // @translate
     ];
 
     /**

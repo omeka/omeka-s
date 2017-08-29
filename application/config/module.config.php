@@ -368,6 +368,7 @@ return [
             'formPropertyInputs' => 'Omeka\View\Helper\PropertyInputs',
             'searchFilters' => 'Omeka\View\Helper\SearchFilters',
             'blockAttachmentsForm' => 'Omeka\View\Helper\BlockAttachmentsForm',
+            'blockShowTitleSelect' => 'Omeka\View\Helper\BlockShowTitleSelect',
             'ckEditor' => 'Omeka\View\Helper\CkEditor',
             'sitePagePagination' => 'Omeka\View\Helper\SitePagePagination',
             'sectionNav' => 'Omeka\View\Helper\SectionNav',
@@ -386,7 +387,6 @@ return [
             'assetUrl' => 'Omeka\Service\ViewHelper\AssetUrlFactory',
             'blockLayout' => 'Omeka\Service\ViewHelper\BlockLayoutFactory',
             'blockThumbnailTypeSelect' => 'Omeka\Service\ViewHelper\BlockThumbnailTypeSelectFactory',
-            'blockShowTitleSelect' => 'Omeka\Service\ViewHelper\BlockShowTitleSelectFactory',
             'dataType' => 'Omeka\Service\ViewHelper\DataTypeFactory',
             'i18n' => 'Omeka\Service\ViewHelper\I18nFactory',
             'media' => 'Omeka\Service\ViewHelper\MediaFactory',
@@ -410,6 +410,9 @@ return [
         'delegators' => [
             'Zend\Form\View\Helper\FormElement' => [
                 'Omeka\Service\Delegator\FormElementDelegatorFactory',
+            ],
+            'Zend\Form\View\Helper\FormSelect' => [
+                'Omeka\Service\Delegator\FormSelectDelegatorFactory',
             ],
             'Zend\Form\View\Helper\FormRow' => [
                 'Omeka\Service\Delegator\FormRowDelegatorFactory',

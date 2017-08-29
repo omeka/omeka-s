@@ -168,5 +168,9 @@ class InstallationForm extends Form
                 ],
             ],
         ]);
+        $inputFilter->get('settings')->add([
+            'name' => 'locale',
+            'allow_empty' => true,
+        ]);
     }
 }

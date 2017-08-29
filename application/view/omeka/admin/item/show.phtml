@@ -45,13 +45,7 @@ $sectionNavs = [
 
 
 <div class="sidebar active">
-    <?php if ($primaryMedia = $item->primaryMedia()): ?>
-    <img 
-        src="<?php echo $escape($primaryMedia->thumbnailUrl('square')); ?>" 
-        title="<?php echo $escape($primaryMedia->displayTitle()); ?>" 
-        alt="<?php echo $escape($primaryMedia->mediaType()); ?> thumbnail"
-    >
-    <?php endif; ?>
+    <?php echo $this->thumbnail($item, 'square'); ?>
     <div class="meta-group">
         <h4><?php echo $this->translate('Visibility'); ?></h4>
         <div class="value"><?php echo ($item->isPublic()) ? $escape($this->translate('Public')) : $escape($this->translate('Private')); ?></div>
@@ -79,11 +73,7 @@ $sectionNavs = [
         <?php foreach ($item->media() as $media): ?>
         <div class="value">
             <a href="<?php echo $media->url(); ?>">
-                <img 
-                    src="<?php echo $escape($media->thumbnailUrl('square')); ?>"
-                title="<?php echo $escape($media->displayTitle()); ?>" 
-                alt="<?php echo $escape($media->mediaType()); ?> thumbnail"
-                >
+                <?php echo $this->thumbnail($media, 'square'); ?>
                 <span class="file-name"><?php echo $escape($media->displayTitle()); ?></span>
             </a>
         </div>

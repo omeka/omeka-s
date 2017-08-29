@@ -21,9 +21,7 @@ $itemSetsFound = count($itemSets) > 0;
             <a href="#"
             class="sidebar-content select-resource"
             data-sidebar-content-url="<?php echo $escape($itemSet->url('show-details')); ?>" data-sidebar-selector="#resource-details">
-                <?php if ($media = $itemSet->primaryMedia()): ?>
-                <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
-                <?php endif; ?>
+                <?php echo $this->thumbnail($itemSet, 'square'); ?>
                 <span class="resource-name">
     <?php echo $escape($itemSet->displayTitle()); ?></span>
             </a>

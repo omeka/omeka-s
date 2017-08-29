@@ -11,7 +11,7 @@ $item = $resource->item();
     <?php endif; ?>
     <div class="o-description"><?php echo $escape($resource->displayDescription()); ?></div>
 
-    <img src="<?php echo $escape($resource->thumbnailUrl('square')); ?>">
+    <?php echo $this->thumbnail($resource, 'square'); ?>
 
     <div class="meta-group">
         <h4><?php echo $this->translate('Part of Item'); ?></h4>

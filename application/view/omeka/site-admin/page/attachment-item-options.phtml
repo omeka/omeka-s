@@ -1,16 +1,14 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 $allMedia = null;
-$thumbnailUrl = null;
+$currentMedia = null;
 if ($attachedItem) {
     $allMedia = $attachedItem->media();
     $primaryMedia = $attachedItem->primaryMedia();
     if ($attachedMedia) {
-        $thumbnailUrl = $attachedMedia->thumbnailUrl('square');
-        $thumbnailTitle = $attachedMedia->displayTitle();
+        $currentMedia = $attachedMedia;
     } elseif ($primaryMedia) {
-        $thumbnailUrl = $primaryMedia->thumbnailUrl('square');
-        $thumbnailTitle = $primaryMedia->displayTitle();
+        $currentMedia = $primaryMedia;
     }
 }
 $changeItemButton = '<button id="attachment-item-select" data-sidebar-content-url="' .
@@ -19,10 +17,10 @@ $changeItemButton = '<button id="attachment-item-select" data-sidebar-content-ur
 ?>
 <?php if ($attachedItem): ?>
 <div class="selected-attachment">
-    <?php if ($thumbnailUrl): ?>
+    <?php if ($currentMedia): ?>
     <h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>
-    <span class="media-title"><?php echo $thumbnailTitle; ?></span>
-    <img class="item-thumbnail" src="<?php echo $escape($thumbnailUrl); ?>">
+    <span class="media-title"><?php echo $currentMedia->displayTitle(); ?></span>
+    <?php echo $this->thumbnail($currentMedia, 'square', ['class' => 'item-thumbnail']); ?>
     <?php else: ?>
     <h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>
     <?php endif; ?>
@@ -43,7 +41,7 @@ $changeItemButton = '<button id="attachment-item-select" data-sidebar-content-ur
             }
             ?>
             <li class="media <?php echo $attached; ?>" data-media-id="<?php echo $escape($media->id()); ?>">
-                <img class="media-thumbnail" src="<?php echo $escape($media->thumbnailUrl('square')); ?>" title="<?php echo $escape($media->displayTitle()); ?>">
+                <?php echo $this->thumbnail($media, 'square', ['class' => 'media-thumbnail', 'title' => $media->displayTitle()]); ?>
             </li>
             <?php endforeach; ?>
         </ul>

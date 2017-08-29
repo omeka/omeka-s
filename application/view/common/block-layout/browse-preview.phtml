@@ -13,13 +13,7 @@ foreach ($this->items as $item):
     $body = $item->value($bodyTerm);
 ?>
     <li class="item resource">
-    <?php if ($primaryMedia = $item->primaryMedia()): ?>
-        <img
-            src="<?php echo $this->escapeHtml($primaryMedia->thumbnailUrl('medium')); ?>"
-            title="<?php echo $this->escapeHtml($heading); ?>"
-            alt="<?php echo $this->escapeHtml($primaryMedia->mediaType()); ?> thumbnail"
-        >
-    <?php endif; ?>
+        <?php echo $this->thumbnail($item, 'medium', ['title' => $heading]); ?>
         <h4><?php echo $item->link($heading); ?></h4>
         <?php if ($body): ?>
         <div class="description"><?php echo $body; ?></div>

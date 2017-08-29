@@ -10,7 +10,7 @@
         if ($media):
         ?>
         <a href="<?php echo $this->escapeHtml($item->url()); ?>">
-            <img src="<?php echo $this->escapeHtml($media->thumbnailUrl($this->thumbnailType)); ?>">
+            <?php echo $this->thumbnail($media, $this->thumbnailType); ?>
         </a>
         <?php endif; ?>
         <?php $showTitleOption = $this->showTitleOption; ?>

@@ -38,7 +38,7 @@ foreach ($subjects as $value) {
 <div class="media-list">
     <?php foreach ($itemMedia as $media): ?>
         <a href="<?php echo $media->url(); ?>" class="media resource">
-            <img src="<?php echo $escape($media->thumbnailUrl('medium')); ?>" title="<?php echo $escape($media->displayTitle()); ?>">
+            <?php echo $this->thumbnail($media, 'medium', ['title' => $media->displayTitle()]); ?>
         </a>
     <?php endforeach; ?>
 </div>
@@ -52,13 +52,7 @@ foreach ($subjects as $value) {
         <h4><?php echo $this->translate(sprintf('As "%s"', $property)); ?></h4>
         <?php foreach ($resources as $resource): ?>
         <div class="resource value">
-                <?php if ($thumbnail = $resource->primaryMedia()): ?>
-                <a href="<?php echo $resource->url(); ?>"><img
-                    src="<?php echo $escape($thumbnail->thumbnailUrl('square')); ?>"
-                    title="<?php echo $escape($thumbnail->displayTitle()); ?>"
-                    alt="<?php echo $escape($thumbnail->mediaType()); ?> thumbnail"
-                ></a>
-            <?php endif; ?>
+            <?php echo $this->thumbnail($resource, 'square'); ?>
             <?php echo $resource->link($resource->displayTitle()); ?>
         </div>
         <?php endforeach; ?>

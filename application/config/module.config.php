@@ -381,6 +381,7 @@ return [
             'formAsset' => 'Omeka\Form\View\Helper\FormAsset',
             'themeSettingAssetUrl' => 'Omeka\View\Helper\ThemeSettingAssetUrl',
             'formColorPicker' => 'Omeka\Form\View\Helper\FormColorPicker',
+            'thumbnail' => 'Omeka\View\Helper\Thumbnail',
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',

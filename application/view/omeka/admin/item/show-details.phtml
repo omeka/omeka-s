@@ -27,7 +27,7 @@ $escape = $this->plugin('escapeHtml');
         <?php foreach ($resource->media() as $media): ?>
         <div class="value">
             <a href="<?php echo $media->url(); ?>">
-                <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
+                <?php echo $this->thumbnail($media, 'square'); ?>
                 <span class="file-name"><?php echo $escape($media->displayTitle()); ?></span>
             </a>
         </div>

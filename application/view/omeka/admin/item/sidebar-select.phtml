@@ -64,9 +64,7 @@ $itemsFound = count($items) > 0;
             <?php else: ?>
             <a href="#" class="select-resource">
             <?php endif; ?>
-                <?php if ($media = $item->primaryMedia()): ?>
-                <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
-                <?php endif; ?>
+                <?php echo $this->thumbnail($item, 'square'); ?>
                 <span class="resource-name"><?php echo $escape($item->displayTitle()); ?></span>
             </a>
         </div>

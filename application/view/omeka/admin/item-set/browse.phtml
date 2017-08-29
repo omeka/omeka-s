@@ -91,9 +91,7 @@ $sortHeadings = [
                 <?php if ($itemSet->userIsAllowed('update') || $itemSet->userIsAllowed('delete')): ?>
                 <input type="checkbox" name="resource_ids[]" value="<?php echo $itemSet->id(); ?>">
                 <?php endif; ?>
-                <?php if ($media = $itemSet->primaryMedia()): ?>
-                <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
-                <?php endif; ?>
+                <?php echo $this->thumbnail($itemSet, 'square'); ?>
                 <span class="resource-name">
                     <?php echo $itemSet->link($itemSet->displayTitle()); ?>
                 </span>

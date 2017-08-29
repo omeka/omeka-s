@@ -1560,44 +1560,35 @@ fieldset.section > legend {
     height: (1.5 * $spacing-large);
     width: (1.5 * $spacing-large);
     line-height: (1.5 * $spacing-large);
+    border: 1px solid $border-gray;
     overflow: hidden;
     text-align: center;
-    color: $red;
-    opacity: .5;
+    color: lighten($red, 40%);
     z-index: 1;
-
-    &:hover {
-        opacity: 1;
-    }
 
     &.active {
         cursor: default;
-        opacity: 1;
         color: #000;
+        border-width: 0;
     }
 
     & ~ textarea {
-        text-indent: 1.25 * $spacing-large;
+        padding-left: 1.75 * $spacing-large;
     }
 
     &.active ~ textarea {
-        text-indent: 4 * $spacing-large;
+        padding-left: $spacing-small;
     }
 }
 
 .inputs input[type="text"].value-language.active {
-    position: absolute;
-    top: $spacing-small;
-    left: 0;
-    margin: 0 0 0 $spacing-small;
     line-height: $base-line-height;
     background-color: transparent;
-    border: 0;
-    border-bottom: 2px solid $gray-on-white;
-    width: 3.5 * $spacing-large;
+    border: 1px solid $border-gray;
+    border-bottom: 0;
+    width: 100%;
     min-height: 0;
     padding: 0 0 0 (1.5 * $spacing-large);
-    height: $base-line-height;
     display: block;
 }
 
@@ -2013,7 +2004,7 @@ input[type="text"].value-language,
         }
     }
 
-    #resource-values .value {
+    #resource-values div.value {
         display: flex;
     }
 
@@ -2225,24 +2216,29 @@ input[type="text"].value-language,
     [data-data-type="uri"] .input {
         position: relative;
         clear: both;
+        display: flex;
+
+        &:first-child {
+            border-bottom: 1px solid $border-gray;
+        }
     }
 
-    [data-data-type="uri"] label:not(.o-icon-uri) {
-        position: absolute;
-        top: 50%;
-        left: $spacing-small;
-        transform: translateY(-50%);
+    [data-data-type="uri"] .input-body {
+        border: 1px solid $border-gray;
+    }
+
+    [data-data-type="uri"] label {
+        padding: $spacing-small;
         z-index: 1;
-        width: (2.25 * $spacing-large);
         font-weight: bold;
-        word-wrap: break-word;
         color: rgba(0,0,0,.35);
+        width: auto;
     }
 
     [data-data-type="uri"] input.value,
     [data-data-type="uri"] textarea.value-label {
-        padding-left: (2.5 * $spacing-large);
         height: (1.5 * $spacing-large);
+        border: 0;
     }
 
     [data-data-type="uri"] textarea.value-label {

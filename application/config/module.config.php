@@ -332,6 +332,7 @@ return [
             'mailer' => 'Omeka\Service\ControllerPlugin\MailerFactory',
             'settings' => 'Omeka\Service\ControllerPlugin\SettingsFactory',
             'siteSettings' => 'Omeka\Service\ControllerPlugin\SiteSettingsFactory',
+            'userSettings' => 'Omeka\Service\ControllerPlugin\UserSettingsFactory',
             'status' => 'Omeka\Service\ControllerPlugin\StatusFactory',
             'viewHelpers' => 'Omeka\Service\ControllerPlugin\ViewHelpersFactory',
         ],

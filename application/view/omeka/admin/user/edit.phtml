@@ -3,8 +3,9 @@ $this->htmlElement('body')->appendAttribute('class', 'edit users');
 $form->prepare();
 $sectionNavs = [
     'user-information' => $this->translate('User information'),
+    'user-settings' => $this->translate('User settings'),
     'change-password' => $this->translate('Password'),
-    'edit-keys' => $this->translate('API keys')
+    'edit-keys' => $this->translate('API keys'),
 ];
 $formElement = $this->plugin('formElement');
 ?>
@@ -19,6 +20,9 @@ $formElement = $this->plugin('formElement');
 <?php $this->trigger('view.edit.form.before', array('form' => $form)); ?>
 <fieldset id="user-information" class="section active">
     <?php echo $this->formCollection($form->get('user-information'), false); ?>
+</fieldset>
+<fieldset id="user-settings" class="section">
+    <?php echo $this->formCollection($form->get('user-settings'), false); ?>
 </fieldset>
 <fieldset id="change-password" class="section">
     <?php echo $this->formCollection($form->get('change-password'), false); ?>

@@ -2,6 +2,8 @@
 namespace Omeka\Form;
 
 use Omeka\Permissions\Acl;
+use Omeka\Settings\Settings;
+use Omeka\Settings\UserSettings;
 use Zend\Form\Form;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\EventManager\Event;
@@ -27,6 +29,16 @@ class UserForm extends Form
      */
     protected $acl;
 
+    /**
+     * @var Settings
+     */
+    protected $settings;
+
+    /**
+     * @var UserSettings
+     */
+    protected $userSettings;
+
     public function __construct($name = null, $options = [])
     {
         parent::__construct($name, array_merge($this->options, $options));
@@ -36,6 +48,10 @@ class UserForm extends Form
     {
         $this->add([
             'name' => 'user-information',
+            'type' => 'fieldset',
+        ]);
+        $this->add([
+            'name' => 'user-settings',
             'type' => 'fieldset',
         ]);
         $this->add([
@@ -99,6 +115,23 @@ class UserForm extends Form
             ]);
         }
 
+        $locale = $this->userSettings->get('locale');
+        if (null === $locale) {
+            $locale = $this->settings->get('locale');
+        }
+        $this->get('user-settings')->add([
+            'name' => 'locale',
+            'type' => 'Omeka\Form\Element\LocaleSelect',
+            'options' => [
+                'label' => 'Locale', // @translate
+                'info' => 'Global locale/language code for all interfaces.', // @tranlate
+            ],
+            'attributes' => [
+                'value' => $locale,
+                'class' => 'chosen-select',
+            ],
+        ]);
+
         if ($this->getOption('include_password')) {
             if ($this->getOption('current_password')) {
                 $this->get('change-password')->add([
@@ -149,6 +182,11 @@ class UserForm extends Form
 
         // separate input filter stuff so that the event work right
         $inputFilter = $this->getInputFilter();
+
+        $inputFilter->get('user-settings')->add([
+            'name' => 'locale',
+            'allow_empty' => true,
+        ]);
 
         if ($this->getOption('include_password')) {
             $inputFilter->get('change-password')->add([
@@ -213,5 +251,37 @@ class UserForm extends Form
     public function getAcl()
     {
         return $this->acl;
+    }
+
+    /**
+     * @param Settings $settings
+     */
+    public function setSettings(Settings $settings)
+    {
+        $this->settings = $settings;
+    }
+
+    /**
+     * @return Settings
+     */
+    public function getSettings()
+    {
+        return $this->settings;
+    }
+
+    /**
+     * @param UserSettings $userSettings
+     */
+    public function setUserSettings(UserSettings $userSettings)
+    {
+        $this->userSettings = $userSettings;
+    }
+
+    /**
+     * @return UserSettings
+     */
+    public function getUserSettings()
+    {
+        return $this->userSettings;
     }
 }

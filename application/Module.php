@@ -48,9 +48,13 @@ class Module extends AbstractModule
         // Enable automatic translation for validation error messages
         AbstractValidator::setDefaultTranslator($translator);
 
-        // Set the configured global locale to the translator.
+        // Set the runtime locale and translator language to the configured
+        // global locale.
         $locale = $settings->get('locale');
         if ($locale) {
+            if (extension_loaded('intl')) {
+                \Locale::setDefault($locale);
+            }
             $translator->getDelegatedTranslator()->setLocale($locale);
         }
     }

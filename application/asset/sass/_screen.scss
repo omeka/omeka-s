@@ -297,6 +297,7 @@ body {
     .field {
         @include field-row;
         display: flex;
+        flex-wrap: wrap;
 
         &:first-child {
             border-color: transparent;
@@ -507,6 +508,11 @@ div[role="main"] > .messages {
 .field .messages {
     width: 70%;
     color: $red;
+    margin-left: auto;
+
+    li {
+        box-shadow: 0 0 0 1px inset;
+    }
 }
 
 .error,

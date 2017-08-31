@@ -47,7 +47,8 @@ class Module extends AbstractModule
         // Enable automatic translation for validation error messages
         AbstractValidator::setDefaultTranslator($translator);
 
-        // Set the translator language to the configured user or global locale.
+        // Set the runtime locale and translator language to the configured user
+        // or global locale.
         $locale = null;
         $auth = $services->get('Omeka\AuthenticationService');
         if ($auth->hasIdentity()) {
@@ -58,6 +59,9 @@ class Module extends AbstractModule
         if (null === $locale) {
             $settings = $services->get('Omeka\Settings');
             $locale = $settings->get('locale');
+        }
+        if (extension_loaded('intl')) {
+            \Locale::setDefault($locale);
         }
         $translator->getDelegatedTranslator()->setLocale($locale);
     }

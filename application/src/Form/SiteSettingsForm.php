@@ -103,7 +103,7 @@ class SiteSettingsForm extends Form
             'type' => 'Omeka\Form\Element\LocaleSelect',
             'options' => [
                 'label' => 'Locale', // @translate
-                'info' => 'Locale/language code for this site. Leave blank to use the global locale setting.', // @tranlate
+                'info' => 'Locale/language code for this site. Leave blank to use the global locale setting.', // @translate
             ],
             'attributes' => [
                 'value' => $settings->get('locale'),

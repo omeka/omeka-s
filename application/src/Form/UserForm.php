@@ -124,7 +124,7 @@ class UserForm extends Form
             'type' => 'Omeka\Form\Element\LocaleSelect',
             'options' => [
                 'label' => 'Locale', // @translate
-                'info' => 'Global locale/language code for all interfaces.', // @tranlate
+                'info' => 'Global locale/language code for all interfaces.', // @translate
             ],
             'attributes' => [
                 'value' => $locale,

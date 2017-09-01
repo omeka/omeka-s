@@ -44,11 +44,12 @@ class Module extends AbstractModule
         $services = $this->getServiceLocator();
         $translator = $services->get('MvcTranslator');
 
-        // Enable automatic translation for validation error messages
+        // Enable automatic translation for validation error messages.
         AbstractValidator::setDefaultTranslator($translator);
 
-        // Set the runtime locale and translator language to the configured user
-        // or global locale.
+        // Set the runtime locale and translator language to the locale set by
+        // the logged-in user, the administrator, or in local.config, in that
+        // order of priority.
         $locale = null;
         $auth = $services->get('Omeka\AuthenticationService');
         if ($auth->hasIdentity()) {
@@ -56,9 +57,13 @@ class Module extends AbstractModule
             $userSettings->setTargetId($auth->getIdentity()->getId());
             $locale = $userSettings->get('locale');
         }
-        if (null === $locale) {
+        if (!$locale) {
             $settings = $services->get('Omeka\Settings');
             $locale = $settings->get('locale');
+        }
+        if (!$locale) {
+            // The translator already loaded the configured locale.
+            $locale = $translator->getDelegatedTranslator()->getLocale();
         }
         if (extension_loaded('intl')) {
             \Locale::setDefault($locale);

@@ -345,7 +345,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             }
             foreach ($valueObjects as $valueObject) {
                 if (is_array($valueObject) && isset($valueObject['property_id'])) {
-                    $data[$term][] = $valueObject;
+                    $data[$valueObject['property_id']][] = $valueObject;
                 }
             }
         }

@@ -116,7 +116,7 @@ class UserForm extends Form
         }
 
         $locale = $this->userSettings->get('locale', $this->getOption('user_id'));
-        if (!$locale) {
+        if (null === $locale) {
             $locale = $this->settings->get('locale');
         }
         $this->get('user-settings')->add([

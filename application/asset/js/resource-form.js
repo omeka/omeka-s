@@ -22,12 +22,14 @@
             applyResourceTemplate(true);
         });
 
-        $('a.value-language:not(.active)').on('click', function(e) {
-            var button = $(this);
+        $('a.value-language').on('click', function(e) {
             e.preventDefault();
-            button.next('input.value-language').addClass('active').focus();
-            if (!button.hasClass('active')) {
-                button.addClass('active');
+            var languageButton = $(this);
+            var languageInput =  languageButton.next('input.value-language');
+            languageButton.toggleClass('active');
+            languageInput.toggleClass('active');
+            if (languageInput.hasClass('active')) {
+                languageInput.focus();
             }
         });
 

@@ -1569,17 +1569,11 @@ fieldset.section > legend {
     z-index: 1;
 
     &.active {
-        cursor: default;
-        color: #000;
-        border-width: 0;
+        border-color: transparent;
     }
 
     & ~ textarea {
         padding-left: 1.75 * $spacing-large;
-    }
-
-    &.active ~ textarea {
-        padding-left: $spacing-small;
     }
 }
 
@@ -1587,11 +1581,15 @@ fieldset.section > legend {
     line-height: $base-line-height;
     background-color: transparent;
     border: 1px solid $border-gray;
-    border-bottom: 0;
     width: 100%;
     min-height: 0;
-    padding: 0 0 0 (1.5 * $spacing-large);
+    padding: 0 0 0 (1.75 * $spacing-large);
     display: block;
+
+    &.active ~ textarea {
+        padding-left: $spacing-small;
+        border-top: 0;
+    }
 }
 
 input[type="text"].value-language,

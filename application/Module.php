@@ -10,7 +10,6 @@ use Zend\Mvc\MvcEvent;
 use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
-use Zend\Validator\AbstractValidator;
 
 /**
  * The Omeka module.
@@ -38,37 +37,7 @@ class Module extends AbstractModule
     public function onBootstrap(MvcEvent $event)
     {
         parent::onBootstrap($event);
-
         $this->bootstrapSession();
-
-        $services = $this->getServiceLocator();
-        $translator = $services->get('MvcTranslator');
-
-        // Enable automatic translation for validation error messages.
-        AbstractValidator::setDefaultTranslator($translator);
-
-        // Set the runtime locale and translator language to the locale set by
-        // the logged-in user, the administrator, or in local.config, in that
-        // order of priority.
-        $locale = null;
-        $auth = $services->get('Omeka\AuthenticationService');
-        if ($auth->hasIdentity()) {
-            $userSettings = $services->get('Omeka\Settings\User');
-            $userSettings->setTargetId($auth->getIdentity()->getId());
-            $locale = $userSettings->get('locale');
-        }
-        if (!$locale) {
-            $settings = $services->get('Omeka\Settings');
-            $locale = $settings->get('locale');
-        }
-        if (!$locale) {
-            // The translator already loaded the configured locale.
-            $locale = $translator->getDelegatedTranslator()->getLocale();
-        }
-        if (extension_loaded('intl')) {
-            \Locale::setDefault($locale);
-        }
-        $translator->getDelegatedTranslator()->setLocale($locale);
     }
 
     /**

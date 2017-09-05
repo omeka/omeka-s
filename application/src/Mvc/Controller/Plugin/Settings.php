@@ -16,11 +16,8 @@ class Settings extends AbstractPlugin
         $this->settings = $settings;
     }
 
-    public function __invoke($targetId = null)
+    public function __invoke()
     {
-        if ($targetId) {
-            $this->settings->setTargetId($targetId);
-        }
         return $this->settings;
     }
 }

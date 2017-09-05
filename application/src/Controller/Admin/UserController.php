@@ -168,7 +168,7 @@ class UserController extends AbstractActionController
 
                 if (!empty($values['user-settings'])) {
                     foreach ($values['user-settings'] as $settingId => $settingValue) {
-                        $this->userSettings($id)->set($settingId, $settingValue);
+                        $this->userSettings()->set($settingId, $settingValue, $id);
                     }
                 }
 

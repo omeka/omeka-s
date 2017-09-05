@@ -8,6 +8,7 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\Application as ZendApplication;
 use Zend\Mvc\MvcEvent;
 use Zend\Session\Container;
+use Zend\Validator\AbstractValidator;
 
 class MvcListeners extends AbstractListenerAggregate
 {
@@ -16,6 +17,10 @@ class MvcListeners extends AbstractListenerAggregate
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
+        $this->listeners[] = $events->attach(
+            MvcEvent::EVENT_ROUTE,
+            [$this, 'setLocale']
+        );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_ROUTE,
             [$this, 'redirectToInstallation']
@@ -44,6 +49,42 @@ class MvcListeners extends AbstractListenerAggregate
             MvcEvent::EVENT_ROUTE,
             [$this, 'checkExcessivePost']
         );
+    }
+
+    /**
+     * Set the runtime locale and translator language.
+     *
+     * @param MvcEvent $event
+     */
+    public function setLocale(MvcEvent $event)
+    {
+        $services = $event->getApplication()->getServiceManager();
+        $auth = $services->get('Omeka\AuthenticationService');
+        $translator = $services->get('MvcTranslator');
+
+        // Use the locale set by the logged-in user, the global settings, or
+        // the configuration file, in that order of priority.
+        $locale = null;
+        if ($auth->hasIdentity()) {
+            // User is logged in.
+            $userId = $auth->getIdentity()->getId();
+            $services->get('Omeka\Settings\User')->setTargetId($userId);
+            $locale = $services->get('Omeka\Settings\User')->get('locale');
+        }
+        if (!$locale) {
+            $locale = $services->get('Omeka\Settings')->get('locale');
+        }
+        if (!$locale) {
+            // The translator already loaded the configured locale.
+            $locale = $translator->getDelegatedTranslator()->getLocale();
+        }
+        if (extension_loaded('intl')) {
+            \Locale::setDefault($locale);
+        }
+        $translator->getDelegatedTranslator()->setLocale($locale);
+
+        // Enable automatic translation for validation error messages.
+        AbstractValidator::setDefaultTranslator($translator);
     }
 
     /**
@@ -249,10 +290,13 @@ class MvcListeners extends AbstractListenerAggregate
             }
         }
 
-        // Set the configured site locale to the translator.
-        $siteSettings = $services->get('Omeka\Settings\Site');
-        $locale = $siteSettings->get('locale');
+        // Set the runtime locale and translator language to the configured site
+        // locale.
+        $locale = $services->get('Omeka\Settings\Site')->get('locale');
         if ($locale) {
+            if (extension_loaded('intl')) {
+                \Locale::setDefault($locale);
+            }
             $services->get('MvcTranslator')->getDelegatedTranslator()->setLocale($locale);
         }
     }

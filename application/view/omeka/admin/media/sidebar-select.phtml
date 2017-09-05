@@ -19,9 +19,9 @@ $mediaFound = count($media) > 0;
         <?php foreach ($media as $m):?>
         <div class="resource item-set">
             <a href="#" class="sidebar-content select-resource" data-sidebar-content-url="<?php echo $escape($m->url('show-details')); ?>" data-sidebar-selector="#resource-details">
-                <img src="<?php echo $escape($m->thumbnailUrl('square')); ?>">
+                <?php echo $this->thumbnail($m, 'square'); ?>
                 <span class="resource-name">
-    <?php echo $escape($m->displayTitle()); ?>
+                    <?php echo $escape($m->displayTitle()); ?>
                 </span>
             </a>
         </div>

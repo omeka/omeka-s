@@ -125,6 +125,7 @@ class UserController extends AbstractActionController
         $activateUser = $this->userIsAllowed($userEntity, 'activate-user');
 
         $form = $this->getForm(UserForm::class, [
+            'user_id' => $id,
             'include_role' => $changeRole,
             'include_admin_roles' => $changeRoleAdmin,
             'include_is_active' => $activateUser,
@@ -164,6 +165,12 @@ class UserController extends AbstractActionController
                     return $view;
                 }
                 $this->messenger()->addSuccess('User successfully updated'); // @translate
+
+                if (!empty($values['user-settings'])) {
+                    foreach ($values['user-settings'] as $settingId => $settingValue) {
+                        $this->userSettings()->set($settingId, $settingValue, $id);
+                    }
+                }
 
                 if (!empty($passwordValues['password'])) {
                     if (!$this->userIsAllowed($userEntity, 'change-password')) {

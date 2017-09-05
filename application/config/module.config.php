@@ -332,6 +332,7 @@ return [
             'mailer' => 'Omeka\Service\ControllerPlugin\MailerFactory',
             'settings' => 'Omeka\Service\ControllerPlugin\SettingsFactory',
             'siteSettings' => 'Omeka\Service\ControllerPlugin\SiteSettingsFactory',
+            'userSettings' => 'Omeka\Service\ControllerPlugin\UserSettingsFactory',
             'status' => 'Omeka\Service\ControllerPlugin\StatusFactory',
             'viewHelpers' => 'Omeka\Service\ControllerPlugin\ViewHelpersFactory',
         ],
@@ -381,6 +382,7 @@ return [
             'formAsset' => 'Omeka\Form\View\Helper\FormAsset',
             'themeSettingAssetUrl' => 'Omeka\View\Helper\ThemeSettingAssetUrl',
             'formColorPicker' => 'Omeka\Form\View\Helper\FormColorPicker',
+            'thumbnail' => 'Omeka\View\Helper\Thumbnail',
         ],
         'factories' => [
             'api' => 'Omeka\Service\ViewHelper\ApiFactory',

@@ -69,7 +69,7 @@ abstract class AbstractResource extends AbstractDataType
         $valueResource = $value->valueResource();
         $html = '';
         if ('resource' == $value->type() && $thumbnail = $valueResource->primaryMedia()) {
-            $html .= sprintf('<img src="%s" title="%s" alt="%s thumbnail">', $escape($thumbnail->thumbnailUrl('square')), $escape($thumbnail->displayTitle()), $escape($thumbnail->mediaType()));
+            $html .= $view->thumbnail($thumbnail, 'square');
         }
         $html .= $valueResource->link($valueResource->displayTitle());
         return $html;

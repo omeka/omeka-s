@@ -15,7 +15,7 @@
         <div class="media-list">
         <?php foreach ($item->media() as $media): ?>
                 <a href="<?php echo $media->url(); ?>" class="media resource">
-                <img src="<?php echo $this->escapeHtml(($media->thumbnailUrl('medium'))); ?>" title="<?php echo $this->escapeHtml(($media->displayTitle())); ?>">
+                    <?php echo $this->thumbnail($media, 'medium', ['title' => $media->displayTitle()]); ?>
                 </a>
         <?php endforeach; ?>
         </div>

@@ -32,13 +32,7 @@ foreach ($items as $item):
     $body = $item->value($bodyTerm);
 ?>
     <li class="item resource">
-        <?php if ($primaryMedia = $item->primaryMedia()): ?>
-        <img
-            src="<?php echo $escape($primaryMedia->thumbnailUrl('medium')); ?>"
-            title="<?php echo $escape($heading); ?>"
-            alt="<?php echo $escape($primaryMedia->mediaType()); ?> thumbnail"
-        >
-        <?php endif; ?>
+        <?php echo $this->thumbnail($item, 'medium'); ?>
         <h4><?php echo $item->link($heading); ?></h4>
         <?php if ($body): ?>
         <div class="description"><?php echo $body; ?></div>

@@ -38,8 +38,9 @@ $attachmentRowTemplate = '
         } else if ($item) {
             $media = $item->primaryMedia();
         }
+
         if ($media) {
-            $thumbnail = '<img src="' . $escape($media->thumbnailUrl('square')) . '" title="' .  $escape($media->displayTitle()) . '" alt="' . $escape($media->mediaType()) . ' thumbnail">';
+            $thumbnail = $this->thumbnail($media, 'square');
         }
         ?>
         <div class="attachment">

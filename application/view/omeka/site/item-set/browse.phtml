@@ -10,13 +10,7 @@
 <ul class="resource-list">
     <?php foreach ($itemSets as $itemSet): ?>
     <li class="item-set resource">
-        <?php if ($primaryMedia = $itemSet->primaryMedia()): ?>
-        <img
-            src="<?php echo $escape($primaryMedia->thumbnailUrl('medium')); ?>"
-            title="<?php echo $escape($primaryMedia->displayTitle()); ?>"
-            alt="<?php echo $escape($primaryMedia->mediaType()); ?> thumbnail"
-        >
-        <?php endif; ?>
+        <?php echo $this->thumbnail($itemSet, 'medium'); ?>
         <h4><?php echo $itemSet->link($itemSet->displayTitle()); ?></h4>
         <?php if ($description = $itemSet->displayDescription()): ?>
         <div class="description"><?php echo $description; ?></div>

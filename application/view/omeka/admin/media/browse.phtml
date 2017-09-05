@@ -60,7 +60,7 @@ $sortHeadings = [
         ?>
             <tr>
                 <td>
-                    <img src="<?php echo $escape($media->thumbnailUrl('square')); ?>">
+                    <?php echo $this->thumbnail($media, 'square'); ?>
                     <span class="resource-name">
                         <?php echo $media->link($media->displayTitle(), 'show'); ?>
                     </span>

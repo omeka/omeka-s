@@ -33,6 +33,64 @@ abstract class AbstractTargetSettings extends AbstractSettings
         $this->targetId = $targetId;
     }
 
+    /**
+     * Set a setting
+     *
+     * Allows consumers to temporarily overwrite the target ID.
+     *
+     * @param string $id
+     * @param mixed $value
+     * @param int $targetId
+     */
+    public function set($id, $value, $targetId = null)
+    {
+        $originalTargetId = $this->targetId;
+        if ($targetId) {
+            $this->setTargetId($targetId);
+        }
+        parent::set($id, $value);
+        $this->setTargetId($originalTargetId);
+    }
+
+    /**
+     * Get a setting
+     *
+     * Allows consumers to temporarily overwrite the target ID.
+     *
+     * @param string $id
+     * @param mixed $default
+     * @param int $targetId
+     * @return mixed
+     */
+    public function get($id, $default = null, $targetId = null)
+    {
+        $originalTargetId = $this->targetId;
+        if ($targetId) {
+            $this->setTargetId($targetId);
+        }
+        $setting = parent::get($id, $default);
+        $this->setTargetId($originalTargetId);
+        return $setting;
+    }
+
+    /**
+     * Delete a setting
+     *
+     * Allows consumers to temporarily overwrite the target ID.
+     *
+     * @param string $id
+     * @param int $targetId
+     */
+    public function delete($id, $targetId = null)
+    {
+        $originalTargetId = $this->targetId;
+        if ($targetId) {
+            $this->setTargetId($targetId);
+        }
+        parent::delete($id);
+        $this->setTargetId($originalTargetId);
+    }
+
     protected function setCache()
     {
         if (!$this->targetId) {

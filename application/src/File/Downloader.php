@@ -43,7 +43,7 @@ class Downloader
      * Pass the $errorStore object if an error should raise an API validation
      * error.
      *
-     * @param string/\Zend\Uri\Http $uri
+     * @param string|\Zend\Uri\Http $uri
      * @param null|ErrorStore $errorStore
      * @return TempFile|false False on error
      */

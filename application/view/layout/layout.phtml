@@ -7,6 +7,7 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'
 $this->headLink()->appendStylesheet($this->assetUrl('css/style.css', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/global.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/admin.js', 'Omeka'));
 $this->trigger('view.layout');
 ?>
 <?php echo $this->doctype(); ?>

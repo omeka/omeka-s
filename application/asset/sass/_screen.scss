@@ -1958,7 +1958,7 @@ input[type="text"].value-language,
 
     .inputs {
         line-height: 1.5 * $spacing-large;
-        min-width: 70%;
+        width: 70%;
 
         &:only-child {
             width: 100%;

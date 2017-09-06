@@ -383,7 +383,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'collectionAction' => $request->getOption('collectionAction', 'replace'), // collection action carries over from parent request
             'flushEntityManager' => false, // Flush once, after hydrating all entities
             'responseContent' => 'resource', // Return entities to work directly on them
-            'finialize' => false, // Finalize only after flushing entities
+            'finalize' => false, // Finalize only after flushing entities
         ];
         foreach ($request->getIds() as $key => $id) {
             try {
@@ -444,7 +444,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $subrequestOptions = [
             'flushEntityManager' => false, // Flush once, after removing all entities
             'responseContent' => 'resource', // Return entities to work directly on them
-            'finialize' => false, // Finalize only after flushing entities
+            'finalize' => false, // Finalize only after flushing entities
         ];
         foreach ($request->getIds() as $key => $id) {
             try {

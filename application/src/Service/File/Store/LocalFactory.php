@@ -15,16 +15,22 @@ class LocalFactory implements FactoryInterface
      *
      * @return Local
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $logger = $serviceLocator->get('Omeka\Logger');
-        $viewHelpers = $serviceLocator->get('ViewHelperManager');
-        $serverUrl = $viewHelpers->get('ServerUrl');
-        $basePath = $viewHelpers->get('BasePath');
+        $config = $services->get('Config');
 
-        $localPath = OMEKA_PATH . '/files';
-        $webPath = $serverUrl($basePath('files'));
-        $fileStore = new Local($localPath, $webPath, $logger);
-        return $fileStore;
+        $basePath = $config['file_store']['local']['base_path'];
+        if (null === $basePath) {
+            $basePath = OMEKA_PATH . '/files';
+        }
+
+        $baseUri = $config['file_store']['local']['base_uri'];
+        if (null === $baseUri) {
+            $helpers = $services->get('ViewHelperManager');
+            $serverUrlHelper = $helpers->get('ServerUrl');
+            $basePathHelper = $helpers->get('BasePath');
+            $baseUri = $serverUrlHelper($basePathHelper('files'));
+        }
+        return new Local($basePath, $baseUri, $services->get('Omeka\Logger'));
     }
 }

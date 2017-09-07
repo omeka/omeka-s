@@ -22,7 +22,7 @@
     $from = $offset + 1;
     $to = ($currentPage < $pageCount) ? $offset + $perPage : $totalCount;
     ?>
-    <span class="row-count"><?php echo sprintf('%s–%s of %s', $from, $to, $totalCount); ?></span>
+    <span class="row-count"><?php echo sprintf($this->translate('%s–%s of %s'), $from, $to, $totalCount); ?></span>
 <?php else: ?>
     <?php echo $this->translate('0 results'); ?>
 <?php endif; ?>

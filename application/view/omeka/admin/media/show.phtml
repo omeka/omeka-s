@@ -58,9 +58,9 @@ $sectionNavs = [
     <?php endif; ?>
     <?php if ($media->hasThumbnails() || $media->hasOriginal()): ?>
     <div class="meta-group">
-        <h4>File Derivatives</h4>
+        <h4><?php echo $this->translate('File Derivatives'); ?></h4>
         <?php if ($media->hasOriginal()): ?>
-            <div class="value"><a href="<?php echo $escape($media->originalUrl()); ?>">original</a></div>
+            <div class="value"><a href="<?php echo $escape($media->originalUrl()); ?>"><?php echo $this->translate('original'); ?></a></div>
         <?php endif; ?>
         <?php if ($media->hasThumbnails()): ?>
             <div class="value"><a href="<?php echo $escape($media->thumbnailUrl('large')); ?>"><?php echo $this->translate('large'); ?></a></div>

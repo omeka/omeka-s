@@ -252,7 +252,7 @@ class Manager
 
         $response->setRequest($request);
 
-        // Return scalar content as-is; do not validate or finialize.
+        // Return scalar content as-is; do not validate or finalize.
         if (Request::SEARCH === $request->getOperation() && $request->getOption('returnScalar')) {
             return $response;
         }

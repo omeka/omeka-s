@@ -8,6 +8,9 @@ if (isset($resource)) {
     if ($resourceClass = $resource->resourceClass()) {
         $resourceClassSelect->setValue($resourceClass->id());
     }
+} else {
+    // Set the logged in user's default template when adding a resource.
+    $resourceTemplateSelect->setValue($this->userSetting('default_resource_template'));
 }
 ?>
 <fieldset id="resource-values"

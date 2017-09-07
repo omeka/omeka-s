@@ -2990,9 +2990,14 @@ body.sidebar-open #content {
 }
 
 .resource-templates .property.row {
+    display: flex;
 
     &.delete {
         background-color: $delete-bg;
+    }
+
+    &.delete .actions li:not(:last-child) {
+        display: none;
     }
 }
 

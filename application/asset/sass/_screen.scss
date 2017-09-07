@@ -3001,7 +3001,7 @@ body.sidebar-open #content {
     }
 }
 
-.resource-templates .property.row .sortable-handle {
+.resource-templates .property.row:not(.delete) .sortable-handle {
     display: inline-flex;
 }
 

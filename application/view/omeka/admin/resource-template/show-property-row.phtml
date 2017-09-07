@@ -18,9 +18,9 @@ $propertyId = $escape($property->id());
     <?php echo $escape($this->translate($property->label())); ?>
 
     <ul class="actions">
+        <li><a href="#" class="o-icon-more sidebar-content" aria-label="<?php echo $escape($this->translate('Details')); ?>" title="<?php echo $escape($this->translate('Details')); ?>" data-sidebar-content-url="<?php echo $escape($property->url('show-details')); ?>" data-sidebar-selector="#details"></a></li>
         <li><a href="#" class="o-icon-edit property-edit" aria-label="<?php echo $escape($this->translate('Edit property')); ?>" title="<?php echo $escape($this->translate('Edit property')); ?>"></a></li>
         <li><a href="#" class="o-icon-delete property-remove" aria-label="<?php echo $escape($this->translate('Remove property')); ?>" title="<?php echo $escape($this->translate('Remove property')); ?>"></a></li>
         <li><a href="#" class="o-icon-undo property-restore" aria-label="<?php echo $escape($this->translate('Restore value')); ?>" title="<?php echo $escape($this->translate('Restore value')); ?>" style="display: none;"></a></li>
-        <li><a href="#" class="o-icon-more sidebar-content" aria-label="<?php echo $escape($this->translate('Details')); ?>" title="<?php echo $escape($this->translate('Details')); ?>" data-sidebar-content-url="<?php echo $escape($property->url('show-details')); ?>" data-sidebar-selector="#details"></a></li>
     </ul>
 </li>

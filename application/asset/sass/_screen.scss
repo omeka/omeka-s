@@ -2848,9 +2848,10 @@ input[type="text"].value-language,
         font-size: $base-font-size;
         font-weight: bold;
         margin: 0 0 $spacing-medium 0;
-        padding-bottom: $spacing-medium;
+        padding: 0 $spacing-large $spacing-medium 0;
         position: relative;
         width: 100%;
+        word-wrap: break-word;
 
         &:after {
             content: "";

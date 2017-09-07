@@ -36,6 +36,12 @@ return [
         ],
     ],
     'temp_dir' => sys_get_temp_dir(),
+    'file_store' => [
+        'local' => [
+            'base_path' => null,
+            'base_uri' => null,
+        ],
+    ],
     'entity_manager' => [
         'is_dev_mode' => false,
         'mapping_classes_paths' => [

@@ -2989,37 +2989,15 @@ body.sidebar-open #content {
     vertical-align: top;
 }
 
-.resource-templates textarea {
-    height: 1.5 * $spacing-large;
-    width: 100%;
-}
-
-.resource-template .property.row {
-    padding: $spacing-small $spacing-small $spacing-small (2 * $spacing-large);
+.resource-templates .property.row {
 
     &.delete {
         background-color: $delete-bg;
     }
 }
 
-.resource-template .property.row .sortable-handle {
-    top: 0;
-    left: 0;
-    height: (1.5 * $spacing-large);
-    line-height: 1.5 * $base-line-height;
-    position: absolute;
-    padding-left: $spacing-small;
-
-    &:before {
-        top: $spacing-small;
-    }
-}
-
-.resource-template .property.row .actions {
-    position: absolute;
-    right: $spacing-small;
-    top: $spacing-small;
-    padding: 0 $spacing-small;
+.resource-templates .property.row .sortable-handle {
+    display: inline-flex;
 }
 
 .resource-templates #properties {
@@ -3028,21 +3006,21 @@ body.sidebar-open #content {
     padding: 0;
 }
 
-.resource-template #edit-sidebar {
+.resource-templates #edit-sidebar {
     padding-bottom: 2 * $spacing-large;
 }
 
-.resource-template #edit-sidebar .field h4,
-.resource-template #edit-sidebar .field h4 + span {
+.resource-templates #edit-sidebar .field h4,
+.resource-templates #edit-sidebar .field h4 + span {
     width: 100%;
 }
 
-.resource-template #edit-sidebar .field h4 + span {
+.resource-templates #edit-sidebar .field h4 + span {
     margin-bottom: $spacing-medium;
 }
 
-.resource-template #edit-sidebar .field label:not(:first-child),
-.resource-template #edit-sidebar .field .option label {
+.resource-templates #edit-sidebar .field label:not(:first-child),
+.resource-templates #edit-sidebar .field .option label {
     margin: 0;
     padding-bottom: $spacing-small;
 

@@ -402,6 +402,7 @@ return [
             'pagination' => 'Omeka\Service\ViewHelper\PaginationFactory',
             'params' => 'Omeka\Service\ViewHelper\ParamsFactory',
             'setting' => 'Omeka\Service\ViewHelper\SettingFactory',
+            'userSetting' => 'Omeka\Service\ViewHelper\UserSettingFactory',
             'siteSetting' => 'Omeka\Service\ViewHelper\SiteSettingFactory',
             'themeSetting' => 'Omeka\Service\ViewHelper\ThemeSettingFactory',
             'trigger' => 'Omeka\Service\ViewHelper\TriggerFactory',

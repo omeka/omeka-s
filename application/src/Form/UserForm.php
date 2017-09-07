@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Form\Element\ResourceSelect;
 use Omeka\Permissions\Acl;
 use Omeka\Settings\Settings;
 use Omeka\Settings\UserSettings;
@@ -115,7 +116,7 @@ class UserForm extends Form
             ]);
         }
 
-        $locale = $this->userSettings->get('locale', $this->getOption('user_id'));
+        $locale = $this->userSettings->get('locale', null, $this->getOption('user_id'));
         if (null === $locale) {
             $locale = $this->settings->get('locale');
         }
@@ -129,6 +130,26 @@ class UserForm extends Form
             'attributes' => [
                 'value' => $locale,
                 'class' => 'chosen-select',
+            ],
+        ]);
+        $this->get('user-settings')->add([
+            'name' => 'default_resource_template',
+            'type' => ResourceSelect::class,
+            'attributes' => [
+                'value' => $this->userSettings->get('default_resource_template', null, $this->getOption('user_id')),
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select a template', // @translate
+            ],
+            'options' => [
+                'label' => 'Default resource template', // @translate
+                'empty_option' => '',
+                'resource_value_options' => [
+                    'resource' => 'resource_templates',
+                    'query' => [],
+                    'option_text_callback' => function ($resourceTemplate) {
+                        return $resourceTemplate->label();
+                    },
+                ],
             ],
         ]);
 
@@ -185,6 +206,10 @@ class UserForm extends Form
 
         $inputFilter->get('user-settings')->add([
             'name' => 'locale',
+            'allow_empty' => true,
+        ]);
+        $inputFilter->get('user-settings')->add([
+            'name' => 'default_resource_template',
             'allow_empty' => true,
         ]);
 

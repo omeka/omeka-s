@@ -3,6 +3,9 @@ namespace Omeka\View\Helper;
 
 use Zend\View\Helper\AbstractHtmlElement;
 
+/**
+ * View helper for rendering a HTML hyperlink.
+ */
 class Hyperlink extends AbstractHtmlElement
 {
     /**

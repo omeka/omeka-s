@@ -6,7 +6,7 @@ use Omeka\Stdlib\Message;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * Helper to proxy the messenger controller plugin.
+ * View helper for proxing the messenger controller plugin.
  */
 class Messages extends AbstractHelper
 {

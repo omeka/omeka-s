@@ -3,6 +3,10 @@ namespace Omeka\View\Helper;
 
 use Zend\View\Helper\AbstractHtmlElement;
 
+/**
+ * View helper for building a hidden form input for every query in the URL query
+ * string.
+ */
 class QueryToHiddenInputs extends AbstractHtmlElement
 {
     /**

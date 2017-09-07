@@ -5,6 +5,9 @@ use Omeka\Api\Representation\SitePageRepresentation;
 use Zend\View\Exception;
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering site page pagination.
+ */
 class SitePagePagination extends AbstractHelper
 {
     /**

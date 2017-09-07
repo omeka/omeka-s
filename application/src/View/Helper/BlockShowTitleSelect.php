@@ -5,6 +5,9 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Zend\Form\Element\Select;
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering an attachment title display select element.
+ */
 class BlockShowTitleSelect extends AbstractHelper
 {
     /**

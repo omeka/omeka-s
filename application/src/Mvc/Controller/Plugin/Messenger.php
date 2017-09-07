@@ -6,7 +6,7 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\Session\Container;
 
 /**
- * Implement session-based messages.
+ * Controller plugin for implementing session-based messages.
  */
 class Messenger extends AbstractPlugin
 {

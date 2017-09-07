@@ -5,6 +5,9 @@ use DateTime;
 use Zend\I18n\View\Helper\DateFormat;
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering localized data.
+ */
 class i18n extends AbstractHelper
 {
     const DATE_FORMAT_NONE = 'none';

@@ -4,6 +4,9 @@ namespace Omeka\View\Helper;
 use Omeka\Stdlib\Paginator;
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering pagination.
+ */
 class Pagination extends AbstractHelper
 {
     /**

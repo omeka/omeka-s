@@ -4,7 +4,7 @@ namespace Omeka\Mvc\Controller\Plugin;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
- * Set browse default parameters.
+ * Controller plugin for setting browse default parameters.
  */
 class SetBrowseDefaults extends AbstractPlugin
 {

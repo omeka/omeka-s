@@ -3,6 +3,9 @@ namespace Omeka\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for returning a path to an asset.
+ */
 class AssetUrl extends AbstractHelper
 {
     const OMEKA_ASSETS_PATH = '%s/application/asset/%s';

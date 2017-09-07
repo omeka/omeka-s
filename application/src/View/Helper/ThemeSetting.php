@@ -4,7 +4,7 @@ namespace Omeka\View\Helper;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * Helper to get theme settings.
+ * View helper for getting theme settings.
  */
 class ThemeSetting extends AbstractHelper
 {

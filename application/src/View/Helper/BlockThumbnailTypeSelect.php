@@ -5,6 +5,9 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Zend\Form\Element\Select;
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering a thumbnail type select element.
+ */
 class BlockThumbnailTypeSelect extends AbstractHelper
 {
     /**
@@ -12,6 +15,11 @@ class BlockThumbnailTypeSelect extends AbstractHelper
      */
     protected $thumbnailTypes;
 
+    /**
+     * Construct the helper.
+     *
+     * @param array $thumbnailTypes
+     */
     public function __construct(array $thumbnailTypes)
     {
         $this->thumbnailTypes = $thumbnailTypes;

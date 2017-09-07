@@ -3,6 +3,9 @@ namespace Omeka\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering the property selector.
+ */
 class PropertySelector extends AbstractHelper
 {
     /**
@@ -13,6 +16,8 @@ class PropertySelector extends AbstractHelper
     /**
      * Return the property selector form control.
      *
+     * @param string $propertySelectorText
+     * @param bool $active
      * @return string
      */
     public function __invoke($propertySelectorText = null, $active = true)

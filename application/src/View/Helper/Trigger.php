@@ -6,6 +6,9 @@ use Zend\Mvc\Controller\PluginManager as ControllerPluginManager;
 use Zend\View\Helper\AbstractHelper;
 use Zend\EventManager\Event;
 
+/**
+ * View helper for triggering a view event.
+ */
 class Trigger extends AbstractHelper
 {
     /**

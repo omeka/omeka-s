@@ -4,6 +4,9 @@ namespace Omeka\View\Helper;
 use Zend\View\Helper\AbstractHelper;
 use Zend\View\Helper\Placeholder\Container\AbstractContainer;
 
+/**
+ * View helper for rendering a title heading for a page.
+ */
 class PageTitle extends AbstractHelper
 {
     /**

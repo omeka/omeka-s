@@ -5,7 +5,7 @@ use Omeka\Api\Manager as ApiManager;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * Helper for direct access to API read and search operations.
+ * View helper for direct access to API read and search operations.
  */
 class Api extends AbstractHelper
 {

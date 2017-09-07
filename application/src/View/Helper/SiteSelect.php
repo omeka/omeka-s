@@ -7,7 +7,7 @@ use Zend\View\Helper\AbstractHelper;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * A select menu containing all sites.
+ * View helper for rendering a select menu containing all sites.
  */
 class SiteSelect extends AbstractHelper
 {
@@ -16,11 +16,22 @@ class SiteSelect extends AbstractHelper
      */
     protected $formElementManager;
 
+    /**
+     * Construct the helper.
+     *
+     * @param ServiceLocatorInterface $formElementManager
+     */
     public function __construct(ServiceLocatorInterface $formElementManager)
     {
         $this->formElementManager = $formElementManager;
     }
 
+    /**
+     * Render a select menu containing all sites.
+     *
+     * @param array $spec
+     * @return string
+     */
     public function __invoke(array $spec = [])
     {
         $spec['type'] = Select::class;

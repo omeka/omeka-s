@@ -5,6 +5,9 @@ use Omeka\DataType\Manager as DataTypeManager;
 use Zend\Form\Element\Select;
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering data types.
+ */
 class DataType extends AbstractHelper
 {
     /**
@@ -14,6 +17,11 @@ class DataType extends AbstractHelper
 
     protected $dataTypes;
 
+    /**
+     * Construct the helper.
+     *
+     * @param DataTypeManager $dataTypeManager
+     */
     public function __construct(DataTypeManager $dataTypeManager)
     {
         $this->manager = $dataTypeManager;

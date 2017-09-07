@@ -7,7 +7,7 @@ use Zend\View\Helper\AbstractHelper;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * A select menu containing all resource classes.
+ * View helper for rendering a select menu containing all resource classes.
  */
 class ResourceClassSelect extends AbstractHelper
 {
@@ -16,11 +16,22 @@ class ResourceClassSelect extends AbstractHelper
      */
     protected $formElementManager;
 
+    /**
+     * Construct the helper.
+     *
+     * @param ServiceLocatorInterface $formElementManager
+     */
     public function __construct(ServiceLocatorInterface $formElementManager)
     {
         $this->formElementManager = $formElementManager;
     }
 
+    /**
+     * Render a select menu containing all resource classes.
+     *
+     * @param array $spec
+     * @return string
+     */
     public function __invoke(array $spec = [])
     {
         $spec['type'] = Select::class;

@@ -10,6 +10,9 @@ use Zend\Form\Element\Text;
 use Zend\Form\Factory;
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering media.
+ */
 class Media extends AbstractHelper
 {
     /**

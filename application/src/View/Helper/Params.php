@@ -5,7 +5,7 @@ use Zend\Mvc\Controller\Plugin\Params as ParamsPlugin;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * Helper to get params from the request.
+ * View helper for getting params from the request.
  */
 class Params extends AbstractHelper
 {

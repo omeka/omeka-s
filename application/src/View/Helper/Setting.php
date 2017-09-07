@@ -5,7 +5,7 @@ use Omeka\Settings\SettingsInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * Helper to get settings from the settings service.
+ * View helper for getting settings.
  */
 class Setting extends AbstractHelper
 {

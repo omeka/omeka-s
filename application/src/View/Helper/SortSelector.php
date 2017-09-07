@@ -3,6 +3,9 @@ namespace Omeka\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering a sorting form.
+ */
 class SortSelector extends AbstractHelper
 {
     /**
@@ -11,11 +14,11 @@ class SortSelector extends AbstractHelper
     const PARTIAL_NAME = 'common/sort-selector';
 
     /**
-     * Render form for sorting.
+     * Render sorting form.
      *
      * @param array $sortBy
      * @param string|null $partialName Name of view script, or a view model
-     * @return array
+     * @return string
      */
     public function __invoke($sortBy, $partialName = null)
     {

@@ -7,6 +7,9 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Site\BlockLayout\Manager as BlockLayoutManager;
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering block layouts.
+ */
 class BlockLayout extends AbstractHelper
 {
     /**

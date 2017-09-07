@@ -5,7 +5,7 @@ use Zend\I18n\Translator\TranslatorInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * Get a BCP 47-compliant value for the lang attribute.
+ * View helper for getting a BCP 47-compliant value for the lang attribute.
  */
 class Lang extends AbstractHelper
 {
@@ -15,6 +15,8 @@ class Lang extends AbstractHelper
     protected $translator;
 
     /**
+     * Construct the helper.
+     *
      * @param TranslatorInterface $translator
      */
     public function __construct(TranslatorInterface $translator)

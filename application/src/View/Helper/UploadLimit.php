@@ -3,6 +3,9 @@ namespace Omeka\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering the upload size limit.
+ */
 class UploadLimit extends AbstractHelper
 {
     const MEGABYTE_BYTES = 1048576;

@@ -3,6 +3,9 @@ namespace Omeka\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for rendering a sortable link.
+ */
 class SortLink extends AbstractHelper
 {
     /**

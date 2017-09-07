@@ -4,6 +4,9 @@ namespace Omeka\Mvc\Controller\Plugin;
 use Zend\Log\LoggerInterface;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
+/**
+ * Controller plugin for getting the logger.
+ */
 class Logger extends AbstractPlugin
 {
     /**
@@ -11,6 +14,11 @@ class Logger extends AbstractPlugin
      */
     protected $logger;
 
+    /**
+     * Construct the plugin.
+     *
+     * @param LoggerInterface $logger
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
@@ -18,8 +26,6 @@ class Logger extends AbstractPlugin
 
     /**
      * Get the logger
-     *
-     * Since this returns the Logger itself, all the normal logging methods are available.
      *
      * @return LoggerInterface
      */

@@ -4,6 +4,9 @@ namespace Omeka\View\Helper;
 use Omeka\Permissions\Acl;
 use Zend\View\Helper\AbstractHelper;
 
+/**
+ * View helper for authorizing the current user.
+ */
 class UserIsAllowed extends AbstractHelper
 {
     /**

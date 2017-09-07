@@ -9,7 +9,7 @@ use Zend\Form\Form;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
- * Provide passthrough methods to the API manager.
+ * Controller plugin for providing passthrough methods to the API manager.
  */
 class Api extends AbstractPlugin
 {
@@ -28,6 +28,11 @@ class Api extends AbstractPlugin
      */
     protected $throwValidationException = false;
 
+    /**
+     * Construct the plugin.
+     *
+     * @param Manager $api
+     */
     public function __construct(Manager $api)
     {
         $this->api = $api;

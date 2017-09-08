@@ -34,12 +34,6 @@ class Local implements StoreInterface
      */
     public function __construct($basePath, $baseUri, Logger $logger)
     {
-        if (!(is_dir($basePath) && is_writable($basePath))) {
-            throw new Exception\RuntimeException(
-                sprintf('Base path "%s" is not a writable directory.', $basePath)
-            );
-        }
-
         $this->basePath = realpath($basePath);
         $this->baseUri = $baseUri;
         $this->logger = $logger;
@@ -67,9 +61,9 @@ class Local implements StoreInterface
     {
         $localPath = $this->getLocalPath($storagePath);
         if (!file_exists($localPath)) {
-            $this->logger->warn(sprintf(
-                'Cannot delete file; file does not exist %s', $localPath
-            ));
+            $this->logger->warn(
+                sprintf('Cannot delete file; file does not exist %s', $localPath)
+            );
             return;
         }
         $status = unlink($localPath);
@@ -85,7 +79,7 @@ class Local implements StoreInterface
      */
     public function getUri($storagePath)
     {
-        return $this->baseUri . '/' . $storagePath;
+        return sprintf('%s/%s', $this->baseUri, $storagePath);
     }
 
     /**
@@ -98,10 +92,10 @@ class Local implements StoreInterface
     {
         if (preg_match('#(?:^|/)\.{2}(?:$|/)#', $storagePath)) {
             throw new Exception\RuntimeException(
-                sprintf('Illegal relative component in path "%s"',
-                    $storagePath));
+                sprintf('Illegal relative component in path "%s"', $storagePath)
+            );
         }
-        return $this->basePath . DIRECTORY_SEPARATOR . $storagePath;
+        return sprintf('%s/%s', $this->basePath, $storagePath);
     }
 
     /**
@@ -115,7 +109,6 @@ class Local implements StoreInterface
         if (!is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
-
         if (!is_writable($dir)) {
             throw new Exception\RuntimeException(
                 sprintf('Directory "%s" is not writable.', $dir)

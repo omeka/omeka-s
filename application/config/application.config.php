@@ -1,5 +1,7 @@
 <?php
-$reader = new Zend\Config\Reader\Ini;
+namespace Omeka;
+
+$reader = new \Zend\Config\Reader\Ini;
 return [
     'modules' => [
         'Zend\Form',
@@ -21,9 +23,9 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            'Omeka\Connection' => 'Omeka\Service\ConnectionFactory',
-            'Omeka\ModuleManager' => 'Omeka\Service\ModuleManagerFactory',
-            'Omeka\Status' => 'Omeka\Service\StatusFactory',
+            'Omeka\Connection' => Service\ConnectionFactory::class,
+            'Omeka\ModuleManager' => Service\ModuleManagerFactory::class,
+            'Omeka\Status' => Service\StatusFactory::class,
         ],
     ],
     'connection' => $reader->fromFile(OMEKA_PATH . '/config/database.ini'),

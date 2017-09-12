@@ -41,7 +41,7 @@ class Fallback implements LinkInterface
 
     public function getLabel(array $data, SiteRepresentation $site)
     {
-        return $this->getName();
+        return null;
     }
 
     public function toZend(array $data, SiteRepresentation $site)

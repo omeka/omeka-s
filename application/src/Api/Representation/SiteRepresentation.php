@@ -233,14 +233,15 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * Get the navigation helper for public-side nav for this site
      *
-     * @return \Zend\View\Helper\Navigation
+     * @return \Zend\View\Helper\Navigation\Menu
      */
     public function publicNav()
     {
-        $navHelper = $this->getViewHelper('Navigation');
-        $navTranslator = $this->getServiceLocator()->get('Omeka\Site\NavigationTranslator');
-
-        return $navHelper($this->getPublicNavContainer());
+        $helper = $this->getViewHelper('Navigation');
+        $nav = $helper($this->getPublicNavContainer())->menu();
+        // Turn off automatic translation.
+        $nav->setTranslatorEnabled(false);
+        return $nav;
     }
 
     /**

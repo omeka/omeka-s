@@ -429,6 +429,9 @@ return [
             'Zend\View\Helper\Navigation' => [
                 'Omeka\Service\Delegator\NavigationDelegatorFactory',
             ],
+            'Zend\View\Helper\HeadTitle' => [
+                'Omeka\Service\Delegator\HeadTitleDelegatorFactory',
+            ],
         ],
     ],
     'form_elements' => [

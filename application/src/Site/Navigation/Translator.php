@@ -2,6 +2,7 @@
 namespace Omeka\Site\Navigation;
 
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Site\Navigation\Link\LinkInterface;
 use Omeka\Site\Navigation\Link\Manager as LinkManager;
 use Zend\Mvc\I18n\Translator as I18n;
 
@@ -36,8 +37,9 @@ class Translator
             $linksOut = [];
             foreach ($linksIn as $key => $data) {
                 $linkType = $manager->get($data['type']);
-                $linksOut[$key] = $linkType->toZend($data['data'], $site);
-                $linksOut[$key]['label'] = $linkType->getLabel($data['data'], $site);
+                $linkData = $data['data'];
+                $linksOut[$key] = $linkType->toZend($linkData, $site);
+                $linksOut[$key]['label'] = $this->getLinkLabel($linkType, $linkData, $site);
                 if (isset($data['links'])) {
                     $linksOut[$key]['pages'] = $buildLinks($data['links']);
                 }
@@ -48,7 +50,7 @@ class Translator
         if (!$links) {
             // The site must have at least one page for navigation to work.
             $links = [[
-                'label' => 'Home',
+                'label' => $this->i18n->translate('Home'),
                 'route' => 'site',
                 'params' => [
                     'site-slug' => $site->slug(),
@@ -71,13 +73,12 @@ class Translator
             $linksOut = [];
             foreach ($linksIn as $data) {
                 $linkType = $manager->get($data['type']);
-                $linkLabel = $linkType->getLabel($data['data'], $site);
-                $linkData = $linkType->toJstree($data['data'], $site);
+                $linkData = $data['data'];
                 $linksOut[] = [
-                    'text' => $this->i18n->translate($linkLabel),
+                    'text' => $this->getLinkLabel($linkType, $data['data'], $site),
                     'data' => [
                         'type' => $data['type'],
-                        'data' => $linkData,
+                        'data' => $linkType->toJstree($linkData, $site),
                     ],
                     'children' => $data['links'] ? $buildLinks($data['links']) : [],
                 ];
@@ -112,5 +113,23 @@ class Translator
             return $pagesOut;
         };
         return $buildPages($jstree);
+    }
+
+    /**
+     * Get the label for a link.
+     *
+     * User-provided labels should be used as-is, while system-provided "backup" labels
+     * should be translated.
+     *
+     * @param LinkInterface $link
+     * @return string
+     */
+    public function getLinkLabel(LinkInterface $linkType, array $data, SiteRepresentation $site)
+    {
+        $label = $linkType->getLabel($data, $site);
+        if ($label) {
+            return $label;
+        }
+        return $this->i18n->translate($linkType->getName());
     }
 }

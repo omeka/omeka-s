@@ -24,7 +24,7 @@ class Browse implements LinkInterface
     public function getLabel(array $data, SiteRepresentation $site)
     {
         return isset($data['label']) && '' !== trim($data['label'])
-            ? $data['label'] : $this->getName();
+            ? $data['label'] : null;
     }
 
     public function toZend(array $data, SiteRepresentation $site)

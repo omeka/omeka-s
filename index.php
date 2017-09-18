@@ -25,7 +25,10 @@ try {
         $model->setTemplate('error/index');
         $model->setVariable('exception', $e);
         $content = $viewRenderer->render($model);
-        $parentModel = new ViewModel;
+        $parentModel = $application->getMvcEvent()->getViewModel();
+        if (!$parentModel) {
+            $parentModel = new ViewModel;
+        }
         $parentModel->setTemplate('layout/layout');
         $parentModel->setVariable('content', $viewRenderer->render($model));
         http_response_code(500);

@@ -4,12 +4,12 @@ $escape = $this->plugin('escapeHtml');
 <div class="template value" data-data-type="<?php echo $escape($this->dataType); ?>" role="group">
     <input type="hidden" class="property">
     <input type="hidden" class="type">
-    <div class="input-header">
+    <div class="input-body"><?php echo $this->dataType()->getTemplate($dataType); ?></div>
+    <div class="input-footer">
         <span class="restore-value"><?php echo $this->translate('Value to be removed'); ?></span>
         <ul class="actions">
             <li><a href="#" class="o-icon-delete remove-value" title="<?php echo $escape($this->translate('Remove value')); ?>" aria-label="<?php echo $escape($this->translate('Remove value')); ?>"></a></li>
             <li><a href="#" class="o-icon-undo restore-value" title="<?php echo $escape($this->translate('Restore value')); ?>" aria-label="<?php echo $escape($this->translate('Restore value')); ?>"></a></li>
         </ul>
     </div>
-    <div class="input-body"><?php echo $this->dataType()->getTemplate($dataType); ?></div>
 </div>

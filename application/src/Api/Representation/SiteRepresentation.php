@@ -233,14 +233,18 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * Get the navigation helper for public-side nav for this site
      *
-     * @return \Zend\View\Helper\Navigation\Menu
+     * @return \Zend\View\Helper\Navigation
      */
     public function publicNav()
     {
-        $helper = $this->getViewHelper('Navigation');
-        $nav = $helper($this->getPublicNavContainer())->menu();
-        // Turn off automatic translation.
-        $nav->setTranslatorEnabled(false);
+        // Build a new Navigation helper so these changes don't leak around to other places,
+        // then set it to always disable translation for any of its "child" helpers (menu,
+        // breadcrumb, etc.)
+        $helper = $this->getServiceLocator()->get('ViewHelperManager')->build('Navigation');
+        $helper->getPluginManager()->addInitializer(function ($container, $plugin) {
+            $plugin->setTranslatorEnabled(false);
+        });
+        $nav = $helper($this->getPublicNavContainer());
         return $nav;
     }
 

@@ -15,7 +15,7 @@ class ItemSetSelector extends AbstractHelper
      */
     public function __invoke()
     {
-        $query = ['is_open' => true];
+        $query = ['is_open' => true, 'sort_by' => 'owner_name'];
         $response = $this->getView()->api()->search('item_sets', $query);
 
         // Organize items sets by owner.
@@ -26,7 +26,6 @@ class ItemSetSelector extends AbstractHelper
             $itemSetOwners[$email]['owner'] = $owner;
             $itemSetOwners[$email]['item_sets'][] = $itemSet;
         }
-        ksort($itemSetOwners);
 
         return $this->getView()->partial(
             'common/item-set-selector',

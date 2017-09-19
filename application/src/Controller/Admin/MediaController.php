@@ -128,8 +128,7 @@ class MediaController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('media', $response->getContent());
-        $value = $this->params()->fromQuery('value');
-        $view->setVariable('searchValue', $value ? $value['in'][0] : '');
+        $view->setVariable('searchValue', $this->params()->fromQuery('search'));
         $view->setTerminal(true);
         return $view;
     }

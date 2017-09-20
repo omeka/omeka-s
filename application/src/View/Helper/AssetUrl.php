@@ -41,8 +41,8 @@ class AssetUrl extends AbstractHelper
      * Return a path to an asset.
      *
      * Returns the asset URL for the current theme if no module specified.
-     * Otherwise, the url depends on whether a fallback is allowed or not.
-     * - If a fallback is allowed and if the module is set and active, returns
+     * Otherwise, the url depends on whether an override is allowed or not.
+     * - If an override is allowed and if the module is set and active, returns
      * the asset URL for the current theme if the file exists, else returns the
      * asset URL for the specified module (without checking if the asset file
      * exists in it, because it’s a prerequisite). If the module is disabled,
@@ -55,10 +55,10 @@ class AssetUrl extends AbstractHelper
      *
      * @param string $file
      * @param string|null $module
-     * @param bool $fallback
+     * @param bool $override
      * @return string|null
      */
-    public function __invoke($file, $module = null, $fallback = false)
+    public function __invoke($file, $module = null, $override = false)
     {
         if (isset($this->externals[$module][$file])) {
             return $this->externals[$module][$file];
@@ -70,7 +70,7 @@ class AssetUrl extends AbstractHelper
                 $this->currentTheme->getId(), $file);
         }
 
-        if ($fallback && $this->currentTheme
+        if ($override && $this->currentTheme
             && ($module === 'Omeka' || array_key_exists($module, $this->activeModules))
         ) {
             $themeId = $this->currentTheme->getId();

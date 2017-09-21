@@ -1,8 +1,6 @@
 @import "font-awesome/font-awesome";
 
-[class*="o-icon-"]:before,
-[class*="sort"]:after,
-[class*="sort"]:before {
+[class*="o-icon-"]:before {
     @extend .#{$fa-css-prefix};
 }
 

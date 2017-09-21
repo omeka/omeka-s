@@ -3272,11 +3272,9 @@ body.sidebar-open #content {
 
     .block.html > div {
         border: 1px solid $border-gray;
-        clear: both;
     }
 
     .block .field {
-        clear: both;
         padding: 0;
         border-color: transparent;
         background-color: transparent;
@@ -3384,7 +3382,6 @@ body.sidebar-open #content {
         display: flex;
         align-items: center;
         position: relative;
-        clear: both;
         padding: 0 $spacing-small;
 
         &:not(:last-child) {
@@ -3401,34 +3398,12 @@ body.sidebar-open #content {
         margin: $spacing-small 0 0;
     }
 
-    .block label.thumbnail-option {
-        overflow: hidden;
-        border-bottom: 1px solid $border-gray;
-        padding-bottom: ($spacing-small - 1px);
-        display: block;
-        line-height: 1.5 * $spacing-large;
-    }
-
-    .block label.thumbnail-option:not(:first-of-type) {
-        padding-top: $spacing-small;
-    }
-
-    .block .thumbnail-option select {
-        width: 70%;
-        float: right;
-        font-weight: normal;
-    }
-
     .block .expand,
     .block .collapse {
         width: 100%;
-        display: block;
-        padding: 0;
-
-        &:after {
-            float: right;
-            margin-right: $spacing-small;
-        }
+        display: flex;
+        padding: 0 $spacing-small 0 0;
+        justify-content: space-between;
     }
 
     .block .field-meta .collapse + .collapsible {
@@ -3446,15 +3421,6 @@ body.sidebar-open #content {
         border-top: 1px solid $border-gray;
         padding: -1px 0 0 $spacing-large;
         margin-top: $spacing-small;
-    }
-
-    .block .collapse + .collapsible label.thumbnail-option:first-of-type {
-        padding-top: 0;
-    }
-
-    .block .collapse + .collapsible label.thumbnail-option:last-of-type {
-        border-bottom: 0;
-        padding-bottom: 0;
     }
 
     #attachment-options .option {

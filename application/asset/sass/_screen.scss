@@ -3212,6 +3212,10 @@ body.sidebar-open #content {
 
     /* @group ----- User Permissions ----- */
 
+    // The :not is pointless but gets this the proper precedence
+    tr.value.delete > td:not(.input-footer) {
+        display: table-cell;
+    }
     #site-user-permissions + .no-resources,
     #site-user-permissions.empty,
     tr.value:not(.delete) .o-icon-undo,

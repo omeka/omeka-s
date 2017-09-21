@@ -3212,10 +3212,6 @@ body.sidebar-open #content {
 
     /* @group ----- User Permissions ----- */
 
-    tr.value.delete > td:not(.input-header) {
-        display: table-cell;
-    }
-
     #site-user-permissions + .no-resources,
     #site-user-permissions.empty,
     tr.value:not(.delete) .o-icon-undo,
@@ -3257,17 +3253,13 @@ body.sidebar-open #content {
         overflow: hidden;
     }
 
-    .block .input-header {
+    .block .block-header {
         position: relative;
         display: flex;
+        align-items: center;
         background-color: opacify($gray-on-white, .08);
-        padding: 0 $spacing-small;
+        padding: $spacing-small;
         font-weight: bold;
-        line-height: 1.5 * $spacing-large;
-
-        .actions li {
-            vertical-align: top;
-        }
     }
 
     .block .block-content input[type="hidden"] + * {
@@ -3292,16 +3284,20 @@ body.sidebar-open #content {
         }
     }
 
-    .block.value.delete .input-header {
+    .block.delete .block-header {
         font-weight: normal;
     }
 
-    .block.value.delete span.restore-value {
+    .block.delete > *:not(.block-header) {
+        display: none;
+    }
+
+    .block.delete span.restore-value {
         padding: 0 (.5 * $spacing-small);
         text-transform: lowercase;
     }
 
-    .block.value.delete a.restore-value:before {
+    .block.delete a.restore-value:before {
         padding: 0;
     }
 

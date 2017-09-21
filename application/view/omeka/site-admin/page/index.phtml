@@ -20,9 +20,8 @@ $escape = $this->plugin('escapeHtml');
     </thead>
     <tbody>
     <?php foreach ($pages as $page): ?>
-    <tr class="page value">
+    <tr class="page">
         <td>
-            <span class="restore-value"><?php echo $this->translate('Page to be removed'); ?></span>
             <?php if (array_key_exists($page->id(), $indents)): ?>
             <?php echo str_repeat('<span class="indent"></span>', intval($indents[$page->id()])); ?>
             <?php endif; ?>

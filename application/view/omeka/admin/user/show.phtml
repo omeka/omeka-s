@@ -1,4 +1,4 @@
-<?php 
+<?php
     $this->htmlElement('body')->appendAttribute('class', 'users show');
     $escape = $this->plugin('escapeHtml');
 ?>
@@ -11,6 +11,7 @@
     <?php endif; ?>
 </div>
 
+<?php $this->trigger('view.show.before'); ?>
 <div class="property">
     <h4><?php echo $this->translate('Email'); ?></h4>
     <div class="value">
@@ -29,3 +30,4 @@
         <?php echo $escape($this->translate($user->displayRole())); ?>
     </div>
 </div>
+<?php $this->trigger('view.show.after'); ?>

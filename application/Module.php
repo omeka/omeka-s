@@ -141,9 +141,12 @@ class Module extends AbstractModule
             'view.advanced_search',
             function (ZendEvent $event) {
                 if ('item' === $event->getParam('resourceType')) {
-                    echo $event->getTarget()->partial('common/item-sets-advanced-search');
+                    $partials = $event->getParam('partials');
+                    $partials[] = 'common/advanced-search/item-sets';
+                    $event->setParam('partials', $partials);
                 }
-            }
+            },
+            2
         );
     }
 

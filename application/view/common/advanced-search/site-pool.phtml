@@ -1,0 +1,19 @@
+<?php
+// Prepare the site query.
+if (isset($query['site_id'])) {
+    $siteId = $query['site_id'] ;
+} else {
+    $siteId = null;
+}
+?>
+<div class="field">
+    <div class="field-meta">
+        <label for="site_id"><?php echo $this->translate('In site pool'); ?></label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->siteSelect([
+            'name' => 'site_id',
+            'attributes' => ['id' => 'site_id', 'value' => $siteId]
+        ]); ?>
+    </div>
+</div>

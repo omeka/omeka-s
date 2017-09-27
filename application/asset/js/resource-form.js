@@ -392,6 +392,7 @@
                     var classSelect = $('#resource-class-select');
                     if (data['o:resource_class'] && classSelect.val() === '') {
                         classSelect.val(data['o:resource_class']['o:id']);
+                        classSelect.trigger('chosen:updated');
                     }
                 }
 

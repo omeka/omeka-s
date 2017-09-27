@@ -73,7 +73,7 @@ class SearchFilters extends AbstractHelper
                             }
                             if ($propertyId) {
                                 try {
-                                    $propertyLabel = $api->read('properties', $propertyId)->getContent()->label();
+                                    $propertyLabel = $translate($api->read('properties', $propertyId)->getContent()->label());
                                 } catch (NotFoundException $e) {
                                     $propertyLabel = $translate('Unknown property');
                                 }

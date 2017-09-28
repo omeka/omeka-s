@@ -6,11 +6,11 @@ $escape = $this->plugin('escapeHtml');
     <div class="block-header">
         <span class="sortable-handle"></span>
         <span class="block-type"><?php echo $this->translate($layoutLabel); ?></span>
+        <span class="restore-value"><?php echo $this->translate('Block to be removed'); ?></span>
         <ul class="actions">
             <li><a href="#" class="o-icon-delete remove-value"></a></li>
             <li><a href="#" class="o-icon-undo restore-value"></a></li>
         </ul>
-        <span class="restore-value"><?php echo $this->translate('Block to be removed'); ?></span>
     </div>
     <div class="block-content">
     <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="<?php echo $escape($layout); ?>">

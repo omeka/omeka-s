@@ -3284,8 +3284,10 @@ body.sidebar-open #content {
         }
     }
 
-    .block.delete .block-header {
+    .block.delete > .block-header {
         font-weight: normal;
+        display: flex;
+        background: transparent;
     }
 
     .block.delete > *:not(.block-header) {
@@ -3295,6 +3297,7 @@ body.sidebar-open #content {
     .block.delete span.restore-value {
         padding: 0 (.5 * $spacing-small);
         text-transform: lowercase;
+        width: auto;
     }
 
     .block.delete a.restore-value:before {

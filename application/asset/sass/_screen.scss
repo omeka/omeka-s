@@ -2147,6 +2147,7 @@ input[type="text"].value-language,
         clear: both;
         background-color: #fff;
         width: calc(100% - #{1.5 * $spacing-large});
+        position: relative;
     }
 
     [data-data-type="resource"] .input-body {

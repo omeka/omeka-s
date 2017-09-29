@@ -1,5 +1,6 @@
 <?php
 $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 
 $partials = [
     'common/advanced-search/resource-class',
@@ -17,8 +18,12 @@ $filterResults = $this->trigger(
     true
 );
 $partials = $filterResults['partials'];
+?>
 
+<div class="advanced-search-content">
+<?php
 foreach ($partials as $partial) {
     echo $this->partial($partial, ['query' => $query]);
 }
 ?>
+</div>

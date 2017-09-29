@@ -2,6 +2,8 @@
 $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 
+
+$query = isset($query) ? $query : null;
 $partials = [
     'common/advanced-search/resource-class',
     'common/advanced-search/properties',
@@ -11,7 +13,7 @@ $partials = [
 $filterResults = $this->trigger(
     'view.advanced_search',
     [
-        'query' => isset($query) ? $query : null,
+        'query' => $query,
         'resourceType' => isset($resourceType) ? $resourceType : null,
         'partials' => $partials,
     ],

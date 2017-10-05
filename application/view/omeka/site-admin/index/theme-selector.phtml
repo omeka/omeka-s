@@ -16,6 +16,7 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
         $author = $theme->getIni('author');
         $authorLink = $theme->getIni('author_link');
         $description = $theme->getIni('description');
+        $version = $theme->getIni('version');
         $selected = isset($defaultThemeId) && $defaultThemeId == $theme->getId();
     ?>
     <div class="theme<?php echo Manager::STATE_ACTIVE !== $state ? ' invalid' : ''; ?>">
@@ -30,6 +31,11 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
 
         <h4><?php echo $this->escapeHtml($theme->getName()); ?></h4>
         <div class="theme-meta">
+            <?php if(!empty($version)): ?>
+            <span class="theme-version">
+                <?php echo sprintf($this->translate('version %s'), $version); ?>
+            </span>
+            <?php endif; ?>
             <span class="theme-author">
                 <?php if (isset($authorLink)): ?>
                 <a href="<?php echo $this->escapeHtml($authorLink); ?>" target="_blank"><?php echo $this->escapeHtml($author); ?></a>

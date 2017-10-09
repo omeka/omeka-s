@@ -283,6 +283,8 @@ body.sidebar-open #content {
 
 .sidebar {
     width: 100%;
+    top: 1.5 * $spacing-large;
+    z-index: 1000;
 }
 
 .sidebar.always-open {

@@ -27,6 +27,9 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 <?php $this->trigger("view.$action.form.after", ['form' => $form]); ?>
 <?php echo $this->form()->closeTag(); ?>
 
+<button id="property-selector-button" class="mobile-only"><?php echo $this->translate('Add property'); ?></button>
+
+
 <?php echo $this->propertySelector(); ?>
 <?php if (isset($resourceTemplate)): ?>
     <?php echo $this->deleteConfirm($resourceTemplate, 'resource template'); ?>

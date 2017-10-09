@@ -7,6 +7,12 @@
     }
 }
 
+.browse td:not(:first-of-type) .tablesaw-cell-content,
+#properties td:not(:first-of-type) .tablesaw-cell-content {
+    display: inline-block;
+}
+
+
 .tablesaw td:first-of-type {
     background-color: $gray-on-white;
 
@@ -15,6 +21,7 @@
         height: 0;
         overflow: hidden;
         padding: 0;
+        display: block;
     }
 
     .tablesaw-cell-content {

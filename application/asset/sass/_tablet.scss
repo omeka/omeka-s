@@ -198,12 +198,8 @@ td .o-icon-private {
     color: #676767;
     background-color: $gray-on-white;
     padding: $spacing-small $spacing-medium #{($spacing-small - 1px)};
-    border-bottom: 1px solid $border-gray;
-}
-
-#menu h5 {
-    padding: $spacing-small $spacing-medium #{($spacing-small - 1px)};
-    border-bottom: 1px solid $border-gray;
+    border: 1px solid $border-gray;
+    border-width: 1px 0;
 }
 
 #menu h4 {

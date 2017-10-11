@@ -309,13 +309,17 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      * Get values where the provided resource is the RDF object.
      *
      * @param Resource $resource
+     * @param array $orderBy
+     * @param int $limit
+     * @param int $offset
      * @return array
      */
-    public function getSubjectValues(Resource $resource)
-    {
+    public function getSubjectValues(Resource $resource, array $orderBy = null,
+        $limit = null, $offset = null
+    ) {
         return $this->getEntityManager()
             ->getRepository('Omeka\Entity\Value')
-            ->findBy(['valueResource' => $resource]);
+            ->findBy(['valueResource' => $resource], $orderBy, $limit, $offset);
     }
 
     /**

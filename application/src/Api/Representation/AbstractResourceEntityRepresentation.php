@@ -337,12 +337,15 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Get value representations where this resource is the RDF object.
      *
+     * @param array $orderBy
+     * @param int $limit
+     * @param int $offset
      * @return array
      */
-    public function subjectValues()
+    public function subjectValues(array $orderBy = [], $limit = null, $offset = null)
     {
         $subjectResourceValues = $this->getAdapter()
-            ->getSubjectValues($this->resource);
+            ->getSubjectValues($this->resource, $orderBy, $limit, $offset);
         $valueRepresentations = [];
         foreach ($subjectResourceValues as $subjectResourceValue) {
             $valueRepresentations[] = new ValueRepresentation(
@@ -422,8 +425,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         if (!isset($options['subjectValues'])) {
             $options['subjectValues'] = $this->subjectValues();
         }
-        if (!isset($options['objectValues'])) {
-            $options['objectValues'] = $this->objectValues();
+        if (!isset($options['limit'])) {
+            $options['limit'] = null;
+        }
+        if (!isset($options['offset'])) {
+            $options['offset'] = null;
         }
         return $partial($options['viewName'], $options);
     }

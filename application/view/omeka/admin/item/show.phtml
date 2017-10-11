@@ -32,10 +32,17 @@ $sectionNavs = [
 </div>
 
 <div id="item-linked" class="section">
-    <?php $subjects = $item->subjectValues(); ?>
-    <?php $objects = $item->objectValues(); ?>
-    <?php if ( $subjects || $objects ): ?>
-        <?php echo $item->displayLinkedResources(); ?>
+    <?php
+    $limit = 25;
+    $offset = $this->params()->fromQuery('offset', 0);
+    $subjectValues = $item->subjectValues(['id' => 'DESC'], $limit, $offset);
+    ?>
+    <?php if ($subjectValues): ?>
+        <?php echo $item->displayLinkedResources([
+            'subjectValues' => $subjectValues,
+            'limit' => $limit,
+            'offset' => $offset,
+        ]); ?>
     <?php else: ?>
         <div class="no-resources">
             <p><?php echo $this->translate('There are no linked resources for this item.'); ?></p>

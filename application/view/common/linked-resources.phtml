@@ -1,5 +1,22 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+$offsetPrevious = 0 > ($offset - $limit) ? null : $offset - $limit;
+$offsetNext = $limit > count($subjectValues) ? null : $offset + $limit;
+$previousText = (null === $offsetPrevious)
+    ? $this->translate('previous')
+    : sprintf(
+        '<a href="%s">%s</a>',
+        $escape($this->url(null, [], ['query' => ['offset' => $offsetPrevious], 'fragment' => 'item-linked'], true)),
+        $this->translate('previous')
+    );
+$nextText = (null === $offsetNext)
+    ? $this->translate('next')
+    : sprintf(
+        '<a href="%s">%s</a>',
+        $escape($this->url(null, [], ['query' => ['offset' => $offsetNext], 'fragment' => 'item-linked'], true)),
+        $this->translate('next')
+    );
+echo "$previousText | $nextText";
 ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
@@ -10,20 +27,6 @@ $escape = $this->plugin('escapeHtml');
         </tr>
     </thead>
     <tbody>
-        <?php if ($objectValues): ?>
-        <?php foreach ($objectValues as $value): ?>
-        <?php
-        $resource = $value->valueResource();
-        $property = $value->property();
-        ?>
-        <tr>
-            <td><?php echo $this->translate('This'); ?></td>
-            <td><?php echo $escape($property->label()); ?></td>
-            <td><?php echo $resource->link($resource->displayTitle()); ?></td>
-        </tr>
-        <?php endforeach; ?>
-        <?php endif; ?>
-
         <?php if ($subjectValues): ?>
         <?php foreach ($subjectValues as $value): ?>
         <?php
@@ -39,3 +42,4 @@ $escape = $this->plugin('escapeHtml');
         <?php endif; ?>
     </tbody>
 </table>
+<?php echo "$previousText | $nextText"; ?>

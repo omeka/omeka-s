@@ -120,6 +120,18 @@ class Manager implements ResourceInterface
     }
 
     /**
+     * Sort modules by bigger weight first (value "weight" in module.ini).
+     */
+    public function sortModules()
+    {
+        $sortedModules = array_map(function ($v) {
+            return (int) $v->getIni('weight');
+        }, $this->modules);
+        arsort($sortedModules);
+        $this->modules = array_replace($sortedModules, $this->modules);
+    }
+
+    /**
      * Get all registered modules
      *
      * @return array

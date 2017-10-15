@@ -142,6 +142,9 @@ class ModuleManagerFactory implements FactoryInterface
             }
         }
 
+        // Reorder modules by weight.
+        $manager->sortModules();
+
         return $manager;
     }
 }

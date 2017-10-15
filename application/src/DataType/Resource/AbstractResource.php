@@ -77,7 +77,7 @@ abstract class AbstractResource extends AbstractDataType
 
     public function toString(ValueRepresentation $value)
     {
-        return $value->valueResource()->url(null, true);
+        return (string) $value->valueResource()->url(null, true);
     }
 
     public function getJsonLd(ValueRepresentation $value)

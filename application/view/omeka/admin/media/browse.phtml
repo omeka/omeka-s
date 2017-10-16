@@ -64,6 +64,9 @@ $sortHeadings = [
                     <span class="resource-name">
                         <?php echo $media->link($media->displayTitle(), 'show'); ?>
                     </span>
+                    <?php if (!$media->isPublic()): ?>
+                        <span class="o-icon-private"></span>
+                    <?php endif; ?>
                     <ul class="actions">
                         <li><?php echo $media->link('', 'edit', [
                             'class' => 'o-icon-edit',

@@ -52,7 +52,9 @@ class ResourceTemplateController extends AbstractActionController
 
     public function importAction()
     {
-        $form = $this->getForm(ResourceTemplateImportForm::class);
+        $form = $this->params()->fromPost('import')
+            ? $this->getForm(ResourceTemplateReviewImportForm::class)
+            : $this->getForm(ResourceTemplateImportForm::class);
         $view = new ViewModel;
 
         if ($this->getRequest()->isPost()) {

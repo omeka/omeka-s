@@ -372,7 +372,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'author',
             'Omeka\Controller\Admin\ResourceTemplate',
-            'add-new-property-row'
+            ['add-new-property-row', 'import']
         );
         $acl->allow(
             'author',
@@ -622,7 +622,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             'Omeka\Controller\Admin\ResourceTemplate',
-            'add-new-property-row'
+            ['add-new-property-row', 'import']
         );
         $acl->allow(
             'editor',

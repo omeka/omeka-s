@@ -50,11 +50,13 @@ class SiteAdapter extends AbstractEntityAdapter
         if (Request::CREATE === $request->getOperation()) {
             // Automatically add the site owner as a site administrator.
             $user = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
-            $sitePermission = new SitePermission;
-            $sitePermission->setSite($entity);
-            $sitePermission->setUser($user);
-            $sitePermission->setRole('admin');
-            $entity->getSitePermissions()->add($sitePermission);
+            if ($user) {
+                $sitePermission = new SitePermission;
+                $sitePermission->setSite($entity);
+                $sitePermission->setUser($user);
+                $sitePermission->setRole('admin');
+                $entity->getSitePermissions()->add($sitePermission);
+            }
         }
         if ($this->shouldHydrate($request, 'o:theme')) {
             $entity->setTheme($request->getValue('o:theme'));

@@ -91,34 +91,57 @@ class ResourceBatchUpdateForm extends Form
             ],
         ]);
 
-        if ($resourceType === 'item') {
-            $this->add([
-                'name' => 'add_to_item_set',
-                'type' => ItemSetSelect::class,
-                'attributes' => [
-                    'id' => 'add-to-item-sets',
-                    'class' => 'chosen-select',
-                    'multiple' => true,
-                    'data-placeholder' => 'Select item sets', // @translate
-                ],
-                'options' => [
-                    'label' => 'Add to item sets', // @translate
-                ],
-            ]);
+        switch ($resourceType) {
+            case 'item':
+                $this->add([
+                    'name' => 'add_to_item_set',
+                    'type' => ItemSetSelect::class,
+                    'attributes' => [
+                        'id' => 'add-to-item-sets',
+                        'class' => 'chosen-select',
+                        'multiple' => true,
+                        'data-placeholder' => 'Select item sets', // @translate
+                    ],
+                    'options' => [
+                        'label' => 'Add to item sets', // @translate
+                    ],
+                ]);
 
-            $this->add([
-                'name' => 'remove_from_item_set',
-                'type' => ItemSetSelect::class,
-                'attributes' => [
-                    'id' => 'remove-from-item-sets',
-                    'class' => 'chosen-select',
-                    'multiple' => true,
-                    'data-placeholder' => 'Select item sets', // @translate
-                ],
-                'options' => [
-                    'label' => 'Remove from item sets', // @translate
-                ],
-            ]);
+                $this->add([
+                    'name' => 'remove_from_item_set',
+                    'type' => ItemSetSelect::class,
+                    'attributes' => [
+                        'id' => 'remove-from-item-sets',
+                        'class' => 'chosen-select',
+                        'multiple' => true,
+                        'data-placeholder' => 'Select item sets', // @translate
+                    ],
+                    'options' => [
+                        'label' => 'Remove from item sets', // @translate
+                    ],
+                ]);
+                break;
+
+            case 'media':
+                $this->add([
+                    'name' => 'clear_language',
+                    'type' => 'Checkbox',
+                    'options' => [
+                        'label' => 'Clear language', // @transalte
+                    ],
+                ]);
+
+                $this->add([
+                    'name' => 'language',
+                    'type' => 'Text',
+                    'attributes' => [
+                        'class' => 'value-language active',
+                    ],
+                    'options' => [
+                        'label' => 'Set language', // @transalte
+                    ],
+                ]);
+                break;
         }
 
         $this->add([
@@ -247,6 +270,12 @@ class ResourceBatchUpdateForm extends Form
         if (isset($data['clear_property_values'])) {
             $preData['remove']['clear_property_values'] = $data['clear_property_values'];
         }
+        if (!empty($data['clear_language'])) {
+            $preData['remove']['o:lang'] = null;
+        }
+        if (!empty($data['language'])) {
+            $preData['remove']['o:lang'] = $data['language'];
+        }
 
         // Set the data to append.
         if (!empty($data['value'])) {
@@ -279,6 +308,7 @@ class ResourceBatchUpdateForm extends Form
             'is_public', 'is_open', 'resource_template', 'resource_class',
             'remove_from_item_set', 'add_to_item_set',
             'clear_property_values', 'value',
+            'clear_language', 'language',
             'csrf', 'id', 'o:id',
         ];
 

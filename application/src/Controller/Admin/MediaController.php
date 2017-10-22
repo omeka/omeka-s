@@ -5,7 +5,6 @@ use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
 use Omeka\Form\ResourceBatchUpdateForm;
 use Omeka\Job\Dispatcher;
-use Omeka\Stdlib\Message;
 use Zend\Form\Form;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;

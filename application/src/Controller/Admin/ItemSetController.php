@@ -248,7 +248,8 @@ class ItemSetController extends AbstractActionController
             $resources[] = $this->api()->read('item_sets', $resourceId)->getContent();
         }
 
-        $form = $this->getForm(ResourceBatchUpdateForm::class);
+        $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'itemSet']);
+        $form->setAttribute('id', 'batch-edit-item-set');
         if ($this->params()->fromPost('batch_update')) {
             $data = $this->params()->fromPost();
             $form->setData($data);
@@ -295,7 +296,8 @@ class ItemSetController extends AbstractActionController
             $query['offset'], $query['sort_by'], $query['sort_order']);
         $count = $this->api()->search('item_sets', ['limit' => 0] + $query)->getTotalResults();
 
-        $form = $this->getForm(ResourceBatchUpdateForm::class);
+        $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'itemSet']);
+        $form->setAttribute('id', 'batch-edit-item-set');
         if ($this->params()->fromPost('batch_update')) {
             $data = $this->params()->fromPost();
             $form->setData($data);
@@ -342,10 +344,10 @@ class ItemSetController extends AbstractActionController
         $dataAppend = [];
 
         // Set the data to change and data to remove.
-        if (in_array($data['is_public'], ['0', '1'])) {
+        if (array_key_exists('is_public', $data) && in_array($data['is_public'], ['0', '1'])) {
             $dataRemove['o:is_public'] = $data['is_public'];
         }
-        if (in_array($data['is_open'], ['0', '1'])) {
+        if (array_key_exists('is_open', $data) && in_array($data['is_open'], ['0', '1'])) {
             $dataRemove['o:is_open'] = $data['is_open'];
         }
         if (-1 == $data['resource_template']) {

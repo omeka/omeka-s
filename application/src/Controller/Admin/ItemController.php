@@ -277,6 +277,7 @@ class ItemController extends AbstractActionController
         }
 
         $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'item']);
+        $form->setAttribute('id', 'batch-edit-item');
         if ($this->params()->fromPost('batch_update')) {
             $data = $this->params()->fromPost();
             $form->setData($data);
@@ -324,6 +325,7 @@ class ItemController extends AbstractActionController
         $count = $this->api()->search('items', ['limit' => 0] + $query)->getTotalResults();
 
         $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'item']);
+        $form->setAttribute('id', 'batch-edit-item');
         if ($this->params()->fromPost('batch_update')) {
             $data = $this->params()->fromPost();
             $form->setData($data);
@@ -370,7 +372,7 @@ class ItemController extends AbstractActionController
         $dataAppend = [];
 
         // Set the data to change and data to remove.
-        if (in_array($data['is_public'], ['0', '1'])) {
+        if (array_key_exists('is_public', $data) && in_array($data['is_public'], ['0', '1'])) {
             $dataRemove['o:is_public'] = $data['is_public'];
         }
         if (-1 == $data['resource_template']) {

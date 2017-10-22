@@ -391,6 +391,7 @@ return [
             'themeSettingAssetUrl' => View\Helper\ThemeSettingAssetUrl::class,
             'formColorPicker' => Form\View\Helper\FormColorPicker::class,
             'thumbnail' => View\Helper\Thumbnail::class,
+            'userBar' => View\Helper\UserBar::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,

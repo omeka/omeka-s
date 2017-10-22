@@ -3,12 +3,28 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
+use Omeka\Form\ResourceBatchUpdateForm;
+use Omeka\Job\Dispatcher;
+use Omeka\Stdlib\Message;
+use Zend\Form\Form;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Zend\Form\Form;
 
 class MediaController extends AbstractActionController
 {
+    /**
+     * @var Dispatcher
+     */
+    protected $dispatcher;
+
+    /**
+     * @param Dispatcher $dispatcher
+     */
+    public function __construct(Dispatcher $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
     public function searchAction()
     {
         $view = new ViewModel;
@@ -22,10 +38,23 @@ class MediaController extends AbstractActionController
         $response = $this->api()->search('media', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
+        $formDeleteSelected = $this->getForm(ConfirmForm::class);
+        $formDeleteSelected->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], true));
+        $formDeleteSelected->setButtonLabel('Confirm Delete'); // @translate
+        $formDeleteSelected->setAttribute('id', 'confirm-delete-selected');
+
+        $formDeleteAll = $this->getForm(ConfirmForm::class);
+        $formDeleteAll->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete-all'], true));
+        $formDeleteAll->setButtonLabel('Confirm Delete'); // @translate
+        $formDeleteAll->setAttribute('id', 'confirm-delete-all');
+        $formDeleteAll->get('submit')->setAttribute('disabled', true);
+
         $view = new ViewModel;
         $medias = $response->getContent();
         $view->setVariable('medias', $medias);
         $view->setVariable('resources', $medias);
+        $view->setVariable('formDeleteSelected', $formDeleteSelected);
+        $view->setVariable('formDeleteAll', $formDeleteAll);
         return $view;
     }
 
@@ -130,6 +159,155 @@ class MediaController extends AbstractActionController
         $view->setVariable('media', $response->getContent());
         $view->setVariable('searchValue', $this->params()->fromQuery('search'));
         $view->setTerminal(true);
+        return $view;
+    }
+
+    public function batchDeleteAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $resourceIds = $this->params()->fromPost('resource_ids', []);
+        if (!$resourceIds) {
+            $this->messenger()->addError('You must select at least one media to batch delete.'); // @translate
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $form = $this->getForm(ConfirmForm::class);
+        $form->setData($this->getRequest()->getPost());
+        if ($form->isValid()) {
+            $response = $this->api($form)->batchDelete('media', $resourceIds, [], ['continueOnError' => true]);
+            if ($response) {
+                $this->messenger()->addSuccess('Medias successfully deleted'); // @translate
+            }
+        } else {
+            $this->messenger()->addFormErrors($form);
+        }
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+    }
+
+    public function batchDeleteAllAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        // Derive the query, removing limiting and sorting params.
+        $query = json_decode($this->params()->fromPost('query', []), true);
+        unset($query['submit'], $query['page'], $query['per_page'], $query['limit'],
+            $query['offset'], $query['sort_by'], $query['sort_order']);
+
+        $form = $this->getForm(ConfirmForm::class);
+        $form->setData($this->getRequest()->getPost());
+        if ($form->isValid()) {
+            $job = $this->dispatcher->dispatch('Omeka\Job\BatchDelete', [
+                'resource' => 'media',
+                'query' => $query,
+            ]);
+            $this->messenger()->addSuccess('Deleting medias. This may take a while.'); // @translate
+        } else {
+            $this->messenger()->addFormErrors($form);
+        }
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+    }
+
+    /**
+     * Batch update selected medias.
+     */
+    public function batchEditAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $resourceIds = $this->params()->fromPost('resource_ids', []);
+        if (!$resourceIds) {
+            $this->messenger()->addError('You must select at least one media to batch edit.'); // @translate
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $resources = [];
+        foreach ($resourceIds as $resourceId) {
+            $resources[] = $this->api()->read('media', $resourceId)->getContent();
+        }
+
+        $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'media']);
+        $form->setAttribute('id', 'batch-edit-media');
+        if ($this->params()->fromPost('batch_update')) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+
+            if ($form->isValid()) {
+                $data = $form->preprocessData();
+
+                foreach ($data as $collectionAction => $properties) {
+                    $this->api($form)->batchUpdate('media', $resourceIds, $properties, [
+                        'continueOnError' => true,
+                        'collectionAction' => $collectionAction,
+                    ]);
+                }
+
+                $this->messenger()->addSuccess('Medias successfully edited'); // @translate
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        $view->setVariable('resources', $resources);
+        $view->setVariable('query', []);
+        $view->setVariable('count', null);
+        return $view;
+    }
+
+    /**
+     * Batch update all medias returned from a query.
+     */
+    public function batchEditAllAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        // Derive the query, removing limiting and sorting params.
+        $query = json_decode($this->params()->fromPost('query', []), true);
+        unset($query['submit'], $query['page'], $query['per_page'], $query['limit'],
+            $query['offset'], $query['sort_by'], $query['sort_order']);
+        $count = $this->api()->search('media', ['limit' => 0] + $query)->getTotalResults();
+
+        $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'media']);
+        $form->setAttribute('id', 'batch-edit-media');
+        if ($this->params()->fromPost('batch_update')) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+
+            if ($form->isValid()) {
+                $data = $form->preprocessData();
+
+                $job = $this->dispatcher->dispatch('Omeka\Job\BatchUpdate', [
+                    'resource' => 'media',
+                    'query' => $query,
+                    'data' => isset($data['replace']) ? $data['replace'] : [],
+                    'data_remove' => isset($data['remove']) ? $data['remove'] : [],
+                    'data_append' => isset($data['append']) ? $data['append'] : [],
+                ]);
+
+                $this->messenger()->addSuccess('Editing medias. This may take a while.'); // @translate
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setTemplate('omeka/admin/media/batch-edit.phtml');
+        $view->setVariable('form', $form);
+        $view->setVariable('resources', []);
+        $view->setVariable('query', $query);
+        $view->setVariable('count', $count);
         return $view;
     }
 }

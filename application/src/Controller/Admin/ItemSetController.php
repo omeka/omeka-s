@@ -255,7 +255,7 @@ class ItemSetController extends AbstractActionController
             $form->setData($data);
 
             if ($form->isValid()) {
-                list($dataRemove, $dataAppend) = $this->preprocessBatchUpdateData($data);
+                list($dataRemove, $dataAppend) = $form->preprocessData();
 
                 $this->api($form)->batchUpdate('item_sets', $resourceIds, $dataRemove, [
                     'continueOnError' => true,
@@ -303,7 +303,7 @@ class ItemSetController extends AbstractActionController
             $form->setData($data);
 
             if ($form->isValid()) {
-                list($dataRemove, $dataAppend) = $this->preprocessBatchUpdateData($data);
+                list($dataRemove, $dataAppend) = $form->preprocessData();
 
                 $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'item_sets',
@@ -326,67 +326,5 @@ class ItemSetController extends AbstractActionController
         $view->setVariable('query', $query);
         $view->setVariable('count', $count);
         return $view;
-    }
-
-    /**
-     * Preprocess batch update data.
-     *
-     * Batch update data contains instructions on what to update. It needs to be
-     * preprocessed before it's sent to the API.
-     *
-     * @param array $data
-     * @return array An array containing the collectionAction=remove data as the
-     * first element and the collectionAction=append data as the second.
-     */
-    protected function preprocessBatchUpdateData(array $data)
-    {
-        $dataRemove = [];
-        $dataAppend = [];
-
-        // Set the data to change and data to remove.
-        if (array_key_exists('is_public', $data) && in_array($data['is_public'], ['0', '1'])) {
-            $dataRemove['o:is_public'] = $data['is_public'];
-        }
-        if (array_key_exists('is_open', $data) && in_array($data['is_open'], ['0', '1'])) {
-            $dataRemove['o:is_open'] = $data['is_open'];
-        }
-        if (-1 == $data['resource_template']) {
-            $dataRemove['o:resource_template'] = ['o:id' => null];
-        } elseif (is_numeric($data['resource_template'])) {
-            $dataRemove['o:resource_template'] = ['o:id' => $data['resource_template']];
-        }
-        if (-1 == $data['resource_class']) {
-            $dataRemove['o:resource_class'] = ['o:id' => null];
-        } elseif (is_numeric($data['resource_class'])) {
-            $dataRemove['o:resource_class'] = ['o:id' => $data['resource_class']];
-        }
-        if (isset($data['clear_property_values'])) {
-            $dataRemove['clear_property_values'] = $data['clear_property_values'];
-        }
-
-        // Set the data to append.
-        if (isset($data['value'])) {
-            foreach ($data['value'] as $value) {
-                $valueObj = [
-                    'property_id' => $value['property_id'],
-                    'type' => $value['type'],
-                ];
-                switch ($value['type']) {
-                    case 'uri':
-                        $valueObj['@id'] = $value['id'];
-                        $valueObj['o:label'] = $value['label'];
-                        break;
-                    case 'resource':
-                        $valueObj['value_resource_id'] = $value['value_resource_id'];
-                        break;
-                    case 'literal':
-                    default:
-                        $valueObj['@value'] = $value['value'];
-                }
-                $dataAppend[$value['property_id']][] = $valueObj;
-            }
-        }
-
-        return [$dataRemove, $dataAppend];
     }
 }

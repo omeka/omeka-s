@@ -124,15 +124,19 @@ class RdfImporter
             if (!$this->isMember($resource, $namespaceUri)) {
                 continue;
             }
+
             // Get the vocabulary's classes.
-            if (in_array($resource->type(), $this->classTypes)) {
+            $intersection = array_intersect($resource->types(), $this->classTypes);
+            if (count($intersection) > 0) {
                 $members['classes'][$resource->localName()] = [
                     'label' => $this->getLabel($resource, $resource->localName()),
                     'comment' => $this->getComment($resource, $options['comment_property']),
                 ];
             }
+
             // Get the vocabulary's properties.
-            if (in_array($resource->type(), $this->propertyTypes)) {
+            $intersection = array_intersect($resource->types(), $this->propertyTypes);
+            if (count($intersection) > 0) {
                 $members['properties'][$resource->localName()] = [
                     'label' => $this->getLabel($resource, $resource->localName()),
                     'comment' => $this->getComment($resource, $options['comment_property']),

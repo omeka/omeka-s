@@ -309,17 +309,32 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      * Get values where the provided resource is the RDF object.
      *
      * @param Resource $resource
+     * @param int $page
+     * @param int $perPage
      * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
      * @return array
      */
-    public function getSubjectValues(Resource $resource, array $orderBy = null,
-        $limit = null, $offset = null
-    ) {
+    public function getSubjectValues(Resource $resource, $page = null, $perPage = null, array $orderBy = null)
+    {
+        $offset = (is_numeric($page) && is_numeric($perPage))
+            ? (($page - 1) * $perPage)
+            : null;
         return $this->getEntityManager()
             ->getRepository('Omeka\Entity\Value')
-            ->findBy(['valueResource' => $resource], $orderBy, $limit, $offset);
+            ->findBy(['valueResource' => $resource], $orderBy, $perPage, $offset);
+    }
+
+    /**
+     * Get the total count of the provided resource's subject values.
+     *
+     * @return int
+     */
+    public function getSubjectValueTotalCount(Resource $resource)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT COUNT(v.id) FROM Omeka\Entity\Value v WHERE v.valueResource = :resource')
+            ->setParameters(['resource' => $resource])
+            ->getSingleScalarResult();
     }
 
     /**

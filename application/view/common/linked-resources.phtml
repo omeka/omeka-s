@@ -1,23 +1,28 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$offsetPrevious = 0 > ($offset - $limit) ? null : $offset - $limit;
-$offsetNext = $limit > count($subjectValues) ? null : $offset + $limit;
-$previousText = (null === $offsetPrevious)
+
+$fragment = 'item-linked';
+if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResource)) {
+    $fragment = 'item-set-linked';
+}
+
+$previousText = ($page <= 1)
     ? $this->translate('previous')
     : sprintf(
         '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['offset' => $offsetPrevious], 'fragment' => 'item-linked'], true)),
+        $escape($this->url(null, [], ['query' => ['page' => $page - 1], 'fragment' => $fragment], true)),
         $this->translate('previous')
     );
-$nextText = (null === $offsetNext)
+
+$nextText = (($page * $perPage) >= $totalCount)
     ? $this->translate('next')
     : sprintf(
         '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['offset' => $offsetNext], 'fragment' => 'item-linked'], true)),
+        $escape($this->url(null, [], ['query' => ['page' => $page + 1], 'fragment' => $fragment], true)),
         $this->translate('next')
     );
-echo "$previousText | $nextText";
 ?>
+<?php echo "$previousText | $nextText"; ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>

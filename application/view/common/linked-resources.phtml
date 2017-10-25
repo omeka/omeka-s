@@ -6,6 +6,13 @@ if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResour
     $fragment = 'item-set-linked';
 }
 
+$firstText = ($page <= 1)
+    ? $this->translate('first')
+    : sprintf(
+        '<a href="%s">%s</a>',
+        $escape($this->url(null, [], ['query' => ['page' => 1], 'fragment' => $fragment], true)),
+        $this->translate('first')
+    );
 $previousText = ($page <= 1)
     ? $this->translate('previous')
     : sprintf(
@@ -13,7 +20,6 @@ $previousText = ($page <= 1)
         $escape($this->url(null, [], ['query' => ['page' => $page - 1], 'fragment' => $fragment], true)),
         $this->translate('previous')
     );
-
 $nextText = (($page * $perPage) >= $totalCount)
     ? $this->translate('next')
     : sprintf(
@@ -21,8 +27,16 @@ $nextText = (($page * $perPage) >= $totalCount)
         $escape($this->url(null, [], ['query' => ['page' => $page + 1], 'fragment' => $fragment], true)),
         $this->translate('next')
     );
+$lastText = (($page * $perPage) >= $totalCount)
+    ? $this->translate('last')
+    : sprintf(
+        '<a href="%s">%s</a>',
+        $escape($this->url(null, [], ['query' => ['page' => ceil($totalCount / $perPage)], 'fragment' => $fragment], true)),
+        $this->translate('last')
+    );
+$pagination = sprintf('%s | %s | %s | %s (%s total links)', $firstText, $previousText, $nextText, $lastText, $totalCount);
 ?>
-<?php echo "$previousText | $nextText"; ?>
+<?php echo $pagination; ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
@@ -47,4 +61,4 @@ $nextText = (($page * $perPage) >= $totalCount)
         <?php endif; ?>
     </tbody>
 </table>
-<?php echo "$previousText | $nextText"; ?>
+<?php echo $pagination; ?>

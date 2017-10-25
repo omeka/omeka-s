@@ -108,10 +108,10 @@ $this->plugin('formRow')->setPartial(null);
                 );
                 if ($canBeUninstalled && $this->userIsAllowed('Omeka\Module\Manager', 'uninstall')):
                 ?>
-                <a href="#"
-                    data-sidebar-content-url="<?php echo $escape($this->url(null, ['action' => 'uninstall-confirm'], ['query' => ['id' => $module->getId()]], true)); ?>"
-                    class="o-icon-uninstall red button sidebar-content"
-                    aria-label="<?php echo $escape($this->translate('Uninstall')); ?>"><?php echo $escape($this->translate('Uninstall')); ?></a>
+                <?php echo $this->hyperlink($this->translate('Uninstall'), '#', [
+                    'data-sidebar-content-url' => $this->url(null, ['action' => 'uninstall-confirm'], ['query' => ['id' => $module->getId()]], true),
+                    'class' => 'o-icon-uninstall red button sidebar-content',
+                ]); ?>
                 <?php endif; ?>
 
                 <?php
@@ -138,10 +138,10 @@ $this->plugin('formRow')->setPartial(null);
         <?php endforeach; ?>
 </div>
 <div class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
     <div class="sidebar-content"></div>
 </div>
 

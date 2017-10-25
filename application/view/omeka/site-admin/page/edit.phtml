@@ -37,7 +37,10 @@ $escape = $this->plugin('escapeHtml');
         <div id="attachment-item"></div>
         <div id="attachment-caption" class="option">
             <h3><?php echo $this->translate('Caption'); ?></h3>
-            <a href="#" class="collapse" aria-label="<?php echo $this->translate('Collapse'); ?>" title="<?php echo $this->translate('Collapse'); ?>"></a>
+            <?php echo $this->hyperlink('', '#', [
+                'class' => 'collapse',
+                'title' => $this->translate('Collapse'),
+            ]); ?>
             <div class="collapsible">
                 <textarea class="caption wysiwyg"></textarea>
             </div>

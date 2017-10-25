@@ -52,8 +52,14 @@ $roles = [
                 </select></td>
                 <td>
                     <ul class="actions">
-                        <li><a href="#" class="o-icon-delete" aria-label="<?php echo $delete; ?>" title="<?php echo $delete; ?>"></a></li>
-                        <li><a href="#" class="o-icon-undo" aria-label="<?php echo $restore; ?>" title="<?php echo $restore; ?>"></a></li>
+                        <li><?php echo $this->hyperlink('', '#', [
+                            'class' => 'o-icon-delete',
+                            'title' => $delete,
+                        ]); ?></li>
+                        <li><?php echo $this->hyperlink('', '#', [
+                            'class' => 'o-icon-undo',
+                            'title' => $restore,
+                        ]); ?></li>
                     </ul>
                 </td>
                 <?php $index++; ?>
@@ -114,8 +120,8 @@ foreach ($roles as $key => $value) {
 $userRowTemplate .= '</select></td>
     <td>
         <ul class="actions">
-            <li><a href="#" class="o-icon-delete" aria-label="' . $delete . '" title="' . $delete . '"></a></li>
-            <li><a href="#" class="o-icon-undo" aria-label="' . $restore . '" title="' . $restore . '"></a></li>
+            <li>' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $delete]) . '</li>' .
+            '<li>' . $this->hyperlink('', '#', ['class' => 'o-icon-undo', 'title' => $restore]) . '</li>
         </ul>
     </td>
 </tr>

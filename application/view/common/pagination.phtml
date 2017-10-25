@@ -7,13 +7,13 @@
     </form>
 
     <?php if ($currentPage != 1): ?>
-    <a href="<?php echo $this->escapeHtml($previousPageUrl); ?>" class="previous o-icon-prev button" aria-label=" <?php echo $this->escapeHtml($this->translate('Previous')); ?>"></a>
+    <?php echo $this->hyperlink('', $previousPageUrl, ['class' => 'previous o-icon-prev button', 'title' => $this->translate('Previous')]); ?>
     <?php else: ?>
     <span class="previous o-icon-prev button inactive"></span>
     <?php endif; ?>
 
     <?php if ($currentPage < $pageCount): ?>
-    <a href="<?php echo $this->escapeHtml($nextPageUrl); ?>" class="next o-icon-next button" aria-label=" <?php echo $this->escapeHtml($this->translate('Next')); ?>"></a>
+    <?php echo $this->hyperlink('', $nextPageUrl, ['class' => 'next o-icon-next button', 'title' => $this->translate('Next')]); ?>
     <?php else: ?>
     <span class="next o-icon-next button inactive"></span>
     <?php endif; ?>

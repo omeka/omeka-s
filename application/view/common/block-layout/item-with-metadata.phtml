@@ -7,17 +7,19 @@
         <div class="property">
             <h4><?php echo $this->translate('Item sets'); ?></h4>
             <?php foreach ($item->itemSets() as $itemSet): ?>
-            <div class="value"><a href="<?php echo $this->escapeHtml(($itemSet->url())); ?>"><?php echo $itemSet->displayTitle(); ?></a></div>
+            <div class="value"><?php echo $itemSet->link($itemSet->displayTitle()); ?></div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
     <?php if($item->media()): ?>
         <div class="media-list">
-        <?php foreach ($item->media() as $media): ?>
-                <a href="<?php echo $media->url(); ?>" class="media resource">
-                    <?php echo $this->thumbnail($media, 'medium', ['title' => $media->displayTitle()]); ?>
-                </a>
-        <?php endforeach; ?>
+        <?php
+        foreach ($item->media() as $media):
+            echo $media->linkRaw($this->thumbnail($media, 'medium', ['title' => $media->displayTitle()]), null, [
+                'class' => 'media resource'
+            ]);
+        endforeach;
+        ?>
         </div>
     <?php endif; ?>
     </div>

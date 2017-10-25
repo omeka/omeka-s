@@ -29,24 +29,17 @@ $escape = $this->plugin('escapeHtml');
             <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
             <ul class="actions">
                 <?php if ($page->userIsAllowed('update')): ?>
-                <li>
-                    <?php
-                    echo $page->link('', 'edit', [
-                        'class' => 'o-icon-edit',
-                        'aria-label' => $this->translate('Edit'),
-                        'title' => $this->translate('Edit'),
-                    ]);
-                    ?>
-                </li>
+                <li><?php echo $page->link('', 'edit', [
+                    'class' => 'o-icon-edit',
+                    'title' => $this->translate('Edit'),
+                ]); ?></li>
                 <?php endif; ?>
                 <?php if ($page->userIsAllowed('delete')): ?>
-                <li>
-                    <a href="#" class="o-icon-delete sidebar-content"
-                        title="<?php echo $this->translate('Delete page'); ?>"
-                        aria-label="<?php echo $this->translate('Delete page'); ?>"
-                        data-sidebar-content-url="<?php echo $escape($page->url('delete-confirm')); ?>"
-                    ></a>
-                </li>
+                <li><?php echo $this->hyperlink('', '#', [
+                    'class' => 'o-icon-delete sidebar-content',
+                    'title' => $this->translate('Delete page'),
+                    'data-sidebar-content-url' => $page->url('delete-confirm'),
+                ]); ?></li>
                 <?php endif; ?>
             </ul>
         </td>
@@ -57,10 +50,10 @@ $escape = $this->plugin('escapeHtml');
 </table>
 
 <div class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
     <div class="sidebar-content"></div>
 </div>
 <?php endif; ?>

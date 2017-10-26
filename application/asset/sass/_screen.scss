@@ -2691,7 +2691,7 @@ input[type="text"].value-language,
         }
     }
 
-    .resource {
+    .resource a {
         display: flex;
         align-items: center;
     }
@@ -2708,25 +2708,25 @@ input[type="text"].value-language,
 
     /* @group ----- Item: Show----- */
 
-    .property .value a {
+    .property .value img + .resource-name {
         width: calc(100% - #{1.5 * $spacing-large});
     }
 
-    .property .value a:after {
+    .property .value .resource-name:after {
         font-family: "FontAwesome";
         display: inline-block;
         margin-left: .5em;
     }
 
-    .property .value.uri a:after {
+    .property .value.uri .resource-name:after {
         content: $fa-var-external-link-square;
     }
 
-    .property .value.items a:after {
+    .property .value.items .resource-name:after {
         content: $fa-var-cube;
     }
 
-    .property .value.media a:after {
+    .property .value.media .resource-name:after {
         content: $fa-var-image;
     }
 
@@ -2738,7 +2738,7 @@ input[type="text"].value-language,
         margin-right: $spacing-small;
     }
 
-    .property .value.item_sets a:after {
+    .property .value.item_sets .resource-name:after {
         content: $fa-var-cubes;
     }
 

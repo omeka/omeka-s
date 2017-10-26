@@ -67,12 +67,11 @@ abstract class AbstractResource extends AbstractDataType
     {
         $escape = $view->plugin('escapeHtml');
         $valueResource = $value->valueResource();
-        $html = '';
-        if ('resource' == $value->type() && $thumbnail = $valueResource->primaryMedia()) {
-            $html .= $view->thumbnail($thumbnail, 'square');
+        $valueLinkContent = '<span class="resource-name">' . $escape($valueResource->displayTitle()) . '</span>';
+        if ($thumbnail = $valueResource->primaryMedia()) {
+            $valueLinkContent = $view->thumbnail($thumbnail, 'square') . $valueLinkContent;
         }
-        $html .= $valueResource->link($valueResource->displayTitle());
-        return $html;
+        return $valueResource->linkRaw($valueLinkContent);
     }
 
     public function toString(ValueRepresentation $value)

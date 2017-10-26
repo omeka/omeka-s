@@ -489,11 +489,15 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @param string $thumbnailType Type of thumbnail to show
      * @param string|null $titleDefault See $default param for displayTitle()
      * @param string|null $action Action to link to (see link() and linkRaw())
-     *
+     * @param array $attributes HTML attributes, key and value
      * @return string
      */
-    public function linkPretty($thumbnailType = 'square', $titleDefault = null, $action = null)
-    {
+    public function linkPretty(
+        $thumbnailType = 'square',
+        $titleDefault = null,
+        $action = null,
+        array $attributes = null
+    ) {
         $escape = $this->getViewHelper('escapeHtml');
         $thumbnail = $this->getViewHelper('thumbnail');
         $linkContent = sprintf(
@@ -501,7 +505,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $thumbnail($this, $thumbnailType),
             $escape($this->displayTitle($titleDefault))
         );
-        return $this->linkRaw($linkContent, $action, ['class' => 'resource-link']);
+        if (empty($attributes) || !isset($attributes['class'])) {
+            $attributes['class'] = 'resource-link';
+        }
+        return $this->linkRaw($linkContent, $action, $attributes);
     }
 
     /**

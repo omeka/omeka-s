@@ -68,13 +68,13 @@ $itemsFound = count($items) > 0;
             );
             if ($showDetails):
                 $attrs = [
-                    'class' => 'sidebar-content select-resource',
+                    'class' => 'sidebar-content select-resource resource-link',
                     'data-sidebar-content-url' => $item->url('show-details'),
                     'data-sidebar-selector' => '#resource-details',
                 ];
             else:
                 $attrs = [
-                    'class' => 'select-resource',
+                    'class' => 'select-resource resource-link',
                 ];
             endif;
             echo $hyperlink->raw($content, '#', $attrs);

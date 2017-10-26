@@ -26,7 +26,7 @@ $escape = $this->plugin('escapeHtml');
         <h4><?php echo $this->translate('Media'); ?></h4>
         <?php foreach ($resource->media() as $media): ?>
         <div class="value">
-            <?php echo $media->linkRaw($this->thumbnail($media, 'square') . '<span class="file-name">' . $escape($media->displayTitle()) . '</span>'); ?>
+            <?php echo $media->linkPretty(); ?>
         </div>
         <?php endforeach; ?>
     </div>

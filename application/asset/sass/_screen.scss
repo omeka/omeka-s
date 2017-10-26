@@ -1145,13 +1145,6 @@ div[role="main"] {
     overflow: hidden;
 }
 
-.browse table img {
-    width: (1.5 * $spacing-large);
-    display: inline-block;
-    margin: 0 $spacing-medium 0 0;
-    vertical-align: middle;
-}
-
 .browse .browse-controls {
     display: flex;
     justify-content: space-between;
@@ -1181,11 +1174,6 @@ div[role="main"] {
     justify-content: flex-start;
     word-wrap: break-word;
 
-    .resource-name {
-        flex: 1;
-        min-width: 0;
-    }
-
     & > .actions {
         white-space: nowrap;
     }
@@ -1193,6 +1181,7 @@ div[role="main"] {
 
 .browse .batch-edit .tablesaw-cell-content > input[type="checkbox"] {
     margin-right: $spacing-medium;
+    flex-shrink: 0;
 }
 
 .browse .tablesaw-cell-content > span.indent {
@@ -2524,26 +2513,25 @@ input[type="text"].value-language,
     }
 }
 
-.resource-list {
+.resource-link {
+    display: flex;
+    align-items: center;
     width: 100%;
-
-    .select-resource {
-        display: flex;
-        align-items: center;
-        min-width: 0;
-    }
+    min-width: 0;
 
     img {
-        width: (1.5 * $spacing-large);
         height: (1.5 * $spacing-large);
         margin-right: $spacing-medium;
     }
 
     .resource-name {
-        margin: 0;
         flex: 1;
         min-width: 0;
     }
+}
+
+.resource-list {
+    width: 100%;
 
     .resource {
         padding: $spacing-small $spacing-medium #{$spacing-small - 1px};
@@ -2691,11 +2679,6 @@ input[type="text"].value-language,
         }
     }
 
-    .resource a {
-        display: flex;
-        align-items: center;
-    }
-
     .language {
         font-size: .75 * $base-font-size;
         padding: 0 $spacing-small;
@@ -2841,13 +2824,6 @@ input[type="text"].value-language,
         }
     }
 
-    .file-name {
-        display: inline-block;
-        word-wrap: break-word;
-        max-width: calc(100% - #{(3* $spacing-large)});
-        vertical-align: middle;
-    }
-
     input,
     textarea,
     select {
@@ -2983,9 +2959,7 @@ body.sidebar-open #content {
 
 .sidebar .meta-group img {
     height: (2 * $spacing-large);
-    display: inline-block;
     border: 1px solid $border-gray;
-    padding: -1px;
 }
 
 .source-type {

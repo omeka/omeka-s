@@ -26,7 +26,7 @@ $mediaFound = count($media) > 0;
                 $escape($m->displayTitle())
             );
             echo $hyperlink->raw($content, '#', [
-                'class' => 'sidebar-content select-resource',
+                'class' => 'sidebar-content select-resource resource-link',
                 'data-sidebar-content-url' => $m->url('show-details'),
                 'data-sidebar-selector' => '#resource-details',
             ]);
@@ -34,6 +34,6 @@ $mediaFound = count($media) > 0;
         </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <span class="no-resources"><?php echo $this->translate(sprintf('No %s found.', $this->translate('media'))); ?></
+        <span class="no-resources"><?php echo $this->translate(sprintf('No %s found.', $this->translate('media'))); ?></span>
     <?php endif; ?>
 </div>

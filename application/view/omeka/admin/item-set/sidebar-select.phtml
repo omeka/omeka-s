@@ -27,7 +27,7 @@ $itemSetsFound = count($itemSets) > 0;
                 $escape($itemSet->displayTitle())
             );
             echo $hyperlink->raw($content, '#', [
-                'class' => 'sidebar-content select-resource',
+                'class' => 'sidebar-content select-resource resource-link',
                 'data-sidebar-content-url' => $itemSet->url('show-details'),
                 'data-sidebar-selector' => '#resource-details',
             ]);

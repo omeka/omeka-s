@@ -361,6 +361,7 @@ return [
             'jobs' => Api\Adapter\JobAdapter::class,
             'resources' => Api\Adapter\ResourceAdapter::class,
             'assets' => Api\Adapter\AssetAdapter::class,
+            'api_resources' => Api\Adapter\ApiResourceAdapter::class,
         ],
     ],
     'view_helpers' => [

@@ -250,6 +250,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Api\Adapter\PropertyAdapter',
                 'Omeka\Api\Adapter\ResourceTemplateAdapter',
                 'Omeka\Api\Adapter\AssetAdapter',
+                'Omeka\Api\Adapter\ApiResourceAdapter',
             ],
             [
                 'search',

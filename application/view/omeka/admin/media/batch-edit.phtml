@@ -1,9 +1,9 @@
 <?php
+$form->prepare();
 $this->htmlElement('body')->appendAttribute('class', 'batch-edit media');
 $escape = $this->plugin('escapeHtml');
 $this->headStyle()->appendStyle('.inputs input.value-language.active[type="text"] { background-color: #fff; padding: 0 5px; display: inherit; }');
 $this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
-$form->prepare();
 ?>
 <?php echo $this->pageTitle($this->translate('Batch edit medias')); ?>
 
@@ -28,13 +28,9 @@ $form->prepare();
     <h3><?php echo $this->translate('Affected medias'); ?></h3>
     <?php if ($resources): ?>
     <p><?php echo sprintf($this->translate('You are editing the following %s medias:'), count($resources)); ?></p>
-    <ul class="batch-selected meta-group">
+    <ul class="batch-selected">
         <?php foreach ($resources as $resource): ?>
-        <li class="value">
-            <a href="<?php echo $resource->url(); ?>" target="_blank">
-                <?php echo $this->thumbnail($resource, 'square'); ?>
-                <span class="file-name"><?php echo $escape($resource->displayTitle()); ?></span>
-            </a>
+        <li><?php echo $resource->linkPretty('square', null, null, ['target' => '_blank']); ?></li>
         <?php endforeach; ?>
     </ul>
     <?php else: ?>

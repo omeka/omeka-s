@@ -358,7 +358,6 @@ return [
             'modules' => Api\Adapter\ModuleAdapter::class,
             'sites' => Api\Adapter\SiteAdapter::class,
             'site_pages' => Api\Adapter\SitePageAdapter::class,
-            'site_item_sets' => Api\Adapter\SiteItemSetAdapter::class,
             'jobs' => Api\Adapter\JobAdapter::class,
             'resources' => Api\Adapter\ResourceAdapter::class,
             'assets' => Api\Adapter\AssetAdapter::class,

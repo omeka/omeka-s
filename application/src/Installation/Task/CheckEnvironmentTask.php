@@ -45,7 +45,7 @@ class CheckEnvironmentTask implements TaskInterface
     {
         try {
             random_bytes(32);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $installer->addError('Omeka is unable to securely generate random numbers.');
         }
     }

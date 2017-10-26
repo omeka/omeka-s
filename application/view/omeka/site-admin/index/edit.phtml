@@ -9,15 +9,21 @@ $form->prepare();
 
 <div id="page-actions">
     <?php if ($site->isPublic()): ?>
-    <a href="#" class="o-icon-public button" aria-label=" <?php echo $this->translate('Make private'); ?>" title=" <?php echo $this->translate('Make private'); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'o-icon-public button',
+        'title' => $this->translate('Make private'),
+    ]); ?>
     <input type="hidden" name="o:is_public" value="1">
     <?php else: ?>
-    <a href="#" class="o-icon-private button" aria-label=" <?php echo $this->translate('Make public'); ?>" title=" <?php echo $this->translate('Make public'); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'o-icon-private button',
+        'title' => $this->translate('Make public'),
+    ]); ?>
     <input type="hidden" name="o:is_public" value="0">
     <?php endif; ?>
-    <a href="<?php echo $site->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
+    <?php echo $this->hyperlink($this->translate('View'), $site->siteUrl(), ['class' => 'button']); ?>
     <?php if ($site->userIsAllowed('delete')): ?>
-    <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
+    <?php echo $this->hyperlink($this->translate('Delete'), '#', ['class' => 'delete button']); ?>
     <?php endif; ?>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>

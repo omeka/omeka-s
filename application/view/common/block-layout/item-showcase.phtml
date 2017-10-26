@@ -8,11 +8,9 @@
         <?php
         $media = $attachment->media() ?: $item->primaryMedia();
         if ($media):
+            echo $item->linkRaw($this->thumbnail($media, $this->thumbnailType));
+        endif;
         ?>
-        <a href="<?php echo $this->escapeHtml($item->url()); ?>">
-            <?php echo $this->thumbnail($media, $this->thumbnailType); ?>
-        </a>
-        <?php endif; ?>
         <?php $showTitleOption = $this->showTitleOption; ?>
         <?php if ($showTitleOption == 'item_title'): ?>
         <h3><?php echo $item->link($item->displayTitle()); ?></h3>

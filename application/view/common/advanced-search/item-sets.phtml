@@ -12,7 +12,7 @@ if (!$ids) {
 <div id="item-sets" class="field removable multi-value" role="group" aria-labelledby="by-item-set-label">
     <div class="field-meta">
         <span id="by-item-set-label" class="label"><?php echo $this->translate('Search by item set'); ?></span>
-        <a href="#" class="expand" aria-label=" Expand"></a>
+        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
         <div class="collapsible">
             <div class="field-description"><?php echo $this->translate('Searches for items that are assigned to any of these item sets.'); ?></div>
         </div>

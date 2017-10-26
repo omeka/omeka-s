@@ -1,23 +1,42 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$offsetPrevious = 0 > ($offset - $limit) ? null : $offset - $limit;
-$offsetNext = $limit > count($subjectValues) ? null : $offset + $limit;
-$previousText = (null === $offsetPrevious)
+
+$fragment = 'item-linked';
+if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResource)) {
+    $fragment = 'item-set-linked';
+}
+
+$firstText = ($page <= 1)
+    ? $this->translate('first')
+    : sprintf(
+        '<a href="%s">%s</a>',
+        $escape($this->url(null, [], ['query' => ['page' => 1], 'fragment' => $fragment], true)),
+        $this->translate('first')
+    );
+$previousText = ($page <= 1)
     ? $this->translate('previous')
     : sprintf(
         '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['offset' => $offsetPrevious], 'fragment' => 'item-linked'], true)),
+        $escape($this->url(null, [], ['query' => ['page' => $page - 1], 'fragment' => $fragment], true)),
         $this->translate('previous')
     );
-$nextText = (null === $offsetNext)
+$nextText = (($page * $perPage) >= $totalCount)
     ? $this->translate('next')
     : sprintf(
         '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['offset' => $offsetNext], 'fragment' => 'item-linked'], true)),
+        $escape($this->url(null, [], ['query' => ['page' => $page + 1], 'fragment' => $fragment], true)),
         $this->translate('next')
     );
-echo "$previousText | $nextText";
+$lastText = (($page * $perPage) >= $totalCount)
+    ? $this->translate('last')
+    : sprintf(
+        '<a href="%s">%s</a>',
+        $escape($this->url(null, [], ['query' => ['page' => ceil($totalCount / $perPage)], 'fragment' => $fragment], true)),
+        $this->translate('last')
+    );
+$pagination = sprintf('%s | %s | %s | %s (%s total links)', $firstText, $previousText, $nextText, $lastText, $totalCount);
 ?>
+<?php echo $pagination; ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
@@ -42,4 +61,4 @@ echo "$previousText | $nextText";
         <?php endif; ?>
     </tbody>
 </table>
-<?php echo "$previousText | $nextText"; ?>
+<?php echo $pagination; ?>

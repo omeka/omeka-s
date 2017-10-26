@@ -337,23 +337,29 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Get value representations where this resource is the RDF object.
      *
+     * @param int $page
+     * @param int $perPage
      * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
      * @return array
      */
-    public function subjectValues(array $orderBy = [], $limit = null, $offset = null)
+    public function subjectValues($page = null, $perPage = null, array $orderBy = [])
     {
-        $subjectResourceValues = $this->getAdapter()
-            ->getSubjectValues($this->resource, $orderBy, $limit, $offset);
-        $valueRepresentations = [];
-        foreach ($subjectResourceValues as $subjectResourceValue) {
-            $valueRepresentations[] = new ValueRepresentation(
-                $subjectResourceValue,
-                $this->getServiceLocator()
-            );
+        $values = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $orderBy);
+        $valueReps = [];
+        foreach ($values as $value) {
+            $valueReps[] = new ValueRepresentation($value, $this->getServiceLocator());
         }
-        return $valueRepresentations;
+        return $valueReps;
+    }
+
+    /**
+     * Get the total count of this resource's subject values.
+     *
+     * @return int
+     */
+    public function subjectValueTotalCount()
+    {
+        return $this->getAdapter()->getSubjectValueTotalCount($this->resource);
     }
 
     /**
@@ -405,33 +411,26 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * Get the display markup for all values where this resource is the RDF
-     * subject or object.
+     * Get the display markup for values where this resource is the RDF object.
      *
-     * Options:
-     *
-     * + viewName: Name of view script, or a view model. Default
-     *   "common/linked-resources"
-     *
-     * @param array $options
+     * @param int $page
+     * @param int $perPage
      * @return string
      */
-    public function displayLinkedResources(array $options = [])
+    public function displaySubjectValues($page = null, $perPage = null)
     {
-        if (!isset($options['viewName'])) {
-            $options['viewName'] = 'common/linked-resources';
+        $subjectValues = $this->subjectValues($page, $perPage, ['id' => 'DESC']);
+        if (!$subjectValues) {
+            return null;
         }
         $partial = $this->getViewHelper('partial');
-        if (!isset($options['subjectValues'])) {
-            $options['subjectValues'] = $this->subjectValues();
-        }
-        if (!isset($options['limit'])) {
-            $options['limit'] = null;
-        }
-        if (!isset($options['offset'])) {
-            $options['offset'] = null;
-        }
-        return $partial($options['viewName'], $options);
+        return $partial('common/linked-resources', [
+            'objectResource' => $this,
+            'subjectValues' => $subjectValues,
+            'page' => $page,
+            'perPage' => $perPage,
+            'totalCount' => $this->subjectValueTotalCount(),
+        ]);
     }
 
     /**

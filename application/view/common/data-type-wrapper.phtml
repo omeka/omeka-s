@@ -8,8 +8,8 @@ $escape = $this->plugin('escapeHtml');
     <div class="input-footer">
         <span class="restore-value"><?php echo $this->translate('Value to be removed'); ?></span>
         <ul class="actions">
-            <li><a href="#" class="o-icon-delete remove-value" title="<?php echo $escape($this->translate('Remove value')); ?>" aria-label="<?php echo $escape($this->translate('Remove value')); ?>"></a></li>
-            <li><a href="#" class="o-icon-undo restore-value" title="<?php echo $escape($this->translate('Restore value')); ?>" aria-label="<?php echo $escape($this->translate('Restore value')); ?>"></a></li>
+            <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete remove-value', 'title' => $this->translate('Remove value')]); ?></li>
+            <li><?php echo $this->hyperlink('' , '#', ['class' => 'o-icon-undo restore-value', 'title' => $this->translate('Restore value')]); ?></li>
         </ul>
     </div>
 </div>

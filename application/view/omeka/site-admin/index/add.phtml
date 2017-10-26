@@ -14,7 +14,10 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 <?php echo $this->form()->openTag($form); ?>
 
 <div id="page-actions">
-    <a href="#" class="o-icon-private button" aria-label=" <?php echo $this->translate('Make public'); ?>" title=" <?php echo $this->translate('Make public'); ?>"></a>
+    <?php echo $this->translate('', '#', [
+        'class' => 'o-icon-private button',
+        'title' => $this->translate('Make public'),
+    ]); ?>
     <input type="hidden" name="o:is_public" value="0">
     <button><?php echo $this->translate('Add'); ?></button>
 </div>

@@ -24,12 +24,10 @@ $escape = $this->plugin('escapeHtml');
         <td><?php echo $escape($itemSet->displayTitle()); ?></td>
         <td><?php echo $ownerText; ?></td>
         <td><ul class="actions">
-            <li><a
-                class="o-icon-delete"
-                href="#"
-                title=" <?php echo $escape($this->translate('Remove item set')); ?>"
-                aria-label=" <?php echo $escape($this->translate('Remove item set')); ?>">
-            </a></li>
+            <li><?php echo $this->hyperlink('', '#', [
+                'class' => 'o-icon-delete',
+                'title' => $this->translate('Remove item set'),
+            ]); ?></li>
         </ul><input type="hidden" name="o:item_set[]" value="<?php echo $escape($itemSet->id()) ?>"></td>
     </tr>
     <?php endforeach; ?>
@@ -49,11 +47,10 @@ $itemSetTemplate = '
     <td class="item-set-title"></td>
     <td class="owner-email">__owner-email__</td>
     <td><ul class="actions">
-        <li><a href="#"
-        class="o-icon-delete"
-        title="' . $escape($this->translate('Remove item set')) . '"
-        aria-label="' . $escape($this->translate('Remove item set')) . '">
-        </a></li>
+        <li>' . $this->hyperlink('', '#', [
+            'class' => 'o-icon-delete',
+            'title' => $this->translate('Remove item set'),
+        ]) . '</li>
     </ul><input type="hidden" name="o:item_set[]"></td>
 </tr>';
 ?>

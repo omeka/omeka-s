@@ -71,7 +71,8 @@ $queryText = function(array $search, $index) {
         <?php
         $index++;
         endforeach;
+
+        echo $this->hyperlink($this->translate('Add new value'), '#', ['class' => 'add-value button']);
         ?>
-        <a href="#" class="add-value button"><?php echo $this->translate('Add new value'); ?></a>
     </div>
 </div>

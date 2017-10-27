@@ -2515,14 +2515,14 @@ input[type="text"].value-language,
 }
 
 .resource-link {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    width: 100%;
+    max-width: 100%;
     min-width: 0;
 
     img {
         height: (1.5 * $spacing-large);
-        margin-right: $spacing-medium;
+        margin-right: $spacing-small;
     }
 
     .resource-name {
@@ -2807,11 +2807,6 @@ input[type="text"].value-language,
             border-color: transparent;
             margin-bottom: 0;
         }
-
-        img {
-            vertical-align: middle;
-            margin-right: $spacing-small;
-        }
     }
 
     input,
@@ -2949,7 +2944,7 @@ body.sidebar-open #content {
 
 .sidebar .meta-group img {
     height: (2 * $spacing-large);
-    border: 1px solid $border-gray;
+    box-shadow: 0 0 0 1px $border-gray;
 }
 
 .source-type {

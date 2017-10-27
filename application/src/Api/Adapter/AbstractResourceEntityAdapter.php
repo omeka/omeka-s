@@ -311,17 +311,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      * @param Resource $resource
      * @param int $page
      * @param int $perPage
-     * @param array $orderBy
      * @return array
      */
-    public function getSubjectValues(Resource $resource, $page = null, $perPage = null, array $orderBy = null)
+    public function getSubjectValues(Resource $resource, $page = null, $perPage = null)
     {
         $offset = (is_numeric($page) && is_numeric($perPage))
             ? (($page - 1) * $perPage)
             : null;
         return $this->getEntityManager()
             ->getRepository('Omeka\Entity\Value')
-            ->findBy(['valueResource' => $resource], $orderBy, $perPage, $offset);
+            ->findBy(['valueResource' => $resource], ['property' => 'ASC'], $perPage, $offset);
     }
 
     /**

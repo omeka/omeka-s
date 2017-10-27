@@ -58,9 +58,7 @@ $sortHeadings = [
         ?>
         <tr>
             <td>
-                <span class="resource-name">
-                    <?php echo $site->link($site->title(), 'show'); ?>
-                </span>
+                <?php echo $site->link($site->title(), 'show'); ?>
                 <ul class="actions">
                     <li><?php echo $this->hyperlink('', $site->siteUrl(), [
                         'target' => '_blank',

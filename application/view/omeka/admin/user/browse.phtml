@@ -43,9 +43,7 @@ $sortHeadings = [
         <?php foreach ($users as $user): ?>
         <tr>
             <td>
-                <span class="resource-name">
-                    <?php echo $user->link($user->email() . ' (' . $user->name() . ')'); ?>
-                </span>
+                <?php echo $user->link($user->email() . ' (' . $user->name() . ')'); ?>
                 <ul class="actions">
                     <?php if ($user->userIsAllowed('update')): ?>
                     <li><?php echo $user->link('', 'edit', [

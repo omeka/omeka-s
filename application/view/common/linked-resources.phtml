@@ -5,36 +5,8 @@ $fragment = 'item-linked';
 if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResource)) {
     $fragment = 'item-set-linked';
 }
-
-$firstText = ($page <= 1)
-    ? $this->translate('first')
-    : sprintf(
-        '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => 1, 'property' => $property], 'fragment' => $fragment], true)),
-        $this->translate('first')
-    );
-$previousText = ($page <= 1)
-    ? $this->translate('previous')
-    : sprintf(
-        '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => $page - 1, 'property' => $property], 'fragment' => $fragment], true)),
-        $this->translate('previous')
-    );
-$nextText = (($page * $perPage) >= $totalCount)
-    ? $this->translate('next')
-    : sprintf(
-        '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => $page + 1, 'property' => $property], 'fragment' => $fragment], true)),
-        $this->translate('next')
-    );
-$lastText = (($page * $perPage) >= $totalCount)
-    ? $this->translate('last')
-    : sprintf(
-        '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => ceil($totalCount / $perPage), 'property' => $property], 'fragment' => $fragment], true)),
-        $this->translate('last')
-    );
-$pagination = sprintf('%s | %s | %s | %s (%s total links)', $firstText, $previousText, $nextText, $lastText, $totalCount);
+$pagination = $this->pagination(null, $totalCount, $page, $perPage);
+$pagination->setFragment($fragment);
 ?>
 <div id="linked-resources">
 <div>

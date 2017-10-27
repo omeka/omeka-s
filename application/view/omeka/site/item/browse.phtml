@@ -8,14 +8,16 @@ if (isset($itemSet)):
 endif;
 $headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
 $bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
+$itemSetShow = isset($itemSet);
 ?>
 
-<?php if (isset($itemSet)): ?>
+<?php if ($itemSetShow): ?>
     <?php echo $this->pageTitle($itemSet->displayTitle(), 2); ?>
     <h3><?php echo $this->translate('Item set'); ?></h3>
     <div class="metadata">
         <?php echo $itemSet->displayValues(); ?>
     </div>
+    <div class="item-set-items">
     <?php echo '<h3>' . $escape($this->translate('Items')) . '</h3>'; ?>
 <?php else: ?>
     <?php echo $this->pageTitle($this->translate('Items'), 2); ?>
@@ -40,5 +42,6 @@ foreach ($items as $item):
     </li>
 <?php endforeach; ?>
 </ul>
+<?php echo ($itemSetShow) ? '</div>' : ''; ?>
 <?php $this->trigger('view.browse.after'); ?>
 <?php echo $this->pagination(); ?>

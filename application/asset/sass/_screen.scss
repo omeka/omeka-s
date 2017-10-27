@@ -1627,7 +1627,8 @@ input[type="text"].value-language,
         position: relative;
 
         legend,
-        label {
+        label,
+        .label {
             max-width: 80%;
             padding: $spacing-small 0;
             display: inline-block;
@@ -1911,7 +1912,7 @@ input[type="text"].value-language,
     .field-meta .expand,
     .field-meta .collapse {
         display: inline-block !important;
-        margin: $spacing-small 0 $spacing-small .5em !important;
+        margin-left: .5em !important;
         padding: 0 !important;
         border: 0 !important;
         width: auto !important;

@@ -37,9 +37,7 @@ foreach ($subjects as $value) {
 <?php if (!$embedMedia && $itemMedia): ?>
 <div class="media-list">
     <?php foreach ($itemMedia as $media): ?>
-        <a href="<?php echo $media->url(); ?>" class="media resource">
-            <?php echo $this->thumbnail($media, 'medium', ['title' => $media->displayTitle()]); ?>
-        </a>
+        <?php echo $media->linkPretty(); ?>
     <?php endforeach; ?>
 </div>
 <?php endif; ?>

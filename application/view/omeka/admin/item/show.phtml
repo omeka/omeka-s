@@ -34,7 +34,8 @@ $sectionNavs = [
 <div id="item-linked" class="section">
     <?php
     $page = $this->params()->fromQuery('page', 1);
-    $subjectValues = $item->displaySubjectValues($page, 25);
+    $property = $this->params()->fromQuery('property');
+    $subjectValues = $item->displaySubjectValues($page, 25, $property);
     ?>
     <?php if ($subjectValues): ?>
         <?php echo $subjectValues; ?>

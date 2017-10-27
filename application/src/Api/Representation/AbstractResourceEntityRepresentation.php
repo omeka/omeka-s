@@ -339,11 +339,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @param int $page
      * @param int $perPage
+     * @param int $property Filter by property ID
      * @return array
      */
-    public function subjectValues($page = null, $perPage = null)
+    public function subjectValues($page = null, $perPage = null, $property = null)
     {
-        $values = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage);
+        $values = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $property);
         $subjectValues = [];
         foreach ($values as $value) {
             $valueRep = new ValueRepresentation($value, $this->getServiceLocator());
@@ -355,11 +356,28 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Get the total count of this resource's subject values.
      *
+     * @param int $property Filter by property ID
      * @return int
      */
-    public function subjectValueTotalCount()
+    public function subjectValueTotalCount($property = null)
     {
-        return $this->getAdapter()->getSubjectValueTotalCount($this->resource);
+        return $this->getAdapter()->getSubjectValueTotalCount($this->resource, $property);
+    }
+
+    /**
+     * Get distinct properties (predicates) where this resource is the RDF object.
+     *
+     * @return array
+     */
+    public function subjectValueProperties()
+    {
+        $propertyAdapter = $this->getAdapter('properties');
+        $properties = $this->getAdapter()->getSubjectValueProperties($this->resource);
+        $subjectProperties = [];
+        foreach ($properties as $property) {
+            $subjectProperties[] = $propertyAdapter->getRepresentation($property);
+        }
+        return $subjectProperties;
     }
 
     /**
@@ -415,11 +433,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @param int $page
      * @param int $perPage
+     * @param int $property Filter by property ID
      * @return string
      */
-    public function displaySubjectValues($page = null, $perPage = null)
+    public function displaySubjectValues($page = null, $perPage = null, $property = null)
     {
-        $subjectValues = $this->subjectValues($page, $perPage, ['id' => 'DESC']);
+        $subjectValues = $this->subjectValues($page, $perPage, $property);
         if (!$subjectValues) {
             return null;
         }
@@ -429,7 +448,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             'subjectValues' => $subjectValues,
             'page' => $page,
             'perPage' => $perPage,
-            'totalCount' => $this->subjectValueTotalCount(),
+            'property' => $property,
+            'totalCount' => $this->subjectValueTotalCount($property),
+            'properties' => $this->subjectValueProperties(),
         ]);
     }
 

@@ -3,14 +3,6 @@ $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'item resource show');
 $embedMedia = $this->siteSetting('item_media_embed', false);
 $itemMedia = $item->media();
-$subjects = $item->subjectValues();
-$sortedSubjects = [];
-$subjects = $item->subjectValues();
-foreach ($subjects as $value) {
-    $resource = $value->resource();
-    $property = $value->property();
-    $sortedSubjects[$property->label()][] = $resource;
-}
 ?>
 
 <?php echo $this->pageTitle($item->displayTitle(), 2); ?>
@@ -42,20 +34,15 @@ foreach ($subjects as $value) {
 </div>
 <?php endif; ?>
 
-<?php if ($subjects): ?>
+<?php
+$page = $this->params()->fromQuery('page', 1);
+$property = $this->params()->fromQuery('property');
+$subjectValues = $item->displaySubjectValues($page, 25, $property);
+?>
+<?php if ($subjectValues): ?>
 <div id="item-linked">
     <h3><?php echo $this->translate('Linked resources'); ?></h3>
-    <div class="property">
-    <?php foreach ($sortedSubjects as $property => $resources): ?>
-        <h4><?php echo $this->translate(sprintf('As "%s"', $property)); ?></h4>
-        <?php foreach ($resources as $resource): ?>
-        <div class="resource value">
-            <?php echo $this->thumbnail($resource, 'square'); ?>
-            <?php echo $resource->link($resource->displayTitle()); ?>
-        </div>
-        <?php endforeach; ?>
-    <?php endforeach; ?>
-    </div>
+    <?php echo $subjectValues; ?>
 </div>
 <?php endif; ?>
 

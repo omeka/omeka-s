@@ -311,29 +311,57 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      * @param Resource $resource
      * @param int $page
      * @param int $perPage
+     * @param int $property Filter by property ID
      * @return array
      */
-    public function getSubjectValues(Resource $resource, $page = null, $perPage = null)
+    public function getSubjectValues(Resource $resource, $page = null, $perPage = null, $property = null)
     {
         $offset = (is_numeric($page) && is_numeric($perPage))
             ? (($page - 1) * $perPage)
             : null;
+        $findBy = ['valueResource' => $resource];
+        if ($property) {
+            $findBy['property'] = $property;
+        }
         return $this->getEntityManager()
             ->getRepository('Omeka\Entity\Value')
-            ->findBy(['valueResource' => $resource], ['property' => 'ASC'], $perPage, $offset);
+            ->findBy($findBy, ['property' => 'ASC', 'resource' => 'DESC'], $perPage, $offset);
     }
 
     /**
      * Get the total count of the provided resource's subject values.
      *
+     * @param Resource $resource
+     * @param int $property Filter by property ID
      * @return int
      */
-    public function getSubjectValueTotalCount(Resource $resource)
+    public function getSubjectValueTotalCount(Resource $resource, $property = null)
     {
+        $dql = 'SELECT COUNT(v.id) FROM Omeka\Entity\Value v WHERE v.valueResource = :resource';
+        $params = ['resource' => $resource];
+        if ($property) {
+            $dql .= ' AND v.property = :property';
+            $params['property'] = $property;
+        }
         return $this->getEntityManager()
-            ->createQuery('SELECT COUNT(v.id) FROM Omeka\Entity\Value v WHERE v.valueResource = :resource')
-            ->setParameters(['resource' => $resource])
+            ->createQuery($dql)
+            ->setParameters($params)
             ->getSingleScalarResult();
+    }
+
+    /**
+     * Get distinct properties (predicates) where the provided resource is the RDF object.
+     *
+     * @param Resource $resource
+     * @return array
+     */
+    public function getSubjectValueProperties(Resource $resource)
+    {
+        $dql = 'SELECT p FROM Omeka\Entity\Property p JOIN p.values v WITH v.valueResource = :resource GROUP BY p.id ORDER BY p.label';
+        return $this->getEntityManager()
+            ->createQuery($dql)
+            ->setParameters(['resource' => $resource])
+            ->getResult();
     }
 
     /**

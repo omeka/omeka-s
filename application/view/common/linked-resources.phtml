@@ -10,39 +10,60 @@ $firstText = ($page <= 1)
     ? $this->translate('first')
     : sprintf(
         '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => 1], 'fragment' => $fragment], true)),
+        $escape($this->url(null, [], ['query' => ['page' => 1, 'property' => $property], 'fragment' => $fragment], true)),
         $this->translate('first')
     );
 $previousText = ($page <= 1)
     ? $this->translate('previous')
     : sprintf(
         '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => $page - 1], 'fragment' => $fragment], true)),
+        $escape($this->url(null, [], ['query' => ['page' => $page - 1, 'property' => $property], 'fragment' => $fragment], true)),
         $this->translate('previous')
     );
 $nextText = (($page * $perPage) >= $totalCount)
     ? $this->translate('next')
     : sprintf(
         '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => $page + 1], 'fragment' => $fragment], true)),
+        $escape($this->url(null, [], ['query' => ['page' => $page + 1, 'property' => $property], 'fragment' => $fragment], true)),
         $this->translate('next')
     );
 $lastText = (($page * $perPage) >= $totalCount)
     ? $this->translate('last')
     : sprintf(
         '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => ceil($totalCount / $perPage)], 'fragment' => $fragment], true)),
+        $escape($this->url(null, [], ['query' => ['page' => ceil($totalCount / $perPage), 'property' => $property], 'fragment' => $fragment], true)),
         $this->translate('last')
     );
 $pagination = sprintf('%s | %s | %s | %s (%s total links)', $firstText, $previousText, $nextText, $lastText, $totalCount);
 ?>
+<div id="linked-resources">
+<div>
+    <h4>Filter by property</h4>
+    <select id="filter-property" name="property" data-url="<?php echo $escape($this->url(null, [], true)); ?>" data-fragment="<?php echo $escape($fragment); ?>">
+        <option value="">All</option>
+        <?php foreach ($properties as $prop): ?>
+        <option value="<?php echo $escape($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $escape(sprintf('%s (%s)', $prop->label(), $prop->term())); ?></option>
+        <?php endforeach; ?>
+    </select>
+</div>
 <?php echo $pagination; ?>
 
 <?php foreach ($subjectValues as $term => $values): ?>
-<h3><?php echo $escape($values[0]->property()->label()); ?></h3>
+<h4><?php echo $escape($values[0]->property()->label()); ?></h4>
 <?php foreach ($values as $value): ?>
-<p><?php echo $value->resource()->linkPretty(); ?></p>
+<div><?php echo $value->resource()->linkPretty(); ?></div>
 <?php endforeach; ?>
 <?php endforeach; ?>
 
 <?php echo $pagination; ?>
+</div>
+
+<script>
+$('#filter-property').on('change', function(e) {
+    var thisSelect = $(this);
+    var property = thisSelect.find(':selected').val();
+    var url = thisSelect.data('url');
+    var fragment = thisSelect.data('fragment');
+    window.location = url + '?' + $.param({property: property}) + '#' + fragment;
+});
+</script>

@@ -22,12 +22,12 @@ class SiteAdapter extends AbstractEntityAdapter
 
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\SiteRepresentation';
+        return \Omeka\Api\Representation\SiteRepresentation::class;
     }
 
     public function getEntityClass()
     {
-        return 'Omeka\Entity\Site';
+        return \Omeka\Entity\Site::class;
     }
 
     public function hydrate(Request $request, EntityInterface $entity,

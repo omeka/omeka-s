@@ -27,12 +27,12 @@ class SitePageAdapter extends AbstractEntityAdapter
 
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\SitePageRepresentation';
+        return \Omeka\Api\Representation\SitePageRepresentation::class;
     }
 
     public function getEntityClass()
     {
-        return 'Omeka\Entity\SitePage';
+        return \Omeka\Entity\SitePage::class;
     }
 
     public function hydrate(Request $request, EntityInterface $entity,

@@ -22,12 +22,12 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
 
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\ItemSetRepresentation';
+        return \Omeka\Api\Representation\ItemSetRepresentation::class;
     }
 
     public function getEntityClass()
     {
-        return 'Omeka\Entity\ItemSet';
+        return \Omeka\Entity\ItemSet::class;
     }
 
     public function buildQuery(QueryBuilder $qb, array $query)

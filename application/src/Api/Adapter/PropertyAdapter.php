@@ -24,12 +24,12 @@ class PropertyAdapter extends AbstractEntityAdapter
 
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\PropertyRepresentation';
+        return \Omeka\Api\Representation\PropertyRepresentation::class;
     }
 
     public function getEntityClass()
     {
-        return 'Omeka\Entity\Property';
+        return \Omeka\Entity\Property::class;
     }
 
     public function sortQuery(QueryBuilder $qb, array $query)

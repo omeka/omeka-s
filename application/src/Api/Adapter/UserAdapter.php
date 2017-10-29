@@ -26,12 +26,12 @@ class UserAdapter extends AbstractEntityAdapter
 
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\UserRepresentation';
+        return \Omeka\Api\Representation\UserRepresentation::class;
     }
 
     public function getEntityClass()
     {
-        return 'Omeka\Entity\User';
+        return \Omeka\Entity\User::class;
     }
 
     public function hydrate(Request $request, EntityInterface $entity,

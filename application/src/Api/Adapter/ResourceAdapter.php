@@ -16,7 +16,7 @@ class ResourceAdapter extends AbstractEntityAdapter
 
     public function getEntityClass()
     {
-        return 'Omeka\Entity\Resource';
+        return \Omeka\Entity\Resource::class;
     }
 
     public function getRepresentationClass()

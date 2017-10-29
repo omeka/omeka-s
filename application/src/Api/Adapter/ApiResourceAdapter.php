@@ -17,7 +17,7 @@ class ApiResourceAdapter extends AbstractAdapter
 
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\ApiResourceRepresentation';
+        return \Omeka\Api\Representation\ApiResourceRepresentation::class;
     }
 
     public function search(Request $request)

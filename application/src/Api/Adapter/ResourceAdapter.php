@@ -73,7 +73,7 @@ class ResourceAdapter extends AbstractEntityAdapter
      */
     public function create(Request $request)
     {
-        AbstractAdapater::create($request);
+        AbstractAdapter::create($request);
     }
 
     /**

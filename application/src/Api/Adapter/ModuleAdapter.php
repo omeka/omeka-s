@@ -16,7 +16,7 @@ class ModuleAdapter extends AbstractAdapter
 
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\ModuleRepresentation';
+        return \Omeka\Api\Representation\ModuleRepresentation::class;
     }
 
     public function search(Request $request)

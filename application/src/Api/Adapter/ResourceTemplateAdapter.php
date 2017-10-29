@@ -21,12 +21,12 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
 
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\ResourceTemplateRepresentation';
+        return \Omeka\Api\Representation\ResourceTemplateRepresentation::class;
     }
 
     public function getEntityClass()
     {
-        return 'Omeka\Entity\ResourceTemplate';
+        return \Omeka\Entity\ResourceTemplate::class;
     }
 
     public function sortQuery(QueryBuilder $qb, array $query)

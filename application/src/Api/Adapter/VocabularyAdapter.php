@@ -34,12 +34,12 @@ class VocabularyAdapter extends AbstractEntityAdapter
 
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\VocabularyRepresentation';
+        return \Omeka\Api\Representation\VocabularyRepresentation::class;
     }
 
     public function getEntityClass()
     {
-        return 'Omeka\Entity\Vocabulary';
+        return \Omeka\Entity\Vocabulary::class;
     }
 
     public function sortQuery(QueryBuilder $qb, array $query)

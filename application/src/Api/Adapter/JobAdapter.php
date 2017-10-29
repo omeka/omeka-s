@@ -23,12 +23,12 @@ class JobAdapter extends AbstractEntityAdapter
 
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\JobRepresentation';
+        return \Omeka\Api\Representation\JobRepresentation::class;
     }
 
     public function getEntityClass()
     {
-        return 'Omeka\Entity\Job';
+        return \Omeka\Entity\Job::class;
     }
 
     public function hydrate(Request $request, EntityInterface $entity,

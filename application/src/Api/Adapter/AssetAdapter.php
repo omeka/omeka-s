@@ -24,12 +24,12 @@ class AssetAdapter extends AbstractEntityAdapter
 
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\AssetRepresentation';
+        return \Omeka\Api\Representation\AssetRepresentation::class;
     }
 
     public function getEntityClass()
     {
-        return 'Omeka\Entity\Asset';
+        return \Omeka\Entity\Asset::class;
     }
 
     public function hydrate(Request $request, EntityInterface $entity, ErrorStore $errorStore)

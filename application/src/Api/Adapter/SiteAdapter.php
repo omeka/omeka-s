@@ -28,7 +28,7 @@ class SiteAdapter extends AbstractEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\SiteRepresentation';
+        return \Omeka\Api\Representation\SiteRepresentation::class;
     }
 
     /**
@@ -36,7 +36,7 @@ class SiteAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Entity\Site';
+        return \Omeka\Entity\Site::class;
     }
 
     /**

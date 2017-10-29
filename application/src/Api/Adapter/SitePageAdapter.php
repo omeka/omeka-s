@@ -36,7 +36,7 @@ class SitePageAdapter extends AbstractEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\SitePageRepresentation';
+        return \Omeka\Api\Representation\SitePageRepresentation::class;
     }
 
     /**
@@ -44,7 +44,7 @@ class SitePageAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Entity\SitePage';
+        return \Omeka\Entity\SitePage::class;
     }
 
     /**

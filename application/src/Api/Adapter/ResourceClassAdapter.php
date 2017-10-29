@@ -33,7 +33,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\ResourceClassRepresentation';
+        return \Omeka\Api\Representation\ResourceClassRepresentation::class;
     }
 
     /**
@@ -41,7 +41,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Entity\ResourceClass';
+        return \Omeka\Entity\ResourceClass::class;
     }
 
     /**

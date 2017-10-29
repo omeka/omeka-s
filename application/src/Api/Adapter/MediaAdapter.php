@@ -36,7 +36,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\MediaRepresentation';
+        return \Omeka\Api\Representation\MediaRepresentation::class;
     }
 
     /**
@@ -44,7 +44,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Entity\Media';
+        return \Omeka\Entity\Media::class;
     }
 
     /**

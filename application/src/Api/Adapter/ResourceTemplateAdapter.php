@@ -30,7 +30,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\ResourceTemplateRepresentation';
+        return \Omeka\Api\Representation\ResourceTemplateRepresentation::class;
     }
 
     /**
@@ -38,7 +38,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Entity\ResourceTemplate';
+        return \Omeka\Entity\ResourceTemplate::class;
     }
 
     /**

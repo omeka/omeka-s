@@ -31,7 +31,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\ItemSetRepresentation';
+        return \Omeka\Api\Representation\ItemSetRepresentation::class;
     }
 
     /**
@@ -39,7 +39,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Entity\ItemSet';
+        return \Omeka\Entity\ItemSet::class;
     }
 
     /**

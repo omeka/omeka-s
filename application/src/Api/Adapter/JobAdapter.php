@@ -32,7 +32,7 @@ class JobAdapter extends AbstractEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\JobRepresentation';
+        return \Omeka\Api\Representation\JobRepresentation::class;
     }
 
     /**
@@ -40,7 +40,7 @@ class JobAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Entity\Job';
+        return \Omeka\Entity\Job::class;
     }
 
     /**

@@ -33,7 +33,7 @@ class PropertyAdapter extends AbstractEntityAdapter
      */
     public function getRepresentationClass()
     {
-        return 'Omeka\Api\Representation\PropertyRepresentation';
+        return \Omeka\Api\Representation\PropertyRepresentation::class;
     }
 
     /**
@@ -41,7 +41,7 @@ class PropertyAdapter extends AbstractEntityAdapter
      */
     public function getEntityClass()
     {
-        return 'Omeka\Entity\Property';
+        return \Omeka\Entity\Property::class;
     }
 
     /**

@@ -120,6 +120,14 @@ class Manager implements ResourceInterface
     }
 
     /**
+     * Sort modules alphabetically.
+     */
+    public function sortModules()
+    {
+        ksort($this->modules);
+    }
+
+    /**
      * Get all registered modules
      *
      * @return array

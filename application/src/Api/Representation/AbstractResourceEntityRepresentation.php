@@ -505,8 +505,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $thumbnail($this, $thumbnailType),
             $escape($this->displayTitle($titleDefault))
         );
-        if (empty($attributes) || !isset($attributes['class'])) {
+        if (empty($attributes['class'])) {
             $attributes['class'] = 'resource-link';
+        } else {
+            $attributes['class'] .= ' resource-link';
         }
         return $this->linkRaw($linkContent, $action, $attributes);
     }

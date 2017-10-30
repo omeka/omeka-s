@@ -342,7 +342,10 @@ class RdfImporter
     {
         $label = $resource->label();
         if ($label instanceof EasyRdf_Literal) {
-            return $label->getValue();
+            $value = $label->getValue();
+            if ('' !== $value) {
+                return $value;
+            }
         }
         return $default;
     }

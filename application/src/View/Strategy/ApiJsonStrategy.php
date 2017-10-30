@@ -4,6 +4,7 @@ namespace Omeka\View\Strategy;
 
 use Omeka\Api\Exception as ApiException;
 use Omeka\Api\Response;
+use Omeka\Module;
 use Omeka\Mvc\Exception as MvcException;
 use Omeka\View\Model\ApiJsonModel;
 use Omeka\View\Renderer\ApiJsonRenderer;
@@ -58,6 +59,7 @@ class ApiJsonStrategy extends JsonStrategy
 
         $model = $e->getModel();
         $e->getResponse()->setStatusCode($this->getResponseStatusCode($model));
+        $e->getResponse()->getHeaders()->addHeaderLine('Omeka-S-Version', Module::VERSION);
     }
 
     /**

@@ -92,7 +92,7 @@ class VocabularyController extends AbstractActionController
                         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                     }
                 } catch (ValidationException $e) {
-                    $this->api($form)->handleValidationException($e);
+                    $this->messenger()->addError($e->getMessage());
                 }
             } else {
                 $this->messenger()->addFormErrors($form);

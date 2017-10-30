@@ -31,12 +31,11 @@
 
     .resource-name {
         display: inline-block;
-        max-width: calc(100% - #{6 * $spacing-large});
         vertical-align: middle;
     }
 
     img {
-        width: 2 * $base-line-height;
+        width: 1.5 * $base-line-height;
         margin-right: $spacing-medium;
     }
 }

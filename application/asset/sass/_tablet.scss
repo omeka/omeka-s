@@ -471,22 +471,24 @@ fieldset.section.mobile-active > legend:after{
 
 .show .section .property,
 .show .section .meta-group {
-    margin-bottom: $spacing-large;
+    margin-bottom: $spacing-small;
+    box-shadow: 0 0 0 1px $border-gray;
+    border-radius: 2px;
 }
 
 .show .section .meta-group h4,
 .show .section .property h4 {
-    padding-bottom: ($spacing-small - 2px);
-    border-bottom: 2px solid $border-gray;
-    margin-bottom: $spacing-small;
+    padding-bottom: $spacing-small;
+    border-bottom: 1px solid $border-gray;
+    background-color: $gray-on-white;
 }
 
 .show .section .meta-group h4,
 .show .section .meta-group .value,
 .show .section .property h4,
-.show .section .property .value {
-    width: 100%;
-    padding: 0;
+.show .section .property .values {
+    width: 100% !important;
+    padding: $spacing-small !important;
 }
 
 .show .section .meta-group .value:not(:first-of-type),

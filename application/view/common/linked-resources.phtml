@@ -23,7 +23,12 @@ $pagination->setFragment($fragment);
 <?php foreach ($subjectValues as $term => $values): ?>
 <h4><?php echo $escape($values[0]->property()->label()); ?></h4>
 <?php foreach ($values as $value): ?>
-<div><?php echo $value->resource()->linkPretty(); ?></div>
+<div>
+    <?php if ($value->resource()->resourceClass()): ?>
+    <?php echo sprintf('[%s]', $value->resource()->resourceClass()->label()); ?>
+    <?php endif; ?>
+    <?php echo $value->resource()->linkPretty(); ?>
+</div>
 <?php endforeach; ?>
 <?php endforeach; ?>
 

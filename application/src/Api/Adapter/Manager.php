@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-use Zend\ServiceManager\AbstractPluginManager;
+use Omeka\ServiceManager\AbstractPluginManager;
 
 class Manager extends AbstractPluginManager
 {

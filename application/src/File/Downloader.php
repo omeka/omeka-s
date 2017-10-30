@@ -77,11 +77,12 @@ class Downloader
         }
 
         if (!$response->isOk()) {
+            $message = sprintf(
+                'Error downloading %s: %s %s', // @translate
+                (string) $uri, $response->getStatusCode(), $response->getReasonPhrase()
+                );
             if ($errorStore) {
-                $errorStore->addError('download', sprintf(
-                    'Error downloading %s: %s %s', // @translate
-                    (string) $uri, $response->getStatusCode(), $response->getReasonPhrase()
-                ));
+                $errorStore->addError('download', $message);
             }
             $this->logger->err($message);
             return false;

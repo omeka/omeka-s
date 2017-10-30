@@ -229,13 +229,27 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
     public function link($text, $action = null, $attributes = [])
     {
         $escapeHtml = $this->getViewHelper('escapeHtml');
+        return $this->linkRaw($escapeHtml($text), $action, $attributes);
+    }
 
-        $attributes['href'] = $this->url($action);
-        $attributeStr = '';
-        foreach ($attributes as $key => $value) {
-            $attributeStr .= ' ' . $key . '="' . $escapeHtml($value) . '"';
-        }
-        return "<a$attributeStr>" . $escapeHtml($text) . '</a>';
+    /**
+     * Get an HTML link to a resource, with the link contents unescaped.
+     *
+     * This method allows for more complex HTML within a link, but
+     * Users of this method must ensure any untrusted components of
+     * their contents are already escaped or filtered as necessary.
+     *
+     * Link attributes are still auto-escaped by this method.
+     *
+     * @param string $html The HTML to be linked
+     * @param string $action
+     * @param array $attributes HTML attributes, key and value
+     * @return string
+     */
+    public function linkRaw($html, $action = null, $attributes = [])
+    {
+        $hyperlink = $this->getViewHelper('hyperlink');
+        return $hyperlink->raw($html, $this->url($action), $attributes);
     }
 
     /**

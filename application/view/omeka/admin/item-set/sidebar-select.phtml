@@ -1,5 +1,6 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
 $itemSetsFound = count($itemSets) > 0;
 ?>
 
@@ -16,15 +17,21 @@ $itemSetsFound = count($itemSets) > 0;
 
 <div class="resource-list">
     <?php if ($itemSetsFound): ?>
-        <?php foreach ($itemSets as $itemSet):?>
+        <?php
+        foreach ($itemSets as $itemSet): ?>
         <div class="resource item-set">
-            <a href="#"
-            class="sidebar-content select-resource"
-            data-sidebar-content-url="<?php echo $escape($itemSet->url('show-details')); ?>" data-sidebar-selector="#resource-details">
-                <?php echo $this->thumbnail($itemSet, 'square'); ?>
-                <span class="resource-name">
-    <?php echo $escape($itemSet->displayTitle()); ?></span>
-            </a>
+            <?php
+            $content = sprintf(
+                '%s<span class="resource-name">%s</span>',
+                $this->thumbnail($itemSet, 'square'),
+                $escape($itemSet->displayTitle())
+            );
+            echo $hyperlink->raw($content, '#', [
+                'class' => 'sidebar-content select-resource resource-link',
+                'data-sidebar-content-url' => $itemSet->url('show-details'),
+                'data-sidebar-selector' => '#resource-details',
+            ]);
+            ?>
         </div>
         <?php endforeach; ?>
     <?php else: ?>

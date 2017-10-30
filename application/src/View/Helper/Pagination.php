@@ -27,6 +27,11 @@ class Pagination extends AbstractHelper
     protected $partialName;
 
     /**
+     * @var string A URL fragment
+     */
+    protected $fragment;
+
+    /**
      * Construct the helper.
      *
      * @param Paginator $paginator
@@ -104,6 +109,16 @@ class Pagination extends AbstractHelper
     }
 
     /**
+     * Set a fragment to pagination URLs.
+     *
+     * @param string $fragment
+     */
+    public function setFragment($fragment)
+    {
+        $this->fragment = $fragment;
+    }
+
+    /**
      * Get a pagination URL.
      *
      * @param int $page The page number
@@ -113,7 +128,11 @@ class Pagination extends AbstractHelper
     {
         $query = $this->getView()->params()->fromQuery();
         $query['page'] = (int) $page;
-        return $this->getView()->url(null, [], ['query' => $query], true);
+        $options = ['query' => $query];
+        if (is_string($this->fragment)) {
+            $options['fragment'] = $this->fragment;
+        }
+        return $this->getView()->url(null, [], $options, true);
     }
 
     /**
@@ -127,6 +146,10 @@ class Pagination extends AbstractHelper
     {
         $query = $this->getView()->params()->fromQuery();
         unset($query['page']);
-        return $this->getView()->url(null, [], ['query' => $query], true);
+        $options = ['query' => $query];
+        if (is_string($this->fragment)) {
+            $options['fragment'] = $this->fragment;
+        }
+        return $this->getView()->url(null, [], $options, true);
     }
 }

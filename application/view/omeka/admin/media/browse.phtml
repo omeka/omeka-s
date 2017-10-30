@@ -60,28 +60,27 @@ $sortHeadings = [
         ?>
             <tr>
                 <td>
-                    <?php echo $this->thumbnail($media, 'square'); ?>
-                    <span class="resource-name">
-                        <?php echo $media->link($media->displayTitle(), 'show'); ?>
-                    </span>
+                    <?php echo $media->linkPretty(); ?>
+                    <?php if (!$media->isPublic()): ?>
+                        <span class="o-icon-private"></span>
+                    <?php endif; ?>
                     <ul class="actions">
                         <li><?php echo $media->link('', 'edit', [
                             'class' => 'o-icon-edit',
-                            'aria-label' => $this->translate('Edit'),
                             'title' => $this->translate('Edit'),
                         ]); ?></li>
                         <?php if ($media->userIsAllowed('delete')): ?>
-                        <li><a href="#"
-                            data-sidebar-content-url="<?php echo $escape($media->url('delete-confirm')); ?>"
-                            class="o-icon-delete sidebar-content"
-                            aria-label="<?php echo $escape($this->translate('Delete')); ?>"
-                            title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
+                        <li><?php echo $this->hyperlink('', '#', [
+                            'data-sidebar-content-url' => $media->url('delete-confirm'),
+                            'class' => 'o-icon-delete sidebar-content',
+                            'title' => $this->translate('Delete'),
+                        ]); ?></li>
                         <?php endif; ?>
-                        <li><a href="#"
-                            data-sidebar-content-url="<?php echo $escape($media->url('show-details')); ?>"
-                            class="o-icon-more sidebar-content"
-                            aria-label="<?php echo $escape($this->translate('Details')); ?>"
-                            title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
+                        <li><?php echo $this->hyperlink('', '#', [
+                            'data-sidebar-content-url' => $media->url('show-details'),
+                            'class' => 'o-icon-more sidebar-content',
+                            'title' => $this->translate('Details'),
+                        ]); ?></li>
                     </ul>
                 </td>
                 <td><?php echo $escape($media->displayResourceClassLabel()); ?></td>
@@ -98,10 +97,10 @@ $sortHeadings = [
 </div>
 
 <div class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
     <div class="sidebar-content"></div>
 </div>
 

@@ -28,7 +28,11 @@ $changeItemButton = '<button id="attachment-item-select" data-sidebar-content-ur
 </div>
 <?php if ($allMedia): ?>
 <div class="select-media option">
-    <h3><?php echo $this->translate('Media'); ?></h3><a href="#" class="collapse" aria-label="<?php echo $this->translate('Collapse'); ?>" title="<?php echo $this->translate('Collapse'); ?>"></a>
+    <h3><?php echo $this->translate('Media'); ?></h3>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'collapse',
+        'title' => $this->translate('Collapse'),
+    ]); ?>
     <div class="collapsible">
         <ul class="media-list">
             <?php foreach ($allMedia as $media): ?>

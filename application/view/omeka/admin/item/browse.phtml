@@ -88,10 +88,7 @@ $sortHeadings = [
                 <?php if ($item->userIsAllowed('update') || $item->userIsAllowed('delete')): ?>
                 <input type="checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
                 <?php endif; ?>
-                <?php echo $this->thumbnail($item, 'square'); ?>
-                <span class="resource-name">
-                    <?php echo $item->link($item->displayTitle()); ?>
-                </span>
+                <?php echo $item->linkPretty(); ?>
                 <?php if (!$item->isPublic()): ?>
                     <span class="o-icon-private"></span>
                 <?php endif; ?>
@@ -99,24 +96,23 @@ $sortHeadings = [
                     <?php if ($item->userIsAllowed('update')): ?>
                     <li><?php echo $item->link('', 'edit', [
                         'class' => 'o-icon-edit',
-                        'aria-label' => $this->translate('Edit'),
                         'title' => $this->translate('Edit'),
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($item->userIsAllowed('delete')): ?>
-                    <li><a href="#"
-                        data-sidebar-selector="#sidebar"
-                        data-sidebar-content-url="<?php echo $escape($item->url('delete-confirm')); ?>"
-                        class="o-icon-delete sidebar-content"
-                        aria-label="<?php echo $escape($this->translate('Delete')); ?>"
-                        title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
+                    <li><?php echo $this->hyperlink('', '#', [
+                        'data-sidebar-selector' => '#sidebar',
+                        'data-sidebar-content-url' => $item->url('delete-confirm'),
+                        'class' => 'o-icon-delete sidebar-content',
+                        'title' => $this->translate('Delete'),
+                    ]); ?></li>
                     <?php endif; ?>
-                    <li><a href="#"
-                        data-sidebar-selector="#sidebar"
-                        data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>"
-                        class="o-icon-more sidebar-content"
-                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
-                        title="<?php echo $escape($this->translate('Details')); ?>"></a></li>
+                    <li><?php echo $this->hyperlink('', '#', [
+                        'data-sidebar-selector' => '#sidebar',
+                        'data-sidebar-content-url' => $item->url('show-details'),
+                        'class' => 'o-icon-more sidebar-content',
+                        'title' => $this->translate('Details'),
+                    ]); ?></li>
                 </ul>
             </td>
             <td><?php echo $escape($this->translate($item->displayResourceClassLabel())); ?></td>
@@ -135,14 +131,17 @@ $sortHeadings = [
 </div>
 
 <div id="sidebar" class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
     <div class="sidebar-content"></div>
 </div>
 <div id="sidebar-delete-selected" class="sidebar">
-    <a href="#" class="sidebar-close o-icon-close" aria-label="<?php echo $escape($this->translate('Close')); ?>" title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
             <h3><?php echo $this->translate('Delete items'); ?></h3>
@@ -157,7 +156,10 @@ $sortHeadings = [
     </div>
 </div>
 <div id="sidebar-delete-all" class="sidebar">
-    <a href="#" class="sidebar-close o-icon-close" aria-label="<?php echo $escape($this->translate('Close')); ?>" title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
             <h3><?php echo $this->translate('Delete items'); ?></h3>

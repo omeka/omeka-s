@@ -49,32 +49,28 @@ $sortHeadings = [
         <?php foreach ($vocabularies as $vocabulary): ?>
         <tr>
             <td>
-                <span class="resource-name">
-                    <?php echo $escape($this->translate($vocabulary->label())); ?>
-                </span>
+                <?php echo $escape($this->translate($vocabulary->label())); ?>
                 <ul class="actions">
                     <?php if (!$vocabulary->isPermanent()): ?>
                     <?php if ($vocabulary->userIsAllowed('update')): ?>
                     <li><?php echo $vocabulary->link('', 'edit', [
                         'class' => 'o-icon-edit',
-                        'aria-label' => $this->translate('Edit'),
                         'title' => $this->translate('Edit'),
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($vocabulary->userIsAllowed('delete')): ?>
-                    <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($vocabulary->url('delete-confirm')); ?>"
-                        class="o-icon-delete sidebar-content"
-                        aria-label="<?php echo $escape($this->translate('Delete')); ?>"
-                        title="<?php echo $escape($this->translate('Delete')); ?>"></a></li>
+                    <li><?php echo $this->hyperlink('', '#', [
+                        'data-sidebar-content-url' => $vocabulary->url('delete-confirm'),
+                        'class' => 'o-icon-delete sidebar-content',
+                        'title' => $this->translate('Delete'),
+                    ]); ?></li>
                     <?php endif; ?>
                     <?php endif; ?>
-                    <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($vocabulary->url('show-details')); ?>"
-                        class="o-icon-more sidebar-content"
-                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
-                        title="<?php echo $escape($this->translate('Details')); ?>"></a>
-                    </li>
+                    <li><?php echo $this->hyperlink('', '#', [
+                        'data-sidebar-content-url' => $vocabulary->url('show-details'),
+                        'class' => 'o-icon-more sidebar-content',
+                        'title' => $this->translate('Details'),
+                    ]); ?></li>
                 </ul>
             </td>
             <td><?php echo $escape($this->translate($vocabulary->prefix())); ?></td>
@@ -90,10 +86,10 @@ $sortHeadings = [
 </div>
 
 <div class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
     <div class="sidebar-content"></div>
 </div>
 

@@ -1,5 +1,6 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
 $itemsFound = count($items) > 0;
 ?>
 
@@ -59,14 +60,25 @@ $itemsFound = count($items) > 0;
             <div class="select-resource-checkbox-wrapper">
               <input type="checkbox" class="select-resource-checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
             </div>
-            <?php if ($showDetails): ?>
-            <a href="#" class="sidebar-content select-resource" data-sidebar-content-url="<?php echo $escape($item->url('show-details')); ?>" data-sidebar-selector="#resource-details">
-            <?php else: ?>
-            <a href="#" class="select-resource">
-            <?php endif; ?>
-                <?php echo $this->thumbnail($item, 'square'); ?>
-                <span class="resource-name"><?php echo $escape($item->displayTitle()); ?></span>
-            </a>
+            <?php
+            $content = sprintf(
+                '%s<span class="resource-name">%s</span>',
+                $this->thumbnail($item, 'square'),
+                $escape($item->displayTitle())
+            );
+            if ($showDetails):
+                $attrs = [
+                    'class' => 'sidebar-content select-resource resource-link',
+                    'data-sidebar-content-url' => $item->url('show-details'),
+                    'data-sidebar-selector' => '#resource-details',
+                ];
+            else:
+                $attrs = [
+                    'class' => 'select-resource resource-link',
+                ];
+            endif;
+            echo $hyperlink->raw($content, '#', $attrs);
+            ?>
         </div>
         <?php endforeach; ?>
     </div>

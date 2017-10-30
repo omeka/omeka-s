@@ -25,16 +25,15 @@ $escape = $this->plugin('escapeHtml');
         <?php foreach ($properties as $property): ?>
         <tr>
             <td>
-                <span class="resource-name">
+                <span class="property-name">
                     <?php echo $escape($this->translate($property->label())); ?>
                 </span>
                 <ul class="actions">
-                    <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($property->url('show-details')); ?>"
-                        class="o-icon-more sidebar-content"
-                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
-                        title="<?php echo $escape($this->translate('Details')); ?>"></a>
-                    </li>
+                <li><?php echo $this->hyperlink('', '#', [
+                    'data-sidebar-content-url' => $property->url('show-details'),
+                    'class' => 'o-icon-more sidebar-content',
+                    'title' => $this->translate('Details'),
+                ]); ?></li>
                 </ul>
             </td>
             <td><?php echo $escape($this->translate($property->term())); ?></td>
@@ -47,10 +46,10 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->pagination(); ?>
 
 <div class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
     <div class="sidebar-content"></div>
 </div>
 

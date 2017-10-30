@@ -41,16 +41,15 @@ $sortHeadings = [
         <?php foreach ($resourceClasses as $resourceClass): ?>
         <tr>
             <td>
-                <span class="resource-name">
+                <span class="resource-class-label">
                     <?php echo $escape($this->translate($resourceClass->label())); ?>
                 </span>
                 <ul class="actions">
-                    <li><a href="#"
-                        data-sidebar-content-url="<?php echo $escape($resourceClass->url('show-details')); ?>"
-                        class="o-icon-more sidebar-content"
-                        aria-label="<?php echo $escape($this->translate('Details')); ?>"
-                        title="<?php echo $escape($this->translate('Details')); ?>"></a>
-                    </li>
+                    <li><?php echo $this->hyperlink('', '#', [
+                        'data-sidebar-content-url' => $resourceClass->url('show-details'),
+                        'class' => 'o-icon-more sidebar-content',
+                        'title' => $this->translate('Details'),
+                    ]); ?></li>
                 </ul>
             </td>
             <td><?php echo $escape($this->translate($resourceClass->term())); ?></td>
@@ -63,10 +62,10 @@ $sortHeadings = [
 <?php echo $this->pagination(); ?>
 
 <div class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
     <div class="sidebar-content"></div>
 </div>
 

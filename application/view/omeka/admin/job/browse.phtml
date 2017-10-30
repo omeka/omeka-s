@@ -59,9 +59,7 @@ $sortHeadings = [
         ?>
         <tr>
             <td>
-                <span class="resource-name">
-                    <?php echo $job->link($escape($job->id())); ?>
-                </span>
+                <?php echo $job->link($escape($job->id())); ?>
             </td>
             <td><?php echo $escape($job->jobClass()); ?></td>
             <td><?php echo $escape($this->translate($job->statusLabel())); ?></td>

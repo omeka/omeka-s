@@ -36,19 +36,19 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 <?php endif; ?>
 
 <div id="details" class="sidebar">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
     <div class="sidebar-content"></div>
 </div>
 
 <div id="edit-sidebar" class="sidebar">
     <div class="confirm-main">
-    <a href="#"
-        class="sidebar-close o-icon-close"
-        aria-label="<?php echo $escape($this->translate('Close')); ?>"
-        title="<?php echo $escape($this->translate('Close')); ?>"></a>
+        <?php echo $this->hyperlink('', '#', [
+            'class' => 'sidebar-close o-icon-close',
+            'title' => $this->translate('Close'),
+        ]); ?>
         <div class="field">
             <h3><?php echo $escape($this->translate('Label')); ?></h3>
             <h4><?php echo $this->translate('Original'); ?></h4>

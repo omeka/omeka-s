@@ -337,20 +337,47 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Get value representations where this resource is the RDF object.
      *
+     * @param int $page
+     * @param int $perPage
+     * @param int $property Filter by property ID
      * @return array
      */
-    public function subjectValues()
+    public function subjectValues($page = null, $perPage = null, $property = null)
     {
-        $subjectResourceValues = $this->getAdapter()
-            ->getSubjectValues($this->resource);
-        $valueRepresentations = [];
-        foreach ($subjectResourceValues as $subjectResourceValue) {
-            $valueRepresentations[] = new ValueRepresentation(
-                $subjectResourceValue,
-                $this->getServiceLocator()
-            );
+        $values = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $property);
+        $subjectValues = [];
+        foreach ($values as $value) {
+            $valueRep = new ValueRepresentation($value, $this->getServiceLocator());
+            $subjectValues[$valueRep->property()->term()][] = $valueRep;
         }
-        return $valueRepresentations;
+        return $subjectValues;
+    }
+
+    /**
+     * Get the total count of this resource's subject values.
+     *
+     * @param int $property Filter by property ID
+     * @return int
+     */
+    public function subjectValueTotalCount($property = null)
+    {
+        return $this->getAdapter()->getSubjectValueTotalCount($this->resource, $property);
+    }
+
+    /**
+     * Get distinct properties (predicates) where this resource is the RDF object.
+     *
+     * @return array
+     */
+    public function subjectValueProperties()
+    {
+        $propertyAdapter = $this->getAdapter('properties');
+        $properties = $this->getAdapter()->getSubjectValueProperties($this->resource);
+        $subjectProperties = [];
+        foreach ($properties as $property) {
+            $subjectProperties[] = $propertyAdapter->getRepresentation($property);
+        }
+        return $subjectProperties;
     }
 
     /**
@@ -402,30 +429,29 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * Get the display markup for all values where this resource is the RDF
-     * subject or object.
+     * Get the display markup for values where this resource is the RDF object.
      *
-     * Options:
-     *
-     * + viewName: Name of view script, or a view model. Default
-     *   "common/linked-resources"
-     *
-     * @param array $options
+     * @param int $page
+     * @param int $perPage
+     * @param int $property Filter by property ID
      * @return string
      */
-    public function displayLinkedResources(array $options = [])
+    public function displaySubjectValues($page = null, $perPage = null, $property = null)
     {
-        if (!isset($options['viewName'])) {
-            $options['viewName'] = 'common/linked-resources';
+        $subjectValues = $this->subjectValues($page, $perPage, $property);
+        if (!$subjectValues) {
+            return null;
         }
         $partial = $this->getViewHelper('partial');
-        if (!isset($options['subjectValues'])) {
-            $options['subjectValues'] = $this->subjectValues();
-        }
-        if (!isset($options['objectValues'])) {
-            $options['objectValues'] = $this->objectValues();
-        }
-        return $partial($options['viewName'], $options);
+        return $partial('common/linked-resources', [
+            'objectResource' => $this,
+            'subjectValues' => $subjectValues,
+            'page' => $page,
+            'perPage' => $perPage,
+            'property' => $property,
+            'totalCount' => $this->subjectValueTotalCount($property),
+            'properties' => $this->subjectValueProperties(),
+        ]);
     }
 
     /**
@@ -475,6 +501,28 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         $resourceClass = $this->resourceClass();
         return $resourceClass ? $resourceClass->label() : $default;
+    }
+
+    /**
+     * Get a "pretty" link to this resource containing a thumbnail and
+     * display title.
+     *
+     * @param string $thumbnailType Type of thumbnail to show
+     * @param string|null $titleDefault See $default param for displayTitle()
+     * @param string|null $action Action to link to (see link() and linkRaw())
+     *
+     * @return string
+     */
+    public function linkPretty($thumbnailType = 'square', $titleDefault = null, $action = null)
+    {
+        $escape = $this->getViewHelper('escapeHtml');
+        $thumbnail = $this->getViewHelper('thumbnail');
+        $linkContent = sprintf(
+            '%s<span class="resource-name">%s</span>',
+            $thumbnail($this, $thumbnailType),
+            $escape($this->displayTitle($titleDefault))
+        );
+        return $this->linkRaw($linkContent, $action, ['class' => 'resource-link']);
     }
 
     /**

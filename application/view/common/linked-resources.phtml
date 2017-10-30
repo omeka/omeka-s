@@ -1,41 +1,41 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-?>
-<table class="tablesaw" data-tablesaw-mode="stack">
-    <thead>
-        <tr>
-            <th><?php echo $this->translate('Subject'); ?></th>
-            <th><?php echo $this->translate('Predicate'); ?></th>
-            <th><?php echo $this->translate('Object'); ?></th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if ($objectValues): ?>
-        <?php foreach ($objectValues as $value): ?>
-        <?php
-        $resource = $value->valueResource();
-        $property = $value->property();
-        ?>
-        <tr>
-            <td><?php echo $this->translate('This'); ?></td>
-            <td><?php echo $escape($property->label()); ?></td>
-            <td><?php echo $resource->link($resource->displayTitle()); ?></td>
-        </tr>
-        <?php endforeach; ?>
-        <?php endif; ?>
 
-        <?php if ($subjectValues): ?>
-        <?php foreach ($subjectValues as $value): ?>
-        <?php
-        $resource = $value->resource();
-        $property = $value->property();
-        ?>
-        <tr>
-            <td><?php echo $resource->link($resource->displayTitle()); ?></td>
-            <td><?php echo $escape($property->label()); ?></td>
-            <td><?php echo $this->translate('This'); ?></td>
-        </tr>
+$fragment = 'item-linked';
+if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResource)) {
+    $fragment = 'item-set-linked';
+}
+$pagination = $this->pagination(null, $totalCount, $page, $perPage);
+$pagination->setFragment($fragment);
+?>
+<div id="linked-resources">
+<div>
+    <h4>Filter by property</h4>
+    <select id="filter-property" name="property" data-url="<?php echo $escape($this->url(null, [], true)); ?>" data-fragment="<?php echo $escape($fragment); ?>">
+        <option value="">All</option>
+        <?php foreach ($properties as $prop): ?>
+        <option value="<?php echo $escape($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $escape(sprintf('%s (%s)', $prop->label(), $prop->term())); ?></option>
         <?php endforeach; ?>
-        <?php endif; ?>
-    </tbody>
-</table>
+    </select>
+</div>
+<?php echo $pagination; ?>
+
+<?php foreach ($subjectValues as $term => $values): ?>
+<h4><?php echo $escape($values[0]->property()->label()); ?></h4>
+<?php foreach ($values as $value): ?>
+<div><?php echo $value->resource()->linkPretty(); ?></div>
+<?php endforeach; ?>
+<?php endforeach; ?>
+
+<?php echo $pagination; ?>
+</div>
+
+<script>
+$('#filter-property').on('change', function(e) {
+    var thisSelect = $(this);
+    var property = thisSelect.find(':selected').val();
+    var url = thisSelect.data('url');
+    var fragment = thisSelect.data('fragment');
+    window.location = url + '?' + $.param({property: property}) + '#' + fragment;
+});
+</script>

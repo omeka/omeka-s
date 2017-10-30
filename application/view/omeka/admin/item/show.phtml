@@ -32,10 +32,13 @@ $sectionNavs = [
 </div>
 
 <div id="item-linked" class="section">
-    <?php $subjects = $item->subjectValues(); ?>
-    <?php $objects = $item->objectValues(); ?>
-    <?php if ( $subjects || $objects ): ?>
-        <?php echo $item->displayLinkedResources(); ?>
+    <?php
+    $page = $this->params()->fromQuery('page', 1);
+    $property = $this->params()->fromQuery('property');
+    $subjectValues = $item->displaySubjectValues($page, 25, $property);
+    ?>
+    <?php if ($subjectValues): ?>
+        <?php echo $subjectValues; ?>
     <?php else: ?>
         <div class="no-resources">
             <p><?php echo $this->translate('There are no linked resources for this item.'); ?></p>
@@ -72,10 +75,7 @@ $sectionNavs = [
         <h4><?php echo $this->translate('Media'); ?></h4>
         <?php foreach ($item->media() as $media): ?>
         <div class="value">
-            <a href="<?php echo $media->url(); ?>">
-                <?php echo $this->thumbnail($media, 'square'); ?>
-                <span class="file-name"><?php echo $escape($media->displayTitle()); ?></span>
-            </a>
+            <?php echo $media->linkPretty(); ?>
         </div>
         <?php endforeach; ?>
     </div>

@@ -3592,10 +3592,6 @@ body.sidebar-open #content {
         border: 1px solid $border-gray;
     }
 
-    .current-theme .theme-meta {
-        width: 50%;
-    }
-
     .current-theme-label {
         font-size: $base-font-size;
         text-transform: uppercase;
@@ -3603,8 +3599,9 @@ body.sidebar-open #content {
         margin-bottom: $spacing-small;
     }
 
-    .theme-version {
-        display: block;
+    .theme-meta {
+        display: flex;
+        flex-direction: column;
     }
 
     /* @end */

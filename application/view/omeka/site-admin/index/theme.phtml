@@ -19,22 +19,22 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
         <?php $absoluteThumbnailUrl = $this->basePath() . $currentTheme->getThumbnail(); ?>
         <div class="theme-thumbnail"><img src="<?php echo $escape((file_exists($localThumbnailUrl)) ? $absoluteThumbnailUrl : $fallbackThumbnailUrl); ?>"></div>
 
-        <div class="theme-meta">
+        <div class="current-theme-info">
             <h3>
                 <span class="current-theme-label"><?php echo $this->translate('Current theme'); ?></span>
                 <span class="current-theme-name"><?php echo $currentTheme->getName(); ?></span>
             </h3>
             <?php if (Manager::STATE_ACTIVE === $currentTheme->getState()): ?>
-            <p>
+            <p class="theme-meta">
                 <?php $currentVersion = $currentTheme->getIni('version'); ?>
                 <?php if (!empty($currentVersion)): ?>
                 <span class="theme-version">
                     <?php echo sprintf($this->translate('version %s'), $currentVersion); ?>
                 </span>
                 <?php endif; ?>
-                <span class="current-theme-author"><a href="<?php echo $escape($currentTheme->getIni('author_link')); ?>" target="_blank"><?php echo $escape($currentTheme->getIni('author')); ?></a></span>
+                <span class="theme-author"><a href="<?php echo $escape($currentTheme->getIni('author_link')); ?>" target="_blank"><?php echo $escape($currentTheme->getIni('author')); ?></a></span>
                 <?php if (($currentDescription = $currentTheme->getIni('description')) && ($currentDescription !== '')): ?>
-                <span class="current-theme-description"><?php echo $escape($currentDescription); ?></span>
+                <span class="theme-description"><?php echo $escape($currentDescription); ?></span>
                 <?php endif; ?>
             </p>
             <?php echo $this->hyperlink($this->translate('Edit theme settings'), $this->url(null, ['site-slug' => $site->slug(), 'action' => 'theme-settings']), ['class' => 'theme-settings button']); ?>

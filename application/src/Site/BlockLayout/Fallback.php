@@ -26,7 +26,12 @@ class Fallback extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return sprintf('%s [%s]', 'Unknown', $this->name); // @translate
+        $message = new Message(
+            '%s [%s]',
+            'Unknown', //@translate
+            $this->name
+            );
+        return $message;
     }
 
     /**

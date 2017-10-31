@@ -7,6 +7,7 @@ use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\DataType\AbstractDataType;
 use Omeka\Entity\Value;
 use Zend\View\Renderer\PhpRenderer;
+use Omeka\Stdlib\Message;
 
 abstract class AbstractResource extends AbstractDataType
 {
@@ -54,9 +55,11 @@ abstract class AbstractResource extends AbstractDataType
         }
         if ($valueResource instanceof Media) {
             $exception = new Exception\ValidationException;
+            $message = new Message(
+                'A value resource cannot be Media.' // @translate
+                );
             $exception->getErrorStore()->addError(
-                'value', $serviceLocator->get('MvcTranslator')
-                    ->translate('A value resource cannot be Media.')
+                'value', $message
             );
             throw $exception;
         }

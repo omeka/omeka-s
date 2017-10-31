@@ -4,6 +4,7 @@ namespace Omeka\File;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Log\Logger;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Omeka\Stdlib\Message;
 
 /**
  * File downloader service
@@ -66,10 +67,10 @@ class Downloader
                 if (++$attempt === 3) {
                     $this->logger->err((string) $e);
                     if ($errorStore) {
-                        $errorStore->addError('download', sprintf(
+                        $message = new Message(
                             'Error downloading %s: %s', // @translate
                             (string) $uri, $e->getMessage()
-                        ));
+                            );
                     }
                     return false;
                 }

@@ -174,7 +174,7 @@ class RdfImporter
         }
 
         if (!$members['classes'] && !$members['properties']) {
-            throw new ValidationException('No classes or properties found.');
+            throw new ValidationException('No classes or properties found. Are you sure you used the correct namespace URI?');
         }
 
         return $this->apiManager->create('vocabularies', array_merge($vocab, $vocabMembers));

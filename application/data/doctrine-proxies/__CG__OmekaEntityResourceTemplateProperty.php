@@ -334,6 +334,17 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     /**
      * {@inheritDoc}
      */
+    public function getIsRequired()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIsRequired', []);
+
+        return parent::getIsRequired();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function isRequired()
     {
 

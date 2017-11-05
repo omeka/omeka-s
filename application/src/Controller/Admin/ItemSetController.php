@@ -269,16 +269,14 @@ class ItemSetController extends AbstractActionController
             $form->setData($data);
 
             if ($form->isValid()) {
-                list($dataRemove, $dataAppend) = $form->preprocessData();
+                $data = $form->preprocessData();
 
-                $this->api($form)->batchUpdate('item_sets', $resourceIds, $dataRemove, [
-                    'continueOnError' => true,
-                    'collectionAction' => 'remove',
-                ]);
-                $this->api($form)->batchUpdate('item_sets', $resourceIds, $dataAppend, [
-                    'continueOnError' => true,
-                    'collectionAction' => 'append',
-                ]);
+                foreach ($data as $collectionAction => $properties) {
+                    $this->api($form)->batchUpdate('item_sets', $resourceIds, $properties, [
+                        'continueOnError' => true,
+                        'collectionAction' => $collectionAction,
+                    ]);
+                }
 
                 $this->messenger()->addSuccess('Item sets successfully edited'); // @translate
                 return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
@@ -317,13 +315,14 @@ class ItemSetController extends AbstractActionController
             $form->setData($data);
 
             if ($form->isValid()) {
-                list($dataRemove, $dataAppend) = $form->preprocessData();
+                $data = $form->preprocessData();
 
                 $job = $this->dispatcher->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'item_sets',
                     'query' => $query,
-                    'data_remove' => $dataRemove,
-                    'data_append' => $dataAppend,
+                    'data' => isset($data['replace']) ? $data['replace'] : [],
+                    'data_remove' => isset($data['remove']) ? $data['remove'] : [],
+                    'data_append' => isset($data['append']) ? $data['append'] : [],
                 ]);
 
                 $this->messenger()->addSuccess('Editing item sets. This may take a while.'); // @translate

@@ -291,16 +291,14 @@ class ItemController extends AbstractActionController
             $form->setData($data);
 
             if ($form->isValid()) {
-                list($dataRemove, $dataAppend) = $form->preprocessData();
+                $data = $form->preprocessData();
 
-                $this->api($form)->batchUpdate('items', $resourceIds, $dataRemove, [
-                    'continueOnError' => true,
-                    'collectionAction' => 'remove',
-                ]);
-                $this->api($form)->batchUpdate('items', $resourceIds, $dataAppend, [
-                    'continueOnError' => true,
-                    'collectionAction' => 'append',
-                ]);
+                foreach ($data as $collectionAction => $properties) {
+                    $this->api($form)->batchUpdate('items', $resourceIds, $properties, [
+                        'continueOnError' => true,
+                        'collectionAction' => $collectionAction,
+                    ]);
+                }
 
                 $this->messenger()->addSuccess('Items successfully edited'); // @translate
                 return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
@@ -339,13 +337,14 @@ class ItemController extends AbstractActionController
             $form->setData($data);
 
             if ($form->isValid()) {
-                list($dataRemove, $dataAppend) = $form->preprocessData();
+                $data = $form->preprocessData();
 
                 $job = $this->dispatcher->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'items',
                     'query' => $query,
-                    'data_remove' => $dataRemove,
-                    'data_append' => $dataAppend,
+                    'data' => isset($data['replace']) ? $data['replace'] : [],
+                    'data_remove' => isset($data['remove']) ? $data['remove'] : [],
+                    'data_append' => isset($data['append']) ? $data['append'] : [],
                 ]);
 
                 $this->messenger()->addSuccess('Editing items. This may take a while.'); // @translate

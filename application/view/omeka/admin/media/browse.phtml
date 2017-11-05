@@ -1,5 +1,7 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'media browse');
+$userIsAllowedBatchUpdate = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_update');
+$userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_delete');
 $escape = $this->plugin('escapeHtml');
 $sortHeadings = [
     [
@@ -34,21 +36,29 @@ $sortHeadings = [
 <form method="post" id="batch-form" class="disable-unsaved-warning">
 
 <div id="page-actions">
-    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_update')): ?>
+    <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
     <select class="batch-actions-select">
         <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
+        <?php if ($userIsAllowedBatchUpdate): ?>
         <option value="update-selected" disabled="true"><?php echo $this->translate('Edit selected'); ?></option>
         <option value="update-all"><?php echo $this->translate('Edit all'); ?></option>
+        <?php endif; ?>
+        <?php if ($userIsAllowedBatchDelete): ?>
         <option value="delete-selected" disabled="true"><?php echo $this->translate('Delete selected'); ?></option>
         <option value="delete-all"><?php echo $this->translate('Delete all'); ?></option>
+        <?php endif; ?>
     </select>
     <div class="batch-actions">
         <button type="button" class="default active" disabled="true"><?php echo $this->translate('Go'); ?></button>
+        <?php if ($userIsAllowedBatchUpdate): ?>
         <input type="submit" class="update-selected" name="update_selected" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
         <input type="submit" class="update-all" name="update_all" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+        <?php endif; ?>
         <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
+        <?php if ($userIsAllowedBatchDelete): ?>
         <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $this->translate('Go'); ?></a>
         <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $this->translate('Go'); ?></a>
+        <?php endif; ?>
     </div>
     <?php endif; ?>
 </div>
@@ -59,7 +69,9 @@ $sortHeadings = [
     <thead>
         <tr>
             <th>
+                <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
                 <input type="checkbox" class="select-all">
+                <?php endif; ?>
                 <?php echo $this->translate('Title'); ?>
             </th>
             <th><?php echo $this->translate('Class'); ?></th>
@@ -69,6 +81,8 @@ $sortHeadings = [
     </thead>
     <tbody>
         <?php foreach ($medias as $media): ?>
+        <?php $userIsAllowedUpdate = $media->userIsAllowed('update'); ?>
+        <?php $userIsAllowedDelete = $media->userIsAllowed('delete'); ?>
         <?php
         if ($owner = $media->owner()) {
             $ownerText = $this->hyperlink(
@@ -85,21 +99,21 @@ $sortHeadings = [
         ?>
         <tr>
             <td>
-                <?php if ($media->userIsAllowed('update') || $media->userIsAllowed('delete')): ?>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>">
+                <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"<?php if (!($userIsAllowedUpdate || $userIsAllowedDelete)): ?> disabled="true"<?php endif; ?>>
                 <?php endif; ?>
                 <?php echo $media->linkPretty(); ?>
                 <?php if (!$media->isPublic()): ?>
                     <span class="o-icon-private" aria-label="<?php echo $this->translate('Private'); ?>"></span>
                 <?php endif; ?>
                 <ul class="actions">
-                    <?php if ($media->userIsAllowed('update')): ?>
+                    <?php if ($userIsAllowedUpdate): ?>
                     <li><?php echo $media->link('', 'edit', [
                         'class' => 'o-icon-edit',
                         'title' => $this->translate('Edit'),
                     ]); ?></li>
                     <?php endif; ?>
-                    <?php if ($media->userIsAllowed('delete')): ?>
+                    <?php if ($userIsAllowedDelete): ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-selector' => '#sidebar',
                         'data-sidebar-content-url' => $media->url('delete-confirm'),
@@ -137,6 +151,8 @@ $sortHeadings = [
     ]); ?>
     <div class="sidebar-content"></div>
 </div>
+
+<?php if ($userIsAllowedBatchDelete): ?>
 <div id="sidebar-delete-selected" class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
@@ -182,7 +198,7 @@ $('#confirm-delete-selected, #confirm-delete-all').on('submit', function(e) {
     if ('confirm-delete-all' === this.id) {
         confirmForm.append($('.batch-query').clone());
     } else {
-        $('#batch-form').find('input[name="resource_ids[]"]:checked').each(function() {
+        $('#batch-form').find('input[name="resource_ids[]"]:checked:not(:disabled)').each(function() {
             confirmForm.append($(this).clone().prop('disabled', false).attr('type', 'hidden'));
         });
     }
@@ -199,6 +215,7 @@ $('#sidebar-delete-all').on('click', 'input[name="confirm-delete-all-check"]', f
     $('#confirm-delete-all input[type="submit"]').prop('disabled', this.checked ? false : true);
 });
 </script>
+<?php endif; ?>
 
 <?php else: ?>
 

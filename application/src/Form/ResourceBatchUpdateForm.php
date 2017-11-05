@@ -202,50 +202,50 @@ class ResourceBatchUpdateForm extends Form
     }
 
     /**
-     * Preprocess data in order to get data to apply, to remove and to append.
+     * Preprocess data to get data to replace, to remove and to append.
      *
      * Batch update data contains instructions on what to update. It needs to be
-     * preprocessed before it's sent to the API.
+     * preprocessed before it's sent to the API. The elements are udpated by
+     * entity according to the attribute "data-collection-action", that can be
+     * "replace" (default), "remove" or "append".
      *
      * @todo Use standard validationGroup and filters.
-     * Note: The elements added by modules are added according to the attribute
-     * "data-preprocess-group", that can be "remove" (default) or "append". The
-     * attribute "data-preprocess-key" saves the key when needed. It avoids to
-     * attach an event. Anyway, the triggers "api.batch_update.{pre|post}" and
-     * some other ones can be used.
+     * Note:
      *
-     * @return array An array containing the collectionAction=remove data as the
-     * first element and the collectionAction=append data as the second.
+     * @return array Associative array of data to replace, to remove and to
+     * append.
      */
     public function preprocessData()
     {
         $data = $this->getData();
-
-        $dataRemove = [];
-        $dataAppend = [];
+        $preData = [
+            'replace' => null,
+            'remove' => null,
+            'append' => null,
+        ];
 
         // Set the data to change and data to remove.
         if (array_key_exists('is_public', $data) && in_array($data['is_public'], ['0', '1'])) {
-            $dataRemove['o:is_public'] = $data['is_public'];
+            $preData['remove']['o:is_public'] = $data['is_public'];
         }
         if (array_key_exists('is_open', $data) && in_array($data['is_open'], ['0', '1'])) {
-            $dataRemove['o:is_open'] = $data['is_open'];
+            $preData['remove']['o:is_open'] = $data['is_open'];
         }
         if (-1 == $data['resource_template']) {
-            $dataRemove['o:resource_template'] = ['o:id' => null];
+            $preData['remove']['o:resource_template'] = ['o:id' => null];
         } elseif (is_numeric($data['resource_template'])) {
-            $dataRemove['o:resource_template'] = ['o:id' => $data['resource_template']];
+            $preData['remove']['o:resource_template'] = ['o:id' => $data['resource_template']];
         }
         if (-1 == $data['resource_class']) {
-            $dataRemove['o:resource_class'] = ['o:id' => null];
+            $preData['remove']['o:resource_class'] = ['o:id' => null];
         } elseif (is_numeric($data['resource_class'])) {
-            $dataRemove['o:resource_class'] = ['o:id' => $data['resource_class']];
+            $preData['remove']['o:resource_class'] = ['o:id' => $data['resource_class']];
         }
         if (isset($data['remove_from_item_set'])) {
-            $dataRemove['o:item_set'] = $data['remove_from_item_set'];
+            $preData['remove']['o:item_set'] = $data['remove_from_item_set'];
         }
         if (isset($data['clear_property_values'])) {
-            $dataRemove['clear_property_values'] = $data['clear_property_values'];
+            $preData['remove']['clear_property_values'] = $data['clear_property_values'];
         }
 
         // Set the data to append.
@@ -267,38 +267,33 @@ class ResourceBatchUpdateForm extends Form
                     default:
                         $valueObj['@value'] = $value['value'];
                 }
-                $dataAppend[$value['property_id']][] = $valueObj;
+                $preData['append'][$value['property_id']][] = $valueObj;
             }
         }
         if (isset($data['add_to_item_set'])) {
-            $dataAppend['o:item_set'] = array_unique($data['add_to_item_set']);
+            $preData['append']['o:item_set'] = array_unique($data['add_to_item_set']);
         }
 
-        // Set remaining elements according to attribute data-preprocess-group.
+        // Set remaining elements according to attribute data-collection-action.
         $processeds = [
-            'csrf', 'is_public', 'is_open', 'resource_template', 'resource_class',
-            'remove_from_item_set', 'add_to_item_set', 'clear_property_values',
-            'value', 'id', 'o:id',
+            'is_public', 'is_open', 'resource_template', 'resource_class',
+            'remove_from_item_set', 'add_to_item_set',
+            'clear_property_values', 'value',
+            'csrf', 'id', 'o:id',
         ];
+
         foreach ($data as $key => $value) {
             if (is_numeric($key) || in_array($key, $processeds)
                 || is_null($value) || $value === ''
             ) {
                 continue;
             }
-            if ($this->has($key)) {
-                $element = $this->get($key);
-                $elementKey = $element->getAttribute('data-preprocess-key') ?: $key;
-                if ($element->getAttribute('data-preprocess-group') == 'append') {
-                    $dataAppend[$elementKey] = $value;
-                } else {
-                    $dataRemove[$elementKey] = $value;
-                }
-            } else {
-                $dataRemove[$key] = $value;
-            }
+            $collectionAction = $this->has($key)
+                ? $this->get($key)->getAttribute('data-collection-action')
+                : 'replace';
+            $preData[$collectionAction][$key] = $value;
         }
 
-        return [$dataRemove, $dataAppend];
+        return array_filter($preData);
     }
 }

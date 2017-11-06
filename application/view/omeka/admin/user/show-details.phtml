@@ -1,4 +1,9 @@
-<h3><a href="<?php echo $this->escapeHtml($resource->url()); ?>"><?php echo $this->escapeHtml($resource->name()); ?></a></h3>
+<h3>
+    <a href="<?php echo $this->escapeHtml($resource->url()); ?>"><?php echo $this->escapeHtml($resource->name()); ?></a>
+    <?php if (!$resource->isActive()): ?>
+    <span class="user-inactive"><?php echo $this->translate('(inactive)'); ?></span>
+    <?php endif; ?>
+</h3>
 
 <div class="meta-group">
     <h4><?php echo $this->translate('Items'); ?></h4>

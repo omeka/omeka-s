@@ -30,4 +30,10 @@
         <?php echo $escape($this->translate($user->displayRole())); ?>
     </div>
 </div>
+<div class="property">
+    <h4><?php echo $this->translate('Is active'); ?></h4>
+    <div class="value">
+        <?php echo $escape($user->isActive() ? $this->translate('yes') : $this->translate('no')); ?>
+    </div>
+</div>
 <?php $this->trigger('view.show.after'); ?>

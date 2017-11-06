@@ -37,4 +37,30 @@ $this->htmlElement('body')->appendAttribute('class', 'users show');
         <?php echo $escape($user->isActive() ? $translate('yes') : $translate('no')); ?>
     </div>
 </div>
+<div class="property sites">
+    <h4><?php echo $this->translate('Sites'); ?></h4>
+    <?php $sites = $user->sites(); ?>
+    <?php if (empty($sites)): ?>
+    <div class="value no-value">
+        <?php echo $escape($this->translate('None')); ?>
+    </div>
+    <?php else: ?>
+    <div class="value">
+    <ul style="list-style: none; margin: 0; padding-left: 0;">
+    <?php foreach ($sites as $site): ?>
+        <li>
+            <span class="actions" style="display: initial; margin-right: 6px;">
+            <?php echo $this->hyperlink('', $site->siteUrl(), [
+                'target' => '_blank',
+                'class' => 'o-icon-external public',
+                'title' => $this->translate('View public site'),
+            ]); ?>
+            </span>
+            <?php echo $site->link($site->title()); ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+    </div>
+    <?php endif; ?>
+</div>
 <?php $this->trigger('view.show.after'); ?>

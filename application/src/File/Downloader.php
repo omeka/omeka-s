@@ -71,6 +71,7 @@ class Downloader
                             'Error downloading %s: %s', // @translate
                             (string) $uri, $e->getMessage()
                             );
+                        $errorStore->addError('download', $message);
                     }
                     return false;
                 }

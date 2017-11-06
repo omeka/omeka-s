@@ -63,4 +63,26 @@ $this->htmlElement('body')->appendAttribute('class', 'users show');
     </div>
     <?php endif; ?>
 </div>
+<div class="property site-permissions">
+    <h4><?php echo $this->translate('Site permissions'); ?></h4>
+    <?php $sitePermissions = $user->sitePermissions(); ?>
+    <?php if (empty($sitePermissions)): ?>
+    <div class="value no-value">
+        <?php echo $escape($this->translate('None')); ?>
+    </div>
+    <?php else: ?>
+    <div class="value">
+    <ul style="margin: 0;">
+    <?php foreach ($sitePermissions as $sitePermission): ?>
+        <li>
+            <?php $site = $sitePermission->site(); ?>
+            <?php echo sprintf('%s (%s)',
+                $site->link($site->title(), 'users'),
+                $escape($this->translate($sitePermission->role()))); ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+    </div>
+    <?php endif; ?>
+</div>
 <?php $this->trigger('view.show.after'); ?>

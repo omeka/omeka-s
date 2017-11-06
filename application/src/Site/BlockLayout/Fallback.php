@@ -27,8 +27,7 @@ class Fallback extends AbstractBlockLayout
     public function getLabel()
     {
         $message = new Message(
-            '%s [%s]',
-            'Unknown', //@translate
+            'Unknown [%s]', //@translate
             $this->name
             );
         return $message;

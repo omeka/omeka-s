@@ -37,12 +37,6 @@ $this->htmlElement('body')->appendAttribute('class', 'users show');
         <?php echo $escape($user->isActive() ? $translate('yes') : $translate('no')); ?>
     </div>
 </div>
-<div class="property">
-    <h4><?php echo $this->translate('Is active'); ?></h4>
-    <div class="value">
-        <?php echo $escape($user->isActive() ? $this->translate('yes') : $this->translate('no')); ?>
-    </div>
-</div>
 <div class="property sites">
     <h4><?php echo $this->translate('Sites'); ?></h4>
     <?php $sites = $user->sites(); ?>

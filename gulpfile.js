@@ -328,7 +328,23 @@ gulp.task('clean', function () {
 });
 
 gulp.task('zip', gulp.series('clean', 'init', function () {
-    return gulp.src(['./**', '!./**/*.dist', '!./build/**', '!./**/node_modules/**', '!./**/.git/**', '!./**/.gitattributes', '!./**/.gitignore'],
+    return gulp.src(
+        [
+            './**',
+            '!./**/*.dist',
+            '!./build/**',
+            '!./**/node_modules/**',
+            '!./package.json',
+            '!./package-lock.json',
+            '!./**/.tx/**',
+            '!./.php-cs',
+            '!./.php-cs.cache',
+            '!./.travis.yml',
+            '!./gulpfile.js',
+            '!./**/.git/**',
+            '!./**/.gitattributes',
+            '!./**/.gitignore'
+        ],
         {base: '.', nodir: true, dot: true})
         .pipe(rename(function (path) {
             path.dirname = 'omeka-s/' + path.dirname;

@@ -1,6 +1,6 @@
 <?php
 $this->headScript()->appendFile($this->assetUrl('js/site-users.js', 'Omeka'));
-$this->htmlElement('body')->appendAttribute('class', 'sites users sidebar-open');
+$this->htmlElement('body')->appendAttribute('class', 'sites users');
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
 $delete = $this->translate('Delete');

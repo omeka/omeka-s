@@ -218,10 +218,10 @@ class UserController extends AbstractActionController
                 $this->entityManager->flush();
 
                 if ($keyPersisted) {
-                    $message = new Message(sprintf(
+                    $message = new Message(
                         'API key successfully created.<br><br>Here is your key ID and credential for access to the API. WARNING: "key_credential" will be unretrievable after you navigate away from this page.<br><br>key_identity: <code>%s</code><br>key_credential: <code>%s</code>', // @translate
                         $keyId, $keyCredential
-                    ));
+                    );
                     $message->setEscapeHtml(false);
                     $this->messenger()->addWarning($message);
                 }

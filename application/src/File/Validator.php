@@ -2,6 +2,7 @@
 namespace Omeka\File;
 
 use Omeka\Stdlib\ErrorStore;
+use Omeka\Stdlib\Message;
 
 /**
  * File validator service
@@ -60,10 +61,11 @@ class Validator
             if (!in_array($mediaType, $this->mediaTypes)) {
                 $isValid = false;
                 if ($errorStore) {
-                    $errorStore->addError('file', sprintf(
+                    $message = new Message(
                         'Error validating "%s". Cannot store files with the media type "%s".', // @translate
                         $tempFile->getSourceName(), $mediaType
-                    ));
+                        );
+                    $errorStore->addError('file', $message);
                 }
             }
         }
@@ -72,10 +74,11 @@ class Validator
             if (!in_array($extension, $this->extensions)) {
                 $isValid = false;
                 if ($errorStore) {
-                    $errorStore->addError('file', sprintf(
+                    $message = new Message(
                         'Error validating "%s". Cannot store files with the resolved extension "%s".', // @translate
                         $tempFile->getSourceName(), $extension
-                    ));
+                        );
+                    $errorStore->addError('file', $message);
                 }
             }
         }

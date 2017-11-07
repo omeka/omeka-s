@@ -237,19 +237,40 @@ td .o-icon-private {
     text-align: center;
 }
 
-#user p {
+#user .user-id {
+    color: $copy-gray;
+    width: 100%;
+    margin: 0 $spacing-small $spacing-large;
+
+    a {
+        color: $red;
+    }
+}
+
+#user .logout {
     display: block;
-    margin: $spacing-medium 0;
-    background-color: lighten($red, 15%);
-    padding: $spacing-small 0;
+    margin: $spacing-medium $spacing-small;
+    font-size: $base-font-size;
+    color: $copy-gray;
     border-radius: 3px;
+    width: calc(100% - #{$spacing-medium});
+    min-height: (1.5 * $spacing-large);
+    background-color: rgba(0,0,0,.08);
+    border-radius: 3px;
+    border: 0;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+    padding: $spacing-small 10px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 $spacing-small;
 
     &:last-of-type:before {
         content: "";
     }
 
     a {
-        color: lighten($red, 45%);
+        color: $copy-gray;
     }
 }
 

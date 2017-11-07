@@ -28,16 +28,6 @@
         width: 100%;
         max-width: 100%;
     }
-
-    .resource-name {
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-    img {
-        width: 1.5 * $base-line-height;
-        margin-right: $spacing-medium;
-    }
 }
 
 .batch-edit.tablesaw td:first-of-type {

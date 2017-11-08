@@ -60,10 +60,7 @@ $sortHeadings = [
         ?>
             <tr>
                 <td>
-                    <?php echo $this->thumbnail($media, 'square'); ?>
-                    <span class="resource-name">
-                        <?php echo $media->link($media->displayTitle(), 'show'); ?>
-                    </span>
+                    <?php echo $media->linkPretty(); ?>
                     <?php if (!$media->isPublic()): ?>
                         <span class="o-icon-private"></span>
                     <?php endif; ?>

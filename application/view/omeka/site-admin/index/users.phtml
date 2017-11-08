@@ -70,7 +70,8 @@ $roles = [
     <div class="no-resources">
         <p><?php echo $this->translate('This site has no users. Add users using the interface to the right.'); ?></p>
     </div>
-    <div id="site-user-selector" class="selector sidebar active">
+    <button id="site-user-selector-button" class="mobile-only"><?php echo $this->translate('Add new user'); ?></button>
+    <div id="site-user-selector" class="selector sidebar always-open">
         <h3><?php echo $this->translate('Click on a user to add them to the site.'); ?></h3>
         <input type="text" class="selector-filter" placeholder="<?php echo $this->translate('Filter users'); ?>">
         <ul id="new-site-user">

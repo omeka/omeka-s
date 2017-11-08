@@ -191,7 +191,7 @@ gulp.task('deps:update', function () {
 });
 gulp.task('deps:js', function (cb) {
     var deps = {
-        'chosen-js': '**',
+        'chosen-js': ['**', '!*.proto.*'],
         'ckeditor': ['**', '!samples/**'],
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',
@@ -328,7 +328,23 @@ gulp.task('clean', function () {
 });
 
 gulp.task('zip', gulp.series('clean', 'init', function () {
-    return gulp.src(['./**', '!./**/*.dist', '!./build/**', '!./**/node_modules/**', '!./**/.git/**', '!./**/.gitattributes', '!./**/.gitignore'],
+    return gulp.src(
+        [
+            './**',
+            '!./**/*.dist',
+            '!./build/**',
+            '!./**/node_modules/**',
+            '!./package.json',
+            '!./package-lock.json',
+            '!./**/.tx/**',
+            '!./.php-cs',
+            '!./.php-cs.cache',
+            '!./.travis.yml',
+            '!./gulpfile.js',
+            '!./**/.git/**',
+            '!./**/.gitattributes',
+            '!./**/.gitignore'
+        ],
         {base: '.', nodir: true, dot: true})
         .pipe(rename(function (path) {
             path.dirname = 'omeka-s/' + path.dirname;

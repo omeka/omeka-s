@@ -1,42 +1,27 @@
 {
-  "_args": [
-    [
-      "ckeditor@^4.6.2",
-      "/var/www/html/omeka-s"
-    ]
-  ],
-  "_from": "ckeditor@>=4.6.2 <5.0.0",
-  "_id": "ckeditor@4.6.2",
-  "_inCache": true,
-  "_installable": true,
+  "_from": "ckeditor@^4.6.2",
+  "_id": "ckeditor@4.7.3",
+  "_inBundle": false,
+  "_integrity": "sha1-tIb7nrka+VMqCs+upKVTdJcCVNU=",
   "_location": "/ckeditor",
-  "_nodeVersion": "6.8.0",
-  "_npmOperationalInternal": {
-    "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/ckeditor-4.6.2.tgz_1484242954454_0.5392820932902396"
-  },
-  "_npmUser": {
-    "email": "npm@cksource.com",
-    "name": "cksource"
-  },
-  "_npmVersion": "3.10.8",
   "_phantomChildren": {},
   "_requested": {
-    "name": "ckeditor",
+    "type": "range",
+    "registry": true,
     "raw": "ckeditor@^4.6.2",
+    "name": "ckeditor",
+    "escapedName": "ckeditor",
     "rawSpec": "^4.6.2",
-    "scope": null,
-    "spec": ">=4.6.2 <5.0.0",
-    "type": "range"
+    "saveSpec": null,
+    "fetchSpec": "^4.6.2"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/ckeditor/-/ckeditor-4.6.2.tgz",
-  "_shasum": "b1552b7a2f9537e165d7afd2d29d3d4959ff6bad",
-  "_shrinkwrap": null,
+  "_resolved": "https://registry.npmjs.org/ckeditor/-/ckeditor-4.7.3.tgz",
+  "_shasum": "b486fb9eb91af9532a0acfaea4a55374970254d5",
   "_spec": "ckeditor@^4.6.2",
-  "_where": "/var/www/html/omeka-s",
+  "_where": "/var/www/localhost/htdocs/omeka-s",
   "author": {
     "name": "CKSource",
     "url": "http://cksource.com/"
@@ -44,41 +29,26 @@
   "bugs": {
     "url": "http://dev.ckeditor.com"
   },
-  "dependencies": {},
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "JavaScript WYSIWYG web text editor.",
-  "devDependencies": {},
-  "directories": {},
-  "dist": {
-    "shasum": "b1552b7a2f9537e165d7afd2d29d3d4959ff6bad",
-    "tarball": "https://registry.npmjs.org/ckeditor/-/ckeditor-4.6.2.tgz"
-  },
-  "gitHead": "268078ab43195b6004d64bc8764c41f2f829640e",
   "homepage": "http://ckeditor.com",
   "keywords": [
     "ckeditor",
-    "editor",
     "fckeditor",
+    "editor",
+    "wysiwyg",
     "html",
-    "javascript",
     "richtext",
     "text",
-    "wysiwyg"
+    "javascript"
   ],
   "license": "(GPL-2.0 OR LGPL-2.1 OR MPL-1.1)",
   "main": "ckeditor.js",
-  "maintainers": [
-    {
-      "name": "cksource",
-      "email": "npm@cksource.com"
-    }
-  ],
   "name": "ckeditor",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ckeditor/ckeditor-releases.git"
   },
-  "scripts": {},
-  "version": "4.6.2"
+  "version": "4.7.3"
 }

@@ -10,7 +10,10 @@ class ManagerTest extends TestCase
 
     public function setUp()
     {
-        $this->manager = new Manager($this->getMockForAbstractClass('Interop\Container\ContainerInterface'));
+        $serviceManager = $this->getServiceManager([
+            'EventManager' => $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface'),
+        ]);
+        $this->manager = new Manager($serviceManager);
     }
 
     public function testValidateRequiresAdapterInterface()

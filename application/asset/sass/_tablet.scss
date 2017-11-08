@@ -198,12 +198,8 @@ td .o-icon-private {
     color: #676767;
     background-color: $gray-on-white;
     padding: $spacing-small $spacing-medium #{($spacing-small - 1px)};
-    border-bottom: 1px solid $border-gray;
-}
-
-#menu h5 {
-    padding: $spacing-small $spacing-medium #{($spacing-small - 1px)};
-    border-bottom: 1px solid $border-gray;
+    border: 1px solid $border-gray;
+    border-width: 1px 0;
 }
 
 #menu h4 {
@@ -241,19 +237,40 @@ td .o-icon-private {
     text-align: center;
 }
 
-#user p {
+#user .user-id {
+    color: $copy-gray;
+    width: 100%;
+    margin: 0 $spacing-small $spacing-large;
+
+    a {
+        color: $red;
+    }
+}
+
+#user .logout {
     display: block;
-    margin: $spacing-medium 0;
-    background-color: lighten($red, 15%);
-    padding: $spacing-small 0;
+    margin: $spacing-medium $spacing-small;
+    font-size: $base-font-size;
+    color: $copy-gray;
     border-radius: 3px;
+    width: calc(100% - #{$spacing-medium});
+    min-height: (1.5 * $spacing-large);
+    background-color: rgba(0,0,0,.08);
+    border-radius: 3px;
+    border: 0;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+    padding: $spacing-small 10px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 $spacing-small;
 
     &:last-of-type:before {
         content: "";
     }
 
     a {
-        color: lighten($red, 45%);
+        color: $copy-gray;
     }
 }
 
@@ -287,6 +304,8 @@ body.sidebar-open #content {
 
 .sidebar {
     width: 100%;
+    top: 1.5 * $spacing-large;
+    z-index: 1000;
 }
 
 .sidebar.always-open {
@@ -418,38 +437,9 @@ fieldset.section.mobile-active > legend:after{
     content: "\f0d7";
 }
 
-fieldset.section > *:not(legend) {
-    display: none;
-}
-    fieldset.section > #item-item-sets.empty + .no-resources {
-        display: none;
-    }
-
-fieldset.section.mobile-active > *:not(legend) {
-    display: block;
-}
-
-    fieldset.section.mobile-active > #item-item-sets.empty + .no-resources {
-        display: block;
-        margin-top: 2 * $spacing-large;
-    }
-
-fieldset.section.mobile-active > table {
-    display: table;
-}
-
-fieldset.section:not(a) {
-    display: block;
-}
-
 .add .active.section > .button,
 .edit .active.section > .button {
     display: inline-block;
-}
-
-.section-nav {
-    position: absolute;
-    left: -9999px;
 }
 
 .field-meta,
@@ -502,22 +492,24 @@ fieldset.section:not(a) {
 
 .show .section .property,
 .show .section .meta-group {
-    margin-bottom: $spacing-large;
+    margin-bottom: $spacing-small;
+    box-shadow: 0 0 0 1px $border-gray;
+    border-radius: 2px;
 }
 
 .show .section .meta-group h4,
 .show .section .property h4 {
-    padding-bottom: ($spacing-small - 2px);
-    border-bottom: 2px solid $border-gray;
-    margin-bottom: $spacing-small;
+    padding-bottom: $spacing-small;
+    border-bottom: 1px solid $border-gray;
+    background-color: $gray-on-white;
 }
 
 .show .section .meta-group h4,
 .show .section .meta-group .value,
 .show .section .property h4,
-.show .section .property .value {
-    width: 100%;
-    padding: 0;
+.show .section .property .values {
+    width: 100% !important;
+    padding: $spacing-small !important;
 }
 
 .show .section .meta-group .value:not(:first-of-type),

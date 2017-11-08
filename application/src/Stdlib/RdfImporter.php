@@ -5,6 +5,7 @@ use Doctrine\ORM\EntityManager;
 use EasyRdf_Graph;
 use EasyRdf_Literal;
 use EasyRdf_Resource;
+use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Entity\Property;
 use Omeka\Entity\ResourceClass;
@@ -87,27 +88,27 @@ class RdfImporter
             case 'file':
                 // Import from a file in /application/data/vocabularies.
                 if (!isset($options['file'])) {
-                    throw new \Exception('No file specified for the file import strategy.');
+                    throw new ValidationException('No file specified for the file import strategy.');
                 }
                 $file = $options['file'];
                 // Make sure the provided file path matches the expected path.
                 if ($file != realpath($file) || !is_file($file)) {
-                    throw new \Exception('Invalid path to file.');
+                    throw new ValidationException('Invalid path to file.');
                 }
                 if (!is_readable($file)) {
-                    throw new \Exception('File not readable.');
+                    throw new ValidationException('File not readable.');
                 }
                 $graph->parseFile($file, $options['format'], $namespaceUri);
                 break;
             case 'url':
                 // Import from a URL.
                 if (!isset($options['url'])) {
-                    throw new \Exception('No URL specified for the URL import strategy.');
+                    throw new ValidationException('No URL specified for the URL import strategy.');
                 }
                 $graph->load($options['url'], $options['format']);
                 break;
             default:
-                throw new \Exception('Unsupported import strategy.');
+                throw new ValidationException('Unsupported import strategy.');
         }
 
         $members = ['classes' => [], 'properties' => []];
@@ -174,6 +175,10 @@ class RdfImporter
                 'o:label' => $info['label'],
                 'o:comment' => $info['comment'],
             ];
+        }
+
+        if (!$members['classes'] && !$members['properties']) {
+            throw new ValidationException('No classes or properties found. Are you sure you used the correct namespace URI?');
         }
 
         return $this->apiManager->create('vocabularies', array_merge($vocab, $vocabMembers));
@@ -341,7 +346,10 @@ class RdfImporter
     {
         $label = $resource->label();
         if ($label instanceof EasyRdf_Literal) {
-            return $label->getValue();
+            $value = $label->getValue();
+            if ('' !== $value) {
+                return $value;
+            }
         }
         return $default;
     }

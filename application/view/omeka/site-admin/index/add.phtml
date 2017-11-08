@@ -1,6 +1,6 @@
 <?php
 $escape = $this->plugin('escapeHtml');
-$this->htmlElement('body')->appendAttribute('class', 'site add');
+$this->htmlElement('body')->appendAttribute('class', 'sites add');
 $form->prepare();
 $sectionNavs = [
     'admin' => $this->translate('Admin'),
@@ -14,7 +14,7 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 <?php echo $this->form()->openTag($form); ?>
 
 <div id="page-actions">
-    <?php echo $this->translate('', '#', [
+    <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-private button',
         'title' => $this->translate('Make public'),
     ]); ?>

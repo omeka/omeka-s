@@ -23,6 +23,7 @@ class ApiAdapterManagerFactoryTest extends TestCase
 
         $serviceManager = $this->getServiceManager([
             'Config' => $config,
+            'EventManager' => $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface'),
         ]);
         $factory = new ApiAdapterManagerFactory;
         $service = $factory($serviceManager, 'Foo');

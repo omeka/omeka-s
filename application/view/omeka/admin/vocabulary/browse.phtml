@@ -49,9 +49,7 @@ $sortHeadings = [
         <?php foreach ($vocabularies as $vocabulary): ?>
         <tr>
             <td>
-                <span class="resource-name">
-                    <?php echo $escape($this->translate($vocabulary->label())); ?>
-                </span>
+                <?php echo $escape($this->translate($vocabulary->label())); ?>
                 <ul class="actions">
                     <?php if (!$vocabulary->isPermanent()): ?>
                     <?php if ($vocabulary->userIsAllowed('update')): ?>

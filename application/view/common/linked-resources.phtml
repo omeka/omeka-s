@@ -5,60 +5,45 @@ $fragment = 'item-linked';
 if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResource)) {
     $fragment = 'item-set-linked';
 }
-
-$firstText = ($page <= 1)
-    ? $this->translate('first')
-    : sprintf(
-        '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => 1], 'fragment' => $fragment], true)),
-        $this->translate('first')
-    );
-$previousText = ($page <= 1)
-    ? $this->translate('previous')
-    : sprintf(
-        '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => $page - 1], 'fragment' => $fragment], true)),
-        $this->translate('previous')
-    );
-$nextText = (($page * $perPage) >= $totalCount)
-    ? $this->translate('next')
-    : sprintf(
-        '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => $page + 1], 'fragment' => $fragment], true)),
-        $this->translate('next')
-    );
-$lastText = (($page * $perPage) >= $totalCount)
-    ? $this->translate('last')
-    : sprintf(
-        '<a href="%s">%s</a>',
-        $escape($this->url(null, [], ['query' => ['page' => ceil($totalCount / $perPage)], 'fragment' => $fragment], true)),
-        $this->translate('last')
-    );
-$pagination = sprintf('%s | %s | %s | %s (%s total links)', $firstText, $previousText, $nextText, $lastText, $totalCount);
+$pagination = $this->pagination(null, $totalCount, $page, $perPage);
+$pagination->setFragment($fragment);
 ?>
-<?php echo $pagination; ?>
-<table class="tablesaw" data-tablesaw-mode="stack">
-    <thead>
-        <tr>
-            <th><?php echo $this->translate('Subject'); ?></th>
-            <th><?php echo $this->translate('Predicate'); ?></th>
-            <th><?php echo $this->translate('Object'); ?></th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if ($subjectValues): ?>
-        <?php foreach ($subjectValues as $value): ?>
-        <?php
-        $resource = $value->resource();
-        $property = $value->property();
-        ?>
-        <tr>
-            <td><?php echo $resource->link($resource->displayTitle()); ?></td>
-            <td><?php echo $escape($property->label()); ?></td>
-            <td><?php echo $this->translate('This'); ?></td>
-        </tr>
-        <?php endforeach; ?>
-        <?php endif; ?>
-    </tbody>
-</table>
-<?php echo $pagination; ?>
+<div id="linked-resources">
+<div class="linked-header">
+    <div id="linked-filter">
+        <h4>Filter by property</h4>
+        <select id="filter-property" name="property" data-url="<?php echo $escape($this->url(null, [], true)); ?>" data-fragment="<?php echo $escape($fragment); ?>">
+            <option value="">All</option>
+            <?php foreach ($properties as $prop): ?>
+            <option value="<?php echo $escape($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $escape(sprintf('%s (%s)', $prop->label(), $prop->term())); ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <?php echo ($totalCount > $perPage) ? $pagination : ''; ?>
+</div>
+
+<?php foreach ($subjectValues as $term => $values): ?>
+<h4><?php echo $escape($values[0]->property()->label()); ?></h4>
+<?php foreach ($values as $value): ?>
+<div class="linked-resource">
+    <?php echo $value->resource()->linkPretty(); ?>
+    <?php if ($value->resource()->resourceClass()): ?>
+    <span class="resource-class"><?php echo sprintf('%s', $value->resource()->resourceClass()->label()); ?></span>
+    <?php endif; ?>
+</div>
+<?php endforeach; ?>
+<?php endforeach; ?>
+
+<?php echo ($totalCount > $perPage) ? '<div class="linked-footer">' . $pagination . '</div>' : ''; ?>
+
+</div>
+
+<script>
+$('#filter-property').on('change', function(e) {
+    var thisSelect = $(this);
+    var property = thisSelect.find(':selected').val();
+    var url = thisSelect.data('url');
+    var fragment = thisSelect.data('fragment');
+    window.location = url + '?' + $.param({property: property}) + '#' + fragment;
+});
+</script>

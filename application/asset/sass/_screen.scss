@@ -1145,13 +1145,6 @@ div[role="main"] {
     overflow: hidden;
 }
 
-.browse table img {
-    width: (1.5 * $spacing-large);
-    display: inline-block;
-    margin: 0 $spacing-medium 0 0;
-    vertical-align: middle;
-}
-
 .browse .browse-controls {
     display: flex;
     justify-content: space-between;
@@ -1181,11 +1174,6 @@ div[role="main"] {
     justify-content: flex-start;
     word-wrap: break-word;
 
-    .resource-name {
-        flex: 1;
-        min-width: 0;
-    }
-
     & > .actions {
         white-space: nowrap;
     }
@@ -1193,6 +1181,7 @@ div[role="main"] {
 
 .browse .batch-edit .tablesaw-cell-content > input[type="checkbox"] {
     margin-right: $spacing-medium;
+    flex-shrink: 0;
 }
 
 .browse .tablesaw-cell-content > span.indent {
@@ -1638,7 +1627,8 @@ input[type="text"].value-language,
         position: relative;
 
         legend,
-        label {
+        label,
+        .label {
             max-width: 80%;
             padding: $spacing-small 0;
             display: inline-block;
@@ -1922,7 +1912,7 @@ input[type="text"].value-language,
     .field-meta .expand,
     .field-meta .collapse {
         display: inline-block !important;
-        margin: $spacing-small 0 $spacing-small .5em !important;
+        margin-left: .5em !important;
         padding: 0 !important;
         border: 0 !important;
         width: auto !important;
@@ -2524,26 +2514,25 @@ input[type="text"].value-language,
     }
 }
 
-.resource-list {
-    width: 100%;
-
-    .select-resource {
-        display: flex;
-        align-items: center;
-        min-width: 0;
-    }
+.resource-link {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    min-width: 0;
 
     img {
-        width: (1.5 * $spacing-large);
         height: (1.5 * $spacing-large);
-        margin-right: $spacing-medium;
+        margin-right: $spacing-small;
     }
 
     .resource-name {
-        margin: 0;
         flex: 1;
         min-width: 0;
     }
+}
+
+.resource-list {
+    width: 100%;
 
     .resource {
         padding: $spacing-small $spacing-medium #{$spacing-small - 1px};
@@ -2691,11 +2680,6 @@ input[type="text"].value-language,
         }
     }
 
-    .resource {
-        display: flex;
-        align-items: center;
-    }
-
     .language {
         font-size: .75 * $base-font-size;
         padding: 0 $spacing-small;
@@ -2704,41 +2688,53 @@ input[type="text"].value-language,
     }
 }
 
+#linked-filter {
+    display: flex;
+    align-items: center;
+    margin-bottom: $spacing-large;
+}
+
+#linked-filter h4 {
+    margin-right: $spacing-small;
+}
+
+#linked-resources > h4 {
+    margin-bottom: $spacing-medium;
+}
+
+.linked-resource {
+    margin-bottom: $spacing-medium;
+    padding-bottom: $spacing-medium - 1px;
+    border-bottom: 1px solid $border-gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* @end */
 
     /* @group ----- Item: Show----- */
 
-    .property .value a {
-        width: calc(100% - #{1.5 * $spacing-large});
-    }
-
-    .property .value a:after {
+    .property .value .resource-name:after,
+    .property .value.uri .uri-value-link:after {
         font-family: "FontAwesome";
         display: inline-block;
         margin-left: .5em;
     }
 
-    .property .value.uri a:after {
+    .property .value.uri .uri-value-link:after {
         content: $fa-var-external-link-square;
     }
 
-    .property .value.items a:after {
+    .property .value.items .resource-name:after {
         content: $fa-var-cube;
     }
 
-    .property .value.media a:after {
+    .property .value.media .resource-name:after {
         content: $fa-var-image;
     }
 
-    .property .value img {
-        width: auto;
-        height: (1.5 * $spacing-large);
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: $spacing-small;
-    }
-
-    .property .value.item_sets a:after {
+    .property .value.item_sets .resource-name:after {
         content: $fa-var-cubes;
     }
 
@@ -2834,18 +2830,6 @@ input[type="text"].value-language,
             border-color: transparent;
             margin-bottom: 0;
         }
-
-        img {
-            vertical-align: middle;
-            margin-right: $spacing-small;
-        }
-    }
-
-    .file-name {
-        display: inline-block;
-        word-wrap: break-word;
-        max-width: calc(100% - #{(3* $spacing-large)});
-        vertical-align: middle;
     }
 
     input,
@@ -2983,9 +2967,7 @@ body.sidebar-open #content {
 
 .sidebar .meta-group img {
     height: (2 * $spacing-large);
-    display: inline-block;
-    border: 1px solid $border-gray;
-    padding: -1px;
+    box-shadow: 0 0 0 1px $border-gray;
 }
 
 .source-type {
@@ -3633,10 +3615,6 @@ body.sidebar-open #content {
         border: 1px solid $border-gray;
     }
 
-    .current-theme .theme-meta {
-        width: 50%;
-    }
-
     .current-theme-label {
         font-size: $base-font-size;
         text-transform: uppercase;
@@ -3644,8 +3622,9 @@ body.sidebar-open #content {
         margin-bottom: $spacing-small;
     }
 
-    .theme-version {
-        display: block;
+    .theme-meta {
+        display: flex;
+        flex-direction: column;
     }
 
     /* @end */
@@ -3657,10 +3636,6 @@ body.sidebar-open #content {
 .jobs.browse th:first-child,
 .jobs.browse td:first-child {
     width: 10%;
-}
-
-.jobs.browse .resource-name {
-    max-width: none;
 }
 
 /* @end */

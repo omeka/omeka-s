@@ -27,13 +27,13 @@ class SiteItemSet extends AbstractEntity
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="Site")
+     * @ManyToOne(targetEntity="Site", inversedBy="siteItemSets")
      * @JoinColumn(onDelete="CASCADE", nullable=false)
      */
     private $site;
 
     /**
-     * @ManyToOne(targetEntity="ItemSet")
+     * @ManyToOne(targetEntity="ItemSet", inversedBy="siteItemSets")
      * @JoinColumn(onDelete="CASCADE", nullable=false)
      */
     private $itemSet;

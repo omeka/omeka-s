@@ -1,45 +1,31 @@
 {
-  "_args": [
-    [
-      "chosen-js@1.7.0",
-      "/var/www/html/omeka-s"
-    ]
-  ],
-  "_from": "chosen-js@1.7.0",
-  "_id": "chosen-js@1.7.0",
-  "_inCache": true,
-  "_installable": true,
+  "_from": "chosen-js@^1.7.0",
+  "_id": "chosen-js@1.8.2",
+  "_inBundle": false,
+  "_integrity": "sha512-eC5+gRZLU20osMWuChokjL2WPeVlCWzd2YbF5ucaGkmuyD6eThxotJ9+t203sYvKx06bDUVeZ9MhGkm57Oei9g==",
   "_location": "/chosen-js",
-  "_nodeVersion": "7.7.4",
-  "_npmOperationalInternal": {
-    "host": "packages-18-east.internal.npmjs.com",
-    "tmp": "tmp/chosen-js-1.7.0.tgz_1490389234489_0.23706221161410213"
-  },
-  "_npmUser": {
-    "email": "chosenjs@getharvest.com",
-    "name": "chosenjs"
-  },
-  "_npmVersion": "4.1.2",
   "_phantomChildren": {},
   "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "chosen-js@^1.7.0",
     "name": "chosen-js",
-    "raw": "chosen-js@1.7.0",
-    "rawSpec": "1.7.0",
-    "scope": null,
-    "spec": "1.7.0",
-    "type": "version"
+    "escapedName": "chosen-js",
+    "rawSpec": "^1.7.0",
+    "saveSpec": null,
+    "fetchSpec": "^1.7.0"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/chosen-js/-/chosen-js-1.7.0.tgz",
-  "_shasum": "8ceb2e929e2a072886edd384d78989dfbffa58c3",
-  "_shrinkwrap": null,
-  "_spec": "chosen-js@1.7.0",
-  "_where": "/var/www/html/omeka-s",
+  "_resolved": "https://registry.npmjs.org/chosen-js/-/chosen-js-1.8.2.tgz",
+  "_shasum": "bfd8ed1266ef667fbbc453c7e5b88d4c470e897e",
+  "_spec": "chosen-js@^1.7.0",
+  "_where": "/var/www/localhost/htdocs/omeka-s",
   "bugs": {
     "url": "https://github.com/harvesthq/chosen/issues"
   },
+  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Patrick Filler",
@@ -59,44 +45,33 @@
     }
   ],
   "dependencies": {},
+  "deprecated": false,
   "description": "Chosen is a JavaScript plugin that makes select boxes user-friendly. It is currently available in both jQuery and Prototype flavors.",
-  "devDependencies": {},
-  "directories": {},
-  "dist": {
-    "shasum": "8ceb2e929e2a072886edd384d78989dfbffa58c3",
-    "tarball": "https://registry.npmjs.org/chosen-js/-/chosen-js-1.7.0.tgz"
-  },
   "files": [
-    "chosen-sprite.png",
-    "chosen-sprite@2x.png",
+    "chosen.jquery.js",
+    "chosen.jquery.min.js",
+    "chosen.proto.js",
+    "chosen.proto.min.js",
     "chosen.css",
-    "chosen.jquery.js"
+    "chosen.min.css",
+    "chosen-sprite@2x.png",
+    "chosen-sprite.png"
   ],
-  "gitHead": "20457c69249226af89fda0b357591622b922b36a",
   "homepage": "https://harvesthq.github.io/chosen/",
   "keywords": [
+    "select",
+    "multiselect",
     "dropdown",
     "form",
     "input",
-    "multiselect",
-    "select",
     "ui"
   ],
   "license": "MIT",
   "main": "chosen.jquery.js",
-  "maintainers": [
-    {
-      "name": "chosenjs",
-      "email": "chosenjs@getharvest.com"
-    }
-  ],
   "name": "chosen-js",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/harvesthq/chosen.git"
   },
-  "scripts": {},
-  "version": "1.7.0"
+  "version": "1.8.2"
 }

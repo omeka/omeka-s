@@ -63,9 +63,7 @@ $sortHeadings = [
         ?>
         <tr>
             <td>
-                <span class="resource-name">
-                    <?php echo $resourceTemplate->link($resourceTemplate->label()); ?>
-                </span>
+                <?php echo $resourceTemplate->link($resourceTemplate->label()); ?>
                 <ul class="actions">
                     <?php if ($resourceTemplate->userIsAllowed('update')): ?>
                     <li><?php echo $resourceTemplate->link('', 'edit', [

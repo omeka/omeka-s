@@ -34,7 +34,8 @@ $sectionNavs = [
 <div id="item-linked" class="section">
     <?php
     $page = $this->params()->fromQuery('page', 1);
-    $subjectValues = $item->displaySubjectValues($page, 50);
+    $property = $this->params()->fromQuery('property');
+    $subjectValues = $item->displaySubjectValues($page, 25, $property);
     ?>
     <?php if ($subjectValues): ?>
         <?php echo $subjectValues; ?>
@@ -74,10 +75,7 @@ $sectionNavs = [
         <h4><?php echo $this->translate('Media'); ?></h4>
         <?php foreach ($item->media() as $media): ?>
         <div class="value">
-            <a href="<?php echo $media->url(); ?>">
-                <?php echo $this->thumbnail($media, 'square'); ?>
-                <span class="file-name"><?php echo $escape($media->displayTitle()); ?></span>
-            </a>
+            <?php echo $media->linkPretty(); ?>
         </div>
         <?php endforeach; ?>
     </div>

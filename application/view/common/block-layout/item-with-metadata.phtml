@@ -1,7 +1,8 @@
 <div class="item-with-metadata">
 <?php foreach($attachments as $attachment): ?>
-    <div class="resource show">
     <?php $item = $attachment->item(); ?>
+    <?php if (empty($item)) continue; ?>
+    <div class="resource show">
     <?php echo $item->displayValues(); ?>
     <?php if($item->itemSets()): ?>
         <div class="property">

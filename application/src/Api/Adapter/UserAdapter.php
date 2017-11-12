@@ -61,15 +61,17 @@ class UserAdapter extends AbstractEntityAdapter
 
         $role = $request->getValue('o:role');
         if ($role && $this->shouldHydrate($request, 'o:role')) {
-            $this->authorize($entity, 'change-role');
+            if ($role !== $entity->getRole()) {
+                $this->authorize($entity, 'change-role');
 
-            // Ask specially for permission to set an admin role
-            $acl = $this->getServiceLocator()->get('Omeka\Acl');
-            if ($acl->isAdminRole($role)) {
-                $this->authorize($entity, 'change-role-admin');
+                // Ask specially for permission to set an admin role
+                $acl = $this->getServiceLocator()->get('Omeka\Acl');
+                if ($acl->isAdminRole($role)) {
+                    $this->authorize($entity, 'change-role-admin');
+                }
+
+                $entity->setRole($role);
             }
-
-            $entity->setRole($role);
         }
 
         if ($this->shouldHydrate($request, 'o:is_active')) {

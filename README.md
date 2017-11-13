@@ -81,7 +81,12 @@ new, clean checkout.
     ),
 
 ``` 
-
+* 'translator` To set the default language for your site, change the `locale` setting under the `translator`. The value must correspond to an `.mo` file in Omeka S's `language` directory.
+```
+    'translator' => [
+        'locale' => 'en_US',
+    ],
+```
 
 ## Libraries
 

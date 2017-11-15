@@ -59,7 +59,8 @@ class MvcListeners extends AbstractListenerAggregate
         );
         $this->listeners[] = $events->attach(
             MvcEvent::EVENT_DISPATCH,
-            [$this, 'authorizeUserAgainstController']
+            [$this, 'authorizeUserAgainstController'],
+            1000
         );
     }
 

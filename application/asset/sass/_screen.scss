@@ -2119,8 +2119,8 @@ input[type="text"].value-language,
         margin: 0;
     }
 
-    [data-data-type="resource"] .default,
-    [data-data-type="resource"] .o-title:not(:empty) {
+    [data-data-type^="resource"] .default,
+    [data-data-type^="resource"] .o-title:not(:empty) {
         margin: 0 (-$spacing-small);
         padding: $spacing-small;
         border-bottom: 1px solid $border-gray;
@@ -2129,7 +2129,7 @@ input[type="text"].value-language,
         word-wrap: break-word;
     }
 
-    [data-data-type="resource"].delete .o-icon-undo:before {
+    [data-data-type^="resource"].delete .o-icon-undo:before {
         padding-right: 0;
     }
 
@@ -2140,7 +2140,7 @@ input[type="text"].value-language,
         position: relative;
     }
 
-    [data-data-type="resource"] .input-body {
+    [data-data-type^="resource"] .input-body {
         border: 1px solid $border-gray;
         padding: 0 $spacing-small;
     }
@@ -2149,11 +2149,12 @@ input[type="text"].value-language,
         margin: 0;
     }
 
-    [data-data-type="resource"] .button {
+    [data-data-type^="resource"] .button {
         font-size: .875 * $base-font-size;
         padding: 0 $spacing-small;
         line-height: $base-line-height;
         min-height: 0;
+        margin-right: .5 * $spacing-small;
 
         &:before {
             margin-right: $spacing-small;

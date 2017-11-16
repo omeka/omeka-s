@@ -59,11 +59,10 @@ class ManagerTest extends TestCase
         $this->assertInstanceOf($class, $migration);
     }
 
-    /**
-     * @expectedException Omeka\Db\Migration\Exception\ClassNotFoundException
-     */
     public function testLoadMigrationWithBadClassName()
     {
+        $this->expectException(\Omeka\Db\Migration\Exception\ClassNotFoundException::class);
+
         $path = __DIR__ . '/_files/1_MockMigration.php';
         $class = 'OmekaTest\Db\Migration\BogusMigration';
 
@@ -81,11 +80,10 @@ class ManagerTest extends TestCase
         $manager->loadMigration($path, $class);
     }
 
-    /**
-     * @expectedException Omeka\Db\Migration\Exception\ClassNotFoundException
-     */
     public function testLoadMigrationWithInvalidMigration()
     {
+        $this->expectException(\Omeka\Db\Migration\Exception\ClassNotFoundException::class);
+
         $path = __DIR__ . '/_files/2_MockInvalidMigration.php';
         $class = 'OmekaTest\Db\Migration\MockInvalidMigration';
 

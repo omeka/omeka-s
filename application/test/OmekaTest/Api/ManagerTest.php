@@ -69,11 +69,10 @@ class ManagerTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \Omeka\Api\Exception\BadRequestException
-     */
     public function testExecuteRequiresValidResource()
     {
+        $this->expectException(\Omeka\Api\Exception\BadRequestException::class);
+
         $mockResponse = $this->getMockResponse(true);
         $manager = $this->getApiManager(Request::SEARCH, $mockResponse, true, false);
 
@@ -81,11 +80,10 @@ class ManagerTest extends TestCase
         $response = $manager->execute($mockRequest);
     }
 
-    /**
-     * @expectedException \Omeka\Api\Exception\PermissionDeniedException
-     */
     public function testExecuteRequiresAccess()
     {
+        $this->expectException(\Omeka\Api\Exception\PermissionDeniedException::class);
+
         $mockResponse = $this->getMockResponse(true);
         $manager = $this->getApiManager(Request::SEARCH, $mockResponse, false);
 
@@ -93,11 +91,10 @@ class ManagerTest extends TestCase
         $response = $manager->execute($mockRequest);
     }
 
-    /**
-     * @expectedException \Omeka\Api\Exception\BadResponseException
-     */
     public function testExecuteRequiresValidResponse()
     {
+        $this->expectException(\Omeka\Api\Exception\BadResponseException::class);
+
         $mockResponse = null;
         $manager = $this->getApiManager(Request::SEARCH, $mockResponse);
 

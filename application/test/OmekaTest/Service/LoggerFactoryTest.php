@@ -33,7 +33,7 @@ class LoggerFactoryTest extends TestCase
 
     protected function getMockServiceLocator(array $config)
     {
-        $serviceLocator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $serviceLocator = $this->createMock('Zend\ServiceManager\ServiceLocatorInterface');
         $serviceLocator->expects($this->once())
             ->method('get')
             ->with($this->equalTo('Config'))

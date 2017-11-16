@@ -25,7 +25,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     public function getServiceManager(array $services = [])
     {
-        $serviceManager = $this->getMock('Zend\ServiceManager\ServiceManager');
+        $serviceManager = $this->createMock('Zend\ServiceManager\ServiceManager');
         $serviceManager->expects($this->any())
             ->method('get')
             ->with($this->callback(function ($subject) use ($services) {

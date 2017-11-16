@@ -26,7 +26,7 @@ class SynchronousStrategyTest extends TestCase
     {
         require OMEKA_PATH . '/application/test/OmekaTest/Job/_files/Job.php';
 
-        $job = $this->getMock('Omeka\Entity\Job');
+        $job = $this->createMock('Omeka\Entity\Job');
         $job->expects($this->once())
             ->method('getClass')
             ->will($this->returnValue('OmekaTest\Job\Job'));

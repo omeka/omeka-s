@@ -55,21 +55,21 @@ class JobTest extends TestCase
 
     public function testSetOwner()
     {
-        $owner = $this->getMock('Omeka\Entity\User');
+        $owner = $this->createMock('Omeka\Entity\User');
         $this->job->setOwner($owner);
         $this->assertEquals($owner, $this->job->getOwner());
     }
 
     public function testSetStarted()
     {
-        $dateTime = $this->getMock('DateTime');
+        $dateTime = $this->createMock('DateTime');
         $this->job->setStarted($dateTime);
         $this->assertSame($dateTime, $this->job->getStarted());
     }
 
     public function testSetEnded()
     {
-        $dateTime = $this->getMock('DateTime');
+        $dateTime = $this->createMock('DateTime');
         $this->job->setEnded($dateTime);
         $this->assertSame($dateTime, $this->job->getEnded());
     }

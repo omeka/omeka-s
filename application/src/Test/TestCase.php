@@ -11,7 +11,7 @@ use Zend\ServiceManager\ServiceManager;
  * The idea is to first set the mock objects to variables and then set
  * their expectations according to the specific test case.
  */
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * Get a mock Zend\ServiceManager\ServiceManager (ServiceLocator) object.

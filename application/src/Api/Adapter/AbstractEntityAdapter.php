@@ -675,7 +675,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      */
     public function isTerm($term)
     {
-        return (bool) preg_match('/^[a-z0-9-_]+:[a-z0-9-_]+$/i', $term);
+        return (bool) preg_match('/^[a-z0-9-_]+:[a-z0-9-_\.]+$/i', $term);
     }
 
     /**

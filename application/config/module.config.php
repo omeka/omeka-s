@@ -374,7 +374,6 @@ return [
             'sortSelector' => View\Helper\SortSelector::class,
             'propertySelector' => View\Helper\PropertySelector::class,
             'itemSetSelector' => View\Helper\ItemSetSelector::class,
-            'formPropertyInputs' => View\Helper\PropertyInputs::class,
             'searchFilters' => View\Helper\SearchFilters::class,
             'blockAttachmentsForm' => View\Helper\BlockAttachmentsForm::class,
             'blockShowTitleSelect' => View\Helper\BlockShowTitleSelect::class,

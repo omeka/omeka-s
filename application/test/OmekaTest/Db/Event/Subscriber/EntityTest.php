@@ -14,7 +14,7 @@ class EntityTest extends TestCase
 
     public function testGetSubscribedEvents()
     {
-        $eventManager = $this->getMock('Zend\EventManager\EventManager');
+        $eventManager = $this->createMock('Zend\EventManager\EventManager');
         $entity = new Entity($eventManager);
         $this->assertEquals(
             $this->subscribedEvents,
@@ -24,7 +24,7 @@ class EntityTest extends TestCase
 
     public function testCallbacks()
     {
-        $eventManager = $this->getMock('Zend\EventManager\EventManager');
+        $eventManager = $this->createMock('Zend\EventManager\EventManager');
         $eventManager->expects($this->exactly(6))
             ->method('setIdentifiers')
             ->with($this->equalTo(['Omeka\Db\Event\Subscriber\Entity']));

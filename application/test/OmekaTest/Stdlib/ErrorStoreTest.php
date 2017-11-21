@@ -41,7 +41,7 @@ class ErrorStoreTest extends TestCase
 
     public function testMergesErrors()
     {
-        $errorStore = $this->getMock('Omeka\Stdlib\ErrorStore');
+        $errorStore = $this->createMock('Omeka\Stdlib\ErrorStore');
         $errorStore->expects($this->once())
             ->method('getErrors')
             ->will($this->returnValue(['foo' => ['foo_message_two']]));

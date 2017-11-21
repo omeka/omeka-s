@@ -67,7 +67,7 @@
         "beberlei/DoctrineExtensions": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.2",
+        "phpunit/phpunit": "^5.7.23 || ^6.4.4",
         "friendsofphp/php-cs-fixer": "^2.0",
         "zendframework/zend-test": "^3.0.1",
         "zerocrates/extract-tagged-strings": "dev-master"

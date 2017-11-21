@@ -11,7 +11,7 @@ use Zend\ServiceManager\ServiceManager;
  * The idea is to first set the mock objects to variables and then set
  * their expectations according to the specific test case.
  */
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * Get a mock Zend\ServiceManager\ServiceManager (ServiceLocator) object.
@@ -25,7 +25,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     public function getServiceManager(array $services = [])
     {
-        $serviceManager = $this->getMock('Zend\ServiceManager\ServiceManager');
+        $serviceManager = $this->createMock('Zend\ServiceManager\ServiceManager');
         $serviceManager->expects($this->any())
             ->method('get')
             ->with($this->callback(function ($subject) use ($services) {

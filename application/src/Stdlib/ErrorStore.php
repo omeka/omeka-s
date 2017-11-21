@@ -29,7 +29,7 @@ class ErrorStore
      * @param ErrorStore $errorStore
      * @param string $key Optional key to merge in errors under
      */
-    public function mergeErrors(ErrorStore $errorStore, $key = null)
+    public function mergeErrors(self $errorStore, $key = null)
     {
         if ($key === null) {
             foreach ($errorStore->getErrors() as $origKey => $messages) {

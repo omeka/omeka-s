@@ -19,49 +19,49 @@ class AbstractAdapterTest extends TestCase
     public function testSearchRequiresImplementation()
     {
         $this->setServiceManager();
-        $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
+        $this->expectException('Omeka\Api\Exception\RuntimeException');
         $this->adapter->search($this->getMockRequest());
     }
 
     public function testCreateRequiresImplementation()
     {
         $this->setServiceManager();
-        $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
+        $this->expectException('Omeka\Api\Exception\RuntimeException');
         $this->adapter->create($this->getMockRequest());
     }
 
     public function testBatchCreateRequiresImplementation()
     {
         $this->setServiceManager();
-        $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
+        $this->expectException('Omeka\Api\Exception\RuntimeException');
         $this->adapter->batchCreate($this->getMockRequest());
     }
 
     public function testReadRequiresImplementation()
     {
         $this->setServiceManager();
-        $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
+        $this->expectException('Omeka\Api\Exception\RuntimeException');
         $this->adapter->read($this->getMockRequest());
     }
 
     public function testUpdateRequiresImplementation()
     {
         $this->setServiceManager();
-        $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
+        $this->expectException('Omeka\Api\Exception\RuntimeException');
         $this->adapter->update($this->getMockRequest());
     }
 
     public function testDeleteRequiresImplementation()
     {
         $this->setServiceManager();
-        $this->setExpectedException('Omeka\Api\Exception\RuntimeException');
+        $this->expectException('Omeka\Api\Exception\RuntimeException');
         $this->adapter->delete($this->getMockRequest());
     }
 
     protected function setServiceManager()
     {
         // MvcTranslator
-        $mockTranslator = $this->getMock('Zend\I18n\Translator\Translator');
+        $mockTranslator = $this->createMock('Zend\I18n\Translator\Translator');
         $mockTranslator->expects($this->any())
             ->method('translate')
             ->will($this->returnArgument(0));
@@ -77,7 +77,7 @@ class AbstractAdapterTest extends TestCase
         $serviceManager = $this->getServiceManager([
             'MvcTranslator' => $mockTranslator,
             'Omeka\ApiAdapterManager' => $mockAdapterManager,
-            'EventManager' => $this->getMock('Zend\EventManager\EventManager'),
+            'EventManager' => $this->createMock('Zend\EventManager\EventManager'),
         ]);
         $this->adapter->setServiceLocator($serviceManager);
     }

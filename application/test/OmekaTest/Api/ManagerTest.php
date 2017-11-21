@@ -69,11 +69,10 @@ class ManagerTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \Omeka\Api\Exception\BadRequestException
-     */
     public function testExecuteRequiresValidResource()
     {
+        $this->expectException(\Omeka\Api\Exception\BadRequestException::class);
+
         $mockResponse = $this->getMockResponse(true);
         $manager = $this->getApiManager(Request::SEARCH, $mockResponse, true, false);
 
@@ -81,11 +80,10 @@ class ManagerTest extends TestCase
         $response = $manager->execute($mockRequest);
     }
 
-    /**
-     * @expectedException \Omeka\Api\Exception\PermissionDeniedException
-     */
     public function testExecuteRequiresAccess()
     {
+        $this->expectException(\Omeka\Api\Exception\PermissionDeniedException::class);
+
         $mockResponse = $this->getMockResponse(true);
         $manager = $this->getApiManager(Request::SEARCH, $mockResponse, false);
 
@@ -93,11 +91,10 @@ class ManagerTest extends TestCase
         $response = $manager->execute($mockRequest);
     }
 
-    /**
-     * @expectedException \Omeka\Api\Exception\BadResponseException
-     */
     public function testExecuteRequiresValidResponse()
     {
+        $this->expectException(\Omeka\Api\Exception\BadResponseException::class);
+
         $mockResponse = null;
         $manager = $this->getApiManager(Request::SEARCH, $mockResponse);
 
@@ -109,29 +106,29 @@ class ManagerTest extends TestCase
         $isAllowed = true, $validResource = true, $isBatchCreate = false
     ) {
         // Omeka\Logger
-        $mockLogger = $this->getMock('Zend\Log\Logger');
+        $mockLogger = $this->createMock('Zend\Log\Logger');
 
         // MvcTranslator
-        $mockTranslator = $this->getMock('Zend\I18n\Translator\Translator');
+        $mockTranslator = $this->createMock('Zend\I18n\Translator\Translator');
         $mockTranslator->expects($this->any())
             ->method('translate')
             ->will($this->returnArgument(0));
 
         // EventManager returned by adapter
-        $mockEventManager = $this->getMock('Zend\EventManager\EventManager');
+        $mockEventManager = $this->createMock('Zend\EventManager\EventManager');
         $mockEventManager->expects($this->any())
             ->method('trigger')
             ->with($this->isInstanceOf('Zend\EventManager\Event'));
 
         // TestAdapter returned by the adapter manager
-        $mockAdapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
+        $mockAdapter = $this->createMock('Omeka\Api\Adapter\AdapterInterface');
         $mockAdapter->expects($this->any())
             ->method('getResourceId')
             ->will($this->returnValue('Omeka\Api\Adapter\AdapterInterface'));
         $mockAdapter->expects($this->any())
             ->method('getRepresentation')
             ->will($this->returnValue(
-                $this->getMock('Omeka\Api\Representation\RepresentationInterface')
+                $this->createMock('Omeka\Api\Representation\RepresentationInterface')
             ));
         $mockAdapter->expects($this->any())
             ->method('getEventManager')
@@ -165,7 +162,7 @@ class ManagerTest extends TestCase
         }
 
         // Omeka\Acl
-        $mockAcl = $this->getMock('Omeka\Permissions\Acl');
+        $mockAcl = $this->createMock('Omeka\Permissions\Acl');
         $mockAcl->expects($this->any())
             ->method('userIsAllowed')
             ->with(
@@ -179,10 +176,10 @@ class ManagerTest extends TestCase
 
     protected function getMockResponse($isValidStatus)
     {
-        $mockResource = $this->getMock(
+        $mockResource = $this->createMock(
             'Omeka\Api\ResourceInterface'
         );
-        $mockResponse = $this->getMock('Omeka\Api\Response');
+        $mockResponse = $this->createMock('Omeka\Api\Response');
         $mockResponse->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue($mockResource));

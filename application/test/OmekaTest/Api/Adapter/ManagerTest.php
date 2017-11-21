@@ -18,7 +18,7 @@ class ManagerTest extends TestCase
 
     public function testValidateRequiresAdapterInterface()
     {
-        $this->setExpectedException('Zend\ServiceManager\Exception\InvalidServiceException');
+        $this->expectException('Zend\ServiceManager\Exception\InvalidServiceException');
         $this->manager->validate(new \stdClass);
     }
 }

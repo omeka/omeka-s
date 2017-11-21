@@ -73,7 +73,7 @@ class InstallerTest extends TestCase
     public function getConfiguredServiceManager()
     {
         $status = $this->getMockBuilder('Omeka\Mvc\Status')->disableOriginalConstructor()->getMock();
-        $translator = $this->getMock('Zend\I18n\Translator\Translator');
+        $translator = $this->createMock('Zend\I18n\Translator\Translator');
         return $this->getServiceManager([
             'MvcTranslator' => $translator,
             'Omeka\Status' => $status,

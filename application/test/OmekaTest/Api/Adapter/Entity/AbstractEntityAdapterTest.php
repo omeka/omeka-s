@@ -39,10 +39,10 @@ class AbstractEntityAdapterTest extends TestCase
             ->with($this->isInstanceOf('Omeka\Entity\EntityInterface'));
 
         // Service: MvcTranslator
-        $translator = $this->getMock('Zend\I18n\Translator\Translator');
+        $translator = $this->createMock('Zend\I18n\Translator\Translator');
 
         // Service: Omeka\Acl
-        $acl = $this->getMock('Omeka\Permissions\Acl');
+        $acl = $this->createMock('Omeka\Permissions\Acl');
         $acl->expects($this->once())
             ->method('userIsAllowed')
             ->with(
@@ -51,7 +51,7 @@ class AbstractEntityAdapterTest extends TestCase
             )
             ->will($this->returnValue(true));
 
-        $eventManager = $this->getMock('Zend\EventManager\EventManager');
+        $eventManager = $this->createMock('Zend\EventManager\EventManager');
         $eventManager->expects($this->exactly(2))
             ->method('triggerEvent')
             ->with($this->isInstanceOf('Zend\EventManager\Event'));

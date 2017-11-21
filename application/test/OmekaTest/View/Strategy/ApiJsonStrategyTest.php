@@ -16,7 +16,7 @@ class ApiJsonStrategyTest extends TestCase
 
     public function setUp()
     {
-        $this->renderer = $this->getMock('Omeka\View\Renderer\ApiJsonRenderer');
+        $this->renderer = $this->createMock('Omeka\View\Renderer\ApiJsonRenderer');
 
         $this->strategy = new ApiJsonStrategy($this->renderer);
 
@@ -28,7 +28,7 @@ class ApiJsonStrategyTest extends TestCase
 
     public function testStrategyPicksRendererForApiJsonModel()
     {
-        $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
+        $model = $this->createMock('Omeka\View\Model\ApiJsonModel');
 
         $this->event->setModel($model);
 
@@ -37,7 +37,7 @@ class ApiJsonStrategyTest extends TestCase
 
     public function testStrategyDoesNothingForOtherModels()
     {
-        $model = $this->getMock('Zend\View\Model\JsonModel');
+        $model = $this->createMock('Zend\View\Model\JsonModel');
         $model->expects($this->never())
               ->method('getOption');
 
@@ -66,7 +66,7 @@ class ApiJsonStrategyTest extends TestCase
     public function testStrategySetsStatus($apiContent, $apiException, $httpStatus)
     {
         if (!$apiException) {
-            $apiResponse = $this->getMock('Omeka\Api\Response');
+            $apiResponse = $this->createMock('Omeka\Api\Response');
             $apiResponse->expects($this->any())
                         ->method('getContent')
                         ->will($this->returnValue($apiContent));
@@ -74,7 +74,7 @@ class ApiJsonStrategyTest extends TestCase
             $apiResponse = null;
         }
 
-        $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
+        $model = $this->createMock('Omeka\View\Model\ApiJsonModel');
         $model->expects($this->once())
               ->method('getApiResponse')
               ->will($this->returnValue($apiResponse));
@@ -90,9 +90,9 @@ class ApiJsonStrategyTest extends TestCase
 
     public function testStrategySetsContentType()
     {
-        $apiResponse = $this->getMock('Omeka\Api\Response');
+        $apiResponse = $this->createMock('Omeka\Api\Response');
 
-        $model = $this->getMock('Omeka\View\Model\ApiJsonModel');
+        $model = $this->createMock('Omeka\View\Model\ApiJsonModel');
         $model->expects($this->once())
               ->method('getApiResponse')
               ->will($this->returnValue($apiResponse));

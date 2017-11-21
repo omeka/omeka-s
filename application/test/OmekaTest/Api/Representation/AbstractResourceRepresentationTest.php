@@ -14,7 +14,7 @@ class AbstractResourceRepresentationTest extends TestCase
         $url = 'test_url';
         $context = 'test_context';
 
-        $urlHelper = $this->getMock('Zend\View\Helper\Url');
+        $urlHelper = $this->createMock('Zend\View\Helper\Url');
         $urlHelper->expects($this->once())
             ->method('__invoke')
             ->will($this->returnValue($context));
@@ -24,7 +24,7 @@ class AbstractResourceRepresentationTest extends TestCase
             ->method('getId')
             ->will($this->returnValue($id));
 
-        $adapter = $this->getMock('Omeka\Api\Adapter\AdapterInterface');
+        $adapter = $this->createMock('Omeka\Api\Adapter\AdapterInterface');
         $adapter->expects($this->once())
             ->method('getServiceLocator')
             ->will($this->returnValue($this->getServiceManager([

@@ -395,6 +395,36 @@ gulp.task('deps:module', gulp.series(
     'deps:module:composer'
 ));
 
+gulp.task('deps:module:npm:update', function (done) {
+    var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    var manifest = path.join(modulePath, 'package.json');
+    return fs.existsSync(manifest)
+        ? runCommand('npm', ['update'], {cwd: modulePath})
+        : done();
+});
+
+gulp.task('deps:module:gulp:update', function (done) {
+    var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    var manifest = path.join(modulePath, 'gulpfile.js');
+    return fs.existsSync(manifest)
+        ? runCommand('gulp', ['update'], {cwd: modulePath})
+        : done();
+});
+
+gulp.task('deps:module:composer:update', function (done) {
+    var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    var manifest = path.join(modulePath, 'composer.json');
+    return fs.existsSync(manifest)
+        ? composer(['update'])
+        : done();
+});
+
+gulp.task('deps:module:update', gulp.series(
+    'deps:module:npm:update',
+    'deps:module:gulp:update',
+    'deps:module:composer:update'
+));
+
 function taskDedist() {
     return gulp.src(['./.htaccess.dist', './config/*.dist', './logs/*.dist', './application/test/config/*.dist'], {base: '.'})
         .pipe(rename(function (path) {

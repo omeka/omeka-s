@@ -203,6 +203,40 @@ function phpCsFixer(fix, modulePath) {
     });
 }
 
+function zipDistDir(source = null, destination = null, zipname = null) {
+    if (!source) source = '.';
+    if (!destination) destination = buildDir;
+    if (!zipname) zipname = source.replace( /\\/g, '/' ).replace( /.*\//, '' );
+    var files = [
+        './**',
+        '!./**/*.dist',
+        '!./build/**',
+        '!./**/node_modules/**',
+        '!./package.json',
+        '!./package-lock.json',
+        '!./**/.tx/**',
+        '!./.php_cs',
+        '!./.php-cs-fixer.dist.php',
+        '!./.php_cs_module',
+        '!./.php_cs.cache',
+        '!./.github/**',
+        '!./.travis.yml',
+        '!./gulpfile.js',
+        '!./**/.git/**',
+        '!./**/.gitattributes',
+        '!./**/.gitignore'
+    ];
+    return gulp.src(
+            files,
+            {base: source, nodir: true, dot: true}
+        )
+        .pipe(rename(function (path) {
+            path.dirname = zipname + '/' + path.dirname;
+        }))
+        .pipe(zip(zipname + '.zip'))
+        .pipe(gulp.dest(destination));
+}
+
 function taskCss() {
     return cssToSass('./application');
 }
@@ -330,6 +364,36 @@ function taskDepsJs(cb) {
 }
 taskDepsJs.description = 'Update in-browser javascript dependencies';
 gulp.task('deps:js', taskDepsJs);
+
+gulp.task('deps:module:npm', function (done) {
+    var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    var manifest = path.join(modulePath, 'package.json');
+    return fs.existsSync(manifest)
+        ? runCommand('npm', ['install'], {cwd: modulePath})
+        : done();
+});
+
+gulp.task('deps:module:gulp', function (done) {
+    var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    var manifest = path.join(modulePath, 'gulpfile.js');
+    return fs.existsSync(manifest)
+        ? runCommand('gulp', ['install'], {cwd: modulePath})
+        : done();
+});
+
+gulp.task('deps:module:composer', function (done) {
+    var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    var manifest = path.join(modulePath, 'composer.json');
+    return fs.existsSync(manifest)
+        ? composer(['install'])
+        : done();
+});
+
+gulp.task('deps:module', gulp.series(
+    'deps:module:npm',
+    'deps:module:gulp',
+    'deps:module:composer'
+));
 
 function taskDedist() {
     return gulp.src(['./.htaccess.dist', './config/*.dist', './logs/*.dist', './application/test/config/*.dist'], {base: '.'})
@@ -469,6 +533,8 @@ var taskInit = gulp.series('dedist', 'deps');
 taskInit.description = 'Run first-time setup for a source checkout'
 gulp.task('init', taskInit);
 
+gulp.task('init:module', gulp.series('deps:module'));
+
 function taskClean() {
     return rimraf(buildDir).then(function () {
         rimraf(__dirname + '/vendor');
@@ -477,31 +543,39 @@ function taskClean() {
 taskClean.description = 'Clean build files and installed dependencies'
 gulp.task('clean', taskClean);
 
+gulp.task('clean:module', function () {
+    var module = cliOptions.module;
+    var modulePathPromise = getModulePath(module);
+    return modulePathPromise.then(function (modulePath) {
+        var moduleBuildDir = path.join(modulePath, 'build');
+        var moduleVendorDir = path.join(modulePath, 'vendor');
+        return rimraf(moduleBuildDir)
+            .then(function () {
+                rimraf(moduleVendorDir);
+            });
+    });
+});
+
 var taskZip = gulp.series('clean', 'init', function () {
-    return gulp.src(
-        [
-            './**',
-            '!./**/*.dist',
-            '!./build/**',
-            '!./**/node_modules/**',
-            '!./package.json',
-            '!./package-lock.json',
-            '!./**/.tx/**',
-            '!./.php-cs-fixer.dist.php',
-            '!./.php_cs_module',
-            '!./.php_cs.cache',
-            '!./.github/**',
-            '!./gulpfile.js',
-            '!./**/.git/**',
-            '!./**/.gitattributes',
-            '!./**/.gitignore'
-        ],
-        {base: '.', nodir: true, dot: true})
-        .pipe(rename(function (path) {
-            path.dirname = 'omeka-s/' + path.dirname;
-        }))
-        .pipe(zip('omeka-s.zip'))
-        .pipe(gulp.dest(buildDir))
+    return zipDistDir(__dirname, buildDir, 'omeka-s');
 });
 taskZip.description = 'Create zip archive'
 gulp.task('zip', taskZip);
+
+gulp.task('zip:module', gulp.series(
+    function (done) {
+        var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+        process.chdir(modulePath);
+        cliOptions.dev = false;
+        done();
+    },
+    'clean:module',
+    'init:module',
+    function () {
+        var module = cliOptions.module;
+        var modulePathPromise = getModulePath(module);
+        return modulePathPromise.then(function (modulePath) {
+            return zipDistDir(modulePath, path.join(modulePath, 'build'))
+        });
+    }
+));

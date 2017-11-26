@@ -59,6 +59,9 @@ $sortHeadings = [
         <tr>
             <td>
                 <?php echo $site->link($site->title(), 'show'); ?>
+                <?php if (!$site->isPublic()): ?>
+                    <span class="o-icon-private"></span>
+                <?php endif; ?>
                 <ul class="actions">
                     <li><?php echo $this->hyperlink('', $site->siteUrl(), [
                         'target' => '_blank',

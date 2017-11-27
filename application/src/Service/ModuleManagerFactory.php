@@ -96,7 +96,7 @@ class ModuleManagerFactory implements FactoryInterface
             $statement->execute();
             $dbModules = $statement->fetchAll();
             $status->setIsInstalled(true);
-        } catch (TableNotFoundException $e) {
+        } catch (\Exception $e) {
             // If the module table is not found we can assume that the
             // application is not installed.
             $status->setIsInstalled(false);

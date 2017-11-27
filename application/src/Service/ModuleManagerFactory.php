@@ -6,7 +6,6 @@ require_once OMEKA_PATH . '/application/Module.php';
 use DirectoryIterator;
 use Composer\Semver\Comparator;
 use Composer\Semver\Semver;
-use Doctrine\DBAL\Exception\TableNotFoundException;
 use Interop\Container\ContainerInterface;
 use Omeka\Module as CoreModule;
 use Omeka\Module\Manager as ModuleManager;

@@ -165,8 +165,7 @@ class ManagerTest extends TestCase
         $sm = $this->getServiceManager();
 
         $manager = $this->getMockBuilder('Omeka\Db\Migration\Manager')
-            ->setMethods(['getMigrationsToPerform', 'loadMigration', 'recordMigration',
-                'clearDoctrineCache'])
+            ->setMethods(['getMigrationsToPerform', 'loadMigration', 'recordMigration', 'clearDoctrineCache'])
             ->setConstructorArgs([[], $connection, $sm])
             ->getMock();
         $manager->expects($this->once())

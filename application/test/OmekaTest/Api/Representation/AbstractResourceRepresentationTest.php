@@ -31,11 +31,10 @@ class AbstractResourceRepresentationTest extends TestCase
                 'EventManager' => new EventManager,
             ])));
 
-        $abstractResourceRep = $this->getMock(
-            'Omeka\Api\Representation\AbstractResourceRepresentation',
-            ['getJsonLd', 'apiUrl', 'getJsonLdType', 'getViewHelper'],
-            [$resource, $adapter]
-        );
+        $abstractResourceRep = $this->getMockBuilder('Omeka\Api\Representation\AbstractResourceRepresentation')
+            ->setMethods(['getJsonLd', 'apiUrl', 'getJsonLdType', 'getViewHelper'])
+            ->setConstructorArgs([$resource, $adapter])
+            ->getMock();
         $abstractResourceRep->expects($this->once())
             ->method('getViewHelper')
             ->will($this->returnValue($urlHelper));

@@ -191,7 +191,7 @@ class ManagerTest extends TestCase
 
     protected function getMockRequest($operation, $resource)
     {
-        $request = $this->getMock('Omeka\Api\Request', [], [$operation, $resource]);
+        $request = $this->createMock('Omeka\Api\Request');
         $request->expects($this->any())
             ->method('getOperation')
             ->will($this->returnValue($operation));

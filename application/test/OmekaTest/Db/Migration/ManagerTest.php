@@ -19,9 +19,10 @@ class ManagerTest extends TestCase
 
     public function testGetMigrationsWithNoneCompleted()
     {
-        $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            ['getCompletedMigrations', 'getAvailableMigrations'],
-            [], '', false);
+        $manager = $this->getMockBuilder('Omeka\Db\Migration\Manager')
+            ->setMethods(['getCompletedMigrations', 'getAvailableMigrations'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $manager->expects($this->once())
             ->method('getCompletedMigrations')
             ->will($this->returnValue([]));
@@ -34,9 +35,10 @@ class ManagerTest extends TestCase
 
     public function testGetMigrationsWithAllCompleted()
     {
-        $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            ['getCompletedMigrations', 'getAvailableMigrations'],
-            [], '', false);
+        $manager = $this->getMockBuilder('Omeka\Db\Migration\Manager')
+            ->setMethods(['getCompletedMigrations', 'getAvailableMigrations'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $manager->expects($this->once())
             ->method('getCompletedMigrations')
             ->will($this->returnValue(array_keys($this->migrations)));
@@ -52,8 +54,10 @@ class ManagerTest extends TestCase
         $path = __DIR__ . '/_files/1_MockMigration.php';
         $class = 'OmekaTest\Db\Migration\MockMigration';
 
-        $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            ['__construct'], [], '', false);
+        $manager = $this->getMockBuilder('Omeka\Db\Migration\Manager')
+            ->setMethods(['__construct'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $migration = $manager->loadMigration($path, $class);
         $this->assertInstanceOf($class, $migration);
@@ -71,8 +75,10 @@ class ManagerTest extends TestCase
             ->method('translate')
             ->will($this->returnArgument(0));
 
-        $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            ['getTranslator'], [], '', false);
+        $manager = $this->getMockBuilder('Omeka\Db\Migration\Manager')
+            ->setMethods(['getTranslator'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $manager->expects($this->once())
             ->method('getTranslator')
             ->will($this->returnValue($translator));
@@ -92,8 +98,10 @@ class ManagerTest extends TestCase
             ->method('translate')
             ->will($this->returnArgument(0));
 
-        $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            ['getTranslator'], [], '', false);
+        $manager = $this->getMockBuilder('Omeka\Db\Migration\Manager')
+            ->setMethods(['getTranslator'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $manager->expects($this->once())
             ->method('getTranslator')
             ->will($this->returnValue($translator));
@@ -106,8 +114,7 @@ class ManagerTest extends TestCase
         $version = '1';
         $tableName = 'migration';
 
-        $connection = $this->getMock('Doctrine\DBAL\Connection',
-            [], [], '', false);
+        $connection = $this->createMock('Doctrine\DBAL\Connection');
         $connection->expects($this->once())
             ->method('insert')
             ->with(
@@ -137,8 +144,7 @@ class ManagerTest extends TestCase
             ],
         ];
 
-        $connection = $this->getMock('Doctrine\DBAL\Connection',
-            [], [], '', false);
+        $connection = $this->createMock('Doctrine\DBAL\Connection');
         $sm = $this->getServiceManager();
 
         $manager = new MigrationManager(['path' => $path, 'namespace' => $namespace], $connection, $sm);
@@ -155,14 +161,14 @@ class ManagerTest extends TestCase
         $migration->expects($this->exactly(2))
             ->method('up');
 
-        $connection = $this->getMock('Doctrine\DBAL\Connection',
-            [], [], '', false);
+        $connection = $this->createMock('Doctrine\DBAL\Connection');
         $sm = $this->getServiceManager();
 
-        $manager = $this->getMock('Omeka\Db\Migration\Manager',
-            ['getMigrationsToPerform', 'loadMigration', 'recordMigration',
-                'clearDoctrineCache', ],
-            [[], $connection, $sm], '');
+        $manager = $this->getMockBuilder('Omeka\Db\Migration\Manager')
+            ->setMethods(['getMigrationsToPerform', 'loadMigration', 'recordMigration',
+                'clearDoctrineCache'])
+            ->setConstructorArgs([[], $connection, $sm])
+            ->getMock();
         $manager->expects($this->once())
             ->method('getMigrationsToPerform')
             ->will($this->returnValue($this->migrations));

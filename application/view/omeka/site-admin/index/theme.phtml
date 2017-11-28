@@ -3,6 +3,7 @@ use Omeka\Site\Theme\Manager;
 
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites theme');
+$this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka'));
 
 $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 ?>
@@ -38,6 +39,20 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
                 <?php endif; ?>
             </p>
             <?php echo $this->hyperlink($this->translate('Edit theme settings'), $this->url(null, ['site-slug' => $site->slug(), 'action' => 'theme-settings']), ['class' => 'theme-settings button']); ?>
+
+            <div id="version-notification" style="display: none;"
+                data-addon-id="<?php echo $this->escapeHtml($currentTheme->getId()); ?>"
+                data-current-version="<?php echo $this->escapeHtml($currentTheme->getIni('version')); ?>">
+                <?php echo sprintf(
+                    $this->translate('A new version of this theme is available. %s'),
+                    sprintf(
+                        '<a href="%s">%s</a>',
+                        'http://omeka.org/s/themes/' . $currentTheme->getId(),
+                        $this->translate('Click here to get the new version.')
+                    )
+                ); ?>
+            </div>
+
             <?php else: ?>
             <p class="error"><?php echo $this->translate('Error: this theme is invalid.'); ?></p>
             <ul>
@@ -57,4 +72,19 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
     ]);
     ?>
     <?php echo $this->form()->closeTag(); ?>
+<?php endif; ?>
+
+<?php if ($this->setting('version_notifications')): ?>
+<script>
+$.get('http://omeka.org/add-ons/json/s_theme.json')
+    .done(function(data) {
+        var addon = $('#version-notification');
+        var addonId = addon.data('addon-id');
+        if (addonId in data) {
+            if (semver.lt(addon.data('current-version'), data[addonId]['latest_version'])) {
+                addon.show();
+            }
+        }
+    });
+</script>
 <?php endif; ?>

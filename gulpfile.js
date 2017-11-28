@@ -196,6 +196,7 @@ gulp.task('deps:js', function (cb) {
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',
         'openseadragon': 'build/openseadragon/**',
+        'semver': 'semver.min.js',
         'sortablejs': 'Sortable.min.js',
         'tablesaw': 'dist/stackonly/**'
     }

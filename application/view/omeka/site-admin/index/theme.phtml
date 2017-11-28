@@ -76,7 +76,7 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 
 <?php if ($this->setting('version_notifications')): ?>
 <script>
-$.get('http://omeka.org/add-ons/json/s_theme.json')
+$.get('https://omeka.org/add-ons/json/s_theme.json')
     .done(function(data) {
         var addon = $('#version-notification');
         var addonId = addon.data('addon-id');

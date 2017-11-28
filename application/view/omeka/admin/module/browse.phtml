@@ -176,7 +176,7 @@ $(".state-filter select").change(function() {
 
 <?php if ($this->setting('version_notifications')): ?>
 <script>
-$.get('http://omeka.org/add-ons/json/s_module.json')
+$.get('https://omeka.org/add-ons/json/s_module.json')
     .done(function(data) {
         $('.version-notification').each(function(index) {
             var addon = $(this);

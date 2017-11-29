@@ -37,7 +37,7 @@ $sectionNavs = [
         <div class="value"><?php echo $mediaItem->link($mediaItem->displayTitle()); ?></div>
     </div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Date created'); ?></h4>
+        <h4><?php echo $this->translate('Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($media->created())); ?></div>
     </div>
     <?php if ($media->mediaType()): ?>

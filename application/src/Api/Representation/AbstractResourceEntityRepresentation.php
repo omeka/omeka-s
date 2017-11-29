@@ -419,7 +419,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $options['viewName'] = 'common/resource-values';
         }
         $partial = $this->getViewHelper('partial');
-        $options['values'] = $this->values();
+
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs(['values' => $this->values()]);
+        $eventManager->trigger('rep.resource.display_values', $this, $args);
+        $options['values'] = $args['values'];
+
         $template = $this->resourceTemplate();
         if ($template) {
             $options['templateProperties'] = $template->resourceTemplateProperties();

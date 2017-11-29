@@ -31,5 +31,12 @@ class SitePageForm extends Form
                 'required' => false,
             ],
         ]);
+        $this->add([
+            'name' => 'add_to_navigation',
+            'type' => 'Checkbox',
+            'options' => [
+                'label' => 'Add to navigation', // @translate
+            ],
+        ]);
     }
 }

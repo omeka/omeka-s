@@ -158,6 +158,17 @@ class IndexController extends AbstractActionController
                 $formData['o:site']['o:id'] = $site->id();
                 $response = $this->api($form)->create('site_pages', $formData);
                 if ($response) {
+                    $page = $response->getContent();
+                    if (isset($formData['add_to_navigation']) && $formData['add_to_navigation']) {
+                        // Add page to navigation.
+                        $navigation = $site->navigation();
+                        $navigation[] = [
+                            'type' => 'page',
+                            'links' => [],
+                            'data' => ['id' => $page->id(), 'label' => null],
+                        ];
+                        $this->api()->update('sites', $site->id(), ['o:navigation' => $navigation], [], ['isPartial' => true]);
+                    }
                     $this->messenger()->addSuccess('Page successfully created'); // @translate
                     return $this->redirect()->toRoute(
                         'admin/site/slug/page',

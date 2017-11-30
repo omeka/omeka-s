@@ -92,7 +92,16 @@ class VocabularyController extends AbstractActionController
                         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                     }
                 } catch (ValidationException $e) {
-                    $this->messenger()->addError($e->getMessage());
+                    $messages = [];
+                    // A message may be thrown directly from the RDF importer.
+                    if ($e->getMessage()) {
+                        $messages[] = $e->getMessage();
+                    }
+                    // Messages may be thrown from the API via the importer.
+                    foreach ($e->getErrorStore()->getErrors() as $message) {
+                        $messages[] = $message;
+                    }
+                    $this->messenger()->addErrors($messages);
                 }
             } else {
                 $this->messenger()->addFormErrors($form);

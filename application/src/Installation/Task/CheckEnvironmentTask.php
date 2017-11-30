@@ -43,10 +43,14 @@ class CheckEnvironmentTask implements TaskInterface
      */
     protected function testRandomGeneration()
     {
-        try {
-            random_bytes(32);
-        } catch (\Exception $e) {
-            $installer->addError('Omeka is unable to securely generate random numbers.');
+        if (function_exists('random_bytes')) {
+            try {
+                random_bytes(32);
+            } catch (\Exception $e) {
+                $installer->addError('Omeka is unable to securely generate random numbers.');
+            }
+        } else {
+            $installer->addError('Omeka is unable to securely generate random numbers. Install random compat (https://packagist.org/packages/paragonie/random_compat).');
         }
     }
 }

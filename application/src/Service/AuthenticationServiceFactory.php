@@ -19,7 +19,7 @@ class AuthenticationServiceFactory implements FactoryInterface
     /**
      * Create the authentication service.
      *
-     * @return ApiManager
+     * @return AuthenticationService
      */
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {

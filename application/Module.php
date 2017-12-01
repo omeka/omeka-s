@@ -13,7 +13,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '1.0.0';
+    const VERSION = '1.0.1';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -214,7 +214,7 @@ class Module extends AbstractModule
     {
         $media = $event->getTarget();
         $store = $this->getServiceLocator()->get('Omeka\File\Store');
-        $thumbnailMananger = $this->getServiceLocator()->get('Omeka\File\ThumbnailManager');
+        $thumbnailManager = $this->getServiceLocator()->get('Omeka\File\ThumbnailManager');
 
         if ($media->hasOriginal()) {
             $storagePath = sprintf('original/%s', $media->getFilename());
@@ -222,7 +222,7 @@ class Module extends AbstractModule
         }
 
         if ($media->hasThumbnails()) {
-            foreach ($thumbnailMananger->getTypes() as $type) {
+            foreach ($thumbnailManager->getTypes() as $type) {
                 $storagePath = sprintf('%s/%s.jpg', $type, $media->getStorageId());
                 $store->delete($storagePath);
             }

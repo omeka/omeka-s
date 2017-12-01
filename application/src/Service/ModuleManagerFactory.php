@@ -6,7 +6,6 @@ require_once OMEKA_PATH . '/application/Module.php';
 use DirectoryIterator;
 use Composer\Semver\Comparator;
 use Composer\Semver\Semver;
-use Doctrine\DBAL\Exception\TableNotFoundException;
 use Interop\Container\ContainerInterface;
 use Omeka\Module as CoreModule;
 use Omeka\Module\Manager as ModuleManager;
@@ -96,7 +95,7 @@ class ModuleManagerFactory implements FactoryInterface
             $statement->execute();
             $dbModules = $statement->fetchAll();
             $status->setIsInstalled(true);
-        } catch (TableNotFoundException $e) {
+        } catch (\Exception $e) {
             // If the module table is not found we can assume that the
             // application is not installed.
             $status->setIsInstalled(false);

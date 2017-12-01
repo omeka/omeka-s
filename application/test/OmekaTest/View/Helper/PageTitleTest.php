@@ -12,9 +12,9 @@ class PageTitleTest extends TestCase
         $subhead = 'Section';
         $action = 'Action';
 
-        $view = $this->getMock('Zend\View\Renderer\PhpRenderer',
-            ['escapeHtml', 'headTitle']
-        );
+        $view = $this->getMockBuilder('Zend\View\Renderer\PhpRenderer')
+            ->setMethods(['escapeHtml', 'headTitle'])
+            ->getMock();
         $view->expects($this->any())
             ->method('escapeHtml')
             ->will($this->returnArgument(0));

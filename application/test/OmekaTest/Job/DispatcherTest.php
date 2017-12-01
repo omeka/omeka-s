@@ -17,16 +17,13 @@ class DispatcherTest extends TestCase
 
     public function setUp()
     {
-        $strategy = $this->getMock(
-            'Omeka\Job\DispatchStrategy\StrategyInterface',
-            ['send', 'setServiceLocator', 'getServiceLocator']
-        );
+        $strategy = $this->createMock('Omeka\Job\DispatchStrategy\StrategyInterface');
 
-        $this->auth = $this->getMock('Zend\Authentication\AuthenticationService');
+        $this->auth = $this->createMock('Zend\Authentication\AuthenticationService');
         $this->entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->logger = $this->getMock('Zend\Log\Logger', ['addWriter']);
+        $this->logger = $this->createMock('Zend\Log\Logger');
 
         $this->dispatcher = new Dispatcher($strategy, $this->entityManager, $this->logger, $this->auth);
     }
@@ -45,7 +42,7 @@ class DispatcherTest extends TestCase
             ->method('send')
             ->with($this->isInstanceOf('Omeka\Entity\Job'));
 
-        $owner = $this->getMock('Omeka\Entity\User');
+        $owner = $this->createMock('Omeka\Entity\User');
         $this->auth->expects($this->once())
             ->method('getIdentity')
             ->will($this->returnValue($owner));

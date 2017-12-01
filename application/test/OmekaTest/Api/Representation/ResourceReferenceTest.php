@@ -19,12 +19,12 @@ class ResourceReferenceTest extends TestCase
             ->method('getId')
             ->will($this->returnValue($this->id));
 
-        $this->viewHelperManager = $this->getMock('Interop\Container\ContainerInterface');
-        $this->adapter = $this->getMock('Omeka\Api\Adapter\AbstractAdapter');
+        $this->viewHelperManager = $this->createMock('Interop\Container\ContainerInterface');
+        $this->adapter = $this->createMock('Omeka\Api\Adapter\AbstractAdapter');
         $this->adapter->expects($this->once())
             ->method('getServiceLocator')
             ->will($this->returnValue($this->getServiceManager([
-                'EventManager' => $this->getMock('Zend\EventManager\EventManager'),
+                'EventManager' => $this->createMock('Zend\EventManager\EventManager'),
                 'ViewHelperManager' => $this->viewHelperManager,
             ])));
     }

@@ -33,7 +33,7 @@ class MvcListenersTest extends TestCase
         $options['is_installed'] = isset($options['is_installed']) ? true : false;
         $options['is_install_route'] = isset($options['is_install_route']) ? true : false;
 
-        $event = $this->getMock('Zend\Mvc\MvcEvent');
+        $event = $this->createMock('Zend\Mvc\MvcEvent');
 
         // Zend\Mvc\Application
         $application = $this->getMockBuilder('Zend\Mvc\Application')
@@ -65,7 +65,7 @@ class MvcListenersTest extends TestCase
             ->will($this->returnValue($routeMatch));
 
         // Zend\Mvc\Router\RouteStackInterface
-        $router = $this->getMock('Zend\Router\RouteStackInterface');
+        $router = $this->createMock('Zend\Router\RouteStackInterface');
         $router->expects($this->any())
             ->method('assemble')
             ->with($this->equalTo([]), $this->equalTo(['name' => 'install']));
@@ -74,11 +74,11 @@ class MvcListenersTest extends TestCase
             ->will($this->returnValue($router));
 
         // Zend\Http\PhpEnvironment\Response
-        $headers = $this->getMock('Zend\Http\Headers');
+        $headers = $this->createMock('Zend\Http\Headers');
         $headers->expects($this->any())
             ->method('addHeaderLine')
             ->with($this->equalTo('Location'));
-        $response = $this->getMock('Zend\Http\PhpEnvironment\Response');
+        $response = $this->createMock('Zend\Http\PhpEnvironment\Response');
         $response->expects($this->any())
             ->method('getHeaders')
             ->will($this->returnValue($headers));

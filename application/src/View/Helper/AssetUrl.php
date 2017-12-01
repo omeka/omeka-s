@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Omeka\Module;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -8,9 +9,9 @@ use Zend\View\Helper\AbstractHelper;
  */
 class AssetUrl extends AbstractHelper
 {
-    const OMEKA_ASSETS_PATH = '%s/application/asset/%s';
-    const MODULE_ASSETS_PATH = '%s/modules/%s/asset/%s';
-    const THEME_ASSETS_PATH = '%s/themes/%s/asset/%s';
+    const OMEKA_ASSETS_PATH = '%s/application/asset/%s?v=%s';
+    const MODULE_ASSETS_PATH = '%s/modules/%s/asset/%s?v=%s';
+    const THEME_ASSETS_PATH = '%s/themes/%s/asset/%s?v=%s';
 
     /**
      * @var Theme The current theme, if any
@@ -69,8 +70,8 @@ class AssetUrl extends AbstractHelper
 
         $basePath = $this->getView()->basePath();
         if (null === $module && $this->currentTheme) {
-            return sprintf(self::THEME_ASSETS_PATH, $basePath,
-                $this->currentTheme->getId(), $file);
+            return sprintf(self::THEME_ASSETS_PATH, $basePath, $this->currentTheme->getId(),
+                $file, $this->currentTheme->getIni('version'));
         }
 
         if ($override && $this->currentTheme
@@ -79,15 +80,17 @@ class AssetUrl extends AbstractHelper
             $themeId = $this->currentTheme->getId();
             $filepath = sprintf(self::THEME_ASSETS_PATH, OMEKA_PATH, $themeId, $file);
             if (is_readable($filepath)) {
-                return sprintf(self::THEME_ASSETS_PATH, $basePath, $themeId, $file);
+                return sprintf(self::THEME_ASSETS_PATH, $basePath, $themeId,
+                    $file, $this->currentTheme->getIni('version'));
             }
         }
 
         if ('Omeka' == $module) {
-            return sprintf(self::OMEKA_ASSETS_PATH, $basePath, $file);
+            return sprintf(self::OMEKA_ASSETS_PATH, $basePath, $file, Module::VERSION);
         }
         if (array_key_exists($module, $this->activeModules)) {
-            return sprintf(self::MODULE_ASSETS_PATH, $basePath, $module, $file);
+            return sprintf(self::MODULE_ASSETS_PATH, $basePath, $module, $file,
+                $this->activeModules[$module]->getIni('version'));
         }
         return null;
     }

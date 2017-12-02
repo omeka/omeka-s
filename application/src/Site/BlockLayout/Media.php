@@ -53,7 +53,7 @@ class Media extends AbstractBlockLayout
     public function alignmentClassSelect(PhpRenderer $view,
         SitePageBlockRepresentation $block = null
     ) {
-        $alignments = ['left', 'right'];
+        $alignments = ['left', 'right', 'center'];
         $alignment = $block ? $block->dataValue('alignment', 'left') : 'left';
         $select = new Select('o:block[__blockIndex__][o:data][alignment]');
         $select->setValueOptions(array_combine($alignments, $alignments))->setValue($alignment);

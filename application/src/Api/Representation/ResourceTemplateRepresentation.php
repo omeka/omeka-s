@@ -88,6 +88,21 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     }
 
     /**
+     * Return the specified template property or null if it doesn't exist.
+     *
+     * @param int $propertyId
+     * @mixed ResourceTemplatePropertyRepresentation
+     */
+    public function resourceTemplateProperty($propertyId)
+    {
+        $resTemProp = $this->resource->getResourceTemplateProperties()->get($propertyId);
+        if ($resTemProp) {
+            return new ResourceTemplatePropertyRepresentation($resTemProp, $this->getServiceLocator());
+        }
+        return null;
+    }
+
+    /**
      * Get the display resource class label for this resource template.
      *
      * @param string|null $default

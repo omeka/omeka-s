@@ -26,15 +26,17 @@ $pagination->setFragment($fragment);
 <h4><?php echo $escape($values[0]->property()->label()); ?></h4>
 <?php foreach ($values as $value): ?>
 <?php
-$resTemProp = $value->resource()->resourceTemplate()->resourceTemplateProperty($value->property()->id());
+$template = $value->resource()->resourceTemplate();
+$templateProperty = $template ? $template->resourceTemplateProperty($value->property()->id()) : null;
+$altLabel = $templateProperty ? $templateProperty->alternateLabel() : null;
 ?>
 <div class="linked-resource">
     <?php echo $value->resource()->linkPretty(); ?>
     <?php if ($value->resource()->resourceClass()): ?>
     <span class="resource-class">(<?php echo $this->escapeHtml($value->resource()->resourceClass()->label()); ?>)</span>
     <?php endif; ?>
-    <?php if ($resTemProp && $resTemProp->alternateLabel()): ?>
-    <span class="alternate-label"><?php echo $this->escapeHtml($resTemProp->alternateLabel()); ?>
+    <?php if ($altLabel): ?>
+    <span class="alternate-label"><?php echo $this->escapeHtml($altLabel); ?>
     <?php endif; ?>
 </div>
 <?php endforeach; ?>

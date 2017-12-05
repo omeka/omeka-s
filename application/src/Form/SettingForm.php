@@ -207,6 +207,18 @@ class SettingForm extends Form
             ],
         ]);
 
+        $generalFieldset->add([
+            'name' => 'version_notifications',
+            'type' => 'Checkbox',
+            'options' => [
+                'label' => 'Enable version notifications', // @translate
+                'info' => 'Enable notifications when a new version of Omeka S, modules, or themes are available.', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('version_notifications'),
+            ],
+        ]);
+
         // Security fieldset
 
         $this->add([

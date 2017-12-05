@@ -24,10 +24,7 @@ class AssetUrlTest extends TestCase
         $assetUrl = $this->assetUrl;
 
         $url = $assetUrl('foo/bar', 'Omeka');
-        $this->assertEquals('/application/asset/foo/bar', $url);
-
-        $url = $assetUrl('baz/bat', 'MyModule');
-        $this->assertEquals('/modules/MyModule/asset/baz/bat', $url);
+        $this->assertEquals('/application/asset/foo/bar', strtok($url, '?'));
     }
 
     public function testExternals()
@@ -35,6 +32,5 @@ class AssetUrlTest extends TestCase
         $assetUrl = $this->assetUrl;
 
         $this->assertEquals('foo-external', $assetUrl('foo-internal', 'Omeka'));
-        $this->assertEquals('/modules/MyModule/asset/foo-internal', $assetUrl('foo-internal', 'MyModule'));
     }
 }

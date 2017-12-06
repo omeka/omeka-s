@@ -340,9 +340,14 @@ class IndexController extends AbstractActionController
         }
 
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
+        $inputFilter = $form->getInputFilter();
 
         foreach ($config['elements'] as $elementSpec) {
             $form->add($elementSpec);
+            $inputFilter->add([
+                'name' => $elementSpec['name'],
+                'required' => false,
+            ]);
         }
 
         $oldSettings = $this->siteSettings()->get($theme->getSettingsKey());

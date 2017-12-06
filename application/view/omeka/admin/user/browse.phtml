@@ -45,7 +45,7 @@ $sortHeadings = [
             <td>
                 <?php echo $user->link($user->email() . ' (' . $user->name() . ')'); ?>
                 <?php if (!$user->isActive()): ?>
-                <span class="o-icon-user-inactive"></span>
+                <span class="o-icon-user-inactive" aria-label="<?php echo $this->translate('Inactive'); ?>"></span>
                 <?php endif; ?>
                 <ul class="actions">
                     <?php if ($user->userIsAllowed('update')): ?>

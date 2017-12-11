@@ -36,6 +36,9 @@ class EntityTest extends TestCase
         $eventArgs = $this->getMockBuilder('Doctrine\Common\Persistence\Event\LifecycleEventArgs')
             ->disableOriginalConstructor()
             ->getMock();
+        $eventArgs->expects($this->any())
+            ->method('getEntity')
+            ->willReturn($entity);
         foreach ($this->subscribedEvents as $callback) {
             $entity->$callback($eventArgs);
         }

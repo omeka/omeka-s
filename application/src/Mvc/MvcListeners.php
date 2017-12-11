@@ -71,6 +71,11 @@ class MvcListeners extends AbstractListenerAggregate
      */
     public function bootstrapSession(MvcEvent $event)
     {
+        // Skip session setup in background/tests
+        if (PHP_SAPI === 'cli') {
+            return;
+        }
+
         $services = $event->getApplication()->getServiceManager();
         $config = $services->get('Config');
 

@@ -5,7 +5,6 @@ use Omeka\Api\Manager as ApiManager;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\Paginator;
 use Omeka\View\Model\ApiJsonModel;
-use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\RequestInterface as Request;
@@ -225,7 +224,7 @@ class ApiController extends AbstractRestfulController
      * Set an error result to the MvcEvent and return the result.
      *
      * @param MvcEvent $event
-     * @param Exception $error
+     * @param \Exception $error
      */
     protected function getErrorResult(MvcEvent $event, \Exception $error)
     {
@@ -243,8 +242,8 @@ class ApiController extends AbstractRestfulController
      *
      * @param string
      * @return mixed
-     * @throws Exception\DomainException if no JSON decoding functionality is
-     *     available.
+     * @throws Exception\InvalidJsonException if no JSON decoding functionality
+     *     is available.
      */
     protected function jsonDecode($string)
     {

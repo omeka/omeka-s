@@ -31,6 +31,7 @@ class Local implements StoreInterface
     /**
      * @param string $basePath
      * @param string $baseUri
+     * @param Logger $logger
      */
     public function __construct($basePath, $baseUri, Logger $logger)
     {

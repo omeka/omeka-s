@@ -59,7 +59,7 @@ class ApiJsonStrategy extends JsonStrategy
     /**
      * Get the HTTP status code for an API response.
      *
-     * @param Omeka\View\Model\ApiJsonModel $response
+     * @param \Omeka\View\Model\ApiJsonModel $response
      * @return int
      */
     protected function getResponseStatusCode(ApiJsonModel $model)

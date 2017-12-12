@@ -10,9 +10,6 @@ use Omeka\Stdlib\Message;
 
 class PropertyAdapter extends AbstractEntityAdapter
 {
-    /**
-     * {@inheritDoc}
-     */
     protected $sortFields = [
         'id' => 'id',
         'local_name' => 'localName',
@@ -20,33 +17,21 @@ class PropertyAdapter extends AbstractEntityAdapter
         'comment' => 'comment',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceName()
     {
         return 'properties';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRepresentationClass()
     {
         return 'Omeka\Api\Representation\PropertyRepresentation';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getEntityClass()
     {
         return 'Omeka\Entity\Property';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function sortQuery(QueryBuilder $qb, array $query)
     {
         if (is_string($query['sort_by'])) {
@@ -68,9 +53,6 @@ class PropertyAdapter extends AbstractEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
@@ -88,9 +70,6 @@ class PropertyAdapter extends AbstractEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['owner_id'])) {
@@ -162,9 +141,6 @@ class PropertyAdapter extends AbstractEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
         // Validate local name

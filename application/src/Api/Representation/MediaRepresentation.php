@@ -3,25 +3,16 @@ namespace Omeka\Api\Representation;
 
 class MediaRepresentation extends AbstractResourceEntityRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getControllerName()
     {
         return 'media';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceJsonLdType()
     {
         return 'o:Media';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceJsonLd()
     {
         return [
@@ -304,9 +295,6 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function primaryMedia()
     {
         return $this;

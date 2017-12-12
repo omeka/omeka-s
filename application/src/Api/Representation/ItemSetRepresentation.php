@@ -3,25 +3,16 @@ namespace Omeka\Api\Representation;
 
 class ItemSetRepresentation extends AbstractResourceEntityRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getControllerName()
     {
         return 'item-set';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceJsonLdType()
     {
         return 'o:ItemSet';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceJsonLd()
     {
         $url = $this->getViewHelper('Url');

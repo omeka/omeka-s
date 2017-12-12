@@ -25,9 +25,6 @@ class Module extends AbstractModule
      */
     const OMEKA_VOCABULARY_TERM = 'o';
 
-    /**
-     * {@inheritDoc}
-     */
     public function getConfig()
     {
         return array_merge(
@@ -37,9 +34,6 @@ class Module extends AbstractModule
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
         $sharedEventManager->attach(

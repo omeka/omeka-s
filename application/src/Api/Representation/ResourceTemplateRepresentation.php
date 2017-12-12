@@ -3,25 +3,16 @@ namespace Omeka\Api\Representation;
 
 class ResourceTemplateRepresentation extends AbstractEntityRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getControllerName()
     {
         return 'resource-template';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLdType()
     {
         return 'o:ResourceTemplate';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLd()
     {
         $owner = null;

@@ -3,25 +3,16 @@ namespace Omeka\Api\Representation;
 
 class AssetRepresentation extends AbstractEntityRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getControllerName()
     {
         return 'asset';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLdType()
     {
         return 'o:Asset';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLd()
     {
         return [

@@ -50,9 +50,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         parent::__construct($resource, $adapter);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLdType()
     {
         $type = $this->getResourceJsonLdType();
@@ -66,9 +63,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         return $type;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLd()
     {
         // Set the date time value objects.

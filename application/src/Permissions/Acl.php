@@ -40,17 +40,11 @@ class Acl extends ZendAcl
      */
     protected $auth;
 
-    /**
-     * {@inheritDoc}
-     */
     public function setAuthenticationService(AuthenticationServiceInterface $auth)
     {
         $this->auth = $auth;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAuthenticationService()
     {
         return $this->auth;

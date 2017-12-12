@@ -47,9 +47,6 @@ class ApiController extends AbstractRestfulController
         return new ApiJsonModel(['@context' => $args['context']], $this->getViewOptions());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function get($id)
     {
         $resource = $this->params()->fromRoute('resource');
@@ -57,9 +54,6 @@ class ApiController extends AbstractRestfulController
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getList()
     {
         $this->setBrowseDefaults('id', 'asc');
@@ -104,9 +98,6 @@ class ApiController extends AbstractRestfulController
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function update($id, $data)
     {
         $resource = $this->params()->fromRoute('resource');
@@ -114,9 +105,6 @@ class ApiController extends AbstractRestfulController
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function patch($id, $data)
     {
         $resource = $this->params()->fromRoute('resource');
@@ -124,9 +112,6 @@ class ApiController extends AbstractRestfulController
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function delete($id)
     {
         $resource = $this->params()->fromRoute('resource');

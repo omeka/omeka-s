@@ -23,9 +23,6 @@ class SiteItemSetRepresentation extends AbstractRepresentation
         $this->itemSet = $itemSet;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function jsonSerialize()
     {
         return [

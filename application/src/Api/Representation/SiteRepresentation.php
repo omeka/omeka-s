@@ -11,17 +11,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
      */
     protected $publicNavContainer;
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLdType()
     {
         return 'o:Site';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function adminUrl($action = null, $canonical = false)
     {
         $url = $this->getViewHelper('Url');

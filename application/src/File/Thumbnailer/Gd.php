@@ -76,9 +76,6 @@ class Gd extends AbstractThumbnailer
         $this->origHeight = imagesy($origImage);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function create($strategy, $constraint, array $options = [])
     {
         switch ($strategy) {

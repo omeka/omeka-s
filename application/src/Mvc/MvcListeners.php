@@ -17,9 +17,6 @@ use Zend\Validator\AbstractValidator;
 
 class MvcListeners extends AbstractListenerAggregate
 {
-    /**
-     * {@inheritDoc}
-     */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(

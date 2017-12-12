@@ -11,9 +11,6 @@ use Omeka\Stdlib\ErrorStore;
 
 class MediaAdapter extends AbstractResourceEntityAdapter
 {
-    /**
-     * {@inheritDoc}
-     */
     protected $sortFields = [
         'id' => 'id',
         'ingester' => 'ingester',
@@ -23,33 +20,21 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         'modified' => 'modified',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceName()
     {
         return 'media';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRepresentationClass()
     {
         return 'Omeka\Api\Representation\MediaRepresentation';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getEntityClass()
     {
         return 'Omeka\Entity\Media';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         parent::buildQuery($qb, $query);
@@ -95,9 +80,6 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function validateRequest(Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
@@ -108,9 +90,6 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
@@ -161,9 +140,6 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function validateEntity(EntityInterface $entity,
         ErrorStore $errorStore
     ) {
@@ -173,9 +149,6 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         parent::validateEntity($entity, $errorStore);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hydrateOwner(Request $request, EntityInterface $entity)
     {
         if ($entity->getItem() instanceof Item) {

@@ -22,9 +22,6 @@ class Fallback extends AbstractBlockLayout
         $this->name = $name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel()
     {
         $message = new Message(
@@ -34,18 +31,12 @@ class Fallback extends AbstractBlockLayout
         return $message;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
         return $view->translate('This layout is invalid.');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         return '';

@@ -25,9 +25,6 @@ class PasswordAdapter extends AbstractAdapter
         $this->setRepository($repository);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function authenticate()
     {
         $user = $this->repository->findOneBy(['email' => $this->identity]);

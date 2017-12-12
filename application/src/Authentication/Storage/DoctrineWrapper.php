@@ -36,9 +36,6 @@ class DoctrineWrapper implements StorageInterface
         $this->setRepository($repository);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function isEmpty()
     {
         if ($this->storage->isEmpty()) {
@@ -51,9 +48,6 @@ class DoctrineWrapper implements StorageInterface
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function read()
     {
         $identity = $this->storage->read();
@@ -68,17 +62,11 @@ class DoctrineWrapper implements StorageInterface
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function write($identity)
     {
         $this->storage->write($identity->getId());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function clear()
     {
         $this->storage->clear();

@@ -3,17 +3,11 @@ namespace Omeka\Api\Representation;
 
 class PropertyRepresentation extends AbstractVocabularyMemberRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getControllerName()
     {
         return 'property';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLdType()
     {
         return 'o:Property';

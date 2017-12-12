@@ -14,42 +14,27 @@ class SitePageAdapter extends AbstractEntityAdapter
 {
     use SiteSlugTrait;
 
-    /**
-     * {@inheritDoc}
-     */
     protected $sortFields = [
         'id' => 'id',
         'created' => 'created',
         'modified' => 'modified',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceName()
     {
         return 'site_pages';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRepresentationClass()
     {
         return 'Omeka\Api\Representation\SitePageRepresentation';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getEntityClass()
     {
         return 'Omeka\Entity\SitePage';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
@@ -93,9 +78,6 @@ class SitePageAdapter extends AbstractEntityAdapter
         $this->updateTimestamps($request, $entity);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
         if (!$entity->getSite()) {

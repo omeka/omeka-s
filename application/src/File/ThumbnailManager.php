@@ -29,7 +29,7 @@ class ThumbnailManager
     /**
      * Build a thumbnailer object.
      *
-     * @return Omeka\File\Thumbnailer\ThumbnailerInterface
+     * @return \Omeka\File\Thumbnailer\ThumbnailerInterface
      */
     public function buildThumbnailer()
     {

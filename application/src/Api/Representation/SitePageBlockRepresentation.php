@@ -24,9 +24,6 @@ class SitePageBlockRepresentation extends AbstractRepresentation
         $this->block = $block;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function jsonSerialize()
     {
         return [

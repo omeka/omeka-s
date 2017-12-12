@@ -3,9 +3,6 @@ namespace Omeka\Api\Representation;
 
 class SitePageRepresentation extends AbstractEntityRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLdType()
     {
         return 'o:SitePage';
@@ -34,9 +31,6 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function adminUrl($action = null, $canonical = false)
     {
         $url = $this->getViewHelper('Url');

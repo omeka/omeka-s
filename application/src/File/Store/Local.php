@@ -31,6 +31,7 @@ class Local implements StoreInterface
     /**
      * @param string $basePath
      * @param string $baseUri
+     * @param Logger $logger
      */
     public function __construct($basePath, $baseUri, Logger $logger)
     {
@@ -39,9 +40,6 @@ class Local implements StoreInterface
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function put($source, $storagePath)
     {
         $localPath = $this->getLocalPath($storagePath);
@@ -54,9 +52,6 @@ class Local implements StoreInterface
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function delete($storagePath)
     {
         $localPath = $this->getLocalPath($storagePath);
@@ -74,9 +69,6 @@ class Local implements StoreInterface
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getUri($storagePath)
     {
         return sprintf('%s/%s', $this->baseUri, $storagePath);

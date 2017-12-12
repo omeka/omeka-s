@@ -10,9 +10,6 @@ class Manager extends AbstractPluginManager
 
     protected $instanceOf = RendererInterface::class;
 
-    /**
-     * {@inheritDoc}
-     */
     public function get($name, $options = [],
         $usePeeringServiceManagers = true
     ) {

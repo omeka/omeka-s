@@ -6,7 +6,6 @@ use SplFileInfo;
 use Composer\Semver\Semver;
 use Omeka\Module as CoreModule;
 use Omeka\Site\Theme\Manager as ThemeManager;
-use Omeka\Site\Theme\Theme;
 use Zend\Config\Reader\Ini as IniReader;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;

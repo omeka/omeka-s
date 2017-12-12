@@ -238,9 +238,6 @@ class User extends AbstractEntity implements RoleInterface
         $this->modified = new DateTime('now');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRoleId()
     {
         return $this->getRole();

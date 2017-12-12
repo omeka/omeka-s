@@ -10,25 +10,16 @@ use Omeka\Api\Response;
  */
 class ApiResourceAdapter extends AbstractAdapter
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceName()
     {
         return 'api_resources';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRepresentationClass()
     {
         return 'Omeka\Api\Representation\ApiResourceRepresentation';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function search(Request $request)
     {
         $manager = $this->getServiceLocator()->get('Omeka\ApiAdapterManager');
@@ -39,9 +30,6 @@ class ApiResourceAdapter extends AbstractAdapter
         return new Response($resources);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function read(Request $request)
     {
         $manager = $this->getServiceLocator()->get('Omeka\ApiAdapterManager');

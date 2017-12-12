@@ -15,7 +15,7 @@ class AssetUrlFactory implements FactoryInterface
     /**
      * Create and return the assetUrl view helper
      *
-     * @return ApiJsonStrategy
+     * @return AssetUrl
      */
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {

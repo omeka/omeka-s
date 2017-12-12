@@ -29,9 +29,6 @@ class KeyAdapter extends AbstractAdapter
         $this->setEntityManager($entityManager);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function authenticate()
     {
         $key = $this->repository->find($this->getIdentity());

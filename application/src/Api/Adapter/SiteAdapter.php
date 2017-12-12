@@ -15,33 +15,21 @@ class SiteAdapter extends AbstractEntityAdapter
 {
     use SiteSlugTrait;
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceName()
     {
         return 'sites';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRepresentationClass()
     {
         return 'Omeka\Api\Representation\SiteRepresentation';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getEntityClass()
     {
         return 'Omeka\Entity\Site';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
@@ -210,9 +198,6 @@ class SiteAdapter extends AbstractEntityAdapter
         $this->updateTimestamps($request, $entity);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
         $title = $entity->getTitle();

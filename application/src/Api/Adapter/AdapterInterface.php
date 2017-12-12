@@ -81,7 +81,7 @@ interface AdapterInterface extends EventManagerAwareInterface, ResourceInterface
      *
      * @param array $data The allowable data input
      * @param Request $request A Request object containing the raw data
-     * @return data The allowable data output
+     * @return array The allowable data output
      */
     public function preprocessBatchUpdate(array $data, Request $request);
 
@@ -105,7 +105,7 @@ interface AdapterInterface extends EventManagerAwareInterface, ResourceInterface
      * Compose a resource representation object.
      *
      * @param ApiResourceInterface $data Data needed to compose the representation.
-     * @return RepresentationInterface|null
+     * @return \Omeka\Api\Representation\RepresentationInterface|null
      */
     public function getRepresentation(ApiResourceInterface $data = null);
 

@@ -111,9 +111,6 @@ class OEmbed implements IngesterInterface
         $media->setSource($source);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function form(PhpRenderer $view, array $options = [])
     {
         $urlInput = new UrlElement('o:media[__index__][o:source]');

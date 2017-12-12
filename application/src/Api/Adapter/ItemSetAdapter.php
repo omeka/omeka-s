@@ -9,42 +9,27 @@ use Omeka\Stdlib\ErrorStore;
 
 class ItemSetAdapter extends AbstractResourceEntityAdapter
 {
-    /**
-     * {@inheritDoc}
-     */
     protected $sortFields = [
         'id' => 'id',
         'created' => 'created',
         'modified' => 'modified',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceName()
     {
         return 'item_sets';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRepresentationClass()
     {
         return 'Omeka\Api\Representation\ItemSetRepresentation';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getEntityClass()
     {
         return 'Omeka\Entity\ItemSet';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         parent::buildQuery($qb, $query);
@@ -96,9 +81,6 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function sortQuery(QueryBuilder $qb, array $query)
     {
         if (is_string($query['sort_by'])) {
@@ -110,9 +92,6 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
@@ -123,9 +102,6 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function preprocessBatchUpdate(array $data, Request $request)
     {
         $rawData = $request->getContent();

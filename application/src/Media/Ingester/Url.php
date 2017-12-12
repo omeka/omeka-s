@@ -28,17 +28,11 @@ class Url implements IngesterInterface
         $this->validator = $validator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel()
     {
         return 'URL'; // @translate
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRenderer()
     {
         return 'file';
@@ -98,9 +92,6 @@ class Url implements IngesterInterface
         $tempFile->delete();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function form(PhpRenderer $view, array $options = [])
     {
         $urlInput = new UrlElement('o:media[__index__][ingest_url]');

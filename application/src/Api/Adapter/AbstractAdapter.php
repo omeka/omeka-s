@@ -32,9 +32,6 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     abstract public function getRepresentationClass();
 
-    /**
-     * {@inheritDoc}
-     */
     public function search(Request $request)
     {
         throw new Exception\OperationNotImplementedException(sprintf(
@@ -45,9 +42,6 @@ abstract class AbstractAdapter implements AdapterInterface
         ));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function create(Request $request)
     {
         throw new Exception\OperationNotImplementedException(sprintf(
@@ -58,9 +52,6 @@ abstract class AbstractAdapter implements AdapterInterface
         ));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function batchCreate(Request $request)
     {
         throw new Exception\OperationNotImplementedException(sprintf(
@@ -71,9 +62,6 @@ abstract class AbstractAdapter implements AdapterInterface
         ));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function read(Request $request)
     {
         throw new Exception\OperationNotImplementedException(sprintf(
@@ -84,9 +72,6 @@ abstract class AbstractAdapter implements AdapterInterface
         ));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function update(Request $request)
     {
         throw new Exception\OperationNotImplementedException(sprintf(
@@ -97,9 +82,6 @@ abstract class AbstractAdapter implements AdapterInterface
         ));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function batchUpdate(Request $request)
     {
         throw new Exception\OperationNotImplementedException(sprintf(
@@ -110,18 +92,12 @@ abstract class AbstractAdapter implements AdapterInterface
         ));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function preprocessBatchUpdate(array $data, Request $request)
     {
         // Pass the data through by default.
         return $data;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function delete(Request $request)
     {
         throw new Exception\OperationNotImplementedException(sprintf(
@@ -132,9 +108,6 @@ abstract class AbstractAdapter implements AdapterInterface
         ));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function batchDelete(Request $request)
     {
         throw new Exception\OperationNotImplementedException(sprintf(
@@ -162,7 +135,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Compose a resource representation object.
      *
      * @param mixed $data Whatever data is needed to compose the representation.
-     * @return RepresentationInterface|null
+     * @return ResourceInterface|null
      */
     public function getRepresentation(ResourceInterface $data = null)
     {
@@ -187,26 +160,17 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this->translator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceId()
     {
         return get_called_class();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
         $this->setEventManager($serviceLocator->get('EventManager'));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getServiceLocator()
     {
         return $this->serviceLocator;

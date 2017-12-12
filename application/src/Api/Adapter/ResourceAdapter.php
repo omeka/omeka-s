@@ -9,33 +9,21 @@ use Omeka\Stdlib\ErrorStore;
 
 class ResourceAdapter extends AbstractEntityAdapter
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceName()
     {
         return 'resources';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getEntityClass()
     {
         return 'Omeka\Entity\Resource';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRepresentationClass()
     {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hydrate(Request $request, EntityInterface $entity, ErrorStore $errorStore)
     {
     }
@@ -47,7 +35,7 @@ class ResourceAdapter extends AbstractEntityAdapter
      *
      * @param string|int $id The unique identifier of the resource
      * @param mixed $data Whatever data is needed to compose the representation.
-     * @return RepresentationInterface|null
+     * @return ResourceInterface|null
      */
     public function getRepresentation(ResourceInterface $data = null)
     {
@@ -60,41 +48,26 @@ class ResourceAdapter extends AbstractEntityAdapter
         return $adapter->getRepresentation($data);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function search(Request $request)
     {
         AbstractAdapter::search($request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function create(Request $request)
     {
         AbstractAdapter::create($request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function batchCreate(Request $request)
     {
         AbstractAdapter::batchCreate($request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function update(Request $request)
     {
         AbstractAdapter::batchCreate($request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function delete(Request $request)
     {
         AbstractAdapter::delete($request);

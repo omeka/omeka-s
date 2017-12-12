@@ -21,9 +21,6 @@ class File implements RendererInterface
         $this->fileRendererManager = $fileRendererManager;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function render(PhpRenderer $view, MediaRepresentation $media,
         array $options = []
     ) {

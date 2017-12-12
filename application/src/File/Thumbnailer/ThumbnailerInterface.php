@@ -8,7 +8,7 @@ interface ThumbnailerInterface
     /**
      * Set the file source.
      *
-     * @param File $source
+     * @param TempFile $source
      */
     public function setSource(TempFile $source);
 

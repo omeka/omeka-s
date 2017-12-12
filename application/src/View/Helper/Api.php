@@ -29,7 +29,7 @@ class Api extends AbstractHelper
      *
      * @param string $resource
      * @param mixed $data
-     * @return Response
+     * @return \Omeka\Api\Response
      */
     public function search($resource, $data = [])
     {
@@ -44,7 +44,7 @@ class Api extends AbstractHelper
      *
      * @param string $resource
      * @param array $data
-     * @return Response
+     * @return \Omeka\Api\Response
      */
     public function searchOne($resource, $data = [])
     {
@@ -62,7 +62,7 @@ class Api extends AbstractHelper
      * @param string $resource
      * @param mixed $id
      * @param mixed $data
-     * @return Response
+     * @return \Omeka\Api\Response
      */
     public function read($resource, $id, $data = [])
     {

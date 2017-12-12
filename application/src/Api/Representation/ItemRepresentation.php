@@ -3,25 +3,16 @@ namespace Omeka\Api\Representation;
 
 class ItemRepresentation extends AbstractResourceEntityRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getControllerName()
     {
         return 'item';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceJsonLdType()
     {
         return 'o:Item';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceJsonLd()
     {
         $media = [];
@@ -41,7 +32,7 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
     /**
      * Get the media associated with this item.
      *
-     * @return array Array of MediaRepresentations
+     * @return MediaRepresentation[] 
      */
     public function media()
     {
@@ -56,7 +47,7 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
     /**
      * Get the item sets associated with this item.
      *
-     * @return array Array of ItemSetRepresentations
+     * @return ItemSetRepresentation[]
      */
     public function itemSets()
     {
@@ -69,9 +60,6 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
         return $itemSets;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function primaryMedia()
     {
         // Return the first media if one exists.

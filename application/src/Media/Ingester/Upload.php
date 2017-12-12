@@ -27,25 +27,16 @@ class Upload implements IngesterInterface
         $this->uploader = $uploader;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel()
     {
         return 'Upload'; // @translate
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRenderer()
     {
         return 'file';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
@@ -91,9 +82,6 @@ class Upload implements IngesterInterface
         $tempFile->delete();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function form(PhpRenderer $view, array $options = [])
     {
         $fileInput = new File('file[__index__]');

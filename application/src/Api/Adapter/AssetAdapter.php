@@ -10,9 +10,6 @@ class AssetAdapter extends AbstractEntityAdapter
 {
     const ALLOWED_MEDIA_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
 
-    /**
-     * {@inheritDoc}
-     */
     protected $sortFields = [
         'id' => 'id',
         'media_type' => 'mediaType',
@@ -20,33 +17,21 @@ class AssetAdapter extends AbstractEntityAdapter
         'extension' => 'extension',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceName()
     {
         return 'assets';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRepresentationClass()
     {
         return 'Omeka\Api\Representation\AssetRepresentation';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getEntityClass()
     {
         return 'Omeka\Entity\Asset';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hydrate(Request $request, EntityInterface $entity, ErrorStore $errorStore)
     {
         $data = $request->getContent();
@@ -84,9 +69,6 @@ class AssetAdapter extends AbstractEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
         // Don't add this name error if we have any other errors already

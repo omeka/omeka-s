@@ -115,9 +115,6 @@ abstract class AbstractModule implements ConfigProviderInterface
         return [];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAutoloaderConfig()
     {
         $classInfo = new ReflectionClass($this);

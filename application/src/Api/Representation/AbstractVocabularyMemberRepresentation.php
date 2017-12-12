@@ -6,9 +6,6 @@ namespace Omeka\Api\Representation;
  */
 abstract class AbstractVocabularyMemberRepresentation extends AbstractEntityRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLd()
     {
         return [

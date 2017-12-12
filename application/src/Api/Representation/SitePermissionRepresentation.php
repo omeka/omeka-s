@@ -23,9 +23,6 @@ class SitePermissionRepresentation extends AbstractRepresentation
         $this->permission = $permission;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function jsonSerialize()
     {
         return [

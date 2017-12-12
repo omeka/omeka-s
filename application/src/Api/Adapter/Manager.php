@@ -9,9 +9,6 @@ class Manager extends AbstractPluginManager
 
     protected $instanceOf = AdapterInterface::class;
 
-    /**
-     * {@inheritDoc}
-     */
     public function __construct($configOrContainerInstance = null, array $v3config = [])
     {
         parent::__construct($configOrContainerInstance, $v3config);

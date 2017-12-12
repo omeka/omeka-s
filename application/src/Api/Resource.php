@@ -12,16 +12,13 @@ class Resource implements ResourceInterface
     protected $resourceId;
 
     /**
-     * @param AdapterInterface $adapter
+     * @param string $resourceId
      */
     public function __construct($resourceId)
     {
         $this->resourceId = $resourceId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getId()
     {
         return $this->resourceId;

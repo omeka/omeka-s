@@ -27,9 +27,6 @@ class Imagick extends AbstractThumbnailer
         $this->tempFileFactory = $tempFileFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function create($strategy, $constraint, array $options = [])
     {
         try {

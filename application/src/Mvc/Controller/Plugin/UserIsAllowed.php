@@ -27,7 +27,7 @@ class UserIsAllowed extends AbstractPlugin
     /**
      * Authorize the current user.
      *
-     * @param Resource\ResourceInterface|string $resource
+     * @param \Zend\Permissions\Acl\Resource\ResourceInterface|string $resource
      * @param string $privilege
      * @return bool
      */

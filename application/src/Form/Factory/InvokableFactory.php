@@ -11,9 +11,6 @@ use Zend\ServiceManager\Factory\FactoryInterface;
  */
 class InvokableFactory implements FactoryInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return (null === $options) ? new $requestedName : new $requestedName(null, $options);

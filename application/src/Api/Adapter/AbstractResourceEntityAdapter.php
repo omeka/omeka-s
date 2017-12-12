@@ -11,9 +11,6 @@ use Omeka\Stdlib\Message;
 
 abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
 {
-    /**
-     * {@inheritDoc}
-     */
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         $this->buildPropertyQuery($qb, $query);
@@ -82,9 +79,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function sortQuery(QueryBuilder $qb, array $query)
     {
         if (is_string($query['sort_by'])) {
@@ -114,9 +108,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
@@ -400,9 +391,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             ->getResult();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function preprocessBatchUpdate(array $data, Request $request)
     {
         $rawData = $request->getContent();

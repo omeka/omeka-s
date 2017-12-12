@@ -26,9 +26,6 @@ class ApiJsonStrategy extends JsonStrategy
         $this->renderer = $renderer;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function selectRenderer(ViewEvent $e)
     {
         $model = $e->getModel();
@@ -42,9 +39,6 @@ class ApiJsonStrategy extends JsonStrategy
         return $this->renderer;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function injectResponse(ViewEvent $e)
     {
         // Test this again here to avoid running our extra code for non-API
@@ -65,7 +59,7 @@ class ApiJsonStrategy extends JsonStrategy
     /**
      * Get the HTTP status code for an API response.
      *
-     * @param Omeka\View\Model\ApiJsonModel $response
+     * @param \Omeka\View\Model\ApiJsonModel $response
      * @return int
      */
     protected function getResponseStatusCode(ApiJsonModel $model)

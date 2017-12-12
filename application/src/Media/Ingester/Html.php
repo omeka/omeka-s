@@ -26,17 +26,11 @@ class Html implements MutableIngesterInterface
         return $this->getForm($view, 'media-html', $media->mediaData()['html']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function form(PhpRenderer $view, array $options = [])
     {
         return $this->getForm($view, 'media-html-__index__');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel()
     {
         return 'HTML'; // @translate
@@ -47,9 +41,6 @@ class Html implements MutableIngesterInterface
         return 'html';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function ingest(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();

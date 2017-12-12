@@ -9,12 +9,11 @@ use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Entity\Property;
 use Omeka\Entity\ResourceClass;
-use Omeka\Entity\Vocabulary;
 
 class RdfImporter
 {
     /**
-     * @var Omeka\Api\Manager
+     * @var \Omeka\Api\Manager
      */
     protected $apiManager;
 
@@ -110,7 +109,7 @@ class RdfImporter
         $members = ['classes' => [], 'properties' => []];
 
         // Iterate through all resources of the graph instead of selectively by
-        // rdf:type becuase a resource may have more than one type, causing
+        // rdf:type because a resource may have more than one type, causing
         // illegal attempts to duplicate classes and properties.
         foreach ($graph->resources() as $resource) {
             // The resource must not be a blank node.
@@ -146,7 +145,7 @@ class RdfImporter
      * @param string $strategy
      * @param array $vocab Vocab info supported by the vocabulary entity adapter
      * @param array $options
-     * @return Omeka\Api\Response
+     * @return \Omeka\Api\Response
      */
     public function import($strategy, array $vocab, array $options = [])
     {

@@ -28,33 +28,21 @@ class Fallback implements IngesterInterface
         $this->translator = $translator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel()
     {
         return sprintf('%s [%s]', $this->translator->translate('Unknown'), $this->name);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRenderer()
     {
         return 'fallback';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function ingest(Media $media, Request $request,
         ErrorStore $errorStore
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function form(PhpRenderer $view, array $options = [])
     {
         return '';

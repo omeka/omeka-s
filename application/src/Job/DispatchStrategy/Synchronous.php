@@ -21,9 +21,6 @@ class Synchronous implements StrategyInterface
         $this->serviceLocator = $serviceLocator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function send(Job $job)
     {
         $entityManager = $this->serviceLocator->get('Omeka\EntityManager');

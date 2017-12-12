@@ -34,9 +34,6 @@ class ImageMagick extends AbstractThumbnailer
         $this->tempFileFactory = $tempFileFactory;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setOptions(array $options)
     {
         parent::setOptions($options);
@@ -45,9 +42,6 @@ class ImageMagick extends AbstractThumbnailer
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function create($strategy, $constraint, array $options = [])
     {
         $origPath = sprintf('%s[%s]', $this->source, $this->getOption('page', 0));

@@ -59,7 +59,7 @@ class ModuleController extends AbstractActionController
 
         // Order modules by name.
         uasort($modules, function ($a, $b) {
-            return strcmp($a->getName(), $b->getName());
+            return strcmp(strtolower($a->getName()), strtolower($b->getName()));
         });
 
         $view = new ViewModel;

@@ -367,6 +367,7 @@ gulp.task('deps:js', taskDepsJs);
 
 gulp.task('deps:module:npm', function (done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    process.chdir(modulePath);
     var manifest = path.join(modulePath, 'package.json');
     return fs.existsSync(manifest)
         ? runCommand('npm', ['install'], {cwd: modulePath})
@@ -375,6 +376,7 @@ gulp.task('deps:module:npm', function (done) {
 
 gulp.task('deps:module:gulp', function (done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    process.chdir(modulePath);
     var manifest = path.join(modulePath, 'gulpfile.js');
     return fs.existsSync(manifest)
         ? runCommand('gulp', ['install'], {cwd: modulePath})
@@ -383,6 +385,7 @@ gulp.task('deps:module:gulp', function (done) {
 
 gulp.task('deps:module:composer', function (done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    process.chdir(modulePath);
     var manifest = path.join(modulePath, 'composer.json');
     return fs.existsSync(manifest)
         ? composer(['install'])
@@ -397,6 +400,7 @@ gulp.task('deps:module', gulp.series(
 
 gulp.task('deps:module:npm:update', function (done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    process.chdir(modulePath);
     var manifest = path.join(modulePath, 'package.json');
     return fs.existsSync(manifest)
         ? runCommand('npm', ['update'], {cwd: modulePath})
@@ -405,6 +409,7 @@ gulp.task('deps:module:npm:update', function (done) {
 
 gulp.task('deps:module:gulp:update', function (done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    process.chdir(modulePath);
     var manifest = path.join(modulePath, 'gulpfile.js');
     return fs.existsSync(manifest)
         ? runCommand('gulp', ['update'], {cwd: modulePath})
@@ -413,6 +418,7 @@ gulp.task('deps:module:gulp:update', function (done) {
 
 gulp.task('deps:module:composer:update', function (done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    process.chdir(modulePath);
     var manifest = path.join(modulePath, 'composer.json');
     return fs.existsSync(manifest)
         ? composer(['update'])

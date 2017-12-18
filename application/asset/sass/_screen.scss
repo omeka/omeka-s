@@ -3434,6 +3434,12 @@ body.sidebar-open #content {
         margin-top: $spacing-small;
     }
 
+    .block[data-block-layout="html"] [contenteditable="true"] {
+        resize: vertical;
+        min-height: 3 * $spacing-large;
+        max-height: 12 * $spacing-large;
+    }
+
     #attachment-options .option {
         position: relative;
         margin-bottom: $spacing-medium;

@@ -530,6 +530,21 @@ div[role="main"] > .messages {
     color: orange;
 }
 
+.version-notification {
+    background-color: lighten(green, 65%);
+    color: green;
+    border-radius: 3px;
+    padding: $spacing-small 10px;
+    margin-top: $spacing-small;
+    display: block;
+    width: 100%;
+}
+
+.version-notification a {
+    color: green;
+    text-decoration: underline;
+}
+
 table .icon-sortable {
     opacity: .4;
     font-size: .75 * $base-font-size;
@@ -2699,17 +2714,27 @@ input[type="text"].value-language,
     margin-right: $spacing-small;
 }
 
-#linked-resources > h4 {
-    margin-bottom: $spacing-medium;
+#linked-resources table {
+    margin-bottom: $spacing-large;
+}
+
+#linked-resources caption {
+    background-color: $gray-on-white;
+    font-family: bold;
+    padding: $spacing-small;
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+    text-align: left;
+}
+
+#linked-resources th {
+    border-bottom: 3px solid $border-gray;
 }
 
 .linked-resource {
     margin-bottom: $spacing-medium;
     padding-bottom: $spacing-medium - 1px;
     border-bottom: 1px solid $border-gray;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 /* @end */

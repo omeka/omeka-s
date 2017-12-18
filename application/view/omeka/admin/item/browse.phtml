@@ -90,7 +90,7 @@ $sortHeadings = [
                 <?php endif; ?>
                 <?php echo $item->linkPretty(); ?>
                 <?php if (!$item->isPublic()): ?>
-                    <span class="o-icon-private"></span>
+                    <span class="o-icon-private" aria-label="<?php echo $this->translate('Private'); ?>"></span>
                 <?php endif; ?>
                 <ul class="actions">
                     <?php if ($item->userIsAllowed('update')): ?>

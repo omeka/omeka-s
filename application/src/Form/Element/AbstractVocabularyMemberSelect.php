@@ -2,10 +2,14 @@
 namespace Omeka\Form\Element;
 
 use Omeka\Api\Manager as ApiManager;
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Form\Element\Select;
 
-abstract class AbstractVocabularyMemberSelect extends Select
+abstract class AbstractVocabularyMemberSelect extends Select implements EventManagerAwareInterface
 {
+    use EventManagerAwareTrait;
+
     /**
      * @var ApiManager
      */
@@ -36,6 +40,8 @@ abstract class AbstractVocabularyMemberSelect extends Select
 
     public function getValueOptions()
     {
+        $events = $this->getEventManager();
+
         $resourceName = $this->getResourceName();
 
         $termAsValue = $this->getOption('term_as_value');
@@ -46,6 +52,10 @@ abstract class AbstractVocabularyMemberSelect extends Select
         if (!isset($query['sort_by'])) {
             $query['sort_by'] = 'label';
         }
+
+        $args = $events->prepareArgs(['query' => $query]);
+        $events->trigger('form.vocab_member_select.query', $this, $args);
+        $query = $args['query'];
 
         $valueOptions = [];
         $response = $this->getApiManager()->search($resourceName, $query);
@@ -83,6 +93,11 @@ abstract class AbstractVocabularyMemberSelect extends Select
         if (is_array($prependValueOptions)) {
             $valueOptions = $prependValueOptions + $valueOptions;
         }
+
+        $args = $events->prepareArgs(['valueOptions' => $valueOptions]);
+        $events->trigger('form.vocab_member_select.value_options', $this, $args);
+        $valueOptions = $args['valueOptions'];
+
         return $valueOptions;
     }
 }

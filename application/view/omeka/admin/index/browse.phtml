@@ -4,6 +4,7 @@ echo $this->pageTitle($this->translate('Admin dashboard'));
 ?>
 
 <div id="dashboard">
+    <?php echo $this->partial('common/version-notification'); ?>
     <p><?php echo sprintf($this->translate('Welcome to the %s admin dashboard!'), $title); ?></p>
     <?php $this->trigger('view.browse.before'); ?>
     <div id="manage-resources" class="panel">

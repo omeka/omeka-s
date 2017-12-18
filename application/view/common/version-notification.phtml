@@ -1,0 +1,22 @@
+<?php if ($this->setting('version_notifications')): ?>
+<?php $this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka')); ?>
+<div class="version-notification" style="display: none;">
+    <?php echo sprintf(
+        $this->translate('A new version of Omeka S is available. %s'),
+        sprintf(
+            '<a href="%s">%s</a>',
+            'http://omeka.org/s/download/',
+            $this->translate('Get the new version.')
+        )
+    ); ?>
+</div>
+<script>
+var currentVersion = '<?php echo $this->escapeJs(Omeka\Module::VERSION); ?>';
+$.get('https://api.omeka.org/latest-version-s')
+    .done(function(latestVersion) {
+        if (semver.lt(currentVersion, latestVersion)) {
+            $('.version-notification').show();
+        }
+    });
+</script>
+<?php endif; ?>

@@ -97,6 +97,7 @@
 
     $(document).ready(function () {
         var list = document.getElementById('blocks');
+        var blockIndex = 0;
         new Sortable(list, {
             draggable: ".block",
             handle: ".sortable-handle",
@@ -122,10 +123,14 @@
             });
         });
 
-        $('#blocks').on('o:block-added', '.block', function () {
+        $('#blocks .block').each(function () {
+            replaceIndex($(this), 'blockIndex', blockIndex++);
             wysiwyg($(this));
         });
-        wysiwyg($('body'));
+        $('#blocks').on('o:block-added', '.block', function () {
+            replaceIndex($(this), 'blockIndex', blockIndex++);
+            wysiwyg($(this));
+        });
 
         $('#blocks').on('click', 'a.remove-value, a.restore-value', function (e) {
             e.preventDefault();
@@ -142,7 +147,6 @@
                 if (thisBlock.hasClass('delete')) {
                     thisBlock.find(':input').prop('disabled', true);
                 } else {
-                    replaceIndex(thisBlock, 'blockIndex', blockIndex);
                     thisBlock.find('.attachments .attachment').each(function(attachmentIndex) {
                         var thisAttachment = $(this);
                         replaceIndex(thisAttachment, 'attachmentIndex', attachmentIndex);

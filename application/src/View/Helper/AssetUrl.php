@@ -78,7 +78,7 @@ class AssetUrl extends AbstractHelper
             && ($module === 'Omeka' || array_key_exists($module, $this->activeModules))
         ) {
             $themeId = $this->currentTheme->getId();
-            $filepath = sprintf(self::THEME_ASSETS_PATH, OMEKA_PATH, $themeId, $file);
+            $filepath = sprintf(substr(self::THEME_ASSETS_PATH, 0, -5), OMEKA_PATH, $themeId, $file);
             if (is_readable($filepath)) {
                 return sprintf(self::THEME_ASSETS_PATH, $basePath, $themeId,
                     $file, $this->currentTheme->getIni('version'));

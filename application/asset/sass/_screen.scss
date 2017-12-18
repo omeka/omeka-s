@@ -158,6 +158,10 @@ body {
         margin: .5 * $base-line-height 0;
     }
 
+    .cke_dialog_body textarea {
+        max-height: none;
+    }
+
     input,
     [contenteditable="true"],
     textarea,

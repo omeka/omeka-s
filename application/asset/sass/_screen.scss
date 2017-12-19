@@ -158,6 +158,10 @@ body {
         margin: .5 * $base-line-height 0;
     }
 
+    .cke_dialog_body textarea {
+        max-height: none;
+    }
+
     input,
     [contenteditable="true"],
     textarea,
@@ -3432,6 +3436,12 @@ body.sidebar-open #content {
         border-top: 1px solid $border-gray;
         padding: -1px 0 0 $spacing-large;
         margin-top: $spacing-small;
+    }
+
+    .block[data-block-layout="html"] [contenteditable="true"] {
+        resize: vertical;
+        min-height: 3 * $spacing-large;
+        max-height: 12 * $spacing-large;
     }
 
     #attachment-options .option {

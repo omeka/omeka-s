@@ -39,7 +39,7 @@ class BrowsePreview extends AbstractBlockLayout
         $html .= '<div class="field"><div class="field-meta">';
         $html .= '<label>' . $view->translate('Preview title') . '</label>';
         $html .= $expandButton;
-        $html .= '<div class="collapsible"><div class="field-description">' . $view->translate('Heading above resource list') . '</div></div>';
+        $html .= '<div class="collapsible"><div class="field-description">' . $view->translate('Translatable heading above resource list') . '</div></div>';
         $html .= '</div>';
         $html .= '<div class="inputs">' . $view->formRow($heading) . '</div>';
         $html .= '</div>';
@@ -47,7 +47,7 @@ class BrowsePreview extends AbstractBlockLayout
         $html .= '<div class="field"><div class="field-meta">';
         $html .= '<label>' . $view->translate('Browse link text') . '</label>';
         $html .= $expandButton;
-        $html .= '<div class="collapsible"><div class="field-description">' . $view->translate('Text for link to full browse view') . '</div></div>';
+        $html .= '<div class="collapsible"><div class="field-description">' . $view->translate('Translatable text for link to full browse view') . '</div></div>';
         $html .= '</div>';
         $html .= '<div class="inputs">' . $view->formRow($linkText) . '</div>';
         $html .= '</div>';

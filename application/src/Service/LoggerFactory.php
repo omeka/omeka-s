@@ -30,9 +30,15 @@ class LoggerFactory implements FactoryInterface
             return (new Logger)->addWriter(new Noop);
         }
 
-        if (!empty($writers['stream'])) {
-            if (isset($config['logger']['priority'])) $writers['stream']['options']['filters'] = $config['logger']['priority'];
-            if (isset($config['logger']['path'])) $writers['stream']['options']['stream'] = $config['logger']['path'];
+        if (!empty($writers['stream'])
+            && (isset($config['logger']['priority']) || isset($config['logger']['path']))
+        ) {
+            if (isset($config['logger']['priority'])) {
+                $writers['stream']['options']['filters'] = $config['logger']['priority'];
+            }
+            if (isset($config['logger']['path'])) {
+                $writers['stream']['options']['stream'] = $config['logger']['path'];
+            }
         }
 
         $config['logger']['options']['writers'] = $writers;

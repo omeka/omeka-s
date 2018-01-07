@@ -23,10 +23,11 @@ foreach ($this->items as $item):
 </ul>
 
 <?php
-$linkText = $this->linkText == '' ? $this->translate('Browse all') : $this->translate($this->linkText);
-echo $this->hyperlink($linkText, $this->url(
-    'site/resource', ['controller' => 'item', 'action' => 'browse'], ['query' => $this->query], true
-));
+if ($this->linkText):
+    echo $this->hyperlink($this->translate($this->linkText), $this->url(
+        'site/resource', ['controller' => 'item', 'action' => 'browse'], ['query' => $this->query], true
+    ));
+endif;
 ?>
 
 </div>

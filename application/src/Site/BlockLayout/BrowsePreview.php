@@ -26,6 +26,8 @@ class BrowsePreview extends AbstractBlockLayout
             $text->setAttribute('value', $block->dataValue('query'));
             $heading->setAttribute('value', $block->dataValue('heading'));
             $linkText->setAttribute('value', $block->dataValue('link-text'));
+        } else {
+            $linkText->setAttribute('value', $view->translate('Browse all'));
         }
 
         $html = '<div class="field"><div class="field-meta">';

@@ -55,6 +55,14 @@ class UserRepresentation extends AbstractEntityRepresentation
         return $this->resource;
     }
 
+    public function sites()
+    {
+        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $sites = $api
+            ->search('sites', ['owner_id' => $this->id()])->getContent();
+        return $sites;
+    }
+
     public function displayRole()
     {
         $roleIndex = $this->resource->getRole();

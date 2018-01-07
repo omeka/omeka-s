@@ -12,8 +12,40 @@ class LoggerFactoryTest extends TestCase
     protected $validConfig = [
         'logger' => [
             'log' => true,
-            'path' => '/',
-            'priority' => Logger::NOTICE,
+            'writers' => [
+                'stream' => true,
+            ],
+            'options' => [
+                'writers' => [
+                    'stream' => [
+                        'name' => 'stream',
+                        'options' => [
+                            'filters' => \Zend\Log\Logger::NOTICE,
+                            'stream' => 'php://output',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ];
+
+    protected $invalidConfig = [
+        'logger' => [
+            'log' => true,
+            'writers' => [
+                'stream' => true,
+            ],
+            'options' => [
+                'writers' => [
+                    'stream' => [
+                        'name' => 'stream',
+                        'options' => [
+                            'filters' => \Zend\Log\Logger::NOTICE,
+                            'stream' => '/',
+                        ],
+                    ],
+                ],
+            ],
         ],
     ];
 
@@ -29,6 +61,15 @@ class LoggerFactoryTest extends TestCase
             $this->getMockServiceLocator($this->validConfig), 'Foo'
         );
         $this->assertInstanceOf(Logger::class, $logger);
+    }
+
+    public function testCreatesServiceWithInvalidPath()
+    {
+        $factory = $this->factory;
+        $this->expectException(\Zend\ServiceManager\Exception\ServiceNotCreatedException::class);
+        $logger = $factory(
+            $this->getMockServiceLocator($this->invalidConfig), 'Foo'
+        );
     }
 
     protected function getMockServiceLocator(array $config)

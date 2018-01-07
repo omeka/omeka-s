@@ -179,6 +179,20 @@ return [
         'log' => false,
         'path' => OMEKA_PATH . '/logs/application.log',
         'priority' => \Zend\Log\Logger::NOTICE,
+        'writers' => [
+            'stream' => true,
+        ],
+        'options' => [
+            'writers' => [
+                'stream' => [
+                    'name' => 'stream',
+                    'options' => [
+                        'filters' => \Zend\Log\Logger::NOTICE,
+                        'stream' => OMEKA_PATH . '/logs/application.log',
+                    ],
+                ],
+            ],
+        ],
     ],
     'http_client' => [
         'adapter' => \Zend\Http\Client\Adapter\Socket::class,

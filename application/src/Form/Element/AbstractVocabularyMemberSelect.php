@@ -60,25 +60,35 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
         $valueOptions = [];
         $response = $this->getApiManager()->search($resourceName, $query);
         foreach ($response->getContent() as $member) {
+            $isOptionUsedQuery['limit'] = 1;
+
             $attributes = ['data-term' => $member->term()];
             if ('properties' === $resourceName) {
                 $attributes['data-property-id'] = $member->id();
+                $isOptionUsedQuery['property_id'] = $member->id();
             } elseif ('resource_classes' === $resourceName) {
                 $attributes['data-resource-class-id'] = $member->id();
+                $isOptionUsedQuery['resource_class_id'] = $member->id();
             }
-            $option = [
-                'label' => $member->label(),
-                'value' => $termAsValue ? $member->term() : $member->id(),
-                'attributes' => $attributes,
-            ];
-            $vocabulary = $member->vocabulary();
-            if (!isset($valueOptions[$vocabulary->prefix()])) {
-                $valueOptions[$vocabulary->prefix()] = [
-                    'label' => $vocabulary->label(),
-                    'options' => [],
+
+            // Check if the option is used in any resource before adding
+            $isOptionUsed = $this->getApiManager()->search('items', $isOptionUsedQuery)->getContent();
+            if ($isOptionUsed) {
+                $option = [
+                    'label' => $member->label(),
+                    'value' => $termAsValue ? $member->term() : $member->id(),
+                    'attributes' => $attributes,
                 ];
+                $vocabulary = $member->vocabulary();
+                if (!isset($valueOptions[$vocabulary->prefix()])) {
+                    $valueOptions[$vocabulary->prefix()] = [
+                        'label' => $vocabulary->label(),
+                        'options' => [],
+                    ];
+                }
+
+                $valueOptions[$vocabulary->prefix()]['options'][] = $option;
             }
-            $valueOptions[$vocabulary->prefix()]['options'][] = $option;
         }
 
         // Move Dublin Core vocabularies (dcterms & dctype) to the beginning.

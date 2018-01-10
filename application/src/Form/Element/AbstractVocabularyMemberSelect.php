@@ -65,7 +65,9 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
             $attributes = ['data-term' => $member->term()];
             if ('properties' === $resourceName) {
                 $attributes['data-property-id'] = $member->id();
-                $isOptionUsedQuery['property_id'] = $member->id();
+                $isOptionUsedQuery['property'][0]['joiner'] = 'and';
+                $isOptionUsedQuery['property'][0]['property'] = $member->id();
+                $isOptionUsedQuery['property'][0]['type'] = 'ex';
             } elseif ('resource_classes' === $resourceName) {
                 $attributes['data-resource-class-id'] = $member->id();
                 $isOptionUsedQuery['resource_class_id'] = $member->id();

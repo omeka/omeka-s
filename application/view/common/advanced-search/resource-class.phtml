@@ -14,6 +14,7 @@ if (isset($query['resource_class_id'])) {
     <div class="inputs">
         <?php echo $this->resourceClassSelect([
             'name' => 'resource_class_id',
+            'options' => ['showOnlyUsedOptions' => True],
             'attributes' => ['id' => 'resource_class_id', 'value' => $resourceClassId]
         ]); ?>
     </div>

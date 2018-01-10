@@ -53,6 +53,8 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
             $query['sort_by'] = 'label';
         }
 
+        $showOnlyUsedOptions = $this->getOption('showOnlyUsedOptions');
+
         $args = $events->prepareArgs(['query' => $query]);
         $events->trigger('form.vocab_member_select.query', $this, $args);
         $query = $args['query'];
@@ -75,7 +77,7 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
 
             // Check if the option is used in any resource before adding
             $isOptionUsed = $this->getApiManager()->search('items', $isOptionUsedQuery)->getContent();
-            if ($isOptionUsed) {
+            if ($isOptionUsed || !$showOnlyUsedOptions) {
                 $option = [
                     'label' => $member->label(),
                     'value' => $termAsValue ? $member->term() : $member->id(),

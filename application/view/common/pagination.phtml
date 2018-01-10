@@ -3,7 +3,7 @@
     <form method="GET" action="">
         <?php echo $this->queryToHiddenInputs(['page']); ?>
         <input type="text" name="page" id="page-input-top" value="<?php echo $currentPage; ?>" size="4" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?>>
-        <span class="page-count"><?php echo sprintf($this->translate('of %s'), $pageCount); ?></span>
+        <span class="page-count"><?php echo sprintf($this->translate('of %s'), $pageCount); ?> pages</span>
     </form>
 
     <?php if ($currentPage != 1): ?>
@@ -21,8 +21,8 @@
     <?php
     $from = $offset + 1;
     $to = ($currentPage < $pageCount) ? $offset + $perPage : $totalCount;
-    ?>
-    <span class="row-count"><?php echo sprintf($this->translate('%s–%s of %s'), $from, $to, $totalCount); ?></span>
+    ?> 
+    <span class="row-count"><?php echo sprintf($this->translate('%s–%s of %s'), $from, $to, $totalCount); ?> Total Results</span>
 <?php else: ?>
     <?php echo $this->translate('0 results'); ?>
 <?php endif; ?>

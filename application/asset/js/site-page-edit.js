@@ -66,6 +66,11 @@
             var name = thisInput.attr('name').replace('[__' + find + '__]', '[' + index + ']');
             thisInput.attr('name', name);
         });
+        context.find('.attachments').each(function () {
+            var thisAttachments = $(this);
+            var template = thisAttachments.data('template').replace(new RegExp('\\[__' + find + '__\\]', 'g'), '[' + index + ']');
+            thisAttachments.data('template', template);
+        });
     }
 
     /**

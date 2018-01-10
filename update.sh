@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 echo '- Updating from origin'
 git pull
 

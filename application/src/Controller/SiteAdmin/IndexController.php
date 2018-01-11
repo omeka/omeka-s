@@ -339,15 +339,25 @@ class IndexController extends AbstractActionController
             return $view;
         }
 
+        /** @var Form $form */
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
-        $inputFilter = $form->getInputFilter();
 
         foreach ($config['elements'] as $elementSpec) {
             $form->add($elementSpec);
-            $inputFilter->add([
-                'name' => $elementSpec['name'],
-                'required' => false,
-            ]);
+        }
+
+        // Fix to manage empty values for selects and multicheckboxes.
+        $inputFilter = $form->getInputFilter();
+        foreach ($form->getElements() as $element) {
+            if ($element instanceof \Zend\Form\Element\MultiCheckbox
+                || ($element instanceof \Zend\Form\Element\Select
+                    && $element->getOption('empty_option') !== null)
+            ) {
+                $inputFilter->add([
+                    'name' => $element->getName(),
+                    'allow_empty' => true,
+                ]);
+            }
         }
 
         $oldSettings = $this->siteSettings()->get($theme->getSettingsKey());

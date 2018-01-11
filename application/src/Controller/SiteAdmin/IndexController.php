@@ -355,20 +355,24 @@ class IndexController extends AbstractActionController
             $form->setData($oldSettings);
         }
 
-        if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
-            if ($form->isValid()) {
-                $data = $form->getData();
-                unset($data['form_csrf']);
-                $this->siteSettings()->set($theme->getSettingsKey(), $data);
-                $this->messenger()->addSuccess('Theme settings successfully updated'); // @translate
-                return $this->redirect()->refresh();
-            } else {
-                $this->messenger()->addFormErrors($form);
-            }
-        }
         $view->setVariable('form', $form);
         $view->setVariable('theme', $theme);
+        if (!$this->getRequest()->isPost()) {
+            return $view;
+        }
+
+        $postData = $this->params()->fromPost();
+        $form->setData($postData);
+        if ($form->isValid()) {
+            $data = $form->getData();
+            unset($data['form_csrf']);
+            $this->siteSettings()->set($theme->getSettingsKey(), $data);
+            $this->messenger()->addSuccess('Theme settings successfully updated'); // @translate
+            return $this->redirect()->refresh();
+        }
+
+        $this->messenger()->addFormErrors($form);
+
         return $view;
     }
 

@@ -339,10 +339,25 @@ class IndexController extends AbstractActionController
             return $view;
         }
 
+        /** @var Form $form */
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
 
         foreach ($config['elements'] as $elementSpec) {
             $form->add($elementSpec);
+        }
+
+        // Fix to manage empty values for selects and multicheckboxes.
+        $inputFilter = $form->getInputFilter();
+        foreach ($form->getElements() as $element) {
+            if ($element instanceof \Zend\Form\Element\MultiCheckbox
+                || ($element instanceof \Zend\Form\Element\Select
+                    && $element->getOption('empty_option') !== null)
+            ) {
+                $inputFilter->add([
+                    'name' => $element->getName(),
+                    'allow_empty' => true,
+                ]);
+            }
         }
 
         $oldSettings = $this->siteSettings()->get($theme->getSettingsKey());
@@ -350,20 +365,24 @@ class IndexController extends AbstractActionController
             $form->setData($oldSettings);
         }
 
-        if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
-            if ($form->isValid()) {
-                $data = $form->getData();
-                unset($data['form_csrf']);
-                $this->siteSettings()->set($theme->getSettingsKey(), $data);
-                $this->messenger()->addSuccess('Theme settings successfully updated'); // @translate
-                return $this->redirect()->refresh();
-            } else {
-                $this->messenger()->addFormErrors($form);
-            }
-        }
         $view->setVariable('form', $form);
         $view->setVariable('theme', $theme);
+        if (!$this->getRequest()->isPost()) {
+            return $view;
+        }
+
+        $postData = $this->params()->fromPost();
+        $form->setData($postData);
+        if ($form->isValid()) {
+            $data = $form->getData();
+            unset($data['form_csrf']);
+            $this->siteSettings()->set($theme->getSettingsKey(), $data);
+            $this->messenger()->addSuccess('Theme settings successfully updated'); // @translate
+            return $this->redirect()->refresh();
+        }
+
+        $this->messenger()->addFormErrors($form);
+
         return $view;
     }
 

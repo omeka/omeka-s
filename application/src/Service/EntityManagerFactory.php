@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Service;
 
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
@@ -49,9 +51,15 @@ class EntityManagerFactory implements FactoryInterface
             $isDevMode = self::IS_DEV_MODE;
         }
 
+        if (extension_loaded('apcu') && !$isDevMode) {
+            $cache = new ApcuCache();
+        } else {
+            $cache = new ArrayCache();
+        }
+
         // Set up the entity manager configuration.
         $emConfig = Setup::createAnnotationMetadataConfiguration(
-            $config['entity_manager']['mapping_classes_paths'], $isDevMode
+            $config['entity_manager']['mapping_classes_paths'], $isDevMode, null, $cache
         );
         $emConfig->setProxyDir(OMEKA_PATH . '/application/data/doctrine-proxies');
 

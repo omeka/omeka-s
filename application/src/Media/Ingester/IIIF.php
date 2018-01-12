@@ -106,7 +106,7 @@ class IIIF implements IngesterInterface
             'info' => 'URL for the image to embed.', // @translate
         ]);
         $urlInput->setAttributes([
-            'require' => true,
+            'required' => true,
         ]);
         return $view->formRow($urlInput);
     }

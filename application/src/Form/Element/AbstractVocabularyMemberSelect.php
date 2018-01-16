@@ -76,7 +76,12 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
             }
 
             // Check if the option is used in any resource before adding
-            $isOptionUsed = $this->getApiManager()->search('items', $isOptionUsedQuery)->getContent();
+            $isOptionUsed = null;
+
+            if ($showOnlyUsedOptions) {
+                $isOptionUsed = $this->getApiManager()->search('items', $isOptionUsedQuery)->getContent();
+            }
+
             if ($isOptionUsed || !$showOnlyUsedOptions) {
                 $option = [
                     'label' => $member->label(),

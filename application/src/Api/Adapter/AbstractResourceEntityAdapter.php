@@ -246,7 +246,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                 case 'ex':
                     $predicateExpr = $qb->expr()->isNotNull("$valuesAlias.id");
                 default:
-                    continue;
+                    continue 2;
             }
 
             $joinConditions = [];

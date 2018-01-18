@@ -2,6 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Entity\ResourceTemplateProperty;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
@@ -10,11 +11,6 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
      * @var ResourceTemplateProperty
      */
     protected $templateProperty;
-
-    /**
-     * @var array List of registered data types, keyed by name
-     */
-    protected $dataTypes = [];
 
     /**
      * Construct the resource template property representation object.
@@ -27,8 +23,6 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
         // Set the service locator first.
         $this->setServiceLocator($serviceLocator);
         $this->templateProperty = $templateProperty;
-        $this->dataTypes = array_flip($serviceLocator
-            ->get('Omeka\DataTypeManager')->getRegisteredNames());
     }
 
     /**
@@ -94,7 +88,9 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     {
         // Check the data type against the list of registered data types.
         $dataType = $this->templateProperty->getDataType();
-        if (!isset($this->dataTypes[$dataType])) {
+        try {
+            $this->getServiceLocator()->get('Omeka\DataTypeManager')->get($dataType);
+        } catch (ServiceNotFoundException $e) {
             // Treat an unknown data type as "Default"
             $dataType = null;
         }

@@ -23,7 +23,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *     'values' => {
      *       {value representation},
      *       {value representation},
-     *       {...},
+     *       {…},
      *     },
      *   ),
      * )

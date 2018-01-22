@@ -93,8 +93,8 @@ class IIIF implements IngesterInterface
                     $media->setStorageId($tempFile->getStorageId());
                     $media->setHasThumbnails(true);
                 }
+                $tempFile->delete();
             }
-            $tempFile->delete();
         }
     }
 

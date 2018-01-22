@@ -89,6 +89,20 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $this->add([
+            'name' => 'uri_value_target_attribute',
+            'type' => 'Select',
+            'options' => [
+                'label' => 'Open URI of a property value...', // @translate
+                'value_options' => [
+                    '_self' => 'In the same window (exiting the page)', // @translate
+                    '_blank' => 'In a new window', // @translate
+                ],
+            ],
+            'attributes' => [
+                'value' => $settings->get('uri_value_target_attribute'),
+            ],
+        ]);
+        $this->add([
             'name' => 'show_user_bar',
             'type' => 'checkbox',
             'options' => [

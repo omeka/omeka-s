@@ -11,9 +11,9 @@ $pagination->setFragment($fragment);
 <div id="linked-resources">
 <div class="linked-header">
     <div id="linked-filter">
-        <h4>Filter by property</h4>
+        <h4><?php echo $this->translate('Filter by property'); ?></h4>
         <select id="filter-property" name="property" data-url="<?php echo $escape($this->url(null, [], true)); ?>" data-fragment="<?php echo $escape($fragment); ?>">
-            <option value="">All</option>
+            <option value=""><?php echo $this->translate('All'); ?></option>
             <?php foreach ($properties as $prop): ?>
             <option value="<?php echo $escape($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $escape(sprintf('%s (%s)', $prop->label(), $prop->term())); ?></option>
             <?php endforeach; ?>
@@ -43,7 +43,7 @@ $pagination->setFragment($fragment);
         <td><?php echo $value->resource()->linkPretty(); ?></td>
         <td>
         <?php if ($altLabel): ?>
-        <span class="alternate-label"><?php echo $this->escapeHtml($altLabel); ?>
+        <span class="alternate-label"><?php echo $this->escapeHtml($altLabel); ?></span>
         <?php endif; ?>
         </td>
         <td>

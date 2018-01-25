@@ -53,8 +53,10 @@ class Uri extends AbstractDataType
         if (!$uriLabel) {
             $uriLabel = $uri;
         }
-        $attributes = ['class' => 'uri-value-link', 
-            'target' => $view->siteSetting('uri_value_target_attribute', '_self')];
+        $attributes = [
+            'class' => 'uri-value-link',
+            'target' => $view->siteSetting('uri_value_target_attribute', '_self'),
+        ];
         return $view->hyperlink($uriLabel, $uri, $attributes);
     }
 

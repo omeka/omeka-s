@@ -77,7 +77,7 @@ new, clean checkout.
 * `phpcli_path` Default is to attempt to detect correct path to PHP. Use this option to specify a path if needed in your server configuration. For example: 
 ```
     'cli' => array(
-        'phpcli_path' => '/usr/bin/php55',
+        'phpcli_path' => '/usr/bin/php72',
     ),
 
 ``` 

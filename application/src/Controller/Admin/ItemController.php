@@ -4,7 +4,6 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
 use Omeka\Form\ResourceBatchUpdateForm;
-use Omeka\Job\Dispatcher;
 use Omeka\Media\Ingester\Manager;
 use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -19,18 +18,11 @@ class ItemController extends AbstractActionController
     protected $mediaIngesters;
 
     /**
-     * @var Dispatcher
-     */
-    protected $dispatcher;
-
-    /**
      * @param Manager $mediaIngesters
-     * @param Dispatcher $dispatcher
      */
-    public function __construct(Manager $mediaIngesters, Dispatcher $dispatcher)
+    public function __construct(Manager $mediaIngesters)
     {
         $this->mediaIngesters = $mediaIngesters;
-        $this->dispatcher = $dispatcher;
     }
 
     public function searchAction()
@@ -187,7 +179,7 @@ class ItemController extends AbstractActionController
         $form = $this->getForm(ConfirmForm::class);
         $form->setData($this->getRequest()->getPost());
         if ($form->isValid()) {
-            $job = $this->dispatcher->dispatch('Omeka\Job\BatchDelete', [
+            $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchDelete', [
                 'resource' => 'items',
                 'query' => $query,
             ]);
@@ -339,7 +331,7 @@ class ItemController extends AbstractActionController
             if ($form->isValid()) {
                 list($dataRemove, $dataAppend) = $this->preprocessBatchUpdateData($data);
 
-                $job = $this->dispatcher->dispatch('Omeka\Job\BatchUpdate', [
+                $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'items',
                     'query' => $query,
                     'data_remove' => $dataRemove,

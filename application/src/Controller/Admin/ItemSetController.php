@@ -4,26 +4,12 @@ namespace Omeka\Controller\Admin;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
 use Omeka\Form\ResourceBatchUpdateForm;
-use Omeka\Job\Dispatcher;
 use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class ItemSetController extends AbstractActionController
 {
-    /**
-     * @var Dispatcher
-     */
-    protected $dispatcher;
-
-    /**
-     * @param Dispatcher $dispatcher
-     */
-    public function __construct(Dispatcher $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
-    }
-
     public function searchAction()
     {
         $view = new ViewModel;
@@ -231,7 +217,7 @@ class ItemSetController extends AbstractActionController
         $form = $this->getForm(ConfirmForm::class);
         $form->setData($this->getRequest()->getPost());
         if ($form->isValid()) {
-            $job = $this->dispatcher->dispatch('Omeka\Job\BatchDelete', [
+            $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchDelete', [
                 'resource' => 'item_sets',
                 'query' => $query,
             ]);
@@ -317,7 +303,7 @@ class ItemSetController extends AbstractActionController
             if ($form->isValid()) {
                 list($dataRemove, $dataAppend) = $this->preprocessBatchUpdateData($data);
 
-                $job = $this->dispatcher->dispatch('Omeka\Job\BatchUpdate', [
+                $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'item_sets',
                     'query' => $query,
                     'data_remove' => $dataRemove,

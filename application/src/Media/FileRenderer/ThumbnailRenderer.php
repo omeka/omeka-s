@@ -11,7 +11,8 @@ class ThumbnailRenderer implements RendererInterface
     ) {
         $thumbnailType = isset($options['thumbnailType']) ? $options['thumbnailType'] : 'large';
         $link = array_key_exists('link', $options) ? $options['link'] : 'original';
-        $img = $view->thumbnail($media, $thumbnailType);
+        $attribs = isset($options['attribs']) ? $options['attribs'] : [];
+        $img = $view->thumbnail($media, $thumbnailType, $attribs);
         if (!$link) {
             return $img;
         }

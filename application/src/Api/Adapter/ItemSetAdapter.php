@@ -71,8 +71,22 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
                 $qb->andWhere($expr);
             }
         }
+    }
 
-        if (!empty($query['site_id'])) {
+    /**
+     * {@inheritDoc}
+     */
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {
+        if (is_string($query['sort_by'])) {
+            if ('item_count' == $query['sort_by']) {
+                $this->sortByCount($qb, $query, 'items');
+            } else {
+                parent::sortQuery($qb, $query);
+            }
+        }
+
+		if (!empty($query['site_id'])) {
             $siteAdapter = $this->getAdapter('sites');
             try {
                 $site = $siteAdapter->findEntity($query['site_id']);
@@ -89,20 +103,6 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
                 $this->createNamedParameter($qb, $query['site_id']))
             );
             $qb->addOrderBy("$siteItemSetsAlias.position", 'ASC');
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function sortQuery(QueryBuilder $qb, array $query)
-    {
-        if (is_string($query['sort_by'])) {
-            if ('item_count' == $query['sort_by']) {
-                $this->sortByCount($qb, $query, 'items');
-            } else {
-                parent::sortQuery($qb, $query);
-            }
         }
     }
 

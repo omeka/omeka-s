@@ -86,7 +86,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
             }
         }
 
-		if (!empty($query['site_id'])) {
+        if (!empty($query['site_id'])) {
             $siteAdapter = $this->getAdapter('sites');
             try {
                 $site = $siteAdapter->findEntity($query['site_id']);

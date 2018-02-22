@@ -206,7 +206,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             ->select($entityClass)
             ->from($entityClass, $entityClass);
         $this->buildQuery($qb, $query);
-        $qb->groupBy("$entityClass.id");
 
         // Trigger the search.query event.
         $event = new Event('api.search.query', $this, [

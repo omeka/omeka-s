@@ -90,7 +90,7 @@ body {
 
     table {
         width: 100%;
-        border-collapse: collapse;
+        border-spacing: 0;
         table-layout: fixed;
     }
 
@@ -104,10 +104,12 @@ body {
     table,
     table.tablesaw {
         margin-bottom: $spacing-medium;
+        border: 1px solid $border-gray;
+        border-radius: 3px;
+        border-collapse: separate;
     }
 
-    .tablesaw tr {
-        background-color: #fff;
+    .tablesaw tr:not(:last-child) td {
         border-bottom: 1px solid $border-gray;
     }
 
@@ -1338,6 +1340,56 @@ td .o-icon-private {
 
     /* @group ----- Batch Update ----- */
 
+    #batch-form {
+        border: 1px solid $border-gray;
+        border-bottom: 0;
+        border-radius: 3px;
+        margin-bottom: $spacing-medium;
+
+        table.tablesaw {
+            border-width: 1px 0;
+            border-radius: 0 0 3px 3px;
+            margin-bottom: 0;
+        }
+
+        .batch-actions {
+            display: inline-block;
+        }
+
+        .batch-inputs {
+            display: flex;
+            align-items: center;
+            padding: $spacing-small;
+            background-color: $gray-on-white;
+        }
+    
+        .batch-actions > a.button,
+        .batch-actions > button,
+        .batch-actions > input[type="submit"] {
+            display: none;
+            margin: 0 $spacing-medium 0 0;
+            font-size: .875 * $base-font-size;
+            line-height: $base-line-height;
+            min-height: 0;
+            padding: 0 $spacing-small;
+    
+            &.active {
+                display: inline-block;
+            }
+        }
+
+        select {
+            font-size: .875 * $base-font-size;
+            min-height: 0;
+            height: auto;
+            line-height: $base-line-height;
+            padding: 0 $spacing-small;
+            margin-right: $spacing-small;
+            border: 0;
+            box-shadow: 0 0 0 1px $border-gray inset;
+        }
+    }
+
     .batch-selected {
         padding-left: 0;
         list-style: none;
@@ -1532,21 +1584,6 @@ fieldset.section > legend {
 
         &:hover {
             box-shadow: 0 0 0 1px #DA8B8B inset;
-        }
-    }
-
-    .batch-actions {
-        display: inline-block;
-    }
-
-    .batch-actions > a.button,
-    .batch-actions > button,
-    .batch-actions > input[type="submit"] {
-        display: none;
-        margin-right: $spacing-medium;
-
-        &.active {
-            display: inline-block;
         }
     }
 }

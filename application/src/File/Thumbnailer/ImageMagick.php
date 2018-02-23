@@ -74,7 +74,7 @@ class ImageMagick extends AbstractThumbnailer
                 ];
         }
 
-        if ($this->getOption('autoOrient', false)) {
+        if ($this->getOption('autoOrient', true)) {
             array_unshift($args, '-auto-orient');
         }
 

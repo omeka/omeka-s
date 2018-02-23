@@ -41,7 +41,7 @@ class Imagick extends AbstractThumbnailer
             throw new Exception\CannotCreateThumbnailException;
         }
 
-        if ($this->getOption('autoOrient', false)) {
+        if ($this->getOption('autoOrient', true)) {
             $this->autoOrient($imagick);
         }
 

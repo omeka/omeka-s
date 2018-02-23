@@ -372,6 +372,7 @@ return [
             'messages' => View\Helper\Messages::class,
             'sortLink' => View\Helper\SortLink::class,
             'sortSelector' => View\Helper\SortSelector::class,
+            'filterSelector' => View\Helper\FilterSelector::class,
             'propertySelector' => View\Helper\PropertySelector::class,
             'itemSetSelector' => View\Helper\ItemSetSelector::class,
             'searchFilters' => View\Helper\SearchFilters::class,

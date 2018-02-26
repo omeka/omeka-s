@@ -240,11 +240,6 @@ body {
             cursor: default;
             border: 0;
         }
-
-        &[class*="o-icon-"],
-        &[class*="o-icon-"]:hover {
-            box-shadow: none;
-        }
     }
 
     .red.button {
@@ -869,6 +864,7 @@ nav.pagination .button {
 
 nav.pagination .button:before {
     vertical-align: top;
+    line-height: $base-line-height;
 }
 
 nav.pagination .previous.button {
@@ -1179,8 +1175,29 @@ div[role="main"] {
     padding: .25em;
 }
 
-.browse .sorting button {
+.browse-controls select,
+.browse-controls input,
+.browse-controls button,
+.browse-controls .button {
+    font-size: .8175 * $base-font-size;
+    min-height: 0;
+    height: $base-line-height;
+    line-height: $base-line-height;
+    vertical-align: top;
+    background-size: .4088 * $base-font-size;
+}
+
+.browse-controls .sorting:not(:last-child) {
+    margin-left: auto;
+}
+
+.browse-controls button,
+.browse-controls .button {
     padding: 0 10px;
+}
+
+.browse-controls .filtering {
+    margin-left: $spacing-large;
 }
 
 .browse .select-all {

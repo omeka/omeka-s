@@ -62,6 +62,8 @@ $queryText = function(array $search, $index) {
                 <?php echo $queryOption('neq', $property, 'type', $this->translate('is not exactly')); ?>
                 <?php echo $queryOption('in', $property, 'type', $this->translate('contains')); ?>
                 <?php echo $queryOption('nin', $property, 'type', $this->translate('does not contain')); ?>
+                <?php echo $queryOption('res', $property, 'type', $this->translate('is resource with ID')); ?>
+                <?php echo $queryOption('nres', $property, 'type', $this->translate('is not resource with ID')); ?>
                 <?php echo $queryOption('ex', $property, 'type', $this->translate('has any value')); ?>
                 <?php echo $queryOption('nex', $property, 'type', $this->translate('has no values')); ?>
             </select>

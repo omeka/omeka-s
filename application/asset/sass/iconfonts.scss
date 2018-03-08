@@ -51,7 +51,7 @@
 }
 
 .o-icon-settings {
-    @extend .fa-gears;
+    @extend .fa-cogs;
 }
 
 .o-icon-users {
@@ -79,11 +79,11 @@
 }
 
 .o-icon-delete {
-    @extend .fa-trash-o;
+    @extend .fa-trash;
 }
 
 .o-icon-edit {
-    @extend .fa-pencil;
+    @extend .fa-pencil-alt;
 }
 
 .o-icon-more {
@@ -147,7 +147,7 @@
 }
 
 .o-icon-revert {
-    @extend .fa-rotate-left;
+    @extend .fa-undo;
 }
 
 .o-icon-up {
@@ -195,7 +195,7 @@
 }
 
 .o-icon-external {
-    @extend .fa-external-link;
+    @extend .fa-external-link-alt;
 }
 
 .screen-reader-text {

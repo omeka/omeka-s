@@ -1,6 +1,7 @@
 @import "font-awesome/fontawesome";
 
 [class*="o-icon-"]:before {
+    @extend .fa;
     @extend .#{$fa-css-prefix};
 }
 
@@ -79,7 +80,7 @@
 }
 
 .o-icon-delete {
-    @extend .fa-trash;
+    @extend .fa-trash-alt;
 }
 
 .o-icon-edit {

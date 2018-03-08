@@ -267,8 +267,8 @@ body {
         padding-right: (1.5 * $spacing-large);
 
         &:after {
-            font-family: "FontAwesome";
-            content: $fa-var-asterisk;
+            font-family: "Font Awesome 5 Free";
+            content: fa-content($fa-var-asterisk);
             font-size: .75 * $base-font-size;
             position: absolute;
             right: $spacing-medium;
@@ -283,8 +283,9 @@ body {
     }
 
     label.required:after  {
-        font-family: "FontAwesome";
-        content: $fa-var-asterisk;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: fa-content($fa-var-asterisk);
         font-size: .75 * $base-font-size;
         color: $red;
         float: right;
@@ -402,8 +403,8 @@ body {
             background: none !important;
 
             &:after {
-                font-family: "FontAwesome";
-                content: $fa-var-caret-down;
+                font-family: "Font Awesome 5 Free";
+                    content: fa-content($fa-var-caret-down);
                 line-height: $base-line-height;
                 padding: $spacing-small 0;
                 display: inline-block;
@@ -411,7 +412,7 @@ body {
         }
 
         .chosen-container-active.chosen-with-drop .chosen-single div b:after {
-            content: $fa-var-caret-up;
+            content: fa-content($fa-var-caret-up);
         }
 
         .chosen-container-single .chosen-search input[type="text"] {
@@ -422,8 +423,8 @@ body {
             position: relative;
 
             &:after  {
-                font-family: "FontAwesome";
-                content: $fa-var-search;
+                font-family: "Font Awesome 5 Free";
+                    content: fa-content($fa-var-search);
                 line-height: $base-line-height;
                 padding: $spacing-small 0;
                 display: block;
@@ -559,8 +560,9 @@ table .icon-sortable {
 
 .sortable-handle:before {
     cursor: move;
-    content: $fa-var-bars;
-    font-family: "FontAwesome";
+    content: fa-content($fa-var-bars);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
     opacity: .35;
     font-size: 1.25 * $base-font-size;
     line-height: $base-line-height;
@@ -577,14 +579,16 @@ a.collapse {
 }
 
 .expand:after {
-    content: $fa-var-caret-right;
-    font-family: "FontAwesome";
+    content: fa-content($fa-var-caret-right);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
     margin-left: 3px;
 }
 
 .collapse:after {
-    content: $fa-var-caret-down;
-    font-family: "FontAwesome";
+    content: fa-content($fa-var-caret-down);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
     margin-left: 3px;
 }
 
@@ -698,13 +702,14 @@ header {
         border-radius: 0 3px 3px 0;
 
         &:after {
-            content: $fa-var-search;
+            content: fa-content($fa-var-search);
         }
     }
 
     &:after {
-        content: $fa-var-ellipsis-h;
-        font-family: "FontAwesome";
+        content: fa-content($fa-var-ellipsis-h);
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         text-indent: 0;
         position: absolute;
         top: 0;
@@ -756,7 +761,8 @@ div[role="main"] > h1:first-of-type .title {
 }
 
 .subhead:before {
-    font-family: "FontAwesome";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
     display: inline-block;
     margin-right: $spacing-small;
     font-size: $base-font-size;
@@ -935,64 +941,65 @@ nav.pagination + *:not(.sorting) {
     }
 
     header nav li > a:before {
-        content: $fa-var-plus-square;
-        font-family: "FontAwesome";
+        content: fa-content($fa-var-plus-square);
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         display: inline-block;
         width: $spacing-large;
     }
 
     header nav .items:before,
     .items .subhead:before {
-        content: $fa-var-cube;
+        content: fa-content($fa-var-cube);
     }
 
     header nav .media:before,
     .media .subhead:before {
-        content: $fa-var-image;
+        content: fa-content($fa-var-image);
     }
 
     header nav .item-sets:before,
     .item-sets .subhead:before {
-        content: $fa-var-cubes;
+        content: fa-content($fa-var-cubes);
     }
 
     header nav .vocabularies:before,
     .vocabularies .subhead:before {
-        content: $fa-var-book;
+        content: fa-content($fa-var-book);
     }
 
     header nav .resource-templates:before,
     .resource-templates .subhead:before {
-        content: $fa-var-pen-square;
+        content: fa-content($fa-var-pen-square);
     }
 
     header nav .users:before,
     .users .subhead:before {
-        content: $fa-var-user;
+        content: fa-content($fa-var-user);
     }
 
     header nav .modules:before,
     .modules .subhead:before {
-        content: $fa-var-plus-square;
+        content: fa-content($fa-var-plus-square);
     }
 
     header nav .jobs:before,
     .jobs .subhead:before {
-        content: $fa-var-tasks;
+        content: fa-content($fa-var-tasks);
     }
 
     header nav .sites:before,
     .sites .subhead:before {
-        content: $fa-var-laptop;
+        content: fa-content($fa-var-laptop);
     }
 
     header nav .settings:before,
     .settings .subhead:before {
-        content: $fa-var-cogs;
+        content: fa-content($fa-var-cogs);
     }
 
     header nav li li a:before {
-        content: $fa-var-caret-right;
+        content: fa-content($fa-var-caret-right);
     }
 
     header ul.navigation {
@@ -1037,8 +1044,8 @@ nav.pagination + *:not(.sorting) {
     }
 
     header nav#site-nav h5 a:before {
-        content: $fa-var-laptop;
-        font-family: "FontAwesome";
+        content: fa-content($fa-var-laptop);
+        font-family: "Font Awesome 5 Free";
         width: $spacing-large;
         display: inline-block;
         font-weight: normal;
@@ -1047,11 +1054,11 @@ nav.pagination + *:not(.sorting) {
 
     #menu .pages:before,
     .site-pages .subhead:before {
-        content: $fa-var-file;
+        content: fa-content($fa-var-file);
     }
 
     #menu a.navigation:before {
-        content: $fa-var-sitemap;
+        content: fa-content($fa-var-sitemap);
     }
 
     #menu a.public {
@@ -1063,16 +1070,16 @@ nav.pagination + *:not(.sorting) {
     }
 
     #menu a.resources:before {
-        content: $fa-var-cubes;
+        content: fa-content($fa-var-cubes);
     }
 
     #menu a.site-info:before {
-        content: $fa-var-cogs;
+        content: fa-content($fa-var-cogs);
     }
 
     #menu a.theme:before,
     .theme-settings .subhead:before {
-        content: $fa-var-paint-brush;
+        content: fa-content($fa-var-paint-brush);
     }
 
     /* @end */
@@ -1103,8 +1110,8 @@ div[role="main"] {
 }
 
 #manage-resources .add.button:before {
-    content: $fa-var-plus;
-    font-family: "FontAwesome";
+    content: fa-content($fa-var-plus);
+    font-family: "Font Awesome 5 Free";
 }
 
 .panel {
@@ -1172,7 +1179,8 @@ div[role="main"] {
 
 .browse .browse-controls .advanced-search:before {
     @include fa-icon();
-    content: $fa-var-search;
+    font-family: "Font Awesome 5 Free";
+    content: fa-content($fa-var-search);
     padding: .25em;
 }
 
@@ -1295,7 +1303,8 @@ div[role="main"] {
     margin-top: (4 * $spacing-large);
 
     &:before {
-        font-family: "FontAwesome";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         font-size: 6 * $base-font-size;
         position: absolute;
         top: 0;
@@ -1320,40 +1329,40 @@ td .o-icon-private {
 }
 
 .items .no-resources:before {
-    content: $fa-var-cube;
+    content: fa-content($fa-var-cube);
 }
 
 .item-sets .no-resources:before {
-    content: $fa-var-cubes;
+    content: fa-content($fa-var-cubes);
 }
 
 .media .no-resources:before, #media-list .no-resources:before {
-    content: $fa-var-image;
+    content: fa-content($fa-var-image);
 }
 
 .modules .no-resources:before {
-    content: $fa-var-plus-square;
+    content: fa-content($fa-var-plus-square);
 }
 
 .vocabs .no-resources:before {
-    content: $fa-var-book;
+    content: fa-content($fa-var-book);
 }
 
 .resource-templates .no-resources:before,
 .resources-templates {
-    content: $fa-var-pen-square;
+    content: fa-content($fa-var-pen-square);
 }
 
 .users .no-resources:before {
-    content: $fa-var-users;
+    content: fa-content($fa-var-users);
 }
 
 .jobs .no-resources:before {
-    content: $fa-var-tasks;
+    content: fa-content($fa-var-tasks);
 }
 
 .sites .no-resources:before {
-    content: $fa-var-laptop;
+    content: fa-content($fa-var-laptop);
 }
 
     /* @group ----- Batch Update ----- */
@@ -1788,8 +1797,8 @@ input[type="text"].value-language,
         margin-bottom: 0;
 
         &:after {
-            content: $fa-var-caret-right;
-            font-family: "FontAwesome";
+            content: fa-content($fa-var-caret-right);
+            font-family: "Font Awesome 5 Free";
             position: absolute;
             right: 0;
             top: $spacing-small;
@@ -1797,7 +1806,7 @@ input[type="text"].value-language,
         }
 
         &.show:after {
-            content: $fa-var-caret-down;
+            content: fa-content($fa-var-caret-down);
         }
 
         &:hover:before {
@@ -2261,22 +2270,23 @@ input[type="text"].value-language,
     }
 
     .selected-resource .o-title a:after {
-        font-family: "FontAwesome";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         position: absolute;
         top: $spacing-small;
         right: $spacing-small;
     }
 
     .selected-resource .items a:after {
-        content: $fa-var-cube;
+        content: fa-content($fa-var-cube);
     }
 
     .selected-resource .item_sets a:after {
-        content: $fa-var-cubes;
+        content: fa-content($fa-var-cubes);
     }
 
     .selected-resource .media a:after {
-        content: $fa-var-image;
+        content: fa-content($fa-var-image);
     }
 
     [data-data-type="uri"] .input {
@@ -2410,7 +2420,7 @@ input[type="text"].value-language,
             padding: 0 $spacing-large;
 
             &:before {
-                content: $fa-var-cubes;
+                content: fa-content($fa-var-cubes);
             }
         }
     }
@@ -2574,14 +2584,15 @@ input[type="text"].value-language,
     min-height: 0;
 
     &:before {
-        font-family: "FontAwesome";
-        content: $fa-var-toggle-off;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: fa-content($fa-var-toggle-off);
         display: inline-block;
         margin-right: $spacing-small;
     }
 
     &.active:before {
-        content: $fa-var-toggle-on;
+        content: fa-content($fa-var-toggle-on);
     }
 
     & + .resource-list {
@@ -2802,25 +2813,26 @@ input[type="text"].value-language,
 
     .property .value .resource-name:after,
     .property .value.uri .uri-value-link:after {
-        font-family: "FontAwesome";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         display: inline-block;
         margin-left: .5em;
     }
 
     .property .value.uri .uri-value-link:after {
-        content: $fa-var-external-link-alt;
+        content: fa-content($fa-var-external-link-alt);
     }
 
     .property .value.items .resource-name:after {
-        content: $fa-var-cube;
+        content: fa-content($fa-var-cube);
     }
 
     .property .value.media .resource-name:after {
-        content: $fa-var-image;
+        content: fa-content($fa-var-image);
     }
 
     .property .value.item_sets .resource-name:after {
-        content: $fa-var-cubes;
+        content: fa-content($fa-var-cubes);
     }
 
     /* @end */
@@ -2876,7 +2888,7 @@ input[type="text"].value-language,
 
         &:after {
             @include fa-icon();
-            content: $fa-var-circle-notch;
+            content: fa-content($fa-var-circle-notch);
             position: absolute;
             top: .75em;
             left: calc(50% - .6em);
@@ -2885,6 +2897,7 @@ input[type="text"].value-language,
             height: 0.95em;
             width: 1.2em;
             text-align: center;
+            font-weight: 900;
         }
     }
 
@@ -2990,8 +3003,8 @@ input[type="text"].value-language,
         color: $copy-gray;
 
         &:after {
-            content: $fa-var-plus;
-            font-family: "FontAwesome";
+            content: fa-content($fa-var-plus);
+            font-family: "Font Awesome 5 Free";
             float: right;
             color: $border-gray;
         }
@@ -3268,8 +3281,9 @@ body.sidebar-open #content {
 }
 
 .breadcrumbs > *:not(:last-child):after {
-    content: $fa-var-caret-right;
-    font-family: "FontAwesome";
+    content: fa-content($fa-var-caret-right);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
     display: inline-block;
     margin: 0 calc(#{$spacing-medium} - 3px) 0 $spacing-medium;
     color: #000;
@@ -3300,7 +3314,7 @@ body.sidebar-open #content {
         padding: 0 $spacing-large;
 
         &:before {
-            content: $fa-var-users;
+            content: fa-content($fa-var-users);
         }
     }
 
@@ -3681,8 +3695,8 @@ body.sidebar-open #content {
         padding: $spacing-medium - 3px;
 
         &:after {
-            content: $fa-var-check;
-            font-family: "FontAwesome";
+            content: fa-content($fa-var-check);
+            font-family: "Font Awesome 5 Free";
             position: absolute;
             bottom: 0;
             right: 0;

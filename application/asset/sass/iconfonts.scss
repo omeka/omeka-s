@@ -1,4 +1,4 @@
-@import "font-awesome/font-awesome";
+@import "font-awesome/fontawesome";
 
 [class*="o-icon-"]:before {
     @extend .#{$fa-css-prefix};
@@ -27,7 +27,7 @@
 
 .o-icon-text,
 .o-icon-literal {
-    @extend .fa-keyboard-o;
+    @extend .fa-keyboard;
 }
 
 .o-icon-item-set {

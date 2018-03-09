@@ -2887,6 +2887,7 @@ input[type="text"].value-language,
         }
 
         &:after {
+            font-family: "Font Awesome 5 Free";
             @include fa-icon();
             content: fa-content($fa-var-circle-notch);
             position: absolute;

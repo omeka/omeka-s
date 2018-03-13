@@ -24,6 +24,7 @@ class ExceptionListener extends AbstractListenerAggregate
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'handleException'], -5000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'handleException'], -5000);
     }
 
     /**

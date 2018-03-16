@@ -62,10 +62,16 @@ class BrowsePreview extends AbstractBlockLayout
         if ($view->siteSetting('browse_attached_items', false)) {
             $itemPool['site_attachments_only'] = true;
         }
+
         $query['site_id'] = $site->id();
-        $query['sort_by'] = 'created';
-        $query['sort_order'] = 'desc';
         $query['limit'] = 10;
+
+        if (!isset($query['sort_by'])) {
+            $query['sort_by'] = 'created';
+        }
+        if (!isset($query['sort_order'])) {
+            $query['sort_order'] = 'desc';
+        }
 
         $response = $view->api()->search('items', $query);
         $items = $response->getContent();

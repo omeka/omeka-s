@@ -7,6 +7,7 @@ use Omeka\Form\Element\ResourceClassSelect;
 use Omeka\Form\Element\ResourceSelect;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerAwareTrait;
+use Zend\Form\Element;
 use Zend\Form\Form;
 use Zend\View\Helper\Url;
 
@@ -27,28 +28,34 @@ class ResourceBatchUpdateForm extends Form
 
         $this->add([
             'name' => 'is_public',
-            'type' => 'radio',
+            'type' => Element\Radio::class,
             'options' => [
                 'label' => 'Set visibility', // @translate
                 'value_options' => [
-                    '' => '[No change]', // @translate
                     '1' => 'Public', // @translate
                     '0' => 'Not public', // @translate
+                    '' => '[No change]', // @translate
                 ],
+            ],
+            'attributes' => [
+                'value' => '',
             ],
         ]);
 
         if ($resourceType === 'itemSet') {
             $this->add([
                 'name' => 'is_open',
-                'type' => 'radio',
+                'type' => Element\Radio::class,
                 'options' => [
                     'label' => 'Set openness', // @translate
                     'value_options' => [
-                        '' => '[No change]', // @translate
                         '1' => 'Open', // @translate
                         '0' => 'Not open', // @translate
+                        '' => '[No change]', // @translate
                     ],
+                ],
+                'attributes' => [
+                    'value' => '',
                 ],
             ]);
         }
@@ -91,34 +98,57 @@ class ResourceBatchUpdateForm extends Form
             ],
         ]);
 
-        if ($resourceType === 'item') {
-            $this->add([
-                'name' => 'add_to_item_set',
-                'type' => ItemSetSelect::class,
-                'attributes' => [
-                    'id' => 'add-to-item-sets',
-                    'class' => 'chosen-select',
-                    'multiple' => true,
-                    'data-placeholder' => 'Select item sets', // @translate
-                ],
-                'options' => [
-                    'label' => 'Add to item sets', // @translate
-                ],
-            ]);
+        switch ($resourceType) {
+            case 'item':
+                $this->add([
+                    'name' => 'add_to_item_set',
+                    'type' => ItemSetSelect::class,
+                    'attributes' => [
+                        'id' => 'add-to-item-sets',
+                        'class' => 'chosen-select',
+                        'multiple' => true,
+                        'data-placeholder' => 'Select item sets', // @translate
+                    ],
+                    'options' => [
+                        'label' => 'Add to item sets', // @translate
+                    ],
+                ]);
 
-            $this->add([
-                'name' => 'remove_from_item_set',
-                'type' => ItemSetSelect::class,
-                'attributes' => [
-                    'id' => 'remove-from-item-sets',
-                    'class' => 'chosen-select',
-                    'multiple' => true,
-                    'data-placeholder' => 'Select item sets', // @translate
-                ],
-                'options' => [
-                    'label' => 'Remove from item sets', // @translate
-                ],
-            ]);
+                $this->add([
+                    'name' => 'remove_from_item_set',
+                    'type' => ItemSetSelect::class,
+                    'attributes' => [
+                        'id' => 'remove-from-item-sets',
+                        'class' => 'chosen-select',
+                        'multiple' => true,
+                        'data-placeholder' => 'Select item sets', // @translate
+                    ],
+                    'options' => [
+                        'label' => 'Remove from item sets', // @translate
+                    ],
+                ]);
+                break;
+
+            case 'media':
+                $this->add([
+                    'name' => 'clear_language',
+                    'type' => Element\Checkbox::class,
+                    'options' => [
+                        'label' => 'Clear language', // @transalte
+                    ],
+                ]);
+
+                $this->add([
+                    'name' => 'language',
+                    'type' => Element\Text::class,
+                    'attributes' => [
+                        'class' => 'value-language active',
+                    ],
+                    'options' => [
+                        'label' => 'Set language', // @transalte
+                    ],
+                ]);
+                break;
         }
 
         $this->add([
@@ -138,7 +168,7 @@ class ResourceBatchUpdateForm extends Form
         // This hidden element manages the elements "value" added in the view.
         $this->add([
             'name' => 'value',
-            'type' => 'Hidden',
+            'type' => Element\Hidden::class,
             'attributes' => [
                 'value' => '',
             ],
@@ -210,7 +240,6 @@ class ResourceBatchUpdateForm extends Form
      * "replace" (default), "remove" or "append".
      *
      * @todo Use standard validationGroup and filters.
-     * Note:
      *
      * @return array Associative array of data to replace, to remove and to
      * append.
@@ -247,6 +276,12 @@ class ResourceBatchUpdateForm extends Form
         if (isset($data['clear_property_values'])) {
             $preData['remove']['clear_property_values'] = $data['clear_property_values'];
         }
+        if (!empty($data['clear_language'])) {
+            $preData['remove']['o:lang'] = null;
+        }
+        if (!empty($data['language'])) {
+            $preData['remove']['o:lang'] = $data['language'];
+        }
 
         // Set the data to append.
         if (!empty($data['value'])) {
@@ -279,6 +314,7 @@ class ResourceBatchUpdateForm extends Form
             'is_public', 'is_open', 'resource_template', 'resource_class',
             'remove_from_item_set', 'add_to_item_set',
             'clear_property_values', 'value',
+            'clear_language', 'language',
             'csrf', 'id', 'o:id',
         ];
 

@@ -1,0 +1,41 @@
+<?php
+$form->prepare();
+$this->htmlElement('body')->appendAttribute('class', 'batch-edit media');
+$escape = $this->plugin('escapeHtml');
+$this->headStyle()->appendStyle('.inputs input.value-language.active[type="text"] { background-color: #fff; padding: 0 5px; display: inherit; }');
+$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
+?>
+<?php echo $this->pageTitle($this->translate('Batch edit medias')); ?>
+
+<?php $this->trigger('view.batch_edit.before'); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+
+<?php foreach ($resources as $resource): ?>
+<input type="hidden" name="resource_ids[]" value="<?php echo $resource->id(); ?>">
+<?php endforeach; ?>
+<input type="hidden" name="query" value="<?php echo $this->escapeHtml(json_encode($query)); ?>">
+
+<div id="page-actions">
+    <input type="submit" name="batch_update" value="<?php echo $this->escapeHtml($this->translate('Save')); ?>">
+</div>
+
+<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->partial('common/property-form-batch-edit.phtml', ['resourceType' => 'media']); ?>
+<?php echo $this->form()->closeTag(); ?>
+
+<div class="sidebar always-open">
+    <h3><?php echo $this->translate('Affected medias'); ?></h3>
+    <?php if ($resources): ?>
+    <p><?php echo sprintf($this->translate('You are editing the following %s medias:'), count($resources)); ?></p>
+    <ul class="batch-selected">
+        <?php foreach ($resources as $resource): ?>
+        <li><?php echo $resource->linkPretty('square', null, null, ['target' => '_blank']); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php else: ?>
+    <p><?php echo sprintf($this->translate('You are editing %s medias.'), $this->hyperlink(number_format($count), $this->url(null, ['action' => 'browse'], ['query' => $query], true), ['target' => '_blank'])); ?></p>
+    <?php endif; ?>
+</div>
+
+<?php $this->trigger('view.batch_edit.after'); ?>

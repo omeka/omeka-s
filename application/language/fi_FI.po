@@ -1,0 +1,6031 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-09 17:51-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Matti Lassila <matti.lassila@gmail.com>, 2018\n"
+"Language-Team: Finnish (Finland) (https://www.transifex.com/omeka/teams/14184/fi_FI/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi_FI\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: application/src/Api/Adapter/AbstractAdapter.php:42
+#, php-format
+msgid "The %1$s adapter does not implement the search operation."
+msgstr "The %1$s adapter does not implement the search operation."
+
+#: application/src/Api/Adapter/AbstractAdapter.php:55
+#, php-format
+msgid "The %1$s adapter does not implement the create operation."
+msgstr "The %1$s adapter does not implement the create operation."
+
+#: application/src/Api/Adapter/AbstractAdapter.php:68
+#, php-format
+msgid "The %1$s adapter does not implement the batch create operation."
+msgstr "The %1$s adapter does not implement the batch create operation."
+
+#: application/src/Api/Adapter/AbstractAdapter.php:81
+#, php-format
+msgid "The %1$s adapter does not implement the read operation."
+msgstr "The %1$s adapter does not implement the read operation."
+
+#: application/src/Api/Adapter/AbstractAdapter.php:94
+#, php-format
+msgid "The %1$s adapter does not implement the update operation."
+msgstr "The %1$s adapter does not implement the update operation."
+
+#: application/src/Api/Adapter/AbstractAdapter.php:107
+#, php-format
+msgid "The %1$s adapter does not implement the batch update operation."
+msgstr "The %1$s adapter does not implement the batch update operation."
+
+#: application/src/Api/Adapter/AbstractAdapter.php:129
+#, php-format
+msgid "The %1$s adapter does not implement the delete operation."
+msgstr "The %1$s adapter does not implement the delete operation."
+
+#: application/src/Api/Adapter/AbstractAdapter.php:142
+#, php-format
+msgid "The %1$s adapter does not implement the batch delete operation."
+msgstr "The %1$s adapter does not implement the batch delete operation."
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:229
+#, php-format
+msgid "The \"%s\" field is not available in the %s entity class."
+msgstr "The \"%s\" field is not available in the %s entity class."
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:590
+#: application/src/Api/Manager.php:209
+#, php-format
+msgid "Permission denied for the current user to %s the %s resource."
+msgstr "Käyttäjällä  ei ole %s oikeuksia kohteeseen %s ."
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:632
+#, php-format
+msgid "%s entity with criteria %s not found"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:122
+msgid "Welcome"
+msgstr "Tervetuloa"
+
+#: application/src/Api/Adapter/SiteAdapter.php:127
+msgid "Welcome to your new site. This is an example page."
+msgstr "Tervetuloa uudelle sivustollesi. Tämä on esimerkkisivu."
+
+#: application/src/Api/Adapter/SiteAdapter.php:328
+msgid "Browse"
+msgstr "Selaa"
+
+#: application/src/Api/Manager.php:201
+#, php-format
+msgid "The API does not support the \"%s\" resource."
+msgstr ""
+
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:480
+#: application/view/common/block-layout/browse-preview.phtml:12
+#: application/view/omeka/site/item/browse.phtml:33
+msgid "[Untitled]"
+msgstr "[Ei nimekettä]"
+
+#: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:107
+msgid "Default"
+msgstr "Oletus"
+
+#: application/src/Controller/Admin/AssetController.php:48
+msgid "Asset uploads must be POSTed."
+msgstr "Tiedostot täytyy lähettää POST-pyynnöllä."
+
+#: application/src/Controller/Admin/ItemController.php:211
+msgid "Add another item?"
+msgstr "Lisää toinen aineisto?"
+
+#: application/src/Controller/Admin/ItemSetController.php:35
+msgid "Add another item set?"
+msgstr "Lisää toinen kokoelma?"
+
+#: application/src/Controller/Admin/ModuleController.php:69
+#: application/src/Controller/Admin/ModuleController.php:76
+msgid "Active"
+msgstr "Aktiivinen"
+
+#: application/src/Controller/Admin/ModuleController.php:70
+#: application/src/Controller/Admin/ModuleController.php:77
+msgid "Not active"
+msgstr "Passiivinen"
+
+#: application/src/Controller/Admin/ModuleController.php:71
+#: application/src/Controller/Admin/ModuleController.php:78
+msgid "Not installed"
+msgstr "Ei asennettu"
+
+#: application/src/Controller/Admin/ModuleController.php:72
+#: application/src/Controller/Admin/ModuleController.php:79
+msgid "Needs upgrade"
+msgstr "Odottaa päivitystä"
+
+#: application/src/Controller/Admin/ModuleController.php:73
+msgid "Error"
+msgstr "Virhe"
+
+#: application/src/Controller/Admin/ModuleController.php:80
+#: application/view/error/404.phtml:1
+msgid "Not found"
+msgstr "Ei löytynyt"
+
+#: application/src/Controller/Admin/ModuleController.php:81
+msgid "Invalid module"
+msgstr "Virheellinen lisäosa"
+
+#: application/src/Controller/Admin/ModuleController.php:82
+msgid "Invalid INI"
+msgstr "Virheellinen INI-tiedosto"
+
+#: application/src/Controller/Admin/ModuleController.php:83
+msgid "Invalid Omeka S version"
+msgstr "Virheellinen Omeka S -versio"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:406
+msgid "Add another resource template?"
+msgstr "Lisää toinen tallennuspohja?"
+
+#: application/src/Controller/Admin/UserController.php:54
+msgid "Add another user?"
+msgstr "Lisää toinen käyttäjä?"
+
+#: application/src/Controller/Admin/VocabularyController.php:88
+msgid "Import another vocabulary?"
+msgstr "Tuo lisää sanastoja?"
+
+#: application/src/DataType/Resource/AbstractResource.php:51
+#, php-format
+msgid "Resource not found with id %s."
+msgstr "Aineistoa ei löydy tunnisteella %s."
+
+#: application/src/Db/Migration/Manager.php:112
+msgid "Migration file did not contain the expected class"
+msgstr ""
+
+#: application/src/Media/Ingester/Fallback.php:36
+#: application/src/View/Helper/SearchFilters.php:51
+#: application/view/common/navigation-link-form/fallback.phtml:3
+msgid "Unknown"
+msgstr "Tuntematon"
+
+#: application/src/Media/Renderer/IIIF.php:14
+msgid "OpenSeadragon is not available unless JavaScript is enabled."
+msgstr "OpenSeadragon vaatii Javascript-tuen."
+
+#: application/src/Module/Manager.php:162
+#, php-format
+msgid "Module \"%s\" is marked as \"%s\" and cannot be activated"
+msgstr ""
+
+#: application/src/Module/Manager.php:173
+#, php-format
+msgid "Module \"%s\" not in database during activation"
+msgstr ""
+
+#: application/src/Module/Manager.php:194
+#, php-format
+msgid "Module \"%s\" is marked as \"%s\" and cannot be deactivated"
+msgstr ""
+
+#: application/src/Module/Manager.php:205
+#, php-format
+msgid "Module \"%s\" not in database during deactivation"
+msgstr ""
+
+#: application/src/Module/Manager.php:225
+#, php-format
+msgid "Module \"%s\" is marked as \"%s\" and cannot be installed"
+msgstr ""
+
+#: application/src/Module/Manager.php:263
+#, php-format
+msgid "Module \"%s\" is marked as \"%s\" and cannot be uninstalled"
+msgstr ""
+
+#: application/src/Module/Manager.php:280
+#, php-format
+msgid "Module \"%s\" not found in database during uninstallation"
+msgstr ""
+
+#: application/src/Module/Manager.php:301
+#, php-format
+msgid "Module \"%s\" is marked as \"%s\" and cannot be upgraded"
+msgstr ""
+
+#: application/src/Module/Manager.php:323
+#, php-format
+msgid "Module \"%s\" not found in database during upgrade"
+msgstr ""
+
+#: application/src/Module/Manager.php:402
+#, php-format
+msgid "Permission denied for the current user to %s the %s module."
+msgstr ""
+
+#: application/src/Mvc/MvcListeners.php:432
+#, php-format
+msgid ""
+"Permission denied for the current user to access the %1$s action of the %2$s"
+" controller."
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:31
+#: application/view/common/navigation-link-form/browse.phtml:8
+msgid "Query"
+msgstr "Hakulause"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:33
+msgid "Display resources using this search query"
+msgstr "Näytä aineistoja tähän hakulauseeseen perustuen"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:39
+msgid "Preview title"
+msgstr "Esikatselun otsikko"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:40
+msgid "Heading above resource list"
+msgstr "Aineistolistan yläpuolisen otsikon teksti"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:46
+msgid "Browse link text"
+msgstr "Selauslinkin teksti"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:48
+msgid "Text for link to full browse view"
+msgstr "Selausnäkymään vievän linkin teksti"
+
+#: application/src/Site/BlockLayout/Fallback.php:43
+msgid "This layout is invalid."
+msgstr "Ulkoasu on virheellinen"
+
+#: application/src/Site/BlockLayout/ItemShowcase.php:22
+#: application/src/Site/BlockLayout/Media.php:22
+msgid "Options"
+msgstr "Asetukset"
+
+#: application/src/Site/BlockLayout/LineBreak.php:43
+msgid "Break type"
+msgstr "Rivinvaihdon tyyppi"
+
+#: application/src/Site/BlockLayout/TableOfContents.php:28
+msgid "Depth"
+msgstr "Syvyys"
+
+#: application/src/Site/BlockLayout/TableOfContents.php:29
+msgid "Number of child page levels to display"
+msgstr "Näytettävien alisivujen määrä"
+
+#: application/src/Site/Navigation/Translator.php:53
+msgid "Home"
+msgstr "Etusivu"
+
+#: application/src/Stdlib/Mailer.php:171
+#, php-format
+msgid ""
+"Greetings, %1$s!\n"
+"\n"
+"It seems you have forgotten your password for %5$s at %2$s\n"
+"\n"
+"To reset your password, click this link:\n"
+"%3$s\n"
+"\n"
+"Your reset link will expire on %4$s."
+msgstr ""
+"Tervehdys, %1$s!\n"
+"\n"
+"Pyysit uutta salasanaa sivustolle %5$s osoitteessa %2$s\n"
+"\n"
+"Asettaaksesi uuden salasanan, klikkaa oheista linkkiä:\n"
+"%3$s\n"
+"\n"
+"Linkki vanhenee %4$s."
+
+#: application/src/Stdlib/Mailer.php:193
+#, php-format
+msgid "Reset your password for %s"
+msgstr "Aseta uusi salasana %s -sivustolle"
+
+#: application/src/Stdlib/Mailer.php:209
+#, php-format
+msgid ""
+"Greetings!\n"
+"\n"
+"A user has been created for you on %5$s at %1$s\n"
+"\n"
+"Your username is your email: %2$s\n"
+"\n"
+"Click this link to set a password and begin using Omeka S:\n"
+"%3$s\n"
+"\n"
+"Your activation link will expire on %4$s. If you have not completed the user activation process by the time the link expires, you will need to request another activation email from your site administrator."
+msgstr ""
+"Tervehdys!\n"
+"\n"
+"Sinulle on luotu käyttäjätili sivustolle %5$s osoitteessa %1$s\n"
+"\n"
+"Käytä käyttäjätunnuksena sähköpostiosoitettasi: %2$s\n"
+"\n"
+"Ota käyttäjätili käyttöön klikkaamalla oheista linkkiä:\n"
+"%3$s\n"
+"\n"
+"Käyttäjätilin aktivointilinkki vanhenee %4$s. Jos et ole aktivoinut käyttäjätiliä vanhenemispäivään mennessä, ota sivuston ylläpitäjään yhteyttä."
+
+#: application/src/Stdlib/Mailer.php:233
+#, php-format
+msgid "User activation for %s"
+msgstr "Käyttäjätilin aktivointi %s"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:33
+msgid "Show attachment title"
+msgstr "Näytä liitteen otsikko"
+
+#: application/src/View/Helper/BlockThumbnailTypeSelect.php:45
+msgid "Thumbnail type"
+msgstr "Esikatselukuvan tyyppi"
+
+#: application/src/View/Helper/SearchFilters.php:32
+#: application/view/common/advanced-search/properties.phtml:61
+msgid "is exactly"
+msgstr "on tarkasti"
+
+#: application/src/View/Helper/SearchFilters.php:33
+#: application/view/common/advanced-search/properties.phtml:62
+msgid "is not exactly"
+msgstr "ei ole tarkasti"
+
+#: application/src/View/Helper/SearchFilters.php:34
+#: application/view/common/advanced-search/properties.phtml:63
+msgid "contains"
+msgstr "sisältää"
+
+#: application/src/View/Helper/SearchFilters.php:35
+#: application/view/common/advanced-search/properties.phtml:64
+msgid "does not contain"
+msgstr "ei sisällä"
+
+#: application/src/View/Helper/SearchFilters.php:36
+#: application/view/common/advanced-search/properties.phtml:65
+msgid "is resource with ID"
+msgstr "on aineisto tunnuksella"
+
+#: application/src/View/Helper/SearchFilters.php:37
+#: application/view/common/advanced-search/properties.phtml:66
+msgid "is not resource with ID"
+msgstr "ei ole aineistoa tunnuksella"
+
+#: application/src/View/Helper/SearchFilters.php:38
+#: application/view/common/advanced-search/properties.phtml:67
+msgid "has any value"
+msgstr "sisältää minkä tahansa arvon"
+
+#: application/src/View/Helper/SearchFilters.php:39
+#: application/view/common/advanced-search/properties.phtml:68
+msgid "has no values"
+msgstr "ei sisällä mitään arvoa"
+
+#: application/src/View/Helper/SearchFilters.php:47
+msgid "Resource class"
+msgstr "Aineiston tyyppi"
+
+#: application/src/View/Helper/SearchFilters.php:78
+msgid "Unknown property"
+msgstr "Tuntematon kenttä"
+
+#: application/src/View/Helper/SearchFilters.php:81
+msgid "[Any property]"
+msgstr "[mikä tahansa kenttä]"
+
+#: application/src/View/Helper/SearchFilters.php:89
+#: application/view/common/advanced-search/properties.phtml:48
+msgid "OR"
+msgstr "TAI"
+
+#: application/src/View/Helper/SearchFilters.php:91
+#: application/view/common/advanced-search/properties.phtml:47
+msgid "AND"
+msgstr "JA"
+
+#: application/src/View/Helper/SearchFilters.php:100
+#: application/view/common/search-form.phtml:6
+#: application/view/common/search-form.phtml:7
+#: application/view/layout/layout-admin.phtml:60
+#: application/view/omeka/admin/item-set/search.phtml:11
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:11
+#: application/view/omeka/admin/item/search.phtml:11
+#: application/view/omeka/admin/item/sidebar-select.phtml:13
+#: application/view/omeka/admin/media/search.phtml:11
+#: application/view/omeka/admin/media/sidebar-select.phtml:11
+#: application/view/omeka/site/item-set/search.phtml:12
+#: application/view/omeka/site/item/search.phtml:12
+msgid "Search"
+msgstr "Hae"
+
+#: application/src/View/Helper/SearchFilters.php:106
+msgid "Resource template"
+msgstr "Tallennuspohja"
+
+#: application/src/View/Helper/SearchFilters.php:110
+msgid "Unknown resource template"
+msgstr "Tuntematon tallennuspohja"
+
+#: application/src/View/Helper/SearchFilters.php:124
+#: application/view/omeka/site/item/browse.phtml:16
+msgid "Item set"
+msgstr "Kokoelma"
+
+#: application/src/View/Helper/SearchFilters.php:128
+msgid "Unknown item set"
+msgstr "Tuntematon kokoelma"
+
+#: application/src/View/Helper/SearchFilters.php:136
+#: application/view/omeka/site-admin/index/users.phtml:28
+msgid "User"
+msgstr "Käyttäjä"
+
+#: application/src/View/Helper/SearchFilters.php:140
+msgid "Unknown user"
+msgstr "Tuntematon käyttäjä"
+
+#: application/src/View/Helper/SearchFilters.php:146
+msgid "Site"
+msgstr "Sivusto"
+
+#: application/src/View/Helper/SearchFilters.php:150
+msgid "Unknown site"
+msgstr "Tuntematon sivusto"
+
+#: application/src/View/Helper/UploadLimit.php:26
+#, php-format
+msgid "The maximum upload size is %s MB."
+msgstr "Tiedoston enimmäiskoko on %s MB"
+
+#: application/view/common/advanced-search/item-sets.phtml:14
+msgid "Search by item set"
+msgstr "Hae kokoelman mukaan"
+
+#: application/view/common/advanced-search/item-sets.phtml:15
+#: application/view/common/form-row.phtml:14
+#: application/view/omeka/admin/item/sidebar-select.phtml:17
+msgid "Expand"
+msgstr "Laajenna"
+
+#: application/view/common/advanced-search/item-sets.phtml:17
+msgid "Searches for items that are assigned to any of these item sets."
+msgstr "Hakee aineistoja jotka kuuluvat mihin tahansa valituista kokoelmista."
+
+#: application/view/common/advanced-search/item-sets.phtml:27
+#: application/view/common/advanced-search/properties.phtml:71
+#: application/view/common/data-type-wrapper.phtml:11
+#: application/view/common/media-field-wrapper.phtml:10
+#: application/view/omeka/admin/item/manage-media.phtml:48
+msgid "Remove value"
+msgstr "Poista arvo"
+
+#: application/view/common/advanced-search/item-sets.phtml:30
+#: application/view/omeka/admin/index/browse.phtml:22
+#: application/view/omeka/admin/item-set/browse.phtml:37
+msgid "Add new item set"
+msgstr "Lisää kokoelma hakuehtoihin"
+
+#: application/view/common/advanced-search/properties.phtml:37
+msgid "Search by value"
+msgstr "Kuvailukenttä"
+
+#: application/view/common/advanced-search/properties.phtml:77
+msgid "Add new value"
+msgstr "Lisää kenttä hakuehtoihin"
+
+#: application/view/common/advanced-search/resource-class.phtml:12
+msgid "Search by class"
+msgstr "Aineistotyyppi"
+
+#: application/view/common/advanced-search/site-pool.phtml:11
+msgid "In site pool"
+msgstr "Käytössä sivustolla"
+
+#: application/view/common/asset-form.phtml:23
+msgid "[No asset selected]"
+msgstr "[Ei tiedostoa valittuna]"
+
+#: application/view/common/asset-form.phtml:29
+msgid "Select"
+msgstr "Valitse"
+
+#: application/view/common/asset-form.phtml:34
+msgid "Clear"
+msgstr "Tyhjennä"
+
+#: application/view/common/attachments-form.phtml:7
+#: application/view/common/attachments-form.phtml:27
+msgid "No item selected"
+msgstr "Ei valittua aineistoa"
+
+#: application/view/common/attachments-form.phtml:9
+#: application/view/common/attachments-form.phtml:50
+msgid "Open attachment options"
+msgstr "Avaa liitevalinnat"
+
+#: application/view/common/attachments-form.phtml:10
+#: application/view/common/attachments-form.phtml:51
+msgid "Delete attachment"
+msgstr "Poista liite"
+
+#: application/view/common/attachments-form.phtml:11
+#: application/view/common/attachments-form.phtml:52
+msgid "Restore attachment"
+msgstr "Palauta liite"
+
+#: application/view/common/attachments-form.phtml:19
+msgid "Attachments"
+msgstr "Liitteet"
+
+#: application/view/common/attachments-form.phtml:59
+msgid "Add attachment"
+msgstr "Lisää liite"
+
+#: application/view/common/block-layout.phtml:9
+msgid "Block to be removed"
+msgstr "Poistettava sisältölohko"
+
+#: application/view/common/block-layout/browse-preview.phtml:26
+msgid "Browse all"
+msgstr "Selaa aineistoja"
+
+#: application/view/common/block-layout/item-with-metadata.phtml:9
+#: application/view/common/data-type/resource.phtml:28
+#: application/view/layout/layout-admin.phtml:70
+#: application/view/omeka/admin/item-set/add.phtml:5
+#: application/view/omeka/admin/item-set/browse.phtml:24
+#: application/view/omeka/admin/item-set/edit.phtml:13
+#: application/view/omeka/admin/item-set/search.phtml:4
+#: application/view/omeka/admin/item-set/show.phtml:25
+#: application/view/omeka/admin/item/form.phtml:14
+#: application/view/omeka/admin/item/show-details.phtml:18
+#: application/view/omeka/admin/item/show.phtml:60
+#: application/view/omeka/admin/user/show-details.phtml:9
+#: application/view/omeka/site-admin/index/resources.phtml:23
+#: application/view/omeka/site/item-set/browse.phtml:4
+#: application/view/omeka/site/item/show.phtml:23
+msgid "Item sets"
+msgstr "Kokoelmat"
+
+#: application/view/common/data-type-wrapper.phtml:9
+msgid "Value to be removed"
+msgstr "Poistettava arvo"
+
+#: application/view/common/data-type-wrapper.phtml:12
+#: application/view/omeka/admin/item/manage-media.phtml:52
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:37
+msgid "Restore value"
+msgstr "Palauta arvo"
+
+#: application/view/common/data-type/literal.phtml:1
+msgid "Set language"
+msgstr "Aseta kieli"
+
+#: application/view/common/data-type/resource.phtml:13
+msgid "No resource selected"
+msgstr "Ei aineistoa valittuna"
+
+#: application/view/common/data-type/resource.phtml:21
+#: application/view/layout/layout-admin.phtml:66
+#: application/view/omeka/admin/item-set/show-details.phtml:15
+#: application/view/omeka/admin/item-set/show.phtml:78
+#: application/view/omeka/admin/item/add.phtml:5
+#: application/view/omeka/admin/item/browse.phtml:24
+#: application/view/omeka/admin/item/edit.phtml:13
+#: application/view/omeka/admin/item/search.phtml:4
+#: application/view/omeka/admin/item/show.phtml:15
+#: application/view/omeka/admin/resource-template/browse.phtml:18
+#: application/view/omeka/admin/resource-template/browse.phtml:45
+#: application/view/omeka/admin/user/show-details.phtml:4
+#: application/view/omeka/admin/vocabulary/classes.phtml:14
+#: application/view/omeka/admin/vocabulary/classes.phtml:38
+#: application/view/omeka/admin/vocabulary/properties.phtml:21
+#: application/view/omeka/site/item/browse.phtml:21
+#: application/view/omeka/site/item/browse.phtml:23
+msgid "Items"
+msgstr "Aineistot"
+
+#: application/view/common/data-type/resource.phtml:35
+#: application/view/layout/layout-admin.phtml:74
+#: application/view/omeka/admin/item/form.phtml:13
+#: application/view/omeka/admin/item/show-details.phtml:26
+#: application/view/omeka/admin/item/show.phtml:76
+#: application/view/omeka/admin/media/browse.phtml:24
+#: application/view/omeka/admin/media/edit.phtml:14
+#: application/view/omeka/admin/media/edit.phtml:22
+#: application/view/omeka/admin/media/search.phtml:4
+#: application/view/omeka/admin/media/show.phtml:10
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:31
+#: application/view/omeka/site/media/show.phtml:4
+msgid "Media"
+msgstr "Tiedostot"
+
+#: application/view/common/data-type/uri.phtml:2
+#: application/view/common/resource-form-templates.phtml:23
+#: application/view/omeka/admin/item-set/batch-edit.phtml:44
+#: application/view/omeka/admin/item/batch-edit.phtml:54
+msgid "URI"
+msgstr "URI"
+
+#: application/view/common/data-type/uri.phtml:6
+#: application/view/common/navigation-link-form/browse.phtml:7
+#: application/view/common/navigation-link-form/page.phtml:14
+#: application/view/common/navigation-link-form/url.phtml:7
+#: application/view/omeka/admin/item-set/batch-edit.phtml:45
+#: application/view/omeka/admin/item/batch-edit.phtml:55
+#: application/view/omeka/admin/resource-template/browse.phtml:6
+#: application/view/omeka/admin/resource-template/browse.phtml:42
+#: application/view/omeka/admin/resource-template/form.phtml:53
+#: application/view/omeka/admin/user/edit.phtml:36
+#: application/view/omeka/admin/vocabulary/browse.phtml:6
+#: application/view/omeka/admin/vocabulary/browse.phtml:42
+#: application/view/omeka/admin/vocabulary/classes.phtml:6
+#: application/view/omeka/admin/vocabulary/classes.phtml:36
+#: application/view/omeka/admin/vocabulary/properties.phtml:19
+msgid "Label"
+msgstr "Teksti"
+
+#: application/view/common/delete-confirm.phtml:7
+#: application/view/common/item-set-selector.phtml:5
+#: application/view/common/property-selector.phtml:5
+#: application/view/common/resource-select-sidebar.phtml:3
+#: application/view/common/resource-select-sidebar.phtml:9
+#: application/view/omeka/admin/asset/sidebar-select.phtml:6
+#: application/view/omeka/admin/item-set/browse.phtml:141
+#: application/view/omeka/admin/item-set/browse.phtml:148
+#: application/view/omeka/admin/item-set/browse.phtml:166
+#: application/view/omeka/admin/item/browse.phtml:139
+#: application/view/omeka/admin/item/browse.phtml:146
+#: application/view/omeka/admin/item/browse.phtml:164
+#: application/view/omeka/admin/item/manage-media.phtml:70
+#: application/view/omeka/admin/media/browse.phtml:102
+#: application/view/omeka/admin/module/browse.phtml:158
+#: application/view/omeka/admin/resource-template/browse.phtml:99
+#: application/view/omeka/admin/resource-template/form.phtml:41
+#: application/view/omeka/admin/resource-template/form.phtml:50
+#: application/view/omeka/admin/resource-template/show.phtml:58
+#: application/view/omeka/admin/user/browse.phtml:83
+#: application/view/omeka/admin/vocabulary/browse.phtml:91
+#: application/view/omeka/admin/vocabulary/classes.phtml:68
+#: application/view/omeka/admin/vocabulary/properties.phtml:51
+#: application/view/omeka/site-admin/index/index.phtml:100
+#: application/view/omeka/site-admin/index/navigation.phtml:24
+#: application/view/omeka/site-admin/page/edit.phtml:36
+#: application/view/omeka/site-admin/page/index.phtml:55
+msgid "Close"
+msgstr "Sulje"
+
+#: application/view/common/delete-confirm.phtml:11
+#, php-format
+msgid "Delete %s"
+msgstr "Poista %s"
+
+#: application/view/common/delete-confirm.phtml:12
+#, php-format
+msgid "Are you sure you would like to delete this %s?"
+msgstr "Haluatko varmasti poistaa %s ?"
+
+#: application/view/common/filter-selector.phtml:3
+msgid "No filter"
+msgstr "Ei suodatusta"
+
+#: application/view/common/filter-selector.phtml:10
+msgid "Filter"
+msgstr "Suodatus"
+
+#: application/view/common/item-set-selector.phtml:6
+msgid "Click on an item set to add it to the edit panel."
+msgstr "Valitse kokoelma muokattavaksi klikkaamalla"
+
+#: application/view/common/item-set-selector.phtml:7
+msgid "Filter item sets"
+msgstr "Suodata kokoelmia"
+
+#: application/view/common/item-set-selector.phtml:9
+msgid "All item sets"
+msgstr "Kaikki kokoelmat"
+
+#: application/view/common/item-set-selector.phtml:16
+#: application/view/omeka/admin/item-set/browse.phtml:88
+#: application/view/omeka/admin/item-set/show.phtml:16
+#: application/view/omeka/admin/item/browse.phtml:86
+#: application/view/omeka/admin/item/manage-item-sets.phtml:20
+#: application/view/omeka/admin/item/show.phtml:7
+#: application/view/omeka/admin/job/browse.phtml:57
+#: application/view/omeka/admin/job/show.phtml:17
+#: application/view/omeka/admin/media/browse.phtml:58
+#: application/view/omeka/admin/resource-template/browse.phtml:61
+#: application/view/omeka/site-admin/index/index.phtml:56
+msgid "[no owner]"
+msgstr "[ei omistajaa]"
+
+#: application/view/common/item-set-selector.phtml:29
+#: application/view/common/property-selector.phtml:32
+msgid "More info"
+msgstr "Lisätietoja"
+
+#: application/view/common/linked-resources.phtml:14
+msgid "Filter by property"
+msgstr "Suodata kentän mukaan"
+
+#: application/view/common/linked-resources.phtml:16
+msgid "All"
+msgstr "Kaikki"
+
+#: application/view/common/linked-resources.phtml:30
+#: application/view/omeka/admin/item-set/browse.phtml:6
+#: application/view/omeka/admin/item-set/browse.phtml:68
+#: application/view/omeka/admin/item/browse.phtml:6
+#: application/view/omeka/admin/item/browse.phtml:67
+#: application/view/omeka/admin/item/manage-item-sets.phtml:8
+#: application/view/omeka/admin/media/browse.phtml:6
+#: application/view/omeka/admin/media/browse.phtml:39
+#: application/view/omeka/site-admin/index/index.phtml:6
+#: application/view/omeka/site-admin/index/index.phtml:38
+#: application/view/omeka/site-admin/index/resources.phtml:60
+#: application/view/omeka/site-admin/index/show.phtml:27
+#: application/view/omeka/site-admin/page/index.phtml:17
+msgid "Title"
+msgstr "Nimeke"
+
+#: application/view/common/linked-resources.phtml:31
+#: application/view/omeka/admin/resource-template/review-import.phtml:37
+#: application/view/omeka/admin/resource-template/show.phtml:27
+msgid "Alternate label"
+msgstr "Kentän näytettävä nimi"
+
+#: application/view/common/linked-resources.phtml:32
+#: application/view/omeka/admin/item-set/browse.phtml:10
+#: application/view/omeka/admin/item-set/browse.phtml:70
+#: application/view/omeka/admin/item-set/show.phtml:39
+#: application/view/omeka/admin/item/browse.phtml:10
+#: application/view/omeka/admin/item/browse.phtml:68
+#: application/view/omeka/admin/item/show.phtml:27
+#: application/view/omeka/admin/job/browse.phtml:12
+#: application/view/omeka/admin/job/browse.phtml:39
+#: application/view/omeka/admin/job/show.phtml:40
+#: application/view/omeka/admin/media/browse.phtml:10
+#: application/view/omeka/admin/media/browse.phtml:40
+#: application/view/omeka/admin/media/show.phtml:22
+#: application/view/omeka/admin/resource-template/browse.phtml:10
+#: application/view/omeka/admin/resource-template/browse.phtml:43
+#: application/view/omeka/admin/resource-template/review-import.phtml:24
+#: application/view/omeka/admin/resource-template/show.phtml:17
+msgid "Class"
+msgstr "Tyyppi"
+
+#: application/view/common/media-field-wrapper.phtml:6
+#: application/view/omeka/admin/item-set/form.phtml:39
+#: application/view/omeka/admin/item/form.phtml:41
+#: application/view/omeka/admin/item/manage-media.phtml:30
+#: application/view/omeka/admin/media/edit.phtml:50
+#: application/view/omeka/site-admin/index/edit.phtml:14
+msgid "Make private"
+msgstr "Tee yksityiseksi"
+
+#: application/view/common/navigation-link-form/browse.phtml:6
+#: application/view/common/navigation-link-form/page.phtml:12
+#: application/view/common/navigation-link-form/url.phtml:6
+msgid "Type"
+msgstr "Tyyppi"
+
+#: application/view/common/navigation-link-form/page.phtml:13
+msgid "Page"
+msgstr "Sivu"
+
+#: application/view/common/navigation-link-form/url.phtml:8
+msgid "URL"
+msgstr "URL"
+
+#: application/view/common/pagination.phtml:6
+#: application/view/common/sidebar-pagination.phtml:3
+#, php-format
+msgid "of %s"
+msgstr "/%s"
+
+#: application/view/common/pagination.phtml:10
+#: application/view/common/sidebar-pagination.phtml:6
+msgid "Previous"
+msgstr "Edellinen"
+
+#: application/view/common/pagination.phtml:16
+#: application/view/common/sidebar-pagination.phtml:12
+#: application/view/common/site-page-pagination.phtml:3
+msgid "Next"
+msgstr "Seuraava"
+
+#: application/view/common/pagination.phtml:25
+#, php-format
+msgid "%s–%s of %s"
+msgstr "%s–%s / %s"
+
+#: application/view/common/pagination.phtml:27
+msgid "0 results"
+msgstr "Ei tuloksia"
+
+#: application/view/common/property-selector.phtml:9
+msgid "Click on a property to add it to the edit panel."
+msgstr "Klikkaa kenttää lisätäksesi sen aineiston tietoihin"
+
+#: application/view/common/property-selector.phtml:11
+msgid "Filter properties"
+msgstr "Hae kenttää"
+
+#: application/view/common/resource-fields.phtml:28
+#: application/view/omeka/admin/resource-template/form.phtml:30
+msgid "Add property"
+msgstr "Lisää kenttä"
+
+#: application/view/common/resource-form-templates.phtml:9
+#: application/view/omeka/admin/item/sidebar-select.phtml:17
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:34
+#: application/view/omeka/site-admin/page/edit.phtml:42
+msgid "Collapse"
+msgstr "Sulje"
+
+#: application/view/common/resource-form-templates.phtml:12
+msgid "Property term for development use"
+msgstr ""
+
+#: application/view/common/resource-form-templates.phtml:17
+msgid "Select the first value type."
+msgstr ""
+
+#: application/view/common/resource-form-templates.phtml:20
+#: application/view/common/resource-form-templates.phtml:26
+#: application/view/common/resource-form-templates.phtml:27
+msgid "Add value"
+msgstr "Lisää arvo"
+
+#: application/view/common/resource-form-templates.phtml:21
+msgid "Text"
+msgstr "Teksti"
+
+#: application/view/common/resource-form-templates.phtml:22
+msgid "Omeka resource"
+msgstr "Omeka-aineisto"
+
+#: application/view/common/resource-select-sidebar.phtml:17
+msgid "Select resource"
+msgstr "Valitse aineisto"
+
+#: application/view/common/site-page-pagination.phtml:2
+msgid "Prev"
+msgstr "Edellinen"
+
+#: application/view/common/sort-link.phtml:3
+msgid "Switch to descending order"
+msgstr "Käytä laskevaa järjestystä"
+
+#: application/view/common/sort-link.phtml:5
+msgid "Switch to ascending order"
+msgstr "Käytä nousevaa järjestystä"
+
+#: application/view/common/sort-link.phtml:7
+#, php-format
+msgid "Sort by %s"
+msgstr "Järjestysehto%s"
+
+#: application/view/common/sort-selector.phtml:11
+msgid "Ascending"
+msgstr "Nouseva"
+
+#: application/view/common/sort-selector.phtml:12
+msgid "Descending"
+msgstr "Laskeva"
+
+#: application/view/common/sort-selector.phtml:14
+msgid "Sort"
+msgstr "Järjestys"
+
+#: application/view/common/user-bar.phtml:20
+#: application/view/layout/layout-admin.phtml:46
+#, php-format
+msgid "Signed in as %s"
+msgstr "Kirjautunut käyttäjä 1%s"
+
+#: application/view/common/user-bar.phtml:26
+#: application/view/layout/layout-admin.phtml:50
+msgid "Logout"
+msgstr "Kirjaudu ulos"
+
+#: application/view/common/user-bar.phtml:28
+msgid "Log in"
+msgstr "Kirjaudu sisään"
+
+#: application/view/common/version-notification.phtml:5
+#, php-format
+msgid "A new version of Omeka S is available. %s"
+msgstr "Uusi Omeka S -versio on saatavissa. %s"
+
+#: application/view/common/version-notification.phtml:9
+#: application/view/omeka/admin/module/browse.phtml:61
+#: application/view/omeka/site-admin/index/theme.phtml:51
+msgid "Get the new version."
+msgstr "Lataa uusi versio."
+
+#: application/view/error/403.phtml:1
+msgid "Forbidden"
+msgstr "Käyttöoikeutesi eivät ole riittävät"
+
+#: application/view/error/404.phtml:9
+#, php-format
+msgid "Reason: %s"
+msgstr "Syy: %s"
+
+#: application/view/error/index.phtml:1
+msgid "Omeka S encountered an error"
+msgstr "Tapahtui virhe"
+
+#: application/view/error/index.phtml:8
+msgid "Details:"
+msgstr "Lisätietoja:"
+
+#: application/view/layout/layout-admin.phtml:22
+#: application/view/omeka/site-admin/index/resources.phtml:20
+msgid "Resources"
+msgstr "Aineistot"
+
+#: application/view/layout/layout-admin.phtml:23
+#: application/view/omeka/site-admin/index/add.phtml:6
+#: application/view/omeka/site-admin/index/users.phtml:11
+msgid "Admin"
+msgstr "Ylläpito"
+
+#: application/view/layout/layout-admin.phtml:40
+msgid "Navigation menu"
+msgstr "Navigointi"
+
+#: application/view/layout/layout-admin.phtml:41
+msgid "Search site"
+msgstr "Hae sivustolta"
+
+#: application/view/layout/layout-admin.phtml:42
+msgid "User menu"
+msgstr "Käyttäjät"
+
+#: application/view/layout/layout-admin.phtml:52
+msgid "not logged in"
+msgstr "ei kirjautunut"
+
+#: application/view/layout/layout-admin.phtml:59
+msgid "Advanced options"
+msgstr "Lisäasetukset"
+
+#: application/view/layout/layout-admin.phtml:62
+msgid "Resource type"
+msgstr "Aineistotyyppi"
+
+#: application/view/layout/layout-admin.phtml:64
+msgid "Search items"
+msgstr "Hae aineistoja"
+
+#: application/view/layout/layout-admin.phtml:68
+msgid "Search item sets"
+msgstr "Hae kokoelmia"
+
+#: application/view/layout/layout-admin.phtml:72
+msgid "Search media"
+msgstr "Hae tiedostoja"
+
+#: application/view/layout/layout-admin.phtml:85
+#: application/view/omeka/site-admin/index/index.phtml:69
+msgid "View public site"
+msgstr "Näytä julkinen sivusto"
+
+#: application/view/layout/layout-admin.phtml:91
+#: application/view/omeka/admin/module/browse.phtml:10
+#: application/view/omeka/admin/module/configure.phtml:5
+msgid "Modules"
+msgstr "Lisäosat"
+
+#: application/view/layout/layout-admin.phtml:109
+msgid "Omeka S"
+msgstr "Omeka S"
+
+#: application/view/layout/layout-admin.phtml:109
+#: application/view/omeka/admin/module/browse.phtml:38
+#: application/view/omeka/site-admin/index/theme-selector.phtml:36
+#: application/view/omeka/site-admin/index/theme.phtml:33
+#, php-format
+msgid "version %s"
+msgstr "versio %s"
+
+#: application/view/layout/layout-admin.phtml:110
+#: application/view/omeka/admin/system-info/browse.phtml:3
+msgid "System information"
+msgstr "Järjestelmätiedot"
+
+#: application/view/layout/layout.phtml:28
+msgid "Powered by Omeka S"
+msgstr "Omekan voimalla"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:9
+msgid "Upload new asset"
+msgstr "Lataa uusi tiedosto"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:12
+msgid "Upload"
+msgstr "Lataa"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:17
+msgid "Select asset"
+msgstr "Valitse tiedosto"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:28
+msgid "Delete asset"
+msgstr "Poista tiedosto"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:32
+msgid "Cancel delete"
+msgstr "Peru"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:52
+msgid "assets"
+msgstr "tiedostot"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:57
+msgid ""
+"Are you sure you want to delete this asset? It will no longer be available "
+"to any sites currently using it."
+msgstr ""
+"Haluatko varmasti poistaa tiedoston? Tiedosto poistetaan kaikilta sitä "
+"käyttäviltä sivustoilta."
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:58
+msgid "Confirm delete"
+msgstr "Vahvista poisto"
+
+#: application/view/omeka/admin/index/browse.phtml:3
+#: application/view/omeka/index/index.phtml:19
+msgid "Admin dashboard"
+msgstr "Ylläpito"
+
+#: application/view/omeka/admin/index/browse.phtml:8
+#, php-format
+msgid "Welcome to the %s admin dashboard!"
+msgstr "Tervetuloa %s ylläpitonäkymään!"
+
+#: application/view/omeka/admin/index/browse.phtml:11
+msgid "Manage resources"
+msgstr "Hallinnoi aineistoja"
+
+#: application/view/omeka/admin/index/browse.phtml:14
+#, php-format
+msgid "Items (%s)"
+msgstr "Aineistot (%s)"
+
+#: application/view/omeka/admin/index/browse.phtml:16
+#: application/view/omeka/admin/item/browse.phtml:36
+msgid "Add new item"
+msgstr "Lisää aineisto"
+
+#: application/view/omeka/admin/index/browse.phtml:20
+#, php-format
+msgid "Item sets (%s)"
+msgstr "Kokoelmat (%s)"
+
+#: application/view/omeka/admin/index/browse.phtml:26
+#, php-format
+msgid "Vocabularies (%s)"
+msgstr "Sanastot (%s)"
+
+#: application/view/omeka/admin/index/browse.phtml:28
+#: application/view/omeka/admin/vocabulary/browse.phtml:28
+msgid "Import new vocabulary"
+msgstr "Tuo sanasto"
+
+#: application/view/omeka/admin/index/browse.phtml:32
+#, php-format
+msgid "Resource templates (%s)"
+msgstr "Tallennuspohjat (%s)"
+
+#: application/view/omeka/admin/index/browse.phtml:34
+#: application/view/omeka/admin/resource-template/browse.phtml:29
+msgid "Add new resource template"
+msgstr "Lisää tallennuspohja"
+
+#: application/view/omeka/admin/index/browse.phtml:41
+msgid "Manage sites"
+msgstr "Hallinnoi sivustoja"
+
+#: application/view/omeka/admin/index/browse.phtml:47
+#: application/view/omeka/admin/item-set/browse.phtml:104
+#: application/view/omeka/admin/item-set/edit.phtml:13
+#: application/view/omeka/admin/item/browse.phtml:102
+#: application/view/omeka/admin/item/edit.phtml:13
+#: application/view/omeka/admin/item/manage-media.phtml:43
+#: application/view/omeka/admin/media/browse.phtml:70
+#: application/view/omeka/admin/resource-template/browse.phtml:71
+#: application/view/omeka/admin/user/browse.phtml:51
+#: application/view/omeka/admin/user/edit.phtml:13
+#: application/view/omeka/admin/vocabulary/browse.phtml:58
+#: application/view/omeka/admin/vocabulary/edit.phtml:6
+#: application/view/omeka/site-admin/index/index.phtml:74
+#: application/view/omeka/site-admin/index/show.phtml:14
+#: application/view/omeka/site-admin/page/edit.phtml:10
+#: application/view/omeka/site-admin/page/index.phtml:34
+msgid "Edit"
+msgstr "Muokkaa"
+
+#: application/view/omeka/admin/index/browse.phtml:52
+msgid "Add site"
+msgstr "Lisää sivusto"
+
+#: application/view/omeka/admin/item-set/add.phtml:5
+msgid "New item set"
+msgstr "Lisää kokoelma"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:2
+msgid "Batch edit item sets"
+msgstr "Massamuokkaa kokoelmia"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:11
+#: application/view/omeka/admin/item/batch-edit.phtml:21
+msgid "Select property"
+msgstr "Valitse kenttä"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:16
+#: application/view/omeka/admin/item-set/batch-edit.phtml:144
+#: application/view/omeka/admin/item/batch-edit.phtml:26
+#: application/view/omeka/admin/item/batch-edit.phtml:167
+msgid "Add text value"
+msgstr "Merkkijono"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:22
+#: application/view/omeka/admin/item-set/batch-edit.phtml:34
+#: application/view/omeka/admin/item-set/batch-edit.phtml:47
+#: application/view/omeka/admin/item-set/batch-edit.phtml:132
+#: application/view/omeka/admin/item/batch-edit.phtml:32
+#: application/view/omeka/admin/item/batch-edit.phtml:44
+#: application/view/omeka/admin/item/batch-edit.phtml:57
+#: application/view/omeka/admin/item/batch-edit.phtml:129
+#: application/view/omeka/admin/item/batch-edit.phtml:142
+#: application/view/omeka/admin/item/batch-edit.phtml:155
+msgid "Remove"
+msgstr "Poista"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:28
+#: application/view/omeka/admin/item-set/batch-edit.phtml:145
+#: application/view/omeka/admin/item/batch-edit.phtml:38
+#: application/view/omeka/admin/item/batch-edit.phtml:168
+msgid "Add resource value"
+msgstr "Omeka-aineisto"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:32
+#: application/view/omeka/admin/item/batch-edit.phtml:42
+msgid "Resource ID"
+msgstr "Aineiston ID"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:40
+#: application/view/omeka/admin/item-set/batch-edit.phtml:146
+#: application/view/omeka/admin/item/batch-edit.phtml:50
+#: application/view/omeka/admin/item/batch-edit.phtml:169
+msgid "Add URI value"
+msgstr "URI"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:60
+#: application/view/omeka/admin/item-set/edit.phtml:19
+#: application/view/omeka/admin/item-set/form.phtml:51
+#: application/view/omeka/admin/item/batch-edit.phtml:70
+#: application/view/omeka/admin/item/edit.phtml:21
+#: application/view/omeka/admin/media/edit.phtml:63
+#: application/view/omeka/admin/resource-template/edit.phtml:12
+#: application/view/omeka/admin/setting/browse.phtml:10
+#: application/view/omeka/admin/user/edit.phtml:17
+#: application/view/omeka/admin/vocabulary/edit.phtml:11
+#: application/view/omeka/site-admin/index/edit.phtml:28
+#: application/view/omeka/site-admin/index/navigation.phtml:15
+#: application/view/omeka/site-admin/index/resources.phtml:30
+#: application/view/omeka/site-admin/index/settings.phtml:8
+#: application/view/omeka/site-admin/index/theme-settings.phtml:10
+#: application/view/omeka/site-admin/index/theme.phtml:16
+#: application/view/omeka/site-admin/index/users.phtml:21
+#: application/view/omeka/site-admin/page/edit.phtml:16
+msgid "Save"
+msgstr "Tallenna"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:65
+#: application/view/omeka/admin/item/batch-edit.phtml:75
+msgid "Set visibility"
+msgstr "Julkisuus"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:69
+#: application/view/omeka/admin/item-set/batch-edit.phtml:82
+#: application/view/omeka/admin/item-set/batch-edit.phtml:97
+#: application/view/omeka/admin/item-set/batch-edit.phtml:118
+#: application/view/omeka/admin/item/batch-edit.phtml:79
+#: application/view/omeka/admin/item/batch-edit.phtml:94
+#: application/view/omeka/admin/item/batch-edit.phtml:115
+msgid "[No change]"
+msgstr "[Ei muutoksia]"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:70
+#: application/view/omeka/admin/item-set/show-details.phtml:11
+#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item/batch-edit.phtml:80
+#: application/view/omeka/admin/item/show-details.phtml:13
+#: application/view/omeka/admin/item/show.phtml:55
+#: application/view/omeka/admin/media/show-details.phtml:30
+#: application/view/omeka/admin/media/show.phtml:32
+msgid "Public"
+msgstr "Julkinen"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:71
+#: application/view/omeka/admin/item/batch-edit.phtml:81
+msgid "Not public"
+msgstr "Yksityinen"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:78
+msgid "Set openness"
+msgstr "Aineistojen lisäys"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:83
+msgid "Open"
+msgstr "kaikki käyttäjät"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:84
+msgid "Not open"
+msgstr "vain omistaja ja pääkäyttäjät"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:91
+#: application/view/omeka/admin/item/batch-edit.phtml:88
+msgid "Set template"
+msgstr "Määritä tallennuspohja"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:98
+#: application/view/omeka/admin/item/batch-edit.phtml:95
+msgid "[Unset template]"
+msgstr "[ei valittua tallennuspohjaa]"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:112
+#: application/view/omeka/admin/item/batch-edit.phtml:109
+msgid "Set class"
+msgstr "Aineistotyyppi"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:119
+#: application/view/omeka/admin/item/batch-edit.phtml:116
+msgid "[Unset class]"
+msgstr "[ei valittua tyyppiä]"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:127
+#: application/view/omeka/admin/item/batch-edit.phtml:150
+msgid "Clear property values"
+msgstr "Tyhjennä kentät"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:134
+#: application/view/omeka/admin/item/batch-edit.phtml:157
+msgid "Clear another property"
+msgstr "Tyhjennä muita kenttiä"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:153
+msgid "Affected item sets"
+msgstr "Kohteena olevat kokoelmat"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:155
+#, php-format
+msgid "You are editing the following %s item sets:"
+msgstr "Olet muokkaamassa %s kokoelmaa:"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:162
+#, php-format
+msgid "You are editing %s item sets."
+msgstr "Olet muokkaamassa %s kokoelmaa."
+
+#: application/view/omeka/admin/item-set/browse.phtml:14
+#: application/view/omeka/admin/item-set/browse.phtml:71
+#: application/view/omeka/admin/item-set/show.phtml:69
+#: application/view/omeka/admin/item/browse.phtml:14
+#: application/view/omeka/admin/item/browse.phtml:69
+#: application/view/omeka/admin/item/manage-item-sets.phtml:9
+#: application/view/omeka/admin/item/show.phtml:71
+#: application/view/omeka/admin/job/browse.phtml:20
+#: application/view/omeka/admin/job/browse.phtml:41
+#: application/view/omeka/admin/job/show.phtml:44
+#: application/view/omeka/admin/media/browse.phtml:14
+#: application/view/omeka/admin/media/browse.phtml:41
+#: application/view/omeka/admin/resource-template/browse.phtml:14
+#: application/view/omeka/admin/resource-template/browse.phtml:44
+#: application/view/omeka/site-admin/index/index.phtml:14
+#: application/view/omeka/site-admin/index/index.phtml:40
+#: application/view/omeka/site-admin/index/resources.phtml:61
+msgid "Owner"
+msgstr "Omistaja"
+
+#: application/view/omeka/admin/item-set/browse.phtml:18
+#: application/view/omeka/admin/item-set/browse.phtml:72
+#: application/view/omeka/admin/item-set/show.phtml:65
+#: application/view/omeka/admin/item/browse.phtml:18
+#: application/view/omeka/admin/item/browse.phtml:70
+#: application/view/omeka/admin/item/show.phtml:67
+#: application/view/omeka/admin/media/browse.phtml:18
+#: application/view/omeka/admin/media/browse.phtml:42
+#: application/view/omeka/admin/media/show.phtml:40
+#: application/view/omeka/admin/user/browse.phtml:14
+#: application/view/omeka/admin/user/browse.phtml:39
+msgid "Created"
+msgstr "Luontipäivä"
+
+#: application/view/omeka/admin/item-set/browse.phtml:30
+#: application/view/omeka/admin/item-set/search.phtml:4
+#: application/view/omeka/admin/item/browse.phtml:30
+#: application/view/omeka/admin/item/search.phtml:4
+#: application/view/omeka/admin/media/browse.phtml:30
+#: application/view/omeka/admin/media/search.phtml:4
+#: application/view/omeka/site/item-set/browse.phtml:7
+#: application/view/omeka/site/item/browse.phtml:27
+msgid "Advanced search"
+msgstr "Tarkennettu haku"
+
+#: application/view/omeka/admin/item-set/browse.phtml:47
+#: application/view/omeka/admin/item/browse.phtml:46
+msgid "Batch actions"
+msgstr "Massatoiminnot"
+
+#: application/view/omeka/admin/item-set/browse.phtml:48
+#: application/view/omeka/admin/item/browse.phtml:47
+msgid "Edit selected"
+msgstr "Muokkaa valittuja"
+
+#: application/view/omeka/admin/item-set/browse.phtml:49
+#: application/view/omeka/admin/item/browse.phtml:48
+msgid "Edit all"
+msgstr "Muokkaa kaikkia"
+
+#: application/view/omeka/admin/item-set/browse.phtml:50
+#: application/view/omeka/admin/item/browse.phtml:49
+msgid "Delete selected"
+msgstr "Poista valitut"
+
+#: application/view/omeka/admin/item-set/browse.phtml:51
+#: application/view/omeka/admin/item/browse.phtml:50
+msgid "Delete all"
+msgstr "Poista kaikki"
+
+#: application/view/omeka/admin/item-set/browse.phtml:54
+#: application/view/omeka/admin/item-set/browse.phtml:55
+#: application/view/omeka/admin/item-set/browse.phtml:56
+#: application/view/omeka/admin/item-set/browse.phtml:58
+#: application/view/omeka/admin/item-set/browse.phtml:59
+#: application/view/omeka/admin/item/browse.phtml:53
+#: application/view/omeka/admin/item/browse.phtml:54
+#: application/view/omeka/admin/item/browse.phtml:55
+#: application/view/omeka/admin/item/browse.phtml:57
+#: application/view/omeka/admin/item/browse.phtml:58
+msgid "Go"
+msgstr "Toteuta"
+
+#: application/view/omeka/admin/item-set/browse.phtml:98
+#: application/view/omeka/admin/item-set/show-details.phtml:11
+#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item/browse.phtml:96
+#: application/view/omeka/admin/item/show-details.phtml:13
+#: application/view/omeka/admin/item/show.phtml:55
+#: application/view/omeka/admin/media/browse.phtml:65
+#: application/view/omeka/admin/media/show-details.phtml:30
+#: application/view/omeka/admin/media/show.phtml:32
+#: application/view/omeka/site-admin/index/index.phtml:63
+msgid "Private"
+msgstr "Yksityinen"
+
+#: application/view/omeka/admin/item-set/browse.phtml:112
+#: application/view/omeka/admin/item-set/edit.phtml:5
+#: application/view/omeka/admin/item/browse.phtml:110
+#: application/view/omeka/admin/item/edit.phtml:5
+#: application/view/omeka/admin/media/browse.phtml:76
+#: application/view/omeka/admin/media/edit.phtml:61
+#: application/view/omeka/admin/resource-template/browse.phtml:78
+#: application/view/omeka/admin/resource-template/form.phtml:12
+#: application/view/omeka/admin/user/browse.phtml:58
+#: application/view/omeka/admin/user/edit.phtml:38
+#: application/view/omeka/admin/vocabulary/browse.phtml:65
+#: application/view/omeka/admin/vocabulary/edit.phtml:10
+#: application/view/omeka/site-admin/index/edit.phtml:26
+#: application/view/omeka/site-admin/index/index.phtml:81
+#: application/view/omeka/site-admin/index/users.phtml:6
+#: application/view/omeka/site-admin/page/edit.phtml:15
+msgid "Delete"
+msgstr "Poista"
+
+#: application/view/omeka/admin/item-set/browse.phtml:119
+#: application/view/omeka/admin/item/browse.phtml:117
+#: application/view/omeka/admin/media/browse.phtml:82
+#: application/view/omeka/admin/resource-template/browse.phtml:84
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:23
+#: application/view/omeka/admin/resource-template/show.phtml:42
+#: application/view/omeka/admin/user/browse.phtml:64
+#: application/view/omeka/admin/vocabulary/browse.phtml:72
+#: application/view/omeka/admin/vocabulary/classes.phtml:52
+#: application/view/omeka/admin/vocabulary/properties.phtml:35
+msgid "Details"
+msgstr "Lisätietoja"
+
+#: application/view/omeka/admin/item-set/browse.phtml:152
+#: application/view/omeka/admin/item-set/browse.phtml:170
+msgid "Delete item sets"
+msgstr "Poista kokoelmia"
+
+#: application/view/omeka/admin/item-set/browse.phtml:153
+msgid "Are you sure you would like to delete the selected item sets?"
+msgstr "Haluatko varmasti poistaa valitut kokoelmat?"
+
+#: application/view/omeka/admin/item-set/browse.phtml:155
+#: application/view/omeka/admin/item-set/browse.phtml:173
+#, php-format
+msgid ""
+"%s: this action will permanently delete %s item sets and cannot be undone."
+msgstr "%s: toiminto tuhoaa pysyvästi %s kokoelmaa ja sitä ei voi perua."
+
+#: application/view/omeka/admin/item-set/browse.phtml:156
+#: application/view/omeka/admin/item-set/browse.phtml:174
+#: application/view/omeka/admin/item/browse.phtml:154
+#: application/view/omeka/admin/item/browse.phtml:172
+msgid "Warning"
+msgstr "Varoitus"
+
+#: application/view/omeka/admin/item-set/browse.phtml:171
+msgid ""
+"Are you sure you would like to delete all item sets on all pages of this "
+"result?"
+msgstr "Haluatko varmasti poistaa kaikki hakutuloksen kokoelmat?"
+
+#: application/view/omeka/admin/item-set/browse.phtml:177
+#: application/view/omeka/admin/item/browse.phtml:175
+msgid "Are you sure?"
+msgstr "Oletko varma?"
+
+#: application/view/omeka/admin/item-set/browse.phtml:211
+msgid "Omeka could not find any item sets."
+msgstr "Omeka ei löytänyt yhtään kokoelmaa"
+
+#: application/view/omeka/admin/item-set/form.phtml:11
+#: application/view/omeka/admin/item/form.phtml:12
+#: application/view/omeka/admin/media/edit.phtml:11
+msgid "Values"
+msgstr "Arvot"
+
+#: application/view/omeka/admin/item-set/form.phtml:25
+msgid "Close item set"
+msgstr "Salli vain omistajan ja pääkäyttäjän lisätä aineistoja"
+
+#: application/view/omeka/admin/item-set/form.phtml:31
+msgid "Open item set"
+msgstr "Salli muiden lisätä aineistoja"
+
+#: application/view/omeka/admin/item-set/form.phtml:45
+#: application/view/omeka/admin/item/form.phtml:47
+#: application/view/omeka/admin/item/manage-media.phtml:36
+#: application/view/omeka/admin/media/edit.phtml:56
+#: application/view/omeka/site-admin/index/add.phtml:19
+#: application/view/omeka/site-admin/index/edit.phtml:20
+msgid "Make public"
+msgstr "Tee kokoelmasta julkinen"
+
+#: application/view/omeka/admin/item-set/show-details.phtml:10
+#: application/view/omeka/admin/item-set/show.phtml:73
+#: application/view/omeka/admin/item/show-details.phtml:12
+#: application/view/omeka/admin/item/show.phtml:54
+#: application/view/omeka/admin/media/show-details.phtml:29
+#: application/view/omeka/admin/media/show.phtml:31
+msgid "Visibility"
+msgstr "Julkisuus"
+
+#: application/view/omeka/admin/item-set/show-details.phtml:12
+#: application/view/omeka/admin/item-set/show.phtml:75
+msgid "Open to additions"
+msgstr "Aineistojen lisääminen vapaata"
+
+#: application/view/omeka/admin/item-set/show-details.phtml:12
+#: application/view/omeka/admin/item-set/show.phtml:75
+msgid "Closed to additions"
+msgstr "Vain omistaja voi lisätä aineistoja"
+
+#: application/view/omeka/admin/item-set/show.phtml:20
+#: application/view/omeka/admin/item/show.phtml:11
+#: application/view/omeka/admin/media/show.phtml:6
+msgid "Metadata"
+msgstr "Metatiedot"
+
+#: application/view/omeka/admin/item-set/show.phtml:21
+#: application/view/omeka/admin/item/show.phtml:12
+#: application/view/omeka/site/item/show.phtml:44
+msgid "Linked resources"
+msgstr "Linkitetyt aineistot"
+
+#: application/view/omeka/admin/item-set/show.phtml:29
+msgid "Edit item set"
+msgstr "Muokkaa kokoelmaa"
+
+#: application/view/omeka/admin/item-set/show.phtml:31
+msgid "View items"
+msgstr "Näytä aineistoja"
+
+#: application/view/omeka/admin/item-set/show.phtml:53
+msgid "The following resources link to this item set:"
+msgstr "Seuraavat aineistot linkittävät tähän kokoelmaan:"
+
+#: application/view/omeka/admin/item-set/show.phtml:57
+msgid "No resources link to this item set."
+msgstr "Aineistoissa ei ole linkkejä kokoelmaan."
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:7
+msgid "Select item set"
+msgstr "Valitse kokoelma"
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:38
+msgid "item sets"
+msgstr "kokoelmat"
+
+#: application/view/omeka/admin/item/add.phtml:5
+msgid "New item"
+msgstr "Lisää aineisto"
+
+#: application/view/omeka/admin/item/add.phtml:12
+#: application/view/omeka/admin/resource-template/add.phtml:11
+#: application/view/omeka/admin/user/add.phtml:11
+#: application/view/omeka/site-admin/index/add-page.phtml:8
+#: application/view/omeka/site-admin/index/add.phtml:22
+msgid "Add"
+msgstr "Tallenna"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:2
+msgid "Batch edit items"
+msgstr "Massamuokkaa aineistoja"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:124
+#: application/view/omeka/admin/item/manage-item-sets.phtml:42
+msgid "Add to item set"
+msgstr "Liitä kokoelmaan"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:131
+msgid "Add another item set"
+msgstr "Lisää toinen kokoelma"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:137
+msgid "Remove from item set"
+msgstr "Poista kokoelmasta"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:144
+msgid "Remove another item set"
+msgstr "Poista toisesta kokoelmasta"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:176
+msgid "Affected items"
+msgstr "Aineistot joihin toiminto kohdistuu"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:178
+#, php-format
+msgid "You are editing the following %s items:"
+msgstr "Muokataan %s aineistoa:"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:185
+#, php-format
+msgid "You are editing %s items."
+msgstr "Muokataan %s aineistoa."
+
+#: application/view/omeka/admin/item/browse.phtml:150
+#: application/view/omeka/admin/item/browse.phtml:168
+msgid "Delete items"
+msgstr "Poista aineistot"
+
+#: application/view/omeka/admin/item/browse.phtml:151
+msgid "Are you sure you would like to delete the selected items?"
+msgstr "Haluatko varmasti poistaa valitut aineistot?"
+
+#: application/view/omeka/admin/item/browse.phtml:153
+#: application/view/omeka/admin/item/browse.phtml:171
+#, php-format
+msgid "%s: this action will permanently delete %s items and cannot be undone."
+msgstr "%s: toiminto tuhoaa pysyvästi %s aineistoa ja sitä ei voi perua."
+
+#: application/view/omeka/admin/item/browse.phtml:169
+msgid ""
+"Are you sure you would like to delete all items on all pages of this result?"
+msgstr "Haluatko varmasti poistaa kaikki hakutuloksen aineistot?"
+
+#: application/view/omeka/admin/item/browse.phtml:209
+msgid "Omeka could not find any items."
+msgstr "Omeka ei löytänyt aineistoja."
+
+#: application/view/omeka/admin/item/manage-item-sets.phtml:29
+#: application/view/omeka/admin/item/manage-item-sets.phtml:52
+#: application/view/omeka/site-admin/index/resources.phtml:13
+msgid "Remove item set"
+msgstr "Poista kokoelma"
+
+#: application/view/omeka/admin/item/manage-item-sets.phtml:39
+msgid ""
+"This item is part of no item sets. Add it to an item set using the interface"
+" to the right."
+msgstr ""
+"Aineistoa ei ole liitetty yhteenkään kokoelmaan. Voit käyttää oikealla "
+"olevaa valikkoa lisätäksesi aineiston yhteen tai useampaan kokoelmaan."
+
+#: application/view/omeka/admin/item/manage-media.phtml:21
+msgid "Media to be removed"
+msgstr "Poistettava tiedosto"
+
+#: application/view/omeka/admin/item/manage-media.phtml:63
+msgid ""
+"This resource has no media.<br>Start adding media using the sidebar to the "
+"right."
+msgstr ""
+"Aineistoon ei liity tiedostoja tai muita resursseja.<br>Voit käyttää "
+"oikealla olevaa valikkoa lisätäksesi tiedostoja tai muita resursseja."
+
+#: application/view/omeka/admin/item/manage-media.phtml:67
+#: application/view/omeka/admin/item/manage-media.phtml:71
+msgid "Add media"
+msgstr "Lisää tiedosto"
+
+#: application/view/omeka/admin/item/show.phtml:18
+msgid "Edit item"
+msgstr "Muokkaa aineistoa"
+
+#: application/view/omeka/admin/item/show.phtml:41
+msgid "The following resources link to this item:"
+msgstr "Seuraavat tiedostot linkittävät tähän aineistoon:"
+
+#: application/view/omeka/admin/item/show.phtml:45
+msgid "No resources link to this item."
+msgstr "Muissa aineistoissa ei ole linkkejä tähän aineistoon."
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:8
+msgid "Select item"
+msgstr "Valitse aineisto"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:17
+msgid "Filter search"
+msgstr "Suodata hakua"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:55
+msgid "Quick add"
+msgstr "Pikalisäys"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:86
+msgid "items"
+msgstr "aineistot"
+
+#: application/view/omeka/admin/job/browse.phtml:8
+#: application/view/omeka/admin/job/browse.phtml:38
+#: application/view/omeka/admin/user/edit.phtml:37
+msgid "ID"
+msgstr "ID"
+
+#: application/view/omeka/admin/job/browse.phtml:16
+#: application/view/omeka/admin/job/browse.phtml:40
+#: application/view/omeka/admin/job/show.phtml:28
+msgid "Status"
+msgstr "Tila"
+
+#: application/view/omeka/admin/job/browse.phtml:26
+#: application/view/omeka/admin/job/show.phtml:20
+msgid "Jobs"
+msgstr "Taustaprosessit"
+
+#: application/view/omeka/admin/job/browse.phtml:79
+msgid "Omeka could not find any jobs."
+msgstr "Omeka ei löytänyt taustaprosesseja"
+
+#: application/view/omeka/admin/job/show.phtml:7
+msgid "[not started]"
+msgstr "[ei aloitettu]"
+
+#: application/view/omeka/admin/job/show.phtml:12
+msgid "[not ended]"
+msgstr "[ei päätetty]"
+
+#: application/view/omeka/admin/job/show.phtml:32
+msgid "Started"
+msgstr "Aloitettu"
+
+#: application/view/omeka/admin/job/show.phtml:36
+msgid "Ended"
+msgstr "Päättynyt"
+
+#: application/view/omeka/admin/job/show.phtml:48
+msgid "Args"
+msgstr "Args"
+
+#: application/view/omeka/admin/job/show.phtml:53
+msgid "[no args]"
+msgstr "[no args]"
+
+#: application/view/omeka/admin/job/show.phtml:57
+msgid "Log"
+msgstr "Loki"
+
+#: application/view/omeka/admin/job/show.phtml:60
+msgid "view log"
+msgstr "näytä loki"
+
+#: application/view/omeka/admin/job/show.phtml:64
+msgid "[no log]"
+msgstr "[ei lokia]"
+
+#: application/view/omeka/admin/media/browse.phtml:110
+msgid "Omeka could not find any media."
+msgstr "Tiedostoja ei löytynyt."
+
+#: application/view/omeka/admin/media/show-details.phtml:17
+msgid "Part of Item"
+msgstr "Osa aineistoa"
+
+#: application/view/omeka/admin/media/show-details.phtml:23
+#: application/view/omeka/admin/media/show.phtml:45
+msgid "MIME type"
+msgstr "MIME-tyyppi"
+
+#: application/view/omeka/admin/media/show.phtml:13
+msgid "Edit media"
+msgstr "Muokkaa tiedostoa"
+
+#: application/view/omeka/admin/media/show.phtml:35
+msgid "Part of item"
+msgstr "Aineiston osa"
+
+#: application/view/omeka/admin/media/show.phtml:50
+msgid "Ingester"
+msgstr "Lataaja"
+
+#: application/view/omeka/admin/media/show.phtml:55
+msgid "Source"
+msgstr "Lähde"
+
+#: application/view/omeka/admin/media/show.phtml:61
+msgid "File Derivatives"
+msgstr "Esikatselukuvat"
+
+#: application/view/omeka/admin/media/show.phtml:63
+msgid "original"
+msgstr "alkuperäinen"
+
+#: application/view/omeka/admin/media/show.phtml:66
+msgid "large"
+msgstr "suuri"
+
+#: application/view/omeka/admin/media/show.phtml:67
+msgid "medium"
+msgstr "keskikokoinen"
+
+#: application/view/omeka/admin/media/show.phtml:68
+msgid "square"
+msgstr "neliöity"
+
+#: application/view/omeka/admin/media/sidebar-select.phtml:7
+msgid "Select media"
+msgstr "Valitse tiedosto"
+
+#: application/view/omeka/admin/media/sidebar-select.phtml:37
+msgid "media"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:14
+msgid "All modules"
+msgstr "Kaikki lisäosat"
+
+#: application/view/omeka/admin/module/browse.phtml:35
+msgid "name not found"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:43
+#: application/view/omeka/admin/module/browse.phtml:45
+#, php-format
+msgid "by %s"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:57
+#, php-format
+msgid "A new version of this module is available. %s"
+msgstr "Päivitys saatavissa. %s"
+
+#: application/view/omeka/admin/module/browse.phtml:74
+#: application/view/omeka/admin/module/browse.phtml:82
+#: application/view/omeka/admin/module/configure.phtml:5
+#: application/view/omeka/site-admin/index/theme-settings.phtml:5
+msgid "Configure"
+msgstr "Asetukset"
+
+#: application/view/omeka/admin/module/browse.phtml:126
+msgid "Uninstall"
+msgstr "Poista asennus"
+
+#: application/view/omeka/admin/module/browse.phtml:143
+msgid "Error: invalid Module.php file"
+msgstr "Virhe: Virheellinen Module.php"
+
+#: application/view/omeka/admin/module/browse.phtml:145
+msgid "Error: invalid config/module.ini file"
+msgstr "Virhe: virheellinen config/module.ini"
+
+#: application/view/omeka/admin/module/browse.phtml:147
+#, php-format
+msgid "Error: %1$s requires Omeka S %2$s"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:149
+msgid "Error: module in database but not in filesystem"
+msgstr "Virhe: lisäosan tiedot ovat tietokannassa mutta asennus puuttuu"
+
+#: application/view/omeka/admin/module/browse.phtml:166
+msgid "Omeka could not find any modules."
+msgstr ""
+
+#: application/view/omeka/admin/module/configure.phtml:9
+msgid "Submit"
+msgstr "Tallenna"
+
+#: application/view/omeka/admin/module/uninstall-confirm.phtml:2
+msgid "Uninstall module"
+msgstr "Poista asennus"
+
+#: application/view/omeka/admin/module/uninstall-confirm.phtml:3
+msgid "Are you sure you would like to uninstall this module?"
+msgstr "Haluatko varmasti poistaa tämän lisäosan?"
+
+#: application/view/omeka/admin/property/show-details.phtml:3
+#: application/view/omeka/admin/resource-class/show-details.phtml:3
+msgid "Vocabulary"
+msgstr "Sanasto"
+
+#: application/view/omeka/admin/property/show-details.phtml:7
+#: application/view/omeka/admin/resource-class/show-details.phtml:7
+#: application/view/omeka/admin/vocabulary/classes.phtml:10
+#: application/view/omeka/admin/vocabulary/classes.phtml:37
+#: application/view/omeka/admin/vocabulary/properties.phtml:20
+msgid "Term"
+msgstr "Termi"
+
+#: application/view/omeka/admin/property/show-details.phtml:11
+#: application/view/omeka/admin/resource-class/show-details.phtml:11
+#: application/view/omeka/admin/resource-template/form.phtml:60
+msgid "Comment"
+msgstr "Kommentti"
+
+#: application/view/omeka/admin/resource-template/add.phtml:3
+msgid "New resource template"
+msgstr "Lisää tallennuspohja"
+
+#: application/view/omeka/admin/resource-template/add.phtml:3
+#: application/view/omeka/admin/resource-template/browse.phtml:24
+#: application/view/omeka/admin/resource-template/edit.phtml:3
+#: application/view/omeka/admin/resource-template/import.phtml:4
+#: application/view/omeka/admin/resource-template/review-import.phtml:4
+#: application/view/omeka/admin/resource-template/show.phtml:6
+msgid "Resource templates"
+msgstr "Tallennuspohjat"
+
+#: application/view/omeka/admin/resource-template/browse.phtml:27
+#: application/view/omeka/admin/resource-template/import.phtml:4
+#: application/view/omeka/admin/vocabulary/import.phtml:10
+msgid "Import"
+msgstr "Tuo"
+
+#: application/view/omeka/admin/resource-template/browse.phtml:107
+msgid "Omeka could not find any resource templates."
+msgstr "Omeka ei löytänyt tallennuspohjia."
+
+#: application/view/omeka/admin/resource-template/form.phtml:54
+#: application/view/omeka/admin/resource-template/form.phtml:61
+msgid "Original"
+msgstr "Alkuperäinen"
+
+#: application/view/omeka/admin/resource-template/form.phtml:56
+#: application/view/omeka/admin/resource-template/form.phtml:63
+msgid "Alternate"
+msgstr "Vaihtoehtoinen"
+
+#: application/view/omeka/admin/resource-template/form.phtml:67
+msgid "Other options"
+msgstr "Lisäasetukset"
+
+#: application/view/omeka/admin/resource-template/form.phtml:70
+msgid "Required"
+msgstr "Pakollinen"
+
+#: application/view/omeka/admin/resource-template/form.phtml:75
+#: application/view/omeka/admin/resource-template/review-import.phtml:36
+#: application/view/omeka/admin/resource-template/show.phtml:26
+msgid "Data type"
+msgstr "Tietotyyppi"
+
+#: application/view/omeka/admin/resource-template/form.phtml:81
+msgid "Set changes"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/import.phtml:8
+msgid "Review import"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:4
+msgid "Review"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:8
+msgid "Complete import"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:35
+#: application/view/omeka/admin/resource-template/show.phtml:25
+msgid "Original label"
+msgstr "Kentän alkuperäinen nimi"
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:38
+#: application/view/omeka/admin/resource-template/show.phtml:28
+msgid "Alternate comment"
+msgstr "Muu selite"
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:39
+#: application/view/omeka/admin/resource-template/show.phtml:29
+msgid "Required?"
+msgstr "Pakollinen?"
+
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:29
+msgid "Edit property"
+msgstr "Muokkaa kenttää"
+
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:33
+msgid "Remove property"
+msgstr "Poista kenttä"
+
+#: application/view/omeka/admin/resource-template/show.phtml:9
+msgid "Export"
+msgstr "Vie"
+
+#: application/view/omeka/admin/resource-template/show.phtml:11
+msgid "Edit resource template"
+msgstr "Muokkaa tallennuspohjaa"
+
+#: application/view/omeka/admin/resource-template/show.phtml:49
+#: application/view/omeka/admin/system-info/browse.phtml:17
+msgid "Yes"
+msgstr "Kyllä"
+
+#: application/view/omeka/admin/resource-template/show.phtml:49
+#: application/view/omeka/admin/system-info/browse.phtml:17
+msgid "No"
+msgstr "Ei"
+
+#: application/view/omeka/admin/setting/browse.phtml:6
+msgid "Global settings"
+msgstr "Yleisasetukset"
+
+#: application/view/omeka/admin/user/add.phtml:6
+msgid "New user"
+msgstr "Uusi käyttäjätunnus"
+
+#: application/view/omeka/admin/user/add.phtml:6
+#: application/view/omeka/admin/user/browse.phtml:20
+#: application/view/omeka/admin/user/edit.phtml:13
+#: application/view/omeka/admin/user/show.phtml:6
+msgid "Users"
+msgstr "Käyttäjät"
+
+#: application/view/omeka/admin/user/browse.phtml:6
+#: application/view/omeka/admin/user/browse.phtml:37
+#: application/view/omeka/admin/user/show.phtml:16
+msgid "Email"
+msgstr "Sähköposti"
+
+#: application/view/omeka/admin/user/browse.phtml:10
+#: application/view/omeka/admin/user/browse.phtml:38
+#: application/view/omeka/admin/user/show.phtml:28
+#: application/view/omeka/site-admin/index/users.phtml:29
+msgid "Role"
+msgstr "Rooli"
+
+#: application/view/omeka/admin/user/browse.phtml:24
+#: application/view/omeka/site-admin/index/users.phtml:73
+msgid "Add new user"
+msgstr "Lisää uusi käyttäjä"
+
+#: application/view/omeka/admin/user/browse.phtml:91
+msgid "Omeka could not find any users."
+msgstr "Ei käyttäjiä."
+
+#: application/view/omeka/admin/user/edit.phtml:5
+msgid "User information"
+msgstr "Perustiedot"
+
+#: application/view/omeka/admin/user/edit.phtml:6
+msgid "User settings"
+msgstr "Asetukset"
+
+#: application/view/omeka/admin/user/edit.phtml:7
+msgid "Password"
+msgstr "Salasana"
+
+#: application/view/omeka/admin/user/edit.phtml:8
+msgid "API keys"
+msgstr "API-avaimet"
+
+#: application/view/omeka/admin/user/edit.phtml:32
+msgid "Keys"
+msgstr "Avaimet"
+
+#: application/view/omeka/admin/user/edit.phtml:55
+msgid "Add a new key"
+msgstr "Lisää uusi avain"
+
+#: application/view/omeka/admin/user/show.phtml:10
+msgid "Edit user"
+msgstr "Muokkaa käyttäjää"
+
+#: application/view/omeka/admin/user/show.phtml:22
+msgid "Display name"
+msgstr "Näytettävä käyttäjätunnus"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:10
+#: application/view/omeka/admin/vocabulary/browse.phtml:43
+msgid "Prefix"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:14
+#: application/view/omeka/admin/vocabulary/browse.phtml:44
+#: application/view/omeka/admin/vocabulary/classes.phtml:20
+msgid "Classes"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:18
+#: application/view/omeka/admin/vocabulary/browse.phtml:45
+#: application/view/omeka/admin/vocabulary/properties.phtml:6
+msgid "Properties"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:24
+#: application/view/omeka/admin/vocabulary/classes.phtml:20
+#: application/view/omeka/admin/vocabulary/edit.phtml:6
+#: application/view/omeka/admin/vocabulary/import.phtml:6
+#: application/view/omeka/admin/vocabulary/properties.phtml:6
+#: application/view/omeka/admin/vocabulary/update.phtml:19
+msgid "Vocabularies"
+msgstr "Sanastot"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:99
+msgid "Omeka could not find any vocabularies."
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/classes.phtml:23
+#: application/view/omeka/admin/vocabulary/properties.phtml:9
+msgid "Prefix:"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/classes.phtml:24
+#: application/view/omeka/admin/vocabulary/properties.phtml:10
+#: application/view/omeka/admin/vocabulary/show-details.phtml:4
+msgid "Namespace URI:"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/classes.phtml:76
+msgid "This vocabulary has no classes."
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/import.phtml:6
+msgid "New vocabulary"
+msgstr "Uusi sanasto"
+
+#: application/view/omeka/admin/vocabulary/properties.phtml:59
+msgid "This vocabulary has no properties."
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/update.phtml:19
+msgid "Update"
+msgstr "Päivitä"
+
+#: application/view/omeka/admin/vocabulary/update.phtml:22
+msgid "Cancel"
+msgstr "Peruuta"
+
+#: application/view/omeka/admin/vocabulary/update.phtml:23
+msgid "Accept changes"
+msgstr "Hyväksy muutokset"
+
+#: application/view/omeka/index/index.phtml:18
+#, php-format
+msgid "Go to the %s to start working with %s."
+msgstr ""
+
+#: application/view/omeka/install/index.phtml:7
+msgid "Install Omeka S"
+msgstr "Asenna Omeka S"
+
+#: application/view/omeka/install/index.phtml:10
+msgid "Some installation requirements were not satisfied."
+msgstr ""
+
+#: application/view/omeka/login/create-password.phtml:5
+msgid "Create a new password"
+msgstr "Luo uusi salasana"
+
+#: application/view/omeka/login/create-password.phtml:10
+msgid "Activate"
+msgstr "Aktivoi"
+
+#: application/view/omeka/login/forgot-password.phtml:5
+msgid "Forgot password"
+msgstr "Unohtunut salasana"
+
+#: application/view/omeka/login/forgot-password.phtml:10
+msgid "Send password reset email"
+msgstr "Lähetä viesti salasanan vaihtamiseksi"
+
+#: application/view/omeka/login/login.phtml:4
+msgid "Login"
+msgstr "Kirjaudu"
+
+#: application/view/omeka/login/login.phtml:6
+msgid "Forgot password?"
+msgstr "Unohtunut salasana?"
+
+#: application/view/omeka/maintenance/index.phtml:1
+msgid "Site under maintenance"
+msgstr "Sivustoa huolletaan"
+
+#: application/view/omeka/maintenance/index.phtml:2
+msgid ""
+"This site is down for maintenance. Please contact the site administrator for\n"
+"more information."
+msgstr ""
+"Sivustolla on huoltokatko. Ota yhteyttä ylläpitoon lisätietoja varten."
+
+#: application/view/omeka/migrate/index.phtml:1
+#: application/view/omeka/migrate/index.phtml:5
+msgid "Update database"
+msgstr "Päivitä tietokanta"
+
+#: application/view/omeka/migrate/index.phtml:2
+msgid ""
+"There was a recent software upgrade and the database needs to be updated. The\n"
+"entire site will be down for maintenance until you click the button below."
+msgstr ""
+"Tietokanta vaatii päivittämistä. Sivusto on huoltotilassa kunnes\n"
+"alla olevaa painiketta on klikattu."
+
+#: application/view/omeka/site-admin/index/add-page.phtml:5
+msgid "New page"
+msgstr "Lisää sivu"
+
+#: application/view/omeka/site-admin/index/add-page.phtml:5
+#: application/view/omeka/site-admin/page/edit.phtml:10
+#: application/view/omeka/site-admin/page/index.phtml:6
+msgid "Pages"
+msgstr "Sivut"
+
+#: application/view/omeka/site-admin/index/add.phtml:7
+#: application/view/omeka/site-admin/index/show.phtml:31
+#: application/view/omeka/site-admin/index/theme-settings.phtml:5
+#: application/view/omeka/site-admin/index/theme.phtml:10
+msgid "Theme"
+msgstr "Ulkoasu"
+
+#: application/view/omeka/site-admin/index/add.phtml:8
+#: application/view/omeka/site-admin/index/resources.phtml:22
+msgid "Item pool"
+msgstr "Aineistovaranto"
+
+#: application/view/omeka/site-admin/index/add.phtml:12
+msgid "New site"
+msgstr "Lisää sivusto"
+
+#: application/view/omeka/site-admin/index/add.phtml:12
+#: application/view/omeka/site-admin/index/edit.phtml:6
+#: application/view/omeka/site-admin/index/index.phtml:20
+#: application/view/omeka/site-admin/index/navigation.phtml:9
+#: application/view/omeka/site-admin/index/resources.phtml:20
+#: application/view/omeka/site-admin/index/settings.phtml:5
+#: application/view/omeka/site-admin/index/show.phtml:10
+#: application/view/omeka/site-admin/index/theme.phtml:10
+#: application/view/omeka/site-admin/index/users.phtml:15
+#: application/view/omeka/site-admin/page/index.phtml:6
+msgid "Sites"
+msgstr "Sivustot"
+
+#: application/view/omeka/site-admin/index/edit.phtml:24
+#: application/view/omeka/site-admin/index/show.phtml:16
+#: application/view/omeka/site-admin/page/edit.phtml:14
+msgid "View"
+msgstr "Näytä"
+
+#: application/view/omeka/site-admin/index/index.phtml:10
+#: application/view/omeka/site-admin/index/index.phtml:39
+#: application/view/omeka/site-admin/index/show.phtml:23
+msgid "URL slug"
+msgstr "URL-teksti"
+
+#: application/view/omeka/site-admin/index/index.phtml:24
+msgid "Add new site"
+msgstr "Lisää sivusto"
+
+#: application/view/omeka/site-admin/index/index.phtml:108
+msgid "Omeka could not find any sites."
+msgstr "Omeka ei löytänyt sivustoja."
+
+#: application/view/omeka/site-admin/index/navigation.phtml:9
+msgid "Navigation"
+msgstr "Navigointi"
+
+#: application/view/omeka/site-admin/index/navigation.phtml:22
+#: application/view/omeka/site-admin/index/navigation.phtml:38
+msgid "Add a link to a site page"
+msgstr "Lisää linkki sivulle"
+
+#: application/view/omeka/site-admin/index/navigation.phtml:26
+msgid "Add a custom link"
+msgstr "Lisää vapaamuotoinen linkki"
+
+#: application/view/omeka/site-admin/index/navigation.phtml:54
+msgid "There are no available pages."
+msgstr "Ei sivuja."
+
+#: application/view/omeka/site-admin/index/resources.phtml:14
+msgid "Restore item set"
+msgstr "Palauta kokoelma"
+
+#: application/view/omeka/site-admin/index/resources.phtml:35
+#, php-format
+msgid "There are currently %s items in this site’s pool."
+msgstr "Sivuston aineistovarannossa on %s aineistoa."
+
+#: application/view/omeka/site-admin/index/resources.phtml:67
+msgid "No item sets are assigned to this site."
+msgstr "Sivustoon ei ole liitetty kokoelmia."
+
+#: application/view/omeka/site-admin/index/show.phtml:5
+#: application/view/omeka/site-admin/index/users.phtml:9
+msgid "Viewer"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/show.phtml:6
+#: application/view/omeka/site-admin/index/users.phtml:10
+msgid "Editor"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/show.phtml:19
+msgid "Back to site list"
+msgstr "Takaisin sivustolistaan"
+
+#: application/view/omeka/site-admin/index/theme-selector.phtml:25
+msgid "Invalid theme.ini file"
+msgstr "Virheellinen theme.ini"
+
+#: application/view/omeka/site-admin/index/theme-selector.phtml:27
+#, php-format
+msgid "This theme requires Omeka S %s"
+msgstr "Teema vaatii Omeka S -version %s"
+
+#: application/view/omeka/site-admin/index/theme-settings.phtml:15
+msgid "The current theme has no configuration options."
+msgstr "Teemalla ei ole asetuksia."
+
+#: application/view/omeka/site-admin/index/theme.phtml:25
+msgid "Current theme"
+msgstr "Valittu teema"
+
+#: application/view/omeka/site-admin/index/theme.phtml:41
+msgid "Edit theme settings"
+msgstr "Muokkaa teeman asetuksia"
+
+#: application/view/omeka/site-admin/index/theme.phtml:47
+#, php-format
+msgid "A new version of this theme is available. %s"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme.phtml:57
+msgid "Error: this theme is invalid."
+msgstr "Virhe: teema on virheellinen."
+
+#: application/view/omeka/site-admin/index/theme.phtml:59
+#, php-format
+msgid "ID: %s"
+msgstr "ID: %s"
+
+#: application/view/omeka/site-admin/index/theme.phtml:60
+#, php-format
+msgid "Status: %s"
+msgstr "Tila: %s"
+
+#: application/view/omeka/site-admin/index/theme.phtml:62
+msgid ""
+"Please contact the Omeka S administrator. This site will not be publicly "
+"available until the problem is resolved or you select another theme below."
+msgstr ""
+
+#: application/view/omeka/site-admin/index/users.phtml:7
+msgid "Restore"
+msgstr "Palauta"
+
+#: application/view/omeka/site-admin/index/users.phtml:15
+msgid "User permissions"
+msgstr "Käyttäjäoikeudet"
+
+#: application/view/omeka/site-admin/index/users.phtml:41
+#: application/view/omeka/site-admin/index/users.phtml:113
+msgid "User to be removed"
+msgstr "Poistettava käyttäjä"
+
+#: application/view/omeka/site-admin/index/users.phtml:71
+msgid "This site has no users. Add users using the interface to the right."
+msgstr ""
+"Sivustolla ei ole käyttäjiä. Lisää käyttäjiä oikeanpuoleisesta valikosta."
+
+#: application/view/omeka/site-admin/index/users.phtml:75
+msgid "Click on a user to add them to the site."
+msgstr "Lisää käyttäjä klikkaamalla."
+
+#: application/view/omeka/site-admin/index/users.phtml:76
+msgid "Filter users"
+msgstr "Hae käyttäjiä"
+
+#: application/view/omeka/site-admin/index/users.phtml:78
+msgid "All users"
+msgstr "Kaikki käyttäjät"
+
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:16
+msgid "Change item"
+msgstr "Vaihda aineisto"
+
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:58
+msgid "No item selected."
+msgstr "Ei valittua aineistoa."
+
+#: application/view/omeka/site-admin/page/edit.phtml:26
+msgid "Add new block"
+msgstr "Lisää sisältölohko"
+
+#: application/view/omeka/site-admin/page/edit.phtml:39
+msgid "Caption"
+msgstr "Kuvateksti"
+
+#: application/view/omeka/site-admin/page/edit.phtml:50
+msgid "Apply changes"
+msgstr "Vahvista muutokset"
+
+#: application/view/omeka/site-admin/page/index.phtml:10
+msgid "Add new page"
+msgstr "Lisää sivu"
+
+#: application/view/omeka/site-admin/page/index.phtml:18
+msgid "Slug"
+msgstr "URL-teksti"
+
+#: application/view/omeka/site-admin/page/index.phtml:40
+msgid "Delete page"
+msgstr "Poista sivu"
+
+#: application/view/omeka/site/index/index.phtml:1
+msgid "This site has no pages."
+msgstr "Sivustolla ei ole sivuja"
+
+#: application/view/omeka/site/item-set/search.phtml:5
+msgid "Advanced item set Search"
+msgstr "Tarkennettu kokoelmahaku"
+
+#: application/view/omeka/site/item/search.phtml:5
+msgid "Advanced item search"
+msgstr "Tarkennettu aineistohaku"
+
+#: application/view/omeka/site/item/show.phtml:9
+msgid "Item"
+msgstr "Aineisto"
+
+#: application/config/module.config.php:587
+msgid "Something went wrong"
+msgstr "Virhetilanne"
+
+#: application/config/module.config.php:592
+msgid "You have unsaved changes."
+msgstr "Sinulla on tallentamattomia muutoksia"
+
+#: application/config/module.config.php:594
+msgid "Close icon set"
+msgstr ""
+
+#: application/config/module.config.php:595
+msgid "Open icon set"
+msgstr ""
+
+#: application/config/module.config.php:597
+msgid "Failed loading resource template from API"
+msgstr ""
+
+#: application/config/module.config.php:598
+msgid "Restore property"
+msgstr "Palauta kenttä"
+
+#: application/config/module.config.php:600
+msgid "Please enter a valid language tag"
+msgstr "Anna kielimääritys oikeassa muodossa"
+
+#: application/config/navigation.config.php:168
+#: application/config/navigation.config.php:237
+#: application/src/Form/InstallationForm.php:26
+msgid "Settings"
+msgstr "Asetukset"
+
+#: application/config/navigation.config.php:179
+msgid "Site info"
+msgstr "Sivuston tiedot"
+
+#: application/src/View/Helper/ResourceClassSelect.php:39
+msgid "Select class…"
+msgstr "Valitse tyyppi..."
+
+#: application/src/View/Helper/SiteSelect.php:39
+msgid "Select site…"
+msgstr "Valitse sivusto..."
+
+#: application/src/View/Helper/PropertySelect.php:39
+msgid "Select property…"
+msgstr "Valitse kenttä..."
+
+#: application/src/View/Helper/ItemSetSelect.php:39
+msgid "Select item set…"
+msgstr "Valitse kokoelma..."
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:24
+msgid "item title"
+msgstr "aineiston nimeke"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:25
+msgid "media title"
+msgstr "tiedoston nimeke"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:26
+msgid "no title"
+msgstr "ei nimekettä"
+
+#: application/src/File/Validator.php:65
+#, php-format
+msgid "Error validating \"%s\". Cannot store files with the media type \"%s\"."
+msgstr ""
+
+#: application/src/File/Validator.php:78
+#, php-format
+msgid ""
+"Error validating \"%s\". Cannot store files with the resolved extension "
+"\"%s\"."
+msgstr ""
+
+#: application/src/File/Downloader.php:71
+#, php-format
+msgid "Error downloading %s: %s"
+msgstr ""
+
+#: application/src/File/Downloader.php:83
+#, php-format
+msgid "Error downloading %s: %s %s"
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:102
+msgid "Missing thumbnail configuration."
+msgstr "Esikatselukuva-asetukset puuttuvat."
+
+#: application/src/File/ThumbnailManager.php:106
+msgid "Missing thumbnail types configuration."
+msgstr "Esikatselukuva-tyyppien asetukset puuttuvat."
+
+#: application/src/File/ThumbnailManager.php:109
+msgid "Missing the large, medium, or square thumbnail type configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:113
+msgid "Missing constraint for a thumbnail type configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:117
+msgid "Missing thumbnail fallbacks configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:120
+msgid "Missing default thumbnail fallback configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:123
+msgid "Missing thumbnail fallback configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:127
+msgid "Invalid thumbnail fallback configuration."
+msgstr ""
+
+#: application/src/Form/ResourceTemplateImportForm.php:14
+msgid "Resource template file"
+msgstr "Tallennuspohjatiedosto"
+
+#: application/src/Form/VocabularyImportForm.php:14
+msgid "Vocabulary file"
+msgstr "Sanastotiedosto"
+
+#: application/src/Form/VocabularyImportForm.php:15
+msgid ""
+"Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. See"
+" the Vocabulary Import Documentation for details."
+msgstr ""
+
+#: application/src/Form/VocabularyImportForm.php:27
+msgid ""
+"A concise vocabulary identifier, used as a shorthand proxy for the namespace"
+" URI."
+msgstr ""
+
+#: application/src/Form/VocabularyImportForm.php:38
+msgid "Namespace URI"
+msgstr ""
+
+#: application/src/Form/VocabularyImportForm.php:39
+msgid ""
+"The unique namespace URI used by the vocabulary to identify local member "
+"classes and properties."
+msgstr ""
+
+#: application/src/Form/VocabularyImportForm.php:51
+#: application/src/Form/VocabularyForm.php:15
+msgid "A human-readable title of the vocabulary."
+msgstr "Käyttäjän luettavaksi tarkoitettu sanaston nimi."
+
+#: application/src/Form/VocabularyImportForm.php:63
+#: application/src/Form/VocabularyForm.php:27
+msgid "A human-readable description of the vocabulary."
+msgstr "Käyttäjän luettavaksi tarkoitettu sanaston kuvaus."
+
+#: application/src/Form/VocabularyForm.php:35
+msgid "Update vocabulary"
+msgstr "Päivitä sanasto"
+
+#: application/src/Form/VocabularyForm.php:36
+msgid ""
+"Update this vocabulary to a newer version. You will be able to review the "
+"changes before you accept. Accepts the following formats: RDF/XML, RDF/JSON,"
+" N-Triples, and Turtle."
+msgstr ""
+
+#: application/src/Form/ResourceForm.php:30
+#: application/src/Form/UserForm.php:141
+msgid "Select a template"
+msgstr "Valitse tallennuspohja"
+
+#: application/src/Form/ResourceForm.php:35
+msgid "A pre-defined template for resource creation."
+msgstr "Esimääritelty tallennuspohja aineistojen lisäämistä varten."
+
+#: application/src/Form/ResourceForm.php:53
+msgid "Select a class"
+msgstr "Valitse tyyppi"
+
+#: application/src/Form/ResourceForm.php:57
+msgid ""
+"A type for the resource. Different types have different default properties "
+"attached to them."
+msgstr ""
+"Aineiston tyyppi. Tyypistä riippuen aineistolla on tiettyjä oletuskenttiä."
+
+#: application/src/Form/SitePageForm.php:39
+msgid "Add to navigation"
+msgstr "Lisää valikkoon"
+
+#: application/src/Form/ResourceTemplateForm.php:26
+msgid "Suggested class"
+msgstr "Ehdotettu tyyppi"
+
+#: application/src/Form/SiteSettingsForm.php:27
+msgid "Restrict browse to attached items"
+msgstr "Salli vain liitettyjen aineistojen selaus"
+
+#: application/src/Form/SiteSettingsForm.php:38
+msgid "Attachment link type"
+msgstr "Liitelinkin tyyppi"
+
+#: application/src/Form/SiteSettingsForm.php:40
+msgid "Item page"
+msgstr "Aineistosivu"
+
+#: application/src/Form/SiteSettingsForm.php:41
+msgid "Media page"
+msgstr "Tiedostosivu"
+
+#: application/src/Form/SiteSettingsForm.php:42
+msgid "Direct link to file"
+msgstr "Suora linkki tiedostoon"
+
+#: application/src/Form/SiteSettingsForm.php:54
+msgid "Embed media on item pages"
+msgstr "Liitä tiedosto aineistosivulle"
+
+#: application/src/Form/SiteSettingsForm.php:66
+msgid "Browse heading property"
+msgstr "Otsikkokenttä listauksissa"
+
+#: application/src/Form/SiteSettingsForm.php:67
+msgid ""
+"Use this property for the heading of each resource on a browse page. Default"
+" is \"Dublin Core: Title\"."
+msgstr ""
+"Valitse kenttä joka näytetään aineiston otsikkona listausnäkymissä. Oletus "
+"\"Dublin Core: Title\"."
+
+#: application/src/Form/SiteSettingsForm.php:73
+#: application/src/Form/SiteSettingsForm.php:88
+msgid "Select a property"
+msgstr "Valitse kenttä"
+
+#: application/src/Form/SiteSettingsForm.php:81
+msgid "Browse body property"
+msgstr "Kuvauskenttä listauksissa"
+
+#: application/src/Form/SiteSettingsForm.php:82
+msgid ""
+"Use this property for the body of each resource on a browse page. Default is"
+" \"Dublin Core: Description\"."
+msgstr ""
+"Valitse kenttä joka näytetään aineiston kuvauksena listausnäkymissä. Oletus "
+"\"Dublin Core: Description\"."
+
+#: application/src/Form/SiteSettingsForm.php:95
+msgid "Always show user bar on public views"
+msgstr "Näytä käyttäjävalikko julkisessa näkymässä."
+
+#: application/src/Form/SiteSettingsForm.php:105
+#: application/src/Form/InstallationForm.php:128
+#: application/src/Form/UserForm.php:127
+#: application/src/Form/SettingForm.php:201
+msgid "Locale"
+msgstr "Kieliasetus"
+
+#: application/src/Form/SiteSettingsForm.php:106
+msgid ""
+"Locale/language code for this site. Leave blank to use the global locale "
+"setting."
+msgstr ""
+"Sivustokohtainen kieliasetus. Oletuksena käytetään asennuskohtaista "
+"kieliasetusta."
+
+#: application/src/Form/ActivateForm.php:25
+#: application/src/Form/InstallationForm.php:74
+msgid "Confirm password"
+msgstr "Vahvista salasana"
+
+#: application/src/Form/ModuleStateChangeForm.php:37
+msgid "Install"
+msgstr "Asenna"
+
+#: application/src/Form/ModuleStateChangeForm.php:55
+msgid "Deactivate"
+msgstr "Poista käytöstä"
+
+#: application/src/Form/ModuleStateChangeForm.php:64
+msgid "Upgrade"
+msgstr "Päivitä"
+
+#: application/src/Form/InstallationForm.php:19
+msgid "Create the first user"
+msgstr "Luo ensimmäinen käyttäjä"
+
+#: application/src/Form/InstallationForm.php:52
+msgid "Confirm email"
+msgstr "Vahvista sähköposti"
+
+#: application/src/Form/InstallationForm.php:96
+#: application/src/Form/SettingForm.php:126
+msgid "Installation title"
+msgstr "Asennuksen nimi"
+
+#: application/src/Form/InstallationForm.php:114
+#: application/src/Form/SettingForm.php:141
+msgid "Time zone"
+msgstr "Aikavyöhyke"
+
+#: application/src/Form/InstallationForm.php:153
+msgid "The passwords did not match"
+msgstr "Salasanat eivät täsmää"
+
+#: application/src/Form/InstallationForm.php:166
+msgid "The emails did not match"
+msgstr "Sähköpostosoitteet eivät täsmää"
+
+#: application/src/Form/ConfirmForm.php:17
+msgid "Confirm"
+msgstr "Vahvista"
+
+#: application/src/Form/UserForm.php:111
+msgid "Is active"
+msgstr "Aktiivinen"
+
+#: application/src/Form/UserForm.php:128
+#: application/src/Form/SettingForm.php:202
+msgid "Global locale/language code for all interfaces."
+msgstr "Asennuksen kieliasetus"
+
+#: application/src/Form/UserForm.php:144
+msgid "Default resource template"
+msgstr "Oletustallennuspohja"
+
+#: application/src/Form/UserForm.php:162
+msgid "Current password"
+msgstr "Nykyinen salasana"
+
+#: application/src/Form/UserForm.php:170
+msgid "New password"
+msgstr "Uusi salasana"
+
+#: application/src/Form/UserForm.php:180
+msgid "Confirm new password"
+msgstr "Vahvista uusi salasana"
+
+#: application/src/Form/UserForm.php:193
+msgid "New key label"
+msgstr ""
+
+#: application/src/Form/UserForm.php:238
+msgid "Password confirmation must match new password"
+msgstr "Salasanojen tulee täsmätä"
+
+#: application/src/Form/SettingForm.php:105
+msgid "General"
+msgstr "Yleiset asetukset"
+
+#: application/src/Form/SettingForm.php:114
+msgid "Administrator email"
+msgstr "Ylläpitäjän sähköpostiosoite"
+
+#: application/src/Form/SettingForm.php:155
+msgid "Results per page"
+msgstr "Tuloksia sivua kohti"
+
+#: application/src/Form/SettingForm.php:156
+msgid "The maximum number of results per page on browse pages."
+msgstr "Selausnäkymissä kerrallaan näytettävien aineistojen määrä"
+
+#: application/src/Form/SettingForm.php:168
+msgid "Property label information"
+msgstr "Kenttien tiedot"
+
+#: application/src/Form/SettingForm.php:169
+msgid "The additional information that accompanies labels on resource pages."
+msgstr "Kentän nimen ohessa näytettävät lisätiedot."
+
+#: application/src/Form/SettingForm.php:171
+msgid "None"
+msgstr "Ei lisätietoja"
+
+#: application/src/Form/SettingForm.php:172
+msgid "Show Vocabulary"
+msgstr "Sanasto"
+
+#: application/src/Form/SettingForm.php:173
+msgid "Show Term"
+msgstr "Termi"
+
+#: application/src/Form/SettingForm.php:185
+msgid "Default site"
+msgstr "Oletussivusto"
+
+#: application/src/Form/SettingForm.php:186
+msgid ""
+"Select which site should appear when users go to the front page of the "
+"installation."
+msgstr "Valitse sivusto joka näytetään asennuksen etusivulla"
+
+#: application/src/Form/SettingForm.php:191
+msgid "No default (show index of sites)"
+msgstr "Sivustolistaus"
+
+#: application/src/Form/SettingForm.php:214
+msgid "Enable version notifications"
+msgstr "Ota versioilmoitukset käyttöön"
+
+#: application/src/Form/SettingForm.php:215
+msgid ""
+"Enable notifications when a new version of Omeka S, modules, or themes are "
+"available."
+msgstr "Ilmoita Omekan ja lisäosien päivityksistä."
+
+#: application/src/Form/SettingForm.php:228
+msgid "Security"
+msgstr "Turvallisuusasetukset"
+
+#: application/src/Form/SettingForm.php:237
+msgid "Use HTMLPurifier"
+msgstr "Ota HTMLPurifier käyttöön"
+
+#: application/src/Form/SettingForm.php:238
+msgid "Clean up user-entered HTML."
+msgstr "Suodattaa käyttäjän syöttämän HTML-koodin."
+
+#: application/src/Form/SettingForm.php:249
+msgid "Disable file validation"
+msgstr "Älä validoi tiedostoja"
+
+#: application/src/Form/SettingForm.php:250
+msgid "Check this to disable file media type and extension validation."
+msgstr "Älä validoi tiedostotyyppjä tai tiedostopäätteitä."
+
+#: application/src/Form/SettingForm.php:258
+msgid "Allowed media types"
+msgstr "Sallitut tiedostotyypit"
+
+#: application/src/Form/SettingForm.php:259
+msgid "A comma-separated list of allowed media types for file uploads."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:268
+msgid "Allowed file extensions"
+msgstr "Sallitut tiedostopäätteet"
+
+#: application/src/Form/SettingForm.php:269
+msgid "A comma-separated list of allowed file extensions for file uploads."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:280
+msgid "reCAPTCHA site key"
+msgstr "reCAPTCHA-sivustoavain"
+
+#: application/src/Form/SettingForm.php:290
+msgid "reCAPTCHA secret key"
+msgstr "reCAPTCHA salainen avain"
+
+#: application/src/Form/Element/ColorPicker.php:10
+msgid "three- or six-digit hexadecimal color, or \"transparent\""
+msgstr ""
+
+#: application/src/Form/Element/ColorPicker.php:29
+msgid "Invalid color format"
+msgstr "Virheellinen värimäärittely"
+
+#: application/src/Form/Element/Recaptcha.php:99
+msgid "You must verify that you are human by completing the CAPTCHA."
+msgstr "Vahvista olevasi ihminen tekemällä oheisen tehtävän."
+
+#: application/src/Form/Element/Recaptcha.php:108
+msgid "Could not verify that you are a human."
+msgstr "Vahvistusta ei voitu tehdä."
+
+#: application/src/Controller/MigrateController.php:33
+msgid "Migration successful"
+msgstr "Siirto onnistui"
+
+#: application/src/Controller/InstallController.php:52
+msgid "Installation successful. Please log in."
+msgstr "Asennus on valmis. Ole hyvä ja kirjaudu sisään."
+
+#: application/src/Controller/InstallController.php:56
+msgid "There were errors during installation."
+msgstr "Asennuksessa tapahtui virheitä."
+
+#: application/src/Controller/SiteAdmin/IndexController.php:66
+msgid "Site successfully created"
+msgstr "Sivusto luotiin onnistuneesti"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:92
+msgid "Site successfully updated"
+msgstr "Sivusto päivitettiin onnistuneesti"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:136
+#: application/src/Controller/Admin/SettingController.php:31
+msgid "Settings successfully updated"
+msgstr "Asetukset päivitettiin onnistuneesti"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:172
+msgid "Page successfully created"
+msgstr "Sivu luotiin onnistuneesti"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:203
+msgid "Navigation successfully updated"
+msgstr "Navigointi päivitettiin onnistuneesti"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:236
+msgid "Site resources successfully updated"
+msgstr "Sivuston aineistot päivitettiin onnistuneesti"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:276
+msgid "User permissions successfully updated"
+msgstr "Käyttäjäoikeudet päivitettiin onnistuneesti"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:308
+msgid "Site theme successfully updated"
+msgstr "Sivuston ulkoasu päivitettiin onnistuneesti"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:380
+msgid "Theme settings successfully updated"
+msgstr "Ulkoasuasetukset päivitettiin onnistuneesti"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:397
+msgid "Site successfully deleted"
+msgstr "Sivusto on poistettu"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:420
+msgid "site"
+msgstr "sivusto"
+
+#: application/src/Controller/SiteAdmin/PageController.php:28
+msgid "Page successfully updated"
+msgstr "Sivu päivitettiin onnistuneesti"
+
+#: application/src/Controller/SiteAdmin/PageController.php:81
+msgid "page"
+msgstr "sivu"
+
+#: application/src/Controller/SiteAdmin/PageController.php:98
+msgid "Page successfully deleted"
+msgstr "Sivu on poistettu"
+
+#: application/src/Controller/LoginController.php:56
+msgid "Successfully logged in"
+msgstr "Kirjautuminen onnistui"
+
+#: application/src/Controller/LoginController.php:63
+msgid "Email or password is invalid"
+msgstr "Sähköposti tai salasana on virheellinen"
+
+#: application/src/Controller/LoginController.php:86
+msgid "Successfully logged out"
+msgstr "Uloskirjautuminen onnistui"
+
+#: application/src/Controller/LoginController.php:102
+msgid "Invalid password creation key."
+msgstr "Väärä salasanan luontiavain."
+
+#: application/src/Controller/LoginController.php:111
+msgid "Password creation key expired."
+msgstr "Salasanan luontiavain on vanhentunut."
+
+#: application/src/Controller/LoginController.php:127
+msgid "Successfully created your password. Please log in."
+msgstr "Salasana on luotu. Ole hyvä ja kirjaudu sisään."
+
+#: application/src/Controller/LoginController.php:130
+msgid "Password creation unsuccessful"
+msgstr "Salasanan luonti epäonnistui."
+
+#: application/src/Controller/LoginController.php:166
+msgid "Check your email for instructions on how to reset your password"
+msgstr "Katso sähköpostistasi ohjeet uuden salasanan pyytämiseksi"
+
+#: application/src/Controller/LoginController.php:169
+msgid "Activation unsuccessful"
+msgstr "Käyttöönotto ei onnistunut"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:335
+msgid "resource template"
+msgstr "tallennuspohja"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:348
+msgid "Resource template successfully deleted"
+msgstr "Tallennuspohja on poistettu"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:350
+#: application/src/Controller/Admin/ResourceTemplateController.php:353
+msgid "Resource template could not be deleted"
+msgstr "Tallennuspohjaa ei voitu poistaa"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:399
+msgid "Resource template successfully updated"
+msgstr "Tallennuspohjan päivitys onnistui"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:402
+#, php-format
+msgid "Resource template successfully created. %s"
+msgstr "Tallennuspohjan luonti onnistui. %s"
+
+#: application/src/Controller/Admin/UserController.php:50
+#, php-format
+msgid "User successfully created. %s"
+msgstr "Käyttäjätilin luonti onnistui. %s"
+
+#: application/src/Controller/Admin/UserController.php:108
+msgid "user"
+msgstr "käyttäjä"
+
+#: application/src/Controller/Admin/UserController.php:167
+msgid "User successfully updated"
+msgstr "Käyttäjän tiedot päivitettiin"
+
+#: application/src/Controller/Admin/UserController.php:182
+msgid "The current password entered was invalid"
+msgstr "Nykyinen salasana on virheellinen"
+
+#: application/src/Controller/Admin/UserController.php:186
+msgid "Password successfully changed"
+msgstr "Salasanan vaihto onnistui"
+
+#: application/src/Controller/Admin/UserController.php:214
+msgid "Key(s) successfully deleted"
+msgstr "Avaimen poisto onnistui"
+
+#: application/src/Controller/Admin/UserController.php:222
+#, php-format
+msgid ""
+"API key successfully created.<br><br>Here is your key ID and credential for "
+"access to the API. WARNING: \"key_credential\" will be unretrievable after "
+"you navigate away from this page.<br><br>key_identity: "
+"<code>%s</code><br>key_credential: <code>%s</code>"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:248
+msgid "User successfully deleted"
+msgstr "Käyttäjätili on poistettu"
+
+#: application/src/Controller/Admin/ItemSetController.php:31
+#, php-format
+msgid "Item set successfully created. %s"
+msgstr "Kokoelman luonti onnistui. %s"
+
+#: application/src/Controller/Admin/ItemSetController.php:67
+msgid "Item set successfully updated"
+msgstr "Kokoelma on päivitetty"
+
+#: application/src/Controller/Admin/ItemSetController.php:85
+#: application/src/Controller/Admin/ItemSetController.php:90
+#: application/src/Controller/Admin/ItemController.php:43
+#: application/src/Controller/Admin/ItemController.php:48
+msgid "Confirm Delete"
+msgstr "Vahvista poisto"
+
+#: application/src/Controller/Admin/ItemSetController.php:153
+msgid "item set"
+msgstr "kokoelma"
+
+#: application/src/Controller/Admin/ItemSetController.php:168
+msgid "Item set successfully deleted"
+msgstr "Kokoelma on poistettu"
+
+#: application/src/Controller/Admin/ItemSetController.php:189
+msgid "You must select at least one item set to batch delete."
+msgstr "Valitse vähintään yksi kokoelma massapoistoa varten."
+
+#: application/src/Controller/Admin/ItemSetController.php:198
+msgid "Item sets successfully deleted"
+msgstr "Kokoelmat on poistettu."
+
+#: application/src/Controller/Admin/ItemSetController.php:224
+msgid "Deleting item sets. This may take a while."
+msgstr "Poistetaan kokoelmia. Toiminnon suorittamisessa voi olla viivettä."
+
+#: application/src/Controller/Admin/ItemSetController.php:242
+msgid "You must select at least one item set to batch edit."
+msgstr "Valitse vähintään yksi kokoelma massamuokkausta varten."
+
+#: application/src/Controller/Admin/ItemSetController.php:268
+msgid "Item sets successfully edited"
+msgstr "Kokoelmien muokkaus onnistui."
+
+#: application/src/Controller/Admin/ItemSetController.php:313
+msgid "Editing item sets. This may take a while."
+msgstr "Päivitetään kokoelmia. Toiminnon suorittamisessa voi olla viivettä."
+
+#: application/src/Controller/Admin/VocabularyController.php:60
+msgid "vocabulary"
+msgstr "sanasto"
+
+#: application/src/Controller/Admin/VocabularyController.php:84
+#, php-format
+msgid "Vocabulary successfully imported. %s"
+msgstr "Sanaston tuonti onnistui. %s"
+
+#: application/src/Controller/Admin/VocabularyController.php:139
+msgid "Please review these changes before you accept them."
+msgstr "Tarkista muutokset ennen hyväksymistä."
+
+#: application/src/Controller/Admin/VocabularyController.php:152
+msgid "Vocabulary successfully updated"
+msgstr "Sanaston päivitys onnistui"
+
+#: application/src/Controller/Admin/VocabularyController.php:173
+msgid "Changes to the vocabulary successfully made"
+msgstr "Sanaston muokkaus onnistui"
+
+#: application/src/Controller/Admin/VocabularyController.php:189
+msgid "Vocabulary successfully deleted"
+msgstr "Sanasto on poistettu"
+
+#: application/src/Controller/Admin/MediaController.php:44
+msgid "Media successfully updated"
+msgstr "Tiedoston päivitys onnistui"
+
+#: application/src/Controller/Admin/MediaController.php:110
+msgid "Media successfully deleted"
+msgstr "Tiedosto on poistettu"
+
+#: application/src/Controller/Admin/ItemController.php:114
+msgid "item"
+msgstr "aineisto"
+
+#: application/src/Controller/Admin/ItemController.php:130
+msgid "Item successfully deleted"
+msgstr "Aineisto on poistettu"
+
+#: application/src/Controller/Admin/ItemController.php:151
+msgid "You must select at least one item to batch delete."
+msgstr "Valitse vähintään yksi aineisto massapoistoa varten."
+
+#: application/src/Controller/Admin/ItemController.php:160
+msgid "Items successfully deleted"
+msgstr "Aineistojen poisto onnistui"
+
+#: application/src/Controller/Admin/ItemController.php:186
+msgid "Deleting items. This may take a while."
+msgstr "Poistetaan aineistoja. Toiminnon suorittamisessa voi olla viivettä."
+
+#: application/src/Controller/Admin/ItemController.php:207
+#, php-format
+msgid "Item successfully created. %s"
+msgstr "Aineiston luonti onnistui. %s"
+
+#: application/src/Controller/Admin/ItemController.php:243
+msgid "Item successfully updated"
+msgstr "Aineisto on päivitetty"
+
+#: application/src/Controller/Admin/ItemController.php:270
+msgid "You must select at least one item to batch edit."
+msgstr "Valitse vähintään yksi aineisto massamuokkausta varten."
+
+#: application/src/Controller/Admin/ItemController.php:296
+msgid "Items successfully edited"
+msgstr "Aineiston muokkaus onnistui"
+
+#: application/src/Controller/Admin/ItemController.php:341
+msgid "Editing items. This may take a while."
+msgstr "Muokataan aineistoja. Toiminnan suorittamisessa voi olla viivettä."
+
+#: application/src/Controller/Admin/ModuleController.php:121
+msgid "The module was successfully installed"
+msgstr "Lisäosan asennus onnistui"
+
+#: application/src/Controller/Admin/ModuleController.php:143
+msgid "Confirm uninstall"
+msgstr "Vahvista asennuksen poisto"
+
+#: application/src/Controller/Admin/ModuleController.php:172
+msgid "The module was successfully uninstalled"
+msgstr "Lisäosa on poistettu"
+
+#: application/src/Controller/Admin/ModuleController.php:198
+msgid "The module was successfully activated"
+msgstr "Lisäosa on otettu käyttöön"
+
+#: application/src/Controller/Admin/ModuleController.php:224
+msgid "The module was successfully deactivated"
+msgstr "Lisäosa on poistettu käytöstä"
+
+#: application/src/Controller/Admin/ModuleController.php:250
+msgid "The module was successfully upgraded"
+msgstr "Lisäosa on päivitetty"
+
+#: application/src/Controller/Admin/ModuleController.php:273
+msgid "The module was successfully configured"
+msgstr "Lisäosan asetukset on määritetty"
+
+#: application/src/Controller/Admin/ModuleController.php:276
+msgid "There was a problem during configuration"
+msgstr "Virhe asetusten määrittämisessä"
+
+#: application/src/Controller/Admin/JobController.php:70
+msgid "Attempting to stop the job."
+msgstr "Yritetään keskeyttää taustaprosessi"
+
+#: application/src/Controller/Admin/JobController.php:72
+msgid "The job could not be stopped."
+msgstr "Taustaprosessia ei voitu keskeyttää."
+
+#: application/src/Media/Ingester/Html.php:42
+#: application/src/Media/Ingester/Html.php:86
+#: application/src/Site/BlockLayout/Html.php:27
+msgid "HTML"
+msgstr "HTML"
+
+#: application/src/Media/Ingester/Html.php:87
+msgid "HTML or plain text."
+msgstr "HTML tai paljas teksti"
+
+#: application/src/Media/Ingester/OEmbed.php:41
+msgid "oEmbed"
+msgstr "oEmbed"
+
+#: application/src/Media/Ingester/OEmbed.php:121
+msgid "oEmbed URL"
+msgstr "oEmbed URL"
+
+#: application/src/Media/Ingester/OEmbed.php:122
+msgid "URL for the media to embed."
+msgstr "Liitettävän tiedoston URL"
+
+#: application/src/Media/Ingester/IIIF.php:33
+msgid "IIIF image"
+msgstr "IIIF-kuva"
+
+#: application/src/Media/Ingester/IIIF.php:105
+msgid "IIIF image URL"
+msgstr "IIIF-kuvan URL"
+
+#: application/src/Media/Ingester/IIIF.php:106
+msgid "URL for the image to embed."
+msgstr "Liitettävän kuvan URL"
+
+#: application/src/Media/Ingester/Url.php:108
+msgid "A URL to the media."
+msgstr "Liitettävän tiedoston URL"
+
+#: application/src/Media/Ingester/Youtube.php:27
+msgid "YouTube"
+msgstr "YouTube"
+
+#: application/src/Media/Ingester/Youtube.php:97
+msgid "Video URL"
+msgstr "Videon URL"
+
+#: application/src/Media/Ingester/Youtube.php:98
+msgid "URL for the video to embed."
+msgstr "Liitettävän videon URL"
+
+#: application/src/Media/Ingester/Youtube.php:110
+msgid "Start"
+msgstr "Aloituskohta"
+
+#: application/src/Media/Ingester/Youtube.php:111
+msgid ""
+"Begin playing the video at the given number of seconds from the start of the"
+" video."
+msgstr "Aloita videon toistaminen tietyn sekuntimäärän kohdalta."
+
+#: application/src/Media/Ingester/Youtube.php:115
+msgid "End"
+msgstr "Lopeta"
+
+#: application/src/Media/Ingester/Youtube.php:116
+msgid ""
+"End playing the video at the given number of seconds from the start of the "
+"video."
+msgstr "Lopeta videon toistaminen tietyn sekuntimäärän kohdalla."
+
+#: application/src/Media/Ingester/Upload.php:100
+msgid "Upload file"
+msgstr "Lataa tiedosto"
+
+#: application/src/Permissions/Acl.php:20
+msgid "Global Administrator"
+msgstr "Pääkäyttäjä"
+
+#: application/src/Permissions/Acl.php:21
+msgid "Site Administrator"
+msgstr "Sivuston ylläpitäjä"
+
+#: application/src/Permissions/Acl.php:23
+msgid "Reviewer"
+msgstr "Toimittaja"
+
+#: application/src/Permissions/Acl.php:24
+msgid "Author"
+msgstr "Kirjoittaja"
+
+#: application/src/Permissions/Acl.php:25
+msgid "Researcher"
+msgstr "Lukija"
+
+#: application/src/Site/Navigation/Link/BrowseItemSets.php:11
+msgid "Browse item sets"
+msgstr "Selaa kokoelmia"
+
+#: application/src/Site/Navigation/Link/Url.php:11
+msgid "Custom URL"
+msgstr "Vapaamuotoinen URL"
+
+#: application/src/Site/BlockLayout/TableOfContents.php:15
+msgid "Table of contents"
+msgstr "Sisällysluettelo"
+
+#: application/src/Site/BlockLayout/LineBreak.php:14
+msgid "Line break"
+msgstr "Rivinvaihto"
+
+#: application/src/Site/BlockLayout/LineBreak.php:34
+msgid "Transparent"
+msgstr "Läpinäkyvä"
+
+#: application/src/Site/BlockLayout/LineBreak.php:35
+msgid "Opaque"
+msgstr "Näkyvä"
+
+#: application/src/Site/BlockLayout/ItemShowcase.php:13
+msgid "Item showcase"
+msgstr "Aineistonosto"
+
+#: application/src/Site/BlockLayout/ItemWithMetadata.php:13
+msgid "Item with metadata"
+msgstr "Aineistonosto ja kuvailutiedot"
+
+#: application/src/Site/BlockLayout/Media.php:60
+msgid "Thumbnail alignment"
+msgstr "Kuvan asemointi"
+
+#: application/src/Site/BlockLayout/Fallback.php:31
+#, php-format
+msgid "Unknown [%s]"
+msgstr "Tuntematon  [%s]"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:14
+msgid "Browse preview"
+msgstr "Aineistolistaus"
+
+#: application/src/Site/BlockLayout/PageTitle.php:13
+msgid "Page title"
+msgstr "Sivun otsikko"
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:161
+#: application/src/Api/Adapter/PropertyAdapter.php:172
+msgid "The local name cannot be empty."
+msgstr ""
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:166
+#: application/src/Api/Adapter/PropertyAdapter.php:177
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:110
+#: application/src/Api/Adapter/VocabularyAdapter.php:246
+msgid "The label cannot be empty."
+msgstr ""
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:179
+#: application/src/Api/Adapter/PropertyAdapter.php:190
+#: application/src/Api/Adapter/VocabularyAdapter.php:254
+#: application/src/Api/Adapter/VocabularyAdapter.php:267
+#, php-format
+msgid "The local name \"%s\" is already taken."
+msgstr ""
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:185
+#: application/src/Api/Adapter/PropertyAdapter.php:196
+msgid "A vocabulary must be set."
+msgstr "Sanaston tulee olla valittuna."
+
+#: application/src/Api/Adapter/SitePageAdapter.php:102
+msgid "A page must belong to a site."
+msgstr "Sivun tulee kuulua sivustoon."
+
+#: application/src/Api/Adapter/SitePageAdapter.php:107
+msgid "A page must have a title."
+msgstr "Sivulla tulee olla otsikko."
+
+#: application/src/Api/Adapter/SitePageAdapter.php:112
+#: application/src/Api/Adapter/SiteAdapter.php:223
+msgid "The slug cannot be empty."
+msgstr "URL-teksti ei voi olla tyhjä"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:115
+#: application/src/Api/Adapter/SiteAdapter.php:226
+msgid "A slug can only contain letters, numbers, underscores, and hyphens."
+msgstr ""
+"URL-teksti voi sisältää kirjaimia ja numeroita sekä erikoismerkeistä "
+"alaviivan ja yhdysviivan."
+
+#: application/src/Api/Adapter/SitePageAdapter.php:123
+#: application/src/Api/Adapter/SiteAdapter.php:230
+#, php-format
+msgid "The slug \"%s\" is already taken."
+msgstr "URL-teksti \"%s\" on jo käytössä."
+
+#: application/src/Api/Adapter/SitePageAdapter.php:167
+msgid "All blocks must have a layout."
+msgstr "Kaikilla sisältölohkoilla tulee olla ulkoasu."
+
+#: application/src/Api/Adapter/SitePageAdapter.php:171
+msgid "Block data must not be a scalar value."
+msgstr ""
+
+#: application/src/Api/Adapter/ItemAdapter.php:128
+msgid "Item sets must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/ItemAdapter.php:134
+msgid "Media must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:160
+#, php-format
+msgid "The \"%s\" resource template requires a \"%s\" value"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:219
+msgid "A site must have a title."
+msgstr "Sivustolla on oltava nimi."
+
+#: application/src/Api/Adapter/SiteAdapter.php:236
+msgid "A site must have a theme."
+msgstr "Sivustolle tulee olla valittuna ulkoasu."
+
+#: application/src/Api/Adapter/SiteAdapter.php:241
+msgid "A site must have item pool data."
+msgstr "Sivustolla tulee olla aineistovaranto."
+
+#: application/src/Api/Adapter/SiteAdapter.php:274
+msgid "Invalid navigation: navigation must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:283
+msgid "Invalid navigation: link missing type"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:287
+msgid "Invalid navigation: link missing data"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:291
+msgid "Invalid navigation: invalid link data"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:296
+msgid "Invalid navigation: page links must be unique"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:303
+msgid "Invalid navigation: links must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/MediaAdapter.php:107
+msgid "Media must set an ingester."
+msgstr ""
+
+#: application/src/Api/Adapter/MediaAdapter.php:132
+msgid "Media must set a valid ingester."
+msgstr ""
+
+#: application/src/Api/Adapter/MediaAdapter.php:171
+msgid "Media must belong to an item."
+msgstr ""
+
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:93
+#, php-format
+msgid "Attempting to add duplicate property with ID %s"
+msgstr ""
+
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:113
+msgid "The label is already taken."
+msgstr "Kentän nimi on jo käytössä."
+
+#: application/src/Api/Adapter/UserAdapter.php:103
+msgid "The name cannot be empty."
+msgstr "Nimi ei voi olla tyhjä."
+
+#: application/src/Api/Adapter/UserAdapter.php:113
+#, php-format
+msgid "The email %s is already taken."
+msgstr "Sähköpostiosoite %s on jo käytössä."
+
+#: application/src/Api/Adapter/UserAdapter.php:119
+msgid "Users must have a role."
+msgstr "Käyttäjällä tulee olla rooli."
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:82
+msgid "Classes must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:88
+msgid "Properties must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:214
+msgid "The namespace URI cannot be empty."
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:218
+#, php-format
+msgid "The namespace URI \"%s\" is already taken."
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:226
+msgid "The prefix cannot be empty."
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:230
+#, php-format
+msgid "The prefix \"%s\" is already taken."
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:237
+#, php-format
+msgid "The prefix \"%s\" is reserved."
+msgstr ""
+
+#: application/src/Api/Representation/JobRepresentation.php:12
+msgid "Starting"
+msgstr "Aloitetaan"
+
+#: application/src/Api/Representation/JobRepresentation.php:13
+msgid "Stopping"
+msgstr "Pysäytetään"
+
+#: application/src/Api/Representation/JobRepresentation.php:14
+msgid "In Progress"
+msgstr "Käynnissä"
+
+#: application/src/Api/Representation/JobRepresentation.php:15
+msgid "Completed"
+msgstr "Valmis"
+
+#: application/src/Api/Representation/JobRepresentation.php:16
+msgid "Stopped"
+msgstr "Pysäytetty"
+
+#: application/src/Entity/Job.php:23
+msgid "starting"
+msgstr ""
+
+#: application/src/Entity/Job.php:24
+msgid "stopping"
+msgstr ""
+
+#: application/src/Entity/Job.php:25
+msgid "in_progress"
+msgstr ""
+
+#: application/src/Entity/Job.php:26
+msgid "completed"
+msgstr ""
+
+#: application/src/Entity/Job.php:27
+msgid "stopped"
+msgstr ""
+
+#: application/src/Entity/Job.php:28
+msgid "error"
+msgstr ""
+
+#: application/src/DataType/Resource/AbstractResource.php:16
+msgid "Resource"
+msgstr ""
+
+#: application/src/DataType/Resource/AbstractResource.php:59
+msgid "A value resource cannot be Media."
+msgstr ""
+
+#: application/src/DataType/Resource/ItemSet.php:13
+msgid "Item Set"
+msgstr "Kokoelma"
+
+#: application/view/common/advanced-search/properties.phtml:57
+msgid "[Any Property]"
+msgstr "[mikä tahansa kenttä]"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:30
+msgid "Filter by class"
+msgstr "Suodata tyypin mukaan"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:42
+msgid "Filter by item set"
+msgstr "Suodata kokoelman mukaan"
+
+#. Vocabulary label for Dublin Core
+msgid "Dublin Core"
+msgstr "Dublin Core"
+
+#. Vocabulary comment for Dublin Core
+msgid "Basic resource metadata (DCMI Metadata Terms)"
+msgstr "Aineistojen kuvailutiedot "
+
+#. Class label for Dublin Core:Agent
+#. Class label for Friend of a Friend:Agent
+msgid "Agent"
+msgstr "Agentti"
+
+#. Class comment for Dublin Core:Agent
+msgid "A resource that acts or has the power to act."
+msgstr ""
+
+#. Class label for Dublin Core:AgentClass
+msgid "Agent Class"
+msgstr ""
+
+#. Class comment for Dublin Core:AgentClass
+msgid "A group of agents."
+msgstr ""
+
+#. Class label for Dublin Core:BibliographicResource
+msgid "Bibliographic Resource"
+msgstr "Bibliografinen resurssi"
+
+#. Class comment for Dublin Core:BibliographicResource
+msgid "A book, article, or other documentary resource."
+msgstr "Kirja, artikkeli tai muu dokumentti."
+
+#. Class label for Dublin Core:FileFormat
+msgid "File Format"
+msgstr "Tiedostomuoto"
+
+#. Class comment for Dublin Core:FileFormat
+msgid "A digital resource format."
+msgstr "Digitaalisen resurssin tiedostomuoto."
+
+#. Class label for Dublin Core:Frequency
+msgid "Frequency"
+msgstr "Taajuus"
+
+#. Class comment for Dublin Core:Frequency
+msgid "A rate at which something recurs."
+msgstr "Jokin asian toistumistiheys."
+
+#. Class label for Dublin Core:Jurisdiction
+msgid "Jurisdiction"
+msgstr ""
+
+#. Class comment for Dublin Core:Jurisdiction
+msgid "The extent or range of judicial, law enforcement, or other authority."
+msgstr ""
+
+#. Class label for Dublin Core:LicenseDocument
+msgid "License Document"
+msgstr "Lisenssi"
+
+#. Class comment for Dublin Core:LicenseDocument
+msgid ""
+"A legal document giving official permission to do something with a Resource."
+msgstr ""
+"Dokumentti joka antaa virallisen luvan tehdä jotain kuvaillulla resurssilla."
+
+#. Class label for Dublin Core:LinguisticSystem
+msgid "Linguistic System"
+msgstr "Kielellinen järjestelmä"
+
+#. Class comment for Dublin Core:LinguisticSystem
+msgid ""
+"A system of signs, symbols, sounds, gestures, or rules used in "
+"communication."
+msgstr ""
+"Kommunikaatiossa käytetty merkkien, symbolien, äänien, eleiden tai sääntöjen"
+" järjestelmä."
+
+#. Class label for Dublin Core:Location
+msgid "Location"
+msgstr "Sijainti"
+
+#. Class comment for Dublin Core:Location
+msgid "A spatial region or named place."
+msgstr "Alue tai nimetty paikka"
+
+#. Class label for Dublin Core:LocationPeriodOrJurisdiction
+msgid "Location, Period, or Jurisdiction"
+msgstr ""
+
+#. Class comment for Dublin Core:LocationPeriodOrJurisdiction
+msgid "A location, period of time, or jurisdiction."
+msgstr ""
+
+#. Class label for Dublin Core:MediaType
+msgid "Media Type"
+msgstr ""
+
+#. Class comment for Dublin Core:MediaType
+msgid "A file format or physical medium."
+msgstr ""
+
+#. Class label for Dublin Core:MediaTypeOrExtent
+msgid "Media Type or Extent"
+msgstr ""
+
+#. Class comment for Dublin Core:MediaTypeOrExtent
+msgid "A media type or extent."
+msgstr ""
+
+#. Class label for Dublin Core:MethodOfInstruction
+msgid "Method of Instruction"
+msgstr ""
+
+#. Class comment for Dublin Core:MethodOfInstruction
+msgid "A process that is used to engender knowledge, attitudes, and skills."
+msgstr ""
+
+#. Class label for Dublin Core:MethodOfAccrual
+msgid "Method of Accrual"
+msgstr "Kartuntatapa"
+
+#. Class comment for Dublin Core:MethodOfAccrual
+msgid "A method by which resources are added to a collection."
+msgstr ""
+"Miten aineisto on hankittu? Fraaseja suomenkielisinä: ostot / lahjoitukset /"
+" siirrot / vaihdot / oma tuotanto (myös digitoitu). Pääasiallinen "
+"kartuntatapa ilmoitetaan."
+
+#. Class label for Dublin Core:PeriodOfTime
+msgid "Period of Time"
+msgstr "Ajanjakso"
+
+#. Class comment for Dublin Core:PeriodOfTime
+msgid ""
+"An interval of time that is named or defined by its start and end dates."
+msgstr "Alku- ja loppuajankohdan määrittämä tai nimetty ajanjakso."
+
+#. Class label for Dublin Core:PhysicalMedium
+msgid "Physical Medium"
+msgstr "Tallennusväline"
+
+#. Class comment for Dublin Core:PhysicalMedium
+msgid "A physical material or carrier."
+msgstr "Elektroninen tai fyysinen tallennusväline."
+
+#. Class label for Dublin Core:PhysicalResource
+msgid "Physical Resource"
+msgstr "Fyysinen resurssi"
+
+#. Class comment for Dublin Core:PhysicalResource
+msgid "A material thing."
+msgstr "Materiaalinen kohde."
+
+#. Class label for Dublin Core:Policy
+msgid "Policy"
+msgstr "Politiikka"
+
+#. Class comment for Dublin Core:Policy
+msgid ""
+"A plan or course of action by an authority, intended to influence and "
+"determine decisions, actions, and other matters."
+msgstr "Päätöksentekoa ja toimia ohjaava suunnitelma."
+
+#. Class label for Dublin Core:ProvenanceStatement
+msgid "Provenance Statement"
+msgstr "Provenienssi"
+
+#. Class comment for Dublin Core:ProvenanceStatement
+msgid ""
+"A statement of any changes in ownership and custody of a resource since its "
+"creation that are significant for its authenticity, integrity, and "
+"interpretation."
+msgstr ""
+"Aineiston elinkaaren aikana tapahtuneet omistus- tai hallintasuhteiden "
+"muutokset, jotka voivat vaikuttaa aineiston alkuperäisyyten, sisällön "
+"eheyteen tai tulkintaan."
+
+#. Class label for Dublin Core:RightsStatement
+msgid "Rights Statement"
+msgstr "Tekijänoikeuslause"
+
+#. Class comment for Dublin Core:RightsStatement
+msgid ""
+"A statement about the intellectual property rights (IPR) held in or over a "
+"Resource, a legal document giving official permission to do something with a"
+" resource, or a statement about access rights."
+msgstr ""
+
+#. Class label for Dublin Core:SizeOrDuration
+msgid "Size or Duration"
+msgstr "Koko tai kesto"
+
+#. Class comment for Dublin Core:SizeOrDuration
+msgid "A dimension or extent, or a time taken to play or execute."
+msgstr ""
+
+#. Class label for Dublin Core:Standard
+#. Class label for Bibliographic Ontology:Standard
+msgid "Standard"
+msgstr "Standardi"
+
+#. Class comment for Dublin Core:Standard
+msgid ""
+"A basis for comparison; a reference point against which other things can be "
+"evaluated."
+msgstr "Määritelty referenssi, johon suhteessa voidaan tehdä vertailuja."
+
+#. Property comment for Dublin Core:title
+msgid "A name given to the resource."
+msgstr ""
+
+#. Property label for Dublin Core:creator
+msgid "Creator"
+msgstr "Tekijä"
+
+#. Property comment for Dublin Core:creator
+msgid "An entity primarily responsible for making the resource."
+msgstr "Aineiston päävastuullinen tekijä."
+
+#. Property label for Dublin Core:subject
+msgid "Subject"
+msgstr "Aihe"
+
+#. Property comment for Dublin Core:subject
+msgid "The topic of the resource."
+msgstr ""
+"Tallenteen aihealueen kuvaus, yleensä asiasanoilla tai fraaseilla kuvattuna."
+
+#. Property label for Dublin Core:description
+msgid "Description"
+msgstr "Kuvaus"
+
+#. Property comment for Dublin Core:description
+msgid "An account of the resource."
+msgstr "Aineiston sisällön kuvaus vapaatekstinä."
+
+#. Property label for Dublin Core:publisher
+msgid "Publisher"
+msgstr "Julkaisija"
+
+#. Property comment for Dublin Core:publisher
+msgid "An entity responsible for making the resource available."
+msgstr "Aineiston julkaisija."
+
+#. Property label for Dublin Core:contributor
+msgid "Contributor"
+msgstr "Muu tekijä"
+
+#. Property comment for Dublin Core:contributor
+msgid "An entity responsible for making contributions to the resource."
+msgstr ""
+"Henkilö tai organisaatio joka on osallistunut aineiston luomiseen, mutta "
+"jonka panos on ollut toissijainen."
+
+#. Property label for Dublin Core:date
+msgid "Date"
+msgstr "Aikamääre"
+
+#. Property comment for Dublin Core:date
+msgid ""
+"A point or period of time associated with an event in the lifecycle of the "
+"resource."
+msgstr "Aineiston elinkaareen liittyvä ajanhenki."
+
+#. Property comment for Dublin Core:type
+msgid "The nature or genre of the resource."
+msgstr "Aineiston genre tai muu olemuksen luonnehdinta."
+
+#. Property label for Dublin Core:format
+msgid "Format"
+msgstr "Formaatti"
+
+#. Property comment for Dublin Core:format
+msgid "The file format, physical medium, or dimensions of the resource."
+msgstr ""
+"Aineiston fyysinen tai digitaalinen ilmiasu. Esimerkiksi tiedostomuoto tai "
+"kesto minuutteina."
+
+#. Property label for Dublin Core:identifier
+msgid "Identifier"
+msgstr "Identifiointitunnus"
+
+#. Property comment for Dublin Core:identifier
+msgid "An unambiguous reference to the resource within a given context."
+msgstr ""
+"Tunnus (merkkijono tai numero), joka yksiselitteisesti identifioi aineiston."
+
+#. Property comment for Dublin Core:source
+msgid "A related resource from which the described resource is derived."
+msgstr ""
+"Toisen aineiston identifikaatiotunnus, joka on jossakin suhteessa "
+"kuvailtavaan aineistoon."
+
+#. Property label for Dublin Core:language
+msgid "Language"
+msgstr "Kieli"
+
+#. Property comment for Dublin Core:language
+msgid "A language of the resource."
+msgstr "Aineiston kieli."
+
+#. Property label for Dublin Core:relation
+msgid "Relation"
+msgstr "Suhde"
+
+#. Property comment for Dublin Core:relation
+msgid "A related resource."
+msgstr "Liittyvä aineisto"
+
+#. Property label for Dublin Core:coverage
+msgid "Coverage"
+msgstr "Kattavuus"
+
+#. Property comment for Dublin Core:coverage
+msgid ""
+"The spatial or temporal topic of the resource, the spatial applicability of "
+"the resource, or the jurisdiction under which the resource is relevant."
+msgstr ""
+"Aineiston ajallinen tai maantieteellinen kate. Ajallinen kate viittaa "
+"lähinnä aineiston asiasisältöön, ei siihen koska se on luotu tai asetettu "
+"saataville."
+
+#. Property label for Dublin Core:rights
+msgid "Rights"
+msgstr "Oikeudet"
+
+#. Property comment for Dublin Core:rights
+msgid "Information about rights held in and over the resource."
+msgstr "Aineiston tekijänoikeustiedot."
+
+#. Property label for Dublin Core:audience
+msgid "Audience"
+msgstr "Kohderyhmä"
+
+#. Property comment for Dublin Core:audience
+msgid "A class of entity for whom the resource is intended or useful."
+msgstr ""
+"Ryhmä, jolle kokoelma on suunnattu tai jolle se on hyödyllinen. Mikäli "
+"kokoelmalla on erityinen kohderyhmä, esim. lapset, se voidaan mainita tässä."
+
+#. Property label for Dublin Core:alternative
+msgid "Alternative Title"
+msgstr "Vaihtoehtoinen nimeke"
+
+#. Property comment for Dublin Core:alternative
+msgid "An alternative name for the resource."
+msgstr ""
+"Nimekkeen vaihtoehtoinen tai korvaava muoto. Esimerkiksi rinnakkaisnimeke, "
+"käännös tai lyhennys."
+
+#. Property label for Dublin Core:tableOfContents
+msgid "Table Of Contents"
+msgstr "Sisällysluettelo"
+
+#. Property comment for Dublin Core:tableOfContents
+msgid "A list of subunits of the resource."
+msgstr "Luettelo aineiston osista."
+
+#. Property label for Dublin Core:abstract
+msgid "Abstract"
+msgstr "Tiivistelmä"
+
+#. Property comment for Dublin Core:abstract
+#. Property comment for Bibliographic Ontology:abstract
+msgid "A summary of the resource."
+msgstr "Tiivistelmä, abstrakti, yhteenveto."
+
+#. Property label for Dublin Core:created
+msgid "Date Created"
+msgstr "Luontiajankohta"
+
+#. Property comment for Dublin Core:created
+msgid "Date of creation of the resource."
+msgstr ""
+"Aineiston luontiajankohta. Esimerkiksi alkuperäisen dokumentin "
+"ilmestymisvuosi."
+
+#. Property label for Dublin Core:valid
+msgid "Date Valid"
+msgstr "Voimassaoloaika"
+
+#. Property comment for Dublin Core:valid
+msgid "Date (often a range) of validity of a resource."
+msgstr "Aineiston voimassaoloaika, yleensä ajanjakso."
+
+#. Property label for Dublin Core:available
+msgid "Date Available"
+msgstr "Saatavuusaika"
+
+#. Property comment for Dublin Core:available
+msgid ""
+"Date (often a range) that the resource became or will become available."
+msgstr "Ajankohta, jolloin aineisto tuli tai tuli saataville."
+
+#. Property label for Dublin Core:issued
+msgid "Date Issued"
+msgstr "Julkistamisajankohta"
+
+#. Property comment for Dublin Core:issued
+msgid "Date of formal issuance (e.g., publication) of the resource."
+msgstr "Aineiston virallinen julkistamisajankohta."
+
+#. Property label for Dublin Core:modified
+msgid "Date Modified"
+msgstr "Muokkauspäivä"
+
+#. Property comment for Dublin Core:modified
+msgid "Date on which the resource was changed."
+msgstr ""
+"Aineiston muokkausajankohta. Ajankohta jolloin aineistoa on muutettu tai "
+"muokattu."
+
+#. Property label for Dublin Core:extent
+msgid "Extent"
+msgstr "Mittasuhteet"
+
+#. Property comment for Dublin Core:extent
+msgid "The size or duration of the resource."
+msgstr "Aineiston koko tai kesto."
+
+#. Property label for Dublin Core:medium
+msgid "Medium"
+msgstr "Tallennusväline"
+
+#. Property comment for Dublin Core:medium
+msgid "The material or physical carrier of the resource."
+msgstr "Elektroninen tai fyysinen tallennusväline."
+
+#. Property label for Dublin Core:isVersionOf
+msgid "Is Version Of"
+msgstr "Versioi aineistoa"
+
+#. Property comment for Dublin Core:isVersionOf
+msgid ""
+"A related resource of which the described resource is a version, edition, or"
+" adaptation."
+msgstr "Muu aineisto, jonka versio aineisto on."
+
+#. Property label for Dublin Core:hasVersion
+msgid "Has Version"
+msgstr "Aineiston versio"
+
+#. Property comment for Dublin Core:hasVersion
+msgid ""
+"A related resource that is a version, edition, or adaptation of the "
+"described resource."
+msgstr ""
+"Muu aineisto joka on versio, editio tai muokkaus kuvatusta aineistosta."
+
+#. Property label for Dublin Core:isReplacedBy
+msgid "Is Replaced By"
+msgstr "Korvattu aineistolla"
+
+#. Property comment for Dublin Core:isReplacedBy
+msgid ""
+"A related resource that supplants, displaces, or supersedes the described "
+"resource."
+msgstr "Muu aineisto, joka korvaa kuvaillun aineiston."
+
+#. Property label for Dublin Core:replaces
+msgid "Replaces"
+msgstr "Korvaa aineiston"
+
+#. Property comment for Dublin Core:replaces
+msgid ""
+"A related resource that is supplanted, displaced, or superseded by the "
+"described resource."
+msgstr "Muu aineisto, jonka aineisto korvaa."
+
+#. Property label for Dublin Core:isRequiredBy
+msgid "Is Required By"
+msgstr "Vaaditaan käytettäessä"
+
+#. Property comment for Dublin Core:isRequiredBy
+msgid ""
+"A related resource that requires the described resource to support its "
+"function, delivery, or coherence."
+msgstr "Muu aineisto, jonka käyttö vaatii kuvailun aineiston."
+
+#. Property label for Dublin Core:requires
+msgid "Requires"
+msgstr "Vaatii rinnalleen aineiston"
+
+#. Property comment for Dublin Core:requires
+msgid ""
+"A related resource that is required by the described resource to support its"
+" function, delivery, or coherence."
+msgstr "Muu aineisto, jonka kuvaillun aineiston käyttö vaatii."
+
+#. Property label for Dublin Core:isPartOf
+msgid "Is Part Of"
+msgstr "Osa aineistoa"
+
+#. Property comment for Dublin Core:isPartOf
+msgid ""
+"A related resource in which the described resource is physically or "
+"logically included."
+msgstr "Muu aineisto, jonka osa kuvailtava aineisto on."
+
+#. Property label for Dublin Core:hasPart
+msgid "Has Part"
+msgstr "Aineiston osa"
+
+#. Property comment for Dublin Core:hasPart
+msgid ""
+"A related resource that is included either physically or logically in the "
+"described resource."
+msgstr "Muu aineisto, joka on osa kuvailtua aineistoa."
+
+#. Property label for Dublin Core:isReferencedBy
+msgid "Is Referenced By"
+msgstr "Viitattu aineistosta"
+
+#. Property comment for Dublin Core:isReferencedBy
+msgid ""
+"A related resource that references, cites, or otherwise points to the "
+"described resource."
+msgstr ""
+"Muu aineisto, joka viittaa, lainaa tai muulla tavoin käsittelee kuvailtua "
+"aineistoa."
+
+#. Property label for Dublin Core:references
+msgid "References"
+msgstr "Viittaa aineistoon"
+
+#. Property comment for Dublin Core:references
+msgid ""
+"A related resource that is referenced, cited, or otherwise pointed to by the"
+" described resource."
+msgstr "Muu aineisto, johon aineisto viittaa."
+
+#. Property label for Dublin Core:isFormatOf
+msgid "Is Format Of"
+msgstr "Aineiston muu formaatti"
+
+#. Property comment for Dublin Core:isFormatOf
+msgid ""
+"A related resource that is substantially the same as the described resource,"
+" but in another format."
+msgstr ""
+"Muu aineisto, joka on olennaisesti sama kuin kuvailtu resurssi mutta "
+"julkaistu toisessa formaatissa."
+
+#. Property label for Dublin Core:hasFormat
+msgid "Has Format"
+msgstr "Aineisto muussa formaatissa"
+
+#. Property comment for Dublin Core:hasFormat
+msgid ""
+"A related resource that is substantially the same as the pre-existing "
+"described resource, but in another format."
+msgstr ""
+"Muu aineisto, joka on olennaisesti sama kuin kuvailtu resurssi mutta "
+"julkaistu toisessa formaatissa."
+
+#. Property label for Dublin Core:conformsTo
+msgid "Conforms To"
+msgstr "Noudattaa standardia"
+
+#. Property comment for Dublin Core:conformsTo
+msgid "An established standard to which the described resource conforms."
+msgstr "Standardi jota kuvailtu aineisto noudattaa."
+
+#. Property label for Dublin Core:spatial
+msgid "Spatial Coverage"
+msgstr "Alueellinen kattavuus"
+
+#. Property comment for Dublin Core:spatial
+msgid "Spatial characteristics of the resource."
+msgstr ""
+"Alue tai tila, johon voidaan viitata paikan nimellä tai koordinaateilla."
+
+#. Property label for Dublin Core:temporal
+msgid "Temporal Coverage"
+msgstr "Ajallinen kattavuus"
+
+#. Property comment for Dublin Core:temporal
+msgid "Temporal characteristics of the resource."
+msgstr ""
+"Aikakausi, jota aineiston sisältö käsittelee. Aikamääritys tehdään joko "
+"aikakauden nimeä (esimerkiksi rauta-aika) käyttäen tai aikamääre-kentässä "
+"määritellyllä tavalla."
+
+#. Property label for Dublin Core:mediator
+msgid "Mediator"
+msgstr "Aineiston välittäjä"
+
+#. Property comment for Dublin Core:mediator
+msgid ""
+"An entity that mediates access to the resource and for whom the resource is "
+"intended or useful."
+msgstr ""
+"Osapuoli, jonka välitettäväksi aineisto on tarkoitettu niin, että yleisö on "
+"aineiston varsinainen käyttäjä. Käytetään kuvailtaessa oppimateriaaleja. "
+"Esimerkiksi: opettaja, lastenhoitaja, vanhempi."
+
+#. Property label for Dublin Core:dateAccepted
+msgid "Date Accepted"
+msgstr "Hyväksyntäpäivä"
+
+#. Property comment for Dublin Core:dateAccepted
+msgid "Date of acceptance of the resource."
+msgstr ""
+"Päivämäärä jolloin aineisto on hyväksytty. Esimerkiksi väitöskirjan "
+"hyväksyntäpäivä tai päivä, jolloin vertaisarvioitu artikkeli on hyväksytty "
+"julkaistavaksi."
+
+#. Property label for Dublin Core:dateCopyrighted
+msgid "Date Copyrighted"
+msgstr "Tekijänoikeusaika"
+
+#. Property comment for Dublin Core:dateCopyrighted
+msgid "Date of copyright."
+msgstr "Tekijänoikeuden voimaantulopäivä."
+
+#. Property label for Dublin Core:dateSubmitted
+msgid "Date Submitted"
+msgstr "Lähettämisaika"
+
+#. Property comment for Dublin Core:dateSubmitted
+msgid "Date of submission of the resource."
+msgstr ""
+"Päivämäärä jolloin aineisto on lähetetty arvioitavaksi. Esimerkiksi päivä "
+"jolloin väitöskirja on jätetty esitarkastajille tai artikkeli lähetetty "
+"vertaisarvioitavaksi."
+
+#. Property label for Dublin Core:educationLevel
+msgid "Audience Education Level"
+msgstr "Kohderyhmän koulutustaso"
+
+#. Property comment for Dublin Core:educationLevel
+msgid ""
+"A class of entity, defined in terms of progression through an educational or"
+" training context, for which the described resource is intended."
+msgstr ""
+"Koulutustaso jonka aineiston käyttö vaatii. Käytetään kuvailtaessa "
+"oppimateriaaleja."
+
+#. Property label for Dublin Core:accessRights
+msgid "Access Rights"
+msgstr "Pääsyoikeudet"
+
+#. Property comment for Dublin Core:accessRights
+msgid ""
+"Information about who can access the resource or an indication of its "
+"security status."
+msgstr ""
+"Käyttörajoitukset, jotka liittyvät aineiston turvaluokitukseen, "
+"yksityisyyteen tai muihin pääsyä rajoittaviin sääntöihin."
+
+#. Property label for Dublin Core:bibliographicCitation
+msgid "Bibliographic Citation"
+msgstr "Lähdeviittaus"
+
+#. Property comment for Dublin Core:bibliographicCitation
+msgid "A bibliographic reference for the resource."
+msgstr "Bibliografinen viite, jolla voidaan viitata kuvailtuun aineistoon."
+
+#. Property label for Dublin Core:license
+msgid "License"
+msgstr "Lisenssi"
+
+#. Property comment for Dublin Core:license
+msgid ""
+"A legal document giving official permission to do something with the "
+"resource."
+msgstr "Lupa käyttää aineistoa johonkin tarkoitukseen."
+
+#. Property label for Dublin Core:rightsHolder
+msgid "Rights Holder"
+msgstr "Oikeudenhaltija"
+
+#. Property comment for Dublin Core:rightsHolder
+msgid "A person or organization owning or managing rights over the resource."
+msgstr "Henkilö tai organisaatio joka hallinnoi aineiston oikeuksia."
+
+#. Property label for Dublin Core:provenance
+msgid "Provenance"
+msgstr "Provenienssi"
+
+#. Property comment for Dublin Core:provenance
+msgid ""
+"A statement of any changes in ownership and custody of the resource since "
+"its creation that are significant for its authenticity, integrity, and "
+"interpretation."
+msgstr ""
+"Aineiston elinkaaren aikana tapahtuneet omistus- tai hallintasuhteiden "
+"muutokset, jotka voivat vaikuttaa aineiston alkuperäisyyten, sisällön "
+"eheyteen tai tulkintaan."
+
+#. Property label for Dublin Core:instructionalMethod
+msgid "Instructional Method"
+msgstr "Opetusmenetelmä"
+
+#. Property comment for Dublin Core:instructionalMethod
+msgid ""
+"A process, used to engender knowledge, attitudes and skills, that the "
+"described resource is designed to support."
+msgstr ""
+"Opetusmenetelmä, jota aineisto tukee. Esimerkiksi: luento, opintopiiri, "
+"verkkokurssi."
+
+#. Property label for Dublin Core:accrualMethod
+msgid "Accrual Method"
+msgstr "Kartuntatapa"
+
+#. Property comment for Dublin Core:accrualMethod
+msgid "The method by which items are added to a collection."
+msgstr ""
+"Miten aineisto on hankittu? Fraaseja suomenkielisinä: ostot / lahjoitukset /"
+" siirrot / vaihdot / oma tuotanto (myös digitoitu). Pääasiallinen "
+"kartuntatapa ilmoitetaan."
+
+#. Property label for Dublin Core:accrualPeriodicity
+msgid "Accrual Periodicity"
+msgstr "Kartuntatiheys"
+
+#. Property comment for Dublin Core:accrualPeriodicity
+msgid "The frequency with which items are added to a collection."
+msgstr "Millä tiheydellä aineistoja lisätään kokoelmaan."
+
+#. Property label for Dublin Core:accrualPolicy
+msgid "Accrual Policy"
+msgstr "Kartunnan tila"
+
+#. Property comment for Dublin Core:accrualPolicy
+msgid "The policy governing the addition of items to a collection."
+msgstr ""
+"Kokoelman kartunnan tila: jatkuva / täydentyvä / ei tietoa / päättynyt."
+
+#. Vocabulary label for Dublin Core Type
+msgid "Dublin Core Type"
+msgstr "Dublin Core -tyyppi"
+
+#. Vocabulary comment for Dublin Core Type
+msgid "Basic resource types (DCMI Type Vocabulary)"
+msgstr "Aineistotyypit (DCMI Type Vocabulary)"
+
+#. Class label for Dublin Core Type:Collection
+#. Class label for Bibliographic Ontology:Collection
+msgid "Collection"
+msgstr "Kokoelma"
+
+#. Class comment for Dublin Core Type:Collection
+msgid "An aggregation of resources."
+msgstr "Kokoelma resursseja."
+
+#. Class label for Dublin Core Type:Dataset
+msgid "Dataset"
+msgstr "Datasetti"
+
+#. Class comment for Dublin Core Type:Dataset
+msgid "Data encoded in a defined structure."
+msgstr "Jotain tunnettua rakennetta noudattava data."
+
+#. Class label for Dublin Core Type:Event
+#. Class label for Bibliographic Ontology:Event
+msgid "Event"
+msgstr "Tapahtuma"
+
+#. Class comment for Dublin Core Type:Event
+msgid "A non-persistent, time-based occurrence."
+msgstr "Ei-pysyvä, aikaan sidottu tapaus."
+
+#. Class label for Dublin Core Type:Image
+#. Class label for Bibliographic Ontology:Image
+#. Class label for Friend of a Friend:Image
+msgid "Image"
+msgstr "Kuva"
+
+#. Class comment for Dublin Core Type:Image
+msgid "A visual representation other than text."
+msgstr "Muu kuin tekstimuotoinen visuaalinen esitys."
+
+#. Class label for Dublin Core Type:InteractiveResource
+msgid "Interactive Resource"
+msgstr "Vuorovaikutteinen aineisto"
+
+#. Class comment for Dublin Core Type:InteractiveResource
+msgid ""
+"A resource requiring interaction from the user to be understood, executed, "
+"or experienced."
+msgstr ""
+"Aineisto jonka käyttäminen tai kokeminen vaatii vuorovaikutusta käyttäjän "
+"kanssa."
+
+#. Class label for Dublin Core Type:Service
+msgid "Service"
+msgstr "Palvelu"
+
+#. Class comment for Dublin Core Type:Service
+msgid "A system that provides one or more functions."
+msgstr "Järjestelmä joka tarjoaa käyttöön yhden tai useamman toiminnon."
+
+#. Class label for Dublin Core Type:Software
+msgid "Software"
+msgstr "Ohjelmisto"
+
+#. Class comment for Dublin Core Type:Software
+msgid "A computer program in source or compiled form."
+msgstr "Tietokoneohjelmisto tai tietokoneohjelmiston lähdekoodi."
+
+#. Class label for Dublin Core Type:Sound
+msgid "Sound"
+msgstr "Ääni"
+
+#. Class comment for Dublin Core Type:Sound
+msgid "A resource primarily intended to be heard."
+msgstr "Kuultavaksi tarkoitettu aineisto."
+
+#. Class comment for Dublin Core Type:Text
+msgid "A resource consisting primarily of words for reading."
+msgstr "Luettavaksi tarkoitettu aineisto."
+
+#. Class label for Dublin Core Type:PhysicalObject
+msgid "Physical Object"
+msgstr "Fyysinen esine"
+
+#. Class comment for Dublin Core Type:PhysicalObject
+msgid "An inanimate, three-dimensional object or substance."
+msgstr "Liikumaton, kolmeulotteinen objekti tai aine."
+
+#. Class label for Dublin Core Type:StillImage
+msgid "Still Image"
+msgstr "Staattinen kuva"
+
+#. Class comment for Dublin Core Type:StillImage
+msgid "A static visual representation."
+msgstr "Staattinen visuaalinen esitys."
+
+#. Class label for Dublin Core Type:MovingImage
+msgid "Moving Image"
+msgstr "Liikkuva kuva"
+
+#. Class comment for Dublin Core Type:MovingImage
+msgid ""
+"A series of visual representations imparting an impression of motion when "
+"shown in succession."
+msgstr ""
+"Sarja visuaalisia esityksiä jotka synnyttävät liikkeen vaikutelman kun kuvat"
+" näytetään nopeasti peräkkäin."
+
+#. Vocabulary label for Bibliographic Ontology
+msgid "Bibliographic Ontology"
+msgstr "Bibliographic Ontology"
+
+#. Vocabulary comment for Bibliographic Ontology
+msgid "Bibliographic metadata (BIBO)"
+msgstr "Bibliografinen kuvailutieto (BIBO)"
+
+#. Class label for Bibliographic Ontology:AcademicArticle
+msgid "Academic Article"
+msgstr "Tieteellinen artikkeli"
+
+#. Class comment for Bibliographic Ontology:AcademicArticle
+msgid "A scholarly academic article, typically published in a journal."
+msgstr ""
+"Tieteellinen artikkeli, julkaistu tyyppillisesti tieteellisessä lehdessä."
+
+#. Class label for Bibliographic Ontology:Article
+msgid "Article"
+msgstr "Artikkeli"
+
+#. Class comment for Bibliographic Ontology:Article
+msgid ""
+"A written composition in prose, usually nonfiction, on a specific topic, "
+"forming an independent part of a book or other publication, as a newspaper "
+"or magazine."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:AudioDocument
+msgid "audio document"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:AudioDocument
+msgid "An audio document; aka record."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:AudioVisualDocument
+msgid "audio-visual document"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:AudioVisualDocument
+msgid "An audio-visual document; film, video, and so forth."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Bill
+msgid "Bill"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Bill
+msgid "Draft legislation presented for discussion to a legal body."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Book
+msgid "Book"
+msgstr "Kirja"
+
+#. Class comment for Bibliographic Ontology:Book
+msgid ""
+"A written or printed work of fiction or nonfiction, usually on sheets of "
+"paper fastened or bound together within covers."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:BookSection
+msgid "Book Section"
+msgstr "Kirjan osa"
+
+#. Class comment for Bibliographic Ontology:BookSection
+msgid "A section of a book."
+msgstr "Osio kirjassa."
+
+#. Class label for Bibliographic Ontology:Brief
+msgid "Brief"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Brief
+msgid "A written argument submitted to a court."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Chapter
+msgid "Chapter"
+msgstr "Kirjan kappale"
+
+#. Class comment for Bibliographic Ontology:Chapter
+msgid "A chapter of a book."
+msgstr "Kappale kirjassa."
+
+#. Class label for Bibliographic Ontology:Code
+msgid "Code"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Code
+msgid "A collection of statutes."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:CollectedDocument
+msgid "Collected Document"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:CollectedDocument
+msgid "A document that simultaneously contains other documents."
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Collection
+msgid "A collection of Documents or Collections"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Conference
+msgid "Conference"
+msgstr "Konferenssi"
+
+#. Class comment for Bibliographic Ontology:Conference
+msgid "A meeting for consultation or discussion."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:CourtReporter
+msgid "Court Reporter"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:CourtReporter
+msgid "A collection of legal cases."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Document
+#. Class label for Friend of a Friend:Document
+msgid "Document"
+msgstr "Dokumentti"
+
+#. Class comment for Bibliographic Ontology:Document
+msgid ""
+"A document (noun) is a bounded physical representation of body of "
+"information designed with the capacity (and usually intent) to communicate. "
+"A document may manifest symbolic, diagrammatic or sensory-representational "
+"information."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:DocumentPart
+msgid "document part"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:DocumentPart
+msgid "a distinct part of a larger document or collected document."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:DocumentStatus
+msgid "Document Status"
+msgstr "Dokumentin tila"
+
+#. Class comment for Bibliographic Ontology:DocumentStatus
+msgid "The status of the publication of a document."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:EditedBook
+msgid "Edited Book"
+msgstr "Toimitettu teos"
+
+#. Class comment for Bibliographic Ontology:EditedBook
+msgid "An edited book."
+msgstr "Teos jolla on ollut toimittaja tai toimituskunta."
+
+#. Class label for Bibliographic Ontology:Email
+msgid "EMail"
+msgstr "Sähköposti"
+
+#. Class comment for Bibliographic Ontology:Email
+msgid ""
+"A written communication addressed to a person or organization and "
+"transmitted electronically."
+msgstr "Tekstimuodossa oleva sähköinen viesti."
+
+#. Class label for Bibliographic Ontology:Excerpt
+msgid "Excerpt"
+msgstr "Tekstikatkelma"
+
+#. Class comment for Bibliographic Ontology:Excerpt
+msgid "A passage selected from a larger work."
+msgstr "Laajemmasta kirjallisesta työstä valittu tekstikatkelma."
+
+#. Class label for Bibliographic Ontology:Film
+msgid "Film"
+msgstr "Elokuva"
+
+#. Class comment for Bibliographic Ontology:Film
+msgid "aka movie."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Hearing
+msgid "Hearing"
+msgstr "Kuuleminen"
+
+#. Class comment for Bibliographic Ontology:Hearing
+msgid ""
+"An instance or a session in which testimony and arguments are presented, "
+"esp. before an official, as a judge in a lawsuit."
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Image
+msgid "A document that presents visual or diagrammatic information."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Interview
+msgid "Interview"
+msgstr "Haastattelu"
+
+#. Class comment for Bibliographic Ontology:Interview
+msgid "A formalized discussion between two or more people."
+msgstr "Yhden tai usemman osapuolen välinen formaali keskustelu."
+
+#. Class label for Bibliographic Ontology:Issue
+msgid "Issue"
+msgstr "Lehden numero"
+
+#. Class comment for Bibliographic Ontology:Issue
+msgid ""
+"something that is printed or published and distributed, esp. a given number "
+"of a periodical"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Journal
+msgid "Journal"
+msgstr "Tieteellinen lehti."
+
+#. Class comment for Bibliographic Ontology:Journal
+msgid "A periodical of scholarly journal Articles."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:LegalCaseDocument
+msgid "Legal Case Document"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:LegalCaseDocument
+msgid "A document accompanying a legal case."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:LegalDecision
+msgid "Decision"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:LegalDecision
+msgid ""
+"A document containing an authoritative determination (as a decree or "
+"judgment) made after consideration of facts or law."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:LegalDocument
+msgid "Legal Document"
+msgstr "Laillinen asiakirja"
+
+#. Class comment for Bibliographic Ontology:LegalDocument
+msgid ""
+"A legal document; for example, a court decision, a brief, and so forth."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Legislation
+msgid "Legislation"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Legislation
+msgid "A legal document proposing or enacting a law or a group of laws."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Letter
+msgid "Letter"
+msgstr "Kirje"
+
+#. Class comment for Bibliographic Ontology:Letter
+msgid ""
+"A written or printed communication addressed to a person or organization and"
+" usually transmitted by mail."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Magazine
+msgid "Magazine"
+msgstr "Aikakauslehti"
+
+#. Class comment for Bibliographic Ontology:Magazine
+msgid ""
+"A periodical of magazine Articles. A magazine is a publication that is "
+"issued periodically, usually bound in a paper cover, and typically contains "
+"essays, stories, poems, etc., by many writers, and often photographs and "
+"drawings, frequently specializing in a particular subject or area, as "
+"hobbies, news, or sports."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Manual
+msgid "Manual"
+msgstr "Ohjekirja"
+
+#. Class comment for Bibliographic Ontology:Manual
+msgid "A small reference book, especially one giving instructions."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Manuscript
+msgid "Manuscript"
+msgstr "Käsikirjoitus"
+
+#. Class comment for Bibliographic Ontology:Manuscript
+msgid ""
+"An unpublished Document, which may also be submitted to a publisher for "
+"publication."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Map
+msgid "Map"
+msgstr "Kartta"
+
+#. Class comment for Bibliographic Ontology:Map
+msgid "A graphical depiction of geographic features."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:MultiVolumeBook
+msgid "Multivolume Book"
+msgstr "Moniosainen kirja"
+
+#. Class comment for Bibliographic Ontology:MultiVolumeBook
+#. Class comment for Bibliographic Ontology:Series
+msgid "A loose, thematic, collection of Documents, often Books."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Newspaper
+msgid "Newspaper"
+msgstr "Sanomalehti"
+
+#. Class comment for Bibliographic Ontology:Newspaper
+msgid ""
+"A periodical of documents, usually issued daily or weekly, containing "
+"current news, editorials, feature articles, and usually advertising."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Note
+msgid "Note"
+msgstr "Muistiinpano"
+
+#. Class comment for Bibliographic Ontology:Note
+msgid "Notes or annotations about a resource."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Patent
+msgid "Patent"
+msgstr "Patentti"
+
+#. Class comment for Bibliographic Ontology:Patent
+msgid ""
+"A document describing the exclusive right granted by a government to an "
+"inventor to manufacture, use, or sell an invention for a certain number of "
+"years."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Performance
+msgid "Performance"
+msgstr "Performanssi"
+
+#. Class comment for Bibliographic Ontology:Performance
+msgid "A public performance."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Periodical
+msgid "Periodical"
+msgstr "Kausijulkaisu"
+
+#. Class comment for Bibliographic Ontology:Periodical
+msgid "A group of related documents issued at regular intervals."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:PersonalCommunication
+msgid "Personal Communication"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:PersonalCommunication
+msgid "A communication between an agent and one or more specific recipients."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:PersonalCommunicationDocument
+msgid "Personal Communication Document"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:PersonalCommunicationDocument
+msgid "A personal communication manifested in some document."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Proceedings
+msgid "Proceedings"
+msgstr "Konferenssijulkaisu"
+
+#. Class comment for Bibliographic Ontology:Proceedings
+msgid ""
+"A compilation of documents published from an event, such as a conference."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Quote
+msgid "Quote"
+msgstr "Lainaus"
+
+#. Class comment for Bibliographic Ontology:Quote
+msgid "An excerpted collection of words."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:ReferenceSource
+msgid "Reference Source"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:ReferenceSource
+msgid ""
+"A document that presents authoritative reference information, such as a "
+"dictionary or encylopedia ."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Report
+msgid "Report"
+msgstr "Raportti"
+
+#. Class comment for Bibliographic Ontology:Report
+msgid ""
+"A document describing an account or statement describing in detail an event,"
+" situation, or the like, usually as the result of observation, inquiry, "
+"etc.."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Series
+msgid "Series"
+msgstr "Julkaisusarja"
+
+#. Class label for Bibliographic Ontology:Slide
+msgid "Slide"
+msgstr "Esityskalvo"
+
+#. Class comment for Bibliographic Ontology:Slide
+msgid "A slide in a slideshow"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Slideshow
+msgid "Slideshow"
+msgstr "Esityskalvosarja"
+
+#. Class comment for Bibliographic Ontology:Slideshow
+msgid ""
+"A presentation of a series of slides, usually presented in front of an "
+"audience with written text and images."
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Standard
+msgid "A document describing a standard"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Statute
+msgid "Statute"
+msgstr "Laki"
+
+#. Class comment for Bibliographic Ontology:Statute
+msgid "A bill enacted into law."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Thesis
+msgid "Thesis"
+msgstr "Opinnäyte"
+
+#. Class comment for Bibliographic Ontology:Thesis
+msgid ""
+"A document created to summarize research findings associated with the "
+"completion of an academic degree."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:ThesisDegree
+msgid "Thesis degree"
+msgstr "Opinnäytteen taso"
+
+#. Class comment for Bibliographic Ontology:ThesisDegree
+msgid "The academic degree of a Thesis"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Webpage
+msgid "Webpage"
+msgstr "Verkkosivu"
+
+#. Class comment for Bibliographic Ontology:Webpage
+msgid ""
+"A web page is an online document available (at least initially) on the world"
+" wide web. A web page is written first and foremost to appear on the web, as"
+" distinct from other online resources such as books, manuscripts or audio "
+"documents which use the web primarily as a distribution mechanism alongside "
+"other more traditional methods such as print."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Website
+msgid "Website"
+msgstr "Verkkosivusto"
+
+#. Class comment for Bibliographic Ontology:Website
+msgid "A group of Webpages accessible on the Web."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Workshop
+msgid "Workshop"
+msgstr "Työryhmä"
+
+#. Class comment for Bibliographic Ontology:Workshop
+msgid ""
+"A seminar, discussion group, or the like, that emphasizes zxchange of ideas "
+"and the demonstration and application of techniques, skills, etc."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:affirmedBy
+msgid "affirmedBy"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:affirmedBy
+msgid "A legal decision that affirms a ruling."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:annotates
+msgid "annotates"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:annotates
+msgid "Critical or explanatory note for a Document."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:authorList
+msgid "list of authors"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:authorList
+msgid ""
+"An ordered list of authors. Normally, this list is seen as a priority list "
+"that order authors by importance."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:citedBy
+msgid "cited by"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:citedBy
+msgid ""
+"Relates a document to another document that cites the\n"
+"first document."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:cites
+msgid "cites"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:cites
+msgid ""
+"Relates a document to another document that is cited\n"
+"by the first document as reference, comment, review, quotation or for\n"
+"another purpose."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:contributorList
+msgid "list of contributors"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:contributorList
+msgid ""
+"An ordered list of contributors. Normally, this list is seen as a priority "
+"list that order contributors by importance."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:court
+msgid "court"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:court
+msgid ""
+"A court associated with a legal document; for example, that which issues a "
+"decision."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:degree
+msgid "degree"
+msgstr "tutkinto"
+
+#. Property comment for Bibliographic Ontology:degree
+msgid "The thesis degree."
+msgstr "Opinnäytteen taso"
+
+#. Property label for Bibliographic Ontology:director
+msgid "director"
+msgstr "%1s adapteri ei toteuta hakuoperaatiota."
+
+#. Property comment for Bibliographic Ontology:director
+msgid "A Film director."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:distributor
+msgid "distributor"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:distributor
+msgid "Distributor of a document or a collection of documents."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:editor
+msgid "editor"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:editor
+msgid ""
+"A person having managerial and sometimes policy-making responsibility for "
+"the editorial part of a publishing firm or of a newspaper, magazine, or "
+"other publication."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:editorList
+msgid "list of editors"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:editorList
+msgid ""
+"An ordered list of editors. Normally, this list is seen as a priority list "
+"that order editors by importance."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:interviewee
+msgid "interviewee"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:interviewee
+msgid "An agent that is interviewed by another agent."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:interviewer
+msgid "interviewer"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:interviewer
+msgid "An agent that interview another agent."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:issuer
+msgid "issuer"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:issuer
+msgid ""
+"An entity responsible for issuing often informally published documents such "
+"as press releases, reports, etc."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:organizer
+msgid "organizer"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:organizer
+msgid ""
+"The organizer of an event; includes conference organizers, but also "
+"government agencies or other bodies that are responsible for conducting "
+"hearings."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:owner
+msgid "owner"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:owner
+msgid "Owner of a document or a collection of documents."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:performer
+msgid "performer"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:presentedAt
+msgid "presented at"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:presentedAt
+msgid "Relates a document to an event; for example, a paper to a conference."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:presents
+msgid "presents"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:presents
+msgid ""
+"Relates an event to associated documents; for example, conference to a "
+"paper."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:producer
+msgid "producer"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:producer
+msgid "Producer of a document or a collection of documents."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:recipient
+msgid "recipient"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:recipient
+msgid "An agent that receives a communication document."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:reproducedIn
+msgid "reproducedIn"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:reproducedIn
+msgid "The resource in which another resource is reproduced."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:reversedBy
+msgid "reversedBy"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:reversedBy
+msgid "A legal decision that reverses a ruling."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:reviewOf
+msgid "review of"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:reviewOf
+msgid "Relates a review document to a reviewed thing (resource, item, etc.)."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:status
+#. Property label for Friend of a Friend:status
+msgid "status"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:status
+msgid "The publication status of (typically academic) content."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:subsequentLegalDecision
+msgid "subsequentLegalDecision"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:subsequentLegalDecision
+msgid ""
+"A legal decision on appeal that takes action on a case (affirming it, "
+"reversing it, etc.)."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:transcriptOf
+msgid "transcript of"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:transcriptOf
+msgid "Relates a document to some transcribed original."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:translationOf
+msgid "translation of"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:translationOf
+msgid "Relates a translated document to the original document."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:translator
+msgid "translator"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:translator
+msgid "A person who translates written document from one language to another."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:abstract
+msgid "abstract"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:argued
+msgid "date argued"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:argued
+msgid ""
+"The date on which a legal case is argued before a court. Date is of format "
+"xsd:date"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:asin
+msgid "asin"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:chapter
+msgid "chapter"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:chapter
+msgid "An chapter number"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:coden
+msgid "coden"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:content
+msgid "content"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:content
+msgid ""
+"This property is for a plain-text rendering of the content of a Document. "
+"While the plain-text content of an entire document could be described by "
+"this property."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:doi
+msgid "doi"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:eanucc13
+msgid "eanucc13"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:edition
+msgid "edition"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:edition
+msgid ""
+"The name defining a special edition of a document. Normally its a literal "
+"value composed of a version number and words."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:eissn
+msgid "eissn"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:gtin14
+msgid "gtin14"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:handle
+msgid "handle"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:identifier
+msgid "identifier"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:isbn
+msgid "isbn"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:isbn10
+msgid "isbn10"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:isbn13
+msgid "isbn13"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:issn
+msgid "issn"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:issue
+msgid "issue"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:issue
+msgid "An issue number"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:lccn
+msgid "lccn"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:locator
+msgid "locator"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:locator
+msgid ""
+"A description (often numeric) that locates an item within a containing "
+"document or collection."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:numPages
+msgid "number of pages"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:numPages
+msgid "The number of pages contained in a document"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:numVolumes
+msgid "number of volumes"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:numVolumes
+msgid ""
+"The number of volumes contained in a collection of documents (usually a "
+"series, periodical, etc.)."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:number
+msgid "number"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:number
+msgid ""
+"A generic item or document number. Not to be confused with issue number."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:oclcnum
+msgid "oclcnum"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:pageEnd
+msgid "page end"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:pageEnd
+msgid "Ending page number within a continuous page range."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:pageStart
+msgid "page start"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:pageStart
+msgid "Starting page number within a continuous page range."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:pages
+msgid "pages"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:pages
+msgid ""
+"A string of non-contiguous page spans that locate a Document within a "
+"Collection. Example: 23-25, 34, 54-56. For continuous page ranges, use the "
+"pageStart and pageEnd properties."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:pmid
+msgid "pmid"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:prefixName
+msgid "prefix name"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:prefixName
+msgid "The prefix of a name"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:section
+msgid "section"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:section
+msgid "A section number"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:shortDescription
+msgid "shortDescription"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:shortTitle
+msgid "short title"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:shortTitle
+msgid "The abbreviation of a title."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:sici
+msgid "sici"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:suffixName
+msgid "suffix name"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:suffixName
+msgid "The suffix of a name"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:upc
+msgid "upc"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:uri
+msgid "uri"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:uri
+msgid "Universal Resource Identifier of a document"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:volume
+msgid "volume"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:volume
+msgid "A volume number"
+msgstr ""
+
+#. Vocabulary label for Friend of a Friend
+msgid "Friend of a Friend"
+msgstr ""
+
+#. Vocabulary comment for Friend of a Friend
+msgid "Relationships between people and organizations (FOAF)"
+msgstr ""
+
+#. Class label for Friend of a Friend:LabelProperty
+msgid "Label Property"
+msgstr ""
+
+#. Class comment for Friend of a Friend:LabelProperty
+msgid ""
+"A foaf:LabelProperty is any RDF property with texual values that serve as "
+"labels."
+msgstr ""
+
+#. Class label for Friend of a Friend:Person
+msgid "Person"
+msgstr ""
+
+#. Class comment for Friend of a Friend:Person
+msgid "A person."
+msgstr ""
+
+#. Class comment for Friend of a Friend:Agent
+msgid "An agent (eg. person, group, software or physical artifact)."
+msgstr ""
+
+#. Class comment for Friend of a Friend:Document
+msgid "A document."
+msgstr ""
+
+#. Class label for Friend of a Friend:Organization
+msgid "Organization"
+msgstr ""
+
+#. Class comment for Friend of a Friend:Organization
+msgid "An organization."
+msgstr ""
+
+#. Class label for Friend of a Friend:Group
+msgid "Group"
+msgstr ""
+
+#. Class comment for Friend of a Friend:Group
+msgid "A class of Agents."
+msgstr ""
+
+#. Class label for Friend of a Friend:Project
+msgid "Project"
+msgstr ""
+
+#. Class comment for Friend of a Friend:Project
+msgid "A project (a collective endeavour of some kind)."
+msgstr ""
+
+#. Class comment for Friend of a Friend:Image
+msgid "An image."
+msgstr ""
+
+#. Class label for Friend of a Friend:PersonalProfileDocument
+msgid "PersonalProfileDocument"
+msgstr ""
+
+#. Class comment for Friend of a Friend:PersonalProfileDocument
+msgid "A personal profile RDF document."
+msgstr ""
+
+#. Class label for Friend of a Friend:OnlineAccount
+msgid "Online Account"
+msgstr ""
+
+#. Class comment for Friend of a Friend:OnlineAccount
+msgid "An online account."
+msgstr ""
+
+#. Class label for Friend of a Friend:OnlineGamingAccount
+msgid "Online Gaming Account"
+msgstr ""
+
+#. Class comment for Friend of a Friend:OnlineGamingAccount
+msgid "An online gaming account."
+msgstr ""
+
+#. Class label for Friend of a Friend:OnlineEcommerceAccount
+msgid "Online E-commerce Account"
+msgstr ""
+
+#. Class comment for Friend of a Friend:OnlineEcommerceAccount
+msgid "An online e-commerce account."
+msgstr ""
+
+#. Class label for Friend of a Friend:OnlineChatAccount
+msgid "Online Chat Account"
+msgstr ""
+
+#. Class comment for Friend of a Friend:OnlineChatAccount
+msgid "An online chat account."
+msgstr ""
+
+#. Property label for Friend of a Friend:mbox
+msgid "personal mailbox"
+msgstr ""
+
+#. Property comment for Friend of a Friend:mbox
+msgid ""
+"A  personal mailbox, ie. an Internet mailbox associated with exactly one "
+"owner, the first owner of this mailbox. This is a 'static inverse functional"
+" property', in that  there is (across time and change) at most one "
+"individual that ever has any particular value for foaf:mbox."
+msgstr ""
+
+#. Property label for Friend of a Friend:mbox_sha1sum
+msgid "sha1sum of a personal mailbox URI name"
+msgstr ""
+
+#. Property comment for Friend of a Friend:mbox_sha1sum
+msgid ""
+"The sha1sum of the URI of an Internet mailbox associated with exactly one "
+"owner, the  first owner of the mailbox."
+msgstr ""
+
+#. Property label for Friend of a Friend:gender
+msgid "gender"
+msgstr ""
+
+#. Property comment for Friend of a Friend:gender
+msgid ""
+"The gender of this Agent (typically but not necessarily 'male' or 'female')."
+msgstr ""
+
+#. Property label for Friend of a Friend:geekcode
+msgid "geekcode"
+msgstr ""
+
+#. Property comment for Friend of a Friend:geekcode
+msgid ""
+"A textual geekcode for this person, see http://www.geekcode.com/geek.html"
+msgstr ""
+
+#. Property label for Friend of a Friend:dnaChecksum
+msgid "DNA checksum"
+msgstr ""
+
+#. Property comment for Friend of a Friend:dnaChecksum
+msgid "A checksum for the DNA of some thing. Joke."
+msgstr ""
+
+#. Property label for Friend of a Friend:sha1
+msgid "sha1sum (hex)"
+msgstr ""
+
+#. Property comment for Friend of a Friend:sha1
+msgid "A sha1sum hash, in hex."
+msgstr ""
+
+#. Property label for Friend of a Friend:based_near
+msgid "based near"
+msgstr ""
+
+#. Property comment for Friend of a Friend:based_near
+msgid ""
+"A location that something is based near, for some broadly human notion of "
+"near."
+msgstr ""
+
+#. Property label for Friend of a Friend:title
+msgid "title"
+msgstr ""
+
+#. Property comment for Friend of a Friend:title
+msgid "Title (Mr, Mrs, Ms, Dr. etc)"
+msgstr ""
+
+#. Property label for Friend of a Friend:nick
+msgid "nickname"
+msgstr ""
+
+#. Property comment for Friend of a Friend:nick
+msgid ""
+"A short informal nickname characterising an agent (includes login "
+"identifiers, IRC and other chat nicknames)."
+msgstr ""
+
+#. Property label for Friend of a Friend:jabberID
+msgid "jabber ID"
+msgstr ""
+
+#. Property comment for Friend of a Friend:jabberID
+msgid "A jabber ID for something."
+msgstr ""
+
+#. Property label for Friend of a Friend:aimChatID
+msgid "AIM chat ID"
+msgstr ""
+
+#. Property comment for Friend of a Friend:aimChatID
+msgid "An AIM chat ID"
+msgstr ""
+
+#. Property label for Friend of a Friend:skypeID
+msgid "Skype ID"
+msgstr ""
+
+#. Property comment for Friend of a Friend:skypeID
+msgid "A Skype ID"
+msgstr ""
+
+#. Property label for Friend of a Friend:icqChatID
+msgid "ICQ chat ID"
+msgstr ""
+
+#. Property comment for Friend of a Friend:icqChatID
+msgid "An ICQ chat ID"
+msgstr ""
+
+#. Property label for Friend of a Friend:yahooChatID
+msgid "Yahoo chat ID"
+msgstr ""
+
+#. Property comment for Friend of a Friend:yahooChatID
+msgid "A Yahoo chat ID"
+msgstr ""
+
+#. Property label for Friend of a Friend:msnChatID
+msgid "MSN chat ID"
+msgstr ""
+
+#. Property comment for Friend of a Friend:msnChatID
+msgid "An MSN chat ID"
+msgstr ""
+
+#. Property label for Friend of a Friend:name
+msgid "name"
+msgstr ""
+
+#. Property comment for Friend of a Friend:name
+msgid "A name for some thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:firstName
+msgid "firstName"
+msgstr ""
+
+#. Property comment for Friend of a Friend:firstName
+msgid "The first name of a person."
+msgstr ""
+
+#. Property label for Friend of a Friend:lastName
+msgid "lastName"
+msgstr ""
+
+#. Property comment for Friend of a Friend:lastName
+msgid "The last name of a person."
+msgstr ""
+
+#. Property label for Friend of a Friend:givenName
+#. Property label for Friend of a Friend:givenname
+msgid "Given name"
+msgstr ""
+
+#. Property comment for Friend of a Friend:givenName
+#. Property comment for Friend of a Friend:givenname
+msgid "The given name of some person."
+msgstr ""
+
+#. Property label for Friend of a Friend:surname
+msgid "Surname"
+msgstr ""
+
+#. Property comment for Friend of a Friend:surname
+msgid "The surname of some person."
+msgstr ""
+
+#. Property label for Friend of a Friend:family_name
+msgid "family_name"
+msgstr ""
+
+#. Property comment for Friend of a Friend:family_name
+#. Property comment for Friend of a Friend:familyName
+msgid "The family name of some person."
+msgstr ""
+
+#. Property label for Friend of a Friend:familyName
+msgid "familyName"
+msgstr ""
+
+#. Property label for Friend of a Friend:phone
+msgid "phone"
+msgstr ""
+
+#. Property comment for Friend of a Friend:phone
+msgid ""
+"A phone,  specified using fully qualified tel: URI scheme (refs: "
+"http://www.w3.org/Addressing/schemes.html#tel)."
+msgstr ""
+
+#. Property label for Friend of a Friend:homepage
+msgid "homepage"
+msgstr ""
+
+#. Property comment for Friend of a Friend:homepage
+msgid "A homepage for some thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:weblog
+msgid "weblog"
+msgstr ""
+
+#. Property comment for Friend of a Friend:weblog
+msgid "A weblog of some thing (whether person, group, company etc.)."
+msgstr ""
+
+#. Property label for Friend of a Friend:openid
+msgid "openid"
+msgstr ""
+
+#. Property comment for Friend of a Friend:openid
+msgid "An OpenID for an Agent."
+msgstr ""
+
+#. Property label for Friend of a Friend:tipjar
+msgid "tipjar"
+msgstr ""
+
+#. Property comment for Friend of a Friend:tipjar
+msgid ""
+"A tipjar document for this agent, describing means for payment and reward."
+msgstr ""
+
+#. Property label for Friend of a Friend:plan
+msgid "plan"
+msgstr ""
+
+#. Property comment for Friend of a Friend:plan
+msgid "A .plan comment, in the tradition of finger and '.plan' files."
+msgstr ""
+
+#. Property label for Friend of a Friend:made
+msgid "made"
+msgstr ""
+
+#. Property comment for Friend of a Friend:made
+msgid "Something that was made by this agent."
+msgstr ""
+
+#. Property label for Friend of a Friend:maker
+msgid "maker"
+msgstr ""
+
+#. Property comment for Friend of a Friend:maker
+msgid "An agent that  made this thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:img
+msgid "image"
+msgstr ""
+
+#. Property comment for Friend of a Friend:img
+msgid ""
+"An image that can be used to represent some thing (ie. those depictions "
+"which are particularly representative of something, eg. one's photo on a "
+"homepage)."
+msgstr ""
+
+#. Property label for Friend of a Friend:depiction
+msgid "depiction"
+msgstr ""
+
+#. Property comment for Friend of a Friend:depiction
+msgid "A depiction of some thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:depicts
+msgid "depicts"
+msgstr ""
+
+#. Property comment for Friend of a Friend:depicts
+msgid "A thing depicted in this representation."
+msgstr ""
+
+#. Property label for Friend of a Friend:thumbnail
+msgid "thumbnail"
+msgstr ""
+
+#. Property comment for Friend of a Friend:thumbnail
+msgid "A derived thumbnail image."
+msgstr ""
+
+#. Property label for Friend of a Friend:myersBriggs
+msgid "myersBriggs"
+msgstr ""
+
+#. Property comment for Friend of a Friend:myersBriggs
+msgid "A Myers Briggs (MBTI) personality classification."
+msgstr ""
+
+#. Property label for Friend of a Friend:workplaceHomepage
+msgid "workplace homepage"
+msgstr ""
+
+#. Property comment for Friend of a Friend:workplaceHomepage
+msgid ""
+"A workplace homepage of some person; the homepage of an organization they "
+"work for."
+msgstr ""
+
+#. Property label for Friend of a Friend:workInfoHomepage
+msgid "work info homepage"
+msgstr ""
+
+#. Property comment for Friend of a Friend:workInfoHomepage
+msgid ""
+"A work info homepage of some person; a page about their work for some "
+"organization."
+msgstr ""
+
+#. Property label for Friend of a Friend:schoolHomepage
+msgid "schoolHomepage"
+msgstr ""
+
+#. Property comment for Friend of a Friend:schoolHomepage
+msgid "A homepage of a school attended by the person."
+msgstr ""
+
+#. Property label for Friend of a Friend:knows
+msgid "knows"
+msgstr ""
+
+#. Property comment for Friend of a Friend:knows
+msgid ""
+"A person known by this person (indicating some level of reciprocated "
+"interaction between the parties)."
+msgstr ""
+
+#. Property label for Friend of a Friend:interest
+msgid "interest"
+msgstr ""
+
+#. Property comment for Friend of a Friend:interest
+msgid "A page about a topic of interest to this person."
+msgstr ""
+
+#. Property label for Friend of a Friend:topic_interest
+msgid "topic_interest"
+msgstr ""
+
+#. Property comment for Friend of a Friend:topic_interest
+msgid "A thing of interest to this person."
+msgstr ""
+
+#. Property label for Friend of a Friend:publications
+msgid "publications"
+msgstr ""
+
+#. Property comment for Friend of a Friend:publications
+msgid "A link to the publications of this person."
+msgstr ""
+
+#. Property label for Friend of a Friend:currentProject
+msgid "current project"
+msgstr ""
+
+#. Property comment for Friend of a Friend:currentProject
+msgid "A current project this person works on."
+msgstr ""
+
+#. Property label for Friend of a Friend:pastProject
+msgid "past project"
+msgstr ""
+
+#. Property comment for Friend of a Friend:pastProject
+msgid "A project this person has previously worked on."
+msgstr ""
+
+#. Property label for Friend of a Friend:fundedBy
+msgid "funded by"
+msgstr "rahoittaja"
+
+#. Property comment for Friend of a Friend:fundedBy
+msgid "An organization funding a project or person."
+msgstr ""
+
+#. Property label for Friend of a Friend:logo
+msgid "logo"
+msgstr ""
+
+#. Property comment for Friend of a Friend:logo
+msgid "A logo representing some thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:topic
+msgid "topic"
+msgstr "aihe"
+
+#. Property comment for Friend of a Friend:topic
+msgid "A topic of some page or document."
+msgstr ""
+
+#. Property label for Friend of a Friend:primaryTopic
+msgid "primary topic"
+msgstr "pääasiallinen aihe"
+
+#. Property comment for Friend of a Friend:primaryTopic
+msgid "The primary topic of some page or document."
+msgstr ""
+
+#. Property label for Friend of a Friend:focus
+msgid "focus"
+msgstr ""
+
+#. Property comment for Friend of a Friend:focus
+msgid ""
+"The underlying or 'focal' entity associated with some SKOS-described "
+"concept."
+msgstr ""
+
+#. Property label for Friend of a Friend:isPrimaryTopicOf
+msgid "is primary topic of"
+msgstr ""
+
+#. Property comment for Friend of a Friend:isPrimaryTopicOf
+msgid "A document that this thing is the primary topic of."
+msgstr ""
+
+#. Property comment for Friend of a Friend:page
+msgid "A page or document about this thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:theme
+msgid "theme"
+msgstr ""
+
+#. Property comment for Friend of a Friend:theme
+msgid "A theme."
+msgstr ""
+
+#. Property label for Friend of a Friend:account
+#. Property label for Friend of a Friend:holdsAccount
+msgid "account"
+msgstr ""
+
+#. Property comment for Friend of a Friend:account
+#. Property comment for Friend of a Friend:holdsAccount
+msgid "Indicates an account held by this agent."
+msgstr ""
+
+#. Property label for Friend of a Friend:accountServiceHomepage
+msgid "account service homepage"
+msgstr ""
+
+#. Property comment for Friend of a Friend:accountServiceHomepage
+msgid "Indicates a homepage of the service provide for this online account."
+msgstr ""
+
+#. Property label for Friend of a Friend:accountName
+msgid "account name"
+msgstr "käyttäjänimi"
+
+#. Property comment for Friend of a Friend:accountName
+msgid "Indicates the name (identifier) associated with this online account."
+msgstr ""
+
+#. Property label for Friend of a Friend:member
+msgid "member"
+msgstr ""
+
+#. Property comment for Friend of a Friend:member
+msgid "Indicates a member of a Group"
+msgstr ""
+
+#. Property label for Friend of a Friend:membershipClass
+msgid "membershipClass"
+msgstr ""
+
+#. Property comment for Friend of a Friend:membershipClass
+msgid "Indicates the class of individuals that are a member of a Group"
+msgstr ""
+
+#. Property label for Friend of a Friend:birthday
+msgid "birthday"
+msgstr "syntymäpäivä"
+
+#. Property comment for Friend of a Friend:birthday
+msgid ""
+"The birthday of this Agent, represented in mm-dd string form, eg. '12-31'."
+msgstr ""
+
+#. Property label for Friend of a Friend:age
+msgid "age"
+msgstr "ikä"
+
+#. Property comment for Friend of a Friend:age
+msgid "The age in years of some agent."
+msgstr ""
+
+#. Property comment for Friend of a Friend:status
+msgid ""
+"A string expressing what the user is happy for the general public (normally)"
+" to know about their current activity."
+msgstr ""

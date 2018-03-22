@@ -1,0 +1,5954 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-09 17:51-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Hong Zhang <zhangh@unlv.nevada.edu>, 2018\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/omeka/teams/14184/zh_CN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: application/src/Api/Adapter/AbstractAdapter.php:42
+#, php-format
+msgid "The %1$s adapter does not implement the search operation."
+msgstr "%1$s适配器没有实现搜索操作。"
+
+#: application/src/Api/Adapter/AbstractAdapter.php:55
+#, php-format
+msgid "The %1$s adapter does not implement the create operation."
+msgstr "%1$s适配器没有实现创建操作。"
+
+#: application/src/Api/Adapter/AbstractAdapter.php:68
+#, php-format
+msgid "The %1$s adapter does not implement the batch create operation."
+msgstr "%1$s适配器没有实现批量创建操作。"
+
+#: application/src/Api/Adapter/AbstractAdapter.php:81
+#, php-format
+msgid "The %1$s adapter does not implement the read operation."
+msgstr "%1$s适配器没有实现读操作。"
+
+#: application/src/Api/Adapter/AbstractAdapter.php:94
+#, php-format
+msgid "The %1$s adapter does not implement the update operation."
+msgstr "%1$s适配器没有实现更新操作。"
+
+#: application/src/Api/Adapter/AbstractAdapter.php:107
+#, php-format
+msgid "The %1$s adapter does not implement the batch update operation."
+msgstr "%1$s适配器没有实现批量更新操作。"
+
+#: application/src/Api/Adapter/AbstractAdapter.php:129
+#, php-format
+msgid "The %1$s adapter does not implement the delete operation."
+msgstr "%1$s适配器没有实现删除操作。"
+
+#: application/src/Api/Adapter/AbstractAdapter.php:142
+#, php-format
+msgid "The %1$s adapter does not implement the batch delete operation."
+msgstr "%1$s适配器没有实现批量删除操作。"
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:229
+#, php-format
+msgid "The \"%s\" field is not available in the %s entity class."
+msgstr "在%s实体等级中没有“%s”字段。"
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:590
+#: application/src/Api/Manager.php:209
+#, php-format
+msgid "Permission denied for the current user to %s the %s resource."
+msgstr "当前用户被拒绝授予权限于%s%s资源。"
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:632
+#, php-format
+msgid "%s entity with criteria %s not found"
+msgstr "未发现符合标准%s的%s实体"
+
+#: application/src/Api/Adapter/SiteAdapter.php:122
+msgid "Welcome"
+msgstr "欢迎"
+
+#: application/src/Api/Adapter/SiteAdapter.php:127
+msgid "Welcome to your new site. This is an example page."
+msgstr "欢迎来到您的新网站。这是样板页面。"
+
+#: application/src/Api/Adapter/SiteAdapter.php:328
+msgid "Browse"
+msgstr "浏览"
+
+#: application/src/Api/Manager.php:201
+#, php-format
+msgid "The API does not support the \"%s\" resource."
+msgstr "API不支持“%s”资源。"
+
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:480
+#: application/view/common/block-layout/browse-preview.phtml:12
+#: application/view/omeka/site/item/browse.phtml:33
+msgid "[Untitled]"
+msgstr "[无标题]"
+
+#: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:107
+msgid "Default"
+msgstr "默认"
+
+#: application/src/Controller/Admin/AssetController.php:48
+msgid "Asset uploads must be POSTed."
+msgstr "素材上传必须使用HTTP POST方法。"
+
+#: application/src/Controller/Admin/ItemController.php:211
+msgid "Add another item?"
+msgstr "添加下一个条目？"
+
+#: application/src/Controller/Admin/ItemSetController.php:35
+msgid "Add another item set?"
+msgstr "添加下一个条目集？"
+
+#: application/src/Controller/Admin/ModuleController.php:69
+#: application/src/Controller/Admin/ModuleController.php:76
+msgid "Active"
+msgstr "活跃的"
+
+#: application/src/Controller/Admin/ModuleController.php:70
+#: application/src/Controller/Admin/ModuleController.php:77
+msgid "Not active"
+msgstr "非活跃的"
+
+#: application/src/Controller/Admin/ModuleController.php:71
+#: application/src/Controller/Admin/ModuleController.php:78
+msgid "Not installed"
+msgstr "未安装"
+
+#: application/src/Controller/Admin/ModuleController.php:72
+#: application/src/Controller/Admin/ModuleController.php:79
+msgid "Needs upgrade"
+msgstr "需要升级"
+
+#: application/src/Controller/Admin/ModuleController.php:73
+msgid "Error"
+msgstr "错误"
+
+#: application/src/Controller/Admin/ModuleController.php:80
+#: application/view/error/404.phtml:1
+msgid "Not found"
+msgstr "未发现"
+
+#: application/src/Controller/Admin/ModuleController.php:81
+msgid "Invalid module"
+msgstr "无效模块"
+
+#: application/src/Controller/Admin/ModuleController.php:82
+msgid "Invalid INI"
+msgstr "无效INI"
+
+#: application/src/Controller/Admin/ModuleController.php:83
+msgid "Invalid Omeka S version"
+msgstr "无效Omeka S版本"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:406
+msgid "Add another resource template?"
+msgstr "添加下一个资源模板？"
+
+#: application/src/Controller/Admin/UserController.php:54
+msgid "Add another user?"
+msgstr "添加下一个用户？"
+
+#: application/src/Controller/Admin/VocabularyController.php:88
+msgid "Import another vocabulary?"
+msgstr "输入下一个词汇？"
+
+#: application/src/DataType/Resource/AbstractResource.php:51
+#, php-format
+msgid "Resource not found with id %s."
+msgstr "未找到id为%s的资源。"
+
+#: application/src/Db/Migration/Manager.php:112
+msgid "Migration file did not contain the expected class"
+msgstr "迁移文件不包含预期的类"
+
+#: application/src/Media/Ingester/Fallback.php:36
+#: application/src/View/Helper/SearchFilters.php:51
+#: application/view/common/navigation-link-form/fallback.phtml:3
+msgid "Unknown"
+msgstr "未知"
+
+#: application/src/Media/Renderer/IIIF.php:14
+msgid "OpenSeadragon is not available unless JavaScript is enabled."
+msgstr "除非启用JavaScript，否则OpenSeadragon不可用。"
+
+#: application/src/Module/Manager.php:162
+#, php-format
+msgid "Module \"%s\" is marked as \"%s\" and cannot be activated"
+msgstr "模块“%s”被标记为“%s”，无法激活"
+
+#: application/src/Module/Manager.php:173
+#, php-format
+msgid "Module \"%s\" not in database during activation"
+msgstr "激活时模块“%s”不在数据库中"
+
+#: application/src/Module/Manager.php:194
+#, php-format
+msgid "Module \"%s\" is marked as \"%s\" and cannot be deactivated"
+msgstr "模块“%s”被标记为“%s”，无法禁用"
+
+#: application/src/Module/Manager.php:205
+#, php-format
+msgid "Module \"%s\" not in database during deactivation"
+msgstr "禁用时模块“%s”不在数据库中"
+
+#: application/src/Module/Manager.php:225
+#, php-format
+msgid "Module \"%s\" is marked as \"%s\" and cannot be installed"
+msgstr "模块“%s”被标记为“%s”，无法安装"
+
+#: application/src/Module/Manager.php:263
+#, php-format
+msgid "Module \"%s\" is marked as \"%s\" and cannot be uninstalled"
+msgstr "模块“%s”被标记为“%s”，无法卸载"
+
+#: application/src/Module/Manager.php:280
+#, php-format
+msgid "Module \"%s\" not found in database during uninstallation"
+msgstr "卸载时模块“%s”不在数据库中"
+
+#: application/src/Module/Manager.php:301
+#, php-format
+msgid "Module \"%s\" is marked as \"%s\" and cannot be upgraded"
+msgstr "模块“%s”被标记为“%s”，无法升级"
+
+#: application/src/Module/Manager.php:323
+#, php-format
+msgid "Module \"%s\" not found in database during upgrade"
+msgstr "升级时在数据库中未发现“%s”模块"
+
+#: application/src/Module/Manager.php:402
+#, php-format
+msgid "Permission denied for the current user to %s the %s module."
+msgstr "当前用户被拒绝授予权限于%s%s模块。"
+
+#: application/src/Mvc/MvcListeners.php:432
+#, php-format
+msgid ""
+"Permission denied for the current user to access the %1$s action of the %2$s"
+" controller."
+msgstr "当前用户被拒绝授予权限于%2$s控制器的%1$s操作。"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:31
+#: application/view/common/navigation-link-form/browse.phtml:8
+msgid "Query"
+msgstr "查询"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:33
+msgid "Display resources using this search query"
+msgstr "以该搜索查询显示资源"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:39
+msgid "Preview title"
+msgstr "预展标题"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:40
+msgid "Heading above resource list"
+msgstr "资源列表之上的标题"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:46
+msgid "Browse link text"
+msgstr "浏览链接文本"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:48
+msgid "Text for link to full browse view"
+msgstr "完全浏览视图的链接文本"
+
+#: application/src/Site/BlockLayout/Fallback.php:43
+msgid "This layout is invalid."
+msgstr "该布局无效。"
+
+#: application/src/Site/BlockLayout/ItemShowcase.php:22
+#: application/src/Site/BlockLayout/Media.php:22
+msgid "Options"
+msgstr "选项"
+
+#: application/src/Site/BlockLayout/LineBreak.php:43
+msgid "Break type"
+msgstr "断路类型"
+
+#: application/src/Site/BlockLayout/TableOfContents.php:28
+msgid "Depth"
+msgstr "深度"
+
+#: application/src/Site/BlockLayout/TableOfContents.php:29
+msgid "Number of child page levels to display"
+msgstr "要显示的子页层级数目"
+
+#: application/src/Site/Navigation/Translator.php:53
+msgid "Home"
+msgstr "主页"
+
+#: application/src/Stdlib/Mailer.php:171
+#, php-format
+msgid ""
+"Greetings, %1$s!\n"
+"\n"
+"It seems you have forgotten your password for %5$s at %2$s\n"
+"\n"
+"To reset your password, click this link:\n"
+"%3$s\n"
+"\n"
+"Your reset link will expire on %4$s."
+msgstr ""
+"欢迎您，%1$s！\n"
+"\n"
+"似乎您已经忘记了在%2$s的为%5$s设置的密码\n"
+"\n"
+"要重置您的密码，请点击该链接：\n"
+"%3$s\n"
+"\n"
+"您的重置链接将于%4$s到期。"
+
+#: application/src/Stdlib/Mailer.php:193
+#, php-format
+msgid "Reset your password for %s"
+msgstr "为%s重设您的密码"
+
+#: application/src/Stdlib/Mailer.php:209
+#, php-format
+msgid ""
+"Greetings!\n"
+"\n"
+"A user has been created for you on %5$s at %1$s\n"
+"\n"
+"Your username is your email: %2$s\n"
+"\n"
+"Click this link to set a password and begin using Omeka S:\n"
+"%3$s\n"
+"\n"
+"Your activation link will expire on %4$s. If you have not completed the user activation process by the time the link expires, you will need to request another activation email from your site administrator."
+msgstr ""
+"欢迎！\n"
+"\n"
+"已为您在%5$s于%1$s创建了用户\n"
+"\n"
+"您的用户名是您的电邮：%2$s\n"
+"\n"
+"点击该链接设置密码并开始使用Omeka S：\n"
+"%3$s\n"
+"\n"
+"您的激活链接将于%4$s到期。如果在链接过期后您尚未完成用户激活程序，您将需要向您的网站管理员请求另一个激活电邮。"
+
+#: application/src/Stdlib/Mailer.php:233
+#, php-format
+msgid "User activation for %s"
+msgstr "为%s激活用户"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:33
+msgid "Show attachment title"
+msgstr "显示附件标题"
+
+#: application/src/View/Helper/BlockThumbnailTypeSelect.php:45
+msgid "Thumbnail type"
+msgstr "缩略图类型"
+
+#: application/src/View/Helper/SearchFilters.php:32
+#: application/view/common/advanced-search/properties.phtml:61
+msgid "is exactly"
+msgstr "是精确的"
+
+#: application/src/View/Helper/SearchFilters.php:33
+#: application/view/common/advanced-search/properties.phtml:62
+msgid "is not exactly"
+msgstr "是不精确的"
+
+#: application/src/View/Helper/SearchFilters.php:34
+#: application/view/common/advanced-search/properties.phtml:63
+msgid "contains"
+msgstr "包含"
+
+#: application/src/View/Helper/SearchFilters.php:35
+#: application/view/common/advanced-search/properties.phtml:64
+msgid "does not contain"
+msgstr "不包含"
+
+#: application/src/View/Helper/SearchFilters.php:36
+#: application/view/common/advanced-search/properties.phtml:65
+msgid "is resource with ID"
+msgstr "是有该ID的资源"
+
+#: application/src/View/Helper/SearchFilters.php:37
+#: application/view/common/advanced-search/properties.phtml:66
+msgid "is not resource with ID"
+msgstr "不是有该ID的资源"
+
+#: application/src/View/Helper/SearchFilters.php:38
+#: application/view/common/advanced-search/properties.phtml:67
+msgid "has any value"
+msgstr "有任意值"
+
+#: application/src/View/Helper/SearchFilters.php:39
+#: application/view/common/advanced-search/properties.phtml:68
+msgid "has no values"
+msgstr "没有值"
+
+#: application/src/View/Helper/SearchFilters.php:47
+msgid "Resource class"
+msgstr "资源类"
+
+#: application/src/View/Helper/SearchFilters.php:78
+msgid "Unknown property"
+msgstr "未知属性"
+
+#: application/src/View/Helper/SearchFilters.php:81
+msgid "[Any property]"
+msgstr "【任意属性】"
+
+#: application/src/View/Helper/SearchFilters.php:89
+#: application/view/common/advanced-search/properties.phtml:48
+msgid "OR"
+msgstr "或"
+
+#: application/src/View/Helper/SearchFilters.php:91
+#: application/view/common/advanced-search/properties.phtml:47
+msgid "AND"
+msgstr "和"
+
+#: application/src/View/Helper/SearchFilters.php:100
+#: application/view/common/search-form.phtml:6
+#: application/view/common/search-form.phtml:7
+#: application/view/layout/layout-admin.phtml:60
+#: application/view/omeka/admin/item-set/search.phtml:11
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:11
+#: application/view/omeka/admin/item/search.phtml:11
+#: application/view/omeka/admin/item/sidebar-select.phtml:13
+#: application/view/omeka/admin/media/search.phtml:11
+#: application/view/omeka/admin/media/sidebar-select.phtml:11
+#: application/view/omeka/site/item-set/search.phtml:12
+#: application/view/omeka/site/item/search.phtml:12
+msgid "Search"
+msgstr "搜索"
+
+#: application/src/View/Helper/SearchFilters.php:106
+msgid "Resource template"
+msgstr "资源模板"
+
+#: application/src/View/Helper/SearchFilters.php:110
+msgid "Unknown resource template"
+msgstr "未知资源模板"
+
+#: application/src/View/Helper/SearchFilters.php:124
+#: application/view/omeka/site/item/browse.phtml:16
+msgid "Item set"
+msgstr "条目集"
+
+#: application/src/View/Helper/SearchFilters.php:128
+msgid "Unknown item set"
+msgstr "未知条目集"
+
+#: application/src/View/Helper/SearchFilters.php:136
+#: application/view/omeka/site-admin/index/users.phtml:28
+msgid "User"
+msgstr "用户"
+
+#: application/src/View/Helper/SearchFilters.php:140
+msgid "Unknown user"
+msgstr "未知用户"
+
+#: application/src/View/Helper/SearchFilters.php:146
+msgid "Site"
+msgstr "网站"
+
+#: application/src/View/Helper/SearchFilters.php:150
+msgid "Unknown site"
+msgstr "未知网站"
+
+#: application/src/View/Helper/UploadLimit.php:26
+#, php-format
+msgid "The maximum upload size is %s MB."
+msgstr "最大上传尺寸是%sMB。"
+
+#: application/view/common/advanced-search/item-sets.phtml:14
+msgid "Search by item set"
+msgstr "按条目集搜索"
+
+#: application/view/common/advanced-search/item-sets.phtml:15
+#: application/view/common/form-row.phtml:14
+#: application/view/omeka/admin/item/sidebar-select.phtml:17
+msgid "Expand"
+msgstr "扩展"
+
+#: application/view/common/advanced-search/item-sets.phtml:17
+msgid "Searches for items that are assigned to any of these item sets."
+msgstr "搜索被分配给这里任意一个条目集的条目。"
+
+#: application/view/common/advanced-search/item-sets.phtml:27
+#: application/view/common/advanced-search/properties.phtml:71
+#: application/view/common/data-type-wrapper.phtml:11
+#: application/view/common/media-field-wrapper.phtml:10
+#: application/view/omeka/admin/item/manage-media.phtml:48
+msgid "Remove value"
+msgstr "移除值"
+
+#: application/view/common/advanced-search/item-sets.phtml:30
+#: application/view/omeka/admin/index/browse.phtml:22
+#: application/view/omeka/admin/item-set/browse.phtml:37
+msgid "Add new item set"
+msgstr "添加新条目集"
+
+#: application/view/common/advanced-search/properties.phtml:37
+msgid "Search by value"
+msgstr "按值搜索"
+
+#: application/view/common/advanced-search/properties.phtml:77
+msgid "Add new value"
+msgstr "添加新值"
+
+#: application/view/common/advanced-search/resource-class.phtml:12
+msgid "Search by class"
+msgstr "按类搜索"
+
+#: application/view/common/advanced-search/site-pool.phtml:11
+msgid "In site pool"
+msgstr "在网站池中"
+
+#: application/view/common/asset-form.phtml:23
+msgid "[No asset selected]"
+msgstr "【尚未选择素材】"
+
+#: application/view/common/asset-form.phtml:29
+msgid "Select"
+msgstr "选择"
+
+#: application/view/common/asset-form.phtml:34
+msgid "Clear"
+msgstr "清空"
+
+#: application/view/common/attachments-form.phtml:7
+#: application/view/common/attachments-form.phtml:27
+msgid "No item selected"
+msgstr "尚未选择条目"
+
+#: application/view/common/attachments-form.phtml:9
+#: application/view/common/attachments-form.phtml:50
+msgid "Open attachment options"
+msgstr "打开附件选项"
+
+#: application/view/common/attachments-form.phtml:10
+#: application/view/common/attachments-form.phtml:51
+msgid "Delete attachment"
+msgstr "删除附件"
+
+#: application/view/common/attachments-form.phtml:11
+#: application/view/common/attachments-form.phtml:52
+msgid "Restore attachment"
+msgstr "恢复附件"
+
+#: application/view/common/attachments-form.phtml:19
+msgid "Attachments"
+msgstr "附件"
+
+#: application/view/common/attachments-form.phtml:59
+msgid "Add attachment"
+msgstr "添加附件"
+
+#: application/view/common/block-layout.phtml:9
+msgid "Block to be removed"
+msgstr "将被移除的段落"
+
+#: application/view/common/block-layout/browse-preview.phtml:26
+msgid "Browse all"
+msgstr "浏览全部"
+
+#: application/view/common/block-layout/item-with-metadata.phtml:9
+#: application/view/common/data-type/resource.phtml:28
+#: application/view/layout/layout-admin.phtml:70
+#: application/view/omeka/admin/item-set/add.phtml:5
+#: application/view/omeka/admin/item-set/browse.phtml:24
+#: application/view/omeka/admin/item-set/edit.phtml:13
+#: application/view/omeka/admin/item-set/search.phtml:4
+#: application/view/omeka/admin/item-set/show.phtml:25
+#: application/view/omeka/admin/item/form.phtml:14
+#: application/view/omeka/admin/item/show-details.phtml:18
+#: application/view/omeka/admin/item/show.phtml:60
+#: application/view/omeka/admin/user/show-details.phtml:9
+#: application/view/omeka/site-admin/index/resources.phtml:23
+#: application/view/omeka/site/item-set/browse.phtml:4
+#: application/view/omeka/site/item/show.phtml:23
+msgid "Item sets"
+msgstr "条目集"
+
+#: application/view/common/data-type-wrapper.phtml:9
+msgid "Value to be removed"
+msgstr "将被移除的值"
+
+#: application/view/common/data-type-wrapper.phtml:12
+#: application/view/omeka/admin/item/manage-media.phtml:52
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:37
+msgid "Restore value"
+msgstr "恢复值"
+
+#: application/view/common/data-type/literal.phtml:1
+msgid "Set language"
+msgstr "设定语言"
+
+#: application/view/common/data-type/resource.phtml:13
+msgid "No resource selected"
+msgstr "尚未选择资源"
+
+#: application/view/common/data-type/resource.phtml:21
+#: application/view/layout/layout-admin.phtml:66
+#: application/view/omeka/admin/item-set/show-details.phtml:15
+#: application/view/omeka/admin/item-set/show.phtml:78
+#: application/view/omeka/admin/item/add.phtml:5
+#: application/view/omeka/admin/item/browse.phtml:24
+#: application/view/omeka/admin/item/edit.phtml:13
+#: application/view/omeka/admin/item/search.phtml:4
+#: application/view/omeka/admin/item/show.phtml:15
+#: application/view/omeka/admin/resource-template/browse.phtml:18
+#: application/view/omeka/admin/resource-template/browse.phtml:45
+#: application/view/omeka/admin/user/show-details.phtml:4
+#: application/view/omeka/admin/vocabulary/classes.phtml:14
+#: application/view/omeka/admin/vocabulary/classes.phtml:38
+#: application/view/omeka/admin/vocabulary/properties.phtml:21
+#: application/view/omeka/site/item/browse.phtml:21
+#: application/view/omeka/site/item/browse.phtml:23
+msgid "Items"
+msgstr "条目"
+
+#: application/view/common/data-type/resource.phtml:35
+#: application/view/layout/layout-admin.phtml:74
+#: application/view/omeka/admin/item/form.phtml:13
+#: application/view/omeka/admin/item/show-details.phtml:26
+#: application/view/omeka/admin/item/show.phtml:76
+#: application/view/omeka/admin/media/browse.phtml:24
+#: application/view/omeka/admin/media/edit.phtml:14
+#: application/view/omeka/admin/media/edit.phtml:22
+#: application/view/omeka/admin/media/search.phtml:4
+#: application/view/omeka/admin/media/show.phtml:10
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:31
+#: application/view/omeka/site/media/show.phtml:4
+msgid "Media"
+msgstr "媒介"
+
+#: application/view/common/data-type/uri.phtml:2
+#: application/view/common/resource-form-templates.phtml:23
+#: application/view/omeka/admin/item-set/batch-edit.phtml:44
+#: application/view/omeka/admin/item/batch-edit.phtml:54
+msgid "URI"
+msgstr "URI"
+
+#: application/view/common/data-type/uri.phtml:6
+#: application/view/common/navigation-link-form/browse.phtml:7
+#: application/view/common/navigation-link-form/page.phtml:14
+#: application/view/common/navigation-link-form/url.phtml:7
+#: application/view/omeka/admin/item-set/batch-edit.phtml:45
+#: application/view/omeka/admin/item/batch-edit.phtml:55
+#: application/view/omeka/admin/resource-template/browse.phtml:6
+#: application/view/omeka/admin/resource-template/browse.phtml:42
+#: application/view/omeka/admin/resource-template/form.phtml:53
+#: application/view/omeka/admin/user/edit.phtml:36
+#: application/view/omeka/admin/vocabulary/browse.phtml:6
+#: application/view/omeka/admin/vocabulary/browse.phtml:42
+#: application/view/omeka/admin/vocabulary/classes.phtml:6
+#: application/view/omeka/admin/vocabulary/classes.phtml:36
+#: application/view/omeka/admin/vocabulary/properties.phtml:19
+msgid "Label"
+msgstr "标签"
+
+#: application/view/common/delete-confirm.phtml:7
+#: application/view/common/item-set-selector.phtml:5
+#: application/view/common/property-selector.phtml:5
+#: application/view/common/resource-select-sidebar.phtml:3
+#: application/view/common/resource-select-sidebar.phtml:9
+#: application/view/omeka/admin/asset/sidebar-select.phtml:6
+#: application/view/omeka/admin/item-set/browse.phtml:141
+#: application/view/omeka/admin/item-set/browse.phtml:148
+#: application/view/omeka/admin/item-set/browse.phtml:166
+#: application/view/omeka/admin/item/browse.phtml:139
+#: application/view/omeka/admin/item/browse.phtml:146
+#: application/view/omeka/admin/item/browse.phtml:164
+#: application/view/omeka/admin/item/manage-media.phtml:70
+#: application/view/omeka/admin/media/browse.phtml:102
+#: application/view/omeka/admin/module/browse.phtml:158
+#: application/view/omeka/admin/resource-template/browse.phtml:99
+#: application/view/omeka/admin/resource-template/form.phtml:41
+#: application/view/omeka/admin/resource-template/form.phtml:50
+#: application/view/omeka/admin/resource-template/show.phtml:58
+#: application/view/omeka/admin/user/browse.phtml:83
+#: application/view/omeka/admin/vocabulary/browse.phtml:91
+#: application/view/omeka/admin/vocabulary/classes.phtml:68
+#: application/view/omeka/admin/vocabulary/properties.phtml:51
+#: application/view/omeka/site-admin/index/index.phtml:100
+#: application/view/omeka/site-admin/index/navigation.phtml:24
+#: application/view/omeka/site-admin/page/edit.phtml:36
+#: application/view/omeka/site-admin/page/index.phtml:55
+msgid "Close"
+msgstr "关闭"
+
+#: application/view/common/delete-confirm.phtml:11
+#, php-format
+msgid "Delete %s"
+msgstr "删除%s"
+
+#: application/view/common/delete-confirm.phtml:12
+#, php-format
+msgid "Are you sure you would like to delete this %s?"
+msgstr "您确定要删除这个%s吗？"
+
+#: application/view/common/filter-selector.phtml:3
+msgid "No filter"
+msgstr "没有过滤"
+
+#: application/view/common/filter-selector.phtml:10
+msgid "Filter"
+msgstr "过滤"
+
+#: application/view/common/item-set-selector.phtml:6
+msgid "Click on an item set to add it to the edit panel."
+msgstr "点击一个条目集，加入到编辑面板中。"
+
+#: application/view/common/item-set-selector.phtml:7
+msgid "Filter item sets"
+msgstr "过滤条目集"
+
+#: application/view/common/item-set-selector.phtml:9
+msgid "All item sets"
+msgstr "所有条目集"
+
+#: application/view/common/item-set-selector.phtml:16
+#: application/view/omeka/admin/item-set/browse.phtml:88
+#: application/view/omeka/admin/item-set/show.phtml:16
+#: application/view/omeka/admin/item/browse.phtml:86
+#: application/view/omeka/admin/item/manage-item-sets.phtml:20
+#: application/view/omeka/admin/item/show.phtml:7
+#: application/view/omeka/admin/job/browse.phtml:57
+#: application/view/omeka/admin/job/show.phtml:17
+#: application/view/omeka/admin/media/browse.phtml:58
+#: application/view/omeka/admin/resource-template/browse.phtml:61
+#: application/view/omeka/site-admin/index/index.phtml:56
+msgid "[no owner]"
+msgstr "【无所有人】"
+
+#: application/view/common/item-set-selector.phtml:29
+#: application/view/common/property-selector.phtml:32
+msgid "More info"
+msgstr "更多信息"
+
+#: application/view/common/linked-resources.phtml:14
+msgid "Filter by property"
+msgstr "按属性过滤"
+
+#: application/view/common/linked-resources.phtml:16
+msgid "All"
+msgstr "所有"
+
+#: application/view/common/linked-resources.phtml:30
+#: application/view/omeka/admin/item-set/browse.phtml:6
+#: application/view/omeka/admin/item-set/browse.phtml:68
+#: application/view/omeka/admin/item/browse.phtml:6
+#: application/view/omeka/admin/item/browse.phtml:67
+#: application/view/omeka/admin/item/manage-item-sets.phtml:8
+#: application/view/omeka/admin/media/browse.phtml:6
+#: application/view/omeka/admin/media/browse.phtml:39
+#: application/view/omeka/site-admin/index/index.phtml:6
+#: application/view/omeka/site-admin/index/index.phtml:38
+#: application/view/omeka/site-admin/index/resources.phtml:60
+#: application/view/omeka/site-admin/index/show.phtml:27
+#: application/view/omeka/site-admin/page/index.phtml:17
+msgid "Title"
+msgstr "标题"
+
+#: application/view/common/linked-resources.phtml:31
+#: application/view/omeka/admin/resource-template/review-import.phtml:37
+#: application/view/omeka/admin/resource-template/show.phtml:27
+msgid "Alternate label"
+msgstr "替代标签"
+
+#: application/view/common/linked-resources.phtml:32
+#: application/view/omeka/admin/item-set/browse.phtml:10
+#: application/view/omeka/admin/item-set/browse.phtml:70
+#: application/view/omeka/admin/item-set/show.phtml:39
+#: application/view/omeka/admin/item/browse.phtml:10
+#: application/view/omeka/admin/item/browse.phtml:68
+#: application/view/omeka/admin/item/show.phtml:27
+#: application/view/omeka/admin/job/browse.phtml:12
+#: application/view/omeka/admin/job/browse.phtml:39
+#: application/view/omeka/admin/job/show.phtml:40
+#: application/view/omeka/admin/media/browse.phtml:10
+#: application/view/omeka/admin/media/browse.phtml:40
+#: application/view/omeka/admin/media/show.phtml:22
+#: application/view/omeka/admin/resource-template/browse.phtml:10
+#: application/view/omeka/admin/resource-template/browse.phtml:43
+#: application/view/omeka/admin/resource-template/review-import.phtml:24
+#: application/view/omeka/admin/resource-template/show.phtml:17
+msgid "Class"
+msgstr "类"
+
+#: application/view/common/media-field-wrapper.phtml:6
+#: application/view/omeka/admin/item-set/form.phtml:39
+#: application/view/omeka/admin/item/form.phtml:41
+#: application/view/omeka/admin/item/manage-media.phtml:30
+#: application/view/omeka/admin/media/edit.phtml:50
+#: application/view/omeka/site-admin/index/edit.phtml:14
+msgid "Make private"
+msgstr "设置为私密"
+
+#: application/view/common/navigation-link-form/browse.phtml:6
+#: application/view/common/navigation-link-form/page.phtml:12
+#: application/view/common/navigation-link-form/url.phtml:6
+msgid "Type"
+msgstr "类型"
+
+#: application/view/common/navigation-link-form/page.phtml:13
+msgid "Page"
+msgstr "页"
+
+#: application/view/common/navigation-link-form/url.phtml:8
+msgid "URL"
+msgstr "URL"
+
+#: application/view/common/pagination.phtml:6
+#: application/view/common/sidebar-pagination.phtml:3
+#, php-format
+msgid "of %s"
+msgstr "是%s的"
+
+#: application/view/common/pagination.phtml:10
+#: application/view/common/sidebar-pagination.phtml:6
+msgid "Previous"
+msgstr "上一个"
+
+#: application/view/common/pagination.phtml:16
+#: application/view/common/sidebar-pagination.phtml:12
+#: application/view/common/site-page-pagination.phtml:3
+msgid "Next"
+msgstr "下一个"
+
+#: application/view/common/pagination.phtml:25
+#, php-format
+msgid "%s–%s of %s"
+msgstr "%s的%s - %s"
+
+#: application/view/common/pagination.phtml:27
+msgid "0 results"
+msgstr "0结果"
+
+#: application/view/common/property-selector.phtml:9
+msgid "Click on a property to add it to the edit panel."
+msgstr "点击一个属性，加入到编辑面板中。"
+
+#: application/view/common/property-selector.phtml:11
+msgid "Filter properties"
+msgstr "过滤属性"
+
+#: application/view/common/resource-fields.phtml:28
+#: application/view/omeka/admin/resource-template/form.phtml:30
+msgid "Add property"
+msgstr "添加属性"
+
+#: application/view/common/resource-form-templates.phtml:9
+#: application/view/omeka/admin/item/sidebar-select.phtml:17
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:34
+#: application/view/omeka/site-admin/page/edit.phtml:42
+msgid "Collapse"
+msgstr "折叠"
+
+#: application/view/common/resource-form-templates.phtml:12
+msgid "Property term for development use"
+msgstr "开发使用的属性术语"
+
+#: application/view/common/resource-form-templates.phtml:17
+msgid "Select the first value type."
+msgstr "选择第一个值类型。"
+
+#: application/view/common/resource-form-templates.phtml:20
+#: application/view/common/resource-form-templates.phtml:26
+#: application/view/common/resource-form-templates.phtml:27
+msgid "Add value"
+msgstr "添加值"
+
+#: application/view/common/resource-form-templates.phtml:21
+msgid "Text"
+msgstr "文本"
+
+#: application/view/common/resource-form-templates.phtml:22
+msgid "Omeka resource"
+msgstr "Omeka资源"
+
+#: application/view/common/resource-select-sidebar.phtml:17
+msgid "Select resource"
+msgstr "选择资源"
+
+#: application/view/common/site-page-pagination.phtml:2
+msgid "Prev"
+msgstr "上一个"
+
+#: application/view/common/sort-link.phtml:3
+msgid "Switch to descending order"
+msgstr "转换至降序排列"
+
+#: application/view/common/sort-link.phtml:5
+msgid "Switch to ascending order"
+msgstr "转换至升序排列"
+
+#: application/view/common/sort-link.phtml:7
+#, php-format
+msgid "Sort by %s"
+msgstr "按%s排序"
+
+#: application/view/common/sort-selector.phtml:11
+msgid "Ascending"
+msgstr "升序排列"
+
+#: application/view/common/sort-selector.phtml:12
+msgid "Descending"
+msgstr "降序排列"
+
+#: application/view/common/sort-selector.phtml:14
+msgid "Sort"
+msgstr "排序"
+
+#: application/view/common/user-bar.phtml:20
+#: application/view/layout/layout-admin.phtml:46
+#, php-format
+msgid "Signed in as %s"
+msgstr "登录为%s"
+
+#: application/view/common/user-bar.phtml:26
+#: application/view/layout/layout-admin.phtml:50
+msgid "Logout"
+msgstr "登出"
+
+#: application/view/common/user-bar.phtml:28
+msgid "Log in"
+msgstr "登录"
+
+#: application/view/common/version-notification.phtml:5
+#, php-format
+msgid "A new version of Omeka S is available. %s"
+msgstr "Omeka S 的新版本已经可用了。%s"
+
+#: application/view/common/version-notification.phtml:9
+#: application/view/omeka/admin/module/browse.phtml:61
+#: application/view/omeka/site-admin/index/theme.phtml:51
+msgid "Get the new version."
+msgstr "获取新版本。"
+
+#: application/view/error/403.phtml:1
+msgid "Forbidden"
+msgstr "禁止"
+
+#: application/view/error/404.phtml:9
+#, php-format
+msgid "Reason: %s"
+msgstr "原因：%s"
+
+#: application/view/error/index.phtml:1
+msgid "Omeka S encountered an error"
+msgstr "Omeka S遭遇了一个错误"
+
+#: application/view/error/index.phtml:8
+msgid "Details:"
+msgstr "细节："
+
+#: application/view/layout/layout-admin.phtml:22
+#: application/view/omeka/site-admin/index/resources.phtml:20
+msgid "Resources"
+msgstr "资源"
+
+#: application/view/layout/layout-admin.phtml:23
+#: application/view/omeka/site-admin/index/add.phtml:6
+#: application/view/omeka/site-admin/index/users.phtml:11
+msgid "Admin"
+msgstr "管理员"
+
+#: application/view/layout/layout-admin.phtml:40
+msgid "Navigation menu"
+msgstr "导航菜单"
+
+#: application/view/layout/layout-admin.phtml:41
+msgid "Search site"
+msgstr "搜素网站"
+
+#: application/view/layout/layout-admin.phtml:42
+msgid "User menu"
+msgstr "用户菜单"
+
+#: application/view/layout/layout-admin.phtml:52
+msgid "not logged in"
+msgstr "未登录"
+
+#: application/view/layout/layout-admin.phtml:59
+msgid "Advanced options"
+msgstr "高级选项"
+
+#: application/view/layout/layout-admin.phtml:62
+msgid "Resource type"
+msgstr "资源类型"
+
+#: application/view/layout/layout-admin.phtml:64
+msgid "Search items"
+msgstr "搜索条目"
+
+#: application/view/layout/layout-admin.phtml:68
+msgid "Search item sets"
+msgstr "搜索条目集"
+
+#: application/view/layout/layout-admin.phtml:72
+msgid "Search media"
+msgstr "搜索媒体"
+
+#: application/view/layout/layout-admin.phtml:85
+#: application/view/omeka/site-admin/index/index.phtml:69
+msgid "View public site"
+msgstr "访问公共网站"
+
+#: application/view/layout/layout-admin.phtml:91
+#: application/view/omeka/admin/module/browse.phtml:10
+#: application/view/omeka/admin/module/configure.phtml:5
+msgid "Modules"
+msgstr "模块"
+
+#: application/view/layout/layout-admin.phtml:109
+msgid "Omeka S"
+msgstr "Omeka S"
+
+#: application/view/layout/layout-admin.phtml:109
+#: application/view/omeka/admin/module/browse.phtml:38
+#: application/view/omeka/site-admin/index/theme-selector.phtml:36
+#: application/view/omeka/site-admin/index/theme.phtml:33
+#, php-format
+msgid "version %s"
+msgstr "版本%s"
+
+#: application/view/layout/layout-admin.phtml:110
+#: application/view/omeka/admin/system-info/browse.phtml:3
+msgid "System information"
+msgstr "系统信息"
+
+#: application/view/layout/layout.phtml:28
+msgid "Powered by Omeka S"
+msgstr "由Omeka S支持"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:9
+msgid "Upload new asset"
+msgstr "添加新素材"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:12
+msgid "Upload"
+msgstr "上传"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:17
+msgid "Select asset"
+msgstr "选择素材"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:28
+msgid "Delete asset"
+msgstr "删除素材"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:32
+msgid "Cancel delete"
+msgstr "取消删除"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:52
+msgid "assets"
+msgstr "素材"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:57
+msgid ""
+"Are you sure you want to delete this asset? It will no longer be available "
+"to any sites currently using it."
+msgstr "您确定要删除这个素材吗？它将不再能被现在正使用它的任何网站使用。"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:58
+msgid "Confirm delete"
+msgstr "确认删除"
+
+#: application/view/omeka/admin/index/browse.phtml:3
+#: application/view/omeka/index/index.phtml:19
+msgid "Admin dashboard"
+msgstr "管理控制板"
+
+#: application/view/omeka/admin/index/browse.phtml:8
+#, php-format
+msgid "Welcome to the %s admin dashboard!"
+msgstr "欢迎来到%s管理控制板！"
+
+#: application/view/omeka/admin/index/browse.phtml:11
+msgid "Manage resources"
+msgstr "管理资源"
+
+#: application/view/omeka/admin/index/browse.phtml:14
+#, php-format
+msgid "Items (%s)"
+msgstr "条目（%s）"
+
+#: application/view/omeka/admin/index/browse.phtml:16
+#: application/view/omeka/admin/item/browse.phtml:36
+msgid "Add new item"
+msgstr "添加新条目"
+
+#: application/view/omeka/admin/index/browse.phtml:20
+#, php-format
+msgid "Item sets (%s)"
+msgstr "条目集（%s）"
+
+#: application/view/omeka/admin/index/browse.phtml:26
+#, php-format
+msgid "Vocabularies (%s)"
+msgstr "词汇（%s）"
+
+#: application/view/omeka/admin/index/browse.phtml:28
+#: application/view/omeka/admin/vocabulary/browse.phtml:28
+msgid "Import new vocabulary"
+msgstr "输入新词汇"
+
+#: application/view/omeka/admin/index/browse.phtml:32
+#, php-format
+msgid "Resource templates (%s)"
+msgstr "资源模板（%s）"
+
+#: application/view/omeka/admin/index/browse.phtml:34
+#: application/view/omeka/admin/resource-template/browse.phtml:29
+msgid "Add new resource template"
+msgstr "添加新资源模板"
+
+#: application/view/omeka/admin/index/browse.phtml:41
+msgid "Manage sites"
+msgstr "管理网站"
+
+#: application/view/omeka/admin/index/browse.phtml:47
+#: application/view/omeka/admin/item-set/browse.phtml:104
+#: application/view/omeka/admin/item-set/edit.phtml:13
+#: application/view/omeka/admin/item/browse.phtml:102
+#: application/view/omeka/admin/item/edit.phtml:13
+#: application/view/omeka/admin/item/manage-media.phtml:43
+#: application/view/omeka/admin/media/browse.phtml:70
+#: application/view/omeka/admin/resource-template/browse.phtml:71
+#: application/view/omeka/admin/user/browse.phtml:51
+#: application/view/omeka/admin/user/edit.phtml:13
+#: application/view/omeka/admin/vocabulary/browse.phtml:58
+#: application/view/omeka/admin/vocabulary/edit.phtml:6
+#: application/view/omeka/site-admin/index/index.phtml:74
+#: application/view/omeka/site-admin/index/show.phtml:14
+#: application/view/omeka/site-admin/page/edit.phtml:10
+#: application/view/omeka/site-admin/page/index.phtml:34
+msgid "Edit"
+msgstr "编辑"
+
+#: application/view/omeka/admin/index/browse.phtml:52
+msgid "Add site"
+msgstr "添加网站"
+
+#: application/view/omeka/admin/item-set/add.phtml:5
+msgid "New item set"
+msgstr "新条目集"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:2
+msgid "Batch edit item sets"
+msgstr "批量编辑条目集"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:11
+#: application/view/omeka/admin/item/batch-edit.phtml:21
+msgid "Select property"
+msgstr "选择属性"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:16
+#: application/view/omeka/admin/item-set/batch-edit.phtml:144
+#: application/view/omeka/admin/item/batch-edit.phtml:26
+#: application/view/omeka/admin/item/batch-edit.phtml:167
+msgid "Add text value"
+msgstr "添加文本值"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:22
+#: application/view/omeka/admin/item-set/batch-edit.phtml:34
+#: application/view/omeka/admin/item-set/batch-edit.phtml:47
+#: application/view/omeka/admin/item-set/batch-edit.phtml:132
+#: application/view/omeka/admin/item/batch-edit.phtml:32
+#: application/view/omeka/admin/item/batch-edit.phtml:44
+#: application/view/omeka/admin/item/batch-edit.phtml:57
+#: application/view/omeka/admin/item/batch-edit.phtml:129
+#: application/view/omeka/admin/item/batch-edit.phtml:142
+#: application/view/omeka/admin/item/batch-edit.phtml:155
+msgid "Remove"
+msgstr "删除"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:28
+#: application/view/omeka/admin/item-set/batch-edit.phtml:145
+#: application/view/omeka/admin/item/batch-edit.phtml:38
+#: application/view/omeka/admin/item/batch-edit.phtml:168
+msgid "Add resource value"
+msgstr "添加资源值"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:32
+#: application/view/omeka/admin/item/batch-edit.phtml:42
+msgid "Resource ID"
+msgstr "资源ID"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:40
+#: application/view/omeka/admin/item-set/batch-edit.phtml:146
+#: application/view/omeka/admin/item/batch-edit.phtml:50
+#: application/view/omeka/admin/item/batch-edit.phtml:169
+msgid "Add URI value"
+msgstr "添加URI值"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:60
+#: application/view/omeka/admin/item-set/edit.phtml:19
+#: application/view/omeka/admin/item-set/form.phtml:51
+#: application/view/omeka/admin/item/batch-edit.phtml:70
+#: application/view/omeka/admin/item/edit.phtml:21
+#: application/view/omeka/admin/media/edit.phtml:63
+#: application/view/omeka/admin/resource-template/edit.phtml:12
+#: application/view/omeka/admin/setting/browse.phtml:10
+#: application/view/omeka/admin/user/edit.phtml:17
+#: application/view/omeka/admin/vocabulary/edit.phtml:11
+#: application/view/omeka/site-admin/index/edit.phtml:28
+#: application/view/omeka/site-admin/index/navigation.phtml:15
+#: application/view/omeka/site-admin/index/resources.phtml:30
+#: application/view/omeka/site-admin/index/settings.phtml:8
+#: application/view/omeka/site-admin/index/theme-settings.phtml:10
+#: application/view/omeka/site-admin/index/theme.phtml:16
+#: application/view/omeka/site-admin/index/users.phtml:21
+#: application/view/omeka/site-admin/page/edit.phtml:16
+msgid "Save"
+msgstr "保存"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:65
+#: application/view/omeka/admin/item/batch-edit.phtml:75
+msgid "Set visibility"
+msgstr "设定可视度"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:69
+#: application/view/omeka/admin/item-set/batch-edit.phtml:82
+#: application/view/omeka/admin/item-set/batch-edit.phtml:97
+#: application/view/omeka/admin/item-set/batch-edit.phtml:118
+#: application/view/omeka/admin/item/batch-edit.phtml:79
+#: application/view/omeka/admin/item/batch-edit.phtml:94
+#: application/view/omeka/admin/item/batch-edit.phtml:115
+msgid "[No change]"
+msgstr "【无变化】"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:70
+#: application/view/omeka/admin/item-set/show-details.phtml:11
+#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item/batch-edit.phtml:80
+#: application/view/omeka/admin/item/show-details.phtml:13
+#: application/view/omeka/admin/item/show.phtml:55
+#: application/view/omeka/admin/media/show-details.phtml:30
+#: application/view/omeka/admin/media/show.phtml:32
+msgid "Public"
+msgstr "公开"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:71
+#: application/view/omeka/admin/item/batch-edit.phtml:81
+msgid "Not public"
+msgstr "非公开的"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:78
+msgid "Set openness"
+msgstr "设定开放性"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:83
+msgid "Open"
+msgstr "开放"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:84
+msgid "Not open"
+msgstr "不开放"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:91
+#: application/view/omeka/admin/item/batch-edit.phtml:88
+msgid "Set template"
+msgstr "设置模板"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:98
+#: application/view/omeka/admin/item/batch-edit.phtml:95
+msgid "[Unset template]"
+msgstr "【取消模板】"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:112
+#: application/view/omeka/admin/item/batch-edit.phtml:109
+msgid "Set class"
+msgstr "设定类"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:119
+#: application/view/omeka/admin/item/batch-edit.phtml:116
+msgid "[Unset class]"
+msgstr "【取消类】"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:127
+#: application/view/omeka/admin/item/batch-edit.phtml:150
+msgid "Clear property values"
+msgstr "清空属性值"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:134
+#: application/view/omeka/admin/item/batch-edit.phtml:157
+msgid "Clear another property"
+msgstr "清空另一个属性"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:153
+msgid "Affected item sets"
+msgstr "受影响的条目集"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:155
+#, php-format
+msgid "You are editing the following %s item sets:"
+msgstr "您正在编辑下面的%s条目集："
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:162
+#, php-format
+msgid "You are editing %s item sets."
+msgstr "您正在编辑%s条目集。"
+
+#: application/view/omeka/admin/item-set/browse.phtml:14
+#: application/view/omeka/admin/item-set/browse.phtml:71
+#: application/view/omeka/admin/item-set/show.phtml:69
+#: application/view/omeka/admin/item/browse.phtml:14
+#: application/view/omeka/admin/item/browse.phtml:69
+#: application/view/omeka/admin/item/manage-item-sets.phtml:9
+#: application/view/omeka/admin/item/show.phtml:71
+#: application/view/omeka/admin/job/browse.phtml:20
+#: application/view/omeka/admin/job/browse.phtml:41
+#: application/view/omeka/admin/job/show.phtml:44
+#: application/view/omeka/admin/media/browse.phtml:14
+#: application/view/omeka/admin/media/browse.phtml:41
+#: application/view/omeka/admin/resource-template/browse.phtml:14
+#: application/view/omeka/admin/resource-template/browse.phtml:44
+#: application/view/omeka/site-admin/index/index.phtml:14
+#: application/view/omeka/site-admin/index/index.phtml:40
+#: application/view/omeka/site-admin/index/resources.phtml:61
+msgid "Owner"
+msgstr "所有人"
+
+#: application/view/omeka/admin/item-set/browse.phtml:18
+#: application/view/omeka/admin/item-set/browse.phtml:72
+#: application/view/omeka/admin/item-set/show.phtml:65
+#: application/view/omeka/admin/item/browse.phtml:18
+#: application/view/omeka/admin/item/browse.phtml:70
+#: application/view/omeka/admin/item/show.phtml:67
+#: application/view/omeka/admin/media/browse.phtml:18
+#: application/view/omeka/admin/media/browse.phtml:42
+#: application/view/omeka/admin/media/show.phtml:40
+#: application/view/omeka/admin/user/browse.phtml:14
+#: application/view/omeka/admin/user/browse.phtml:39
+msgid "Created"
+msgstr "创建于"
+
+#: application/view/omeka/admin/item-set/browse.phtml:30
+#: application/view/omeka/admin/item-set/search.phtml:4
+#: application/view/omeka/admin/item/browse.phtml:30
+#: application/view/omeka/admin/item/search.phtml:4
+#: application/view/omeka/admin/media/browse.phtml:30
+#: application/view/omeka/admin/media/search.phtml:4
+#: application/view/omeka/site/item-set/browse.phtml:7
+#: application/view/omeka/site/item/browse.phtml:27
+msgid "Advanced search"
+msgstr "高级搜索"
+
+#: application/view/omeka/admin/item-set/browse.phtml:47
+#: application/view/omeka/admin/item/browse.phtml:46
+msgid "Batch actions"
+msgstr "批量操作"
+
+#: application/view/omeka/admin/item-set/browse.phtml:48
+#: application/view/omeka/admin/item/browse.phtml:47
+msgid "Edit selected"
+msgstr "编辑被选中的"
+
+#: application/view/omeka/admin/item-set/browse.phtml:49
+#: application/view/omeka/admin/item/browse.phtml:48
+msgid "Edit all"
+msgstr "编辑所有"
+
+#: application/view/omeka/admin/item-set/browse.phtml:50
+#: application/view/omeka/admin/item/browse.phtml:49
+msgid "Delete selected"
+msgstr "删除被选中的"
+
+#: application/view/omeka/admin/item-set/browse.phtml:51
+#: application/view/omeka/admin/item/browse.phtml:50
+msgid "Delete all"
+msgstr "删除所有"
+
+#: application/view/omeka/admin/item-set/browse.phtml:54
+#: application/view/omeka/admin/item-set/browse.phtml:55
+#: application/view/omeka/admin/item-set/browse.phtml:56
+#: application/view/omeka/admin/item-set/browse.phtml:58
+#: application/view/omeka/admin/item-set/browse.phtml:59
+#: application/view/omeka/admin/item/browse.phtml:53
+#: application/view/omeka/admin/item/browse.phtml:54
+#: application/view/omeka/admin/item/browse.phtml:55
+#: application/view/omeka/admin/item/browse.phtml:57
+#: application/view/omeka/admin/item/browse.phtml:58
+msgid "Go"
+msgstr "前往"
+
+#: application/view/omeka/admin/item-set/browse.phtml:98
+#: application/view/omeka/admin/item-set/show-details.phtml:11
+#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item/browse.phtml:96
+#: application/view/omeka/admin/item/show-details.phtml:13
+#: application/view/omeka/admin/item/show.phtml:55
+#: application/view/omeka/admin/media/browse.phtml:65
+#: application/view/omeka/admin/media/show-details.phtml:30
+#: application/view/omeka/admin/media/show.phtml:32
+#: application/view/omeka/site-admin/index/index.phtml:63
+msgid "Private"
+msgstr "私有"
+
+#: application/view/omeka/admin/item-set/browse.phtml:112
+#: application/view/omeka/admin/item-set/edit.phtml:5
+#: application/view/omeka/admin/item/browse.phtml:110
+#: application/view/omeka/admin/item/edit.phtml:5
+#: application/view/omeka/admin/media/browse.phtml:76
+#: application/view/omeka/admin/media/edit.phtml:61
+#: application/view/omeka/admin/resource-template/browse.phtml:78
+#: application/view/omeka/admin/resource-template/form.phtml:12
+#: application/view/omeka/admin/user/browse.phtml:58
+#: application/view/omeka/admin/user/edit.phtml:38
+#: application/view/omeka/admin/vocabulary/browse.phtml:65
+#: application/view/omeka/admin/vocabulary/edit.phtml:10
+#: application/view/omeka/site-admin/index/edit.phtml:26
+#: application/view/omeka/site-admin/index/index.phtml:81
+#: application/view/omeka/site-admin/index/users.phtml:6
+#: application/view/omeka/site-admin/page/edit.phtml:15
+msgid "Delete"
+msgstr "删除"
+
+#: application/view/omeka/admin/item-set/browse.phtml:119
+#: application/view/omeka/admin/item/browse.phtml:117
+#: application/view/omeka/admin/media/browse.phtml:82
+#: application/view/omeka/admin/resource-template/browse.phtml:84
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:23
+#: application/view/omeka/admin/resource-template/show.phtml:42
+#: application/view/omeka/admin/user/browse.phtml:64
+#: application/view/omeka/admin/vocabulary/browse.phtml:72
+#: application/view/omeka/admin/vocabulary/classes.phtml:52
+#: application/view/omeka/admin/vocabulary/properties.phtml:35
+msgid "Details"
+msgstr "详情"
+
+#: application/view/omeka/admin/item-set/browse.phtml:152
+#: application/view/omeka/admin/item-set/browse.phtml:170
+msgid "Delete item sets"
+msgstr "删除条目集"
+
+#: application/view/omeka/admin/item-set/browse.phtml:153
+msgid "Are you sure you would like to delete the selected item sets?"
+msgstr "您确定要删除选定的条目集吗？"
+
+#: application/view/omeka/admin/item-set/browse.phtml:155
+#: application/view/omeka/admin/item-set/browse.phtml:173
+#, php-format
+msgid ""
+"%s: this action will permanently delete %s item sets and cannot be undone."
+msgstr "%s：该操作将永久删除%s条目集，并且不能被恢复。"
+
+#: application/view/omeka/admin/item-set/browse.phtml:156
+#: application/view/omeka/admin/item-set/browse.phtml:174
+#: application/view/omeka/admin/item/browse.phtml:154
+#: application/view/omeka/admin/item/browse.phtml:172
+msgid "Warning"
+msgstr "警告"
+
+#: application/view/omeka/admin/item-set/browse.phtml:171
+msgid ""
+"Are you sure you would like to delete all item sets on all pages of this "
+"result?"
+msgstr "您确定要删除该结果的所有页面上的所有条目集吗？"
+
+#: application/view/omeka/admin/item-set/browse.phtml:177
+#: application/view/omeka/admin/item/browse.phtml:175
+msgid "Are you sure?"
+msgstr "您是否确定执行操作？"
+
+#: application/view/omeka/admin/item-set/browse.phtml:211
+msgid "Omeka could not find any item sets."
+msgstr "Omeka没有发现任何条目集。"
+
+#: application/view/omeka/admin/item-set/form.phtml:11
+#: application/view/omeka/admin/item/form.phtml:12
+#: application/view/omeka/admin/media/edit.phtml:11
+msgid "Values"
+msgstr "值"
+
+#: application/view/omeka/admin/item-set/form.phtml:25
+msgid "Close item set"
+msgstr "关闭条目集"
+
+#: application/view/omeka/admin/item-set/form.phtml:31
+msgid "Open item set"
+msgstr "打开条目集"
+
+#: application/view/omeka/admin/item-set/form.phtml:45
+#: application/view/omeka/admin/item/form.phtml:47
+#: application/view/omeka/admin/item/manage-media.phtml:36
+#: application/view/omeka/admin/media/edit.phtml:56
+#: application/view/omeka/site-admin/index/add.phtml:19
+#: application/view/omeka/site-admin/index/edit.phtml:20
+msgid "Make public"
+msgstr "设置为公开"
+
+#: application/view/omeka/admin/item-set/show-details.phtml:10
+#: application/view/omeka/admin/item-set/show.phtml:73
+#: application/view/omeka/admin/item/show-details.phtml:12
+#: application/view/omeka/admin/item/show.phtml:54
+#: application/view/omeka/admin/media/show-details.phtml:29
+#: application/view/omeka/admin/media/show.phtml:31
+msgid "Visibility"
+msgstr "可视度"
+
+#: application/view/omeka/admin/item-set/show-details.phtml:12
+#: application/view/omeka/admin/item-set/show.phtml:75
+msgid "Open to additions"
+msgstr "添加是开放的"
+
+#: application/view/omeka/admin/item-set/show-details.phtml:12
+#: application/view/omeka/admin/item-set/show.phtml:75
+msgid "Closed to additions"
+msgstr "添加已关闭"
+
+#: application/view/omeka/admin/item-set/show.phtml:20
+#: application/view/omeka/admin/item/show.phtml:11
+#: application/view/omeka/admin/media/show.phtml:6
+msgid "Metadata"
+msgstr "元数据"
+
+#: application/view/omeka/admin/item-set/show.phtml:21
+#: application/view/omeka/admin/item/show.phtml:12
+#: application/view/omeka/site/item/show.phtml:44
+msgid "Linked resources"
+msgstr "关联资源"
+
+#: application/view/omeka/admin/item-set/show.phtml:29
+msgid "Edit item set"
+msgstr "编辑条目集"
+
+#: application/view/omeka/admin/item-set/show.phtml:31
+msgid "View items"
+msgstr "查看条目"
+
+#: application/view/omeka/admin/item-set/show.phtml:53
+msgid "The following resources link to this item set:"
+msgstr "以下资源链接到该条目集："
+
+#: application/view/omeka/admin/item-set/show.phtml:57
+msgid "No resources link to this item set."
+msgstr "没有资源链接到该条目集。"
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:7
+msgid "Select item set"
+msgstr "选择条目集"
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:38
+msgid "item sets"
+msgstr "条目集"
+
+#: application/view/omeka/admin/item/add.phtml:5
+msgid "New item"
+msgstr "新条目"
+
+#: application/view/omeka/admin/item/add.phtml:12
+#: application/view/omeka/admin/resource-template/add.phtml:11
+#: application/view/omeka/admin/user/add.phtml:11
+#: application/view/omeka/site-admin/index/add-page.phtml:8
+#: application/view/omeka/site-admin/index/add.phtml:22
+msgid "Add"
+msgstr "添加"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:2
+msgid "Batch edit items"
+msgstr "批量编辑条目"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:124
+#: application/view/omeka/admin/item/manage-item-sets.phtml:42
+msgid "Add to item set"
+msgstr "添加如条目集"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:131
+msgid "Add another item set"
+msgstr "添加下一个条目集"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:137
+msgid "Remove from item set"
+msgstr "从条目集里移除"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:144
+msgid "Remove another item set"
+msgstr "移除下一个条目集"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:176
+msgid "Affected items"
+msgstr "受影响的条目"
+
+#: application/view/omeka/admin/item/batch-edit.phtml:178
+#, php-format
+msgid "You are editing the following %s items:"
+msgstr "您正在编辑下面%s条目："
+
+#: application/view/omeka/admin/item/batch-edit.phtml:185
+#, php-format
+msgid "You are editing %s items."
+msgstr "您正在编辑%s条目。"
+
+#: application/view/omeka/admin/item/browse.phtml:150
+#: application/view/omeka/admin/item/browse.phtml:168
+msgid "Delete items"
+msgstr "删除条目"
+
+#: application/view/omeka/admin/item/browse.phtml:151
+msgid "Are you sure you would like to delete the selected items?"
+msgstr "您确定要删除选定的条目吗？"
+
+#: application/view/omeka/admin/item/browse.phtml:153
+#: application/view/omeka/admin/item/browse.phtml:171
+#, php-format
+msgid "%s: this action will permanently delete %s items and cannot be undone."
+msgstr "%s：该操作将永久删除%s条目，并且不能被恢复。"
+
+#: application/view/omeka/admin/item/browse.phtml:169
+msgid ""
+"Are you sure you would like to delete all items on all pages of this result?"
+msgstr "您确定要删除该结果的所有页面上的所有条目吗？"
+
+#: application/view/omeka/admin/item/browse.phtml:209
+msgid "Omeka could not find any items."
+msgstr "Omeka找不到任何条目。"
+
+#: application/view/omeka/admin/item/manage-item-sets.phtml:29
+#: application/view/omeka/admin/item/manage-item-sets.phtml:52
+#: application/view/omeka/site-admin/index/resources.phtml:13
+msgid "Remove item set"
+msgstr "移除条目集"
+
+#: application/view/omeka/admin/item/manage-item-sets.phtml:39
+msgid ""
+"This item is part of no item sets. Add it to an item set using the interface"
+" to the right."
+msgstr "该条目不属于任何条目集。用右边的界面把它添加到一个条目集中。"
+
+#: application/view/omeka/admin/item/manage-media.phtml:21
+msgid "Media to be removed"
+msgstr "将被移除的媒体"
+
+#: application/view/omeka/admin/item/manage-media.phtml:63
+msgid ""
+"This resource has no media.<br>Start adding media using the sidebar to the "
+"right."
+msgstr "该资源没有媒体。<br>用右边的界面添加媒体。"
+
+#: application/view/omeka/admin/item/manage-media.phtml:67
+#: application/view/omeka/admin/item/manage-media.phtml:71
+msgid "Add media"
+msgstr "添加媒体"
+
+#: application/view/omeka/admin/item/show.phtml:18
+msgid "Edit item"
+msgstr "编辑条目"
+
+#: application/view/omeka/admin/item/show.phtml:41
+msgid "The following resources link to this item:"
+msgstr "以下资源链接到该条目："
+
+#: application/view/omeka/admin/item/show.phtml:45
+msgid "No resources link to this item."
+msgstr "没有资源链接到该条目："
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:8
+msgid "Select item"
+msgstr "选择条目"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:17
+msgid "Filter search"
+msgstr "过滤搜索"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:55
+msgid "Quick add"
+msgstr "快速添加"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:86
+msgid "items"
+msgstr "条目"
+
+#: application/view/omeka/admin/job/browse.phtml:8
+#: application/view/omeka/admin/job/browse.phtml:38
+#: application/view/omeka/admin/user/edit.phtml:37
+msgid "ID"
+msgstr "ID"
+
+#: application/view/omeka/admin/job/browse.phtml:16
+#: application/view/omeka/admin/job/browse.phtml:40
+#: application/view/omeka/admin/job/show.phtml:28
+msgid "Status"
+msgstr "状态"
+
+#: application/view/omeka/admin/job/browse.phtml:26
+#: application/view/omeka/admin/job/show.phtml:20
+msgid "Jobs"
+msgstr "任务"
+
+#: application/view/omeka/admin/job/browse.phtml:79
+msgid "Omeka could not find any jobs."
+msgstr "Omeka找不到任何任务。"
+
+#: application/view/omeka/admin/job/show.phtml:7
+msgid "[not started]"
+msgstr "【未开始】"
+
+#: application/view/omeka/admin/job/show.phtml:12
+msgid "[not ended]"
+msgstr "【未结束】"
+
+#: application/view/omeka/admin/job/show.phtml:32
+msgid "Started"
+msgstr "已开始"
+
+#: application/view/omeka/admin/job/show.phtml:36
+msgid "Ended"
+msgstr "已结束"
+
+#: application/view/omeka/admin/job/show.phtml:48
+msgid "Args"
+msgstr "参数"
+
+#: application/view/omeka/admin/job/show.phtml:53
+msgid "[no args]"
+msgstr "【无参数】"
+
+#: application/view/omeka/admin/job/show.phtml:57
+msgid "Log"
+msgstr "日志"
+
+#: application/view/omeka/admin/job/show.phtml:60
+msgid "view log"
+msgstr "浏览日志"
+
+#: application/view/omeka/admin/job/show.phtml:64
+msgid "[no log]"
+msgstr "【无日志】"
+
+#: application/view/omeka/admin/media/browse.phtml:110
+msgid "Omeka could not find any media."
+msgstr "Omeka找不到任何媒体。"
+
+#: application/view/omeka/admin/media/show-details.phtml:17
+msgid "Part of Item"
+msgstr "条目的一部分"
+
+#: application/view/omeka/admin/media/show-details.phtml:23
+#: application/view/omeka/admin/media/show.phtml:45
+msgid "MIME type"
+msgstr "MIME类型"
+
+#: application/view/omeka/admin/media/show.phtml:13
+msgid "Edit media"
+msgstr "编辑媒体"
+
+#: application/view/omeka/admin/media/show.phtml:35
+msgid "Part of item"
+msgstr "条目的一部分"
+
+#: application/view/omeka/admin/media/show.phtml:50
+msgid "Ingester"
+msgstr "获取器"
+
+#: application/view/omeka/admin/media/show.phtml:55
+msgid "Source"
+msgstr "来源"
+
+#: application/view/omeka/admin/media/show.phtml:61
+msgid "File Derivatives"
+msgstr "文件衍生品"
+
+#: application/view/omeka/admin/media/show.phtml:63
+msgid "original"
+msgstr "原版"
+
+#: application/view/omeka/admin/media/show.phtml:66
+msgid "large"
+msgstr "大"
+
+#: application/view/omeka/admin/media/show.phtml:67
+msgid "medium"
+msgstr "中"
+
+#: application/view/omeka/admin/media/show.phtml:68
+msgid "square"
+msgstr "正方形"
+
+#: application/view/omeka/admin/media/sidebar-select.phtml:7
+msgid "Select media"
+msgstr "选择媒体"
+
+#: application/view/omeka/admin/media/sidebar-select.phtml:37
+msgid "media"
+msgstr "媒体"
+
+#: application/view/omeka/admin/module/browse.phtml:14
+msgid "All modules"
+msgstr "所有模块"
+
+#: application/view/omeka/admin/module/browse.phtml:35
+msgid "name not found"
+msgstr "未发现名称"
+
+#: application/view/omeka/admin/module/browse.phtml:43
+#: application/view/omeka/admin/module/browse.phtml:45
+#, php-format
+msgid "by %s"
+msgstr "由%s"
+
+#: application/view/omeka/admin/module/browse.phtml:57
+#, php-format
+msgid "A new version of this module is available. %s"
+msgstr "该模块的新版本已经可用。%s"
+
+#: application/view/omeka/admin/module/browse.phtml:74
+#: application/view/omeka/admin/module/browse.phtml:82
+#: application/view/omeka/admin/module/configure.phtml:5
+#: application/view/omeka/site-admin/index/theme-settings.phtml:5
+msgid "Configure"
+msgstr "配置"
+
+#: application/view/omeka/admin/module/browse.phtml:126
+msgid "Uninstall"
+msgstr "卸载"
+
+#: application/view/omeka/admin/module/browse.phtml:143
+msgid "Error: invalid Module.php file"
+msgstr "错误：无效Module.php文件"
+
+#: application/view/omeka/admin/module/browse.phtml:145
+msgid "Error: invalid config/module.ini file"
+msgstr "错误：无效config/module.ini文件"
+
+#: application/view/omeka/admin/module/browse.phtml:147
+#, php-format
+msgid "Error: %1$s requires Omeka S %2$s"
+msgstr "错误：%1$s要求Omeka S %2$s"
+
+#: application/view/omeka/admin/module/browse.phtml:149
+msgid "Error: module in database but not in filesystem"
+msgstr "错误：模块在数据库中，但不在文件系统中"
+
+#: application/view/omeka/admin/module/browse.phtml:166
+msgid "Omeka could not find any modules."
+msgstr "Omeka找不到任何模块。"
+
+#: application/view/omeka/admin/module/configure.phtml:9
+msgid "Submit"
+msgstr "提交"
+
+#: application/view/omeka/admin/module/uninstall-confirm.phtml:2
+msgid "Uninstall module"
+msgstr "卸载模块"
+
+#: application/view/omeka/admin/module/uninstall-confirm.phtml:3
+msgid "Are you sure you would like to uninstall this module?"
+msgstr "您确定要卸载该模块吗？"
+
+#: application/view/omeka/admin/property/show-details.phtml:3
+#: application/view/omeka/admin/resource-class/show-details.phtml:3
+msgid "Vocabulary"
+msgstr "词汇"
+
+#: application/view/omeka/admin/property/show-details.phtml:7
+#: application/view/omeka/admin/resource-class/show-details.phtml:7
+#: application/view/omeka/admin/vocabulary/classes.phtml:10
+#: application/view/omeka/admin/vocabulary/classes.phtml:37
+#: application/view/omeka/admin/vocabulary/properties.phtml:20
+msgid "Term"
+msgstr "术语"
+
+#: application/view/omeka/admin/property/show-details.phtml:11
+#: application/view/omeka/admin/resource-class/show-details.phtml:11
+#: application/view/omeka/admin/resource-template/form.phtml:60
+msgid "Comment"
+msgstr "评论"
+
+#: application/view/omeka/admin/resource-template/add.phtml:3
+msgid "New resource template"
+msgstr "新资源模板"
+
+#: application/view/omeka/admin/resource-template/add.phtml:3
+#: application/view/omeka/admin/resource-template/browse.phtml:24
+#: application/view/omeka/admin/resource-template/edit.phtml:3
+#: application/view/omeka/admin/resource-template/import.phtml:4
+#: application/view/omeka/admin/resource-template/review-import.phtml:4
+#: application/view/omeka/admin/resource-template/show.phtml:6
+msgid "Resource templates"
+msgstr "资源模板"
+
+#: application/view/omeka/admin/resource-template/browse.phtml:27
+#: application/view/omeka/admin/resource-template/import.phtml:4
+#: application/view/omeka/admin/vocabulary/import.phtml:10
+msgid "Import"
+msgstr "输入"
+
+#: application/view/omeka/admin/resource-template/browse.phtml:107
+msgid "Omeka could not find any resource templates."
+msgstr "Omeka找不到任何资源模板。"
+
+#: application/view/omeka/admin/resource-template/form.phtml:54
+#: application/view/omeka/admin/resource-template/form.phtml:61
+msgid "Original"
+msgstr "原版"
+
+#: application/view/omeka/admin/resource-template/form.phtml:56
+#: application/view/omeka/admin/resource-template/form.phtml:63
+msgid "Alternate"
+msgstr "替代"
+
+#: application/view/omeka/admin/resource-template/form.phtml:67
+msgid "Other options"
+msgstr "其它选项"
+
+#: application/view/omeka/admin/resource-template/form.phtml:70
+msgid "Required"
+msgstr "必需的"
+
+#: application/view/omeka/admin/resource-template/form.phtml:75
+#: application/view/omeka/admin/resource-template/review-import.phtml:36
+#: application/view/omeka/admin/resource-template/show.phtml:26
+msgid "Data type"
+msgstr "数据类型"
+
+#: application/view/omeka/admin/resource-template/form.phtml:81
+msgid "Set changes"
+msgstr "设定更新"
+
+#: application/view/omeka/admin/resource-template/import.phtml:8
+msgid "Review import"
+msgstr "审核输入"
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:4
+msgid "Review"
+msgstr "审核"
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:8
+msgid "Complete import"
+msgstr "完成输入"
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:35
+#: application/view/omeka/admin/resource-template/show.phtml:25
+msgid "Original label"
+msgstr "初始标签"
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:38
+#: application/view/omeka/admin/resource-template/show.phtml:28
+msgid "Alternate comment"
+msgstr "替代评论"
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:39
+#: application/view/omeka/admin/resource-template/show.phtml:29
+msgid "Required?"
+msgstr "必需的？"
+
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:29
+msgid "Edit property"
+msgstr "编辑属性"
+
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:33
+msgid "Remove property"
+msgstr "移除属性"
+
+#: application/view/omeka/admin/resource-template/show.phtml:9
+msgid "Export"
+msgstr "输出"
+
+#: application/view/omeka/admin/resource-template/show.phtml:11
+msgid "Edit resource template"
+msgstr "编辑资源模板"
+
+#: application/view/omeka/admin/resource-template/show.phtml:49
+#: application/view/omeka/admin/system-info/browse.phtml:17
+msgid "Yes"
+msgstr "是"
+
+#: application/view/omeka/admin/resource-template/show.phtml:49
+#: application/view/omeka/admin/system-info/browse.phtml:17
+msgid "No"
+msgstr "不"
+
+#: application/view/omeka/admin/setting/browse.phtml:6
+msgid "Global settings"
+msgstr "全局设置"
+
+#: application/view/omeka/admin/user/add.phtml:6
+msgid "New user"
+msgstr "新用户"
+
+#: application/view/omeka/admin/user/add.phtml:6
+#: application/view/omeka/admin/user/browse.phtml:20
+#: application/view/omeka/admin/user/edit.phtml:13
+#: application/view/omeka/admin/user/show.phtml:6
+msgid "Users"
+msgstr "用户"
+
+#: application/view/omeka/admin/user/browse.phtml:6
+#: application/view/omeka/admin/user/browse.phtml:37
+#: application/view/omeka/admin/user/show.phtml:16
+msgid "Email"
+msgstr "电子邮件"
+
+#: application/view/omeka/admin/user/browse.phtml:10
+#: application/view/omeka/admin/user/browse.phtml:38
+#: application/view/omeka/admin/user/show.phtml:28
+#: application/view/omeka/site-admin/index/users.phtml:29
+msgid "Role"
+msgstr "角色"
+
+#: application/view/omeka/admin/user/browse.phtml:24
+#: application/view/omeka/site-admin/index/users.phtml:73
+msgid "Add new user"
+msgstr "添加新用户"
+
+#: application/view/omeka/admin/user/browse.phtml:91
+msgid "Omeka could not find any users."
+msgstr "Omeka找不到任何用户。"
+
+#: application/view/omeka/admin/user/edit.phtml:5
+msgid "User information"
+msgstr "用户信息"
+
+#: application/view/omeka/admin/user/edit.phtml:6
+msgid "User settings"
+msgstr "用户设置"
+
+#: application/view/omeka/admin/user/edit.phtml:7
+msgid "Password"
+msgstr "密码"
+
+#: application/view/omeka/admin/user/edit.phtml:8
+msgid "API keys"
+msgstr "API密钥"
+
+#: application/view/omeka/admin/user/edit.phtml:32
+msgid "Keys"
+msgstr "密钥"
+
+#: application/view/omeka/admin/user/edit.phtml:55
+msgid "Add a new key"
+msgstr "添加新密钥"
+
+#: application/view/omeka/admin/user/show.phtml:10
+msgid "Edit user"
+msgstr "编辑用户"
+
+#: application/view/omeka/admin/user/show.phtml:22
+msgid "Display name"
+msgstr "显示名字"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:10
+#: application/view/omeka/admin/vocabulary/browse.phtml:43
+msgid "Prefix"
+msgstr "前缀"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:14
+#: application/view/omeka/admin/vocabulary/browse.phtml:44
+#: application/view/omeka/admin/vocabulary/classes.phtml:20
+msgid "Classes"
+msgstr "类"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:18
+#: application/view/omeka/admin/vocabulary/browse.phtml:45
+#: application/view/omeka/admin/vocabulary/properties.phtml:6
+msgid "Properties"
+msgstr "属性"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:24
+#: application/view/omeka/admin/vocabulary/classes.phtml:20
+#: application/view/omeka/admin/vocabulary/edit.phtml:6
+#: application/view/omeka/admin/vocabulary/import.phtml:6
+#: application/view/omeka/admin/vocabulary/properties.phtml:6
+#: application/view/omeka/admin/vocabulary/update.phtml:19
+msgid "Vocabularies"
+msgstr "词汇"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:99
+msgid "Omeka could not find any vocabularies."
+msgstr "Omeka找不到任何词汇。"
+
+#: application/view/omeka/admin/vocabulary/classes.phtml:23
+#: application/view/omeka/admin/vocabulary/properties.phtml:9
+msgid "Prefix:"
+msgstr "前缀："
+
+#: application/view/omeka/admin/vocabulary/classes.phtml:24
+#: application/view/omeka/admin/vocabulary/properties.phtml:10
+#: application/view/omeka/admin/vocabulary/show-details.phtml:4
+msgid "Namespace URI:"
+msgstr "命名空间URI："
+
+#: application/view/omeka/admin/vocabulary/classes.phtml:76
+msgid "This vocabulary has no classes."
+msgstr "该词汇没有类。"
+
+#: application/view/omeka/admin/vocabulary/import.phtml:6
+msgid "New vocabulary"
+msgstr "新词汇"
+
+#: application/view/omeka/admin/vocabulary/properties.phtml:59
+msgid "This vocabulary has no properties."
+msgstr "该词汇没有属性。"
+
+#: application/view/omeka/admin/vocabulary/update.phtml:19
+msgid "Update"
+msgstr "更新"
+
+#: application/view/omeka/admin/vocabulary/update.phtml:22
+msgid "Cancel"
+msgstr "取消"
+
+#: application/view/omeka/admin/vocabulary/update.phtml:23
+msgid "Accept changes"
+msgstr "接受更改"
+
+#: application/view/omeka/index/index.phtml:18
+#, php-format
+msgid "Go to the %s to start working with %s."
+msgstr "前往%s，开始为%s工作。"
+
+#: application/view/omeka/install/index.phtml:7
+msgid "Install Omeka S"
+msgstr "安装Omeka S"
+
+#: application/view/omeka/install/index.phtml:10
+msgid "Some installation requirements were not satisfied."
+msgstr "一些安装要求未被满足。"
+
+#: application/view/omeka/login/create-password.phtml:5
+msgid "Create a new password"
+msgstr "生成新密码"
+
+#: application/view/omeka/login/create-password.phtml:10
+msgid "Activate"
+msgstr "激活"
+
+#: application/view/omeka/login/forgot-password.phtml:5
+msgid "Forgot password"
+msgstr "忘了密码"
+
+#: application/view/omeka/login/forgot-password.phtml:10
+msgid "Send password reset email"
+msgstr "发送密码重置电邮"
+
+#: application/view/omeka/login/login.phtml:4
+msgid "Login"
+msgstr "登录"
+
+#: application/view/omeka/login/login.phtml:6
+msgid "Forgot password?"
+msgstr "忘了密码？"
+
+#: application/view/omeka/maintenance/index.phtml:1
+msgid "Site under maintenance"
+msgstr "网站正在维护中"
+
+#: application/view/omeka/maintenance/index.phtml:2
+msgid ""
+"This site is down for maintenance. Please contact the site administrator for\n"
+"more information."
+msgstr "本站维护中，临时关闭。更多信息请联系网站管理员。"
+
+#: application/view/omeka/migrate/index.phtml:1
+#: application/view/omeka/migrate/index.phtml:5
+msgid "Update database"
+msgstr "更新数据库"
+
+#: application/view/omeka/migrate/index.phtml:2
+msgid ""
+"There was a recent software upgrade and the database needs to be updated. The\n"
+"entire site will be down for maintenance until you click the button below."
+msgstr "最近软件升级，数据库需要更新。在您点击下面的按钮之前，整个网站将关闭以便维护。"
+
+#: application/view/omeka/site-admin/index/add-page.phtml:5
+msgid "New page"
+msgstr "新页面"
+
+#: application/view/omeka/site-admin/index/add-page.phtml:5
+#: application/view/omeka/site-admin/page/edit.phtml:10
+#: application/view/omeka/site-admin/page/index.phtml:6
+msgid "Pages"
+msgstr "页面"
+
+#: application/view/omeka/site-admin/index/add.phtml:7
+#: application/view/omeka/site-admin/index/show.phtml:31
+#: application/view/omeka/site-admin/index/theme-settings.phtml:5
+#: application/view/omeka/site-admin/index/theme.phtml:10
+msgid "Theme"
+msgstr "主题"
+
+#: application/view/omeka/site-admin/index/add.phtml:8
+#: application/view/omeka/site-admin/index/resources.phtml:22
+msgid "Item pool"
+msgstr "条目池"
+
+#: application/view/omeka/site-admin/index/add.phtml:12
+msgid "New site"
+msgstr "新网站"
+
+#: application/view/omeka/site-admin/index/add.phtml:12
+#: application/view/omeka/site-admin/index/edit.phtml:6
+#: application/view/omeka/site-admin/index/index.phtml:20
+#: application/view/omeka/site-admin/index/navigation.phtml:9
+#: application/view/omeka/site-admin/index/resources.phtml:20
+#: application/view/omeka/site-admin/index/settings.phtml:5
+#: application/view/omeka/site-admin/index/show.phtml:10
+#: application/view/omeka/site-admin/index/theme.phtml:10
+#: application/view/omeka/site-admin/index/users.phtml:15
+#: application/view/omeka/site-admin/page/index.phtml:6
+msgid "Sites"
+msgstr "网站"
+
+#: application/view/omeka/site-admin/index/edit.phtml:24
+#: application/view/omeka/site-admin/index/show.phtml:16
+#: application/view/omeka/site-admin/page/edit.phtml:14
+msgid "View"
+msgstr "视图"
+
+#: application/view/omeka/site-admin/index/index.phtml:10
+#: application/view/omeka/site-admin/index/index.phtml:39
+#: application/view/omeka/site-admin/index/show.phtml:23
+msgid "URL slug"
+msgstr "URL缩略词"
+
+#: application/view/omeka/site-admin/index/index.phtml:24
+msgid "Add new site"
+msgstr "添加新网站"
+
+#: application/view/omeka/site-admin/index/index.phtml:108
+msgid "Omeka could not find any sites."
+msgstr "Omeka找不到任何网站。"
+
+#: application/view/omeka/site-admin/index/navigation.phtml:9
+msgid "Navigation"
+msgstr "导航"
+
+#: application/view/omeka/site-admin/index/navigation.phtml:22
+#: application/view/omeka/site-admin/index/navigation.phtml:38
+msgid "Add a link to a site page"
+msgstr "在网站页面上添加链接"
+
+#: application/view/omeka/site-admin/index/navigation.phtml:26
+msgid "Add a custom link"
+msgstr "添加一个定制链接"
+
+#: application/view/omeka/site-admin/index/navigation.phtml:54
+msgid "There are no available pages."
+msgstr "没有可用页面。"
+
+#: application/view/omeka/site-admin/index/resources.phtml:14
+msgid "Restore item set"
+msgstr "恢复条目集"
+
+#: application/view/omeka/site-admin/index/resources.phtml:35
+#, php-format
+msgid "There are currently %s items in this site’s pool."
+msgstr "目前在该网站池里有%s条目。"
+
+#: application/view/omeka/site-admin/index/resources.phtml:67
+msgid "No item sets are assigned to this site."
+msgstr "没有条目集被分配给该网站。"
+
+#: application/view/omeka/site-admin/index/show.phtml:5
+#: application/view/omeka/site-admin/index/users.phtml:9
+msgid "Viewer"
+msgstr "观众"
+
+#: application/view/omeka/site-admin/index/show.phtml:6
+#: application/view/omeka/site-admin/index/users.phtml:10
+msgid "Editor"
+msgstr "编辑"
+
+#: application/view/omeka/site-admin/index/show.phtml:19
+msgid "Back to site list"
+msgstr "返回到网站列表"
+
+#: application/view/omeka/site-admin/index/theme-selector.phtml:25
+msgid "Invalid theme.ini file"
+msgstr "无效的theme.ini文件"
+
+#: application/view/omeka/site-admin/index/theme-selector.phtml:27
+#, php-format
+msgid "This theme requires Omeka S %s"
+msgstr "该主题要求Omeka S %s"
+
+#: application/view/omeka/site-admin/index/theme-settings.phtml:15
+msgid "The current theme has no configuration options."
+msgstr "当前主题没有配置选项。"
+
+#: application/view/omeka/site-admin/index/theme.phtml:25
+msgid "Current theme"
+msgstr "当前主题"
+
+#: application/view/omeka/site-admin/index/theme.phtml:41
+msgid "Edit theme settings"
+msgstr "编辑主题设置"
+
+#: application/view/omeka/site-admin/index/theme.phtml:47
+#, php-format
+msgid "A new version of this theme is available. %s"
+msgstr "该主题的新版本已经可用了。%s"
+
+#: application/view/omeka/site-admin/index/theme.phtml:57
+msgid "Error: this theme is invalid."
+msgstr "错误：该主题无效。"
+
+#: application/view/omeka/site-admin/index/theme.phtml:59
+#, php-format
+msgid "ID: %s"
+msgstr "ID：%s"
+
+#: application/view/omeka/site-admin/index/theme.phtml:60
+#, php-format
+msgid "Status: %s"
+msgstr "状态：%s"
+
+#: application/view/omeka/site-admin/index/theme.phtml:62
+msgid ""
+"Please contact the Omeka S administrator. This site will not be publicly "
+"available until the problem is resolved or you select another theme below."
+msgstr "请联系Omeka S管理员。本网站将不会公开，直到问题被解决或您在下面选择另一个主题。"
+
+#: application/view/omeka/site-admin/index/users.phtml:7
+msgid "Restore"
+msgstr "恢复"
+
+#: application/view/omeka/site-admin/index/users.phtml:15
+msgid "User permissions"
+msgstr "用户权限"
+
+#: application/view/omeka/site-admin/index/users.phtml:41
+#: application/view/omeka/site-admin/index/users.phtml:113
+msgid "User to be removed"
+msgstr "将被移除的用户"
+
+#: application/view/omeka/site-admin/index/users.phtml:71
+msgid "This site has no users. Add users using the interface to the right."
+msgstr "该网站尚无用户。用右边的界面添加用户。"
+
+#: application/view/omeka/site-admin/index/users.phtml:75
+msgid "Click on a user to add them to the site."
+msgstr "点击一个用户把他们添加到网站。"
+
+#: application/view/omeka/site-admin/index/users.phtml:76
+msgid "Filter users"
+msgstr "过滤用户"
+
+#: application/view/omeka/site-admin/index/users.phtml:78
+msgid "All users"
+msgstr "所有用户"
+
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:16
+msgid "Change item"
+msgstr "更换条目"
+
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:58
+msgid "No item selected."
+msgstr "尚未选择条目。"
+
+#: application/view/omeka/site-admin/page/edit.phtml:26
+msgid "Add new block"
+msgstr "添加新段落"
+
+#: application/view/omeka/site-admin/page/edit.phtml:39
+msgid "Caption"
+msgstr "标题"
+
+#: application/view/omeka/site-admin/page/edit.phtml:50
+msgid "Apply changes"
+msgstr "应用更新"
+
+#: application/view/omeka/site-admin/page/index.phtml:10
+msgid "Add new page"
+msgstr "添加新页面"
+
+#: application/view/omeka/site-admin/page/index.phtml:18
+msgid "Slug"
+msgstr "缩略词"
+
+#: application/view/omeka/site-admin/page/index.phtml:40
+msgid "Delete page"
+msgstr "删除页面"
+
+#: application/view/omeka/site/index/index.phtml:1
+msgid "This site has no pages."
+msgstr "本网站没有页面。"
+
+#: application/view/omeka/site/item-set/search.phtml:5
+msgid "Advanced item set Search"
+msgstr "高级条目集搜索"
+
+#: application/view/omeka/site/item/search.phtml:5
+msgid "Advanced item search"
+msgstr "高级条目搜索"
+
+#: application/view/omeka/site/item/show.phtml:9
+msgid "Item"
+msgstr "条目"
+
+#: application/config/module.config.php:587
+msgid "Something went wrong"
+msgstr "出错了"
+
+#: application/config/module.config.php:592
+msgid "You have unsaved changes."
+msgstr "您还有未保存的改变。"
+
+#: application/config/module.config.php:594
+msgid "Close icon set"
+msgstr "关闭图标集"
+
+#: application/config/module.config.php:595
+msgid "Open icon set"
+msgstr "打开图标集"
+
+#: application/config/module.config.php:597
+msgid "Failed loading resource template from API"
+msgstr "从API加载资源模板失败了"
+
+#: application/config/module.config.php:598
+msgid "Restore property"
+msgstr "恢复属性"
+
+#: application/config/module.config.php:600
+msgid "Please enter a valid language tag"
+msgstr "请输入一个有效的语言标签"
+
+#: application/config/navigation.config.php:168
+#: application/config/navigation.config.php:237
+#: application/src/Form/InstallationForm.php:26
+msgid "Settings"
+msgstr "设置"
+
+#: application/config/navigation.config.php:179
+msgid "Site info"
+msgstr "网站信息"
+
+#: application/src/View/Helper/ResourceClassSelect.php:39
+msgid "Select class…"
+msgstr "选择类 ......"
+
+#: application/src/View/Helper/SiteSelect.php:39
+msgid "Select site…"
+msgstr "选择网站 ......"
+
+#: application/src/View/Helper/PropertySelect.php:39
+msgid "Select property…"
+msgstr "选择属性 ......"
+
+#: application/src/View/Helper/ItemSetSelect.php:39
+msgid "Select item set…"
+msgstr "选择条目集 ......"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:24
+msgid "item title"
+msgstr "条目标题"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:25
+msgid "media title"
+msgstr "媒体标题"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:26
+msgid "no title"
+msgstr "无标题"
+
+#: application/src/File/Validator.php:65
+#, php-format
+msgid "Error validating \"%s\". Cannot store files with the media type \"%s\"."
+msgstr "确证“%s”时出错。无法保存媒体类型为“%s”的文件。"
+
+#: application/src/File/Validator.php:78
+#, php-format
+msgid ""
+"Error validating \"%s\". Cannot store files with the resolved extension "
+"\"%s\"."
+msgstr "确证“%s”时出错。无法保存解析后缀为“%s”的文件。"
+
+#: application/src/File/Downloader.php:71
+#, php-format
+msgid "Error downloading %s: %s"
+msgstr "下载%s错误：%s"
+
+#: application/src/File/Downloader.php:83
+#, php-format
+msgid "Error downloading %s: %s %s"
+msgstr "下载%s错误：%s %s"
+
+#: application/src/File/ThumbnailManager.php:102
+msgid "Missing thumbnail configuration."
+msgstr "缺失缩略图设置。"
+
+#: application/src/File/ThumbnailManager.php:106
+msgid "Missing thumbnail types configuration."
+msgstr "缺失缩略图类型设置。"
+
+#: application/src/File/ThumbnailManager.php:109
+msgid "Missing the large, medium, or square thumbnail type configuration."
+msgstr "缺失大、中、或正方形缩略图类型设置。"
+
+#: application/src/File/ThumbnailManager.php:113
+msgid "Missing constraint for a thumbnail type configuration."
+msgstr "缺失对缩略图类型设置的限制。"
+
+#: application/src/File/ThumbnailManager.php:117
+msgid "Missing thumbnail fallbacks configuration."
+msgstr "缺失后备缩略图设置。"
+
+#: application/src/File/ThumbnailManager.php:120
+msgid "Missing default thumbnail fallback configuration."
+msgstr "缺失默认后备缩略图设置。"
+
+#: application/src/File/ThumbnailManager.php:123
+msgid "Missing thumbnail fallback configuration."
+msgstr "缺失后备缩略图设置。"
+
+#: application/src/File/ThumbnailManager.php:127
+msgid "Invalid thumbnail fallback configuration."
+msgstr "无效后备缩略图设置。"
+
+#: application/src/Form/ResourceTemplateImportForm.php:14
+msgid "Resource template file"
+msgstr "资源模板文件"
+
+#: application/src/Form/VocabularyImportForm.php:14
+msgid "Vocabulary file"
+msgstr "词汇文件"
+
+#: application/src/Form/VocabularyImportForm.php:15
+msgid ""
+"Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. See"
+" the Vocabulary Import Documentation for details."
+msgstr "接受下列格式：RDF/XML，RDF/JSON，N-Triples，以及Turtle。细节请参见词汇输入文档。"
+
+#: application/src/Form/VocabularyImportForm.php:27
+msgid ""
+"A concise vocabulary identifier, used as a shorthand proxy for the namespace"
+" URI."
+msgstr "简洁的词汇标识符，用来做命名空间的简化代理。"
+
+#: application/src/Form/VocabularyImportForm.php:38
+msgid "Namespace URI"
+msgstr "命名空间URI"
+
+#: application/src/Form/VocabularyImportForm.php:39
+msgid ""
+"The unique namespace URI used by the vocabulary to identify local member "
+"classes and properties."
+msgstr "被词汇用来识别本地成员类和属性的唯一的命名空间URI。"
+
+#: application/src/Form/VocabularyImportForm.php:51
+#: application/src/Form/VocabularyForm.php:15
+msgid "A human-readable title of the vocabulary."
+msgstr "词汇的人类可读标题。"
+
+#: application/src/Form/VocabularyImportForm.php:63
+#: application/src/Form/VocabularyForm.php:27
+msgid "A human-readable description of the vocabulary."
+msgstr "词汇的人类可读描述。"
+
+#: application/src/Form/VocabularyForm.php:35
+msgid "Update vocabulary"
+msgstr "更新词汇"
+
+#: application/src/Form/VocabularyForm.php:36
+msgid ""
+"Update this vocabulary to a newer version. You will be able to review the "
+"changes before you accept. Accepts the following formats: RDF/XML, RDF/JSON,"
+" N-Triples, and Turtle."
+msgstr "更新该词汇表到新版本。您在接受前可以先审核更新。接受下列格式：RDF/XML，RDF/JSON，N-Triples，以及Turtle。"
+
+#: application/src/Form/ResourceForm.php:30
+#: application/src/Form/UserForm.php:141
+msgid "Select a template"
+msgstr "选择一个模板"
+
+#: application/src/Form/ResourceForm.php:35
+msgid "A pre-defined template for resource creation."
+msgstr "资源创建的预定义模板。"
+
+#: application/src/Form/ResourceForm.php:53
+msgid "Select a class"
+msgstr "选择一个类"
+
+#: application/src/Form/ResourceForm.php:57
+msgid ""
+"A type for the resource. Different types have different default properties "
+"attached to them."
+msgstr "资源类型。不同类型有不同的相关默认属性。"
+
+#: application/src/Form/SitePageForm.php:39
+msgid "Add to navigation"
+msgstr "添加至导航"
+
+#: application/src/Form/ResourceTemplateForm.php:26
+msgid "Suggested class"
+msgstr "受建议的类"
+
+#: application/src/Form/SiteSettingsForm.php:27
+msgid "Restrict browse to attached items"
+msgstr "限制只浏览附属条目"
+
+#: application/src/Form/SiteSettingsForm.php:38
+msgid "Attachment link type"
+msgstr "附件链接类型"
+
+#: application/src/Form/SiteSettingsForm.php:40
+msgid "Item page"
+msgstr "条目页"
+
+#: application/src/Form/SiteSettingsForm.php:41
+msgid "Media page"
+msgstr "媒体页"
+
+#: application/src/Form/SiteSettingsForm.php:42
+msgid "Direct link to file"
+msgstr "文件的直接链接"
+
+#: application/src/Form/SiteSettingsForm.php:54
+msgid "Embed media on item pages"
+msgstr "在条目页面上内嵌媒体"
+
+#: application/src/Form/SiteSettingsForm.php:66
+msgid "Browse heading property"
+msgstr "浏览标题属性"
+
+#: application/src/Form/SiteSettingsForm.php:67
+msgid ""
+"Use this property for the heading of each resource on a browse page. Default"
+" is \"Dublin Core: Title\"."
+msgstr "在浏览页面上给每个资源的标题使用这个属性。默认值为“都柏林核心：标题”。"
+
+#: application/src/Form/SiteSettingsForm.php:73
+#: application/src/Form/SiteSettingsForm.php:88
+msgid "Select a property"
+msgstr "选择一个属性"
+
+#: application/src/Form/SiteSettingsForm.php:81
+msgid "Browse body property"
+msgstr "浏览正文属性"
+
+#: application/src/Form/SiteSettingsForm.php:82
+msgid ""
+"Use this property for the body of each resource on a browse page. Default is"
+" \"Dublin Core: Description\"."
+msgstr "在浏览页面上给每个资源的正文使用这个属性。默认值为“都柏林核心：描述”。"
+
+#: application/src/Form/SiteSettingsForm.php:95
+msgid "Always show user bar on public views"
+msgstr "在公共视图上一直显示用户条"
+
+#: application/src/Form/SiteSettingsForm.php:105
+#: application/src/Form/InstallationForm.php:128
+#: application/src/Form/UserForm.php:127
+#: application/src/Form/SettingForm.php:201
+msgid "Locale"
+msgstr "区域"
+
+#: application/src/Form/SiteSettingsForm.php:106
+msgid ""
+"Locale/language code for this site. Leave blank to use the global locale "
+"setting."
+msgstr "本网站的区域/语言代码。使用全局区域设置时，此处保持空白。"
+
+#: application/src/Form/ActivateForm.php:25
+#: application/src/Form/InstallationForm.php:74
+msgid "Confirm password"
+msgstr "确认密码"
+
+#: application/src/Form/ModuleStateChangeForm.php:37
+msgid "Install"
+msgstr "安装"
+
+#: application/src/Form/ModuleStateChangeForm.php:55
+msgid "Deactivate"
+msgstr "禁用"
+
+#: application/src/Form/ModuleStateChangeForm.php:64
+msgid "Upgrade"
+msgstr "升级"
+
+#: application/src/Form/InstallationForm.php:19
+msgid "Create the first user"
+msgstr "创建第一个用户"
+
+#: application/src/Form/InstallationForm.php:52
+msgid "Confirm email"
+msgstr "确认电邮地址"
+
+#: application/src/Form/InstallationForm.php:96
+#: application/src/Form/SettingForm.php:126
+msgid "Installation title"
+msgstr "安装标题"
+
+#: application/src/Form/InstallationForm.php:114
+#: application/src/Form/SettingForm.php:141
+msgid "Time zone"
+msgstr "时区"
+
+#: application/src/Form/InstallationForm.php:153
+msgid "The passwords did not match"
+msgstr "密码不匹配"
+
+#: application/src/Form/InstallationForm.php:166
+msgid "The emails did not match"
+msgstr "电邮地址不匹配"
+
+#: application/src/Form/ConfirmForm.php:17
+msgid "Confirm"
+msgstr "确认"
+
+#: application/src/Form/UserForm.php:111
+msgid "Is active"
+msgstr "是活跃的"
+
+#: application/src/Form/UserForm.php:128
+#: application/src/Form/SettingForm.php:202
+msgid "Global locale/language code for all interfaces."
+msgstr "所有界面的全局区域/语言代码。"
+
+#: application/src/Form/UserForm.php:144
+msgid "Default resource template"
+msgstr "默认资源模板"
+
+#: application/src/Form/UserForm.php:162
+msgid "Current password"
+msgstr "当前密码"
+
+#: application/src/Form/UserForm.php:170
+msgid "New password"
+msgstr "新密码"
+
+#: application/src/Form/UserForm.php:180
+msgid "Confirm new password"
+msgstr "确认新密码"
+
+#: application/src/Form/UserForm.php:193
+msgid "New key label"
+msgstr "新密钥标签"
+
+#: application/src/Form/UserForm.php:238
+msgid "Password confirmation must match new password"
+msgstr "密码确认必须匹配新密码"
+
+#: application/src/Form/SettingForm.php:105
+msgid "General"
+msgstr "一般信息"
+
+#: application/src/Form/SettingForm.php:114
+msgid "Administrator email"
+msgstr "管理员电邮"
+
+#: application/src/Form/SettingForm.php:155
+msgid "Results per page"
+msgstr "每页结果数"
+
+#: application/src/Form/SettingForm.php:156
+msgid "The maximum number of results per page on browse pages."
+msgstr "浏览页面上每页显示的最大结果数。"
+
+#: application/src/Form/SettingForm.php:168
+msgid "Property label information"
+msgstr "属性标签信息"
+
+#: application/src/Form/SettingForm.php:169
+msgid "The additional information that accompanies labels on resource pages."
+msgstr "资源页面上和标签相伴的附加信息。"
+
+#: application/src/Form/SettingForm.php:171
+msgid "None"
+msgstr "无"
+
+#: application/src/Form/SettingForm.php:172
+msgid "Show Vocabulary"
+msgstr "显示词汇"
+
+#: application/src/Form/SettingForm.php:173
+msgid "Show Term"
+msgstr "显示术语"
+
+#: application/src/Form/SettingForm.php:185
+msgid "Default site"
+msgstr "默认网站"
+
+#: application/src/Form/SettingForm.php:186
+msgid ""
+"Select which site should appear when users go to the front page of the "
+"installation."
+msgstr "选择当用户前往安装的首页时要显示的网站。"
+
+#: application/src/Form/SettingForm.php:191
+msgid "No default (show index of sites)"
+msgstr "没有默认（显示网站索引）"
+
+#: application/src/Form/SettingForm.php:214
+msgid "Enable version notifications"
+msgstr "启用版本通知"
+
+#: application/src/Form/SettingForm.php:215
+msgid ""
+"Enable notifications when a new version of Omeka S, modules, or themes are "
+"available."
+msgstr "启用当Omeka S、模块、或主题的新版本可用时的通知功能。"
+
+#: application/src/Form/SettingForm.php:228
+msgid "Security"
+msgstr "安全"
+
+#: application/src/Form/SettingForm.php:237
+msgid "Use HTMLPurifier"
+msgstr "使用HTMLPurifier"
+
+#: application/src/Form/SettingForm.php:238
+msgid "Clean up user-entered HTML."
+msgstr "清理用户输入的HTML。"
+
+#: application/src/Form/SettingForm.php:249
+msgid "Disable file validation"
+msgstr "禁用文件验证"
+
+#: application/src/Form/SettingForm.php:250
+msgid "Check this to disable file media type and extension validation."
+msgstr "点选此处以禁用文件媒体类型和后缀验证。"
+
+#: application/src/Form/SettingForm.php:258
+msgid "Allowed media types"
+msgstr "允许的媒体类型"
+
+#: application/src/Form/SettingForm.php:259
+msgid "A comma-separated list of allowed media types for file uploads."
+msgstr "文件上传允许的以逗号分隔的媒体类型列表。"
+
+#: application/src/Form/SettingForm.php:268
+msgid "Allowed file extensions"
+msgstr "允许的文件名后缀"
+
+#: application/src/Form/SettingForm.php:269
+msgid "A comma-separated list of allowed file extensions for file uploads."
+msgstr "文件上传允许的以逗号分隔的文件后缀列表。"
+
+#: application/src/Form/SettingForm.php:280
+msgid "reCAPTCHA site key"
+msgstr "reCAPTCHA网站密钥"
+
+#: application/src/Form/SettingForm.php:290
+msgid "reCAPTCHA secret key"
+msgstr "reCAPTCHA密钥"
+
+#: application/src/Form/Element/ColorPicker.php:10
+msgid "three- or six-digit hexadecimal color, or \"transparent\""
+msgstr "三位或六位数十六进制色彩，或“透明的”"
+
+#: application/src/Form/Element/ColorPicker.php:29
+msgid "Invalid color format"
+msgstr "无效色彩格式"
+
+#: application/src/Form/Element/Recaptcha.php:99
+msgid "You must verify that you are human by completing the CAPTCHA."
+msgstr "您必须完成CAPTCHA以证实您是人类。"
+
+#: application/src/Form/Element/Recaptcha.php:108
+msgid "Could not verify that you are a human."
+msgstr "无法证实您是人类。"
+
+#: application/src/Controller/MigrateController.php:33
+msgid "Migration successful"
+msgstr "迁移成功"
+
+#: application/src/Controller/InstallController.php:52
+msgid "Installation successful. Please log in."
+msgstr "安装成功。请登录。"
+
+#: application/src/Controller/InstallController.php:56
+msgid "There were errors during installation."
+msgstr "安装时有错误。"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:66
+msgid "Site successfully created"
+msgstr "网站已成功创建"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:92
+msgid "Site successfully updated"
+msgstr "网站已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:136
+#: application/src/Controller/Admin/SettingController.php:31
+msgid "Settings successfully updated"
+msgstr "设置已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:172
+msgid "Page successfully created"
+msgstr "网页已成功创建"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:203
+msgid "Navigation successfully updated"
+msgstr "导航已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:236
+msgid "Site resources successfully updated"
+msgstr "网站资源已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:276
+msgid "User permissions successfully updated"
+msgstr "用户权限已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:308
+msgid "Site theme successfully updated"
+msgstr "网站主题已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:380
+msgid "Theme settings successfully updated"
+msgstr "主题设置已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:397
+msgid "Site successfully deleted"
+msgstr "网站已成功删除"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:420
+msgid "site"
+msgstr "网站"
+
+#: application/src/Controller/SiteAdmin/PageController.php:28
+msgid "Page successfully updated"
+msgstr "页面已成功更新"
+
+#: application/src/Controller/SiteAdmin/PageController.php:81
+msgid "page"
+msgstr "页面"
+
+#: application/src/Controller/SiteAdmin/PageController.php:98
+msgid "Page successfully deleted"
+msgstr "页面已成功删除"
+
+#: application/src/Controller/LoginController.php:56
+msgid "Successfully logged in"
+msgstr "成功登入"
+
+#: application/src/Controller/LoginController.php:63
+msgid "Email or password is invalid"
+msgstr "无效电邮地址或密码"
+
+#: application/src/Controller/LoginController.php:86
+msgid "Successfully logged out"
+msgstr "成功登出"
+
+#: application/src/Controller/LoginController.php:102
+msgid "Invalid password creation key."
+msgstr "无效的密码创建密钥。"
+
+#: application/src/Controller/LoginController.php:111
+msgid "Password creation key expired."
+msgstr "密码创建密钥已过期。"
+
+#: application/src/Controller/LoginController.php:127
+msgid "Successfully created your password. Please log in."
+msgstr "成功创建了您的密码。请登录。"
+
+#: application/src/Controller/LoginController.php:130
+msgid "Password creation unsuccessful"
+msgstr "密码创建未成功"
+
+#: application/src/Controller/LoginController.php:166
+msgid "Check your email for instructions on how to reset your password"
+msgstr "请检查您的电子邮件，找到重置您的密码的指示"
+
+#: application/src/Controller/LoginController.php:169
+msgid "Activation unsuccessful"
+msgstr "激活未成功"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:335
+msgid "resource template"
+msgstr "资源模板"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:348
+msgid "Resource template successfully deleted"
+msgstr "资源模板已成功删除"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:350
+#: application/src/Controller/Admin/ResourceTemplateController.php:353
+msgid "Resource template could not be deleted"
+msgstr "无法删除资源模板"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:399
+msgid "Resource template successfully updated"
+msgstr "资源模板已成功更新"
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:402
+#, php-format
+msgid "Resource template successfully created. %s"
+msgstr "资源模板已成功创建。%s"
+
+#: application/src/Controller/Admin/UserController.php:50
+#, php-format
+msgid "User successfully created. %s"
+msgstr "用户已成功创建。%s"
+
+#: application/src/Controller/Admin/UserController.php:108
+msgid "user"
+msgstr "用户"
+
+#: application/src/Controller/Admin/UserController.php:167
+msgid "User successfully updated"
+msgstr "用户已成功更新"
+
+#: application/src/Controller/Admin/UserController.php:182
+msgid "The current password entered was invalid"
+msgstr "输入的当前密码无效"
+
+#: application/src/Controller/Admin/UserController.php:186
+msgid "Password successfully changed"
+msgstr "密码已成功更改"
+
+#: application/src/Controller/Admin/UserController.php:214
+msgid "Key(s) successfully deleted"
+msgstr "密钥已成功删除"
+
+#: application/src/Controller/Admin/UserController.php:222
+#, php-format
+msgid ""
+"API key successfully created.<br><br>Here is your key ID and credential for "
+"access to the API. WARNING: \"key_credential\" will be unretrievable after "
+"you navigate away from this page.<br><br>key_identity: "
+"<code>%s</code><br>key_credential: <code>%s</code>"
+msgstr ""
+"API密钥已成功创建。<br><br>这里是您访问API需要的密钥ID和凭证。警告：在您离开本页面后，“key_credential”将不再能获取。<br><br>key_identity：<code>%s</code><br>key_credential：<code>%s</code>"
+
+#: application/src/Controller/Admin/UserController.php:248
+msgid "User successfully deleted"
+msgstr "用户已成功删除"
+
+#: application/src/Controller/Admin/ItemSetController.php:31
+#, php-format
+msgid "Item set successfully created. %s"
+msgstr "条目集已成功创建。%s"
+
+#: application/src/Controller/Admin/ItemSetController.php:67
+msgid "Item set successfully updated"
+msgstr "条目集已成功更新"
+
+#: application/src/Controller/Admin/ItemSetController.php:85
+#: application/src/Controller/Admin/ItemSetController.php:90
+#: application/src/Controller/Admin/ItemController.php:43
+#: application/src/Controller/Admin/ItemController.php:48
+msgid "Confirm Delete"
+msgstr "确认删除"
+
+#: application/src/Controller/Admin/ItemSetController.php:153
+msgid "item set"
+msgstr "条目集"
+
+#: application/src/Controller/Admin/ItemSetController.php:168
+msgid "Item set successfully deleted"
+msgstr "条目集已成功删除"
+
+#: application/src/Controller/Admin/ItemSetController.php:189
+msgid "You must select at least one item set to batch delete."
+msgstr "您必须选择至少一个条目集以批量删除。"
+
+#: application/src/Controller/Admin/ItemSetController.php:198
+msgid "Item sets successfully deleted"
+msgstr "条目集已成功删除"
+
+#: application/src/Controller/Admin/ItemSetController.php:224
+msgid "Deleting item sets. This may take a while."
+msgstr "正在删除条目集。这需要一段时间。"
+
+#: application/src/Controller/Admin/ItemSetController.php:242
+msgid "You must select at least one item set to batch edit."
+msgstr "您必须选择至少一个条目集以批量编辑。"
+
+#: application/src/Controller/Admin/ItemSetController.php:268
+msgid "Item sets successfully edited"
+msgstr "条目集已成功编辑"
+
+#: application/src/Controller/Admin/ItemSetController.php:313
+msgid "Editing item sets. This may take a while."
+msgstr "正在编辑条目集。这需要一段时间。"
+
+#: application/src/Controller/Admin/VocabularyController.php:60
+msgid "vocabulary"
+msgstr "词汇"
+
+#: application/src/Controller/Admin/VocabularyController.php:84
+#, php-format
+msgid "Vocabulary successfully imported. %s"
+msgstr "词汇已成功输入。%s"
+
+#: application/src/Controller/Admin/VocabularyController.php:139
+msgid "Please review these changes before you accept them."
+msgstr "在接受这些更新前，请先审核。"
+
+#: application/src/Controller/Admin/VocabularyController.php:152
+msgid "Vocabulary successfully updated"
+msgstr "词汇已成功更新"
+
+#: application/src/Controller/Admin/VocabularyController.php:173
+msgid "Changes to the vocabulary successfully made"
+msgstr "已成功完成对词汇的更新"
+
+#: application/src/Controller/Admin/VocabularyController.php:189
+msgid "Vocabulary successfully deleted"
+msgstr "词汇已成功删除"
+
+#: application/src/Controller/Admin/MediaController.php:44
+msgid "Media successfully updated"
+msgstr "媒体已成功更新"
+
+#: application/src/Controller/Admin/MediaController.php:110
+msgid "Media successfully deleted"
+msgstr "媒体已成功删除"
+
+#: application/src/Controller/Admin/ItemController.php:114
+msgid "item"
+msgstr "条目"
+
+#: application/src/Controller/Admin/ItemController.php:130
+msgid "Item successfully deleted"
+msgstr "条目已成功删除"
+
+#: application/src/Controller/Admin/ItemController.php:151
+msgid "You must select at least one item to batch delete."
+msgstr "您必须选择最少一个条目以批量删除。"
+
+#: application/src/Controller/Admin/ItemController.php:160
+msgid "Items successfully deleted"
+msgstr "条目已成功删除"
+
+#: application/src/Controller/Admin/ItemController.php:186
+msgid "Deleting items. This may take a while."
+msgstr "正在删除条目。这需要一段时间。"
+
+#: application/src/Controller/Admin/ItemController.php:207
+#, php-format
+msgid "Item successfully created. %s"
+msgstr "条目已成功创建。%s"
+
+#: application/src/Controller/Admin/ItemController.php:243
+msgid "Item successfully updated"
+msgstr "条目已成功更新"
+
+#: application/src/Controller/Admin/ItemController.php:270
+msgid "You must select at least one item to batch edit."
+msgstr "您必须选择最少一个条目以批量编辑。"
+
+#: application/src/Controller/Admin/ItemController.php:296
+msgid "Items successfully edited"
+msgstr "条目已成功编辑"
+
+#: application/src/Controller/Admin/ItemController.php:341
+msgid "Editing items. This may take a while."
+msgstr "正在编辑条目。这需要一段时间。"
+
+#: application/src/Controller/Admin/ModuleController.php:121
+msgid "The module was successfully installed"
+msgstr "模块已成功安装"
+
+#: application/src/Controller/Admin/ModuleController.php:143
+msgid "Confirm uninstall"
+msgstr "确认卸载"
+
+#: application/src/Controller/Admin/ModuleController.php:172
+msgid "The module was successfully uninstalled"
+msgstr "模块已成功卸载"
+
+#: application/src/Controller/Admin/ModuleController.php:198
+msgid "The module was successfully activated"
+msgstr "模块已成功激活"
+
+#: application/src/Controller/Admin/ModuleController.php:224
+msgid "The module was successfully deactivated"
+msgstr "模块已成功禁用"
+
+#: application/src/Controller/Admin/ModuleController.php:250
+msgid "The module was successfully upgraded"
+msgstr "模块已成功升级"
+
+#: application/src/Controller/Admin/ModuleController.php:273
+msgid "The module was successfully configured"
+msgstr "模块已成功设置"
+
+#: application/src/Controller/Admin/ModuleController.php:276
+msgid "There was a problem during configuration"
+msgstr "安装是有错误"
+
+#: application/src/Controller/Admin/JobController.php:70
+msgid "Attempting to stop the job."
+msgstr "尝试终止任务。"
+
+#: application/src/Controller/Admin/JobController.php:72
+msgid "The job could not be stopped."
+msgstr "任务无法终止。"
+
+#: application/src/Media/Ingester/Html.php:42
+#: application/src/Media/Ingester/Html.php:86
+#: application/src/Site/BlockLayout/Html.php:27
+msgid "HTML"
+msgstr "HTML"
+
+#: application/src/Media/Ingester/Html.php:87
+msgid "HTML or plain text."
+msgstr "HTML或纯文本"
+
+#: application/src/Media/Ingester/OEmbed.php:41
+msgid "oEmbed"
+msgstr "内嵌"
+
+#: application/src/Media/Ingester/OEmbed.php:121
+msgid "oEmbed URL"
+msgstr "内嵌URL"
+
+#: application/src/Media/Ingester/OEmbed.php:122
+msgid "URL for the media to embed."
+msgstr "指向内嵌媒体的URL。"
+
+#: application/src/Media/Ingester/IIIF.php:33
+msgid "IIIF image"
+msgstr "IIIF图像"
+
+#: application/src/Media/Ingester/IIIF.php:105
+msgid "IIIF image URL"
+msgstr "IIIF图像URL"
+
+#: application/src/Media/Ingester/IIIF.php:106
+msgid "URL for the image to embed."
+msgstr "指向内嵌图像的URL。"
+
+#: application/src/Media/Ingester/Url.php:108
+msgid "A URL to the media."
+msgstr "指向媒体的链接。"
+
+#: application/src/Media/Ingester/Youtube.php:27
+msgid "YouTube"
+msgstr "YouTube"
+
+#: application/src/Media/Ingester/Youtube.php:97
+msgid "Video URL"
+msgstr "视频URL"
+
+#: application/src/Media/Ingester/Youtube.php:98
+msgid "URL for the video to embed."
+msgstr "指向内嵌视频的URL。"
+
+#: application/src/Media/Ingester/Youtube.php:110
+msgid "Start"
+msgstr "开始"
+
+#: application/src/Media/Ingester/Youtube.php:111
+msgid ""
+"Begin playing the video at the given number of seconds from the start of the"
+" video."
+msgstr "从视频的起始之后的给定秒数开始播放视频。"
+
+#: application/src/Media/Ingester/Youtube.php:115
+msgid "End"
+msgstr "结束"
+
+#: application/src/Media/Ingester/Youtube.php:116
+msgid ""
+"End playing the video at the given number of seconds from the start of the "
+"video."
+msgstr "从视频的起始之后的给定秒数停止播放视频。"
+
+#: application/src/Media/Ingester/Upload.php:100
+msgid "Upload file"
+msgstr "上传文件"
+
+#: application/src/Permissions/Acl.php:20
+msgid "Global Administrator"
+msgstr "全局管理员"
+
+#: application/src/Permissions/Acl.php:21
+msgid "Site Administrator"
+msgstr "网站管理员"
+
+#: application/src/Permissions/Acl.php:23
+msgid "Reviewer"
+msgstr "审核人"
+
+#: application/src/Permissions/Acl.php:24
+msgid "Author"
+msgstr "作者"
+
+#: application/src/Permissions/Acl.php:25
+msgid "Researcher"
+msgstr "研究者"
+
+#: application/src/Site/Navigation/Link/BrowseItemSets.php:11
+msgid "Browse item sets"
+msgstr "浏览条目集"
+
+#: application/src/Site/Navigation/Link/Url.php:11
+msgid "Custom URL"
+msgstr "定制URL"
+
+#: application/src/Site/BlockLayout/TableOfContents.php:15
+msgid "Table of contents"
+msgstr "目录表"
+
+#: application/src/Site/BlockLayout/LineBreak.php:14
+msgid "Line break"
+msgstr "换行符"
+
+#: application/src/Site/BlockLayout/LineBreak.php:34
+msgid "Transparent"
+msgstr "透明的"
+
+#: application/src/Site/BlockLayout/LineBreak.php:35
+msgid "Opaque"
+msgstr "不透明的"
+
+#: application/src/Site/BlockLayout/ItemShowcase.php:13
+msgid "Item showcase"
+msgstr "条目陈列"
+
+#: application/src/Site/BlockLayout/ItemWithMetadata.php:13
+msgid "Item with metadata"
+msgstr "有元数据的条目"
+
+#: application/src/Site/BlockLayout/Media.php:60
+msgid "Thumbnail alignment"
+msgstr "缩略图列队"
+
+#: application/src/Site/BlockLayout/Fallback.php:31
+#, php-format
+msgid "Unknown [%s]"
+msgstr "未知的【%s】"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:14
+msgid "Browse preview"
+msgstr "浏览预展"
+
+#: application/src/Site/BlockLayout/PageTitle.php:13
+msgid "Page title"
+msgstr "页面标题"
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:161
+#: application/src/Api/Adapter/PropertyAdapter.php:172
+msgid "The local name cannot be empty."
+msgstr "本地名称不能为空。"
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:166
+#: application/src/Api/Adapter/PropertyAdapter.php:177
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:110
+#: application/src/Api/Adapter/VocabularyAdapter.php:246
+msgid "The label cannot be empty."
+msgstr "标签不能为空。"
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:179
+#: application/src/Api/Adapter/PropertyAdapter.php:190
+#: application/src/Api/Adapter/VocabularyAdapter.php:254
+#: application/src/Api/Adapter/VocabularyAdapter.php:267
+#, php-format
+msgid "The local name \"%s\" is already taken."
+msgstr "本地名称“%s”已被占用。"
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:185
+#: application/src/Api/Adapter/PropertyAdapter.php:196
+msgid "A vocabulary must be set."
+msgstr "必须设定词汇。"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:102
+msgid "A page must belong to a site."
+msgstr "页面必须属于一个网站。"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:107
+msgid "A page must have a title."
+msgstr "页面必须有标题。"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:112
+#: application/src/Api/Adapter/SiteAdapter.php:223
+msgid "The slug cannot be empty."
+msgstr "缩略词不能为空。"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:115
+#: application/src/Api/Adapter/SiteAdapter.php:226
+msgid "A slug can only contain letters, numbers, underscores, and hyphens."
+msgstr "缩略词只能包含字母、数字、下划线和连字符。"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:123
+#: application/src/Api/Adapter/SiteAdapter.php:230
+#, php-format
+msgid "The slug \"%s\" is already taken."
+msgstr "缩略词“%s”已被占用。"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:167
+msgid "All blocks must have a layout."
+msgstr "所有段落都必须有布局。"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:171
+msgid "Block data must not be a scalar value."
+msgstr "段落数据不鞥是标量值。"
+
+#: application/src/Api/Adapter/ItemAdapter.php:128
+msgid "Item sets must be an array"
+msgstr "条目集必须是数列"
+
+#: application/src/Api/Adapter/ItemAdapter.php:134
+msgid "Media must be an array"
+msgstr "媒体必须是数列"
+
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:160
+#, php-format
+msgid "The \"%s\" resource template requires a \"%s\" value"
+msgstr "“%s”资源模板需要一个“%s”值"
+
+#: application/src/Api/Adapter/SiteAdapter.php:219
+msgid "A site must have a title."
+msgstr "网站必须有标题。"
+
+#: application/src/Api/Adapter/SiteAdapter.php:236
+msgid "A site must have a theme."
+msgstr "网站必须有主题。"
+
+#: application/src/Api/Adapter/SiteAdapter.php:241
+msgid "A site must have item pool data."
+msgstr "网站必须有条目池数据。"
+
+#: application/src/Api/Adapter/SiteAdapter.php:274
+msgid "Invalid navigation: navigation must be an array"
+msgstr "无效导航：导航必须是数列"
+
+#: application/src/Api/Adapter/SiteAdapter.php:283
+msgid "Invalid navigation: link missing type"
+msgstr "无效导航：链接缺失类型"
+
+#: application/src/Api/Adapter/SiteAdapter.php:287
+msgid "Invalid navigation: link missing data"
+msgstr "无效导航：链接缺失数据"
+
+#: application/src/Api/Adapter/SiteAdapter.php:291
+msgid "Invalid navigation: invalid link data"
+msgstr "无效导航：无效链接数据"
+
+#: application/src/Api/Adapter/SiteAdapter.php:296
+msgid "Invalid navigation: page links must be unique"
+msgstr "无效导航：页面链接必须是唯一的"
+
+#: application/src/Api/Adapter/SiteAdapter.php:303
+msgid "Invalid navigation: links must be an array"
+msgstr "无效导航：链接必须是数列"
+
+#: application/src/Api/Adapter/MediaAdapter.php:107
+msgid "Media must set an ingester."
+msgstr "媒体必须设定一个获取器。"
+
+#: application/src/Api/Adapter/MediaAdapter.php:132
+msgid "Media must set a valid ingester."
+msgstr "媒体必须设定一个有效获取器。"
+
+#: application/src/Api/Adapter/MediaAdapter.php:171
+msgid "Media must belong to an item."
+msgstr "媒体必须属于一个条目。"
+
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:93
+#, php-format
+msgid "Attempting to add duplicate property with ID %s"
+msgstr "尝试添加ID为%s的重复属性"
+
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:113
+msgid "The label is already taken."
+msgstr "标签已被占用。"
+
+#: application/src/Api/Adapter/UserAdapter.php:103
+msgid "The name cannot be empty."
+msgstr "名称不能为空。"
+
+#: application/src/Api/Adapter/UserAdapter.php:113
+#, php-format
+msgid "The email %s is already taken."
+msgstr "电邮地址%s已被占用。"
+
+#: application/src/Api/Adapter/UserAdapter.php:119
+msgid "Users must have a role."
+msgstr "用户必须有一个角色。"
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:82
+msgid "Classes must be an array"
+msgstr "类必须是数列"
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:88
+msgid "Properties must be an array"
+msgstr "属性必须是数列"
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:214
+msgid "The namespace URI cannot be empty."
+msgstr "命名空间URI不能为空。"
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:218
+#, php-format
+msgid "The namespace URI \"%s\" is already taken."
+msgstr "命名空间URI“%s”已被占用。"
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:226
+msgid "The prefix cannot be empty."
+msgstr "前缀不能为空。"
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:230
+#, php-format
+msgid "The prefix \"%s\" is already taken."
+msgstr "前缀“%s”已被占用。"
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:237
+#, php-format
+msgid "The prefix \"%s\" is reserved."
+msgstr "前缀“%s”已被保留。"
+
+#: application/src/Api/Representation/JobRepresentation.php:12
+msgid "Starting"
+msgstr "正在开始"
+
+#: application/src/Api/Representation/JobRepresentation.php:13
+msgid "Stopping"
+msgstr "正在终止"
+
+#: application/src/Api/Representation/JobRepresentation.php:14
+msgid "In Progress"
+msgstr "正在进行中"
+
+#: application/src/Api/Representation/JobRepresentation.php:15
+msgid "Completed"
+msgstr "已完成"
+
+#: application/src/Api/Representation/JobRepresentation.php:16
+msgid "Stopped"
+msgstr "已终止"
+
+#: application/src/Entity/Job.php:23
+msgid "starting"
+msgstr "正在开始"
+
+#: application/src/Entity/Job.php:24
+msgid "stopping"
+msgstr "正在终止"
+
+#: application/src/Entity/Job.php:25
+msgid "in_progress"
+msgstr "正在进行中"
+
+#: application/src/Entity/Job.php:26
+msgid "completed"
+msgstr "已完成"
+
+#: application/src/Entity/Job.php:27
+msgid "stopped"
+msgstr "已终止"
+
+#: application/src/Entity/Job.php:28
+msgid "error"
+msgstr "错误"
+
+#: application/src/DataType/Resource/AbstractResource.php:16
+msgid "Resource"
+msgstr "资源"
+
+#: application/src/DataType/Resource/AbstractResource.php:59
+msgid "A value resource cannot be Media."
+msgstr "一个数值资源不能是媒体。"
+
+#: application/src/DataType/Resource/ItemSet.php:13
+msgid "Item Set"
+msgstr "条目集"
+
+#: application/view/common/advanced-search/properties.phtml:57
+msgid "[Any Property]"
+msgstr "【任意属性】"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:30
+msgid "Filter by class"
+msgstr "按类过滤"
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:42
+msgid "Filter by item set"
+msgstr "按条目集过滤"
+
+#. Vocabulary label for Dublin Core
+msgid "Dublin Core"
+msgstr "都柏林核心"
+
+#. Vocabulary comment for Dublin Core
+msgid "Basic resource metadata (DCMI Metadata Terms)"
+msgstr "基本的资源元数据（DCMI 元数据术语）"
+
+#. Class label for Dublin Core:Agent
+#. Class label for Friend of a Friend:Agent
+msgid "Agent"
+msgstr "代理"
+
+#. Class comment for Dublin Core:Agent
+msgid "A resource that acts or has the power to act."
+msgstr "可以做决定或有权利做决定的资源"
+
+#. Class label for Dublin Core:AgentClass
+msgid "Agent Class"
+msgstr "代理类"
+
+#. Class comment for Dublin Core:AgentClass
+msgid "A group of agents."
+msgstr "一组代理"
+
+#. Class label for Dublin Core:BibliographicResource
+msgid "Bibliographic Resource"
+msgstr "文献资源"
+
+#. Class comment for Dublin Core:BibliographicResource
+msgid "A book, article, or other documentary resource."
+msgstr "书籍、文章、或其它文件资源。"
+
+#. Class label for Dublin Core:FileFormat
+msgid "File Format"
+msgstr "文件格式"
+
+#. Class comment for Dublin Core:FileFormat
+msgid "A digital resource format."
+msgstr "数字资源格式。"
+
+#. Class label for Dublin Core:Frequency
+msgid "Frequency"
+msgstr "频率"
+
+#. Class comment for Dublin Core:Frequency
+msgid "A rate at which something recurs."
+msgstr "某事物的循环速率"
+
+#. Class label for Dublin Core:Jurisdiction
+msgid "Jurisdiction"
+msgstr "司法权"
+
+#. Class comment for Dublin Core:Jurisdiction
+msgid "The extent or range of judicial, law enforcement, or other authority."
+msgstr "司法、执法或其它权力机构的界限或范围。"
+
+#. Class label for Dublin Core:LicenseDocument
+msgid "License Document"
+msgstr "许可文件"
+
+#. Class comment for Dublin Core:LicenseDocument
+msgid ""
+"A legal document giving official permission to do something with a Resource."
+msgstr "对一个资源发起行动给予正式许可的法律文件。"
+
+#. Class label for Dublin Core:LinguisticSystem
+msgid "Linguistic System"
+msgstr "语系"
+
+#. Class comment for Dublin Core:LinguisticSystem
+msgid ""
+"A system of signs, symbols, sounds, gestures, or rules used in "
+"communication."
+msgstr "交流中使用的记号、符号、声音、姿势、或规则体系。"
+
+#. Class label for Dublin Core:Location
+msgid "Location"
+msgstr "地点"
+
+#. Class comment for Dublin Core:Location
+msgid "A spatial region or named place."
+msgstr "一个空间上的地域或已命名的地方。"
+
+#. Class label for Dublin Core:LocationPeriodOrJurisdiction
+msgid "Location, Period, or Jurisdiction"
+msgstr "地点、时间段、或司法权"
+
+#. Class comment for Dublin Core:LocationPeriodOrJurisdiction
+msgid "A location, period of time, or jurisdiction."
+msgstr "一个地点、一段时间、或司法权。"
+
+#. Class label for Dublin Core:MediaType
+msgid "Media Type"
+msgstr "媒体类型"
+
+#. Class comment for Dublin Core:MediaType
+msgid "A file format or physical medium."
+msgstr "一个文件格式或物理媒介。"
+
+#. Class label for Dublin Core:MediaTypeOrExtent
+msgid "Media Type or Extent"
+msgstr "媒体类型货范围"
+
+#. Class comment for Dublin Core:MediaTypeOrExtent
+msgid "A media type or extent."
+msgstr "一个媒体类型货范围。"
+
+#. Class label for Dublin Core:MethodOfInstruction
+msgid "Method of Instruction"
+msgstr "教育方法"
+
+#. Class comment for Dublin Core:MethodOfInstruction
+msgid "A process that is used to engender knowledge, attitudes, and skills."
+msgstr "用来形成知识、态度和技巧的一个过程。"
+
+#. Class label for Dublin Core:MethodOfAccrual
+msgid "Method of Accrual"
+msgstr "收藏方法"
+
+#. Class comment for Dublin Core:MethodOfAccrual
+msgid "A method by which resources are added to a collection."
+msgstr "资源被添加入馆藏的方法。"
+
+#. Class label for Dublin Core:PeriodOfTime
+msgid "Period of Time"
+msgstr "时间范围"
+
+#. Class comment for Dublin Core:PeriodOfTime
+msgid ""
+"An interval of time that is named or defined by its start and end dates."
+msgstr "用起始和结束日期来命名或定义的时间间隔。"
+
+#. Class label for Dublin Core:PhysicalMedium
+msgid "Physical Medium"
+msgstr "物理媒介"
+
+#. Class comment for Dublin Core:PhysicalMedium
+msgid "A physical material or carrier."
+msgstr "一个物理材料或载体。"
+
+#. Class label for Dublin Core:PhysicalResource
+msgid "Physical Resource"
+msgstr "物理资源"
+
+#. Class comment for Dublin Core:PhysicalResource
+msgid "A material thing."
+msgstr "一种物质上的事。"
+
+#. Class label for Dublin Core:Policy
+msgid "Policy"
+msgstr "政策"
+
+#. Class comment for Dublin Core:Policy
+msgid ""
+"A plan or course of action by an authority, intended to influence and "
+"determine decisions, actions, and other matters."
+msgstr "权力机构的一个计划或一系列行动，目的在于影响并规定决议、行动和其它事件。"
+
+#. Class label for Dublin Core:ProvenanceStatement
+msgid "Provenance Statement"
+msgstr "出处声明"
+
+#. Class comment for Dublin Core:ProvenanceStatement
+msgid ""
+"A statement of any changes in ownership and custody of a resource since its "
+"creation that are significant for its authenticity, integrity, and "
+"interpretation."
+msgstr "资源自创建以来的所有权和监护权的任何变化的声明，对它的真伪性、完整性和解释权有极重要意义。"
+
+#. Class label for Dublin Core:RightsStatement
+msgid "Rights Statement"
+msgstr "版权声明"
+
+#. Class comment for Dublin Core:RightsStatement
+msgid ""
+"A statement about the intellectual property rights (IPR) held in or over a "
+"Resource, a legal document giving official permission to do something with a"
+" resource, or a statement about access rights."
+msgstr "对资源所拥有的知识产权的声明，对一个资源发起行动给予正式许可的法律文件，或对访问权限的声明。"
+
+#. Class label for Dublin Core:SizeOrDuration
+msgid "Size or Duration"
+msgstr "尺寸或持续时间"
+
+#. Class comment for Dublin Core:SizeOrDuration
+msgid "A dimension or extent, or a time taken to play or execute."
+msgstr "尺寸或范围，或者播放或执行需要的时间。"
+
+#. Class label for Dublin Core:Standard
+#. Class label for Bibliographic Ontology:Standard
+msgid "Standard"
+msgstr "标准"
+
+#. Class comment for Dublin Core:Standard
+msgid ""
+"A basis for comparison; a reference point against which other things can be "
+"evaluated."
+msgstr "比较的基础；可以评价其它事物的一个参考点。"
+
+#. Property comment for Dublin Core:title
+msgid "A name given to the resource."
+msgstr "给予资源的名称。"
+
+#. Property label for Dublin Core:creator
+msgid "Creator"
+msgstr "创建者"
+
+#. Property comment for Dublin Core:creator
+msgid "An entity primarily responsible for making the resource."
+msgstr "主要负责创造资源的一个实体。"
+
+#. Property label for Dublin Core:subject
+msgid "Subject"
+msgstr "主题"
+
+#. Property comment for Dublin Core:subject
+msgid "The topic of the resource."
+msgstr "资源的话题。"
+
+#. Property label for Dublin Core:description
+msgid "Description"
+msgstr "描述"
+
+#. Property comment for Dublin Core:description
+msgid "An account of the resource."
+msgstr "对资源的说明。"
+
+#. Property label for Dublin Core:publisher
+msgid "Publisher"
+msgstr "出版者"
+
+#. Property comment for Dublin Core:publisher
+msgid "An entity responsible for making the resource available."
+msgstr "主要负责使资源可被利用的一个实体。"
+
+#. Property label for Dublin Core:contributor
+msgid "Contributor"
+msgstr "贡献者"
+
+#. Property comment for Dublin Core:contributor
+msgid "An entity responsible for making contributions to the resource."
+msgstr "为资源做出贡献的实体。"
+
+#. Property label for Dublin Core:date
+msgid "Date"
+msgstr "日期"
+
+#. Property comment for Dublin Core:date
+msgid ""
+"A point or period of time associated with an event in the lifecycle of the "
+"resource."
+msgstr "资源的生命周期内与一个事件联系在一起的一个时间点或时间段。"
+
+#. Property comment for Dublin Core:type
+msgid "The nature or genre of the resource."
+msgstr "资源的本质或体裁。"
+
+#. Property label for Dublin Core:format
+msgid "Format"
+msgstr "格式"
+
+#. Property comment for Dublin Core:format
+msgid "The file format, physical medium, or dimensions of the resource."
+msgstr "资源的文件格式、物理媒介、或尺寸。"
+
+#. Property label for Dublin Core:identifier
+msgid "Identifier"
+msgstr "标识符"
+
+#. Property comment for Dublin Core:identifier
+msgid "An unambiguous reference to the resource within a given context."
+msgstr "在给定上下文中对资源的明确引用。"
+
+#. Property comment for Dublin Core:source
+msgid "A related resource from which the described resource is derived."
+msgstr "从中衍生出被描述资源的相关资源。"
+
+#. Property label for Dublin Core:language
+msgid "Language"
+msgstr "语言"
+
+#. Property comment for Dublin Core:language
+msgid "A language of the resource."
+msgstr "资源的语言。"
+
+#. Property label for Dublin Core:relation
+msgid "Relation"
+msgstr "关系"
+
+#. Property comment for Dublin Core:relation
+msgid "A related resource."
+msgstr "相关的资源。"
+
+#. Property label for Dublin Core:coverage
+msgid "Coverage"
+msgstr "时空范围"
+
+#. Property comment for Dublin Core:coverage
+msgid ""
+"The spatial or temporal topic of the resource, the spatial applicability of "
+"the resource, or the jurisdiction under which the resource is relevant."
+msgstr "资源的空间或时间主题，资源的空间适用性，或资源相关的司法权。"
+
+#. Property label for Dublin Core:rights
+msgid "Rights"
+msgstr "权限"
+
+#. Property comment for Dublin Core:rights
+msgid "Information about rights held in and over the resource."
+msgstr "对资源所拥有的权利的信息。"
+
+#. Property label for Dublin Core:audience
+msgid "Audience"
+msgstr "听众"
+
+#. Property comment for Dublin Core:audience
+msgid "A class of entity for whom the resource is intended or useful."
+msgstr "资源预期用于或有用于的一类实体。"
+
+#. Property label for Dublin Core:alternative
+msgid "Alternative Title"
+msgstr "替代标题"
+
+#. Property comment for Dublin Core:alternative
+msgid "An alternative name for the resource."
+msgstr "资源的替代名称。"
+
+#. Property label for Dublin Core:tableOfContents
+msgid "Table Of Contents"
+msgstr "目录菜单"
+
+#. Property comment for Dublin Core:tableOfContents
+msgid "A list of subunits of the resource."
+msgstr "资源的子单元列表。"
+
+#. Property label for Dublin Core:abstract
+msgid "Abstract"
+msgstr "摘要"
+
+#. Property comment for Dublin Core:abstract
+#. Property comment for Bibliographic Ontology:abstract
+msgid "A summary of the resource."
+msgstr "资源的综述"
+
+#. Property label for Dublin Core:created
+msgid "Date Created"
+msgstr "创建日期"
+
+#. Property comment for Dublin Core:created
+msgid "Date of creation of the resource."
+msgstr "资源的创建日期。"
+
+#. Property label for Dublin Core:valid
+msgid "Date Valid"
+msgstr "有效日期"
+
+#. Property comment for Dublin Core:valid
+msgid "Date (often a range) of validity of a resource."
+msgstr "资源的有效日期（通常是一段时间）"
+
+#. Property label for Dublin Core:available
+msgid "Date Available"
+msgstr "可使用日期"
+
+#. Property comment for Dublin Core:available
+msgid ""
+"Date (often a range) that the resource became or will become available."
+msgstr "资源变为或将变为可利用的日期（通常是一个范围）。"
+
+#. Property label for Dublin Core:issued
+msgid "Date Issued"
+msgstr "发行日期"
+
+#. Property comment for Dublin Core:issued
+msgid "Date of formal issuance (e.g., publication) of the resource."
+msgstr "资源的正式发行（例如出版）日期。"
+
+#. Property label for Dublin Core:modified
+msgid "Date Modified"
+msgstr "修改日期"
+
+#. Property comment for Dublin Core:modified
+msgid "Date on which the resource was changed."
+msgstr "资源被修改的日期。"
+
+#. Property label for Dublin Core:extent
+msgid "Extent"
+msgstr "范围"
+
+#. Property comment for Dublin Core:extent
+msgid "The size or duration of the resource."
+msgstr "资源的尺寸或存在时间。"
+
+#. Property label for Dublin Core:medium
+msgid "Medium"
+msgstr "媒介"
+
+#. Property comment for Dublin Core:medium
+msgid "The material or physical carrier of the resource."
+msgstr "资源的材料或物理载体。"
+
+#. Property label for Dublin Core:isVersionOf
+msgid "Is Version Of"
+msgstr "原版本为"
+
+#. Property comment for Dublin Core:isVersionOf
+msgid ""
+"A related resource of which the described resource is a version, edition, or"
+" adaptation."
+msgstr "被描述资源是其一个译本、版本或改编本的相关资源。"
+
+#. Property label for Dublin Core:hasVersion
+msgid "Has Version"
+msgstr "有版本为"
+
+#. Property comment for Dublin Core:hasVersion
+msgid ""
+"A related resource that is a version, edition, or adaptation of the "
+"described resource."
+msgstr "是被描述资源的一个译本、版本或改编本的相关资源。"
+
+#. Property label for Dublin Core:isReplacedBy
+msgid "Is Replaced By"
+msgstr "被以下的替换："
+
+#. Property comment for Dublin Core:isReplacedBy
+msgid ""
+"A related resource that supplants, displaces, or supersedes the described "
+"resource."
+msgstr "排挤、顶替、或接替被描述资源的相关资源。"
+
+#. Property label for Dublin Core:replaces
+msgid "Replaces"
+msgstr "替换"
+
+#. Property comment for Dublin Core:replaces
+msgid ""
+"A related resource that is supplanted, displaced, or superseded by the "
+"described resource."
+msgstr "被所描述的资源排挤、顶替、或接替的相关资源。"
+
+#. Property label for Dublin Core:isRequiredBy
+msgid "Is Required By"
+msgstr "被以下的要求："
+
+#. Property comment for Dublin Core:isRequiredBy
+msgid ""
+"A related resource that requires the described resource to support its "
+"function, delivery, or coherence."
+msgstr "要求被描述的资源支持其功能、交付、或一致性的相关资源。"
+
+#. Property label for Dublin Core:requires
+msgid "Requires"
+msgstr "要求"
+
+#. Property comment for Dublin Core:requires
+msgid ""
+"A related resource that is required by the described resource to support its"
+" function, delivery, or coherence."
+msgstr "被描述的资源要求支持其功能、交付、或一致性的相关资源。"
+
+#. Property label for Dublin Core:isPartOf
+msgid "Is Part Of"
+msgstr "是下面的一部分："
+
+#. Property comment for Dublin Core:isPartOf
+msgid ""
+"A related resource in which the described resource is physically or "
+"logically included."
+msgstr "物理或逻辑上包含了被描述资源的相关资源。"
+
+#. Property label for Dublin Core:hasPart
+msgid "Has Part"
+msgstr "有部分为"
+
+#. Property comment for Dublin Core:hasPart
+msgid ""
+"A related resource that is included either physically or logically in the "
+"described resource."
+msgstr "在物理或逻辑上被包含于被描述资源内的相关资源。"
+
+#. Property label for Dublin Core:isReferencedBy
+msgid "Is Referenced By"
+msgstr "被以下的引证："
+
+#. Property comment for Dublin Core:isReferencedBy
+msgid ""
+"A related resource that references, cites, or otherwise points to the "
+"described resource."
+msgstr "引证、引用、或指向被描述的资源的相关资源。"
+
+#. Property label for Dublin Core:references
+msgid "References"
+msgstr "引证"
+
+#. Property comment for Dublin Core:references
+msgid ""
+"A related resource that is referenced, cited, or otherwise pointed to by the"
+" described resource."
+msgstr "被描述的资源引证、引用、或指向的相关资源。"
+
+#. Property label for Dublin Core:isFormatOf
+msgid "Is Format Of"
+msgstr "是下面的格式:"
+
+#. Property comment for Dublin Core:isFormatOf
+msgid ""
+"A related resource that is substantially the same as the described resource,"
+" but in another format."
+msgstr "本质上和被描述的资源是相同的相关资源，只是是另一种格式。"
+
+#. Property label for Dublin Core:hasFormat
+msgid "Has Format"
+msgstr "有格式"
+
+#. Property comment for Dublin Core:hasFormat
+msgid ""
+"A related resource that is substantially the same as the pre-existing "
+"described resource, but in another format."
+msgstr "本质上和已经存在的被描述的资源是相同的相关资源，只是是另一种格式。"
+
+#. Property label for Dublin Core:conformsTo
+msgid "Conforms To"
+msgstr "符合"
+
+#. Property comment for Dublin Core:conformsTo
+msgid "An established standard to which the described resource conforms."
+msgstr "被描述的资源要符合的已确立的标准。"
+
+#. Property label for Dublin Core:spatial
+msgid "Spatial Coverage"
+msgstr "空间跨度"
+
+#. Property comment for Dublin Core:spatial
+msgid "Spatial characteristics of the resource."
+msgstr "资源的空间特征。"
+
+#. Property label for Dublin Core:temporal
+msgid "Temporal Coverage"
+msgstr "时间跨度"
+
+#. Property comment for Dublin Core:temporal
+msgid "Temporal characteristics of the resource."
+msgstr "资源的时间特征。"
+
+#. Property label for Dublin Core:mediator
+msgid "Mediator"
+msgstr "调解人"
+
+#. Property comment for Dublin Core:mediator
+msgid ""
+"An entity that mediates access to the resource and for whom the resource is "
+"intended or useful."
+msgstr "调节对资源的访问以及该资源预期给谁用和对谁有用的实体。"
+
+#. Property label for Dublin Core:dateAccepted
+msgid "Date Accepted"
+msgstr "接受日期"
+
+#. Property comment for Dublin Core:dateAccepted
+msgid "Date of acceptance of the resource."
+msgstr "资源的接受日期。"
+
+#. Property label for Dublin Core:dateCopyrighted
+msgid "Date Copyrighted"
+msgstr "授予版权的日期"
+
+#. Property comment for Dublin Core:dateCopyrighted
+msgid "Date of copyright."
+msgstr "版权授予日。"
+
+#. Property label for Dublin Core:dateSubmitted
+msgid "Date Submitted"
+msgstr "提交日期"
+
+#. Property comment for Dublin Core:dateSubmitted
+msgid "Date of submission of the resource."
+msgstr "资源的提交日期。"
+
+#. Property label for Dublin Core:educationLevel
+msgid "Audience Education Level"
+msgstr "听众的教育水平"
+
+#. Property comment for Dublin Core:educationLevel
+msgid ""
+"A class of entity, defined in terms of progression through an educational or"
+" training context, for which the described resource is intended."
+msgstr "被描述的资源预期用于通过教育或培训过程的发展而定义的一类实体。"
+
+#. Property label for Dublin Core:accessRights
+msgid "Access Rights"
+msgstr "访问权限"
+
+#. Property comment for Dublin Core:accessRights
+msgid ""
+"Information about who can access the resource or an indication of its "
+"security status."
+msgstr "有关谁可以访问资源的信息，或者资源的安全状态的标志。"
+
+#. Property label for Dublin Core:bibliographicCitation
+msgid "Bibliographic Citation"
+msgstr "书目引用"
+
+#. Property comment for Dublin Core:bibliographicCitation
+msgid "A bibliographic reference for the resource."
+msgstr "资源的文献引证。"
+
+#. Property label for Dublin Core:license
+msgid "License"
+msgstr "许可证"
+
+#. Property comment for Dublin Core:license
+msgid ""
+"A legal document giving official permission to do something with the "
+"resource."
+msgstr "对一个资源发起行动给予正式许可的法律文件。"
+
+#. Property label for Dublin Core:rightsHolder
+msgid "Rights Holder"
+msgstr "权利持有人"
+
+#. Property comment for Dublin Core:rightsHolder
+msgid "A person or organization owning or managing rights over the resource."
+msgstr "拥有或管理对资源的权利的个人或组织。"
+
+#. Property label for Dublin Core:provenance
+msgid "Provenance"
+msgstr "出处"
+
+#. Property comment for Dublin Core:provenance
+msgid ""
+"A statement of any changes in ownership and custody of the resource since "
+"its creation that are significant for its authenticity, integrity, and "
+"interpretation."
+msgstr "资源自创建以来的所有权和监护权的任何变化的声明，对它的真伪性、完整性和解释权有极重要意义。"
+
+#. Property label for Dublin Core:instructionalMethod
+msgid "Instructional Method"
+msgstr "教学方法"
+
+#. Property comment for Dublin Core:instructionalMethod
+msgid ""
+"A process, used to engender knowledge, attitudes and skills, that the "
+"described resource is designed to support."
+msgstr "被描述的资源被设计来支持用于形成知识、态度和技巧的一个过程。"
+
+#. Property label for Dublin Core:accrualMethod
+msgid "Accrual Method"
+msgstr "收藏方法"
+
+#. Property comment for Dublin Core:accrualMethod
+msgid "The method by which items are added to a collection."
+msgstr "条目被添加进馆藏的方法。"
+
+#. Property label for Dublin Core:accrualPeriodicity
+msgid "Accrual Periodicity"
+msgstr "收藏周期"
+
+#. Property comment for Dublin Core:accrualPeriodicity
+msgid "The frequency with which items are added to a collection."
+msgstr "条目被添加进馆藏的频度。"
+
+#. Property label for Dublin Core:accrualPolicy
+msgid "Accrual Policy"
+msgstr "收藏政策"
+
+#. Property comment for Dublin Core:accrualPolicy
+msgid "The policy governing the addition of items to a collection."
+msgstr "管理向馆藏添加条目的政策。"
+
+#. Vocabulary label for Dublin Core Type
+msgid "Dublin Core Type"
+msgstr "都柏林核心类型"
+
+#. Vocabulary comment for Dublin Core Type
+msgid "Basic resource types (DCMI Type Vocabulary)"
+msgstr "基本的资源类型（DCMI 类型词汇）"
+
+#. Class label for Dublin Core Type:Collection
+#. Class label for Bibliographic Ontology:Collection
+msgid "Collection"
+msgstr "馆藏"
+
+#. Class comment for Dublin Core Type:Collection
+msgid "An aggregation of resources."
+msgstr "资源的集合。"
+
+#. Class label for Dublin Core Type:Dataset
+msgid "Dataset"
+msgstr "数据集"
+
+#. Class comment for Dublin Core Type:Dataset
+msgid "Data encoded in a defined structure."
+msgstr "用定义结构来编码的数据。"
+
+#. Class label for Dublin Core Type:Event
+#. Class label for Bibliographic Ontology:Event
+msgid "Event"
+msgstr "事件"
+
+#. Class comment for Dublin Core Type:Event
+msgid "A non-persistent, time-based occurrence."
+msgstr "非持久的、基于时间的一个事件。"
+
+#. Class label for Dublin Core Type:Image
+#. Class label for Bibliographic Ontology:Image
+#. Class label for Friend of a Friend:Image
+msgid "Image"
+msgstr "图像"
+
+#. Class comment for Dublin Core Type:Image
+msgid "A visual representation other than text."
+msgstr "非文本的视觉表现。"
+
+#. Class label for Dublin Core Type:InteractiveResource
+msgid "Interactive Resource"
+msgstr "交互资源"
+
+#. Class comment for Dublin Core Type:InteractiveResource
+msgid ""
+"A resource requiring interaction from the user to be understood, executed, "
+"or experienced."
+msgstr "要求用户的交互以便理解、执行、或经历的一个资源。"
+
+#. Class label for Dublin Core Type:Service
+msgid "Service"
+msgstr "服务"
+
+#. Class comment for Dublin Core Type:Service
+msgid "A system that provides one or more functions."
+msgstr "提供一个或多个功能的体系。"
+
+#. Class label for Dublin Core Type:Software
+msgid "Software"
+msgstr "软件"
+
+#. Class comment for Dublin Core Type:Software
+msgid "A computer program in source or compiled form."
+msgstr "以源码货编译形式存在的计算机程序。"
+
+#. Class label for Dublin Core Type:Sound
+msgid "Sound"
+msgstr "声音"
+
+#. Class comment for Dublin Core Type:Sound
+msgid "A resource primarily intended to be heard."
+msgstr "主要用于被听见的一个资源。"
+
+#. Class comment for Dublin Core Type:Text
+msgid "A resource consisting primarily of words for reading."
+msgstr "主要由用于阅读的字词组成的一个资源。"
+
+#. Class label for Dublin Core Type:PhysicalObject
+msgid "Physical Object"
+msgstr "物理对象"
+
+#. Class comment for Dublin Core Type:PhysicalObject
+msgid "An inanimate, three-dimensional object or substance."
+msgstr "一个无生命的，三维的对象或物体。"
+
+#. Class label for Dublin Core Type:StillImage
+msgid "Still Image"
+msgstr "静态图像"
+
+#. Class comment for Dublin Core Type:StillImage
+msgid "A static visual representation."
+msgstr "静态的视觉表现。"
+
+#. Class label for Dublin Core Type:MovingImage
+msgid "Moving Image"
+msgstr "动态图像"
+
+#. Class comment for Dublin Core Type:MovingImage
+msgid ""
+"A series of visual representations imparting an impression of motion when "
+"shown in succession."
+msgstr "当连续显示时给予一个运动的印象的一系列视觉表现。"
+
+#. Vocabulary label for Bibliographic Ontology
+msgid "Bibliographic Ontology"
+msgstr "文献本体论"
+
+#. Vocabulary comment for Bibliographic Ontology
+msgid "Bibliographic metadata (BIBO)"
+msgstr "文献元数据（BIBO）"
+
+#. Class label for Bibliographic Ontology:AcademicArticle
+msgid "Academic Article"
+msgstr "学术文章"
+
+#. Class comment for Bibliographic Ontology:AcademicArticle
+msgid "A scholarly academic article, typically published in a journal."
+msgstr "一篇学术性文章，主要发表在期刊上。"
+
+#. Class label for Bibliographic Ontology:Article
+msgid "Article"
+msgstr "文章"
+
+#. Class comment for Bibliographic Ontology:Article
+msgid ""
+"A written composition in prose, usually nonfiction, on a specific topic, "
+"forming an independent part of a book or other publication, as a newspaper "
+"or magazine."
+msgstr "一份散文形式的书面作品，通常为非小说体，关于一个特定主题，形成一本书籍或报纸和杂志等其它出版物的一个独立部分。"
+
+#. Class label for Bibliographic Ontology:AudioDocument
+msgid "audio document"
+msgstr "音频文件"
+
+#. Class comment for Bibliographic Ontology:AudioDocument
+msgid "An audio document; aka record."
+msgstr "一个音频文件；也就是录音。"
+
+#. Class label for Bibliographic Ontology:AudioVisualDocument
+msgid "audio-visual document"
+msgstr "视听文件"
+
+#. Class comment for Bibliographic Ontology:AudioVisualDocument
+msgid "An audio-visual document; film, video, and so forth."
+msgstr "一个音频-视频文件；影片、录像，等等。"
+
+#. Class label for Bibliographic Ontology:Bill
+msgid "Bill"
+msgstr "法案"
+
+#. Class comment for Bibliographic Ontology:Bill
+msgid "Draft legislation presented for discussion to a legal body."
+msgstr "呈交给一个法律机构讨论的法案草稿。"
+
+#. Class label for Bibliographic Ontology:Book
+msgid "Book"
+msgstr "书籍"
+
+#. Class comment for Bibliographic Ontology:Book
+msgid ""
+"A written or printed work of fiction or nonfiction, usually on sheets of "
+"paper fastened or bound together within covers."
+msgstr "小说或非小说的书写或印刷作品，通常在封面内固定或装订在一起的纸张页上。"
+
+#. Class label for Bibliographic Ontology:BookSection
+msgid "Book Section"
+msgstr "书籍章节"
+
+#. Class comment for Bibliographic Ontology:BookSection
+msgid "A section of a book."
+msgstr "书籍的一篇段落。"
+
+#. Class label for Bibliographic Ontology:Brief
+msgid "Brief"
+msgstr "辩护状"
+
+#. Class comment for Bibliographic Ontology:Brief
+msgid "A written argument submitted to a court."
+msgstr "呈交给法庭的一份书面辩论。"
+
+#. Class label for Bibliographic Ontology:Chapter
+msgid "Chapter"
+msgstr "章节"
+
+#. Class comment for Bibliographic Ontology:Chapter
+msgid "A chapter of a book."
+msgstr "书籍的一章。"
+
+#. Class label for Bibliographic Ontology:Code
+msgid "Code"
+msgstr "法典"
+
+#. Class comment for Bibliographic Ontology:Code
+msgid "A collection of statutes."
+msgstr "法规的集合。"
+
+#. Class label for Bibliographic Ontology:CollectedDocument
+msgid "Collected Document"
+msgstr "集合在一起的文件"
+
+#. Class comment for Bibliographic Ontology:CollectedDocument
+msgid "A document that simultaneously contains other documents."
+msgstr "同时包括其它文件的一个文件。"
+
+#. Class comment for Bibliographic Ontology:Collection
+msgid "A collection of Documents or Collections"
+msgstr "文件或馆藏的集合"
+
+#. Class label for Bibliographic Ontology:Conference
+msgid "Conference"
+msgstr "会议"
+
+#. Class comment for Bibliographic Ontology:Conference
+msgid "A meeting for consultation or discussion."
+msgstr "协商或讨论的一个会议。"
+
+#. Class label for Bibliographic Ontology:CourtReporter
+msgid "Court Reporter"
+msgstr "法庭书记官"
+
+#. Class comment for Bibliographic Ontology:CourtReporter
+msgid "A collection of legal cases."
+msgstr "法案的集合。"
+
+#. Class label for Bibliographic Ontology:Document
+#. Class label for Friend of a Friend:Document
+msgid "Document"
+msgstr "文件"
+
+#. Class comment for Bibliographic Ontology:Document
+msgid ""
+"A document (noun) is a bounded physical representation of body of "
+"information designed with the capacity (and usually intent) to communicate. "
+"A document may manifest symbolic, diagrammatic or sensory-representational "
+"information."
+msgstr "一份文件（名词）是设计为有能力（通常有意图）交流的信息正文的装订好的物理表现。一份文件可能表明了符号的、图表的或感官表象的信息。"
+
+#. Class label for Bibliographic Ontology:DocumentPart
+msgid "document part"
+msgstr "文件一部分"
+
+#. Class comment for Bibliographic Ontology:DocumentPart
+msgid "a distinct part of a larger document or collected document."
+msgstr "一个较大文件或集合文件的独立部分。"
+
+#. Class label for Bibliographic Ontology:DocumentStatus
+msgid "Document Status"
+msgstr "文件状态"
+
+#. Class comment for Bibliographic Ontology:DocumentStatus
+msgid "The status of the publication of a document."
+msgstr "文件的出版状态。"
+
+#. Class label for Bibliographic Ontology:EditedBook
+msgid "Edited Book"
+msgstr "已编辑的书籍"
+
+#. Class comment for Bibliographic Ontology:EditedBook
+msgid "An edited book."
+msgstr "一本已编辑的书籍"
+
+#. Class label for Bibliographic Ontology:Email
+msgid "EMail"
+msgstr "电子邮件"
+
+#. Class comment for Bibliographic Ontology:Email
+msgid ""
+"A written communication addressed to a person or organization and "
+"transmitted electronically."
+msgstr "送往个人或组织并且以电子形式传输的书面通信。"
+
+#. Class label for Bibliographic Ontology:Excerpt
+msgid "Excerpt"
+msgstr "摘录"
+
+#. Class comment for Bibliographic Ontology:Excerpt
+msgid "A passage selected from a larger work."
+msgstr "从一份较大的作品中挑选出的一段。"
+
+#. Class label for Bibliographic Ontology:Film
+msgid "Film"
+msgstr "影片"
+
+#. Class comment for Bibliographic Ontology:Film
+msgid "aka movie."
+msgstr "也就是电影。"
+
+#. Class label for Bibliographic Ontology:Hearing
+msgid "Hearing"
+msgstr "听证"
+
+#. Class comment for Bibliographic Ontology:Hearing
+msgid ""
+"An instance or a session in which testimony and arguments are presented, "
+"esp. before an official, as a judge in a lawsuit."
+msgstr " 陈述证据和辩护的一个场合或开庭期，特别是在公务员面前，譬如诉讼案件中的法官。"
+
+#. Class comment for Bibliographic Ontology:Image
+msgid "A document that presents visual or diagrammatic information."
+msgstr "呈现出视觉或图示信息的文件。"
+
+#. Class label for Bibliographic Ontology:Interview
+msgid "Interview"
+msgstr "采访"
+
+#. Class comment for Bibliographic Ontology:Interview
+msgid "A formalized discussion between two or more people."
+msgstr "在两人或多人之间的正式讨论。"
+
+#. Class label for Bibliographic Ontology:Issue
+msgid "Issue"
+msgstr "期"
+
+#. Class comment for Bibliographic Ontology:Issue
+msgid ""
+"something that is printed or published and distributed, esp. a given number "
+"of a periodical"
+msgstr "印刷的或出版并分发的东西，特别是期刊的某一期"
+
+#. Class label for Bibliographic Ontology:Journal
+msgid "Journal"
+msgstr "期刊"
+
+#. Class comment for Bibliographic Ontology:Journal
+msgid "A periodical of scholarly journal Articles."
+msgstr "学术期刊文章的杂志。"
+
+#. Class label for Bibliographic Ontology:LegalCaseDocument
+msgid "Legal Case Document"
+msgstr "法案文件"
+
+#. Class comment for Bibliographic Ontology:LegalCaseDocument
+msgid "A document accompanying a legal case."
+msgstr "伴随法案的文件。"
+
+#. Class label for Bibliographic Ontology:LegalDecision
+msgid "Decision"
+msgstr "判决"
+
+#. Class comment for Bibliographic Ontology:LegalDecision
+msgid ""
+"A document containing an authoritative determination (as a decree or "
+"judgment) made after consideration of facts or law."
+msgstr "包含了在考虑到事实或法律后的权威决定(判决或裁决）的一份文件。"
+
+#. Class label for Bibliographic Ontology:LegalDocument
+msgid "Legal Document"
+msgstr "法律文件"
+
+#. Class comment for Bibliographic Ontology:LegalDocument
+msgid ""
+"A legal document; for example, a court decision, a brief, and so forth."
+msgstr "法律文件；譬如，法庭判决，辩护状，等等。"
+
+#. Class label for Bibliographic Ontology:Legislation
+msgid "Legislation"
+msgstr "立法"
+
+#. Class comment for Bibliographic Ontology:Legislation
+msgid "A legal document proposing or enacting a law or a group of laws."
+msgstr "提议或制定一个法令或一组法令的一份法律文件。"
+
+#. Class label for Bibliographic Ontology:Letter
+msgid "Letter"
+msgstr "信件"
+
+#. Class comment for Bibliographic Ontology:Letter
+msgid ""
+"A written or printed communication addressed to a person or organization and"
+" usually transmitted by mail."
+msgstr "地址寄往个人或组织的通常由邮局传递的一份书写的或印刷的通讯。"
+
+#. Class label for Bibliographic Ontology:Magazine
+msgid "Magazine"
+msgstr "杂志"
+
+#. Class comment for Bibliographic Ontology:Magazine
+msgid ""
+"A periodical of magazine Articles. A magazine is a publication that is "
+"issued periodically, usually bound in a paper cover, and typically contains "
+"essays, stories, poems, etc., by many writers, and often photographs and "
+"drawings, frequently specializing in a particular subject or area, as "
+"hobbies, news, or sports."
+msgstr ""
+"定期发行的杂志文章。杂志是定期发行的刊物，通常装订在纸质封面中，一般包括很多作者写的论文、故事、诗歌等等，经常还有摄影和图画，通常限定于一个特定主题或范围，当作兴趣、新闻或体育运动。"
+
+#. Class label for Bibliographic Ontology:Manual
+msgid "Manual"
+msgstr "说明书"
+
+#. Class comment for Bibliographic Ontology:Manual
+msgid "A small reference book, especially one giving instructions."
+msgstr "一本小参考书，特别是给出指令的那种。"
+
+#. Class label for Bibliographic Ontology:Manuscript
+msgid "Manuscript"
+msgstr "手抄本"
+
+#. Class comment for Bibliographic Ontology:Manuscript
+msgid ""
+"An unpublished Document, which may also be submitted to a publisher for "
+"publication."
+msgstr "一份未出版的文件，也可能被交给出版商出版。"
+
+#. Class label for Bibliographic Ontology:Map
+msgid "Map"
+msgstr "地图"
+
+#. Class comment for Bibliographic Ontology:Map
+msgid "A graphical depiction of geographic features."
+msgstr "地理特征的图形描绘。"
+
+#. Class label for Bibliographic Ontology:MultiVolumeBook
+msgid "Multivolume Book"
+msgstr "多卷书籍"
+
+#. Class comment for Bibliographic Ontology:MultiVolumeBook
+#. Class comment for Bibliographic Ontology:Series
+msgid "A loose, thematic, collection of Documents, often Books."
+msgstr "一份松散的、专题的文件集合，通常是书籍。"
+
+#. Class label for Bibliographic Ontology:Newspaper
+msgid "Newspaper"
+msgstr "报纸"
+
+#. Class comment for Bibliographic Ontology:Newspaper
+msgid ""
+"A periodical of documents, usually issued daily or weekly, containing "
+"current news, editorials, feature articles, and usually advertising."
+msgstr "定期发行的文件，通常每天或每周发行，包括当前新闻、社论、专题文章、以及常常会有的广告。"
+
+#. Class label for Bibliographic Ontology:Note
+msgid "Note"
+msgstr "笔记"
+
+#. Class comment for Bibliographic Ontology:Note
+msgid "Notes or annotations about a resource."
+msgstr "有关一份资源的笔记或注释。"
+
+#. Class label for Bibliographic Ontology:Patent
+msgid "Patent"
+msgstr "专利"
+
+#. Class comment for Bibliographic Ontology:Patent
+msgid ""
+"A document describing the exclusive right granted by a government to an "
+"inventor to manufacture, use, or sell an invention for a certain number of "
+"years."
+msgstr "描述了被政府授予一个发明家的排他性权利，以便在一定年限内制造、使用、或销售一个发明。"
+
+#. Class label for Bibliographic Ontology:Performance
+msgid "Performance"
+msgstr "演出"
+
+#. Class comment for Bibliographic Ontology:Performance
+msgid "A public performance."
+msgstr "一场公共演出。"
+
+#. Class label for Bibliographic Ontology:Periodical
+msgid "Periodical"
+msgstr "期刊"
+
+#. Class comment for Bibliographic Ontology:Periodical
+msgid "A group of related documents issued at regular intervals."
+msgstr "以有规律的间隔发行的一组相关文件。"
+
+#. Class label for Bibliographic Ontology:PersonalCommunication
+msgid "Personal Communication"
+msgstr "个人通信"
+
+#. Class comment for Bibliographic Ontology:PersonalCommunication
+msgid "A communication between an agent and one or more specific recipients."
+msgstr "在一个代理和一个或多个特定收件人之间的通信。"
+
+#. Class label for Bibliographic Ontology:PersonalCommunicationDocument
+msgid "Personal Communication Document"
+msgstr "个人通信文件"
+
+#. Class comment for Bibliographic Ontology:PersonalCommunicationDocument
+msgid "A personal communication manifested in some document."
+msgstr "在某份文件中表明的个人通信。"
+
+#. Class label for Bibliographic Ontology:Proceedings
+msgid "Proceedings"
+msgstr "会刊"
+
+#. Class comment for Bibliographic Ontology:Proceedings
+msgid ""
+"A compilation of documents published from an event, such as a conference."
+msgstr "在一个活动中，譬如一次会议，发表的文件合辑。"
+
+#. Class label for Bibliographic Ontology:Quote
+msgid "Quote"
+msgstr "引述"
+
+#. Class comment for Bibliographic Ontology:Quote
+msgid "An excerpted collection of words."
+msgstr "一些摘录的词语集合。"
+
+#. Class label for Bibliographic Ontology:ReferenceSource
+msgid "Reference Source"
+msgstr "引证来源"
+
+#. Class comment for Bibliographic Ontology:ReferenceSource
+msgid ""
+"A document that presents authoritative reference information, such as a "
+"dictionary or encylopedia ."
+msgstr "提供了权威引证信息的文件，譬如一本字典或百科全书。"
+
+#. Class label for Bibliographic Ontology:Report
+msgid "Report"
+msgstr "报告"
+
+#. Class comment for Bibliographic Ontology:Report
+msgid ""
+"A document describing an account or statement describing in detail an event,"
+" situation, or the like, usually as the result of observation, inquiry, "
+"etc.."
+msgstr "描述了一个说明或陈述的文件，这些文件详细描述了一次事件、形势、或类似情形，通常作为观察、询问等的结果。"
+
+#. Class label for Bibliographic Ontology:Series
+msgid "Series"
+msgstr "系列"
+
+#. Class label for Bibliographic Ontology:Slide
+msgid "Slide"
+msgstr "幻灯片"
+
+#. Class comment for Bibliographic Ontology:Slide
+msgid "A slide in a slideshow"
+msgstr "幻灯播放中的一张幻灯片"
+
+#. Class label for Bibliographic Ontology:Slideshow
+msgid "Slideshow"
+msgstr "幻灯播放"
+
+#. Class comment for Bibliographic Ontology:Slideshow
+msgid ""
+"A presentation of a series of slides, usually presented in front of an "
+"audience with written text and images."
+msgstr "一系列幻灯片的演示，通常在一群观众面前演示，有书面文字和图像。"
+
+#. Class comment for Bibliographic Ontology:Standard
+msgid "A document describing a standard"
+msgstr "描述标准的文件"
+
+#. Class label for Bibliographic Ontology:Statute
+msgid "Statute"
+msgstr "法规"
+
+#. Class comment for Bibliographic Ontology:Statute
+msgid "A bill enacted into law."
+msgstr "制定成法律的一份法案。"
+
+#. Class label for Bibliographic Ontology:Thesis
+msgid "Thesis"
+msgstr "论文"
+
+#. Class comment for Bibliographic Ontology:Thesis
+msgid ""
+"A document created to summarize research findings associated with the "
+"completion of an academic degree."
+msgstr "创造来总结和学术学位的完成相关联的研究结果的文件。"
+
+#. Class label for Bibliographic Ontology:ThesisDegree
+msgid "Thesis degree"
+msgstr "论文学位"
+
+#. Class comment for Bibliographic Ontology:ThesisDegree
+msgid "The academic degree of a Thesis"
+msgstr "论文的学术学问"
+
+#. Class label for Bibliographic Ontology:Webpage
+msgid "Webpage"
+msgstr "网页"
+
+#. Class comment for Bibliographic Ontology:Webpage
+msgid ""
+"A web page is an online document available (at least initially) on the world"
+" wide web. A web page is written first and foremost to appear on the web, as"
+" distinct from other online resources such as books, manuscripts or audio "
+"documents which use the web primarily as a distribution mechanism alongside "
+"other more traditional methods such as print."
+msgstr ""
+"一个网页是万维网上的可用的（至少在最初时）在线文件。网页首先是为了在万维网出现而写的，与其它在线资源截然不同，譬如书籍、手稿或音频文件，那些资源除了使用其它更传统的方法譬如印刷外，主要利用万维网当作一个分发机制。"
+
+#. Class label for Bibliographic Ontology:Website
+msgid "Website"
+msgstr "网站"
+
+#. Class comment for Bibliographic Ontology:Website
+msgid "A group of Webpages accessible on the Web."
+msgstr "在互联网上可以访问的一组网页。"
+
+#. Class label for Bibliographic Ontology:Workshop
+msgid "Workshop"
+msgstr "研讨会"
+
+#. Class comment for Bibliographic Ontology:Workshop
+msgid ""
+"A seminar, discussion group, or the like, that emphasizes zxchange of ideas "
+"and the demonstration and application of techniques, skills, etc."
+msgstr "一个研讨会、讨论组、或类似活动，强调主意的互相交换、技术和技巧等的示范和应用。"
+
+#. Property label for Bibliographic Ontology:affirmedBy
+msgid "affirmedBy"
+msgstr "affirmedBy"
+
+#. Property comment for Bibliographic Ontology:affirmedBy
+msgid "A legal decision that affirms a ruling."
+msgstr "维持判决的法律决定。"
+
+#. Property label for Bibliographic Ontology:annotates
+msgid "annotates"
+msgstr "注释"
+
+#. Property comment for Bibliographic Ontology:annotates
+msgid "Critical or explanatory note for a Document."
+msgstr "对文件的批判性的或解释性注释。"
+
+#. Property label for Bibliographic Ontology:authorList
+msgid "list of authors"
+msgstr "作者列表"
+
+#. Property comment for Bibliographic Ontology:authorList
+msgid ""
+"An ordered list of authors. Normally, this list is seen as a priority list "
+"that order authors by importance."
+msgstr "作者的有序列表。一般来讲，该列表可以视为把作者按重要性排列的优先列表。"
+
+#. Property label for Bibliographic Ontology:citedBy
+msgid "cited by"
+msgstr "被以下的引用："
+
+#. Property comment for Bibliographic Ontology:citedBy
+msgid ""
+"Relates a document to another document that cites the\n"
+"first document."
+msgstr "把一个文件和另一个引用了第一个文件的文件关联起来。"
+
+#. Property label for Bibliographic Ontology:cites
+msgid "cites"
+msgstr "引用"
+
+#. Property comment for Bibliographic Ontology:cites
+msgid ""
+"Relates a document to another document that is cited\n"
+"by the first document as reference, comment, review, quotation or for\n"
+"another purpose."
+msgstr "把一个文件和该文件引用的另一个文件关联起来，引用目的为引证、评论、审核、引用或另一个目的。"
+
+#. Property label for Bibliographic Ontology:contributorList
+msgid "list of contributors"
+msgstr "贡献者列表"
+
+#. Property comment for Bibliographic Ontology:contributorList
+msgid ""
+"An ordered list of contributors. Normally, this list is seen as a priority "
+"list that order contributors by importance."
+msgstr "贡献者的有序列表。一般来讲，该列表可以视为把贡献者按重要性排列的优先列表。"
+
+#. Property label for Bibliographic Ontology:court
+msgid "court"
+msgstr "法庭"
+
+#. Property comment for Bibliographic Ontology:court
+msgid ""
+"A court associated with a legal document; for example, that which issues a "
+"decision."
+msgstr "与一个法律文件有关联的法庭；譬如，发布一个判决的法庭。"
+
+#. Property label for Bibliographic Ontology:degree
+msgid "degree"
+msgstr "学位"
+
+#. Property comment for Bibliographic Ontology:degree
+msgid "The thesis degree."
+msgstr "论文学位"
+
+#. Property label for Bibliographic Ontology:director
+msgid "director"
+msgstr "导演"
+
+#. Property comment for Bibliographic Ontology:director
+msgid "A Film director."
+msgstr "电影导演"
+
+#. Property label for Bibliographic Ontology:distributor
+msgid "distributor"
+msgstr "分发者"
+
+#. Property comment for Bibliographic Ontology:distributor
+msgid "Distributor of a document or a collection of documents."
+msgstr "一份或一系列文件的分发者。"
+
+#. Property label for Bibliographic Ontology:editor
+msgid "editor"
+msgstr "编辑"
+
+#. Property comment for Bibliographic Ontology:editor
+msgid ""
+"A person having managerial and sometimes policy-making responsibility for "
+"the editorial part of a publishing firm or of a newspaper, magazine, or "
+"other publication."
+msgstr "为出版社或报纸、杂志或其它出版物的编辑部工作，负有管理、有时有制定政策的职责的个人。"
+
+#. Property label for Bibliographic Ontology:editorList
+msgid "list of editors"
+msgstr "编辑名单"
+
+#. Property comment for Bibliographic Ontology:editorList
+msgid ""
+"An ordered list of editors. Normally, this list is seen as a priority list "
+"that order editors by importance."
+msgstr "编辑的有序列表。一般来讲，该列表可以视为把编辑按重要性排列的优先列表。"
+
+#. Property label for Bibliographic Ontology:interviewee
+msgid "interviewee"
+msgstr "被采访者"
+
+#. Property comment for Bibliographic Ontology:interviewee
+msgid "An agent that is interviewed by another agent."
+msgstr "被另一个代理采访的代理。"
+
+#. Property label for Bibliographic Ontology:interviewer
+msgid "interviewer"
+msgstr "采访者"
+
+#. Property comment for Bibliographic Ontology:interviewer
+msgid "An agent that interview another agent."
+msgstr "采访另一个代理的代理。"
+
+#. Property label for Bibliographic Ontology:issuer
+msgid "issuer"
+msgstr "发行人"
+
+#. Property comment for Bibliographic Ontology:issuer
+msgid ""
+"An entity responsible for issuing often informally published documents such "
+"as press releases, reports, etc."
+msgstr "负责发行通常是非正式出版的文件譬如新闻稿、报告等的一个实体。"
+
+#. Property label for Bibliographic Ontology:organizer
+msgid "organizer"
+msgstr "组织者"
+
+#. Property comment for Bibliographic Ontology:organizer
+msgid ""
+"The organizer of an event; includes conference organizers, but also "
+"government agencies or other bodies that are responsible for conducting "
+"hearings."
+msgstr "一次事件的组织人；包括会议组织者、不过也包括政府机构或其它负责处理听证会的机构。"
+
+#. Property label for Bibliographic Ontology:owner
+msgid "owner"
+msgstr "所有人"
+
+#. Property comment for Bibliographic Ontology:owner
+msgid "Owner of a document or a collection of documents."
+msgstr "一份文件或一系列文件的所有者。"
+
+#. Property label for Bibliographic Ontology:performer
+msgid "performer"
+msgstr "演员"
+
+#. Property label for Bibliographic Ontology:presentedAt
+msgid "presented at"
+msgstr "在此处讲演："
+
+#. Property comment for Bibliographic Ontology:presentedAt
+msgid "Relates a document to an event; for example, a paper to a conference."
+msgstr "把一份文件关联到一次事件；譬如，一份论文之于会议。"
+
+#. Property label for Bibliographic Ontology:presents
+msgid "presents"
+msgstr "讲演"
+
+#. Property comment for Bibliographic Ontology:presents
+msgid ""
+"Relates an event to associated documents; for example, conference to a "
+"paper."
+msgstr "把一次事件关联到一份文件；譬如，会议之于一份论文。"
+
+#. Property label for Bibliographic Ontology:producer
+msgid "producer"
+msgstr "制作人"
+
+#. Property comment for Bibliographic Ontology:producer
+msgid "Producer of a document or a collection of documents."
+msgstr "一份文件或一系列文件的制作者。"
+
+#. Property label for Bibliographic Ontology:recipient
+msgid "recipient"
+msgstr "收件人"
+
+#. Property comment for Bibliographic Ontology:recipient
+msgid "An agent that receives a communication document."
+msgstr "接收一份通信文件的代理。"
+
+#. Property label for Bibliographic Ontology:reproducedIn
+msgid "reproducedIn"
+msgstr "reproducedIn"
+
+#. Property comment for Bibliographic Ontology:reproducedIn
+msgid "The resource in which another resource is reproduced."
+msgstr "另一个资源在其中被复制的资源。"
+
+#. Property label for Bibliographic Ontology:reversedBy
+msgid "reversedBy"
+msgstr "reversedBy"
+
+#. Property comment for Bibliographic Ontology:reversedBy
+msgid "A legal decision that reverses a ruling."
+msgstr "推翻一个判决的法庭判决。"
+
+#. Property label for Bibliographic Ontology:reviewOf
+msgid "review of"
+msgstr "是以下的审核："
+
+#. Property comment for Bibliographic Ontology:reviewOf
+msgid "Relates a review document to a reviewed thing (resource, item, etc.)."
+msgstr "把审核文件和被审核的东西关联起来（资源，条目，等等）。"
+
+#. Property label for Bibliographic Ontology:status
+#. Property label for Friend of a Friend:status
+msgid "status"
+msgstr "状态"
+
+#. Property comment for Bibliographic Ontology:status
+msgid "The publication status of (typically academic) content."
+msgstr "（通常为学术）内容的出版状态."
+
+#. Property label for Bibliographic Ontology:subsequentLegalDecision
+msgid "subsequentLegalDecision"
+msgstr "subsequentLegalDecision"
+
+#. Property comment for Bibliographic Ontology:subsequentLegalDecision
+msgid ""
+"A legal decision on appeal that takes action on a case (affirming it, "
+"reversing it, etc.)."
+msgstr "对上诉的法律决定，该决定对一个案件采取行动（维持判决，推翻判决，等等）。"
+
+#. Property label for Bibliographic Ontology:transcriptOf
+msgid "transcript of"
+msgstr "是以下的抄本："
+
+#. Property comment for Bibliographic Ontology:transcriptOf
+msgid "Relates a document to some transcribed original."
+msgstr "把一个文件和某些抄录原本关联起来。"
+
+#. Property label for Bibliographic Ontology:translationOf
+msgid "translation of"
+msgstr "是以下的翻译："
+
+#. Property comment for Bibliographic Ontology:translationOf
+msgid "Relates a translated document to the original document."
+msgstr "把翻译的文件关联到原始文件。"
+
+#. Property label for Bibliographic Ontology:translator
+msgid "translator"
+msgstr "翻译者"
+
+#. Property comment for Bibliographic Ontology:translator
+msgid "A person who translates written document from one language to another."
+msgstr "把书面文件从一种语言翻译成另一种语言的人。"
+
+#. Property label for Bibliographic Ontology:abstract
+msgid "abstract"
+msgstr "摘要"
+
+#. Property label for Bibliographic Ontology:argued
+msgid "date argued"
+msgstr "辩论日期"
+
+#. Property comment for Bibliographic Ontology:argued
+msgid ""
+"The date on which a legal case is argued before a court. Date is of format "
+"xsd:date"
+msgstr "一个法律案件在法庭上进行辩论的日期。日期格式为：xsd:date"
+
+#. Property label for Bibliographic Ontology:asin
+msgid "asin"
+msgstr "asin"
+
+#. Property label for Bibliographic Ontology:chapter
+msgid "chapter"
+msgstr "章节"
+
+#. Property comment for Bibliographic Ontology:chapter
+msgid "An chapter number"
+msgstr "章节数"
+
+#. Property label for Bibliographic Ontology:coden
+msgid "coden"
+msgstr "分类编号"
+
+#. Property label for Bibliographic Ontology:content
+msgid "content"
+msgstr "内容"
+
+#. Property comment for Bibliographic Ontology:content
+msgid ""
+"This property is for a plain-text rendering of the content of a Document. "
+"While the plain-text content of an entire document could be described by "
+"this property."
+msgstr "该属性是为了文件内容的纯文本表现。整个文件的纯文本内容都可以用该属性来描述。"
+
+#. Property label for Bibliographic Ontology:doi
+msgid "doi"
+msgstr "doi"
+
+#. Property label for Bibliographic Ontology:eanucc13
+msgid "eanucc13"
+msgstr "eanucc13"
+
+#. Property label for Bibliographic Ontology:edition
+msgid "edition"
+msgstr "版本"
+
+#. Property comment for Bibliographic Ontology:edition
+msgid ""
+"The name defining a special edition of a document. Normally its a literal "
+"value composed of a version number and words."
+msgstr "定义了一个文件的特刊的名称。通常它是由版本号和文字组成的字面值。"
+
+#. Property label for Bibliographic Ontology:eissn
+msgid "eissn"
+msgstr "eissn"
+
+#. Property label for Bibliographic Ontology:gtin14
+msgid "gtin14"
+msgstr "gtin14"
+
+#. Property label for Bibliographic Ontology:handle
+msgid "handle"
+msgstr "句柄"
+
+#. Property label for Bibliographic Ontology:identifier
+msgid "identifier"
+msgstr "标识符"
+
+#. Property label for Bibliographic Ontology:isbn
+msgid "isbn"
+msgstr "isbn"
+
+#. Property label for Bibliographic Ontology:isbn10
+msgid "isbn10"
+msgstr "isbn10"
+
+#. Property label for Bibliographic Ontology:isbn13
+msgid "isbn13"
+msgstr "isbn13"
+
+#. Property label for Bibliographic Ontology:issn
+msgid "issn"
+msgstr "issn"
+
+#. Property label for Bibliographic Ontology:issue
+msgid "issue"
+msgstr "刊行"
+
+#. Property comment for Bibliographic Ontology:issue
+msgid "An issue number"
+msgstr "刊行数"
+
+#. Property label for Bibliographic Ontology:lccn
+msgid "lccn"
+msgstr "Iccn"
+
+#. Property label for Bibliographic Ontology:locator
+msgid "locator"
+msgstr "定位器"
+
+#. Property comment for Bibliographic Ontology:locator
+msgid ""
+"A description (often numeric) that locates an item within a containing "
+"document or collection."
+msgstr "在一个容器文件或馆藏中查找一个条目的描述（通常是数字）。"
+
+#. Property label for Bibliographic Ontology:numPages
+msgid "number of pages"
+msgstr "页数"
+
+#. Property comment for Bibliographic Ontology:numPages
+msgid "The number of pages contained in a document"
+msgstr "一个文件内包含的页面数目。"
+
+#. Property label for Bibliographic Ontology:numVolumes
+msgid "number of volumes"
+msgstr "卷数"
+
+#. Property comment for Bibliographic Ontology:numVolumes
+msgid ""
+"The number of volumes contained in a collection of documents (usually a "
+"series, periodical, etc.)."
+msgstr "包含在一系列文件（通常是一套、期刊，等等）中的卷的数目。"
+
+#. Property label for Bibliographic Ontology:number
+msgid "number"
+msgstr "数字"
+
+#. Property comment for Bibliographic Ontology:number
+msgid ""
+"A generic item or document number. Not to be confused with issue number."
+msgstr "通用的条目或文件数。不要和刊行数混淆。"
+
+#. Property label for Bibliographic Ontology:oclcnum
+msgid "oclcnum"
+msgstr "oclcnum"
+
+#. Property label for Bibliographic Ontology:pageEnd
+msgid "page end"
+msgstr "页面结束"
+
+#. Property comment for Bibliographic Ontology:pageEnd
+msgid "Ending page number within a continuous page range."
+msgstr "在连续页面范围内的结束页数。"
+
+#. Property label for Bibliographic Ontology:pageStart
+msgid "page start"
+msgstr "页面开始"
+
+#. Property comment for Bibliographic Ontology:pageStart
+msgid "Starting page number within a continuous page range."
+msgstr "在连续页面范围内的起始页数。"
+
+#. Property label for Bibliographic Ontology:pages
+msgid "pages"
+msgstr "页面"
+
+#. Property comment for Bibliographic Ontology:pages
+msgid ""
+"A string of non-contiguous page spans that locate a Document within a "
+"Collection. Example: 23-25, 34, 54-56. For continuous page ranges, use the "
+"pageStart and pageEnd properties."
+msgstr ""
+"定位馆藏中的文件的不连续的页面间隔的字符串。例子：23-25，34，54-56。对于连续的页面范围，使用pageStart和pageEnd属性。"
+
+#. Property label for Bibliographic Ontology:pmid
+msgid "pmid"
+msgstr "pmid"
+
+#. Property label for Bibliographic Ontology:prefixName
+msgid "prefix name"
+msgstr "前缀名"
+
+#. Property comment for Bibliographic Ontology:prefixName
+msgid "The prefix of a name"
+msgstr "一个名称的前缀"
+
+#. Property label for Bibliographic Ontology:section
+msgid "section"
+msgstr "段落"
+
+#. Property comment for Bibliographic Ontology:section
+msgid "A section number"
+msgstr "段落数"
+
+#. Property label for Bibliographic Ontology:shortDescription
+msgid "shortDescription"
+msgstr "shortDescription"
+
+#. Property label for Bibliographic Ontology:shortTitle
+msgid "short title"
+msgstr "短标题"
+
+#. Property comment for Bibliographic Ontology:shortTitle
+msgid "The abbreviation of a title."
+msgstr "标题的缩写。"
+
+#. Property label for Bibliographic Ontology:sici
+msgid "sici"
+msgstr "sici"
+
+#. Property label for Bibliographic Ontology:suffixName
+msgid "suffix name"
+msgstr "后缀名"
+
+#. Property comment for Bibliographic Ontology:suffixName
+msgid "The suffix of a name"
+msgstr "名称的后缀"
+
+#. Property label for Bibliographic Ontology:upc
+msgid "upc"
+msgstr "upc"
+
+#. Property label for Bibliographic Ontology:uri
+msgid "uri"
+msgstr "uri"
+
+#. Property comment for Bibliographic Ontology:uri
+msgid "Universal Resource Identifier of a document"
+msgstr "文件的通用资源标识符"
+
+#. Property label for Bibliographic Ontology:volume
+msgid "volume"
+msgstr "卷"
+
+#. Property comment for Bibliographic Ontology:volume
+msgid "A volume number"
+msgstr "卷数"
+
+#. Vocabulary label for Friend of a Friend
+msgid "Friend of a Friend"
+msgstr "朋友的朋友"
+
+#. Vocabulary comment for Friend of a Friend
+msgid "Relationships between people and organizations (FOAF)"
+msgstr "人和组织之间的关系（FOAF）"
+
+#. Class label for Friend of a Friend:LabelProperty
+msgid "Label Property"
+msgstr "标签属性"
+
+#. Class comment for Friend of a Friend:LabelProperty
+msgid ""
+"A foaf:LabelProperty is any RDF property with texual values that serve as "
+"labels."
+msgstr "一个foaf:LabelProperty是任意一个有文字值的充当标签的RDF属性。"
+
+#. Class label for Friend of a Friend:Person
+msgid "Person"
+msgstr "人"
+
+#. Class comment for Friend of a Friend:Person
+msgid "A person."
+msgstr "一个人。"
+
+#. Class comment for Friend of a Friend:Agent
+msgid "An agent (eg. person, group, software or physical artifact)."
+msgstr "一个代理（譬如：人、群体、软件或物理人工制品）。"
+
+#. Class comment for Friend of a Friend:Document
+msgid "A document."
+msgstr "一份文件。"
+
+#. Class label for Friend of a Friend:Organization
+msgid "Organization"
+msgstr "组织"
+
+#. Class comment for Friend of a Friend:Organization
+msgid "An organization."
+msgstr "一个组织。"
+
+#. Class label for Friend of a Friend:Group
+msgid "Group"
+msgstr "群组"
+
+#. Class comment for Friend of a Friend:Group
+msgid "A class of Agents."
+msgstr "一类代理。"
+
+#. Class label for Friend of a Friend:Project
+msgid "Project"
+msgstr "项目"
+
+#. Class comment for Friend of a Friend:Project
+msgid "A project (a collective endeavour of some kind)."
+msgstr "一个项目（某种集体努力）。"
+
+#. Class comment for Friend of a Friend:Image
+msgid "An image."
+msgstr "一个图像。"
+
+#. Class label for Friend of a Friend:PersonalProfileDocument
+msgid "PersonalProfileDocument"
+msgstr "PersonalProfileDocument"
+
+#. Class comment for Friend of a Friend:PersonalProfileDocument
+msgid "A personal profile RDF document."
+msgstr "人物简介的RDF文件。"
+
+#. Class label for Friend of a Friend:OnlineAccount
+msgid "Online Account"
+msgstr "在线账号"
+
+#. Class comment for Friend of a Friend:OnlineAccount
+msgid "An online account."
+msgstr "一个在线账号。"
+
+#. Class label for Friend of a Friend:OnlineGamingAccount
+msgid "Online Gaming Account"
+msgstr "在线游戏账号"
+
+#. Class comment for Friend of a Friend:OnlineGamingAccount
+msgid "An online gaming account."
+msgstr "一个在线游戏账号。"
+
+#. Class label for Friend of a Friend:OnlineEcommerceAccount
+msgid "Online E-commerce Account"
+msgstr "在线电子商务账户"
+
+#. Class comment for Friend of a Friend:OnlineEcommerceAccount
+msgid "An online e-commerce account."
+msgstr "一个在线电子商务账户."
+
+#. Class label for Friend of a Friend:OnlineChatAccount
+msgid "Online Chat Account"
+msgstr "在线聊天账号"
+
+#. Class comment for Friend of a Friend:OnlineChatAccount
+msgid "An online chat account."
+msgstr "一个在线聊天账号。"
+
+#. Property label for Friend of a Friend:mbox
+msgid "personal mailbox"
+msgstr "个人邮箱"
+
+#. Property comment for Friend of a Friend:mbox
+msgid ""
+"A  personal mailbox, ie. an Internet mailbox associated with exactly one "
+"owner, the first owner of this mailbox. This is a 'static inverse functional"
+" property', in that  there is (across time and change) at most one "
+"individual that ever has any particular value for foaf:mbox."
+msgstr ""
+"个人邮箱，也就是和正好一个所有人，邮箱的第一个所有人，相关联的互联网邮箱。这是一个“静态逆序功能性属性”，因为只能有（横跨时间和变化）最多一个人对foaf:mbox有一些特定价值。"
+
+#. Property label for Friend of a Friend:mbox_sha1sum
+msgid "sha1sum of a personal mailbox URI name"
+msgstr "个人邮箱URI名字的sha1sum"
+
+#. Property comment for Friend of a Friend:mbox_sha1sum
+msgid ""
+"The sha1sum of the URI of an Internet mailbox associated with exactly one "
+"owner, the  first owner of the mailbox."
+msgstr "和正好一个所有人，邮箱的第一个所有人，相关联的互联网邮箱的URI 的sha1sum。"
+
+#. Property label for Friend of a Friend:gender
+msgid "gender"
+msgstr "性别"
+
+#. Property comment for Friend of a Friend:gender
+msgid ""
+"The gender of this Agent (typically but not necessarily 'male' or 'female')."
+msgstr "该代理的性别（通常是这样，但是不一定是“男性”或“女性”）。"
+
+#. Property label for Friend of a Friend:geekcode
+msgid "geekcode"
+msgstr "geekcode"
+
+#. Property comment for Friend of a Friend:geekcode
+msgid ""
+"A textual geekcode for this person, see http://www.geekcode.com/geek.html"
+msgstr ""
+"该人的文本geekcode，参见http://www.geekcode.com/geek.html （注：geekcode.com于2016年失效, "
+"参见http://en.wikipedia.org/wiki/Geek_Code)"
+
+#. Property label for Friend of a Friend:dnaChecksum
+msgid "DNA checksum"
+msgstr "DNA校验值"
+
+#. Property comment for Friend of a Friend:dnaChecksum
+msgid "A checksum for the DNA of some thing. Joke."
+msgstr "某事物的DNA校验值。开个玩笑。"
+
+#. Property label for Friend of a Friend:sha1
+msgid "sha1sum (hex)"
+msgstr "sha1sum (hex)"
+
+#. Property comment for Friend of a Friend:sha1
+msgid "A sha1sum hash, in hex."
+msgstr "十六进制的sha1sum哈希值。"
+
+#. Property label for Friend of a Friend:based_near
+msgid "based near"
+msgstr "基地靠近"
+
+#. Property comment for Friend of a Friend:based_near
+msgid ""
+"A location that something is based near, for some broadly human notion of "
+"near."
+msgstr "某事物的基地靠近的一个地点，以某种广义上的人类概念的靠近。"
+
+#. Property label for Friend of a Friend:title
+msgid "title"
+msgstr "头衔"
+
+#. Property comment for Friend of a Friend:title
+msgid "Title (Mr, Mrs, Ms, Dr. etc)"
+msgstr "头衔（先生，女士，小姐，博士，等等）"
+
+#. Property label for Friend of a Friend:nick
+msgid "nickname"
+msgstr "绰号"
+
+#. Property comment for Friend of a Friend:nick
+msgid ""
+"A short informal nickname characterising an agent (includes login "
+"identifiers, IRC and other chat nicknames)."
+msgstr "表征一个代理的短的非正式的绰号（包括登陆标识符、IRC和其它聊天绰号）。"
+
+#. Property label for Friend of a Friend:jabberID
+msgid "jabber ID"
+msgstr "jabber ID"
+
+#. Property comment for Friend of a Friend:jabberID
+msgid "A jabber ID for something."
+msgstr "某事物的jabber ID。"
+
+#. Property label for Friend of a Friend:aimChatID
+msgid "AIM chat ID"
+msgstr "AIM聊天ID"
+
+#. Property comment for Friend of a Friend:aimChatID
+msgid "An AIM chat ID"
+msgstr "一个AIM聊天ID"
+
+#. Property label for Friend of a Friend:skypeID
+msgid "Skype ID"
+msgstr "Skype ID"
+
+#. Property comment for Friend of a Friend:skypeID
+msgid "A Skype ID"
+msgstr "一个Skype ID"
+
+#. Property label for Friend of a Friend:icqChatID
+msgid "ICQ chat ID"
+msgstr "ICQ聊天ID"
+
+#. Property comment for Friend of a Friend:icqChatID
+msgid "An ICQ chat ID"
+msgstr "一个ICQ聊天ID"
+
+#. Property label for Friend of a Friend:yahooChatID
+msgid "Yahoo chat ID"
+msgstr "Yahoo聊天ID"
+
+#. Property comment for Friend of a Friend:yahooChatID
+msgid "A Yahoo chat ID"
+msgstr "一个Yahoo聊天ID"
+
+#. Property label for Friend of a Friend:msnChatID
+msgid "MSN chat ID"
+msgstr "MSN聊天ID"
+
+#. Property comment for Friend of a Friend:msnChatID
+msgid "An MSN chat ID"
+msgstr "一个MSN聊天ID"
+
+#. Property label for Friend of a Friend:name
+msgid "name"
+msgstr "名称"
+
+#. Property comment for Friend of a Friend:name
+msgid "A name for some thing."
+msgstr "某事物的名字。"
+
+#. Property label for Friend of a Friend:firstName
+msgid "firstName"
+msgstr "firstName"
+
+#. Property comment for Friend of a Friend:firstName
+msgid "The first name of a person."
+msgstr "一个人的名。"
+
+#. Property label for Friend of a Friend:lastName
+msgid "lastName"
+msgstr "lastName"
+
+#. Property comment for Friend of a Friend:lastName
+msgid "The last name of a person."
+msgstr "一个人的姓。"
+
+#. Property label for Friend of a Friend:givenName
+#. Property label for Friend of a Friend:givenname
+msgid "Given name"
+msgstr "名"
+
+#. Property comment for Friend of a Friend:givenName
+#. Property comment for Friend of a Friend:givenname
+msgid "The given name of some person."
+msgstr "某人的名。"
+
+#. Property label for Friend of a Friend:surname
+msgid "Surname"
+msgstr "姓"
+
+#. Property comment for Friend of a Friend:surname
+msgid "The surname of some person."
+msgstr "某人的姓。"
+
+#. Property label for Friend of a Friend:family_name
+msgid "family_name"
+msgstr "family_name"
+
+#. Property comment for Friend of a Friend:family_name
+#. Property comment for Friend of a Friend:familyName
+msgid "The family name of some person."
+msgstr "某人的姓。"
+
+#. Property label for Friend of a Friend:familyName
+msgid "familyName"
+msgstr "familyName"
+
+#. Property label for Friend of a Friend:phone
+msgid "phone"
+msgstr "电话"
+
+#. Property comment for Friend of a Friend:phone
+msgid ""
+"A phone,  specified using fully qualified tel: URI scheme (refs: "
+"http://www.w3.org/Addressing/schemes.html#tel)."
+msgstr ""
+"一个电话，以完全限定的电话号码来指定：URI 方案（参见：http://www.w3.org/Addressing/schemes.html#tel）。"
+
+#. Property label for Friend of a Friend:homepage
+msgid "homepage"
+msgstr "主页"
+
+#. Property comment for Friend of a Friend:homepage
+msgid "A homepage for some thing."
+msgstr "某事物的主页。"
+
+#. Property label for Friend of a Friend:weblog
+msgid "weblog"
+msgstr "网页日志"
+
+#. Property comment for Friend of a Friend:weblog
+msgid "A weblog of some thing (whether person, group, company etc.)."
+msgstr "某些事的网页日志（无论是人物、群体、公司等等）。"
+
+#. Property label for Friend of a Friend:openid
+msgid "openid"
+msgstr "openid"
+
+#. Property comment for Friend of a Friend:openid
+msgid "An OpenID for an Agent."
+msgstr "某代理的OpenID。"
+
+#. Property label for Friend of a Friend:tipjar
+msgid "tipjar"
+msgstr "小费罐"
+
+#. Property comment for Friend of a Friend:tipjar
+msgid ""
+"A tipjar document for this agent, describing means for payment and reward."
+msgstr "该代理的小费罐文件，描述付费和酬金的方式。"
+
+#. Property label for Friend of a Friend:plan
+msgid "plan"
+msgstr "计划"
+
+#. Property comment for Friend of a Friend:plan
+msgid "A .plan comment, in the tradition of finger and '.plan' files."
+msgstr "一个.plan注解，使用传统的手指和\".plan\"文件。"
+
+#. Property label for Friend of a Friend:made
+msgid "made"
+msgstr "制造"
+
+#. Property comment for Friend of a Friend:made
+msgid "Something that was made by this agent."
+msgstr "由该代理制造的某物。"
+
+#. Property label for Friend of a Friend:maker
+msgid "maker"
+msgstr "制造者"
+
+#. Property comment for Friend of a Friend:maker
+msgid "An agent that  made this thing."
+msgstr "制造了该事物的代理。"
+
+#. Property label for Friend of a Friend:img
+msgid "image"
+msgstr "图像"
+
+#. Property comment for Friend of a Friend:img
+msgid ""
+"An image that can be used to represent some thing (ie. those depictions "
+"which are particularly representative of something, eg. one's photo on a "
+"homepage)."
+msgstr "能被用来代表某些事物的图像（也就是说，那些特别代表了某些事物的描绘，譬如主页上的某人的照片）。"
+
+#. Property label for Friend of a Friend:depiction
+msgid "depiction"
+msgstr "描绘"
+
+#. Property comment for Friend of a Friend:depiction
+msgid "A depiction of some thing."
+msgstr "对某事物的描绘。"
+
+#. Property label for Friend of a Friend:depicts
+msgid "depicts"
+msgstr "描绘"
+
+#. Property comment for Friend of a Friend:depicts
+msgid "A thing depicted in this representation."
+msgstr "在该表现中被描绘的事物。"
+
+#. Property label for Friend of a Friend:thumbnail
+msgid "thumbnail"
+msgstr "缩略图"
+
+#. Property comment for Friend of a Friend:thumbnail
+msgid "A derived thumbnail image."
+msgstr "一张衍生的缩略图。"
+
+#. Property label for Friend of a Friend:myersBriggs
+msgid "myersBriggs"
+msgstr "myersBriggs"
+
+#. Property comment for Friend of a Friend:myersBriggs
+msgid "A Myers Briggs (MBTI) personality classification."
+msgstr "Myers Briggs （MBTI）个性分类。"
+
+#. Property label for Friend of a Friend:workplaceHomepage
+msgid "workplace homepage"
+msgstr "工作场所主页"
+
+#. Property comment for Friend of a Friend:workplaceHomepage
+msgid ""
+"A workplace homepage of some person; the homepage of an organization they "
+"work for."
+msgstr "某人的工作场所主页；他们工作的组织的主页。"
+
+#. Property label for Friend of a Friend:workInfoHomepage
+msgid "work info homepage"
+msgstr "工作信息主页"
+
+#. Property comment for Friend of a Friend:workInfoHomepage
+msgid ""
+"A work info homepage of some person; a page about their work for some "
+"organization."
+msgstr "某人的工作信息主页；在某组织的工作的页面。"
+
+#. Property label for Friend of a Friend:schoolHomepage
+msgid "schoolHomepage"
+msgstr "schoolHomepage"
+
+#. Property comment for Friend of a Friend:schoolHomepage
+msgid "A homepage of a school attended by the person."
+msgstr "该人入学的学校的主页。"
+
+#. Property label for Friend of a Friend:knows
+msgid "knows"
+msgstr "知道"
+
+#. Property comment for Friend of a Friend:knows
+msgid ""
+"A person known by this person (indicating some level of reciprocated "
+"interaction between the parties)."
+msgstr "被此人知道的一个人（表示在双方之间有某种程度的互相交往）。"
+
+#. Property label for Friend of a Friend:interest
+msgid "interest"
+msgstr "兴趣"
+
+#. Property comment for Friend of a Friend:interest
+msgid "A page about a topic of interest to this person."
+msgstr "此人感兴趣的话题的页面。"
+
+#. Property label for Friend of a Friend:topic_interest
+msgid "topic_interest"
+msgstr "topic_interest"
+
+#. Property comment for Friend of a Friend:topic_interest
+msgid "A thing of interest to this person."
+msgstr "此人感兴趣的事物。"
+
+#. Property label for Friend of a Friend:publications
+msgid "publications"
+msgstr "出版物"
+
+#. Property comment for Friend of a Friend:publications
+msgid "A link to the publications of this person."
+msgstr "此人的出版物的链接。"
+
+#. Property label for Friend of a Friend:currentProject
+msgid "current project"
+msgstr "当前项目"
+
+#. Property comment for Friend of a Friend:currentProject
+msgid "A current project this person works on."
+msgstr "此人正在工作的一个当前项目。"
+
+#. Property label for Friend of a Friend:pastProject
+msgid "past project"
+msgstr "以往的项目"
+
+#. Property comment for Friend of a Friend:pastProject
+msgid "A project this person has previously worked on."
+msgstr "此人以前工作过的一个项目。"
+
+#. Property label for Friend of a Friend:fundedBy
+msgid "funded by"
+msgstr "由以下赞助："
+
+#. Property comment for Friend of a Friend:fundedBy
+msgid "An organization funding a project or person."
+msgstr "资助某项目或个人的组织。"
+
+#. Property label for Friend of a Friend:logo
+msgid "logo"
+msgstr "标识"
+
+#. Property comment for Friend of a Friend:logo
+msgid "A logo representing some thing."
+msgstr "代表某事物的标识。"
+
+#. Property label for Friend of a Friend:topic
+msgid "topic"
+msgstr "主题"
+
+#. Property comment for Friend of a Friend:topic
+msgid "A topic of some page or document."
+msgstr "某页面或文件的主题。"
+
+#. Property label for Friend of a Friend:primaryTopic
+msgid "primary topic"
+msgstr "主要论题"
+
+#. Property comment for Friend of a Friend:primaryTopic
+msgid "The primary topic of some page or document."
+msgstr "某些页面或文件的主要论题。"
+
+#. Property label for Friend of a Friend:focus
+msgid "focus"
+msgstr "焦点"
+
+#. Property comment for Friend of a Friend:focus
+msgid ""
+"The underlying or 'focal' entity associated with some SKOS-described "
+"concept."
+msgstr "与SKOS描述过的概念相关联的基础或“焦点”实体。"
+
+#. Property label for Friend of a Friend:isPrimaryTopicOf
+msgid "is primary topic of"
+msgstr "是下面的主要论题："
+
+#. Property comment for Friend of a Friend:isPrimaryTopicOf
+msgid "A document that this thing is the primary topic of."
+msgstr "该事物为其主要论题的一份文件。"
+
+#. Property comment for Friend of a Friend:page
+msgid "A page or document about this thing."
+msgstr "有关这件事的页面或文件。"
+
+#. Property label for Friend of a Friend:theme
+msgid "theme"
+msgstr "主题"
+
+#. Property comment for Friend of a Friend:theme
+msgid "A theme."
+msgstr "一个主题。"
+
+#. Property label for Friend of a Friend:account
+#. Property label for Friend of a Friend:holdsAccount
+msgid "account"
+msgstr "账号"
+
+#. Property comment for Friend of a Friend:account
+#. Property comment for Friend of a Friend:holdsAccount
+msgid "Indicates an account held by this agent."
+msgstr "表明被该代理持有的账户。"
+
+#. Property label for Friend of a Friend:accountServiceHomepage
+msgid "account service homepage"
+msgstr "账号服务主页"
+
+#. Property comment for Friend of a Friend:accountServiceHomepage
+msgid "Indicates a homepage of the service provide for this online account."
+msgstr "表明了该在线账号的服务提供商的主页。"
+
+#. Property label for Friend of a Friend:accountName
+msgid "account name"
+msgstr "账号名称"
+
+#. Property comment for Friend of a Friend:accountName
+msgid "Indicates the name (identifier) associated with this online account."
+msgstr "表明与该在线账号关联的名称（标识符）。"
+
+#. Property label for Friend of a Friend:member
+msgid "member"
+msgstr "成员"
+
+#. Property comment for Friend of a Friend:member
+msgid "Indicates a member of a Group"
+msgstr "表明是一个群组的成员"
+
+#. Property label for Friend of a Friend:membershipClass
+msgid "membershipClass"
+msgstr "membershipClass"
+
+#. Property comment for Friend of a Friend:membershipClass
+msgid "Indicates the class of individuals that are a member of a Group"
+msgstr "表明是一个群组的成员的个人的等级"
+
+#. Property label for Friend of a Friend:birthday
+msgid "birthday"
+msgstr "生日"
+
+#. Property comment for Friend of a Friend:birthday
+msgid ""
+"The birthday of this Agent, represented in mm-dd string form, eg. '12-31'."
+msgstr "该代理的生日，以mm-dd格式表示，例如 ‘12-31’。"
+
+#. Property label for Friend of a Friend:age
+msgid "age"
+msgstr "年龄"
+
+#. Property comment for Friend of a Friend:age
+msgid "The age in years of some agent."
+msgstr "某代理的以年为单位的年龄。"
+
+#. Property comment for Friend of a Friend:status
+msgid ""
+"A string expressing what the user is happy for the general public (normally)"
+" to know about their current activity."
+msgstr "表达了为何用户为普通大众（通常来讲）知道他们的当前活动而高兴的字符串。"

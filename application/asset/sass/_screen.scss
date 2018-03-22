@@ -90,7 +90,7 @@ body {
 
     table {
         width: 100%;
-        border-collapse: collapse;
+        border-spacing: 0;
         table-layout: fixed;
     }
 
@@ -104,10 +104,12 @@ body {
     table,
     table.tablesaw {
         margin-bottom: $spacing-medium;
+        border: 1px solid $border-gray;
+        border-radius: 3px;
+        border-collapse: separate;
     }
 
-    .tablesaw tr {
-        background-color: #fff;
+    .tablesaw tr:not(:last-child) td {
         border-bottom: 1px solid $border-gray;
     }
 
@@ -238,11 +240,6 @@ body {
             cursor: default;
             border: 0;
         }
-
-        &[class*="o-icon-"],
-        &[class*="o-icon-"]:hover {
-            box-shadow: none;
-        }
     }
 
     .red.button {
@@ -270,8 +267,8 @@ body {
         padding-right: (1.5 * $spacing-large);
 
         &:after {
-            font-family: "FontAwesome";
-            content: $fa-var-asterisk;
+            font-family: "Font Awesome 5 Free";
+            content: fa-content($fa-var-asterisk);
             font-size: .75 * $base-font-size;
             position: absolute;
             right: $spacing-medium;
@@ -286,8 +283,9 @@ body {
     }
 
     label.required:after  {
-        font-family: "FontAwesome";
-        content: $fa-var-asterisk;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: fa-content($fa-var-asterisk);
         font-size: .75 * $base-font-size;
         color: $red;
         float: right;
@@ -405,8 +403,8 @@ body {
             background: none !important;
 
             &:after {
-                font-family: "FontAwesome";
-                content: $fa-var-caret-down;
+                font-family: "Font Awesome 5 Free";
+                    content: fa-content($fa-var-caret-down);
                 line-height: $base-line-height;
                 padding: $spacing-small 0;
                 display: inline-block;
@@ -414,7 +412,7 @@ body {
         }
 
         .chosen-container-active.chosen-with-drop .chosen-single div b:after {
-            content: $fa-var-caret-up;
+            content: fa-content($fa-var-caret-up);
         }
 
         .chosen-container-single .chosen-search input[type="text"] {
@@ -425,8 +423,8 @@ body {
             position: relative;
 
             &:after  {
-                font-family: "FontAwesome";
-                content: $fa-var-search;
+                font-family: "Font Awesome 5 Free";
+                    content: fa-content($fa-var-search);
                 line-height: $base-line-height;
                 padding: $spacing-small 0;
                 display: block;
@@ -562,8 +560,9 @@ table .icon-sortable {
 
 .sortable-handle:before {
     cursor: move;
-    content: $fa-var-reorder;
-    font-family: "FontAwesome";
+    content: fa-content($fa-var-bars);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
     opacity: .35;
     font-size: 1.25 * $base-font-size;
     line-height: $base-line-height;
@@ -580,14 +579,16 @@ a.collapse {
 }
 
 .expand:after {
-    content: $fa-var-caret-right;
-    font-family: "FontAwesome";
+    content: fa-content($fa-var-caret-right);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
     margin-left: 3px;
 }
 
 .collapse:after {
-    content: $fa-var-caret-down;
-    font-family: "FontAwesome";
+    content: fa-content($fa-var-caret-down);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
     margin-left: 3px;
 }
 
@@ -701,13 +702,14 @@ header {
         border-radius: 0 3px 3px 0;
 
         &:after {
-            content: $fa-var-search;
+            content: fa-content($fa-var-search);
         }
     }
 
     &:after {
-        content: $fa-var-ellipsis-h;
-        font-family: "FontAwesome";
+        content: fa-content($fa-var-ellipsis-h);
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         text-indent: 0;
         position: absolute;
         top: 0;
@@ -759,7 +761,8 @@ div[role="main"] > h1:first-of-type .title {
 }
 
 .subhead:before {
-    font-family: "FontAwesome";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
     display: inline-block;
     margin-right: $spacing-small;
     font-size: $base-font-size;
@@ -842,6 +845,7 @@ nav.pagination form * {
 nav.pagination .button {
     border-radius: 0;
     margin: 0;
+    padding: 0 10px;
 }
 
 nav.pagination .button,
@@ -867,6 +871,7 @@ nav.pagination .button {
 
 nav.pagination .button:before {
     vertical-align: top;
+    line-height: $base-line-height;
 }
 
 nav.pagination .previous.button {
@@ -936,64 +941,65 @@ nav.pagination + *:not(.sorting) {
     }
 
     header nav li > a:before {
-        content: $fa-var-plus-square;
-        font-family: "FontAwesome";
+        content: fa-content($fa-var-plus-square);
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         display: inline-block;
         width: $spacing-large;
     }
 
     header nav .items:before,
     .items .subhead:before {
-        content: $fa-var-cube;
+        content: fa-content($fa-var-cube);
     }
 
     header nav .media:before,
     .media .subhead:before {
-        content: $fa-var-image;
+        content: fa-content($fa-var-image);
     }
 
     header nav .item-sets:before,
     .item-sets .subhead:before {
-        content: $fa-var-cubes;
+        content: fa-content($fa-var-cubes);
     }
 
     header nav .vocabularies:before,
     .vocabularies .subhead:before {
-        content: $fa-var-book;
+        content: fa-content($fa-var-book);
     }
 
     header nav .resource-templates:before,
     .resource-templates .subhead:before {
-        content: $fa-var-pencil-square;
+        content: fa-content($fa-var-pen-square);
     }
 
     header nav .users:before,
     .users .subhead:before {
-        content: $fa-var-user;
+        content: fa-content($fa-var-user);
     }
 
     header nav .modules:before,
     .modules .subhead:before {
-        content: $fa-var-plus-square;
+        content: fa-content($fa-var-plus-square);
     }
 
     header nav .jobs:before,
     .jobs .subhead:before {
-        content: $fa-var-tasks;
+        content: fa-content($fa-var-tasks);
     }
 
     header nav .sites:before,
     .sites .subhead:before {
-        content: $fa-var-laptop;
+        content: fa-content($fa-var-laptop);
     }
 
     header nav .settings:before,
     .settings .subhead:before {
-        content: $fa-var-gears;
+        content: fa-content($fa-var-cogs);
     }
 
     header nav li li a:before {
-        content: $fa-var-caret-right;
+        content: fa-content($fa-var-caret-right);
     }
 
     header ul.navigation {
@@ -1038,8 +1044,8 @@ nav.pagination + *:not(.sorting) {
     }
 
     header nav#site-nav h5 a:before {
-        content: $fa-var-laptop;
-        font-family: "FontAwesome";
+        content: fa-content($fa-var-laptop);
+        font-family: "Font Awesome 5 Free";
         width: $spacing-large;
         display: inline-block;
         font-weight: normal;
@@ -1048,11 +1054,11 @@ nav.pagination + *:not(.sorting) {
 
     #menu .pages:before,
     .site-pages .subhead:before {
-        content: $fa-var-file-o;
+        content: fa-content($fa-var-file);
     }
 
     #menu a.navigation:before {
-        content: $fa-var-sitemap;
+        content: fa-content($fa-var-sitemap);
     }
 
     #menu a.public {
@@ -1064,16 +1070,16 @@ nav.pagination + *:not(.sorting) {
     }
 
     #menu a.resources:before {
-        content: $fa-var-cubes;
+        content: fa-content($fa-var-cubes);
     }
 
     #menu a.site-info:before {
-        content: $fa-var-gears;
+        content: fa-content($fa-var-cogs);
     }
 
     #menu a.theme:before,
     .theme-settings .subhead:before {
-        content: $fa-var-paint-brush;
+        content: fa-content($fa-var-paint-brush);
     }
 
     /* @end */
@@ -1104,8 +1110,8 @@ div[role="main"] {
 }
 
 #manage-resources .add.button:before {
-    content: $fa-var-plus;
-    font-family: "FontAwesome";
+    content: fa-content($fa-var-plus);
+    font-family: "Font Awesome 5 Free";
 }
 
 .panel {
@@ -1173,12 +1179,34 @@ div[role="main"] {
 
 .browse .browse-controls .advanced-search:before {
     @include fa-icon();
-    content: $fa-var-search;
+    font-family: "Font Awesome 5 Free";
+    content: fa-content($fa-var-search);
     padding: .25em;
 }
 
-.browse .sorting button {
+.browse-controls select,
+.browse-controls input,
+.browse-controls button,
+.browse-controls .button {
+    font-size: .8175 * $base-font-size;
+    min-height: 0;
+    height: $base-line-height;
+    line-height: $base-line-height;
+    vertical-align: top;
+    background-size: .4088 * $base-font-size;
+}
+
+.browse-controls .sorting:not(:last-child) {
+    margin-left: auto;
+}
+
+.browse-controls button,
+.browse-controls .button {
     padding: 0 10px;
+}
+
+.browse-controls .filtering {
+    margin-left: $spacing-large;
 }
 
 .browse .select-all {
@@ -1275,7 +1303,8 @@ div[role="main"] {
     margin-top: (4 * $spacing-large);
 
     &:before {
-        font-family: "FontAwesome";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         font-size: 6 * $base-font-size;
         position: absolute;
         top: 0;
@@ -1300,43 +1329,93 @@ td .o-icon-private {
 }
 
 .items .no-resources:before {
-    content: $fa-var-cube;
+    content: fa-content($fa-var-cube);
 }
 
 .item-sets .no-resources:before {
-    content: $fa-var-cubes;
+    content: fa-content($fa-var-cubes);
 }
 
 .media .no-resources:before, #media-list .no-resources:before {
-    content: $fa-var-image;
+    content: fa-content($fa-var-image);
 }
 
 .modules .no-resources:before {
-    content: $fa-var-plus-square;
+    content: fa-content($fa-var-plus-square);
 }
 
 .vocabs .no-resources:before {
-    content: $fa-var-book;
+    content: fa-content($fa-var-book);
 }
 
 .resource-templates .no-resources:before,
 .resources-templates {
-    content: $fa-var-pencil-square;
+    content: fa-content($fa-var-pen-square);
 }
 
 .users .no-resources:before {
-    content: $fa-var-users;
+    content: fa-content($fa-var-users);
 }
 
 .jobs .no-resources:before {
-    content: $fa-var-tasks;
+    content: fa-content($fa-var-tasks);
 }
 
 .sites .no-resources:before {
-    content: $fa-var-laptop;
+    content: fa-content($fa-var-laptop);
 }
 
     /* @group ----- Batch Update ----- */
+
+    #batch-form {
+        border: 1px solid $border-gray;
+        border-bottom: 0;
+        border-radius: 3px;
+        margin-bottom: $spacing-medium;
+
+        table.tablesaw {
+            border-width: 1px 0;
+            border-radius: 0 0 3px 3px;
+            margin-bottom: 0;
+        }
+
+        .batch-actions {
+            display: inline-block;
+        }
+
+        .batch-inputs {
+            display: flex;
+            align-items: center;
+            padding: $spacing-small;
+            background-color: $gray-on-white;
+        }
+    
+        .batch-actions > a.button,
+        .batch-actions > button,
+        .batch-actions > input[type="submit"] {
+            display: none;
+            margin: 0 $spacing-medium 0 0;
+            font-size: .875 * $base-font-size;
+            line-height: $base-line-height;
+            min-height: 0;
+            padding: 0 $spacing-small;
+    
+            &.active {
+                display: inline-block;
+            }
+        }
+
+        select {
+            font-size: .875 * $base-font-size;
+            min-height: 0;
+            height: auto;
+            line-height: $base-line-height;
+            padding: 0 $spacing-small;
+            margin-right: $spacing-small;
+            border: 0;
+            box-shadow: 0 0 0 1px $border-gray inset;
+        }
+    }
 
     .batch-selected {
         padding-left: 0;
@@ -1534,21 +1613,6 @@ fieldset.section > legend {
             box-shadow: 0 0 0 1px #DA8B8B inset;
         }
     }
-
-    .batch-actions {
-        display: inline-block;
-    }
-
-    .batch-actions > a.button,
-    .batch-actions > button,
-    .batch-actions > input[type="submit"] {
-        display: none;
-        margin-right: $spacing-medium;
-
-        &.active {
-            display: inline-block;
-        }
-    }
 }
 
 .add-property.button {
@@ -1733,8 +1797,8 @@ input[type="text"].value-language,
         margin-bottom: 0;
 
         &:after {
-            content: $fa-var-caret-right;
-            font-family: "FontAwesome";
+            content: fa-content($fa-var-caret-right);
+            font-family: "Font Awesome 5 Free";
             position: absolute;
             right: 0;
             top: $spacing-small;
@@ -1742,7 +1806,7 @@ input[type="text"].value-language,
         }
 
         &.show:after {
-            content: $fa-var-caret-down;
+            content: fa-content($fa-var-caret-down);
         }
 
         &:hover:before {
@@ -2025,6 +2089,7 @@ input[type="text"].value-language,
 
             .remove-value {
                 margin-bottom: 0;
+                box-shadow: none;
             }
         }
 
@@ -2205,22 +2270,23 @@ input[type="text"].value-language,
     }
 
     .selected-resource .o-title a:after {
-        font-family: "FontAwesome";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         position: absolute;
         top: $spacing-small;
         right: $spacing-small;
     }
 
     .selected-resource .items a:after {
-        content: $fa-var-cube;
+        content: fa-content($fa-var-cube);
     }
 
     .selected-resource .item_sets a:after {
-        content: $fa-var-cubes;
+        content: fa-content($fa-var-cubes);
     }
 
     .selected-resource .media a:after {
-        content: $fa-var-image;
+        content: fa-content($fa-var-image);
     }
 
     [data-data-type="uri"] .input {
@@ -2303,7 +2369,6 @@ input[type="text"].value-language,
 
     .media.value.delete > .actions {
         display: block;
-        margin-right: -($spacing-small);
         top: (1.5 * $spacing-medium);
     }
 
@@ -2355,7 +2420,7 @@ input[type="text"].value-language,
             padding: 0 $spacing-large;
 
             &:before {
-                content: $fa-var-cubes;
+                content: fa-content($fa-var-cubes);
             }
         }
     }
@@ -2519,14 +2584,15 @@ input[type="text"].value-language,
     min-height: 0;
 
     &:before {
-        font-family: "FontAwesome";
-        content: $fa-var-toggle-off;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: fa-content($fa-var-toggle-off);
         display: inline-block;
         margin-right: $spacing-small;
     }
 
     &.active:before {
-        content: $fa-var-toggle-on;
+        content: fa-content($fa-var-toggle-on);
     }
 
     & + .resource-list {
@@ -2747,25 +2813,26 @@ input[type="text"].value-language,
 
     .property .value .resource-name:after,
     .property .value.uri .uri-value-link:after {
-        font-family: "FontAwesome";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         display: inline-block;
         margin-left: .5em;
     }
 
     .property .value.uri .uri-value-link:after {
-        content: $fa-var-external-link-square;
+        content: fa-content($fa-var-external-link-alt);
     }
 
     .property .value.items .resource-name:after {
-        content: $fa-var-cube;
+        content: fa-content($fa-var-cube);
     }
 
     .property .value.media .resource-name:after {
-        content: $fa-var-image;
+        content: fa-content($fa-var-image);
     }
 
     .property .value.item_sets .resource-name:after {
-        content: $fa-var-cubes;
+        content: fa-content($fa-var-cubes);
     }
 
     /* @end */
@@ -2820,8 +2887,9 @@ input[type="text"].value-language,
         }
 
         &:after {
+            font-family: "Font Awesome 5 Free";
             @include fa-icon();
-            content: $fa-var-circle-o-notch;
+            content: fa-content($fa-var-circle-notch);
             position: absolute;
             top: .75em;
             left: calc(50% - .6em);
@@ -2830,6 +2898,7 @@ input[type="text"].value-language,
             height: 0.95em;
             width: 1.2em;
             text-align: center;
+            font-weight: 900;
         }
     }
 
@@ -2935,8 +3004,8 @@ input[type="text"].value-language,
         color: $copy-gray;
 
         &:after {
-            content: $fa-var-plus;
-            font-family: "FontAwesome";
+            content: fa-content($fa-var-plus);
+            font-family: "Font Awesome 5 Free";
             float: right;
             color: $border-gray;
         }
@@ -3016,7 +3085,6 @@ body.sidebar-open #content {
 
 .resource-templates table {
     width: 100%;
-    background-color: rgba(0,0,0,.08);
 }
 
 .resource-templates th,
@@ -3214,8 +3282,9 @@ body.sidebar-open #content {
 }
 
 .breadcrumbs > *:not(:last-child):after {
-    content: $fa-var-caret-right;
-    font-family: "FontAwesome";
+    content: fa-content($fa-var-caret-right);
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
     display: inline-block;
     margin: 0 calc(#{$spacing-medium} - 3px) 0 $spacing-medium;
     color: #000;
@@ -3246,7 +3315,7 @@ body.sidebar-open #content {
         padding: 0 $spacing-large;
 
         &:before {
-            content: $fa-var-users;
+            content: fa-content($fa-var-users);
         }
     }
 
@@ -3627,8 +3696,8 @@ body.sidebar-open #content {
         padding: $spacing-medium - 3px;
 
         &:after {
-            content: $fa-var-check;
-            font-family: "FontAwesome";
+            content: fa-content($fa-var-check);
+            font-family: "Font Awesome 5 Free";
             position: absolute;
             bottom: 0;
             right: 0;

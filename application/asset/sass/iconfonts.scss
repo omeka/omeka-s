@@ -1,6 +1,7 @@
-@import "font-awesome/font-awesome";
+@import "font-awesome/fontawesome";
 
 [class*="o-icon-"]:before {
+    @extend .fa;
     @extend .#{$fa-css-prefix};
 }
 
@@ -27,7 +28,7 @@
 
 .o-icon-text,
 .o-icon-literal {
-    @extend .fa-keyboard-o;
+    @extend .fa-keyboard;
 }
 
 .o-icon-item-set {
@@ -51,7 +52,7 @@
 }
 
 .o-icon-settings {
-    @extend .fa-gears;
+    @extend .fa-cogs;
 }
 
 .o-icon-users {
@@ -79,11 +80,11 @@
 }
 
 .o-icon-delete {
-    @extend .fa-trash-o;
+    @extend .fa-trash-alt;
 }
 
 .o-icon-edit {
-    @extend .fa-pencil;
+    @extend .fa-pencil-alt;
 }
 
 .o-icon-more {
@@ -147,7 +148,7 @@
 }
 
 .o-icon-revert {
-    @extend .fa-rotate-left;
+    @extend .fa-undo;
 }
 
 .o-icon-up {
@@ -195,7 +196,7 @@
 }
 
 .o-icon-external {
-    @extend .fa-external-link;
+    @extend .fa-external-link-alt;
 }
 
 .screen-reader-text {

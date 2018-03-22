@@ -93,8 +93,8 @@ class IIIF implements IngesterInterface
                     $media->setStorageId($tempFile->getStorageId());
                     $media->setHasThumbnails(true);
                 }
+                $tempFile->delete();
             }
-            $tempFile->delete();
         }
     }
 
@@ -104,6 +104,9 @@ class IIIF implements IngesterInterface
         $urlInput->setOptions([
             'label' => 'IIIF image URL', // @translate
             'info' => 'URL for the image to embed.', // @translate
+        ]);
+        $urlInput->setAttributes([
+            'required' => true,
         ]);
         return $view->formRow($urlInput);
     }

@@ -33,8 +33,8 @@ class SearchFilters extends AbstractHelper
             'neq' => $translate('is not exactly'),
             'in' => $translate('contains'),
             'nin' => $translate('does not contain'),
-            'res' => $translate('has resource'),
-            'nres' => $translate('does not have resource'),
+            'res' => $translate('is resource with ID'),
+            'nres' => $translate('is not resource with ID'),
             'ex' => $translate('has any value'),
             'nex' => $translate('has no values'),
         ];

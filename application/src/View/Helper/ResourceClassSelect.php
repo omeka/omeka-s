@@ -36,7 +36,7 @@ class ResourceClassSelect extends AbstractHelper
     {
         $spec['type'] = Select::class;
         if (!isset($spec['options']['empty_option'])) {
-            $spec['options']['empty_option'] = 'Select class...'; // @translate
+            $spec['options']['empty_option'] = 'Select class…'; // @translate
         }
         $factory = new Factory($this->formElementManager);
         $element = $factory->createElement($spec);

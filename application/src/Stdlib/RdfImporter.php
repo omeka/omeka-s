@@ -86,15 +86,11 @@ class RdfImporter
         $graph = new EasyRdf_Graph;
         switch ($strategy) {
             case 'file':
-                // Import from a file in /application/data/vocabularies.
+                // Import from a file
                 if (!isset($options['file'])) {
                     throw new ValidationException('No file specified for the file import strategy.');
                 }
                 $file = $options['file'];
-                // Make sure the provided file path matches the expected path.
-                if ($file != realpath($file) || !is_file($file)) {
-                    throw new ValidationException('Invalid path to file.');
-                }
                 if (!is_readable($file)) {
                     throw new ValidationException('File not readable.');
                 }

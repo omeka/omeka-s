@@ -1,0 +1,21 @@
+<form class="filtering" action="">
+    <select class="filtering-select">
+        <option value=""><?php echo $this->translate('No filter') ?></option>
+        <?php foreach ($filters as $filter): ?>
+        <?php $selected = $this->params()->fromQuery($filter['value']) ? 'selected' : ''; ?>
+        <option value="<?php echo $this->escapeHtml($filter['value']); ?>"<?php echo $selected; ?>><?php echo $this->escapeHtml($filter['label']); ?></option>
+        <?php endforeach; ?>
+    </select>
+    <input type="hidden" class="filtering-input">
+    <button type="submit"><?php echo $this->translate('Filter'); ?></button>
+    <?php echo $this->queryToHiddenInputs(array_column($filters, 'value')); ?>
+</form>
+
+<script>
+$('form.filtering').submit(function(e) {
+    // Set the selected filter value to the hidden input before submit.
+    var thisForm = $(this);
+    var filter = thisForm.find('.filtering-select').val();
+    thisForm.find('.filtering-input').attr('name', filter).val(1);
+});
+</script>

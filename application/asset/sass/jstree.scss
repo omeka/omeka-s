@@ -69,7 +69,7 @@ i.jstree-icon {
 }
 
 .jstree-icon:before {
-    font-family: "FontAwesome";
+    font-family: "Font Awesome 5 Free";
 }
 
 .jstree-open,
@@ -153,11 +153,11 @@ i.jstree-editlink-edit {
 }
 
 .jstree-er:before {
-    content: $fa-var-close;
+    content: $fa-var-times;
 }
 
 .jstree-removenode-remove:before {
-    content: $fa-var-trash-o;
+    content: $fa-var-trash-alt;
 }
 
 .jstree-removenode-undo:before {
@@ -165,7 +165,7 @@ i.jstree-editlink-edit {
 }
 
 .jstree-editlink-edit:before {
-    content: $fa-var-pencil;
+    content: $fa-var-pencil-alt;
 }
 
 .jstree-removenode-removed .jstree-anchor {

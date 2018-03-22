@@ -1,5 +1,5 @@
 <nav class="pagination" role="navigation">
-    <input type="text" name="page" id="page-input-top" value="<?php echo $currentPage; ?>" size="4" data-pagination-url="<?php echo $this->escapeHtml($pagelessUrl); ?>" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?>>
+    <input type="text" name="page" class="page-input-top" value="<?php echo $currentPage; ?>" size="4" data-pagination-url="<?php echo $this->escapeHtml($pagelessUrl); ?>" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?>>
     <span class="page-count"><?php echo sprintf($this->translate('of %s'), $pageCount); ?></span>
 
     <?php if ($currentPage != 1): ?>

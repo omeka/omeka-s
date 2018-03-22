@@ -1,5 +1,8 @@
 <?php
-$class = $element->getAttribute('required') ? 'field required' : 'field';
+$required = $element->getAttribute('required');
+$showRequired = $element->getOption('show_required');
+$isRequired = null === $showRequired ? $required : $showRequired;
+$class = $isRequired ? 'field required' : 'field';
 ?>
 <?php if (null === $label || 'hidden' === $element->getAttribute('type')): ?>
 <?php echo $this->formElement($element); ?>

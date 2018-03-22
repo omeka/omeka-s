@@ -9,9 +9,9 @@ use Zend\View\Helper\AbstractHelper;
  */
 class AssetUrl extends AbstractHelper
 {
-    const OMEKA_ASSETS_PATH = '%s/application/asset/%s?v=%s';
-    const MODULE_ASSETS_PATH = '%s/modules/%s/asset/%s?v=%s';
-    const THEME_ASSETS_PATH = '%s/themes/%s/asset/%s?v=%s';
+    const OMEKA_ASSETS_PATH = '%s/application/asset/%s%s';
+    const MODULE_ASSETS_PATH = '%s/modules/%s/asset/%s%s';
+    const THEME_ASSETS_PATH = '%s/themes/%s/asset/%s%s';
 
     /**
      * @var Theme The current theme, if any
@@ -57,12 +57,16 @@ class AssetUrl extends AbstractHelper
      * In all cases, if the module is set and if the file is marked as external,
      * the external url will be returned by priority, without any check.
      *
+     * When a directory is passed as $file, the version should be removed.
+     *
      * @param string $file
      * @param string|null $module
      * @param bool $override
+     * @param bool $versioned Append the version of Omeka, the theme or the
+     * module as a url query to improve cache.
      * @return string|null
      */
-    public function __invoke($file, $module = null, $override = false)
+    public function __invoke($file, $module = null, $override = false, $versioned = true)
     {
         if (isset($this->externals[$module][$file])) {
             return $this->externals[$module][$file];
@@ -71,26 +75,27 @@ class AssetUrl extends AbstractHelper
         $basePath = $this->getView()->basePath();
         if (null === $module && $this->currentTheme) {
             return sprintf(self::THEME_ASSETS_PATH, $basePath, $this->currentTheme->getId(),
-                $file, $this->currentTheme->getIni('version'));
+                $file, $versioned ? '?v=' . $this->currentTheme->getIni('version') : '');
         }
 
         if ($override && $this->currentTheme
             && ($module === 'Omeka' || array_key_exists($module, $this->activeModules))
         ) {
             $themeId = $this->currentTheme->getId();
-            $filepath = sprintf(self::THEME_ASSETS_PATH, OMEKA_PATH, $themeId, $file);
+            $filepath = sprintf(self::THEME_ASSETS_PATH, OMEKA_PATH, $themeId, $file, '');
             if (is_readable($filepath)) {
                 return sprintf(self::THEME_ASSETS_PATH, $basePath, $themeId,
-                    $file, $this->currentTheme->getIni('version'));
+                    $file, $versioned ? '?v=' . $this->currentTheme->getIni('version') : '');
             }
         }
 
         if ('Omeka' == $module) {
-            return sprintf(self::OMEKA_ASSETS_PATH, $basePath, $file, Module::VERSION);
+            return sprintf(self::OMEKA_ASSETS_PATH, $basePath,
+                $file, $versioned ? '?v=' . Module::VERSION : '');
         }
         if (array_key_exists($module, $this->activeModules)) {
-            return sprintf(self::MODULE_ASSETS_PATH, $basePath, $module, $file,
-                $this->activeModules[$module]->getIni('version'));
+            return sprintf(self::MODULE_ASSETS_PATH, $basePath, $module,
+                $file, $versioned ? '?v=' . $this->activeModules[$module]->getIni('version') : '');
         }
         return null;
     }

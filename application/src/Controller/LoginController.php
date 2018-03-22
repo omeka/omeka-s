@@ -75,8 +75,14 @@ class LoginController extends AbstractActionController
     public function logoutAction()
     {
         $this->auth->clearIdentity();
+
         $sessionManager = Container::getDefaultManager();
+
+        $eventManager = $this->getEventManager();
+        $eventManager->trigger('user.logout');
+
         $sessionManager->destroy();
+
         $this->messenger()->addSuccess('Successfully logged out'); // @translate
         return $this->redirect()->toRoute('login');
     }

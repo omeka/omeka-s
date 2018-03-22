@@ -38,10 +38,11 @@ $sectionNavs = [
     $subjectValues = $item->displaySubjectValues($page, 25, $property);
     ?>
     <?php if ($subjectValues): ?>
+        <p><?php echo $this->translate('The following resources link to this item:'); ?></p>
         <?php echo $subjectValues; ?>
     <?php else: ?>
         <div class="no-resources">
-            <p><?php echo $this->translate('There are no linked resources for this item.'); ?></p>
+            <p><?php echo $this->translate('No resources link to this item.'); ?></p>
         </div>
     <?php endif; ?>
 </div>

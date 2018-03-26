@@ -253,6 +253,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             $joinConditions = [];
             // Narrow to specific property, if one is selected
             if ($propertyId) {
+                if (is_numeric($propertyId)) {
+                    $propertyId = (int) $propertyId;
+                } else {
+                    $property = $this->getPropertyByTerm($propertyId);
+                    if ($property) {
+                        $propertyId = $property->getId();
+                    } else {
+                        $propertyId = 0;
+                    }
+                }
                 $joinConditions[] = $qb->expr()->eq("$valuesAlias.property", (int) $propertyId);
             }
 

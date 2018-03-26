@@ -72,9 +72,19 @@ class SearchFilters extends AbstractHelper
                                 continue;
                             }
                             if ($propertyId) {
-                                try {
-                                    $propertyLabel = $translate($api->read('properties', $propertyId)->getContent()->label());
-                                } catch (NotFoundException $e) {
+                                if (is_numeric($propertyId)) {
+                                    try {
+                                        $property = $api->read('properties', $propertyId)->getContent();
+                                    } catch (NotFoundException $e) {
+                                        $property = null;
+                                    }
+                                } else {
+                                    $property = $api->searchOne('properties', ['term' => $propertyId])->getContent();
+                                }
+
+                                if ($property) {
+                                    $propertyLabel = $translate($property->label());
+                                } else {
                                     $propertyLabel = $translate('Unknown property');
                                 }
                             } else {

@@ -1,6 +1,6 @@
 @import "base";
 @import "mixins";
-@import "font-awesome/variables";
+@import "font-awesome/fontawesome";
 @import "susy";
 
 .jstree-container-ul {
@@ -141,31 +141,31 @@ i.jstree-editlink-edit {
 }
 
 .jstree-open > .jstree-ocl:before {
-    content: $fa-var-caret-down;
+    content: fa-content($fa-var-caret-down);
 }
 
 .jstree-closed > .jstree-ocl:before {
-    content: $fa-var-caret-right;
+    content: fa-content($fa-var-caret-right);
 }
 
 .jstree-ok:before {
-    content: $fa-var-check;
+    content: fa-content($fa-var-check);
 }
 
 .jstree-er:before {
-    content: $fa-var-times;
+    content: fa-content($fa-var-times);
 }
 
 .jstree-removenode-remove:before {
-    content: $fa-var-trash-alt;
+    content: fa-content($fa-var-trash-alt);
 }
 
 .jstree-removenode-undo:before {
-    content: $fa-var-undo;
+    content: fa-content($fa-var-undo);
 }
 
 .jstree-editlink-edit:before {
-    content: $fa-var-pencil-alt;
+    content: fa-content($fa-var-pencil-alt);
 }
 
 .jstree-removenode-removed .jstree-anchor {

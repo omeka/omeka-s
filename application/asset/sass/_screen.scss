@@ -1410,7 +1410,7 @@ td .o-icon-private {
             min-height: 0;
             height: auto;
             line-height: $base-line-height;
-            padding: 0 $spacing-small;
+            padding: 0 $spacing-large 0 $spacing-small;
             margin-right: $spacing-small;
             border: 0;
             box-shadow: 0 0 0 1px $border-gray inset;

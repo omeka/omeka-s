@@ -392,7 +392,7 @@ var Omeka = {
 
         $('.select-all').change(function() {
             if (this.checked) {
-                $('.batch-edit td input[type=checkbox]').prop('checked', true);
+                $('.batch-edit td input[type=checkbox]:not(:disabled)').prop('checked', true);
             } else {
                 $('.batch-edit td input[type=checkbox]:checked').prop('checked', false);
             }

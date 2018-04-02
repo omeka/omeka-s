@@ -64,9 +64,11 @@ class Html implements MutableIngesterInterface
     public function update(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
-        $html = $data['o:media']['__index__']['html'];
-        $html = $this->purifier->purify($html);
-        $media->setData(['html' => $html]);
+        if (isset($data['o:media']['__index__']['html'])) {
+            $html = $data['o:media']['__index__']['html'];
+            $html = $this->purifier->purify($html);
+            $media->setData(['html' => $html]);
+        }
     }
 
     /**

@@ -277,21 +277,20 @@ class ItemController extends AbstractActionController
         }
 
         $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'item']);
+        $form->setAttribute('id', 'batch-edit-item');
         if ($this->params()->fromPost('batch_update')) {
             $data = $this->params()->fromPost();
             $form->setData($data);
 
             if ($form->isValid()) {
-                list($dataRemove, $dataAppend) = $this->preprocessBatchUpdateData($data);
+                $data = $form->preprocessData();
 
-                $this->api($form)->batchUpdate('items', $resourceIds, $dataRemove, [
-                    'continueOnError' => true,
-                    'collectionAction' => 'remove',
-                ]);
-                $this->api($form)->batchUpdate('items', $resourceIds, $dataAppend, [
-                    'continueOnError' => true,
-                    'collectionAction' => 'append',
-                ]);
+                foreach ($data as $collectionAction => $properties) {
+                    $this->api($form)->batchUpdate('items', $resourceIds, $properties, [
+                        'continueOnError' => true,
+                        'collectionAction' => $collectionAction,
+                    ]);
+                }
 
                 $this->messenger()->addSuccess('Items successfully edited'); // @translate
                 return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
@@ -324,18 +323,20 @@ class ItemController extends AbstractActionController
         $count = $this->api()->search('items', ['limit' => 0] + $query)->getTotalResults();
 
         $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'item']);
+        $form->setAttribute('id', 'batch-edit-item');
         if ($this->params()->fromPost('batch_update')) {
             $data = $this->params()->fromPost();
             $form->setData($data);
 
             if ($form->isValid()) {
-                list($dataRemove, $dataAppend) = $this->preprocessBatchUpdateData($data);
+                $data = $form->preprocessData();
 
                 $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'items',
                     'query' => $query,
-                    'data_remove' => $dataRemove,
-                    'data_append' => $dataAppend,
+                    'data' => isset($data['replace']) ? $data['replace'] : [],
+                    'data_remove' => isset($data['remove']) ? $data['remove'] : [],
+                    'data_append' => isset($data['append']) ? $data['append'] : [],
                 ]);
 
                 $this->messenger()->addSuccess('Editing items. This may take a while.'); // @translate
@@ -352,71 +353,6 @@ class ItemController extends AbstractActionController
         $view->setVariable('query', $query);
         $view->setVariable('count', $count);
         return $view;
-    }
-
-    /**
-     * Preprocess batch update data.
-     *
-     * Batch update data contains instructions on what to update. It needs to be
-     * preprocessed before it's sent to the API.
-     *
-     * @param array $data
-     * @return array An array containing the collectionAction=remove data as the
-     * first element and the collectionAction=append data as the second.
-     */
-    protected function preprocessBatchUpdateData(array $data)
-    {
-        $dataRemove = [];
-        $dataAppend = [];
-
-        // Set the data to change and data to remove.
-        if (in_array($data['is_public'], ['0', '1'])) {
-            $dataRemove['o:is_public'] = $data['is_public'];
-        }
-        if (-1 == $data['resource_template']) {
-            $dataRemove['o:resource_template'] = ['o:id' => null];
-        } elseif (is_numeric($data['resource_template'])) {
-            $dataRemove['o:resource_template'] = ['o:id' => $data['resource_template']];
-        }
-        if (-1 == $data['resource_class']) {
-            $dataRemove['o:resource_class'] = ['o:id' => null];
-        } elseif (is_numeric($data['resource_class'])) {
-            $dataRemove['o:resource_class'] = ['o:id' => $data['resource_class']];
-        }
-        if (isset($data['remove_from_item_set'])) {
-            $dataRemove['o:item_set'] = $data['remove_from_item_set'];
-        }
-        if (isset($data['clear_property_values'])) {
-            $dataRemove['clear_property_values'] = $data['clear_property_values'];
-        }
-
-        // Set the data to append.
-        if (isset($data['value'])) {
-            foreach ($data['value'] as $value) {
-                $valueObj = [
-                    'property_id' => $value['property_id'],
-                    'type' => $value['type'],
-                ];
-                switch ($value['type']) {
-                    case 'uri':
-                        $valueObj['@id'] = $value['id'];
-                        $valueObj['o:label'] = $value['label'];
-                        break;
-                    case 'resource':
-                        $valueObj['value_resource_id'] = $value['value_resource_id'];
-                        break;
-                    case 'literal':
-                    default:
-                        $valueObj['@value'] = $value['value'];
-                }
-                $dataAppend[$value['property_id']][] = $valueObj;
-            }
-        }
-        if (isset($data['add_to_item_set'])) {
-            $dataAppend['o:item_set'] = array_unique($data['add_to_item_set']);
-        }
-
-        return [$dataRemove, $dataAppend];
     }
 
     protected function getMediaForms()

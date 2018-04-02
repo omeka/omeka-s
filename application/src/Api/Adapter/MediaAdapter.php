@@ -182,4 +182,16 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             $entity->setOwner($entity->getItem()->getOwner());
         }
     }
+
+    public function preprocessBatchUpdate(array $data, Request $request)
+    {
+        $rawData = $request->getContent();
+        $data = parent::preprocessBatchUpdate($data, $request);
+
+        if (array_key_exists('o:lang', $rawData)) {
+            $data['o:lang'] = $rawData['o:lang'];
+        }
+
+        return $data;
+    }
 }

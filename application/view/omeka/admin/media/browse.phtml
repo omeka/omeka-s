@@ -33,38 +33,37 @@ $sortHeadings = [
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
 
+<?php $this->trigger('view.browse.before'); ?>
+<?php if ($medias): ?>
 <form method="post" id="batch-form" class="disable-unsaved-warning">
-
-<div id="page-actions">
     <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
-    <select class="batch-actions-select">
-        <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
-        <?php if ($userIsAllowedBatchUpdate): ?>
-        <option value="update-selected" disabled="true"><?php echo $this->translate('Edit selected'); ?></option>
-        <option value="update-all"><?php echo $this->translate('Edit all'); ?></option>
-        <?php endif; ?>
-        <?php if ($userIsAllowedBatchDelete): ?>
-        <option value="delete-selected" disabled="true"><?php echo $this->translate('Delete selected'); ?></option>
-        <option value="delete-all"><?php echo $this->translate('Delete all'); ?></option>
-        <?php endif; ?>
-    </select>
-    <div class="batch-actions">
-        <button type="button" class="default active" disabled="true"><?php echo $this->translate('Go'); ?></button>
-        <?php if ($userIsAllowedBatchUpdate): ?>
-        <input type="submit" class="update-selected" name="update_selected" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
-        <input type="submit" class="update-all" name="update_all" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
-        <?php endif; ?>
-        <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
-        <?php if ($userIsAllowedBatchDelete): ?>
-        <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $this->translate('Go'); ?></a>
-        <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $this->translate('Go'); ?></a>
-        <?php endif; ?>
+    <div class="batch-inputs">
+        <select class="batch-actions-select">
+            <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
+            <?php if ($userIsAllowedBatchUpdate): ?>
+            <option value="update-selected" disabled="disabled"><?php echo $this->translate('Edit selected'); ?></option>
+            <option value="update-all"><?php echo $this->translate('Edit all'); ?></option>
+            <?php endif; ?>
+            <?php if ($userIsAllowedBatchDelete): ?>
+            <option value="delete-selected" disabled="disabled"><?php echo $this->translate('Delete selected'); ?></option>
+            <option value="delete-all"><?php echo $this->translate('Delete all'); ?></option>
+            <?php endif; ?>
+        </select>
+        <div class="batch-actions">
+            <button type="button" class="default active" disabled="disabled"><?php echo $this->translate('Go'); ?></button>
+            <?php if ($userIsAllowedBatchUpdate): ?>
+            <input type="submit" class="update-selected" name="update_selected" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
+            <input type="submit" class="update-all" name="update_all" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+            <?php endif; ?>
+            <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
+            <?php if ($userIsAllowedBatchDelete): ?>
+            <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $this->translate('Go'); ?></a>
+            <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $this->translate('Go'); ?></a>
+            <?php endif; ?>
+        </div>
     </div>
     <?php endif; ?>
-</div>
 
-<?php $this->trigger('view.browse.before'); ?>
-<?php if($medias): ?>
 <table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
@@ -100,7 +99,7 @@ $sortHeadings = [
         <tr>
             <td>
                 <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"<?php if (!($userIsAllowedUpdate || $userIsAllowedDelete)): ?> disabled="true"<?php endif; ?>>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"<?php if (!($userIsAllowedUpdate || $userIsAllowedDelete)): ?> disabled="disabled"<?php endif; ?>>
                 <?php endif; ?>
                 <?php echo $media->linkPretty(); ?>
                 <?php if (!$media->isPublic()): ?>
@@ -171,7 +170,7 @@ $sortHeadings = [
         </div>
     </div>
 </div>
-<div id="sidebar-delete-selected" class="sidebar">
+<div id="sidebar-delete-all" class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
         'title' => $this->translate('Close'),

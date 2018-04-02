@@ -7,6 +7,7 @@ use Omeka\Form\Element\ResourceClassSelect;
 use Omeka\Form\Element\ResourceSelect;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerAwareTrait;
+use Zend\Form\Element;
 use Zend\Form\Form;
 use Zend\View\Helper\Url;
 
@@ -27,28 +28,34 @@ class ResourceBatchUpdateForm extends Form
 
         $this->add([
             'name' => 'is_public',
-            'type' => 'radio',
+            'type' => Element\Radio::class,
             'options' => [
                 'label' => 'Set visibility', // @translate
                 'value_options' => [
-                    '' => '[No change]', // @translate
                     '1' => 'Public', // @translate
                     '0' => 'Not public', // @translate
+                    '' => '[No change]', // @translate
                 ],
+            ],
+            'attributes' => [
+                'value' => '',
             ],
         ]);
 
         if ($resourceType === 'itemSet') {
             $this->add([
                 'name' => 'is_open',
-                'type' => 'radio',
+                'type' => Element\Radio::class,
                 'options' => [
                     'label' => 'Set openness', // @translate
                     'value_options' => [
-                        '' => '[No change]', // @translate
                         '1' => 'Open', // @translate
                         '0' => 'Not open', // @translate
+                        '' => '[No change]', // @translate
                     ],
+                ],
+                'attributes' => [
+                    'value' => '',
                 ],
             ]);
         }
@@ -125,7 +132,7 @@ class ResourceBatchUpdateForm extends Form
             case 'media':
                 $this->add([
                     'name' => 'clear_language',
-                    'type' => 'Checkbox',
+                    'type' => Element\Checkbox::class,
                     'options' => [
                         'label' => 'Clear language', // @transalte
                     ],
@@ -133,7 +140,7 @@ class ResourceBatchUpdateForm extends Form
 
                 $this->add([
                     'name' => 'language',
-                    'type' => 'Text',
+                    'type' => Element\Text::class,
                     'attributes' => [
                         'class' => 'value-language active',
                     ],
@@ -161,7 +168,7 @@ class ResourceBatchUpdateForm extends Form
         // This hidden element manages the elements "value" added in the view.
         $this->add([
             'name' => 'value',
-            'type' => 'Hidden',
+            'type' => Element\Hidden::class,
             'attributes' => [
                 'value' => '',
             ],
@@ -233,7 +240,6 @@ class ResourceBatchUpdateForm extends Form
      * "replace" (default), "remove" or "append".
      *
      * @todo Use standard validationGroup and filters.
-     * Note:
      *
      * @return array Associative array of data to replace, to remove and to
      * append.

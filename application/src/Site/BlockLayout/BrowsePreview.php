@@ -89,7 +89,7 @@ class BrowsePreview extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $resourceType = $block->dataValue('resource_type');
+        $resourceType = $block->dataValue('resource_type') ?: 'items';
 
         parse_str($block->dataValue('query'), $query);
         $originalQuery = $query;

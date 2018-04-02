@@ -18,7 +18,15 @@ class BrowsePreview extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
-        $data = $block ? $block->data() : [];
+        $defaults = [
+            'resource_type' => 'items',
+            'query' => '',
+            'heading' => '',
+            'limit' => 12,
+            'link-text' => 'Browse all', // @translate
+        ];
+
+        $data = $block ? $block->data() + $defaults : $defaults;
 
         $form = new Form();
         $form->add([
@@ -66,16 +74,6 @@ class BrowsePreview extends AbstractBlockLayout
             ],
         ]);
 
-        if (empty($data)) {
-            $data = [
-                'resource_type' => 'items',
-                'query' => '',
-                'heading' => '',
-                'limit' => 12,
-                'link-text' => 'Browse all', // @translate
-            ];
-        }
-
         $form->setData([
             'o:block[__blockIndex__][o:data][resource_type]' => $data['resource_type'],
             'o:block[__blockIndex__][o:data][query]' => $data['query'],
@@ -89,7 +87,7 @@ class BrowsePreview extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $resourceType = $block->dataValue('resource_type') ?: 'items';
+        $resourceType = $block->dataValue('resource_type', 'items');
 
         parse_str($block->dataValue('query'), $query);
         $originalQuery = $query;
@@ -100,7 +98,7 @@ class BrowsePreview extends AbstractBlockLayout
         }
 
         $query['site_id'] = $site->id();
-        $query['limit'] = $block->dataValue('limit') ?: 12;
+        $query['limit'] = $block->dataValue('limit', 12);
 
         if (!isset($query['sort_by'])) {
             $query['sort_by'] = 'created';

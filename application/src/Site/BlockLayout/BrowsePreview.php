@@ -4,6 +4,7 @@ namespace Omeka\Site\BlockLayout;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
+use Zend\Form\Element\Number;
 use Zend\Form\Element\Text;
 use Zend\View\Renderer\PhpRenderer;
 
@@ -19,15 +20,18 @@ class BrowsePreview extends AbstractBlockLayout
     ) {
         $text = new Text("o:block[__blockIndex__][o:data][query]");
         $heading = new Text("o:block[__blockIndex__][o:data][heading]");
+        $limit = new Number("o:block[__blockIndex__][o:data][limit]");
         $linkText = new Text("o:block[__blockIndex__][o:data][link-text]");
         $expandButton = '<a href="#" class="expand" aria-label="' . $view->translate('Expand'). '" title="' . $view->translate('Expand') . '"></a>';
 
         if ($block) {
             $text->setAttribute('value', $block->dataValue('query'));
             $heading->setAttribute('value', $block->dataValue('heading'));
+            $limit->setAttribute('value', $block->dataValue('limit'));
             $linkText->setAttribute('value', $block->dataValue('link-text'));
         } else {
             $linkText->setAttribute('value', $view->translate('Browse all'));
+            $limit->setAttribute('value', 12);
         }
 
         $html = '<div class="field"><div class="field-meta">';
@@ -44,6 +48,14 @@ class BrowsePreview extends AbstractBlockLayout
         $html .= '<div class="collapsible"><div class="field-description">' . $view->translate('Translatable heading above resource list') . '</div></div>';
         $html .= '</div>';
         $html .= '<div class="inputs">' . $view->formRow($heading) . '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="field"><div class="field-meta">';
+        $html .= '<label>' . $view->translate('Max number') . '</label>';
+        $html .= '<a href="#" class="expand"></a>';
+        $html .= '<div class="collapsible"><div class="field-description">' . $view->translate('Maximum number of resources to display in the preview.') . '</div></div>';
+        $html .= '</div>';
+        $html .= '<div class="inputs">' . $view->formRow($limit) . '</div>';
         $html .= '</div>';
 
         $html .= '<div class="field"><div class="field-meta">';
@@ -68,7 +80,7 @@ class BrowsePreview extends AbstractBlockLayout
         }
 
         $query['site_id'] = $site->id();
-        $query['limit'] = 10;
+        $query['limit'] = $block->dataValue('limit') ?: 12;
 
         if (!isset($query['sort_by'])) {
             $query['sort_by'] = 'created';

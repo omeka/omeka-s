@@ -52,7 +52,7 @@ function download(url, path) {
             var https = require('https');
             var file = fs.createWriteStream(path);
             file.on('finish', function () {
-                file.close(resolve());
+                resolve();
             });
             https.get(url, function (response) {
                 response.pipe(file);

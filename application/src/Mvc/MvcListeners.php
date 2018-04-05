@@ -360,10 +360,11 @@ class MvcListeners extends AbstractListenerAggregate
     {
         $request = $event->getRequest();
         $contentType = $request->getHeader('Content-Type');
+        $contentLength = $request->getHeader('Content-Length');
         if ($request->isPost() && $contentType
             && $contentType->match(['application/x-www-form-urlencoded', 'multipart/form-data'])
             && !$_POST && !$_FILES
-            && $request->getHeader('Content-Length', 0)
+            && $contentLength && $contentLength->getFieldValue()
         ) {
             throw new Exception\RuntimeException('POST request exceeded maximum size');
         }

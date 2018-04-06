@@ -90,7 +90,7 @@ var Omeka = {
     updateSearch: function () {
         var checkedOption = $("#advanced-options input[type='radio']:checked ");
         $("#search-form").attr("action", checkedOption.data('action'));
-        $("#search-form > input[type='text']").attr("placeholder", checkedOption.data('inputPlaceholder'));
+        $("#search-form > input[type='text']").attr("placeholder", checkedOption.data('inputPlaceholder')).attr("aria-label", checkedOption.data('inputPlaceholder'));
     },
 
     scrollTo: function(wrapper) {

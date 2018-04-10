@@ -8,8 +8,8 @@ $escape = $this->plugin('escapeHtml');
         <span class="block-type"><?php echo $this->translate($layoutLabel); ?></span>
         <span class="restore-value"><?php echo $this->translate('Block to be removed'); ?></span>
         <ul class="actions">
-            <li><a href="#" class="o-icon-delete remove-value"></a></li>
-            <li><a href="#" class="o-icon-undo restore-value"></a></li>
+            <li><a href="#" class="o-icon-delete remove-value" aria-label="<?php echo $this->translate('Remove value'); ?>" title="<?php echo $this->translate('Remove value'); ?>"></a></li>
+            <li><a href="#" class="o-icon-undo restore-value" aria-label="<?php echo $this->translate('Restore value'); ?>" title="<?php echo $this->translate('Restore value'); ?>"></a></li>
         </ul>
     </div>
     <div class="block-content">

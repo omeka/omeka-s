@@ -9,7 +9,7 @@ if (!$ids) {
     $ids = [null];
 }
 ?>
-<div id="item-sets" class="field removable multi-value" role="group" aria-labelledby="by-item-set-label">
+<div id="item-sets" class="field removable multi-value" role="group">
     <div class="field-meta">
         <span id="by-item-set-label" class="label"><?php echo $this->translate('Search by item set'); ?></span>
         <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
@@ -22,7 +22,10 @@ if (!$ids) {
         <div class="value">
             <?php echo $this->itemSetSelect([
                 'name' => 'item_set_id[]',
-                'attributes' => ['value' => $id],
+                'attributes' => [
+                    'value' => $id,
+                    'aria-labelledby' =>  'by-item-set-label'
+                ],
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>

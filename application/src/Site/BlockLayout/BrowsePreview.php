@@ -20,6 +20,7 @@ class BrowsePreview extends AbstractBlockLayout
         $text = new Text("o:block[__blockIndex__][o:data][query]");
         $heading = new Text("o:block[__blockIndex__][o:data][heading]");
         $linkText = new Text("o:block[__blockIndex__][o:data][link-text]");
+        $expandButton = '<a href="#" class="expand" aria-label="' . $view->translate('Expand'). '" title="' . $view->translate('Expand') . '"></a>';
 
         if ($block) {
             $text->setAttribute('value', $block->dataValue('query'));
@@ -29,7 +30,7 @@ class BrowsePreview extends AbstractBlockLayout
 
         $html = '<div class="field"><div class="field-meta">';
         $html .= '<label>' . $view->translate('Query') . '</label>';
-        $html .= '<a href="#" class="expand"></a>';
+        $html .= $expandButton;
         $html .= '<div class="collapsible"><div class="field-description">' . $view->translate('Display resources using this search query') . '</div></div>';
         $html .= '</div>';
         $html .= '<div class="inputs">' . $view->formRow($text) . '</div>';
@@ -37,14 +38,15 @@ class BrowsePreview extends AbstractBlockLayout
 
         $html .= '<div class="field"><div class="field-meta">';
         $html .= '<label>' . $view->translate('Preview title') . '</label>';
-        $html .= '<a href="#" class="expand"></a><div class="collapsible"><div class="field-description">' . $view->translate('Heading above resource list') . '</div></div>';
+        $html .= $expandButton;
+        $html .= '<div class="collapsible"><div class="field-description">' . $view->translate('Heading above resource list') . '</div></div>';
         $html .= '</div>';
         $html .= '<div class="inputs">' . $view->formRow($heading) . '</div>';
         $html .= '</div>';
 
         $html .= '<div class="field"><div class="field-meta">';
         $html .= '<label>' . $view->translate('Browse link text') . '</label>';
-        $html .= '<a href="#" class="expand"></a>';
+        $html .= $expandButton;
         $html .= '<div class="collapsible"><div class="field-description">' . $view->translate('Text for link to full browse view') . '</div></div>';
         $html .= '</div>';
         $html .= '<div class="inputs">' . $view->formRow($linkText) . '</div>';

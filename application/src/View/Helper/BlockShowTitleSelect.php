@@ -30,7 +30,7 @@ class BlockShowTitleSelect extends AbstractHelper
         $titleSelect->setValueOptions($titleOptions)->setValue($titleSelectedOption);
 
         $html = '<div class="field">';
-        $html .= '<div class="field-meta"><label>' . $view->translate('Show attachment title') . '</label></div>';
+        $html .= '<div class="field-meta"><label for="o:block[__blockIndex__][o:data][show_title_option]">' . $view->translate('Show attachment title') . '</label></div>';
         $html .= '<div class="inputs">' . $view->formSelect($titleSelect) . '</div>';
         $html .= '</div>';
         return $html;

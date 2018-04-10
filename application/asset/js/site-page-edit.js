@@ -64,7 +64,12 @@
                 return;
             }
             var name = thisInput.attr('name').replace('[__' + find + '__]', '[' + index + ']');
+            var label = thisInput.parents('.field').find('label').first();
             thisInput.attr('name', name);
+            if (!thisInput.is(':hidden')) {
+                thisInput.attr('id', name);
+            }
+            label.attr('for', name);
         });
         context.find('.attachments').each(function () {
             var thisAttachments = $(this);

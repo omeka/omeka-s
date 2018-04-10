@@ -2,18 +2,18 @@
 <?php if ($totalCount): ?>
     <form method="GET" action="">
         <?php echo $this->queryToHiddenInputs(['page']); ?>
-        <input type="text" name="page" class="page-input-top" value="<?php echo $currentPage; ?>" size="4" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?>>
+        <input type="text" name="page" class="page-input-top" value="<?php echo $currentPage; ?>" size="4" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?> aria-label="<?php echo $this->translate('Page'); ?>">
         <span class="page-count"><?php echo sprintf($this->translate('of %s'), $pageCount); ?></span>
     </form>
 
     <?php if ($currentPage != 1): ?>
-    <?php echo $this->hyperlink('', $previousPageUrl, ['class' => 'previous o-icon-prev button', 'title' => $this->translate('Previous')]); ?>
+    <?php echo $this->hyperlink('', $previousPageUrl, ['class' => 'previous o-icon-prev button', 'title' => $this->translate('Previous'), 'aria-label' => $this->translate('Previous')]); ?>
     <?php else: ?>
     <span class="previous o-icon-prev button inactive"></span>
     <?php endif; ?>
 
     <?php if ($currentPage < $pageCount): ?>
-    <?php echo $this->hyperlink('', $nextPageUrl, ['class' => 'next o-icon-next button', 'title' => $this->translate('Next')]); ?>
+    <?php echo $this->hyperlink('', $nextPageUrl, ['class' => 'next o-icon-next button', 'title' => $this->translate('Next'), 'aria-label' => $this->translate('Next')]); ?>
     <?php else: ?>
     <span class="next o-icon-next button inactive"></span>
     <?php endif; ?>

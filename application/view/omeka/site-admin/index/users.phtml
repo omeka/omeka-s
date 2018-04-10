@@ -42,7 +42,7 @@ $roles = [
                     <span class="user-name"><?php echo $escape($user->name()); ?> (<?php echo $escape($user->email()); ?>)</span>
                     <input type="hidden" class="user-id" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $escape($user->id()); ?>">
                 </td>
-                <td><select name="o:site_permission[<?php echo $index; ?>][o:role]">
+                <td><select name="o:site_permission[<?php echo $index; ?>][o:role]" aria-label="<?php echo $this->translate('Role'); ?>">
                     <?php
                     foreach ($roles as $key => $value):
                     $selected = $key === $sitePermission->role() ? true : false;
@@ -73,7 +73,7 @@ $roles = [
     <button id="site-user-selector-button" class="mobile-only"><?php echo $this->translate('Add new user'); ?></button>
     <div id="site-user-selector" class="selector sidebar always-open">
         <h3><?php echo $this->translate('Click on a user to add them to the site.'); ?></h3>
-        <input type="text" class="selector-filter" placeholder="<?php echo $this->translate('Filter users'); ?>">
+        <input type="text" class="selector-filter" placeholder="<?php echo $this->translate('Filter users'); ?>" aria-label="<?php echo $this->translate('Filter users'); ?>">
         <ul id="new-site-user">
             <li class="total-count-heading"><?php echo $this->translate('All users'); ?> (<?php echo count($users); ?>)
                 <ul class="selectable-list">

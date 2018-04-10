@@ -27,6 +27,7 @@ class SiteSettingsForm extends Form
                 'label' => 'Restrict browse to attached items', // @translate
             ],
             'attributes' => [
+                'id' => 'browse_attached_items',
                 'value' => (bool) $settings->get('browse_attached_items', false),
             ],
         ]);
@@ -43,6 +44,7 @@ class SiteSettingsForm extends Form
                 ],
             ],
             'attributes' => [
+                'id' => 'attachment_link_type',
                 'value' => $settings->get('attachment_link_type'),
             ],
         ]);
@@ -54,6 +56,7 @@ class SiteSettingsForm extends Form
                 'label' => 'Embed media on item pages', // @translate
             ],
             'attributes' => [
+                'id' => 'item_media_embed',
                 'value' => (bool) $settings->get('item_media_embed', false),
             ],
         ]);
@@ -68,6 +71,7 @@ class SiteSettingsForm extends Form
                 'term_as_value' => true,
             ],
             'attributes' => [
+                'id' => 'browse_heading_property_term',
                 'value' => $headingTerm ? $headingTerm : 'dcterms:title',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a property', // @translate
@@ -83,6 +87,7 @@ class SiteSettingsForm extends Form
                 'term_as_value' => true,
             ],
             'attributes' => [
+                'id' => 'browse_body_property_term',
                 'value' => $bodyTerm ? $bodyTerm : 'dcterms:description',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a property', // @translate
@@ -95,17 +100,20 @@ class SiteSettingsForm extends Form
                 'label' => 'Always show user bar on public views', // @translate
             ],
             'attributes' => [
+                'id' => 'show_user_bar',
                 'value' => $settings->get('show_user_bar', false),
             ],
         ]);
         $this->add([
             'name' => 'locale',
+            'id' => 'locale',
             'type' => 'Omeka\Form\Element\LocaleSelect',
             'options' => [
                 'label' => 'Locale', // @translate
                 'info' => 'Locale/language code for this site. Leave blank to use the global locale setting.', // @translate
             ],
             'attributes' => [
+                'id' => 'locale',
                 'value' => $settings->get('locale'),
                 'class' => 'chosen-select',
             ],
@@ -118,6 +126,9 @@ class SiteSettingsForm extends Form
         $inputFilter->add([
             'name' => 'locale',
             'allow_empty' => true,
+            'attributes' => [
+                'id' => 'locale',
+            ],
         ]);
         $filterEvent = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($filterEvent);

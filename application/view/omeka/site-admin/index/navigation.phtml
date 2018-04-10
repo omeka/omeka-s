@@ -37,7 +37,7 @@ $escape = $this->plugin('escapeHtml');
     <div class="field">
         <label><?php echo $this->translate('Add a link to a site page'); ?></label>
         <?php if ($pages = $site->notLinkedPages()): ?>
-        <input type="text" class="page-selector-filter" placeholder="Filter pages">
+        <input type="text" class="page-selector-filter" placeholder="<?php echo $this->translate('Filter pages'); ?>" aria-label="<?php echo $this->translate('Filter pages'); ?>">
         <div id="nav-page-links">
         <?php foreach ($pages as $page): ?>
             <button class="nav-page-link option"

@@ -116,6 +116,7 @@ class SettingForm extends Form
             'attributes' => [
                 'value' => $this->settings->get('administrator_email'),
                 'required' => true,
+                'id' => 'administrator_email',
             ],
         ]);
 
@@ -158,6 +159,7 @@ class SettingForm extends Form
             'attributes' => [
                 'value' => $this->settings->get('pagination_per_page'),
                 'required' => true,
+                'id' => 'pagination_per_page',
             ],
         ]);
 
@@ -175,6 +177,7 @@ class SettingForm extends Form
             ],
             'attributes' => [
                 'value' => $this->settings->get('property_label_information'),
+                'id' => 'property_label_information',
             ],
         ]);
 
@@ -191,6 +194,7 @@ class SettingForm extends Form
                 'data-placeholder' => 'No default (show index of sites)', // @translate
                 'value' => $this->settings->get('default_site'),
                 'required' => false,
+                'id' => 'default_site',
             ],
         ]);
 
@@ -204,6 +208,7 @@ class SettingForm extends Form
             'attributes' => [
                 'value' => $this->settings->get('locale'),
                 'class' => 'chosen-select',
+                'id' => 'locale',
             ],
         ]);
 
@@ -216,6 +221,7 @@ class SettingForm extends Form
             ],
             'attributes' => [
                 'value' => $this->settings->get('version_notifications'),
+                'id' => 'version_notifications',
             ],
         ]);
 
@@ -239,6 +245,7 @@ class SettingForm extends Form
             ],
             'attributes' => [
                 'value' => $this->settings->get('use_htmlpurifier'),
+                'id' => 'use_htmlpurifier',
             ],
         ]);
 
@@ -251,13 +258,17 @@ class SettingForm extends Form
             ],
             'attributes' => [
                 'value' => $this->settings->get('disable_file_validation'),
+                'id' => 'disable_file_validation',
             ],
         ]);
         $mediaTypeWhitelist = new RestoreTextarea('media_type_whitelist');
         $mediaTypeWhitelist
             ->setLabel('Allowed media types') // @translate
             ->setOption('info', 'A comma-separated list of allowed media types for file uploads.') // @translate
-            ->setAttribute('rows', '4')
+            ->setAttributes([
+                'rows' =>  '4', 
+                'id' => 'media_type_whitelist',
+            ])
             ->setRestoreButtonText('Restore default media types')
             ->setValue(implode(',', $this->settings->get('media_type_whitelist', [])))
             ->setRestoreValue(implode(',', self::MEDIA_TYPE_WHITELIST));
@@ -267,7 +278,10 @@ class SettingForm extends Form
         $extensionWhitelist
             ->setLabel('Allowed file extensions') // @translate
             ->setOption('info', 'A comma-separated list of allowed file extensions for file uploads.') // @translate
-            ->setAttribute('rows', '4')
+            ->setAttributes([
+                'rows' =>  '4', 
+                'id' => 'extension_whitelist',
+            ])
             ->setRestoreButtonText('Restore default extensions')
             ->setValue(implode(',', $this->settings->get('extension_whitelist', [])))
             ->setRestoreValue(implode(',', self::EXTENSION_WHITELIST));
@@ -281,6 +295,7 @@ class SettingForm extends Form
             ],
             'attributes' => [
                 'value' => $this->settings->get('recaptcha_site_key'),
+                'id' => 'recaptcha_site_key',
             ],
         ]);
         $securityFieldset->add([
@@ -291,6 +306,7 @@ class SettingForm extends Form
             ],
             'attributes' => [
                 'value' => $this->settings->get('recaptcha_secret_key'),
+                'id' => 'recaptcha_secret_key',
             ],
         ]);
 

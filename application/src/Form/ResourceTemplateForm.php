@@ -16,6 +16,7 @@ class ResourceTemplateForm extends Form
             ],
             'attributes' => [
                 'required' => true,
+                'id' => 'o:label',
             ],
         ]);
 
@@ -29,6 +30,7 @@ class ResourceTemplateForm extends Form
             'attributes' => [
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a class',
+                'id' => 'o:resource_class[o:id]',
             ],
         ]);
 

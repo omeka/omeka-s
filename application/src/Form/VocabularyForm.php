@@ -16,6 +16,7 @@ class VocabularyForm extends Form
             ],
             'attributes' => [
                 'required' => true,
+                'id' => 'o:label',
             ],
         ]);
 
@@ -26,6 +27,9 @@ class VocabularyForm extends Form
                 'label' => 'Comment', // @translate
                 'info' => 'A human-readable description of the vocabulary.', // @translate
             ],
+            'attributes' => [
+                'id' => 'o:comment',
+            ],
         ]);
 
         $this->add([
@@ -34,6 +38,9 @@ class VocabularyForm extends Form
             'options' => [
                 'label' => 'Update vocabulary', // @translate
                 'info' => 'Update this vocabulary to a newer version. You will be able to review the changes before you accept. Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'file',
             ],
         ]);
     }

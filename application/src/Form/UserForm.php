@@ -130,6 +130,7 @@ class UserForm extends Form
             'attributes' => [
                 'value' => $locale,
                 'class' => 'chosen-select',
+                'id' => 'locale',
             ],
         ]);
         $this->get('user-settings')->add([
@@ -139,6 +140,7 @@ class UserForm extends Form
                 'value' => $this->userSettings->get('default_resource_template', null, $this->getOption('user_id')),
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a template', // @translate
+                'id' => 'default_resource_template',
             ],
             'options' => [
                 'label' => 'Default resource template', // @translate
@@ -160,6 +162,9 @@ class UserForm extends Form
                     'type' => 'password',
                     'options' => [
                         'label' => 'Current password', // @translate
+                    ],
+                    'attributes' => [
+                        'id' => 'current-password',
                     ],
                 ]);
             }

@@ -15,6 +15,7 @@ class ResourceTemplateImportForm extends Form
             ],
             'attributes' => [
                 'required' => true,
+                'id' => 'file',
             ],
         ]);
     }

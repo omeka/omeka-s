@@ -2361,7 +2361,6 @@ input[type="text"].value-language,
     [data-data-type="uri"] .input {
         position: relative;
         clear: both;
-        display: flex;
 
         &:first-child {
             border-bottom: 1px solid $border-gray;
@@ -2373,23 +2372,25 @@ input[type="text"].value-language,
     }
 
     [data-data-type="uri"] label {
-        padding: $spacing-small;
+        padding: $spacing-small 0 $spacing-small $spacing-small;
         z-index: 1;
         font-weight: bold;
         color: rgba(0,0,0,.35);
         width: auto;
+        display: flex;
     }
 
-    [data-data-type="uri"] input.value,
+    [data-data-type="uri"] .input-body input.value,
     [data-data-type="uri"] textarea.value-label {
+        margin: (-1 * $spacing-small) 0 (-1 * $spacing-small) $spacing-small;
         height: (1.5 * $spacing-large);
         border: 0;
+        padding: $spacing-small;
+        font-weight: normal;
     }
 
     [data-data-type="uri"] textarea.value-label {
-        margin-top: 0;
         border-top-width: 0;
-        padding-bottom: 0;
     }
 
     /* @end */

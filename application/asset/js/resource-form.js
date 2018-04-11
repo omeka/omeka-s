@@ -209,7 +209,7 @@
         // Prepare the value node.
         var count = field.find('.value').length;
         var namePrefix = field.data('property-term') + '[' + count + ']';
-        var valueLabelID = 'property-' + field.data('property-id') + '-value-' + count + '-label';
+        var valueLabelID = 'property-' + field.data('property-id') + '-label';
         value.data('name-prefix', namePrefix);
         value.find('input.property')
             .attr('name', namePrefix + '[property_id]')
@@ -219,6 +219,8 @@
             .val(type);
         value.find('span.label')
             .attr('id', valueLabelID);
+        value.find('textarea.input-value')
+            .attr('aria-labelledby', valueLabelID);
         value.attr('aria-labelledby', valueLabelID);
         $(document).trigger('o:prepare-value', [type, value, valueObj, namePrefix]);
 

@@ -127,6 +127,9 @@ class InstallationForm extends Form
             'options' => [
                 'label' => 'Locale', // @translate
             ],
+            'attributes' => [
+                'id' => 'locale',
+            ],
         ]);
 
         $inputFilter = $this->getInputFilter();

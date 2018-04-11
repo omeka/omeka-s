@@ -16,6 +16,7 @@ class VocabularyImportForm extends Form
             ],
             'attributes' => [
                 'required' => true,
+                'id' => 'file',
             ],
         ]);
 
@@ -28,6 +29,7 @@ class VocabularyImportForm extends Form
             ],
             'attributes' => [
                 'required' => true,
+                'id' => 'o:prefix',
             ],
         ]);
 
@@ -40,6 +42,7 @@ class VocabularyImportForm extends Form
             ],
             'attributes' => [
                 'required' => true,
+                'id' => 'o:namespace_uri',
             ],
         ]);
 
@@ -52,6 +55,7 @@ class VocabularyImportForm extends Form
             ],
             'attributes' => [
                 'required' => true,
+                'id' => 'o:label',
             ],
         ]);
 
@@ -61,6 +65,9 @@ class VocabularyImportForm extends Form
             'options' => [
                 'label' => 'Comment', // @translate
                 'info' => 'A human-readable description of the vocabulary.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'o:comment',
             ],
         ]);
     }

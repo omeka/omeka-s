@@ -38,7 +38,7 @@ $sortHeadings = [
 <form method="post" id="batch-form" class="disable-unsaved-warning">
     <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
     <div class="batch-inputs">
-        <select class="batch-actions-select">
+        <select class="batch-actions-select" aria-label="<?php echo $this->translate('Batch actions'); ?>">
             <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
             <?php if ($userIsAllowedBatchUpdate): ?>
             <option value="update-selected" disabled="disabled"><?php echo $this->translate('Edit selected'); ?></option>
@@ -69,7 +69,7 @@ $sortHeadings = [
         <tr>
             <th>
                 <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
-                <input type="checkbox" class="select-all">
+                <input type="checkbox" class="select-all" aria-label="<?php echo $this->translate('Select all'); ?>">
                 <?php endif; ?>
                 <?php echo $this->translate('Title'); ?>
             </th>
@@ -99,7 +99,7 @@ $sortHeadings = [
         <tr>
             <td>
                 <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"<?php if (!($userIsAllowedUpdate || $userIsAllowedDelete)): ?> disabled="disabled"<?php endif; ?>>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"  aria-label="<?php echo $this->translate('Select media'); ?>" <?php if (!($userIsAllowedUpdate || $userIsAllowedDelete)): ?> disabled="disabled"<?php endif; ?>>
                 <?php endif; ?>
                 <?php echo $media->linkPretty(); ?>
                 <?php if (!$media->isPublic()): ?>

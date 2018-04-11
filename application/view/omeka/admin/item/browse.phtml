@@ -42,7 +42,7 @@ $sortHeadings = [
 <form method="post" id="batch-form" class="disable-unsaved-warning">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'batch_update')): ?>
     <div class="batch-inputs">
-        <select class="batch-actions-select">
+        <select class="batch-actions-select" aria-label="<?php echo $this->translate('Batch actions'); ?>">
             <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
             <option value="update-selected" disabled="true"><?php echo $this->translate('Edit selected'); ?></option>
             <option value="update-all"><?php echo $this->translate('Edit all'); ?></option>
@@ -64,7 +64,7 @@ $sortHeadings = [
 <table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><input type="checkbox" class="select-all"><?php echo $this->translate('Title'); ?></th>
+            <th><input type="checkbox" class="select-all" aria-label="<?php echo $this->translate('Select all'); ?>"><?php echo $this->translate('Title'); ?></th>
             <th><?php echo $this->translate('Class'); ?></th>
             <th><?php echo $this->translate('Owner'); ?></th>
             <th><?php echo $this->translate('Created'); ?></th>
@@ -89,7 +89,7 @@ $sortHeadings = [
         <tr>
             <td>
                 <?php if ($item->userIsAllowed('update') || $item->userIsAllowed('delete')): ?>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>" aria-label="<?php echo $this->translate('Select item'); ?>">
                 <?php endif; ?>
                 <?php echo $item->linkPretty(); ?>
                 <?php if (!$item->isPublic()): ?>

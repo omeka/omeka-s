@@ -16,6 +16,7 @@ class LoginForm extends Form
             ],
             'attributes' => [
                 'required' => true,
+                'id' => 'email',
             ],
         ]);
         $this->add([
@@ -26,6 +27,7 @@ class LoginForm extends Form
             ],
             'attributes' => [
                 'required' => true,
+                'id' => 'password',
             ],
         ]);
         $this->add([

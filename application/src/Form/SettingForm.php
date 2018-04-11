@@ -266,7 +266,7 @@ class SettingForm extends Form
             ->setLabel('Allowed media types') // @translate
             ->setOption('info', 'A comma-separated list of allowed media types for file uploads.') // @translate
             ->setAttributes([
-                'rows' =>  '4', 
+                'rows' => '4',
                 'id' => 'media_type_whitelist',
             ])
             ->setRestoreButtonText('Restore default media types')
@@ -279,7 +279,7 @@ class SettingForm extends Form
             ->setLabel('Allowed file extensions') // @translate
             ->setOption('info', 'A comma-separated list of allowed file extensions for file uploads.') // @translate
             ->setAttributes([
-                'rows' =>  '4', 
+                'rows' => '4',
                 'id' => 'extension_whitelist',
             ])
             ->setRestoreButtonText('Restore default extensions')

@@ -61,6 +61,11 @@ class Media extends Resource
     protected $sha256;
 
     /**
+     * @Column(type="bigint", nullable=true)
+     */
+    protected $size;
+
+    /**
      * @Column(type="boolean")
      */
     protected $hasOriginal = false;
@@ -194,6 +199,16 @@ class Media extends Resource
     public function getSha256()
     {
         return $this->sha256;
+    }
+
+    public function setSize($size)
+    {
+        $this->size = $size;
+    }
+
+    public function getSize()
+    {
+        return $this->size;
     }
 
     public function getFilename()

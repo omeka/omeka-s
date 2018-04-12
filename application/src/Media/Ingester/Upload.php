@@ -80,6 +80,7 @@ class Upload implements IngesterInterface
         $media->setExtension($tempFile->getExtension());
         $media->setMediaType($tempFile->getMediaType());
         $media->setSha256($tempFile->getSha256());
+        $media->setSize($tempFile->getSize());
         $hasThumbnails = $tempFile->storeThumbnails();
         $media->setHasThumbnails($hasThumbnails);
         $media->setHasOriginal(true);

@@ -58,6 +58,12 @@ return [
                         'controller' => 'item',
                         'visible' => false,
                     ],
+                    [
+                        'label' => 'Media', // @translate
+                        'route' => 'admin/default',
+                        'controller' => 'media',
+                        'visible' => true,
+                    ],
                 ],
             ],
             [

@@ -49,7 +49,7 @@ $sectionNavs = [
     <?php if (is_numeric($resource->size())): ?>
     <div class="meta-group">
         <h4><?php echo $this->translate('Size'); ?></h4>
-        <div class="value"><?php echo sprintf('%s bytes', number_format($resource->size())); ?></div>
+        <div class="value"><?php echo sprintf($this->translate('%s bytes'), number_format($resource->size())); ?></div>
     </div>
     <?php endif; ?>
     <div class="meta-group">

@@ -65,6 +65,7 @@ CREATE TABLE `media` (
   `storage_id` varchar(190) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `extension` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sha256` char(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `size` bigint(20) DEFAULT NULL,
   `has_original` tinyint(1) NOT NULL,
   `has_thumbnails` tinyint(1) NOT NULL,
   `position` int(11) DEFAULT NULL,

@@ -25,6 +25,13 @@ $item = $resource->item();
     </div>
     <?php endif; ?>
 
+    <?php if (is_numeric($resource->size())): ?>
+    <div class="meta-group">
+        <h4><?php echo $this->translate('Size'); ?></h4>
+        <div class="value"><?php echo sprintf($this->translate('%s bytes'), number_format($resource->size())); ?></div>
+    </div>
+    <?php endif; ?>
+
     <div class="meta-group">
         <h4><?php echo $escape($this->translate('Visibility')); ?></h4>
         <div class="value"><?php echo ($resource->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>

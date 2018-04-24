@@ -342,6 +342,17 @@ class TempFile
     }
 
     /**
+     * Get the size of the file in bytes.
+     *
+     * @uses filesize
+     * @return string
+     */
+    public function getSize()
+    {
+        return filesize($this->getTempPath());
+    }
+
+    /**
      * Delete this temporary file.
      *
      * Always delete a temporary file after all work has been done. Otherwise

@@ -31,6 +31,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             'o:source' => $this->source(),
             'o:media_type' => $this->mediaType(),
             'o:sha256' => $this->sha256(),
+            'o:size' => is_numeric($this->size()) ? (int) $this->size() : null,
             'o:filename' => $this->filename(),
             'o:lang' => $this->lang(),
             'o:original_url' => $this->originalUrl(),
@@ -184,6 +185,16 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function sha256()
     {
         return $this->resource->getSha256();
+    }
+
+    /**
+     * Get the size of the media file.
+     *
+     * @return int
+     */
+    public function size()
+    {
+        return $this->resource->getSize();
     }
 
     /**

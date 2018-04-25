@@ -135,12 +135,12 @@
 
         $('#blocks .block').each(function () {
             replaceIndex($(this), 'blockIndex', blockIndex++);
-            wysiwyg($(this));
         });
         $('#blocks').on('o:block-added', '.block', function () {
             replaceIndex($(this), 'blockIndex', blockIndex++);
             wysiwyg($(this));
         });
+        wysiwyg($('body'));
 
         $('#blocks').on('click', 'a.remove-value, a.restore-value', function (e) {
             e.preventDefault();

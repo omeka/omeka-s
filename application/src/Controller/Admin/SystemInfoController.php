@@ -15,7 +15,7 @@ class SystemInfoController extends AbstractActionController
     protected $connection;
 
     /**
-     * @param Dispatcher $connection
+     * @param Connection $connection
      */
     public function __construct(Connection $connection)
     {

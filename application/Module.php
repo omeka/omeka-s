@@ -155,7 +155,7 @@ class Module extends AbstractModule
      *
      * Adds the Omeka, vocabulary, and any other term definitions.
      *
-     * @param Event $event
+     * @param ZendEvent $event
      */
     public function addTermDefinitionsToContext(ZendEvent $event)
     {
@@ -179,7 +179,7 @@ class Module extends AbstractModule
     /**
      * Determine whether a navigation page is allowed.
      *
-     * @param Event $event
+     * @param ZendEvent $event
      * @return bool
      */
     public function navigationPageIsAllowed(ZendEvent $event)
@@ -208,7 +208,7 @@ class Module extends AbstractModule
     /**
      * Delete all files associated with a removed Media entity.
      *
-     * @param Event $event
+     * @param ZendEvent $event
      */
     public function deleteMediaFiles(ZendEvent $event)
     {
@@ -232,7 +232,7 @@ class Module extends AbstractModule
     /**
      * Filter the JSON-LD for HTML media.
      *
-     * @param Event $event
+     * @param ZendEvent $event
      */
     public function filterHtmlMediaJsonLd(ZendEvent $event)
     {
@@ -250,7 +250,7 @@ class Module extends AbstractModule
     /**
      * Filter the JSON-LD for YouTube media.
      *
-     * @param Event $event
+     * @param ZendEvent $event
      */
     public function filterYoutubeMediaJsonLd(ZendEvent $event)
     {
@@ -279,7 +279,7 @@ class Module extends AbstractModule
     /**
      * Filter media belonging to private items.
      *
-     * @param Event $event
+     * @param ZendEvent $event
      */
     public function filterMedia(ZendEvent $event)
     {
@@ -314,7 +314,7 @@ class Module extends AbstractModule
     /**
      * Filter private sites.
      *
-     * @param Event $event
+     * @param ZendEvent $event
      */
     public function filterSites(ZendEvent $event)
     {

@@ -29,7 +29,7 @@ class ThumbnailRenderer implements RendererInterface
      *
      * @param MediaRepresentation $media
      * @param string $linkType Type of link: 'original', 'item', and 'media' are valid
-     * @throws InvalidArgumentException On unrecognized $linkType
+     * @throws \InvalidArgumentException On unrecognized $linkType
      * @return string
      */
     protected function getLinkUrl(MediaRepresentation $media, $linkType)

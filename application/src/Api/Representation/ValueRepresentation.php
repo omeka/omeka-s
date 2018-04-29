@@ -78,7 +78,7 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * This is the subject of the RDF triple represented by this value.
      *
-     * @return Entity\AbstractResourceEntityRepresentation
+     * @return AbstractResourceEntityRepresentation
      */
     public function resource()
     {
@@ -92,7 +92,7 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * This is the predicate of the RDF triple represented by this value.
      *
-     * @return Entity\PropertyRepresentation
+     * @return PropertyRepresentation
      */
     public function property()
     {
@@ -149,7 +149,7 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * This is the object of the RDF triple represented by this value.
      *
-     * @return null|Entity\AbstractResourceEntityRepresentation
+     * @return null|AbstractResourceEntityRepresentation
      */
     public function valueResource()
     {

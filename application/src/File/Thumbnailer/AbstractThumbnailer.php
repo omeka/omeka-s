@@ -11,7 +11,7 @@ abstract class AbstractThumbnailer implements ThumbnailerInterface
     protected $source;
 
     /**
-     * @var File
+     * @var TempFile
      */
     protected $sourceFile;
 

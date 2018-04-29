@@ -12,7 +12,7 @@ class CreateTableOverride
      * Replace the "value" table definition with a custom one defining the indexes we
      * want it have (which are not describable within Doctrine).
      *
-     * @param SchemaCrateTableEventArgs $event
+     * @param SchemaCreateTableEventArgs $event
      */
     public function onSchemaCreateTable(SchemaCreateTableEventArgs $event)
     {

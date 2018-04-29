@@ -467,7 +467,7 @@ class ResourceTemplateController extends AbstractActionController
                     ];
                 }
             } else {
-                // For the add action, determs:title and dcterms:description are
+                // For the add action, dcterms:title and dcterms:description are
                 // the only default property rows.
                 $titleProperty = $this->api()->searchOne(
                     'properties', ['term' => 'dcterms:title']

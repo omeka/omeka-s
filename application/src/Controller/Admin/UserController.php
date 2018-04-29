@@ -4,6 +4,7 @@ namespace Omeka\Controller\Admin;
 use Doctrine\ORM\EntityManager;
 use Omeka\Entity\ApiKey;
 use Omeka\Form\ConfirmForm;
+use Omeka\Form\UserBatchUpdateForm;
 use Omeka\Form\UserForm;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\Message;
@@ -314,5 +315,64 @@ class UserController extends AbstractActionController
             $this->messenger()->addFormErrors($form);
         }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+    }
+
+    /**
+     * Batch update selected users (except current one).
+     */
+    public function batchEditAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $resourceIds = $this->params()->fromPost('resource_ids', []);
+        $resourceIds = array_filter(array_unique(array_map('intval', $resourceIds)));
+        if (!$resourceIds) {
+            $this->messenger()->addError('You must select at least one user to batch edit.'); // @translate
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $userId = $this->identity()->getId();
+        $key = array_search($userId, $resourceIds);
+        if ($key !== false) {
+            $this->messenger()->addError('For security reasons, you can’t batch edit yourself.'); // @translate
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $resources = [];
+        foreach ($resourceIds as $resourceId) {
+            $resources[] = $this->api()->read('users', $resourceId)->getContent();
+        }
+
+        $form = $this->getForm(UserBatchUpdateForm::class);
+        $form->setAttribute('id', 'batch-edit-user');
+        if ($this->params()->fromPost('batch_update')) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+
+            if ($form->isValid()) {
+                $data = $form->preprocessData();
+
+                foreach ($data as $collectionAction => $properties) {
+                    $this->api($form)->batchUpdate('users', $resourceIds, $properties, [
+                        'continueOnError' => true,
+                        'collectionAction' => $collectionAction,
+                    ]);
+                }
+
+                $this->messenger()->addSuccess('Users successfully edited'); // @translate
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('form', $form);
+        $view->setVariable('resources', $resources);
+        $view->setVariable('query', []);
+        $view->setVariable('count', null);
+        return $view;
     }
 }

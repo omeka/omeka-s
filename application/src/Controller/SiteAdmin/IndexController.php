@@ -247,10 +247,11 @@ class IndexController extends AbstractActionController
         $itemSets = [];
         foreach ($site->siteItemSets() as $siteItemSet) {
             $itemSet = $siteItemSet->itemSet();
+            $owner = $itemSet->owner();
             $itemSets[] = [
                 'id' => $itemSet->id(),
                 'title' => $itemSet->displayTitle(),
-                'email' => $itemSet->owner()->email(),
+                'email' => $owner ? $owner->email() : null,
             ];
         }
 

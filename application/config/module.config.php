@@ -416,6 +416,7 @@ return [
             'propertySelect' => Service\ViewHelper\PropertySelectFactory::class,
             'itemSetSelect' => Service\ViewHelper\ItemSetSelectFactory::class,
             'roleSelect' => Service\ViewHelper\RoleSelectFactory::class,
+            'searchUserFilters' => Service\ViewHelper\SearchUserFiltersFactory::class,
             'siteSelect' => Service\ViewHelper\SiteSelectFactory::class,
             'resourceSelect' => Service\ViewHelper\ResourceSelectFactory::class,
             'jsTranslate' => Service\ViewHelper\JsTranslateFactory::class,

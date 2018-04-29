@@ -19,6 +19,8 @@ $sortHeadings = [
 
 <?php echo $this->pageTitle($this->translate('Users')); ?>
 
+<?php echo $this->searchUserFilters(); ?>
+
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'create')): ?>
         <?php echo $this->hyperlink($this->translate('Add new user'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>

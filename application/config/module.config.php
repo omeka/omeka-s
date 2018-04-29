@@ -50,9 +50,9 @@ return [
             OMEKA_PATH . '/application/src/Entity',
         ],
         'resource_discriminator_map' => [
-            'Omeka\Entity\Item' => 'Omeka\Entity\Item',
-            'Omeka\Entity\Media' => 'Omeka\Entity\Media',
-            'Omeka\Entity\ItemSet' => 'Omeka\Entity\ItemSet',
+            'Omeka\Entity\Item' => Entity\Item::class,
+            'Omeka\Entity\Media' => Entity\Media::class,
+            'Omeka\Entity\ItemSet' => Entity\ItemSet::class,
         ],
         'filters' => [
             'resource_visibility' => Db\Filter\ResourceVisibilityFilter::class,

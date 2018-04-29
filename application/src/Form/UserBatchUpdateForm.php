@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Form\Element\SiteSelect;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Form\Form;
@@ -44,6 +45,59 @@ class UserBatchUpdateForm extends Form
             ],
         ]);
 
+        $this->add([
+            'name' => 'remove_from_site_permission',
+            'type' => SiteSelect::class,
+            'attributes' => [
+                'id' => 'remove-from-site-permission-select',
+                'class' => 'chosen-select',
+                'multiple' => true,
+                'data-placeholder' => 'Select site...', // @translate
+                'data-collection-action' => 'remove',
+            ],
+            'options' => [
+                'label' => 'Remove from site permission', // @translate
+                'empty_option' => '[No change]', // @translate
+                'prepend_value_options' => ['-1' => '[All sites]'], // @translate
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'add_to_site_permission',
+            'type' => SiteSelect::class,
+            'attributes' => [
+                'id' => 'add-to-site-permission-select',
+                'class' => 'chosen-select',
+                'multiple' => true,
+                'data-placeholder' => 'Select site...', // @translate
+                'data-collection-action' => 'append',
+            ],
+            'options' => [
+                'label' => 'Add to site permission', // @translate
+                'empty_option' => '[No change]', // @translate
+                'prepend_value_options' => ['-1' => '[All sites]'], // @translate
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'add_to_site_permission_role',
+            'type' => 'Select',
+            'attributes' => [
+                'id' => 'add-to-site-permission-role-select',
+                'data-placeholder' => 'Select permission...', // @translate
+                'data-collection-action' => 'append',
+            ],
+            'options' => [
+                'label' => 'Add to site permission as', // @translate
+                'empty_option' => '[No change]', // @translate
+                'value_options' => [
+                    'viewer' => 'Viewer', // @translate
+                    'editor' => 'Editor', // @translate
+                    'admin' => 'Admin', // @translate
+                ],
+            ],
+        ]);
+
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 
@@ -54,6 +108,18 @@ class UserBatchUpdateForm extends Form
         ]);
         $inputFilter->add([
             'name' => 'is_active',
+            'required' => false,
+        ]);
+        $inputFilter->add([
+            'name' => 'remove_from_site_permission',
+            'required' => false,
+        ]);
+        $inputFilter->add([
+            'name' => 'add_to_site_permission',
+            'required' => false,
+        ]);
+        $inputFilter->add([
+            'name' => 'add_to_site_permission_role',
             'required' => false,
         ]);
 

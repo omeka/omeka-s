@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\SitePermission;
@@ -131,7 +132,7 @@ class SiteAdapter extends AbstractEntityAdapter
                     );
                 try {
                     $adapter->hydrateEntity($subrequest, $page, $subErrorStore);
-                } catch (Exception\ValidationException $e) {
+                } catch (ValidationException $e) {
                     $errorStore->mergeErrors($e->getErrorStore(), 'o:page');
                 }
                 $pages->add($page);

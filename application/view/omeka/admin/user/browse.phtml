@@ -42,22 +42,22 @@ $sortHeadings = [
 <form method="post" id="batch-form" class="disable-unsaved-warning">
     <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
     <div class="batch-inputs">
-        <select class="batch-actions-select">
+        <select class="batch-actions-select" name="batch_action" aria-label="<?php echo $this->translate('Batch actions'); ?>">
             <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
             <?php if ($userIsAllowedBatchUpdate): ?>
-            <option value="update-selected" disabled="disabled"><?php echo $this->translate('Edit selected'); ?></option>
-            <option value="update-all"><?php echo $this->translate('Edit all'); ?></option>
+            <option value="update-selected" data-select="selected" disabled="disabled"><?php echo $this->translate('Edit selected'); ?></option>
+            <option value="update-all" data-select="all"><?php echo $this->translate('Edit all'); ?></option>
             <?php endif; ?>
             <?php if ($userIsAllowedBatchDelete): ?>
-            <option value="delete-selected" disabled="disabled"><?php echo $this->translate('Delete selected'); ?></option>
-            <option value="delete-all"><?php echo $this->translate('Delete all'); ?></option>
+            <option value="delete-selected" data-select="selected" disabled="disabled"><?php echo $this->translate('Delete selected'); ?></option>
+            <option value="delete-all" data-select="all"><?php echo $this->translate('Delete all'); ?></option>
             <?php endif; ?>
         </select>
         <div class="batch-actions">
             <button type="button" class="default active" disabled="disabled"><?php echo $this->translate('Go'); ?></button>
             <?php if ($userIsAllowedBatchUpdate): ?>
-            <input type="submit" class="update-selected" name="update_selected" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
-            <input type="submit" class="update-all" name="update_all" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+            <input type="submit" class="update-selected" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
+            <input type="submit" class="update-all" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
             <?php endif; ?>
             <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
             <?php if ($userIsAllowedBatchDelete): ?>

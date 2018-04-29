@@ -356,7 +356,6 @@ class Module extends AbstractModule
     {
         $response = $event->getParam('response');
         $data = $response->getRequest()->getContent();
-        $siteIds = null;
         if (!empty($data['remove_from_site_permission'])) {
             $siteIds = $data['remove_from_site_permission'];
             $collectionAction = 'remove';
@@ -367,6 +366,8 @@ class Module extends AbstractModule
             $role = empty($data['add_to_site_permission_role'])
                 ? 'viewer'
                 : $data['add_to_site_permission_role'];
+        } else {
+            return;
         }
 
         $api = $this->getServiceLocator()->get('Omeka\ApiManager');

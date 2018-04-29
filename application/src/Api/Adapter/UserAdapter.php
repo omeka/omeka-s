@@ -95,6 +95,20 @@ class UserAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, (bool) $query['is_active']))
             );
         }
+
+        if (!empty($query['site_permission_site_id'])) {
+            $sitePermissionAlias = $this->createAlias();
+            $qb->innerJoin(
+                'Omeka\Entity\SitePermission',
+                $sitePermissionAlias,
+                'WITH',
+                $sitePermissionAlias . '.user = ' . $this->getEntityClass()
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$sitePermissionAlias.site",
+                $this->createNamedParameter($qb, $query['site_permission_site_id']))
+            );
+        }
     }
 
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)

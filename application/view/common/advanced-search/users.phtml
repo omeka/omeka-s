@@ -9,6 +9,7 @@ if (!$ids) {
     $ids = [null];
 }
 $role = isset($query['role']) ? $query['role'] : null;
+$sitePermissionSiteId = isset($query['site_permission_site_id']) ? $query['site_permission_site_id'] : null;
 ?>
 <div class="field">
     <div class="field-meta">
@@ -44,5 +45,16 @@ $role = isset($query['role']) ? $query['role'] : null;
     <div class="inputs">
         <label><input name="is_active" value="1" type="radio"><?php echo $this->translate('Active'); ?></label>
         <label><input name="is_active" value="0" type="radio"><?php echo $this->translate('Not active'); ?></label>
+    </div>
+</div>
+<div class="field">
+    <div class="field-meta">
+        <label for="site_permission_site_id"><?php echo $this->translate('Has permission in site'); ?></label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->siteSelect([
+            'name' => 'site_permission_site_id',
+            'attributes' => ['id' => 'site_permission_site_id', 'value' => $sitePermissionSiteId]
+        ]); ?>
     </div>
 </div>

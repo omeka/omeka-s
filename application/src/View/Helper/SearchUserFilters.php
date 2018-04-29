@@ -66,6 +66,16 @@ class SearchUserFilters extends AbstractHelper
                     $filterLabel = $translate('Is active');
                     $filters[$filterLabel][] = $value ? $translate('yes') : $translate('no');
                     break;
+
+                case 'site_permission_site_id':
+                    $filterLabel = $translate('Has permission in site');
+                    try {
+                        $filterValue = $api->read('sites', $value)->getContent()->title();
+                    } catch (NotFoundException $e) {
+                        $filterValue = $translate('Unknown site');
+                    }
+                    $filters[$filterLabel][] = $filterValue;
+                    break;
             }
         }
 

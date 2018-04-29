@@ -24,7 +24,7 @@ class UserBatchUpdateForm extends Form
             'attributes' => [
                 'id' => 'role-select',
                 'class' => 'chosen-select',
-                'data-placeholder' => 'Select role...', // @translate
+                'data-placeholder' => 'Select role…', // @translate
             ],
             'options' => [
                 'label' => 'Set role', // @translate
@@ -52,7 +52,7 @@ class UserBatchUpdateForm extends Form
                 'id' => 'remove-from-site-permission-select',
                 'class' => 'chosen-select',
                 'multiple' => true,
-                'data-placeholder' => 'Select site...', // @translate
+                'data-placeholder' => 'Select site…', // @translate
                 'data-collection-action' => 'remove',
             ],
             'options' => [
@@ -69,7 +69,7 @@ class UserBatchUpdateForm extends Form
                 'id' => 'add-to-site-permission-select',
                 'class' => 'chosen-select',
                 'multiple' => true,
-                'data-placeholder' => 'Select site...', // @translate
+                'data-placeholder' => 'Select site…', // @translate
                 'data-collection-action' => 'append',
             ],
             'options' => [
@@ -84,7 +84,7 @@ class UserBatchUpdateForm extends Form
             'type' => 'Select',
             'attributes' => [
                 'id' => 'add-to-site-permission-role-select',
-                'data-placeholder' => 'Select permission...', // @translate
+                'data-placeholder' => 'Select permission…', // @translate
                 'data-collection-action' => 'append',
             ],
             'options' => [

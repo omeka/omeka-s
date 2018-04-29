@@ -13,7 +13,7 @@ class RoleSelectFactory implements FactoryInterface
         $roles = $acl->getRoleLabels();
         $element = new Select;
         $element->setValueOptions($roles);
-        $element->setEmptyOption('Select role...'); // @translate
+        $element->setEmptyOption('Select role…'); // @translate
         return $element;
     }
 }

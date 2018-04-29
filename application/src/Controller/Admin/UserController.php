@@ -6,6 +6,7 @@ use Omeka\Entity\ApiKey;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\UserBatchUpdateForm;
 use Omeka\Form\UserForm;
+use Omeka\Job\Dispatcher;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -19,11 +20,18 @@ class UserController extends AbstractActionController
     protected $entityManager;
 
     /**
-     * @param EntityManager $entityManager
+     * @var Dispatcher
      */
-    public function __construct(EntityManager $entityManager)
+    protected $dispatcher;
+
+    /**
+     * @param EntityManager $entityManager
+     * @param Dispatcher $dispatcher
+     */
+    public function __construct(EntityManager $entityManager, Dispatcher $dispatcher)
     {
         $this->entityManager = $entityManager;
+        $this->dispatcher = $dispatcher;
     }
 
     public function searchAction()
@@ -44,9 +52,16 @@ class UserController extends AbstractActionController
         $formDeleteSelected->setButtonLabel('Confirm Delete'); // @translate
         $formDeleteSelected->setAttribute('id', 'confirm-delete-selected');
 
+        $formDeleteAll = $this->getForm(ConfirmForm::class);
+        $formDeleteAll->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete-all'], true));
+        $formDeleteAll->setButtonLabel('Confirm Delete'); // @translate
+        $formDeleteAll->setAttribute('id', 'confirm-delete-all');
+        $formDeleteAll->get('submit')->setAttribute('disabled', true);
+
         $view = new ViewModel;
         $view->setVariable('users', $response->getContent());
         $view->setVariable('formDeleteSelected', $formDeleteSelected);
+        $view->setVariable('formDeleteAll', $formDeleteAll);
         return $view;
     }
 
@@ -317,6 +332,31 @@ class UserController extends AbstractActionController
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 
+    public function batchDeleteAllAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        // Derive the query, removing limiting and sorting params.
+        $query = json_decode($this->params()->fromPost('query', []), true);
+        unset($query['submit'], $query['page'], $query['per_page'], $query['limit'],
+            $query['offset'], $query['sort_by'], $query['sort_order']);
+
+        $form = $this->getForm(ConfirmForm::class);
+        $form->setData($this->getRequest()->getPost());
+        if ($form->isValid()) {
+            $job = $this->dispatcher->dispatch('Omeka\Job\BatchDelete', [
+                'resource' => 'users',
+                'query' => $query,
+            ]);
+            $this->messenger()->addSuccess('Deleting users. This may take a while.'); // @translate
+        } else {
+            $this->messenger()->addFormErrors($form);
+        }
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+    }
+
     /**
      * Batch update selected users (except current one).
      */
@@ -373,6 +413,55 @@ class UserController extends AbstractActionController
         $view->setVariable('resources', $resources);
         $view->setVariable('query', []);
         $view->setVariable('count', null);
+        return $view;
+    }
+
+    /**
+     * Batch update all users (except current one) returned from a query.
+     */
+    public function batchEditAllAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        // Derive the query, removing limiting and sorting params.
+        $query = json_decode($this->params()->fromPost('query', []), true);
+        unset($query['submit'], $query['page'], $query['per_page'], $query['limit'],
+            $query['offset'], $query['sort_by'], $query['sort_order']);
+        // TODO Count without the current user.
+        $count = $this->api()->search('users', ['limit' => 0] + $query)->getTotalResults();
+
+        $form = $this->getForm(UserBatchUpdateForm::class);
+        $form->setAttribute('id', 'batch-edit-user');
+        if ($this->params()->fromPost('batch_update')) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+
+            if ($form->isValid()) {
+                $data = $form->preprocessData();
+
+                $job = $this->dispatcher->dispatch('Omeka\Job\BatchUpdate', [
+                    'resource' => 'users',
+                    'query' => $query,
+                    'data' => isset($data['replace']) ? $data['replace'] : [],
+                    'data_remove' => isset($data['remove']) ? $data['remove'] : [],
+                    'data_append' => isset($data['append']) ? $data['append'] : [],
+                ]);
+
+                $this->messenger()->addSuccess('Editing users. This may take a while.'); // @translate
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setTemplate('omeka/admin/user/batch-edit.phtml');
+        $view->setVariable('form', $form);
+        $view->setVariable('resources', []);
+        $view->setVariable('query', $query);
+        $view->setVariable('count', $count);
         return $view;
     }
 }

@@ -31,7 +31,7 @@ $escape = $this->plugin('escapeHtml');
         <?php endforeach; ?>
     </ul>
     <?php else: ?>
-    <p><?php echo sprintf($this->translate('You are editing %s users.'), $this->hyperlink(number_format($count), $this->url(null, ['action' => 'browse'], ['query' => $query], true), ['target' => '_blank'])); ?></p>
+    <p><?php echo sprintf($this->translate('You are editing %s users (except yourself).'), $this->hyperlink(number_format($count), $this->url(null, ['action' => 'browse'], ['query' => $query], true), ['target' => '_blank'])); ?></p>
     <?php endif; ?>
 </div>
 

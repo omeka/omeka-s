@@ -94,6 +94,7 @@ class UserForm extends Form
                 'type' => 'select',
                 'options' => [
                     'label' => 'Role', // @translate
+                    'empty_option' => 'Select role...', // @translate
                     'value_options' => $roles,
                 ],
                 'attributes' => [

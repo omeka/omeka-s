@@ -28,6 +28,6 @@ class Thumbnail extends AbstractHtmlElement
             $attribs['alt'] = '';
         }
 
-        return sprintf('<img %s>', $this->htmlAttribs($attribs));
+        return sprintf('<img%s>', $this->htmlAttribs($attribs));
     }
 }

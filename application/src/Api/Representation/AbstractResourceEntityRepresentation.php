@@ -3,8 +3,6 @@ namespace Omeka\Api\Representation;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Entity\Resource;
-use Omeka\Entity\Value;
-use Omeka\Entity\Vocabulary;
 
 /**
  * Abstract resource entity representation.

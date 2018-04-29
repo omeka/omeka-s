@@ -38,8 +38,14 @@ class UserController extends AbstractActionController
         $response = $this->api()->search('users', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
+        $formDeleteSelected = $this->getForm(ConfirmForm::class);
+        $formDeleteSelected->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], true));
+        $formDeleteSelected->setButtonLabel('Confirm Delete'); // @translate
+        $formDeleteSelected->setAttribute('id', 'confirm-delete-selected');
+
         $view = new ViewModel;
         $view->setVariable('users', $response->getContent());
+        $view->setVariable('formDeleteSelected', $formDeleteSelected);
         return $view;
     }
 
@@ -59,6 +65,19 @@ class UserController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('resource', $response->getContent());
+        return $view;
+    }
+
+    public function sidebarSelectAction()
+    {
+        $this->setBrowseDefaults('created');
+        $response = $this->api()->search('users', $this->params()->fromQuery());
+        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+
+        $view = new ViewModel;
+        $view->setVariable('users', $response->getContent());
+        $view->setVariable('searchValue', $this->params()->fromQuery('search'));
+        $view->setTerminal(true);
         return $view;
     }
 
@@ -262,5 +281,38 @@ class UserController extends AbstractActionController
             ['action' => 'browse'],
             true
         );
+    }
+
+    public function batchDeleteAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $resourceIds = $this->params()->fromPost('resource_ids', []);
+        $resourceIds = array_filter(array_unique(array_map('intval', $resourceIds)));
+        if (!$resourceIds) {
+            $this->messenger()->addError('You must select at least one user to batch delete.'); // @translate
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $userId = $this->identity()->getId();
+        $key = array_search($userId, $resourceIds);
+        if ($key !== false) {
+            $this->messenger()->addError('You can’t delete yourself.'); // @translate
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        }
+
+        $form = $this->getForm(ConfirmForm::class);
+        $form->setData($this->getRequest()->getPost());
+        if ($form->isValid()) {
+            $response = $this->api($form)->batchDelete('users', $resourceIds, [], ['continueOnError' => true]);
+            if ($response) {
+                $this->messenger()->addSuccess('Users successfully deleted'); // @translate
+            }
+        } else {
+            $this->messenger()->addFormErrors($form);
+        }
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
 }

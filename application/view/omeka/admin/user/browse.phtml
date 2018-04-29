@@ -1,5 +1,7 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'users browse');
+$currentUserId = $this->identity()->getId();
+$userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'batch_delete');
 $escape = $this->plugin('escapeHtml');
 $sortHeadings = [
     [
@@ -21,31 +23,53 @@ $sortHeadings = [
 
 <?php echo $this->searchUserFilters(); ?>
 
-<div id="page-actions">
-    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'create')): ?>
-        <?php echo $this->hyperlink($this->translate('Add new user'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
-    <?php endif; ?>
-</div>
-
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
+
+<form method="post" id="batch-form" class="disable-unsaved-warning">
+
+<div id="page-actions">
+    <?php if ($userIsAllowedBatchDelete): ?>
+    <select class="batch-actions-select">
+        <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
+        <option value="delete-selected" disabled="true"><?php echo $this->translate('Delete selected'); ?></option>
+    </select>
+    <div class="batch-actions">
+        <button type="button" class="default active" disabled="true"><?php echo $this->translate('Go'); ?></button>
+        <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $this->translate('Go'); ?></a>
+    </div>
+    <?php endif; ?>
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'create')): ?>
+        <?php echo $this->hyperlink($this->translate('Add new user'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
+    <?php endif; ?>
+</div>
+
 <?php $this->trigger('view.browse.before'); ?>
 <?php if (count($users)): ?>
-<table class="tablesaw" data-tablesaw-mode="stack">
+<table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $this->translate('Email'); ?></th>
+            <th>
+                <?php if ($userIsAllowedBatchDelete): ?>
+                <input type="checkbox" class="select-all">
+                <?php endif; ?>
+                <?php echo $this->translate('Email'); ?>
+            </th>
             <th><?php echo $this->translate('Role'); ?></th>
             <th><?php echo $this->translate('Created'); ?></th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($users as $user): ?>
+        <?php $userIsAllowedDelete = $user->userIsAllowed('delete'); ?>
         <tr>
             <td>
+                <?php if ($userIsAllowedBatchDelete): ?>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $user->id(); ?>"<?php if (!$userIsAllowedDelete || $currentUserId == $user->id()): ?> disabled="true"<?php endif; ?>>
+                <?php endif; ?>
                 <?php echo $user->link($user->email() . ' (' . $user->name() . ')'); ?>
                 <?php if (!$user->isActive()): ?>
                 <span class="o-icon-user-inactive" aria-label="<?php echo $this->translate('Inactive'); ?>"></span>
@@ -57,7 +81,7 @@ $sortHeadings = [
                         'title' => $this->translate('Edit'),
                     ]) ?></li>
                     <?php endif; ?>
-                    <?php if ($user->userIsAllowed('delete')): ?>
+                    <?php if ($userIsAllowedDelete): ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $user->url('delete-confirm'),
                         'class' => 'o-icon-delete sidebar-content',
@@ -77,19 +101,56 @@ $sortHeadings = [
         <?php endforeach; ?>
     </tbody>
 </table>
-<?php $this->trigger('view.browse.after'); ?>
 
+</form>
+
+<?php $this->trigger('view.browse.after'); ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
 </div>
 
-<div class="sidebar">
+<div id="sidebar" class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
         'title' => $this->translate('Close'),
     ]); ?>
     <div class="sidebar-content"></div>
 </div>
+
+<?php if ($userIsAllowedBatchDelete): ?>
+<div id="sidebar-delete-selected" class="sidebar">
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
+    <div class="sidebar-content">
+        <div id="sidebar-confirm">
+            <h3><?php echo $this->translate('Delete users'); ?></h3>
+            <p><?php echo $this->translate('Are you sure you would like to delete the selected users?'); ?></p>
+            <p class="error"><?php echo sprintf(
+                $this->translate('%s: this action will permanently delete %s users and cannot be undone.'),
+                sprintf('<strong>%s</strong>', $this->translate('Warning')),
+                '<strong><span id="delete-selected-count"></span></strong>'
+            ); ?></p>
+            <?php echo $this->form($this->formDeleteSelected); ?>
+        </div>
+    </div>
+</div>
+
+<script>
+// Complete the batch delete form after confirmation.
+$('#confirm-delete-selected').on('submit', function(e) {
+    var confirmForm = $(this);
+        $('#batch-form').find('input[name="resource_ids[]"]:checked:not(:disabled)').each(function() {
+            confirmForm.append($(this).clone().prop('disabled', false).attr('type', 'hidden'));
+        });
+});
+$('.delete-selected').on('click', function(e) {
+    var inputs = $('input[name="resource_ids[]"]');
+    $('#delete-selected-count').text(inputs.filter(':checked').length);
+});
+</script>
+<?php endif; ?>
 
 <?php else: ?>
 
@@ -98,5 +159,3 @@ $sortHeadings = [
 </div>
 
 <?php endif; ?>
-
-

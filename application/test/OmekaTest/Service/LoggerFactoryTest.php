@@ -28,7 +28,7 @@ class LoggerFactoryTest extends TestCase
         $logger = $factory(
             $this->getMockServiceLocator($this->validConfig), 'Foo'
         );
-        $this->assertInstanceOf('Zend\Log\Logger', $logger);
+        $this->assertInstanceOf(Logger::class, $logger);
     }
 
     protected function getMockServiceLocator(array $config)

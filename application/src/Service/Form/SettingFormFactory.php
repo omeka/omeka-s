@@ -2,7 +2,6 @@
 namespace Omeka\Service\Form;
 
 use Omeka\Form\SettingForm;
-use Zend\EventManager\EventManager;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 

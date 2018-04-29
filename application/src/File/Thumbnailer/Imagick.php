@@ -3,6 +3,7 @@ namespace Omeka\File\Thumbnailer;
 
 use Imagick as ImagickPhp;
 use ImagickException;
+use ImagickPixel;
 use Omeka\File\Exception;
 use Omeka\File\TempFileFactory;
 

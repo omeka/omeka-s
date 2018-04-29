@@ -21,7 +21,7 @@ if (!isset($options['base-path'])) {
     exit;
 }
 
-$job = $entityManager->find('Omeka\Entity\Job', $options['job-id']);
+$job = $entityManager->find(Job::class, $options['job-id']);
 if (!$job) {
     $logger->err('There is no job with the given ID');
     exit;

@@ -32,6 +32,36 @@ class UserController extends AbstractActionController
         return $view;
     }
 
+    public function browseAction()
+    {
+        $this->setBrowseDefaults('email', 'asc');
+        $response = $this->api()->search('users', $this->params()->fromQuery());
+        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+
+        $view = new ViewModel;
+        $view->setVariable('users', $response->getContent());
+        return $view;
+    }
+
+    public function showAction()
+    {
+        $response = $this->api()->read('users', $this->params('id'));
+
+        $view = new ViewModel;
+        $view->setVariable('user', $response->getContent());
+        return $view;
+    }
+
+    public function showDetailsAction()
+    {
+        $response = $this->api()->read('users', $this->params('id'));
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('resource', $response->getContent());
+        return $view;
+    }
+
     public function addAction()
     {
         $changeRole = $this->userIsAllowed('Omeka\Entity\User', 'change-role');
@@ -70,49 +100,6 @@ class UserController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
-        return $view;
-    }
-
-    public function browseAction()
-    {
-        $this->setBrowseDefaults('email', 'asc');
-        $response = $this->api()->search('users', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
-
-        $view = new ViewModel;
-        $view->setVariable('users', $response->getContent());
-        return $view;
-    }
-
-    public function showAction()
-    {
-        $response = $this->api()->read('users', $this->params('id'));
-
-        $view = new ViewModel;
-        $view->setVariable('user', $response->getContent());
-        return $view;
-    }
-
-    public function showDetailsAction()
-    {
-        $response = $this->api()->read('users', $this->params('id'));
-
-        $view = new ViewModel;
-        $view->setTerminal(true);
-        $view->setVariable('resource', $response->getContent());
-        return $view;
-    }
-
-    public function deleteConfirmAction()
-    {
-        $resource = $this->api()->read('users', $this->params('id'))->getContent();
-
-        $view = new ViewModel;
-        $view->setTerminal(true);
-        $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('resource', $resource);
-        $view->setVariable('resourceLabel', 'user'); // @translate
-        $view->setVariable('partialPath', 'omeka/admin/user/show-details');
         return $view;
     }
 
@@ -240,6 +227,19 @@ class UserController extends AbstractActionController
                 $this->messenger()->addFormErrors($form);
             }
         }
+        return $view;
+    }
+
+    public function deleteConfirmAction()
+    {
+        $resource = $this->api()->read('users', $this->params('id'))->getContent();
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setTemplate('common/delete-confirm-details');
+        $view->setVariable('resource', $resource);
+        $view->setVariable('resourceLabel', 'user'); // @translate
+        $view->setVariable('partialPath', 'omeka/admin/user/show-details');
         return $view;
     }
 

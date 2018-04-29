@@ -134,6 +134,44 @@ class UserAdapter extends AbstractEntityAdapter
         }
     }
 
+    public function batchUpdate(Request $request)
+    {
+        $this->unsetCurrentUserFromBatch($request);
+        return parent::batchUpdate($request);
+    }
+
+    public function batchDelete(Request $request)
+    {
+        $this->unsetCurrentUserFromBatch($request);
+        return parent::batchDelete($request);
+    }
+
+    /**
+     * Remove the current user before a batch process.
+     *
+     * @param Request $request
+     */
+    protected function unsetCurrentUserFromBatch(Request $request)
+    {
+        $services = $this->getServiceLocator();
+        $ids = $request->getIds();
+        $ids = array_filter(array_unique(array_map('intval', $ids)));
+        $identity = $services->get('ControllerPluginManager')->get('identity');
+        $userId = $identity()->getId();
+        $key = array_search($userId, $ids);
+        if ($key !== false) {
+            $logger = $services->get('Omeka\Logger');
+            $logger->warn(
+                new Message(
+                    'The current user #%d was removed from the batch process.', // @translate
+                    $userId
+                )
+            );
+            unset($ids[$key]);
+        }
+        $request->setIds($ids);
+    }
+
     public function preprocessBatchUpdate(array $data, Request $request)
     {
         $rawData = $request->getContent();

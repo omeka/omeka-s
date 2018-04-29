@@ -2,8 +2,6 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'media browse');
-$userIsAllowedBatchUpdate = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_update');
-$userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_delete');
 $sortHeadings = [
     [
         'label' => $translate('Title'),
@@ -44,8 +42,11 @@ $sortHeadings = [
 
 <?php $this->trigger('view.browse.before'); ?>
 <?php if ($medias): ?>
+<?php
+$userIsAllowedBatchUpdate = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_update');
+$userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_delete');
+?>
 <form method="post" id="batch-form" class="disable-unsaved-warning">
-    <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
     <div class="batch-inputs">
         <select class="batch-actions-select" aria-label="<?php echo $translate('Batch actions'); ?>">
             <option value="default"><?php echo $translate('Batch actions'); ?></option>
@@ -71,15 +72,12 @@ $sortHeadings = [
             <?php endif; ?>
         </div>
     </div>
-    <?php endif; ?>
 
 <table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
             <th>
-                <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
                 <input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>">
-                <?php endif; ?>
                 <?php echo $translate('Title'); ?>
             </th>
             <th><?php echo $translate('Class'); ?></th>
@@ -107,9 +105,7 @@ $sortHeadings = [
         ?>
         <tr>
             <td>
-                <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"  aria-label="<?php echo $translate('Select media'); ?>" <?php if (!($userIsAllowedUpdate || $userIsAllowedDelete)): ?> disabled<?php endif; ?>>
-                <?php endif; ?>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>" aria-label="<?php echo $translate('Select media'); ?>">
                 <?php echo $media->linkPretty(); ?>
                 <?php if (!$media->isPublic()): ?>
                     <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>

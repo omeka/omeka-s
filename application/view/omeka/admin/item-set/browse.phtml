@@ -1,8 +1,6 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$userIsAllowedBatchUpdate = $this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'batch_update');
-$userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'batch_delete');
 $this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
 $sortHeadings = [
     [
@@ -38,7 +36,6 @@ $sortHeadings = [
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
 
-
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'create')): ?>
     <?php echo $this->hyperlink($translate('Add new item set'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
@@ -46,9 +43,12 @@ $sortHeadings = [
 </div>
 
 <?php $this->trigger('view.browse.before'); ?>
-<?php if($itemSets): ?>
+<?php if ($itemSets): ?>
+<?php
+$userIsAllowedBatchUpdate = $this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'batch_update');
+$userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'batch_delete');
+?>
 <form method="post" id="batch-form" class="disable-unsaved-warning">
-    <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
     <div class="batch-inputs">
         <select class="batch-actions-select" aria-label="<?php echo $translate('Batch actions'); ?>">
             <option value="default"><?php echo $translate('Batch actions'); ?></option>
@@ -74,12 +74,12 @@ $sortHeadings = [
             <?php endif; ?>
         </div>
     </div>
-    <?php endif; ?>
+
 <table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
             <th>
-                <input type="checkbox" class="select-all" <?php if (!($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete)): ?> disabled="true"<?php endif; ?> aria-label="<?php echo $translate('Select all'); ?>">
+                <input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>">
                 <?php echo $translate('Title'); ?>
             </th>
             <th><?php echo $translate('Class'); ?></th>
@@ -107,7 +107,7 @@ $sortHeadings = [
         ?>
         <tr>
             <td>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $itemSet->id(); ?>"<?php if (!($userIsAllowedUpdate || $userIsAllowedDelete)): ?> disabled="true"<?php endif; ?> aria-label="<?php echo $translate('Select item set'); ?>">
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $itemSet->id(); ?>" aria-label="<?php echo $translate('Select item set'); ?>">
                 <?php echo $itemSet->linkPretty(); ?>
                 <?php if (!$itemSet->isPublic()): ?>
                     <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>

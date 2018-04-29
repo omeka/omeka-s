@@ -237,7 +237,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $value = new ValueRepresentation($valueEntity, $this->getServiceLocator());
             if ('resource' === $value->type() && null === $value->valueResource()) {
                 // Skip this resource value if the resource is not available
-                // (most likely becuase it is private).
+                // (most likely because it is private).
                 continue;
             }
             $term = $value->property()->term();

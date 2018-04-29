@@ -13,10 +13,10 @@ $roles = [
     <?php if ($site->userIsAllowed('update')): ?>
         <?php echo $site->link($this->translate('Edit'), null, ['class' => 'button']); ?>
     <?php endif; ?>
-    <a href="<?php echo $site->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
+    <?php echo $this->hyperlink($this->translate('View'), $site->siteUrl(), ['class' => 'button']); ?>
 </div>
 <div class="breadcrumbs">
-    <a href="<?php echo $this->url('admin/site'); ?>" class="o-icon-left"><?php echo $this->translate('Back to site list'); ?></a>
+    <?php echo $this->hyperlink($this->translate('Back to site list'), $this->url('admin/site'), ['class' => 'o-icon-left']); ?>
 </div>
 
 <div class="property">

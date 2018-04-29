@@ -79,10 +79,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             ],
             'o:modified' => null,
         ];
-        if ($this->modified()) {
+        $modified = $this->modified();
+        if ($modified) {
             $dateTime['o:modified'] = [
-               '@value' => $this->getDateTime($this->modified()),
-               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+                '@value' => $this->getDateTime($modified),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             ];
         }
 
@@ -94,17 +95,17 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             }
         }
 
-        $owner = null;
-        if ($this->owner()) {
-            $owner = $this->owner()->getReference();
+        $owner = $this->owner();
+        if ($owner) {
+            $owner = $owner->getReference();
         }
-        $resourceClass = null;
-        if ($this->resourceClass()) {
-            $resourceClass = $this->resourceClass()->getReference();
+        $resourceClass = $this->resourceClass();
+        if ($resourceClass) {
+            $resourceClass = $resourceClass->getReference();
         }
-        $resourceTemplate = null;
-        if ($this->resourceTemplate()) {
-            $resourceTemplate = $this->resourceTemplate()->getReference();
+        $resourceTemplate = $this->resourceTemplate();
+        if ($resourceTemplate) {
+            $resourceTemplate = $resourceTemplate->getReference();
         }
 
         return array_merge(

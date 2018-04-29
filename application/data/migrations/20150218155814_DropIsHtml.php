@@ -4,7 +4,7 @@ namespace Omeka\Db\Migrations;
 use Doctrine\DBAL\Connection;
 use Omeka\Db\Migration\MigrationInterface;
 
-class DropIsHtml extends MigrationInterface
+class DropIsHtml implements MigrationInterface
 {
     public function up(Connection $conn)
     {

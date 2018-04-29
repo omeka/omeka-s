@@ -6,7 +6,6 @@ use Omeka\Entity\ApiKey;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\UserBatchUpdateForm;
 use Omeka\Form\UserForm;
-use Omeka\Job\Dispatcher;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -20,18 +19,11 @@ class UserController extends AbstractActionController
     protected $entityManager;
 
     /**
-     * @var Dispatcher
-     */
-    protected $dispatcher;
-
-    /**
      * @param EntityManager $entityManager
-     * @param Dispatcher $dispatcher
      */
-    public function __construct(EntityManager $entityManager, Dispatcher $dispatcher)
+    public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->dispatcher = $dispatcher;
     }
 
     public function searchAction()
@@ -346,7 +338,7 @@ class UserController extends AbstractActionController
         $form = $this->getForm(ConfirmForm::class);
         $form->setData($this->getRequest()->getPost());
         if ($form->isValid()) {
-            $job = $this->dispatcher->dispatch('Omeka\Job\BatchDelete', [
+            $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchDelete', [
                 'resource' => 'users',
                 'query' => $query,
             ]);
@@ -441,7 +433,7 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->preprocessData();
 
-                $job = $this->dispatcher->dispatch('Omeka\Job\BatchUpdate', [
+                $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'users',
                     'query' => $query,
                     'data' => isset($data['replace']) ? $data['replace'] : [],

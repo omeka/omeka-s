@@ -10,7 +10,7 @@ class UserSettingsFactory implements FactoryInterface
     /**
      * Create the user settings service.
      *
-     * @return SiteSettings
+     * @return UserSettings
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {

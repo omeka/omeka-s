@@ -25,6 +25,13 @@ class UserController extends AbstractActionController
         $this->entityManager = $entityManager;
     }
 
+    public function searchAction()
+    {
+        $view = new ViewModel;
+        $view->setVariable('query', $this->params()->fromQuery());
+        return $view;
+    }
+
     public function addAction()
     {
         $changeRole = $this->userIsAllowed('Omeka\Entity\User', 'change-role');

@@ -1,0 +1,48 @@
+<?php
+// Prepare the user queries
+$ids = isset($query['user_id']) ? $query['user_id'] : [];
+if (!is_array($ids)) {
+    $ids = [$ids];
+}
+$ids = array_filter($ids);
+if (!$ids) {
+    $ids = [null];
+}
+$role = isset($query['role']) ? $query['role'] : null;
+?>
+<div class="field">
+    <div class="field-meta">
+        <label for="email"><?php echo $this->translate('Search by email'); ?></label>
+    </div>
+    <div class="inputs">
+        <input name="email" value="" type="text">
+    </div>
+</div>
+<div class="field">
+    <div class="field-meta">
+        <label for="name"><?php echo $this->translate('Search by name'); ?></label>
+    </div>
+    <div class="inputs">
+        <input name="name" value="" type="text">
+    </div>
+</div>
+<div class="field">
+    <div class="field-meta">
+        <label for="role"><?php echo $this->translate('Search by role'); ?></label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->roleSelect([
+            'name' => 'role',
+            'attributes' => ['id' => 'role', 'value' => $role]
+        ]); ?>
+    </div>
+</div>
+<div class="field">
+    <div class="field-meta">
+        <label for="is_active"><?php echo $this->translate('Search by activity'); ?></label>
+    </div>
+    <div class="inputs">
+        <label><input name="is_active" value="1" type="radio"><?php echo $this->translate('Active'); ?></label>
+        <label><input name="is_active" value="0" type="radio"><?php echo $this->translate('Not active'); ?></label>
+    </div>
+</div>

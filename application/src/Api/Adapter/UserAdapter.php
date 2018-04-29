@@ -68,10 +68,31 @@ class UserAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-        if (isset($query['email'])) {
+        if (!empty($query['email'])) {
             $qb->andWhere($qb->expr()->eq(
                 "Omeka\Entity\User.email",
                 $this->createNamedParameter($qb, $query['email']))
+            );
+        }
+
+        if (!empty($query['name'])) {
+            $qb->andWhere($qb->expr()->eq(
+                "Omeka\Entity\User.name",
+                $this->createNamedParameter($qb, $query['name']))
+            );
+        }
+
+        if (!empty($query['role'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'Omeka\Entity\User.role',
+                $this->createNamedParameter($qb, $query['role']))
+            );
+        }
+
+        if (isset($query['is_active']) && is_numeric($query['is_active'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'Omeka\Entity\User.isActive',
+                $this->createNamedParameter($qb, (bool) $query['is_active']))
             );
         }
     }

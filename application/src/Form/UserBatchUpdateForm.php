@@ -38,9 +38,9 @@ class UserBatchUpdateForm extends Form
             'options' => [
                 'label' => 'Set activity', // @translate
                 'value_options' => [
-                    '' => '[No change]', // @translate
                     '1' => 'Active', // @translate
                     '0' => 'Not active', // @translate
+                    '' => '[No change]', // @translate
                 ],
             ],
         ]);
@@ -136,7 +136,6 @@ class UserBatchUpdateForm extends Form
      * "replace" (default), "remove" or "append".
      *
      * @todo Use standard validationGroup and filters.
-     * Note:
      *
      * @return array Associative array of data to replace, to remove and to
      * append.

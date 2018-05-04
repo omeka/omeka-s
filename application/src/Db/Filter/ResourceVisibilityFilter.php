@@ -14,11 +14,6 @@ use Zend\EventManager\Event;
  * case a resource is any entity that extends off the Resource entity, that is,
  * Item, ItemSet, and Media.
  *
- * Modules may set these visibility rules on their resource-related entities by
- * attaching to the "sql_filter.resource_visibility" event (no identifier) and
- * setting the name of the foreign key column, keyed by the related entity's
- * class name, to the event's "relatedEntities" param.
- *
  * @link http://doctrine-orm.readthedocs.org/en/latest/reference/filters.html
  */
 class ResourceVisibilityFilter extends SQLFilter
@@ -28,19 +23,25 @@ class ResourceVisibilityFilter extends SQLFilter
      */
     protected $serviceLocator;
 
-    protected $relatedEntities;
+    protected $relatedEntities = [];
+
+    /**
+     * Add a related entity.
+     *
+     * During onBootstrap, modules may set these visibility rules on their
+     * resource-related entities by passing the related entity's class name and
+     * the name of the foreign key column.
+     *
+     * @param string $entity
+     * @param string $column
+     */
+    public function addRelatedEntity($entity, $column)
+    {
+        $this->relatedEntities[$entity] = $column;
+    }
 
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
     {
-        if (null === $this->relatedEntities) {
-            // Cache the related entities on the first pass.
-            $eventManager = $this->serviceLocator->get('EventManager');
-            $event = new Event('sql_filter.resource_visibility', $this);
-            $event->setParam('relatedEntities', []);
-            $eventManager->triggerEvent($event);
-            $this->relatedEntities = $event->getParam('relatedEntities');
-        }
-
         if ('Omeka\Entity\Resource' === $targetEntity->getName()) {
             return $this->getResourceConstraint($targetTableAlias);
         }

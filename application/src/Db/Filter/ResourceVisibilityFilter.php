@@ -5,7 +5,6 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\EventManager\Event;
 
 /**
  * Filter resource or resource-related entities by visibility.

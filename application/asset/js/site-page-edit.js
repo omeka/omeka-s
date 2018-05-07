@@ -134,11 +134,15 @@
         });
 
         $('#blocks .block').each(function () {
-            replaceIndex($(this), 'blockIndex', blockIndex++);
+            $(this).data('blockIndex', blockIndex);
+            replaceIndex($(this), 'blockIndex', blockIndex);
+            blockIndex++;
         });
         $('#blocks').on('o:block-added', '.block', function () {
-            replaceIndex($(this), 'blockIndex', blockIndex++);
+            $(this).data('blockIndex', blockIndex);
+            replaceIndex($(this), 'blockIndex', blockIndex);
             wysiwyg($(this));
+            blockIndex++;
         });
         wysiwyg($('body'));
 

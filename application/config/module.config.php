@@ -375,6 +375,7 @@ return [
             'filterSelector' => View\Helper\FilterSelector::class,
             'propertySelector' => View\Helper\PropertySelector::class,
             'itemSetSelector' => View\Helper\ItemSetSelector::class,
+            'userSelector' => View\Helper\UserSelector::class,
             'searchFilters' => View\Helper\SearchFilters::class,
             'blockAttachmentsForm' => View\Helper\BlockAttachmentsForm::class,
             'blockShowTitleSelect' => View\Helper\BlockShowTitleSelect::class,

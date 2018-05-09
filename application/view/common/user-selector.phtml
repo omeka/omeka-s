@@ -1,0 +1,34 @@
+<div id="user-selector" class="selector sidebar<?php echo $alwaysOpen ? ' always-open' : ''; ?>">
+    <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+    <h3>
+        <?php if ($title): ?>
+        <?php echo $title; ?>
+        <?php else: ?>
+        <?php echo $this->translate('Click on a user to add it to the edit panel.'); ?>
+        <?php endif; ?>
+    </h3>
+    <input type="text" class="selector-filter" placeholder="<?php echo $this->translate('Filter users'); ?>" aria-label="<?php echo $this->translate('Filter users'); ?>">
+    <ul id="new-users">
+        <li class="total-count-heading"><?php echo sprintf($this->translate('All users (%s)'), count($users)); ?></li>
+            <ul class="selectable-list">
+            <?php foreach ($usersByInitial as $initial => $users): ?>
+                <li class="selector-parent">
+                    <span><?php echo $initial; ?></span>
+                    (<span class="selector-child-count"><?php echo count($usersByInitial[$initial]); ?></span>)
+                    <ul>
+                    <?php foreach ($users as $user): ?>
+                        <li class="selector-child"
+                            data-child-search="<?php echo sprintf('%s %s', $this->escapeHtml($user->name()), $this->escapeHtml($user->email())); ?>"
+                            data-user="<?php echo $this->escapeHtml(json_encode($user, true)); ?>"
+                            data-user-id="<?php echo $user->id(); ?>">
+                            <span><?php echo $this->escapeHtml($user->name()); ?>
+                            <br><?php echo $this->escapeHtml($user->email()); ?></span>
+                        </li>
+                    <?php endforeach; ?>
+                    </ul>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        </li>
+    </ul>
+</div>

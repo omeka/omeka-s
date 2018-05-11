@@ -76,8 +76,16 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
     {
         // Return the first media if one exists.
         $media = $this->media();
-        return $media ? $media[0] : null;
-    }
+        $properThumbnail = $this->getFirstProperThumbnailIndex();
+        if ($properThumbnail && $media) {
+            $thumbnail = $media[$properThumbnail];
+            } elseif ($media) {
+                $thumbnail = $media[0];
+            } else {
+                $thumbnail = null;
+            }
+        return $thumbnail;
+    }   
 
     public function siteUrl($siteSlug = null, $canonical = false)
     {
@@ -95,5 +103,30 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
             ],
             ['force_canonical' => $canonical]
         );
+    }
+
+    /**
+     * Get the index of the first proper item thumbnail
+     *
+     * @return integer Index of first proper thumbnail
+     */
+    private function getFirstProperThumbnailIndex()
+    {
+        $media = [];
+        foreach ($this->media() as $mediaRepresentation) {
+            $media[] = $mediaRepresentation->mediaType();
+        }
+        $thumbnails = [];
+        foreach ($media as $index =>$value) {
+            if (is_null($value) === false) {
+                $prefix = explode("/",$value);
+                if($prefix[0] == "image" || $prefix[1] == "pdf") {
+                    $thumbnails[] = $index;
+                }          
+            }
+        }
+        if (!empty($thumbnails)) {
+            return $thumbnails[0];
+        }
     }
 }

@@ -134,7 +134,7 @@ class ResourceBatchUpdateForm extends Form
                     'name' => 'clear_language',
                     'type' => Element\Checkbox::class,
                     'options' => [
-                        'label' => 'Clear language', // @transalte
+                        'label' => 'Clear language', // @translate
                     ],
                 ]);
 
@@ -145,7 +145,7 @@ class ResourceBatchUpdateForm extends Form
                         'class' => 'value-language active',
                     ],
                     'options' => [
-                        'label' => 'Set language', // @transalte
+                        'label' => 'Set language', // @translate
                     ],
                 ]);
                 break;

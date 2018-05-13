@@ -177,7 +177,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Get the date-time when this resource was created.
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function created()
     {
@@ -187,7 +187,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Get the date-time when this resource was last modified.
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function modified()
     {

@@ -25,6 +25,8 @@ class HtmlPurifier
     {
         if ($this->config === null) {
             $this->config = \HTMLPurifier_Config::createDefault();
+            $this->config->set('Attr.AllowedFrameTargets', ['_blank']);
+            $this->config->set('Cache.DefinitionImpl', null);
         }
         return $this->config;
     }
@@ -32,9 +34,7 @@ class HtmlPurifier
     protected function getPurifier()
     {
         if ($this->purifier === null) {
-            $config = $this->getConfig();
-            $config->set('Cache.DefinitionImpl', null);
-            $this->purifier = new \HTMLPurifier($config);
+            $this->purifier = new \HTMLPurifier($this->getConfig());
         }
         return $this->purifier;
     }

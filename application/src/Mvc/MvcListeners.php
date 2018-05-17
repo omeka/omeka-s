@@ -2,6 +2,7 @@
 namespace Omeka\Mvc;
 
 use Composer\Semver\Comparator;
+use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Session\SaveHandler\Db;
 use Omeka\Site\Theme\Manager;
 use Omeka\Site\Theme\Theme;
@@ -13,6 +14,7 @@ use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
 use Zend\Validator\AbstractValidator;
+use Zend\Stdlib\ResponseInterface;
 
 class MvcListeners extends AbstractListenerAggregate
 {
@@ -146,7 +148,7 @@ class MvcListeners extends AbstractListenerAggregate
      * Redirect all requests to install route if Omeka is not installed.
      *
      * @param MvcEvent $event
-     * @return Zend\Http\PhpEnvironment\Response
+     * @return ResponseInterface
      */
     public function redirectToInstallation(MvcEvent $event)
     {
@@ -177,7 +179,7 @@ class MvcListeners extends AbstractListenerAggregate
      * on all other routes.
      *
      * @param MvcEvent $event
-     * @return Zend\Http\PhpEnvironment\Response
+     * @return ResponseInterface
      */
     public function redirectToMigration(MvcEvent $event)
     {
@@ -223,7 +225,7 @@ class MvcListeners extends AbstractListenerAggregate
      * Redirect all admin requests to login route if user not logged in.
      *
      * @param MvcEvent $event
-     * @return Zend\Http\PhpEnvironment\Response
+     * @return ResponseInterface
      */
     public function redirectToLogin(MvcEvent $event)
     {

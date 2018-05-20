@@ -11,7 +11,10 @@ $sectionNavs = [
 <?php echo $this->pageTitle($media->displayTitle(), 1, $translate('Media')); ?>
 
 <div id="page-actions">
+    <?php echo $this->hyperlink($translate('Public view'), $this->publicResourceUrl($media), ['class' => 'button', 'target' => '_blank']); ?>
+    <?php if ($media->userIsAllowed('update')): ?>
     <?php echo $media->link($translate('Edit media'), 'edit', ['class' => 'button']); ?>
+    <?php endif; ?>
 </div>
 
 <?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $media); ?>

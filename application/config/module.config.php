@@ -427,6 +427,7 @@ return [
             'navigationLink' => Service\ViewHelper\NavigationLinkFactory::class,
             'pagination' => Service\ViewHelper\PaginationFactory::class,
             'params' => Service\ViewHelper\ParamsFactory::class,
+            'publicResourceUrl' => Service\ViewHelper\PublicResourceUrlFactory::class,
             'setting' => Service\ViewHelper\SettingFactory::class,
             'userSetting' => Service\ViewHelper\UserSettingFactory::class,
             'siteSetting' => Service\ViewHelper\SiteSettingFactory::class,

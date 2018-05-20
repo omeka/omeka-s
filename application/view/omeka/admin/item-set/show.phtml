@@ -26,6 +26,7 @@ $sectionNavs = [
 <?php echo $this->pageTitle($itemSet->displayTitle(), 1, $translate('Item sets')); ?>
 
 <div id="page-actions">
+    <?php echo $this->hyperlink($translate('Public view'), $this->publicResourceUrl($itemSet), ['class' => 'button', 'target' => '_blank']); ?>
     <?php if ($itemSet->userIsAllowed('update')): ?>
     <?php echo $itemSet->link($translate('Edit item set'), 'edit', ['class' => 'button']); ?>
     <?php endif; ?>

@@ -188,7 +188,7 @@ var Omeka = {
     },
 
     manageSelectedActions: function() {
-        var selectedOptions = $('[value="update-selected"], [value="delete-selected"]');
+        var selectedOptions = $('#batch-form .batch-inputs [data-select=selected]');
         if ($('.batch-edit td input[type="checkbox"]:checked').length > 0) {
             selectedOptions.removeAttr('disabled');
         } else {

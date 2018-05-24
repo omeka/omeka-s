@@ -53,12 +53,12 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter'
         <select class="batch-actions-select" name="batch_action" aria-label="<?php echo $translate('Batch actions'); ?>">
             <option value="default"><?php echo $translate('Batch actions'); ?></option>
             <?php if ($userIsAllowedBatchUpdate): ?>
-            <option value="update-selected" data-select="selected" disabled><?php echo $translate('Edit selected'); ?></option>
-            <option value="update-all" data-select="all"><?php echo $translate('Edit all'); ?></option>
+            <option value="update-selected" class="batch-selected" disabled><?php echo $translate('Edit selected'); ?></option>
+            <option value="update-all"><?php echo $translate('Edit all'); ?></option>
             <?php endif; ?>
             <?php if ($userIsAllowedBatchDelete): ?>
-            <option value="delete-selected" data-select="selected" disabled><?php echo $translate('Delete selected'); ?></option>
-            <option value="delete-all" data-select="all"><?php echo $translate('Delete all'); ?></option>
+            <option value="delete-selected" class="batch-selected" disabled><?php echo $translate('Delete selected'); ?></option>
+            <option value="delete-all"><?php echo $translate('Delete all'); ?></option>
             <?php endif; ?>
         </select>
         <div class="batch-actions">

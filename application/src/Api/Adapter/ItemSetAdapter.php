@@ -49,6 +49,10 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
     {
         parent::buildQuery($qb, $query);
 
+        if (isset($query['id'])) {
+            $qb->andWhere($qb->expr()->eq('Omeka\Entity\ItemSet.id', $query['id']));
+        }
+
         // Select item sets to which the current user can assign an item.
         if (isset($query['is_open'])) {
             $acl = $this->getServiceLocator()->get('Omeka\Acl');

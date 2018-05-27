@@ -19,6 +19,13 @@ interface DataTypeInterface
     public function getName();
 
     /**
+     * Get the data of this data type.
+     *
+     * @return string
+     */
+    public function getData();
+
+    /**
      * Get a human-readable label for this data type.
      *
      * @return string

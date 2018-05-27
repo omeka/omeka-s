@@ -201,7 +201,7 @@
         var field = $('.resource-values.field[data-property-term="' + term + '"]');
         // Get the value node from the templates.
         if (typeof type !== 'string') {
-            type = valueObj['type'];
+            type = valueObj['data'] || valueObj['type'];
         }
         var value = $('.value.template[data-data-type="' + type + '"]').clone(true);
         value.removeClass('template');

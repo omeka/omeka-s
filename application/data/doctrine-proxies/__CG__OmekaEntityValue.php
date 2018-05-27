@@ -64,10 +64,10 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource'];
+            return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource', 'data'];
         }
 
-        return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource'];
+        return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource', 'data'];
     }
 
     /**
@@ -340,6 +340,28 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValueResource', []);
 
         return parent::getValueResource();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setData($data)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', [$data]);
+
+        return parent::setData($data);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getData()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', []);
+
+        return parent::getData();
     }
 
     /**

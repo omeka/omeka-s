@@ -4,6 +4,10 @@ namespace Omeka\Entity;
 /**
  * A value, representing the object in a RDF triple.
  *
+ * Overridden during install to manage size-limited indexes of "value" and "uri"
+ * with some databases (indexes should be max 190, like for "type" and "lang").
+ * @see \Omeka\Db\Event\Listener\CreateTableOverride::onSchemaCreateTable()
+ *
  * @Entity
  */
 class Value extends AbstractEntity
@@ -28,12 +32,12 @@ class Value extends AbstractEntity
     protected $property;
 
     /**
-     * @Column
+     * @Column(type="string", length=190)
      */
     protected $type;
 
     /**
-     * @Column(nullable=true)
+     * @Column(type="string", length=190, nullable=true)
      */
     protected $lang;
 
@@ -52,6 +56,11 @@ class Value extends AbstractEntity
      * @JoinColumn(onDelete="CASCADE")
      */
     protected $valueResource;
+
+    /**
+     * @Column(type="string", length=190, nullable=true)
+     */
+    protected $data;
 
     public function getId()
     {
@@ -126,5 +135,15 @@ class Value extends AbstractEntity
     public function getValueResource()
     {
         return $this->valueResource;
+    }
+
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    public function getData()
+    {
+        return $this->data;
     }
 }

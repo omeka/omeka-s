@@ -63,6 +63,7 @@ class ValueRepresentation extends AbstractRepresentation
     {
         $valueObject = [
             'type' => $this->type(),
+            'data' => $this->valueData(),
             'property_id' => $this->value->getProperty()->getId(),
             'property_label' => $this->value->getProperty()->getLabel(),
         ];
@@ -110,6 +111,18 @@ class ValueRepresentation extends AbstractRepresentation
         // The data type resolved by the data type manager takes precedence over
         // the one stored in the database.
         return $this->dataType->getName();
+    }
+
+    /**
+     * Get the value data.
+     *
+     * Named valueData() so as not to override parent::getData().
+     *
+     * @return mixed
+     */
+    public function valueData()
+    {
+        return $this->dataType->getData();
     }
 
     /**

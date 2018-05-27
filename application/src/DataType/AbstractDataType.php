@@ -6,6 +6,10 @@ use Zend\View\Renderer\PhpRenderer;
 
 abstract class AbstractDataType implements DataTypeInterface
 {
+    public function getData()
+    {
+    }
+
     public function getOptgroupLabel()
     {
     }

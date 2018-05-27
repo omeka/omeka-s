@@ -11,20 +11,46 @@ class Manager extends AbstractPluginManager
 
     protected $instanceOf = DataTypeInterface::class;
 
+    /**
+     * @param Value $value
+     * @return DataTypeInterface
+     * @todo Quickly check on registered data type names?
+     */
     public function getForExtract(Value $value)
     {
-        $dataType = $value->getType();
-        $dataTypeFallback = 'literal';
-        if (is_string($value->getUri())) {
-            $dataTypeFallback = 'uri';
-        } elseif ($value->getValueResource()) {
-            $dataTypeFallback = 'resource';
+        $dataData = $value->getData();
+
+        if (empty($dataData)) {
+            $dataType = $value->getType();
+            // Manage standard cases first.
+            if (in_array($dataType, ['literal', 'resource', 'uri'])) {
+                return $this->get($dataType);
+            }
+            // Manage special values.
+            if (is_string($value->getUri())) {
+                return $this->get('uri');
+            }
+            if ($value->getValueResource()) {
+                return $this->get('resource');
+            }
+            try {
+                return $this->get($dataType);
+            } catch (ServiceNotFoundException $e) {
+            }
+        } else {
+            // Manage types added by modules.
+            try {
+                return $this->get($dataData);
+            } catch (ServiceNotFoundException $e) {
+            }
+            if (is_string($value->getUri())) {
+                return $this->get('uri');
+            }
+            if ($value->getValueResource()) {
+                return $this->get('resource');
+            }
         }
-        try {
-            $instance = $this->get($dataType);
-        } catch (ServiceNotFoundException $e) {
-            $instance = $this->get($dataTypeFallback);
-        }
-        return $instance;
+        // Manage fallback.
+        return $this->get('literal');
     }
 }

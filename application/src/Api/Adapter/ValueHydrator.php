@@ -55,6 +55,7 @@ class ValueHydrator
         $newValues = [];
         $existingValues = $valueCollection->toArray();
         $entityManager = $adapter->getEntityManager();
+        /** @var \Omeka\DataType\Manager $dataTypes */
         $dataTypes = $adapter->getServiceLocator()->get('Omeka\DataTypeManager');
 
         // Iterate the representation data. Note that we ignore terms.
@@ -96,11 +97,12 @@ class ValueHydrator
 
                 // Hydrate a single value.
                 $value->setResource($entity);
-                $value->setType($dataType->getName());
                 $value->setProperty($entityManager->getReference(
                     'Omeka\Entity\Property',
                     $valueData['property_id']
                 ));
+                $value->setType($dataType->getName());
+                $value->setData($dataType->getData());
                 $dataType->hydrate($valueData, $value, $adapter);
             }
         }

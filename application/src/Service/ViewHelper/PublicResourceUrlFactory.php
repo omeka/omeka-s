@@ -13,21 +13,13 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 class PublicResourceUrlFactory implements FactoryInterface
 {
     /**
-     * Create and return the PublicResourceUrlFactory view helper
+     * Create and return the PublicResourceUrl view helper
      *
-     * @return PublicResourceUrlFactory
+     * @return PublicResourceUrl
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        // Get the slug for the default site, else the first one.
-        $defaultSiteId = $services->get('Omeka\Settings')->get('default_site');
-        $api = $services->get('Omeka\ApiManager');
-        if ($defaultSiteId) {
-            $slugs = $api->search('sites', ['id' => $defaultSiteId], ['returnScalar' => 'slug'])->getContent();
-        } else {
-            $slugs = $api->search('sites', ['limit' => 1], ['returnScalar' => 'slug'])->getContent();
-        }
-        $defaultSiteSlug = reset($slugs);
-        return new PublicResourceUrl($defaultSiteSlug);
+        $defaultSiteSlug = $services->get('ViewHelperManager')->get('defaultSiteSlug');
+        return new PublicResourceUrl($defaultSiteSlug());
     }
 }

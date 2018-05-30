@@ -27,7 +27,7 @@ class Thumbnail extends AbstractHtmlElement
 
         // Trigger attribs event
         $triggerHelper = $this->getView()->plugin('trigger');
-        $params = compact('attribs', 'representation', 'type');
+        $params = compact('attribs', 'primaryMedia', 'representation', 'type');
         $params = $triggerHelper('view_helper.thumbnail.attribs', $params, true);
         $attribs = $params['attribs'];
 

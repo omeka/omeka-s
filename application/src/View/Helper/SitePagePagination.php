@@ -46,6 +46,9 @@ class SitePagePagination extends AbstractHelper
         if (!$this->pageInNav) {
             return null;
         }
+        if (!$this->prevPage && !$this->nextPage) {
+            return null;
+        }
         return $this->getView()->partial(
             'common/site-page-pagination',
             [

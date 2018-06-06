@@ -106,6 +106,18 @@ function composer(args) {
     });
 }
 
+function cssToSass(dir) {
+    return gulp.src(dir + '/asset/sass/*.scss')
+        .pipe(sass({
+            outputStyle: 'compressed',
+            includePaths: ['node_modules/susy/sass']
+        }).on('error', sass.logError))
+        .pipe(postcss([
+            autoprefixer({browsers: ['> 5%', '> 1% in US']})
+        ]))
+        .pipe(gulp.dest(dir + '/asset/css'));
+}
+
 function i18nXgettext(dir, ignore) {
     return glob('**/*.{php,phtml}', {ignore: ignore, cwd: dir}).then(function (files) {
         return tmpFile({postfix: 'xgettext.pot'}).spread(function (path, fd) {
@@ -150,21 +162,26 @@ function compileToMo(file) {
 }
 
 gulp.task('css', function () {
-    return gulp.src('./application/asset/sass/*.scss')
-        .pipe(sass({
-            outputStyle: 'compressed',
-            includePaths: ['node_modules/susy/sass']
-        }).on('error', sass.logError))
-        .pipe(postcss([
-            autoprefixer({browsers: ['> 5%', '> 1% in US']})
-        ]))
-        .pipe(gulp.dest('./application/asset/css'));
+    return cssToSass('./application');
 });
 
 gulp.task('css:watch', function () {
     gulp.watch('./application/asset/sass/*.scss', gulp.parallel('css'));
 });
 
+gulp.task('css:module', function () {
+    var modulePathPromise = getModulePath(cliOptions.module);
+    return modulePathPromise.then(function(modulePath) {
+        return cssToSass(modulePath);
+    });
+});
+
+gulp.task('css:watch:module', function () {
+    var modulePathPromise = getModulePath(cliOptions.module);
+    modulePathPromise.then(function(modulePath) {
+        gulp.watch(modulePath + '/asset/sass/*.scss', gulp.parallel('css:module'));
+    });
+});
 
 gulp.task('test:cs', function () {
     return ensureBuildDir().then(function () {

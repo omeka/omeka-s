@@ -108,6 +108,8 @@ $this->trigger('view.layout');
         <footer>
             <p class="site-version"><?php echo $this->translate('Omeka S'); ?> <span class="version-number"><?php echo sprintf($this->translate('version %s'), Omeka\Module::VERSION)?></span></p>
             <a href="<?php echo $this->url('admin/default', ['controller' => 'system-info']); ?>"><?php echo $this->translate('System information'); ?></a>
+            <a href="http://omeka.org/s/docs/user-manual">User Manual</a>
+            <a href="http://omeka.org/s/docs/developer">Developer Documentation</a>            
         </footer>
     </body>
 </html>

@@ -376,7 +376,7 @@ body {
     }
 
         /* @group ----- Forms elements: Chosen selects ----- */
-    
+
         .chosen-container-single .chosen-single,
         .chosen-container-multi .chosen-choices {
             background-image: none;
@@ -877,6 +877,10 @@ footer {
 
     body.transitions-enabled & {
         transition: margin-right .5s;
+    }
+
+    & > a:not(:last-child) {
+        margin-right: $spacing-medium;
     }
 }
 
@@ -1458,7 +1462,7 @@ td .o-icon-private {
             padding: $spacing-small;
             background-color: $gray-on-white;
         }
-    
+
         .batch-actions > a.button,
         .batch-actions > button,
         .batch-actions > input[type="submit"] {
@@ -1468,7 +1472,7 @@ td .o-icon-private {
             line-height: $base-line-height;
             min-height: 0;
             padding: 0 $spacing-small;
-    
+
             &.active {
                 display: inline-block;
             }
@@ -1512,7 +1516,7 @@ td .o-icon-private {
         position: relative;
         width: 1.5 * $base-line-height;
         text-align: center;
-    
+
         &:before{
             position: absolute;
             top: 0;
@@ -1521,7 +1525,7 @@ td .o-icon-private {
             line-height: 1.5 * $base-line-height;
             text-indent: 0;
         }
-    
+
         &:hover {
             color: $red;
         }
@@ -3371,7 +3375,7 @@ body.sidebar-open #content {
     #site-user-permissions.empty,
     tr.value:not(.delete) .o-icon-undo,
     tr.value.delete .user-name,
-    tr.value.delete select, 
+    tr.value.delete select,
     tr.value.delete .o-icon-delete {
         display: none;
     }

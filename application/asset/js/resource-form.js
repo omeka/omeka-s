@@ -448,7 +448,8 @@
             });
         }
 
-        $.when(applyResourceTemplate(false)).done(function () {
+        var applyTemplateClass = $('body').hasClass('add');
+        $.when(applyResourceTemplate(applyTemplateClass)).done(function () {
             $('#properties').closest('form').trigger('o:form-loaded');
         });
 

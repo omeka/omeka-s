@@ -1,8 +1,13 @@
 <?php
 namespace Omeka\Stdlib;
 
-class HtmlPurifier
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerAwareTrait;
+
+class HtmlPurifier implements EventManagerAwareInterface
 {
+    use EventManagerAwareTrait;
+
     protected $config;
     protected $purifier;
     protected $useHtmlPurifier;
@@ -24,10 +29,18 @@ class HtmlPurifier
     public function getConfig()
     {
         if ($this->config === null) {
-            $this->config = \HTMLPurifier_Config::createDefault();
-            $this->config->set('Attr.AllowedFrameTargets', ['_blank']);
-            $this->config->set('Cache.DefinitionImpl', null);
+            $config = \HTMLPurifier_Config::createDefault();
+            $config->set('Attr.AllowedFrameTargets', ['_blank']);
+            $config->set('Cache.DefinitionImpl', null);
+
+            $events = $this->getEventManager();
+            $args = $events->prepareArgs([
+                'config' => $config,
+            ]);
+            $events->trigger('htmlpurifier_config', $this, $args);
+            $this->config = $args['config'];
         }
+
         return $this->config;
     }
 

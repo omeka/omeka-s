@@ -67,6 +67,10 @@ $queryText = function(array $search, $index) {
                 <?php echo $queryOption('neq', $property, 'type', $translate('is not exactly')); ?>
                 <?php echo $queryOption('in', $property, 'type', $translate('contains')); ?>
                 <?php echo $queryOption('nin', $property, 'type', $translate('does not contain')); ?>
+                <?php echo $queryOption('sw', $property, 'type', $translate('starts with')); ?>
+                <?php echo $queryOption('nsw', $property, 'type', $translate('does not start with')); ?>
+                <?php echo $queryOption('ew', $property, 'type', $translate('ends with')); ?>
+                <?php echo $queryOption('new', $property, 'type', $translate('does not end with')); ?>
                 <?php echo $queryOption('res', $property, 'type', $translate('is resource with ID')); ?>
                 <?php echo $queryOption('nres', $property, 'type', $translate('is not resource with ID')); ?>
                 <?php echo $queryOption('ex', $property, 'type', $translate('has any value')); ?>

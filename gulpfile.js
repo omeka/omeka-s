@@ -141,6 +141,15 @@ function i18nVocabStrings() {
     });
 }
 
+function i18nStaticStrings(dir) {
+    var staticPath = path.join(dir, 'language', 'template.static.pot');
+    return fs.statAsync(staticPath).then(function () {
+        return staticPath;
+    }).catch(function (e) {
+        return null;
+    });
+}
+
 function getModulePath(module) {
     if (!module) {
         return Promise.reject(new Error('No module given! Use --module to specify the module to work on.'));
@@ -294,10 +303,15 @@ gulp.task('i18n:module:template', function () {
     var preDedupePromise = modulePathPromise.then(function (modulePath) {
         return Promise.all([
             i18nXgettext(modulePath),
-            i18nTaggedStrings(modulePath)
+            i18nTaggedStrings(modulePath),
+            i18nStaticStrings(modulePath)
         ]);
     }).then(function (tempFiles) {
         return tmpFile({postfix: 'module-prededupe.pot'}).spread(function (path, fd) {
+            tempFiles = tempFiles.filter(function (path) {
+                // Remove null paths.
+                return path;
+            });
             return runCommand('msgcat', tempFiles.concat(['--use-first', '-o', path]), {}, path);
         });
     });

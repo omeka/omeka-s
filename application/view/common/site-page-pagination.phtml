@@ -2,7 +2,9 @@
 $prevText = $this->translate('Prev');
 $nextText = $this->translate('Next');
 ?>
+<?php if ($prevPage || $nextPage): ?>
 <div class="site-page-pagination">
-    <?php echo $prevPage ? $this->hyperlink($prevText, $prevPage->siteUrl()) : $prevText; ?> |
-    <?php echo $nextPage ? $this->hyperlink($nextText, $nextPage->siteUrl()) : $nextText; ?>
+    <?php echo $prevPage ? $this->hyperlink($prevText, $prevPage->siteUrl()) : ''; ?>
+    <?php echo $nextPage ? $this->hyperlink($nextText, $nextPage->siteUrl()) : ''; ?>
 </div>
+<?php endif; ?>

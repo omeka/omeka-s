@@ -94,6 +94,18 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $this->add([
+            'name' => 'show_page_pagination',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Show page pagination',
+                'info' => 'Show pagination that helps users follow a linear narrative through a site.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'show_page_pagination',
+                'value' => $settings->get('show_page_pagination', true),
+            ],
+        ]);
+        $this->add([
             'name' => 'show_user_bar',
             'type' => 'checkbox',
             'options' => [

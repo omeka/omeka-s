@@ -1,6 +1,7 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'page');
 $this->pageTitle($page->title(), 2);
+$showPagePagination = $this->siteSetting('show_page_pagination', true);
 ?>
 
 <?php
@@ -25,4 +26,6 @@ if ($activePage):
     <?php echo $this->content; ?>
 </div>
 <?php $this->trigger('view.show.after'); ?>
+<?php if ($showPagePagination): ?>
 <?php echo $this->sitePagePagination(); ?>
+<?php endif; ?>

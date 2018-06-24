@@ -13,7 +13,7 @@ foreach ($this->resources as $resource):
     $body = $resource->value($bodyTerm);
 ?>
     <li class="<?php echo $this->resourceType; ?> resource">
-        <?php echo $this->thumbnail($resource, 'medium', ['title' => $heading]); ?>
+        <?php echo $resource->linkRaw($this->thumbnail($resource, 'medium', ['title' => $heading])); ?>
         <h4><?php echo $resource->link($heading); ?></h4>
         <?php if ($body): ?>
         <div class="description"><?php echo $body; ?></div>

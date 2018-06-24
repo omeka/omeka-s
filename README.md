@@ -4,6 +4,8 @@ Omeka S is a web publication system for universities, galleries, libraries,
 archives, and museums. It consists of a local network of independently curated
 exhibits sharing a collaboratively built pool of items, media, and their metadata.
 
+See the [user manual](https://omeka.org/s/docs/user-manual) for more information.
+
 ## Installation
 
 ### Requirements
@@ -15,7 +17,7 @@ exhibits sharing a collaboratively built pool of items, media, and their metadat
 ### Gotchas
 * The default library for generating thumbnails is ImageMagick, at least version
 6.7.5. Older versions will not correctly produce thumbnails. See local.config.php
-options below. 
+options in the [documentation](https://omeka.org/s/docs/user-manual/configuration/).
 
 ### Installing from GitHub
 
@@ -42,7 +44,7 @@ options below.
 1. Make sure the `files/` directory is writable by Apache.
 1. In your web browser, navigate to the omeka-s directory, where you can
    complete installation.
-   
+
 You can find Omeka-specific code under `application/`.
 
 ## Updating
@@ -83,5 +85,5 @@ Omeka uses the following libraries, among others:
 
 ## Coding Standards
 
-Omeka development adheres to the [Zend Framework 2 Coding Standards](https://zf2-docs.readthedocs.org/en/latest/ref/coding.standard.html) 
+Omeka development adheres to the [Zend Framework 2 Coding Standards](https://zf2-docs.readthedocs.org/en/latest/ref/coding.standard.html)
 and uses the [git-flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model.

@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\Service;
 
+use Interop\Container\ContainerInterface;
 use Omeka\Site\Navigation\Translator;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Interop\Container\ContainerInterface;
 
 class SiteNavigationTranslatorFactory implements FactoryInterface
 {
@@ -16,7 +16,8 @@ class SiteNavigationTranslatorFactory implements FactoryInterface
     {
         return new Translator(
             $serviceLocator->get('Omeka\Site\NavigationLinkManager'),
-            $serviceLocator->get('MvcTranslator')
+            $serviceLocator->get('MvcTranslator'),
+            $serviceLocator->get('ViewHelperManager')->get('Url')
         );
     }
 }

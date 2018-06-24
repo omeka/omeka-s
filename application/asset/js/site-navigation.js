@@ -194,6 +194,40 @@ $.jstree.plugins.editlink = function(options, parent) {
     };
 };
 
+/**
+ * Display Plugin for jsTree
+ */
+$.jstree.plugins.display = function(options, parent) {
+    var displayIcon = $('<i>', {
+        class: 'jstree-icon jstree-displaylink',
+        attr:{role: 'presentation'}
+    });
+    this.bind = function() {
+        parent.bind.call(this);
+        this.element.on(
+            'click.jstree',
+            '.jstree-displaylink',
+            $.proxy(function(e) {
+                var icon = $(e.currentTarget);
+                var node = icon.closest('.jstree-node');
+                var nodeObj = this.get_node(node);
+                var nodeUrl = nodeObj.data.url;
+                window.open(nodeUrl, '_blank');
+            }, this)
+        );
+    };
+    this.redraw_node = function(node, deep, is_callback, force_render) {
+        node = parent.redraw_node.apply(this, arguments);
+        if (node) {
+            var nodeObj = this.get_node(node);
+            var nodeJq = $(node);
+            var anchor = nodeJq.children('.jstree-anchor');
+            anchor.append(displayIcon.clone());
+        }
+        return node;
+    };
+};
+
 // Initialize the navigation tree
 var navTree = $('#nav-tree');
 var initialTreeData;
@@ -202,7 +236,7 @@ navTree.jstree({
         'check_callback': true,
         'data': navTree.data('jstree-data'),
     },
-    'plugins': ['dnd','removenode','editlink']
+    'plugins': ['dnd', 'removenode', 'editlink', 'display']
 }).on('loaded.jstree', function() {
     // Open all nodes by default.
     navTree.jstree(true).open_all();

@@ -16,7 +16,6 @@ $this->trigger('view.layout');
         <?php echo $this->headTitle(); ?>
         <?php echo $this->headLink(); ?>
         <?php echo $this->headStyle(); ?>
-        <?php echo $this->headScript(); ?>
     </head>
     <?php echo $this->htmlElement('body')->appendAttribute('class', 'minimal'); ?>
 
@@ -27,5 +26,6 @@ $this->trigger('view.layout');
         <footer>
             <span class="powered-by"><?php echo $this->translate('Powered by Omeka S'); ?></span>
         </footer>
+        <?php echo $this->headScript(); ?>
     </body>
 </html>

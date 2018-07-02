@@ -1,6 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
 $url = $this->plugin('url');
 $this->headLink()->prependStylesheet($this->assetUrl('css/user-bar.css', 'Omeka'));
 $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
@@ -13,6 +14,41 @@ if (!isset($user)) $user = $this->identity();
     <span class="current-site">
         <a href="<?php echo $site->adminUrl('show'); ?>"><?php echo $site->title(); ?></a>
     </span>
+    <?php
+    // There is no default label for resources, so get it from the controller.
+    $controller = $this->params()->fromRoute('__CONTROLLER__');
+    $mapLabels = [
+        'item' => 'Item', // @translate
+        'item-set' => 'Item set', // @translate
+        'media' => 'Media', // @translate
+        'Page' => 'Page', // @translate
+    ];
+    ?>
+    <?php if (isset($mapLabels[$controller])): ?>
+    <?php $routeParams = ['controller' => $controller] + $this->params()->fromRoute(); ?>
+    <?php if ($controller === 'Page'): ?>
+    <span class="current-page">
+        <?php echo $hyperlink($translate('Edit page'), $url('admin/site/slug/page/default', ['action' => 'edit'] + $routeParams)); ?>
+    </span>
+    <?php else: ?>
+    <span class="current-resources">
+    <?php
+    $mapPluralLabels = [
+        'item' => 'Items', // @translate
+        'item-set' => 'Item sets', // @translate
+        'media' => 'Medias', // @translate
+    ];
+    echo $hyperlink($translate($mapPluralLabels[$controller]), $url('admin/default', ['action' => null] + $routeParams));
+    ?>
+    </span>
+    <?php $id = $this->params()->fromRoute('id'); ?>
+    <?php if ($id): ?>
+    <span class="current-resource">
+        <?php echo $hyperlink($translate($mapLabels[$controller]), $url('admin/id', $routeParams)); ?>
+    </span>
+    <?php endif; ?>
+    <?php endif; ?>
+    <?php endif; ?>
     <?php endif; ?>
     <span class="user-id">
     <?php

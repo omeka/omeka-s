@@ -15,18 +15,19 @@ if (!isset($user)) $user = $this->identity();
         <a href="<?php echo $site->adminUrl('show'); ?>"><?php echo $site->title(); ?></a>
     </span>
     <?php
-    // There is no default label for resources, so get it from the controller.
-    $controller = $this->params()->fromRoute('__CONTROLLER__');
+    // There is no default label for resources, so get it from the controller (sometime upper-cased).
+    $params = $this->params();
+    $controller = strtolower($params->fromRoute('__CONTROLLER__'));
     $mapLabels = [
         'item' => 'Item', // @translate
         'item-set' => 'Item set', // @translate
         'media' => 'Media', // @translate
-        'Page' => 'Page', // @translate
+        'page' => 'Page', // @translate
     ];
     ?>
     <?php if (isset($mapLabels[$controller])): ?>
-    <?php $routeParams = $this->params()->fromRoute(); ?>
-    <?php if ($controller === 'Page'): ?>
+    <?php $routeParams = $params->fromRoute(); ?>
+    <?php if ($controller === 'page'): ?>
     <?php $page = $this->api()->read('site_pages', ['site' => $site->id(), 'slug' => $routeParams['page-slug']])->getContent(); ?>
     <?php if ($page->userIsAllowed('edit')): ?>
     <span class="current-page">
@@ -36,6 +37,15 @@ if (!isset($user)) $user = $this->identity();
     <?php else: ?>
     <span class="current-resources">
     <?php
+    $action = $params->fromRoute('action');
+    $id = $params->fromRoute('id');
+    // Manage the special case for item set / show, routed as item / browse.
+    $itemSetId = ($controller === 'item' && $action === 'browse') ? $params->fromRoute('item-set-id') : null;
+    if ($itemSetId):
+        $controller = 'item-set';
+        $action = 'show';
+        $id = $itemSetId;
+    endif;
     $mapPluralLabels = [
         'item' => 'Items', // @translate
         'item-set' => 'Item sets', // @translate
@@ -44,7 +54,6 @@ if (!isset($user)) $user = $this->identity();
     echo $hyperlink($translate($mapPluralLabels[$controller]), $url('admin/default', ['controller' => $controller]));
     ?>
     </span>
-    <?php $id = $this->params()->fromRoute('id'); ?>
     <?php if ($id):
     $mapResourceNames = ['item' => 'items', 'item-set' => 'item_sets', 'media' => 'media'];
     $resourceName = $mapResourceNames[$controller];

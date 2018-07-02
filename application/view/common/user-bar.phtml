@@ -25,11 +25,14 @@ if (!isset($user)) $user = $this->identity();
     ];
     ?>
     <?php if (isset($mapLabels[$controller])): ?>
-    <?php $routeParams = ['controller' => $controller] + $this->params()->fromRoute(); ?>
+    <?php $routeParams = $this->params()->fromRoute(); ?>
     <?php if ($controller === 'Page'): ?>
+    <?php $page = $this->api()->read('site_pages', ['site' => $site->id(), 'slug' => $routeParams['page-slug']])->getContent(); ?>
+    <?php if ($page->userIsAllowed('edit')): ?>
     <span class="current-page">
-        <?php echo $hyperlink($translate('Edit page'), $url('admin/site/slug/page/default', ['action' => 'edit'] + $routeParams)); ?>
+        <?php echo $hyperlink($translate('Edit page'), $page->adminUrl('edit')); ?>
     </span>
+    <?php endif; ?>
     <?php else: ?>
     <span class="current-resources">
     <?php
@@ -38,13 +41,18 @@ if (!isset($user)) $user = $this->identity();
         'item-set' => 'Item sets', // @translate
         'media' => 'Medias', // @translate
     ];
-    echo $hyperlink($translate($mapPluralLabels[$controller]), $url('admin/default', ['action' => null] + $routeParams));
+    echo $hyperlink($translate($mapPluralLabels[$controller]), $url('admin/default', ['controller' => $controller]));
     ?>
     </span>
     <?php $id = $this->params()->fromRoute('id'); ?>
-    <?php if ($id): ?>
+    <?php if ($id):
+    $mapResourceNames = ['item' => 'items', 'item-set' => 'item_sets', 'media' => 'media'];
+    $resourceName = $mapResourceNames[$controller];
+    $resource = $this->api()->read($resourceName, $id)->getContent();
+    $action = $resource->userIsAllowed('edit') ? 'edit' : null;
+    ?>
     <span class="current-resource">
-        <?php echo $hyperlink($translate($mapLabels[$controller]), $url('admin/id', $routeParams)); ?>
+        <?php echo $hyperlink(sprintf($translate('Edit %s'), $translate($mapLabels[$controller])), $resource->adminUrl($action)); ?>
     </span>
     <?php endif; ?>
     <?php endif; ?>

@@ -22,6 +22,12 @@ class UserBar extends AbstractHelper
     public function __invoke($partialName = null)
     {
         $view = $this->getView();
+
+        $site = $view->vars()->site;
+        if (empty($site)) {
+            return '';
+        }
+
         $showUserBar = $view->siteSetting('show_user_bar', 0);
         if ($showUserBar == -1) {
             return '';
@@ -29,11 +35,6 @@ class UserBar extends AbstractHelper
 
         $user = $view->identity();
         if ($showUserBar != 1 && !$user) {
-            return '';
-        }
-
-        $site = $view->vars()->site;
-        if (empty($site)) {
             return '';
         }
 

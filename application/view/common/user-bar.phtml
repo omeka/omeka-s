@@ -10,7 +10,7 @@ if (!isset($user)) $user = $this->identity();
 <div id="user-bar">
 <?php if ($user): ?>
     <?php if ($this->userIsAllowed('Omeka\Controller\Admin\Index', 'index')): ?>
-    <div class="logo"><a href="<?php echo $url('admin'); ?>"><?php echo $this->setting('installation_title', 'Omeka S'); ?></a></div>
+    <div class="admin-board"><a href="<?php echo $url('admin'); ?>"><?php echo $this->setting('installation_title', 'Omeka S'); ?></a></div>
     <span class="current-site">
         <a href="<?php echo $site->adminUrl('show'); ?>"><?php echo $site->title(); ?></a>
     </span>

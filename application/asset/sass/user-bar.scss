@@ -11,7 +11,13 @@
     justify-content: flex-end;
 }
 
-#user-bar .logo:after {
+/* TODO To be improved. */
+
+#user-bar .admin-board:after,
+#user-bar .current-site:after,
+#user-bar .current-page:after,
+#user-bar .current-resources:after,
+#user-bar .current-resource:after {
     content: "\2022";
     margin: 0 $spacing-medium;
 }
@@ -21,8 +27,8 @@
     background-color: transparent
 }
 
-#user-bar .current-site {
-    margin-right: auto;
+#user-bar .user-id {
+    margin-left: auto;
 }
 
 #user-bar .logout,

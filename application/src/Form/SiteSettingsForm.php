@@ -107,13 +107,17 @@ class SiteSettingsForm extends Form
         ]);
         $this->add([
             'name' => 'show_user_bar',
-            'type' => 'checkbox',
+            'type' => 'radio',
             'options' => [
-                'label' => 'Always show user bar on public views', // @translate
+                'label' => 'Show user bar on public views', // @translate
+                'value_options' => [
+                    '-1' => 'Never', // @translate
+                    '0' => 'When identified', // @translate
+                    '1' => 'Always', // @translate
+                ],
             ],
             'attributes' => [
-                'id' => 'show_user_bar',
-                'value' => $settings->get('show_user_bar', false),
+                'value' => $settings->get('show_user_bar', '0'),
             ],
         ]);
         $this->add([

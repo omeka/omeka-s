@@ -25,9 +25,14 @@ $escape = $this->plugin('escapeHtml');
             <?php if (array_key_exists($page->id(), $indents)): ?>
             <?php echo str_repeat('<span class="indent"></span>', intval($indents[$page->id()])); ?>
             <?php endif; ?>
-            <?php echo $this->hyperlink($page->title(), $page->siteUrl()); ?>
+            <?php echo $page->title(); ?>
             <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
             <ul class="actions">
+                <li><?php echo $this->hyperlink('', $page->siteUrl(), [
+                    'target' => '_blank',
+                    'class' => 'o-icon-external public',
+                    'title' => $this->translate('View public page'),
+                ]); ?></li>
                 <?php if ($page->userIsAllowed('update')): ?>
                 <li><?php echo $page->link('', 'edit', [
                     'class' => 'o-icon-edit',

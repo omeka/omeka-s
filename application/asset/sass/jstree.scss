@@ -81,7 +81,8 @@ i.jstree-icon {
 .jstree-closed > .jstree-ocl,
 .jstree-removenode-remove,
 .jstree-removenode-undo,
-.jstree-editlink-edit {
+.jstree-editlink-edit,
+.jstree-displaylink {
     width: $base-line-height;
     height: 1.5 * $base-line-height;
     line-height: 1.5 * $base-line-height;
@@ -111,7 +112,8 @@ i.jstree-icon.jstree-er {
 
 .jstree-removenode-remove,
 .jstree-removenode-undo,
-.jstree-editlink-edit {
+.jstree-editlink-edit,
+.jstree-displaylink {
     background-color: transparent;
     opacity: .5;
 
@@ -134,6 +136,15 @@ i.jstree-icon.jstree-er {
 
 i.jstree-editlink-edit {
     right: 1.5 * $base-line-height;
+}
+
+.jstree-open > .jstree-anchor .jstree-displaylink,
+.jstree-closed > .jstree-anchor .jstree-displaylink {
+    right: 4 * $base-line-height;
+}
+
+i.jstree-displaylink {
+    right: 2.5 * $base-line-height;
 }
 
 .jstree-anchor:hover > .jstree-removenode-remove {
@@ -166,6 +177,10 @@ i.jstree-editlink-edit {
 
 .jstree-editlink-edit:before {
     content: fa-content($fa-var-pencil-alt);
+}
+
+.jstree-displaylink:before {
+    content: $fa-var-external-link-alt;
 }
 
 .jstree-removenode-removed .jstree-anchor {

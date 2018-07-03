@@ -5,6 +5,7 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\Navigation\Link\LinkInterface;
 use Omeka\Site\Navigation\Link\Manager as LinkManager;
 use Zend\Mvc\I18n\Translator as I18n;
+use Zend\View\Helper\Url;
 
 class Translator
 {
@@ -18,16 +19,22 @@ class Translator
      */
     protected $i18n;
 
-    public function __construct(LinkManager $linkManager, I18n $i18n)
+    /**
+     * @var Url
+     */
+    protected $urlHelper;
+
+    public function __construct(LinkManager $linkManager, I18n $i18n, Url $urlHelper)
     {
         $this->linkManager = $linkManager;
         $this->i18n = $i18n;
+        $this->urlHelper = $urlHelper;
     }
 
     /**
      * Translate Omeka site navigation to Zend Navigation format.
      *
-     * @param Site $site
+     * @param SiteRepresentation $site
      * @return array
      */
     public function toZend(SiteRepresentation $site)
@@ -79,6 +86,7 @@ class Translator
                     'data' => [
                         'type' => $data['type'],
                         'data' => $linkType->toJstree($linkData, $site),
+                        'url' => $this->getLinkUrl($linkType, $data, $site),
                     ],
                     'children' => $data['links'] ? $buildLinks($data['links']) : [],
                 ];
@@ -122,6 +130,8 @@ class Translator
      * should be translated.
      *
      * @param LinkInterface $link
+     * @param array $data
+     * @param SiteRepresentation $site
      * @return string
      */
     public function getLinkLabel(LinkInterface $linkType, array $data, SiteRepresentation $site)
@@ -131,5 +141,31 @@ class Translator
             return $label;
         }
         return $this->i18n->translate($linkType->getName());
+    }
+
+    /**
+     * Get the url for a link.
+     *
+     * @param LinkInterface $link
+     * @param array $data
+     * @param SiteRepresentation $site
+     * @return string
+     */
+    public function getLinkUrl(LinkInterface $linkType, array $data, SiteRepresentation $site)
+    {
+        $linkZend = $linkType->toZend($data['data'], $site);
+        if (array_key_exists('uri', $data)) {
+            return $data['uri'];
+        }
+        if (empty($linkZend['route'])) {
+            return '';
+        }
+        $urlRoute = $linkZend['route'];
+        $urlParams = empty($linkZend['params']) ? [] : $linkZend['params'];
+        $urlParams['site-slug'] = $site->slug();
+        $urlOptions = empty($linkZend['query']) ? [] : ['query' => $linkZend['query']];
+        $urlHelper = $this->urlHelper;
+        $url = $urlHelper($urlRoute, $urlParams, $urlOptions);
+        return $url;
     }
 }

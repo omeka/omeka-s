@@ -180,7 +180,7 @@ i.jstree-displaylink {
 }
 
 .jstree-displaylink:before {
-    content: $fa-var-external-link-alt;
+    content: fa-content($fa-var-external-link-alt);
 }
 
 .jstree-removenode-removed .jstree-anchor {

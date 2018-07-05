@@ -54,6 +54,8 @@ class LoginController extends AbstractActionController
                 $result = $this->auth->authenticate();
                 if ($result->isValid()) {
                     $this->messenger()->addSuccess('Successfully logged in'); // @translate
+                    $eventManager = $this->getEventManager();
+                    $eventManager->trigger('user.login', $this->auth->getIdentity());
                     $session = $sessionManager->getStorage();
                     if ($redirectUrl = $session->offsetGet('redirect_url')) {
                         return $this->redirect()->toUrl($redirectUrl);

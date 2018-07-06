@@ -2,6 +2,7 @@
 namespace Omeka\Mvc;
 
 use Composer\Semver\Comparator;
+use Omeka\Service\Delegator\SitePaginatorDelegatorFactory;
 use Omeka\Session\SaveHandler\Db;
 use Omeka\Site\Theme\Manager;
 use Omeka\Site\Theme\Theme;
@@ -318,6 +319,8 @@ class MvcListeners extends AbstractListenerAggregate
         }
 
         $services = $event->getApplication()->getServiceManager();
+
+        $services->addDelegator('Omeka\Paginator', SitePaginatorDelegatorFactory::class);
 
         $themeManager = $services->get('Omeka\Site\ThemeManager');
         $currentTheme = $themeManager->getCurrentTheme();

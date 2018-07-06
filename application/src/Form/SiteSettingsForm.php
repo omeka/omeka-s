@@ -33,6 +33,21 @@ class SiteSettingsForm extends Form
         ]);
 
         $this->add([
+            'name' => 'pagination_per_page',
+            'type' => 'Text',
+            'options' => [
+                'label' => 'Results per page', // @translate
+                'info' => 'The maximum number of results per page on browse pages. Leave blank to use the global setting.', // @translate
+            ],
+            'attributes' => [
+                'value' => $settings->get('pagination_per_page'),
+                'required' => false,
+                'id' => 'pagination_per_page',
+                'placeholder' => 'Use global setting', // @translate
+            ],
+        ]);
+
+        $this->add([
             'name' => 'attachment_link_type',
             'type' => 'Select',
             'options' => [
@@ -144,6 +159,17 @@ class SiteSettingsForm extends Form
             'allow_empty' => true,
             'attributes' => [
                 'id' => 'locale',
+            ],
+        ]);
+        $inputFilter->add([
+            'name' => 'pagination_per_page',
+            'required' => false,
+            'filters' => [
+                ['name' => 'StringTrim'],
+                ['name' => 'ToNull'],
+            ],
+            'validators' => [
+                ['name' => 'Digits'],
             ],
         ]);
         $filterEvent = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);

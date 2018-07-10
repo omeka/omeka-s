@@ -3838,6 +3838,11 @@ body.minimal {
         margin: 0 0 $spacing-large 0;
     }
 
+    h2 {
+        font-size: 1.25 * $base-font-size;
+        margin-bottom: $spacing-medium;
+    }
+
     fieldset legend {
         font-weight: bold;
         font-size: 1.25 * $base-font-size;

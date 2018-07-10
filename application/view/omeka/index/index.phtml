@@ -3,6 +3,8 @@ $title = $this->setting('installation_title', 'Omeka S');
 echo $this->pageTitle($title);
 ?>
 
+<h2><?php echo $this->translate('Sites'); ?></h2>
+
 <?php echo $this->pagination(); ?>
 
 <?php if ($sites): ?>

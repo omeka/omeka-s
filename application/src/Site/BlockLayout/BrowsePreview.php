@@ -35,8 +35,8 @@ class BrowsePreview extends AbstractBlockLayout
             'options' => [
                 'label' => 'Resource type', // @translate
                 'value_options' => [
-                    'item_sets' => 'Item sets',  // @translate
                     'items' => 'Items',  // @translate
+                    'item_sets' => 'Item sets',  // @translate
                     'media' => 'Media',  // @translate
                 ],
             ],
@@ -50,27 +50,27 @@ class BrowsePreview extends AbstractBlockLayout
             ],
         ]);
         $form->add([
+            'name' => 'o:block[__blockIndex__][o:data][limit]',
+            'type' => Element\Number::class,
+            'options' => [
+                'label' => 'Limit', // @translate
+                'info' => 'Maximum number of resources to display in the preview.', // @translate
+            ],
+        ]);
+        $form->add([
             'name' => 'o:block[__blockIndex__][o:data][heading]',
             'type' => Element\Text::class,
             'options' => [
                 'label' => 'Preview title', // @translate
-                'info' => 'Translatable heading above resource list, if any.', // @translate
-            ],
-        ]);
-        $form->add([
-            'name' => 'o:block[__blockIndex__][o:data][limit]',
-            'type' => Element\Number::class,
-            'options' => [
-                'label' => 'Max number', // @translate
-                'info' => 'Maximum number of resources to display in the preview.', // @translate
+                'info' => 'Heading above resource list, if any.', // @translate
             ],
         ]);
         $form->add([
             'name' => 'o:block[__blockIndex__][o:data][link-text]',
             'type' => Element\Text::class,
             'options' => [
-                'label' => 'Preview title', // @translate
-                'info' => 'Translatable text for link to full browse view, if any.', // @translate
+                'label' => 'Link text', // @translate
+                'info' => 'Text for link to full browse view, if any.', // @translate
             ],
         ]);
 

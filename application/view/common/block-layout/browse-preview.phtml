@@ -1,7 +1,7 @@
 <div class="preview-block">
 
 <?php if ($this->heading): ?>
-<h2><?php echo $this->translate($this->heading); ?></h2>
+<h2><?php echo $this->heading; ?></h2>
 <?php endif; ?>
 
 <ul class="resource-list preview">
@@ -24,7 +24,7 @@ foreach ($this->resources as $resource):
 
 <?php
 if ($this->linkText):
-    echo $this->hyperlink($this->translate($this->linkText), $this->url(
+    echo $this->hyperlink($this->linkText, $this->url(
         'site/resource', ['controller' => $this->resourceType, 'action' => 'browse'], ['query' => $this->query], true
     ));
 endif;

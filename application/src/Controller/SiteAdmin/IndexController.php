@@ -171,8 +171,11 @@ class IndexController extends AbstractActionController
                     }
                     $this->messenger()->addSuccess('Page successfully created'); // @translate
                     return $this->redirect()->toRoute(
-                        'admin/site/slug/page',
-                        ['action' => 'index'],
+                        'admin/site/slug/page/default',
+                        [
+                            'page-slug' => $page->slug(),
+                            'action' => 'edit',
+                        ],
                         true
                     );
                 }

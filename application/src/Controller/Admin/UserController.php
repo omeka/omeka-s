@@ -3,7 +3,6 @@ namespace Omeka\Controller\Admin;
 
 use Doctrine\ORM\EntityManager;
 use Omeka\Entity\ApiKey;
-use Omeka\Entity\User;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\UserForm;
 use Omeka\Mvc\Exception;

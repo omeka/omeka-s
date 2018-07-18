@@ -24,7 +24,6 @@ return PhpCsFixer\Config::create()
         'phpdoc_scalar' => true,
         'phpdoc_to_comment' => true,
         'phpdoc_trim' => true,
-        'self_accessor' => true,
         'trailing_comma_in_multiline_array' => true,
     ])
     ->setFinder(

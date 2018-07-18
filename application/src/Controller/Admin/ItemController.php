@@ -8,7 +8,6 @@ use Omeka\Media\Ingester\Manager;
 use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Zend\Form\Form;
 
 class ItemController extends AbstractActionController
 {

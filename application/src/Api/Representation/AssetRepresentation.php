@@ -1,8 +1,6 @@
 <?php
 namespace Omeka\Api\Representation;
 
-use Omeka\Entity\Asset;
-
 class AssetRepresentation extends AbstractEntityRepresentation
 {
     /**

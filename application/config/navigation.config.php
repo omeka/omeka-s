@@ -63,6 +63,13 @@ return [
                         'route' => 'admin/default',
                         'controller' => 'media',
                         'visible' => true,
+                        'pages' => [
+                            [
+                                'route' => 'admin/id',
+                                'controller' => 'media',
+                                'visible' => false,
+                            ],
+                        ],
                     ],
                 ],
             ],

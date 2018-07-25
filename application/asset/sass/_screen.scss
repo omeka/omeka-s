@@ -1996,7 +1996,8 @@ input[type="text"].value-language,
         display: inline-block;
     }
 
-    .field .field-description {
+    .field .field-description,
+    .field .docs-link {
         font-size: 14px;
         line-height: .75 * $spacing-large;
         position: static;
@@ -2063,6 +2064,15 @@ input[type="text"].value-language,
         top: auto;
         bottom: -($spacing-medium);
         transform: rotate(180deg);
+    }
+
+    .field .docs-link:before {
+        content: fa-content($fa-var-info-circle);
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        margin-right: $spacing-small;
+        font-size: 14px;
+        line-height: .75 * $spacing-large;
     }
 
     .field-meta .expand,

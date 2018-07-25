@@ -47,6 +47,7 @@ class BrowsePreview extends AbstractBlockLayout
             'options' => [
                 'label' => 'Query', // @translate
                 'info' => 'Display resources using this search query', // @translate
+                'documentation' => 'https://omeka.org/s/docs/user-manual/sites/site_pages/#browse-preview',
             ],
         ]);
         $form->add([

@@ -14,6 +14,9 @@ $class = $isRequired ? 'field required' : 'field';
         <a href="#" class="expand" aria-label=" <?php echo $this->escapeHtml($this->translate('Expand')); ?>"></a>
         <div class="collapsible">
             <div class="field-description"><?php echo $this->escapeHtml($this->translate($info)); ?></div>
+            <?php if ($documentation = $element->getOption('documentation')): ?>
+            <a href="<?php echo $documentation; ?>" class="docs-link"><?php echo $this->translate('Learn more'); ?></a>
+            <?php endif; ?>
         </div>
         <?php endif; ?>
     </div>

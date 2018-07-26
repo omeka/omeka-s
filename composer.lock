@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d0cf0f2a989edae2e90fe931c0742114",
+    "content-hash": "44eeb95e067d5574234e8eeb02342392",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -911,17 +911,17 @@
         },
         {
             "name": "ml/json-ld",
-            "version": "1.0.8",
+            "version": "dev-fix-php-72",
             "target-dir": "ML/JsonLD",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lanthaler/JsonLD.git",
-                "reference": "da8efc590273f0420e79cb110778508875690bde"
+                "url": "https://github.com/omeka/JsonLD.git",
+                "reference": "a9683178ceb53cb428911d5ae44a14082cb2fc0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lanthaler/JsonLD/zipball/da8efc590273f0420e79cb110778508875690bde",
-                "reference": "da8efc590273f0420e79cb110778508875690bde",
+                "url": "https://api.github.com/repos/omeka/JsonLD/zipball/a9683178ceb53cb428911d5ae44a14082cb2fc0e",
+                "reference": "a9683178ceb53cb428911d5ae44a14082cb2fc0e",
                 "shasum": ""
             },
             "require": {
@@ -939,7 +939,6 @@
                     "ML\\JsonLD": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -957,7 +956,10 @@
                 "JSON-LD",
                 "jsonld"
             ],
-            "time": "2018-01-28T12:53:52+00:00"
+            "support": {
+                "source": "https://github.com/omeka/JsonLD/tree/fix-php-72"
+            },
+            "time": "2018-04-10T20:30:22+00:00"
         },
         {
             "name": "omeka-s-themes/default",
@@ -6759,6 +6761,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "ml/json-ld": 20,
         "omeka-s-themes/default": 20,
         "zerocrates/extract-tagged-strings": 20
     },

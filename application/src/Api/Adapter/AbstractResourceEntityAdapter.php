@@ -335,19 +335,24 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             $findBy['property'] = $property;
         }
 
-        // Need to get the current user to check visibility
-        $identity = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
+        // Need to check visibility manually here
+        $services = $this->getServiceLocator();
+        $identity = $services->get('Omeka\AuthenticationService')->getIdentity();
+        $acl = $services->get('Omeka\Acl');
 
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('v')
             ->from('Omeka\Entity\Value', 'v')
             ->join('v.resource', 'r')
-            ->where($qb->expr()->eq('v.valueResource', $this->createNamedParameter($qb, $resource)))
-            ->andWhere($qb->expr()->orX(
+            ->where($qb->expr()->eq('v.valueResource', $this->createNamedParameter($qb, $resource)));
+
+        if (!$acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
+            $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->eq('r.isPublic', '1'),
                 $qb->expr()->eq('r.owner', $this->createNamedParameter($qb, $identity))
             ));
+        }
 
         if ($property) {
             $qb->where('v.property', $this->createNamedParameter($qb, $property));

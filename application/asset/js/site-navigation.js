@@ -220,9 +220,12 @@ $.jstree.plugins.display = function(options, parent) {
         node = parent.redraw_node.apply(this, arguments);
         if (node) {
             var nodeObj = this.get_node(node);
-            var nodeJq = $(node);
-            var anchor = nodeJq.children('.jstree-anchor');
-            anchor.append(displayIcon.clone());
+            var nodeUrl = nodeObj.data.url;
+            if (nodeUrl) {
+                var nodeJq = $(node);
+                var anchor = nodeJq.children('.jstree-anchor');
+                anchor.append(displayIcon.clone());
+            }
         }
         return node;
     };

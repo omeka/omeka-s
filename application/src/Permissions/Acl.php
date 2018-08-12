@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Permissions;
 
+use Omeka\Api\ResourceInterface;
 use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Permissions\Acl\Acl as ZendAcl;
 
@@ -72,7 +73,7 @@ class Acl extends ZendAcl
     /**
      * Authorize the current user.
      *
-     * @param Resource\ResourceInterface|string $resource
+     * @param ResourceInterface|string $resource
      * @param string $privilege
      * @return bool
      */

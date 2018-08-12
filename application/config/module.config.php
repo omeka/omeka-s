@@ -177,7 +177,7 @@ return [
     ],
     'logger' => [
         'log' => false,
-        /** @deprecated 1.1.0 Use the options of the stream writer below. */
+        /** @deprecated 1.3.0 Use the options of the stream writer below. */
         // 'path' => OMEKA_PATH . '/logs/application.log',
         // 'priority' => \Zend\Log\Logger::NOTICE,
         'writers' => [

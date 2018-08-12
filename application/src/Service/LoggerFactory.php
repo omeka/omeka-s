@@ -41,7 +41,7 @@ class LoggerFactory implements FactoryInterface
                 $writers['stream']['options']['stream'] = $config['logger']['path'];
             }
             trigger_error(
-                'Update your config/local.config.php for Omeka S 1.1 (logger path or priority).',
+                'Update your config/local.config.php for Omeka S 1.3 (logger path or priority).',
                 E_USER_DEPRECATED
             );
         }

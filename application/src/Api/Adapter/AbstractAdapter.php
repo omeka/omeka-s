@@ -135,7 +135,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Compose a resource representation object.
      *
      * @param mixed $data Whatever data is needed to compose the representation.
-     * @return RepresentationInterface|null
+     * @return ResourceInterface|null
      */
     public function getRepresentation(ResourceInterface $data = null)
     {

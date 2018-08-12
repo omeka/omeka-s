@@ -108,6 +108,9 @@ class SiteRepresentation extends AbstractEntityRepresentation
         return $this->resource->isPublic();
     }
 
+    /**
+     * @return \Omeka\Api\Representation\SitePageRepresentation[]
+     */
     public function pages()
     {
         $pages = [];
@@ -144,7 +147,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * Return pages that are not linked in site navigation.
      *
-     * @return array An array of page represenatations
+     * @return array An array of page representations
      */
     public function notLinkedPages()
     {

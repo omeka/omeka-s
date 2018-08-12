@@ -35,7 +35,7 @@ class ResourceAdapter extends AbstractEntityAdapter
      *
      * @param string|int $id The unique identifier of the resource
      * @param mixed $data Whatever data is needed to compose the representation.
-     * @return RepresentationInterface|null
+     * @return ResourceInterface|null
      */
     public function getRepresentation(ResourceInterface $data = null)
     {

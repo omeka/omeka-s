@@ -87,7 +87,7 @@ abstract class AbstractRepresentation implements RepresentationInterface
     /**
      * Get one Media representation that typifies this representation.
      *
-     * @return null|MediaRepresentation
+     * @return MediaRepresentation|null
      */
     public function primaryMedia()
     {

@@ -11,7 +11,7 @@ class MailerFactory implements FactoryInterface
     /**
      * Create the mailer service.
      *
-     * @return Mialer
+     * @return Mailer
      */
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {

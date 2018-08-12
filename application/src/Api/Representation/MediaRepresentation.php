@@ -139,7 +139,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     /**
      * Get the media data.
      *
-     * Named getMediaData() so as not to override parent::getData().
+     * Named mediaData() so as not to override parent::getData().
      *
      * @return mixed
      */

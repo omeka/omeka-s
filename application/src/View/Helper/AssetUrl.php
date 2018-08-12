@@ -14,7 +14,7 @@ class AssetUrl extends AbstractHelper
     const THEME_ASSETS_PATH = '%s/themes/%s/asset/%s%s';
 
     /**
-     * @var Theme The current theme, if any
+     * @var \Omeka\Site\Theme\Theme The current theme, if any
      */
     protected $currentTheme;
 
@@ -31,8 +31,9 @@ class AssetUrl extends AbstractHelper
     /**
      * Construct the helper.
      *
-     * @param Theme|null $currentTheme
+     * @param \Omeka\Site\Theme\Theme|null $currentTheme
      * @param array $modules
+     * @param array $externals
      */
     public function __construct($currentTheme, $modules, $externals)
     {

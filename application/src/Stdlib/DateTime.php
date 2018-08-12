@@ -9,7 +9,7 @@ use JsonSerializable;
 class DateTime implements JsonSerializable
 {
     /**
-     * @var PhpDateTime
+     * @var \DateTime
      */
     protected $dateTime;
 

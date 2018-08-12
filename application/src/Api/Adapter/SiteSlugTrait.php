@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Omeka\Entity\Site;
 use PDO;
 
 /**
@@ -15,7 +16,7 @@ trait SiteSlugTrait
      * @param Site $site
      * @return string
      */
-    protected function getAutomaticSlug($title, $site = null)
+    protected function getAutomaticSlug($title, Site $site = null)
     {
         if ($site) {
             $siteId = $site->getId();

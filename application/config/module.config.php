@@ -434,13 +434,13 @@ return [
                 Service\Delegator\NavigationDelegatorFactory::class,
             ],
             'Zend\View\Helper\HeadTitle' => [
-                'Omeka\Service\Delegator\HeadTitleDelegatorFactory',
+                Service\Delegator\HeadTitleDelegatorFactory::class,
             ],
         ],
     ],
     'form_elements' => [
         'initializers' => [
-            'Omeka\Form\Initializer\Csrf',
+            Form\Initializer\Csrf::class,
         ],
         'factories' => [
             'Omeka\Form\ResourceForm' => Service\Form\ResourceFormFactory::class,
@@ -473,9 +473,6 @@ return [
         ],
     ],
     'block_layouts' => [
-        'factories' => [
-            'html' => Service\BlockLayout\HtmlFactory::class,
-        ],
         'invokables' => [
             'pageTitle' => Site\BlockLayout\PageTitle::class,
             'media' => Site\BlockLayout\Media::class,
@@ -484,6 +481,9 @@ return [
             'tableOfContents' => Site\BlockLayout\TableOfContents::class,
             'lineBreak' => Site\BlockLayout\LineBreak::class,
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
+        ],
+        'factories' => [
+            'html' => Service\BlockLayout\HtmlFactory::class,
         ],
         'sorted_names' => [
             'html',

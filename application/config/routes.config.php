@@ -3,7 +3,7 @@ return [
     'router' => [
         'routes' => [
             'top' => [
-                'type' => 'Literal',
+                'type' => \Zend\Router\Http\Literal::class,
                 'options' => [
                     'route' => '/',
                     'defaults' => [
@@ -14,7 +14,7 @@ return [
                 ],
             ],
             'site' => [
-                'type' => 'Segment',
+                'type' => \Zend\Router\Http\Segment::class,
                 'options' => [
                     'route' => '/s/:site-slug',
                     'constraints' => [
@@ -30,7 +30,7 @@ return [
                 'may_terminate' => true,
                 'child_routes' => [
                     'resource' => [
-                        'type' => 'Segment',
+                        'type' => \Zend\Router\Http\Segment::class,
                         'options' => [
                             'route' => '/:controller[/:action]',
                             'defaults' => [
@@ -43,7 +43,7 @@ return [
                         ],
                     ],
                     'resource-id' => [
-                        'type' => 'Segment',
+                        'type' => \Zend\Router\Http\Segment::class,
                         'options' => [
                             'route' => '/:controller/:id[/:action]',
                             'defaults' => [
@@ -57,7 +57,7 @@ return [
                         ],
                     ],
                     'item-set' => [
-                        'type' => 'Segment',
+                        'type' => \Zend\Router\Http\Segment::class,
                         'options' => [
                             'route' => '/item-set/:item-set-id',
                             'defaults' => [
@@ -70,7 +70,7 @@ return [
                         ],
                     ],
                     'page' => [
-                        'type' => 'Segment',
+                        'type' => \Zend\Router\Http\Segment::class,
                         'options' => [
                             'route' => '/page/:page-slug',
                             'defaults' => [
@@ -82,7 +82,7 @@ return [
                 ],
             ],
             'admin' => [
-                'type' => 'Literal',
+                'type' => \Zend\Router\Http\Literal::class,
                 'options' => [
                     'route' => '/admin',
                     'defaults' => [
@@ -95,7 +95,7 @@ return [
                 'may_terminate' => true,
                 'child_routes' => [
                     'default' => [
-                        'type' => 'Segment',
+                        'type' => \Zend\Router\Http\Segment::class,
                         'options' => [
                             'route' => '/:controller[/:action]',
                             'constraints' => [
@@ -108,7 +108,7 @@ return [
                         ],
                     ],
                     'id' => [
-                        'type' => 'Segment',
+                        'type' => \Zend\Router\Http\Segment::class,
                         'options' => [
                             'route' => '/:controller/:id[/:action]',
                             'constraints' => [
@@ -122,7 +122,7 @@ return [
                         ],
                     ],
                     'site' => [
-                        'type' => 'Literal',
+                        'type' => \Zend\Router\Http\Literal::class,
                         'options' => [
                             'route' => '/site',
                             'defaults' => [
@@ -135,7 +135,7 @@ return [
                         'may_terminate' => true,
                         'child_routes' => [
                             'slug' => [
-                                'type' => 'Segment',
+                                'type' => \Zend\Router\Http\Segment::class,
                                 'options' => [
                                     'route' => '/s/:site-slug',
                                     'constraints' => [
@@ -148,7 +148,7 @@ return [
                                 'may_terminate' => true,
                                 'child_routes' => [
                                     'action' => [
-                                        'type' => 'Segment',
+                                        'type' => \Zend\Router\Http\Segment::class,
                                         'options' => [
                                             'route' => '[/:action]',
                                             'constraints' => [
@@ -157,7 +157,7 @@ return [
                                         ],
                                     ],
                                     'page' => [
-                                        'type' => 'Segment',
+                                        'type' => \Zend\Router\Http\Segment::class,
                                         'options' => [
                                             'route' => '/page',
                                             'defaults' => [
@@ -168,7 +168,7 @@ return [
                                         'may_terminate' => true,
                                         'child_routes' => [
                                             'default' => [
-                                                'type' => 'Segment',
+                                                'type' => \Zend\Router\Http\Segment::class,
                                                 'options' => [
                                                     'route' => '/:page-slug[/:action]',
                                                     'constraints' => [
@@ -185,7 +185,7 @@ return [
                                 ],
                             ],
                             'add' => [
-                                'type' => 'Literal',
+                                'type' => \Zend\Router\Http\Literal::class,
                                 'options' => [
                                     'route' => '/add',
                                     'defaults' => [
@@ -198,7 +198,7 @@ return [
                 ],
             ],
             'api' => [
-                'type' => 'Literal',
+                'type' => \Zend\Router\Http\Literal::class,
                 'options' => [
                     'route' => '/api',
                     'defaults' => [
@@ -208,7 +208,7 @@ return [
                 'may_terminate' => true,
                 'child_routes' => [
                     'default' => [
-                        'type' => 'Segment',
+                        'type' => \Zend\Router\Http\Segment::class,
                         'options' => [
                             'route' => '[/:resource[/:id]]',
                             'constraints' => [
@@ -219,72 +219,72 @@ return [
                 ],
             ],
             'api-context' => [
-                'type' => 'Literal',
+                'type' => \Zend\Router\Http\Literal::class,
                 'options' => [
                     'route' => '/api-context',
                     'defaults' => [
                         'controller' => 'Omeka\Controller\Api',
                         'action' => 'context',
-                     ],
+                    ],
                 ],
             ],
             'install' => [
-                'type' => 'Regex',
+                'type' => \Zend\Router\Http\Regex::class,
                 'options' => [
                     'regex' => '/install(/.*)?',
                     'spec' => '/install',
                     'defaults' => [
                         'controller' => 'Omeka\Controller\Install',
                         'action' => 'index',
-                     ],
+                    ],
                 ],
             ],
             'migrate' => [
-                'type' => 'Regex',
+                'type' => \Zend\Router\Http\Regex::class,
                 'options' => [
                     'regex' => '/migrate(/.*)?',
                     'spec' => '/migrate',
                     'defaults' => [
                         'controller' => 'Omeka\Controller\Migrate',
                         'action' => 'index',
-                     ],
+                    ],
                 ],
             ],
             'maintenance' => [
-                'type' => 'Regex',
+                'type' => \Zend\Router\Http\Regex::class,
                 'options' => [
                     'regex' => '/maintenance(/.*)?',
                     'spec' => '/maintenance',
                     'defaults' => [
                         'controller' => 'Omeka\Controller\Maintenance',
                         'action' => 'index',
-                     ],
+                    ],
                 ],
             ],
             'login' => [
-                'type' => 'Regex',
+                'type' => \Zend\Router\Http\Regex::class,
                 'options' => [
                     'regex' => '/login(/.*)?',
                     'spec' => '/login',
                     'defaults' => [
                         'controller' => 'Omeka\Controller\Login',
                         'action' => 'login',
-                     ],
+                    ],
                 ],
             ],
             'logout' => [
-                'type' => 'Regex',
+                'type' => \Zend\Router\Http\Regex::class,
                 'options' => [
                     'regex' => '/logout(/.*)?',
                     'spec' => '/logout',
                     'defaults' => [
                         'controller' => 'Omeka\Controller\Login',
                         'action' => 'logout',
-                     ],
+                    ],
                 ],
             ],
             'create-password' => [
-                'type' => 'Segment',
+                'type' => \Zend\Router\Http\Segment::class,
                 'options' => [
                     'route' => '/create-password/:key',
                     'constraints' => [
@@ -297,14 +297,14 @@ return [
                 ],
             ],
             'forgot-password' => [
-                'type' => 'Regex',
+                'type' => \Zend\Router\Http\Regex::class,
                 'options' => [
                     'regex' => '/forgot-password(/.*)?',
                     'spec' => '/forgot-password',
                     'defaults' => [
                         'controller' => 'Omeka\Controller\Login',
                         'action' => 'forgot-password',
-                     ],
+                    ],
                 ],
             ],
         ],

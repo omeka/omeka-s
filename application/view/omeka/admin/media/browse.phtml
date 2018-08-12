@@ -99,7 +99,7 @@ $sortHeadings = [
         <tr>
             <td>
                 <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"  aria-label="<?php echo $this->translate('Select media'); ?>" <?php if (!($userIsAllowedUpdate || $userIsAllowedDelete)): ?> disabled="disabled"<?php endif; ?>>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"  aria-label="<?php echo $this->translate('Select media'); ?>" <?php if (!($userIsAllowedUpdate || $userIsAllowedDelete)): ?> disabled<?php endif; ?>>
                 <?php endif; ?>
                 <?php echo $media->linkPretty(); ?>
                 <?php if (!$media->isPublic()): ?>

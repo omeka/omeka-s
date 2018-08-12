@@ -109,7 +109,7 @@ class RdfImporter
         $members = ['classes' => [], 'properties' => []];
 
         // Iterate through all resources of the graph instead of selectively by
-        // rdf:type becuase a resource may have more than one type, causing
+        // rdf:type because a resource may have more than one type, causing
         // illegal attempts to duplicate classes and properties.
         foreach ($graph->resources() as $resource) {
             // The resource must not be a blank node.

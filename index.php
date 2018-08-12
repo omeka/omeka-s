@@ -30,7 +30,7 @@ try {
             $parentModel = new ViewModel;
         }
         $parentModel->setTemplate('layout/layout');
-        $parentModel->setVariable('content', $viewRenderer->render($model));
+        $parentModel->setVariable('content', $content);
         http_response_code(500);
         error_log($e);
         echo $viewRenderer->render($parentModel);

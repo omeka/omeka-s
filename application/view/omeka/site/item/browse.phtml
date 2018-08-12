@@ -1,14 +1,15 @@
 <?php
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'item resource browse');
+
 $query = $this->params()->fromQuery();
-if (isset($itemSet)):
+$itemSetShow = isset($itemSet);
+if ($itemSetShow):
     $this->htmlElement('body')->appendAttribute('class', 'item-set');
     $query['item_set_id'] = $itemSet->id();
 endif;
 $headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
 $bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
-$itemSetShow = isset($itemSet);
 ?>
 
 <?php if ($itemSetShow): ?>

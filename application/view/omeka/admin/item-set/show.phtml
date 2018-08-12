@@ -1,9 +1,10 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'item-sets show');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'item-sets show');
 $viewItemsLink = $this->url(
-    'admin/default', 
-    ['controller' => 'item', 'action' => 'browse'], 
+    'admin/default',
+    ['controller' => 'item', 'action' => 'browse'],
     [
         'query' =>  [
             'item_set_id' => $itemSet->id()
@@ -13,22 +14,22 @@ $viewItemsLink = $this->url(
 if ($owner = $itemSet->owner()) {
     $ownerText = $escape($itemSet->owner()->name());
 } else {
-    $ownerText = $this->translate('[no owner]');
+    $ownerText = $translate('[no owner]');
 }
 
 $sectionNavs = [
-    'item-set-metadata' => $this->translate('Metadata'),
-    'item-set-linked' => $this->translate('Linked resources'),
+    'item-set-metadata' => $translate('Metadata'),
+    'item-set-linked' => $translate('Linked resources'),
 ];
 ?>
 
-<?php echo $this->pageTitle($itemSet->displayTitle(), 1, $this->translate('Item sets')); ?>
+<?php echo $this->pageTitle($itemSet->displayTitle(), 1, $translate('Item sets')); ?>
 
 <div id="page-actions">
     <?php if ($itemSet->userIsAllowed('update')): ?>
-    <?php echo $itemSet->link($this->translate('Edit item set'), 'edit', ['class' => 'button']); ?>
+    <?php echo $itemSet->link($translate('Edit item set'), 'edit', ['class' => 'button']); ?>
     <?php endif; ?>
-    <a href="<?php echo $viewItemsLink; ?>" class="button"><?php echo $this->translate('View items'); ?></a>
+    <a href="<?php echo $viewItemsLink; ?>" class="button"><?php echo $translate('View items'); ?></a>
 </div>
 
 <?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $itemSet); ?>
@@ -36,7 +37,7 @@ $sectionNavs = [
 <div id="item-set-metadata" class="active section">
     <?php if ( $itemSet->resourceClass()): ?>
         <div class="meta-group">
-            <h4><?php echo $this->translate('Class'); ?></h4>
+            <h4><?php echo $translate('Class'); ?></h4>
             <div class="value"><?php echo $escape($itemSet->resourceClass()->label()); ?></div>
         </div>
     <?php endif; ?>
@@ -50,11 +51,11 @@ $sectionNavs = [
     $subjectValues = $itemSet->displaySubjectValues($page, 25);
     ?>
     <?php if ($subjectValues): ?>
-        <p><?php echo $this->translate('The following resources link to this item set:'); ?></p>
+        <p><?php echo $translate('The following resources link to this item set:'); ?></p>
         <?php echo $subjectValues; ?>
     <?php else: ?>
         <div class="no-resources">
-            <p><?php echo $this->translate('No resources link to this item set.'); ?></p>
+            <p><?php echo $translate('No resources link to this item set.'); ?></p>
         </div>
     <?php endif; ?>
 </div>
@@ -62,20 +63,20 @@ $sectionNavs = [
 
 <div class="active sidebar">
     <div class="meta-group">
-        <h4><?php echo $this->translate('Created'); ?></h4>
+        <h4><?php echo $translate('Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($itemSet->created())); ?></div>
     </div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Owner'); ?></h4>
+        <h4><?php echo $translate('Owner'); ?></h4>
         <div class="value"><?php echo $ownerText; ?></div>
     </div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Visibility'); ?></h4>
-        <div class="value"><?php echo ($itemSet->isPublic()) ? $escape($this->translate('Public')) : $escape($this->translate('Private')); ?></div>
-        <div class="value"><?php echo ($itemSet->isOpen()) ? $escape($this->translate('Open to additions')) : $escape($this->translate('Closed to additions')); ?></div>
+        <h4><?php echo $translate('Visibility'); ?></h4>
+        <div class="value"><?php echo ($itemSet->isPublic()) ? $escape($translate('Public')) : $escape($translate('Private')); ?></div>
+        <div class="value"><?php echo ($itemSet->isOpen()) ? $escape($translate('Open to additions')) : $escape($translate('Closed to additions')); ?></div>
     </div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Items'); ?></h4>
+        <h4><?php echo $translate('Items'); ?></h4>
         <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $itemSet->id()]])); ?></div>
     </div>
     <?php $this->trigger('view.show.sidebar'); ?>

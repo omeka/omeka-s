@@ -1,40 +1,41 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
 $sortHeadings = [
     [
-        'label' => $this->translate('Title'),
+        'label' => $translate('Title'),
         'value' => 'dcterms:title'
     ],
     [
-        'label' => $this->translate('Class'),
+        'label' => $translate('Class'),
         'value' => 'resource_class_label'
     ],
     [
-        'label' => $this->translate('Owner'),
+        'label' => $translate('Owner'),
         'value' => 'owner_name'
     ],
     [
-        'label' => $this->translate('Created'),
+        'label' => $translate('Created'),
         'value' => 'created'
     ],
 ];
 ?>
 
-<?php echo $this->pageTitle($this->translate('Item sets')); ?>
+<?php echo $this->pageTitle($translate('Item sets')); ?>
 
 <?php echo $this->searchFilters(); ?>
 
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
-    <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
+    <?php echo $this->hyperlink($translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
 
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Add new item set'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
+    <?php echo $this->hyperlink($translate('Add new item set'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
@@ -43,20 +44,20 @@ $sortHeadings = [
 <form method="post" id="batch-form" class="disable-unsaved-warning">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'batch_update')): ?>
     <div class="batch-inputs">
-        <select class="batch-actions-select" aria-label="<?php echo $this->translate('Batch actions'); ?>">
-            <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
-            <option value="update-selected" disabled="true"><?php echo $this->translate('Edit selected'); ?></option>
-            <option value="update-all"><?php echo $this->translate('Edit all'); ?></option>
-            <option value="delete-selected" disabled="true"><?php echo $this->translate('Delete selected'); ?></option>
-            <option value="delete-all"><?php echo $this->translate('Delete all'); ?></option>
+        <select class="batch-actions-select" aria-label="<?php echo $translate('Batch actions'); ?>">
+            <option value="default"><?php echo $translate('Batch actions'); ?></option>
+            <option value="update-selected" disabled="true"><?php echo $translate('Edit selected'); ?></option>
+            <option value="update-all"><?php echo $translate('Edit all'); ?></option>
+            <option value="delete-selected" disabled="true"><?php echo $translate('Delete selected'); ?></option>
+            <option value="delete-all"><?php echo $translate('Delete all'); ?></option>
         </select>
         <div class="batch-actions">
-            <button type="button" class="default active" disabled="true"><?php echo $this->translate('Go'); ?></button>
-            <input type="submit" class="update-selected" name="update_selected" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
-            <input type="submit" class="update-all" name="update_all" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+            <button type="button" class="default active" disabled="true"><?php echo $translate('Go'); ?></button>
+            <input type="submit" class="update-selected" name="update_selected" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
+            <input type="submit" class="update-all" name="update_all" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
             <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
-            <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $this->translate('Go'); ?></a>
-            <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $this->translate('Go'); ?></a>
+            <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $translate('Go'); ?></a>
+            <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $translate('Go'); ?></a>
         </div>
     </div>
     <?php endif; ?>
@@ -64,12 +65,12 @@ $sortHeadings = [
     <thead>
         <tr>
             <th>
-                <input type="checkbox" class="select-all" aria-label="<?php echo $this->translate('Select all'); ?>">
-                <?php echo $this->translate('Title'); ?>
+                <input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>">
+                <?php echo $translate('Title'); ?>
             </th>
-            <th><?php echo $this->translate('Class'); ?></th>
-            <th><?php echo $this->translate('Owner'); ?></th>
-            <th><?php echo $this->translate('Created'); ?></th>
+            <th><?php echo $translate('Class'); ?></th>
+            <th><?php echo $translate('Owner'); ?></th>
+            <th><?php echo $translate('Created'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -85,23 +86,23 @@ $sortHeadings = [
                 )
             );
         } else {
-            $ownerText = $this->translate('[no owner]');
+            $ownerText = $translate('[no owner]');
         }
         ?>
         <tr>
             <td>
                 <?php if ($itemSet->userIsAllowed('update') || $itemSet->userIsAllowed('delete')): ?>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $itemSet->id(); ?>" aria-label="<?php echo $this->translate('Select item set'); ?>">
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $itemSet->id(); ?>" aria-label="<?php echo $translate('Select item set'); ?>">
                 <?php endif; ?>
                 <?php echo $itemSet->linkPretty(); ?>
                 <?php if (!$itemSet->isPublic()): ?>
-                    <span class="o-icon-private" aria-label="<?php echo $this->translate('Private'); ?>"></span>
+                    <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>
                 <?php endif; ?>
                 <ul class="actions">
                     <?php if ($itemSet->userIsAllowed('update')): ?>
                     <li><?php echo $itemSet->link('', 'edit', [
                         'class' => 'o-icon-edit',
-                        'title' => $this->translate('Edit'),
+                        'title' => $translate('Edit'),
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($itemSet->userIsAllowed('delete')): ?>
@@ -109,18 +110,18 @@ $sortHeadings = [
                         'data-sidebar-selector' => '#sidebar',
                         'data-sidebar-content-url' => $itemSet->url('delete-confirm'),
                         'class' => 'o-icon-delete sidebar-content',
-                        'title' => $this->translate('Delete'),
+                        'title' => $translate('Delete'),
                     ]); ?></li>
                     <?php endif; ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-selector' => '#sidebar',
                         'data-sidebar-content-url' => $itemSet->url('show-details'),
                         'class' => 'o-icon-more sidebar-content',
-                        'title' => $this->translate('Details'),
+                        'title' => $translate('Details'),
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($this->translate($itemSet->displayResourceClassLabel())); ?></td>
+            <td><?php echo $escape($translate($itemSet->displayResourceClassLabel())); ?></td>
             <td><?php echo $ownerText; ?></td>
             <td><?php echo $escape($this->i18n()->dateFormat($itemSet->created())); ?></td>
         </tr>
@@ -138,22 +139,22 @@ $sortHeadings = [
 <div id="sidebar" class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content"></div>
 </div>
 <div id="sidebar-delete-selected" class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
-            <h3><?php echo $this->translate('Delete item sets'); ?></h3>
-            <p><?php echo $this->translate('Are you sure you would like to delete the selected item sets?'); ?></p>
+            <h3><?php echo $translate('Delete item sets'); ?></h3>
+            <p><?php echo $translate('Are you sure you would like to delete the selected item sets?'); ?></p>
             <p class="error"><?php echo sprintf(
-                $this->translate('%s: this action will permanently delete %s item sets and cannot be undone.'),
-                sprintf('<strong>%s</strong>', $this->translate('Warning')),
+                $translate('%s: this action will permanently delete %s item sets and cannot be undone.'),
+                sprintf('<strong>%s</strong>', $translate('Warning')),
                 '<strong><span id="delete-selected-count"></span></strong>'
             ); ?></p>
             <?php echo $this->form($this->formDeleteSelected); ?>
@@ -163,18 +164,18 @@ $sortHeadings = [
 <div id="sidebar-delete-all" class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
-            <h3><?php echo $this->translate('Delete item sets'); ?></h3>
-            <p><?php echo $this->translate('Are you sure you would like to delete all item sets on all pages of this result?'); ?></p>
+            <h3><?php echo $translate('Delete item sets'); ?></h3>
+            <p><?php echo $translate('Are you sure you would like to delete all item sets on all pages of this result?'); ?></p>
             <p class="error"><?php echo sprintf(
-                $this->translate('%s: this action will permanently delete %s item sets and cannot be undone.'),
-                sprintf('<strong>%s</strong>', $this->translate('Warning')),
+                $translate('%s: this action will permanently delete %s item sets and cannot be undone.'),
+                sprintf('<strong>%s</strong>', $translate('Warning')),
                 sprintf('<strong>%s</strong>', number_format($this->pagination()->getPaginator()->getTotalCount()))
             ); ?></p>
-            <label><input type="checkbox" name="confirm-delete-all-check"> <?php echo $this->translate('Are you sure?'); ?></label>
+            <label><input type="checkbox" name="confirm-delete-all-check"> <?php echo $translate('Are you sure?'); ?></label>
             <?php echo $this->form($this->formDeleteAll); ?>
         </div>
     </div>
@@ -208,7 +209,7 @@ $('#sidebar-delete-all').on('click', 'input[name="confirm-delete-all-check"]', f
 <?php else: ?>
 
 <div class="no-resources">
-    <p><?php echo $this->translate('Omeka could not find any item sets.'); ?></p>
+    <p><?php echo $translate('Omeka could not find any item sets.'); ?></p>
 </div>
 
 <?php endif; ?>

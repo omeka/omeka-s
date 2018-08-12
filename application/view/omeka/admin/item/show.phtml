@@ -1,21 +1,22 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'items show');
 if ($owner = $item->owner()) {
     $ownerText = $escape($item->owner()->name());
 } else {
-    $ownerText = $this->translate('[no owner]');
+    $ownerText = $translate('[no owner]');
 }
 
 $sectionNavs = [
-    'item-metadata' => $this->translate('Metadata'),
-    'item-linked' => $this->translate('Linked resources'),
+    'item-metadata' => $translate('Metadata'),
+    'item-linked' => $translate('Linked resources'),
 ];
 ?>
-<?php echo $this->pageTitle($item->displayTitle(), 1, $this->translate('Items')); ?>
+<?php echo $this->pageTitle($item->displayTitle(), 1, $translate('Items')); ?>
 <div id="page-actions">
     <?php if ($item->userIsAllowed('update')): ?>
-    <?php echo $item->link($this->translate('Edit item'), 'edit', ['class' => 'button']); ?>
+    <?php echo $item->link($translate('Edit item'), 'edit', ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
@@ -24,8 +25,8 @@ $sectionNavs = [
 <div id="item-metadata" class="active section">
     <?php if ( $item->resourceClass()): ?>
         <div class="meta-group">
-            <h4><?php echo $this->translate('Class'); ?></h4>
-            <div class="value"><?php echo $escape($this->translate($item->resourceClass()->label())); ?></div>
+            <h4><?php echo $translate('Class'); ?></h4>
+            <div class="value"><?php echo $escape($translate($item->resourceClass()->label())); ?></div>
         </div>
     <?php endif; ?>
     <?php echo $item->displayValues(); ?>
@@ -38,11 +39,11 @@ $sectionNavs = [
     $subjectValues = $item->displaySubjectValues($page, 25, $property);
     ?>
     <?php if ($subjectValues): ?>
-        <p><?php echo $this->translate('The following resources link to this item:'); ?></p>
+        <p><?php echo $translate('The following resources link to this item:'); ?></p>
         <?php echo $subjectValues; ?>
     <?php else: ?>
         <div class="no-resources">
-            <p><?php echo $this->translate('No resources link to this item.'); ?></p>
+            <p><?php echo $translate('No resources link to this item.'); ?></p>
         </div>
     <?php endif; ?>
 </div>
@@ -51,29 +52,29 @@ $sectionNavs = [
 <div class="sidebar active">
     <?php echo $this->thumbnail($item, 'square'); ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Visibility'); ?></h4>
-        <div class="value"><?php echo ($item->isPublic()) ? $escape($this->translate('Public')) : $escape($this->translate('Private')); ?></div>
+        <h4><?php echo $translate('Visibility'); ?></h4>
+        <div class="value"><?php echo ($item->isPublic()) ? $escape($translate('Public')) : $escape($translate('Private')); ?></div>
     </div>
     <?php $itemsets = $item->itemSets(); ?>
     <?php if (count($itemsets) > 0): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Item sets'); ?></h4>
+        <h4><?php echo $translate('Item sets'); ?></h4>
         <?php foreach ($itemsets as $itemset): ?>
         <div class="value item-sets"><?php echo $itemset->link($itemset->displayTitle()); ?></div>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Created'); ?></h4>
+        <h4><?php echo $translate('Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></div>
     </div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Owner'); ?></h4>
+        <h4><?php echo $translate('Owner'); ?></h4>
         <div class="value"><?php echo $ownerText; ?></div>
     </div>
     <?php if ($item->media()): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Media'); ?></h4>
+        <h4><?php echo $translate('Media'); ?></h4>
         <?php foreach ($item->media() as $media): ?>
         <div class="value">
             <?php echo $media->linkPretty(); ?>

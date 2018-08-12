@@ -1,16 +1,17 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'media show');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'media show');
 
 $sectionNavs = [
-    'media-metadata' => $this->translate('Metadata'),
+    'media-metadata' => $translate('Metadata'),
 ];
 ?>
 
-<?php echo $this->pageTitle($media->displayTitle(), 1, $this->translate('Media')); ?>
+<?php echo $this->pageTitle($media->displayTitle(), 1, $translate('Media')); ?>
 
 <div id="page-actions">
-    <?php echo $media->link($this->translate('Edit media'), 'edit', ['class' => 'button']); ?>
+    <?php echo $media->link($translate('Edit media'), 'edit', ['class' => 'button']); ?>
 </div>
 
 <?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $media); ?>
@@ -19,7 +20,7 @@ $sectionNavs = [
     <?php echo $media->render(); ?>
     <?php if ( $media->resourceClass()): ?>
         <div class="meta-group">
-            <h4><?php echo $this->translate('Class'); ?></h4>
+            <h4><?php echo $translate('Class'); ?></h4>
             <div class="value"><?php echo $media->resourceClass()->label(); ?></div>
         </div>
     <?php endif; ?>
@@ -28,50 +29,50 @@ $sectionNavs = [
 
 <div class="sidebar active">
     <div class="meta-group">
-        <h4><?php echo $this->translate('Visibility'); ?></h4>
-        <div class="value"><?php echo ($media->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
+        <h4><?php echo $translate('Visibility'); ?></h4>
+        <div class="value"><?php echo ($media->isPublic()) ? $translate('Public') : $translate('Private'); ?></div>
     </div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Part of item'); ?></h4>
+        <h4><?php echo $translate('Part of item'); ?></h4>
         <?php $mediaItem = $media->item(); ?>
         <div class="value"><?php echo $mediaItem->link($mediaItem->displayTitle()); ?></div>
     </div>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Created'); ?></h4>
+        <h4><?php echo $translate('Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($media->created())); ?></div>
     </div>
     <?php if ($media->mediaType()): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('MIME type'); ?></h4>
+        <h4><?php echo $translate('MIME type'); ?></h4>
         <div class="value"><?php echo $escape($media->mediaType()); ?></div>
     </div>
     <?php endif; ?>
     <?php if (is_numeric($resource->size())): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Size'); ?></h4>
-        <div class="value"><?php echo sprintf($this->translate('%s bytes'), number_format($resource->size())); ?></div>
+        <h4><?php echo $translate('Size'); ?></h4>
+        <div class="value"><?php echo sprintf($translate('%s bytes'), number_format($resource->size())); ?></div>
     </div>
     <?php endif; ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Ingester'); ?></h4>
-        <div class="value"><?php echo $escape($this->translate($media->ingesterLabel())); ?></div>
+        <h4><?php echo $translate('Ingester'); ?></h4>
+        <div class="value"><?php echo $escape($translate($media->ingesterLabel())); ?></div>
     </div>
     <?php if ($media->source()): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Source'); ?></h4>
+        <h4><?php echo $translate('Source'); ?></h4>
         <div class="value"><?php echo $escape($media->source()); ?></div>
     </div>
     <?php endif; ?>
     <?php if ($media->hasThumbnails() || $media->hasOriginal()): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('File Derivatives'); ?></h4>
+        <h4><?php echo $translate('File Derivatives'); ?></h4>
         <?php if ($media->hasOriginal()): ?>
-            <div class="value"><a href="<?php echo $escape($media->originalUrl()); ?>"><?php echo $this->translate('original'); ?></a></div>
+            <div class="value"><a href="<?php echo $escape($media->originalUrl()); ?>"><?php echo $translate('original'); ?></a></div>
         <?php endif; ?>
         <?php if ($media->hasThumbnails()): ?>
-            <div class="value"><a href="<?php echo $escape($media->thumbnailUrl('large')); ?>"><?php echo $this->translate('large'); ?></a></div>
-            <div class="value"><a href="<?php echo $escape($media->thumbnailUrl('medium')); ?>"><?php echo $this->translate('medium'); ?></a></div>
-            <div class="value"><a href="<?php echo $escape($media->thumbnailUrl('square')); ?>"><?php echo $this->translate('square'); ?></a></div>
+            <div class="value"><a href="<?php echo $escape($media->thumbnailUrl('large')); ?>"><?php echo $translate('large'); ?></a></div>
+            <div class="value"><a href="<?php echo $escape($media->thumbnailUrl('medium')); ?>"><?php echo $translate('medium'); ?></a></div>
+            <div class="value"><a href="<?php echo $escape($media->thumbnailUrl('square')); ?>"><?php echo $translate('square'); ?></a></div>
         <?php endif; ?>
     </div>
     <?php endif; ?>

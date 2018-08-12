@@ -98,10 +98,6 @@ class Youtube implements IngesterInterface
             'id' => 'media-youtube-source-__index__',
             'required' => true,
         ]);
-        $urlInput->setAttributes([
-            'id' => 'media-youtube-source-__index__',
-            'required' => true,
-        ]);
         $startInput = new Text('o:media[__index__][start]');
         $startInput->setOptions([
             'label' => 'Start', // @translate

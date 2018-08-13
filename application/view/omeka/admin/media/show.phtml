@@ -1,6 +1,7 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'media show');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'media show');
 
 $sectionNavs = [
     'media-metadata' => $translate('Metadata'),
@@ -10,7 +11,7 @@ $sectionNavs = [
 <?php echo $this->pageTitle($media->displayTitle(), 1, $translate('Media')); ?>
 
 <div id="page-actions">
-    <?php echo $media->link($this->translate('Edit media'), 'edit', ['class' => 'button']); ?>
+    <?php echo $media->link($translate('Edit media'), 'edit', ['class' => 'button']); ?>
 </div>
 
 <?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $media); ?>

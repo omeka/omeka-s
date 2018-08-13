@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
-use Omeka\Api\ResourceInterface;
 use Omeka\Permissions\Acl;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
@@ -28,7 +27,7 @@ class UserIsAllowed extends AbstractPlugin
     /**
      * Authorize the current user.
      *
-     * @param ResourceInterface|string $resource
+     * @param \Zend\Permissions\Acl\Resource\ResourceInterface|string $resource
      * @param string $privilege
      * @return bool
      */

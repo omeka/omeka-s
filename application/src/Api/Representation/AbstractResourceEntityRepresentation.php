@@ -277,7 +277,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *   by default.
      * - lang: (null) Get values of this language only. Returns values of all
      *   languages by default.
-     * @return ValueRepresentation[]|mixed
+     * @return ValueRepresentation|ValueRepresentation[]|mixed
      */
     public function value($term, array $options = [])
     {

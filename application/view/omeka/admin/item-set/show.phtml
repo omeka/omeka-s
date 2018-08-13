@@ -1,6 +1,7 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'item-sets show');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'item-sets show');
 $viewItemsLink = $this->url(
     'admin/default',
     ['controller' => 'item', 'action' => 'browse'],

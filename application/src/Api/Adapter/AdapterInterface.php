@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Api\ResourceInterface as ApiResourceInterface;
@@ -106,7 +105,7 @@ interface AdapterInterface extends EventManagerAwareInterface, ResourceInterface
      * Compose a resource representation object.
      *
      * @param ApiResourceInterface $data Data needed to compose the representation.
-     * @return RepresentationInterface|null
+     * @return \Omeka\Api\Representation\RepresentationInterface|null
      */
     public function getRepresentation(ApiResourceInterface $data = null);
 

@@ -242,8 +242,8 @@ class ApiController extends AbstractRestfulController
      *
      * @param string
      * @return mixed
-     * @throws Exception\InvalidJsonException if no JSON decoding functionality
-     *     is available.
+     * @throws Exception\InvalidJsonException on JSON decoding errors or if the
+     * content is a scalar.
      */
     protected function jsonDecode($string)
     {

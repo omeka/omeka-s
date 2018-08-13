@@ -144,7 +144,7 @@ class MvcListeners extends AbstractListenerAggregate
      * Redirect all requests to install route if Omeka is not installed.
      *
      * @param MvcEvent $event
-     * @return \Zend\Stdlib\ResponseInterface
+     * @return \Zend\Http\PhpEnvironment\Response
      */
     public function redirectToInstallation(MvcEvent $event)
     {
@@ -175,7 +175,7 @@ class MvcListeners extends AbstractListenerAggregate
      * on all other routes.
      *
      * @param MvcEvent $event
-     * @return \Zend\Stdlib\ResponseInterface
+     * @return \Zend\Http\PhpEnvironment\Response
      */
     public function redirectToMigration(MvcEvent $event)
     {
@@ -221,7 +221,7 @@ class MvcListeners extends AbstractListenerAggregate
      * Redirect all admin requests to login route if user not logged in.
      *
      * @param MvcEvent $event
-     * @return \Zend\Stdlib\ResponseInterface
+     * @return \Zend\Http\PhpEnvironment\Response
      */
     public function redirectToLogin(MvcEvent $event)
     {

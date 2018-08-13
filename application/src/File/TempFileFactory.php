@@ -16,12 +16,12 @@ class TempFileFactory
     protected $mediaTypeMap;
 
     /**
-     * @var Omeka\File\Store\StoreInterface
+     * @var \Omeka\File\Store\StoreInterface
      */
     protected $store;
 
     /**
-     * @var Omeka\File\ThumbnailManager
+     * @var \Omeka\File\ThumbnailManager
      */
     protected $thumbnailManager;
 

@@ -167,9 +167,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function search(Request $request)
     {
         $query = $request->getContent();
@@ -257,9 +254,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         return $response;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function create(Request $request)
     {
         $entityClass = $this->getEntityClass();
@@ -339,9 +333,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         return new Response($entities);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function read(Request $request)
     {
         $entity = $this->findEntity($request->getId(), $request);
@@ -354,9 +345,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         return new Response($entity);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function update(Request $request)
     {
         $entity = $this->findEntity($request->getId(), $request);
@@ -367,9 +355,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         return new Response($entity);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function batchUpdate(Request $request)
     {
         $data = $this->preprocessBatchUpdate([], $request);
@@ -420,9 +405,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         return new Response($entities);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function delete(Request $request)
     {
         $entity = $this->deleteEntity($request);
@@ -432,9 +414,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         return new Response($entity);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function batchDelete(Request $request)
     {
         $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');

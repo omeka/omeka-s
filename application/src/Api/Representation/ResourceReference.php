@@ -45,9 +45,6 @@ class ResourceReference extends AbstractRepresentation
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function jsonSerialize()
     {
         return [

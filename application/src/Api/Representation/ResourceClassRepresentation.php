@@ -3,17 +3,11 @@ namespace Omeka\Api\Representation;
 
 class ResourceClassRepresentation extends AbstractVocabularyMemberRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getControllerName()
     {
         return 'resource-class';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLdType()
     {
         return 'o:ResourceClass';

@@ -10,9 +10,6 @@ class Manager extends AbstractPluginManager
 
     protected $instanceOf = BlockLayoutInterface::class;
 
-    /**
-     * {@inheritDoc}
-     */
     public function get($name, $options = [], $usePeeringServiceManagers = true)
     {
         try {

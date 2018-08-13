@@ -56,9 +56,6 @@ class ValueRepresentation extends AbstractRepresentation
         return $args['html'];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function jsonSerialize()
     {
         $valueObject = [

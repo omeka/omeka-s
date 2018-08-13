@@ -19,9 +19,6 @@ class Resource implements ResourceInterface
         $this->resourceId = $resourceId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getId()
     {
         return $this->resourceId;

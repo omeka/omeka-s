@@ -29,9 +29,6 @@ class AddonInstaller extends LibraryInstaller
         return $addonName;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getInstallPath(PackageInterface $package)
     {
         $addonName = static::getInstallName($package);
@@ -45,9 +42,6 @@ class AddonInstaller extends LibraryInstaller
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports($packageType)
     {
         return in_array($packageType, ['omeka-s-theme', 'omeka-s-module']);

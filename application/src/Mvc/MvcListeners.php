@@ -17,9 +17,6 @@ use Zend\Validator\AbstractValidator;
 
 class MvcListeners extends AbstractListenerAggregate
 {
-    /**
-     * {@inheritDoc}
-     */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(
@@ -147,7 +144,7 @@ class MvcListeners extends AbstractListenerAggregate
      * Redirect all requests to install route if Omeka is not installed.
      *
      * @param MvcEvent $event
-     * @return Zend\Http\PhpEnvironment\Response
+     * @return \Zend\Stdlib\ResponseInterface
      */
     public function redirectToInstallation(MvcEvent $event)
     {
@@ -178,7 +175,7 @@ class MvcListeners extends AbstractListenerAggregate
      * on all other routes.
      *
      * @param MvcEvent $event
-     * @return Zend\Http\PhpEnvironment\Response
+     * @return \Zend\Stdlib\ResponseInterface
      */
     public function redirectToMigration(MvcEvent $event)
     {
@@ -224,7 +221,7 @@ class MvcListeners extends AbstractListenerAggregate
      * Redirect all admin requests to login route if user not logged in.
      *
      * @param MvcEvent $event
-     * @return Zend\Http\PhpEnvironment\Response
+     * @return \Zend\Stdlib\ResponseInterface
      */
     public function redirectToLogin(MvcEvent $event)
     {
@@ -379,7 +376,7 @@ class MvcListeners extends AbstractListenerAggregate
      * Returns false if the site is not found or another error occured.
      *
      * @param MvcEvent $event
-     * @return SiteRepresentation|false
+     * @return \Omeka\Api\Representation\SiteRepresentation|false
      */
     protected function prepareSite(MvcEvent $event)
     {

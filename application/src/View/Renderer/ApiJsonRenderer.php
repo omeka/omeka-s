@@ -11,9 +11,6 @@ use Zend\View\Renderer\JsonRenderer;
  */
 class ApiJsonRenderer extends JsonRenderer
 {
-    /**
-     * {@inheritDoc}
-     */
     public function render($model, $values = null)
     {
         $response = $model->getApiResponse();

@@ -3,25 +3,16 @@ namespace Omeka\Api\Representation;
 
 class VocabularyRepresentation extends AbstractEntityRepresentation
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getControllerName()
     {
         return 'vocabulary';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLdType()
     {
         return 'o:Vocabulary';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLd()
     {
         $owner = null;

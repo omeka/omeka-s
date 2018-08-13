@@ -17,25 +17,16 @@ class JobRepresentation extends AbstractEntityRepresentation
         Job::STATUS_ERROR => 'Error', // @translate
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function getControllerName()
     {
         return 'job';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLdType()
     {
         return 'o:Job';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLd()
     {
         $dateTime = [

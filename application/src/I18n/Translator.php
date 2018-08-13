@@ -19,9 +19,6 @@ class Translator implements TranslatorInterface
         $this->translator = $translator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function translate($message, $textDomain = 'default', $locale = null)
     {
         if (!$message instanceof Message) {
@@ -34,9 +31,6 @@ class Translator implements TranslatorInterface
         return $translation;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function translatePlural($singular, $plural, $number, $textDomain = 'default', $locale = null)
     {
         return $this->translator->translatePlural($singular, $plural, $number, $textDomain, $locale);

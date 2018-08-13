@@ -406,9 +406,6 @@ class Manager implements ResourceInterface
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getResourceId()
     {
         return get_called_class();

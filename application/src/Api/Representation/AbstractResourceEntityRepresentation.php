@@ -50,9 +50,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         parent::__construct($resource, $adapter);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLdType()
     {
         $type = $this->getResourceJsonLdType();
@@ -66,9 +63,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         return $type;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getJsonLd()
     {
         // Set the date time value objects.
@@ -243,7 +237,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $value = new ValueRepresentation($valueEntity, $this->getServiceLocator());
             if ('resource' === $value->type() && null === $value->valueResource()) {
                 // Skip this resource value if the resource is not available
-                // (most likely becuase it is private).
+                // (most likely because it is private).
                 continue;
             }
             $term = $value->property()->term();

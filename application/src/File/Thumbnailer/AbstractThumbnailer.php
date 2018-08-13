@@ -20,18 +20,12 @@ abstract class AbstractThumbnailer implements ThumbnailerInterface
      */
     protected $options;
 
-    /**
-     * {@inheritDoc}
-     */
     public function setSource(TempFile $source)
     {
         $this->source = $source->getTempPath();
         $this->sourceFile = $source;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setOptions(array $options)
     {
         // Set options only once for shared services.

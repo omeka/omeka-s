@@ -25,9 +25,6 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
         $this->templateProperty = $templateProperty;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function jsonSerialize()
     {
         return [

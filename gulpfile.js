@@ -107,7 +107,7 @@ function composer(args) {
 }
 
 function cssToSass(dir) {
-    return gulp.src(dir + '/asset/sass/*.scss')
+    return gulp.src(dir + '/asset/sass/**/*.scss')
         .pipe(sass({
             outputStyle: 'compressed',
             includePaths: ['node_modules/susy/sass']
@@ -175,7 +175,7 @@ gulp.task('css', function () {
 });
 
 gulp.task('css:watch', function () {
-    gulp.watch('./application/asset/sass/*.scss', gulp.parallel('css'));
+    gulp.watch('./application/asset/sass/**/*.scss', gulp.parallel('css'));
 });
 
 gulp.task('css:module', function () {
@@ -188,7 +188,7 @@ gulp.task('css:module', function () {
 gulp.task('css:watch:module', function () {
     var modulePathPromise = getModulePath(cliOptions.module);
     modulePathPromise.then(function(modulePath) {
-        gulp.watch(modulePath + '/asset/sass/*.scss', gulp.parallel('css:module'));
+        gulp.watch(modulePath + '/asset/sass/**/*.scss', gulp.parallel('css:module'));
     });
 });
 

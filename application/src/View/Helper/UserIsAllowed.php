@@ -27,7 +27,7 @@ class UserIsAllowed extends AbstractHelper
     /**
      * Authorize the current user.
      *
-     * @param Resource\ResourceInterface|string $resource
+     * @param \Omeka\Api\ResourceInterface|string $resource
      * @param string $privilege
      * @return bool
      */

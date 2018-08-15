@@ -10,7 +10,7 @@ class PhpCliFactory implements FactoryInterface
     /**
      * Create the PhpCli strategy service.
      *
-     * @return PhpCliStrategy
+     * @return PhpCli
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {

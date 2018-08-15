@@ -26,7 +26,7 @@ class ApiJsonModel extends JsonModel
      * argument.
      *
      * @param \Omeka\Api\Response $apiResponse API response object
-     * @param array|Traversable $options
+     * @param array|\Traversable $options
      */
     public function __construct($apiResponse = null, $options = null)
     {

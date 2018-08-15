@@ -25,7 +25,7 @@ class EntityManagerFactory implements FactoryInterface
     /**
      * Create the entity manager service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $serviceLocator
      * @return EntityManager
      */
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)

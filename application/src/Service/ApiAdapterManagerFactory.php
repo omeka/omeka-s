@@ -13,7 +13,7 @@ class ApiAdapterManagerFactory implements FactoryInterface
     /**
      * Create the API adapter manager service.
      *
-     * @return ApiManager
+     * @return AdapterManager
      */
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {

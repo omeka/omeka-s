@@ -7,7 +7,7 @@ use Zend\Session\SaveHandler\SaveHandlerInterface;
 class Db implements SaveHandlerInterface
 {
     /**
-     * @var Doctrine\DBAL\Connection
+     * @var Connection
      */
     protected $conn;
 

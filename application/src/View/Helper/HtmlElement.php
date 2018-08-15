@@ -22,7 +22,7 @@ class HtmlElement extends AbstractHtmlElement
      * HTML element helper
      *
      * @param string $element The current element
-     * @return HtmlElement
+     * @return self
      */
     public function __invoke($element)
     {

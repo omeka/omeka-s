@@ -28,7 +28,7 @@ class BlockThumbnailTypeSelect extends AbstractHelper
     /**
      * Render a thumbnail type select element.
      *
-     * @param SiteBlockAttachmentRepresentation|null $block
+     * @param SitePageBlockRepresentation|null $block
      * @return string
      */
     public function __invoke(SitePageBlockRepresentation $block = null)

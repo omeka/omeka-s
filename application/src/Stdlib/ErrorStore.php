@@ -15,7 +15,7 @@ class ErrorStore
      * Add an error.
      *
      * @param string $key
-     * @param string|Omeka\Stdlib\Message|array $message A message string, a
+     * @param string|\Omeka\Stdlib\Message|array $message A message string, a
      * Message object, or a nested ErrorStore array structure.
      */
     public function addError($key, $message)

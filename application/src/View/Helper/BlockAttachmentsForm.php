@@ -15,7 +15,7 @@ class BlockAttachmentsForm extends AbstractHelper
      * The passed title is added to the title element to the head as well as
      * returned inside an h1 for printing on the page.
      *
-     * @param SiteBlockAttachmentRepresentation|null $block
+     * @param SitePageBlockRepresentation|null $block
      * @param bool $itemOnly If true, selecting an item will immediately attach
      *   it (attachment options will not open)
      * @param array $itemQuery Filter items further using this query

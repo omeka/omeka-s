@@ -20,7 +20,7 @@ class ConnectionFactory implements FactoryInterface
     /**
      * Create the DBAL connection service.
      *
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ContainerInterface $serviceLocator
      * @return Connection
      */
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)

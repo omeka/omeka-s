@@ -25,7 +25,7 @@ class DeleteConfirm extends AbstractHelper
     /**
      * Render the delete confirm partial.
      *
-     * @param RepresentationInterface $resource
+     * @param \Omeka\Api\Representation\RepresentationInterface $resource
      * @param string $resourceLabel
      * @param bool $wrapSidebar
      * @return string

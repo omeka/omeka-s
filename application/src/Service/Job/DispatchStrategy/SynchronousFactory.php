@@ -10,7 +10,7 @@ class SynchronousFactory implements FactoryInterface
     /**
      * Create the PhpCli strategy service.
      *
-     * @return SynchronousStrategy
+     * @return Synchronous
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {

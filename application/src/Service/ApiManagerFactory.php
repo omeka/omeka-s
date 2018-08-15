@@ -8,9 +8,9 @@ use Interop\Container\ContainerInterface;
 class ApiManagerFactory implements FactoryInterface
 {
     /**
-     * Create the CLI service.
+     * Create the Api Manager service.
      *
-     * @return Cli
+     * @return Manager
      */
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {

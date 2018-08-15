@@ -24,10 +24,10 @@ class ItemController extends AbstractActionController
             $query['site_attachments_only'] = true;
         }
         if ($itemSetId = $this->params('item-set-id')) {
-            $itemSetResponse = $this->api()->read('item_sets', $this->params('item-set-id'));
+            $itemSetResponse = $this->api()->read('item_sets', $itemSetId);
             $itemSet = $itemSetResponse->getContent();
             $view->setVariable('itemSet', $itemSet);
-            $query['item_set_id'] = $this->params('item-set-id');
+            $query['item_set_id'] = $itemSetId;
         }
 
         $response = $this->api()->search('items', $query);

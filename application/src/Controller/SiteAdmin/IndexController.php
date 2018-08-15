@@ -446,7 +446,6 @@ class IndexController extends AbstractActionController
         $this->setBrowseDefaults('created');
         $site = $this->currentSite();
 
-        $itemPool = is_array($site->itemPool()) ? $site->itemPool() : [];
         $query = $this->params()->fromQuery();
         $query['site_id'] = $site->id();
 

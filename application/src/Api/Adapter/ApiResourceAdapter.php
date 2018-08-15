@@ -32,7 +32,6 @@ class ApiResourceAdapter extends AbstractAdapter
 
     public function read(Request $request)
     {
-        $manager = $this->getServiceLocator()->get('Omeka\ApiAdapterManager');
         return new Response(new Resource($request->getId()));
     }
 }

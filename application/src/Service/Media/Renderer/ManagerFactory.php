@@ -16,7 +16,7 @@ class ManagerFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('Config');
         if (!isset($config['media_renderers'])) {
-            throw new Exception\ConfigException('Missing media renderer configuration');
+            throw new \Omeka\Service\Exception\ConfigException('Missing media renderer configuration');
         }
         return new Manager($serviceLocator, $config['media_renderers']);
     }

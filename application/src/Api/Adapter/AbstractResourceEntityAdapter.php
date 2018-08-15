@@ -321,10 +321,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         $offset = (is_numeric($page) && is_numeric($perPage))
             ? (($page - 1) * $perPage)
             : null;
-        $findBy = ['valueResource' => $resource];
-        if ($property) {
-            $findBy['property'] = $property;
-        }
 
         // Need to check visibility manually here
         $services = $this->getServiceLocator();

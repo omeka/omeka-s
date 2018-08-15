@@ -61,12 +61,6 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
         }
 
         if (!empty($query['site_id'])) {
-            $siteAdapter = $this->getAdapter('sites');
-            try {
-                $site = $siteAdapter->findEntity($query['site_id']);
-            } catch (Exception\NotFoundException $e) {
-                $site = null;
-            }
             $siteItemSetsAlias = $this->createAlias();
             $qb->innerJoin(
                 'Omeka\Entity\ItemSet.siteItemSets',

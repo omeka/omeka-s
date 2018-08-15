@@ -24,8 +24,6 @@ class SortSelector extends AbstractHelper
     {
         $partialName = $partialName ?: self::PARTIAL_NAME;
 
-        $translate = $this->getView()->plugin('translate');
-
         $params = $this->getView()->params();
         $sortByQuery = $params->fromQuery('sort_by');
         $sortOrderQuery = $params->fromQuery('sort_order');

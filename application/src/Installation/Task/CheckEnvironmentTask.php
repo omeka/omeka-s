@@ -35,13 +35,15 @@ class CheckEnvironmentTask implements TaskInterface
             }
         }
 
-        $this->testRandomGeneration();
+        $this->testRandomGeneration($installer);
     }
 
     /**
      * Test if we can successfully generate random data. If not, refuse to install.
+     *
+     * @param Installer $installer
      */
-    protected function testRandomGeneration()
+    protected function testRandomGeneration(Installer $installer)
     {
         try {
             random_bytes(32);

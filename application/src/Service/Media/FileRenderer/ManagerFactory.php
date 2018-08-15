@@ -19,7 +19,7 @@ class ManagerFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('Config');
         if (!isset($config['file_renderers'])) {
-            throw new Exception\ConfigException('Missing file renderer configuration');
+            throw new \Omeka\Service\Exception\ConfigException('Missing file renderer configuration');
         }
         return new Manager($serviceLocator, $config['file_renderers']);
     }

@@ -16,7 +16,7 @@ class ManagerFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('Config');
         if (!isset($config['media_ingesters'])) {
-            throw new Exception\ConfigException('Missing media ingester configuration');
+            throw new \Omeka\Service\Exception\ConfigException('Missing media ingester configuration');
         }
         return new Manager($serviceLocator, $config['media_ingesters']);
     }

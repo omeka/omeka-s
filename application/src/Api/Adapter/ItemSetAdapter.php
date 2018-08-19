@@ -2,6 +2,7 @@
 namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
@@ -61,6 +62,15 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
         }
 
         if (!empty($query['site_id'])) {
+            $siteAdapter = $this->getAdapter('sites');
+            // Though $site isn't used here, this is intended to ensure that the
+            // user cannot perform a query against a private site he doesn't
+            // have access to.
+            try {
+                $site = $siteAdapter->findEntity($query['site_id']);
+            } catch (Exception\NotFoundException $e) {
+                $site = null;
+            }
             $siteItemSetsAlias = $this->createAlias();
             $qb->innerJoin(
                 'Omeka\Entity\ItemSet.siteItemSets',

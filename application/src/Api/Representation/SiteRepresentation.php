@@ -124,7 +124,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * Return pages that are linked in site navigation, in the order they appear.
      *
-     * @return array An array of page representations
+     * @return \Omeka\Api\Representation\SitePageRepresentation[]
      */
     public function linkedPages()
     {
@@ -147,7 +147,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * Return pages that are not linked in site navigation.
      *
-     * @return array An array of page representations
+     * @return \Omeka\Api\Representation\SitePageRepresentation[]
      */
     public function notLinkedPages()
     {

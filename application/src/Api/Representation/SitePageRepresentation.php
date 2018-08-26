@@ -45,11 +45,17 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         );
     }
 
+    /**
+     * @return string
+     */
     public function slug()
     {
         return $this->resource->getSlug();
     }
 
+    /**
+     * @return string
+     */
     public function title()
     {
         return $this->resource->getTitle();
@@ -70,6 +76,9 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         return $blocks;
     }
 
+    /**
+     * @return SiteRepresentation
+     */
     public function site()
     {
         return $this->getAdapter('sites')

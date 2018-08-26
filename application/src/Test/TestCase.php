@@ -78,7 +78,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * Instead, mock stdClass and assign the requisite methods.
      *
      * @param array $methods
-     * @return stdClass
+     * @return object Standard class.
      */
     public function getQuery(array $methods = [])
     {

@@ -14,7 +14,7 @@ class MediaFactory implements FactoryInterface
     /**
      * Create and return the media view helper
      *
-     * @param ServiceLocatorInterface $viewServiceLocator
+     * @param ContainerInterface $viewServiceLocator
      * @return Media
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)

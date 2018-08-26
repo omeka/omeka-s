@@ -38,11 +38,11 @@ $this->htmlElement('body')->appendAttribute('class', 'users show');
     </div>
 </div>
 <div class="property sites">
-    <h4><?php echo $this->translate('Sites'); ?></h4>
+    <h4><?php echo $translate('Sites'); ?></h4>
     <?php $sites = $user->sites(); ?>
     <?php if (empty($sites)): ?>
     <div class="value no-value">
-        <?php echo $escape($this->translate('None')); ?>
+        <?php echo $escape($translate('None')); ?>
     </div>
     <?php else: ?>
     <div class="value">
@@ -53,7 +53,7 @@ $this->htmlElement('body')->appendAttribute('class', 'users show');
             <?php echo $this->hyperlink('', $site->siteUrl(), [
                 'target' => '_blank',
                 'class' => 'o-icon-external public',
-                'title' => $this->translate('View public site'),
+                'title' => $translate('View public site'),
             ]); ?>
             </span>
             <?php echo $site->link($site->title()); ?>
@@ -64,11 +64,11 @@ $this->htmlElement('body')->appendAttribute('class', 'users show');
     <?php endif; ?>
 </div>
 <div class="property site-permissions">
-    <h4><?php echo $this->translate('Site permissions'); ?></h4>
+    <h4><?php echo $translate('Site permissions'); ?></h4>
     <?php $sitePermissions = $user->sitePermissions(); ?>
     <?php if (empty($sitePermissions)): ?>
     <div class="value no-value">
-        <?php echo $escape($this->translate('None')); ?>
+        <?php echo $escape($translate('None')); ?>
     </div>
     <?php else: ?>
     <div class="value">
@@ -78,7 +78,7 @@ $this->htmlElement('body')->appendAttribute('class', 'users show');
             <?php $site = $sitePermission->site(); ?>
             <?php echo sprintf('%s (%s)',
                 $site->link($site->title(), 'users'),
-                $escape($this->translate($sitePermission->role()))); ?>
+                $escape($translate($sitePermission->role()))); ?>
         </li>
     <?php endforeach; ?>
     </ul>

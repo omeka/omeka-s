@@ -93,14 +93,22 @@ class RdfImporter
                 if (!is_readable($file)) {
                     throw new ValidationException('File not readable.');
                 }
-                $graph->parseFile($file, $options['format'], $namespaceUri);
+                try {
+                    $graph->parseFile($file, $options['format'], $namespaceUri);
+                } catch (\EasyRdf_Exception $e) {
+                    throw new ValidationException($e->getMessage(), $e->getCode(), $e);
+                }
                 break;
             case 'url':
                 // Import from a URL.
                 if (!isset($options['url'])) {
                     throw new ValidationException('No URL specified for the URL import strategy.');
                 }
-                $graph->load($options['url'], $options['format']);
+                try {
+                    $graph->load($options['url'], $options['format']);
+                } catch (\EasyRdf_Exception $e) {
+                    throw new ValidationException($e->getMessage(), $e->getCode(), $e);
+                }
                 break;
             default:
                 throw new ValidationException('Unsupported import strategy.');

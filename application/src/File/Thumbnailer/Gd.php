@@ -35,7 +35,7 @@ class Gd extends AbstractThumbnailer
     public function __construct(TempFileFactory $tempFileFactory)
     {
         if (!extension_loaded('gd')) {
-            throw new Exception\InvalidThumbnailerException;
+            throw new Exception\InvalidThumbnailerException('The GD PHP extension must be loaded to use this thumbnailer.');
         }
         $this->tempFileFactory = $tempFileFactory;
     }

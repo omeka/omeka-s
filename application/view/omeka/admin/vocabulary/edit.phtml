@@ -4,13 +4,13 @@ $this->htmlElement('body')->appendAttribute('class', 'edit vocabularies');
 $form->prepare();
 ?>
 
-<?php echo $this->pageTitle($this->translate($vocabulary->label()), 1, $this->translate('Vocabularies'), $this->translate('Edit')); ?>
+<?php echo $this->pageTitle($translate($vocabulary->label()), 1, $translate('Vocabularies'), $translate('Edit')); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
+    <a href="#" class="delete button"><?php echo $translate('Delete'); ?></a>
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $this->translate('Save'); ?></button>
+    <button><?php echo $translate('Save'); ?></button>
 </div>
 <?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>
 <?php echo $this->formCollection($form, false); ?>

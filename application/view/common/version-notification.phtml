@@ -5,11 +5,11 @@ $translate = $this->plugin('translate');
 <?php $this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka')); ?>
 <div class="version-notification" style="display: none;">
     <?php echo sprintf(
-        $this->translate('A new version of Omeka S is available. %s'),
+        $translate('A new version of Omeka S is available. %s'),
         sprintf(
             '<a href="%s">%s</a>',
             'http://omeka.org/s/download/',
-            $this->translate('Get the new version.')
+            $translate('Get the new version.')
         )
     ); ?>
 </div>

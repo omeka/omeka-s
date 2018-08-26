@@ -31,7 +31,6 @@ $sortHeadings = [
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
 
-
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'create')): ?>
         <?php echo $this->hyperlink($translate('Add new user'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>

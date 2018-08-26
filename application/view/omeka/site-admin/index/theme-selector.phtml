@@ -1,6 +1,7 @@
 <?php
 use Omeka\Site\Theme\Manager;
 
+$translate = $this->plugin('translate');
 $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
 ?>
 <div class="selectable-themes">

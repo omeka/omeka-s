@@ -1,10 +1,11 @@
 <?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites edit');
 $this->headScript()->appendFile($this->assetUrl('vendor/jstree/jstree.min.js', 'Omeka'));
 $form->prepare();
 $this->headScript()->appendFile($this->assetUrl('js/site-navigation.js', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/jstree.css', 'Omeka'));
-$escape = $this->plugin('escapeHtml');
 ?>
 <?php echo $this->pageTitle($this->translate('Navigation'), 1, $this->translate('Sites')); ?>
 

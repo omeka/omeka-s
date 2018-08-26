@@ -1,6 +1,7 @@
 <?php
+$translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'add users');
-$form->prepare(); 
+$form->prepare();
 ?>
 
 <?php echo $this->pageTitle($this->translate('New user'), 1, $this->translate('Users')); ?>

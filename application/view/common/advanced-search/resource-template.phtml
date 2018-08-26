@@ -1,4 +1,6 @@
 <?php
+$translate = $this->plugin('translate');
+
 // Prepare the resource template query.
 $ids = isset($query['resource_template_id']) ? $query['resource_template_id'] : [];
 if (!is_array($ids)) {

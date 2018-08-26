@@ -1,8 +1,9 @@
 <?php
-$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
-$form->prepare();
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $formElement = $this->plugin('formElement');
+$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
+$form->prepare();
 ?>
 
 <?php echo $this->form()->openTag($form); ?>

@@ -1,9 +1,10 @@
 <?php
 use Omeka\Module\Manager;
 
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'modules browse');
 $this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka'));
-$escape = $this->plugin('escapeHtml');
 $this->plugin('formRow')->setPartial(null);
 ?>
 

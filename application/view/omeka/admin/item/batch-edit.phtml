@@ -1,7 +1,8 @@
 <?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
 $form->prepare();
 $this->htmlElement('body')->appendAttribute('class', 'batch-edit items');
-$escape = $this->plugin('escapeHtml');
 ?>
 <?php echo $this->pageTitle($this->translate('Batch edit items')); ?>
 

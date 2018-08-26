@@ -1,6 +1,7 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
 ?>
 
 <?php echo $this->pageTitle($resourceTemplate->label(), 1, $this->translate('Resource templates')); ?>

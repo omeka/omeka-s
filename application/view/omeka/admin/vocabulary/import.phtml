@@ -1,6 +1,7 @@
-<?php 
+<?php
+$translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'vocabularies import');
-$form->prepare(); 
+$form->prepare();
 ?>
 
 <?php echo $this->pageTitle($this->translate('New vocabulary'), 1, $this->translate('Vocabularies')); ?>

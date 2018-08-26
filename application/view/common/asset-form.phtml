@@ -1,6 +1,7 @@
 <?php
 use Omeka\Api\Exception\NotFoundException;
 
+$translate = $this->plugin('translate');
 $this->headLink()->appendStylesheet($this->assetUrl('css/asset-form.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/asset-form.js', 'Omeka'));
 

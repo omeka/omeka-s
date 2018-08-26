@@ -1,4 +1,7 @@
-<?php $escape = $this->plugin('escapeHtml'); ?>
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
 <div class="resource-details" data-resource-values="<?php echo $escape($values); ?>">
     <?php if ($linkTitle): ?>
     <h3 class="o-title"><?php echo $resource->link($resource->displayTitle()); ?></h3>

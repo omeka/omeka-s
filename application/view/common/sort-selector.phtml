@@ -1,4 +1,7 @@
-<?php $escape = $this->plugin('escapeHtml'); ?>
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
 <form class="sorting" action="">
     <?php echo $this->queryToHiddenInputs(['sort_by', 'sort_order']); ?>
     <select name="sort_by" aria-label="<?php echo $this->translate('Sort by'); ?>">

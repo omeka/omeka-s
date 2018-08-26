@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 // Prepare the property queries.
 $properties = isset($query['property']) ? $query['property'] : [];
 $properties = array_filter($properties, function ($value) {

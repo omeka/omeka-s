@@ -1,7 +1,8 @@
 <?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
 $property = $propertyRow['o:property'];
 $namePrefix = 'o:resource_template_property[' . $property->id() . ']';
-$escape = $this->plugin('escapeHtml');
 $propertyId = $escape($property->id());
 ?>
 <li class="property row" data-property-id="<?php echo $propertyId; ?>">

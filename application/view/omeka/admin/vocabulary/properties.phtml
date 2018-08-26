@@ -1,6 +1,7 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabulary-properties');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabulary-properties');
 ?>
 
 <?php echo $this->pageTitle($this->translate($vocabulary->label()), 1, $this->translate('Vocabularies'), $this->translate('Properties')); ?>

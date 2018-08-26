@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $required = $element->getAttribute('required');
 $showRequired = $element->getOption('show_required');
 $isRequired = null === $showRequired ? $required : $showRequired;

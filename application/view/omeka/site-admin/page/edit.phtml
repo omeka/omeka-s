@@ -1,11 +1,12 @@
 <?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'site-pages edit');
 $this->ckEditor();
 $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/site-page-edit.js', 'Omeka'));
 $this->blockLayout()->prepareForm();
 $form->prepare();
-$escape = $this->plugin('escapeHtml');
 ?>
 <?php echo $this->pageTitle($page->title(), 1, $this->translate('Pages'), $this->translate('Edit')); ?>
 

@@ -1,6 +1,7 @@
 <?php
 use Omeka\Site\Theme\Manager;
 
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites theme');
 $this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka'));

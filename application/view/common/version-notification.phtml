@@ -1,3 +1,6 @@
+<?php
+$translate = $this->plugin('translate');
+?>
 <?php if ($this->setting('version_notifications')): ?>
 <?php $this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka')); ?>
 <div class="version-notification" style="display: none;">

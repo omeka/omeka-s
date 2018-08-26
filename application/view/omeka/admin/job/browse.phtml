@@ -1,6 +1,7 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'jobs browse');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'jobs browse');
 $sortHeadings = [
     [
         'label' => $this->translate('ID'),

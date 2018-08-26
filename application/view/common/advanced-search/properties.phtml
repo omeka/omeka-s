@@ -30,7 +30,7 @@ $queryText = function(array $search, $index) {
     return sprintf('<input type="text" class="query-text" name="%s" value="%s" aria-label="%s">',
         $this->escapeHtml("property[$index][text]"),
         $this->escapeHtml($text),
-        $this->escapeHtml($this->translate('Query text')));
+        $this->escapeHtml($translate('Query text')));
 }
 ?>
 

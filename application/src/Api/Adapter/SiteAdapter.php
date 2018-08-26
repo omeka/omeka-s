@@ -241,6 +241,13 @@ class SiteAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $query['owner_id']))
             );
         }
+
+        if (isset($query['slug'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'Omeka\Entity\Site.slug',
+                $this->createNamedParameter($qb, $query['slug'])
+            ));
+        }
     }
 
     /**

@@ -1,17 +1,20 @@
+<?php
+$translate = $this->plugin('translate');
+?>
 <h3>
     <a href="<?php echo $this->escapeHtml($resource->url()); ?>"><?php echo $this->escapeHtml($resource->name()); ?></a>
     <?php if (!$resource->isActive()): ?>
-    <span class="user-inactive"><?php echo $this->translate('(inactive)'); ?></span>
+    <span class="user-inactive"><?php echo $translate('(inactive)'); ?></span>
     <?php endif; ?>
 </h3>
 
 <div class="meta-group">
-    <h4><?php echo $this->translate('Items'); ?></h4>
+    <h4><?php echo $translate('Items'); ?></h4>
     <div class="value"><?php echo $this->hyperlink($resource->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['owner_id' => $resource->id()]])); ?></div>
 </div>
 
 <div class="meta-group">
-    <h4><?php echo $this->translate('Item sets'); ?></h4>
+    <h4><?php echo $translate('Item sets'); ?></h4>
     <div class="value"><?php echo $this->hyperlink($resource->itemSetCount(), $this->url('admin/default', ['controller' => 'item-set', 'action' => 'browse'], ['query' => ['owner_id' => $resource->id()]])); ?></div>
 </div>
 <?php $this->trigger('view.details', array('entity' => $resource)); ?>

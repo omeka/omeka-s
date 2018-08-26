@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 // Prepare the user queries
 $ids = isset($query['user_id']) ? $query['user_id'] : [];
 if (!is_array($ids)) {
@@ -13,7 +14,7 @@ $sitePermissionSiteId = isset($query['site_permission_site_id']) ? $query['site_
 ?>
 <div class="field">
     <div class="field-meta">
-        <label for="email"><?php echo $this->translate('Search by email'); ?></label>
+        <label for="email"><?php echo $translate('Search by email'); ?></label>
     </div>
     <div class="inputs">
         <input name="email" value="" type="text">
@@ -21,7 +22,7 @@ $sitePermissionSiteId = isset($query['site_permission_site_id']) ? $query['site_
 </div>
 <div class="field">
     <div class="field-meta">
-        <label for="name"><?php echo $this->translate('Search by name'); ?></label>
+        <label for="name"><?php echo $translate('Search by name'); ?></label>
     </div>
     <div class="inputs">
         <input name="name" value="" type="text">
@@ -29,7 +30,7 @@ $sitePermissionSiteId = isset($query['site_permission_site_id']) ? $query['site_
 </div>
 <div class="field">
     <div class="field-meta">
-        <label for="role"><?php echo $this->translate('Search by role'); ?></label>
+        <label for="role"><?php echo $translate('Search by role'); ?></label>
     </div>
     <div class="inputs">
         <?php echo $this->roleSelect([
@@ -40,16 +41,16 @@ $sitePermissionSiteId = isset($query['site_permission_site_id']) ? $query['site_
 </div>
 <div class="field">
     <div class="field-meta">
-        <label for="is_active"><?php echo $this->translate('Search by activity'); ?></label>
+        <label for="is_active"><?php echo $translate('Search by activity'); ?></label>
     </div>
     <div class="inputs">
-        <label><input name="is_active" value="1" type="radio"><?php echo $this->translate('Active'); ?></label>
-        <label><input name="is_active" value="0" type="radio"><?php echo $this->translate('Not active'); ?></label>
+        <label><input name="is_active" value="1" type="radio"><?php echo $translate('Active'); ?></label>
+        <label><input name="is_active" value="0" type="radio"><?php echo $translate('Not active'); ?></label>
     </div>
 </div>
 <div class="field">
     <div class="field-meta">
-        <label for="site_permission_site_id"><?php echo $this->translate('Has permission in site'); ?></label>
+        <label for="site_permission_site_id"><?php echo $translate('Has permission in site'); ?></label>
     </div>
     <div class="inputs">
         <?php echo $this->siteSelect([

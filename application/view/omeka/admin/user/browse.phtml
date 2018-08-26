@@ -1,39 +1,40 @@
 <?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'users browse');
 $currentUserId = $this->identity()->getId();
 $userIsAllowedBatchUpdate = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'batch_update');
 $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'batch_delete');
-$escape = $this->plugin('escapeHtml');
 $sortHeadings = [
     [
-        'label' => $this->translate('Email'),
+        'label' => $translate('Email'),
         'value' => 'email'
     ],
     [
-        'label' => $this->translate('Role'),
+        'label' => $translate('Role'),
         'value' => 'role'
     ],
     [
-        'label' => $this->translate('Created'),
+        'label' => $translate('Created'),
         'value' => 'created'
     ]
 ]
 ?>
 
-<?php echo $this->pageTitle($this->translate('Users')); ?>
+<?php echo $this->pageTitle($translate('Users')); ?>
 
 <?php echo $this->searchUserFilters(); ?>
 
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
-    <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
+    <?php echo $this->hyperlink($translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
 
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'create')): ?>
-        <?php echo $this->hyperlink($this->translate('Add new user'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
+        <?php echo $this->hyperlink($translate('Add new user'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
@@ -42,27 +43,27 @@ $sortHeadings = [
 <form method="post" id="batch-form" class="disable-unsaved-warning">
     <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
     <div class="batch-inputs">
-        <select class="batch-actions-select" name="batch_action" aria-label="<?php echo $this->translate('Batch actions'); ?>">
-            <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
+        <select class="batch-actions-select" name="batch_action" aria-label="<?php echo $translate('Batch actions'); ?>">
+            <option value="default"><?php echo $translate('Batch actions'); ?></option>
             <?php if ($userIsAllowedBatchUpdate): ?>
-            <option value="update-selected" class="batch-selected" disabled><?php echo $this->translate('Edit selected'); ?></option>
-            <option value="update-all"><?php echo $this->translate('Edit all'); ?></option>
+            <option value="update-selected" class="batch-selected" disabled><?php echo $translate('Edit selected'); ?></option>
+            <option value="update-all"><?php echo $translate('Edit all'); ?></option>
             <?php endif; ?>
             <?php if ($userIsAllowedBatchDelete): ?>
-            <option value="delete-selected" class="batch-selected" disabled><?php echo $this->translate('Delete selected'); ?></option>
-            <option value="delete-all"><?php echo $this->translate('Delete all'); ?></option>
+            <option value="delete-selected" class="batch-selected" disabled><?php echo $translate('Delete selected'); ?></option>
+            <option value="delete-all"><?php echo $translate('Delete all'); ?></option>
             <?php endif; ?>
         </select>
         <div class="batch-actions">
-            <button type="button" class="default active" disabled><?php echo $this->translate('Go'); ?></button>
+            <button type="button" class="default active" disabled><?php echo $translate('Go'); ?></button>
             <?php if ($userIsAllowedBatchUpdate): ?>
-            <input type="submit" class="update-selected" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
-            <input type="submit" class="update-all" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+            <input type="submit" class="update-selected" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
+            <input type="submit" class="update-all" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
             <?php endif; ?>
             <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
             <?php if ($userIsAllowedBatchDelete): ?>
-            <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $this->translate('Go'); ?></a>
-            <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $this->translate('Go'); ?></a>
+            <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $translate('Go'); ?></a>
+            <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $translate('Go'); ?></a>
             <?php endif; ?>
         </div>
     </div>
@@ -75,10 +76,10 @@ $sortHeadings = [
                 <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
                 <input type="checkbox" class="select-all">
                 <?php endif; ?>
-                <?php echo $this->translate('Email'); ?>
+                <?php echo $translate('Email'); ?>
             </th>
-            <th><?php echo $this->translate('Role'); ?></th>
-            <th><?php echo $this->translate('Created'); ?></th>
+            <th><?php echo $translate('Role'); ?></th>
+            <th><?php echo $translate('Created'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -92,30 +93,30 @@ $sortHeadings = [
                 <?php endif; ?>
                 <?php echo $user->link($user->email() . ' (' . $user->name() . ')'); ?>
                 <?php if (!$user->isActive()): ?>
-                <span class="o-icon-user-inactive" aria-label="<?php echo $this->translate('Inactive'); ?>"></span>
+                <span class="o-icon-user-inactive" aria-label="<?php echo $translate('Inactive'); ?>"></span>
                 <?php endif; ?>
                 <ul class="actions">
                     <?php if ($userIsAllowedUpdate): ?>
                     <li><?php echo $user->link('', 'edit', [
                         'class' => 'o-icon-edit',
-                        'title' => $this->translate('Edit'),
+                        'title' => $translate('Edit'),
                     ]) ?></li>
                     <?php endif; ?>
                     <?php if ($userIsAllowedDelete): ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $user->url('delete-confirm'),
                         'class' => 'o-icon-delete sidebar-content',
-                        'title' => $this->translate('Delete'),
+                        'title' => $translate('Delete'),
                     ]); ?></li>
                     <?php endif; ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $user->url('show-details'),
                         'class' => 'o-icon-more sidebar-content',
-                        'title' => $this->translate('Details'),
+                        'title' => $translate('Details'),
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($this->translate($user->displayRole())); ?></td>
+            <td><?php echo $escape($translate($user->displayRole())); ?></td>
             <td><?php echo $escape($this->i18n()->dateFormat($user->created())); ?></td>
         </tr>
         <?php endforeach; ?>
@@ -132,7 +133,7 @@ $sortHeadings = [
 <div id="sidebar" class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content"></div>
 </div>
@@ -141,15 +142,15 @@ $sortHeadings = [
 <div id="sidebar-delete-selected" class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
-            <h3><?php echo $this->translate('Delete users'); ?></h3>
-            <p><?php echo $this->translate('Are you sure you would like to delete the selected users?'); ?></p>
+            <h3><?php echo $translate('Delete users'); ?></h3>
+            <p><?php echo $translate('Are you sure you would like to delete the selected users?'); ?></p>
             <p class="error"><?php echo sprintf(
-                $this->translate('%s: this action will permanently delete %s users and cannot be undone.'),
-                sprintf('<strong>%s</strong>', $this->translate('Warning')),
+                $translate('%s: this action will permanently delete %s users and cannot be undone.'),
+                sprintf('<strong>%s</strong>', $translate('Warning')),
                 '<strong><span id="delete-selected-count"></span></strong>'
             ); ?></p>
             <?php echo $this->form($this->formDeleteSelected); ?>
@@ -159,18 +160,18 @@ $sortHeadings = [
 <div id="sidebar-delete-all" class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content">
         <div id="sidebar-confirm">
-            <h3><?php echo $this->translate('Delete users'); ?></h3>
-            <p><?php echo $this->translate('Are you sure you would like to delete all users (except yourself) on all pages of this result?'); ?></p>
+            <h3><?php echo $translate('Delete users'); ?></h3>
+            <p><?php echo $translate('Are you sure you would like to delete all users (except yourself) on all pages of this result?'); ?></p>
             <p class="error"><?php echo sprintf(
-                $this->translate('%s: this action will permanently delete %s users (except yourself) and cannot be undone.'),
-                sprintf('<strong>%s</strong>', $this->translate('Warning')),
+                $translate('%s: this action will permanently delete %s users (except yourself) and cannot be undone.'),
+                sprintf('<strong>%s</strong>', $translate('Warning')),
                 sprintf('<strong>%s</strong>', number_format($this->pagination()->getPaginator()->getTotalCount()))
             ); ?></p>
-            <label><input type="checkbox" name="confirm-delete-all-check"> <?php echo $this->translate('Are you sure?'); ?></label>
+            <label><input type="checkbox" name="confirm-delete-all-check"> <?php echo $translate('Are you sure?'); ?></label>
             <?php echo $this->form($this->formDeleteAll); ?>
         </div>
     </div>
@@ -205,7 +206,7 @@ $('#sidebar-delete-all').on('click', 'input[name="confirm-delete-all-check"]', f
 <?php else: ?>
 
 <div class="no-resources">
-    <p><?php echo $this->translate('Omeka could not find any users.'); ?></p>
+    <p><?php echo $translate('Omeka could not find any users.'); ?></p>
 </div>
 
 <?php endif; ?>

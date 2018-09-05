@@ -1,0 +1,20 @@
+<?php
+// Prepare the resource template query.
+if (isset($query['resource_template_id'])) {
+    $resourceTemplateId = $query['resource_template_id'] ;
+} else {
+    $resourceTemplateId = null;
+}
+?>
+
+<div class="field">
+    <div class="field-meta">
+        <label for="resource_class_id"><?php echo $this->translate('Search by template'); ?></label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->resourceTemplateSelect([
+            'name' => 'resource_template_id',
+            'attributes' => ['id' => 'resource_template_id', 'value' => $resourceTemplateId]
+        ]); ?>
+    </div>
+</div>

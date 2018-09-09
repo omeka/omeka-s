@@ -108,7 +108,7 @@ class BrowsePreview extends AbstractBlockLayout
             'type' => Element\Text::class,
             'options' => [
                 'label' => 'Link text', // @translate
-                'info' => 'Text for link to full browse view, if any.', // @translate
+                'info' => 'Text for link to full browse view, if any. There is no link for media.', // @translate
             ],
         ]);
 
@@ -162,6 +162,8 @@ class BrowsePreview extends AbstractBlockLayout
             'media' => 'media',
         ];
 
+        // There is no list of media in public views.
+        $linkText = $resourceType === 'media' ? '' : $block->dataValue('link-text');
         return $view->partial('common/block-layout/browse-preview', [
             'resourceType' => $resourceTypes[$resourceType],
             'resources' => $resources,

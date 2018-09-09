@@ -129,7 +129,7 @@ class Paginator
      */
     public function getOffset()
     {
-        return ($this->perPage * $this->currentPage) - $this->perPage;
+        return $this->perPage * ($this->currentPage - 1);
     }
 
     /**

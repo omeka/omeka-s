@@ -95,7 +95,7 @@ class BrowsePreview extends AbstractBlockLayout
 
         $site = $block->page()->site();
         if ($view->siteSetting('browse_attached_items', false)) {
-            $itemPool['site_attachments_only'] = true;
+            $query['site_attachments_only'] = true;
         }
 
         $query['site_id'] = $site->id();

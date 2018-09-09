@@ -144,8 +144,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      * Set page, limit (max results) and offset (first result) conditions to the
      * query builder.
      *
-     * @param array $query
      * @param QueryBuilder $qb
+     * @param array $query
      */
     public function limitQuery(QueryBuilder $qb, array $query)
     {

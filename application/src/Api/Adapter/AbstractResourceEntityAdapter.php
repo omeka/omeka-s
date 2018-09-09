@@ -200,6 +200,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *     - nin: does not contain
      *     - ex: has any value
      *     - nex: has no value
+     *     - list: is in list
+     *     - nlist: is not in list
+     *     - res: has resource
+     *     - nres: has no resource
      *
      * @param QueryBuilder $qb
      * @param array $query

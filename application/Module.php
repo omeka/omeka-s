@@ -139,8 +139,7 @@ class Module extends AbstractModule
                     $partials[] = 'common/advanced-search/item-sets';
                     $event->setParam('partials', $partials);
                 }
-            },
-            2
+            }
         );
     }
 

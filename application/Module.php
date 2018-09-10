@@ -136,7 +136,15 @@ class Module extends AbstractModule
             function (ZendEvent $event) {
                 if ('item' === $event->getParam('resourceType')) {
                     $partials = $event->getParam('partials');
+                    $routeMatch = $this->getServiceLocator()->get('Application')
+                        ->getMvcEvent()->getRouteMatch();
+                    if ($routeMatch->getParam('__ADMIN__')) {
+                        // Add resource template filter for admin item search.
+                        $partials[] = 'common/advanced-search/resource-template';
+                    }
+                    // Add item sets and site pool filters for item search.
                     $partials[] = 'common/advanced-search/item-sets';
+                    $partials[] = 'common/advanced-search/site-pool';
                     $event->setParam('partials', $partials);
                 }
             }

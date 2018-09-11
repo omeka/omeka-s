@@ -395,7 +395,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * Options:
      *
-     * + hideVocabulary: Whether to hide vocabulary labels. Default: false
      * + viewName: Name of view script, or a view model. Default
      *   "common/resource-values"
      *
@@ -404,9 +403,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displayValues(array $options = [])
     {
-        if (!isset($options['hideVocabulary'])) {
-            $options['hideVocabulary'] = false;
-        }
         if (!isset($options['viewName'])) {
             $options['viewName'] = 'common/resource-values';
         }

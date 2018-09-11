@@ -136,9 +136,8 @@ class Module extends AbstractModule
             function (ZendEvent $event) {
                 if ('item' === $event->getParam('resourceType')) {
                     $partials = $event->getParam('partials');
-                    $routeMatch = $this->getServiceLocator()->get('Application')
-                        ->getMvcEvent()->getRouteMatch();
-                    if ($routeMatch->getParam('__ADMIN__')) {
+                    $status = $this->getServiceLocator()->get('Omeka\Status');
+                    if ($status->isAdminRequest()) {
                         // Add resource template filter for admin item search.
                         $partials[] = 'common/advanced-search/resource-template';
                     }

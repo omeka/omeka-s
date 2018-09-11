@@ -202,6 +202,7 @@ return [
                 'options' => [
                     'route' => '/api',
                     'defaults' => [
+                        '__API__' => true,
                         'controller' => 'Omeka\Controller\Api',
                     ],
                 ],

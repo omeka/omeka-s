@@ -256,10 +256,8 @@ class MvcListeners extends AbstractListenerAggregate
      */
     public function authenticateApiKey(MvcEvent $event)
     {
-        $status = $event->getApplication()->getServiceManager()
-            ->get('Omeka\Status');
-
-        if (!$status->isApiRequest()) {
+        $routeMatch = $event->getRouteMatch();
+        if (!$routeMatch->getParam('__API__')) {
             // This is not an API request.
             return;
         }

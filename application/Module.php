@@ -140,10 +140,10 @@ class Module extends AbstractModule
                     if ($status->isAdminRequest()) {
                         // Add resource template filter for admin item search.
                         $partials[] = 'common/advanced-search/resource-template';
+                        $partials[] = 'common/advanced-search/site-pool';
                     }
                     // Add item sets and site pool filters for item search.
                     $partials[] = 'common/advanced-search/item-sets';
-                    $partials[] = 'common/advanced-search/site-pool';
                     $event->setParam('partials', $partials);
                 }
             }

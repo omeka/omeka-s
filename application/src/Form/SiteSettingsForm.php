@@ -159,7 +159,7 @@ class SiteSettingsForm extends Form
         $searchFieldset = $this->get('search');
         $searchFieldset->add([
             'type' => 'Omeka\Form\Element\ResourceTemplateSelect',
-            'name' => 'search_templates',
+            'name' => 'search_apply_templates',
             'options' => [
                 'label' => 'Templates', // @translate
                 'info' => 'Select which templates to apply to the advanced search form.', // @translate
@@ -168,7 +168,7 @@ class SiteSettingsForm extends Form
                 'multiple' => true,
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select templates', // @translate
-                'value' => $settings->get('search_templates', []),
+                'value' => $settings->get('search_apply_templates', []),
             ],
         ]);
         $searchFieldset->add([
@@ -207,7 +207,7 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $inputFilter->get('search')->add([
-            'name' => 'search_templates',
+            'name' => 'search_apply_templates',
             'required' => false,
             'allow_empty' => true,
         ]);

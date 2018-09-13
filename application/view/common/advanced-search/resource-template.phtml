@@ -5,8 +5,16 @@ if (isset($query['resource_template_id'])) {
 } else {
     $resourceTemplateId = null;
 }
+if ($this->status()->isSiteRequest() && $this->siteSetting('search_restrict_templates')) {
+    $applyTemplates = $this->siteSetting('search_apply_templates');
+    $applyTemplates = is_array($applyTemplates) ? $applyTemplates : [];
+    foreach ($applyTemplates as $templateId) {
+        echo sprintf('<input type="hidden" name="resource_template_id[]" value="%s">', $this->escapeHtml($templateId));
+    }
+}
 ?>
 
+<?php if ($this->status()->isAdminRequest()): ?>
 <div class="field">
     <div class="field-meta">
         <label for="resource_class_id"><?php echo $this->translate('Search by template'); ?></label>
@@ -18,3 +26,4 @@ if (isset($query['resource_template_id'])) {
         ]); ?>
     </div>
 </div>
+<?php endif; ?>

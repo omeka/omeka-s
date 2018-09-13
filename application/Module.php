@@ -138,11 +138,11 @@ class Module extends AbstractModule
                     $partials = $event->getParam('partials');
                     $status = $this->getServiceLocator()->get('Omeka\Status');
                     if ($status->isAdminRequest()) {
-                        // Add resource template filter for admin item search.
-                        $partials[] = 'common/advanced-search/resource-template';
+                        // Add site pool filter for admin item search.
                         $partials[] = 'common/advanced-search/site-pool';
                     }
-                    // Add item sets and site pool filters for item search.
+                    // Add resource templates and item sets filters for item search.
+                    $partials[] = 'common/advanced-search/resource-template';
                     $partials[] = 'common/advanced-search/item-sets';
                     $event->setParam('partials', $partials);
                 }

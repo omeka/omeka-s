@@ -66,10 +66,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             }
             $templates = array_filter($templates, 'is_numeric');
             if ($templates) {
-                $qb->andWhere(
-                    $qb->expr()->in($this->getEntityClass() . '.resourceTemplate',
-                    $this->createNamedParameter($qb, $templates))
+                $resourceTemplateAlias = $this->createAlias();
+                $qb->innerJoin(
+                    $this->getEntityClass() . '.resourceTemplate',
+                    $resourceTemplateAlias, 'WITH',
+                    $qb->expr()->in("$resourceTemplateAlias.id", $this->createNamedParameter($qb, $templates))
                 );
+
             }
         }
 

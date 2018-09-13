@@ -72,7 +72,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     $resourceTemplateAlias, 'WITH',
                     $qb->expr()->in("$resourceTemplateAlias.id", $this->createNamedParameter($qb, $templates))
                 );
-
             }
         }
 

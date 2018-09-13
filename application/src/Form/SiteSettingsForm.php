@@ -183,7 +183,6 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
-
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 

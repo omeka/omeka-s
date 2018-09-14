@@ -120,6 +120,10 @@
     @extend .fa-eye-slash;
 }
 
+.o-icon-user-inactive {
+    @extend .fa-user-times;
+}
+
 .o-icon-activate {
     @extend .fa-toggle-off;
 }

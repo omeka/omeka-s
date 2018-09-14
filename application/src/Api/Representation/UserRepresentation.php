@@ -40,6 +40,11 @@ class UserRepresentation extends AbstractEntityRepresentation
         return $this->resource->getRole();
     }
 
+    public function isActive()
+    {
+        return $this->resource->isActive();
+    }
+
     public function created()
     {
         return $this->resource->getCreated();

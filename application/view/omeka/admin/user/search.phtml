@@ -1,0 +1,14 @@
+<?php
+$translate = $this->plugin('translate');
+$this->htmlElement('body')->appendAttribute('class', 'users search');
+?>
+<?php echo $this->pageTitle($translate('Advanced search'), 1, $translate('Users')); ?>
+<form id="advanced-search" method="get" action="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>">
+<?php echo $this->partial(
+    'common/advanced-search-users',
+    ['query' => $this->params()->fromQuery(), 'resourceType' => 'user']
+); ?>
+<div id="page-actions">
+    <input type="submit" name="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">
+</div>
+</form>

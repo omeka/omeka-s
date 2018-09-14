@@ -1394,7 +1394,8 @@ div[role="main"] {
     }
 }
 
-td .o-icon-private {
+td .o-icon-private,
+td .o-icon-user-inactive {
     display: inline-block;
     vertical-align: bottom;
     margin-left: .5em;

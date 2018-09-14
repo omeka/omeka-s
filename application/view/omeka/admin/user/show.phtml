@@ -1,33 +1,40 @@
 <?php
-    $this->htmlElement('body')->appendAttribute('class', 'users show');
-    $escape = $this->plugin('escapeHtml');
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'users show');
 ?>
 
-<?php echo $this->pageTitle($user->email(), 1, $this->translate('Users')); ?>
+<?php echo $this->pageTitle($user->email(), 1, $translate('Users')); ?>
 
 <div id="page-actions">
     <?php if ($user->userIsAllowed('update')): ?>
-        <a class="button" href="<?php echo $escape($user->url('edit')); ?>"><?php echo $this->translate('Edit user'); ?></a>
+        <a class="button" href="<?php echo $escape($user->url('edit')); ?>"><?php echo $translate('Edit user'); ?></a>
     <?php endif; ?>
 </div>
 
 <?php $this->trigger('view.show.before'); ?>
 <div class="property">
-    <h4><?php echo $this->translate('Email'); ?></h4>
+    <h4><?php echo $translate('Email'); ?></h4>
     <div class="value">
         <?php echo $escape($user->email()); ?>
     </div>
 </div>
 <div class="property">
-    <h4><?php echo $this->translate('Display name'); ?></h4>
+    <h4><?php echo $translate('Display name'); ?></h4>
     <div class="value">
         <?php echo $escape($user->name()); ?>
     </div>
 </div>
 <div class="property">
-    <h4><?php echo $this->translate('Role'); ?></h4>
+    <h4><?php echo $translate('Role'); ?></h4>
     <div class="value">
-        <?php echo $escape($this->translate($user->displayRole())); ?>
+        <?php echo $escape($translate($user->displayRole())); ?>
+    </div>
+</div>
+<div class="property">
+    <h4><?php echo $translate('Is active'); ?></h4>
+    <div class="value">
+        <?php echo $escape($user->isActive() ? $translate('yes') : $translate('no')); ?>
     </div>
 </div>
 <?php $this->trigger('view.show.after'); ?>

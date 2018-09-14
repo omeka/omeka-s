@@ -342,7 +342,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         }
 
         if ($property) {
-            $qb->where('v.property', $this->createNamedParameter($qb, $property));
+            $qb->andWhere($qb->expr()->eq('v.property', $this->createNamedParameter($qb, $property)));
         }
 
         $qb->setMaxResults($perPage);

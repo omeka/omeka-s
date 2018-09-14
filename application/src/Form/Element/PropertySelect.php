@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Form\Element;
 
+use Omeka\Api\Exception\NotFoundException;
+
 class PropertySelect extends AbstractVocabularyMemberSelect
 {
     public function getResourceName()

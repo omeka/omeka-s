@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Form\Element;
 
-use Omeka\Api\Exception\NotFoundException;
 use Omeka\Api\Manager as ApiManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;

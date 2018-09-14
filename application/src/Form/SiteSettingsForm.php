@@ -127,7 +127,7 @@ class SiteSettingsForm extends Form
                 'label' => 'Show user bar on public views', // @translate
                 'value_options' => [
                     '-1' => 'Never', // @translate
-                    '0' => 'When identified', // @translate
+                    '0' => 'When logged in', // @translate
                     '1' => 'Always', // @translate
                 ],
             ],

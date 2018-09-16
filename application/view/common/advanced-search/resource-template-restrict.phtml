@@ -1,0 +1,8 @@
+<?php
+if ($this->siteSetting('search_restrict_templates')) {
+    $applyTemplates = $this->siteSetting('search_apply_templates');
+    $applyTemplates = is_array($applyTemplates) ? $applyTemplates : [];
+    foreach ($applyTemplates as $templateId) {
+        echo sprintf('<input type="hidden" name="resource_template_id[]" value="%s">', $this->escapeHtml($templateId));
+    }
+}

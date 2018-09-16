@@ -129,25 +129,6 @@ class Module extends AbstractModule
                 }
             );
         }
-
-        $sharedEventManager->attach(
-            '*',
-            'view.advanced_search',
-            function (ZendEvent $event) {
-                if ('item' === $event->getParam('resourceType')) {
-                    $partials = $event->getParam('partials');
-                    $status = $this->getServiceLocator()->get('Omeka\Status');
-                    if ($status->isAdminRequest()) {
-                        // Add site pool filter for admin item search.
-                        $partials[] = 'common/advanced-search/site-pool';
-                    }
-                    // Add resource templates and item sets filters for item search.
-                    $partials[] = 'common/advanced-search/resource-template';
-                    $partials[] = 'common/advanced-search/item-sets';
-                    $event->setParam('partials', $partials);
-                }
-            }
-        );
     }
 
     /**

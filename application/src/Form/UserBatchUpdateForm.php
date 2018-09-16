@@ -52,7 +52,7 @@ class UserBatchUpdateForm extends Form
                 'id' => 'remove-from-site-permission-select',
                 'class' => 'chosen-select',
                 'multiple' => true,
-                'data-placeholder' => 'Select site…', // @translate
+                'data-placeholder' => 'Select sites…', // @translate
                 'data-collection-action' => 'remove',
             ],
             'options' => [
@@ -69,7 +69,7 @@ class UserBatchUpdateForm extends Form
                 'id' => 'add-to-site-permission-select',
                 'class' => 'chosen-select',
                 'multiple' => true,
-                'data-placeholder' => 'Select site…', // @translate
+                'data-placeholder' => 'Select sites…', // @translate
                 'data-collection-action' => 'append',
             ],
             'options' => [

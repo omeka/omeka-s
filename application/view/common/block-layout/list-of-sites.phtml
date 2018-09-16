@@ -2,6 +2,9 @@
 $hyperlink = $this->plugin('hyperlink');
 ?>
 <div class="list-of-sites">
+    <?php if ($pagination): ?>
+    <?php echo $this->pagination(); ?>
+    <?php endif; ?>
     <ul>
         <?php foreach ($sites as $site): ?>
         <li><?php echo $hyperlink($site->title(), $site->siteUrl()); ?></li>

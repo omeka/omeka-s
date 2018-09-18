@@ -129,25 +129,6 @@ class Module extends AbstractModule
                 }
             );
         }
-
-        $sharedEventManager->attach(
-            '*',
-            'view.advanced_search',
-            function (ZendEvent $event) {
-                if ('item' === $event->getParam('resourceType')) {
-                    $partials = $event->getParam('partials');
-                    $partials[] = 'common/advanced-search/item-sets';
-                    $event->setParam('partials', $partials);
-                }
-            },
-            2
-        );
-
-        $sharedEventManager->attach(
-            \Omeka\Api\Adapter\UserAdapter::class,
-            'api.batch_update.post',
-            [$this, 'batchUpdatePostUser']
-        );
     }
 
     /**

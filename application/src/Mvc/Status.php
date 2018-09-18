@@ -22,6 +22,16 @@ class Status
      */
     protected $isApiRequest;
 
+    /**
+     * @var bool
+     */
+    protected $isAdminRequest;
+
+    /**
+     * @var bool
+     */
+    protected $isSiteRequest;
+
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
@@ -52,29 +62,75 @@ class Status
     }
 
     /**
-     * Check whether the current HTTP request is an API request.
+     * Get the route match.
      *
-     * The heuristic for determining an API request is a route match against the
-     * API controller.
+     * @return Zend\Router\Http\RouteMatch
+     */
+    public function getRouteMatch()
+    {
+        // Attempt to get the route match from the MVC event.
+        $routeMatch = $this->serviceLocator->get('Application')->getMvcEvent()->getRouteMatch();
+        if (!$routeMatch) {
+            // If the match hasn't already been set, calculate it here.
+            $router = $this->serviceLocator->get('Router');
+            $request = $this->serviceLocator->get('Request');
+            $routeMatch = $router->match($request);
+        }
+        return $routeMatch;
+    }
+
+    /**
+     * Get a parameter from the matched route.
+     *
+     * @param string $param
+     * @return bool
+     */
+    public function getRouteParam($param)
+    {
+        $routeMatch = $this->getRouteMatch();
+        return $routeMatch ? $routeMatch->getParam($param) : false;
+    }
+
+    /**
+     * Check whether the current HTTP request is an API request.
      *
      * @return bool
      */
     public function isApiRequest()
     {
-        if (null !== $this->isApiRequest) {
+        if (isset($this->isApiRequest)) {
             return $this->isApiRequest;
         }
-        // Get the route match.
-        $router = $this->serviceLocator->get('Router');
-        $request = $this->serviceLocator->get('Request');
-        $routeMatch = $router->match($request);
-        if (null === $routeMatch) {
-            // No matching route; not an API request.
-            return false;
-        }
-        $this->isApiRequest = 'Omeka\Controller\Api'
-            === $routeMatch->getParam('controller');
+        $this->isApiRequest = (bool) $this->getRouteParam('__API__');
         return $this->isApiRequest;
+    }
+
+    /**
+     * Check whether the current HTTP request is an admin request.
+     *
+     * @return bool
+     */
+    public function isAdminRequest()
+    {
+        if (isset($this->isAdminRequest)) {
+            return $this->isAdminRequest;
+        }
+        $this->isAdminRequest = (bool) $this->getRouteParam('__ADMIN__');
+        return $this->isAdminRequest;
+    }
+
+    /**
+     * Check whether the current HTTP request is a site request.
+     *
+     * @return bool
+     */
+    public function isSiteRequest()
+    {
+        if (isset($this->isSiteRequest)) {
+            return $this->isSiteRequest;
+        }
+        $this->isSiteRequest = (bool) $this->getRouteParam('__SITE__');
+        return $this->isSiteRequest;
     }
 
     /**

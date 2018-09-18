@@ -172,12 +172,12 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      */
     public function url($action = null, $canonical = false)
     {
-        $routeMatch = $this->getServiceLocator()->get('Application')
-            ->getMvcEvent()->getRouteMatch();
+        $status = $this->getServiceLocator()->get('Omeka\Status');
+        $routeMatch = $status->getRouteMatch();
         $url = null;
-        if ($routeMatch->getParam('__ADMIN__')) {
+        if ($status->isAdminRequest()) {
             $url = $this->adminUrl($action, $canonical);
-        } elseif ($routeMatch->getParam('__SITE__')) {
+        } elseif ($status->isSiteRequest()) {
             $url = $this->siteUrl($routeMatch->getParam('site-slug'), $canonical);
         }
         return $url;

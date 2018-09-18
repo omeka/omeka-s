@@ -38,13 +38,16 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
      */
     abstract public function getResourceName();
 
+    /**
+     * Get default value options for this vocabulary member.
+     *
+     * @return array
+     */
     public function getValueOptions()
     {
         $events = $this->getEventManager();
-
         $resourceName = $this->getResourceName();
 
-        $termAsValue = $this->getOption('term_as_value');
         $query = $this->getOption('query');
         if (!is_array($query)) {
             $query = [];
@@ -52,13 +55,14 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
         if (!isset($query['sort_by'])) {
             $query['sort_by'] = 'label';
         }
-
+        // Allow handlers to filter the query.
         $args = $events->prepareArgs(['query' => $query]);
         $events->trigger('form.vocab_member_select.query', $this, $args);
         $query = $args['query'];
 
         $valueOptions = [];
         $response = $this->getApiManager()->search($resourceName, $query);
+        $termAsValue = $this->getOption('term_as_value');
         foreach ($response->getContent() as $member) {
             $attributes = ['data-term' => $member->term()];
             if ('properties' === $resourceName) {
@@ -80,7 +84,6 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
             }
             $valueOptions[$vocabulary->prefix()]['options'][] = $option;
         }
-
         // Move Dublin Core vocabularies (dcterms & dctype) to the beginning.
         if (isset($valueOptions['dcterms'])) {
             $valueOptions = ['dcterms' => $valueOptions['dcterms']] + $valueOptions;
@@ -89,11 +92,13 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
             $valueOptions = ['dctype' => $valueOptions['dctype']] + $valueOptions;
         }
 
+        // Prepend configured value options.
         $prependValueOptions = $this->getOption('prepend_value_options');
         if (is_array($prependValueOptions)) {
             $valueOptions = $prependValueOptions + $valueOptions;
         }
 
+        // Allow handlers to filter the value options.
         $args = $events->prepareArgs(['valueOptions' => $valueOptions]);
         $events->trigger('form.vocab_member_select.value_options', $this, $args);
         $valueOptions = $args['valueOptions'];

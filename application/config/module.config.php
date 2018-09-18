@@ -413,6 +413,7 @@ return [
             'userIsAllowed' => Service\ViewHelper\UserIsAllowedFactory::class,
             'deleteConfirm' => Service\ViewHelper\DeleteConfirmFactory::class,
             'resourceClassSelect' => Service\ViewHelper\ResourceClassSelectFactory::class,
+            'resourceTemplateSelect' => Service\ViewHelper\ResourceTemplateSelectFactory::class,
             'propertySelect' => Service\ViewHelper\PropertySelectFactory::class,
             'itemSetSelect' => Service\ViewHelper\ItemSetSelectFactory::class,
             'roleSelect' => Service\ViewHelper\RoleSelectFactory::class,
@@ -421,6 +422,7 @@ return [
             'resourceSelect' => Service\ViewHelper\ResourceSelectFactory::class,
             'jsTranslate' => Service\ViewHelper\JsTranslateFactory::class,
             'lang' => Service\ViewHelper\LangFactory::class,
+            'status' => Service\ViewHelper\StatusFactory::class,
         ],
         'delegators' => [
             'Zend\Form\View\Helper\FormElement' => [
@@ -455,6 +457,7 @@ return [
             'Omeka\Form\UserBatchUpdateForm' => Service\Form\UserBatchUpdateFormFactory::class,
             'Omeka\Form\Element\ResourceSelect' => Service\Form\Element\ResourceSelectFactory::class,
             'Omeka\Form\Element\ResourceClassSelect' => Service\Form\Element\ResourceClassSelectFactory::class,
+            'Omeka\Form\Element\ResourceTemplateSelect' => Service\Form\Element\ResourceTemplateSelectFactory::class,
             'Omeka\Form\Element\PropertySelect' => Service\Form\Element\PropertySelectFactory::class,
             'Omeka\Form\Element\ItemSetSelect' => Service\Form\Element\ItemSetSelectFactory::class,
             'Omeka\Form\Element\SiteSelect' => Service\Form\Element\SiteSelectFactory::class,

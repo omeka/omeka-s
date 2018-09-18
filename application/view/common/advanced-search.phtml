@@ -2,19 +2,31 @@
 $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 
-
 $query = isset($query) ? $query : null;
+$resourceType = isset($resourceType) ? $resourceType : null;
+
 $partials = [
-    'common/advanced-search/resource-class',
     'common/advanced-search/properties',
-    'common/advanced-search/site-pool',
+    'common/advanced-search/resource-class',
 ];
+if ($this->status()->isAdminRequest()) {
+    $partials[] = 'common/advanced-search/resource-template';
+}
+if ('item' === $resourceType) {
+    $partials[] = 'common/advanced-search/item-sets';
+}
+if ($this->status()->isAdminRequest() && 'item' === $resourceType) {
+    $partials[] = 'common/advanced-search/site-pool';
+}
+if ($this->status()->isSiteRequest()) {
+    $partials[] = 'common/advanced-search/resource-template-restrict';
+}
 
 $filterResults = $this->trigger(
     'view.advanced_search',
     [
         'query' => $query,
-        'resourceType' => isset($resourceType) ? $resourceType : null,
+        'resourceType' => $resourceType,
         'partials' => $partials,
     ],
     true

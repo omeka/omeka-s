@@ -113,13 +113,21 @@ class SearchFilters extends AbstractHelper
 
                     // Search resource template
                     case 'resource_template_id':
+                        if (!is_array($value)) {
+                            $value = [$value];
+                        }
+                        foreach ($value as $subValue) {
+                            if (!is_numeric($subValue)) {
+                                continue;
+                            }
                             $filterLabel = $translate('Resource template');
                             try {
-                                $filterValue = $api->read('resource_templates', $value)->getContent()->label();
+                                $filterValue = $api->read('resource_templates', $subValue)->getContent()->label();
                             } catch (NotFoundException $e) {
-                                $filterValue = $translate('Unknown resource template');
+                                $filterValue = $translate('Unknown template');
                             }
                             $filters[$filterLabel][] = $filterValue;
+                        }
                         break;
 
                     // Search item set

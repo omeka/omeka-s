@@ -57,6 +57,7 @@ $queryText = function(array $search, $index) {
                 ],
                 'options' => [
                     'empty_option' => '[Any Property]', // @translate
+                    'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
                 ]
             ]); ?>
             <select class="query-type" name="<?php echo $this->escapeHtml($stem . '[type]'); ?>" aria-label="<?php echo $this->translate('Query type'); ?>">

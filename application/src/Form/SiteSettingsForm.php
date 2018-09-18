@@ -149,6 +149,39 @@ class SiteSettingsForm extends Form
                 'class' => 'chosen-select',
             ],
         ]);
+        $this->add([
+            'type' => 'fieldset',
+            'name' => 'search',
+            'options' => [
+                'label' => 'Search', // @translate
+            ],
+        ]);
+        $searchFieldset = $this->get('search');
+        $searchFieldset->add([
+            'type' => 'Omeka\Form\Element\ResourceTemplateSelect',
+            'name' => 'search_apply_templates',
+            'options' => [
+                'label' => 'Templates', // @translate
+                'info' => 'Select which templates to apply to the advanced search form.', // @translate
+            ],
+            'attributes' => [
+                'multiple' => true,
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select templates', // @translate
+                'value' => $settings->get('search_apply_templates', []),
+            ],
+        ]);
+        $searchFieldset->add([
+            'type' => 'checkbox',
+            'name' => 'search_restrict_templates',
+            'options' => [
+                'label' => 'Restrict to templates',
+                'info' => 'Restrict search results to resources of the selected templates.', // @translate
+            ],
+            'attributes' => [
+                'value' => $settings->get('search_restrict_templates', false),
+            ],
+        ]);
 
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
@@ -171,6 +204,11 @@ class SiteSettingsForm extends Form
             'validators' => [
                 ['name' => 'Digits'],
             ],
+        ]);
+        $inputFilter->get('search')->add([
+            'name' => 'search_apply_templates',
+            'required' => false,
+            'allow_empty' => true,
         ]);
         $filterEvent = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($filterEvent);

@@ -26,6 +26,9 @@ if (!$ids) {
                     'value' => $id,
                     'aria-labelledby' =>  'by-item-set-label'
                 ],
+                'options' => [
+                    'disable_group_by_owner' => $this->status()->isSiteRequest(),
+                ],
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
         </div>

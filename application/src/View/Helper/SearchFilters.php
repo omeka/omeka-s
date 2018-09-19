@@ -44,13 +44,21 @@ class SearchFilters extends AbstractHelper
                 switch ($key) {
                     // Search by class
                     case 'resource_class_id':
-                        $filterLabel = $translate('Resource class');
-                        try {
-                            $filterValue = $api->read('resource_classes', $value)->getContent()->label();
-                        } catch (NotFoundException $e) {
-                            $filterValue = $translate('Unknown');
+                        if (!is_array($value)) {
+                            $value = [$value];
                         }
-                        $filters[$filterLabel][] = $filterValue;
+                        foreach ($value as $subValue) {
+                            if (!is_numeric($subValue)) {
+                                continue;
+                            }
+                            $filterLabel = $translate('Class');
+                            try {
+                                $filterValue = $api->read('resource_classes', $subValue)->getContent()->label();
+                            } catch (NotFoundException $e) {
+                                $filterValue = $translate('Unknown class');
+                            }
+                            $filters[$filterLabel][] = $filterValue;
+                        }
                         break;
 
                     // Search values (by property or all)
@@ -120,7 +128,7 @@ class SearchFilters extends AbstractHelper
                             if (!is_numeric($subValue)) {
                                 continue;
                             }
-                            $filterLabel = $translate('Resource template');
+                            $filterLabel = $translate('Template');
                             try {
                                 $filterValue = $api->read('resource_templates', $subValue)->getContent()->label();
                             } catch (NotFoundException $e) {

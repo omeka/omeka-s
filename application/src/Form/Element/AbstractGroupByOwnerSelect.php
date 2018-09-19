@@ -50,33 +50,49 @@ abstract class AbstractGroupByOwnerSelect extends Select
             $query = [];
         }
 
-        // Group alphabetically by owner email.
-        $resourceOwners = [];
         $response = $this->getApiManager()->search($this->getResourceName(), $query);
-        foreach ($response->getContent() as $resource) {
-            $owner = $resource->owner();
-            $index = $owner ? $owner->email() : null;
-            $resourceOwners[$index]['owner'] = $owner;
-            $resourceOwners[$index]['resources'][] = $resource;
-        }
-        ksort($resourceOwners);
 
-        $valueOptions = [];
-        foreach ($resourceOwners as $resourceOwner) {
-            $options = [];
-            foreach ($resourceOwner['resources'] as $resource) {
-                $options[$resource->id()] = $this->getValueLabel($resource);
-                if (!$options) {
-                    continue;
+        if ($this->getOption('disable_group_by_owner')) {
+            // Group alphabetically by resource label without grouping by owner.
+            $resources = [];
+            foreach ($response->getContent() as $resource) {
+                $resources[$this->getValueLabel($resource)][] = $resource->id();
+            }
+            ksort($resources);
+            $valueOptions = [];
+            foreach ($resources as $label => $ids) {
+                foreach ($ids as $id) {
+                    $valueOptions[$id] = $label;
                 }
             }
-            $owner = $resourceOwner['owner'];
-            if ($owner instanceof UserRepresentation) {
-                $label = sprintf('%s (%s)', $owner->name(), $owner->email());
-            } else {
-                $label = '[No owner]';
+        } else {
+            // Group alphabetically by owner email.
+            $resourceOwners = [];
+            foreach ($response->getContent() as $resource) {
+                $owner = $resource->owner();
+                $index = $owner ? $owner->email() : null;
+                $resourceOwners[$index]['owner'] = $owner;
+                $resourceOwners[$index]['resources'][] = $resource;
             }
-            $valueOptions[] = ['label' => $label, 'options' => $options];
+            ksort($resourceOwners);
+
+            $valueOptions = [];
+            foreach ($resourceOwners as $resourceOwner) {
+                $options = [];
+                foreach ($resourceOwner['resources'] as $resource) {
+                    $options[$resource->id()] = $this->getValueLabel($resource);
+                    if (!$options) {
+                        continue;
+                    }
+                }
+                $owner = $resourceOwner['owner'];
+                if ($owner instanceof UserRepresentation) {
+                    $label = sprintf('%s (%s)', $owner->name(), $owner->email());
+                } else {
+                    $label = '[No owner]';
+                }
+                $valueOptions[] = ['label' => $label, 'options' => $options];
+            }
         }
 
         $prependValueOptions = $this->getOption('prepend_value_options');

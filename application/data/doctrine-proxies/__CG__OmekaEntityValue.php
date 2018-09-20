@@ -64,10 +64,10 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource'];
+            return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource', 'isPublic'];
         }
 
-        return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource'];
+        return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource', 'isPublic'];
     }
 
     /**
@@ -340,6 +340,28 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValueResource', []);
 
         return parent::getValueResource();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsPublic($isPublic)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', [$isPublic]);
+
+        return parent::setIsPublic($isPublic);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isPublic()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', []);
+
+        return parent::isPublic();
     }
 
     /**

@@ -56,6 +56,7 @@ return [
         ],
         'filters' => [
             'resource_visibility' => Db\Filter\ResourceVisibilityFilter::class,
+            'value_visibility' => Db\Filter\ValueVisibilityFilter::class,
         ],
         'functions' => [
              'datetime' => [

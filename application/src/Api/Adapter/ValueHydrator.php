@@ -55,7 +55,6 @@ class ValueHydrator
         $existingValues = $valueCollection->toArray();
         $entityManager = $adapter->getEntityManager();
         $dataTypes = $adapter->getServiceLocator()->get('Omeka\DataTypeManager');
-        $acl = $adapter->getServiceLocator()->get('Omeka\Acl');
 
         // Iterate the representation data. Note that we ignore terms.
         $valuePassed = false;

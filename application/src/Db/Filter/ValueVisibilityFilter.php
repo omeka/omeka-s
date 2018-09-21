@@ -22,7 +22,7 @@ class ValueVisibilityFilter extends SQLFilter
     {
         if ('Omeka\Entity\Value' === $targetEntity->getName()) {
             $acl = $this->serviceLocator->get('Omeka\Acl');
-            if ($acl->userIsAllowed('Omeka\Entity\Value', 'view-all')) {
+            if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
                 return '';
             }
             // Users can view public values they do not own.
@@ -31,7 +31,7 @@ class ValueVisibilityFilter extends SQLFilter
             if ($identity) {
                 // Users can view all values they own.
                 $constraint = sprintf(
-                    '%1$s OR %2$s.resource_id = (SELECT r.id FROM resource r WHERE (r.owner_id = %3$s) AND r.id = %2$s.resource_id)',
+                    '%1$s OR %2$s.resource_id = (SELECT r.id FROM resource r WHERE r.owner_id = %3$s AND r.id = %2$s.resource_id)',
                     $constraint,
                     $targetTableAlias,
                     $this->getConnection()->quote($identity->getId(), Type::INTEGER)

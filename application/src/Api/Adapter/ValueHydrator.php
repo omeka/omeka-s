@@ -55,6 +55,7 @@ class ValueHydrator
         $existingValues = $valueCollection->toArray();
         $entityManager = $adapter->getEntityManager();
         $dataTypes = $adapter->getServiceLocator()->get('Omeka\DataTypeManager');
+        $acl = $adapter->getServiceLocator()->get('Omeka\Acl');
 
         // Iterate the representation data. Note that we ignore terms.
         $valuePassed = false;
@@ -100,6 +101,9 @@ class ValueHydrator
                     'Omeka\Entity\Property',
                     $valueData['property_id']
                 ));
+                if (isset($valueData['is_public']) && $acl->userIsAllowed($value, 'change-visibility')) {
+                    $value->setIsPublic($valueData['is_public']);
+                }
                 $dataType->hydrate($valueData, $value, $adapter);
             }
         }

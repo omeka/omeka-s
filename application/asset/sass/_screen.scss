@@ -2234,13 +2234,16 @@ input[type="text"].value-language,
 
     .input-footer .actions {
         margin-left: 0;
+        flex-wrap: wrap;
     }
 
     .input-footer .actions a:before {
         line-height: 1.5 * $spacing-large;
         height: 1.5 * $spacing-large;
+        text-align: center;
+        margin-left: $spacing-small;
     }
-
+    
     .value.delete {
         background-color: $delete-bg;
         overflow: hidden;

@@ -74,17 +74,6 @@
             thisButton.hide();
         });
 
-        // Handle a change of value visibility.
-        $('a.value-visibility').on('click', function(e) {
-            e.preventDefault();
-            var thisButton = $(this);
-            var value = thisButton.closest('.value');
-            var isPublic = thisButton.hasClass('public-value');
-            thisButton.hide();
-            value.find(isPublic ? 'a.private-value' : 'a.public-value').show();
-            value.find('input.is_public').val(isPublic ? 0 : 1);
-        });
-
         // Open or close item set
         $('a.o-icon-lock, a.o-icon-unlock').click(function(e) {
             e.preventDefault();
@@ -222,16 +211,12 @@
         if (valueObj && false === valueObj['is_public']) {
             isPublic = false;
         }
-        var publicButton = value.find('a.public-value');
-        var privateButton = value.find('a.private-value');
-        if (isPublic) {
-            privateButton.hide();
-            publicButton.show();
-        } else {
-            publicButton.hide();
-            privateButton.show();
+        var valueVisibilityButton = value.find('a.value-visibility');
+        if (!isPublic) {
+            valueVisibilityButton.removeClass('o-icon-public').addClass('o-icon-private');
+            valueVisibilityButton.attr('aria-label', Omeka.jsTranslate('Make private'));
+            valueVisibilityButton.attr('title', Omeka.jsTranslate('Make private'));
         }
-
         // Prepare the value node.
         var count = field.find('.value').length;
         var namePrefix = field.data('property-term') + '[' + count + ']';

@@ -450,12 +450,6 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'author',
-            'Omeka\Entity\Value',
-            'change-visibility',
-            new OwnsEntityAssertion
-        );
-        $acl->allow(
-            'author',
             'Omeka\Controller\Admin\User'
         );
         $acl->allow(
@@ -570,12 +564,6 @@ class AclFactory implements FactoryInterface
             [
                 'delete',
             ],
-            new OwnsEntityAssertion
-        );
-        $acl->allow(
-            'reviewer',
-            'Omeka\Entity\Value',
-            'change-visibility',
             new OwnsEntityAssertion
         );
         $acl->allow(
@@ -697,12 +685,6 @@ class AclFactory implements FactoryInterface
                 'update',
                 'delete',
             ]
-        );
-        $acl->allow(
-            'editor',
-            'Omeka\Entity\Value',
-            'change-visibility',
-            new OwnsEntityAssertion
         );
         $acl->allow(
             'editor',

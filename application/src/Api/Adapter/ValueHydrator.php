@@ -101,7 +101,7 @@ class ValueHydrator
                     'Omeka\Entity\Property',
                     $valueData['property_id']
                 ));
-                if (isset($valueData['is_public']) && $acl->userIsAllowed($value, 'change-visibility')) {
+                if (isset($valueData['is_public'])) {
                     $value->setIsPublic($valueData['is_public']);
                 }
                 $dataType->hydrate($valueData, $value, $adapter);

@@ -2860,6 +2860,14 @@ input[type="text"].value-language,
         margin-right: $spacing-small;
         background-color: $gray-on-white;
     }
+
+    .private:after {
+        @include fa-icon();
+        content: fa-content($fa-var-eye-slash);
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        margin-left: $spacing-small;
+    }
 }
 
 #linked-filter {

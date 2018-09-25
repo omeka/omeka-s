@@ -2249,6 +2249,10 @@ input[type="text"].value-language,
         overflow: hidden;
     }
 
+    .value.delete .input-footer .actions li:last-child {
+        display: none;
+    }
+
     .value a.restore-value,
     .value span.restore-value,
     .value.delete a.tab {

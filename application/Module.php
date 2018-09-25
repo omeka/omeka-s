@@ -13,7 +13,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '1.2.1-alpha';
+    const VERSION = '1.2.1-alpha2';
 
     /**
      * The vocabulary IRI used to define Omeka application data.

@@ -64,10 +64,10 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType', 'isRequired'];
+            return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType', 'isRequired', 'isPrivate'];
         }
 
-        return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType', 'isRequired'];
+        return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType', 'isRequired', 'isPrivate'];
     }
 
     /**
@@ -351,6 +351,39 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'isRequired', []);
 
         return parent::isRequired();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsPrivate($isPrivate)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPrivate', [$isPrivate]);
+
+        return parent::setIsPrivate($isPrivate);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIsPrivate()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIsPrivate', []);
+
+        return parent::getIsPrivate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isPrivate()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPrivate', []);
+
+        return parent::isPrivate();
     }
 
     /**

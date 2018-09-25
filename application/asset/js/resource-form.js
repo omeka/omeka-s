@@ -332,26 +332,42 @@
         var properties = $('div#properties');
         var propertyId = template['o:property']['o:id'];
         var field = properties.find('[data-property-id="' + propertyId + '"]');
-
         if (field.length == 0) {
             field = makeNewField(propertyId);
         }
+        var originalLabel = field.find('.field-label');
+        var originalDescription = field.find('.field-description');
+        var singleSelector = field.find('div.single-selector');
+        var defaultSelector = field.find('div.default-selector');
 
-        // Set required and private classes to the field.
         if (template['o:is_required']) {
             field.addClass('required');
         }
         if (template['o:is_private']) {
             field.addClass('private');
         }
+        if (template['o:alternate_label']) {
+            var altLabel = originalLabel.clone();
+            altLabel.addClass('alternate');
+            altLabel.text(template['o:alternate_label']);
+            altLabel.insertAfter(originalLabel);
+            originalLabel.hide();
+        }
+        if (template['o:alternate_comment']) {
+            var altDescription = originalDescription.clone();
+            altDescription.addClass('alternate');
+            altDescription.text(template['o:alternate_comment']);
+            altDescription.insertAfter(originalDescription);
+            originalDescription.hide();
+        }
 
         // Remove any unchanged default values for this property so we start fresh.
         field.find('.value.default-value').remove();
 
+        // Change value selector and add empty value if needed.
         if (template['o:data_type']) {
             // Use the single selector if the property has a data type.
-            field.find('div.default-selector').hide();
-            var singleSelector = field.find('div.single-selector');
+            defaultSelector.hide();
             singleSelector.find('a.add-value.button').data('type', template['o:data_type'])
             singleSelector.show();
             // Add an empty value if none already exist in the property.
@@ -360,30 +376,12 @@
             }
         } else {
             // Use the default selector if the property has no data type.
-            field.find('div.single-selector').hide();
-            field.find('div.default-selector').show();
+            singleSelector.hide();
+            defaultSelector.show();
             // Add an empty default value if none already exist in the property.
             if (!field.find('.value').length) {
                 field.find('.values').append(makeDefaultValue(field.data('property-term'), 'literal'));
             }
-        }
-
-        var originalLabel = field.find('.field-label');
-        if (template['o:alternate_label']) {
-            var altLabel = originalLabel.clone();
-            altLabel.addClass('alternate');
-            altLabel.text(template['o:alternate_label']);
-            altLabel.insertAfter(originalLabel);
-            originalLabel.hide();
-        }
-
-        var originalDescription = field.find('.field-description');
-        if (template['o:alternate_comment']) {
-            var altDescription = originalDescription.clone();
-            altDescription.addClass('alternate');
-            altDescription.text(template['o:alternate_comment']);
-            altDescription.insertAfter(originalDescription);
-            originalDescription.hide();
         }
 
         properties.prepend(field);

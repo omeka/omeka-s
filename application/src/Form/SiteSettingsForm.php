@@ -84,15 +84,15 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $generalFieldset->add([
-            'name' => 'embed_jsonld',
+            'name' => 'disable_jsonld_embed',
             'type' => 'Checkbox',
             'options' => [
-                'label' => 'Embed JSON-LD', // @translate
-                'info' => 'Embed JSON-LD representations of resources in browse and show pages for the purpose of machine-readable metadata discovery.', // @translate
+                'label' => 'Disable JSON-LD embed', // @translate
+                'info' => 'By default, Omeka embeds JSON-LD in resource browse and show pages for the purpose of machine-readable metadata discovery. Check this to disable embedding.', // @translate
             ],
             'attributes' => [
-                'value' => $settings->get('embed_jsonld'),
-                'id' => 'embed_jsonld',
+                'value' => $settings->get('disable_jsonld_embed'),
+                'id' => 'disable_jsonld_embed',
             ],
         ]);
         $generalFieldset->add([

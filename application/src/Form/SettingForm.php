@@ -225,6 +225,19 @@ class SettingForm extends Form
             ],
         ]);
 
+        $generalFieldset->add([
+            'name' => 'embed_jsonld',
+            'type' => 'Checkbox',
+            'options' => [
+                'label' => 'Embed JSON-LD', // @translate
+                'info' => 'Embed JSON-LD representations of resources in browse and show pages for the purpose of machine-readable metadata discovery.', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('embed_jsonld'),
+                'id' => 'embed_jsonld',
+            ],
+        ]);
+
         // Security fieldset
 
         $this->add([

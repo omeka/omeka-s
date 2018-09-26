@@ -84,6 +84,18 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $generalFieldset->add([
+            'name' => 'embed_jsonld',
+            'type' => 'Checkbox',
+            'options' => [
+                'label' => 'Embed JSON-LD', // @translate
+                'info' => 'Embed JSON-LD representations of resources in browse and show pages for the purpose of machine-readable metadata discovery.', // @translate
+            ],
+            'attributes' => [
+                'value' => $settings->get('embed_jsonld'),
+                'id' => 'embed_jsonld',
+            ],
+        ]);
+        $generalFieldset->add([
             'name' => 'locale',
             'id' => 'locale',
             'type' => 'Omeka\Form\Element\LocaleSelect',

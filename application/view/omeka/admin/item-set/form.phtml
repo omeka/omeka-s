@@ -48,6 +48,7 @@ $formElement = $this->plugin('formElement');
     <?php endif; ?>
 
     <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
+    <?php echo $this->cancelButton(); ?>
     <input type="submit" name="add-item-set-submit" value="<?php echo $this->translate('Save'); ?>">
 </div>
 

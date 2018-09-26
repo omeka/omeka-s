@@ -8,6 +8,7 @@ $form->prepare();
 <?php echo $this->form()->openTag($form); ?>
 <?php $this->trigger('view.add.form.before', ['form' => $form]); ?>
 <div id="page-actions">
+    <?php echo $this->cancelButton(); ?>
     <button><?php echo $this->translate('Add'); ?></button>
 </div>
 <?php echo $this->formCollection($form, false); ?>

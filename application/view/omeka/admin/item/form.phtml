@@ -49,6 +49,7 @@ $formElement = $this->plugin('formElement');
     <input type="hidden" name="o:is_public" value="0">
     <?php endif; ?>
     <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
+    <?php echo $this->cancelButton(); ?>
     <button type="submit" name="add-item-submit"><?php echo $escape($submitLabel); ?></button>
 </div>
 

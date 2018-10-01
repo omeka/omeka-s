@@ -7,6 +7,7 @@ $form->prepare();
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
+    <?php echo $this->cancelButton(); ?>
     <button><?php echo $this->translate('Import'); ?></button>
 </div>
 <?php echo $this->formCollection($form, false); ?>

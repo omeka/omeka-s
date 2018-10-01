@@ -14,6 +14,7 @@ $formElement = $this->plugin('formElement');
 <?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
+    <?php echo $this->cancelButton(); ?>
     <button type="submit"><?php echo $this->translate('Save'); ?></button>
 </div>
 <?php echo $this->sectionNav($sectionNavs, 'view.edit.section_nav' ); ?>

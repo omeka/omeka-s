@@ -12,6 +12,7 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->formCollection($form, false); ?>
 
 <div id="page-actions">
+    <?php echo $this->cancelButton(); ?>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 

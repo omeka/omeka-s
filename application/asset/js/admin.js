@@ -207,6 +207,11 @@ var Omeka = {
             Omeka.switchActiveSection($(window.location.hash));
         }
 
+        $('#content').on('click', '.button.cancel', function(e) {
+            e.preventDefault();
+            window.history.go(-1);
+        });
+
         $('#content').on('click', 'a.sidebar-content', function(e) {
             e.preventDefault();
             var sidebarSelector = $(this).data('sidebar-selector') || '#content > .sidebar';

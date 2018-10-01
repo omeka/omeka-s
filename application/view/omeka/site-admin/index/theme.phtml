@@ -13,6 +13,7 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
     <?php $form->prepare(); ?>
     <?php echo $this->form()->openTag($form); ?>
     <div id="page-actions">
+        <?php echo $this->cancelButton(); ?>
         <button><?php echo $this->translate('Save'); ?></button>
     </div>
     <div class="current-theme<?php echo Manager::STATE_ACTIVE !== $currentTheme->getState() ? ' invalid' : ''; ?>">

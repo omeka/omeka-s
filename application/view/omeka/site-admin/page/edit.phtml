@@ -13,6 +13,7 @@ $escape = $this->plugin('escapeHtml');
 <div id="page-actions">
     <a href="<?php echo $page->siteUrl(); ?>" class="button"><?php echo $this->translate('View'); ?></a>
     <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
+    <?php echo $this->cancelButton(); ?>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 

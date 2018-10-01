@@ -393,6 +393,7 @@ return [
             'formColorPicker' => Form\View\Helper\FormColorPicker::class,
             'thumbnail' => View\Helper\Thumbnail::class,
             'userBar' => View\Helper\UserBar::class,
+            'cancelButton' => View\Helper\CancelButton::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,

@@ -60,6 +60,7 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         <?php if ($media->userIsAllowed('delete')): ?>
         <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
         <?php endif; ?>
+        <?php echo $this->cancelButton(); ?>
         <input type="submit" name="add-item-submit" value=" <?php echo $escape($this->translate('Save')); ?>">
     </div>
     <?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>

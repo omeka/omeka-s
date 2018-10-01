@@ -8,6 +8,7 @@ $form->prepare();
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
+    <?php echo $this->cancelButton(); ?>
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 <?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>

@@ -19,6 +19,7 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
         'title' => $this->translate('Make public'),
     ]); ?>
     <input type="hidden" name="o:is_public" value="0">
+    <?php echo $this->cancelButton(); ?>
     <button><?php echo $this->translate('Add'); ?></button>
 </div>
 

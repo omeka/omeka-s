@@ -43,6 +43,12 @@ abstract class Resource extends AbstractEntity
     protected $resourceTemplate;
 
     /**
+     * @ManyToOne(targetEntity="Asset")
+     * @JoinColumn(onDelete="SET NULL")
+     */
+    protected $thumbnail;
+
+    /**
      * @Column(type="boolean")
      */
     protected $isPublic = true;
@@ -117,6 +123,16 @@ abstract class Resource extends AbstractEntity
     public function getResourceTemplate()
     {
         return $this->resourceTemplate;
+    }
+
+    public function setThumbnail(Asset $thumbnail = null)
+    {
+        $this->thumbnail = $thumbnail;
+    }
+
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
     }
 
     public function setIsPublic($isPublic)

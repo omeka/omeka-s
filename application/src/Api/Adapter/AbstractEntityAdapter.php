@@ -802,6 +802,30 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     }
 
     /**
+     * Hydrate the entity's thumbanail.
+     *
+     * Assumes the thumbnail can be set to NULL.
+     *
+     * @param Request $request
+     * @param EntityInterface $entity
+     */
+    public function hydrateThumbnail(Request $request, EntityInterface $entity)
+    {
+        $data = $request->getContent();
+        if ($this->shouldHydrate($request, 'o:thumbnail')) {
+            if (isset($data['o:thumbnail']['o:id'])
+                && is_numeric($data['o:thumbnail']['o:id'])
+            ) {
+                $asset = $this->getAdapter('assets')
+                    ->findEntity($data['o:thumbnail']['o:id']);
+            } else {
+                $asset = null;
+            }
+            $entity->setThumbnail($asset);
+        }
+    }
+
+    /**
      * Update created/modified timestamps as appropriate for a request.
      *
      * @param Request $request

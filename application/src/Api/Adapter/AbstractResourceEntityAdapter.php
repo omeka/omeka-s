@@ -133,6 +133,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         // o:resource_template
         $this->hydrateResourceTemplate($request, $entity);
 
+        // o:thumbnail
+        $this->hydrateThumbnail($request, $entity);
+
         $this->updateTimestamps($request, $entity);
     }
 

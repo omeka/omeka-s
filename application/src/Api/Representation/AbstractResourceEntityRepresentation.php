@@ -100,6 +100,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         if ($this->resourceTemplate()) {
             $resourceTemplate = $this->resourceTemplate()->getReference();
         }
+        $thumbnail = null;
+        if ($this->thumbnail()) {
+            $thumbnail = $this->thumbnail()->getReference();
+        }
 
         return array_merge(
             [
@@ -107,6 +111,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 'o:owner' => $owner,
                 'o:resource_class' => $resourceClass,
                 'o:resource_template' => $resourceTemplate,
+                'o:thumbnail' => $thumbnail,
             ],
             $dateTime,
             $this->getResourceJsonLd(),
@@ -144,6 +149,17 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         return $this->getAdapter('resource_templates')
             ->getRepresentation($this->resource->getResourceTemplate());
+    }
+
+    /**
+     * Get the thumbnail of this resource.
+     *
+     * @return Asset
+     */
+    public function thumbnail()
+    {
+        return $this->getAdapter('assets')
+            ->getRepresentation($this->resource->getThumbnail());
     }
 
     /**

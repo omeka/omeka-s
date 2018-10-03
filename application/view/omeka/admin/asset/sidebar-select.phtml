@@ -43,7 +43,7 @@ $escape = $this->plugin('escapeHtml');
                 $escape($asset->name())
             ),
             '#',
-            ['class' => 'select-asset', 'data-asset-id' => $asset->id()]
+            ['class' => 'select-asset', 'data-asset-id' => $asset->id(), 'data-asset-url' => $asset->assetUrl()]
         );
         ?>
     </div>

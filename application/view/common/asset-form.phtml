@@ -16,11 +16,20 @@ if ($asset) {
 }
 ?>
 <div class="asset-form-element<?php if (!$asset) echo ' empty'; ?>">
+    <?php if ($asset): ?>
     <span class="selected-asset">
-        <?php if ($asset): ?>
-        <?php echo $asset->name(); ?>
-        <?php endif; ?>
+        <?php
+        echo sprintf('<img class="selected-asset-image" src="%s"><div class="selected-asset-name">%s</div>',
+            $this->escapeHtml($asset->assetUrl()),
+            $this->escapeHtml($asset->name())
+        );
+        ?>
     </span>
+    <?php else: ?>
+    <span class="selected-asset" style="display: none;">
+        <img class="selected-asset-image"><div class="selected-asset-name"></div>
+    </span>
+    <?php endif; ?>
     <span class="no-selected-asset">
         <?php echo $this->translate('[No asset selected]'); ?>
     </span>

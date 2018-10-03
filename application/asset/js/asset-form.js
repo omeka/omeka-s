@@ -14,13 +14,15 @@
             $(this).closest('.asset-form-element')
                 .addClass('empty')
                 .find('input[type=hidden]').val('').end()
-                .find('.selected-asset').text('');
+                .find('.selected-asset').hide();
         });
 
         $('#content').on('click', '.asset-list .select-asset', function (e) {
             e.preventDefault();
             selectingForm.find('input[type=hidden]').val($(this).data('assetId'));
-            selectingForm.find('.selected-asset').text($(this).text());
+            selectingForm.find('.selected-asset-image').attr('src', $(this).data('assetUrl'));
+            selectingForm.find('.selected-asset-name').text($(this).text());
+            selectingForm.find('.selected-asset').show();
             selectingForm.removeClass('empty');
             Omeka.closeSidebar(sidebar);
             selectingForm = null;

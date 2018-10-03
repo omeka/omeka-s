@@ -37,11 +37,12 @@ $formElement = $this->plugin('formElement');
 
 <fieldset id="thumbnail" class="section">
     <?php
+    $thumbnail = $item->thumbnail();
     $form->add([
         'name' => 'o:thumbnail[o:id]',
         'type' => 'Omeka\Form\Element\Asset',
         'attributes' => [
-            'value' => $item ? $item->thumbnail()->id() : null,
+            'value' => $thumbnail ? $thumbnail->id() : null,
         ],
     ]);
     echo $this->formAsset($form->get('o:thumbnail[o:id]'));

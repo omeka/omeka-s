@@ -7,9 +7,9 @@ use Zend\Form\ElementInterface;
 
 class FormAsset extends AbstractHelper
 {
-    public function __invoke(ElementInterface $element)
+    public function __invoke(ElementInterface $element, AssetRepresentation $asset = null)
     {
-        return $this->render($element);
+        return $this->render($element, $asset);
     }
 
     /**

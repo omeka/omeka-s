@@ -36,6 +36,7 @@ $formElement = $this->plugin('formElement');
 </fieldset>
 
 <fieldset id="thumbnail" class="section">
+    <p><?php echo $this->translate('By default, the primary media of this resource will be its thumbnail. You may set a custom thumbnail by selecting an asset below.'); ?></p>
     <?php
     $form->add([
         'name' => 'o:thumbnail[o:id]',

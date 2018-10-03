@@ -1,4 +1,5 @@
 <?php
+$this->headLink()->appendStylesheet($this->assetUrl('css/asset-form.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/asset-form.js', 'Omeka'));
 $asset = null;
 $value = $element->getValue();

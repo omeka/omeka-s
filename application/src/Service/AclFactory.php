@@ -384,7 +384,7 @@ class AclFactory implements FactoryInterface
             ['sidebar-select', 'search']
         );
         $acl->allow(
-            null,
+            'author',
             'Omeka\Controller\Admin\Asset',
             'sidebar-select'
         );
@@ -506,7 +506,7 @@ class AclFactory implements FactoryInterface
             ['sidebar-select', 'search']
         );
         $acl->allow(
-            null,
+            'reviewer',
             'Omeka\Controller\Admin\Asset',
             'sidebar-select'
         );
@@ -634,7 +634,7 @@ class AclFactory implements FactoryInterface
             ['sidebar-select', 'search']
         );
         $acl->allow(
-            null,
+            'editor',
             'Omeka\Controller\Admin\Asset',
             'sidebar-select'
         );

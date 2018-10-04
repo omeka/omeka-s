@@ -22,6 +22,9 @@ $escape = $this->plugin('escapeHtml');
         'name' => 'owner_id',
         'options' => [
             'empty_option' => '',
+            'prepend_value_options' => [
+                '0' => sprintf('[%s]', $this->translate('No owner')),
+            ],
         ],
         'attributes' => [
             'id' => 'filter-owner',

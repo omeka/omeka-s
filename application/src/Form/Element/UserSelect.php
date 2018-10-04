@@ -34,6 +34,11 @@ class UserSelect extends Select
         foreach ($users as $user) {
             $valueOptions[$user->id()] = sprintf('%s (%s)', $user->name(), $user->email());
         }
+        // Prepend configured value options.
+        $prependValueOptions = $this->getOption('prepend_value_options');
+        if (is_array($prependValueOptions)) {
+            $valueOptions = $prependValueOptions + $valueOptions;
+        }
         return $valueOptions;
     }
 }

@@ -35,16 +35,21 @@ class AssetAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-        if (isset($query['owner_id'])) {
+        if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $this->createAlias();
-            $qb->innerJoin(
-                $this->getEntityClass() . '.owner',
-                $userAlias
-            );
-            $qb->andWhere($qb->expr()->eq(
-                "$userAlias.id",
-                $this->createNamedParameter($qb, $query['owner_id']))
-            );
+            if (0 == $query['owner_id']) {
+                // Search assets without an owner.
+                $qb->andWhere($qb->expr()->isNull($this->getEntityClass() . '.owner'));
+            } else {
+                $qb->innerJoin(
+                    $this->getEntityClass() . '.owner',
+                    $userAlias
+                );
+                $qb->andWhere($qb->expr()->eq(
+                    "$userAlias.id",
+                    $this->createNamedParameter($qb, $query['owner_id']))
+                );
+            }
         }
     }
 

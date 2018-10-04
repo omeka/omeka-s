@@ -64,10 +64,10 @@ class Asset extends \Omeka\Entity\Asset implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'name', 'mediaType', 'storageId', 'extension'];
+            return ['__isInitialized__', 'id', 'owner', 'name', 'mediaType', 'storageId', 'extension'];
         }
 
-        return ['__isInitialized__', 'id', 'name', 'mediaType', 'storageId', 'extension'];
+        return ['__isInitialized__', 'id', 'owner', 'name', 'mediaType', 'storageId', 'extension'];
     }
 
     /**
@@ -186,6 +186,28 @@ class Asset extends \Omeka\Entity\Asset implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOwner(\Omeka\Entity\User $owner = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
+
+        return parent::setOwner($owner);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOwner()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', []);
+
+        return parent::getOwner();
     }
 
     /**

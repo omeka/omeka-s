@@ -32,6 +32,14 @@
             $('.asset-upload button').addClass('active');
         });
 
+        $('#content').on('change', '#filter-owner', function() {
+            Omeka.populateSidebarContent(
+                sidebar,
+                selectingForm.find('.asset-form-select').data('sidebar-content-url'),
+                {'owner_id': $(this).val()}
+            );
+        });
+
         $('#content').on('submit', '.asset-upload', function (e) {
             var form = $(this);
             e.preventDefault();

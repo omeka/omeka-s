@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\File\Validator;
@@ -32,6 +33,21 @@ class AssetAdapter extends AbstractEntityAdapter
         return \Omeka\Entity\Asset::class;
     }
 
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        if (isset($query['owner_id'])) {
+            $userAlias = $this->createAlias();
+            $qb->innerJoin(
+                $this->getEntityClass() . '.owner',
+                $userAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$userAlias.id",
+                $this->createNamedParameter($qb, $query['owner_id']))
+            );
+        }
+    }
+
     public function hydrate(Request $request, EntityInterface $entity, ErrorStore $errorStore)
     {
         $data = $request->getContent();
@@ -55,6 +71,7 @@ class AssetAdapter extends AbstractEntityAdapter
                 return;
             }
 
+            $this->hydrateOwner($request, $entity);
             $entity->setStorageId($tempFile->getStorageId());
             $entity->setExtension($tempFile->getExtension());
             $entity->setMediaType($tempFile->getMediaType());

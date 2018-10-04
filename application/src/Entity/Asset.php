@@ -14,6 +14,12 @@ class Asset extends AbstractEntity
     protected $id;
 
     /**
+     * @ManyToOne(targetEntity="User")
+     * @JoinColumn(onDelete="SET NULL")
+     */
+    protected $owner;
+
+    /**
      * @Column
      */
     protected $name;
@@ -36,6 +42,16 @@ class Asset extends AbstractEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setOwner(User $owner = null)
+    {
+        $this->owner = $owner;
+    }
+
+    public function getOwner()
+    {
+        return $this->owner;
     }
 
     public function setName($name)

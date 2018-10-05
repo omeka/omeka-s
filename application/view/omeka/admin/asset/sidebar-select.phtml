@@ -41,7 +41,7 @@ $escape = $this->plugin('escapeHtml');
 <div class="asset-list" data-delete-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'delete'])); ?>">
 <?php foreach ($assets as $asset): ?>
     <div class="asset" data-asset-id='<?php echo $escape($asset->id()); ?>'>
-        <?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'delete')): ?>
+        <?php if ($asset->userIsAllowed('delete')): ?>
         <span class="actions">
             <?php
             echo $this->hyperlink('', '#', [

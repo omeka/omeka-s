@@ -16,12 +16,11 @@ class FormAsset extends AbstractHelper
      * Render the asset form.
      *
      * @param ElementInterface $element The asset element with type Omeka\Form\Element\Asset
-     * @param AssetRepresentation $asset The asset representation, if available
      * @return string
      */
-    public function render(ElementInterface $element, AssetRepresentation $asset = null)
+    public function render(ElementInterface $element)
     {
         $view = $this->getView();
-        return $view->partial('common/asset-form', ['element' => $element, 'asset' => $asset]);
+        return $view->partial('common/asset-form', ['element' => $element]);
     }
 }

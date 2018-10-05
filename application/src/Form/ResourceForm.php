@@ -59,6 +59,11 @@ class ResourceForm extends Form
             ],
         ]);
 
+        $this->add([
+            'name' => 'o:thumbnail[o:id]',
+            'type' => 'Omeka\Form\Element\Asset',
+        ]);
+
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 

@@ -153,6 +153,7 @@ body {
         background-color: #fff;
         min-height: 3 * $spacing-large;
         max-height: 10 * $spacing-large;
+        height: 5 * $spacing-large;
         overflow-y: auto;
     }
 
@@ -2244,7 +2245,7 @@ input[type="text"].value-language,
         text-align: center;
         margin-left: $spacing-small;
     }
-    
+
     .value.delete {
         background-color: $delete-bg;
         overflow: hidden;
@@ -3928,7 +3929,7 @@ body.minimal {
             font-size: 1.25 * $base-font-size;
             margin-bottom: $spacing-small;
         }
-        
+
         .site-summary {
             margin: 0 0 0 $spacing-medium;
             line-height: 20px;

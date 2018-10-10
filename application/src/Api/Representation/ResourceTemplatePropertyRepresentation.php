@@ -33,6 +33,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
             'o:alternate_comment' => $this->alternateComment(),
             'o:data_type' => $this->dataType(),
             'o:is_required' => $this->isRequired(),
+            'o:is_private' => $this->isPrivate(),
         ];
     }
 
@@ -113,5 +114,13 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     public function isRequired()
     {
         return $this->templateProperty->isRequired();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrivate()
+    {
+        return $this->templateProperty->isPrivate();
     }
 }

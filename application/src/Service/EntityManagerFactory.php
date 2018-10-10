@@ -95,9 +95,11 @@ class EntityManagerFactory implements FactoryInterface
         );
         $em->getEventManager()->addEventListener(Events::loadClassMetadata, new Utf8mb4);
         $em->getEventManager()->addEventSubscriber(new Entity($serviceLocator->get('EventManager')));
-        // Instantiate the visibility filter and inject the service locator.
+        // Instantiate the visibility filters and inject the service locator.
         $em->getFilters()->enable('resource_visibility');
         $em->getFilters()->getFilter('resource_visibility')->setServiceLocator($serviceLocator);
+        $em->getFilters()->enable('value_visibility');
+        $em->getFilters()->getFilter('value_visibility')->setServiceLocator($serviceLocator);
 
         // Register a custom mapping type for an IP address.
         if (!Type::hasType('ip_address')) {

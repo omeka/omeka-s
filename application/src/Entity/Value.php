@@ -53,6 +53,11 @@ class Value extends AbstractEntity
      */
     protected $valueResource;
 
+    /**
+     * @Column(type="boolean")
+     */
+    protected $isPublic = true;
+
     public function getId()
     {
         return $this->id;
@@ -126,5 +131,15 @@ class Value extends AbstractEntity
     public function getValueResource()
     {
         return $this->valueResource;
+    }
+
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = (bool) $isPublic;
+    }
+
+    public function isPublic()
+    {
+        return (bool) $this->isPublic;
     }
 }

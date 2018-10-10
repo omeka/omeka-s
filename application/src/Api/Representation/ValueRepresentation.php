@@ -62,6 +62,7 @@ class ValueRepresentation extends AbstractRepresentation
             'type' => $this->type(),
             'property_id' => $this->value->getProperty()->getId(),
             'property_label' => $this->value->getProperty()->getLabel(),
+            'is_public' => $this->isPublic(),
         ];
         $jsonLd = $this->dataType->getJsonLd($this);
         if (!is_array($jsonLd)) {
@@ -156,5 +157,15 @@ class ValueRepresentation extends AbstractRepresentation
         }
         $resourceAdapter = $this->getAdapter($resource->getResourceName());
         return $resourceAdapter->getRepresentation($resource);
+    }
+
+    /**
+     * Get whether this value is public.
+     *
+     * @return bool
+     */
+    public function isPublic()
+    {
+        return $this->value->isPublic();
     }
 }

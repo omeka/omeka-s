@@ -2234,16 +2234,23 @@ input[type="text"].value-language,
 
     .input-footer .actions {
         margin-left: 0;
+        flex-wrap: wrap;
     }
 
     .input-footer .actions a:before {
         line-height: 1.5 * $spacing-large;
         height: 1.5 * $spacing-large;
+        text-align: center;
+        margin-left: $spacing-small;
     }
-
+    
     .value.delete {
         background-color: $delete-bg;
         overflow: hidden;
+    }
+
+    .value.delete .input-footer .actions li:last-child {
+        display: none;
     }
 
     .value a.restore-value,
@@ -2856,6 +2863,14 @@ input[type="text"].value-language,
         padding: 0 $spacing-small;
         margin-right: $spacing-small;
         background-color: $gray-on-white;
+    }
+
+    .private:after {
+        @include fa-icon();
+        content: fa-content($fa-var-eye-slash);
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        margin-left: $spacing-small;
     }
 }
 

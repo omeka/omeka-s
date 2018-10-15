@@ -294,7 +294,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
      * @param string $term
      * @return EntityInterface
      */
-    protected function getPropertyByTerm($term)
+    public function getPropertyByTerm($term)
     {
         if (!$this->isTerm($term)) {
             return null;

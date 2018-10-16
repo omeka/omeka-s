@@ -3890,7 +3890,6 @@ body.minimal {
         min-height: 0;
         margin: 0;
         padding: ((2 * $spacing-large) - 1px) calc(#{span(1 of 8)} - 1px);
-        border: 1px solid rgba(0,0,0,.15);
         overflow: hidden;
     }
 

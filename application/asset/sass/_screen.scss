@@ -3917,6 +3917,20 @@ body.minimal {
     .field:last-child {
         margin-bottom: 0;
     }
+
+    .site-list {
+        list-style: none;
+        padding: 0;
+
+        & > li {
+            margin-bottom: $spacing-small;
+        }
+    }
+
+    .site-list-heading {
+        font-size: $base-font-size;
+        margin-top: -1.333 * $spacing-large;
+    }
 }
 
 .forgot-password {

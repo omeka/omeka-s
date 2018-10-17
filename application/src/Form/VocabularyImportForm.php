@@ -30,7 +30,7 @@ class VocabularyImportForm extends Form
                     'ntriples' => 'N-Triples (.nt)', // @translate
                     'n3' => 'Notation3 (.n3)', // @translate
                     'rdfxml' => 'RDF/XML (.rdf)', // @translate
-                    'turtle' => 'Turtle Terse RDF Triple Language (.ttl)', // @translate
+                    'turtle' => 'Turtle (.ttl)', // @translate
                 ],
             ],
             'attributes' => [

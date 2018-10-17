@@ -31,5 +31,9 @@
     "semver": "^5.5.0",
     "sortablejs": "^1.5.1",
     "tablesaw": "^3.0.9"
-  }
+  },
+  "browserslist": [
+    "> 5%",
+    "> 1% in US"
+  ]
 }

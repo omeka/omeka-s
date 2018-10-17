@@ -112,9 +112,7 @@ function cssToSass(dir) {
             outputStyle: 'compressed',
             includePaths: ['node_modules/susy/sass']
         }).on('error', sass.logError))
-        .pipe(postcss([
-            autoprefixer({browsers: ['> 5%', '> 1% in US']})
-        ]))
+        .pipe(postcss([autoprefixer()]))
         .pipe(gulp.dest(dir + '/asset/css'));
 }
 

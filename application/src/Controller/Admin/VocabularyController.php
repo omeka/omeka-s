@@ -77,7 +77,10 @@ class VocabularyController extends AbstractActionController
                 $data = $form->getData();
                 try {
                     $response = $this->rdfImporter->import(
-                        'file', $data, ['file' => $data['file']['tmp_name']]
+                        'file', $data, [
+                            'file' => $data['file']['tmp_name'],
+                            'format' => $data['format'],
+                        ]
                     );
                     if ($response) {
                         $message = new Message(

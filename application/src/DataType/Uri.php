@@ -15,7 +15,7 @@ class Uri extends AbstractDataType
 
     public function getLabel()
     {
-        return 'URI';
+        return 'URI'; // @translate
     }
 
     public function form(PhpRenderer $view)

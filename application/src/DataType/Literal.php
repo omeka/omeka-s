@@ -15,7 +15,7 @@ class Literal extends AbstractDataType
 
     public function getLabel()
     {
-        return 'Text';
+        return 'Text'; // @translate
     }
 
     public function form(PhpRenderer $view)

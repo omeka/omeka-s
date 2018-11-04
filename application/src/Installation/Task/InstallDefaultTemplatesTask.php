@@ -74,7 +74,7 @@ class InstallDefaultTemplatesTask implements TaskInterface
      * Install a default resource template.
      *
      * @param string $label A label of a template defined in this class
-     * @return null|false Returns false if the label does not exist
+     * @return false|null Returns false if the label does not exist
      */
     public function installTemplate($label)
     {

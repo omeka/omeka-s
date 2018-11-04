@@ -112,7 +112,7 @@ class IndexController extends AbstractActionController
         $site = $this->currentSite();
         if (!$site->userIsAllowed('update')) {
             throw new Exception\PermissionDeniedException(
-                'User does not have permission to edit site settings'
+                'User does not have permission to edit site settings' // @translate
             );
         }
         $form = $this->getForm(SiteSettingsForm::class);

@@ -60,7 +60,7 @@ class SiteSettingsForm extends Form
             'name' => 'show_page_pagination',
             'type' => 'checkbox',
             'options' => [
-                'label' => 'Show page pagination',
+                'label' => 'Show page pagination', // @translate
                 'info' => 'Show pagination that helps users follow a linear narrative through a site.', // @translate
             ],
             'attributes' => [

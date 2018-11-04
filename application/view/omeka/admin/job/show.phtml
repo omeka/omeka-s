@@ -59,9 +59,9 @@ if ($owner = $job->owner()) {
     <?php if ($job->log()): ?>
     <?php echo $this->hyperlink($this->translate('view log'),
         $this->url(null, ['action' => 'log'], true),
-        ['target' => '_blank']) ?>
+        ['target' => '_blank']); ?>
     <?php else: ?>
-    <?php echo $this->translate('[no log]') ?>
+    <?php echo $this->translate('[no log]'); ?>
     <?php endif; ?>
     </div>
 </div>

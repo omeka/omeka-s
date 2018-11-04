@@ -7,8 +7,8 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
-use Omeka\Entity\User;
 use Omeka\Entity\EntityInterface;
+use Omeka\Entity\User;
 use Omeka\Stdlib\ErrorStore;
 use Laminas\EventManager\Event;
 
@@ -212,26 +212,17 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $query = $request->getContent();
 
         // Set default query parameters
-        if (!isset($query['page'])) {
-            $query['page'] = null;
-        }
-        if (!isset($query['per_page'])) {
-            $query['per_page'] = null;
-        }
-        if (!isset($query['limit'])) {
-            $query['limit'] = null;
-        }
-        if (!isset($query['offset'])) {
-            $query['offset'] = null;
-        }
-        if (!isset($query['sort_by'])) {
-            $query['sort_by'] = null;
-        }
-        if (isset($query['sort_order'])
-            && in_array(strtoupper($query['sort_order']), ['ASC', 'DESC'])
-        ) {
-            $query['sort_order'] = strtoupper($query['sort_order']);
-        } else {
+        $defaultQuery = [
+            'page' => null,
+            'per_page' => null,
+            'limit' => null,
+            'offset' => null,
+            'sort_by' => null,
+            'sort_order' => 'ASC',
+        ];
+        $query += $defaultQuery;
+        $query['sort_order'] = strtoupper($query['sort_order']);
+        if (!in_array($query['sort_order'], ['ASC', 'DESC'])) {
             $query['sort_order'] = 'ASC';
         }
 

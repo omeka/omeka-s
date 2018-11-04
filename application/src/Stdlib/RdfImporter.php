@@ -121,6 +121,7 @@ class RdfImporter
         // Iterate through all resources of the graph instead of selectively by
         // rdf:type because a resource may have more than one type, causing
         // illegal attempts to duplicate classes and properties.
+        /** @var \EasyRdf\Resource $resource */
         foreach ($graph->resources() as $resource) {
             // The resource must not be a blank node.
             if ($resource->isBnode()) {
@@ -131,14 +132,15 @@ class RdfImporter
                 continue;
             }
             // Get the vocabulary's classes.
-            if (in_array($resource->type(), $this->classTypes)) {
+            $types = $resource->types();
+            if (array_intersect($types, $this->classTypes)) {
                 $members['classes'][$resource->localName()] = [
                     'label' => $this->getLabel($resource, $resource->localName(), $options['lang']),
                     'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
                 ];
             }
             // Get the vocabulary's properties.
-            if (in_array($resource->type(), $this->propertyTypes)) {
+            if (array_intersect($types, $this->propertyTypes)) {
                 $members['properties'][$resource->localName()] = [
                     'label' => $this->getLabel($resource, $resource->localName(), $options['lang']),
                     'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),

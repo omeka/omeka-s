@@ -2,9 +2,7 @@
 namespace Omeka\Stdlib;
 
 use Doctrine\ORM\EntityManager;
-use EasyRdf_Graph;
-use EasyRdf_Literal;
-use EasyRdf_Resource;
+use EasyRdf;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Entity\Property;
@@ -86,7 +84,7 @@ class RdfImporter
         }
 
         // Get the full RDF graph from EasyRdf.
-        $graph = new EasyRdf_Graph;
+        $graph = new \EasyRdf\Graph;
         switch ($strategy) {
             case 'file':
                 // Import from a file
@@ -99,7 +97,7 @@ class RdfImporter
                 }
                 try {
                     $graph->parseFile($file, $options['format'], $namespaceUri);
-                } catch (\EasyRdf_Exception $e) {
+                } catch (\EasyRdf\Exception $e) {
                     throw new ValidationException($e->getMessage(), $e->getCode(), $e);
                 }
                 break;
@@ -110,7 +108,7 @@ class RdfImporter
                 }
                 try {
                     $graph->load($options['url'], $options['format']);
-                } catch (\EasyRdf_Exception $e) {
+                } catch (\EasyRdf\Exception $e) {
                     throw new ValidationException($e->getMessage(), $e->getCode(), $e);
                 }
                 break;
@@ -329,10 +327,10 @@ class RdfImporter
     /**
      * Determine whether a resource is a local member of the vocabulary.
      *
-     * @param EasyRdf_Resource $resource
+     * @param EasyRdf\Resource $resource
      * @param string $namespaceUri
      */
-    protected function isMember(EasyRdf_Resource $resource, $namespaceUri)
+    protected function isMember(\EasyRdf\Resource $resource, $namespaceUri)
     {
         $output = strncmp($resource->getUri(), $namespaceUri, strlen($namespaceUri));
         return $output === 0;
@@ -344,15 +342,15 @@ class RdfImporter
      * Attempts to get the label of the passed language. If one does not exist
      * it defaults to the first available label, if any.
      *
-     * @param EasyRdf_Resource $resource
+     * @param EasyRdf\Resource $resource
      * @param string $default
      * @param string $lang
      * @return string
      */
-    protected function getLabel(EasyRdf_Resource $resource, $default, $lang = null)
+    protected function getLabel(\EasyRdf\Resource $resource, $default, $lang = null)
     {
         $label = $resource->label($lang) ?: $resource->label();
-        if ($label instanceof EasyRdf_Literal) {
+        if ($label instanceof EasyRdf\Literal) {
             $value = $label->getValue();
             if ('' !== $value) {
                 return $value;
@@ -367,15 +365,15 @@ class RdfImporter
      * Attempts to get the comment of the passed language. If one does not exist
      * it defaults to the first available comment, if any.
      *
-     * @param EasyRdf_Resource $resource
+     * @param EasyRdf\Resource $resource
      * @param string $commentProperty
      * @param string $lang
      * @return string
      */
-    protected function getComment(EasyRdf_Resource $resource, $commentProperty, $lang = null)
+    protected function getComment(\EasyRdf\Resource $resource, $commentProperty, $lang = null)
     {
         $comment = $resource->get($commentProperty, null, $lang) ?: $resource->get($commentProperty);
-        if ($comment instanceof EasyRdf_Literal) {
+        if ($comment instanceof \EasyRdf\Literal) {
             return $comment->getValue();
         }
     }

@@ -6,7 +6,7 @@
     "require": {
         "php": ">=5.6",
         "doctrine/orm": "2.5.15",
-        "easyrdf/easyrdf": "~0.9",
+        "easyrdf/easyrdf": "dev-master",
         "ml/json-ld": "^1.1",
         "ezyang/htmlpurifier": "^4.8",
         "composer/semver": "^1.0",

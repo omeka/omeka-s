@@ -298,6 +298,7 @@ CREATE TABLE `value` (
   `lang` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `value` longtext COLLATE utf8mb4_unicode_ci,
   `uri` longtext COLLATE utf8mb4_unicode_ci,
+  `is_public` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_1D77583489329D25` (`resource_id`),
   KEY `IDX_1D775834549213EC` (`property_id`),

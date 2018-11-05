@@ -10,6 +10,10 @@ $escape = $this->plugin('escapeHtml');
         <ul class="actions">
             <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete remove-value', 'title' => $this->translate('Remove value')]); ?></li>
             <li><?php echo $this->hyperlink('' , '#', ['class' => 'o-icon-undo restore-value', 'title' => $this->translate('Restore value')]); ?></li>
+            <li>
+                <?php echo $this->hyperlink('' , '#', ['class' => 'value-visibility o-icon-public', 'title' => $this->translate('Make private'), 'aria-label' => $this->translate('Make private')]); ?>
+                <input type="hidden" class="is_public">
+            </li>
         </ul>
     </div>
 </div>

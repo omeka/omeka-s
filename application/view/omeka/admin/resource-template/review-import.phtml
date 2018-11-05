@@ -37,6 +37,7 @@ if (!$hasVocab) {
         <th><?php echo $this->translate('Alternate label'); ?></th>
         <th><?php echo $this->translate('Alternate comment'); ?></th>
         <th><?php echo $this->translate('Required?'); ?></th>
+        <th><?php echo $this->translate('Private?'); ?></th>
     </tr>
 </thead>
 <tbody>
@@ -70,7 +71,8 @@ if (is_null($property['data_type_name'])) {
         <td><?php echo $dataType; ?></td>
         <td><?php echo $this->escapeHtml($property['o:alternate_label']); ?></td>
         <td><?php echo $this->escapeHtml($property['o:alternate_comment']); ?></td>
-        <td><?php echo $property['o:is_required'] ? 'Yes' : 'No'; ?></td>
+        <td><?php echo $property['o:is_required'] ?  $this->translate('Yes') : $this->translate('No'); ?></td>
+        <td><?php echo $property['o:is_private'] ? $this->translate('Yes') : $this->translate('No'); ?></td>
     </tr>
     <?php if (!$hasProperty): ?>
     <tr>

@@ -57,6 +57,11 @@ class ResourceTemplateProperty extends AbstractEntity
      */
     protected $isRequired = false;
 
+    /**
+     * @Column(type="boolean")
+     */
+    protected $isPrivate = false;
+
     public function getId()
     {
         return $this->id;
@@ -135,5 +140,20 @@ class ResourceTemplateProperty extends AbstractEntity
     public function isRequired()
     {
         return $this->getIsRequired();
+    }
+
+    public function setIsPrivate($isPrivate)
+    {
+        $this->isPrivate = (bool) $isPrivate;
+    }
+
+    public function getIsPrivate()
+    {
+        return (bool) $this->isPrivate;
+    }
+
+    public function isPrivate()
+    {
+        return $this->getIsPrivate();
     }
 }

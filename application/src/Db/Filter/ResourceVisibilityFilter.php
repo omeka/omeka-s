@@ -12,8 +12,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * Checks to see if the current user has permission to view resources. In this
  * case a resource is any entity that extends off the Resource entity, that is,
  * Item, ItemSet, and Media.
- *
- * @link http://doctrine-orm.readthedocs.org/en/latest/reference/filters.html
  */
 class ResourceVisibilityFilter extends SQLFilter
 {

@@ -242,6 +242,7 @@ class ResourceTemplateController extends AbstractActionController
                 || !array_key_exists('o:alternate_label', $property)
                 || !array_key_exists('o:alternate_comment', $property)
                 || !array_key_exists('o:is_required', $property)
+                || !array_key_exists('o:is_private', $property)
                 || !array_key_exists('data_type_name', $property)
                 || !array_key_exists('data_type_label', $property)
             ) {
@@ -255,6 +256,7 @@ class ResourceTemplateController extends AbstractActionController
                 || (!is_string($property['o:alternate_label']) && !is_null($property['o:alternate_label']))
                 || (!is_string($property['o:alternate_comment']) && !is_null($property['o:alternate_comment']))
                 || !is_bool($property['o:is_required'])
+                || !is_bool($property['o:is_private'])
                 || (!is_string($property['data_type_name']) && !is_null($property['data_type_name']))
                 || (!is_string($property['data_type_label']) && !is_null($property['data_type_label']))
             ) {
@@ -302,6 +304,7 @@ class ResourceTemplateController extends AbstractActionController
                 'o:alternate_label' => $templateProperty->alternateLabel(),
                 'o:alternate_comment' => $templateProperty->alternateComment(),
                 'o:is_required' => $templateProperty->isRequired(),
+                'o:is_private' => $templateProperty->isPrivate(),
                 'data_type_name' => $dataTypeName,
                 'data_type_label' => $dataTypeLabel,
                 'vocabulary_namespace_uri' => $vocab->namespaceUri(),
@@ -464,6 +467,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:alternate_comment' => $resTemProp->alternateComment(),
                         'o:data_type' => $resTemProp->dataType(),
                         'o:is_required' => $resTemProp->isRequired(),
+                        'o:is_private' => $resTemProp->isPrivate(),
                     ];
                 }
             } else {
@@ -482,6 +486,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:alternate_comment' => null,
                         'o:data_type' => null,
                         'o:is_required' => false,
+                        'o:is_private' => false,
                     ],
                     [
                         'o:property' => $descriptionProperty,
@@ -489,6 +494,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:alternate_comment' => null,
                         'o:data_type' => null,
                         'o:is_required' => false,
+                        'o:is_private' => false,
                     ],
                 ];
             }
@@ -515,6 +521,7 @@ class ResourceTemplateController extends AbstractActionController
             'o:alternate_comment' => null,
             'o:data_type' => null,
             'o:is_required' => false,
+            'o:is_private' => false,
         ];
 
         $view = new ViewModel;

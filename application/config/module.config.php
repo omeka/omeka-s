@@ -56,6 +56,7 @@ return [
         ],
         'filters' => [
             'resource_visibility' => Db\Filter\ResourceVisibilityFilter::class,
+            'value_visibility' => Db\Filter\ValueVisibilityFilter::class,
         ],
         'functions' => [
              'datetime' => [
@@ -488,6 +489,7 @@ return [
             'media' => Site\BlockLayout\Media::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
             'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
+            'listOfSites' => Site\BlockLayout\ListOfSites::class,
             'tableOfContents' => Site\BlockLayout\TableOfContents::class,
             'lineBreak' => Site\BlockLayout\LineBreak::class,
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,

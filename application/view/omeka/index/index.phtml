@@ -1,20 +1,23 @@
 <?php
+$this->htmlElement('body')->appendAttribute('class', 'site browse front');
 $title = $this->setting('installation_title', 'Omeka S');
-echo $this->pageTitle($title);
+$subtitle = $this->translate('Sites');
+$this->headTitle($subtitle);
 ?>
-
-<h2><?php echo $this->translate('Sites'); ?></h2>
-
-<?php echo $this->pagination(); ?>
+<h1><?php echo $title; ?></h1>
+<h2 class="site-list-heading"><?php echo $subtitle; ?></h2>
 
 <?php if ($sites): ?>
-<ul>
+<ul class="site-list">
 <?php foreach ($sites as $site): ?>
 <li>
     <?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?>
 </li>
 <?php endforeach; ?>
 </ul>
+
+<?php echo $this->pagination(); ?>
+
 <?php endif; ?>
 <p><?php echo sprintf(
     $this->translate('Go to the %s to start working with %s.'),

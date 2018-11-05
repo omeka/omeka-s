@@ -7,11 +7,12 @@ $propertyId = $escape($property->id());
 <li class="property row" data-property-id="<?php echo $propertyId; ?>">
 
     <input class="property-id" type="hidden" name="<?php echo $escape($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escape($property->id()); ?>">
-    <input class="original-label" type="hidden" name="<?php echo $escape($namePrefix . '[o:original_label]'); ?>" value="<?php echo $this->translate($property->label()); ?>">
+    <input class="original-label" type="hidden" name="<?php echo $escape($namePrefix . '[o:original_label]'); ?>" value="<?php echo $escape($this->translate($property->label())); ?>">
     <input class="alternate-label" type="hidden" name="<?php echo $escape($namePrefix . '[o:alternate_label]'); ?>" value="<?php echo $escape($propertyRow['o:alternate_label']); ?>">
-    <input class="original-comment" type="hidden" name="<?php echo $escape($namePrefix . '[o:original_comment]'); ?>" value="<?php echo $this->translate($property->comment()); ?>">
+    <input class="original-comment" type="hidden" name="<?php echo $escape($namePrefix . '[o:original_comment]'); ?>" value="<?php echo $escape($this->translate($property->comment())); ?>">
     <input class="alternate-comment" type="hidden" name="<?php echo $escape($namePrefix . '[o:alternate_comment]'); ?>" value="<?php echo $escape($propertyRow['o:alternate_comment']); ?>">
     <input class="is-required" type="hidden" name="<?php echo $escape($namePrefix . '[o:is_required]'); ?>" value="<?php echo $escape($propertyRow['o:is_required']); ?>">
+    <input class="is-private" type="hidden" name="<?php echo $escape($namePrefix . '[o:is_private]'); ?>" value="<?php echo $escape($propertyRow['o:is_private']); ?>">
     <input class="data-type" type="hidden" name="<?php echo $escape($namePrefix . '[o:data_type]'); ?>" value="<?php echo $escape($propertyRow['o:data_type']); ?>">
 
     <span class="sortable-handle"></span>

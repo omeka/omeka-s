@@ -6,29 +6,34 @@
     "url": "https://github.com/omeka/omeka-s.git"
   },
   "devDependencies": {
-    "autoprefixer": "^6.4.0",
-    "bluebird": "^3.4.6",
-    "dateformat": "^2.0.0",
+    "autoprefixer": "^9.2.1",
+    "bluebird": "^3.5.2",
+    "dateformat": "^3.0.3",
     "glob": "^7.1.1",
-    "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-postcss": "^6.1.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.5.4",
-    "gulp-sass": "^3.2.0",
-    "gulp-zip": "^4.1.0",
+    "gulp": "^4.0.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-zip": "^4.2.0",
     "minimist": "^1.2.0",
     "rimraf": "^2.6.0",
     "susy": "^2.2.12",
-    "tmp": "0.0.31"
+    "tmp": "0.0.33"
   },
   "dependencies": {
     "chosen-js": "^1.8.3",
     "ckeditor": "^4.9.0",
     "jquery": "^3.3.1",
     "jstree": "^3.3.5",
+    "npm": "^6.4.1",
     "openseadragon": "^2.2.1",
     "semver": "^5.5.0",
     "sortablejs": "^1.5.1",
     "tablesaw": "^3.0.9"
-  }
+  },
+  "browserslist": [
+    "> 5%",
+    "> 1% in US"
+  ]
 }

@@ -206,6 +206,21 @@
         var value = $('.value.template[data-data-type="' + type + '"]').clone(true);
         value.removeClass('template');
 
+        // Get and display the value's visibility.
+        var isPublic = true; // values are public by default
+        if (field.hasClass('private') || (valueObj && false === valueObj['is_public'])) {
+            isPublic = false;
+        }
+        var valueVisibilityButton = value.find('a.value-visibility');
+        if (isPublic) {
+            valueVisibilityButton.removeClass('o-icon-private').addClass('o-icon-public');
+            valueVisibilityButton.attr('aria-label', Omeka.jsTranslate('Make private'));
+            valueVisibilityButton.attr('title', Omeka.jsTranslate('Make private'));
+        } else {
+            valueVisibilityButton.removeClass('o-icon-public').addClass('o-icon-private');
+            valueVisibilityButton.attr('aria-label', Omeka.jsTranslate('Make public'));
+            valueVisibilityButton.attr('title', Omeka.jsTranslate('Make public'));
+        }
         // Prepare the value node.
         var count = field.find('.value').length;
         var namePrefix = field.data('property-term') + '[' + count + ']';
@@ -217,6 +232,9 @@
         value.find('input.type')
             .attr('name', namePrefix + '[type]')
             .val(type);
+        value.find('input.is_public')
+            .attr('name', namePrefix + '[is_public]')
+            .val(isPublic ? 1 : 0);
         value.find('span.label')
             .attr('id', valueLabelID);
         value.find('textarea.input-value')
@@ -314,34 +332,20 @@
         var properties = $('div#properties');
         var propertyId = template['o:property']['o:id'];
         var field = properties.find('[data-property-id="' + propertyId + '"]');
-
         if (field.length == 0) {
             field = makeNewField(propertyId);
         }
-
-        if (template['o:data_type']) {
-            // Use the single selector if the property has a data type.
-            field.find('div.default-selector').hide();
-            var singleSelector = field.find('div.single-selector');
-            singleSelector.find('a.add-value.button').data('type', template['o:data_type'])
-            singleSelector.show();
-
-            // Remove any unchanged default values for this property so we start fresh.
-            field.find('.value.default-value').remove();
-
-            // Add an empty value if none already exist in the property.
-            if (!field.find('.value').length) {
-                field.find('.values').append(makeNewValue(
-                    field.data('property-term'), null, template['o:data_type']
-                ));
-            }
-        } else {
-            // Use the default selector if the property has no data type.
-            field.find('div.single-selector').hide();
-            field.find('div.default-selector').show();
-        }
-
         var originalLabel = field.find('.field-label');
+        var originalDescription = field.find('.field-description');
+        var singleSelector = field.find('div.single-selector');
+        var defaultSelector = field.find('div.default-selector');
+
+        if (template['o:is_required']) {
+            field.addClass('required');
+        }
+        if (template['o:is_private']) {
+            field.addClass('private');
+        }
         if (template['o:alternate_label']) {
             var altLabel = originalLabel.clone();
             altLabel.addClass('alternate');
@@ -349,8 +353,6 @@
             altLabel.insertAfter(originalLabel);
             originalLabel.hide();
         }
-
-        var originalDescription = field.find('.field-description');
         if (template['o:alternate_comment']) {
             var altDescription = originalDescription.clone();
             altDescription.addClass('alternate');
@@ -359,8 +361,27 @@
             originalDescription.hide();
         }
 
-        if (template['o:is_required']) {
-            field.addClass('required');
+        // Remove any unchanged default values for this property so we start fresh.
+        field.find('.value.default-value').remove();
+
+        // Change value selector and add empty value if needed.
+        if (template['o:data_type']) {
+            // Use the single selector if the property has a data type.
+            defaultSelector.hide();
+            singleSelector.find('a.add-value.button').data('type', template['o:data_type'])
+            singleSelector.show();
+            // Add an empty value if none already exist in the property.
+            if (!field.find('.value').length) {
+                field.find('.values').append(makeNewValue(field.data('property-term'), null, template['o:data_type']));
+            }
+        } else {
+            // Use the default selector if the property has no data type.
+            singleSelector.hide();
+            defaultSelector.show();
+            // Add an empty default value if none already exist in the property.
+            if (!field.find('.value').length) {
+                field.find('.values').append(makeDefaultValue(field.data('property-term'), 'literal'));
+            }
         }
 
         properties.prepend(field);
@@ -373,8 +394,9 @@
      */
     var applyResourceTemplate = function(changeClass) {
 
-        // Fieldsets may have been marked as required in a previous state.
+        // Fieldsets may have been marked as required or private in a previous state.
         $('.field').removeClass('required');
+        $('.field').removeClass('private');
 
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();

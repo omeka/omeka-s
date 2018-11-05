@@ -114,17 +114,25 @@ class Module extends AbstractModule
                 $resource,
                 'view.show.after',
                 function (ZendEvent $event) {
-                    $resource = $event->getTarget()->resource;
-                    echo $resource->embeddedJsonLd();
+                    $view = $event->getTarget();
+                    if (($view->status()->isAdminRequest() && !$view->setting('disable_jsonld_embed'))
+                        || ($view->status()->isSiteRequest() && !$view->siteSetting('disable_jsonld_embed'))
+                    ) {
+                        echo $view->resource->embeddedJsonLd();
+                    }
                 }
             );
             $sharedEventManager->attach(
                 $resource,
                 'view.browse.after',
                 function (ZendEvent $event) {
-                    $resources = $event->getTarget()->resources;
-                    foreach ($resources as $resource) {
-                        echo $resource->embeddedJsonLd();
+                    $view = $event->getTarget();
+                    if (($view->status()->isAdminRequest() && !$view->setting('disable_jsonld_embed'))
+                        || ($view->status()->isSiteRequest() && !$view->siteSetting('disable_jsonld_embed'))
+                    ) {
+                        foreach ($view->resources as $resource) {
+                            echo $resource->embeddedJsonLd();
+                        }
                     }
                 }
             );

@@ -84,6 +84,18 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $generalFieldset->add([
+            'name' => 'disable_jsonld_embed',
+            'type' => 'Checkbox',
+            'options' => [
+                'label' => 'Disable JSON-LD embed', // @translate
+                'info' => 'By default, Omeka embeds JSON-LD in resource browse and show pages for the purpose of machine-readable metadata discovery. Check this to disable embedding.', // @translate
+            ],
+            'attributes' => [
+                'value' => $settings->get('disable_jsonld_embed'),
+                'id' => 'disable_jsonld_embed',
+            ],
+        ]);
+        $generalFieldset->add([
             'name' => 'locale',
             'id' => 'locale',
             'type' => 'Omeka\Form\Element\LocaleSelect',

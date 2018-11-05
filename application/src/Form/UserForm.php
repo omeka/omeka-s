@@ -117,7 +117,8 @@ class UserForm extends Form
             ]);
         }
 
-        $locale = $this->userSettings->get('locale', null, $this->getOption('user_id'));
+        $userId = $this->getOption('user_id');
+        $locale = $userId ? $this->userSettings->get('locale', null, $userId) : null;
         if (null === $locale) {
             $locale = $this->settings->get('locale');
         }
@@ -138,7 +139,7 @@ class UserForm extends Form
             'name' => 'default_resource_template',
             'type' => ResourceSelect::class,
             'attributes' => [
-                'value' => $this->userSettings->get('default_resource_template', null, $this->getOption('user_id')),
+                'value' => $userId ? $this->userSettings->get('default_resource_template', null, $userId) : '',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a template', // @translate
                 'id' => 'default_resource_template',

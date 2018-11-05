@@ -45,7 +45,10 @@ class UserAdapter extends AbstractEntityAdapter
         }
 
         $role = $request->getValue('o:role');
-        if ($role && $this->shouldHydrate($request, 'o:role')) {
+        if ($role
+            && $role !== $entity->getRole()
+            && $this->shouldHydrate($request, 'o:role')
+        ) {
             $this->authorize($entity, 'change-role');
 
             // Ask specially for permission to set an admin role

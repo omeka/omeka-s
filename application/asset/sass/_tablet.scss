@@ -142,7 +142,7 @@ td .o-icon-user-inactive {
 
 /* @group ----- Global content ----- */
 
-#content {
+div[role="main"] {
     margin: (1.5 * $spacing-large) 0 0 0;
     width: 100%;
     min-height: calc(100% - #{3 * $spacing-large});
@@ -548,6 +548,10 @@ body.minimal {
     .inputs {
         width: 100%;
         margin-left: 0;
+    }
+
+    footer {
+        color: white;
     }
 }
 

@@ -12,7 +12,6 @@ class VocabularyImportForm extends Form
             'type' => 'file',
             'options' => [
                 'label' => 'Vocabulary file', // @translate
-                'info' => 'Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. See the Vocabulary Import Documentation for details.', // @translate
             ],
             'attributes' => [
                 'required' => true,
@@ -20,6 +19,25 @@ class VocabularyImportForm extends Form
             ],
         ]);
 
+        $this->add([
+            'name' => 'format',
+            'type' => 'Select',
+            'options' => [
+                'label' => 'File format', // @translate
+                'value_options' => [
+                    'guess' => '[Autodetect]', // @translate
+                    'jsonld' => 'JSON-LD (.jsonld)', // @translate
+                    'ntriples' => 'N-Triples (.nt)', // @translate
+                    'n3' => 'Notation3 (.n3)', // @translate
+                    'rdfxml' => 'RDF/XML (.rdf)', // @translate
+                    'turtle' => 'Turtle (.ttl)', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'format',
+                'class' => 'chosen-select',
+            ],
+        ]);
         $this->add([
             'name' => 'o:prefix',
             'type' => 'text',

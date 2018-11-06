@@ -31,3 +31,12 @@ $roles = [
     <h4><?php echo $escape($this->translate('Theme')); ?></h4>
     <div class="value"><?php echo $escape($site->theme()); ?></div>
 </div>
+<?php
+$summary = $site->summary();
+if ($summary):
+?>
+<div class="property">
+    <h4><?php echo $escape($this->translate('Summary')); ?></h4>
+    <div class="value"><?php echo nl2br($escape($summary)); ?></div>
+</div>
+<?php endif; ?>

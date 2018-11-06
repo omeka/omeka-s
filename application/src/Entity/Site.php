@@ -32,6 +32,11 @@ class Site extends AbstractEntity
     protected $title;
 
     /**
+     * @Column(type="text", nullable=true)
+     */
+    protected $summary;
+
+    /**
      * @Column(type="json_array")
      */
     protected $navigation;
@@ -134,6 +139,16 @@ class Site extends AbstractEntity
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function setSummary($summary)
+    {
+        $this->summary = $summary;
+    }
+
+    public function getSummary()
+    {
+        return $this->summary;
     }
 
     public function setNavigation($navigation)

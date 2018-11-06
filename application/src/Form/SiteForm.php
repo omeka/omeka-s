@@ -35,6 +35,17 @@ class SiteForm extends Form
                 'required' => false,
             ],
         ]);
+        $this->add([
+            'name' => 'o:summary',
+            'type' => 'Textarea',
+            'options' => [
+                'label' => 'Summary', // @translate
+            ],
+            'attributes' => [
+                'id' => 'summary',
+                'required' => false,
+            ]
+        ]);
 
         $event = new Event('form.add_elements', $this);
         $triggerResult = $this->getEventManager()->triggerEvent($event);

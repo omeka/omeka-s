@@ -54,6 +54,13 @@ class SiteAdapter extends AbstractEntityAdapter
             $title = trim($request->getValue('o:title', ''));
             $entity->setTitle($title);
         }
+        if ($this->shouldHydrate($request, 'o:summary')) {
+            $summary = trim($request->getValue('o:summary', ''));
+            if (!$summary) {
+                $summary = null;
+            }
+            $entity->setSummary($summary);
+        }
         if ($this->shouldHydrate($request, 'o:slug')) {
             $default = null;
             $slug = trim($request->getValue('o:slug', ''));

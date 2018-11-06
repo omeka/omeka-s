@@ -3919,11 +3919,19 @@ body.minimal {
     }
 
     .site-list {
-        list-style: none;
-        padding: 0;
+        .site {
+            margin-bottom: $spacing-medium;
+        }
 
-        & > li {
+        .site-link {
+            display: inline-block;
+            font-size: 1.25 * $base-font-size;
             margin-bottom: $spacing-small;
+        }
+        
+        .site-summary {
+            margin: 0 0 0 $spacing-medium;
+            line-height: 20px;
         }
     }
 

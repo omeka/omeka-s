@@ -193,6 +193,7 @@ CREATE TABLE `site` (
   `slug` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `theme` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `summary` longtext COLLATE utf8mb4_unicode_ci,
   `navigation` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
   `item_pool` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
   `created` datetime NOT NULL,

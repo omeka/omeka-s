@@ -8,13 +8,19 @@ $this->headTitle($subtitle);
 <h2 class="site-list-heading"><?php echo $subtitle; ?></h2>
 
 <?php if ($sites): ?>
-<ul class="site-list">
-<?php foreach ($sites as $site): ?>
-<li>
-    <?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?>
-</li>
+<div class="site-list">
+<?php
+foreach ($sites as $site):
+    $summary = $site->summary();
+?>
+<div class="site">
+    <?php echo $this->hyperlink($site->title(), $site->siteUrl(), ['class' => 'site-link']); ?>
+    <?php if ($summary): ?>
+    <p class="site-summary"><?php echo nl2br($this->escapeHtml($summary)); ?></p>
+    <?php endif; ?>
+</div>
 <?php endforeach; ?>
-</ul>
+</div>
 
 <?php echo $this->pagination(); ?>
 

@@ -56,6 +56,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:slug' => $this->slug(),
             'o:theme' => $this->theme(),
             'o:title' => $this->title(),
+            'o:summary' => $this->summary(),
             'o:navigation' => $this->navigation(),
             'o:item_pool' => $this->itemPool(),
             'o:owner' => $owner,
@@ -76,6 +77,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function title()
     {
         return $this->resource->getTitle();
+    }
+
+    public function summary()
+    {
+        return $this->resource->getSummary();
     }
 
     public function theme()

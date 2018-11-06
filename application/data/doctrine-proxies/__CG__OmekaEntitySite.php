@@ -64,10 +64,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
+            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
+        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
     }
 
     /**
@@ -252,6 +252,28 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitle', []);
 
         return parent::getTitle();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setSummary($summary)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSummary', [$summary]);
+
+        return parent::setSummary($summary);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSummary()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSummary', []);
+
+        return parent::getSummary();
     }
 
     /**

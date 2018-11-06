@@ -44,7 +44,7 @@ class SiteForm extends Form
             'attributes' => [
                 'id' => 'summary',
                 'required' => false,
-            ]
+            ],
         ]);
 
         $event = new Event('form.add_elements', $this);

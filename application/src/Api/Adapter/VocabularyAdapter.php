@@ -20,12 +20,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
     /**
      * @var array Reserved vocabulary prefixes
      */
-    protected $reservedPrefixes = [
-        // Omeka and module prefixes
-        '^o$', '^o-',
-        // Prefixes introduced in core code
-        '^time$', '^cnt$',
-    ];
+    protected $reservedPrefixes = ['^o$', '^o-'];
 
     public function getResourceName()
     {

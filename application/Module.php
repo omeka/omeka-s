@@ -160,8 +160,8 @@ class Module extends AbstractModule
                 'vocabulary_label' => $row['label'],
             ];
         }
-        $context['cnt'] = 'http://www.w3.org/2011/content#';
-        $context['time'] = 'http://www.w3.org/2006/time#';
+        $context['o-cnt'] = 'http://www.w3.org/2011/content#';
+        $context['o-time'] = 'http://www.w3.org/2006/time#';
         $event->setParam('context', $context);
     }
 
@@ -230,9 +230,9 @@ class Module extends AbstractModule
         }
         $data = $event->getTarget()->mediaData();
         $jsonLd = $event->getParam('jsonLd');
-        $jsonLd['@type'] = 'cnt:ContentAsText';
-        $jsonLd['cnt:chars'] = $data['html'];
-        $jsonLd['cnt:characterEncoding'] = 'UTF-8';
+        $jsonLd['@type'] = 'o-cnt:ContentAsText';
+        $jsonLd['o-cnt:chars'] = $data['html'];
+        $jsonLd['o-cnt:characterEncoding'] = 'UTF-8';
         $event->setParam('jsonLd', $jsonLd);
     }
 
@@ -250,15 +250,15 @@ class Module extends AbstractModule
         $jsonLd = $event->getParam('jsonLd');
         if (isset($data['start']) || isset($data['end'])) {
             if (isset($data['start'])) {
-                $jsonLd['time:hasBeginning'] = [
+                $jsonLd['o-time:hasBeginning'] = [
                     '@value' => $data['start'],
-                    '@type' => 'time:seconds',
+                    '@type' => 'o-time:seconds',
                 ];
             }
             if (isset($data['end'])) {
-                $jsonLd['time:hasEnd'] = [
+                $jsonLd['o-time:hasEnd'] = [
                     '@value' => $data['end'],
-                    '@type' => 'time:seconds',
+                    '@type' => 'o-time:seconds',
                 ];
             }
         }

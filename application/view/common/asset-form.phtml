@@ -1,36 +1,41 @@
 <?php
+use Omeka\Api\Exception\NotFoundException;
+
+$this->headLink()->appendStylesheet($this->assetUrl('css/asset-form.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/asset-form.js', 'Omeka'));
+
 $asset = null;
-$value = $element->getValue();
-if ($value) {
+$assetId = $element->getValue();
+if ($assetId) {
     try {
-        $response = $this->api()->read('assets', $value);
-        $asset = $response->getContent();
-    } catch (Omeka\Api\Exception\NotFoundException $e) {
+        $asset = $this->api()->read('assets', $assetId)->getContent();
+    } catch (NotFoundException $e) {
         $element->setValue(null);
     }
 }
 ?>
 <div class="asset-form-element<?php if (!$asset) echo ' empty'; ?>">
+    <?php if ($asset): ?>
     <span class="selected-asset">
-    <?php
-    if ($asset) {
-        echo $asset->name();
-    }
-    ?>
+        <?php
+        echo sprintf('<img class="selected-asset-image" src="%s"><div class="selected-asset-name">%s</div>',
+            $this->escapeHtml($asset->assetUrl()),
+            $this->escapeHtml($asset->name())
+        );
+        ?>
     </span>
+    <?php else: ?>
+    <span class="selected-asset" style="display: none;">
+        <img class="selected-asset-image"><div class="selected-asset-name"></div>
+    </span>
+    <?php endif; ?>
     <span class="no-selected-asset">
         <?php echo $this->translate('[No asset selected]'); ?>
     </span>
-    <button type="button"
-        class="asset-form-select"
-        data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"
-    >
+    <button type="button" class="asset-form-select" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>">
         <?php echo $this->translate('Select'); ?>
     </button>
-    <button type="button"
-        class="asset-form-clear red button"
-    >
+    <button type="button" class="asset-form-clear red button">
         <?php echo $this->translate('Clear'); ?>
     </button>
     <?php echo $this->formHidden($element); ?>

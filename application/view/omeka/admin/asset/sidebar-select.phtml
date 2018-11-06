@@ -15,12 +15,33 @@ $escape = $this->plugin('escapeHtml');
 <?php endif; ?>
 
 <h3><?php echo $this->translate('Select asset'); ?></h3>
+
+<div>
+    <?php
+    echo $this->userSelect([
+        'name' => 'owner_id',
+        'options' => [
+            'empty_option' => '',
+            'prepend_value_options' => [
+                '0' => sprintf('[%s]', $this->translate('No owner')),
+            ],
+        ],
+        'attributes' => [
+            'id' => 'filter-owner',
+            'class' => 'chosen-select',
+            'value' => $this->params()->fromQuery('owner_id'),
+            'data-placeholder' => 'Filter by owner', // @translate
+        ],
+    ]);
+    ?>
+</div>
+
 <?php if (count($assets) > 0): ?>
 <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
 <div class="asset-list" data-delete-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'delete'])); ?>">
 <?php foreach ($assets as $asset): ?>
     <div class="asset" data-asset-id='<?php echo $escape($asset->id()); ?>'>
-        <?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'delete')): ?>
+        <?php if ($asset->userIsAllowed('delete')): ?>
         <span class="actions">
             <?php
             echo $this->hyperlink('', '#', [
@@ -43,7 +64,7 @@ $escape = $this->plugin('escapeHtml');
                 $escape($asset->name())
             ),
             '#',
-            ['class' => 'select-asset', 'data-asset-id' => $asset->id()]
+            ['class' => 'select-asset', 'data-asset-id' => $asset->id(), 'data-asset-url' => $asset->assetUrl()]
         );
         ?>
     </div>
@@ -54,6 +75,12 @@ $escape = $this->plugin('escapeHtml');
 </div>
 
 <div id="delete-warning" style="display:none">
-    <p><?php echo $this->translate("Are you sure you want to delete this asset? It will no longer be available to any sites currently using it.");?></p>
+    <p><?php echo $this->translate("Are you sure you want to delete this asset? It will no longer be available to any resources currently using it.");?></p>
     <a class="button confirm-delete"><?php echo $this->translate("Confirm delete");?></a>
 </div>
+
+<script>
+$(document).ready(function () {
+    $('#filter-owner').chosen(chosenOptions);
+});
+</script>

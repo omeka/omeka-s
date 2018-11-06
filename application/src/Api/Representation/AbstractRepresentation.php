@@ -95,6 +95,16 @@ abstract class AbstractRepresentation implements RepresentationInterface
     }
 
     /**
+     * Get one thumbnail of this representation.
+     *
+     * @return Asset
+     */
+    public function thumbnail()
+    {
+        return null;
+    }
+
+    /**
      * Get the service locator.
      *
      * @return ServiceLocatorInterface

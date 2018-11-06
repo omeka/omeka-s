@@ -64,10 +64,10 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'storageId', 'extension', 'sha256', 'size', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
+            return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'storageId', 'extension', 'sha256', 'size', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'isPublic', 'created', 'modified', 'values'];
         }
 
-        return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'storageId', 'extension', 'sha256', 'size', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'isPublic', 'created', 'modified', 'values'];
+        return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'storageId', 'extension', 'sha256', 'size', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'isPublic', 'created', 'modified', 'values'];
     }
 
     /**
@@ -582,6 +582,28 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceTemplate', []);
 
         return parent::getResourceTemplate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setThumbnail(\Omeka\Entity\Asset $thumbnail = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setThumbnail', [$thumbnail]);
+
+        return parent::setThumbnail($thumbnail);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getThumbnail()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getThumbnail', []);
+
+        return parent::getThumbnail();
     }
 
     /**

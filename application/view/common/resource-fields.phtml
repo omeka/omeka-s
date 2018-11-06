@@ -1,12 +1,16 @@
 <?php
 $resourceTemplateSelect = $form->get('o:resource_template[o:id]');
 $resourceClassSelect = $form->get('o:resource_class[o:id]');
+$thumbnailInput = $form->get('o:thumbnail[o:id]');
 if (isset($resource)) {
     if ($resourceTemplate = $resource->resourceTemplate()) {
         $resourceTemplateSelect->setValue($resourceTemplate->id());
     }
     if ($resourceClass = $resource->resourceClass()) {
         $resourceClassSelect->setValue($resourceClass->id());
+    }
+    if ($thumbnail = $resource->thumbnail()) {
+        $thumbnailInput->setValue($thumbnail->id());
     }
 } else {
     // Set the logged in user's default template when adding a resource.
@@ -27,4 +31,9 @@ if (isset($resource)) {
     <?php echo $this->propertySelector(); ?>
     <button id="property-selector-button" class="mobile-only" data-watch-target="#properties"><?php echo $this->translate('Add property'); ?></button>
     <?php echo $this->partial('common/resource-select-sidebar'); ?>
+</fieldset>
+
+<fieldset id="thumbnail" class="section">
+    <p><?php echo $this->translate('By default, the primary media of this resource will be its thumbnail. You may set a custom thumbnail by selecting an asset below.'); ?></p>
+    <?php echo $this->formAsset($form->get('o:thumbnail[o:id]')); ?>
 </fieldset>

@@ -384,7 +384,7 @@ class AclFactory implements FactoryInterface
             ['sidebar-select', 'search']
         );
         $acl->allow(
-            null,
+            'author',
             'Omeka\Controller\Admin\Asset',
             'sidebar-select'
         );
@@ -400,6 +400,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
                 'Omeka\Controller\Admin\ResourceTemplate',
+                'Omeka\Controller\Admin\Asset',
             ],
             [
                 'add',
@@ -415,6 +416,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
                 'Omeka\Api\Adapter\ResourceTemplateAdapter',
+                'Omeka\Api\Adapter\AssetAdapter',
             ],
             [
                 'create',
@@ -429,6 +431,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
                 'Omeka\Entity\ResourceTemplate',
+                'Omeka\Entity\Asset',
             ],
             [
                 'create',
@@ -441,6 +444,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
                 'Omeka\Entity\ResourceTemplate',
+                'Omeka\Entity\Asset',
             ],
             [
                 'update',
@@ -506,7 +510,7 @@ class AclFactory implements FactoryInterface
             ['sidebar-select', 'search']
         );
         $acl->allow(
-            null,
+            'reviewer',
             'Omeka\Controller\Admin\Asset',
             'sidebar-select'
         );
@@ -521,6 +525,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
+                'Omeka\Controller\Admin\Asset',
             ],
             [
                 'add',
@@ -535,6 +540,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Api\Adapter\ItemAdapter',
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
+                'Omeka\Api\Adapter\AssetAdapter',
             ],
             [
                 'create',
@@ -548,6 +554,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\Item',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
+                'Omeka\Entity\Asset',
             ],
             [
                 'create',
@@ -560,6 +567,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\Item',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
+                'Omeka\Entity\Asset',
             ],
             [
                 'delete',
@@ -634,7 +642,7 @@ class AclFactory implements FactoryInterface
             ['sidebar-select', 'search']
         );
         $acl->allow(
-            null,
+            'editor',
             'Omeka\Controller\Admin\Asset',
             'sidebar-select'
         );
@@ -650,6 +658,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\ItemSet',
                 'Omeka\Controller\Admin\Media',
                 'Omeka\Controller\Admin\ResourceTemplate',
+                'Omeka\Controller\Admin\Asset',
             ],
             [
                 'add',
@@ -665,6 +674,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
                 'Omeka\Api\Adapter\ResourceTemplateAdapter',
+                'Omeka\Api\Adapter\AssetAdapter',
             ],
             [
                 'create',
@@ -679,6 +689,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
                 'Omeka\Entity\ResourceTemplate',
+                'Omeka\Entity\Asset',
             ],
             [
                 'create',

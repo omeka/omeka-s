@@ -12,10 +12,21 @@ class VocabularyImportForm extends Form
             'type' => 'file',
             'options' => [
                 'label' => 'Vocabulary file', // @translate
+                'info' => 'Choose a RDF vocabulary file. You must choose a file or enter a URL.', // @translate
             ],
             'attributes' => [
-                'required' => true,
                 'id' => 'file',
+            ],
+        ]);
+        $this->add([
+            'name' => 'url',
+            'type' => 'url',
+            'options' => [
+                'label' => 'Vocabulary URL', // @translate
+                'info' => 'Enter a RDF vocabulary URL. You must enter a URL or choose a file.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'url',
             ],
         ]);
 
@@ -87,6 +98,12 @@ class VocabularyImportForm extends Form
             'attributes' => [
                 'id' => 'o:comment',
             ],
+        ]);
+
+        $inputFilter = $this->getInputFilter();
+        $inputFilter->add([
+            'name' => 'url',
+            'required' => false,
         ]);
     }
 }

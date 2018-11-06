@@ -76,12 +76,18 @@ class VocabularyController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
                 try {
-                    $response = $this->rdfImporter->import(
-                        'file', $data, [
-                            'file' => $data['file']['tmp_name'],
-                            'format' => $data['format'],
-                        ]
-                    );
+                    $strategy = null;
+                    $options = ['format' => $data['format']];
+                    if (\UPLOAD_ERR_OK === $data['file']['error']) {
+                        $strategy = 'file';
+                        $options['file'] = $data['file']['tmp_name'];
+                    } elseif ($data['url']) {
+                        $strategy = 'url';
+                        $options['url'] = $data['url'];
+                    } else {
+                        throw new ValidationException($this->translate('Must provide a vocabulary file or a vocabulary URL'));
+                    }
+                    $response = $this->rdfImporter->import($strategy, $data, $options);
                     if ($response) {
                         $message = new Message(
                             'Vocabulary successfully imported. %s', // @translate

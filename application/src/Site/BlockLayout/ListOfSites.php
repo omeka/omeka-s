@@ -67,7 +67,7 @@ class ListOfSites extends AbstractBlockLayout
             'o:block[__blockIndex__][o:data][summaries]' => $data['summaries'],
         ]);
 
-        return $view->formCollection($form);
+        return $view->formCollection($form, false);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

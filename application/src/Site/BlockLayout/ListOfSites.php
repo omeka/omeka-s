@@ -52,7 +52,8 @@ class ListOfSites extends AbstractBlockLayout
             ],
             'attributes' => [
                 'id' => 'list-of-sites-limit',
-                'placeholder' => '100', // @translate
+                'placeholder' => 'Unlimited', // @translate
+                'min' => 0,
             ],
         ]);
         $form->add([

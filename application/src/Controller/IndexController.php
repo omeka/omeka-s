@@ -21,7 +21,7 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $this->setBrowseDefaults('created');
+        $this->setBrowseDefaults('title', 'asc');
         $response = $this->api()->search('sites', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 

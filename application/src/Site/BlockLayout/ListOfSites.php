@@ -11,6 +11,7 @@ use Zend\View\Renderer\PhpRenderer;
 class ListOfSites extends AbstractBlockLayout
 {
     protected $defaults = [
+        'sort' => 'alpha',
         'limit' => null,
         'pagination' => false,
         'summaries' => true,
@@ -27,6 +28,21 @@ class ListOfSites extends AbstractBlockLayout
         $data = $block ? $block->data() + $this->defaults : $this->defaults;
 
         $form = new Form();
+        $form->add([
+            'name' => 'o:block[__blockIndex__][o:data][sort]',
+            'type' => Element\Select::class,
+            'options' => [
+                'label' => 'Sort', // @translate
+                'value_options' => [
+                    'alpha' => 'Alphabetical', // @translate
+                    'oldest' => 'Oldest first', // @translate
+                    'newest' => 'Newest first', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'list-of-sites-sort',
+            ],
+        ]);
         $form->add([
             'name' => 'o:block[__blockIndex__][o:data][limit]',
             'type' => Element\Number::class,
@@ -62,6 +78,7 @@ class ListOfSites extends AbstractBlockLayout
         ]);
 
         $form->setData([
+            'o:block[__blockIndex__][o:data][sort]' => $data['sort'],
             'o:block[__blockIndex__][o:data][limit]' => $data['limit'],
             'o:block[__blockIndex__][o:data][pagination]' => $data['pagination'],
             'o:block[__blockIndex__][o:data][summaries]' => $data['summaries'],
@@ -72,6 +89,7 @@ class ListOfSites extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
+        $sort = $block->dataValue('sort', $this->defaults['sort']);
         $limit = $block->dataValue('limit', $this->defaults['limit']);
         $pagination = $limit && $block->dataValue('pagination', $this->defaults['pagination']);
         $summaries = $block->dataValue('summaries', $this->defaults['summaries']);
@@ -83,6 +101,20 @@ class ListOfSites extends AbstractBlockLayout
             $data['per_page'] = $limit;
         } elseif ($limit) {
             $data['limit'] = $limit;
+        }
+
+        switch ($sort) {
+            case 'oldest':
+                $data['sort_by'] = 'created';
+                break;
+            case 'newest':
+                $data['sort_by'] = 'created';
+                $data['sort_order'] = 'desc';
+                break;
+            default:
+            case 'alpha':
+                $data['sort_by'] = 'title';
+                break;
         }
 
         $response = $view->api()->search('sites', $data);

@@ -15,6 +15,15 @@ class SiteAdapter extends AbstractEntityAdapter
 {
     use SiteSlugTrait;
 
+    protected $sortFields = [
+        'id' => 'id',
+        'is_public' => 'isPublic',
+        'created' => 'created',
+        'modified' => 'modified',
+        'title' => 'title',
+        'slug' => 'slug',
+    ];
+
     public function getResourceName()
     {
         return 'sites';

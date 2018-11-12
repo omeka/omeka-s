@@ -1,0 +1,9 @@
+<?php
+$summary = $showSummary ? $site->summary() : null;
+?>
+<div class="site">
+    <?php echo $this->hyperlink($site->title(), $site->siteUrl(), ['class' => 'site-link']); ?>
+    <?php if ($summary): ?>
+    <p class="site-summary"><?php echo nl2br($this->escapeHtml($summary)); ?></p>
+    <?php endif; ?>
+</div>

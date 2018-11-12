@@ -1,13 +1,14 @@
-<?php
-$hyperlink = $this->plugin('hyperlink');
-?>
 <div class="list-of-sites">
-    <?php if ($pagination): ?>
-    <?php echo $this->pagination(); ?>
-    <?php endif; ?>
-    <ul>
-        <?php foreach ($sites as $site): ?>
-        <li><?php echo $hyperlink($site->title(), $site->siteUrl()); ?></li>
-        <?php endforeach; ?>
-    </ul>
+    <div class="site-list">
+        <?php
+        foreach($sites as $site):
+            echo $this->partial('common/site-list-entry', ['site' => $site, 'showSummary' => $summaries]);
+        endforeach;
+        ?>
+    </div>
+    <?php
+    if ($pagination):
+        echo $this->pagination();
+    endif;
+    ?>
 </div>

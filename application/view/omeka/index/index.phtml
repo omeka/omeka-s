@@ -11,15 +11,9 @@ $this->headTitle($subtitle);
 <div class="site-list">
 <?php
 foreach ($sites as $site):
-    $summary = $site->summary();
+    echo $this->partial('common/site-list-entry', ['site' => $site, 'showSummary' => true]);
+endforeach;
 ?>
-<div class="site">
-    <?php echo $this->hyperlink($site->title(), $site->siteUrl(), ['class' => 'site-link']); ?>
-    <?php if ($summary): ?>
-    <p class="site-summary"><?php echo nl2br($this->escapeHtml($summary)); ?></p>
-    <?php endif; ?>
-</div>
-<?php endforeach; ?>
 </div>
 
 <?php echo $this->pagination(); ?>

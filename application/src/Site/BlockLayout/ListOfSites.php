@@ -13,6 +13,7 @@ class ListOfSites extends AbstractBlockLayout
     protected $defaults = [
         'limit' => null,
         'pagination' => false,
+        'summaries' => true,
     ];
 
     public function getLabel()
@@ -42,16 +43,28 @@ class ListOfSites extends AbstractBlockLayout
             'name' => 'o:block[__blockIndex__][o:data][pagination]',
             'type' => Element\Checkbox::class,
             'options' => [
-                'label' => 'Add pagination in case of a limit', // @translate
+                'label' => 'Pagination', // @translate
+                'info' => 'Show pagination (only if a limit is set)', // @translate
             ],
             'attributes' => [
                 'id' => 'list-of-sites-pagination',
+            ],
+        ]);
+        $form->add([
+            'name' => 'o:block[__blockIndex__][o:data][summaries]',
+            'type' => Element\Checkbox::class,
+            'options' => [
+                'label' => 'Show summaries', // @translate
+            ],
+            'attributes' => [
+                'id' => 'list-of-sites-summaries',
             ],
         ]);
 
         $form->setData([
             'o:block[__blockIndex__][o:data][limit]' => $data['limit'],
             'o:block[__blockIndex__][o:data][pagination]' => $data['pagination'],
+            'o:block[__blockIndex__][o:data][summaries]' => $data['summaries'],
         ]);
 
         return $view->formCollection($form);
@@ -61,6 +74,7 @@ class ListOfSites extends AbstractBlockLayout
     {
         $limit = $block->dataValue('limit', $this->defaults['limit']);
         $pagination = $limit && $block->dataValue('pagination', $this->defaults['pagination']);
+        $summaries = $block->dataValue('summaries', $this->defaults['summaries']);
 
         $data = [];
         if ($pagination) {
@@ -83,6 +97,7 @@ class ListOfSites extends AbstractBlockLayout
         return $view->partial('common/block-layout/list-of-sites', [
             'sites' => $sites,
             'pagination' => $pagination,
+            'summaries' => $summaries,
         ]);
     }
 }

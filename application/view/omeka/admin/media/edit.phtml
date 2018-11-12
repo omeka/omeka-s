@@ -9,6 +9,7 @@ $mediaForm = $this->media()->updateForm($media);
 
 $sectionNavs = [
     'resource-values' => $this->translate('Values'),
+    'thumbnail' => $this->translate('Thumbnail'),
 ];
 if ($mediaForm) {
     $sectionNavs['media'] = $this->translate('Media');

@@ -9,6 +9,7 @@ $formElement = $this->plugin('formElement');
 
 <?php echo $this->sectionNav([
     'resource-values' => $this->translate('Values'),
+    'thumbnail' => $this->translate('Thumbnail'),
 ], $sectionNavEvent); ?>
 
 <?php $this->trigger("view.$action.form.before", ['form' => $form]); ?>

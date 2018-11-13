@@ -21,7 +21,6 @@ $form->prepare();
     ]); ?>
     <input type="hidden" name="o:is_public" value="0">
     <?php endif; ?>
-    <?php echo $this->hyperlink($this->translate('View'), $site->siteUrl(), ['class' => 'button']); ?>
     <?php if ($site->userIsAllowed('delete')): ?>
     <?php echo $this->hyperlink($this->translate('Delete'), '#', ['class' => 'delete button']); ?>
     <?php endif; ?>

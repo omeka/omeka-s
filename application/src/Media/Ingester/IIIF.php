@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Omeka\Media\Ingester;
 
 use Omeka\Api\Request;

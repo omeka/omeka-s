@@ -34,8 +34,11 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
     {
         parent::buildQuery($qb, $query);
 
-        if (isset($query['id'])) {
-            $qb->andWhere($qb->expr()->eq('Omeka\Entity\ItemSet.id', $query['id']));
+        if (isset($query['id']) && is_numeric($query['id'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'Omeka\Entity\ItemSet.id',
+                $this->createNamedParameter($qb, $query['id'])
+            ));
         }
 
         // Select item sets to which the current user can assign an item.
@@ -61,7 +64,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
             }
         }
 
-        if (!empty($query['site_id'])) {
+        if (isset($query['site_id']) && is_numeric($query['site_id'])) {
             $siteAdapter = $this->getAdapter('sites');
             // Though $site isn't used here, this is intended to ensure that the
             // user cannot perform a query against a private site he doesn't

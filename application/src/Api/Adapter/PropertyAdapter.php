@@ -72,7 +72,7 @@ class PropertyAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-        if (isset($query['owner_id'])) {
+        if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $this->createAlias();
             $qb->innerJoin(
                 'Omeka\Entity\Property.owner',
@@ -83,7 +83,7 @@ class PropertyAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $query['owner_id']))
             );
         }
-        if (isset($query['vocabulary_id'])) {
+        if (isset($query['vocabulary_id']) && is_numeric($query['vocabulary_id'])) {
             $vocabularyAlias = $this->createAlias();
             $qb->innerJoin(
                 'Omeka\Entity\Property.vocabulary',

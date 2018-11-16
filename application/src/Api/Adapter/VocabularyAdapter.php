@@ -149,7 +149,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-        if (isset($query['owner_id'])) {
+        if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $this->createAlias();
             $qb->innerJoin(
                 'Omeka\Entity\Vocabulary.owner',

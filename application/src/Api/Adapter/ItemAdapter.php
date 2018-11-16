@@ -35,7 +35,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     {
         parent::buildQuery($qb, $query);
 
-        if (isset($query['id'])) {
+        if (isset($query['id']) && is_numeric($query['id'])) {
             $qb->andWhere($qb->expr()->eq(
                 'Omeka\Entity\Item.id',
                 $this->createNamedParameter($qb, $query['id'])
@@ -59,7 +59,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             }
         }
 
-        if (!empty($query['site_id'])) {
+        if (isset($query['site_id']) && is_numeric($query['site_id'])) {
             $siteAdapter = $this->getAdapter('sites');
             try {
                 $site = $siteAdapter->findEntity($query['site_id']);

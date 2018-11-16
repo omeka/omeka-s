@@ -39,15 +39,21 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     {
         parent::buildQuery($qb, $query);
 
-        if (isset($query['id'])) {
-            $qb->andWhere($qb->expr()->eq('Omeka\Entity\Media.id', $query['id']));
+        if (isset($query['id']) && is_numeric($query['id'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'Omeka\Entity\Media.id',
+                $this->createNamedParameter($qb, $query['id'])
+            ));
         }
 
-        if (isset($query['item_id'])) {
-            $qb->andWhere($qb->expr()->eq('Omeka\Entity\Media.item', $query['item_id']));
+        if (isset($query['item_id']) && is_numeric($query['item_id'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'Omeka\Entity\Media.item',
+                $this->createNamedParameter($qb, $query['item_id'])
+            ));
         }
 
-        if (isset($query['site_id'])) {
+        if (isset($query['site_id']) && is_numeric($query['site_id'])) {
             $itemAlias = $this->createAlias();
             $qb->innerJoin(
                 'Omeka\Entity\Media.item',

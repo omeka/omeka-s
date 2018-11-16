@@ -13,7 +13,7 @@ $itemsFound = count($items) > 0;
             <button type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
             <div class="resource-search-filters">
                 <a href="#"
-                    class="<?php echo ($resourceClassId || $itemSetId) ? 'collapse' : 'expand'; ?>"
+                    class="<?php echo ($resourceClassId || $itemSetId || $id) ? 'collapse' : 'expand'; ?>"
                     aria-label="<?php echo ($resourceClassId || $itemSetId) ? $this->translate('Collapse') : $this->translate('Expand'); ?>"><?php echo $this->translate('Filter search'); ?>
                 </a>
                 <div class="collapsible">
@@ -43,6 +43,7 @@ $itemsFound = count($items) > 0;
                     ],
                 ]);
                 ?>
+                <input type="number" name="id" min="1" step="1" value="<?php echo $this->escapeHtml($id); ?>" placeholder="<?php echo $this->escapeHtml($this->translate('Filter by item ID')); ?>">
                 </div>
             </div>
         </div>

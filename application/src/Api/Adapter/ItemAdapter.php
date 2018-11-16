@@ -36,7 +36,10 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         parent::buildQuery($qb, $query);
 
         if (isset($query['id'])) {
-            $qb->andWhere($qb->expr()->eq('Omeka\Entity\Item.id', $query['id']));
+            $qb->andWhere($qb->expr()->eq(
+                'Omeka\Entity\Item.id',
+                $this->createNamedParameter($qb, $query['id'])
+            ));
         }
 
         if (isset($query['item_set_id'])) {

@@ -3950,6 +3950,8 @@ body.minimal {
 /* @group ----- Assets ----- */
 
 .asset-form-element {
+    line-height: 1.5 * $spacing-large;
+
     &.empty {
         .asset-form-clear {
             display: none;
@@ -3969,6 +3971,10 @@ body.minimal {
 .selected-asset,
 .no-selected-asset {
     display: block;
+}
+
+.selected-asset-image {
+    max-width: 100%;
 }
 
 .asset-upload {
@@ -3996,6 +4002,10 @@ body.minimal {
             border-bottom: 1px solid $red;
         }
     }
+}
+
+.asset-filters {
+    margin-bottom: $spacing-small;
 }
 
 .asset-list .asset {

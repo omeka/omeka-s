@@ -34,6 +34,11 @@ if (isset($resource)) {
 </fieldset>
 
 <fieldset id="thumbnail" class="section">
-    <p><?php echo $this->translate('By default, the primary media of this resource will be its thumbnail. You may set a custom thumbnail by selecting an asset below.'); ?></p>
+    <p>
+    <?php
+    echo $this->translate('Omeka S automatically selects a thumbnail from among attached media for a resource. '
+        . 'You may use an image of your choice instead by choosing an asset here.');
+    ?>
+    </p>
     <?php echo $this->formAsset($form->get('o:thumbnail[o:id]')); ?>
 </fieldset>

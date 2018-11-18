@@ -24,6 +24,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         return [
             'o:slug' => $this->slug(),
             'o:title' => $this->title(),
+            'o:lang' => $this->lang(),
             'o:block' => $this->blocks(),
             'o:site' => $this->site()->getReference(),
             'o:created' => $created,
@@ -59,6 +60,14 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     public function title()
     {
         return $this->resource->getTitle();
+    }
+
+    /**
+     * @return string
+     */
+    public function lang()
+    {
+        return $this->resource->getLang();
     }
 
     /**

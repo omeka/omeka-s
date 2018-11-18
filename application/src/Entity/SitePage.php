@@ -34,6 +34,11 @@ class SitePage extends AbstractEntity
     protected $title;
 
     /**
+     * @Column(nullable=true, length=190)
+     */
+    protected $lang;
+
+    /**
      * @ManyToOne(targetEntity="Site", inversedBy="pages")
      * @JoinColumn(nullable=false)
      */
@@ -88,6 +93,16 @@ class SitePage extends AbstractEntity
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+    }
+
+    public function getLang()
+    {
+        return $this->lang;
     }
 
     public function setSite(Site $site)

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form;
 
+use Zend\Form\Element;
 use Zend\Form\Form;
 
 class SitePageForm extends Form
@@ -11,7 +12,7 @@ class SitePageForm extends Form
 
         $this->add([
             'name' => 'o:title',
-            'type' => 'Text',
+            'type' => Element\Text::class,
             'options' => [
                 'label' => 'Title', // @translate
             ],
@@ -20,9 +21,10 @@ class SitePageForm extends Form
                 'required' => true,
             ],
         ]);
+
         $this->add([
             'name' => 'o:slug',
-            'type' => 'Text',
+            'type' => Element\Text::class,
             'options' => [
                 'label' => 'URL slug', // @translate
             ],
@@ -31,6 +33,19 @@ class SitePageForm extends Form
                 'required' => false,
             ],
         ]);
+
+        $this->add([
+            'name' => 'o:lang',
+            'type' => Element\Text::class,
+            'options' => [
+                'label' => 'Language code', // @translate
+            ],
+            'attributes' => [
+                'id' => 'o-lang',
+                'required' => false,
+            ],
+        ]);
+
         if ($this->getOption('addPage')) {
             $this->add([
                 'name' => 'add_to_navigation',

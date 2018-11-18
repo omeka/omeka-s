@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Exception\NotFoundException;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
@@ -16,6 +17,7 @@ class SitePageAdapter extends AbstractEntityAdapter
 
     protected $sortFields = [
         'id' => 'id',
+        'lang' => 'lang',
         'created' => 'created',
         'modified' => 'modified',
     ];
@@ -33,6 +35,39 @@ class SitePageAdapter extends AbstractEntityAdapter
     public function getEntityClass()
     {
         return \Omeka\Entity\SitePage::class;
+    }
+
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        if (isset($query['slug'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'Omeka\Entity\SitePage.slug',
+                $this->createNamedParameter($qb, $query['slug']))
+            );
+        }
+
+        if (isset($query['lang'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'Omeka\Entity\SitePage.lang',
+                $this->createNamedParameter($qb, $query['lang']))
+            );
+        }
+
+        if (isset($query['site_id'])) {
+            $qb->andWhere($qb->expr()->eq('Omeka\Entity\SitePage.site', $query['site_id']));
+        }
+
+        if (isset($query['site'])) {
+            $siteAlias = $this->createAlias();
+            $qb->innerJoin(
+                'Omeka\Entity\SitePage.site',
+                $siteAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$siteAlias.slug",
+                $this->createNamedParameter($qb, $query['site']))
+            );
+        }
     }
 
     public function hydrate(Request $request, EntityInterface $entity,
@@ -59,6 +94,11 @@ class SitePageAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:title')) {
             $title = trim($request->getValue('o:title', ''));
             $entity->setTitle($title);
+        }
+
+        if ($this->shouldHydrate($request, 'o:lang')) {
+            $lang = trim($request->getValue('o:lang', null));
+            $entity->setLang($lang);
         }
 
         if ($this->shouldHydrate($request, 'o:slug')) {

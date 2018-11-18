@@ -238,6 +238,7 @@ CREATE TABLE `site_page` (
   `site_id` int(11) NOT NULL,
   `slug` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lang` varchar(190) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),

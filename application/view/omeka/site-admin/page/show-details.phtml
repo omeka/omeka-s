@@ -1,4 +1,11 @@
+<?php
+$translate = $this->plugin('translate');
+?>
 <div class='resource-details'>
     <h3 class="title"><?php echo $resource->title(); ?></h3>
+    <?php $lang = $resource->lang(); ?>
+    <?php if ($lang): ?>
+    <p class="lang <?php echo $this->lang($lang); ?>"><?php echo sprintf($translate('Language: %s'), $lang); ?></p>
+    <?php endif; ?>
 </div>
 <?php $this->trigger('view.details', array('entity' => $resource)); ?>

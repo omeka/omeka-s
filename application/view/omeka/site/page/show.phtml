@@ -1,5 +1,9 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'page');
+$lang = $page->lang();
+if ($lang != $this->lang()):
+    $this->htmlElement('body')->appendAttribute('lang', $this->lang($lang));
+endif;
 $this->pageTitle($page->title(), 2);
 $showPagePagination = $this->siteSetting('show_page_pagination', true);
 ?>

@@ -64,10 +64,10 @@ class SitePage extends \Omeka\Entity\SitePage implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'title', 'site', 'created', 'modified', 'blocks'];
+            return ['__isInitialized__', 'id', 'slug', 'title', 'lang', 'site', 'created', 'modified', 'blocks'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'title', 'site', 'created', 'modified', 'blocks'];
+        return ['__isInitialized__', 'id', 'slug', 'title', 'lang', 'site', 'created', 'modified', 'blocks'];
     }
 
     /**
@@ -230,6 +230,28 @@ class SitePage extends \Omeka\Entity\SitePage implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitle', []);
 
         return parent::getTitle();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLang($lang)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLang', [$lang]);
+
+        return parent::setLang($lang);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLang()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLang', []);
+
+        return parent::getLang();
     }
 
     /**

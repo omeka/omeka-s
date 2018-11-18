@@ -20,15 +20,21 @@ $escape = $this->plugin('escapeHtml');
     </thead>
     <tbody>
     <?php foreach ($pages as $page): ?>
+    <?php $lang = $page->lang(); ?>
     <tr class="page">
         <td>
             <?php if (array_key_exists($page->id(), $indents)): ?>
             <?php echo str_repeat('<span class="indent"></span>', intval($indents[$page->id()])); ?>
             <?php endif; ?>
+            <span<?php if ($lang) echo ' lang="' . $this->lang($lang) . '"'; ?>>
             <?php if ($page->userIsAllowed('update')): ?>
             <?php echo $page->link($page->title(), 'edit'); ?>
             <?php else: ?>
             <?php echo $page->title(); ?>
+            <?php endif; ?>
+            </span>
+            <?php if ($lang): ?>
+            <span class="lang <?php echo $this->lang($lang); ?>"><?php echo $lang; ?></span>
             <?php endif; ?>
             <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
             <ul class="actions">

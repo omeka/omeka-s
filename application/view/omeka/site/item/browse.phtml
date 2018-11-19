@@ -1,5 +1,6 @@
 <?php
 $escape = $this->plugin('escapeHtml');
+$translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'item resource browse');
 
 $query = $this->params()->fromQuery();
@@ -10,28 +11,51 @@ if ($itemSetShow):
 endif;
 $headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
 $bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
+$sortHeadings = [
+    [
+        'label' => $translate('Title'),
+        'value' => 'dcterms:title'
+    ],
+    [
+        'label' => $translate('Identifier'),
+        'value' => 'dcterms:identifier'
+    ],
+    [
+        'label' => $translate('Class'),
+        'value' => 'resource_class_label'
+    ],
+    [
+        'label' => $translate('Created'),
+        'value' => 'created'
+    ],
+];
 ?>
 
 <?php if ($itemSetShow): ?>
     <?php echo $this->pageTitle($itemSet->displayTitle(), 2); ?>
-    <h3><?php echo $this->translate('Item set'); ?></h3>
+    <h3><?php echo $translate('Item set'); ?></h3>
     <div class="metadata">
         <?php echo $itemSet->displayValues(); ?>
     </div>
     <div class="item-set-items">
-    <?php echo '<h3>' . $escape($this->translate('Items')) . '</h3>'; ?>
+    <?php echo '<h3>' . $escape($translate('Items')) . '</h3>'; ?>
 <?php else: ?>
-    <?php echo $this->pageTitle($this->translate('Items'), 2); ?>
+    <?php echo $this->pageTitle($translate('Items'), 2); ?>
 <?php endif; ?>
 
 <?php echo $this->searchFilters(); ?>
-<?php echo $this->hyperlink($this->translate('Advanced search'), $this->url('site/resource', ['controller' => 'item', 'action' => 'search'], ['query' => $query], true), ['class' => 'advanced-search']); ?>
-<?php echo $this->pagination(); ?>
+
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+    <?php echo $this->hyperlink($translate('Advanced search'), $this->url('site/resource', ['controller' => 'item', 'action' => 'search'], ['query' => $query], true), ['class' => 'advanced-search']); ?>
+    <?php echo $this->sortSelector($sortHeadings); ?>
+</div>
+
 <?php $this->trigger('view.browse.before'); ?>
 <ul class="resource-list">
 <?php
 foreach ($items as $item):
-    $heading = $item->value($headingTerm, ['default' => $this->translate('[Untitled]')]);
+    $heading = $item->value($headingTerm, ['default' => $translate('[Untitled]')]);
     $body = $item->value($bodyTerm);
 ?>
     <li class="item resource">

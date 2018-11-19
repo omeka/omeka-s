@@ -39,13 +39,6 @@ class MediaAdapter extends AbstractResourceEntityAdapter
     {
         parent::buildQuery($qb, $query);
 
-        if (isset($query['id']) && is_numeric($query['id'])) {
-            $qb->andWhere($qb->expr()->eq(
-                'Omeka\Entity\Media.id',
-                $this->createNamedParameter($qb, $query['id'])
-            ));
-        }
-
         if (isset($query['item_id']) && is_numeric($query['item_id'])) {
             $qb->andWhere($qb->expr()->eq(
                 'Omeka\Entity\Media.item',

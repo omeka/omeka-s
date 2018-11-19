@@ -23,6 +23,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
             ]]]);
         }
 
+        if (isset($query['id']) && is_numeric($query['id'])) {
+            $qb->andWhere($qb->expr()->eq(
+                $this->getEntityClass() . '.id',
+                $this->createNamedParameter($qb, $query['id'])
+            ));
+        }
+
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $this->createAlias();
             $qb->innerJoin(

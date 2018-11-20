@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "44eeb95e067d5574234e8eeb02342392",
+    "content-hash": "e009b73d10da9ff961be0d26267b7564",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -911,17 +911,16 @@
         },
         {
             "name": "ml/json-ld",
-            "version": "dev-fix-php-72",
-            "target-dir": "ML/JsonLD",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/omeka/JsonLD.git",
-                "reference": "a9683178ceb53cb428911d5ae44a14082cb2fc0e"
+                "url": "https://github.com/lanthaler/JsonLD.git",
+                "reference": "b5f82820c255cb64067b1c7adbb819cad4afa70a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka/JsonLD/zipball/a9683178ceb53cb428911d5ae44a14082cb2fc0e",
-                "reference": "a9683178ceb53cb428911d5ae44a14082cb2fc0e",
+                "url": "https://api.github.com/repos/lanthaler/JsonLD/zipball/b5f82820c255cb64067b1c7adbb819cad4afa70a",
+                "reference": "b5f82820c255cb64067b1c7adbb819cad4afa70a",
                 "shasum": ""
             },
             "require": {
@@ -935,10 +934,11 @@
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "ML\\JsonLD": ""
+                "psr-4": {
+                    "ML\\JsonLD\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -956,10 +956,7 @@
                 "JSON-LD",
                 "jsonld"
             ],
-            "support": {
-                "source": "https://github.com/omeka/JsonLD/tree/fix-php-72"
-            },
-            "time": "2018-04-10T20:30:22+00:00"
+            "time": "2018-11-18T20:26:18+00:00"
         },
         {
             "name": "omeka-s-themes/default",
@@ -967,12 +964,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/omeka-s-themes/default.git",
-                "reference": "1303b7eddce46eaea9f32a3da3f2ee1b722d0fe2"
+                "reference": "273062a436aebfab0154d16e8bd8f134b5a54021"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/1303b7eddce46eaea9f32a3da3f2ee1b722d0fe2",
-                "reference": "1303b7eddce46eaea9f32a3da3f2ee1b722d0fe2",
+                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/273062a436aebfab0154d16e8bd8f134b5a54021",
+                "reference": "273062a436aebfab0154d16e8bd8f134b5a54021",
                 "shasum": ""
             },
             "require": {
@@ -983,7 +980,7 @@
                 "source": "https://github.com/omeka-s-themes/default/tree/develop",
                 "issues": "https://github.com/omeka-s-themes/default/issues"
             },
-            "time": "2018-11-13T21:05:22+00:00"
+            "time": "2018-11-19T19:58:55+00:00"
         },
         {
             "name": "omeka/composer-addon-installer",
@@ -2563,16 +2560,16 @@
         },
         {
             "name": "zendframework/zend-hydrator",
-            "version": "2.4.0",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-hydrator.git",
-                "reference": "bd48bc3bc046df007a94125f868dd1aa1b73a813"
+                "reference": "70b02f4d8676e64af932625751750b5ca72fff3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-hydrator/zipball/bd48bc3bc046df007a94125f868dd1aa1b73a813",
-                "reference": "bd48bc3bc046df007a94125f868dd1aa1b73a813",
+                "url": "https://api.github.com/repos/zendframework/zend-hydrator/zipball/70b02f4d8676e64af932625751750b5ca72fff3a",
+                "reference": "70b02f4d8676e64af932625751750b5ca72fff3a",
                 "shasum": ""
             },
             "require": {
@@ -2622,7 +2619,7 @@
                 "hydrator",
                 "zf"
             ],
-            "time": "2018-04-30T21:22:14+00:00"
+            "time": "2018-11-19T19:16:10+00:00"
         },
         {
             "name": "zendframework/zend-i18n",
@@ -6758,7 +6755,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ml/json-ld": 20,
         "omeka-s-themes/default": 20,
         "zerocrates/extract-tagged-strings": 20
     },

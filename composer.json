@@ -7,7 +7,7 @@
         "php": ">=5.6",
         "doctrine/orm": "^2.5",
         "easyrdf/easyrdf": "~0.9",
-        "ml/json-ld": "dev-fix-php-72",
+        "ml/json-ld": "^1.1",
         "ezyang/htmlpurifier": "^4.8",
         "composer/semver": "^1.0",
         "zendframework/zend-authentication": "^2.5.3",
@@ -90,10 +90,6 @@
         {
             "type": "path",
             "url": "application/data/composer-addon-installer"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/omeka/JsonLD.git"
         }
     ]
 }

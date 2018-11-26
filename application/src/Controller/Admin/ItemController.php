@@ -94,6 +94,7 @@ class ItemController extends AbstractActionController
         $view->setVariable('search', $this->params()->fromQuery('search'));
         $view->setVariable('resourceClassId', $this->params()->fromQuery('resource_class_id'));
         $view->setVariable('itemSetId', $this->params()->fromQuery('item_set_id'));
+        $view->setVariable('id', $this->params()->fromQuery('id'));
         $view->setVariable('showDetails', true);
         $view->setTerminal(true);
         return $view;

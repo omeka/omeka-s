@@ -315,7 +315,7 @@ gulp.task('i18n:module:template', function () {
     });
     var dupesPromise = preDedupePromise.then(function (preDedupePot) {
         return tmpFile({postfix: 'module-dupes.pot'}).spread(function (path, fd) {
-            return runCommand('msgcomm', ['--omit-header', '-o', path, preDedupePot, pot], {}, path);
+            return runCommand('msgcomm', ['-o', path, preDedupePot, pot], {}, path);
         });
     });
     var languageDirPromise = modulePathPromise.then(function (modulePath) {

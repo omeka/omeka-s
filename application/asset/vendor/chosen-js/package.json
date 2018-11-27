@@ -1,31 +1,35 @@
 {
-  "_from": "chosen-js@^1.7.0",
-  "_id": "chosen-js@1.8.2",
+  "_args": [
+    [
+      "chosen-js@1.8.7",
+      "/var/www/localhost/htdocs/omeka-s"
+    ]
+  ],
+  "_from": "chosen-js@1.8.7",
+  "_id": "chosen-js@1.8.7",
   "_inBundle": false,
-  "_integrity": "sha512-eC5+gRZLU20osMWuChokjL2WPeVlCWzd2YbF5ucaGkmuyD6eThxotJ9+t203sYvKx06bDUVeZ9MhGkm57Oei9g==",
+  "_integrity": "sha512-eVdrZJ2U5ISdObkgsi0od5vIJdLwq1P1Xa/Vj/mgxkMZf14DlgobfB6nrlFi3kW4kkvKLsKk4NDqZj1MU1DCpw==",
   "_location": "/chosen-js",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "chosen-js@^1.7.0",
+    "raw": "chosen-js@1.8.7",
     "name": "chosen-js",
     "escapedName": "chosen-js",
-    "rawSpec": "^1.7.0",
+    "rawSpec": "1.8.7",
     "saveSpec": null,
-    "fetchSpec": "^1.7.0"
+    "fetchSpec": "1.8.7"
   },
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/chosen-js/-/chosen-js-1.8.2.tgz",
-  "_shasum": "bfd8ed1266ef667fbbc453c7e5b88d4c470e897e",
-  "_spec": "chosen-js@^1.7.0",
+  "_resolved": "https://registry.npmjs.org/chosen-js/-/chosen-js-1.8.7.tgz",
+  "_spec": "1.8.7",
   "_where": "/var/www/localhost/htdocs/omeka-s",
   "bugs": {
     "url": "https://github.com/harvesthq/chosen/issues"
   },
-  "bundleDependencies": false,
   "contributors": [
     {
       "name": "Patrick Filler",
@@ -45,7 +49,6 @@
     }
   ],
   "dependencies": {},
-  "deprecated": false,
   "description": "Chosen is a JavaScript plugin that makes select boxes user-friendly. It is currently available in both jQuery and Prototype flavors.",
   "files": [
     "chosen.jquery.js",
@@ -73,5 +76,5 @@
     "type": "git",
     "url": "git+https://github.com/harvesthq/chosen.git"
   },
-  "version": "1.8.2"
+  "version": "1.8.7"
 }

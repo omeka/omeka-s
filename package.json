@@ -23,12 +23,12 @@
   },
   "dependencies": {
     "chosen-js": "^1.8.3",
-    "ckeditor": "^4.9.0",
+    "ckeditor": "^4.11.0",
     "jquery": "^3.3.1",
     "jstree": "^3.3.5",
     "npm": "^6.4.1",
     "openseadragon": "^2.2.1",
-    "semver": "^5.5.0",
+    "semver": "^4.3.6",
     "sortablejs": "^1.5.1",
     "tablesaw": "^3.0.9"
   },

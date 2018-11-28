@@ -3,14 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# pprwf <p.willaime@free.fr>, 2017
+# Stéphane Loret <stephane.loret@univ-nantes.fr>, 2018
+# symac <wikitipiac@laposte.net>, 2018
+# Pols12 <poltron54@gmail.com>, 2018
+# Daniel Berthereau <daniel.transifex@berthereau.net>, 2018
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-27 19:57-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: symac <wikitipiac@laposte.net>, 2018\n"
+"POT-Creation-Date: 2018-11-20 16:18-0500\n"
+"PO-Revision-Date: 2017-06-13 18:56+0000\n"
+"Last-Translator: Daniel Berthereau <daniel.transifex@berthereau.net>, 2018\n"
 "Language-Team: French (https://www.transifex.com/omeka/teams/14184/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,71 +25,71 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: application/src/Api/Adapter/AbstractAdapter.php:42
+#: application/src/Api/Adapter/AbstractAdapter.php:39
 #, php-format
 msgid "The %1$s adapter does not implement the search operation."
 msgstr "L’adaptateur %1$s n’exécute pas l’opération de recherche."
 
-#: application/src/Api/Adapter/AbstractAdapter.php:55
+#: application/src/Api/Adapter/AbstractAdapter.php:49
 #, php-format
 msgid "The %1$s adapter does not implement the create operation."
 msgstr "L’adaptateur %1$s n’exécute pas l’opération de création."
 
-#: application/src/Api/Adapter/AbstractAdapter.php:68
+#: application/src/Api/Adapter/AbstractAdapter.php:59
 #, php-format
 msgid "The %1$s adapter does not implement the batch create operation."
 msgstr "L’adaptateur %1$s n’exécute pas l’opération de création multiple."
 
-#: application/src/Api/Adapter/AbstractAdapter.php:81
+#: application/src/Api/Adapter/AbstractAdapter.php:69
 #, php-format
 msgid "The %1$s adapter does not implement the read operation."
 msgstr "L’adaptateur %1$s n’exécute pas l’opération de lecture."
 
-#: application/src/Api/Adapter/AbstractAdapter.php:94
+#: application/src/Api/Adapter/AbstractAdapter.php:79
 #, php-format
 msgid "The %1$s adapter does not implement the update operation."
 msgstr "L’adaptateur %1$s n’exécute pas l’opération de mise à jour."
 
-#: application/src/Api/Adapter/AbstractAdapter.php:107
+#: application/src/Api/Adapter/AbstractAdapter.php:89
 #, php-format
 msgid "The %1$s adapter does not implement the batch update operation."
 msgstr "L’adaptateur %1$s n’exécute pas l’opération de mise à jour multiple."
 
-#: application/src/Api/Adapter/AbstractAdapter.php:129
+#: application/src/Api/Adapter/AbstractAdapter.php:105
 #, php-format
 msgid "The %1$s adapter does not implement the delete operation."
 msgstr "L’adaptateur %1$s n’exécute pas l’opération de suppression."
 
-#: application/src/Api/Adapter/AbstractAdapter.php:142
+#: application/src/Api/Adapter/AbstractAdapter.php:115
 #, php-format
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "L’adaptateur %1$s n’exécute pas l’opération de suppression multiple."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:229
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:226
 #, php-format
 msgid "The \"%s\" field is not available in the %s entity class."
 msgstr "Le champ \"%s\" n’est pas disponible dans la classe d’entité %s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:590
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:569
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %s the %s resource."
-msgstr "Autorisation refusée pour l’utilisateur actuel %s à la ressource %s."
+msgstr "Permission \"%s\" pour la ressource \"%s\" refusée à l’utilisateur actuel."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:632
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:611
 #, php-format
 msgid "%s entity with criteria %s not found"
 msgstr "Entité %s avec critère %s non trouvée"
 
-#: application/src/Api/Adapter/SiteAdapter.php:123
+#: application/src/Api/Adapter/SiteAdapter.php:127
 msgid "Welcome"
 msgstr "Bienvenue"
 
-#: application/src/Api/Adapter/SiteAdapter.php:128
+#: application/src/Api/Adapter/SiteAdapter.php:132
 msgid "Welcome to your new site. This is an example page."
 msgstr "Bienvenue sur votre nouveau site. Ceci est une page d’exemple."
 
-#: application/src/Api/Adapter/SiteAdapter.php:329
+#: application/src/Api/Adapter/SiteAdapter.php:337
 msgid "Browse"
 msgstr "Parcourir"
 
@@ -91,13 +98,13 @@ msgstr "Parcourir"
 msgid "The API does not support the \"%s\" resource."
 msgstr "L’API n’est pas compatible avec la ressource \"%s\""
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:478
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:484
 #: application/view/common/block-layout/browse-preview.phtml:12
-#: application/view/omeka/site/item/browse.phtml:33
+#: application/view/omeka/site/item/browse.phtml:58
 msgid "[Untitled]"
 msgstr "[Sans titre]"
 
-#: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:107
+#: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:105
 msgid "Default"
 msgstr "Défaut"
 
@@ -115,11 +122,13 @@ msgstr "Ajouter une autre collection ?"
 
 #: application/src/Controller/Admin/ModuleController.php:69
 #: application/src/Controller/Admin/ModuleController.php:76
+#: application/view/common/advanced-search/users.phtml:47
 msgid "Active"
 msgstr "Actif"
 
 #: application/src/Controller/Admin/ModuleController.php:70
 #: application/src/Controller/Admin/ModuleController.php:77
+#: application/view/common/advanced-search/users.phtml:48
 msgid "Not active"
 msgstr "Non actif"
 
@@ -154,15 +163,19 @@ msgstr "INI invalide"
 msgid "Invalid Omeka S version"
 msgstr "Version Omeka S invalide"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:406
+#: application/src/Controller/Admin/ResourceTemplateController.php:409
 msgid "Add another resource template?"
 msgstr "Ajouter un autre modèle de ressource ?"
 
-#: application/src/Controller/Admin/UserController.php:53
+#: application/src/Controller/Admin/UserController.php:117
 msgid "Add another user?"
 msgstr "Ajouter un autre utilisateur ?"
 
 #: application/src/Controller/Admin/VocabularyController.php:88
+msgid "Must provide a vocabulary file or a vocabulary URL"
+msgstr "Il faut fournir le fichier ou l’url d’un vocabulaire"
+
+#: application/src/Controller/Admin/VocabularyController.php:97
 msgid "Import another vocabulary?"
 msgstr "Importer un autre vocabulaire ?"
 
@@ -175,8 +188,7 @@ msgstr "Ressource non trouvée avec l’ID %s."
 msgid "Migration file did not contain the expected class"
 msgstr "Le fichier de migration ne contenait pas la classe attendue"
 
-#: application/src/Media/Ingester/Fallback.php:36
-#: application/src/View/Helper/SearchFilters.php:51
+#: application/src/Media/Ingester/Fallback.php:33
 #: application/view/common/navigation-link-form/fallback.phtml:3
 msgid "Unknown"
 msgstr "Inconnu"
@@ -238,18 +250,18 @@ msgstr ""
 #: application/src/Module/Manager.php:402
 #, php-format
 msgid "Permission denied for the current user to %s the %s module."
-msgstr "Permission refusée à l’utilisateur actuel de %s le module %s."
+msgstr "Permission \"%s\" du module \"%s\" refusée à l’utilisateur actuel."
 
-#: application/src/Mvc/MvcListeners.php:436
+#: application/src/Mvc/MvcListeners.php:431
 #, php-format
 msgid ""
 "Permission denied for the current user to access the %1$s action of the %2$s"
 " controller."
 msgstr ""
-"Autorisation refusée à l’utilisateur actuel d’accéder à l’action %1$s du "
-"contrôleur %2$s."
+"Permission d’accéder à l’action \"%1$s\" du contrôleur \"%2$s\" refusée à "
+"l’utilisateur actuel."
 
-#: application/src/Site/BlockLayout/Fallback.php:43
+#: application/src/Site/BlockLayout/Fallback.php:37
 msgid "This layout is invalid."
 msgstr "Cette disposition n’est pas valide."
 
@@ -338,116 +350,190 @@ msgstr "Afficher le titre de la pièce jointe"
 msgid "Thumbnail type"
 msgstr "Type de vignette"
 
+#: application/src/View/Helper/CancelButton.php:14
+#: application/view/omeka/admin/vocabulary/update.phtml:22
+msgid "Cancel"
+msgstr "Annuler"
+
 #: application/src/View/Helper/SearchFilters.php:32
-#: application/view/common/advanced-search/properties.phtml:63
+#: application/view/common/advanced-search/properties.phtml:64
 msgid "is exactly"
 msgstr "est exactement"
 
 #: application/src/View/Helper/SearchFilters.php:33
-#: application/view/common/advanced-search/properties.phtml:64
+#: application/view/common/advanced-search/properties.phtml:65
 msgid "is not exactly"
 msgstr "n’est pas exactement"
 
 #: application/src/View/Helper/SearchFilters.php:34
-#: application/view/common/advanced-search/properties.phtml:65
+#: application/view/common/advanced-search/properties.phtml:66
 msgid "contains"
 msgstr "contient"
 
 #: application/src/View/Helper/SearchFilters.php:35
-#: application/view/common/advanced-search/properties.phtml:66
+#: application/view/common/advanced-search/properties.phtml:67
 msgid "does not contain"
 msgstr "ne contient pas"
 
 #: application/src/View/Helper/SearchFilters.php:36
-#: application/view/common/advanced-search/properties.phtml:67
+#: application/view/common/advanced-search/properties.phtml:68
 msgid "is resource with ID"
 msgstr "est la ressource avec l'ID"
 
 #: application/src/View/Helper/SearchFilters.php:37
-#: application/view/common/advanced-search/properties.phtml:68
+#: application/view/common/advanced-search/properties.phtml:69
 msgid "is not resource with ID"
 msgstr "n'est pas la ressource avec l'ID"
 
 #: application/src/View/Helper/SearchFilters.php:38
-#: application/view/common/advanced-search/properties.phtml:69
+#: application/view/common/advanced-search/properties.phtml:70
 msgid "has any value"
 msgstr "a une valeur quelconque"
 
 #: application/src/View/Helper/SearchFilters.php:39
-#: application/view/common/advanced-search/properties.phtml:70
+#: application/view/common/advanced-search/properties.phtml:71
 msgid "has no values"
 msgstr "n’a pas de valeur"
 
-#: application/src/View/Helper/SearchFilters.php:47
-msgid "Resource class"
-msgstr "Classe de resource"
+#: application/src/View/Helper/SearchFilters.php:54
+#: application/view/common/linked-resources.phtml:32
+#: application/view/omeka/admin/item-set/browse.phtml:15
+#: application/view/omeka/admin/item-set/browse.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:40
+#: application/view/omeka/admin/item/browse.phtml:15
+#: application/view/omeka/admin/item/browse.phtml:73
+#: application/view/omeka/admin/item/show.phtml:28
+#: application/view/omeka/admin/job/browse.phtml:10
+#: application/view/omeka/admin/job/browse.phtml:37
+#: application/view/omeka/admin/job/show.phtml:40
+#: application/view/omeka/admin/media/browse.phtml:17
+#: application/view/omeka/admin/media/browse.phtml:81
+#: application/view/omeka/admin/media/show.phtml:23
+#: application/view/omeka/admin/resource-template/browse.phtml:10
+#: application/view/omeka/admin/resource-template/browse.phtml:43
+#: application/view/omeka/admin/resource-template/review-import.phtml:24
+#: application/view/omeka/admin/resource-template/show.phtml:17
+#: application/view/omeka/site/item-set/browse.phtml:16
+#: application/view/omeka/site/item/browse.phtml:24
+msgid "Class"
+msgstr "Classe"
 
-#: application/src/View/Helper/SearchFilters.php:88
+#: application/src/View/Helper/SearchFilters.php:58
+msgid "Unknown class"
+msgstr "Classe inconnue"
+
+#: application/src/View/Helper/SearchFilters.php:96
 msgid "Unknown property"
 msgstr "Propriété inconnue"
 
-#: application/src/View/Helper/SearchFilters.php:91
+#: application/src/View/Helper/SearchFilters.php:99
 msgid "[Any property]"
 msgstr "[N’importe quelle propriété]"
 
-#: application/src/View/Helper/SearchFilters.php:99
+#: application/src/View/Helper/SearchFilters.php:107
 #: application/view/common/advanced-search/properties.phtml:49
 msgid "OR"
 msgstr "OU"
 
-#: application/src/View/Helper/SearchFilters.php:101
+#: application/src/View/Helper/SearchFilters.php:109
 #: application/view/common/advanced-search/properties.phtml:48
 msgid "AND"
 msgstr "ET"
 
-#: application/src/View/Helper/SearchFilters.php:110
+#: application/src/View/Helper/SearchFilters.php:118
 #: application/view/common/search-form.phtml:6
 #: application/view/common/search-form.phtml:7
 #: application/view/layout/layout-admin.phtml:60
-#: application/view/omeka/admin/item-set/search.phtml:11
+#: application/view/omeka/admin/item-set/search.phtml:12
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:11
-#: application/view/omeka/admin/item/search.phtml:11
+#: application/view/omeka/admin/item/search.phtml:12
 #: application/view/omeka/admin/item/sidebar-select.phtml:13
-#: application/view/omeka/admin/media/search.phtml:11
+#: application/view/omeka/admin/media/search.phtml:12
 #: application/view/omeka/admin/media/sidebar-select.phtml:11
+#: application/view/omeka/admin/user/search.phtml:12
 #: application/view/omeka/site/item-set/search.phtml:12
 #: application/view/omeka/site/item/search.phtml:12
 msgid "Search"
 msgstr "Recherche"
 
-#: application/src/View/Helper/SearchFilters.php:116
-msgid "Resource template"
-msgstr "Modèle de ressource"
+#: application/src/View/Helper/SearchFilters.php:131
+msgid "Template"
+msgstr "Modèle"
 
-#: application/src/View/Helper/SearchFilters.php:120
-msgid "Unknown resource template"
-msgstr "Modèle de ressource inconnu"
+#: application/src/View/Helper/SearchFilters.php:135
+msgid "Unknown template"
+msgstr "Modèle inconnu"
 
-#: application/src/View/Helper/SearchFilters.php:134
-#: application/view/omeka/site/item/browse.phtml:16
+#: application/src/View/Helper/SearchFilters.php:150
+#: application/view/omeka/site/item/browse.phtml:36
 msgid "Item set"
 msgstr "Collection"
 
-#: application/src/View/Helper/SearchFilters.php:138
+#: application/src/View/Helper/SearchFilters.php:154
 msgid "Unknown item set"
 msgstr "Collection inconnue"
 
-#: application/src/View/Helper/SearchFilters.php:146
-#: application/view/omeka/site-admin/index/users.phtml:28
+#: application/src/View/Helper/SearchFilters.php:162
+#: application/view/omeka/site-admin/index/users.phtml:29
 msgid "User"
 msgstr "Utilisateur"
 
-#: application/src/View/Helper/SearchFilters.php:150
+#: application/src/View/Helper/SearchFilters.php:166
 msgid "Unknown user"
 msgstr "Utilisateur inconnu"
 
-#: application/src/View/Helper/SearchFilters.php:156
+#: application/src/View/Helper/SearchFilters.php:172
 msgid "Site"
 msgstr "Site"
 
-#: application/src/View/Helper/SearchFilters.php:160
+#: application/src/View/Helper/SearchFilters.php:176
+#: application/src/View/Helper/SearchUserFilters.php:75
 msgid "Unknown site"
 msgstr "Site inconnu"
+
+#: application/src/View/Helper/SearchUserFilters.php:49
+#: application/view/omeka/admin/user/browse.phtml:10
+#: application/view/omeka/admin/user/browse.phtml:79
+#: application/view/omeka/admin/user/show.phtml:17
+msgid "Email"
+msgstr "Email"
+
+#: application/src/View/Helper/SearchUserFilters.php:54
+msgid "Name"
+msgstr "Nom"
+
+#: application/src/View/Helper/SearchUserFilters.php:59
+#: application/view/omeka/admin/user/browse.phtml:14
+#: application/view/omeka/admin/user/browse.phtml:81
+#: application/view/omeka/admin/user/show.phtml:29
+#: application/view/omeka/site-admin/index/users.phtml:30
+#: application/view/omeka/site-admin/index/users.phtml:46
+msgid "Role"
+msgstr "Rôle"
+
+#: application/src/View/Helper/SearchUserFilters.php:62
+msgid "Unknown role"
+msgstr "Rôle inconnu"
+
+#: application/src/View/Helper/SearchUserFilters.php:66
+#: application/view/omeka/admin/user/show.phtml:35
+msgid "Is active"
+msgstr "Est actif"
+
+#: application/src/View/Helper/SearchUserFilters.php:67
+#: application/view/omeka/admin/user/show.phtml:37
+msgid "yes"
+msgstr "oui"
+
+#: application/src/View/Helper/SearchUserFilters.php:67
+#: application/view/omeka/admin/user/show.phtml:37
+msgid "no"
+msgstr "non"
+
+#: application/src/View/Helper/SearchUserFilters.php:71
+#: application/view/common/advanced-search/users.phtml:53
+msgid "Has permission in site"
+msgstr "A des droits dans le site"
 
 #: application/src/View/Helper/UploadLimit.php:26
 #, php-format
@@ -459,6 +545,8 @@ msgid "Search by item set"
 msgstr "Recherche par collection"
 
 #: application/view/common/advanced-search/item-sets.phtml:15
+#: application/view/common/advanced-search/resource-class.phtml:15
+#: application/view/common/advanced-search/resource-template.phtml:15
 #: application/view/common/form-row.phtml:14
 #: application/view/omeka/admin/item/sidebar-select.phtml:17
 msgid "Expand"
@@ -468,8 +556,10 @@ msgstr "Développé"
 msgid "Searches for items that are assigned to any of these item sets."
 msgstr "Recherche les contenus affectés à l’une de ces collections."
 
-#: application/view/common/advanced-search/item-sets.phtml:30
-#: application/view/common/advanced-search/properties.phtml:73
+#: application/view/common/advanced-search/item-sets.phtml:33
+#: application/view/common/advanced-search/properties.phtml:74
+#: application/view/common/advanced-search/resource-class.phtml:30
+#: application/view/common/advanced-search/resource-template.phtml:30
 #: application/view/common/block-layout.phtml:11
 #: application/view/common/data-type-wrapper.phtml:11
 #: application/view/common/media-field-wrapper.phtml:10
@@ -477,15 +567,15 @@ msgstr "Recherche les contenus affectés à l’une de ces collections."
 msgid "Remove value"
 msgstr "Supprimer la valeur"
 
-#: application/view/common/advanced-search/item-sets.phtml:33
+#: application/view/common/advanced-search/item-sets.phtml:36
 #: application/view/omeka/admin/index/browse.phtml:22
-#: application/view/omeka/admin/item-set/browse.phtml:37
+#: application/view/omeka/admin/item-set/browse.phtml:42
 msgid "Add new item set"
 msgstr "Ajouter une nouvelle collection"
 
 #: application/view/common/advanced-search/properties.phtml:32
 msgid "Query text"
-msgstr ""
+msgstr "Valeur de la requête"
 
 #: application/view/common/advanced-search/properties.phtml:38
 msgid "Search by value"
@@ -493,33 +583,69 @@ msgstr "Rechercher par valeur"
 
 #: application/view/common/advanced-search/properties.phtml:56
 msgid "Property"
-msgstr ""
+msgstr "Propriété"
 
-#: application/view/common/advanced-search/properties.phtml:62
+#: application/view/common/advanced-search/properties.phtml:63
 msgid "Query type"
-msgstr ""
+msgstr "Type de requête"
 
-#: application/view/common/advanced-search/properties.phtml:79
+#: application/view/common/advanced-search/properties.phtml:80
 msgid "Add new value"
 msgstr "Ajouter une nouvelle valeur"
 
-#: application/view/common/advanced-search/resource-class.phtml:12
+#: application/view/common/advanced-search/resource-class.phtml:14
 msgid "Search by class"
 msgstr "Rechercher par classe"
+
+#: application/view/common/advanced-search/resource-class.phtml:17
+msgid "Searches for items that are any of these classes."
+msgstr "Rechercher les contenus de l’une de ces classes"
+
+#: application/view/common/advanced-search/resource-class.phtml:33
+msgid "Add new class"
+msgstr "Ajouter une nouvelle classe"
+
+#: application/view/common/advanced-search/resource-template.phtml:14
+msgid "Search by template"
+msgstr "Recherche par modèle"
+
+#: application/view/common/advanced-search/resource-template.phtml:17
+msgid "Searches for items that use any of these templates."
+msgstr "Recherche les contenus utilisant l’un de ces modèles."
+
+#: application/view/common/advanced-search/resource-template.phtml:33
+msgid "Add new template"
+msgstr "Ajouter un nouveau modèle"
 
 #: application/view/common/advanced-search/site-pool.phtml:11
 msgid "In site pool"
 msgstr "Dans le réservoir du site"
 
-#: application/view/common/asset-form.phtml:23
+#: application/view/common/advanced-search/users.phtml:17
+msgid "Search by email"
+msgstr "Recherche par mail"
+
+#: application/view/common/advanced-search/users.phtml:25
+msgid "Search by name"
+msgstr "Recherche par nom"
+
+#: application/view/common/advanced-search/users.phtml:33
+msgid "Search by role"
+msgstr "Recherche par rôle"
+
+#: application/view/common/advanced-search/users.phtml:44
+msgid "Search by activity"
+msgstr "Recherche par activité"
+
+#: application/view/common/asset-form.phtml:33
 msgid "[No asset selected]"
 msgstr "[Aucun actif sélectionné]"
 
-#: application/view/common/asset-form.phtml:29
+#: application/view/common/asset-form.phtml:36
 msgid "Select"
-msgstr "Sélectionner"
+msgstr "Choisir"
 
-#: application/view/common/asset-form.phtml:34
+#: application/view/common/asset-form.phtml:39
 msgid "Clear"
 msgstr "Retirer"
 
@@ -558,7 +684,7 @@ msgstr "Bloc à supprimer"
 #: application/view/common/block-layout.phtml:12
 #: application/view/common/data-type-wrapper.phtml:12
 #: application/view/omeka/admin/item/manage-media.phtml:52
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:37
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:38
 msgid "Restore value"
 msgstr "Valeur à rétablir"
 
@@ -566,23 +692,33 @@ msgstr "Valeur à rétablir"
 #: application/view/common/data-type/resource.phtml:28
 #: application/view/layout/layout-admin.phtml:70
 #: application/view/omeka/admin/item-set/add.phtml:5
-#: application/view/omeka/admin/item-set/browse.phtml:24
+#: application/view/omeka/admin/item-set/browse.phtml:29
 #: application/view/omeka/admin/item-set/edit.phtml:13
 #: application/view/omeka/admin/item-set/search.phtml:4
-#: application/view/omeka/admin/item-set/show.phtml:25
+#: application/view/omeka/admin/item-set/show.phtml:26
 #: application/view/omeka/admin/item/form.phtml:14
 #: application/view/omeka/admin/item/show-details.phtml:18
-#: application/view/omeka/admin/item/show.phtml:60
-#: application/view/omeka/admin/user/show-details.phtml:9
+#: application/view/omeka/admin/item/show.phtml:61
+#: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:23
-#: application/view/omeka/site/item-set/browse.phtml:4
-#: application/view/omeka/site/item/show.phtml:23
+#: application/view/omeka/site/item-set/browse.phtml:26
+#: application/view/omeka/site/item/show.phtml:24
 msgid "Item sets"
 msgstr "Collections"
 
 #: application/view/common/data-type-wrapper.phtml:9
 msgid "Value to be removed"
 msgstr "Valeur à supprimer"
+
+#: application/view/common/data-type-wrapper.phtml:14
+#: application/view/common/media-field-wrapper.phtml:6
+#: application/view/omeka/admin/item-set/form.phtml:40
+#: application/view/omeka/admin/item/form.phtml:42
+#: application/view/omeka/admin/item/manage-media.phtml:30
+#: application/view/omeka/admin/media/edit.phtml:51
+#: application/view/omeka/site-admin/index/edit.phtml:14
+msgid "Make private"
+msgstr "Privatiser"
 
 #: application/view/common/data-type/literal.phtml:1
 msgid "Set language"
@@ -599,20 +735,20 @@ msgstr "Pas de ressource sélectionnée"
 #: application/view/common/data-type/resource.phtml:21
 #: application/view/layout/layout-admin.phtml:66
 #: application/view/omeka/admin/item-set/show-details.phtml:15
-#: application/view/omeka/admin/item-set/show.phtml:78
+#: application/view/omeka/admin/item-set/show.phtml:79
 #: application/view/omeka/admin/item/add.phtml:5
-#: application/view/omeka/admin/item/browse.phtml:24
+#: application/view/omeka/admin/item/browse.phtml:29
 #: application/view/omeka/admin/item/edit.phtml:13
 #: application/view/omeka/admin/item/search.phtml:4
-#: application/view/omeka/admin/item/show.phtml:15
+#: application/view/omeka/admin/item/show.phtml:16
 #: application/view/omeka/admin/resource-template/browse.phtml:18
 #: application/view/omeka/admin/resource-template/browse.phtml:45
-#: application/view/omeka/admin/user/show-details.phtml:4
+#: application/view/omeka/admin/user/show-details.phtml:12
 #: application/view/omeka/admin/vocabulary/classes.phtml:14
 #: application/view/omeka/admin/vocabulary/classes.phtml:38
 #: application/view/omeka/admin/vocabulary/properties.phtml:21
-#: application/view/omeka/site/item/browse.phtml:21
-#: application/view/omeka/site/item/browse.phtml:23
+#: application/view/omeka/site/item/browse.phtml:41
+#: application/view/omeka/site/item/browse.phtml:43
 msgid "Items"
 msgstr "Contenus"
 
@@ -620,12 +756,12 @@ msgstr "Contenus"
 #: application/view/layout/layout-admin.phtml:74
 #: application/view/omeka/admin/item/form.phtml:13
 #: application/view/omeka/admin/item/show-details.phtml:26
-#: application/view/omeka/admin/item/show.phtml:76
-#: application/view/omeka/admin/media/browse.phtml:26
-#: application/view/omeka/admin/media/edit.phtml:14
-#: application/view/omeka/admin/media/edit.phtml:22
+#: application/view/omeka/admin/item/show.phtml:77
+#: application/view/omeka/admin/media/browse.phtml:31
+#: application/view/omeka/admin/media/edit.phtml:15
+#: application/view/omeka/admin/media/edit.phtml:23
 #: application/view/omeka/admin/media/search.phtml:4
-#: application/view/omeka/admin/media/show.phtml:10
+#: application/view/omeka/admin/media/show.phtml:11
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:31
 #: application/view/omeka/site/media/show.phtml:4
 msgid "Media"
@@ -644,8 +780,8 @@ msgstr "URI"
 #: application/view/common/property-form-batch-edit.phtml:40
 #: application/view/omeka/admin/resource-template/browse.phtml:6
 #: application/view/omeka/admin/resource-template/browse.phtml:42
-#: application/view/omeka/admin/resource-template/form.phtml:53
-#: application/view/omeka/admin/user/edit.phtml:36
+#: application/view/omeka/admin/resource-template/form.phtml:54
+#: application/view/omeka/admin/user/edit.phtml:37
 #: application/view/omeka/admin/vocabulary/browse.phtml:6
 #: application/view/omeka/admin/vocabulary/browse.phtml:42
 #: application/view/omeka/admin/vocabulary/classes.phtml:6
@@ -661,28 +797,30 @@ msgstr "Étiquette"
 #: application/view/common/resource-select-sidebar.phtml:9
 #: application/view/common/user-selector.phtml:2
 #: application/view/omeka/admin/asset/sidebar-select.phtml:6
-#: application/view/omeka/admin/item-set/browse.phtml:141
-#: application/view/omeka/admin/item-set/browse.phtml:148
-#: application/view/omeka/admin/item-set/browse.phtml:166
-#: application/view/omeka/admin/item/browse.phtml:139
-#: application/view/omeka/admin/item/browse.phtml:146
-#: application/view/omeka/admin/item/browse.phtml:164
+#: application/view/omeka/admin/item-set/browse.phtml:146
+#: application/view/omeka/admin/item-set/browse.phtml:153
+#: application/view/omeka/admin/item-set/browse.phtml:171
+#: application/view/omeka/admin/item/browse.phtml:144
+#: application/view/omeka/admin/item/browse.phtml:151
+#: application/view/omeka/admin/item/browse.phtml:169
 #: application/view/omeka/admin/item/manage-media.phtml:70
-#: application/view/omeka/admin/media/browse.phtml:149
-#: application/view/omeka/admin/media/browse.phtml:158
-#: application/view/omeka/admin/media/browse.phtml:176
+#: application/view/omeka/admin/media/browse.phtml:154
+#: application/view/omeka/admin/media/browse.phtml:163
+#: application/view/omeka/admin/media/browse.phtml:181
 #: application/view/omeka/admin/module/browse.phtml:158
 #: application/view/omeka/admin/resource-template/browse.phtml:99
-#: application/view/omeka/admin/resource-template/form.phtml:41
-#: application/view/omeka/admin/resource-template/form.phtml:50
-#: application/view/omeka/admin/resource-template/show.phtml:58
-#: application/view/omeka/admin/user/browse.phtml:83
+#: application/view/omeka/admin/resource-template/form.phtml:42
+#: application/view/omeka/admin/resource-template/form.phtml:51
+#: application/view/omeka/admin/resource-template/show.phtml:60
+#: application/view/omeka/admin/user/browse.phtml:136
+#: application/view/omeka/admin/user/browse.phtml:145
+#: application/view/omeka/admin/user/browse.phtml:163
 #: application/view/omeka/admin/vocabulary/browse.phtml:91
 #: application/view/omeka/admin/vocabulary/classes.phtml:68
 #: application/view/omeka/admin/vocabulary/properties.phtml:51
 #: application/view/omeka/site-admin/index/index.phtml:100
-#: application/view/omeka/site-admin/index/navigation.phtml:24
-#: application/view/omeka/site-admin/page/edit.phtml:36
+#: application/view/omeka/site-admin/index/navigation.phtml:25
+#: application/view/omeka/site-admin/page/edit.phtml:37
 #: application/view/omeka/site-admin/page/index.phtml:64
 msgid "Close"
 msgstr "Fermé"
@@ -708,7 +846,7 @@ msgstr "Filtre"
 
 #: application/view/common/form-row.phtml:18
 msgid "Learn more"
-msgstr ""
+msgstr "En savoir plus"
 
 #: application/view/common/item-set-selector.phtml:6
 msgid "Click on an item set to add it to the edit panel."
@@ -723,14 +861,14 @@ msgid "All item sets"
 msgstr "Toutes les collections"
 
 #: application/view/common/item-set-selector.phtml:16
-#: application/view/omeka/admin/item-set/browse.phtml:88
-#: application/view/omeka/admin/item-set/show.phtml:16
-#: application/view/omeka/admin/item/browse.phtml:86
+#: application/view/omeka/admin/item-set/browse.phtml:93
+#: application/view/omeka/admin/item-set/show.phtml:17
+#: application/view/omeka/admin/item/browse.phtml:91
 #: application/view/omeka/admin/item/manage-item-sets.phtml:20
-#: application/view/omeka/admin/item/show.phtml:7
+#: application/view/omeka/admin/item/show.phtml:8
 #: application/view/omeka/admin/job/browse.phtml:55
 #: application/view/omeka/admin/job/show.phtml:17
-#: application/view/omeka/admin/media/browse.phtml:96
+#: application/view/omeka/admin/media/browse.phtml:101
 #: application/view/omeka/admin/resource-template/browse.phtml:61
 #: application/view/omeka/site-admin/index/index.phtml:56
 msgid "[no owner]"
@@ -750,18 +888,20 @@ msgid "All"
 msgstr "Tout"
 
 #: application/view/common/linked-resources.phtml:30
-#: application/view/omeka/admin/item-set/browse.phtml:6
-#: application/view/omeka/admin/item-set/browse.phtml:68
-#: application/view/omeka/admin/item/browse.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:67
+#: application/view/omeka/admin/item-set/browse.phtml:7
+#: application/view/omeka/admin/item-set/browse.phtml:73
+#: application/view/omeka/admin/item/browse.phtml:7
+#: application/view/omeka/admin/item/browse.phtml:72
 #: application/view/omeka/admin/item/manage-item-sets.phtml:8
-#: application/view/omeka/admin/media/browse.phtml:8
-#: application/view/omeka/admin/media/browse.phtml:74
+#: application/view/omeka/admin/media/browse.phtml:9
+#: application/view/omeka/admin/media/browse.phtml:79
 #: application/view/omeka/site-admin/index/index.phtml:6
 #: application/view/omeka/site-admin/index/index.phtml:38
-#: application/view/omeka/site-admin/index/resources.phtml:60
+#: application/view/omeka/site-admin/index/resources.phtml:61
 #: application/view/omeka/site-admin/index/show.phtml:27
 #: application/view/omeka/site-admin/page/index.phtml:17
+#: application/view/omeka/site/item-set/browse.phtml:8
+#: application/view/omeka/site/item/browse.phtml:16
 msgid "Title"
 msgstr "Titre"
 
@@ -770,35 +910,6 @@ msgstr "Titre"
 #: application/view/omeka/admin/resource-template/show.phtml:27
 msgid "Alternate label"
 msgstr "Label alternatif"
-
-#: application/view/common/linked-resources.phtml:32
-#: application/view/omeka/admin/item-set/browse.phtml:10
-#: application/view/omeka/admin/item-set/browse.phtml:70
-#: application/view/omeka/admin/item-set/show.phtml:39
-#: application/view/omeka/admin/item/browse.phtml:10
-#: application/view/omeka/admin/item/browse.phtml:68
-#: application/view/omeka/admin/item/show.phtml:27
-#: application/view/omeka/admin/job/browse.phtml:10
-#: application/view/omeka/admin/job/browse.phtml:37
-#: application/view/omeka/admin/job/show.phtml:40
-#: application/view/omeka/admin/media/browse.phtml:12
-#: application/view/omeka/admin/media/browse.phtml:76
-#: application/view/omeka/admin/media/show.phtml:22
-#: application/view/omeka/admin/resource-template/browse.phtml:10
-#: application/view/omeka/admin/resource-template/browse.phtml:43
-#: application/view/omeka/admin/resource-template/review-import.phtml:24
-#: application/view/omeka/admin/resource-template/show.phtml:17
-msgid "Class"
-msgstr "Classe"
-
-#: application/view/common/media-field-wrapper.phtml:6
-#: application/view/omeka/admin/item-set/form.phtml:39
-#: application/view/omeka/admin/item/form.phtml:41
-#: application/view/omeka/admin/item/manage-media.phtml:30
-#: application/view/omeka/admin/media/edit.phtml:50
-#: application/view/omeka/site-admin/index/edit.phtml:14
-msgid "Make private"
-msgstr "Privatiser"
 
 #: application/view/common/navigation-link-form/browse.phtml:6
 #: application/view/common/navigation-link-form/page.phtml:12
@@ -848,7 +959,7 @@ msgstr "0 résultats"
 
 #: application/view/common/property-form-batch-edit.phtml:6
 msgid "Select property"
-msgstr "Sélectionner la propriété"
+msgstr "Choisir la propriété"
 
 #: application/view/common/property-form-batch-edit.phtml:11
 #: application/view/common/property-form-batch-edit.phtml:52
@@ -883,15 +994,25 @@ msgstr "Cliquez sur une propriété pour l’ajouter au panneau de modification.
 msgid "Filter properties"
 msgstr "Propriétés du filtre"
 
-#: application/view/common/resource-fields.phtml:28
-#: application/view/omeka/admin/resource-template/form.phtml:30
+#: application/view/common/resource-fields.phtml:32
+#: application/view/omeka/admin/resource-template/form.phtml:31
 msgid "Add property"
 msgstr "Ajouter une propriété"
+
+#: application/view/common/resource-fields.phtml:39
+msgid ""
+"Omeka S automatically selects a thumbnail from among attached media for a "
+"resource. You may use an image of your choice instead by choosing an asset "
+"here."
+msgstr ""
+"Omeka S choisit automatiquement une vignette parmi les médias attachés à la "
+"ressource. Vous pouvez utiliser une autre image en la sélectionnant ici "
+"parmi les fichiers."
 
 #: application/view/common/resource-form-templates.phtml:9
 #: application/view/omeka/admin/item/sidebar-select.phtml:17
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:34
-#: application/view/omeka/site-admin/page/edit.phtml:42
+#: application/view/omeka/site-admin/page/edit.phtml:43
 msgid "Collapse"
 msgstr "Échec"
 
@@ -901,7 +1022,7 @@ msgstr "Terme de propriété pour l’utilisation du développement"
 
 #: application/view/common/resource-form-templates.phtml:17
 msgid "Select the first value type."
-msgstr "Sélectionnez le premier type de valeur."
+msgstr "Choisissez le premier type de valeur."
 
 #: application/view/common/resource-form-templates.phtml:20
 #: application/view/common/resource-form-templates.phtml:26
@@ -919,7 +1040,7 @@ msgstr "Ressource Omeka"
 
 #: application/view/common/resource-select-sidebar.phtml:17
 msgid "Select resource"
-msgstr "Sélectionner une ressource"
+msgstr "Choisir une ressource"
 
 #: application/view/common/site-page-pagination.phtml:2
 msgid "Prev"
@@ -940,11 +1061,11 @@ msgstr "Trier par %s"
 
 #: application/view/common/sort-selector.phtml:4
 msgid "Sort by"
-msgstr ""
+msgstr "Trier par"
 
 #: application/view/common/sort-selector.phtml:10
 msgid "Sort order"
-msgstr ""
+msgstr "Ordre de tri"
 
 #: application/view/common/sort-selector.phtml:11
 msgid "Ascending"
@@ -975,7 +1096,7 @@ msgstr "Se connecter"
 
 #: application/view/common/user-selector.phtml:7
 msgid "Click on a user to add it to the edit panel."
-msgstr ""
+msgstr "Cliquez sur un utilisateur pour l’ajouter au panneau de modification."
 
 #: application/view/common/user-selector.phtml:10
 msgid "Filter users"
@@ -984,7 +1105,7 @@ msgstr "Filtrer les utilisateurs"
 #: application/view/common/user-selector.phtml:12
 #, php-format
 msgid "All users (%s)"
-msgstr ""
+msgstr "Tous les utilisateurs (%s)"
 
 #: application/view/common/version-notification.phtml:5
 #, php-format
@@ -993,7 +1114,7 @@ msgstr "Une nouvelle version Omeka S est disponible. %s"
 
 #: application/view/common/version-notification.phtml:9
 #: application/view/omeka/admin/module/browse.phtml:61
-#: application/view/omeka/site-admin/index/theme.phtml:51
+#: application/view/omeka/site-admin/index/theme.phtml:52
 msgid "Get the new version."
 msgstr "Obtenir la nouvelle version"
 
@@ -1079,7 +1200,7 @@ msgstr "Omeka S"
 #: application/view/layout/layout-admin.phtml:109
 #: application/view/omeka/admin/module/browse.phtml:38
 #: application/view/omeka/site-admin/index/theme-selector.phtml:36
-#: application/view/omeka/site-admin/index/theme.phtml:33
+#: application/view/omeka/site-admin/index/theme.phtml:34
 #, php-format
 msgid "version %s"
 msgstr "version %s"
@@ -1091,11 +1212,11 @@ msgstr "Informations sur le système"
 
 #: application/view/layout/layout-admin.phtml:111
 msgid "User manual"
-msgstr ""
+msgstr "Manuel d’utilisation"
 
 #: application/view/layout/layout-admin.phtml:112
 msgid "Support forums"
-msgstr ""
+msgstr "Forums de soutien"
 
 #: application/view/layout/layout.phtml:28
 msgid "Powered by Omeka S"
@@ -1111,34 +1232,38 @@ msgstr "Charger"
 
 #: application/view/omeka/admin/asset/sidebar-select.phtml:17
 msgid "Select asset"
-msgstr "Sélectionner un élément"
+msgstr "Choisir un élément"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:28
+#: application/view/omeka/admin/asset/sidebar-select.phtml:26
+msgid "No owner"
+msgstr "Pas de propriétaire"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:49
 msgid "Delete asset"
 msgstr "Supprimer un élément"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:32
+#: application/view/omeka/admin/asset/sidebar-select.phtml:53
 msgid "Cancel delete"
 msgstr "Annuler la suppression"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:52
+#: application/view/omeka/admin/asset/sidebar-select.phtml:73
 msgid "assets"
 msgstr "ressources"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:57
+#: application/view/omeka/admin/asset/sidebar-select.phtml:78
 msgid ""
 "Are you sure you want to delete this asset? It will no longer be available "
-"to any sites currently using it."
+"to any resources currently using it."
 msgstr ""
-"Êtes-vous sûr de vouloir supprimer cette ressource ? Elle ne sera plus "
-"disponible sur tous les sites qui l’utiliseraient actuellement."
+"Êtes-vous sûr de vouloir supprimer ce fichier ? Il ne sera plus disponible "
+"pour les ressources qui l’utilisent."
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:58
+#: application/view/omeka/admin/asset/sidebar-select.phtml:79
 msgid "Confirm delete"
 msgstr "Confirmer la suppression"
 
 #: application/view/omeka/admin/index/browse.phtml:3
-#: application/view/omeka/index/index.phtml:21
+#: application/view/omeka/index/index.phtml:24
 msgid "Admin dashboard"
 msgstr "Tableau de bord"
 
@@ -1157,7 +1282,7 @@ msgid "Items (%s)"
 msgstr "Contenus (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:16
-#: application/view/omeka/admin/item/browse.phtml:36
+#: application/view/omeka/admin/item/browse.phtml:41
 msgid "Add new item"
 msgstr "Ajouter un nouveau contenu"
 
@@ -1191,14 +1316,14 @@ msgid "Manage sites"
 msgstr "Gérer les sites"
 
 #: application/view/omeka/admin/index/browse.phtml:47
-#: application/view/omeka/admin/item-set/browse.phtml:104
+#: application/view/omeka/admin/item-set/browse.phtml:109
 #: application/view/omeka/admin/item-set/edit.phtml:13
-#: application/view/omeka/admin/item/browse.phtml:102
+#: application/view/omeka/admin/item/browse.phtml:107
 #: application/view/omeka/admin/item/edit.phtml:13
 #: application/view/omeka/admin/item/manage-media.phtml:43
-#: application/view/omeka/admin/media/browse.phtml:112
+#: application/view/omeka/admin/media/browse.phtml:117
 #: application/view/omeka/admin/resource-template/browse.phtml:71
-#: application/view/omeka/admin/user/browse.phtml:51
+#: application/view/omeka/admin/user/browse.phtml:102
 #: application/view/omeka/admin/user/edit.phtml:13
 #: application/view/omeka/admin/vocabulary/browse.phtml:58
 #: application/view/omeka/admin/vocabulary/edit.phtml:6
@@ -1223,25 +1348,26 @@ msgstr "Modification multiple de collections"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:18
 #: application/view/omeka/admin/item-set/edit.phtml:19
-#: application/view/omeka/admin/item-set/form.phtml:51
+#: application/view/omeka/admin/item-set/form.phtml:53
 #: application/view/omeka/admin/item/batch-edit.phtml:18
 #: application/view/omeka/admin/item/edit.phtml:21
 #: application/view/omeka/admin/media/batch-edit.phtml:20
-#: application/view/omeka/admin/media/edit.phtml:63
+#: application/view/omeka/admin/media/edit.phtml:65
 #: application/view/omeka/admin/resource-template/edit.phtml:12
 #: application/view/omeka/admin/setting/browse.phtml:10
-#: application/view/omeka/admin/user/edit.phtml:17
-#: application/view/omeka/admin/vocabulary/edit.phtml:11
+#: application/view/omeka/admin/user/batch-edit.phtml:19
+#: application/view/omeka/admin/user/edit.phtml:18
+#: application/view/omeka/admin/vocabulary/edit.phtml:12
 #: application/view/omeka/site-admin/index/edit.phtml:28
-#: application/view/omeka/site-admin/index/navigation.phtml:15
-#: application/view/omeka/site-admin/index/resources.phtml:30
-#: application/view/omeka/site-admin/index/settings.phtml:8
+#: application/view/omeka/site-admin/index/navigation.phtml:16
+#: application/view/omeka/site-admin/index/resources.phtml:31
+#: application/view/omeka/site-admin/index/settings.phtml:9
 #: application/view/omeka/site-admin/index/theme-settings.phtml:10
-#: application/view/omeka/site-admin/index/theme.phtml:16
-#: application/view/omeka/site-admin/index/users.phtml:21
-#: application/view/omeka/site-admin/page/edit.phtml:16
+#: application/view/omeka/site-admin/index/theme.phtml:17
+#: application/view/omeka/site-admin/index/users.phtml:22
+#: application/view/omeka/site-admin/page/edit.phtml:17
 msgid "Save"
-msgstr "Sauvegarder"
+msgstr "Enregistrer"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:26
 msgid "Affected item sets"
@@ -1257,169 +1383,193 @@ msgstr "Vous modifiez les %s collections suivantes :"
 msgid "You are editing %s item sets."
 msgstr "Vous modifiez%s collections."
 
-#: application/view/omeka/admin/item-set/browse.phtml:14
-#: application/view/omeka/admin/item-set/browse.phtml:71
-#: application/view/omeka/admin/item-set/show.phtml:69
-#: application/view/omeka/admin/item/browse.phtml:14
-#: application/view/omeka/admin/item/browse.phtml:69
+#: application/view/omeka/admin/item-set/browse.phtml:11
+#: application/view/omeka/admin/item/browse.phtml:11
+#: application/view/omeka/admin/media/browse.phtml:13
+#: application/view/omeka/site/item-set/browse.phtml:12
+#: application/view/omeka/site/item/browse.phtml:20
+msgid "Identifier"
+msgstr "Identifiant"
+
+#: application/view/omeka/admin/item-set/browse.phtml:19
+#: application/view/omeka/admin/item-set/browse.phtml:76
+#: application/view/omeka/admin/item-set/show.phtml:70
+#: application/view/omeka/admin/item/browse.phtml:19
+#: application/view/omeka/admin/item/browse.phtml:74
 #: application/view/omeka/admin/item/manage-item-sets.phtml:9
-#: application/view/omeka/admin/item/show.phtml:71
+#: application/view/omeka/admin/item/show.phtml:72
 #: application/view/omeka/admin/job/browse.phtml:18
 #: application/view/omeka/admin/job/browse.phtml:39
 #: application/view/omeka/admin/job/show.phtml:44
-#: application/view/omeka/admin/media/browse.phtml:16
-#: application/view/omeka/admin/media/browse.phtml:77
+#: application/view/omeka/admin/media/browse.phtml:21
+#: application/view/omeka/admin/media/browse.phtml:82
 #: application/view/omeka/admin/resource-template/browse.phtml:14
 #: application/view/omeka/admin/resource-template/browse.phtml:44
 #: application/view/omeka/site-admin/index/index.phtml:14
 #: application/view/omeka/site-admin/index/index.phtml:40
-#: application/view/omeka/site-admin/index/resources.phtml:61
+#: application/view/omeka/site-admin/index/resources.phtml:62
 msgid "Owner"
 msgstr "Propriétaire"
 
-#: application/view/omeka/admin/item-set/browse.phtml:18
-#: application/view/omeka/admin/item-set/browse.phtml:72
-#: application/view/omeka/admin/item-set/show.phtml:65
-#: application/view/omeka/admin/item/browse.phtml:18
-#: application/view/omeka/admin/item/browse.phtml:70
-#: application/view/omeka/admin/item/show.phtml:67
-#: application/view/omeka/admin/media/browse.phtml:20
-#: application/view/omeka/admin/media/browse.phtml:78
-#: application/view/omeka/admin/media/show.phtml:40
-#: application/view/omeka/admin/user/browse.phtml:14
-#: application/view/omeka/admin/user/browse.phtml:39
+#: application/view/omeka/admin/item-set/browse.phtml:23
+#: application/view/omeka/admin/item-set/browse.phtml:77
+#: application/view/omeka/admin/item-set/show.phtml:66
+#: application/view/omeka/admin/item/browse.phtml:23
+#: application/view/omeka/admin/item/browse.phtml:75
+#: application/view/omeka/admin/item/show.phtml:68
+#: application/view/omeka/admin/media/browse.phtml:25
+#: application/view/omeka/admin/media/browse.phtml:83
+#: application/view/omeka/admin/media/show.phtml:41
+#: application/view/omeka/admin/user/browse.phtml:18
+#: application/view/omeka/admin/user/browse.phtml:82
+#: application/view/omeka/site/item-set/browse.phtml:20
+#: application/view/omeka/site/item/browse.phtml:28
 msgid "Created"
 msgstr "Créé"
 
-#: application/view/omeka/admin/item-set/browse.phtml:30
+#: application/view/omeka/admin/item-set/browse.phtml:35
 #: application/view/omeka/admin/item-set/search.phtml:4
-#: application/view/omeka/admin/item/browse.phtml:30
+#: application/view/omeka/admin/item/browse.phtml:35
 #: application/view/omeka/admin/item/search.phtml:4
-#: application/view/omeka/admin/media/browse.phtml:32
+#: application/view/omeka/admin/media/browse.phtml:37
 #: application/view/omeka/admin/media/search.phtml:4
-#: application/view/omeka/site/item-set/browse.phtml:7
-#: application/view/omeka/site/item/browse.phtml:27
+#: application/view/omeka/admin/user/browse.phtml:30
+#: application/view/omeka/admin/user/search.phtml:5
+#: application/view/omeka/site/item-set/browse.phtml:32
+#: application/view/omeka/site/item/browse.phtml:50
 msgid "Advanced search"
 msgstr "Recherche avancée"
 
-#: application/view/omeka/admin/item-set/browse.phtml:46
-#: application/view/omeka/admin/item-set/browse.phtml:47
-#: application/view/omeka/admin/item/browse.phtml:45
-#: application/view/omeka/admin/item/browse.phtml:46
-#: application/view/omeka/admin/media/browse.phtml:41
-#: application/view/omeka/admin/media/browse.phtml:42
+#: application/view/omeka/admin/item-set/browse.phtml:51
+#: application/view/omeka/admin/item-set/browse.phtml:52
+#: application/view/omeka/admin/item/browse.phtml:50
+#: application/view/omeka/admin/item/browse.phtml:51
+#: application/view/omeka/admin/media/browse.phtml:46
+#: application/view/omeka/admin/media/browse.phtml:47
+#: application/view/omeka/admin/user/browse.phtml:46
+#: application/view/omeka/admin/user/browse.phtml:47
 msgid "Batch actions"
 msgstr "Traitement en lot"
 
-#: application/view/omeka/admin/item-set/browse.phtml:48
-#: application/view/omeka/admin/item/browse.phtml:47
-#: application/view/omeka/admin/media/browse.phtml:44
+#: application/view/omeka/admin/item-set/browse.phtml:53
+#: application/view/omeka/admin/item/browse.phtml:52
+#: application/view/omeka/admin/media/browse.phtml:49
+#: application/view/omeka/admin/user/browse.phtml:49
 msgid "Edit selected"
 msgstr "Modifier sélectionnés"
 
-#: application/view/omeka/admin/item-set/browse.phtml:49
-#: application/view/omeka/admin/item/browse.phtml:48
-#: application/view/omeka/admin/media/browse.phtml:45
+#: application/view/omeka/admin/item-set/browse.phtml:54
+#: application/view/omeka/admin/item/browse.phtml:53
+#: application/view/omeka/admin/media/browse.phtml:50
+#: application/view/omeka/admin/user/browse.phtml:50
 msgid "Edit all"
 msgstr "Modifier tout"
 
-#: application/view/omeka/admin/item-set/browse.phtml:50
-#: application/view/omeka/admin/item/browse.phtml:49
-#: application/view/omeka/admin/media/browse.phtml:48
+#: application/view/omeka/admin/item-set/browse.phtml:55
+#: application/view/omeka/admin/item/browse.phtml:54
+#: application/view/omeka/admin/media/browse.phtml:53
+#: application/view/omeka/admin/user/browse.phtml:53
 msgid "Delete selected"
 msgstr "Supprimer sélectionnés"
 
-#: application/view/omeka/admin/item-set/browse.phtml:51
-#: application/view/omeka/admin/item/browse.phtml:50
-#: application/view/omeka/admin/media/browse.phtml:49
+#: application/view/omeka/admin/item-set/browse.phtml:56
+#: application/view/omeka/admin/item/browse.phtml:55
+#: application/view/omeka/admin/media/browse.phtml:54
+#: application/view/omeka/admin/user/browse.phtml:54
 msgid "Delete all"
 msgstr "Supprimer tout"
 
-#: application/view/omeka/admin/item-set/browse.phtml:54
-#: application/view/omeka/admin/item-set/browse.phtml:55
-#: application/view/omeka/admin/item-set/browse.phtml:56
-#: application/view/omeka/admin/item-set/browse.phtml:58
 #: application/view/omeka/admin/item-set/browse.phtml:59
-#: application/view/omeka/admin/item/browse.phtml:53
-#: application/view/omeka/admin/item/browse.phtml:54
-#: application/view/omeka/admin/item/browse.phtml:55
-#: application/view/omeka/admin/item/browse.phtml:57
+#: application/view/omeka/admin/item-set/browse.phtml:60
+#: application/view/omeka/admin/item-set/browse.phtml:61
+#: application/view/omeka/admin/item-set/browse.phtml:63
+#: application/view/omeka/admin/item-set/browse.phtml:64
 #: application/view/omeka/admin/item/browse.phtml:58
-#: application/view/omeka/admin/media/browse.phtml:53
-#: application/view/omeka/admin/media/browse.phtml:55
-#: application/view/omeka/admin/media/browse.phtml:56
+#: application/view/omeka/admin/item/browse.phtml:59
+#: application/view/omeka/admin/item/browse.phtml:60
+#: application/view/omeka/admin/item/browse.phtml:62
+#: application/view/omeka/admin/item/browse.phtml:63
+#: application/view/omeka/admin/media/browse.phtml:58
 #: application/view/omeka/admin/media/browse.phtml:60
 #: application/view/omeka/admin/media/browse.phtml:61
+#: application/view/omeka/admin/media/browse.phtml:65
+#: application/view/omeka/admin/media/browse.phtml:66
+#: application/view/omeka/admin/user/browse.phtml:58
+#: application/view/omeka/admin/user/browse.phtml:60
+#: application/view/omeka/admin/user/browse.phtml:61
+#: application/view/omeka/admin/user/browse.phtml:65
+#: application/view/omeka/admin/user/browse.phtml:66
 msgid "Go"
 msgstr "Traiter"
 
-#: application/view/omeka/admin/item-set/browse.phtml:67
-#: application/view/omeka/admin/item/browse.phtml:67
-#: application/view/omeka/admin/media/browse.phtml:72
+#: application/view/omeka/admin/item-set/browse.phtml:72
+#: application/view/omeka/admin/item/browse.phtml:72
+#: application/view/omeka/admin/media/browse.phtml:77
 msgid "Select all"
-msgstr ""
+msgstr "Tout sélectionner"
 
-#: application/view/omeka/admin/item-set/browse.phtml:94
+#: application/view/omeka/admin/item-set/browse.phtml:99
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:7
 msgid "Select item set"
-msgstr "Sélectionner la collection"
+msgstr "Choisir la collection"
 
-#: application/view/omeka/admin/item-set/browse.phtml:98
+#: application/view/omeka/admin/item-set/browse.phtml:103
 #: application/view/omeka/admin/item-set/show-details.phtml:11
-#: application/view/omeka/admin/item-set/show.phtml:74
-#: application/view/omeka/admin/item/browse.phtml:96
+#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item/browse.phtml:101
 #: application/view/omeka/admin/item/show-details.phtml:13
-#: application/view/omeka/admin/item/show.phtml:55
-#: application/view/omeka/admin/media/browse.phtml:106
+#: application/view/omeka/admin/item/show.phtml:56
+#: application/view/omeka/admin/media/browse.phtml:111
 #: application/view/omeka/admin/media/show-details.phtml:37
-#: application/view/omeka/admin/media/show.phtml:32
+#: application/view/omeka/admin/media/show.phtml:33
+#: application/view/omeka/admin/resource-template/form.phtml:77
 #: application/view/omeka/site-admin/index/index.phtml:63
 msgid "Private"
 msgstr "Privé"
 
-#: application/view/omeka/admin/item-set/browse.phtml:112
+#: application/view/omeka/admin/item-set/browse.phtml:117
 #: application/view/omeka/admin/item-set/edit.phtml:5
-#: application/view/omeka/admin/item/browse.phtml:110
+#: application/view/omeka/admin/item/browse.phtml:115
 #: application/view/omeka/admin/item/edit.phtml:5
-#: application/view/omeka/admin/media/browse.phtml:120
-#: application/view/omeka/admin/media/edit.phtml:61
+#: application/view/omeka/admin/media/browse.phtml:125
+#: application/view/omeka/admin/media/edit.phtml:62
 #: application/view/omeka/admin/resource-template/browse.phtml:78
 #: application/view/omeka/admin/resource-template/form.phtml:12
-#: application/view/omeka/admin/user/browse.phtml:58
-#: application/view/omeka/admin/user/edit.phtml:38
+#: application/view/omeka/admin/user/browse.phtml:109
+#: application/view/omeka/admin/user/edit.phtml:39
 #: application/view/omeka/admin/vocabulary/browse.phtml:65
 #: application/view/omeka/admin/vocabulary/edit.phtml:10
-#: application/view/omeka/site-admin/index/edit.phtml:26
+#: application/view/omeka/site-admin/index/edit.phtml:25
 #: application/view/omeka/site-admin/index/index.phtml:81
 #: application/view/omeka/site-admin/index/users.phtml:6
 #: application/view/omeka/site-admin/page/edit.phtml:15
 msgid "Delete"
 msgstr "Supprimer"
 
-#: application/view/omeka/admin/item-set/browse.phtml:119
-#: application/view/omeka/admin/item/browse.phtml:117
-#: application/view/omeka/admin/media/browse.phtml:127
+#: application/view/omeka/admin/item-set/browse.phtml:124
+#: application/view/omeka/admin/item/browse.phtml:122
+#: application/view/omeka/admin/media/browse.phtml:132
 #: application/view/omeka/admin/resource-template/browse.phtml:84
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:23
-#: application/view/omeka/admin/resource-template/show.phtml:42
-#: application/view/omeka/admin/user/browse.phtml:64
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:24
+#: application/view/omeka/admin/resource-template/show.phtml:43
+#: application/view/omeka/admin/user/browse.phtml:115
 #: application/view/omeka/admin/vocabulary/browse.phtml:72
 #: application/view/omeka/admin/vocabulary/classes.phtml:52
 #: application/view/omeka/admin/vocabulary/properties.phtml:35
 msgid "Details"
 msgstr "Détails"
 
-#: application/view/omeka/admin/item-set/browse.phtml:152
-#: application/view/omeka/admin/item-set/browse.phtml:170
+#: application/view/omeka/admin/item-set/browse.phtml:157
+#: application/view/omeka/admin/item-set/browse.phtml:175
 msgid "Delete item sets"
 msgstr "Supprimer les collections"
 
-#: application/view/omeka/admin/item-set/browse.phtml:153
+#: application/view/omeka/admin/item-set/browse.phtml:158
 msgid "Are you sure you would like to delete the selected item sets?"
 msgstr "Êtes-vous sûr de vouloir supprimer les collections sélectionnées ?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:155
-#: application/view/omeka/admin/item-set/browse.phtml:173
+#: application/view/omeka/admin/item-set/browse.phtml:160
+#: application/view/omeka/admin/item-set/browse.phtml:178
 #, php-format
 msgid ""
 "%s: this action will permanently delete %s item sets and cannot be undone."
@@ -1427,30 +1577,33 @@ msgstr ""
 "%s: cette action supprimera définitivement la collection %s et ne pourra pas"
 " être annulée."
 
-#: application/view/omeka/admin/item-set/browse.phtml:156
-#: application/view/omeka/admin/item-set/browse.phtml:174
-#: application/view/omeka/admin/item/browse.phtml:154
-#: application/view/omeka/admin/item/browse.phtml:172
-#: application/view/omeka/admin/media/browse.phtml:166
-#: application/view/omeka/admin/media/browse.phtml:184
+#: application/view/omeka/admin/item-set/browse.phtml:161
+#: application/view/omeka/admin/item-set/browse.phtml:179
+#: application/view/omeka/admin/item/browse.phtml:159
+#: application/view/omeka/admin/item/browse.phtml:177
+#: application/view/omeka/admin/media/browse.phtml:171
+#: application/view/omeka/admin/media/browse.phtml:189
+#: application/view/omeka/admin/user/browse.phtml:153
+#: application/view/omeka/admin/user/browse.phtml:171
 msgid "Warning"
 msgstr "Attention"
 
-#: application/view/omeka/admin/item-set/browse.phtml:171
+#: application/view/omeka/admin/item-set/browse.phtml:176
 msgid ""
 "Are you sure you would like to delete all item sets on all pages of this "
 "result?"
 msgstr ""
 "Êtes-vous sûr de vouloir supprimer toutes les collections sur toutes les "
-"pages correspondant à cette recherche ?"
+"pages correspondant à cette recherche ?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:177
-#: application/view/omeka/admin/item/browse.phtml:175
-#: application/view/omeka/admin/media/browse.phtml:187
+#: application/view/omeka/admin/item-set/browse.phtml:182
+#: application/view/omeka/admin/item/browse.phtml:180
+#: application/view/omeka/admin/media/browse.phtml:192
+#: application/view/omeka/admin/user/browse.phtml:174
 msgid "Are you sure?"
 msgstr "Êtes-vous sûr ?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:211
+#: application/view/omeka/admin/item-set/browse.phtml:216
 msgid "Omeka could not find any item sets."
 msgstr "Omeka n’a trouvé aucune collection."
 
@@ -1460,76 +1613,88 @@ msgstr "Omeka n’a trouvé aucune collection."
 msgid "Values"
 msgstr "Valeurs"
 
-#: application/view/omeka/admin/item-set/form.phtml:25
+#: application/view/omeka/admin/item-set/form.phtml:12
+#: application/view/omeka/admin/item/form.phtml:15
+#: application/view/omeka/admin/media/edit.phtml:12
+msgid "Thumbnail"
+msgstr "Vignette"
+
+#: application/view/omeka/admin/item-set/form.phtml:26
 msgid "Close item set"
 msgstr "Fermer la collection"
 
-#: application/view/omeka/admin/item-set/form.phtml:31
+#: application/view/omeka/admin/item-set/form.phtml:32
 msgid "Open item set"
 msgstr "Ouvrir la collection"
 
-#: application/view/omeka/admin/item-set/form.phtml:45
-#: application/view/omeka/admin/item/form.phtml:47
+#: application/view/omeka/admin/item-set/form.phtml:46
+#: application/view/omeka/admin/item/form.phtml:48
 #: application/view/omeka/admin/item/manage-media.phtml:36
-#: application/view/omeka/admin/media/edit.phtml:56
+#: application/view/omeka/admin/media/edit.phtml:57
 #: application/view/omeka/site-admin/index/add.phtml:19
 #: application/view/omeka/site-admin/index/edit.phtml:20
 msgid "Make public"
 msgstr "Rendre public"
 
+#: application/view/omeka/admin/item-set/search.phtml:11
+#: application/view/omeka/admin/item/search.phtml:11
+#: application/view/omeka/admin/media/search.phtml:11
+msgid "Reset"
+msgstr "Réinitialiser"
+
 #: application/view/omeka/admin/item-set/show-details.phtml:10
-#: application/view/omeka/admin/item-set/show.phtml:73
+#: application/view/omeka/admin/item-set/show.phtml:74
 #: application/view/omeka/admin/item/show-details.phtml:12
-#: application/view/omeka/admin/item/show.phtml:54
+#: application/view/omeka/admin/item/show.phtml:55
 #: application/view/omeka/admin/media/show-details.phtml:36
-#: application/view/omeka/admin/media/show.phtml:31
+#: application/view/omeka/admin/media/show.phtml:32
 msgid "Visibility"
 msgstr "Visibilité"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:11
-#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item-set/show.phtml:75
 #: application/view/omeka/admin/item/show-details.phtml:13
-#: application/view/omeka/admin/item/show.phtml:55
+#: application/view/omeka/admin/item/show.phtml:56
 #: application/view/omeka/admin/media/show-details.phtml:37
-#: application/view/omeka/admin/media/show.phtml:32
+#: application/view/omeka/admin/media/show.phtml:33
 msgid "Public"
 msgstr "Public"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:12
-#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:76
 msgid "Open to additions"
 msgstr "Ouvert aux ajouts"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:12
-#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:76
 msgid "Closed to additions"
 msgstr "Fermé aux ajouts"
 
-#: application/view/omeka/admin/item-set/show.phtml:20
-#: application/view/omeka/admin/item/show.phtml:11
-#: application/view/omeka/admin/media/show.phtml:6
+#: application/view/omeka/admin/item-set/show.phtml:21
+#: application/view/omeka/admin/item/show.phtml:12
+#: application/view/omeka/admin/media/show.phtml:7
 msgid "Metadata"
 msgstr "Métadonnées"
 
-#: application/view/omeka/admin/item-set/show.phtml:21
-#: application/view/omeka/admin/item/show.phtml:12
-#: application/view/omeka/site/item/show.phtml:44
+#: application/view/omeka/admin/item-set/show.phtml:22
+#: application/view/omeka/admin/item/show.phtml:13
+#: application/view/omeka/site/item/show.phtml:45
 msgid "Linked resources"
 msgstr "Ressources liées"
 
-#: application/view/omeka/admin/item-set/show.phtml:29
+#: application/view/omeka/admin/item-set/show.phtml:30
 msgid "Edit item set"
 msgstr "Modifier la collection"
 
-#: application/view/omeka/admin/item-set/show.phtml:31
+#: application/view/omeka/admin/item-set/show.phtml:32
 msgid "View items"
 msgstr "Afficher les contenus"
 
-#: application/view/omeka/admin/item-set/show.phtml:53
+#: application/view/omeka/admin/item-set/show.phtml:54
 msgid "The following resources link to this item set:"
 msgstr "Les ressources suivantes sont liées à cette collection :"
 
-#: application/view/omeka/admin/item-set/show.phtml:57
+#: application/view/omeka/admin/item-set/show.phtml:58
 msgid "No resources link to this item set."
 msgstr "Aucune ressource n'est liée à cette collection."
 
@@ -1543,15 +1708,15 @@ msgstr "Nouveau contenu"
 
 #: application/view/omeka/admin/item/add.phtml:12
 #: application/view/omeka/admin/resource-template/add.phtml:11
-#: application/view/omeka/admin/user/add.phtml:11
-#: application/view/omeka/site-admin/index/add-page.phtml:8
-#: application/view/omeka/site-admin/index/add.phtml:22
+#: application/view/omeka/admin/user/add.phtml:12
+#: application/view/omeka/site-admin/index/add-page.phtml:9
+#: application/view/omeka/site-admin/index/add.phtml:23
 msgid "Add"
 msgstr "Ajouter"
 
 #: application/view/omeka/admin/item/batch-edit.phtml:6
 msgid "Batch edit items"
-msgstr "Modification de multiples contenus"
+msgstr "Modification multiple de contenus"
 
 #: application/view/omeka/admin/item/batch-edit.phtml:26
 msgid "Affected items"
@@ -1567,36 +1732,36 @@ msgstr "Vous modifiez les %s contenus suivants :"
 msgid "You are editing %s items."
 msgstr "Vous modifiez %s contenus."
 
-#: application/view/omeka/admin/item/browse.phtml:92
+#: application/view/omeka/admin/item/browse.phtml:97
 #: application/view/omeka/admin/item/sidebar-select.phtml:8
 msgid "Select item"
-msgstr "Sélectionner un contenu"
+msgstr "Choisir un contenu"
 
-#: application/view/omeka/admin/item/browse.phtml:150
-#: application/view/omeka/admin/item/browse.phtml:168
+#: application/view/omeka/admin/item/browse.phtml:155
+#: application/view/omeka/admin/item/browse.phtml:173
 msgid "Delete items"
 msgstr "Supprimer les contenus"
 
-#: application/view/omeka/admin/item/browse.phtml:151
+#: application/view/omeka/admin/item/browse.phtml:156
 msgid "Are you sure you would like to delete the selected items?"
 msgstr "Êtes-vous sûr de vouloir supprimer les contenus sélectionnés ?"
 
-#: application/view/omeka/admin/item/browse.phtml:153
-#: application/view/omeka/admin/item/browse.phtml:171
+#: application/view/omeka/admin/item/browse.phtml:158
+#: application/view/omeka/admin/item/browse.phtml:176
 #, php-format
 msgid "%s: this action will permanently delete %s items and cannot be undone."
 msgstr ""
 "%s : cette action supprimera définitivement %s contenus et ne pourra pas "
 "être annulée."
 
-#: application/view/omeka/admin/item/browse.phtml:169
+#: application/view/omeka/admin/item/browse.phtml:174
 msgid ""
 "Are you sure you would like to delete all items on all pages of this result?"
 msgstr ""
-"Êtes-vous sûr de vouloir supprimer tous les contenus sur toutes les pages de"
-" ce résultat ?"
+"Êtes-vous sûr de vouloir supprimer tous les contenus sur toutes les pages "
+"correspondant à cette recherche  ?"
 
-#: application/view/omeka/admin/item/browse.phtml:209
+#: application/view/omeka/admin/item/browse.phtml:214
 msgid "Omeka could not find any items."
 msgstr "Omeka n’a trouvé aucun contenu."
 
@@ -1635,15 +1800,15 @@ msgstr ""
 msgid "Add media"
 msgstr "Ajouter un média"
 
-#: application/view/omeka/admin/item/show.phtml:18
+#: application/view/omeka/admin/item/show.phtml:19
 msgid "Edit item"
 msgstr "Modifier ce contenu"
 
-#: application/view/omeka/admin/item/show.phtml:41
+#: application/view/omeka/admin/item/show.phtml:42
 msgid "The following resources link to this item:"
 msgstr "Les ressources suivantes sont liées à ce contenu :"
 
-#: application/view/omeka/admin/item/show.phtml:45
+#: application/view/omeka/admin/item/show.phtml:46
 msgid "No resources link to this item."
 msgstr "Aucune ressource n'est liée à ce contenu."
 
@@ -1661,7 +1826,7 @@ msgstr "Contenus"
 
 #: application/view/omeka/admin/job/browse.phtml:6
 #: application/view/omeka/admin/job/browse.phtml:36
-#: application/view/omeka/admin/user/edit.phtml:37
+#: application/view/omeka/admin/user/edit.phtml:38
 msgid "ID"
 msgstr "ID"
 
@@ -1718,106 +1883,109 @@ msgstr "[Pas de log]"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:8
 msgid "Batch edit medias"
-msgstr ""
+msgstr "Modification multiple de médias"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:28
 msgid "Affected medias"
-msgstr ""
+msgstr "Médias affectés"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:30
 #, php-format
 msgid "You are editing the following %s medias:"
-msgstr ""
+msgstr "Vous modifiez les %s médias suivants :"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:37
 #, php-format
 msgid "You are editing %s medias."
-msgstr ""
+msgstr "Vous modifiez %s médias."
 
-#: application/view/omeka/admin/media/browse.phtml:102
+#: application/view/omeka/admin/media/browse.phtml:107
 #: application/view/omeka/admin/media/sidebar-select.phtml:7
 msgid "Select media"
 msgstr "Choisir le média"
 
-#: application/view/omeka/admin/media/browse.phtml:162
-#: application/view/omeka/admin/media/browse.phtml:180
+#: application/view/omeka/admin/media/browse.phtml:167
+#: application/view/omeka/admin/media/browse.phtml:185
 msgid "Delete medias"
-msgstr ""
+msgstr "Supprimer les médias"
 
-#: application/view/omeka/admin/media/browse.phtml:163
+#: application/view/omeka/admin/media/browse.phtml:168
 msgid "Are you sure you would like to delete the selected medias?"
-msgstr ""
+msgstr "Êtes-vous surs de vouloir supprimer les médias sélectionnés ?"
 
-#: application/view/omeka/admin/media/browse.phtml:165
-#: application/view/omeka/admin/media/browse.phtml:183
+#: application/view/omeka/admin/media/browse.phtml:170
+#: application/view/omeka/admin/media/browse.phtml:188
 #, php-format
 msgid ""
 "%s: this action will permanently delete %s medias and cannot be undone."
 msgstr ""
+"%s : cette action supprimera irrévocablement et définitivement %s médias."
 
-#: application/view/omeka/admin/media/browse.phtml:181
+#: application/view/omeka/admin/media/browse.phtml:186
 msgid ""
 "Are you sure you would like to delete all medias on all pages of this "
 "result?"
 msgstr ""
+"Êtes-vous sûr de vouloir supprimer tous les médias sur toutes les pages "
+"correspondant à cette recherche ?"
 
-#: application/view/omeka/admin/media/browse.phtml:222
+#: application/view/omeka/admin/media/browse.phtml:227
 msgid "Omeka could not find any medias."
-msgstr ""
+msgstr "Omeka n’a trouvé aucun média."
 
 #: application/view/omeka/admin/media/show-details.phtml:17
 msgid "Part of Item"
 msgstr "Partie de contenu"
 
 #: application/view/omeka/admin/media/show-details.phtml:23
-#: application/view/omeka/admin/media/show.phtml:45
+#: application/view/omeka/admin/media/show.phtml:46
 msgid "MIME type"
 msgstr "Type MIME"
 
 #: application/view/omeka/admin/media/show-details.phtml:30
-#: application/view/omeka/admin/media/show.phtml:51
+#: application/view/omeka/admin/media/show.phtml:52
 msgid "Size"
-msgstr ""
+msgstr "Taille"
 
 #: application/view/omeka/admin/media/show-details.phtml:31
-#: application/view/omeka/admin/media/show.phtml:52
+#: application/view/omeka/admin/media/show.phtml:53
 #, php-format
 msgid "%s bytes"
-msgstr ""
+msgstr "%s octets"
 
-#: application/view/omeka/admin/media/show.phtml:13
+#: application/view/omeka/admin/media/show.phtml:14
 msgid "Edit media"
 msgstr "Modifier ce média"
 
-#: application/view/omeka/admin/media/show.phtml:35
+#: application/view/omeka/admin/media/show.phtml:36
 msgid "Part of item"
 msgstr "Partie d’un contenu"
 
-#: application/view/omeka/admin/media/show.phtml:56
+#: application/view/omeka/admin/media/show.phtml:57
 msgid "Ingester"
 msgstr "Ingestion"
 
-#: application/view/omeka/admin/media/show.phtml:61
+#: application/view/omeka/admin/media/show.phtml:62
 msgid "Source"
 msgstr "Source"
 
-#: application/view/omeka/admin/media/show.phtml:67
+#: application/view/omeka/admin/media/show.phtml:68
 msgid "File Derivatives"
 msgstr "Fichier dérivé"
 
-#: application/view/omeka/admin/media/show.phtml:69
+#: application/view/omeka/admin/media/show.phtml:70
 msgid "original"
 msgstr "original"
 
-#: application/view/omeka/admin/media/show.phtml:72
+#: application/view/omeka/admin/media/show.phtml:73
 msgid "large"
 msgstr "large"
 
-#: application/view/omeka/admin/media/show.phtml:73
+#: application/view/omeka/admin/media/show.phtml:74
 msgid "medium"
 msgstr "moyen"
 
-#: application/view/omeka/admin/media/show.phtml:74
+#: application/view/omeka/admin/media/show.phtml:75
 msgid "square"
 msgstr "carré"
 
@@ -1847,7 +2015,7 @@ msgstr "Une nouvelle version de ce module est disponible. %s"
 #: application/view/omeka/admin/module/browse.phtml:74
 #: application/view/omeka/admin/module/browse.phtml:82
 #: application/view/omeka/admin/module/configure.phtml:5
-#: application/view/omeka/site-admin/index/theme-settings.phtml:5
+#: application/view/omeka/site-admin/index/theme-settings.phtml:4
 msgid "Configure"
 msgstr "Configurer"
 
@@ -1904,7 +2072,7 @@ msgstr "Terme"
 
 #: application/view/omeka/admin/property/show-details.phtml:11
 #: application/view/omeka/admin/resource-class/show-details.phtml:11
-#: application/view/omeka/admin/resource-template/form.phtml:60
+#: application/view/omeka/admin/resource-template/form.phtml:61
 msgid "Comment"
 msgstr "Commentaire"
 
@@ -1923,7 +2091,7 @@ msgstr "Modèles de ressource"
 
 #: application/view/omeka/admin/resource-template/browse.phtml:27
 #: application/view/omeka/admin/resource-template/import.phtml:4
-#: application/view/omeka/admin/vocabulary/import.phtml:10
+#: application/view/omeka/admin/vocabulary/import.phtml:11
 msgid "Import"
 msgstr "Import"
 
@@ -1931,31 +2099,31 @@ msgstr "Import"
 msgid "Omeka could not find any resource templates."
 msgstr "Omeka ne trouve aucun modèle de ressource."
 
-#: application/view/omeka/admin/resource-template/form.phtml:54
-#: application/view/omeka/admin/resource-template/form.phtml:61
+#: application/view/omeka/admin/resource-template/form.phtml:55
+#: application/view/omeka/admin/resource-template/form.phtml:62
 msgid "Original"
 msgstr "Original"
 
-#: application/view/omeka/admin/resource-template/form.phtml:56
-#: application/view/omeka/admin/resource-template/form.phtml:63
+#: application/view/omeka/admin/resource-template/form.phtml:57
+#: application/view/omeka/admin/resource-template/form.phtml:64
 msgid "Alternate"
 msgstr "Alternative"
 
-#: application/view/omeka/admin/resource-template/form.phtml:67
+#: application/view/omeka/admin/resource-template/form.phtml:68
 msgid "Other options"
 msgstr "Autres options"
 
-#: application/view/omeka/admin/resource-template/form.phtml:70
+#: application/view/omeka/admin/resource-template/form.phtml:71
 msgid "Required"
 msgstr "Requis"
 
-#: application/view/omeka/admin/resource-template/form.phtml:75
+#: application/view/omeka/admin/resource-template/form.phtml:82
 #: application/view/omeka/admin/resource-template/review-import.phtml:36
 #: application/view/omeka/admin/resource-template/show.phtml:26
 msgid "Data type"
 msgstr "Type de donnée"
 
-#: application/view/omeka/admin/resource-template/form.phtml:81
+#: application/view/omeka/admin/resource-template/form.phtml:88
 msgid "Set changes"
 msgstr "Appliquer"
 
@@ -1986,11 +2154,32 @@ msgstr "Commentaire alternatif"
 msgid "Required?"
 msgstr "Requis ?"
 
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:29
+#: application/view/omeka/admin/resource-template/review-import.phtml:40
+#: application/view/omeka/admin/resource-template/show.phtml:30
+msgid "Private?"
+msgstr "Privé ?"
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:74
+#: application/view/omeka/admin/resource-template/review-import.phtml:75
+#: application/view/omeka/admin/resource-template/show.phtml:50
+#: application/view/omeka/admin/resource-template/show.phtml:51
+#: application/view/omeka/admin/system-info/browse.phtml:17
+msgid "Yes"
+msgstr "Oui"
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:74
+#: application/view/omeka/admin/resource-template/review-import.phtml:75
+#: application/view/omeka/admin/resource-template/show.phtml:50
+#: application/view/omeka/admin/resource-template/show.phtml:51
+#: application/view/omeka/admin/system-info/browse.phtml:17
+msgid "No"
+msgstr "Non"
+
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:30
 msgid "Edit property"
 msgstr "Modifier cette propriété"
 
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:33
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:34
 msgid "Remove property"
 msgstr "Enlever la propriété"
 
@@ -2002,51 +2191,83 @@ msgstr "Export"
 msgid "Edit resource template"
 msgstr "Modifier ce modèle de ressource"
 
-#: application/view/omeka/admin/resource-template/show.phtml:49
-#: application/view/omeka/admin/system-info/browse.phtml:17
-msgid "Yes"
-msgstr "Oui"
-
-#: application/view/omeka/admin/resource-template/show.phtml:49
-#: application/view/omeka/admin/system-info/browse.phtml:17
-msgid "No"
-msgstr "Non"
-
 #: application/view/omeka/admin/setting/browse.phtml:6
 msgid "Global settings"
-msgstr "Paramètres globaux"
+msgstr "Paramètres généraux"
 
 #: application/view/omeka/admin/user/add.phtml:6
 msgid "New user"
 msgstr "Nouvel utilisateur"
 
 #: application/view/omeka/admin/user/add.phtml:6
-#: application/view/omeka/admin/user/browse.phtml:20
+#: application/view/omeka/admin/user/browse.phtml:24
 #: application/view/omeka/admin/user/edit.phtml:13
-#: application/view/omeka/admin/user/show.phtml:6
+#: application/view/omeka/admin/user/search.phtml:5
+#: application/view/omeka/admin/user/show.phtml:7
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: application/view/omeka/admin/user/browse.phtml:6
+#: application/view/omeka/admin/user/batch-edit.phtml:7
+msgid "Batch edit users"
+msgstr "Modification multiple d’utilisateurs"
+
+#: application/view/omeka/admin/user/batch-edit.phtml:26
+msgid "Affected users"
+msgstr "Utilisateurs concernés"
+
+#: application/view/omeka/admin/user/batch-edit.phtml:28
+#, php-format
+msgid "You are editing the following %s users:"
+msgstr "Vous modifiez les %s utilisateurs suivants :"
+
+#: application/view/omeka/admin/user/batch-edit.phtml:35
+#, php-format
+msgid "You are editing %s users (except yourself)."
+msgstr "Vous modifiez%s utilisateurs (sauf vous-même)."
+
 #: application/view/omeka/admin/user/browse.phtml:37
-#: application/view/omeka/admin/user/show.phtml:16
-msgid "Email"
-msgstr "Email"
-
-#: application/view/omeka/admin/user/browse.phtml:10
-#: application/view/omeka/admin/user/browse.phtml:38
-#: application/view/omeka/admin/user/show.phtml:28
-#: application/view/omeka/site-admin/index/users.phtml:29
-#: application/view/omeka/site-admin/index/users.phtml:45
-msgid "Role"
-msgstr "Rôle"
-
-#: application/view/omeka/admin/user/browse.phtml:24
-#: application/view/omeka/site-admin/index/users.phtml:73
+#: application/view/omeka/site-admin/index/users.phtml:74
 msgid "Add new user"
 msgstr "Ajouter un nouvel utilisateur"
 
-#: application/view/omeka/admin/user/browse.phtml:91
+#: application/view/omeka/admin/user/browse.phtml:96
+msgid "Inactive"
+msgstr "Inactif"
+
+#: application/view/omeka/admin/user/browse.phtml:149
+#: application/view/omeka/admin/user/browse.phtml:167
+msgid "Delete users"
+msgstr "Supprimer les utilisateurs"
+
+#: application/view/omeka/admin/user/browse.phtml:150
+msgid "Are you sure you would like to delete the selected users?"
+msgstr "Êtes-vous sûr de vouloir supprimer les utilisateurs sélectionnés ?"
+
+#: application/view/omeka/admin/user/browse.phtml:152
+#, php-format
+msgid "%s: this action will permanently delete %s users and cannot be undone."
+msgstr ""
+"%s : cette action supprimera définitivement %s utilisateurs et ne pourra pas"
+" être annulée."
+
+#: application/view/omeka/admin/user/browse.phtml:168
+msgid ""
+"Are you sure you would like to delete all users (except yourself) on all "
+"pages of this result?"
+msgstr ""
+"Êtes-vous sûr de vouloir supprimer tous les utilisateurs (sauf vous-même) "
+"sur toutes les pages correspondant à cette recherche ?"
+
+#: application/view/omeka/admin/user/browse.phtml:170
+#, php-format
+msgid ""
+"%s: this action will permanently delete %s users (except yourself) and "
+"cannot be undone."
+msgstr ""
+"%s: cette action supprimera définitivement %s utilisateurs (sauf vous-même) "
+"et ne pourra pas être annulée."
+
+#: application/view/omeka/admin/user/browse.phtml:209
 msgid "Omeka could not find any users."
 msgstr "Omeka ne trouve aucun utilisateur"
 
@@ -2066,19 +2287,23 @@ msgstr "Mot de passe"
 msgid "API keys"
 msgstr "Clé API"
 
-#: application/view/omeka/admin/user/edit.phtml:32
+#: application/view/omeka/admin/user/edit.phtml:33
 msgid "Keys"
 msgstr "Clés"
 
-#: application/view/omeka/admin/user/edit.phtml:55
+#: application/view/omeka/admin/user/edit.phtml:56
 msgid "Add a new key"
 msgstr "Ajouter une nouvelle clé"
 
-#: application/view/omeka/admin/user/show.phtml:10
+#: application/view/omeka/admin/user/show-details.phtml:7
+msgid "(inactive)"
+msgstr "(inactif)"
+
+#: application/view/omeka/admin/user/show.phtml:11
 msgid "Edit user"
 msgstr "Modifier cet utilisateur"
 
-#: application/view/omeka/admin/user/show.phtml:22
+#: application/view/omeka/admin/user/show.phtml:23
 msgid "Display name"
 msgstr "Nom à afficher"
 
@@ -2139,15 +2364,11 @@ msgstr "Ce vocabulaire n’a pas de propriété."
 msgid "Update"
 msgstr "Mise à jour"
 
-#: application/view/omeka/admin/vocabulary/update.phtml:22
-msgid "Cancel"
-msgstr "Annuler"
-
 #: application/view/omeka/admin/vocabulary/update.phtml:23
 msgid "Accept changes"
 msgstr "Accepter les changements"
 
-#: application/view/omeka/index/index.phtml:6
+#: application/view/omeka/index/index.phtml:4
 #: application/view/omeka/site-admin/index/add.phtml:12
 #: application/view/omeka/site-admin/index/edit.phtml:6
 #: application/view/omeka/site-admin/index/index.phtml:20
@@ -2161,7 +2382,7 @@ msgstr "Accepter les changements"
 msgid "Sites"
 msgstr "Sites"
 
-#: application/view/omeka/index/index.phtml:20
+#: application/view/omeka/index/index.phtml:23
 #, php-format
 msgid "Go to the %s to start working with %s."
 msgstr "Aller au %s pour commencer à travailler avec %s."
@@ -2235,7 +2456,7 @@ msgstr "Pages"
 
 #: application/view/omeka/site-admin/index/add.phtml:7
 #: application/view/omeka/site-admin/index/show.phtml:31
-#: application/view/omeka/site-admin/index/theme-settings.phtml:5
+#: application/view/omeka/site-admin/index/theme-settings.phtml:4
 #: application/view/omeka/site-admin/index/theme.phtml:10
 msgid "Theme"
 msgstr "Thème"
@@ -2248,12 +2469,6 @@ msgstr "Réservoir de contenus"
 #: application/view/omeka/site-admin/index/add.phtml:12
 msgid "New site"
 msgstr "Nouveau site"
-
-#: application/view/omeka/site-admin/index/edit.phtml:24
-#: application/view/omeka/site-admin/index/show.phtml:16
-#: application/view/omeka/site-admin/page/edit.phtml:14
-msgid "View"
-msgstr "Voir"
 
 #: application/view/omeka/site-admin/index/index.phtml:10
 #: application/view/omeka/site-admin/index/index.phtml:39
@@ -2273,20 +2488,20 @@ msgstr "Omeka n’a trouvé aucun site."
 msgid "Navigation"
 msgstr "Navigation"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:22
-#: application/view/omeka/site-admin/index/navigation.phtml:38
+#: application/view/omeka/site-admin/index/navigation.phtml:23
+#: application/view/omeka/site-admin/index/navigation.phtml:39
 msgid "Add a link to a site page"
 msgstr "Ajouter un lien vers une page du site"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:26
+#: application/view/omeka/site-admin/index/navigation.phtml:27
 msgid "Add a custom link"
 msgstr "Ajouter un lien personnalisé"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:40
+#: application/view/omeka/site-admin/index/navigation.phtml:41
 msgid "Filter pages"
-msgstr ""
+msgstr "Filtrer les pages"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:54
+#: application/view/omeka/site-admin/index/navigation.phtml:55
 msgid "There are no available pages."
 msgstr "Il n’y a pas de pages disponibles."
 
@@ -2294,28 +2509,37 @@ msgstr "Il n’y a pas de pages disponibles."
 msgid "Restore item set"
 msgstr "Rétablir la collection"
 
-#: application/view/omeka/site-admin/index/resources.phtml:35
+#: application/view/omeka/site-admin/index/resources.phtml:36
 #, php-format
 msgid "There are currently %s items in this site’s pool."
 msgstr "Il y a actuellement %s contenus dans le réservoir de contenus."
 
-#: application/view/omeka/site-admin/index/resources.phtml:67
+#: application/view/omeka/site-admin/index/resources.phtml:68
 msgid "No item sets are assigned to this site."
 msgstr "Aucune collection n’est assignée à ce site."
 
 #: application/view/omeka/site-admin/index/show.phtml:5
 #: application/view/omeka/site-admin/index/users.phtml:9
 msgid "Viewer"
-msgstr "Utilisateur"
+msgstr "Observateur"
 
 #: application/view/omeka/site-admin/index/show.phtml:6
 #: application/view/omeka/site-admin/index/users.phtml:10
 msgid "Editor"
-msgstr "Contributeur"
+msgstr "Éditeur"
+
+#: application/view/omeka/site-admin/index/show.phtml:16
+#: application/view/omeka/site-admin/page/edit.phtml:14
+msgid "View"
+msgstr "Voir"
 
 #: application/view/omeka/site-admin/index/show.phtml:19
 msgid "Back to site list"
 msgstr "Retour à la liste des sites"
+
+#: application/view/omeka/site-admin/index/show.phtml:39
+msgid "Summary"
+msgstr "Description"
 
 #: application/view/omeka/site-admin/index/theme-selector.phtml:25
 msgid "Invalid theme.ini file"
@@ -2330,34 +2554,34 @@ msgstr "Ce thème requiert Omeka S %s"
 msgid "The current theme has no configuration options."
 msgstr "Le thème actuel n’a pas d’options de configuration."
 
-#: application/view/omeka/site-admin/index/theme.phtml:25
+#: application/view/omeka/site-admin/index/theme.phtml:26
 msgid "Current theme"
 msgstr "Thème actuel"
 
-#: application/view/omeka/site-admin/index/theme.phtml:41
+#: application/view/omeka/site-admin/index/theme.phtml:42
 msgid "Edit theme settings"
 msgstr "Modifier les paramètres du thème"
 
-#: application/view/omeka/site-admin/index/theme.phtml:47
+#: application/view/omeka/site-admin/index/theme.phtml:48
 #, php-format
 msgid "A new version of this theme is available. %s"
 msgstr "Une nouvelle version de ce thème est disponible. %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:57
+#: application/view/omeka/site-admin/index/theme.phtml:58
 msgid "Error: this theme is invalid."
 msgstr "Erreur : ce theme est invalide."
 
-#: application/view/omeka/site-admin/index/theme.phtml:59
+#: application/view/omeka/site-admin/index/theme.phtml:60
 #, php-format
 msgid "ID: %s"
 msgstr "ID : %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:60
+#: application/view/omeka/site-admin/index/theme.phtml:61
 #, php-format
 msgid "Status: %s"
 msgstr "Statut : %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:62
+#: application/view/omeka/site-admin/index/theme.phtml:63
 msgid ""
 "Please contact the Omeka S administrator. This site will not be publicly "
 "available until the problem is resolved or you select another theme below."
@@ -2372,19 +2596,19 @@ msgstr "Restaurer"
 
 #: application/view/omeka/site-admin/index/users.phtml:15
 msgid "User permissions"
-msgstr "Permissions des utilisateurs"
+msgstr "Droits des utilisateurs"
 
-#: application/view/omeka/site-admin/index/users.phtml:41
-#: application/view/omeka/site-admin/index/users.phtml:81
+#: application/view/omeka/site-admin/index/users.phtml:42
+#: application/view/omeka/site-admin/index/users.phtml:82
 msgid "User to be removed"
 msgstr "Utilisateur à supprimer"
 
-#: application/view/omeka/site-admin/index/users.phtml:71
+#: application/view/omeka/site-admin/index/users.phtml:72
 msgid "This site has no users. Add users using the interface to the right."
 msgstr ""
 "Ce site n’a pas d’utilisateurs. Ajoutez-en à l’aide du panneau de droite."
 
-#: application/view/omeka/site-admin/index/users.phtml:74
+#: application/view/omeka/site-admin/index/users.phtml:75
 msgid "Click on a user to add them to the site."
 msgstr "Cliquez sur un utilisateur pour l’ajouter au site."
 
@@ -2396,15 +2620,15 @@ msgstr "Changer le contenu"
 msgid "No item selected."
 msgstr "Pas de contenu sélectionné."
 
-#: application/view/omeka/site-admin/page/edit.phtml:26
+#: application/view/omeka/site-admin/page/edit.phtml:27
 msgid "Add new block"
 msgstr "Ajouter un nouveau bloc"
 
-#: application/view/omeka/site-admin/page/edit.phtml:39
+#: application/view/omeka/site-admin/page/edit.phtml:40
 msgid "Caption"
 msgstr "Légende"
 
-#: application/view/omeka/site-admin/page/edit.phtml:50
+#: application/view/omeka/site-admin/page/edit.phtml:51
 msgid "Apply changes"
 msgstr "Appliquer les changements"
 
@@ -2418,7 +2642,7 @@ msgstr "Slug"
 
 #: application/view/omeka/site-admin/page/index.phtml:38
 msgid "View public page"
-msgstr ""
+msgstr "Voir la page publique"
 
 #: application/view/omeka/site-admin/page/index.phtml:49
 msgid "Delete page"
@@ -2436,7 +2660,7 @@ msgstr "Recherche de collections avancée"
 msgid "Advanced item search"
 msgstr "Recherche de contenus avancée"
 
-#: application/view/omeka/site/item/show.phtml:9
+#: application/view/omeka/site/item/show.phtml:10
 msgid "Item"
 msgstr "Contenu"
 
@@ -2452,6 +2676,11 @@ msgstr "Non public"
 #: application/src/Form/ResourceBatchUpdateForm.php:54
 #: application/src/Form/ResourceBatchUpdateForm.php:74
 #: application/src/Form/ResourceBatchUpdateForm.php:97
+#: application/src/Form/UserBatchUpdateForm.php:31
+#: application/src/Form/UserBatchUpdateForm.php:43
+#: application/src/Form/UserBatchUpdateForm.php:60
+#: application/src/Form/UserBatchUpdateForm.php:77
+#: application/src/Form/UserBatchUpdateForm.php:92
 msgid "[No change]"
 msgstr "[Pas de changement]"
 
@@ -2468,10 +2697,10 @@ msgid "Not open"
 msgstr "Non ouvert"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:69
-#: application/src/Form/UserForm.php:142
+#: application/src/Form/UserForm.php:144
 #: application/src/Form/ResourceForm.php:30
 msgid "Select a template"
-msgstr "Sélectionner un modèle"
+msgstr "Choisir un modèle"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:73
 msgid "Set template"
@@ -2484,7 +2713,7 @@ msgstr "[Modèle non défini]"
 #: application/src/Form/ResourceBatchUpdateForm.php:92
 #: application/src/Form/ResourceForm.php:53
 msgid "Select a class"
-msgstr "Sélectionner une classe"
+msgstr "Choisir une classe"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:95
 msgid "Set class"
@@ -2497,23 +2726,23 @@ msgstr "[Classe non définie]"
 #: application/src/Form/ResourceBatchUpdateForm.php:110
 #: application/src/Form/ResourceBatchUpdateForm.php:124
 msgid "Select item sets"
-msgstr ""
+msgstr "Choisir des collections"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:113
 msgid "Add to item sets"
-msgstr ""
+msgstr "Ajouter aux collections"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:127
 msgid "Remove from item sets"
-msgstr ""
+msgstr "Enlever des collections"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:137
 msgid "Clear language"
-msgstr ""
+msgstr "Effacer la langue"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:161
 msgid "Select properties"
-msgstr ""
+msgstr "Choisir des propriétés"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:164
 msgid "Clear property values"
@@ -2544,6 +2773,7 @@ msgid "Suggested class"
 msgstr "Classe suggérée"
 
 #: application/src/Form/SettingForm.php:105
+#: application/src/Form/SiteSettingsForm.php:28
 msgid "General"
 msgstr "Général"
 
@@ -2562,7 +2792,7 @@ msgid "Time zone"
 msgstr "Fuseau horaire"
 
 #: application/src/Form/SettingForm.php:156
-#: application/src/Form/SiteSettingsForm.php:39
+#: application/src/Form/SiteSettingsForm.php:137
 msgid "Results per page"
 msgstr "Résultats par page"
 
@@ -2609,14 +2839,14 @@ msgid "No default (show index of sites)"
 msgstr "Pas de défaut (afficher l’index des sites)"
 
 #: application/src/Form/SettingForm.php:205
-#: application/src/Form/UserForm.php:127
+#: application/src/Form/UserForm.php:129
 #: application/src/Form/InstallationForm.php:128
-#: application/src/Form/SiteSettingsForm.php:143
+#: application/src/Form/SiteSettingsForm.php:103
 msgid "Locale"
 msgstr "Paramètres régionaux"
 
 #: application/src/Form/SettingForm.php:206
-#: application/src/Form/UserForm.php:128
+#: application/src/Form/UserForm.php:130
 msgid "Global locale/language code for all interfaces."
 msgstr ""
 "Paramètres régionaux communs / code de langue pour toutes les interfaces."
@@ -2633,53 +2863,69 @@ msgstr ""
 "Activer les notifications lorsqu'une nouvelle version d'Omeka S, d'un module"
 " ou d'un thème est disponible."
 
-#: application/src/Form/SettingForm.php:234
+#: application/src/Form/SettingForm.php:232
+#: application/src/Form/SiteSettingsForm.php:90
+msgid "Disable JSON-LD embed"
+msgstr "Désactiver le code JSON-LD embarqué"
+
+#: application/src/Form/SettingForm.php:233
+#: application/src/Form/SiteSettingsForm.php:91
+msgid ""
+"By default, Omeka embeds JSON-LD in resource browse and show pages for the "
+"purpose of machine-readable metadata discovery. Check this to disable "
+"embedding."
+msgstr ""
+"Par défaut, Omeka embarque les métadonnées sémantiques de la ressource en "
+"JSON-LD dans les pages Parcourir et Voir afin de faciliter leur découverte "
+"par les robots. Cocher la case permet de désactiver cette fonctionnalité."
+
+#: application/src/Form/SettingForm.php:247
 msgid "Security"
 msgstr "Sécurité"
 
-#: application/src/Form/SettingForm.php:243
+#: application/src/Form/SettingForm.php:256
 msgid "Use HTMLPurifier"
 msgstr "Utiliser HTMLPurifier"
 
-#: application/src/Form/SettingForm.php:244
+#: application/src/Form/SettingForm.php:257
 msgid "Clean up user-entered HTML."
 msgstr "Nettoyer le HTML entré par l’utilisateur."
 
-#: application/src/Form/SettingForm.php:256
+#: application/src/Form/SettingForm.php:269
 msgid "Disable file validation"
 msgstr "Désactiver la validation du fichier"
 
-#: application/src/Form/SettingForm.php:257
+#: application/src/Form/SettingForm.php:270
 msgid "Check this to disable file media type and extension validation."
 msgstr ""
 "Cochez cette case pour désactiver la vérification du type de fichier et de "
 "l’extension."
 
-#: application/src/Form/SettingForm.php:266
+#: application/src/Form/SettingForm.php:279
 msgid "Allowed media types"
 msgstr "Types de supports autorisés"
 
-#: application/src/Form/SettingForm.php:267
+#: application/src/Form/SettingForm.php:280
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr ""
 "Une liste séparée par des virgules de types de médias autorisés pour les "
 "fichiers importés."
 
-#: application/src/Form/SettingForm.php:279
+#: application/src/Form/SettingForm.php:292
 msgid "Allowed file extensions"
 msgstr "Extensions de fichier autorisées"
 
-#: application/src/Form/SettingForm.php:280
+#: application/src/Form/SettingForm.php:293
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr ""
 "Une liste séparée par des virgules des extensions de fichiers autorisées "
 "pour les téléchargements de fichiers."
 
-#: application/src/Form/SettingForm.php:294
+#: application/src/Form/SettingForm.php:307
 msgid "reCAPTCHA site key"
 msgstr "clé du site ReCAPTCHA"
 
-#: application/src/Form/SettingForm.php:305
+#: application/src/Form/SettingForm.php:318
 msgid "reCAPTCHA secret key"
 msgstr "clé secrète ReCAPTCHA"
 
@@ -2688,15 +2934,50 @@ msgid "Vocabulary file"
 msgstr "Fichier Vocabulaire"
 
 #: application/src/Form/VocabularyImportForm.php:15
-msgid ""
-"Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle. See"
-" the Vocabulary Import Documentation for details."
+msgid "Choose a RDF vocabulary file. You must choose a file or enter a URL."
 msgstr ""
-"Accepte les formats suivants: RDF / XML, RDF / JSON, N-Triples et Turtle. "
-"Consultez la documentation sur l’importation de Vocabulaire pour plus de "
-"détails."
+"Choisir un fichier de vocabulaire RDF. Vous devez choisir un fichier ou "
+"indiquer une URL."
 
-#: application/src/Form/VocabularyImportForm.php:28
+#: application/src/Form/VocabularyImportForm.php:25
+msgid "Vocabulary URL"
+msgstr "URL du vocabulaire"
+
+#: application/src/Form/VocabularyImportForm.php:26
+msgid "Enter a RDF vocabulary URL. You must enter a URL or choose a file."
+msgstr ""
+"Indiquer une URL vocabulaire RDF. Vous devez choisir une URL ou charger un "
+"fichier."
+
+#: application/src/Form/VocabularyImportForm.php:37
+msgid "File format"
+msgstr "Format de fichier"
+
+#: application/src/Form/VocabularyImportForm.php:39
+msgid "[Autodetect]"
+msgstr "[Auto]"
+
+#: application/src/Form/VocabularyImportForm.php:40
+msgid "JSON-LD (.jsonld)"
+msgstr "JSON-LD (.jsonld)"
+
+#: application/src/Form/VocabularyImportForm.php:41
+msgid "N-Triples (.nt)"
+msgstr "N-Triples (.nt)"
+
+#: application/src/Form/VocabularyImportForm.php:42
+msgid "Notation3 (.n3)"
+msgstr "Notation3 (.n3)"
+
+#: application/src/Form/VocabularyImportForm.php:43
+msgid "RDF/XML (.rdf)"
+msgstr "RDF/XML (.rdf)"
+
+#: application/src/Form/VocabularyImportForm.php:44
+msgid "Turtle (.ttl)"
+msgstr "Turtle (.ttl)"
+
+#: application/src/Form/VocabularyImportForm.php:57
 msgid ""
 "A concise vocabulary identifier, used as a shorthand proxy for the namespace"
 " URI."
@@ -2704,11 +2985,11 @@ msgstr ""
 "Un identifiant de vocabulaire concis, utilisé comme proxy abrégé pour l’URI "
 "de l’espace de noms."
 
-#: application/src/Form/VocabularyImportForm.php:40
+#: application/src/Form/VocabularyImportForm.php:69
 msgid "Namespace URI"
 msgstr "URI de l’espace de noms"
 
-#: application/src/Form/VocabularyImportForm.php:41
+#: application/src/Form/VocabularyImportForm.php:70
 msgid ""
 "The unique namespace URI used by the vocabulary to identify local member "
 "classes and properties."
@@ -2716,12 +2997,12 @@ msgstr ""
 "L’URI de l’espace de noms unique utilisé par le vocabulaire pour identifier "
 "les classes et les propriétés des membres locaux."
 
-#: application/src/Form/VocabularyImportForm.php:54
+#: application/src/Form/VocabularyImportForm.php:83
 #: application/src/Form/VocabularyForm.php:15
 msgid "A human-readable title of the vocabulary."
 msgstr "Un titre du vocabulaire, lisible pour l’utilisateur."
 
-#: application/src/Form/VocabularyImportForm.php:67
+#: application/src/Form/VocabularyImportForm.php:96
 #: application/src/Form/VocabularyForm.php:28
 msgid "A human-readable description of the vocabulary."
 msgstr "Une description du vocabulaire, lisible pour l’utilisateur.."
@@ -2730,38 +3011,75 @@ msgstr "Une description du vocabulaire, lisible pour l’utilisateur.."
 msgid "Add to navigation"
 msgstr "Ajouter à la navigation"
 
-#: application/src/Form/UserForm.php:111
-msgid "Is active"
-msgstr "Est actif"
+#: application/src/Form/UserForm.php:97
+#: application/src/Form/UserBatchUpdateForm.php:27
+#: application/src/View/Helper/RoleSelect.php:39
+#: application/src/Service/Form/Element/RoleSelectFactory.php:16
+msgid "Select role…"
+msgstr "Choisir un rôle…"
 
-#: application/src/Form/UserForm.php:146
+#: application/src/Form/UserForm.php:148
 msgid "Default resource template"
 msgstr "Modèle de ressource par défaut"
 
-#: application/src/Form/UserForm.php:164
+#: application/src/Form/UserForm.php:166
 msgid "Current password"
 msgstr "Mot de passe actuel"
 
-#: application/src/Form/UserForm.php:175
+#: application/src/Form/UserForm.php:177
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
-#: application/src/Form/UserForm.php:185
+#: application/src/Form/UserForm.php:187
 msgid "Confirm new password"
 msgstr "Confirmer le nouveau mot de passe"
 
-#: application/src/Form/UserForm.php:198
+#: application/src/Form/UserForm.php:200
 msgid "New key label"
 msgstr "Nouvelle étiquette de clé"
 
-#: application/src/Form/UserForm.php:243
+#: application/src/Form/UserForm.php:245
 msgid "Password confirmation must match new password"
 msgstr ""
 "La confirmation du mot de passe doit correspondre au nouveau mot de passe"
 
 #: application/src/Form/Initializer/Csrf.php:35
 msgid "Invalid or missing CSRF token"
-msgstr ""
+msgstr "Jeton CSRF invalide ou manquant"
+
+#: application/src/Form/UserBatchUpdateForm.php:30
+msgid "Set role"
+msgstr "Définir le rôle"
+
+#: application/src/Form/UserBatchUpdateForm.php:39
+msgid "Set activity"
+msgstr "Définir l’activité"
+
+#: application/src/Form/UserBatchUpdateForm.php:55
+#: application/src/Form/UserBatchUpdateForm.php:72
+msgid "Select sites…"
+msgstr "Choisir les sites…"
+
+#: application/src/Form/UserBatchUpdateForm.php:59
+msgid "Remove from site permission"
+msgstr "Retirer les droits sur le site"
+
+#: application/src/Form/UserBatchUpdateForm.php:61
+#: application/src/Form/UserBatchUpdateForm.php:78
+msgid "[All sites]"
+msgstr "[Tous les sites]"
+
+#: application/src/Form/UserBatchUpdateForm.php:76
+msgid "Add to site permission"
+msgstr "Ajouter un droit sur un site"
+
+#: application/src/Form/UserBatchUpdateForm.php:87
+msgid "Select permission…"
+msgstr "Choisir le droit…"
+
+#: application/src/Form/UserBatchUpdateForm.php:91
+msgid "Add to site permission as"
+msgstr "Donner un droit sur le site"
 
 #: application/src/Form/ModuleStateChangeForm.php:37
 msgid "Install"
@@ -2802,45 +3120,78 @@ msgstr "Les mots de passe ne correspondent pas"
 msgid "The emails did not match"
 msgstr "Les email ne correspondent pas"
 
-#: application/src/Form/SiteSettingsForm.php:27
+#: application/src/Form/SiteSettingsForm.php:36
+msgid "Attachment link type"
+msgstr "Type d'affichage pour le media"
+
+#: application/src/Form/SiteSettingsForm.php:38
+msgid "Item page"
+msgstr "Page de contenu"
+
+#: application/src/Form/SiteSettingsForm.php:39
+msgid "Media page"
+msgstr "Page de média"
+
+#: application/src/Form/SiteSettingsForm.php:40
+msgid "Direct link to file"
+msgstr "Lien direct au fichier"
+
+#: application/src/Form/SiteSettingsForm.php:52
+msgid "Embed media on item pages"
+msgstr "Intégrer les médias sur les pages de contenu"
+
+#: application/src/Form/SiteSettingsForm.php:64
+msgid ""
+"Show pagination that helps users follow a linear narrative through a site."
+msgstr ""
+"Montrer la navigation qui aide les utilisateurs à suivre une visite linéaire"
+" du site."
+
+#: application/src/Form/SiteSettingsForm.php:75
+msgid "Show user bar on public views"
+msgstr "Montrer la barre utilisateur sur les pages publiques"
+
+#: application/src/Form/SiteSettingsForm.php:77
+msgid "Never"
+msgstr "Jamais"
+
+#: application/src/Form/SiteSettingsForm.php:78
+msgid "When logged in"
+msgstr "Lorsque connecté"
+
+#: application/src/Form/SiteSettingsForm.php:79
+msgid "Always"
+msgstr "Toujours"
+
+#: application/src/Form/SiteSettingsForm.php:104
+msgid ""
+"Locale/language code for this site. Leave blank to use the global locale "
+"setting."
+msgstr ""
+"Paramètres régionaux / code de langue pour ce site. Laisser vide pour "
+"utiliser les paramètres communs."
+
+#: application/src/Form/SiteSettingsForm.php:126
 msgid "Restrict browse to attached items"
 msgstr "Limiter la navigation aux contenus attachés"
 
-#: application/src/Form/SiteSettingsForm.php:40
+#: application/src/Form/SiteSettingsForm.php:138
 msgid ""
 "The maximum number of results per page on browse pages. Leave blank to use "
 "the global setting."
 msgstr ""
+"Le nombre maximum de résultats par page sur les pages de navigation. Laisser"
+" vide pour utiliser le paramètre général."
 
-#: application/src/Form/SiteSettingsForm.php:46
+#: application/src/Form/SiteSettingsForm.php:144
 msgid "Use global setting"
-msgstr ""
+msgstr "Utiliser le paramètre général"
 
-#: application/src/Form/SiteSettingsForm.php:54
-msgid "Attachment link type"
-msgstr "Type d'affichage pour le media"
-
-#: application/src/Form/SiteSettingsForm.php:56
-msgid "Item page"
-msgstr "Page de contenu"
-
-#: application/src/Form/SiteSettingsForm.php:57
-msgid "Media page"
-msgstr "Page de média"
-
-#: application/src/Form/SiteSettingsForm.php:58
-msgid "Direct link to file"
-msgstr "Lien direct au fichier"
-
-#: application/src/Form/SiteSettingsForm.php:71
-msgid "Embed media on item pages"
-msgstr "Intégrer les médias sur les pages de contenu"
-
-#: application/src/Form/SiteSettingsForm.php:84
+#: application/src/Form/SiteSettingsForm.php:152
 msgid "Browse heading property"
 msgstr "Propriété définissant le titre, dans les listes"
 
-#: application/src/Form/SiteSettingsForm.php:85
+#: application/src/Form/SiteSettingsForm.php:153
 msgid ""
 "Use this property for the heading of each resource on a browse page. Default"
 " is \"Dublin Core: Title\"."
@@ -2848,16 +3199,16 @@ msgstr ""
 "Cette propriété est utilisée comme titre pour chaque ressource dans les "
 "listes. La propriété par défaut est « Dublin Core : Titre »."
 
-#: application/src/Form/SiteSettingsForm.php:92
-#: application/src/Form/SiteSettingsForm.php:108
+#: application/src/Form/SiteSettingsForm.php:160
+#: application/src/Form/SiteSettingsForm.php:176
 msgid "Select a property"
-msgstr "Sélectionner une propriété"
+msgstr "Choisir une propriété"
 
-#: application/src/Form/SiteSettingsForm.php:100
+#: application/src/Form/SiteSettingsForm.php:168
 msgid "Browse body property"
 msgstr "Propriété définissant le corps, dans les listes"
 
-#: application/src/Form/SiteSettingsForm.php:101
+#: application/src/Form/SiteSettingsForm.php:169
 msgid ""
 "Use this property for the body of each resource on a browse page. Default is"
 " \"Dublin Core: Description\"."
@@ -2865,34 +3216,24 @@ msgstr ""
 "Cette propriété est utilisée comme corps pour chaque ressource dans les "
 "listes. La propriété par défaut est « Dublin Core : Description »."
 
-#: application/src/Form/SiteSettingsForm.php:116
-msgid ""
-"Show pagination that helps users follow a linear narrative through a site."
-msgstr ""
+#: application/src/Form/SiteSettingsForm.php:193
+msgid "Templates"
+msgstr "Modèles"
 
-#: application/src/Form/SiteSettingsForm.php:127
-msgid "Show user bar on public views"
+#: application/src/Form/SiteSettingsForm.php:194
+msgid "Select which templates to apply to the advanced search form."
 msgstr ""
+"Choisissez les modèles à appliquer pour le formulaire de recherche avancée"
 
-#: application/src/Form/SiteSettingsForm.php:129
-msgid "Never"
-msgstr ""
+#: application/src/Form/SiteSettingsForm.php:199
+msgid "Select templates"
+msgstr "Choisir les modèles"
 
-#: application/src/Form/SiteSettingsForm.php:130
-msgid "When identified"
+#: application/src/Form/SiteSettingsForm.php:208
+msgid "Restrict search results to resources of the selected templates."
 msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:131
-msgid "Always"
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:144
-msgid ""
-"Locale/language code for this site. Leave blank to use the global locale "
-"setting."
-msgstr ""
-"Paramètres régionaux / code de langue pour ce site. Laisser vide pour "
-"utiliser les paramètres communs."
+"Limiter les résultats de recherche aux ressources ayant les modèles "
+"sélectionnés."
 
 #: application/src/Form/ResourceTemplateImportForm.php:14
 msgid "Resource template file"
@@ -2912,6 +3253,10 @@ msgstr ""
 "passer en revue les modifications avant d’accepter. Accepte les formats "
 "suivants: RDF / XML, RDF / JSON, N-Triples et Turtle."
 
+#: application/src/Form/ResourceForm.php:34
+msgid "Resource template"
+msgstr "Modèle de ressource"
+
 #: application/src/Form/ResourceForm.php:35
 msgid "A pre-defined template for resource creation."
 msgstr "Un modèle prédéfini pour la création de ressources."
@@ -2924,29 +3269,29 @@ msgstr ""
 "Un type pour la ressource. Différents types ont des propriétés par défaut "
 "différentes qui leur sont attachées."
 
-#: application/src/Permissions/Acl.php:20
+#: application/src/Permissions/Acl.php:21
 msgid "Global Administrator"
 msgstr "Administrateur général"
 
-#: application/src/Permissions/Acl.php:21
+#: application/src/Permissions/Acl.php:22
 msgid "Site Administrator"
 msgstr "Administrateur de site"
 
-#: application/src/Permissions/Acl.php:23
+#: application/src/Permissions/Acl.php:24
 msgid "Reviewer"
 msgstr "Relecteur"
 
-#: application/src/Permissions/Acl.php:24
+#: application/src/Permissions/Acl.php:25
 msgid "Author"
 msgstr "Auteur"
 
-#: application/src/Permissions/Acl.php:25
+#: application/src/Permissions/Acl.php:26
 msgid "Researcher"
 msgstr "Chercheur"
 
 #: application/src/View/Helper/PropertySelect.php:39
 msgid "Select property…"
-msgstr "Sélectionner une propriété..."
+msgstr "Choisir une propriété..."
 
 #: application/src/View/Helper/BlockShowTitleSelect.php:24
 msgid "item title"
@@ -2960,17 +3305,25 @@ msgstr "Titre du média"
 msgid "no title"
 msgstr "Sans titre"
 
+#: application/src/View/Helper/ResourceTemplateSelect.php:39
+msgid "Select template…"
+msgstr "Choisir un modèle…"
+
 #: application/src/View/Helper/SiteSelect.php:39
 msgid "Select site…"
-msgstr "Sélectionner le site..."
+msgstr "Choisir un site..."
 
 #: application/src/View/Helper/ItemSetSelect.php:39
 msgid "Select item set…"
-msgstr "Sélectionner une collection"
+msgstr "Choisir une collection"
+
+#: application/src/View/Helper/UserSelect.php:39
+msgid "Select user…"
+msgstr "Choisir un utilisateur…"
 
 #: application/src/View/Helper/ResourceClassSelect.php:39
 msgid "Select class…"
-msgstr "Sélectionner la classe..."
+msgstr "Choisir la classe..."
 
 #: application/src/DataType/Resource/ItemSet.php:13
 msgid "Item Set"
@@ -3008,6 +3361,46 @@ msgstr "arrêté"
 msgid "error"
 msgstr "erreur"
 
+#: application/src/Site/BlockLayout/ListOfSites.php:22
+msgid "List of sites"
+msgstr "Liste des sites"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:37
+msgid "Alphabetical"
+msgstr "Alphabétique"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:38
+msgid "Oldest first"
+msgstr "À partir du plus ancien"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:39
+msgid "Newest first"
+msgstr "À partir du plus récent"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:50
+msgid "Max number of sites"
+msgstr "Nombre maximum de sites"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:51
+msgid "An empty value means no limit."
+msgstr "Une valeur vide signifie pas de limite."
+
+#: application/src/Site/BlockLayout/ListOfSites.php:55
+msgid "Unlimited"
+msgstr "Sans limite"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:63
+msgid "Pagination"
+msgstr "Pagination"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:64
+msgid "Show pagination (only if a limit is set)"
+msgstr "Montrer la pagination (lorsqu’une limite est définie)"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:74
+msgid "Show summaries"
+msgstr "Montrer les descriptions"
+
 #: application/src/Site/BlockLayout/PageTitle.php:13
 msgid "Page title"
 msgstr "Titre de la page"
@@ -3024,7 +3417,7 @@ msgstr "Contenus avec métadonnées"
 msgid "Thumbnail alignment"
 msgstr "Alignement des vignettes"
 
-#: application/src/Site/BlockLayout/Fallback.php:31
+#: application/src/Site/BlockLayout/Fallback.php:28
 #, php-format
 msgid "Unknown [%s]"
 msgstr "Inconnu [%s]"
@@ -3042,8 +3435,8 @@ msgid "Opaque"
 msgstr "Opaque"
 
 #: application/src/Site/BlockLayout/Html.php:27
-#: application/src/Media/Ingester/Html.php:42
-#: application/src/Media/Ingester/Html.php:88
+#: application/src/Media/Ingester/Html.php:36
+#: application/src/Media/Ingester/Html.php:79
 msgid "HTML"
 msgstr "HTML"
 
@@ -3061,11 +3454,11 @@ msgstr "Les ressources issues de cette requête sont affichées."
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:57
 msgid "Limit"
-msgstr ""
+msgstr "Limite"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:58
 msgid "Maximum number of resources to display in the preview."
-msgstr ""
+msgstr "Le nombre maximum de ressources à afficher dans l’aperçu."
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:65
 msgid "Preview title"
@@ -3073,15 +3466,15 @@ msgstr "Titre de l’aperçu"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:66
 msgid "Heading above resource list, if any."
-msgstr ""
+msgstr "Entête au-dessus de la liste des ressources, si présent."
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:73
 msgid "Link text"
-msgstr ""
+msgstr "Texte du lien"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:74
 msgid "Text for link to full browse view, if any."
-msgstr ""
+msgstr "Texte du lien vers la page des ressources, si présent."
 
 #: application/src/Site/BlockLayout/ItemShowcase.php:13
 msgid "Item showcase"
@@ -3154,176 +3547,181 @@ msgstr "Erreur lors du téléchargement %s : %s"
 msgid "Error downloading %s: %s %s"
 msgstr "Erreur lors du téléchargement %s : %s %s"
 
-#: application/src/Api/Adapter/PropertyAdapter.php:172
-#: application/src/Api/Adapter/ResourceClassAdapter.php:161
+#: application/src/Api/Adapter/PropertyAdapter.php:148
+#: application/src/Api/Adapter/ResourceClassAdapter.php:137
 msgid "The local name cannot be empty."
 msgstr "Le nom local ne peut pas être vide."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:177
-#: application/src/Api/Adapter/VocabularyAdapter.php:246
-#: application/src/Api/Adapter/ResourceTemplateAdapter.php:110
-#: application/src/Api/Adapter/ResourceClassAdapter.php:166
+#: application/src/Api/Adapter/PropertyAdapter.php:153
+#: application/src/Api/Adapter/VocabularyAdapter.php:214
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:89
+#: application/src/Api/Adapter/ResourceClassAdapter.php:142
 msgid "The label cannot be empty."
 msgstr "L’étiquette ne peut pas être vide."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:190
-#: application/src/Api/Adapter/VocabularyAdapter.php:254
-#: application/src/Api/Adapter/VocabularyAdapter.php:267
-#: application/src/Api/Adapter/ResourceClassAdapter.php:179
+#: application/src/Api/Adapter/PropertyAdapter.php:166
+#: application/src/Api/Adapter/VocabularyAdapter.php:222
+#: application/src/Api/Adapter/VocabularyAdapter.php:235
+#: application/src/Api/Adapter/ResourceClassAdapter.php:155
 #, php-format
 msgid "The local name \"%s\" is already taken."
 msgstr "Le nom local \"%s\" est déjà pris."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:196
-#: application/src/Api/Adapter/ResourceClassAdapter.php:185
+#: application/src/Api/Adapter/PropertyAdapter.php:172
+#: application/src/Api/Adapter/ResourceClassAdapter.php:161
 msgid "A vocabulary must be set."
 msgstr "Un vocabulaire doit être défini."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:82
+#: application/src/Api/Adapter/VocabularyAdapter.php:59
 msgid "Classes must be an array"
 msgstr "Les classes doivent être une liste."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:88
+#: application/src/Api/Adapter/VocabularyAdapter.php:65
 msgid "Properties must be an array"
 msgstr "Les propriétés doivent être une liste."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:214
+#: application/src/Api/Adapter/VocabularyAdapter.php:182
 msgid "The namespace URI cannot be empty."
 msgstr "L’espace de nom URI ne peut pas être vide."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:218
+#: application/src/Api/Adapter/VocabularyAdapter.php:186
 #, php-format
 msgid "The namespace URI \"%s\" is already taken."
 msgstr "L’espace de nom URI \"%s\" est déjà pris."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:226
+#: application/src/Api/Adapter/VocabularyAdapter.php:194
 msgid "The prefix cannot be empty."
 msgstr "Le préfixe ne peut pas être vide."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:230
+#: application/src/Api/Adapter/VocabularyAdapter.php:198
 #, php-format
 msgid "The prefix \"%s\" is already taken."
 msgstr "Le préfixe \"%s\" est déjà pris."
 
-#: application/src/Api/Adapter/VocabularyAdapter.php:237
+#: application/src/Api/Adapter/VocabularyAdapter.php:205
 #, php-format
 msgid "The prefix \"%s\" is reserved."
 msgstr "Le préfixe \"%s\" est réservé."
 
-#: application/src/Api/Adapter/SiteAdapter.php:220
+#: application/src/Api/Adapter/SiteAdapter.php:221
 msgid "A site must have a title."
 msgstr "Un site doit avoir un titre."
 
-#: application/src/Api/Adapter/SiteAdapter.php:224
-#: application/src/Api/Adapter/SitePageAdapter.php:112
+#: application/src/Api/Adapter/SiteAdapter.php:225
+#: application/src/Api/Adapter/SitePageAdapter.php:94
 msgid "The slug cannot be empty."
 msgstr "Le slug ne peut pas être vide."
 
-#: application/src/Api/Adapter/SiteAdapter.php:227
-#: application/src/Api/Adapter/SitePageAdapter.php:115
+#: application/src/Api/Adapter/SiteAdapter.php:228
+#: application/src/Api/Adapter/SitePageAdapter.php:97
 msgid "A slug can only contain letters, numbers, underscores, and hyphens."
 msgstr ""
 "Un slug ne peut contenir que des lettres, des chiffres, des underscores et "
 "des traits d’union."
 
-#: application/src/Api/Adapter/SiteAdapter.php:231
-#: application/src/Api/Adapter/SitePageAdapter.php:123
+#: application/src/Api/Adapter/SiteAdapter.php:232
+#: application/src/Api/Adapter/SitePageAdapter.php:105
 #, php-format
 msgid "The slug \"%s\" is already taken."
 msgstr "Le slug \"%s\" est déjà pris."
 
-#: application/src/Api/Adapter/SiteAdapter.php:237
+#: application/src/Api/Adapter/SiteAdapter.php:238
 msgid "A site must have a theme."
 msgstr "Un site doit avoir un thème."
 
-#: application/src/Api/Adapter/SiteAdapter.php:242
+#: application/src/Api/Adapter/SiteAdapter.php:243
 msgid "A site must have item pool data."
 msgstr "Un site doit avoir un réservoir de contenus."
 
-#: application/src/Api/Adapter/SiteAdapter.php:275
+#: application/src/Api/Adapter/SiteAdapter.php:283
 msgid "Invalid navigation: navigation must be an array"
 msgstr "Navigation invalide : la navigation doit être une liste"
 
-#: application/src/Api/Adapter/SiteAdapter.php:284
+#: application/src/Api/Adapter/SiteAdapter.php:292
 msgid "Invalid navigation: link missing type"
 msgstr "Lien de navigation invalide : type manquant"
 
-#: application/src/Api/Adapter/SiteAdapter.php:288
+#: application/src/Api/Adapter/SiteAdapter.php:296
 msgid "Invalid navigation: link missing data"
 msgstr "Navigation invalide : lien sans données"
 
-#: application/src/Api/Adapter/SiteAdapter.php:292
+#: application/src/Api/Adapter/SiteAdapter.php:300
 msgid "Invalid navigation: invalid link data"
 msgstr "Navigation invalide : données du lien invalides"
 
-#: application/src/Api/Adapter/SiteAdapter.php:297
+#: application/src/Api/Adapter/SiteAdapter.php:305
 msgid "Invalid navigation: page links must be unique"
 msgstr "Navigation invalide : les liens vers les pages doivent être uniques"
 
-#: application/src/Api/Adapter/SiteAdapter.php:304
+#: application/src/Api/Adapter/SiteAdapter.php:312
 msgid "Invalid navigation: links must be an array"
 msgstr "Navigation invalide : les liens doivent être une liste"
 
-#: application/src/Api/Adapter/UserAdapter.php:103
+#: application/src/Api/Adapter/UserAdapter.php:120
 msgid "The name cannot be empty."
 msgstr "Le nom doit être renseigné."
 
-#: application/src/Api/Adapter/UserAdapter.php:113
+#: application/src/Api/Adapter/UserAdapter.php:130
 #, php-format
 msgid "The email %s is already taken."
 msgstr "L’email %s est déjà pris."
 
-#: application/src/Api/Adapter/UserAdapter.php:119
+#: application/src/Api/Adapter/UserAdapter.php:136
 msgid "Users must have a role."
 msgstr "Les utilisateurs doivent avoir un rôle."
 
-#: application/src/Api/Adapter/ResourceTemplateAdapter.php:93
+#: application/src/Api/Adapter/UserAdapter.php:169
+#, php-format
+msgid "The current user #%d was removed from the batch process."
+msgstr "L’utilisateur actuel #%d a été retiré du traitement en lot."
+
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:75
 #, php-format
 msgid "Attempting to add duplicate property with ID %s"
 msgstr "Tentative d’ajout d’un doublon de la propriété avec l’id %s"
 
-#: application/src/Api/Adapter/ResourceTemplateAdapter.php:113
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:92
 msgid "The label is already taken."
 msgstr "Le label est déjà pris."
 
-#: application/src/Api/Adapter/MediaAdapter.php:107
+#: application/src/Api/Adapter/MediaAdapter.php:88
 msgid "Media must set an ingester."
 msgstr "Les médias doivent définir un ingesteur."
 
-#: application/src/Api/Adapter/MediaAdapter.php:132
+#: application/src/Api/Adapter/MediaAdapter.php:110
 msgid "Media must set a valid ingester."
 msgstr "Les médias doivent définir un ingesteur valide."
 
-#: application/src/Api/Adapter/MediaAdapter.php:171
+#: application/src/Api/Adapter/MediaAdapter.php:146
 msgid "Media must belong to an item."
 msgstr "Un média doit appartenir à un contenu."
 
-#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:160
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:165
 #, php-format
 msgid "The \"%s\" resource template requires a \"%s\" value"
 msgstr "Le modèle de ressource \"%s\" requiert une valeur \"%s\""
 
-#: application/src/Api/Adapter/ItemAdapter.php:128
+#: application/src/Api/Adapter/ItemAdapter.php:106
 msgid "Item sets must be an array"
 msgstr "Les collections doivent être une liste."
 
-#: application/src/Api/Adapter/ItemAdapter.php:134
+#: application/src/Api/Adapter/ItemAdapter.php:112
 msgid "Media must be an array"
 msgstr "Les médias doivent être une liste."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:102
+#: application/src/Api/Adapter/SitePageAdapter.php:84
 msgid "A page must belong to a site."
 msgstr "Une page doit appartenir à un site."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:107
+#: application/src/Api/Adapter/SitePageAdapter.php:89
 msgid "A page must have a title."
 msgstr "Une page doit avoir un titre."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:167
+#: application/src/Api/Adapter/SitePageAdapter.php:149
 msgid "All blocks must have a layout."
 msgstr "Tous les blocs doivent avoir une mise en page."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:171
+#: application/src/Api/Adapter/SitePageAdapter.php:153
 msgid "Block data must not be a scalar value."
 msgstr "Les données de bloc ne doivent pas être une valeur scalaire."
 
@@ -3378,7 +3776,7 @@ msgstr "Ressources du site mises à jour avec succès"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:280
 msgid "User permissions successfully updated"
-msgstr "Permissions des utilisateurs mises à jour avec succès"
+msgstr "Droits des utilisateurs mis à jour avec succès"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:312
 msgid "Site theme successfully updated"
@@ -3416,24 +3814,24 @@ msgstr "Installation réussie. Connectez-vous."
 msgid "There were errors during installation."
 msgstr "Des erreurs ont eu lors de l’installation."
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:335
+#: application/src/Controller/Admin/ResourceTemplateController.php:338
 msgid "resource template"
 msgstr "modèle de ressource"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:348
+#: application/src/Controller/Admin/ResourceTemplateController.php:351
 msgid "Resource template successfully deleted"
 msgstr "Modèle de ressource supprimée avec succès"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:350
 #: application/src/Controller/Admin/ResourceTemplateController.php:353
+#: application/src/Controller/Admin/ResourceTemplateController.php:356
 msgid "Resource template could not be deleted"
 msgstr "Modèle de ressource ne peut pas être supprimé"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:399
+#: application/src/Controller/Admin/ResourceTemplateController.php:402
 msgid "Resource template successfully updated"
 msgstr "Modèle de ressource mis à jour avec succès"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:402
+#: application/src/Controller/Admin/ResourceTemplateController.php:405
 #, php-format
 msgid "Resource template successfully created. %s"
 msgstr "Modèle de ressource créé avec succès. %s"
@@ -3453,6 +3851,8 @@ msgstr "Collection mise à jour avec succès"
 #: application/src/Controller/Admin/ItemController.php:47
 #: application/src/Controller/Admin/MediaController.php:27
 #: application/src/Controller/Admin/MediaController.php:32
+#: application/src/Controller/Admin/UserController.php:44
+#: application/src/Controller/Admin/UserController.php:49
 msgid "Confirm Delete"
 msgstr "Confirmer la suppression"
 
@@ -3542,24 +3942,24 @@ msgstr ""
 msgid "vocabulary"
 msgstr "vocabulaire"
 
-#: application/src/Controller/Admin/VocabularyController.php:84
+#: application/src/Controller/Admin/VocabularyController.php:93
 #, php-format
 msgid "Vocabulary successfully imported. %s"
 msgstr "Vocabulaire importé avec succès. %s"
 
-#: application/src/Controller/Admin/VocabularyController.php:139
+#: application/src/Controller/Admin/VocabularyController.php:148
 msgid "Please review these changes before you accept them."
 msgstr "Veuillez passer en revue ces modifications avant de les accepter."
 
-#: application/src/Controller/Admin/VocabularyController.php:152
+#: application/src/Controller/Admin/VocabularyController.php:161
 msgid "Vocabulary successfully updated"
 msgstr "Vocabulaire mis à jour avec succès"
 
-#: application/src/Controller/Admin/VocabularyController.php:173
+#: application/src/Controller/Admin/VocabularyController.php:182
 msgid "Changes to the vocabulary successfully made"
 msgstr "Changements au vocabulaire réalisés avec succès"
 
-#: application/src/Controller/Admin/VocabularyController.php:189
+#: application/src/Controller/Admin/VocabularyController.php:198
 msgid "Vocabulary successfully deleted"
 msgstr "Vocabulaire supprimé avec succès"
 
@@ -3574,26 +3974,30 @@ msgstr "Média supprimé avec succès"
 #: application/src/Controller/Admin/MediaController.php:157
 msgid "You must select at least one media to batch delete."
 msgstr ""
+"Vous devez sélectionner au moins un média pour effectuer une suppression "
+"multiple."
 
 #: application/src/Controller/Admin/MediaController.php:166
 msgid "Medias successfully deleted"
-msgstr ""
+msgstr "Médias supprimés avec succès"
 
 #: application/src/Controller/Admin/MediaController.php:192
 msgid "Deleting medias. This may take a while."
-msgstr ""
+msgstr "Suppression des médias. Cela peut prendre un peu de temps."
 
 #: application/src/Controller/Admin/MediaController.php:210
 msgid "You must select at least one media to batch edit."
 msgstr ""
+"Vous devez sélectionner au moins un média pour effectuer une modification "
+"multiple."
 
 #: application/src/Controller/Admin/MediaController.php:235
 msgid "Medias successfully edited"
-msgstr ""
+msgstr "Médias mis à jour avec succès"
 
 #: application/src/Controller/Admin/MediaController.php:282
 msgid "Editing medias. This may take a while."
-msgstr ""
+msgstr "Modification des médias en cours. Cela peut prendre un peu de temps."
 
 #: application/src/Controller/Admin/ModuleController.php:121
 msgid "The module was successfully installed"
@@ -3627,40 +4031,40 @@ msgstr "Le module a été configuré avec succès"
 msgid "There was a problem during configuration"
 msgstr "Il y a eu un problème lors de la configuration"
 
-#: application/src/Controller/Admin/JobController.php:70
+#: application/src/Controller/Admin/JobController.php:27
+msgid "Attempt Stop"
+msgstr "Essayer d’arrêter"
+
+#: application/src/Controller/Admin/JobController.php:56
 msgid "Attempting to stop the job."
 msgstr "Essai d’arrêt de la tâche."
 
-#: application/src/Controller/Admin/JobController.php:72
+#: application/src/Controller/Admin/JobController.php:58
 msgid "The job could not be stopped."
 msgstr "La tâche n’a pas pu être arrêtée."
 
-#: application/src/Controller/Admin/UserController.php:49
+#: application/src/Controller/Admin/UserController.php:113
 #, php-format
 msgid "User successfully created. %s"
 msgstr "Utilisateur créé avec succès. %s"
 
-#: application/src/Controller/Admin/UserController.php:107
-msgid "user"
-msgstr "utilisateur"
-
-#: application/src/Controller/Admin/UserController.php:166
+#: application/src/Controller/Admin/UserController.php:187
 msgid "User successfully updated"
 msgstr "Utilisateur mis à jour avec succès"
 
-#: application/src/Controller/Admin/UserController.php:181
+#: application/src/Controller/Admin/UserController.php:202
 msgid "The current password entered was invalid"
 msgstr "Le mot de passe entré n’est pas valide"
 
-#: application/src/Controller/Admin/UserController.php:185
+#: application/src/Controller/Admin/UserController.php:206
 msgid "Password successfully changed"
 msgstr "Mot de passe changé avec succès"
 
-#: application/src/Controller/Admin/UserController.php:213
+#: application/src/Controller/Admin/UserController.php:234
 msgid "Key(s) successfully deleted"
 msgstr "Clé(s) changée(s) avec succès"
 
-#: application/src/Controller/Admin/UserController.php:221
+#: application/src/Controller/Admin/UserController.php:242
 #, php-format
 msgid ""
 "API key successfully created.<br><br>Here is your key ID and credential for "
@@ -3674,9 +4078,50 @@ msgstr ""
 "page.<br><br>key_identity : <code>%s</code><br>key_credential : "
 "<code>%s</code>"
 
-#: application/src/Controller/Admin/UserController.php:247
+#: application/src/Controller/Admin/UserController.php:268
+msgid "user"
+msgstr "utilisateur"
+
+#: application/src/Controller/Admin/UserController.php:281
 msgid "User successfully deleted"
 msgstr "Utilisateur supprimé avec succès"
+
+#: application/src/Controller/Admin/UserController.php:303
+msgid "You must select at least one user to batch delete."
+msgstr "Vous devez choisir au moins un utilisateur à supprimer."
+
+#: application/src/Controller/Admin/UserController.php:310
+msgid "You can’t delete yourself."
+msgstr "Vous ne pouvez pas vous supprimer vous-même."
+
+#: application/src/Controller/Admin/UserController.php:319
+msgid "Users successfully deleted"
+msgstr "Utilisateurs supprimés avec succès"
+
+#: application/src/Controller/Admin/UserController.php:345
+msgid "Deleting users. This may take a while."
+msgstr "Suppression des utilisateurs. Cela peut prendre un peu de temps."
+
+#: application/src/Controller/Admin/UserController.php:364
+msgid "You must select at least one user to batch edit."
+msgstr ""
+"Vous devez choisir au moins un utilisateur pour effectuer une modification "
+"en lot."
+
+#: application/src/Controller/Admin/UserController.php:371
+msgid "For security reasons, you can’t batch edit yourself."
+msgstr ""
+"Pour des raisons de sécurité, vous ne pouvez pas faire partie d'un "
+"traitement en lot."
+
+#: application/src/Controller/Admin/UserController.php:396
+msgid "Users successfully edited"
+msgstr "Utilisateurs modifiés avec succès."
+
+#: application/src/Controller/Admin/UserController.php:444
+msgid "Editing users. This may take a while."
+msgstr ""
+"Modification des utilisateurs en cours. Cela peut prendre un peu de temps."
 
 #: application/src/Controller/LoginController.php:56
 msgid "Successfully logged in"
@@ -3716,7 +4161,7 @@ msgstr ""
 msgid "Activation unsuccessful"
 msgstr "Activation échouée"
 
-#: application/src/Media/Ingester/Upload.php:101
+#: application/src/Media/Ingester/Upload.php:89
 msgid "Upload file"
 msgstr "Charger le fichier"
 
@@ -3724,19 +4169,19 @@ msgstr "Charger le fichier"
 msgid "YouTube"
 msgstr "YouTube"
 
-#: application/src/Media/Ingester/Youtube.php:97
+#: application/src/Media/Ingester/Youtube.php:94
 msgid "Video URL"
 msgstr "URL de la vidéo"
 
-#: application/src/Media/Ingester/Youtube.php:98
+#: application/src/Media/Ingester/Youtube.php:95
 msgid "URL for the video to embed."
 msgstr "URL pour la vidéo à intégrer."
 
-#: application/src/Media/Ingester/Youtube.php:110
+#: application/src/Media/Ingester/Youtube.php:103
 msgid "Start"
 msgstr "Début"
 
-#: application/src/Media/Ingester/Youtube.php:111
+#: application/src/Media/Ingester/Youtube.php:104
 msgid ""
 "Begin playing the video at the given number of seconds from the start of the"
 " video."
@@ -3744,11 +4189,11 @@ msgstr ""
 "Début de la lecture de la vidéo au nombre de secondes donné depuis le début "
 "de la vidéo."
 
-#: application/src/Media/Ingester/Youtube.php:115
+#: application/src/Media/Ingester/Youtube.php:108
 msgid "End"
 msgstr "Fin"
 
-#: application/src/Media/Ingester/Youtube.php:116
+#: application/src/Media/Ingester/Youtube.php:109
 msgid ""
 "End playing the video at the given number of seconds from the start of the "
 "video."
@@ -3768,11 +4213,11 @@ msgstr "URL de l’image IIIF"
 msgid "URL for the image to embed."
 msgstr "URL pour l’image à intégrer."
 
-#: application/src/Media/Ingester/Html.php:89
+#: application/src/Media/Ingester/Html.php:80
 msgid "HTML or plain text."
 msgstr "HTML ou plein texte."
 
-#: application/src/Media/Ingester/Url.php:109
+#: application/src/Media/Ingester/Url.php:100
 msgid "A URL to the media."
 msgstr "Une URL au média."
 
@@ -3780,45 +4225,49 @@ msgstr "Une URL au média."
 msgid "oEmbed"
 msgstr "oEmbed"
 
-#: application/src/Media/Ingester/OEmbed.php:121
+#: application/src/Media/Ingester/OEmbed.php:118
 msgid "oEmbed URL"
 msgstr "oEmbed URL"
 
-#: application/src/Media/Ingester/OEmbed.php:122
+#: application/src/Media/Ingester/OEmbed.php:119
 msgid "URL for the media to embed."
 msgstr "URL pour les médias à intégrer."
 
-#: application/config/module.config.php:590
+#: application/config/module.config.php:602
 msgid "Something went wrong"
 msgstr "Quelque chose s’est mal passé"
 
-#: application/config/module.config.php:595
+#: application/config/module.config.php:607
 msgid "You have unsaved changes."
 msgstr "Vous avez des modifications non enregistrées."
 
-#: application/config/module.config.php:597
+#: application/config/module.config.php:609
 msgid "Close icon set"
 msgstr "Fermer l’ensemble des icônes"
 
-#: application/config/module.config.php:598
+#: application/config/module.config.php:610
 msgid "Open icon set"
 msgstr "Ouvrir l’ensemble des icônes"
 
-#: application/config/module.config.php:600
+#: application/config/module.config.php:612
 msgid "Failed loading resource template from API"
 msgstr "Échec du chargement du modèle de ressource à partir de l’API"
 
-#: application/config/module.config.php:601
+#: application/config/module.config.php:613
 msgid "Restore property"
 msgstr "Restaurer la propriété"
 
-#: application/config/module.config.php:603
+#: application/config/module.config.php:615
 msgid "Please enter a valid language tag"
 msgstr "Entrez une étiquette de langue valide"
 
 #: application/config/navigation.config.php:192
 msgid "Site info"
 msgstr "Informations du site"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:33
+msgid "Filter by owner"
+msgstr "Filtrer par propriétaire"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:30
 msgid "Filter by class"
@@ -4117,10 +4566,6 @@ msgstr "Format"
 #. Property comment for Dublin Core:format
 msgid "The file format, physical medium, or dimensions of the resource."
 msgstr ""
-
-#. Property label for Dublin Core:identifier
-msgid "Identifier"
-msgstr "Identifiant"
 
 #. Property comment for Dublin Core:identifier
 msgid "An unambiguous reference to the resource within a given context."
@@ -4549,7 +4994,7 @@ msgstr "La politique qui gouverne l’ajout d’articles dans une collection."
 
 #. Vocabulary label for Dublin Core Type
 msgid "Dublin Core Type"
-msgstr ""
+msgstr "Dublin Core Type"
 
 #. Vocabulary comment for Dublin Core Type
 msgid "Basic resource types (DCMI Type Vocabulary)"
@@ -4657,7 +5102,7 @@ msgstr ""
 
 #. Vocabulary label for Bibliographic Ontology
 msgid "Bibliographic Ontology"
-msgstr ""
+msgstr "Bibliographic Ontology"
 
 #. Vocabulary comment for Bibliographic Ontology
 msgid "Bibliographic metadata (BIBO)"
@@ -5707,7 +6152,7 @@ msgstr ""
 
 #. Vocabulary label for Friend of a Friend
 msgid "Friend of a Friend"
-msgstr ""
+msgstr "Friend of a Friend"
 
 #. Vocabulary comment for Friend of a Friend
 msgid "Relationships between people and organizations (FOAF)"
@@ -5859,7 +6304,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:sha1
 msgid "sha1sum (hex)"
-msgstr ""
+msgstr "sha1sum (hex)"
 
 #. Property comment for Friend of a Friend:sha1
 msgid "A sha1sum hash, in hex."
@@ -6065,7 +6510,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:img
 msgid "image"
-msgstr ""
+msgstr "image"
 
 #. Property comment for Friend of a Friend:img
 msgid ""

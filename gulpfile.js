@@ -283,7 +283,15 @@ taskCssModuleWatch.flags = {'--module-name': 'Folder name of the module to watch
 gulp.task('css:module:watch', taskCssModuleWatch);
 
 function taskTestCs() {
-    return phpCsFixer(false);
+    return ensureBuildDir().then(function () {
+        return runCommand('vendor/bin/php-cs-fixer', [
+            'fix',
+            '--dry-run',
+            '--verbose',
+            '--diff',
+            '--cache-file=build/cache/.php_cs.cache'
+        ]);
+    });
 }
 taskTestCs.description = 'Check code standards';
 gulp.task('test:cs', taskTestCs);
@@ -335,6 +343,41 @@ taskFixModuleCs.description = 'Fix code standards for a module';
 taskFixModuleCs.flags = {'--module-name': 'Folder name of the module to fix'};
 gulp.task('fix:module:cs', taskFixModuleCs);
 
+gulp.task('test:module:cs', function () {
+    var module = cliOptions.module;
+    var modulePathPromise = getModulePath(module);
+    return modulePathPromise.then(function (modulePath) {
+        process.chdir(__dirname);
+        return ensureBuildDir().then(function () {
+            return runCommand('vendor/bin/php-cs-fixer', [
+                'fix',
+                '--dry-run',
+                '--verbose',
+                '--diff',
+                '--cache-file=' + path.join(modulePath, 'build', '.php_cs.cache'),
+                '--config=.php_cs-module',
+                modulePath
+            ]);
+        });
+    });
+});
+gulp.task('test:module:php', function () {
+    var module = cliOptions.module;
+    var modulePathPromise = getModulePath(module);
+    return modulePathPromise.then(function (modulePath) {
+        process.chdir(__dirname);
+        return ensureBuildDir().then(function () {
+            return runCommand(composerDir + '/phpunit', [
+                '-d',
+                'date.timezone=America/New_York',
+                '--log-junit',
+                path.join(modulePath, 'build', 'test-results.xml')
+            ], {cwd: modulePath});
+        });
+    });
+});
+gulp.task('test:module', gulp.series('test:module:cs', 'test:module:php'));
+
 function taskDeps() {
     return composer(['install']);
 }
@@ -377,34 +420,6 @@ function taskDepsJs(cb) {
 }
 taskDepsJs.description = 'Update in-browser javascript dependencies';
 gulp.task('deps:js', taskDepsJs);
-
-gulp.task('test:module:cs', function () {
-    var module = cliOptions.module;
-    var modulePathPromise = getModulePath(module);
-    return modulePathPromise.then(function (modulePath) {
-        process.chdir(modulePath);
-        return ensureBuildDir().then(function () {
-            return runCommand('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--verbose', '--diff', '--cache-file=build/cache/.php_cs.cache']);
-        });
-    });
-});
-
-gulp.task('test:module:php', function () {
-    var module = cliOptions.module;
-    var modulePathPromise = getModulePath(module);
-    return modulePathPromise.then(function (modulePath) {
-        process.chdir(modulePath);
-        return ensureBuildDir().then(function () {
-            return runCommand(composerDir + '/phpunit', [
-                '-d',
-                'date.timezone=America/New_York',
-                '--log-junit',
-                buildDir + '/test-results.xml'
-            ], {cwd: 'application/test'});
-        });
-    });
-});
-gulp.task('test:module', gulp.series('test:module:cs', 'test:module:php'));
 
 gulp.task('deps:module:npm', function (done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
@@ -648,7 +663,7 @@ gulp.task('zip:module', gulp.series(processNoDevModule, 'clean:module', 'init:mo
     var module = cliOptions.module;
     var modulePathPromise = getModulePath(module);
     modulePathPromise.then(function (modulePath) {
-        zipDistDir(modulePath, path.join(modulePath, 'build'), null, done);
+        zipDistDir(modulePath, path.join(modulePath, 'build'), cliOptions.module, done);
     });
 }));
 

@@ -710,12 +710,14 @@ gulp.task('publish:module', gulp.series('zip:module', function() {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
     process.chdir(modulePath);
     var moduleZip = path.join('build', cliOptions.module + '.zip');
+    var moduleZipRelease = path.join('build', cliOptions.module + '-' + version + '.zip');
+
     var releaseOptions = {
         token: token,
         owner: owner,
         repo: repoName,
         tag: version,
-        name: repoName + '-' + version,
+        name: cliOptions.module + '-' + version,
         notes: '',
         draft: false,
         prerelease: preRelease,
@@ -729,8 +731,9 @@ gulp.task('publish:module', gulp.series('zip:module', function() {
         target_commitish: 'master'
     };
     return gulp.src(moduleZip)
-        .pipe(release(releaseOptions)
-    );
+        .pipe(rename(moduleZipRelease))
+        .pipe(gulp.dest(modulePath))
+        .pipe(release(releaseOptions));
 }));
 
 gulp.task('pre-release:module', gulp.series([triggerPreRelease, 'publish:module'], function(done){

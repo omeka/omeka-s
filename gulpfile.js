@@ -3,6 +3,7 @@
 var child_process = require('child_process');
 var readline = require('readline');
 var path = require('path');
+var fs = require('fs');
 
 var Promise = require('bluebird');
 var dateFormat = require('dateformat');
@@ -18,6 +19,8 @@ Promise.promisifyAll(fs);
 var glob = Promise.promisify(require('glob'));
 var rimraf = Promise.promisify(require('rimraf'));
 var tmpFile = Promise.promisify(require('tmp').file, {multiArgs: true});
+var release = require('gulp-github-release');
+var log = require('fancy-log');
 
 var sass = require('gulp-sass')(require('sass'));
 var postcss = require('gulp-postcss');
@@ -29,6 +32,13 @@ var dataDir = __dirname + '/application/data';
 var scriptsDir = dataDir + '/scripts';
 var langDir = __dirname + '/application/language';
 var pot = langDir + '/template.pot';
+
+var preRelease = false;
+
+var triggerPreRelease = function(done) {
+    preRelease = true;
+    done();
+};
 
 var cliOptions = minimist(process.argv.slice(2), {
     string: ['php-path', 'module-name'],
@@ -629,20 +639,88 @@ var taskZip = gulp.series('clean', 'init', function (done) {
 taskZip.description = 'Create zip archive'
 gulp.task('zip', taskZip);
 
-gulp.task('zip:module', gulp.series(
-    function (done) {
-        var modulePath = path.join(__dirname, 'modules', cliOptions.module);
-        process.chdir(modulePath);
-        cliOptions.dev = false;
-        done();
-    },
-    'clean:module',
-    'init:module',
-    function (done) {
-        var module = cliOptions.module;
-        var modulePathPromise = getModulePath(module);
-        modulePathPromise.then(function (modulePath) {
-            zipDistDir(modulePath, path.join(modulePath, 'build'), null, done);
+var processNoDevModule = function (done) {
+    cliOptions.dev = false;
+    done();
+};
+
+gulp.task('zip:module', gulp.series(processNoDevModule, 'clean:module', 'init:module', function (done) {
+    var module = cliOptions.module;
+    var modulePathPromise = getModulePath(module);
+    modulePathPromise.then(function (modulePath) {
+        zipDistDir(modulePath, path.join(modulePath, 'build'), null, done);
+    });
+}));
+
+// TODO Check params first.
+gulp.task('publish:module', gulp.series('zip:module', function() {
+    let moduleFile = fs.readFileSync('config/module.ini','utf-8');
+    let moduleObj = {};
+    moduleFile.trim().split('\n').forEach(function(entry){
+        let arr = entry.split('='),
+            key = arr[0] && arr[0].trim(),
+            value = (arr[1] && arr[1].trim()) || '';
+        key && (moduleObj[key] = value);
+    });
+
+    let credentials = cliOptions.credentials && cliOptions.credentials.split(':'),
+        cliUserName = credentials && credentials[0],
+        cliToken = credentials && credentials[1];
+
+    // If username and token are not passed in cli, then only consider
+    // credentials present in config/user.ini.
+    let userObj = {};
+    if(!cliUserName && !cliToken) {
+        let userFile = fs.readFileSync(path.resolve(__dirname) + '/config/user.ini','utf-8');
+        userFile.trim().split('\n').forEach(function(entry){
+            let arr = entry.split('='),
+                key = arr[0] && arr[0].trim(),
+                value = (arr[1] && arr[1].trim()) || '';
+            key && (userObj[key] = value);
         });
     }
-));
+
+    let version = moduleObj['version'].replace(/\"/g,''),
+        repoLink = moduleObj['module_link'].replace(/\"/g,''),
+        authorLink = moduleObj['author_link'].replace(/\"/g,''),
+        repoName = repoLink.replace(authorLink + '/', ""),
+        token = cliToken || userObj && userObj['token'].replace(/\"/g,''),
+        owner = cliUserName || userObj && userObj['owner'].replace(/\"/g,'');
+
+    if (!owner.length || !token.length) {
+        log.error('Unable to publish: No credentials. Set it in config/user.ini or as an argument of the command --credentials=owner:token.');
+        return;
+    }
+
+    var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    process.chdir(modulePath);
+    var moduleZip = path.join('build', cliOptions.module + '.zip');
+    var releaseOptions = {
+        token: token,
+        owner: owner,
+        repo: repoName,
+        tag: version,
+        name: repoName + '-' + version,
+        notes: '',
+        draft: false,
+        prerelease: preRelease,
+        reuseRelease: true,
+        reuseDraftOnly: false,
+        skipAssetsCheck: false,
+        skipDuplicatedAssets: false,
+        skipIfPublished: false,
+        editRelease: false,
+        deleteEmptyTag: false,
+        target_commitish: 'master'
+    };
+    return gulp.src(moduleZip)
+        .pipe(release(releaseOptions)
+    );
+}));
+
+gulp.task('pre-release:module', gulp.series([triggerPreRelease, 'publish:module'], function(done){
+    preRelease = false;
+    done();
+}));
+
+gulp.task('release:module', gulp.series(['test:module', 'publish:module']));

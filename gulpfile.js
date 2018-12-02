@@ -365,6 +365,34 @@ function taskDepsJs(cb) {
 taskDepsJs.description = 'Update in-browser javascript dependencies';
 gulp.task('deps:js', taskDepsJs);
 
+gulp.task('test:module:cs', function () {
+    var module = cliOptions.module;
+    var modulePathPromise = getModulePath(module);
+    return modulePathPromise.then(function (modulePath) {
+        process.chdir(modulePath);
+        return ensureBuildDir().then(function () {
+            return runCommand('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--verbose', '--diff', '--cache-file=build/cache/.php_cs.cache']);
+        });
+    });
+});
+
+gulp.task('test:module:php', function () {
+    var module = cliOptions.module;
+    var modulePathPromise = getModulePath(module);
+    return modulePathPromise.then(function (modulePath) {
+        process.chdir(modulePath);
+        return ensureBuildDir().then(function () {
+            return runCommand(composerDir + '/phpunit', [
+                '-d',
+                'date.timezone=America/New_York',
+                '--log-junit',
+                buildDir + '/test-results.xml'
+            ], {cwd: 'application/test'});
+        });
+    });
+});
+gulp.task('test:module', gulp.series('test:module:cs', 'test:module:php'));
+
 gulp.task('deps:module:npm', function (done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
     process.chdir(modulePath);

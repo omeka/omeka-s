@@ -1,10 +1,14 @@
 <?php
 namespace Omeka\File;
 
+use Zend\EventManager\EventManagerAwareInterface;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class TempFileFactory
+class TempFileFactory implements EventManagerAwareInterface
 {
+    use EventManagerAwareTrait;
+
     /**
      * @var string
      */
@@ -44,6 +48,8 @@ class TempFileFactory
      */
     public function build()
     {
-        return new TempFile($this->tempDir, $this->mediaTypeMap, $this->store, $this->thumbnailManager);
+        $tempFile = new TempFile($this->tempDir, $this->mediaTypeMap, $this->store, $this->thumbnailManager);
+        $tempFile->setEventManager($this->getEventManager());
+        return $tempFile;
     }
 }

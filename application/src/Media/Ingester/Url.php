@@ -75,21 +75,11 @@ class Url implements IngesterInterface
         if (!$this->validator->validate($tempFile, $errorStore)) {
             return;
         }
-        $media->setStorageId($tempFile->getStorageId());
-        $media->setExtension($tempFile->getExtension());
-        $media->setMediaType($tempFile->getMediaType());
-        $media->setSha256($tempFile->getSha256());
-        $media->setSize($tempFile->getSize());
-        $hasThumbnails = $tempFile->storeThumbnails();
-        $media->setHasThumbnails($hasThumbnails);
         if (!array_key_exists('o:source', $data)) {
             $media->setSource($uri);
         }
-        if (!isset($data['store_original']) || $data['store_original']) {
-            $tempFile->storeOriginal();
-            $media->setHasOriginal(true);
-        }
-        $tempFile->delete();
+        $storeOriginal = (!isset($data['store_original']) || $data['store_original']);
+        $tempFile->mediaIngestFile($media, $request, $errorStore, $storeOriginal, true, true, true);
     }
 
     public function form(PhpRenderer $view, array $options = [])

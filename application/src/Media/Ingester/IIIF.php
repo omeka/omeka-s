@@ -89,11 +89,7 @@ class IIIF implements IngesterInterface
         if (isset($IIIFData['@id'])) {
             $tempFile = $this->downloader->download($IIIFData['@id'] . $URLString);
             if ($tempFile) {
-                if ($tempFile->storeThumbnails()) {
-                    $media->setStorageId($tempFile->getStorageId());
-                    $media->setHasThumbnails(true);
-                }
-                $tempFile->delete();
+                $tempFile->mediaIngestFile($media, $request, $errorStore, false);
             }
         }
     }

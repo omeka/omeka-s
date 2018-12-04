@@ -2,11 +2,18 @@
 namespace Omeka\File;
 
 use finfo;
+use Omeka\Api\Request;
+use Omeka\Entity\Media;
 use Omeka\File\Store\StoreInterface;
+use Omeka\Stdlib\ErrorStore;
+use Zend\EventManager\Event;
+use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Math\Rand;
 
 class TempFile
 {
+    use EventManagerAwareTrait;
+
     /**
      * Map of nonstandard-to-standard media types.
      */
@@ -366,5 +373,61 @@ class TempFile
             return unlink($this->tempPath);
         }
         return true;
+    }
+
+    /**
+     * Ingest a media file.
+     *
+     * Ingesters should use this method in ingest() to set the storage ID to the
+     * media and any of the following, depending on flags:
+     *   - store the original file
+     *   - create and store thumbnail files
+     *   - set file metadata to the media
+     *   - delete the temporary file
+     *
+     * @param Media $media
+     * @param Request $request
+     * @param ErrorStore $errorStore
+     * @param bool $storeOriginal Store original file
+     * @param bool $storeThumbnails Store thumbnail images?
+     * @param bool $deleteTempFile Delete the temp file after ingest?
+     * @param bool $hydrateFileMetadataOnStoreOriginalFalse
+     */
+    public function mediaIngestFile(Media $media, Request $request,
+        ErrorStore $errorStore, $storeOriginal = true, $storeThumbnails = true,
+        $deleteTempFile = true, $hydrateFileMetadataOnStoreOriginalFalse = false
+    ) {
+        $eventParams = [
+            'tempFile' => $this,
+            'request' => $request,
+            'errorStore' => $errorStore,
+            'storeOriginal' => $storeOriginal,
+            'storeThumbnails' => $storeThumbnails,
+            'deleteTempFile' => $deleteTempFile,
+        ];
+        $event = new Event('media.ingest_file.pre', $media, $eventParams);
+        $this->getEventManager()->triggerEvent($event);
+
+        $media->setStorageId($this->getStorageId());
+        if ($storeOriginal || $hydrateFileMetadataOnStoreOriginalFalse) {
+            $media->setExtension($this->getExtension());
+            $media->setMediaType($this->getMediaType());
+            $media->setSha256($this->getSha256());
+            $media->setSize($this->getSize());
+        }
+        if ($storeOriginal) {
+            $this->storeOriginal();
+            $media->setHasOriginal(true);
+        }
+        if ($storeThumbnails) {
+            $hasThumbnails = $this->storeThumbnails();
+            $media->setHasThumbnails($hasThumbnails);
+        }
+        if ($deleteTempFile) {
+            $this->delete();
+        }
+
+        $event = new Event('media.ingest_file.post', $media, $eventParams);
+        $this->getEventManager()->triggerEvent($event);
     }
 }

@@ -66,20 +66,10 @@ class Upload implements IngesterInterface
         if (!$this->validator->validate($tempFile, $errorStore)) {
             return;
         }
-
-        $media->setStorageId($tempFile->getStorageId());
-        $media->setExtension($tempFile->getExtension());
-        $media->setMediaType($tempFile->getMediaType());
-        $media->setSha256($tempFile->getSha256());
-        $media->setSize($tempFile->getSize());
-        $hasThumbnails = $tempFile->storeThumbnails();
-        $media->setHasThumbnails($hasThumbnails);
-        $media->setHasOriginal(true);
         if (!array_key_exists('o:source', $data)) {
             $media->setSource($fileData['file'][$index]['name']);
         }
-        $tempFile->storeOriginal();
-        $tempFile->delete();
+        $tempFile->mediaIngestFile($media, $request, $errorStore);
     }
 
     public function form(PhpRenderer $view, array $options = [])

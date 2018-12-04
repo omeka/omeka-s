@@ -68,11 +68,7 @@ class Youtube implements IngesterInterface
         $url = sprintf('http://img.youtube.com/vi/%s/0.jpg', $youtubeId);
         $tempFile = $this->downloader->download($url);
         if ($tempFile) {
-            if ($tempFile->storeThumbnails()) {
-                $media->setStorageId($tempFile->getStorageId());
-                $media->setHasThumbnails(true);
-            }
-            $tempFile->delete();
+            $tempFile->mediaIngestFile($media, $request, $errorStore, false);
         }
 
         $mediaData = ['id' => $youtubeId];

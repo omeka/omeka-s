@@ -80,7 +80,7 @@ class Local implements StoreInterface
      * @param string $storagePath Storage path
      * @return string Local path
      */
-    protected function getLocalPath($storagePath)
+    public function getLocalPath($storagePath)
     {
         if (preg_match('#(?:^|/)\.{2}(?:$|/)#', $storagePath)) {
             throw new Exception\RuntimeException(
@@ -95,7 +95,7 @@ class Local implements StoreInterface
      *
      * @param string $localPath
      */
-    protected function assurePathDirectories($localPath)
+    public function assurePathDirectories($localPath)
     {
         $dir = dirname($localPath);
         if (!is_dir($dir)) {

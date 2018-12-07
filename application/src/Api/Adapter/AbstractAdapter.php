@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Api\ResourceInterface;
+use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -94,8 +95,13 @@ abstract class AbstractAdapter implements AdapterInterface
 
     public function preprocessBatchUpdate(array $data, Request $request)
     {
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs(['data' => $data, 'request' => $request]);
+        $event = new Event('api.preprocess_batch_update', $this, $args);
+        $eventManager->triggerEvent($event);
+
         // Pass the data through by default.
-        return $data;
+        return $args['data'];
     }
 
     public function delete(Request $request)

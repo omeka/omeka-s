@@ -404,6 +404,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
     public function preprocessBatchUpdate(array $data, Request $request)
     {
         $rawData = $request->getContent();
+        $data = parent::preprocessBatchUpdate($data, $request);
 
         if (isset($rawData['o:is_public'])) {
             $data['o:is_public'] = $rawData['o:is_public'];

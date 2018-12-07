@@ -10,8 +10,6 @@ class BatchUpdate extends AbstractJob
         $resource = $this->getArg('resource');
         $query = $this->getArg('query', []);
         $data = $this->getArg('data', []);
-        $dataRemove = $this->getArg('data_remove', []);
-        $dataAppend = $this->getArg('data_append', []);
 
         $response = $api->search($resource, $query, ['returnScalar' => 'id']);
 
@@ -20,21 +18,10 @@ class BatchUpdate extends AbstractJob
             if ($this->shouldStop()) {
                 return;
             }
-            if ($data) {
-                $api->batchUpdate($resource, $idsChunk, $data, [
+            foreach ($data as $collectionAction => $properties) {
+                $api->batchUpdate('items', $idsChunk, $properties, [
                     'continueOnError' => true,
-                ]);
-            }
-            if ($dataRemove) {
-                $api->batchUpdate($resource, $idsChunk, $dataRemove, [
-                    'continueOnError' => true,
-                    'collectionAction' => 'remove',
-                ]);
-            }
-            if ($dataAppend) {
-                $api->batchUpdate($resource, $idsChunk, $dataAppend, [
-                    'continueOnError' => true,
-                    'collectionAction' => 'append',
+                    'collectionAction' => $collectionAction,
                 ]);
             }
         }

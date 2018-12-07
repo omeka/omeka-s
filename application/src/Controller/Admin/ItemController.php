@@ -334,9 +334,7 @@ class ItemController extends AbstractActionController
                 $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'items',
                     'query' => $query,
-                    'data' => isset($data['replace']) ? $data['replace'] : [],
-                    'data_remove' => isset($data['remove']) ? $data['remove'] : [],
-                    'data_append' => isset($data['append']) ? $data['append'] : [],
+                    'data' => $data
                 ]);
 
                 $this->messenger()->addSuccess('Editing items. This may take a while.'); // @translate

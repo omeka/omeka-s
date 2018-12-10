@@ -72,7 +72,7 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
     {
         $registeredNames = array_merge(
             $this->sortedNames,
-            array_keys(array_diff($this->registeredNames, $this->sortedNames))
+            array_values(array_diff($this->registeredNames, $this->sortedNames))
         );
         $args = $this->getEventManager()->prepareArgs([
             'registered_names' => $registeredNames,

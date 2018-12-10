@@ -10,6 +10,13 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
     use EventManagerAwareTrait;
 
     /**
+     * Registered invokable and factory service names.
+     *
+     * @var array
+     */
+    protected $registeredNames = [];
+
+    /**
      * Sorted array of service names. Names specified here are sorted
      * accordingly in the getRegisteredNames output. Names not specified
      * are left in their natural order.
@@ -27,6 +34,31 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
             $this->sortedNames = $v3config['sorted_names'];
         }
     }
+
+    /**
+     * Set the registered names.
+     *
+     * @param array $config
+     */
+    public function configure(array $config)
+    {
+        parent::configure($config);
+        if (isset($config['factories']) && is_array($config['factories'])) {
+            $factoryKeys = array_keys($config['factories']);
+            $this->registeredNames = array_merge(
+                $this->registeredNames,
+                array_combine($factoryKeys, $factoryKeys)
+            );
+        }
+        if (isset($config['invokables']) && is_array($config['invokables'])) {
+            $invokableKeys = array_keys($config['invokables']);
+            $this->registeredNames = array_merge(
+                $this->registeredNames,
+                array_combine($invokableKeys, $invokableKeys)
+            );
+        }
+    }
+
     /**
      * Get registered names.
      *
@@ -38,14 +70,10 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
      */
     public function getRegisteredNames()
     {
-        $aliases = $this->aliases;
-        $registeredNames = array_keys($aliases);
-        foreach ($this->factories as $key => $value) {
-            if (!in_array($key, $aliases)) {
-                $registeredNames[] = $key;
-            }
-        }
-        $registeredNames = array_merge($this->sortedNames, array_diff($registeredNames, $this->sortedNames));
+        $registeredNames = array_merge(
+            $this->sortedNames,
+            array_values(array_diff($this->registeredNames, $this->sortedNames))
+        );
         $args = $this->getEventManager()->prepareArgs([
             'registered_names' => $registeredNames,
         ]);

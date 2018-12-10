@@ -9,6 +9,8 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
 {
     use EventManagerAwareTrait;
 
+    protected $registeredNames = [];
+
     /**
      * Sorted array of service names. Names specified here are sorted
      * accordingly in the getRegisteredNames output. Names not specified
@@ -27,6 +29,18 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
             $this->sortedNames = $v3config['sorted_names'];
         }
     }
+
+    public function configure(array $config)
+    {
+        parent::configure($config);
+        if (isset($config['factories']) && is_array($config['factories'])) {
+            $this->registeredNames = array_merge($this->registeredNames, array_keys($config['factories']));
+        }
+        if (isset($config['invokables']) && is_array($config['invokables'])) {
+            $this->registeredNames = array_merge($this->registeredNames, array_keys($config['invokables']));
+        }
+    }
+
     /**
      * Get registered names.
      *
@@ -38,14 +52,7 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
      */
     public function getRegisteredNames()
     {
-        $aliases = $this->aliases;
-        $registeredNames = array_keys($aliases);
-        foreach ($this->factories as $key => $value) {
-            if (!in_array($key, $aliases)) {
-                $registeredNames[] = $key;
-            }
-        }
-        $registeredNames = array_merge($this->sortedNames, array_diff($registeredNames, $this->sortedNames));
+        $registeredNames = array_merge($this->sortedNames, array_diff($this->registeredNames, $this->sortedNames));
         $args = $this->getEventManager()->prepareArgs([
             'registered_names' => $registeredNames,
         ]);

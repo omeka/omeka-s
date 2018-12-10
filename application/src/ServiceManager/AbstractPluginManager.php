@@ -9,6 +9,11 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
 {
     use EventManagerAwareTrait;
 
+    /**
+     * Registered invokable and factory service names.
+     *
+     * @var array
+     */
     protected $registeredNames = [];
 
     /**
@@ -30,14 +35,27 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
         }
     }
 
+    /**
+     * Set the registered names.
+     *
+     * @param array $config
+     */
     public function configure(array $config)
     {
         parent::configure($config);
         if (isset($config['factories']) && is_array($config['factories'])) {
-            $this->registeredNames = array_merge($this->registeredNames, array_keys($config['factories']));
+            $factoryKeys = array_keys($config['factories']);
+            $this->registeredNames = array_merge(
+                $this->registeredNames,
+                array_combine($factoryKeys, $factoryKeys)
+            );
         }
         if (isset($config['invokables']) && is_array($config['invokables'])) {
-            $this->registeredNames = array_merge($this->registeredNames, array_keys($config['invokables']));
+            $invokableKeys = array_keys($config['invokables']);
+            $this->registeredNames = array_merge(
+                $this->registeredNames,
+                array_combine($invokableKeys, $invokableKeys)
+            );
         }
     }
 
@@ -52,7 +70,10 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
      */
     public function getRegisteredNames()
     {
-        $registeredNames = array_merge($this->sortedNames, array_diff($this->registeredNames, $this->sortedNames));
+        $registeredNames = array_merge(
+            $this->sortedNames,
+            array_keys(array_diff($this->registeredNames, $this->sortedNames))
+        );
         $args = $this->getEventManager()->prepareArgs([
             'registered_names' => $registeredNames,
         ]);

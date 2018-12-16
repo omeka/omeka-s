@@ -1,82 +1,37 @@
 <?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SiteRepresentation $site
+ * @var \Omeka\Entity\User $user
+ * @var array $links
+ */
+
 $translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
 $hyperlink = $this->plugin('hyperlink');
-$url = $this->plugin('url');
+$urlHelper = $this->plugin('url');
 $this->headLink()->prependStylesheet($this->assetUrl('css/user-bar.css', 'Omeka'));
 $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
-if (!isset($user)) $user = $this->identity();
 ?>
 <div id="user-bar">
 <?php if ($user): ?>
-    <?php if ($this->userIsAllowed('Omeka\Controller\Admin\Index', 'index')): ?>
-    <div class="admin-board"><a href="<?php echo $url('admin'); ?>"><?php echo $this->setting('installation_title', 'Omeka S'); ?></a></div>
-    <span class="current-site">
-        <a href="<?php echo $site->adminUrl('show'); ?>"><?php echo $site->title(); ?></a>
+    <?php foreach ($links as $link): ?>
+    <span class="admin <?php echo $link['resource'] . ' ' . $link['action']; ?>">
+        <?php echo $hyperlink($link['text'], $link['url']); ?>
     </span>
-    <?php
-    // There is no default label for resources, so get it from the controller (sometime upper-cased).
-    $params = $this->params();
-    $controller = strtolower($params->fromRoute('__CONTROLLER__'));
-    $mapLabels = [
-        'item' => 'Item', // @translate
-        'item-set' => 'Item set', // @translate
-        'media' => 'Media', // @translate
-        'page' => 'Page', // @translate
-    ];
-    ?>
-    <?php if (isset($mapLabels[$controller])): ?>
-    <?php $routeParams = $params->fromRoute(); ?>
-    <?php if ($controller === 'page'): ?>
-    <?php $page = $this->api()->read('site_pages', ['site' => $site->id(), 'slug' => $routeParams['page-slug']])->getContent(); ?>
-    <?php if ($page->userIsAllowed('edit')): ?>
-    <span class="current-page">
-        <?php echo $hyperlink($translate('Edit page'), $page->adminUrl('edit')); ?>
-    </span>
-    <?php endif; ?>
-    <?php else: ?>
-    <span class="current-resources">
-    <?php
-    $action = $params->fromRoute('action');
-    $id = $params->fromRoute('id');
-    // Manage the special case for item set / show, routed as item / browse.
-    $itemSetId = ($controller === 'item' && $action === 'browse') ? $params->fromRoute('item-set-id') : null;
-    if ($itemSetId):
-        $controller = 'item-set';
-        $action = 'show';
-        $id = $itemSetId;
-    endif;
-    $mapPluralLabels = [
-        'item' => 'Items', // @translate
-        'item-set' => 'Item sets', // @translate
-        'media' => 'Medias', // @translate
-    ];
-    echo $hyperlink($translate($mapPluralLabels[$controller]), $url('admin/default', ['controller' => $controller]));
-    ?>
-    </span>
-    <?php if ($id):
-    $mapResourceNames = ['item' => 'items', 'item-set' => 'item_sets', 'media' => 'media'];
-    $resourceName = $mapResourceNames[$controller];
-    $resource = $this->api()->read($resourceName, $id)->getContent();
-    $action = $resource->userIsAllowed('edit') ? 'edit' : null;
-    ?>
-    <span class="current-resource">
-        <?php echo $hyperlink(sprintf($translate('Edit %s'), $translate($mapLabels[$controller])), $resource->adminUrl($action)); ?>
-    </span>
-    <?php endif; ?>
-    <?php endif; ?>
-    <?php endif; ?>
-    <?php endif; ?>
+    <?php endforeach; ?>
+
     <span class="user-id">
-    <?php
-    echo sprintf($translate('Signed in as %s'), '<a href="' . $url('admin/id', [
-        'controller' => 'user',
-        'id' => $user->getId(),
-    ]) . '">' . $escape($user->getName()) . '</a>');
-    ?>
+        <?php
+        $url = $urlHelper('admin/id', ['controller' => 'user', 'id' => $user->getId()]);
+        echo sprintf($translate('Signed in as %s'), $hyperlink($user->getName(), $url));
+        ?>
     </span>
-    <span class="logout"><a href="<?php echo $url('logout'); ?>"><?php echo $translate('Logout'); ?></a></span>
+    <span class="logout">
+        <?php echo $hyperlink($translate('Logout'), $urlHelper('logout')); ?>
+    </span>
 <?php else: ?>
-    <span class="login"><a href="<?php echo $url('login'); ?>"><?php echo $translate('Log in'); ?></a></span>
+    <span class="login">
+        <?php echo $hyperlink($translate('Log in'), $urlHelper('login')); ?>
+    </span>
 <?php endif; ?>
 </div>

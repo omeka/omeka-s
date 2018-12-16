@@ -11,13 +11,7 @@
     justify-content: flex-end;
 }
 
-/* TODO To be improved. */
-
-#user-bar .admin-board:after,
-#user-bar .current-site:after,
-#user-bar .current-page:after,
-#user-bar .current-resources:after,
-#user-bar .current-resource:after {
+#user-bar .admin:not(:last-child):not(:nth-last-child(2)):not(:nth-last-child(3)):after {
     content: "\2022";
     margin: 0 $spacing-medium;
 }

@@ -9,12 +9,23 @@
 $headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
 $bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
 foreach ($this->resources as $resource):
-    $heading = $resource->value($headingTerm, ['default' => $this->translate('[Untitled]')]);
+    $headingTermValue = $resource->value($headingTerm, [
+        'default' => $this->translate('[Untitled]')
+    ]);
+    $heading = ($headingTermValue && !is_string($headingTermValue) && in_array($headingTermValue->type(), [
+        'resource',
+        'resource:item',
+        'resource:itemset',
+        'resource:media'
+    ])) ? $headingTermValue->valueResource()->displayTitle() : $headingTermValue;
+
     $bodyTermValue = $resource->value($bodyTerm);
-    if ($bodyTermValue && in_array($bodyTermValue->type(), ['resource', 'resource:item', 'resource:itemset', 'resource:media']))
-        $body = $bodyTermValue->valueResource()->displayTitle();
-    else
-        $body = $bodyTermValue
+    $body = ($bodyTermValue && in_array($bodyTermValue->type(), [
+        'resource',
+        'resource:item',
+        'resource:itemset',
+        'resource:media'
+    ])) ? $bodyTermValue->valueResource()->displayTitle() : $bodyTermValue;
 ?>
     <li class="<?php echo $this->resourceType; ?> resource">
         <?php echo $resource->linkRaw($this->thumbnail($resource, 'medium', ['title' => $heading])); ?>

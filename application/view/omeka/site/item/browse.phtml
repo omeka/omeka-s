@@ -56,7 +56,11 @@ $sortHeadings = [
 <?php
 foreach ($items as $item):
     $heading = $item->value($headingTerm, ['default' => $translate('[Untitled]')]);
-    $body = $item->value($bodyTerm);
+    $bodyTermValue = $item->value($bodyTerm);
+    if ($bodyTermValue && in_array($bodyTermValue->type(), ['resource', 'resource:item', 'resource:itemset', 'resource:media']))
+        $body = $bodyTermValue->valueResource()->displayTitle();
+    else
+        $body = $bodyTermValue
 ?>
     <li class="item resource">
         <?php echo $item->linkRaw($this->thumbnail($item, 'medium')); ?>

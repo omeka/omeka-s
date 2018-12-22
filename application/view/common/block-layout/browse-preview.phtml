@@ -10,7 +10,11 @@ $headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title
 $bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
 foreach ($this->resources as $resource):
     $heading = $resource->value($headingTerm, ['default' => $this->translate('[Untitled]')]);
-    $body = $resource->value($bodyTerm);
+    $bodyTermValue = $resource->value($bodyTerm);
+    if ($bodyTermValue && in_array($bodyTermValue->type(), ['resource', 'resource:item', 'resource:itemset', 'resource:media']))
+        $body = $bodyTermValue->valueResource()->displayTitle();
+    else
+        $body = $bodyTermValue
 ?>
     <li class="<?php echo $this->resourceType; ?> resource">
         <?php echo $resource->linkRaw($this->thumbnail($resource, 'medium', ['title' => $heading])); ?>

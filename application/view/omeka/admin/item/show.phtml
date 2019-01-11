@@ -74,7 +74,7 @@ $sectionNavs = [
     </div>
     <?php if ($item->media()): ?>
     <div class="meta-group">
-        <h4><?php echo $translate('Media'); ?></h4>
+        <h4><?php echo $translate('Media'); ?> (<?php echo sizeof($item->media()); ?>)</h4>
         <?php foreach ($item->media() as $media): ?>
         <div class="value">
             <?php echo $media->linkPretty(); ?>

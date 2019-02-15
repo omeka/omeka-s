@@ -169,34 +169,48 @@ function compileToMo(file) {
     return runCommand('msgfmt', [file, '-o', outFile]);
 }
 
-gulp.task('css', function () {
+function taskCss() {
     return cssToSass('./application');
-});
+}
+taskCss.description = 'Build css for the core';
+gulp.task('css', taskCss);
 
-gulp.task('css:watch', function () {
+function taskCssWatch() {
     gulp.watch('./application/asset/sass/**/*.scss', gulp.parallel('css'));
-});
+}
+taskCssWatch.description = 'Watch for core sass changes and auto-build css';
+gulp.task('css:watch', taskCssWatch);
 
-gulp.task('css:module', function () {
+function taskCssModule() {
     var modulePathPromise = getModulePath(cliOptions['module-name']);
     return modulePathPromise.then(function(modulePath) {
         return cssToSass(modulePath);
     });
-});
+}
+taskCssModule.description = 'Build css for a module';
+taskCssModule.flags = {'--module-name': 'Folder name of the module to build for (required)'};
+gulp.task('css:module', taskCssModule);
 
-gulp.task('css:watch:module', function () {
+function taskCssModuleWatch() {
     var modulePathPromise = getModulePath(cliOptions['module-name']);
     modulePathPromise.then(function(modulePath) {
         gulp.watch(modulePath + '/asset/sass/**/*.scss', gulp.parallel('css:module'));
     });
-});
+}
+taskCssModuleWatch.description = 'Watch for module sass changes and auto-build css';
+taskCssModuleWatch.flags = {'--module-name': 'Folder name of the module to watch for (required)'};
+gulp.task('css:watch:module', taskCssModuleWatch);
 
-gulp.task('test:cs', function () {
+
+function taskTestCs() {
     return ensureBuildDir().then(function () {
         return runCommand('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--verbose', '--diff', '--cache-file=build/cache/.php_cs.cache']);
     });
-});
-gulp.task('test:php', function () {
+}
+taskTestCs.description = 'Check code standards';
+gulp.task('test:cs', taskTestCs);
+
+function taskTestPhp() {
     return ensureBuildDir().then(function () {
         return runCommand(composerDir + '/phpunit', [
             '-d',
@@ -205,16 +219,26 @@ gulp.task('test:php', function () {
             buildDir + '/test-results.xml'
         ], {cwd: 'application/test'});
     });
-});
-gulp.task('test', gulp.series('test:cs', 'test:php'));
+}
+taskTestPhp.description = 'Run PHPUnit automated tests';
+gulp.task('test:php', taskTestPhp);
 
-gulp.task('deps', function () {
+var taskTest = gulp.series('test:cs', 'test:php');
+taskTest.description = 'Run all tests'
+gulp.task('test', taskTest);
+
+function taskDeps() {
     return composer(['install']);
-});
-gulp.task('deps:update', function () {
+}
+taskDeps.description = 'Install Composer dependencies';
+gulp.task('deps', taskDeps);
+
+function taskDepsUpdate() {
     return composer(['update']);
-});
-gulp.task('deps:js', function (cb) {
+}
+taskDepsUpdate.description = 'Update locked Composer dependencies';
+
+function taskDepsJs(cb) {
     var deps = {
         'chosen-js': ['**', '!*.proto.*'],
         'ckeditor': ['**', '!samples/**'],
@@ -241,23 +265,33 @@ gulp.task('deps:js', function (cb) {
             .pipe(gulp.dest('./application/asset/vendor/' + module));
     });
     cb();
-})
+}
+taskDepsJs.description = 'Update in-browser javascript dependencies';
+gulp.task('deps:js', taskDepsJs);
 
-gulp.task('dedist', function () {
+function taskDedist() {
     return gulp.src(['./.htaccess.dist', './config/*.dist', './logs/*.dist', './application/test/config/*.dist'], {base: '.'})
         .pipe(rename(function (path) {
             path.extname = '';
         }))
         .pipe(gulp.dest('.', {overwrite: false}))
-});
+}
+taskDedist.description = 'Copy .dist files to their real runtime paths';
+gulp.task('dedist', taskDedist);
 
-gulp.task('db:schema', function () {
+function taskDbSchema() {
     return runPhpCommand(scriptsDir + '/create-schema.php');
-});
-gulp.task('db:proxies', function () {
+}
+taskDbSchema.description = 'Update database schema installer files';
+gulp.task('db:schema', taskDbSchema);
+
+function taskDbProxies() {
     return runCommand(composerDir + '/doctrine', ['orm:generate-proxies']);
-});
-gulp.task('db:create-migration', function () {
+}
+taskDbProxies.description = 'Update Doctrine proxies';
+gulp.task('db:proxies', taskDbProxies);
+
+function taskDbCreateMigration() {
     return new Promise(function(resolve, reject) {
         var now = new Date();
         var timestamp = dateFormat(now, 'UTC:yyyymmddhhMMss');
@@ -271,10 +305,15 @@ gulp.task('db:create-migration', function () {
                 .on('end', resolve);
         });
     });
-})
-gulp.task('db', gulp.series('db:schema', 'db:proxies'));
+}
+taskDbCreateMigration.description = 'Create new blank DB migration';
+gulp.task('db:create-migration', taskDbCreateMigration);
 
-gulp.task('i18n:template', function () {
+var taskDb = gulp.series('db:schema', 'db:proxies');
+taskDb.description = 'Update database files following entity changes';
+gulp.task('db', taskDb);
+
+function taskI18nTemplate() {
     return Promise.all([
         i18nXgettext('.', ['themes/**', 'modules/**']),
         i18nTaggedStrings('.'),
@@ -282,22 +321,28 @@ gulp.task('i18n:template', function () {
     ]).then(function (tempFiles) {
         return runCommand('msgcat', tempFiles.concat(['--use-first', '-o', pot]));
     });
-});
+}
+taskI18nTemplate.description = 'Update translation template';
+gulp.task('i18n:template', taskI18nTemplate);
 
-gulp.task('i18n:compile', function () {
+function taskI18nCompile() {
     return glob('application/language/*.po').then(function (files) {
         return Promise.all(files.map(compileToMo));
     });
-})
+}
+taskI18nCompile.description = 'Build translation files';
+gulp.task('i18n:compile', taskI18nCompile);
 
-gulp.task('i18n:debug', function () {
+function taskI18nDebug() {
     var debugPo = path.join(langDir, 'debug.po');
     return runCommand('podebug', ['-i', pot, '-o', debugPo, '--rewrite=unicode']).then(function () {
         return compileToMo(debugPo);
     });
-})
+}
+taskI18nDebug.description = 'Create debugging dummy translation file (debug.po)';
+gulp.task('i18n:debug', taskI18nDebug);
 
-gulp.task('i18n:module:template', function () {
+function taskI18nModuleTemplate() {
     var modulePathPromise = getModulePath(cliOptions['module-name']);
     var preDedupePromise = modulePathPromise.then(function (modulePath) {
         return Promise.all([
@@ -336,29 +381,41 @@ gulp.task('i18n:module:template', function () {
         var modulePot = path.join(languageDir, 'template.pot');
         return runCommand('msgcomm', ['--unique', '--to-code=utf-8', '-o', modulePot, preDedupePot, dupesPot]);
     });
-});
+}
+taskI18nModuleTemplate.description = 'Update translation template for a module';
+taskI18nModuleTemplate.flags = {'--module-name': 'Name of module (required)'}
+gulp.task('i18n:module:template', taskI18nModuleTemplate);
 
-gulp.task('i18n:module:compile', function () {
+function taskI18nModuleCompile() {
     return getModulePath(cliOptions['module-name']).then(function (modulePath) {
         return glob('language/*.po', {cwd: modulePath, absolute: true}).then(function (files) {
             return Promise.all(files.map(compileToMo));
         });
     });
-});
+}
+taskI18nModuleCompile.description = 'Build translation files for a module';
+taskI18nModuleCompile.flags = {'--module-name': 'Name of module (required)'}
+gulp.task('i18n:module:compile', taskI18nModuleCompile);
 
-gulp.task('create-media-type-map', function () {
+function taskCreateMediaTypeMap() {
     return runPhpCommand(scriptsDir + '/create-media-type-map.php');
-});
+}
+taskCreateMediaTypeMap.description = 'Update media type to file extension mappings'
+gulp.task('create-media-type-map', taskCreateMediaTypeMap);
 
-gulp.task('init', gulp.series('dedist', 'deps'));
+var taskInit = gulp.series('dedist', 'deps');
+taskInit.description = 'Run first-time setup for a source checkout'
+gulp.task('init', taskInit);
 
-gulp.task('clean', function () {
+function taskClean() {
     return rimraf(buildDir).then(function () {
         rimraf(__dirname + '/vendor');
     });
-});
+}
+taskClean.description = 'Clean build files and installed dependencies'
+gulp.task('clean', taskClean);
 
-gulp.task('zip', gulp.series('clean', 'init', function () {
+var taskZip = gulp.series('clean', 'init', function zip() {
     return gulp.src(
         [
             './**',
@@ -382,4 +439,6 @@ gulp.task('zip', gulp.series('clean', 'init', function () {
         }))
         .pipe(zip('omeka-s.zip'))
         .pipe(gulp.dest(buildDir))
-}));
+});
+taskZip.description = 'Create zip archive'
+gulp.task('zip', taskZip);

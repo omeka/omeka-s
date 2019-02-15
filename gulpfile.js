@@ -31,9 +31,10 @@ var langDir = __dirname + '/application/language';
 var pot = langDir + '/template.pot';
 
 var cliOptions = minimist(process.argv.slice(2), {
-    string: ['php-path', 'module'],
+    string: ['php-path', 'module-name'],
     boolean: 'dev',
-    default: {'php-path': 'php', 'dev': true, 'module': null}
+    alias: {'module-name': 'module'},
+    default: {'php-path': 'php', 'dev': true, 'module-name': null}
 });
 
 function ensureBuildDir() {
@@ -177,14 +178,14 @@ gulp.task('css:watch', function () {
 });
 
 gulp.task('css:module', function () {
-    var modulePathPromise = getModulePath(cliOptions.module);
+    var modulePathPromise = getModulePath(cliOptions['module-name']);
     return modulePathPromise.then(function(modulePath) {
         return cssToSass(modulePath);
     });
 });
 
 gulp.task('css:watch:module', function () {
-    var modulePathPromise = getModulePath(cliOptions.module);
+    var modulePathPromise = getModulePath(cliOptions['module-name']);
     modulePathPromise.then(function(modulePath) {
         gulp.watch(modulePath + '/asset/sass/**/*.scss', gulp.parallel('css:module'));
     });
@@ -297,7 +298,7 @@ gulp.task('i18n:debug', function () {
 })
 
 gulp.task('i18n:module:template', function () {
-    var modulePathPromise = getModulePath(cliOptions.module);
+    var modulePathPromise = getModulePath(cliOptions['module-name']);
     var preDedupePromise = modulePathPromise.then(function (modulePath) {
         return Promise.all([
             i18nXgettext(modulePath),
@@ -338,7 +339,7 @@ gulp.task('i18n:module:template', function () {
 });
 
 gulp.task('i18n:module:compile', function () {
-    return getModulePath(cliOptions.module).then(function (modulePath) {
+    return getModulePath(cliOptions['module-name']).then(function (modulePath) {
         return glob('language/*.po', {cwd: modulePath, absolute: true}).then(function (files) {
             return Promise.all(files.map(compileToMo));
         });

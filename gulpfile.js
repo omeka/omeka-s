@@ -199,7 +199,7 @@ function taskCssModuleWatch() {
 }
 taskCssModuleWatch.description = 'Watch for module sass changes and auto-build css';
 taskCssModuleWatch.flags = {'--module-name': 'Folder name of the module to watch for (required)'};
-gulp.task('css:watch:module', taskCssModuleWatch);
+gulp.task('css:module:watch', taskCssModuleWatch);
 
 
 function taskTestCs() {

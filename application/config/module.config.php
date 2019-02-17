@@ -403,6 +403,7 @@ return [
             'blockThumbnailTypeSelect' => Service\ViewHelper\BlockThumbnailTypeSelectFactory::class,
             'dataType' => Service\ViewHelper\DataTypeFactory::class,
             'i18n' => Service\ViewHelper\I18nFactory::class,
+            'logger' => Service\ViewHelper\LoggerFactory::class,
             'media' => Service\ViewHelper\MediaFactory::class,
             'navigationLink' => Service\ViewHelper\NavigationLinkFactory::class,
             'pagination' => Service\ViewHelper\PaginationFactory::class,

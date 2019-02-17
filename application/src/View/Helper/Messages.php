@@ -1,9 +1,10 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Omeka\Mvc\Controller\Plugin\Messenger;
-use Omeka\Stdlib\Message;
+use Laminas\I18n\Translator\TranslatorAwareInterface;
 use Laminas\View\Helper\AbstractHelper;
+use Omeka\Mvc\Controller\Plugin\Messenger;
+use Omeka\Stdlib\MessageInterface;
 
 /**
  * View helper for proxing the messenger controller plugin.
@@ -36,32 +37,25 @@ class Messages extends AbstractHelper
         }
 
         $view = $this->getView();
+        $escape = $view->plugin('escapeHtml');
+        $translate = $view->plugin('translate');
+        $translator = $translate->getTranslator();
         $output = '<ul class="messages">';
+        $typeToClass = [
+            Messenger::ERROR => 'error',
+            Messenger::SUCCESS => 'success',
+            Messenger::WARNING => 'warning',
+            Messenger::NOTICE => 'notice',
+        ];
         foreach ($allMessages as $type => $messages) {
-            switch ($type) {
-                case Messenger::ERROR:
-                    $class = 'error';
-                    break;
-                case Messenger::SUCCESS:
-                    $class = 'success';
-                    break;
-                case Messenger::WARNING:
-                    $class = 'warning';
-                    break;
-                case Messenger::NOTICE:
-                default:
-                    $class = 'notice';
-            }
+            $class = isset($typeToClass[$type]) ? $typeToClass[$type] : 'notice';
             foreach ($messages as $message) {
-                $escapeHtml = true; // escape HTML by default
-                if ($message instanceof Message) {
-                    $escapeHtml = $message->escapeHtml();
+                $translation = $view->translate($message);
+
+                if (!($message instanceof MessageInterface) || $message->escapeHtml()) {
+                    $translation = $escape($translation);
                 }
-                $message = $view->translate($message);
-                if ($escapeHtml) {
-                    $message = $view->escapeHtml($message);
-                }
-                $output .= sprintf('<li class="%s">%s</li>', $class, $message);
+                $output .= sprintf('<li class="%s">%s</li>', $class, $translation);
             }
         }
         $output .= '</ul>';

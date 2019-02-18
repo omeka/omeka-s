@@ -154,11 +154,7 @@ class Module extends AbstractModule
             ->get('Omeka\Connection')
             ->query('SELECT * FROM vocabulary;');
         while ($row = $stmt->fetch()) {
-            $context[$row['prefix']] = [
-                '@id' => $row['namespace_uri'],
-                'vocabulary_id' => $row['id'],
-                'vocabulary_label' => $row['label'],
-            ];
+            $context[$row['prefix']] = $row['namespace_uri'];
         }
         $context['o-cnt'] = 'http://www.w3.org/2011/content#';
         $context['o-time'] = 'http://www.w3.org/2006/time#';

@@ -19,11 +19,12 @@ $labelInfo = $this->setting('property_label_information');
         <div class="values">
         <?php foreach ($propertyData['values'] as $value): ?>
             <?php
+            $valueType = $value->type();
             $class = ['value'];
-            if ('resource' == $value->type()) {
+            if ('resource' == $valueType || strpos($valueType, 'resource') !== false) {
                 $class[] = 'resource';
                 $class[] = $escape($value->valueResource()->resourceName());
-            } elseif ('uri' == $value->type()) {
+            } elseif ('uri' == $valueType) {
                 $class[] = 'uri';
             }
             if (!$value->isPublic()) {

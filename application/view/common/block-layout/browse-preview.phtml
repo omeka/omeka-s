@@ -12,12 +12,13 @@ foreach ($this->resources as $resource):
     $headingTermValue = $resource->value($headingTerm, [
         'default' => $this->translate('[Untitled]')
     ]);
-    $heading = ($headingTermValue && !is_string($headingTermValue) && in_array($headingTermValue->type(), [
+    $heading = ($headingTermValue && ! is_string($headingTermValue) && in_array($headingTermValue->type(), [
         'resource',
         'resource:item',
         'resource:itemset',
         'resource:media'
-    ])) ? $headingTermValue->valueResource()->displayTitle() : $headingTermValue;
+    ])) ? $headingTermValue->valueResource()->displayTitle() . " (" . $resource->value('dcterms:title') . ")" : $headingTermValue;
+
 
     $bodyTermValue = $resource->value($bodyTerm);
     $body = ($bodyTermValue && in_array($bodyTermValue->type(), [

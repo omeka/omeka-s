@@ -63,7 +63,8 @@ foreach ($items as $item):
         'resource:item',
         'resource:itemset',
         'resource:media'
-    ])) ? $headingTermValue->valueResource()->displayTitle() : $headingTermValue;
+    ])) ? $headingTermValue->valueResource()->displayTitle() . " (" . $item->value('dcterms:title') . ")" : $headingTermValue;
+
 
     $bodyTermValue = $item->value($bodyTerm);
     $body = ($bodyTermValue && in_array($bodyTermValue->type(), [

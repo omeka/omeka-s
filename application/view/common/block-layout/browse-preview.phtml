@@ -17,7 +17,9 @@ foreach ($this->resources as $resource):
         'resource:item',
         'resource:itemset',
         'resource:media'
-    ])) ? $headingTermValue->valueResource()->displayTitle() . " (" . $resource->value('dcterms:title') . ")" : $headingTermValue;
+    ])) ? $headingTermValue->valueResource()->displayTitle() . " (" . $resource->value('dcterms:title', [
+        'default' => $this->translate('[Untitled]')
+    ]) . ")" : $headingTermValue;
 
 
     $bodyTermValue = $resource->value($bodyTerm);

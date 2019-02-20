@@ -63,7 +63,9 @@ foreach ($items as $item):
         'resource:item',
         'resource:itemset',
         'resource:media'
-    ])) ? $headingTermValue->valueResource()->displayTitle() . " (" . $item->value('dcterms:title') . ")" : $headingTermValue;
+    ])) ? $headingTermValue->valueResource()->displayTitle() . " (" . $item->value('dcterms:title', [
+        'default' => $translate('[Untitled]')
+    ]) . ")" : $headingTermValue;
 
 
     $bodyTermValue = $item->value($bodyTerm);

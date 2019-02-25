@@ -416,7 +416,7 @@ function taskClean() {
 taskClean.description = 'Clean build files and installed dependencies'
 gulp.task('clean', taskClean);
 
-var taskZip = gulp.series('clean', 'init', function zip() {
+var taskZip = gulp.series('clean', 'init', function () {
     return gulp.src(
         [
             './**',

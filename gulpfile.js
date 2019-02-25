@@ -237,6 +237,7 @@ function taskDepsUpdate() {
     return composer(['update']);
 }
 taskDepsUpdate.description = 'Update locked Composer dependencies';
+gulp.task('deps:update', taskDepsUpdate);
 
 function taskDepsJs(cb) {
     var deps = {

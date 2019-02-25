@@ -149,12 +149,19 @@ function i18nStaticStrings(dir) {
     });
 }
 
-function getModulePath(module) {
-    if (!module) {
-        return Promise.reject(new Error('No module given! Use --module to specify the module to work on.'));
+function getModulePath() {
+    var modulePath;
+    var moduleName = cliOptions['module-name'];
+
+    if (moduleName) {
+        modulePath = path.join(__dirname, 'modules', moduleName);
+    } else {
+        modulePath = getCurrentModulePath();
     }
 
-    var modulePath = path.join(__dirname, 'modules', module);
+    if (!modulePath) {
+        return Promise.reject(new Error('No module given! Run gulp from within the module, or use --module-name to specify the module to work on.'));
+    }
     return fs.statAsync(modulePath).then(function (stats) {
         if (!stats.isDirectory()) {
             return Promise.reject(new Error('Invalid module given! (not a directory)'))
@@ -162,6 +169,14 @@ function getModulePath(module) {
 
         return modulePath;
     });
+}
+
+function getCurrentModulePath() {
+    var relativePathSegs = path.relative(process.cwd(), process.env.INIT_CWD).split(path.sep);
+    if (relativePathSegs.length < 2 || relativePathSegs[0] !== 'modules') {
+        return false;
+    }
+    return path.resolve(relativePathSegs[0], relativePathSegs[1]);
 }
 
 function compileToMo(file) {
@@ -182,7 +197,7 @@ taskCssWatch.description = 'Watch for core sass changes and auto-build css';
 gulp.task('css:watch', taskCssWatch);
 
 function taskCssModule() {
-    var modulePathPromise = getModulePath(cliOptions['module-name']);
+    var modulePathPromise = getModulePath();
     return modulePathPromise.then(function(modulePath) {
         return cssToSass(modulePath);
     });
@@ -192,7 +207,7 @@ taskCssModule.flags = {'--module-name': 'Folder name of the module to build for 
 gulp.task('css:module', taskCssModule);
 
 function taskCssModuleWatch() {
-    var modulePathPromise = getModulePath(cliOptions['module-name']);
+    var modulePathPromise = getModulePath();
     modulePathPromise.then(function(modulePath) {
         gulp.watch(modulePath + '/asset/sass/**/*.scss', gulp.parallel('css:module'));
     });
@@ -344,7 +359,7 @@ taskI18nDebug.description = 'Create debugging dummy translation file (debug.po)'
 gulp.task('i18n:debug', taskI18nDebug);
 
 function taskI18nModuleTemplate() {
-    var modulePathPromise = getModulePath(cliOptions['module-name']);
+    var modulePathPromise = getModulePath();
     var preDedupePromise = modulePathPromise.then(function (modulePath) {
         return Promise.all([
             i18nXgettext(modulePath),

@@ -50,6 +50,17 @@ class VocabularyImportForm extends Form
             ],
         ]);
         $this->add([
+            'name' => 'lang',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Language', // @translate
+                'info' => 'Enter the preferred language of the labels and comments using an IETF language tag. Defaults to the first available.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'lang',
+            ],
+        ]);
+        $this->add([
             'name' => 'o:prefix',
             'type' => 'text',
             'options' => [

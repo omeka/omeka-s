@@ -77,7 +77,10 @@ class VocabularyController extends AbstractActionController
                 $data = $form->getData();
                 try {
                     $strategy = null;
-                    $options = ['format' => $data['format']];
+                    $options = [
+                        'format' => $data['format'],
+                        'lang' => $data['lang'],
+                    ];
                     if (\UPLOAD_ERR_OK === $data['file']['error']) {
                         $strategy = 'file';
                         $options['file'] = $data['file']['tmp_name'];

@@ -69,6 +69,7 @@ class RdfImporter
      *   - url: (required for "url" strategy) The URL of the RDF file.
      *   - comment_property: (optional) The RDF property containing the preferred
      *     property comment (defaults to "rdfs:comment")
+     *   - lang: (optional) The preferred language of labels and comments
      * @return array
      */
     public function getMembers($strategy, $namespaceUri, array $options = [])
@@ -79,6 +80,9 @@ class RdfImporter
         }
         if (!isset($options['comment_property'])) {
             $options['comment_property'] = 'rdfs:comment';
+        }
+        if (!isset($options['lang'])) {
+            $options['lang'] = null;
         }
 
         // Get the full RDF graph from EasyRdf.
@@ -131,15 +135,15 @@ class RdfImporter
             // Get the vocabulary's classes.
             if (in_array($resource->type(), $this->classTypes)) {
                 $members['classes'][$resource->localName()] = [
-                    'label' => $this->getLabel($resource, $resource->localName()),
-                    'comment' => $this->getComment($resource, $options['comment_property']),
+                    'label' => $this->getLabel($resource, $resource->localName(), $options['lang']),
+                    'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
                 ];
             }
             // Get the vocabulary's properties.
             if (in_array($resource->type(), $this->propertyTypes)) {
                 $members['properties'][$resource->localName()] = [
-                    'label' => $this->getLabel($resource, $resource->localName()),
-                    'comment' => $this->getComment($resource, $options['comment_property']),
+                    'label' => $this->getLabel($resource, $resource->localName(), $options['lang']),
+                    'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
                 ];
             }
         }
@@ -337,13 +341,17 @@ class RdfImporter
     /**
      * Get the label from an RDF resource.
      *
+     * Attempts to get the label of the passed language. If one does not exist
+     * it defaults to the first available label, if any.
+     *
      * @param EasyRdf_Resource $resource
      * @param string $default
+     * @param string $lang
      * @return string
      */
-    protected function getLabel(EasyRdf_Resource $resource, $default)
+    protected function getLabel(EasyRdf_Resource $resource, $default, $lang = null)
     {
-        $label = $resource->label();
+        $label = $resource->label($lang) ?: $resource->label();
         if ($label instanceof EasyRdf_Literal) {
             $value = $label->getValue();
             if ('' !== $value) {
@@ -356,13 +364,17 @@ class RdfImporter
     /**
      * Get the comment from an RDF resource.
      *
+     * Attempts to get the comment of the passed language. If one does not exist
+     * it defaults to the first available comment, if any.
+     *
      * @param EasyRdf_Resource $resource
-     * @param array $data
+     * @param string $commentProperty
+     * @param string $lang
      * @return string
      */
-    protected function getComment(EasyRdf_Resource $resource, $commentProperty)
+    protected function getComment(EasyRdf_Resource $resource, $commentProperty, $lang = null)
     {
-        $comment = $resource->get($commentProperty);
+        $comment = $resource->get($commentProperty, null, $lang) ?: $resource->get($commentProperty);
         if ($comment instanceof EasyRdf_Literal) {
             return $comment->getValue();
         }

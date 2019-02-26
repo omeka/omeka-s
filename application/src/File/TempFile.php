@@ -73,6 +73,11 @@ class TempFile
     protected $thumbnailManager;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * @var string Directory where to save this temporary file
      */
     protected $tempDir;
@@ -112,14 +117,17 @@ class TempFile
      * @param array $mediaTypeMap
      * @param StoreInterface $store
      * @param ThumbnailManager $thumbnailManager
+     * @param Validator $validator
      */
     public function __construct($tempDir, array $mediaTypeMap,
-        StoreInterface $store, ThumbnailManager $thumbnailManager
+        StoreInterface $store, ThumbnailManager $thumbnailManager,
+        Validator $validator
     ) {
         $this->tempDir = $tempDir;
         $this->mediaTypeMap = $mediaTypeMap;
         $this->store = $store;
         $this->thumbnailManager = $thumbnailManager;
+        $this->validator = $validator;
 
         // Always create a new, uniquely named temporary file.
         $this->setTempPath(tempnam($tempDir, 'omeka'));
@@ -378,8 +386,9 @@ class TempFile
     /**
      * Ingest a media file.
      *
-     * Ingesters should use this method in ingest() to set the storage ID to the
-     * media and any of the following, depending on flags:
+     * Ingesters should use this method at the end of ingest() to validate the
+     * file (if applicable), to set the storage ID to the media, and any of the
+     * following, depending on flags:
      *   - store the original file
      *   - create and store thumbnail files
      *   - set file metadata to the media
@@ -397,6 +406,12 @@ class TempFile
         ErrorStore $errorStore, $storeOriginal = true, $storeThumbnails = true,
         $deleteTempFile = true, $hydrateFileMetadataOnStoreOriginalFalse = false
     ) {
+        if (($storeOriginal || $hydrateFileMetadataOnStoreOriginalFalse)
+            && !$this->validator->validate($this, $errorStore)
+        ) {
+            // The file does not validate.
+            return;
+        }
         $eventParams = [
             'tempFile' => $this,
             'request' => $request,

@@ -30,6 +30,11 @@ class TempFileFactory implements EventManagerAwareInterface
     protected $thumbnailManager;
 
     /**
+     * @var \Omeka\File\Validator
+     */
+    protected $validator;
+
+    /**
      * @param ServiceLocatorInterface $services
      */
     public function __construct(ServiceLocatorInterface $services)
@@ -39,6 +44,7 @@ class TempFileFactory implements EventManagerAwareInterface
         $this->mediaTypeMap = $services->get('Omeka\File\MediaTypeMap');
         $this->store = $services->get('Omeka\File\Store');
         $this->thumbnailManager = $services->get('Omeka\File\ThumbnailManager');
+        $this->validator = $services->get('Omeka\File\Validator');
     }
 
     /**
@@ -48,7 +54,9 @@ class TempFileFactory implements EventManagerAwareInterface
      */
     public function build()
     {
-        $tempFile = new TempFile($this->tempDir, $this->mediaTypeMap, $this->store, $this->thumbnailManager);
+        $tempFile = new TempFile($this->tempDir, $this->mediaTypeMap,
+            $this->store, $this->thumbnailManager, $this->validator
+        );
         $tempFile->setEventManager($this->getEventManager());
         return $tempFile;
     }

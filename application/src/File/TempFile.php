@@ -5,7 +5,6 @@ use finfo;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\File\Store\StoreInterface;
-use Omeka\File\Validator;
 use Omeka\Stdlib\ErrorStore;
 use Zend\EventManager\Event;
 use Zend\EventManager\EventManagerAwareTrait;

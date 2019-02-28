@@ -2,6 +2,14 @@
 namespace Omeka;
 
 return [
+    'password' => [
+        'min_length' => 6,
+        'min_lowercase' => null,
+        'min_uppercase' => null,
+        'min_number' => null,
+        'min_symbol' => null,
+        'symbol_list' => '`~!@#$%^&*()-=_+[]\{}|;:",./<>?\'',
+    ],
     'session' => [
         'config' => [],
         'save_handler' => null,

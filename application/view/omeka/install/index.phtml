@@ -14,5 +14,10 @@ $form->setAttribute('method', 'post');
     <?php endforeach; ?>
 </ul>
 <?php else: ?>
-<?php echo $this->form($form); ?>
+<?php echo $this->form()->openTag($form); ?>
+<?php echo $this->formCollection($form->get('user')); ?>
+<?php echo $this->passwordRequirements(); ?>
+<?php echo $this->formCollection($form->get('settings')); ?>
+<?php echo $this->formRow($form->get('submit')); ?>
+<?php echo $this->form()->closeTag(); ?>
 <?php endif; ?>

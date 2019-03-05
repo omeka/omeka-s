@@ -57,11 +57,6 @@ class InstallationForm extends Form
             ],
         ]);
         $this->get('user')->add([
-            'name' => 'password-confirm',
-            'type' => 'Omeka\Form\Element\PasswordConfirm',
-        ]);
-        $this->get('user')->get('password-confirm')->setIsRequired(true);
-        $this->get('user')->add([
             'name' => 'name',
             'type' => 'Text',
             'options' => [
@@ -72,6 +67,11 @@ class InstallationForm extends Form
                 'required' => true,
             ],
         ]);
+        $this->get('user')->add([
+            'name' => 'password-confirm',
+            'type' => 'Omeka\Form\Element\PasswordConfirm',
+        ]);
+        $this->get('user')->get('password-confirm')->setIsRequired(true);
 
         $this->get('settings')->add([
             'name' => 'installation_title',

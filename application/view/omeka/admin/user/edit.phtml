@@ -28,6 +28,7 @@ $formElement = $this->plugin('formElement');
 </fieldset>
 <fieldset id="change-password" class="section">
     <?php echo $this->formCollection($form->get('change-password'), false); ?>
+    <?php echo $this->passwordRequirements(); ?>
 </fieldset>
 <fieldset id="edit-keys" class="section">
     <?php if ($keys): ?>

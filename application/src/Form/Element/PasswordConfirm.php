@@ -159,10 +159,12 @@ class PasswordConfirm extends Fieldset implements InputFilterProviderInterface
             }
         }
         // Validate minimum symbol character count.
-        if (isset($config['min_symbol']) && is_numeric($config['min_symbol'])) {
-            $symbols = isset($config['symbol_list']) ? str_split($config['symbol_list']) : [];
+        if (isset($config['min_symbol']) && is_numeric($config['min_symbol'])
+            && isset($config['symbol_list']) && is_string($config['symbol_list'])
+            && strlen($config['symbol_list'])
+        ) {
             $symbolCount = 0;
-            foreach ($symbols as $symbol) {
+            foreach (str_split($config['symbol_list']) as $symbol) {
                 $symbolCount += substr_count($password, $symbol);
             }
             if ($symbolCount < $config['min_symbol']) {

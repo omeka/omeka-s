@@ -436,6 +436,7 @@ return [
             'jsTranslate' => Service\ViewHelper\JsTranslateFactory::class,
             'lang' => Service\ViewHelper\LangFactory::class,
             'status' => Service\ViewHelper\StatusFactory::class,
+            'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
         ],
         'delegators' => [
             'Zend\Form\View\Helper\FormElement' => [

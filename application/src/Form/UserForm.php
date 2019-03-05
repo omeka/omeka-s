@@ -40,11 +40,6 @@ class UserForm extends Form
      */
     protected $userSettings;
 
-    /**
-     * @var array
-     */
-    protected $passwordConfig = [];
-
     public function __construct($name = null, $options = [])
     {
         parent::__construct($name, array_merge($this->options, $options));
@@ -176,25 +171,13 @@ class UserForm extends Form
                 ]);
             }
             $this->get('change-password')->add([
-                'name' => 'password',
-                'type' => 'Password',
-                'options' => [
-                    'label' => 'New password', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'password',
-                ],
-            ]);
-            $this->get('change-password')->add([
                 'name' => 'password-confirm',
-                'type' => 'Password',
-                'options' => [
-                    'label' => 'Confirm new password', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'password-confirm',
-                ],
+                'type' => 'Omeka\Form\Element\PasswordConfirm',
             ]);
+            $this->get('change-password')->get('password-confirm')->setLabels(
+                'New password', // @translate
+                'Confirm new password' // @translate
+            );
         }
 
         if ($this->getOption('include_key')) {
@@ -225,38 +208,6 @@ class UserForm extends Form
             'allow_empty' => true,
         ]);
 
-        if ($this->getOption('include_password')) {
-            $passwordConfig = $this->passwordConfig;
-            $inputFilter->get('change-password')->add([
-                'name' => 'password',
-                'required' => false,
-                'validators' => [
-                    [
-                        'name' => 'Callback',
-                        'options' => [
-                            'message' => 'Invalid password.', // @translate
-                            'callback' => [$this, 'passwordIsValid'],
-                        ],
-                    ],
-                ],
-            ]);
-            $inputFilter->get('change-password')->add([
-                'name' => 'password',
-                'required' => false,
-                'validators' => [
-                    [
-                        'name' => 'Identical',
-                        'options' => [
-                            'token' => 'password-confirm',
-                            'messages' => [
-                                'notSame' => 'Password confirmation must match new password', // @translate
-                            ],
-                        ],
-                    ],
-                ],
-            ]);
-        }
-
         if ($this->getOption('include_key')) {
             $inputFilter->get('edit-keys')->add([
                 'name' => 'new-key-label',
@@ -274,77 +225,6 @@ class UserForm extends Form
 
         $filterEvent = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($filterEvent);
-    }
-
-    /**
-     * Check whether a password is valid.
-     *
-     * @param string $password
-     * @return bool
-     */
-    public function passwordIsValid($password)
-    {
-        $config = $this->getPasswordConfig();
-
-        /**
-         * Count lowercase characters, including multibyte characters.
-         *
-         * @param string $string
-         */
-        $countLowercase = function ($string) {
-            $stringUppercase = mb_strtoupper($string);
-            $similar = similar_text($string, $stringUppercase);
-            return strlen($string) - $similar;
-        };
-        /**
-         * Count uppercase characters, including multibyte characters.
-         *
-         * @param string $string
-         */
-        $countUppercase = function ($string) {
-            $stringLowercase = mb_strtolower($string);
-            $similar = similar_text($string, $stringLowercase);
-            return strlen($string) - $similar;
-        };
-
-        // Validate minimum password length.
-        if (isset($config['min_length']) && is_numeric($config['min_length'])) {
-            if (strlen($password) < $config['min_length']) {
-                return false;
-            }
-        }
-        // Validate minimum lowercase character count.
-        if (isset($config['min_lowercase']) && is_numeric($config['min_lowercase'])) {
-            if ($countLowercase($password) < $config['min_lowercase']) {
-                return false;
-            }
-        }
-        // Validate minimum uppercase character count.
-        if (isset($config['min_uppercase']) && is_numeric($config['min_uppercase'])) {
-            if ($countUppercase($password) < $config['min_uppercase']) {
-                return false;
-            }
-        }
-        // Validate minimum number character count.
-        if (isset($config['min_number']) && is_numeric($config['min_number'])) {
-            if (preg_match_all('/[0-9]/', $password) < $config['min_number']) {
-                return false;
-            }
-        }
-        // Validate minimum symbol character count.
-        if (isset($config['min_symbol']) && is_numeric($config['min_symbol'])) {
-            $symbols = isset($config['symbol_list']) ? str_split($config['symbol_list']) : [];
-            $symbolCount = 0;
-            foreach ($symbols as $symbol) {
-                $symbolCount += substr_count($password, $symbol);
-            }
-            if ($symbolCount < $config['min_symbol']) {
-                return false;
-            }
-        }
-
-        // The password is valid.
-        return true;
     }
 
     /**
@@ -393,21 +273,5 @@ class UserForm extends Form
     public function getUserSettings()
     {
         return $this->userSettings;
-    }
-
-    /**
-     * @param array $passwordConfig
-     */
-    public function setPasswordConfig(array $passwordConfig)
-    {
-        $this->passwordConfig = $passwordConfig;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPasswordConfig()
-    {
-        return $this->passwordConfig;
     }
 }

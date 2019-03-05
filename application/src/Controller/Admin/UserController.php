@@ -192,7 +192,7 @@ class UserController extends AbstractActionController
                     }
                 }
 
-                if (!empty($passwordValues['password'])) {
+                if (!empty($passwordValues['password-confirm']['password'])) {
                     if (!$this->userIsAllowed($userEntity, 'change-password')) {
                         throw new Exception\PermissionDeniedException(
                             'User does not have permission to change the password'
@@ -202,7 +202,7 @@ class UserController extends AbstractActionController
                         $this->messenger()->addError('The current password entered was invalid'); // @translate
                         return $view;
                     }
-                    $userEntity->setPassword($passwordValues['password']);
+                    $userEntity->setPassword($passwordValues['password-confirm']['password']);
                     $successMessages[] = 'Password successfully changed'; // @translate
                 }
 

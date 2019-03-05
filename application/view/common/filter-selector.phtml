@@ -8,7 +8,11 @@
     </select>
     <input type="hidden" class="filtering-input">
     <button type="submit"><?php echo $this->translate('Filter'); ?></button>
-    <?php echo $this->queryToHiddenInputs(array_column($filters, 'value')); ?>
+    <?php
+    $removeQueries = array_column($filters, 'value');
+    $removeQueries[] = 'page';
+    echo $this->queryToHiddenInputs($removeQueries);
+    ?>
 </form>
 
 <script>

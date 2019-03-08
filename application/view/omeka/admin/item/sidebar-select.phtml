@@ -2,6 +2,7 @@
 $escape = $this->plugin('escapeHtml');
 $hyperlink = $this->plugin('hyperlink');
 $itemsFound = count($items) > 0;
+$expanded = $resourceClassId || $itemSetId || $id;
 ?>
 
 <div id="item-results">
@@ -13,8 +14,8 @@ $itemsFound = count($items) > 0;
             <button type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
             <div class="resource-search-filters">
                 <a href="#"
-                    class="<?php echo ($resourceClassId || $itemSetId || $id) ? 'collapse' : 'expand'; ?>"
-                    aria-label="<?php echo ($resourceClassId || $itemSetId) ? $this->translate('Collapse') : $this->translate('Expand'); ?>"><?php echo $this->translate('Filter search'); ?>
+                    class="<?php echo $expanded ? 'collapse' : 'expand'; ?>"
+                    aria-label="<?php echo $expanded ? $this->translate('Collapse') : $this->translate('Expand'); ?>"><?php echo $this->translate('Filter search'); ?>
                 </a>
                 <div class="collapsible">
                 <?php

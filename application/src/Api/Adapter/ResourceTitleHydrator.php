@@ -2,7 +2,6 @@
 namespace Omeka\Api\Adapter;
 
 use Doctrine\Common\Collections\Criteria;
-use Omeka\Api\Request;
 use Omeka\Entity\Property;
 use Omeka\Entity\Resource;
 

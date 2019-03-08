@@ -13,24 +13,20 @@ class ResourceTitleHydrator
      *
      * Attempts to get the title value of the resource template's title property
      * first. If that's not available, attempts to get the title value of the
-     * dcterms:title property.
+     * default title property (e.g. dcterms:title).
      *
-     * @param Request $request
      * @param Resource $entity
-     * @param AbstractResourceEntityAdapter $adapter
+     * @param Property $defaultTitleProperty
      */
-    public function hydrate(Request $request, Resource $entity,
-        AbstractResourceEntityAdapter $adapter
-    ) {
+    public function hydrate(Resource $entity, Property $defaultTitleProperty)
+    {
         $title = null;
         $resourceTemplate = $entity->getResourceTemplate();
         if ($resourceTemplate && $resourceTemplate->getTitleProperty()) {
-            $titleProperty = $resourceTemplate->getTitleProperty();
-            $title = $this->getResourceTitle($titleProperty, $entity);
+            $title = $this->getResourceTitle($entity, $resourceTemplate->getTitleProperty());
         }
         if (null === $title) {
-            $titleProperty = $adapter->getPropertyByTerm('dcterms:title');
-            $title = $this->getResourceTitle($titleProperty, $entity);
+            $title = $this->getResourceTitle($entity, $defaultTitleProperty);
         }
         $entity->setTitle($title);
     }
@@ -42,7 +38,7 @@ class ResourceTitleHydrator
      * @param Resource $entity
      * @return string|null
      */
-    public function getResourceTitle(Property $titleProperty, Resource $entity)
+    public function getResourceTitle(Resource $entity, Property $titleProperty)
     {
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('property', $titleProperty))

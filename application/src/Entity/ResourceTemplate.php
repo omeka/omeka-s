@@ -33,6 +33,12 @@ class ResourceTemplate extends AbstractEntity
     protected $resourceClass;
 
     /**
+     * @ManyToOne(targetEntity="Property")
+     * @JoinColumn(onDelete="SET NULL")
+     */
+    protected $titleProperty;
+
+    /**
      * @OneToMany(
      *     targetEntity="ResourceTemplateProperty",
      *     mappedBy="resourceTemplate",
@@ -91,6 +97,16 @@ class ResourceTemplate extends AbstractEntity
     public function getResourceClass()
     {
         return $this->resourceClass;
+    }
+
+    public function setTitleProperty(Property $titleProperty = null)
+    {
+        $this->titleProperty = $titleProperty;
+    }
+
+    public function getTitleProperty()
+    {
+        return $this->titleProperty;
     }
 
     public function getResourceTemplateProperties()

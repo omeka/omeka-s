@@ -112,6 +112,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 'o:resource_class' => $resourceClass,
                 'o:resource_template' => $resourceTemplate,
                 'o:thumbnail' => $thumbnail,
+                'o:title' => $this->title(),
             ],
             $dateTime,
             $this->getResourceJsonLd(),
@@ -160,6 +161,16 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         return $this->getAdapter('assets')
             ->getRepresentation($this->resource->getThumbnail());
+    }
+
+    /**
+     * Get the title of this resource.
+     *
+     * @return string
+     */
+    public function title()
+    {
+        return $this->resource->getTitle();
     }
 
     /**
@@ -471,6 +482,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displayTitle($default = null)
     {
+        $title = $this->title();
+        if (null !== $title) {
+            return $title;
+        }
+
         $title = $this->value('dcterms:title', [
             'default' => null,
         ]);

@@ -119,6 +119,7 @@ CREATE TABLE `resource` (
   `resource_class_id` int(11) DEFAULT NULL,
   `resource_template_id` int(11) DEFAULT NULL,
   `thumbnail_id` int(11) DEFAULT NULL,
+  `title` varchar(190) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_public` tinyint(1) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
@@ -128,6 +129,7 @@ CREATE TABLE `resource` (
   KEY `IDX_BC91F416448CC1BD` (`resource_class_id`),
   KEY `IDX_BC91F41616131EA` (`resource_template_id`),
   KEY `IDX_BC91F416FDFF2E92` (`thumbnail_id`),
+  KEY `title` (`title`),
   CONSTRAINT `FK_BC91F41616131EA` FOREIGN KEY (`resource_template_id`) REFERENCES `resource_template` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK_BC91F416448CC1BD` FOREIGN KEY (`resource_class_id`) REFERENCES `resource_class` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK_BC91F4167E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL,
@@ -151,12 +153,15 @@ CREATE TABLE `resource_template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
   `resource_class_id` int(11) DEFAULT NULL,
+  `title_property_id` int(11) DEFAULT NULL,
   `label` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_39ECD52EEA750E8` (`label`),
   KEY `IDX_39ECD52E7E3C61F9` (`owner_id`),
   KEY `IDX_39ECD52E448CC1BD` (`resource_class_id`),
+  KEY `IDX_39ECD52E724734A3` (`title_property_id`),
   CONSTRAINT `FK_39ECD52E448CC1BD` FOREIGN KEY (`resource_class_id`) REFERENCES `resource_class` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_39ECD52E724734A3` FOREIGN KEY (`title_property_id`) REFERENCES `property` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK_39ECD52E7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `resource_template_property` (

@@ -23,10 +23,15 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
         if ($this->resourceClass()) {
             $resourceClass = $this->resourceClass()->getReference();
         }
+        $titleProperty = null;
+        if ($this->titleProperty()) {
+            $titleProperty = $this->titleProperty()->getReference();
+        }
         return [
             'o:label' => $this->label(),
             'o:owner' => $owner,
             'o:resource_class' => $resourceClass,
+            'o:title_property' => $titleProperty,
             'o:resource_template_property' => $this->resourceTemplateProperties(),
         ];
     }
@@ -61,6 +66,17 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     {
         return $this->getAdapter('resource_classes')
             ->getRepresentation($this->resource->getResourceClass());
+    }
+
+    /**
+     * Return the title property of this resource template.
+     *
+     * @return ResourceClassRepresentation
+     */
+    public function titleProperty()
+    {
+        return $this->getAdapter('properties')
+            ->getRepresentation($this->resource->getTitleProperty());
     }
 
     /**

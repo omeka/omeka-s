@@ -13,6 +13,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
         'id' => 'id',
         'created' => 'created',
         'modified' => 'modified',
+        'title' => 'title',
     ];
 
     public function getResourceName()

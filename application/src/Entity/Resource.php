@@ -12,6 +12,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
+ * @Table(
+ *     indexes={
+ *         @Index(
+ *             name="title",
+ *             columns={"title"}
+ *         )
+ *     }
+ * )
  *
  * @see \Omeka\Db\Event\Listener\ResourceDiscriminatorMap
  */
@@ -47,6 +55,11 @@ abstract class Resource extends AbstractEntity
      * @JoinColumn(onDelete="SET NULL")
      */
     protected $thumbnail;
+
+    /**
+     * @Column(nullable=true, length=190)
+     */
+    protected $title;
 
     /**
      * @Column(type="boolean")
@@ -133,6 +146,17 @@ abstract class Resource extends AbstractEntity
     public function getThumbnail()
     {
         return $this->thumbnail;
+    }
+
+    public function setTitle($title)
+    {
+        // Truncate for insertion into MySQL.
+        $this->title = mb_strimwidth($title, 0, 190);
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     public function setIsPublic($isPublic)

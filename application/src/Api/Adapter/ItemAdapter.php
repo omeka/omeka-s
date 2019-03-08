@@ -14,6 +14,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         'is_public' => 'isPublic',
         'created' => 'created',
         'modified' => 'modified',
+        'title' => 'title',
     ];
 
     public function getResourceName()

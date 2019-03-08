@@ -64,10 +64,10 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'resourceTemplateProperties', 'resources'];
+            return ['__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'titleProperty', 'resourceTemplateProperties', 'resources'];
         }
 
-        return ['__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'resourceTemplateProperties', 'resources'];
+        return ['__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'titleProperty', 'resourceTemplateProperties', 'resources'];
     }
 
     /**
@@ -252,6 +252,28 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceClass', []);
 
         return parent::getResourceClass();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTitleProperty(\Omeka\Entity\Property $titleProperty = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleProperty', [$titleProperty]);
+
+        return parent::setTitleProperty($titleProperty);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTitleProperty()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleProperty', []);
+
+        return parent::getTitleProperty();
     }
 
     /**

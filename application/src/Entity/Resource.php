@@ -12,14 +12,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
- * @Table(
- *     indexes={
- *         @Index(
- *             name="title",
- *             columns={"title"}
- *         )
- *     }
- * )
  *
  * @see \Omeka\Db\Event\Listener\ResourceDiscriminatorMap
  */
@@ -57,7 +49,7 @@ abstract class Resource extends AbstractEntity
     protected $thumbnail;
 
     /**
-     * @Column(nullable=true, length=190)
+     * @Column(type="text", nullable=true)
      */
     protected $title;
 

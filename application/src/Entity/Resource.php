@@ -151,7 +151,8 @@ abstract class Resource extends AbstractEntity
     public function setTitle($title)
     {
         // Truncate for insertion into MySQL.
-        $this->title = mb_strimwidth($title, 0, 190);
+        $title = mb_strimwidth(trim($title), 0, 190);
+        $this->title = ('' === $title) ? null : $title;
     }
 
     public function getTitle()

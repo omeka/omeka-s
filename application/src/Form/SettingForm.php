@@ -243,7 +243,7 @@ class SettingForm extends Form
             'type' => 'Checkbox',
             'options' => [
               'label' => 'Default content visibility to Private', // @translate
-              'info' => 'If checked, all items and item sets created will have their visibility set to private by default.' // @translate
+              'info' => 'If checked, all items, item sets and sites newly created will have their visibility set to private by default.', // @translate
             ],
             'attributes' => [
                 'value' => $this->settings->get('default_to_private'),

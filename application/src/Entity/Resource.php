@@ -142,8 +142,9 @@ abstract class Resource extends AbstractEntity
 
     public function setTitle($title)
     {
-        // Truncate for insertion into MySQL.
-        $title = mb_strimwidth(trim($title), 0, 190);
+        // Unlike a resource value, a resource title cannot be an empty string
+        // or a string containing only whitespace.
+        $title = trim($title);
         $this->title = ('' === $title) ? null : $title;
     }
 

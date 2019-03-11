@@ -33,15 +33,8 @@ class VocabularyForm extends Form
         ]);
 
         $this->add([
-            'name' => 'file',
-            'type' => 'file',
-            'options' => [
-                'label' => 'Update vocabulary', // @translate
-                'info' => 'Update this vocabulary to a newer version. You will be able to review the changes before you accept. Accepts the following formats: RDF/XML, RDF/JSON, N-Triples, and Turtle.', // @translate
-            ],
-            'attributes' => [
-                'id' => 'file',
-            ],
+            'name' => 'vocabulary-fetch',
+            'type' => 'Omeka\Form\Element\VocabularyFetch',
         ]);
     }
 }

@@ -212,10 +212,17 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         ]);
         $this->getEventManager()->triggerEvent($event);
 
-        // Finish building the search query. In addition to any sorting the
-        // adapters add, always sort by entity ID.
-        $this->sortQuery($qb, $query);
+        // Add the LIMIT clause.
         $this->limitQuery($qb, $query);
+
+        // Before adding the ORDER BY clause, set a paginator responsible for
+        // getting the total count. This optimization excludes the ORDER BY
+        // clause from the count query, greatly speeding up response time.
+        $countPaginator = new Paginator($qb, false);
+
+        // Add the ORDER BY clause. Always sort by entity ID in addition to any
+        // sorting the adapters add.
+        $this->sortQuery($qb, $query);
         $qb->addOrderBy("$entityClass.id", $query['sort_order']);
 
         $scalarField = $request->getOption('returnScalar');
@@ -250,7 +257,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         }
 
         $response = new Response($entities);
-        $response->setTotalResults($paginator->count());
+        $response->setTotalResults($countPaginator->count());
         return $response;
     }
 

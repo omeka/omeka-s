@@ -37,7 +37,7 @@ class UserController extends AbstractActionController
     {
         $this->setBrowseDefaults('email', 'asc');
         $response = $this->api()->search('users', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $formDeleteSelected = $this->getForm(ConfirmForm::class);
         $formDeleteSelected->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], true));
@@ -80,7 +80,7 @@ class UserController extends AbstractActionController
     {
         $this->setBrowseDefaults('created');
         $response = $this->api()->search('users', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('users', $response->getContent());

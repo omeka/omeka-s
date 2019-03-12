@@ -24,7 +24,7 @@ class ResourceTemplateController extends AbstractActionController
     {
         $this->setBrowseDefaults('label', 'asc');
         $response = $this->api()->search('resource_templates', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('resourceTemplates', $response->getContent());

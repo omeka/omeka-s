@@ -12,7 +12,7 @@ class JobController extends AbstractActionController
     {
         $this->setBrowseDefaults('id');
         $response = $this->api()->search('jobs', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('jobs', $response->getContent());

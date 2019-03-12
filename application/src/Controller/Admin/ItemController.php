@@ -35,7 +35,7 @@ class ItemController extends AbstractActionController
     {
         $this->setBrowseDefaults('created');
         $response = $this->api()->search('items', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $formDeleteSelected = $this->getForm(ConfirmForm::class);
         $formDeleteSelected->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], true));
@@ -87,7 +87,7 @@ class ItemController extends AbstractActionController
     {
         $this->setBrowseDefaults('created');
         $response = $this->api()->search('items', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('items', $response->getContent());

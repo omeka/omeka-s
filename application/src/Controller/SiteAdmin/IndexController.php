@@ -42,7 +42,7 @@ class IndexController extends AbstractActionController
     {
         $this->setBrowseDefaults('title', 'asc');
         $response = $this->api()->search('sites', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('sites', $response->getContent());
@@ -451,7 +451,7 @@ class IndexController extends AbstractActionController
 
         $response = $this->api()->search('items', $query);
         $items = $response->getContent();
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setTerminal(true);

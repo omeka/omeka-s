@@ -31,7 +31,7 @@ class VocabularyController extends AbstractActionController
     {
         $this->setBrowseDefaults('label', 'asc');
         $response = $this->api()->search('vocabularies', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('vocabularies', $response->getContent());
@@ -217,7 +217,7 @@ class VocabularyController extends AbstractActionController
         $this->getRequest()->getQuery()->set('vocabulary_id', $this->params('id'));
         $propResponse = $this->api()->search('properties', $this->params()->fromQuery());
         $vocabResponse = $this->api()->read('vocabularies', $this->params('id'));
-        $this->paginator($propResponse->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($propResponse->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('properties', $propResponse->getContent());
@@ -235,7 +235,7 @@ class VocabularyController extends AbstractActionController
         $this->getRequest()->getQuery()->set('vocabulary_id', $this->params('id'));
         $classResponse = $this->api()->search('resource_classes', $this->params()->fromQuery());
         $vocabResponse = $this->api()->read('vocabularies', $this->params('id'));
-        $this->paginator($classResponse->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($classResponse->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('resourceClasses', $classResponse->getContent());

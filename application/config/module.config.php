@@ -472,6 +472,7 @@ return [
             'Omeka\Form\Element\HtmlTextarea' => Service\Form\Element\HtmlTextareaFactory::class,
             'Omeka\Form\Element\Ckeditor' => Service\Form\Element\CkeditorFactory::class,
             'Omeka\Form\Element\CkeditorInline' => Service\Form\Element\CkeditorInlineFactory::class,
+            'Omeka\Form\Element\SitePageSelect' => Service\Form\Element\SitePageSelectFactory::class,
         ],
     ],
     'data_types' => [

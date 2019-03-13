@@ -109,6 +109,21 @@ class SiteSettingsForm extends Form
                 'class' => 'chosen-select',
             ],
         ]);
+        $generalFieldset->add([
+            'name' => 'default_homepage_id',
+            'type' => 'Omeka\Form\Element\SitePageSelect',
+            'options' => [
+                'label' => 'Default homepage', // @translate
+                'info' => 'Select a default homepage that will be linked by the site title.', // @translate
+                'empty_option' => '',
+            ],
+            'attributes' => [
+                'id' => 'homepage',
+                'value' => $settings->get('default_homepage_id'),
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select a default homepage…', // @translate
+            ],
+        ]);
 
         // Browse section
         $this->add([
@@ -222,6 +237,10 @@ class SiteSettingsForm extends Form
             'attributes' => [
                 'id' => 'locale',
             ],
+        ]);
+        $inputFilter->get('general')->add([
+            'name' => 'default_homepage_id',
+            'allow_empty' => true,
         ]);
         $inputFilter->get('browse')->add([
             'name' => 'pagination_per_page',

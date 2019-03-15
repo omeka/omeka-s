@@ -10,6 +10,15 @@ $expanded = $resourceClassId || $itemSetId || $id;
     
     <div class="search-nav">
         <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
+            <?php
+            // Preserve any original filter params that may have been set during
+            // the initial load, removing sorting and pagination params as well
+            // as params set by this form.
+            echo $this->queryToHiddenInputs([
+                'sort_by', 'sort_order', 'page',
+                'search', 'resource_class_id', 'item_set_id', 'id',
+            ]);
+            ?>
             <input type="text" name="search" id="resource-list-search" value="<?php echo $escape($search); ?>">
             <button type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
             <div class="resource-search-filters">

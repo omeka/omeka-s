@@ -99,16 +99,22 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     /**
      * Set sort_by and sort_order conditions to the query builder.
      *
+     * Note about random sorting: There is no random query in doctrine and no
+     * standard query in the sql standard, because it is too hard to implement
+     * efficiently. So this order should be used only for small bases.
+     *
      * @param QueryBuilder $qb
      * @param array $query
      */
     public function sortQuery(QueryBuilder $qb, array $query)
     {
-        if (is_string($query['sort_by'])
-            && array_key_exists($query['sort_by'], $this->sortFields)
-        ) {
-            $sortBy = $this->sortFields[$query['sort_by']];
-            $qb->addOrderBy($this->getEntityClass() . ".$sortBy", $query['sort_order']);
+        if (isset($query['sort_by']) && is_string($query['sort_by'])) {
+            if (array_key_exists($query['sort_by'], $this->sortFields)) {
+                $sortBy = $this->sortFields[$query['sort_by']];
+                $qb->addOrderBy($this->getEntityClass() . ".$sortBy", $query['sort_order']);
+            } elseif ($query['sort_by'] === 'random') {
+                $qb->orderBy('RAND()');
+            }
         }
     }
 

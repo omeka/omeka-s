@@ -53,7 +53,7 @@ class Uri extends AbstractDataType
         if (!$uriLabel) {
             $uriLabel = $uri;
         }
-        return $view->hyperlink($uriLabel, $uri, ['class' => 'uri-value-link']);
+        return $view->hyperlink($uriLabel, $uri, ['class' => 'uri-value-link', 'target' => '_blank']);
     }
 
     public function getJsonLd(ValueRepresentation $value)

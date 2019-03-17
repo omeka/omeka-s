@@ -1,8 +1,9 @@
 <?php
 namespace Omeka\I18n;
 
-use Omeka\Stdlib\Message;
+use Laminas\I18n\Translator\TranslatorAwareInterface;
 use Laminas\I18n\Translator\TranslatorInterface;
+use Omeka\Stdlib\MessageInterface;
 
 class Translator implements TranslatorInterface
 {
@@ -21,14 +22,17 @@ class Translator implements TranslatorInterface
 
     public function translate($message, $textDomain = 'default', $locale = null)
     {
-        if (!$message instanceof Message) {
-            return $this->translator->translate($message, $textDomain, $locale);
+        if ($message instanceof TranslatorAwareInterface) {
+            $message->setTranslator($this->translator, $textDomain);
+            return $message->translate($textDomain, $locale);
         }
-        $translation = $this->translator->translate($message->getMessage(), $textDomain, $locale);
-        if ($message->hasArgs()) {
-            $translation = sprintf($translation, ...$message->getArgs());
+
+        if ($message instanceof MessageInterface) {
+            $translation = $this->translator->translate($message->getMessage(), $textDomain, $locale);
+            return $message->interpolate($translation, $message->getContext());
         }
-        return $translation;
+
+        return $this->translator->translate($message, $textDomain, $locale);
     }
 
     public function translatePlural($singular, $plural, $number, $textDomain = 'default', $locale = null)

@@ -18,7 +18,7 @@ trait PsrInterpolateTrait
      * @param array $context Associative array with placeholders and strings.
      * @return string
      */
-    public function interpolate($message, array $context = null)
+    public function interpolate($message, array $context = [])
     {
         if (empty($context)) {
             return $message;

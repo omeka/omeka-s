@@ -325,25 +325,7 @@ var taskTest = gulp.series('test:cs', 'test:php');
 taskTest.description = 'Run all tests'
 gulp.task('test', taskTest);
 
-function taskFixCs() {
-    return phpCsFixer(true);
-}
-taskFixCs.description = 'Fix code standards';
-gulp.task('fix:cs', taskFixCs);
-
-function taskFixModuleCs() {
-    return ensureBuildDir()
-        .then(getModulePath)
-        .then(function (modulePath) {
-            return phpCsFixer(true, modulePath);
-        }
-    );
-}
-taskFixModuleCs.description = 'Fix code standards for a module';
-taskFixModuleCs.flags = {'--module-name': 'Folder name of the module to fix'};
-gulp.task('fix:module:cs', taskFixModuleCs);
-
-gulp.task('test:module:cs', function () {
+function taskTestModuleCs() {
     var module = cliOptions.module;
     var modulePathPromise = getModulePath(module);
     return modulePathPromise.then(function (modulePath) {
@@ -360,8 +342,12 @@ gulp.task('test:module:cs', function () {
             ]);
         });
     });
-});
-gulp.task('test:module:php', function () {
+}
+taskTestModuleCs.description = 'Check code standards for a module';
+taskTestModuleCs.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('test:module:cs', taskTestModuleCs);
+
+function taskTestModulePhp() {
     var module = cliOptions.module;
     var modulePathPromise = getModulePath(module);
     return modulePathPromise.then(function (modulePath) {
@@ -375,8 +361,15 @@ gulp.task('test:module:php', function () {
             ], {cwd: modulePath});
         });
     });
-});
-gulp.task('test:module', gulp.series('test:module:cs', 'test:module:php'));
+}
+taskTestModulePhp.description = 'Run PHPUnit automated tests for a module';
+taskTestModulePhp.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('test:module:php', taskTestModulePhp);
+
+var taskTestModule = gulp.series('test:module:cs', 'test:module:php');
+taskTestModule.description = 'Run all tests for a module'
+taskTestModule.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('test:module', taskTestModule);
 
 function taskDeps() {
     return composer(['install']);
@@ -421,71 +414,95 @@ function taskDepsJs(cb) {
 taskDepsJs.description = 'Update in-browser javascript dependencies';
 gulp.task('deps:js', taskDepsJs);
 
-gulp.task('deps:module:npm', function (done) {
+function taskDepsModuleNpm(done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
     process.chdir(modulePath);
     var manifest = path.join(modulePath, 'package.json');
     return fs.existsSync(manifest)
         ? runCommand('npm', ['install'], {cwd: modulePath})
         : done();
-});
+}
+taskDepsModuleNpm.description = 'Install nodejs dependencies for a module';
+taskDepsModuleNpm.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('deps:module:npm', taskDepsModuleNpm);
 
-gulp.task('deps:module:gulp', function (done) {
+function taskDepsModuleGulp(done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
     process.chdir(modulePath);
     var manifest = path.join(modulePath, 'gulpfile.js');
     return fs.existsSync(manifest)
         ? runCommand('gulp', ['install'], {cwd: modulePath})
         : done();
-});
+}
+taskDepsModuleGulp.description = 'Install a module with gulp';
+taskDepsModuleGulp.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('deps:module:gulp', taskDepsModuleGulp);
 
-gulp.task('deps:module:composer', function (done) {
+function taskDepsModuleComposer(done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
     process.chdir(modulePath);
     var manifest = path.join(modulePath, 'composer.json');
     return fs.existsSync(manifest)
         ? composer(['install'])
         : done();
-});
+}
+taskDepsModuleComposer.description = 'Install a module with composer';
+taskDepsModuleComposer.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('deps:module:composer', taskDepsModuleComposer);
 
-gulp.task('deps:module', gulp.series(
+var taskDepsModule = gulp.series(
     'deps:module:npm',
     'deps:module:gulp',
     'deps:module:composer'
-));
+);
+taskDepsModule.description = 'Install a module with npm, gulp and composer'
+taskDepsModule.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('deps:module', taskDepsModule);
 
-gulp.task('deps:module:npm:update', function (done) {
+function taskDepsModuleNpmUpdate(done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
     process.chdir(modulePath);
     var manifest = path.join(modulePath, 'package.json');
     return fs.existsSync(manifest)
         ? runCommand('npm', ['update'], {cwd: modulePath})
         : done();
-});
+}
+taskDepsModuleNpmUpdate.description = 'Update nodejs dependencies for a module';
+taskDepsModuleNpmUpdate.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('deps:module:npm:update', taskDepsModuleNpmUpdate);
 
-gulp.task('deps:module:gulp:update', function (done) {
+function taskDepsModuleGulpUpdate(done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
     process.chdir(modulePath);
     var manifest = path.join(modulePath, 'gulpfile.js');
     return fs.existsSync(manifest)
         ? runCommand('gulp', ['update'], {cwd: modulePath})
         : done();
-});
+}
+taskDepsModuleGulpUpdate.description = 'Update a module with gulp';
+taskDepsModuleGulpUpdate.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('deps:module:gulp:update', taskDepsModuleGulpUpdate);
 
-gulp.task('deps:module:composer:update', function (done) {
+function taskDepsModuleComposerUpdate(done) {
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
     process.chdir(modulePath);
     var manifest = path.join(modulePath, 'composer.json');
     return fs.existsSync(manifest)
         ? composer(['update'])
         : done();
-});
+}
+taskDepsModuleComposerUpdate.description = 'Update a module with composer';
+taskDepsModuleComposerUpdate.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('deps:module:composer:update', taskDepsModuleComposerUpdate);
 
-gulp.task('deps:module:update', gulp.series(
+var taskDepsModuleUpdate = gulp.series(
     'deps:module:npm:update',
     'deps:module:gulp:update',
     'deps:module:composer:update'
-));
+);
+taskDepsModuleUpdate.description = 'Update a module with npm, gulp and composer'
+taskDepsModuleUpdate.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('deps:module:update', taskDepsModuleUpdate);
 
 function taskDedist() {
     return gulp.src(['./.htaccess.dist', './config/*.dist', './logs/*.dist', './application/test/config/*.dist'], {base: '.'})
@@ -625,7 +642,12 @@ var taskInit = gulp.series('dedist', 'deps');
 taskInit.description = 'Run first-time setup for a source checkout'
 gulp.task('init', taskInit);
 
-gulp.task('init:module', gulp.series('deps:module'));
+var taskInitModule = gulp.series(
+    'deps:module'
+);
+taskInitModule.description = 'Init a module with npm, gulp and composer'
+taskInitModule.flags = {'--module-name': 'Name of module (required)'};
+gulp.task('init:module', taskInitModule);
 
 function taskClean() {
     return rimraf(buildDir).then(function () {
@@ -635,7 +657,7 @@ function taskClean() {
 taskClean.description = 'Clean build files and installed dependencies'
 gulp.task('clean', taskClean);
 
-gulp.task('clean:module', function () {
+function taskCleanModule() {
     var module = cliOptions.module;
     var modulePathPromise = getModulePath(module);
     return modulePathPromise.then(function (modulePath) {
@@ -646,7 +668,10 @@ gulp.task('clean:module', function () {
                 rimraf(moduleVendorDir);
             });
     });
-});
+};
+taskCleanModule.description = 'Clean build files and installed dependencies for a module';
+taskCleanModule.flags = {'--module-name': 'Name of module (required)'}
+gulp.task('clean:module', taskCleanModule);
 
 var taskZip = gulp.series('clean', 'init', function (done) {
     return zipDistDir(__dirname, buildDir, 'omeka-s', done);
@@ -657,18 +682,21 @@ gulp.task('zip', taskZip);
 var processNoDevModule = function (done) {
     cliOptions.dev = false;
     done();
-};
+}
 
-gulp.task('zip:module', gulp.series(processNoDevModule, 'clean:module', 'init:module', function (done) {
+var taskZipModule = gulp.series(processNoDevModule, 'clean:module', 'init:module', function (done) {
     var module = cliOptions.module;
     var modulePathPromise = getModulePath(module);
     modulePathPromise.then(function (modulePath) {
         zipDistDir(modulePath, path.join(modulePath, 'build'), cliOptions.module, done);
     });
-}));
+});
+taskZipModule.description = 'Create zip archive for a module';
+taskZipModule.flags = {'--module-name': 'Name of module (required)'}
+gulp.task('zip:module', taskZipModule);
 
-// TODO Check params first.
-gulp.task('publish:module', gulp.series('zip:module', function() {
+// TODO Check params first. Make task "Publish" a simple function (cf. PreRelease)?
+var taskPublishModule = gulp.series('zip:module', function () {
     let moduleFile = fs.readFileSync('config/module.ini','utf-8');
     let moduleObj = {};
     moduleFile.trim().split('\n').forEach(function(entry){
@@ -734,11 +762,20 @@ gulp.task('publish:module', gulp.series('zip:module', function() {
         .pipe(rename(moduleZipRelease))
         .pipe(gulp.dest(modulePath))
         .pipe(release(releaseOptions));
-}));
+});
+taskPublishModule.description = 'Publish a module';
+taskPublishModule.flags = {'--module-name': 'Name of module (required)'}
+gulp.task('publish:module', taskPublishModule);
 
-gulp.task('pre-release:module', gulp.series([triggerPreRelease, 'publish:module'], function(done){
+var taskPreReleaseModule = gulp.series([triggerPreRelease, 'publish:module'], function(done){
     preRelease = false;
     done();
-}));
+});
+taskPreReleaseModule.description = 'Pre-release a module';
+taskPreReleaseModule.flags = {'--module-name': 'Name of module (required)'}
+gulp.task('pre-release:module', taskPreReleaseModule);
 
-gulp.task('release:module', gulp.series(['test:module', 'publish:module']));
+var taskReleaseModule = gulp.series(['test:module', 'publish:module']);
+taskReleaseModule.description = 'Release a module';
+taskReleaseModule.flags = {'--module-name': 'Name of module (required)'}
+gulp.task('release:module', taskReleaseModule);

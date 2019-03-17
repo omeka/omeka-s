@@ -52,6 +52,35 @@ var processNoDevModule = function (done) {
     done();
 };
 
+var credentials = function() {
+    let credentials = cliOptions.credentials && cliOptions.credentials.split(':'),
+        cliUserName = credentials && credentials[0],
+        cliToken = credentials && credentials[1];
+
+    // If username and token are not passed in cli, then only consider
+    // credentials present in config/user.ini.
+    let userObj = {};
+    if(!cliUserName && !cliToken) {
+        let userCredentialsPath = path.resolve(__dirname) + '/config/user.ini';
+        if (!fs.existsSync(userCredentialsPath)) {
+            return {owner: '', token: ''};
+        }
+
+        let userFile = fs.readFileSync(userCredentialsPath, 'utf-8');
+        userFile.trim().split('\n').forEach(function(entry){
+            let arr = entry.split('='),
+                key = arr[0] && arr[0].trim(),
+                value = (arr[1] && arr[1].trim()) || '';
+            key && (userObj[key] = value);
+        });
+    }
+
+    let owner = cliUserName || userObj && userObj['owner'].replace(/\"/g,''),
+        token = cliToken || userObj && userObj['token'].replace(/\"/g,'');
+
+    return {owner: owner, token: token};
+};
+
 function ensureBuildDir(dir) {
     dir = dir || buildDir;
     return fs.statAsync(dir).catch(function (e) {
@@ -594,10 +623,10 @@ function taskI18nDebug() {
 taskI18nDebug.description = 'Create debugging dummy translation file (debug.po)';
 gulp.task('i18n:debug', taskI18nDebug);
 
-function taskI18nModuleTemplate() {
+function taskI18nModuleTemplate(done) {
     if (cliOptions.noi18n) {
         log.warn('Skipped i18n template.');
-        return;
+        return done(null);
     }
 
     var modulePathPromise = getModulePath();
@@ -719,8 +748,15 @@ taskZipModule.flags = {'--module-name': 'Name of module (required)'}
 gulp.task('zip:module', taskZipModule);
 
 // TODO Check params first. Make task "Publish" a simple function (cf. PreRelease)?
-var taskPublishModule = gulp.series('zip:module', function () {
-    let moduleFile = fs.readFileSync('config/module.ini','utf-8');
+var taskPublishModule = gulp.series('zip:module', function(done) {
+    var creds = credentials(),
+        owner = creds.owner,
+        token = creds.token;
+    if (!owner.length || !token.length) {
+        return done('Unable to publish: No credentials. Set it in config/user.ini or as an argument of the command --credentials=owner:token.');
+    }
+
+    let moduleFile = fs.readFileSync('config/module.ini', 'utf-8');
     let moduleObj = {};
     moduleFile.trim().split('\n').forEach(function(entry){
         let arr = entry.split('='),
@@ -729,39 +765,18 @@ var taskPublishModule = gulp.series('zip:module', function () {
         key && (moduleObj[key] = value);
     });
 
-    let credentials = cliOptions.credentials && cliOptions.credentials.split(':'),
-        cliUserName = credentials && credentials[0],
-        cliToken = credentials && credentials[1];
-
-    // If username and token are not passed in cli, then only consider
-    // credentials present in config/user.ini.
-    let userObj = {};
-    if(!cliUserName && !cliToken) {
-        let userFile = fs.readFileSync(path.resolve(__dirname) + '/config/user.ini','utf-8');
-        userFile.trim().split('\n').forEach(function(entry){
-            let arr = entry.split('='),
-                key = arr[0] && arr[0].trim(),
-                value = (arr[1] && arr[1].trim()) || '';
-            key && (userObj[key] = value);
-        });
-    }
-
     let version = moduleObj['version'].replace(/\"/g,''),
         repoLink = moduleObj['module_link'].replace(/\"/g,''),
         authorLink = moduleObj['author_link'].replace(/\"/g,''),
-        repoName = repoLink.replace(authorLink + '/', ""),
-        token = cliToken || userObj && userObj['token'].replace(/\"/g,''),
-        owner = cliUserName || userObj && userObj['owner'].replace(/\"/g,'');
-
-    if (!owner.length || !token.length) {
-        log.error('Unable to publish: No credentials. Set it in config/user.ini or as an argument of the command --credentials=owner:token.');
-        return;
-    }
+        repoName = repoLink.replace(authorLink + '/', "");
 
     var modulePath = path.join(__dirname, 'modules', cliOptions.module);
     process.chdir(modulePath);
     var moduleZip = path.join('build', cliOptions.module + '.zip');
     var moduleZipRelease = path.join('build', cliOptions.module + '-' + version + '.zip');
+    if (!fs.existsSync(moduleZip)) {
+        return done('Zip file "' +  moduleZip + '" is not ready');
+    }
 
     var releaseOptions = {
         token: token,

@@ -353,6 +353,10 @@ function taskTestModulePhp() {
     return modulePathPromise.then(function (modulePath) {
         process.chdir(__dirname);
         return ensureBuildDir().then(function () {
+            if (!fs.existsSync('phpunit.xml')) {
+                log.warn('No phpunit test.');
+                return;
+            }
             return runCommand(composerDir + '/phpunit', [
                 '-d',
                 'date.timezone=America/New_York',

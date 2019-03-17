@@ -35,11 +35,6 @@ var pot = langDir + '/template.pot';
 
 var preRelease = false;
 
-var triggerPreRelease = function(done) {
-    preRelease = true;
-    done();
-};
-
 var cliOptions = minimist(process.argv.slice(2), {
     string: ['php-path', 'module-name'],
     boolean: 'dev',
@@ -47,14 +42,31 @@ var cliOptions = minimist(process.argv.slice(2), {
     default: {'php-path': 'php', 'dev': true, 'module-name': null}
 });
 
-function ensureBuildDir() {
-    return fs.statAsync(buildDir).catch(function (e) {
-        return fs.mkdirAsync(buildDir);
+var triggerPreRelease = function(done) {
+    preRelease = true;
+    done();
+};
+
+var processNoDevModule = function (done) {
+    cliOptions.dev = false;
+    done();
+};
+
+function ensureBuildDir(dir) {
+    dir = dir || buildDir;
+    return fs.statAsync(dir).catch(function (e) {
+        return fs.mkdirAsync(dir);
     }).then(function () {
-        return fs.statAsync(buildDir + '/cache');
+        return fs.statAsync(dir + '/cache');
     }).catch(function (e) {
-        fs.mkdirAsync(buildDir + '/cache');
+        fs.mkdirAsync(dir + '/cache');
     });
+}
+
+function ensureBuildDirModule(done) {
+    var modulePath = path.join(__dirname, 'modules', cliOptions.module);
+    ensureBuildDir(path.join(modulePath, 'build'));
+    done();
 }
 
 function download(url, path) {
@@ -370,7 +382,7 @@ taskTestModulePhp.description = 'Run PHPUnit automated tests for a module';
 taskTestModulePhp.flags = {'--module-name': 'Name of module (required)'};
 gulp.task('test:module:php', taskTestModulePhp);
 
-var taskTestModule = gulp.series('test:module:cs', 'test:module:php');
+var taskTestModule = gulp.series(ensureBuildDirModule, 'test:module:cs', 'test:module:php');
 taskTestModule.description = 'Run all tests for a module'
 taskTestModule.flags = {'--module-name': 'Name of module (required)'};
 gulp.task('test:module', taskTestModule);
@@ -683,18 +695,19 @@ var taskZip = gulp.series('clean', 'init', function (done) {
 taskZip.description = 'Create zip archive'
 gulp.task('zip', taskZip);
 
-var processNoDevModule = function (done) {
-    cliOptions.dev = false;
-    done();
-}
-
-var taskZipModule = gulp.series(processNoDevModule, 'clean:module', 'init:module', function (done) {
-    var module = cliOptions.module;
-    var modulePathPromise = getModulePath(module);
-    modulePathPromise.then(function (modulePath) {
-        zipDistDir(modulePath, path.join(modulePath, 'build'), cliOptions.module, done);
-    });
-});
+var taskZipModule = gulp.series(
+    ensureBuildDirModule,
+    processNoDevModule,
+    'clean:module',
+    'init:module',
+    function (done) {
+        var module = cliOptions.module;
+        var modulePathPromise = getModulePath(module);
+        modulePathPromise.then(function (modulePath) {
+            zipDistDir(modulePath, path.join(modulePath, 'build'), cliOptions.module, done);
+        });
+    }
+);
 taskZipModule.description = 'Create zip archive for a module';
 taskZipModule.flags = {'--module-name': 'Name of module (required)'}
 gulp.task('zip:module', taskZipModule);

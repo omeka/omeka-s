@@ -784,15 +784,26 @@ taskPublishModule.description = 'Publish a module';
 taskPublishModule.flags = {'--module-name': 'Name of module (required)'}
 gulp.task('publish:module', taskPublishModule);
 
-var taskPreReleaseModule = gulp.series([triggerPreRelease, 'publish:module'], function(done){
-    preRelease = false;
-    done();
-});
+var taskPreReleaseModule = gulp.series(
+    triggerPreRelease,
+    'i18n:module:template',
+    'i18n:module:compile',
+    'publish:module',
+    function(done){
+        preRelease = false;
+        done();
+    }
+);
 taskPreReleaseModule.description = 'Pre-release a module';
 taskPreReleaseModule.flags = {'--module-name': 'Name of module (required)'}
 gulp.task('pre-release:module', taskPreReleaseModule);
 
-var taskReleaseModule = gulp.series(['test:module', 'publish:module']);
+var taskReleaseModule = gulp.series(
+    'test:module',
+    'i18n:module:template',
+    'i18n:module:compile',
+    'publish:module'
+);
 taskReleaseModule.description = 'Release a module';
 taskReleaseModule.flags = {'--module-name': 'Name of module (required)'}
 gulp.task('release:module', taskReleaseModule);

@@ -594,6 +594,11 @@ taskI18nDebug.description = 'Create debugging dummy translation file (debug.po)'
 gulp.task('i18n:debug', taskI18nDebug);
 
 function taskI18nModuleTemplate() {
+    if (cliOptions.noi18n) {
+        log.warn('Skipped i18n template.');
+        return;
+    }
+
     var modulePathPromise = getModulePath();
     var preDedupePromise = modulePathPromise.then(function (modulePath) {
         return Promise.all([

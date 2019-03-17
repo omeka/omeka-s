@@ -246,7 +246,8 @@ function zipDistDir(source = null, destination = null, zipname = null, done) {
         '!./gulpfile.js',
         '!./**/.git/**',
         '!./**/.gitattributes',
-        '!./**/.gitignore'
+        '!./**/.gitignore',
+        '!./**/vendor/asset/**',
     ];
 
     var stream = gulp.src(

@@ -194,6 +194,23 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
+        $form->add([
+            'name' => 'o:homepage[o:id]',
+            'type' => 'Omeka\Form\Element\SitePageSelect',
+            'options' => [
+                'label' => 'Homepage', // @translate
+                'empty_option' => '',
+            ],
+            'attributes' => [
+                'value' => $site->homepage() ? $site->homepage()->id() : null,
+                'class' => 'chosen-select',
+                'data-placeholder' => 'First page in navigation', // @translate
+            ],
+        ]);
+        $form->getInputFilter()->add([
+            'name' => 'o:homepage[o:id]',
+            'allow_empty' => true,
+        ]);
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();

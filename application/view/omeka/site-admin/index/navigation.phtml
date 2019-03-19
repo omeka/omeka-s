@@ -9,7 +9,7 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->pageTitle($this->translate('Navigation'), 1, $this->translate('Sites')); ?>
 
 <?php echo $this->form()->openTag($form); ?>
-<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->formRow($form->get('form_csrf')); ?>
 
 <div id="page-actions">
     <?php echo $this->cancelButton(); ?>
@@ -23,6 +23,10 @@ $escape = $this->plugin('escapeHtml');
 <button id="nav-selector-button" class="mobile-only"><?php echo $this->translate('Add a link to a site page'); ?></button>
 <div id="nav-selector" class="always-open sidebar">
     <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+    <div class="field">
+        <label for="o:homepage[o:id]"><?php echo $this->translate('Select a homepage'); ?></label>
+        <?php echo $this->formElement($form->get('o:homepage[o:id]')); ?>
+    </div>
     <div class="field">
         <label for="nav-custom-links"><?php echo $this->translate('Add a custom link'); ?></label>
         <div id="nav-custom-links">

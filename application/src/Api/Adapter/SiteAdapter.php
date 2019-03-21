@@ -251,6 +251,11 @@ class SiteAdapter extends AbstractEntityAdapter
         if (!is_array($entity->getItemPool())) {
             $errorStore->addError('o:item_pool', 'A site must have item pool data.'); // @translate
         }
+
+        $homepage = $entity->getHomepage();
+        if ($homepage && ($entity !== $homepage->getSite())) {
+            $errorStore->addError('o:homepage', 'A homepage must belong to its parent site.'); // @translate
+        }
     }
 
     public function buildQuery(QueryBuilder $qb, array $query)

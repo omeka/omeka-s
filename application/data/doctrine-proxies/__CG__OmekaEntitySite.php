@@ -301,7 +301,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setHomepage(\Omeka\Entity\SitePage $homepage)
+    public function setHomepage(\Omeka\Entity\SitePage $homepage = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHomepage', [$homepage]);

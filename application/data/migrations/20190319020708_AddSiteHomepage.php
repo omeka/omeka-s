@@ -11,6 +11,6 @@ class AddSiteHomepage implements MigrationInterface
         $conn->exec('
 ALTER TABLE site ADD homepage_id INT DEFAULT NULL;
 ALTER TABLE site ADD CONSTRAINT FK_694309E4571EDDA FOREIGN KEY (homepage_id) REFERENCES site_page (id) ON DELETE SET NULL;
-CREATE INDEX IDX_694309E4571EDDA ON site (homepage_id);');
+CREATE UNIQUE INDEX UNIQ_694309E4571EDDA ON site (homepage_id);');
     }
 }

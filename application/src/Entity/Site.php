@@ -42,7 +42,7 @@ class Site extends AbstractEntity
     protected $navigation;
 
     /**
-     * @ManyToOne(targetEntity="SitePage")
+     * @OneToOne(targetEntity="SitePage")
      * @JoinColumn(onDelete="SET NULL")
      */
     protected $homepage;

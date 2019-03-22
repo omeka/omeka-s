@@ -12,7 +12,11 @@ $form->prepare();
     <button><?php echo $this->translate('Save'); ?></button>
 </div>
 <?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>
-<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->formRow($form->get('vocabularyform_csrf')); ?>
+<?php echo $this->formRow($form->get('o:label')); ?>
+<?php echo $this->formRow($form->get('o:comment')); ?>
+<p><?php echo $this->translate('You may update this vocabulary to a newer version. You will be able to review the changes before you accept.'); ?></p>
+<?php echo $this->formCollection($form->get('vocabulary-fetch'), false); ?>
 <?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>
 <?php echo $this->form()->closeTag(); ?>
 <?php echo $this->deleteConfirm($vocabulary, 'vocabulary'); ?>

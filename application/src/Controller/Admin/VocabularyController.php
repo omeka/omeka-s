@@ -75,18 +75,19 @@ class VocabularyController extends AbstractActionController
             $form->setData($post);
             if ($form->isValid()) {
                 $data = $form->getData();
+                $dataVocabFetch = $data['vocabulary-fetch'];
                 try {
                     $strategy = null;
                     $options = [
-                        'format' => $data['format'],
-                        'lang' => $data['lang'],
+                        'format' => $dataVocabFetch['format'],
+                        'lang' => $dataVocabFetch['lang'],
                     ];
-                    if (\UPLOAD_ERR_OK === $data['file']['error']) {
+                    if (\UPLOAD_ERR_OK === $dataVocabFetch['file']['error']) {
                         $strategy = 'file';
-                        $options['file'] = $data['file']['tmp_name'];
-                    } elseif ($data['url']) {
+                        $options['file'] = $dataVocabFetch['file']['tmp_name'];
+                    } elseif ($dataVocabFetch['url']) {
                         $strategy = 'url';
-                        $options['url'] = $data['url'];
+                        $options['url'] = $dataVocabFetch['url'];
                     } else {
                         throw new ValidationException($this->translate('Must provide a vocabulary file or a vocabulary URL'));
                     }
@@ -140,30 +141,42 @@ class VocabularyController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('vocabulary', $vocabulary);
 
-        if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
-            $form->setData($data);
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+            $form->setData($post);
             if ($form->isValid()) {
+                $data = $form->getData();
+                $dataVocabFetch = $data['vocabulary-fetch'];
                 $response = $this->api($form)->update('vocabularies', $this->params('id'), $data, [], ['isPartial' => true]);
-                if ($response) {
-                    $fileData = $this->params()->fromFiles('file');
-                    if (0 === $fileData['error']) {
-                        $this->messenger()->addSuccess('Please review these changes before you accept them.'); // @translate
-                        $diff = $this->rdfImporter->getDiff(
-                            'file',
-                            $vocabulary->namespaceUri(),
-                            ['file' => $fileData['tmp_name']]
-                        );
-                        $form = $this->getForm(VocabularyUpdateForm::class);
-                        $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'update'], true));
-                        $form->get('diff')->setValue(json_encode($diff));
 
-                        $view->setVariable('diff', $diff);
-                        $view->setTemplate('omeka/admin/vocabulary/update');
-                    } else {
-                        $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
-                        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
-                    }
+                $strategy = null;
+                $options = [
+                    'format' => $dataVocabFetch['format'],
+                    'lang' => $dataVocabFetch['lang'],
+                ];
+                if (\UPLOAD_ERR_OK === $dataVocabFetch['file']['error']) {
+                    $strategy = 'file';
+                    $options['file'] = $dataVocabFetch['file']['tmp_name'];
+                } elseif ($dataVocabFetch['url']) {
+                    $strategy = 'url';
+                    $options['url'] = $dataVocabFetch['url'];
+                }
+
+                if (null !== $strategy) {
+                    $this->messenger()->addSuccess('Please review these changes before you accept them.'); // @translate
+                    $diff = $this->rdfImporter->getDiff($strategy, $vocabulary->namespaceUri(), $options);
+                    $form = $this->getForm(VocabularyUpdateForm::class);
+                    $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'update'], true));
+                    $form->get('diff')->setValue(json_encode($diff));
+                    $view->setVariable('diff', $diff);
+                    $view->setTemplate('omeka/admin/vocabulary/update');
+                } else {
+                    $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
+                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
                 }
             } else {
                 $this->messenger()->addFormErrors($form);

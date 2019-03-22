@@ -12,6 +12,8 @@ $sectionNavs = [
     'item-metadata' => $translate('Metadata'),
     'item-linked' => $translate('Linked resources'),
 ];
+
+$itemMedia = $item->media();
 ?>
 <?php echo $this->pageTitle($item->displayTitle(), 1, $translate('Items')); ?>
 <div id="page-actions">
@@ -72,10 +74,10 @@ $sectionNavs = [
         <h4><?php echo $translate('Owner'); ?></h4>
         <div class="value"><?php echo $ownerText; ?></div>
     </div>
-    <?php if ($item->media()): ?>
+    <?php if ($itemMedia): ?>
     <div class="meta-group">
-        <h4><?php echo $translate('Media'); ?></h4>
-        <?php foreach ($item->media() as $media): ?>
+        <h4><?php echo $translate('Media'); ?> (<?php echo count($itemMedia); ?>)</h4>
+        <?php foreach ($itemMedia as $media): ?>
         <div class="value">
             <?php echo $media->linkPretty(); ?>
         </div>

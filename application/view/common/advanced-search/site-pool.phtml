@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 // Prepare the site query.
 if (isset($query['site_id'])) {
     $siteId = $query['site_id'] ;
@@ -8,7 +9,7 @@ if (isset($query['site_id'])) {
 ?>
 <div class="field">
     <div class="field-meta">
-        <label for="site_id"><?php echo $this->translate('In site pool'); ?></label>
+        <label for="site_id"><?php echo $translate('In site pool'); ?></label>
     </div>
     <div class="inputs">
         <?php echo $this->siteSelect([

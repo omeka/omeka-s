@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->headLink()->prependStylesheet($this->assetUrl('css/user-bar.css', 'Omeka'));
 $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
@@ -14,14 +15,14 @@ if (!isset($user)) $user = $this->identity();
     <?php endif; ?>
     <span class="user-id">
     <?php
-    echo sprintf($this->translate('Signed in as %s'), '<a href="' . $this->url('admin/id', [
+    echo sprintf($translate('Signed in as %s'), '<a href="' . $this->url('admin/id', [
         'controller' => 'user',
         'id' => $user->getId(),
     ]) . '">' . $escape($user->getName()) . '</a>');
     ?>
     </span>
-    <span class="logout"><a href="<?php echo $this->url('logout'); ?>"><?php echo $this->translate('Logout'); ?></a></span>
+    <span class="logout"><a href="<?php echo $this->url('logout'); ?>"><?php echo $translate('Logout'); ?></a></span>
     <?php else: ?>
-    <span class="login"><a href="<?php echo $this->url('login'); ?>"><?php echo $this->translate('Log in'); ?></a></span>
+    <span class="login"><a href="<?php echo $this->url('login'); ?>"><?php echo $translate('Log in'); ?></a></span>
     <?php endif; ?>
 </div>

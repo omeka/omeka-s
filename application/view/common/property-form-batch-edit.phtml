@@ -1,45 +1,46 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 
 $selectProperty = $this->propertySelect([
     'name' => 'value[__INDEX__][property_id]',
-    'options' => ['empty_option' => $this->translate('Select property')],
+    'options' => ['empty_option' => $translate('Select property')],
 ]);
 $templateLiteral = '
 <div class="field">
     <div class="field-meta">
-        <label>' . $this->translate('Add text value') . '</label>
+        <label>' . $translate('Add text value') . '</label>
     </div>
     <div class="inputs">
         ' . $selectProperty . '
         <textarea name="value[__INDEX__][value]"></textarea>
         <input type="hidden" name="value[__INDEX__][type]" value="literal">
-        <button type="button" class="remove-value">' . $this->translate('Remove') . '</button>
+        <button type="button" class="remove-value">' . $translate('Remove') . '</button>
     </div>
 </div>';
 $templateResource = '
 <div class="field">
     <div class="field-meta">
-        <label>' . $this->translate('Add resource value') . '</label>
+        <label>' . $translate('Add resource value') . '</label>
     </div>
     <div class="inputs">
         ' . $selectProperty . '
-        <input type="text" name="value[__INDEX__][value_resource_id]" placeholder="' . $this->escapeHtml($this->translate('Resource ID')) . '">
+        <input type="text" name="value[__INDEX__][value_resource_id]" placeholder="' . $this->escapeHtml($translate('Resource ID')) . '">
         <input type="hidden" name="value[__INDEX__][type]" value="resource">
-        <button type="button" class="remove-value">' . $this->translate('Remove') . '</button>
+        <button type="button" class="remove-value">' . $translate('Remove') . '</button>
     </div>
 </div>';
 $templateUri = '
 <div class="field">
     <div class="field-meta">
-        <label>' . $this->translate('Add URI value') . '</label>
+        <label>' . $translate('Add URI value') . '</label>
     </div>
     <div class="inputs">
         ' . $selectProperty . '
-        <input type="text" name="value[__INDEX__][id]" placeholder="' . $this->escapeHtml($this->translate('URI')) . '">
-        <input type="text" name="value[__INDEX__][label]" placeholder="' . $this->escapeHtml($this->translate('Label')) . '">
+        <input type="text" name="value[__INDEX__][id]" placeholder="' . $this->escapeHtml($translate('URI')) . '">
+        <input type="text" name="value[__INDEX__][label]" placeholder="' . $this->escapeHtml($translate('Label')) . '">
         <input type="hidden" name="value[__INDEX__][type]" value="uri">
-        <button type="button" class="remove-value">' . $this->translate('Remove') . '</button>
+        <button type="button" class="remove-value">' . $translate('Remove') . '</button>
     </div>
 </div>';
 ?>
@@ -49,9 +50,9 @@ $templateUri = '
     data-template-uri="<?php echo $this->escapeHtml($templateUri); ?>"
 >
     <div class="field-container"></div>
-    <button type="button" class="value-add-button" data-type="literal"><?php echo $this->translate('Add text value'); ?></button>
-    <button type="button" class="value-add-button" data-type="resource"><?php echo $this->translate('Add resource value'); ?></button>
-    <button type="button" class="value-add-button" data-type="uri"><?php echo $this->translate('Add URI value'); ?></button>
+    <button type="button" class="value-add-button" data-type="literal"><?php echo $translate('Add text value'); ?></button>
+    <button type="button" class="value-add-button" data-type="resource"><?php echo $translate('Add resource value'); ?></button>
+    <button type="button" class="value-add-button" data-type="uri"><?php echo $translate('Add URI value'); ?></button>
 </div>
 <script>
 $(document).ready(function() {

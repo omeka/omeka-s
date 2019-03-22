@@ -1,14 +1,17 @@
-<h3><?php echo $this->escapeHtml($this->translate($resourceClass->label())); ?></h3>
+<?php
+$translate = $this->plugin('translate');
+?>
+<h3><?php echo $this->escapeHtml($translate($resourceClass->label())); ?></h3>
 <div class="meta-group">
-    <h4><?php echo $this->translate('Vocabulary'); ?></h4>
-    <div class="value"><?php echo $this->escapeHtml($this->translate($resourceClass->vocabulary()->label())); ?></div>
+    <h4><?php echo $translate('Vocabulary'); ?></h4>
+    <div class="value"><?php echo $this->escapeHtml($translate($resourceClass->vocabulary()->label())); ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $this->translate('Term'); ?></h4>
+    <h4><?php echo $translate('Term'); ?></h4>
     <div class="value"><?php echo $this->escapeHtml($resourceClass->term()); ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $this->translate('Comment'); ?></h4>
-    <div class="value"><?php echo $this->escapeHtml($this->translate($resourceClass->comment())); ?></div>
+    <h4><?php echo $translate('Comment'); ?></h4>
+    <div class="value"><?php echo $this->escapeHtml($translate($resourceClass->comment())); ?></div>
 </div>
 <?php $this->trigger('view.details', array('entity' => $resourceClass)); ?>

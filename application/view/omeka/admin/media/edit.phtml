@@ -1,18 +1,19 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'edit media');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
-$form->prepare();
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
+$this->htmlElement('body')->appendAttribute('class', 'edit media');
+$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
+$form->prepare();
 $mediaForm = $this->media()->updateForm($media);
 
 $sectionNavs = [
-    'resource-values' => $this->translate('Values'),
-    'thumbnail' => $this->translate('Thumbnail'),
+    'resource-values' => $translate('Values'),
+    'thumbnail' => $translate('Thumbnail'),
 ];
 if ($mediaForm) {
-    $sectionNavs['media'] = $this->translate('Media');
+    $sectionNavs['media'] = $translate('Media');
 }
 ?>
 
@@ -20,7 +21,7 @@ if ($mediaForm) {
 var valuesJson = <?php echo json_encode($media->values()); ?>;
 </script>
 
-<?php echo $this->pageTitle($media->displayTitle(), 1, $this->translate('Media')); ?>
+<?php echo $this->pageTitle($media->displayTitle(), 1, $translate('Media')); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <form method='post' id='edit-media'>
 
@@ -48,21 +49,21 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
         <?php if ($media->isPublic()): ?>
         <?php echo $this->hyperlink('', '#', [
             'class' => 'o-icon-public button',
-            'title' => $this->translate('Make private'),
+            'title' => $translate('Make private'),
         ]); ?>
         <input type="hidden" name="o:is_public" value="1">
         <?php else: ?>
         <?php echo $this->hyperlink('', '#', [
             'class' => 'o-icon-private button',
-            'title' => $this->translate('Make public'),
+            'title' => $translate('Make public'),
         ]); ?>
         <input type="hidden" name="o:is_public" value="0">
         <?php endif; ?>
         <?php if ($media->userIsAllowed('delete')): ?>
-        <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
+        <a href="#" class="delete button"><?php echo $translate('Delete'); ?></a>
         <?php endif; ?>
         <?php echo $this->cancelButton(); ?>
-        <input type="submit" name="add-item-submit" value=" <?php echo $escape($this->translate('Save')); ?>">
+        <input type="submit" name="add-item-submit" value=" <?php echo $escape($translate('Save')); ?>">
     </div>
     <?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>
     <?php echo $this->formElement($form->get('csrf')); ?>

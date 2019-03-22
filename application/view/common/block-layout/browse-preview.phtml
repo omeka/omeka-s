@@ -1,3 +1,6 @@
+<?php
+$translate = $this->plugin('translate');
+?>
 <div class="preview-block">
 
 <?php if ($this->heading): ?>
@@ -9,7 +12,7 @@
 $headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
 $bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
 foreach ($this->resources as $resource):
-    $heading = $resource->value($headingTerm, ['default' => $this->translate('[Untitled]')]);
+    $heading = $resource->value($headingTerm, ['default' => $translate('[Untitled]')]);
     $body = $resource->value($bodyTerm);
 ?>
     <li class="<?php echo $this->resourceType; ?> resource">

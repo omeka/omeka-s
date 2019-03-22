@@ -1,20 +1,21 @@
 <?php
 use Omeka\Site\Theme\Manager;
 
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites theme');
 $this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka'));
 
 $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 ?>
-<?php echo $this->pageTitle($this->translate('Theme'), 1, $this->translate('Sites')); ?>
+<?php echo $this->pageTitle($translate('Theme'), 1, $translate('Sites')); ?>
 
 <?php if(isset($this->form)): ?>
     <?php $form->prepare(); ?>
     <?php echo $this->form()->openTag($form); ?>
     <div id="page-actions">
         <?php echo $this->cancelButton(); ?>
-        <button><?php echo $this->translate('Save'); ?></button>
+        <button><?php echo $translate('Save'); ?></button>
     </div>
     <div class="current-theme<?php echo Manager::STATE_ACTIVE !== $currentTheme->getState() ? ' invalid' : ''; ?>">
         <?php $localThumbnailUrl = OMEKA_PATH . $currentTheme->getThumbnail(); ?>
@@ -23,7 +24,7 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 
         <div class="current-theme-info">
             <h3>
-                <span class="current-theme-label"><?php echo $this->translate('Current theme'); ?></span>
+                <span class="current-theme-label"><?php echo $translate('Current theme'); ?></span>
                 <span class="current-theme-name"><?php echo $currentTheme->getName(); ?></span>
             </h3>
             <?php if (Manager::STATE_ACTIVE === $currentTheme->getState()): ?>
@@ -31,7 +32,7 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
                 <?php $currentVersion = $currentTheme->getIni('version'); ?>
                 <?php if (!empty($currentVersion)): ?>
                 <span class="theme-version">
-                    <?php echo sprintf($this->translate('version %s'), $currentVersion); ?>
+                    <?php echo sprintf($translate('version %s'), $currentVersion); ?>
                 </span>
                 <?php endif; ?>
                 <span class="theme-author"><a href="<?php echo $escape($currentTheme->getIni('author_link')); ?>" target="_blank"><?php echo $escape($currentTheme->getIni('author')); ?></a></span>
@@ -39,28 +40,28 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
                 <span class="theme-description"><?php echo $escape($currentDescription); ?></span>
                 <?php endif; ?>
             </p>
-            <?php echo $this->hyperlink($this->translate('Edit theme settings'), $this->url(null, ['site-slug' => $site->slug(), 'action' => 'theme-settings']), ['class' => 'theme-settings button']); ?>
+            <?php echo $this->hyperlink($translate('Edit theme settings'), $this->url(null, ['site-slug' => $site->slug(), 'action' => 'theme-settings']), ['class' => 'theme-settings button']); ?>
 
             <div class="version-notification" style="display: none;"
                 data-addon-id="<?php echo $this->escapeHtml($currentTheme->getId()); ?>"
                 data-current-version="<?php echo $this->escapeHtml($currentTheme->getIni('version')); ?>">
                 <?php echo sprintf(
-                    $this->translate('A new version of this theme is available. %s'),
+                    $translate('A new version of this theme is available. %s'),
                     sprintf(
                         '<a href="%s">%s</a>',
                         'http://omeka.org/s/themes/' . $currentTheme->getId(),
-                        $this->translate('Get the new version.')
+                        $translate('Get the new version.')
                     )
                 ); ?>
             </div>
 
             <?php else: ?>
-            <p class="error"><?php echo $this->translate('Error: this theme is invalid.'); ?></p>
+            <p class="error"><?php echo $translate('Error: this theme is invalid.'); ?></p>
             <ul>
-                <li><?php echo sprintf($this->translate('ID: %s'), $currentTheme->getId()); ?></li>
-                <li><?php echo sprintf($this->translate('Status: %s'), $currentTheme->getState()); ?></li>
+                <li><?php echo sprintf($translate('ID: %s'), $currentTheme->getId()); ?></li>
+                <li><?php echo sprintf($translate('Status: %s'), $currentTheme->getState()); ?></li>
             </ul>
-            <p><?php echo $this->translate('Please contact the Omeka S administrator. This site will not be publicly available until the problem is resolved or you select another theme below.'); ?></p>
+            <p><?php echo $translate('Please contact the Omeka S administrator. This site will not be publicly available until the problem is resolved or you select another theme below.'); ?></p>
             <?php endif; ?>
         </div>
     </div>

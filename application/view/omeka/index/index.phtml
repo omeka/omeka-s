@@ -1,7 +1,9 @@
 <?php
+$translate = $this->plugin('translate');
+
 $this->htmlElement('body')->appendAttribute('class', 'site browse front');
 $title = $this->setting('installation_title', 'Omeka S');
-$subtitle = $this->translate('Sites');
+$subtitle = $translate('Sites');
 $this->headTitle($subtitle);
 ?>
 <h1><?php echo $title; ?></h1>
@@ -20,7 +22,7 @@ endforeach;
 
 <?php endif; ?>
 <p><?php echo sprintf(
-    $this->translate('Go to the %s to start working with %s.'),
-    $this->hyperlink($this->translate('Admin dashboard'), $this->url('admin')),
+    $translate('Go to the %s to start working with %s.'),
+    $this->hyperlink($translate('Admin dashboard'), $this->url('admin')),
     $title
 ); ?></p>

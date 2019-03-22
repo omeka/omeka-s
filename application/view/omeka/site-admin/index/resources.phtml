@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $form->prepare();
 $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/site-item-sets.js', 'Omeka'));
@@ -10,17 +11,17 @@ $rowTemplate = '
     <td class="site-item-set-title"></td>
     <td class="site-item-set-owner-email"></td>
     <td>
-' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $this->translate('Remove item set')])
-  . $this->hyperlink('', '#', ['class' => 'o-icon-undo', 'title' => $this->translate('Restore item set'), 'style' => 'display:none'])
+' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $translate('Remove item set')])
+  . $this->hyperlink('', '#', ['class' => 'o-icon-undo', 'title' => $translate('Restore item set'), 'style' => 'display:none'])
   . '<input type="hidden" class="site-item-set-id" name="o:site_item_set[][o:item_set][o:id]">
     </td>
 </tr>';
 ?>
 
-<?php echo $this->pageTitle($this->translate('Resources'), 1, $this->translate('Sites')); ?>
+<?php echo $this->pageTitle($translate('Resources'), 1, $translate('Sites')); ?>
 <?php echo $this->sectionNav([
-    'item-pool-section' => $this->translate('Item pool'),
-    'item-sets-section' => $this->translate('Item sets'),
+    'item-pool-section' => $translate('Item pool'),
+    'item-sets-section' => $translate('Item sets'),
 ]); ?>
 
 <?php echo $this->form()->openTag($form); ?>
@@ -28,12 +29,12 @@ $rowTemplate = '
 
 <div id="page-actions">
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $this->translate('Save'); ?></button>
+    <button><?php echo $translate('Save'); ?></button>
 </div>
 
 <div id="item-pool-section" class="active section">
     <p><?php echo sprintf(
-        $this->translate('There are currently %s items in this site’s pool.'),
+        $translate('There are currently %s items in this site’s pool.'),
         $this->hyperlink(
             $itemCount,
             $this->url(
@@ -58,14 +59,14 @@ $rowTemplate = '
         <thead>
             <tr>
                 <th></th>
-                <th><?php echo $this->translate('Title'); ?></th>
-                <th><?php echo $this->translate('Owner'); ?></th>
+                <th><?php echo $translate('Title'); ?></th>
+                <th><?php echo $translate('Owner'); ?></th>
                 <th></th>
             </tr>
         </thead>
         <tbody id="site-item-set-rows"></tbody>
     </table>
-    <p id="no-site-item-sets" style="display: none;"><?php echo $this->translate('No item sets are assigned to this site.'); ?></p>
+    <p id="no-site-item-sets" style="display: none;"><?php echo $translate('No item sets are assigned to this site.'); ?></p>
     <?php echo $this->itemSetSelector(); ?>
 </div>
 

@@ -1,31 +1,32 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
 $sortHeadings = [
     [
-        'label' => $this->translate('Label'),
+        'label' => $translate('Label'),
         'value' => 'label'
     ],
     [
-        'label' => $this->translate('Prefix'),
+        'label' => $translate('Prefix'),
         'value' => 'prefix'
     ],
     [
-        'label' => $this->translate('Classes'),
+        'label' => $translate('Classes'),
         'value' => 'resource_class_count'
     ],
     [
-        'label' => $this->translate('Properties'),
+        'label' => $translate('Properties'),
         'value' => 'property_count'
     ]
 ];
 ?>
 
-<?php echo $this->pageTitle($this->translate('Vocabularies')); ?>
+<?php echo $this->pageTitle($translate('Vocabularies')); ?>
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\VocabularyAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Import new vocabulary'), $this->url(null, ['action' => 'import'], true), ['class' => 'button']); ?>
+    <?php echo $this->hyperlink($translate('Import new vocabulary'), $this->url(null, ['action' => 'import'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
@@ -39,41 +40,41 @@ $sortHeadings = [
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $this->translate('Label'); ?></th>
-            <th><?php echo $this->translate('Prefix'); ?></th>
-            <th><?php echo $this->translate('Classes'); ?></th>
-            <th><?php echo $this->translate('Properties'); ?></th>
+            <th><?php echo $translate('Label'); ?></th>
+            <th><?php echo $translate('Prefix'); ?></th>
+            <th><?php echo $translate('Classes'); ?></th>
+            <th><?php echo $translate('Properties'); ?></th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($vocabularies as $vocabulary): ?>
         <tr>
             <td>
-                <?php echo $escape($this->translate($vocabulary->label())); ?>
+                <?php echo $escape($translate($vocabulary->label())); ?>
                 <ul class="actions">
                     <?php if (!$vocabulary->isPermanent()): ?>
                     <?php if ($vocabulary->userIsAllowed('update')): ?>
                     <li><?php echo $vocabulary->link('', 'edit', [
                         'class' => 'o-icon-edit',
-                        'title' => $this->translate('Edit'),
+                        'title' => $translate('Edit'),
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($vocabulary->userIsAllowed('delete')): ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $vocabulary->url('delete-confirm'),
                         'class' => 'o-icon-delete sidebar-content',
-                        'title' => $this->translate('Delete'),
+                        'title' => $translate('Delete'),
                     ]); ?></li>
                     <?php endif; ?>
                     <?php endif; ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $vocabulary->url('show-details'),
                         'class' => 'o-icon-more sidebar-content',
-                        'title' => $this->translate('Details'),
+                        'title' => $translate('Details'),
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($this->translate($vocabulary->prefix())); ?></td>
+            <td><?php echo $escape($translate($vocabulary->prefix())); ?></td>
             <td><?php echo $this->hyperlink($vocabulary->resourceClassCount(), $this->url('admin/id', ['action' => 'classes', 'id' => $vocabulary->id()], true)); ?></td>
             <td><?php echo $this->hyperlink($vocabulary->propertyCount(), $this->url('admin/id', ['action' => 'properties', 'id' => $vocabulary->id()], true)); ?></td>
         </tr>
@@ -88,7 +89,7 @@ $sortHeadings = [
 <div class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content"></div>
 </div>
@@ -96,7 +97,7 @@ $sortHeadings = [
 <?php else: ?>
 
 <div class="no-resources">
-    <p><?php echo $this->translate('Omeka could not find any vocabularies.'); ?></p>
+    <p><?php echo $translate('Omeka could not find any vocabularies.'); ?></p>
 </div>
 
 <?php endif; ?>

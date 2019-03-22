@@ -1,15 +1,16 @@
 <?php
+$translate = $this->plugin('translate');
 $this->form->setAttribute('action', $resource->url('delete'));
 $this->form->setButtonLabel('Confirm delete'); // @translate
 ?>
 <?php if ($this->wrapSidebar): ?>
 <div id="delete" class="sidebar">
-    <?php echo $this->hyperlink('', '#', ['class' => 'sidebar-close o-icon-close', 'title' => $this->translate('Close')]); ?>
+    <?php echo $this->hyperlink('', '#', ['class' => 'sidebar-close o-icon-close', 'title' => $translate('Close')]); ?>
 <?php endif; ?>
     <div id="sidebar-confirm">
-        <?php $resourceLabel = $this->translate($this->resourceLabel); ?>
-        <h3><?php echo sprintf($this->translate('Delete %s'), $resourceLabel); ?></h3>
-        <p><?php echo sprintf($this->translate('Are you sure you would like to delete this %s?'), $resourceLabel); ?></p>
+        <?php $resourceLabel = $translate($this->resourceLabel); ?>
+        <h3><?php echo sprintf($translate('Delete %s'), $resourceLabel); ?></h3>
+        <p><?php echo sprintf($translate('Are you sure you would like to delete this %s?'), $resourceLabel); ?></p>
         <?php echo $this->form($this->form); ?>
     </div>
 <?php if ($this->wrapSidebar): ?>

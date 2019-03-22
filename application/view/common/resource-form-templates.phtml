@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->dataType()->prepareForm();
 ?>
@@ -6,25 +7,25 @@ $this->dataType()->prepareForm();
 <div class="resource-values field template" role="group">
     <div class="field-meta">
         <div class="field-label"></div>
-        <a href="#" class="collapse" aria-label="<?php echo $escape($this->translate('Collapse')); ?>"></a>
+        <a href="#" class="collapse" aria-label="<?php echo $escape($translate('Collapse')); ?>"></a>
         <div class="collapsible">
             <div class="field-description"></div>
-            <div class="field-term" title="<?php echo $escape($this->translate('Property term for development use')); ?>"></div>
+            <div class="field-term" title="<?php echo $escape($translate('Property term for development use')); ?>"></div>
         </div>
     </div>
     <div class="inputs">
         <div class="values">
-            <p class="no-values"><?php echo $this->translate('Select the first value type.'); ?></p>
+            <p class="no-values"><?php echo $translate('Select the first value type.'); ?></p>
         </div>
         <div class="add-values default-selector">
-            <label class="o-icon-add"><?php echo $this->translate('Add value'); ?></label>
-            <a href="#" class="add-value button o-icon-literal" data-type="literal"><?php echo $this->translate('Text'); ?></a>
-            <a href="#" class="add-value button o-icon-resource" data-type="resource"><?php echo $this->translate('Omeka resource'); ?></a>
-            <a href="#" class="add-value button o-icon-uri" data-type="uri"><?php echo $this->translate('URI'); ?></a>
+            <label class="o-icon-add"><?php echo $translate('Add value'); ?></label>
+            <a href="#" class="add-value button o-icon-literal" data-type="literal"><?php echo $translate('Text'); ?></a>
+            <a href="#" class="add-value button o-icon-resource" data-type="resource"><?php echo $translate('Omeka resource'); ?></a>
+            <a href="#" class="add-value button o-icon-uri" data-type="uri"><?php echo $translate('URI'); ?></a>
         </div>
         <div class="add-values single-selector" style="display:none">
-            <label class="o-icon-add"><?php echo $this->translate('Add value'); ?></label>
-            <a href="#" class="add-value button"><?php echo $this->translate('Add value'); ?></a>
+            <label class="o-icon-add"><?php echo $translate('Add value'); ?></label>
+            <a href="#" class="add-value button"><?php echo $translate('Add value'); ?></a>
         </div>
     </div>
 </div>

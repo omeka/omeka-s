@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $resourceTemplateSelect = $form->get('o:resource_template[o:id]');
 $resourceClassSelect = $form->get('o:resource_class[o:id]');
 $thumbnailInput = $form->get('o:thumbnail[o:id]');
@@ -29,14 +30,14 @@ if (isset($resource)) {
     </div>
     <div id="properties"></div>
     <?php echo $this->propertySelector(); ?>
-    <button id="property-selector-button" class="mobile-only" data-watch-target="#properties"><?php echo $this->translate('Add property'); ?></button>
+    <button id="property-selector-button" class="mobile-only" data-watch-target="#properties"><?php echo $translate('Add property'); ?></button>
     <?php echo $this->partial('common/resource-select-sidebar'); ?>
 </fieldset>
 
 <fieldset id="thumbnail" class="section">
     <p>
     <?php
-    echo $this->translate('Omeka S automatically selects a thumbnail from among attached media for a resource. '
+    echo $translate('Omeka S automatically selects a thumbnail from among attached media for a resource. '
         . 'You may use an image of your choice instead by choosing an asset here.');
     ?>
     </p>

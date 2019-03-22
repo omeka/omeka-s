@@ -1,6 +1,7 @@
 <?php
+$translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'system-info');
-echo $this->pageTitle($this->translate('System information'));
+echo $this->pageTitle($translate('System information'));
 ?>
 
 <table id="system-info-table">
@@ -14,7 +15,7 @@ echo $this->pageTitle($this->translate('System information'));
         <th scope="row"><?php echo $this->escapeHtml($label); ?></th>
         <?php
         if (is_bool($data)):
-            $data = $data ? $this->translate('Yes') : $this->translate('No');
+            $data = $data ? $translate('Yes') : $translate('No');
         elseif (is_array($data)):
             $data = implode(', ', $data);
         endif;

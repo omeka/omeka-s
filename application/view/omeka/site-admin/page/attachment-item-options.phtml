@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $allMedia = null;
 $currentMedia = null;
@@ -13,7 +14,7 @@ if ($attachedItem) {
 }
 $changeItemButton = '<button id="attachment-item-select" data-sidebar-content-url="' .
     $escape($site->adminUrl('sidebar-item-select')) .
-    '">' . $this->translate('Change item') . '</button>';
+    '">' . $translate('Change item') . '</button>';
 ?>
 <?php if ($attachedItem): ?>
 <div class="selected-attachment">
@@ -28,10 +29,10 @@ $changeItemButton = '<button id="attachment-item-select" data-sidebar-content-ur
 </div>
 <?php if ($allMedia): ?>
 <div class="select-media option">
-    <h3><?php echo $this->translate('Media'); ?></h3>
+    <h3><?php echo $translate('Media'); ?></h3>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'collapse',
-        'title' => $this->translate('Collapse'),
+        'title' => $translate('Collapse'),
     ]); ?>
     <div class="collapsible">
         <ul class="media-list">
@@ -55,7 +56,7 @@ $changeItemButton = '<button id="attachment-item-select" data-sidebar-content-ur
 <?php else: ?>
 <div class="selected-attachment">
     <h3 class="item-title"><?php echo $escape('No Attachment'); ?></h3>
-    <p><?php echo $this->translate('No item selected.'); ?></p>
+    <p><?php echo $translate('No item selected.'); ?></p>
     <?php echo $changeItemButton; ?>
 </div>
 <?php endif; ?>

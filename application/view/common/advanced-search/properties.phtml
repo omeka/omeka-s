@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 // Prepare the property queries.
 $properties = isset($query['property']) ? $query['property'] : [];
 $properties = array_filter($properties, function ($value) {
@@ -35,7 +36,7 @@ $queryText = function(array $search, $index) {
 
 <div id="property-queries" class="field removable multi-value" role="group" aria-labelledby="by-value-label">
     <div class="field-meta">
-        <span id="by-value-label" class="label"><?php echo $this->translate('Search by value'); ?></span>
+        <span id="by-value-label" class="label"><?php echo $translate('Search by value'); ?></span>
     </div>
     <div class="inputs">
         <?php
@@ -45,39 +46,39 @@ $queryText = function(array $search, $index) {
         ?>
         <div class="value">
             <select class="joiner" name="<?php echo $this->escapeHtml($stem . '[joiner]'); ?>">
-                <?php echo $queryOption('and', $property, 'joiner', $this->translate('AND')); ?>
-                <?php echo $queryOption('or', $property, 'joiner', $this->translate('OR')); ?>
+                <?php echo $queryOption('and', $property, 'joiner', $translate('AND')); ?>
+                <?php echo $queryOption('or', $property, 'joiner', $translate('OR')); ?>
             </select>
             <?php echo $this->propertySelect([
                 'name' => $stem . '[property]',
                 'attributes' => [
                     'class' => 'query-property',
                     'value' => isset($property['property']) ? $property['property'] : null,
-                    'aria-label' => $this->translate('Property'),
+                    'aria-label' => $translate('Property'),
                 ],
                 'options' => [
                     'empty_option' => '[Any Property]', // @translate
                     'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
                 ]
             ]); ?>
-            <select class="query-type" name="<?php echo $this->escapeHtml($stem . '[type]'); ?>" aria-label="<?php echo $this->translate('Query type'); ?>">
-                <?php echo $queryOption('eq', $property, 'type', $this->translate('is exactly')); ?>
-                <?php echo $queryOption('neq', $property, 'type', $this->translate('is not exactly')); ?>
-                <?php echo $queryOption('in', $property, 'type', $this->translate('contains')); ?>
-                <?php echo $queryOption('nin', $property, 'type', $this->translate('does not contain')); ?>
-                <?php echo $queryOption('res', $property, 'type', $this->translate('is resource with ID')); ?>
-                <?php echo $queryOption('nres', $property, 'type', $this->translate('is not resource with ID')); ?>
-                <?php echo $queryOption('ex', $property, 'type', $this->translate('has any value')); ?>
-                <?php echo $queryOption('nex', $property, 'type', $this->translate('has no values')); ?>
+            <select class="query-type" name="<?php echo $this->escapeHtml($stem . '[type]'); ?>" aria-label="<?php echo $translate('Query type'); ?>">
+                <?php echo $queryOption('eq', $property, 'type', $translate('is exactly')); ?>
+                <?php echo $queryOption('neq', $property, 'type', $translate('is not exactly')); ?>
+                <?php echo $queryOption('in', $property, 'type', $translate('contains')); ?>
+                <?php echo $queryOption('nin', $property, 'type', $translate('does not contain')); ?>
+                <?php echo $queryOption('res', $property, 'type', $translate('is resource with ID')); ?>
+                <?php echo $queryOption('nres', $property, 'type', $translate('is not resource with ID')); ?>
+                <?php echo $queryOption('ex', $property, 'type', $translate('has any value')); ?>
+                <?php echo $queryOption('nex', $property, 'type', $translate('has no values')); ?>
             </select>
             <?php echo $queryText($property, $index); ?>
-            <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
+            <button type="button" class="o-icon-delete remove-value button"><?php echo $translate('Remove value'); ?></button>
         </div>
         <?php
         $index++;
         endforeach;
 
-        echo $this->hyperlink($this->translate('Add new value'), '#', ['class' => 'add-value button']);
+        echo $this->hyperlink($translate('Add new value'), '#', ['class' => 'add-value button']);
         ?>
     </div>
 </div>

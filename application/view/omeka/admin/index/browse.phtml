@@ -1,55 +1,56 @@
 <?php
+$translate = $this->plugin('translate');
 $title = $this->setting('installation_title', 'Omeka S');
-echo $this->pageTitle($this->translate('Admin dashboard'));
+echo $this->pageTitle($translate('Admin dashboard'));
 ?>
 
 <div id="dashboard">
     <?php echo $this->partial('common/version-notification'); ?>
-    <p><?php echo sprintf($this->translate('Welcome to the %s admin dashboard!'), $title); ?></p>
+    <p><?php echo sprintf($translate('Welcome to the %s admin dashboard!'), $title); ?></p>
     <?php $this->trigger('view.browse.before'); ?>
     <div id="manage-resources" class="panel">
-        <h2><?php echo $this->translate('Manage resources'); ?></h2>
+        <h2><?php echo $translate('Manage resources'); ?></h2>
         <?php $this->trigger('view.manage_resources.before'); ?>
         <div class="items resource row">
-            <?php echo $this->hyperlink(sprintf($this->translate('Items (%s)'), $itemCount), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'])); ?>
+            <?php echo $this->hyperlink(sprintf($translate('Items (%s)'), $itemCount), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'])); ?>
             <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter', 'create')): ?>
-            <?php echo $this->hyperlink('', $this->url('admin/default', ['controller' => 'item', 'action' => 'add']), ['class' => 'add button', 'title' => $this->translate('Add new item')]); ?>
+            <?php echo $this->hyperlink('', $this->url('admin/default', ['controller' => 'item', 'action' => 'add']), ['class' => 'add button', 'title' => $translate('Add new item')]); ?>
             <?php endif; ?>
         </div>
         <div class="item-sets resource row">
-            <?php echo $this->hyperlink(sprintf($this->translate('Item sets (%s)'), $itemSetCount), $this->url('admin/default', ['controller' => 'item-set', 'action' => 'browse'])); ?>
+            <?php echo $this->hyperlink(sprintf($translate('Item sets (%s)'), $itemSetCount), $this->url('admin/default', ['controller' => 'item-set', 'action' => 'browse'])); ?>
             <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'create')): ?>
-            <?php echo $this->hyperlink('', $this->url('admin/default', ['controller' => 'item-set', 'action' => 'add']), ['class' => 'add button', 'title' => $this->translate('Add new item set')]); ?>
+            <?php echo $this->hyperlink('', $this->url('admin/default', ['controller' => 'item-set', 'action' => 'add']), ['class' => 'add button', 'title' => $translate('Add new item set')]); ?>
             <?php endif; ?>
         </div>
         <div class="vocabularies resource row">
-            <?php echo $this->hyperlink(sprintf($this->translate('Vocabularies (%s)'), $vocabularyCount), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse'])); ?>
+            <?php echo $this->hyperlink(sprintf($translate('Vocabularies (%s)'), $vocabularyCount), $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'browse'])); ?>
             <?php if ($this->userIsAllowed('Omeka\Api\Adapter\VocabularyAdapter', 'create')): ?>
-            <?php echo $this->hyperlink('', $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'import']), ['class' => 'add button', 'title' => $this->translate('Import new vocabulary')]); ?>
+            <?php echo $this->hyperlink('', $this->url('admin/default', ['controller' => 'vocabulary', 'action' => 'import']), ['class' => 'add button', 'title' => $translate('Import new vocabulary')]); ?>
             <?php endif; ?>
         </div>
         <div class="resource-templates resource row">
-            <?php echo $this->hyperlink(sprintf($this->translate('Resource templates (%s)'), $resourceTemplateCount), $this->url('admin/default', ['controller' => 'resource-template', 'action' => 'browse'])); ?>
+            <?php echo $this->hyperlink(sprintf($translate('Resource templates (%s)'), $resourceTemplateCount), $this->url('admin/default', ['controller' => 'resource-template', 'action' => 'browse'])); ?>
             <?php if ($this->userIsAllowed('Omeka\Api\Adapter\VocabularyAdapter', 'create')): ?>
-            <?php echo $this->hyperlink('', $this->url('admin/default', ['controller' => 'resource-template', 'action' => 'add']), ['class' => 'add button', 'title' => $this->translate('Add new resource template')]); ?>
+            <?php echo $this->hyperlink('', $this->url('admin/default', ['controller' => 'resource-template', 'action' => 'add']), ['class' => 'add button', 'title' => $translate('Add new resource template')]); ?>
             <?php endif; ?>
         </div>
         <?php $this->trigger('view.manage_resources.after'); ?>
     </div>
 
     <div id="manage-sites" class="panel">
-        <h2><?php echo $this->translate('Manage sites'); ?></h2>
+        <h2><?php echo $translate('Manage sites'); ?></h2>
         <?php $this->trigger('view.manage_sites.before'); ?>
         <?php foreach ($sites as $site): ?>
         <div class="site row">
             <span class="site-name"><a href="<?php echo $site->siteUrl(); ?>"><?php echo $site->title(); ?></a></span>
             <?php if ($site->userIsAllowed('update')): ?>
-            <span class="site-edit"><a href="<?php echo $site->adminUrl(); ?>" class="o-icon-edit button" title="<?php echo $this->translate('Edit'); ?>"></a></span>
+            <span class="site-edit"><a href="<?php echo $site->adminUrl(); ?>" class="o-icon-edit button" title="<?php echo $translate('Edit'); ?>"></a></span>
             <?php endif; ?>
         </div>
         <?php endforeach; ?>
         <?php if ($this->userIsAllowed('Omeka\Api\Adapter\SiteAdapter', 'create')): ?>
-        <?php echo $this->hyperlink($this->translate('Add site'), $this->url('admin/site/add'), ['class' => 'add button']); ?>
+        <?php echo $this->hyperlink($translate('Add site'), $this->url('admin/site/add'), ['class' => 'add button']); ?>
         <?php endif; ?>
     <?php $this->trigger('view.manage_sites.after'); ?>
     </div>

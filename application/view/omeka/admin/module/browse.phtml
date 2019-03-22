@@ -1,17 +1,18 @@
 <?php
 use Omeka\Module\Manager;
 
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'modules browse');
 $this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka'));
-$escape = $this->plugin('escapeHtml');
 $this->plugin('formRow')->setPartial(null);
 ?>
 
-<?php echo $this->pageTitle($this->translate('Modules')); ?>
+<?php echo $this->pageTitle($translate('Modules')); ?>
 
 <form method="get" class="state-filter">
-    <select name="state" aria-label="<?php echo $this->translate('Filter'); ?>">
-        <option value=""><?php echo $this->translate('All modules'); ?></option>
+    <select name="state" aria-label="<?php echo $translate('Filter'); ?>">
+        <option value=""><?php echo $translate('All modules'); ?></option>
         <?php foreach ($filterStates as $value => $option): ?>
         <option value="<?php echo $escape($value); ?>"<?php if ($value == $filterState): echo ' selected'; endif; ?>><?php echo $escape($option); ?></option>
         <?php endforeach; ?>
@@ -32,17 +33,17 @@ $this->plugin('formRow')->setPartial(null);
                     <?php endif; ?>
                 </span>
                 <?php else: ?>
-                [<?php echo $this->translate('name not found'); ?>]
+                [<?php echo $translate('name not found'); ?>]
                 <?php endif; ?>
                 <?php if (($versionIni = $module->getIni('version')) || ($versionDb = $module->getDb('version'))): ?>
-                <span class="module-version"><?php echo sprintf($this->translate('version %s'), $escape($versionIni ?: $versionDb)); ?></span>
+                <span class="module-version"><?php echo sprintf($translate('version %s'), $escape($versionIni ?: $versionDb)); ?></span>
                 <?php endif; ?>
                 <?php if ($author = $module->getIni('author')): ?>
                 <span class="module-author">
                     <?php if ($moduleLink = $module->getIni('author_link')): ?>
-                    <?php echo sprintf($this->translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'))); ?>
+                    <?php echo sprintf($translate('by %s'), $this->hyperlink($author, $module->getIni('author_link'))); ?>
                     <?php else: ?>
-                    <?php echo sprintf($this->translate('by %s'), $author); ?>
+                    <?php echo sprintf($translate('by %s'), $author); ?>
                     <?php endif; ?>
                 </span>
                 <?php endif; ?>
@@ -54,11 +55,11 @@ $this->plugin('formRow')->setPartial(null);
                     data-addon-id="<?php echo $this->escapeHtml($module->getId()); ?>"
                     data-current-version="<?php echo $this->escapeHtml($module->getIni('version')); ?>">
                     <?php echo sprintf(
-                        $this->translate('A new version of this module is available. %s'),
+                        $translate('A new version of this module is available. %s'),
                         sprintf(
                             '<a href="%s">%s</a>',
                             'http://omeka.org/s/modules/' . $module->getId(),
-                            $this->translate('Get the new version.')
+                            $translate('Get the new version.')
                         )
                     ); ?>
                 </div>
@@ -71,7 +72,7 @@ $this->plugin('formRow')->setPartial(null);
                     && $module->isConfigurable()
                     && $this->userIsAllowed('Omeka\Module\Manager', 'configure')
                 ) {
-                    echo $this->hyperlink($escape($this->translate('Configure')),
+                    echo $this->hyperlink($escape($translate('Configure')),
                         $this->url(
                             null,
                             ['action' => 'configure'],
@@ -79,7 +80,7 @@ $this->plugin('formRow')->setPartial(null);
                         ], true),
                         [
                             'class' => 'o-icon-configure button',
-                            'title' => $this->translate('Configure')
+                            'title' => $translate('Configure')
                         ]
                     );
                 }
@@ -123,7 +124,7 @@ $this->plugin('formRow')->setPartial(null);
                 );
                 if ($canBeUninstalled && $this->userIsAllowed('Omeka\Module\Manager', 'uninstall')):
                 ?>
-                <?php echo $this->hyperlink($this->translate('Uninstall'), '#', [
+                <?php echo $this->hyperlink($translate('Uninstall'), '#', [
                     'data-sidebar-content-url' => $this->url(null, ['action' => 'uninstall-confirm'], ['query' => ['id' => $module->getId()]], true),
                     'class' => 'o-icon-uninstall red button sidebar-content',
                 ]); ?>
@@ -140,13 +141,13 @@ $this->plugin('formRow')->setPartial(null);
                 ?>
 
                 <?php if ($module->getState() === Manager::STATE_INVALID_MODULE): ?>
-                <span class="error"><?php echo $this->translate('Error: invalid Module.php file'); ?></span>
+                <span class="error"><?php echo $translate('Error: invalid Module.php file'); ?></span>
                 <?php elseif ($module->getState() === Manager::STATE_INVALID_INI): ?>
-                <span class="error"><?php echo $this->translate('Error: invalid config/module.ini file'); ?></span>
+                <span class="error"><?php echo $translate('Error: invalid config/module.ini file'); ?></span>
                 <?php elseif ($module->getState() === Manager::STATE_INVALID_OMEKA_VERSION): ?>
-                <span class="error"><?php echo sprintf($this->translate('Error: %1$s requires Omeka S %2$s'), $module->getName(), $module->getIni('omeka_version_constraint')); ?></span>
+                <span class="error"><?php echo sprintf($translate('Error: %1$s requires Omeka S %2$s'), $module->getName(), $module->getIni('omeka_version_constraint')); ?></span>
                 <?php elseif ($module->getState() === Manager::STATE_NOT_FOUND): ?>
-                <span class="error"><?php echo $this->translate('Error: module in database but not in filesystem'); ?></span>
+                <span class="error"><?php echo $translate('Error: module in database but not in filesystem'); ?></span>
                 <?php endif; ?>
             </div>
         </div>
@@ -155,7 +156,7 @@ $this->plugin('formRow')->setPartial(null);
 <div class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content"></div>
 </div>
@@ -163,7 +164,7 @@ $this->plugin('formRow')->setPartial(null);
 <?php else: ?>
 
 <div class="no-resources">
-    <p><?php echo $this->translate('Omeka could not find any modules.'); ?></p>
+    <p><?php echo $translate('Omeka could not find any modules.'); ?></p>
 </div>
 
 <?php endif; ?>

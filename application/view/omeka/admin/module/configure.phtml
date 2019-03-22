@@ -1,12 +1,13 @@
 <?php
+$translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'modules configure');
 ?>
 
-<?php echo $this->pageTitle($module->getName(), 1, $this->translate('Modules'), $this->translate('Configure')); ?>
+<?php echo $this->pageTitle($module->getName(), 1, $translate('Modules'), $translate('Configure')); ?>
 
 <form method="post">
 <div id="page-actions">
-    <button><?php echo $this->translate('Submit'); ?></button>
+    <button><?php echo $translate('Submit'); ?></button>
 </div>
 <?php echo $configForm; ?>
 </form>

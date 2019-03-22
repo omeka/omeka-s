@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $item = $resource->item();
 ?>
@@ -14,27 +15,27 @@ $item = $resource->item();
     <?php echo $this->thumbnail($resource, 'square'); ?>
 
     <div class="meta-group">
-        <h4><?php echo $this->translate('Part of Item'); ?></h4>
+        <h4><?php echo $translate('Part of Item'); ?></h4>
         <div class="value"><?php echo $item->link($item->displayTitle()); ?></div>
     </div>
 
     <?php if ($resource->mediaType()): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('MIME type'); ?></h4>
+        <h4><?php echo $translate('MIME type'); ?></h4>
         <div class="value"><?php echo $escape($resource->mediaType()); ?></div>
     </div>
     <?php endif; ?>
 
     <?php if (is_numeric($resource->size())): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Size'); ?></h4>
-        <div class="value"><?php echo sprintf($this->translate('%s bytes'), number_format($resource->size())); ?></div>
+        <h4><?php echo $translate('Size'); ?></h4>
+        <div class="value"><?php echo sprintf($translate('%s bytes'), number_format($resource->size())); ?></div>
     </div>
     <?php endif; ?>
 
     <div class="meta-group">
-        <h4><?php echo $escape($this->translate('Visibility')); ?></h4>
-        <div class="value"><?php echo ($resource->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
+        <h4><?php echo $escape($translate('Visibility')); ?></h4>
+        <div class="value"><?php echo ($resource->isPublic()) ? $translate('Public') : $translate('Private'); ?></div>
     </div>
 
     <?php $this->trigger('view.details', array('entity' => $resource)); ?>

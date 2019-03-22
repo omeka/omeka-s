@@ -1,27 +1,28 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'sites browse');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'sites browse');
 $sortHeadings = [
     [
-        'label' => $this->translate('Title'),
+        'label' => $translate('Title'),
         'value' => 'title'
     ],
     [
-        'label' => $this->translate('URL slug'),
+        'label' => $translate('URL slug'),
         'value' => 'slug'
     ],
     [
-        'label' => $this->translate('Owner'),
+        'label' => $translate('Owner'),
         'value' => 'owner_name'
     ]
 ];
 ?>
 
-<?php echo $this->pageTitle($this->translate('Sites')); ?>
+<?php echo $this->pageTitle($translate('Sites')); ?>
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Entity\Site', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Add new site'), $this->url('admin/site/add'), ['class' => 'button']); ?>
+    <?php echo $this->hyperlink($translate('Add new site'), $this->url('admin/site/add'), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
@@ -35,9 +36,9 @@ $sortHeadings = [
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $this->translate('Title'); ?></th>
-            <th><?php echo $this->translate('URL slug'); ?></th>
-            <th><?php echo $this->translate('Owner'); ?></th>
+            <th><?php echo $translate('Title'); ?></th>
+            <th><?php echo $translate('URL slug'); ?></th>
+            <th><?php echo $translate('Owner'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -53,32 +54,32 @@ $sortHeadings = [
                 )
             );
         } else {
-            $ownerText = $this->translate('[no owner]');
+            $ownerText = $translate('[no owner]');
         }
         ?>
         <tr>
             <td>
                 <?php echo $site->link($site->title(), 'show'); ?>
                 <?php if (!$site->isPublic()): ?>
-                    <span class="o-icon-private" aria-label="<?php echo $this->translate('Private'); ?>"></span>
+                    <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>
                 <?php endif; ?>
                 <ul class="actions">
                     <li><?php echo $this->hyperlink('', $site->siteUrl(), [
                         'target' => '_blank',
                         'class' => 'o-icon-external public',
-                        'title' => $this->translate('View public site'),
+                        'title' => $translate('View public site'),
                     ]); ?></li>
                     <?php if ($site->userIsAllowed('update')): ?>
                     <li><?php echo $site->link('', null, [
                         'class' => 'o-icon-edit',
-                        'title' => $this->translate('Edit'),
+                        'title' => $translate('Edit'),
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($site->userIsAllowed('delete')): ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $site->url('delete-confirm'),
                         'class' => 'o-icon-delete sidebar-content',
-                        'title' => $this->translate('Delete'),
+                        'title' => $translate('Delete'),
                     ]); ?></li>
                     <?php endif; ?>
                 </ul>
@@ -97,7 +98,7 @@ $sortHeadings = [
 <div class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content"></div>
 </div>
@@ -105,7 +106,7 @@ $sortHeadings = [
 <?php else: ?>
 
 <div class="no-resources">
-    <p><?php echo $this->translate('Omeka could not find any sites.'); ?></p>
+    <p><?php echo $translate('Omeka could not find any sites.'); ?></p>
 </div>
 
 <?php endif; ?>

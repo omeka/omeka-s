@@ -1,6 +1,7 @@
 <?php
-$prevText = $this->translate('Prev');
-$nextText = $this->translate('Next');
+$translate = $this->plugin('translate');
+$prevText = $translate('Prev');
+$nextText = $translate('Next');
 ?>
 <?php if ($prevPage || $nextPage): ?>
 <div class="site-page-pagination">

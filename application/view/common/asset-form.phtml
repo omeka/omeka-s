@@ -1,6 +1,7 @@
 <?php
 use Omeka\Api\Exception\NotFoundException;
 
+$translate = $this->plugin('translate');
 $this->headLink()->appendStylesheet($this->assetUrl('css/asset-form.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/asset-form.js', 'Omeka'));
 
@@ -30,13 +31,13 @@ if ($assetId) {
     </span>
     <?php endif; ?>
     <span class="no-selected-asset">
-        <?php echo $this->translate('[No asset selected]'); ?>
+        <?php echo $translate('[No asset selected]'); ?>
     </span>
     <button type="button" class="asset-form-select" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>">
-        <?php echo $this->translate('Select'); ?>
+        <?php echo $translate('Select'); ?>
     </button>
     <button type="button" class="asset-form-clear red button">
-        <?php echo $this->translate('Clear'); ?>
+        <?php echo $translate('Clear'); ?>
     </button>
     <?php echo $this->formHidden($element); ?>
 </div>

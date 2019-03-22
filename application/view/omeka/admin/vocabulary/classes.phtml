@@ -1,41 +1,42 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabulary-classes');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabulary-classes');
 $sortHeadings = [
     [
-        'label' => $this->translate('Label'),
+        'label' => $translate('Label'),
         'value' => 'label'
     ],
     [
-        'label' => $this->translate('Term'),
+        'label' => $translate('Term'),
         'value' => 'local_name'
     ],
     [
-        'label' => $this->translate('Items'),
+        'label' => $translate('Items'),
         'value' => 'item_count'
     ]
 ];
 ?>
 
-<?php echo $this->pageTitle($this->translate($vocabulary->label()), 1, $this->translate('Vocabularies'), $this->translate('Classes')); ?>
+<?php echo $this->pageTitle($translate($vocabulary->label()), 1, $translate('Vocabularies'), $translate('Classes')); ?>
 
-<p><?php echo $escape($this->translate($vocabulary->comment())); ?></p>
-<p><strong><?php echo $this->translate('Prefix:'); ?></strong> <?php echo $escape($vocabulary->prefix()); ?><br>
-<strong><?php echo $this->translate('Namespace URI:'); ?></strong> <?php echo $escape($vocabulary->namespaceUri()); ?></p>
+<p><?php echo $escape($translate($vocabulary->comment())); ?></p>
+<p><strong><?php echo $translate('Prefix:'); ?></strong> <?php echo $escape($vocabulary->prefix()); ?><br>
+<strong><?php echo $translate('Namespace URI:'); ?></strong> <?php echo $escape($vocabulary->namespaceUri()); ?></p>
 
 <?php if (count($resourceClasses)): ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
-    
+
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
 
 <table class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $this->translate('Label'); ?></th>
-            <th><?php echo $this->translate('Term'); ?></th>
-            <th><?php echo $this->translate('Items'); ?></th>
+            <th><?php echo $translate('Label'); ?></th>
+            <th><?php echo $translate('Term'); ?></th>
+            <th><?php echo $translate('Items'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -43,17 +44,17 @@ $sortHeadings = [
         <tr>
             <td>
                 <span class="resource-class-label">
-                    <?php echo $escape($this->translate($resourceClass->label())); ?>
+                    <?php echo $escape($translate($resourceClass->label())); ?>
                 </span>
                 <ul class="actions">
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $resourceClass->url('show-details'),
                         'class' => 'o-icon-more sidebar-content',
-                        'title' => $this->translate('Details'),
+                        'title' => $translate('Details'),
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($this->translate($resourceClass->term())); ?></td>
+            <td><?php echo $escape($translate($resourceClass->term())); ?></td>
             <td><?php echo $this->hyperlink($resourceClass->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['resource_class_id' => $resourceClass->id()]])); ?></td>
         </tr>
         <?php endforeach; ?>
@@ -65,7 +66,7 @@ $sortHeadings = [
 <div class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content"></div>
 </div>
@@ -73,7 +74,7 @@ $sortHeadings = [
 <?php else: ?>
 
 <div class="no-resources">
-    <p><?php echo $this->translate('This vocabulary has no classes.'); ?></p>
+    <p><?php echo $translate('This vocabulary has no classes.'); ?></p>
 </div>
 
 <?php endif; ?>

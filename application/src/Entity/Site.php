@@ -42,6 +42,12 @@ class Site extends AbstractEntity
     protected $navigation;
 
     /**
+     * @OneToOne(targetEntity="SitePage")
+     * @JoinColumn(onDelete="SET NULL")
+     */
+    protected $homepage;
+
+    /**
      * @Column(type="json_array")
      */
     protected $itemPool;
@@ -159,6 +165,16 @@ class Site extends AbstractEntity
     public function getNavigation()
     {
         return $this->navigation;
+    }
+
+    public function setHomepage(SitePage $homepage = null)
+    {
+        $this->homepage = $homepage;
+    }
+
+    public function getHomepage()
+    {
+        return $this->homepage;
     }
 
     public function setItemPool($itemPool)

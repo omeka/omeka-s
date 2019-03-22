@@ -251,6 +251,7 @@ return [
             'Omeka\File\Thumbnailer\ImageMagick' => Service\File\Thumbnailer\ImageMagickFactory::class,
             'Omeka\File\Thumbnailer\Gd' => Service\File\Thumbnailer\GdFactory::class,
             'Omeka\File\Thumbnailer\Imagick' => Service\File\Thumbnailer\ImagickFactory::class,
+            'Omeka\File\Thumbnailer\NoThumbnail' => Service\File\Thumbnailer\NoThumbnailFactory::class,
             'Omeka\File\Store\Local' => Service\File\Store\LocalFactory::class,
             'Omeka\File\MediaTypeMap' => Service\MediaTypeMapFactory::class,
             'Omeka\File\ThumbnailManager' => Service\File\ThumbnailManagerFactory::class,

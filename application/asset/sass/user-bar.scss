@@ -11,9 +11,13 @@
     justify-content: flex-end;
 }
 
-#user-bar .admin:not(:last-child):not(:nth-last-child(2)):not(:nth-last-child(3)):after {
+#user-bar .admin:not(:last-child):after {
     content: "\2022";
     margin: 0 $spacing-medium;
+}
+
+#user-bar .user-links {
+	margin-left: auto;
 }
 
 #user-bar a {

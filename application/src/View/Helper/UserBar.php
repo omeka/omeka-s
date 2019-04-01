@@ -104,7 +104,7 @@ class UserBar extends AbstractHelper
         ];
 
         if (!isset($mapLabels[$controller])) {
-            return [];
+            return $links;
         }
 
         $routeParams = $params->fromRoute();

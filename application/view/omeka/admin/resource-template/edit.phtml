@@ -1,6 +1,9 @@
+<?php
+$translate = $this->plugin('translate');
+?>
 <?php $this->htmlElement('body')->appendAttribute('class', 'edit resource-templates'); ?>
 
-<?php echo $this->pageTitle($resourceTemplate->label(), 1, $this->translate('Resource templates')); ?>
+<?php echo $this->pageTitle($resourceTemplate->label(), 1, $translate('Resource templates')); ?>
 
 <?php
 echo $this->partial(
@@ -9,7 +12,7 @@ echo $this->partial(
         'form' => $form,
         'resourceTemplate' => $resourceTemplate,
         'propertyRows' => $propertyRows,
-        'submitLabel' => $this->translate('Save'),
+        'submitLabel' => $translate('Save'),
         'action' => 'edit',
     ]
 );

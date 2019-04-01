@@ -99,16 +99,22 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     /**
      * Set sort_by and sort_order conditions to the query builder.
      *
+     * Note about random sorting: There is no random query in doctrine and no
+     * standard query in the sql standard, because it is too hard to implement
+     * efficiently. So this order should be used only for small bases.
+     *
      * @param QueryBuilder $qb
      * @param array $query
      */
     public function sortQuery(QueryBuilder $qb, array $query)
     {
-        if (is_string($query['sort_by'])
-            && array_key_exists($query['sort_by'], $this->sortFields)
-        ) {
-            $sortBy = $this->sortFields[$query['sort_by']];
-            $qb->addOrderBy($this->getEntityClass() . ".$sortBy", $query['sort_order']);
+        if (isset($query['sort_by']) && is_string($query['sort_by'])) {
+            if (array_key_exists($query['sort_by'], $this->sortFields)) {
+                $sortBy = $this->sortFields[$query['sort_by']];
+                $qb->addOrderBy($this->getEntityClass() . ".$sortBy", $query['sort_order']);
+            } elseif ($query['sort_by'] === 'random') {
+                $qb->orderBy('RAND()');
+            }
         }
     }
 
@@ -212,10 +218,17 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         ]);
         $this->getEventManager()->triggerEvent($event);
 
-        // Finish building the search query. In addition to any sorting the
-        // adapters add, always sort by entity ID.
-        $this->sortQuery($qb, $query);
+        // Add the LIMIT clause.
         $this->limitQuery($qb, $query);
+
+        // Before adding the ORDER BY clause, set a paginator responsible for
+        // getting the total count. This optimization excludes the ORDER BY
+        // clause from the count query, greatly speeding up response time.
+        $countPaginator = new Paginator($qb, false);
+
+        // Add the ORDER BY clause. Always sort by entity ID in addition to any
+        // sorting the adapters add.
+        $this->sortQuery($qb, $query);
         $qb->addOrderBy("$entityClass.id", $query['sort_order']);
 
         $scalarField = $request->getOption('returnScalar');
@@ -250,7 +263,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         }
 
         $response = new Response($entities);
-        $response->setTotalResults($paginator->count());
+        $response->setTotalResults($countPaginator->count());
         return $response;
     }
 

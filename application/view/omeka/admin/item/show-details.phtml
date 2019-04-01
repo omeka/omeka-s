@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
  ?>
 <div class="resource-details" data-resource-values="<?php echo $escape($values); ?>">
@@ -9,13 +10,13 @@ $escape = $this->plugin('escapeHtml');
     <?php endif; ?>
     <div class="o-description"><?php echo $escape($resource->displayDescription()); ?></div>
     <div class="meta-group">
-        <h4><?php echo $escape($this->translate('Visibility')); ?></h4>
-        <div class="value"><?php echo ($resource->isPublic()) ? $this->translate('Public') : $this->translate('Private'); ?></div>
+        <h4><?php echo $escape($translate('Visibility')); ?></h4>
+        <div class="value"><?php echo ($resource->isPublic()) ? $translate('Public') : $translate('Private'); ?></div>
     </div>
     <?php $itemsets = $resource->itemSets(); ?>
     <?php if (count($itemsets) > 0): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Item sets'); ?></h4>
+        <h4><?php echo $translate('Item sets'); ?></h4>
         <?php foreach ($itemsets as $itemset): ?>
         <div class="value item-sets"><?php echo $itemset->link($itemset->displayTitle()); ?></div>
         <?php endforeach; ?>
@@ -23,7 +24,7 @@ $escape = $this->plugin('escapeHtml');
     <?php endif; ?>
     <?php if ($resource->media()): ?>
     <div class="meta-group">
-        <h4><?php echo $this->translate('Media'); ?></h4>
+        <h4><?php echo $translate('Media'); ?></h4>
         <?php foreach ($resource->media() as $media): ?>
         <div class="value">
             <?php echo $media->linkPretty(); ?>

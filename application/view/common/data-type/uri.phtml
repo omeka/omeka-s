@@ -1,12 +1,15 @@
+<?php
+$translate = $this->plugin('translate');
+?>
 <div class="input">
     <label class="value">
-        <?php echo $this->translate('URI'); ?>
+        <?php echo $translate('URI'); ?>
         <input type="text" class="value to-require" data-value-key="@id">
     </label>
 </div>
 <div class="input">
     <label class="value-label">
-        <?php echo $this->translate('Label'); ?>
+        <?php echo $translate('Label'); ?>
         <textarea class="value-label" rows="1" data-value-key="o:label"></textarea>
     </label>
 </div>

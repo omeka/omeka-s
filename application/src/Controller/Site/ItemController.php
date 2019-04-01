@@ -31,7 +31,7 @@ class ItemController extends AbstractActionController
         }
 
         $response = $this->api()->search('items', $query);
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
         $items = $response->getContent();
 
         $view->setVariable('site', $site);

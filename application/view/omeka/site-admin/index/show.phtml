@@ -1,34 +1,35 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'sites show');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'sites show');
 $roles = [
-    'viewer' => $this->translate('Viewer'),
-    'editor' => $this->translate('Editor')
+    'viewer' => $translate('Viewer'),
+    'editor' => $translate('Editor')
 ];
 ?>
 
-<?php echo $this->pageTitle($site->title(), 1, $this->translate('Sites')); ?>
+<?php echo $this->pageTitle($site->title(), 1, $translate('Sites')); ?>
 
 <div id="page-actions">
     <?php if ($site->userIsAllowed('update')): ?>
-        <?php echo $site->link($this->translate('Edit'), null, ['class' => 'button']); ?>
+        <?php echo $site->link($translate('Edit'), null, ['class' => 'button']); ?>
     <?php endif; ?>
-    <?php echo $this->hyperlink($this->translate('View'), $site->siteUrl(), ['class' => 'button']); ?>
+    <?php echo $this->hyperlink($translate('View'), $site->siteUrl(), ['class' => 'button']); ?>
 </div>
 <div class="breadcrumbs">
-    <?php echo $this->hyperlink($this->translate('Back to site list'), $this->url('admin/site'), ['class' => 'o-icon-left']); ?>
+    <?php echo $this->hyperlink($translate('Back to site list'), $this->url('admin/site'), ['class' => 'o-icon-left']); ?>
 </div>
 
 <div class="property">
-    <h4><?php echo $escape($this->translate('URL slug')); ?></h4>
+    <h4><?php echo $escape($translate('URL slug')); ?></h4>
     <div class="value"><?php echo $escape($site->slug()); ?></div>
 </div>
 <div class="property">
-    <h4><?php echo $escape($this->translate('Title')); ?></h4>
+    <h4><?php echo $escape($translate('Title')); ?></h4>
     <div class="value"><?php echo $escape($site->title()); ?></div>
 </div>
 <div class="property">
-    <h4><?php echo $escape($this->translate('Theme')); ?></h4>
+    <h4><?php echo $escape($translate('Theme')); ?></h4>
     <div class="value"><?php echo $escape($site->theme()); ?></div>
 </div>
 <?php
@@ -36,7 +37,7 @@ $summary = $site->summary();
 if ($summary):
 ?>
 <div class="property">
-    <h4><?php echo $escape($this->translate('Summary')); ?></h4>
+    <h4><?php echo $escape($translate('Summary')); ?></h4>
     <div class="value"><?php echo nl2br($escape($summary)); ?></div>
 </div>
 <?php endif; ?>

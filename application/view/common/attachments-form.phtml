@@ -1,14 +1,15 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $attachments = $block ? $block->attachments() : [];
 $attachmentRowTemplate = '
  <div class="attachment">
     <span class="sortable-handle"></span>
-    <div class="item-title">'. $escape($this->translate('No item selected')) . '</div>
+    <div class="item-title">'. $escape($translate('No item selected')) . '</div>
     <ul class="actions">
-        <li>' . $this->hyperlink('', '#', ['class' => 'attachment-options-icon o-icon-configure button', 'title' => $this->translate('Open attachment options')]) . '</li>
-        <li class="delete">' . $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $this->translate('Delete attachment')]) . '</li>
-        <li class="undo">' . $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $this->translate('Restore attachment')]) . '</li>
+        <li>' . $this->hyperlink('', '#', ['class' => 'attachment-options-icon o-icon-configure button', 'title' => $translate('Open attachment options')]) . '</li>
+        <li class="delete">' . $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]) . '</li>
+        <li class="undo">' . $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]) . '</li>
     </ul>
     <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]">
     <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]">
@@ -16,7 +17,7 @@ $attachmentRowTemplate = '
 </div>';
 ?>
 <div class="attachments-form<?php echo $this->itemOnly ? ' attachments-item-only' : ''; ?>" data-item-query="<?php echo $escape(json_encode($this->itemQuery)); ?>">
-    <a href="#" class="collapse"><h4><?php echo $this->translate('Attachments'); ?></h4></a>
+    <a href="#" class="collapse"><h4><?php echo $translate('Attachments'); ?></h4></a>
     <div class="attachments collapsible" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
         <?php foreach ($attachments as $attachment): ?>
         <?php
@@ -24,7 +25,7 @@ $attachmentRowTemplate = '
         $mediaId = null;
         $thumbnail = null;
         $caption = $attachment->caption();
-        $title = $this->translate('No item selected');
+        $title = $translate('No item selected');
 
         $item = $attachment->item();
         if ($item) {
@@ -47,15 +48,15 @@ $attachmentRowTemplate = '
             <span class="sortable-handle"></span>
             <div class="item-title"><?php echo $thumbnail . $escape($title); ?></div>
             <ul class="actions">
-                <?php if (!$this->itemOnly): ?><li><?php echo $this->hyperlink('', '#', ['class' => 'attachment-options-icon o-icon-configure button', 'title' => $this->translate('Open attachment options')]); ?></li><?php endif; ?>
-                <li class="delete"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $this->translate('Delete attachment')]); ?></li>
-                <li class="undo"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $this->translate('Restore attachment')]); ?></li>
+                <?php if (!$this->itemOnly): ?><li><?php echo $this->hyperlink('', '#', ['class' => 'attachment-options-icon o-icon-configure button', 'title' => $translate('Open attachment options')]); ?></li><?php endif; ?>
+                <li class="delete"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]); ?></li>
+                <li class="undo"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]); ?></li>
             </ul>
             <input type="hidden" class="item" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:item][o:id]" value="<?php echo $escape($itemId); ?>">
             <input type="hidden" class="media" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:media][o:id]" value="<?php echo $escape($mediaId); ?>">
             <input type="hidden" class="caption" name="o:block[__blockIndex__][o:attachment][__attachmentIndex__][o:caption]" value="<?php echo $escape($caption); ?>">
         </div>
         <?php endforeach; ?>
-        <button type="button" class="attachment-add"><?php echo $this->translate('Add attachment'); ?></button>
+        <button type="button" class="attachment-add"><?php echo $translate('Add attachment'); ?></button>
     </div>
 </div>

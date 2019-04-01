@@ -1,12 +1,15 @@
+<?php
+$translate = $this->plugin('translate');
+?>
 <?php $this->headScript()->appendFile($this->assetUrl('js/resource-selector.js', 'Omeka')); ?>
 <div id="select-resource" class='sidebar'>
-    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
     <div class="sidebar-content">
     </div>
 </div>
 <div id="resource-details" class="sidebar">
     <div id="resource-details-main" class="confirm-main">
-        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
 
         <div class='sidebar-content'>
             <div id="resource-details-content">
@@ -14,6 +17,6 @@
         </div>
     </div>
     <div id="select-item" class="confirm-panel">
-        <a href="#" class="button"><?php echo $this->translate('Select resource'); ?></a>
+        <a href="#" class="button"><?php echo $translate('Select resource'); ?></a>
     </div>
 </div>

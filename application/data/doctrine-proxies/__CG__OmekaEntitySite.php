@@ -64,10 +64,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
+            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
+        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
     }
 
     /**
@@ -296,6 +296,28 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNavigation', []);
 
         return parent::getNavigation();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setHomepage(\Omeka\Entity\SitePage $homepage = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHomepage', [$homepage]);
+
+        return parent::setHomepage($homepage);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getHomepage()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getHomepage', []);
+
+        return parent::getHomepage();
     }
 
     /**

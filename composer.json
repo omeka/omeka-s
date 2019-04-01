@@ -5,7 +5,7 @@
     "license": "GPL-3.0",
     "require": {
         "php": ">=5.6",
-        "doctrine/orm": "^2.5",
+        "doctrine/orm": "2.5.15",
         "easyrdf/easyrdf": "~0.9",
         "ml/json-ld": "^1.1",
         "ezyang/htmlpurifier": "^4.8",
@@ -64,7 +64,7 @@
         "zendframework/zendxml": "^1.0.2",
         "omeka/composer-addon-installer": "*",
         "omeka-s-themes/default": "dev-develop",
-        "beberlei/DoctrineExtensions": "^1.0"
+        "beberlei/doctrineextensions": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7.23 || ^6.4.4",
@@ -76,7 +76,10 @@
         "psr-4": {"Omeka\\": "application/src"}
     },
     "config": {
-        "platform": {"php": "5.6"}
+        "platform": {"php": "5.6"},
+        "preferred-install": {
+            "doctrine/orm": "dist"
+        }
     },
     "repositories": [
         {
@@ -86,6 +89,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/omeka-s-themes/default.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/omeka/doctrine2.git"
         },
         {
             "type": "path",

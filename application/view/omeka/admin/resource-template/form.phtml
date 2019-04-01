@@ -1,6 +1,7 @@
 <?php
-$form->prepare();
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$form->prepare();
 $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 'Omeka'));
 ?>
@@ -9,7 +10,7 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 
 <div id="page-actions">
     <?php if (isset($resourceTemplate)): ?>
-    <a href="#" class="delete button sidebar-content" data-sidebar-selector="#delete"><?php echo $this->translate('Delete'); ?></a>
+    <a href="#" class="delete button sidebar-content" data-sidebar-selector="#delete"><?php echo $translate('Delete'); ?></a>
     <?php endif; ?>
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $escape($submitLabel); ?></button>
@@ -28,7 +29,7 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 <?php $this->trigger("view.$action.form.after", ['form' => $form]); ?>
 <?php echo $this->form()->closeTag(); ?>
 
-<button id="property-selector-button" class="mobile-only"><?php echo $this->translate('Add property'); ?></button>
+<button id="property-selector-button" class="mobile-only"><?php echo $translate('Add property'); ?></button>
 
 
 <?php echo $this->propertySelector(); ?>
@@ -39,7 +40,7 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 <div id="details" class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content"></div>
 </div>
@@ -48,43 +49,43 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
     <div class="confirm-main">
         <?php echo $this->hyperlink('', '#', [
             'class' => 'sidebar-close o-icon-close',
-            'title' => $this->translate('Close'),
+            'title' => $translate('Close'),
         ]); ?>
         <div class="field">
-            <h3><?php echo $escape($this->translate('Label')); ?></h3>
-            <h4><?php echo $this->translate('Original'); ?></h4>
+            <h3><?php echo $escape($translate('Label')); ?></h3>
+            <h4><?php echo $translate('Original'); ?></h4>
             <span id="original-label"></span>
-            <label for="alternate-label"><?php echo $this->translate('Alternate'); ?></label>
+            <label for="alternate-label"><?php echo $translate('Alternate'); ?></label>
             <input id="alternate-label" type="text">
         </div>
         <div class="field">
-            <h3><?php echo $escape($this->translate('Comment')); ?></h3>
-            <h4><?php echo $this->translate('Original'); ?></h4>
+            <h3><?php echo $escape($translate('Comment')); ?></h3>
+            <h4><?php echo $translate('Original'); ?></h4>
             <span id="original-comment"></span>
-            <label for="alternate-comment"><?php echo $this->translate('Alternate'); ?></label>
+            <label for="alternate-comment"><?php echo $translate('Alternate'); ?></label>
             <textarea id="alternate-comment"></textarea>
         </div>
         <div class="field">
-            <h3><?php echo $this->translate('Other options'); ?></h3>
+            <h3><?php echo $translate('Other options'); ?></h3>
             <div class="option">
                 <label for="is-required">
-                    <?php echo $this->translate('Required'); ?>
+                    <?php echo $translate('Required'); ?>
                     <input id="is-required" type="checkbox">
                 </label>
             </div>
             <div class="option">
                 <label for="is-private">
-                    <?php echo $this->translate('Private'); ?>
+                    <?php echo $translate('Private'); ?>
                     <input id="is-private" type="checkbox">
                 </label>
             </div>
             <div class="option">
-                <label for="data-type"><?php echo $this->translate('Data type'); ?></label>
+                <label for="data-type"><?php echo $translate('Data type'); ?></label>
                 <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type', 'class' => 'chosen-select']); ?>
             </div>
         </div>
     </div>
     <div class="confirm-panel">
-        <button id="set-changes"><?php echo $this->translate('Set changes'); ?></button>
+        <button id="set-changes"><?php echo $translate('Set changes'); ?></button>
     </div>
 </div>

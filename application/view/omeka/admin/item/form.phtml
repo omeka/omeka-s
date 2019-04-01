@@ -1,18 +1,19 @@
 <?php
-$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
-$form->prepare();
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
+$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
+$form->prepare();
 ?>
 
 <?php echo $this->form()->openTag($form); ?>
 
 <?php echo $this->sectionNav([
-    'resource-values' => $this->translate('Values'),
-    'item-media' => $this->translate('Media'),
-    'item-sets' => $this->translate('Item sets'),
-    'thumbnail' => $this->translate('Thumbnail'),
+    'resource-values' => $translate('Values'),
+    'item-media' => $translate('Media'),
+    'item-sets' => $translate('Item sets'),
+    'thumbnail' => $translate('Thumbnail'),
 ], $sectionNavEvent); ?>
 
 <?php $this->trigger("view.$action.form.before", ['form' => $form]); ?>
@@ -39,13 +40,13 @@ $formElement = $this->plugin('formElement');
     <?php if ($item && $item->isPublic() || !isset($item)): ?>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-public button',
-        'title' => $this->translate('Make private'),
+        'title' => $translate('Make private'),
     ]); ?>
     <input type="hidden" name="o:is_public" value="1">
     <?php else: ?>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-private button',
-        'title' => $this->translate('Make public'),
+        'title' => $translate('Make public'),
     ]); ?>
     <input type="hidden" name="o:is_public" value="0">
     <?php endif; ?>

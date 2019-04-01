@@ -1,8 +1,10 @@
 <?php
+$translate = $this->plugin('translate');
 $required = $element->getAttribute('required');
 $showRequired = $element->getOption('show_required');
 $isRequired = null === $showRequired ? $required : $showRequired;
 $class = $isRequired ? 'field required' : 'field';
+$escapeInfo = (false !== $element->getOption('escape_info'));
 ?>
 <?php if (null === $label || 'hidden' === $element->getAttribute('type')): ?>
 <?php echo $this->formElement($element); ?>
@@ -11,11 +13,11 @@ $class = $isRequired ? 'field required' : 'field';
     <div class="field-meta">
         <?php echo $this->formLabel($element); ?>
         <?php if ($info = $element->getOption('info')): ?>
-        <a href="#" class="expand" aria-label=" <?php echo $this->escapeHtml($this->translate('Expand')); ?>"></a>
+        <a href="#" class="expand" aria-label=" <?php echo $this->escapeHtml($translate('Expand')); ?>"></a>
         <div class="collapsible">
-            <div class="field-description"><?php echo $this->escapeHtml($this->translate($info)); ?></div>
+            <div class="field-description"><?php echo $escapeInfo ? $this->escapeHtml($translate($info)) : $translate($info); ?></div>
             <?php if ($documentation = $element->getOption('documentation')): ?>
-            <a href="<?php echo $documentation; ?>" class="docs-link"><?php echo $this->translate('Learn more'); ?></a>
+            <a href="<?php echo $documentation; ?>" class="docs-link"><?php echo $translate('Learn more'); ?></a>
             <?php endif; ?>
         </div>
         <?php endif; ?>

@@ -1,44 +1,49 @@
 <?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites edit');
 $this->headScript()->appendFile($this->assetUrl('vendor/jstree/jstree.min.js', 'Omeka'));
 $form->prepare();
 $this->headScript()->appendFile($this->assetUrl('js/site-navigation.js', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/jstree.css', 'Omeka'));
-$escape = $this->plugin('escapeHtml');
 ?>
-<?php echo $this->pageTitle($this->translate('Navigation'), 1, $this->translate('Sites')); ?>
+<?php echo $this->pageTitle($translate('Navigation'), 1, $translate('Sites')); ?>
 
 <?php echo $this->form()->openTag($form); ?>
-<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->formRow($form->get('form_csrf')); ?>
 
 <div id="page-actions">
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $this->translate('Save'); ?></button>
+    <button><?php echo $translate('Save'); ?></button>
 </div>
 
 <div id="nav-tree"
     data-link-form-url="<?php echo $escape($this->url('admin/site/slug/action', ['action' => 'navigation-link-form'], true)); ?>"
     data-jstree-data="<?php echo $escape(json_encode($navTree)); ?>">
 </div>
-<button id="nav-selector-button" class="mobile-only"><?php echo $this->translate('Add a link to a site page'); ?></button>
+<button id="nav-selector-button" class="mobile-only"><?php echo $translate('Add a link to a site page'); ?></button>
 <div id="nav-selector" class="always-open sidebar">
-    <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+    <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
     <div class="field">
-        <label for="nav-custom-links"><?php echo $this->translate('Add a custom link'); ?></label>
+        <label for="o:homepage[o:id]"><?php echo $translate('Select a homepage'); ?></label>
+        <?php echo $this->formElement($form->get('o:homepage[o:id]')); ?>
+    </div>
+    <div class="field">
+        <label for="nav-custom-links"><?php echo $translate('Add a custom link'); ?></label>
         <div id="nav-custom-links">
             <?php foreach ($this->navigationLink()->getCustomTypes() as $type): ?>
             <?php $name = $this->navigationLink()->getName($type); ?>
             <button
                 type="button"
                 data-type="<?php echo $escape($type); ?>"
-                data-value="<?php echo $escape($type); ?>" class="option"><?php echo $escape($this->translate($name)); ?></button>
+                data-value="<?php echo $escape($type); ?>" class="option"><?php echo $escape($translate($name)); ?></button>
             <?php endforeach; ?>
         </div>
     </div>
     <div class="field">
-        <label><?php echo $this->translate('Add a link to a site page'); ?></label>
+        <label><?php echo $translate('Add a link to a site page'); ?></label>
         <?php if ($pages = $site->notLinkedPages()): ?>
-        <input type="text" class="page-selector-filter" placeholder="<?php echo $this->translate('Filter pages'); ?>" aria-label="<?php echo $this->translate('Filter pages'); ?>">
+        <input type="text" class="page-selector-filter" placeholder="<?php echo $translate('Filter pages'); ?>" aria-label="<?php echo $translate('Filter pages'); ?>">
         <div id="nav-page-links">
         <?php foreach ($pages as $page): ?>
             <button class="nav-page-link option"
@@ -52,7 +57,7 @@ $escape = $this->plugin('escapeHtml');
         <?php endforeach; ?>
         </div>
         <?php else: ?>
-        <p><?php echo $this->translate('There are no available pages.'); ?></p>
+        <p><?php echo $translate('There are no available pages.'); ?></p>
         <?php endif; ?>
     </div>
 </div>

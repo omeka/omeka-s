@@ -89,6 +89,15 @@ class SiteAdapter extends AbstractEntityAdapter
             }
             $entity->setNavigation($request->getValue('o:navigation', $default));
         }
+        if ($this->shouldHydrate($request, 'o:homepage')) {
+            $homepage = $request->getValue('o:homepage');
+            if (isset($homepage['o:id']) && is_numeric($homepage['o:id'])) {
+                $homepage = $this->getAdapter('site_pages')->findEntity($homepage['o:id']);
+            } else {
+                $homepage = null;
+            }
+            $entity->setHomepage($homepage);
+        }
         if ($this->shouldHydrate($request, 'o:item_pool')) {
             $entity->setItemPool($request->getValue('o:item_pool', []));
         }
@@ -241,6 +250,11 @@ class SiteAdapter extends AbstractEntityAdapter
         $this->validateNavigation($entity, $errorStore);
         if (!is_array($entity->getItemPool())) {
             $errorStore->addError('o:item_pool', 'A site must have item pool data.'); // @translate
+        }
+
+        $homepage = $entity->getHomepage();
+        if ($homepage && ($entity !== $homepage->getSite())) {
+            $errorStore->addError('o:homepage', 'A homepage must belong to its parent site.'); // @translate
         }
     }
 

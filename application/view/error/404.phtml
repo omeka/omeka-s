@@ -1,4 +1,7 @@
-<?php echo $this->pageTitle($this->translate('Not found')); ?>
+<?php
+$translate = $this->plugin('translate');
+?>
+<?php echo $this->pageTitle($translate('Not found')); ?>
 
 <?php if (isset($this->message)): ?>
 <p><?php echo $this->message; ?></p>
@@ -6,7 +9,7 @@
 
 <?php if (ini_get('display_errors')): ?>
     <?php if (isset($this->reason)): ?>
-    <p><?php echo sprintf($this->translate('Reason: %s'), "<tt>$this->reason</tt>"); ?></p>
+    <p><?php echo sprintf($translate('Reason: %s'), "<tt>$this->reason</tt>"); ?></p>
     <?php endif; ?>
 
     <?php if ($this->exception): ?>

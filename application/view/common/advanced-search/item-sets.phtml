@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 // Prepare the item set queries
 $ids = isset($query['item_set_id']) ? $query['item_set_id'] : [];
 if (!is_array($ids)) {
@@ -11,10 +12,10 @@ if (!$ids) {
 ?>
 <div id="item-sets" class="field removable multi-value" role="group">
     <div class="field-meta">
-        <span id="by-item-set-label" class="label"><?php echo $this->translate('Search by item set'); ?></span>
-        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
+        <span id="by-item-set-label" class="label"><?php echo $translate('Search by item set'); ?></span>
+        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
         <div class="collapsible">
-            <div class="field-description"><?php echo $this->translate('Searches for items that are assigned to any of these item sets.'); ?></div>
+            <div class="field-description"><?php echo $translate('Searches for items that are assigned to any of these item sets.'); ?></div>
         </div>
     </div>
     <div class="inputs">
@@ -30,9 +31,9 @@ if (!$ids) {
                     'disable_group_by_owner' => $this->status()->isSiteRequest(),
                 ],
             ]); ?>
-            <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
+            <button type="button" class="o-icon-delete remove-value button"><?php echo $translate('Remove value'); ?></button>
         </div>
         <?php endforeach; ?>
-        <a href="#" class="add-value button"><?php echo $this->translate('Add new item set'); ?></a>
+        <a href="#" class="add-value button"><?php echo $translate('Add new item set'); ?></a>
     </div>
 </div>

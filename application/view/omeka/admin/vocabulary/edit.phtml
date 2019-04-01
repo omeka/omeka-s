@@ -1,18 +1,23 @@
-<?php 
+<?php
+$translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'edit vocabularies');
-$form->prepare(); 
+$form->prepare();
 ?>
 
-<?php echo $this->pageTitle($this->translate($vocabulary->label()), 1, $this->translate('Vocabularies'), $this->translate('Edit')); ?>
+<?php echo $this->pageTitle($translate($vocabulary->label()), 1, $translate('Vocabularies'), $translate('Edit')); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
+    <a href="#" class="delete button"><?php echo $translate('Delete'); ?></a>
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $this->translate('Save'); ?></button>
+    <button><?php echo $translate('Save'); ?></button>
 </div>
 <?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>
-<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->formRow($form->get('vocabularyform_csrf')); ?>
+<?php echo $this->formRow($form->get('o:label')); ?>
+<?php echo $this->formRow($form->get('o:comment')); ?>
+<p><?php echo $this->translate('You may update this vocabulary to a newer version. You will be able to review the changes before you accept.'); ?></p>
+<?php echo $this->formCollection($form->get('vocabulary-fetch'), false); ?>
 <?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>
 <?php echo $this->form()->closeTag(); ?>
 <?php echo $this->deleteConfirm($vocabulary, 'vocabulary'); ?>

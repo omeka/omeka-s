@@ -1,3 +1,6 @@
+<?php
+$translate = $this->plugin('translate');
+?>
 <div class="item-with-metadata">
 <?php foreach($attachments as $attachment): ?>
     <?php $item = $attachment->item(); ?>
@@ -6,7 +9,7 @@
     <?php echo $item->displayValues(); ?>
     <?php if($item->itemSets()): ?>
         <div class="property">
-            <h4><?php echo $this->translate('Item sets'); ?></h4>
+            <h4><?php echo $translate('Item sets'); ?></h4>
             <?php foreach ($item->itemSets() as $itemSet): ?>
             <div class="value"><?php echo $itemSet->link($itemSet->displayTitle()); ?></div>
             <?php endforeach; ?>

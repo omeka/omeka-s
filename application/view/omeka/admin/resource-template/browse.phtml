@@ -1,32 +1,33 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'resource-templates browse');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'resource-templates browse');
 $sortHeadings = [
     [
-        'label' => $this->translate('Label'),
+        'label' => $translate('Label'),
         'value' => 'label'
     ],
     [
-        'label' => $this->translate('Class'),
+        'label' => $translate('Class'),
         'value' => 'resource_class_label'
     ],
     [
-        'label' => $this->translate('Owner'),
+        'label' => $translate('Owner'),
         'value' => 'owner_name'
     ],
     [
-        'label' => $this->translate('Items'),
+        'label' => $translate('Items'),
         'value' => 'item_count'
     ]
 ];
 ?>
 
-<?php echo $this->pageTitle($this->translate('Resource templates')); ?>
+<?php echo $this->pageTitle($translate('Resource templates')); ?>
 
 <div id="page-actions">
-    <a class="button" href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'import'], true)); ?>"><?php echo $this->translate('Import'); ?></a>
+    <a class="button" href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'import'], true)); ?>"><?php echo $translate('Import'); ?></a>
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ResourceTemplateAdapter', 'create')): ?>
-    <?php echo $this->hyperlink($this->translate('Add new resource template'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
+    <?php echo $this->hyperlink($translate('Add new resource template'), $this->url(null, ['action' => 'add'], true), ['class' => 'button']); ?>
     <?php endif; ?>
 </div>
 
@@ -39,10 +40,10 @@ $sortHeadings = [
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $this->translate('Label'); ?></th>
-            <th><?php echo $this->translate('Class'); ?></th>
-            <th><?php echo $this->translate('Owner'); ?></th>
-            <th><?php echo $this->translate('Items'); ?></th>
+            <th><?php echo $translate('Label'); ?></th>
+            <th><?php echo $translate('Class'); ?></th>
+            <th><?php echo $translate('Owner'); ?></th>
+            <th><?php echo $translate('Items'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -58,7 +59,7 @@ $sortHeadings = [
                 )
             );
         } else {
-            $ownerText = $this->translate('[no owner]');
+            $ownerText = $translate('[no owner]');
         }
         ?>
         <tr>
@@ -68,24 +69,24 @@ $sortHeadings = [
                     <?php if ($resourceTemplate->userIsAllowed('update')): ?>
                     <li><?php echo $resourceTemplate->link('', 'edit', [
                         'class' => 'o-icon-edit',
-                        'title' => $this->translate('Edit'),
+                        'title' => $translate('Edit'),
                     ]); ?></li>
                     <?php endif; ?>
                     <?php if ($resourceTemplate->userIsAllowed('delete')): ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $resourceTemplate->url('delete-confirm'),
                         'class' => 'o-icon-delete sidebar-content',
-                        'title' => $this->translate('Delete'),
+                        'title' => $translate('Delete'),
                     ]); ?></li>
                     <?php endif; ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $resourceTemplate->url('show-details'),
                         'class' => 'o-icon-more sidebar-content',
-                        'title' => $this->translate('Details'),
+                        'title' => $translate('Details'),
                     ]); ?></li>
                  </ul>
             </td>
-            <td><?php echo $escape($this->translate($resourceTemplate->displayResourceClassLabel())); ?></td>
+            <td><?php echo $escape($translate($resourceTemplate->displayResourceClassLabel())); ?></td>
             <td><?php echo $ownerText; ?></td>
             <td><?php echo $this->hyperlink($resourceTemplate->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['resource_template_id' => $resourceTemplate->id()]])); ?></td>
         </tr>
@@ -96,7 +97,7 @@ $sortHeadings = [
 <div class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
-        'title' => $this->translate('Close'),
+        'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content"></div>
 </div>
@@ -104,7 +105,7 @@ $sortHeadings = [
 <?php else: ?>
 
 <div class="no-resources">
-    <p><?php echo $this->translate('Omeka could not find any resource templates.'); ?></p>
+    <p><?php echo $translate('Omeka could not find any resource templates.'); ?></p>
 </div>
 
 <?php endif; ?>

@@ -1,15 +1,16 @@
 <?php
-$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
-$form->prepare();
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $formElement = $this->plugin('formElement');
+$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
+$form->prepare();
 ?>
 
 <?php echo $this->form()->openTag($form); ?>
 
 <?php echo $this->sectionNav([
-    'resource-values' => $this->translate('Values'),
-    'thumbnail' => $this->translate('Thumbnail'),
+    'resource-values' => $translate('Values'),
+    'thumbnail' => $translate('Thumbnail'),
 ], $sectionNavEvent); ?>
 
 <?php $this->trigger("view.$action.form.before", ['form' => $form]); ?>
@@ -23,13 +24,13 @@ $formElement = $this->plugin('formElement');
     <?php if ($itemSet && $itemSet->isOpen()): ?>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-unlock button',
-        'title' => $this->translate('Close item set'),
+        'title' => $translate('Close item set'),
     ]); ?>
     <input type="hidden" name="o:is_open" value="1">
     <?php else: ?>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-lock button',
-        'title' => $this->translate('Open item set'),
+        'title' => $translate('Open item set'),
     ]); ?>
     <input type="hidden" name="o:is_open" value="0">
     <?php endif; ?>
@@ -37,20 +38,20 @@ $formElement = $this->plugin('formElement');
     <?php if ($itemSet && $itemSet->isPublic() || !isset($itemSet) ): ?>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-public button',
-        'title' => $this->translate('Make private'),
+        'title' => $translate('Make private'),
     ]); ?>
     <input type="hidden" name="o:is_public" value="1">
     <?php else: ?>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-private button',
-        'title' => $this->translate('Make public'),
+        'title' => $translate('Make public'),
     ]); ?>
     <input type="hidden" name="o:is_public" value="0">
     <?php endif; ?>
 
     <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
     <?php echo $this->cancelButton(); ?>
-    <input type="submit" name="add-item-set-submit" value="<?php echo $this->translate('Save'); ?>">
+    <input type="submit" name="add-item-set-submit" value="<?php echo $translate('Save'); ?>">
 </div>
 
 <?php $this->trigger("view.$action.form.after", ['form' => $form]); ?>

@@ -16,10 +16,6 @@
     margin: 0 $spacing-medium;
 }
 
-#user-bar .user-links {
-	margin-left: auto;
-}
-
 #user-bar a {
     color: lighten(saturate($blue, 20%), 50%);
     background-color: transparent

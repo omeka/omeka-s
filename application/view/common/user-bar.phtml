@@ -1,28 +1,34 @@
 <?php
 $translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
+$urlHelper = $this->plugin('url');
 $this->headLink()->prependStylesheet($this->assetUrl('css/user-bar.css', 'Omeka'));
 $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
-if (!isset($user)) $user = $this->identity();
 ?>
 <div id="user-bar">
 <?php if ($user): ?>
-    <?php if ($this->userIsAllowed('Omeka\Controller\Admin\Index', 'index')): ?>
-    <div class="logo"><a href="<?php echo $this->url('admin'); ?>"><?php echo $this->setting('installation_title', 'Omeka S'); ?></a></div>
-    <span class="current-site">
-        <a href="<?php echo $site->adminUrl('show'); ?>"><?php echo $site->title(); ?></a>
+	<div class="site-links">
+    <?php foreach ($links as $link): ?>
+	    <span class="admin <?php echo $link['resource'] . ' ' . $link['action']; ?>">
+	        <?php echo $hyperlink($link['text'], $link['url']); ?>
+	    </span>
+    <?php endforeach; ?>
+	</div>
+
+	<div class="user-links">
+	    <span class="user-id">
+	        <?php
+	        $url = $urlHelper('admin/id', ['controller' => 'user', 'id' => $user->getId()]);
+	        echo sprintf($translate('Signed in as %s'), $hyperlink($user->getName(), $url));
+	        ?>
+	    </span>
+	    <span class="logout">
+	        <?php echo $hyperlink($translate('Logout'), $urlHelper('logout')); ?>
+	    </span>
+	</div>
+<?php else: ?>
+    <span class="login">
+        <?php echo $hyperlink($translate('Log in'), $urlHelper('login')); ?>
     </span>
-    <?php endif; ?>
-    <span class="user-id">
-    <?php
-    echo sprintf($translate('Signed in as %s'), '<a href="' . $this->url('admin/id', [
-        'controller' => 'user',
-        'id' => $user->getId(),
-    ]) . '">' . $escape($user->getName()) . '</a>');
-    ?>
-    </span>
-    <span class="logout"><a href="<?php echo $this->url('logout'); ?>"><?php echo $translate('Logout'); ?></a></span>
-    <?php else: ?>
-    <span class="login"><a href="<?php echo $this->url('login'); ?>"><?php echo $translate('Log in'); ?></a></span>
-    <?php endif; ?>
+<?php endif; ?>
 </div>

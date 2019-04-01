@@ -8,7 +8,7 @@
     background-color: $blue;
     padding: $spacing-small $spacing-large;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 #user-bar .admin:not(:last-child):after {
@@ -23,10 +23,6 @@
 #user-bar a {
     color: lighten(saturate($blue, 20%), 50%);
     background-color: transparent
-}
-
-#user-bar .user-id {
-    margin-left: auto;
 }
 
 #user-bar .logout,

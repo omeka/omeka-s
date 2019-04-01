@@ -13,11 +13,42 @@ class PasswordConfirm extends Fieldset implements InputFilterProviderInterface
 
     public function init()
     {
+        $config = $this->getPasswordConfig();
+        
+        $requirements = [];
+        if (isset($config['min_length']) && is_numeric($config['min_length'])) {
+            $requirements[] = sprintf('be a minimum of %s characters in length.', $config['min_length']); // @translate
+        }
+        if (isset($config['min_lowercase']) && is_numeric($config['min_lowercase'])) {
+            $requirements[] = sprintf('contain at least %s lowercase characters.', $config['min_lowercase']); // @translate
+        }
+        if (isset($config['min_uppercase']) && is_numeric($config['min_uppercase'])) {
+            $requirements[] = sprintf('contain at least %s uppercase characters.', $config['min_uppercase']); // @translate
+        }
+        if (isset($config['min_number']) && is_numeric($config['min_number'])) {
+            $requirements[] = sprintf('contain at least %s numbers.', $config['min_number']); // @translate
+        }
+        if (isset($config['min_symbol']) && is_numeric($config['min_symbol'])
+            && isset($config['symbol_list']) && is_string($config['symbol_list'])
+            && strlen($config['symbol_list'])
+        ) {
+            $requirements[] = sprintf('contain at least %s symbols: %s', $config['min_symbol'], $config['symbol_list']); // @translate
+        }
+
+        $requirementsHtml = 'Password must: '; // @translate        
+        $requirementsHtml .= '<ul>';
+        foreach ($requirements as $requirement) {
+            $requirementsHtml .= '<li>' . $requirement . '</li>';
+        }
+        $requirementsHtml .= '</ul>';
+        
         $this->add([
             'name' => 'password',
             'type' => 'Password',
             'options' => [
                 'label' => 'Password', // @translate
+                'info' => $requirementsHtml,
+                'escape_info' => false
             ],
             'attributes' => [
                 'id' => 'password',

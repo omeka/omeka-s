@@ -4,10 +4,10 @@ namespace Omeka;
 return [
     'password' => [
         'min_length' => 6,
-        'min_lowercase' => null,
-        'min_uppercase' => null,
-        'min_number' => null,
-        'min_symbol' => null,
+        'min_lowercase' => 1,
+        'min_uppercase' => 1,
+        'min_number' => 1,
+        'min_symbol' => 1,
         'symbol_list' => '`~!@#$%^&*()-=_+[]\{}|;:",./<>?\'',
     ],
     'session' => [

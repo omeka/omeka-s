@@ -22,13 +22,9 @@ $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+C
 	        echo sprintf($translate('Signed in as %s'), $hyperlink($user->getName(), $url));
 	        ?>
 	    </span>
-	    <span class="logout">
-	        <?php echo $hyperlink($translate('Logout'), $urlHelper('logout')); ?>
-	    </span>
+        <?php echo $hyperlink($translate('Logout'), $urlHelper('logout'), ['class' => 'logout']); ?>
 	</div>
 <?php else: ?>
-    <span class="login">
-        <?php echo $hyperlink($translate('Log in'), $urlHelper('login')); ?>
-    </span>
+    <?php echo $hyperlink($translate('Log in'), $urlHelper('login'), ['class' => 'login']); ?>
 <?php endif; ?>
 </div>

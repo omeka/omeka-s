@@ -2,6 +2,14 @@
 namespace Omeka;
 
 return [
+    'password' => [
+        'min_length' => 6,
+        'min_lowercase' => 1,
+        'min_uppercase' => 1,
+        'min_number' => 1,
+        'min_symbol' => 1,
+        'symbol_list' => '`~!@#$%^&*()-=_+[]\{}|;:",./<>?\'',
+    ],
     'session' => [
         'config' => [],
         'save_handler' => null,
@@ -428,6 +436,7 @@ return [
             'jsTranslate' => Service\ViewHelper\JsTranslateFactory::class,
             'lang' => Service\ViewHelper\LangFactory::class,
             'status' => Service\ViewHelper\StatusFactory::class,
+            'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
         ],
         'delegators' => [
             'Zend\Form\View\Helper\FormElement' => [
@@ -473,6 +482,7 @@ return [
             'Omeka\Form\Element\HtmlTextarea' => Service\Form\Element\HtmlTextareaFactory::class,
             'Omeka\Form\Element\Ckeditor' => Service\Form\Element\CkeditorFactory::class,
             'Omeka\Form\Element\CkeditorInline' => Service\Form\Element\CkeditorInlineFactory::class,
+            'Omeka\Form\Element\PasswordConfirm' => Service\Form\Element\PasswordConfirmFactory::class,
             'Omeka\Form\Element\SitePageSelect' => Service\Form\Element\SitePageSelectFactory::class,
         ],
     ],

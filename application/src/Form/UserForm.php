@@ -171,25 +171,13 @@ class UserForm extends Form
                 ]);
             }
             $this->get('change-password')->add([
-                'name' => 'password',
-                'type' => 'Password',
-                'options' => [
-                    'label' => 'New password', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'password',
-                ],
-            ]);
-            $this->get('change-password')->add([
                 'name' => 'password-confirm',
-                'type' => 'Password',
-                'options' => [
-                    'label' => 'Confirm new password', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'password-confirm',
-                ],
+                'type' => 'Omeka\Form\Element\PasswordConfirm',
             ]);
+            $this->get('change-password')->get('password-confirm')->setLabels(
+                'New password', // @translate
+                'Confirm new password' // @translate
+            );
         }
 
         if ($this->getOption('include_key')) {
@@ -219,36 +207,6 @@ class UserForm extends Form
             'name' => 'default_resource_template',
             'allow_empty' => true,
         ]);
-
-        if ($this->getOption('include_password')) {
-            $inputFilter->get('change-password')->add([
-                'name' => 'password',
-                'required' => false,
-                'validators' => [
-                    [
-                        'name' => 'StringLength',
-                        'options' => [
-                            'min' => 6,
-                        ],
-                    ],
-                ],
-            ]);
-            $inputFilter->get('change-password')->add([
-                'name' => 'password',
-                'required' => false,
-                'validators' => [
-                    [
-                        'name' => 'Identical',
-                        'options' => [
-                            'token' => 'password-confirm',
-                            'messages' => [
-                                'notSame' => 'Password confirmation must match new password', // @translate
-                            ],
-                        ],
-                    ],
-                ],
-            ]);
-        }
 
         if ($this->getOption('include_key')) {
             $inputFilter->get('edit-keys')->add([

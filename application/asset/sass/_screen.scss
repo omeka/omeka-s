@@ -1800,8 +1800,7 @@ input[type="text"].value-language,
         }
 
         ul {
-            padding: 0;
-            list-style-type: none;
+            margin: 0;
         }
     }
 
@@ -3850,7 +3849,7 @@ body.sidebar-open #content {
 body.minimal {
     padding: 0;
     margin: (2 * $spacing-large) 0;
-    width: span(8);
+    width: span(15);
     @include container;
     height: auto;
     background-color: $blue;
@@ -3889,7 +3888,7 @@ body.minimal {
         width: 100%;
         min-height: 0;
         margin: 0;
-        padding: ((2 * $spacing-large) - 1px) calc(#{span(1 of 8)} - 1px);
+        padding: (2 * $spacing-large)  span(1);
         overflow: hidden;
     }
 

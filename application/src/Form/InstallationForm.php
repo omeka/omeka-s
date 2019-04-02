@@ -57,28 +57,6 @@ class InstallationForm extends Form
             ],
         ]);
         $this->get('user')->add([
-            'name' => 'password',
-            'type' => 'Password',
-            'options' => [
-                'label' => 'Password', // @translate
-            ],
-            'attributes' => [
-                'id' => 'password',
-                'required' => true,
-            ],
-        ]);
-        $this->get('user')->add([
-            'name' => 'password-confirm',
-            'type' => 'Password',
-            'options' => [
-                'label' => 'Confirm password', // @translate
-            ],
-            'attributes' => [
-                'id' => 'password-confirm',
-                'required' => true,
-            ],
-        ]);
-        $this->get('user')->add([
             'name' => 'name',
             'type' => 'Text',
             'options' => [
@@ -89,6 +67,12 @@ class InstallationForm extends Form
                 'required' => true,
             ],
         ]);
+        $this->get('user')->add([
+            'name' => 'password-confirm',
+            'type' => 'Omeka\Form\Element\PasswordConfirm',
+        ]);
+        $this->get('user')->get('password-confirm')->setIsRequired(true);
+
         $this->get('settings')->add([
             'name' => 'installation_title',
             'type' => 'Text',
@@ -133,31 +117,6 @@ class InstallationForm extends Form
         ]);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->get('user')->add([
-            'name' => 'password',
-            'required' => true,
-            'validators' => [
-                [
-                    'name' => 'StringLength',
-                    'options' => [
-                        'min' => 6,
-                    ],
-                ],
-            ],
-        ]);
-        $inputFilter->get('user')->add([
-            'name' => 'password-confirm',
-            'required' => true,
-            'validators' => [
-                [
-                    'name' => 'Identical',
-                    'options' => [
-                        'token' => 'password',
-                        'message' => 'The passwords did not match', // @translate
-                    ],
-                ],
-            ],
-        ]);
         $inputFilter->get('user')->add([
             'name' => 'email-confirm',
             'required' => true,

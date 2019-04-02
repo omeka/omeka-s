@@ -17,25 +17,30 @@ class PasswordConfirm extends Fieldset implements InputFilterProviderInterface
 
         $requirements = [];
         if (isset($config['min_length']) && is_numeric($config['min_length'])) {
-            $requirements[] = sprintf('be a minimum of %s characters in length.', $config['min_length']); // @translate
+            $requirements[] = sprintf('be a minimum of %s characters in length.', // @translate
+                $config['min_length']);
         }
         if (isset($config['min_lowercase']) && is_numeric($config['min_lowercase'])) {
-            $requirements[] = sprintf('contain at least %s lowercase characters.', $config['min_lowercase']); // @translate
+            $requirements[] = sprintf('contain at least %s lowercase characters.', // @translate
+                $config['min_lowercase']);
         }
         if (isset($config['min_uppercase']) && is_numeric($config['min_uppercase'])) {
-            $requirements[] = sprintf('contain at least %s uppercase characters.', $config['min_uppercase']); // @translate
+            $requirements[] = sprintf('contain at least %s uppercase characters.', // @translate
+                $config['min_uppercase']);
         }
         if (isset($config['min_number']) && is_numeric($config['min_number'])) {
-            $requirements[] = sprintf('contain at least %s numbers.', $config['min_number']); // @translate
+            $requirements[] = sprintf('contain at least %s numbers.', // @translate
+                $config['min_number']);
         }
         if (isset($config['min_symbol']) && is_numeric($config['min_symbol'])
             && isset($config['symbol_list']) && is_string($config['symbol_list'])
             && strlen($config['symbol_list'])
         ) {
-            $requirements[] = sprintf('contain at least %s symbols: %s', $config['min_symbol'], $config['symbol_list']); // @translate
+            $requirements[] = sprintf('contain at least %s symbols: %s', // @translate
+                $config['min_symbol'], $config['symbol_list']);
         }
 
-        $requirementsHtml = 'Password must: '; // @translate
+        $requirementsHtml = 'Password must:'; // @translate
         $requirementsHtml .= '<ul>';
         foreach ($requirements as $requirement) {
             $requirementsHtml .= '<li>' . $requirement . '</li>';

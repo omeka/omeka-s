@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-29 15:03-0400\n"
+"POT-Creation-Date: 2019-04-02 15:31-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -325,6 +325,31 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: application/src/View/Helper/PasswordRequirements.php:40
+#, php-format
+msgid "Password must be a minimum of %s characters in length."
+msgstr ""
+
+#: application/src/View/Helper/PasswordRequirements.php:46
+#, php-format
+msgid "Password must contain at least %s lowercase characters."
+msgstr ""
+
+#: application/src/View/Helper/PasswordRequirements.php:52
+#, php-format
+msgid "Password must contain at least %s uppercase characters."
+msgstr ""
+
+#: application/src/View/Helper/PasswordRequirements.php:58
+#, php-format
+msgid "Password must contain at least %s numbers."
+msgstr ""
+
+#: application/src/View/Helper/PasswordRequirements.php:67
+#, php-format
+msgid "Password must contain at least %s symbols: <code>%s</code>"
+msgstr ""
+
 #: application/src/View/Helper/SearchFilters.php:32
 #: application/view/common/advanced-search/properties.phtml:65
 msgid "is exactly"
@@ -509,6 +534,17 @@ msgstr ""
 msgid "The maximum upload size is %s MB."
 msgstr ""
 
+#: application/src/View/Helper/UserBar.php:123
+#: application/src/View/Helper/UserBar.php:154
+#, php-format
+msgid "Edit %s"
+msgstr ""
+
+#: application/src/View/Helper/UserBar.php:161
+#, php-format
+msgid "Show %s"
+msgstr ""
+
 #: application/view/common/advanced-search/item-sets.phtml:15
 msgid "Search by item set"
 msgstr ""
@@ -516,7 +552,7 @@ msgstr ""
 #: application/view/common/advanced-search/item-sets.phtml:16
 #: application/view/common/advanced-search/resource-class.phtml:16
 #: application/view/common/advanced-search/resource-template.phtml:17
-#: application/view/common/form-row.phtml:15
+#: application/view/common/form-row.phtml:16
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 msgid "Expand"
 msgstr ""
@@ -813,7 +849,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: application/view/common/form-row.phtml:19
+#: application/view/common/form-row.phtml:20
 msgid "Learn more"
 msgstr ""
 
@@ -1044,18 +1080,18 @@ msgstr ""
 msgid "Sort"
 msgstr ""
 
-#: application/view/common/user-bar.phtml:18
+#: application/view/common/user-bar.phtml:22
 #: application/view/layout/layout-admin.phtml:47
 #, php-format
 msgid "Signed in as %s"
 msgstr ""
 
-#: application/view/common/user-bar.phtml:24
+#: application/view/common/user-bar.phtml:25
 #: application/view/layout/layout-admin.phtml:51
 msgid "Logout"
 msgstr ""
 
-#: application/view/common/user-bar.phtml:26
+#: application/view/common/user-bar.phtml:28
 msgid "Log in"
 msgstr ""
 
@@ -1183,7 +1219,7 @@ msgstr ""
 msgid "Support forums"
 msgstr ""
 
-#: application/view/layout/layout.phtml:29
+#: application/view/layout/layout.phtml:30
 msgid "Powered by Omeka S"
 msgstr ""
 
@@ -2338,11 +2374,11 @@ msgstr ""
 msgid "Go to the %s to start working with %s."
 msgstr ""
 
-#: application/view/omeka/install/index.phtml:10
+#: application/view/omeka/install/index.phtml:11
 msgid "Install Omeka S"
 msgstr ""
 
-#: application/view/omeka/install/index.phtml:13
+#: application/view/omeka/install/index.phtml:14
 msgid "Some installation requirements were not satisfied."
 msgstr ""
 
@@ -2613,31 +2649,31 @@ msgstr ""
 msgid "Item"
 msgstr ""
 
-#: application/config/module.config.php:604
+#: application/config/module.config.php:615
 msgid "Something went wrong"
 msgstr ""
 
-#: application/config/module.config.php:609
+#: application/config/module.config.php:620
 msgid "You have unsaved changes."
 msgstr ""
 
-#: application/config/module.config.php:611
+#: application/config/module.config.php:622
 msgid "Close icon set"
 msgstr ""
 
-#: application/config/module.config.php:612
+#: application/config/module.config.php:623
 msgid "Open icon set"
 msgstr ""
 
-#: application/config/module.config.php:614
+#: application/config/module.config.php:625
 msgid "Failed loading resource template from API"
 msgstr ""
 
-#: application/config/module.config.php:615
+#: application/config/module.config.php:626
 msgid "Restore property"
 msgstr ""
 
-#: application/config/module.config.php:617
+#: application/config/module.config.php:628
 msgid "Please enter a valid language tag"
 msgstr ""
 
@@ -2840,6 +2876,10 @@ msgstr ""
 msgid "Embed media on item pages"
 msgstr ""
 
+#: application/src/Form/SiteSettingsForm.php:63
+msgid "Show page pagination"
+msgstr ""
+
 #: application/src/Form/SiteSettingsForm.php:64
 msgid ""
 "Show pagination that helps users follow a linear narrative through a site."
@@ -2875,7 +2915,7 @@ msgid ""
 msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:103
-#: application/src/Form/InstallationForm.php:128
+#: application/src/Form/InstallationForm.php:112
 #: application/src/Form/UserForm.php:129
 #: application/src/Form/SettingForm.php:205
 msgid "Locale"
@@ -2947,11 +2987,6 @@ msgstr ""
 msgid "Restrict search results to resources of the selected templates."
 msgstr ""
 
-#: application/src/Form/ActivateForm.php:25
-#: application/src/Form/InstallationForm.php:74
-msgid "Confirm password"
-msgstr ""
-
 #: application/src/Form/UserBatchUpdateForm.php:30
 msgid "Set role"
 msgstr ""
@@ -3018,21 +3053,17 @@ msgstr ""
 msgid "Confirm email"
 msgstr ""
 
-#: application/src/Form/InstallationForm.php:96
+#: application/src/Form/InstallationForm.php:80
 #: application/src/Form/SettingForm.php:127
 msgid "Installation title"
 msgstr ""
 
-#: application/src/Form/InstallationForm.php:114
+#: application/src/Form/InstallationForm.php:98
 #: application/src/Form/SettingForm.php:142
 msgid "Time zone"
 msgstr ""
 
-#: application/src/Form/InstallationForm.php:156
-msgid "The passwords did not match"
-msgstr ""
-
-#: application/src/Form/InstallationForm.php:169
+#: application/src/Form/InstallationForm.php:128
 msgid "The emails did not match"
 msgstr ""
 
@@ -3114,20 +3145,16 @@ msgstr ""
 msgid "Current password"
 msgstr ""
 
-#: application/src/Form/UserForm.php:177
+#: application/src/Form/UserForm.php:178
 msgid "New password"
 msgstr ""
 
-#: application/src/Form/UserForm.php:187
+#: application/src/Form/UserForm.php:179
 msgid "Confirm new password"
 msgstr ""
 
-#: application/src/Form/UserForm.php:200
+#: application/src/Form/UserForm.php:188
 msgid "New key label"
-msgstr ""
-
-#: application/src/Form/UserForm.php:245
-msgid "Password confirmation must match new password"
 msgstr ""
 
 #: application/src/Form/SettingForm.php:114
@@ -3226,6 +3253,47 @@ msgstr ""
 msgid "reCAPTCHA secret key"
 msgstr ""
 
+#: application/src/Form/Element/PasswordConfirm.php:20
+#, php-format
+msgid "be a minimum of %s characters in length."
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:24
+#, php-format
+msgid "contain at least %s lowercase characters."
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:28
+#, php-format
+msgid "contain at least %s uppercase characters."
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:32
+#, php-format
+msgid "contain at least %s numbers."
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:39
+#, php-format
+msgid "contain at least %s symbols: %s"
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:43
+msgid "Password must:"
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:66
+msgid "Confirm password"
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:85
+msgid "The password is invalid"
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:100
+msgid "The passwords did not match"
+msgstr ""
+
 #: application/src/Form/Element/ColorPicker.php:10
 msgid "three- or six-digit hexadecimal color, or \"transparent\""
 msgstr ""
@@ -3310,6 +3378,10 @@ msgstr ""
 
 #: application/src/Controller/SiteAdmin/IndexController.php:92
 msgid "Site successfully updated"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:115
+msgid "User does not have permission to edit site settings"
 msgstr ""
 
 #: application/src/Controller/SiteAdmin/IndexController.php:136

@@ -14,7 +14,7 @@ class PasswordConfirm extends Fieldset implements InputFilterProviderInterface
     public function init()
     {
         $config = $this->getPasswordConfig();
-        
+
         $requirements = [];
         if (isset($config['min_length']) && is_numeric($config['min_length'])) {
             $requirements[] = sprintf('be a minimum of %s characters in length.', $config['min_length']); // @translate
@@ -35,20 +35,20 @@ class PasswordConfirm extends Fieldset implements InputFilterProviderInterface
             $requirements[] = sprintf('contain at least %s symbols: %s', $config['min_symbol'], $config['symbol_list']); // @translate
         }
 
-        $requirementsHtml = 'Password must: '; // @translate        
+        $requirementsHtml = 'Password must: '; // @translate
         $requirementsHtml .= '<ul>';
         foreach ($requirements as $requirement) {
             $requirementsHtml .= '<li>' . $requirement . '</li>';
         }
         $requirementsHtml .= '</ul>';
-        
+
         $this->add([
             'name' => 'password',
             'type' => 'Password',
             'options' => [
                 'label' => 'Password', // @translate
                 'info' => $requirementsHtml,
-                'escape_info' => false
+                'escape_info' => false,
             ],
             'attributes' => [
                 'id' => 'password',

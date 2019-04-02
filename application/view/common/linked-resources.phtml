@@ -25,7 +25,7 @@ $pagination->setFragment($fragment);
 
 <?php foreach ($subjectValues as $term => $values): ?>
 <table>
-<caption class="linked-resource-property"><?php echo $escape($values[0]->property()->label()); ?></caption>
+<caption class="linked-resource-property"><?php echo $escape($this->translate($values[0]->property()->label())); ?></caption>
 <thead>
     <tr>
     <th><?php echo $translate('Title'); ?></th>

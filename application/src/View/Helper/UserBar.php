@@ -90,12 +90,6 @@ class UserBar extends AbstractHelper
         // There is no default label for resources, so get it from the controller (sometime upper-cased).
         $params = $view->params();
         $controller = strtolower($params->fromRoute('__CONTROLLER__'));
-        $mapLabels = [
-            'item' => 'Item', // @translate
-            'item-set' => 'Item set', // @translate
-            'media' => 'Media', // @translate
-            'page' => 'Page', // @translate
-        ];
         $mapPluralLabels = [
             'item' => 'Items', // @translate
             'item-set' => 'Item sets', // @translate
@@ -103,7 +97,7 @@ class UserBar extends AbstractHelper
             'page' => 'Pages', // @translate
         ];
 
-        if (!isset($mapLabels[$controller])) {
+        if (!isset($mapPluralLabels[$controller])) {
             return $links;
         }
 
@@ -120,7 +114,7 @@ class UserBar extends AbstractHelper
                 $links[] = [
                     'resource' => $controller,
                     'action' => 'edit',
-                    'text' => sprintf($translate('Edit %s'), $translate($mapLabels[$controller])), // @translate
+                    'text' => $translate('Edit'),
                     'url' => $page->adminUrl('edit'),
                 ];
             }
@@ -151,14 +145,14 @@ class UserBar extends AbstractHelper
                     $links[] = [
                         'resource' => $controller,
                         'action' => 'edit',
-                        'text' => sprintf($translate('Edit %s'), $translate($mapLabels[$controller])), // @translate
+                        'text' => $translate('Edit'),
                         'url' => $resource->adminUrl('edit'),
                     ];
                 } else {
                     $links[] = [
                         'resource' => $controller,
                         'action' => 'show',
-                        'text' => sprintf($translate('Show %s'), $translate($mapLabels[$controller])), // @translate
+                        'text' => $translate('View'),
                         'url' => $resource->adminUrl(),
                     ];
                 }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-02 15:31-0400\n"
+"POT-Creation-Date: 2019-04-08 14:28-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -534,15 +534,31 @@ msgstr ""
 msgid "The maximum upload size is %s MB."
 msgstr ""
 
-#: application/src/View/Helper/UserBar.php:123
-#: application/src/View/Helper/UserBar.php:154
-#, php-format
-msgid "Edit %s"
+#: application/src/View/Helper/UserBar.php:117
+#: application/src/View/Helper/UserBar.php:148
+#: application/view/omeka/admin/index/browse.phtml:48
+#: application/view/omeka/admin/item-set/browse.phtml:109
+#: application/view/omeka/admin/item-set/edit.phtml:14
+#: application/view/omeka/admin/item/browse.phtml:107
+#: application/view/omeka/admin/item/edit.phtml:14
+#: application/view/omeka/admin/item/manage-media.phtml:44
+#: application/view/omeka/admin/media/browse.phtml:117
+#: application/view/omeka/admin/resource-template/browse.phtml:72
+#: application/view/omeka/admin/user/browse.phtml:101
+#: application/view/omeka/admin/user/edit.phtml:14
+#: application/view/omeka/admin/vocabulary/browse.phtml:59
+#: application/view/omeka/admin/vocabulary/edit.phtml:7
+#: application/view/omeka/site-admin/index/index.phtml:75
+#: application/view/omeka/site-admin/index/show.phtml:15
+#: application/view/omeka/site-admin/page/edit.phtml:11
+#: application/view/omeka/site-admin/page/index.phtml:44
+msgid "Edit"
 msgstr ""
 
-#: application/src/View/Helper/UserBar.php:161
-#, php-format
-msgid "Show %s"
+#: application/src/View/Helper/UserBar.php:155
+#: application/view/omeka/site-admin/index/show.phtml:17
+#: application/view/omeka/site-admin/page/edit.phtml:15
+msgid "View"
 msgstr ""
 
 #: application/view/common/advanced-search/item-sets.phtml:15
@@ -1316,25 +1332,6 @@ msgstr ""
 
 #: application/view/omeka/admin/index/browse.phtml:42
 msgid "Manage sites"
-msgstr ""
-
-#: application/view/omeka/admin/index/browse.phtml:48
-#: application/view/omeka/admin/item-set/browse.phtml:109
-#: application/view/omeka/admin/item-set/edit.phtml:14
-#: application/view/omeka/admin/item/browse.phtml:107
-#: application/view/omeka/admin/item/edit.phtml:14
-#: application/view/omeka/admin/item/manage-media.phtml:44
-#: application/view/omeka/admin/media/browse.phtml:117
-#: application/view/omeka/admin/resource-template/browse.phtml:72
-#: application/view/omeka/admin/user/browse.phtml:101
-#: application/view/omeka/admin/user/edit.phtml:14
-#: application/view/omeka/admin/vocabulary/browse.phtml:59
-#: application/view/omeka/admin/vocabulary/edit.phtml:7
-#: application/view/omeka/site-admin/index/index.phtml:75
-#: application/view/omeka/site-admin/index/show.phtml:15
-#: application/view/omeka/site-admin/page/edit.phtml:11
-#: application/view/omeka/site-admin/page/index.phtml:44
-msgid "Edit"
 msgstr ""
 
 #: application/view/omeka/admin/index/browse.phtml:53
@@ -2515,11 +2512,6 @@ msgstr ""
 #: application/view/omeka/site-admin/index/show.phtml:7
 #: application/view/omeka/site-admin/index/users.phtml:11
 msgid "Editor"
-msgstr ""
-
-#: application/view/omeka/site-admin/index/show.phtml:17
-#: application/view/omeka/site-admin/page/edit.phtml:15
-msgid "View"
 msgstr ""
 
 #: application/view/omeka/site-admin/index/show.phtml:20

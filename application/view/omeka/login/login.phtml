@@ -2,7 +2,6 @@
 $translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'login');
 ?>
-<h1><?php echo $translate('Login'); ?></h1>
+<h1><?php echo $translate('Log in'); ?></h1>
 <?php echo $this->form($form); ?>
 <p class="forgot-password"><?php echo $this->hyperlink($translate('Forgot password?'), $this->url('forgot-password')); ?></p>
-

@@ -204,7 +204,7 @@ class SiteSettingsForm extends Form
             'type' => 'checkbox',
             'name' => 'search_restrict_templates',
             'options' => [
-                'label' => 'Restrict to templates',
+                'label' => 'Restrict to templates', // @translate
                 'info' => 'Restrict search results to resources of the selected templates.', // @translate
             ],
             'attributes' => [

@@ -84,7 +84,7 @@ class RdfImporter
         }
 
         // Get the full RDF graph from EasyRdf.
-        $graph = new \EasyRdf\Graph;
+        $graph = new EasyRdf\Graph;
         switch ($strategy) {
             case 'file':
                 // Import from a file
@@ -97,7 +97,7 @@ class RdfImporter
                 }
                 try {
                     $graph->parseFile($file, $options['format'], $namespaceUri);
-                } catch (\EasyRdf\Exception $e) {
+                } catch (EasyRdf\Exception $e) {
                     throw new ValidationException($e->getMessage(), $e->getCode(), $e);
                 }
                 break;
@@ -108,7 +108,7 @@ class RdfImporter
                 }
                 try {
                     $graph->load($options['url'], $options['format']);
-                } catch (\EasyRdf\Exception $e) {
+                } catch (EasyRdf\Exception $e) {
                     throw new ValidationException($e->getMessage(), $e->getCode(), $e);
                 }
                 break;
@@ -121,7 +121,7 @@ class RdfImporter
         // Iterate through all resources of the graph instead of selectively by
         // rdf:type because a resource may have more than one type, causing
         // illegal attempts to duplicate classes and properties.
-        /** @var \EasyRdf\Resource $resource */
+        /** @var EasyRdf\Resource $resource */
         foreach ($graph->resources() as $resource) {
             // The resource must not be a blank node.
             if ($resource->isBnode()) {
@@ -332,7 +332,7 @@ class RdfImporter
      * @param EasyRdf\Resource $resource
      * @param string $namespaceUri
      */
-    protected function isMember(\EasyRdf\Resource $resource, $namespaceUri)
+    protected function isMember(EasyRdf\Resource $resource, $namespaceUri)
     {
         $output = strncmp($resource->getUri(), $namespaceUri, strlen($namespaceUri));
         return $output === 0;
@@ -349,7 +349,7 @@ class RdfImporter
      * @param string $lang
      * @return string
      */
-    protected function getLabel(\EasyRdf\Resource $resource, $default, $lang = null)
+    protected function getLabel(EasyRdf\Resource $resource, $default, $lang = null)
     {
         $label = $resource->label($lang) ?: $resource->label();
         if ($label instanceof EasyRdf\Literal) {
@@ -372,10 +372,10 @@ class RdfImporter
      * @param string $lang
      * @return string
      */
-    protected function getComment(\EasyRdf\Resource $resource, $commentProperty, $lang = null)
+    protected function getComment(EasyRdf\Resource $resource, $commentProperty, $lang = null)
     {
         $comment = $resource->get($commentProperty, null, $lang) ?: $resource->get($commentProperty);
-        if ($comment instanceof \EasyRdf\Literal) {
+        if ($comment instanceof EasyRdf\Literal) {
             return $comment->getValue();
         }
     }

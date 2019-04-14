@@ -61,6 +61,10 @@ $sectionNavs = [
         <h4><?php echo $translate('Ingester'); ?></h4>
         <div class="value"><?php echo $escape($translate($media->ingesterLabel())); ?></div>
     </div>
+    <div class="meta-group">
+        <h4><?php echo $translate('Renderer'); ?></h4>
+        <div class="value"><?php echo $escape($translate($media->renderer())); ?></div>
+    </div>
     <?php if ($media->source()): ?>
     <div class="meta-group">
         <h4><?php echo $translate('Source'); ?></h4>

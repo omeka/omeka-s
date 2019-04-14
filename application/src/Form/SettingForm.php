@@ -453,7 +453,7 @@ class SettingForm extends Form
             ],
         ]);
 
-        // Separate events because calling getInputFilters() resets everything.
+        // Separate events because calling getInputFilter() resets everything.
         $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($event);
     }

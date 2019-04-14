@@ -42,7 +42,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     }
 
     /**
-     * @return SiteRepresentation
+     * @return SitePageRepresentation
      */
     public function page()
     {

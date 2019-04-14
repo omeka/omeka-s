@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form;
 
+use Laminas\Form\Element;
 use Laminas\Form\Form;
 
 class SitePageForm extends Form
@@ -11,7 +12,7 @@ class SitePageForm extends Form
 
         $this->add([
             'name' => 'o:title',
-            'type' => 'Text',
+            'type' => Element\Text::class,
             'options' => [
                 'label' => 'Title', // @translate
             ],
@@ -20,9 +21,10 @@ class SitePageForm extends Form
                 'required' => true,
             ],
         ]);
+
         $this->add([
             'name' => 'o:slug',
-            'type' => 'Text',
+            'type' => Element\Text::class,
             'options' => [
                 'label' => 'URL slug', // @translate
             ],

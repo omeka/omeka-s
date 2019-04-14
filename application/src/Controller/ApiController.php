@@ -29,6 +29,7 @@ class ApiController extends AbstractRestfulController
 
     /**
      * @param Paginator $paginator
+     * @param ApiManager $api
      */
     public function __construct(Paginator $paginator, ApiManager $api)
     {

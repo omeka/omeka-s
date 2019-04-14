@@ -65,7 +65,7 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
      *
      * An alternative to parent::getCanonicalNames(). Returns only the names
      * that are registered in configuration as invokable classes and factories.
-     * The list many be modified during the service.registered_names event.
+     * The list may be modified during the service.registered_names event.
      *
      * @param bool $sortAlpha
      * @return array

@@ -218,13 +218,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             'limit' => null,
             'offset' => null,
             'sort_by' => null,
-            'sort_order' => 'ASC',
+            'sort_order' => null,
         ];
         $query += $defaultQuery;
-        $query['sort_order'] = strtoupper($query['sort_order']);
-        if (!in_array($query['sort_order'], ['ASC', 'DESC'])) {
-            $query['sort_order'] = 'ASC';
-        }
+        $query['sort_order'] = strtoupper($query['sort_order']) === 'DESC' ? 'DESC' : 'ASC';
 
         // Begin building the search query.
         $entityClass = $this->getEntityClass();

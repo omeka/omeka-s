@@ -38,7 +38,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
                         'id' => 'filter-resource-class',
                         'class' => 'chosen-select',
                         'value' => $resourceClassId,
-                        'data-placeholder' => 'Filter by class', // @translate
+                        'data-placeholder' => $translate('Filter by class'), // @translate
                     ],
                 ]);
                 echo $this->itemSetSelect([
@@ -50,7 +50,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
                         'id' => 'filter-item-set',
                         'class' => 'chosen-select',
                         'value' => $itemSetId,
-                        'data-placeholder' => 'Filter by item set', // @translate
+                        'data-placeholder' => $translate('Filter by item set'), // @translate
                     ],
                 ]);
                 ?>
@@ -95,7 +95,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
         <?php endforeach; ?>
     </div>
     <?php else: ?>
-    <span class="no-resources"><?php echo $translate(sprintf('No %s found.', $translate('items'))); ?></span>
+    <span class="no-resources"><?php echo sprintf($translate('No %s found.'), $translate('items')); ?></span>
     <?php endif; ?>
 </div>
 

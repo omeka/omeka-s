@@ -42,14 +42,14 @@ class IIIF implements IngesterInterface
     {
         $data = $request->getContent();
         if (!isset($data['o:source'])) {
-            $errorStore->addError('o:source', 'No IIIF image URL specified');
+            $errorStore->addError('o:source', 'No IIIF image URL specified'); // @translate
             return;
         }
         $source = $data['o:source'];
         //Make a request and handle any errors that might occur.
         $uri = new HttpUri($source);
         if (!($uri->isValid() && $uri->isAbsolute())) {
-            $errorStore->addError('o:source', "Invalid URL specified");
+            $errorStore->addError('o:source', 'Invalid URL specified'); // @translate
             return false;
         }
         $client = $this->httpClient;
@@ -58,7 +58,7 @@ class IIIF implements IngesterInterface
         $response = $client->send();
         if (!$response->isOk()) {
             $errorStore->addError('o:source', sprintf(
-                "Error reading %s: %s (%s)",
+                "Error reading %s: %s (%s)", // @translate
                 $this->getLabel(),
                 $response->getReasonPhrase(),
                 $response->getStatusCode()
@@ -67,14 +67,14 @@ class IIIF implements IngesterInterface
         }
         $IIIFData = json_decode($response->getBody(), true);
         if (!$IIIFData) {
-            $errorStore->addError('o:source', 'Error decoding IIIF JSON');
+            $errorStore->addError('o:source', 'Error decoding IIIF JSON'); // @translate
             return;
         }
         //Check if valid IIIF data
         if ($this->validate($IIIFData)) {
             $media->setData($IIIFData);
         } else {
-            $errorStore->addError('o:source', 'URL does not link to IIIF JSON');
+            $errorStore->addError('o:source', 'URL does not link to IIIF JSON'); // @translate
             return;
         }
 

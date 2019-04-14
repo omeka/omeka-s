@@ -2,8 +2,8 @@
 namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
-use Omeka\Form\ResourceForm;
 use Omeka\Form\ResourceBatchUpdateForm;
+use Omeka\Form\ResourceForm;
 use Omeka\Media\Ingester\Manager;
 use Omeka\Stdlib\Message;
 use Laminas\Mvc\Controller\AbstractActionController;

@@ -196,7 +196,7 @@
 
         $('.batch-edit td input[type="checkbox"]').change(function() {
             if ($('.select-all:checked').length > 0) {
-                $('.select-all').prop('checked', false); 
+                $('.select-all').prop('checked', false);
             }
             Omeka.manageSelectedActions();
         });

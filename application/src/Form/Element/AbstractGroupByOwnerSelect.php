@@ -89,7 +89,7 @@ abstract class AbstractGroupByOwnerSelect extends Select
                 if ($owner instanceof UserRepresentation) {
                     $label = sprintf('%s (%s)', $owner->name(), $owner->email());
                 } else {
-                    $label = '[No owner]';
+                    $label = '[No owner]'; // @translate
                 }
                 $valueOptions[] = ['label' => $label, 'options' => $options];
             }

@@ -36,7 +36,7 @@ $itemSetsFound = count($itemSets) > 0;
         </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <span class="no-resources"><?php echo $translate(sprintf('No %s found.', $translate('item sets'))); ?></span>
+        <span class="no-resources"><?php echo sprintf($translate('No %s found.'), $translate('item sets')); ?></span>
     <?php endif; ?>
 </div>
 

@@ -49,6 +49,7 @@ class SitePermission extends AbstractEntity
     public function setSite(Site $site)
     {
         $this->site = $site;
+        return $this;
     }
 
     public function getSite()
@@ -59,6 +60,7 @@ class SitePermission extends AbstractEntity
     public function setUser(User $user)
     {
         $this->user = $user;
+        return $this;
     }
 
     public function getUser()
@@ -69,6 +71,7 @@ class SitePermission extends AbstractEntity
     public function setRole($role)
     {
         $this->role = $role;
+        return $this;
     }
 
     public function getRole()

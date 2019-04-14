@@ -70,6 +70,7 @@ class ResourceTemplateProperty extends AbstractEntity
     public function setResourceTemplate(ResourceTemplate $resourceTemplate = null)
     {
         $this->resourceTemplate = $resourceTemplate;
+        return $this;
     }
 
     public function getResourceTemplate()
@@ -80,6 +81,7 @@ class ResourceTemplateProperty extends AbstractEntity
     public function setProperty(Property $property)
     {
         $this->property = $property;
+        return $this;
     }
 
     public function getProperty()
@@ -90,6 +92,7 @@ class ResourceTemplateProperty extends AbstractEntity
     public function setAlternateLabel($alternateLabel)
     {
         $this->alternateLabel = $alternateLabel;
+        return $this;
     }
 
     public function getAlternateLabel()
@@ -100,6 +103,7 @@ class ResourceTemplateProperty extends AbstractEntity
     public function setAlternateComment($alternateComment)
     {
         $this->alternateComment = $alternateComment;
+        return $this;
     }
 
     public function getAlternateComment()
@@ -115,11 +119,13 @@ class ResourceTemplateProperty extends AbstractEntity
     public function setPosition($position)
     {
         $this->position = (int) $position;
+        return $this;
     }
 
     public function setDataType($dataType)
     {
         $this->dataType = $dataType;
+        return $this;
     }
 
     public function getDataType()
@@ -130,6 +136,7 @@ class ResourceTemplateProperty extends AbstractEntity
     public function setIsRequired($isRequired)
     {
         $this->isRequired = (bool) $isRequired;
+        return $this;
     }
 
     public function getIsRequired()
@@ -145,6 +152,7 @@ class ResourceTemplateProperty extends AbstractEntity
     public function setIsPrivate($isPrivate)
     {
         $this->isPrivate = (bool) $isPrivate;
+        return $this;
     }
 
     public function getIsPrivate()

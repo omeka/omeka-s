@@ -103,6 +103,7 @@ abstract class Resource extends AbstractEntity
     public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
+        return $this;
     }
 
     public function getOwner()
@@ -113,6 +114,7 @@ abstract class Resource extends AbstractEntity
     public function setResourceClass(ResourceClass $resourceClass = null)
     {
         $this->resourceClass = $resourceClass;
+        return $this;
     }
 
     public function getResourceClass()
@@ -123,6 +125,7 @@ abstract class Resource extends AbstractEntity
     public function setResourceTemplate(ResourceTemplate $resourceTemplate = null)
     {
         $this->resourceTemplate = $resourceTemplate;
+        return $this;
     }
 
     public function getResourceTemplate()
@@ -133,6 +136,7 @@ abstract class Resource extends AbstractEntity
     public function setThumbnail(Asset $thumbnail = null)
     {
         $this->thumbnail = $thumbnail;
+        return $this;
     }
 
     public function getThumbnail()
@@ -156,6 +160,7 @@ abstract class Resource extends AbstractEntity
     public function setIsPublic($isPublic)
     {
         $this->isPublic = (bool) $isPublic;
+        return $this;
     }
 
     public function isPublic()
@@ -166,6 +171,7 @@ abstract class Resource extends AbstractEntity
     public function setCreated(DateTime $dateTime)
     {
         $this->created = $dateTime;
+        return $this;
     }
 
     public function getCreated()
@@ -176,6 +182,7 @@ abstract class Resource extends AbstractEntity
     public function setModified(DateTime $dateTime)
     {
         $this->modified = $dateTime;
+        return $this;
     }
 
     public function getModified()

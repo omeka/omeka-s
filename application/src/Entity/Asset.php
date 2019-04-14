@@ -47,6 +47,7 @@ class Asset extends AbstractEntity
     public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
+        return $this;
     }
 
     public function getOwner()
@@ -57,6 +58,7 @@ class Asset extends AbstractEntity
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     public function getName()
@@ -67,6 +69,7 @@ class Asset extends AbstractEntity
     public function setMediaType($mediaType)
     {
         $this->mediaType = $mediaType;
+        return $this;
     }
 
     public function getMediaType()
@@ -86,6 +89,7 @@ class Asset extends AbstractEntity
     public function setStorageId($storageId)
     {
         $this->storageId = $storageId;
+        return $this;
     }
 
     public function getStorageId()
@@ -96,6 +100,7 @@ class Asset extends AbstractEntity
     public function setExtension($extension)
     {
         $this->extension = $extension;
+        return $this;
     }
 
     public function getExtension()

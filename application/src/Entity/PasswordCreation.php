@@ -41,6 +41,7 @@ class PasswordCreation extends AbstractEntity
         $apiKey = new ApiKey;
         $apiKey->setId();
         $this->id = $apiKey->getId();
+        return $this;
     }
 
     public function getId()
@@ -51,6 +52,7 @@ class PasswordCreation extends AbstractEntity
     public function setUser(User $user)
     {
         $this->user = $user;
+        return $this;
     }
 
     public function getUser()
@@ -66,6 +68,7 @@ class PasswordCreation extends AbstractEntity
     public function setActivate($activate)
     {
         $this->activate = (bool) $activate;
+        return $this;
     }
 
     public function activate()

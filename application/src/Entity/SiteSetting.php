@@ -27,6 +27,7 @@ class SiteSetting extends AbstractEntity
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getId()
@@ -37,6 +38,7 @@ class SiteSetting extends AbstractEntity
     public function setSite(Site $site)
     {
         $this->site = $site;
+        return $this;
     }
 
     public function getSite()
@@ -47,6 +49,7 @@ class SiteSetting extends AbstractEntity
     public function setValue($value)
     {
         $this->value = $value;
+        return $this;
     }
 
     public function getValue()

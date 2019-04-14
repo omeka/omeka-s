@@ -25,6 +25,7 @@ class Module extends AbstractEntity
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getId()
@@ -35,6 +36,7 @@ class Module extends AbstractEntity
     public function setIsActive($isActive)
     {
         $this->isActive = (bool) $isActive;
+        return $this;
     }
 
     public function isActive()
@@ -45,6 +47,7 @@ class Module extends AbstractEntity
     public function setVersion($version)
     {
         $this->version = $version;
+        return $this;
     }
 
     public function getVersion()

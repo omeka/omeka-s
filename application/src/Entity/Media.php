@@ -104,6 +104,7 @@ class Media extends Resource
     public function setIngester($ingester)
     {
         $this->ingester = $ingester;
+        return $this;
     }
 
     public function getIngester()
@@ -114,6 +115,7 @@ class Media extends Resource
     public function setRenderer($renderer)
     {
         $this->renderer = $renderer;
+        return $this;
     }
 
     public function getRenderer()
@@ -124,6 +126,7 @@ class Media extends Resource
     public function setData($data)
     {
         $this->data = $data;
+        return $this;
     }
 
     public function getData()
@@ -134,6 +137,7 @@ class Media extends Resource
     public function setSource($source)
     {
         $this->source = $source;
+        return $this;
     }
 
     public function getSource()
@@ -144,6 +148,7 @@ class Media extends Resource
     public function setMediaType($mediaType)
     {
         $this->mediaType = $mediaType;
+        return $this;
     }
 
     public function getMediaType()
@@ -154,6 +159,7 @@ class Media extends Resource
     public function setHasOriginal($hasOriginal)
     {
         $this->hasOriginal = (bool) $hasOriginal;
+        return $this;
     }
 
     public function hasOriginal()
@@ -164,6 +170,7 @@ class Media extends Resource
     public function setHasThumbnails($hasThumbnails)
     {
         $this->hasThumbnails = (bool) $hasThumbnails;
+        return $this;
     }
 
     public function hasThumbnails()
@@ -174,6 +181,7 @@ class Media extends Resource
     public function setStorageId($storageId)
     {
         $this->storageId = $storageId;
+        return $this;
     }
 
     public function getStorageId()
@@ -184,6 +192,7 @@ class Media extends Resource
     public function setExtension($extension)
     {
         $this->extension = $extension;
+        return $this;
     }
 
     public function getExtension()
@@ -194,6 +203,7 @@ class Media extends Resource
     public function setSha256($sha256)
     {
         $this->sha256 = $sha256;
+        return $this;
     }
 
     public function getSha256()
@@ -204,6 +214,7 @@ class Media extends Resource
     public function setSize($size)
     {
         $this->size = $size;
+        return $this;
     }
 
     public function getSize()
@@ -223,6 +234,7 @@ class Media extends Resource
     public function setPosition($position)
     {
         $this->position = $position;
+        return $this;
     }
 
     public function getPosition()
@@ -233,6 +245,7 @@ class Media extends Resource
     public function setItem(Item $item = null)
     {
         $this->item = $item;
+        return $this;
     }
 
     public function getItem()
@@ -243,6 +256,7 @@ class Media extends Resource
     public function setLang($lang)
     {
         $this->lang = $lang;
+        return $this;
     }
 
     public function getLang()

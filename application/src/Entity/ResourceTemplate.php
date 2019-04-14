@@ -78,6 +78,7 @@ class ResourceTemplate extends AbstractEntity
     public function setLabel($label)
     {
         $this->label = $label;
+        return $this;
     }
 
     public function getLabel()
@@ -88,6 +89,7 @@ class ResourceTemplate extends AbstractEntity
     public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
+        return $this;
     }
 
     public function getOwner()
@@ -98,6 +100,7 @@ class ResourceTemplate extends AbstractEntity
     public function setResourceClass(ResourceClass $resourceClass = null)
     {
         $this->resourceClass = $resourceClass;
+        return $this;
     }
 
     public function getResourceClass()

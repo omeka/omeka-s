@@ -75,6 +75,7 @@ class Property extends AbstractEntity
     public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
+        return $this;
     }
 
     public function getOwner()
@@ -95,6 +96,7 @@ class Property extends AbstractEntity
     public function setLocalName($localName)
     {
         $this->localName = $localName;
+        return $this;
     }
 
     public function getLocalName()
@@ -105,6 +107,7 @@ class Property extends AbstractEntity
     public function setLabel($label)
     {
         $this->label = $label;
+        return $this;
     }
 
     public function getLabel()
@@ -115,6 +118,7 @@ class Property extends AbstractEntity
     public function setComment($comment)
     {
         $this->comment = $comment;
+        return $this;
     }
 
     public function getComment()

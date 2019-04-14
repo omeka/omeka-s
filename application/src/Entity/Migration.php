@@ -25,5 +25,6 @@ class Migration extends AbstractEntity
     public function setVersion($version)
     {
         $this->version = $version;
+        return $this;
     }
 }

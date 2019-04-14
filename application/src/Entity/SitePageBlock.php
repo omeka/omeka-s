@@ -68,6 +68,7 @@ class SitePageBlock extends AbstractEntity
     public function setLayout($layout)
     {
         $this->layout = $layout;
+        return $this;
     }
 
     public function getLayout()
@@ -78,6 +79,7 @@ class SitePageBlock extends AbstractEntity
     public function setData($data)
     {
         $this->data = $data;
+        return $this;
     }
 
     public function getData()
@@ -88,6 +90,7 @@ class SitePageBlock extends AbstractEntity
     public function setPosition($position)
     {
         $this->position = $position;
+        return $this;
     }
 
     public function getPosition()
@@ -98,6 +101,7 @@ class SitePageBlock extends AbstractEntity
     public function setPage(SitePage $page)
     {
         $this->page = $page;
+        return $this;
     }
 
     public function getPage()

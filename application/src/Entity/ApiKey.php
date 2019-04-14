@@ -80,6 +80,7 @@ class ApiKey extends AbstractEntity
     public function setId()
     {
         $this->id = $this->getString();
+        return $this;
     }
 
     public function getId()
@@ -90,6 +91,7 @@ class ApiKey extends AbstractEntity
     public function setLabel($label)
     {
         $this->label = $label;
+        return $this;
     }
 
     public function getLabel()
@@ -125,6 +127,7 @@ class ApiKey extends AbstractEntity
     public function setLastIp($lastIp)
     {
         $this->lastIp = $lastIp;
+        return $this;
     }
 
     public function getLastIp()
@@ -135,6 +138,7 @@ class ApiKey extends AbstractEntity
     public function setLastAccessed(DateTime $lastAccessed)
     {
         $this->lastAccessed = $lastAccessed;
+        return $this;
     }
 
     public function getLastAccessed()
@@ -145,6 +149,7 @@ class ApiKey extends AbstractEntity
     public function setCreated(DateTime $created)
     {
         $this->created = $created;
+        return $this;
     }
 
     public function getCreated()
@@ -155,6 +160,7 @@ class ApiKey extends AbstractEntity
     public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
+        return $this;
     }
 
     public function getOwner()

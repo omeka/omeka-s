@@ -81,6 +81,7 @@ class Vocabulary extends AbstractEntity
     public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
+        return $this;
     }
 
     public function getOwner()
@@ -91,6 +92,7 @@ class Vocabulary extends AbstractEntity
     public function setNamespaceUri($namespaceUri)
     {
         $this->namespaceUri = $namespaceUri;
+        return $this;
     }
 
     public function getNamespaceUri()
@@ -101,6 +103,7 @@ class Vocabulary extends AbstractEntity
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
+        return $this;
     }
 
     public function getPrefix()
@@ -111,6 +114,7 @@ class Vocabulary extends AbstractEntity
     public function setLabel($label)
     {
         $this->label = $label;
+        return $this;
     }
 
     public function getLabel()
@@ -121,6 +125,7 @@ class Vocabulary extends AbstractEntity
     public function setComment($comment)
     {
         $this->comment = $comment;
+        return $this;
     }
 
     public function getComment()

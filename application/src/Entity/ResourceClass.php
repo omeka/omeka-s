@@ -69,6 +69,7 @@ class ResourceClass extends AbstractEntity
     public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
+        return $this;
     }
 
     public function getOwner()
@@ -79,6 +80,7 @@ class ResourceClass extends AbstractEntity
     public function setVocabulary(Vocabulary $vocabulary = null)
     {
         $this->vocabulary = $vocabulary;
+        return $this;
     }
 
     public function getVocabulary()
@@ -89,6 +91,7 @@ class ResourceClass extends AbstractEntity
     public function setLocalName($localName)
     {
         $this->localName = $localName;
+        return $this;
     }
 
     public function getLocalName()
@@ -99,6 +102,7 @@ class ResourceClass extends AbstractEntity
     public function setLabel($label)
     {
         $this->label = $label;
+        return $this;
     }
 
     public function getLabel()
@@ -109,6 +113,7 @@ class ResourceClass extends AbstractEntity
     public function setComment($comment)
     {
         $this->comment = $comment;
+        return $this;
     }
 
     public function getComment()

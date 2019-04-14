@@ -78,6 +78,7 @@ class SitePage extends AbstractEntity
     public function setSlug($slug)
     {
         $this->slug = $slug;
+        return $this;
     }
 
     public function getSlug()
@@ -88,6 +89,7 @@ class SitePage extends AbstractEntity
     public function setTitle($title)
     {
         $this->title = $title;
+        return $this;
     }
 
     public function getTitle()
@@ -108,6 +110,7 @@ class SitePage extends AbstractEntity
     public function setSite(Site $site)
     {
         $this->site = $site;
+        return $this;
     }
 
     public function getSite()
@@ -118,6 +121,7 @@ class SitePage extends AbstractEntity
     public function setCreated(DateTime $dateTime)
     {
         $this->created = $dateTime;
+        return $this;
     }
 
     public function getCreated()
@@ -128,6 +132,7 @@ class SitePage extends AbstractEntity
     public function setModified(DateTime $dateTime)
     {
         $this->modified = $dateTime;
+        return $this;
     }
 
     public function getModified()

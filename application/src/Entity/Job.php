@@ -84,6 +84,7 @@ class Job extends AbstractEntity
     public function setPid($pid)
     {
         $this->pid = is_null($pid) ? null : trim($pid);
+        return $this;
     }
 
     public function getPid()
@@ -94,6 +95,7 @@ class Job extends AbstractEntity
     public function setStatus($status)
     {
         $this->status = $status;
+        return $this;
     }
 
     public function getStatus()
@@ -104,6 +106,7 @@ class Job extends AbstractEntity
     public function setClass($class)
     {
         $this->class = trim($class);
+        return $this;
     }
 
     public function getClass()
@@ -114,6 +117,7 @@ class Job extends AbstractEntity
     public function setArgs($args)
     {
         $this->args = $args;
+        return $this;
     }
 
     public function getArgs()
@@ -124,6 +128,7 @@ class Job extends AbstractEntity
     public function setLog($log)
     {
         $this->log = $log;
+        return $this;
     }
 
     public function addLog($log)
@@ -139,6 +144,7 @@ class Job extends AbstractEntity
     public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
+        return $this;
     }
 
     public function getOwner()
@@ -149,6 +155,7 @@ class Job extends AbstractEntity
     public function setStarted(DateTime $started)
     {
         $this->started = $started;
+        return $this;
     }
 
     public function getStarted()
@@ -159,6 +166,7 @@ class Job extends AbstractEntity
     public function setEnded(DateTime $ended)
     {
         $this->ended = $ended;
+        return $this;
     }
 
     public function getEnded()

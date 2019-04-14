@@ -20,6 +20,7 @@ class Setting extends AbstractEntity
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getId()
@@ -30,6 +31,7 @@ class Setting extends AbstractEntity
     public function setValue($value)
     {
         $this->value = $value;
+        return $this;
     }
 
     public function getValue()

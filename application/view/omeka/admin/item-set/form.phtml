@@ -35,7 +35,7 @@ $form->prepare();
     <input type="hidden" name="o:is_open" value="0">
     <?php endif; ?>
 
-    <?php if ($itemSet && $itemSet->isPublic() || !isset($itemSet) ): ?>
+    <?php if ($itemSet && $itemSet->isPublic() || (!isset($itemSet) && !$this->setting('default_to_private')) ): ?>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-public button',
         'title' => $translate('Make private'),

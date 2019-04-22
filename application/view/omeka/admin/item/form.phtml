@@ -37,7 +37,7 @@ $form->prepare();
 </fieldset>
 
 <div id="page-actions">
-    <?php if ($item && $item->isPublic() || !isset($item)): ?>
+    <?php if ($item && $item->isPublic() || (!isset($item)) && !$this->setting('default_to_private')) : ?>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-public button',
         'title' => $translate('Make private'),

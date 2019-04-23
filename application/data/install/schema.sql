@@ -153,15 +153,18 @@ CREATE TABLE `resource_template` (
   `owner_id` int(11) DEFAULT NULL,
   `resource_class_id` int(11) DEFAULT NULL,
   `title_property_id` int(11) DEFAULT NULL,
+  `description_property_id` int(11) DEFAULT NULL,
   `label` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_39ECD52EEA750E8` (`label`),
   KEY `IDX_39ECD52E7E3C61F9` (`owner_id`),
   KEY `IDX_39ECD52E448CC1BD` (`resource_class_id`),
   KEY `IDX_39ECD52E724734A3` (`title_property_id`),
+  KEY `IDX_39ECD52EB84E0D1D` (`description_property_id`),
   CONSTRAINT `FK_39ECD52E448CC1BD` FOREIGN KEY (`resource_class_id`) REFERENCES `resource_class` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK_39ECD52E724734A3` FOREIGN KEY (`title_property_id`) REFERENCES `property` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `FK_39ECD52E7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
+  CONSTRAINT `FK_39ECD52E7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_39ECD52EB84E0D1D` FOREIGN KEY (`description_property_id`) REFERENCES `property` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `resource_template_property` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

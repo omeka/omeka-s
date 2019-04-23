@@ -503,6 +503,13 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displayDescription($default = null)
     {
+        $template = $this->resourceTemplate();
+        if ($template && $template->descriptionProperty()) {
+            $description = $this->value($template->descriptionProperty()->term());
+            if (null !== $description) {
+                return $description;
+            }
+        }
         return (string) $this->value('dcterms:description', [
             'default' => $default,
         ]);

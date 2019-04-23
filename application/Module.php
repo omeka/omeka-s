@@ -49,6 +49,12 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
+            'Omeka\Entity\ResourceTemplate',
+            'entity.update.pre',
+            [$this, 'refreshResourceTemplateResourceTitles']
+        );
+
+        $sharedEventManager->attach(
             'Omeka\Api\Representation\MediaRepresentation',
             'rep.resource.json',
             [$this, 'filterHtmlMediaJsonLd']
@@ -212,6 +218,44 @@ class Module extends AbstractModule
                 $store->delete($storagePath);
             }
         }
+    }
+
+    /**
+     * Refresh resource titles when updating a resource template.
+     *
+     * @param ZendEvent $event
+     */
+    public function refreshResourceTemplateResourceTitles(ZendEvent $event)
+    {
+        $args = $event->getParam('LifecycleEventArgs');
+        if (!$args->hasChangedField('titleProperty')) {
+            return;
+        }
+        $conn = $this->getServiceLocator()->get('Omeka\Connection');
+        $resourceTemplate = $event->getTarget();
+        $titleProperty = $resourceTemplate->getTitleProperty();
+        if (!$titleProperty) {
+            // Fall back on dcterms:title as the title property.
+            $adapter = $services->get('Omeka\ApiAdapterManager')->get('items');
+            $titleProperty = $adapter->getPropertyByTerm('dcterms:title');
+        }
+        $sql = '
+        UPDATE resource
+        SET resource.title = (
+          SELECT value.value
+          FROM value AS value
+          WHERE value.resource_id = resource.id
+          AND value.property_id = :property_id
+          AND value.value IS NOT NULL
+          AND value.value != ""
+          ORDER BY value.id ASC
+          LIMIT 1
+        )
+        WHERE resource.resource_template_id = :resource_template_id';
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('property_id', $titleProperty->getId());
+        $stmt->bindValue('resource_template_id', $resourceTemplate->getId());
+        $stmt->execute();
     }
 
     /**

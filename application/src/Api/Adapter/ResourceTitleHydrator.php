@@ -19,15 +19,14 @@ class ResourceTitleHydrator
      */
     public function hydrate(Resource $entity, Property $defaultTitleProperty)
     {
-        $title = null;
         $resourceTemplate = $entity->getResourceTemplate();
-        if ($resourceTemplate && $resourceTemplate->getTitleProperty()) {
-            $title = $this->getResourceTitle($entity, $resourceTemplate->getTitleProperty());
+        $templateTitleProperty = $resourceTemplate->getTitleProperty();
+        if ($resourceTemplate && $templateTitleProperty) {
+            $titleProperty = $templateTitleProperty;
+        } else {
+            $titleProperty = $defaultTitleProperty;
         }
-        if (null === $title) {
-            $title = $this->getResourceTitle($entity, $defaultTitleProperty);
-        }
-        $entity->setTitle($title);
+        $entity->setTitle($this->getResourceTitle($entity, $titleProperty));
     }
 
     /**

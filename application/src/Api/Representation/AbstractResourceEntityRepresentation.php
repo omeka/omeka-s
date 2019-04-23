@@ -487,14 +487,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             return $title;
         }
 
-        $title = $this->value('dcterms:title', [
-            'default' => null,
-        ]);
-
-        if ($title !== null) {
-            return (string) $title;
-        }
-
         if ($default === null) {
             $translator = $this->getServiceLocator()->get('MvcTranslator');
             $default = $translator->translate('[Untitled]');

@@ -367,7 +367,12 @@ var taskTest = gulp.series('test:cs', 'test:php');
 taskTest.description = 'Run all tests'
 gulp.task('test', taskTest);
 
-function taskTestModuleCs() {
+function taskTestModuleCs(done) {
+    if (cliOptions.nophpcs) {
+        log.warn('Skipped php-cs check.');
+        return done(null);
+    }
+
     var module = cliOptions.module;
     var modulePathPromise = getModulePath(module);
     return modulePathPromise.then(function (modulePath) {

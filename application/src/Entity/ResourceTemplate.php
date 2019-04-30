@@ -47,7 +47,7 @@ class ResourceTemplate extends AbstractEntity
     /**
      * @OneToMany(
      *     targetEntity="Resource",
-     *     mappedBy="resourceClass",
+     *     mappedBy="resourceTemplate",
      *     fetch="EXTRA_LAZY"
      * )
      */

@@ -3243,6 +3243,50 @@ body.sidebar-open #content {
     }
 }
 
+.alternate-label-cell:not(:empty) {
+  background-color: $border-gray;
+  display: inline-block;
+  padding: 0 $spacing-small;
+  margin: 0 $spacing-small;
+  position: relative;
+  
+  &:after {
+      content: "";
+      border-top: $spacing-medium solid transparent;
+      border-bottom: $spacing-medium solid transparent;
+      border-left: $spacing-small solid $border-gray;
+      width: 0;
+      height: 0;
+      position: absolute;
+      left: 100%;
+  }
+}
+
+.title-property-cell,
+.description-property-cell {
+    text-transform: uppercase;
+    font-size: (.75 * $base-font-size);
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: $spacing-medium;
+    
+    &:after {
+        content: "\f00c";
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        margin-left: $spacing-small;
+    }
+    
+    ~ .actions {
+        margin-left: 0;
+    }
+}
+
+.title-property-cell ~ .description-property-cell,
+.description-property-cell ~ .title-property-cell {
+    margin-left: $spacing-medium;
+}
+
 /* @end */
 
 /* @group ----- Module: Browse ----- */

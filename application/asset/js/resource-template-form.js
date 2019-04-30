@@ -4,11 +4,12 @@ var propertyList = $('#properties');
 var titleProperty = $('#title-property-id');
 var descriptionProperty = $('#description-property-id');
 
+var titlePropertyTemplate = $('<span class="title-property-cell">' + Omeka.jsTranslate('Title') + '</span>');
+var descriptionPropertyTemplate = $('<span class="description-property-cell">' + Omeka.jsTranslate('Description') + '</span>');
+
 // Mark the title and description properties.
-$('#properties li[data-property-id="' + titleProperty.val() + '"]')
-    .find('.title-property-cell').show();
-$('#properties li[data-property-id="' + descriptionProperty.val() + '"]')
-    .find('.description-property-cell').show();
+$('#properties li[data-property-id="' + titleProperty.val() + '"] .actions').before(titlePropertyTemplate);
+$('#properties li[data-property-id="' + descriptionProperty.val() + '"] .actions').before(descriptionPropertyTemplate);
 
 // Enable sorting on property rows.
 new Sortable(propertyList[0], {
@@ -79,19 +80,19 @@ propertyList.on('click', '.property-edit', function(e) {
         altComment.val($('#alternate-comment').val());
         if ($('#is-title-property').prop('checked')) {
             titleProperty.val(propId);
-            $('.title-property-cell').hide();
-            prop.find('.title-property-cell').show();
+            $('.title-property-cell').remove();
+            prop.find('.actions').before(titlePropertyTemplate);
         } else if (propId == titleProperty.val()) {
             titleProperty.val(null);
-            $('.title-property-cell').hide();
+            $('.title-property-cell').remove();
         }
         if ($('#is-description-property').prop('checked')) {
             descriptionProperty.val(propId);
-            $('.description-property-cell').hide();
-            prop.find('.description-property-cell').show();
+            $('.description-property-cell').remove();
+            prop.find('.actions').before(descriptionPropertyTemplate);
         } else if (propId == descriptionProperty.val()) {
             descriptionProperty.val(null);
-            $('.description-property-cell').hide();
+            $('.description-property-cell').remove();
         }
         $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
         $('#is-private').prop('checked') ? isPrivate.val(1) : isPrivate.val(null);

@@ -18,7 +18,7 @@ $propertyId = $escape($property->id());
 
     <span class="sortable-handle"></span>
     <span class="original-label-cell"><?php echo $escape($translate($property->label())); ?></span>
-    <span class="alternate-label-cell"></span>
+    <span class="alternate-label-cell"><?php echo $escape($propertyRow['o:alternate_label']); ?></span>
     <span class="title-property-cell" style="display:none;"><?php echo $translate('Title'); ?></span>
     <span class="description-property-cell" style="display:none;"><?php echo $translate('Description'); ?></span>
 

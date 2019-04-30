@@ -4,6 +4,7 @@ var propertyList = $('#properties');
 var titleProperty = $('#title-property-id');
 var descriptionProperty = $('#description-property-id');
 
+// Mark the title and description properties.
 $('#properties li[data-property-id="' + titleProperty.val() + '"]')
     .find('.title-property-cell').show();
 $('#properties li[data-property-id="' + descriptionProperty.val() + '"]')
@@ -74,6 +75,7 @@ propertyList.on('click', '.property-edit', function(e) {
 
     $('#set-changes').off('click.setchanges').on('click.setchanges', function(e) {
         altLabel.val($('#alternate-label').val());
+        prop.find('.alternate-label-cell').text($('#alternate-label').val());
         altComment.val($('#alternate-comment').val());
         if ($('#is-title-property').prop('checked')) {
             titleProperty.val(propId);

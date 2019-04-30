@@ -36,7 +36,6 @@ $sortHeadings = [
         <tr>
             <th><?php echo $translate('Label'); ?></th>
             <th><?php echo $translate('Term'); ?></th>
-            <th><?php echo $translate('Items'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -55,7 +54,6 @@ $sortHeadings = [
                 </ul>
             </td>
             <td><?php echo $escape($translate($resourceClass->term())); ?></td>
-            <td><?php echo $this->hyperlink($resourceClass->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['resource_class_id' => $resourceClass->id()]])); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

@@ -14,4 +14,8 @@ $translate = $this->plugin('translate');
     <h4><?php echo $translate('Comment'); ?></h4>
     <div class="value"><?php echo $this->escapeHtml($translate($property->comment())); ?></div>
 </div>
+<div class="meta-group">
+    <h4><?php echo $translate('Items'); ?></h4>
+    <div class="value"><?php echo $this->hyperlink($property->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['property[0][property]' => $property->id(), 'property[0][type]' => 'ex',]])); ?></div>
+</div>
 <?php $this->trigger('view.details', array('entity' => $property)); ?>

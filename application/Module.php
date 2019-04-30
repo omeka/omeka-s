@@ -231,7 +231,7 @@ class Module extends AbstractModule
         if (!$args->hasChangedField('titleProperty')) {
             return;
         }
-        $conn = $this->getServiceLocator()->get('Omeka\Connection');
+        $services = $this->getServiceLocator();
         $resourceTemplate = $event->getTarget();
         $titleProperty = $resourceTemplate->getTitleProperty();
         if (!$titleProperty) {
@@ -252,7 +252,7 @@ class Module extends AbstractModule
           LIMIT 1
         )
         WHERE resource.resource_template_id = :resource_template_id';
-        $stmt = $conn->prepare($sql);
+        $stmt = $services->get('Omeka\Connection')->prepare($sql);
         $stmt->bindValue('property_id', $titleProperty->getId());
         $stmt->bindValue('resource_template_id', $resourceTemplate->getId());
         $stmt->execute();

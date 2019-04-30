@@ -23,8 +23,7 @@ class ResourceClassRepresentation extends AbstractVocabularyMemberRepresentation
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
             ->search('items', [
                 'resource_class_id' => $this->id(),
-                'limit' => 0,
-            ]);
+            ], ['returnScalar' => 'id']);
         return $response->getTotalResults();
     }
 }

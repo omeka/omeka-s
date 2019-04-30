@@ -75,8 +75,7 @@ class UserRepresentation extends AbstractEntityRepresentation
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
             ->search('items', [
                 'owner_id' => $this->id(),
-                'limit' => 0,
-            ]);
+            ], ['returnScalar' => 'id']);
         return $response->getTotalResults();
     }
 
@@ -90,8 +89,7 @@ class UserRepresentation extends AbstractEntityRepresentation
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
             ->search('item_sets', [
                 'owner_id' => $this->id(),
-                'limit' => 0,
-            ]);
+            ], ['returnScalar' => 'id']);
         return $response->getTotalResults();
     }
 }

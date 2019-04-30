@@ -28,8 +28,7 @@ class PropertyRepresentation extends AbstractVocabularyMemberRepresentation
                         'type' => 'ex',
                     ],
                 ],
-                'limit' => 0,
-            ]);
+            ], ['returnScalar' => 'id']);
         return $response->getTotalResults();
     }
 }

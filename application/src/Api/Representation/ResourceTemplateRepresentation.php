@@ -115,8 +115,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
             ->search('items', [
                 'resource_template_id' => $this->id(),
-                'limit' => 0,
-            ]);
+            ], ['returnScalar' => 'id']);
         return $response->getTotalResults();
     }
 }

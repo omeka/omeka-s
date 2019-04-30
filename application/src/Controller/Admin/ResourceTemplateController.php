@@ -387,6 +387,12 @@ class ResourceTemplateController extends AbstractActionController
             if ($data['o:resource_class']) {
                 $data['o:resource_class[o:id]'] = $data['o:resource_class']->id();
             }
+            if ($data['o:title_property']) {
+                $data['o:title_property[o:id]'] = $data['o:title_property']->id();
+            }
+            if ($data['o:description_property']) {
+                $data['o:description_property[o:id]'] = $data['o:description_property']->id();
+            }
             $form->setData($data);
         }
 

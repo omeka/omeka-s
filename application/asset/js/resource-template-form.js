@@ -1,6 +1,13 @@
 $(document).ready(function() {
 
 var propertyList = $('#properties');
+var titleProperty = $('#title-property-id');
+var descriptionProperty = $('#description-property-id');
+
+$('#properties li[data-property-id="' + titleProperty.val() + '"]')
+    .find('.title-property-cell').show();
+$('#properties li[data-property-id="' + descriptionProperty.val() + '"]')
+    .find('.description-property-cell').show();
 
 // Enable sorting on property rows.
 new Sortable(propertyList[0], {
@@ -45,6 +52,7 @@ propertyList.on('click', '.property-restore', function(e) {
 propertyList.on('click', '.property-edit', function(e) {
     e.preventDefault();
     var prop = $(this).closest('.property');
+    var propId = prop.data('property-id');
     var oriLabel = prop.find('.original-label');
     var altLabel = prop.find('.alternate-label');
     var oriComment = prop.find('.original-comment');
@@ -57,6 +65,8 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#alternate-label').val(altLabel.val());
     $('#original-comment').text(oriComment.val());
     $('#alternate-comment').val(altComment.val());
+    $('#is-title-property').prop('checked', propId == titleProperty.val());
+    $('#is-description-property').prop('checked', propId == descriptionProperty.val());
     $('#is-required').prop('checked', isRequired.val());
     $('#is-private').prop('checked', isPrivate.val());
     $('#data-type option[value="' + dataType.val() + '"]').prop('selected', true);
@@ -65,6 +75,22 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#set-changes').off('click.setchanges').on('click.setchanges', function(e) {
         altLabel.val($('#alternate-label').val());
         altComment.val($('#alternate-comment').val());
+        if ($('#is-title-property').prop('checked')) {
+            titleProperty.val(propId);
+            $('.title-property-cell').hide();
+            prop.find('.title-property-cell').show();
+        } else if (propId == titleProperty.val()) {
+            titleProperty.val(null);
+            $('.title-property-cell').hide();
+        }
+        if ($('#is-description-property').prop('checked')) {
+            descriptionProperty.val(propId);
+            $('.description-property-cell').hide();
+            prop.find('.description-property-cell').show();
+        } else if (propId == descriptionProperty.val()) {
+            descriptionProperty.val(null);
+            $('.description-property-cell').hide();
+        }
         $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
         $('#is-private').prop('checked') ? isPrivate.val(1) : isPrivate.val(null);
         dataType.val($('#data-type').val());

@@ -39,7 +39,7 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
     {
         $response = $this->getServiceLocator()->get('Omeka\ApiManager')
             ->search('items', [
-                'item_set_id' => $this->id()
+                'item_set_id' => $this->id(),
             ], ['returnScalar' => 'id']);
         return $response->getTotalResults();
     }

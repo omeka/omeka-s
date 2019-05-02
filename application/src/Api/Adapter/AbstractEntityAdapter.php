@@ -224,7 +224,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         // Before adding the ORDER BY clause, set a paginator responsible for
         // getting the total count. This optimization excludes the ORDER BY
         // clause from the count query, greatly speeding up response time.
-        $countPaginator = new Paginator($qb, false);
+        $countQb = clone $qb;
+        $countQb->select('1');
+        $countPaginator = new Paginator($countQb, false);
 
         // Add the ORDER BY clause. Always sort by entity ID in addition to any
         // sorting the adapters add.

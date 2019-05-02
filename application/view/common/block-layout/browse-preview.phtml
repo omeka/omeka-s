@@ -9,11 +9,11 @@ $translate = $this->plugin('translate');
 
 <ul class="resource-list preview">
 <?php
-$headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
-$bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
+$headingTerm = $this->siteSetting('browse_heading_property_term');
+$bodyTerm = $this->siteSetting('browse_body_property_term');
 foreach ($this->resources as $resource):
-    $heading = $resource->value($headingTerm, ['default' => $translate('[Untitled]')]);
-    $body = $resource->value($bodyTerm);
+    $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]')]) : $resource->displayTitle();
+    $body = $bodyTerm ? $resource->value($bodyTerm) : $resource->displayDescription();
 ?>
     <li class="<?php echo $this->resourceType; ?> resource">
         <?php echo $resource->linkRaw($this->thumbnail($resource, 'medium', ['title' => $heading])); ?>

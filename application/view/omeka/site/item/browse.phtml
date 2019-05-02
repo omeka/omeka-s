@@ -9,8 +9,6 @@ if ($itemSetShow):
     $this->htmlElement('body')->appendAttribute('class', 'item-set');
     $query['item_set_id'] = $itemSet->id();
 endif;
-$headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
-$bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
 $sortHeadings = [
     [
         'label' => $translate('Title'),
@@ -54,9 +52,11 @@ $sortHeadings = [
 <?php $this->trigger('view.browse.before'); ?>
 <ul class="resource-list">
 <?php
+$headingTerm = $this->siteSetting('browse_heading_property_term');
+$bodyTerm = $this->siteSetting('browse_body_property_term');
 foreach ($items as $item):
-    $heading = $item->value($headingTerm, ['default' => $translate('[Untitled]')]);
-    $body = $item->value($bodyTerm);
+    $heading = $headingTerm ? $item->value($headingTerm, ['default' => $translate('[Untitled]')]) : $item->displayTitle();
+    $body = $bodyTerm ? $item->value($bodyTerm) : $item->displayDescription();
 ?>
     <li class="item resource">
         <?php echo $item->linkRaw($this->thumbnail($item, 'medium')); ?>

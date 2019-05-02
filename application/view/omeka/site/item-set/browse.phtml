@@ -3,8 +3,6 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 
 $this->htmlElement('body')->appendAttribute('class', 'item-set resource browse');
-$headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
-$bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
 ?>
 
 <?php echo $this->pageTitle($translate('Item sets'), 2); ?>
@@ -19,9 +17,11 @@ $bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description
 <?php $this->trigger('view.browse.before'); ?>
 <ul class="resource-list">
 <?php
+$headingTerm = $this->siteSetting('browse_heading_property_term');
+$bodyTerm = $this->siteSetting('browse_body_property_term');
 foreach ($itemSets as $itemSet):
-    $heading = $itemSet->value($headingTerm, ['default' => $translate('[Untitled]')]);
-    $body = $itemSet->value($bodyTerm);
+    $heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate('[Untitled]')]) : $itemSet->displayTitle();
+    $body = $bodyTerm ? $itemSet->value($bodyTerm) : $itemSet->displayDescription();
 ?>
     <li class="item-set resource">
         <?php echo $itemSet->linkRaw($this->thumbnail($itemSet, 'medium')); ?>

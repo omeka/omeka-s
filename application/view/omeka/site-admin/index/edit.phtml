@@ -1,9 +1,10 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'sites edit');
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'sites edit');
 $form->prepare();
 ?>
-<?php echo $this->pageTitle($site->title(), 1, $this->translate('Sites')); ?>
+<?php echo $this->pageTitle($site->title(), 1, $translate('Sites')); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 
@@ -11,21 +12,21 @@ $form->prepare();
     <?php if ($site->isPublic()): ?>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-public button',
-        'title' => $this->translate('Make private'),
+        'title' => $translate('Make private'),
     ]); ?>
     <input type="hidden" name="o:is_public" value="1">
     <?php else: ?>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-private button',
-        'title' => $this->translate('Make public'),
+        'title' => $translate('Make public'),
     ]); ?>
     <input type="hidden" name="o:is_public" value="0">
     <?php endif; ?>
     <?php if ($site->userIsAllowed('delete')): ?>
-    <?php echo $this->hyperlink($this->translate('Delete'), '#', ['class' => 'delete button']); ?>
+    <?php echo $this->hyperlink($translate('Delete'), '#', ['class' => 'delete button']); ?>
     <?php endif; ?>
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $this->translate('Save'); ?></button>
+    <button><?php echo $translate('Save'); ?></button>
 </div>
 <?php $this->trigger('view.edit.form.before', ['form' => $form, 'site' => $site]); ?>
 <?php echo $this->formCollection($form, false); ?>

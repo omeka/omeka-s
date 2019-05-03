@@ -104,6 +104,26 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $entity->setLabel($request->getValue('o:label'));
         }
 
+        if ($this->shouldHydrate($request, 'o:title_property')) {
+            $titleProperty = $request->getValue('o:title_property');
+            if (isset($titleProperty['o:id']) && is_numeric($titleProperty['o:id'])) {
+                $titleProperty = $this->getAdapter('properties')->findEntity($titleProperty['o:id']);
+            } else {
+                $titleProperty = null;
+            }
+            $entity->setTitleProperty($titleProperty);
+        }
+
+        if ($this->shouldHydrate($request, 'o:description_property')) {
+            $descriptionProperty = $request->getValue('o:description_property');
+            if (isset($descriptionProperty['o:id']) && is_numeric($descriptionProperty['o:id'])) {
+                $descriptionProperty = $this->getAdapter('properties')->findEntity($descriptionProperty['o:id']);
+            } else {
+                $descriptionProperty = null;
+            }
+            $entity->setDescriptionProperty($descriptionProperty);
+        }
+
         if ($this->shouldHydrate($request, 'o:resource_template_property')
             && isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])

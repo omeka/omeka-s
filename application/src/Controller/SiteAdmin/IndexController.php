@@ -42,7 +42,7 @@ class IndexController extends AbstractActionController
     {
         $this->setBrowseDefaults('title', 'asc');
         $response = $this->api()->search('sites', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('sites', $response->getContent());
@@ -112,7 +112,7 @@ class IndexController extends AbstractActionController
         $site = $this->currentSite();
         if (!$site->userIsAllowed('update')) {
             throw new Exception\PermissionDeniedException(
-                'User does not have permission to edit site settings'
+                'User does not have permission to edit site settings' // @translate
             );
         }
         $form = $this->getForm(SiteSettingsForm::class);
@@ -194,6 +194,23 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
+        $form->add([
+            'name' => 'o:homepage[o:id]',
+            'type' => 'Omeka\Form\Element\SitePageSelect',
+            'options' => [
+                'label' => 'Homepage', // @translate
+                'empty_option' => '',
+            ],
+            'attributes' => [
+                'value' => $site->homepage() ? $site->homepage()->id() : null,
+                'class' => 'chosen-select',
+                'data-placeholder' => 'First page in navigation', // @translate
+            ],
+        ]);
+        $form->getInputFilter()->add([
+            'name' => 'o:homepage[o:id]',
+            'allow_empty' => true,
+        ]);
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
@@ -451,7 +468,7 @@ class IndexController extends AbstractActionController
 
         $response = $this->api()->search('items', $query);
         $items = $response->getContent();
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setTerminal(true);
@@ -459,6 +476,7 @@ class IndexController extends AbstractActionController
         $view->setVariable('search', $this->params()->fromQuery('search'));
         $view->setVariable('resourceClassId', $this->params()->fromQuery('resource_class_id'));
         $view->setVariable('itemSetId', $this->params()->fromQuery('item_set_id'));
+        $view->setVariable('id', $this->params()->fromQuery('id'));
         $view->setVariable('items', $items);
         $view->setVariable('showDetails', false);
         return $view;

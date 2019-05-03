@@ -1,21 +1,22 @@
 <?php
+$translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'edit users');
 $form->prepare();
 $sectionNavs = [
-    'user-information' => $this->translate('User information'),
-    'user-settings' => $this->translate('User settings'),
-    'change-password' => $this->translate('Password'),
-    'edit-keys' => $this->translate('API keys'),
+    'user-information' => $translate('User information'),
+    'user-settings' => $translate('User settings'),
+    'change-password' => $translate('Password'),
+    'edit-keys' => $translate('API keys'),
 ];
 $formElement = $this->plugin('formElement');
 ?>
 
-<?php echo $this->pageTitle($user->email(), 1, $this->translate('Users'), $this->translate('Edit')); ?>
+<?php echo $this->pageTitle($user->email(), 1, $translate('Users'), $translate('Edit')); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <?php echo $this->cancelButton(); ?>
-    <button type="submit"><?php echo $this->translate('Save'); ?></button>
+    <button type="submit"><?php echo $translate('Save'); ?></button>
 </div>
 <?php echo $this->sectionNav($sectionNavs, 'view.edit.section_nav' ); ?>
 <?php $this->trigger('view.edit.form.before', array('form' => $form)); ?>
@@ -30,13 +31,13 @@ $formElement = $this->plugin('formElement');
 </fieldset>
 <fieldset id="edit-keys" class="section">
     <?php if ($keys): ?>
-    <h3 id="keys-existing-heading"><?php echo $this->translate('Keys'); ?></h3>
+    <h3 id="keys-existing-heading"><?php echo $translate('Keys'); ?></h3>
     <table class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
         <thead>
             <tr>
-                <th class="api-label"><?php echo $this->translate('Label'); ?></th>
-                <th class="api-id"><?php echo $this->translate('ID'); ?></th>
-                <th class="api-delete"><?php echo $this->translate('Delete'); ?>?</th>
+                <th class="api-label"><?php echo $translate('Label'); ?></th>
+                <th class="api-id"><?php echo $translate('ID'); ?></th>
+                <th class="api-delete"><?php echo $translate('Delete'); ?>?</th>
             </tr>
         </thead>
         <?php foreach ($keys as $id => $label): ?>
@@ -53,7 +54,7 @@ $formElement = $this->plugin('formElement');
         <?php endforeach; ?>
     </table>
     <?php endif; ?>
-    <h3><?php echo $this->translate('Add a new key'); ?></h3>
+    <h3><?php echo $translate('Add a new key'); ?></h3>
     <?php echo $this->formCollection($form->get('edit-keys'), false); ?>
 </fieldset>
 <?php $this->trigger('view.edit.form.after', array('form' => $form)); ?>

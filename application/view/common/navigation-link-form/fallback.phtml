@@ -1,5 +1,6 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$type = sprintf('%s [%s]', $this->translate('Unknown'), $link->getOriginalLabel());
+$type = sprintf('%s [%s]', $translate('Unknown'), $link->getOriginalLabel());
 ?>
 <label>Type <input type="text" value="<?php echo $escape($type); ?>" disabled></label>

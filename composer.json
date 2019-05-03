@@ -65,7 +65,7 @@
         "zendframework/zendxml": "^1.0.2",
         "omeka/composer-addon-installer": "*",
         "omeka-s-themes/default": "dev-develop",
-        "beberlei/DoctrineExtensions": "^1.0"
+        "beberlei/doctrineextensions": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7.23 || ^6.4.4",
@@ -87,6 +87,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/omeka-s-themes/default.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/omeka/doctrine2.git"
         },
         {
             "type": "path",

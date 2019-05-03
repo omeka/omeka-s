@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'vocabularies update');
 $changedProperties = [];
 foreach ($diff['properties']['label'] as $localName => $change) {
@@ -16,11 +17,11 @@ foreach ($diff['classes']['comment'] as $localName => $change) {
     $changedClasses[] = ['comment', $localName, $change];
 }
 ?>
-<?php echo $this->pageTitle($vocabulary->label(), 1, $this->translate('Vocabularies'), $this->translate('Update')); ?>
+<?php echo $this->pageTitle($vocabulary->label(), 1, $translate('Vocabularies'), $translate('Update')); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <a href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>" class="button"><?php echo $this->translate('Cancel'); ?></a>
-    <button><?php echo $this->translate('Accept changes'); ?></button>
+    <a href="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>" class="button"><?php echo $translate('Cancel'); ?></a>
+    <button><?php echo $translate('Accept changes'); ?></button>
 </div>
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>

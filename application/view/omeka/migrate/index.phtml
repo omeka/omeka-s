@@ -1,6 +1,9 @@
-<h2><?php echo $this->translate('Update database'); ?></h2>
-<p><?php echo $this->translate('There was a recent software upgrade and the database needs to be updated. The
+<?php
+$translate = $this->plugin('translate');
+?>
+<h2><?php echo $translate('Update database'); ?></h2>
+<p><?php echo $translate('There was a recent software upgrade and the database needs to be updated. The
 entire site will be down for maintenance until you click the button below.'); ?></p>
 <form method="post">
-    <button name="submit"><?php echo $this->translate('Update database'); ?></button>
+    <button name="submit"><?php echo $translate('Update database'); ?></button>
 </form>

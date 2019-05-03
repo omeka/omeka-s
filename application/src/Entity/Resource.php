@@ -49,6 +49,11 @@ abstract class Resource extends AbstractEntity
     protected $thumbnail;
 
     /**
+     * @Column(type="text", nullable=true)
+     */
+    protected $title;
+
+    /**
      * @Column(type="boolean")
      */
     protected $isPublic = true;
@@ -133,6 +138,19 @@ abstract class Resource extends AbstractEntity
     public function getThumbnail()
     {
         return $this->thumbnail;
+    }
+
+    public function setTitle($title)
+    {
+        // Unlike a resource value, a resource title cannot be an empty string
+        // or a string containing only whitespace.
+        $title = trim($title);
+        $this->title = ('' === $title) ? null : $title;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     public function setIsPublic($isPublic)

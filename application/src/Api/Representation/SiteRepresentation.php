@@ -40,6 +40,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
             $owner = $this->owner()->getReference();
         }
 
+        $homepage = null;
+        if ($this->homepage()) {
+            $homepage = $this->homepage()->getReference();
+        }
+
         $created = [
             '@value' => $this->getDateTime($this->created()),
             '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
@@ -58,6 +63,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:title' => $this->title(),
             'o:summary' => $this->summary(),
             'o:navigation' => $this->navigation(),
+            'o:homepage' => $homepage,
             'o:item_pool' => $this->itemPool(),
             'o:owner' => $owner,
             'o:created' => $created,
@@ -92,6 +98,12 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function navigation()
     {
         return $this->resource->getNavigation();
+    }
+
+    public function homepage()
+    {
+        return $this->getAdapter('site_pages')
+            ->getRepresentation($this->resource->getHomepage());
     }
 
     public function itemPool()

@@ -152,7 +152,6 @@ body {
         display: block;
         background-color: #fff;
         min-height: 3 * $spacing-large;
-        max-height: 10 * $spacing-large;
         overflow-y: auto;
     }
 
@@ -1801,8 +1800,7 @@ input[type="text"].value-language,
         }
 
         ul {
-            padding: 0;
-            list-style-type: none;
+            margin: 0;
         }
     }
 
@@ -3245,6 +3243,50 @@ body.sidebar-open #content {
     }
 }
 
+.alternate-label-cell:not(:empty) {
+  background-color: $border-gray;
+  display: inline-block;
+  padding: 0 $spacing-small;
+  margin: 0 $spacing-small;
+  position: relative;
+  
+  &:after {
+      content: "";
+      border-top: $spacing-medium solid transparent;
+      border-bottom: $spacing-medium solid transparent;
+      border-left: $spacing-small solid $border-gray;
+      width: 0;
+      height: 0;
+      position: absolute;
+      left: 100%;
+  }
+}
+
+.title-property-cell,
+.description-property-cell {
+    text-transform: uppercase;
+    font-size: (.75 * $base-font-size);
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: $spacing-medium;
+    
+    &:after {
+        content: "\f00c";
+        font-family: "Font Awesome 5 Free";
+        display: inline-block;
+        margin-left: $spacing-small;
+    }
+    
+    ~ .actions {
+        margin-left: 0;
+    }
+}
+
+.title-property-cell ~ .description-property-cell,
+.description-property-cell ~ .title-property-cell {
+    margin-left: $spacing-medium;
+}
+
 /* @end */
 
 /* @group ----- Module: Browse ----- */
@@ -3851,7 +3893,7 @@ body.sidebar-open #content {
 body.minimal {
     padding: 0;
     margin: (2 * $spacing-large) 0;
-    width: span(8);
+    width: span(15);
     @include container;
     height: auto;
     background-color: $blue;
@@ -3890,7 +3932,7 @@ body.minimal {
         width: 100%;
         min-height: 0;
         margin: 0;
-        padding: ((2 * $spacing-large) - 1px) calc(#{span(1 of 8)} - 1px);
+        padding: (2 * $spacing-large)  span(1);
         overflow: hidden;
     }
 

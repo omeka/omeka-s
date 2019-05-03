@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 
 $pages = $site->pages();
@@ -9,6 +10,6 @@ if (isset($pages[$data['id']])) {
 }
 $label = isset($data['label']) && '' !== trim($data['label']) ? $data['label'] : null;
 ?>
-<label><?php echo $this->translate('Type'); ?> <input type="text" value="<?php echo $escape($this->translate($link->getName())); ?>" disabled></label>
-<label><?php echo $this->translate('Page'); ?> <input type="text" value="<?php echo $escape($pageLabel); ?>" disabled></label>
-<label><?php echo $this->translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>"></label>
+<label><?php echo $translate('Type'); ?> <input type="text" value="<?php echo $escape($translate($link->getName())); ?>" disabled></label>
+<label><?php echo $translate('Page'); ?> <input type="text" value="<?php echo $escape($pageLabel); ?>" disabled></label>
+<label><?php echo $translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>"></label>

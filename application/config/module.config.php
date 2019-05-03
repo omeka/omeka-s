@@ -2,6 +2,14 @@
 namespace Omeka;
 
 return [
+    'password' => [
+        'min_length' => 6,
+        'min_lowercase' => null,
+        'min_uppercase' => null,
+        'min_number' => null,
+        'min_symbol' => null,
+        'symbol_list' => '`~!@#$%^&*()-=_+[]\{}|;:",./<>?\'',
+    ],
     'session' => [
         'config' => [],
         'save_handler' => null,
@@ -251,6 +259,7 @@ return [
             'Omeka\File\Thumbnailer\ImageMagick' => Service\File\Thumbnailer\ImageMagickFactory::class,
             'Omeka\File\Thumbnailer\Gd' => Service\File\Thumbnailer\GdFactory::class,
             'Omeka\File\Thumbnailer\Imagick' => Service\File\Thumbnailer\ImagickFactory::class,
+            'Omeka\File\Thumbnailer\NoThumbnail' => Service\File\Thumbnailer\NoThumbnailFactory::class,
             'Omeka\File\Store\Local' => Service\File\Store\LocalFactory::class,
             'Omeka\File\MediaTypeMap' => Service\MediaTypeMapFactory::class,
             'Omeka\File\ThumbnailManager' => Service\File\ThumbnailManagerFactory::class,
@@ -403,6 +412,7 @@ return [
             'blockThumbnailTypeSelect' => Service\ViewHelper\BlockThumbnailTypeSelectFactory::class,
             'dataType' => Service\ViewHelper\DataTypeFactory::class,
             'i18n' => Service\ViewHelper\I18nFactory::class,
+            'logger' => Service\ViewHelper\LoggerFactory::class,
             'media' => Service\ViewHelper\MediaFactory::class,
             'navigationLink' => Service\ViewHelper\NavigationLinkFactory::class,
             'pagination' => Service\ViewHelper\PaginationFactory::class,
@@ -426,6 +436,7 @@ return [
             'jsTranslate' => Service\ViewHelper\JsTranslateFactory::class,
             'lang' => Service\ViewHelper\LangFactory::class,
             'status' => Service\ViewHelper\StatusFactory::class,
+            'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
         ],
         'delegators' => [
             'Zend\Form\View\Helper\FormElement' => [
@@ -471,6 +482,8 @@ return [
             'Omeka\Form\Element\HtmlTextarea' => Service\Form\Element\HtmlTextareaFactory::class,
             'Omeka\Form\Element\Ckeditor' => Service\Form\Element\CkeditorFactory::class,
             'Omeka\Form\Element\CkeditorInline' => Service\Form\Element\CkeditorInlineFactory::class,
+            'Omeka\Form\Element\PasswordConfirm' => Service\Form\Element\PasswordConfirmFactory::class,
+            'Omeka\Form\Element\SitePageSelect' => Service\Form\Element\SitePageSelectFactory::class,
         ],
     ],
     'data_types' => [
@@ -613,5 +626,7 @@ return [
         'Restore property', // @translate
         'There are no available pages.', // @translate
         'Please enter a valid language tag', // @translate
+        'Title', // @translate
+        'Description', // @translate
     ],
 ];

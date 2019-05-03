@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 
 $fragment = 'item-linked';
@@ -11,9 +12,9 @@ $pagination->setFragment($fragment);
 <div id="linked-resources">
 <div class="linked-header">
     <div id="linked-filter">
-        <h4><?php echo $this->translate('Filter by property'); ?></h4>
+        <h4><?php echo $translate('Filter by property'); ?></h4>
         <select id="filter-property" name="property" data-url="<?php echo $escape($this->url(null, [], true)); ?>" data-fragment="<?php echo $escape($fragment); ?>">
-            <option value=""><?php echo $this->translate('All'); ?></option>
+            <option value=""><?php echo $translate('All'); ?></option>
             <?php foreach ($properties as $prop): ?>
             <option value="<?php echo $escape($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $escape(sprintf('%s (%s)', $prop->label(), $prop->term())); ?></option>
             <?php endforeach; ?>
@@ -24,12 +25,12 @@ $pagination->setFragment($fragment);
 
 <?php foreach ($subjectValues as $term => $values): ?>
 <table>
-<caption class="linked-resource-property"><?php echo $escape($values[0]->property()->label()); ?></caption>
+<caption class="linked-resource-property"><?php echo $escape($this->translate($values[0]->property()->label())); ?></caption>
 <thead>
     <tr>
-    <th><?php echo $this->translate('Title'); ?></th>
-    <th><?php echo $this->translate('Alternate label'); ?></th>
-    <th><?php echo $this->translate('Class'); ?></th>
+    <th><?php echo $translate('Title'); ?></th>
+    <th><?php echo $translate('Alternate label'); ?></th>
+    <th><?php echo $translate('Class'); ?></th>
     </tr>
 </thead>
 <tbody>

@@ -1,12 +1,13 @@
 <?php
-$this->headScript()->appendFile($this->assetUrl('js/item-manage-item-sets.js', 'Omeka'));
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$this->headScript()->appendFile($this->assetUrl('js/item-manage-item-sets.js', 'Omeka'));
 ?>
 <table id="item-item-sets" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && $item->itemSets()) ? '' : 'empty'; ?>">
     <thead>
     <tr>
-        <th><?php echo $this->translate('Title'); ?></th>
-        <th><?php echo $this->translate('Owner'); ?></th>
+        <th><?php echo $translate('Title'); ?></th>
+        <th><?php echo $translate('Owner'); ?></th>
         <th></th>
     </tr>
     </thead>
@@ -17,7 +18,7 @@ $escape = $this->plugin('escapeHtml');
     if ($owner = $itemSet->owner()) {
         $ownerText = $escape($itemSet->owner()->name());
     } else {
-        $ownerText = $this->translate('[no owner]');
+        $ownerText = $translate('[no owner]');
     }
     ?>
     <tr>
@@ -26,7 +27,7 @@ $escape = $this->plugin('escapeHtml');
         <td><ul class="actions">
             <li><?php echo $this->hyperlink('', '#', [
                 'class' => 'o-icon-delete',
-                'title' => $this->translate('Remove item set'),
+                'title' => $translate('Remove item set'),
             ]); ?></li>
         </ul><input type="hidden" name="o:item_set[]" value="<?php echo $escape($itemSet->id()) ?>"></td>
     </tr>
@@ -36,10 +37,10 @@ $escape = $this->plugin('escapeHtml');
 </table>
 
 <div class="no-resources">
-    <p><?php echo $this->translate('This item is part of no item sets. Add it to an item set using the interface to the right.'); ?></p>
+    <p><?php echo $translate('This item is part of no item sets. Add it to an item set using the interface to the right.'); ?></p>
 </div>
 
-<button id="item-set-selector-button" class="mobile-only"><?php echo $this->translate('Add to item set'); ?></button>
+<button id="item-set-selector-button" class="mobile-only"><?php echo $translate('Add to item set'); ?></button>
 
 <?php
 $itemSetTemplate = '
@@ -49,7 +50,7 @@ $itemSetTemplate = '
     <td><ul class="actions">
         <li>' . $this->hyperlink('', '#', [
             'class' => 'o-icon-delete',
-            'title' => $this->translate('Remove item set'),
+            'title' => $translate('Remove item set'),
         ]) . '</li>
     </ul><input type="hidden" name="o:item_set[]"></td>
 </tr>';

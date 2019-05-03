@@ -1,14 +1,15 @@
-<?php 
+<?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $hyperlink = $this->plugin('hyperlink');
 $mediaFound = count($media) > 0;
 ?>
 
-<h3><?php echo $this->translate('Select media'); ?></h3>
+<h3><?php echo $translate('Select media'); ?></h3>
 <div class="search-nav">
     <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
         <input type="text" name="search" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
-        <button type="button" class="o-icon-search"><?php echo $this->translate('Search'); ?></button>
+        <button type="button" class="o-icon-search"><?php echo $translate('Search'); ?></button>
     </div>
     <?php if ($mediaFound): ?>
     <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
@@ -34,6 +35,6 @@ $mediaFound = count($media) > 0;
         </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <span class="no-resources"><?php echo $this->translate(sprintf('No %s found.', $this->translate('media'))); ?></span>
+        <span class="no-resources"><?php echo $translate(sprintf('No %s found.', $translate('media'))); ?></span>
     <?php endif; ?>
 </div>

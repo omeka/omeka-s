@@ -120,7 +120,7 @@ class LoginController extends AbstractActionController
             $data = $this->getRequest()->getPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $user->setPassword($data['password']);
+                $user->setPassword($data['password-confirm']['password']);
                 if ($passwordCreation->activate()) {
                     $user->setIsActive(true);
                 }

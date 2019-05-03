@@ -37,7 +37,7 @@ class UserController extends AbstractActionController
     {
         $this->setBrowseDefaults('email', 'asc');
         $response = $this->api()->search('users', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $formDeleteSelected = $this->getForm(ConfirmForm::class);
         $formDeleteSelected->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], true));
@@ -80,7 +80,7 @@ class UserController extends AbstractActionController
     {
         $this->setBrowseDefaults('created');
         $response = $this->api()->search('users', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('users', $response->getContent());
@@ -192,7 +192,7 @@ class UserController extends AbstractActionController
                     }
                 }
 
-                if (!empty($passwordValues['password'])) {
+                if (!empty($passwordValues['password-confirm']['password'])) {
                     if (!$this->userIsAllowed($userEntity, 'change-password')) {
                         throw new Exception\PermissionDeniedException(
                             'User does not have permission to change the password'
@@ -202,7 +202,7 @@ class UserController extends AbstractActionController
                         $this->messenger()->addError('The current password entered was invalid'); // @translate
                         return $view;
                     }
-                    $userEntity->setPassword($passwordValues['password']);
+                    $userEntity->setPassword($passwordValues['password-confirm']['password']);
                     $successMessages[] = 'Password successfully changed'; // @translate
                 }
 

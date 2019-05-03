@@ -12,6 +12,7 @@ class PropertySelectFactory implements FactoryInterface
         $element = new PropertySelect;
         $element->setApiManager($services->get('Omeka\ApiManager'));
         $element->setEventManager($services->get('EventManager'));
+        $element->setTranslator($services->get('MvcTranslator'));
         return $element;
     }
 }

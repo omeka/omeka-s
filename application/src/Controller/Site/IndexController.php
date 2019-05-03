@@ -10,6 +10,15 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
 
+        // Redirect to the configured homepage, if it exists.
+        $homepage = $site->homepage();
+        if ($homepage) {
+            return $this->redirect()->toRoute('site/page', [
+                'site-slug' => $site->slug(),
+                'page-slug' => $homepage->slug(),
+            ]);
+        }
+
         // Redirect to the first linked page, if it exists.
         $linkedPages = $site->linkedPages();
         if ($linkedPages) {

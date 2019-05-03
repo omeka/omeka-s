@@ -1,15 +1,18 @@
+<?php
+$translate = $this->plugin('translate');
+?>
 <nav class="pagination" role="navigation">
-    <input type="text" name="page" class="page-input-top" value="<?php echo $currentPage; ?>" size="4" data-pagination-url="<?php echo $this->escapeHtml($pagelessUrl); ?>" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?> aria-label="<?php echo $this->translate('Page'); ?>">
-    <span class="page-count"><?php echo sprintf($this->translate('of %s'), $pageCount); ?></span>
+    <input type="text" name="page" class="page-input-top" value="<?php echo $currentPage; ?>" size="4" data-pagination-url="<?php echo $this->escapeHtml($pagelessUrl); ?>" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?> aria-label="<?php echo $translate('Page'); ?>">
+    <span class="page-count"><?php echo sprintf($translate('of %s'), $pageCount); ?></span>
 
     <?php if ($currentPage != 1): ?>
-    <?php echo $this->hyperlink('', $previousPageUrl, ['class' => 'previous o-icon-prev button', 'title' => $this->translate('Previous'), 'aria-label' => $this->translate('Previous')]); ?>
+    <?php echo $this->hyperlink('', $previousPageUrl, ['class' => 'previous o-icon-prev button', 'title' => $translate('Previous'), 'aria-label' => $translate('Previous')]); ?>
     <?php else: ?>
     <span class="previous o-icon-prev button inactive"></span>
     <?php endif; ?>
 
     <?php if ($currentPage < $pageCount): ?>
-    <?php echo $this->hyperlink('', $nextPageUrl, ['class' => 'next o-icon-next button', 'title' => $this->translate('Next'), 'aria-label' => $this->translate('Next')]); ?>
+    <?php echo $this->hyperlink('', $nextPageUrl, ['class' => 'next o-icon-next button', 'title' => $translate('Next'), 'aria-label' => $translate('Next')]); ?>
     <?php else: ?>
     <span class="next o-icon-next button inactive"></span>
     <?php endif; ?>

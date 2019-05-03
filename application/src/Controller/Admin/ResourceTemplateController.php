@@ -24,7 +24,7 @@ class ResourceTemplateController extends AbstractActionController
     {
         $this->setBrowseDefaults('label', 'asc');
         $response = $this->api()->search('resource_templates', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setVariable('resourceTemplates', $response->getContent());
@@ -386,6 +386,12 @@ class ResourceTemplateController extends AbstractActionController
             $data = $resourceTemplate->jsonSerialize();
             if ($data['o:resource_class']) {
                 $data['o:resource_class[o:id]'] = $data['o:resource_class']->id();
+            }
+            if ($data['o:title_property']) {
+                $data['o:title_property[o:id]'] = $data['o:title_property']->id();
+            }
+            if ($data['o:description_property']) {
+                $data['o:description_property[o:id]'] = $data['o:description_property']->id();
             }
             $form->setData($data);
         }

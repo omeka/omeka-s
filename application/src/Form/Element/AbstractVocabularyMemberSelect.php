@@ -5,10 +5,12 @@ use Omeka\Api\Manager as ApiManager;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Form\Element\Select;
+use Zend\I18n\Translator\TranslatorAwareTrait;
 
 abstract class AbstractVocabularyMemberSelect extends Select implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
+    use TranslatorAwareTrait;
 
     /**
      * @var ApiManager

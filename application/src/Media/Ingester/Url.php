@@ -4,7 +4,6 @@ namespace Omeka\Media\Ingester;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\File\Downloader;
-use Omeka\File\Validator;
 use Omeka\Stdlib\ErrorStore;
 use Zend\Form\Element\Url as UrlElement;
 use Zend\Uri\Http as HttpUri;
@@ -17,15 +16,9 @@ class Url implements IngesterInterface
      */
     protected $downloader;
 
-    /**
-     * @var Validator
-     */
-    protected $validator;
-
-    public function __construct(Downloader $downloader, Validator $validator)
+    public function __construct(Downloader $downloader)
     {
         $this->downloader = $downloader;
-        $this->validator = $validator;
     }
 
     public function getLabel()
@@ -72,9 +65,6 @@ class Url implements IngesterInterface
             return;
         }
         $tempFile->setSourceName($uri->getPath());
-        if (!$this->validator->validate($tempFile, $errorStore)) {
-            return;
-        }
         if (!array_key_exists('o:source', $data)) {
             $media->setSource($uri);
         }

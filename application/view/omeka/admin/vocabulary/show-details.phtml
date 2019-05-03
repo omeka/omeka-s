@@ -1,7 +1,10 @@
-<h3><?php echo $this->escapeHtml($this->translate($resource->label())); ?></h3>
-<div class="o-description"><?php echo $this->escapeHtml($this->translate($resource->comment())); ?></div>
+<?php
+$translate = $this->plugin('translate');
+?>
+<h3><?php echo $this->escapeHtml($translate($resource->label())); ?></h3>
+<div class="o-description"><?php echo $this->escapeHtml($translate($resource->comment())); ?></div>
 <div class="meta-group">
-    <h4><?php echo $this->translate('Namespace URI:'); ?></h4>
+    <h4><?php echo $translate('Namespace URI:'); ?></h4>
     <div class="value"><?php echo $this->escapeHtml($resource->namespaceUri()); ?></div>
 </div>
 <?php $this->trigger('view.details', array('entity' => $resource)); ?>

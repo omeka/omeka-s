@@ -40,7 +40,7 @@ class PropertySelect extends AbstractVocabularyMemberSelect
                 $property = $templateProperty->property();
                 if (!isset($valueOptions[$property->id()])) {
                     $valueOptions[$property->id()] = [
-                        'label' => $property->label(),
+                        'label' => $this->getTranslator()->translate($property->label()),
                         'value' => $termAsValue ? $property->term() : $property->id(),
                         'alternate_labels' => [],
                     ];
@@ -53,9 +53,9 @@ class PropertySelect extends AbstractVocabularyMemberSelect
             $altLabels = array_unique(array_filter($valueOptions[$propertyId]['alternate_labels']));
             if ($altLabels) {
                 $valueOptions[$propertyId]['label'] = sprintf(
-                    '%s: %s',
+                    '%s (%s)',
                     $valueOptions[$propertyId]['label'],
-                    implode('; ', $altLabels)
+                    implode(', ', $altLabels)
                 );
             }
         }

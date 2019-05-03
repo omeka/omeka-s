@@ -1,6 +1,7 @@
 <?php
 use Omeka\Site\Theme\Manager;
 
+$translate = $this->plugin('translate');
 $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
 ?>
 <div class="selectable-themes">
@@ -22,9 +23,9 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
     <div class="theme<?php echo Manager::STATE_ACTIVE !== $state ? ' invalid' : ''; ?>">
 
         <?php if (Manager::STATE_INVALID_INI === $state): ?>
-        <span class="error"><?php echo $this->translate('Invalid theme.ini file'); ?></span>
+        <span class="error"><?php echo $translate('Invalid theme.ini file'); ?></span>
         <?php elseif (Manager::STATE_INVALID_OMEKA_VERSION === $state): ?>
-        <span class="error"><?php echo sprintf($this->translate('This theme requires Omeka S %s'), $theme->getIni('omeka_version_constraint')); ?></span>
+        <span class="error"><?php echo sprintf($translate('This theme requires Omeka S %s'), $theme->getIni('omeka_version_constraint')); ?></span>
         <?php endif; ?>
 
         <div class="theme-thumbnail"><img src="<?php echo $this->escapeHtml($thumbnailUrl); ?>"></div>
@@ -33,7 +34,7 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
         <div class="theme-meta">
             <?php if(!empty($version)): ?>
             <span class="theme-version">
-                <?php echo sprintf($this->translate('version %s'), $version); ?>
+                <?php echo sprintf($translate('version %s'), $version); ?>
             </span>
             <?php endif; ?>
             <span class="theme-author">

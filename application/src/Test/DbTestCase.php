@@ -99,7 +99,9 @@ class DbTestCase extends TestCase
                 'Omeka\Installation\Task\CreateFirstUserTask', [
                     'name' => 'Admin',
                     'email' => 'admin@example.com',
-                    'password' => 'root',
+                    'password-confirm' => [
+                        'password' => 'root',
+                    ],
                 ]);
             $installer->registerVars(
                 'Omeka\Installation\Task\AddDefaultSettingsTask', [

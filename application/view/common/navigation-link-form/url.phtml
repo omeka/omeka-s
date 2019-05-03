@@ -1,8 +1,9 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $label = isset($data['label']) && '' !== trim($data['label']) ? $data['label'] : null;
 $url = isset($data['url']) && '' !== trim($data['url']) ? $data['url'] : null;
 ?>
-<label><?php echo $this->translate('Type'); ?> <input type="text" value="<?php echo $escape($this->translate($link->getName())); ?>" disabled></label>
-<label class="required"><?php echo $this->translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>" required></label>
-<label class="required"><?php echo $this->translate('URL'); ?> <input type="text" data-name="url" value="<?php echo $escape($url); ?>" required></label>
+<label><?php echo $translate('Type'); ?> <input type="text" value="<?php echo $escape($translate($link->getName())); ?>" disabled></label>
+<label class="required"><?php echo $translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>" required></label>
+<label class="required"><?php echo $translate('URL'); ?> <input type="text" data-name="url" value="<?php echo $escape($url); ?>" required></label>

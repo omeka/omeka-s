@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 // Prepare the resource class query.
 $ids = isset($query['resource_class_id']) ? $query['resource_class_id'] : [];
 if (!is_array($ids)) {
@@ -11,10 +12,10 @@ if (!$ids) {
 ?>
 <div id="resource-class" class="field removable multi-value" role="group">
     <div class="field-meta">
-        <span id="by-resource-class-label" class="label"><?php echo $this->translate('Search by class'); ?></span>
-        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
+        <span id="by-resource-class-label" class="label"><?php echo $translate('Search by class'); ?></span>
+        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
         <div class="collapsible">
-            <div class="field-description"><?php echo $this->translate('Searches for items that are any of these classes.'); ?></div>
+            <div class="field-description"><?php echo $translate('Searches for items that are any of these classes.'); ?></div>
         </div>
     </div>
     <div class="inputs">
@@ -27,10 +28,9 @@ if (!$ids) {
                     'aria-labelledby' =>  'by-resource-class-label'
                 ],
             ]); ?>
-            <button type="button" class="o-icon-delete remove-value button"><?php echo $this->translate('Remove value'); ?></button>
+            <button type="button" class="o-icon-delete remove-value button"><?php echo $translate('Remove value'); ?></button>
         </div>
         <?php endforeach; ?>
-        <a href="#" class="add-value button"><?php echo $this->translate('Add new class'); ?></a>
+        <a href="#" class="add-value button"><?php echo $translate('Add new class'); ?></a>
     </div>
 </div>
-

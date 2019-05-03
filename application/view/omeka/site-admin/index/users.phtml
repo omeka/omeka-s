@@ -1,33 +1,34 @@
 <?php
+$translate = $this->plugin('translate');
 $this->headScript()->appendFile($this->assetUrl('js/site-users.js', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'sites users');
 $form->prepare();
 $escape = $this->plugin('escapeHtml');
-$delete = $this->translate('Delete');
-$restore = $this->translate('Restore');
+$delete = $translate('Delete');
+$restore = $translate('Restore');
 $roles = [
-    'viewer' => $this->translate('Viewer'),
-    'editor' => $this->translate('Editor'),
-    'admin' => $this->translate('Admin'),
+    'viewer' => $translate('Viewer'),
+    'editor' => $translate('Editor'),
+    'admin' => $translate('Admin'),
 ];
 ?>
 
-<?php echo $this->pageTitle($this->translate('User permissions'), 1, $this->translate('Sites')); ?>
+<?php echo $this->pageTitle($translate('User permissions'), 1, $translate('Sites')); ?>
 
 <?php echo $this->form()->openTag($form); ?>
 <?php echo $this->formCollection($form, false); ?>
 
 <div id="page-actions">
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $this->translate('Save'); ?></button>
+    <button><?php echo $translate('Save'); ?></button>
 </div>
 
 <?php $sitePermissions = $site->sitePermissions(); ?>
     <table id="site-user-permissions" class="tablesaw tablesaw-stack <?php echo count($sitePermissions) ? '' : 'empty'; ?>" data-tablesaw-mode="stack">
         <thead>
             <tr>
-                <th scope="col"><?php echo $this->translate('User'); ?></th>
-                <th scope="col"><?php echo $this->translate('Role'); ?></th>
+                <th scope="col"><?php echo $translate('User'); ?></th>
+                <th scope="col"><?php echo $translate('Role'); ?></th>
                 <th></th>
             </tr>
         </thead>
@@ -39,11 +40,11 @@ $roles = [
             ?>
             <tr class="user value">
                 <td class="user-meta">
-                    <span class="restore-value"><?php echo $this->translate('User to be removed'); ?></span>
+                    <span class="restore-value"><?php echo $translate('User to be removed'); ?></span>
                     <span class="user-name"><?php echo $escape($user->name()); ?> (<?php echo $escape($user->email()); ?>)</span>
                     <input type="hidden" class="user-id" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $escape($user->id()); ?>">
                 </td>
-                <td><select name="o:site_permission[<?php echo $index; ?>][o:role]" aria-label="<?php echo $this->translate('Role'); ?>">
+                <td><select name="o:site_permission[<?php echo $index; ?>][o:role]" aria-label="<?php echo $translate('Role'); ?>">
                     <?php
                     foreach ($roles as $key => $value):
                     $selected = $key === $sitePermission->role() ? true : false;
@@ -69,17 +70,17 @@ $roles = [
         </tbody>
     </table>
     <div class="no-resources">
-        <p><?php echo $this->translate('This site has no users. Add users using the interface to the right.'); ?></p>
+        <p><?php echo $translate('This site has no users. Add users using the interface to the right.'); ?></p>
     </div>
-    <button id="site-user-selector-button" class="mobile-only"><?php echo $this->translate('Add new user'); ?></button>
-    <?php echo $this->userSelector($this->translate('Click on a user to add them to the site.')); ?>
+    <button id="site-user-selector-button" class="mobile-only"><?php echo $translate('Add new user'); ?></button>
+    <?php echo $this->userSelector($translate('Click on a user to add them to the site.')); ?>
 <?php echo $this->form()->closeTag(); ?>
 
 <?php
 $userRowTemplate = '
 <tr class="user value">
     <td class="user-meta">
-        <span class="restore-value">' . $this->translate('User to be removed') . '</span>
+        <span class="restore-value">' . $translate('User to be removed') . '</span>
         <span class="user-name"></span>
         <input type="hidden" class="user-id" name="o:site_permission[__index__][o:user][o:id]">
     </td>

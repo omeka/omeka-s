@@ -1,14 +1,15 @@
 <?php
+$translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'items search');
 ?>
-<?php echo $this->pageTitle($this->translate('Advanced search'), 1, $this->translate('Items')); ?>
+<?php echo $this->pageTitle($translate('Advanced search'), 1, $translate('Items')); ?>
 <form id="advanced-search" method="get" action="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>">
 <?php echo $this->partial(
     'common/advanced-search',
     ['query' => $this->params()->fromQuery(), 'resourceType' => 'item']
 ); ?>
 <div id="page-actions">
-    <?php echo $this->hyperlink($this->translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
-    <input type="submit" name="submit" value="<?php echo $this->escapeHtml($this->translate('Search')); ?>">
+    <?php echo $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
+    <input type="submit" name="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">
 </div>
 </form>

@@ -14,9 +14,6 @@ class UrlFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new Url(
-            $services->get('Omeka\File\Downloader'),
-            $services->get('Omeka\File\Validator')
-        );
+        return new Url($services->get('Omeka\File\Downloader'));
     }
 }

@@ -15,11 +15,7 @@ class OEmbed implements RendererInterface
             $url = $data['url'];
             $width = $data['width'];
             $height = $data['height'];
-            if (!empty($data['title'])) {
-                $title = $data['title'];
-            } else {
-                $title = $url;
-            }
+            $title = empty($data['title']) ? $url : $data['title'];
             return sprintf(
                 '<img src="%s" width="%s" height="%s" alt="%s">',
                 $view->escapeHtml($url),
@@ -29,14 +25,9 @@ class OEmbed implements RendererInterface
             );
         } elseif (!empty($data['html'])) {
             return $data['html'];
-        } else {
-            $source = $media->source();
-            if (!$empty($data['title'])) {
-                $title = $data['title'];
-            } else {
-                $title = $source;
-            }
-            return $view->hyperlink($title, $source);
         }
+        $source = $media->source();
+        $title = empty($data['title']) ? $source : $data['title'];
+        return $view->hyperlink($title, $source);
     }
 }

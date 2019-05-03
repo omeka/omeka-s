@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $labelInfo = $this->setting('property_label_information');
 ?>
@@ -8,7 +9,7 @@ $labelInfo = $this->setting('property_label_information');
         <?php if ($propertyData['alternate_label']): ?>
         <?php echo $escape($propertyData['alternate_label']); ?>
         <?php else: ?>
-        <?php echo $escape($this->translate($propertyData['property']->label())); ?>
+        <?php echo $escape($translate($propertyData['property']->label())); ?>
         <?php endif; ?>
         <?php if ('term' === $labelInfo): ?>
         <span class="field-term">(<?php echo $escape($propertyData['property']->term()); ?>)</span>
@@ -19,11 +20,12 @@ $labelInfo = $this->setting('property_label_information');
         <div class="values">
         <?php foreach ($propertyData['values'] as $value): ?>
             <?php
+            $valueType = $value->type();
             $class = ['value'];
-            if ('resource' == $value->type()) {
+            if ('resource' == $valueType || strpos($valueType, 'resource') !== false) {
                 $class[] = 'resource';
                 $class[] = $escape($value->valueResource()->resourceName());
-            } elseif ('uri' == $value->type()) {
+            } elseif ('uri' == $valueType) {
                 $class[] = 'uri';
             }
             if (!$value->isPublic()) {

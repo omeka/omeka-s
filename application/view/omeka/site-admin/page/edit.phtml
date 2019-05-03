@@ -1,20 +1,21 @@
 <?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'site-pages edit');
 $this->ckEditor();
 $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/site-page-edit.js', 'Omeka'));
 $this->blockLayout()->prepareForm();
 $form->prepare();
-$escape = $this->plugin('escapeHtml');
 ?>
-<?php echo $this->pageTitle($page->title(), 1, $this->translate('Pages'), $this->translate('Edit')); ?>
+<?php echo $this->pageTitle($page->title(), 1, $translate('Pages'), $translate('Edit')); ?>
 
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
-    <a href="<?php echo $page->siteUrl(); ?>" class="button" target="_blank"><?php echo $this->translate('View'); ?></a>
-    <a href="#" class="delete button"><?php echo $this->translate('Delete'); ?></a>
+    <a href="<?php echo $page->siteUrl(); ?>" class="button" target="_blank"><?php echo $translate('View'); ?></a>
+    <a href="#" class="delete button"><?php echo $translate('Delete'); ?></a>
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $this->translate('Save'); ?></button>
+    <button><?php echo $translate('Save'); ?></button>
 </div>
 
 <?php echo $this->formCollection($form, false); ?>
@@ -24,23 +25,23 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->form()->closeTag(); ?>
 
 <div id="new-block" class="active sidebar" data-url="<?php echo $this->url('admin/site/slug/page/default', ['action' => 'block'], true); ?>">
-    <h3><?php echo $this->translate('Add new block'); ?></h3>
+    <h3><?php echo $translate('Add new block'); ?></h3>
     <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
     <button type="button" value="<?php echo $escape($layout); ?>" class="option">
-        <?php echo $escape($this->translate($this->blockLayout()->getLayoutLabel($layout))); ?>
+        <?php echo $escape($translate($this->blockLayout()->getLayoutLabel($layout))); ?>
     </button>
     <?php endforeach; ?>
 </div>
 
 <div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">
     <div id="attachment-options-main" class="confirm-main">
-        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
         <div id="attachment-item"></div>
         <div id="attachment-caption" class="option">
-            <h3><?php echo $this->translate('Caption'); ?></h3>
+            <h3><?php echo $translate('Caption'); ?></h3>
             <?php echo $this->hyperlink('', '#', [
                 'class' => 'collapse',
-                'title' => $this->translate('Collapse'),
+                'title' => $translate('Collapse'),
             ]); ?>
             <div class="collapsible">
                 <textarea class="caption wysiwyg"></textarea>
@@ -48,7 +49,7 @@ $escape = $this->plugin('escapeHtml');
         </div>
     </div>
     <div id="attachment-confirm-panel" class="confirm-panel">
-        <button><?php echo $this->translate('Apply changes'); ?></button>
+        <button><?php echo $translate('Apply changes'); ?></button>
     </div>
 </div>
 

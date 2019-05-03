@@ -1,10 +1,11 @@
 <?php
+$translate = $this->plugin('translate');
 if ('sorted-asc' == $class) {
-    $title = $this->translate('Switch to descending order');
+    $title = $translate('Switch to descending order');
 } elseif ('sorted-desc' == $class) {
-    $title = $this->translate('Switch to ascending order');
+    $title = $translate('Switch to ascending order');
 } else {
-    $title = sprintf($this->translate('Sort by %s'), $label);
+    $title = sprintf($translate('Sort by %s'), $label);
 }
 ?>
 <a href="<?php echo $this->escapeHtml($url); ?>"

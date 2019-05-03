@@ -53,7 +53,7 @@ class SearchFilters extends AbstractHelper
                             }
                             $filterLabel = $translate('Class');
                             try {
-                                $filterValue = $api->read('resource_classes', $subValue)->getContent()->label();
+                                $filterValue = $translate($api->read('resource_classes', $subValue)->getContent()->label());
                             } catch (NotFoundException $e) {
                                 $filterValue = $translate('Unknown class');
                             }

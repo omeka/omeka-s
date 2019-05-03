@@ -19,7 +19,7 @@ class ItemSetController extends AbstractActionController
         $query = $this->params()->fromQuery();
         $query['site_id'] = $site->id();
         $response = $this->api()->search('item_sets', $query);
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
+        $this->paginator($response->getTotalResults());
         $itemSets = $response->getContent();
 
         $view = new ViewModel;

@@ -1,4 +1,5 @@
 <?php
+$translate = $this->plugin('translate');
 $this->headMeta()->setCharset('utf-8');
 $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
 $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
@@ -8,6 +9,7 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/style.css', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/global.js', 'Omeka'));
 $this->trigger('view.layout');
+$userBar = $this->userBar();
 ?>
 <?php echo $this->doctype(); ?>
 <?php echo $this->htmlElement('html')->setAttribute('lang', $this->lang()); ?>
@@ -19,13 +21,13 @@ $this->trigger('view.layout');
         <?php echo $this->headScript(); ?>
     </head>
     <?php echo $this->htmlElement('body')->appendAttribute('class', 'minimal'); ?>
-
+        <?php echo $userBar; ?>
         <div id="content" role="main">
             <?php echo $this->messages(); ?>
             <?php echo $this->content; ?>
         </div>
         <footer>
-            <span class="powered-by"><?php echo $this->translate('Powered by Omeka S'); ?></span>
+            <span class="powered-by"><?php echo $translate('Powered by Omeka S'); ?></span>
         </footer>
     </body>
 </html>

@@ -119,6 +119,7 @@ CREATE TABLE `resource` (
   `resource_class_id` int(11) DEFAULT NULL,
   `resource_template_id` int(11) DEFAULT NULL,
   `thumbnail_id` int(11) DEFAULT NULL,
+  `title` longtext COLLATE utf8mb4_unicode_ci,
   `is_public` tinyint(1) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
@@ -151,13 +152,19 @@ CREATE TABLE `resource_template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
   `resource_class_id` int(11) DEFAULT NULL,
+  `title_property_id` int(11) DEFAULT NULL,
+  `description_property_id` int(11) DEFAULT NULL,
   `label` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_39ECD52EEA750E8` (`label`),
   KEY `IDX_39ECD52E7E3C61F9` (`owner_id`),
   KEY `IDX_39ECD52E448CC1BD` (`resource_class_id`),
+  KEY `IDX_39ECD52E724734A3` (`title_property_id`),
+  KEY `IDX_39ECD52EB84E0D1D` (`description_property_id`),
   CONSTRAINT `FK_39ECD52E448CC1BD` FOREIGN KEY (`resource_class_id`) REFERENCES `resource_class` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `FK_39ECD52E7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
+  CONSTRAINT `FK_39ECD52E724734A3` FOREIGN KEY (`title_property_id`) REFERENCES `property` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_39ECD52E7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_39ECD52EB84E0D1D` FOREIGN KEY (`description_property_id`) REFERENCES `property` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `resource_template_property` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -189,6 +196,7 @@ CREATE TABLE `setting` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `site` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `homepage_id` int(11) DEFAULT NULL,
   `owner_id` int(11) DEFAULT NULL,
   `slug` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `theme` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -201,8 +209,10 @@ CREATE TABLE `site` (
   `is_public` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_694309E4989D9B62` (`slug`),
+  UNIQUE KEY `UNIQ_694309E4571EDDA` (`homepage_id`),
   KEY `IDX_694309E47E3C61F9` (`owner_id`),
-  CONSTRAINT `FK_694309E47E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `FK_694309E4571EDDA` FOREIGN KEY (`homepage_id`) REFERENCES `site_page` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_694309E47E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `site_block_attachment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

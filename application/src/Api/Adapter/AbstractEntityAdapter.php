@@ -17,6 +17,8 @@ use Zend\EventManager\Event;
  */
 abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAdapterInterface
 {
+    protected $rootAlias;
+
     /**
      * A unique token index for query builder aliases and placeholders.
      *
@@ -111,7 +113,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         if (isset($query['sort_by']) && is_string($query['sort_by'])) {
             if (array_key_exists($query['sort_by'], $this->sortFields)) {
                 $sortBy = $this->sortFields[$query['sort_by']];
-                $qb->addOrderBy($this->getEntityClass() . ".$sortBy", $query['sort_order']);
+                $qb->addOrderBy("omeka_root.$sortBy", $query['sort_order']);
             } elseif ($query['sort_by'] === 'random') {
                 $qb->orderBy('RAND()');
             }
@@ -130,18 +132,17 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     public function sortByCount(QueryBuilder $qb, array $query,
         $inverseField, $instanceOf = null
     ) {
-        $entityAlias = $this->getEntityClass();
         $inverseAlias = $this->createAlias();
         $countAlias = $this->createAlias();
 
         $qb->addSelect("COUNT($inverseAlias.id) HIDDEN $countAlias");
         if ($instanceOf) {
             $qb->leftJoin(
-                "$entityAlias.$inverseField", $inverseAlias,
+                "omeka_root.$inverseField", $inverseAlias,
                 'WITH', "$inverseAlias INSTANCE OF $instanceOf"
             );
         } else {
-            $qb->leftJoin("$entityAlias.$inverseField", $inverseAlias);
+            $qb->leftJoin("omeka_root.$inverseField", $inverseAlias);
         }
         $qb->addOrderBy($countAlias, $query['sort_order']);
     }
@@ -203,13 +204,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
 
         // Begin building the search query.
         $entityClass = $this->getEntityClass();
+
         $this->index = 0;
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
-            ->select($entityClass)
-            ->from($entityClass, $entityClass);
+            ->select('omeka_root')
+            ->from($entityClass, 'omeka_root');
         $this->buildQuery($qb, $query);
-        $qb->groupBy("$entityClass.id");
+        $qb->groupBy("omeka_root.id");
 
         // Trigger the search.query event.
         $event = new Event('api.search.query', $this, [
@@ -231,7 +233,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         // Add the ORDER BY clause. Always sort by entity ID in addition to any
         // sorting the adapters add.
         $this->sortQuery($qb, $query);
-        $qb->addOrderBy("$entityClass.id", $query['sort_order']);
+        $qb->addOrderBy("omeka_root.id", $query['sort_order']);
 
         $scalarField = $request->getOption('returnScalar');
         if ($scalarField) {
@@ -242,7 +244,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     $scalarField, $entityClass
                 ));
             }
-            $qb->select(sprintf('%s.%s', $entityClass, $scalarField));
+            $qb->select('omeka_root.' . $scalarField);
             $content = array_column($qb->getQuery()->getScalarResult(), $scalarField);
             $response = new Response($content);
             $response->setTotalResults(count($content));
@@ -605,10 +607,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $entityClass = $this->getEntityClass();
         $this->index = 0;
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select($entityClass)->from($entityClass, $entityClass);
+        $qb->select('omeka_root')->from($entityClass, 'omeka_root');
         foreach ($criteria as $field => $value) {
             $qb->andWhere($qb->expr()->eq(
-                "$entityClass.$field",
+                "omeka_root.$field",
                 $this->createNamedParameter($qb, $value)
             ));
         }
@@ -624,7 +626,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         if (!$entity) {
             throw new Exception\NotFoundException(sprintf(
                 $this->getTranslator()->translate('%s entity with criteria %s not found'),
-                $this->getEntityClass(), json_encode($criteria)
+                $entityClass, json_encode($criteria)
             ));
         }
         return $entity;

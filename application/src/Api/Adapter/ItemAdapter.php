@@ -46,7 +46,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             if ($itemSets) {
                 $itemSetAlias = $this->createAlias();
                 $qb->innerJoin(
-                    $this->getEntityClass() . '.itemSets',
+                    'omeka_root.itemSets',
                     $itemSetAlias, 'WITH',
                     $qb->expr()->in("$itemSetAlias.id", $this->createNamedParameter($qb, $itemSets))
                 );

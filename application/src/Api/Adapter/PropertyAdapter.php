@@ -36,16 +36,15 @@ class PropertyAdapter extends AbstractEntityAdapter
     {
         if (is_string($query['sort_by'])) {
             if ('item_count' == $query['sort_by']) {
-                $entityAlias = $this->getEntityClass();
                 $valuesAlias = $this->createAlias();
                 $resourceAlias = $this->createAlias();
                 $countAlias = $this->createAlias();
                 $qb->addSelect("COUNT($valuesAlias.id) HIDDEN $countAlias")
-                    ->leftJoin("$entityAlias.values", $valuesAlias)
+                    ->leftJoin("omeka_root.values", $valuesAlias)
                     ->leftJoin(
                         "$valuesAlias.resource", $resourceAlias,
                         'WITH', "$resourceAlias INSTANCE OF Omeka\Entity\Item"
-                    )->addGroupBy("$entityAlias.id")
+                    )->addGroupBy("omeka_root.id")
                     ->addOrderBy($countAlias, $query['sort_order']);
             } else {
                 parent::sortQuery($qb, $query);

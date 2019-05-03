@@ -105,7 +105,7 @@ class UserAdapter extends AbstractEntityAdapter
                 'Omeka\Entity\SitePermission',
                 $sitePermissionAlias,
                 'WITH',
-                $sitePermissionAlias . '.user = ' . $this->getEntityClass()
+                $sitePermissionAlias . '.user = omeka_root'
             );
             $qb->andWhere($qb->expr()->eq(
                 "$sitePermissionAlias.site",

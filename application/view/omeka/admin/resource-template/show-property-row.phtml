@@ -17,7 +17,8 @@ $propertyId = $escape($property->id());
     <input class="data-type" type="hidden" name="<?php echo $escape($namePrefix . '[o:data_type]'); ?>" value="<?php echo $escape($propertyRow['o:data_type']); ?>">
 
     <span class="sortable-handle"></span>
-    <?php echo $escape($translate($property->label())); ?>
+    <span class="original-label-cell"><?php echo $escape($translate($property->label())); ?></span>
+    <span class="alternate-label-cell"><?php echo $escape($propertyRow['o:alternate_label']); ?></span>
 
     <ul class="actions">
         <li><?php echo $this->hyperlink('', '#', [

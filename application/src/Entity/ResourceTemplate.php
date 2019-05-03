@@ -33,6 +33,18 @@ class ResourceTemplate extends AbstractEntity
     protected $resourceClass;
 
     /**
+     * @ManyToOne(targetEntity="Property")
+     * @JoinColumn(onDelete="SET NULL")
+     */
+    protected $titleProperty;
+
+    /**
+     * @ManyToOne(targetEntity="Property")
+     * @JoinColumn(onDelete="SET NULL")
+     */
+    protected $descriptionProperty;
+
+    /**
      * @OneToMany(
      *     targetEntity="ResourceTemplateProperty",
      *     mappedBy="resourceTemplate",
@@ -91,6 +103,26 @@ class ResourceTemplate extends AbstractEntity
     public function getResourceClass()
     {
         return $this->resourceClass;
+    }
+
+    public function setTitleProperty(Property $titleProperty = null)
+    {
+        $this->titleProperty = $titleProperty;
+    }
+
+    public function getTitleProperty()
+    {
+        return $this->titleProperty;
+    }
+
+    public function setDescriptionProperty(Property $descriptionProperty = null)
+    {
+        $this->descriptionProperty = $descriptionProperty;
+    }
+
+    public function getDescriptionProperty()
+    {
+        return $this->descriptionProperty;
     }
 
     public function getResourceTemplateProperties()

@@ -140,6 +140,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         // o:resource_template
         $this->hydrateResourceTemplate($request, $entity);
 
+        // o:title
+        (new ResourceTitleHydrator)->hydrate($entity, $this->getPropertyByTerm('dcterms:title'));
+
         // o:thumbnail
         $this->hydrateThumbnail($request, $entity);
 

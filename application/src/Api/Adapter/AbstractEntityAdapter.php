@@ -17,8 +17,6 @@ use Zend\EventManager\Event;
  */
 abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAdapterInterface
 {
-    protected $rootAlias;
-
     /**
      * A unique token index for query builder aliases and placeholders.
      *

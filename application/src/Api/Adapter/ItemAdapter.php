@@ -72,7 +72,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             if (isset($query['site_attachments_only']) && $query['site_attachments_only']) {
                 $siteBlockAttachmentsAlias = $this->createAlias();
                 $qb->innerJoin(
-                    'Omeka\Entity\Item.siteBlockAttachments',
+                    'omeka_root.siteBlockAttachments',
                     $siteBlockAttachmentsAlias
                 );
                 $sitePageBlockAlias = $this->createAlias();

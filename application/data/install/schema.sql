@@ -23,6 +23,14 @@ CREATE TABLE `asset` (
   KEY `IDX_2AF5A5C7E3C61F9` (`owner_id`),
   CONSTRAINT `FK_2AF5A5C7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `fulltext_search` (
+  `id` int(11) NOT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` longtext COLLATE utf8mb4_unicode_ci,
+  `text` longtext COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (`id`,`type`),
+  FULLTEXT KEY `IDX_AA31FE4A2B36786B3B8BA7C7` (`title`,`text`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `item` (
   `id` int(11) NOT NULL,
   PRIMARY KEY (`id`),

@@ -18,4 +18,8 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
     {
     }
+
+    public function getFulltextText(SitePageBlock $block)
+    {
+    }
 }

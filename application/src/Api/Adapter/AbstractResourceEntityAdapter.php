@@ -9,7 +9,7 @@ use Omeka\Entity\Resource;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
 
-abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
+abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter implements FulltextSearchInterface
 {
     public function buildQuery(QueryBuilder $qb, array $query)
     {
@@ -435,5 +435,24 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         }
 
         return $data;
+    }
+
+    public function getFulltextTitle($resource)
+    {
+        return $resource->getTitle();
+    }
+
+    public function getFulltextText($resource)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('isPublic', true))
+            ->andWhere(Criteria::expr()->neq('value', null))
+            ->andWhere(Criteria::expr()->neq('value', ''));
+        $values = $resource->getValues()->matching($criteria);
+        $text = [];
+        foreach ($values as $value) {
+            $text[] = $value->getValue();
+        }
+        return implode(PHP_EOL, $text);
     }
 }

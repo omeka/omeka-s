@@ -1,6 +1,8 @@
 <?php
 namespace Omeka;
 
+use Omeka\Api\Adapter\FulltextSearchInterface;
+use Omeka\Entity\FulltextSearch;
 use Omeka\Module\AbstractModule;
 use Zend\EventManager\Event as ZendEvent;
 use Zend\EventManager\SharedEventManagerInterface;
@@ -13,7 +15,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '1.4.1-alpha4';
+    const VERSION = '1.4.1-alpha6';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -94,6 +96,12 @@ class Module extends AbstractModule
             '*',
             'api.context',
             [$this, 'addTermDefinitionsToContext']
+        );
+
+        $sharedEventManager->attach(
+            '*',
+            'api.update.post',
+            [$this, 'saveFulltext']
         );
 
         $sharedEventManager->attach(
@@ -471,5 +479,30 @@ class Module extends AbstractModule
 
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
         $entityManager->flush();
+    }
+
+    /**
+     * Save the fulltext of an API resource.
+     *
+     * @param ZendEvent $event
+     */
+    public function saveFulltext(ZendEvent $event)
+    {
+        $adapter = $event->getTarget();
+        if (!($adapter instanceof FulltextSearchInterface)) {
+            return;
+        }
+        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $resource = $event->getParam('response')->getContent();
+        $id = $resource->getId();
+        $type = get_class($resource);
+        $search = $em->find('Omeka\Entity\FulltextSearch', ['id' => $id, 'type' => $type]);
+        if (!$search) {
+            $search = new FulltextSearch($id, $type);
+            $em->persist($search);
+        }
+        $search->setTitle($adapter->getFulltextTitle($resource));
+        $search->setText($adapter->getFulltextText($resource));
+        $em->flush($search);
     }
 }

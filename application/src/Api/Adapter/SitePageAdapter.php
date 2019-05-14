@@ -10,7 +10,7 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
 
-class SitePageAdapter extends AbstractEntityAdapter
+class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchInterface
 {
     use SiteSlugTrait;
 
@@ -258,5 +258,21 @@ class SitePageAdapter extends AbstractEntityAdapter
         }
 
         return true;
+    }
+
+    public function getFulltextTitle($resource)
+    {
+        return $resource->getTitle();
+    }
+
+    public function getFulltextText($resource)
+    {
+        $layouts = $this->getServiceLocator()->get('Omeka\BlockLayoutManager');
+        $text = [];
+        foreach ($resource->getBlocks() as $block) {
+            $layout = $layouts->get($block->getLayout());
+            $text[] = $layout->getFulltextText($block);
+        }
+        return implode(PHP_EOL, $text);
     }
 }

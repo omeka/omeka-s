@@ -100,8 +100,20 @@ class Module extends AbstractModule
 
         $sharedEventManager->attach(
             '*',
+            'api.create.post',
+            [$this, 'saveFulltext']
+        );
+
+        $sharedEventManager->attach(
+            '*',
             'api.update.post',
             [$this, 'saveFulltext']
+        );
+
+        $sharedEventManager->attach(
+            '*',
+            'api.delete.post',
+            [$this, 'deleteFulltext']
         );
 
         $sharedEventManager->attach(
@@ -507,5 +519,32 @@ class Module extends AbstractModule
         $search->setTitle($adapter->getFulltextTitle($resource));
         $search->setText($adapter->getFulltextText($resource));
         $em->flush($search);
+    }
+
+    /**
+     * Delete the fulltext of an API resource.
+     *
+     * @param ZendEvent $event
+     */
+    public function deleteFulltext(ZendEvent $event)
+    {
+        $adapter = $event->getTarget();
+        if (!($adapter instanceof FulltextSearchableInterface)) {
+            return;
+        }
+        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $request = $event->getParam('request');
+        $resource = $event->getParam('response')->getContent();
+        // Note that the resource may not have an ID after being deleted.
+        $searchId = $request->getId();
+        $searchResource = get_class($resource);
+        $search = $em->find(
+            'Omeka\Entity\FulltextSearch',
+            ['id' => $searchId, 'resource' => $searchResource]
+        );
+        if ($search) {
+            $em->remove($search);
+            $em->flush($search);
+        }
     }
 }

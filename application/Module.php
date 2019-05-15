@@ -494,11 +494,14 @@ class Module extends AbstractModule
         }
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $resource = $event->getParam('response')->getContent();
-        $id = $resource->getId();
-        $type = get_class($resource);
-        $search = $em->find('Omeka\Entity\FulltextSearch', ['id' => $id, 'type' => $type]);
+        $searchId = $resource->getId();
+        $searchResource = get_class($resource);
+        $search = $em->find(
+            'Omeka\Entity\FulltextSearch',
+            ['id' => $searchId, 'resource' => $searchResource]
+        );
         if (!$search) {
-            $search = new FulltextSearch($id, $type);
+            $search = new FulltextSearch($searchId, $searchResource);
             $em->persist($search);
         }
         $search->setTitle($adapter->getFulltextTitle($resource));

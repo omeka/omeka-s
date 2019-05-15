@@ -25,10 +25,10 @@ CREATE TABLE `asset` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `fulltext_search` (
   `id` int(11) NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `resource` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` longtext COLLATE utf8mb4_unicode_ci,
   `text` longtext COLLATE utf8mb4_unicode_ci,
-  PRIMARY KEY (`id`,`type`),
+  PRIMARY KEY (`id`,`resource`),
   FULLTEXT KEY `IDX_AA31FE4A2B36786B3B8BA7C7` (`title`,`text`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `item` (

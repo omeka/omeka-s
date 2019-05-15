@@ -64,10 +64,10 @@ class FulltextSearch extends \Omeka\Entity\FulltextSearch implements \Doctrine\O
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'type', 'title', 'text'];
+            return ['__isInitialized__', 'id', 'resource', 'title', 'text'];
         }
 
-        return ['__isInitialized__', 'id', 'type', 'title', 'text'];
+        return ['__isInitialized__', 'id', 'resource', 'title', 'text'];
     }
 
     /**
@@ -191,16 +191,16 @@ class FulltextSearch extends \Omeka\Entity\FulltextSearch implements \Doctrine\O
     /**
      * {@inheritDoc}
      */
-    public function getType()
+    public function getResource()
     {
         if ($this->__isInitialized__ === false) {
-            return  parent::getType();
+            return  parent::getResource();
         }
 
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getType', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResource', []);
 
-        return parent::getType();
+        return parent::getResource();
     }
 
     /**

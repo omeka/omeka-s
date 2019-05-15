@@ -21,7 +21,7 @@ class FulltextSearch
      * @Id
      * @Column
      */
-    protected $type;
+    protected $resource;
 
     /**
      * @Column(type="text", nullable=true)
@@ -35,12 +35,12 @@ class FulltextSearch
 
     /**
      * @param int $id
-     * @param string $type
+     * @param string $resource
      */
-    public function __construct($id, $type)
+    public function __construct($id, $resource)
     {
         $this->id = $id;
-        $this->type = $type;
+        $this->resource = $resource;
     }
 
     public function getId()
@@ -48,9 +48,9 @@ class FulltextSearch
         return $this->id;
     }
 
-    public function getType()
+    public function getResource()
     {
-        return $this->type;
+        return $this->resource;
     }
 
     public function setTitle($title)

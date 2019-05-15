@@ -15,7 +15,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '1.4.1-alpha6';
+    const VERSION = '1.4.1-alpha7';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -516,6 +516,8 @@ class Module extends AbstractModule
             $search = new FulltextSearch($searchId, $searchResource);
             $em->persist($search);
         }
+        $search->setOwner($adapter->getFulltextOwner($resource));
+        $search->setIsPublic($adapter->getFulltextIsPublic($resource));
         $search->setTitle($adapter->getFulltextTitle($resource));
         $search->setText($adapter->getFulltextText($resource));
         $em->flush($search);

@@ -260,6 +260,16 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
         return true;
     }
 
+    public function getFulltextOwner($resource)
+    {
+        return $resource->getSite()->getOwner();
+    }
+
+    public function getFulltextIsPublic($resource)
+    {
+        return $resource->getSite()->isPublic();
+    }
+
     public function getFulltextTitle($resource)
     {
         return $resource->getTitle();

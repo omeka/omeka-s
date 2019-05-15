@@ -437,6 +437,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         return $data;
     }
 
+    public function getFulltextOwner($resource)
+    {
+        return $resource->getOwner();
+    }
+
+    public function getFulltextIsPublic($resource)
+    {
+        return $resource->isPublic();
+    }
+
     public function getFulltextTitle($resource)
     {
         return $resource->getTitle();

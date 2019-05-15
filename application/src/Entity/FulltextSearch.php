@@ -24,6 +24,17 @@ class FulltextSearch
     protected $resource;
 
     /**
+     * @ManyToOne(targetEntity="User")
+     * @JoinColumn(onDelete="SET NULL")
+     */
+    protected $owner;
+
+    /**
+     * @Column(type="boolean")
+     */
+    protected $isPublic = true;
+
+    /**
      * @Column(type="text", nullable=true)
      */
     protected $title;
@@ -51,6 +62,26 @@ class FulltextSearch
     public function getResource()
     {
         return $this->resource;
+    }
+
+    public function setOwner(User $owner = null)
+    {
+        $this->owner = $owner;
+    }
+
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = (bool) $isPublic;
+    }
+
+    public function getIsPublic()
+    {
+        return (bool) $this->isPublic;
     }
 
     public function setTitle($title)

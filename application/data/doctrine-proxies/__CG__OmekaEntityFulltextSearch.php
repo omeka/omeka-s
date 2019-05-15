@@ -64,10 +64,10 @@ class FulltextSearch extends \Omeka\Entity\FulltextSearch implements \Doctrine\O
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'resource', 'title', 'text'];
+            return ['__isInitialized__', 'id', 'resource', 'owner', 'isPublic', 'title', 'text'];
         }
 
-        return ['__isInitialized__', 'id', 'resource', 'title', 'text'];
+        return ['__isInitialized__', 'id', 'resource', 'owner', 'isPublic', 'title', 'text'];
     }
 
     /**
@@ -201,6 +201,50 @@ class FulltextSearch extends \Omeka\Entity\FulltextSearch implements \Doctrine\O
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResource', []);
 
         return parent::getResource();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOwner(\Omeka\Entity\User $owner = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
+
+        return parent::setOwner($owner);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOwner()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', []);
+
+        return parent::getOwner();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsPublic($isPublic)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', [$isPublic]);
+
+        return parent::setIsPublic($isPublic);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIsPublic()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIsPublic', []);
+
+        return parent::getIsPublic();
     }
 
     /**

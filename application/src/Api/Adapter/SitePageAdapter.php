@@ -273,6 +273,6 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             $layout = $layouts->get($block->getLayout());
             $text[] = $layout->getFulltextText($block);
         }
-        return implode(PHP_EOL, $text);
+        return implode("\n", $text);
     }
 }

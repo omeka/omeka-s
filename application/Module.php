@@ -1,7 +1,7 @@
 <?php
 namespace Omeka;
 
-use Omeka\Api\Adapter\FulltextSearchInterface;
+use Omeka\Api\Adapter\FulltextSearchableInterface;
 use Omeka\Entity\FulltextSearch;
 use Omeka\Module\AbstractModule;
 use Zend\EventManager\Event as ZendEvent;
@@ -489,7 +489,7 @@ class Module extends AbstractModule
     public function saveFulltext(ZendEvent $event)
     {
         $adapter = $event->getTarget();
-        if (!($adapter instanceof FulltextSearchInterface)) {
+        if (!($adapter instanceof FulltextSearchableInterface)) {
             return;
         }
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');

@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
-interface FulltextSearchInterface
+interface FulltextSearchableInterface
 {
     /**
      * Get the title of the passed resource.

@@ -10,7 +10,7 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
 
-class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchInterface
+class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchableInterface
 {
     use SiteSlugTrait;
 

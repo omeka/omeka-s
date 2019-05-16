@@ -103,20 +103,22 @@ class UserBar extends AbstractHelper
 
         $routeParams = $params->fromRoute();
         if ($controller === 'page') {
-            $links[] = [
-                'resource' => $controller,
-                'action' => 'browse',
-                'text' => $translate($mapPluralLabels[$controller]),
-                'url' => $url('admin/site/slug/action', ['site-slug' => $site->slug(), 'action' => 'page']),
-            ];
-            $page = $view->api()->read('site_pages', ['site' => $site->id(), 'slug' => $routeParams['page-slug']])->getContent();
-            if ($page->userIsAllowed('edit')) {
+            if ($routeParams['action'] === 'show') {
                 $links[] = [
                     'resource' => $controller,
-                    'action' => 'edit',
-                    'text' => $translate('Edit'),
-                    'url' => $page->adminUrl('edit'),
+                    'action' => 'browse',
+                    'text' => $translate($mapPluralLabels[$controller]),
+                    'url' => $url('admin/site/slug/action', ['site-slug' => $site->slug(), 'action' => 'page']),
                 ];
+                $page = $view->api()->read('site_pages', ['site' => $site->id(), 'slug' => $routeParams['page-slug']])->getContent();
+                if ($page->userIsAllowed('edit')) {
+                    $links[] = [
+                        'resource' => $controller,
+                        'action' => 'edit',
+                        'text' => $translate('Edit'),
+                        'url' => $page->adminUrl('edit'),
+                    ];
+                }
             }
         } else {
             $action = $params->fromRoute('action');

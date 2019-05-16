@@ -69,6 +69,16 @@ return [
                             ],
                         ],
                     ],
+                    'page-search' => [
+                        'type' => \Zend\Router\Http\Literal::class,
+                        'options' => [
+                            'route' => '/page',
+                            'defaults' => [
+                                'controller' => 'Page',
+                                'action' => 'search',
+                            ],
+                        ],
+                    ],
                     'page' => [
                         'type' => \Zend\Router\Http\Segment::class,
                         'options' => [

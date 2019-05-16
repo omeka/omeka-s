@@ -570,7 +570,7 @@ class Module extends AbstractModule
             return;
         }
         $query = $event->getParam('request')->getContent();
-        if (!isset($query['fulltext'])) {
+        if (!isset($query['fulltext_search']) || ('' === trim($query['fulltext_search']))) {
             return;
         }
         $qb = $event->getParam('queryBuilder');
@@ -583,7 +583,7 @@ class Module extends AbstractModule
             'MATCH(%s.title, %s.text) AGAINST (%s)',
             $searchAlias,
             $searchAlias,
-            $adapter->createNamedParameter($qb, $query['fulltext'])
+            $adapter->createNamedParameter($qb, $query['fulltext_search'])
         );
         $joinConditions = sprintf(
             '%s.id = %s.id AND %s.resource = %s',

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Exception\NotFoundException;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
@@ -33,6 +34,21 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
     public function getEntityClass()
     {
         return \Omeka\Entity\SitePage::class;
+    }
+
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        if (isset($query['site_id']) && is_numeric($query['site_id'])) {
+            $siteAlias = $this->createAlias();
+            $qb->innerJoin(
+                $this->getEntityClass() . '.site',
+                $siteAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$siteAlias.id",
+                $this->createNamedParameter($qb, $query['site_id']))
+            );
+        }
     }
 
     public function hydrate(Request $request, EntityInterface $entity,

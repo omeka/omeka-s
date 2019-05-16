@@ -118,6 +118,12 @@ class Module extends AbstractModule
 
         $sharedEventManager->attach(
             '*',
+            'api.search.query',
+            [$this, 'searchFulltext']
+        );
+
+        $sharedEventManager->attach(
+            '*',
             'sql_filter.resource_visibility',
             function (ZendEvent $event) {
                 // Users can view block attachments only if they have permission
@@ -548,5 +554,52 @@ class Module extends AbstractModule
             $em->remove($search);
             $em->flush($search);
         }
+    }
+
+    /**
+     * Search the fulltext of an API resource.
+     *
+     * Note that this only works for entity resources.
+     *
+     * @param ZendEvent $event
+     */
+    public function searchFulltext(ZendEvent $event)
+    {
+        $adapter = $event->getTarget();
+        if (!($adapter instanceof FulltextSearchableInterface)) {
+            return;
+        }
+        $query = $event->getParam('request')->getContent();
+        if (!isset($query['fulltext'])) {
+            return;
+        }
+        $qb = $event->getParam('queryBuilder');
+
+        $entityAlias = $adapter->getEntityClass();
+        $searchAlias = $adapter->createAlias();
+        $matchAlias = $adapter->createAlias();
+
+        $match = sprintf(
+            'MATCH(%s.title, %s.text) AGAINST (%s)',
+            $searchAlias,
+            $searchAlias,
+            $adapter->createNamedParameter($qb, $query['fulltext'])
+        );
+        $joinConditions = sprintf(
+            '%s.id = %s.id AND %s.resource = %s',
+            $searchAlias,
+            $entityAlias,
+            $searchAlias,
+            $adapter->createNamedParameter($qb, $adapter->getEntityClass())
+        );
+
+        $qb->addSelect(sprintf('%s AS %s', $match, $matchAlias))
+            ->innerJoin('Omeka\Entity\FulltextSearch', $searchAlias, 'WITH', $joinConditions)
+            // Filter out resources with no similarity.
+            ->andWhere(sprintf('%s > 0', $match))
+            // Order by the relevance. Note the use of orderBy() and not
+            // addOrderBy(). This should ensure that ordering by relevance
+            // is the first thing being ordered.
+            ->orderBy($matchAlias, 'DESC');
     }
 }

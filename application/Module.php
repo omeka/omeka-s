@@ -590,7 +590,7 @@ class Module extends AbstractModule
             $searchAlias,
             $entityAlias,
             $searchAlias,
-            $adapter->createNamedParameter($qb, $adapter->getEntityClass())
+            $adapter->createNamedParameter($qb, $adapter->getResourceName())
         );
 
         $qb->addSelect(sprintf('%s AS %s', $match, $matchAlias))

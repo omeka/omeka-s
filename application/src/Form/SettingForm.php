@@ -251,6 +251,18 @@ class SettingForm extends Form
             ],
         ]);
 
+        $generalFieldset->add([
+            'name' => 'index_fulltext_search',
+            'type' => 'Checkbox',
+            'options' => [
+              'label' => 'Index full-text search', // @translate
+            ],
+            'attributes' => [
+                'value' => '',
+                'id' => 'index_fulltext_search',
+            ],
+        ]);
+
         // Security fieldset
 
         $this->add([

@@ -601,5 +601,23 @@ class Module extends AbstractModule
             // addOrderBy(). This should ensure that ordering by relevance
             // is the first thing being ordered.
             ->orderBy($matchAlias, 'DESC');
+
+        // Set visibility constraints.
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
+            // Users with the "view-all" privilege can view all resources.
+            return;
+        }
+        // Users can view public resources they do not own.
+        $constraints = $qb->expr()->eq(sprintf('%s.isPublic', $searchAlias), true);
+        $identity = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
+        if ($identity) {
+            // Users can view all resources they own.
+            $constraints = $qb->expr()->orX(
+                $constraints,
+                $qb->expr()->eq(sprintf('%s.owner', $searchAlias), $identity->getId())
+            );
+        }
+        $qb->andWhere($constraints);
     }
 }

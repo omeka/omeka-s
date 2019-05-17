@@ -513,7 +513,7 @@ class Module extends AbstractModule
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $resource = $event->getParam('response')->getContent();
         $searchId = $resource->getId();
-        $searchResource = get_class($resource);
+        $searchResource = $adapter->getResourceName();
         $search = $em->find(
             'Omeka\Entity\FulltextSearch',
             ['id' => $searchId, 'resource' => $searchResource]
@@ -545,7 +545,7 @@ class Module extends AbstractModule
         $resource = $event->getParam('response')->getContent();
         // Note that the resource may not have an ID after being deleted.
         $searchId = $request->getId();
-        $searchResource = get_class($resource);
+        $searchResource = $adapter->getResourceName();
         $search = $em->find(
             'Omeka\Entity\FulltextSearch',
             ['id' => $searchId, 'resource' => $searchResource]

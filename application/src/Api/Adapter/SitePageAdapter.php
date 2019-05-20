@@ -299,6 +299,10 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             $layout = $layouts->get($block->getLayout());
             $text[] = $layout->getFulltextText($block);
             foreach ($block->getAttachments() as $attachment) {
+                $item = $attachment->getItem();
+                if ($item) {
+                    $text[] = $item->getTitle();
+                }
                 $text[] = strip_tags($attachment->getCaption());
             }
         }

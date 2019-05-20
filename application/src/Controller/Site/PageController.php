@@ -6,7 +6,7 @@ use Zend\View\Model\ViewModel;
 
 class PageController extends AbstractActionController
 {
-    public function searchAction()
+    public function browseAction()
     {
         $this->setBrowseDefaults('created');
         $query = $this->params()->fromQuery();

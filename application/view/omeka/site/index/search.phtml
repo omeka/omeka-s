@@ -9,8 +9,8 @@
     <?php echo $this->hyperlink(
         $this->translate('View all results'),
         $this->url(
-            'site/page-search',
-            ['controller' => 'index', 'action' => 'search'],
+            'site/page-browse',
+            ['controller' => 'page', 'action' => 'browse'],
             ['query' => ['fulltext_search' => $this->params()->fromQuery('fulltext_search')]],
             true
         )

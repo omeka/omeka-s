@@ -69,13 +69,13 @@ return [
                             ],
                         ],
                     ],
-                    'page-search' => [
+                    'page-browse' => [
                         'type' => \Zend\Router\Http\Literal::class,
                         'options' => [
                             'route' => '/page',
                             'defaults' => [
                                 'controller' => 'Page',
-                                'action' => 'search',
+                                'action' => 'browse',
                             ],
                         ],
                     ],

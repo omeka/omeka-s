@@ -34,7 +34,7 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
-    public function browseAction()
+    public function searchAction()
     {
         $query = [
             'fulltext_search' => $this->params()->fromQuery('fulltext_search'),

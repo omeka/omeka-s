@@ -15,7 +15,12 @@ class IndexFulltextSearch extends AbstractJob
             if ($adapter instanceof FulltextSearchableInterface) {
                 // Run Module::saveFulltext() on every resource of this type.
                 $response = $api->search($adapter->getResourceName(), [], ['returnScalar' => 'id']);
-                $api->batchUpdate($adapter->getResourceName(), $response->getContent(), []);
+                foreach (array_chunk($response->getContent(), 100) as $idsChunk) {
+                    if ($this->shouldStop()) {
+                        return;
+                    }
+                    $api->batchUpdate($adapter->getResourceName(), $idsChunk, []);
+                }
             }
         }
     }

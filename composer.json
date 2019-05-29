@@ -6,7 +6,6 @@
     "require": {
         "php": ">=7.1",
         "doctrine/orm": "^2.6",
-        "doctrine/common": "2.8.0",
         "easyrdf/easyrdf": "~0.9",
         "ml/json-ld": "^1.1",
         "ezyang/htmlpurifier": "^4.8",

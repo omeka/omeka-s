@@ -152,7 +152,7 @@ class VocabularyAdapter extends AbstractEntityAdapter
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $this->createAlias();
             $qb->innerJoin(
-                'Omeka\Entity\Vocabulary.owner',
+                'omeka_root.owner',
                 $userAlias
             );
             $qb->andWhere($qb->expr()->eq(
@@ -162,13 +162,13 @@ class VocabularyAdapter extends AbstractEntityAdapter
         }
         if (isset($query['namespace_uri'])) {
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Entity\Vocabulary.namespaceUri",
+                "omeka_root.namespaceUri",
                 $this->createNamedParameter($qb, $query['namespace_uri']))
             );
         }
         if (isset($query['prefix'])) {
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Entity\Vocabulary.prefix",
+                "omeka_root.prefix",
                 $this->createNamedParameter($qb, $query['prefix']))
             );
         }

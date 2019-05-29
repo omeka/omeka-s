@@ -40,7 +40,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
             if (!$acl->userIsAllowed('Omeka\Entity\ItemSet', 'view-all')) {
                 $expr = $qb->expr()->eq(
-                    'Omeka\Entity\ItemSet.isOpen',
+                    'omeka_root.isOpen',
                     $qb->expr()->literal(true)
                 );
                 $identity = $this->getServiceLocator()
@@ -49,7 +49,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
                     $expr = $qb->expr()->orX(
                         $expr,
                         $qb->expr()->eq(
-                            'Omeka\Entity\ItemSet.owner',
+                            'omeka_root.owner',
                             $this->createNamedParameter($qb, $identity->getId())
                         )
                     );
@@ -70,7 +70,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
             }
             $siteItemSetsAlias = $this->createAlias();
             $qb->innerJoin(
-                'Omeka\Entity\ItemSet.siteItemSets',
+                'omeka_root.siteItemSets',
                 $siteItemSetsAlias
             );
             $qb->andWhere($qb->expr()->eq(

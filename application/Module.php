@@ -362,13 +362,13 @@ class Module extends AbstractModule
             ->get('Omeka\AuthenticationService')->getIdentity();
         if ($identity) {
             $sitePermissionAlias = $adapter->createAlias();
-            $qb->leftJoin('Omeka\Entity\Site.sitePermissions', $sitePermissionAlias);
+            $qb->leftJoin('omeka_root.sitePermissions', $sitePermissionAlias);
 
             $expression = $qb->expr()->orX(
                 $expression,
                 // Users can view all sites they own.
                 $qb->expr()->eq(
-                    "Omeka\Entity\Site.owner",
+                    'omeka_root.owner',
                     $adapter->createNamedParameter($qb, $identity)
                 ),
                 // Users can view sites where they have a role (any role).

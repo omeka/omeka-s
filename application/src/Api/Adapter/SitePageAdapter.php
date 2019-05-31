@@ -41,7 +41,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
             $siteAlias = $this->createAlias();
             $qb->innerJoin(
-                $this->getEntityClass() . '.site',
+                'omeka_root.site',
                 $siteAlias
             );
             $qb->andWhere($qb->expr()->eq(

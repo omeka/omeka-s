@@ -575,7 +575,6 @@ class Module extends AbstractModule
         }
         $qb = $event->getParam('queryBuilder');
 
-        $entityAlias = $adapter->getEntityClass();
         $searchAlias = $adapter->createAlias();
         $matchAlias = $adapter->createAlias();
 
@@ -586,9 +585,8 @@ class Module extends AbstractModule
             $adapter->createNamedParameter($qb, $query['fulltext_search'])
         );
         $joinConditions = sprintf(
-            '%s.id = %s.id AND %s.resource = %s',
+            '%s.id = omeka_root.id AND %s.resource = %s',
             $searchAlias,
-            $entityAlias,
             $searchAlias,
             $adapter->createNamedParameter($qb, $adapter->getResourceName())
         );

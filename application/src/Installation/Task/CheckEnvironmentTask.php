@@ -8,7 +8,7 @@ use Omeka\Installation\Installer;
  */
 class CheckEnvironmentTask implements TaskInterface
 {
-    const PHP_MINIMUM_VERSION = '5.6';
+    const PHP_MINIMUM_VERSION = '7.1';
 
     public static $requiredExtensions = [
         'fileinfo',

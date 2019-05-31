@@ -346,7 +346,7 @@ class Module extends AbstractModule
         $adapter = $event->getTarget();
         $itemAlias = $adapter->createAlias();
         $qb = $event->getParam('queryBuilder');
-        $qb->innerJoin('Omeka\Entity\Media.item', $itemAlias);
+        $qb->innerJoin('omeka_root.item', $itemAlias);
 
         // Users can view media they do not own that belong to public items.
         $expression = $qb->expr()->eq("$itemAlias.isPublic", true);
@@ -382,19 +382,19 @@ class Module extends AbstractModule
         $qb = $event->getParam('queryBuilder');
 
         // Users can view sites they do not own that are public.
-        $expression = $qb->expr()->eq("Omeka\Entity\Site.isPublic", true);
+        $expression = $qb->expr()->eq("omeka_root.isPublic", true);
 
         $identity = $this->getServiceLocator()
             ->get('Omeka\AuthenticationService')->getIdentity();
         if ($identity) {
             $sitePermissionAlias = $adapter->createAlias();
-            $qb->leftJoin('Omeka\Entity\Site.sitePermissions', $sitePermissionAlias);
+            $qb->leftJoin('omeka_root.sitePermissions', $sitePermissionAlias);
 
             $expression = $qb->expr()->orX(
                 $expression,
                 // Users can view all sites they own.
                 $qb->expr()->eq(
-                    "Omeka\Entity\Site.owner",
+                    'omeka_root.owner',
                     $adapter->createNamedParameter($qb, $identity)
                 ),
                 // Users can view sites where they have a role (any role).

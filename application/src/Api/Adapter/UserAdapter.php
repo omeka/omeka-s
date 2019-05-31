@@ -73,28 +73,28 @@ class UserAdapter extends AbstractEntityAdapter
     {
         if (!empty($query['email'])) {
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Entity\User.email",
+                "omeka_root.email",
                 $this->createNamedParameter($qb, $query['email']))
             );
         }
 
         if (!empty($query['name'])) {
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Entity\User.name",
+                "omeka_root.name",
                 $this->createNamedParameter($qb, $query['name']))
             );
         }
 
         if (!empty($query['role'])) {
             $qb->andWhere($qb->expr()->eq(
-                'Omeka\Entity\User.role',
+                'omeka_root.role',
                 $this->createNamedParameter($qb, $query['role']))
             );
         }
 
         if (isset($query['is_active']) && is_numeric($query['is_active'])) {
             $qb->andWhere($qb->expr()->eq(
-                'Omeka\Entity\User.isActive',
+                'omeka_root.isActive',
                 $this->createNamedParameter($qb, (bool) $query['is_active']))
             );
         }
@@ -105,7 +105,7 @@ class UserAdapter extends AbstractEntityAdapter
                 'Omeka\Entity\SitePermission',
                 $sitePermissionAlias,
                 'WITH',
-                $sitePermissionAlias . '.user = ' . $this->getEntityClass()
+                $sitePermissionAlias . '.user = omeka_root'
             );
             $qb->andWhere($qb->expr()->eq(
                 "$sitePermissionAlias.site",

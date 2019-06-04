@@ -230,7 +230,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     $subquery = $this->getEntityManager()
                         ->createQueryBuilder()
                         ->select("$subqueryAlias.id")
-                        ->from('Omeka\Entity\Item', $subqueryAlias)
+                        ->from('Omeka\Entity\Resource', $subqueryAlias)
                         ->where($qb->expr()->eq("$subqueryAlias.title", $param));
                     $predicateExpr = $qb->expr()->orX(
                         $qb->expr()->in("$valuesAlias.valueResource", $subquery->getDQL()),
@@ -246,7 +246,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
                     $subquery = $this->getEntityManager()
                         ->createQueryBuilder()
                         ->select("$subqueryAlias.id")
-                        ->from('Omeka\Entity\Item', $subqueryAlias)
+                        ->from('Omeka\Entity\Resource', $subqueryAlias)
                         ->where($qb->expr()->like("$subqueryAlias.title", $param));
                     $predicateExpr = $qb->expr()->orX(
                         $qb->expr()->in("$valuesAlias.valueResource", $subquery->getDQL()),

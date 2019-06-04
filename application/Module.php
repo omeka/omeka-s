@@ -2,7 +2,6 @@
 namespace Omeka;
 
 use Omeka\Api\Adapter\FulltextSearchableInterface;
-use Omeka\Entity\FulltextSearch;
 use Omeka\Module\AbstractModule;
 use Zend\EventManager\Event as ZendEvent;
 use Zend\EventManager\SharedEventManagerInterface;
@@ -506,27 +505,11 @@ class Module extends AbstractModule
      */
     public function saveFulltext(ZendEvent $event)
     {
-        $adapter = $event->getTarget();
-        if (!($adapter instanceof FulltextSearchableInterface)) {
-            return;
-        }
-        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $resource = $event->getParam('response')->getContent();
-        $searchId = $resource->getId();
-        $searchResource = $adapter->getResourceName();
-        $search = $em->find(
-            'Omeka\Entity\FulltextSearch',
-            ['id' => $searchId, 'resource' => $searchResource]
+        $fulltext = $this->getServiceLocator()->get('Omeka\FulltextSearch');
+        $fulltext->save(
+            $event->getParam('response')->getContent(),
+            $event->getTarget()
         );
-        if (!$search) {
-            $search = new FulltextSearch($searchId, $searchResource);
-            $em->persist($search);
-        }
-        $search->setOwner($adapter->getFulltextOwner($resource));
-        $search->setIsPublic($adapter->getFulltextIsPublic($resource));
-        $search->setTitle($adapter->getFulltextTitle($resource));
-        $search->setText($adapter->getFulltextText($resource));
-        $em->flush($search);
     }
 
     /**
@@ -536,24 +519,12 @@ class Module extends AbstractModule
      */
     public function deleteFulltext(ZendEvent $event)
     {
-        $adapter = $event->getTarget();
-        if (!($adapter instanceof FulltextSearchableInterface)) {
-            return;
-        }
-        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $request = $event->getParam('request');
-        $resource = $event->getParam('response')->getContent();
-        // Note that the resource may not have an ID after being deleted.
-        $searchId = $request->getId();
-        $searchResource = $adapter->getResourceName();
-        $search = $em->find(
-            'Omeka\Entity\FulltextSearch',
-            ['id' => $searchId, 'resource' => $searchResource]
+        $fulltext = $this->getServiceLocator()->get('Omeka\FulltextSearch');
+        $fulltext->delete(
+            // Note that the resource may not have an ID after being deleted.
+            $event->getParam('request')->getId(),
+            $event->getTarget()
         );
-        if ($search) {
-            $em->remove($search);
-            $em->flush($search);
-        }
     }
 
     /**

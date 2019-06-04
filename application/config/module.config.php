@@ -276,6 +276,7 @@ return [
             'Omeka\Media\Ingester\Manager' => Service\Media\Ingester\ManagerFactory::class,
             'Omeka\Media\Renderer\Manager' => Service\Media\Renderer\ManagerFactory::class,
             'Omeka\Media\FileRenderer\Manager' => Service\Media\FileRenderer\ManagerFactory::class,
+            'Omeka\FulltextSearch' => Service\FulltextSearchFactory::class,
         ],
         'invokables' => [
             'ModuleRouteListener' => \Zend\Mvc\ModuleRouteListener::class,

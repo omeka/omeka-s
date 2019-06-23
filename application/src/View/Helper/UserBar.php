@@ -143,19 +143,18 @@ class UserBar extends AbstractHelper
                 $mapResourceNames = ['item' => 'items', 'item-set' => 'item_sets', 'media' => 'media'];
                 $resourceName = $mapResourceNames[$controller];
                 $resource = $view->api()->read($resourceName, $id)->getContent();
+                $links[] = [
+                    'resource' => $controller,
+                    'action' => 'show',
+                    'text' => $translate('View'),
+                    'url' => $resource->adminUrl(),
+                ];
                 if ($resource->userIsAllowed('edit')) {
                     $links[] = [
                         'resource' => $controller,
                         'action' => 'edit',
                         'text' => $translate('Edit'),
                         'url' => $resource->adminUrl('edit'),
-                    ];
-                } else {
-                    $links[] = [
-                        'resource' => $controller,
-                        'action' => 'show',
-                        'text' => $translate('View'),
-                        'url' => $resource->adminUrl(),
                     ];
                 }
             }

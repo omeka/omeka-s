@@ -1,5 +1,11 @@
 <?php
 $translate = $this->plugin('translate');
+$resourceClassSelect = $this->plugin('resourceClassSelect');
+$siteSetting = $this->plugin('siteSetting');
+
+$isSiteRequest = $this->status()->isSiteRequest();
+$usedTerms = $isSiteRequest ? $siteSetting('search_used_terms') : false;
+
 // Prepare the resource class query.
 $ids = isset($query['resource_class_id']) ? $query['resource_class_id'] : [];
 if (!is_array($ids)) {
@@ -22,11 +28,14 @@ if (!$ids) {
     <div class="inputs">
         <?php foreach ($ids as $id): ?>
         <div class="value">
-            <?php echo $this->resourceClassSelect([
+            <?php echo $resourceClassSelect([
                 'name' => 'resource_class_id[]',
                 'attributes' => [
                     'value' => $id,
-                    'aria-labelledby' =>  'by-resource-class-label'
+                    'aria-labelledby' => 'by-resource-class-label',
+                ],
+                'options' => [
+                    'used_terms' => $usedTerms,
                 ],
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>

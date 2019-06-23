@@ -62,13 +62,14 @@ class ResourceClassAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        $expr = $qb->expr();
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $this->createAlias();
             $qb->innerJoin(
                 'omeka_root.owner',
                 $userAlias
             );
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 "$userAlias.id",
                 $this->createNamedParameter($qb, $query['owner_id']))
             );
@@ -79,7 +80,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                 'omeka_root.vocabulary',
                 $vocabularyAlias
             );
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 "$vocabularyAlias.id",
                 $this->createNamedParameter($qb, $query['vocabulary_id']))
             );
@@ -90,7 +91,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                 'omeka_root.vocabulary',
                 $vocabularyAlias
             );
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 "$vocabularyAlias.namespaceUri",
                 $this->createNamedParameter($qb, $query['vocabulary_namespace_uri']))
             );
@@ -101,14 +102,14 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                 'omeka_root.vocabulary',
                 $vocabularyAlias
             );
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 "$vocabularyAlias.prefix",
                 $this->createNamedParameter($qb, $query['vocabulary_prefix']))
             );
         }
         if (isset($query['local_name'])) {
-            $qb->andWhere($qb->expr()->eq(
-                "omeka_root.localName",
+            $qb->andWhere($expr->eq(
+                'omeka_root.localName',
                 $this->createNamedParameter($qb, $query['local_name']))
             );
         }
@@ -119,12 +120,12 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                 'omeka_root.vocabulary',
                 $vocabularyAlias
             );
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 "$vocabularyAlias.prefix",
                 $this->createNamedParameter($qb, $prefix))
             );
-            $qb->andWhere($qb->expr()->eq(
-                "omeka_root.localName",
+            $qb->andWhere($expr->eq(
+                'omeka_root.localName',
                 $this->createNamedParameter($qb, $localName))
             );
         }

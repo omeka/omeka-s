@@ -57,6 +57,10 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
         if (!isset($query['sort_by'])) {
             $query['sort_by'] = 'label';
         }
+        if ($this->getOption('used_terms')) {
+            $query['used'] = true;
+        }
+
         // Allow handlers to filter the query.
         $args = $events->prepareArgs(['query' => $query]);
         $events->trigger('form.vocab_member_select.query', $this, $args);

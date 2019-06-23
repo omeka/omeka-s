@@ -297,6 +297,17 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $searchFieldset->add([
+            'type' => \Laminas\Form\Element\Checkbox::class,
+            'name' => 'search_used_terms',
+            'options' => [
+                'label' => 'List only used properties and resources classes', // @translate
+                'info' => 'Restrict the list of properties and resources classes to the used ones in advanced search form (for properties, when option "templates" is not used).', // @translate
+            ],
+            'attributes' => [
+                'value' => $settings->get('search_used_terms', false),
+            ],
+        ]);
+        $searchFieldset->add([
             'type' => 'Omeka\Form\Element\ResourceTemplateSelect',
             'name' => 'search_apply_templates',
             'options' => [

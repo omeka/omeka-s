@@ -307,6 +307,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
 
+        $originalIdentityMap = $this->getEntityManager()->getUnitOfWork()->getIdentityMap();
+
         $subresponses = [];
         $subrequestOptions = [
             'flushEntityManager' => false, // Flush once, after persisting all entities
@@ -324,9 +326,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     continue;
                 }
                 // Detatch previously persisted entities before re-throwing.
-                foreach ($subresponses as $subresponse) {
-                    $this->getEntityManager()->detach($subresponse->getContent());
-                }
+                $this->detachAllNewEntities($originalIdentityMap);
                 throw $e;
             }
             $subresponses[$key] = $subresponse;
@@ -340,9 +340,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         foreach ($subresponses as $key => $subresponse) {
             $apiManager->finalize($this, $subresponse->getRequest(), $subresponse);
             $entity = $subresponse->getContent();
-            $this->getEntityManager()->detach($entity);
             $entities[$key] = $entity;
         }
+
+        $this->detachAllNewEntities($originalIdentityMap);
 
         $request->setOption('responseContent', 'reference');
         return new Response($entities);
@@ -377,6 +378,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
 
+        $originalIdentityMap = $this->getEntityManager()->getUnitOfWork()->getIdentityMap();
+
         $subresponses = [];
         $subrequestOptions = [
             'isPartial' => true, // Batch updates are always partial updates
@@ -396,9 +399,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     continue;
                 }
                 // Detatch managed entities before re-throwing.
-                foreach ($subresponses as $subresponse) {
-                    $this->getEntityManager()->detach($subresponse->getContent());
-                }
+                $this->detachAllNewEntities($originalIdentityMap);
                 throw $e;
             }
             $subresponses[$key] = $subresponse;
@@ -412,9 +413,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         foreach ($subresponses as $key => $subresponse) {
             $apiManager->finalize($this, $subresponse->getRequest(), $subresponse);
             $entity = $subresponse->getContent();
-            $this->getEntityManager()->detach($entity);
             $entities[$key] = $entity;
         }
+        $this->detachAllNewEntities($originalIdentityMap);
 
         $request->setOption('responseContent', 'reference');
         return new Response($entities);
@@ -434,6 +435,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $apiManager = $this->getServiceLocator()->get('Omeka\ApiManager');
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
 
+        $originalIdentityMap = $this->getEntityManager()->getUnitOfWork()->getIdentityMap();
+
         $subresponses = [];
         $subrequestOptions = [
             'flushEntityManager' => false, // Flush once, after removing all entities
@@ -451,9 +454,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     continue;
                 }
                 // Detatch managed entities before re-throwing.
-                foreach ($subresponses as $subresponse) {
-                    $this->getEntityManager()->detach($subresponse->getContent());
-                }
+                $this->detachAllNewEntities($originalIdentityMap);
                 throw $e;
             }
             $subresponses[$key] = $subresponse;
@@ -467,9 +468,10 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         foreach ($subresponses as $key => $subresponse) {
             $apiManager->finalize($this, $subresponse->getRequest(), $subresponse);
             $entity = $subresponse->getContent();
-            $this->getEntityManager()->detach($entity);
             $entities[$key] = $entity;
         }
+
+        $this->detachAllNewEntities($originalIdentityMap);
 
         $request->setOption('responseContent', 'reference');
         return new Response($entities);
@@ -853,5 +855,25 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         }
 
         $entity->setModified(new DateTime('now'));
+    }
+
+    /**
+     * Given an old copy of the Doctrine identity map, reset
+     * the entity manager to that state by detaching all entities that
+     * did not exist in the prior state.
+     *
+     * @param array $oldIdentityMap
+     */
+    protected function detachAllNewEntities(array $oldIdentityMap)
+    {
+        $entityManager = $this->getEntityManager();
+        $identityMap = $entityManager->getUnitOfWork()->getIdentityMap();
+        foreach ($identityMap as $entityClass => $entities) {
+            foreach ($entities as $idHash => $entity) {
+                if (!isset($oldIdentityMap[$identityClass][$idHash])) {
+                    $entityManager->detach($entity);
+                }
+            }
+        }
     }
 }

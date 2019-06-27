@@ -14,6 +14,8 @@ $templateLiteral = '
     <div class="inputs">
         ' . $selectProperty . '
         <textarea name="value[__INDEX__][value]"></textarea>
+        <label><input type="radio" name="value[__INDEX__][is_public]" value="1" checked> ' . $translate('Public') . '</label>
+        <label><input type="radio" name="value[__INDEX__][is_public]" value="0"> ' . $translate('Not public') . '</label><br>
         <input type="hidden" name="value[__INDEX__][type]" value="literal">
         <button type="button" class="remove-value">' . $translate('Remove') . '</button>
     </div>
@@ -26,6 +28,8 @@ $templateResource = '
     <div class="inputs">
         ' . $selectProperty . '
         <input type="text" name="value[__INDEX__][value_resource_id]" placeholder="' . $this->escapeHtml($translate('Resource ID')) . '">
+        <label><input type="radio" name="value[__INDEX__][is_public]" value="1" checked> ' . $translate('Public') . '</label>
+        <label><input type="radio" name="value[__INDEX__][is_public]" value="0"> ' . $translate('Not public') . '</label><br>
         <input type="hidden" name="value[__INDEX__][type]" value="resource">
         <button type="button" class="remove-value">' . $translate('Remove') . '</button>
     </div>
@@ -39,11 +43,30 @@ $templateUri = '
         ' . $selectProperty . '
         <input type="text" name="value[__INDEX__][id]" placeholder="' . $this->escapeHtml($translate('URI')) . '">
         <input type="text" name="value[__INDEX__][label]" placeholder="' . $this->escapeHtml($translate('Label')) . '">
+        <label><input type="radio" name="value[__INDEX__][is_public]" value="1" checked> ' . $translate('Public') . '</label>
+        <label><input type="radio" name="value[__INDEX__][is_public]" value="0"> ' . $translate('Not public') . '</label><br>
         <input type="hidden" name="value[__INDEX__][type]" value="uri">
         <button type="button" class="remove-value">' . $translate('Remove') . '</button>
     </div>
 </div>';
 ?>
+<div class="field">
+    <div class="field-meta">
+        <label>Set value visibility</label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->propertySelect([
+            'name' => 'set_value_visibility[property_id]',
+            'attributes' => [
+                'class' => 'chosen-select',
+                'multiple' => true,
+                'data-placeholder' => 'Select properties', // @translate
+            ],
+        ]); ?>
+        <label><input type="radio" name="set_value_visibility[is_public]" value="1"> <?php echo $translate('Public'); ?></label>
+        <label><input type="radio" name="set_value_visibility[is_public]" value="0"> <?php echo $translate('Not public'); ?></label>
+    </div>
+</div>
 <div id="values"
     data-template-literal="<?php echo $this->escapeHtml($templateLiteral); ?>"
     data-template-resource="<?php echo $this->escapeHtml($templateResource); ?>"

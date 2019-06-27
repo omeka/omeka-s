@@ -26,10 +26,6 @@ class AbstractEntityAdapterTest extends TestCase
             ->getMock();
     }
 
-    public function testSearch()
-    {
-    }
-
     public function testCreate()
     {
         /* ServiceManager **/

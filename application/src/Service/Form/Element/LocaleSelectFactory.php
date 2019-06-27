@@ -23,7 +23,13 @@ class LocaleSelectFactory implements FactoryInterface
                 $locales[$localeId] = $this->getValueOption($localeId);
             }
         }
-        natcasesort($locales);
+
+        if ($this->intlLoaded) {
+            $collator = new \Collator("root");
+            $collator->asort($locales);
+        } else {
+            natcasesort($locales);
+        }
 
         $element = new Select;
         $element->setValueOptions($locales);
@@ -37,6 +43,7 @@ class LocaleSelectFactory implements FactoryInterface
             ? \Locale::getDisplayName($localeId, $localeId)
             : $localeId;
         if ($localeId !== $localeName) {
+            $localeName = mb_convert_case($localeName, MB_CASE_TITLE, 'UTF-8');
             $localeName = sprintf('%s [%s]', $localeName, $localeId);
         }
         return $localeName;

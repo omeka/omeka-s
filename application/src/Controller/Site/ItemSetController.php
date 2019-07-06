@@ -14,8 +14,6 @@ class ItemSetController extends AbstractActionController
     {
         $site = $this->currentSite();
 
-        $this->setBrowseDefaults('created');
-
         $query = $this->params()->fromQuery();
         $query['site_id'] = $site->id();
         $response = $this->api()->search('item_sets', $query);

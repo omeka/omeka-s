@@ -34,6 +34,21 @@ class ResourceTemplateForm extends Form
             ],
         ]);
 
+        $this->add([
+            'name' => 'o:title_property[o:id]',
+            'type' => 'hidden',
+            'attributes' => [
+                'id' => 'title-property-id',
+            ],
+        ]);
+        $this->add([
+            'name' => 'o:description_property[o:id]',
+            'type' => 'hidden',
+            'attributes' => [
+                'id' => 'description-property-id',
+            ],
+        ]);
+
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'o:label',

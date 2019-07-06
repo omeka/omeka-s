@@ -39,10 +39,10 @@ class AssetAdapter extends AbstractEntityAdapter
             $userAlias = $this->createAlias();
             if (0 == $query['owner_id']) {
                 // Search assets without an owner.
-                $qb->andWhere($qb->expr()->isNull($this->getEntityClass() . '.owner'));
+                $qb->andWhere($qb->expr()->isNull('omeka_root.owner'));
             } else {
                 $qb->innerJoin(
-                    $this->getEntityClass() . '.owner',
+                    'omeka_root.owner',
                     $userAlias
                 );
                 $qb->andWhere($qb->expr()->eq(

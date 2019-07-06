@@ -112,7 +112,7 @@ class Entity implements EventSubscriber
             $identifiers[] = 'Omeka\Entity\Resource';
         }
         $this->events->setIdentifiers($identifiers);
-        $event = new ZendEvent($eventName, $entity);
+        $event = new ZendEvent($eventName, $entity, ['LifecycleEventArgs' => $args]);
         $this->events->triggerEvent($event);
     }
 }

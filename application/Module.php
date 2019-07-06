@@ -13,7 +13,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '1.4.0';
+    const VERSION = '1.4.1-alpha4';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -46,6 +46,12 @@ class Module extends AbstractModule
             'Omeka\Entity\Media',
             'entity.remove.post',
             [$this, 'deleteMediaFiles']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Entity\ResourceTemplate',
+            'entity.update.pre',
+            [$this, 'refreshResourceTemplateResourceTitles']
         );
 
         $sharedEventManager->attach(
@@ -215,6 +221,44 @@ class Module extends AbstractModule
     }
 
     /**
+     * Refresh resource titles when updating a resource template.
+     *
+     * @param ZendEvent $event
+     */
+    public function refreshResourceTemplateResourceTitles(ZendEvent $event)
+    {
+        $args = $event->getParam('LifecycleEventArgs');
+        if (!$args->hasChangedField('titleProperty')) {
+            return;
+        }
+        $services = $this->getServiceLocator();
+        $resourceTemplate = $event->getTarget();
+        $titleProperty = $resourceTemplate->getTitleProperty();
+        if (!$titleProperty) {
+            // Fall back on dcterms:title as the title property.
+            $adapter = $services->get('Omeka\ApiAdapterManager')->get('items');
+            $titleProperty = $adapter->getPropertyByTerm('dcterms:title');
+        }
+        $sql = '
+        UPDATE resource
+        SET resource.title = (
+          SELECT value.value
+          FROM value AS value
+          WHERE value.resource_id = resource.id
+          AND value.property_id = :property_id
+          AND value.value IS NOT NULL
+          AND value.value != ""
+          ORDER BY value.id ASC
+          LIMIT 1
+        )
+        WHERE resource.resource_template_id = :resource_template_id';
+        $stmt = $services->get('Omeka\Connection')->prepare($sql);
+        $stmt->bindValue('property_id', $titleProperty->getId());
+        $stmt->bindValue('resource_template_id', $resourceTemplate->getId());
+        $stmt->execute();
+    }
+
+    /**
      * Filter the JSON-LD for HTML media.
      *
      * @param ZendEvent $event
@@ -276,7 +320,7 @@ class Module extends AbstractModule
         $adapter = $event->getTarget();
         $itemAlias = $adapter->createAlias();
         $qb = $event->getParam('queryBuilder');
-        $qb->innerJoin('Omeka\Entity\Media.item', $itemAlias);
+        $qb->innerJoin('omeka_root.item', $itemAlias);
 
         // Users can view media they do not own that belong to public items.
         $expression = $qb->expr()->eq("$itemAlias.isPublic", true);
@@ -312,19 +356,19 @@ class Module extends AbstractModule
         $qb = $event->getParam('queryBuilder');
 
         // Users can view sites they do not own that are public.
-        $expression = $qb->expr()->eq("Omeka\Entity\Site.isPublic", true);
+        $expression = $qb->expr()->eq("omeka_root.isPublic", true);
 
         $identity = $this->getServiceLocator()
             ->get('Omeka\AuthenticationService')->getIdentity();
         if ($identity) {
             $sitePermissionAlias = $adapter->createAlias();
-            $qb->leftJoin('Omeka\Entity\Site.sitePermissions', $sitePermissionAlias);
+            $qb->leftJoin('omeka_root.sitePermissions', $sitePermissionAlias);
 
             $expression = $qb->expr()->orX(
                 $expression,
                 // Users can view all sites they own.
                 $qb->expr()->eq(
-                    "Omeka\Entity\Site.owner",
+                    'omeka_root.owner',
                     $adapter->createNamedParameter($qb, $identity)
                 ),
                 // Users can view sites where they have a role (any role).

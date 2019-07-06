@@ -14,6 +14,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         'is_public' => 'isPublic',
         'created' => 'created',
         'modified' => 'modified',
+        'title' => 'title',
     ];
 
     public function getResourceName()
@@ -45,7 +46,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             if ($itemSets) {
                 $itemSetAlias = $this->createAlias();
                 $qb->innerJoin(
-                    $this->getEntityClass() . '.itemSets',
+                    'omeka_root.itemSets',
                     $itemSetAlias, 'WITH',
                     $qb->expr()->in("$itemSetAlias.id", $this->createNamedParameter($qb, $itemSets))
                 );
@@ -71,7 +72,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             if (isset($query['site_attachments_only']) && $query['site_attachments_only']) {
                 $siteBlockAttachmentsAlias = $this->createAlias();
                 $qb->innerJoin(
-                    'Omeka\Entity\Item.siteBlockAttachments',
+                    'omeka_root.siteBlockAttachments',
                     $siteBlockAttachmentsAlias
                 );
                 $sitePageBlockAlias = $this->createAlias();

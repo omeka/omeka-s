@@ -34,6 +34,7 @@ $this->trigger('view.layout');
         <?php echo $this->headScript(); ?>
     </head>
     <?php echo $this->htmlElement('body'); ?>
+        <a href="#content" class="skip"><?php echo $translate('Skip to main content'); ?></a>
         <div class="flex">
             <header>
                 <div class="logo"><a href="<?php echo $this->url('admin'); ?>"><?php echo $this->setting('installation_title', 'Omeka S'); ?></a></div>

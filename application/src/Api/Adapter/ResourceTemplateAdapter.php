@@ -35,7 +35,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             if ('resource_class_label' == $query['sort_by']) {
                 $resourceClassAlias = $this->createAlias();
                 $qb->leftJoin(
-                    'Omeka\Entity\ResourceTemplate.resourceClass',
+                    'omeka_root.resourceClass',
                     $resourceClassAlias
                 )->addOrderBy("$resourceClassAlias.label", $query['sort_order']);
             } elseif ('item_count' == $query['sort_by']) {
@@ -50,7 +50,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     {
         if (isset($query['label'])) {
             $qb->andWhere($qb->expr()->eq(
-                "Omeka\Entity\ResourceTemplate.label",
+                "omeka_root.label",
                 $this->createNamedParameter($qb, $query['label']))
             );
         }
@@ -102,6 +102,26 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
 
         if ($this->shouldHydrate($request, 'o:label')) {
             $entity->setLabel($request->getValue('o:label'));
+        }
+
+        if ($this->shouldHydrate($request, 'o:title_property')) {
+            $titleProperty = $request->getValue('o:title_property');
+            if (isset($titleProperty['o:id']) && is_numeric($titleProperty['o:id'])) {
+                $titleProperty = $this->getAdapter('properties')->findEntity($titleProperty['o:id']);
+            } else {
+                $titleProperty = null;
+            }
+            $entity->setTitleProperty($titleProperty);
+        }
+
+        if ($this->shouldHydrate($request, 'o:description_property')) {
+            $descriptionProperty = $request->getValue('o:description_property');
+            if (isset($descriptionProperty['o:id']) && is_numeric($descriptionProperty['o:id'])) {
+                $descriptionProperty = $this->getAdapter('properties')->findEntity($descriptionProperty['o:id']);
+            } else {
+                $descriptionProperty = null;
+            }
+            $entity->setDescriptionProperty($descriptionProperty);
         }
 
         if ($this->shouldHydrate($request, 'o:resource_template_property')

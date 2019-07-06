@@ -626,5 +626,7 @@ return [
         'Restore property', // @translate
         'There are no available pages.', // @translate
         'Please enter a valid language tag', // @translate
+        'Title', // @translate
+        'Description', // @translate
     ],
 ];

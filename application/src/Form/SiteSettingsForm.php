@@ -150,12 +150,13 @@ class SiteSettingsForm extends Form
             'type' => PropertySelect::class,
             'options' => [
                 'label' => 'Browse heading property', // @translate
-                'info' => 'Use this property for the heading of each resource on a browse page. Default is "Dublin Core: Title".', // @translate
+                'info' => 'Use this property for the heading of each resource on a browse page. Keep unselected to use the default title property of each resource.', // @translate
                 'term_as_value' => true,
+                'empty_option' => '',
             ],
             'attributes' => [
                 'id' => 'browse_heading_property_term',
-                'value' => $headingTerm ? $headingTerm : 'dcterms:title',
+                'value' => $headingTerm,
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a property', // @translate
             ],
@@ -166,12 +167,13 @@ class SiteSettingsForm extends Form
             'type' => PropertySelect::class,
             'options' => [
                 'label' => 'Browse body property', // @translate
-                'info' => 'Use this property for the body of each resource on a browse page. Default is "Dublin Core: Description".', // @translate
+                'info' => 'Use this property for the body of each resource on a browse page. Keep unselected to use the default description property of each resource.', // @translate
                 'term_as_value' => true,
+                'empty_option' => '',
             ],
             'attributes' => [
                 'id' => 'browse_body_property_term',
-                'value' => $bodyTerm ? $bodyTerm : 'dcterms:description',
+                'value' => $bodyTerm,
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a property', // @translate
             ],
@@ -204,7 +206,7 @@ class SiteSettingsForm extends Form
             'type' => 'checkbox',
             'name' => 'search_restrict_templates',
             'options' => [
-                'label' => 'Restrict to templates',
+                'label' => 'Restrict to templates', // @translate
                 'info' => 'Restrict search results to resources of the selected templates.', // @translate
             ],
             'attributes' => [
@@ -233,6 +235,16 @@ class SiteSettingsForm extends Form
             'validators' => [
                 ['name' => 'Digits'],
             ],
+        ]);
+        $inputFilter->get('browse')->add([
+            'name' => 'browse_heading_property_term',
+            'required' => false,
+            'allow_empty' => true,
+        ]);
+        $inputFilter->get('browse')->add([
+            'name' => 'browse_body_property_term',
+            'required' => false,
+            'allow_empty' => true,
         ]);
         $inputFilter->get('search')->add([
             'name' => 'search_apply_templates',

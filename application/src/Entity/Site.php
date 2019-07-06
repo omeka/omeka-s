@@ -54,6 +54,7 @@ class Site extends AbstractEntity
 
     /**
      * @ManyToOne(targetEntity="User", inversedBy="sites")
+     * @JoinColumn(onDelete="SET NULL")
      */
     protected $owner;
 

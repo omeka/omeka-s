@@ -68,6 +68,18 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
         <div class="field">
             <h3><?php echo $translate('Other options'); ?></h3>
             <div class="option">
+                <label for="is-title-property">
+                    <?php echo $translate('Use for resource title'); ?>
+                    <input id="is-title-property" type="checkbox">
+                </label>
+            </div>
+            <div class="option">
+                <label for="is-description-property">
+                    <?php echo $translate('Use for resource description'); ?>
+                    <input id="is-description-property" type="checkbox">
+                </label>
+            </div>
+            <div class="option">
                 <label for="is-required">
                     <?php echo $translate('Required'); ?>
                     <input id="is-required" type="checkbox">

@@ -95,7 +95,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
             }
         }
         //In site view, sorting by admin-defined position
-        if(isset($this->siteItemSetsAlias)) {
+        if (isset($this->siteItemSetsAlias)) {
             $qb->addOrderBy("$this->siteItemSetsAlias.position", 'ASC');
         }
     }

@@ -870,7 +870,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $identityMap = $entityManager->getUnitOfWork()->getIdentityMap();
         foreach ($identityMap as $entityClass => $entities) {
             foreach ($entities as $idHash => $entity) {
-                if (!isset($oldIdentityMap[$identityClass][$idHash])) {
+                if (!isset($oldIdentityMap[$entityClass][$idHash])) {
                     $entityManager->detach($entity);
                 }
             }

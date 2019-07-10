@@ -243,11 +243,6 @@ class ItemSetController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
 
-        $resources = [];
-        foreach ($resourceIds as $resourceId) {
-            $resources[] = $this->api()->read('item_sets', $resourceId)->getContent();
-        }
-
         $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'itemSet']);
         $form->setAttribute('id', 'batch-edit-item-set');
         if ($this->params()->fromPost('batch_update')) {
@@ -269,6 +264,11 @@ class ItemSetController extends AbstractActionController
             } else {
                 $this->messenger()->addFormErrors($form);
             }
+        }
+
+        $resources = [];
+        foreach ($resourceIds as $resourceId) {
+            $resources[] = $this->api()->read('item_sets', $resourceId)->getContent();
         }
 
         $view = new ViewModel;

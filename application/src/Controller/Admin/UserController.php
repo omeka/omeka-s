@@ -372,11 +372,6 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
 
-        $resources = [];
-        foreach ($resourceIds as $resourceId) {
-            $resources[] = $this->api()->read('users', $resourceId)->getContent();
-        }
-
         $form = $this->getForm(UserBatchUpdateForm::class);
         $form->setAttribute('id', 'batch-edit-user');
         if ($this->params()->fromPost('batch_update')) {
@@ -398,6 +393,11 @@ class UserController extends AbstractActionController
             } else {
                 $this->messenger()->addFormErrors($form);
             }
+        }
+
+        $resources = [];
+        foreach ($resourceIds as $resourceId) {
+            $resources[] = $this->api()->read('users', $resourceId)->getContent();
         }
 
         $view = new ViewModel;

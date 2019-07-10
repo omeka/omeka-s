@@ -211,11 +211,6 @@ class MediaController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
 
-        $resources = [];
-        foreach ($resourceIds as $resourceId) {
-            $resources[] = $this->api()->read('media', $resourceId)->getContent();
-        }
-
         $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'media']);
         $form->setAttribute('id', 'batch-edit-media');
         if ($this->params()->fromPost('batch_update')) {
@@ -237,6 +232,11 @@ class MediaController extends AbstractActionController
             } else {
                 $this->messenger()->addFormErrors($form);
             }
+        }
+
+        $resources = [];
+        foreach ($resourceIds as $resourceId) {
+            $resources[] = $this->api()->read('media', $resourceId)->getContent();
         }
 
         $view = new ViewModel;

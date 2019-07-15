@@ -434,6 +434,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter
         if (isset($rawData['clear_property_values'])) {
             $data['clear_property_values'] = $rawData['clear_property_values'];
         }
+        if (isset($rawData['set_value_visibility'])) {
+            $data['set_value_visibility'] = $rawData['set_value_visibility'];
+        }
 
         // Add values that satisfy the bare minimum needed to identify them.
         foreach ($rawData as $term => $valueObjects) {

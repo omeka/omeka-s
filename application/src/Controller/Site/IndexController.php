@@ -33,4 +33,31 @@ class IndexController extends AbstractActionController
         $view->setVariable('site', $site);
         return $view;
     }
+
+    public function searchAction()
+    {
+        $query = [
+            'fulltext_search' => $this->params()->fromQuery('fulltext_search'),
+            'site_id' => $this->currentSite()->id(),
+            'limit' => 10,
+        ];
+
+        // Get page results.
+        $pagesResponse = $this->api()->search('site_pages', $query);
+        $pages = $pagesResponse->getContent();
+
+        // Get item results.
+        if ($this->siteSettings()->get('browse_attached_items', false)) {
+            $query['site_attachments_only'] = true;
+        }
+        $itemsResponse = $this->api()->search('items', $query);
+        $items = $itemsResponse->getContent();
+
+        $view = new ViewModel;
+        $view->setVariable('pages', $pages);
+        $view->setVariable('pagesTotal', $pagesResponse->getTotalResults());
+        $view->setVariable('items', $items);
+        $view->setVariable('itemsTotal', $itemsResponse->getTotalResults());
+        return $view;
+    }
 }

@@ -1,9 +1,9 @@
 <?php
 $translate = $this->plugin('translate');
-$searchValue = $this->escapeHtml($this->params()->fromQuery('search', ''));
+$searchValue = $this->escapeHtml($this->params()->fromQuery('fulltext_search', ''));
 ?>
 
-<form action="<?php echo $this->escapeHtml($this->url('site/resource', ['controller' => 'item','action' => 'browse'], true)); ?>" id="search-form">
-    <input type="text" name="search" value="<?php echo $searchValue; ?>" placeholder="<?php echo $translate('Search'); ?>">
+<form action="<?php echo $this->escapeHtml($this->url('site/resource', ['controller' => 'index','action' => 'search'], true)); ?>" id="search-form">
+    <input type="text" name="fulltext_search" value="<?php echo $searchValue; ?>" placeholder="<?php echo $translate('Search'); ?>">
     <button type="submit"><?php echo $translate('Search'); ?></button>
 </form>

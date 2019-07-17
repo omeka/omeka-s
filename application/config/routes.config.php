@@ -69,6 +69,16 @@ return [
                             ],
                         ],
                     ],
+                    'page-browse' => [
+                        'type' => \Zend\Router\Http\Literal::class,
+                        'options' => [
+                            'route' => '/page',
+                            'defaults' => [
+                                'controller' => 'Page',
+                                'action' => 'browse',
+                            ],
+                        ],
+                    ],
                     'page' => [
                         'type' => \Zend\Router\Http\Segment::class,
                         'options' => [

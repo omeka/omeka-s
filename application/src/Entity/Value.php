@@ -138,8 +138,13 @@ class Value extends AbstractEntity
         $this->isPublic = (bool) $isPublic;
     }
 
-    public function isPublic()
+    public function getIsPublic()
     {
         return (bool) $this->isPublic;
+    }
+
+    public function isPublic()
+    {
+        return $this->getIsPublic();
     }
 }

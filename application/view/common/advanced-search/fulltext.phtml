@@ -1,0 +1,11 @@
+<?php
+$value = isset($query['fulltext_search']) ? $query['fulltext_search'] : null;
+?>
+<div class="field">
+    <div class="field-meta">
+        <label for="fulltext_search"><?php echo $this->translate('Search full-text'); ?></label>
+    </div>
+    <div class="inputs">
+        <input type="text" name="fulltext_search" id="fulltext_search" value="<?php echo $this->escapeHtml($value); ?>">
+    </div>
+</div>

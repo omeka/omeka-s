@@ -1,6 +1,7 @@
 <?php
 namespace Omeka;
 
+use Omeka\Api\Adapter\FulltextSearchableInterface;
 use Omeka\Module\AbstractModule;
 use Zend\EventManager\Event as ZendEvent;
 use Zend\EventManager\SharedEventManagerInterface;
@@ -94,6 +95,30 @@ class Module extends AbstractModule
             '*',
             'api.context',
             [$this, 'addTermDefinitionsToContext']
+        );
+
+        $sharedEventManager->attach(
+            '*',
+            'api.create.post',
+            [$this, 'saveFulltext']
+        );
+
+        $sharedEventManager->attach(
+            '*',
+            'api.update.post',
+            [$this, 'saveFulltext']
+        );
+
+        $sharedEventManager->attach(
+            '*',
+            'api.delete.post',
+            [$this, 'deleteFulltext']
+        );
+
+        $sharedEventManager->attach(
+            '*',
+            'api.search.query',
+            [$this, 'searchFulltext']
         );
 
         $sharedEventManager->attach(
@@ -471,5 +496,97 @@ class Module extends AbstractModule
 
         $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
         $entityManager->flush();
+    }
+
+    /**
+     * Save the fulltext of an API resource.
+     *
+     * @param ZendEvent $event
+     */
+    public function saveFulltext(ZendEvent $event)
+    {
+        $fulltext = $this->getServiceLocator()->get('Omeka\FulltextSearch');
+        $fulltext->save(
+            $event->getParam('response')->getContent(),
+            $event->getTarget()
+        );
+    }
+
+    /**
+     * Delete the fulltext of an API resource.
+     *
+     * @param ZendEvent $event
+     */
+    public function deleteFulltext(ZendEvent $event)
+    {
+        $fulltext = $this->getServiceLocator()->get('Omeka\FulltextSearch');
+        $fulltext->delete(
+            // Note that the resource may not have an ID after being deleted.
+            $event->getParam('request')->getId(),
+            $event->getTarget()
+        );
+    }
+
+    /**
+     * Search the fulltext of an API resource.
+     *
+     * Note that this only works for entity resources.
+     *
+     * @param ZendEvent $event
+     */
+    public function searchFulltext(ZendEvent $event)
+    {
+        $adapter = $event->getTarget();
+        if (!($adapter instanceof FulltextSearchableInterface)) {
+            return;
+        }
+        $query = $event->getParam('request')->getContent();
+        if (!isset($query['fulltext_search']) || ('' === trim($query['fulltext_search']))) {
+            return;
+        }
+        $qb = $event->getParam('queryBuilder');
+
+        $searchAlias = $adapter->createAlias();
+        $matchAlias = $adapter->createAlias();
+
+        $match = sprintf(
+            'MATCH(%s.title, %s.text) AGAINST (%s)',
+            $searchAlias,
+            $searchAlias,
+            $adapter->createNamedParameter($qb, $query['fulltext_search'])
+        );
+        $joinConditions = sprintf(
+            '%s.id = omeka_root.id AND %s.resource = %s',
+            $searchAlias,
+            $searchAlias,
+            $adapter->createNamedParameter($qb, $adapter->getResourceName())
+        );
+
+        $qb->addSelect(sprintf('%s AS %s', $match, $matchAlias))
+            ->innerJoin('Omeka\Entity\FulltextSearch', $searchAlias, 'WITH', $joinConditions)
+            // Filter out resources with no similarity.
+            ->andWhere(sprintf('%s > 0', $match))
+            // Order by the relevance. Note the use of orderBy() and not
+            // addOrderBy(). This should ensure that ordering by relevance
+            // is the first thing being ordered.
+            ->orderBy($matchAlias, 'DESC');
+
+        // Set visibility constraints.
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
+            // Users with the "view-all" privilege can view all resources.
+            return;
+        }
+        // Users can view public resources they do not own.
+        $constraints = $qb->expr()->eq(sprintf('%s.isPublic', $searchAlias), true);
+        $identity = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
+        if ($identity) {
+            // Users can view all resources they own.
+            $constraints = $qb->expr()->orX(
+                $constraints,
+                $qb->expr()->eq(sprintf('%s.owner', $searchAlias), $identity->getId())
+            );
+        }
+        $qb->andWhere($constraints);
     }
 }

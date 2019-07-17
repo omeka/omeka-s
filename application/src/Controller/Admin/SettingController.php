@@ -17,6 +17,10 @@ class SettingController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
                 $fieldsets = $form->getFieldsets();
+                if ($data['general']['index_fulltext_search']) {
+                    $this->jobDispatcher()->dispatch('Omeka\Job\IndexFulltextSearch');
+                }
+                unset($data['general']['index_fulltext_search']);
                 unset($data['csrf']);
                 foreach ($data as $id => $value) {
                     if (array_key_exists($id, $fieldsets) && is_array($value)) {

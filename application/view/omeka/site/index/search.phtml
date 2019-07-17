@@ -1,0 +1,42 @@
+<div>
+    <h2><?php echo $this->translate('Pages'); ?></h2>
+    <?php if ($pages): ?>
+    <ul>
+        <?php foreach ($pages as $page): ?>
+        <li><?php echo $page->link($page->title()); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php echo $this->hyperlink(
+        sprintf($this->translate('View all results (%s total)'), $pagesTotal),
+        $this->url(
+            'site/page-browse',
+            ['controller' => 'page', 'action' => 'browse'],
+            ['query' => ['fulltext_search' => $this->params()->fromQuery('fulltext_search')]],
+            true
+        )
+    ); ?>
+    <?php else: ?>
+    <p><?php echo $this->translate('No pages found'); ?></p>
+    <?php endif; ?>
+</div>
+<div>
+    <h2><?php echo $this->translate('Items'); ?></h2>
+    <?php if ($items): ?>
+    <ul>
+        <?php foreach ($items as $item): ?>
+        <li><?php echo $item->link($item->displayTitle()); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php echo $this->hyperlink(
+        sprintf($this->translate('View all results (%s total)'), $itemsTotal),
+        $this->url(
+            'site/resource',
+            ['controller' => 'item', 'action' => 'browse'],
+            ['query' => ['fulltext_search' => $this->params()->fromQuery('fulltext_search')]],
+            true
+        )
+    ); ?>
+    <?php else: ?>
+    <p><?php echo $this->translate('No items found'); ?></p>
+    <?php endif; ?>
+</div>

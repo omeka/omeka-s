@@ -225,7 +225,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         // getting the total count. This optimization excludes the ORDER BY
         // clause from the count query, greatly speeding up response time.
         $countQb = clone $qb;
-        $countQb->select('1');
+        $countQb->select('1')->resetDQLPart('orderBy');
         $countPaginator = new Paginator($countQb, false);
 
         // Add the ORDER BY clause. Always sort by entity ID in addition to any

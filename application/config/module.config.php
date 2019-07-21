@@ -502,7 +502,7 @@ return [
             'pageTitle' => Site\BlockLayout\PageTitle::class,
             'media' => Site\BlockLayout\Media::class,
             'browsePreview' => Site\BlockLayout\BrowsePreview::class,
-            'itemShowCase' => Site\BlockLayout\ItemShowcase::class,
+            'itemShowcase' => Site\BlockLayout\ItemShowcase::class,
             'listOfSites' => Site\BlockLayout\ListOfSites::class,
             'tableOfContents' => Site\BlockLayout\TableOfContents::class,
             'lineBreak' => Site\BlockLayout\LineBreak::class,

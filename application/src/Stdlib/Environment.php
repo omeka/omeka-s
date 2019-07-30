@@ -2,7 +2,6 @@
 namespace Omeka\Stdlib;
 
 use Doctrine\DBAL\Connection;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Environment
 {

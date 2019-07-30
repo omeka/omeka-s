@@ -2,6 +2,7 @@
 namespace Omeka\Controller;
 
 use Omeka\Db\Migration\Manager;
+use Omeka\Stdlib\Environment;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -13,11 +14,17 @@ class MigrateController extends AbstractActionController
     protected $migrationManager;
 
     /**
+     * @var Environment
+     */
+    protected $environment;
+
+    /**
      * @param Manager $migrationManager
      */
-    public function __construct(Manager $migrationManager)
+    public function __construct(Manager $migrationManager, Environment $environment)
     {
         $this->migrationManager = $migrationManager;
+        $this->environment = $environment;
     }
 
     public function indexAction()
@@ -26,7 +33,7 @@ class MigrateController extends AbstractActionController
             return $this->redirect()->toRoute('admin');
         }
 
-        if ($this->getRequest()->isPost()) {
+        if ($this->getRequest()->isPost() && $this->environment->isCompatible()) {
             // Perform migrations and update the installed version.
             $this->migrationManager->upgrade();
             $this->settings()->set('version', $this->status()->getVersion());
@@ -35,6 +42,7 @@ class MigrateController extends AbstractActionController
         }
 
         $view = new ViewModel;
+        $view->setVariable('environment', $this->environment);
         return $view;
     }
 }

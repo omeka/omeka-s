@@ -7,7 +7,7 @@
 <p><?php echo $this->translate('There are environment errors that must be resolved before you can update the database.'); ?></p>
 <ul>
     <?php foreach ($environment->getErrorMessages() as $errorMessage): ?>
-    <li><?php echo $errorMessage; ?></li>
+    <li><?php echo $this->escapeHtml($errorMessage); ?></li>
     <?php endforeach; ?>
 </ul>
 <?php endif; ?>

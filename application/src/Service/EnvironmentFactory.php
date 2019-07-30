@@ -9,6 +9,6 @@ class EnvironmentFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new Environment($services);
+        return new Environment($services->get('Omeka\Connection'));
     }
 }

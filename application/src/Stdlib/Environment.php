@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Stdlib;
 
+use Doctrine\DBAL\Connection;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Environment
@@ -26,38 +27,36 @@ class Environment
     protected $errorMessages = [];
 
     /**
-     * @param ServiceLocatorInterface $services
+     * @param Connection $connection
      */
-    public function __construct(ServiceLocatorInterface $services)
+    public function __construct(Connection $connection)
     {
-        $translator = $services->get('MvcTranslator');
         if (!version_compare(PHP_VERSION, self::PHP_MINIMUM_VERSION, '>=')) {
-            $this->errorMessages[] = sprintf(
-                $translator->translate('The installed PHP version (%s) is too low. Omeka requires at least version %s.'),
+            $this->errorMessages[] = new Message(
+                'The installed PHP version (%s) is too low. Omeka requires at least version %s.', // @translate
                 PHP_VERSION,
                 self::PHP_MINIMUM_VERSION
             );
         }
         foreach (self::PHP_REQUIRED_EXTENSIONS as $extension) {
             if (!extension_loaded($extension)) {
-                $this->errorMessages[] = sprintf(
-                    $translator->translate('Omeka requires the PHP extension %s, but it is not loaded.'),
+                $this->errorMessages[] = new Message(
+                    'Omeka requires the PHP extension %s, but it is not loaded.', // @translate
                     $extension
                 );
             }
         }
         try {
-            $connection = $services->get('Omeka\Connection');
             $connection->connect();
         } catch (\Exception $e) {
-            $this->errorMessages[] = $e->getMessage();
+            $this->errorMessages[] = new Message($e->getMessage());
             // Error establishing a connection, no need to check MySQL version.
             return;
         }
         $mysqlVersion = $connection->getWrappedConnection()->getServerVersion();
         if (!version_compare($mysqlVersion, self::MYSQL_MINIMUM_VERSION, '>=')) {
-            $this->errorMessages[] = sprintf(
-                $translator->translate('The installed MySQL version (%s) is too low. Omeka requires at least version %s.'),
+            $this->errorMessages[] = new Message(
+                'The installed MySQL version (%s) is too low. Omeka requires at least version %s.', // @translate
                 $mysqlVersion,
                 self::MYSQL_MINIMUM_VERSION
             );

@@ -2,6 +2,7 @@
 namespace Omeka\DataType;
 
 use Omeka\Api\Representation\ValueRepresentation;
+use Omeka\Entity\Value;
 use Zend\View\Renderer\PhpRenderer;
 
 abstract class AbstractDataType implements DataTypeInterface
@@ -17,5 +18,10 @@ abstract class AbstractDataType implements DataTypeInterface
     public function toString(ValueRepresentation $value)
     {
         return (string) $value->value();
+    }
+
+    public function getFulltextText(Value $value)
+    {
+        return $value->getValue();
     }
 }

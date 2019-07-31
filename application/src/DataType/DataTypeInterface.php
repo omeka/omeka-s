@@ -90,4 +90,12 @@ interface DataTypeInterface
      * @return array
      */
     public function getJsonLd(ValueRepresentation $value);
+
+    /**
+     * Get the the fulltext of this value.
+     *
+     * @param Value $value
+     * @return string
+     */
+    public function getFulltextText(Value $value);
 }

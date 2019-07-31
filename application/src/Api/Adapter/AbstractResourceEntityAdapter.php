@@ -471,25 +471,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
     public function getFulltextText($resource)
     {
         $dataTypes = $this->getServiceLocator()->get('Omeka\DataTypeManager');
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('isPublic', true));
         $texts = [];
-
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('isPublic', true))
-            ->andWhere(Criteria::expr()->neq('value', null))
-            ->andWhere(Criteria::expr()->neq('value', ''));
         foreach ($resource->getValues()->matching($criteria) as $value) {
             $texts[] = $dataTypes->get($value->getType())->getFulltextText($value);
         }
-
-        // Include titles of linked resources.
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('isPublic', true))
-            ->andWhere(Criteria::expr()->neq('valueResource', null))
-            ->andWhere(Criteria::expr()->neq('valueResource', ''));
-        foreach ($resource->getValues()->matching($criteria) as $value) {
-            $texts[] = $dataTypes->get($value->getType())->getFulltextText($value);
-        }
-
         return implode(PHP_EOL, $texts);
     }
 }

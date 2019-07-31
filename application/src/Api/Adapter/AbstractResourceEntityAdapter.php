@@ -476,6 +476,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         foreach ($resource->getValues()->matching($criteria) as $value) {
             $texts[] = $dataTypes->get($value->getType())->getFulltextText($value);
         }
-        return implode(PHP_EOL, $texts);
+        return implode("\n", $texts);
     }
 }

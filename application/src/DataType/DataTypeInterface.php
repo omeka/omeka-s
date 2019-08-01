@@ -94,8 +94,9 @@ interface DataTypeInterface
     /**
      * Get the the fulltext of this value.
      *
-     * @param Value $value
+     * @param PhpRenderer $view
+     * @param ValueRepresentation $value
      * @return string
      */
-    public function getFulltextText(Value $value);
+    public function getFulltextText(PhpRenderer $view, ValueRepresentation $value);
 }

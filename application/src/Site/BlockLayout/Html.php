@@ -51,9 +51,8 @@ class Html extends AbstractBlockLayout
         return $block->dataValue('html', '');
     }
 
-    public function getFulltextText(SitePageBlock $block)
+    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $data = $block->getData();
-        return isset($data['html']) ? strip_tags($data['html']) : null;
+        return strip_tags($this->render($view, $block));
     }
 }

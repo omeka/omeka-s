@@ -67,8 +67,9 @@ interface BlockLayoutInterface
     /**
      * Get the the text of this block layout.
      *
-     * @param mixed $resource
+     * @param PhpRenderer $view
+     * @param SitePageBlockRepresentation $block
      * @return string
      */
-    public function getFulltextText(SitePageBlock $block);
+    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block);
 }

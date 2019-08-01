@@ -20,8 +20,8 @@ abstract class AbstractDataType implements DataTypeInterface
         return (string) $value->value();
     }
 
-    public function getFulltextText(Value $value)
+    public function getFulltextText(PhpRenderer $view, ValueRepresentation $value)
     {
-        return $value->getValue();
+        return $value->value();
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Site\BlockLayout;
 
+use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 use Zend\View\Renderer\PhpRenderer;
@@ -19,7 +20,7 @@ abstract class AbstractBlockLayout implements BlockLayoutInterface
     {
     }
 
-    public function getFulltextText(SitePageBlock $block)
+    public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
     }
 }

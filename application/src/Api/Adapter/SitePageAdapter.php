@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Exception\NotFoundException;
+use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\SiteBlockAttachment;
@@ -293,11 +294,14 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
 
     public function getFulltextText($resource)
     {
-        $layouts = $this->getServiceLocator()->get('Omeka\BlockLayoutManager');
+        $services = $this->getServiceLocator();
+        $layouts = $services->get('Omeka\BlockLayoutManager');
+        $view = $services->get('ViewRenderer');
         $text = [];
         foreach ($resource->getBlocks() as $block) {
             $layout = $layouts->get($block->getLayout());
-            $text[] = $layout->getFulltextText($block);
+            $blockRepresentation = new SitePageBlockRepresentation($block, $services);
+            $text[] = $layout->getFulltextText($view, $blockRepresentation);
             foreach ($block->getAttachments() as $attachment) {
                 $item = $attachment->getItem();
                 if ($item) {

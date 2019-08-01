@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
+use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Resource;
@@ -470,11 +471,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
 
     public function getFulltextText($resource)
     {
-        $dataTypes = $this->getServiceLocator()->get('Omeka\DataTypeManager');
+        $services = $this->getServiceLocator();
+        $dataTypes = $services->get('Omeka\DataTypeManager');
+        $view = $services->get('ViewRenderer');
         $criteria = Criteria::create()->where(Criteria::expr()->eq('isPublic', true));
         $texts = [];
         foreach ($resource->getValues()->matching($criteria) as $value) {
-            $texts[] = $dataTypes->get($value->getType())->getFulltextText($value);
+            $valueRepresentation = new ValueRepresentation($value, $services);
+            $texts[] = $dataTypes->get($value->getType())->getFulltextText($view, $valueRepresentation);
         }
         return implode("\n", $texts);
     }

@@ -14,7 +14,7 @@ $form->setAttribute('method', 'post');
 <p><?php echo $translate('Some installation requirements were not satisfied.'); ?></p>
 <ul class="pre-errors">
     <?php foreach ($preErrors as $error): ?>
-        <li><?php echo $this->escapeHtml($error); ?></li>
+        <li><?php echo $this->escapeHtml($this->translate($error)); ?></li>
     <?php endforeach; ?>
 </ul>
 <?php else: ?>

@@ -2,8 +2,15 @@
 $translate = $this->plugin('translate');
 ?>
 <h2><?php echo $translate('Update database'); ?></h2>
-<p><?php echo $translate('There was a recent software upgrade and the database needs to be updated. The
-entire site will be down for maintenance until you click the button below.'); ?></p>
+<p><?php echo $translate('There was a recent software upgrade and the database needs to be updated. The entire site will be down for maintenance until you click the button below.'); ?></p>
 <form method="post">
-    <button name="submit"><?php echo $translate('Update database'); ?></button>
+    <button name="submit"<?php echo $environment->isCompatible() ? '' : ' disabled'; ?>><?php echo $translate('Update database'); ?></button>
 </form>
+<?php if (!$environment->isCompatible()): ?>
+<p><?php echo $translate('There are environment errors that must be resolved before you can update the database.'); ?></p>
+<ul class="messages">
+    <?php foreach ($environment->getErrorMessages() as $errorMessage): ?>
+    <li class="error"><?php echo $this->escapeHtml($translate($errorMessage)); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>

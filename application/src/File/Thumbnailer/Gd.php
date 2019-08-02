@@ -28,6 +28,11 @@ class Gd extends AbstractThumbnailer
     protected $origHeight;
 
     /**
+     * @var string The profile icc of the original image.
+     */
+    protected $icc;
+
+    /**
      * Check whether the GD entension is loaded.
      *
      * @throws Exception\InvalidThumbnailer
@@ -56,6 +61,8 @@ class Gd extends AbstractThumbnailer
                 break;
             case 'image/jpeg':
                 $origImage = imagecreatefromjpeg($sourcePath);
+                $inputPel = new \lsolesen\pel\PelJpeg($sourcePath);
+                $this->icc = $inputPel->getIcc();
                 break;
             case 'image/png':
                 $origImage = imagecreatefrompng($sourcePath);
@@ -71,6 +78,7 @@ class Gd extends AbstractThumbnailer
         if (false === $origImage) {
             throw new Exception\CannotCreateThumbnailException;
         }
+
         $this->origImage = $origImage;
         $this->origWidth = imagesx($origImage);
         $this->origHeight = imagesy($origImage);
@@ -97,7 +105,15 @@ class Gd extends AbstractThumbnailer
         }
 
         imagedestroy($tempImage);
-        return $tempFile->getTempPath();
+
+        $tempPath = $tempFile->getTempPath();
+        if ($this->icc) {
+            $outputPel = new \lsolesen\pel\PelJpeg($tempPath);
+            $outputPel->setIcc($this->icc);
+            $outputPel->saveFile($tempPath);
+        }
+
+        return $tempPath;
     }
 
     /**

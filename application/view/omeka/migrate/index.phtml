@@ -8,9 +8,9 @@ $translate = $this->plugin('translate');
 </form>
 <?php if (!$environment->isCompatible()): ?>
 <p><?php echo $translate('There are environment errors that must be resolved before you can update the database.'); ?></p>
-<ul>
+<ul class="messages">
     <?php foreach ($environment->getErrorMessages() as $errorMessage): ?>
-    <li><?php echo $this->escapeHtml($translate($errorMessage)); ?></li>
+    <li class="error"><?php echo $this->escapeHtml($translate($errorMessage)); ?></li>
     <?php endforeach; ?>
 </ul>
 <?php endif; ?>

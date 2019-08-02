@@ -23,4 +23,9 @@ abstract class AbstractDataType implements DataTypeInterface
     {
         return $value->value();
     }
+
+    public function getTitleText(PhpRenderer $view, ValueRepresentation $value)
+    {
+        return $value->value();
+    }
 }

@@ -69,4 +69,9 @@ class Uri extends AbstractDataType
     {
         return sprintf('%s %s', $value->uri(), $value->value());
     }
+
+    public function getTitleText(PhpRenderer $view, ValueRepresentation $value)
+    {
+        return strip_tags($this->render($view, $value));
+    }
 }

@@ -2,11 +2,26 @@
 namespace Omeka\Api\Adapter;
 
 use Doctrine\Common\Collections\Criteria;
+use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Property;
 use Omeka\Entity\Resource;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ResourceTitleHydrator
 {
+    /**
+     * @var ServiceLocatorInterface $services
+     */
+    protected $services;
+
+    /**
+     * @param ServiceLocatorInterface $services
+     */
+    public function __construct(ServiceLocatorInterface $services)
+    {
+        $this->services = $services;
+    }
+
     /**
      * Hydrate the title of the resource entity.
      *
@@ -37,12 +52,18 @@ class ResourceTitleHydrator
      */
     public function getResourceTitle(Resource $entity, Property $titleProperty)
     {
+        $dataTypes = $this->services->get('Omeka\DataTypeManager');
+        $view = $this->services->get('ViewRenderer');
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('property', $titleProperty))
-            ->andWhere(Criteria::expr()->neq('value', null))
-            ->andWhere(Criteria::expr()->neq('value', ''))
             ->setMaxResults(1);
         $titleValues = $entity->getValues()->matching($criteria);
-        return $titleValues->isEmpty() ? null : $titleValues->first()->getValue();
+        $title = null;
+        if (!$titleValues->isEmpty()) {
+            $value = $titleValues->first();
+            $valueRepresentation = new ValueRepresentation($value, $this->services);
+            $title = $dataTypes->get($value->getType())->getTitleText($view, $valueRepresentation);
+        }
+        return $title;
     }
 }

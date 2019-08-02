@@ -99,4 +99,13 @@ interface DataTypeInterface
      * @return string
      */
     public function getFulltextText(PhpRenderer $view, ValueRepresentation $value);
+
+    /**
+     * Get the title of this value.
+     *
+     * @param PhpRenderer $view
+     * @param ValueRepresentation $value
+     * @return string
+     */
+    public function getTitleText(PhpRenderer $view, ValueRepresentation $value);
 }

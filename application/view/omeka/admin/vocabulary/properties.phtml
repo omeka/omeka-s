@@ -19,7 +19,6 @@ $this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabu
         <tr>
             <th><?php echo $this->sortLink($translate('Label'), 'label'); ?></th>
             <th><?php echo $this->sortLink($translate('Term'), 'local_name'); ?></th>
-            <th><?php echo $this->sortLink($translate('Items'), 'item_count'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -38,7 +37,6 @@ $this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabu
                 </ul>
             </td>
             <td><?php echo $escape($translate($property->term())); ?></td>
-            <td><?php echo $this->hyperlink($property->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['property[0][property]' => $property->id(), 'property[0][type]' => 'ex',]])); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

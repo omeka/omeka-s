@@ -43,7 +43,6 @@ $sortHeadings = [
             <th><?php echo $translate('Label'); ?></th>
             <th><?php echo $translate('Class'); ?></th>
             <th><?php echo $translate('Owner'); ?></th>
-            <th><?php echo $translate('Items'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -88,7 +87,6 @@ $sortHeadings = [
             </td>
             <td><?php echo $escape($translate($resourceTemplate->displayResourceClassLabel())); ?></td>
             <td><?php echo $ownerText; ?></td>
-            <td><?php echo $this->hyperlink($resourceTemplate->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['resource_template_id' => $resourceTemplate->id()]])); ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

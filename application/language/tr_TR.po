@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-08 14:28-0400\n"
+"POT-Creation-Date: 2019-08-07 13:22-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
 "Last-Translator: Zubeyir Tercan <zubeyir@gmail.com>, 2019\n"
 "Language-Team: Turkish (Turkey) (https://www.transifex.com/omeka/teams/14184/tr_TR/)\n"
@@ -64,18 +64,18 @@ msgstr "%1$s adaptörü silme işlemini desteklemiyor."
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "%1$s adaptörü toplu silme işlemini desteklemiyor."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:239
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:241
 #, php-format
 msgid "The \"%s\" field is not available in the %s entity class."
 msgstr "\"%s\" alanı %s nesne sınıfı içinde bulunmuyor."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:582
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:586
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %s the %s resource."
 msgstr ""
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:624
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:628
 #, php-format
 msgid "%s entity with criteria %s not found"
 msgstr ""
@@ -97,7 +97,7 @@ msgstr "Görüntüle"
 msgid "The API does not support the \"%s\" resource."
 msgstr "API \"%s\" kaynağını (resource) desteklemiyor. "
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:484
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:492
 #: application/view/common/block-layout/browse-preview.phtml:15
 #: application/view/omeka/site/item-set/browse.phtml:23
 #: application/view/omeka/site/item/browse.phtml:58
@@ -163,7 +163,7 @@ msgstr "Geçersiz INI dosyası"
 msgid "Invalid Omeka S version"
 msgstr "Geçersiz Omeka S sürümü"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:409
+#: application/src/Controller/Admin/ResourceTemplateController.php:415
 msgid "Add another resource template?"
 msgstr "Başka kaynak şablonu eklemek istiyor musunuz?"
 
@@ -247,7 +247,7 @@ msgstr "Modül \"%s\" kaldırma sırasında veritabanında bulunamadı"
 msgid "Permission denied for the current user to %s the %s module."
 msgstr ""
 
-#: application/src/Mvc/MvcListeners.php:431
+#: application/src/Mvc/MvcListeners.php:436
 #, php-format
 msgid ""
 "Permission denied for the current user to access the %1$s action of the %2$s"
@@ -421,7 +421,7 @@ msgstr "boş"
 #: application/view/omeka/admin/resource-template/browse.phtml:44
 #: application/view/omeka/admin/resource-template/review-import.phtml:25
 #: application/view/omeka/admin/resource-template/show.phtml:18
-#: application/view/omeka/site/item/browse.phtml:24
+#: application/view/omeka/site/item/browse.phtml:22
 msgid "Class"
 msgstr "Sınıf"
 
@@ -450,7 +450,7 @@ msgstr "VE"
 #: application/src/View/Helper/SearchFilters.php:118
 #: application/view/common/search-form.phtml:7
 #: application/view/common/search-form.phtml:8
-#: application/view/layout/layout-admin.phtml:61
+#: application/view/layout/layout-admin.phtml:62
 #: application/view/omeka/admin/item-set/search.phtml:13
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:12
 #: application/view/omeka/admin/item/search.phtml:13
@@ -472,7 +472,7 @@ msgid "Unknown template"
 msgstr ""
 
 #: application/src/View/Helper/SearchFilters.php:150
-#: application/view/omeka/site/item/browse.phtml:36
+#: application/view/omeka/site/item/browse.phtml:34
 msgid "Item set"
 msgstr "Koleksiyon"
 
@@ -547,8 +547,8 @@ msgstr ""
 msgid "The maximum upload size is %s MB."
 msgstr "Maksimum yükleme boyutu %s MB'tır"
 
-#: application/src/View/Helper/UserBar.php:117
-#: application/src/View/Helper/UserBar.php:148
+#: application/src/View/Helper/UserBar.php:118
+#: application/src/View/Helper/UserBar.php:150
 #: application/view/omeka/admin/index/browse.phtml:48
 #: application/view/omeka/admin/item-set/browse.phtml:109
 #: application/view/omeka/admin/item-set/edit.phtml:14
@@ -556,7 +556,7 @@ msgstr "Maksimum yükleme boyutu %s MB'tır"
 #: application/view/omeka/admin/item/edit.phtml:14
 #: application/view/omeka/admin/item/manage-media.phtml:44
 #: application/view/omeka/admin/media/browse.phtml:117
-#: application/view/omeka/admin/resource-template/browse.phtml:72
+#: application/view/omeka/admin/resource-template/browse.phtml:71
 #: application/view/omeka/admin/user/browse.phtml:101
 #: application/view/omeka/admin/user/edit.phtml:14
 #: application/view/omeka/admin/vocabulary/browse.phtml:59
@@ -568,11 +568,15 @@ msgstr "Maksimum yükleme boyutu %s MB'tır"
 msgid "Edit"
 msgstr "Düzenle"
 
-#: application/src/View/Helper/UserBar.php:155
+#: application/src/View/Helper/UserBar.php:157
 #: application/view/omeka/site-admin/index/show.phtml:17
 #: application/view/omeka/site-admin/page/edit.phtml:15
 msgid "View"
 msgstr "Görüntüle"
+
+#: application/view/common/advanced-search/fulltext.phtml:6
+msgid "Search full-text"
+msgstr ""
 
 #: application/view/common/advanced-search/item-sets.phtml:15
 msgid "Search by item set"
@@ -718,13 +722,13 @@ msgstr "Blok kaldırıldı"
 #: application/view/common/block-layout.phtml:13
 #: application/view/common/data-type-wrapper.phtml:13
 #: application/view/omeka/admin/item/manage-media.phtml:53
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:39
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:40
 msgid "Restore value"
 msgstr ""
 
 #: application/view/common/block-layout/item-with-metadata.phtml:12
 #: application/view/common/data-type/resource.phtml:29
-#: application/view/layout/layout-admin.phtml:71
+#: application/view/layout/layout-admin.phtml:72
 #: application/view/omeka/admin/item-set/add.phtml:6
 #: application/view/omeka/admin/item-set/browse.phtml:29
 #: application/view/omeka/admin/item-set/edit.phtml:14
@@ -735,7 +739,7 @@ msgstr ""
 #: application/view/omeka/admin/item/show.phtml:63
 #: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:24
-#: application/view/omeka/site/item-set/browse.phtml:10
+#: application/view/omeka/site/item-set/browse.phtml:8
 #: application/view/omeka/site/item/show.phtml:24
 msgid "Item sets"
 msgstr "Koleksiyonlar"
@@ -750,6 +754,7 @@ msgstr "Değer kaldırıldı"
 #: application/view/omeka/admin/item/form.phtml:43
 #: application/view/omeka/admin/item/manage-media.phtml:31
 #: application/view/omeka/admin/media/edit.phtml:52
+#: application/view/omeka/site-admin/index/add.phtml:27
 #: application/view/omeka/site-admin/index/edit.phtml:15
 msgid "Make private"
 msgstr "Gizli yap"
@@ -767,7 +772,7 @@ msgid "No resource selected"
 msgstr "Kaynak seçilmedi"
 
 #: application/view/common/data-type/resource.phtml:22
-#: application/view/layout/layout-admin.phtml:67
+#: application/view/layout/layout-admin.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:18
 #: application/view/omeka/admin/item-set/show.phtml:79
 #: application/view/omeka/admin/item/add.phtml:6
@@ -775,19 +780,20 @@ msgstr "Kaynak seçilmedi"
 #: application/view/omeka/admin/item/edit.phtml:14
 #: application/view/omeka/admin/item/search.phtml:5
 #: application/view/omeka/admin/item/show.phtml:18
+#: application/view/omeka/admin/property/show-details.phtml:18
+#: application/view/omeka/admin/resource-class/show-details.phtml:18
 #: application/view/omeka/admin/resource-template/browse.phtml:19
-#: application/view/omeka/admin/resource-template/browse.phtml:46
+#: application/view/omeka/admin/resource-template/show-details.phtml:18
 #: application/view/omeka/admin/user/show-details.phtml:12
 #: application/view/omeka/admin/vocabulary/classes.phtml:15
-#: application/view/omeka/admin/vocabulary/classes.phtml:39
-#: application/view/omeka/admin/vocabulary/properties.phtml:22
+#: application/view/omeka/site/index/search.phtml:23
+#: application/view/omeka/site/item/browse.phtml:39
 #: application/view/omeka/site/item/browse.phtml:41
-#: application/view/omeka/site/item/browse.phtml:43
 msgid "Items"
 msgstr "Öğeler"
 
 #: application/view/common/data-type/resource.phtml:36
-#: application/view/layout/layout-admin.phtml:75
+#: application/view/layout/layout-admin.phtml:76
 #: application/view/omeka/admin/item/form.phtml:14
 #: application/view/omeka/admin/item/show-details.phtml:27
 #: application/view/omeka/admin/item/show.phtml:79
@@ -802,7 +808,7 @@ msgid "Media"
 msgstr "Çoklu ortam dosyaları"
 
 #: application/view/common/data-type/uri.phtml:6
-#: application/view/common/property-form-batch-edit.phtml:40
+#: application/view/common/property-form-batch-edit.phtml:44
 #: application/view/common/resource-form-templates.phtml:24
 msgid "URI"
 msgstr "URI"
@@ -811,7 +817,7 @@ msgstr "URI"
 #: application/view/common/navigation-link-form/browse.phtml:8
 #: application/view/common/navigation-link-form/page.phtml:15
 #: application/view/common/navigation-link-form/url.phtml:8
-#: application/view/common/property-form-batch-edit.phtml:41
+#: application/view/common/property-form-batch-edit.phtml:45
 #: application/view/omeka/admin/resource-template/browse.phtml:7
 #: application/view/omeka/admin/resource-template/browse.phtml:43
 #: application/view/omeka/admin/resource-template/form.phtml:55
@@ -842,7 +848,7 @@ msgstr "Başlık"
 #: application/view/omeka/admin/media/browse.phtml:163
 #: application/view/omeka/admin/media/browse.phtml:181
 #: application/view/omeka/admin/module/browse.phtml:159
-#: application/view/omeka/admin/resource-template/browse.phtml:100
+#: application/view/omeka/admin/resource-template/browse.phtml:98
 #: application/view/omeka/admin/resource-template/form.phtml:43
 #: application/view/omeka/admin/resource-template/form.phtml:52
 #: application/view/omeka/admin/resource-template/show.phtml:61
@@ -850,8 +856,8 @@ msgstr "Başlık"
 #: application/view/omeka/admin/user/browse.phtml:144
 #: application/view/omeka/admin/user/browse.phtml:162
 #: application/view/omeka/admin/vocabulary/browse.phtml:92
-#: application/view/omeka/admin/vocabulary/classes.phtml:69
-#: application/view/omeka/admin/vocabulary/properties.phtml:52
+#: application/view/omeka/admin/vocabulary/classes.phtml:67
+#: application/view/omeka/admin/vocabulary/properties.phtml:50
 #: application/view/omeka/site-admin/index/index.phtml:101
 #: application/view/omeka/site-admin/index/navigation.phtml:26
 #: application/view/omeka/site-admin/page/edit.phtml:38
@@ -903,7 +909,7 @@ msgstr "Tüm koleksiyonlar"
 #: application/view/omeka/admin/job/browse.phtml:56
 #: application/view/omeka/admin/job/show.phtml:18
 #: application/view/omeka/admin/media/browse.phtml:101
-#: application/view/omeka/admin/resource-template/browse.phtml:62
+#: application/view/omeka/admin/resource-template/browse.phtml:61
 #: application/view/omeka/site-admin/index/index.phtml:57
 msgid "[no owner]"
 msgstr "[sahip yok]"
@@ -934,7 +940,7 @@ msgstr "Tümü"
 #: application/view/omeka/site-admin/index/resources.phtml:62
 #: application/view/omeka/site-admin/index/show.phtml:28
 #: application/view/omeka/site-admin/page/index.phtml:18
-#: application/view/omeka/site/item/browse.phtml:16
+#: application/view/omeka/site/item/browse.phtml:14
 msgid "Title"
 msgstr "Başlık"
 
@@ -995,27 +1001,47 @@ msgid "Select property"
 msgstr "Üstveri alanı seç"
 
 #: application/view/common/property-form-batch-edit.phtml:12
-#: application/view/common/property-form-batch-edit.phtml:53
+#: application/view/common/property-form-batch-edit.phtml:76
 msgid "Add text value"
 msgstr "Metin değeri ekle"
 
+#: application/view/common/property-form-batch-edit.phtml:17
+#: application/view/common/property-form-batch-edit.phtml:31
+#: application/view/common/property-form-batch-edit.phtml:46
+#: application/view/common/property-form-batch-edit.phtml:66
+#: application/view/omeka/admin/item-set/show-details.phtml:14
+#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item/show-details.phtml:14
+#: application/view/omeka/admin/item/show.phtml:58
+#: application/view/omeka/admin/media/show-details.phtml:38
+#: application/view/omeka/admin/media/show.phtml:33
+msgid "Public"
+msgstr "Halka açık"
+
 #: application/view/common/property-form-batch-edit.phtml:18
-#: application/view/common/property-form-batch-edit.phtml:30
-#: application/view/common/property-form-batch-edit.phtml:43
+#: application/view/common/property-form-batch-edit.phtml:32
+#: application/view/common/property-form-batch-edit.phtml:47
+#: application/view/common/property-form-batch-edit.phtml:67
+msgid "Not public"
+msgstr "Halka açık değil"
+
+#: application/view/common/property-form-batch-edit.phtml:20
+#: application/view/common/property-form-batch-edit.phtml:34
+#: application/view/common/property-form-batch-edit.phtml:49
 msgid "Remove"
 msgstr "Kaldır"
 
-#: application/view/common/property-form-batch-edit.phtml:24
-#: application/view/common/property-form-batch-edit.phtml:54
+#: application/view/common/property-form-batch-edit.phtml:26
+#: application/view/common/property-form-batch-edit.phtml:77
 msgid "Add resource value"
 msgstr "Kaynak değeri ekle"
 
-#: application/view/common/property-form-batch-edit.phtml:28
+#: application/view/common/property-form-batch-edit.phtml:30
 msgid "Resource ID"
 msgstr "Kaynak ID"
 
-#: application/view/common/property-form-batch-edit.phtml:36
-#: application/view/common/property-form-batch-edit.phtml:55
+#: application/view/common/property-form-batch-edit.phtml:40
+#: application/view/common/property-form-batch-edit.phtml:78
 msgid "Add URI value"
 msgstr "URI değeri ekle"
 
@@ -1111,17 +1137,18 @@ msgid "Sort"
 msgstr "Sırala"
 
 #: application/view/common/user-bar.phtml:22
-#: application/view/layout/layout-admin.phtml:47
+#: application/view/layout/layout-admin.phtml:48
 #, php-format
 msgid "Signed in as %s"
 msgstr "%s olarak oturum açıldı"
 
 #: application/view/common/user-bar.phtml:25
-#: application/view/layout/layout-admin.phtml:51
+#: application/view/layout/layout-admin.phtml:52
 msgid "Logout"
 msgstr "Çıkış"
 
 #: application/view/common/user-bar.phtml:28
+#: application/view/omeka/login/login.phtml:5
 msgid "Log in"
 msgstr "Giriş yap"
 
@@ -1177,58 +1204,62 @@ msgstr "Kaynaklar"
 msgid "Admin"
 msgstr "Yönetici"
 
-#: application/view/layout/layout-admin.phtml:41
+#: application/view/layout/layout-admin.phtml:37
+msgid "Skip to main content"
+msgstr ""
+
+#: application/view/layout/layout-admin.phtml:42
 msgid "Navigation menu"
 msgstr "Menü"
 
-#: application/view/layout/layout-admin.phtml:42
+#: application/view/layout/layout-admin.phtml:43
 msgid "Search site"
 msgstr ""
 
-#: application/view/layout/layout-admin.phtml:43
+#: application/view/layout/layout-admin.phtml:44
 msgid "User menu"
 msgstr "Kullanıcı menüsü"
 
-#: application/view/layout/layout-admin.phtml:53
+#: application/view/layout/layout-admin.phtml:54
 msgid "not logged in"
 msgstr ""
 
-#: application/view/layout/layout-admin.phtml:60
+#: application/view/layout/layout-admin.phtml:61
 msgid "Advanced options"
 msgstr ""
 
-#: application/view/layout/layout-admin.phtml:63
+#: application/view/layout/layout-admin.phtml:64
 msgid "Resource type"
 msgstr "Kaynak türü"
 
-#: application/view/layout/layout-admin.phtml:65
+#: application/view/layout/layout-admin.phtml:66
 msgid "Search items"
 msgstr "Öğeler içerisinde ara"
 
-#: application/view/layout/layout-admin.phtml:69
+#: application/view/layout/layout-admin.phtml:70
 msgid "Search item sets"
 msgstr "Koleksiyonlar içerisinde ara"
 
-#: application/view/layout/layout-admin.phtml:73
+#: application/view/layout/layout-admin.phtml:74
 msgid "Search media"
 msgstr "Çoklu ortam dosyaları içinde ara"
 
-#: application/view/layout/layout-admin.phtml:86
+#: application/view/layout/layout-admin.phtml:87
 #: application/view/omeka/site-admin/index/index.phtml:70
 msgid "View public site"
 msgstr ""
 
-#: application/view/layout/layout-admin.phtml:92
+#: application/view/layout/layout-admin.phtml:93
 #: application/view/omeka/admin/module/browse.phtml:11
 #: application/view/omeka/admin/module/configure.phtml:6
 msgid "Modules"
 msgstr "Modüller"
 
-#: application/view/layout/layout-admin.phtml:110
+#: application/view/layout/layout-admin.phtml:111
 msgid "Omeka S"
 msgstr ""
 
-#: application/view/layout/layout-admin.phtml:110
+#: application/view/layout/layout-admin.phtml:111
 #: application/view/omeka/admin/module/browse.phtml:39
 #: application/view/omeka/site-admin/index/theme-selector.phtml:37
 #: application/view/omeka/site-admin/index/theme.phtml:35
@@ -1236,16 +1267,16 @@ msgstr ""
 msgid "version %s"
 msgstr "sürüm %s"
 
-#: application/view/layout/layout-admin.phtml:111
+#: application/view/layout/layout-admin.phtml:112
 #: application/view/omeka/admin/system-info/browse.phtml:4
 msgid "System information"
 msgstr "Sistem bilgileri"
 
-#: application/view/layout/layout-admin.phtml:112
+#: application/view/layout/layout-admin.phtml:113
 msgid "User manual"
 msgstr ""
 
-#: application/view/layout/layout-admin.phtml:113
+#: application/view/layout/layout-admin.phtml:114
 msgid "Support forums"
 msgstr ""
 
@@ -1400,7 +1431,7 @@ msgstr "Şu an %s koleksiyon düzenliyorsunuz."
 #: application/view/omeka/admin/item-set/browse.phtml:11
 #: application/view/omeka/admin/item/browse.phtml:11
 #: application/view/omeka/admin/media/browse.phtml:13
-#: application/view/omeka/site/item/browse.phtml:20
+#: application/view/omeka/site/item/browse.phtml:18
 msgid "Identifier"
 msgstr ""
 
@@ -1435,7 +1466,7 @@ msgstr "Sahip"
 #: application/view/omeka/admin/media/show.phtml:41
 #: application/view/omeka/admin/user/browse.phtml:18
 #: application/view/omeka/admin/user/browse.phtml:81
-#: application/view/omeka/site/item/browse.phtml:28
+#: application/view/omeka/site/item/browse.phtml:26
 msgid "Created"
 msgstr "Oluşturma tarihi"
 
@@ -1447,8 +1478,8 @@ msgstr "Oluşturma tarihi"
 #: application/view/omeka/admin/media/search.phtml:5
 #: application/view/omeka/admin/user/browse.phtml:30
 #: application/view/omeka/admin/user/search.phtml:5
-#: application/view/omeka/site/item-set/browse.phtml:16
-#: application/view/omeka/site/item/browse.phtml:50
+#: application/view/omeka/site/item-set/browse.phtml:14
+#: application/view/omeka/site/item/browse.phtml:48
 msgid "Advanced search"
 msgstr "Gelişmiş arama"
 
@@ -1534,7 +1565,7 @@ msgstr "Koleksiyon seç"
 #: application/view/omeka/admin/media/browse.phtml:111
 #: application/view/omeka/admin/media/show-details.phtml:38
 #: application/view/omeka/admin/media/show.phtml:33
-#: application/view/omeka/admin/resource-template/form.phtml:78
+#: application/view/omeka/admin/resource-template/form.phtml:90
 #: application/view/omeka/site-admin/index/index.phtml:64
 msgid "Private"
 msgstr "Gizli"
@@ -1545,7 +1576,7 @@ msgstr "Gizli"
 #: application/view/omeka/admin/item/edit.phtml:6
 #: application/view/omeka/admin/media/browse.phtml:125
 #: application/view/omeka/admin/media/edit.phtml:63
-#: application/view/omeka/admin/resource-template/browse.phtml:79
+#: application/view/omeka/admin/resource-template/browse.phtml:78
 #: application/view/omeka/admin/resource-template/form.phtml:13
 #: application/view/omeka/admin/user/browse.phtml:108
 #: application/view/omeka/admin/user/edit.phtml:40
@@ -1561,13 +1592,13 @@ msgstr "Sil"
 #: application/view/omeka/admin/item-set/browse.phtml:124
 #: application/view/omeka/admin/item/browse.phtml:122
 #: application/view/omeka/admin/media/browse.phtml:132
-#: application/view/omeka/admin/resource-template/browse.phtml:85
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:25
+#: application/view/omeka/admin/resource-template/browse.phtml:84
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:26
 #: application/view/omeka/admin/resource-template/show.phtml:44
 #: application/view/omeka/admin/user/browse.phtml:114
 #: application/view/omeka/admin/vocabulary/browse.phtml:73
-#: application/view/omeka/admin/vocabulary/classes.phtml:53
-#: application/view/omeka/admin/vocabulary/properties.phtml:36
+#: application/view/omeka/admin/vocabulary/classes.phtml:52
+#: application/view/omeka/admin/vocabulary/properties.phtml:35
 msgid "Details"
 msgstr "Detaylar"
 
@@ -1641,7 +1672,7 @@ msgstr ""
 #: application/view/omeka/admin/item/form.phtml:49
 #: application/view/omeka/admin/item/manage-media.phtml:37
 #: application/view/omeka/admin/media/edit.phtml:58
-#: application/view/omeka/site-admin/index/add.phtml:20
+#: application/view/omeka/site-admin/index/add.phtml:21
 #: application/view/omeka/site-admin/index/edit.phtml:21
 msgid "Make public"
 msgstr "Halka açık yap"
@@ -1660,15 +1691,6 @@ msgstr ""
 #: application/view/omeka/admin/media/show.phtml:32
 msgid "Visibility"
 msgstr "Görünürlük"
-
-#: application/view/omeka/admin/item-set/show-details.phtml:14
-#: application/view/omeka/admin/item-set/show.phtml:75
-#: application/view/omeka/admin/item/show-details.phtml:14
-#: application/view/omeka/admin/item/show.phtml:58
-#: application/view/omeka/admin/media/show-details.phtml:38
-#: application/view/omeka/admin/media/show.phtml:33
-msgid "Public"
-msgstr "Halka açık"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:15
 #: application/view/omeka/admin/item-set/show.phtml:76
@@ -1720,7 +1742,7 @@ msgstr "Yeni öğe"
 #: application/view/omeka/admin/resource-template/add.phtml:14
 #: application/view/omeka/admin/user/add.phtml:13
 #: application/view/omeka/site-admin/index/add-page.phtml:10
-#: application/view/omeka/site-admin/index/add.phtml:24
+#: application/view/omeka/site-admin/index/add.phtml:32
 msgid "Add"
 msgstr "Ekle"
 
@@ -2103,7 +2125,7 @@ msgstr "Kaynak şablonları"
 msgid "Import"
 msgstr "İçe aktar"
 
-#: application/view/omeka/admin/resource-template/browse.phtml:108
+#: application/view/omeka/admin/resource-template/browse.phtml:106
 msgid "Omeka could not find any resource templates."
 msgstr "Omeka herhangi bir kaynak şabonu bulamadı."
 
@@ -2122,16 +2144,24 @@ msgid "Other options"
 msgstr ""
 
 #: application/view/omeka/admin/resource-template/form.phtml:72
+msgid "Use for resource title"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:78
+msgid "Use for resource description"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:84
 msgid "Required"
 msgstr ""
 
-#: application/view/omeka/admin/resource-template/form.phtml:83
+#: application/view/omeka/admin/resource-template/form.phtml:95
 #: application/view/omeka/admin/resource-template/review-import.phtml:37
 #: application/view/omeka/admin/resource-template/show.phtml:27
 msgid "Data type"
 msgstr ""
 
-#: application/view/omeka/admin/resource-template/form.phtml:89
+#: application/view/omeka/admin/resource-template/form.phtml:101
 msgid "Set changes"
 msgstr ""
 
@@ -2183,11 +2213,11 @@ msgstr "Evet"
 msgid "No"
 msgstr "Hayır"
 
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:31
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:32
 msgid "Edit property"
 msgstr "Üstveri alanını düzenle"
 
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:35
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:36
 msgid "Remove property"
 msgstr "Üstveri alanını kaldır"
 
@@ -2350,7 +2380,7 @@ msgstr "Önek:"
 msgid "Namespace URI:"
 msgstr "Namespace URI"
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:77
+#: application/view/omeka/admin/vocabulary/classes.phtml:75
 msgid "This vocabulary has no classes."
 msgstr "Bu sözlük sınıf içermiyor."
 
@@ -2364,7 +2394,7 @@ msgstr ""
 msgid "New vocabulary"
 msgstr "Yeni sözlük"
 
-#: application/view/omeka/admin/vocabulary/properties.phtml:60
+#: application/view/omeka/admin/vocabulary/properties.phtml:58
 msgid "This vocabulary has no properties."
 msgstr "Bu sözlük  üstveri alanı içermiyor."
 
@@ -2419,10 +2449,6 @@ msgstr "Şifremi unuttum"
 msgid "Send password reset email"
 msgstr "Şifre sıfırlama e-postası gönder"
 
-#: application/view/omeka/login/login.phtml:5
-msgid "Login"
-msgstr "Giriş"
-
 #: application/view/omeka/login/login.phtml:7
 msgid "Forgot password?"
 msgstr "Şifremi unuttum"
@@ -2440,14 +2466,21 @@ msgstr ""
 " site yöneticisiyle göüşün."
 
 #: application/view/omeka/migrate/index.phtml:4
-#: application/view/omeka/migrate/index.phtml:8
+#: application/view/omeka/migrate/index.phtml:7
 msgid "Update database"
 msgstr "Veritabanını güncelle"
 
 #: application/view/omeka/migrate/index.phtml:5
 msgid ""
-"There was a recent software upgrade and the database needs to be updated. The\n"
-"entire site will be down for maintenance until you click the button below."
+"There was a recent software upgrade and the database needs to be updated. "
+"The entire site will be down for maintenance until you click the button "
+"below."
+msgstr ""
+
+#: application/view/omeka/migrate/index.phtml:10
+msgid ""
+"There are environment errors that must be resolved before you can update the"
+" database."
 msgstr ""
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
@@ -2457,6 +2490,7 @@ msgstr "Yeni sayfa"
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 #: application/view/omeka/site-admin/page/edit.phtml:11
 #: application/view/omeka/site-admin/page/index.phtml:7
+#: application/view/omeka/site/index/search.phtml:2
 msgid "Pages"
 msgstr "Sayfalar"
 
@@ -2653,6 +2687,21 @@ msgstr "Sayfayı sil"
 msgid "This site has no pages."
 msgstr "Bu sitede sayfa yok."
 
+#: application/view/omeka/site/index/search.phtml:10
+#: application/view/omeka/site/index/search.phtml:31
+#, php-format
+msgid "View all results (%s total)"
+msgstr ""
+
+#: application/view/omeka/site/index/search.phtml:19
+#: application/view/omeka/site/page/browse.phtml:15
+msgid "No pages found"
+msgstr ""
+
+#: application/view/omeka/site/index/search.phtml:40
+msgid "No items found"
+msgstr ""
+
 #: application/view/omeka/site/item-set/search.phtml:6
 msgid "Advanced item set Search"
 msgstr "Gelişmiş koleksiyon arama"
@@ -2665,33 +2714,37 @@ msgstr "Gelişmiş öğe arama"
 msgid "Item"
 msgstr "Öğe"
 
-#: application/config/module.config.php:615
+#: application/config/module.config.php:616
 msgid "Something went wrong"
 msgstr ""
 
-#: application/config/module.config.php:620
+#: application/config/module.config.php:621
 msgid "You have unsaved changes."
 msgstr "Kaydedilmemiş değişiklikleriniz var."
 
-#: application/config/module.config.php:622
+#: application/config/module.config.php:623
 msgid "Close icon set"
 msgstr ""
 
-#: application/config/module.config.php:623
+#: application/config/module.config.php:624
 msgid "Open icon set"
 msgstr ""
 
-#: application/config/module.config.php:625
+#: application/config/module.config.php:626
 msgid "Failed loading resource template from API"
 msgstr ""
 
-#: application/config/module.config.php:626
+#: application/config/module.config.php:627
 msgid "Restore property"
 msgstr ""
 
-#: application/config/module.config.php:628
+#: application/config/module.config.php:629
 msgid "Please enter a valid language tag"
 msgstr "Lütfen geçerli bir dil etiketi giriniz"
+
+#: application/config/module.config.php:631
+msgid "Description"
+msgstr "Tanımlama"
 
 #: application/config/navigation.config.php:181
 #: application/config/navigation.config.php:250
@@ -2970,38 +3023,42 @@ msgstr "Görünen başlık için üstveri alanı"
 
 #: application/src/Form/SiteSettingsForm.php:153
 msgid ""
-"Use this property for the heading of each resource on a browse page. Default"
-" is \"Dublin Core: Title\"."
+"Use this property for the heading of each resource on a browse page. Keep "
+"unselected to use the default title property of each resource."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:160
-#: application/src/Form/SiteSettingsForm.php:176
+#: application/src/Form/SiteSettingsForm.php:161
+#: application/src/Form/SiteSettingsForm.php:178
 msgid "Select a property"
 msgstr "Üstveri alanı seç"
 
-#: application/src/Form/SiteSettingsForm.php:168
+#: application/src/Form/SiteSettingsForm.php:169
 msgid "Browse body property"
 msgstr "Görünen içerik için özellik"
 
-#: application/src/Form/SiteSettingsForm.php:169
+#: application/src/Form/SiteSettingsForm.php:170
 msgid ""
-"Use this property for the body of each resource on a browse page. Default is"
-" \"Dublin Core: Description\"."
+"Use this property for the body of each resource on a browse page. Keep "
+"unselected to use the default description property of each resource."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:193
+#: application/src/Form/SiteSettingsForm.php:195
 msgid "Templates"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:194
+#: application/src/Form/SiteSettingsForm.php:196
 msgid "Select which templates to apply to the advanced search form."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:199
+#: application/src/Form/SiteSettingsForm.php:201
 msgid "Select templates"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:208
+#: application/src/Form/SiteSettingsForm.php:209
+msgid "Restrict to templates"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:210
 msgid "Restrict search results to resources of the selected templates."
 msgstr ""
 
@@ -3089,10 +3146,6 @@ msgstr ""
 msgid "Set visibility"
 msgstr "Görünürlüğü ayarla"
 
-#: application/src/Form/ResourceBatchUpdateForm.php:36
-msgid "Not public"
-msgstr "Halka açık değil"
-
 #: application/src/Form/ResourceBatchUpdateForm.php:50
 msgid "Set openness"
 msgstr ""
@@ -3139,6 +3192,7 @@ msgid "Clear language"
 msgstr ""
 
 #: application/src/Form/ResourceBatchUpdateForm.php:161
+#: application/view/common/property-form-batch-edit.phtml:63
 msgid "Select properties"
 msgstr "Üstveri alanlarını seç"
 
@@ -3230,48 +3284,62 @@ msgid ""
 msgstr ""
 "Omeka S, modüller ya da temaların yeni sürümleri çıktığında haber ver."
 
-#: application/src/Form/SettingForm.php:247
+#: application/src/Form/SettingForm.php:245
+msgid "Default content visibility to Private"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:246
+msgid ""
+"If checked, all items, item sets and sites newly created will have their "
+"visibility set to private by default."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:258
+msgid "Index full-text search"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:272
 msgid "Security"
 msgstr "Güvenlik"
 
-#: application/src/Form/SettingForm.php:256
+#: application/src/Form/SettingForm.php:281
 msgid "Use HTMLPurifier"
 msgstr "HTMLPurifier kullan"
 
-#: application/src/Form/SettingForm.php:257
+#: application/src/Form/SettingForm.php:282
 msgid "Clean up user-entered HTML."
 msgstr "Kullanıcılar tarafından girilmiş HTML kodlarını temizler."
 
-#: application/src/Form/SettingForm.php:269
+#: application/src/Form/SettingForm.php:294
 msgid "Disable file validation"
 msgstr "Dosya doğrulamasını devre dışı bırak"
 
-#: application/src/Form/SettingForm.php:270
+#: application/src/Form/SettingForm.php:295
 msgid "Check this to disable file media type and extension validation."
 msgstr ""
 "Uzantı ve dosya türü doğrulamasını devre dışı bırakmak için bunu işaretle."
 
-#: application/src/Form/SettingForm.php:279
+#: application/src/Form/SettingForm.php:304
 msgid "Allowed media types"
 msgstr "İzin verilen dosya türleri"
 
-#: application/src/Form/SettingForm.php:280
+#: application/src/Form/SettingForm.php:305
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr "İzin verilmiş dosya türlerinin virgülle ayrılmış listesi."
 
-#: application/src/Form/SettingForm.php:292
+#: application/src/Form/SettingForm.php:317
 msgid "Allowed file extensions"
 msgstr "İzin verilen dosya uzantıları"
 
-#: application/src/Form/SettingForm.php:293
+#: application/src/Form/SettingForm.php:318
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr "İzin verilmiş dosya uzantılarının virgülle ayrılmış listesi. "
 
-#: application/src/Form/SettingForm.php:307
+#: application/src/Form/SettingForm.php:332
 msgid "reCAPTCHA site key"
 msgstr "reCAPTCHA site anahtarı"
 
-#: application/src/Form/SettingForm.php:318
+#: application/src/Form/SettingForm.php:343
 msgid "reCAPTCHA secret key"
 msgstr " reCAPTCHA gizli anahtarı"
 
@@ -3382,7 +3450,7 @@ msgstr ""
 msgid "Could not verify that you are a human."
 msgstr ""
 
-#: application/src/Controller/MigrateController.php:33
+#: application/src/Controller/MigrateController.php:40
 msgid "Migration successful"
 msgstr "Göç başarılı"
 
@@ -3407,7 +3475,7 @@ msgid "User does not have permission to edit site settings"
 msgstr ""
 
 #: application/src/Controller/SiteAdmin/IndexController.php:136
-#: application/src/Controller/Admin/SettingController.php:31
+#: application/src/Controller/Admin/SettingController.php:35
 msgid "Settings successfully updated"
 msgstr "Ayarlar başarıyla güncellendi"
 
@@ -3512,11 +3580,11 @@ msgstr "Kaynak şablonu başarıyla silindi"
 msgid "Resource template could not be deleted"
 msgstr "Kaynak şablonu silinemedi"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:402
+#: application/src/Controller/Admin/ResourceTemplateController.php:408
 msgid "Resource template successfully updated"
 msgstr "Kaynak şablonu başarıyla güncellendi"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:405
+#: application/src/Controller/Admin/ResourceTemplateController.php:411
 #, php-format
 msgid "Resource template successfully created. %s"
 msgstr "Kaynak şablonu başarıyla oluşturuldu. %s"
@@ -3594,7 +3662,7 @@ msgstr ""
 msgid "For security reasons, you can’t batch edit yourself."
 msgstr ""
 
-#: application/src/Controller/Admin/UserController.php:396
+#: application/src/Controller/Admin/UserController.php:391
 msgid "Users successfully edited"
 msgstr ""
 
@@ -3635,7 +3703,7 @@ msgstr "Koleksiyonlar siliniyor. Bu biraz sürebilir."
 msgid "You must select at least one item set to batch edit."
 msgstr "Toplu düzenleme için en az bir koleksiyon seçmelisiniz."
 
-#: application/src/Controller/Admin/ItemSetController.php:267
+#: application/src/Controller/Admin/ItemSetController.php:262
 msgid "Item sets successfully edited"
 msgstr "Koleksiyonlar başarıyla düzenlendi"
 
@@ -3692,7 +3760,7 @@ msgstr ""
 msgid "You must select at least one media to batch edit."
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:235
+#: application/src/Controller/Admin/MediaController.php:230
 msgid "Medias successfully edited"
 msgstr ""
 
@@ -3733,7 +3801,7 @@ msgstr "Öğe başarıyla güncellendi"
 msgid "You must select at least one item to batch edit."
 msgstr "Toplu düzenleme için en az bir öğe seçmelisiniz."
 
-#: application/src/Controller/Admin/ItemController.php:295
+#: application/src/Controller/Admin/ItemController.php:290
 msgid "Items successfully edited"
 msgstr "Öğeler başarıyla düzenlendi"
 
@@ -3858,6 +3926,25 @@ msgstr ""
 #: application/src/Media/Ingester/Upload.php:69
 msgid "Upload file"
 msgstr "Dosya yükle"
+
+#: application/src/Stdlib/Environment.php:35
+#, php-format
+msgid ""
+"The installed PHP version (%s) is too low. Omeka requires at least version "
+"%s."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:43
+#, php-format
+msgid "Omeka requires the PHP extension %s, but it is not loaded."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:58
+#, php-format
+msgid ""
+"The installed MySQL version (%s) is too low. Omeka requires at least version"
+" %s."
+msgstr ""
 
 #: application/src/Permissions/Acl.php:21
 msgid "Global Administrator"
@@ -4001,19 +4088,19 @@ msgid "Page title"
 msgstr "Sayfa başlığı"
 
 #: application/src/Api/Adapter/ResourceClassAdapter.php:137
-#: application/src/Api/Adapter/PropertyAdapter.php:148
+#: application/src/Api/Adapter/PropertyAdapter.php:147
 msgid "The local name cannot be empty."
 msgstr ""
 
 #: application/src/Api/Adapter/ResourceClassAdapter.php:142
-#: application/src/Api/Adapter/PropertyAdapter.php:153
+#: application/src/Api/Adapter/PropertyAdapter.php:152
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:89
 #: application/src/Api/Adapter/VocabularyAdapter.php:214
 msgid "The label cannot be empty."
 msgstr ""
 
 #: application/src/Api/Adapter/ResourceClassAdapter.php:155
-#: application/src/Api/Adapter/PropertyAdapter.php:166
+#: application/src/Api/Adapter/PropertyAdapter.php:165
 #: application/src/Api/Adapter/VocabularyAdapter.php:222
 #: application/src/Api/Adapter/VocabularyAdapter.php:235
 #, php-format
@@ -4021,51 +4108,51 @@ msgid "The local name \"%s\" is already taken."
 msgstr ""
 
 #: application/src/Api/Adapter/ResourceClassAdapter.php:161
-#: application/src/Api/Adapter/PropertyAdapter.php:172
+#: application/src/Api/Adapter/PropertyAdapter.php:171
 msgid "A vocabulary must be set."
 msgstr ""
 
-#: application/src/Api/Adapter/SitePageAdapter.php:84
+#: application/src/Api/Adapter/SitePageAdapter.php:101
 msgid "A page must belong to a site."
 msgstr ""
 
-#: application/src/Api/Adapter/SitePageAdapter.php:89
+#: application/src/Api/Adapter/SitePageAdapter.php:106
 msgid "A page must have a title."
 msgstr "Sayfanın bir başlığı olmalıdır."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:94
+#: application/src/Api/Adapter/SitePageAdapter.php:111
 #: application/src/Api/Adapter/SiteAdapter.php:234
 msgid "The slug cannot be empty."
 msgstr ""
 
-#: application/src/Api/Adapter/SitePageAdapter.php:97
+#: application/src/Api/Adapter/SitePageAdapter.php:114
 #: application/src/Api/Adapter/SiteAdapter.php:237
 msgid "A slug can only contain letters, numbers, underscores, and hyphens."
 msgstr ""
 
-#: application/src/Api/Adapter/SitePageAdapter.php:105
+#: application/src/Api/Adapter/SitePageAdapter.php:122
 #: application/src/Api/Adapter/SiteAdapter.php:241
 #, php-format
 msgid "The slug \"%s\" is already taken."
 msgstr ""
 
-#: application/src/Api/Adapter/SitePageAdapter.php:149
+#: application/src/Api/Adapter/SitePageAdapter.php:166
 msgid "All blocks must have a layout."
 msgstr ""
 
-#: application/src/Api/Adapter/SitePageAdapter.php:153
+#: application/src/Api/Adapter/SitePageAdapter.php:170
 msgid "Block data must not be a scalar value."
 msgstr ""
 
-#: application/src/Api/Adapter/ItemAdapter.php:106
+#: application/src/Api/Adapter/ItemAdapter.php:107
 msgid "Item sets must be an array"
 msgstr ""
 
-#: application/src/Api/Adapter/ItemAdapter.php:112
+#: application/src/Api/Adapter/ItemAdapter.php:113
 msgid "Media must be an array"
 msgstr ""
 
-#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:165
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:168
 #, php-format
 msgid "The \"%s\" resource template requires a \"%s\" value"
 msgstr ""
@@ -4110,15 +4197,15 @@ msgstr ""
 msgid "Invalid navigation: links must be an array"
 msgstr ""
 
-#: application/src/Api/Adapter/MediaAdapter.php:88
+#: application/src/Api/Adapter/MediaAdapter.php:89
 msgid "Media must set an ingester."
 msgstr ""
 
-#: application/src/Api/Adapter/MediaAdapter.php:110
+#: application/src/Api/Adapter/MediaAdapter.php:111
 msgid "Media must set a valid ingester."
 msgstr ""
 
-#: application/src/Api/Adapter/MediaAdapter.php:146
+#: application/src/Api/Adapter/MediaAdapter.php:147
 msgid "Media must belong to an item."
 msgstr ""
 
@@ -4222,6 +4309,11 @@ msgstr ""
 
 #: application/src/Entity/Job.php:28
 msgid "error"
+msgstr ""
+
+#: application/src/Mvc/MvcListeners.php:325
+#, php-format
+msgid "The current theme is not active. Its current state is \"%s\"."
 msgstr ""
 
 #: application/src/DataType/Resource/AbstractResource.php:16
@@ -4467,10 +4559,6 @@ msgstr ""
 #. Property comment for Dublin Core:subject
 msgid "The topic of the resource."
 msgstr ""
-
-#. Property label for Dublin Core:description
-msgid "Description"
-msgstr "Tanımlama"
 
 #. Property comment for Dublin Core:description
 msgid "An account of the resource."

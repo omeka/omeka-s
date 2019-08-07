@@ -8,17 +8,17 @@
 # Stéphane Loret <stephane.loret@univ-nantes.fr>, 2018
 # symac <wikitipiac@laposte.net>, 2018
 # Pols12 <poltron54@gmail.com>, 2018
-# Daniel Berthereau <daniel.transifex@berthereau.net>, 2019
 # Laurent Thomas, 2019
+# Daniel Berthereau <daniel.transifex@berthereau.net>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-08 14:28-0400\n"
+"POT-Creation-Date: 2019-08-07 13:22-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Laurent Thomas, 2019\n"
+"Last-Translator: Daniel Berthereau <daniel.transifex@berthereau.net>, 2019\n"
 "Language-Team: French (https://www.transifex.com/omeka/teams/14184/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,18 +66,18 @@ msgstr "L’adaptateur %1$s n’exécute pas l’opération de suppression."
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "L’adaptateur %1$s n’exécute pas l’opération de suppression multiple."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:239
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:241
 #, php-format
 msgid "The \"%s\" field is not available in the %s entity class."
 msgstr "Le champ \"%s\" n’est pas disponible dans la classe d’entité %s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:582
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:586
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %s the %s resource."
 msgstr "Permission \"%s\" pour la ressource \"%s\" refusée à l’utilisateur actuel."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:624
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:628
 #, php-format
 msgid "%s entity with criteria %s not found"
 msgstr "Entité %s avec critère %s non trouvée"
@@ -99,7 +99,7 @@ msgstr "Parcourir"
 msgid "The API does not support the \"%s\" resource."
 msgstr "L’API n’est pas compatible avec la ressource \"%s\""
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:484
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:492
 #: application/view/common/block-layout/browse-preview.phtml:15
 #: application/view/omeka/site/item-set/browse.phtml:23
 #: application/view/omeka/site/item/browse.phtml:58
@@ -165,7 +165,7 @@ msgstr "INI invalide"
 msgid "Invalid Omeka S version"
 msgstr "Version Omeka S invalide"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:409
+#: application/src/Controller/Admin/ResourceTemplateController.php:415
 msgid "Add another resource template?"
 msgstr "Ajouter un autre modèle de ressource ?"
 
@@ -254,7 +254,7 @@ msgstr ""
 msgid "Permission denied for the current user to %s the %s module."
 msgstr "Permission \"%s\" du module \"%s\" refusée à l’utilisateur actuel."
 
-#: application/src/Mvc/MvcListeners.php:431
+#: application/src/Mvc/MvcListeners.php:436
 #, php-format
 msgid ""
 "Permission denied for the current user to access the %1$s action of the %2$s"
@@ -442,7 +442,7 @@ msgstr "n’a pas de valeur"
 #: application/view/omeka/admin/resource-template/browse.phtml:44
 #: application/view/omeka/admin/resource-template/review-import.phtml:25
 #: application/view/omeka/admin/resource-template/show.phtml:18
-#: application/view/omeka/site/item/browse.phtml:24
+#: application/view/omeka/site/item/browse.phtml:22
 msgid "Class"
 msgstr "Classe"
 
@@ -471,7 +471,7 @@ msgstr "ET"
 #: application/src/View/Helper/SearchFilters.php:118
 #: application/view/common/search-form.phtml:7
 #: application/view/common/search-form.phtml:8
-#: application/view/layout/layout-admin.phtml:61
+#: application/view/layout/layout-admin.phtml:62
 #: application/view/omeka/admin/item-set/search.phtml:13
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:12
 #: application/view/omeka/admin/item/search.phtml:13
@@ -493,7 +493,7 @@ msgid "Unknown template"
 msgstr "Modèle inconnu"
 
 #: application/src/View/Helper/SearchFilters.php:150
-#: application/view/omeka/site/item/browse.phtml:36
+#: application/view/omeka/site/item/browse.phtml:34
 msgid "Item set"
 msgstr "Collection"
 
@@ -568,8 +568,8 @@ msgstr "Est habilité sur le site"
 msgid "The maximum upload size is %s MB."
 msgstr "La taille de chargement maximale est de %s MB."
 
-#: application/src/View/Helper/UserBar.php:117
-#: application/src/View/Helper/UserBar.php:148
+#: application/src/View/Helper/UserBar.php:118
+#: application/src/View/Helper/UserBar.php:150
 #: application/view/omeka/admin/index/browse.phtml:48
 #: application/view/omeka/admin/item-set/browse.phtml:109
 #: application/view/omeka/admin/item-set/edit.phtml:14
@@ -577,7 +577,7 @@ msgstr "La taille de chargement maximale est de %s MB."
 #: application/view/omeka/admin/item/edit.phtml:14
 #: application/view/omeka/admin/item/manage-media.phtml:44
 #: application/view/omeka/admin/media/browse.phtml:117
-#: application/view/omeka/admin/resource-template/browse.phtml:72
+#: application/view/omeka/admin/resource-template/browse.phtml:71
 #: application/view/omeka/admin/user/browse.phtml:101
 #: application/view/omeka/admin/user/edit.phtml:14
 #: application/view/omeka/admin/vocabulary/browse.phtml:59
@@ -589,11 +589,15 @@ msgstr "La taille de chargement maximale est de %s MB."
 msgid "Edit"
 msgstr "Modifier"
 
-#: application/src/View/Helper/UserBar.php:155
+#: application/src/View/Helper/UserBar.php:157
 #: application/view/omeka/site-admin/index/show.phtml:17
 #: application/view/omeka/site-admin/page/edit.phtml:15
 msgid "View"
 msgstr "Voir"
+
+#: application/view/common/advanced-search/fulltext.phtml:6
+msgid "Search full-text"
+msgstr ""
 
 #: application/view/common/advanced-search/item-sets.phtml:15
 msgid "Search by item set"
@@ -740,13 +744,13 @@ msgstr "Bloc à supprimer"
 #: application/view/common/block-layout.phtml:13
 #: application/view/common/data-type-wrapper.phtml:13
 #: application/view/omeka/admin/item/manage-media.phtml:53
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:39
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:40
 msgid "Restore value"
 msgstr "Valeur à rétablir"
 
 #: application/view/common/block-layout/item-with-metadata.phtml:12
 #: application/view/common/data-type/resource.phtml:29
-#: application/view/layout/layout-admin.phtml:71
+#: application/view/layout/layout-admin.phtml:72
 #: application/view/omeka/admin/item-set/add.phtml:6
 #: application/view/omeka/admin/item-set/browse.phtml:29
 #: application/view/omeka/admin/item-set/edit.phtml:14
@@ -757,7 +761,7 @@ msgstr "Valeur à rétablir"
 #: application/view/omeka/admin/item/show.phtml:63
 #: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:24
-#: application/view/omeka/site/item-set/browse.phtml:10
+#: application/view/omeka/site/item-set/browse.phtml:8
 #: application/view/omeka/site/item/show.phtml:24
 msgid "Item sets"
 msgstr "Collections"
@@ -772,6 +776,7 @@ msgstr "Valeur à supprimer"
 #: application/view/omeka/admin/item/form.phtml:43
 #: application/view/omeka/admin/item/manage-media.phtml:31
 #: application/view/omeka/admin/media/edit.phtml:52
+#: application/view/omeka/site-admin/index/add.phtml:27
 #: application/view/omeka/site-admin/index/edit.phtml:15
 msgid "Make private"
 msgstr "Rendre privé"
@@ -789,7 +794,7 @@ msgid "No resource selected"
 msgstr "Pas de ressource sélectionnée"
 
 #: application/view/common/data-type/resource.phtml:22
-#: application/view/layout/layout-admin.phtml:67
+#: application/view/layout/layout-admin.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:18
 #: application/view/omeka/admin/item-set/show.phtml:79
 #: application/view/omeka/admin/item/add.phtml:6
@@ -797,19 +802,20 @@ msgstr "Pas de ressource sélectionnée"
 #: application/view/omeka/admin/item/edit.phtml:14
 #: application/view/omeka/admin/item/search.phtml:5
 #: application/view/omeka/admin/item/show.phtml:18
+#: application/view/omeka/admin/property/show-details.phtml:18
+#: application/view/omeka/admin/resource-class/show-details.phtml:18
 #: application/view/omeka/admin/resource-template/browse.phtml:19
-#: application/view/omeka/admin/resource-template/browse.phtml:46
+#: application/view/omeka/admin/resource-template/show-details.phtml:18
 #: application/view/omeka/admin/user/show-details.phtml:12
 #: application/view/omeka/admin/vocabulary/classes.phtml:15
-#: application/view/omeka/admin/vocabulary/classes.phtml:39
-#: application/view/omeka/admin/vocabulary/properties.phtml:22
+#: application/view/omeka/site/index/search.phtml:23
+#: application/view/omeka/site/item/browse.phtml:39
 #: application/view/omeka/site/item/browse.phtml:41
-#: application/view/omeka/site/item/browse.phtml:43
 msgid "Items"
 msgstr "Contenus"
 
 #: application/view/common/data-type/resource.phtml:36
-#: application/view/layout/layout-admin.phtml:75
+#: application/view/layout/layout-admin.phtml:76
 #: application/view/omeka/admin/item/form.phtml:14
 #: application/view/omeka/admin/item/show-details.phtml:27
 #: application/view/omeka/admin/item/show.phtml:79
@@ -824,7 +830,7 @@ msgid "Media"
 msgstr "Médias"
 
 #: application/view/common/data-type/uri.phtml:6
-#: application/view/common/property-form-batch-edit.phtml:40
+#: application/view/common/property-form-batch-edit.phtml:44
 #: application/view/common/resource-form-templates.phtml:24
 msgid "URI"
 msgstr "URI"
@@ -833,7 +839,7 @@ msgstr "URI"
 #: application/view/common/navigation-link-form/browse.phtml:8
 #: application/view/common/navigation-link-form/page.phtml:15
 #: application/view/common/navigation-link-form/url.phtml:8
-#: application/view/common/property-form-batch-edit.phtml:41
+#: application/view/common/property-form-batch-edit.phtml:45
 #: application/view/omeka/admin/resource-template/browse.phtml:7
 #: application/view/omeka/admin/resource-template/browse.phtml:43
 #: application/view/omeka/admin/resource-template/form.phtml:55
@@ -864,7 +870,7 @@ msgstr "Libellé"
 #: application/view/omeka/admin/media/browse.phtml:163
 #: application/view/omeka/admin/media/browse.phtml:181
 #: application/view/omeka/admin/module/browse.phtml:159
-#: application/view/omeka/admin/resource-template/browse.phtml:100
+#: application/view/omeka/admin/resource-template/browse.phtml:98
 #: application/view/omeka/admin/resource-template/form.phtml:43
 #: application/view/omeka/admin/resource-template/form.phtml:52
 #: application/view/omeka/admin/resource-template/show.phtml:61
@@ -872,8 +878,8 @@ msgstr "Libellé"
 #: application/view/omeka/admin/user/browse.phtml:144
 #: application/view/omeka/admin/user/browse.phtml:162
 #: application/view/omeka/admin/vocabulary/browse.phtml:92
-#: application/view/omeka/admin/vocabulary/classes.phtml:69
-#: application/view/omeka/admin/vocabulary/properties.phtml:52
+#: application/view/omeka/admin/vocabulary/classes.phtml:67
+#: application/view/omeka/admin/vocabulary/properties.phtml:50
 #: application/view/omeka/site-admin/index/index.phtml:101
 #: application/view/omeka/site-admin/index/navigation.phtml:26
 #: application/view/omeka/site-admin/page/edit.phtml:38
@@ -925,7 +931,7 @@ msgstr "Toutes les collections"
 #: application/view/omeka/admin/job/browse.phtml:56
 #: application/view/omeka/admin/job/show.phtml:18
 #: application/view/omeka/admin/media/browse.phtml:101
-#: application/view/omeka/admin/resource-template/browse.phtml:62
+#: application/view/omeka/admin/resource-template/browse.phtml:61
 #: application/view/omeka/site-admin/index/index.phtml:57
 msgid "[no owner]"
 msgstr "[pas de propriétaire]"
@@ -956,7 +962,7 @@ msgstr "Tout"
 #: application/view/omeka/site-admin/index/resources.phtml:62
 #: application/view/omeka/site-admin/index/show.phtml:28
 #: application/view/omeka/site-admin/page/index.phtml:18
-#: application/view/omeka/site/item/browse.phtml:16
+#: application/view/omeka/site/item/browse.phtml:14
 msgid "Title"
 msgstr "Titre"
 
@@ -1017,27 +1023,47 @@ msgid "Select property"
 msgstr "Choisir la propriété"
 
 #: application/view/common/property-form-batch-edit.phtml:12
-#: application/view/common/property-form-batch-edit.phtml:53
+#: application/view/common/property-form-batch-edit.phtml:76
 msgid "Add text value"
 msgstr "Ajouter une valeur textuelle"
 
+#: application/view/common/property-form-batch-edit.phtml:17
+#: application/view/common/property-form-batch-edit.phtml:31
+#: application/view/common/property-form-batch-edit.phtml:46
+#: application/view/common/property-form-batch-edit.phtml:66
+#: application/view/omeka/admin/item-set/show-details.phtml:14
+#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item/show-details.phtml:14
+#: application/view/omeka/admin/item/show.phtml:58
+#: application/view/omeka/admin/media/show-details.phtml:38
+#: application/view/omeka/admin/media/show.phtml:33
+msgid "Public"
+msgstr "Public"
+
 #: application/view/common/property-form-batch-edit.phtml:18
-#: application/view/common/property-form-batch-edit.phtml:30
-#: application/view/common/property-form-batch-edit.phtml:43
+#: application/view/common/property-form-batch-edit.phtml:32
+#: application/view/common/property-form-batch-edit.phtml:47
+#: application/view/common/property-form-batch-edit.phtml:67
+msgid "Not public"
+msgstr "Non public"
+
+#: application/view/common/property-form-batch-edit.phtml:20
+#: application/view/common/property-form-batch-edit.phtml:34
+#: application/view/common/property-form-batch-edit.phtml:49
 msgid "Remove"
 msgstr "Retirer"
 
-#: application/view/common/property-form-batch-edit.phtml:24
-#: application/view/common/property-form-batch-edit.phtml:54
+#: application/view/common/property-form-batch-edit.phtml:26
+#: application/view/common/property-form-batch-edit.phtml:77
 msgid "Add resource value"
 msgstr "Ajouter un lien vers une ressource"
 
-#: application/view/common/property-form-batch-edit.phtml:28
+#: application/view/common/property-form-batch-edit.phtml:30
 msgid "Resource ID"
 msgstr "ID de la ressource"
 
-#: application/view/common/property-form-batch-edit.phtml:36
-#: application/view/common/property-form-batch-edit.phtml:55
+#: application/view/common/property-form-batch-edit.phtml:40
+#: application/view/common/property-form-batch-edit.phtml:78
 msgid "Add URI value"
 msgstr "Ajouter un lien URI"
 
@@ -1135,17 +1161,18 @@ msgid "Sort"
 msgstr "Trier"
 
 #: application/view/common/user-bar.phtml:22
-#: application/view/layout/layout-admin.phtml:47
+#: application/view/layout/layout-admin.phtml:48
 #, php-format
 msgid "Signed in as %s"
 msgstr "Connecté comme %s"
 
 #: application/view/common/user-bar.phtml:25
-#: application/view/layout/layout-admin.phtml:51
+#: application/view/layout/layout-admin.phtml:52
 msgid "Logout"
 msgstr "Se déconnecter"
 
 #: application/view/common/user-bar.phtml:28
+#: application/view/omeka/login/login.phtml:5
 msgid "Log in"
 msgstr "Se connecter"
 
@@ -1201,58 +1228,62 @@ msgstr "Ressources"
 msgid "Admin"
 msgstr "Admin"
 
-#: application/view/layout/layout-admin.phtml:41
+#: application/view/layout/layout-admin.phtml:37
+msgid "Skip to main content"
+msgstr ""
+
+#: application/view/layout/layout-admin.phtml:42
 msgid "Navigation menu"
 msgstr "Menu de navigation"
 
-#: application/view/layout/layout-admin.phtml:42
+#: application/view/layout/layout-admin.phtml:43
 msgid "Search site"
 msgstr "Rechercher sur le site"
 
-#: application/view/layout/layout-admin.phtml:43
+#: application/view/layout/layout-admin.phtml:44
 msgid "User menu"
 msgstr "Menu utilisateur"
 
-#: application/view/layout/layout-admin.phtml:53
+#: application/view/layout/layout-admin.phtml:54
 msgid "not logged in"
 msgstr "non connecté"
 
-#: application/view/layout/layout-admin.phtml:60
+#: application/view/layout/layout-admin.phtml:61
 msgid "Advanced options"
 msgstr "Options avancées"
 
-#: application/view/layout/layout-admin.phtml:63
+#: application/view/layout/layout-admin.phtml:64
 msgid "Resource type"
 msgstr "Type de ressource"
 
-#: application/view/layout/layout-admin.phtml:65
+#: application/view/layout/layout-admin.phtml:66
 msgid "Search items"
 msgstr "Rechercher des contenus"
 
-#: application/view/layout/layout-admin.phtml:69
+#: application/view/layout/layout-admin.phtml:70
 msgid "Search item sets"
 msgstr "Rechercher des collections"
 
-#: application/view/layout/layout-admin.phtml:73
+#: application/view/layout/layout-admin.phtml:74
 msgid "Search media"
 msgstr "Rechercher des médias"
 
-#: application/view/layout/layout-admin.phtml:86
+#: application/view/layout/layout-admin.phtml:87
 #: application/view/omeka/site-admin/index/index.phtml:70
 msgid "View public site"
 msgstr "Voir le site public"
 
-#: application/view/layout/layout-admin.phtml:92
+#: application/view/layout/layout-admin.phtml:93
 #: application/view/omeka/admin/module/browse.phtml:11
 #: application/view/omeka/admin/module/configure.phtml:6
 msgid "Modules"
 msgstr "Modules"
 
-#: application/view/layout/layout-admin.phtml:110
+#: application/view/layout/layout-admin.phtml:111
 msgid "Omeka S"
 msgstr "Omeka S"
 
-#: application/view/layout/layout-admin.phtml:110
+#: application/view/layout/layout-admin.phtml:111
 #: application/view/omeka/admin/module/browse.phtml:39
 #: application/view/omeka/site-admin/index/theme-selector.phtml:37
 #: application/view/omeka/site-admin/index/theme.phtml:35
@@ -1260,16 +1291,16 @@ msgstr "Omeka S"
 msgid "version %s"
 msgstr "version %s"
 
-#: application/view/layout/layout-admin.phtml:111
+#: application/view/layout/layout-admin.phtml:112
 #: application/view/omeka/admin/system-info/browse.phtml:4
 msgid "System information"
 msgstr "Informations sur le système"
 
-#: application/view/layout/layout-admin.phtml:112
+#: application/view/layout/layout-admin.phtml:113
 msgid "User manual"
 msgstr "Manuel d’utilisation"
 
-#: application/view/layout/layout-admin.phtml:113
+#: application/view/layout/layout-admin.phtml:114
 msgid "Support forums"
 msgstr "Forums de soutien"
 
@@ -1426,7 +1457,7 @@ msgstr "Vous modifiez%s collections."
 #: application/view/omeka/admin/item-set/browse.phtml:11
 #: application/view/omeka/admin/item/browse.phtml:11
 #: application/view/omeka/admin/media/browse.phtml:13
-#: application/view/omeka/site/item/browse.phtml:20
+#: application/view/omeka/site/item/browse.phtml:18
 msgid "Identifier"
 msgstr "Identifiant"
 
@@ -1461,7 +1492,7 @@ msgstr "Propriétaire"
 #: application/view/omeka/admin/media/show.phtml:41
 #: application/view/omeka/admin/user/browse.phtml:18
 #: application/view/omeka/admin/user/browse.phtml:81
-#: application/view/omeka/site/item/browse.phtml:28
+#: application/view/omeka/site/item/browse.phtml:26
 msgid "Created"
 msgstr "Créé"
 
@@ -1473,8 +1504,8 @@ msgstr "Créé"
 #: application/view/omeka/admin/media/search.phtml:5
 #: application/view/omeka/admin/user/browse.phtml:30
 #: application/view/omeka/admin/user/search.phtml:5
-#: application/view/omeka/site/item-set/browse.phtml:16
-#: application/view/omeka/site/item/browse.phtml:50
+#: application/view/omeka/site/item-set/browse.phtml:14
+#: application/view/omeka/site/item/browse.phtml:48
 msgid "Advanced search"
 msgstr "Recherche avancée"
 
@@ -1560,7 +1591,7 @@ msgstr "Choisir la collection"
 #: application/view/omeka/admin/media/browse.phtml:111
 #: application/view/omeka/admin/media/show-details.phtml:38
 #: application/view/omeka/admin/media/show.phtml:33
-#: application/view/omeka/admin/resource-template/form.phtml:78
+#: application/view/omeka/admin/resource-template/form.phtml:90
 #: application/view/omeka/site-admin/index/index.phtml:64
 msgid "Private"
 msgstr "Privé"
@@ -1571,7 +1602,7 @@ msgstr "Privé"
 #: application/view/omeka/admin/item/edit.phtml:6
 #: application/view/omeka/admin/media/browse.phtml:125
 #: application/view/omeka/admin/media/edit.phtml:63
-#: application/view/omeka/admin/resource-template/browse.phtml:79
+#: application/view/omeka/admin/resource-template/browse.phtml:78
 #: application/view/omeka/admin/resource-template/form.phtml:13
 #: application/view/omeka/admin/user/browse.phtml:108
 #: application/view/omeka/admin/user/edit.phtml:40
@@ -1587,13 +1618,13 @@ msgstr "Supprimer"
 #: application/view/omeka/admin/item-set/browse.phtml:124
 #: application/view/omeka/admin/item/browse.phtml:122
 #: application/view/omeka/admin/media/browse.phtml:132
-#: application/view/omeka/admin/resource-template/browse.phtml:85
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:25
+#: application/view/omeka/admin/resource-template/browse.phtml:84
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:26
 #: application/view/omeka/admin/resource-template/show.phtml:44
 #: application/view/omeka/admin/user/browse.phtml:114
 #: application/view/omeka/admin/vocabulary/browse.phtml:73
-#: application/view/omeka/admin/vocabulary/classes.phtml:53
-#: application/view/omeka/admin/vocabulary/properties.phtml:36
+#: application/view/omeka/admin/vocabulary/classes.phtml:52
+#: application/view/omeka/admin/vocabulary/properties.phtml:35
 msgid "Details"
 msgstr "Détails"
 
@@ -1612,8 +1643,8 @@ msgstr "Êtes-vous sûr de vouloir supprimer les collections sélectionnées ?"
 msgid ""
 "%s: this action will permanently delete %s item sets and cannot be undone."
 msgstr ""
-"%s : cette action supprimera définitivement la collection %s et ne pourra "
-"pas être annulée."
+"%s : cette action supprimera définitivement %s collections et ne pourra pas "
+"être annulée."
 
 #: application/view/omeka/admin/item-set/browse.phtml:161
 #: application/view/omeka/admin/item-set/browse.phtml:179
@@ -1669,7 +1700,7 @@ msgstr "Ouvrir la collection"
 #: application/view/omeka/admin/item/form.phtml:49
 #: application/view/omeka/admin/item/manage-media.phtml:37
 #: application/view/omeka/admin/media/edit.phtml:58
-#: application/view/omeka/site-admin/index/add.phtml:20
+#: application/view/omeka/site-admin/index/add.phtml:21
 #: application/view/omeka/site-admin/index/edit.phtml:21
 msgid "Make public"
 msgstr "Rendre public"
@@ -1688,15 +1719,6 @@ msgstr "Réinitialiser"
 #: application/view/omeka/admin/media/show.phtml:32
 msgid "Visibility"
 msgstr "Visibilité"
-
-#: application/view/omeka/admin/item-set/show-details.phtml:14
-#: application/view/omeka/admin/item-set/show.phtml:75
-#: application/view/omeka/admin/item/show-details.phtml:14
-#: application/view/omeka/admin/item/show.phtml:58
-#: application/view/omeka/admin/media/show-details.phtml:38
-#: application/view/omeka/admin/media/show.phtml:33
-msgid "Public"
-msgstr "Public"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:15
 #: application/view/omeka/admin/item-set/show.phtml:76
@@ -1748,7 +1770,7 @@ msgstr "Nouveau contenu"
 #: application/view/omeka/admin/resource-template/add.phtml:14
 #: application/view/omeka/admin/user/add.phtml:13
 #: application/view/omeka/site-admin/index/add-page.phtml:10
-#: application/view/omeka/site-admin/index/add.phtml:24
+#: application/view/omeka/site-admin/index/add.phtml:32
 msgid "Add"
 msgstr "Ajouter"
 
@@ -2005,7 +2027,7 @@ msgstr "Partie d’un contenu"
 
 #: application/view/omeka/admin/media/show.phtml:57
 msgid "Ingester"
-msgstr "Provenance"
+msgstr "Ingéreur"
 
 #: application/view/omeka/admin/media/show.phtml:62
 msgid "Source"
@@ -2137,7 +2159,7 @@ msgstr "Modèles de ressource"
 msgid "Import"
 msgstr "Importer"
 
-#: application/view/omeka/admin/resource-template/browse.phtml:108
+#: application/view/omeka/admin/resource-template/browse.phtml:106
 msgid "Omeka could not find any resource templates."
 msgstr "Omeka ne trouve aucun modèle de ressource."
 
@@ -2156,16 +2178,24 @@ msgid "Other options"
 msgstr "Autres options"
 
 #: application/view/omeka/admin/resource-template/form.phtml:72
+msgid "Use for resource title"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:78
+msgid "Use for resource description"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:84
 msgid "Required"
 msgstr "Requis"
 
-#: application/view/omeka/admin/resource-template/form.phtml:83
+#: application/view/omeka/admin/resource-template/form.phtml:95
 #: application/view/omeka/admin/resource-template/review-import.phtml:37
 #: application/view/omeka/admin/resource-template/show.phtml:27
 msgid "Data type"
 msgstr "Type de donnée"
 
-#: application/view/omeka/admin/resource-template/form.phtml:89
+#: application/view/omeka/admin/resource-template/form.phtml:101
 msgid "Set changes"
 msgstr "Appliquer"
 
@@ -2217,11 +2247,11 @@ msgstr "Oui"
 msgid "No"
 msgstr "Non"
 
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:31
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:32
 msgid "Edit property"
 msgstr "Modifier cette propriété"
 
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:35
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:36
 msgid "Remove property"
 msgstr "Enlever la propriété"
 
@@ -2390,7 +2420,7 @@ msgstr "Préfixe :"
 msgid "Namespace URI:"
 msgstr "URI de l’espace de noms :"
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:77
+#: application/view/omeka/admin/vocabulary/classes.phtml:75
 msgid "This vocabulary has no classes."
 msgstr "Ce vocabulaire n’a pas de classe."
 
@@ -2406,7 +2436,7 @@ msgstr ""
 msgid "New vocabulary"
 msgstr "Nouveau vocabulaire"
 
-#: application/view/omeka/admin/vocabulary/properties.phtml:60
+#: application/view/omeka/admin/vocabulary/properties.phtml:58
 msgid "This vocabulary has no properties."
 msgstr "Ce vocabulaire n’a pas de propriété."
 
@@ -2461,10 +2491,6 @@ msgstr "Mot de passe oublié"
 msgid "Send password reset email"
 msgstr "Envoyer un email de réinitialisation de mot de passe"
 
-#: application/view/omeka/login/login.phtml:5
-msgid "Login"
-msgstr "Identifiant"
-
 #: application/view/omeka/login/login.phtml:7
 msgid "Forgot password?"
 msgstr "Mot de passe oublié ?"
@@ -2482,17 +2508,22 @@ msgstr ""
 "plus d’information."
 
 #: application/view/omeka/migrate/index.phtml:4
-#: application/view/omeka/migrate/index.phtml:8
+#: application/view/omeka/migrate/index.phtml:7
 msgid "Update database"
 msgstr "Mettre à jour la base de données"
 
 #: application/view/omeka/migrate/index.phtml:5
 msgid ""
-"There was a recent software upgrade and the database needs to be updated. The\n"
-"entire site will be down for maintenance until you click the button below."
+"There was a recent software upgrade and the database needs to be updated. "
+"The entire site will be down for maintenance until you click the button "
+"below."
 msgstr ""
-"Il y a eu une mise à niveau logicielle récente et la base de données doit être mise à jour. Le\n"
-"site entier sera mis en maintenance jusqu’à ce que vous cliquez sur le bouton ci-dessous."
+
+#: application/view/omeka/migrate/index.phtml:10
+msgid ""
+"There are environment errors that must be resolved before you can update the"
+" database."
+msgstr ""
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 msgid "New page"
@@ -2501,6 +2532,7 @@ msgstr "Nouvelle page"
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 #: application/view/omeka/site-admin/page/edit.phtml:11
 #: application/view/omeka/site-admin/page/index.phtml:7
+#: application/view/omeka/site/index/search.phtml:2
 msgid "Pages"
 msgstr "Pages"
 
@@ -2557,7 +2589,7 @@ msgstr "Filtrer les pages"
 
 #: application/view/omeka/site-admin/index/navigation.phtml:60
 msgid "There are no available pages."
-msgstr "Il n’y a pas de pages disponibles."
+msgstr "Il n’y a pas de page disponible."
 
 #: application/view/omeka/site-admin/index/resources.phtml:15
 msgid "Restore item set"
@@ -2701,6 +2733,21 @@ msgstr "Supprimer la page"
 msgid "This site has no pages."
 msgstr "Ce site n’a aucune page."
 
+#: application/view/omeka/site/index/search.phtml:10
+#: application/view/omeka/site/index/search.phtml:31
+#, php-format
+msgid "View all results (%s total)"
+msgstr ""
+
+#: application/view/omeka/site/index/search.phtml:19
+#: application/view/omeka/site/page/browse.phtml:15
+msgid "No pages found"
+msgstr ""
+
+#: application/view/omeka/site/index/search.phtml:40
+msgid "No items found"
+msgstr ""
+
 #: application/view/omeka/site/item-set/search.phtml:6
 msgid "Advanced item set Search"
 msgstr "Recherche de collections avancée"
@@ -2713,33 +2760,37 @@ msgstr "Recherche de contenus avancée"
 msgid "Item"
 msgstr "Contenu"
 
-#: application/config/module.config.php:615
+#: application/config/module.config.php:616
 msgid "Something went wrong"
 msgstr "Quelque chose s’est mal passé"
 
-#: application/config/module.config.php:620
+#: application/config/module.config.php:621
 msgid "You have unsaved changes."
 msgstr "Vous avez des modifications non enregistrées."
 
-#: application/config/module.config.php:622
+#: application/config/module.config.php:623
 msgid "Close icon set"
 msgstr "Fermer l’ensemble des icônes"
 
-#: application/config/module.config.php:623
+#: application/config/module.config.php:624
 msgid "Open icon set"
 msgstr "Ouvrir l’ensemble des icônes"
 
-#: application/config/module.config.php:625
+#: application/config/module.config.php:626
 msgid "Failed loading resource template from API"
 msgstr "Échec du chargement du modèle de ressource à partir de l’API"
 
-#: application/config/module.config.php:626
+#: application/config/module.config.php:627
 msgid "Restore property"
 msgstr "Restaurer la propriété"
 
-#: application/config/module.config.php:628
+#: application/config/module.config.php:629
 msgid "Please enter a valid language tag"
 msgstr "Entrez une étiquette de langue valide"
+
+#: application/config/module.config.php:631
+msgid "Description"
+msgstr "Description"
 
 #: application/config/navigation.config.php:181
 #: application/config/navigation.config.php:250
@@ -3036,43 +3087,43 @@ msgstr "Propriété définissant le titre, dans les listes"
 
 #: application/src/Form/SiteSettingsForm.php:153
 msgid ""
-"Use this property for the heading of each resource on a browse page. Default"
-" is \"Dublin Core: Title\"."
+"Use this property for the heading of each resource on a browse page. Keep "
+"unselected to use the default title property of each resource."
 msgstr ""
-"Cette propriété est utilisée comme titre pour chaque ressource dans les "
-"listes. La propriété par défaut est « Dublin Core : Titre »."
 
-#: application/src/Form/SiteSettingsForm.php:160
-#: application/src/Form/SiteSettingsForm.php:176
+#: application/src/Form/SiteSettingsForm.php:161
+#: application/src/Form/SiteSettingsForm.php:178
 msgid "Select a property"
 msgstr "Choisir une propriété"
 
-#: application/src/Form/SiteSettingsForm.php:168
+#: application/src/Form/SiteSettingsForm.php:169
 msgid "Browse body property"
 msgstr "Propriété définissant le corps, dans les listes"
 
-#: application/src/Form/SiteSettingsForm.php:169
+#: application/src/Form/SiteSettingsForm.php:170
 msgid ""
-"Use this property for the body of each resource on a browse page. Default is"
-" \"Dublin Core: Description\"."
+"Use this property for the body of each resource on a browse page. Keep "
+"unselected to use the default description property of each resource."
 msgstr ""
-"Cette propriété est utilisée comme corps pour chaque ressource dans les "
-"listes. La propriété par défaut est « Dublin Core : Description »."
 
-#: application/src/Form/SiteSettingsForm.php:193
+#: application/src/Form/SiteSettingsForm.php:195
 msgid "Templates"
 msgstr "Modèles"
 
-#: application/src/Form/SiteSettingsForm.php:194
+#: application/src/Form/SiteSettingsForm.php:196
 msgid "Select which templates to apply to the advanced search form."
 msgstr ""
 "Choisissez les modèles à appliquer pour le formulaire de recherche avancée"
 
-#: application/src/Form/SiteSettingsForm.php:199
+#: application/src/Form/SiteSettingsForm.php:201
 msgid "Select templates"
 msgstr "Choisir les modèles"
 
-#: application/src/Form/SiteSettingsForm.php:208
+#: application/src/Form/SiteSettingsForm.php:209
+msgid "Restrict to templates"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:210
 msgid "Restrict search results to resources of the selected templates."
 msgstr ""
 "Limiter les résultats de recherche aux ressources ayant les modèles "
@@ -3160,11 +3211,7 @@ msgstr "Les email ne correspondent pas"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:33
 msgid "Set visibility"
-msgstr "Visibilité de l’ensemble"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:36
-msgid "Not public"
-msgstr "Non public"
+msgstr "Modifier la visibilité"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:50
 msgid "Set openness"
@@ -3212,6 +3259,7 @@ msgid "Clear language"
 msgstr "Effacer la langue"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:161
+#: application/view/common/property-form-batch-edit.phtml:63
 msgid "Select properties"
 msgstr "Choisir des propriétés"
 
@@ -3307,53 +3355,67 @@ msgstr ""
 "Activer les notifications lorsqu'une nouvelle version d'Omeka S, d'un module"
 " ou d'un thème est disponible."
 
-#: application/src/Form/SettingForm.php:247
+#: application/src/Form/SettingForm.php:245
+msgid "Default content visibility to Private"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:246
+msgid ""
+"If checked, all items, item sets and sites newly created will have their "
+"visibility set to private by default."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:258
+msgid "Index full-text search"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:272
 msgid "Security"
 msgstr "Sécurité"
 
-#: application/src/Form/SettingForm.php:256
+#: application/src/Form/SettingForm.php:281
 msgid "Use HTMLPurifier"
 msgstr "Utiliser HTMLPurifier"
 
-#: application/src/Form/SettingForm.php:257
+#: application/src/Form/SettingForm.php:282
 msgid "Clean up user-entered HTML."
 msgstr "Nettoyer le HTML entré par l’utilisateur."
 
-#: application/src/Form/SettingForm.php:269
+#: application/src/Form/SettingForm.php:294
 msgid "Disable file validation"
 msgstr "Désactiver la validation du fichier"
 
-#: application/src/Form/SettingForm.php:270
+#: application/src/Form/SettingForm.php:295
 msgid "Check this to disable file media type and extension validation."
 msgstr ""
 "Cochez cette case pour désactiver la vérification du type de fichier et de "
 "l’extension."
 
-#: application/src/Form/SettingForm.php:279
+#: application/src/Form/SettingForm.php:304
 msgid "Allowed media types"
 msgstr "Types de supports autorisés"
 
-#: application/src/Form/SettingForm.php:280
+#: application/src/Form/SettingForm.php:305
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr ""
 "Une liste séparée par des virgules de types de médias autorisés pour les "
 "fichiers importés."
 
-#: application/src/Form/SettingForm.php:292
+#: application/src/Form/SettingForm.php:317
 msgid "Allowed file extensions"
 msgstr "Extensions de fichier autorisées"
 
-#: application/src/Form/SettingForm.php:293
+#: application/src/Form/SettingForm.php:318
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr ""
 "Une liste séparée par des virgules des extensions de fichiers autorisées "
 "pour les téléchargements de fichiers."
 
-#: application/src/Form/SettingForm.php:307
+#: application/src/Form/SettingForm.php:332
 msgid "reCAPTCHA site key"
 msgstr "clé du site ReCAPTCHA"
 
-#: application/src/Form/SettingForm.php:318
+#: application/src/Form/SettingForm.php:343
 msgid "reCAPTCHA secret key"
 msgstr "clé secrète ReCAPTCHA"
 
@@ -3471,7 +3533,7 @@ msgstr "You must verify that you are human by completing the CAPTCHA."
 msgid "Could not verify that you are a human."
 msgstr "Impossible de vérifier que vous êtes humain."
 
-#: application/src/Controller/MigrateController.php:33
+#: application/src/Controller/MigrateController.php:40
 msgid "Migration successful"
 msgstr "Migration réussie"
 
@@ -3496,7 +3558,7 @@ msgid "User does not have permission to edit site settings"
 msgstr "L'utilisateur n'est pas habilité à modifier les paramètres du site."
 
 #: application/src/Controller/SiteAdmin/IndexController.php:136
-#: application/src/Controller/Admin/SettingController.php:31
+#: application/src/Controller/Admin/SettingController.php:35
 msgid "Settings successfully updated"
 msgstr "Paramètres mis à jour avec succès"
 
@@ -3603,11 +3665,11 @@ msgstr "Modèle de ressource supprimée avec succès"
 msgid "Resource template could not be deleted"
 msgstr "Modèle de ressource ne peut pas être supprimé"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:402
+#: application/src/Controller/Admin/ResourceTemplateController.php:408
 msgid "Resource template successfully updated"
 msgstr "Modèle de ressource mis à jour avec succès"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:405
+#: application/src/Controller/Admin/ResourceTemplateController.php:411
 #, php-format
 msgid "Resource template successfully created. %s"
 msgstr "Modèle de ressource créé avec succès. %s"
@@ -3694,7 +3756,7 @@ msgstr ""
 "Pour des raisons de sécurité, vous ne pouvez pas faire partie d'un "
 "traitement en lot."
 
-#: application/src/Controller/Admin/UserController.php:396
+#: application/src/Controller/Admin/UserController.php:391
 msgid "Users successfully edited"
 msgstr "Utilisateurs modifiés avec succès."
 
@@ -3740,7 +3802,7 @@ msgstr ""
 "Vous devez sélectionner au moins une collection pour une modification "
 "multiple."
 
-#: application/src/Controller/Admin/ItemSetController.php:267
+#: application/src/Controller/Admin/ItemSetController.php:262
 msgid "Item sets successfully edited"
 msgstr "Collections modifiées avec succès."
 
@@ -3802,7 +3864,7 @@ msgstr ""
 "Vous devez sélectionner au moins un média pour effectuer une modification "
 "multiple."
 
-#: application/src/Controller/Admin/MediaController.php:235
+#: application/src/Controller/Admin/MediaController.php:230
 msgid "Medias successfully edited"
 msgstr "Médias mis à jour avec succès"
 
@@ -3846,7 +3908,7 @@ msgstr ""
 "Vous devez sélectionner au moins un contenu pour effectuer une modification "
 "en lot."
 
-#: application/src/Controller/Admin/ItemController.php:295
+#: application/src/Controller/Admin/ItemController.php:290
 msgid "Items successfully edited"
 msgstr "Contenus modifiés avec succès."
 
@@ -3976,6 +4038,25 @@ msgstr ""
 #: application/src/Media/Ingester/Upload.php:69
 msgid "Upload file"
 msgstr "Charger le fichier"
+
+#: application/src/Stdlib/Environment.php:35
+#, php-format
+msgid ""
+"The installed PHP version (%s) is too low. Omeka requires at least version "
+"%s."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:43
+#, php-format
+msgid "Omeka requires the PHP extension %s, but it is not loaded."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:58
+#, php-format
+msgid ""
+"The installed MySQL version (%s) is too low. Omeka requires at least version"
+" %s."
+msgstr ""
 
 #: application/src/Permissions/Acl.php:21
 msgid "Global Administrator"
@@ -4119,19 +4200,19 @@ msgid "Page title"
 msgstr "Titre de la page"
 
 #: application/src/Api/Adapter/ResourceClassAdapter.php:137
-#: application/src/Api/Adapter/PropertyAdapter.php:148
+#: application/src/Api/Adapter/PropertyAdapter.php:147
 msgid "The local name cannot be empty."
 msgstr "Le nom local ne peut pas être vide."
 
 #: application/src/Api/Adapter/ResourceClassAdapter.php:142
-#: application/src/Api/Adapter/PropertyAdapter.php:153
+#: application/src/Api/Adapter/PropertyAdapter.php:152
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:89
 #: application/src/Api/Adapter/VocabularyAdapter.php:214
 msgid "The label cannot be empty."
 msgstr "Le libellé ne peut pas être vide."
 
 #: application/src/Api/Adapter/ResourceClassAdapter.php:155
-#: application/src/Api/Adapter/PropertyAdapter.php:166
+#: application/src/Api/Adapter/PropertyAdapter.php:165
 #: application/src/Api/Adapter/VocabularyAdapter.php:222
 #: application/src/Api/Adapter/VocabularyAdapter.php:235
 #, php-format
@@ -4139,53 +4220,53 @@ msgid "The local name \"%s\" is already taken."
 msgstr "Le nom local \"%s\" est déjà pris."
 
 #: application/src/Api/Adapter/ResourceClassAdapter.php:161
-#: application/src/Api/Adapter/PropertyAdapter.php:172
+#: application/src/Api/Adapter/PropertyAdapter.php:171
 msgid "A vocabulary must be set."
 msgstr "Un vocabulaire doit être défini."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:84
+#: application/src/Api/Adapter/SitePageAdapter.php:101
 msgid "A page must belong to a site."
 msgstr "Une page doit appartenir à un site."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:89
+#: application/src/Api/Adapter/SitePageAdapter.php:106
 msgid "A page must have a title."
 msgstr "Une page doit avoir un titre."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:94
+#: application/src/Api/Adapter/SitePageAdapter.php:111
 #: application/src/Api/Adapter/SiteAdapter.php:234
 msgid "The slug cannot be empty."
 msgstr "Le slug ne peut pas être vide."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:97
+#: application/src/Api/Adapter/SitePageAdapter.php:114
 #: application/src/Api/Adapter/SiteAdapter.php:237
 msgid "A slug can only contain letters, numbers, underscores, and hyphens."
 msgstr ""
 "Un slug ne peut contenir que des lettres, des chiffres, des underscores et "
 "des traits d’union."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:105
+#: application/src/Api/Adapter/SitePageAdapter.php:122
 #: application/src/Api/Adapter/SiteAdapter.php:241
 #, php-format
 msgid "The slug \"%s\" is already taken."
 msgstr "Le slug \"%s\" est déjà pris."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:149
+#: application/src/Api/Adapter/SitePageAdapter.php:166
 msgid "All blocks must have a layout."
 msgstr "Tous les blocs doivent avoir une mise en page."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:153
+#: application/src/Api/Adapter/SitePageAdapter.php:170
 msgid "Block data must not be a scalar value."
 msgstr "Les données de bloc ne doivent pas être une valeur scalaire."
 
-#: application/src/Api/Adapter/ItemAdapter.php:106
+#: application/src/Api/Adapter/ItemAdapter.php:107
 msgid "Item sets must be an array"
 msgstr "Les collections doivent être une liste."
 
-#: application/src/Api/Adapter/ItemAdapter.php:112
+#: application/src/Api/Adapter/ItemAdapter.php:113
 msgid "Media must be an array"
 msgstr "Les médias doivent être une liste."
 
-#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:165
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:168
 #, php-format
 msgid "The \"%s\" resource template requires a \"%s\" value"
 msgstr "Le modèle de ressource \"%s\" requiert une valeur \"%s\""
@@ -4230,15 +4311,15 @@ msgstr "Navigation invalide  : les liens vers les pages doivent être uniques
 msgid "Invalid navigation: links must be an array"
 msgstr "Navigation invalide  : les liens doivent être une liste"
 
-#: application/src/Api/Adapter/MediaAdapter.php:88
+#: application/src/Api/Adapter/MediaAdapter.php:89
 msgid "Media must set an ingester."
-msgstr "Les médias doivent définir un ingesteur."
+msgstr "Les médias doivent définir un ingéreur."
 
-#: application/src/Api/Adapter/MediaAdapter.php:110
+#: application/src/Api/Adapter/MediaAdapter.php:111
 msgid "Media must set a valid ingester."
-msgstr "Les médias doivent définir un ingesteur valide."
+msgstr "Les médias doivent définir un ingéreur valide."
 
-#: application/src/Api/Adapter/MediaAdapter.php:146
+#: application/src/Api/Adapter/MediaAdapter.php:147
 msgid "Media must belong to an item."
 msgstr "Un média doit appartenir à un contenu."
 
@@ -4343,6 +4424,11 @@ msgstr "arrêté"
 #: application/src/Entity/Job.php:28
 msgid "error"
 msgstr "erreur"
+
+#: application/src/Mvc/MvcListeners.php:325
+#, php-format
+msgid "The current theme is not active. Its current state is \"%s\"."
+msgstr ""
 
 #: application/src/DataType/Resource/AbstractResource.php:16
 msgid "Resource"
@@ -4610,10 +4696,6 @@ msgstr "Sujet"
 #. Property comment for Dublin Core:subject
 msgid "The topic of the resource."
 msgstr "Le sujet de la ressource."
-
-#. Property label for Dublin Core:description
-msgid "Description"
-msgstr "Description"
 
 #. Property comment for Dublin Core:description
 msgid "An account of the resource."
@@ -5357,22 +5439,28 @@ msgid ""
 "A document may manifest symbolic, diagrammatic or sensory-representational "
 "information."
 msgstr ""
+"Un document (nom) est une représentation physique délimitée d’un ensemble "
+"d’informations conçu avec la capacité (et généralement l’intention) de "
+"communiquer. Un document peut exprimer des informations symboliques, "
+"schématiques ou sensorielles."
 
 #. Class label for Bibliographic Ontology:DocumentPart
 msgid "document part"
-msgstr ""
+msgstr "Partie du document"
 
 #. Class comment for Bibliographic Ontology:DocumentPart
 msgid "a distinct part of a larger document or collected document."
 msgstr ""
+"une partie distincte d’un document plus large ou d’une collection de "
+"document."
 
 #. Class label for Bibliographic Ontology:DocumentStatus
 msgid "Document Status"
-msgstr ""
+msgstr "Statut du document"
 
 #. Class comment for Bibliographic Ontology:DocumentStatus
 msgid "The status of the publication of a document."
-msgstr ""
+msgstr "Le statut de publication d’un document."
 
 #. Class label for Bibliographic Ontology:EditedBook
 msgid "Edited Book"
@@ -5391,14 +5479,16 @@ msgid ""
 "A written communication addressed to a person or organization and "
 "transmitted electronically."
 msgstr ""
+"Une communication écrite adressée à une personne ou à une organisation et "
+"transmise électroniquement."
 
 #. Class label for Bibliographic Ontology:Excerpt
 msgid "Excerpt"
-msgstr ""
+msgstr "Extrait"
 
 #. Class comment for Bibliographic Ontology:Excerpt
 msgid "A passage selected from a larger work."
-msgstr ""
+msgstr "Un passage sélectionné dans une œuvre plus large."
 
 #. Class label for Bibliographic Ontology:Film
 msgid "Film"
@@ -5406,21 +5496,24 @@ msgstr "Film"
 
 #. Class comment for Bibliographic Ontology:Film
 msgid "aka movie."
-msgstr ""
+msgstr "ou film."
 
 #. Class label for Bibliographic Ontology:Hearing
 msgid "Hearing"
-msgstr ""
+msgstr "Audition"
 
 #. Class comment for Bibliographic Ontology:Hearing
 msgid ""
 "An instance or a session in which testimony and arguments are presented, "
 "esp. before an official, as a judge in a lawsuit."
 msgstr ""
+"Une instance ou une session durant laquelle des témoignages et des "
+"argumentations sont présentés, en particulier devant un fonctionnaire qui "
+"est un juge dans un procès."
 
 #. Class comment for Bibliographic Ontology:Image
 msgid "A document that presents visual or diagrammatic information."
-msgstr ""
+msgstr "Un document qui présente des informations visuelles ou en diagramme."
 
 #. Class label for Bibliographic Ontology:Interview
 msgid "Interview"
@@ -5428,17 +5521,19 @@ msgstr "Interview"
 
 #. Class comment for Bibliographic Ontology:Interview
 msgid "A formalized discussion between two or more people."
-msgstr ""
+msgstr "Une discussion formelle entre deux ou plusieurs personnes."
 
 #. Class label for Bibliographic Ontology:Issue
 msgid "Issue"
-msgstr ""
+msgstr "Numéro"
 
 #. Class comment for Bibliographic Ontology:Issue
 msgid ""
 "something that is printed or published and distributed, esp. a given number "
 "of a periodical"
 msgstr ""
+"un document imprimé ou publié et distribué, en particulier le numéro "
+"spécifique d’un périodique"
 
 #. Class label for Bibliographic Ontology:Journal
 msgid "Journal"
@@ -5450,11 +5545,11 @@ msgstr "Un périodique d’articles scientifiques."
 
 #. Class label for Bibliographic Ontology:LegalCaseDocument
 msgid "Legal Case Document"
-msgstr ""
+msgstr "Document d’un dossier juridique"
 
 #. Class comment for Bibliographic Ontology:LegalCaseDocument
 msgid "A document accompanying a legal case."
-msgstr ""
+msgstr "Un document qui accompagne un dossier juridique"
 
 #. Class label for Bibliographic Ontology:LegalDecision
 msgid "Decision"
@@ -5465,15 +5560,19 @@ msgid ""
 "A document containing an authoritative determination (as a decree or "
 "judgment) made after consideration of facts or law."
 msgstr ""
+"Un document contenant une décision faisant autorité (telle qu’une ordonnance"
+" ou un jugement) et rédigé après examen des faits ou du droit."
 
 #. Class label for Bibliographic Ontology:LegalDocument
 msgid "Legal Document"
-msgstr "Document légal"
+msgstr "Document juridique"
 
 #. Class comment for Bibliographic Ontology:LegalDocument
 msgid ""
 "A legal document; for example, a court decision, a brief, and so forth."
 msgstr ""
+"Un document juridique, par exemple une décision de justice, des conclusions,"
+" etc."
 
 #. Class label for Bibliographic Ontology:Legislation
 msgid "Legislation"
@@ -5482,6 +5581,8 @@ msgstr "Législation"
 #. Class comment for Bibliographic Ontology:Legislation
 msgid "A legal document proposing or enacting a law or a group of laws."
 msgstr ""
+"Un document juridique proposant ou promulguant une loi ou un ensemble de "
+"lois."
 
 #. Class label for Bibliographic Ontology:Letter
 msgid "Letter"
@@ -5492,6 +5593,8 @@ msgid ""
 "A written or printed communication addressed to a person or organization and"
 " usually transmitted by mail."
 msgstr ""
+"Une communication écrite ou imprimée adressée à une personne ou à une "
+"organisation et généralement transmise par courrier."
 
 #. Class label for Bibliographic Ontology:Magazine
 msgid "Magazine"
@@ -5505,24 +5608,33 @@ msgid ""
 "drawings, frequently specializing in a particular subject or area, as "
 "hobbies, news, or sports."
 msgstr ""
+"Les Articles d'un magazine périodique. Un magazine est une publication "
+"périodique, généralement reliée par une couverture en papier, contenant "
+"habituellement des essais, des récits, des poèmes, etc. de nombreux "
+"écrivains, et ordinairement des photographies et des dessins, souvent "
+"spécialisée dans un domaine ou sur un thème, par exemple les "
+"divertissements, les actualités ou les sports."
 
 #. Class label for Bibliographic Ontology:Manual
 msgid "Manual"
-msgstr ""
+msgstr "Manuel"
 
 #. Class comment for Bibliographic Ontology:Manual
 msgid "A small reference book, especially one giving instructions."
 msgstr ""
+"Un petit livre de référence, en particulier pour donner des instructions."
 
 #. Class label for Bibliographic Ontology:Manuscript
 msgid "Manuscript"
-msgstr ""
+msgstr "Manuscrit"
 
 #. Class comment for Bibliographic Ontology:Manuscript
 msgid ""
 "An unpublished Document, which may also be submitted to a publisher for "
 "publication."
 msgstr ""
+"Un document non publié qui peut également être soumis à un éditeur pour "
+"publication."
 
 #. Class label for Bibliographic Ontology:Map
 msgid "Map"
@@ -5530,16 +5642,17 @@ msgstr "Carte"
 
 #. Class comment for Bibliographic Ontology:Map
 msgid "A graphical depiction of geographic features."
-msgstr ""
+msgstr "Une représentation graphique de traits géographiques."
 
 #. Class label for Bibliographic Ontology:MultiVolumeBook
 msgid "Multivolume Book"
-msgstr ""
+msgstr "Livre multivolume"
 
 #. Class comment for Bibliographic Ontology:MultiVolumeBook
 #. Class comment for Bibliographic Ontology:Series
 msgid "A loose, thematic, collection of Documents, often Books."
 msgstr ""
+"Une collection de documents en vrac sur un thème, généralement des livres."
 
 #. Class label for Bibliographic Ontology:Newspaper
 msgid "Newspaper"
@@ -5560,11 +5673,11 @@ msgstr "Note"
 
 #. Class comment for Bibliographic Ontology:Note
 msgid "Notes or annotations about a resource."
-msgstr ""
+msgstr "Notes ou annotations sur une ressource."
 
 #. Class label for Bibliographic Ontology:Patent
 msgid "Patent"
-msgstr ""
+msgstr "Brevet"
 
 #. Class comment for Bibliographic Ontology:Patent
 msgid ""
@@ -5572,6 +5685,9 @@ msgid ""
 "inventor to manufacture, use, or sell an invention for a certain number of "
 "years."
 msgstr ""
+"Un document décrivant le droit exclusif accordé à un inventeur par un "
+"gouvernement de fabriquer, d’utiliser ou de vendre une invention pendant un "
+"certain nombre d’années."
 
 #. Class label for Bibliographic Ontology:Performance
 msgid "Performance"
@@ -5587,32 +5703,36 @@ msgstr "Périodique"
 
 #. Class comment for Bibliographic Ontology:Periodical
 msgid "A group of related documents issued at regular intervals."
-msgstr ""
+msgstr "Un groupe de documents connexes publiés à intervalles réguliers."
 
 #. Class label for Bibliographic Ontology:PersonalCommunication
 msgid "Personal Communication"
-msgstr ""
+msgstr "Communication personnelle"
 
 #. Class comment for Bibliographic Ontology:PersonalCommunication
 msgid "A communication between an agent and one or more specific recipients."
 msgstr ""
+"Une communication entre un agent et un ou plusieurs destinataires "
+"spécifiques."
 
 #. Class label for Bibliographic Ontology:PersonalCommunicationDocument
 msgid "Personal Communication Document"
-msgstr ""
+msgstr "Document de communication personnelle"
 
 #. Class comment for Bibliographic Ontology:PersonalCommunicationDocument
 msgid "A personal communication manifested in some document."
-msgstr ""
+msgstr "Une communication personnelle qui se manifeste dans un document."
 
 #. Class label for Bibliographic Ontology:Proceedings
 msgid "Proceedings"
-msgstr ""
+msgstr "Travaux académiques"
 
 #. Class comment for Bibliographic Ontology:Proceedings
 msgid ""
 "A compilation of documents published from an event, such as a conference."
 msgstr ""
+"Une compilation de documents publiés à partir d’un événement, tel qu’une "
+"conférence."
 
 #. Class label for Bibliographic Ontology:Quote
 msgid "Quote"
@@ -6035,13 +6155,15 @@ msgstr "résumé"
 
 #. Property label for Bibliographic Ontology:argued
 msgid "date argued"
-msgstr ""
+msgstr "date du procès"
 
 #. Property comment for Bibliographic Ontology:argued
 msgid ""
 "The date on which a legal case is argued before a court. Date is of format "
 "xsd:date"
 msgstr ""
+"La date à laquelle une affaire judiciaire est débattue devant un tribunal. "
+"La date est au format xsd:date."
 
 #. Property label for Bibliographic Ontology:asin
 msgid "asin"
@@ -6057,7 +6179,7 @@ msgstr "Un numéro de chapitre"
 
 #. Property label for Bibliographic Ontology:coden
 msgid "coden"
-msgstr ""
+msgstr "coden"
 
 #. Property label for Bibliographic Ontology:content
 msgid "content"
@@ -6069,6 +6191,9 @@ msgid ""
 "While the plain-text content of an entire document could be described by "
 "this property."
 msgstr ""
+"Cette propriété contient le rendu du texte brut du contenu d’un document. "
+"Bien que le contenu en texte brut d’un document entier puisse être décrit "
+"par cette propriété."
 
 #. Property label for Bibliographic Ontology:doi
 msgid "doi"
@@ -6076,7 +6201,7 @@ msgstr "doi"
 
 #. Property label for Bibliographic Ontology:eanucc13
 msgid "eanucc13"
-msgstr ""
+msgstr "eanucc13"
 
 #. Property label for Bibliographic Ontology:edition
 msgid "edition"
@@ -6092,15 +6217,15 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:eissn
 msgid "eissn"
-msgstr ""
+msgstr "eissn"
 
 #. Property label for Bibliographic Ontology:gtin14
 msgid "gtin14"
-msgstr ""
+msgstr "gtin14"
 
 #. Property label for Bibliographic Ontology:handle
 msgid "handle"
-msgstr ""
+msgstr "handle"
 
 #. Property label for Bibliographic Ontology:identifier
 msgid "identifier"
@@ -6112,11 +6237,11 @@ msgstr "ISBN"
 
 #. Property label for Bibliographic Ontology:isbn10
 msgid "isbn10"
-msgstr ""
+msgstr "isbn10"
 
 #. Property label for Bibliographic Ontology:isbn13
 msgid "isbn13"
-msgstr ""
+msgstr "isbn13"
 
 #. Property label for Bibliographic Ontology:issn
 msgid "issn"
@@ -6124,25 +6249,27 @@ msgstr "issn"
 
 #. Property label for Bibliographic Ontology:issue
 msgid "issue"
-msgstr ""
+msgstr "numéro"
 
 #. Property comment for Bibliographic Ontology:issue
 msgid "An issue number"
-msgstr ""
+msgstr "Un numéro de publication"
 
 #. Property label for Bibliographic Ontology:lccn
 msgid "lccn"
-msgstr ""
+msgstr "lccn"
 
 #. Property label for Bibliographic Ontology:locator
 msgid "locator"
-msgstr ""
+msgstr "cote"
 
 #. Property comment for Bibliographic Ontology:locator
 msgid ""
 "A description (often numeric) that locates an item within a containing "
 "document or collection."
 msgstr ""
+"Un identifiant souvent numérique qui permet de localiser un élément dans un "
+"contenant ou une collection."
 
 #. Property label for Bibliographic Ontology:numPages
 msgid "number of pages"
@@ -6150,7 +6277,7 @@ msgstr "nombre de pages"
 
 #. Property comment for Bibliographic Ontology:numPages
 msgid "The number of pages contained in a document"
-msgstr ""
+msgstr "Le nombre de pages d’un document."
 
 #. Property label for Bibliographic Ontology:numVolumes
 msgid "number of volumes"
@@ -6161,35 +6288,39 @@ msgid ""
 "The number of volumes contained in a collection of documents (usually a "
 "series, periodical, etc.)."
 msgstr ""
+"Le nombre de volumes contenus dans une collection de documents (généralement"
+" une série, un périodique, etc.)."
 
 #. Property label for Bibliographic Ontology:number
 msgid "number"
-msgstr ""
+msgstr "Numéro"
 
 #. Property comment for Bibliographic Ontology:number
 msgid ""
 "A generic item or document number. Not to be confused with issue number."
 msgstr ""
+"Un numéro de document ou d’un item générique. Ne pas confondre avec le "
+"numéro de publication."
 
 #. Property label for Bibliographic Ontology:oclcnum
 msgid "oclcnum"
-msgstr ""
+msgstr "oclcnum"
 
 #. Property label for Bibliographic Ontology:pageEnd
 msgid "page end"
-msgstr "fin de la page"
+msgstr "dernière page"
 
 #. Property comment for Bibliographic Ontology:pageEnd
 msgid "Ending page number within a continuous page range."
-msgstr ""
+msgstr "Dernière page dans une suite continue de pages."
 
 #. Property label for Bibliographic Ontology:pageStart
 msgid "page start"
-msgstr "début de la page"
+msgstr "première page"
 
 #. Property comment for Bibliographic Ontology:pageStart
 msgid "Starting page number within a continuous page range."
-msgstr ""
+msgstr "Première page dans une suite continue de pages."
 
 #. Property label for Bibliographic Ontology:pages
 msgid "pages"
@@ -6201,18 +6332,21 @@ msgid ""
 "Collection. Example: 23-25, 34, 54-56. For continuous page ranges, use the "
 "pageStart and pageEnd properties."
 msgstr ""
+"Une série non-continue de pages permettant de repérer un Document dans une "
+"Collection. Exemple : 23-25, 34, 54-56. Pour les suites continues de page, "
+"utiliser les propriétés « première page » et « dernière page »."
 
 #. Property label for Bibliographic Ontology:pmid
 msgid "pmid"
-msgstr ""
+msgstr "pmid"
 
 #. Property label for Bibliographic Ontology:prefixName
 msgid "prefix name"
-msgstr ""
+msgstr "préfixe"
 
 #. Property comment for Bibliographic Ontology:prefixName
 msgid "The prefix of a name"
-msgstr ""
+msgstr "Le préfixe d'un nom"
 
 #. Property label for Bibliographic Ontology:section
 msgid "section"
@@ -6220,15 +6354,15 @@ msgstr "section"
 
 #. Property comment for Bibliographic Ontology:section
 msgid "A section number"
-msgstr ""
+msgstr "Un numéro de section"
 
 #. Property label for Bibliographic Ontology:shortDescription
 msgid "shortDescription"
-msgstr ""
+msgstr "Description courte"
 
 #. Property label for Bibliographic Ontology:shortTitle
 msgid "short title"
-msgstr ""
+msgstr "Titre abrégé"
 
 #. Property comment for Bibliographic Ontology:shortTitle
 msgid "The abbreviation of a title."
@@ -6236,11 +6370,11 @@ msgstr "L’abréviation du titre"
 
 #. Property label for Bibliographic Ontology:sici
 msgid "sici"
-msgstr ""
+msgstr "sici"
 
 #. Property label for Bibliographic Ontology:suffixName
 msgid "suffix name"
-msgstr ""
+msgstr "suffixe"
 
 #. Property comment for Bibliographic Ontology:suffixName
 msgid "The suffix of a name"
@@ -6248,7 +6382,7 @@ msgstr "Le suffixe d’un nom"
 
 #. Property label for Bibliographic Ontology:upc
 msgid "upc"
-msgstr ""
+msgstr "upc"
 
 #. Property label for Bibliographic Ontology:uri
 msgid "uri"
@@ -6256,7 +6390,7 @@ msgstr "uri"
 
 #. Property comment for Bibliographic Ontology:uri
 msgid "Universal Resource Identifier of a document"
-msgstr ""
+msgstr "Identifiant universel de ressource (URI) d’un document"
 
 #. Property label for Bibliographic Ontology:volume
 msgid "volume"
@@ -6264,7 +6398,7 @@ msgstr "volume"
 
 #. Property comment for Bibliographic Ontology:volume
 msgid "A volume number"
-msgstr ""
+msgstr "Un numéro de volume"
 
 #. Vocabulary label for Friend of a Friend
 msgid "Friend of a Friend"
@@ -6272,7 +6406,7 @@ msgstr "Friend of a Friend"
 
 #. Vocabulary comment for Friend of a Friend
 msgid "Relationships between people and organizations (FOAF)"
-msgstr ""
+msgstr "Relations entre les personnes et les organisations (FOAF)"
 
 #. Class label for Friend of a Friend:LabelProperty
 msgid "Label Property"
@@ -6318,7 +6452,7 @@ msgstr "Groupe"
 
 #. Class comment for Friend of a Friend:Group
 msgid "A class of Agents."
-msgstr ""
+msgstr "Une classe d’Agents."
 
 #. Class label for Friend of a Friend:Project
 msgid "Project"
@@ -6326,7 +6460,7 @@ msgstr "Projet"
 
 #. Class comment for Friend of a Friend:Project
 msgid "A project (a collective endeavour of some kind)."
-msgstr ""
+msgstr "Un projet (réalisation collective de toute sorte)."
 
 #. Class comment for Friend of a Friend:Image
 msgid "An image."
@@ -6334,11 +6468,11 @@ msgstr "Une image."
 
 #. Class label for Friend of a Friend:PersonalProfileDocument
 msgid "PersonalProfileDocument"
-msgstr ""
+msgstr "Personel "
 
 #. Class comment for Friend of a Friend:PersonalProfileDocument
 msgid "A personal profile RDF document."
-msgstr ""
+msgstr "Un document RDF du profil personel."
 
 #. Class label for Friend of a Friend:OnlineAccount
 msgid "Online Account"
@@ -6350,31 +6484,31 @@ msgstr "Un compte en ligne."
 
 #. Class label for Friend of a Friend:OnlineGamingAccount
 msgid "Online Gaming Account"
-msgstr ""
+msgstr "Compte de jeu en ligne"
 
 #. Class comment for Friend of a Friend:OnlineGamingAccount
 msgid "An online gaming account."
-msgstr ""
+msgstr "Un compte de jeu en ligne."
 
 #. Class label for Friend of a Friend:OnlineEcommerceAccount
 msgid "Online E-commerce Account"
-msgstr ""
+msgstr "Compte de commerce en ligne"
 
 #. Class comment for Friend of a Friend:OnlineEcommerceAccount
 msgid "An online e-commerce account."
-msgstr ""
+msgstr "Un compte de commerce en ligne."
 
 #. Class label for Friend of a Friend:OnlineChatAccount
 msgid "Online Chat Account"
-msgstr ""
+msgstr "Compte de messagerie en ligne"
 
 #. Class comment for Friend of a Friend:OnlineChatAccount
 msgid "An online chat account."
-msgstr ""
+msgstr "Un compte de messagerie en ligne"
 
 #. Property label for Friend of a Friend:mbox
 msgid "personal mailbox"
-msgstr ""
+msgstr "Boîte mail personnelle"
 
 #. Property comment for Friend of a Friend:mbox
 msgid ""
@@ -6383,42 +6517,53 @@ msgid ""
 " property', in that  there is (across time and change) at most one "
 "individual that ever has any particular value for foaf:mbox."
 msgstr ""
+"Un courriel personnel, c’est-à-dire une boîte aux lettres Internet associée "
+"à un propriétaire unique, le premier propriétaire de ce courriel. Il s’agit "
+"d’une « propriété fonctionnelle inverse et statique », dans la mesure où il "
+"existe au plus, nonobstant le temps et les évolutions, un individu ayant au "
+"plus une valeur particulière pour la propriété « foaf:mbox »."
 
 #. Property label for Friend of a Friend:mbox_sha1sum
 msgid "sha1sum of a personal mailbox URI name"
-msgstr ""
+msgstr "Somme de contrôle sha1sum du nom URI de la boîte mail personnelle"
 
 #. Property comment for Friend of a Friend:mbox_sha1sum
 msgid ""
 "The sha1sum of the URI of an Internet mailbox associated with exactly one "
 "owner, the  first owner of the mailbox."
 msgstr ""
+"La somme de contrôle sha1sum de l’URI du courriel associé à un propriétaire "
+"unique, le premier propriétaire de ce courriel."
 
 #. Property label for Friend of a Friend:gender
 msgid "gender"
-msgstr ""
+msgstr "genre"
 
 #. Property comment for Friend of a Friend:gender
 msgid ""
 "The gender of this Agent (typically but not necessarily 'male' or 'female')."
 msgstr ""
+"Le genre de cet Agent (généralement, mais pas nécessairement, « masculin » "
+"ou « féminin »)."
 
 #. Property label for Friend of a Friend:geekcode
 msgid "geekcode"
-msgstr ""
+msgstr "geekcode"
 
 #. Property comment for Friend of a Friend:geekcode
 msgid ""
 "A textual geekcode for this person, see http://www.geekcode.com/geek.html"
 msgstr ""
+"Une représentation textuelle du code geek de cette personne. Voir "
+"http://www.geekcode.com/geek.html."
 
 #. Property label for Friend of a Friend:dnaChecksum
 msgid "DNA checksum"
-msgstr ""
+msgstr "Somme de contrôle de l’ADN"
 
 #. Property comment for Friend of a Friend:dnaChecksum
 msgid "A checksum for the DNA of some thing. Joke."
-msgstr ""
+msgstr "La somme de contrôle de l’ADN de quelque chose. Humour."
 
 #. Property label for Friend of a Friend:sha1
 msgid "sha1sum (hex)"
@@ -6426,21 +6571,23 @@ msgstr "sha1sum (hex)"
 
 #. Property comment for Friend of a Friend:sha1
 msgid "A sha1sum hash, in hex."
-msgstr ""
+msgstr "Une somme de contrôle sha1sum, en hexadecimal."
 
 #. Property label for Friend of a Friend:based_near
 msgid "based near"
-msgstr ""
+msgstr "situé près de"
 
 #. Property comment for Friend of a Friend:based_near
 msgid ""
 "A location that something is based near, for some broadly human notion of "
 "near."
 msgstr ""
+"Un lieu auprès duquel une chose est situé, « proche » étant pris dans le "
+"sens qu’emploie couramment les personnes."
 
 #. Property label for Friend of a Friend:title
 msgid "title"
-msgstr ""
+msgstr "titre"
 
 #. Property comment for Friend of a Friend:title
 msgid "Title (Mr, Mrs, Ms, Dr. etc)"
@@ -6455,176 +6602,185 @@ msgid ""
 "A short informal nickname characterising an agent (includes login "
 "identifiers, IRC and other chat nicknames)."
 msgstr ""
+"Un surnom informel et court caractérisant un agent (notamment les "
+"identifiants de connexion, les comptes IRC et les autres pseudonymes de "
+"discussion)."
 
 #. Property label for Friend of a Friend:jabberID
 msgid "jabber ID"
-msgstr ""
+msgstr "ID Jabber"
 
 #. Property comment for Friend of a Friend:jabberID
 msgid "A jabber ID for something."
-msgstr ""
+msgstr "L’identifiant Jabber pour quelqu’un ou quelque chose."
 
 #. Property label for Friend of a Friend:aimChatID
 msgid "AIM chat ID"
-msgstr ""
+msgstr "ID de messagerie AIM"
 
 #. Property comment for Friend of a Friend:aimChatID
 msgid "An AIM chat ID"
-msgstr ""
+msgstr "Un identifiant de messagerie AIM (AOL Instant Messenger)."
 
 #. Property label for Friend of a Friend:skypeID
 msgid "Skype ID"
-msgstr ""
+msgstr "ID Skype"
 
 #. Property comment for Friend of a Friend:skypeID
 msgid "A Skype ID"
-msgstr ""
+msgstr "Un identifiant Skype."
 
 #. Property label for Friend of a Friend:icqChatID
 msgid "ICQ chat ID"
-msgstr ""
+msgstr "ID de messagerie ICQ"
 
 #. Property comment for Friend of a Friend:icqChatID
 msgid "An ICQ chat ID"
-msgstr ""
+msgstr "Un identifiant de messagerie ICQ."
 
 #. Property label for Friend of a Friend:yahooChatID
 msgid "Yahoo chat ID"
-msgstr ""
+msgstr "ID de messagerie Yahoo"
 
 #. Property comment for Friend of a Friend:yahooChatID
 msgid "A Yahoo chat ID"
-msgstr ""
+msgstr "Un identifiant de messagerie Yahoo."
 
 #. Property label for Friend of a Friend:msnChatID
 msgid "MSN chat ID"
-msgstr ""
+msgstr "ID de messagerie MSN."
 
 #. Property comment for Friend of a Friend:msnChatID
 msgid "An MSN chat ID"
-msgstr ""
+msgstr "Un identifiant de messagerie MSN (Microsoft Network)."
 
 #. Property label for Friend of a Friend:name
 msgid "name"
-msgstr ""
+msgstr "nom"
 
 #. Property comment for Friend of a Friend:name
 msgid "A name for some thing."
-msgstr ""
+msgstr "Le nom de quelque chose"
 
 #. Property label for Friend of a Friend:firstName
 msgid "firstName"
-msgstr ""
+msgstr "Prénom"
 
 #. Property comment for Friend of a Friend:firstName
 msgid "The first name of a person."
-msgstr ""
+msgstr "Le prénom d’une personne"
 
 #. Property label for Friend of a Friend:lastName
 msgid "lastName"
-msgstr ""
+msgstr "Nom de famille"
 
 #. Property comment for Friend of a Friend:lastName
 msgid "The last name of a person."
-msgstr ""
+msgstr "Le nom d’une personne"
 
 #. Property label for Friend of a Friend:givenName
 #. Property label for Friend of a Friend:givenname
 msgid "Given name"
-msgstr ""
+msgstr "Nom attribué"
 
 #. Property comment for Friend of a Friend:givenName
 #. Property comment for Friend of a Friend:givenname
 msgid "The given name of some person."
-msgstr ""
+msgstr "Le nom donné à une personne"
 
 #. Property label for Friend of a Friend:surname
 msgid "Surname"
-msgstr ""
+msgstr "Surnom"
 
 #. Property comment for Friend of a Friend:surname
 msgid "The surname of some person."
-msgstr ""
+msgstr "Le surnom d’une personne"
 
 #. Property label for Friend of a Friend:family_name
 msgid "family_name"
-msgstr ""
+msgstr "Nom de famille"
 
 #. Property comment for Friend of a Friend:family_name
 #. Property comment for Friend of a Friend:familyName
 msgid "The family name of some person."
-msgstr ""
+msgstr "Le nom de famille d’une personne"
 
 #. Property label for Friend of a Friend:familyName
 msgid "familyName"
-msgstr ""
+msgstr "Nom de famille"
 
 #. Property label for Friend of a Friend:phone
 msgid "phone"
-msgstr ""
+msgstr "Téléphone"
 
 #. Property comment for Friend of a Friend:phone
 msgid ""
 "A phone,  specified using fully qualified tel: URI scheme (refs: "
 "http://www.w3.org/Addressing/schemes.html#tel)."
 msgstr ""
+"Un numéro de téléphone formaté en tant qu’URI complète (réf : "
+"http://www.w3.org/Addressing/schemes.html#tel)."
 
 #. Property label for Friend of a Friend:homepage
 msgid "homepage"
-msgstr ""
+msgstr "page d’accueil"
 
 #. Property comment for Friend of a Friend:homepage
 msgid "A homepage for some thing."
-msgstr ""
+msgstr "La page d’accueil de quelque chose."
 
 #. Property label for Friend of a Friend:weblog
 msgid "weblog"
-msgstr ""
+msgstr "blog"
 
 #. Property comment for Friend of a Friend:weblog
 msgid "A weblog of some thing (whether person, group, company etc.)."
 msgstr ""
+"Un blog sur un sujet, que ce soit une personne, un groupe, une société, etc."
 
 #. Property label for Friend of a Friend:openid
 msgid "openid"
-msgstr ""
+msgstr "OpenID"
 
 #. Property comment for Friend of a Friend:openid
 msgid "An OpenID for an Agent."
-msgstr ""
+msgstr "Un identifiant OpenID d’un Agent."
 
 #. Property label for Friend of a Friend:tipjar
 msgid "tipjar"
-msgstr ""
+msgstr "tipjar"
 
 #. Property comment for Friend of a Friend:tipjar
 msgid ""
 "A tipjar document for this agent, describing means for payment and reward."
 msgstr ""
+"Le document « tipjar » de cet agent, qui permet de décrire ses moyens de "
+"paiement."
 
 #. Property label for Friend of a Friend:plan
 msgid "plan"
-msgstr ""
+msgstr "plan"
 
 #. Property comment for Friend of a Friend:plan
 msgid "A .plan comment, in the tradition of finger and '.plan' files."
 msgstr ""
+"Un commentaire « .plan », conformément aux fichiers « finger » et « .plan »."
 
 #. Property label for Friend of a Friend:made
 msgid "made"
-msgstr ""
+msgstr "fabriqué"
 
 #. Property comment for Friend of a Friend:made
 msgid "Something that was made by this agent."
-msgstr ""
+msgstr "Une chose qui été fabriqué par cet agent."
 
 #. Property label for Friend of a Friend:maker
 msgid "maker"
-msgstr ""
+msgstr "fabriquant"
 
 #. Property comment for Friend of a Friend:maker
 msgid "An agent that  made this thing."
-msgstr ""
+msgstr "Un agent qui a fait cette chose."
 
 #. Property label for Friend of a Friend:img
 msgid "image"
@@ -6636,170 +6792,181 @@ msgid ""
 "which are particularly representative of something, eg. one's photo on a "
 "homepage)."
 msgstr ""
+"Une image qui peut être utilisée pour représenter quelque chose (en "
+"particulier les représentations particulièrement caractéristiques de quelque"
+" chose, comme la copie d’écran d’une page d'accueil)."
 
 #. Property label for Friend of a Friend:depiction
 msgid "depiction"
-msgstr ""
+msgstr "illustration"
 
 #. Property comment for Friend of a Friend:depiction
 msgid "A depiction of some thing."
-msgstr ""
+msgstr "La représentation de quelque chose."
 
 #. Property label for Friend of a Friend:depicts
 msgid "depicts"
-msgstr ""
+msgstr "illustre"
 
 #. Property comment for Friend of a Friend:depicts
 msgid "A thing depicted in this representation."
-msgstr ""
+msgstr "Une chose décrite par cette représentation."
 
 #. Property label for Friend of a Friend:thumbnail
 msgid "thumbnail"
-msgstr ""
+msgstr "vignette"
 
 #. Property comment for Friend of a Friend:thumbnail
 msgid "A derived thumbnail image."
-msgstr ""
+msgstr "Une image miniature dérivée d’une autre."
 
 #. Property label for Friend of a Friend:myersBriggs
 msgid "myersBriggs"
-msgstr ""
+msgstr "myersBriggs"
 
 #. Property comment for Friend of a Friend:myersBriggs
 msgid "A Myers Briggs (MBTI) personality classification."
-msgstr ""
+msgstr "Classification de la personnalité de Myers Briggs (MBTI)."
 
 #. Property label for Friend of a Friend:workplaceHomepage
 msgid "workplace homepage"
-msgstr ""
+msgstr "Page d'accueil du lieu de travail"
 
 #. Property comment for Friend of a Friend:workplaceHomepage
 msgid ""
 "A workplace homepage of some person; the homepage of an organization they "
 "work for."
 msgstr ""
+"Une page d’accueil du lieu de travail d’une personne ; la page d’accueil "
+"d’une organisation pour laquelle ils travaillent."
 
 #. Property label for Friend of a Friend:workInfoHomepage
 msgid "work info homepage"
-msgstr ""
+msgstr "page d’accueil du travail"
 
 #. Property comment for Friend of a Friend:workInfoHomepage
 msgid ""
 "A work info homepage of some person; a page about their work for some "
 "organization."
 msgstr ""
+"Une page d’accueil sur le travail d’une personne ; une page présentant son "
+"travail pour une organisation."
 
 #. Property label for Friend of a Friend:schoolHomepage
 msgid "schoolHomepage"
-msgstr ""
+msgstr "Page d’accueil d’école"
 
 #. Property comment for Friend of a Friend:schoolHomepage
 msgid "A homepage of a school attended by the person."
-msgstr ""
+msgstr "La page d’accueil d’une école fréquentée par cette personne."
 
 #. Property label for Friend of a Friend:knows
 msgid "knows"
-msgstr ""
+msgstr "connait"
 
 #. Property comment for Friend of a Friend:knows
 msgid ""
 "A person known by this person (indicating some level of reciprocated "
 "interaction between the parties)."
 msgstr ""
+"Une personne connue par cette personne (indiquant un certain niveau "
+"d’interaction réciproque entre elles)."
 
 #. Property label for Friend of a Friend:interest
 msgid "interest"
-msgstr ""
+msgstr "intérêt"
 
 #. Property comment for Friend of a Friend:interest
 msgid "A page about a topic of interest to this person."
-msgstr ""
+msgstr "Une page à propos d’un centre d’intérêt pour cette personne."
 
 #. Property label for Friend of a Friend:topic_interest
 msgid "topic_interest"
-msgstr ""
+msgstr "topic_interest"
 
 #. Property comment for Friend of a Friend:topic_interest
 msgid "A thing of interest to this person."
-msgstr ""
+msgstr "Un centre d’intérêt d’une personne."
 
 #. Property label for Friend of a Friend:publications
 msgid "publications"
-msgstr ""
+msgstr "publications"
 
 #. Property comment for Friend of a Friend:publications
 msgid "A link to the publications of this person."
-msgstr ""
+msgstr "Un lien vers les publications de cette personne."
 
 #. Property label for Friend of a Friend:currentProject
 msgid "current project"
-msgstr ""
+msgstr "projet actuel"
 
 #. Property comment for Friend of a Friend:currentProject
 msgid "A current project this person works on."
-msgstr ""
+msgstr "Un projet sur lequel la personne travaille actuellement."
 
 #. Property label for Friend of a Friend:pastProject
 msgid "past project"
-msgstr ""
+msgstr "projet ancien"
 
 #. Property comment for Friend of a Friend:pastProject
 msgid "A project this person has previously worked on."
-msgstr ""
+msgstr "Un projet sur lequel la personne a précédemment travaillé."
 
 #. Property label for Friend of a Friend:fundedBy
 msgid "funded by"
-msgstr ""
+msgstr "financé par"
 
 #. Property comment for Friend of a Friend:fundedBy
 msgid "An organization funding a project or person."
-msgstr ""
+msgstr "Une organisation finançant un projet ou une personne."
 
 #. Property label for Friend of a Friend:logo
 msgid "logo"
-msgstr ""
+msgstr "Logo"
 
 #. Property comment for Friend of a Friend:logo
 msgid "A logo representing some thing."
-msgstr ""
+msgstr "Un logo représentant quelque chose."
 
 #. Property label for Friend of a Friend:topic
 msgid "topic"
-msgstr ""
+msgstr "thème"
 
 #. Property comment for Friend of a Friend:topic
 msgid "A topic of some page or document."
-msgstr ""
+msgstr "Le thème d’une page ou d’un document"
 
 #. Property label for Friend of a Friend:primaryTopic
 msgid "primary topic"
-msgstr ""
+msgstr "thème principal"
 
 #. Property comment for Friend of a Friend:primaryTopic
 msgid "The primary topic of some page or document."
-msgstr ""
+msgstr "Le thème principal d’une page ou d’un document"
 
 #. Property label for Friend of a Friend:focus
 msgid "focus"
-msgstr ""
+msgstr "focus"
 
 #. Property comment for Friend of a Friend:focus
 msgid ""
 "The underlying or 'focal' entity associated with some SKOS-described "
 "concept."
 msgstr ""
+"L’entité sous-jacente ou « focale » associée à un concept décrit par le "
+"SKOS."
 
 #. Property label for Friend of a Friend:isPrimaryTopicOf
 msgid "is primary topic of"
-msgstr ""
+msgstr "est le thème principal de"
 
 #. Property comment for Friend of a Friend:isPrimaryTopicOf
 msgid "A document that this thing is the primary topic of."
-msgstr ""
+msgstr "Un document dont ce descripteur est le principal thème."
 
 #. Property comment for Friend of a Friend:page
 msgid "A page or document about this thing."
-msgstr ""
+msgstr "Une page ou un document à propos de ce descripteur."
 
 #. Property label for Friend of a Friend:theme
 msgid "theme"
@@ -6817,7 +6984,7 @@ msgstr "compte"
 #. Property comment for Friend of a Friend:account
 #. Property comment for Friend of a Friend:holdsAccount
 msgid "Indicates an account held by this agent."
-msgstr ""
+msgstr "Indique un compte appartenant à cet agent."
 
 #. Property label for Friend of a Friend:accountServiceHomepage
 msgid "account service homepage"
@@ -6825,15 +6992,15 @@ msgstr "Page d’accueil du service de compte"
 
 #. Property comment for Friend of a Friend:accountServiceHomepage
 msgid "Indicates a homepage of the service provide for this online account."
-msgstr ""
+msgstr "Indique la page d’accueil du service fourni pour ce compte en ligne."
 
 #. Property label for Friend of a Friend:accountName
 msgid "account name"
-msgstr ""
+msgstr "nom du compte"
 
 #. Property comment for Friend of a Friend:accountName
 msgid "Indicates the name (identifier) associated with this online account."
-msgstr ""
+msgstr "Indique le nom (identifiant) associé avec ce compte en ligne."
 
 #. Property label for Friend of a Friend:member
 msgid "member"
@@ -6841,15 +7008,15 @@ msgstr "membre"
 
 #. Property comment for Friend of a Friend:member
 msgid "Indicates a member of a Group"
-msgstr ""
+msgstr "Indique le membre d’un Groupe"
 
 #. Property label for Friend of a Friend:membershipClass
 msgid "membershipClass"
-msgstr ""
+msgstr "membershipClass"
 
 #. Property comment for Friend of a Friend:membershipClass
 msgid "Indicates the class of individuals that are a member of a Group"
-msgstr ""
+msgstr "Indique la classe des individus membres d'un Groupe."
 
 #. Property label for Friend of a Friend:birthday
 msgid "birthday"
@@ -6859,6 +7026,8 @@ msgstr "anniversaire"
 msgid ""
 "The birthday of this Agent, represented in mm-dd string form, eg. '12-31'."
 msgstr ""
+"La date d’anniversaire de cet Agent, représenté selon le format mm-jj, par "
+"exemple « 12-31 »."
 
 #. Property label for Friend of a Friend:age
 msgid "age"
@@ -6866,10 +7035,12 @@ msgstr "âge"
 
 #. Property comment for Friend of a Friend:age
 msgid "The age in years of some agent."
-msgstr ""
+msgstr "L’âge en années d’un agent."
 
 #. Property comment for Friend of a Friend:status
 msgid ""
 "A string expressing what the user is happy for the general public (normally)"
 " to know about their current activity."
 msgstr ""
+"Une mot indiquant que l’utilisateur est heureux, afin que le public "
+"(généralement)  connaisse son activité actuelle."

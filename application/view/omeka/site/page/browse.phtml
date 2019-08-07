@@ -1,6 +1,9 @@
 <?php
 $this->htmlElement('body')->appendAttribute('class', 'page browse');
 ?>
+
+<?php echo $this->pageTitle($this->translate('Pages'), 2); ?>
+
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
 </div>

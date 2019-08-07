@@ -36,8 +36,9 @@ class IndexController extends AbstractActionController
 
     public function searchAction()
     {
+        $fulltextQuery = $this->params()->fromQuery('fulltext_search');
         $query = [
-            'fulltext_search' => $this->params()->fromQuery('fulltext_search'),
+            'fulltext_search' => $fulltextQuery,
             'site_id' => $this->currentSite()->id(),
             'limit' => 10,
         ];
@@ -54,6 +55,7 @@ class IndexController extends AbstractActionController
         $items = $itemsResponse->getContent();
 
         $view = new ViewModel;
+        $view->setVariable('query', $fulltextQuery);
         $view->setVariable('pages', $pages);
         $view->setVariable('pagesTotal', $pagesResponse->getTotalResults());
         $view->setVariable('items', $items);

@@ -1,3 +1,4 @@
+<?php echo $this->pageTitle(sprintf($this->translate('Search results for “%s”'), $query)); ?>
 <div>
     <h2><?php echo $this->translate('Pages'); ?></h2>
     <?php if ($pages): ?>
@@ -11,7 +12,7 @@
         $this->url(
             'site/page-browse',
             ['controller' => 'page', 'action' => 'browse'],
-            ['query' => ['fulltext_search' => $this->params()->fromQuery('fulltext_search')]],
+            ['query' => ['fulltext_search' => $query]],
             true
         )
     ); ?>
@@ -32,7 +33,7 @@
         $this->url(
             'site/resource',
             ['controller' => 'item', 'action' => 'browse'],
-            ['query' => ['fulltext_search' => $this->params()->fromQuery('fulltext_search')]],
+            ['query' => ['fulltext_search' => $query]],
             true
         )
     ); ?>

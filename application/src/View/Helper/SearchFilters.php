@@ -42,6 +42,12 @@ class SearchFilters extends AbstractHelper
         foreach ($query as $key => $value) {
             if ($value != null) {
                 switch ($key) {
+                    // Fulltext
+                    case 'fulltext_search':
+                        $filterLabel = $translate('Search full-text');
+                        $filters[$filterLabel][] = $value;
+                        break;
+
                     // Search by class
                     case 'resource_class_id':
                         if (!is_array($value)) {

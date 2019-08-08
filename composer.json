@@ -89,10 +89,6 @@
             "url": "https://github.com/omeka-s-themes/default.git"
         },
         {
-            "type": "vcs",
-            "url": "https://github.com/omeka/doctrine2.git"
-        },
-        {
             "type": "path",
             "url": "application/data/composer-addon-installer"
         }

@@ -4,10 +4,10 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a021dd146b38430a7780faa222bd6393",
+    "content-hash": "eec8b932de7f5c5ea086835788e8f470",
     "packages": [
         {
-            "name": "beberlei/doctrineextensions",
+            "name": "beberlei/DoctrineExtensions",
             "version": "v1.2.1",
             "source": {
                 "type": "git",
@@ -1161,15 +1161,15 @@
             "authors": [
                 {
                     "name": "Lars Olesen",
+                    "role": "Developer",
                     "email": "lars@intraface.dk",
-                    "homepage": "http://intraface.dk",
-                    "role": "Developer"
+                    "homepage": "http://intraface.dk"
                 },
                 {
                     "name": "Martin Geisler",
+                    "role": "Developer",
                     "email": "martin@geisler.net",
-                    "homepage": "http://geisler.net",
-                    "role": "Developer"
+                    "homepage": "http://geisler.net"
                 }
             ],
             "description": "PHP Exif Library. A library for reading and writing Exif headers in JPEG and TIFF images using PHP.",
@@ -1282,12 +1282,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/omeka-s-themes/default.git",
-                "reference": "273062a436aebfab0154d16e8bd8f134b5a54021"
+                "reference": "5624d4ce3b0119e448d3e5f151a22c5bdfe331b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/273062a436aebfab0154d16e8bd8f134b5a54021",
-                "reference": "273062a436aebfab0154d16e8bd8f134b5a54021",
+                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/5624d4ce3b0119e448d3e5f151a22c5bdfe331b2",
+                "reference": "5624d4ce3b0119e448d3e5f151a22c5bdfe331b2",
                 "shasum": ""
             },
             "require": {
@@ -1295,10 +1295,10 @@
             },
             "type": "omeka-s-theme",
             "support": {
-                "source": "https://github.com/omeka-s-themes/default/tree/develop",
+                "source": "https://github.com/omeka-s-themes/default/tree/v1.4.1",
                 "issues": "https://github.com/omeka-s-themes/default/issues"
             },
-            "time": "2018-11-19T19:58:55+00:00"
+            "time": "2019-08-07T17:30:22+00:00"
         },
         {
             "name": "omeka/composer-addon-installer",
@@ -3916,6 +3916,12 @@
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-mvc-plugins.git",
                 "reference": "b00cda46b0a95cbd32ea0743d6d7dc3fd2263f1b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-mvc-plugins/zipball/b00cda46b0a95cbd32ea0743d6d7dc3fd2263f1b",
+                "reference": "b00cda46b0a95cbd32ea0743d6d7dc3fd2263f1b",
+                "shasum": ""
             },
             "require": {
                 "php": "^5.6 || ^7.0",

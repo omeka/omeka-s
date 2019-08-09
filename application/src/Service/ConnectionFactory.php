@@ -3,7 +3,6 @@ namespace Omeka\Service;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Events;
 use Omeka\Db\Logging\FileSqlLogger;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;

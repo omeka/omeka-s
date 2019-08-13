@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-07 15:08-0400\n"
+"POT-Creation-Date: 2019-08-13 15:51-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3903,23 +3903,37 @@ msgstr ""
 msgid "Upload file"
 msgstr ""
 
-#: application/src/Stdlib/Environment.php:35
+#: application/src/Stdlib/Environment.php:47
+#, php-format
+msgid ""
+"You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
+"version %s. You are currently on version %s."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:54
 #, php-format
 msgid ""
 "The installed PHP version (%s) is too low. Omeka requires at least version "
 "%s."
 msgstr ""
 
-#: application/src/Stdlib/Environment.php:43
+#: application/src/Stdlib/Environment.php:62
 #, php-format
 msgid "Omeka requires the PHP extension %s, but it is not loaded."
 msgstr ""
 
-#: application/src/Stdlib/Environment.php:58
+#: application/src/Stdlib/Environment.php:81
 #, php-format
 msgid ""
 "The installed MySQL version (%s) is too low. Omeka requires at least version "
 "%s."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:89
+#, php-format
+msgid ""
+"The installed MariaDB version (%s) is too low. Omeka requires at least "
+"version %s."
 msgstr ""
 
 #: application/src/Permissions/Acl.php:21

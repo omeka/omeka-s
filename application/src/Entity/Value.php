@@ -5,6 +5,10 @@ namespace Omeka\Entity;
  * A value, representing the object in a RDF triple.
  *
  * @Entity
+ * @Table(indexes={
+ *     @Index(name="`value`", columns={"`value`"}, options={"lengths":{190}}),
+ *     @Index(name="`uri`", columns={"`uri`"}, options={"lengths":{190}})
+ * })
  */
 class Value extends AbstractEntity
 {

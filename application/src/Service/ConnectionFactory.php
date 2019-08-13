@@ -3,8 +3,7 @@ namespace Omeka\Service;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Events;
-use Omeka\Db\Event\Listener\CreateTableOverride;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Omeka\Db\Logging\FileSqlLogger;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
@@ -31,9 +30,17 @@ class ConnectionFactory implements FactoryInterface
             throw new Exception\ConfigException('Missing database connection configuration');
         }
 
+        // Force the "generic" MySQL platform to avoid autodetecting and using exclusive features
+        // of newer versions
+        $platform = new MySqlPlatform;
+
         $config['connection']['driver'] = self::DRIVER;
         $config['connection']['charset'] = self::CHARSET;
+        $config['connection']['platform'] = $platform;
         $connection = DriverManager::getConnection($config['connection']);
+
+        // Manually-set platforms must have the event manager manually injected
+        $platform->setEventManager($connection->getEventManager());
 
         if (isset($config['connection']['log_path'])
             && is_file($config['connection']['log_path'])
@@ -42,9 +49,6 @@ class ConnectionFactory implements FactoryInterface
             $connection->getConfiguration()
                 ->setSQLLogger(new FileSqlLogger($config['connection']['log_path']));
         }
-
-        $eventManager = $connection->getEventManager();
-        $eventManager->addEventListener(Events::onSchemaCreateTable, new CreateTableOverride);
 
         return $connection;
     }

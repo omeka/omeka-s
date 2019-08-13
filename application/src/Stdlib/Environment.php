@@ -37,7 +37,6 @@ class Environment
         $dbVersion = $settings->get('version');
         if ($dbVersion // Perform this check only if Omeka is installed.
             && version_compare($dbVersion, 1, '<')
-            && version_compare($codeVersion, 2, '>=')
         ) {
             $this->errorMessages[] = new Message(
                 'You must upgrade Omeka S to at least version 1.0.0 before upgrading to version %s. You are currently on version %s.', // @translate

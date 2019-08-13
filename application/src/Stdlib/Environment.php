@@ -18,6 +18,11 @@ class Environment
     const MYSQL_MINIMUM_VERSION = '5.6.4';
 
     /**
+     * The MariaDB minimum version
+     */
+    const MARIADB_MINIMUM_VERSION = '10.0.5';
+
+    /**
      * The required PHP extensions
      */
     const PHP_REQUIRED_EXTENSIONS = ['fileinfo', 'mbstring', 'PDO', 'pdo_mysql', 'xml'];
@@ -66,13 +71,26 @@ class Environment
             // Error establishing a connection, no need to check MySQL version.
             return;
         }
-        $mysqlVersion = $connection->getWrappedConnection()->getServerVersion();
-        if (!version_compare($mysqlVersion, self::MYSQL_MINIMUM_VERSION, '>=')) {
-            $this->errorMessages[] = new Message(
-                'The installed MySQL version (%s) is too low. Omeka requires at least version %s.', // @translate
-                $mysqlVersion,
-                self::MYSQL_MINIMUM_VERSION
-            );
+        // MariaDB includes a fake 5.5.5- leading version in many cases to the
+        // client handshake, which is what you get if you ask PDO for the server
+        // version. The VERSION() function doesn't include that junk.
+        $mysqlVersion = $connection->fetchColumn('SELECT VERSION()');
+        if (strpos($mysqlVersion, 'MariaDB') === false) {
+            if (!version_compare($mysqlVersion, self::MYSQL_MINIMUM_VERSION, '>=')) {
+                $this->errorMessages[] = new Message(
+                    'The installed MySQL version (%s) is too low. Omeka requires at least version %s.', // @translate
+                    $mysqlVersion,
+                    self::MYSQL_MINIMUM_VERSION
+                );
+            }
+        } else {
+            if (!version_compare($mysqlVersion, self::MARIADB_MINIMUM_VERSION, '>=')) {
+                $this->errorMessages[] = new Message(
+                    'The installed MariaDB version (%s) is too low. Omeka requires at least version %s.', // @translate
+                    $mysqlVersion,
+                    self::MARIADB_MINIMUM_VERSION
+                );
+            }
         }
     }
 

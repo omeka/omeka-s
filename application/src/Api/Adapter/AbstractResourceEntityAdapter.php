@@ -478,7 +478,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $texts = [];
         foreach ($resource->getValues()->matching($criteria) as $value) {
             $valueRepresentation = new ValueRepresentation($value, $services);
-            $texts[] = $dataTypes->get($value->getType())->getFulltextText($view, $valueRepresentation);
+            $texts[] = $dataTypes->getForExtract($value)->getFulltextText($view, $valueRepresentation);
         }
         return implode("\n", $texts);
     }

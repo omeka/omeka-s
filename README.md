@@ -11,8 +11,8 @@ See the [user manual](https://omeka.org/s/docs/user-manual) for more information
 ### Requirements
 * Linux
 * Apache (with [AllowOverride](https://httpd.apache.org/docs/2.4/mod/core.html#allowoverride) set to "All" and [mod_rewrite](http://httpd.apache.org/docs/current/mod/mod_rewrite.html) enabled)
-* MySql 5.5.3+
-* PHP 5.6+ (latest stable version preferred, with [PDO](http://php.net/manual/en/intro.pdo.php), [pdo_mysql](http://php.net/manual/en/ref.pdo-mysql.php), and [xml](http://php.net/manual/en/intro.xml.php) extensions installed)
+* MySql 5.6.4+
+* PHP 7.1+ (latest stable version preferred, with [PDO](http://php.net/manual/en/intro.pdo.php), [pdo_mysql](http://php.net/manual/en/ref.pdo-mysql.php), and [xml](http://php.net/manual/en/intro.xml.php) extensions installed)
 
 ### Gotchas
 * The default library for generating thumbnails is ImageMagick, at least version

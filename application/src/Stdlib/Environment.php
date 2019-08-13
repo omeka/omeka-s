@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\Stdlib;
 
+use Omeka\Module;
+use Omeka\Settings\Settings;
 use Doctrine\DBAL\Connection;
 
 class Environment
@@ -27,9 +29,22 @@ class Environment
 
     /**
      * @param Connection $connection
+     * @param Settings $settings
      */
-    public function __construct(Connection $connection)
+    public function __construct(Connection $connection, Settings $settings)
     {
+        $codeVersion = Module::VERSION;
+        $dbVersion = $settings->get('version');
+        if ($dbVersion // Perform this check only if Omeka is installed.
+            && version_compare($dbVersion, 1, '<')
+            && version_compare($codeVersion, 2, '>=')
+        ) {
+            $this->errorMessages[] = new Message(
+                'You must upgrade Omeka S to at least version 1.0.0 before upgrading to version %s. You are currently on version %s.', // @translate
+                $codeVersion,
+                $dbVersion
+            );
+        }
         if (!version_compare(PHP_VERSION, self::PHP_MINIMUM_VERSION, '>=')) {
             $this->errorMessages[] = new Message(
                 'The installed PHP version (%s) is too low. Omeka requires at least version %s.', // @translate

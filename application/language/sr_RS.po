@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-07 13:22-0400\n"
+"POT-Creation-Date: 2019-08-13 15:51-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
 "Last-Translator: Ognjen Calic <cognjen@gmail.com>, 2018\n"
 "Language-Team: Serbian (Serbia) (https://www.transifex.com/omeka/teams/14184/sr_RS/)\n"
@@ -410,7 +410,12 @@ msgstr "има вриједност"
 msgid "has no values"
 msgstr "нема вриједност"
 
-#: application/src/View/Helper/SearchFilters.php:54
+#: application/src/View/Helper/SearchFilters.php:47
+#: application/view/common/advanced-search/fulltext.phtml:6
+msgid "Search full-text"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:60
 #: application/view/common/linked-resources.phtml:33
 #: application/view/omeka/admin/item-set/browse.phtml:15
 #: application/view/omeka/admin/item-set/browse.phtml:75
@@ -432,29 +437,29 @@ msgstr "нема вриједност"
 msgid "Class"
 msgstr "Класа"
 
-#: application/src/View/Helper/SearchFilters.php:58
+#: application/src/View/Helper/SearchFilters.php:64
 msgid "Unknown class"
 msgstr ""
 
-#: application/src/View/Helper/SearchFilters.php:96
+#: application/src/View/Helper/SearchFilters.php:102
 msgid "Unknown property"
 msgstr "Непознатo својство"
 
-#: application/src/View/Helper/SearchFilters.php:99
+#: application/src/View/Helper/SearchFilters.php:105
 msgid "[Any property]"
 msgstr "[Било које својство]"
 
-#: application/src/View/Helper/SearchFilters.php:107
+#: application/src/View/Helper/SearchFilters.php:113
 #: application/view/common/advanced-search/properties.phtml:50
 msgid "OR"
 msgstr "OR"
 
-#: application/src/View/Helper/SearchFilters.php:109
+#: application/src/View/Helper/SearchFilters.php:115
 #: application/view/common/advanced-search/properties.phtml:49
 msgid "AND"
 msgstr "AND"
 
-#: application/src/View/Helper/SearchFilters.php:118
+#: application/src/View/Helper/SearchFilters.php:124
 #: application/view/common/search-form.phtml:7
 #: application/view/common/search-form.phtml:8
 #: application/view/layout/layout-admin.phtml:62
@@ -470,37 +475,37 @@ msgstr "AND"
 msgid "Search"
 msgstr "Претрага"
 
-#: application/src/View/Helper/SearchFilters.php:131
+#: application/src/View/Helper/SearchFilters.php:137
 msgid "Template"
 msgstr ""
 
-#: application/src/View/Helper/SearchFilters.php:135
+#: application/src/View/Helper/SearchFilters.php:141
 msgid "Unknown template"
 msgstr ""
 
-#: application/src/View/Helper/SearchFilters.php:150
+#: application/src/View/Helper/SearchFilters.php:156
 #: application/view/omeka/site/item/browse.phtml:34
 msgid "Item set"
 msgstr "Скуп објеката"
 
-#: application/src/View/Helper/SearchFilters.php:154
+#: application/src/View/Helper/SearchFilters.php:160
 msgid "Unknown item set"
 msgstr "Непознат скуп објеката"
 
-#: application/src/View/Helper/SearchFilters.php:162
+#: application/src/View/Helper/SearchFilters.php:168
 #: application/view/omeka/site-admin/index/users.phtml:30
 msgid "User"
 msgstr "Корисник"
 
-#: application/src/View/Helper/SearchFilters.php:166
+#: application/src/View/Helper/SearchFilters.php:172
 msgid "Unknown user"
 msgstr "Непознат корисник"
 
-#: application/src/View/Helper/SearchFilters.php:172
+#: application/src/View/Helper/SearchFilters.php:178
 msgid "Site"
 msgstr "Сајт"
 
-#: application/src/View/Helper/SearchFilters.php:176
+#: application/src/View/Helper/SearchFilters.php:182
 #: application/src/View/Helper/SearchUserFilters.php:75
 msgid "Unknown site"
 msgstr "Непознта сајт"
@@ -580,10 +585,6 @@ msgstr "Ажурирај"
 #: application/view/omeka/site-admin/page/edit.phtml:15
 msgid "View"
 msgstr "Преглед"
-
-#: application/view/common/advanced-search/fulltext.phtml:6
-msgid "Search full-text"
-msgstr ""
 
 #: application/view/common/advanced-search/item-sets.phtml:15
 msgid "Search by item set"
@@ -793,7 +794,7 @@ msgstr "Нема изабраног ресурса"
 #: application/view/omeka/admin/resource-template/show-details.phtml:18
 #: application/view/omeka/admin/user/show-details.phtml:12
 #: application/view/omeka/admin/vocabulary/classes.phtml:15
-#: application/view/omeka/site/index/search.phtml:23
+#: application/view/omeka/site/index/search.phtml:24
 #: application/view/omeka/site/item/browse.phtml:39
 #: application/view/omeka/site/item/browse.phtml:41
 msgid "Items"
@@ -2497,7 +2498,8 @@ msgstr "Нова старница"
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 #: application/view/omeka/site-admin/page/edit.phtml:11
 #: application/view/omeka/site-admin/page/index.phtml:7
-#: application/view/omeka/site/index/search.phtml:2
+#: application/view/omeka/site/index/search.phtml:3
+#: application/view/omeka/site/page/browse.phtml:5
 msgid "Pages"
 msgstr "Странице"
 
@@ -2696,18 +2698,23 @@ msgstr "ОБриши страницу"
 msgid "This site has no pages."
 msgstr "Овај сајт нема страница."
 
-#: application/view/omeka/site/index/search.phtml:10
-#: application/view/omeka/site/index/search.phtml:31
+#: application/view/omeka/site/index/search.phtml:1
+#, php-format
+msgid "Search results for “%s”"
+msgstr ""
+
+#: application/view/omeka/site/index/search.phtml:11
+#: application/view/omeka/site/index/search.phtml:32
 #, php-format
 msgid "View all results (%s total)"
 msgstr ""
 
-#: application/view/omeka/site/index/search.phtml:19
-#: application/view/omeka/site/page/browse.phtml:15
+#: application/view/omeka/site/index/search.phtml:20
+#: application/view/omeka/site/page/browse.phtml:18
 msgid "No pages found"
 msgstr ""
 
-#: application/view/omeka/site/index/search.phtml:40
+#: application/view/omeka/site/index/search.phtml:41
 msgid "No items found"
 msgstr ""
 
@@ -3958,23 +3965,37 @@ msgstr "Заврши репродукцију видеа на датом бро�
 msgid "Upload file"
 msgstr "Отпреми датотеку"
 
-#: application/src/Stdlib/Environment.php:35
+#: application/src/Stdlib/Environment.php:47
+#, php-format
+msgid ""
+"You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
+"version %s. You are currently on version %s."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:54
 #, php-format
 msgid ""
 "The installed PHP version (%s) is too low. Omeka requires at least version "
 "%s."
 msgstr ""
 
-#: application/src/Stdlib/Environment.php:43
+#: application/src/Stdlib/Environment.php:62
 #, php-format
 msgid "Omeka requires the PHP extension %s, but it is not loaded."
 msgstr ""
 
-#: application/src/Stdlib/Environment.php:58
+#: application/src/Stdlib/Environment.php:81
 #, php-format
 msgid ""
 "The installed MySQL version (%s) is too low. Omeka requires at least version"
 " %s."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:89
+#, php-format
+msgid ""
+"The installed MariaDB version (%s) is too low. Omeka requires at least "
+"version %s."
 msgstr ""
 
 #: application/src/Permissions/Acl.php:21

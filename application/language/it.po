@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-07 13:22-0400\n"
+"POT-Creation-Date: 2019-08-13 15:51-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
 "Last-Translator: Giorgio Comai <g@giorgiocomai.eu>, 2019\n"
 "Language-Team: Italian (https://www.transifex.com/omeka/teams/14184/it/)\n"
@@ -412,7 +412,12 @@ msgstr "ha un valore qualsiasi"
 msgid "has no values"
 msgstr "non ha un valore"
 
-#: application/src/View/Helper/SearchFilters.php:54
+#: application/src/View/Helper/SearchFilters.php:47
+#: application/view/common/advanced-search/fulltext.phtml:6
+msgid "Search full-text"
+msgstr "Cerca in tutto il testo"
+
+#: application/src/View/Helper/SearchFilters.php:60
 #: application/view/common/linked-resources.phtml:33
 #: application/view/omeka/admin/item-set/browse.phtml:15
 #: application/view/omeka/admin/item-set/browse.phtml:75
@@ -434,29 +439,29 @@ msgstr "non ha un valore"
 msgid "Class"
 msgstr "Classe"
 
-#: application/src/View/Helper/SearchFilters.php:58
+#: application/src/View/Helper/SearchFilters.php:64
 msgid "Unknown class"
 msgstr "Classe sconosciuta"
 
-#: application/src/View/Helper/SearchFilters.php:96
+#: application/src/View/Helper/SearchFilters.php:102
 msgid "Unknown property"
 msgstr "Proprietà sconosciuta"
 
-#: application/src/View/Helper/SearchFilters.php:99
+#: application/src/View/Helper/SearchFilters.php:105
 msgid "[Any property]"
 msgstr "[Qualsiasi proprietà]"
 
-#: application/src/View/Helper/SearchFilters.php:107
+#: application/src/View/Helper/SearchFilters.php:113
 #: application/view/common/advanced-search/properties.phtml:50
 msgid "OR"
 msgstr "OR"
 
-#: application/src/View/Helper/SearchFilters.php:109
+#: application/src/View/Helper/SearchFilters.php:115
 #: application/view/common/advanced-search/properties.phtml:49
 msgid "AND"
 msgstr "AND"
 
-#: application/src/View/Helper/SearchFilters.php:118
+#: application/src/View/Helper/SearchFilters.php:124
 #: application/view/common/search-form.phtml:7
 #: application/view/common/search-form.phtml:8
 #: application/view/layout/layout-admin.phtml:62
@@ -472,37 +477,37 @@ msgstr "AND"
 msgid "Search"
 msgstr "Cerca"
 
-#: application/src/View/Helper/SearchFilters.php:131
+#: application/src/View/Helper/SearchFilters.php:137
 msgid "Template"
 msgstr "Modello"
 
-#: application/src/View/Helper/SearchFilters.php:135
+#: application/src/View/Helper/SearchFilters.php:141
 msgid "Unknown template"
 msgstr "Modello sconosciuto"
 
-#: application/src/View/Helper/SearchFilters.php:150
+#: application/src/View/Helper/SearchFilters.php:156
 #: application/view/omeka/site/item/browse.phtml:34
 msgid "Item set"
 msgstr "Collezione"
 
-#: application/src/View/Helper/SearchFilters.php:154
+#: application/src/View/Helper/SearchFilters.php:160
 msgid "Unknown item set"
 msgstr "Collezione sconosciuta"
 
-#: application/src/View/Helper/SearchFilters.php:162
+#: application/src/View/Helper/SearchFilters.php:168
 #: application/view/omeka/site-admin/index/users.phtml:30
 msgid "User"
 msgstr "Utente"
 
-#: application/src/View/Helper/SearchFilters.php:166
+#: application/src/View/Helper/SearchFilters.php:172
 msgid "Unknown user"
 msgstr "Utente sconosciuto"
 
-#: application/src/View/Helper/SearchFilters.php:172
+#: application/src/View/Helper/SearchFilters.php:178
 msgid "Site"
 msgstr "Sito"
 
-#: application/src/View/Helper/SearchFilters.php:176
+#: application/src/View/Helper/SearchFilters.php:182
 #: application/src/View/Helper/SearchUserFilters.php:75
 msgid "Unknown site"
 msgstr "Sito sconosciuto"
@@ -582,10 +587,6 @@ msgstr "Modifica"
 #: application/view/omeka/site-admin/page/edit.phtml:15
 msgid "View"
 msgstr "Vista"
-
-#: application/view/common/advanced-search/fulltext.phtml:6
-msgid "Search full-text"
-msgstr ""
 
 #: application/view/common/advanced-search/item-sets.phtml:15
 msgid "Search by item set"
@@ -796,7 +797,7 @@ msgstr "Nessuna risorsa selezionata"
 #: application/view/omeka/admin/resource-template/show-details.phtml:18
 #: application/view/omeka/admin/user/show-details.phtml:12
 #: application/view/omeka/admin/vocabulary/classes.phtml:15
-#: application/view/omeka/site/index/search.phtml:23
+#: application/view/omeka/site/index/search.phtml:24
 #: application/view/omeka/site/item/browse.phtml:39
 #: application/view/omeka/site/item/browse.phtml:41
 msgid "Items"
@@ -1219,7 +1220,7 @@ msgstr "Amministratore"
 
 #: application/view/layout/layout-admin.phtml:37
 msgid "Skip to main content"
-msgstr ""
+msgstr "Salta al contenuto principale"
 
 #: application/view/layout/layout-admin.phtml:42
 msgid "Navigation menu"
@@ -2168,11 +2169,11 @@ msgstr "Altre opzioni"
 
 #: application/view/omeka/admin/resource-template/form.phtml:72
 msgid "Use for resource title"
-msgstr ""
+msgstr "Usa come titolo della risorsa"
 
 #: application/view/omeka/admin/resource-template/form.phtml:78
 msgid "Use for resource description"
-msgstr ""
+msgstr "Usa come descrizione della risorsa"
 
 #: application/view/omeka/admin/resource-template/form.phtml:84
 msgid "Required"
@@ -2511,12 +2512,17 @@ msgid ""
 "The entire site will be down for maintenance until you click the button "
 "below."
 msgstr ""
+"C'è stato un recente aggiornamento del software e il database ha bisogno di "
+"essere aggiornato. L'intero sito rimarrà non disponibile per manutenzione "
+"fino a quando cliccherai il bottone qui sotto."
 
 #: application/view/omeka/migrate/index.phtml:10
 msgid ""
 "There are environment errors that must be resolved before you can update the"
 " database."
 msgstr ""
+"Ci sono errori di environment che devono essere risolti prima che tu possa "
+"aggiornare il database."
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 msgid "New page"
@@ -2525,7 +2531,8 @@ msgstr "Nuova pagina"
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 #: application/view/omeka/site-admin/page/edit.phtml:11
 #: application/view/omeka/site-admin/page/index.phtml:7
-#: application/view/omeka/site/index/search.phtml:2
+#: application/view/omeka/site/index/search.phtml:3
+#: application/view/omeka/site/page/browse.phtml:5
 msgid "Pages"
 msgstr "Pagine"
 
@@ -2727,20 +2734,25 @@ msgstr "Elimina pagina"
 msgid "This site has no pages."
 msgstr "Questo sito non ha pagine."
 
-#: application/view/omeka/site/index/search.phtml:10
-#: application/view/omeka/site/index/search.phtml:31
+#: application/view/omeka/site/index/search.phtml:1
+#, php-format
+msgid "Search results for “%s”"
+msgstr "Risultati di ricerca per “%s”"
+
+#: application/view/omeka/site/index/search.phtml:11
+#: application/view/omeka/site/index/search.phtml:32
 #, php-format
 msgid "View all results (%s total)"
-msgstr ""
+msgstr "Visualizza tutti i risultati (%s totali)"
 
-#: application/view/omeka/site/index/search.phtml:19
-#: application/view/omeka/site/page/browse.phtml:15
+#: application/view/omeka/site/index/search.phtml:20
+#: application/view/omeka/site/page/browse.phtml:18
 msgid "No pages found"
-msgstr ""
+msgstr "Nessuna pagina trovata"
 
-#: application/view/omeka/site/index/search.phtml:40
+#: application/view/omeka/site/index/search.phtml:41
 msgid "No items found"
-msgstr ""
+msgstr "Nessun contenuto trovato"
 
 #: application/view/omeka/site/item-set/search.phtml:6
 msgid "Advanced item set Search"
@@ -3084,6 +3096,9 @@ msgid ""
 "Use this property for the heading of each resource on a browse page. Keep "
 "unselected to use the default title property of each resource."
 msgstr ""
+"Utilizza questa proprietà per il titolo di ogni risorsa nella pagina quando "
+"si sfoglia. Lascia non selezionato per utilizzare la proprietà titolo "
+"predefinita per ogni risorsa."
 
 #: application/src/Form/SiteSettingsForm.php:161
 #: application/src/Form/SiteSettingsForm.php:178
@@ -3099,6 +3114,9 @@ msgid ""
 "Use this property for the body of each resource on a browse page. Keep "
 "unselected to use the default description property of each resource."
 msgstr ""
+"Utilizza questa proprietà per il corpo di ogni risorsa nella pagina quando "
+"si sfoglia. Lascia non selezionato per utilizzare la proprietà descrizione "
+"predefinita per ogni risorsa."
 
 #: application/src/Form/SiteSettingsForm.php:195
 msgid "Templates"
@@ -3114,7 +3132,7 @@ msgstr "Seleziona modelli"
 
 #: application/src/Form/SiteSettingsForm.php:209
 msgid "Restrict to templates"
-msgstr ""
+msgstr "Limita ai modelli"
 
 #: application/src/Form/SiteSettingsForm.php:210
 msgid "Restrict search results to resources of the selected templates."
@@ -3349,17 +3367,19 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:245
 msgid "Default content visibility to Private"
-msgstr ""
+msgstr "Visibilità del contenuto predefinita come Privata"
 
 #: application/src/Form/SettingForm.php:246
 msgid ""
 "If checked, all items, item sets and sites newly created will have their "
 "visibility set to private by default."
 msgstr ""
+"Se attivato, tutti i nuovi contenuti, le nuove collezioni e i nuovi siti "
+"avranno la visibilità predefinita impostata come Privata. "
 
 #: application/src/Form/SettingForm.php:258
 msgid "Index full-text search"
-msgstr ""
+msgstr "Indicizza per la ricerca su tutto il testo"
 
 #: application/src/Form/SettingForm.php:272
 msgid "Security"
@@ -4015,23 +4035,41 @@ msgstr ""
 msgid "Upload file"
 msgstr "Carica il file"
 
-#: application/src/Stdlib/Environment.php:35
+#: application/src/Stdlib/Environment.php:47
+#, php-format
+msgid ""
+"You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
+"version %s. You are currently on version %s."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:54
 #, php-format
 msgid ""
 "The installed PHP version (%s) is too low. Omeka requires at least version "
 "%s."
 msgstr ""
+"La versione di PHP installata (%s) è troppo bassa. Omeka necessita almeno "
+"della versione %s."
 
-#: application/src/Stdlib/Environment.php:43
+#: application/src/Stdlib/Environment.php:62
 #, php-format
 msgid "Omeka requires the PHP extension %s, but it is not loaded."
-msgstr ""
+msgstr "Omeka necessita dell'estensione PHP %s, ma questa non è caricata."
 
-#: application/src/Stdlib/Environment.php:58
+#: application/src/Stdlib/Environment.php:81
 #, php-format
 msgid ""
 "The installed MySQL version (%s) is too low. Omeka requires at least version"
 " %s."
+msgstr ""
+"La versione di MySQL installata (%s) è troppo bassa. Omeka necessita almeno "
+"della versione %s."
+
+#: application/src/Stdlib/Environment.php:89
+#, php-format
+msgid ""
+"The installed MariaDB version (%s) is too low. Omeka requires at least "
+"version %s."
 msgstr ""
 
 #: application/src/Permissions/Acl.php:21
@@ -4404,7 +4442,7 @@ msgstr "errore"
 #: application/src/Mvc/MvcListeners.php:325
 #, php-format
 msgid "The current theme is not active. Its current state is \"%s\"."
-msgstr ""
+msgstr "Il tema attuale non è attivo. Il suo stato attuale è °%s°."
 
 #: application/src/DataType/Resource/AbstractResource.php:16
 msgid "Resource"

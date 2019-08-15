@@ -25,7 +25,7 @@ CREATE TABLE `asset` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `fulltext_search` (
   `id` int(11) NOT NULL,
-  `resource` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `resource` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `owner_id` int(11) DEFAULT NULL,
   `is_public` tinyint(1) NOT NULL,
   `title` longtext COLLATE utf8mb4_unicode_ci,

@@ -19,7 +19,7 @@ class FulltextSearch
 
     /**
      * @Id
-     * @Column
+     * @Column(type="string", length=190)
      */
     protected $resource;
 

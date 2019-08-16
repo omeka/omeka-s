@@ -1284,7 +1284,7 @@ msgstr "versione %s"
 #: application/view/layout/layout-admin.phtml:112
 #: application/view/omeka/admin/system-info/browse.phtml:4
 msgid "System information"
-msgstr "Informazioni sistema"
+msgstr "Informazioni di sistema"
 
 #: application/view/layout/layout-admin.phtml:113
 msgid "User manual"
@@ -2084,7 +2084,7 @@ msgstr "Errore: File Module.php non valido"
 
 #: application/view/omeka/admin/module/browse.phtml:146
 msgid "Error: invalid config/module.ini file"
-msgstr "Errorz: file config/module.ini non valido"
+msgstr "Errore: file config/module.ini non valido"
 
 #: application/view/omeka/admin/module/browse.phtml:148
 #, php-format
@@ -4041,6 +4041,8 @@ msgid ""
 "You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
 "version %s. You are currently on version %s."
 msgstr ""
+"Devi aggiornare Omeka S almeno alla versione 1.0.0 prima di aggiornare alla "
+"versione %s. Stai attualmente utilizzando la versione %s."
 
 #: application/src/Stdlib/Environment.php:54
 #, php-format
@@ -4071,6 +4073,8 @@ msgid ""
 "The installed MariaDB version (%s) is too low. Omeka requires at least "
 "version %s."
 msgstr ""
+"La versione di MariaDB installata (%s) è troppo vecchia. Omeka richiede "
+"versioni uguali o superiori alla %s."
 
 #: application/src/Permissions/Acl.php:21
 msgid "Global Administrator"

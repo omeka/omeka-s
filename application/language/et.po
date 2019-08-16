@@ -4,8 +4,8 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Rivo Zängov <eraser@eraser.ee>, 2019
 # Moon Ika <m8nika@gmail.com>, 2019
+# Rivo Zängov <eraser@eraser.ee>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-08-13 15:51-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Moon Ika <m8nika@gmail.com>, 2019\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>, 2019\n"
 "Language-Team: Estonian (https://www.transifex.com/omeka/teams/14184/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3276,7 +3276,7 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:194
 msgid "No default (show index of sites)"
-msgstr ""
+msgstr "Vaikeväärtust pole (näitab saitide indeksit)"
 
 #: application/src/Form/SettingForm.php:219
 msgid "Enable version notifications"
@@ -4341,7 +4341,7 @@ msgstr "Ressurss"
 
 #: application/src/DataType/Resource/AbstractResource.php:59
 msgid "A value resource cannot be Media."
-msgstr ""
+msgstr "Väärtusse ressurss ei saa olla meedia."
 
 #: application/src/DataType/Resource/ItemSet.php:13
 msgid "Item Set"
@@ -5135,11 +5135,11 @@ msgstr ""
 
 #. Vocabulary comment for Bibliographic Ontology
 msgid "Bibliographic metadata (BIBO)"
-msgstr ""
+msgstr "Bibliograafilised metaandmed (BIBO)"
 
 #. Class label for Bibliographic Ontology:AcademicArticle
 msgid "Academic Article"
-msgstr ""
+msgstr "Akadeemiline artikkel"
 
 #. Class comment for Bibliographic Ontology:AcademicArticle
 msgid "A scholarly academic article, typically published in a journal."
@@ -5216,7 +5216,7 @@ msgstr "Raamatu peatükk."
 
 #. Class label for Bibliographic Ontology:Code
 msgid "Code"
-msgstr ""
+msgstr "Kood"
 
 #. Class comment for Bibliographic Ontology:Code
 msgid "A collection of statutes."
@@ -5244,7 +5244,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:CourtReporter
 msgid "Court Reporter"
-msgstr ""
+msgstr "Kohtuajakirjanik"
 
 #. Class comment for Bibliographic Ontology:CourtReporter
 msgid "A collection of legal cases."
@@ -5569,7 +5569,7 @@ msgstr ""
 
 #. Class comment for Bibliographic Ontology:Standard
 msgid "A document describing a standard"
-msgstr ""
+msgstr "Standardit kirjeldav dokument"
 
 #. Class label for Bibliographic Ontology:Statute
 msgid "Statute"
@@ -5787,7 +5787,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:performer
 msgid "performer"
-msgstr ""
+msgstr "esitaja"
 
 #. Property label for Bibliographic Ontology:presentedAt
 msgid "presented at"
@@ -5858,7 +5858,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:subsequentLegalDecision
 msgid "subsequentLegalDecision"
-msgstr ""
+msgstr "subsequentLegalDecision"
 
 #. Property comment for Bibliographic Ontology:subsequentLegalDecision
 msgid ""
@@ -6221,7 +6221,7 @@ msgstr "Veebipoe konto."
 
 #. Class label for Friend of a Friend:OnlineChatAccount
 msgid "Online Chat Account"
-msgstr ""
+msgstr "Veebipõhise vestluse konto"
 
 #. Class comment for Friend of a Friend:OnlineChatAccount
 msgid "An online chat account."
@@ -6269,7 +6269,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:dnaChecksum
 msgid "DNA checksum"
-msgstr ""
+msgstr "DNA kontrollsumma"
 
 #. Property comment for Friend of a Friend:dnaChecksum
 msgid "A checksum for the DNA of some thing. Joke."

@@ -146,7 +146,7 @@ class UserBar extends AbstractHelper
                 $links[] = [
                     'resource' => $controller,
                     'action' => 'show',
-                    'text' => $translate('Show'),
+                    'text' => $translate('View'),
                     'url' => $resource->adminUrl(),
                 ];
                 if ($resource->userIsAllowed('edit')) {

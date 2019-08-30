@@ -81,6 +81,8 @@ class VocabularyController extends AbstractActionController
                     $options = [
                         'format' => $dataVocabFetch['format'],
                         'lang' => $dataVocabFetch['lang'],
+                        'label_property' => $dataVocabFetch['label_property'],
+                        'comment_property' => $dataVocabFetch['comment_property'],
                     ];
                     if (\UPLOAD_ERR_OK === $dataVocabFetch['file']['error']) {
                         $strategy = 'file';
@@ -157,6 +159,8 @@ class VocabularyController extends AbstractActionController
                 $options = [
                     'format' => $dataVocabFetch['format'],
                     'lang' => $dataVocabFetch['lang'],
+                    'label_property' => $dataVocabFetch['label_property'],
+                    'comment_property' => $dataVocabFetch['comment_property'],
                 ];
                 if (\UPLOAD_ERR_OK === $dataVocabFetch['file']['error']) {
                     $strategy = 'file';

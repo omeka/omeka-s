@@ -60,6 +60,28 @@ class VocabularyFetch extends Fieldset implements InputFilterProviderInterface
                 'id' => 'lang',
             ],
         ]);
+        $this->add([
+            'name' => 'label_property',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Label property', // @translate
+                'info' => sprintf('Enter the preferred label property. You can use an unconventional property by entering the namespace and the property name separated by a space. Defaults to %s.', \Omeka\Stdlib\RdfImporter::DEFAULT_LABEL_PROPERTY), // @translate
+            ],
+            'attributes' => [
+                'id' => 'label_property',
+            ],
+        ]);
+        $this->add([
+            'name' => 'comment_property',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Comment property', // @translate
+                'info' => sprintf('Enter the preferred comment property. You can use an unconventional property by entering the namespace and the property name separated by a space. Defaults to %s.', \Omeka\Stdlib\RdfImporter::DEFAULT_COMMENT_PROPERTY), // @translate
+            ],
+            'attributes' => [
+                'id' => 'comment_property',
+            ],
+        ]);
     }
 
     public function getInputFilterSpecification()
@@ -69,6 +91,49 @@ class VocabularyFetch extends Fieldset implements InputFilterProviderInterface
                 'name' => 'url',
                 'required' => false,
             ],
+            [
+                'name' => 'label_property',
+                'required' => false,
+                'filters' => [
+                    [
+                        'name' => 'callback',
+                        'options' => [
+                            'callback' => [$this, 'propertyFilter'],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'name' => 'comment_property',
+                'required' => false,
+                'filters' => [
+                    [
+                        'name' => 'callback',
+                        'options' => [
+                            'callback' => [$this, 'propertyFilter'],
+                        ],
+                    ],
+                ],
+            ],
         ];
+    }
+
+    /**
+     * Prepare a preferred property for use by the RDF importer.
+     *
+     * @param string $property
+     * @return string|array
+     */
+    public function propertyFilter($property)
+    {
+        $property = trim($property);
+        if ('' === $property) {
+            return null;
+        }
+        $property = explode(' ', $property);
+        if (2 === count($property)) {
+            return $property;
+        }
+        return $property[0];
     }
 }

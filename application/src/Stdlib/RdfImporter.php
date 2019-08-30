@@ -132,19 +132,23 @@ class RdfImporter
             if (!$this->isMember($resource, $namespaceUri)) {
                 continue;
             }
-            // Get the vocabulary's classes.
-            if (in_array($resource->type(), $this->classTypes)) {
-                $members['classes'][$resource->localName()] = [
-                    'label' => $this->getLabel($resource, $resource->localName(), $options['lang']),
-                    'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
-                ];
-            }
-            // Get the vocabulary's properties.
-            if (in_array($resource->type(), $this->propertyTypes)) {
-                $members['properties'][$resource->localName()] = [
-                    'label' => $this->getLabel($resource, $resource->localName(), $options['lang']),
-                    'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
-                ];
+            foreach ($resource->types() as $type) {
+                // Get the vocabulary's classes.
+                if (in_array($type, $this->classTypes)) {
+                    $members['classes'][$resource->localName()] = [
+                        'label' => $this->getLabel($resource, $resource->localName(), $options['lang'], $options['label_property']),
+                        'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
+                    ];
+                    break;
+                }
+                // Get the vocabulary's properties.
+                if (in_array($type, $this->propertyTypes)) {
+                    $members['properties'][$resource->localName()] = [
+                        'label' => $this->getLabel($resource, $resource->localName(), $options['lang'], $options['label_property']),
+                        'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
+                    ];
+                    break;
+                }
             }
         }
         return $members;

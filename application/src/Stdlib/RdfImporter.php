@@ -13,9 +13,6 @@ use Omeka\Entity\ResourceClass;
 
 class RdfImporter
 {
-    const DEFAULT_LABEL_PROPERTY = 'skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title';
-    const DEFAULT_COMMENT_PROPERTY = 'rdfs:comment';
-
     /**
      * @var \Omeka\Api\Manager
      */
@@ -85,16 +82,10 @@ class RdfImporter
             $options['format'] = 'guess';
         }
         if (!isset($options['label_property'])) {
-            $options['label_property'] = self::DEFAULT_LABEL_PROPERTY;
-        } elseif (is_array($options['label_property'])) {
-            EasyRdf_Namespace::set('label_property_prefix', $options['label_property'][0]);
-            $options['label_property'] = sprintf('label_property_prefix:%s', $options['label_property'][1]);
+            $options['label_property'] = 'skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title';
         }
         if (!isset($options['comment_property'])) {
-            $options['comment_property'] = self::DEFAULT_COMMENT_PROPERTY;
-        } elseif (is_array($options['comment_property'])) {
-            EasyRdf_Namespace::set('comment_property_prefix', $options['comment_property'][0]);
-            $options['comment_property'] = sprintf('comment_property_prefix:%s', $options['comment_property'][1]);
+            $options['comment_property'] = 'rdfs:comment';
         }
         if (!isset($options['lang'])) {
             $options['lang'] = null;

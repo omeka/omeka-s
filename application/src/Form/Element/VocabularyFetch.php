@@ -65,7 +65,7 @@ class VocabularyFetch extends Fieldset implements InputFilterProviderInterface
             'type' => 'text',
             'options' => [
                 'label' => 'Label property', // @translate
-                'info' => sprintf('Enter the preferred label property. You can use an unconventional property by entering the namespace and the property name separated by a space. Defaults to %s.', \Omeka\Stdlib\RdfImporter::DEFAULT_LABEL_PROPERTY), // @translate
+                'info' => 'Enter the preferred label property. This is typically only needed if the vocabulary uses an unconventional property for labels. Please use the full property URI enclosed in angle brackets.', // @translate
             ],
             'attributes' => [
                 'id' => 'label_property',
@@ -76,7 +76,7 @@ class VocabularyFetch extends Fieldset implements InputFilterProviderInterface
             'type' => 'text',
             'options' => [
                 'label' => 'Comment property', // @translate
-                'info' => sprintf('Enter the preferred comment property. You can use an unconventional property by entering the namespace and the property name separated by a space. Defaults to %s.', \Omeka\Stdlib\RdfImporter::DEFAULT_COMMENT_PROPERTY), // @translate
+                'info' => 'Enter the preferred comment property. This is typically only needed if the vocabulary uses an unconventional property for comments. Please use the full property URI enclosed in angle brackets.', // @translate
             ],
             'attributes' => [
                 'id' => 'comment_property',
@@ -96,10 +96,7 @@ class VocabularyFetch extends Fieldset implements InputFilterProviderInterface
                 'required' => false,
                 'filters' => [
                     [
-                        'name' => 'callback',
-                        'options' => [
-                            'callback' => [$this, 'propertyFilter'],
-                        ],
+                        'name' => 'ToNull',
                     ],
                 ],
             ],
@@ -108,32 +105,10 @@ class VocabularyFetch extends Fieldset implements InputFilterProviderInterface
                 'required' => false,
                 'filters' => [
                     [
-                        'name' => 'callback',
-                        'options' => [
-                            'callback' => [$this, 'propertyFilter'],
-                        ],
+                        'name' => 'ToNull',
                     ],
                 ],
             ],
         ];
-    }
-
-    /**
-     * Prepare a preferred property for use by the RDF importer.
-     *
-     * @param string $property
-     * @return string|array
-     */
-    public function propertyFilter($property)
-    {
-        $property = trim($property);
-        if ('' === $property) {
-            return null;
-        }
-        $property = explode(' ', $property);
-        if (2 === count($property)) {
-            return $property;
-        }
-        return $property[0];
     }
 }

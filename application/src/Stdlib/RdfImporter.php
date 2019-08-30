@@ -4,6 +4,7 @@ namespace Omeka\Stdlib;
 use Doctrine\ORM\EntityManager;
 use EasyRdf_Graph;
 use EasyRdf_Literal;
+use EasyRdf_Namespace;
 use EasyRdf_Resource;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
@@ -80,6 +81,9 @@ class RdfImporter
         }
         if (!isset($options['comment_property'])) {
             $options['comment_property'] = 'rdfs:comment';
+        } elseif (is_array($options['comment_property'])) {
+            EasyRdf_Namespace::set('comment_property_prefix', $options['comment_property'][0]);
+            $options['comment_property'] = sprintf('comment_property_prefix:%s', $options['comment_property'][1]);
         }
         if (!isset($options['lang'])) {
             $options['lang'] = null;

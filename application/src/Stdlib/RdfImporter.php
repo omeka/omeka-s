@@ -4,7 +4,6 @@ namespace Omeka\Stdlib;
 use Doctrine\ORM\EntityManager;
 use EasyRdf_Graph;
 use EasyRdf_Literal;
-use EasyRdf_Namespace;
 use EasyRdf_Resource;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;

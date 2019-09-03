@@ -8,37 +8,6 @@ class VocabularyImportForm extends Form
     public function init()
     {
         $this->add([
-            'name' => 'vocabulary-fetch',
-            'type' => 'Omeka\Form\Element\VocabularyFetch',
-        ]);
-
-        $this->add([
-            'name' => 'o:prefix',
-            'type' => 'text',
-            'options' => [
-                'label' => 'Prefix', // @translate
-                'info' => 'A concise vocabulary identifier, used as a shorthand proxy for the namespace URI.', // @translate
-            ],
-            'attributes' => [
-                'required' => true,
-                'id' => 'o:prefix',
-            ],
-        ]);
-
-        $this->add([
-            'name' => 'o:namespace_uri',
-            'type' => 'text',
-            'options' => [
-                'label' => 'Namespace URI', // @translate
-                'info' => 'The unique namespace URI used by the vocabulary to identify local member classes and properties.', // @translate
-            ],
-            'attributes' => [
-                'required' => true,
-                'id' => 'o:namespace_uri',
-            ],
-        ]);
-
-        $this->add([
             'name' => 'o:label',
             'type' => 'text',
             'options' => [
@@ -61,6 +30,37 @@ class VocabularyImportForm extends Form
             'attributes' => [
                 'id' => 'o:comment',
             ],
+        ]);
+
+        $this->add([
+            'name' => 'o:namespace_uri',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Namespace URI', // @translate
+                'info' => 'The unique namespace URI used by the vocabulary to identify local member classes and properties.', // @translate
+            ],
+            'attributes' => [
+                'required' => true,
+                'id' => 'o:namespace_uri',
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'o:prefix',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Namespace prefix', // @translate
+                'info' => 'A concise vocabulary identifier, used as a shorthand proxy for the namespace URI.', // @translate
+            ],
+            'attributes' => [
+                'required' => true,
+                'id' => 'o:prefix',
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'vocabulary-fetch',
+            'type' => 'Omeka\Form\Element\VocabularyFetch',
         ]);
     }
 }

@@ -53,8 +53,9 @@ class VocabularyFetch extends Fieldset implements InputFilterProviderInterface
             'name' => 'lang',
             'type' => 'text',
             'options' => [
-                'label' => 'Language', // @translate
-                'info' => 'Enter the preferred language of the labels and comments using an IETF language tag. Defaults to the first available.', // @translate
+                'label' => 'Preferred language', // @translate
+                'info' => 'Enter the preferred language of the labels and comments using an <a target="_blank" href="https://www.w3.org/International/articles/language-tags/">IETF language tag</a>. Defaults to the first available.', // @translate
+                'escape_info' => false,
             ],
             'attributes' => [
                 'id' => 'lang',
@@ -64,7 +65,7 @@ class VocabularyFetch extends Fieldset implements InputFilterProviderInterface
             'name' => 'label_property',
             'type' => 'text',
             'options' => [
-                'label' => 'Label property', // @translate
+                'label' => 'Preferred label property', // @translate
                 'info' => 'Enter the preferred label property. This is typically only needed if the vocabulary uses an unconventional property for labels. Please use the full property URI enclosed in angle brackets.', // @translate
             ],
             'attributes' => [
@@ -75,7 +76,7 @@ class VocabularyFetch extends Fieldset implements InputFilterProviderInterface
             'name' => 'comment_property',
             'type' => 'text',
             'options' => [
-                'label' => 'Comment property', // @translate
+                'label' => 'Preferred comment property', // @translate
                 'info' => 'Enter the preferred comment property. This is typically only needed if the vocabulary uses an unconventional property for comments. Please use the full property URI enclosed in angle brackets.', // @translate
             ],
             'attributes' => [

@@ -13,7 +13,7 @@ class VocabularyFetch extends Fieldset implements InputFilterProviderInterface
             'type' => 'file',
             'options' => [
                 'label' => 'Vocabulary file', // @translate
-                'info' => 'Choose a RDF vocabulary file. You must choose a file or enter a URL.', // @translate
+                'info' => 'Choose a RDF vocabulary file. You must choose a file or enter a URL below.', // @translate
             ],
             'attributes' => [
                 'id' => 'file',
@@ -24,7 +24,7 @@ class VocabularyFetch extends Fieldset implements InputFilterProviderInterface
             'type' => 'url',
             'options' => [
                 'label' => 'Vocabulary URL', // @translate
-                'info' => 'Enter a RDF vocabulary URL. You must enter a URL or choose a file.', // @translate
+                'info' => 'Enter a RDF vocabulary URL. You must enter a URL or choose a file above.', // @translate
             ],
             'attributes' => [
                 'id' => 'url',

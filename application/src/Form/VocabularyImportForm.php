@@ -37,7 +37,7 @@ class VocabularyImportForm extends Form
             'type' => 'text',
             'options' => [
                 'label' => 'Namespace URI', // @translate
-                'info' => 'The unique namespace URI used by the vocabulary to identify local member classes and properties.', // @translate
+                'info' => 'The unique namespace URI used to identify the classes and properties of the vocabulary.', // @translate
             ],
             'attributes' => [
                 'required' => true,
@@ -50,7 +50,7 @@ class VocabularyImportForm extends Form
             'type' => 'text',
             'options' => [
                 'label' => 'Namespace prefix', // @translate
-                'info' => 'A concise vocabulary identifier, used as a shorthand proxy for the namespace URI.', // @translate
+                'info' => 'A concise vocabulary identifier used as a shorthand for the namespace URI.', // @translate
             ],
             'attributes' => [
                 'required' => true,

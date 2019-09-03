@@ -8,33 +8,18 @@ class VocabularyForm extends Form
     public function init()
     {
         $this->add([
-            'name' => 'o:label',
-            'type' => 'text',
-            'options' => [
-                'label' => 'Label', // @translate
-                'info' => 'A human-readable title of the vocabulary.', // @translate
-            ],
-            'attributes' => [
-                'required' => true,
-                'id' => 'o:label',
-            ],
+            'name' => 'vocabulary-info',
+            'type' => 'Omeka\Form\Element\VocabularyInfo',
         ]);
 
         $this->add([
-            'name' => 'o:comment',
-            'type' => 'textarea',
-            'options' => [
-                'label' => 'Comment', // @translate
-                'info' => 'A human-readable description of the vocabulary.', // @translate
-            ],
-            'attributes' => [
-                'id' => 'o:comment',
-            ],
+            'name' => 'vocabulary-file',
+            'type' => 'Omeka\Form\Element\VocabularyFile',
         ]);
 
         $this->add([
-            'name' => 'vocabulary-fetch',
-            'type' => 'Omeka\Form\Element\VocabularyFetch',
+            'name' => 'vocabulary-advanced',
+            'type' => 'Omeka\Form\Element\VocabularyAdvanced',
         ]);
     }
 }

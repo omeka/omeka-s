@@ -75,25 +75,25 @@ class VocabularyController extends AbstractActionController
             $form->setData($post);
             if ($form->isValid()) {
                 $data = $form->getData();
-                $dataVocabFetch = $data['vocabulary-fetch'];
                 try {
                     $strategy = null;
+                    $importData = array_merge($data['vocabulary-info'], $data['vocabulary-namespace']);
                     $options = [
-                        'format' => $dataVocabFetch['format'],
-                        'lang' => $dataVocabFetch['lang'],
-                        'label_property' => $dataVocabFetch['label_property'],
-                        'comment_property' => $dataVocabFetch['comment_property'],
+                        'format' => $data['vocabulary-file']['format'],
+                        'lang' => $data['vocabulary-advanced']['lang'],
+                        'label_property' => $data['vocabulary-advanced']['label_property'],
+                        'comment_property' => $data['vocabulary-advanced']['comment_property'],
                     ];
-                    if (\UPLOAD_ERR_OK === $dataVocabFetch['file']['error']) {
+                    if (\UPLOAD_ERR_OK === $data['vocabulary-file']['file']['error']) {
                         $strategy = 'file';
-                        $options['file'] = $dataVocabFetch['file']['tmp_name'];
-                    } elseif ($dataVocabFetch['url']) {
+                        $options['file'] = $data['vocabulary-file']['file']['tmp_name'];
+                    } elseif ($data['vocabulary-file']['url']) {
                         $strategy = 'url';
-                        $options['url'] = $dataVocabFetch['url'];
+                        $options['url'] = $data['vocabulary-file']['url'];
                     } else {
                         throw new ValidationException($this->translate('Must provide a vocabulary file or a vocabulary URL'));
                     }
-                    $response = $this->rdfImporter->import($strategy, $data, $options);
+                    $response = $this->rdfImporter->import($strategy, $importData, $options);
                     if ($response) {
                         $message = new Message(
                             'Vocabulary successfully imported. %s', // @translate
@@ -137,7 +137,12 @@ class VocabularyController extends AbstractActionController
             throw new Exception\PermissionDeniedException('Cannot edit a permanent vocabulary');
         }
 
-        $data = $vocabulary->jsonSerialize();
+        $data = [
+            'vocabulary-info' => [
+                'o:label' => $vocabulary->label(),
+                'o:comment' => $vocabulary->comment(),
+            ],
+        ];
         $form->setData($data);
 
         $view = new ViewModel;
@@ -152,22 +157,21 @@ class VocabularyController extends AbstractActionController
             $form->setData($post);
             if ($form->isValid()) {
                 $data = $form->getData();
-                $dataVocabFetch = $data['vocabulary-fetch'];
-                $response = $this->api($form)->update('vocabularies', $this->params('id'), $data, [], ['isPartial' => true]);
+                $response = $this->api($form)->update('vocabularies', $this->params('id'), $data['vocabulary-info'], [], ['isPartial' => true]);
 
                 $strategy = null;
                 $options = [
-                    'format' => $dataVocabFetch['format'],
-                    'lang' => $dataVocabFetch['lang'],
-                    'label_property' => $dataVocabFetch['label_property'],
-                    'comment_property' => $dataVocabFetch['comment_property'],
+                    'format' => $data['vocabulary-file']['format'],
+                    'lang' => $data['vocabulary-advanced']['lang'],
+                    'label_property' => $data['vocabulary-advanced']['label_property'],
+                    'comment_property' => $data['vocabulary-advanced']['comment_property'],
                 ];
-                if (\UPLOAD_ERR_OK === $dataVocabFetch['file']['error']) {
+                if (\UPLOAD_ERR_OK === $data['vocabulary-file']['file']['error']) {
                     $strategy = 'file';
-                    $options['file'] = $dataVocabFetch['file']['tmp_name'];
-                } elseif ($dataVocabFetch['url']) {
+                    $options['file'] = $data['vocabulary-file']['file']['tmp_name'];
+                } elseif ($data['vocabulary-file']['url']) {
                     $strategy = 'url';
-                    $options['url'] = $dataVocabFetch['url'];
+                    $options['url'] = $data['vocabulary-file']['url'];
                 }
 
                 if (null !== $strategy) {

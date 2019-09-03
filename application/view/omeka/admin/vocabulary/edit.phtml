@@ -14,10 +14,10 @@ $form->prepare();
 </div>
 <?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>
 <?php echo $this->formRow($form->get('vocabularyform_csrf')); ?>
-<?php echo $this->formRow($form->get('o:label')); ?>
-<?php echo $this->formRow($form->get('o:comment')); ?>
+<?php echo $this->formCollection($form->get('vocabulary-info')); ?>
 <p><?php echo $this->translate('You may update this vocabulary to a newer version. You will be able to review the changes before you accept.'); ?></p>
-<?php echo $this->formCollection($form->get('vocabulary-fetch'), false); ?>
+<?php echo $this->formCollection($form->get('vocabulary-file')); ?>
+<?php echo $this->formCollection($form->get('vocabulary-advanced')); ?>
 <?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>
 <?php echo $this->form()->closeTag(); ?>
 <?php echo $this->deleteConfirm($vocabulary, 'vocabulary'); ?>

@@ -8,59 +8,23 @@ class VocabularyImportForm extends Form
     public function init()
     {
         $this->add([
-            'name' => 'o:label',
-            'type' => 'text',
-            'options' => [
-                'label' => 'Label', // @translate
-                'info' => 'A human-readable title of the vocabulary.', // @translate
-            ],
-            'attributes' => [
-                'required' => true,
-                'id' => 'o:label',
-            ],
+            'name' => 'vocabulary-info',
+            'type' => 'Omeka\Form\Element\VocabularyInfo',
         ]);
 
         $this->add([
-            'name' => 'o:comment',
-            'type' => 'textarea',
-            'options' => [
-                'label' => 'Comment', // @translate
-                'info' => 'A human-readable description of the vocabulary.', // @translate
-            ],
-            'attributes' => [
-                'id' => 'o:comment',
-            ],
+            'name' => 'vocabulary-namespace',
+            'type' => 'Omeka\Form\Element\VocabularyNamespace',
         ]);
 
         $this->add([
-            'name' => 'o:namespace_uri',
-            'type' => 'text',
-            'options' => [
-                'label' => 'Namespace URI', // @translate
-                'info' => 'The unique namespace URI used to identify the classes and properties of the vocabulary.', // @translate
-            ],
-            'attributes' => [
-                'required' => true,
-                'id' => 'o:namespace_uri',
-            ],
+            'name' => 'vocabulary-file',
+            'type' => 'Omeka\Form\Element\VocabularyFile',
         ]);
 
         $this->add([
-            'name' => 'o:prefix',
-            'type' => 'text',
-            'options' => [
-                'label' => 'Namespace prefix', // @translate
-                'info' => 'A concise vocabulary identifier used as a shorthand for the namespace URI.', // @translate
-            ],
-            'attributes' => [
-                'required' => true,
-                'id' => 'o:prefix',
-            ],
-        ]);
-
-        $this->add([
-            'name' => 'vocabulary-fetch',
-            'type' => 'Omeka\Form\Element\VocabularyFetch',
+            'name' => 'vocabulary-advanced',
+            'type' => 'Omeka\Form\Element\VocabularyAdvanced',
         ]);
     }
 }

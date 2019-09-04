@@ -122,40 +122,24 @@ class RdfImporter
                 throw new ValidationException('Unsupported import strategy.');
         }
 
-        $members = ['classes' => [], 'properties' => []];
-
-        // Iterate through all resources of the graph instead of selectively by
-        // rdf:type because a resource may have more than one type, causing
-        // illegal attempts to duplicate classes and properties.
-        foreach ($graph->resources() as $resource) {
-            // The resource must not be a blank node.
-            if ($resource->isBnode()) {
-                continue;
-            }
-            // The resource must be a local member of the vocabulary.
-            if (!$this->isMember($resource, $namespaceUri)) {
-                continue;
-            }
-            foreach ($resource->types() as $type) {
-                // Get the vocabulary's classes.
-                if (in_array($type, $this->classTypes)) {
-                    $members['classes'][$resource->localName()] = [
-                        'label' => $this->getLabel($resource, $resource->localName(), $options['lang'], $options['label_property']),
-                        'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
-                    ];
-                    break;
-                }
-                // Get the vocabulary's properties.
-                if (in_array($type, $this->propertyTypes)) {
-                    $members['properties'][$resource->localName()] = [
-                        'label' => $this->getLabel($resource, $resource->localName(), $options['lang'], $options['label_property']),
-                        'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
-                    ];
-                    break;
-                }
-            }
-        }
-        return $members;
+        return [
+            'classes' => $this->getMembersOfTypes(
+                $graph,
+                $this->classTypes,
+                $namespaceUri,
+                $options['label_property'],
+                $options['comment_property'],
+                $options['lang']
+            ),
+            'properties' => $this->getMembersOfTypes(
+                $graph,
+                $this->propertyTypes,
+                $namespaceUri,
+                $options['label_property'],
+                $options['comment_property'],
+                $options['lang']
+            ),
+        ];
     }
 
     /**
@@ -335,15 +319,32 @@ class RdfImporter
     }
 
     /**
-     * Determine whether a resource is a local member of the vocabulary.
+     * Get all members of the specified types.
      *
-     * @param EasyRdf_Resource $resource
+     * @param EasyRdf_Graph $graph
+     * @param array $types
      * @param string $namespaceUri
+     * @param string $labelProperty
+     * @param string $commentProperty
+     * @param string $lang
      */
-    protected function isMember(EasyRdf_Resource $resource, $namespaceUri)
-    {
-        $output = strncmp($resource->getUri(), $namespaceUri, strlen($namespaceUri));
-        return $output === 0;
+    protected function getMembersOfTypes(EasyRdf_Graph $graph, array $types,
+        $namespaceUri, $labelProperty, $commentProperty, $lang
+    ) {
+        $members = [];
+        foreach ($types as $type) {
+            foreach ($graph->allOfType($type) as $resource) {
+                // The resource must be a local member of the vocabulary.
+                $output = strncmp($resource->getUri(), $namespaceUri, strlen($namespaceUri));
+                if (0 === $output) {
+                    $members[$resource->localName()] = [
+                        'label' => $this->getLabel($resource, $labelProperty, $lang, $resource->localName()),
+                        'comment' => $this->getComment($resource, $commentProperty, $lang),
+                    ];
+                }
+            }
+        }
+        return $members;
     }
 
     /**
@@ -353,11 +354,12 @@ class RdfImporter
      * it defaults to the first available label, if any.
      *
      * @param EasyRdf_Resource $resource
-     * @param string $default
+     * @param string $labelProperty
      * @param string $lang
+     * @param string $default
      * @return string
      */
-    protected function getLabel(EasyRdf_Resource $resource, $default, $lang = null, $labelProperty)
+    protected function getLabel(EasyRdf_Resource $resource, $labelProperty, $lang, $default)
     {
         $label = $resource->get($labelProperty, 'literal', $lang) ?: $resource->get($labelProperty, 'literal');
         if ($label) {
@@ -380,7 +382,7 @@ class RdfImporter
      * @param string $lang
      * @return string
      */
-    protected function getComment(EasyRdf_Resource $resource, $commentProperty, $lang = null)
+    protected function getComment(EasyRdf_Resource $resource, $commentProperty, $lang)
     {
         $comment = $resource->get($commentProperty, 'literal', $lang) ?: $resource->get($commentProperty, 'literal');
         if ($comment) {

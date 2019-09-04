@@ -144,8 +144,8 @@ class VocabularyForm extends Form
             'name' => 'label_property',
             'type' => 'text',
             'options' => [
-                'label' => 'Preferred label property', // @translate
-                'info' => 'Enter the preferred label property. This is typically only needed if the vocabulary uses an unconventional property for labels. Please use the full property URI enclosed in angle brackets.', // @translate
+                'label' => 'Label property', // @translate
+                'info' => 'Enter the label property. This is typically only needed if the vocabulary uses an unconventional property for labels. Please use the full property URI enclosed in angle brackets.', // @translate
             ],
             'attributes' => [
                 'id' => 'label_property',
@@ -155,8 +155,8 @@ class VocabularyForm extends Form
             'name' => 'comment_property',
             'type' => 'text',
             'options' => [
-                'label' => 'Preferred comment property', // @translate
-                'info' => 'Enter the preferred comment property. This is typically only needed if the vocabulary uses an unconventional property for comments. Please use the full property URI enclosed in angle brackets.', // @translate
+                'label' => 'Comment property', // @translate
+                'info' => 'Enter the comment property. This is typically only needed if the vocabulary uses an unconventional property for comments. Please use the full property URI enclosed in angle brackets.', // @translate
             ],
             'attributes' => [
                 'id' => 'comment_property',

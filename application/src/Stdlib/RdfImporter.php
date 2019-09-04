@@ -3,7 +3,6 @@ namespace Omeka\Stdlib;
 
 use Doctrine\ORM\EntityManager;
 use EasyRdf_Graph;
-use EasyRdf_Literal;
 use EasyRdf_Resource;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
@@ -67,6 +66,8 @@ class RdfImporter
      *     parser will attempt to guess the format.
      *   - file: (required for "file" strategy) The RDF file path
      *   - url: (required for "url" strategy) The URL of the RDF file.
+     *   - label_property: (optional) The RDF property containing the preferred
+     *     property label (defaults to "skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title")
      *   - comment_property: (optional) The RDF property containing the preferred
      *     property comment (defaults to "rdfs:comment")
      *   - lang: (optional) The preferred language of labels and comments
@@ -77,6 +78,9 @@ class RdfImporter
         if (!isset($options['format'])) {
             // EasyRDF should guess the format if none given.
             $options['format'] = 'guess';
+        }
+        if (!isset($options['label_property'])) {
+            $options['label_property'] = 'skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title';
         }
         if (!isset($options['comment_property'])) {
             $options['comment_property'] = 'rdfs:comment';
@@ -132,19 +136,23 @@ class RdfImporter
             if (!$this->isMember($resource, $namespaceUri)) {
                 continue;
             }
-            // Get the vocabulary's classes.
-            if (in_array($resource->type(), $this->classTypes)) {
-                $members['classes'][$resource->localName()] = [
-                    'label' => $this->getLabel($resource, $resource->localName(), $options['lang']),
-                    'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
-                ];
-            }
-            // Get the vocabulary's properties.
-            if (in_array($resource->type(), $this->propertyTypes)) {
-                $members['properties'][$resource->localName()] = [
-                    'label' => $this->getLabel($resource, $resource->localName(), $options['lang']),
-                    'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
-                ];
+            foreach ($resource->types() as $type) {
+                // Get the vocabulary's classes.
+                if (in_array($type, $this->classTypes)) {
+                    $members['classes'][$resource->localName()] = [
+                        'label' => $this->getLabel($resource, $resource->localName(), $options['lang'], $options['label_property']),
+                        'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
+                    ];
+                    break;
+                }
+                // Get the vocabulary's properties.
+                if (in_array($type, $this->propertyTypes)) {
+                    $members['properties'][$resource->localName()] = [
+                        'label' => $this->getLabel($resource, $resource->localName(), $options['lang'], $options['label_property']),
+                        'comment' => $this->getComment($resource, $options['comment_property'], $options['lang']),
+                    ];
+                    break;
+                }
             }
         }
         return $members;
@@ -349,10 +357,10 @@ class RdfImporter
      * @param string $lang
      * @return string
      */
-    protected function getLabel(EasyRdf_Resource $resource, $default, $lang = null)
+    protected function getLabel(EasyRdf_Resource $resource, $default, $lang = null, $labelProperty)
     {
-        $label = $resource->label($lang) ?: $resource->label();
-        if ($label instanceof EasyRdf_Literal) {
+        $label = $resource->get($labelProperty, 'literal', $lang) ?: $resource->get($labelProperty, 'literal');
+        if ($label) {
             $value = $label->getValue();
             if ('' !== $value) {
                 return $value;
@@ -374,8 +382,8 @@ class RdfImporter
      */
     protected function getComment(EasyRdf_Resource $resource, $commentProperty, $lang = null)
     {
-        $comment = $resource->get($commentProperty, null, $lang) ?: $resource->get($commentProperty);
-        if ($comment instanceof EasyRdf_Literal) {
+        $comment = $resource->get($commentProperty, 'literal', $lang) ?: $resource->get($commentProperty, 'literal');
+        if ($comment) {
             return $comment->getValue();
         }
     }

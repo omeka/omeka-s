@@ -3,7 +3,6 @@ namespace Omeka\Stdlib;
 
 use Doctrine\ORM\EntityManager;
 use EasyRdf_Graph;
-use EasyRdf_Literal;
 use EasyRdf_Resource;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
@@ -360,8 +359,8 @@ class RdfImporter
      */
     protected function getLabel(EasyRdf_Resource $resource, $default, $lang = null, $labelProperty)
     {
-        $label = $resource->get($labelProperty, null, $lang) ?: $resource->get($labelProperty);
-        if ($label instanceof EasyRdf_Literal) {
+        $label = $resource->get($labelProperty, 'literal', $lang) ?: $resource->get($labelProperty, 'literal');
+        if ($label) {
             $value = $label->getValue();
             if ('' !== $value) {
                 return $value;
@@ -383,8 +382,8 @@ class RdfImporter
      */
     protected function getComment(EasyRdf_Resource $resource, $commentProperty, $lang = null)
     {
-        $comment = $resource->get($commentProperty, null, $lang) ?: $resource->get($commentProperty);
-        if ($comment instanceof EasyRdf_Literal) {
+        $comment = $resource->get($commentProperty, 'literal', $lang) ?: $resource->get($commentProperty, 'literal');
+        if ($comment) {
             return $comment->getValue();
         }
     }

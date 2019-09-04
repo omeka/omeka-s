@@ -4,7 +4,6 @@ namespace Omeka\Controller\Admin;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
-use Omeka\Form\VocabularyImportForm;
 use Omeka\Form\VocabularyUpdateForm;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\RdfImporter;
@@ -64,7 +63,7 @@ class VocabularyController extends AbstractActionController
 
     public function importAction()
     {
-        $form = $this->getForm(VocabularyImportForm::class);
+        $form = $this->getForm(VocabularyForm::class, ['include_namespace' => true]);
 
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -77,7 +76,6 @@ class VocabularyController extends AbstractActionController
                 $data = $form->getData();
                 try {
                     $strategy = null;
-                    $importData = array_merge($data['vocabulary-info'], $data['vocabulary-namespace']);
                     $options = [
                         'format' => $data['vocabulary-file']['format'],
                         'lang' => $data['vocabulary-advanced']['lang'],
@@ -93,7 +91,7 @@ class VocabularyController extends AbstractActionController
                     } else {
                         throw new ValidationException($this->translate('Must provide a vocabulary file or a vocabulary URL'));
                     }
-                    $response = $this->rdfImporter->import($strategy, $importData, $options);
+                    $response = $this->rdfImporter->import($strategy, $data['vocabulary-info'], $options);
                     if ($response) {
                         $message = new Message(
                             'Vocabulary successfully imported. %s', // @translate

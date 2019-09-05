@@ -3794,6 +3794,10 @@ body.sidebar-open #content {
             order: 2;
         }
     }
+    
+    .theme-thumbnail {
+      align-self: flex-start;
+    }
 
     .current-theme .error + ul {
         font-family: monospace;
@@ -3862,6 +3866,10 @@ body.sidebar-open #content {
         width: 50%;
         margin: 0 $spacing-large 0 0;
         border: 1px solid $border-gray;
+    }
+    
+    .current-theme .current-theme-info {
+        width: calc(50% - #{$spacing-large});
     }
 
     .current-theme-label {

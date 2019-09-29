@@ -276,7 +276,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $values[$term]['values'][] = $value;
         }
 
-        // Order this resource's values according to the template order.
+        // Order this resource's properties according to the template order.
         $sortedValues = [];
         foreach ($values as $term => $valueInfo) {
             foreach ($templateInfo as $templateTerm => $templateAlternates) {
@@ -287,7 +287,13 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             }
         }
 
-        $this->values = $sortedValues + $values;
+        $values = $sortedValues + $values;
+
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs(['values' => $values]);
+        $eventManager->trigger('rep.resource.values', $this, $args);
+
+        $this->values = $args['values'];
         return $this->values;
     }
 

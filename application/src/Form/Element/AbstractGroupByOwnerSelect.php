@@ -85,6 +85,7 @@ abstract class AbstractGroupByOwnerSelect extends Select
                         continue;
                     }
                 }
+                asort($options);
                 $owner = $resourceOwner['owner'];
                 if ($owner instanceof UserRepresentation) {
                     $label = sprintf('%s (%s)', $owner->name(), $owner->email());

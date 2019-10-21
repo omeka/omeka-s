@@ -19,6 +19,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         'created' => 'created',
         'modified' => 'modified',
         'title' => 'title',
+        'media_type' => 'mediaType'
     ];
 
     public function getResourceName()
@@ -44,6 +45,13 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.item',
                 $this->createNamedParameter($qb, $query['item_id'])
+            ));
+        }
+
+        if (isset($query['media_type'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'omeka_root.mediaType',
+                $this->createNamedParameter($qb, $query['media_type'])
             ));
         }
 

@@ -42,10 +42,7 @@ class ImageMagick extends AbstractThumbnailer
         }
     }
 
-    public function create($strategy, $constraint, array $options = [])
-    {
-        $origPath = sprintf('%s[%s]', $this->source, $this->getOption('page', 0));
-
+    protected function getCommandArguments($strategy, $constraint, $options = []) {
         switch ($strategy) {
             case 'square':
                 $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
@@ -67,6 +64,14 @@ class ImageMagick extends AbstractThumbnailer
                     '-thumbnail ' . escapeshellarg(sprintf('%sx%s>', $constraint, $constraint)),
                 ];
         }
+        return $args;
+    }
+
+    public function create($strategy, $constraint, array $options = [])
+    {
+        $origPath = sprintf('%s[%s]', $this->source, $this->getOption('page', 0));
+
+        $args = $this->getCommandArguments($strategy, $constraint, $options);
 
         if ($this->getOption('autoOrient', true)) {
             array_unshift($args, '-auto-orient');

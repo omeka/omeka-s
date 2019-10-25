@@ -57,6 +57,7 @@ class SettingForm extends Form
         // image/*
         'image/bmp',
         'image/gif',
+        'image/jp2',
         'image/jpeg',
         'image/pjpeg',
         'image/png',

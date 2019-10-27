@@ -55,7 +55,7 @@ class AssetAdapter extends AbstractEntityAdapter
 
     public function hydrate(Request $request, EntityInterface $entity, ErrorStore $errorStore)
     {
-        $data = $request->getContent();
+        // $data = $request->getContent();
 
         if (Request::CREATE === $request->getOperation()) {
             $fileData = $request->getFileData();

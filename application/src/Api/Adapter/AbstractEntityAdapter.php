@@ -655,8 +655,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $this->index = 0;
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('omeka_root')->from($entityClass, 'omeka_root');
+        $expr = $qb->expr();
         foreach ($criteria as $field => $value) {
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 "omeka_root.$field",
                 $this->createNamedParameter($qb, $value)
             ));
@@ -735,18 +736,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('e.id')
             ->from($this->getEntityClass(), 'e');
+        $expr = $qb->expr();
 
         // Exclude the passed entity from the query if it has an persistent
         // indentifier.
         if ($entity->getId()) {
-            $qb->andWhere($qb->expr()->neq(
+            $qb->andWhere($expr->neq(
                 'e.id',
                 $this->createNamedParameter($qb, $entity->getId())
             ));
         }
 
         foreach ($criteria as $field => $value) {
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 "e.$field",
                 $this->createNamedParameter($qb, $value)
             ));

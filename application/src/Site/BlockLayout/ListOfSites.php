@@ -129,6 +129,7 @@ class ListOfSites extends AbstractBlockLayout
 
         return $view->partial('common/block-layout/list-of-sites', [
             'sites' => $sites,
+            'currentSite' => $block->page()->site(),
             'pagination' => $pagination,
             'summaries' => $summaries,
         ]);

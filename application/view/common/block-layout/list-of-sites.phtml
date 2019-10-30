@@ -2,7 +2,9 @@
     <div class="site-list">
         <?php
         foreach($sites as $site):
-            echo $this->partial('common/site-list-entry', ['site' => $site, 'showSummary' => $summaries]);
+            if ($site->id() !== $currentSite->id()):
+                echo $this->partial('common/site-list-entry', ['site' => $site, 'showSummary' => $summaries]);
+            endif;
         endforeach;
         ?>
     </div>

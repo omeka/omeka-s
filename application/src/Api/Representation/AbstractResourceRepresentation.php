@@ -129,6 +129,16 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
         }
         return $this->adapter;
     }
+    
+    /**
+     * Get resource entity.
+     *
+     * @return Omeka\Entity\Resource
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
 
     /**
      * Get a reference for this resource representation.

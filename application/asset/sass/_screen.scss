@@ -3435,6 +3435,34 @@ body.sidebar-open #content {
     cursor: default;
 }
 
+    /* @group ----- Resources ----- */
+    
+    #site-item-sets th:first-child,
+    #site-item-sets th:last-child {
+        width: 1.5 * $spacing-large;
+    }
+    
+    #site-item-sets .delete .sortable-handle:before,
+    #site-item-sets .delete .o-icon-delete,
+    #site-item-sets .o-icon-undo {
+        display: none;
+    }
+    
+    #site-item-sets .delete .o-icon-undo {
+        display: inline-block;
+    }
+    
+    #site-item-sets,
+    .has-item-sets #no-site-item-sets {
+        display: none;
+    }
+          
+    .has-item-sets #site-item-sets {
+        display: table;
+    }
+    
+    /* @end */
+
     /* @group ----- User Permissions ----- */
 
     // The :not is pointless but gets this the proper precedence
@@ -3530,7 +3558,7 @@ body.sidebar-open #content {
         padding: 0;
     }
 
-    .delete .sortable-handle {
+    .block.delete .sortable-handle {
         display: none;
     }
 

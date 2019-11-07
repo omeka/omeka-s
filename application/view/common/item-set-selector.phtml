@@ -7,7 +7,7 @@ $escape = $this->plugin('escapeHtml');
     <h3><?php echo $translate('Click on an item set to add it to the edit panel.'); ?></h3>
     <input type="text" class="selector-filter" placeholder=" <?php echo $escape($translate('Filter item sets')); ?>">
     <ul>
-        <li class="total-count-heading"><?php echo $translate('All item sets'); ?> (<span class="selector-total-count"><?php echo $totalItemSetCount; ?></span>)
+        <li class="total-count-heading"><?php echo $translate('Item sets'); ?> (<span class="selector-total-count"><?php echo $totalItemSetCount; ?></span>)
             <ul class="selectable-list">
                 <?php foreach ($itemSetOwners as $email => $itemSetOwner): ?>
                 <?php

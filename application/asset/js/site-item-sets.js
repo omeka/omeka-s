@@ -49,6 +49,7 @@ if (itemSetsData.length) {
 
 $('#item-set-selector .selector-child').on('click', function(e) {
     e.stopPropagation();
+    $('#item-sets-section').addClass('has-item-sets');
     var itemSet = $(this);
     var itemSetParent = itemSet.parents('.selector-parent');
     itemSetParent.unbind('click');

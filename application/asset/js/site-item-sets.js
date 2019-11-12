@@ -67,11 +67,7 @@ itemSets.on('click', '.o-icon-delete, .o-icon-undo', function(e) {
     e.preventDefault();
     var row = $(this).closest('.site-item-set-row');
     var hiddenInput = row.find('input');
-    if (hiddenInput.prop('disabled') !== true) {
-        hiddenInput.prop('disabled', true);
-    } else {
-        hiddenInput.prop('disabled', false);
-    }
+    hiddenInput.prop('disabled', !hiddenInput.prop('disabled'));
     row.toggleClass('delete');
 });
 

@@ -3436,6 +3436,10 @@ body.sidebar-open #content {
 }
 
     /* @group ----- Resources ----- */
+      
+    #item-set-selector .added {
+      display: none;
+    }
     
     #site-item-sets th:first-child,
     #site-item-sets th:last-child {

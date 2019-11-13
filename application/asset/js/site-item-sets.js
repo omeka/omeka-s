@@ -26,30 +26,35 @@ var appendItemSet = function(id, title, email) {
     row.find('.site-item-set-title').text(title);
     row.find('.site-item-set-owner-email').text(email);
     $('#site-item-set-rows').append(row);
+    $('[data-item-set-id="' + id + '"]').addClass('added');
+    $('#item-sets-section').addClass('has-item-sets');
+    updateItemSetCount(id);
 }
 
 var updateItemSetCount = function(itemSetId) {
     var itemSet = $('[data-item-set-id="' + itemSetId + '"]');
     var itemSetParent = itemSet.parents('.selector-parent');
     var childCount = itemSetParent.find('.selector-child-count').first();
-    var newTotalCount = parseInt(totalCount.text()) - 1;
-    var newChildCount = parseInt(childCount.text()) - 1;
+    if (itemSet.hasClass('added')) {
+        var newTotalCount = parseInt(totalCount.text()) - 1;
+        var newChildCount = parseInt(childCount.text()) - 1;
+    } else {
+        var newTotalCount = parseInt(totalCount.text()) + 1;
+        var newChildCount = parseInt(childCount.text()) + 1;
+    }
     totalCount.text(newTotalCount);
-    childCount.text(newChildCount);
+    childCount.text(newChildCount);      
 }
 
 if (itemSetsData.length) {
     $.each(itemSetsData, function() {
         appendItemSet(this.id, this.title, this.email);
-        $('[data-item-set-id="' + this.id + '"]').hide();
-        updateItemSetCount(this.id);
     });
     $('#item-sets-section').addClass('has-item-sets');
 }
 
 $('#item-set-selector .selector-child').on('click', function(e) {
     e.stopPropagation();
-    $('#item-sets-section').addClass('has-item-sets');
     var itemSet = $(this);
     var itemSetParent = itemSet.parents('.selector-parent');
     itemSetParent.unbind('click');
@@ -58,18 +63,20 @@ $('#item-set-selector .selector-child').on('click', function(e) {
         itemSet.data('childSearch'),
         itemSet.data('ownerEmail')
     );
-    itemSet.hide();
-    updateItemSetCount(itemSet.data('itemSetId'));
     itemSetParent.bind('click', parentToggle);
     Omeka.scrollTo($('.site-item-set-row:last-child'));
 });
 
-itemSets.on('click', '.o-icon-delete, .o-icon-undo', function(e) {
+itemSets.on('click', '.o-icon-delete', function(e) {
     e.preventDefault();
     var row = $(this).closest('.site-item-set-row');
-    var hiddenInput = row.find('input');
-    hiddenInput.prop('disabled', !hiddenInput.prop('disabled'));
-    row.toggleClass('delete');
+    var itemSetId = row.find('.site-item-set-id').val();
+    $('#item-set-selector').find('[data-item-set-id="' + itemSetId + '"]').removeClass('added');
+    updateItemSetCount(itemSetId);
+    row.remove();
+    if ($('.site-item-set-row').length < 1) {
+        $('#item-sets-section').removeClass('has-item-sets');
+    }
 });
 
 });

@@ -67,7 +67,7 @@ $('#item-set-selector .selector-child').on('click', function(e) {
     Omeka.scrollTo($('.site-item-set-row:last-child'));
 });
 
-itemSets.on('click', '.o-icon-delete', function(e) {
+itemSets.on('click', '.o-icon-close', function(e) {
     e.preventDefault();
     var row = $(this).closest('.site-item-set-row');
     var itemSetId = row.find('.site-item-set-id').val();

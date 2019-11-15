@@ -46,7 +46,7 @@ $rowTemplate = '
     ); ?></p>
     <div id="advanced-search"><?php echo $this->partial(
         'common/advanced-search',
-        ['query' => $site->itemPool(), 'resourceType' => 'item']
+        ['query' => $site->itemPool(), 'resourceType' => 'item', 'isPool' => true]
     ); ?></div>
 </div>
 

@@ -353,12 +353,14 @@ class IndexController extends AbstractActionController
         }
 
         $theme = $this->themes->getTheme($site->theme());
-        $config = $theme->getConfigSpec();
-
-        $view = new ViewModel;
-        if (!($config && $config['elements'])) {
-            return $view;
+        if (!$theme->isConfigurable()) {
+            throw new Exception\RuntimeException(
+                'The current theme is not configurable.'
+            );
         }
+
+        $config = $theme->getConfigSpec();
+        $view = new ViewModel;
 
         /** @var Form $form */
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');

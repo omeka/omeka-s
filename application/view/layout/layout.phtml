@@ -1,13 +1,19 @@
 <?php
 $translate = $this->plugin('translate');
-$this->headMeta()->setCharset('utf-8');
-$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
-$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
+$assetUrl = $this->plugin('assetUrl');
+
+$this->headMeta()
+    ->setCharset('utf-8')
+    ->appendName('viewport', 'width=device-width, initial-scale=1');
 $this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
-$this->headLink()->appendStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
-$this->headLink()->appendStylesheet($this->assetUrl('css/style.css', 'Omeka'));
-$this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/global.js', 'Omeka'));
+$this->headLink()
+    ->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic')
+    ->appendStylesheet($assetUrl('css/iconfonts.css', 'Omeka'))
+    ->appendStylesheet($assetUrl('css/style.css', 'Omeka'));
+$this->headScript()
+    ->prependFile($assetUrl('vendor/jquery/jquery.min.js', 'Omeka'))
+    ->appendFile($assetUrl('js/global.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
+
 $this->trigger('view.layout');
 $userBar = $this->userBar();
 ?>

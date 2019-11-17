@@ -1,23 +1,28 @@
 <?php
 $translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$assetUrl = $this->plugin('assetUrl');
+
 $this->htmlElement('html')->setAttribute('lang', $this->lang());
-$this->headMeta()->setCharset('utf-8');
-$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
+$this->headMeta()
+    ->setCharset('utf-8')
+    ->appendName('viewport', 'width=device-width, initial-scale=1');
 $this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
-$this->headLink()->prependStylesheet($this->assetUrl('css/style.css', 'Omeka'));
-$this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
-$this->headLink()->prependStylesheet($this->assetUrl('vendor/chosen-js/chosen.css', 'Omeka'));
-$this->headLink()->prependStylesheet($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.css', 'Omeka'));
-$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
-$this->headScript()->prependFile($this->assetUrl('js/admin.js', 'Omeka'));
-$this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
-$this->headScript()->prependFile($this->assetUrl('js/chosen-options.js', 'Omeka'));
-$this->headScript()->prependFile($this->assetUrl('vendor/chosen-js/chosen.jquery.js', 'Omeka'));
-$this->headScript()->prependFile($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.jquery.js', 'Omeka'));
-$this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
+$this->headLink()
+    ->prependStylesheet($assetUrl('css/style.css', 'Omeka'))
+    ->prependStylesheet($assetUrl('css/iconfonts.css', 'Omeka'))
+    ->prependStylesheet($assetUrl('vendor/chosen-js/chosen.css', 'Omeka'))
+    ->prependStylesheet($assetUrl('vendor/tablesaw/tablesaw.stackonly.css', 'Omeka'))
+    ->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
+$this->headScript()
+    ->prependFile($assetUrl('js/admin.js', 'Omeka'), 'text/javascript', ['defer' => 'defer'])
+    ->prependFile($assetUrl('js/global.js', 'Omeka'), 'text/javascript', ['defer' => 'defer'])
+    ->prependFile($assetUrl('js/chosen-options.js', 'Omeka'), 'text/javascript', ['defer' => 'defer'])
+    ->prependFile($assetUrl('vendor/chosen-js/chosen.jquery.js', 'Omeka'), 'text/javascript', ['defer' => 'defer'])
+    ->prependFile($assetUrl('vendor/tablesaw/tablesaw.stackonly.jquery.js', 'Omeka'), 'text/javascript', ['defer' => 'defer'])
+    ->prependFile($assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
 $this->jsTranslate();
 
-$escape = $this->plugin('escapeHtml');
 $siteNav = (string) $this->navigation('Laminas\Navigation\AdminSite')->menu();
 $resourceNav = (string) $this->navigation('Laminas\Navigation\AdminResource')->menu();
 $adminNav = (string) $this->navigation('Laminas\Navigation\AdminGlobal')->menu();

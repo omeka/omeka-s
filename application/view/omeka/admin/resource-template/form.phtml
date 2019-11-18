@@ -2,8 +2,9 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $form->prepare();
-$this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 'Omeka'));
+$this->headScript()
+    ->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'), 'text/javascript', ['defer' => 'defer'])
+    ->appendFile($this->assetUrl('js/resource-template-form.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
 ?>
 
 <?php echo $this->form()->openTag($form); ?>

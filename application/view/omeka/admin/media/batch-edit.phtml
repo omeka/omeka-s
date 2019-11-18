@@ -4,7 +4,7 @@ $escape = $this->plugin('escapeHtml');
 $form->prepare();
 $this->htmlElement('body')->appendAttribute('class', 'batch-edit media');
 $this->headStyle()->appendStyle('.inputs input.value-language.active[type="text"] { background-color: #fff; padding: 0 5px; display: inherit; }');
-$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
 ?>
 <?php echo $this->pageTitle($translate('Batch edit media')); ?>
 

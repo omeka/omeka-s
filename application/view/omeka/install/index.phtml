@@ -1,6 +1,6 @@
 <?php
 $translate = $this->plugin('translate');
-$this->headScript()->prependFile($this->assetUrl('js/admin.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('js/admin.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
 ?>
 <?php $this->htmlElement('body')->appendAttribute('class', 'install'); ?>
 <?php

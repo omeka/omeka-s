@@ -30,9 +30,14 @@ class JsTranslate extends AbstractHelper
     public function __invoke()
     {
         $this->getView()->headScript()->appendScript(sprintf('
-Omeka.jsTranslate = function(str) {
-    var jsTranslations = %s;
-    return (str in jsTranslations) ? jsTranslations[str] : str;
-};', json_encode($this->jsTranslations)));
+window.addEventListener("DOMContentLoaded", function() {
+    (function($) {
+        Omeka.jsTranslate = function(str) {
+            var jsTranslations = %s;
+            return (str in jsTranslations) ? jsTranslations[str] : str;
+        };
+    })(jQuery);
+});
+', json_encode($this->jsTranslations)));
     }
 }

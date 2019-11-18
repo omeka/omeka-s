@@ -9,10 +9,11 @@ class FormRestoreTextarea extends FormTextarea
     public function render(ElementInterface $element)
     {
         $view = $this->getView();
-        $view->headScript()->appendFile($view->assetUrl('js/restore-textarea.js', 'Omeka'));
+        $view->headScript()
+            ->appendFile($view->assetUrl('js/restore-textarea.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
         return sprintf(
             '<div>%s<button type="button" class="restore-textarea" data-restore-value="%s">%s</button></div>',
-            $textarea = parent::render($element),
+            parent::render($element),
             $view->escapeHtml($element->getRestoreValue()),
             $view->escapeHtml($view->translate($element->getRestoreButtonText()))
         );

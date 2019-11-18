@@ -9,7 +9,8 @@ class FormColorPicker extends FormText
     public function render(ElementInterface $element)
     {
         $view = $this->getView();
-        $view->headScript()->appendFile($view->assetUrl('js/color-picker.js', 'Omeka'));
+        $view->headScript()
+            ->appendFile($view->assetUrl('js/color-picker.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
         return '
 <div class="color-picker">'
     . parent::render($element) .

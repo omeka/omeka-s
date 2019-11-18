@@ -2,7 +2,7 @@
 use Omeka\Site\Theme\Manager;
 
 $translate = $this->plugin('translate');
-$this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
 ?>
 <div class="selectable-themes">
     <?php foreach ($themes as $theme): ?>

@@ -4,7 +4,7 @@ use Omeka\Site\Theme\Manager;
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites theme');
-$this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
 
 $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 ?>

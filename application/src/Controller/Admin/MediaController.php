@@ -50,6 +50,7 @@ class MediaController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
+            $data = $this->mergeValuesJson($data);
             $form->setData($data);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('media', $this->params('id'), $data);

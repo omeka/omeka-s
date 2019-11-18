@@ -23,6 +23,7 @@ class ItemSetController extends AbstractActionController
         $form->setAttribute('id', 'add-item-set');
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
+            $data = $this->mergeValuesJson($data);
             $form->setData($data);
             if ($form->isValid()) {
                 $response = $this->api($form)->create('item_sets', $data);
@@ -60,6 +61,7 @@ class ItemSetController extends AbstractActionController
         $view->setVariable('itemSet', $itemSet);
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
+            $data = $this->mergeValuesJson($data);
             $form->setData($data);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('item_sets', $this->params('id'), $data);

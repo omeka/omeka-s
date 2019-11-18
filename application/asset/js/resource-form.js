@@ -94,9 +94,8 @@
         $('#select-item a').on('o:resource-selected', function (e) {
             var value = $('.value.selecting-resource');
             var valueObj = $('.resource-details').data('resource-values');
-            var namePrefix = value.data('name-prefix');
 
-            $(document).trigger('o:prepare-value', ['resource', value, valueObj, namePrefix]);
+            $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
             Omeka.closeSidebar($('#select-resource'));
         });
 
@@ -117,8 +116,7 @@
                         field.find('.values').append(value);
                     }
                     var valueObj = $(this).data('resource-values');
-                    var namePrefix = value.data('name-prefix');
-                    $(document).trigger('o:prepare-value', ['resource', value, valueObj, namePrefix]);
+                    $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
                 });
         });
 
@@ -189,10 +187,45 @@
                 e.preventDefault();
                 alert(errors.join("\n"));
             }
+
+            $('#values-json').val(JSON.stringify(collectValues()));
         });
 
         initPage();
     });
+
+    var collectValues = function () {
+        var values = {};
+        $('#properties').children().each(function () {
+            var propertyValues = [];
+            var property = $(this);
+            var propertyTerm = property.data('propertyTerm');
+            var propertyId = property.data('propertyId');
+            property.find('.values > .value').each(function () {
+                var valueData = {}
+                var value = $(this);
+                if (value.hasClass('delete')) {
+                    return;
+                }
+                valueData['property_id'] = propertyId;
+                valueData['type'] = value.data('dataType');
+                valueData['is_public'] = value.find('input.is_public').val();
+                value.find(':input[data-value-key]').each(function () {
+                    var input = $(this);
+                    valueKey = input.data('valueKey');
+                    if (!valueKey || input.prop('disabled')) {
+                        return;
+                    }
+                    valueData[valueKey] = input.val();
+                });
+                propertyValues.push(valueData);
+            });
+            if (propertyValues.length) {
+                values[propertyTerm] = propertyValues;
+            }
+        });
+        return values;
+    };
 
     /**
      * Make a new value.
@@ -223,24 +256,15 @@
         }
         // Prepare the value node.
         var count = field.find('.value').length;
-        var namePrefix = field.data('property-term') + '[' + count + ']';
         var valueLabelID = 'property-' + field.data('property-id') + '-label';
-        value.data('name-prefix', namePrefix);
-        value.find('input.property')
-            .attr('name', namePrefix + '[property_id]')
-            .val(field.data('property-id'));
-        value.find('input.type')
-            .attr('name', namePrefix + '[type]')
-            .val(type);
         value.find('input.is_public')
-            .attr('name', namePrefix + '[is_public]')
             .val(isPublic ? 1 : 0);
         value.find('span.label')
             .attr('id', valueLabelID);
         value.find('textarea.input-value')
             .attr('aria-labelledby', valueLabelID);
         value.attr('aria-labelledby', valueLabelID);
-        $(document).trigger('o:prepare-value', [type, value, valueObj, namePrefix]);
+        $(document).trigger('o:prepare-value', [type, value, valueObj]);
 
         return value;
     };
@@ -248,14 +272,14 @@
     /**
      * Prepare the markup for the default data types.
      */
-    $(document).on('o:prepare-value', function(e, type, value, valueObj, namePrefix) {
+    $(document).on('o:prepare-value', function(e, type, value, valueObj) {
         // Prepare simple single-value form inputs using data-value-key
         value.find(':input').each(function () {
-            valueKey = $(this).data('valueKey');
+            var valueKey = $(this).data('valueKey');
             if (!valueKey) {
                 return;
             }
-            $(this).attr('name', namePrefix + '[' + valueKey + ']')
+            $(this).removeAttr('name')
                 .val(valueObj ? valueObj[valueKey] : null);
         });
 

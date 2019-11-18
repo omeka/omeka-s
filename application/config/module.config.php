@@ -339,6 +339,7 @@ return [
             'messenger' => Mvc\Controller\Plugin\Messenger::class,
             'setBrowseDefaults' => Mvc\Controller\Plugin\SetBrowseDefaults::class,
             'currentSite' => Mvc\Controller\Plugin\CurrentSite::class,
+            'mergeValuesJson' => Mvc\Controller\Plugin\MergeValuesJson::class,
         ],
         'factories' => [
             'api' => Service\ControllerPlugin\ApiFactory::class,

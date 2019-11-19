@@ -714,7 +714,7 @@ class AclFactory implements FactoryInterface
             [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
-                'Omeka\Controller\Admin\Media'
+                'Omeka\Controller\Admin\Media',
             ],
             [
                 'batch-edit',

@@ -1,13 +1,14 @@
 <?php
 $translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'modules configure');
+$configForm->prepare();
 ?>
 
 <?php echo $this->pageTitle($module->getName(), 1, $translate('Modules'), $translate('Configure')); ?>
 
-<form method="post">
+<?php echo $this->form()->openTag($configForm); ?>
 <div id="page-actions">
     <button><?php echo $translate('Submit'); ?></button>
 </div>
-<?php echo $configForm; ?>
-</form>
+<?php echo $this->form()->render($configForm); ?>
+<?php echo $this->form()->closeTag(); ?>

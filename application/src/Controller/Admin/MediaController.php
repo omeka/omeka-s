@@ -45,6 +45,7 @@ class MediaController extends AbstractActionController
     public function editAction()
     {
         $form = $this->getForm(ResourceForm::class);
+        $form->setAttribute('id', 'edit-media');
         $response = $this->api()->read('media', $this->params('id'));
         $media = $response->getContent();
 

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
-            "version": "v1.2.4",
+            "version": "v1.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/beberlei/DoctrineExtensions.git",
-                "reference": "5d5a7259b7d44f6d9d5ced4c09f9db6b7f460139"
+                "reference": "fccc6a90f9d30a7f73cb3506e7b058ced37bbf03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beberlei/DoctrineExtensions/zipball/5d5a7259b7d44f6d9d5ced4c09f9db6b7f460139",
-                "reference": "5d5a7259b7d44f6d9d5ced4c09f9db6b7f460139",
+                "url": "https://api.github.com/repos/beberlei/DoctrineExtensions/zipball/fccc6a90f9d30a7f73cb3506e7b058ced37bbf03",
+                "reference": "fccc6a90f9d30a7f73cb3506e7b058ced37bbf03",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +58,7 @@
                 "doctrine",
                 "orm"
             ],
-            "time": "2019-11-22T14:30:56+00:00"
+            "time": "2019-12-04T13:18:58+00:00"
         },
         {
             "name": "composer/semver",
@@ -2854,16 +2854,16 @@
         },
         {
             "name": "zendframework/zend-http",
-            "version": "2.10.1",
+            "version": "2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-http.git",
-                "reference": "d1906132bb0ba48124088721c4a5187af101037b"
+                "reference": "0fafa5029e87d9cfe8682e8d4b093df8f6d64d59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-http/zipball/d1906132bb0ba48124088721c4a5187af101037b",
-                "reference": "d1906132bb0ba48124088721c4a5187af101037b",
+                "url": "https://api.github.com/repos/zendframework/zend-http/zipball/0fafa5029e87d9cfe8682e8d4b093df8f6d64d59",
+                "reference": "0fafa5029e87d9cfe8682e8d4b093df8f6d64d59",
                 "shasum": ""
             },
             "require": {
@@ -2884,8 +2884,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.10.x-dev",
-                    "dev-develop": "2.11.x-dev"
+                    "dev-master": "2.11.x-dev",
+                    "dev-develop": "2.12.x-dev"
                 }
             },
             "autoload": {
@@ -2905,7 +2905,7 @@
                 "zend",
                 "zf"
             ],
-            "time": "2019-12-02T16:17:25+00:00"
+            "time": "2019-12-03T11:02:51+00:00"
         },
         {
             "name": "zendframework/zend-hydrator",
@@ -4877,16 +4877,16 @@
         },
         {
             "name": "zendframework/zend-view",
-            "version": "2.11.3",
+            "version": "2.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-view.git",
-                "reference": "e766457bd6ce13c5354e443bb949511b6904d7f5"
+                "reference": "a8b1b2d9b52e191539be861a6529f8c8a0c06b9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-view/zipball/e766457bd6ce13c5354e443bb949511b6904d7f5",
-                "reference": "e766457bd6ce13c5354e443bb949511b6904d7f5",
+                "url": "https://api.github.com/repos/zendframework/zend-view/zipball/a8b1b2d9b52e191539be861a6529f8c8a0c06b9d",
+                "reference": "a8b1b2d9b52e191539be861a6529f8c8a0c06b9d",
                 "shasum": ""
             },
             "require": {
@@ -4960,7 +4960,7 @@
                 "view",
                 "zf"
             ],
-            "time": "2019-10-11T21:10:04+00:00"
+            "time": "2019-12-04T08:40:50+00:00"
         },
         {
             "name": "zendframework/zend-xmlrpc",

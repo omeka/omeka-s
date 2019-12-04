@@ -32,6 +32,7 @@
 
     img {
         margin-right: $spacing-medium;
+        max-width: 100%;
     }
 
     &:only-child img {
@@ -74,13 +75,11 @@
     max-width: 40vw;
 
     &:first-of-type {
-        border-top: 1px solid $border-gray;
         padding-top: ($spacing-large - 1px);
         margin-top: 0;
     }
 
     &:last-of-type {
-        border-bottom: 1px solid $border-gray;
         padding-bottom: ($spacing-large - 1px);
     }
 
@@ -98,6 +97,10 @@
 .file {
     display: -ms-grid;
     -ms-grid-columns: min-content;
+    border-top: 1px solid $border-gray;
+    border-bottom: 1px solid $border-gray;
+    margin-top: $spacing-large;
+    margin-bottom: $spacing-large;
 }
 
 .left.file,
@@ -178,16 +181,8 @@
 .preview-block {
     margin: $spacing-large 0;
     overflow: hidden;
-}
-
-.resource-list.preview + a {
-    background-color: $border-gray;
-    text-align: center;
-    padding: $spacing-small;
-    border-radius: 2px;
-    line-height: $base-line-height;
-    display: inline-block;
-    font-weight: bold;
+    width: 100%;
+    clear: both;
 }
 
 .toc-block > ul {
@@ -220,23 +215,6 @@
 
 .item-with-metadata .show.resource {
     margin: (2 * $spacing-large) 0;
-}
-
-.site-page-pagination {
-    margin-top: 2 * $spacing-large;
-    clear: both;
-}
-
-.site-page-pagination a {
-    background-color: $border-gray;
-    border-radius: 2px;
-    padding: $spacing-small;
-    display: inline-block;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    border: 0;
-    cursor: pointer;
 }
 
 .list-of-sites .site-list {

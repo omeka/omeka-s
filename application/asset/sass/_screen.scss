@@ -3437,7 +3437,8 @@ body.sidebar-open #content {
 
     /* @group ----- Resources ----- */
       
-    #item-set-selector .added {
+    #item-set-selector .added,
+    #user-selector .added {
       display: none;
     }
     
@@ -3463,6 +3464,14 @@ body.sidebar-open #content {
           
     .has-item-sets #site-item-sets {
         display: table;
+    }
+    
+    #user-selector.empty .users-available {
+        display: none;
+    }
+
+    #user-selector:not(.empty) .users-unavailable {
+        display: none;
     }
     
     /* @end */

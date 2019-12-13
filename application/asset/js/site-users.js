@@ -15,7 +15,16 @@ var appendUser = function(id, title, email) {
     if (users.find(".user-id[value='" + id + "']").length) {
         return;
     }
+    var index = users.find('.user').length;
+
+    console.log(index);
     var row = rowTemplate.clone();
+    row.find(':input').each(function() {
+        // Find and replace indexes for all inputs.
+        var thisInput = $(this);
+        var name = thisInput.attr('name').replace('[__index__]', '[' + index + ']');
+        thisInput.attr('name', name);
+    });
     row.find('.user-id').val(id);
     row.find('.user-name').text(title + ' ' + email);
     $('#user-rows').append(row);
@@ -84,5 +93,4 @@ $('.selector .selector-child').click(function(e) {
     userParent.bind('click', parentToggle);
     Omeka.scrollTo($('.user.value:last-child'));
 });
-
 });

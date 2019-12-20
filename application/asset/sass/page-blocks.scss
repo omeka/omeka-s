@@ -14,7 +14,7 @@
 }
 
 .item.resource .caption {
-    font-size: .75rem;
+    font-size: .875rem;
     line-height: 1.5rem;
 
     * {
@@ -42,12 +42,12 @@
     &:not(:only-child) {
         width: 25%;
         clear: none;
-        padding: 0 gutter();
+        padding: 0 .5rem;
     }
 
     &:not(:only-child) h3 {
         clear: left;
-        font-size: .75rem;
+        font-size: 1rem;
         line-height: 1.5rem;
         margin: .5rem 0 0;
     }

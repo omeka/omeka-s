@@ -41,7 +41,13 @@ $roles = [
             <tr class="user value">
                 <td class="user-meta">
                     <span class="restore-value"><?php echo $translate('User to be removed'); ?></span>
-                    <span class="user-name"><?php echo $escape($user->name()); ?> (<?php echo $escape($user->email()); ?>)</span>
+                    <span class="user-name"><?php
+                    if ($user->userIsAllowed('read')):
+                        echo $this->hyperlink(sprintf('%s (%s)', $user->name(), $user->email()), $user->adminUrl());
+                    else:
+                        echo sprintf('%s (%s)', $escape($user->name()), $escape($user->email()));
+                    endif;
+                    ?></span>
                     <input type="hidden" class="user-id" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $escape($user->id()); ?>">
                 </td>
                 <td><select name="o:site_permission[<?php echo $index; ?>][o:role]" aria-label="<?php echo $translate('Role'); ?>">

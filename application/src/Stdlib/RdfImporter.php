@@ -83,7 +83,7 @@ class RdfImporter
             $options['label_property'] = 'skos:prefLabel|rdfs:label|foaf:name|rss:title|dc:title|dc11:title';
         }
         if (!isset($options['comment_property'])) {
-            $options['comment_property'] = 'rdfs:comment';
+            $options['comment_property'] = 'skos:definition|rdfs:comment';
         }
         if (!isset($options['lang'])) {
             $options['lang'] = null;

@@ -27,38 +27,11 @@ $resourceControllers = [
 <div>
     <h2><?php echo $translate($resourceLabels[$resourceName]); ?></h2>
 
-    <?php
-    switch ($resourceName):
-
-    case 'site_pages': ?>
-        <?php if ($result['total']): ?>
+    <?php if ($result['total']): ?>
+        <?php $titleMethod = $resourceName === 'site_pages' ? 'title' : 'displayTitle'; ?>
     <ul>
         <?php foreach ($result['resources'] as $resource): ?>
-        <li><?php echo $resource->link($resource->title()); ?></li>
-        <?php endforeach; ?>
-    </ul>
-        <?php echo $hyperlink(
-            sprintf($translate('View all results (%s total)'), $result['total']),
-            $url(
-                'site/page-browse',
-                ['controller' => 'page', 'action' => 'browse'],
-                ['query' => ['fulltext_search' => $query]],
-                true
-            )
-        ); ?>
-        <?php else: ?>
-    <p><?php echo $translate('No pages found'); ?></p>
-        <?php endif; ?>
-    <?php break;
-
-    case 'items':
-    case 'item_sets':
-    case 'media':
-    default: ?>
-        <?php if ($result['total']): ?>
-    <ul>
-        <?php foreach ($result['resources'] as $resource): ?>
-        <li><?php echo $resource->link($resource->displayTitle()); ?></li>
+        <li><?php echo $resource->link($resource->$titleMethod()); ?></li>
         <?php endforeach; ?>
     </ul>
         <?php echo $hyperlink(
@@ -73,9 +46,6 @@ $resourceControllers = [
         <?php else: ?>
     <p><?php echo $translate('No result found'); ?></p>
         <?php endif; ?>
-        <?php break;
-    endswitch;
-?>
 </div>
     <?php endforeach; ?>
 <?php endif; ?>

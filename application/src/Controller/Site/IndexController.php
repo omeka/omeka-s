@@ -45,31 +45,18 @@ class IndexController extends AbstractActionController
         // Skip the intermediate result page when only one resource type is set.
         if (count($resourceNames) === 1) {
             $resourceName = reset($resourceNames);
-            switch ($resourceName) {
-                case 'site_pages':
-                    return $this->redirect()->toRoute(
-                        'site/page-browse',
-                        ['controller' => 'page', 'action' => 'browse'],
-                        ['query' => ['fulltext_search' => $fulltextQuery]],
-                        true
-                    );
-                case 'items':
-                case 'item_sets':
-                case 'media':
-                default:
-                    $resourceControllers = [
-                        'items' => 'item',
-                        'item_sets' => 'item-set',
-                        'media' => 'media',
-                    ];
-                    return $this->redirect()->toRoute(
-                        'site/resource',
-                        ['controller' => $resourceControllers[$resourceName], 'action' => 'browse'],
-                        ['query' => ['fulltext_search' => $fulltextQuery]],
-                        true
-                    );
-                    break;
-            }
+            $resourceControllers = [
+                'site_pages' => 'page',
+                'items' => 'item',
+                'item_sets' => 'item-set',
+                'media' => 'media',
+            ];
+            return $this->redirect()->toRoute(
+                $resourceName === 'site_pages' ? 'site/page-browse' : 'site/resource',
+                ['controller' => $resourceControllers[$resourceName], 'action' => 'browse'],
+                ['query' => ['fulltext_search' => $fulltextQuery]],
+                true
+            );
         }
 
         $query = [

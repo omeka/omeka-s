@@ -236,14 +236,28 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $scalarField = $request->getOption('returnScalar');
         if ($scalarField) {
             $fieldNames = $this->getEntityManager()->getClassMetadata($entityClass)->getFieldNames();
-            if (!in_array($scalarField, $fieldNames)) {
-                throw new Exception\BadRequestException(sprintf(
-                    $this->getTranslator()->translate('The "%s" field is not available in the %s entity class.'),
-                    $scalarField, $entityClass
-                ));
+            if (is_array($scalarField)) {
+                if ($diff = array_diff($scalarField, $fieldNames)) {
+                    throw new Exception\BadRequestException(sprintf(
+                        $this->getTranslator()->translate('The "%s" field(s) are not available in the %s entity class.'),
+                        implode('", "', $diff), $entityClass
+                    ));
+                }
+                $scalarFields = array_map(function ($v) {
+                    return 'omeka_root.' . $v;
+                }, $scalarField);
+                $qb->select($scalarFields);
+                $content = $qb->getQuery()->getArrayResult();
+            } else {
+                if (!in_array($scalarField, $fieldNames)) {
+                    throw new Exception\BadRequestException(sprintf(
+                        $this->getTranslator()->translate('The "%s" field is not available in the %s entity class.'),
+                        $scalarField, $entityClass
+                    ));
+                }
+                $qb->select('omeka_root.' . $scalarField);
+                $content = array_column($qb->getQuery()->getScalarResult(), $scalarField);
             }
-            $qb->select('omeka_root.' . $scalarField);
-            $content = array_column($qb->getQuery()->getScalarResult(), $scalarField);
             $response = new Response($content);
             $response->setTotalResults(count($content));
             return $response;

@@ -43,23 +43,33 @@ class IndexController extends AbstractActionController
             'limit' => 10,
         ];
 
-        // Get page results.
-        $pagesResponse = $this->api()->search('site_pages', $query);
-        $pages = $pagesResponse->getContent();
+        $siteSettings = $this->siteSettings();
 
-        // Get item results.
-        if ($this->siteSettings()->get('browse_attached_items', false)) {
+        // This settings is managed only by items and media, else skipped.
+        if ($siteSettings->get('browse_attached_items', false)) {
             $query['site_attachments_only'] = true;
         }
-        $itemsResponse = $this->api()->search('items', $query);
-        $items = $itemsResponse->getContent();
+
+        $resourceNames = $siteSettings->get('search_resource_names', ['site_pages', 'items', 'item_sets', 'media']);
+
+        $results = [];
+        foreach ($resourceNames as $resourceName) {
+            $response = $this->api()->search($resourceName, $query);
+            $results[$resourceName] = [
+                'resources' => $response->getContent(),
+                'total' => $response->getTotalResults(),
+            ];
+        }
 
         $view = new ViewModel;
-        $view->setVariable('query', $fulltextQuery);
-        $view->setVariable('pages', $pages);
-        $view->setVariable('pagesTotal', $pagesResponse->getTotalResults());
-        $view->setVariable('items', $items);
-        $view->setVariable('itemsTotal', $itemsResponse->getTotalResults());
+        $view
+            ->setVariable('query', $fulltextQuery)
+            ->setVariable('results', $results)
+            // Kept for compatibility with old themes.
+            ->setVariable('pages', @$results['site_pages']['resources'])
+            ->setVariable('pagesTotal', @$results['site_pages']['total'])
+            ->setVariable('items', @$results['items']['resources'])
+            ->setVariable('itemsTotal', @$results['site_pages']['total']);
         return $view;
     }
 }

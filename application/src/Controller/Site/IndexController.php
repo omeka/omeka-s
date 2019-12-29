@@ -37,20 +37,51 @@ class IndexController extends AbstractActionController
     public function searchAction()
     {
         $fulltextQuery = $this->params()->fromQuery('fulltext_search');
+
+        $siteSettings = $this->siteSettings();
+
+        $resourceNames = $siteSettings->get('search_resource_names', ['site_pages', 'items', 'item_sets', 'media']);
+
+        // Skip the intermediate result page when only one resource type is set.
+        if (count($resourceNames) === 1) {
+            $resourceName = reset($resourceNames);
+            switch ($resourceName) {
+                case 'site_pages':
+                    return $this->redirect()->toRoute(
+                        'site/page-browse',
+                        ['controller' => 'page', 'action' => 'browse'],
+                        ['query' => ['fulltext_search' => $fulltextQuery]],
+                        true
+                    );
+                case 'items':
+                case 'item_sets':
+                case 'media':
+                default:
+                    $resourceControllers = [
+                        'items' => 'item',
+                        'item_sets' => 'item-set',
+                        'media' => 'media',
+                    ];
+                    return $this->redirect()->toRoute(
+                        'site/resource',
+                        ['controller' => $resourceControllers[$resourceName], 'action' => 'browse'],
+                        ['query' => ['fulltext_search' => $fulltextQuery]],
+                        true
+                    );
+                    break;
+            }
+        }
+
         $query = [
             'fulltext_search' => $fulltextQuery,
             'site_id' => $this->currentSite()->id(),
             'limit' => 10,
         ];
 
-        $siteSettings = $this->siteSettings();
-
         // This settings is managed only by items and media, else skipped.
         if ($siteSettings->get('browse_attached_items', false)) {
             $query['site_attachments_only'] = true;
         }
-
-        $resourceNames = $siteSettings->get('search_resource_names', ['site_pages', 'items', 'item_sets', 'media']);
 
         $results = [];
         foreach ($resourceNames as $resourceName) {

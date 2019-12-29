@@ -163,6 +163,21 @@ class ResourceTemplateController extends AbstractActionController
             }
         }
 
+        foreach (['o:title_property', 'o:description_property'] as $property) {
+            if (isset($import[$property])) {
+                if ($vocab = $getVocab($import[$property]['vocabulary_namespace_uri'])) {
+                    $import[$property]['vocabulary_prefix'] = $vocab->prefix();
+                    $prop = $this->api()->searchOne('properties', [
+                        'vocabulary_namespace_uri' => $import[$property]['vocabulary_namespace_uri'],
+                        'local_name' => $import[$property]['local_name'],
+                    ])->getContent();
+                    if ($prop) {
+                        $import[$property]['o:id'] = $prop->id();
+                    }
+                }
+            }
+        }
+
         foreach ($import['o:resource_template_property'] as $key => $property) {
             if ($vocab = $getVocab($property['vocabulary_namespace_uri'])) {
                 $import['o:resource_template_property'][$key]['vocabulary_prefix'] = $vocab->prefix();
@@ -224,6 +239,32 @@ class ResourceTemplateController extends AbstractActionController
             }
         }
 
+        // Validate title and description.
+        foreach (['o:title_property', 'o:description_property'] as $property) {
+            if (isset($import[$property])) {
+                if (!is_array($import[$property])) {
+                    // Invalid property.
+                    return false;
+                }
+                if (!array_key_exists('vocabulary_namespace_uri', $import[$property])
+                    || !array_key_exists('vocabulary_label', $import[$property])
+                    || !array_key_exists('local_name', $import[$property])
+                    || !array_key_exists('label', $import[$property])
+                ) {
+                    // Missing a property info.
+                    return false;
+                }
+                if (!is_string($import[$property]['vocabulary_namespace_uri'])
+                    || !is_string($import[$property]['vocabulary_label'])
+                    || !is_string($import[$property]['local_name'])
+                    || !is_string($import[$property]['label'])
+                ) {
+                    // Invalid property info.
+                    return false;
+                }
+            }
+        }
+
         // Validate properties.
         if (!isset($import['o:resource_template_property']) || !is_array($import['o:resource_template_property'])) {
             // missing or invalid o:resource_template_property
@@ -269,8 +310,11 @@ class ResourceTemplateController extends AbstractActionController
 
     public function exportAction()
     {
+        /** @var \Omeka\Api\Representation\ResourceTemplateRepresentation $template */
         $template = $this->api()->read('resource_templates', $this->params('id'))->getContent();
         $templateClass = $template->resourceClass();
+        $templateTitle = $template->titleProperty();
+        $templateDescription = $template->descriptionProperty();
         $templateProperties = $template->resourceTemplateProperties();
 
         $export = [
@@ -285,6 +329,26 @@ class ResourceTemplateController extends AbstractActionController
                 'vocabulary_label' => $vocab->label(),
                 'local_name' => $templateClass->localName(),
                 'label' => $templateClass->label(),
+            ];
+        }
+
+        if ($templateTitle) {
+            $vocab = $templateTitle->vocabulary();
+            $export['o:title_property'] = [
+                'vocabulary_namespace_uri' => $vocab->namespaceUri(),
+                'vocabulary_label' => $vocab->label(),
+                'local_name' => $templateTitle->localName(),
+                'label' => $templateTitle->label(),
+            ];
+        }
+
+        if ($templateDescription) {
+            $vocab = $templateDescription->vocabulary();
+            $export['o:description_property'] = [
+                'vocabulary_namespace_uri' => $vocab->namespaceUri(),
+                'vocabulary_label' => $vocab->label(),
+                'local_name' => $templateDescription->localName(),
+                'label' => $templateDescription->label(),
             ];
         }
 

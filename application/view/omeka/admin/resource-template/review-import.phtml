@@ -1,5 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+
 $form->prepare();
 $this->htmlElement('body')->appendAttribute('class', 'resource-templates review');
 echo $this->pageTitle($import['o:label'], 1, $translate('Resource templates'), $translate('Review'));
@@ -29,6 +31,30 @@ if (!$hasVocab) {
 <div style="background-color:#ffe6e6; color:red;"><?php echo $this->escapeHtml($errorText); ?></div>
 <?php endif; ?>
 <?php endif; ?>
+
+<?php foreach (['o:title_property' => $translate('Resource title'), 'o:description_property' => $translate('Resource description')] as $property => $label): ?>
+    <?php if (isset($import[$property])): ?>
+        <?php
+        $prop = $import[$property];
+        $hasVocab = isset($prop['vocabulary_prefix']);
+        $hasProp = isset($prop['o:id']);
+        if (!$hasVocab):
+            $errorText = sprintf('Unknown property "%s" and unknown vocabulary "%s": %s%s', $prop['label'], $prop['vocabulary_label'], $prop['vocabulary_namespace_uri'], $prop['local_name']);
+        elseif (!$hasProp):
+            $errorText = sprintf('Unknown property "%s" in vocabulary "%s": %s:%s', $prop['label'], $prop['vocabulary_label'], $prop['vocabulary_prefix'], $prop['local_name']);
+        else:
+            $errorText = null;
+        endif;
+        ?>
+<div class="prop-row" style="background-color:#<?php echo $hasProp ? 'cdffcd' : 'ffe6e6'; ?>;">
+    <span class="class-label"><?php echo $escape($label); ?></span>
+    <span class="prop-value"><?php echo $escape($prop['label']); ?></span>
+</div>
+        <?php if ($errorText): ?>
+<div style="background-color:#ffe6e6; color:red;"><?php echo $escape($errorText); ?></div>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endforeach; ?>
 
 <table id="properties" class="tablesaw" data-tablesaw-mode="stack">
 <thead>

@@ -307,7 +307,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * - all: (false) If true, returns all values that match criteria. If false,
      *   returns the first matching value.
      * - default: (null) Default value if no values match criteria. Returns null
-     *   by default.
+     *   by default for single result, empty array for all results.
      * - lang: (null) Get values of this language only. Returns values of all
      *   languages by default.
      * @return ValueRepresentation|ValueRepresentation[]|mixed
@@ -322,7 +322,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $options['all'] = false;
         }
         if (!isset($options['default'])) {
-            $options['default'] = null;
+            $options['default'] = $options['all'] ? [] : null;
         }
         if (!isset($options['lang'])) {
             $options['lang'] = null;

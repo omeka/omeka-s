@@ -48,6 +48,18 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             );
         }
 
+        if (isset($query['resource_template_label'])) {
+            $resourceTemplateAlias = $this->createAlias();
+            $qb->innerJoin(
+                'omeka_root.resourceTemplate',
+                $resourceTemplateAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$resourceTemplateAlias.label",
+                $this->createNamedParameter($qb, $query['resource_template_label']))
+            );
+        }
+
         if (isset($query['resource_class_id'])) {
             $classes = $query['resource_class_id'];
             if (!is_array($classes)) {

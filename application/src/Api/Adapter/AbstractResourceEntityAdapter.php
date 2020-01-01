@@ -55,6 +55,18 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             );
         }
 
+        if (isset($query['resource_template_label'])) {
+            $resourceTemplateAlias = $this->createAlias();
+            $qb->innerJoin(
+                'omeka_root.resourceTemplate',
+                $resourceTemplateAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$resourceTemplateAlias.label",
+                $this->createNamedParameter($qb, $query['resource_template_label']))
+            );
+        }
+
         if (isset($query['resource_class_id'])) {
             $classes = $query['resource_class_id'];
             if (!is_array($classes)) {
@@ -109,6 +121,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $resourceClassAlias = $this->createAlias();
                 $qb->leftJoin("omeka_root.resourceClass", $resourceClassAlias)
                     ->addOrderBy("$resourceClassAlias.label", $query['sort_order']);
+            } elseif ('resource_template_label' == $query['sort_by']) {
+                $resourceTemplateAlias = $this->createAlias();
+                $qb->leftJoin("omeka_root.resourceTemplate", $resourceTemplateAlias)
+                    ->addOrderBy("$resourceTemplateAlias.label", $query['sort_order']);
             } elseif ('owner_name' == $query['sort_by']) {
                 $ownerAlias = $this->createAlias();
                 $qb->leftJoin("omeka_root.owner", $ownerAlias)

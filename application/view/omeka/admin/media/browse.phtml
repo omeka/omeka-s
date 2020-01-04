@@ -18,6 +18,10 @@ $sortHeadings = [
         'value' => 'resource_class_label'
     ],
     [
+        'label' => $translate('Resource template'),
+        'value' => 'resource_template_label'
+    ],
+    [
         'label' => $translate('Owner'),
         'value' => 'owner_name'
     ],
@@ -83,6 +87,7 @@ $sortHeadings = [
                 <?php echo $translate('Title'); ?>
             </th>
             <th><?php echo $translate('Class'); ?></th>
+            <th><?php echo $translate('Resource template'); ?></th>
             <th><?php echo $translate('Owner'); ?></th>
             <th><?php echo $translate('Created'); ?></th>
         </tr>
@@ -138,6 +143,7 @@ $sortHeadings = [
                 </ul>
             </td>
             <td><?php echo $escape($translate($media->displayResourceClassLabel())); ?></td>
+            <td><?php echo $escape($translate($media->displayResourceTemplateLabel())); ?></td>
             <td><?php echo $ownerText; ?></td>
             <td><?php echo $escape($this->i18n()->dateFormat($media->created())); ?></td>
         </tr>

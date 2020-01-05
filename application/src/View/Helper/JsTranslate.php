@@ -33,6 +33,6 @@ class JsTranslate extends AbstractHelper
 Omeka.jsTranslate = function(str) {
     var jsTranslations = %s;
     return (str in jsTranslations) ? jsTranslations[str] : str;
-};', json_encode($this->jsTranslations)));
+};', json_encode($this->jsTranslations, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS)));
     }
 }

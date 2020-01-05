@@ -177,7 +177,7 @@ class VocabularyController extends AbstractActionController
                     $diff = $this->rdfImporter->getDiff($strategy, $vocabulary->namespaceUri(), $options);
                     $form = $this->getForm(VocabularyUpdateForm::class);
                     $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'update'], true));
-                    $form->get('diff')->setValue(json_encode($diff));
+                    $form->get('diff')->setValue(json_encode($diff, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS));
                     $view->setVariable('diff', $diff);
                     $view->setTemplate('omeka/admin/vocabulary/update');
                 } else {

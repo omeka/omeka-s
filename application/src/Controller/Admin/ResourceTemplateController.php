@@ -315,7 +315,7 @@ class ResourceTemplateController extends AbstractActionController
         }
 
         $filename = preg_replace('/[^a-zA-Z0-9]+/', '_', $template->label());
-        $export = json_encode($export, JSON_PRETTY_PRINT);
+        $export = json_encode($export, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS);
 
         $response = $this->getResponse();
         $headers = $response->getHeaders();

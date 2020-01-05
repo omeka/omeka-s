@@ -19,7 +19,7 @@ class IIIF implements RendererInterface
                     id: "iiif-'.$media->id().'",
                     prefixUrl: "'. $prefixUrl . '",
                     tileSources: [
-                        '. json_encode($IIIFData) .'
+                        ' . json_encode($IIIFData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS) . '
                     ]
                 });
             </script>

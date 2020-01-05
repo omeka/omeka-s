@@ -155,6 +155,39 @@ class SettingForm extends Form
             ],
         ]);
 
+        $defaultColumnsBrowse = [
+            'resource_class_label',
+            'owner_name',
+            'created',
+        ];
+        $prependedValues = [
+            'id' => 'Internal id', // @translate
+            'resource_class_label' => 'Resource class', // @translate
+            'resource_template_label' => 'Resource template', // @translate
+            'owner_name' => 'Owner', // @translate
+            'created' => 'Created', // @translate
+            'modified' => 'Modified', // @translate
+        ];
+        $generalFieldset->add([
+            'name' => 'columns_browse',
+            'type' => PropertySelect::class,
+            'options' => [
+                'label' => 'Columns for browse views', // @translate
+                'info' => 'These columns will be used in the admin resource browse views.', // @translate
+                'term_as_value' => true,
+                'prepend_value_options' => $prependedValues,
+            ],
+            'attributes' => [
+                'id' => 'columns-browse',
+                // TODO Keep the original order of the columns via js.
+                'value' => array_values($this->settings->get('columns_browse', [])) ?: $defaultColumnsBrowse,
+                'required' => false,
+                'multiple' => true,
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select columns…', // @translate
+            ],
+        ]);
+
         $generalFieldset->add([
             'name' => 'pagination_per_page',
             'type' => 'Text',
@@ -392,6 +425,41 @@ class SettingForm extends Form
         $inputFilter = $this->getInputFilter();
 
         $generalInputFilter = $inputFilter->get('general');
+        $columnsBrowse = $generalFieldset->get('columns_browse')->getValueOptions();
+        $generalInputFilter->add([
+            'name' => 'columns_browse',
+            'required' => false,
+            'filters' => [
+                [
+                    'name' => 'callback',
+                    'options' => [
+                        // The columns names are saved to simplify the creation
+                        // of the browse view. Order is kept.
+                        // FIXME Zend requires the values to be values, not keys, so there may be issues when labels are the same in different vocabularies.
+                        'callback' => function ($columns) use ($columnsBrowse) {
+                            $result = [];
+                            foreach ($columns as $column) {
+                                if (isset($columnsBrowse[$column])) {
+                                    $result[$columnsBrowse[$column]] = $column;
+                                } else {
+                                    foreach ($columnsBrowse as $columnBrowse) {
+                                        if (is_array($columnBrowse)) {
+                                            foreach ($columnBrowse['options'] as $property) {
+                                                if ($column === $property['value']) {
+                                                    $result[$property['label']] = $column;
+                                                    break 2;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            return $result;
+                        },
+                    ],
+                ],
+            ],
+        ]);
         $generalInputFilter->add([
             'name' => 'pagination_per_page',
             'required' => true,

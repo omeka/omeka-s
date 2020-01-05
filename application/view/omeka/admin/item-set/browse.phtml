@@ -1,33 +1,15 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
+$url = $this->plugin('url');
+
 $this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
-$sortHeadings = [
-    [
-        'label' => $translate('Title'),
-        'value' => 'title'
-    ],
-    [
-        'label' => $translate('Identifier'),
-        'value' => 'dcterms:identifier'
-    ],
-    [
-        'label' => $translate('Class'),
-        'value' => 'resource_class_label'
-    ],
-    [
-        'label' => $translate('Resource template'),
-        'value' => 'resource_template_label'
-    ],
-    [
-        'label' => $translate('Owner'),
-        'value' => 'owner_name'
-    ],
-    [
-        'label' => $translate('Created'),
-        'value' => 'created'
-    ],
-];
+
+$defaultColumnsBrowse = ['Resource class' => 'resource_class_label', 'Owner' => 'owner_name', 'Created' => 'created'];
+$columns = $this->setting('columns_browse', $defaultColumnsBrowse);
+$sortHeadings = ['title' => 'Title', 'dcterms:identifier' => 'Identifier'] + array_flip($columns);
+$sortHeadings = array_values(array_map(function($value, $label) use($translate) { return ['label' => $translate($label), 'value' => $value]; }, array_keys($sortHeadings), $sortHeadings));
 ?>
 
 <?php echo $this->pageTitle($translate('Item sets')); ?>
@@ -76,28 +58,13 @@ $sortHeadings = [
                 <input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>">
                 <?php echo $translate('Title'); ?>
             </th>
-            <th><?php echo $translate('Class'); ?></th>
-            <th><?php echo $translate('Resource template'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
-            <th><?php echo $translate('Created'); ?></th>
+            <?php foreach (array_keys($columns) as $columnLabel): ?>
+            <th><?php echo $columnLabel; ?></th>
+            <?php endforeach; ?>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($itemSets as $itemSet): ?>
-        <?php
-        if ($owner = $itemSet->owner()) {
-            $ownerText = $this->hyperlink(
-                $owner->name(),
-                $this->url('admin/id', [
-                    'controller' => 'user',
-                    'action' => 'show',
-                    'id' => $owner->id()]
-                )
-            );
-        } else {
-            $ownerText = $translate('[no owner]');
-        }
-        ?>
         <tr>
             <td>
                 <?php if ($itemSet->userIsAllowed('update') || $itemSet->userIsAllowed('delete')): ?>
@@ -130,10 +97,38 @@ $sortHeadings = [
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($translate($itemSet->displayResourceClassLabel())); ?></td>
-            <td><?php echo $escape($translate($itemSet->displayResourceTemplateLabel())); ?></td>
-            <td><?php echo $ownerText; ?></td>
-            <td><?php echo $escape($this->i18n()->dateFormat($itemSet->created())); ?></td>
+            <?php foreach ($columns as $column): ?>
+            <td>
+                <?php  switch ($column):
+                case 'id':
+                    echo $itemSet->id();
+                    break;
+                case 'resource_class_label':
+                    echo $escape($translate($itemSet->displayResourceClassLabel()));
+                    break;
+                case 'resource_template_label':
+                    echo $escape($translate($itemSet->displayResourceTemplateLabel()));
+                    break;
+                case 'owner_name':
+                    if ($owner = $itemSet->owner()) {
+                        echo $hyperlink($owner->name(), $url('admin/id', ['controller' => 'user', 'action' => 'show', 'id' => $owner->id()]));
+                    } else {
+                        echo $translate('[no owner]');
+                    }
+                    break;
+                case 'created':
+                    echo $escape($this->i18n()->dateFormat($itemSet->created()));
+                    break;
+                case 'modified':
+                    echo $escape($this->i18n()->dateFormat($itemSet->modified()));
+                    break;
+                default:
+                    echo $escape($itemSet->value($column));
+                    break;
+                ?>
+                <?php endswitch; ?>
+            </td>
+            <?php endforeach; ?>
         </tr>
         <?php endforeach; ?>
     </tbody>

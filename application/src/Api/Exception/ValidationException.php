@@ -46,7 +46,7 @@ class ValidationException extends BadRequestException
             get_class($this),
             $this->getFile(),
             $this->getLine(),
-            json_encode($this->getErrorStore()->getErrors(), JSON_PRETTY_PRINT),
+            json_encode($this->getErrorStore()->getErrors(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS | JSON_PARTIAL_OUTPUT_ON_ERROR),
             $this->getTraceAsString()
         );
     }

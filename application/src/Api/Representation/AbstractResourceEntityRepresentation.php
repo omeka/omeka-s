@@ -488,9 +488,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displayTitle($default = null)
     {
-        $title = $this->title();
-        if (null !== $title) {
-            return $title;
+        $template = $this->resourceTemplate();
+        if ($template && $template->titleProperty()) {
+            $title = $this->value($template->titleProperty()->term());
+            if (null !== $title) {
+                return $title;
+            }
         }
 
         if ($default === null) {
@@ -498,7 +501,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $default = $translator->translate('[Untitled]');
         }
 
-        return $default;
+        return (string) $this->value('dcterms:title', [
+            'default' => $default,
+        ]);
     }
 
     /**

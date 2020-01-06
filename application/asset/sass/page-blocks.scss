@@ -213,6 +213,12 @@
     color: $border-gray;
 }
 
+.item-with-metadata {
+    width: 100%;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
 .item-with-metadata .show.resource {
     margin: (2rem) 0;
 }

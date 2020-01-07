@@ -64,15 +64,12 @@
 .right,
 .left {
     overflow: hidden;
+    max-width: 33.33%;
 }
 
 .left .item.resource,
 .right .item.resource {
     margin: 0 0 1rem 0;
-    width: -webkit-min-content;
-    width: -moz-min-content;
-    width: min-content;
-    max-width: 40vw;
 
     &:first-of-type {
         padding-top: calc(1rem - 1px);
@@ -80,32 +77,30 @@
     }
 
     &:last-of-type {
-        padding-bottom: calc(1rem - 1px);
+        padding-bottom: -1px;
     }
-
-    .media-render > *, img {
-        max-width: 40vw;
+    
+    .media-render a {
+        display: block;
     }
-}
-
-.left:not(.file) .item.resource,
-.right:not(.file) .item.resource {
-    max-width: 50%;
+    
+    audio,
+    canvas,
+    video,
+    progress,
+    img {
+        max-width: 100%;
+        vertical-align: bottom;
+        margin-bottom: .5rem;
+    }
 }
 
 /* IE/Edge min-content alternative */
 .file {
-    display: -ms-grid;
-    -ms-grid-columns: min-content;
     border-top: 1px solid $border-gray;
     border-bottom: 1px solid $border-gray;
     margin-top: 1rem;
     margin-bottom: 1rem;
-}
-
-.left.file,
-.right.file {
-    max-width: 50%;
 }
 
 .left.file {
@@ -129,18 +124,6 @@
     .item {
         width: 100%;
     }
-}
-
-.left .item.resource {
-    float: left;
-    margin-right: 1rem;
-    clear: left;
-}
-
-.right .item.resource {
-    float: right;
-    margin-left: 1rem;
-    clear: right;
 }
 
 .left .item.resource > a:first-child,

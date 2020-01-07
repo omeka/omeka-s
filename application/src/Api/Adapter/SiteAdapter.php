@@ -278,6 +278,13 @@ class SiteAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $query['slug'])
             ));
         }
+
+        if (isset($query['exclude_id'])) {
+            $qb->andWhere($qb->expr()->neq(
+                'omeka_root.id',
+                $this->createNamedParameter($qb, $query['exclude_id'])
+            ));
+        }
     }
 
     /**

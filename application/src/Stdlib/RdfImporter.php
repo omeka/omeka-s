@@ -2,8 +2,8 @@
 namespace Omeka\Stdlib;
 
 use Doctrine\ORM\EntityManager;
-use EasyRdf_Graph;
-use EasyRdf_Resource;
+use EasyRdf\Graph as RdfGraph;
+use EasyRdf\Resource as RdfResource;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Entity\Property;
@@ -90,7 +90,7 @@ class RdfImporter
         }
 
         // Get the full RDF graph from EasyRdf.
-        $graph = new EasyRdf_Graph;
+        $graph = new RdfGraph;
         switch ($strategy) {
             case 'file':
                 // Import from a file
@@ -103,7 +103,7 @@ class RdfImporter
                 }
                 try {
                     $graph->parseFile($file, $options['format'], $namespaceUri);
-                } catch (\EasyRdf_Exception $e) {
+                } catch (\EasyRdf\Exception $e) {
                     throw new ValidationException($e->getMessage(), $e->getCode(), $e);
                 }
                 break;
@@ -114,7 +114,7 @@ class RdfImporter
                 }
                 try {
                     $graph->load($options['url'], $options['format']);
-                } catch (\EasyRdf_Exception $e) {
+                } catch (\EasyRdf\Exception $e) {
                     throw new ValidationException($e->getMessage(), $e->getCode(), $e);
                 }
                 break;
@@ -321,14 +321,14 @@ class RdfImporter
     /**
      * Get all members of the specified types.
      *
-     * @param EasyRdf_Graph $graph
+     * @param RdfGraph $graph
      * @param array $types
      * @param string $namespaceUri
      * @param string $labelProperty
      * @param string $commentProperty
      * @param string $lang
      */
-    protected function getMembersOfTypes(EasyRdf_Graph $graph, array $types,
+    protected function getMembersOfTypes(RdfGraph $graph, array $types,
         $namespaceUri, $labelProperty, $commentProperty, $lang
     ) {
         $members = [];
@@ -353,13 +353,13 @@ class RdfImporter
      * Attempts to get the label of the passed language. If one does not exist
      * it defaults to the first available label, if any.
      *
-     * @param EasyRdf_Resource $resource
+     * @param RdfResource $resource
      * @param string $labelProperty
      * @param string $lang
      * @param string $default
      * @return string
      */
-    protected function getLabel(EasyRdf_Resource $resource, $labelProperty, $lang, $default)
+    protected function getLabel(RdfResource $resource, $labelProperty, $lang, $default)
     {
         $label = $resource->get($labelProperty, 'literal', $lang) ?: $resource->get($labelProperty, 'literal');
         if ($label) {
@@ -377,12 +377,12 @@ class RdfImporter
      * Attempts to get the comment of the passed language. If one does not exist
      * it defaults to the first available comment, if any.
      *
-     * @param EasyRdf_Resource $resource
+     * @param RdfResource $resource
      * @param string $commentProperty
      * @param string $lang
      * @return string
      */
-    protected function getComment(EasyRdf_Resource $resource, $commentProperty, $lang)
+    protected function getComment(RdfResource $resource, $commentProperty, $lang)
     {
         $comment = $resource->get($commentProperty, 'literal', $lang) ?: $resource->get($commentProperty, 'literal');
         if ($comment) {

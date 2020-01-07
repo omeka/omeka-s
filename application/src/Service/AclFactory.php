@@ -699,6 +699,30 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'editor',
+            [
+                'Omeka\Api\Adapter\ItemAdapter',
+                'Omeka\Api\Adapter\ItemSetAdapter',
+                'Omeka\Api\Adapter\MediaAdapter',
+            ],
+            [
+                'batch_update',
+                'batch_delete',
+            ]
+        );
+        $acl->allow(
+            'editor',
+            [
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+            ],
+            [
+                'batch-edit',
+                'batch-delete',
+            ]
+        );
+        $acl->allow(
+            'editor',
             'Omeka\Entity\Resource',
             'view-all'
         );

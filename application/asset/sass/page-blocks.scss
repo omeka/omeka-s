@@ -111,11 +111,13 @@
 .left.file {
     float: left;
     clear: left;
+    margin: 0 1rem 1rem 0;
 }
 
 .right.file {
     float: right;
     clear: right;
+    margin: 0 0 1rem 1rem;
 }
 
 .center.file {

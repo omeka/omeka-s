@@ -11,7 +11,7 @@ class Media extends AbstractBlockLayout
 {
     public function getLabel()
     {
-        return 'Media'; // @translate
+        return 'Media Embed'; // @translate
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
@@ -53,11 +53,12 @@ class Media extends AbstractBlockLayout
     public function alignmentClassSelect(PhpRenderer $view,
         SitePageBlockRepresentation $block = null
     ) {
-        $alignments = ['left', 'right'];
+        $alignmentLabels = ['float left', 'float right', 'center'];
+        $alignmentValues = ['left', 'right', 'center'];
         $alignment = $block ? $block->dataValue('alignment', 'left') : 'left';
         $select = new Select('o:block[__blockIndex__][o:data][alignment]');
-        $select->setValueOptions(array_combine($alignments, $alignments))->setValue($alignment);
-        $selectLabel = 'Thumbnail alignment'; // @translate
+        $select->setValueOptions(array_combine($alignmentValues, $alignmentLabels))->setValue($alignment);
+        $selectLabel = 'Alignment'; // @translate
         $select->setAttributes(['title' => $selectLabel, 'aria-label' => $selectLabel]);
         $html = '<div class="field"><div class="field-meta">';
         $html .= '<label class="thumbnail-option" for="o:block[__blockIndex__][o:data][alignment]">' . $selectLabel . '</label></div>';

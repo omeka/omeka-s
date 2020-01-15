@@ -398,9 +398,9 @@ class ResourceTemplateController extends AbstractActionController
             if ($data['o:description_property']) {
                 $data['o:description_property[o:id]'] = $data['o:description_property']->id();
             }
-			if ('copy' === $action) {
-				$data['o:label'] = 'Copy of ' . $data['o:label'];
-			}
+            if ('copy' === $action) {
+                $data['o:label'] = 'Copy of ' . $data['o:label'];
+            }
             $form->setData($data);
         }
 
@@ -436,9 +436,9 @@ class ResourceTemplateController extends AbstractActionController
         $view = new ViewModel;
         if ('edit' === $action) {
             $view->setVariable('resourceTemplate', $resourceTemplate);
-        } elseif ('copy' === $action ) {
+        } elseif ('copy' === $action) {
             $view->setVariable('label', $data['o:label']);
-		}
+        }
         $view->setVariable('propertyRows', $this->getPropertyRows());
         $view->setVariable('form', $form);
         return $view;

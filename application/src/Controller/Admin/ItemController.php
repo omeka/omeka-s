@@ -200,6 +200,11 @@ class ItemController extends AbstractActionController
         return $this->getAddEditView();
     }
 
+    public function copyAction()
+    {
+        return $this->getAddEditView();
+    }
+
     /**
      * Get the add/edit view.
      *
@@ -214,7 +219,7 @@ class ItemController extends AbstractActionController
         $form->setAttribute('enctype', 'multipart/form-data');
         $form->setAttribute('id', '$action-item');
 
-        if ('edit' === $action) {
+        if ('edit' === $action || 'copy' === $action) {
             $item = $this->api()->read('items', $this->params('id'))->getContent();
         }
 
@@ -252,7 +257,7 @@ class ItemController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
-        if ('edit' === $action) {
+        if ('edit' === $action || 'copy' === $action) {
             $view->setVariable('item', $item);
             $view->setVariable('resource', $item);
         }

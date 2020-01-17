@@ -64,7 +64,7 @@ class PasswordRequirements extends AbstractHelper
             && strlen($config['symbol_list'])
         ) {
             $requirements[] = sprintf(
-                $view->translate('Password must contain at least %s symbols: <code>%s</code>'),
+                $view->translate('Password must contain at least %1$s symbols: <code>%2$s</code>'),
                 $config['min_symbol'],
                 $config['symbol_list']
             );

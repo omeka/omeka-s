@@ -238,7 +238,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             $fieldNames = $this->getEntityManager()->getClassMetadata($entityClass)->getFieldNames();
             if (!in_array($scalarField, $fieldNames)) {
                 throw new Exception\BadRequestException(sprintf(
-                    $this->getTranslator()->translate('The "%s" field is not available in the %s entity class.'),
+                    $this->getTranslator()->translate('The "%1$s" field is not available in the %2$s entity class.'),
                     $scalarField, $entityClass
                 ));
             }
@@ -583,7 +583,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         if (!$acl->userIsAllowed($entity, $privilege)) {
             throw new Exception\PermissionDeniedException(sprintf(
                 $this->getTranslator()->translate(
-                    'Permission denied for the current user to %s the %s resource.'
+                    'Permission denied for the current user to %1$s the %2$s resource.'
                 ),
                 $privilege, $entity->getResourceId()
             ));
@@ -625,7 +625,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $entity = $qb->getQuery()->getOneOrNullResult();
         if (!$entity) {
             throw new Exception\NotFoundException(sprintf(
-                $this->getTranslator()->translate('%s entity with criteria %s not found'),
+                $this->getTranslator()->translate('%1$s entity with criteria %2$s not found'),
                 $entityClass, json_encode($criteria)
             ));
         }

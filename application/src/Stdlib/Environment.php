@@ -44,14 +44,14 @@ class Environment
             && version_compare($dbVersion, 1, '<')
         ) {
             $this->errorMessages[] = new Message(
-                'You must upgrade Omeka S to at least version 1.0.0 before upgrading to version %s. You are currently on version %s.', // @translate
+                'You must upgrade Omeka S to at least version 1.0.0 before upgrading to version %1$s. You are currently on version %2$s.', // @translate
                 $codeVersion,
                 $dbVersion
             );
         }
         if (!version_compare(PHP_VERSION, self::PHP_MINIMUM_VERSION, '>=')) {
             $this->errorMessages[] = new Message(
-                'The installed PHP version (%s) is too low. Omeka requires at least version %s.', // @translate
+                'The installed PHP version (%1$s) is too low. Omeka requires at least version %2$s.', // @translate
                 PHP_VERSION,
                 self::PHP_MINIMUM_VERSION
             );
@@ -78,7 +78,7 @@ class Environment
         if (strpos($mysqlVersion, 'MariaDB') === false) {
             if (!version_compare($mysqlVersion, self::MYSQL_MINIMUM_VERSION, '>=')) {
                 $this->errorMessages[] = new Message(
-                    'The installed MySQL version (%s) is too low. Omeka requires at least version %s.', // @translate
+                    'The installed MySQL version (%1$s) is too low. Omeka requires at least version %2$s.', // @translate
                     $mysqlVersion,
                     self::MYSQL_MINIMUM_VERSION
                 );
@@ -86,7 +86,7 @@ class Environment
         } else {
             if (!version_compare($mysqlVersion, self::MARIADB_MINIMUM_VERSION, '>=')) {
                 $this->errorMessages[] = new Message(
-                    'The installed MariaDB version (%s) is too low. Omeka requires at least version %s.', // @translate
+                    'The installed MariaDB version (%1$s) is too low. Omeka requires at least version %2$s.', // @translate
                     $mysqlVersion,
                     self::MARIADB_MINIMUM_VERSION
                 );

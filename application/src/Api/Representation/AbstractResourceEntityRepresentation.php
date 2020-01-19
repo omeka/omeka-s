@@ -489,6 +489,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function displayTitle($default = null)
     {
         $title = $this->title();
+
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs(['title' => $title]);
+        $eventManager->trigger('rep.resource.title', $this, $args);
+        $title = $args['title'];
+
         if (null !== $title) {
             return $title;
         }

@@ -54,6 +54,8 @@ class JobRepresentation extends AbstractEntityRepresentation
                 'o:job_class' => $this->jobClass(),
                 'o:args' => $this->args(),
                 'o:owner' => $owner,
+                'o:step' => $this->step(),
+                'o:total_steps' => $this->totalSteps(),
             ],
             $dateTime
         );
@@ -74,6 +76,26 @@ class JobRepresentation extends AbstractEntityRepresentation
     public function jobClass()
     {
         return $this->resource->getClass();
+    }
+
+    public function step()
+    {
+        return $this->resource->getStep();
+    }
+
+    public function totalSteps()
+    {
+        return $this->resource->getTotalSteps();
+    }
+
+    /**
+     * @return float A number between 0 and 1.
+     */
+    public function progress()
+    {
+        return ($total = $this->resource->getTotalSteps())
+            ? $this->resource->getStep() / $total
+            : 0;
     }
 
     public function started()

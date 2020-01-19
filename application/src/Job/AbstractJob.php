@@ -75,6 +75,45 @@ abstract class AbstractJob implements JobInterface
     }
 
     /**
+     * Set the total number of steps.
+     *
+     * Job is detached from the entity manager in order to update steps
+     * independantly from the process performed by the job.
+     */
+    public function setTotalSteps($totalSteps)
+    {
+        $this->job->setTotalSteps($totalSteps);
+        $this->getServiceLocator()->get('Omeka\EntityManager')->flush($this->job);
+    }
+
+    /**
+     * Increase the step counter to follow progress.
+     *
+     * @var int $step
+     */
+    public function addStep($step = 1)
+    {
+        static $entityManager;
+        static $jobId;
+
+        // The process should manage clearing of entity manager.
+
+        if (is_null($jobId)) {
+            /** @var \Doctrine\ORM\EntityManager $entityManager */
+            $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+            $jobId = $this->job->getId();
+        }
+
+        // To avoid desynchronization between local job and the database job,
+        // the job is flushed. Else, the job log writer should flush data for
+        // each log (see \Omeka\Log\Writer\Job::doWrite().
+
+        $jobEntity = $entityManager->find(\Omeka\Entity\Job::class, $jobId);
+        $jobEntity->addStep($step);
+        $entityManager->flush($jobEntity);
+    }
+
+    /**
      * Set the service locator for this job.
      *
      * @param ServiceLocatorInterface $serviceLocator

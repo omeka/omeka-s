@@ -23,6 +23,7 @@ class Synchronous implements StrategyInterface
 
     public function send(Job $job)
     {
+        /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $this->serviceLocator->get('Omeka\EntityManager');
         register_shutdown_function([$this, 'handleFatalError'], $job, $entityManager);
 
@@ -33,14 +34,22 @@ class Synchronous implements StrategyInterface
         $jobClass = new $class($job, $this->serviceLocator);
         $jobClass->perform();
 
+        // Make sure we only flush this Job and nothing else.
+        // TODO Ideally, the job itself should be managed by a distinct entity manager.
+        $entityManager->clear();
+
+        // Reload job that may have been updated during process, but keep the
+        // logs since the local detached job object is up-to-date.
+        $jobEntity = $entityManager->find(Job::class, $job->getId());
+        $jobEntity->setLog($job->getLog());
+        $job = $jobEntity;
+
         if (Job::STATUS_STOPPING == $job->getStatus()) {
             $job->setStatus(Job::STATUS_STOPPED);
         } else {
             $job->setStatus(Job::STATUS_COMPLETED);
         }
         $job->setEnded(new DateTime('now'));
-        $entityManager->clear();
-        $entityManager->merge($job);
         $entityManager->flush();
     }
 
@@ -59,6 +68,14 @@ class Synchronous implements StrategyInterface
             $entityManager->clear();
 
             if (in_array($lastError['type'], $errors)) {
+                // Reload job that may have been updated during process, but
+                // keep the logs since the job object itself is up-to-date.
+                $jobEntity = $entityManager->find(Job::class, $job->getId());
+                $jobEntity->setLog($job->getLog());
+                $entityManager->flush();
+
+                $job = $jobEntity;
+
                 $job->setStatus(Job::STATUS_ERROR);
                 $job->addLog(vsprintf(
                     'Fatal error: %s\nin %s on line %s', // @translate

@@ -61,7 +61,12 @@ $sortHeadings = [
                 <?php echo $job->link($escape($job->id())); ?>
             </td>
             <td><?php echo $escape($job->jobClass()); ?></td>
-            <td><?php echo $escape($translate($job->statusLabel())); ?></td>
+            <td>
+                <?php echo $escape($translate($job->statusLabel())); ?>
+                <?php if ($step = $job->step()): ?>
+                - <?php echo $step; ?> / <?php echo $job->totalSteps(); ?>
+                <?php endif; ?>
+            </td>
             <td><?php echo $ownerText; ?></td>
         </tr>
         <?php endforeach; ?>

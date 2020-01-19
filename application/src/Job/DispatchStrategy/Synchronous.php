@@ -53,19 +53,36 @@ class Synchronous implements StrategyInterface
     public function handleFatalError(Job $job, EntityManager $entityManager)
     {
         $lastError = error_get_last();
-        $errors = [E_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR];
-        if ($lastError && in_array($lastError['type'], $errors)) {
-            $job->setStatus(Job::STATUS_ERROR);
-            $job->addLog(sprintf("Fatal error: %s\nin %s on line %s",
-                $lastError['message'],
-                $lastError['file'],
-                $lastError['line']
-            ));
-
-            // Make sure we only flush this Job and nothing else
+        if ($lastError) {
+            $errors = [E_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR];
+            // Make sure we only flush this Job and nothing else.
             $entityManager->clear();
-            $entityManager->merge($job);
-            $entityManager->flush();
+
+            if (in_array($lastError['type'], $errors)) {
+                $job->setStatus(Job::STATUS_ERROR);
+                $job->addLog(vsprintf(
+                    'Fatal error: %s\nin %s on line %s', // @translate
+                    [
+                        $lastError['message'],
+                        $lastError['file'],
+                        $lastError['line'],
+                    ]
+                ));
+                $entityManager->flush();
+            }
+            // Log other errors according to the config for severity.
+            else {
+                /** @var \Zend\Log\LoggerInterface $logger */
+                $logger = $this->serviceLocator->get('Omeka\Logger');
+                $logger->warn(vsprintf(
+                    'Warning: %s\nin %s on line %s', // @translate
+                    [
+                        $lastError['message'],
+                        $lastError['file'],
+                        $lastError['line'],
+                    ]
+                ));
+            }
         }
     }
 }

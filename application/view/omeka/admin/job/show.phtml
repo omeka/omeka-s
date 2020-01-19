@@ -48,8 +48,8 @@ if ($owner = $job->owner()) {
 <div class="meta-group">
     <h4><?php echo $translate('Args'); ?></h4>
     <?php if ($job->args()): ?>
-        <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT); ?>
-        <div class="value"><pre><?php echo $args; ?></pre></div>
+        <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?>
+        <div class="value"><pre><?php echo $escape($args); ?></pre></div>
     <?php else: ?>
     <div class="value"><?php echo $translate('[no args]') ?></div>
     <?php endif; ?>

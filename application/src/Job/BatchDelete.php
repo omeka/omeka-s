@@ -9,6 +9,7 @@ class BatchDelete extends AbstractJob
         $resource = $this->getArg('resource');
         $query = $this->getArg('query', []);
         $response = $api->search($resource, $query, ['returnScalar' => 'id']);
+        $this->setTotalSteps($response->getTotalResults());
 
         // Batch delete the resources in chunks.
         foreach (array_chunk($response->getContent(), 100) as $idsChunk) {
@@ -16,6 +17,7 @@ class BatchDelete extends AbstractJob
                 return;
             }
             $api->batchDelete($resource, $idsChunk, [], ['continueOnError' => true]);
+            $this->addStep(count($idsChunk));
         }
     }
 }

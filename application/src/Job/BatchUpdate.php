@@ -14,6 +14,7 @@ class BatchUpdate extends AbstractJob
         $dataAppend = $this->getArg('data_append', []);
 
         $response = $api->search($resource, $query, ['returnScalar' => 'id']);
+        $this->setTotalSteps($response->getTotalResults());
 
         // Batch update the resources in chunks.
         foreach (array_chunk($response->getContent(), 100) as $idsChunk) {
@@ -37,6 +38,7 @@ class BatchUpdate extends AbstractJob
                     'collectionAction' => 'append',
                 ]);
             }
+            $this->addStep(count($idsChunk));
         }
     }
 }

@@ -3,8 +3,9 @@ namespace Omeka\Job\DispatchStrategy;
 
 use DateTime;
 use Doctrine\ORM\EntityManager;
-use Omeka\Entity\Job;
+use Laminas\Log\Logger;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Omeka\Entity\Job;
 
 class Synchronous implements StrategyInterface
 {
@@ -25,7 +26,8 @@ class Synchronous implements StrategyInterface
     {
         /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $this->serviceLocator->get('Omeka\EntityManager');
-        register_shutdown_function([$this, 'handleFatalError'], $job, $entityManager);
+        $logger = $this->serviceLocator->get('Omeka\Logger');
+        register_shutdown_function([$this, 'handleFatalError'], $job, $entityManager, $logger);
 
         $job->setStatus(Job::STATUS_IN_PROGRESS);
         $entityManager->flush();
@@ -60,8 +62,9 @@ class Synchronous implements StrategyInterface
      *
      * @param Job $job
      * @param EntityManager $entityManager
+     * @param Logger $logger
      */
-    public function handleFatalError(Job $job, EntityManager $entityManager)
+    public function handleFatalError(Job $job, EntityManager $entityManager, Logger $logger)
     {
         $lastError = error_get_last();
         if ($lastError) {
@@ -91,8 +94,6 @@ class Synchronous implements StrategyInterface
             }
             // Log other errors according to the config for severity.
             else {
-                /** @var \Zend\Log\LoggerInterface $logger */
-                $logger = $this->serviceLocator->get('Omeka\Logger');
                 $logger->warn(vsprintf(
                     'Warning: %s\nin %s on line %s', // @translate
                     [

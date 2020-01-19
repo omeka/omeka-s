@@ -41,8 +41,10 @@ class Synchronous implements StrategyInterface
         // Reload job that may have been updated during process, but keep the
         // logs since the local detached job object is up-to-date.
         $jobEntity = $entityManager->find(Job::class, $job->getId());
-        $jobEntity->setLog($job->getLog());
-        $job = $jobEntity;
+        if ($jobEntity) {
+            $jobEntity->setLog($job->getLog());
+            $job = $jobEntity;
+        }
 
         if (Job::STATUS_STOPPING == $job->getStatus()) {
             $job->setStatus(Job::STATUS_STOPPED);

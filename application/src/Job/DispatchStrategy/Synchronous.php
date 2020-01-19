@@ -83,7 +83,7 @@ class Synchronous implements StrategyInterface
 
                 $job->setStatus(Job::STATUS_ERROR);
                 $job->addLog(vsprintf(
-                    'Fatal error: %s\nin %s on line %s', // @translate
+                    "Fatal error: %s\nin %s on line %s", // @translate
                     [
                         $lastError['message'],
                         $lastError['file'],
@@ -95,7 +95,7 @@ class Synchronous implements StrategyInterface
             // Log other errors according to the config for severity.
             else {
                 $logger->warn(vsprintf(
-                    'Warning: %s\nin %s on line %s', // @translate
+                    "Warning: %s\nin %s on line %s", // @translate
                     [
                         $lastError['message'],
                         $lastError['file'],

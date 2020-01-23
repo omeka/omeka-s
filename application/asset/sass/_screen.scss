@@ -3448,13 +3448,8 @@ body.sidebar-open #content {
     }
     
     #site-item-sets .delete .sortable-handle:before,
-    #site-item-sets .delete .o-icon-delete,
-    #site-item-sets .o-icon-undo {
+    #site-item-sets .delete .o-icon-delete {
         display: none;
-    }
-    
-    #site-item-sets .delete .o-icon-undo {
-        display: inline-block;
     }
     
     #site-item-sets,
@@ -3476,7 +3471,6 @@ body.sidebar-open #content {
     }
     #site-user-permissions + .no-resources,
     #site-user-permissions.empty,
-    tr.value:not(.delete) .o-icon-undo,
     tr.value.delete .user-name,
     tr.value.delete select,
     tr.value.delete .o-icon-delete {

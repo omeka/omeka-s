@@ -16,7 +16,7 @@ class ItemWithMetadata extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
-        return $view->blockAttachmentsForm($block);
+        return $view->blockAttachmentsForm($block, true);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

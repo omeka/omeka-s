@@ -68,7 +68,7 @@ class Downloader
                     $this->logger->err((string) $e);
                     if ($errorStore) {
                         $message = new Message(
-                            'Error downloading %s: %s', // @translate
+                            'Error downloading %1$s: %2$s', // @translate
                             (string) $uri, $e->getMessage()
                             );
                         $errorStore->addError('download', $message);
@@ -80,7 +80,7 @@ class Downloader
 
         if (!$response->isOk()) {
             $message = sprintf(
-                'Error downloading %s: %s %s', // @translate
+                'Error downloading %1$s: %2$s %3$s', // @translate
                 (string) $uri, $response->getStatusCode(), $response->getReasonPhrase()
                 );
             if ($errorStore) {

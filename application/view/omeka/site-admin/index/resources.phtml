@@ -66,7 +66,7 @@ $rowTemplate = '
         <tbody id="site-item-set-rows"></tbody>
     </table>
     <p id="no-site-item-sets"><?php echo $translate('No item sets are assigned to this site.'); ?></p>
-    <?php echo $this->itemSetSelector(); ?>
+    <?php echo $this->itemSetSelector(true); ?>
 </div>
 
 <?php echo $this->form()->closeTag(); ?>

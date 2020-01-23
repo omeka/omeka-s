@@ -167,7 +167,7 @@ class Manager implements ResourceInterface
         // Only a deactivated module can be activated
         if (self::STATE_NOT_ACTIVE !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
-                $t->translate('Module "%s" is marked as "%s" and cannot be activated'),
+                $t->translate('Module "%1$s" is marked as "%2$s" and cannot be activated'),
                 $module->getId(), $module->getState()
             ));
         }
@@ -199,7 +199,7 @@ class Manager implements ResourceInterface
         // Only an active module can be deactivated
         if (self::STATE_ACTIVE !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
-                $t->translate('Module "%s" is marked as "%s" and cannot be deactivated'),
+                $t->translate('Module "%1$s" is marked as "%2$s" and cannot be deactivated'),
                 $module->getId(), $module->getState()
             ));
         }
@@ -230,7 +230,7 @@ class Manager implements ResourceInterface
         // Only a not installed module can be installed
         if (self::STATE_NOT_INSTALLED !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
-                $this->getTranslator()->translate('Module "%s" is marked as "%s" and cannot be installed'),
+                $this->getTranslator()->translate('Module "%1$s" is marked as "%2$s" and cannot be installed'),
                 $module->getId(), $module->getState()
             ));
         }
@@ -268,7 +268,7 @@ class Manager implements ResourceInterface
             self::STATE_NOT_ACTIVE,
         ])) {
             throw new Exception\ModuleStateInvalidException(sprintf(
-                $t->translate('Module "%s" is marked as "%s" and cannot be uninstalled'),
+                $t->translate('Module "%1$s" is marked as "%2$s" and cannot be uninstalled'),
                 $module->getId(), $module->getState()
             ));
         }
@@ -306,7 +306,7 @@ class Manager implements ResourceInterface
         // Only a module marked for upgrade can be upgraded
         if (self::STATE_NEEDS_UPGRADE !== $module->getState()) {
             throw new Exception\ModuleStateInvalidException(sprintf(
-                $t->translate('Module "%s" is marked as "%s" and cannot be upgraded'),
+                $t->translate('Module "%1$s" is marked as "%2$s" and cannot be upgraded'),
                 $module->getId(), $module->getState()
             ));
         }
@@ -407,7 +407,7 @@ class Manager implements ResourceInterface
         if (!$acl->userIsAllowed($this, $privilege)) {
             throw new AclException\PermissionDeniedException(sprintf(
                 $this->getTranslator()->translate(
-                    'Permission denied for the current user to %s the %s module.'
+                    'Permission denied for the current user to %1$s the %2$s module.'
                 ),
                 $privilege, $module->getId()
             ));

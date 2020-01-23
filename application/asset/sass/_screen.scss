@@ -3465,15 +3465,7 @@ body.sidebar-open #content {
     .has-item-sets #site-item-sets {
         display: table;
     }
-    
-    #user-selector.empty .users-available {
-        display: none;
-    }
-
-    #user-selector:not(.empty) .users-unavailable {
-        display: none;
-    }
-    
+        
     /* @end */
 
     /* @group ----- User Permissions ----- */
@@ -3507,6 +3499,14 @@ body.sidebar-open #content {
     #site-user-permissions .actions {
         justify-content: flex-end;
         padding: $spacing-small 0;
+    }
+
+    #user-selector.empty .users-available {
+        display: none;
+    }
+
+    #user-selector:not(.empty) .users-unavailable {
+        display: none;
     }
 
     /* @end */

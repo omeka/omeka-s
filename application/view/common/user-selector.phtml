@@ -3,6 +3,7 @@ $translate = $this->plugin('translate');
 ?>
 <div id="user-selector" class="selector sidebar<?php echo $alwaysOpen ? ' always-open' : ''; ?>">
     <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+    <div class="users-available">
     <h3>
         <?php if ($title): ?>
         <?php echo $title; ?>
@@ -12,7 +13,7 @@ $translate = $this->plugin('translate');
     </h3>
     <input type="text" class="selector-filter" placeholder="<?php echo $translate('Filter users'); ?>" aria-label="<?php echo $translate('Filter users'); ?>">
     <ul id="new-users">
-        <li class="total-count-heading"><?php echo sprintf($translate('All users (%s)'), count($users)); ?></li>
+        <li class="total-count-heading"><?php echo sprintf($translate('Users (%s)'), '<span class="selector-total-count">' . count($users) . '</span>'); ?></li>
             <ul class="selectable-list">
             <?php foreach ($usersByInitial as $initial => $users): ?>
                 <li class="selector-parent">
@@ -24,8 +25,8 @@ $translate = $this->plugin('translate');
                             data-child-search="<?php echo sprintf('%s %s', $this->escapeHtml($user->name()), $this->escapeHtml($user->email())); ?>"
                             data-user="<?php echo $this->escapeHtml(json_encode($user, true)); ?>"
                             data-user-id="<?php echo $user->id(); ?>">
-                            <span><?php echo $this->escapeHtml($user->name()); ?>
-                            <br><?php echo $this->escapeHtml($user->email()); ?></span>
+                            <span class="user-name"><?php echo $this->escapeHtml($user->name()); ?></span>
+                            <span class="user-email"><?php echo $this->escapeHtml($user->email()); ?></span>
                         </li>
                     <?php endforeach; ?>
                     </ul>
@@ -34,4 +35,8 @@ $translate = $this->plugin('translate');
             </ul>
         </li>
     </ul>
+    </div>
+    <div class="users-unavailable">
+        <p><?php echo sprintf('All users have been added to the site.'); ?></p>
+    </div>
 </div>

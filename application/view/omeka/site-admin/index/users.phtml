@@ -32,7 +32,7 @@ $roles = [
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="user-rows">
             <?php
             $index = 0;
             foreach($sitePermissions as $sitePermission):
@@ -40,7 +40,6 @@ $roles = [
             ?>
             <tr class="user value">
                 <td class="user-meta">
-                    <span class="restore-value"><?php echo $translate('User to be removed'); ?></span>
                     <span class="user-name"><?php echo $escape($user->name()); ?> (<?php echo $escape($user->email()); ?>)</span>
                     <input type="hidden" class="user-id" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $escape($user->id()); ?>">
                 </td>
@@ -57,10 +56,6 @@ $roles = [
                         <li><?php echo $this->hyperlink('', '#', [
                             'class' => 'o-icon-delete',
                             'title' => $delete,
-                        ]); ?></li>
-                        <li><?php echo $this->hyperlink('', '#', [
-                            'class' => 'o-icon-undo',
-                            'title' => $restore,
                         ]); ?></li>
                     </ul>
                 </td>
@@ -80,7 +75,6 @@ $roles = [
 $userRowTemplate = '
 <tr class="user value">
     <td class="user-meta">
-        <span class="restore-value">' . $translate('User to be removed') . '</span>
         <span class="user-name"></span>
         <input type="hidden" class="user-id" name="o:site_permission[__index__][o:user][o:id]">
     </td>
@@ -91,8 +85,7 @@ foreach ($roles as $key => $value) {
 $userRowTemplate .= '</select></td>
     <td>
         <ul class="actions">
-            <li>' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $delete]) . '</li>' .
-            '<li>' . $this->hyperlink('', '#', ['class' => 'o-icon-undo', 'title' => $restore]) . '</li>
+            <li>' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $delete]) . '</li>
         </ul>
     </td>
 </tr>

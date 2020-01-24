@@ -3437,7 +3437,8 @@ body.sidebar-open #content {
 
     /* @group ----- Resources ----- */
       
-    #item-set-selector .added {
+    #item-set-selector .added,
+    #user-selector .added {
       display: none;
     }
     
@@ -3447,13 +3448,8 @@ body.sidebar-open #content {
     }
     
     #site-item-sets .delete .sortable-handle:before,
-    #site-item-sets .delete .o-icon-delete,
-    #site-item-sets .o-icon-undo {
+    #site-item-sets .delete .o-icon-delete {
         display: none;
-    }
-    
-    #site-item-sets .delete .o-icon-undo {
-        display: inline-block;
     }
     
     #site-item-sets,
@@ -3464,7 +3460,7 @@ body.sidebar-open #content {
     .has-item-sets #site-item-sets {
         display: table;
     }
-    
+        
     /* @end */
 
     /* @group ----- User Permissions ----- */
@@ -3475,7 +3471,6 @@ body.sidebar-open #content {
     }
     #site-user-permissions + .no-resources,
     #site-user-permissions.empty,
-    tr.value:not(.delete) .o-icon-undo,
     tr.value.delete .user-name,
     tr.value.delete select,
     tr.value.delete .o-icon-delete {
@@ -3498,6 +3493,14 @@ body.sidebar-open #content {
     #site-user-permissions .actions {
         justify-content: flex-end;
         padding: $spacing-small 0;
+    }
+
+    #user-selector.empty .users-available {
+        display: none;
+    }
+
+    #user-selector:not(.empty) .users-unavailable {
+        display: none;
     }
 
     /* @end */

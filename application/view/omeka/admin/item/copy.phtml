@@ -1,0 +1,25 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'add items');
+?>
+
+<script type='text/javascript'>
+var valuesJson = <?php echo json_encode($item->values()); ?>;
+</script>
+
+<?php echo $this->pageTitle("Copied from " . $item->displayTitle(), 1, $translate('Items')); ?>
+<?php $this->trigger('view.add.before'); ?>
+<?php
+echo $this->partial('omeka/admin/item/form.phtml', [
+    'form' => $form,
+    'item' => $item,
+    'resource' => $resource,
+    'mediaForms' => $mediaForms,
+    'submitLabel' => $translate('Add'),
+    'sectionNavEvent' => 'view.add.section_nav',
+    'action' => 'add',
+]);
+?>
+
+<?php $this->trigger('view.add.after'); ?>

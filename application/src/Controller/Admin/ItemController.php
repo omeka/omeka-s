@@ -192,26 +192,61 @@ class ItemController extends AbstractActionController
 
     public function addAction()
     {
+        return $this->getAddEditView();
+    }
+
+    public function editAction()
+    {
+        return $this->getAddEditView();
+    }
+
+    public function copyAction()
+    {
+        return $this->getAddEditView();
+    }
+
+    /**
+     * Get the add/edit view.
+     *
+     * @return ViewModel
+     */
+    protected function getAddEditView()
+    {
+        $action = $this->params('action');
+
         $form = $this->getForm(ResourceForm::class);
         $form->setAttribute('action', $this->url()->fromRoute(null, [], true));
         $form->setAttribute('enctype', 'multipart/form-data');
-        $form->setAttribute('id', 'add-item');
+        $form->setAttribute('id', '$action-item');
+
+        if ('edit' === $action || 'copy' === $action) {
+            $item = $this->api()->read('items', $this->params('id'))->getContent();
+        }
+
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $data = $this->mergeValuesJson($data);
             $form->setData($data);
             if ($form->isValid()) {
                 $fileData = $this->getRequest()->getFiles()->toArray();
-                $response = $this->api($form)->create('items', $data, $fileData);
+                if ('edit' === $action) {
+                    $response = $this->api($form)->update('items', $this->params('id'), $data, $fileData);
+                } else {
+                    $response = $this->api($form)->create('items', $data, $fileData);
+                }
                 if ($response) {
-                    $message = new Message(
-                        'Item successfully created. %s', // @translate
-                        sprintf(
-                            '<a href="%s">%s</a>',
-                            htmlspecialchars($this->url()->fromRoute(null, [], true)),
-                            $this->translate('Add another item?')
-                        ));
-                    $message->setEscapeHtml(false);
+                    if ('edit' === $action) {
+                        $message = 'Item successfully updated'; // @translate
+                    } else {
+                        $message = new Message(
+                            'Item successfully created. %s', // @translate
+                            sprintf(
+                                '<a href="%s">%s</a>',
+                                htmlspecialchars($this->url()->fromRoute(null, [], true)),
+                                $this->translate('Add another item?')
+                            ));
+                        $message->setEscapeHtml(false);
+                    }
                     $this->messenger()->addSuccess($message);
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
@@ -222,38 +257,10 @@ class ItemController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
-        $view->setVariable('mediaForms', $this->getMediaForms());
-        return $view;
-    }
-
-    public function editAction()
-    {
-        $form = $this->getForm(ResourceForm::class);
-        $form->setAttribute('action', $this->url()->fromRoute(null, [], true));
-        $form->setAttribute('enctype', 'multipart/form-data');
-        $form->setAttribute('id', 'edit-item');
-        $item = $this->api()->read('items', $this->params('id'))->getContent();
-
-        if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
-            $data = $this->mergeValuesJson($data);
-            $form->setData($data);
-            if ($form->isValid()) {
-                $fileData = $this->getRequest()->getFiles()->toArray();
-                $response = $this->api($form)->update('items', $this->params('id'), $data, $fileData);
-                if ($response) {
-                    $this->messenger()->addSuccess('Item successfully updated'); // @translate
-                    return $this->redirect()->toUrl($response->getContent()->url());
-                }
-            } else {
-                $this->messenger()->addFormErrors($form);
-            }
+        if ('edit' === $action || 'copy' === $action) {
+            $view->setVariable('item', $item);
+            $view->setVariable('resource', $item);
         }
-
-        $view = new ViewModel;
-        $view->setVariable('form', $form);
-        $view->setVariable('item', $item);
-        $view->setVariable('resource', $item);
         $view->setVariable('mediaForms', $this->getMediaForms());
         return $view;
     }

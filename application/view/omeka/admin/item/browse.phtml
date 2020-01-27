@@ -106,6 +106,10 @@ $sortHeadings = [
                         'class' => 'o-icon-edit',
                         'title' => $translate('Edit'),
                     ]); ?></li>
+                    <li><?php echo $item->link('', 'copy', [
+                        'class' => 'o-icon-copy',
+                        'title' => $translate('Copy'),
+                    ]); ?></li>
                     <?php endif; ?>
                     <?php if ($item->userIsAllowed('delete')): ?>
                     <li><?php echo $this->hyperlink('', '#', [

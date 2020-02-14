@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Representation;
 
+use Omeka\DataType\Resource\AbstractResource;
 use Omeka\Entity\Value;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -12,7 +13,7 @@ class ValueRepresentation extends AbstractRepresentation
     protected $value;
 
     /**
-     * @var \Omeka\DataType\Manager
+     * @var \Omeka\DataType\DataTypeInterface
      */
     protected $dataType;
 
@@ -167,5 +168,20 @@ class ValueRepresentation extends AbstractRepresentation
     public function isPublic()
     {
         return $this->value->isPublic();
+    }
+
+    /**
+     * Return whether this value should be hidden when listing values for its
+     * parent resource.
+     *
+     * Currently the only "hidden" values are resource-type values that point
+     * to unretrievable resources (i.e., private resources the current user
+     * cannot see).
+     *
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return $this->dataType instanceof AbstractResource && null === $this->value->getValueResource();
     }
 }

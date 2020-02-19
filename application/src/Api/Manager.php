@@ -4,10 +4,10 @@ namespace Omeka\Api;
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Adapter\Manager as AdapterManager;
 use Omeka\Permissions\Acl;
-use Zend\Log\LoggerInterface;
-use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
-use Zend\EventManager\Event;
+use Laminas\Log\LoggerInterface;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\EventManager\Event;
 
 /**
  * API manager service.

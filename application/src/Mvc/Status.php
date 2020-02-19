@@ -3,7 +3,7 @@ namespace Omeka\Mvc;
 
 use Composer\Semver\Comparator;
 use Omeka\Module as OmekaModule;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class Status
 {
@@ -64,7 +64,7 @@ class Status
     /**
      * Get the route match.
      *
-     * @return Zend\Router\Http\RouteMatch
+     * @return Laminas\Router\Http\RouteMatch
      */
     public function getRouteMatch()
     {

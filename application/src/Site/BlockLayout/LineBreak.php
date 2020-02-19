@@ -1,11 +1,11 @@
 <?php
 namespace Omeka\Site\BlockLayout;
 
-use Zend\Form\Element\Select;
+use Laminas\Form\Element\Select;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\PhpRenderer;
 
 class LineBreak extends AbstractBlockLayout
 {

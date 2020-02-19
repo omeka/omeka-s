@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Test;
 
-use Zend\Mvc\Application;
+use Laminas\Mvc\Application;
 
 /**
  * Database test case.
@@ -52,12 +52,12 @@ class DbTestCase extends TestCase
             return self::$application;
         }
         $config = require OMEKA_PATH . '/application/config/application.config.php';
-        $reader = new \Zend\Config\Reader\Ini;
+        $reader = new \Laminas\Config\Reader\Ini;
         $testConfig = [
             'connection' => $reader->fromFile(OMEKA_PATH . '/application/test/config/database.ini'),
         ];
         $config = array_merge($config, $testConfig);
-        \Zend\Console\Console::overrideIsConsole(false);
+        \Laminas\Console\Console::overrideIsConsole(false);
         self::$application = Application::init($config);
         return self::$application;
     }
@@ -92,7 +92,7 @@ class DbTestCase extends TestCase
             // Without this, at some point during install the view helper Url
             // will throw an exception 'Request URI has not been set'
             $router = $serviceLocator->get('Router');
-            $router->setRequestUri(new \Zend\Uri\Http('http://example.com'));
+            $router->setRequestUri(new \Laminas\Uri\Http('http://example.com'));
 
             $installer = $serviceLocator->get('Omeka\Installer');
             $installer->registerVars(

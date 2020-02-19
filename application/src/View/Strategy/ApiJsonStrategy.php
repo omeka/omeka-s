@@ -8,8 +8,8 @@ use Omeka\Module;
 use Omeka\Mvc\Exception as MvcException;
 use Omeka\View\Model\ApiJsonModel;
 use Omeka\View\Renderer\ApiJsonRenderer;
-use Zend\View\Strategy\JsonStrategy;
-use Zend\View\ViewEvent;
+use Laminas\View\Strategy\JsonStrategy;
+use Laminas\View\ViewEvent;
 
 /**
  * View strategy for returning JSON from the API.

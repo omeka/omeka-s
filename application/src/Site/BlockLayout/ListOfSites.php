@@ -4,9 +4,9 @@ namespace Omeka\Site\BlockLayout;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Zend\Form\Element;
-use Zend\Form\Form;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\Form\Element;
+use Laminas\Form\Form;
+use Laminas\View\Renderer\PhpRenderer;
 
 class ListOfSites extends AbstractBlockLayout
 {

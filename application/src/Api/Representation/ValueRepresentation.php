@@ -3,7 +3,7 @@ namespace Omeka\Api\Representation;
 
 use Omeka\DataType\Resource\AbstractResource;
 use Omeka\Entity\Value;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class ValueRepresentation extends AbstractRepresentation
 {

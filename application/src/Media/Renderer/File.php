@@ -3,8 +3,8 @@ namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\FileRenderer\Manager as FileRendererManager;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\View\Renderer\PhpRenderer;
 
 class File implements RendererInterface
 {

@@ -5,13 +5,13 @@ namespace Omeka\Mvc;
 use Omeka\Api\Exception as ApiException;
 use Omeka\Mvc\Exception as MvcException;
 use Omeka\Permissions\Exception as AclException;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Http\Response;
-use Zend\Mvc\Application as ZendApplication;
-use Zend\Mvc\MvcEvent;
-use Zend\Stdlib\ResponseInterface;
-use Zend\View\Model\ViewModel;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Http\Response;
+use Laminas\Mvc\Application as ZendApplication;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Stdlib\ResponseInterface;
+use Laminas\View\Model\ViewModel;
 
 /**
  * MVC listener for handling specific exception types with "pretty" pages.

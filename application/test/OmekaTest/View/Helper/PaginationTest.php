@@ -18,7 +18,7 @@ class PaginationTest extends TestCase
         $query = ['foo' => 'bar'];
 
         // Request
-        $request = $this->getMockBuilder('Zend\Http\PhpEnvironment\Request')
+        $request = $this->getMockBuilder('Laminas\Http\PhpEnvironment\Request')
             ->setMethods(['getQuery', 'toArray'])
             ->getMock();
         $request->expects($this->any())
@@ -59,7 +59,7 @@ class PaginationTest extends TestCase
             ->will($this->returnValue($nextPage));
 
         // View
-        $view = $this->getMockBuilder('Zend\View\Renderer\PhpRenderer')
+        $view = $this->getMockBuilder('Laminas\View\Renderer\PhpRenderer')
             ->setMethods(['partial', 'url', 'params'])
             ->getMock();
         $view->expects($this->any())

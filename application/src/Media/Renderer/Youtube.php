@@ -2,8 +2,8 @@
 namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Representation\MediaRepresentation;
-use Zend\Uri\Http as HttpUri;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\Uri\Http as HttpUri;
+use Laminas\View\Renderer\PhpRenderer;
 
 class Youtube implements RendererInterface
 {

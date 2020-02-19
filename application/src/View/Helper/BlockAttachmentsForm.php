@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for rendering a form for adding/editing block attachments.

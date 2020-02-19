@@ -3,9 +3,9 @@ namespace Omeka\Form;
 
 use Omeka\Form\Element\PropertySelect;
 use Omeka\Settings\SiteSettings;
-use Zend\Form\Form;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\EventManager\Event;
+use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\EventManager\Event;
 
 class SiteSettingsForm extends Form
 {

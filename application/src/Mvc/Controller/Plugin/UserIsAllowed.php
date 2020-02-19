@@ -2,7 +2,7 @@
 namespace Omeka\Mvc\Controller\Plugin;
 
 use Omeka\Permissions\Acl;
-use Zend\Mvc\Controller\Plugin\AbstractPlugin;
+use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
  * Controller plugin for authorize the current user.
@@ -27,7 +27,7 @@ class UserIsAllowed extends AbstractPlugin
     /**
      * Authorize the current user.
      *
-     * @param \Zend\Permissions\Acl\Resource\ResourceInterface|string $resource
+     * @param \Laminas\Permissions\Acl\Resource\ResourceInterface|string $resource
      * @param string $privilege
      * @return bool
      */

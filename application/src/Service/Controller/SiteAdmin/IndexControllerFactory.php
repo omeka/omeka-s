@@ -3,7 +3,7 @@ namespace Omeka\Service\Controller\SiteAdmin;
 
 use Interop\Container\ContainerInterface;
 use Omeka\Controller\SiteAdmin\IndexController;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class IndexControllerFactory implements FactoryInterface
 {

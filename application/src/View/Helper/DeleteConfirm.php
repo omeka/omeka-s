@@ -2,8 +2,8 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Form\ConfirmForm;
-use Zend\View\Helper\AbstractHelper;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\Helper\AbstractHelper;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * View helper for rendering the delete confirm partial.

@@ -2,8 +2,8 @@
 namespace Omeka\File;
 
 use Omeka\Stdlib\ErrorStore;
-use Zend\Log\Logger;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Log\Logger;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Omeka\Stdlib\Message;
 
 /**
@@ -44,7 +44,7 @@ class Downloader
      * Pass the $errorStore object if an error should raise an API validation
      * error.
      *
-     * @param string|\Zend\Uri\Http $uri
+     * @param string|\Laminas\Uri\Http $uri
      * @param null|ErrorStore $errorStore
      * @return TempFile|false False on error
      */

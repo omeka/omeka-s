@@ -5,9 +5,9 @@ use DateTimeZone;
 use Omeka\Form\Element\SiteSelect;
 use Omeka\Form\Element\RestoreTextarea;
 use Omeka\Settings\Settings;
-use Zend\Form\Form;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\EventManager\Event;
+use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\EventManager\Event;
 
 class SettingForm extends Form
 {

@@ -2,7 +2,7 @@
 namespace Omeka\Service\Form\Element;
 
 use Omeka\Form\Element\ResourceClassSelect;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class ResourceClassSelectFactory implements FactoryInterface

@@ -22,7 +22,7 @@ class Paginator
     const TOTAL_COUNT = 0;
 
     /**
-     * @var \Zend\ServiceManager\ServiceLocatorInterface
+     * @var \Laminas\ServiceManager\ServiceLocatorInterface
      */
     protected $services;
 

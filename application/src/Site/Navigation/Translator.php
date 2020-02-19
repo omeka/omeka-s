@@ -4,8 +4,8 @@ namespace Omeka\Site\Navigation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\Navigation\Link\LinkInterface;
 use Omeka\Site\Navigation\Link\Manager as LinkManager;
-use Zend\Mvc\I18n\Translator as I18n;
-use Zend\View\Helper\Url;
+use Laminas\Mvc\I18n\Translator as I18n;
+use Laminas\View\Helper\Url;
 
 class Translator
 {

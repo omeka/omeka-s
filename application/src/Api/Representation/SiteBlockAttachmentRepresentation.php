@@ -2,7 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Entity\SiteBlockAttachment;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class SiteBlockAttachmentRepresentation extends AbstractRepresentation
 {

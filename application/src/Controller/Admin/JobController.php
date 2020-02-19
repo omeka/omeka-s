@@ -3,8 +3,8 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Entity\Job;
 use Omeka\Form\ConfirmForm;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 class JobController extends AbstractActionController
 {

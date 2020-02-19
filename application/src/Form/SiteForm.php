@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\Form\Form;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\EventManager\Event;
+use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\EventManager\Event;
 
 class SiteForm extends Form
 {

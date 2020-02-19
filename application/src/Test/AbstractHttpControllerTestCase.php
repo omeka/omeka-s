@@ -2,7 +2,7 @@
 
 namespace Omeka\Test;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
+use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
 
 abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpControllerTestCase
 {
@@ -13,13 +13,13 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
             return $this->application;
         }
         $config = require OMEKA_PATH . '/application/config/application.config.php';
-        $reader = new \Zend\Config\Reader\Ini;
+        $reader = new \Laminas\Config\Reader\Ini;
         $testConfig = [
             'connection' => $reader->fromFile(OMEKA_PATH . '/application/test/config/database.ini'),
         ];
         $config = array_merge($config, $testConfig);
 
-        \Zend\Console\Console::overrideIsConsole($this->getUseConsoleRequest());
+        \Laminas\Console\Console::overrideIsConsole($this->getUseConsoleRequest());
         $this->application = \Omeka\Mvc\Application::init($config);
 
         $events = $this->application->getEventManager();

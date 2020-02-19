@@ -2,7 +2,7 @@
 namespace Omeka\Mvc\Controller\Plugin;
 
 use Omeka\Stdlib\Mailer as MailerService;
-use Zend\Mvc\Controller\Plugin\AbstractPlugin;
+use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
  * Controller plugin for getting the mailer service.

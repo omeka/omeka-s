@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\Log\LoggerInterface;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\Log\LoggerInterface;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for getting the Zend logger.

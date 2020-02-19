@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
-use Zend\Form\Fieldset;
-use Zend\Mvc\Controller\Plugin\AbstractPlugin;
-use Zend\Session\Container;
+use Laminas\Form\Fieldset;
+use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
+use Laminas\Session\Container;
 
 /**
  * Controller plugin for implementing session-based messages.

@@ -1,11 +1,11 @@
 <?php
 namespace Omeka\Service;
 
-use Zend\Log\Logger;
-use Zend\Log\Writer\Noop;
-use Zend\Log\Writer\Stream;
-use Zend\Log\Filter\Priority;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\Log\Logger;
+use Laminas\Log\Writer\Noop;
+use Laminas\Log\Writer\Stream;
+use Laminas\Log\Filter\Priority;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 /**

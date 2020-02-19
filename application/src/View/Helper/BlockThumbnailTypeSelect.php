@@ -2,8 +2,8 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Zend\Form\Element\Select;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\Form\Element\Select;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for rendering a thumbnail type select element.

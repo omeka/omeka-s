@@ -2,7 +2,7 @@
 namespace Omeka\Service\Job\DispatchStrategy;
 
 use Omeka\Job\DispatchStrategy\Synchronous;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class SynchronousFactory implements FactoryInterface

@@ -2,8 +2,8 @@
 namespace Omeka\Form\View\Helper;
 
 use Omeka\Api\Representation\AssetRepresentation;
-use Zend\Form\View\Helper\AbstractHelper;
-use Zend\Form\ElementInterface;
+use Laminas\Form\View\Helper\AbstractHelper;
+use Laminas\Form\ElementInterface;
 
 class FormAsset extends AbstractHelper
 {

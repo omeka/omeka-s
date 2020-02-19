@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Stdlib\Paginator;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for rendering pagination.
@@ -22,7 +22,7 @@ class Pagination extends AbstractHelper
     /**
      * Name of view script, or a view model
      *
-     * @var string|\Zend\View\Model\ModelInterface
+     * @var string|\Laminas\View\Model\ModelInterface
      */
     protected $partialName;
 

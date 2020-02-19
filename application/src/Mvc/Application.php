@@ -2,9 +2,9 @@
 namespace Omeka\Mvc;
 
 use Omeka\Module\Manager as ModuleManager;
-use Zend\Mvc\Application as ZendApplication;
-use Zend\Mvc\Service;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\Mvc\Application as ZendApplication;
+use Laminas\Mvc\Service;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Application class for invoking the Omeka application.

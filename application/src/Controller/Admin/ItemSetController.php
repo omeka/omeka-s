@@ -19,23 +19,52 @@ class ItemSetController extends AbstractActionController
 
     public function addAction()
     {
+        return $this->getAddEditView();
+    }
+
+    public function editAction()
+    {
+        return $this->getAddEditView();
+    }
+
+    /**
+     * Get the add/edit view.
+     *
+     * @return ViewModel
+     */
+    protected function getAddEditView()
+    {
+        $action = $this->params('action');
+
         $form = $this->getForm(ResourceForm::class);
-        $form->setAttribute('id', 'add-item-set');
+        $form->setAttribute('id', '$action-item-set');
+        if ('edit' === $action) {
+            $response = $this->api()->read('item_sets', $this->params('id'));
+            $itemSet = $response->getContent();
+        }
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $data = $this->mergeValuesJson($data);
             $form->setData($data);
             if ($form->isValid()) {
-                $response = $this->api($form)->create('item_sets', $data);
+                if ('edit' === $action) {
+                    $response = $this->api($form)->update('item_sets', $this->params('id'), $data);
+                } else {
+                    $response = $this->api($form)->create('item_sets', $data);
+                }
                 if ($response) {
-                    $message = new Message(
-                        'Item set successfully created. %s', // @translate
-                        sprintf(
-                            '<a href="%s">%s</a>',
-                            htmlspecialchars($this->url()->fromRoute(null, [], true)),
-                            $this->translate('Add another item set?')
-                        ));
-                    $message->setEscapeHtml(false);
+                    if ('edit' === $action) {
+                        $message = 'Item set successfully updated'; // @translate
+                    } else {
+                        $message = new Message(
+                            'Item set successfully created. %s', // @translate
+                            sprintf(
+                                '<a href="%s">%s</a>',
+                                htmlspecialchars($this->url()->fromRoute(null, [], true)),
+                                $this->translate('Add another item set?')
+                            ));
+                        $message->setEscapeHtml(false);
+                    }
                     $this->messenger()->addSuccess($message);
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
@@ -43,35 +72,10 @@ class ItemSetController extends AbstractActionController
                 $this->messenger()->addFormErrors($form);
             }
         }
-
         $view = new ViewModel;
         $view->setVariable('form', $form);
-        return $view;
-    }
-
-    public function editAction()
-    {
-        $form = $this->getForm(ResourceForm::class);
-        $form->setAttribute('id', 'edit-item-set');
-        $response = $this->api()->read('item_sets', $this->params('id'));
-        $itemSet = $response->getContent();
-
-        $view = new ViewModel;
-        $view->setVariable('form', $form);
-        $view->setVariable('itemSet', $itemSet);
-        if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
-            $data = $this->mergeValuesJson($data);
-            $form->setData($data);
-            if ($form->isValid()) {
-                $response = $this->api($form)->update('item_sets', $this->params('id'), $data);
-                if ($response) {
-                    $this->messenger()->addSuccess('Item set successfully updated'); // @translate
-                    return $this->redirect()->toUrl($response->getContent()->url());
-                }
-            } else {
-                $this->messenger()->addFormErrors($form);
-            }
+        if ('edit' === $action) {
+            $view->setVariable('itemSet', $itemSet);
         }
         return $view;
     }

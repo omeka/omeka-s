@@ -1,8 +1,7 @@
 <?php
 namespace Omeka\Job;
 
-use Omeka\Api\Adapter\FulltextSearchableInterface;
-use Omeka\Job\Exception;
+use Omeka\Job\Exception\InvalidArgumentException;
 
 class UpdateSiteItems extends AbstractJob
 {
@@ -14,7 +13,7 @@ class UpdateSiteItems extends AbstractJob
         $siteIds = $this->getArg('site_ids');
         $replace = $this->getArg('replace', false);
         if (!is_array($siteIds)) {
-            throw new Exception\InvalidArgumentException('No site_ids array passed to the UpdateSiteItems job');
+            throw new InvalidArgumentException('No site_ids array passed to the UpdateSiteItems job');
         }
 
         // Grant "view-all" privileges to include private items. We need this
@@ -46,7 +45,7 @@ class UpdateSiteItems extends AbstractJob
 
         $itemPool = $conn->fetchColumn('SELECT item_pool FROM site WHERE id = ?', [$siteId], 0);
         if (false === $itemPool) {
-            throw new Exception\InvalidArgumentException(sprintf('Invalid site ID "%s" passed to the UpdateSiteItems job', $siteId));
+            throw new InvalidArgumentException(sprintf('Invalid site ID "%s" passed to the UpdateSiteItems job', $siteId));
         }
         $itemIds = $api->search('items', json_decode($itemPool, true), ['returnScalar' => 'id'])->getContent();
 

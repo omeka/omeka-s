@@ -3,11 +3,27 @@ namespace Omeka\Job;
 
 use Omeka\Job\Exception\InvalidArgumentException;
 
+/**
+ * Update site-item associations for one or more site.
+ *
+ * The job requires an array of site IDs set to the "site_ids" argument. The job
+ * also accepts an optional "replace" argument, which tells the process whether
+ * to use the replace strategy (the default is false).
+ *
+ * There are two strategies for updating: add and replace.
+ *
+ * The default "add" strategy simply adds items that exist in the configured
+ * item pool but don't already exist as associations. "Add" is the default
+ * strategy because it is non-destructive, i.e. it doesn't delete existing
+ * assiciations.
+ *
+ * The "replace" strategy deletes all existing associations and syncs the
+ * associations with the configured item pool. Because this strategy is
+ * destructive, you must expressly set the "replace" argument to true.
+ *
+ */
 class UpdateSiteItems extends AbstractJob
 {
-    /**
-     * Update site-item associations for one or more site.
-     */
     public function perform()
     {
         $siteIds = $this->getArg('site_ids');
@@ -28,12 +44,6 @@ class UpdateSiteItems extends AbstractJob
     /**
      * Update site-item associations for one site.
      *
-     * There are two strategies for updating site/items: add and replace. The
-     * "add" strategy simply adds associations that don't already exist in the
-     * item pool (it is default because it is non-destructive). The "replace"
-     * strategy deletes all existing associations and syncs the associations
-     * with the configured item pool. To replace, set $replace to true.
-     *
      * @param int $siteId
      * @param bool $replace
      */
@@ -53,7 +63,7 @@ class UpdateSiteItems extends AbstractJob
             $conn->delete('item_site', ['site_id' => $siteId]);
         }
 
-        // Chunk to avoid query/buffer/packet size limits.
+        // Chunk item IDs to avoid query/buffer/packet size limits.
         foreach (array_chunk($itemIds, 1000) as $itemIdsChunk) {
             $values = [];
             $bindValues = [];
@@ -62,6 +72,7 @@ class UpdateSiteItems extends AbstractJob
                 $bindValues[] = $itemId;
                 $bindValues[] = $siteId;
             }
+            // Note the use of IGNORE here to prevent duplicate-key errors.
             $sql = sprintf('INSERT IGNORE INTO item_site (item_id, site_id) VALUES %s', implode(',', $values));
             $stmt = $conn->prepare($sql);
             foreach ($bindValues as $position => $value) {

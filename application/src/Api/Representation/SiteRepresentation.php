@@ -56,6 +56,15 @@ class SiteRepresentation extends AbstractEntityRepresentation
                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             ];
         }
+        $url = $this->getViewHelper('Url');
+        $itemsUrl = $url(
+            'api/default',
+            ['resource' => 'items'],
+            [
+                'force_canonical' => true,
+                'query' => ['site_id' => $this->id()],
+            ]
+        );
 
         return [
             'o:slug' => $this->slug(),
@@ -72,6 +81,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:page' => $pages,
             'o:site_permission' => $this->sitePermissions(),
             'o:site_item_set' => $this->siteItemSets(),
+            'o:site_item' => ['@id' => $itemsUrl],
         ];
     }
 
@@ -199,6 +209,21 @@ class SiteRepresentation extends AbstractEntityRepresentation
             $itemSets[] = new SiteItemSetRepresentation($itemSet, $this->getServiceLocator());
         }
         return $itemSets;
+    }
+
+    /**
+     * Get this site's item count.
+     *
+     * @return int
+     */
+    public function itemCount()
+    {
+        $response = $this->getServiceLocator()->get('Omeka\ApiManager')
+            ->search('items', [
+                'site_id' => $this->id(),
+                'limit' => 0,
+            ]);
+        return $response->getTotalResults();
     }
 
     /**

@@ -34,6 +34,9 @@ class SiteItems implements ConstructedMigrationInterface
         while ($row = $stmt->fetch()) {
             $siteIds[] = $row['id'];
         }
-        $this->dispatcher->dispatch('Omeka\Job\UpdateSiteItems', ['site_ids' => $siteIds]);
+        $this->dispatcher->dispatch('Omeka\Job\UpdateSiteItems', [
+            'site_ids' => $siteIds,
+            'action' => 'add',
+        ]);
     }
 }

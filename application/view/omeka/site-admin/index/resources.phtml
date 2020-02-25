@@ -19,12 +19,12 @@ $rowTemplate = '
 
 <?php echo $this->pageTitle($translate('Resources'), 1, $translate('Sites')); ?>
 <?php echo $this->sectionNav([
-    'item-pool-section' => $translate('Item pool'),
+    'item-pool-section' => $translate('Items'),
     'item-sets-section' => $translate('Item sets'),
 ]); ?>
 
 <?php echo $this->form()->openTag($form); ?>
-<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->formElement($form->get('siteresourcesform_csrf')); ?>
 
 <div id="page-actions">
     <?php echo $this->cancelButton(); ?>
@@ -33,7 +33,7 @@ $rowTemplate = '
 
 <div id="item-pool-section" class="active section">
     <p><?php echo sprintf(
-        $translate('There are currently %s items in this site’s pool.'),
+        $translate('There are currently %s items assigned to this site.'),
         $this->hyperlink(
             $itemCount,
             $this->url(
@@ -44,6 +44,9 @@ $rowTemplate = '
             ['target' => '_blank']
         )
     ); ?></p>
+    <?php echo $this->formRow($form->get('item_assignment_action')); ?>
+    <?php echo $this->formRow($form->get('save_search')); ?>
+    <h3><?php echo $this->translate('Search'); ?></h3>
     <div id="advanced-search"><?php echo $this->partial(
         'common/advanced-search',
         ['query' => $site->itemPool(), 'resourceType' => 'item', 'isPool' => true]

@@ -54,7 +54,6 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         }
 
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
-
             $siteAlias = $this->createAlias();
             $qb->innerJoin(
                 'omeka_root.sites', $siteAlias, 'WITH', $qb->expr()->eq(

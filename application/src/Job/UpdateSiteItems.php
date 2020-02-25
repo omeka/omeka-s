@@ -14,7 +14,6 @@ use Omeka\Job\Exception\InvalidArgumentException;
  * already assigned. The "replace" action deletes all existing assignments and
  * syncs the assignments with the configured item pool. The "remove_all" action
  * deletes all existing assignments.
- *
  */
 class UpdateSiteItems extends AbstractJob
 {

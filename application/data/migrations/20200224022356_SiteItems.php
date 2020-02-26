@@ -29,13 +29,13 @@ class SiteItems implements ConstructedMigrationInterface
         $conn->exec('ALTER TABLE item_site ADD CONSTRAINT FK_A1734D1F126F525E FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE;');
         $conn->exec('ALTER TABLE item_site ADD CONSTRAINT FK_A1734D1FF6BD1646 FOREIGN KEY (site_id) REFERENCES site (id) ON DELETE CASCADE;');
 
-        $siteIds = [];
-        $stmt = $conn->query('SELECT id FROM site');
+        $sites = [];
+        $stmt = $conn->query('SELECT id, item_pool FROM site');
         while ($row = $stmt->fetch()) {
-            $siteIds[] = $row['id'];
+            $sites[$row['id']] = json_decode($row['item_pool'], true);
         }
         $this->dispatcher->dispatch('Omeka\Job\UpdateSiteItems', [
-            'site_ids' => $siteIds,
+            'sites' => $sites,
             'action' => 'add',
         ]);
     }

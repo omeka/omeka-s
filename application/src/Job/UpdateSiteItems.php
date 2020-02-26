@@ -4,16 +4,17 @@ namespace Omeka\Job;
 use Omeka\Job\Exception\InvalidArgumentException;
 
 /**
- * Update site-item associations for one or more site.
+ * Update item assignments for one or more site.
  *
- * This job requires an array of site IDs set to the "site_ids" argument, and an
- * update action set to the "action" argument.
+ * The job accepts two arguments:
+ * - action: the update action
+ * - sites: an array of item queries keyed by their respective site IDs
  *
  * There are three update actions: add, replace, and remove_all. The "add"
- * action simply adds items that exist in the configured item pool but aren't
- * already assigned. The "replace" action deletes all existing assignments and
- * syncs the assignments with the configured item pool. The "remove_all" action
- * deletes all existing assignments.
+ * action assigns items that exist in the query's result set but aren't already
+ * assigned to the site. The "replace" action deletes all existing assignments
+ * and then assigns all items that are in the query's result set. The
+ * "remove_all" action deletes all existing assignments.
  */
 class UpdateSiteItems extends AbstractJob
 {
@@ -24,45 +25,57 @@ class UpdateSiteItems extends AbstractJob
 
     public function perform()
     {
-        $siteIds = $this->getArg('site_ids');
-        if (!is_array($siteIds)) {
-            throw new InvalidArgumentException('No "site_ids" array passed to the UpdateSiteItems job');
-        }
+        $services = $this->getServiceLocator();
+        $acl = $services->get('Omeka\Acl');
+        $conn = $services->get('Omeka\Connection');
 
         $action = $this->getArg('action');
+        $sites = $this->getArg('sites');
+
+        // Grant "view-all" privileges to include private items. We need this
+        // for situations when the Job has no owner, like during a migration.
+        $acl->allow(null, 'Omeka\Entity\Resource', 'view-all');
+
+        // Validate the user data.
         if (!is_string($action)) {
             throw new InvalidArgumentException('No "action" string passed to the UpdateSiteItems job');
         }
         if (!in_array($action, $this->actions)) {
             throw new InvalidArgumentException(sprintf('Invalid "action" string "%s" passed to the UpdateSiteItems job', $action));
         }
+        if (!is_array($sites)) {
+            throw new InvalidArgumentException('No "sites" array passed to the UpdateSiteItems job');
+        }
+        foreach ($sites as $siteId => $query) {
+            if (!is_array($query)) {
+                throw new InvalidArgumentException(sprintf('Invalid item query for site ID "%s" passed to the UpdateSiteItems job', $siteId));
+            }
+            $siteExists = $conn->fetchColumn('SELECT 1 FROM site WHERE id = ?', [$siteId], 0);
+            if (false === $siteExists) {
+                throw new InvalidArgumentException(sprintf('Invalid site ID "%s" passed to the UpdateSiteItems job', $siteId));
+            }
+        }
 
-        // Grant "view-all" privileges to include private items. We need this
-        // for situations when the Job has no owner, like during a migration.
-        $this->getServiceLocator()->get('Omeka\Acl')->allow(null, 'Omeka\Entity\Resource', 'view-all');
-
-        foreach ($siteIds as $siteId) {
-            $this->updateSiteItems($siteId, $action);
+        // Update the site-item assignments.
+        foreach ($sites as $siteId => $query) {
+            $this->updateSiteItems($siteId, $query, $action);
         }
     }
 
     /**
-     * Update site-item associations for one site.
+     * Update item assignments for one site.
      *
      * @param int $siteId
+     * @param array $query
      * @param string $action
      */
-    protected function updateSiteItems(int $siteId, string $action) : void
+    protected function updateSiteItems(int $siteId, array $query, string $action) : void
     {
         $services = $this->getServiceLocator();
-        $conn = $services->get('Omeka\Connection');
         $api = $services->get('Omeka\ApiManager');
+        $conn = $services->get('Omeka\Connection');
 
-        $itemPool = $conn->fetchColumn('SELECT item_pool FROM site WHERE id = ?', [$siteId], 0);
-        if (false === $itemPool) {
-            throw new InvalidArgumentException(sprintf('Invalid site ID "%s" passed to the UpdateSiteItems job', $siteId));
-        }
-        $itemIds = $api->search('items', json_decode($itemPool, true), ['returnScalar' => 'id'])->getContent();
+        $itemIds = $api->search('items', $query, ['returnScalar' => 'id'])->getContent();
 
         if (in_array($action, ['replace', 'remove_all'])) {
             $conn->delete('item_site', ['site_id' => $siteId]);

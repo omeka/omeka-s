@@ -255,7 +255,7 @@ class IndexController extends AbstractActionController
                 $response = $this->api($form)->update('sites', $site->id(), $updateData, [], ['isPartial' => true]);
                 if ($formData['item_assignment_action']) {
                     $this->jobDispatcher()->dispatch('Omeka\Job\UpdateSiteItems', [
-                        'site_ids' => [$site->id()],
+                        'sites' => [$site->id() => $itemPool],
                         'action' => $formData['item_assignment_action'],
                     ]);
                 }

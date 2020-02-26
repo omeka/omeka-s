@@ -48,7 +48,8 @@ class UpdateSiteItems extends AbstractJob
         }
         foreach ($sites as $siteId => $query) {
             if (!is_array($query)) {
-                throw new InvalidArgumentException(sprintf('Invalid item query for site ID "%s" passed to the UpdateSiteItems job', $siteId));
+                // If the query is not an array, assume an all-inclusive query.
+                $sites[$siteId] = [];
             }
             $siteExists = $conn->fetchColumn('SELECT 1 FROM site WHERE id = ?', [$siteId], 0);
             if (false === $siteExists) {

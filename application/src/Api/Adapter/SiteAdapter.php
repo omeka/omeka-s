@@ -264,6 +264,21 @@ class SiteAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        if (isset($query['item_id']) && is_numeric($query['item_id'])) {
+            // Items can be explicitly assigned to sites via their many-to-many
+            // relationship, or implicitly included in sites via the hasAllItems
+            // flag.
+            $itemAlias = $this->createAlias();
+            $qb->leftJoin(
+                'omeka_root.items', $itemAlias, 'WITH',
+                $qb->expr()->eq("$itemAlias.id", $this->createNamedParameter($qb, $query['item_id']))
+            );
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->isNotNull("$itemAlias.id"),
+                $qb->expr()->eq('omeka_root.hasAllItems', true)
+            ));
+        }
+
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $this->createAlias();
             $qb->innerJoin(

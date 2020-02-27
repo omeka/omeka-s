@@ -27,6 +27,7 @@ class SiteResourcesForm extends Form
                 'value_options' => [
                     'add' => 'Add: keep existing items and assign items from the following search', // @translate
                     'replace' => 'Replace: unassign all items and assign items from the following search', // @translate
+                    'remove' => 'Remove: unassign items from the following search', // @translate
                     'remove_all' => 'Remove all: unassign all items', // @translate
                 ],
             ],

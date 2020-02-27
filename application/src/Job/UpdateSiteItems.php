@@ -1,27 +1,27 @@
 <?php
 namespace Omeka\Job;
 
+use Doctrine\DBAL\Connection;
 use Omeka\Job\Exception\InvalidArgumentException;
 
 /**
  * Update item assignments for one or more site.
  *
  * The job accepts two arguments:
- * - action: the update action
- * - sites: an array of item queries keyed by their respective site IDs
  *
- * There are three update actions: add, replace, and remove_all. The "add"
- * action assigns items that exist in the query's result set but aren't already
- * assigned to the site. The "replace" action deletes all existing assignments
- * and then assigns all items that are in the query's result set. The
- * "remove_all" action deletes all existing assignments.
+ * - sites: An array of item queries keyed by their respective site IDs
+ * - action: The update action
+ *   - add: Keep existing items and assign the result set
+ *   - replace: Unassign all items and assign the result set
+ *   - remove: Unassign all items in the result set
+ *   - remove_all: Unassign all items
  */
 class UpdateSiteItems extends AbstractJob
 {
     /**
      * @var Valid actions
      */
-    protected $actions = ['add', 'replace', 'remove_all'];
+    protected $actions = ['add', 'replace', 'remove', 'remove_all'];
 
     public function perform()
     {
@@ -66,6 +66,8 @@ class UpdateSiteItems extends AbstractJob
     /**
      * Update item assignments for one site.
      *
+     * Note that we chunk item IDs to avoid query/buffer/packet size limits.
+     *
      * @param int $siteId
      * @param array $query
      * @param string $action
@@ -83,12 +85,11 @@ class UpdateSiteItems extends AbstractJob
         }
 
         if (in_array($action, ['add', 'replace'])) {
-            // Chunk item IDs to avoid query/buffer/packet size limits.
             foreach (array_chunk($itemIds, 1000) as $itemIdsChunk) {
                 $values = [];
                 $bindValues = [];
                 foreach ($itemIdsChunk as $itemId) {
-                    $values[] = '(?, ?)';
+                    $values[] = '(?,?)';
                     $bindValues[] = $itemId;
                     $bindValues[] = $siteId;
                 }
@@ -98,6 +99,14 @@ class UpdateSiteItems extends AbstractJob
                 foreach ($bindValues as $position => $value) {
                     $stmt->bindValue($position + 1, $value);
                 }
+                $stmt->execute();
+            }
+        }
+
+        if (in_array($action, ['remove'])) {
+            foreach (array_chunk($itemIds, 1000) as $itemIdsChunk) {
+                $sql = sprintf('DELETE FROM item_site WHERE site_id = ? AND item_id IN (?)');
+                $stmt = $conn->executeQuery($sql, [$siteId, $itemIdsChunk], [null, Connection::PARAM_INT_ARRAY]);
                 $stmt->execute();
             }
         }

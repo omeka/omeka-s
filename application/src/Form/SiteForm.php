@@ -46,6 +46,19 @@ class SiteForm extends Form
                 'required' => false,
             ],
         ]);
+        if ('add' === $this->getOption('action')) {
+            $this->add([
+                'name' => 'o:has_all_items',
+                'type' => 'checkbox',
+                'options' => [
+                    'label' => 'Include all items', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'summary',
+                    'value' => true,
+                ],
+            ]);
+        }
 
         $event = new Event('form.add_elements', $this);
         $triggerResult = $this->getEventManager()->triggerEvent($event);

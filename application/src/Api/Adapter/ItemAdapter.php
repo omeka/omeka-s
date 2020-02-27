@@ -54,13 +54,18 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         }
 
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
-            $siteAlias = $this->createAlias();
-            $qb->innerJoin(
-                'omeka_root.sites', $siteAlias, 'WITH', $qb->expr()->eq(
-                    "$siteAlias.id",
-                    $this->createNamedParameter($qb, $query['site_id'])
-                )
-            );
+            $site = $this->getEntityManager()->find('Omeka\Entity\Site', $query['site_id']);
+            $hasAllItems = $site ? $site->getHasAllItems() : false;
+
+            if (false === $hasAllItems) {
+                $siteAlias = $this->createAlias();
+                $qb->innerJoin(
+                    'omeka_root.sites', $siteAlias, 'WITH', $qb->expr()->eq(
+                        "$siteAlias.id",
+                        $this->createNamedParameter($qb, $query['site_id'])
+                    )
+                );
+            }
 
             if (isset($query['site_attachments_only']) && $query['site_attachments_only']) {
                 $siteBlockAttachmentsAlias = $this->createAlias();

@@ -105,6 +105,10 @@ class SiteAdapter extends AbstractEntityAdapter
             $entity->setIsPublic($request->getValue('o:is_public', true));
         }
 
+        if ($this->shouldHydrate($request, 'o:has_all_items')) {
+            $entity->setHasAllItems($request->getValue('o:has_all_items'));
+        }
+
         if ($this->shouldHydrate($request, 'o:page')) {
             $pagesData = $request->getValue('o:page', []);
             $adapter = $this->getAdapter('site_pages');

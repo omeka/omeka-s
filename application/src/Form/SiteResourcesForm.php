@@ -8,10 +8,21 @@ class SiteResourcesForm extends Form
     public function init()
     {
         $this->add([
+            'name' => 'o:has_all_items',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Include all items', // @translate
+            ],
+            'attributes' => [
+                'id' => 'summary',
+                'value' => true,
+            ],
+        ]);
+        $this->add([
             'type' => 'select',
             'name' => 'item_assignment_action',
             'options' => [
-                'label' => 'Item assignment action',
+                'label' => 'Assignment action',
                 'empty_option' => '[No action]', // @translate
                 'value_options' => [
                     'add' => 'Add items from the following search', // @translate
@@ -20,21 +31,21 @@ class SiteResourcesForm extends Form
                 ],
             ],
         ]);
-
         $this->add([
             'type' => 'checkbox',
             'name' => 'save_search',
             'options' => [
-                'label' => 'Save this search?',
-            ],
-            'attributes' => [
-                'value' => true,
+                'label' => 'Save this search',
             ],
         ]);
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'item_assignment_action',
+            'allow_empty' => true,
+        ]);
+        $inputFilter->add([
+            'name' => 'save_search',
             'allow_empty' => true,
         ]);
     }

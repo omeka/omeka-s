@@ -52,7 +52,7 @@ class IndexController extends AbstractActionController
 
     public function addAction()
     {
-        $form = $this->getForm(SiteForm::class);
+        $form = $this->getForm(SiteForm::class, ['action' => 'add']);
         $themes = $this->themes->getThemes();
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
@@ -236,29 +236,39 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         $form = $this->getForm(SiteResourcesForm::class)->setAttribute('id', 'site-form');
+        $form->get('o:has_all_items')->setValue($site->hasAllItems());
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
-                $itemPool = $formData;
-                unset(
-                    $itemPool['siteresourcesform_csrf'],
-                    $itemPool['item_assignment_action'],
-                    $itemPool['save_search'],
-                    $itemPool['o:site_item_set']
-                );
                 $updateData = [
-                    'o:item_pool' => $formData['save_search'] ? $itemPool : $site->itemPool(),
+                    'o:has_all_items' => $formData['o:has_all_items'],
                     'o:site_item_set' => $formData['o:site_item_set'] ?? [],
                 ];
-                $response = $this->api($form)->update('sites', $site->id(), $updateData, [], ['isPartial' => true]);
-                if ($formData['item_assignment_action']) {
+                if ($formData['o:has_all_items']) {
                     $this->jobDispatcher()->dispatch('Omeka\Job\UpdateSiteItems', [
-                        'sites' => [$site->id() => $itemPool],
-                        'action' => $formData['item_assignment_action'],
+                        'sites' => [$site->id() => null],
+                        'action' => 'remove_all',
                     ]);
+                } else {
+                    $itemPool = $formData;
+                    unset(
+                        $itemPool['siteresourcesform_csrf'],
+                        $itemPool['item_assignment_action'],
+                        $itemPool['save_search'],
+                        $itemPool['o:site_item_set'],
+                        $itemPool['o:has_all_items']
+                    );
+                    $updateData['o:item_pool'] = $formData['save_search'] ? $itemPool : $site->itemPool();
+                    if ($formData['item_assignment_action']) {
+                        $this->jobDispatcher()->dispatch('Omeka\Job\UpdateSiteItems', [
+                            'sites' => [$site->id() => $itemPool],
+                            'action' => $formData['item_assignment_action'],
+                        ]);
+                    }
                 }
+                $response = $this->api($form)->update('sites', $site->id(), $updateData, [], ['isPartial' => true]);
                 if ($response) {
                     $this->messenger()->addSuccess('Site resources successfully updated'); // @translate
                     return $this->redirect()->refresh();

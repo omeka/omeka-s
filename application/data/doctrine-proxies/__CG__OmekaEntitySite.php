@@ -64,10 +64,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
+            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'hasAllItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
+        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'hasAllItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
     }
 
     /**
@@ -428,6 +428,28 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', []);
 
         return parent::isPublic();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setHasAllItems($hasAllItems)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHasAllItems', [$hasAllItems]);
+
+        return parent::setHasAllItems($hasAllItems);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getHasAllItems()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getHasAllItems', []);
+
+        return parent::getHasAllItems();
     }
 
     /**

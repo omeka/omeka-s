@@ -74,6 +74,11 @@ class Site extends AbstractEntity
     protected $isPublic = true;
 
     /**
+     * @Column(type="boolean", options={"default":false})
+     */
+    protected $hasAllItems = false;
+
+    /**
      * @OneToMany(
      *     targetEntity="SitePage",
      *     mappedBy="site",
@@ -233,6 +238,16 @@ class Site extends AbstractEntity
     public function isPublic()
     {
         return (bool) $this->isPublic;
+    }
+
+    public function setHasAllItems($hasAllItems)
+    {
+        $this->hasAllItems = (bool) $hasAllItems;
+    }
+
+    public function getHasAllItems()
+    {
+        return $this->hasAllItems;
     }
 
     public function getPages()

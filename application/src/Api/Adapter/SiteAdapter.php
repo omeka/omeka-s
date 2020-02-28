@@ -8,6 +8,7 @@ use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\SitePermission;
 use Omeka\Entity\SiteItemSet;
+use Omeka\Permissions\Acl;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Message;
 
@@ -264,6 +265,8 @@ class SiteAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        $services = $this->getServiceLocator();
+
         if (isset($query['item_id']) && is_numeric($query['item_id'])) {
             // Items can be explicitly assigned to sites via their many-to-many
             // relationship, or implicitly included in sites via the hasAllItems
@@ -277,6 +280,25 @@ class SiteAdapter extends AbstractEntityAdapter
                 $qb->expr()->isNotNull("$itemAlias.id"),
                 $qb->expr()->eq('omeka_root.hasAllItems', true)
             ));
+        }
+
+        if (isset($query['can_assign_items'])) {
+            $user = $services->get('Omeka\AuthenticationService')->getIdentity();
+            if ($user) {
+                // Global and site administrators, as well as users with site
+                // admin or editor permissions, can assign items to a site.
+                if (!in_array($user->getRole(), [Acl::ROLE_GLOBAL_ADMIN, Acl::ROLE_SITE_ADMIN])) {
+                    $alias = $this->createAlias();
+                    $qb->leftJoin('omeka_root.sitePermissions', $alias);
+                    $qb->andWhere($qb->expr()->eq("$alias.user", $user->getId()));
+                    $qb->andWhere($qb->expr()->in("$alias.role", [SitePermission::ROLE_ADMIN, SitePermission::ROLE_EDITOR]));
+                }
+            } else {
+                // Unauthenticated users cannot assign items.
+                $qb->andWhere($qb->expr()->isNull('omeka_root.id'));
+            }
+            // Users cannot assign items to sites where hasAllItems=true.
+            $qb->andWhere($qb->expr()->eq('omeka_root.hasAllItems', 0));
         }
 
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {

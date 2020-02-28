@@ -1,0 +1,61 @@
+<?php
+$this->headScript()->appendFile($this->assetUrl('js/item-manage-sites.js', 'Omeka'));
+$sites = $item ? $item->sites() : null;
+?>
+<table id="item-sites" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && $sites) ? '' : 'empty'; ?>">
+    <thead>
+    <tr>
+        <th><?php echo $this->translate('Title'); ?></th>
+        <th><?php echo $this->translate('Owner'); ?></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php if ($item && $sites): ?>
+    <?php foreach ($sites as $site): ?>
+    <?php
+    if ($owner = $site->owner()) {
+        $ownerText = $this->escapeHtml($site->owner()->name());
+    } else {
+        $ownerText = $this->translate('[no owner]');
+    }
+    ?>
+    <tr>
+        <td><?php echo $this->escapeHtml($site->title()); ?></td>
+        <td><?php echo $ownerText; ?></td>
+        <td>
+            <?php if ($site->userIsAllowed('can-assign-items')): ?>
+            <ul class="actions">
+                <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $this->translate('Unassign from site')]); ?></li>
+            </ul>
+            <input type="hidden" name="o:site[]" value="<?php echo $this->escapeHtml($site->id()) ?>">
+            <?php endif; ?>
+        </td>
+    </tr>
+    <?php endforeach; ?>
+    <?php endif; ?>
+    </tbody>
+</table>
+
+<div class="no-resources">
+    <p><?php echo $this->translate('foobar'); ?></p>
+</div>
+
+<button id="site-selector-button" class="mobile-only"><?php echo $this->translate('Assign to site'); ?></button>
+
+<?php
+$siteTemplate = '
+<tr>
+    <td class="site-title"></td>
+    <td class="owner-email">__owner-email__</td>
+    <td>
+        <ul class="actions">
+            <li>' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $this->translate('Unassign from site')]) . '</li>
+        </ul>
+        <input type="hidden" name="o:site[]">
+    </td>
+</tr>';
+?>
+<span id="site-template" data-template="<?php echo $this->escapeHtml($siteTemplate); ?>"></span>
+
+<?php echo $this->siteSelector(); ?>

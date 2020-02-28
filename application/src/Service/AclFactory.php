@@ -6,6 +6,7 @@ use Omeka\Permissions\Acl;
 use Omeka\Permissions\Assertion\AssertionNegation;
 use Omeka\Permissions\Assertion\HasSitePermissionAssertion;
 use Omeka\Permissions\Assertion\SiteIsPublicAssertion;
+use Omeka\Permissions\Assertion\SiteHasAllItems;
 use Omeka\Permissions\Assertion\IsSelfAssertion;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 use Omeka\Permissions\Assertion\UserIsAdminAssertion;
@@ -219,6 +220,21 @@ class AclFactory implements FactoryInterface
             ['Omeka\Entity\Site', 'Omeka\Entity\SitePage'],
             'read',
             $viewerAssertion
+        );
+
+        $canAssignItemsAssertion = $this->aggregate([
+            new AssertionNegation(new SiteHasAllItems),
+            $this->aggregate([
+                new OwnsEntityAssertion,
+                new HasSitePermissionAssertion('admin'),
+                new HasSitePermissionAssertion('editor'),
+            ], AssertionAggregate::MODE_AT_LEAST_ONE)
+        ], AssertionAggregate::MODE_ALL);
+        $acl->allow(
+            null,
+            'Omeka\Entity\Site',
+            'can-assign-items',
+            $canAssignItemsAssertion
         );
     }
 

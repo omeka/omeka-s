@@ -40,7 +40,7 @@ class IndexController extends AbstractActionController
 
         $siteSettings = $this->siteSettings();
 
-        $resourceNames = $siteSettings->get('search_resource_names', ['site_pages', 'items', 'item_sets', 'media']);
+        $resourceNames = $siteSettings->get('search_resource_names', ['site_pages', 'items']);
 
         // Skip the intermediate result page when only one resource type is set.
         if (count($resourceNames) === 1) {

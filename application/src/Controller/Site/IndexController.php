@@ -49,7 +49,6 @@ class IndexController extends AbstractActionController
                 'site_pages' => 'page',
                 'items' => 'item',
                 'item_sets' => 'item-set',
-                'media' => 'media',
             ];
             return $this->redirect()->toRoute(
                 $resourceName === 'site_pages' ? 'site/page-browse' : 'site/resource',

@@ -192,7 +192,6 @@ class SiteSettingsForm extends Form
             'site_pages' => 'Site pages', // @translate
             'items' => 'Items', // @translate
             'item_sets' => 'Item sets', // @translate
-            'media' => 'Media', // @translate
         ];
         $searchFieldset->add([
             'name' => 'search_resource_names',

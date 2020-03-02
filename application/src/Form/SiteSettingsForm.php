@@ -188,6 +188,26 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $searchFieldset = $this->get('search');
+        $resourceNames = [
+            'site_pages' => 'Site pages', // @translate
+            'items' => 'Items', // @translate
+            'item_sets' => 'Item sets', // @translate
+            'media' => 'Media', // @translate
+        ];
+        $searchFieldset->add([
+            'name' => 'search_resource_names',
+            'type' => \Zend\Form\Element\MultiCheckbox::class,
+            'options' => [
+                'label' => 'Search resources', // @translate
+                'info' => 'Customize which types of resources will be searchable in the main search field.', // @translate
+                'value_options' => $resourceNames,
+            ],
+            'attributes' => [
+                'id' => 'search_resource_names',
+                'value' => $settings->get('search_resource_names', array_keys($resourceNames)),
+                'required' => false,
+            ],
+        ]);
         $searchFieldset->add([
             'type' => 'Omeka\Form\Element\ResourceTemplateSelect',
             'name' => 'search_apply_templates',
@@ -243,6 +263,11 @@ class SiteSettingsForm extends Form
         ]);
         $inputFilter->get('browse')->add([
             'name' => 'browse_body_property_term',
+            'required' => false,
+            'allow_empty' => true,
+        ]);
+        $inputFilter->get('search')->add([
+            'name' => 'search_resource_names',
             'required' => false,
             'allow_empty' => true,
         ]);

@@ -204,7 +204,7 @@ class SiteSettingsForm extends Form
             ],
             'attributes' => [
                 'id' => 'search_resource_names',
-                'value' => $settings->get('search_resource_names', array_keys($resourceNames)),
+                'value' => $settings->get('search_resource_names', ['site_pages', 'items']),
                 'required' => false,
             ],
         ]);

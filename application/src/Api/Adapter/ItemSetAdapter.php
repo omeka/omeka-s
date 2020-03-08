@@ -38,6 +38,8 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        $this->siteItemSetsAlias = null;
+
         parent::buildQuery($qb, $query);
 
         // Select item sets to which the current user can assign an item.

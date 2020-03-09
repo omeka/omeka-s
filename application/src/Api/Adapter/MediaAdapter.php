@@ -48,7 +48,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             ));
         }
 
-        if (isset($query['media_type'])) {
+        if (!empty($query['media_type'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.mediaType',
                 $this->createNamedParameter($qb, $query['media_type'])

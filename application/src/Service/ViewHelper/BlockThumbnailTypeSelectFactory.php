@@ -2,7 +2,7 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\BlockThumbnailTypeSelect;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 /**

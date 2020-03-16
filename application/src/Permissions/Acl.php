@@ -2,8 +2,8 @@
 namespace Omeka\Permissions;
 
 use Omeka\Api\ResourceInterface;
-use Zend\Authentication\AuthenticationServiceInterface;
-use Zend\Permissions\Acl\Acl as ZendAcl;
+use Laminas\Authentication\AuthenticationServiceInterface;
+use Laminas\Permissions\Acl\Acl as ZendAcl;
 
 class Acl extends ZendAcl
 {

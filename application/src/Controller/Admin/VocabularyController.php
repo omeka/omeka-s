@@ -8,8 +8,8 @@ use Omeka\Form\VocabularyUpdateForm;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\RdfImporter;
 use Omeka\Stdlib\Message;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 class VocabularyController extends AbstractActionController
 {

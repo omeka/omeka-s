@@ -2,8 +2,8 @@
 namespace Omeka\Log\Writer;
 
 use Omeka\Entity\Job as JobEntity;
-use Zend\Log\Writer\AbstractWriter;
-use Zend\Log\Formatter\Simple as SimpleFormatter;
+use Laminas\Log\Writer\AbstractWriter;
+use Laminas\Log\Formatter\Simple as SimpleFormatter;
 
 class Job extends AbstractWriter
 {

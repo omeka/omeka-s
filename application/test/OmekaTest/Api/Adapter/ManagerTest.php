@@ -11,14 +11,14 @@ class ManagerTest extends TestCase
     public function setUp()
     {
         $serviceManager = $this->getServiceManager([
-            'EventManager' => $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface'),
+            'EventManager' => $this->getMockForAbstractClass('Laminas\EventManager\EventManagerInterface'),
         ]);
         $this->manager = new Manager($serviceManager);
     }
 
     public function testValidateRequiresAdapterInterface()
     {
-        $this->expectException('Zend\ServiceManager\Exception\InvalidServiceException');
+        $this->expectException('Laminas\ServiceManager\Exception\InvalidServiceException');
         $this->manager->validate(new \stdClass);
     }
 }

@@ -70,7 +70,7 @@ class ManagerTest extends TestCase
         $path = __DIR__ . '/_files/1_MockMigration.php';
         $class = 'OmekaTest\Db\Migration\BogusMigration';
 
-        $translator = $this->getMockForAbstractClass('Zend\I18n\Translator\TranslatorInterface');
+        $translator = $this->getMockForAbstractClass('Laminas\I18n\Translator\TranslatorInterface');
         $translator->expects($this->once())
             ->method('translate')
             ->will($this->returnArgument(0));
@@ -93,7 +93,7 @@ class ManagerTest extends TestCase
         $path = __DIR__ . '/_files/2_MockInvalidMigration.php';
         $class = 'OmekaTest\Db\Migration\MockInvalidMigration';
 
-        $translator = $this->getMockForAbstractClass('Zend\I18n\Translator\TranslatorInterface');
+        $translator = $this->getMockForAbstractClass('Laminas\I18n\Translator\TranslatorInterface');
         $translator->expects($this->once())
             ->method('translate')
             ->will($this->returnArgument(0));

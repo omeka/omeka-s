@@ -2,8 +2,8 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\SitePageRepresentation;
-use Zend\View\Exception;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Exception;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for rendering site page pagination.

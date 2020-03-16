@@ -2,8 +2,8 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Entity\ResourceTemplateProperty;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
 {

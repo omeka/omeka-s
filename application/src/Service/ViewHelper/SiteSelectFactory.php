@@ -2,7 +2,7 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\SiteSelect;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class SiteSelectFactory implements FactoryInterface

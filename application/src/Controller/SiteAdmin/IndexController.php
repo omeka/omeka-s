@@ -9,9 +9,9 @@ use Omeka\Mvc\Exception;
 use Omeka\Site\Navigation\Link\Manager as LinkManager;
 use Omeka\Site\Navigation\Translator;
 use Omeka\Site\Theme\Manager as ThemeManager;
-use Zend\Form\Form;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Form\Form;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
@@ -372,8 +372,8 @@ class IndexController extends AbstractActionController
         // Fix to manage empty values for selects and multicheckboxes.
         $inputFilter = $form->getInputFilter();
         foreach ($form->getElements() as $element) {
-            if ($element instanceof \Zend\Form\Element\MultiCheckbox
-                || ($element instanceof \Zend\Form\Element\Select
+            if ($element instanceof \Laminas\Form\Element\MultiCheckbox
+                || ($element instanceof \Laminas\Form\Element\Select
                     && $element->getOption('empty_option') !== null)
             ) {
                 $inputFilter->add([

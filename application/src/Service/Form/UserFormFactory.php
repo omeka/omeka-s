@@ -2,7 +2,7 @@
 namespace Omeka\Service\Form;
 
 use Omeka\Form\UserForm;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class UserFormFactory implements FactoryInterface

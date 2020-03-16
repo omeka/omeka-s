@@ -10,7 +10,7 @@ use Omeka\Api\Response;
 use Omeka\Entity\User;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
-use Zend\EventManager\Event;
+use Laminas\EventManager\Event;
 
 /**
  * Abstract entity API adapter.

@@ -4,9 +4,9 @@ namespace Omeka\Module;
 use Doctrine\ORM\EntityManager;
 use Omeka\Entity\Module as ModuleEntity;
 use Omeka\Permissions\Exception as AclException;
-use Zend\I18n\Translator\TranslatorInterface;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\Permissions\Acl\Resource\ResourceInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class Manager implements ResourceInterface
 {

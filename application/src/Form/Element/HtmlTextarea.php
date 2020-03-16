@@ -2,8 +2,8 @@
 namespace Omeka\Form\Element;
 
 use Omeka\Stdlib\HtmlPurifier;
-use Zend\Form\Element\Textarea;
-use Zend\InputFilter\InputProviderInterface;
+use Laminas\Form\Element\Textarea;
+use Laminas\InputFilter\InputProviderInterface;
 
 /**
  * Textarea element for HTML.

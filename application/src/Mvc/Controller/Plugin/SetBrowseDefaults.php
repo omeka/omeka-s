@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
-use Zend\Mvc\Controller\Plugin\AbstractPlugin;
+use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
  * Controller plugin for setting browse default parameters.
@@ -14,7 +14,7 @@ class SetBrowseDefaults extends AbstractPlugin
      * @param string $sortBy
      * @param string $sortOrder
      * @param int $page
-     * @return \Zend\Stdlib\Parameters
+     * @return \Laminas\Stdlib\Parameters
      */
     public function __invoke($sortBy, $sortOrder = 'desc', $page = 1)
     {

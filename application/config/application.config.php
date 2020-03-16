@@ -1,15 +1,16 @@
 <?php
 namespace Omeka;
 
-$reader = new \Zend\Config\Reader\Ini;
+$reader = new \Laminas\Config\Reader\Ini;
 return [
     'modules' => [
-        'Zend\Form',
-        'Zend\I18n',
-        'Zend\Mvc\I18n',
-        'Zend\Mvc\Plugin\Identity',
-        'Zend\Navigation',
-        'Zend\Router',
+        'Laminas\Form',
+        'Laminas\I18n',
+        'Laminas\Mvc\I18n',
+        'Laminas\Mvc\Plugin\Identity',
+        'Laminas\Navigation',
+        'Laminas\Router',
+        'Laminas\ZendFrameworkBridge',
         'Omeka',
     ],
     'module_listener_options' => [

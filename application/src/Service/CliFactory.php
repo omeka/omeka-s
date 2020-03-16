@@ -2,7 +2,7 @@
 namespace Omeka\Service;
 
 use Omeka\Stdlib\Cli;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class CliFactory implements FactoryInterface

@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Form\Element;
 
-use Zend\Form\Element\Textarea;
+use Laminas\Form\Element\Textarea;
 
 class RestoreTextarea extends Textarea
 {

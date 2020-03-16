@@ -2,7 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Entity\SiteItemSet;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class SiteItemSetRepresentation extends AbstractRepresentation
 {

@@ -3,7 +3,7 @@ namespace Omeka\Test;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Helper methods for building commonly used mock objects for testing.
@@ -14,7 +14,7 @@ use Zend\ServiceManager\ServiceManager;
 class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Get a mock Zend\ServiceManager\ServiceManager (ServiceLocator) object.
+     * Get a mock Laminas\ServiceManager\ServiceManager (ServiceLocator) object.
      *
      * Pass mock service objects that should be accessible via the mocked
      * ServiceManager::get().
@@ -25,7 +25,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     public function getServiceManager(array $services = [])
     {
-        $serviceManager = $this->createMock('Zend\ServiceManager\ServiceManager');
+        $serviceManager = $this->createMock('Laminas\ServiceManager\ServiceManager');
         $serviceManager->expects($this->any())
             ->method('get')
             ->with($this->callback(function ($subject) use ($services) {

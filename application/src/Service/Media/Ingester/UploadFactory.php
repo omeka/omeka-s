@@ -2,7 +2,7 @@
 namespace Omeka\Service\Media\Ingester;
 
 use Omeka\Media\Ingester\Upload;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class UploadFactory implements FactoryInterface

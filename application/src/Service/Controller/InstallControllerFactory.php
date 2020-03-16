@@ -3,7 +3,7 @@ namespace Omeka\Service\Controller;
 
 use Interop\Container\ContainerInterface;
 use Omeka\Controller\InstallController;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class InstallControllerFactory implements FactoryInterface
 {

@@ -3,7 +3,7 @@ namespace Omeka\Service\Form\Element;
 
 use Interop\Container\ContainerInterface;
 use Omeka\Form\Element\PasswordConfirm;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class PasswordConfirmFactory implements FactoryInterface
 {

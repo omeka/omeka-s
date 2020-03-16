@@ -186,10 +186,10 @@ return [
     'logger' => [
         'log' => false,
         'path' => OMEKA_PATH . '/logs/application.log',
-        'priority' => \Zend\Log\Logger::NOTICE,
+        'priority' => \Laminas\Log\Logger::NOTICE,
     ],
     'http_client' => [
-        'adapter' => \Zend\Http\Client\Adapter\Socket::class,
+        'adapter' => \Laminas\Http\Client\Adapter\Socket::class,
         'sslcapath' => null,
         'sslcafile' => null,
     ],
@@ -232,7 +232,7 @@ return [
     ],
     'service_manager' => [
         'abstract_factories' => [
-            \Zend\Navigation\Service\NavigationAbstractServiceFactory::class,
+            \Laminas\Navigation\Service\NavigationAbstractServiceFactory::class,
         ],
         'factories' => [
             'Omeka\Acl' => Service\AclFactory::class,
@@ -279,13 +279,13 @@ return [
             'Omeka\Environment' => Service\EnvironmentFactory::class,
         ],
         'invokables' => [
-            'ModuleRouteListener' => \Zend\Mvc\ModuleRouteListener::class,
+            'ModuleRouteListener' => \Laminas\Mvc\ModuleRouteListener::class,
             'Omeka\MvcExceptionListener' => Mvc\ExceptionListener::class,
             'Omeka\MvcListeners' => Mvc\MvcListeners::class,
             'Omeka\ViewApiJsonRenderer' => View\Renderer\ApiJsonRenderer::class,
         ],
         'delegators' => [
-            'Zend\I18n\Translator\TranslatorInterface' => [
+            'Laminas\I18n\Translator\TranslatorInterface' => [
                 'Omeka\Service\Delegator\TranslatorDelegatorFactory',
             ],
         ],
@@ -294,7 +294,7 @@ return [
             'Omeka\File\Thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
             'Omeka\Job\DispatchStrategy' => 'Omeka\Job\DispatchStrategy\PhpCli',
             'Omeka\JobDispatcher' => 'Omeka\Job\Dispatcher',
-            'Zend\Authentication\AuthenticationService' => 'Omeka\AuthenticationService',
+            'Laminas\Authentication\AuthenticationService' => 'Omeka\AuthenticationService',
         ],
         'shared' => [
             'Omeka\Paginator' => false,
@@ -441,19 +441,19 @@ return [
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
         ],
         'delegators' => [
-            'Zend\Form\View\Helper\FormElement' => [
+            'Laminas\Form\View\Helper\FormElement' => [
                 Service\Delegator\FormElementDelegatorFactory::class,
             ],
-            'Zend\Form\View\Helper\FormSelect' => [
+            'Laminas\Form\View\Helper\FormSelect' => [
                 Service\Delegator\FormSelectDelegatorFactory::class,
             ],
-            'Zend\Form\View\Helper\FormRow' => [
+            'Laminas\Form\View\Helper\FormRow' => [
                 Service\Delegator\FormRowDelegatorFactory::class,
             ],
-            'Zend\View\Helper\Navigation' => [
+            'Laminas\View\Helper\Navigation' => [
                 Service\Delegator\NavigationDelegatorFactory::class,
             ],
-            'Zend\View\Helper\HeadTitle' => [
+            'Laminas\View\Helper\HeadTitle' => [
                 Service\Delegator\HeadTitleDelegatorFactory::class,
             ],
         ],

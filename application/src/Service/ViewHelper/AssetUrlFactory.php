@@ -4,7 +4,7 @@ namespace Omeka\Service\ViewHelper;
 
 use Omeka\Module\Manager as ModuleManager;
 use Omeka\View\Helper\AssetUrl;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 /**

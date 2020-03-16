@@ -2,7 +2,7 @@
 namespace Omeka\File\Store;
 
 use Omeka\File\Exception;
-use Zend\Log\Logger;
+use Laminas\Log\Logger;
 
 /**
  * Local filesystem file store

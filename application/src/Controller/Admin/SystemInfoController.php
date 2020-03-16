@@ -4,8 +4,8 @@ namespace Omeka\Controller\Admin;
 use PDO;
 use Doctrine\DBAL\Connection;
 use Omeka\Module;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 class SystemInfoController extends AbstractActionController
 {

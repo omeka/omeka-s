@@ -2,7 +2,7 @@
 namespace Omeka\Installation\Task;
 
 use Omeka\Installation\Installer;
-use Zend\Session\Container;
+use Laminas\Session\Container;
 
 /**
  * Task to destroy the session.

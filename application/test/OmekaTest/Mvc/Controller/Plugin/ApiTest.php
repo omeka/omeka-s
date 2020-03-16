@@ -17,7 +17,7 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($data))
             ->will($this->returnValue($this->createMock('Omeka\Api\Response')));
 
-        $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
+        $mockController = $this->getMockForAbstractClass('Laminas\Mvc\Controller\AbstractController');
 
         $api = new Api($mockApiManager);
         $api->setController($mockController);
@@ -35,7 +35,7 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($data))
             ->will($this->returnValue($this->createMock('Omeka\Api\Response')));
 
-        $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
+        $mockController = $this->getMockForAbstractClass('Laminas\Mvc\Controller\AbstractController');
 
         $api = new Api($mockApiManager);
         $api->setController($mockController);
@@ -53,7 +53,7 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($data))
             ->will($this->returnValue($this->createMock('Omeka\Api\Response')));
 
-        $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
+        $mockController = $this->getMockForAbstractClass('Laminas\Mvc\Controller\AbstractController');
 
         $api = new Api($mockApiManager);
         $api->setController($mockController);
@@ -72,7 +72,7 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
             ->will($this->returnValue($this->createMock('Omeka\Api\Response')));
 
-        $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
+        $mockController = $this->getMockForAbstractClass('Laminas\Mvc\Controller\AbstractController');
 
         $api = new Api($mockApiManager);
         $api->setController($mockController);
@@ -91,7 +91,7 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
             ->will($this->returnValue($this->createMock('Omeka\Api\Response')));
 
-        $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
+        $mockController = $this->getMockForAbstractClass('Laminas\Mvc\Controller\AbstractController');
 
         $api = new Api($mockApiManager);
         $api->setController($mockController);
@@ -110,7 +110,7 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($id), $this->equalTo($data))
             ->will($this->returnValue($this->createMock('Omeka\Api\Response')));
 
-        $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
+        $mockController = $this->getMockForAbstractClass('Laminas\Mvc\Controller\AbstractController');
 
         $api = new Api($mockApiManager);
         $api->setController($mockController);
@@ -133,7 +133,7 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($dataWithLimit))
             ->will($this->returnValue($response));
 
-        $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
+        $mockController = $this->getMockForAbstractClass('Laminas\Mvc\Controller\AbstractController');
 
         $api = new Api($mockApiManager);
         $api->setController($mockController);
@@ -157,7 +157,7 @@ class ApiTest extends TestCase
             ->with($this->equalTo($resource), $this->equalTo($dataWithLimit))
             ->will($this->returnValue($response));
 
-        $mockController = $this->getMockForAbstractClass('Zend\Mvc\Controller\AbstractController');
+        $mockController = $this->getMockForAbstractClass('Laminas\Mvc\Controller\AbstractController');
 
         $api = new Api($mockApiManager);
         $api->setController($mockController);

@@ -4,7 +4,7 @@ namespace OmekaTest\Api;
 use Omeka\Api\Request;
 use Omeka\Api\Manager;
 use Omeka\Test\TestCase;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 
 class ManagerTest extends TestCase
 {
@@ -106,19 +106,19 @@ class ManagerTest extends TestCase
         $isAllowed = true, $validResource = true, $isBatchCreate = false
     ) {
         // Omeka\Logger
-        $mockLogger = $this->createMock('Zend\Log\Logger');
+        $mockLogger = $this->createMock('Laminas\Log\Logger');
 
         // MvcTranslator
-        $mockTranslator = $this->createMock('Zend\I18n\Translator\Translator');
+        $mockTranslator = $this->createMock('Laminas\I18n\Translator\Translator');
         $mockTranslator->expects($this->any())
             ->method('translate')
             ->will($this->returnArgument(0));
 
         // EventManager returned by adapter
-        $mockEventManager = $this->createMock('Zend\EventManager\EventManager');
+        $mockEventManager = $this->createMock('Laminas\EventManager\EventManager');
         $mockEventManager->expects($this->any())
             ->method('trigger')
-            ->with($this->isInstanceOf('Zend\EventManager\Event'));
+            ->with($this->isInstanceOf('Laminas\EventManager\Event'));
 
         // TestAdapter returned by the adapter manager
         $mockAdapter = $this->createMock('Omeka\Api\Adapter\AdapterInterface');

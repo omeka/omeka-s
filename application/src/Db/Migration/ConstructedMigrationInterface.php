@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Db\Migration;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Interface for database migrations.

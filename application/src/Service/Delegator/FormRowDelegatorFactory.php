@@ -2,7 +2,7 @@
 namespace Omeka\Service\Delegator;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
+use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 
 /**
  * Set the custom form row partial.

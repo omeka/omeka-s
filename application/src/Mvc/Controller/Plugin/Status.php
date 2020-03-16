@@ -2,7 +2,7 @@
 namespace Omeka\Mvc\Controller\Plugin;
 
 use Omeka\Mvc\Status as StatusService;
-use Zend\Mvc\Controller\Plugin\AbstractPlugin;
+use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
  * Controller plugin for getting the status service.

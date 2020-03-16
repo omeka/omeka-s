@@ -9,7 +9,7 @@ class AbstractRepresentationTest extends TestCase
     public function testSetServiceLocator()
     {
         $serviceLocator = $this->getServiceManager([
-            'EventManager' => $this->createMock('Zend\EventManager\EventManager'),
+            'EventManager' => $this->createMock('Laminas\EventManager\EventManager'),
         ]);
         $abstractRep = $this->getMockForAbstractClass(
             'Omeka\Api\Representation\AbstractRepresentation'

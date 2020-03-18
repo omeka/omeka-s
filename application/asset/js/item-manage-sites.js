@@ -11,7 +11,6 @@ $('#site-selector .selector-child').click(function(event) {
     }
 
     var row = $($('#site-template').data('template'));
-    console.log(row);
     var siteTitle = $(this).data('child-search');
     var ownerEmail = $(this).data('owner-email');
     row.children('td.site-title').text(siteTitle);

@@ -161,6 +161,48 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             }
         }
 
+        if ($this->shouldHydrate($request, 'o:site')) {
+            $acl = $this->getServiceLocator()->get('Omeka\Acl');
+            $sitesData = $request->getValue('o:site', []);
+            $siteAdapter = $this->getAdapter('sites');
+            $sites = $entity->getSites();
+            $sitesToRetain = [];
+
+            foreach ($sitesData as $siteData) {
+                if (is_array($siteData) && isset($siteData['o:id'])) {
+                    $siteId = $siteData['o:id'];
+                } elseif (is_numeric($siteData)) {
+                    $siteId = $siteData;
+                } else {
+                    continue;
+                }
+                $site = $sites->get($siteId);
+                if ($remove) {
+                    if ($site && $acl->userIsAllowed($site, 'can-assign-items')) {
+                        $sites->removeElement($site);
+                    }
+                    continue;
+                }
+                if (!$site) {
+                    // Assign site that was not already assigned.
+                    $site = $siteAdapter->findEntity($siteId);
+                    if ($acl->userIsAllowed($site, 'can-assign-items')) {
+                        $sites->add($site);
+                    }
+                }
+                $sitesToRetain[] = $site;
+            }
+
+            if (!$append && !$remove) {
+                // Remove sites that were not included in the passed data.
+                foreach ($sites as $site) {
+                    if (!in_array($site, $sitesToRetain) && $acl->userIsAllowed($site, 'can-assign-items')) {
+                        $sites->removeElement($site);
+                    }
+                }
+            }
+        }
+
         if ($this->shouldHydrate($request, 'o:media')) {
             $mediasData = $request->getValue('o:media', []);
             $adapter = $this->getAdapter('media');

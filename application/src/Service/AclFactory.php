@@ -228,7 +228,7 @@ class AclFactory implements FactoryInterface
                 new OwnsEntityAssertion,
                 new HasSitePermissionAssertion('admin'),
                 new HasSitePermissionAssertion('editor'),
-            ], AssertionAggregate::MODE_AT_LEAST_ONE)
+            ], AssertionAggregate::MODE_AT_LEAST_ONE),
         ], AssertionAggregate::MODE_ALL);
         $acl->allow(
             null,

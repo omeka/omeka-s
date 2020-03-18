@@ -12,6 +12,21 @@ return [
                         'action' => 'index',
                     ],
                 ],
+                'child_routes' => [
+                    'search' => [
+                        'type' => \Laminas\Router\Http\Segment::class,
+                        'options' => [
+                            'route' => 'search[/:action]',
+                            'defaults' => [
+                                'controller' => 'Search',
+                                'action' => 'index',
+                            ],
+                            'constraints' => [
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'site' => [
                 'type' => \Laminas\Router\Http\Segment::class,

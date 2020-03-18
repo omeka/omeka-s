@@ -304,6 +304,7 @@ return [
     'controllers' => [
         'invokables' => [
             'Omeka\Controller\Index' => Controller\IndexController::class,
+            'Omeka\Controller\Search' => Controller\SearchController::class,
             'Omeka\Controller\Maintenance' => Controller\MaintenanceController::class,
             'Omeka\Controller\Site\Index' => Controller\Site\IndexController::class,
             'Omeka\Controller\Site\Item' => Controller\Site\ItemController::class,

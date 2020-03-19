@@ -93,6 +93,20 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                     $this->createNamedParameter($qb, $query['site_id']))
                 );
             }
+        } elseif (isset($query['in_sites']) && $query['in_sites']) {
+            // Filter out items that are not assigned to sites.
+            $dql = '
+                SELECT COUNT(site.id)
+                FROM Omeka\Entity\Site site
+                WHERE site.hasAllItems = true';
+            $query = $this->getEntityManager()->createQuery($dql);
+            if (!$query->getSingleScalarResult()) {
+                // If no site has all items then we must filter out items that
+                // are not explicitly assigned
+                $siteAlias = $this->createAlias();
+                $qb->leftJoin('omeka_root.sites', $siteAlias);
+                $qb->andWhere($qb->expr()->isNotNull("$siteAlias.id"));
+            }
         }
     }
 

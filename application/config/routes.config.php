@@ -327,7 +327,7 @@ return [
                         'action' => 'index',
                     ],
                     'constraints' => [
-                        'action' => '[a-zA-Z0-9]+',
+                        'action' => '[a-zA-Z0-9_-]+',
                     ],
                 ],
             ],

@@ -10,6 +10,12 @@ $this->headTitle($subtitle);
 <h2 class="site-list-heading"><?php echo $subtitle; ?></h2>
 
 <?php if ($sites): ?>
+
+<form action="<?php echo $this->escapeHtml($this->url('search', ['action' => 'results'])); ?>">
+    <input type="text" name="fulltext_search">
+    <input type="submit">
+</form>
+
 <div class="site-list">
 <?php
 foreach ($sites as $site):

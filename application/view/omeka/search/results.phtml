@@ -1,0 +1,61 @@
+<?php $fulltextSearch = $this->params()->fromQuery('fulltext_search'); ?>
+
+<h1><?php echo $this->setting('installation_title', 'Omeka S'); ?></h1>
+<h2><?php echo sprintf($this->translate('Search results for “%s”'), $fulltextSearch); ?></h2>
+
+<form action="<?php echo $this->escapeHtml($this->url(null, [], true)); ?>">
+    <input type="text" name="fulltext_search" value="<?php echo $this->escapeHtml($fulltextSearch); ?>">
+    <input type="submit">
+</form>
+
+<div>
+    <h2><?php echo $this->translate('Site pages'); ?></h2>
+    <?php if ($responseSitePages->getTotalResults()): ?>
+    <ul>
+        <?php foreach ($responseSitePages->getContent() as $sitePage): ?>
+        <li><?php echo $this->hyperlink($sitePage->title(), $sitePage->siteUrl()); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php echo $this->hyperlink(
+        sprintf($this->translate('View all results (%s total)'), $responseSitePages->getTotalResults()),
+        $this->url(
+            null,
+            ['action' => 'site-pages'],
+            ['query' => ['fulltext_search' => $fulltextSearch]],
+            true
+        )
+    ); ?>
+    <?php else: ?>
+    <p><?php echo $this->translate('No result found'); ?></p>
+    <?php endif; ?>
+</div>
+
+<div>
+    <h2><?php echo $this->translate('Items'); ?></h2>
+    <?php if ($responseItems->getTotalResults()): ?>
+    <ul>
+        <?php foreach ($responseItems->getContent() as $item): ?>
+        <?php $sites = $item->sites(); ?>
+        <li>
+            <?php echo $item->displayTitle(); ?>
+            <ul>
+                <?php foreach ($sites as $site): ?>
+                <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php echo $this->hyperlink(
+        sprintf($this->translate('View all results (%s total)'), $responseItems->getTotalResults()),
+        $this->url(
+            null,
+            ['action' => 'items'],
+            ['query' => ['fulltext_search' => $fulltextSearch]],
+            true
+        )
+    ); ?>
+    <?php else: ?>
+    <p><?php echo $this->translate('No result found'); ?></p>
+    <?php endif; ?>
+</div>

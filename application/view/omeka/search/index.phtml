@@ -1,11 +1,7 @@
-<?php
-$this->htmlElement('body')->appendAttribute('class', 'search front');
-?>
-
 <h1><?php echo $this->setting('installation_title', 'Omeka S'); ?></h1>
 <h2><?php echo $this->translate('Search'); ?></h2>
 
-<form action="<?php echo $this->escapeHtml($this->url('search', ['action' => 'results'])); ?>">
+<form action="<?php echo $this->escapeHtml($this->url(null, ['action' => 'results'], true)); ?>">
     <input type="text" name="fulltext_search">
     <input type="submit">
 </form>

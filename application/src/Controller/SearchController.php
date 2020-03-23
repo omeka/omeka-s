@@ -8,31 +8,39 @@ class SearchController extends AbstractActionController
 {
     public function indexAction()
     {
-        $view = new ViewModel;
-        return $view;
+    }
+
+    public function advancedAction()
+    {
     }
 
     public function resultsAction()
     {
+        $query = ['fulltext_search' => $this->params()->fromQuery('fulltext_search'), 'limit' => 10];
         $view = new ViewModel;
+        $view->setVariable('responseSitePages', $this->api()->search('site_pages', $query));
+        $view->setVariable('responseItems', $this->api()->search('items', array_merge($query, ['in_sites' => true])));
+        return $view;
+    }
+
+    public function sitePagesAction()
+    {
+        $this->setBrowseDefaults('created');
+        $response = $this->api()->search('site_pages', $this->params()->fromQuery());
+        $this->paginator($response->getTotalResults());
+        $view = new ViewModel;
+        $view->setVariable('sitePages', $response->getContent());
         return $view;
     }
 
     public function itemsAction()
     {
-        $view = new ViewModel;
-        return $view;
-    }
-
-    public function itemsResultsAction()
-    {
         $this->setBrowseDefaults('created');
-        $response = $this->api()->search('items', $this->params()->fromQuery());
+        $query = array_merge($this->params()->fromQuery(), ['in_sites' => true]);
+        $response = $this->api()->search('items', $query);
         $this->paginator($response->getTotalResults());
-        $items = $response->getContent();
-
         $view = new ViewModel;
-        $view->setVariable('items', $items);
+        $view->setVariable('items', $response->getContent());
         return $view;
     }
 }

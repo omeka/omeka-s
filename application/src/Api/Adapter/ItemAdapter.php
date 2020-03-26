@@ -90,8 +90,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             }
         } elseif (isset($query['in_sites']) && $query['in_sites']) {
             $siteAlias = $this->createAlias();
-            $qb->leftJoin('omeka_root.sites', $siteAlias);
-            $qb->andWhere($qb->expr()->isNotNull("$siteAlias.id"));
+            $qb->innerJoin('omeka_root.sites', $siteAlias);
         }
     }
 

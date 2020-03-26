@@ -115,6 +115,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     ) {
         parent::hydrate($request, $entity, $errorStore);
 
+        $isCreate = Request::CREATE === $request->getOperation();
         $isUpdate = Request::UPDATE === $request->getOperation();
         $isPartial = $isUpdate && $request->getOption('isPartial');
         $append = $isPartial && 'append' === $request->getOption('collectionAction');
@@ -158,8 +159,17 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 }
             }
         }
-
-        if ($this->shouldHydrate($request, 'o:site')) {
+        if ($isCreate && !$request->getValue('o:site', [])) {
+            $dql = '
+                SELECT site
+                FROM Omeka\Entity\Site site
+                WHERE site.assignOnCreate = true';
+            $query = $this->getEntityManager()->createQuery($dql);
+            $sites = $entity->getSites();
+            foreach ($query->getResult() as $site) {
+                $sites->set($site->getId(), $site);
+            }
+        } elseif ($this->shouldHydrate($request, 'o:site')) {
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
             $sitesData = $request->getValue('o:site', []);
             $siteAdapter = $this->getAdapter('sites');

@@ -1,6 +1,8 @@
 <?php
 $this->headScript()->appendFile($this->assetUrl('js/item-manage-sites.js', 'Omeka'));
-$sites = $item ? $item->sites() : null;
+$sites = $item
+    ? $item->sites()
+    : $this->api()->search('sites', ['assign_on_create' => true])->getContent();
 ?>
 <table id="item-sites" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && $sites) ? '' : 'empty'; ?>">
     <thead>
@@ -11,7 +13,7 @@ $sites = $item ? $item->sites() : null;
     </tr>
     </thead>
     <tbody>
-    <?php if ($item && $sites): ?>
+    <?php if ($sites): ?>
     <?php foreach ($sites as $site): ?>
     <?php
     if ($owner = $site->owner()) {

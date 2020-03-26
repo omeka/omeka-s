@@ -32,18 +32,11 @@ $rowTemplate = '
 </div>
 
 <div id="items-section" class="active section">
-    <?php if ($site->hasAllItems()): ?>
-    <p><?php echo sprintf(
-        $translate('This site includes all %s items.'),
-        $this->hyperlink($itemCount, $this->url('admin/default', ['controller' => 'item'], ['query' => ['site_id' => $site->id()]]), ['target' => '_blank'])
-    ); ?></p>
-    <?php else: ?>
     <p><?php echo sprintf(
         $translate('There are currently %s items assigned to this site.'),
         $this->hyperlink($itemCount, $this->url('admin/default', ['controller' => 'item'], ['query' => ['site_id' => $site->id()]]), ['target' => '_blank'])
     ); ?></p>
-    <?php endif; ?>
-    <?php echo $this->formRow($form->get('o:has_all_items')); ?>
+    <?php echo $this->formRow($form->get('o:assign_on_create')); ?>
     <div id="assign-items">
         <?php echo $this->formRow($form->get('item_assignment_action')); ?>
         <?php echo $this->formRow($form->get('save_search')); ?>
@@ -74,17 +67,3 @@ $rowTemplate = '
 </div>
 
 <?php echo $this->form()->closeTag(); ?>
-
-<script>
-var hasAllItems = $('input[name="o:has_all_items"]');
-if (hasAllItems.is(':checked')) {
-    $('#assign-items').hide();
-}
-hasAllItems.on('change', function(e) {
-    if (hasAllItems.is(':checked')) {
-        $('#assign-items').hide();
-    } else {
-        $('#assign-items').show();
-    }
-});
-</script>

@@ -8,13 +8,13 @@ class SiteResourcesForm extends Form
     public function init()
     {
         $this->add([
-            'name' => 'o:has_all_items',
+            'name' => 'o:assign_on_create',
             'type' => 'checkbox',
             'options' => [
-                'label' => 'Include all items', // @translate
+                'label' => 'Assign items on create', // @translate
             ],
             'attributes' => [
-                'id' => 'summary',
+                'id' => 'assign_on_create',
                 'value' => true,
             ],
         ]);

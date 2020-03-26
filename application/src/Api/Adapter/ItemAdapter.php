@@ -54,18 +54,13 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         }
 
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
-            $site = $this->getEntityManager()->find('Omeka\Entity\Site', $query['site_id']);
-            $hasAllItems = $site ? $site->getHasAllItems() : false;
-
-            if (false === $hasAllItems) {
-                $siteAlias = $this->createAlias();
-                $qb->innerJoin(
-                    'omeka_root.sites', $siteAlias, 'WITH', $qb->expr()->eq(
-                        "$siteAlias.id",
-                        $this->createNamedParameter($qb, $query['site_id'])
-                    )
-                );
-            }
+            $siteAlias = $this->createAlias();
+            $qb->innerJoin(
+                'omeka_root.sites', $siteAlias, 'WITH', $qb->expr()->eq(
+                    "$siteAlias.id",
+                    $this->createNamedParameter($qb, $query['site_id'])
+                )
+            );
 
             if (isset($query['site_attachments_only']) && $query['site_attachments_only']) {
                 $siteBlockAttachmentsAlias = $this->createAlias();
@@ -94,19 +89,9 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 );
             }
         } elseif (isset($query['in_sites']) && $query['in_sites']) {
-            // Filter out items that are not assigned to sites.
-            $dql = '
-                SELECT COUNT(site.id)
-                FROM Omeka\Entity\Site site
-                WHERE site.hasAllItems = true';
-            $query = $this->getEntityManager()->createQuery($dql);
-            if (!$query->getSingleScalarResult()) {
-                // If no site has all items then we must filter out items that
-                // are not explicitly assigned
-                $siteAlias = $this->createAlias();
-                $qb->leftJoin('omeka_root.sites', $siteAlias);
-                $qb->andWhere($qb->expr()->isNotNull("$siteAlias.id"));
-            }
+            $siteAlias = $this->createAlias();
+            $qb->leftJoin('omeka_root.sites', $siteAlias);
+            $qb->andWhere($qb->expr()->isNotNull("$siteAlias.id"));
         }
     }
 
@@ -201,7 +186,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                     // Assign site that was not already assigned.
                     $site = $siteAdapter->findEntity($siteId);
                     if ($acl->userIsAllowed($site, 'can-assign-items')) {
-                        $sites->add($site);
+                        $sites->set($site->getId(), $site);
                     }
                 }
                 $sitesToRetain[] = $site;

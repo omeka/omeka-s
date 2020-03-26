@@ -67,9 +67,13 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
 
     public function sites()
     {
-        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
-        $response = $api->search('sites', ['item_id' => $this->id()]);
-        return $response->getContent();
+        $sites = [];
+        $siteAdapter = $this->getAdapter('sites');
+        foreach ($this->resource->getSites() as $siteEntity) {
+            $sites[$siteEntity->getId()] =
+                $siteAdapter->getRepresentation($siteEntity);
+        }
+        return $sites;
     }
 
     public function primaryMedia()

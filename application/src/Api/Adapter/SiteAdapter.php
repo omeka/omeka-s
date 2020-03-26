@@ -105,8 +105,8 @@ class SiteAdapter extends AbstractEntityAdapter
             $entity->setIsPublic($request->getValue('o:is_public', true));
         }
 
-        if ($this->shouldHydrate($request, 'o:has_all_items')) {
-            $entity->setHasAllItems($request->getValue('o:has_all_items'));
+        if ($this->shouldHydrate($request, 'o:assign_on_create')) {
+            $entity->setAssignOnCreate($request->getValue('o:assign_on_create'));
         }
 
         if ($this->shouldHydrate($request, 'o:page')) {
@@ -265,18 +265,11 @@ class SiteAdapter extends AbstractEntityAdapter
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['item_id']) && is_numeric($query['item_id'])) {
-            // Items can be explicitly assigned to sites via their many-to-many
-            // relationship, or implicitly included in sites via the hasAllItems
-            // flag.
             $itemAlias = $this->createAlias();
             $qb->leftJoin(
                 'omeka_root.items', $itemAlias, 'WITH',
                 $qb->expr()->eq("$itemAlias.id", $this->createNamedParameter($qb, $query['item_id']))
             );
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->isNotNull("$itemAlias.id"),
-                $qb->expr()->eq('omeka_root.hasAllItems', true)
-            ));
         }
 
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
@@ -302,6 +295,13 @@ class SiteAdapter extends AbstractEntityAdapter
             $qb->andWhere($qb->expr()->neq(
                 'omeka_root.id',
                 $this->createNamedParameter($qb, $query['exclude_id'])
+            ));
+        }
+
+        if (isset($query['assign_on_create'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'omeka_root.assignOnCreate',
+                $this->createNamedParameter($qb, (bool) $query['assign_on_create'])
             ));
         }
     }

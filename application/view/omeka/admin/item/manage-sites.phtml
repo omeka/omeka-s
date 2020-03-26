@@ -1,6 +1,8 @@
 <?php
 $this->headScript()->appendFile($this->assetUrl('js/item-manage-sites.js', 'Omeka'));
-$sites = $item ? $item->sites() : null;
+$sites = $item
+    ? $item->sites()
+    : $this->api()->search('sites', ['assign_on_create' => true])->getContent();
 ?>
 <table id="item-sites" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && $sites) ? '' : 'empty'; ?>">
     <thead>
@@ -11,7 +13,7 @@ $sites = $item ? $item->sites() : null;
     </tr>
     </thead>
     <tbody>
-    <?php if ($item && $sites): ?>
+    <?php if ($sites): ?>
     <?php foreach ($sites as $site): ?>
     <?php
     if ($owner = $site->owner()) {
@@ -24,7 +26,7 @@ $sites = $item ? $item->sites() : null;
         <td><?php echo $this->escapeHtml($site->title()); ?></td>
         <td><?php echo $ownerText; ?></td>
         <td>
-            <?php if (!$site->hasAllItems() && $site->userIsAllowed('can-assign-items')): ?>
+            <?php if ($site->userIsAllowed('can-assign-items')): ?>
             <ul class="actions">
                 <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $this->translate('Unassign from site')]); ?></li>
             </ul>

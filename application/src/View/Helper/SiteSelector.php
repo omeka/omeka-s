@@ -12,7 +12,7 @@ class SiteSelector extends AbstractHelper
         $sitesByOwner = [];
         $totalCount = 0;
         foreach ($sites as $site) {
-            if (!$site->hasAllItems() && $site->userIsAllowed('can-assign-items')) {
+            if ($site->userIsAllowed('can-assign-items')) {
                 $owner = $site->owner();
                 $email = $owner ? $owner->email() : null;
                 $sitesByOwner[$email]['owner'] = $owner;

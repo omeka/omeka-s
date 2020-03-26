@@ -78,7 +78,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:created' => $created,
             'o:modified' => $modified,
             'o:is_public' => $this->isPublic(),
-            'o:has_all_items' => $this->hasAllItems(),
+            'o:assign_on_create' => $this->assignOnCreate(),
             'o:page' => $pages,
             'o:site_permission' => $this->sitePermissions(),
             'o:site_item_set' => $this->siteItemSets(),
@@ -137,9 +137,9 @@ class SiteRepresentation extends AbstractEntityRepresentation
         return $this->resource->isPublic();
     }
 
-    public function hasAllItems()
+    public function assignOnCreate()
     {
-        return $this->resource->getHasAllItems();
+        return $this->resource->getAssignOnCreate();
     }
 
     /**

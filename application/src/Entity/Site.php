@@ -76,7 +76,7 @@ class Site extends AbstractEntity
     /**
      * @Column(type="boolean", options={"default":false})
      */
-    protected $assignOnCreate = false;
+    protected $assignNewItems = false;
 
     /**
      * @OneToMany(
@@ -240,14 +240,14 @@ class Site extends AbstractEntity
         return (bool) $this->isPublic;
     }
 
-    public function setAssignOnCreate($assignOnCreate)
+    public function setAssignNewItems($assignNewItems)
     {
-        $this->assignOnCreate = (bool) $assignOnCreate;
+        $this->assignNewItems = (bool) $assignNewItems;
     }
 
-    public function getAssignOnCreate()
+    public function getAssignNewItems()
     {
-        return $this->assignOnCreate;
+        return $this->assignNewItems;
     }
 
     public function getPages()

@@ -228,7 +228,7 @@ CREATE TABLE `site` (
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   `is_public` tinyint(1) NOT NULL,
-  `assign_on_create` tinyint(1) NOT NULL DEFAULT '0',
+  `assign_new_items` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_694309E4989D9B62` (`slug`),
   UNIQUE KEY `UNIQ_694309E4571EDDA` (`homepage_id`),

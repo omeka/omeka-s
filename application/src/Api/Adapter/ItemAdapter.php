@@ -163,7 +163,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $dql = '
                 SELECT site
                 FROM Omeka\Entity\Site site
-                WHERE site.assignOnCreate = true';
+                WHERE site.assignNewItems = true';
             $query = $this->getEntityManager()->createQuery($dql);
             $sites = $entity->getSites();
             foreach ($query->getResult() as $site) {

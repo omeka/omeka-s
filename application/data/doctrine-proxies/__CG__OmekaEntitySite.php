@@ -66,10 +66,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignOnCreate', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
+            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignOnCreate', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
+        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
     }
 
     /**
@@ -436,23 +436,23 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setAssignOnCreate($assignOnCreate)
+    public function setAssignNewItems($assignNewItems)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAssignOnCreate', [$assignOnCreate]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAssignNewItems', [$assignNewItems]);
 
-        return parent::setAssignOnCreate($assignOnCreate);
+        return parent::setAssignNewItems($assignNewItems);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getAssignOnCreate()
+    public function getAssignNewItems()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAssignOnCreate', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAssignNewItems', []);
 
-        return parent::getAssignOnCreate();
+        return parent::getAssignNewItems();
     }
 
     /**

@@ -2,7 +2,7 @@
 $this->headScript()->appendFile($this->assetUrl('js/item-manage-sites.js', 'Omeka'));
 $sites = $item
     ? $item->sites()
-    : $this->api()->search('sites', ['assign_on_create' => true])->getContent();
+    : $this->api()->search('sites', ['assign_new_items' => true])->getContent();
 ?>
 <table id="item-sites" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && $sites) ? '' : 'empty'; ?>">
     <thead>

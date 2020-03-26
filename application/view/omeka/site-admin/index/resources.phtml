@@ -36,7 +36,7 @@ $rowTemplate = '
         $translate('There are currently %s items assigned to this site.'),
         $this->hyperlink($itemCount, $this->url('admin/default', ['controller' => 'item'], ['query' => ['site_id' => $site->id()]]), ['target' => '_blank'])
     ); ?></p>
-    <?php echo $this->formRow($form->get('o:assign_on_create')); ?>
+    <?php echo $this->formRow($form->get('o:assign_new_items')); ?>
     <div id="assign-items">
         <?php echo $this->formRow($form->get('item_assignment_action')); ?>
         <?php echo $this->formRow($form->get('save_search')); ?>

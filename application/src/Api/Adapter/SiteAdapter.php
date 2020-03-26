@@ -105,8 +105,8 @@ class SiteAdapter extends AbstractEntityAdapter
             $entity->setIsPublic($request->getValue('o:is_public', true));
         }
 
-        if ($this->shouldHydrate($request, 'o:assign_on_create')) {
-            $entity->setAssignOnCreate($request->getValue('o:assign_on_create'));
+        if ($this->shouldHydrate($request, 'o:assign_new_items')) {
+            $entity->setAssignNewItems($request->getValue('o:assign_new_items'));
         }
 
         if ($this->shouldHydrate($request, 'o:page')) {
@@ -298,10 +298,10 @@ class SiteAdapter extends AbstractEntityAdapter
             ));
         }
 
-        if (isset($query['assign_on_create'])) {
+        if (isset($query['assign_new_items'])) {
             $qb->andWhere($qb->expr()->eq(
-                'omeka_root.assignOnCreate',
-                $this->createNamedParameter($qb, (bool) $query['assign_on_create'])
+                'omeka_root.assignNewItems',
+                $this->createNamedParameter($qb, (bool) $query['assign_new_items'])
             ));
         }
     }

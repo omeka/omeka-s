@@ -8,7 +8,7 @@
 # Stéphane Loret <stephane.loret@univ-nantes.fr>, 2018
 # symac <wikitipiac@laposte.net>, 2018
 # Pols12 <poltron54@gmail.com>, 2018
-# Laurent Thomas, 2019
+# Laurent Thomas, 2020
 # Daniel Berthereau <daniel.transifex@berthereau.net>, 2020
 # 
 #, fuzzy
@@ -1194,7 +1194,7 @@ msgstr "Filtrer les utilisateurs"
 #: application/view/common/user-selector.phtml:16
 #, php-format
 msgid "Users (%s)"
-msgstr ""
+msgstr "Utilisateurs (%s)"
 
 #: application/view/common/version-notification.phtml:8
 #, php-format
@@ -5108,7 +5108,7 @@ msgstr ""
 
 #. Property label for Dublin Core:isFormatOf
 msgid "Is Format Of"
-msgstr "Est le format de"
+msgstr "Est un format de"
 
 #. Property comment for Dublin Core:isFormatOf
 msgid ""
@@ -5654,11 +5654,11 @@ msgstr "Un périodique d’articles scientifiques."
 
 #. Class label for Bibliographic Ontology:LegalCaseDocument
 msgid "Legal Case Document"
-msgstr "Document d’un dossier juridique"
+msgstr "Document d’un dossier judiciaire"
 
 #. Class comment for Bibliographic Ontology:LegalCaseDocument
 msgid "A document accompanying a legal case."
-msgstr "Un document qui accompagne un dossier juridique"
+msgstr "Un document qui accompagne un dossier judiciaire"
 
 #. Class label for Bibliographic Ontology:LegalDecision
 msgid "Decision"
@@ -5978,7 +5978,7 @@ msgstr "proclamé par"
 
 #. Property comment for Bibliographic Ontology:affirmedBy
 msgid "A legal decision that affirms a ruling."
-msgstr "Une décision juridique qui confirme un jugement."
+msgstr "Une décision judiciaire qui confirme un jugement."
 
 #. Property label for Bibliographic Ontology:annotates
 msgid "annotates"
@@ -6044,8 +6044,8 @@ msgid ""
 "A court associated with a legal document; for example, that which issues a "
 "decision."
 msgstr ""
-"Un tribunal associé à un document juridique ; par exemple, par exemple celui"
-" à l’origine du jugement."
+"Un tribunal associé à un document judiciaire ; par exemple, par exemple "
+"celui à l’origine du jugement."
 
 #. Property label for Bibliographic Ontology:degree
 msgid "degree"
@@ -6202,7 +6202,7 @@ msgstr "abrogé par"
 
 #. Property comment for Bibliographic Ontology:reversedBy
 msgid "A legal decision that reverses a ruling."
-msgstr "Une décision juridique qui abroge un verdict."
+msgstr "Une décision judiciaire qui abroge un verdict."
 
 #. Property label for Bibliographic Ontology:reviewOf
 msgid "review of"
@@ -6224,7 +6224,7 @@ msgstr "L’état de publication d’un contenu (généralement universitaire)."
 
 #. Property label for Bibliographic Ontology:subsequentLegalDecision
 msgid "subsequentLegalDecision"
-msgstr "décision juridique ultérieure"
+msgstr "décision judiciaire ultérieure"
 
 #. Property comment for Bibliographic Ontology:subsequentLegalDecision
 msgid ""

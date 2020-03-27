@@ -11,7 +11,12 @@
 <div class="site-results">
   <ul>
       <?php foreach ($sitePages as $sitePage): ?>
-      <li><?php echo $this->hyperlink($sitePage->title(), $sitePage->siteUrl()); ?></li>
+        <?php $site = $sitePage->site(); ?>
+        <li><?php echo sprintf(
+            '%s (in %s)',
+            $this->hyperlink($sitePage->title(), $sitePage->siteUrl()),
+            $this->hyperlink($site->title(), $site->siteUrl())
+        ); ?></li>
       <?php endforeach; ?>
   </ul>
 </div>

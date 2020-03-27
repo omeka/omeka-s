@@ -1,17 +1,19 @@
 <h1><?php echo $this->setting('installation_title', 'Omeka S'); ?></h1>
-<h2><?php echo $this->translate('Site page results'); ?></h2>
+<?php echo $this->partial(
+  'omeka/search/form.phtml',
+  ['fulltextSearch' => $this->escapeHtml($this->params()->fromQuery('fulltext_search'))]
+); ?>
 
-<form action="<?php echo $this->escapeHtml($this->url(null, [], true)); ?>">
-    <input type="text" name="fulltext_search" value="<?php echo $this->escapeHtml($this->params()->fromQuery('fulltext_search')); ?>">
-    <input type="submit">
-</form>
+<h2><?php echo $this->translate('Site page results'); ?></h2>
 
 <?php echo $this->pagination(); ?>
 
-<ul>
-    <?php foreach ($sitePages as $sitePage): ?>
-    <li><?php echo $this->hyperlink($sitePage->title(), $sitePage->siteUrl()); ?></li>
-    <?php endforeach; ?>
-</ul>
+<div class="site-results">
+  <ul>
+      <?php foreach ($sitePages as $sitePage): ?>
+      <li><?php echo $this->hyperlink($sitePage->title(), $sitePage->siteUrl()); ?></li>
+      <?php endforeach; ?>
+  </ul>
+</div>
 
 <?php echo $this->pagination(); ?>

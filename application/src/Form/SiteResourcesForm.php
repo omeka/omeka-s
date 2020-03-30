@@ -12,6 +12,7 @@ class SiteResourcesForm extends Form
             'type' => 'checkbox',
             'options' => [
                 'label' => 'Assign new items', // @translate
+                'info' => 'Select this if you want newly created items to be assigned to this site. Note that item owners may unassign their items at any time.', // @translate
             ],
             'attributes' => [
                 'id' => 'assign_new_items',
@@ -22,7 +23,7 @@ class SiteResourcesForm extends Form
             'type' => 'select',
             'name' => 'item_assignment_action',
             'options' => [
-                'label' => 'Assignment action',
+                'label' => 'Assignment action', // @translate
                 'empty_option' => '[No action]', // @translate
                 'value_options' => [
                     'add' => 'Add - keep existing items and assign items from the following search', // @translate
@@ -36,7 +37,8 @@ class SiteResourcesForm extends Form
             'type' => 'checkbox',
             'name' => 'save_search',
             'options' => [
-                'label' => 'Save this search',
+                'label' => 'Save this search', // @translate
+                'info' => 'Use this as a convenient way to store a commonly used query. For example, you will likely want to save a search for periodic adding, but will not want to save a search for a one-time removal.', // @translate
             ],
         ]);
 

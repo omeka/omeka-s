@@ -32,18 +32,21 @@ $rowTemplate = '
 </div>
 
 <div id="items-section" class="active section">
+    <?php echo $this->formRow($form->get('o:assign_new_items')); ?>
     <p><?php echo sprintf(
-        $translate('There are currently %s items assigned to this site.'),
+        $translate('There are currently %s items assigned to this site. Select an action below to manage item assignments.'),
         $this->hyperlink($itemCount, $this->url('admin/default', ['controller' => 'item'], ['query' => ['site_id' => $site->id()]]), ['target' => '_blank'])
     ); ?></p>
-    <?php echo $this->formRow($form->get('o:assign_new_items')); ?>
-    <div id="assign-items">
-        <?php echo $this->formRow($form->get('item_assignment_action')); ?>
-        <?php echo $this->formRow($form->get('save_search')); ?>
-        <h3><?php echo $this->translate('Search'); ?></h3>
-        <div id="advanced-search">
-            <?php echo $this->partial('common/advanced-search', ['query' => $site->itemPool(), 'resourceType' => 'item', 'isPool' => true]); ?>
-        </div>
+    <?php echo $this->formRow($form->get('item_assignment_action')); ?>
+    <?php echo $this->formRow($form->get('save_search')); ?>
+    <?php echo $this->hyperlink($this->translate('Preview this search'), '#', [
+        'id' => 'resources-preview-button',
+        'class' => 'button',
+        'title' => $this->translate('Preview this search'),
+        'data-url' => $this->url('admin/default', ['controller' => 'item', 'action' => 'browse']),
+    ]); ?>
+    <div id="advanced-search">
+        <?php echo $this->partial('common/advanced-search', ['query' => $site->itemPool(), 'resourceType' => 'item', 'isPool' => true]); ?>
     </div>
 </div>
 
@@ -67,3 +70,12 @@ $rowTemplate = '
 </div>
 
 <?php echo $this->form()->closeTag(); ?>
+
+<script>
+$('#resources-preview-button').on('click', function(e) {
+    e.preventDefault();
+    var url = $(this).data('url');
+    var query = $('#site-form').serialize();
+    window.open(`${url}?${query}`, '_blank');
+});
+</script>

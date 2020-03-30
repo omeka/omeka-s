@@ -1762,6 +1762,15 @@ input[type="text"].value-language,
     margin-left: .5em;
 }
 
+#item-sites.empty,
+#item-sites + .no-resources {
+  display: none;
+}
+
+#item-sites.empty + .no-resources {
+  display: block;
+}
+
     /* @group ----- Metadata ----- */
 
     #add-item .remove.field {

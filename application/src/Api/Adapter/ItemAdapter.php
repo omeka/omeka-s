@@ -159,7 +159,9 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 }
             }
         }
-        if ($isCreate && !$request->getValue('o:site', [])) {
+        if ($isCreate && !is_array($request->getValue('o:site'))) {
+            // On CREATE and when no "o:site" array is passed, assign this item
+            // to all sites where assignNewItems=true.
             $dql = '
                 SELECT site
                 FROM Omeka\Entity\Site site

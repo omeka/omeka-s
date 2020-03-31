@@ -199,6 +199,8 @@ class ItemController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $data = $this->mergeValuesJson($data);
+            // Prevent the API from setting sites automatically if no sites are set.
+            $data['o:site'] = $data['o:site'] ?? [];
             $form->setData($data);
             if ($form->isValid()) {
                 $fileData = $this->getRequest()->getFiles()->toArray();

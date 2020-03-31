@@ -1,50 +1,82 @@
 $(document).ready(function() {
 
-$('#site-selector .selector-child').click(function(event) {
-    event.preventDefault();
+var itemSites = $('#item-sites');
+var itemSitesData = itemSites.data('item-sites');
+var rowTemplate = $($.parseHTML(itemSites.data('rowTemplate')));
+var totalCount = $('#site-selector .selector-total-count');
 
-    $('#item-sites').removeClass('empty');
-    var siteId = $(this).data('site-id');
+var parentToggle = function(e) {
+    e.stopPropagation();
+    if ($(this).children('li')) {
+        $(this).toggleClass('show');
+    }
+}
 
-    if ($('#item-sites').find("input[value='" + siteId + "']").length) {
+var appendRow = function(id, title, email) {
+      if (itemSites.find(".site-id[value='" + id + "']").length) {
         return;
     }
+    var row = rowTemplate.clone();
+    row.find('.site-id').val(id);
+    row.find('.site-title').text(title);
+    row.find('.site-owner-email').text(email);
+    $('#site-rows').append(row);
+    $('[data-site-id="' + id + '"]').addClass('added');
+    $('#sites').addClass('has-rows');
+    updateSiteCount(id);
+}
 
-    var row = $($('#site-template').data('template'));
-    var siteTitle = $(this).data('child-search');
-    var ownerEmail = $(this).data('owner-email');
-    row.children('td.site-title').text(siteTitle);
-    row.children('td.owner-email').text(ownerEmail);
-    row.find('td > input').val(siteId);
-    $('#item-sites > tbody:last').append(row);
+var updateSiteCount = function(siteId) {
+    var site = $('[data-site-id="' + siteId + '"]');
+    var siteParent = site.parents('.selector-parent');
+    var childCount = siteParent.find('.selector-child-count').first();
+    if (site.hasClass('added')) {
+        var newTotalCount = parseInt(totalCount.text()) - 1;
+        var newChildCount = parseInt(childCount.text()) - 1;
+    } else {
+        var newTotalCount = parseInt(totalCount.text()) + 1;
+        var newChildCount = parseInt(childCount.text()) + 1;
+    }
+    totalCount.text(newTotalCount);
+    childCount.text(newChildCount);
+}
+
+if (itemSitesData.length > 0) {
+    $.each(itemSitesData, function() {
+        appendRow(this.id, this.title, this.email);
+        console.log(this.id);
+    });
+    itemSites.addClass('has-rows');
+}
+
+// Add the selected site to the edit panel.
+$('#site-selector .selector-child').on('click', function(e) {
+    e.stopPropagation();
+    
+    var site = $(this);
+    var siteParent = site.parents('.selector-parent');
+    siteParent.unbind('click');
+    appendRow(
+        site.data('siteId'),
+        site.data('childSearch'),
+        site.data('ownerEmail')
+    );
+    siteParent.bind('click', parentToggle);
+    Omeka.scrollTo($('.site-row:last-child'));
 });
 
 // Remove an item set from the edit panel.
-$('#item-sites').on('click', '.o-icon-delete', function(event) {
-    event.preventDefault();
-
-    var removeLink = $(this);
-    var siteRow = $(this).closest('tr');
-    var siteInput = removeLink.closest('td').find('input');
-    siteInput.prop('disabled', true);
-
-    // Restore site link.
-    var undoRemoveLink = $('<a>', {
-        href: '#',
-        class: 'fa fa-undo',
-        title: Omeka.jsTranslate('Restore site'),
-        click: function(event) {
-            event.preventDefault();
-            siteRow.toggleClass('delete');
-            siteInput.prop('disabled', false);
-            removeLink.show();
-            $(this).remove();
-        },
-    });
-
-    siteRow.toggleClass('delete');
-    undoRemoveLink.insertAfter(removeLink);
-    removeLink.hide();
+itemSites.on('click', '.o-icon-delete', function(e) {
+    e.preventDefault();
+    var row = $(this).closest('.site-row');
+    var siteId = row.find('.site-id').val();
+    $('#site-selector').find('[data-site-id="' + siteId + '"]').removeClass('added');
+    updateSiteCount(siteId);
+    row.remove();
+    if ($('.site-row').length < 1) {
+        $('#item-sites').removeClass('has-rows');
+    }
 });
+
 
 });

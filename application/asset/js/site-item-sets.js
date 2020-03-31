@@ -46,6 +46,8 @@ var updateItemSetCount = function(itemSetId) {
     childCount.text(newChildCount);      
 }
 
+console.log(itemSetsData);
+
 if (itemSetsData.length) {
     $.each(itemSetsData, function() {
         appendItemSet(this.id, this.title, this.email);

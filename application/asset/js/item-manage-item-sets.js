@@ -1,51 +1,80 @@
 $(document).ready(function() {
 
-// Add the selected item set to the edit panel.
-$('#item-set-selector .selector-child').click(function(event) {
-    event.preventDefault();
+var itemSets = $('#item-item-sets');
+var itemSetsData = itemSets.data('itemSets');
+var rowTemplate = $($.parseHTML(itemSets.data('rowTemplate')));
+var totalCount = $('#item-set-selector .selector-total-count');
 
-    $('#item-item-sets').removeClass('empty');
-    var itemSetId = $(this).data('item-set-id');
+var parentToggle = function(e) {
+    e.stopPropagation();
+    if ($(this).children('li')) {
+        $(this).toggleClass('show');
+    }
+}
 
-    if ($('#item-item-sets').find("input[value='" + itemSetId + "']").length) {
+var appendItemSet = function(id, title, email) {
+    if (itemSets.find(".site-item-set-id[value='" + id + "']").length) {
         return;
     }
+    var row = rowTemplate.clone();
+    row.find('.item-set-id').val(id);
+    row.find('.item-set-title').text(title);
+    row.find('.item-set-owner-email').text(email);
+    $('#item-set-rows').append(row);
+    $('[data-item-set-id="' + id + '"]').addClass('added');
+    $('#item-sets').addClass('has-item-sets');
+    updateItemSetCount(id);
+}
 
-    var row = $($('#item-set-template').data('template'));
-    var itemSetTitle = $(this).data('child-search');
-    var ownerEmail = $(this).data('owner-email');
-    row.children('td.item-set-title').text(itemSetTitle);
-    row.children('td.owner-email').text(ownerEmail);
-    row.find('td > input').val(itemSetId);
-    $('#item-item-sets > tbody:last').append(row);
+var updateItemSetCount = function(itemSetId) {
+    var itemSet = $('[data-item-set-id="' + itemSetId + '"]');
+    var itemSetParent = itemSet.parents('.selector-parent');
+    var childCount = itemSetParent.find('.selector-child-count').first();
+    if (itemSet.hasClass('added')) {
+        var newTotalCount = parseInt(totalCount.text()) - 1;
+        var newChildCount = parseInt(childCount.text()) - 1;
+    } else {
+        var newTotalCount = parseInt(totalCount.text()) + 1;
+        var newChildCount = parseInt(childCount.text()) + 1;
+    }
+    totalCount.text(newTotalCount);
+    childCount.text(newChildCount);
+}
+
+if (itemSetsData.length > 0) {
+    $.each(itemSetsData, function() {
+        appendItemSet(this.id, this.title, this.email);
+    });
+    $('#item-sets').addClass('has-item-sets');
+}
+
+// Add the selected item set to the edit panel.
+$('#item-set-selector .selector-child').on('click', function(e) {
+    e.stopPropagation();
+    var itemSet = $(this);
+    var itemSetParent = itemSet.parents('.selector-parent');
+    itemSetParent.unbind('click');
+    appendItemSet(
+        itemSet.data('itemSetId'),
+        itemSet.data('childSearch'),
+        itemSet.data('ownerEmail')
+    );
+    itemSetParent.bind('click', parentToggle);
+    Omeka.scrollTo($('.item-set-row:last-child'));
 });
 
 // Remove an item set from the edit panel.
-$('#item-item-sets').on('click', '.o-icon-delete', function(event) {
-    event.preventDefault();
-
-    var removeLink = $(this);
-    var itemSetRow = $(this).closest('tr');
-    var itemSetInput = removeLink.closest('td').find('input');
-    itemSetInput.prop('disabled', true);
-
-    // Restore item set link.
-    var undoRemoveLink = $('<a>', {
-        href: '#',
-        class: 'fa fa-undo',
-        title: Omeka.jsTranslate('Restore item set'),
-        click: function(event) {
-            event.preventDefault();
-            itemSetRow.toggleClass('delete');
-            itemSetInput.prop('disabled', false);
-            removeLink.show();
-            $(this).remove();
-        },
-    });
-
-    itemSetRow.toggleClass('delete');
-    undoRemoveLink.insertAfter(removeLink);
-    removeLink.hide();
+itemSets.on('click', '.o-icon-delete', function(e) {
+    e.preventDefault();
+    var row = $(this).closest('.item-set-row');
+    var itemSetId = row.find('.item-set-id').val();
+    $('#item-set-selector').find('[data-item-set-id="' + itemSetId + '"]').removeClass('added');
+    updateItemSetCount(itemSetId);
+    row.remove();
+    if ($('.item-set-row').length < 1) {
+        $('#item-sets').removeClass('has-item-sets');
+    }
 });
+
 
 });

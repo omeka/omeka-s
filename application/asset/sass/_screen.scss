@@ -2508,20 +2508,24 @@ input[type="text"].value-language,
 
     /* @group ----- Item Sets ----- */
 
-    #item-item-sets + .no-resources {
+    #item-item-sets {
         display: none;
     }
 
-    #item-item-sets.empty {
-        display: none;
+    #item-item-sets + .no-resources {
+        display: block;
+        padding: 0 $spacing-large;
 
+        &:before {
+            content: fa-content($fa-var-cubes);
+        }
+    }
+    
+    #item-sets.has-item-sets #item-item-sets {
+        display: table;
+        
         & + .no-resources {
-            display: block;
-            padding: 0 $spacing-large;
-
-            &:before {
-                content: fa-content($fa-var-cubes);
-            }
+          display: none;
         }
     }
 
@@ -2542,6 +2546,31 @@ input[type="text"].value-language,
         box-shadow: none;
     }
 
+    /* @end */
+    
+    /* @group ----- Sites ----- */
+    
+    #item-sites {
+        display: none;
+    }
+
+    #item-sites + .no-resources {
+        display: block;
+        padding: 0 $spacing-large;
+
+        &:before {
+            content: fa-content($fa-var-laptop);
+        }
+    }
+    
+    #sites.has-rows #item-sites {
+        display: table;
+        
+        & + .no-resources {
+          display: none;
+        }
+    }
+    
     /* @end */
 
 /* @end */
@@ -3447,7 +3476,8 @@ body.sidebar-open #content {
     /* @group ----- Resources ----- */
       
     #item-set-selector .added,
-    #user-selector .added {
+    #user-selector .added,
+    #site-selector .added {
       display: none;
     }
     

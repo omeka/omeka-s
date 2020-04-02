@@ -11,10 +11,13 @@ $this->headTitle($subtitle);
 
 <?php if ($sites): ?>
 
-<form action="<?php echo $this->escapeHtml($this->url('search', ['action' => 'results'])); ?>">
-    <input type="text" name="fulltext_search">
-    <input type="submit">
-</form>
+<?php echo $this->partial(
+  'omeka/search/form.phtml',
+  [
+      'fulltextSearch' => $this->escapeHtml($this->params()->fromQuery('fulltext_search')),
+      'action' => $this->escapeHtml($this->url('search', ['action' => 'results']))
+  ]
+); ?>
 
 <div class="site-list">
 <?php

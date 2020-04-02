@@ -3966,6 +3966,12 @@ body.minimal {
         margin-bottom: $spacing-medium;
     }
 
+
+    h3 {
+        font-size: 1.125 * $base-font-size;
+        margin-bottom: $spacing-medium;
+    }
+
     fieldset legend {
         font-weight: bold;
         font-size: 1.25 * $base-font-size;
@@ -4035,10 +4041,52 @@ body.minimal {
         font-size: $base-font-size;
         margin-top: -1.333 * $spacing-large;
     }
+
+    .site-results {
+        margin-bottom: $spacing-large;
+    }
+    
+    .site-results > ul,
+    .item-results > ul {
+      padding-left: 0;
+    }
+    
+    .site-results > ul > li,
+    .item-results > ul > li {
+        list-style-type: none;
+    }
+    
+    .advanced-search {
+      margin: (-1 * $spacing-medium) 0 $spacing-large;
+      display: block;
+    }
+    
+    .advanced-search-actions {
+      margin: $spacing-medium 0;
+      
+      input[type="submit"] {
+        width: auto;
+        display: inline-block;
+      }
+    }
 }
 
 .forgot-password {
     margin: $spacing-small 0;
+}
+
+.sitewide-search-form {    
+    display: flex;
+    margin-bottom: $spacing-large;
+
+    input[type="text"] {
+      width: 100%;
+      margin-right: $spacing-small;      
+    }
+    
+    input[type="submit"] {
+      width: auto;
+    }
 }
 
 /* @end */

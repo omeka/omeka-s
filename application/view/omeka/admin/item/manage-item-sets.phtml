@@ -1,7 +1,6 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$this->headScript()->appendFile($this->assetUrl('js/item-manage-item-sets.js', 'Omeka'));
 $itemSets = [];
 foreach ($item->itemSets() as $itemSet) {
   $owner = $itemSet->owner();
@@ -12,22 +11,22 @@ foreach ($item->itemSets() as $itemSet) {
   ];
 }
 $itemSetTemplate = '
-<tr class="item-set-row">
-    <td class="item-set-title"></td>
-    <td class="item-set-owner-email">__owner-email__</td>
+<tr class="resource-row">
+    <td class="data-value" data-row-key="child-search"></td>
+    <td class="data-value" data-row-key="owner-email"></td>
     <td><ul class="actions">
         <li>' . $this->hyperlink('', '#', [
             'class' => 'o-icon-delete',
             'title' => $translate('Remove item set'),
         ]) . '</li>
-    </ul><input type="hidden" class="item-set-id" name="o:item_set[]"></td>
+    </ul><input type="hidden" class="resource-id" name="o:item_set[]"></td>
 </tr>';
 ?>
 <table id="item-item-sets" 
   data-tablesaw-mode="stack"
-  data-item-sets="<?php echo $this->escapeHtml(json_encode($itemSets)); ?>"
+  data-existing-rows="<?php echo $this->escapeHtml(json_encode($itemSets)); ?>"
   data-row-template="<?php echo $this->escapeHtml($itemSetTemplate); ?>"
-  class="tablesaw tablesaw-stack">
+  class="selector-table tablesaw tablesaw-stack <?php echo ($item && (count($itemSets) > 0)) ? '' : 'empty'; ?>">
     <thead>
     <tr>
         <th><?php echo $translate('Title'); ?></th>
@@ -35,7 +34,7 @@ $itemSetTemplate = '
         <th></th>
     </tr>
     </thead>
-    <tbody id="item-set-rows"></tbody>
+    <tbody id="resource-rows"></tbody>
 </table>
 
 <div class="no-resources">
@@ -44,6 +43,8 @@ $itemSetTemplate = '
 
 <button id="item-set-selector-button" class="mobile-only"><?php echo $translate('Add to item set'); ?></button>
 
-<span id="item-set-template" data-template="<?php echo $escape($itemSetTemplate); ?>"></span>
-
 <?php echo $this->itemSetSelector(); ?>
+
+<script>
+  Omeka.initializeSelector('#item-item-sets', '#item-set-selector');
+</script>

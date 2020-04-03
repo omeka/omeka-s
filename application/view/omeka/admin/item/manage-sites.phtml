@@ -23,7 +23,7 @@ $siteTemplate = '
     </td>
 </tr>';
 ?>
-<table id="item-sites" data-existing-rows="<?php echo $this->escapeHtml(json_encode($sites)); ?>" data-row-template="<?php echo $this->escapeHtml($siteTemplate); ?>" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && (count($sites) > 0)) ? '' : 'empty'; ?>">
+<table id="item-sites" data-existing-rows="<?php echo $this->escapeHtml(json_encode($sites)); ?>" data-row-template="<?php echo $this->escapeHtml($siteTemplate); ?>" data-tablesaw-mode="stack" class="selector-table tablesaw tablesaw-stack <?php echo ($item && (count($sites) > 0)) ? '' : 'empty'; ?>">
     <thead>
     <tr>
         <th><?php echo $this->translate('Title'); ?></th>
@@ -31,7 +31,7 @@ $siteTemplate = '
         <th></th>
     </tr>
     </thead>
-    <tbody id="site-rows"></tbody>
+    <tbody id="resource-rows"></tbody>
 </table>
 
 <div class="no-resources">

@@ -27,7 +27,6 @@ $siteTemplate = '
     </td>
 </tr>';
 ?>
-
 <table id="item-sites" data-item-sites="<?php echo $this->escapeHtml(json_encode($sites)); ?>" data-row-template="<?php echo $this->escapeHtml($siteTemplate); ?>" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && $sites) ? '' : 'empty'; ?>">
     <thead>
     <tr>

@@ -2550,11 +2550,7 @@ input[type="text"].value-language,
     
     /* @group ----- Sites ----- */
     
-    #item-sites {
-        display: none;
-    }
-
-    #item-sites + .no-resources {
+    #item-sites.empty + .no-resources {
         display: block;
         padding: 0 $spacing-large;
 
@@ -2563,12 +2559,8 @@ input[type="text"].value-language,
         }
     }
     
-    #sites.has-rows #item-sites {
-        display: table;
-        
-        & + .no-resources {
-          display: none;
-        }
+    #sites #item-sites no-resources {
+        display: none;
     }
     
     /* @end */

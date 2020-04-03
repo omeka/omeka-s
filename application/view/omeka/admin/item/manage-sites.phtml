@@ -1,5 +1,4 @@
 <?php
-$this->headScript()->appendFile($this->assetUrl('js/item-manage-sites.js', 'Omeka'));
 $siteRepresentations = $item
     ? $item->sites()
     : $this->api()->search('sites', ['assign_new_items' => true])->getContent();
@@ -12,22 +11,19 @@ foreach ($siteRepresentations as $siteRepresentation) {
   ];
 }
 
-foreach($sites as $site) {
-  echo '<p>' . $site['title'] . '</p>';
-}
 $siteTemplate = '
-<tr class="site-row">
-    <td class="site-title"></td>
-    <td class="site-owner-email">__owner-email__</td>
+<tr class="resource-row">
+    <td class="data-value" data-row-key="child-search"></td>
+    <td class="data-value" data-row-key="resource-email"></td>
     <td>
         <ul class="actions">
             <li>' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $this->translate('Unassign from site')]) . '</li>
         </ul>
-        <input type="hidden" name="o:site[]" class="site-id">
+        <input type="hidden" name="o:site[]" class="resource-id">
     </td>
 </tr>';
 ?>
-<table id="item-sites" data-item-sites="<?php echo $this->escapeHtml(json_encode($sites)); ?>" data-row-template="<?php echo $this->escapeHtml($siteTemplate); ?>" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && $sites) ? '' : 'empty'; ?>">
+<table id="item-sites" data-existing-rows="<?php echo $this->escapeHtml(json_encode($sites)); ?>" data-row-template="<?php echo $this->escapeHtml($siteTemplate); ?>" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && (count($sites) > 0)) ? '' : 'empty'; ?>">
     <thead>
     <tr>
         <th><?php echo $this->translate('Title'); ?></th>
@@ -45,3 +41,7 @@ $siteTemplate = '
 <button id="site-selector-button" class="mobile-only"><?php echo $this->translate('Assign to site'); ?></button>
 
 <?php echo $this->siteSelector(); ?>
+
+<script>
+  Omeka.initializeSelector('#item-sites', '#site-selector');
+</script>

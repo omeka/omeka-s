@@ -3512,12 +3512,13 @@ body.sidebar-open #content {
         padding: $spacing-small 0;
     }
 
-    #user-selector.empty .users-available {
+    .selector .resources-available.empty,
+    .selector .resources-available + .resources-unavailable {
         display: none;
     }
 
-    #user-selector:not(.empty) .users-unavailable {
-        display: none;
+    .selector .resources-available.empty + .resources-unavailable {
+        display: block;
     }
 
     /* @end */

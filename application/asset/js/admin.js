@@ -216,9 +216,8 @@ var Omeka = {
               var tableRowValue = selectorRow.data(tableRowKey);
               tableRowCell.text(tableRowValue);
             });
-            table.append(tableRow);
             selectorRow.addClass('added');
-            table.removeClass('empty');
+            table.append(tableRow).removeClass('empty').trigger('appendRow');
             updateSiteCount(id);
         }
     
@@ -235,6 +234,11 @@ var Omeka = {
             }
             totalCount.text(newTotalCount);
             childCount.text(newChildCount);
+            if (newTotalCount == 0) {
+              selector.find('.resources-available').addClass('empty');
+            } else {
+              selector.find('.resources-available').removeClass('empty');
+            }
         }
     
         if (existingRowData.length > 0) {

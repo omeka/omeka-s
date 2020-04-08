@@ -211,10 +211,10 @@ var Omeka = {
             var selectorRow = selector.find('[data-resource-id="' + id + '"]');
             tableRow.find('.resource-id').val(id);
             tableRow.find('.data-value').each(function() {
-              var tableRowCell = $(this);
-              var tableRowKey = tableRowCell.data('row-key');
-              var tableRowValue = selectorRow.data(tableRowKey);
-              tableRowCell.text(tableRowValue);
+                var tableRowCell = $(this);
+                var tableRowKey = tableRowCell.data('row-key');
+                var tableRowValue = selectorRow.data(tableRowKey);
+                tableRowCell.text(tableRowValue);
             });
             selectorRow.addClass('added');
             table.append(tableRow).removeClass('empty').trigger('appendRow');
@@ -235,9 +235,14 @@ var Omeka = {
             totalCount.text(newTotalCount);
             childCount.text(newChildCount);
             if (newTotalCount == 0) {
-              selector.find('.resources-available').addClass('empty');
+                selector.find('.resources-available').addClass('empty');
             } else {
-              selector.find('.resources-available').removeClass('empty');
+                selector.find('.resources-available').removeClass('empty');
+            }
+            if (newChildCount == 0) {
+                resourceParent.addClass('empty');
+            } else {
+                resourceParent.removeClass('empty');
             }
         }
     

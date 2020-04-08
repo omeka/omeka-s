@@ -6,13 +6,13 @@ $this->headScript()->appendFile($this->assetUrl('js/site-item-sets.js', 'Omeka')
 $this->htmlElement('body')->appendAttribute('class', 'sites resources');
 
 $rowTemplate = '
-<tr class="site-item-set-row">
+<tr class="resource-row">
     <td class="sortable-handle"></td>
-    <td class="site-item-set-title"></td>
-    <td class="site-item-set-owner-email"></td>
+    <td class="data-value" data-row-key="child-search"></td>
+    <td class="data-value" data-row-key="owner-email"></td>
     <td>
 ' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $translate('Remove item set')])
-  . '<input type="hidden" class="site-item-set-id" name="o:site_item_set[][o:item_set][o:id]">
+  . '<input type="hidden" class="resource-id" name="o:site_item_set[][o:item_set][o:id]">
     </td>
 </tr>';
 ?>
@@ -51,9 +51,9 @@ $rowTemplate = '
 </div>
 
 <div id="item-sets-section" class="section">
-    <table id="site-item-sets" class="tablesaw tablesaw-stack"
+    <table id="site-item-sets" class="selector-table tablesaw tablesaw-stack <?php echo ((count($itemSets) > 0)) ? '' : 'empty'; ?>"
         data-tablesaw-mode="stack"
-        data-item-sets="<?php echo $this->escapeHtml(json_encode($itemSets)); ?>"
+        data-existing-rows="<?php echo $this->escapeHtml(json_encode($itemSets)); ?>"
         data-row-template="<?php echo $this->escapeHtml($rowTemplate); ?>">
         <thead>
             <tr>
@@ -63,15 +63,16 @@ $rowTemplate = '
                 <th></th>
             </tr>
         </thead>
-        <tbody id="site-item-set-rows"></tbody>
+        <tbody class="resource-rows"></tbody>
     </table>
-    <p id="no-site-item-sets"><?php echo $translate('No item sets are assigned to this site.'); ?></p>
+    <div class="no-resources"><?php echo $translate('No item sets are assigned to this site.'); ?></div>
     <?php echo $this->itemSetSelector(true); ?>
 </div>
 
 <?php echo $this->form()->closeTag(); ?>
 
 <script>
+Omeka.initializeSelector('#site-item-sets', '#item-set-selector');
 $('#resources-preview-button').on('click', function(e) {
     e.preventDefault();
     var url = $(this).data('url');

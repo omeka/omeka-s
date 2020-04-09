@@ -13,6 +13,7 @@ class PasswordConfirmFactory implements FactoryInterface
         $passwordConfig = isset($config['password']) ? $config['password'] : [];
         $fieldset = new PasswordConfirm;
         $fieldset->setPasswordConfig($passwordConfig);
+        $fieldset->setTranslator($services->get('MvcTranslator'));
         return $fieldset;
     }
 }

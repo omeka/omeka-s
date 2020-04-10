@@ -94,11 +94,13 @@ class UserController extends AbstractActionController
         $changeRole = $this->userIsAllowed('Omeka\Entity\User', 'change-role');
         $changeRoleAdmin = $this->userIsAllowed('Omeka\Entity\User', 'change-role-admin');
         $activateUser = $this->userIsAllowed('Omeka\Entity\User', 'activate-user');
+        $addSiteRole = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'batch_update');
 
         $form = $this->getForm(UserForm::class, [
             'include_role' => $changeRole,
             'include_admin_roles' => $changeRoleAdmin,
             'include_is_active' => $activateUser,
+            'include_site_role_add' => $addSiteRole,
         ]);
 
         if ($this->getRequest()->isPost()) {
@@ -143,6 +145,7 @@ class UserController extends AbstractActionController
         $changeRole = $this->userIsAllowed($userEntity, 'change-role');
         $changeRoleAdmin = $this->userIsAllowed($userEntity, 'change-role-admin');
         $activateUser = $this->userIsAllowed($userEntity, 'activate-user');
+        $addSiteRole = $this->userIsAllowed($userEntity, 'batch_update');
 
         $form = $this->getForm(UserForm::class, [
             'user_id' => $id,
@@ -152,6 +155,8 @@ class UserController extends AbstractActionController
             'current_password' => $currentUser,
             'include_password' => true,
             'include_key' => true,
+            'include_site_role_remove' => $addSiteRole,
+            'include_site_role_add' => $addSiteRole,
         ]);
         $form->setAttribute('action', $this->getRequest()->getRequestUri());
 

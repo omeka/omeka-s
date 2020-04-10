@@ -24,6 +24,8 @@ class UserForm extends Form
         'current_password' => false,
         'include_password' => false,
         'include_key' => false,
+        'include_site_role_remove' => false,
+        'include_site_role_add' => false,
     ];
 
     /**
@@ -177,6 +179,63 @@ class UserForm extends Form
             ],
         ]);
 
+        if ($this->getOption('include_site_role_remove')) {
+            $this->get('user-information')->add([
+                'name' => 'remove_from_site_permission',
+                'type' => SiteSelect::class,
+                'attributes' => [
+                    'id' => 'remove-from-site-permission-select',
+                    'class' => 'chosen-select',
+                    'multiple' => true,
+                    'data-placeholder' => 'Select sites…', // @translate
+                    'data-collection-action' => 'remove',
+                ],
+                'options' => [
+                    'label' => 'Remove from site permission', // @translate
+                    'empty_option' => '[No change]', // @translate
+                    'prepend_value_options' => ['-1' => '[All sites]'], // @translate
+                ],
+            ]);
+        }
+
+        if ($this->getOption('include_site_role_add')) {
+            $this->get('user-information')->add([
+                'name' => 'add_to_site_permission',
+                'type' => SiteSelect::class,
+                'attributes' => [
+                    'id' => 'add-to-site-permission-select',
+                    'class' => 'chosen-select',
+                    'multiple' => true,
+                    'data-placeholder' => 'Select sites…', // @translate
+                    'data-collection-action' => 'append',
+                ],
+                'options' => [
+                    'label' => 'Add to site permission', // @translate
+                    'empty_option' => '[No change]', // @translate
+                    'prepend_value_options' => ['-1' => '[All sites]'], // @translate
+                ],
+            ]);
+
+            $this->get('user-information')->add([
+                'name' => 'add_to_site_permission_role',
+                'type' => 'Select',
+                'attributes' => [
+                    'id' => 'add-to-site-permission-role-select',
+                    'data-placeholder' => 'Select permission…', // @translate
+                    'data-collection-action' => 'append',
+                ],
+                'options' => [
+                    'label' => 'Add to site permission as', // @translate
+                    'empty_option' => '[No change]', // @translate
+                    'value_options' => [
+                        'viewer' => 'Viewer', // @translate
+                        'editor' => 'Editor', // @translate
+                        'admin' => 'Admin', // @translate
+                    ],
+                ],
+            ]);
+        }
+
         if ($this->getOption('include_password')) {
             if ($this->getOption('current_password')) {
                 $this->get('change-password')->add([
@@ -230,6 +289,18 @@ class UserForm extends Form
         $inputFilter->get('user-settings')->add([
             'name' => 'default_item_sites',
             'allow_empty' => true,
+        ]);
+        $inputFilter->get('user-information')->add([
+            'name' => 'remove_from_site_permission',
+            'required' => false,
+        ]);
+        $inputFilter->get('user-information')->add([
+            'name' => 'add_to_site_permission',
+            'required' => false,
+        ]);
+        $inputFilter->get('user-information')->add([
+            'name' => 'add_to_site_permission_role',
+            'required' => false,
         ]);
 
         if ($this->getOption('include_key')) {

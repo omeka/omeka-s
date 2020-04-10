@@ -38,6 +38,12 @@ class Module extends AbstractModule
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
         $sharedEventManager->attach(
+            'Omeka\Api\Adapter\UserAdapter',
+            'api.execute.post',
+            [$this, 'batchUpdatePostUser']
+        );
+
+        $sharedEventManager->attach(
             'Laminas\View\Helper\Navigation\AbstractHelper',
             'isAllowed',
             [$this, 'navigationPageIsAllowed']
@@ -438,7 +444,17 @@ class Module extends AbstractModule
         // events of Site.
         // TODO Replace $fileData by $relatedData in ApiManager, so any related
         // entity will be able to be updated with the main entity.
-        $userIds = array_intersect_key($response->getRequest()->getIds(), $response->getContent());
+        
+        if (empty($requestIds = $response->getRequest()->getIds())) {
+            //Single user creation or update
+            $responseContent[] = $response->getContent();
+            $requestIds[] = $response->getContent()->getId();
+        } else {
+            //Batch user update
+            $responseContent = $response->getContent();
+        }
+
+        $userIds = array_intersect_key($requestIds, $responseContent);
         foreach ($siteIds as $siteId) {
             $site = is_object($siteId)
                 ? $siteId

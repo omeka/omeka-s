@@ -660,6 +660,32 @@ a.collapse {
     margin-left: 3px;
 }
 
+.selector-table {
+    display: table;
+}
+
+.selector-table.empty,
+.selector-table + .no-resources {
+    display: none;
+}
+    
+.selector-table.empty + .no-resources {
+    display: block;
+}
+      
+.selector .resources-available.empty,
+.selector .resources-available + .resources-unavailable {
+    display: none;
+}
+
+.selector .resources-available.empty + .resources-unavailable {
+    display: block;
+}
+
+.selector .selector-child.added {
+  display: none;
+}
+
 /* @end */
 
 /* @group ----- Header ----- */
@@ -1762,15 +1788,6 @@ input[type="text"].value-language,
     margin-left: .5em;
 }
 
-#item-sites.empty,
-#item-sites + .no-resources {
-  display: none;
-}
-
-#item-sites.empty + .no-resources {
-  display: block;
-}
-
     /* @group ----- Metadata ----- */
 
     #add-item .remove.field {
@@ -1846,6 +1863,10 @@ input[type="text"].value-language,
             margin: $spacing-small -10px (-$spacing-small);
             border-radius: 0 0 3px 3px;
         }
+    }
+    
+    .selector li.selector-parent.empty {
+        display: none;
     }
 
     .selector li.show > ul {
@@ -2508,23 +2529,11 @@ input[type="text"].value-language,
 
     /* @group ----- Item Sets ----- */
 
-    #item-item-sets + .no-resources {
-        display: none;
+    #item-item-sets + .no-resources:before,
+    #site-item-sets + .no-resources:before {
+        content: fa-content($fa-var-cubes);
     }
-
-    #item-item-sets.empty {
-        display: none;
-
-        & + .no-resources {
-            display: block;
-            padding: 0 $spacing-large;
-
-            &:before {
-                content: fa-content($fa-var-cubes);
-            }
-        }
-    }
-
+    
     #item-item-sets tr.delete {
         background-color: $delete-bg;
     }
@@ -2542,6 +2551,14 @@ input[type="text"].value-language,
         box-shadow: none;
     }
 
+    /* @end */
+    
+    /* @group ----- Sites ----- */
+    
+    #item-sites.empty + .no-resources:before {
+        content: fa-content($fa-var-laptop);
+    }
+    
     /* @end */
 
 /* @end */
@@ -3446,11 +3463,6 @@ body.sidebar-open #content {
 
     /* @group ----- Resources ----- */
       
-    #item-set-selector .added,
-    #user-selector .added {
-      display: none;
-    }
-    
     #site-item-sets th:first-child,
     #site-item-sets th:last-child {
         width: 1.5 * $spacing-large;
@@ -3461,15 +3473,7 @@ body.sidebar-open #content {
         display: none;
     }
     
-    #site-item-sets,
-    .has-item-sets #no-site-item-sets {
-        display: none;
-    }
-          
-    .has-item-sets #site-item-sets {
-        display: table;
-    }
-        
+    
     /* @end */
 
     /* @group ----- User Permissions ----- */
@@ -3478,8 +3482,7 @@ body.sidebar-open #content {
     tr.value.delete > td:not(.input-footer) {
         display: table-cell;
     }
-    #site-user-permissions + .no-resources,
-    #site-user-permissions.empty,
+    
     tr.value.delete .user-name,
     tr.value.delete select,
     tr.value.delete .o-icon-delete {
@@ -3490,26 +3493,13 @@ body.sidebar-open #content {
         width: 50%;
     }
 
-    #site-user-permissions.empty  + .no-resources {
-        display: block;
-        padding: 0 $spacing-large;
-
-        &:before {
-            content: fa-content($fa-var-users);
-        }
+    #site-user-permissions.empty  + .no-resources:before {
+        content: fa-content($fa-var-users);
     }
 
     #site-user-permissions .actions {
         justify-content: flex-end;
         padding: $spacing-small 0;
-    }
-
-    #user-selector.empty .users-available {
-        display: none;
-    }
-
-    #user-selector:not(.empty) .users-unavailable {
-        display: none;
     }
 
     /* @end */

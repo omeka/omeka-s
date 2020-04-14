@@ -44,7 +44,7 @@ class Module extends AbstractModule
         );
         
         $sharedEventManager->attach(
-            'Zend\View\Helper\Navigation\AbstractHelper',
+            'Laminas\View\Helper\Navigation\AbstractHelper',
             'isAllowed',
             [$this, 'navigationPageIsAllowed']
         );

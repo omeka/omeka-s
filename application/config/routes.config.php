@@ -318,6 +318,19 @@ return [
                     ],
                 ],
             ],
+            'search' => [
+                'type' => \Laminas\Router\Http\Segment::class,
+                'options' => [
+                    'route' => '/search[/:action]',
+                    'defaults' => [
+                        'controller' => 'Omeka\Controller\Search',
+                        'action' => 'index',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z0-9_-]+',
+                    ],
+                ],
+            ],
         ],
     ],
 ];

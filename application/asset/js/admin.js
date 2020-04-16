@@ -189,6 +189,96 @@ var Omeka = {
         }
     },
 
+    initializeSelector : function(tableId, selectorId) {
+        var table = $(tableId);
+        var existingRowData = table.data('existing-rows');
+        var rowTemplate = $($.parseHTML(table.data('rowTemplate')));
+        var selector = $(selectorId);
+        var totalCount = $(selectorId).find('.selector-total-count');
+      
+        var parentToggle = function(e) {
+            e.stopPropagation();
+            if ($(this).children('li')) {
+                $(this).toggleClass('show');
+            }
+        }
+        
+        var appendRow = function(id) {
+            if (table.find(".resource-id[value='" + id + "']").length) {
+                return;
+            }
+            var tableRow = rowTemplate.clone();
+            var selectorRow = selector.find('[data-resource-id="' + id + '"]');
+            tableRow.find('.resource-id').val(id);
+            tableRow.find('.data-value').each(function() {
+                var tableRowCell = $(this);
+                var tableRowKey = tableRowCell.data('row-key');
+                var tableRowValue = selectorRow.data(tableRowKey);
+                tableRowCell.text(tableRowValue);
+            });
+            selectorRow.addClass('added');
+            table.append(tableRow).removeClass('empty').trigger('appendRow');
+            updateSiteCount(id);
+        }
+    
+        var updateSiteCount = function(id) {
+            var resource = $('[data-resource-id="' + id + '"]');
+            var resourceParent = resource.parents('.selector-parent');
+            var childCount = resourceParent.find('.selector-child-count').first();
+            if (resource.hasClass('added')) {
+                var newTotalCount = parseInt(totalCount.text()) - 1;
+                var newChildCount = parseInt(childCount.text()) - 1;
+            } else {
+                var newTotalCount = parseInt(totalCount.text()) + 1;
+                var newChildCount = parseInt(childCount.text()) + 1;
+            }
+            totalCount.text(newTotalCount);
+            childCount.text(newChildCount);
+            if (newTotalCount == 0) {
+                selector.find('.resources-available').addClass('empty');
+            } else {
+                selector.find('.resources-available').removeClass('empty');
+            }
+            if (newChildCount == 0) {
+                resourceParent.addClass('empty');
+            } else {
+                resourceParent.removeClass('empty');
+            }
+        }
+    
+        if (existingRowData.length > 0) {
+            $.each(existingRowData, function() {
+                appendRow(this.id);
+            });
+            table.removeClass('empty');
+        }
+    
+        // Add the selected resource to the edit panel.
+        $(selectorId + ' .selector-child').on('click', function(e) {
+            e.stopPropagation();
+            var selectorRow = $(this);
+            var selectorParent = selectorRow.parents('.selector-parent');
+            selectorParent.unbind('click');
+            appendRow(selectorRow.data('resource-id'));
+            selectorParent.bind('click', parentToggle);
+            Omeka.scrollTo(table.find('.resource-row:last-child'));
+        });
+
+        // Remove an item set from the edit panel.
+        table.on('click', '.o-icon-delete', function(e) {
+            e.preventDefault();
+            var row = $(this).closest('.resource-row');
+            var resourceId = row.find('.resource-id').val();
+            selector.find('[data-resource-id="' + resourceId + '"]').removeClass('added');
+            updateSiteCount(resourceId);
+            row.remove();
+            if ($('.resource-row').length < 1) {
+                table.addClass('empty');
+            }
+        });
+    },
+
+
     // @see http://stackoverflow.com/questions/7035825/regular-expression-for-a-language-tag-as-defined-by-bcp47
     // Removes `|[A-Za-z]{4}|[A-Za-z]{5,8}` from the "language" portion becuase,
     // while in the spec, it does not represent current usage.

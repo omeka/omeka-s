@@ -3,7 +3,7 @@ $translate = $this->plugin('translate');
 ?>
 <div id="user-selector" class="selector sidebar<?php echo $alwaysOpen ? ' always-open' : ''; ?>">
     <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
-    <div class="users-available">
+    <div class="resources-available">
     <h3>
         <?php if ($title): ?>
         <?php echo $title; ?>
@@ -22,11 +22,10 @@ $translate = $this->plugin('translate');
                     <ul>
                     <?php foreach ($users as $user): ?>
                         <li class="selector-child"
-                            data-child-search="<?php echo sprintf('%s %s', $this->escapeHtml($user->name()), $this->escapeHtml($user->email())); ?>"
+                            data-child-search="<?php echo sprintf('%s (%s)', $this->escapeHtml($user->name()), $this->escapeHtml($user->email())) ?>"
                             data-user="<?php echo $this->escapeHtml(json_encode($user, true)); ?>"
-                            data-user-id="<?php echo $user->id(); ?>">
-                            <span class="user-name"><?php echo $this->escapeHtml($user->name()); ?></span>
-                            <span class="user-email"><?php echo $this->escapeHtml($user->email()); ?></span>
+                            data-resource-id="<?php echo $user->id(); ?>">
+                            <span class="user-name"><?php echo $this->escapeHtml($user->name()); ?> (<?php echo $this->escapeHtml($user->email()); ?>)</span>
                         </li>
                     <?php endforeach; ?>
                     </ul>
@@ -36,7 +35,7 @@ $translate = $this->plugin('translate');
         </li>
     </ul>
     </div>
-    <div class="users-unavailable">
-        <p><?php echo sprintf('All users have been added to the site.'); ?></p>
+    <div class="resources-unavailable">
+        <p><?php echo sprintf('All %s have been added.', 'users'); ?></p>
     </div>
 </div>

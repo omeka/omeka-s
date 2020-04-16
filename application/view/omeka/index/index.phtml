@@ -10,6 +10,15 @@ $this->headTitle($subtitle);
 <h2 class="site-list-heading"><?php echo $subtitle; ?></h2>
 
 <?php if ($sites): ?>
+
+<?php echo $this->partial(
+  'omeka/search/form.phtml',
+  [
+      'fulltextSearch' => $this->escapeHtml($this->params()->fromQuery('fulltext_search')),
+      'action' => $this->escapeHtml($this->url('search', ['action' => 'results']))
+  ]
+); ?>
+
 <div class="site-list">
 <?php
 foreach ($sites as $site):

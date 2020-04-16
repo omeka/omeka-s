@@ -53,7 +53,6 @@
         "laminas/laminas-server": "^2.7.0",
         "laminas/laminas-servicemanager": "^3.1",
         "laminas/laminas-session": "^2.7.1",
-        "laminas/laminas-soap": "^2.6",
         "laminas/laminas-stdlib": "^3.0.1",
         "laminas/laminas-tag": "^2.6.1",
         "laminas/laminas-text": "^2.6",

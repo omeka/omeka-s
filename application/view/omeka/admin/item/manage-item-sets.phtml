@@ -1,9 +1,33 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$this->headScript()->appendFile($this->assetUrl('js/item-manage-item-sets.js', 'Omeka'));
+$itemSetRepresentations = $item ? $item->itemSets() : [];
+$itemSets = [];
+foreach ($itemSetRepresentations as $itemSet) {
+    $owner = $itemSet->owner();
+    $itemSets[] = [
+        'id' => $itemSet->id(),
+        'title' => $itemSet->title(),
+        'email' => $owner ? $owner->email() : null,
+    ];
+}
+$itemSetTemplate = '
+<tr class="resource-row">
+    <td class="data-value" data-row-key="child-search"></td>
+    <td class="data-value" data-row-key="owner-email"></td>
+    <td><ul class="actions">
+        <li>' . $this->hyperlink('', '#', [
+            'class' => 'o-icon-delete',
+            'title' => $translate('Remove item set'),
+        ]) . '</li>
+    </ul><input type="hidden" class="resource-id" name="o:item_set[]"></td>
+</tr>';
 ?>
-<table id="item-item-sets" data-tablesaw-mode="stack" class="tablesaw tablesaw-stack <?php echo ($item && $item->itemSets()) ? '' : 'empty'; ?>">
+<table id="item-item-sets" 
+  data-tablesaw-mode="stack"
+  data-existing-rows="<?php echo $this->escapeHtml(json_encode($itemSets)); ?>"
+  data-row-template="<?php echo $this->escapeHtml($itemSetTemplate); ?>"
+  class="selector-table tablesaw tablesaw-stack <?php echo ($item && (count($itemSets) > 0)) ? '' : 'empty'; ?>">
     <thead>
     <tr>
         <th><?php echo $translate('Title'); ?></th>
@@ -11,29 +35,7 @@ $this->headScript()->appendFile($this->assetUrl('js/item-manage-item-sets.js', '
         <th></th>
     </tr>
     </thead>
-    <tbody>
-    <?php if ($item && $item->itemSets()): ?>
-    <?php foreach ($item->itemSets() as $itemSet): ?>
-    <?php
-    if ($owner = $itemSet->owner()) {
-        $ownerText = $escape($itemSet->owner()->name());
-    } else {
-        $ownerText = $translate('[no owner]');
-    }
-    ?>
-    <tr>
-        <td><?php echo $escape($itemSet->displayTitle()); ?></td>
-        <td><?php echo $ownerText; ?></td>
-        <td><ul class="actions">
-            <li><?php echo $this->hyperlink('', '#', [
-                'class' => 'o-icon-delete',
-                'title' => $translate('Remove item set'),
-            ]); ?></li>
-        </ul><input type="hidden" name="o:item_set[]" value="<?php echo $escape($itemSet->id()) ?>"></td>
-    </tr>
-    <?php endforeach; ?>
-    <?php endif; ?>
-    </tbody>
+    <tbody class="resource-rows"></tbody>
 </table>
 
 <div class="no-resources">
@@ -42,19 +44,8 @@ $this->headScript()->appendFile($this->assetUrl('js/item-manage-item-sets.js', '
 
 <button id="item-set-selector-button" class="mobile-only"><?php echo $translate('Add to item set'); ?></button>
 
-<?php
-$itemSetTemplate = '
-<tr>
-    <td class="item-set-title"></td>
-    <td class="owner-email">__owner-email__</td>
-    <td><ul class="actions">
-        <li>' . $this->hyperlink('', '#', [
-            'class' => 'o-icon-delete',
-            'title' => $translate('Remove item set'),
-        ]) . '</li>
-    </ul><input type="hidden" name="o:item_set[]"></td>
-</tr>';
-?>
-<span id="item-set-template" data-template="<?php echo $escape($itemSetTemplate); ?>"></span>
-
 <?php echo $this->itemSetSelector(); ?>
+
+<script>
+  Omeka.initializeSelector('#item-item-sets', '#item-set-selector');
+</script>

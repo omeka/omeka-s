@@ -220,6 +220,18 @@ class AclFactory implements FactoryInterface
             'read',
             $viewerAssertion
         );
+
+        $canAssignItemsAssertion = $this->aggregate([
+            new OwnsEntityAssertion,
+            new HasSitePermissionAssertion('admin'),
+            new HasSitePermissionAssertion('editor'),
+        ], AssertionAggregate::MODE_AT_LEAST_ONE);
+        $acl->allow(
+            null,
+            'Omeka\Entity\Site',
+            'can-assign-items',
+            $canAssignItemsAssertion
+        );
     }
 
     /**

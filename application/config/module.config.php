@@ -304,6 +304,7 @@ return [
     'controllers' => [
         'invokables' => [
             'Omeka\Controller\Index' => Controller\IndexController::class,
+            'Omeka\Controller\Search' => Controller\SearchController::class,
             'Omeka\Controller\Maintenance' => Controller\MaintenanceController::class,
             'Omeka\Controller\Site\Index' => Controller\Site\IndexController::class,
             'Omeka\Controller\Site\Item' => Controller\Site\ItemController::class,
@@ -387,6 +388,7 @@ return [
             'filterSelector' => View\Helper\FilterSelector::class,
             'propertySelector' => View\Helper\PropertySelector::class,
             'itemSetSelector' => View\Helper\ItemSetSelector::class,
+            'siteSelector' => View\Helper\SiteSelector::class,
             'userSelector' => View\Helper\UserSelector::class,
             'searchFilters' => View\Helper\SearchFilters::class,
             'blockAttachmentsForm' => View\Helper\BlockAttachmentsForm::class,

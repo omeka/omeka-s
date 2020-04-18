@@ -3485,6 +3485,10 @@ body.sidebar-open #content {
         padding: $spacing-medium 0 $spacing-small;
         background-color: $gray-on-white;
         border-top: 1px solid $border-gray;
+        
+        &.inactive {
+            display: none;
+        }
     }
     
     .manual-assignment .advanced-search-header {
@@ -3512,14 +3516,23 @@ body.sidebar-open #content {
         cursor: pointer;
         margin: 0 0 $spacing-small;
 
-        &:hover:not(.inactive) {
+        &:hover:not(.disabled) {
             box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset;
+        }
+
+        &.disabled {
+            box-shadow: none;
+            opacity: .7;
+            cursor: default;
+            border: 0;
         }
         
         input {
             margin: 0 0 0 $spacing-small;
         }
     }
+    
+    
     
     /* @end */
 

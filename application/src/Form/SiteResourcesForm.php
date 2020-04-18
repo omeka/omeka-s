@@ -11,7 +11,7 @@ class SiteResourcesForm extends Form
             'name' => 'o:assign_new_items',
             'type' => 'checkbox',
             'options' => [
-                'label' => 'Assign new items', // @translate
+                'label' => 'Automatically assign newly created items', // @translate
                 'info' => 'Select this if you want newly created items to be assigned to this site. Note that item owners may unassign their items at any time.', // @translate
             ],
             'attributes' => [
@@ -20,17 +20,20 @@ class SiteResourcesForm extends Form
             ],
         ]);
         $this->add([
-            'type' => 'select',
+            'type' => 'radio',
             'name' => 'item_assignment_action',
             'options' => [
-                'label' => 'Assignment action', // @translate
-                'empty_option' => '[No action]', // @translate
+                'label' => 'Manage current items', // @translate
                 'value_options' => [
-                    'add' => 'Add - keep existing items and assign items from the following search', // @translate
-                    'replace' => 'Replace - unassign all items and assign items from the following search', // @translate
-                    'remove' => 'Remove - unassign items from the following search', // @translate
+                    'no_action' => 'Do nothing', // @translate
+                    'add' => 'Add - keep existing items and assign items from a new search', // @translate
+                    'replace' => 'Replace - unassign all items and assign items from a new search', // @translate
+                    'remove' => 'Remove - unassign items from a new search', // @translate
                     'remove_all' => 'Remove all - unassign all items', // @translate
                 ],
+            ],
+            'attributes' => [
+                'value' => 'no_action',
             ],
         ]);
         $this->add([

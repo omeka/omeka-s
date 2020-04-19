@@ -1,8 +1,9 @@
 <?php
 namespace Omeka\Form\Element;
 
-use Zend\Form\Fieldset;
-use Zend\InputFilter\InputFilterProviderInterface;
+use Laminas\Form\Fieldset;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\InputFilter\InputFilterProviderInterface;
 
 class PasswordConfirm extends Fieldset implements InputFilterProviderInterface
 {
@@ -14,33 +15,34 @@ class PasswordConfirm extends Fieldset implements InputFilterProviderInterface
     public function init()
     {
         $config = $this->getPasswordConfig();
+        $translator = $this->getTranslator();
 
         $requirements = [];
         if (isset($config['min_length']) && is_numeric($config['min_length'])) {
-            $requirements[] = sprintf('be a minimum of %s characters in length.', // @translate
+            $requirements[] = sprintf($translator->translate('be a minimum of %s characters in length.'),
                 $config['min_length']);
         }
         if (isset($config['min_lowercase']) && is_numeric($config['min_lowercase'])) {
-            $requirements[] = sprintf('contain at least %s lowercase characters.', // @translate
+            $requirements[] = sprintf($translator->translate('contain at least %s lowercase characters.'),
                 $config['min_lowercase']);
         }
         if (isset($config['min_uppercase']) && is_numeric($config['min_uppercase'])) {
-            $requirements[] = sprintf('contain at least %s uppercase characters.', // @translate
+            $requirements[] = sprintf($translator->translate('contain at least %s uppercase characters.'),
                 $config['min_uppercase']);
         }
         if (isset($config['min_number']) && is_numeric($config['min_number'])) {
-            $requirements[] = sprintf('contain at least %s numbers.', // @translate
+            $requirements[] = sprintf($translator->translate('contain at least %s numbers.'),
                 $config['min_number']);
         }
         if (isset($config['min_symbol']) && is_numeric($config['min_symbol'])
             && isset($config['symbol_list']) && is_string($config['symbol_list'])
             && strlen($config['symbol_list'])
         ) {
-            $requirements[] = sprintf('contain at least %s symbols: %s', // @translate
+            $requirements[] = sprintf($translator->translate('contain at least %1$s symbols: %2$s'),
                 $config['min_symbol'], $config['symbol_list']);
         }
 
-        $requirementsHtml = 'Password must:'; // @translate
+        $requirementsHtml = $translator->translate('Password must:');
         $requirementsHtml .= '<ul>';
         foreach ($requirements as $requirement) {
             $requirementsHtml .= '<li>' . $requirement . '</li>';
@@ -226,5 +228,15 @@ class PasswordConfirm extends Fieldset implements InputFilterProviderInterface
     public function getPasswordConfig()
     {
         return $this->passwordConfig;
+    }
+
+    public function setTranslator(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    public function getTranslator()
+    {
+        return $this->translator;
     }
 }

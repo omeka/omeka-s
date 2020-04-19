@@ -12,14 +12,14 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
      *      three parameters, being respectively the proxy object to be initialized, the method that triggered the
      *      initialization process and an array of ordered parameters that were passed to that method.
      *
-     * @see \Doctrine\Common\Persistence\Proxy::__setInitializer
+     * @see \Doctrine\Common\Proxy\Proxy::__setInitializer
      */
     public $__initializer__;
 
     /**
      * @var \Closure the callback responsible of loading properties that need to be copied in the cloned object
      *
-     * @see \Doctrine\Common\Persistence\Proxy::__setCloner
+     * @see \Doctrine\Common\Proxy\Proxy::__setCloner
      */
     public $__cloner__;
 
@@ -31,20 +31,22 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public $__isInitialized__ = false;
 
     /**
-     * @var array properties to be lazy loaded, with keys being the property
-     *            names and values being their default values
-     *
-     * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
+     * @var array<string, null> properties to be lazy loaded, indexed by property name
      */
-    public static $lazyPropertiesDefaults = [];
-
-
+    public static $lazyPropertiesNames = array (
+);
 
     /**
-     * @param \Closure $initializer
-     * @param \Closure $cloner
+     * @var array<string, mixed> default values of properties to be lazy loaded, with keys being the property names
+     *
+     * @see \Doctrine\Common\Proxy\Proxy::__getLazyProperties
      */
-    public function __construct($initializer = null, $cloner = null)
+    public static $lazyPropertiesDefaults = array (
+);
+
+
+
+    public function __construct(?\Closure $initializer = null, ?\Closure $cloner = null)
     {
 
         $this->__initializer__ = $initializer;
@@ -64,10 +66,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
+            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'pages', 'sitePermissions', 'siteItemSets'];
+        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
     }
 
     /**
@@ -82,7 +84,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
 
                 $existingProperties = get_object_vars($proxy);
 
-                foreach ($proxy->__getLazyProperties() as $property => $defaultValue) {
+                foreach ($proxy::$lazyPropertiesDefaults as $property => $defaultValue) {
                     if ( ! array_key_exists($property, $existingProperties)) {
                         $proxy->$property = $defaultValue;
                     }
@@ -165,6 +167,7 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      * @internal generated method: use only when explicitly handling proxy specific loading logic
+     * @deprecated no longer in use - generated code now relies on internal components rather than generated public API
      * @static
      */
     public function __getLazyProperties()
@@ -433,6 +436,28 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function setAssignNewItems($assignNewItems)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAssignNewItems', [$assignNewItems]);
+
+        return parent::setAssignNewItems($assignNewItems);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAssignNewItems()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAssignNewItems', []);
+
+        return parent::getAssignNewItems();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getPages()
     {
 
@@ -461,6 +486,17 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSiteItemSets', []);
 
         return parent::getSiteItemSets();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getItems()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getItems', []);
+
+        return parent::getItems();
     }
 
     /**

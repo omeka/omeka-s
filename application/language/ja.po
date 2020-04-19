@@ -6,16 +6,16 @@
 # Translators:
 # Takayuki Ako <ako.t.aa@m.titech.ac.jp>, 2017
 # Souta Ito <soutaito@info-lounge.jp>, 2018
-# Naosuke Okamoto, 2019
+# Naosuke Okamoto, 2020
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-13 15:51-0400\n"
+"POT-Creation-Date: 2020-01-27 13:06-0500\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Naosuke Okamoto, 2019\n"
+"Last-Translator: Naosuke Okamoto, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/omeka/teams/14184/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,19 +65,19 @@ msgstr "%1$s アダプターは一括削除操作を実装しません。"
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:241
 #, php-format
-msgid "The \"%s\" field is not available in the %s entity class."
-msgstr "「%s」フィールドは エンティティクラス  %s で使用できません。。"
+msgid "The \"%1$s\" field is not available in the %2$s entity class."
+msgstr "「%1$s」フィールドは エンティティクラス  %2$s で使用できません。。"
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:586
 #: application/src/Api/Manager.php:209
 #, php-format
-msgid "Permission denied for the current user to %s the %s resource."
-msgstr "現在のユーザーが %s する権限 （%sに対する） が拒否されました。"
+msgid "Permission denied for the current user to %1$s the %2$s resource."
+msgstr "現在のユーザーが %2$sリソースに対し%1$sする権限 が拒否されました。"
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:628
 #, php-format
-msgid "%s entity with criteria %s not found"
-msgstr "%s エンティティ（ %s 基準）が見つかりません"
+msgid "%1$s entity with criteria %2$s not found"
+msgstr "%1$s エンティティ（ %2$s 基準）が見つかりません"
 
 #: application/src/Api/Adapter/SiteAdapter.php:136
 msgid "Welcome"
@@ -87,7 +87,7 @@ msgstr "ようこそ"
 msgid "Welcome to your new site. This is an example page."
 msgstr "新しいサイトへようこそ。こちらはサンプルページです。"
 
-#: application/src/Api/Adapter/SiteAdapter.php:351
+#: application/src/Api/Adapter/SiteAdapter.php:358
 msgid "Browse"
 msgstr "閲覧"
 
@@ -96,7 +96,7 @@ msgstr "閲覧"
 msgid "The API does not support the \"%s\" resource."
 msgstr "APIは \"%s\" リソースをサポートしていません。"
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:492
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:504
 #: application/view/common/block-layout/browse-preview.phtml:15
 #: application/view/omeka/site/item-set/browse.phtml:23
 #: application/view/omeka/site/item/browse.phtml:58
@@ -111,11 +111,11 @@ msgstr "デフォルト"
 msgid "Asset uploads must be POSTed."
 msgstr "アセットのアップロードはPOSTする必要があります。"
 
-#: application/src/Controller/Admin/ItemController.php:211
+#: application/src/Controller/Admin/ItemController.php:212
 msgid "Add another item?"
 msgstr "別のアイテムを追加しますか？"
 
-#: application/src/Controller/Admin/ItemSetController.php:35
+#: application/src/Controller/Admin/ItemSetController.php:36
 msgid "Add another item set?"
 msgstr "別のアイテムセットを追加しますか？"
 
@@ -198,8 +198,8 @@ msgstr "OpenSeadragonは、JavaScriptが有効になっていない限り利用�
 
 #: application/src/Module/Manager.php:170
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be activated"
-msgstr "モジュール \"%s\" は \"%s\"  としてマークされており、有効化できません"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be activated"
+msgstr "モジュール \"%1$s\" は \"%2$s\"  としてマークされており、有効化できません"
 
 #: application/src/Module/Manager.php:181
 #, php-format
@@ -208,8 +208,8 @@ msgstr "モジュール  \"%s\" はデータベースにないため有効化で
 
 #: application/src/Module/Manager.php:202
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be deactivated"
-msgstr "モジュール \"%s\" は \"%s\"  としてマークされており、無効化できません"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be deactivated"
+msgstr "モジュール \"%1$s\" は \"%2$s\"  としてマークされており、無効化できません"
 
 #: application/src/Module/Manager.php:213
 #, php-format
@@ -218,13 +218,13 @@ msgstr "モジュール  \"%s\" はデータベースにないため無効化で
 
 #: application/src/Module/Manager.php:233
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be installed"
-msgstr "モジュール \"%s\" は \"%s\"  としてマークされており、インストールできません"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be installed"
+msgstr "モジュール \"%1$s\" は \"%2$s\"  としてマークされており、インストールできません"
 
 #: application/src/Module/Manager.php:271
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be uninstalled"
-msgstr "モジュール \"%s\" は \"%s\"  としてマークされており、アンインストールできません"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be uninstalled"
+msgstr "モジュール \"%1$s\" は \"%2$s\"  としてマークされており、アンインストールできません"
 
 #: application/src/Module/Manager.php:288
 #, php-format
@@ -233,8 +233,8 @@ msgstr "モジュール  \"%s\" はデータベースにないためアンイン
 
 #: application/src/Module/Manager.php:309
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be upgraded"
-msgstr "モジュール \"%s\" は \"%s\"  としてマークされており、更新できません"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be upgraded"
+msgstr "モジュール \"%1$s\" は \"%2$s\"  としてマークされており、更新できません"
 
 #: application/src/Module/Manager.php:331
 #, php-format
@@ -243,8 +243,8 @@ msgstr "モジュール  \"%s\" はデータベースにないため更新でき
 
 #: application/src/Module/Manager.php:410
 #, php-format
-msgid "Permission denied for the current user to %s the %s module."
-msgstr "現在のユーザーが %s する権限がありません。： %s モジュール"
+msgid "Permission denied for the current user to %1$s the %2$s module."
+msgstr "現在のユーザーは %2$s モジュールを %1$s する権限がありません。"
 
 #: application/src/Mvc/MvcListeners.php:436
 #, php-format
@@ -351,27 +351,27 @@ msgstr "キャンセル"
 #: application/src/View/Helper/PasswordRequirements.php:40
 #, php-format
 msgid "Password must be a minimum of %s characters in length."
-msgstr ""
+msgstr "パスワードは最低%s文字である必要があります。"
 
 #: application/src/View/Helper/PasswordRequirements.php:46
 #, php-format
 msgid "Password must contain at least %s lowercase characters."
-msgstr ""
+msgstr "パスワードは%s個の小文字を含む必要があります。"
 
 #: application/src/View/Helper/PasswordRequirements.php:52
 #, php-format
 msgid "Password must contain at least %s uppercase characters."
-msgstr ""
+msgstr "パスワードは%s個の大文字を含む必要があります。"
 
 #: application/src/View/Helper/PasswordRequirements.php:58
 #, php-format
 msgid "Password must contain at least %s numbers."
-msgstr ""
+msgstr "パスワードは%s個の数字を含む必要があります。"
 
 #: application/src/View/Helper/PasswordRequirements.php:67
 #, php-format
-msgid "Password must contain at least %s symbols: <code>%s</code>"
-msgstr ""
+msgid "Password must contain at least %1$s symbols: <code>%2$s</code>"
+msgstr "パスワードは%1$s個の記号を含む必要があります。：<code>%2$s</code>"
 
 #: application/src/View/Helper/SearchFilters.php:32
 #: application/view/common/advanced-search/properties.phtml:65
@@ -416,7 +416,7 @@ msgstr "値が無い"
 #: application/src/View/Helper/SearchFilters.php:47
 #: application/view/common/advanced-search/fulltext.phtml:6
 msgid "Search full-text"
-msgstr ""
+msgstr "全文検索"
 
 #: application/src/View/Helper/SearchFilters.php:60
 #: application/view/common/linked-resources.phtml:33
@@ -463,8 +463,9 @@ msgid "AND"
 msgstr "AND"
 
 #: application/src/View/Helper/SearchFilters.php:124
-#: application/view/common/search-form.phtml:7
 #: application/view/common/search-form.phtml:8
+#: application/view/common/search-form.phtml:9
+#: application/view/common/search-form.phtml:10
 #: application/view/layout/layout-admin.phtml:62
 #: application/view/omeka/admin/item-set/search.phtml:13
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:12
@@ -529,7 +530,7 @@ msgstr "名前"
 #: application/view/omeka/admin/user/browse.phtml:80
 #: application/view/omeka/admin/user/show.phtml:29
 #: application/view/omeka/site-admin/index/users.phtml:31
-#: application/view/omeka/site-admin/index/users.phtml:47
+#: application/view/omeka/site-admin/index/users.phtml:46
 msgid "Role"
 msgstr "役割"
 
@@ -562,8 +563,8 @@ msgstr "サイトの権限あり"
 msgid "The maximum upload size is %s MB."
 msgstr "最大アップロード容量は %s MBです。"
 
-#: application/src/View/Helper/UserBar.php:118
-#: application/src/View/Helper/UserBar.php:150
+#: application/src/View/Helper/UserBar.php:120
+#: application/src/View/Helper/UserBar.php:161
 #: application/view/omeka/admin/index/browse.phtml:48
 #: application/view/omeka/admin/item-set/browse.phtml:109
 #: application/view/omeka/admin/item-set/edit.phtml:14
@@ -583,7 +584,7 @@ msgstr "最大アップロード容量は %s MBです。"
 msgid "Edit"
 msgstr "編集"
 
-#: application/src/View/Helper/UserBar.php:157
+#: application/src/View/Helper/UserBar.php:154
 #: application/view/omeka/site-admin/index/show.phtml:17
 #: application/view/omeka/site-admin/page/edit.phtml:15
 msgid "View"
@@ -610,7 +611,7 @@ msgstr "これらのアイテムセットのいずれかに割り当てられた
 #: application/view/common/advanced-search/resource-class.phtml:31
 #: application/view/common/advanced-search/resource-template.phtml:32
 #: application/view/common/block-layout.phtml:12
-#: application/view/common/data-type-wrapper.phtml:12
+#: application/view/common/data-type-wrapper.phtml:10
 #: application/view/common/media-field-wrapper.phtml:13
 #: application/view/omeka/admin/item/manage-media.phtml:49
 msgid "Remove value"
@@ -621,6 +622,10 @@ msgstr "値を削除"
 #: application/view/omeka/admin/item-set/browse.phtml:42
 msgid "Add new item set"
 msgstr "新規アイテムセットを追加"
+
+#: application/view/common/advanced-search/media-type.phtml:6
+msgid "Search by MIME type"
+msgstr "MIMEタイプから検索"
 
 #: application/view/common/advanced-search/properties.phtml:33
 msgid "Query text"
@@ -731,7 +736,7 @@ msgid "Block to be removed"
 msgstr "削除をブロック"
 
 #: application/view/common/block-layout.phtml:13
-#: application/view/common/data-type-wrapper.phtml:13
+#: application/view/common/data-type-wrapper.phtml:11
 #: application/view/omeka/admin/item/manage-media.phtml:53
 #: application/view/omeka/admin/resource-template/show-property-row.phtml:40
 msgid "Restore value"
@@ -739,6 +744,7 @@ msgstr "値の復元"
 
 #: application/view/common/block-layout/item-with-metadata.phtml:12
 #: application/view/common/data-type/resource.phtml:29
+#: application/view/common/item-set-selector.phtml:10
 #: application/view/layout/layout-admin.phtml:72
 #: application/view/omeka/admin/item-set/add.phtml:6
 #: application/view/omeka/admin/item-set/browse.phtml:29
@@ -749,17 +755,17 @@ msgstr "値の復元"
 #: application/view/omeka/admin/item/show-details.phtml:19
 #: application/view/omeka/admin/item/show.phtml:63
 #: application/view/omeka/admin/user/show-details.phtml:17
-#: application/view/omeka/site-admin/index/resources.phtml:24
+#: application/view/omeka/site-admin/index/resources.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:8
 #: application/view/omeka/site/item/show.phtml:24
 msgid "Item sets"
 msgstr "アイテムセット"
 
-#: application/view/common/data-type-wrapper.phtml:10
+#: application/view/common/data-type-wrapper.phtml:8
 msgid "Value to be removed"
 msgstr "削除された値"
 
-#: application/view/common/data-type-wrapper.phtml:15
+#: application/view/common/data-type-wrapper.phtml:13
 #: application/view/common/media-field-wrapper.phtml:9
 #: application/view/omeka/admin/item-set/form.phtml:41
 #: application/view/omeka/admin/item/form.phtml:43
@@ -907,10 +913,6 @@ msgstr "アイテムセットをクリックして編集パネルに追加しま
 msgid "Filter item sets"
 msgstr "アイテムセットをフィルター"
 
-#: application/view/common/item-set-selector.phtml:10
-msgid "All item sets"
-msgstr "全てのアイテムセット"
-
 #: application/view/common/item-set-selector.phtml:17
 #: application/view/omeka/admin/item-set/browse.phtml:93
 #: application/view/omeka/admin/item-set/show.phtml:17
@@ -948,7 +950,7 @@ msgstr "全て"
 #: application/view/omeka/admin/media/browse.phtml:79
 #: application/view/omeka/site-admin/index/index.phtml:7
 #: application/view/omeka/site-admin/index/index.phtml:39
-#: application/view/omeka/site-admin/index/resources.phtml:62
+#: application/view/omeka/site-admin/index/resources.phtml:61
 #: application/view/omeka/site-admin/index/show.phtml:28
 #: application/view/omeka/site-admin/page/index.phtml:18
 #: application/view/omeka/site/item/browse.phtml:14
@@ -1000,8 +1002,8 @@ msgstr "次"
 
 #: application/view/common/pagination.phtml:28
 #, php-format
-msgid "%s–%s of %s"
-msgstr "%s–%s / 全%s"
+msgid "%1$s–%2$s of %3$s"
+msgstr "%1$s–%2$s of %3$s"
 
 #: application/view/common/pagination.phtml:30
 msgid "0 results"
@@ -1064,12 +1066,12 @@ msgstr "プロパティをクリックして編集パネルに追加します。
 msgid "Filter properties"
 msgstr "プロパティをフィルター"
 
-#: application/view/common/resource-fields.phtml:33
+#: application/view/common/resource-fields.phtml:34
 #: application/view/omeka/admin/resource-template/form.phtml:32
 msgid "Add property"
 msgstr "プロパティを追加"
 
-#: application/view/common/resource-fields.phtml:40
+#: application/view/common/resource-fields.phtml:41
 msgid ""
 "Omeka S automatically selects a thumbnail from among attached media for a "
 "resource. You may use an image of your choice instead by choosing an asset "
@@ -1164,18 +1166,18 @@ msgstr "ログアウト"
 msgid "Log in"
 msgstr "ログイン"
 
-#: application/view/common/user-selector.phtml:10
+#: application/view/common/user-selector.phtml:11
 msgid "Click on a user to add it to the edit panel."
 msgstr "ユーザーをクリックして編集パネルに追加します。"
 
-#: application/view/common/user-selector.phtml:13
+#: application/view/common/user-selector.phtml:14
 msgid "Filter users"
 msgstr "ユーザーをフィルター"
 
-#: application/view/common/user-selector.phtml:15
+#: application/view/common/user-selector.phtml:16
 #, php-format
-msgid "All users (%s)"
-msgstr "全ユーザー (%s)"
+msgid "Users (%s)"
+msgstr ""
 
 #: application/view/common/version-notification.phtml:8
 #, php-format
@@ -1184,7 +1186,7 @@ msgstr "Omeka Sの新しいバージョンが利用可能です。 %s"
 
 #: application/view/common/version-notification.phtml:12
 #: application/view/omeka/admin/module/browse.phtml:62
-#: application/view/omeka/site-admin/index/theme.phtml:53
+#: application/view/omeka/site-admin/index/theme.phtml:55
 msgid "Get the new version."
 msgstr "新バージョンを取得"
 
@@ -1206,7 +1208,7 @@ msgid "Details:"
 msgstr "詳細："
 
 #: application/view/layout/layout-admin.phtml:23
-#: application/view/omeka/site-admin/index/resources.phtml:21
+#: application/view/omeka/site-admin/index/resources.phtml:20
 msgid "Resources"
 msgstr "リソース一覧"
 
@@ -1218,7 +1220,7 @@ msgstr "管理"
 
 #: application/view/layout/layout-admin.phtml:37
 msgid "Skip to main content"
-msgstr ""
+msgstr "メインコンテンツにスキップ"
 
 #: application/view/layout/layout-admin.phtml:42
 msgid "Navigation menu"
@@ -1417,7 +1419,7 @@ msgstr "アイテムセットの一括編集"
 #: application/view/omeka/admin/vocabulary/edit.phtml:13
 #: application/view/omeka/site-admin/index/edit.phtml:29
 #: application/view/omeka/site-admin/index/navigation.phtml:17
-#: application/view/omeka/site-admin/index/resources.phtml:32
+#: application/view/omeka/site-admin/index/resources.phtml:31
 #: application/view/omeka/site-admin/index/settings.phtml:10
 #: application/view/omeka/site-admin/index/theme-settings.phtml:12
 #: application/view/omeka/site-admin/index/theme.phtml:18
@@ -1463,7 +1465,7 @@ msgstr "資源識別子／Identifier"
 #: application/view/omeka/admin/resource-template/browse.phtml:45
 #: application/view/omeka/site-admin/index/index.phtml:15
 #: application/view/omeka/site-admin/index/index.phtml:41
-#: application/view/omeka/site-admin/index/resources.phtml:63
+#: application/view/omeka/site-admin/index/resources.phtml:62
 msgid "Owner"
 msgstr "所有者"
 
@@ -1627,8 +1629,9 @@ msgstr "選択したアイテムセットを削除してもよろしいですか
 #: application/view/omeka/admin/item-set/browse.phtml:178
 #, php-format
 msgid ""
-"%s: this action will permanently delete %s item sets and cannot be undone."
-msgstr "%s: このアクションは %s アイテムセットを完全に削除し、元に戻すことはできません。"
+"%1$s: this action will permanently delete %2$s item sets and cannot be "
+"undone."
+msgstr "%1$s: このアクションは %2$s アイテムセットを完全に削除し、元に戻すことはできません。"
 
 #: application/view/omeka/admin/item-set/browse.phtml:161
 #: application/view/omeka/admin/item-set/browse.phtml:179
@@ -1791,8 +1794,9 @@ msgstr "選択したアイテムを削除してもよろしいですか？"
 #: application/view/omeka/admin/item/browse.phtml:158
 #: application/view/omeka/admin/item/browse.phtml:176
 #, php-format
-msgid "%s: this action will permanently delete %s items and cannot be undone."
-msgstr "%s: このアクションは %s アイテムを完全に削除し、元に戻すことはできません。"
+msgid ""
+"%1$s: this action will permanently delete %2$s items and cannot be undone."
+msgstr "%1$s: このアクションは %2$s アイテムを完全に削除し、元に戻すことはできません。"
 
 #: application/view/omeka/admin/item/browse.phtml:174
 msgid ""
@@ -1852,7 +1856,7 @@ msgstr "フィルター検索"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:57
 msgid "Filter by item ID"
-msgstr ""
+msgstr "アイテムIDでフィルター"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:67
 msgid "Quick add"
@@ -1955,8 +1959,8 @@ msgstr "選択したメディアを削除してもよろしいですか？"
 #: application/view/omeka/admin/media/browse.phtml:188
 #, php-format
 msgid ""
-"%s: this action will permanently delete %s medias and cannot be undone."
-msgstr "%s：この操作はメディアを永久に削除し%s 、元に戻すことはできません。"
+"%1$s: this action will permanently delete %2$s medias and cannot be undone."
+msgstr ""
 
 #: application/view/omeka/admin/media/browse.phtml:186
 msgid ""
@@ -2149,11 +2153,11 @@ msgstr "その他のオプション"
 
 #: application/view/omeka/admin/resource-template/form.phtml:72
 msgid "Use for resource title"
-msgstr ""
+msgstr "リソースのタイトルに使用"
 
 #: application/view/omeka/admin/resource-template/form.phtml:78
 msgid "Use for resource description"
-msgstr ""
+msgstr "リソース記述に使用"
 
 #: application/view/omeka/admin/resource-template/form.phtml:84
 msgid "Required"
@@ -2268,7 +2272,7 @@ msgid "You are editing %s users (except yourself)."
 msgstr "あなたは（自分以外の）%s ユーザーを編集しています。"
 
 #: application/view/omeka/admin/user/browse.phtml:36
-#: application/view/omeka/site-admin/index/users.phtml:75
+#: application/view/omeka/site-admin/index/users.phtml:70
 msgid "Add new user"
 msgstr "新規ユーザーの追加"
 
@@ -2287,8 +2291,9 @@ msgstr "選択したユーザーを削除してよろしいですか？"
 
 #: application/view/omeka/admin/user/browse.phtml:151
 #, php-format
-msgid "%s: this action will permanently delete %s users and cannot be undone."
-msgstr "%s：この操作はユーザーを永久に削除し %s 、元に戻すことはできません。"
+msgid ""
+"%1$s: this action will permanently delete %2$s users and cannot be undone."
+msgstr "%1$s：この操作はユーザーを永久に削除し %2$s 、元に戻すことはできません。"
 
 #: application/view/omeka/admin/user/browse.phtml:167
 msgid ""
@@ -2299,9 +2304,9 @@ msgstr "この結果のすべてのページのすべてのユーザー（自分
 #: application/view/omeka/admin/user/browse.phtml:169
 #, php-format
 msgid ""
-"%s: this action will permanently delete %s users (except yourself) and "
+"%1$s: this action will permanently delete %2$s users (except yourself) and "
 "cannot be undone."
-msgstr "%s：この操作は（自分以外の）ユーザーを永久に削除し %s 、元に戻すことはできません。"
+msgstr "%1$s：この操作は（自分以外の）ユーザーを永久に削除し %2$s 、元に戻すことはできません。"
 
 #: application/view/omeka/admin/user/browse.phtml:208
 msgid "Omeka could not find any users."
@@ -2388,11 +2393,11 @@ msgstr "名前空間URI："
 msgid "This vocabulary has no classes."
 msgstr "この語彙はクラスがありません。"
 
-#: application/view/omeka/admin/vocabulary/edit.phtml:19
+#: application/view/omeka/admin/vocabulary/edit.phtml:18
 msgid ""
 "You may update this vocabulary to a newer version. You will be able to "
 "review the changes before you accept."
-msgstr ""
+msgstr "この語彙を新しいバージョンに更新できます。 同意する前に変更を確認できます。"
 
 #: application/view/omeka/admin/vocabulary/import.phtml:7
 msgid "New vocabulary"
@@ -2415,7 +2420,7 @@ msgstr "変更を承認"
 #: application/view/omeka/site-admin/index/edit.phtml:7
 #: application/view/omeka/site-admin/index/index.phtml:21
 #: application/view/omeka/site-admin/index/navigation.phtml:10
-#: application/view/omeka/site-admin/index/resources.phtml:21
+#: application/view/omeka/site-admin/index/resources.phtml:20
 #: application/view/omeka/site-admin/index/settings.phtml:6
 #: application/view/omeka/site-admin/index/show.phtml:11
 #: application/view/omeka/site-admin/index/theme.phtml:11
@@ -2426,8 +2431,8 @@ msgstr "サイト一覧"
 
 #: application/view/omeka/index/index.phtml:25
 #, php-format
-msgid "Go to the %s to start working with %s."
-msgstr "%sするために%sに移動。"
+msgid "Go to the %1$s to start working with %2$s."
+msgstr "%1$sするために%2$sに移動。"
 
 #: application/view/omeka/install/index.phtml:11
 msgid "Install Omeka S"
@@ -2478,12 +2483,13 @@ msgid ""
 "The entire site will be down for maintenance until you click the button "
 "below."
 msgstr ""
+"最近のソフトウェアアップグレードがあり、データベースを更新する必要があります。 下のボタンをクリックするまで、サイト全体が保守のために停止します。"
 
 #: application/view/omeka/migrate/index.phtml:10
 msgid ""
 "There are environment errors that must be resolved before you can update the"
 " database."
-msgstr ""
+msgstr "データベースを更新する前に解決する必要がある環境エラーがあります。"
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 msgid "New page"
@@ -2505,7 +2511,7 @@ msgid "Theme"
 msgstr "テーマ"
 
 #: application/view/omeka/site-admin/index/add.phtml:9
-#: application/view/omeka/site-admin/index/resources.phtml:23
+#: application/view/omeka/site-admin/index/resources.phtml:22
 msgid "Item pool"
 msgstr "アイテムプール"
 
@@ -2538,7 +2544,7 @@ msgstr "サイトページのリンク追加"
 
 #: application/view/omeka/site-admin/index/navigation.phtml:28
 msgid "Select a homepage"
-msgstr ""
+msgstr "ホームページを選択"
 
 #: application/view/omeka/site-admin/index/navigation.phtml:32
 msgid "Add a custom link"
@@ -2552,16 +2558,12 @@ msgstr "ページをフィルター"
 msgid "There are no available pages."
 msgstr "ページがありません。"
 
-#: application/view/omeka/site-admin/index/resources.phtml:15
-msgid "Restore item set"
-msgstr "アイテムセットの復元"
-
-#: application/view/omeka/site-admin/index/resources.phtml:37
+#: application/view/omeka/site-admin/index/resources.phtml:36
 #, php-format
 msgid "There are currently %s items in this site’s pool."
 msgstr "このサイトのプールには現在 %s のアイテムがあります。"
 
-#: application/view/omeka/site-admin/index/resources.phtml:69
+#: application/view/omeka/site-admin/index/resources.phtml:68
 msgid "No item sets are assigned to this site."
 msgstr "このサイトにはアイテムセットが割り当てられていません。"
 
@@ -2600,30 +2602,30 @@ msgstr "現在のテーマは設定オプションがありません"
 msgid "Current theme"
 msgstr "現在のテーマ"
 
-#: application/view/omeka/site-admin/index/theme.phtml:43
+#: application/view/omeka/site-admin/index/theme.phtml:44
 msgid "Edit theme settings"
 msgstr "テーマ設定を編集"
 
-#: application/view/omeka/site-admin/index/theme.phtml:49
+#: application/view/omeka/site-admin/index/theme.phtml:51
 #, php-format
 msgid "A new version of this theme is available. %s"
 msgstr "このテーマの新バージョンが利用可能です。 %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:59
+#: application/view/omeka/site-admin/index/theme.phtml:61
 msgid "Error: this theme is invalid."
 msgstr "Error: テーマが無効です。"
 
-#: application/view/omeka/site-admin/index/theme.phtml:61
+#: application/view/omeka/site-admin/index/theme.phtml:63
 #, php-format
 msgid "ID: %s"
 msgstr "ID: %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:62
+#: application/view/omeka/site-admin/index/theme.phtml:64
 #, php-format
 msgid "Status: %s"
 msgstr "状態： %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:64
+#: application/view/omeka/site-admin/index/theme.phtml:66
 msgid ""
 "Please contact the Omeka S administrator. This site will not be publicly "
 "available until the problem is resolved or you select another theme below."
@@ -2637,16 +2639,11 @@ msgstr "復元"
 msgid "User permissions"
 msgstr "ユーザー権限"
 
-#: application/view/omeka/site-admin/index/users.phtml:43
-#: application/view/omeka/site-admin/index/users.phtml:83
-msgid "User to be removed"
-msgstr "ユーザーを削除"
-
-#: application/view/omeka/site-admin/index/users.phtml:73
+#: application/view/omeka/site-admin/index/users.phtml:68
 msgid "This site has no users. Add users using the interface to the right."
 msgstr "このサイトにはユーザーはいません。 右側のインターフェースを使用してユーザーを追加します。"
 
-#: application/view/omeka/site-admin/index/users.phtml:76
+#: application/view/omeka/site-admin/index/users.phtml:71
 msgid "Click on a user to add them to the site."
 msgstr "ユーザーをクリックしてサイトに追加します。"
 
@@ -2693,22 +2690,22 @@ msgstr "このサイトにはページがありません。"
 #: application/view/omeka/site/index/search.phtml:1
 #, php-format
 msgid "Search results for “%s”"
-msgstr ""
+msgstr "\"%s\" の検索結果"
 
 #: application/view/omeka/site/index/search.phtml:11
 #: application/view/omeka/site/index/search.phtml:32
 #, php-format
 msgid "View all results (%s total)"
-msgstr ""
+msgstr "すべての結果を表示（全%s）"
 
 #: application/view/omeka/site/index/search.phtml:20
 #: application/view/omeka/site/page/browse.phtml:18
 msgid "No pages found"
-msgstr ""
+msgstr "ページがありません"
 
 #: application/view/omeka/site/index/search.phtml:41
 msgid "No items found"
-msgstr ""
+msgstr "アイテムがありません"
 
 #: application/view/omeka/site/item-set/search.phtml:6
 msgid "Advanced item set Search"
@@ -2722,35 +2719,39 @@ msgstr "高度なアイテム検索"
 msgid "Item"
 msgstr "アイテム"
 
-#: application/config/module.config.php:616
+#: application/config/module.config.php:617
 msgid "Something went wrong"
 msgstr "間違いがあります"
 
-#: application/config/module.config.php:621
+#: application/config/module.config.php:622
 msgid "You have unsaved changes."
 msgstr "保存されていない変更があります。"
 
 #: application/config/module.config.php:623
+msgid "Restore item set"
+msgstr "アイテムセットの復元"
+
+#: application/config/module.config.php:624
 msgid "Close icon set"
 msgstr "アイコンセットを閉じる"
 
-#: application/config/module.config.php:624
+#: application/config/module.config.php:625
 msgid "Open icon set"
 msgstr "アイコンセットを開く"
 
-#: application/config/module.config.php:626
+#: application/config/module.config.php:627
 msgid "Failed loading resource template from API"
 msgstr "APIからのリソーステンプレートの読み込みに失敗しました"
 
-#: application/config/module.config.php:627
+#: application/config/module.config.php:628
 msgid "Restore property"
 msgstr "プロパティを復元"
 
-#: application/config/module.config.php:629
+#: application/config/module.config.php:630
 msgid "Please enter a valid language tag"
 msgstr "有効な言語タグを入力してください"
 
-#: application/config/module.config.php:631
+#: application/config/module.config.php:632
 msgid "Description"
 msgstr "内容記述／Description"
 
@@ -2809,25 +2810,25 @@ msgstr "タイトル無し"
 
 #: application/src/File/Validator.php:65
 #, php-format
-msgid "Error validating \"%s\". Cannot store files with the media type \"%s\"."
-msgstr "\"%s\"の検証中にエラーが発生しました。 メディアタイプが \"%s\"のファイルは保存できません。"
+msgid "Error validating \"%1$s\". Cannot store files with the media type \"%2$s\"."
+msgstr "\"%1$s\"の検証中にエラーが発生しました。 メディアタイプが \"%2$s\"のファイルは保存できません。"
 
 #: application/src/File/Validator.php:78
 #, php-format
 msgid ""
-"Error validating \"%s\". Cannot store files with the resolved extension "
-"\"%s\"."
-msgstr "\"%s\"の検証中にエラーが発生しました。拡張子 \"%s\"のファイルは保存できません。"
+"Error validating \"%1$s\". Cannot store files with the resolved extension "
+"\"%2$s\"."
+msgstr "\"%1$s\"の検証中にエラーが発生しました。拡張子 \"%2$s\"のファイルは保存できません。"
 
 #: application/src/File/Downloader.php:71
 #, php-format
-msgid "Error downloading %s: %s"
-msgstr "%sのダウンロード中にエラーが発生しました: %s"
+msgid "Error downloading %1$s: %2$s"
+msgstr "%1$sのダウンロード中にエラーが発生しました: %2$s"
 
 #: application/src/File/Downloader.php:83
 #, php-format
-msgid "Error downloading %s: %s %s"
-msgstr "%sのダウンロード中にエラーが発生しました: %s %s"
+msgid "Error downloading %1$s: %2$s %3$s"
+msgstr "%1$sのダウンロード中にエラーが発生しました: %2$s %3$s"
 
 #: application/src/File/ThumbnailManager.php:102
 msgid "Missing thumbnail configuration."
@@ -2865,31 +2866,130 @@ msgstr "サムネイルの代替設定が無効です。"
 msgid "Resource template file"
 msgstr "リソーステンプレートファイル"
 
-#: application/src/Form/VocabularyImportForm.php:20
-msgid ""
-"A concise vocabulary identifier, used as a shorthand proxy for the namespace"
-" URI."
-msgstr "簡潔な語彙の識別子。名前空間URIの省略形プロキシとして使用します。"
+#: application/src/Form/VocabularyForm.php:23
+msgid "Basic info"
+msgstr "基本情報"
 
-#: application/src/Form/VocabularyImportForm.php:32
+#: application/src/Form/VocabularyForm.php:30
+msgid "File"
+msgstr "ファイル"
+
+#: application/src/Form/VocabularyForm.php:37
+msgid "Advanced"
+msgstr "詳細"
+
+#: application/src/Form/VocabularyForm.php:46
+msgid "Enter a human-readable title of the vocabulary."
+msgstr "人が理解できる語彙のタイトルを入力します。"
+
+#: application/src/Form/VocabularyForm.php:58
+msgid "Enter a human-readable description of the vocabulary."
+msgstr "人が理解できる語彙の内容説明を入力します。"
+
+#: application/src/Form/VocabularyForm.php:69
 msgid "Namespace URI"
 msgstr "名前空間URI"
 
-#: application/src/Form/VocabularyImportForm.php:33
+#: application/src/Form/VocabularyForm.php:70
 msgid ""
-"The unique namespace URI used by the vocabulary to identify local member "
-"classes and properties."
-msgstr "ローカルメンバーのクラスとプロパティを識別するために、語彙が使用する一意の名前空間URI。"
+"Enter the unique namespace URI used to identify the classes and properties "
+"of the vocabulary."
+msgstr "語彙のクラスとプロパティを識別するために使用される一意の名前空間URIを入力します。"
 
-#: application/src/Form/VocabularyImportForm.php:46
-#: application/src/Form/VocabularyForm.php:15
-msgid "A human-readable title of the vocabulary."
-msgstr "人が理解できる語彙のタイトル。"
+#: application/src/Form/VocabularyForm.php:81
+msgid "Namespace prefix"
+msgstr "名前空間の接頭語"
 
-#: application/src/Form/VocabularyImportForm.php:59
-#: application/src/Form/VocabularyForm.php:28
-msgid "A human-readable description of the vocabulary."
-msgstr "人が理解できる語彙の内容説明。"
+#: application/src/Form/VocabularyForm.php:82
+msgid ""
+"Enter a concise vocabulary identifier used as a shorthand for the namespace "
+"URI."
+msgstr "名前空間URIの省略形として使用される、簡潔な語彙識別子を入力します。"
+
+#: application/src/Form/VocabularyForm.php:94
+msgid "Vocabulary file"
+msgstr "語彙ファイル"
+
+#: application/src/Form/VocabularyForm.php:95
+msgid ""
+"Choose a RDF vocabulary file. You must choose a file or enter a URL below."
+msgstr "RDF語彙ファイルを選択してください。 ファイルを選択するか、以下にURLを入力する必要があります。"
+
+#: application/src/Form/VocabularyForm.php:105
+msgid "Vocabulary URL"
+msgstr "語彙URL"
+
+#: application/src/Form/VocabularyForm.php:106
+msgid ""
+"Enter a RDF vocabulary URL. You must enter a URL or choose a file above."
+msgstr "RDF語彙URLを入力してください。 URLを入力するか、上記のファイルを選択する必要があります。"
+
+#: application/src/Form/VocabularyForm.php:116
+msgid "File format"
+msgstr "ファイルフォーマット"
+
+#: application/src/Form/VocabularyForm.php:118
+msgid "[Autodetect]"
+msgstr "[自動検出]"
+
+#: application/src/Form/VocabularyForm.php:119
+msgid "JSON-LD (.jsonld)"
+msgstr "JSON-LD (.jsonld)"
+
+#: application/src/Form/VocabularyForm.php:120
+msgid "N-Triples (.nt)"
+msgstr "N-Triples (.nt)"
+
+#: application/src/Form/VocabularyForm.php:121
+msgid "Notation3 (.n3)"
+msgstr "Notation3 (.n3)"
+
+#: application/src/Form/VocabularyForm.php:122
+msgid "RDF/XML (.rdf)"
+msgstr "RDF/XML (.rdf)"
+
+#: application/src/Form/VocabularyForm.php:123
+msgid "Turtle (.ttl)"
+msgstr "Turtle (.ttl)"
+
+#: application/src/Form/VocabularyForm.php:135
+msgid "Preferred language"
+msgstr "優先する言語"
+
+#: application/src/Form/VocabularyForm.php:136
+msgid ""
+"Enter the preferred language of the labels and comments using an <a "
+"target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
+"tags/\">IETF language tag</a>. Defaults to the first available."
+msgstr ""
+"<a target=\"_blank\" href=\"https://www.w3.org/International/articles"
+"/language-tags/\">IETF言語タグ</a>を使用して、ラベルとコメントの優先言語を入力します。 デフォルトは利用可能な最初のものです。"
+
+#: application/src/Form/VocabularyForm.php:147
+msgid "Label property"
+msgstr "ラベルプロパティ／Label Property"
+
+#: application/src/Form/VocabularyForm.php:148
+msgid ""
+"Enter the label property. This is typically only needed if the vocabulary "
+"uses an unconventional property for labels. Please use the full property URI"
+" enclosed in angle brackets."
+msgstr ""
+"ラベルプロパティを入力します。 これは通常、語彙がラベルに慣例に沿わないプロパティを使用する場合にのみ必要です。 "
+"山括弧で囲まれた完全なプロパティURIを使用してください。"
+
+#: application/src/Form/VocabularyForm.php:158
+msgid "Comment property"
+msgstr "コメントプロパティ／Comment property"
+
+#: application/src/Form/VocabularyForm.php:159
+msgid ""
+"Enter the comment property. This is typically only needed if the vocabulary "
+"uses an unconventional property for comments. Please use the full property "
+"URI enclosed in angle brackets."
+msgstr ""
+"コメントプロパティを入力してください。 これは通常、ボキャブラリーがコメントに慣例に沿わないプロパティを使用する場合にのみ必要です。 "
+"山括弧で囲まれた完全なプロパティURIを使用してください。"
 
 #: application/src/Form/ResourceForm.php:30
 #: application/src/Form/ResourceBatchUpdateForm.php:69
@@ -2929,7 +3029,7 @@ msgid "Suggested class"
 msgstr "推奨されるクラス"
 
 #: application/src/Form/SiteSettingsForm.php:28
-#: application/src/Form/SettingForm.php:105
+#: application/src/Form/SettingForm.php:109
 msgid "General"
 msgstr "一般"
 
@@ -2955,7 +3055,7 @@ msgstr "アイテムページの埋め込みメディア"
 
 #: application/src/Form/SiteSettingsForm.php:63
 msgid "Show page pagination"
-msgstr ""
+msgstr "ページ付けを表示します"
 
 #: application/src/Form/SiteSettingsForm.php:64
 msgid ""
@@ -2979,12 +3079,12 @@ msgid "Always"
 msgstr "常に"
 
 #: application/src/Form/SiteSettingsForm.php:90
-#: application/src/Form/SettingForm.php:232
+#: application/src/Form/SettingForm.php:236
 msgid "Disable JSON-LD embed"
 msgstr "JSON-LDの埋め込みを無効化"
 
 #: application/src/Form/SiteSettingsForm.php:91
-#: application/src/Form/SettingForm.php:233
+#: application/src/Form/SettingForm.php:237
 msgid ""
 "By default, Omeka embeds JSON-LD in resource browse and show pages for the "
 "purpose of machine-readable metadata discovery. Check this to disable "
@@ -2996,7 +3096,7 @@ msgstr ""
 #: application/src/Form/SiteSettingsForm.php:103
 #: application/src/Form/InstallationForm.php:112
 #: application/src/Form/UserForm.php:129
-#: application/src/Form/SettingForm.php:205
+#: application/src/Form/SettingForm.php:209
 msgid "Locale"
 msgstr "ロケール"
 
@@ -3011,7 +3111,7 @@ msgid "Restrict browse to attached items"
 msgstr "添付されたアイテムへの閲覧を制限する"
 
 #: application/src/Form/SiteSettingsForm.php:137
-#: application/src/Form/SettingForm.php:156
+#: application/src/Form/SettingForm.php:160
 msgid "Results per page"
 msgstr "ページ毎の結果"
 
@@ -3034,6 +3134,7 @@ msgid ""
 "Use this property for the heading of each resource on a browse page. Keep "
 "unselected to use the default title property of each resource."
 msgstr ""
+"このプロパティは、参照ページの各リソースの見出しに使用します。 各リソースのデフォルトのタイトルプロパティを使用するには、選択しないでください。"
 
 #: application/src/Form/SiteSettingsForm.php:161
 #: application/src/Form/SiteSettingsForm.php:178
@@ -3049,6 +3150,7 @@ msgid ""
 "Use this property for the body of each resource on a browse page. Keep "
 "unselected to use the default description property of each resource."
 msgstr ""
+"ブラウズページの各リソースの本文にこのプロパティを使用します。 各リソースのデフォルトの説明プロパティを使用するには、選択しないでください。"
 
 #: application/src/Form/SiteSettingsForm.php:195
 msgid "Templates"
@@ -3064,7 +3166,7 @@ msgstr "テンプレートを選択"
 
 #: application/src/Form/SiteSettingsForm.php:209
 msgid "Restrict to templates"
-msgstr ""
+msgstr "テンプレートに制限"
 
 #: application/src/Form/SiteSettingsForm.php:210
 msgid "Restrict search results to resources of the selected templates."
@@ -3137,12 +3239,12 @@ msgid "Confirm email"
 msgstr "Eメールを確認"
 
 #: application/src/Form/InstallationForm.php:80
-#: application/src/Form/SettingForm.php:127
+#: application/src/Form/SettingForm.php:131
 msgid "Installation title"
 msgstr "インストールのタイトル"
 
 #: application/src/Form/InstallationForm.php:98
-#: application/src/Form/SettingForm.php:142
+#: application/src/Form/SettingForm.php:146
 msgid "Time zone"
 msgstr "タイムゾーン"
 
@@ -3213,7 +3315,7 @@ msgid "Confirm"
 msgstr "確認"
 
 #: application/src/Form/UserForm.php:130
-#: application/src/Form/SettingForm.php:206
+#: application/src/Form/SettingForm.php:210
 msgid "Global locale/language code for all interfaces."
 msgstr "全インターフェース共通のロケール／言語のコード。"
 
@@ -3237,113 +3339,113 @@ msgstr "新しいパスワードの確認"
 msgid "New key label"
 msgstr "新規キーラベル"
 
-#: application/src/Form/SettingForm.php:114
+#: application/src/Form/SettingForm.php:118
 msgid "Administrator email"
 msgstr "管理者Eメール"
 
-#: application/src/Form/SettingForm.php:157
+#: application/src/Form/SettingForm.php:161
 msgid "The maximum number of results per page on browse pages."
 msgstr "ページの1ページあたりの結果の最大数。"
 
-#: application/src/Form/SettingForm.php:170
+#: application/src/Form/SettingForm.php:174
 msgid "Property label information"
 msgstr "プロパティラベル情報"
 
-#: application/src/Form/SettingForm.php:171
+#: application/src/Form/SettingForm.php:175
 msgid "The additional information that accompanies labels on resource pages."
 msgstr "リソースページのラベルに付随する追加情報。"
 
-#: application/src/Form/SettingForm.php:173
+#: application/src/Form/SettingForm.php:177
 msgid "None"
 msgstr "無し"
 
-#: application/src/Form/SettingForm.php:174
+#: application/src/Form/SettingForm.php:178
 msgid "Show Vocabulary"
 msgstr "語彙を表示"
 
-#: application/src/Form/SettingForm.php:175
+#: application/src/Form/SettingForm.php:179
 msgid "Show Term"
 msgstr "用語を表示"
 
-#: application/src/Form/SettingForm.php:188
+#: application/src/Form/SettingForm.php:192
 msgid "Default site"
 msgstr "デフォルトのサイト"
 
-#: application/src/Form/SettingForm.php:189
+#: application/src/Form/SettingForm.php:193
 msgid ""
 "Select which site should appear when users go to the front page of the "
 "installation."
 msgstr "ユーザーがインストールの先頭ページに移動するときに表示するサイトを選択します。"
 
-#: application/src/Form/SettingForm.php:194
+#: application/src/Form/SettingForm.php:198
 msgid "No default (show index of sites)"
 msgstr "デフォルトなし（サイトのインデックスを表示）"
 
-#: application/src/Form/SettingForm.php:219
+#: application/src/Form/SettingForm.php:223
 msgid "Enable version notifications"
 msgstr "バージョン通知を有効にする"
 
-#: application/src/Form/SettingForm.php:220
+#: application/src/Form/SettingForm.php:224
 msgid ""
 "Enable notifications when a new version of Omeka S, modules, or themes are "
 "available."
 msgstr "新しいバージョンのOmeka S、モジュール、またはテーマが利用可能な場合に通知を有効にします。"
 
-#: application/src/Form/SettingForm.php:245
+#: application/src/Form/SettingForm.php:249
 msgid "Default content visibility to Private"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:246
+#: application/src/Form/SettingForm.php:250
 msgid ""
 "If checked, all items, item sets and sites newly created will have their "
 "visibility set to private by default."
 msgstr ""
 
-#: application/src/Form/SettingForm.php:258
+#: application/src/Form/SettingForm.php:262
 msgid "Index full-text search"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:272
+#: application/src/Form/SettingForm.php:276
 msgid "Security"
 msgstr "セキュリティ"
 
-#: application/src/Form/SettingForm.php:281
+#: application/src/Form/SettingForm.php:285
 msgid "Use HTMLPurifier"
 msgstr "HTML Purifierを利用する"
 
-#: application/src/Form/SettingForm.php:282
+#: application/src/Form/SettingForm.php:286
 msgid "Clean up user-entered HTML."
 msgstr "ユーザーが入力したHTMLについて不要タグ除去などきれいにします。"
 
-#: application/src/Form/SettingForm.php:294
+#: application/src/Form/SettingForm.php:298
 msgid "Disable file validation"
 msgstr "ファイル検証を無効にする"
 
-#: application/src/Form/SettingForm.php:295
+#: application/src/Form/SettingForm.php:299
 msgid "Check this to disable file media type and extension validation."
 msgstr "これをチェックすると、ファイルメディアの種類と拡張子の検証を無効にします。"
 
-#: application/src/Form/SettingForm.php:304
+#: application/src/Form/SettingForm.php:308
 msgid "Allowed media types"
 msgstr "許可されるメディアタイプ"
 
-#: application/src/Form/SettingForm.php:305
+#: application/src/Form/SettingForm.php:309
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr "ファイルのアップロードに許可されるメディアタイプのコンマ区切りのリスト。"
 
-#: application/src/Form/SettingForm.php:317
+#: application/src/Form/SettingForm.php:321
 msgid "Allowed file extensions"
 msgstr "許可されるファイル拡張子"
 
-#: application/src/Form/SettingForm.php:318
+#: application/src/Form/SettingForm.php:322
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr "ファイルアップロードのために許可されるファイル拡張子のコンマ区切りのリスト。"
 
-#: application/src/Form/SettingForm.php:332
+#: application/src/Form/SettingForm.php:336
 msgid "reCAPTCHA site key"
 msgstr "reCAPTCHA サイトキー"
 
-#: application/src/Form/SettingForm.php:343
+#: application/src/Form/SettingForm.php:347
 msgid "reCAPTCHA secret key"
 msgstr "reCAPTCHAシークレットキー"
 
@@ -3369,7 +3471,7 @@ msgstr ""
 
 #: application/src/Form/Element/PasswordConfirm.php:39
 #, php-format
-msgid "contain at least %s symbols: %s"
+msgid "contain at least %1$s symbols: %2$s"
 msgstr ""
 
 #: application/src/Form/Element/PasswordConfirm.php:43
@@ -3395,56 +3497,6 @@ msgstr "3桁または6桁の16進数の色、または「透明」「transparent
 #: application/src/Form/Element/ColorPicker.php:29
 msgid "Invalid color format"
 msgstr "無効なカラー書式"
-
-#: application/src/Form/Element/VocabularyFetch.php:15
-msgid "Vocabulary file"
-msgstr "語彙ファイル"
-
-#: application/src/Form/Element/VocabularyFetch.php:16
-msgid "Choose a RDF vocabulary file. You must choose a file or enter a URL."
-msgstr "RDF語彙ファイルを選択してください。 ファイルを選択するかURLを入力してください。"
-
-#: application/src/Form/Element/VocabularyFetch.php:26
-msgid "Vocabulary URL"
-msgstr "語彙URL"
-
-#: application/src/Form/Element/VocabularyFetch.php:27
-msgid "Enter a RDF vocabulary URL. You must enter a URL or choose a file."
-msgstr "RDF語彙のURLを入力してください。 URLを入力するかファイルを選択してください。"
-
-#: application/src/Form/Element/VocabularyFetch.php:37
-msgid "File format"
-msgstr "ファイルフォーマット"
-
-#: application/src/Form/Element/VocabularyFetch.php:39
-msgid "[Autodetect]"
-msgstr "[自動検出]"
-
-#: application/src/Form/Element/VocabularyFetch.php:40
-msgid "JSON-LD (.jsonld)"
-msgstr "JSON-LD (.jsonld)"
-
-#: application/src/Form/Element/VocabularyFetch.php:41
-msgid "N-Triples (.nt)"
-msgstr "N-Triples (.nt)"
-
-#: application/src/Form/Element/VocabularyFetch.php:42
-msgid "Notation3 (.n3)"
-msgstr "Notation3 (.n3)"
-
-#: application/src/Form/Element/VocabularyFetch.php:43
-msgid "RDF/XML (.rdf)"
-msgstr "RDF/XML (.rdf)"
-
-#: application/src/Form/Element/VocabularyFetch.php:44
-msgid "Turtle (.ttl)"
-msgstr "Turtle (.ttl)"
-
-#: application/src/Form/Element/VocabularyFetch.php:57
-msgid ""
-"Enter the preferred language of the labels and comments using an IETF "
-"language tag. Defaults to the first available."
-msgstr ""
 
 #: application/src/Form/Element/Recaptcha.php:99
 msgid "You must verify that you are human by completing the CAPTCHA."
@@ -3511,15 +3563,15 @@ msgstr "ユーザー権限を更新しました"
 msgid "Site theme successfully updated"
 msgstr "サイトテーマを更新しました"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:401
+#: application/src/Controller/SiteAdmin/IndexController.php:403
 msgid "Theme settings successfully updated"
 msgstr "テーマ設定を更新しました"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:418
+#: application/src/Controller/SiteAdmin/IndexController.php:420
 msgid "Site successfully deleted"
 msgstr "サイトを削除しました"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:441
+#: application/src/Controller/SiteAdmin/IndexController.php:443
 msgid "site"
 msgstr "サイト"
 
@@ -3595,8 +3647,8 @@ msgstr "リソーステンプレートを作成しました。 %s"
 
 #: application/src/Controller/Admin/UserController.php:44
 #: application/src/Controller/Admin/UserController.php:49
-#: application/src/Controller/Admin/ItemSetController.php:85
-#: application/src/Controller/Admin/ItemSetController.php:90
+#: application/src/Controller/Admin/ItemSetController.php:87
+#: application/src/Controller/Admin/ItemSetController.php:92
 #: application/src/Controller/Admin/MediaController.php:27
 #: application/src/Controller/Admin/MediaController.php:32
 #: application/src/Controller/Admin/ItemController.php:42
@@ -3631,10 +3683,8 @@ msgid ""
 "API key successfully created.<br><br>Here is your key ID and credential for "
 "access to the API. WARNING: \"key_credential\" will be unretrievable after "
 "you navigate away from this page.<br><br>key_identity: "
-"<code>%s</code><br>key_credential: <code>%s</code>"
+"<code>%1$s</code><br>key_credential: <code>%2$s</code>"
 msgstr ""
-"APIキーが正常に作成されました。<br><br>APIにアクセスするためのキーIDと認証情報は次のとおりです。警告：「key_credential」は、このページから移動した後は回復できません。<br><br>"
-" key_identity: <code>%s</code><br>key_credential: <code>%s</code>"
 
 #: application/src/Controller/Admin/UserController.php:268
 msgid "user"
@@ -3676,48 +3726,48 @@ msgstr "ユーザーを編集しました"
 msgid "Editing users. This may take a while."
 msgstr "ユーザーを編集しています。これには時間がかかる場合があります。"
 
-#: application/src/Controller/Admin/ItemSetController.php:31
+#: application/src/Controller/Admin/ItemSetController.php:32
 #, php-format
 msgid "Item set successfully created. %s"
 msgstr "アイテムセットを作成しました。 %s"
 
-#: application/src/Controller/Admin/ItemSetController.php:67
+#: application/src/Controller/Admin/ItemSetController.php:69
 msgid "Item set successfully updated"
 msgstr "アイテムセットを更新しました"
 
-#: application/src/Controller/Admin/ItemSetController.php:153
+#: application/src/Controller/Admin/ItemSetController.php:155
 msgid "item set"
 msgstr "アイテムセット"
 
-#: application/src/Controller/Admin/ItemSetController.php:168
+#: application/src/Controller/Admin/ItemSetController.php:170
 msgid "Item set successfully deleted"
 msgstr "アイテムセットを削除しました"
 
-#: application/src/Controller/Admin/ItemSetController.php:189
+#: application/src/Controller/Admin/ItemSetController.php:191
 msgid "You must select at least one item set to batch delete."
 msgstr "一括削除するアイテムセットを少なくとも1つ選択する必要があります。"
 
-#: application/src/Controller/Admin/ItemSetController.php:198
+#: application/src/Controller/Admin/ItemSetController.php:200
 msgid "Item sets successfully deleted"
 msgstr "アイテムセットを削除しました"
 
-#: application/src/Controller/Admin/ItemSetController.php:224
+#: application/src/Controller/Admin/ItemSetController.php:226
 msgid "Deleting item sets. This may take a while."
 msgstr "アイテムセットを削除しています。しばらくお待ちください。"
 
-#: application/src/Controller/Admin/ItemSetController.php:242
+#: application/src/Controller/Admin/ItemSetController.php:244
 msgid "You must select at least one item set to batch edit."
 msgstr "一括編集するアイテムセットを少なくとも1つ選択する必要があります。"
 
-#: application/src/Controller/Admin/ItemSetController.php:262
+#: application/src/Controller/Admin/ItemSetController.php:264
 msgid "Item sets successfully edited"
 msgstr "アイテムセットを編集しました"
 
-#: application/src/Controller/Admin/ItemSetController.php:314
+#: application/src/Controller/Admin/ItemSetController.php:316
 msgid "Editing item sets. This may take a while."
 msgstr "アイテムセットを編集しています。しばらくお待ちください。"
 
-#: application/src/Controller/Admin/VocabularyController.php:60
+#: application/src/Controller/Admin/VocabularyController.php:59
 msgid "vocabulary"
 msgstr "語彙"
 
@@ -3726,51 +3776,51 @@ msgstr "語彙"
 msgid "Vocabulary successfully imported. %s"
 msgstr "語彙をインポートしました。 %s"
 
-#: application/src/Controller/Admin/VocabularyController.php:170
+#: application/src/Controller/Admin/VocabularyController.php:176
 msgid "Please review these changes before you accept them."
 msgstr "これらの変更を承認する前に確認してください。"
 
-#: application/src/Controller/Admin/VocabularyController.php:178
+#: application/src/Controller/Admin/VocabularyController.php:184
 msgid "Vocabulary successfully updated"
 msgstr "語彙を更新しました"
 
-#: application/src/Controller/Admin/VocabularyController.php:198
+#: application/src/Controller/Admin/VocabularyController.php:204
 msgid "Changes to the vocabulary successfully made"
 msgstr "作成成功した語彙の変更"
 
-#: application/src/Controller/Admin/VocabularyController.php:214
+#: application/src/Controller/Admin/VocabularyController.php:220
 msgid "Vocabulary successfully deleted"
 msgstr "語彙を削除しました"
 
-#: application/src/Controller/Admin/MediaController.php:57
+#: application/src/Controller/Admin/MediaController.php:59
 msgid "Media successfully updated"
 msgstr "メディアを更新しました"
 
-#: application/src/Controller/Admin/MediaController.php:123
+#: application/src/Controller/Admin/MediaController.php:125
 msgid "Media successfully deleted"
 msgstr "メディアを削除しました"
 
-#: application/src/Controller/Admin/MediaController.php:157
+#: application/src/Controller/Admin/MediaController.php:159
 msgid "You must select at least one media to batch delete."
 msgstr "一括削除するメディアを少なくとも1つ選択する必要があります。"
 
-#: application/src/Controller/Admin/MediaController.php:166
+#: application/src/Controller/Admin/MediaController.php:168
 msgid "Medias successfully deleted"
 msgstr "メディアを削除しました"
 
-#: application/src/Controller/Admin/MediaController.php:192
+#: application/src/Controller/Admin/MediaController.php:194
 msgid "Deleting medias. This may take a while."
 msgstr "メディアを削除しています。しばらくお待ちください。"
 
-#: application/src/Controller/Admin/MediaController.php:210
+#: application/src/Controller/Admin/MediaController.php:212
 msgid "You must select at least one media to batch edit."
 msgstr "一括編集するメディアを少なくとも1つ選択する必要があります。"
 
-#: application/src/Controller/Admin/MediaController.php:230
+#: application/src/Controller/Admin/MediaController.php:232
 msgid "Medias successfully edited"
 msgstr "メディアを編集しました"
 
-#: application/src/Controller/Admin/MediaController.php:282
+#: application/src/Controller/Admin/MediaController.php:284
 msgid "Editing medias. This may take a while."
 msgstr "メディアを編集しています。しばらくお待ちください。"
 
@@ -3794,24 +3844,24 @@ msgstr "アイテムを削除しました"
 msgid "Deleting items. This may take a while."
 msgstr "アイテムを削除しています。しばらくお待ちください。"
 
-#: application/src/Controller/Admin/ItemController.php:207
+#: application/src/Controller/Admin/ItemController.php:208
 #, php-format
 msgid "Item successfully created. %s"
 msgstr "アイテムを作成しました。 %s"
 
-#: application/src/Controller/Admin/ItemController.php:243
+#: application/src/Controller/Admin/ItemController.php:245
 msgid "Item successfully updated"
 msgstr "アイテムを更新しました"
 
-#: application/src/Controller/Admin/ItemController.php:270
+#: application/src/Controller/Admin/ItemController.php:272
 msgid "You must select at least one item to batch edit."
 msgstr "一括編集するアイテムを少なくとも1つ選択する必要があります。"
 
-#: application/src/Controller/Admin/ItemController.php:290
+#: application/src/Controller/Admin/ItemController.php:292
 msgid "Items successfully edited"
 msgstr "アイテムを編集しました"
 
-#: application/src/Controller/Admin/ItemController.php:342
+#: application/src/Controller/Admin/ItemController.php:344
 msgid "Editing items. This may take a while."
 msgstr "アイテムを編集しています。しばらくお待ちください。"
 
@@ -3937,14 +3987,14 @@ msgstr "ファイルをアップロード"
 #, php-format
 msgid ""
 "You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
-"version %s. You are currently on version %s."
+"version %1$s. You are currently on version %2$s."
 msgstr ""
 
 #: application/src/Stdlib/Environment.php:54
 #, php-format
 msgid ""
-"The installed PHP version (%s) is too low. Omeka requires at least version "
-"%s."
+"The installed PHP version (%1$s) is too low. Omeka requires at least version"
+" %2$s."
 msgstr ""
 
 #: application/src/Stdlib/Environment.php:62
@@ -3955,15 +4005,15 @@ msgstr ""
 #: application/src/Stdlib/Environment.php:81
 #, php-format
 msgid ""
-"The installed MySQL version (%s) is too low. Omeka requires at least version"
-" %s."
+"The installed MySQL version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
 msgstr ""
 
 #: application/src/Stdlib/Environment.php:89
 #, php-format
 msgid ""
-"The installed MariaDB version (%s) is too low. Omeka requires at least "
-"version %s."
+"The installed MariaDB version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
 msgstr ""
 
 #: application/src/Permissions/Acl.php:21
@@ -4018,54 +4068,62 @@ msgstr "アイテムのショーケース"
 msgid "Item with metadata"
 msgstr "メタデータを持つアイテム"
 
-#: application/src/Site/BlockLayout/Media.php:60
-msgid "Thumbnail alignment"
-msgstr "サムネイルの配置"
+#: application/src/Site/BlockLayout/Media.php:14
+msgid "Media Embed"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Media.php:61
+msgid "Alignment"
+msgstr ""
 
 #: application/src/Site/BlockLayout/Fallback.php:28
 #, php-format
 msgid "Unknown [%s]"
 msgstr "不明 [%s]"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:22
+#: application/src/Site/BlockLayout/ListOfSites.php:23
 msgid "List of sites"
 msgstr "サイトの一覧"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:37
+#: application/src/Site/BlockLayout/ListOfSites.php:38
 msgid "Alphabetical"
 msgstr "アルファベット順"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:38
+#: application/src/Site/BlockLayout/ListOfSites.php:39
 msgid "Oldest first"
 msgstr "古い順"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:39
+#: application/src/Site/BlockLayout/ListOfSites.php:40
 msgid "Newest first"
 msgstr "新しい順"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:50
+#: application/src/Site/BlockLayout/ListOfSites.php:51
 msgid "Max number of sites"
 msgstr "サイトの最大数"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:51
+#: application/src/Site/BlockLayout/ListOfSites.php:52
 msgid "An empty value means no limit."
 msgstr "空の値は無制限を意味します。"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:55
+#: application/src/Site/BlockLayout/ListOfSites.php:56
 msgid "Unlimited"
 msgstr "制限無し"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:63
+#: application/src/Site/BlockLayout/ListOfSites.php:64
 msgid "Pagination"
 msgstr "ページ数"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:64
+#: application/src/Site/BlockLayout/ListOfSites.php:65
 msgid "Show pagination (only if a limit is set)"
 msgstr "ページ数を表示（制限が設定されている場合のみ）"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:74
+#: application/src/Site/BlockLayout/ListOfSites.php:75
 msgid "Show summaries"
 msgstr "要約を表示"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:85
+msgid "Exclude current site"
+msgstr ""
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:15
 msgid "Browse preview"
@@ -4174,8 +4232,8 @@ msgstr "メディアは配列でなければなりません"
 
 #: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:168
 #, php-format
-msgid "The \"%s\" resource template requires a \"%s\" value"
-msgstr "\"%s\" リソーステンプレートには \"%s\" 値が必要です"
+msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
+msgstr ""
 
 #: application/src/Api/Adapter/SiteAdapter.php:230
 msgid "A site must have a title."
@@ -4193,39 +4251,39 @@ msgstr "サイトにはアイテムプールデータが必要です。"
 msgid "A homepage must belong to its parent site."
 msgstr ""
 
-#: application/src/Api/Adapter/SiteAdapter.php:297
+#: application/src/Api/Adapter/SiteAdapter.php:304
 msgid "Invalid navigation: navigation must be an array"
 msgstr "無効なナビゲーション：ナビゲーションは配列でなければなりません"
 
-#: application/src/Api/Adapter/SiteAdapter.php:306
+#: application/src/Api/Adapter/SiteAdapter.php:313
 msgid "Invalid navigation: link missing type"
 msgstr "無効なナビゲーション：リンクがないタイプ"
 
-#: application/src/Api/Adapter/SiteAdapter.php:310
+#: application/src/Api/Adapter/SiteAdapter.php:317
 msgid "Invalid navigation: link missing data"
 msgstr "無効なナビゲーション：リンク欠落したデータ"
 
-#: application/src/Api/Adapter/SiteAdapter.php:314
+#: application/src/Api/Adapter/SiteAdapter.php:321
 msgid "Invalid navigation: invalid link data"
 msgstr "無効なナビゲーション：無効なリンクデータ"
 
-#: application/src/Api/Adapter/SiteAdapter.php:319
+#: application/src/Api/Adapter/SiteAdapter.php:326
 msgid "Invalid navigation: page links must be unique"
 msgstr "無効なナビゲーション：ページリンクは一意である必要があります"
 
-#: application/src/Api/Adapter/SiteAdapter.php:326
+#: application/src/Api/Adapter/SiteAdapter.php:333
 msgid "Invalid navigation: links must be an array"
 msgstr "無効なナビゲーション：リンクは配列でなければなりません"
 
-#: application/src/Api/Adapter/MediaAdapter.php:89
+#: application/src/Api/Adapter/MediaAdapter.php:97
 msgid "Media must set an ingester."
 msgstr "メディアは受入者をセットする必要があります。"
 
-#: application/src/Api/Adapter/MediaAdapter.php:111
+#: application/src/Api/Adapter/MediaAdapter.php:119
 msgid "Media must set a valid ingester."
 msgstr "メディアは有効な受入者をセットする必要があります。"
 
-#: application/src/Api/Adapter/MediaAdapter.php:147
+#: application/src/Api/Adapter/MediaAdapter.php:155
 msgid "Media must belong to an item."
 msgstr "メディアはアイテムに属する必要があります。"
 
@@ -6224,10 +6282,6 @@ msgstr "Person"
 msgid "A person."
 msgstr "人物。存命中、故人、あるいは想像上の人物"
 
-#. Class comment for Friend of a Friend:Agent
-msgid "An agent (eg. person, group, software or physical artifact)."
-msgstr "エージェント（例えば、人、グループ、ソフトウェア、または物理的人工物）。"
-
 #. Class comment for Friend of a Friend:Document
 msgid "A document."
 msgstr "文書／A document."
@@ -6247,6 +6301,10 @@ msgstr "Group"
 #. Class comment for Friend of a Friend:Group
 msgid "A class of Agents."
 msgstr "Agentのクラス。個々のfoaf:Agentの集合体で、それ自身もfoaf:Agentとみなすことができる"
+
+#. Class comment for Friend of a Friend:Agent
+msgid "An agent (eg. person, group, software or physical artifact)."
+msgstr "エージェント（例えば、人、グループ、ソフトウェア、または物理的人工物）。"
 
 #. Class label for Friend of a Friend:Project
 msgid "Project"

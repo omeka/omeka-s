@@ -2,8 +2,8 @@
 namespace Omeka\Authentication\Adapter;
 
 use Doctrine\ORM\EntityRepository;
-use Zend\Authentication\Adapter\AbstractAdapter;
-use Zend\Authentication\Result;
+use Laminas\Authentication\Adapter\AbstractAdapter;
+use Laminas\Authentication\Result;
 
 /**
  * Auth adapter for checking passwords through Doctrine.

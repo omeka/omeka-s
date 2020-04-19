@@ -3,7 +3,7 @@ namespace Omeka\Form\Element;
 
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\UserRepresentation;
-use Zend\Form\Element\Select;
+use Laminas\Form\Element\Select;
 
 abstract class AbstractGroupByOwnerSelect extends Select
 {

@@ -2,7 +2,7 @@
 namespace Omeka\Service\Media\FileRenderer;
 
 use Omeka\Media\FileRenderer\Manager;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 /**

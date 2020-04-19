@@ -2,7 +2,7 @@
 namespace Omeka\Service\Job;
 
 use Omeka\Job\Dispatcher;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class DispatcherFactory implements FactoryInterface

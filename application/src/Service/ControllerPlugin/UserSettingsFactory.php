@@ -3,7 +3,7 @@ namespace Omeka\Service\ControllerPlugin;
 
 use Interop\Container\ContainerInterface;
 use Omeka\Mvc\Controller\Plugin\Settings;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class UserSettingsFactory implements FactoryInterface
 {

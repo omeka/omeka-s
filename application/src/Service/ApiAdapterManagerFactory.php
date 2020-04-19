@@ -2,7 +2,7 @@
 namespace Omeka\Service;
 
 use Omeka\Api\Adapter\Manager as AdapterManager;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 /**

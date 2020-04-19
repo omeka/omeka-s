@@ -4,8 +4,8 @@ namespace OmekaTest\Api\Adapter\Entity;
 use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Entity\AbstractEntity;
 use Omeka\Test\TestCase;
-use Zend\EventManager\EventManagerInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class AbstractEntityAdapterTest extends TestCase
 {
@@ -39,7 +39,7 @@ class AbstractEntityAdapterTest extends TestCase
             ->with($this->isInstanceOf('Omeka\Entity\EntityInterface'));
 
         // Service: MvcTranslator
-        $translator = $this->createMock('Zend\I18n\Translator\Translator');
+        $translator = $this->createMock('Laminas\I18n\Translator\Translator');
 
         // Service: Omeka\Acl
         $acl = $this->createMock('Omeka\Permissions\Acl');
@@ -51,10 +51,10 @@ class AbstractEntityAdapterTest extends TestCase
             )
             ->will($this->returnValue(true));
 
-        $eventManager = $this->createMock('Zend\EventManager\EventManager');
+        $eventManager = $this->createMock('Laminas\EventManager\EventManager');
         $eventManager->expects($this->exactly(2))
             ->method('triggerEvent')
-            ->with($this->isInstanceOf('Zend\EventManager\Event'));
+            ->with($this->isInstanceOf('Laminas\EventManager\Event'));
 
         $serviceManager = $this->getServiceManager([
             'Omeka\EntityManager' => $entityManager,

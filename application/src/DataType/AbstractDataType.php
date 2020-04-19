@@ -2,7 +2,7 @@
 namespace Omeka\DataType;
 
 use Omeka\Api\Representation\ValueRepresentation;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\PhpRenderer;
 
 abstract class AbstractDataType implements DataTypeInterface
 {

@@ -170,7 +170,13 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function title()
     {
-        return $this->resource->getTitle();
+        $title = $this->resource->getTitle();
+
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs(['title' => $title]);
+        $eventManager->trigger('rep.resource.title', $this, $args);
+
+        return $args['title'];
     }
 
     /**
@@ -262,7 +268,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $values = [];
         foreach ($this->resource->getValues() as $valueEntity) {
             $value = new ValueRepresentation($valueEntity, $this->getServiceLocator());
-            if ('resource' === $value->type() && null === $value->valueResource()) {
+            if ($value->isHidden()) {
                 // Skip this resource value if the resource is not available
                 // (most likely because it is private).
                 continue;
@@ -307,7 +313,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * - all: (false) If true, returns all values that match criteria. If false,
      *   returns the first matching value.
      * - default: (null) Default value if no values match criteria. Returns null
-     *   by default.
+     *   by default for single result, empty array for all results.
      * - lang: (null) Get values of this language only. Returns values of all
      *   languages by default.
      * @return ValueRepresentation|ValueRepresentation[]|mixed
@@ -322,7 +328,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $options['all'] = false;
         }
         if (!isset($options['default'])) {
-            $options['default'] = null;
+            $options['default'] = $options['all'] ? [] : null;
         }
         if (!isset($options['lang'])) {
             $options['lang'] = null;

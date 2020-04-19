@@ -3,7 +3,7 @@ namespace Omeka\Service\File\Thumbnailer;
 
 use Interop\Container\ContainerInterface;
 use Omeka\File\Thumbnailer\Imagick;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class ImagickFactory implements FactoryInterface
 {

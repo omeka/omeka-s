@@ -23,7 +23,7 @@ var valuesJson = <?php echo json_encode($media->values()); ?>;
 
 <?php echo $this->pageTitle($media->displayTitle(), 1, $translate('Media')); ?>
 <?php $this->trigger('view.edit.before'); ?>
-<form method='post' id='edit-media'>
+<?php echo $this->form()->openTag($form); ?>
 
 <?php echo $this->sectionNav($sectionNavs, 'view.edit.section_nav'); ?>
 <?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>

@@ -4,9 +4,9 @@ namespace Omeka\Api\Adapter;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
 use Omeka\Api\ResourceInterface as ApiResourceInterface;
-use Zend\EventManager\EventManagerAwareInterface;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\EventManager\EventManagerAwareInterface;
+use Laminas\Permissions\Acl\Resource\ResourceInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * API adapter interface.

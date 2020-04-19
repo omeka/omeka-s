@@ -19,11 +19,11 @@ class DispatcherTest extends TestCase
     {
         $strategy = $this->createMock('Omeka\Job\DispatchStrategy\StrategyInterface');
 
-        $this->auth = $this->createMock('Zend\Authentication\AuthenticationService');
+        $this->auth = $this->createMock('Laminas\Authentication\AuthenticationService');
         $this->entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->logger = $this->createMock('Zend\Log\Logger');
+        $this->logger = $this->createMock('Laminas\Log\Logger');
 
         $this->dispatcher = new Dispatcher($strategy, $this->entityManager, $this->logger, $this->auth);
     }

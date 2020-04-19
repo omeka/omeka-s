@@ -2,7 +2,7 @@
 namespace Omeka\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
-use Zend\Validator\EmailAddress;
+use Laminas\Validator\EmailAddress;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\Message;

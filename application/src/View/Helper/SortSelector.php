@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for rendering a sorting form.
@@ -36,6 +36,6 @@ class SortSelector extends AbstractHelper
         ];
         $args = $view->trigger('view.sort-selector', $args, true);
 
-        return $view->partial($partialName, $args);
+        return $view->partial($partialName, (array) $args);
     }
 }

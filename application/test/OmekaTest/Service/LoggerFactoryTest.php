@@ -1,7 +1,7 @@
 <?php
 namespace OmekaTest\Service;
 
-use Zend\Log\Logger;
+use Laminas\Log\Logger;
 use Omeka\Service\LoggerFactory;
 use Omeka\Test\TestCase;
 
@@ -33,7 +33,7 @@ class LoggerFactoryTest extends TestCase
 
     protected function getMockServiceLocator(array $config)
     {
-        $serviceLocator = $this->createMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $serviceLocator = $this->createMock('Laminas\ServiceManager\ServiceLocatorInterface');
         $serviceLocator->expects($this->once())
             ->method('get')
             ->with($this->equalTo('Config'))

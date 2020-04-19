@@ -2,7 +2,7 @@
 namespace Omeka\Service\Delegator;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
+use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 
 /**
  * Map custom element types to the view helpers that render them.

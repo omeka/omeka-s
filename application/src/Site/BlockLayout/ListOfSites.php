@@ -4,9 +4,9 @@ namespace Omeka\Site\BlockLayout;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Zend\Form\Element;
-use Zend\Form\Form;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\Form\Element;
+use Laminas\Form\Form;
+use Laminas\View\Renderer\PhpRenderer;
 
 class ListOfSites extends AbstractBlockLayout
 {
@@ -15,6 +15,7 @@ class ListOfSites extends AbstractBlockLayout
         'limit' => null,
         'pagination' => false,
         'summaries' => true,
+        'exclude_current' => true,
     ];
 
     public function getLabel()
@@ -77,12 +78,23 @@ class ListOfSites extends AbstractBlockLayout
                 'id' => 'list-of-sites-summaries',
             ],
         ]);
+        $form->add([
+            'name' => 'o:block[__blockIndex__][o:data][exclude_current]',
+            'type' => Element\Checkbox::class,
+            'options' => [
+                'label' => 'Exclude current site', // @translate
+            ],
+            'attributes' => [
+                'id' => 'list-of-sites-exclude-current',
+            ],
+        ]);
 
         $form->setData([
             'o:block[__blockIndex__][o:data][sort]' => $data['sort'],
             'o:block[__blockIndex__][o:data][limit]' => $data['limit'],
             'o:block[__blockIndex__][o:data][pagination]' => $data['pagination'],
             'o:block[__blockIndex__][o:data][summaries]' => $data['summaries'],
+            'o:block[__blockIndex__][o:data][exclude_current]' => $data['exclude_current'],
         ]);
 
         return $view->formCollection($form, false);
@@ -94,6 +106,7 @@ class ListOfSites extends AbstractBlockLayout
         $limit = $block->dataValue('limit', $this->defaults['limit']);
         $pagination = $limit && $block->dataValue('pagination', $this->defaults['pagination']);
         $summaries = $block->dataValue('summaries', $this->defaults['summaries']);
+        $excludeCurrent = $block->dataValue('exclude_current', $this->defaults['exclude_current']);
 
         $data = [];
         if ($pagination) {
@@ -102,6 +115,10 @@ class ListOfSites extends AbstractBlockLayout
             $data['per_page'] = $limit;
         } elseif ($limit) {
             $data['limit'] = $limit;
+        }
+
+        if ($excludeCurrent) {
+            $data['exclude_id'] = $block->page()->site()->id();
         }
 
         switch ($sort) {

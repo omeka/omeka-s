@@ -4,10 +4,10 @@ namespace Omeka\Api\Adapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Api\ResourceInterface;
-use Zend\EventManager\Event;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Abstract API adapter.

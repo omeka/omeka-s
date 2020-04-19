@@ -3,7 +3,7 @@
 namespace Omeka\Service;
 
 use Omeka\View\Strategy\ApiJsonStrategy;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 /**

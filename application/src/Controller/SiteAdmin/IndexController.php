@@ -4,14 +4,15 @@ namespace Omeka\Controller\SiteAdmin;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\SiteForm;
 use Omeka\Form\SitePageForm;
+use Omeka\Form\SiteResourcesForm;
 use Omeka\Form\SiteSettingsForm;
 use Omeka\Mvc\Exception;
 use Omeka\Site\Navigation\Link\Manager as LinkManager;
 use Omeka\Site\Navigation\Translator;
 use Omeka\Site\Theme\Manager as ThemeManager;
-use Zend\Form\Form;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Form\Form;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
@@ -51,14 +52,10 @@ class IndexController extends AbstractActionController
 
     public function addAction()
     {
-        $form = $this->getForm(SiteForm::class);
+        $form = $this->getForm(SiteForm::class, ['action' => 'add']);
         $themes = $this->themes->getThemes();
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
-            $itemPool = $formData;
-            unset($itemPool['csrf'], $itemPool['o:is_public'], $itemPool['o:title'], $itemPool['o:slug'],
-                $itemPool['o:theme']);
-            $formData['o:item_pool'] = $itemPool;
             $form->setData($formData);
             if ($form->isValid()) {
                 $response = $this->api($form)->create('sites', $formData);
@@ -238,19 +235,32 @@ class IndexController extends AbstractActionController
     public function resourcesAction()
     {
         $site = $this->currentSite();
-        $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
+        $form = $this->getForm(SiteResourcesForm::class)->setAttribute('id', 'site-form');
+        $form->get('o:assign_new_items')->setValue($site->assignNewItems());
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
+                $updateData = [
+                    'o:assign_new_items' => $formData['o:assign_new_items'],
+                    'o:site_item_set' => $formData['o:site_item_set'] ?? [],
+                ];
                 $itemPool = $formData;
-                unset($itemPool['form_csrf']);
-                unset($itemPool['site_item_set']);
-
-                $itemSets = isset($formData['o:site_item_set']) ? $formData['o:site_item_set'] : [];
-
-                $updateData = ['o:item_pool' => $itemPool, 'o:site_item_set' => $itemSets];
+                unset(
+                    $itemPool['siteresourcesform_csrf'],
+                    $itemPool['item_assignment_action'],
+                    $itemPool['save_search'],
+                    $itemPool['o:site_item_set'],
+                    $itemPool['o:assign_new_items']
+                );
+                $updateData['o:item_pool'] = $formData['save_search'] ? $itemPool : $site->itemPool();
+                if ($formData['item_assignment_action']) {
+                    $this->jobDispatcher()->dispatch('Omeka\Job\UpdateSiteItems', [
+                        'sites' => [$site->id() => $itemPool],
+                        'action' => $formData['item_assignment_action'],
+                    ]);
+                }
                 $response = $this->api($form)->update('sites', $site->id(), $updateData, [], ['isPartial' => true]);
                 if ($response) {
                     $this->messenger()->addSuccess('Site resources successfully updated'); // @translate
@@ -353,12 +363,14 @@ class IndexController extends AbstractActionController
         }
 
         $theme = $this->themes->getTheme($site->theme());
-        $config = $theme->getConfigSpec();
-
-        $view = new ViewModel;
-        if (!($config && $config['elements'])) {
-            return $view;
+        if (!$theme->isConfigurable()) {
+            throw new Exception\RuntimeException(
+                'The current theme is not configurable.'
+            );
         }
+
+        $config = $theme->getConfigSpec();
+        $view = new ViewModel;
 
         /** @var Form $form */
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
@@ -370,8 +382,8 @@ class IndexController extends AbstractActionController
         // Fix to manage empty values for selects and multicheckboxes.
         $inputFilter = $form->getInputFilter();
         foreach ($form->getElements() as $element) {
-            if ($element instanceof \Zend\Form\Element\MultiCheckbox
-                || ($element instanceof \Zend\Form\Element\Select
+            if ($element instanceof \Laminas\Form\Element\MultiCheckbox
+                || ($element instanceof \Laminas\Form\Element\Select
                     && $element->getOption('empty_option') !== null)
             ) {
                 $inputFilter->add([

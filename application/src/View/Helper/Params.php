@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\Mvc\Controller\Plugin\Params as ParamsPlugin;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\Mvc\Controller\Plugin\Params as ParamsPlugin;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for getting params from the request.

@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Module;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for returning a path to an asset.

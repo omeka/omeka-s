@@ -127,4 +127,18 @@ class Theme
         }
         return '/themes/' . $this->id . "/theme.jpg";
     }
+
+    /**
+     * Return whether this theme is user-configurable.
+     *
+     * A configurable theme needs a [config] section in its INI file and at
+     * least one element defined there.
+     *
+     * @return bool
+     */
+    public function isConfigurable()
+    {
+        $configSpec = $this->getConfigSpec();
+        return $configSpec && $configSpec['elements'];
+    }
 }

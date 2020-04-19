@@ -2,7 +2,7 @@
 namespace Omeka\Entity;
 
 use Omeka\Api\ResourceInterface as OmekaApiResourceInterface;
-use Zend\Permissions\Acl\Resource\ResourceInterface as ZendAclResourceInterface;
+use Laminas\Permissions\Acl\Resource\ResourceInterface as ZendAclResourceInterface;
 
 /**
  * Entity interface.

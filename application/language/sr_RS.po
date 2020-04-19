@@ -5,15 +5,16 @@
 # 
 # Translators:
 # Ognjen Calic <cognjen@gmail.com>, 2018
+# John Flatness <john@zerocrates.org>, 2020
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-13 15:51-0400\n"
+"POT-Creation-Date: 2020-01-27 13:06-0500\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Ognjen Calic <cognjen@gmail.com>, 2018\n"
+"Last-Translator: John Flatness <john@zerocrates.org>, 2020\n"
 "Language-Team: Serbian (Serbia) (https://www.transifex.com/omeka/teams/14184/sr_RS/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,19 +64,19 @@ msgstr "Адаптер %1$sне имплементира операцију се
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:241
 #, php-format
-msgid "The \"%s\" field is not available in the %s entity class."
-msgstr "Поље \"%s\" није доступно у  entitetskoj klasi %s."
+msgid "The \"%1$s\" field is not available in the %2$s entity class."
+msgstr "Поље \"%1$s\" није доступно у  entitetskoj klasi %2$s."
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:586
 #: application/src/Api/Manager.php:209
 #, php-format
-msgid "Permission denied for the current user to %s the %s resource."
-msgstr "Тренутном кориснику није дозвољено да %s ресурс%s."
+msgid "Permission denied for the current user to %1$s the %2$s resource."
+msgstr "Тренутном кориснику није дозвољено да %1$s ресурс%2$s."
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:628
 #, php-format
-msgid "%s entity with criteria %s not found"
-msgstr "%s ентитет са критеријумом %s није пронађен"
+msgid "%1$s entity with criteria %2$s not found"
+msgstr "%1$s ентитет са критеријумом %2$s није пронађен"
 
 #: application/src/Api/Adapter/SiteAdapter.php:136
 msgid "Welcome"
@@ -85,7 +86,7 @@ msgstr "Добродошли"
 msgid "Welcome to your new site. This is an example page."
 msgstr "Добродошли на Ваш нови сајт. Ово је пробна страница."
 
-#: application/src/Api/Adapter/SiteAdapter.php:351
+#: application/src/Api/Adapter/SiteAdapter.php:358
 msgid "Browse"
 msgstr "Прегледајте"
 
@@ -94,7 +95,7 @@ msgstr "Прегледајте"
 msgid "The API does not support the \"%s\" resource."
 msgstr "API не подржава \"%s\" ресурс"
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:492
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:504
 #: application/view/common/block-layout/browse-preview.phtml:15
 #: application/view/omeka/site/item-set/browse.phtml:23
 #: application/view/omeka/site/item/browse.phtml:58
@@ -109,11 +110,11 @@ msgstr "Подразумијевано"
 msgid "Asset uploads must be POSTed."
 msgstr "Отпремање ставке имовине мора бити POSTовано."
 
-#: application/src/Controller/Admin/ItemController.php:211
+#: application/src/Controller/Admin/ItemController.php:212
 msgid "Add another item?"
 msgstr "Додај објекат?"
 
-#: application/src/Controller/Admin/ItemSetController.php:35
+#: application/src/Controller/Admin/ItemSetController.php:36
 msgid "Add another item set?"
 msgstr "Додај скуп објеката?"
 
@@ -196,8 +197,8 @@ msgstr "OpenSeadragon није доступан док се JavaScript не ом
 
 #: application/src/Module/Manager.php:170
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be activated"
-msgstr "Модул \"%s\" је означен као \"%s\" и не  може се активирати "
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be activated"
+msgstr "Модул \"%1$s\" је означен као \"%2$s\" и не  може се активирати "
 
 #: application/src/Module/Manager.php:181
 #, php-format
@@ -206,8 +207,8 @@ msgstr "Модул \"%s\" није у бази података за врије�
 
 #: application/src/Module/Manager.php:202
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be deactivated"
-msgstr "Модул \"%s\" је означен као \"%s\" и не може се деактивирати "
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be deactivated"
+msgstr "Модул \"%1$s\" је означен као \"%2$s\" и не може се деактивирати "
 
 #: application/src/Module/Manager.php:213
 #, php-format
@@ -216,13 +217,13 @@ msgstr "Модул \"%s\" није у бази података за врије�
 
 #: application/src/Module/Manager.php:233
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be installed"
-msgstr "Модул \"%s\" је означен као \"%s\" и не може се инсталирати"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be installed"
+msgstr "Модул \"%1$s\" је означен као \"%2$s\" и не може се инсталирати"
 
 #: application/src/Module/Manager.php:271
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be uninstalled"
-msgstr "Модул \"%s\" је означен као \"%s\" и не може се деинсталирати"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be uninstalled"
+msgstr "Модул \"%1$s\" је означен као \"%2$s\" и не може се деинсталирати"
 
 #: application/src/Module/Manager.php:288
 #, php-format
@@ -231,8 +232,8 @@ msgstr "Модул \"%s\" није у бази података за врије�
 
 #: application/src/Module/Manager.php:309
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be upgraded"
-msgstr "Модул \"%s\" је означен као \"%s\" и не може се надоградити"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be upgraded"
+msgstr "Модул \"%1$s\" је означен као \"%2$s\" и не може се надоградити"
 
 #: application/src/Module/Manager.php:331
 #, php-format
@@ -241,8 +242,8 @@ msgstr "Модул \"%s\" није у бази података за врије�
 
 #: application/src/Module/Manager.php:410
 #, php-format
-msgid "Permission denied for the current user to %s the %s module."
-msgstr "Тренутни корисник нема дозволу да %s модул %s"
+msgid "Permission denied for the current user to %1$s the %2$s module."
+msgstr "Тренутни корисник нема дозволу да %1$s модул %2$s"
 
 #: application/src/Mvc/MvcListeners.php:436
 #, php-format
@@ -367,7 +368,7 @@ msgstr ""
 
 #: application/src/View/Helper/PasswordRequirements.php:67
 #, php-format
-msgid "Password must contain at least %s symbols: <code>%s</code>"
+msgid "Password must contain at least %1$s symbols: <code>%2$s</code>"
 msgstr ""
 
 #: application/src/View/Helper/SearchFilters.php:32
@@ -460,8 +461,9 @@ msgid "AND"
 msgstr "AND"
 
 #: application/src/View/Helper/SearchFilters.php:124
-#: application/view/common/search-form.phtml:7
 #: application/view/common/search-form.phtml:8
+#: application/view/common/search-form.phtml:9
+#: application/view/common/search-form.phtml:10
 #: application/view/layout/layout-admin.phtml:62
 #: application/view/omeka/admin/item-set/search.phtml:13
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:12
@@ -526,7 +528,7 @@ msgstr ""
 #: application/view/omeka/admin/user/browse.phtml:80
 #: application/view/omeka/admin/user/show.phtml:29
 #: application/view/omeka/site-admin/index/users.phtml:31
-#: application/view/omeka/site-admin/index/users.phtml:47
+#: application/view/omeka/site-admin/index/users.phtml:46
 msgid "Role"
 msgstr "Улога"
 
@@ -559,8 +561,8 @@ msgstr ""
 msgid "The maximum upload size is %s MB."
 msgstr "Максимална величина датотеке која се шаље је %sMB."
 
-#: application/src/View/Helper/UserBar.php:118
-#: application/src/View/Helper/UserBar.php:150
+#: application/src/View/Helper/UserBar.php:120
+#: application/src/View/Helper/UserBar.php:161
 #: application/view/omeka/admin/index/browse.phtml:48
 #: application/view/omeka/admin/item-set/browse.phtml:109
 #: application/view/omeka/admin/item-set/edit.phtml:14
@@ -580,7 +582,7 @@ msgstr "Максимална величина датотеке која се ш�
 msgid "Edit"
 msgstr "Ажурирај"
 
-#: application/src/View/Helper/UserBar.php:157
+#: application/src/View/Helper/UserBar.php:154
 #: application/view/omeka/site-admin/index/show.phtml:17
 #: application/view/omeka/site-admin/page/edit.phtml:15
 msgid "View"
@@ -607,7 +609,7 @@ msgstr "Тражи објекте који су додјењени било ки
 #: application/view/common/advanced-search/resource-class.phtml:31
 #: application/view/common/advanced-search/resource-template.phtml:32
 #: application/view/common/block-layout.phtml:12
-#: application/view/common/data-type-wrapper.phtml:12
+#: application/view/common/data-type-wrapper.phtml:10
 #: application/view/common/media-field-wrapper.phtml:13
 #: application/view/omeka/admin/item/manage-media.phtml:49
 msgid "Remove value"
@@ -618,6 +620,10 @@ msgstr "Уклони вриједност"
 #: application/view/omeka/admin/item-set/browse.phtml:42
 msgid "Add new item set"
 msgstr "Додај скуп објеката"
+
+#: application/view/common/advanced-search/media-type.phtml:6
+msgid "Search by MIME type"
+msgstr ""
 
 #: application/view/common/advanced-search/properties.phtml:33
 msgid "Query text"
@@ -728,7 +734,7 @@ msgid "Block to be removed"
 msgstr "Блок који треба уклонити"
 
 #: application/view/common/block-layout.phtml:13
-#: application/view/common/data-type-wrapper.phtml:13
+#: application/view/common/data-type-wrapper.phtml:11
 #: application/view/omeka/admin/item/manage-media.phtml:53
 #: application/view/omeka/admin/resource-template/show-property-row.phtml:40
 msgid "Restore value"
@@ -736,6 +742,7 @@ msgstr "Обновити вриједност"
 
 #: application/view/common/block-layout/item-with-metadata.phtml:12
 #: application/view/common/data-type/resource.phtml:29
+#: application/view/common/item-set-selector.phtml:10
 #: application/view/layout/layout-admin.phtml:72
 #: application/view/omeka/admin/item-set/add.phtml:6
 #: application/view/omeka/admin/item-set/browse.phtml:29
@@ -746,17 +753,17 @@ msgstr "Обновити вриједност"
 #: application/view/omeka/admin/item/show-details.phtml:19
 #: application/view/omeka/admin/item/show.phtml:63
 #: application/view/omeka/admin/user/show-details.phtml:17
-#: application/view/omeka/site-admin/index/resources.phtml:24
+#: application/view/omeka/site-admin/index/resources.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:8
 #: application/view/omeka/site/item/show.phtml:24
 msgid "Item sets"
 msgstr "Скупови објеката"
 
-#: application/view/common/data-type-wrapper.phtml:10
+#: application/view/common/data-type-wrapper.phtml:8
 msgid "Value to be removed"
 msgstr "Вриједност коју треба уклонити"
 
-#: application/view/common/data-type-wrapper.phtml:15
+#: application/view/common/data-type-wrapper.phtml:13
 #: application/view/common/media-field-wrapper.phtml:9
 #: application/view/omeka/admin/item-set/form.phtml:41
 #: application/view/omeka/admin/item/form.phtml:43
@@ -904,10 +911,6 @@ msgstr "Клликните на скуп објеката да бисте га �
 msgid "Filter item sets"
 msgstr "Филтрирај скупове објеката"
 
-#: application/view/common/item-set-selector.phtml:10
-msgid "All item sets"
-msgstr "Сви скупови објеката."
-
 #: application/view/common/item-set-selector.phtml:17
 #: application/view/omeka/admin/item-set/browse.phtml:93
 #: application/view/omeka/admin/item-set/show.phtml:17
@@ -945,7 +948,7 @@ msgstr "Све"
 #: application/view/omeka/admin/media/browse.phtml:79
 #: application/view/omeka/site-admin/index/index.phtml:7
 #: application/view/omeka/site-admin/index/index.phtml:39
-#: application/view/omeka/site-admin/index/resources.phtml:62
+#: application/view/omeka/site-admin/index/resources.phtml:61
 #: application/view/omeka/site-admin/index/show.phtml:28
 #: application/view/omeka/site-admin/page/index.phtml:18
 #: application/view/omeka/site/item/browse.phtml:14
@@ -997,8 +1000,8 @@ msgstr "Наредна"
 
 #: application/view/common/pagination.phtml:28
 #, php-format
-msgid "%s–%s of %s"
-msgstr "%s–%s од%s"
+msgid "%1$s–%2$s of %3$s"
+msgstr "%1$s–%2$s од %3$s"
 
 #: application/view/common/pagination.phtml:30
 msgid "0 results"
@@ -1061,12 +1064,12 @@ msgstr "Кликните на својство да бисте је додалу
 msgid "Filter properties"
 msgstr "Филтрирај особине"
 
-#: application/view/common/resource-fields.phtml:33
+#: application/view/common/resource-fields.phtml:34
 #: application/view/omeka/admin/resource-template/form.phtml:32
 msgid "Add property"
 msgstr "Додај својство"
 
-#: application/view/common/resource-fields.phtml:40
+#: application/view/common/resource-fields.phtml:41
 msgid ""
 "Omeka S automatically selects a thumbnail from among attached media for a "
 "resource. You may use an image of your choice instead by choosing an asset "
@@ -1159,17 +1162,17 @@ msgstr "Одјава"
 msgid "Log in"
 msgstr "Пријава"
 
-#: application/view/common/user-selector.phtml:10
+#: application/view/common/user-selector.phtml:11
 msgid "Click on a user to add it to the edit panel."
 msgstr ""
 
-#: application/view/common/user-selector.phtml:13
+#: application/view/common/user-selector.phtml:14
 msgid "Filter users"
 msgstr "Филтрирајте кориснике"
 
-#: application/view/common/user-selector.phtml:15
+#: application/view/common/user-selector.phtml:16
 #, php-format
-msgid "All users (%s)"
+msgid "Users (%s)"
 msgstr ""
 
 #: application/view/common/version-notification.phtml:8
@@ -1179,7 +1182,7 @@ msgstr ""
 
 #: application/view/common/version-notification.phtml:12
 #: application/view/omeka/admin/module/browse.phtml:62
-#: application/view/omeka/site-admin/index/theme.phtml:53
+#: application/view/omeka/site-admin/index/theme.phtml:55
 msgid "Get the new version."
 msgstr ""
 
@@ -1201,7 +1204,7 @@ msgid "Details:"
 msgstr "Детаљи:"
 
 #: application/view/layout/layout-admin.phtml:23
-#: application/view/omeka/site-admin/index/resources.phtml:21
+#: application/view/omeka/site-admin/index/resources.phtml:20
 msgid "Resources"
 msgstr "Ресурси"
 
@@ -1412,7 +1415,7 @@ msgstr "Ажурирај серију објеката"
 #: application/view/omeka/admin/vocabulary/edit.phtml:13
 #: application/view/omeka/site-admin/index/edit.phtml:29
 #: application/view/omeka/site-admin/index/navigation.phtml:17
-#: application/view/omeka/site-admin/index/resources.phtml:32
+#: application/view/omeka/site-admin/index/resources.phtml:31
 #: application/view/omeka/site-admin/index/settings.phtml:10
 #: application/view/omeka/site-admin/index/theme-settings.phtml:12
 #: application/view/omeka/site-admin/index/theme.phtml:18
@@ -1458,7 +1461,7 @@ msgstr "Идентификатор"
 #: application/view/omeka/admin/resource-template/browse.phtml:45
 #: application/view/omeka/site-admin/index/index.phtml:15
 #: application/view/omeka/site-admin/index/index.phtml:41
-#: application/view/omeka/site-admin/index/resources.phtml:63
+#: application/view/omeka/site-admin/index/resources.phtml:62
 msgid "Owner"
 msgstr "Власник"
 
@@ -1622,9 +1625,10 @@ msgstr "Да ли сте сигурни да желите обрисати из�
 #: application/view/omeka/admin/item-set/browse.phtml:178
 #, php-format
 msgid ""
-"%s: this action will permanently delete %s item sets and cannot be undone."
+"%1$s: this action will permanently delete %2$s item sets and cannot be "
+"undone."
 msgstr ""
-"%s: ова акција ће трајно обрисати %s скупова података и не може бити "
+"%1$s: ова акција ће трајно обрисати %2$s скупова података и не може бити "
 "поништена."
 
 #: application/view/omeka/admin/item-set/browse.phtml:161
@@ -1790,9 +1794,10 @@ msgstr "Да ли сте сигурни да желите обрисати ов�
 #: application/view/omeka/admin/item/browse.phtml:158
 #: application/view/omeka/admin/item/browse.phtml:176
 #, php-format
-msgid "%s: this action will permanently delete %s items and cannot be undone."
+msgid ""
+"%1$s: this action will permanently delete %2$s items and cannot be undone."
 msgstr ""
-"%s: ова акција ће трајно обрисати %s објеката и не може бити поништена."
+"%1$s: ова акција ће трајно обрисати %2$s објеката и не може бити поништена."
 
 #: application/view/omeka/admin/item/browse.phtml:174
 msgid ""
@@ -1959,7 +1964,7 @@ msgstr ""
 #: application/view/omeka/admin/media/browse.phtml:188
 #, php-format
 msgid ""
-"%s: this action will permanently delete %s medias and cannot be undone."
+"%1$s: this action will permanently delete %2$s medias and cannot be undone."
 msgstr ""
 
 #: application/view/omeka/admin/media/browse.phtml:186
@@ -2272,7 +2277,7 @@ msgid "You are editing %s users (except yourself)."
 msgstr ""
 
 #: application/view/omeka/admin/user/browse.phtml:36
-#: application/view/omeka/site-admin/index/users.phtml:75
+#: application/view/omeka/site-admin/index/users.phtml:70
 msgid "Add new user"
 msgstr "Додај новог корисника"
 
@@ -2291,7 +2296,8 @@ msgstr ""
 
 #: application/view/omeka/admin/user/browse.phtml:151
 #, php-format
-msgid "%s: this action will permanently delete %s users and cannot be undone."
+msgid ""
+"%1$s: this action will permanently delete %2$s users and cannot be undone."
 msgstr ""
 
 #: application/view/omeka/admin/user/browse.phtml:167
@@ -2303,7 +2309,7 @@ msgstr ""
 #: application/view/omeka/admin/user/browse.phtml:169
 #, php-format
 msgid ""
-"%s: this action will permanently delete %s users (except yourself) and "
+"%1$s: this action will permanently delete %2$s users (except yourself) and "
 "cannot be undone."
 msgstr ""
 
@@ -2392,7 +2398,7 @@ msgstr ""
 msgid "This vocabulary has no classes."
 msgstr "Овај ријечник нема класа."
 
-#: application/view/omeka/admin/vocabulary/edit.phtml:19
+#: application/view/omeka/admin/vocabulary/edit.phtml:18
 msgid ""
 "You may update this vocabulary to a newer version. You will be able to "
 "review the changes before you accept."
@@ -2419,7 +2425,7 @@ msgstr "Прихвати измјене"
 #: application/view/omeka/site-admin/index/edit.phtml:7
 #: application/view/omeka/site-admin/index/index.phtml:21
 #: application/view/omeka/site-admin/index/navigation.phtml:10
-#: application/view/omeka/site-admin/index/resources.phtml:21
+#: application/view/omeka/site-admin/index/resources.phtml:20
 #: application/view/omeka/site-admin/index/settings.phtml:6
 #: application/view/omeka/site-admin/index/show.phtml:11
 #: application/view/omeka/site-admin/index/theme.phtml:11
@@ -2430,8 +2436,8 @@ msgstr "Сајтови"
 
 #: application/view/omeka/index/index.phtml:25
 #, php-format
-msgid "Go to the %s to start working with %s."
-msgstr "Идите на  %s да почнете са радом на %s."
+msgid "Go to the %1$s to start working with %2$s."
+msgstr "Идите на  %1$s да почнете са радом на %2$s."
 
 #: application/view/omeka/install/index.phtml:11
 msgid "Install Omeka S"
@@ -2511,7 +2517,7 @@ msgid "Theme"
 msgstr "Тема"
 
 #: application/view/omeka/site-admin/index/add.phtml:9
-#: application/view/omeka/site-admin/index/resources.phtml:23
+#: application/view/omeka/site-admin/index/resources.phtml:22
 msgid "Item pool"
 msgstr "Лагер објеката "
 
@@ -2558,16 +2564,12 @@ msgstr ""
 msgid "There are no available pages."
 msgstr "Нема доступних страница."
 
-#: application/view/omeka/site-admin/index/resources.phtml:15
-msgid "Restore item set"
-msgstr "Обнови скуп објеката"
-
-#: application/view/omeka/site-admin/index/resources.phtml:37
+#: application/view/omeka/site-admin/index/resources.phtml:36
 #, php-format
 msgid "There are currently %s items in this site’s pool."
 msgstr "Тренутно је %s објек(а)т/а на лагеру сајта."
 
-#: application/view/omeka/site-admin/index/resources.phtml:69
+#: application/view/omeka/site-admin/index/resources.phtml:68
 msgid "No item sets are assigned to this site."
 msgstr "Ниједан скуп објеката није додјењен овом сајту."
 
@@ -2606,30 +2608,30 @@ msgstr "Тренутна тема нема опцију конфигурациј
 msgid "Current theme"
 msgstr "Тренутна тема"
 
-#: application/view/omeka/site-admin/index/theme.phtml:43
+#: application/view/omeka/site-admin/index/theme.phtml:44
 msgid "Edit theme settings"
 msgstr "Ажурирај подешавање теме"
 
-#: application/view/omeka/site-admin/index/theme.phtml:49
+#: application/view/omeka/site-admin/index/theme.phtml:51
 #, php-format
 msgid "A new version of this theme is available. %s"
 msgstr ""
 
-#: application/view/omeka/site-admin/index/theme.phtml:59
+#: application/view/omeka/site-admin/index/theme.phtml:61
 msgid "Error: this theme is invalid."
 msgstr "Грешка: ова тема је неисправна."
 
-#: application/view/omeka/site-admin/index/theme.phtml:61
+#: application/view/omeka/site-admin/index/theme.phtml:63
 #, php-format
 msgid "ID: %s"
 msgstr "ID: %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:62
+#: application/view/omeka/site-admin/index/theme.phtml:64
 #, php-format
 msgid "Status: %s"
 msgstr "Статус: %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:64
+#: application/view/omeka/site-admin/index/theme.phtml:66
 msgid ""
 "Please contact the Omeka S administrator. This site will not be publicly "
 "available until the problem is resolved or you select another theme below."
@@ -2645,16 +2647,11 @@ msgstr "Обнови"
 msgid "User permissions"
 msgstr "Корисничке дозволе"
 
-#: application/view/omeka/site-admin/index/users.phtml:43
-#: application/view/omeka/site-admin/index/users.phtml:83
-msgid "User to be removed"
-msgstr "Корисници које треба уклонити"
-
-#: application/view/omeka/site-admin/index/users.phtml:73
+#: application/view/omeka/site-admin/index/users.phtml:68
 msgid "This site has no users. Add users using the interface to the right."
 msgstr "Овај сајт нема корисника. Додајте кориснике помоћу интерфејса десно."
 
-#: application/view/omeka/site-admin/index/users.phtml:76
+#: application/view/omeka/site-admin/index/users.phtml:71
 msgid "Click on a user to add them to the site."
 msgstr "Кликните на корисника да бисте га додали сајту."
 
@@ -2730,35 +2727,39 @@ msgstr "Напредна претрага обвјеката"
 msgid "Item"
 msgstr "Објеката"
 
-#: application/config/module.config.php:616
+#: application/config/module.config.php:617
 msgid "Something went wrong"
 msgstr "Нешто није у реду"
 
-#: application/config/module.config.php:621
+#: application/config/module.config.php:622
 msgid "You have unsaved changes."
 msgstr "Имате несачуване промене."
 
 #: application/config/module.config.php:623
+msgid "Restore item set"
+msgstr "Обнови скуп објеката"
+
+#: application/config/module.config.php:624
 msgid "Close icon set"
 msgstr "Затвори скуп икона"
 
-#: application/config/module.config.php:624
+#: application/config/module.config.php:625
 msgid "Open icon set"
 msgstr "Отвори скуп икона"
 
-#: application/config/module.config.php:626
+#: application/config/module.config.php:627
 msgid "Failed loading resource template from API"
 msgstr "Учитавање шаблона ресурса из API-ја није усјело"
 
-#: application/config/module.config.php:627
+#: application/config/module.config.php:628
 msgid "Restore property"
 msgstr "Обнови својство"
 
-#: application/config/module.config.php:629
+#: application/config/module.config.php:630
 msgid "Please enter a valid language tag"
 msgstr "Молимо унесите исправну ознаку језика"
 
-#: application/config/module.config.php:631
+#: application/config/module.config.php:632
 msgid "Description"
 msgstr "Опис"
 
@@ -2817,29 +2818,29 @@ msgstr "без наслова"
 
 #: application/src/File/Validator.php:65
 #, php-format
-msgid "Error validating \"%s\". Cannot store files with the media type \"%s\"."
+msgid "Error validating \"%1$s\". Cannot store files with the media type \"%2$s\"."
 msgstr ""
-"грешка валидације \"%s\". Није могуће сачувати датотеку чији је тип медија "
-"\"%s\"."
+"грешка валидације \"%1$s\". Није могуће сачувати датотеку чији је тип медија"
+" \"%2$s\"."
 
 #: application/src/File/Validator.php:78
 #, php-format
 msgid ""
-"Error validating \"%s\". Cannot store files with the resolved extension "
-"\"%s\"."
+"Error validating \"%1$s\". Cannot store files with the resolved extension "
+"\"%2$s\"."
 msgstr ""
-"грешка валидације \"%s\". Није могуће сачувати датотеку са екстензијом "
-"\"%s\"."
+"грешка валидације \"%1$s\". Није могуће сачувати датотеку са екстензијом "
+"\"%2$s\"."
 
 #: application/src/File/Downloader.php:71
 #, php-format
-msgid "Error downloading %s: %s"
-msgstr "Грешка преузимања: %s:%s"
+msgid "Error downloading %1$s: %2$s"
+msgstr "Грешка преузимања: %1$s:%2$s"
 
 #: application/src/File/Downloader.php:83
 #, php-format
-msgid "Error downloading %s: %s %s"
-msgstr "Грешка преузимања: %s:%s %s"
+msgid "Error downloading %1$s: %2$s %3$s"
+msgstr "Грешка преузимања: %1$s:%2$s %3$s"
 
 #: application/src/File/ThumbnailManager.php:102
 msgid "Missing thumbnail configuration."
@@ -2879,35 +2880,124 @@ msgstr "Неисправна конфигурација резервог мин�
 msgid "Resource template file"
 msgstr "Датотека шаблона ресурса"
 
-#: application/src/Form/VocabularyImportForm.php:20
-msgid ""
-"A concise vocabulary identifier, used as a shorthand proxy for the namespace"
-" URI."
+#: application/src/Form/VocabularyForm.php:23
+msgid "Basic info"
 msgstr ""
-"Скраћени идентификатор ријечника, који се користи као скраћеница за URI "
-"именског простора."
 
-#: application/src/Form/VocabularyImportForm.php:32
+#: application/src/Form/VocabularyForm.php:30
+msgid "File"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:37
+msgid "Advanced"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:46
+msgid "Enter a human-readable title of the vocabulary."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:58
+msgid "Enter a human-readable description of the vocabulary."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:69
 msgid "Namespace URI"
 msgstr "Именски простор URI"
 
-#: application/src/Form/VocabularyImportForm.php:33
+#: application/src/Form/VocabularyForm.php:70
 msgid ""
-"The unique namespace URI used by the vocabulary to identify local member "
-"classes and properties."
+"Enter the unique namespace URI used to identify the classes and properties "
+"of the vocabulary."
 msgstr ""
-"Јединствени УРИ именског простора којег користи ријечник за идентификацију "
-"локалних класа чланова и својстава."
 
-#: application/src/Form/VocabularyImportForm.php:46
-#: application/src/Form/VocabularyForm.php:15
-msgid "A human-readable title of the vocabulary."
-msgstr "Читљљив наслов ријечника."
+#: application/src/Form/VocabularyForm.php:81
+msgid "Namespace prefix"
+msgstr ""
 
-#: application/src/Form/VocabularyImportForm.php:59
-#: application/src/Form/VocabularyForm.php:28
-msgid "A human-readable description of the vocabulary."
-msgstr "Читљив опис ријечника."
+#: application/src/Form/VocabularyForm.php:82
+msgid ""
+"Enter a concise vocabulary identifier used as a shorthand for the namespace "
+"URI."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:94
+msgid "Vocabulary file"
+msgstr "Датотека ријечника"
+
+#: application/src/Form/VocabularyForm.php:95
+msgid ""
+"Choose a RDF vocabulary file. You must choose a file or enter a URL below."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:105
+msgid "Vocabulary URL"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:106
+msgid ""
+"Enter a RDF vocabulary URL. You must enter a URL or choose a file above."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:116
+msgid "File format"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:118
+msgid "[Autodetect]"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:119
+msgid "JSON-LD (.jsonld)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:120
+msgid "N-Triples (.nt)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:121
+msgid "Notation3 (.n3)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:122
+msgid "RDF/XML (.rdf)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:123
+msgid "Turtle (.ttl)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:135
+msgid "Preferred language"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:136
+msgid ""
+"Enter the preferred language of the labels and comments using an <a "
+"target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
+"tags/\">IETF language tag</a>. Defaults to the first available."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:147
+msgid "Label property"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:148
+msgid ""
+"Enter the label property. This is typically only needed if the vocabulary "
+"uses an unconventional property for labels. Please use the full property URI"
+" enclosed in angle brackets."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:158
+msgid "Comment property"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:159
+msgid ""
+"Enter the comment property. This is typically only needed if the vocabulary "
+"uses an unconventional property for comments. Please use the full property "
+"URI enclosed in angle brackets."
+msgstr ""
 
 #: application/src/Form/ResourceForm.php:30
 #: application/src/Form/ResourceBatchUpdateForm.php:69
@@ -2949,7 +3039,7 @@ msgid "Suggested class"
 msgstr "Предложена класа"
 
 #: application/src/Form/SiteSettingsForm.php:28
-#: application/src/Form/SettingForm.php:105
+#: application/src/Form/SettingForm.php:109
 msgid "General"
 msgstr "Генерално"
 
@@ -2999,12 +3089,12 @@ msgid "Always"
 msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:90
-#: application/src/Form/SettingForm.php:232
+#: application/src/Form/SettingForm.php:236
 msgid "Disable JSON-LD embed"
 msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:91
-#: application/src/Form/SettingForm.php:233
+#: application/src/Form/SettingForm.php:237
 msgid ""
 "By default, Omeka embeds JSON-LD in resource browse and show pages for the "
 "purpose of machine-readable metadata discovery. Check this to disable "
@@ -3014,7 +3104,7 @@ msgstr ""
 #: application/src/Form/SiteSettingsForm.php:103
 #: application/src/Form/InstallationForm.php:112
 #: application/src/Form/UserForm.php:129
-#: application/src/Form/SettingForm.php:205
+#: application/src/Form/SettingForm.php:209
 msgid "Locale"
 msgstr "Локал"
 
@@ -3031,7 +3121,7 @@ msgid "Restrict browse to attached items"
 msgstr "Ограничи преглед на приложене објекте"
 
 #: application/src/Form/SiteSettingsForm.php:137
-#: application/src/Form/SettingForm.php:156
+#: application/src/Form/SettingForm.php:160
 msgid "Results per page"
 msgstr "Резултата по страници"
 
@@ -3157,12 +3247,12 @@ msgid "Confirm email"
 msgstr "Потврдите мејл"
 
 #: application/src/Form/InstallationForm.php:80
-#: application/src/Form/SettingForm.php:127
+#: application/src/Form/SettingForm.php:131
 msgid "Installation title"
 msgstr "Наслов инсталације"
 
 #: application/src/Form/InstallationForm.php:98
-#: application/src/Form/SettingForm.php:142
+#: application/src/Form/SettingForm.php:146
 msgid "Time zone"
 msgstr "Временска зона"
 
@@ -3233,7 +3323,7 @@ msgid "Confirm"
 msgstr "Потврда"
 
 #: application/src/Form/UserForm.php:130
-#: application/src/Form/SettingForm.php:206
+#: application/src/Form/SettingForm.php:210
 msgid "Global locale/language code for all interfaces."
 msgstr "Код глобалног локала/језика за све интерфејсе. "
 
@@ -3257,39 +3347,39 @@ msgstr "Потврда нове лозинке"
 msgid "New key label"
 msgstr "Нова кључна ознака"
 
-#: application/src/Form/SettingForm.php:114
+#: application/src/Form/SettingForm.php:118
 msgid "Administrator email"
 msgstr "Администраторов мејл"
 
-#: application/src/Form/SettingForm.php:157
+#: application/src/Form/SettingForm.php:161
 msgid "The maximum number of results per page on browse pages."
 msgstr "Максималан број резултата по страници на страницама за претраживање."
 
-#: application/src/Form/SettingForm.php:170
+#: application/src/Form/SettingForm.php:174
 msgid "Property label information"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:171
+#: application/src/Form/SettingForm.php:175
 msgid "The additional information that accompanies labels on resource pages."
 msgstr "Додатне информације које прате етикете на страницама ресурса."
 
-#: application/src/Form/SettingForm.php:173
+#: application/src/Form/SettingForm.php:177
 msgid "None"
 msgstr "Ниједан"
 
-#: application/src/Form/SettingForm.php:174
+#: application/src/Form/SettingForm.php:178
 msgid "Show Vocabulary"
 msgstr "Прикажи ријечник"
 
-#: application/src/Form/SettingForm.php:175
+#: application/src/Form/SettingForm.php:179
 msgid "Show Term"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:188
+#: application/src/Form/SettingForm.php:192
 msgid "Default site"
 msgstr "Подразумијевани сајт"
 
-#: application/src/Form/SettingForm.php:189
+#: application/src/Form/SettingForm.php:193
 msgid ""
 "Select which site should appear when users go to the front page of the "
 "installation."
@@ -3297,78 +3387,78 @@ msgstr ""
 "Изаберите сајт који ће се појавити када корисници иду на почетну страницу "
 "инсталације."
 
-#: application/src/Form/SettingForm.php:194
+#: application/src/Form/SettingForm.php:198
 msgid "No default (show index of sites)"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:219
+#: application/src/Form/SettingForm.php:223
 msgid "Enable version notifications"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:220
+#: application/src/Form/SettingForm.php:224
 msgid ""
 "Enable notifications when a new version of Omeka S, modules, or themes are "
 "available."
 msgstr ""
 
-#: application/src/Form/SettingForm.php:245
+#: application/src/Form/SettingForm.php:249
 msgid "Default content visibility to Private"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:246
+#: application/src/Form/SettingForm.php:250
 msgid ""
 "If checked, all items, item sets and sites newly created will have their "
 "visibility set to private by default."
 msgstr ""
 
-#: application/src/Form/SettingForm.php:258
+#: application/src/Form/SettingForm.php:262
 msgid "Index full-text search"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:272
+#: application/src/Form/SettingForm.php:276
 msgid "Security"
 msgstr "Сигурност"
 
-#: application/src/Form/SettingForm.php:281
+#: application/src/Form/SettingForm.php:285
 msgid "Use HTMLPurifier"
 msgstr "Користи HTMLPurifier"
 
-#: application/src/Form/SettingForm.php:282
+#: application/src/Form/SettingForm.php:286
 msgid "Clean up user-entered HTML."
 msgstr "Очисти HTML које уносе корисници."
 
-#: application/src/Form/SettingForm.php:294
+#: application/src/Form/SettingForm.php:298
 msgid "Disable file validation"
 msgstr "Онемогући валидацију датотека"
 
-#: application/src/Form/SettingForm.php:295
+#: application/src/Form/SettingForm.php:299
 msgid "Check this to disable file media type and extension validation."
 msgstr ""
 
-#: application/src/Form/SettingForm.php:304
+#: application/src/Form/SettingForm.php:308
 msgid "Allowed media types"
 msgstr "Дозвоњени типови медија"
 
-#: application/src/Form/SettingForm.php:305
+#: application/src/Form/SettingForm.php:309
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr ""
 "Списак дозвољених типова медија за отпремање датотека одвојен зарезима."
 
-#: application/src/Form/SettingForm.php:317
+#: application/src/Form/SettingForm.php:321
 msgid "Allowed file extensions"
 msgstr "Дозвољене екстензије датотека"
 
-#: application/src/Form/SettingForm.php:318
+#: application/src/Form/SettingForm.php:322
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr ""
 "Списак дозвољених екстензија датотека за отпремање датотека одвојен "
 "зарезима."
 
-#: application/src/Form/SettingForm.php:332
+#: application/src/Form/SettingForm.php:336
 msgid "reCAPTCHA site key"
 msgstr "Кључ за reCAPTCHA сајт"
 
-#: application/src/Form/SettingForm.php:343
+#: application/src/Form/SettingForm.php:347
 msgid "reCAPTCHA secret key"
 msgstr "Тајни кључ reCAPTCHA "
 
@@ -3394,7 +3484,7 @@ msgstr ""
 
 #: application/src/Form/Element/PasswordConfirm.php:39
 #, php-format
-msgid "contain at least %s symbols: %s"
+msgid "contain at least %1$s symbols: %2$s"
 msgstr ""
 
 #: application/src/Form/Element/PasswordConfirm.php:43
@@ -3420,56 +3510,6 @@ msgstr ""
 #: application/src/Form/Element/ColorPicker.php:29
 msgid "Invalid color format"
 msgstr "Неисправан формат боје"
-
-#: application/src/Form/Element/VocabularyFetch.php:15
-msgid "Vocabulary file"
-msgstr "Датотека ријечника"
-
-#: application/src/Form/Element/VocabularyFetch.php:16
-msgid "Choose a RDF vocabulary file. You must choose a file or enter a URL."
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:26
-msgid "Vocabulary URL"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:27
-msgid "Enter a RDF vocabulary URL. You must enter a URL or choose a file."
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:37
-msgid "File format"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:39
-msgid "[Autodetect]"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:40
-msgid "JSON-LD (.jsonld)"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:41
-msgid "N-Triples (.nt)"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:42
-msgid "Notation3 (.n3)"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:43
-msgid "RDF/XML (.rdf)"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:44
-msgid "Turtle (.ttl)"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:57
-msgid ""
-"Enter the preferred language of the labels and comments using an IETF "
-"language tag. Defaults to the first available."
-msgstr ""
 
 #: application/src/Form/Element/Recaptcha.php:99
 msgid "You must verify that you are human by completing the CAPTCHA."
@@ -3536,15 +3576,15 @@ msgstr "Корисничке дозволе успјешно ажуриране"
 msgid "Site theme successfully updated"
 msgstr "Тема сајта успјешно ажурирана"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:401
+#: application/src/Controller/SiteAdmin/IndexController.php:403
 msgid "Theme settings successfully updated"
 msgstr "Подешавања теме успјешно ажурирана"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:418
+#: application/src/Controller/SiteAdmin/IndexController.php:420
 msgid "Site successfully deleted"
 msgstr "Сајт успјешно обрисан"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:441
+#: application/src/Controller/SiteAdmin/IndexController.php:443
 msgid "site"
 msgstr "сајт"
 
@@ -3620,8 +3660,8 @@ msgstr "Шаблон ресурса успјешно креиран. %s"
 
 #: application/src/Controller/Admin/UserController.php:44
 #: application/src/Controller/Admin/UserController.php:49
-#: application/src/Controller/Admin/ItemSetController.php:85
-#: application/src/Controller/Admin/ItemSetController.php:90
+#: application/src/Controller/Admin/ItemSetController.php:87
+#: application/src/Controller/Admin/ItemSetController.php:92
 #: application/src/Controller/Admin/MediaController.php:27
 #: application/src/Controller/Admin/MediaController.php:32
 #: application/src/Controller/Admin/ItemController.php:42
@@ -3656,12 +3696,12 @@ msgid ""
 "API key successfully created.<br><br>Here is your key ID and credential for "
 "access to the API. WARNING: \"key_credential\" will be unretrievable after "
 "you navigate away from this page.<br><br>key_identity: "
-"<code>%s</code><br>key_credential: <code>%s</code>"
+"<code>%1$s</code><br>key_credential: <code>%2$s</code>"
 msgstr ""
 "API кључ је успјешно креиран.<br><br>Ово је ваш идентификатор кључа и "
 "приступни подаци за приступ API-ју. УПОЗОРЕЊЕ: \"key_credential\" неће бит "
 "идоступан након што напустите ову страницу.<br><br>key_identity: "
-"<code>%s</code><br>key_credential: <code>%s</code>"
+"<code>%1$s</code><br>key_credential: <code>%2$s</code>"
 
 #: application/src/Controller/Admin/UserController.php:268
 msgid "user"
@@ -3703,52 +3743,52 @@ msgstr ""
 msgid "Editing users. This may take a while."
 msgstr ""
 
-#: application/src/Controller/Admin/ItemSetController.php:31
+#: application/src/Controller/Admin/ItemSetController.php:32
 #, php-format
 msgid "Item set successfully created. %s"
 msgstr "Скуп објеката успјешно креиран. %s"
 
-#: application/src/Controller/Admin/ItemSetController.php:67
+#: application/src/Controller/Admin/ItemSetController.php:69
 msgid "Item set successfully updated"
 msgstr "Скуп података успјешно ажуриран"
 
-#: application/src/Controller/Admin/ItemSetController.php:153
+#: application/src/Controller/Admin/ItemSetController.php:155
 msgid "item set"
 msgstr "Скуп објеката"
 
-#: application/src/Controller/Admin/ItemSetController.php:168
+#: application/src/Controller/Admin/ItemSetController.php:170
 msgid "Item set successfully deleted"
 msgstr "Скуп објеката успјешно обрисан"
 
-#: application/src/Controller/Admin/ItemSetController.php:189
+#: application/src/Controller/Admin/ItemSetController.php:191
 msgid "You must select at least one item set to batch delete."
 msgstr ""
 "Морате изабрати барем један скуп података да бисте брисали серију скупова "
 "података."
 
-#: application/src/Controller/Admin/ItemSetController.php:198
+#: application/src/Controller/Admin/ItemSetController.php:200
 msgid "Item sets successfully deleted"
 msgstr "Скуп објеката успјешно обрисан"
 
-#: application/src/Controller/Admin/ItemSetController.php:224
+#: application/src/Controller/Admin/ItemSetController.php:226
 msgid "Deleting item sets. This may take a while."
 msgstr "Брисање скупова објеката је у току. Ово може трајати дуже времена."
 
-#: application/src/Controller/Admin/ItemSetController.php:242
+#: application/src/Controller/Admin/ItemSetController.php:244
 msgid "You must select at least one item set to batch edit."
 msgstr ""
 "Морате изабрати барем један скуп података да бисте ажурирали серију скупова "
 "података."
 
-#: application/src/Controller/Admin/ItemSetController.php:262
+#: application/src/Controller/Admin/ItemSetController.php:264
 msgid "Item sets successfully edited"
 msgstr "Скупови објеката успјешно ажурирани"
 
-#: application/src/Controller/Admin/ItemSetController.php:314
+#: application/src/Controller/Admin/ItemSetController.php:316
 msgid "Editing item sets. This may take a while."
 msgstr "Ажурирање скупова објеката је у току. Ово може трајати дуже времена."
 
-#: application/src/Controller/Admin/VocabularyController.php:60
+#: application/src/Controller/Admin/VocabularyController.php:59
 msgid "vocabulary"
 msgstr "Ријечник"
 
@@ -3757,51 +3797,51 @@ msgstr "Ријечник"
 msgid "Vocabulary successfully imported. %s"
 msgstr "Ријечник је успјешно увезен. %s"
 
-#: application/src/Controller/Admin/VocabularyController.php:170
+#: application/src/Controller/Admin/VocabularyController.php:176
 msgid "Please review these changes before you accept them."
 msgstr ""
 
-#: application/src/Controller/Admin/VocabularyController.php:178
+#: application/src/Controller/Admin/VocabularyController.php:184
 msgid "Vocabulary successfully updated"
 msgstr ""
 
-#: application/src/Controller/Admin/VocabularyController.php:198
+#: application/src/Controller/Admin/VocabularyController.php:204
 msgid "Changes to the vocabulary successfully made"
 msgstr ""
 
-#: application/src/Controller/Admin/VocabularyController.php:214
+#: application/src/Controller/Admin/VocabularyController.php:220
 msgid "Vocabulary successfully deleted"
 msgstr "Ријечник је успјешно обрисан"
 
-#: application/src/Controller/Admin/MediaController.php:57
+#: application/src/Controller/Admin/MediaController.php:59
 msgid "Media successfully updated"
 msgstr "Медија успјешно ажурирана"
 
-#: application/src/Controller/Admin/MediaController.php:123
+#: application/src/Controller/Admin/MediaController.php:125
 msgid "Media successfully deleted"
 msgstr "Медија успјешно обрисана"
 
-#: application/src/Controller/Admin/MediaController.php:157
+#: application/src/Controller/Admin/MediaController.php:159
 msgid "You must select at least one media to batch delete."
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:166
+#: application/src/Controller/Admin/MediaController.php:168
 msgid "Medias successfully deleted"
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:192
+#: application/src/Controller/Admin/MediaController.php:194
 msgid "Deleting medias. This may take a while."
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:210
+#: application/src/Controller/Admin/MediaController.php:212
 msgid "You must select at least one media to batch edit."
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:230
+#: application/src/Controller/Admin/MediaController.php:232
 msgid "Medias successfully edited"
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:282
+#: application/src/Controller/Admin/MediaController.php:284
 msgid "Editing medias. This may take a while."
 msgstr ""
 
@@ -3825,25 +3865,25 @@ msgstr "Објекат је успјешно обрисан"
 msgid "Deleting items. This may take a while."
 msgstr "Објекти се бришу. Ово може трајати дуже времена."
 
-#: application/src/Controller/Admin/ItemController.php:207
+#: application/src/Controller/Admin/ItemController.php:208
 #, php-format
 msgid "Item successfully created. %s"
 msgstr "Објекат успјешно креиран. %s"
 
-#: application/src/Controller/Admin/ItemController.php:243
+#: application/src/Controller/Admin/ItemController.php:245
 msgid "Item successfully updated"
 msgstr "Објекат успјешно ажуриран"
 
-#: application/src/Controller/Admin/ItemController.php:270
+#: application/src/Controller/Admin/ItemController.php:272
 msgid "You must select at least one item to batch edit."
 msgstr ""
 "Морате изабрати барем један објекат да бисте ажурирали серију објеката."
 
-#: application/src/Controller/Admin/ItemController.php:290
+#: application/src/Controller/Admin/ItemController.php:292
 msgid "Items successfully edited"
 msgstr "Објекат успјешно ажуриран"
 
-#: application/src/Controller/Admin/ItemController.php:342
+#: application/src/Controller/Admin/ItemController.php:344
 msgid "Editing items. This may take a while."
 msgstr "Објекти се ажурирају. Ово може трајати дуже времена."
 
@@ -3969,14 +4009,14 @@ msgstr "Отпреми датотеку"
 #, php-format
 msgid ""
 "You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
-"version %s. You are currently on version %s."
+"version %1$s. You are currently on version %2$s."
 msgstr ""
 
 #: application/src/Stdlib/Environment.php:54
 #, php-format
 msgid ""
-"The installed PHP version (%s) is too low. Omeka requires at least version "
-"%s."
+"The installed PHP version (%1$s) is too low. Omeka requires at least version"
+" %2$s."
 msgstr ""
 
 #: application/src/Stdlib/Environment.php:62
@@ -3987,15 +4027,15 @@ msgstr ""
 #: application/src/Stdlib/Environment.php:81
 #, php-format
 msgid ""
-"The installed MySQL version (%s) is too low. Omeka requires at least version"
-" %s."
+"The installed MySQL version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
 msgstr ""
 
 #: application/src/Stdlib/Environment.php:89
 #, php-format
 msgid ""
-"The installed MariaDB version (%s) is too low. Omeka requires at least "
-"version %s."
+"The installed MariaDB version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
 msgstr ""
 
 #: application/src/Permissions/Acl.php:21
@@ -4050,53 +4090,61 @@ msgstr ""
 msgid "Item with metadata"
 msgstr "Објекат са метаподацима"
 
-#: application/src/Site/BlockLayout/Media.php:60
-msgid "Thumbnail alignment"
-msgstr "Поравнање минијатурних приказа"
+#: application/src/Site/BlockLayout/Media.php:14
+msgid "Media Embed"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Media.php:61
+msgid "Alignment"
+msgstr ""
 
 #: application/src/Site/BlockLayout/Fallback.php:28
 #, php-format
 msgid "Unknown [%s]"
 msgstr "Непознат [%s]"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:22
+#: application/src/Site/BlockLayout/ListOfSites.php:23
 msgid "List of sites"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:37
+#: application/src/Site/BlockLayout/ListOfSites.php:38
 msgid "Alphabetical"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:38
+#: application/src/Site/BlockLayout/ListOfSites.php:39
 msgid "Oldest first"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:39
+#: application/src/Site/BlockLayout/ListOfSites.php:40
 msgid "Newest first"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:50
+#: application/src/Site/BlockLayout/ListOfSites.php:51
 msgid "Max number of sites"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:51
+#: application/src/Site/BlockLayout/ListOfSites.php:52
 msgid "An empty value means no limit."
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:55
+#: application/src/Site/BlockLayout/ListOfSites.php:56
 msgid "Unlimited"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:63
+#: application/src/Site/BlockLayout/ListOfSites.php:64
 msgid "Pagination"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:64
+#: application/src/Site/BlockLayout/ListOfSites.php:65
 msgid "Show pagination (only if a limit is set)"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:74
+#: application/src/Site/BlockLayout/ListOfSites.php:75
 msgid "Show summaries"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:85
+msgid "Exclude current site"
 msgstr ""
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:15
@@ -4206,7 +4254,7 @@ msgstr "Медија мора бити низ"
 
 #: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:168
 #, php-format
-msgid "The \"%s\" resource template requires a \"%s\" value"
+msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
 msgstr ""
 
 #: application/src/Api/Adapter/SiteAdapter.php:230
@@ -4225,39 +4273,39 @@ msgstr "Сајт мора имати податке о лагеру објека
 msgid "A homepage must belong to its parent site."
 msgstr ""
 
-#: application/src/Api/Adapter/SiteAdapter.php:297
+#: application/src/Api/Adapter/SiteAdapter.php:304
 msgid "Invalid navigation: navigation must be an array"
 msgstr "Неисправна навигација: навигација мора бити низ."
 
-#: application/src/Api/Adapter/SiteAdapter.php:306
+#: application/src/Api/Adapter/SiteAdapter.php:313
 msgid "Invalid navigation: link missing type"
 msgstr "Неисправна навигација: линку недостаје тип"
 
-#: application/src/Api/Adapter/SiteAdapter.php:310
+#: application/src/Api/Adapter/SiteAdapter.php:317
 msgid "Invalid navigation: link missing data"
 msgstr "Неисправна навигација: линку недостаје податак"
 
-#: application/src/Api/Adapter/SiteAdapter.php:314
+#: application/src/Api/Adapter/SiteAdapter.php:321
 msgid "Invalid navigation: invalid link data"
 msgstr "Неисправна навигација: неисправан податак линка"
 
-#: application/src/Api/Adapter/SiteAdapter.php:319
+#: application/src/Api/Adapter/SiteAdapter.php:326
 msgid "Invalid navigation: page links must be unique"
 msgstr "Неисправна навигација: линк старнице мора бити јединствен"
 
-#: application/src/Api/Adapter/SiteAdapter.php:326
+#: application/src/Api/Adapter/SiteAdapter.php:333
 msgid "Invalid navigation: links must be an array"
 msgstr "Неисправна навигација: линкови морају бити низ"
 
-#: application/src/Api/Adapter/MediaAdapter.php:89
+#: application/src/Api/Adapter/MediaAdapter.php:97
 msgid "Media must set an ingester."
 msgstr ""
 
-#: application/src/Api/Adapter/MediaAdapter.php:111
+#: application/src/Api/Adapter/MediaAdapter.php:119
 msgid "Media must set a valid ingester."
 msgstr ""
 
-#: application/src/Api/Adapter/MediaAdapter.php:147
+#: application/src/Api/Adapter/MediaAdapter.php:155
 msgid "Media must belong to an item."
 msgstr ""
 
@@ -6307,10 +6355,6 @@ msgstr "Особа"
 msgid "A person."
 msgstr "Особа."
 
-#. Class comment for Friend of a Friend:Agent
-msgid "An agent (eg. person, group, software or physical artifact)."
-msgstr "Агент (нпр. особа, група, софтвер или физички артифакт)"
-
 #. Class comment for Friend of a Friend:Document
 msgid "A document."
 msgstr "Докуемент."
@@ -6330,6 +6374,10 @@ msgstr "Група"
 #. Class comment for Friend of a Friend:Group
 msgid "A class of Agents."
 msgstr "Класа агента."
+
+#. Class comment for Friend of a Friend:Agent
+msgid "An agent (eg. person, group, software or physical artifact)."
+msgstr "Агент (нпр. особа, група, софтвер или физички артифакт)"
 
 #. Class label for Friend of a Friend:Project
 msgid "Project"

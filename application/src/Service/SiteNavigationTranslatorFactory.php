@@ -3,7 +3,7 @@ namespace Omeka\Service;
 
 use Interop\Container\ContainerInterface;
 use Omeka\Site\Navigation\Translator;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class SiteNavigationTranslatorFactory implements FactoryInterface
 {

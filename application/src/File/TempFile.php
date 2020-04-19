@@ -113,6 +113,7 @@ class TempFile
         'mei' => 'application/vnd.mei+xml',
         'mets' => 'application/vnd.mets+xml',
         'mods' => 'application/vnd.mods+xml',
+        'pdf2xml' => 'application/vnd.pdf2xml+xml',
         'refNum' => 'application/vnd.bnf.refnum+xml',
         'rss' => 'application/rss+xml',
         'score-partwise' => 'application/vnd.recordare.musicxml',

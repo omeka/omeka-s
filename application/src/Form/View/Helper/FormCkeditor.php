@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\Form\View\Helper;
 
-use Zend\Form\View\Helper\FormTextarea;
-use Zend\Form\ElementInterface;
+use Laminas\Form\View\Helper\FormTextarea;
+use Laminas\Form\ElementInterface;
 
 /**
  * Render a textarea with a CKEditor HTML editor enabled.

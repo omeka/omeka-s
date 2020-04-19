@@ -37,12 +37,19 @@ class Item extends Resource
      */
     protected $itemSets;
 
+    /**
+     * @ManyToMany(targetEntity="Site", inversedBy="items", indexBy="id")
+     * @JoinTable(name="item_site")
+     */
+    protected $sites;
+
     public function __construct()
     {
         parent::__construct();
         $this->media = new ArrayCollection;
         $this->siteBlockAttachments = new ArrayCollection;
         $this->itemSets = new ArrayCollection;
+        $this->sites = new ArrayCollection;
     }
 
     public function getResourceName()
@@ -68,5 +75,10 @@ class Item extends Resource
     public function getItemSets()
     {
         return $this->itemSets;
+    }
+
+    public function getSites()
+    {
+        return $this->sites;
     }
 }

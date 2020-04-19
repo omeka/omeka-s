@@ -4,8 +4,8 @@ namespace Omeka\Db\Migration;
 use Doctrine\DBAL\Connection;
 use GlobIterator;
 use PDO;
-use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Migration manager.

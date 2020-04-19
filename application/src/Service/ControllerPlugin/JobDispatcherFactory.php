@@ -3,7 +3,7 @@ namespace Omeka\Service\ControllerPlugin;
 
 use Interop\Container\ContainerInterface;
 use Omeka\Mvc\Controller\Plugin\JobDispatcher;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class JobDispatcherFactory implements FactoryInterface
 {

@@ -2,7 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use JsonSerializable;
-use Zend\EventManager\EventManagerAwareInterface;
+use Laminas\EventManager\EventManagerAwareInterface;
 
 /**
  * The representation interface

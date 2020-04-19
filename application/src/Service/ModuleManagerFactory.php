@@ -10,8 +10,8 @@ use Interop\Container\ContainerInterface;
 use Omeka\Module as CoreModule;
 use Omeka\Module\Manager as ModuleManager;
 use SplFileInfo;
-use Zend\Config\Reader\Ini as IniReader;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\Config\Reader\Ini as IniReader;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Factory for creating Omeka's module manager

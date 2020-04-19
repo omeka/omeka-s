@@ -2,8 +2,8 @@
 namespace Omeka\File;
 
 use Omeka\Stdlib\ErrorStore;
-use Zend\Filter\File\RenameUpload;
-use Zend\InputFilter\FileInput;
+use Laminas\Filter\File\RenameUpload;
+use Laminas\InputFilter\FileInput;
 
 /**
  * File uploader service

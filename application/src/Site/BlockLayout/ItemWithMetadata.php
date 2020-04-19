@@ -4,7 +4,7 @@ namespace Omeka\Site\BlockLayout;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\PhpRenderer;
 
 class ItemWithMetadata extends AbstractBlockLayout
 {
@@ -16,7 +16,7 @@ class ItemWithMetadata extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
-        return $view->blockAttachmentsForm($block);
+        return $view->blockAttachmentsForm($block, true);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

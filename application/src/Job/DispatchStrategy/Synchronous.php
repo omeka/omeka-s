@@ -4,7 +4,7 @@ namespace Omeka\Job\DispatchStrategy;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Omeka\Entity\Job;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class Synchronous implements StrategyInterface
 {

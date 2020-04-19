@@ -2,8 +2,8 @@
 namespace Omeka\Service\Form\Element;
 
 use Omeka\Form\Element\Recaptcha;
-use Zend\Http\PhpEnvironment\RemoteAddress;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\Http\PhpEnvironment\RemoteAddress;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class RecaptchaFactory implements FactoryInterface

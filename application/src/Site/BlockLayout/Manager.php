@@ -2,7 +2,7 @@
 namespace Omeka\Site\BlockLayout;
 
 use Omeka\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 
 class Manager extends AbstractPluginManager
 {

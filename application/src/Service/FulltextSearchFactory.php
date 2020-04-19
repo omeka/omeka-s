@@ -2,7 +2,7 @@
 namespace Omeka\Service;
 
 use Omeka\Stdlib\FulltextSearch;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class FulltextSearchFactory implements FactoryInterface

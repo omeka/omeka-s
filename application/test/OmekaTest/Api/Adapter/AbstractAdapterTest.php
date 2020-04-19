@@ -61,7 +61,7 @@ class AbstractAdapterTest extends TestCase
     protected function setServiceManager()
     {
         // MvcTranslator
-        $mockTranslator = $this->createMock('Zend\I18n\Translator\Translator');
+        $mockTranslator = $this->createMock('Laminas\I18n\Translator\Translator');
         $mockTranslator->expects($this->any())
             ->method('translate')
             ->will($this->returnArgument(0));
@@ -77,7 +77,7 @@ class AbstractAdapterTest extends TestCase
         $serviceManager = $this->getServiceManager([
             'MvcTranslator' => $mockTranslator,
             'Omeka\ApiAdapterManager' => $mockAdapterManager,
-            'EventManager' => $this->createMock('Zend\EventManager\EventManager'),
+            'EventManager' => $this->createMock('Laminas\EventManager\EventManager'),
         ]);
         $this->adapter->setServiceLocator($serviceManager);
     }

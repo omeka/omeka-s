@@ -3,8 +3,8 @@ namespace Omeka\View\Renderer;
 
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Response;
-use Zend\Json\Json;
-use Zend\View\Renderer\JsonRenderer;
+use Laminas\Json\Json;
+use Laminas\View\Renderer\JsonRenderer;
 
 /**
  * JSON renderer for API responses.

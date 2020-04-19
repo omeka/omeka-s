@@ -1,43 +1,51 @@
-<?php echo $this->pageTitle(sprintf($this->translate('Search results for “%s”'), $query)); ?>
+<?php
+$translate = $this->plugin('translate');
+$hyperlink = $this->plugin('hyperlink');
+$url = $this->plugin('url');
+?>
+
+<?php echo $this->pageTitle(sprintf($translate('Search results for “%s”'), $query)); ?>
+
+<?php if (empty($results)): ?>
+    <p><?php echo $translate('No results.'); ?></p>
+<?php else: ?>
+<?php
+$resourceLabels = [
+    'site_pages' => 'Site pages', // @translate
+    'items' => 'Items', // @translate
+    'item_sets' => 'Item sets', // @translate
+    'media' => 'Media', // @translate
+];
+$resourceControllers = [
+    'site_pages' => 'page',
+    'items' => 'item',
+    'item_sets' => 'item-set',
+    'media' => 'media',
+];
+?>
+    <?php foreach ($results as $resourceName => $result): ?>
 <div>
-    <h2><?php echo $this->translate('Pages'); ?></h2>
-    <?php if ($pages): ?>
+    <h2><?php echo $translate($resourceLabels[$resourceName]); ?></h2>
+
+    <?php if ($result['total']): ?>
+        <?php $titleMethod = $resourceName === 'site_pages' ? 'title' : 'displayTitle'; ?>
     <ul>
-        <?php foreach ($pages as $page): ?>
-        <li><?php echo $page->link($page->title()); ?></li>
+        <?php foreach ($result['resources'] as $resource): ?>
+        <li><?php echo $resource->link($resource->$titleMethod()); ?></li>
         <?php endforeach; ?>
     </ul>
-    <?php echo $this->hyperlink(
-        sprintf($this->translate('View all results (%s total)'), $pagesTotal),
-        $this->url(
-            'site/page-browse',
-            ['controller' => 'page', 'action' => 'browse'],
-            ['query' => ['fulltext_search' => $query]],
-            true
-        )
-    ); ?>
-    <?php else: ?>
-    <p><?php echo $this->translate('No pages found'); ?></p>
-    <?php endif; ?>
+        <?php echo $hyperlink(
+            sprintf($translate('View all results (%s total)'), $result['total']),
+            $url(
+                'site/resource',
+                ['controller' => $resourceControllers[$resourceName], 'action' => 'browse'],
+                ['query' => ['fulltext_search' => $query]],
+                true
+            )
+        ); ?>
+        <?php else: ?>
+    <p><?php echo $translate('No result found'); ?></p>
+        <?php endif; ?>
 </div>
-<div>
-    <h2><?php echo $this->translate('Items'); ?></h2>
-    <?php if ($items): ?>
-    <ul>
-        <?php foreach ($items as $item): ?>
-        <li><?php echo $item->link($item->displayTitle()); ?></li>
-        <?php endforeach; ?>
-    </ul>
-    <?php echo $this->hyperlink(
-        sprintf($this->translate('View all results (%s total)'), $itemsTotal),
-        $this->url(
-            'site/resource',
-            ['controller' => 'item', 'action' => 'browse'],
-            ['query' => ['fulltext_search' => $query]],
-            true
-        )
-    ); ?>
-    <?php else: ?>
-    <p><?php echo $this->translate('No items found'); ?></p>
-    <?php endif; ?>
-</div>
+    <?php endforeach; ?>
+<?php endif; ?>

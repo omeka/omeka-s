@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\I18n\Translator\TranslatorInterface;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for getting a BCP 47-compliant value for the lang attribute.

@@ -148,7 +148,7 @@ $sortHeadings = [
             <h3><?php echo $translate('Delete users'); ?></h3>
             <p><?php echo $translate('Are you sure you would like to delete the selected users?'); ?></p>
             <p class="error"><?php echo sprintf(
-                $translate('%s: this action will permanently delete %s users and cannot be undone.'),
+                $translate('%1$s: this action will permanently delete %2$s users and cannot be undone.'),
                 sprintf('<strong>%s</strong>', $translate('Warning')),
                 '<strong><span id="delete-selected-count"></span></strong>'
             ); ?></p>
@@ -166,7 +166,7 @@ $sortHeadings = [
             <h3><?php echo $translate('Delete users'); ?></h3>
             <p><?php echo $translate('Are you sure you would like to delete all users (except yourself) on all pages of this result?'); ?></p>
             <p class="error"><?php echo sprintf(
-                $translate('%s: this action will permanently delete %s users (except yourself) and cannot be undone.'),
+                $translate('%1$s: this action will permanently delete %2$s users (except yourself) and cannot be undone.'),
                 sprintf('<strong>%s</strong>', $translate('Warning')),
                 sprintf('<strong>%s</strong>', number_format($this->pagination()->getPaginator()->getTotalCount()))
             ); ?></p>

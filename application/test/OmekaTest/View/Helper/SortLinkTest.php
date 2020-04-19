@@ -11,7 +11,7 @@ class SortLinkTest extends TestCase
         $label = 'test-label';
         $sortBy = 'test-sortBy';
 
-        $view = $this->getMockBuilder('Zend\View\Renderer\PhpRenderer')
+        $view = $this->getMockBuilder('Laminas\View\Renderer\PhpRenderer')
             ->setMethods(['partial', 'url', 'params'])
             ->getMock();
         $view->expects($this->once())

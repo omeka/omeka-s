@@ -4,7 +4,7 @@ namespace Omeka\Db\Filter;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Mapping\ClassMetaData;
 use Doctrine\ORM\Query\Filter\SQLFilter;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Filter value entities by visibility.

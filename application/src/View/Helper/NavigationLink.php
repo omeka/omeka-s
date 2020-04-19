@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Site\Navigation\Link\Manager;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for rendering a navigation links.

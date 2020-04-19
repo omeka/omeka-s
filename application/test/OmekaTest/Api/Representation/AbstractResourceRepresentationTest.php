@@ -3,7 +3,7 @@ namespace OmekaTest\Api\Representation;
 
 use Omeka\Test\TestCase;
 use ReflectionClass;
-use Zend\EventManager\EventManager;
+use Laminas\EventManager\EventManager;
 
 class AbstractResourceRepresentationTest extends TestCase
 {
@@ -14,7 +14,7 @@ class AbstractResourceRepresentationTest extends TestCase
         $url = 'test_url';
         $context = 'test_context';
 
-        $urlHelper = $this->createMock('Zend\View\Helper\Url');
+        $urlHelper = $this->createMock('Laminas\View\Helper\Url');
         $urlHelper->expects($this->once())
             ->method('__invoke')
             ->will($this->returnValue($context));

@@ -25,7 +25,7 @@ $translate = $this->plugin('translate');
     $from = $offset + 1;
     $to = ($currentPage < $pageCount) ? $offset + $perPage : $totalCount;
     ?>
-    <span class="row-count"><?php echo sprintf($translate('%s–%s of %s'), $from, $to, $totalCount); ?></span>
+    <span class="row-count"><?php echo sprintf($translate('%1$s–%2$s of %3$s'), $from, $to, $totalCount); ?></span>
 <?php else: ?>
     <?php echo $translate('0 results'); ?>
 <?php endif; ?>

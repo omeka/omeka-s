@@ -2,7 +2,7 @@
 namespace Omeka\Service\Media\Renderer;
 
 use Omeka\Media\Renderer\File;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class FileFactory implements FactoryInterface

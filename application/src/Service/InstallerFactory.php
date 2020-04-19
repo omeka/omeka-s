@@ -2,7 +2,7 @@
 namespace Omeka\Service;
 
 use Omeka\Installation\Installer;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class InstallerFactory implements FactoryInterface

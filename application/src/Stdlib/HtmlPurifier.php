@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\Stdlib;
 
-use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerAwareTrait;
+use Laminas\EventManager\EventManagerAwareInterface;
+use Laminas\EventManager\EventManagerAwareTrait;
 
 class HtmlPurifier implements EventManagerAwareInterface
 {

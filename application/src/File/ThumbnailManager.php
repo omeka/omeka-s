@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\File;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class ThumbnailManager
 {

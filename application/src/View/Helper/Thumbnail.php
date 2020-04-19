@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation\AbstractRepresentation;
-use Zend\View\Helper\AbstractHtmlElement;
+use Laminas\View\Helper\AbstractHtmlElement;
 
 /**
  * View helper for rendering a thumbnail image.

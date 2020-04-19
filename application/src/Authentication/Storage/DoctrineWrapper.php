@@ -3,7 +3,7 @@ namespace Omeka\Authentication\Storage;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityRepository;
-use Zend\Authentication\Storage\StorageInterface;
+use Laminas\Authentication\Storage\StorageInterface;
 
 /**
  * Auth storage wrapper for doctrine objects.

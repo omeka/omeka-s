@@ -2,9 +2,9 @@
 namespace Omeka\Form\Initializer;
 
 use Interop\Container\ContainerInterface;
-use Zend\Form\Form;
-use Zend\ServiceManager\Initializer\InitializerInterface;
-use Zend\Validator\Csrf as CsrfValidator;
+use Laminas\Form\Form;
+use Laminas\ServiceManager\Initializer\InitializerInterface;
+use Laminas\Validator\Csrf as CsrfValidator;
 
 class Csrf implements InitializerInterface
 {

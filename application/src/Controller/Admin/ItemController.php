@@ -6,8 +6,8 @@ use Omeka\Form\ResourceForm;
 use Omeka\Form\ResourceBatchUpdateForm;
 use Omeka\Media\Ingester\Manager;
 use Omeka\Stdlib\Message;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 class ItemController extends AbstractActionController
 {
@@ -199,6 +199,8 @@ class ItemController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $data = $this->mergeValuesJson($data);
+            // Prevent the API from setting sites automatically if no sites are set.
+            $data['o:site'] = $data['o:site'] ?? [];
             $form->setData($data);
             if ($form->isValid()) {
                 $fileData = $this->getRequest()->getFiles()->toArray();

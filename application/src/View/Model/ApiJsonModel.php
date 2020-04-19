@@ -2,7 +2,7 @@
 
 namespace Omeka\View\Model;
 
-use Zend\View\Model\JsonModel;
+use Laminas\View\Model\JsonModel;
 
 /**
  * View model for JSON responses from the API.

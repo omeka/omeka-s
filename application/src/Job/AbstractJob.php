@@ -2,7 +2,7 @@
 namespace Omeka\Job;
 
 use Omeka\Entity\Job;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 abstract class AbstractJob implements JobInterface
 {

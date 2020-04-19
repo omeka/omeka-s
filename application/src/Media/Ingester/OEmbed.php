@@ -5,11 +5,11 @@ use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\File\Downloader;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Dom\Query;
-use Zend\Form\Element\Url as UrlElement;
-use Zend\Http\Client as HttpClient;
-use Zend\Uri\Http as HttpUri;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\Dom\Query;
+use Laminas\Form\Element\Url as UrlElement;
+use Laminas\Http\Client as HttpClient;
+use Laminas\Uri\Http as HttpUri;
+use Laminas\View\Renderer\PhpRenderer;
 
 class OEmbed implements IngesterInterface
 {

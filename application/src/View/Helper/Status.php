@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Mvc\Status as MvcStatus;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for getting MVC status.

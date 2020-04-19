@@ -3,7 +3,7 @@
 namespace Omeka\Service\ViewHelper;
 
 use Omeka\View\Helper\Media;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 /**

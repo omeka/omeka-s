@@ -74,6 +74,11 @@ class Site extends AbstractEntity
     protected $isPublic = true;
 
     /**
+     * @Column(type="boolean", options={"default":false})
+     */
+    protected $assignNewItems = false;
+
+    /**
      * @OneToMany(
      *     targetEntity="SitePage",
      *     mappedBy="site",
@@ -105,12 +110,19 @@ class Site extends AbstractEntity
      */
     protected $siteItemSets;
 
+    /**
+     * @ManyToMany(targetEntity="Item", mappedBy="sites", fetch="EXTRA_LAZY")
+     * @JoinTable(name="item_site")
+     */
+    protected $items;
+
     public function __construct()
     {
         $this->siteItems = new ArrayCollection;
         $this->pages = new ArrayCollection;
         $this->sitePermissions = new ArrayCollection;
         $this->siteItemSets = new ArrayCollection;
+        $this->items = new ArrayCollection;
     }
 
     public function getId()
@@ -228,6 +240,16 @@ class Site extends AbstractEntity
         return (bool) $this->isPublic;
     }
 
+    public function setAssignNewItems($assignNewItems)
+    {
+        $this->assignNewItems = (bool) $assignNewItems;
+    }
+
+    public function getAssignNewItems()
+    {
+        return $this->assignNewItems;
+    }
+
     public function getPages()
     {
         return $this->pages;
@@ -241,5 +263,10 @@ class Site extends AbstractEntity
     public function getSiteItemSets()
     {
         return $this->siteItemSets;
+    }
+
+    public function getItems()
+    {
+        return $this->items;
     }
 }

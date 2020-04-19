@@ -3,7 +3,7 @@ namespace Omeka\Service\Controller\Admin;
 
 use Interop\Container\ContainerInterface;
 use Omeka\Controller\Admin\ModuleController;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class ModuleControllerFactory implements FactoryInterface
 {

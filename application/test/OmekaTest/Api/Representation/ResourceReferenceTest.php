@@ -24,7 +24,7 @@ class ResourceReferenceTest extends TestCase
         $this->adapter->expects($this->once())
             ->method('getServiceLocator')
             ->will($this->returnValue($this->getServiceManager([
-                'EventManager' => $this->createMock('Zend\EventManager\EventManager'),
+                'EventManager' => $this->createMock('Laminas\EventManager\EventManager'),
                 'ViewHelperManager' => $this->viewHelperManager,
             ])));
     }

@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\Criteria;
 use Omeka\Api\Request;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 
 class ValueHydrator
 {

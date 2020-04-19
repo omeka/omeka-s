@@ -2,7 +2,7 @@
 namespace Omeka\Service\File\Store;
 
 use Omeka\File\Store\Local;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 /**

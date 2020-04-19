@@ -10,6 +10,15 @@ $this->headTitle($subtitle);
 <h2 class="site-list-heading"><?php echo $subtitle; ?></h2>
 
 <?php if ($sites): ?>
+
+<?php echo $this->partial(
+  'omeka/search/form.phtml',
+  [
+      'fulltextSearch' => $this->escapeHtml($this->params()->fromQuery('fulltext_search')),
+      'action' => $this->escapeHtml($this->url('search', ['action' => 'results']))
+  ]
+); ?>
+
 <div class="site-list">
 <?php
 foreach ($sites as $site):
@@ -22,7 +31,7 @@ endforeach;
 
 <?php endif; ?>
 <p><?php echo sprintf(
-    $translate('Go to the %s to start working with %s.'),
+    $translate('Go to the %1$s to start working with %2$s.'),
     $this->hyperlink($translate('Admin dashboard'), $this->url('admin')),
     $title
 ); ?></p>

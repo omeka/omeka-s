@@ -2,7 +2,7 @@
 namespace Omeka\Form;
 
 use DateTimeZone;
-use Zend\Form\Form;
+use Laminas\Form\Form;
 
 class InstallationForm extends Form
 {

@@ -4,10 +4,10 @@ namespace Omeka\Api;
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Adapter\Manager as AdapterManager;
 use Omeka\Permissions\Acl;
-use Zend\Log\LoggerInterface;
-use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
-use Zend\EventManager\Event;
+use Laminas\Log\LoggerInterface;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\EventManager\Event;
 
 /**
  * API manager service.
@@ -206,7 +206,7 @@ class Manager
         // Verify that the current user has general access to this resource.
         if (!$this->acl->userIsAllowed($adapter, $request->getOperation())) {
             throw new Exception\PermissionDeniedException(sprintf(
-                $t->translate('Permission denied for the current user to %s the %s resource.'),
+                $t->translate('Permission denied for the current user to %1$s the %2$s resource.'),
                 $request->getOperation(),
                 $adapter->getResourceId()
             ));

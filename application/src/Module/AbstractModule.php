@@ -2,13 +2,13 @@
 namespace Omeka\Module;
 
 use ReflectionClass;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\EventManager\SharedEventManagerInterface;
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\Mvc\Controller\AbstractController;
-use Zend\Mvc\MvcEvent;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\EventManager\SharedEventManagerInterface;
+use Laminas\ModuleManager\Feature\ConfigProviderInterface;
+use Laminas\Mvc\Controller\AbstractController;
+use Laminas\Mvc\MvcEvent;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\Renderer\PhpRenderer;
 
 /**
  * Abstract Omeka module.
@@ -97,7 +97,7 @@ abstract class AbstractModule implements ConfigProviderInterface
      * </code>
      *
      * The shared event callbacks receive a
-     * {@link \Zend\EventManager\EventInterface} object as its only parameter.
+     * {@link \Laminas\EventManager\EventInterface} object as its only parameter.
      *
      * @param SharedEventManagerInterface $sharedEventManager
      */
@@ -127,7 +127,7 @@ abstract class AbstractModule implements ConfigProviderInterface
 
         $autoloadPath = sprintf('%1$s/modules/%2$s/src', OMEKA_PATH, $namespace);
         return [
-            'Zend\Loader\StandardAutoloader' => [
+            'Laminas\Loader\StandardAutoloader' => [
                 'namespaces' => [
                     $namespace => $autoloadPath,
                 ],

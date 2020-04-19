@@ -5,9 +5,9 @@ use Omeka\Form\Element\ResourceSelect;
 use Omeka\Permissions\Acl;
 use Omeka\Settings\Settings;
 use Omeka\Settings\UserSettings;
-use Zend\Form\Form;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\EventManager\Event;
+use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\EventManager\Event;
 
 class UserForm extends Form
 {

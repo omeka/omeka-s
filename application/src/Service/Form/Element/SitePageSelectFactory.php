@@ -3,7 +3,7 @@ namespace Omeka\Service\Form\Element;
 
 use Interop\Container\ContainerInterface;
 use Omeka\Form\Element\SitePageSelect;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class SitePageSelectFactory implements FactoryInterface
 {

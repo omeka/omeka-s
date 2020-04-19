@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Settings\SettingsInterface;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for getting settings.

@@ -2,10 +2,10 @@
 namespace Omeka\Form\Element;
 
 use Omeka\Api\Manager as ApiManager;
-use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\Form\Element\Select;
-use Zend\I18n\Translator\TranslatorAwareTrait;
+use Laminas\EventManager\EventManagerAwareInterface;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\Form\Element\Select;
+use Laminas\I18n\Translator\TranslatorAwareTrait;
 
 abstract class AbstractVocabularyMemberSelect extends Select implements EventManagerAwareInterface
 {

@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\Form\Form;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\EventManager\Event;
+use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\EventManager\Event;
 
 class SiteForm extends Form
 {
@@ -46,6 +46,19 @@ class SiteForm extends Form
                 'required' => false,
             ],
         ]);
+        if ('add' === $this->getOption('action')) {
+            $this->add([
+                'name' => 'o:assign_new_items',
+                'type' => 'checkbox',
+                'options' => [
+                    'label' => 'Assign new items', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'assign_new_items',
+                    'value' => true,
+                ],
+            ]);
+        }
 
         $event = new Event('form.add_elements', $this);
         $triggerResult = $this->getEventManager()->triggerEvent($event);

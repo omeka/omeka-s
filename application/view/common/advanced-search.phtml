@@ -18,12 +18,15 @@ switch ($resourceType) {
     case 'item':
         $partials[] = 'common/advanced-search/item-sets';
         if ($this->status()->isAdminRequest() && !$isPool) {
-            $partials[] = 'common/advanced-search/site-pool';
+            $partials[] = 'common/advanced-search/site';
         }
         break;
     case 'media':
         $partials[] = 'common/advanced-search/media-type';
         break;
+}
+if ($this->status()->isAdminRequest()) {
+    $partials[] = 'common/advanced-search/owner';
 }
 if ($this->status()->isSiteRequest()) {
     $partials[] = 'common/advanced-search/resource-template-restrict';

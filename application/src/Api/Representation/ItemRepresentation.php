@@ -23,9 +23,14 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
         foreach ($this->itemSets() as $itemSetRepresentation) {
             $itemSets[] = $itemSetRepresentation->getReference();
         }
+        $sites = [];
+        foreach ($this->sites() as $siteRepresentation) {
+            $sites[] = $siteRepresentation->getReference();
+        }
         return [
             'o:media' => $media,
             'o:item_set' => $itemSets,
+            'o:site' => $sites,
         ];
     }
 
@@ -58,6 +63,17 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
                 $itemSetAdapter->getRepresentation($itemSetEntity);
         }
         return $itemSets;
+    }
+
+    public function sites()
+    {
+        $sites = [];
+        $siteAdapter = $this->getAdapter('sites');
+        foreach ($this->resource->getSites() as $siteEntity) {
+            $sites[$siteEntity->getId()] =
+                $siteAdapter->getRepresentation($siteEntity);
+        }
+        return $sites;
     }
 
     public function primaryMedia()

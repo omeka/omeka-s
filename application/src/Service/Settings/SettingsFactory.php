@@ -2,7 +2,7 @@
 namespace Omeka\Service\Settings;
 
 use Omeka\Settings\Settings;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class SettingsFactory implements FactoryInterface

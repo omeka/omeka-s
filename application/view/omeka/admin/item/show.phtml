@@ -66,6 +66,15 @@ $itemMedia = $item->media();
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
+    <?php $sites = $item->sites(); ?>
+    <?php if (count($sites) > 0): ?>
+    <div class="meta-group">
+        <h4><?php echo $translate('Sites'); ?></h4>
+        <?php foreach ($sites as $site): ?>
+        <div class="value item-sets"><?php echo $site->link($site->title()); ?></div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
     <div class="meta-group">
         <h4><?php echo $translate('Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></div>

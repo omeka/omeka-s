@@ -2,15 +2,16 @@
 namespace Omeka\View\Renderer;
 
 use JsonSerializable;
+use Laminas\Json\Json;
+use Laminas\Stdlib\ArrayUtils;
+use Laminas\View\Exception;
+use Laminas\View\Model\JsonModel;
+use Laminas\View\Model\ModelInterface as Model;
+use Laminas\View\Renderer\JsonRenderer;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Response;
 use Omeka\Stdlib\JsonUnescaped as Json;
 use Traversable;
-use Zend\Stdlib\ArrayUtils;
-use Zend\View\Exception;
-use Zend\View\Model\JsonModel;
-use Zend\View\Model\ModelInterface as Model;
-use Zend\View\Renderer\JsonRenderer;
 
 /**
  * JSON renderer for API responses.

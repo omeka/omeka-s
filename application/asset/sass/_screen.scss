@@ -660,6 +660,32 @@ a.collapse {
     margin-left: 3px;
 }
 
+.selector-table {
+    display: table;
+}
+
+.selector-table.empty,
+.selector-table + .no-resources {
+    display: none;
+}
+    
+.selector-table.empty + .no-resources {
+    display: block;
+}
+      
+.selector .resources-available.empty,
+.selector .resources-available + .resources-unavailable {
+    display: none;
+}
+
+.selector .resources-available.empty + .resources-unavailable {
+    display: block;
+}
+
+.selector .selector-child.added {
+  display: none;
+}
+
 /* @end */
 
 /* @group ----- Header ----- */
@@ -1838,6 +1864,10 @@ input[type="text"].value-language,
             border-radius: 0 0 3px 3px;
         }
     }
+    
+    .selector li.selector-parent.empty {
+        display: none;
+    }
 
     .selector li.show > ul {
         position: relative;
@@ -2499,23 +2529,11 @@ input[type="text"].value-language,
 
     /* @group ----- Item Sets ----- */
 
-    #item-item-sets + .no-resources {
-        display: none;
+    #item-item-sets + .no-resources:before,
+    #site-item-sets + .no-resources:before {
+        content: fa-content($fa-var-cubes);
     }
-
-    #item-item-sets.empty {
-        display: none;
-
-        & + .no-resources {
-            display: block;
-            padding: 0 $spacing-large;
-
-            &:before {
-                content: fa-content($fa-var-cubes);
-            }
-        }
-    }
-
+    
     #item-item-sets tr.delete {
         background-color: $delete-bg;
     }
@@ -2533,6 +2551,14 @@ input[type="text"].value-language,
         box-shadow: none;
     }
 
+    /* @end */
+    
+    /* @group ----- Sites ----- */
+    
+    #item-sites.empty + .no-resources:before {
+        content: fa-content($fa-var-laptop);
+    }
+    
     /* @end */
 
 /* @end */
@@ -3437,33 +3463,16 @@ body.sidebar-open #content {
 
     /* @group ----- Resources ----- */
       
-    #item-set-selector .added {
-      display: none;
-    }
-    
     #site-item-sets th:first-child,
     #site-item-sets th:last-child {
         width: 1.5 * $spacing-large;
     }
     
     #site-item-sets .delete .sortable-handle:before,
-    #site-item-sets .delete .o-icon-delete,
-    #site-item-sets .o-icon-undo {
+    #site-item-sets .delete .o-icon-delete {
         display: none;
     }
     
-    #site-item-sets .delete .o-icon-undo {
-        display: inline-block;
-    }
-    
-    #site-item-sets,
-    .has-item-sets #no-site-item-sets {
-        display: none;
-    }
-          
-    .has-item-sets #site-item-sets {
-        display: table;
-    }
     
     /* @end */
 
@@ -3473,9 +3482,7 @@ body.sidebar-open #content {
     tr.value.delete > td:not(.input-footer) {
         display: table-cell;
     }
-    #site-user-permissions + .no-resources,
-    #site-user-permissions.empty,
-    tr.value:not(.delete) .o-icon-undo,
+    
     tr.value.delete .user-name,
     tr.value.delete select,
     tr.value.delete .o-icon-delete {
@@ -3486,13 +3493,8 @@ body.sidebar-open #content {
         width: 50%;
     }
 
-    #site-user-permissions.empty  + .no-resources {
-        display: block;
-        padding: 0 $spacing-large;
-
-        &:before {
-            content: fa-content($fa-var-users);
-        }
+    #site-user-permissions.empty  + .no-resources:before {
+        content: fa-content($fa-var-users);
     }
 
     #site-user-permissions .actions {
@@ -3954,6 +3956,12 @@ body.minimal {
         margin-bottom: $spacing-medium;
     }
 
+
+    h3 {
+        font-size: 1.125 * $base-font-size;
+        margin-bottom: $spacing-medium;
+    }
+
     fieldset legend {
         font-weight: bold;
         font-size: 1.25 * $base-font-size;
@@ -4023,10 +4031,52 @@ body.minimal {
         font-size: $base-font-size;
         margin-top: -1.333 * $spacing-large;
     }
+
+    .site-results {
+        margin-bottom: $spacing-large;
+    }
+    
+    .site-results > ul,
+    .item-results > ul {
+      padding-left: 0;
+    }
+    
+    .site-results > ul > li,
+    .item-results > ul > li {
+        list-style-type: none;
+    }
+    
+    .advanced-search {
+      margin: (-1 * $spacing-medium) 0 $spacing-large;
+      display: block;
+    }
+    
+    .advanced-search-actions {
+      margin: $spacing-medium 0;
+      
+      input[type="submit"] {
+        width: auto;
+        display: inline-block;
+      }
+    }
 }
 
 .forgot-password {
     margin: $spacing-small 0;
+}
+
+.sitewide-search-form {    
+    display: flex;
+    margin-bottom: $spacing-large;
+
+    input[type="text"] {
+      width: 100%;
+      margin-right: $spacing-small;      
+    }
+    
+    input[type="submit"] {
+      width: auto;
+    }
 }
 
 /* @end */

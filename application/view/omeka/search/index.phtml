@@ -1,0 +1,10 @@
+<h1><?php echo $this->setting('installation_title', 'Omeka S'); ?></h1>
+<h2><?php echo $this->translate('Search'); ?></h2>
+
+<?php echo $this->partial(
+  'omeka/search/form.phtml',
+  [
+      'fulltextSearch' => $this->escapeHtml($this->params()->fromQuery('fulltext_search')),
+      'action' => 'results'
+  ]
+); ?>

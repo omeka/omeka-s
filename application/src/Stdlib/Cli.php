@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Stdlib;
 
-use Zend\Log\LoggerInterface;
+use Laminas\Log\LoggerInterface;
 
 class Cli
 {

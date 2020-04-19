@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\Service;
 
-use Zend\Http\Client;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\Http\Client;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class HttpClientFactory implements FactoryInterface

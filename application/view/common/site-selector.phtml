@@ -1,0 +1,36 @@
+<div id="site-selector" class='selector sidebar active'>
+    <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+    <div class="resources-available">
+    <h3><?php echo $this->translate('Click on a site to add it to the edit panel.'); ?></h3>
+    <input type="text" class="selector-filter" placeholder="<?php echo $this->escapeHtml($this->translate('Filter sites')); ?>">
+    <ul>
+        <li class="total-count-heading"><?php echo $this->translate('Sites'); ?> (<span class="selector-total-count"><?php echo $totalCount; ?></span>)
+            <ul class="selectable-list">
+                <?php foreach ($sitesByOwner as $email => $siteByOwner): ?>
+                <?php $ownerText = $siteByOwner['owner'] ? $this->escapeHtml($siteByOwner['owner']->name()) : $this->translate('[no owner]'); ?>
+                <li class='selector-parent'>
+                    <span><?php echo $ownerText; ?></span> (<span class="selector-child-count"><?php echo count($siteByOwner['sites']); ?></span>)
+                    <ul>
+                        <?php foreach ($siteByOwner['sites'] as $site): ?>
+                        <li class='selector-child'
+                            data-child-search="<?php echo $this->escapeHtml($site->title()); ?>"
+                            data-resource-id="<?php echo $this->escapeHtml($site->id()); ?>"
+                            data-resource-email="<?php echo $this->escapeHtml($email); ?>">
+                            <div class="description">
+                                <p class="o-icon-info"><span class="screen-reader-text"><?php echo $this->translate('More info'); ?></span></p>
+                                <p class="field-comment"><?php echo $this->escapeHtml($site->summary()); ?></p>
+                            </div>
+                            <span><?php echo $this->escapeHtml($site->title()); ?></span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </li>
+    </ul>
+    </div>
+    <div class="resources-unavailable">
+        <p><?php echo sprintf('All %s have been added.', 'sites'); ?></p>
+    </div>    
+</div>

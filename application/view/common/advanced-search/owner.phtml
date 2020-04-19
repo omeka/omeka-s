@@ -1,0 +1,19 @@
+<div class="field">
+    <div class="field-meta">
+        <label for="owner_id"><?php echo $this->translate('Search by owner'); ?></label>
+        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
+        <div class="collapsible">
+            <div class="field-description"><?php echo $this->translate('Searches for resources that are owned by this user.'); ?></div>
+        </div>
+    </div>
+    <div class="inputs">
+        <?php echo $this->userSelect([
+            'name' => 'owner_id',
+            'attributes' => [
+                'id' => 'owner_id',
+                'value' => $query['owner_id'] ?? null,
+            ]
+        ]); ?>
+    </div>
+</div>
+

@@ -10,7 +10,7 @@ class HtmlElementTest extends TestCase
 
     public function setUp()
     {
-        $view = $this->createMock('Zend\View\Renderer\PhpRenderer');
+        $view = $this->createMock('Laminas\View\Renderer\PhpRenderer');
         $view->expects($this->any())
             ->method('plugin')
             ->will($this->returnValue('htmlspecialchars'));

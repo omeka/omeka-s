@@ -6,14 +6,14 @@ use Omeka\Service\Delegator\SitePaginatorDelegatorFactory;
 use Omeka\Session\SaveHandler\Db;
 use Omeka\Site\Theme\Manager;
 use Omeka\Site\Theme\Theme;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\Mvc\Application as ZendApplication;
-use Zend\Mvc\MvcEvent;
-use Zend\Session\Config\SessionConfig;
-use Zend\Session\Container;
-use Zend\Session\SessionManager;
-use Zend\Validator\AbstractValidator;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\Mvc\Application as ZendApplication;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Session\Config\SessionConfig;
+use Laminas\Session\Container;
+use Laminas\Session\SessionManager;
+use Laminas\Validator\AbstractValidator;
 
 class MvcListeners extends AbstractListenerAggregate
 {
@@ -144,7 +144,7 @@ class MvcListeners extends AbstractListenerAggregate
      * Redirect all requests to install route if Omeka is not installed.
      *
      * @param MvcEvent $event
-     * @return \Zend\Http\PhpEnvironment\Response
+     * @return \Laminas\Http\PhpEnvironment\Response
      */
     public function redirectToInstallation(MvcEvent $event)
     {
@@ -175,7 +175,7 @@ class MvcListeners extends AbstractListenerAggregate
      * on all other routes.
      *
      * @param MvcEvent $event
-     * @return \Zend\Http\PhpEnvironment\Response
+     * @return \Laminas\Http\PhpEnvironment\Response
      */
     public function redirectToMigration(MvcEvent $event)
     {
@@ -221,7 +221,7 @@ class MvcListeners extends AbstractListenerAggregate
      * Redirect all admin requests to login route if user not logged in.
      *
      * @param MvcEvent $event
-     * @return \Zend\Http\PhpEnvironment\Response
+     * @return \Laminas\Http\PhpEnvironment\Response
      */
     public function redirectToLogin(MvcEvent $event)
     {

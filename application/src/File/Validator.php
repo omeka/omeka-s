@@ -62,7 +62,7 @@ class Validator
                 $isValid = false;
                 if ($errorStore) {
                     $message = new Message(
-                        'Error validating "%s". Cannot store files with the media type "%s".', // @translate
+                        'Error validating "%1$s". Cannot store files with the media type "%2$s".', // @translate
                         $tempFile->getSourceName(), $mediaType
                         );
                     $errorStore->addError('file', $message);
@@ -75,7 +75,7 @@ class Validator
                 $isValid = false;
                 if ($errorStore) {
                     $message = new Message(
-                        'Error validating "%s". Cannot store files with the resolved extension "%s".', // @translate
+                        'Error validating "%1$s". Cannot store files with the resolved extension "%2$s".', // @translate
                         $tempFile->getSourceName(), $extension
                         );
                     $errorStore->addError('file', $message);

@@ -5,10 +5,10 @@ use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\Ingester\Manager as IngesterManager;
 use Omeka\Media\Ingester\MutableIngesterInterface;
 use Omeka\Media\Renderer\Manager as RendererManager;
-use Zend\Form\Element\Hidden;
-use Zend\Form\Element\Text;
-use Zend\Form\Factory;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\Form\Element\Hidden;
+use Laminas\Form\Element\Text;
+use Laminas\Form\Factory;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for rendering media.

@@ -4,8 +4,8 @@ namespace Omeka\Media\Ingester;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\Stdlib\ErrorStore;
-use Zend\I18n\Translator\TranslatorInterface;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\View\Renderer\PhpRenderer;
 
 class Fallback implements IngesterInterface
 {

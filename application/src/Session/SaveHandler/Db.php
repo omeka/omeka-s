@@ -2,7 +2,7 @@
 namespace Omeka\Session\SaveHandler;
 
 use Doctrine\DBAL\Connection;
-use Zend\Session\SaveHandler\SaveHandlerInterface;
+use Laminas\Session\SaveHandler\SaveHandlerInterface;
 
 class Db implements SaveHandlerInterface
 {

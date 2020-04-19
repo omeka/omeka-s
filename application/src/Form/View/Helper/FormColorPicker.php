@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\Form\View\Helper;
 
-use Zend\Form\View\Helper\FormText;
-use Zend\Form\ElementInterface;
+use Laminas\Form\View\Helper\FormText;
+use Laminas\Form\ElementInterface;
 
 class FormColorPicker extends FormText
 {

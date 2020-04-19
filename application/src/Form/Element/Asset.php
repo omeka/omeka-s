@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\Form\Element;
 
-use Zend\Form\Element;
-use Zend\InputFilter\InputProviderInterface;
+use Laminas\Form\Element;
+use Laminas\InputFilter\InputProviderInterface;
 
 /**
  * Textarea element for HTML.

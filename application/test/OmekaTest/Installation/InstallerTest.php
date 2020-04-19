@@ -19,7 +19,7 @@ class InstallerTest extends TestCase
     {
         $installer = new Installer($this->getServiceManager());
         $this->assertInstanceOf(
-            'Zend\ServiceManager\ServiceLocatorInterface',
+            'Laminas\ServiceManager\ServiceLocatorInterface',
             $installer->getServiceLocator()
         );
     }
@@ -73,7 +73,7 @@ class InstallerTest extends TestCase
     public function getConfiguredServiceManager()
     {
         $status = $this->getMockBuilder('Omeka\Mvc\Status')->disableOriginalConstructor()->getMock();
-        $translator = $this->createMock('Zend\I18n\Translator\Translator');
+        $translator = $this->createMock('Laminas\I18n\Translator\Translator');
         return $this->getServiceManager([
             'MvcTranslator' => $translator,
             'Omeka\Status' => $status,

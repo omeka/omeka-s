@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\Form\Element;
 
-use Zend\Form\Element;
-use Zend\Http\Client;
-use Zend\InputFilter\InputProviderInterface;
+use Laminas\Form\Element;
+use Laminas\Http\Client;
+use Laminas\InputFilter\InputProviderInterface;
 
 /**
  * A reCAPTCHA form element used to verify whether a user is human.

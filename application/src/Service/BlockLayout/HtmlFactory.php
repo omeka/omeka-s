@@ -3,7 +3,7 @@ namespace Omeka\Service\BlockLayout;
 
 use Interop\Container\ContainerInterface;
 use Omeka\Site\BlockLayout\Html;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class HtmlFactory implements FactoryInterface
 {

@@ -5,11 +5,11 @@ use Doctrine\ORM\EntityManager;
 use Omeka\Entity\User;
 use Omeka\Entity\PasswordCreation;
 use Traversable;
-use Zend\Stdlib\ArrayUtils;
-use Zend\Mail\Message;
-use Zend\Mail\MessageFactory;
-use Zend\Mail\Transport\TransportInterface;
-use Zend\View\HelperPluginManager;
+use Laminas\Stdlib\ArrayUtils;
+use Laminas\Mail\Message;
+use Laminas\Mail\MessageFactory;
+use Laminas\Mail\Transport\TransportInterface;
+use Laminas\View\HelperPluginManager;
 
 class Mailer
 {

@@ -3,7 +3,7 @@ namespace OmekaTest\View\Renderer;
 
 use Omeka\Api\Exception\ValidationException;
 use Omeka\View\Renderer\ApiJsonRenderer;
-use Zend\Json\Json;
+use Laminas\Json\Json;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Test\TestCase;
 

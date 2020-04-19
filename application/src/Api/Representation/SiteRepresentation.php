@@ -2,12 +2,12 @@
 namespace Omeka\Api\Representation;
 
 use RecursiveIteratorIterator;
-use Zend\Navigation\Service\ConstructedNavigationFactory;
+use Laminas\Navigation\Service\ConstructedNavigationFactory;
 
 class SiteRepresentation extends AbstractEntityRepresentation
 {
     /**
-     * @var \Zend\Navigation\Navigation
+     * @var \Laminas\Navigation\Navigation
      */
     protected $publicNavContainer;
 
@@ -56,6 +56,15 @@ class SiteRepresentation extends AbstractEntityRepresentation
                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             ];
         }
+        $url = $this->getViewHelper('Url');
+        $itemsUrl = $url(
+            'api/default',
+            ['resource' => 'items'],
+            [
+                'force_canonical' => true,
+                'query' => ['site_id' => $this->id()],
+            ]
+        );
 
         return [
             'o:slug' => $this->slug(),
@@ -69,9 +78,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:created' => $created,
             'o:modified' => $modified,
             'o:is_public' => $this->isPublic(),
+            'o:assign_new_items' => $this->assignNewItems(),
             'o:page' => $pages,
             'o:site_permission' => $this->sitePermissions(),
             'o:site_item_set' => $this->siteItemSets(),
+            'o:site_item' => ['@id' => $itemsUrl],
         ];
     }
 
@@ -124,6 +135,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function isPublic()
     {
         return $this->resource->isPublic();
+    }
+
+    public function assignNewItems()
+    {
+        return $this->resource->getAssignNewItems();
     }
 
     /**
@@ -202,6 +218,21 @@ class SiteRepresentation extends AbstractEntityRepresentation
     }
 
     /**
+     * Get this site's item count.
+     *
+     * @return int
+     */
+    public function itemCount()
+    {
+        $response = $this->getServiceLocator()->get('Omeka\ApiManager')
+            ->search('items', [
+                'site_id' => $this->id(),
+                'limit' => 0,
+            ]);
+        return $response->getTotalResults();
+    }
+
+    /**
      * Get the owner representation of this resource.
      *
      * @return UserRepresentation
@@ -228,12 +259,12 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * Get the navigation helper for admin-side nav for this site for the current user
      *
-     * @return \Zend\View\Helper\Navigation
+     * @return \Laminas\View\Helper\Navigation
      */
     public function adminNav()
     {
         $navHelper = $this->getViewHelper('Navigation');
-        $nav = $navHelper('Zend\Navigation\Site');
+        $nav = $navHelper('Laminas\Navigation\Site');
 
         $iterator = new RecursiveIteratorIterator($nav->getContainer(), RecursiveIteratorIterator::SELF_FIRST);
         foreach ($iterator as $page) {
@@ -248,7 +279,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * Get the navigation helper for public-side nav for this site
      *
-     * @return \Zend\View\Helper\Navigation
+     * @return \Laminas\View\Helper\Navigation
      */
     public function publicNav()
     {
@@ -266,7 +297,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     /**
      * Get the navigation container for this site's public nav
      *
-     * @return \Zend\Navigation\Navigation
+     * @return \Laminas\Navigation\Navigation
      */
     protected function getPublicNavContainer()
     {

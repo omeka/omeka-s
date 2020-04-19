@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Service;
 
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class MediaTypeMapFactory implements FactoryInterface

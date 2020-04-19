@@ -1,10 +1,10 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Zend\EventManager\EventManagerInterface;
-use Zend\Mvc\Controller\PluginManager as ControllerPluginManager;
-use Zend\View\Helper\AbstractHelper;
-use Zend\EventManager\Event;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Mvc\Controller\PluginManager as ControllerPluginManager;
+use Laminas\View\Helper\AbstractHelper;
+use Laminas\EventManager\Event;
 
 /**
  * View helper for triggering a view event.

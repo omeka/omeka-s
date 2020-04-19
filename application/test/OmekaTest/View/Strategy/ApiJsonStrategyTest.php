@@ -4,8 +4,8 @@ namespace OmekaTest\View\Strategy;
 use Omeka\Api\Exception;
 use Omeka\Mvc\Exception as MvcException;
 use Omeka\View\Strategy\ApiJsonStrategy;
-use Zend\Http\Response as HttpResponse;
-use Zend\View\ViewEvent;
+use Laminas\Http\Response as HttpResponse;
+use Laminas\View\ViewEvent;
 use Omeka\Test\TestCase;
 
 class ApiJsonStrategyTest extends TestCase
@@ -37,7 +37,7 @@ class ApiJsonStrategyTest extends TestCase
 
     public function testStrategyDoesNothingForOtherModels()
     {
-        $model = $this->createMock('Zend\View\Model\JsonModel');
+        $model = $this->createMock('Laminas\View\Model\JsonModel');
         $model->expects($this->never())
               ->method('getOption');
 

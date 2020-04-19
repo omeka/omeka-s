@@ -2,7 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Entity\SitePermission;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class SitePermissionRepresentation extends AbstractRepresentation
 {

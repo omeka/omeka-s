@@ -2,7 +2,7 @@
 namespace Omeka\Installation;
 
 use Omeka\Stdlib\ErrorStore;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class Installer
 {

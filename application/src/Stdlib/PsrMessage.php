@@ -2,8 +2,8 @@
 
 namespace Omeka\Stdlib;
 
-use Zend\I18n\Translator\TranslatorAwareInterface;
-use Zend\I18n\Translator\TranslatorAwareTrait;
+use Laminas\I18n\Translator\TranslatorAwareInterface;
+use Laminas\I18n\Translator\TranslatorAwareTrait;
 
 /**
  * Manage a message with a list of placeholders formatted as psr-3.

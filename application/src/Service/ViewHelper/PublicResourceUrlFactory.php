@@ -2,8 +2,8 @@
 namespace Omeka\Service\ViewHelper;
 
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Omeka\View\Helper\PublicResourceUrl;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Service factory for the PublicResourceUrlFactory view helper.

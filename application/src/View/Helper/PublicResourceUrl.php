@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Laminas\View\Helper\AbstractHelper;
 use Omeka\Api\Representation\AbstractResourceRepresentation;
-use Zend\View\Helper\AbstractHelper;
 
 /**
  * View helper to return the url to the public default site page of a resource.

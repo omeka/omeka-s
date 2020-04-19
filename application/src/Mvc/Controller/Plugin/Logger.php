@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
-use Zend\Log\LoggerInterface;
-use Zend\Mvc\Controller\Plugin\AbstractPlugin;
+use Laminas\Log\LoggerInterface;
+use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
  * Controller plugin for getting the logger.

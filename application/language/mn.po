@@ -1,0 +1,6754 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Jishee Oyutan <jisheelibrary@gmail.com>, 2017
+# Khaidav Tumur <khaidaw@gmail.com>, 2020
+# Khaidav T. <khaidaw@yahoo.com>, 2020
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-27 13:06-0500\n"
+"PO-Revision-Date: 2017-06-13 18:56+0000\n"
+"Last-Translator: Khaidav T. <khaidaw@yahoo.com>, 2020\n"
+"Language-Team: Mongolian (https://www.transifex.com/omeka/teams/14184/mn/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: mn\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: application/src/Api/Adapter/AbstractAdapter.php:40
+#, php-format
+msgid "The %1$s adapter does not implement the search operation."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractAdapter.php:50
+#, php-format
+msgid "The %1$s adapter does not implement the create operation."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractAdapter.php:60
+#, php-format
+msgid "The %1$s adapter does not implement the batch create operation."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractAdapter.php:70
+#, php-format
+msgid "The %1$s adapter does not implement the read operation."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractAdapter.php:80
+#, php-format
+msgid "The %1$s adapter does not implement the update operation."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractAdapter.php:90
+#, php-format
+msgid "The %1$s adapter does not implement the batch update operation."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractAdapter.php:111
+#, php-format
+msgid "The %1$s adapter does not implement the delete operation."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractAdapter.php:121
+#, php-format
+msgid "The %1$s adapter does not implement the batch delete operation."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:241
+#, php-format
+msgid "The \"%1$s\" field is not available in the %2$s entity class."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:586
+#: application/src/Api/Manager.php:209
+#, php-format
+msgid "Permission denied for the current user to %1$s the %2$s resource."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:628
+#, php-format
+msgid "%1$s entity with criteria %2$s not found"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:136
+msgid "Welcome"
+msgstr "Тавтай морилно уу."
+
+#: application/src/Api/Adapter/SiteAdapter.php:141
+msgid "Welcome to your new site. This is an example page."
+msgstr "Сайтад тавтай морилно уу. Энэ бол жишээ хуудас."
+
+#: application/src/Api/Adapter/SiteAdapter.php:358
+msgid "Browse"
+msgstr "Тоймлож харах"
+
+#: application/src/Api/Manager.php:201
+#, php-format
+msgid "The API does not support the \"%s\" resource."
+msgstr ""
+
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:504
+#: application/view/common/block-layout/browse-preview.phtml:15
+#: application/view/omeka/site/item-set/browse.phtml:23
+#: application/view/omeka/site/item/browse.phtml:58
+msgid "[Untitled]"
+msgstr "[Нэргүй]"
+
+#: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:105
+msgid "Default"
+msgstr "Үндсэн"
+
+#: application/src/Controller/Admin/AssetController.php:48
+msgid "Asset uploads must be POSTed."
+msgstr ""
+
+#: application/src/Controller/Admin/ItemController.php:212
+msgid "Add another item?"
+msgstr "Өөр баримт нэмэх үү?"
+
+#: application/src/Controller/Admin/ItemSetController.php:36
+msgid "Add another item set?"
+msgstr "Өөр баримтын бүрдэл нэмэх үү?"
+
+#: application/src/Controller/Admin/ModuleController.php:69
+#: application/src/Controller/Admin/ModuleController.php:76
+#: application/view/common/advanced-search/users.phtml:47
+msgid "Active"
+msgstr "Идэвхтэй"
+
+#: application/src/Controller/Admin/ModuleController.php:70
+#: application/src/Controller/Admin/ModuleController.php:77
+#: application/view/common/advanced-search/users.phtml:48
+msgid "Not active"
+msgstr "Идэвхгүй"
+
+#: application/src/Controller/Admin/ModuleController.php:71
+#: application/src/Controller/Admin/ModuleController.php:78
+msgid "Not installed"
+msgstr "Суугдаагүй"
+
+#: application/src/Controller/Admin/ModuleController.php:72
+#: application/src/Controller/Admin/ModuleController.php:79
+msgid "Needs upgrade"
+msgstr "Шинэчлэх шаардлагатай"
+
+#: application/src/Controller/Admin/ModuleController.php:73
+msgid "Error"
+msgstr "Алдаа"
+
+#: application/src/Controller/Admin/ModuleController.php:80
+#: application/view/error/404.phtml:4
+msgid "Not found"
+msgstr "Олдсонгүй"
+
+#: application/src/Controller/Admin/ModuleController.php:81
+msgid "Invalid module"
+msgstr ""
+
+#: application/src/Controller/Admin/ModuleController.php:82
+msgid "Invalid INI"
+msgstr ""
+
+#: application/src/Controller/Admin/ModuleController.php:83
+msgid "Invalid Omeka S version"
+msgstr ""
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:415
+msgid "Add another resource template?"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:117
+msgid "Add another user?"
+msgstr "Өөр хэрэглэгч нэмэх үү?"
+
+#: application/src/Controller/Admin/VocabularyController.php:92
+msgid "Must provide a vocabulary file or a vocabulary URL"
+msgstr ""
+
+#: application/src/Controller/Admin/VocabularyController.php:101
+msgid "Import another vocabulary?"
+msgstr ""
+
+#: application/src/DataType/Resource/AbstractResource.php:51
+#, php-format
+msgid "Resource not found with id %s."
+msgstr ""
+
+#: application/src/Db/Migration/Manager.php:112
+msgid "Migration file did not contain the expected class"
+msgstr ""
+
+#: application/src/Media/Ingester/Fallback.php:33
+#: application/view/common/navigation-link-form/fallback.phtml:4
+msgid "Unknown"
+msgstr "Тодорхойгүй"
+
+#: application/src/Media/Renderer/IIIF.php:14
+msgid "OpenSeadragon is not available unless JavaScript is enabled."
+msgstr ""
+
+#: application/src/Module/Manager.php:170
+#, php-format
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be activated"
+msgstr ""
+
+#: application/src/Module/Manager.php:181
+#, php-format
+msgid "Module \"%s\" not in database during activation"
+msgstr ""
+
+#: application/src/Module/Manager.php:202
+#, php-format
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be deactivated"
+msgstr ""
+
+#: application/src/Module/Manager.php:213
+#, php-format
+msgid "Module \"%s\" not in database during deactivation"
+msgstr ""
+
+#: application/src/Module/Manager.php:233
+#, php-format
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be installed"
+msgstr ""
+
+#: application/src/Module/Manager.php:271
+#, php-format
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be uninstalled"
+msgstr ""
+
+#: application/src/Module/Manager.php:288
+#, php-format
+msgid "Module \"%s\" not found in database during uninstallation"
+msgstr ""
+
+#: application/src/Module/Manager.php:309
+#, php-format
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be upgraded"
+msgstr ""
+
+#: application/src/Module/Manager.php:331
+#, php-format
+msgid "Module \"%s\" not found in database during upgrade"
+msgstr ""
+
+#: application/src/Module/Manager.php:410
+#, php-format
+msgid "Permission denied for the current user to %1$s the %2$s module."
+msgstr ""
+
+#: application/src/Mvc/MvcListeners.php:436
+#, php-format
+msgid ""
+"Permission denied for the current user to access the %1$s action of the %2$s"
+" controller."
+msgstr ""
+
+#: application/src/Site/BlockLayout/Fallback.php:37
+msgid "This layout is invalid."
+msgstr ""
+
+#: application/src/Site/BlockLayout/ItemShowcase.php:22
+#: application/src/Site/BlockLayout/Media.php:22
+msgid "Options"
+msgstr "Тохиргоо"
+
+#: application/src/Site/BlockLayout/LineBreak.php:43
+msgid "Break type"
+msgstr ""
+
+#: application/src/Site/BlockLayout/TableOfContents.php:28
+msgid "Depth"
+msgstr ""
+
+#: application/src/Site/BlockLayout/TableOfContents.php:29
+msgid "Number of child page levels to display"
+msgstr ""
+
+#: application/src/Site/Navigation/Translator.php:60
+msgid "Home"
+msgstr "Эхлэл"
+
+#: application/src/Stdlib/Mailer.php:171
+#, php-format
+msgid ""
+"Greetings, %1$s!\n"
+"\n"
+"It seems you have forgotten your password for %5$s at %2$s\n"
+"\n"
+"To reset your password, click this link:\n"
+"%3$s\n"
+"\n"
+"Your reset link will expire on %4$s."
+msgstr ""
+
+#: application/src/Stdlib/Mailer.php:193
+#, php-format
+msgid "Reset your password for %s"
+msgstr "Нууц үгийг дахин тохируулах %s"
+
+#: application/src/Stdlib/Mailer.php:209
+#, php-format
+msgid ""
+"Greetings!\n"
+"\n"
+"A user has been created for you on %5$s at %1$s\n"
+"\n"
+"Your username is your email: %2$s\n"
+"\n"
+"Click this link to set a password and begin using Omeka S:\n"
+"%3$s\n"
+"\n"
+"Your activation link will expire on %4$s. If you have not completed the user activation process by the time the link expires, you will need to request another activation email from your site administrator."
+msgstr ""
+
+#: application/src/Stdlib/Mailer.php:233
+#, php-format
+msgid "User activation for %s"
+msgstr ""
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:33
+msgid "Show attachment title"
+msgstr "Хавсаргах гарчиг харуулах"
+
+#: application/src/View/Helper/BlockThumbnailTypeSelect.php:42
+msgid "Thumbnail type"
+msgstr ""
+
+#: application/src/View/Helper/CancelButton.php:14
+#: application/view/omeka/admin/vocabulary/update.phtml:23
+msgid "Cancel"
+msgstr "Болих"
+
+#: application/src/View/Helper/PasswordRequirements.php:40
+#, php-format
+msgid "Password must be a minimum of %s characters in length."
+msgstr "Нууц үг багадаа %s тэмдэгтийн урттай байх ёстой."
+
+#: application/src/View/Helper/PasswordRequirements.php:46
+#, php-format
+msgid "Password must contain at least %s lowercase characters."
+msgstr "Нууц үг багадаа %s жижиг үсэгтэй байх ёстой."
+
+#: application/src/View/Helper/PasswordRequirements.php:52
+#, php-format
+msgid "Password must contain at least %s uppercase characters."
+msgstr "Нууц үг ядаж %s том үсэг агуулж байх ёстой."
+
+#: application/src/View/Helper/PasswordRequirements.php:58
+#, php-format
+msgid "Password must contain at least %s numbers."
+msgstr "Нууц үгэнд багадаа %s тоо орсон байх ёстой."
+
+#: application/src/View/Helper/PasswordRequirements.php:67
+#, php-format
+msgid "Password must contain at least %1$s symbols: <code>%2$s</code>"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:32
+#: application/view/common/advanced-search/properties.phtml:65
+msgid "is exactly"
+msgstr "яг адил"
+
+#: application/src/View/Helper/SearchFilters.php:33
+#: application/view/common/advanced-search/properties.phtml:66
+msgid "is not exactly"
+msgstr "яг адил биш"
+
+#: application/src/View/Helper/SearchFilters.php:34
+#: application/view/common/advanced-search/properties.phtml:67
+msgid "contains"
+msgstr "агуулсан"
+
+#: application/src/View/Helper/SearchFilters.php:35
+#: application/view/common/advanced-search/properties.phtml:68
+msgid "does not contain"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:36
+#: application/view/common/advanced-search/properties.phtml:69
+msgid "is resource with ID"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:37
+#: application/view/common/advanced-search/properties.phtml:70
+msgid "is not resource with ID"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:38
+#: application/view/common/advanced-search/properties.phtml:71
+msgid "has any value"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:39
+#: application/view/common/advanced-search/properties.phtml:72
+msgid "has no values"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:47
+#: application/view/common/advanced-search/fulltext.phtml:6
+msgid "Search full-text"
+msgstr "Бүтэн текстээр хайх"
+
+#: application/src/View/Helper/SearchFilters.php:60
+#: application/view/common/linked-resources.phtml:33
+#: application/view/omeka/admin/item-set/browse.phtml:15
+#: application/view/omeka/admin/item-set/browse.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:40
+#: application/view/omeka/admin/item/browse.phtml:15
+#: application/view/omeka/admin/item/browse.phtml:73
+#: application/view/omeka/admin/item/show.phtml:30
+#: application/view/omeka/admin/job/browse.phtml:11
+#: application/view/omeka/admin/job/browse.phtml:38
+#: application/view/omeka/admin/job/show.phtml:41
+#: application/view/omeka/admin/media/browse.phtml:17
+#: application/view/omeka/admin/media/browse.phtml:81
+#: application/view/omeka/admin/media/show.phtml:23
+#: application/view/omeka/admin/resource-template/browse.phtml:11
+#: application/view/omeka/admin/resource-template/browse.phtml:44
+#: application/view/omeka/admin/resource-template/review-import.phtml:25
+#: application/view/omeka/admin/resource-template/show.phtml:18
+#: application/view/omeka/site/item/browse.phtml:22
+msgid "Class"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:64
+msgid "Unknown class"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:102
+msgid "Unknown property"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:105
+msgid "[Any property]"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:113
+#: application/view/common/advanced-search/properties.phtml:50
+msgid "OR"
+msgstr "ЭСВЭЛ"
+
+#: application/src/View/Helper/SearchFilters.php:115
+#: application/view/common/advanced-search/properties.phtml:49
+msgid "AND"
+msgstr "БА"
+
+#: application/src/View/Helper/SearchFilters.php:124
+#: application/view/common/search-form.phtml:8
+#: application/view/common/search-form.phtml:9
+#: application/view/common/search-form.phtml:10
+#: application/view/layout/layout-admin.phtml:62
+#: application/view/omeka/admin/item-set/search.phtml:13
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:12
+#: application/view/omeka/admin/item/search.phtml:13
+#: application/view/omeka/admin/item/sidebar-select.phtml:24
+#: application/view/omeka/admin/media/search.phtml:13
+#: application/view/omeka/admin/media/sidebar-select.phtml:12
+#: application/view/omeka/admin/user/search.phtml:12
+#: application/view/omeka/site/item-set/search.phtml:13
+#: application/view/omeka/site/item/search.phtml:13
+msgid "Search"
+msgstr "Хайх"
+
+#: application/src/View/Helper/SearchFilters.php:137
+msgid "Template"
+msgstr "Загвар"
+
+#: application/src/View/Helper/SearchFilters.php:141
+msgid "Unknown template"
+msgstr "Тодорхойгүй загвар"
+
+#: application/src/View/Helper/SearchFilters.php:156
+#: application/view/omeka/site/item/browse.phtml:34
+msgid "Item set"
+msgstr "Баримтын бүрдэл"
+
+#: application/src/View/Helper/SearchFilters.php:160
+msgid "Unknown item set"
+msgstr "Тодорхйогүй баримтын бүрдэл"
+
+#: application/src/View/Helper/SearchFilters.php:168
+#: application/view/omeka/site-admin/index/users.phtml:30
+msgid "User"
+msgstr "Хэрэглэгч"
+
+#: application/src/View/Helper/SearchFilters.php:172
+msgid "Unknown user"
+msgstr "Тодорхойгүй хэрэглэгч"
+
+#: application/src/View/Helper/SearchFilters.php:178
+msgid "Site"
+msgstr "Сайт"
+
+#: application/src/View/Helper/SearchFilters.php:182
+#: application/src/View/Helper/SearchUserFilters.php:75
+msgid "Unknown site"
+msgstr "Тодорхойгүй сайт"
+
+#: application/src/View/Helper/SearchUserFilters.php:49
+#: application/view/omeka/admin/user/browse.phtml:10
+#: application/view/omeka/admin/user/browse.phtml:78
+#: application/view/omeka/admin/user/show.phtml:17
+msgid "Email"
+msgstr "имэйл"
+
+#: application/src/View/Helper/SearchUserFilters.php:54
+msgid "Name"
+msgstr "Нэр"
+
+#: application/src/View/Helper/SearchUserFilters.php:59
+#: application/view/omeka/admin/user/browse.phtml:14
+#: application/view/omeka/admin/user/browse.phtml:80
+#: application/view/omeka/admin/user/show.phtml:29
+#: application/view/omeka/site-admin/index/users.phtml:31
+#: application/view/omeka/site-admin/index/users.phtml:46
+msgid "Role"
+msgstr "Үүрэг"
+
+#: application/src/View/Helper/SearchUserFilters.php:62
+msgid "Unknown role"
+msgstr "Тодорхойгүй үүрэг"
+
+#: application/src/View/Helper/SearchUserFilters.php:66
+#: application/view/omeka/admin/user/show.phtml:35
+msgid "Is active"
+msgstr ""
+
+#: application/src/View/Helper/SearchUserFilters.php:67
+#: application/view/omeka/admin/user/show.phtml:37
+msgid "yes"
+msgstr "тийм"
+
+#: application/src/View/Helper/SearchUserFilters.php:67
+#: application/view/omeka/admin/user/show.phtml:37
+msgid "no"
+msgstr "үгүй"
+
+#: application/src/View/Helper/SearchUserFilters.php:71
+#: application/view/common/advanced-search/users.phtml:53
+msgid "Has permission in site"
+msgstr ""
+
+#: application/src/View/Helper/UploadLimit.php:26
+#, php-format
+msgid "The maximum upload size is %s MB."
+msgstr ""
+
+#: application/src/View/Helper/UserBar.php:120
+#: application/src/View/Helper/UserBar.php:161
+#: application/view/omeka/admin/index/browse.phtml:48
+#: application/view/omeka/admin/item-set/browse.phtml:109
+#: application/view/omeka/admin/item-set/edit.phtml:14
+#: application/view/omeka/admin/item/browse.phtml:107
+#: application/view/omeka/admin/item/edit.phtml:14
+#: application/view/omeka/admin/item/manage-media.phtml:44
+#: application/view/omeka/admin/media/browse.phtml:117
+#: application/view/omeka/admin/resource-template/browse.phtml:71
+#: application/view/omeka/admin/user/browse.phtml:101
+#: application/view/omeka/admin/user/edit.phtml:14
+#: application/view/omeka/admin/vocabulary/browse.phtml:59
+#: application/view/omeka/admin/vocabulary/edit.phtml:7
+#: application/view/omeka/site-admin/index/index.phtml:75
+#: application/view/omeka/site-admin/index/show.phtml:15
+#: application/view/omeka/site-admin/page/edit.phtml:11
+#: application/view/omeka/site-admin/page/index.phtml:44
+msgid "Edit"
+msgstr "Засах"
+
+#: application/src/View/Helper/UserBar.php:154
+#: application/view/omeka/site-admin/index/show.phtml:17
+#: application/view/omeka/site-admin/page/edit.phtml:15
+msgid "View"
+msgstr "Харах"
+
+#: application/view/common/advanced-search/item-sets.phtml:15
+msgid "Search by item set"
+msgstr "Баримтын бүрдлээр хайх"
+
+#: application/view/common/advanced-search/item-sets.phtml:16
+#: application/view/common/advanced-search/resource-class.phtml:16
+#: application/view/common/advanced-search/resource-template.phtml:17
+#: application/view/common/form-row.phtml:16
+#: application/view/omeka/admin/item/sidebar-select.phtml:28
+msgid "Expand"
+msgstr "Өргөтгөх"
+
+#: application/view/common/advanced-search/item-sets.phtml:18
+msgid "Searches for items that are assigned to any of these item sets."
+msgstr ""
+
+#: application/view/common/advanced-search/item-sets.phtml:34
+#: application/view/common/advanced-search/properties.phtml:75
+#: application/view/common/advanced-search/resource-class.phtml:31
+#: application/view/common/advanced-search/resource-template.phtml:32
+#: application/view/common/block-layout.phtml:12
+#: application/view/common/data-type-wrapper.phtml:10
+#: application/view/common/media-field-wrapper.phtml:13
+#: application/view/omeka/admin/item/manage-media.phtml:49
+msgid "Remove value"
+msgstr ""
+
+#: application/view/common/advanced-search/item-sets.phtml:37
+#: application/view/omeka/admin/index/browse.phtml:23
+#: application/view/omeka/admin/item-set/browse.phtml:42
+msgid "Add new item set"
+msgstr "Баримтын бүрдэл шинээр нэмэх"
+
+#: application/view/common/advanced-search/media-type.phtml:6
+msgid "Search by MIME type"
+msgstr ""
+
+#: application/view/common/advanced-search/properties.phtml:33
+msgid "Query text"
+msgstr ""
+
+#: application/view/common/advanced-search/properties.phtml:39
+msgid "Search by value"
+msgstr ""
+
+#: application/view/common/advanced-search/properties.phtml:57
+msgid "Property"
+msgstr ""
+
+#: application/view/common/advanced-search/properties.phtml:64
+msgid "Query type"
+msgstr ""
+
+#: application/view/common/advanced-search/properties.phtml:81
+msgid "Add new value"
+msgstr ""
+
+#: application/view/common/advanced-search/resource-class.phtml:15
+msgid "Search by class"
+msgstr ""
+
+#: application/view/common/advanced-search/resource-class.phtml:18
+msgid "Searches for items that are any of these classes."
+msgstr ""
+
+#: application/view/common/advanced-search/resource-class.phtml:34
+msgid "Add new class"
+msgstr ""
+
+#: application/view/common/advanced-search/resource-template.phtml:16
+msgid "Search by template"
+msgstr "Загвараар хайх"
+
+#: application/view/common/advanced-search/resource-template.phtml:19
+msgid "Searches for items that use any of these templates."
+msgstr ""
+
+#: application/view/common/advanced-search/resource-template.phtml:35
+msgid "Add new template"
+msgstr ""
+
+#: application/view/common/advanced-search/site-pool.phtml:12
+msgid "In site pool"
+msgstr ""
+
+#: application/view/common/advanced-search/users.phtml:17
+msgid "Search by email"
+msgstr "Имэйл хаягаар хайх"
+
+#: application/view/common/advanced-search/users.phtml:25
+msgid "Search by name"
+msgstr "Нэрээр хайх"
+
+#: application/view/common/advanced-search/users.phtml:33
+msgid "Search by role"
+msgstr "Үүргээр хайх"
+
+#: application/view/common/advanced-search/users.phtml:44
+msgid "Search by activity"
+msgstr "Үйл ажиллагаагаар хайх"
+
+#: application/view/common/asset-form.phtml:34
+msgid "[No asset selected]"
+msgstr ""
+
+#: application/view/common/asset-form.phtml:37
+msgid "Select"
+msgstr "Сонгох"
+
+#: application/view/common/asset-form.phtml:40
+msgid "Clear"
+msgstr "Цэвэрлэх"
+
+#: application/view/common/attachments-form.phtml:8
+#: application/view/common/attachments-form.phtml:28
+msgid "No item selected"
+msgstr ""
+
+#: application/view/common/attachments-form.phtml:10
+#: application/view/common/attachments-form.phtml:51
+msgid "Open attachment options"
+msgstr ""
+
+#: application/view/common/attachments-form.phtml:11
+#: application/view/common/attachments-form.phtml:52
+msgid "Delete attachment"
+msgstr "Хавсралтыг устгах"
+
+#: application/view/common/attachments-form.phtml:12
+#: application/view/common/attachments-form.phtml:53
+msgid "Restore attachment"
+msgstr "Хавсралтыг сэргээх"
+
+#: application/view/common/attachments-form.phtml:20
+msgid "Attachments"
+msgstr "Хавсралтууд"
+
+#: application/view/common/attachments-form.phtml:60
+msgid "Add attachment"
+msgstr "Хавсралт нэмэх"
+
+#: application/view/common/block-layout.phtml:10
+msgid "Block to be removed"
+msgstr ""
+
+#: application/view/common/block-layout.phtml:13
+#: application/view/common/data-type-wrapper.phtml:11
+#: application/view/omeka/admin/item/manage-media.phtml:53
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:40
+msgid "Restore value"
+msgstr ""
+
+#: application/view/common/block-layout/item-with-metadata.phtml:12
+#: application/view/common/data-type/resource.phtml:29
+#: application/view/common/item-set-selector.phtml:10
+#: application/view/layout/layout-admin.phtml:72
+#: application/view/omeka/admin/item-set/add.phtml:6
+#: application/view/omeka/admin/item-set/browse.phtml:29
+#: application/view/omeka/admin/item-set/edit.phtml:14
+#: application/view/omeka/admin/item-set/search.phtml:5
+#: application/view/omeka/admin/item-set/show.phtml:26
+#: application/view/omeka/admin/item/form.phtml:15
+#: application/view/omeka/admin/item/show-details.phtml:19
+#: application/view/omeka/admin/item/show.phtml:63
+#: application/view/omeka/admin/user/show-details.phtml:17
+#: application/view/omeka/site-admin/index/resources.phtml:23
+#: application/view/omeka/site/item-set/browse.phtml:8
+#: application/view/omeka/site/item/show.phtml:24
+msgid "Item sets"
+msgstr "баримтын бүрдлүүд"
+
+#: application/view/common/data-type-wrapper.phtml:8
+msgid "Value to be removed"
+msgstr ""
+
+#: application/view/common/data-type-wrapper.phtml:13
+#: application/view/common/media-field-wrapper.phtml:9
+#: application/view/omeka/admin/item-set/form.phtml:41
+#: application/view/omeka/admin/item/form.phtml:43
+#: application/view/omeka/admin/item/manage-media.phtml:31
+#: application/view/omeka/admin/media/edit.phtml:52
+#: application/view/omeka/site-admin/index/add.phtml:27
+#: application/view/omeka/site-admin/index/edit.phtml:15
+msgid "Make private"
+msgstr ""
+
+#: application/view/common/data-type/literal.phtml:4
+msgid "Set language"
+msgstr "Хэл тохируулах"
+
+#: application/view/common/data-type/literal.phtml:5
+msgid "Language"
+msgstr "Хэл"
+
+#: application/view/common/data-type/resource.phtml:14
+msgid "No resource selected"
+msgstr ""
+
+#: application/view/common/data-type/resource.phtml:22
+#: application/view/layout/layout-admin.phtml:68
+#: application/view/omeka/admin/item-set/show-details.phtml:18
+#: application/view/omeka/admin/item-set/show.phtml:79
+#: application/view/omeka/admin/item/add.phtml:6
+#: application/view/omeka/admin/item/browse.phtml:29
+#: application/view/omeka/admin/item/edit.phtml:14
+#: application/view/omeka/admin/item/search.phtml:5
+#: application/view/omeka/admin/item/show.phtml:18
+#: application/view/omeka/admin/property/show-details.phtml:18
+#: application/view/omeka/admin/resource-class/show-details.phtml:18
+#: application/view/omeka/admin/resource-template/browse.phtml:19
+#: application/view/omeka/admin/resource-template/show-details.phtml:18
+#: application/view/omeka/admin/user/show-details.phtml:12
+#: application/view/omeka/admin/vocabulary/classes.phtml:15
+#: application/view/omeka/site/index/search.phtml:24
+#: application/view/omeka/site/item/browse.phtml:39
+#: application/view/omeka/site/item/browse.phtml:41
+msgid "Items"
+msgstr "Баримтууд"
+
+#: application/view/common/data-type/resource.phtml:36
+#: application/view/layout/layout-admin.phtml:76
+#: application/view/omeka/admin/item/form.phtml:14
+#: application/view/omeka/admin/item/show-details.phtml:27
+#: application/view/omeka/admin/item/show.phtml:79
+#: application/view/omeka/admin/media/browse.phtml:31
+#: application/view/omeka/admin/media/edit.phtml:16
+#: application/view/omeka/admin/media/edit.phtml:24
+#: application/view/omeka/admin/media/search.phtml:5
+#: application/view/omeka/admin/media/show.phtml:11
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:32
+#: application/view/omeka/site/media/show.phtml:7
+msgid "Media"
+msgstr ""
+
+#: application/view/common/data-type/uri.phtml:6
+#: application/view/common/property-form-batch-edit.phtml:44
+#: application/view/common/resource-form-templates.phtml:24
+msgid "URI"
+msgstr ""
+
+#: application/view/common/data-type/uri.phtml:12
+#: application/view/common/navigation-link-form/browse.phtml:8
+#: application/view/common/navigation-link-form/page.phtml:15
+#: application/view/common/navigation-link-form/url.phtml:8
+#: application/view/common/property-form-batch-edit.phtml:45
+#: application/view/omeka/admin/resource-template/browse.phtml:7
+#: application/view/omeka/admin/resource-template/browse.phtml:43
+#: application/view/omeka/admin/resource-template/form.phtml:55
+#: application/view/omeka/admin/user/edit.phtml:38
+#: application/view/omeka/admin/vocabulary/browse.phtml:7
+#: application/view/omeka/admin/vocabulary/browse.phtml:43
+#: application/view/omeka/admin/vocabulary/classes.phtml:7
+#: application/view/omeka/admin/vocabulary/classes.phtml:37
+#: application/view/omeka/admin/vocabulary/properties.phtml:20
+msgid "Label"
+msgstr ""
+
+#: application/view/common/delete-confirm.phtml:8
+#: application/view/common/item-set-selector.phtml:6
+#: application/view/common/property-selector.phtml:6
+#: application/view/common/resource-select-sidebar.phtml:6
+#: application/view/common/resource-select-sidebar.phtml:12
+#: application/view/common/user-selector.phtml:5
+#: application/view/omeka/admin/asset/sidebar-select.phtml:6
+#: application/view/omeka/admin/item-set/browse.phtml:146
+#: application/view/omeka/admin/item-set/browse.phtml:153
+#: application/view/omeka/admin/item-set/browse.phtml:171
+#: application/view/omeka/admin/item/browse.phtml:144
+#: application/view/omeka/admin/item/browse.phtml:151
+#: application/view/omeka/admin/item/browse.phtml:169
+#: application/view/omeka/admin/item/manage-media.phtml:71
+#: application/view/omeka/admin/media/browse.phtml:154
+#: application/view/omeka/admin/media/browse.phtml:163
+#: application/view/omeka/admin/media/browse.phtml:181
+#: application/view/omeka/admin/module/browse.phtml:159
+#: application/view/omeka/admin/resource-template/browse.phtml:98
+#: application/view/omeka/admin/resource-template/form.phtml:43
+#: application/view/omeka/admin/resource-template/form.phtml:52
+#: application/view/omeka/admin/resource-template/show.phtml:61
+#: application/view/omeka/admin/user/browse.phtml:135
+#: application/view/omeka/admin/user/browse.phtml:144
+#: application/view/omeka/admin/user/browse.phtml:162
+#: application/view/omeka/admin/vocabulary/browse.phtml:92
+#: application/view/omeka/admin/vocabulary/classes.phtml:67
+#: application/view/omeka/admin/vocabulary/properties.phtml:50
+#: application/view/omeka/site-admin/index/index.phtml:101
+#: application/view/omeka/site-admin/index/navigation.phtml:26
+#: application/view/omeka/site-admin/page/edit.phtml:38
+#: application/view/omeka/site-admin/page/index.phtml:65
+msgid "Close"
+msgstr "Хаах"
+
+#: application/view/common/delete-confirm.phtml:12
+#, php-format
+msgid "Delete %s"
+msgstr "Устгах %s"
+
+#: application/view/common/delete-confirm.phtml:13
+#, php-format
+msgid "Are you sure you would like to delete this %s?"
+msgstr ""
+
+#: application/view/common/filter-selector.phtml:6
+msgid "No filter"
+msgstr "Шүүлтүүргүй"
+
+#: application/view/common/filter-selector.phtml:13
+#: application/view/omeka/admin/module/browse.phtml:14
+msgid "Filter"
+msgstr "Шүүлтүүр"
+
+#: application/view/common/form-row.phtml:20
+msgid "Learn more"
+msgstr ""
+
+#: application/view/common/item-set-selector.phtml:7
+msgid "Click on an item set to add it to the edit panel."
+msgstr ""
+
+#: application/view/common/item-set-selector.phtml:8
+msgid "Filter item sets"
+msgstr ""
+
+#: application/view/common/item-set-selector.phtml:17
+#: application/view/omeka/admin/item-set/browse.phtml:93
+#: application/view/omeka/admin/item-set/show.phtml:17
+#: application/view/omeka/admin/item/browse.phtml:91
+#: application/view/omeka/admin/item/manage-item-sets.phtml:21
+#: application/view/omeka/admin/item/show.phtml:8
+#: application/view/omeka/admin/job/browse.phtml:56
+#: application/view/omeka/admin/job/show.phtml:18
+#: application/view/omeka/admin/media/browse.phtml:101
+#: application/view/omeka/admin/resource-template/browse.phtml:61
+#: application/view/omeka/site-admin/index/index.phtml:57
+msgid "[no owner]"
+msgstr "[эзэмшигчгүй]"
+
+#: application/view/common/item-set-selector.phtml:30
+#: application/view/common/property-selector.phtml:33
+msgid "More info"
+msgstr ""
+
+#: application/view/common/linked-resources.phtml:15
+msgid "Filter by property"
+msgstr ""
+
+#: application/view/common/linked-resources.phtml:17
+msgid "All"
+msgstr "Бүгд"
+
+#: application/view/common/linked-resources.phtml:31
+#: application/view/omeka/admin/item-set/browse.phtml:7
+#: application/view/omeka/admin/item-set/browse.phtml:73
+#: application/view/omeka/admin/item/browse.phtml:7
+#: application/view/omeka/admin/item/browse.phtml:72
+#: application/view/omeka/admin/item/manage-item-sets.phtml:9
+#: application/view/omeka/admin/media/browse.phtml:9
+#: application/view/omeka/admin/media/browse.phtml:79
+#: application/view/omeka/site-admin/index/index.phtml:7
+#: application/view/omeka/site-admin/index/index.phtml:39
+#: application/view/omeka/site-admin/index/resources.phtml:61
+#: application/view/omeka/site-admin/index/show.phtml:28
+#: application/view/omeka/site-admin/page/index.phtml:18
+#: application/view/omeka/site/item/browse.phtml:14
+msgid "Title"
+msgstr ""
+
+#: application/view/common/linked-resources.phtml:32
+#: application/view/omeka/admin/resource-template/review-import.phtml:38
+#: application/view/omeka/admin/resource-template/show.phtml:28
+msgid "Alternate label"
+msgstr ""
+
+#: application/view/common/navigation-link-form/browse.phtml:7
+#: application/view/common/navigation-link-form/page.phtml:13
+#: application/view/common/navigation-link-form/url.phtml:7
+msgid "Type"
+msgstr "Төрөл"
+
+#: application/view/common/navigation-link-form/browse.phtml:9
+msgid "Query"
+msgstr ""
+
+#: application/view/common/navigation-link-form/page.phtml:14
+#: application/view/common/pagination.phtml:8
+#: application/view/common/sidebar-pagination.phtml:5
+msgid "Page"
+msgstr "Хуудас"
+
+#: application/view/common/navigation-link-form/url.phtml:9
+msgid "URL"
+msgstr ""
+
+#: application/view/common/pagination.phtml:9
+#: application/view/common/sidebar-pagination.phtml:6
+#, php-format
+msgid "of %s"
+msgstr ""
+
+#: application/view/common/pagination.phtml:13
+#: application/view/common/sidebar-pagination.phtml:9
+msgid "Previous"
+msgstr "Өмнөх"
+
+#: application/view/common/pagination.phtml:19
+#: application/view/common/sidebar-pagination.phtml:15
+#: application/view/common/site-page-pagination.phtml:4
+msgid "Next"
+msgstr "Дараагийн"
+
+#: application/view/common/pagination.phtml:28
+#, php-format
+msgid "%1$s–%2$s of %3$s"
+msgstr ""
+
+#: application/view/common/pagination.phtml:30
+msgid "0 results"
+msgstr "0 үр дүн"
+
+#: application/view/common/property-form-batch-edit.phtml:7
+msgid "Select property"
+msgstr ""
+
+#: application/view/common/property-form-batch-edit.phtml:12
+#: application/view/common/property-form-batch-edit.phtml:76
+msgid "Add text value"
+msgstr ""
+
+#: application/view/common/property-form-batch-edit.phtml:17
+#: application/view/common/property-form-batch-edit.phtml:31
+#: application/view/common/property-form-batch-edit.phtml:46
+#: application/view/common/property-form-batch-edit.phtml:66
+#: application/view/omeka/admin/item-set/show-details.phtml:14
+#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item/show-details.phtml:14
+#: application/view/omeka/admin/item/show.phtml:58
+#: application/view/omeka/admin/media/show-details.phtml:38
+#: application/view/omeka/admin/media/show.phtml:33
+msgid "Public"
+msgstr "Нийтийн"
+
+#: application/view/common/property-form-batch-edit.phtml:18
+#: application/view/common/property-form-batch-edit.phtml:32
+#: application/view/common/property-form-batch-edit.phtml:47
+#: application/view/common/property-form-batch-edit.phtml:67
+msgid "Not public"
+msgstr "Нийтийн биш"
+
+#: application/view/common/property-form-batch-edit.phtml:20
+#: application/view/common/property-form-batch-edit.phtml:34
+#: application/view/common/property-form-batch-edit.phtml:49
+msgid "Remove"
+msgstr "Хасах"
+
+#: application/view/common/property-form-batch-edit.phtml:26
+#: application/view/common/property-form-batch-edit.phtml:77
+msgid "Add resource value"
+msgstr ""
+
+#: application/view/common/property-form-batch-edit.phtml:30
+msgid "Resource ID"
+msgstr ""
+
+#: application/view/common/property-form-batch-edit.phtml:40
+#: application/view/common/property-form-batch-edit.phtml:78
+msgid "Add URI value"
+msgstr ""
+
+#: application/view/common/property-selector.phtml:10
+msgid "Click on a property to add it to the edit panel."
+msgstr ""
+
+#: application/view/common/property-selector.phtml:12
+msgid "Filter properties"
+msgstr "Шүүлтүүрийн тохиргоо"
+
+#: application/view/common/resource-fields.phtml:34
+#: application/view/omeka/admin/resource-template/form.phtml:32
+msgid "Add property"
+msgstr ""
+
+#: application/view/common/resource-fields.phtml:41
+msgid ""
+"Omeka S automatically selects a thumbnail from among attached media for a "
+"resource. You may use an image of your choice instead by choosing an asset "
+"here."
+msgstr ""
+
+#: application/view/common/resource-form-templates.phtml:10
+#: application/view/omeka/admin/item/sidebar-select.phtml:28
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:35
+#: application/view/omeka/site-admin/page/edit.phtml:44
+msgid "Collapse"
+msgstr ""
+
+#: application/view/common/resource-form-templates.phtml:13
+msgid "Property term for development use"
+msgstr ""
+
+#: application/view/common/resource-form-templates.phtml:18
+msgid "Select the first value type."
+msgstr ""
+
+#: application/view/common/resource-form-templates.phtml:21
+#: application/view/common/resource-form-templates.phtml:27
+#: application/view/common/resource-form-templates.phtml:28
+msgid "Add value"
+msgstr ""
+
+#: application/view/common/resource-form-templates.phtml:22
+msgid "Text"
+msgstr "Текст"
+
+#: application/view/common/resource-form-templates.phtml:23
+msgid "Omeka resource"
+msgstr "Омека нөөц"
+
+#: application/view/common/resource-select-sidebar.phtml:20
+msgid "Select resource"
+msgstr "Нөөц сонгох"
+
+#: application/view/common/site-page-pagination.phtml:3
+msgid "Prev"
+msgstr "Өмнөх"
+
+#: application/view/common/sort-link.phtml:4
+msgid "Switch to descending order"
+msgstr "Буурахаар эрэмблэхээр солих"
+
+#: application/view/common/sort-link.phtml:6
+msgid "Switch to ascending order"
+msgstr "Өсөхөөр эрэмблэхээр солих"
+
+#: application/view/common/sort-link.phtml:8
+#, php-format
+msgid "Sort by %s"
+msgstr ""
+
+#: application/view/common/sort-selector.phtml:7
+msgid "Sort by"
+msgstr "Эрэмбэлэх"
+
+#: application/view/common/sort-selector.phtml:13
+msgid "Sort order"
+msgstr ""
+
+#: application/view/common/sort-selector.phtml:14
+msgid "Ascending"
+msgstr "Өсөхөөр"
+
+#: application/view/common/sort-selector.phtml:15
+msgid "Descending"
+msgstr "Буурахаар"
+
+#: application/view/common/sort-selector.phtml:17
+msgid "Sort"
+msgstr "Эрэмблэх"
+
+#: application/view/common/user-bar.phtml:22
+#: application/view/layout/layout-admin.phtml:48
+#, php-format
+msgid "Signed in as %s"
+msgstr ""
+
+#: application/view/common/user-bar.phtml:25
+#: application/view/layout/layout-admin.phtml:52
+msgid "Logout"
+msgstr "Гарах"
+
+#: application/view/common/user-bar.phtml:28
+#: application/view/omeka/login/login.phtml:5
+msgid "Log in"
+msgstr "Нэвтрэх"
+
+#: application/view/common/user-selector.phtml:11
+msgid "Click on a user to add it to the edit panel."
+msgstr ""
+
+#: application/view/common/user-selector.phtml:14
+msgid "Filter users"
+msgstr "Хэрэглэгчийн шүүлтүүр"
+
+#: application/view/common/user-selector.phtml:16
+#, php-format
+msgid "Users (%s)"
+msgstr ""
+
+#: application/view/common/version-notification.phtml:8
+#, php-format
+msgid "A new version of Omeka S is available. %s"
+msgstr ""
+
+#: application/view/common/version-notification.phtml:12
+#: application/view/omeka/admin/module/browse.phtml:62
+#: application/view/omeka/site-admin/index/theme.phtml:55
+msgid "Get the new version."
+msgstr "Шинэ хувилбар татах."
+
+#: application/view/error/403.phtml:4
+msgid "Forbidden"
+msgstr "Мартагдсан"
+
+#: application/view/error/404.phtml:12
+#, php-format
+msgid "Reason: %s"
+msgstr ""
+
+#: application/view/error/index.phtml:4
+msgid "Omeka S encountered an error"
+msgstr ""
+
+#: application/view/error/index.phtml:11
+msgid "Details:"
+msgstr ""
+
+#: application/view/layout/layout-admin.phtml:23
+#: application/view/omeka/site-admin/index/resources.phtml:20
+msgid "Resources"
+msgstr "Нөөцүүд"
+
+#: application/view/layout/layout-admin.phtml:24
+#: application/view/omeka/site-admin/index/add.phtml:7
+#: application/view/omeka/site-admin/index/users.phtml:12
+msgid "Admin"
+msgstr "Админ"
+
+#: application/view/layout/layout-admin.phtml:37
+msgid "Skip to main content"
+msgstr ""
+
+#: application/view/layout/layout-admin.phtml:42
+msgid "Navigation menu"
+msgstr "Удирдлагын цэс"
+
+#: application/view/layout/layout-admin.phtml:43
+msgid "Search site"
+msgstr "Сайтаас хайх"
+
+#: application/view/layout/layout-admin.phtml:44
+msgid "User menu"
+msgstr "Хэрэглэгчийн цэс"
+
+#: application/view/layout/layout-admin.phtml:54
+msgid "not logged in"
+msgstr "нэвтрээгүй байна"
+
+#: application/view/layout/layout-admin.phtml:61
+msgid "Advanced options"
+msgstr "Ахисан түвшний тохиргоо"
+
+#: application/view/layout/layout-admin.phtml:64
+msgid "Resource type"
+msgstr "Нөөцийн төрөл"
+
+#: application/view/layout/layout-admin.phtml:66
+msgid "Search items"
+msgstr "Баримт хайх"
+
+#: application/view/layout/layout-admin.phtml:70
+msgid "Search item sets"
+msgstr "Баримтын бүрдэл хайх"
+
+#: application/view/layout/layout-admin.phtml:74
+msgid "Search media"
+msgstr ""
+
+#: application/view/layout/layout-admin.phtml:87
+#: application/view/omeka/site-admin/index/index.phtml:70
+msgid "View public site"
+msgstr ""
+
+#: application/view/layout/layout-admin.phtml:93
+#: application/view/omeka/admin/module/browse.phtml:11
+#: application/view/omeka/admin/module/configure.phtml:6
+msgid "Modules"
+msgstr ""
+
+#: application/view/layout/layout-admin.phtml:111
+msgid "Omeka S"
+msgstr "Омека Эс - Omeka S"
+
+#: application/view/layout/layout-admin.phtml:111
+#: application/view/omeka/admin/module/browse.phtml:39
+#: application/view/omeka/site-admin/index/theme-selector.phtml:37
+#: application/view/omeka/site-admin/index/theme.phtml:35
+#, php-format
+msgid "version %s"
+msgstr "хувилбар %s"
+
+#: application/view/layout/layout-admin.phtml:112
+#: application/view/omeka/admin/system-info/browse.phtml:4
+msgid "System information"
+msgstr "Системийн мэдээлэл"
+
+#: application/view/layout/layout-admin.phtml:113
+msgid "User manual"
+msgstr "Хэрэглэгчийн гарын авлага"
+
+#: application/view/layout/layout-admin.phtml:114
+msgid "Support forums"
+msgstr "Дэмжлэг үзүүлэх форум"
+
+#: application/view/layout/layout.phtml:30
+msgid "Powered by Omeka S"
+msgstr "Суурилсан програм - Омека Эс - Omeka S"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:9
+msgid "Upload new asset"
+msgstr ""
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:12
+msgid "Upload"
+msgstr "Хуулах-Upload"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:17
+msgid "Select asset"
+msgstr ""
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:26
+msgid "No owner"
+msgstr "Эзэмшигчгүй"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:33
+msgid "Filter by owner"
+msgstr ""
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:49
+msgid "Delete asset"
+msgstr ""
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:53
+msgid "Cancel delete"
+msgstr "Устгахыг болиулах"
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:73
+msgid "assets"
+msgstr ""
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:78
+msgid ""
+"Are you sure you want to delete this asset? It will no longer be available "
+"to any resources currently using it."
+msgstr ""
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:79
+msgid "Confirm delete"
+msgstr "Устгахыг баталгаажуулах"
+
+#: application/view/omeka/admin/index/browse.phtml:4
+#: application/view/omeka/index/index.phtml:26
+msgid "Admin dashboard"
+msgstr "Админы удирдлагын самбар"
+
+#: application/view/omeka/admin/index/browse.phtml:9
+#, php-format
+msgid "Welcome to the %s admin dashboard!"
+msgstr ""
+
+#: application/view/omeka/admin/index/browse.phtml:12
+msgid "Manage resources"
+msgstr "Нөөцийг удирдах"
+
+#: application/view/omeka/admin/index/browse.phtml:15
+#, php-format
+msgid "Items (%s)"
+msgstr ""
+
+#: application/view/omeka/admin/index/browse.phtml:17
+#: application/view/omeka/admin/item/browse.phtml:41
+msgid "Add new item"
+msgstr "Шинэ браимт нэмэх"
+
+#: application/view/omeka/admin/index/browse.phtml:21
+#, php-format
+msgid "Item sets (%s)"
+msgstr ""
+
+#: application/view/omeka/admin/index/browse.phtml:27
+#, php-format
+msgid "Vocabularies (%s)"
+msgstr ""
+
+#: application/view/omeka/admin/index/browse.phtml:29
+#: application/view/omeka/admin/vocabulary/browse.phtml:29
+msgid "Import new vocabulary"
+msgstr ""
+
+#: application/view/omeka/admin/index/browse.phtml:33
+#, php-format
+msgid "Resource templates (%s)"
+msgstr ""
+
+#: application/view/omeka/admin/index/browse.phtml:35
+#: application/view/omeka/admin/resource-template/browse.phtml:30
+msgid "Add new resource template"
+msgstr ""
+
+#: application/view/omeka/admin/index/browse.phtml:42
+msgid "Manage sites"
+msgstr "Сайт удирдах"
+
+#: application/view/omeka/admin/index/browse.phtml:53
+msgid "Add site"
+msgstr "Сайт нэмэх"
+
+#: application/view/omeka/admin/item-set/add.phtml:6
+msgid "New item set"
+msgstr "Шинэ баримтын бүрдэл"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:7
+msgid "Batch edit item sets"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:19
+#: application/view/omeka/admin/item-set/edit.phtml:20
+#: application/view/omeka/admin/item-set/form.phtml:54
+#: application/view/omeka/admin/item/batch-edit.phtml:19
+#: application/view/omeka/admin/item/edit.phtml:22
+#: application/view/omeka/admin/media/batch-edit.phtml:21
+#: application/view/omeka/admin/media/edit.phtml:66
+#: application/view/omeka/admin/resource-template/edit.phtml:15
+#: application/view/omeka/admin/setting/browse.phtml:11
+#: application/view/omeka/admin/user/batch-edit.phtml:19
+#: application/view/omeka/admin/user/edit.phtml:19
+#: application/view/omeka/admin/vocabulary/edit.phtml:13
+#: application/view/omeka/site-admin/index/edit.phtml:29
+#: application/view/omeka/site-admin/index/navigation.phtml:17
+#: application/view/omeka/site-admin/index/resources.phtml:31
+#: application/view/omeka/site-admin/index/settings.phtml:10
+#: application/view/omeka/site-admin/index/theme-settings.phtml:12
+#: application/view/omeka/site-admin/index/theme.phtml:18
+#: application/view/omeka/site-admin/index/users.phtml:23
+#: application/view/omeka/site-admin/page/edit.phtml:18
+msgid "Save"
+msgstr "Хадгалах"
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:27
+msgid "Affected item sets"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:29
+#, php-format
+msgid "You are editing the following %s item sets:"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/batch-edit.phtml:36
+#, php-format
+msgid "You are editing %s item sets."
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:11
+#: application/view/omeka/admin/item/browse.phtml:11
+#: application/view/omeka/admin/media/browse.phtml:13
+#: application/view/omeka/site/item/browse.phtml:18
+msgid "Identifier"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:19
+#: application/view/omeka/admin/item-set/browse.phtml:76
+#: application/view/omeka/admin/item-set/show.phtml:70
+#: application/view/omeka/admin/item/browse.phtml:19
+#: application/view/omeka/admin/item/browse.phtml:74
+#: application/view/omeka/admin/item/manage-item-sets.phtml:10
+#: application/view/omeka/admin/item/show.phtml:74
+#: application/view/omeka/admin/job/browse.phtml:19
+#: application/view/omeka/admin/job/browse.phtml:40
+#: application/view/omeka/admin/job/show.phtml:45
+#: application/view/omeka/admin/media/browse.phtml:21
+#: application/view/omeka/admin/media/browse.phtml:82
+#: application/view/omeka/admin/resource-template/browse.phtml:15
+#: application/view/omeka/admin/resource-template/browse.phtml:45
+#: application/view/omeka/site-admin/index/index.phtml:15
+#: application/view/omeka/site-admin/index/index.phtml:41
+#: application/view/omeka/site-admin/index/resources.phtml:62
+msgid "Owner"
+msgstr "Эзэмшигч"
+
+#: application/view/omeka/admin/item-set/browse.phtml:23
+#: application/view/omeka/admin/item-set/browse.phtml:77
+#: application/view/omeka/admin/item-set/show.phtml:66
+#: application/view/omeka/admin/item/browse.phtml:23
+#: application/view/omeka/admin/item/browse.phtml:75
+#: application/view/omeka/admin/item/show.phtml:70
+#: application/view/omeka/admin/media/browse.phtml:25
+#: application/view/omeka/admin/media/browse.phtml:83
+#: application/view/omeka/admin/media/show.phtml:41
+#: application/view/omeka/admin/user/browse.phtml:18
+#: application/view/omeka/admin/user/browse.phtml:81
+#: application/view/omeka/site/item/browse.phtml:26
+msgid "Created"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:35
+#: application/view/omeka/admin/item-set/search.phtml:5
+#: application/view/omeka/admin/item/browse.phtml:35
+#: application/view/omeka/admin/item/search.phtml:5
+#: application/view/omeka/admin/media/browse.phtml:37
+#: application/view/omeka/admin/media/search.phtml:5
+#: application/view/omeka/admin/user/browse.phtml:30
+#: application/view/omeka/admin/user/search.phtml:5
+#: application/view/omeka/site/item-set/browse.phtml:14
+#: application/view/omeka/site/item/browse.phtml:48
+msgid "Advanced search"
+msgstr "Ахисан түвшний хайлт"
+
+#: application/view/omeka/admin/item-set/browse.phtml:51
+#: application/view/omeka/admin/item-set/browse.phtml:52
+#: application/view/omeka/admin/item/browse.phtml:50
+#: application/view/omeka/admin/item/browse.phtml:51
+#: application/view/omeka/admin/media/browse.phtml:46
+#: application/view/omeka/admin/media/browse.phtml:47
+#: application/view/omeka/admin/user/browse.phtml:45
+#: application/view/omeka/admin/user/browse.phtml:46
+msgid "Batch actions"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:53
+#: application/view/omeka/admin/item/browse.phtml:52
+#: application/view/omeka/admin/media/browse.phtml:49
+#: application/view/omeka/admin/user/browse.phtml:48
+msgid "Edit selected"
+msgstr "Сонигосныг засах"
+
+#: application/view/omeka/admin/item-set/browse.phtml:54
+#: application/view/omeka/admin/item/browse.phtml:53
+#: application/view/omeka/admin/media/browse.phtml:50
+#: application/view/omeka/admin/user/browse.phtml:49
+msgid "Edit all"
+msgstr "Бүгдийг засах"
+
+#: application/view/omeka/admin/item-set/browse.phtml:55
+#: application/view/omeka/admin/item/browse.phtml:54
+#: application/view/omeka/admin/media/browse.phtml:53
+#: application/view/omeka/admin/user/browse.phtml:52
+msgid "Delete selected"
+msgstr "Сонгосныг устгах"
+
+#: application/view/omeka/admin/item-set/browse.phtml:56
+#: application/view/omeka/admin/item/browse.phtml:55
+#: application/view/omeka/admin/media/browse.phtml:54
+#: application/view/omeka/admin/user/browse.phtml:53
+msgid "Delete all"
+msgstr "Бүгдийг устгах"
+
+#: application/view/omeka/admin/item-set/browse.phtml:59
+#: application/view/omeka/admin/item-set/browse.phtml:60
+#: application/view/omeka/admin/item-set/browse.phtml:61
+#: application/view/omeka/admin/item-set/browse.phtml:63
+#: application/view/omeka/admin/item-set/browse.phtml:64
+#: application/view/omeka/admin/item/browse.phtml:58
+#: application/view/omeka/admin/item/browse.phtml:59
+#: application/view/omeka/admin/item/browse.phtml:60
+#: application/view/omeka/admin/item/browse.phtml:62
+#: application/view/omeka/admin/item/browse.phtml:63
+#: application/view/omeka/admin/media/browse.phtml:58
+#: application/view/omeka/admin/media/browse.phtml:60
+#: application/view/omeka/admin/media/browse.phtml:61
+#: application/view/omeka/admin/media/browse.phtml:65
+#: application/view/omeka/admin/media/browse.phtml:66
+#: application/view/omeka/admin/user/browse.phtml:57
+#: application/view/omeka/admin/user/browse.phtml:59
+#: application/view/omeka/admin/user/browse.phtml:60
+#: application/view/omeka/admin/user/browse.phtml:64
+#: application/view/omeka/admin/user/browse.phtml:65
+msgid "Go"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:72
+#: application/view/omeka/admin/item/browse.phtml:72
+#: application/view/omeka/admin/media/browse.phtml:77
+msgid "Select all"
+msgstr "Бүгдийг сонгох"
+
+#: application/view/omeka/admin/item-set/browse.phtml:99
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:8
+msgid "Select item set"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:103
+#: application/view/omeka/admin/item-set/show-details.phtml:14
+#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item/browse.phtml:101
+#: application/view/omeka/admin/item/show-details.phtml:14
+#: application/view/omeka/admin/item/show.phtml:58
+#: application/view/omeka/admin/media/browse.phtml:111
+#: application/view/omeka/admin/media/show-details.phtml:38
+#: application/view/omeka/admin/media/show.phtml:33
+#: application/view/omeka/admin/resource-template/form.phtml:90
+#: application/view/omeka/site-admin/index/index.phtml:64
+msgid "Private"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:117
+#: application/view/omeka/admin/item-set/edit.phtml:6
+#: application/view/omeka/admin/item/browse.phtml:115
+#: application/view/omeka/admin/item/edit.phtml:6
+#: application/view/omeka/admin/media/browse.phtml:125
+#: application/view/omeka/admin/media/edit.phtml:63
+#: application/view/omeka/admin/resource-template/browse.phtml:78
+#: application/view/omeka/admin/resource-template/form.phtml:13
+#: application/view/omeka/admin/user/browse.phtml:108
+#: application/view/omeka/admin/user/edit.phtml:40
+#: application/view/omeka/admin/vocabulary/browse.phtml:66
+#: application/view/omeka/admin/vocabulary/edit.phtml:11
+#: application/view/omeka/site-admin/index/edit.phtml:26
+#: application/view/omeka/site-admin/index/index.phtml:82
+#: application/view/omeka/site-admin/index/users.phtml:7
+#: application/view/omeka/site-admin/page/edit.phtml:16
+msgid "Delete"
+msgstr "Устгах"
+
+#: application/view/omeka/admin/item-set/browse.phtml:124
+#: application/view/omeka/admin/item/browse.phtml:122
+#: application/view/omeka/admin/media/browse.phtml:132
+#: application/view/omeka/admin/resource-template/browse.phtml:84
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:26
+#: application/view/omeka/admin/resource-template/show.phtml:44
+#: application/view/omeka/admin/user/browse.phtml:114
+#: application/view/omeka/admin/vocabulary/browse.phtml:73
+#: application/view/omeka/admin/vocabulary/classes.phtml:52
+#: application/view/omeka/admin/vocabulary/properties.phtml:35
+msgid "Details"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:157
+#: application/view/omeka/admin/item-set/browse.phtml:175
+msgid "Delete item sets"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:158
+msgid "Are you sure you would like to delete the selected item sets?"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:160
+#: application/view/omeka/admin/item-set/browse.phtml:178
+#, php-format
+msgid ""
+"%1$s: this action will permanently delete %2$s item sets and cannot be "
+"undone."
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:161
+#: application/view/omeka/admin/item-set/browse.phtml:179
+#: application/view/omeka/admin/item/browse.phtml:159
+#: application/view/omeka/admin/item/browse.phtml:177
+#: application/view/omeka/admin/media/browse.phtml:171
+#: application/view/omeka/admin/media/browse.phtml:189
+#: application/view/omeka/admin/user/browse.phtml:152
+#: application/view/omeka/admin/user/browse.phtml:170
+msgid "Warning"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:176
+msgid ""
+"Are you sure you would like to delete all item sets on all pages of this "
+"result?"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:182
+#: application/view/omeka/admin/item/browse.phtml:180
+#: application/view/omeka/admin/media/browse.phtml:192
+#: application/view/omeka/admin/user/browse.phtml:173
+msgid "Are you sure?"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/browse.phtml:216
+msgid "Omeka could not find any item sets."
+msgstr ""
+
+#: application/view/omeka/admin/item-set/form.phtml:12
+#: application/view/omeka/admin/item/form.phtml:13
+#: application/view/omeka/admin/media/edit.phtml:12
+msgid "Values"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/form.phtml:13
+#: application/view/omeka/admin/item/form.phtml:16
+#: application/view/omeka/admin/media/edit.phtml:13
+msgid "Thumbnail"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/form.phtml:27
+msgid "Close item set"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/form.phtml:33
+msgid "Open item set"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/form.phtml:47
+#: application/view/omeka/admin/item/form.phtml:49
+#: application/view/omeka/admin/item/manage-media.phtml:37
+#: application/view/omeka/admin/media/edit.phtml:58
+#: application/view/omeka/site-admin/index/add.phtml:21
+#: application/view/omeka/site-admin/index/edit.phtml:21
+msgid "Make public"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/search.phtml:12
+#: application/view/omeka/admin/item/search.phtml:12
+#: application/view/omeka/admin/media/search.phtml:12
+msgid "Reset"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/show-details.phtml:13
+#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item/show-details.phtml:13
+#: application/view/omeka/admin/item/show.phtml:57
+#: application/view/omeka/admin/media/show-details.phtml:37
+#: application/view/omeka/admin/media/show.phtml:32
+msgid "Visibility"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/show-details.phtml:15
+#: application/view/omeka/admin/item-set/show.phtml:76
+msgid "Open to additions"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/show-details.phtml:15
+#: application/view/omeka/admin/item-set/show.phtml:76
+msgid "Closed to additions"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/show.phtml:21
+#: application/view/omeka/admin/item/show.phtml:12
+#: application/view/omeka/admin/media/show.phtml:7
+msgid "Metadata"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/show.phtml:22
+#: application/view/omeka/admin/item/show.phtml:13
+#: application/view/omeka/site/item/show.phtml:45
+msgid "Linked resources"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/show.phtml:30
+msgid "Edit item set"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/show.phtml:32
+msgid "View items"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/show.phtml:54
+msgid "The following resources link to this item set:"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/show.phtml:58
+msgid "No resources link to this item set."
+msgstr ""
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:39
+msgid "item sets"
+msgstr ""
+
+#: application/view/omeka/admin/item/add.phtml:6
+msgid "New item"
+msgstr ""
+
+#: application/view/omeka/admin/item/add.phtml:13
+#: application/view/omeka/admin/resource-template/add.phtml:14
+#: application/view/omeka/admin/user/add.phtml:13
+#: application/view/omeka/site-admin/index/add-page.phtml:10
+#: application/view/omeka/site-admin/index/add.phtml:32
+msgid "Add"
+msgstr ""
+
+#: application/view/omeka/admin/item/batch-edit.phtml:7
+msgid "Batch edit items"
+msgstr ""
+
+#: application/view/omeka/admin/item/batch-edit.phtml:27
+msgid "Affected items"
+msgstr ""
+
+#: application/view/omeka/admin/item/batch-edit.phtml:29
+#, php-format
+msgid "You are editing the following %s items:"
+msgstr ""
+
+#: application/view/omeka/admin/item/batch-edit.phtml:36
+#, php-format
+msgid "You are editing %s items."
+msgstr ""
+
+#: application/view/omeka/admin/item/browse.phtml:97
+#: application/view/omeka/admin/item/sidebar-select.phtml:10
+msgid "Select item"
+msgstr ""
+
+#: application/view/omeka/admin/item/browse.phtml:155
+#: application/view/omeka/admin/item/browse.phtml:173
+msgid "Delete items"
+msgstr ""
+
+#: application/view/omeka/admin/item/browse.phtml:156
+msgid "Are you sure you would like to delete the selected items?"
+msgstr ""
+
+#: application/view/omeka/admin/item/browse.phtml:158
+#: application/view/omeka/admin/item/browse.phtml:176
+#, php-format
+msgid ""
+"%1$s: this action will permanently delete %2$s items and cannot be undone."
+msgstr ""
+
+#: application/view/omeka/admin/item/browse.phtml:174
+msgid ""
+"Are you sure you would like to delete all items on all pages of this result?"
+msgstr ""
+
+#: application/view/omeka/admin/item/browse.phtml:214
+msgid "Omeka could not find any items."
+msgstr ""
+
+#: application/view/omeka/admin/item/manage-item-sets.phtml:30
+#: application/view/omeka/admin/item/manage-item-sets.phtml:53
+#: application/view/omeka/site-admin/index/resources.phtml:14
+msgid "Remove item set"
+msgstr ""
+
+#: application/view/omeka/admin/item/manage-item-sets.phtml:40
+msgid ""
+"This item is part of no item sets. Add it to an item set using the interface"
+" to the right."
+msgstr ""
+
+#: application/view/omeka/admin/item/manage-item-sets.phtml:43
+msgid "Add to item set"
+msgstr ""
+
+#: application/view/omeka/admin/item/manage-media.phtml:22
+msgid "Media to be removed"
+msgstr ""
+
+#: application/view/omeka/admin/item/manage-media.phtml:64
+msgid ""
+"This resource has no media.<br>Start adding media using the sidebar to the "
+"right."
+msgstr ""
+
+#: application/view/omeka/admin/item/manage-media.phtml:68
+#: application/view/omeka/admin/item/manage-media.phtml:72
+msgid "Add media"
+msgstr ""
+
+#: application/view/omeka/admin/item/show.phtml:21
+msgid "Edit item"
+msgstr ""
+
+#: application/view/omeka/admin/item/show.phtml:44
+msgid "The following resources link to this item:"
+msgstr ""
+
+#: application/view/omeka/admin/item/show.phtml:48
+msgid "No resources link to this item."
+msgstr ""
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:28
+msgid "Filter search"
+msgstr ""
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:57
+msgid "Filter by item ID"
+msgstr ""
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:67
+msgid "Quick add"
+msgstr ""
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:98
+msgid "items"
+msgstr ""
+
+#: application/view/omeka/admin/job/browse.phtml:7
+#: application/view/omeka/admin/job/browse.phtml:37
+#: application/view/omeka/admin/user/edit.phtml:39
+msgid "ID"
+msgstr ""
+
+#: application/view/omeka/admin/job/browse.phtml:15
+#: application/view/omeka/admin/job/browse.phtml:39
+#: application/view/omeka/admin/job/show.phtml:29
+msgid "Status"
+msgstr ""
+
+#: application/view/omeka/admin/job/browse.phtml:25
+#: application/view/omeka/admin/job/show.phtml:21
+msgid "Jobs"
+msgstr ""
+
+#: application/view/omeka/admin/job/browse.phtml:78
+msgid "Omeka could not find any jobs."
+msgstr ""
+
+#: application/view/omeka/admin/job/show.phtml:8
+msgid "[not started]"
+msgstr ""
+
+#: application/view/omeka/admin/job/show.phtml:13
+msgid "[not ended]"
+msgstr ""
+
+#: application/view/omeka/admin/job/show.phtml:33
+msgid "Started"
+msgstr ""
+
+#: application/view/omeka/admin/job/show.phtml:37
+msgid "Ended"
+msgstr ""
+
+#: application/view/omeka/admin/job/show.phtml:49
+msgid "Args"
+msgstr ""
+
+#: application/view/omeka/admin/job/show.phtml:54
+msgid "[no args]"
+msgstr ""
+
+#: application/view/omeka/admin/job/show.phtml:58
+msgid "Log"
+msgstr ""
+
+#: application/view/omeka/admin/job/show.phtml:61
+msgid "view log"
+msgstr ""
+
+#: application/view/omeka/admin/job/show.phtml:65
+msgid "[no log]"
+msgstr ""
+
+#: application/view/omeka/admin/media/batch-edit.phtml:9
+msgid "Batch edit medias"
+msgstr ""
+
+#: application/view/omeka/admin/media/batch-edit.phtml:29
+msgid "Affected medias"
+msgstr ""
+
+#: application/view/omeka/admin/media/batch-edit.phtml:31
+#, php-format
+msgid "You are editing the following %s medias:"
+msgstr ""
+
+#: application/view/omeka/admin/media/batch-edit.phtml:38
+#, php-format
+msgid "You are editing %s medias."
+msgstr ""
+
+#: application/view/omeka/admin/media/browse.phtml:107
+#: application/view/omeka/admin/media/sidebar-select.phtml:8
+msgid "Select media"
+msgstr ""
+
+#: application/view/omeka/admin/media/browse.phtml:167
+#: application/view/omeka/admin/media/browse.phtml:185
+msgid "Delete medias"
+msgstr ""
+
+#: application/view/omeka/admin/media/browse.phtml:168
+msgid "Are you sure you would like to delete the selected medias?"
+msgstr ""
+
+#: application/view/omeka/admin/media/browse.phtml:170
+#: application/view/omeka/admin/media/browse.phtml:188
+#, php-format
+msgid ""
+"%1$s: this action will permanently delete %2$s medias and cannot be undone."
+msgstr ""
+
+#: application/view/omeka/admin/media/browse.phtml:186
+msgid ""
+"Are you sure you would like to delete all medias on all pages of this "
+"result?"
+msgstr ""
+
+#: application/view/omeka/admin/media/browse.phtml:227
+msgid "Omeka could not find any medias."
+msgstr ""
+
+#: application/view/omeka/admin/media/show-details.phtml:18
+msgid "Part of Item"
+msgstr ""
+
+#: application/view/omeka/admin/media/show-details.phtml:24
+#: application/view/omeka/admin/media/show.phtml:46
+msgid "MIME type"
+msgstr ""
+
+#: application/view/omeka/admin/media/show-details.phtml:31
+#: application/view/omeka/admin/media/show.phtml:52
+msgid "Size"
+msgstr ""
+
+#: application/view/omeka/admin/media/show-details.phtml:32
+#: application/view/omeka/admin/media/show.phtml:53
+#, php-format
+msgid "%s bytes"
+msgstr ""
+
+#: application/view/omeka/admin/media/show.phtml:14
+msgid "Edit media"
+msgstr ""
+
+#: application/view/omeka/admin/media/show.phtml:36
+msgid "Part of item"
+msgstr ""
+
+#: application/view/omeka/admin/media/show.phtml:57
+msgid "Ingester"
+msgstr ""
+
+#: application/view/omeka/admin/media/show.phtml:62
+msgid "Source"
+msgstr ""
+
+#: application/view/omeka/admin/media/show.phtml:68
+msgid "File Derivatives"
+msgstr ""
+
+#: application/view/omeka/admin/media/show.phtml:70
+msgid "original"
+msgstr ""
+
+#: application/view/omeka/admin/media/show.phtml:73
+msgid "large"
+msgstr ""
+
+#: application/view/omeka/admin/media/show.phtml:74
+msgid "medium"
+msgstr ""
+
+#: application/view/omeka/admin/media/show.phtml:75
+msgid "square"
+msgstr ""
+
+#: application/view/omeka/admin/media/sidebar-select.phtml:38
+msgid "media"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:15
+msgid "All modules"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:36
+msgid "name not found"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:44
+#: application/view/omeka/admin/module/browse.phtml:46
+#, php-format
+msgid "by %s"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:58
+#, php-format
+msgid "A new version of this module is available. %s"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:75
+#: application/view/omeka/admin/module/browse.phtml:83
+#: application/view/omeka/admin/module/configure.phtml:6
+#: application/view/omeka/site-admin/index/theme-settings.phtml:6
+msgid "Configure"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:127
+msgid "Uninstall"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:144
+msgid "Error: invalid Module.php file"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:146
+msgid "Error: invalid config/module.ini file"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:148
+#, php-format
+msgid "Error: %1$s requires Omeka S %2$s"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:150
+msgid "Error: module in database but not in filesystem"
+msgstr ""
+
+#: application/view/omeka/admin/module/browse.phtml:167
+msgid "Omeka could not find any modules."
+msgstr ""
+
+#: application/view/omeka/admin/module/configure.phtml:10
+msgid "Submit"
+msgstr ""
+
+#: application/view/omeka/admin/module/uninstall-confirm.phtml:5
+msgid "Uninstall module"
+msgstr ""
+
+#: application/view/omeka/admin/module/uninstall-confirm.phtml:6
+msgid "Are you sure you would like to uninstall this module?"
+msgstr ""
+
+#: application/view/omeka/admin/property/show-details.phtml:6
+#: application/view/omeka/admin/resource-class/show-details.phtml:6
+msgid "Vocabulary"
+msgstr ""
+
+#: application/view/omeka/admin/property/show-details.phtml:10
+#: application/view/omeka/admin/resource-class/show-details.phtml:10
+#: application/view/omeka/admin/vocabulary/classes.phtml:11
+#: application/view/omeka/admin/vocabulary/classes.phtml:38
+#: application/view/omeka/admin/vocabulary/properties.phtml:21
+msgid "Term"
+msgstr ""
+
+#: application/view/omeka/admin/property/show-details.phtml:14
+#: application/view/omeka/admin/resource-class/show-details.phtml:14
+#: application/view/omeka/admin/resource-template/form.phtml:62
+msgid "Comment"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/add.phtml:6
+msgid "New resource template"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/add.phtml:6
+#: application/view/omeka/admin/resource-template/browse.phtml:25
+#: application/view/omeka/admin/resource-template/edit.phtml:6
+#: application/view/omeka/admin/resource-template/import.phtml:5
+#: application/view/omeka/admin/resource-template/review-import.phtml:5
+#: application/view/omeka/admin/resource-template/show.phtml:7
+msgid "Resource templates"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/browse.phtml:28
+#: application/view/omeka/admin/resource-template/import.phtml:5
+#: application/view/omeka/admin/vocabulary/import.phtml:12
+msgid "Import"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/browse.phtml:106
+msgid "Omeka could not find any resource templates."
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:56
+#: application/view/omeka/admin/resource-template/form.phtml:63
+msgid "Original"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:58
+#: application/view/omeka/admin/resource-template/form.phtml:65
+msgid "Alternate"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:69
+msgid "Other options"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:72
+msgid "Use for resource title"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:78
+msgid "Use for resource description"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:84
+msgid "Required"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:95
+#: application/view/omeka/admin/resource-template/review-import.phtml:37
+#: application/view/omeka/admin/resource-template/show.phtml:27
+msgid "Data type"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:101
+msgid "Set changes"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/import.phtml:9
+msgid "Review import"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:5
+msgid "Review"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:9
+msgid "Complete import"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:36
+#: application/view/omeka/admin/resource-template/show.phtml:26
+msgid "Original label"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:39
+#: application/view/omeka/admin/resource-template/show.phtml:29
+msgid "Alternate comment"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:40
+#: application/view/omeka/admin/resource-template/show.phtml:30
+msgid "Required?"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:41
+#: application/view/omeka/admin/resource-template/show.phtml:31
+msgid "Private?"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:75
+#: application/view/omeka/admin/resource-template/review-import.phtml:76
+#: application/view/omeka/admin/resource-template/show.phtml:51
+#: application/view/omeka/admin/resource-template/show.phtml:52
+#: application/view/omeka/admin/system-info/browse.phtml:18
+msgid "Yes"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/review-import.phtml:75
+#: application/view/omeka/admin/resource-template/review-import.phtml:76
+#: application/view/omeka/admin/resource-template/show.phtml:51
+#: application/view/omeka/admin/resource-template/show.phtml:52
+#: application/view/omeka/admin/system-info/browse.phtml:18
+msgid "No"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:32
+msgid "Edit property"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:36
+msgid "Remove property"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/show.phtml:10
+msgid "Export"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/show.phtml:12
+msgid "Edit resource template"
+msgstr ""
+
+#: application/view/omeka/admin/setting/browse.phtml:7
+msgid "Global settings"
+msgstr ""
+
+#: application/view/omeka/admin/user/add.phtml:7
+msgid "New user"
+msgstr ""
+
+#: application/view/omeka/admin/user/add.phtml:7
+#: application/view/omeka/admin/user/browse.phtml:24
+#: application/view/omeka/admin/user/edit.phtml:14
+#: application/view/omeka/admin/user/search.phtml:5
+#: application/view/omeka/admin/user/show.phtml:7
+msgid "Users"
+msgstr ""
+
+#: application/view/omeka/admin/user/batch-edit.phtml:7
+msgid "Batch edit users"
+msgstr ""
+
+#: application/view/omeka/admin/user/batch-edit.phtml:26
+msgid "Affected users"
+msgstr ""
+
+#: application/view/omeka/admin/user/batch-edit.phtml:28
+#, php-format
+msgid "You are editing the following %s users:"
+msgstr ""
+
+#: application/view/omeka/admin/user/batch-edit.phtml:35
+#, php-format
+msgid "You are editing %s users (except yourself)."
+msgstr ""
+
+#: application/view/omeka/admin/user/browse.phtml:36
+#: application/view/omeka/site-admin/index/users.phtml:70
+msgid "Add new user"
+msgstr ""
+
+#: application/view/omeka/admin/user/browse.phtml:95
+msgid "Inactive"
+msgstr ""
+
+#: application/view/omeka/admin/user/browse.phtml:148
+#: application/view/omeka/admin/user/browse.phtml:166
+msgid "Delete users"
+msgstr ""
+
+#: application/view/omeka/admin/user/browse.phtml:149
+msgid "Are you sure you would like to delete the selected users?"
+msgstr ""
+
+#: application/view/omeka/admin/user/browse.phtml:151
+#, php-format
+msgid ""
+"%1$s: this action will permanently delete %2$s users and cannot be undone."
+msgstr ""
+
+#: application/view/omeka/admin/user/browse.phtml:167
+msgid ""
+"Are you sure you would like to delete all users (except yourself) on all "
+"pages of this result?"
+msgstr ""
+
+#: application/view/omeka/admin/user/browse.phtml:169
+#, php-format
+msgid ""
+"%1$s: this action will permanently delete %2$s users (except yourself) and "
+"cannot be undone."
+msgstr ""
+
+#: application/view/omeka/admin/user/browse.phtml:208
+msgid "Omeka could not find any users."
+msgstr ""
+
+#: application/view/omeka/admin/user/edit.phtml:6
+msgid "User information"
+msgstr ""
+
+#: application/view/omeka/admin/user/edit.phtml:7
+msgid "User settings"
+msgstr ""
+
+#: application/view/omeka/admin/user/edit.phtml:8
+msgid "Password"
+msgstr ""
+
+#: application/view/omeka/admin/user/edit.phtml:9
+msgid "API keys"
+msgstr ""
+
+#: application/view/omeka/admin/user/edit.phtml:34
+msgid "Keys"
+msgstr ""
+
+#: application/view/omeka/admin/user/edit.phtml:57
+msgid "Add a new key"
+msgstr ""
+
+#: application/view/omeka/admin/user/show-details.phtml:7
+msgid "(inactive)"
+msgstr ""
+
+#: application/view/omeka/admin/user/show.phtml:11
+msgid "Edit user"
+msgstr ""
+
+#: application/view/omeka/admin/user/show.phtml:23
+msgid "Display name"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:11
+#: application/view/omeka/admin/vocabulary/browse.phtml:44
+msgid "Prefix"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:15
+#: application/view/omeka/admin/vocabulary/browse.phtml:45
+#: application/view/omeka/admin/vocabulary/classes.phtml:21
+msgid "Classes"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:19
+#: application/view/omeka/admin/vocabulary/browse.phtml:46
+#: application/view/omeka/admin/vocabulary/properties.phtml:7
+msgid "Properties"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:25
+#: application/view/omeka/admin/vocabulary/classes.phtml:21
+#: application/view/omeka/admin/vocabulary/edit.phtml:7
+#: application/view/omeka/admin/vocabulary/import.phtml:7
+#: application/view/omeka/admin/vocabulary/properties.phtml:7
+#: application/view/omeka/admin/vocabulary/update.phtml:20
+msgid "Vocabularies"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:100
+msgid "Omeka could not find any vocabularies."
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/classes.phtml:24
+#: application/view/omeka/admin/vocabulary/properties.phtml:10
+msgid "Prefix:"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/classes.phtml:25
+#: application/view/omeka/admin/vocabulary/properties.phtml:11
+#: application/view/omeka/admin/vocabulary/show-details.phtml:7
+msgid "Namespace URI:"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/classes.phtml:75
+msgid "This vocabulary has no classes."
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/edit.phtml:18
+msgid ""
+"You may update this vocabulary to a newer version. You will be able to "
+"review the changes before you accept."
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/import.phtml:7
+msgid "New vocabulary"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/properties.phtml:58
+msgid "This vocabulary has no properties."
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/update.phtml:20
+msgid "Update"
+msgstr ""
+
+#: application/view/omeka/admin/vocabulary/update.phtml:24
+msgid "Accept changes"
+msgstr ""
+
+#: application/view/omeka/index/index.phtml:6
+#: application/view/omeka/site-admin/index/add.phtml:13
+#: application/view/omeka/site-admin/index/edit.phtml:7
+#: application/view/omeka/site-admin/index/index.phtml:21
+#: application/view/omeka/site-admin/index/navigation.phtml:10
+#: application/view/omeka/site-admin/index/resources.phtml:20
+#: application/view/omeka/site-admin/index/settings.phtml:6
+#: application/view/omeka/site-admin/index/show.phtml:11
+#: application/view/omeka/site-admin/index/theme.phtml:11
+#: application/view/omeka/site-admin/index/users.phtml:16
+#: application/view/omeka/site-admin/page/index.phtml:7
+msgid "Sites"
+msgstr ""
+
+#: application/view/omeka/index/index.phtml:25
+#, php-format
+msgid "Go to the %1$s to start working with %2$s."
+msgstr ""
+
+#: application/view/omeka/install/index.phtml:11
+msgid "Install Omeka S"
+msgstr ""
+
+#: application/view/omeka/install/index.phtml:14
+msgid "Some installation requirements were not satisfied."
+msgstr ""
+
+#: application/view/omeka/login/create-password.phtml:6
+msgid "Create a new password"
+msgstr ""
+
+#: application/view/omeka/login/create-password.phtml:11
+msgid "Activate"
+msgstr ""
+
+#: application/view/omeka/login/forgot-password.phtml:6
+msgid "Forgot password"
+msgstr ""
+
+#: application/view/omeka/login/forgot-password.phtml:11
+msgid "Send password reset email"
+msgstr ""
+
+#: application/view/omeka/login/login.phtml:7
+msgid "Forgot password?"
+msgstr ""
+
+#: application/view/omeka/maintenance/index.phtml:4
+msgid "Site under maintenance"
+msgstr ""
+
+#: application/view/omeka/maintenance/index.phtml:5
+msgid ""
+"This site is down for maintenance. Please contact the site administrator for\n"
+"more information."
+msgstr ""
+
+#: application/view/omeka/migrate/index.phtml:4
+#: application/view/omeka/migrate/index.phtml:7
+msgid "Update database"
+msgstr ""
+
+#: application/view/omeka/migrate/index.phtml:5
+msgid ""
+"There was a recent software upgrade and the database needs to be updated. "
+"The entire site will be down for maintenance until you click the button "
+"below."
+msgstr ""
+
+#: application/view/omeka/migrate/index.phtml:10
+msgid ""
+"There are environment errors that must be resolved before you can update the"
+" database."
+msgstr ""
+
+#: application/view/omeka/site-admin/index/add-page.phtml:6
+msgid "New page"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/add-page.phtml:6
+#: application/view/omeka/site-admin/page/edit.phtml:11
+#: application/view/omeka/site-admin/page/index.phtml:7
+#: application/view/omeka/site/index/search.phtml:3
+#: application/view/omeka/site/page/browse.phtml:5
+msgid "Pages"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/add.phtml:8
+#: application/view/omeka/site-admin/index/show.phtml:32
+#: application/view/omeka/site-admin/index/theme-settings.phtml:6
+#: application/view/omeka/site-admin/index/theme.phtml:11
+msgid "Theme"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/add.phtml:9
+#: application/view/omeka/site-admin/index/resources.phtml:22
+msgid "Item pool"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/add.phtml:13
+msgid "New site"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/index.phtml:11
+#: application/view/omeka/site-admin/index/index.phtml:40
+#: application/view/omeka/site-admin/index/show.phtml:24
+msgid "URL slug"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/index.phtml:25
+msgid "Add new site"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/index.phtml:109
+msgid "Omeka could not find any sites."
+msgstr ""
+
+#: application/view/omeka/site-admin/index/navigation.phtml:10
+msgid "Navigation"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/navigation.phtml:24
+#: application/view/omeka/site-admin/index/navigation.phtml:44
+msgid "Add a link to a site page"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/navigation.phtml:28
+msgid "Select a homepage"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/navigation.phtml:32
+msgid "Add a custom link"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/navigation.phtml:46
+msgid "Filter pages"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/navigation.phtml:60
+msgid "There are no available pages."
+msgstr ""
+
+#: application/view/omeka/site-admin/index/resources.phtml:36
+#, php-format
+msgid "There are currently %s items in this site’s pool."
+msgstr ""
+
+#: application/view/omeka/site-admin/index/resources.phtml:68
+msgid "No item sets are assigned to this site."
+msgstr ""
+
+#: application/view/omeka/site-admin/index/show.phtml:6
+#: application/view/omeka/site-admin/index/users.phtml:10
+msgid "Viewer"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/show.phtml:7
+#: application/view/omeka/site-admin/index/users.phtml:11
+msgid "Editor"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/show.phtml:20
+msgid "Back to site list"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/show.phtml:40
+msgid "Summary"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-selector.phtml:26
+msgid "Invalid theme.ini file"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-selector.phtml:28
+#, php-format
+msgid "This theme requires Omeka S %s"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-settings.phtml:17
+msgid "The current theme has no configuration options."
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme.phtml:27
+msgid "Current theme"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme.phtml:44
+msgid "Edit theme settings"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme.phtml:51
+#, php-format
+msgid "A new version of this theme is available. %s"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme.phtml:61
+msgid "Error: this theme is invalid."
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme.phtml:63
+#, php-format
+msgid "ID: %s"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme.phtml:64
+#, php-format
+msgid "Status: %s"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme.phtml:66
+msgid ""
+"Please contact the Omeka S administrator. This site will not be publicly "
+"available until the problem is resolved or you select another theme below."
+msgstr ""
+
+#: application/view/omeka/site-admin/index/users.phtml:8
+msgid "Restore"
+msgstr "Сэргээх"
+
+#: application/view/omeka/site-admin/index/users.phtml:16
+msgid "User permissions"
+msgstr "Хэрэглэгчийн зөвшөөрөгдөх эрх"
+
+#: application/view/omeka/site-admin/index/users.phtml:68
+msgid "This site has no users. Add users using the interface to the right."
+msgstr ""
+
+#: application/view/omeka/site-admin/index/users.phtml:71
+msgid "Click on a user to add them to the site."
+msgstr ""
+
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:17
+msgid "Change item"
+msgstr "Баримтыг өөрчлөх"
+
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:59
+msgid "No item selected."
+msgstr "Баримт сонгогдоогүй байна."
+
+#: application/view/omeka/site-admin/page/edit.phtml:28
+msgid "Add new block"
+msgstr "Шинэ блок нэмэх"
+
+#: application/view/omeka/site-admin/page/edit.phtml:41
+msgid "Caption"
+msgstr ""
+
+#: application/view/omeka/site-admin/page/edit.phtml:52
+msgid "Apply changes"
+msgstr "Өөрчлөлтийг хадгалах"
+
+#: application/view/omeka/site-admin/page/index.phtml:11
+msgid "Add new page"
+msgstr "Шинэ хуудас нэмэх"
+
+#: application/view/omeka/site-admin/page/index.phtml:19
+msgid "Slug"
+msgstr ""
+
+#: application/view/omeka/site-admin/page/index.phtml:39
+msgid "View public page"
+msgstr "Нийтэд зориулсан хуудас харах"
+
+#: application/view/omeka/site-admin/page/index.phtml:50
+msgid "Delete page"
+msgstr "Хуудас устгах"
+
+#: application/view/omeka/site/index/index.phtml:4
+msgid "This site has no pages."
+msgstr "Энэ сайтад ямар нэг хуудас алга"
+
+#: application/view/omeka/site/index/search.phtml:1
+#, php-format
+msgid "Search results for “%s”"
+msgstr "“%s” Хайлтын үр дүн"
+
+#: application/view/omeka/site/index/search.phtml:11
+#: application/view/omeka/site/index/search.phtml:32
+#, php-format
+msgid "View all results (%s total)"
+msgstr ""
+
+#: application/view/omeka/site/index/search.phtml:20
+#: application/view/omeka/site/page/browse.phtml:18
+msgid "No pages found"
+msgstr "Хуудас олдсонгүй"
+
+#: application/view/omeka/site/index/search.phtml:41
+msgid "No items found"
+msgstr "Баримт олдсонгүй"
+
+#: application/view/omeka/site/item-set/search.phtml:6
+msgid "Advanced item set Search"
+msgstr "Баримтын бүрдлийг ахисан түвшинд хайх"
+
+#: application/view/omeka/site/item/search.phtml:6
+msgid "Advanced item search"
+msgstr "Баримтыг ахисан түвшинд хайх"
+
+#: application/view/omeka/site/item/show.phtml:10
+msgid "Item"
+msgstr "Баримт"
+
+#: application/config/module.config.php:617
+msgid "Something went wrong"
+msgstr "Ямар нэг зүйл буруу байна"
+
+#: application/config/module.config.php:622
+msgid "You have unsaved changes."
+msgstr "Та өөрчлөлтийг хадгалаагүй байна."
+
+#: application/config/module.config.php:623
+msgid "Restore item set"
+msgstr "Баримтын бүрдлийг сэргээх"
+
+#: application/config/module.config.php:624
+msgid "Close icon set"
+msgstr "Айконы бүрдлийг хаах"
+
+#: application/config/module.config.php:625
+msgid "Open icon set"
+msgstr "Айконы бүрддийг нээх"
+
+#: application/config/module.config.php:627
+msgid "Failed loading resource template from API"
+msgstr ""
+
+#: application/config/module.config.php:628
+msgid "Restore property"
+msgstr ""
+
+#: application/config/module.config.php:630
+msgid "Please enter a valid language tag"
+msgstr ""
+
+#: application/config/module.config.php:632
+msgid "Description"
+msgstr ""
+
+#: application/config/navigation.config.php:181
+#: application/config/navigation.config.php:250
+#: application/src/Form/InstallationForm.php:26
+msgid "Settings"
+msgstr "Тохиргоо"
+
+#: application/config/navigation.config.php:192
+msgid "Site info"
+msgstr "Сайтын мэдээлэл"
+
+#: application/src/View/Helper/ResourceClassSelect.php:39
+msgid "Select class…"
+msgstr ""
+
+#: application/src/View/Helper/SiteSelect.php:39
+msgid "Select site…"
+msgstr "Сайт сонгох"
+
+#: application/src/View/Helper/RoleSelect.php:39
+#: application/src/Service/Form/Element/RoleSelectFactory.php:16
+#: application/src/Form/UserBatchUpdateForm.php:27
+#: application/src/Form/UserForm.php:97
+msgid "Select role…"
+msgstr "Эрх үүрэг сонгох..."
+
+#: application/src/View/Helper/UserSelect.php:39
+msgid "Select user…"
+msgstr "Хэрэглэгч сонгох..."
+
+#: application/src/View/Helper/PropertySelect.php:39
+msgid "Select property…"
+msgstr ""
+
+#: application/src/View/Helper/ItemSetSelect.php:39
+msgid "Select item set…"
+msgstr "Баримтын бүрдэл сонгох"
+
+#: application/src/View/Helper/ResourceTemplateSelect.php:39
+msgid "Select template…"
+msgstr "Загвар сонгох"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:24
+msgid "item title"
+msgstr "Баримтын нэр"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:25
+msgid "media title"
+msgstr "медиагийн нэр"
+
+#: application/src/View/Helper/BlockShowTitleSelect.php:26
+msgid "no title"
+msgstr "нэргүй"
+
+#: application/src/File/Validator.php:65
+#, php-format
+msgid "Error validating \"%1$s\". Cannot store files with the media type \"%2$s\"."
+msgstr ""
+
+#: application/src/File/Validator.php:78
+#, php-format
+msgid ""
+"Error validating \"%1$s\". Cannot store files with the resolved extension "
+"\"%2$s\"."
+msgstr ""
+
+#: application/src/File/Downloader.php:71
+#, php-format
+msgid "Error downloading %1$s: %2$s"
+msgstr ""
+
+#: application/src/File/Downloader.php:83
+#, php-format
+msgid "Error downloading %1$s: %2$s %3$s"
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:102
+msgid "Missing thumbnail configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:106
+msgid "Missing thumbnail types configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:109
+msgid "Missing the large, medium, or square thumbnail type configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:113
+msgid "Missing constraint for a thumbnail type configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:117
+msgid "Missing thumbnail fallbacks configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:120
+msgid "Missing default thumbnail fallback configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:123
+msgid "Missing thumbnail fallback configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:127
+msgid "Invalid thumbnail fallback configuration."
+msgstr ""
+
+#: application/src/Form/ResourceTemplateImportForm.php:14
+msgid "Resource template file"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:23
+msgid "Basic info"
+msgstr "Энгийн мэдээлэл"
+
+#: application/src/Form/VocabularyForm.php:30
+msgid "File"
+msgstr "Файл"
+
+#: application/src/Form/VocabularyForm.php:37
+msgid "Advanced"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:46
+msgid "Enter a human-readable title of the vocabulary."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:58
+msgid "Enter a human-readable description of the vocabulary."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:69
+msgid "Namespace URI"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:70
+msgid ""
+"Enter the unique namespace URI used to identify the classes and properties "
+"of the vocabulary."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:81
+msgid "Namespace prefix"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:82
+msgid ""
+"Enter a concise vocabulary identifier used as a shorthand for the namespace "
+"URI."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:94
+msgid "Vocabulary file"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:95
+msgid ""
+"Choose a RDF vocabulary file. You must choose a file or enter a URL below."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:105
+msgid "Vocabulary URL"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:106
+msgid ""
+"Enter a RDF vocabulary URL. You must enter a URL or choose a file above."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:116
+msgid "File format"
+msgstr "Файлын формат"
+
+#: application/src/Form/VocabularyForm.php:118
+msgid "[Autodetect]"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:119
+msgid "JSON-LD (.jsonld)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:120
+msgid "N-Triples (.nt)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:121
+msgid "Notation3 (.n3)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:122
+msgid "RDF/XML (.rdf)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:123
+msgid "Turtle (.ttl)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:135
+msgid "Preferred language"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:136
+msgid ""
+"Enter the preferred language of the labels and comments using an <a "
+"target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
+"tags/\">IETF language tag</a>. Defaults to the first available."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:147
+msgid "Label property"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:148
+msgid ""
+"Enter the label property. This is typically only needed if the vocabulary "
+"uses an unconventional property for labels. Please use the full property URI"
+" enclosed in angle brackets."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:158
+msgid "Comment property"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:159
+msgid ""
+"Enter the comment property. This is typically only needed if the vocabulary "
+"uses an unconventional property for comments. Please use the full property "
+"URI enclosed in angle brackets."
+msgstr ""
+
+#: application/src/Form/ResourceForm.php:30
+#: application/src/Form/ResourceBatchUpdateForm.php:69
+#: application/src/Form/UserForm.php:144
+msgid "Select a template"
+msgstr ""
+
+#: application/src/Form/ResourceForm.php:34
+msgid "Resource template"
+msgstr ""
+
+#: application/src/Form/ResourceForm.php:35
+msgid "A pre-defined template for resource creation."
+msgstr ""
+
+#: application/src/Form/ResourceForm.php:53
+#: application/src/Form/ResourceBatchUpdateForm.php:92
+msgid "Select a class"
+msgstr ""
+
+#: application/src/Form/ResourceForm.php:57
+msgid ""
+"A type for the resource. Different types have different default properties "
+"attached to them."
+msgstr ""
+
+#: application/src/Form/Initializer/Csrf.php:35
+msgid "Invalid or missing CSRF token"
+msgstr ""
+
+#: application/src/Form/SitePageForm.php:39
+msgid "Add to navigation"
+msgstr ""
+
+#: application/src/Form/ResourceTemplateForm.php:27
+msgid "Suggested class"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:28
+#: application/src/Form/SettingForm.php:109
+msgid "General"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:36
+msgid "Attachment link type"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:38
+msgid "Item page"
+msgstr "Баримтын хуудас"
+
+#: application/src/Form/SiteSettingsForm.php:39
+msgid "Media page"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:40
+msgid "Direct link to file"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:52
+msgid "Embed media on item pages"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:63
+msgid "Show page pagination"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:64
+msgid ""
+"Show pagination that helps users follow a linear narrative through a site."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:75
+msgid "Show user bar on public views"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:77
+msgid "Never"
+msgstr "Хэзээ ч"
+
+#: application/src/Form/SiteSettingsForm.php:78
+msgid "When logged in"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:79
+msgid "Always"
+msgstr "Үргэлж"
+
+#: application/src/Form/SiteSettingsForm.php:90
+#: application/src/Form/SettingForm.php:236
+msgid "Disable JSON-LD embed"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:91
+#: application/src/Form/SettingForm.php:237
+msgid ""
+"By default, Omeka embeds JSON-LD in resource browse and show pages for the "
+"purpose of machine-readable metadata discovery. Check this to disable "
+"embedding."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:103
+#: application/src/Form/InstallationForm.php:112
+#: application/src/Form/UserForm.php:129
+#: application/src/Form/SettingForm.php:209
+msgid "Locale"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:104
+msgid ""
+"Locale/language code for this site. Leave blank to use the global locale "
+"setting."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:126
+msgid "Restrict browse to attached items"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:137
+#: application/src/Form/SettingForm.php:160
+msgid "Results per page"
+msgstr "Нэг хуудсанд харуулах үр дүн"
+
+#: application/src/Form/SiteSettingsForm.php:138
+msgid ""
+"The maximum number of results per page on browse pages. Leave blank to use "
+"the global setting."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:144
+msgid "Use global setting"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:152
+msgid "Browse heading property"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:153
+msgid ""
+"Use this property for the heading of each resource on a browse page. Keep "
+"unselected to use the default title property of each resource."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:161
+#: application/src/Form/SiteSettingsForm.php:178
+msgid "Select a property"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:169
+msgid "Browse body property"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:170
+msgid ""
+"Use this property for the body of each resource on a browse page. Keep "
+"unselected to use the default description property of each resource."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:195
+msgid "Templates"
+msgstr "Загвар"
+
+#: application/src/Form/SiteSettingsForm.php:196
+msgid "Select which templates to apply to the advanced search form."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:201
+msgid "Select templates"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:209
+msgid "Restrict to templates"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:210
+msgid "Restrict search results to resources of the selected templates."
+msgstr ""
+
+#: application/src/Form/UserBatchUpdateForm.php:30
+msgid "Set role"
+msgstr "Үүрэг тохируулах"
+
+#: application/src/Form/UserBatchUpdateForm.php:31
+#: application/src/Form/UserBatchUpdateForm.php:43
+#: application/src/Form/UserBatchUpdateForm.php:60
+#: application/src/Form/UserBatchUpdateForm.php:77
+#: application/src/Form/UserBatchUpdateForm.php:92
+#: application/src/Form/ResourceBatchUpdateForm.php:37
+#: application/src/Form/ResourceBatchUpdateForm.php:54
+#: application/src/Form/ResourceBatchUpdateForm.php:74
+#: application/src/Form/ResourceBatchUpdateForm.php:97
+msgid "[No change]"
+msgstr ""
+
+#: application/src/Form/UserBatchUpdateForm.php:39
+msgid "Set activity"
+msgstr ""
+
+#: application/src/Form/UserBatchUpdateForm.php:55
+#: application/src/Form/UserBatchUpdateForm.php:72
+msgid "Select sites…"
+msgstr "Сайт сонгох"
+
+#: application/src/Form/UserBatchUpdateForm.php:59
+msgid "Remove from site permission"
+msgstr ""
+
+#: application/src/Form/UserBatchUpdateForm.php:61
+#: application/src/Form/UserBatchUpdateForm.php:78
+msgid "[All sites]"
+msgstr "[Бүх сайт]"
+
+#: application/src/Form/UserBatchUpdateForm.php:76
+msgid "Add to site permission"
+msgstr ""
+
+#: application/src/Form/UserBatchUpdateForm.php:87
+msgid "Select permission…"
+msgstr ""
+
+#: application/src/Form/UserBatchUpdateForm.php:91
+msgid "Add to site permission as"
+msgstr ""
+
+#: application/src/Form/ModuleStateChangeForm.php:37
+msgid "Install"
+msgstr "Суулгах"
+
+#: application/src/Form/ModuleStateChangeForm.php:55
+msgid "Deactivate"
+msgstr ""
+
+#: application/src/Form/ModuleStateChangeForm.php:64
+msgid "Upgrade"
+msgstr "Шинэчлэх"
+
+#: application/src/Form/InstallationForm.php:19
+msgid "Create the first user"
+msgstr ""
+
+#: application/src/Form/InstallationForm.php:52
+msgid "Confirm email"
+msgstr "Имэйл баталгаажуулах"
+
+#: application/src/Form/InstallationForm.php:80
+#: application/src/Form/SettingForm.php:131
+msgid "Installation title"
+msgstr ""
+
+#: application/src/Form/InstallationForm.php:98
+#: application/src/Form/SettingForm.php:146
+msgid "Time zone"
+msgstr "Цагийн бүс"
+
+#: application/src/Form/InstallationForm.php:128
+msgid "The emails did not match"
+msgstr "Имэйл тохирохгүй байна"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:33
+msgid "Set visibility"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:50
+msgid "Set openness"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:52
+msgid "Open"
+msgstr "Нээх"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:53
+msgid "Not open"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:73
+msgid "Set template"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:75
+msgid "[Unset template]"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:95
+msgid "Set class"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:96
+msgid "[Unset class]"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:110
+#: application/src/Form/ResourceBatchUpdateForm.php:124
+msgid "Select item sets"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:113
+msgid "Add to item sets"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:127
+msgid "Remove from item sets"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:137
+msgid "Clear language"
+msgstr "Хэл цэвэрлэх"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:161
+#: application/view/common/property-form-batch-edit.phtml:63
+msgid "Select properties"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:164
+msgid "Clear property values"
+msgstr ""
+
+#: application/src/Form/ConfirmForm.php:17
+msgid "Confirm"
+msgstr "Баталгаажуулах"
+
+#: application/src/Form/UserForm.php:130
+#: application/src/Form/SettingForm.php:210
+msgid "Global locale/language code for all interfaces."
+msgstr ""
+
+#: application/src/Form/UserForm.php:148
+msgid "Default resource template"
+msgstr ""
+
+#: application/src/Form/UserForm.php:166
+msgid "Current password"
+msgstr "Одоогийн нууц үг"
+
+#: application/src/Form/UserForm.php:178
+msgid "New password"
+msgstr "Шинэ нууц үг"
+
+#: application/src/Form/UserForm.php:179
+msgid "Confirm new password"
+msgstr "Нууц үгийг баталгаажуулах"
+
+#: application/src/Form/UserForm.php:188
+msgid "New key label"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:118
+msgid "Administrator email"
+msgstr "Удирдагчийн имэйл"
+
+#: application/src/Form/SettingForm.php:161
+msgid "The maximum number of results per page on browse pages."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:174
+msgid "Property label information"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:175
+msgid "The additional information that accompanies labels on resource pages."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:177
+msgid "None"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:178
+msgid "Show Vocabulary"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:179
+msgid "Show Term"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:192
+msgid "Default site"
+msgstr "Үндсэн сайт"
+
+#: application/src/Form/SettingForm.php:193
+msgid ""
+"Select which site should appear when users go to the front page of the "
+"installation."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:198
+msgid "No default (show index of sites)"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:223
+msgid "Enable version notifications"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:224
+msgid ""
+"Enable notifications when a new version of Omeka S, modules, or themes are "
+"available."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:249
+msgid "Default content visibility to Private"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:250
+msgid ""
+"If checked, all items, item sets and sites newly created will have their "
+"visibility set to private by default."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:262
+msgid "Index full-text search"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:276
+msgid "Security"
+msgstr "Хамгаалалт"
+
+#: application/src/Form/SettingForm.php:285
+msgid "Use HTMLPurifier"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:286
+msgid "Clean up user-entered HTML."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:298
+msgid "Disable file validation"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:299
+msgid "Check this to disable file media type and extension validation."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:308
+msgid "Allowed media types"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:309
+msgid "A comma-separated list of allowed media types for file uploads."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:321
+msgid "Allowed file extensions"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:322
+msgid "A comma-separated list of allowed file extensions for file uploads."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:336
+msgid "reCAPTCHA site key"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:347
+msgid "reCAPTCHA secret key"
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:20
+#, php-format
+msgid "be a minimum of %s characters in length."
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:24
+#, php-format
+msgid "contain at least %s lowercase characters."
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:28
+#, php-format
+msgid "contain at least %s uppercase characters."
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:32
+#, php-format
+msgid "contain at least %s numbers."
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:39
+#, php-format
+msgid "contain at least %1$s symbols: %2$s"
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:43
+msgid "Password must:"
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:66
+msgid "Confirm password"
+msgstr "Нууц үг баталгаажуулах"
+
+#: application/src/Form/Element/PasswordConfirm.php:85
+msgid "The password is invalid"
+msgstr ""
+
+#: application/src/Form/Element/PasswordConfirm.php:100
+msgid "The passwords did not match"
+msgstr ""
+
+#: application/src/Form/Element/ColorPicker.php:10
+msgid "three- or six-digit hexadecimal color, or \"transparent\""
+msgstr ""
+
+#: application/src/Form/Element/ColorPicker.php:29
+msgid "Invalid color format"
+msgstr ""
+
+#: application/src/Form/Element/Recaptcha.php:99
+msgid "You must verify that you are human by completing the CAPTCHA."
+msgstr ""
+
+#: application/src/Form/Element/Recaptcha.php:108
+msgid "Could not verify that you are a human."
+msgstr ""
+
+#: application/src/Controller/MigrateController.php:40
+msgid "Migration successful"
+msgstr ""
+
+#: application/src/Controller/InstallController.php:52
+msgid "Installation successful. Please log in."
+msgstr ""
+
+#: application/src/Controller/InstallController.php:56
+msgid "There were errors during installation."
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:66
+msgid "Site successfully created"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:92
+msgid "Site successfully updated"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:115
+msgid "User does not have permission to edit site settings"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:136
+#: application/src/Controller/Admin/SettingController.php:35
+msgid "Settings successfully updated"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:172
+msgid "Page successfully created"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:201
+msgid "Homepage"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:207
+msgid "First page in navigation"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:223
+msgid "Navigation successfully updated"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:256
+msgid "Site resources successfully updated"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:297
+msgid "User permissions successfully updated"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:329
+msgid "Site theme successfully updated"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:403
+msgid "Theme settings successfully updated"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:420
+msgid "Site successfully deleted"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:443
+msgid "site"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/PageController.php:28
+msgid "Page successfully updated"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/PageController.php:81
+msgid "page"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/PageController.php:98
+msgid "Page successfully deleted"
+msgstr ""
+
+#: application/src/Controller/LoginController.php:56
+msgid "Successfully logged in"
+msgstr ""
+
+#: application/src/Controller/LoginController.php:65
+msgid "Email or password is invalid"
+msgstr ""
+
+#: application/src/Controller/LoginController.php:88
+msgid "Successfully logged out"
+msgstr ""
+
+#: application/src/Controller/LoginController.php:104
+msgid "Invalid password creation key."
+msgstr ""
+
+#: application/src/Controller/LoginController.php:113
+msgid "Password creation key expired."
+msgstr ""
+
+#: application/src/Controller/LoginController.php:129
+msgid "Successfully created your password. Please log in."
+msgstr ""
+
+#: application/src/Controller/LoginController.php:132
+msgid "Password creation unsuccessful"
+msgstr ""
+
+#: application/src/Controller/LoginController.php:168
+msgid "Check your email for instructions on how to reset your password"
+msgstr ""
+
+#: application/src/Controller/LoginController.php:171
+msgid "Activation unsuccessful"
+msgstr ""
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:338
+msgid "resource template"
+msgstr ""
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:351
+msgid "Resource template successfully deleted"
+msgstr ""
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:353
+#: application/src/Controller/Admin/ResourceTemplateController.php:356
+msgid "Resource template could not be deleted"
+msgstr ""
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:408
+msgid "Resource template successfully updated"
+msgstr ""
+
+#: application/src/Controller/Admin/ResourceTemplateController.php:411
+#, php-format
+msgid "Resource template successfully created. %s"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:44
+#: application/src/Controller/Admin/UserController.php:49
+#: application/src/Controller/Admin/ItemSetController.php:87
+#: application/src/Controller/Admin/ItemSetController.php:92
+#: application/src/Controller/Admin/MediaController.php:27
+#: application/src/Controller/Admin/MediaController.php:32
+#: application/src/Controller/Admin/ItemController.php:42
+#: application/src/Controller/Admin/ItemController.php:47
+msgid "Confirm Delete"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:113
+#, php-format
+msgid "User successfully created. %s"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:187
+msgid "User successfully updated"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:202
+msgid "The current password entered was invalid"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:206
+msgid "Password successfully changed"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:234
+msgid "Key(s) successfully deleted"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:242
+#, php-format
+msgid ""
+"API key successfully created.<br><br>Here is your key ID and credential for "
+"access to the API. WARNING: \"key_credential\" will be unretrievable after "
+"you navigate away from this page.<br><br>key_identity: "
+"<code>%1$s</code><br>key_credential: <code>%2$s</code>"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:268
+msgid "user"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:281
+msgid "User successfully deleted"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:303
+msgid "You must select at least one user to batch delete."
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:310
+msgid "You can’t delete yourself."
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:319
+msgid "Users successfully deleted"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:345
+msgid "Deleting users. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:364
+msgid "You must select at least one user to batch edit."
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:371
+msgid "For security reasons, you can’t batch edit yourself."
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:391
+msgid "Users successfully edited"
+msgstr ""
+
+#: application/src/Controller/Admin/UserController.php:444
+msgid "Editing users. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/ItemSetController.php:32
+#, php-format
+msgid "Item set successfully created. %s"
+msgstr ""
+
+#: application/src/Controller/Admin/ItemSetController.php:69
+msgid "Item set successfully updated"
+msgstr ""
+
+#: application/src/Controller/Admin/ItemSetController.php:155
+msgid "item set"
+msgstr ""
+
+#: application/src/Controller/Admin/ItemSetController.php:170
+msgid "Item set successfully deleted"
+msgstr "Баримтын бүрдэл устгагдлаа"
+
+#: application/src/Controller/Admin/ItemSetController.php:191
+msgid "You must select at least one item set to batch delete."
+msgstr ""
+
+#: application/src/Controller/Admin/ItemSetController.php:200
+msgid "Item sets successfully deleted"
+msgstr "Баримтын бүрдэл устгагдлаа"
+
+#: application/src/Controller/Admin/ItemSetController.php:226
+msgid "Deleting item sets. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/ItemSetController.php:244
+msgid "You must select at least one item set to batch edit."
+msgstr ""
+
+#: application/src/Controller/Admin/ItemSetController.php:264
+msgid "Item sets successfully edited"
+msgstr ""
+
+#: application/src/Controller/Admin/ItemSetController.php:316
+msgid "Editing item sets. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/VocabularyController.php:59
+msgid "vocabulary"
+msgstr ""
+
+#: application/src/Controller/Admin/VocabularyController.php:97
+#, php-format
+msgid "Vocabulary successfully imported. %s"
+msgstr ""
+
+#: application/src/Controller/Admin/VocabularyController.php:176
+msgid "Please review these changes before you accept them."
+msgstr ""
+
+#: application/src/Controller/Admin/VocabularyController.php:184
+msgid "Vocabulary successfully updated"
+msgstr ""
+
+#: application/src/Controller/Admin/VocabularyController.php:204
+msgid "Changes to the vocabulary successfully made"
+msgstr ""
+
+#: application/src/Controller/Admin/VocabularyController.php:220
+msgid "Vocabulary successfully deleted"
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:59
+msgid "Media successfully updated"
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:125
+msgid "Media successfully deleted"
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:159
+msgid "You must select at least one media to batch delete."
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:168
+msgid "Medias successfully deleted"
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:194
+msgid "Deleting medias. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:212
+msgid "You must select at least one media to batch edit."
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:232
+msgid "Medias successfully edited"
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:284
+msgid "Editing medias. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/ItemController.php:114
+msgid "item"
+msgstr ""
+
+#: application/src/Controller/Admin/ItemController.php:130
+msgid "Item successfully deleted"
+msgstr ""
+
+#: application/src/Controller/Admin/ItemController.php:151
+msgid "You must select at least one item to batch delete."
+msgstr ""
+
+#: application/src/Controller/Admin/ItemController.php:160
+msgid "Items successfully deleted"
+msgstr ""
+
+#: application/src/Controller/Admin/ItemController.php:186
+msgid "Deleting items. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/ItemController.php:208
+#, php-format
+msgid "Item successfully created. %s"
+msgstr ""
+
+#: application/src/Controller/Admin/ItemController.php:245
+msgid "Item successfully updated"
+msgstr ""
+
+#: application/src/Controller/Admin/ItemController.php:272
+msgid "You must select at least one item to batch edit."
+msgstr ""
+
+#: application/src/Controller/Admin/ItemController.php:292
+msgid "Items successfully edited"
+msgstr ""
+
+#: application/src/Controller/Admin/ItemController.php:344
+msgid "Editing items. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/ModuleController.php:121
+msgid "The module was successfully installed"
+msgstr ""
+
+#: application/src/Controller/Admin/ModuleController.php:143
+msgid "Confirm uninstall"
+msgstr ""
+
+#: application/src/Controller/Admin/ModuleController.php:172
+msgid "The module was successfully uninstalled"
+msgstr ""
+
+#: application/src/Controller/Admin/ModuleController.php:198
+msgid "The module was successfully activated"
+msgstr ""
+
+#: application/src/Controller/Admin/ModuleController.php:224
+msgid "The module was successfully deactivated"
+msgstr ""
+
+#: application/src/Controller/Admin/ModuleController.php:250
+msgid "The module was successfully upgraded"
+msgstr ""
+
+#: application/src/Controller/Admin/ModuleController.php:273
+msgid "The module was successfully configured"
+msgstr ""
+
+#: application/src/Controller/Admin/ModuleController.php:276
+msgid "There was a problem during configuration"
+msgstr ""
+
+#: application/src/Controller/Admin/JobController.php:27
+msgid "Attempt Stop"
+msgstr ""
+
+#: application/src/Controller/Admin/JobController.php:56
+msgid "Attempting to stop the job."
+msgstr ""
+
+#: application/src/Controller/Admin/JobController.php:58
+msgid "The job could not be stopped."
+msgstr ""
+
+#: application/src/Media/Ingester/Html.php:36
+#: application/src/Media/Ingester/Html.php:79
+#: application/src/Site/BlockLayout/Html.php:27
+msgid "HTML"
+msgstr ""
+
+#: application/src/Media/Ingester/Html.php:80
+msgid "HTML or plain text."
+msgstr ""
+
+#: application/src/Media/Ingester/OEmbed.php:41
+msgid "oEmbed"
+msgstr ""
+
+#: application/src/Media/Ingester/OEmbed.php:114
+msgid "oEmbed URL"
+msgstr ""
+
+#: application/src/Media/Ingester/OEmbed.php:115
+msgid "URL for the media to embed."
+msgstr ""
+
+#: application/src/Media/Ingester/IIIF.php:33
+msgid "IIIF image"
+msgstr ""
+
+#: application/src/Media/Ingester/IIIF.php:101
+msgid "IIIF image URL"
+msgstr ""
+
+#: application/src/Media/Ingester/IIIF.php:102
+msgid "URL for the image to embed."
+msgstr ""
+
+#: application/src/Media/Ingester/Url.php:80
+msgid "A URL to the media."
+msgstr ""
+
+#: application/src/Media/Ingester/Youtube.php:27
+msgid "YouTube"
+msgstr ""
+
+#: application/src/Media/Ingester/Youtube.php:90
+msgid "Video URL"
+msgstr ""
+
+#: application/src/Media/Ingester/Youtube.php:91
+msgid "URL for the video to embed."
+msgstr ""
+
+#: application/src/Media/Ingester/Youtube.php:99
+msgid "Start"
+msgstr ""
+
+#: application/src/Media/Ingester/Youtube.php:100
+msgid ""
+"Begin playing the video at the given number of seconds from the start of the"
+" video."
+msgstr ""
+
+#: application/src/Media/Ingester/Youtube.php:104
+msgid "End"
+msgstr ""
+
+#: application/src/Media/Ingester/Youtube.php:105
+msgid ""
+"End playing the video at the given number of seconds from the start of the "
+"video."
+msgstr ""
+
+#: application/src/Media/Ingester/Upload.php:69
+msgid "Upload file"
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:47
+#, php-format
+msgid ""
+"You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
+"version %1$s. You are currently on version %2$s."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:54
+#, php-format
+msgid ""
+"The installed PHP version (%1$s) is too low. Omeka requires at least version"
+" %2$s."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:62
+#, php-format
+msgid "Omeka requires the PHP extension %s, but it is not loaded."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:81
+#, php-format
+msgid ""
+"The installed MySQL version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
+msgstr ""
+
+#: application/src/Stdlib/Environment.php:89
+#, php-format
+msgid ""
+"The installed MariaDB version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
+msgstr ""
+
+#: application/src/Permissions/Acl.php:21
+msgid "Global Administrator"
+msgstr ""
+
+#: application/src/Permissions/Acl.php:22
+msgid "Site Administrator"
+msgstr ""
+
+#: application/src/Permissions/Acl.php:24
+msgid "Reviewer"
+msgstr ""
+
+#: application/src/Permissions/Acl.php:25
+msgid "Author"
+msgstr ""
+
+#: application/src/Permissions/Acl.php:26
+msgid "Researcher"
+msgstr ""
+
+#: application/src/Site/Navigation/Link/BrowseItemSets.php:11
+msgid "Browse item sets"
+msgstr ""
+
+#: application/src/Site/Navigation/Link/Url.php:11
+msgid "Custom URL"
+msgstr ""
+
+#: application/src/Site/BlockLayout/TableOfContents.php:15
+msgid "Table of contents"
+msgstr ""
+
+#: application/src/Site/BlockLayout/LineBreak.php:14
+msgid "Line break"
+msgstr ""
+
+#: application/src/Site/BlockLayout/LineBreak.php:34
+msgid "Transparent"
+msgstr ""
+
+#: application/src/Site/BlockLayout/LineBreak.php:35
+msgid "Opaque"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ItemShowcase.php:13
+msgid "Item showcase"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ItemWithMetadata.php:13
+msgid "Item with metadata"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Media.php:14
+msgid "Media Embed"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Media.php:61
+msgid "Alignment"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Fallback.php:28
+#, php-format
+msgid "Unknown [%s]"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:23
+msgid "List of sites"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:38
+msgid "Alphabetical"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:39
+msgid "Oldest first"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:40
+msgid "Newest first"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:51
+msgid "Max number of sites"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:52
+msgid "An empty value means no limit."
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:56
+msgid "Unlimited"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:64
+msgid "Pagination"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:65
+msgid "Show pagination (only if a limit is set)"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:75
+msgid "Show summaries"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:85
+msgid "Exclude current site"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:15
+msgid "Browse preview"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:26
+msgid "Browse all"
+msgstr "Бүгдийг тоймлож харах"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:49
+msgid "Display resources using this search query"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:57
+msgid "Limit"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:58
+msgid "Maximum number of resources to display in the preview."
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:65
+msgid "Preview title"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:66
+msgid "Heading above resource list, if any."
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:73
+msgid "Link text"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:74
+msgid "Text for link to full browse view, if any."
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageTitle.php:13
+msgid "Page title"
+msgstr ""
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:137
+#: application/src/Api/Adapter/PropertyAdapter.php:147
+msgid "The local name cannot be empty."
+msgstr ""
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:142
+#: application/src/Api/Adapter/PropertyAdapter.php:152
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:89
+#: application/src/Api/Adapter/VocabularyAdapter.php:214
+msgid "The label cannot be empty."
+msgstr ""
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:155
+#: application/src/Api/Adapter/PropertyAdapter.php:165
+#: application/src/Api/Adapter/VocabularyAdapter.php:222
+#: application/src/Api/Adapter/VocabularyAdapter.php:235
+#, php-format
+msgid "The local name \"%s\" is already taken."
+msgstr ""
+
+#: application/src/Api/Adapter/ResourceClassAdapter.php:161
+#: application/src/Api/Adapter/PropertyAdapter.php:171
+msgid "A vocabulary must be set."
+msgstr ""
+
+#: application/src/Api/Adapter/SitePageAdapter.php:101
+msgid "A page must belong to a site."
+msgstr ""
+
+#: application/src/Api/Adapter/SitePageAdapter.php:106
+msgid "A page must have a title."
+msgstr ""
+
+#: application/src/Api/Adapter/SitePageAdapter.php:111
+#: application/src/Api/Adapter/SiteAdapter.php:234
+msgid "The slug cannot be empty."
+msgstr ""
+
+#: application/src/Api/Adapter/SitePageAdapter.php:114
+#: application/src/Api/Adapter/SiteAdapter.php:237
+msgid "A slug can only contain letters, numbers, underscores, and hyphens."
+msgstr ""
+
+#: application/src/Api/Adapter/SitePageAdapter.php:122
+#: application/src/Api/Adapter/SiteAdapter.php:241
+#, php-format
+msgid "The slug \"%s\" is already taken."
+msgstr ""
+
+#: application/src/Api/Adapter/SitePageAdapter.php:166
+msgid "All blocks must have a layout."
+msgstr ""
+
+#: application/src/Api/Adapter/SitePageAdapter.php:170
+msgid "Block data must not be a scalar value."
+msgstr ""
+
+#: application/src/Api/Adapter/ItemAdapter.php:107
+msgid "Item sets must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/ItemAdapter.php:113
+msgid "Media must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:168
+#, php-format
+msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:230
+msgid "A site must have a title."
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:247
+msgid "A site must have a theme."
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:252
+msgid "A site must have item pool data."
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:257
+msgid "A homepage must belong to its parent site."
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:304
+msgid "Invalid navigation: navigation must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:313
+msgid "Invalid navigation: link missing type"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:317
+msgid "Invalid navigation: link missing data"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:321
+msgid "Invalid navigation: invalid link data"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:326
+msgid "Invalid navigation: page links must be unique"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:333
+msgid "Invalid navigation: links must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/MediaAdapter.php:97
+msgid "Media must set an ingester."
+msgstr ""
+
+#: application/src/Api/Adapter/MediaAdapter.php:119
+msgid "Media must set a valid ingester."
+msgstr ""
+
+#: application/src/Api/Adapter/MediaAdapter.php:155
+msgid "Media must belong to an item."
+msgstr ""
+
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:75
+#, php-format
+msgid "Attempting to add duplicate property with ID %s"
+msgstr ""
+
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:92
+msgid "The label is already taken."
+msgstr ""
+
+#: application/src/Api/Adapter/UserAdapter.php:120
+msgid "The name cannot be empty."
+msgstr ""
+
+#: application/src/Api/Adapter/UserAdapter.php:130
+#, php-format
+msgid "The email %s is already taken."
+msgstr ""
+
+#: application/src/Api/Adapter/UserAdapter.php:136
+msgid "Users must have a role."
+msgstr ""
+
+#: application/src/Api/Adapter/UserAdapter.php:169
+#, php-format
+msgid "The current user #%d was removed from the batch process."
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:59
+msgid "Classes must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:65
+msgid "Properties must be an array"
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:182
+msgid "The namespace URI cannot be empty."
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:186
+#, php-format
+msgid "The namespace URI \"%s\" is already taken."
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:194
+msgid "The prefix cannot be empty."
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:198
+#, php-format
+msgid "The prefix \"%s\" is already taken."
+msgstr ""
+
+#: application/src/Api/Adapter/VocabularyAdapter.php:205
+#, php-format
+msgid "The prefix \"%s\" is reserved."
+msgstr ""
+
+#: application/src/Api/Representation/JobRepresentation.php:12
+msgid "Starting"
+msgstr ""
+
+#: application/src/Api/Representation/JobRepresentation.php:13
+msgid "Stopping"
+msgstr ""
+
+#: application/src/Api/Representation/JobRepresentation.php:14
+msgid "In Progress"
+msgstr ""
+
+#: application/src/Api/Representation/JobRepresentation.php:15
+msgid "Completed"
+msgstr ""
+
+#: application/src/Api/Representation/JobRepresentation.php:16
+msgid "Stopped"
+msgstr ""
+
+#: application/src/Entity/Job.php:23
+msgid "starting"
+msgstr ""
+
+#: application/src/Entity/Job.php:24
+msgid "stopping"
+msgstr ""
+
+#: application/src/Entity/Job.php:25
+msgid "in_progress"
+msgstr ""
+
+#: application/src/Entity/Job.php:26
+msgid "completed"
+msgstr ""
+
+#: application/src/Entity/Job.php:27
+msgid "stopped"
+msgstr ""
+
+#: application/src/Entity/Job.php:28
+msgid "error"
+msgstr ""
+
+#: application/src/Mvc/MvcListeners.php:325
+#, php-format
+msgid "The current theme is not active. Its current state is \"%s\"."
+msgstr ""
+
+#: application/src/DataType/Resource/AbstractResource.php:16
+msgid "Resource"
+msgstr ""
+
+#: application/src/DataType/Resource/AbstractResource.php:59
+msgid "A value resource cannot be Media."
+msgstr ""
+
+#: application/src/DataType/Resource/ItemSet.php:13
+msgid "Item Set"
+msgstr ""
+
+#: application/view/common/advanced-search/properties.phtml:60
+msgid "[Any Property]"
+msgstr ""
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:41
+msgid "Filter by class"
+msgstr ""
+
+#: application/view/omeka/admin/item/sidebar-select.phtml:53
+msgid "Filter by item set"
+msgstr ""
+
+#. Vocabulary label for Dublin Core
+msgid "Dublin Core"
+msgstr ""
+
+#. Vocabulary comment for Dublin Core
+msgid "Basic resource metadata (DCMI Metadata Terms)"
+msgstr ""
+
+#. Class label for Dublin Core:Agent
+#. Class label for Friend of a Friend:Agent
+msgid "Agent"
+msgstr ""
+
+#. Class comment for Dublin Core:Agent
+msgid "A resource that acts or has the power to act."
+msgstr ""
+
+#. Class label for Dublin Core:AgentClass
+msgid "Agent Class"
+msgstr ""
+
+#. Class comment for Dublin Core:AgentClass
+msgid "A group of agents."
+msgstr ""
+
+#. Class label for Dublin Core:BibliographicResource
+msgid "Bibliographic Resource"
+msgstr ""
+
+#. Class comment for Dublin Core:BibliographicResource
+msgid "A book, article, or other documentary resource."
+msgstr ""
+
+#. Class label for Dublin Core:FileFormat
+msgid "File Format"
+msgstr ""
+
+#. Class comment for Dublin Core:FileFormat
+msgid "A digital resource format."
+msgstr ""
+
+#. Class label for Dublin Core:Frequency
+msgid "Frequency"
+msgstr ""
+
+#. Class comment for Dublin Core:Frequency
+msgid "A rate at which something recurs."
+msgstr ""
+
+#. Class label for Dublin Core:Jurisdiction
+msgid "Jurisdiction"
+msgstr ""
+
+#. Class comment for Dublin Core:Jurisdiction
+msgid "The extent or range of judicial, law enforcement, or other authority."
+msgstr ""
+
+#. Class label for Dublin Core:LicenseDocument
+msgid "License Document"
+msgstr ""
+
+#. Class comment for Dublin Core:LicenseDocument
+msgid ""
+"A legal document giving official permission to do something with a Resource."
+msgstr ""
+
+#. Class label for Dublin Core:LinguisticSystem
+msgid "Linguistic System"
+msgstr ""
+
+#. Class comment for Dublin Core:LinguisticSystem
+msgid ""
+"A system of signs, symbols, sounds, gestures, or rules used in "
+"communication."
+msgstr ""
+
+#. Class label for Dublin Core:Location
+msgid "Location"
+msgstr ""
+
+#. Class comment for Dublin Core:Location
+msgid "A spatial region or named place."
+msgstr ""
+
+#. Class label for Dublin Core:LocationPeriodOrJurisdiction
+msgid "Location, Period, or Jurisdiction"
+msgstr ""
+
+#. Class comment for Dublin Core:LocationPeriodOrJurisdiction
+msgid "A location, period of time, or jurisdiction."
+msgstr ""
+
+#. Class label for Dublin Core:MediaType
+msgid "Media Type"
+msgstr ""
+
+#. Class comment for Dublin Core:MediaType
+msgid "A file format or physical medium."
+msgstr ""
+
+#. Class label for Dublin Core:MediaTypeOrExtent
+msgid "Media Type or Extent"
+msgstr ""
+
+#. Class comment for Dublin Core:MediaTypeOrExtent
+msgid "A media type or extent."
+msgstr ""
+
+#. Class label for Dublin Core:MethodOfInstruction
+msgid "Method of Instruction"
+msgstr ""
+
+#. Class comment for Dublin Core:MethodOfInstruction
+msgid "A process that is used to engender knowledge, attitudes, and skills."
+msgstr ""
+
+#. Class label for Dublin Core:MethodOfAccrual
+msgid "Method of Accrual"
+msgstr ""
+
+#. Class comment for Dublin Core:MethodOfAccrual
+msgid "A method by which resources are added to a collection."
+msgstr ""
+
+#. Class label for Dublin Core:PeriodOfTime
+msgid "Period of Time"
+msgstr ""
+
+#. Class comment for Dublin Core:PeriodOfTime
+msgid ""
+"An interval of time that is named or defined by its start and end dates."
+msgstr ""
+
+#. Class label for Dublin Core:PhysicalMedium
+msgid "Physical Medium"
+msgstr ""
+
+#. Class comment for Dublin Core:PhysicalMedium
+msgid "A physical material or carrier."
+msgstr ""
+
+#. Class label for Dublin Core:PhysicalResource
+msgid "Physical Resource"
+msgstr ""
+
+#. Class comment for Dublin Core:PhysicalResource
+msgid "A material thing."
+msgstr ""
+
+#. Class label for Dublin Core:Policy
+msgid "Policy"
+msgstr ""
+
+#. Class comment for Dublin Core:Policy
+msgid ""
+"A plan or course of action by an authority, intended to influence and "
+"determine decisions, actions, and other matters."
+msgstr ""
+
+#. Class label for Dublin Core:ProvenanceStatement
+msgid "Provenance Statement"
+msgstr ""
+
+#. Class comment for Dublin Core:ProvenanceStatement
+msgid ""
+"A statement of any changes in ownership and custody of a resource since its "
+"creation that are significant for its authenticity, integrity, and "
+"interpretation."
+msgstr ""
+
+#. Class label for Dublin Core:RightsStatement
+msgid "Rights Statement"
+msgstr ""
+
+#. Class comment for Dublin Core:RightsStatement
+msgid ""
+"A statement about the intellectual property rights (IPR) held in or over a "
+"Resource, a legal document giving official permission to do something with a"
+" resource, or a statement about access rights."
+msgstr ""
+
+#. Class label for Dublin Core:SizeOrDuration
+msgid "Size or Duration"
+msgstr ""
+
+#. Class comment for Dublin Core:SizeOrDuration
+msgid "A dimension or extent, or a time taken to play or execute."
+msgstr ""
+
+#. Class label for Dublin Core:Standard
+#. Class label for Bibliographic Ontology:Standard
+msgid "Standard"
+msgstr ""
+
+#. Class comment for Dublin Core:Standard
+msgid ""
+"A basis for comparison; a reference point against which other things can be "
+"evaluated."
+msgstr ""
+
+#. Property comment for Dublin Core:title
+msgid "A name given to the resource."
+msgstr ""
+
+#. Property label for Dublin Core:creator
+msgid "Creator"
+msgstr ""
+
+#. Property comment for Dublin Core:creator
+msgid "An entity primarily responsible for making the resource."
+msgstr ""
+
+#. Property label for Dublin Core:subject
+msgid "Subject"
+msgstr ""
+
+#. Property comment for Dublin Core:subject
+msgid "The topic of the resource."
+msgstr ""
+
+#. Property comment for Dublin Core:description
+msgid "An account of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:publisher
+msgid "Publisher"
+msgstr ""
+
+#. Property comment for Dublin Core:publisher
+msgid "An entity responsible for making the resource available."
+msgstr ""
+
+#. Property label for Dublin Core:contributor
+msgid "Contributor"
+msgstr ""
+
+#. Property comment for Dublin Core:contributor
+msgid "An entity responsible for making contributions to the resource."
+msgstr ""
+
+#. Property label for Dublin Core:date
+msgid "Date"
+msgstr ""
+
+#. Property comment for Dublin Core:date
+msgid ""
+"A point or period of time associated with an event in the lifecycle of the "
+"resource."
+msgstr ""
+
+#. Property comment for Dublin Core:type
+msgid "The nature or genre of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:format
+msgid "Format"
+msgstr ""
+
+#. Property comment for Dublin Core:format
+msgid "The file format, physical medium, or dimensions of the resource."
+msgstr ""
+
+#. Property comment for Dublin Core:identifier
+msgid "An unambiguous reference to the resource within a given context."
+msgstr ""
+
+#. Property comment for Dublin Core:source
+msgid "A related resource from which the described resource is derived."
+msgstr ""
+
+#. Property comment for Dublin Core:language
+msgid "A language of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:relation
+msgid "Relation"
+msgstr ""
+
+#. Property comment for Dublin Core:relation
+msgid "A related resource."
+msgstr ""
+
+#. Property label for Dublin Core:coverage
+msgid "Coverage"
+msgstr ""
+
+#. Property comment for Dublin Core:coverage
+msgid ""
+"The spatial or temporal topic of the resource, the spatial applicability of "
+"the resource, or the jurisdiction under which the resource is relevant."
+msgstr ""
+
+#. Property label for Dublin Core:rights
+msgid "Rights"
+msgstr ""
+
+#. Property comment for Dublin Core:rights
+msgid "Information about rights held in and over the resource."
+msgstr ""
+
+#. Property label for Dublin Core:audience
+msgid "Audience"
+msgstr ""
+
+#. Property comment for Dublin Core:audience
+msgid "A class of entity for whom the resource is intended or useful."
+msgstr ""
+
+#. Property label for Dublin Core:alternative
+msgid "Alternative Title"
+msgstr ""
+
+#. Property comment for Dublin Core:alternative
+msgid "An alternative name for the resource."
+msgstr ""
+
+#. Property label for Dublin Core:tableOfContents
+msgid "Table Of Contents"
+msgstr ""
+
+#. Property comment for Dublin Core:tableOfContents
+msgid "A list of subunits of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:abstract
+msgid "Abstract"
+msgstr ""
+
+#. Property comment for Dublin Core:abstract
+#. Property comment for Bibliographic Ontology:abstract
+msgid "A summary of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:created
+msgid "Date Created"
+msgstr "Үүсгэгдсэн огноо"
+
+#. Property comment for Dublin Core:created
+msgid "Date of creation of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:valid
+msgid "Date Valid"
+msgstr ""
+
+#. Property comment for Dublin Core:valid
+msgid "Date (often a range) of validity of a resource."
+msgstr ""
+
+#. Property label for Dublin Core:available
+msgid "Date Available"
+msgstr ""
+
+#. Property comment for Dublin Core:available
+msgid ""
+"Date (often a range) that the resource became or will become available."
+msgstr ""
+
+#. Property label for Dublin Core:issued
+msgid "Date Issued"
+msgstr ""
+
+#. Property comment for Dublin Core:issued
+msgid "Date of formal issuance (e.g., publication) of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:modified
+msgid "Date Modified"
+msgstr ""
+
+#. Property comment for Dublin Core:modified
+msgid "Date on which the resource was changed."
+msgstr ""
+
+#. Property label for Dublin Core:extent
+msgid "Extent"
+msgstr ""
+
+#. Property comment for Dublin Core:extent
+msgid "The size or duration of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:medium
+msgid "Medium"
+msgstr ""
+
+#. Property comment for Dublin Core:medium
+msgid "The material or physical carrier of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:isVersionOf
+msgid "Is Version Of"
+msgstr ""
+
+#. Property comment for Dublin Core:isVersionOf
+msgid ""
+"A related resource of which the described resource is a version, edition, or"
+" adaptation."
+msgstr ""
+
+#. Property label for Dublin Core:hasVersion
+msgid "Has Version"
+msgstr ""
+
+#. Property comment for Dublin Core:hasVersion
+msgid ""
+"A related resource that is a version, edition, or adaptation of the "
+"described resource."
+msgstr ""
+
+#. Property label for Dublin Core:isReplacedBy
+msgid "Is Replaced By"
+msgstr ""
+
+#. Property comment for Dublin Core:isReplacedBy
+msgid ""
+"A related resource that supplants, displaces, or supersedes the described "
+"resource."
+msgstr ""
+
+#. Property label for Dublin Core:replaces
+msgid "Replaces"
+msgstr ""
+
+#. Property comment for Dublin Core:replaces
+msgid ""
+"A related resource that is supplanted, displaced, or superseded by the "
+"described resource."
+msgstr ""
+
+#. Property label for Dublin Core:isRequiredBy
+msgid "Is Required By"
+msgstr ""
+
+#. Property comment for Dublin Core:isRequiredBy
+msgid ""
+"A related resource that requires the described resource to support its "
+"function, delivery, or coherence."
+msgstr ""
+
+#. Property label for Dublin Core:requires
+msgid "Requires"
+msgstr ""
+
+#. Property comment for Dublin Core:requires
+msgid ""
+"A related resource that is required by the described resource to support its"
+" function, delivery, or coherence."
+msgstr ""
+
+#. Property label for Dublin Core:isPartOf
+msgid "Is Part Of"
+msgstr ""
+
+#. Property comment for Dublin Core:isPartOf
+msgid ""
+"A related resource in which the described resource is physically or "
+"logically included."
+msgstr ""
+
+#. Property label for Dublin Core:hasPart
+msgid "Has Part"
+msgstr ""
+
+#. Property comment for Dublin Core:hasPart
+msgid ""
+"A related resource that is included either physically or logically in the "
+"described resource."
+msgstr ""
+
+#. Property label for Dublin Core:isReferencedBy
+msgid "Is Referenced By"
+msgstr ""
+
+#. Property comment for Dublin Core:isReferencedBy
+msgid ""
+"A related resource that references, cites, or otherwise points to the "
+"described resource."
+msgstr ""
+
+#. Property label for Dublin Core:references
+msgid "References"
+msgstr ""
+
+#. Property comment for Dublin Core:references
+msgid ""
+"A related resource that is referenced, cited, or otherwise pointed to by the"
+" described resource."
+msgstr ""
+
+#. Property label for Dublin Core:isFormatOf
+msgid "Is Format Of"
+msgstr ""
+
+#. Property comment for Dublin Core:isFormatOf
+msgid ""
+"A related resource that is substantially the same as the described resource,"
+" but in another format."
+msgstr ""
+
+#. Property label for Dublin Core:hasFormat
+msgid "Has Format"
+msgstr ""
+
+#. Property comment for Dublin Core:hasFormat
+msgid ""
+"A related resource that is substantially the same as the pre-existing "
+"described resource, but in another format."
+msgstr ""
+
+#. Property label for Dublin Core:conformsTo
+msgid "Conforms To"
+msgstr ""
+
+#. Property comment for Dublin Core:conformsTo
+msgid "An established standard to which the described resource conforms."
+msgstr ""
+
+#. Property label for Dublin Core:spatial
+msgid "Spatial Coverage"
+msgstr ""
+
+#. Property comment for Dublin Core:spatial
+msgid "Spatial characteristics of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:temporal
+msgid "Temporal Coverage"
+msgstr ""
+
+#. Property comment for Dublin Core:temporal
+msgid "Temporal characteristics of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:mediator
+msgid "Mediator"
+msgstr ""
+
+#. Property comment for Dublin Core:mediator
+msgid ""
+"An entity that mediates access to the resource and for whom the resource is "
+"intended or useful."
+msgstr ""
+
+#. Property label for Dublin Core:dateAccepted
+msgid "Date Accepted"
+msgstr ""
+
+#. Property comment for Dublin Core:dateAccepted
+msgid "Date of acceptance of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:dateCopyrighted
+msgid "Date Copyrighted"
+msgstr "Зохиогчийн эрх авсан огноо"
+
+#. Property comment for Dublin Core:dateCopyrighted
+msgid "Date of copyright."
+msgstr "Зохиогчийн эрхийн огноо."
+
+#. Property label for Dublin Core:dateSubmitted
+msgid "Date Submitted"
+msgstr ""
+
+#. Property comment for Dublin Core:dateSubmitted
+msgid "Date of submission of the resource."
+msgstr ""
+
+#. Property label for Dublin Core:educationLevel
+msgid "Audience Education Level"
+msgstr ""
+
+#. Property comment for Dublin Core:educationLevel
+msgid ""
+"A class of entity, defined in terms of progression through an educational or"
+" training context, for which the described resource is intended."
+msgstr ""
+
+#. Property label for Dublin Core:accessRights
+msgid "Access Rights"
+msgstr "Хандалтын эрх"
+
+#. Property comment for Dublin Core:accessRights
+msgid ""
+"Information about who can access the resource or an indication of its "
+"security status."
+msgstr ""
+
+#. Property label for Dublin Core:bibliographicCitation
+msgid "Bibliographic Citation"
+msgstr ""
+
+#. Property comment for Dublin Core:bibliographicCitation
+msgid "A bibliographic reference for the resource."
+msgstr ""
+
+#. Property label for Dublin Core:license
+msgid "License"
+msgstr "Лиценз"
+
+#. Property comment for Dublin Core:license
+msgid ""
+"A legal document giving official permission to do something with the "
+"resource."
+msgstr ""
+
+#. Property label for Dublin Core:rightsHolder
+msgid "Rights Holder"
+msgstr "Эрх эзэмшигч"
+
+#. Property comment for Dublin Core:rightsHolder
+msgid "A person or organization owning or managing rights over the resource."
+msgstr ""
+
+#. Property label for Dublin Core:provenance
+msgid "Provenance"
+msgstr ""
+
+#. Property comment for Dublin Core:provenance
+msgid ""
+"A statement of any changes in ownership and custody of the resource since "
+"its creation that are significant for its authenticity, integrity, and "
+"interpretation."
+msgstr ""
+
+#. Property label for Dublin Core:instructionalMethod
+msgid "Instructional Method"
+msgstr ""
+
+#. Property comment for Dublin Core:instructionalMethod
+msgid ""
+"A process, used to engender knowledge, attitudes and skills, that the "
+"described resource is designed to support."
+msgstr ""
+
+#. Property label for Dublin Core:accrualMethod
+msgid "Accrual Method"
+msgstr ""
+
+#. Property comment for Dublin Core:accrualMethod
+msgid "The method by which items are added to a collection."
+msgstr ""
+
+#. Property label for Dublin Core:accrualPeriodicity
+msgid "Accrual Periodicity"
+msgstr ""
+
+#. Property comment for Dublin Core:accrualPeriodicity
+msgid "The frequency with which items are added to a collection."
+msgstr ""
+
+#. Property label for Dublin Core:accrualPolicy
+msgid "Accrual Policy"
+msgstr ""
+
+#. Property comment for Dublin Core:accrualPolicy
+msgid "The policy governing the addition of items to a collection."
+msgstr ""
+
+#. Vocabulary label for Dublin Core Type
+msgid "Dublin Core Type"
+msgstr ""
+
+#. Vocabulary comment for Dublin Core Type
+msgid "Basic resource types (DCMI Type Vocabulary)"
+msgstr ""
+
+#. Class label for Dublin Core Type:Collection
+#. Class label for Bibliographic Ontology:Collection
+msgid "Collection"
+msgstr "Сан хөмрөг"
+
+#. Class comment for Dublin Core Type:Collection
+msgid "An aggregation of resources."
+msgstr ""
+
+#. Class label for Dublin Core Type:Dataset
+msgid "Dataset"
+msgstr ""
+
+#. Class comment for Dublin Core Type:Dataset
+msgid "Data encoded in a defined structure."
+msgstr ""
+
+#. Class label for Dublin Core Type:Event
+#. Class label for Bibliographic Ontology:Event
+msgid "Event"
+msgstr ""
+
+#. Class comment for Dublin Core Type:Event
+msgid "A non-persistent, time-based occurrence."
+msgstr ""
+
+#. Class label for Dublin Core Type:Image
+#. Class label for Bibliographic Ontology:Image
+#. Class label for Friend of a Friend:Image
+msgid "Image"
+msgstr "Зураг"
+
+#. Class comment for Dublin Core Type:Image
+msgid "A visual representation other than text."
+msgstr ""
+
+#. Class label for Dublin Core Type:InteractiveResource
+msgid "Interactive Resource"
+msgstr ""
+
+#. Class comment for Dublin Core Type:InteractiveResource
+msgid ""
+"A resource requiring interaction from the user to be understood, executed, "
+"or experienced."
+msgstr ""
+
+#. Class label for Dublin Core Type:Service
+msgid "Service"
+msgstr "Үйлчилгээ"
+
+#. Class comment for Dublin Core Type:Service
+msgid "A system that provides one or more functions."
+msgstr ""
+
+#. Class label for Dublin Core Type:Software
+msgid "Software"
+msgstr "Программ хангамж"
+
+#. Class comment for Dublin Core Type:Software
+msgid "A computer program in source or compiled form."
+msgstr ""
+
+#. Class label for Dublin Core Type:Sound
+msgid "Sound"
+msgstr ""
+
+#. Class comment for Dublin Core Type:Sound
+msgid "A resource primarily intended to be heard."
+msgstr ""
+
+#. Class comment for Dublin Core Type:Text
+msgid "A resource consisting primarily of words for reading."
+msgstr ""
+
+#. Class label for Dublin Core Type:PhysicalObject
+msgid "Physical Object"
+msgstr ""
+
+#. Class comment for Dublin Core Type:PhysicalObject
+msgid "An inanimate, three-dimensional object or substance."
+msgstr ""
+
+#. Class label for Dublin Core Type:StillImage
+msgid "Still Image"
+msgstr ""
+
+#. Class comment for Dublin Core Type:StillImage
+msgid "A static visual representation."
+msgstr ""
+
+#. Class label for Dublin Core Type:MovingImage
+msgid "Moving Image"
+msgstr "Хөдөлгөөнт зураг"
+
+#. Class comment for Dublin Core Type:MovingImage
+msgid ""
+"A series of visual representations imparting an impression of motion when "
+"shown in succession."
+msgstr ""
+
+#. Vocabulary label for Bibliographic Ontology
+msgid "Bibliographic Ontology"
+msgstr ""
+
+#. Vocabulary comment for Bibliographic Ontology
+msgid "Bibliographic metadata (BIBO)"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:AcademicArticle
+msgid "Academic Article"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:AcademicArticle
+msgid "A scholarly academic article, typically published in a journal."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Article
+msgid "Article"
+msgstr "Өгүүлэл"
+
+#. Class comment for Bibliographic Ontology:Article
+msgid ""
+"A written composition in prose, usually nonfiction, on a specific topic, "
+"forming an independent part of a book or other publication, as a newspaper "
+"or magazine."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:AudioDocument
+msgid "audio document"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:AudioDocument
+msgid "An audio document; aka record."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:AudioVisualDocument
+msgid "audio-visual document"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:AudioVisualDocument
+msgid "An audio-visual document; film, video, and so forth."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Bill
+msgid "Bill"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Bill
+msgid "Draft legislation presented for discussion to a legal body."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Book
+msgid "Book"
+msgstr "Ном"
+
+#. Class comment for Bibliographic Ontology:Book
+msgid ""
+"A written or printed work of fiction or nonfiction, usually on sheets of "
+"paper fastened or bound together within covers."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:BookSection
+msgid "Book Section"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:BookSection
+msgid "A section of a book."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Brief
+msgid "Brief"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Brief
+msgid "A written argument submitted to a court."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Chapter
+msgid "Chapter"
+msgstr "Бүлэг"
+
+#. Class comment for Bibliographic Ontology:Chapter
+msgid "A chapter of a book."
+msgstr "Номын бүлэг"
+
+#. Class label for Bibliographic Ontology:Code
+msgid "Code"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Code
+msgid "A collection of statutes."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:CollectedDocument
+msgid "Collected Document"
+msgstr "Цуглуулсан баримт"
+
+#. Class comment for Bibliographic Ontology:CollectedDocument
+msgid "A document that simultaneously contains other documents."
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Collection
+msgid "A collection of Documents or Collections"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Conference
+msgid "Conference"
+msgstr "Хурал"
+
+#. Class comment for Bibliographic Ontology:Conference
+msgid "A meeting for consultation or discussion."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:CourtReporter
+msgid "Court Reporter"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:CourtReporter
+msgid "A collection of legal cases."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Document
+#. Class label for Friend of a Friend:Document
+msgid "Document"
+msgstr "Баримт бичиг"
+
+#. Class comment for Bibliographic Ontology:Document
+msgid ""
+"A document (noun) is a bounded physical representation of body of "
+"information designed with the capacity (and usually intent) to communicate. "
+"A document may manifest symbolic, diagrammatic or sensory-representational "
+"information."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:DocumentPart
+msgid "document part"
+msgstr "Баримт бичгийн хэсэг"
+
+#. Class comment for Bibliographic Ontology:DocumentPart
+msgid "a distinct part of a larger document or collected document."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:DocumentStatus
+msgid "Document Status"
+msgstr "Баримт бичгийн статус"
+
+#. Class comment for Bibliographic Ontology:DocumentStatus
+msgid "The status of the publication of a document."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:EditedBook
+msgid "Edited Book"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:EditedBook
+msgid "An edited book."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Email
+msgid "EMail"
+msgstr "Имэйл"
+
+#. Class comment for Bibliographic Ontology:Email
+msgid ""
+"A written communication addressed to a person or organization and "
+"transmitted electronically."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Excerpt
+msgid "Excerpt"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Excerpt
+msgid "A passage selected from a larger work."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Film
+msgid "Film"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Film
+msgid "aka movie."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Hearing
+msgid "Hearing"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Hearing
+msgid ""
+"An instance or a session in which testimony and arguments are presented, "
+"esp. before an official, as a judge in a lawsuit."
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Image
+msgid "A document that presents visual or diagrammatic information."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Interview
+msgid "Interview"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Interview
+msgid "A formalized discussion between two or more people."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Issue
+msgid "Issue"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Issue
+msgid ""
+"something that is printed or published and distributed, esp. a given number "
+"of a periodical"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Journal
+msgid "Journal"
+msgstr "Сэтгүүл"
+
+#. Class comment for Bibliographic Ontology:Journal
+msgid "A periodical of scholarly journal Articles."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:LegalCaseDocument
+msgid "Legal Case Document"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:LegalCaseDocument
+msgid "A document accompanying a legal case."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:LegalDecision
+msgid "Decision"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:LegalDecision
+msgid ""
+"A document containing an authoritative determination (as a decree or "
+"judgment) made after consideration of facts or law."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:LegalDocument
+msgid "Legal Document"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:LegalDocument
+msgid ""
+"A legal document; for example, a court decision, a brief, and so forth."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Legislation
+msgid "Legislation"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Legislation
+msgid "A legal document proposing or enacting a law or a group of laws."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Letter
+msgid "Letter"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Letter
+msgid ""
+"A written or printed communication addressed to a person or organization and"
+" usually transmitted by mail."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Magazine
+msgid "Magazine"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Magazine
+msgid ""
+"A periodical of magazine Articles. A magazine is a publication that is "
+"issued periodically, usually bound in a paper cover, and typically contains "
+"essays, stories, poems, etc., by many writers, and often photographs and "
+"drawings, frequently specializing in a particular subject or area, as "
+"hobbies, news, or sports."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Manual
+msgid "Manual"
+msgstr "Гарын авлага"
+
+#. Class comment for Bibliographic Ontology:Manual
+msgid "A small reference book, especially one giving instructions."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Manuscript
+msgid "Manuscript"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Manuscript
+msgid ""
+"An unpublished Document, which may also be submitted to a publisher for "
+"publication."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Map
+msgid "Map"
+msgstr "Газрын зураг"
+
+#. Class comment for Bibliographic Ontology:Map
+msgid "A graphical depiction of geographic features."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:MultiVolumeBook
+msgid "Multivolume Book"
+msgstr "Олон ботит ном"
+
+#. Class comment for Bibliographic Ontology:MultiVolumeBook
+#. Class comment for Bibliographic Ontology:Series
+msgid "A loose, thematic, collection of Documents, often Books."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Newspaper
+msgid "Newspaper"
+msgstr "Сонин"
+
+#. Class comment for Bibliographic Ontology:Newspaper
+msgid ""
+"A periodical of documents, usually issued daily or weekly, containing "
+"current news, editorials, feature articles, and usually advertising."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Note
+msgid "Note"
+msgstr "Тайлбар"
+
+#. Class comment for Bibliographic Ontology:Note
+msgid "Notes or annotations about a resource."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Patent
+msgid "Patent"
+msgstr "Патент"
+
+#. Class comment for Bibliographic Ontology:Patent
+msgid ""
+"A document describing the exclusive right granted by a government to an "
+"inventor to manufacture, use, or sell an invention for a certain number of "
+"years."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Performance
+msgid "Performance"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Performance
+msgid "A public performance."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Periodical
+msgid "Periodical"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Periodical
+msgid "A group of related documents issued at regular intervals."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:PersonalCommunication
+msgid "Personal Communication"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:PersonalCommunication
+msgid "A communication between an agent and one or more specific recipients."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:PersonalCommunicationDocument
+msgid "Personal Communication Document"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:PersonalCommunicationDocument
+msgid "A personal communication manifested in some document."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Proceedings
+msgid "Proceedings"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Proceedings
+msgid ""
+"A compilation of documents published from an event, such as a conference."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Quote
+msgid "Quote"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Quote
+msgid "An excerpted collection of words."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:ReferenceSource
+msgid "Reference Source"
+msgstr "Лавлагааны эх сурвалж"
+
+#. Class comment for Bibliographic Ontology:ReferenceSource
+msgid ""
+"A document that presents authoritative reference information, such as a "
+"dictionary or encylopedia ."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Report
+msgid "Report"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Report
+msgid ""
+"A document describing an account or statement describing in detail an event,"
+" situation, or the like, usually as the result of observation, inquiry, "
+"etc.."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Series
+msgid "Series"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Slide
+msgid "Slide"
+msgstr "Слайд"
+
+#. Class comment for Bibliographic Ontology:Slide
+msgid "A slide in a slideshow"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Slideshow
+msgid "Slideshow"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Slideshow
+msgid ""
+"A presentation of a series of slides, usually presented in front of an "
+"audience with written text and images."
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Standard
+msgid "A document describing a standard"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Statute
+msgid "Statute"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Statute
+msgid "A bill enacted into law."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Thesis
+msgid "Thesis"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Thesis
+msgid ""
+"A document created to summarize research findings associated with the "
+"completion of an academic degree."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:ThesisDegree
+msgid "Thesis degree"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:ThesisDegree
+msgid "The academic degree of a Thesis"
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Webpage
+msgid "Webpage"
+msgstr "Вэб хуудас"
+
+#. Class comment for Bibliographic Ontology:Webpage
+msgid ""
+"A web page is an online document available (at least initially) on the world"
+" wide web. A web page is written first and foremost to appear on the web, as"
+" distinct from other online resources such as books, manuscripts or audio "
+"documents which use the web primarily as a distribution mechanism alongside "
+"other more traditional methods such as print."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Website
+msgid "Website"
+msgstr "Вэб сайт"
+
+#. Class comment for Bibliographic Ontology:Website
+msgid "A group of Webpages accessible on the Web."
+msgstr ""
+
+#. Class label for Bibliographic Ontology:Workshop
+msgid "Workshop"
+msgstr ""
+
+#. Class comment for Bibliographic Ontology:Workshop
+msgid ""
+"A seminar, discussion group, or the like, that emphasizes zxchange of ideas "
+"and the demonstration and application of techniques, skills, etc."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:affirmedBy
+msgid "affirmedBy"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:affirmedBy
+msgid "A legal decision that affirms a ruling."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:annotates
+msgid "annotates"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:annotates
+msgid "Critical or explanatory note for a Document."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:authorList
+msgid "list of authors"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:authorList
+msgid ""
+"An ordered list of authors. Normally, this list is seen as a priority list "
+"that order authors by importance."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:citedBy
+msgid "cited by"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:citedBy
+msgid ""
+"Relates a document to another document that cites the\n"
+"first document."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:cites
+msgid "cites"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:cites
+msgid ""
+"Relates a document to another document that is cited\n"
+"by the first document as reference, comment, review, quotation or for\n"
+"another purpose."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:contributorList
+msgid "list of contributors"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:contributorList
+msgid ""
+"An ordered list of contributors. Normally, this list is seen as a priority "
+"list that order contributors by importance."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:court
+msgid "court"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:court
+msgid ""
+"A court associated with a legal document; for example, that which issues a "
+"decision."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:degree
+msgid "degree"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:degree
+msgid "The thesis degree."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:director
+msgid "director"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:director
+msgid "A Film director."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:distributor
+msgid "distributor"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:distributor
+msgid "Distributor of a document or a collection of documents."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:editor
+msgid "editor"
+msgstr "редактор"
+
+#. Property comment for Bibliographic Ontology:editor
+msgid ""
+"A person having managerial and sometimes policy-making responsibility for "
+"the editorial part of a publishing firm or of a newspaper, magazine, or "
+"other publication."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:editorList
+msgid "list of editors"
+msgstr "редакторын жагсаалт"
+
+#. Property comment for Bibliographic Ontology:editorList
+msgid ""
+"An ordered list of editors. Normally, this list is seen as a priority list "
+"that order editors by importance."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:interviewee
+msgid "interviewee"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:interviewee
+msgid "An agent that is interviewed by another agent."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:interviewer
+msgid "interviewer"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:interviewer
+msgid "An agent that interview another agent."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:issuer
+msgid "issuer"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:issuer
+msgid ""
+"An entity responsible for issuing often informally published documents such "
+"as press releases, reports, etc."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:organizer
+msgid "organizer"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:organizer
+msgid ""
+"The organizer of an event; includes conference organizers, but also "
+"government agencies or other bodies that are responsible for conducting "
+"hearings."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:owner
+msgid "owner"
+msgstr "эзэмшигч"
+
+#. Property comment for Bibliographic Ontology:owner
+msgid "Owner of a document or a collection of documents."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:performer
+msgid "performer"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:presentedAt
+msgid "presented at"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:presentedAt
+msgid "Relates a document to an event; for example, a paper to a conference."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:presents
+msgid "presents"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:presents
+msgid ""
+"Relates an event to associated documents; for example, conference to a "
+"paper."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:producer
+msgid "producer"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:producer
+msgid "Producer of a document or a collection of documents."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:recipient
+msgid "recipient"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:recipient
+msgid "An agent that receives a communication document."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:reproducedIn
+msgid "reproducedIn"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:reproducedIn
+msgid "The resource in which another resource is reproduced."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:reversedBy
+msgid "reversedBy"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:reversedBy
+msgid "A legal decision that reverses a ruling."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:reviewOf
+msgid "review of"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:reviewOf
+msgid "Relates a review document to a reviewed thing (resource, item, etc.)."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:status
+#. Property label for Friend of a Friend:status
+msgid "status"
+msgstr "статус"
+
+#. Property comment for Bibliographic Ontology:status
+msgid "The publication status of (typically academic) content."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:subsequentLegalDecision
+msgid "subsequentLegalDecision"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:subsequentLegalDecision
+msgid ""
+"A legal decision on appeal that takes action on a case (affirming it, "
+"reversing it, etc.)."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:transcriptOf
+msgid "transcript of"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:transcriptOf
+msgid "Relates a document to some transcribed original."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:translationOf
+msgid "translation of"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:translationOf
+msgid "Relates a translated document to the original document."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:translator
+msgid "translator"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:translator
+msgid "A person who translates written document from one language to another."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:abstract
+msgid "abstract"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:argued
+msgid "date argued"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:argued
+msgid ""
+"The date on which a legal case is argued before a court. Date is of format "
+"xsd:date"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:asin
+msgid "asin"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:chapter
+msgid "chapter"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:chapter
+msgid "An chapter number"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:coden
+msgid "coden"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:content
+msgid "content"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:content
+msgid ""
+"This property is for a plain-text rendering of the content of a Document. "
+"While the plain-text content of an entire document could be described by "
+"this property."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:doi
+msgid "doi"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:eanucc13
+msgid "eanucc13"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:edition
+msgid "edition"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:edition
+msgid ""
+"The name defining a special edition of a document. Normally its a literal "
+"value composed of a version number and words."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:eissn
+msgid "eissn"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:gtin14
+msgid "gtin14"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:handle
+msgid "handle"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:identifier
+msgid "identifier"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:isbn
+msgid "isbn"
+msgstr "isbn"
+
+#. Property label for Bibliographic Ontology:isbn10
+msgid "isbn10"
+msgstr "isbn10"
+
+#. Property label for Bibliographic Ontology:isbn13
+msgid "isbn13"
+msgstr "isbn13"
+
+#. Property label for Bibliographic Ontology:issn
+msgid "issn"
+msgstr "issn"
+
+#. Property label for Bibliographic Ontology:issue
+msgid "issue"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:issue
+msgid "An issue number"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:lccn
+msgid "lccn"
+msgstr "lccn"
+
+#. Property label for Bibliographic Ontology:locator
+msgid "locator"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:locator
+msgid ""
+"A description (often numeric) that locates an item within a containing "
+"document or collection."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:numPages
+msgid "number of pages"
+msgstr "хуудасны дугаар"
+
+#. Property comment for Bibliographic Ontology:numPages
+msgid "The number of pages contained in a document"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:numVolumes
+msgid "number of volumes"
+msgstr "ботийн дугаар"
+
+#. Property comment for Bibliographic Ontology:numVolumes
+msgid ""
+"The number of volumes contained in a collection of documents (usually a "
+"series, periodical, etc.)."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:number
+msgid "number"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:number
+msgid ""
+"A generic item or document number. Not to be confused with issue number."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:oclcnum
+msgid "oclcnum"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:pageEnd
+msgid "page end"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:pageEnd
+msgid "Ending page number within a continuous page range."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:pageStart
+msgid "page start"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:pageStart
+msgid "Starting page number within a continuous page range."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:pages
+msgid "pages"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:pages
+msgid ""
+"A string of non-contiguous page spans that locate a Document within a "
+"Collection. Example: 23-25, 34, 54-56. For continuous page ranges, use the "
+"pageStart and pageEnd properties."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:pmid
+msgid "pmid"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:prefixName
+msgid "prefix name"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:prefixName
+msgid "The prefix of a name"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:section
+msgid "section"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:section
+msgid "A section number"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:shortDescription
+msgid "shortDescription"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:shortTitle
+msgid "short title"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:shortTitle
+msgid "The abbreviation of a title."
+msgstr ""
+
+#. Property label for Bibliographic Ontology:sici
+msgid "sici"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:suffixName
+msgid "suffix name"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:suffixName
+msgid "The suffix of a name"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:upc
+msgid "upc"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:uri
+msgid "uri"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:uri
+msgid "Universal Resource Identifier of a document"
+msgstr ""
+
+#. Property label for Bibliographic Ontology:volume
+msgid "volume"
+msgstr ""
+
+#. Property comment for Bibliographic Ontology:volume
+msgid "A volume number"
+msgstr ""
+
+#. Vocabulary label for Friend of a Friend
+msgid "Friend of a Friend"
+msgstr ""
+
+#. Vocabulary comment for Friend of a Friend
+msgid "Relationships between people and organizations (FOAF)"
+msgstr ""
+
+#. Class label for Friend of a Friend:LabelProperty
+msgid "Label Property"
+msgstr ""
+
+#. Class comment for Friend of a Friend:LabelProperty
+msgid ""
+"A foaf:LabelProperty is any RDF property with texual values that serve as "
+"labels."
+msgstr ""
+
+#. Class label for Friend of a Friend:Person
+msgid "Person"
+msgstr ""
+
+#. Class comment for Friend of a Friend:Person
+msgid "A person."
+msgstr ""
+
+#. Class comment for Friend of a Friend:Document
+msgid "A document."
+msgstr ""
+
+#. Class label for Friend of a Friend:Organization
+msgid "Organization"
+msgstr ""
+
+#. Class comment for Friend of a Friend:Organization
+msgid "An organization."
+msgstr ""
+
+#. Class label for Friend of a Friend:Group
+msgid "Group"
+msgstr ""
+
+#. Class comment for Friend of a Friend:Group
+msgid "A class of Agents."
+msgstr ""
+
+#. Class comment for Friend of a Friend:Agent
+msgid "An agent (eg. person, group, software or physical artifact)."
+msgstr ""
+
+#. Class label for Friend of a Friend:Project
+msgid "Project"
+msgstr ""
+
+#. Class comment for Friend of a Friend:Project
+msgid "A project (a collective endeavour of some kind)."
+msgstr ""
+
+#. Class comment for Friend of a Friend:Image
+msgid "An image."
+msgstr ""
+
+#. Class label for Friend of a Friend:PersonalProfileDocument
+msgid "PersonalProfileDocument"
+msgstr ""
+
+#. Class comment for Friend of a Friend:PersonalProfileDocument
+msgid "A personal profile RDF document."
+msgstr ""
+
+#. Class label for Friend of a Friend:OnlineAccount
+msgid "Online Account"
+msgstr ""
+
+#. Class comment for Friend of a Friend:OnlineAccount
+msgid "An online account."
+msgstr ""
+
+#. Class label for Friend of a Friend:OnlineGamingAccount
+msgid "Online Gaming Account"
+msgstr ""
+
+#. Class comment for Friend of a Friend:OnlineGamingAccount
+msgid "An online gaming account."
+msgstr ""
+
+#. Class label for Friend of a Friend:OnlineEcommerceAccount
+msgid "Online E-commerce Account"
+msgstr ""
+
+#. Class comment for Friend of a Friend:OnlineEcommerceAccount
+msgid "An online e-commerce account."
+msgstr ""
+
+#. Class label for Friend of a Friend:OnlineChatAccount
+msgid "Online Chat Account"
+msgstr ""
+
+#. Class comment for Friend of a Friend:OnlineChatAccount
+msgid "An online chat account."
+msgstr ""
+
+#. Property label for Friend of a Friend:mbox
+msgid "personal mailbox"
+msgstr ""
+
+#. Property comment for Friend of a Friend:mbox
+msgid ""
+"A  personal mailbox, ie. an Internet mailbox associated with exactly one "
+"owner, the first owner of this mailbox. This is a 'static inverse functional"
+" property', in that  there is (across time and change) at most one "
+"individual that ever has any particular value for foaf:mbox."
+msgstr ""
+
+#. Property label for Friend of a Friend:mbox_sha1sum
+msgid "sha1sum of a personal mailbox URI name"
+msgstr ""
+
+#. Property comment for Friend of a Friend:mbox_sha1sum
+msgid ""
+"The sha1sum of the URI of an Internet mailbox associated with exactly one "
+"owner, the  first owner of the mailbox."
+msgstr ""
+
+#. Property label for Friend of a Friend:gender
+msgid "gender"
+msgstr "хүйс"
+
+#. Property comment for Friend of a Friend:gender
+msgid ""
+"The gender of this Agent (typically but not necessarily 'male' or 'female')."
+msgstr ""
+
+#. Property label for Friend of a Friend:geekcode
+msgid "geekcode"
+msgstr ""
+
+#. Property comment for Friend of a Friend:geekcode
+msgid ""
+"A textual geekcode for this person, see http://www.geekcode.com/geek.html"
+msgstr ""
+
+#. Property label for Friend of a Friend:dnaChecksum
+msgid "DNA checksum"
+msgstr ""
+
+#. Property comment for Friend of a Friend:dnaChecksum
+msgid "A checksum for the DNA of some thing. Joke."
+msgstr ""
+
+#. Property label for Friend of a Friend:sha1
+msgid "sha1sum (hex)"
+msgstr ""
+
+#. Property comment for Friend of a Friend:sha1
+msgid "A sha1sum hash, in hex."
+msgstr ""
+
+#. Property label for Friend of a Friend:based_near
+msgid "based near"
+msgstr ""
+
+#. Property comment for Friend of a Friend:based_near
+msgid ""
+"A location that something is based near, for some broadly human notion of "
+"near."
+msgstr ""
+
+#. Property label for Friend of a Friend:title
+msgid "title"
+msgstr ""
+
+#. Property comment for Friend of a Friend:title
+msgid "Title (Mr, Mrs, Ms, Dr. etc)"
+msgstr ""
+
+#. Property label for Friend of a Friend:nick
+msgid "nickname"
+msgstr ""
+
+#. Property comment for Friend of a Friend:nick
+msgid ""
+"A short informal nickname characterising an agent (includes login "
+"identifiers, IRC and other chat nicknames)."
+msgstr ""
+
+#. Property label for Friend of a Friend:jabberID
+msgid "jabber ID"
+msgstr "jabber ID"
+
+#. Property comment for Friend of a Friend:jabberID
+msgid "A jabber ID for something."
+msgstr ""
+
+#. Property label for Friend of a Friend:aimChatID
+msgid "AIM chat ID"
+msgstr "AIM chat ID"
+
+#. Property comment for Friend of a Friend:aimChatID
+msgid "An AIM chat ID"
+msgstr "An AIM chat ID"
+
+#. Property label for Friend of a Friend:skypeID
+msgid "Skype ID"
+msgstr "Skype ID"
+
+#. Property comment for Friend of a Friend:skypeID
+msgid "A Skype ID"
+msgstr "A Skype ID"
+
+#. Property label for Friend of a Friend:icqChatID
+msgid "ICQ chat ID"
+msgstr "ICQ chat ID"
+
+#. Property comment for Friend of a Friend:icqChatID
+msgid "An ICQ chat ID"
+msgstr "An ICQ chat ID"
+
+#. Property label for Friend of a Friend:yahooChatID
+msgid "Yahoo chat ID"
+msgstr "Yahoo chat ID"
+
+#. Property comment for Friend of a Friend:yahooChatID
+msgid "A Yahoo chat ID"
+msgstr "A Yahoo chat ID"
+
+#. Property label for Friend of a Friend:msnChatID
+msgid "MSN chat ID"
+msgstr "MSN chat ID"
+
+#. Property comment for Friend of a Friend:msnChatID
+msgid "An MSN chat ID"
+msgstr "An MSN chat ID"
+
+#. Property label for Friend of a Friend:name
+msgid "name"
+msgstr "нэр"
+
+#. Property comment for Friend of a Friend:name
+msgid "A name for some thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:firstName
+msgid "firstName"
+msgstr "өөрийн нэр"
+
+#. Property comment for Friend of a Friend:firstName
+msgid "The first name of a person."
+msgstr ""
+
+#. Property label for Friend of a Friend:lastName
+msgid "lastName"
+msgstr ""
+
+#. Property comment for Friend of a Friend:lastName
+msgid "The last name of a person."
+msgstr ""
+
+#. Property label for Friend of a Friend:givenName
+#. Property label for Friend of a Friend:givenname
+msgid "Given name"
+msgstr ""
+
+#. Property comment for Friend of a Friend:givenName
+#. Property comment for Friend of a Friend:givenname
+msgid "The given name of some person."
+msgstr ""
+
+#. Property label for Friend of a Friend:surname
+msgid "Surname"
+msgstr ""
+
+#. Property comment for Friend of a Friend:surname
+msgid "The surname of some person."
+msgstr ""
+
+#. Property label for Friend of a Friend:family_name
+msgid "family_name"
+msgstr ""
+
+#. Property comment for Friend of a Friend:family_name
+#. Property comment for Friend of a Friend:familyName
+msgid "The family name of some person."
+msgstr ""
+
+#. Property label for Friend of a Friend:familyName
+msgid "familyName"
+msgstr ""
+
+#. Property label for Friend of a Friend:phone
+msgid "phone"
+msgstr ""
+
+#. Property comment for Friend of a Friend:phone
+msgid ""
+"A phone,  specified using fully qualified tel: URI scheme (refs: "
+"http://www.w3.org/Addressing/schemes.html#tel)."
+msgstr ""
+
+#. Property label for Friend of a Friend:homepage
+msgid "homepage"
+msgstr ""
+
+#. Property comment for Friend of a Friend:homepage
+msgid "A homepage for some thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:weblog
+msgid "weblog"
+msgstr ""
+
+#. Property comment for Friend of a Friend:weblog
+msgid "A weblog of some thing (whether person, group, company etc.)."
+msgstr ""
+
+#. Property label for Friend of a Friend:openid
+msgid "openid"
+msgstr ""
+
+#. Property comment for Friend of a Friend:openid
+msgid "An OpenID for an Agent."
+msgstr ""
+
+#. Property label for Friend of a Friend:tipjar
+msgid "tipjar"
+msgstr ""
+
+#. Property comment for Friend of a Friend:tipjar
+msgid ""
+"A tipjar document for this agent, describing means for payment and reward."
+msgstr ""
+
+#. Property label for Friend of a Friend:plan
+msgid "plan"
+msgstr ""
+
+#. Property comment for Friend of a Friend:plan
+msgid "A .plan comment, in the tradition of finger and '.plan' files."
+msgstr ""
+
+#. Property label for Friend of a Friend:made
+msgid "made"
+msgstr ""
+
+#. Property comment for Friend of a Friend:made
+msgid "Something that was made by this agent."
+msgstr ""
+
+#. Property label for Friend of a Friend:maker
+msgid "maker"
+msgstr ""
+
+#. Property comment for Friend of a Friend:maker
+msgid "An agent that  made this thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:img
+msgid "image"
+msgstr ""
+
+#. Property comment for Friend of a Friend:img
+msgid ""
+"An image that can be used to represent some thing (ie. those depictions "
+"which are particularly representative of something, eg. one's photo on a "
+"homepage)."
+msgstr ""
+
+#. Property label for Friend of a Friend:depiction
+msgid "depiction"
+msgstr ""
+
+#. Property comment for Friend of a Friend:depiction
+msgid "A depiction of some thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:depicts
+msgid "depicts"
+msgstr ""
+
+#. Property comment for Friend of a Friend:depicts
+msgid "A thing depicted in this representation."
+msgstr ""
+
+#. Property label for Friend of a Friend:thumbnail
+msgid "thumbnail"
+msgstr ""
+
+#. Property comment for Friend of a Friend:thumbnail
+msgid "A derived thumbnail image."
+msgstr ""
+
+#. Property label for Friend of a Friend:myersBriggs
+msgid "myersBriggs"
+msgstr ""
+
+#. Property comment for Friend of a Friend:myersBriggs
+msgid "A Myers Briggs (MBTI) personality classification."
+msgstr ""
+
+#. Property label for Friend of a Friend:workplaceHomepage
+msgid "workplace homepage"
+msgstr ""
+
+#. Property comment for Friend of a Friend:workplaceHomepage
+msgid ""
+"A workplace homepage of some person; the homepage of an organization they "
+"work for."
+msgstr ""
+
+#. Property label for Friend of a Friend:workInfoHomepage
+msgid "work info homepage"
+msgstr ""
+
+#. Property comment for Friend of a Friend:workInfoHomepage
+msgid ""
+"A work info homepage of some person; a page about their work for some "
+"organization."
+msgstr ""
+
+#. Property label for Friend of a Friend:schoolHomepage
+msgid "schoolHomepage"
+msgstr ""
+
+#. Property comment for Friend of a Friend:schoolHomepage
+msgid "A homepage of a school attended by the person."
+msgstr ""
+
+#. Property label for Friend of a Friend:knows
+msgid "knows"
+msgstr ""
+
+#. Property comment for Friend of a Friend:knows
+msgid ""
+"A person known by this person (indicating some level of reciprocated "
+"interaction between the parties)."
+msgstr ""
+
+#. Property label for Friend of a Friend:interest
+msgid "interest"
+msgstr ""
+
+#. Property comment for Friend of a Friend:interest
+msgid "A page about a topic of interest to this person."
+msgstr ""
+
+#. Property label for Friend of a Friend:topic_interest
+msgid "topic_interest"
+msgstr ""
+
+#. Property comment for Friend of a Friend:topic_interest
+msgid "A thing of interest to this person."
+msgstr ""
+
+#. Property label for Friend of a Friend:publications
+msgid "publications"
+msgstr ""
+
+#. Property comment for Friend of a Friend:publications
+msgid "A link to the publications of this person."
+msgstr ""
+
+#. Property label for Friend of a Friend:currentProject
+msgid "current project"
+msgstr ""
+
+#. Property comment for Friend of a Friend:currentProject
+msgid "A current project this person works on."
+msgstr ""
+
+#. Property label for Friend of a Friend:pastProject
+msgid "past project"
+msgstr ""
+
+#. Property comment for Friend of a Friend:pastProject
+msgid "A project this person has previously worked on."
+msgstr ""
+
+#. Property label for Friend of a Friend:fundedBy
+msgid "funded by"
+msgstr ""
+
+#. Property comment for Friend of a Friend:fundedBy
+msgid "An organization funding a project or person."
+msgstr ""
+
+#. Property label for Friend of a Friend:logo
+msgid "logo"
+msgstr ""
+
+#. Property comment for Friend of a Friend:logo
+msgid "A logo representing some thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:topic
+msgid "topic"
+msgstr ""
+
+#. Property comment for Friend of a Friend:topic
+msgid "A topic of some page or document."
+msgstr ""
+
+#. Property label for Friend of a Friend:primaryTopic
+msgid "primary topic"
+msgstr ""
+
+#. Property comment for Friend of a Friend:primaryTopic
+msgid "The primary topic of some page or document."
+msgstr ""
+
+#. Property label for Friend of a Friend:focus
+msgid "focus"
+msgstr ""
+
+#. Property comment for Friend of a Friend:focus
+msgid ""
+"The underlying or 'focal' entity associated with some SKOS-described "
+"concept."
+msgstr ""
+
+#. Property label for Friend of a Friend:isPrimaryTopicOf
+msgid "is primary topic of"
+msgstr ""
+
+#. Property comment for Friend of a Friend:isPrimaryTopicOf
+msgid "A document that this thing is the primary topic of."
+msgstr ""
+
+#. Property comment for Friend of a Friend:page
+msgid "A page or document about this thing."
+msgstr ""
+
+#. Property label for Friend of a Friend:theme
+msgid "theme"
+msgstr ""
+
+#. Property comment for Friend of a Friend:theme
+msgid "A theme."
+msgstr ""
+
+#. Property label for Friend of a Friend:account
+#. Property label for Friend of a Friend:holdsAccount
+msgid "account"
+msgstr ""
+
+#. Property comment for Friend of a Friend:account
+#. Property comment for Friend of a Friend:holdsAccount
+msgid "Indicates an account held by this agent."
+msgstr ""
+
+#. Property label for Friend of a Friend:accountServiceHomepage
+msgid "account service homepage"
+msgstr ""
+
+#. Property comment for Friend of a Friend:accountServiceHomepage
+msgid "Indicates a homepage of the service provide for this online account."
+msgstr ""
+
+#. Property label for Friend of a Friend:accountName
+msgid "account name"
+msgstr ""
+
+#. Property comment for Friend of a Friend:accountName
+msgid "Indicates the name (identifier) associated with this online account."
+msgstr ""
+
+#. Property label for Friend of a Friend:member
+msgid "member"
+msgstr ""
+
+#. Property comment for Friend of a Friend:member
+msgid "Indicates a member of a Group"
+msgstr ""
+
+#. Property label for Friend of a Friend:membershipClass
+msgid "membershipClass"
+msgstr ""
+
+#. Property comment for Friend of a Friend:membershipClass
+msgid "Indicates the class of individuals that are a member of a Group"
+msgstr ""
+
+#. Property label for Friend of a Friend:birthday
+msgid "birthday"
+msgstr ""
+
+#. Property comment for Friend of a Friend:birthday
+msgid ""
+"The birthday of this Agent, represented in mm-dd string form, eg. '12-31'."
+msgstr ""
+
+#. Property label for Friend of a Friend:age
+msgid "age"
+msgstr ""
+
+#. Property comment for Friend of a Friend:age
+msgid "The age in years of some agent."
+msgstr ""
+
+#. Property comment for Friend of a Friend:status
+msgid ""
+"A string expressing what the user is happy for the general public (normally)"
+" to know about their current activity."
+msgstr ""

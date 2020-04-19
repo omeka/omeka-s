@@ -2,8 +2,8 @@
 namespace Omeka\View\Helper;
 
 use DateTime;
-use Zend\I18n\View\Helper\DateFormat;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\I18n\View\Helper\DateFormat;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for rendering localized data.

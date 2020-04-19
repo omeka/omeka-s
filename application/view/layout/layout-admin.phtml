@@ -18,10 +18,10 @@ $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 
 $this->jsTranslate();
 
 $escape = $this->plugin('escapeHtml');
-$siteNav = (string) $this->navigation('Zend\Navigation\AdminSite')->menu();
+$siteNav = (string) $this->navigation('Laminas\Navigation\AdminSite')->menu();
 $globalNav =
-    '<h5>' . $translate('Resources') . '</h5>' . $this->navigation('Zend\Navigation\AdminResource')->menu() .
-    '<h5>' . $translate('Admin') . '</h5>' . $this->navigation('Zend\Navigation\AdminGlobal')->menu();
+    '<h5>' . $translate('Resources') . '</h5>' . $this->navigation('Laminas\Navigation\AdminResource')->menu() .
+    '<h5>' . $translate('Admin') . '</h5>' . $this->navigation('Laminas\Navigation\AdminGlobal')->menu();
 $this->trigger('view.layout');
 ?>
 <?php echo $this->doctype(); ?>
@@ -89,9 +89,9 @@ $this->trigger('view.layout');
                     </nav>
                     <?php endif; ?>
                     <?php echo $globalNav; ?>
-                    <?php if ($this->navigation('Zend\Navigation\AdminModule')->count() > 0): ?>
+                    <?php if ($this->navigation('Laminas\Navigation\AdminModule')->count() > 0): ?>
                     <h5><?php echo $translate('Modules'); ?></h5>
-                    <?php echo $this->navigation('Zend\Navigation\AdminModule')->menu(); ?>
+                    <?php echo $this->navigation('Laminas\Navigation\AdminModule')->menu(); ?>
                     <?php endif; ?>
                 </nav>
             </header>

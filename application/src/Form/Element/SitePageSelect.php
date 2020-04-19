@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Form\Element;
 
-use Zend\Form\Element\Select;
+use Laminas\Form\Element\Select;
 
 class SitePageSelect extends Select
 {

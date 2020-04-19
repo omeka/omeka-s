@@ -2,7 +2,7 @@
 namespace Omeka\Service;
 
 use Omeka\Db\Migration\Manager as MigrationManager;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 /**

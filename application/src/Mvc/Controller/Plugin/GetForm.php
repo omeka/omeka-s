@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
-use Zend\Mvc\Controller\Plugin\AbstractPlugin;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Controller plugin for getting a form from the form element manager.
@@ -26,7 +26,7 @@ class GetForm extends AbstractPlugin
      *
      * @param string $class
      * @param array $options
-     * @return \Zend\Form\Form
+     * @return \Laminas\Form\Form
      */
     public function __invoke($class, array $options = null)
     {

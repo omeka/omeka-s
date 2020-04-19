@@ -2,7 +2,7 @@
 namespace Omeka\Form;
 
 use Omeka\Form\Element\ResourceClassSelect;
-use Zend\Form\Form;
+use Laminas\Form\Form;
 
 class ResourceTemplateForm extends Form
 {

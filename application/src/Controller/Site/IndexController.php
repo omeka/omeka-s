@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\Controller\Site;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
@@ -37,29 +37,56 @@ class IndexController extends AbstractActionController
     public function searchAction()
     {
         $fulltextQuery = $this->params()->fromQuery('fulltext_search');
+
+        $siteSettings = $this->siteSettings();
+
+        $resourceNames = $siteSettings->get('search_resource_names', ['site_pages', 'items']);
+
+        // Skip the intermediate result page when only one resource type is set.
+        if (count($resourceNames) === 1) {
+            $resourceName = reset($resourceNames);
+            $resourceControllers = [
+                'site_pages' => 'page',
+                'items' => 'item',
+                'item_sets' => 'item-set',
+            ];
+            return $this->redirect()->toRoute(
+                $resourceName === 'site_pages' ? 'site/page-browse' : 'site/resource',
+                ['controller' => $resourceControllers[$resourceName], 'action' => 'browse'],
+                ['query' => ['fulltext_search' => $fulltextQuery]],
+                true
+            );
+        }
+
         $query = [
             'fulltext_search' => $fulltextQuery,
             'site_id' => $this->currentSite()->id(),
             'limit' => 10,
         ];
 
-        // Get page results.
-        $pagesResponse = $this->api()->search('site_pages', $query);
-        $pages = $pagesResponse->getContent();
-
-        // Get item results.
-        if ($this->siteSettings()->get('browse_attached_items', false)) {
+        // This settings is managed only by items and media, else skipped.
+        if ($siteSettings->get('browse_attached_items', false)) {
             $query['site_attachments_only'] = true;
         }
-        $itemsResponse = $this->api()->search('items', $query);
-        $items = $itemsResponse->getContent();
+
+        $results = [];
+        foreach ($resourceNames as $resourceName) {
+            $response = $this->api()->search($resourceName, $query);
+            $results[$resourceName] = [
+                'resources' => $response->getContent(),
+                'total' => $response->getTotalResults(),
+            ];
+        }
 
         $view = new ViewModel;
-        $view->setVariable('query', $fulltextQuery);
-        $view->setVariable('pages', $pages);
-        $view->setVariable('pagesTotal', $pagesResponse->getTotalResults());
-        $view->setVariable('items', $items);
-        $view->setVariable('itemsTotal', $itemsResponse->getTotalResults());
+        $view
+            ->setVariable('query', $fulltextQuery)
+            ->setVariable('results', $results)
+            // Kept for compatibility with old themes.
+            ->setVariable('pages', @$results['site_pages']['resources'])
+            ->setVariable('pagesTotal', @$results['site_pages']['total'])
+            ->setVariable('items', @$results['items']['resources'])
+            ->setVariable('itemsTotal', @$results['site_pages']['total']);
         return $view;
     }
 }

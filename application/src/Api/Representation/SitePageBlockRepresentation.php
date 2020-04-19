@@ -2,7 +2,7 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Entity\SitePageBlock;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class SitePageBlockRepresentation extends AbstractRepresentation
 {

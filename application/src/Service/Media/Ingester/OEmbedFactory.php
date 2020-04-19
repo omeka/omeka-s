@@ -2,7 +2,7 @@
 namespace Omeka\Service\Media\Ingester;
 
 use Omeka\Media\Ingester\OEmbed;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class OEmbedFactory implements FactoryInterface

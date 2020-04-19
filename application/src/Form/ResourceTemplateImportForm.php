@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\Form\Form;
+use Laminas\Form\Form;
 
 class ResourceTemplateImportForm extends Form
 {

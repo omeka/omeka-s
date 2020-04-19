@@ -13,6 +13,7 @@ $form->prepare();
     'resource-values' => $translate('Values'),
     'item-media' => $translate('Media'),
     'item-sets' => $translate('Item sets'),
+    'sites' => $translate('Sites'),
     'thumbnail' => $translate('Thumbnail'),
 ], $sectionNavEvent); ?>
 
@@ -32,6 +33,12 @@ $form->prepare();
 
 <fieldset id="item-sets" class="section" aria-labelledby="item-sets-label">
     <?php echo $this->partial('omeka/admin/item/manage-item-sets', [
+        'item' => $item,
+    ]); ?>
+</fieldset>
+
+<fieldset id="sites" class="section" aria-labelledby="sites-label">
+    <?php echo $this->partial('omeka/admin/item/manage-sites', [
         'item' => $item,
     ]); ?>
 </fieldset>

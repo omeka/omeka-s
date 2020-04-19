@@ -3,8 +3,8 @@ namespace Omeka\Controller;
 
 use Omeka\Db\Migration\Manager;
 use Omeka\Stdlib\Environment;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 class MigrateController extends AbstractActionController
 {

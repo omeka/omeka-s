@@ -5,8 +5,8 @@ use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Manager;
 use Omeka\Api\Response;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Form\Form;
-use Zend\Mvc\Controller\Plugin\AbstractPlugin;
+use Laminas\Form\Form;
+use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
  * Controller plugin for providing passthrough methods to the API manager.

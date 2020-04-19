@@ -1,9 +1,9 @@
 <?php
 namespace Omeka\ServiceManager;
 
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\ServiceManager\AbstractPluginManager as ZendAbstractPluginManager;
-use Zend\EventManager\Event;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\ServiceManager\AbstractPluginManager as ZendAbstractPluginManager;
+use Laminas\EventManager\Event;
 
 abstract class AbstractPluginManager extends ZendAbstractPluginManager
 {

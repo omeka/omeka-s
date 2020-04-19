@@ -2,7 +2,7 @@
 namespace Omeka\Service;
 
 use Omeka\DataType\Manager;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class DataTypeManagerFactory implements FactoryInterface

@@ -3,7 +3,7 @@ namespace Omeka\Service\Form;
 
 use Interop\Container\ContainerInterface;
 use Omeka\Form\UserBatchUpdateForm;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class UserBatchUpdateFormFactory implements FactoryInterface
 {

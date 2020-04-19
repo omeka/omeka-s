@@ -40,7 +40,9 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
                 <span class="theme-description"><?php echo $escape($currentDescription); ?></span>
                 <?php endif; ?>
             </p>
-            <?php echo $this->hyperlink($translate('Edit theme settings'), $this->url(null, ['site-slug' => $site->slug(), 'action' => 'theme-settings']), ['class' => 'theme-settings button']); ?>
+            <?php if ($currentTheme->isConfigurable()): ?>
+                <?php echo $this->hyperlink($translate('Edit theme settings'), $this->url(null, ['site-slug' => $site->slug(), 'action' => 'theme-settings']), ['class' => 'theme-settings button']); ?>
+            <?php endif; ?>
 
             <div class="version-notification" style="display: none;"
                 data-addon-id="<?php echo $this->escapeHtml($currentTheme->getId()); ?>"

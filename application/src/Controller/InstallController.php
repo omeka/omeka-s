@@ -3,8 +3,8 @@ namespace Omeka\Controller;
 
 use Omeka\Form\InstallationForm;
 use Omeka\Installation\Installer;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 class InstallController extends AbstractActionController
 {

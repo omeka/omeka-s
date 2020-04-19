@@ -2,7 +2,7 @@
 namespace Omeka\Service\File;
 
 use Omeka\File\Downloader;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class DownloaderFactory implements FactoryInterface

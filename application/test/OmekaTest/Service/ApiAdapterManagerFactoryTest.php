@@ -6,8 +6,8 @@ use Omeka\Api\Request;
 use Omeka\Api\ResourceInterface as ApiResourceInterface;
 use Omeka\Service\ApiAdapterManagerFactory;
 use Omeka\Test\TestCase;
-use Zend\EventManager\EventManagerInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class ApiAdapterManagerFactoryTest extends TestCase
 {
@@ -23,7 +23,7 @@ class ApiAdapterManagerFactoryTest extends TestCase
 
         $serviceManager = $this->getServiceManager([
             'Config' => $config,
-            'EventManager' => $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface'),
+            'EventManager' => $this->getMockForAbstractClass('Laminas\EventManager\EventManagerInterface'),
         ]);
         $factory = new ApiAdapterManagerFactory;
         $service = $factory($serviceManager, 'Foo');

@@ -7,8 +7,8 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\HtmlPurifier;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Form\Element\Textarea;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\Form\Element\Textarea;
+use Laminas\View\Renderer\PhpRenderer;
 
 class Html extends AbstractBlockLayout
 {

@@ -2,7 +2,7 @@
 namespace Omeka\Media\FileRenderer;
 
 use Omeka\Api\Representation\MediaRepresentation;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\PhpRenderer;
 
 class ThumbnailRenderer implements RendererInterface
 {

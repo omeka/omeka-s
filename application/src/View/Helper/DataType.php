@@ -2,8 +2,8 @@
 namespace Omeka\View\Helper;
 
 use Omeka\DataType\Manager as DataTypeManager;
-use Zend\Form\Element\Select;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\Form\Element\Select;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for rendering data types.

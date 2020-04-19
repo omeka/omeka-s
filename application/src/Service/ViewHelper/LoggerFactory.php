@@ -3,7 +3,7 @@ namespace Omeka\Service\ViewHelper;
 
 use Interop\Container\ContainerInterface;
 use Omeka\View\Helper\Logger;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class LoggerFactory implements FactoryInterface
 {

@@ -9,8 +9,8 @@ use Omeka\Permissions\Assertion\SiteIsPublicAssertion;
 use Omeka\Permissions\Assertion\IsSelfAssertion;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 use Omeka\Permissions\Assertion\UserIsAdminAssertion;
-use Zend\Permissions\Acl\Assertion\AssertionAggregate;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\Permissions\Acl\Assertion\AssertionAggregate;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Access control list factory.
@@ -102,7 +102,7 @@ class AclFactory implements FactoryInterface
         $entities = $serviceLocator->get('Omeka\EntityManager')->getConfiguration()
             ->getMetadataDriverImpl()->getAllClassNames();
         foreach ($entities as $entityClass) {
-            if (is_subclass_of($entityClass, 'Zend\Permissions\Acl\Resource\ResourceInterface')) {
+            if (is_subclass_of($entityClass, 'Laminas\Permissions\Acl\Resource\ResourceInterface')) {
                 $acl->addResource($entityClass);
             }
         }
@@ -219,6 +219,18 @@ class AclFactory implements FactoryInterface
             ['Omeka\Entity\Site', 'Omeka\Entity\SitePage'],
             'read',
             $viewerAssertion
+        );
+
+        $canAssignItemsAssertion = $this->aggregate([
+            new OwnsEntityAssertion,
+            new HasSitePermissionAssertion('admin'),
+            new HasSitePermissionAssertion('editor'),
+        ], AssertionAggregate::MODE_AT_LEAST_ONE);
+        $acl->allow(
+            null,
+            'Omeka\Entity\Site',
+            'can-assign-items',
+            $canAssignItemsAssertion
         );
     }
 

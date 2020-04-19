@@ -26,7 +26,7 @@ class AclTest extends TestCase
 
     public function testUserIsAllowedWithNoUser()
     {
-        $auth = $this->getMockForAbstractClass('Zend\Authentication\AuthenticationServiceInterface');
+        $auth = $this->getMockForAbstractClass('Laminas\Authentication\AuthenticationServiceInterface');
         $auth->expects($this->any())
              ->method('getIdentity')
              ->will($this->returnValue(null));
@@ -37,11 +37,11 @@ class AclTest extends TestCase
 
     public function testUserIsAllowedWithUser()
     {
-        $user = $this->getMockForAbstractClass('Zend\Permissions\Acl\Role\RoleInterface');
+        $user = $this->getMockForAbstractClass('Laminas\Permissions\Acl\Role\RoleInterface');
         $user->expects($this->any())
              ->method('getRoleId')
              ->will($this->returnValue('not-guest'));
-        $auth = $this->getMockForAbstractClass('Zend\Authentication\AuthenticationServiceInterface');
+        $auth = $this->getMockForAbstractClass('Laminas\Authentication\AuthenticationServiceInterface');
         $auth->expects($this->any())
              ->method('getIdentity')
              ->will($this->returnValue($user));
@@ -53,7 +53,7 @@ class AclTest extends TestCase
 
     public function testSetGetAuthService()
     {
-        $auth = $this->getMockForAbstractClass('Zend\Authentication\AuthenticationServiceInterface');
+        $auth = $this->getMockForAbstractClass('Laminas\Authentication\AuthenticationServiceInterface');
         $this->acl->setAuthenticationService($auth);
         $this->assertSame($auth, $this->acl->getAuthenticationService());
     }

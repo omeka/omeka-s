@@ -3,7 +3,7 @@ namespace Omeka\Service\Form\Element;
 
 use Interop\Container\ContainerInterface;
 use Omeka\Form\Element\PasswordConfirm;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class PasswordConfirmFactory implements FactoryInterface
 {
@@ -13,6 +13,7 @@ class PasswordConfirmFactory implements FactoryInterface
         $passwordConfig = isset($config['password']) ? $config['password'] : [];
         $fieldset = new PasswordConfirm;
         $fieldset->setPasswordConfig($passwordConfig);
+        $fieldset->setTranslator($services->get('MvcTranslator'));
         return $fieldset;
     }
 }

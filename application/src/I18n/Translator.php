@@ -2,7 +2,7 @@
 namespace Omeka\I18n;
 
 use Omeka\Stdlib\Message;
-use Zend\I18n\Translator\TranslatorInterface;
+use Laminas\I18n\Translator\TranslatorInterface;
 
 class Translator implements TranslatorInterface
 {

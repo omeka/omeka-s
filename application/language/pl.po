@@ -5,15 +5,16 @@
 # 
 # Translators:
 # Michał Seweryniak <michal.seweryniak@zafado.pl>, 2018
+# John Flatness <john@zerocrates.org>, 2020
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-13 15:51-0400\n"
+"POT-Creation-Date: 2020-01-27 13:06-0500\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Michał Seweryniak <michal.seweryniak@zafado.pl>, 2018\n"
+"Last-Translator: John Flatness <john@zerocrates.org>, 2020\n"
 "Language-Team: Polish (https://www.transifex.com/omeka/teams/14184/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,19 +64,19 @@ msgstr "Adapter %1$s nie obsługuje operacji zbiorowego usuwania."
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:241
 #, php-format
-msgid "The \"%s\" field is not available in the %s entity class."
-msgstr "Pole \"%s\" nie jest dostępne w klasie jednostek %s."
+msgid "The \"%1$s\" field is not available in the %2$s entity class."
+msgstr "Pole \"%1$s\" nie jest dostępne w klasie jednostek %2$s."
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:586
 #: application/src/Api/Manager.php:209
 #, php-format
-msgid "Permission denied for the current user to %s the %s resource."
-msgstr "Zabroniony dostęp dla aktualnego użytkownika to %s zasobu %s."
+msgid "Permission denied for the current user to %1$s the %2$s resource."
+msgstr "Zabroniony dostęp dla aktualnego użytkownika to %1$s zasobu %2$s."
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:628
 #, php-format
-msgid "%s entity with criteria %s not found"
-msgstr "Nie znaleziono jednostki %s dla kryteriów %s"
+msgid "%1$s entity with criteria %2$s not found"
+msgstr "Nie znaleziono jednostki %1$s dla kryteriów %2$s"
 
 #: application/src/Api/Adapter/SiteAdapter.php:136
 msgid "Welcome"
@@ -85,7 +86,7 @@ msgstr "Witamy"
 msgid "Welcome to your new site. This is an example page."
 msgstr "Witamy na twoim nowym portalu. To jest przykładowa strona."
 
-#: application/src/Api/Adapter/SiteAdapter.php:351
+#: application/src/Api/Adapter/SiteAdapter.php:358
 msgid "Browse"
 msgstr "Przeglądaj"
 
@@ -94,7 +95,7 @@ msgstr "Przeglądaj"
 msgid "The API does not support the \"%s\" resource."
 msgstr "API nie obsługuje zasobu \"%s\"."
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:492
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:504
 #: application/view/common/block-layout/browse-preview.phtml:15
 #: application/view/omeka/site/item-set/browse.phtml:23
 #: application/view/omeka/site/item/browse.phtml:58
@@ -109,11 +110,11 @@ msgstr "Domyślny"
 msgid "Asset uploads must be POSTed."
 msgstr "Aktywa muszą być wgrywane przez POST."
 
-#: application/src/Controller/Admin/ItemController.php:211
+#: application/src/Controller/Admin/ItemController.php:212
 msgid "Add another item?"
 msgstr "Dodać kolejną pozycję?"
 
-#: application/src/Controller/Admin/ItemSetController.php:35
+#: application/src/Controller/Admin/ItemSetController.php:36
 msgid "Add another item set?"
 msgstr "Dodać kolejny zestaw pozycji?"
 
@@ -196,8 +197,8 @@ msgstr "OpenSeadragon nie jest dostępny jeżeli JavaScript nie jest włączony.
 
 #: application/src/Module/Manager.php:170
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be activated"
-msgstr "Moduł \"%s\" jest oznaczony jako \"%s\" i nie może być włączony"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be activated"
+msgstr "Moduł \"%1$s\" jest oznaczony jako \"%2$s\" i nie może być włączony"
 
 #: application/src/Module/Manager.php:181
 #, php-format
@@ -206,8 +207,8 @@ msgstr "Moduł \"%s\" nie znajduje się bazie danych podczas włączania"
 
 #: application/src/Module/Manager.php:202
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be deactivated"
-msgstr "Moduł \"%s\" jest oznaczony jako \"%s\" i nie może być wyłączony"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be deactivated"
+msgstr "Moduł \"%1$s\" jest oznaczony jako \"%2$s\" i nie może być wyłączony"
 
 #: application/src/Module/Manager.php:213
 #, php-format
@@ -216,13 +217,13 @@ msgstr "Moduł \"%s\" nie znajduje się bazie danych podczas wyłączania"
 
 #: application/src/Module/Manager.php:233
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be installed"
-msgstr "Moduł \"%s\" jest oznaczony jako \"%s\" i nie może być zainstalowany"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be installed"
+msgstr "Moduł \"%1$s\" jest oznaczony jako \"%2$s\" i nie może być zainstalowany"
 
 #: application/src/Module/Manager.php:271
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be uninstalled"
-msgstr "Moduł \"%s\" jest oznaczony jako \"%s\" i nie może być odinstalowany"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be uninstalled"
+msgstr "Moduł \"%1$s\" jest oznaczony jako \"%2$s\" i nie może być odinstalowany"
 
 #: application/src/Module/Manager.php:288
 #, php-format
@@ -231,8 +232,8 @@ msgstr "Moduł \"%s\" nie został znaleziony w bazie danych podczas odinstalowan
 
 #: application/src/Module/Manager.php:309
 #, php-format
-msgid "Module \"%s\" is marked as \"%s\" and cannot be upgraded"
-msgstr "Moduł \"%s\" jest oznaczony jako \"%s\" i nie może być zaktualizowany"
+msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be upgraded"
+msgstr "Moduł \"%1$s\" jest oznaczony jako \"%2$s\" i nie może być zaktualizowany"
 
 #: application/src/Module/Manager.php:331
 #, php-format
@@ -241,8 +242,8 @@ msgstr "Moduł \"%s\" nie został znaleziony w bazie danych podczas aktualizacji
 
 #: application/src/Module/Manager.php:410
 #, php-format
-msgid "Permission denied for the current user to %s the %s module."
-msgstr "Zabroniony dostęp dla aktualnego użytkownika to %s modułu %s."
+msgid "Permission denied for the current user to %1$s the %2$s module."
+msgstr "Zabroniony dostęp dla aktualnego użytkownika to %1$s modułu %2$s."
 
 #: application/src/Mvc/MvcListeners.php:436
 #, php-format
@@ -369,7 +370,7 @@ msgstr ""
 
 #: application/src/View/Helper/PasswordRequirements.php:67
 #, php-format
-msgid "Password must contain at least %s symbols: <code>%s</code>"
+msgid "Password must contain at least %1$s symbols: <code>%2$s</code>"
 msgstr ""
 
 #: application/src/View/Helper/SearchFilters.php:32
@@ -462,8 +463,9 @@ msgid "AND"
 msgstr "ORAZ"
 
 #: application/src/View/Helper/SearchFilters.php:124
-#: application/view/common/search-form.phtml:7
 #: application/view/common/search-form.phtml:8
+#: application/view/common/search-form.phtml:9
+#: application/view/common/search-form.phtml:10
 #: application/view/layout/layout-admin.phtml:62
 #: application/view/omeka/admin/item-set/search.phtml:13
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:12
@@ -528,7 +530,7 @@ msgstr ""
 #: application/view/omeka/admin/user/browse.phtml:80
 #: application/view/omeka/admin/user/show.phtml:29
 #: application/view/omeka/site-admin/index/users.phtml:31
-#: application/view/omeka/site-admin/index/users.phtml:47
+#: application/view/omeka/site-admin/index/users.phtml:46
 msgid "Role"
 msgstr "Rola"
 
@@ -561,8 +563,8 @@ msgstr ""
 msgid "The maximum upload size is %s MB."
 msgstr "Maksymalny rozmiar wgrywanego pliku wynosi %s MB."
 
-#: application/src/View/Helper/UserBar.php:118
-#: application/src/View/Helper/UserBar.php:150
+#: application/src/View/Helper/UserBar.php:120
+#: application/src/View/Helper/UserBar.php:161
 #: application/view/omeka/admin/index/browse.phtml:48
 #: application/view/omeka/admin/item-set/browse.phtml:109
 #: application/view/omeka/admin/item-set/edit.phtml:14
@@ -582,7 +584,7 @@ msgstr "Maksymalny rozmiar wgrywanego pliku wynosi %s MB."
 msgid "Edit"
 msgstr "Edytuj"
 
-#: application/src/View/Helper/UserBar.php:157
+#: application/src/View/Helper/UserBar.php:154
 #: application/view/omeka/site-admin/index/show.phtml:17
 #: application/view/omeka/site-admin/page/edit.phtml:15
 msgid "View"
@@ -609,7 +611,7 @@ msgstr "Wyszukuje pozycje przypisane do któregoś z tych zestawów."
 #: application/view/common/advanced-search/resource-class.phtml:31
 #: application/view/common/advanced-search/resource-template.phtml:32
 #: application/view/common/block-layout.phtml:12
-#: application/view/common/data-type-wrapper.phtml:12
+#: application/view/common/data-type-wrapper.phtml:10
 #: application/view/common/media-field-wrapper.phtml:13
 #: application/view/omeka/admin/item/manage-media.phtml:49
 msgid "Remove value"
@@ -620,6 +622,10 @@ msgstr "Usuń wartość"
 #: application/view/omeka/admin/item-set/browse.phtml:42
 msgid "Add new item set"
 msgstr "Dodaj nowy zestaw pozycji"
+
+#: application/view/common/advanced-search/media-type.phtml:6
+msgid "Search by MIME type"
+msgstr ""
 
 #: application/view/common/advanced-search/properties.phtml:33
 msgid "Query text"
@@ -730,7 +736,7 @@ msgid "Block to be removed"
 msgstr "Blok do usunięcia"
 
 #: application/view/common/block-layout.phtml:13
-#: application/view/common/data-type-wrapper.phtml:13
+#: application/view/common/data-type-wrapper.phtml:11
 #: application/view/omeka/admin/item/manage-media.phtml:53
 #: application/view/omeka/admin/resource-template/show-property-row.phtml:40
 msgid "Restore value"
@@ -738,6 +744,7 @@ msgstr "Przywróć wartość"
 
 #: application/view/common/block-layout/item-with-metadata.phtml:12
 #: application/view/common/data-type/resource.phtml:29
+#: application/view/common/item-set-selector.phtml:10
 #: application/view/layout/layout-admin.phtml:72
 #: application/view/omeka/admin/item-set/add.phtml:6
 #: application/view/omeka/admin/item-set/browse.phtml:29
@@ -748,17 +755,17 @@ msgstr "Przywróć wartość"
 #: application/view/omeka/admin/item/show-details.phtml:19
 #: application/view/omeka/admin/item/show.phtml:63
 #: application/view/omeka/admin/user/show-details.phtml:17
-#: application/view/omeka/site-admin/index/resources.phtml:24
+#: application/view/omeka/site-admin/index/resources.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:8
 #: application/view/omeka/site/item/show.phtml:24
 msgid "Item sets"
 msgstr "Zestawy pozycji"
 
-#: application/view/common/data-type-wrapper.phtml:10
+#: application/view/common/data-type-wrapper.phtml:8
 msgid "Value to be removed"
 msgstr "Wartość do usunięcia"
 
-#: application/view/common/data-type-wrapper.phtml:15
+#: application/view/common/data-type-wrapper.phtml:13
 #: application/view/common/media-field-wrapper.phtml:9
 #: application/view/omeka/admin/item-set/form.phtml:41
 #: application/view/omeka/admin/item/form.phtml:43
@@ -906,10 +913,6 @@ msgstr "Kliknij w zestaw pozycji aby dodać go do panelu edycji."
 msgid "Filter item sets"
 msgstr "Filtruj zestawy pozycji"
 
-#: application/view/common/item-set-selector.phtml:10
-msgid "All item sets"
-msgstr "Wszystkie zestawy pozycji"
-
 #: application/view/common/item-set-selector.phtml:17
 #: application/view/omeka/admin/item-set/browse.phtml:93
 #: application/view/omeka/admin/item-set/show.phtml:17
@@ -947,7 +950,7 @@ msgstr "Wszystkie"
 #: application/view/omeka/admin/media/browse.phtml:79
 #: application/view/omeka/site-admin/index/index.phtml:7
 #: application/view/omeka/site-admin/index/index.phtml:39
-#: application/view/omeka/site-admin/index/resources.phtml:62
+#: application/view/omeka/site-admin/index/resources.phtml:61
 #: application/view/omeka/site-admin/index/show.phtml:28
 #: application/view/omeka/site-admin/page/index.phtml:18
 #: application/view/omeka/site/item/browse.phtml:14
@@ -999,8 +1002,8 @@ msgstr "Następny"
 
 #: application/view/common/pagination.phtml:28
 #, php-format
-msgid "%s–%s of %s"
-msgstr "%s–%s z %s"
+msgid "%1$s–%2$s of %3$s"
+msgstr "%1$s–%2$s z %3$s"
 
 #: application/view/common/pagination.phtml:30
 msgid "0 results"
@@ -1063,12 +1066,12 @@ msgstr "Kliknij we właściwość aby dodać ją do panelu edycji."
 msgid "Filter properties"
 msgstr "Filtruj właściwości"
 
-#: application/view/common/resource-fields.phtml:33
+#: application/view/common/resource-fields.phtml:34
 #: application/view/omeka/admin/resource-template/form.phtml:32
 msgid "Add property"
 msgstr "Dodaj właściwość"
 
-#: application/view/common/resource-fields.phtml:40
+#: application/view/common/resource-fields.phtml:41
 msgid ""
 "Omeka S automatically selects a thumbnail from among attached media for a "
 "resource. You may use an image of your choice instead by choosing an asset "
@@ -1161,18 +1164,18 @@ msgstr "Wyloguj"
 msgid "Log in"
 msgstr "Zaloguj się"
 
-#: application/view/common/user-selector.phtml:10
+#: application/view/common/user-selector.phtml:11
 msgid "Click on a user to add it to the edit panel."
 msgstr "Kliknij w użytkownika aby dodać go do panelu edycji."
 
-#: application/view/common/user-selector.phtml:13
+#: application/view/common/user-selector.phtml:14
 msgid "Filter users"
 msgstr "Filtruj użytkowników"
 
-#: application/view/common/user-selector.phtml:15
+#: application/view/common/user-selector.phtml:16
 #, php-format
-msgid "All users (%s)"
-msgstr "Wszyscy użytkownicy (%s)"
+msgid "Users (%s)"
+msgstr ""
 
 #: application/view/common/version-notification.phtml:8
 #, php-format
@@ -1181,7 +1184,7 @@ msgstr "Dostępna jest nowa wersja Omeka S. %s"
 
 #: application/view/common/version-notification.phtml:12
 #: application/view/omeka/admin/module/browse.phtml:62
-#: application/view/omeka/site-admin/index/theme.phtml:53
+#: application/view/omeka/site-admin/index/theme.phtml:55
 msgid "Get the new version."
 msgstr "Pobierz nową wersję."
 
@@ -1203,7 +1206,7 @@ msgid "Details:"
 msgstr "Szczegóły:"
 
 #: application/view/layout/layout-admin.phtml:23
-#: application/view/omeka/site-admin/index/resources.phtml:21
+#: application/view/omeka/site-admin/index/resources.phtml:20
 msgid "Resources"
 msgstr "Zasoby"
 
@@ -1414,7 +1417,7 @@ msgstr "Edytuj zbiorowo zestawy pozycji"
 #: application/view/omeka/admin/vocabulary/edit.phtml:13
 #: application/view/omeka/site-admin/index/edit.phtml:29
 #: application/view/omeka/site-admin/index/navigation.phtml:17
-#: application/view/omeka/site-admin/index/resources.phtml:32
+#: application/view/omeka/site-admin/index/resources.phtml:31
 #: application/view/omeka/site-admin/index/settings.phtml:10
 #: application/view/omeka/site-admin/index/theme-settings.phtml:12
 #: application/view/omeka/site-admin/index/theme.phtml:18
@@ -1460,7 +1463,7 @@ msgstr ""
 #: application/view/omeka/admin/resource-template/browse.phtml:45
 #: application/view/omeka/site-admin/index/index.phtml:15
 #: application/view/omeka/site-admin/index/index.phtml:41
-#: application/view/omeka/site-admin/index/resources.phtml:63
+#: application/view/omeka/site-admin/index/resources.phtml:62
 msgid "Owner"
 msgstr "Właściciel"
 
@@ -1624,10 +1627,11 @@ msgstr "Czy na pewno chcesz usunąć zaznaczone zestawy pozycji?"
 #: application/view/omeka/admin/item-set/browse.phtml:178
 #, php-format
 msgid ""
-"%s: this action will permanently delete %s item sets and cannot be undone."
+"%1$s: this action will permanently delete %2$s item sets and cannot be "
+"undone."
 msgstr ""
-"%s: ta czynność usunie na stałe %s zestawy pozycji i nie będzie można jej "
-"cofnąć."
+"%1$s: ta czynność usunie na stałe %2$s zestawy pozycji i nie będzie można "
+"jej cofnąć."
 
 #: application/view/omeka/admin/item-set/browse.phtml:161
 #: application/view/omeka/admin/item-set/browse.phtml:179
@@ -1792,9 +1796,11 @@ msgstr "Czy na pewno chcesz usunąć zaznaczone pozycje?"
 #: application/view/omeka/admin/item/browse.phtml:158
 #: application/view/omeka/admin/item/browse.phtml:176
 #, php-format
-msgid "%s: this action will permanently delete %s items and cannot be undone."
+msgid ""
+"%1$s: this action will permanently delete %2$s items and cannot be undone."
 msgstr ""
-"%s: ta czynność usunie na stałe %s pozycje i nie będzie można jej cofnąć."
+"%1$s: ta czynność usunie na stałe %2$s pozycje i nie będzie można jej "
+"cofnąć."
 
 #: application/view/omeka/admin/item/browse.phtml:174
 msgid ""
@@ -1963,9 +1969,9 @@ msgstr "Czy na pewno chcesz usunąć zaznaczone media?"
 #: application/view/omeka/admin/media/browse.phtml:188
 #, php-format
 msgid ""
-"%s: this action will permanently delete %s medias and cannot be undone."
+"%1$s: this action will permanently delete %2$s medias and cannot be undone."
 msgstr ""
-"%s: ta czynność usunie na stałe %s media i nie będzie można jej cofnąć."
+"%1$s: ta czynność usunie na stałe %2$s media i nie będzie można jej cofnąć."
 
 #: application/view/omeka/admin/media/browse.phtml:186
 msgid ""
@@ -2279,7 +2285,7 @@ msgid "You are editing %s users (except yourself)."
 msgstr ""
 
 #: application/view/omeka/admin/user/browse.phtml:36
-#: application/view/omeka/site-admin/index/users.phtml:75
+#: application/view/omeka/site-admin/index/users.phtml:70
 msgid "Add new user"
 msgstr "Dodaj nowego użytkownika"
 
@@ -2298,7 +2304,8 @@ msgstr ""
 
 #: application/view/omeka/admin/user/browse.phtml:151
 #, php-format
-msgid "%s: this action will permanently delete %s users and cannot be undone."
+msgid ""
+"%1$s: this action will permanently delete %2$s users and cannot be undone."
 msgstr ""
 
 #: application/view/omeka/admin/user/browse.phtml:167
@@ -2310,7 +2317,7 @@ msgstr ""
 #: application/view/omeka/admin/user/browse.phtml:169
 #, php-format
 msgid ""
-"%s: this action will permanently delete %s users (except yourself) and "
+"%1$s: this action will permanently delete %2$s users (except yourself) and "
 "cannot be undone."
 msgstr ""
 
@@ -2399,7 +2406,7 @@ msgstr "URI przestrzeni nazw:"
 msgid "This vocabulary has no classes."
 msgstr "Ten słownik nie ma żadnych klas."
 
-#: application/view/omeka/admin/vocabulary/edit.phtml:19
+#: application/view/omeka/admin/vocabulary/edit.phtml:18
 msgid ""
 "You may update this vocabulary to a newer version. You will be able to "
 "review the changes before you accept."
@@ -2426,7 +2433,7 @@ msgstr "Zatwierdź zmiany"
 #: application/view/omeka/site-admin/index/edit.phtml:7
 #: application/view/omeka/site-admin/index/index.phtml:21
 #: application/view/omeka/site-admin/index/navigation.phtml:10
-#: application/view/omeka/site-admin/index/resources.phtml:21
+#: application/view/omeka/site-admin/index/resources.phtml:20
 #: application/view/omeka/site-admin/index/settings.phtml:6
 #: application/view/omeka/site-admin/index/show.phtml:11
 #: application/view/omeka/site-admin/index/theme.phtml:11
@@ -2437,8 +2444,8 @@ msgstr "Portale"
 
 #: application/view/omeka/index/index.phtml:25
 #, php-format
-msgid "Go to the %s to start working with %s."
-msgstr "Przejdź do %s aby rozpocząć pracę z %s."
+msgid "Go to the %1$s to start working with %2$s."
+msgstr "Przejdź do %1$s aby rozpocząć pracę z %2$s."
 
 #: application/view/omeka/install/index.phtml:11
 msgid "Install Omeka S"
@@ -2518,7 +2525,7 @@ msgid "Theme"
 msgstr "Motyw"
 
 #: application/view/omeka/site-admin/index/add.phtml:9
-#: application/view/omeka/site-admin/index/resources.phtml:23
+#: application/view/omeka/site-admin/index/resources.phtml:22
 msgid "Item pool"
 msgstr "Pula pozycji"
 
@@ -2565,16 +2572,12 @@ msgstr ""
 msgid "There are no available pages."
 msgstr "Nie ma żadnych dostępnych stron."
 
-#: application/view/omeka/site-admin/index/resources.phtml:15
-msgid "Restore item set"
-msgstr "Przywróć zestaw pozycji"
-
-#: application/view/omeka/site-admin/index/resources.phtml:37
+#: application/view/omeka/site-admin/index/resources.phtml:36
 #, php-format
 msgid "There are currently %s items in this site’s pool."
 msgstr "Aktualnie jest %s pozycji w puli tego portalu."
 
-#: application/view/omeka/site-admin/index/resources.phtml:69
+#: application/view/omeka/site-admin/index/resources.phtml:68
 msgid "No item sets are assigned to this site."
 msgstr "Brak zestawów pozycji przypisanych do tego portalu."
 
@@ -2613,30 +2616,30 @@ msgstr "Aktualny motyw nie ma żadnych opcji konfiguracji."
 msgid "Current theme"
 msgstr "Aktualny motyw"
 
-#: application/view/omeka/site-admin/index/theme.phtml:43
+#: application/view/omeka/site-admin/index/theme.phtml:44
 msgid "Edit theme settings"
 msgstr "Edytuj ustawienia motywu"
 
-#: application/view/omeka/site-admin/index/theme.phtml:49
+#: application/view/omeka/site-admin/index/theme.phtml:51
 #, php-format
 msgid "A new version of this theme is available. %s"
 msgstr ""
 
-#: application/view/omeka/site-admin/index/theme.phtml:59
+#: application/view/omeka/site-admin/index/theme.phtml:61
 msgid "Error: this theme is invalid."
 msgstr "Błąd: ten motyw jest nieprawidłowy."
 
-#: application/view/omeka/site-admin/index/theme.phtml:61
+#: application/view/omeka/site-admin/index/theme.phtml:63
 #, php-format
 msgid "ID: %s"
 msgstr "Identyfikator: %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:62
+#: application/view/omeka/site-admin/index/theme.phtml:64
 #, php-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:64
+#: application/view/omeka/site-admin/index/theme.phtml:66
 msgid ""
 "Please contact the Omeka S administrator. This site will not be publicly "
 "available until the problem is resolved or you select another theme below."
@@ -2653,18 +2656,13 @@ msgstr "Przywróć"
 msgid "User permissions"
 msgstr "Uprawnienia użytkownika"
 
-#: application/view/omeka/site-admin/index/users.phtml:43
-#: application/view/omeka/site-admin/index/users.phtml:83
-msgid "User to be removed"
-msgstr "Użytkownik do usunięcia"
-
-#: application/view/omeka/site-admin/index/users.phtml:73
+#: application/view/omeka/site-admin/index/users.phtml:68
 msgid "This site has no users. Add users using the interface to the right."
 msgstr ""
 "Ten portal nie ma żadnych użytkowników. Dodaj użytkownika za pomocą "
 "interfejsu po prawej."
 
-#: application/view/omeka/site-admin/index/users.phtml:76
+#: application/view/omeka/site-admin/index/users.phtml:71
 msgid "Click on a user to add them to the site."
 msgstr "Kliknij w użytkownika aby dodać go do tego portalu."
 
@@ -2740,35 +2738,39 @@ msgstr "Wyszukiwanie zaawansowane pozycji"
 msgid "Item"
 msgstr "Pozycja"
 
-#: application/config/module.config.php:616
+#: application/config/module.config.php:617
 msgid "Something went wrong"
 msgstr "Coś poszło nie tak"
 
-#: application/config/module.config.php:621
+#: application/config/module.config.php:622
 msgid "You have unsaved changes."
 msgstr "Masz niezapisane zmiany"
 
 #: application/config/module.config.php:623
+msgid "Restore item set"
+msgstr "Przywróć zestaw pozycji"
+
+#: application/config/module.config.php:624
 msgid "Close icon set"
 msgstr "Zamknij zestaw ikon"
 
-#: application/config/module.config.php:624
+#: application/config/module.config.php:625
 msgid "Open icon set"
 msgstr "Otwórz zestaw ikon"
 
-#: application/config/module.config.php:626
+#: application/config/module.config.php:627
 msgid "Failed loading resource template from API"
 msgstr "Niepowodzenie podczas ładowania szablonu zasobu z API"
 
-#: application/config/module.config.php:627
+#: application/config/module.config.php:628
 msgid "Restore property"
 msgstr "Przywróć właściwość"
 
-#: application/config/module.config.php:629
+#: application/config/module.config.php:630
 msgid "Please enter a valid language tag"
 msgstr "Wprowadź proszę poprawne oznaczenie języka"
 
-#: application/config/module.config.php:631
+#: application/config/module.config.php:632
 msgid "Description"
 msgstr ""
 
@@ -2827,24 +2829,24 @@ msgstr "bez tytułu"
 
 #: application/src/File/Validator.php:65
 #, php-format
-msgid "Error validating \"%s\". Cannot store files with the media type \"%s\"."
+msgid "Error validating \"%1$s\". Cannot store files with the media type \"%2$s\"."
 msgstr ""
 
 #: application/src/File/Validator.php:78
 #, php-format
 msgid ""
-"Error validating \"%s\". Cannot store files with the resolved extension "
-"\"%s\"."
+"Error validating \"%1$s\". Cannot store files with the resolved extension "
+"\"%2$s\"."
 msgstr ""
 
 #: application/src/File/Downloader.php:71
 #, php-format
-msgid "Error downloading %s: %s"
+msgid "Error downloading %1$s: %2$s"
 msgstr ""
 
 #: application/src/File/Downloader.php:83
 #, php-format
-msgid "Error downloading %s: %s %s"
+msgid "Error downloading %1$s: %2$s %3$s"
 msgstr ""
 
 #: application/src/File/ThumbnailManager.php:102
@@ -2883,35 +2885,124 @@ msgstr ""
 msgid "Resource template file"
 msgstr "Plik szablonu zasobu"
 
-#: application/src/Form/VocabularyImportForm.php:20
-msgid ""
-"A concise vocabulary identifier, used as a shorthand proxy for the namespace"
-" URI."
+#: application/src/Form/VocabularyForm.php:23
+msgid "Basic info"
 msgstr ""
-"Zwięzły identyfikator słownika, używany jako skrótowe zastąpienie URI "
-"przestrzeni nazw."
 
-#: application/src/Form/VocabularyImportForm.php:32
+#: application/src/Form/VocabularyForm.php:30
+msgid "File"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:37
+msgid "Advanced"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:46
+msgid "Enter a human-readable title of the vocabulary."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:58
+msgid "Enter a human-readable description of the vocabulary."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:69
 msgid "Namespace URI"
 msgstr "URI przestrzeni nazw"
 
-#: application/src/Form/VocabularyImportForm.php:33
+#: application/src/Form/VocabularyForm.php:70
 msgid ""
-"The unique namespace URI used by the vocabulary to identify local member "
-"classes and properties."
+"Enter the unique namespace URI used to identify the classes and properties "
+"of the vocabulary."
 msgstr ""
-"Unikalny URI przestrzeni nazw używany przez słownik do identyfikacji "
-"lokalnych klas członkowskich oraz właściwości."
 
-#: application/src/Form/VocabularyImportForm.php:46
-#: application/src/Form/VocabularyForm.php:15
-msgid "A human-readable title of the vocabulary."
-msgstr "Wyświetlany tytuł słownika."
+#: application/src/Form/VocabularyForm.php:81
+msgid "Namespace prefix"
+msgstr ""
 
-#: application/src/Form/VocabularyImportForm.php:59
-#: application/src/Form/VocabularyForm.php:28
-msgid "A human-readable description of the vocabulary."
-msgstr "Wyświetlany opis słownika."
+#: application/src/Form/VocabularyForm.php:82
+msgid ""
+"Enter a concise vocabulary identifier used as a shorthand for the namespace "
+"URI."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:94
+msgid "Vocabulary file"
+msgstr "Plik słownika"
+
+#: application/src/Form/VocabularyForm.php:95
+msgid ""
+"Choose a RDF vocabulary file. You must choose a file or enter a URL below."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:105
+msgid "Vocabulary URL"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:106
+msgid ""
+"Enter a RDF vocabulary URL. You must enter a URL or choose a file above."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:116
+msgid "File format"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:118
+msgid "[Autodetect]"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:119
+msgid "JSON-LD (.jsonld)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:120
+msgid "N-Triples (.nt)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:121
+msgid "Notation3 (.n3)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:122
+msgid "RDF/XML (.rdf)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:123
+msgid "Turtle (.ttl)"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:135
+msgid "Preferred language"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:136
+msgid ""
+"Enter the preferred language of the labels and comments using an <a "
+"target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
+"tags/\">IETF language tag</a>. Defaults to the first available."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:147
+msgid "Label property"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:148
+msgid ""
+"Enter the label property. This is typically only needed if the vocabulary "
+"uses an unconventional property for labels. Please use the full property URI"
+" enclosed in angle brackets."
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:158
+msgid "Comment property"
+msgstr ""
+
+#: application/src/Form/VocabularyForm.php:159
+msgid ""
+"Enter the comment property. This is typically only needed if the vocabulary "
+"uses an unconventional property for comments. Please use the full property "
+"URI enclosed in angle brackets."
+msgstr ""
 
 #: application/src/Form/ResourceForm.php:30
 #: application/src/Form/ResourceBatchUpdateForm.php:69
@@ -2951,7 +3042,7 @@ msgid "Suggested class"
 msgstr "Sugerowana klasa"
 
 #: application/src/Form/SiteSettingsForm.php:28
-#: application/src/Form/SettingForm.php:105
+#: application/src/Form/SettingForm.php:109
 msgid "General"
 msgstr "Ogólne"
 
@@ -3001,12 +3092,12 @@ msgid "Always"
 msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:90
-#: application/src/Form/SettingForm.php:232
+#: application/src/Form/SettingForm.php:236
 msgid "Disable JSON-LD embed"
 msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:91
-#: application/src/Form/SettingForm.php:233
+#: application/src/Form/SettingForm.php:237
 msgid ""
 "By default, Omeka embeds JSON-LD in resource browse and show pages for the "
 "purpose of machine-readable metadata discovery. Check this to disable "
@@ -3016,7 +3107,7 @@ msgstr ""
 #: application/src/Form/SiteSettingsForm.php:103
 #: application/src/Form/InstallationForm.php:112
 #: application/src/Form/UserForm.php:129
-#: application/src/Form/SettingForm.php:205
+#: application/src/Form/SettingForm.php:209
 msgid "Locale"
 msgstr ""
 
@@ -3031,7 +3122,7 @@ msgid "Restrict browse to attached items"
 msgstr "Ogranicz przeglądanie do załączonych pozycji"
 
 #: application/src/Form/SiteSettingsForm.php:137
-#: application/src/Form/SettingForm.php:156
+#: application/src/Form/SettingForm.php:160
 msgid "Results per page"
 msgstr "Ilość wyników na stronę"
 
@@ -3157,12 +3248,12 @@ msgid "Confirm email"
 msgstr "Potwierdź adres e-mail"
 
 #: application/src/Form/InstallationForm.php:80
-#: application/src/Form/SettingForm.php:127
+#: application/src/Form/SettingForm.php:131
 msgid "Installation title"
 msgstr "Tytuł instalacji"
 
 #: application/src/Form/InstallationForm.php:98
-#: application/src/Form/SettingForm.php:142
+#: application/src/Form/SettingForm.php:146
 msgid "Time zone"
 msgstr "Strefa czasowa"
 
@@ -3233,7 +3324,7 @@ msgid "Confirm"
 msgstr "Potwierdź"
 
 #: application/src/Form/UserForm.php:130
-#: application/src/Form/SettingForm.php:206
+#: application/src/Form/SettingForm.php:210
 msgid "Global locale/language code for all interfaces."
 msgstr ""
 
@@ -3257,39 +3348,39 @@ msgstr "Potwierdź nowe hasło"
 msgid "New key label"
 msgstr "Nowa etykieta klucza"
 
-#: application/src/Form/SettingForm.php:114
+#: application/src/Form/SettingForm.php:118
 msgid "Administrator email"
 msgstr "Adres e-mail administratora"
 
-#: application/src/Form/SettingForm.php:157
+#: application/src/Form/SettingForm.php:161
 msgid "The maximum number of results per page on browse pages."
 msgstr "Maksymalna liczba wyników na stronę w widoku przeglądania."
 
-#: application/src/Form/SettingForm.php:170
+#: application/src/Form/SettingForm.php:174
 msgid "Property label information"
 msgstr "Informacja etykiety właściwości"
 
-#: application/src/Form/SettingForm.php:171
+#: application/src/Form/SettingForm.php:175
 msgid "The additional information that accompanies labels on resource pages."
 msgstr "Dodatkowa informacja towarzysząca etykietom na stronach zasobu."
 
-#: application/src/Form/SettingForm.php:173
+#: application/src/Form/SettingForm.php:177
 msgid "None"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:174
+#: application/src/Form/SettingForm.php:178
 msgid "Show Vocabulary"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:175
+#: application/src/Form/SettingForm.php:179
 msgid "Show Term"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:188
+#: application/src/Form/SettingForm.php:192
 msgid "Default site"
 msgstr "Domyślny portal"
 
-#: application/src/Form/SettingForm.php:189
+#: application/src/Form/SettingForm.php:193
 msgid ""
 "Select which site should appear when users go to the front page of the "
 "installation."
@@ -3297,78 +3388,78 @@ msgstr ""
 "Wybierz, który portal ma zostać wyświetlony, gdy użytkownicy wejdą na główną"
 " stronę tej instalacji. "
 
-#: application/src/Form/SettingForm.php:194
+#: application/src/Form/SettingForm.php:198
 msgid "No default (show index of sites)"
 msgstr "Brak domyślnego (pokaż spis portali)"
 
-#: application/src/Form/SettingForm.php:219
+#: application/src/Form/SettingForm.php:223
 msgid "Enable version notifications"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:220
+#: application/src/Form/SettingForm.php:224
 msgid ""
 "Enable notifications when a new version of Omeka S, modules, or themes are "
 "available."
 msgstr ""
 
-#: application/src/Form/SettingForm.php:245
+#: application/src/Form/SettingForm.php:249
 msgid "Default content visibility to Private"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:246
+#: application/src/Form/SettingForm.php:250
 msgid ""
 "If checked, all items, item sets and sites newly created will have their "
 "visibility set to private by default."
 msgstr ""
 
-#: application/src/Form/SettingForm.php:258
+#: application/src/Form/SettingForm.php:262
 msgid "Index full-text search"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:272
+#: application/src/Form/SettingForm.php:276
 msgid "Security"
 msgstr "Bezpieczeństwo"
 
-#: application/src/Form/SettingForm.php:281
+#: application/src/Form/SettingForm.php:285
 msgid "Use HTMLPurifier"
 msgstr "Użyj HTMLPurifier"
 
-#: application/src/Form/SettingForm.php:282
+#: application/src/Form/SettingForm.php:286
 msgid "Clean up user-entered HTML."
 msgstr "Wyczyść wprowadzony przez użytkownika HTML."
 
-#: application/src/Form/SettingForm.php:294
+#: application/src/Form/SettingForm.php:298
 msgid "Disable file validation"
 msgstr "Wyłącz sprawdzanie pliku"
 
-#: application/src/Form/SettingForm.php:295
+#: application/src/Form/SettingForm.php:299
 msgid "Check this to disable file media type and extension validation."
 msgstr "Zaznacz aby wyłączyć media typu plik oraz weryfikację rozszerzenia."
 
-#: application/src/Form/SettingForm.php:304
+#: application/src/Form/SettingForm.php:308
 msgid "Allowed media types"
 msgstr "Dozwolone typy mediów"
 
-#: application/src/Form/SettingForm.php:305
+#: application/src/Form/SettingForm.php:309
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr ""
 "Rozdzielona przecinkami lista dozwolonych typów mediów dla wgrywanych "
 "plików."
 
-#: application/src/Form/SettingForm.php:317
+#: application/src/Form/SettingForm.php:321
 msgid "Allowed file extensions"
 msgstr "Dozwolone rozszerzenia pliku"
 
-#: application/src/Form/SettingForm.php:318
+#: application/src/Form/SettingForm.php:322
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr ""
 "Rozdzielona przecinkami lista dozwolonych rozszerzeń dla wgrywanych plików."
 
-#: application/src/Form/SettingForm.php:332
+#: application/src/Form/SettingForm.php:336
 msgid "reCAPTCHA site key"
 msgstr "Klucz reCAPTCHA dla portalu"
 
-#: application/src/Form/SettingForm.php:343
+#: application/src/Form/SettingForm.php:347
 msgid "reCAPTCHA secret key"
 msgstr "Tajny klucz reCAPTCHA"
 
@@ -3394,7 +3485,7 @@ msgstr ""
 
 #: application/src/Form/Element/PasswordConfirm.php:39
 #, php-format
-msgid "contain at least %s symbols: %s"
+msgid "contain at least %1$s symbols: %2$s"
 msgstr ""
 
 #: application/src/Form/Element/PasswordConfirm.php:43
@@ -3421,56 +3512,6 @@ msgstr ""
 #: application/src/Form/Element/ColorPicker.php:29
 msgid "Invalid color format"
 msgstr "Nieprawidłowy kod koloru"
-
-#: application/src/Form/Element/VocabularyFetch.php:15
-msgid "Vocabulary file"
-msgstr "Plik słownika"
-
-#: application/src/Form/Element/VocabularyFetch.php:16
-msgid "Choose a RDF vocabulary file. You must choose a file or enter a URL."
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:26
-msgid "Vocabulary URL"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:27
-msgid "Enter a RDF vocabulary URL. You must enter a URL or choose a file."
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:37
-msgid "File format"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:39
-msgid "[Autodetect]"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:40
-msgid "JSON-LD (.jsonld)"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:41
-msgid "N-Triples (.nt)"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:42
-msgid "Notation3 (.n3)"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:43
-msgid "RDF/XML (.rdf)"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:44
-msgid "Turtle (.ttl)"
-msgstr ""
-
-#: application/src/Form/Element/VocabularyFetch.php:57
-msgid ""
-"Enter the preferred language of the labels and comments using an IETF "
-"language tag. Defaults to the first available."
-msgstr ""
 
 #: application/src/Form/Element/Recaptcha.php:99
 msgid "You must verify that you are human by completing the CAPTCHA."
@@ -3537,15 +3578,15 @@ msgstr "Pomyślnie zaktualizowano uprawnienia użytkownika"
 msgid "Site theme successfully updated"
 msgstr "Pomyślnie zaktualizowano motyw portalu"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:401
+#: application/src/Controller/SiteAdmin/IndexController.php:403
 msgid "Theme settings successfully updated"
 msgstr "Pomyślnie zaktualizowano ustawienia motywu"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:418
+#: application/src/Controller/SiteAdmin/IndexController.php:420
 msgid "Site successfully deleted"
 msgstr "Pomyślnie usunięto portal"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:441
+#: application/src/Controller/SiteAdmin/IndexController.php:443
 msgid "site"
 msgstr "portal"
 
@@ -3621,8 +3662,8 @@ msgstr "Pomyślnie utworzono szablon zasobu. %s"
 
 #: application/src/Controller/Admin/UserController.php:44
 #: application/src/Controller/Admin/UserController.php:49
-#: application/src/Controller/Admin/ItemSetController.php:85
-#: application/src/Controller/Admin/ItemSetController.php:90
+#: application/src/Controller/Admin/ItemSetController.php:87
+#: application/src/Controller/Admin/ItemSetController.php:92
 #: application/src/Controller/Admin/MediaController.php:27
 #: application/src/Controller/Admin/MediaController.php:32
 #: application/src/Controller/Admin/ItemController.php:42
@@ -3657,12 +3698,8 @@ msgid ""
 "API key successfully created.<br><br>Here is your key ID and credential for "
 "access to the API. WARNING: \"key_credential\" will be unretrievable after "
 "you navigate away from this page.<br><br>key_identity: "
-"<code>%s</code><br>key_credential: <code>%s</code>"
+"<code>%1$s</code><br>key_credential: <code>%2$s</code>"
 msgstr ""
-"Pomyślnie utworzono klucz API.<br><br>Oto twój identyfikator klucza oraz "
-"uwierzytelnienie dostępu do API. UWAGA: uwierzytelnienie będzie utracone "
-"jeżeli opuścisz tę stronę.<br><br>identyfikator "
-"klucza:<code>%s</code><br>uwierzytelnienie klucza:<code>%s</code>"
 
 #: application/src/Controller/Admin/UserController.php:268
 msgid "user"
@@ -3704,50 +3741,50 @@ msgstr ""
 msgid "Editing users. This may take a while."
 msgstr ""
 
-#: application/src/Controller/Admin/ItemSetController.php:31
+#: application/src/Controller/Admin/ItemSetController.php:32
 #, php-format
 msgid "Item set successfully created. %s"
 msgstr "Pomyślnie utworzono zestaw pozycji. %s"
 
-#: application/src/Controller/Admin/ItemSetController.php:67
+#: application/src/Controller/Admin/ItemSetController.php:69
 msgid "Item set successfully updated"
 msgstr "Pomyślnie zaktualizowano zestaw pozycji"
 
-#: application/src/Controller/Admin/ItemSetController.php:153
+#: application/src/Controller/Admin/ItemSetController.php:155
 msgid "item set"
 msgstr "zestaw pozycji"
 
-#: application/src/Controller/Admin/ItemSetController.php:168
+#: application/src/Controller/Admin/ItemSetController.php:170
 msgid "Item set successfully deleted"
 msgstr "Pomyślnie usunięto zestaw pozycji"
 
-#: application/src/Controller/Admin/ItemSetController.php:189
+#: application/src/Controller/Admin/ItemSetController.php:191
 msgid "You must select at least one item set to batch delete."
 msgstr ""
 "Musisz zaznaczyć przynajmniej jeden zestaw pozycji do zbiorowego usunięcia."
 
-#: application/src/Controller/Admin/ItemSetController.php:198
+#: application/src/Controller/Admin/ItemSetController.php:200
 msgid "Item sets successfully deleted"
 msgstr "Pomyślnie usunięto zestawy pozycji"
 
-#: application/src/Controller/Admin/ItemSetController.php:224
+#: application/src/Controller/Admin/ItemSetController.php:226
 msgid "Deleting item sets. This may take a while."
 msgstr "Usuwanie zestawów pozycji. Może to chwilę potrwać."
 
-#: application/src/Controller/Admin/ItemSetController.php:242
+#: application/src/Controller/Admin/ItemSetController.php:244
 msgid "You must select at least one item set to batch edit."
 msgstr ""
 "Musisz zaznaczyć przynajmniej jeden zestaw pozycji do zbiorowego edytowania."
 
-#: application/src/Controller/Admin/ItemSetController.php:262
+#: application/src/Controller/Admin/ItemSetController.php:264
 msgid "Item sets successfully edited"
 msgstr "Pomyślnie edytowano zestawy pozycji"
 
-#: application/src/Controller/Admin/ItemSetController.php:314
+#: application/src/Controller/Admin/ItemSetController.php:316
 msgid "Editing item sets. This may take a while."
 msgstr "Edytowanie zestawów pozycji. Może to chwilę potrwać."
 
-#: application/src/Controller/Admin/VocabularyController.php:60
+#: application/src/Controller/Admin/VocabularyController.php:59
 msgid "vocabulary"
 msgstr "słownik"
 
@@ -3756,51 +3793,51 @@ msgstr "słownik"
 msgid "Vocabulary successfully imported. %s"
 msgstr "Pomyślnie zaimportowano słownik. %s"
 
-#: application/src/Controller/Admin/VocabularyController.php:170
+#: application/src/Controller/Admin/VocabularyController.php:176
 msgid "Please review these changes before you accept them."
 msgstr "Przeglądnij proszę te zmiany przed ich zatwierdzeniem."
 
-#: application/src/Controller/Admin/VocabularyController.php:178
+#: application/src/Controller/Admin/VocabularyController.php:184
 msgid "Vocabulary successfully updated"
 msgstr "Pomyślnie zaktualizowano słownik"
 
-#: application/src/Controller/Admin/VocabularyController.php:198
+#: application/src/Controller/Admin/VocabularyController.php:204
 msgid "Changes to the vocabulary successfully made"
 msgstr "Pomyślnie wprowadzono zmiany w słowniku"
 
-#: application/src/Controller/Admin/VocabularyController.php:214
+#: application/src/Controller/Admin/VocabularyController.php:220
 msgid "Vocabulary successfully deleted"
 msgstr "Pomyślnie usunięto słownik"
 
-#: application/src/Controller/Admin/MediaController.php:57
+#: application/src/Controller/Admin/MediaController.php:59
 msgid "Media successfully updated"
 msgstr "Pomyślnie zaktualizowano media"
 
-#: application/src/Controller/Admin/MediaController.php:123
+#: application/src/Controller/Admin/MediaController.php:125
 msgid "Media successfully deleted"
 msgstr "Pomyślnie usunięto media"
 
-#: application/src/Controller/Admin/MediaController.php:157
+#: application/src/Controller/Admin/MediaController.php:159
 msgid "You must select at least one media to batch delete."
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:166
+#: application/src/Controller/Admin/MediaController.php:168
 msgid "Medias successfully deleted"
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:192
+#: application/src/Controller/Admin/MediaController.php:194
 msgid "Deleting medias. This may take a while."
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:210
+#: application/src/Controller/Admin/MediaController.php:212
 msgid "You must select at least one media to batch edit."
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:230
+#: application/src/Controller/Admin/MediaController.php:232
 msgid "Medias successfully edited"
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:282
+#: application/src/Controller/Admin/MediaController.php:284
 msgid "Editing medias. This may take a while."
 msgstr ""
 
@@ -3824,24 +3861,24 @@ msgstr "Pomyślnie usunięto pozycje"
 msgid "Deleting items. This may take a while."
 msgstr "Usuwanie pozycji. Może to chwilę potrwać."
 
-#: application/src/Controller/Admin/ItemController.php:207
+#: application/src/Controller/Admin/ItemController.php:208
 #, php-format
 msgid "Item successfully created. %s"
 msgstr "Pomyślnie utworzono pozycję. %s"
 
-#: application/src/Controller/Admin/ItemController.php:243
+#: application/src/Controller/Admin/ItemController.php:245
 msgid "Item successfully updated"
 msgstr "Pomyślnie zaktualizowano pozycję"
 
-#: application/src/Controller/Admin/ItemController.php:270
+#: application/src/Controller/Admin/ItemController.php:272
 msgid "You must select at least one item to batch edit."
 msgstr "Musisz zaznaczyć przynajmniej jedną pozycję do zbiorowej edycji."
 
-#: application/src/Controller/Admin/ItemController.php:290
+#: application/src/Controller/Admin/ItemController.php:292
 msgid "Items successfully edited"
 msgstr "Pomyślnie edytowano pozycje"
 
-#: application/src/Controller/Admin/ItemController.php:342
+#: application/src/Controller/Admin/ItemController.php:344
 msgid "Editing items. This may take a while."
 msgstr "Edytowanie pozycji. Może to chwilę potrwać."
 
@@ -3968,14 +4005,14 @@ msgstr "Wgraj plik"
 #, php-format
 msgid ""
 "You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
-"version %s. You are currently on version %s."
+"version %1$s. You are currently on version %2$s."
 msgstr ""
 
 #: application/src/Stdlib/Environment.php:54
 #, php-format
 msgid ""
-"The installed PHP version (%s) is too low. Omeka requires at least version "
-"%s."
+"The installed PHP version (%1$s) is too low. Omeka requires at least version"
+" %2$s."
 msgstr ""
 
 #: application/src/Stdlib/Environment.php:62
@@ -3986,15 +4023,15 @@ msgstr ""
 #: application/src/Stdlib/Environment.php:81
 #, php-format
 msgid ""
-"The installed MySQL version (%s) is too low. Omeka requires at least version"
-" %s."
+"The installed MySQL version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
 msgstr ""
 
 #: application/src/Stdlib/Environment.php:89
 #, php-format
 msgid ""
-"The installed MariaDB version (%s) is too low. Omeka requires at least "
-"version %s."
+"The installed MariaDB version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
 msgstr ""
 
 #: application/src/Permissions/Acl.php:21
@@ -4049,53 +4086,61 @@ msgstr "Prezentacja pozycji"
 msgid "Item with metadata"
 msgstr "Pozycja z metadanymi"
 
-#: application/src/Site/BlockLayout/Media.php:60
-msgid "Thumbnail alignment"
-msgstr "Wyrównanie miniatury"
+#: application/src/Site/BlockLayout/Media.php:14
+msgid "Media Embed"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Media.php:61
+msgid "Alignment"
+msgstr ""
 
 #: application/src/Site/BlockLayout/Fallback.php:28
 #, php-format
 msgid "Unknown [%s]"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:22
+#: application/src/Site/BlockLayout/ListOfSites.php:23
 msgid "List of sites"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:37
+#: application/src/Site/BlockLayout/ListOfSites.php:38
 msgid "Alphabetical"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:38
+#: application/src/Site/BlockLayout/ListOfSites.php:39
 msgid "Oldest first"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:39
+#: application/src/Site/BlockLayout/ListOfSites.php:40
 msgid "Newest first"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:50
+#: application/src/Site/BlockLayout/ListOfSites.php:51
 msgid "Max number of sites"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:51
+#: application/src/Site/BlockLayout/ListOfSites.php:52
 msgid "An empty value means no limit."
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:55
+#: application/src/Site/BlockLayout/ListOfSites.php:56
 msgid "Unlimited"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:63
+#: application/src/Site/BlockLayout/ListOfSites.php:64
 msgid "Pagination"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:64
+#: application/src/Site/BlockLayout/ListOfSites.php:65
 msgid "Show pagination (only if a limit is set)"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:74
+#: application/src/Site/BlockLayout/ListOfSites.php:75
 msgid "Show summaries"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:85
+msgid "Exclude current site"
 msgstr ""
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:15
@@ -4206,8 +4251,8 @@ msgstr "Media muszą być tablicą"
 
 #: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:168
 #, php-format
-msgid "The \"%s\" resource template requires a \"%s\" value"
-msgstr "Szablon zasobu \"%s\" wymaga wartości \"%s\""
+msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
+msgstr "Szablon zasobu \"%1$s\" wymaga wartości \"%2$s\""
 
 #: application/src/Api/Adapter/SiteAdapter.php:230
 msgid "A site must have a title."
@@ -4225,39 +4270,39 @@ msgstr "Portal musi mieć pulę danych pozycji."
 msgid "A homepage must belong to its parent site."
 msgstr ""
 
-#: application/src/Api/Adapter/SiteAdapter.php:297
+#: application/src/Api/Adapter/SiteAdapter.php:304
 msgid "Invalid navigation: navigation must be an array"
 msgstr "Nieprawidłowa nawigacja: nawigacja musi być tablicą"
 
-#: application/src/Api/Adapter/SiteAdapter.php:306
+#: application/src/Api/Adapter/SiteAdapter.php:313
 msgid "Invalid navigation: link missing type"
 msgstr "Niepoprawna nawigacja: brakujący typ odnośnika"
 
-#: application/src/Api/Adapter/SiteAdapter.php:310
+#: application/src/Api/Adapter/SiteAdapter.php:317
 msgid "Invalid navigation: link missing data"
 msgstr "Niepoprawna nawigacja: brak danych odnośnika"
 
-#: application/src/Api/Adapter/SiteAdapter.php:314
+#: application/src/Api/Adapter/SiteAdapter.php:321
 msgid "Invalid navigation: invalid link data"
 msgstr "Niepoprawna nawigacja: nieprawidłowe dane odnośnika"
 
-#: application/src/Api/Adapter/SiteAdapter.php:319
+#: application/src/Api/Adapter/SiteAdapter.php:326
 msgid "Invalid navigation: page links must be unique"
 msgstr "Niepoprawna nawigacja: odnośniki do stron muszą być unikalne"
 
-#: application/src/Api/Adapter/SiteAdapter.php:326
+#: application/src/Api/Adapter/SiteAdapter.php:333
 msgid "Invalid navigation: links must be an array"
 msgstr "Niepoprawna nawigacja: odnośniki muszą być tablicą"
 
-#: application/src/Api/Adapter/MediaAdapter.php:89
+#: application/src/Api/Adapter/MediaAdapter.php:97
 msgid "Media must set an ingester."
 msgstr ""
 
-#: application/src/Api/Adapter/MediaAdapter.php:111
+#: application/src/Api/Adapter/MediaAdapter.php:119
 msgid "Media must set a valid ingester."
 msgstr ""
 
-#: application/src/Api/Adapter/MediaAdapter.php:147
+#: application/src/Api/Adapter/MediaAdapter.php:155
 msgid "Media must belong to an item."
 msgstr "Media muszą być przypisane do jakiejś pozycji."
 
@@ -6201,10 +6246,6 @@ msgstr ""
 msgid "A person."
 msgstr ""
 
-#. Class comment for Friend of a Friend:Agent
-msgid "An agent (eg. person, group, software or physical artifact)."
-msgstr ""
-
 #. Class comment for Friend of a Friend:Document
 msgid "A document."
 msgstr ""
@@ -6223,6 +6264,10 @@ msgstr ""
 
 #. Class comment for Friend of a Friend:Group
 msgid "A class of Agents."
+msgstr ""
+
+#. Class comment for Friend of a Friend:Agent
+msgid "An agent (eg. person, group, software or physical artifact)."
 msgstr ""
 
 #. Class label for Friend of a Friend:Project

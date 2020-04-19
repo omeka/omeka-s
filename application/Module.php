@@ -3,8 +3,8 @@ namespace Omeka;
 
 use Omeka\Api\Adapter\FulltextSearchableInterface;
 use Omeka\Module\AbstractModule;
-use Zend\EventManager\Event as ZendEvent;
-use Zend\EventManager\SharedEventManagerInterface;
+use Laminas\EventManager\Event as ZendEvent;
+use Laminas\EventManager\SharedEventManagerInterface;
 
 /**
  * The Omeka module.
@@ -14,7 +14,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '2.0.2';
+    const VERSION = '2.9.3-alpha';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -38,7 +38,7 @@ class Module extends AbstractModule
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
         $sharedEventManager->attach(
-            'Zend\View\Helper\Navigation\AbstractHelper',
+            'Laminas\View\Helper\Navigation\AbstractHelper',
             'isAllowed',
             [$this, 'navigationPageIsAllowed']
         );

@@ -16,7 +16,7 @@
     "gulp-replace": "^1.0.0",
     "gulp-sass": "^4.0.2",
     "gulp-zip": "^4.2.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.3",
     "rimraf": "^2.6.0",
     "susy": "^2.2.12",
     "tmp": "0.0.33"

@@ -11,6 +11,31 @@ $roles = [
     'editor' => $translate('Editor'),
     'admin' => $translate('Admin'),
 ];
+$userRowTemplate = '
+<tr class="resource-row">
+    <td class="data-value" data-row-key="child-search"></td>
+    <td><select name="o:site_permission[__index__][o:role]">';
+foreach ($roles as $key => $value) {
+    $userRowTemplate .= '<option value="' . $key . '">' . $value . '</option>';
+}
+$userRowTemplate .= '</select></td>
+    <td>
+        <ul class="actions">
+            <li>' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $delete]) . '</li>
+        </ul>
+        <input type="hidden" class="resource-id" name="o:site_permission[__index__][o:user][o:id]">
+    </td>
+</tr>
+';
+$sitePermissions = $site->sitePermissions();
+$users = [];
+foreach ($sitePermissions as $sitePermission) {
+  $user = $sitePermission->user();
+  $users[] = [
+    'id' => $user->id(),
+    'role' => $sitePermission->role(),
+  ];
+}
 ?>
 
 <?php echo $this->pageTitle($translate('User permissions'), 1, $translate('Sites')); ?>
@@ -23,80 +48,24 @@ $roles = [
     <button><?php echo $translate('Save'); ?></button>
 </div>
 
-<?php $sitePermissions = $site->sitePermissions(); ?>
-    <table id="site-user-permissions" class="tablesaw tablesaw-stack <?php echo count($sitePermissions) ? '' : 'empty'; ?>" data-tablesaw-mode="stack">
-        <thead>
-            <tr>
-                <th scope="col"><?php echo $translate('User'); ?></th>
-                <th scope="col"><?php echo $translate('Role'); ?></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $index = 0;
-            foreach($sitePermissions as $sitePermission):
-            $user = $sitePermission->user();
-            ?>
-            <tr class="user value">
-                <td class="user-meta">
-                    <span class="restore-value"><?php echo $translate('User to be removed'); ?></span>
-                    <span class="user-name"><?php echo $escape($user->name()); ?> (<?php echo $escape($user->email()); ?>)</span>
-                    <input type="hidden" class="user-id" name="o:site_permission[<?php echo $index; ?>][o:user][o:id]" value="<?php echo $escape($user->id()); ?>">
-                </td>
-                <td><select name="o:site_permission[<?php echo $index; ?>][o:role]" aria-label="<?php echo $translate('Role'); ?>">
-                    <?php
-                    foreach ($roles as $key => $value):
-                    $selected = $key === $sitePermission->role() ? true : false;
-                    ?>
-                    <option value="<?php echo $key; ?>"<?php echo $selected ? ' selected' : null; ?>><?php echo $value; ?></option>
-                    <?php endforeach; ?>
-                </select></td>
-                <td>
-                    <ul class="actions">
-                        <li><?php echo $this->hyperlink('', '#', [
-                            'class' => 'o-icon-delete',
-                            'title' => $delete,
-                        ]); ?></li>
-                        <li><?php echo $this->hyperlink('', '#', [
-                            'class' => 'o-icon-undo',
-                            'title' => $restore,
-                        ]); ?></li>
-                    </ul>
-                </td>
-                <?php $index++; ?>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="no-resources">
-        <p><?php echo $translate('This site has no users. Add users using the interface to the right.'); ?></p>
-    </div>
-    <button id="site-user-selector-button" class="mobile-only"><?php echo $translate('Add new user'); ?></button>
-    <?php echo $this->userSelector($translate('Click on a user to add them to the site.')); ?>
+<table id="site-user-permissions"  data-row-template="<?php echo $escape($userRowTemplate); ?>" data-existing-rows="<?php echo $this->escapeHtml(json_encode($users)); ?>" class="selector-table tablesaw tablesaw-stack <?php echo (count($sitePermissions) > 0) ? '' : 'empty'; ?>" data-tablesaw-mode="stack">
+    <thead>
+        <tr>
+            <th scope="col"><?php echo $translate('User'); ?></th>
+            <th scope="col"><?php echo $translate('Role'); ?></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody class="resource-rows"></tbody>
+</table>
+<div class="no-resources">
+    <p><?php echo $translate('This site has no users. Add users using the interface to the right.'); ?></p>
+</div>
+<button id="site-user-selector-button" class="mobile-only"><?php echo $translate('Add new user'); ?></button>
+<?php echo $this->userSelector($translate('Click on a user to add them to the site.')); ?>
+
 <?php echo $this->form()->closeTag(); ?>
 
-<?php
-$userRowTemplate = '
-<tr class="user value">
-    <td class="user-meta">
-        <span class="restore-value">' . $translate('User to be removed') . '</span>
-        <span class="user-name"></span>
-        <input type="hidden" class="user-id" name="o:site_permission[__index__][o:user][o:id]">
-    </td>
-    <td><select name="o:site_permission[__index__][o:role]">';
-foreach ($roles as $key => $value) {
-    $userRowTemplate .= '<option value="' . $key . '">' . $value . '</option>';
-}
-$userRowTemplate .= '</select></td>
-    <td>
-        <ul class="actions">
-            <li>' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $delete]) . '</li>' .
-            '<li>' . $this->hyperlink('', '#', ['class' => 'o-icon-undo', 'title' => $restore]) . '</li>
-        </ul>
-    </td>
-</tr>
-';
-?>
-
-<span id="user-row-template" data-template="<?php echo $escape($userRowTemplate); ?>"></span>
+<script>
+  Omeka.initializeSelector('#site-user-permissions', '#user-selector');
+</script>

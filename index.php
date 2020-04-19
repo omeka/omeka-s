@@ -1,5 +1,5 @@
 <?php
-use Zend\View\Model\ViewModel;
+use Laminas\View\Model\ViewModel;
 
 error_reporting(E_ALL);
 if ((isset($_SERVER['APPLICATION_ENV'])

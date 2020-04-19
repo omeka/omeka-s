@@ -4,8 +4,8 @@ namespace Omeka\Controller\Admin;
 use Omeka\Api\Exception\ValidationException;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
-use Zend\View\Model\ViewModel;
-use Zend\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
 
 class AssetController extends AbstractActionController
 {

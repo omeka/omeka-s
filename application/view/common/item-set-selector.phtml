@@ -4,39 +4,44 @@ $escape = $this->plugin('escapeHtml');
 ?>
 <div id="item-set-selector" class='selector sidebar active'>
     <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
-    <h3><?php echo $translate('Click on an item set to add it to the edit panel.'); ?></h3>
-    <input type="text" class="selector-filter" placeholder=" <?php echo $escape($translate('Filter item sets')); ?>">
-    <ul>
-        <li class="total-count-heading"><?php echo $translate('Item sets'); ?> (<span class="selector-total-count"><?php echo $totalItemSetCount; ?></span>)
-            <ul class="selectable-list">
-                <?php foreach ($itemSetOwners as $email => $itemSetOwner): ?>
-                <?php
-                if ($itemSetOwner['owner']) {
-                    $ownerText = $escape($itemSetOwner['owner']->name());
-                } else {
-                    $ownerText = $translate('[no owner]');
-                }
-                $itemSets = $itemSetOwner['item_sets'];
-                ?>
-                <li class='selector-parent'>
-                    <span><?php echo $ownerText; ?></span> (<span class="selector-child-count"><?php echo count($itemSets); ?></span>)
-                    <ul>
-                        <?php foreach ($itemSets as $itemSet): ?>
-                        <li class='selector-child'
-                            data-child-search="<?php echo $escape($itemSet->displayTitle()); ?>"
-                            data-item-set-id="<?php echo $escape($itemSet->id()); ?>"
-                            data-owner-email="<?php echo $escape($email); ?>">
-                            <div class="description">
-                                <p class="o-icon-info"><span class="screen-reader-text"><?php echo $translate('More info'); ?></span></p>
-                                <p class="field-comment"><?php echo $escape($itemSet->displayDescription()); ?></p>
-                            </div>
-                            <span><?php echo $escape($itemSet->displayTitle()); ?></span>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-        </li>
-    </ul>
+    <div class="resources-available">
+        <h3><?php echo $translate('Click on an item set to add it to the edit panel.'); ?></h3>
+        <input type="text" class="selector-filter" placeholder=" <?php echo $escape($translate('Filter item sets')); ?>">
+        <ul>
+            <li class="total-count-heading"><?php echo $translate('Item sets'); ?> (<span class="selector-total-count"><?php echo $totalItemSetCount; ?></span>)
+                <ul class="selectable-list">
+                    <?php foreach ($itemSetOwners as $email => $itemSetOwner): ?>
+                    <?php
+                    if ($itemSetOwner['owner']) {
+                        $ownerText = $escape($itemSetOwner['owner']->name());
+                    } else {
+                        $ownerText = $translate('[no owner]');
+                    }
+                    $itemSets = $itemSetOwner['item_sets'];
+                    ?>
+                    <li class='selector-parent'>
+                        <span><?php echo $ownerText; ?></span> (<span class="selector-child-count"><?php echo count($itemSets); ?></span>)
+                        <ul>
+                            <?php foreach ($itemSets as $itemSet): ?>
+                            <li class='selector-child'
+                                data-child-search="<?php echo $escape($itemSet->displayTitle()); ?>"
+                                data-resource-id="<?php echo $escape($itemSet->id()); ?>"
+                                data-owner-email="<?php echo $escape($email); ?>">
+                                <div class="description">
+                                    <p class="o-icon-info"><span class="screen-reader-text"><?php echo $translate('More info'); ?></span></p>
+                                    <p class="field-comment"><?php echo $escape($itemSet->displayDescription()); ?></p>
+                                </div>
+                                <span><?php echo $escape($itemSet->displayTitle()); ?></span>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="resources-unavailable">
+        <p><?php echo sprintf('All %s have been added.', 'item sets'); ?></p>
+    </div>
 </div>

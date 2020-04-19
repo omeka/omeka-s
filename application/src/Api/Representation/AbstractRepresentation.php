@@ -3,10 +3,10 @@ namespace Omeka\Api\Representation;
 
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Stdlib\DateTime;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\I18n\Translator\TranslatorInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\HelperPluginManager;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\I18n\Translator\TranslatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\HelperPluginManager;
 
 /**
  * Abstract representation.

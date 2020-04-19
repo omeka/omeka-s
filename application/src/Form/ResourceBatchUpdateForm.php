@@ -5,11 +5,11 @@ use Omeka\Form\Element\ItemSetSelect;
 use Omeka\Form\Element\PropertySelect;
 use Omeka\Form\Element\ResourceClassSelect;
 use Omeka\Form\Element\ResourceSelect;
-use Zend\EventManager\Event;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\Form\Element;
-use Zend\Form\Form;
-use Zend\View\Helper\Url;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\Form\Element;
+use Laminas\Form\Form;
+use Laminas\View\Helper\Url;
 
 class ResourceBatchUpdateForm extends Form
 {

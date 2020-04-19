@@ -48,10 +48,24 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             ));
         }
 
-        if (isset($query['media_type'])) {
+        if (!empty($query['media_type'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.mediaType',
                 $this->createNamedParameter($qb, $query['media_type'])
+            ));
+        }
+
+        if (!empty($query['ingester'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'omeka_root.ingester',
+                $this->createNamedParameter($qb, $query['ingester'])
+            ));
+        }
+
+        if (!empty($query['renderer'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'omeka_root.renderer',
+                $this->createNamedParameter($qb, $query['renderer'])
             ));
         }
 

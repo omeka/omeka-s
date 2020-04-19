@@ -25,7 +25,7 @@ class MvcListenersTest extends TestCase
 
         $event = $this->getEventForRedirectToInstallation();
         $return = $this->mvcListeners->redirectToInstallation($event);
-        $this->assertInstanceOf('Zend\Http\PhpEnvironment\Response', $return);
+        $this->assertInstanceOf('Laminas\Http\PhpEnvironment\Response', $return);
     }
 
     protected function getEventForRedirectToInstallation(array $options = [])
@@ -33,10 +33,10 @@ class MvcListenersTest extends TestCase
         $options['is_installed'] = isset($options['is_installed']) ? true : false;
         $options['is_install_route'] = isset($options['is_install_route']) ? true : false;
 
-        $event = $this->createMock('Zend\Mvc\MvcEvent');
+        $event = $this->createMock('Laminas\Mvc\MvcEvent');
 
-        // Zend\Mvc\Application
-        $application = $this->getMockBuilder('Zend\Mvc\Application')
+        // Laminas\Mvc\Application
+        $application = $this->getMockBuilder('Laminas\Mvc\Application')
             ->disableOriginalConstructor()
             ->getMock();
         $status = $this->getMockBuilder('Omeka\Mvc\Status')->disableOriginalConstructor()->getMock();
@@ -53,8 +53,8 @@ class MvcListenersTest extends TestCase
             ->method('getApplication')
             ->will($this->returnValue($application));
 
-        // Zend\Mvc\Router\RouteMatch
-        $routeMatch = $this->getMockBuilder('Zend\Router\RouteMatch')
+        // Laminas\Mvc\Router\RouteMatch
+        $routeMatch = $this->getMockBuilder('Laminas\Router\RouteMatch')
             ->disableOriginalConstructor()
             ->getMock();
         $routeMatch->expects($this->any())
@@ -64,8 +64,8 @@ class MvcListenersTest extends TestCase
             ->method('getRouteMatch')
             ->will($this->returnValue($routeMatch));
 
-        // Zend\Mvc\Router\RouteStackInterface
-        $router = $this->createMock('Zend\Router\RouteStackInterface');
+        // Laminas\Mvc\Router\RouteStackInterface
+        $router = $this->createMock('Laminas\Router\RouteStackInterface');
         $router->expects($this->any())
             ->method('assemble')
             ->with($this->equalTo([]), $this->equalTo(['name' => 'install']));
@@ -73,12 +73,12 @@ class MvcListenersTest extends TestCase
             ->method('getRouter')
             ->will($this->returnValue($router));
 
-        // Zend\Http\PhpEnvironment\Response
-        $headers = $this->createMock('Zend\Http\Headers');
+        // Laminas\Http\PhpEnvironment\Response
+        $headers = $this->createMock('Laminas\Http\Headers');
         $headers->expects($this->any())
             ->method('addHeaderLine')
             ->with($this->equalTo('Location'));
-        $response = $this->createMock('Zend\Http\PhpEnvironment\Response');
+        $response = $this->createMock('Laminas\Http\PhpEnvironment\Response');
         $response->expects($this->any())
             ->method('getHeaders')
             ->will($this->returnValue($headers));

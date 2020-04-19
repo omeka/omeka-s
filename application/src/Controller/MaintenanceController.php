@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\Controller\AbstractActionController;
 
 class MaintenanceController extends AbstractActionController
 {

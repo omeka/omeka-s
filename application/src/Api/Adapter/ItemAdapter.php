@@ -54,20 +54,13 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         }
 
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
-            $siteAdapter = $this->getAdapter('sites');
-            try {
-                $site = $siteAdapter->findEntity($query['site_id']);
-                $params = $site->getItemPool();
-                if (!is_array($params)) {
-                    $params = [];
-                }
-                // Avoid potential infinite recursion
-                unset($params['site_id']);
-
-                $this->buildQuery($qb, $params);
-            } catch (Exception\NotFoundException $e) {
-                $site = null;
-            }
+            $siteAlias = $this->createAlias();
+            $qb->innerJoin(
+                'omeka_root.sites', $siteAlias, 'WITH', $qb->expr()->eq(
+                    "$siteAlias.id",
+                    $this->createNamedParameter($qb, $query['site_id'])
+                )
+            );
 
             if (isset($query['site_attachments_only']) && $query['site_attachments_only']) {
                 $siteBlockAttachmentsAlias = $this->createAlias();
@@ -95,6 +88,9 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                     $this->createNamedParameter($qb, $query['site_id']))
                 );
             }
+        } elseif (isset($query['in_sites']) && $query['in_sites']) {
+            $siteAlias = $this->createAlias();
+            $qb->innerJoin('omeka_root.sites', $siteAlias);
         }
     }
 
@@ -119,6 +115,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
     ) {
         parent::hydrate($request, $entity, $errorStore);
 
+        $isCreate = Request::CREATE === $request->getOperation();
         $isUpdate = Request::UPDATE === $request->getOperation();
         $isPartial = $isUpdate && $request->getOption('isPartial');
         $append = $isPartial && 'append' === $request->getOption('collectionAction');
@@ -158,6 +155,59 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 foreach ($itemSets as $itemSet) {
                     if (!in_array($itemSet, $itemSetsToRetain)) {
                         $itemSets->removeElement($itemSet);
+                    }
+                }
+            }
+        }
+        if ($isCreate && !is_array($request->getValue('o:site'))) {
+            // On CREATE and when no "o:site" array is passed, assign this item
+            // to all sites where assignNewItems=true.
+            $dql = '
+                SELECT site
+                FROM Omeka\Entity\Site site
+                WHERE site.assignNewItems = true';
+            $query = $this->getEntityManager()->createQuery($dql);
+            $sites = $entity->getSites();
+            foreach ($query->getResult() as $site) {
+                $sites->set($site->getId(), $site);
+            }
+        } elseif ($this->shouldHydrate($request, 'o:site')) {
+            $acl = $this->getServiceLocator()->get('Omeka\Acl');
+            $sitesData = $request->getValue('o:site', []);
+            $siteAdapter = $this->getAdapter('sites');
+            $sites = $entity->getSites();
+            $sitesToRetain = [];
+
+            foreach ($sitesData as $siteData) {
+                if (is_array($siteData) && isset($siteData['o:id'])) {
+                    $siteId = $siteData['o:id'];
+                } elseif (is_numeric($siteData)) {
+                    $siteId = $siteData;
+                } else {
+                    continue;
+                }
+                $site = $sites->get($siteId);
+                if ($remove) {
+                    if ($site && $acl->userIsAllowed($site, 'can-assign-items')) {
+                        $sites->removeElement($site);
+                    }
+                    continue;
+                }
+                if (!$site) {
+                    // Assign site that was not already assigned.
+                    $site = $siteAdapter->findEntity($siteId);
+                    if ($acl->userIsAllowed($site, 'can-assign-items')) {
+                        $sites->set($site->getId(), $site);
+                    }
+                }
+                $sitesToRetain[] = $site;
+            }
+
+            if (!$append && !$remove) {
+                // Remove sites that were not included in the passed data.
+                foreach ($sites as $site) {
+                    if (!in_array($site, $sitesToRetain) && $acl->userIsAllowed($site, 'can-assign-items')) {
+                        $sites->removeElement($site);
                     }
                 }
             }

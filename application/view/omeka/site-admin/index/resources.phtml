@@ -6,54 +6,54 @@ $this->headScript()->appendFile($this->assetUrl('js/site-item-sets.js', 'Omeka')
 $this->htmlElement('body')->appendAttribute('class', 'sites resources');
 
 $rowTemplate = '
-<tr class="site-item-set-row">
+<tr class="resource-row">
     <td class="sortable-handle"></td>
-    <td class="site-item-set-title"></td>
-    <td class="site-item-set-owner-email"></td>
+    <td class="data-value" data-row-key="child-search"></td>
+    <td class="data-value" data-row-key="owner-email"></td>
     <td>
 ' . $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $translate('Remove item set')])
-  . '<input type="hidden" class="site-item-set-id" name="o:site_item_set[][o:item_set][o:id]">
+  . '<input type="hidden" class="resource-id" name="o:site_item_set[][o:item_set][o:id]">
     </td>
 </tr>';
 ?>
 
 <?php echo $this->pageTitle($translate('Resources'), 1, $translate('Sites')); ?>
 <?php echo $this->sectionNav([
-    'item-pool-section' => $translate('Item pool'),
+    'items-section' => $translate('Items'),
     'item-sets-section' => $translate('Item sets'),
 ]); ?>
 
 <?php echo $this->form()->openTag($form); ?>
-<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->formElement($form->get('siteresourcesform_csrf')); ?>
 
 <div id="page-actions">
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $translate('Save'); ?></button>
 </div>
 
-<div id="item-pool-section" class="active section">
+<div id="items-section" class="active section">
+    <?php echo $this->formRow($form->get('o:assign_new_items')); ?>
     <p><?php echo sprintf(
-        $translate('There are currently %s items in this site’s pool.'),
-        $this->hyperlink(
-            $itemCount,
-            $this->url(
-                'admin/default',
-                ['controller' => 'item'],
-                ['query' => ['site_id' => $site->id()]]
-            ),
-            ['target' => '_blank']
-        )
+        $translate('There are currently %s items assigned to this site. Select an action below to manage item assignments.'),
+        $this->hyperlink($itemCount, $this->url('admin/default', ['controller' => 'item'], ['query' => ['site_id' => $site->id()]]), ['target' => '_blank'])
     ); ?></p>
-    <div id="advanced-search"><?php echo $this->partial(
-        'common/advanced-search',
-        ['query' => $site->itemPool(), 'resourceType' => 'item', 'isPool' => true]
-    ); ?></div>
+    <?php echo $this->formRow($form->get('item_assignment_action')); ?>
+    <?php echo $this->formRow($form->get('save_search')); ?>
+    <?php echo $this->hyperlink($this->translate('Preview this search'), '#', [
+        'id' => 'resources-preview-button',
+        'class' => 'button',
+        'title' => $this->translate('Preview this search'),
+        'data-url' => $this->url('admin/default', ['controller' => 'item', 'action' => 'browse']),
+    ]); ?>
+    <div id="advanced-search">
+        <?php echo $this->partial('common/advanced-search', ['query' => $site->itemPool(), 'resourceType' => 'item', 'isPool' => true]); ?>
+    </div>
 </div>
 
 <div id="item-sets-section" class="section">
-    <table id="site-item-sets" class="tablesaw tablesaw-stack"
+    <table id="site-item-sets" class="selector-table tablesaw tablesaw-stack <?php echo ((count($itemSets) > 0)) ? '' : 'empty'; ?>"
         data-tablesaw-mode="stack"
-        data-item-sets="<?php echo $this->escapeHtml(json_encode($itemSets)); ?>"
+        data-existing-rows="<?php echo $this->escapeHtml(json_encode($itemSets)); ?>"
         data-row-template="<?php echo $this->escapeHtml($rowTemplate); ?>">
         <thead>
             <tr>
@@ -63,10 +63,20 @@ $rowTemplate = '
                 <th></th>
             </tr>
         </thead>
-        <tbody id="site-item-set-rows"></tbody>
+        <tbody class="resource-rows"></tbody>
     </table>
-    <p id="no-site-item-sets"><?php echo $translate('No item sets are assigned to this site.'); ?></p>
-    <?php echo $this->itemSetSelector(); ?>
+    <div class="no-resources"><?php echo $translate('No item sets are assigned to this site.'); ?></div>
+    <?php echo $this->itemSetSelector(true); ?>
 </div>
 
 <?php echo $this->form()->closeTag(); ?>
+
+<script>
+Omeka.initializeSelector('#site-item-sets', '#item-set-selector');
+$('#resources-preview-button').on('click', function(e) {
+    e.preventDefault();
+    var url = $(this).data('url');
+    var query = $('#site-form').serialize();
+    window.open(`${url}?${query}`, '_blank');
+});
+</script>

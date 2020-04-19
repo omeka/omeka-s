@@ -6,7 +6,7 @@ use Omeka\Api\Exception;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\DataType\AbstractDataType;
 use Omeka\Entity\Value;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Stdlib\Message;
 
 abstract class AbstractResource extends AbstractDataType

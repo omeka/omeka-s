@@ -2,8 +2,8 @@
 namespace Omeka\Entity;
 
 use DateTime;
-use Zend\Crypt\Password\Bcrypt;
-use Zend\Math\Rand;
+use Laminas\Crypt\Password\Bcrypt;
+use Laminas\Math\Rand;
 
 /**
  * @Entity

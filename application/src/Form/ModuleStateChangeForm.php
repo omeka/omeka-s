@@ -1,8 +1,8 @@
 <?php
 namespace Omeka\Form;
 
-use Zend\View\Helper\Url;
-use Zend\Form\Form;
+use Laminas\View\Helper\Url;
+use Laminas\Form\Form;
 
 class ModuleStateChangeForm extends Form
 {

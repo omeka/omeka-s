@@ -44,8 +44,8 @@ class PhpCli implements StrategyInterface
      * The perform-job script then sets them to the PHP-CLI context.
      *
      * @todo Pass the server URL, or compents required to set one
-     * @see \Zend\View\Helper\BasePath
-     * @see \Zend\View\Helper\ServerUrl
+     * @see \Laminas\View\Helper\BasePath
+     * @see \Laminas\View\Helper\ServerUrl
      *
      * {@inheritDoc}
      */

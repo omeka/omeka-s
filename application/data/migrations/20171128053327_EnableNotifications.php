@@ -4,7 +4,7 @@ namespace Omeka\Db\Migrations;
 use Doctrine\DBAL\Connection;
 use Omeka\Db\Migration\ConstructedMigrationInterface;
 use Omeka\Settings\Settings;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class EnableNotifications implements ConstructedMigrationInterface
 {

@@ -52,7 +52,7 @@ class IndexController extends AbstractActionController
 
     public function addAction()
     {
-        $form = $this->getForm(SiteForm::class, ['action' => 'add']);
+        $form = $this->getForm(SiteForm::class);
         $themes = $this->themes->getThemes();
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
@@ -236,14 +236,12 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         $form = $this->getForm(SiteResourcesForm::class)->setAttribute('id', 'site-form');
-        $form->get('o:assign_new_items')->setValue($site->assignNewItems());
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
                 $updateData = [
-                    'o:assign_new_items' => $formData['o:assign_new_items'],
                     'o:site_item_set' => $formData['o:site_item_set'] ?? [],
                 ];
                 $itemPool = $formData;
@@ -251,8 +249,7 @@ class IndexController extends AbstractActionController
                     $itemPool['siteresourcesform_csrf'],
                     $itemPool['item_assignment_action'],
                     $itemPool['save_search'],
-                    $itemPool['o:site_item_set'],
-                    $itemPool['o:assign_new_items']
+                    $itemPool['o:site_item_set']
                 );
                 $updateData['o:item_pool'] = $formData['save_search'] ? $itemPool : $site->itemPool();
                 if ($formData['item_assignment_action']) {

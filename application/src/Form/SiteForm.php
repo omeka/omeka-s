@@ -46,19 +46,18 @@ class SiteForm extends Form
                 'required' => false,
             ],
         ]);
-        if ('add' === $this->getOption('action')) {
-            $this->add([
-                'name' => 'o:assign_new_items',
-                'type' => 'checkbox',
-                'options' => [
-                    'label' => 'Assign new items', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'assign_new_items',
-                    'value' => true,
-                ],
-            ]);
-        }
+        $this->add([
+            'name' => 'o:assign_new_items',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Auto-assign new items', // @translate
+                'info' => 'Select this if you want new items to be automatically assigned to this site. Note that item owners may unassign their items at any time.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'assign_new_items',
+                'value' => true,
+            ],
+        ]);
 
         $event = new Event('form.add_elements', $this);
         $triggerResult = $this->getEventManager()->triggerEvent($event);

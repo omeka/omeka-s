@@ -37,7 +37,7 @@ class Imagick extends AbstractThumbnailer
 
         try {
             $imagick = new ImagickPhp;
-            if ($mediaTYpe == 'application/pdf') {
+            if ($mediaType == 'application/pdf') {
                 $imagick->setResolution(150, 150);
             }
             $imagick->readImage($origPath);

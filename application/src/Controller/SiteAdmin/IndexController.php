@@ -263,10 +263,12 @@ class IndexController extends AbstractActionController
                     $this->messenger()->addSuccess('Site resources successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
+
             } else {
                 $this->messenger()->addFormErrors($form);
             }
         }
+
 
         $itemCount = $this->api()
             ->search('items', ['limit' => 0, 'site_id' => $site->id()])
@@ -281,12 +283,13 @@ class IndexController extends AbstractActionController
                 'email' => $owner ? $owner->email() : null,
             ];
         }
-
+        
         $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);
         $view->setVariable('itemCount', $itemCount);
         $view->setVariable('itemSets', $itemSets);
+        $view->setvariable('autoAssignSetting', $site->assignNewItems());
         return $view;
     }
 

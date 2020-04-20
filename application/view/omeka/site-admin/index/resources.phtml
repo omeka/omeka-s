@@ -32,10 +32,15 @@ $rowTemplate = '
 </div>
 
 <div id="items-section" class="active section">
-    <p><?php echo sprintf(
-        $translate('There are currently %s items assigned to this site. Select an action below to manage items.'),
+    <p>
+        <?php echo sprintf(
+        $translate('There are currently %s items assigned to this site.'),
         $this->hyperlink($itemCount, $this->url('admin/default', ['controller' => 'item'], ['query' => ['site_id' => $site->id()]]), ['target' => '_blank'])
-    ); ?></p>
+    ); ?>
+        <?php if ($autoAssignSetting): ?>
+        <span class="auto-assign-setting"><?php echo $this->hyperlink($translate('This site is currently auto-assigning newly created items.'), $site->adminUrl()); ?></spanp>
+        <?php endif; ?>
+    </p>
     <div class="manual-assignment">
         <?php echo $this->formRow($form->get('item_assignment_action')); ?>
         <div id="advanced-search" class="inactive">

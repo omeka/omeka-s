@@ -3519,13 +3519,6 @@ body.sidebar-open #content {
         &:hover:not(.disabled) {
             box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset;
         }
-
-        &.disabled {
-            box-shadow: none;
-            opacity: .7;
-            cursor: default;
-            border: 0;
-        }
         
         input {
             margin: 0 0 0 $spacing-small;

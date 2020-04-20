@@ -43,9 +43,6 @@ class SiteResourcesForm extends Form
                 'label' => 'Save this search', // @translate
                 'info' => 'Use this as a convenient way to store a commonly used query. For example, you will likely want to save a search for periodic adding, but will not want to save a search for a one-time removal.', // @translate
             ],
-            'attributes' => [
-                'disabled' => true,
-            ],
         ]);
 
         $inputFilter = $this->getInputFilter();

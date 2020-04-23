@@ -26,7 +26,7 @@ class MergeValuesJson extends AbstractPlugin
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception\InvalidJsonException('JSON error: ' . json_last_error_msg());
         }
-        unset($data['values-json']);
+        unset($data['values_json']);
         return array_merge($data, $jsonData);
     }
 }

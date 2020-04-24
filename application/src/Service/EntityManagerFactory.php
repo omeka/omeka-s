@@ -61,9 +61,11 @@ class EntityManagerFactory implements FactoryInterface
 
         // Set up the entity manager configuration.
         $emConfig = Setup::createAnnotationMetadataConfiguration(
-            $config['entity_manager']['mapping_classes_paths'], $isDevMode, null, $cache
+            $config['entity_manager']['mapping_classes_paths'],
+            $isDevMode,
+            OMEKA_PATH . '/application/data/doctrine-proxies',
+            $cache
         );
-        $emConfig->setProxyDir(OMEKA_PATH . '/application/data/doctrine-proxies');
 
         // Force non-persistent query cache, workaround for issue with SQL filters
         // that vary by user, permission level

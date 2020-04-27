@@ -78,50 +78,25 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         $form = $this->getForm(SiteForm::class);
-        $form->setData($site->jsonSerialize());
+        $settingsForm = $this->getForm(SiteSettingsForm::class);
 
         if ($this->getRequest()->isPost()) {
-            $formData = $this->params()->fromPost();
-            $form->setData($formData);
-            if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
-                if ($response) {
-                    $this->messenger()->addSuccess('Site successfully updated'); // @translate
-                    // Explicitly re-read the site URL instead of using
-                    // refresh() so we catch updates to the slug
-                    return $this->redirect()->toUrl($site->url());
-                }
-            } else {
-                $this->messenger()->addFormErrors($form);
-            }
-        }
+            $postData = $this->params()->fromPost();
 
-        $view = new ViewModel;
-        $view->setVariable('site', $site);
-        $view->setVariable('resourceClassId', $this->params()->fromQuery('resource_class_id'));
-        $view->setVariable('itemSetId', $this->params()->fromQuery('item_set_id'));
-        $view->setVariable('form', $form);
-        return $view;
-    }
+            // Move o:assign_new_items back to site form.
+            $postData['o:assign_new_items'] = $postData['general']['o:assign_new_items'];
+            unset($postData['general']['o:assign_new_items']);
 
-    public function settingsAction()
-    {
-        $site = $this->currentSite();
-        if (!$site->userIsAllowed('update')) {
-            throw new Exception\PermissionDeniedException(
-                'User does not have permission to edit site settings' // @translate
-            );
-        }
-        $form = $this->getForm(SiteSettingsForm::class);
+            $form->setData($postData);
+            $settingsForm->setData($postData);
 
-        if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
-            if ($form->isValid()) {
-                $data = $form->getData();
-                $fieldsets = $form->getFieldsets();
-                unset($data['csrf']);
-                foreach ($data as $id => $value) {
-                    if (array_key_exists($id, $fieldsets) && is_array($value)) {
+            if ($form->isValid() && $settingsForm->isValid()) {
+                // Update settings.
+                $settingsFormFieldsets = $settingsForm->getFieldsets();
+                $settingsFormData = $settingsForm->getData();
+                unset($settingsFormData['csrf']);
+                foreach ($settingsFormData as $id => $value) {
+                    if (array_key_exists($id, $settingsFormFieldsets) && is_array($value)) {
                         // De-nest fieldsets.
                         foreach ($value as $fieldsetId => $fieldsetValue) {
                             $this->siteSettings()->set($fieldsetId, $fieldsetValue);
@@ -130,16 +105,33 @@ class IndexController extends AbstractActionController
                         $this->siteSettings()->set($id, $value);
                     }
                 }
-                $this->messenger()->addSuccess('Settings successfully updated'); // @translate
-                return $this->redirect()->refresh();
+                // Update site.
+                $response = $this->api($form)->update('sites', $site->id(), $postData, [], ['isPartial' => true]);
+                if ($response) {
+                    $this->messenger()->addSuccess('Site successfully updated'); // @translate
+                    // Explicitly re-read the site URL instead of using
+                    // refresh() so we catch updates to the slug
+                    return $this->redirect()->toUrl($site->url());
+                }
             } else {
                 $this->messenger()->addFormErrors($form);
+                $this->messenger()->addFormErrors($settingsForm);
             }
+        } else {
+            $form->setData($site->jsonSerialize());
         }
+
+        // Temporarily move o:assign_new_items to settings form.
+        $assignNewItems = $form->get('o:assign_new_items');
+        $settingsForm->get('general')->add($assignNewItems);
+        $form->remove('o:assign_new_items');
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('resourceClassId', $this->params()->fromQuery('resource_class_id'));
+        $view->setVariable('itemSetId', $this->params()->fromQuery('item_set_id'));
         $view->setVariable('form', $form);
+        $view->setVariable('settingsForm', $settingsForm);
         return $view;
     }
 

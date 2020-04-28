@@ -37,6 +37,7 @@ $queryText = function(array $search, $index) {
 <div id="property-queries" class="field removable multi-value" role="group" aria-labelledby="by-value-label">
     <div class="field-meta">
         <span id="by-value-label" class="label"><?php echo $translate('Search by value'); ?></span>
+        <button type="button" class="add-value o-icon-add button"><?php echo $translate('Add new value'); ?></button>
     </div>
     <div class="inputs">
         <?php
@@ -77,8 +78,6 @@ $queryText = function(array $search, $index) {
         <?php
         $index++;
         endforeach;
-
-        echo $this->hyperlink($translate('Add new value'), '#', ['class' => 'add-value button']);
         ?>
     </div>
 </div>

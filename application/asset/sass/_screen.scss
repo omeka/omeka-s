@@ -1534,29 +1534,6 @@ td .o-icon-user-inactive {
         }
     }
 
-    .multi-value.field .remove-value {
-        background-color: transparent;
-        color: $red;
-        display: inline-block;
-        text-indent: -9999px;
-        position: relative;
-        width: 1.5 * $base-line-height;
-        text-align: center;
-
-        &:before{
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 1.5 * $base-line-height;
-            line-height: 1.5 * $base-line-height;
-            text-indent: 0;
-        }
-
-        &:hover {
-            color: $red;
-        }
-    }
-
     /* @end */
 
     /* @group ----- Search ----- */
@@ -1621,6 +1598,40 @@ td .o-icon-user-inactive {
 
     .filter-value:not(:last-child):after {
         content: ",";
+    }
+
+    .multi-value .value {
+        display: flex;
+    }
+    
+    .multi-value .add-value,
+    .multi-value.field .remove-value {
+        background-color: transparent;
+        color: $red;
+        display: inline-block;
+        text-indent: -9999px;
+        position: relative;
+        min-width: 1.5 * $base-line-height;
+        text-align: center;
+        box-shadow: none;
+
+        &:before{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1.5 * $base-line-height;
+            line-height: 1.5 * $base-line-height;
+            text-indent: 0;
+        }
+
+        &:hover {
+            box-shadow: none;
+            color: $red;
+        }
+    }
+    
+    .multi-value .add-value {
+        float: right;
     }
 
     /* @end */
@@ -2209,10 +2220,6 @@ input[type="text"].value-language,
         &.template {
             display: none;
         }
-    }
-
-    .multi-value .value {
-        display: flex;
     }
 
     .inputs p.no-values {

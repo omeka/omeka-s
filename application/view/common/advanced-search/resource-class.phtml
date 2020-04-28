@@ -17,6 +17,7 @@ if (!$ids) {
         <div class="collapsible">
             <div class="field-description"><?php echo $translate('Searches for resources that are any of these classes.'); ?></div>
         </div>
+        <button type="button" class="add-value o-icon-add button"><?php echo $translate('Add new class'); ?></button>
     </div>
     <div class="inputs">
         <?php foreach ($ids as $id): ?>
@@ -31,6 +32,5 @@ if (!$ids) {
             <button type="button" class="o-icon-delete remove-value button"><?php echo $translate('Remove value'); ?></button>
         </div>
         <?php endforeach; ?>
-        <a href="#" class="add-value button"><?php echo $translate('Add new class'); ?></a>
     </div>
 </div>

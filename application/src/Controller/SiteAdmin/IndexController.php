@@ -55,9 +55,12 @@ class IndexController extends AbstractActionController
         $form = $this->getForm(SiteForm::class);
         $themes = $this->themes->getThemes();
         if ($this->getRequest()->isPost()) {
-            $formData = $this->params()->fromPost();
-            $form->setData($formData);
+            $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
+                $formData = $form->getData();
+                // Set o:assign_new_items to true by default. This is the legacy
+                // setting from before v3.0 when sites were using the item pool.
+                $formData['o:assign_new_items'] = true;
                 $response = $this->api($form)->create('sites', $formData);
                 if ($response) {
                     $this->messenger()->addSuccess('Site successfully created'); // @translate
@@ -78,23 +81,23 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         $form = $this->getForm(SiteForm::class);
+        $form->setAttribute('action', $this->url()->fromRoute(null, [], true));
         $settingsForm = $this->getForm(SiteSettingsForm::class);
-
         if ($this->getRequest()->isPost()) {
             $postData = $this->params()->fromPost();
-
-            // Move o:assign_new_items back to site form.
-            $postData['o:assign_new_items'] = $postData['general']['o:assign_new_items'];
-            unset($postData['general']['o:assign_new_items']);
-
             $form->setData($postData);
             $settingsForm->setData($postData);
-
             if ($form->isValid() && $settingsForm->isValid()) {
-                // Update settings.
-                $settingsFormFieldsets = $settingsForm->getFieldsets();
+                // Prepare site form data.
+                $formData = $form->getData();
+                unset($formData['csrf']);
+                $formData['o:assign_new_items'] = $postData['general']['o:assign_new_items'];
+                // Prepare settings form data.
                 $settingsFormData = $settingsForm->getData();
                 unset($settingsFormData['csrf']);
+                unset($settingsFormData['general']['o:assign_new_items']);
+                // Update settings.
+                $settingsFormFieldsets = $settingsForm->getFieldsets();
                 foreach ($settingsFormData as $id => $value) {
                     if (array_key_exists($id, $settingsFormFieldsets) && is_array($value)) {
                         // De-nest fieldsets.
@@ -106,25 +109,20 @@ class IndexController extends AbstractActionController
                     }
                 }
                 // Update site.
-                $response = $this->api($form)->update('sites', $site->id(), $postData, [], ['isPartial' => true]);
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
                 if ($response) {
                     $this->messenger()->addSuccess('Site successfully updated'); // @translate
-                    // Explicitly re-read the site URL instead of using
-                    // refresh() so we catch updates to the slug
-                    return $this->redirect()->toUrl($site->url());
+                    return $this->redirect()->toUrl($response->getContent()->url());
                 }
             } else {
                 $this->messenger()->addFormErrors($form);
                 $this->messenger()->addFormErrors($settingsForm);
             }
         } else {
+            // Prepare form data on first load.
             $form->setData($site->jsonSerialize());
+            $settingsForm->get('general')->get('o:assign_new_items')->setValue($site->assignNewItems());
         }
-
-        // Temporarily move o:assign_new_items to settings form.
-        $assignNewItems = $form->get('o:assign_new_items');
-        $settingsForm->get('general')->add($assignNewItems);
-        $form->remove('o:assign_new_items');
 
         $view = new ViewModel;
         $view->setVariable('site', $site);

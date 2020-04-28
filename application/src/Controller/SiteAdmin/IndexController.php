@@ -281,7 +281,6 @@ class IndexController extends AbstractActionController
         $view->setVariable('form', $form);
         $view->setVariable('itemCount', $itemCount);
         $view->setVariable('itemSets', $itemSets);
-        $view->setvariable('autoAssignSetting', $site->assignNewItems());
         return $view;
     }
 

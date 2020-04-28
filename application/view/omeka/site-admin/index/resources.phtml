@@ -37,8 +37,11 @@ $rowTemplate = '
         $translate('There are currently %s items assigned to this site.'),
         $this->hyperlink($itemCount, $this->url('admin/default', ['controller' => 'item'], ['query' => ['site_id' => $site->id()]]), ['target' => '_blank'])
     ); ?>
-        <?php if ($autoAssignSetting): ?>
-        <span class="auto-assign-setting"><?php echo $this->hyperlink($translate('This site is currently auto-assigning newly created items.'), $site->adminUrl()); ?></spanp>
+        <?php if ($site->assignNewItems()): ?>
+        <span class="auto-assign-setting"><?php echo sprintf(
+            $translate('This site currently auto-assigns newly created items. Change the setting in %s.'),
+            $this->hyperlink($translate('site admin'), $this->url(null, ['action' => 'edit'], ['fragment' => 'site-settings'], true))
+        ); ?></span>
         <?php endif; ?>
     </p>
     <div class="manual-assignment">

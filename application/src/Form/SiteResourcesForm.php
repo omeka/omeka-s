@@ -28,7 +28,7 @@ class SiteResourcesForm extends Form
             'type' => 'checkbox',
             'name' => 'save_search',
             'options' => [
-                'label' => 'Save this search', // @translate
+                'label' => 'Keep this search', // @translate
                 'info' => 'Use this as a convenient way to store a commonly used query. For example, you will likely want to save a search for periodic adding, but will not want to save a search for a one-time removal.', // @translate
             ],
         ]);

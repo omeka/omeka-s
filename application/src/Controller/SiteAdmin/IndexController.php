@@ -55,12 +55,14 @@ class IndexController extends AbstractActionController
         $form = $this->getForm(SiteForm::class);
         $themes = $this->themes->getThemes();
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
+            $postData = $this->params()->fromPost();
+            $form->setData($postData);
             if ($form->isValid()) {
                 $formData = $form->getData();
                 // Set o:assign_new_items to true by default. This is the legacy
                 // setting from before v3.0 when sites were using the item pool.
                 $formData['o:assign_new_items'] = true;
+                $formData['o:theme'] = $postData['o:theme'];;
                 $response = $this->api($form)->create('sites', $formData);
                 if ($response) {
                     $this->messenger()->addSuccess('Site successfully created'); // @translate

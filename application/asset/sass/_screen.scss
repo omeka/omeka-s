@@ -3510,27 +3510,10 @@ body.sidebar-open #content {
     .manual-assignment .advanced-search-content .field {
         background-color: transparent;
     }
-    
-    .save-search {
-        min-height: (1.5 * $spacing-large);
-        background-color: rgba(0,0,0,.08);
-        color: $copy-gray;
-        border-radius: 3px;
-        border: 0;
-        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        padding: $spacing-small 10px;
-        display: inline-block;
-        text-align: center;
-        cursor: pointer;
-        margin: 0 0 $spacing-small;
 
-        &:hover:not(.disabled) {
-            box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset;
-        }
-        
-        input {
-            margin: 0 0 0 $spacing-small;
-        }
+    .keep-search,
+    .keep-search input {
+        margin: 0 0 0 $spacing-small;
     }
     
     

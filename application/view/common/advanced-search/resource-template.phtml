@@ -18,7 +18,7 @@ if (!$ids) {
         <div class="collapsible">
             <div class="field-description"><?php echo $translate('Searches for resources that use any of these templates.'); ?></div>
         </div>
-        <button type="button" class="add-value o-icon-add button"><?php echo $translate('Add new template'); ?></button>
+        <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new template'); ?>" title="<?php echo $translate('Add new template'); ?>"></button>
     </div>
     <div class="inputs">
         <?php foreach ($ids as $id): ?>
@@ -30,7 +30,7 @@ if (!$ids) {
                     'aria-labelledby' =>  'by-resource-template-label'
                 ],
             ]); ?>
-            <button type="button" class="o-icon-delete remove-value button"><?php echo $translate('Remove value'); ?></button>
+            <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
         </div>
         <?php endforeach; ?>
     </div>

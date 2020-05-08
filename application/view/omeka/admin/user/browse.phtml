@@ -106,12 +106,14 @@ $sortHeadings = [
                         'data-sidebar-content-url' => $user->url('delete-confirm'),
                         'class' => 'o-icon-delete sidebar-content',
                         'title' => $translate('Delete'),
+                        'data-sidebar-selector' => '#sidebar-delete-selected',
                     ]); ?></li>
                     <?php endif; ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $user->url('show-details'),
                         'class' => 'o-icon-more sidebar-content',
                         'title' => $translate('Details'),
+                        'data-sidebar-selector' => '#sidebar',
                     ]); ?></li>
                 </ul>
             </td>

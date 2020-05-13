@@ -22,7 +22,17 @@ class CrossSiteSearchController extends AbstractActionController
 
     public function resultsAction()
     {
-        $query = ['fulltext_search' => $this->params()->fromQuery('fulltext_search'), 'limit' => 10];
+        $fulltextSearch = $this->params()->fromQuery('fulltext_search');
+        $resourceNames = $this->siteSettings()->get('search_resource_names', ['site_pages', 'items']);
+        if (1 === count($resourceNames)) {
+            return $this->redirect()->toRoute(
+                null,
+                ['action' => ('site_pages' === reset($resourceNames)) ? 'site-pages' : 'items'],
+                ['query' => ['fulltext_search' => $fulltextSearch]],
+                true
+            );
+        }
+        $query = ['fulltext_search' => $fulltextSearch, 'limit' => 10];
         $view = new ViewModel;
         $view->setVariable('site', $this->currentSite());
         $view->setVariable('responseSitePages', $this->api()->search('site_pages', $query));

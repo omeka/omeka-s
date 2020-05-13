@@ -1,9 +1,0 @@
-<?php 
-if (!isset($action)) {
-  $action = $this->escapeHtml($this->url(null, [], true));
-}
-?>
-<form action="<?php echo $action?>" class="sitewide-search-form">
-    <input type="text" name="fulltext_search" value="<?php echo $this->escapeHtml($fulltextSearch); ?>">
-    <input type="submit" value="Search">
-</form>

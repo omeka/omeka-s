@@ -12,11 +12,8 @@ $this->headTitle($subtitle);
 <?php if ($sites): ?>
 
 <?php echo $this->partial(
-  'omeka/search/form.phtml',
-  [
-      'fulltextSearch' => $this->escapeHtml($this->params()->fromQuery('fulltext_search')),
-      'action' => $this->escapeHtml($this->url('search', ['action' => 'results']))
-  ]
+    'common/cross-site-search/fulltext-form.phtml',
+    ['action' => $this->url('search', ['action' => 'results'], true)]
 ); ?>
 
 <div class="site-list">

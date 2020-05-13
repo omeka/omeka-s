@@ -1,67 +1,8 @@
-<?php $fulltextSearch = $this->params()->fromQuery('fulltext_search'); ?>
-
 <h1><?php echo $this->setting('installation_title', 'Omeka S'); ?></h1>
 
 <?php echo $this->partial(
-  'omeka/search/form.phtml',
-  ['fulltextSearch' => $fulltextSearch]
+    'common/cross-site-search/fulltext-form.phtml',
+    ['action' => $this->url(null, ['action' => 'results'], true)]
 ); ?>
 
-<h2><?php echo sprintf($this->translate('Search results for “%s”'), $fulltextSearch); ?></h2>
-
-<div class="site-results">
-    <h3><?php echo $this->translate('Site pages'); ?></h2>
-    <?php if ($responseSitePages->getTotalResults()): ?>
-    <ul>
-        <?php foreach ($responseSitePages->getContent() as $sitePage): ?>
-        <?php $site = $sitePage->site(); ?>
-        <li><?php echo sprintf(
-            '%s (in %s)',
-            $this->hyperlink($sitePage->title(), $sitePage->siteUrl()),
-            $this->hyperlink($site->title(), $site->siteUrl())
-        ); ?></li>
-        <?php endforeach; ?>
-    </ul>
-    <?php echo $this->hyperlink(
-        sprintf($this->translate('View all results (%s total)'), $responseSitePages->getTotalResults()),
-        $this->url(
-            null,
-            ['action' => 'site-pages'],
-            ['query' => ['fulltext_search' => $fulltextSearch]],
-            true
-        )
-    ); ?>
-    <?php else: ?>
-    <p><?php echo $this->translate('No result found'); ?></p>
-    <?php endif; ?>
-</div>
-
-<div class="item-results">
-    <h3><?php echo $this->translate('Items'); ?></h2>
-    <?php if ($responseItems->getTotalResults()): ?>
-    <ul>
-        <?php foreach ($responseItems->getContent() as $item): ?>
-        <?php $sites = $item->sites(); ?>
-        <li>
-            <?php echo $item->displayTitle(); ?>
-            <ul>
-                <?php foreach ($sites as $site): ?>
-                <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </li>
-        <?php endforeach; ?>
-    </ul>
-    <?php echo $this->hyperlink(
-        sprintf($this->translate('View all results (%s total)'), $responseItems->getTotalResults()),
-        $this->url(
-            null,
-            ['action' => 'items'],
-            ['query' => ['fulltext_search' => $fulltextSearch]],
-            true
-        )
-    ); ?>
-    <?php else: ?>
-    <p><?php echo $this->translate('No result found'); ?></p>
-    <?php endif; ?>
-</div>
+<?php echo $this->partial('common/cross-site-search/results.phtml'); ?>

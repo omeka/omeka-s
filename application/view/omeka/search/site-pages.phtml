@@ -1,24 +1,8 @@
 <h1><?php echo $this->setting('installation_title', 'Omeka S'); ?></h1>
+
 <?php echo $this->partial(
-  'omeka/search/form.phtml',
-  ['fulltextSearch' => $this->escapeHtml($this->params()->fromQuery('fulltext_search'))]
+    'common/cross-site-search/fulltext-form.phtml',
+    ['action' => $this->url(null, ['action' => 'results'], true)]
 ); ?>
 
-<h2><?php echo $this->translate('Site page results'); ?></h2>
-
-<?php echo $this->pagination(); ?>
-
-<div class="site-results">
-  <ul>
-      <?php foreach ($sitePages as $sitePage): ?>
-        <?php $site = $sitePage->site(); ?>
-        <li><?php echo sprintf(
-            '%s (in %s)',
-            $this->hyperlink($sitePage->title(), $sitePage->siteUrl()),
-            $this->hyperlink($site->title(), $site->siteUrl())
-        ); ?></li>
-      <?php endforeach; ?>
-  </ul>
-</div>
-
-<?php echo $this->pagination(); ?>
+<?php echo $this->partial('common/cross-site-search/site-page-results.phtml'); ?>

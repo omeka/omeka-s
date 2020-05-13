@@ -29,6 +29,20 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $generalFieldset = $this->get('general');
+        // o:assign_new_items element is a pseudo-setting that's ultimately set
+        // as a property of the site and not as a site setting.
+        $generalFieldset->add([
+            'name' => 'o:assign_new_items',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Auto-assign new items', // @translate
+                'info' => 'Select this if you want new items to be automatically assigned to this site. Note that item owners may unassign their items at any time.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'assign_new_items',
+                'value' => true,
+            ],
+        ]);
         $generalFieldset->add([
             'name' => 'attachment_link_type',
             'type' => 'Select',

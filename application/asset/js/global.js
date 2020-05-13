@@ -12,11 +12,13 @@ $(document).ready(function() {
         // Add a value.
         $('form').on('click', '.multi-value .add-value', function(e) {
             e.preventDefault();
-            var template = $(this).parents('.field').data('field-template');
+            var fieldContainer = $(this).parents('.field');
+            var template = fieldContainer.data('field-template');
             var newValue = $(template);
             newValue.children('input[type="text"]').val(null);
             newValue.children('select').prop('selectedIndex', 0);
-            newValue.insertBefore($(this)).trigger('o:value-created');
+            newValue.appendTo(fieldContainer.find('.inputs'));
+            newValue.trigger('o:value-created');
         });
         
         // Remove a value.

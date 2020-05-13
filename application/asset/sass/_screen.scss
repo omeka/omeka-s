@@ -1534,29 +1534,6 @@ td .o-icon-user-inactive {
         }
     }
 
-    .multi-value.field .remove-value {
-        background-color: transparent;
-        color: $red;
-        display: inline-block;
-        text-indent: -9999px;
-        position: relative;
-        width: 1.5 * $base-line-height;
-        text-align: center;
-
-        &:before{
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 1.5 * $base-line-height;
-            line-height: 1.5 * $base-line-height;
-            text-indent: 0;
-        }
-
-        &:hover {
-            color: $red;
-        }
-    }
-
     /* @end */
 
     /* @group ----- Search ----- */
@@ -1621,6 +1598,41 @@ td .o-icon-user-inactive {
 
     .filter-value:not(:last-child):after {
         content: ",";
+    }
+
+    .multi-value .value {
+        display: flex;
+    }
+    
+    .multi-value .add-value,
+    .multi-value.field .remove-value {
+        background-color: transparent;
+        color: $red;
+        display: inline-block;
+        text-indent: -9999px;
+        position: relative;
+        min-width: 1.5 * $base-line-height;
+        width: 1.5 * $base-line-height;
+        text-align: center;
+        box-shadow: none;
+
+        &:before{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1.5 * $base-line-height;
+            line-height: 1.5 * $base-line-height;
+            text-indent: 0;
+        }
+
+        &:hover {
+            box-shadow: none;
+            color: $red;
+        }
+    }
+    
+    .multi-value .add-value {
+        float: right;
     }
 
     /* @end */
@@ -2209,10 +2221,6 @@ input[type="text"].value-language,
         &.template {
             display: none;
         }
-    }
-
-    .multi-value .value {
-        display: flex;
     }
 
     .inputs p.no-values {
@@ -3468,10 +3476,46 @@ body.sidebar-open #content {
         width: 1.5 * $spacing-large;
     }
     
-    #site-item-sets .delete .sortable-handle:before,
-    #site-item-sets .delete .o-icon-delete {
-        display: none;
+    .manual-assignment .inputs label {
+        display: block;
+        padding: 0;
+        margin: $spacing-small 0 0;
+        min-height: 0;
+        line-height: $base-line-height;
+        
+        &:last-child {
+          margin-bottom: $spacing-small;
+        }
     }
+    
+    .manual-assignment #advanced-search {
+        margin-top: -1 * $spacing-small;
+        padding: $spacing-medium 0 $spacing-small;
+        background-color: $gray-on-white;
+        border-top: 1px solid $border-gray;
+        
+        &.inactive {
+            display: none;
+        }
+    }
+    
+    .manual-assignment .advanced-search-header {
+        padding: 0 $spacing-small;
+    }
+    
+    .manual-assignment .advanced-search-header a.button {
+        margin-bottom: $spacing-small;
+    }
+    
+    .manual-assignment .advanced-search-content .field {
+        background-color: transparent;
+    }
+
+    .keep-search,
+    .keep-search input {
+        margin: 0 0 0 $spacing-small;
+    }
+    
     
     
     /* @end */

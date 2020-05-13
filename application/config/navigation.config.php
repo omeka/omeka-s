@@ -189,7 +189,7 @@ return [
         ],
         'site' => [
             [
-                'label' => 'Site info', // @translate
+                'label' => 'Site admin', // @translate
                 'class' => 'site-info',
                 'route' => 'admin/site/slug',
                 'action' => 'edit',
@@ -243,14 +243,6 @@ return [
                 'class' => 'theme',
                 'route' => 'admin/site/slug/action',
                 'action' => 'theme',
-                'privilege' => 'update',
-                'useRouteMatch' => true,
-            ],
-            [
-                'label' => 'Settings', // @translate
-                'class' => 'settings',
-                'route' => 'admin/site/slug/action',
-                'action' => 'settings',
                 'privilege' => 'update',
                 'useRouteMatch' => true,
             ],

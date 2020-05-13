@@ -4,7 +4,7 @@ $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites add');
 $form->prepare();
 $sectionNavs = [
-    'admin' => $translate('Admin'),
+    'info' => $translate('Info'),
     'theme' => $translate('Theme'),
 ];
 $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
@@ -33,7 +33,7 @@ $fallbackThumbnailUrl = $this->assetUrl('img/theme.jpg', 'Omeka');
 
 <?php echo $this->sectionNav($sectionNavs, 'view.add.section_nav'); ?>
 <?php $this->trigger('view.add.form.before', ['form' => $form]); ?>
-<fieldset id="admin" class="section active" aria-labelledby="admin-label">
+<fieldset id="info" class="section active" aria-labelledby="admin-label">
     <?php echo $this->formCollection($form, false); ?>
 </fieldset>
 

@@ -4,5 +4,5 @@ $fulltextSearch = $fulltextSearch ?? $this->params()->fromQuery('fulltext_search
 ?>
 <form action="<?php echo $this->escapeHtml($action); ?>" class="sitewide-search-form">
     <input type="text" name="fulltext_search" value="<?php echo $this->escapeHtml($fulltextSearch); ?>">
-    <input type="submit" value="Search">
+    <input type="submit" value="<?php echo $this->escapeHtml($this->translate('Search')); ?>">
 </form>

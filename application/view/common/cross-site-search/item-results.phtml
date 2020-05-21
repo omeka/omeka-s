@@ -1,7 +1,7 @@
 <?php $fulltextSearch = $this->params()->fromQuery('fulltext_search'); ?>
 <?php echo $this->hyperlink(
     $this->translate('Advanced item search'),
-    $this->url(null, ['action' => 'advanced', 'class' => 'advanced-search'], ['query' => $this->params()->fromQuery()], true),
+    $this->url(null, ['action' => 'items-advanced', 'class' => 'advanced-search'], ['query' => $this->params()->fromQuery()], true),
     ['class' => 'advanced-search']
 ); ?>
 

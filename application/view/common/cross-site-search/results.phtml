@@ -71,6 +71,36 @@ $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 
     <?php endif; ?>
 </div>
 
+<div class="item-set-results">
+    <h3><?php echo $this->translate('Item sets'); ?></h2>
+    <?php if ($responseItemSets->getTotalResults()): ?>
+    <ul>
+        <?php foreach ($responseItemSets->getContent() as $itemSet): ?>
+        <?php $sites = $itemSet->sites(); ?>
+        <li>
+            <span class="item-title"><?php echo $itemSet->displayTitle(); ?></span>
+            <ul>
+                <?php foreach ($sites as $site): ?>
+                <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php echo $this->hyperlink(
+        sprintf($this->translate('View all results (%s total)'), $responseItemSets->getTotalResults()),
+        $this->url(
+            null,
+            ['action' => 'item-sets'],
+            ['query' => ['fulltext_search' => $fulltextSearch]],
+            true
+        )
+    ); ?>
+    <?php else: ?>
+    <p><?php echo $this->translate('No result found'); ?></p>
+    <?php endif; ?>
+</div>
+
 <script>
   jQuery(document).trigger('enhance.tablesaw');
 </script>

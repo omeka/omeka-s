@@ -1,6 +1,3 @@
-<h1><?php echo $this->setting('installation_title', 'Omeka S'); ?></h1>
-<h2><?php echo $this->translate('Search'); ?></h2>
-
 <?php echo $this->partial(
     'common/cross-site-search/fulltext-form.phtml',
     ['action' => $this->url(null, ['action' => 'results'], true)]

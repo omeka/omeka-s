@@ -202,6 +202,24 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $searchFieldset = $this->get('search');
+
+
+        $searchFieldset->add([
+            'name' => 'search_type',
+            'type' => 'Select',
+            'options' => [
+                'label' => 'Search type', // @translate
+                'info' => 'Select the type of search the main search field will perform', // @translate
+                'value_options' => [
+                    'sitewide' => 'Sitewide', // @translate
+                    'cross-site' => 'Cross-site', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'search_type',
+                'value' => $settings->get('search_type', 'sitewide'),
+            ],
+        ]);
         $resourceNames = [
             'site_pages' => 'Site pages', // @translate
             'items' => 'Items', // @translate

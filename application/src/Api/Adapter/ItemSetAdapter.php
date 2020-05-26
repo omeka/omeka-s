@@ -82,6 +82,9 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
                 "$this->siteItemSetsAlias.site",
                 $this->createNamedParameter($qb, $query['site_id']))
             );
+        } elseif (isset($query['in_sites']) && $query['in_sites']) {
+            $siteItemSetsAlias = $this->createAlias();
+            $qb->innerJoin('omeka_root.siteItemSets', $siteItemSetsAlias);
         }
     }
 

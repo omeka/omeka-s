@@ -87,4 +87,16 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
             ['force_canonical' => $canonical]
         );
     }
+
+    public function sites()
+    {
+        $sites = [];
+        $siteAdapter = $this->getAdapter('sites');
+        foreach ($this->resource->getSiteItemSets() as $siteItemSetEntity) {
+            $siteEntity = $siteItemSetEntity->getSite();
+            $sites[$siteEntity->getId()] =
+                $siteAdapter->getRepresentation($siteEntity);
+        }
+        return $sites;
+    }
 }

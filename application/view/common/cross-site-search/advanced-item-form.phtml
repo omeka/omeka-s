@@ -1,6 +1,3 @@
-<h1><?php echo $this->setting('installation_title', 'Omeka S'); ?></h1>
-<h2><?php echo $this->translate('Advanced item search'); ?></h2>
-
 <form id="advanced-search" method="get" action="<?php echo $this->escapeHtml($this->url(null, ['action' => 'items'], true)); ?>">
     <?php echo $this->partial('common/advanced-search', ['query' => $this->params()->fromQuery(), 'resourceType' => 'item']); ?>
     <div class="advanced-search-actions">

@@ -1,0 +1,36 @@
+<?php 
+$fulltextSearch = $this->params()->fromQuery('fulltext_search'); 
+$this->headLink()->prependStylesheet($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.css', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.jquery.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
+?>
+
+<h2><?php echo sprintf($this->translate('Site page results for "%s"'), $fulltextSearch); ?></h2>
+
+<?php echo $this->pagination(); ?>
+
+<div class="site-results">
+    <table class="tablesaw" data-tablesaw-mode="stack">
+      <thead>
+          <tr>
+              <th><?php echo $this->translate('Page title'); ?></th>
+              <th><?php echo $this->translate('Site title'); ?></th>
+          </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($sitePages as $sitePage): ?>
+        <?php $site = $sitePage->site(); ?>
+        <tr>
+            <td><?php echo $this->hyperlink($sitePage->title(), $sitePage->siteUrl()); ?></td>
+            <td><?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?></td>
+        </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+</div>
+
+<?php echo $this->pagination(); ?>
+
+<script>
+  jQuery(document).trigger('enhance.tablesaw');
+</script>

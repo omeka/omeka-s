@@ -34,6 +34,14 @@ $itemMedia = $item->media();
     <?php endforeach; ?>
 </div>
 <?php endif; ?>
+<?php if ($sitePages = $item->sitePages($site->id())): ?>
+<h4><?php echo $translate('Site pages'); ?></h4>
+<ul>
+    <?php foreach ($sitePages as $sitePage): ?>
+    <li><?php echo $sitePage->link($sitePage->title()); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
 
 <?php
 $page = $this->params()->fromQuery('page', 1);

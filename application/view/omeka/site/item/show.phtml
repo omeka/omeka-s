@@ -34,6 +34,7 @@ $itemMedia = $item->media();
     <?php endforeach; ?>
 </div>
 <?php endif; ?>
+<?php if ($this->siteSetting('show_attached_pages', true)): ?>
 <?php if ($sitePages = $item->sitePages($site->id())): ?>
 <h4><?php echo $translate('Site pages'); ?></h4>
 <ul>
@@ -41,6 +42,7 @@ $itemMedia = $item->media();
     <li><?php echo $sitePage->link($sitePage->title()); ?></li>
     <?php endforeach; ?>
 </ul>
+<?php endif; ?>
 <?php endif; ?>
 
 <?php

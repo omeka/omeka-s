@@ -29,13 +29,46 @@ class CrossSiteSearchController extends AbstractActionController
 
     public function resultsAction()
     {
-        $fulltextSearch = $this->params()->fromQuery('fulltext_search');
-        $query = ['fulltext_search' => $fulltextSearch, 'limit' => 10];
+        $query = [
+            'limit' => 10,
+            'fulltext_search' => $this->params()->fromQuery('fulltext_search'),
+        ];
+        $resources = [
+            'site_pages' => [
+                'action' => 'site-pages',
+                'query' => $query,
+                'response' => null,
+            ],
+            'items' => [
+                'action' => 'items',
+                'query' => array_merge($query, ['in_sites' => true]),
+                'response' => null,
+            ],
+            'item_sets' => [
+                'action' => 'item-sets',
+                'query' => array_merge($query, ['in_sites' => true]),
+                'response' => null,
+            ],
+        ];
+        $resourceNames = $this->siteSettings()->get('search_resource_names', ['site_pages', 'items']);
+        if (1 === count($resourceNames)) {
+            $resourceName = reset($resourceNames);
+            return $this->redirect()->toRoute(
+                'site/cross-site-search',
+                ['action' => $resources[$resourceName]['action']],
+                ['query' => $resources[$resourceName]['query']],
+                true
+            );
+        }
+        foreach ($resourceNames as $resourceName) {
+            $resources[$resourceName]['response'] = $this->api()->search($resourceName, $resources[$resourceName]['query']);
+        }
+
         $view = new ViewModel;
         $view->setVariable('site', $this->currentSite());
-        $view->setVariable('responseSitePages', $this->api()->search('site_pages', $query));
-        $view->setVariable('responseItems', $this->api()->search('items', array_merge($query, ['in_sites' => true])));
-        $view->setVariable('responseItemSets', $this->api()->search('item_sets', array_merge($query, ['in_sites' => true])));
+        $view->setVariable('responseSitePages', $resources['site_pages']['response']);
+        $view->setVariable('responseItems', $resources['items']['response']);
+        $view->setVariable('responseItemSets', $resources['item_sets']['response']);
         return $view;
     }
 

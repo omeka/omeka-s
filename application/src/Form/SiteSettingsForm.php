@@ -193,6 +193,28 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
+        // Show section
+        $this->add([
+            'type' => 'fieldset',
+            'name' => 'show',
+            'options' => [
+                'label' => 'Show', // @translate
+            ],
+        ]);
+        $showFieldset = $this->get('show');
+        $showFieldset->add([
+            'name' => 'show_attached_pages',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Show attached pages', // @translate
+                'info' => 'Show site pages to which items are assigned on public item show pages.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'show_attached_pages',
+                'value' => (bool) $settings->get('show_attached_pages', true),
+            ],
+        ]);
+
         // Search section
         $this->add([
             'type' => 'fieldset',

@@ -207,7 +207,7 @@ class SiteSettingsForm extends Form
             'type' => 'checkbox',
             'options' => [
                 'label' => 'Show attached pages', // @translate
-                'info' => 'Show site pages to which items are assigned on public item show pages.', // @translate
+                'info' => 'Show site pages to which an item is attached on the public item show page.', // @translate
             ],
             'attributes' => [
                 'id' => 'show_attached_pages',

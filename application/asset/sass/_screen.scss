@@ -4072,17 +4072,15 @@ body.minimal {
         }
     }
 
-    .site-results {
-        margin-bottom: $spacing-large;
+    .results {
+      margin-bottom: $spacing-large;
     }
     
-    .site-results > ul,
-    .item-results > ul {
+    .results > ul {
       padding-left: 0;
     }
     
-    .site-results > ul > li,
-    .item-results > ul > li {
+    .results > ul > li {
         list-style-type: none;
     }
     
@@ -4120,17 +4118,18 @@ body.minimal {
     }
 }
 
-body.minimal .site-results thead {
+body.minimal .site.results thead {
   background-color: $gray-on-white;
 }
 
-body.minimal .item-results > ul {
+.results > ul {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
+  margin-bottom: 0;
 }
 
-body.minimal .item-results > ul > li {
+.results > ul > li {
   border: 1px solid #dfdfdf;
   border-radius: 3px;
   padding: $spacing-small $spacing-small 0;
@@ -4142,23 +4141,28 @@ body.minimal .item-results > ul > li {
   }
 }
 
-.item-results ul ul {
+.results ul ul {
   list-style: none;
   padding: 0;
   margin-top: $spacing-small;
 }
-.item-results li li {
+
+.results li li {
   padding: $spacing-small;
   border-top: 1px solid #dfdfdf;
   margin: 0px (-1 * $spacing-small);
 }
 
-.item-results .item-title {
+.results .item-title {
   background-color: $gray-on-white;
   display: block;
   padding: $spacing-small;
   margin: (-1 * $spacing-small);
   font-weight: bold;
+}
+
+.results + .pagination {
+  margin-top: (-1 * $spacing-large);
 }
 
 /* @end */

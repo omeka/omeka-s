@@ -8,7 +8,7 @@ $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 
 <h2><?php echo sprintf($this->translate('Search results for “%s”'), $fulltextSearch); ?></h2>
 
 <?php if ($responseSitePages): ?>
-<div class="site-results">
+<div class="site results">
     <h3><?php echo $this->translate('Site pages'); ?></h2>
     <?php if ($responseSitePages->getTotalResults()): ?>
     <table class="tablesaw" data-tablesaw-mode="stack">
@@ -44,7 +44,7 @@ $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 
 <?php endif; ?>
 
 <?php if ($responseItems): ?>
-<div class="item-results">
+<div class="item results">
     <h3><?php echo $this->translate('Items'); ?></h2>
     <?php if ($responseItems->getTotalResults()): ?>
     <ul>
@@ -76,7 +76,7 @@ $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 
 <?php endif; ?>
 
 <?php if ($responseItemSets): ?>
-<div class="item-set-results">
+<div class="item-set results">
     <h3><?php echo $this->translate('Item sets'); ?></h2>
     <?php if ($responseItemSets->getTotalResults()): ?>
     <ul>

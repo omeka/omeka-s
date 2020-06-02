@@ -84,7 +84,7 @@ class ApiController extends AbstractRestfulController
             ->addHeaderLine('Link', implode(', ', $links));
 
         $totalResults = $response->getTotalResults();
-        if ($totalResults) {
+        if ($totalResults !== null) {
             $this->getResponse()->getHeaders()
                 ->addHeaderLine('Omeka-S-Total-Results', $totalResults);
         }

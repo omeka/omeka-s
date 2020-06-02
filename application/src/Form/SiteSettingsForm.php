@@ -233,8 +233,8 @@ class SiteSettingsForm extends Form
                 'label' => 'Search type', // @translate
                 'info' => 'Select the type of search the main search field will perform', // @translate
                 'value_options' => [
-                    'sitewide' => 'Sitewide', // @translate
-                    'cross-site' => 'Cross-site', // @translate
+                    'sitewide' => 'This site', // @translate
+                    'cross-site' => 'All sites', // @translate
                 ],
             ],
             'attributes' => [
@@ -249,7 +249,7 @@ class SiteSettingsForm extends Form
         ];
         $searchFieldset->add([
             'name' => 'search_resource_names',
-            'type' => \Zend\Form\Element\MultiCheckbox::class,
+            'type' => \Laminas\Form\Element\MultiCheckbox::class,
             'options' => [
                 'label' => 'Search resources', // @translate
                 'info' => 'Customize which types of resources will be searchable in the main search field.', // @translate

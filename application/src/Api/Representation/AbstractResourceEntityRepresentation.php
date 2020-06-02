@@ -419,9 +419,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function objectValues()
     {
         $objectValues = [];
-        foreach ($this->values() as $term => $property) {
+        foreach ($this->values() as $property) {
             foreach ($property['values'] as $value) {
-                if ('resource' == $value->type()) {
+                if (strtok($value->type(), ':') === 'resource') {
                     $objectValues[] = $value;
                 }
             }

@@ -87,3 +87,5 @@ Omeka uses the following libraries, among others:
 
 Omeka development adheres to the [Zend Framework 2 Coding Standards](https://zf2-docs.readthedocs.org/en/latest/ref/coding.standard.html)
 and uses the [git-flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model.
+
+© 2013-2016 [Roy Rosenzweig Center for History and New Media](http://chnm.gmu.edu/), 2016-present [Corporation for Digital Scholarship](http://digitalscholar.org/)

@@ -58,7 +58,7 @@ class ImageMagick extends AbstractThumbnailer
                     '+repage',
                     '-alpha remove',
                     '-thumbnail ' . escapeshellarg(sprintf('%sx%s^', $constraint, $constraint)),
-                    '-gravity ' .  escapeshellarg($gravity),
+                    '-gravity ' . escapeshellarg($gravity),
                     '-crop ' . escapeshellarg(sprintf('%sx%s+0+0', $constraint, $constraint)),
                 ];
                 break;

@@ -42,7 +42,7 @@ foreach ($classMetadatas as $classMetadata) {
     if (strncmp($fileName, $modulePath, strlen($modulePath)) === 0) {
         $moduleClassMetadatas[] = $classMetadata;
     }
-};
+}
 
 if (!$moduleClassMetadatas) {
     echo "There are no database entities for the $moduleName module.";

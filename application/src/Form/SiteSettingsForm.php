@@ -225,7 +225,6 @@ class SiteSettingsForm extends Form
         ]);
         $searchFieldset = $this->get('search');
 
-
         $searchFieldset->add([
             'name' => 'search_type',
             'type' => 'Select',

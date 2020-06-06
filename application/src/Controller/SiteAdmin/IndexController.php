@@ -62,7 +62,7 @@ class IndexController extends AbstractActionController
                 // Set o:assign_new_items to true by default. This is the legacy
                 // setting from before v3.0 when sites were using the item pool.
                 $formData['o:assign_new_items'] = true;
-                $formData['o:theme'] = $postData['o:theme'];;
+                $formData['o:theme'] = $postData['o:theme'];
                 $response = $this->api($form)->create('sites', $formData);
                 if ($response) {
                     $this->messenger()->addSuccess('Site successfully created'); // @translate
@@ -255,12 +255,10 @@ class IndexController extends AbstractActionController
                     $this->messenger()->addSuccess('Site resources successfully updated'); // @translate
                     return $this->redirect()->refresh();
                 }
-
             } else {
                 $this->messenger()->addFormErrors($form);
             }
         }
-
 
         $itemCount = $this->api()
             ->search('items', ['limit' => 0, 'site_id' => $site->id()])
@@ -275,7 +273,7 @@ class IndexController extends AbstractActionController
                 'email' => $owner ? $owner->email() : null,
             ];
         }
-        
+
         $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('form', $form);

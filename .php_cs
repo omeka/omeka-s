@@ -39,6 +39,7 @@ return PhpCsFixer\Config::create()
             ->exclude('files')
             ->exclude('modules')
             ->exclude('node_modules')
+            ->exclude('themes')
             ->in(__DIR__)
     )
 ;

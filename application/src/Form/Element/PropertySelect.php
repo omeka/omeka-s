@@ -43,6 +43,10 @@ class PropertySelect extends AbstractVocabularyMemberSelect
                         'label' => $this->getTranslator()->translate($property->label()),
                         'value' => $termAsValue ? $property->term() : $property->id(),
                         'alternate_labels' => [],
+                        'attributes' => [
+                            'data-term' => $property->term(),
+                            'data-property-id' => $property->id(),
+                        ],
                     ];
                 }
                 $valueOptions[$property->id()]['alternate_labels'][] = $templateProperty->alternateLabel();

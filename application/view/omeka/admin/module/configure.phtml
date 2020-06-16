@@ -10,4 +10,5 @@ $this->htmlElement('body')->appendAttribute('class', 'modules configure');
     <button><?php echo $translate('Submit'); ?></button>
 </div>
 <?php echo $configForm; ?>
+<?php echo $this->formElement($csrfForm->get($csrfForm->getName() . '_csrf')); ?>
 </form>

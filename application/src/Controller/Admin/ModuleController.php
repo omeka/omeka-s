@@ -7,6 +7,7 @@ use Omeka\Module\Exception\ModuleCannotInstallException;
 use Omeka\Module\Manager as OmekaModuleManager;
 use Laminas\ModuleManager\ModuleManager;
 use Omeka\Mvc\Exception;
+use Laminas\Form\Form;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use Laminas\View\Renderer\PhpRenderer;
@@ -268,17 +269,28 @@ class ModuleController extends AbstractActionController
             throw new Exception\NotFoundException;
         }
 
+        $formName = "module_{$id}_configure";
+        $csrfForm = $this->getForm(Form::class, ['name' => $formName]);
+
         if ($this->getRequest()->isPost()) {
-            if (false !== $moduleObject->handleConfigForm($this)) {
-                $this->messenger()->addSuccess('The module was successfully configured'); // @translate
-                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            $data = $this->params()->fromPost();
+            $csrfForm->setData($data);
+            if ($csrfForm->isValid()) {
+                unset($this->getRequest()->getPost()["{$formName}_csrf"]);
+                if (false !== $moduleObject->handleConfigForm($this)) {
+                    $this->messenger()->addSuccess('The module was successfully configured'); // @translate
+                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                }
+                $this->messenger()->addError('There was a problem during configuration'); // @translate
+            } else {
+                $this->messenger()->addFormErrors($csrfForm);
             }
-            $this->messenger()->addError('There was a problem during configuration'); // @translate
         }
 
         $view = new ViewModel;
         $view->setVariable('configForm', $moduleObject->getConfigForm($this->viewRenderer));
         $view->setVariable('module', $module);
+        $view->setVariable('csrfForm', $csrfForm);
         return $view;
     }
 

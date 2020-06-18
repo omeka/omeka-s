@@ -249,6 +249,7 @@ class IndexController extends AbstractActionController
                         'sites' => [$site->id() => $itemPool],
                         'action' => $formData['item_assignment_action'],
                     ]);
+                    $this->messenger()->addSuccess('Item assignment in progress. To see the new item count, refresh the page.'); // @translate
                 }
                 $response = $this->api($form)->update('sites', $site->id(), $updateData, [], ['isPartial' => true]);
                 if ($response) {

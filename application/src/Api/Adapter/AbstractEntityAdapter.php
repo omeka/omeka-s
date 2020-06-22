@@ -242,8 +242,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     $scalarField, $entityClass
                 ));
             }
-            $qb->select('omeka_root.' . $scalarField);
-            $content = array_column($qb->getQuery()->getScalarResult(), $scalarField);
+            $qb->select(['omeka_root.id', 'omeka_root.' . $scalarField]);
+            $content = array_column($qb->getQuery()->getScalarResult(), $scalarField, 'id');
             $response = new Response($content);
             $response->setTotalResults(count($content));
             return $response;

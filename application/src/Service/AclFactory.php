@@ -152,6 +152,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Site\ItemSet',
                 'Omeka\Controller\Site\Media',
                 'Omeka\Controller\Site\Page',
+                'Omeka\Controller\Site\CrossSiteSearch',
             ]
         );
         $acl->allow(
@@ -249,6 +250,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Login',
                 'Omeka\Controller\Maintenance',
                 'Omeka\Controller\Migrate',
+                'Omeka\Controller\Search',
             ]
         );
         $acl->allow(

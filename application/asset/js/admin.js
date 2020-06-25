@@ -292,9 +292,12 @@ var Omeka = {
     $(function() {
         Omeka.reserveSidebarSpace();
 
-        if (window.location.hash && $('.section').filter(window.location.hash).length) {
-            // Open the section that corresponds to the URL fragment identifier.
-            Omeka.switchActiveSection($(window.location.hash));
+        // Open the section that corresponds to the URL fragment identifier.
+        if (window.location.hash && !$('body').hasClass('no-section-hashes')) {
+            var possibleSection = document.getElementById(window.location.hash.slice(1));
+            if (possibleSection && possibleSection.classList.contains('section')) {
+                Omeka.switchActiveSection($(possibleSection));
+            }
         }
 
         $('#content').on('click', '.button.cancel', function(e) {

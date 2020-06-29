@@ -62,7 +62,7 @@ class ApiKey extends AbstractEntity
      * The associated user
      *
      * @ManyToOne(targetEntity="User", inversedBy="keys", fetch="EAGER")
-     * @JoinColumn(nullable=false)
+     * @JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $owner;
 

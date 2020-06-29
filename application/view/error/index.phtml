@@ -12,4 +12,12 @@ $translate = $this->plugin('translate');
 <pre>
 <?php echo $this->escapeHtml($this->exception); ?>
 </pre>
+<?php else: ?>
+<p>
+<?php
+echo sprintf($translate('To learn how to see more detailed information about this error, see the Omeka S User Manual page on %s.'),
+    '<a href="https://omeka.org/s/docs/user-manual/errorLogging/">' . $this->translate('retrieving error messages') . '</a>'
+);
+?>
+</p>
 <?php endif; ?>

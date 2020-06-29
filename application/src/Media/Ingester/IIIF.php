@@ -79,15 +79,21 @@ class IIIF implements IngesterInterface
         }
 
         // Check API version and generate a thumbnail
-        if (isset($IIIFData['@context']) && $IIIFData['@context'] == 'http://iiif.io/api/image/2/context.json') {
-            //Version 2.0
+        if (isset($IIIFData['@context']) && $IIIFData['@context'] == 'http://iiif.io/api/image/3/context.json') {
+            // Version 3.0.
+            $URLString = '/full/max/0/default.jpg';
+            $id = $IIIFData['id'];
+        } elseif (isset($IIIFData['@context']) && $IIIFData['@context'] == 'http://iiif.io/api/image/2/context.json') {
+            // Version 2.0.
             $URLString = '/full/full/0/default.jpg';
+            $id = $IIIFData['@id'];
         } else {
             // Earlier versions
             $URLString = '/full/full/0/native.jpg';
+            $id = isset($IIIFData['@id']) ? $IIIFData['@id'] : null;
         }
-        if (isset($IIIFData['@id'])) {
-            $tempFile = $this->downloader->download($IIIFData['@id'] . $URLString);
+        if ($id) {
+            $tempFile = $this->downloader->download($id . $URLString);
             if ($tempFile) {
                 $tempFile->mediaIngestFile($media, $request, $errorStore, false);
             }
@@ -111,7 +117,7 @@ class IIIF implements IngesterInterface
     public function validate($IIIFData)
     {
         if (isset($IIIFData['protocol']) && $IIIFData['protocol'] == 'http://iiif.io/api/image') {
-            // Version 2.0
+            // Version 2.0 or version 3.0.
             return true;
         } elseif (isset($IIIFData['@context']) && (
             // Version 1.1

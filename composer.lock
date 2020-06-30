@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc26adb90af7415d888e0e4a19b59845",
+    "content-hash": "c426385a9c331ef54d902dd50f823c53",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -4814,16 +4814,16 @@
         },
         {
             "name": "omeka-s-themes/default",
-            "version": "dev-develop",
+            "version": "3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omeka-s-themes/default.git",
-                "reference": "750d45f7ee8033be96a7645d7882fab48843f630"
+                "reference": "5c03041b6d4a753a3992c2428d47a1483940bc94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/750d45f7ee8033be96a7645d7882fab48843f630",
-                "reference": "750d45f7ee8033be96a7645d7882fab48843f630",
+                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/5c03041b6d4a753a3992c2428d47a1483940bc94",
+                "reference": "5c03041b6d4a753a3992c2428d47a1483940bc94",
                 "shasum": ""
             },
             "require": {
@@ -4831,10 +4831,10 @@
             },
             "type": "omeka-s-theme",
             "support": {
-                "source": "https://github.com/omeka-s-themes/default/tree/v1.5.1",
+                "source": "https://github.com/omeka-s-themes/default/tree/v3.0.0",
                 "issues": "https://github.com/omeka-s-themes/default/issues"
             },
-            "time": "2020-03-31T18:36:01+00:00"
+            "time": "2020-06-30T13:27:04+00:00"
         },
         {
             "name": "omeka/composer-addon-installer",
@@ -4858,7 +4858,10 @@
             },
             "license": [
                 "GPL-3.0"
-            ]
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "paragonie/random_compat",

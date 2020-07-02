@@ -801,7 +801,7 @@ class AclFactory implements FactoryInterface
             new IsSelfAssertion
         );
 
-        // Site admins should not be able to edit other admin users but should
+        // Supervisors should not be able to edit other admin users but should
         // be able to edit themselves
         $denyEdit = new AssertionAggregate;
         $denyEdit->addAssertions([

@@ -89,9 +89,9 @@ $this->trigger('view.layout');
                     </nav>
                     <?php endif; ?>
                     <?php echo $globalNav; ?>
-                    <?php if ($this->navigation('Laminas\Navigation\AdminModule')->count() > 0): ?>
+                    <?php if ($menu = $this->navigation('Laminas\Navigation\AdminModule')->menu()): ?>
                     <h5><?php echo $translate('Modules'); ?></h5>
-                    <?php echo $this->navigation('Laminas\Navigation\AdminModule')->menu(); ?>
+                    <?php echo $menu; ?>
                     <?php endif; ?>
                 </nav>
             </header>

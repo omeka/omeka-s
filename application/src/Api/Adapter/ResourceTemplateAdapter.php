@@ -61,11 +61,13 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         $data = $request->getContent();
 
         // A resource template may not have duplicate properties with the same
-        // data type.
+        // data type or the same label.
+        // Note: mysql allows to use null as part of a unique key.
         if (isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
         ) {
-            $checks = [];
+            $checkDataTypes = [];
+            $checkLabels = [];
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
                 if (!isset($resTemPropData['o:property']['o:id'])) {
                     continue; // skip when no property ID
@@ -73,13 +75,22 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 $propertyId = $resTemPropData['o:property']['o:id'];
                 $dataType = isset($resTemPropData['o:data_type']) ? $resTemPropData['o:data_type'] : '';
                 $check = $propertyId . '-' . $dataType;
-                if (in_array($check, $checks)) {
+                if (isset($checkDataTypes[$check])) {
                     $errorStore->addError('o:property', new Message(
                         'Attempting to add duplicate property %s (ID %s) with the same data type', // @translate
                         @$resTemPropData['o:original_label'], $propertyId
                     ));
                 }
-                $checks[] = $check;
+                $checkDataTypes[$check] = true;
+                $label = isset($resTemPropData['o:alternate_label']) ? $resTemPropData['o:alternate_label'] : '';
+                $check = $propertyId . '-' . $label;
+                if (isset($checkLabels[$check])) {
+                    $errorStore->addError('o:property', new Message(
+                        'Attempting to add duplicate property %s (ID %s) with the same label', // @translate
+                        @$resTemPropData['o:original_label'], $propertyId
+                    ));
+                }
+                $checkLabels[$check] = true;
             }
         }
     }

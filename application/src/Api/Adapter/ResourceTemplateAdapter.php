@@ -132,15 +132,19 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             && isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
         ) {
-            // The resource template property id has no meaning and because
-            // properties are repeatable, they can not be retrieved simply.
-            // So, all the elements are removed and refilled with new data.
-            // Incidently, it allows to get position in the same order than ids.
+            // Prepare a one-time index of all resource template properties, to
+            // be used to avoid duplicate elements (mysql is not set-theoretic).
+            $resTemProps = $entity->getResourceTemplateProperties();
+            $indexResTemProperties = [];
+            foreach ($resTemProps as $resTemProp) {
+                $index = $resTemProp->getProperty()->getId() . '-' . $resTemProp->getDataType();
+                $indexResTemProperties[$index] = $resTemProp;
+            }
 
             $propertyAdapter = $this->getAdapter('properties');
             $resTemProps = $entity->getResourceTemplateProperties();
             $resTemProps->first();
-            $countExisting = count($resTemProps);
+            $resTemPropsToRetain = [];
             $position = 1;
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
                 if (empty($resTemPropData['o:property']['o:id'])) {
@@ -148,7 +152,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 }
 
                 $propertyId = (int) $resTemPropData['o:property']['o:id'];
-                $property = $propertyAdapter->findEntity($propertyId);
+
                 $altLabel = null;
                 if (isset($resTemPropData['o:alternate_label'])
                     && '' !== trim($resTemPropData['o:alternate_label'])
@@ -176,20 +180,22 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $isPrivate = (bool) $resTemPropData['o:is_private'];
                 }
 
-                // Create new element if no more existing.
-                if ($position > $countExisting) {
+                // Check whether a passed property is already assigned to this
+                // resource template.
+                $index = $propertyId . '-' . $dataType;
+                if (isset($indexResTemProperties[$index])) {
+                    $resTemProp = $indexResTemProperties[$index];
+                } else {
                     // It is not assigned. Add a new resource template property.
                     // No need to explicitly add it to the collection since it
                     // is added implicitly when setting the resource template.
+                    $property = $propertyAdapter->findEntity($propertyId);
                     $resTemProp = new ResourceTemplateProperty;
                     $resTemProp->setResourceTemplate($entity);
+                    $resTemProp->setProperty($property);
                     $resTemProps->add($resTemProp);
-                } else {
-                    $resTemProp = $resTemProps->current();
-                    $resTemProps->next();
                 }
 
-                $resTemProp->setProperty($property);
                 $resTemProp->setAlternateLabel($altLabel);
                 $resTemProp->setAlternateComment($altComment);
                 $resTemProp->setDataType($dataType);
@@ -198,12 +204,15 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 // Set the position of the property to its intrinsic order
                 // within the passed array.
                 $resTemProp->setPosition($position++);
+                $resTemPropsToRetain[] = $resTemProp;
             }
 
-            // Remove remaining resource template properties that were not used
-            // to fill new passed data.
-            for (; $position <= $countExisting; ++$position) {
-                $resTemProps->remove($position);
+            // Remove resource template properties that were not included in the
+            // passed data.
+            foreach ($resTemProps as $resTemProp) {
+                if (!in_array($resTemProp, $resTemPropsToRetain)) {
+                    $resTemProps->removeElement($resTemProp);
+                }
             }
         }
     }

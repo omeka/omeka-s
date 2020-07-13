@@ -401,6 +401,17 @@ class ResourceTemplateController extends AbstractActionController
             $form->setData($data);
             if ($form->isValid()) {
                 // TODO Get data from the form for security.
+                // TODO Fix form output for data types of each property.
+                foreach ($data['o:resource_template_property'] as $key => $dataProperty) {
+                    if (empty($dataProperty['o:data_type'])) {
+                        $data['o:resource_template_property'][$key]['o:data_type'] = [];
+                    } else {
+                        $data['o:resource_template_property'][$key]['o:data_type'] = explode(
+                            strpos($dataProperty['o:data_type'], ',') === false ? "\n" : ',',
+                            $dataProperty['o:data_type']
+                        );
+                    }
+                }
                 $response = $isUpdate
                     ? $this->api($form)->update('resource_templates', $resourceTemplate->id(), $data)
                     : $this->api($form)->create('resource_templates', $data);
@@ -474,7 +485,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:property' => $resTemProp->property(),
                         'o:alternate_label' => $resTemProp->alternateLabel(),
                         'o:alternate_comment' => $resTemProp->alternateComment(),
-                        'o:data_type' => $resTemProp->dataType(),
+                        'o:data_type' => $resTemProp->dataTypes(),
                         'o:is_required' => $resTemProp->isRequired(),
                         'o:is_private' => $resTemProp->isPrivate(),
                     ];
@@ -493,7 +504,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:property' => $titleProperty,
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
-                        'o:data_type' => null,
+                        'o:data_type' => [],
                         'o:is_required' => false,
                         'o:is_private' => false,
                     ],
@@ -501,7 +512,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:property' => $descriptionProperty,
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
-                        'o:data_type' => null,
+                        'o:data_type' => [],
                         'o:is_required' => false,
                         'o:is_private' => false,
                     ],
@@ -528,7 +539,7 @@ class ResourceTemplateController extends AbstractActionController
             'o:property' => $property,
             'o:alternate_label' => null,
             'o:alternate_comment' => null,
-            'o:data_type' => null,
+            'o:data_type' => [],
             'o:is_required' => false,
             'o:is_private' => false,
         ];

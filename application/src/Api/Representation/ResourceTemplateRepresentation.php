@@ -129,7 +129,8 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
                 if (empty($dataType)) {
                     return true;
                 }
-                return $resTemProp->getDataType() === $dataType;
+                $dataTypes = explode("\n", $resTemProp->getDataType());
+                return in_array($dataType, $dataTypes);
             });
 
         if (!count($resTemProps)) {

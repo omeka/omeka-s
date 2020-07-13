@@ -51,7 +51,16 @@ class ResourceTemplateProperty extends AbstractEntity
     protected $position;
 
     /**
-     * @Column(nullable=true)
+     * Since "dataType" is part of a constraint, it cannot be longer than 766
+     * characters in utf8mb4 (3072 in ascii). It's enough to store 20 or 30 data
+     * types, that is the max number set in the resource templates for ergonomic
+     * reasons. The value suggest data type "all" is available too if a big
+     * number of data types is really needed for a property. Furthermore, the
+     * same data type cannot be added to the same property multiple times.
+     * Else convert this column to ascii, create an associate table, or remove
+     * the constraint in database.
+     *
+     * @Column(length=766, nullable=true)
      */
     protected $dataType;
 

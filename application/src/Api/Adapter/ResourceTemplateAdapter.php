@@ -14,6 +14,8 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         'label' => 'label',
     ];
 
+    protected $maxDataTypes = 20;
+
     public function getResourceName()
     {
         return 'resource_templates';
@@ -61,27 +63,63 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         $data = $request->getContent();
 
         // A resource template may not have duplicate properties with the same
-        // data type or the same label.
-        // Note: mysql allows to use null as part of a unique key.
+        // data types or the same label. Each data type is checked independantly
+        // for each property, so a data type cannot be used multiple time with
+        // the same property.
+        // Note: mysql/mariadb allows to use null as part of a unique key.
         if (isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
         ) {
             $checkDataTypes = [];
+            $checkDataTypesByProperty = [];
             $checkLabels = [];
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
                 if (!isset($resTemPropData['o:property']['o:id'])) {
-                    continue; // skip when no property ID
+                    // Skip when no property ID.
+                    continue;
                 }
                 $propertyId = $resTemPropData['o:property']['o:id'];
-                $dataType = isset($resTemPropData['o:data_type']) ? $resTemPropData['o:data_type'] : '';
-                $check = $propertyId . '-' . $dataType;
+
+                $dataTypes = isset($resTemPropData['o:data_type']) ? $resTemPropData['o:data_type'] : '';
+                if (!is_array($dataTypes)) {
+                    $dataTypes = explode("\n", $dataTypes);
+                }
+                sort($dataTypes);
+                $dataTypes = array_unique(array_filter(array_map('trim', $dataTypes)));
+                $dataTypesString = implode('|', $dataTypes);
+                if (count($dataTypes) > $this->maxDataTypes) {
+                    $errorStore->addError('o:property', new Message(
+                        'Attempting to add more than %d data types to the property %s (ID %s)', // @translate
+                        $this->maxDataTypes, @$resTemPropData['o:original_label'], $propertyId
+                    ));
+                } elseif (mb_strlen($dataTypesString) > 766) {
+                    $errorStore->addError('o:property', new Message(
+                        'Attempting to add too much data types to the property %s (ID %s)', // @translate
+                        @$resTemPropData['o:original_label'], $propertyId
+                    ));
+                }
+
+                $check = $propertyId . '-' . $dataTypesString;
                 if (isset($checkDataTypes[$check])) {
                     $errorStore->addError('o:property', new Message(
-                        'Attempting to add duplicate property %s (ID %s) with the same data type', // @translate
+                        'Attempting to add duplicate property %s (ID %s) with the same data types', // @translate
                         @$resTemPropData['o:original_label'], $propertyId
                     ));
                 }
                 $checkDataTypes[$check] = true;
+
+                if (empty($checkDataTypesByProperty[$propertyId])) {
+                    $checkDataTypesByProperty[$propertyId] = $dataTypes;
+                } elseif ($dataTypes) {
+                    if (array_intersect($dataTypes, $checkDataTypesByProperty[$propertyId])) {
+                        $errorStore->addError('o:property', new Message(
+                            'Attempting to add the same data types to the same property %s (ID %s)', // @translate
+                            @$resTemPropData['o:original_label'], $propertyId
+                        ));
+                    }
+                    $checkDataTypesByProperty[$propertyId] = array_merge($checkDataTypesByProperty[$propertyId], $dataTypes);
+                }
+
                 $label = isset($resTemPropData['o:alternate_label']) ? $resTemPropData['o:alternate_label'] : '';
                 $check = $propertyId . '-' . $label;
                 if (isset($checkLabels[$check])) {
@@ -148,7 +186,10 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $resTemProps = $entity->getResourceTemplateProperties();
             $indexResTemProperties = [];
             foreach ($resTemProps as $resTemProp) {
-                $index = $resTemProp->getProperty()->getId() . '-' . $resTemProp->getDataType();
+                $dataType = $resTemProp->getDataType();
+                $dataTypes = array_unique(array_filter(array_map('trim', is_array($dataType) ? $dataType : explode("\n", $dataType))));
+                $dataType = implode("\n", $dataTypes);
+                $index = $resTemProp->getProperty()->getId() . '-' . $dataType;
                 $indexResTemProperties[$index] = $resTemProp;
             }
 
@@ -177,10 +218,9 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $altComment = $resTemPropData['o:alternate_comment'];
                 }
                 $dataType = null;
-                if (isset($resTemPropData['o:data_type'])
-                    && '' !== trim($resTemPropData['o:data_type'])
-                ) {
-                    $dataType = $resTemPropData['o:data_type'];
+                if (isset($resTemPropData['o:data_type'])) {
+                    $dataTypes = array_unique(array_filter(array_map('trim', is_array($resTemPropData['o:data_type']) ? $resTemPropData['o:data_type'] : explode("\n", $resTemPropData['o:data_type']))));
+                    $dataType = count($dataTypes) ? implode("\n", $dataTypes) : null;
                 }
                 $isRequired = false;
                 if (isset($resTemPropData['o:is_required'])) {

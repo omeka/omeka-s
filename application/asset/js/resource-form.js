@@ -230,13 +230,13 @@
     /**
      * Make a new value.
      */
-    var makeNewValue = function(term, valueObj, type) {
+    var makeNewValue = function(term, valueObj, dataType) {
         var field = $('.resource-values.field[data-property-term="' + term + '"]');
         // Get the value node from the templates.
-        if (typeof type !== 'string') {
-            type = valueObj['type'];
+        if (typeof dataType !== 'string') {
+            dataType = valueObj['type'];
         }
-        var value = $('.value.template[data-data-type="' + type + '"]').clone(true);
+        var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
 
         // Get and display the value's visibility.
@@ -264,7 +264,7 @@
         value.find('textarea.input-value')
             .attr('aria-labelledby', valueLabelID);
         value.attr('aria-labelledby', valueLabelID);
-        $(document).trigger('o:prepare-value', [type, value, valueObj]);
+        $(document).trigger('o:prepare-value', [dataType, value, valueObj]);
 
         return value;
     };
@@ -272,7 +272,7 @@
     /**
      * Prepare the markup for the default data types.
      */
-    $(document).on('o:prepare-value', function(e, type, value, valueObj) {
+    $(document).on('o:prepare-value', function(e, dataType, value, valueObj) {
         // Prepare simple single-value form inputs using data-value-key
         value.find(':input').each(function () {
             var valueKey = $(this).data('valueKey');
@@ -290,7 +290,7 @@
             'resource:itemset',
             'resource:media',
         ];
-        if (valueObj && -1 !== resourceDataTypes.indexOf(type)) {
+        if (valueObj && -1 !== resourceDataTypes.indexOf(dataType)) {
             value.find('span.default').hide();
             var resource = value.find('.selected-resource');
             if (typeof valueObj['display_title'] === 'undefined') {
@@ -308,10 +308,10 @@
     });
 
     /**
-     * Make a new property field.
+     * Make a new property field with data stored in the property selector.
      */
     var makeNewField = function(property) {
-        //sort out whether property is the LI that holds data, or the id
+        // Sort out whether property is the LI that holds data, or the id.
         var propertyLi, propertyId;
 
         switch (typeof property) {
@@ -468,8 +468,8 @@
             });
     }
 
-    var makeDefaultValue = function (term, type) {
-        return makeNewValue(term, null, type)
+    var makeDefaultValue = function (term, dataType) {
+        return makeNewValue(term, null, dataType)
             .addClass('default-value')
             .one('change', '*', function (event) {
                 $(event.delegateTarget).removeClass('default-value');

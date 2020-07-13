@@ -23,7 +23,16 @@ $('#property-selector .selector-child').click(function(e) {
     var propertyId = $(this).closest('li').data('property-id');
     $.get(propertyList.data('addNewPropertyRowUrl'), {property_id: propertyId})
         .done(function(data) {
+            // Check if the property is the template title or description.
             propertyList.append(data);
+            if (propertyId == titleProperty.val()) {
+                $('.title-property-cell').remove();
+                $('#properties .property[data-property-id=' + propertyId + ']').find('.actions').before(titlePropertyTemplate);
+            }
+            if (propertyId == descriptionProperty.val()) {
+                $('.description-property-cell').remove();
+                $('#properties .property[data-property-id=' + propertyId + ']').find('.actions').before(descriptionPropertyTemplate);
+            }
         });
 });
 
@@ -74,10 +83,11 @@ propertyList.on('click', '.property-edit', function(e) {
         altLabel.val($('#alternate-label').val());
         prop.find('.alternate-label-cell').text($('#alternate-label').val());
         altComment.val($('#alternate-comment').val());
+        // The title and the description of the template will be the first value in the specified property, whatever row.
         if ($('#is-title-property').prop('checked')) {
             titleProperty.val(propertyId);
             $('.title-property-cell').remove();
-            prop.find('.actions').before(titlePropertyTemplate);
+            $('#properties .property[data-property-id=' + propertyId + ']').find('.actions').before(titlePropertyTemplate);
         } else if (propertyId == titleProperty.val()) {
             titleProperty.val(null);
             $('.title-property-cell').remove();
@@ -85,7 +95,7 @@ propertyList.on('click', '.property-edit', function(e) {
         if ($('#is-description-property').prop('checked')) {
             descriptionProperty.val(propertyId);
             $('.description-property-cell').remove();
-            prop.find('.actions').before(descriptionPropertyTemplate);
+            $('#properties .property[data-property-id=' + propertyId + ']').find('.actions').before(descriptionPropertyTemplate);
         } else if (propertyId == descriptionProperty.val()) {
             descriptionProperty.val(null);
             $('.description-property-cell').remove();

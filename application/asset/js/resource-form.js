@@ -238,8 +238,8 @@
      */
     var makeNewValue = function(term, valueObj, dataType) {
         // Get the value node from the templates.
-        if (typeof dataType !== 'string') {
-            dataType = valueObj['type'];
+        if (!dataType || typeof dataType !== 'string') {
+            dataType = valueObj ? valueObj['type'] : '';
         }
         var field = $('.resource-values.field[data-property-term="' + term + '"]' + (dataType ? '[data-data-type="' + dataType + '"]' : ''));
         var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
@@ -458,10 +458,6 @@
             firstDataType = $('div#properties').data('default-data-types').substring(0, ($('div#properties').data('default-data-types') + ',').indexOf(','));
         }
 
-        // Add an empty value if none already exist in the property.
-        if (!field.find('.value').length) {
-            field.find('.values').append(makeNewValue(field.data('property-term'), null, firstDataType));
-        }
         field.data('template-id', templateId);
         field.attr('data-template-id', templateId);
 
@@ -548,11 +544,10 @@
                 data['o:resource_template_property']
                     .reverse().map(function(templateProperty) {
                         rewritePropertyField(templateProperty);
-                        return templateProperty['o:property']['o:id'];
                     });
+
                 // Property fields that are not defined by the template should
                 // use the default selector and should be merged.
-                // TODO Factorize with the loop above used when there is no template id.
                 var otherFields = $('#properties .resource-values').filter('[data-template-id!=' + templateId + ']');
                 otherFields.data('template-id', '');
                 otherFields.attr('template-id', '');
@@ -574,6 +569,41 @@
                         });
                     }
                 });
+
+                // Furthermore, the values are moved to the property row according
+                // to their data type when there are multiple duplicate properties.
+                // @see \Omeka\Api\Representation\AbstractEntityRepresentation::values()
+
+                // Prepare the list of data types one time and make easier to fill specific rows first.
+                var propertyValues = $('#properties .resource-values');
+                if (data['o:resource_template_property'].length > 0) {
+                    var dataTypesByProperty = {};
+                    data['o:resource_template_property'].forEach(function(templateProperty, index) {
+                        var propertyId = templateProperty['o:property']['o:id'];
+                        var dataTypes = templateProperty['o:data_type'];
+                        if (!dataTypesByProperty.hasOwnProperty(propertyId)) {
+                            dataTypesByProperty[propertyId] = {};
+                        }
+                        dataTypes.forEach(function(dataType) {
+                            dataTypesByProperty[propertyId][dataType] = dataTypes.join(',');
+                        });
+                    });
+                    propertyValues.filter('[data-template-id!=' + templateId + ']').each(function() {
+                        var propertyId = $(this).attr('data-property-id');
+                        var templateFields = $('#properties .resource-values').filter('[data-template-id!=' + templateId + ']');
+                        if (!dataTypesByProperty.hasOwnProperty(propertyId) || templateFields.length < 1 || $(this).find('.inputs .values > .value').length < 1) {
+                            return;
+                        }
+                        $(this).find('.inputs .values > .value').each(function() {
+                            var valueDataType = $(this).data('data-type');
+                            if (dataTypesByProperty[propertyId].hasOwnProperty(valueDataType)) {
+                                propertyValues.filter('[data-property-id=' + propertyId + '][data-data-types="' + dataTypesByProperty[propertyId][valueDataType] + '"]')
+                                    .find('.inputs .values')
+                                    .append($(this));
+                            }
+                        });
+                    });
+                }
             })
             .fail(function() {
                 console.log('Failed loading resource template from API');
@@ -592,6 +622,7 @@
      * Initialize the page.
      */
     var initPage = function() {
+        // Create the form for a generic resource.
         if (typeof valuesJson == 'undefined') {
             makeNewField('dcterms:title').find('.values')
                 .append(makeDefaultValue('dcterms:title', 'literal'));
@@ -606,6 +637,7 @@
             });
         }
 
+        // Adapt the form for the template, if any.
         var applyTemplateClass = $('body').hasClass('add');
         $.when(applyResourceTemplate(applyTemplateClass)).done(function () {
             $('#properties').closest('form').trigger('o:form-loaded');

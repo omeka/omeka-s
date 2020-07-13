@@ -1,8 +1,26 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
+
 $this->htmlElement('body')->appendAttribute('class', 'users show');
 ?>
+
+<style>
+.property .value-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0;
+}
+.property .value-list .o-icon-private {
+    opacity: 0.5;
+}
+.property .value-list .actions {
+    float: left;
+    margin-left: 0;
+    margin-right: 6px;
+}
+</style>
 
 <?php echo $this->pageTitle($user->email(), 1, $translate('Users')); ?>
 
@@ -40,48 +58,73 @@ $this->htmlElement('body')->appendAttribute('class', 'users show');
 <div class="property sites">
     <h4><?php echo $translate('Sites'); ?></h4>
     <?php $sites = $user->sites(); ?>
-    <?php if (empty($sites)): ?>
+    <?php if (!count($sites)): ?>
     <div class="value no-value">
         <?php echo $escape($translate('None')); ?>
     </div>
     <?php else: ?>
     <div class="value">
-    <ul style="list-style: none; margin: 0; padding-left: 0;">
-    <?php foreach ($sites as $site): ?>
-        <li>
-            <span class="actions" style="display: initial; margin-right: 6px;">
-            <?php echo $this->hyperlink('', $site->siteUrl(), [
-                'target' => '_blank',
-                'class' => 'o-icon-external public',
-                'title' => $translate('View public site'),
-            ]); ?>
-            </span>
-            <?php echo $site->link($site->title()); ?>
-        </li>
-    <?php endforeach; ?>
-    </ul>
+        <ul class="value-list">
+        <?php foreach ($sites as $site): ?>
+            <li>
+                <ul class="actions">
+                    <li><?php echo $hyperlink('', $site->siteUrl(), [
+                        'target' => '_blank',
+                        'class' => 'o-icon-external public',
+                        'title' => $translate('View public site'),
+                    ]); ?></li>
+                    <?php if ($site->userIsAllowed('update')): ?>
+                    <li><?php echo $site->link('', null, [
+                        'class' => 'o-icon-edit',
+                        'title' => $translate('Edit'),
+                    ]); ?></li>
+                    <?php endif; ?>
+                    <?php /* // TODO Add the confirmation sidebar in user page.
+                    <?php if ($site->userIsAllowed('delete')): ?>
+                    <li><?php echo $hyperlink('', '#', [
+                        'data-sidebar-content-url' => $site->url('delete-confirm'),
+                        'class' => 'o-icon-delete sidebar-content',
+                        'title' => $translate('Delete'),
+                    ]); ?></li>
+                    <?php endif; ?>
+                    */ ?>
+                </ul>
+                <?php echo $site->link($site->title(), 'show'); ?>
+                <?php if (!$site->isPublic()): ?>
+                    <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+        </ul>
     </div>
     <?php endif; ?>
 </div>
 <div class="property site-permissions">
     <h4><?php echo $translate('Site permissions'); ?></h4>
     <?php $sitePermissions = $user->sitePermissions(); ?>
-    <?php if (empty($sitePermissions)): ?>
+    <?php if (!count($sitePermissions)): ?>
     <div class="value no-value">
         <?php echo $escape($translate('None')); ?>
     </div>
     <?php else: ?>
     <div class="value">
-    <ul style="margin: 0;">
-    <?php foreach ($sitePermissions as $sitePermission): ?>
-        <li>
+        <ul class="value-list">
+        <?php foreach ($sitePermissions as $sitePermission): ?>
             <?php $site = $sitePermission->site(); ?>
-            <?php echo sprintf('%s (%s)',
-                $site->link($site->title(), 'users'),
-                $escape($translate($sitePermission->role()))); ?>
-        </li>
-    <?php endforeach; ?>
-    </ul>
+            <li>
+                <ul class="actions">
+                    <li><?php echo $hyperlink('', $site->siteUrl(), [
+                        'target' => '_blank',
+                        'class' => 'o-icon-external public',
+                        'title' => $translate('View public site'),
+                    ]); ?></li>
+                </ul>
+                <?php echo sprintf('%s (%s)',
+                    $site->link($site->title(), 'users'),
+                    $escape($translate($sitePermission->role()))); ?>
+            </li>
+        <?php endforeach; ?>
+        </ul>
     </div>
     <?php endif; ?>
 </div>

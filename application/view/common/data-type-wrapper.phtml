@@ -6,7 +6,7 @@ $hyperlink = $this->plugin('escapeHtmlAttr');
 $dataTypeHelper = $this->plugin('dataType');
 ?>
 
-<div class="template value" data-data-type="<?php echo $escape($dataType); ?>" role="group">
+<div class="template value" data-data-type="<?php echo $escape($dataType); ?>" data-data-type-label="<?php echo $escapeAttr($translate($dataType === 'resource' ? 'Omeka resource' : $dataTypeHelper->getLabel($dataType))); ?>" role="group">
     <div class="input-body"><?php echo $dataTypeHelper->getTemplate($dataType); ?></div>
     <div class="input-footer">
         <span class="restore-value"><?php echo $translate('Value to be removed'); ?></span>

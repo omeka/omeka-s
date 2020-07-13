@@ -12,12 +12,14 @@ use Omeka\Entity\Resource;
 abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepresentation
 {
     /**
-     * All value representations of this resource, organized by property.
+     * All value representations of this resource, organized by property term.
      *
      * <code>
      * array(
      *   {JSON-LD term} => array(
      *     'property' => {property representation},
+     *     'alternate_label' => {label},
+     *     'alternate_comment' => {comment},
      *     'values' => {
      *       {value representation},
      *       {value representation},
@@ -221,7 +223,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * Get all value representations of this resource.
+     * Get all value representations of this resource, by term.
      *
      * <code>
      * array(
@@ -232,6 +234,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *     'values' => array(
      *       {ValueRepresentation},
      *       {ValueRepresentation},
+     *       {…},
      *     ),
      *   ),
      * )
@@ -245,27 +248,29 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             return $this->values;
         }
 
-        // Set the default template info.
-        $templateInfo = [
-            'dcterms:title' => [],
-            'dcterms:description' => [],
-        ];
+        $values = [];
 
+        // Set the default template info one time.
         $template = $this->resourceTemplate();
         if ($template) {
-            // Set the custom template info.
-            $templateInfo = [];
             foreach ($template->resourceTemplateProperties() as $templateProperty) {
-                $term = $templateProperty->property()->term();
-                $templateInfo[$term] = [
+                $property = $templateProperty->property();
+                $term = $property->term();
+                $values[$term] = [
+                    'property' => $property,
                     'alternate_label' => $templateProperty->alternateLabel(),
                     'alternate_comment' => $templateProperty->alternateComment(),
                 ];
             }
+        } else {
+            // Force prepend title and description when there is no template.
+            $values = [
+                'dcterms:title' => [],
+                'dcterms:description' => [],
+            ];
         }
 
         // Get this resource's values.
-        $values = [];
         foreach ($this->resource->getValues() as $valueEntity) {
             $value = new ValueRepresentation($valueEntity, $this->getServiceLocator());
             if ($value->isHidden()) {
@@ -282,18 +287,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $values[$term]['values'][] = $value;
         }
 
-        // Order this resource's properties according to the template order.
-        $sortedValues = [];
-        foreach ($values as $term => $valueInfo) {
-            foreach ($templateInfo as $templateTerm => $templateAlternates) {
-                if (array_key_exists($templateTerm, $values)) {
-                    $sortedValues[$templateTerm] =
-                        array_merge($values[$templateTerm], $templateAlternates);
-                }
-            }
-        }
-
-        $values = $sortedValues + $values;
+        // Remove terms without values.
+        $values = array_filter($values, function ($v) {
+            return !empty($v['values']);
+        });
 
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs(['values' => $values]);
@@ -308,12 +305,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @param string $term The prefix:local_part
      * @param array $options
-     * - type: (null) Get values of this type only. Valid types are "literal",
+     * - type: (null) Get values of this type only. Default types are "literal",
      *   "uri", and "resource". Returns all types by default.
      * - all: (false) If true, returns all values that match criteria. If false,
      *   returns the first matching value.
      * - default: (null) Default value if no values match criteria. Returns null
-     *   by default.
+     *   by default for single result, empty array for all results.
      * - lang: (null) Get values of this language only. Returns values of all
      *   languages by default.
      * @return ValueRepresentation|ValueRepresentation[]|mixed
@@ -321,18 +318,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function value($term, array $options = [])
     {
         // Set defaults.
-        if (!isset($options['type'])) {
-            $options['type'] = null;
-        }
-        if (!isset($options['all'])) {
-            $options['all'] = false;
-        }
-        if (!isset($options['default'])) {
-            $options['default'] = null;
-        }
-        if (!isset($options['lang'])) {
-            $options['lang'] = null;
-        }
+        $options += [
+            'type' => null,
+            'all' => false,
+            'default' => isset($options['all']) ? [] : null,
+            'lang' => null,
+        ];
 
         if (!$this->getAdapter()->isTerm($term)) {
             return $options['default'];

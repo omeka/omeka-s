@@ -428,25 +428,31 @@ class Module extends AbstractModule
     {
         $response = $event->getParam('response');
         $data = $response->getRequest()->getContent();
-        if (!empty($data['remove_from_site_permission'])) {
-            $siteIds = $data['remove_from_site_permission'];
-            $collectionAction = 'remove';
-            $role = null;
-        } elseif (!empty($data['add_to_site_permission'])) {
-            $siteIds = $data['add_to_site_permission'];
-            $collectionAction = 'append';
-            $role = empty($data['add_to_site_permission_role'])
-                ? 'viewer'
-                : $data['add_to_site_permission_role'];
-        } else {
-            return;
-        }
 
         $api = $this->getServiceLocator()->get('Omeka\ApiManager');
-        if (in_array(-1, $siteIds)) {
-            $siteIds = $api->search('sites', [], ['responseContent' => 'resource'])->getContent();
+        $listSites = function ($siteIds, $action, $role = null) use ($api) {
+            $siteIds = in_array(-1, $siteIds)
+                ? $api->search('sites', [], ['returnScalar' => 'id'])->getContent()
+                : array_filter(array_map('intval', $siteIds));
+            foreach ($siteIds as $siteId) {
+                $sites[$siteId] = [
+                    'site' => $api->read('sites', $siteId, [], ['responseContent' => 'resource'])->getContent(),
+                    'action' => $action,
+                    'role' => $role,
+                ];
+            }
+            return $sites;
+        };
+
+        $siteActionRoles = [];
+        if (!empty($data['remove_from_site_permission'])) {
+            $siteActionRoles = $listSites($data['remove_from_site_permission'], 'remove');
         }
-        if (empty($siteIds)) {
+        if (!empty($data['add_to_site_permission'])) {
+            $role = empty($data['add_to_site_permission_role']) ? 'viewer' : $data['add_to_site_permission_role'];
+            $siteActionRoles = array_replace($siteActionRoles, $listSites($data['add_to_site_permission'], 'append', $role));
+        }
+        if (empty($siteActionRoles)) {
             return;
         }
 
@@ -467,13 +473,10 @@ class Module extends AbstractModule
         }
 
         $userIds = array_intersect_key($requestIds, $responseContent);
-        foreach ($siteIds as $siteId) {
-            $site = is_object($siteId)
-                ? $siteId
-                : $api->read('sites', $siteId, [], ['responseContent' => 'resource'])->getContent();
-            $sitePermissions = $site->getSitePermissions();
+        foreach ($siteActionRoles as $siteActionRole) {
+            $sitePermissions = $siteActionRole['site']->getSitePermissions();
             $newSitePermissions = [];
-            switch ($collectionAction) {
+            switch ($siteActionRole['action']) {
                 case 'remove':
                     if (empty($sitePermissions)) {
                         continue 2;
@@ -503,13 +506,13 @@ class Module extends AbstractModule
                     foreach ($userIds as $userId) {
                         $newSitePermissions[$userId] = [
                             'o:user' => ['o:id' => $userId],
-                            'o:role' => $role,
+                            'o:role' => $siteActionRole['role'],
                         ];
                     }
                     break;
             }
             $api->update('sites',
-                $site->getId(),
+                $siteActionRole['site']->getId(),
                 ['o:site_permission' => $newSitePermissions],
                 [],
                 [

@@ -551,7 +551,9 @@
                 // use the default selector and should be merged.
                 var otherFields = $('#properties .resource-values').filter('[data-template-id!="' + templateId + '"]');
                 otherFields.data('template-id', '');
-                otherFields.attr('template-id', '');
+                otherFields.attr('data-template-id', '');
+                otherFields.data('data-types', $('div#properties').data('default-data-types'));
+                otherFields.attr('data-data-types', $('div#properties').data('default-data-types'));
                 otherFields.find('div.multiple-selector').hide();
                 otherFields.find('div.single-selector').hide();
                 otherFields.find('div.default-selector').show();
@@ -605,6 +607,21 @@
                         });
                     });
                 }
+
+                // Remove empty properties, except the templates ones.
+                // TODO Keep user empty properties, and eventually "title" and "description".
+                propertyValues.filter('[data-template-id!="' + templateId + '"]').each(function() {
+                    if ($(this).find('.inputs .values > .value').length === $(this).find('.inputs .values > .value.default-value').length) {
+                        $(this).remove();
+                    }
+                });
+
+                // Add an empty value if none already exist in the property.
+                propertyValues.each(function() {
+                    if (!$(this).find('.inputs .values > .value').length) {
+                        $(this).find('.inputs .values').append(makeDefaultValue($(this).data('property-term'), $(this).data('data-types').substring(0, ($(this).data('data-types') + ',').indexOf(','))));
+                    }
+                });
             })
             .fail(function() {
                 console.log('Failed loading resource template from API');

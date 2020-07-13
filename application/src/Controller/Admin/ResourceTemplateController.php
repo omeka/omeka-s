@@ -299,6 +299,10 @@ class ResourceTemplateController extends AbstractActionController
                 $dataTypeLabel = $dataType->getLabel();
             }
 
+            $dataTypes = array_map(function ($label, $name) {
+                return ['name' => $name, 'label' => $label];
+            }, $templateProperty->dataTypesLabels());
+
             // Note that "position" is implied by array order.
             $export['o:resource_template_property'][] = [
                 'o:alternate_label' => $templateProperty->alternateLabel(),
@@ -307,6 +311,7 @@ class ResourceTemplateController extends AbstractActionController
                 'o:is_private' => $templateProperty->isPrivate(),
                 'data_type_name' => $dataTypeName,
                 'data_type_label' => $dataTypeLabel,
+                'data_types' => array_values($dataTypes),
                 'vocabulary_namespace_uri' => $vocab->namespaceUri(),
                 'vocabulary_label' => $vocab->label(),
                 'local_name' => $property->localName(),
@@ -319,9 +324,10 @@ class ResourceTemplateController extends AbstractActionController
 
         $response = $this->getResponse();
         $headers = $response->getHeaders();
-        $headers->addHeaderLine('Content-Type', 'application/json')
-                ->addHeaderLine('Content-Disposition', sprintf('attachment; filename="%s.json"', $filename))
-                ->addHeaderLine('Content-Length', strlen($export));
+        $headers
+            ->addHeaderLine('Content-Type', 'application/json')
+            ->addHeaderLine('Content-Disposition', sprintf('attachment; filename="%s.json"', $filename))
+            ->addHeaderLine('Content-Length', strlen($export));
         $response->setHeaders($headers);
         $response->setContent($export);
         return $response;

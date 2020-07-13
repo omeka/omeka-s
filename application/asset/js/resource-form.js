@@ -2,6 +2,10 @@
 
     $(document).ready( function() {
 
+        if ($('div#properties').data('default-data-types').split(',').length < 1) {
+            $('div#properties').data('default-data-types', 'literal,resource,uri');
+        }
+
         // Select property
         $('#property-selector li.selector-child').on('click', function(e) {
             e.stopPropagation();
@@ -221,7 +225,9 @@
                 propertyValues.push(valueData);
             });
             if (propertyValues.length) {
-                values[propertyTerm] = propertyValues;
+                values[propertyTerm] = values.hasOwnProperty(propertyTerm)
+                    ? values[propertyTerm].concat(propertyValues)
+                    : propertyValues;
             }
         });
         return values;
@@ -231,11 +237,11 @@
      * Make a new value.
      */
     var makeNewValue = function(term, valueObj, dataType) {
-        var field = $('.resource-values.field[data-property-term="' + term + '"]');
         // Get the value node from the templates.
         if (typeof dataType !== 'string') {
             dataType = valueObj['type'];
         }
+        var field = $('.resource-values.field[data-property-term="' + term + '"]' + (dataType ? '[data-data-type="' + dataType + '"]' : ''));
         var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
 
@@ -310,10 +316,14 @@
     /**
      * Make a new property field with data stored in the property selector.
      */
-    var makeNewField = function(property) {
+    var makeNewField = function(property, dataTypes) {
+        // Prepare data type name of the field.
+        if (!dataTypes || dataTypes.length < 1) {
+            dataTypes = $('#properties').data('default-data-types').split(',');
+        }
+
         // Sort out whether property is the LI that holds data, or the id.
         var propertyLi, propertyId;
-
         switch (typeof property) {
             case 'object':
                 propertyLi = property;
@@ -339,25 +349,53 @@
         field.find('.field-description').prepend(propertyLi.find('.field-comment').text());
         field.data('property-term', term);
         field.data('property-id', propertyId);
+        field.data('data-types', dataTypes.join(','));
         // Adding the attr because selectors need them to find the correct field
         // and count when adding more.
         field.attr('data-property-term', term);
         field.attr('data-property-id', propertyId);
+        field.attr('data-data-types', dataTypes.join(','));
         field.attr('aria-labelledby', 'property-' + propertyId + '-label');
         $('div#properties').append(field);
         return field;
     };
 
     /**
-     * Rewrite a property field following the rules defined by the selected
-     * resource property template.
+     * Rewrite an existing property field, or create a new one, following the
+     * rules defined by the selected resource property template.
      */
     var rewritePropertyField = function(templateProperty) {
+        var templateId = $('#resource-template-select').val();
         var properties = $('div#properties');
         var propertyId = templateProperty['o:property']['o:id'];
-        var field = properties.find('[data-property-id="' + propertyId + '"]');
-        if (field.length == 0) {
-            field = makeNewField(propertyId);
+        var dataTypes = templateProperty['o:data_type'].split("\n");
+
+        // Check if an existing field exists in order to update it and to avoid duplication.
+        // Since fields can have the same property but different data types,
+        // a check is done on each field to find the good one, if any.
+        var field;
+        var fields = properties.find('[data-property-id="' + propertyId + '"]');
+        if (fields.length > 0) {
+            var useDefaultDataTypes = dataTypes.length < 1;
+            var dataTypesSorted = dataTypes.sort();
+            fields.each(function (index) {
+                var dataTypesElements = $(this).data('data-types').split(',').sort();
+                if (useDefaultDataTypes) {
+                    if (dataTypesElements.join(',') === $('div#properties').data('default-data-types').split(',').sort().join(',')){
+                        field = $(this);
+                        return false;
+                    }
+                } else if (dataTypesSorted.length === dataTypesElements.length
+                    && dataTypesSorted.every(function(value, index) { return value === dataTypesElements[index]})
+                ) {
+                    field = $(this);
+                    field.data('data-types', dataTypes.join(','));
+                    return false;
+                }
+            });
+        }
+        if (!field) {
+            field = makeNewField(propertyId, dataTypes);
         }
         var originalLabel = field.find('.field-label');
         var originalDescription = field.find('.field-description');
@@ -372,9 +410,12 @@
         }
         if (templateProperty['o:alternate_label']) {
             var altLabel = originalLabel.clone();
+            var altLabelId = 'property-' + propertyId + '-' + dataTypes.join('-') + '-label';
             altLabel.addClass('alternate');
             altLabel.text(templateProperty['o:alternate_label']);
             altLabel.insertAfter(originalLabel);
+            altLabel.attr('id', altLabelId);
+            field.attr('aria-labelledby', altLabelId);
             originalLabel.hide();
         }
         if (templateProperty['o:alternate_comment']) {
@@ -392,7 +433,7 @@
         if (templateProperty['o:data_type']) {
             // Use the single selector if the property has a data type.
             defaultSelector.hide();
-            singleSelector.find('a.add-value.button').data('type', templateProperty['o:data_type'])
+            singleSelector.find('a.add-value.button').data('type', templateProperty['o:data_type']);
             singleSelector.show();
             // Add an empty value if none already exist in the property.
             if (!field.find('.value').length) {
@@ -407,6 +448,9 @@
                 field.find('.values').append(makeDefaultValue(field.data('property-term'), 'literal'));
             }
         }
+
+        field.data('template-id', templateId);
+        field.attr('data-template-id', templateId);
 
         properties.prepend(field);
     };
@@ -425,13 +469,32 @@
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();
         var fields = $('#properties .resource-values');
+
         if (!templateId) {
             // Using the default resource template, so all properties should use the default
             // selector.
+            fields.data('template-id', '');
+            fields.attr('data-template-id', '');
             fields.find('div.single-selector').hide();
             fields.find('div.default-selector').show();
+            // Merge all duplicate properties, keeping order of values.
+            fields.each(function() {
+                var propertyId = $(this).attr('data-property-id');
+                // Deduplicate only first properties, that are not already processed.
+                if ($(this).prevAll('[data-property-id="' + propertyId + '"]').length < 1) {
+                    var duplicatedFields = $('div#properties').find('[data-property-id="' + propertyId + '"]');
+                    var duplicatedFieldFirst = duplicatedFields.first();
+                    duplicatedFields.each(function(index) {
+                        if (index > 0) {
+                            duplicatedFieldFirst.find('.inputs .values').append($(this).find('.inputs .values > .value'));
+                            $(this).remove();
+                        }
+                    });
+                }
+            });
             return;
         }
+
         var url = templateSelect.data('api-base-url') + '/' + templateId;
         return $.get(url)
             .done(function(data) {
@@ -447,19 +510,32 @@
                 // Rewrite every property field defined by the template. We
                 // reverse the order so property fields on page that are not
                 // defined by the template are ultimately appended.
-                var templatePropertyIds = data['o:resource_template_property']
+                data['o:resource_template_property']
                     .reverse().map(function(templateProperty) {
                         rewritePropertyField(templateProperty);
                         return templateProperty['o:property']['o:id'];
                     });
                 // Property fields that are not defined by the template should
-                // use the default selector.
-                fields.each(function() {
-                    var propertyId = $(this).data('property-id');
-                    if (templatePropertyIds.indexOf(propertyId) === -1) {
-                        var field = $(this);
-                        field.find('div.single-selector').hide();
-                        field.find('div.default-selector').show();
+                // use the default selector and should be merged.
+                // TODO Factorize with the loop above used when there is no template id.
+                var otherFields = $('#properties .resource-values').filter('[data-template-id!=' + templateId + ']');
+                otherFields.data('template-id', '');
+                otherFields.attr('template-id', '');
+                otherFields.find('div.single-selector').hide();
+                otherFields.find('div.default-selector').show();
+                // Merge all duplicate properties not in the current template, keeping order of values.
+                otherFields.each(function() {
+                    var propertyId = $(this).attr('data-property-id');
+                    // Deduplicate only first properties, that are not already processed.
+                    if ($(this).prevAll('[data-template-id!=' + templateId + '][data-property-id="' + propertyId + '"]').length < 1) {
+                        var duplicatedFields = $('div#properties').find('[data-template-id!=' + templateId + '][data-property-id="' + propertyId + '"]');
+                        var duplicatedFieldFirst = duplicatedFields.first();
+                        duplicatedFields.each(function(index) {
+                            if (index > 0) {
+                                duplicatedFieldFirst.find('.inputs .values').append($(this).find('.inputs .values > .value'));
+                                $(this).remove();
+                            }
+                        });
                     }
                 });
             })

@@ -2,9 +2,10 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $property = $propertyRow['o:property'];
-$namePrefix = 'o:resource_template_property[' . $property->id() . ']';
+$namePrefix = 'o:resource_template_property[' . bin2hex(random_bytes(8)) . ']';
 $propertyId = $escape($property->id());
 ?>
+
 <li class="property row" data-property-id="<?php echo $propertyId; ?>">
 
     <input class="property-id" type="hidden" name="<?php echo $escape($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escape($property->id()); ?>">

@@ -2,6 +2,8 @@
 namespace Omeka\Controller;
 
 use Omeka\Api\Manager as ApiManager;
+use Omeka\Api\Request as ApiRequest;
+use Omeka\Api\Response as ApiResponse;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\Paginator;
 use Omeka\View\Model\ApiJsonModel;
@@ -139,6 +141,49 @@ class ApiController extends AbstractRestfulController
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
+    // @todo Determine how to list ids and data together to allow to patch resources in bulk.
+    // public function patchList($data)
+    // {
+    // }
+
+    public function replaceList($data)
+    {
+        // Check if data is a list of resources, not a single one.
+        if (!is_array($data)) {
+            $this->response->setStatusCode(400);
+            return [
+                'content' => 'Bulk full update requires an array of resources.', // @translate
+            ];
+        }
+        if (key($data) !== 0) {
+            if (!empty($data['o:id'])) {
+                return $this->patch($data['o:id'], $data);
+            }
+            $this->response->setStatusCode(400);
+            return [
+                'content' => 'Bulk full update requires an array of resources with an id.', // @translate
+            ];
+        }
+        $resource = $this->params()->fromRoute('resource');
+        $responses = [];
+        foreach ($data as $idData) {
+            if (isset($idData['o:id'])) {
+                $response = $this->api->update($resource, $idData['o:id'], $data)->getContent();
+                if ($response) {
+                    $responses[] = $response;
+                }
+            }
+        }
+        // No need to fill all the request for the output.
+        $request = new ApiRequest(ApiRequest::BATCH_UPDATE, $resource);
+        $response = new ApiResponse;
+        $response
+            ->setRequest($request)
+            ->setContent($responses)
+            ->setTotalResults(count($responses));
+        return new ApiJsonModel($response, $this->getViewOptions());
+    }
+
     public function delete($id)
     {
         $resource = $this->params()->fromRoute('resource');
@@ -238,19 +283,17 @@ class ApiController extends AbstractRestfulController
     {
         // Require application/json Content-Type for certain methods.
         $method = strtolower($request->getMethod());
-        $contentType = $request->getHeader('content-type');
+        $contentType = $request->getHeader('Content-Type');
         if (in_array($method, ['post', 'put', 'patch'])
             && (
                 !$contentType
                 || !$contentType->match(['application/json', 'multipart/form-data'])
             )
         ) {
-            $contentType = $request->getHeader('Content-Type');
             $errorMessage = sprintf(
                 'Invalid Content-Type header. Expecting "application/json", got "%s".',
                 $contentType ? $contentType->getMediaType() : 'none'
             );
-
             throw new Exception\UnsupportedMediaTypeException($errorMessage);
         }
     }

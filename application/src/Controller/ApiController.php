@@ -146,6 +146,13 @@ class ApiController extends AbstractRestfulController
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 
+    public function deleteList($ids)
+    {
+        $resource = $this->params()->fromRoute('resource');
+        $response = $this->api->batchDelete($resource, $ids);
+        return new ApiJsonModel($response, $this->getViewOptions());
+    }
+
     /**
      * Validate the API request and set global options.
      *

@@ -116,7 +116,12 @@ class ApiController extends AbstractRestfulController
     public function create($data, $fileData = [])
     {
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api->create($resource, $data, $fileData);
+        // Check if it is an array of data, so check if first key is zero,
+        // because it is the value of the first key of json-decoded array, and
+        // numeric keys are never used to store any entity in database.
+        $response = is_array($data) && key($data) === 0
+            ? $this->api->batchCreate($resource, $data, $fileData)
+            : $this->api->create($resource, $data, $fileData);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 

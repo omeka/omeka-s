@@ -400,6 +400,7 @@ class ResourceTemplateController extends AbstractActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
             if ($form->isValid()) {
+                // TODO Get data from the form for security.
                 $response = ('edit' === $action)
                     ? $this->api($form)->update('resource_templates', $resourceTemplate->id(), $data)
                     : $this->api($form)->create('resource_templates', $data);
@@ -420,6 +421,7 @@ class ResourceTemplateController extends AbstractActionController
                     $this->messenger()->addSuccess($successMessage);
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
+                $this->messenger()->addFormErrors($form);
             } else {
                 $this->messenger()->addFormErrors($form);
             }
@@ -456,18 +458,19 @@ class ResourceTemplateController extends AbstractActionController
                 $property = $this->api()->read(
                     'properties', $propertyRow['o:property']['o:id']
                 )->getContent();
-                $propertyRows[$property->id()]['o:property'] = $property;
+                $propertyRows[$key]['o:property'] = $property;
             }
         } else {
             // Set default property rows
             $propertyRows = [];
             if ('edit' == $action) {
+                /** @var \Omeka\Api\Representation\ResourceTemplateRepresentation i$resourceTemplate */
                 $resourceTemplate = $this->api()
                     ->read('resource_templates', $this->params('id'))
                     ->getContent();
                 $resTemProps = $resourceTemplate->resourceTemplateProperties();
-                foreach ($resTemProps as $key => $resTemProp) {
-                    $propertyRows[$key] = [
+                foreach ($resTemProps as $resTemProp) {
+                    $propertyRows[] = [
                         'o:property' => $resTemProp->property(),
                         'o:alternate_label' => $resTemProp->alternateLabel(),
                         'o:alternate_comment' => $resTemProp->alternateComment(),

@@ -3,6 +3,7 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 ?>
 <div class="template value" data-data-type="<?php echo $escape($this->dataType); ?>" role="group">
+    <div class="sortable-handle"></div>
     <div class="input-body"><?php echo $this->dataType()->getTemplate($dataType); ?></div>
     <div class="input-footer">
         <span class="restore-value"><?php echo $translate('Value to be removed'); ?></span>

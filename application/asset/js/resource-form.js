@@ -345,6 +345,7 @@
         field.attr('data-property-id', propertyId);
         field.attr('aria-labelledby', 'property-' + propertyId + '-label');
         $('div#properties').append(field);
+        field.trigger('o:property-added');
         return field;
     };
 

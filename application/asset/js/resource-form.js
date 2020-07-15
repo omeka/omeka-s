@@ -348,6 +348,7 @@
 
         new Sortable(field.find('.values')[0], {
             draggable: '.value',
+            handle: '.sortable-handle'
         });
 
         field.trigger('o:property-added');

@@ -113,6 +113,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 'o:resource_template' => $resourceTemplate,
                 'o:thumbnail' => $thumbnail,
                 'o:title' => $this->title(),
+                'thumbnail_display_urls' => $this->thumbnailDisplayUrls(),
             ],
             $dateTime,
             $this->getResourceJsonLd(),

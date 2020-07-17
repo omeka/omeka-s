@@ -625,16 +625,18 @@ table .icon-sortable {
     @include field-row;
 }
 
-
-.sortable-handle:before {
+.sortable-handle {
     cursor: move;
-    content: fa-content($fa-var-bars);
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    opacity: .35;
-    font-size: 1.25 * $base-font-size;
-    line-height: $base-line-height;
     margin-right: $spacing-medium;
+
+    &:before {
+        content: fa-content($fa-var-bars);
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        opacity: .35;
+        font-size: 1.25 * $base-font-size;
+        line-height: $base-line-height;
+    }
 }
 
 .o-description {
@@ -1782,6 +1784,23 @@ input[type="text"].value-language,
 
 .non-properties {
     margin-bottom: $spacing-medium;
+}
+
+.resource-form .values .sortable-handle {
+    width: $spacing-medium;
+    background-color: $gray-on-white;
+    border: 1px solid $border-gray;
+    border-radius: 2px 0 0 2px;
+    align-self: stretch;
+    border-right: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:before {
+        font-size: 10px;
+    }
 }
 
 .visibility {

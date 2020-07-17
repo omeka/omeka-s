@@ -18,17 +18,16 @@ class Thumbnail extends AbstractHtmlElement
      */
     public function __invoke(AbstractRepresentation $representation, $type, array $attribs = [])
     {
-        $thumbnail = $representation->thumbnail();
-        $primaryMedia = $representation->primaryMedia();
-        if (!$thumbnail && !$primaryMedia) {
+        $url = $representation->thumbnailDisplayUrl($type);
+        if ($url === null) {
             return '';
         }
 
-        $attribs['src'] = $thumbnail ? $thumbnail->assetUrl() : $primaryMedia->thumbnailUrl($type);
+        $attribs['src'] = $url;
 
         // Trigger attribs event
         $triggerHelper = $this->getView()->plugin('trigger');
-        $params = compact('attribs', 'thumbnail', 'primaryMedia', 'representation', 'type');
+        $params = compact('attribs', 'representation', 'type');
         $params = $triggerHelper('view_helper.thumbnail.attribs', $params, true);
         $attribs = $params['attribs'];
 

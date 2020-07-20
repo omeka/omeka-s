@@ -32,6 +32,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @var array
      */
     protected $values;
+    protected $valuesByTemplateProperty;
 
     /**
      * Get the internal members of this resource entity.
@@ -224,7 +225,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * Get all value representations of this resource, by term.
+     * Get all value representations of this resource, by term or template row.
+     *
+     * The two outputs are the same when there are no duplicated property in the
+     * template. The key for template row are "term" for the first property, then
+     * "term-ResourceTemplateProperty position" when the property is duplicated.
      *
      * <code>
      * array(
@@ -241,15 +246,21 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * )
      * </code>
      *
+     * @param $byTemplateProperty
      * @return array
      */
-    public function values()
+    public function values($byTemplateProperty = false)
     {
         if (isset($this->values)) {
-            return $this->values;
+            return $byTemplateProperty
+                ? $this->valuesByTemplateProperty
+                : $this->values;
         }
 
         $values = [];
+        $valuesByTemplateProperty = [];
+        $dataTypesByProperty = [];
+        $hasDuplicate = false;
 
         // Set the default template info one time.
         $template = $this->resourceTemplate();
@@ -257,11 +268,27 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             foreach ($template->resourceTemplateProperties() as $templateProperty) {
                 $property = $templateProperty->property();
                 $term = $property->term();
+                $dataTypes = $templateProperty->dataTypes();
+                $keyTemplateProperty = $term . '-' . $templateProperty->position();
+                // With duplicate properties, keep only the first label and
+                // comment.
+                if (isset($values[$term])) {
+                    $hasDuplicate = true;
+                    $valuesByTemplateProperty[$keyTemplateProperty] = [
+                        'property' => $property,
+                        'alternate_label' => $templateProperty->alternateLabel(),
+                        'alternate_comment' => $templateProperty->alternateComment(),
+                    ];
+                    $dataTypesByProperty[$term] += array_fill_keys($dataTypes, $keyTemplateProperty);
+                    continue;
+                }
                 $values[$term] = [
                     'property' => $property,
                     'alternate_label' => $templateProperty->alternateLabel(),
                     'alternate_comment' => $templateProperty->alternateComment(),
                 ];
+                $valuesByTemplateProperty[$term] = $values[$term];
+                $dataTypesByProperty[$term] = array_fill_keys($dataTypes, $term);
             }
         } else {
             // Force prepend title and description when there is no template.
@@ -289,16 +316,45 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         // Remove terms without values.
-        $values = array_filter($values, function ($v) {
+        $removeEmpty = function ($v) {
             return !empty($v['values']);
-        });
+        };
+        $values = array_filter($values, $removeEmpty);
 
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs(['values' => $values]);
         $eventManager->trigger('rep.resource.values', $this, $args);
 
         $this->values = $args['values'];
-        return $this->values;
+
+        // Prepare the list for template with duplicated properties after the
+        // event above.
+        // Note: duplicated properties don't have duplicated data types, so
+        // values can be remapped directly.
+        if ($template && $hasDuplicate) {
+            foreach ($this->values as $term => $data) {
+                foreach ($data['values'] as $value) {
+                    $dataType = $value->type();
+                    $keyTemplateProperty = isset($dataTypesByProperty[$term][$dataType])
+                        ? $dataTypesByProperty[$term][$dataType]
+                        : $term;
+                    if (!isset($valuesByTemplateProperty[$keyTemplateProperty]['property'])) {
+                        $valuesByTemplateProperty[$keyTemplateProperty]['property'] = $value->property();
+                        $valuesByTemplateProperty[$keyTemplateProperty]['alternate_label'] = null;
+                        $valuesByTemplateProperty[$keyTemplateProperty]['alternate_comment'] = null;
+                    }
+                    $valuesByTemplateProperty[$keyTemplateProperty]['values'][] = $value;
+                }
+            }
+            // Remove keys without values.
+            $this->valuesByTemplateProperty = array_filter($valuesByTemplateProperty, $removeEmpty);
+        } else {
+            $this->valuesByTemplateProperty = $this->values;
+        }
+
+        return $byTemplateProperty
+            ? $this->valuesByTemplateProperty
+            : $this->values;
     }
 
     /**

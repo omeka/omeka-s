@@ -17,7 +17,10 @@ if (isset($resource)) {
     // Set the logged in user's default template when adding a resource.
     $resourceTemplateSelect->setValue($this->userSetting('default_resource_template'));
 }
+
+$defaultDataTypes = $this->setting('resource_default_datatypes') ?: ['literal', 'resource', 'uri'];
 ?>
+
 <fieldset id="resource-values"
     class="section active"
     aria-labelledby="resource-values-label"
@@ -28,7 +31,7 @@ if (isset($resource)) {
         <?php endif; ?>
         <?php echo $this->formRow($resourceClassSelect); ?>
     </div>
-    <div id="properties"></div>
+    <div id="properties" data-default-data-types="<?php echo implode(',', $defaultDataTypes) ?>"></div>
     <input type="hidden" name="values_json" id="values-json">
     <?php echo $this->propertySelector(); ?>
     <button id="property-selector-button" class="mobile-only" data-watch-target="#properties"><?php echo $translate('Add property'); ?></button>

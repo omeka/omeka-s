@@ -1,17 +1,21 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+$hyperlink = $this->plugin('escapeHtmlAttr');
+$dataTypeHelper = $this->plugin('dataType');
 ?>
-<div class="template value" data-data-type="<?php echo $escape($this->dataType); ?>" role="group">
+
+<div class="template value" data-data-type="<?php echo $escape($dataType); ?>" role="group">
     <div class="sortable-handle"></div>
-    <div class="input-body"><?php echo $this->dataType()->getTemplate($dataType); ?></div>
+    <div class="input-body"><?php echo $dataTypeHelper->getTemplate($dataType); ?></div>
     <div class="input-footer">
         <span class="restore-value"><?php echo $translate('Value to be removed'); ?></span>
         <ul class="actions">
-            <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete remove-value', 'title' => $translate('Remove value')]); ?></li>
-            <li><?php echo $this->hyperlink('' , '#', ['class' => 'o-icon-undo restore-value', 'title' => $translate('Restore value')]); ?></li>
+            <li><?php echo $hyperlink('', '#', ['class' => 'o-icon-delete remove-value', 'title' => $translate('Remove value')]); ?></li>
+            <li><?php echo $hyperlink('', '#', ['class' => 'o-icon-undo restore-value', 'title' => $translate('Restore value')]); ?></li>
             <li>
-                <?php echo $this->hyperlink('' , '#', ['class' => 'value-visibility o-icon-public', 'title' => $translate('Make private'), 'aria-label' => $translate('Make private')]); ?>
+                <?php echo $hyperlink('', '#', ['class' => 'value-visibility o-icon-public', 'title' => $translate('Make private'), 'aria-label' => $translate('Make private')]); ?>
                 <input type="hidden" class="is_public">
             </li>
         </ul>

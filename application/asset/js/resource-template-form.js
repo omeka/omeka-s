@@ -54,7 +54,7 @@ propertyList.on('click', '.property-restore', function(e) {
 propertyList.on('click', '.property-edit', function(e) {
     e.preventDefault();
     var prop = $(this).closest('.property');
-    var propId = prop.data('property-id');
+    var propertyId = prop.data('property-id');
     var oriLabel = prop.find('.original-label');
     var altLabel = prop.find('.alternate-label');
     var oriComment = prop.find('.original-comment');
@@ -67,8 +67,8 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#alternate-label').val(altLabel.val());
     $('#original-comment').text(oriComment.val());
     $('#alternate-comment').val(altComment.val());
-    $('#is-title-property').prop('checked', propId == titleProperty.val());
-    $('#is-description-property').prop('checked', propId == descriptionProperty.val());
+    $('#is-title-property').prop('checked', propertyId == titleProperty.val());
+    $('#is-description-property').prop('checked', propertyId == descriptionProperty.val());
     $('#is-required').prop('checked', isRequired.val());
     $('#is-private').prop('checked', isPrivate.val());
     $('#data-type option[value="' + dataType.val() + '"]').prop('selected', true);
@@ -79,18 +79,18 @@ propertyList.on('click', '.property-edit', function(e) {
         prop.find('.alternate-label-cell').text($('#alternate-label').val());
         altComment.val($('#alternate-comment').val());
         if ($('#is-title-property').prop('checked')) {
-            titleProperty.val(propId);
+            titleProperty.val(propertyId);
             $('.title-property-cell').remove();
             prop.find('.actions').before(titlePropertyTemplate);
-        } else if (propId == titleProperty.val()) {
+        } else if (propertyId == titleProperty.val()) {
             titleProperty.val(null);
             $('.title-property-cell').remove();
         }
         if ($('#is-description-property').prop('checked')) {
-            descriptionProperty.val(propId);
+            descriptionProperty.val(propertyId);
             $('.description-property-cell').remove();
             prop.find('.actions').before(descriptionPropertyTemplate);
-        } else if (propId == descriptionProperty.val()) {
+        } else if (propertyId == descriptionProperty.val()) {
             descriptionProperty.val(null);
             $('.description-property-cell').remove();
         }

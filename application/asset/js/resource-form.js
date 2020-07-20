@@ -357,11 +357,11 @@
 
     /**
      * Rewrite a property field following the rules defined by the selected
-     * resource template.
+     * resource property template.
      */
-    var rewritePropertyField = function(template) {
+    var rewritePropertyField = function(templateProperty) {
         var properties = $('div#properties');
-        var propertyId = template['o:property']['o:id'];
+        var propertyId = templateProperty['o:property']['o:id'];
         var field = properties.find('[data-property-id="' + propertyId + '"]');
         if (field.length == 0) {
             field = makeNewField(propertyId);
@@ -371,23 +371,23 @@
         var singleSelector = field.find('div.single-selector');
         var defaultSelector = field.find('div.default-selector');
 
-        if (template['o:is_required']) {
+        if (templateProperty['o:is_required']) {
             field.addClass('required');
         }
-        if (template['o:is_private']) {
+        if (templateProperty['o:is_private']) {
             field.addClass('private');
         }
-        if (template['o:alternate_label']) {
+        if (templateProperty['o:alternate_label']) {
             var altLabel = originalLabel.clone();
             altLabel.addClass('alternate');
-            altLabel.text(template['o:alternate_label']);
+            altLabel.text(templateProperty['o:alternate_label']);
             altLabel.insertAfter(originalLabel);
             originalLabel.hide();
         }
-        if (template['o:alternate_comment']) {
+        if (templateProperty['o:alternate_comment']) {
             var altDescription = originalDescription.clone();
             altDescription.addClass('alternate');
-            altDescription.text(template['o:alternate_comment']);
+            altDescription.text(templateProperty['o:alternate_comment']);
             altDescription.insertAfter(originalDescription);
             originalDescription.hide();
         }
@@ -396,14 +396,14 @@
         field.find('.value.default-value').remove();
 
         // Change value selector and add empty value if needed.
-        if (template['o:data_type']) {
+        if (templateProperty['o:data_type']) {
             // Use the single selector if the property has a data type.
             defaultSelector.hide();
-            singleSelector.find('a.add-value.button').data('type', template['o:data_type'])
+            singleSelector.find('a.add-value.button').data('type', templateProperty['o:data_type'])
             singleSelector.show();
             // Add an empty value if none already exist in the property.
             if (!field.find('.value').length) {
-                field.find('.values').append(makeNewValue(field.data('property-term'), null, template['o:data_type']));
+                field.find('.values').append(makeNewValue(field.data('property-term'), null, templateProperty['o:data_type']));
             }
         } else {
             // Use the default selector if the property has no data type.

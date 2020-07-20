@@ -361,25 +361,25 @@ class ResourceTemplateController extends AbstractActionController
 
     public function addAction()
     {
-        return $this->getAddEditView();
+        return $this->getAddEditView(false);
     }
 
     public function editAction()
     {
-        return $this->getAddEditView();
+        return $this->getAddEditView(true);
     }
 
     /**
      * Get the add/edit view.
      *
+     * @var bool $isUpdate
      * @return ViewModel
      */
-    protected function getAddEditView()
+    protected function getAddEditView($isUpdate = false)
     {
-        $action = $this->params('action');
         $form = $this->getForm(ResourceTemplateForm::class);
 
-        if ('edit' == $action) {
+        if ($isUpdate) {
             $resourceTemplate = $this->api()
                 ->read('resource_templates', $this->params('id'))
                 ->getContent();
@@ -401,11 +401,11 @@ class ResourceTemplateController extends AbstractActionController
             $form->setData($data);
             if ($form->isValid()) {
                 // TODO Get data from the form for security.
-                $response = ('edit' === $action)
+                $response = $isUpdate
                     ? $this->api($form)->update('resource_templates', $resourceTemplate->id(), $data)
                     : $this->api($form)->create('resource_templates', $data);
                 if ($response) {
-                    if ('edit' === $action) {
+                    if ($isUpdate) {
                         $successMessage = 'Resource template successfully updated'; // @translate
                     } else {
                         $successMessage = new Message(
@@ -428,7 +428,7 @@ class ResourceTemplateController extends AbstractActionController
         }
 
         $view = new ViewModel;
-        if ('edit' === $action) {
+        if ($isUpdate) {
             $view->setVariable('resourceTemplate', $resourceTemplate);
         }
         $view->setVariable('propertyRows', $this->getPropertyRows());

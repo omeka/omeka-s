@@ -12,12 +12,14 @@ use Omeka\Entity\Resource;
 abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepresentation
 {
     /**
-     * All value representations of this resource, organized by property.
+     * All value representations of this resource, organized by property term.
      *
      * <code>
      * array(
      *   {JSON-LD term} => array(
      *     'property' => {property representation},
+     *     'alternate_label' => {label},
+     *     'alternate_comment' => {comment},
      *     'values' => {
      *       {value representation},
      *       {value representation},
@@ -30,6 +32,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @var array
      */
     protected $values;
+    protected $valuesByTemplateProperty;
 
     /**
      * Get the internal members of this resource entity.
@@ -222,7 +225,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * Get all value representations of this resource.
+     * Get all value representations of this resource, by term or template row.
+     *
+     * The two outputs are the same when there are no duplicated property in the
+     * template. The key for template row are "term" for the first property, then
+     * "term-ResourceTemplateProperty position" when the property is duplicated.
      *
      * <code>
      * array(
@@ -233,40 +240,73 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *     'values' => array(
      *       {ValueRepresentation},
      *       {ValueRepresentation},
+     *       {…},
      *     ),
      *   ),
      * )
      * </code>
      *
+     * @param $byTemplateProperty
      * @return array
      */
-    public function values()
+    public function values($byTemplateProperty = false)
     {
         if (isset($this->values)) {
-            return $this->values;
+            return $byTemplateProperty
+                ? $this->valuesByTemplateProperty
+                : $this->values;
         }
 
-        // Set the default template info.
-        $templateInfo = [
-            'dcterms:title' => [],
-            'dcterms:description' => [],
-        ];
+        $values = [];
+        $valuesByTemplateProperty = [];
+        $dataTypesByProperty = [];
+        $hasDuplicate = false;
 
+        // Set the default template info one time.
         $template = $this->resourceTemplate();
         if ($template) {
-            // Set the custom template info.
-            $templateInfo = [];
             foreach ($template->resourceTemplateProperties() as $templateProperty) {
-                $term = $templateProperty->property()->term();
-                $templateInfo[$term] = [
+                $property = $templateProperty->property();
+                $term = $property->term();
+                $dataTypes = $templateProperty->dataTypes();
+                // Manage an exception.
+                if (in_array('resource', $dataTypes)) {
+                    $dataTypes = array_unique(array_merge($dataTypes, ['resource:item', 'resource:itemset', 'resource:media']));
+                }
+                $keyTemplateProperty = $term . '-' . $templateProperty->position();
+                // With duplicate properties, keep only the first label and
+                // comment.
+                if (isset($values[$term])) {
+                    $hasDuplicate = true;
+                    $valuesByTemplateProperty[$keyTemplateProperty] = [
+                        'property' => $property,
+                        'alternate_label' => $templateProperty->alternateLabel(),
+                        'alternate_comment' => $templateProperty->alternateComment(),
+                    ];
+                    $dataTypesByProperty[$term] += empty($dataTypes)
+                        ? ['default' => $keyTemplateProperty]
+                        : array_fill_keys($dataTypes, $keyTemplateProperty);
+                    continue;
+                }
+                $values[$term] = [
+                    'property' => $property,
                     'alternate_label' => $templateProperty->alternateLabel(),
                     'alternate_comment' => $templateProperty->alternateComment(),
                 ];
+                $valuesByTemplateProperty[$term] = $values[$term];
+                $dataTypesByProperty[$term] = empty($dataTypes)
+                    ? ['default' => $term]
+                    : array_fill_keys($dataTypes, $term);
             }
+        } else {
+            // Force prepend title and description when there is no template.
+            $values = [
+                'dcterms:title' => [],
+                'dcterms:description' => [],
+            ];
         }
 
         // Get this resource's values.
-        $values = [];
         foreach ($this->resource->getValues() as $valueEntity) {
             $value = new ValueRepresentation($valueEntity, $this->getServiceLocator());
             if ($value->isHidden()) {
@@ -283,25 +323,50 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $values[$term]['values'][] = $value;
         }
 
-        // Order this resource's properties according to the template order.
-        $sortedValues = [];
-        foreach ($values as $term => $valueInfo) {
-            foreach ($templateInfo as $templateTerm => $templateAlternates) {
-                if (array_key_exists($templateTerm, $values)) {
-                    $sortedValues[$templateTerm] =
-                        array_merge($values[$templateTerm], $templateAlternates);
-                }
-            }
-        }
-
-        $values = $sortedValues + $values;
+        // Remove terms without values.
+        $removeEmpty = function ($v) {
+            return !empty($v['values']);
+        };
+        $values = array_filter($values, $removeEmpty);
 
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs(['values' => $values]);
         $eventManager->trigger('rep.resource.values', $this, $args);
 
         $this->values = $args['values'];
-        return $this->values;
+
+        // Prepare the list for template with duplicated properties after the
+        // event above.
+        // Note: duplicated properties don't have duplicated data types, so
+        // values can be remapped directly.
+        if ($template && $hasDuplicate) {
+            foreach ($this->values as $term => $data) {
+                foreach ($data['values'] as $value) {
+                    $dataType = $value->type();
+                    if (isset($dataTypesByProperty[$term][$dataType])) {
+                        $keyTemplateProperty = $dataTypesByProperty[$term][$dataType];
+                    } elseif (isset($dataTypesByProperty[$term]['default'])) {
+                        $keyTemplateProperty = $dataTypesByProperty[$term]['default'];
+                    } else {
+                        $keyTemplateProperty = $term;
+                    }
+                    if (!isset($valuesByTemplateProperty[$keyTemplateProperty]['property'])) {
+                        $valuesByTemplateProperty[$keyTemplateProperty]['property'] = $value->property();
+                        $valuesByTemplateProperty[$keyTemplateProperty]['alternate_label'] = null;
+                        $valuesByTemplateProperty[$keyTemplateProperty]['alternate_comment'] = null;
+                    }
+                    $valuesByTemplateProperty[$keyTemplateProperty]['values'][] = $value;
+                }
+            }
+            // Remove keys without values.
+            $this->valuesByTemplateProperty = array_filter($valuesByTemplateProperty, $removeEmpty);
+        } else {
+            $this->valuesByTemplateProperty = $this->values;
+        }
+
+        return $byTemplateProperty
+            ? $this->valuesByTemplateProperty
+            : $this->values;
     }
 
     /**
@@ -309,7 +374,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @param string $term The prefix:local_part
      * @param array $options
-     * - type: (null) Get values of this type only. Valid types are "literal",
+     * - type: (null) Get values of this type only. Default types are "literal",
      *   "uri", and "resource". Returns all types by default.
      * - all: (false) If true, returns all values that match criteria. If false,
      *   returns the first matching value.
@@ -322,18 +387,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function value($term, array $options = [])
     {
         // Set defaults.
-        if (!isset($options['type'])) {
-            $options['type'] = null;
-        }
-        if (!isset($options['all'])) {
-            $options['all'] = false;
-        }
-        if (!isset($options['default'])) {
-            $options['default'] = $options['all'] ? [] : null;
-        }
-        if (!isset($options['lang'])) {
-            $options['lang'] = null;
-        }
+        $options += [
+            'type' => null,
+            'all' => false,
+            'default' => isset($options['all']) ? [] : null,
+            'lang' => null,
+        ];
 
         if (!$this->getAdapter()->isTerm($term)) {
             return $options['default'];
@@ -449,14 +508,14 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $partial = $this->getViewHelper('partial');
 
         $eventManager = $this->getEventManager();
-        $args = $eventManager->prepareArgs(['values' => $this->values()]);
+        $args = $eventManager->prepareArgs(['values' => $this->values(true)]);
         $eventManager->trigger('rep.resource.display_values', $this, $args);
         $options['values'] = $args['values'];
 
         $template = $this->resourceTemplate();
-        if ($template) {
-            $options['templateProperties'] = $template->resourceTemplateProperties();
-        }
+        $options['templateProperties'] = $template
+            ? $template->resourceTemplateProperties()
+            : [];
 
         return $partial($options['viewName'], $options);
     }

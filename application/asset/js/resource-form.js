@@ -241,7 +241,8 @@
         if (!dataType || typeof dataType !== 'string') {
             dataType = valueObj ? valueObj['type'] : '';
         }
-        var field = $('.resource-values.field[data-property-term="' + term + '"]' + (dataType ? '[data-data-type="' + dataType + '"]' : ''));
+        // In form resource fields, data-types is plural, but in template and value, it is singular. The button uses "type".
+        var field = $('.resource-values.field[data-property-term="' + term + '"]' + (dataType ? '[data-data-types="' + dataType + '"]' : ''));
         var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
 
@@ -482,7 +483,7 @@
     var prepareMultipleSelector = function(dataTypes) {
         var html = '';
         dataTypes.forEach(function(dataType) {
-            var dataTypeTemplate = $('.template.value[data-data-type=' + dataType + ']');
+            var dataTypeTemplate = $('.template.value[data-data-type="' + dataType + '"]');
             var label = dataTypeTemplate.data('data-type-label') ? dataTypeTemplate.data('data-type-label') : Omeka.jsTranslate('Add value');
             var icon = dataTypeTemplate.data('data-type-icon') ? dataTypeTemplate.data('data-type-icon') : dataType.substring(0, (dataType + ':').indexOf(':'));
             html += dataTypeTemplate.data('data-type-button')
@@ -555,7 +556,7 @@
 
                 // Property fields that are not defined by the template should
                 // use the default selector and should be merged.
-                var otherFields = $('#properties .resource-values').filter('[data-template-id!=' + templateId + ']');
+                var otherFields = $('#properties .resource-values').filter('[data-template-id!="' + templateId + '"]');
                 otherFields.data('template-id', '');
                 otherFields.attr('template-id', '');
                 otherFields.find('div.multiple-selector').hide();
@@ -565,8 +566,8 @@
                 otherFields.each(function() {
                     var propertyId = $(this).attr('data-property-id');
                     // Deduplicate only first properties, that are not already processed.
-                    if ($(this).prevAll('[data-template-id!=' + templateId + '][data-property-id="' + propertyId + '"]').length < 1) {
-                        var duplicatedFields = $('div#properties').find('[data-template-id!=' + templateId + '][data-property-id="' + propertyId + '"]');
+                    if ($(this).prevAll('[data-template-id!="' + templateId + '"][data-property-id="' + propertyId + '"]').length < 1) {
+                        var duplicatedFields = $('div#properties').find('[data-template-id!="' + templateId + '"][data-property-id="' + propertyId + '"]');
                         var duplicatedFieldFirst = duplicatedFields.first();
                         duplicatedFields.each(function(index) {
                             if (index > 0) {
@@ -595,16 +596,16 @@
                             dataTypesByProperty[propertyId][dataType] = dataTypes.join(',');
                         });
                     });
-                    propertyValues.filter('[data-template-id!=' + templateId + ']').each(function() {
+                    propertyValues.filter('[data-template-id!="' + templateId + '"]').each(function() {
                         var propertyId = $(this).attr('data-property-id');
-                        var templateFields = $('#properties .resource-values').filter('[data-template-id!=' + templateId + ']');
+                        var templateFields = $('#properties .resource-values').filter('[data-template-id!="' + templateId + '"]');
                         if (!dataTypesByProperty.hasOwnProperty(propertyId) || templateFields.length < 1 || $(this).find('.inputs .values > .value').length < 1) {
                             return;
                         }
                         $(this).find('.inputs .values > .value').each(function() {
                             var valueDataType = $(this).data('data-type');
                             if (dataTypesByProperty[propertyId].hasOwnProperty(valueDataType)) {
-                                propertyValues.filter('[data-property-id=' + propertyId + '][data-data-types="' + dataTypesByProperty[propertyId][valueDataType] + '"]')
+                                propertyValues.filter('[data-property-id="' + propertyId + '"][data-data-types="' + dataTypesByProperty[propertyId][valueDataType] + '"]')
                                     .find('.inputs .values')
                                     .append($(this));
                             }

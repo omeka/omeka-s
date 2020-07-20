@@ -1,8 +1,15 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+
+$icons = [
+    'resource:item' => 'items',
+    'resource:itemset' => 'item-sets',
+    'resource:media' => 'media',
+];
 ?>
-<div class="template value" data-data-type="<?php echo $escape($this->dataType); ?>" role="group">
+
+<div class="template value" data-data-type="<?php echo $escape($dataType); ?>" data-data-type-label="<?php echo $dataType === 'resource' ? $escape($translate('Omeka resource')) : $escape($translate($this->dataType()->getLabel($dataType))); ?>" data-data-type-icon="<?php echo in_array($dataType, $icons) ? $icons[$dataType] : '' ?>" role="group">
     <div class="sortable-handle"></div>
     <div class="input-body"><?php echo $this->dataType()->getTemplate($dataType); ?></div>
     <div class="input-footer">

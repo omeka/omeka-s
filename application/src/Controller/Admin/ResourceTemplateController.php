@@ -535,7 +535,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:property' => $resTemProp->property(),
                         'o:alternate_label' => $resTemProp->alternateLabel(),
                         'o:alternate_comment' => $resTemProp->alternateComment(),
-                        'o:data_type' => $resTemProp->dataType(),
+                        'o:data_type' => $resTemProp->dataTypes(),
                         'o:is_required' => $resTemProp->isRequired(),
                         'o:is_private' => $resTemProp->isPrivate(),
                     ];

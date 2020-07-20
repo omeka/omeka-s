@@ -5,6 +5,7 @@ $property = $propertyRow['o:property'];
 $namePrefix = 'o:resource_template_property[' . $property->id() . ']';
 $propertyId = $escape($property->id());
 ?>
+
 <li class="property row" data-property-id="<?php echo $propertyId; ?>">
 
     <input class="property-id" type="hidden" name="<?php echo $escape($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escape($property->id()); ?>">
@@ -14,7 +15,7 @@ $propertyId = $escape($property->id());
     <input class="alternate-comment" type="hidden" name="<?php echo $escape($namePrefix . '[o:alternate_comment]'); ?>" value="<?php echo $escape($propertyRow['o:alternate_comment']); ?>">
     <input class="is-required" type="hidden" name="<?php echo $escape($namePrefix . '[o:is_required]'); ?>" value="<?php echo $escape($propertyRow['o:is_required']); ?>">
     <input class="is-private" type="hidden" name="<?php echo $escape($namePrefix . '[o:is_private]'); ?>" value="<?php echo $escape($propertyRow['o:is_private']); ?>">
-    <input class="data-type" type="hidden" name="<?php echo $escape($namePrefix . '[o:data_type]'); ?>" value="<?php echo $escape($propertyRow['o:data_type']); ?>">
+    <input class="data-type" type="hidden" name="<?php echo $escape($namePrefix . '[o:data_type][]'); ?>" value="<?php echo is_array($propertyRow['o:data_type']) ? $escape(implode(',', $propertyRow['o:data_type'])) : $propertyRow['o:data_type']; ?>">
 
     <span class="sortable-handle"></span>
     <span class="original-label-cell"><?php echo $escape($translate($property->label())); ?></span>

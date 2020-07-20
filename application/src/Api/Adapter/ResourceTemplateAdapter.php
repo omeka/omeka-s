@@ -96,6 +96,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
+        /** @var \Omeka\Entity\ResourceTemplate $entity */
         $data = $request->getContent();
         $this->hydrateOwner($request, $entity);
         $this->hydrateResourceClass($request, $entity);
@@ -142,13 +143,14 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $propertyAdapter = $this->getAdapter('properties');
             $resTemProps = $entity->getResourceTemplateProperties();
             $resTemPropsToRetain = [];
+            // Position is one-based.
             $position = 1;
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
-                if (!isset($resTemPropData['o:property']['o:id'])) {
+                if (empty($resTemPropData['o:property']['o:id'])) {
                     continue; // skip when no property ID
                 }
 
-                $propertyId = $resTemPropData['o:property']['o:id'];
+                $propertyId = (int) $resTemPropData['o:property']['o:id'];
                 $altLabel = null;
                 if (isset($resTemPropData['o:alternate_label'])
                     && '' !== trim($resTemPropData['o:alternate_label'])
@@ -161,11 +163,9 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 ) {
                     $altComment = $resTemPropData['o:alternate_comment'];
                 }
-                $dataType = null;
-                if (isset($resTemPropData['o:data_type'])
-                    && '' !== trim($resTemPropData['o:data_type'])
-                ) {
-                    $dataType = $resTemPropData['o:data_type'];
+                $dataTypes = null;
+                if (!empty($resTemPropData['o:data_type'])) {
+                    $dataTypes = array_values(array_unique(array_filter(array_map('trim', $resTemPropData['o:data_type']))));
                 }
                 $isRequired = false;
                 if (isset($resTemPropData['o:is_required'])) {
@@ -191,7 +191,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 }
                 $resTemProp->setAlternateLabel($altLabel);
                 $resTemProp->setAlternateComment($altComment);
-                $resTemProp->setDataType($dataType);
+                $resTemProp->setDataType($dataTypes);
                 $resTemProp->setIsRequired($isRequired);
                 $resTemProp->setIsPrivate($isPrivate);
                 // Set the position of the property to its intrinsic order

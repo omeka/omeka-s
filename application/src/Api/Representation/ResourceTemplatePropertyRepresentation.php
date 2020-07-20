@@ -109,6 +109,22 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     }
 
     /**
+     * @return array List of data type names and labels.
+     */
+    public function dataTypeLabels()
+    {
+        $result = [];
+        $dataTypeManager = $this->getServiceLocator()->get('Omeka\DataTypeManager');
+        foreach ($this->dataTypes() as $dataType) {
+            $result[] = [
+                'name' => $dataType,
+                'label' => $dataTypeManager->get($dataType)->getLabel(),
+            ];
+        }
+        return $result;
+    }
+
+    /**
      * @return bool
      */
     public function isRequired()

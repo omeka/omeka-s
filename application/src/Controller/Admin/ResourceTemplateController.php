@@ -5,6 +5,7 @@ use Omeka\DataType\Manager as DataTypeManager;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceTemplateForm;
 use Omeka\Form\ResourceTemplateImportForm;
+use Omeka\Form\ResourceTemplatePropertyFieldset;
 use Omeka\Form\ResourceTemplateReviewImportForm;
 use Omeka\Mvc\Exception\NotFoundException;
 use Omeka\Stdlib\Message;
@@ -79,7 +80,7 @@ class ResourceTemplateController extends AbstractActionController
                     }
                 } else {
                     // Process review import form.
-                    $import = json_decode($this->params()->fromPost('import'), true);
+                    $import = json_decode($form->getData()['import'], true);
                     $dataTypes = $this->params()->fromPost('data_types', []);
 
                     $import['o:label'] = $this->params()->fromPost('label');
@@ -120,6 +121,8 @@ class ResourceTemplateController extends AbstractActionController
      * [o:property][o:id]. We flag a valid data type by adding [o:data_type] to
      * the property. By design, the API will only hydrate members and data types
      * that are flagged as valid.
+     *
+     * @todo Manage direct import of data types from Value Suggest and other modules.
      *
      * @param array $import
      * @return array
@@ -361,50 +364,62 @@ class ResourceTemplateController extends AbstractActionController
 
     public function addAction()
     {
-        return $this->getAddEditView();
+        return $this->getAddEditView(false);
     }
 
     public function editAction()
     {
-        return $this->getAddEditView();
+        return $this->getAddEditView(true);
     }
 
     /**
      * Get the add/edit view.
      *
+     * @var bool $isUpdate
      * @return ViewModel
      */
-    protected function getAddEditView()
+    protected function getAddEditView($isUpdate = false)
     {
-        $action = $this->params('action');
+        /**
+         * @var \Omeka\Form\ResourceTemplateForm$form
+         * @var \Omeka\Form\ResourceTemplatePropertyFieldset $rowSettingsFieldset
+         */
         $form = $this->getForm(ResourceTemplateForm::class);
+        $propertyFieldset = $this->getForm(ResourceTemplatePropertyFieldset::class);
 
-        if ('edit' == $action) {
+        $isPost = $this->getRequest()->isPost();
+        if ($isUpdate) {
             $resourceTemplate = $this->api()
                 ->read('resource_templates', $this->params('id'))
                 ->getContent();
-            $data = $resourceTemplate->jsonSerialize();
-            if ($data['o:resource_class']) {
-                $data['o:resource_class[o:id]'] = $data['o:resource_class']->id();
+            if (!$isPost) {
+                // Recursive conversion into a json array.
+                $data = json_decode(json_encode($resourceTemplate), true);
+                $data = $this->fixDataArray($data);
+                $form->setData($data);
             }
-            if ($data['o:title_property']) {
-                $data['o:title_property[o:id]'] = $data['o:title_property']->id();
-            }
-            if ($data['o:description_property']) {
-                $data['o:description_property[o:id]'] = $data['o:description_property']->id();
-            }
+        } elseif (!$isPost) {
+            $data = $this->getDefaultResourceTemplate();
+            $data = $this->fixDataArray($data);
             $form->setData($data);
         }
 
-        if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
-            $form->setData($data);
+        if ($isPost) {
+            $post = $this->params()->fromPost();
+            // For an undetermined reason, the fieldset "o:settings" inside the
+            // collection is not validated. So elements should be attached to
+            // the property fieldset with attribute "data-setting-key", so then
+            // can be moved in "o:settings" after automatic filter and validation.
+            $post = $this->fixPostArray($post);
+            $post = $this->fixDataArray($post);
+            $form->setData($post);
             if ($form->isValid()) {
-                $response = ('edit' === $action)
+                $data = $this->fixDataPostArray($form->getData());
+                $response = $isUpdate
                     ? $this->api($form)->update('resource_templates', $resourceTemplate->id(), $data)
                     : $this->api($form)->create('resource_templates', $data);
                 if ($response) {
-                    if ('edit' === $action) {
+                    if ($isUpdate) {
                         $successMessage = 'Resource template successfully updated'; // @translate
                     } else {
                         $successMessage = new Message(
@@ -420,96 +435,122 @@ class ResourceTemplateController extends AbstractActionController
                     $this->messenger()->addSuccess($successMessage);
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
+                $this->messenger()->addFormErrors($form);
             } else {
                 $this->messenger()->addFormErrors($form);
             }
         }
 
-        $view = new ViewModel;
-        if ('edit' === $action) {
-            $view->setVariable('resourceTemplate', $resourceTemplate);
+        return new ViewModel([
+            'resourceTemplate' => $isUpdate ? $resourceTemplate : null,
+            'form' => $form,
+            'propertyFieldset' => $propertyFieldset,
+        ]);
+    }
+
+    protected function fixDataArray(array $data)
+    {
+        if (!empty($data['o:resource_class'])) {
+            $data['o:resource_class[o:id]'] = $data['o:resource_class']['o:id'];
         }
-        $view->setVariable('propertyRows', $this->getPropertyRows());
-        $view->setVariable('form', $form);
-        return $view;
+        if (!empty($data['o:title_property'])) {
+            $data['o:title_property[o:id]'] = $data['o:title_property']['o:id'];
+        }
+        if (!empty($data['o:description_property'])) {
+            $data['o:description_property[o:id]'] = $data['o:description_property']['o:id'];
+        }
+        foreach ($data['o:resource_template_property'] as $key => $value) {
+            $data['o:resource_template_property'][$key]['o:property[o:id]'] = $value['o:property']['o:id'];
+            unset($data['o:resource_template_property'][$key]['o:property[o:id']);
+            if (!empty($value['o:settings'])) {
+                $data['o:resource_template_property'][$key] = array_merge($data['o:resource_template_property'][$key], $value['o:settings']);
+            }
+        }
+        return $data;
+    }
+
+    protected function fixPostArray(array $post)
+    {
+        $post['o:resource_template_property'] = array_values($post['o:resource_template_property']);
+        foreach ($post['o:resource_template_property'] as $key => $value) {
+            if (empty($value['o:property[o:id'])) {
+                unset($post['o:resource_template_property'][$key]);
+                continue;
+            }
+            $post['o:resource_template_property'][$key]['o:property']['o:id'] = $value['o:property[o:id'];
+            // Kept to manage issues.
+            $post['o:resource_template_property'][$key]['o:property[o:id]'] = $value['o:property[o:id'];
+            unset($post['o:resource_template_property'][$key]['o:property[o:id']);
+            if (!empty($value['o:settings'])) {
+                $post['o:resource_template_property'][$key] = array_merge($post['o:resource_template_property'][$key], $value['o:settings']);
+            }
+        }
+        return $post;
+    }
+
+    protected function fixDataPostArray(array $data)
+    {
+        $propertyFieldset = $this->getForm(ResourceTemplatePropertyFieldset::class);
+        $settingKeys = [];
+        foreach ($propertyFieldset->getElements() as $element) {
+            $settingKey = $element->getAttribute('data-setting-key');
+            if ($settingKey) {
+                $settingKeys[$element->getName()] = $settingKey;
+            }
+        }
+        // Move settings into o:settings and remove empty settings.
+        $data += [
+            'o:resource_class' => empty($data['o:resource_class[o:id]']) ? null : ['o:id' => (int) $data['o:resource_class[o:id]']],
+            'o:title_property' => empty($data['o:title_property[o:id]']) ? null : ['o:id' => (int) $data['o:title_property[o:id]']],
+            'o:description_property' => empty($data['o:description_property[o:id]']) ? null : ['o:id' => (int) $data['o:description_property[o:id]']],
+        ];
+        unset($data['o:resource_class[o:id]'], $data['o:title_property[o:id]'], $data['o:description_property[o:id]'], $data['csrf']);
+        foreach ($data['o:resource_template_property'] as $key => $value) {
+            $data['o:resource_template_property'][$key]['o:property']['o:id'] = $data['o:resource_template_property'][$key]['o:property[o:id]'];
+            unset($data['o:resource_template_property'][$key]['o:property[o:id]']);
+            $data['o:resource_template_property'][$key]['o:settings'] = array_filter(array_intersect_key($value, $settingKeys), function ($v) {
+                return is_string($v) ? strlen(trim($v)) : !empty($v);
+            });
+            $data['o:resource_template_property'][$key] = array_diff_key($data['o:resource_template_property'][$key], $settingKeys);
+        }
+        return $data;
     }
 
     /**
-     * Get the property rows for the add/edit form.
+     * Get the default resource template.
      *
      * @return array
      */
-    protected function getPropertyRows()
+    protected function getDefaultResourceTemplate()
     {
-        $action = $this->params('action');
+        $resourceTemplate = [
+            'o:label' => '',
+            'o:owner' => ['o:id' => $this->identity()->getId()],
+            'o:resource_class' => null,
+            'o:title_property' => null,
+            'o:description_property' => null,
+            'o:settings' => [],
+            'o:resource_template_property' => [],
+        ];
 
-        if ($this->getRequest()->isPost()) {
-            // Set POSTed property rows
-            $data = $this->params()->fromPost();
-            $propertyRows = $data['o:resource_template_property'];
-            foreach ($propertyRows as $key => $propertyRow) {
-                if (!isset($propertyRow['o:property']['o:id'])) {
-                    // No property ID indicates that the property was removed.
-                    unset($propertyRows[$key]);
-                    continue;
-                }
-                $property = $this->api()->read(
-                    'properties', $propertyRow['o:property']['o:id']
-                )->getContent();
-                $propertyRows[$property->id()]['o:property'] = $property;
-            }
-        } else {
-            // Set default property rows
-            $propertyRows = [];
-            if ('edit' == $action) {
-                $resourceTemplate = $this->api()
-                    ->read('resource_templates', $this->params('id'))
-                    ->getContent();
-                $resTemProps = $resourceTemplate->resourceTemplateProperties();
-                foreach ($resTemProps as $key => $resTemProp) {
-                    $propertyRows[$key] = [
-                        'o:property' => $resTemProp->property(),
-                        'o:alternate_label' => $resTemProp->alternateLabel(),
-                        'o:alternate_comment' => $resTemProp->alternateComment(),
-                        'o:data_type' => $resTemProp->dataType(),
-                        'o:is_required' => $resTemProp->isRequired(),
-                        'o:is_private' => $resTemProp->isPrivate(),
-                        'o:settings' => $resTemProp->settings(),
-                    ];
-                }
-            } else {
-                // For the add action, dcterms:title and dcterms:description are
-                // the only default property rows.
-                $titleProperty = $this->api()->searchOne(
-                    'properties', ['term' => 'dcterms:title']
-                )->getContent();
-                $descriptionProperty = $this->api()->searchOne(
-                    'properties', ['term' => 'dcterms:description']
-                )->getContent();
-                $propertyRows = [
-                    [
-                        'o:property' => $titleProperty,
-                        'o:alternate_label' => null,
-                        'o:alternate_comment' => null,
-                        'o:data_type' => null,
-                        'o:is_required' => false,
-                        'o:is_private' => false,
-                        'o:settings' => [],
-                    ],
-                    [
-                        'o:property' => $descriptionProperty,
-                        'o:alternate_label' => null,
-                        'o:alternate_comment' => null,
-                        'o:data_type' => null,
-                        'o:is_required' => false,
-                        'o:is_private' => false,
-                        'o:settings' => [],
-                    ],
-                ];
-            }
+        $defaultProperties = ['dcterms:title', 'dcterms:description'];
+        foreach ($defaultProperties as $property) {
+            $property = $this->api()->searchOne(
+                'properties', ['term' => $property]
+            )->getContent();
+            // In a Collection, "false" is not allowed for a checkbox, etc, except with input filter.
+            $resourceTemplate['o:resource_template_property'][] = [
+                'o:property' => ['o:id' => $property->id()],
+                'o:alternate_label' => '',
+                'o:alternate_comment' => '',
+                'o:data_type' => '',
+                'o:is_required' => 0,
+                'o:is_private' => 0,
+                'o:settings' => [],
+            ];
         }
 
-        return $propertyRows;
+        return $resourceTemplate;
     }
 
     /**
@@ -524,20 +565,26 @@ class ResourceTemplateController extends AbstractActionController
         $property = $this->api()
             ->read('properties', $this->params()->fromQuery('property_id'))
             ->getContent();
-        $propertyRow = [
-            'o:property' => $property,
-            'o:alternate_label' => null,
-            'o:alternate_comment' => null,
-            'o:data_type' => null,
-            'o:is_required' => false,
-            'o:is_private' => false,
-            'o:settings' => [],
-        ];
 
-        $view = new ViewModel;
-        $view->setTerminal(true);
-        $view->setTemplate('omeka/admin/resource-template/show-property-row');
-        $view->setVariable('propertyRow', $propertyRow);
-        return $view;
+        $propertyFieldset = $this->getForm(\Omeka\Form\ResourceTemplatePropertyFieldset::class);
+        $propertyFieldset->get('o:property[o:id]')->setValue($property->id());
+
+        $namePrefix = 'o:resource_template_property[' . rand(PHP_INT_MAX / 1000000, PHP_INT_MAX) . ']';
+        $propertyFieldset->setName($namePrefix);
+        foreach ($propertyFieldset->getElements()  as $element) {
+            $element->setName($namePrefix . '[' . $element->getName() . ']');
+        }
+        foreach ($propertyFieldset->getFieldsets()  as $fieldset) {
+            $fieldset->setName($namePrefix . '[' . $fieldset->getName() . ']');
+        }
+
+        $view = new ViewModel([
+            'property' => $property,
+            'resourceTemplate' => null,
+            'propertyFieldset' => $propertyFieldset,
+        ]);
+        return $view
+            ->setTerminal(true)
+            ->setTemplate('omeka/admin/resource-template/show-property-row');
     }
 }

@@ -28,7 +28,7 @@ if (isset($resource)) {
         <?php endif; ?>
         <?php echo $this->formRow($resourceClassSelect); ?>
     </div>
-    <div id="properties"></div>
+    <div id="properties" data-default-data-types="literal,resource,uri"></div>
     <input type="hidden" name="values_json" id="values-json">
     <?php echo $this->propertySelector(); ?>
     <button id="property-selector-button" class="mobile-only" data-watch-target="#properties"><?php echo $translate('Add property'); ?></button>

@@ -67,7 +67,7 @@ propertyList.on('click', '.property-edit', function(e) {
     var altComment = prop.find('[data-property-key="o:alternate_comment"]');
     var isRequired = prop.find('[data-property-key="o:is_required"]');
     var isPrivate = prop.find('[data-property-key="o:is_private"]');
-    var dataType = prop.find('[data-property-key="o:data_type"]');
+    var dataTypes = prop.find('[data-property-key="o:data_type"]');
     var settings = {};
     prop.find('[data-setting-key]').each(function(index, hiddenElement) {
         settings[index] = $(hiddenElement);
@@ -82,7 +82,7 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#edit-sidebar #is-description-property').prop('checked', propertyId == descriptionProperty.val());
     $('#edit-sidebar #is-required').prop('checked', isRequired.prop('checked'));
     $('#edit-sidebar #is-private').prop('checked', isPrivate.prop('checked'));
-    $('#edit-sidebar #data-type option[value="' + dataType.val() + '"]').prop('selected', true);
+    $('#edit-sidebar #data-type').val(dataTypes.val().replace(/^,+|,+$/g, '').split(','));
     $('#edit-sidebar #data-type').trigger('chosen:updated');
     $.each(settings, function(index, hiddenElement) {
         var settingKey = hiddenElement.data('setting-key');
@@ -124,7 +124,7 @@ propertyList.on('click', '.property-edit', function(e) {
         }
         isRequired.prop('checked', $('#edit-sidebar #is-required').prop('checked'));
         isPrivate.prop('checked', $('#edit-sidebar #is-private').prop('checked'));
-        dataType.val($('#data-type').val());
+        dataTypes.val($('#edit-sidebar #data-type').val());
         // New fields are not yet stored in the row.
         $('#edit-sidebar [data-setting-key]').each(function(index, sidebarElement) {
             sidebarElement = $(sidebarElement);

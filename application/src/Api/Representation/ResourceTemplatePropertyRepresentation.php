@@ -31,7 +31,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
             'o:property' => $this->property()->getReference(),
             'o:alternate_label' => $this->alternateLabel(),
             'o:alternate_comment' => $this->alternateComment(),
-            'o:data_type' => $this->dataType(),
+            'o:data_type' => $this->dataTypes(),
             'o:is_required' => $this->isRequired(),
             'o:is_private' => $this->isPrivate(),
         ];
@@ -85,14 +85,46 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     public function dataType()
     {
         // Check the data type against the list of registered data types.
-        $dataType = $this->templateProperty->getDataType();
-        try {
-            $this->getServiceLocator()->get('Omeka\DataTypeManager')->get($dataType);
-        } catch (ServiceNotFoundException $e) {
-            // Treat an unknown data type as "Default"
-            $dataType = null;
+        $dataTypes = $this->templateProperty->getDataType();
+        if (empty($dataTypes)) {
+            return null;
         }
-        return $dataType;
+        if (!is_array($dataTypes)) {
+            $dataTypes = explode("\n", $dataTypes);
+        }
+        $dataType = reset($dataTypes);
+        try {
+            return $this->getServiceLocator()->get('Omeka\DataTypeManager')->get($dataType);
+        } catch (ServiceNotFoundException $e) {
+            // Treat an unknown data type as "Default".
+            return null;
+        }
+    }
+
+    /**
+     * @return string[]
+     */
+    public function dataTypes()
+    {
+        // Check the data type against the list of registered data types.
+        $dataTypes = $this->templateProperty->getDataType();
+        if (empty($dataTypes)) {
+            return [];
+        }
+        if (!is_array($dataTypes)) {
+            $dataTypes = explode("\n", $dataTypes);
+        }
+        $dataTypeManager = $this->getServiceLocator()->get('Omeka\DataTypeManager');
+        $result = [];
+        foreach ($dataTypes as $dataType) {
+            try {
+                $dataTypeManager->get($dataType);
+                $result[] = $dataType;
+            } catch (ServiceNotFoundException $e) {
+                // Treat an unknown data type as "Default".
+            }
+        }
+        return $result;
     }
 
     /**
@@ -106,6 +138,20 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
         }
         return $this->getServiceLocator()->get('Omeka\DataTypeManager')
             ->get($dataType)->getLabel();
+    }
+
+    /**
+     * @return array Associative array of data type names and labels.
+     */
+    public function dataTypeLabels()
+    {
+        $dataTypes = $this->dataTypes();
+        $dataTypes = array_flip($dataTypes);
+        $dataTypeManager = $this->getServiceLocator()->get('Omeka\DataTypeManager');
+        foreach (array_keys($dataTypes) as $dataType) {
+            $dataTypes[$dataType] = $dataTypeManager->get($dataType)->getLabel();
+        }
+        return $dataTypes;
     }
 
     /**

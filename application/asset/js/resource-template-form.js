@@ -66,7 +66,7 @@ propertyList.on('click', '.property-edit', function(e) {
     var altComment = prop.find('.alternate-comment');
     var isRequired = prop.find('.is-required');
     var isPrivate = prop.find('.is-private');
-    var dataType = prop.find('.data-type');
+    var dataTypes = prop.find('.data-type');
 
     $('#original-label').text(oriLabel.val());
     $('#alternate-label').val(altLabel.val());
@@ -76,7 +76,7 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#is-description-property').prop('checked', propertyId == descriptionProperty.val());
     $('#is-required').prop('checked', isRequired.val());
     $('#is-private').prop('checked', isPrivate.val());
-    $('#data-type option[value="' + dataType.val() + '"]').prop('selected', true);
+    $('#data-type').val(dataTypes.val().split(','));
     $('#data-type').trigger('chosen:updated');
 
     $('#set-changes').off('click.setchanges').on('click.setchanges', function(e) {
@@ -102,7 +102,7 @@ propertyList.on('click', '.property-edit', function(e) {
         }
         $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
         $('#is-private').prop('checked') ? isPrivate.val(1) : isPrivate.val(null);
-        dataType.val($('#data-type').val());
+        dataTypes.val($('#data-type').val());
         Omeka.closeSidebar($('#edit-sidebar'));
     });
 

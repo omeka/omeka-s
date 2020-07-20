@@ -60,23 +60,26 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     {
         $data = $request->getContent();
 
-        // A resource template may not have duplicate properties.
+        // A resource template may not have duplicate properties with the same
+        // data type.
         if (isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
         ) {
-            $propertyIds = [];
+            $checks = [];
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
                 if (!isset($resTemPropData['o:property']['o:id'])) {
                     continue; // skip when no property ID
                 }
                 $propertyId = $resTemPropData['o:property']['o:id'];
-                if (in_array($propertyId, $propertyIds)) {
+                $dataType = isset($resTemPropData['o:data_type']) ? $resTemPropData['o:data_type'] : '';
+                $check = $propertyId . '-' . $dataType;
+                if (in_array($check, $checks)) {
                     $errorStore->addError('o:property', new Message(
-                        'Attempting to add duplicate property with ID %s', // @translate
-                        $propertyId
+                        'Attempting to add duplicate property %s (ID %s) with the same data type', // @translate
+                        @$resTemPropData['o:original_label'], $propertyId
                     ));
                 }
-                $propertyIds[] = $propertyId;
+                $checks[] = $check;
             }
         }
     }
@@ -96,6 +99,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
+        /** @var \Omeka\Entity\ResourceTemplate $entity */
         $data = $request->getContent();
         $this->hydrateOwner($request, $entity);
         $this->hydrateResourceClass($request, $entity);
@@ -128,27 +132,23 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             && isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
         ) {
-
-            // Get a resource template property by property ID.
-            $getResTemProp = function ($propertyId, $resTemProps) {
-                foreach ($resTemProps as $resTemProp) {
-                    if ($propertyId == $resTemProp->getProperty()->getId()) {
-                        return $resTemProp;
-                    }
-                }
-                return null;
-            };
+            // The resource template property id has no meaning and because
+            // properties are repeatable, they can not be retrieved simply.
+            // So, all the elements are removed and refilled with new data.
+            // Incidently, it allows to get position in the same order than ids.
 
             $propertyAdapter = $this->getAdapter('properties');
             $resTemProps = $entity->getResourceTemplateProperties();
-            $resTemPropsToRetain = [];
+            $resTemProps->first();
+            $countExisting = count($resTemProps);
             $position = 1;
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
-                if (!isset($resTemPropData['o:property']['o:id'])) {
+                if (empty($resTemPropData['o:property']['o:id'])) {
                     continue; // skip when no property ID
                 }
 
-                $propertyId = $resTemPropData['o:property']['o:id'];
+                $propertyId = (int) $resTemPropData['o:property']['o:id'];
+                $property = $propertyAdapter->findEntity($propertyId);
                 $altLabel = null;
                 if (isset($resTemPropData['o:alternate_label'])
                     && '' !== trim($resTemPropData['o:alternate_label'])
@@ -176,19 +176,20 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $isPrivate = (bool) $resTemPropData['o:is_private'];
                 }
 
-                // Check whether a passed property is already assigned to this
-                // resource template.
-                $resTemProp = $getResTemProp($propertyId, $resTemProps);
-                if (!$resTemProp) {
+                // Create new element if no more existing.
+                if ($position > $countExisting) {
                     // It is not assigned. Add a new resource template property.
                     // No need to explicitly add it to the collection since it
                     // is added implicitly when setting the resource template.
-                    $property = $propertyAdapter->findEntity($propertyId);
                     $resTemProp = new ResourceTemplateProperty;
                     $resTemProp->setResourceTemplate($entity);
-                    $resTemProp->setProperty($property);
-                    $entity->getResourceTemplateProperties()->add($resTemProp);
+                    $resTemProps->add($resTemProp);
+                } else {
+                    $resTemProp = $resTemProps->current();
+                    $resTemProps->next();
                 }
+
+                $resTemProp->setProperty($property);
                 $resTemProp->setAlternateLabel($altLabel);
                 $resTemProp->setAlternateComment($altComment);
                 $resTemProp->setDataType($dataType);
@@ -197,15 +198,12 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 // Set the position of the property to its intrinsic order
                 // within the passed array.
                 $resTemProp->setPosition($position++);
-                $resTemPropsToRetain[] = $resTemProp;
             }
 
-            // Remove resource template properties that were not included in the
-            // passed data.
-            foreach ($resTemProps as $resTemPropId => $resTemProp) {
-                if (!in_array($resTemProp, $resTemPropsToRetain)) {
-                    $resTemProps->remove($resTemPropId);
-                }
+            // Remove remaining resource template properties that were not used
+            // to fill new passed data.
+            for (; $position <= $countExisting; ++$position) {
+                $resTemProps->remove($position);
             }
         }
     }

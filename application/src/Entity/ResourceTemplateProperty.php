@@ -6,7 +6,7 @@ namespace Omeka\Entity;
  * @Table(
  *     uniqueConstraints={
  *         @UniqueConstraint(
- *             columns={"resource_template_id", "property_id"}
+ *             columns={"resource_template_id", "property_id", "data_type"}
  *         )
  *     }
  * )

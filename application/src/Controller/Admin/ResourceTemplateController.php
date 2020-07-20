@@ -536,6 +536,7 @@ class ResourceTemplateController extends AbstractActionController
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('omeka/admin/resource-template/show-property-row');
+        $view->setVariable('resourceTemplate', null);
         $view->setVariable('propertyRow', $propertyRow);
         return $view;
     }

@@ -114,15 +114,36 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
      * Return the specified template property or null if it doesn't exist.
      *
      * @param int $propertyId
-     * @mixed ResourceTemplatePropertyRepresentation
+     * @param string $dataType
+     * @param bool $all
+     * @mixed ResourceTemplatePropertyRepresentation|ResourceTemplatePropertyRepresentation[]|null
      */
-    public function resourceTemplateProperty($propertyId)
+    public function resourceTemplateProperty($propertyId, $dataType = null, $all = false)
     {
-        $resTemProp = $this->resource->getResourceTemplateProperties()->get($propertyId);
-        if ($resTemProp) {
-            return new ResourceTemplatePropertyRepresentation($resTemProp, $this->getServiceLocator());
+        $propertyId = (int) $propertyId;
+        $resTemProps = $this->resource->getResourceTemplateProperties()
+            ->filter(function (\Omeka\Entity\ResourceTemplateProperty $resTemProp) use ($propertyId, $dataType, $all) {
+                if ($resTemProp->getProperty()->getId() !== $propertyId) {
+                    return false;
+                }
+                if (empty($dataType)) {
+                    return true;
+                }
+                return $resTemProp->getDataType() === $dataType;
+            });
+
+        if (!count($resTemProps)) {
+            return $all ? [] : null;
         }
-        return null;
+
+        $services = $this->getServiceLocator();
+        if ($all) {
+            return array_map(function ($resTemProp) use ($services) {
+                return new ResourceTemplatePropertyRepresentation($resTemProp, $services);
+            }, $resTemProps);
+        } else {
+            return new ResourceTemplatePropertyRepresentation(reset($resTemProps), $services);
+        }
     }
 
     /**

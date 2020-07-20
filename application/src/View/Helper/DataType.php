@@ -97,6 +97,17 @@ class DataType extends AbstractHelper
     }
 
     /**
+     * @param string $dataType
+     * @return \Omeka\DataType\DataTypeInterface|null
+     */
+    public function getDataType($dataType)
+    {
+        return $this->manager->has($dataType)
+            ? $this->manager->get($dataType)
+            : null;
+    }
+
+    /**
      * Prepare the view to enable the data types.
      */
     public function prepareForm()

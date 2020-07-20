@@ -496,14 +496,14 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $partial = $this->getViewHelper('partial');
 
         $eventManager = $this->getEventManager();
-        $args = $eventManager->prepareArgs(['values' => $this->values()]);
+        $args = $eventManager->prepareArgs(['values' => $this->values(true)]);
         $eventManager->trigger('rep.resource.display_values', $this, $args);
         $options['values'] = $args['values'];
 
         $template = $this->resourceTemplate();
-        if ($template) {
-            $options['templateProperties'] = $template->resourceTemplateProperties();
-        }
+        $options['templateProperties'] = $template
+            ? $template->resourceTemplateProperties()
+            : [];
 
         return $partial($options['viewName'], $options);
     }

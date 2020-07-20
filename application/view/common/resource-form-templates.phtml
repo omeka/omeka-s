@@ -5,6 +5,7 @@ $this->dataType()->prepareForm();
 
 $defaultDataTypes = $this->setting('resource_default_datatypes') ?: ['literal', 'resource', 'uri'];
 
+// @see asset/js/resource-form.js.
 // TODO Find a better way or add a class name for icon in css or via datatype interface, in particular for value suggest. May be used for js or other css too.
 $icons = [
     'resource:item' => 'items',
@@ -34,6 +35,9 @@ $icons = [
             <?php $icon = isset($icons[$dataType]) ? $icons[$dataType] : strtok($dataType, ':'); ?>
             <a href="#" class="add-value button o-icon-<?= $icon ?>" data-type="<?= $dataType ?>"><?php echo $dataType === 'resource' ? $translate('Omeka resource') : $translate($typeData->getLabel()); ?></a>
             <?php endforeach; ?>
+        </div>
+        <div class="add-values multiple-selector" style="display:none">
+            <label class="o-icon-add"><?php echo $translate('Add value'); ?></label>
         </div>
         <div class="add-values single-selector" style="display:none">
             <label class="o-icon-add"><?php echo $translate('Add value'); ?></label>

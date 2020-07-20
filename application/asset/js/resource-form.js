@@ -375,7 +375,7 @@
         var templateId = $('#resource-template-select').val();
         var properties = $('div#properties');
         var propertyId = templateProperty['o:property']['o:id'];
-        var dataTypes = templateProperty['o:data_type'].split("\n");
+        var dataTypes = templateProperty['o:data_type'];
 
         // Check if an existing field exists in order to update it and to avoid duplication.
         // Since fields can have the same property but different data types,
@@ -406,8 +406,9 @@
         }
         var originalLabel = field.find('.field-label');
         var originalDescription = field.find('.field-description');
-        var singleSelector = field.find('div.single-selector');
         var defaultSelector = field.find('div.default-selector');
+        var multipleSelector = field.find('div.multiple-selector');
+        var singleSelector = field.find('div.single-selector');
 
         if (templateProperty['o:is_required']) {
             field.addClass('required');
@@ -437,29 +438,62 @@
         field.find('.value.default-value').remove();
 
         // Change value selector and add empty value if needed.
-        if (templateProperty['o:data_type']) {
-            // Use the single selector if the property has a data type.
+        var firstDataType;
+        // Use the multiple selector if the property has multiple data type.
+        if (templateProperty['o:data_type'].length > 1) {
             defaultSelector.hide();
-            singleSelector.find('a.add-value.button').data('type', templateProperty['o:data_type']);
-            singleSelector.show();
-            // Add an empty value if none already exist in the property.
-            if (!field.find('.value').length) {
-                field.find('.values').append(makeNewValue(field.data('property-term'), null, templateProperty['o:data_type']));
+            singleSelector.hide();
+            if (!multipleSelector.find('.add-value').length) {
+                multipleSelector.append(prepareMultipleSelector(templateProperty['o:data_type']));
             }
-        } else {
-            // Use the default selector if the property has no data type.
+            multipleSelector.show();
+            firstDataType = templateProperty['o:data_type'][0];
+        }
+        // Else use the single selector if the property has a data type.
+        else if (templateProperty['o:data_type'].length === 1) {
+            defaultSelector.hide();
+            multipleSelector.hide();
+            singleSelector.find('a.add-value.button').data('type', templateProperty['o:data_type'][0]);
+            singleSelector.show();
+            firstDataType = templateProperty['o:data_type'][0];
+        }
+        // Else use the default selector if the property has no data type.
+        else {
+            multipleSelector.hide();
             singleSelector.hide();
             defaultSelector.show();
-            // Add an empty default value if none already exist in the property.
-            if (!field.find('.value').length) {
-                field.find('.values').append(makeDefaultValue(field.data('property-term'), 'literal'));
-            }
+            firstDataType = $('div#properties').data('default-data-types').substring(0, ($('div#properties').data('default-data-types') + ',').indexOf(','));
         }
 
+        // Add an empty value if none already exist in the property.
+        if (!field.find('.value').length) {
+            field.find('.values').append(makeNewValue(field.data('property-term'), null, firstDataType));
+        }
         field.data('template-id', templateId);
         field.attr('data-template-id', templateId);
 
         properties.prepend(field);
+    };
+
+    /**
+     * Prepare a selector (usualy a html list of buttons) from a list of data types.
+     *
+     * @see view/common/resource-form-templates.phtml
+     *
+     * @param array dataTypes
+     * @return string
+     */
+    var prepareMultipleSelector = function(dataTypes) {
+        var html = '';
+        dataTypes.forEach(function(dataType) {
+            var dataTypeTemplate = $('.template.value[data-data-type=' + dataType + ']');
+            var label = dataTypeTemplate.data('data-type-label') ? dataTypeTemplate.data('data-type-label') : Omeka.jsTranslate('Add value');
+            var icon = dataTypeTemplate.data('data-type-icon') ? dataTypeTemplate.data('data-type-icon') : dataType.substring(0, (dataType + ':').indexOf(':'));
+            html += dataTypeTemplate.data('data-type-button')
+                ? dataTypeTemplate.data('data-type-button')
+                : '<a href="#" class="add-value button o-icon-' + icon + '" data-type="' + dataType + '">' + label + '</a>';
+        });
+        return html;
     };
 
     /**
@@ -482,6 +516,7 @@
             // selector.
             fields.data('template-id', '');
             fields.attr('data-template-id', '');
+            fields.find('div.multiple-selector').hide();
             fields.find('div.single-selector').hide();
             fields.find('div.default-selector').show();
             // Merge all duplicate properties, keeping order of values.
@@ -528,6 +563,7 @@
                 var otherFields = $('#properties .resource-values').filter('[data-template-id!=' + templateId + ']');
                 otherFields.data('template-id', '');
                 otherFields.attr('template-id', '');
+                otherFields.find('div.multiple-selector').hide();
                 otherFields.find('div.single-selector').hide();
                 otherFields.find('div.default-selector').show();
                 // Merge all duplicate properties not in the current template, keeping order of values.

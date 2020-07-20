@@ -36,7 +36,9 @@ class ResourceForm extends Form
                 'empty_option' => '',
                 'resource_value_options' => [
                     'resource' => 'resource_templates',
-                    'query' => [],
+                    'query' => [
+                        'sort_by' => 'label',
+                    ],
                     'option_text_callback' => function ($resourceTemplate) {
                         return $resourceTemplate->label();
                     },

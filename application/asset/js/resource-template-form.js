@@ -80,8 +80,8 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#edit-sidebar #alternate-comment').val(altComment.val());
     $('#edit-sidebar #is-title-property').prop('checked', propertyId == titleProperty.val());
     $('#edit-sidebar #is-description-property').prop('checked', propertyId == descriptionProperty.val());
-    $('#edit-sidebar #is-required').prop('checked', isRequired.prop('checked'));
-    $('#edit-sidebar #is-private').prop('checked', isPrivate.prop('checked'));
+    $('#edit-sidebar #is-required').prop('checked', isRequired.val() === '1');
+    $('#edit-sidebar #is-private').prop('checked', isPrivate.val() === '1');
     $('#edit-sidebar #data-type').val(dataTypes.val().replace(/^,+|,+$/g, '').split(','));
     $('#edit-sidebar #data-type').trigger('chosen:updated');
     $.each(settings, function(index, hiddenElement) {
@@ -122,8 +122,8 @@ propertyList.on('click', '.property-edit', function(e) {
             descriptionProperty.val(null);
             $('.description-property-cell').remove();
         }
-        isRequired.prop('checked', $('#edit-sidebar #is-required').prop('checked'));
-        isPrivate.prop('checked', $('#edit-sidebar #is-private').prop('checked'));
+        isRequired.val($('#edit-sidebar #is-required').prop('checked') ? '1' : '');
+        isPrivate.val($('#edit-sidebar #is-private').prop('checked') ? '1' : '');
         dataTypes.val($('#edit-sidebar #data-type').val());
         // New fields are not yet stored in the row.
         $('#edit-sidebar [data-setting-key]').each(function(index, sidebarElement) {

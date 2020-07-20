@@ -361,25 +361,25 @@ class ResourceTemplateController extends AbstractActionController
 
     public function addAction()
     {
-        return $this->getAddEditView();
+        return $this->getAddEditView(false);
     }
 
     public function editAction()
     {
-        return $this->getAddEditView();
+        return $this->getAddEditView(true);
     }
 
     /**
      * Get the add/edit view.
      *
+     * @param bool $isUpdate
      * @return ViewModel
      */
-    protected function getAddEditView()
+    protected function getAddEditView($isUpdate = false)
     {
-        $action = $this->params('action');
         $form = $this->getForm(ResourceTemplateForm::class);
 
-        if ('edit' == $action) {
+        if ($isUpdate) {
             $resourceTemplate = $this->api()
                 ->read('resource_templates', $this->params('id'))
                 ->getContent();
@@ -394,17 +394,28 @@ class ResourceTemplateController extends AbstractActionController
                 $data['o:description_property[o:id]'] = $data['o:description_property']->id();
             }
             $form->setData($data);
+        } else {
+            $resourceTemplate = null;
         }
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
             if ($form->isValid()) {
-                $response = ('edit' === $action)
+                foreach ($data['o:resource_template_property'] as $key => $dataProperty) {
+                    if (empty($dataProperty['o:data_type'])) {
+                        $data['o:resource_template_property'][$key]['o:data_type'] = [];
+                    } elseif (is_array($dataProperty['o:data_type'])) {
+                        $data['o:resource_template_property'][$key]['o:data_type'] = $dataProperty['o:data_type'];
+                    } else {
+                        $data['o:resource_template_property'][$key]['o:data_type'] = explode(',', $dataProperty['o:data_type']);
+                    }
+                }
+                $response = $isUpdate
                     ? $this->api($form)->update('resource_templates', $resourceTemplate->id(), $data)
                     : $this->api($form)->create('resource_templates', $data);
                 if ($response) {
-                    if ('edit' === $action) {
+                    if ($isUpdate) {
                         $successMessage = 'Resource template successfully updated'; // @translate
                     } else {
                         $successMessage = new Message(
@@ -420,16 +431,15 @@ class ResourceTemplateController extends AbstractActionController
                     $this->messenger()->addSuccess($successMessage);
                     return $this->redirect()->toUrl($response->getContent()->url());
                 }
+                $this->messenger()->addFormErrors($form);
             } else {
                 $this->messenger()->addFormErrors($form);
             }
         }
 
         $view = new ViewModel;
-        if ('edit' === $action) {
-            $view->setVariable('resourceTemplate', $resourceTemplate);
-        }
-        $view->setVariable('propertyRows', $this->getPropertyRows());
+        $view->setVariable('resourceTemplate', $resourceTemplate);
+        $view->setVariable('propertyRows', $this->getPropertyRows($isUpdate));
         $view->setVariable('form', $form);
         return $view;
     }
@@ -437,12 +447,11 @@ class ResourceTemplateController extends AbstractActionController
     /**
      * Get the property rows for the add/edit form.
      *
+     * @param bool $isUpdate
      * @return array
      */
-    protected function getPropertyRows()
+    protected function getPropertyRows($isUpdate)
     {
-        $action = $this->params('action');
-
         if ($this->getRequest()->isPost()) {
             // Set POSTed property rows
             $data = $this->params()->fromPost();
@@ -456,22 +465,23 @@ class ResourceTemplateController extends AbstractActionController
                 $property = $this->api()->read(
                     'properties', $propertyRow['o:property']['o:id']
                 )->getContent();
-                $propertyRows[$property->id()]['o:property'] = $property;
+                $propertyRows[$key]['o:property'] = $property;
             }
         } else {
             // Set default property rows
             $propertyRows = [];
-            if ('edit' == $action) {
+            if ($isUpdate) {
+                /** @var \Omeka\Api\Representation\ResourceTemplateRepresentation $resourceTemplate */
                 $resourceTemplate = $this->api()
                     ->read('resource_templates', $this->params('id'))
                     ->getContent();
                 $resTemProps = $resourceTemplate->resourceTemplateProperties();
-                foreach ($resTemProps as $key => $resTemProp) {
-                    $propertyRows[$key] = [
+                foreach ($resTemProps as $resTemProp) {
+                    $propertyRows[] = [
                         'o:property' => $resTemProp->property(),
                         'o:alternate_label' => $resTemProp->alternateLabel(),
                         'o:alternate_comment' => $resTemProp->alternateComment(),
-                        'o:data_type' => $resTemProp->dataType(),
+                        'o:data_type' => $resTemProp->dataTypes(),
                         'o:is_required' => $resTemProp->isRequired(),
                         'o:is_private' => $resTemProp->isPrivate(),
                     ];
@@ -490,7 +500,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:property' => $titleProperty,
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
-                        'o:data_type' => null,
+                        'o:data_type' => [],
                         'o:is_required' => false,
                         'o:is_private' => false,
                     ],
@@ -498,7 +508,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:property' => $descriptionProperty,
                         'o:alternate_label' => null,
                         'o:alternate_comment' => null,
-                        'o:data_type' => null,
+                        'o:data_type' => [],
                         'o:is_required' => false,
                         'o:is_private' => false,
                     ],
@@ -525,15 +535,19 @@ class ResourceTemplateController extends AbstractActionController
             'o:property' => $property,
             'o:alternate_label' => null,
             'o:alternate_comment' => null,
-            'o:data_type' => null,
+            'o:data_type' => [],
             'o:is_required' => false,
             'o:is_private' => false,
         ];
 
+        $namePrefix = 'o:resource_template_property[' . rand(PHP_INT_MAX / 1000000, PHP_INT_MAX) . ']';
+
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setTemplate('omeka/admin/resource-template/show-property-row');
+        $view->setVariable('resourceTemplate', null);
         $view->setVariable('propertyRow', $propertyRow);
+        $view->setVariable('namePrefix', $namePrefix);
         return $view;
     }
 }

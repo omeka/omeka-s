@@ -98,6 +98,11 @@ class DataType extends AbstractHelper
         return $this->manager->get($dataType)->form($this->getView());
     }
 
+    public function getLabel($dataType)
+    {
+        return $this->manager->get($dataType)->getLabel();
+    }
+
     /**
      * @param string $dataType
      * @return \Omeka\DataType\DataTypeInterface|null

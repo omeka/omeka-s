@@ -4,8 +4,8 @@ namespace Omeka\Entity;
 /**
  * @Entity
  * @Table(
- *     uniqueConstraints={
- *         @UniqueConstraint(
+ *     indexes={
+ *         @Index(
  *             columns={"resource_template_id", "property_id"}
  *         )
  *     }
@@ -48,7 +48,7 @@ class ResourceTemplateProperty extends AbstractEntity
     protected $position;
 
     /**
-     * @Column(nullable=true)
+     * @Column(type="json_array", nullable=true)
      */
     protected $dataType;
 
@@ -117,7 +117,7 @@ class ResourceTemplateProperty extends AbstractEntity
         $this->position = (int) $position;
     }
 
-    public function setDataType($dataType)
+    public function setDataType(array $dataType = null)
     {
         $this->dataType = $dataType;
     }

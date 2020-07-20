@@ -194,13 +194,13 @@ CREATE TABLE `resource_template_property` (
   `alternate_label` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `alternate_comment` longtext COLLATE utf8mb4_unicode_ci,
   `position` int(11) DEFAULT NULL,
-  `data_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `data_type` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:json_array)',
   `is_required` tinyint(1) NOT NULL,
   `is_private` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQ_4689E2F116131EA549213EC` (`resource_template_id`,`property_id`),
   KEY `IDX_4689E2F116131EA` (`resource_template_id`),
   KEY `IDX_4689E2F1549213EC` (`property_id`),
+  KEY `IDX_4689E2F116131EA549213EC` (`resource_template_id`, `property_id`),
   CONSTRAINT `FK_4689E2F116131EA` FOREIGN KEY (`resource_template_id`) REFERENCES `resource_template` (`id`),
   CONSTRAINT `FK_4689E2F1549213EC` FOREIGN KEY (`property_id`) REFERENCES `property` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

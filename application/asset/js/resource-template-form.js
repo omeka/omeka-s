@@ -53,50 +53,87 @@ propertyList.on('click', '.property-restore', function(e) {
 
 propertyList.on('click', '.property-edit', function(e) {
     e.preventDefault();
+    // Get values stored in the row.
     var prop = $(this).closest('.property');
-    var propId = prop.data('property-id');
+    var propertyId = prop.data('property-id');
     var oriLabel = prop.find('.original-label');
-    var altLabel = prop.find('.alternate-label');
+    var altLabel = prop.find('[data-property-key="o:alternate_label"]');
     var oriComment = prop.find('.original-comment');
-    var altComment = prop.find('.alternate-comment');
-    var isRequired = prop.find('.is-required');
-    var isPrivate = prop.find('.is-private');
-    var dataType = prop.find('.data-type');
+    var altComment = prop.find('[data-property-key="o:alternate_comment"]');
+    var isRequired = prop.find('[data-property-key="o:is_required"]');
+    var isPrivate = prop.find('[data-property-key="o:is_private"]');
+    var dataType = prop.find('[data-property-key="o:data_type"]');
+    var settings = {};
+    prop.find('[data-setting-key]').each(function(index, hiddenElement) {
+        settings[index] = $(hiddenElement);
+    });
 
-    $('#original-label').text(oriLabel.val());
-    $('#alternate-label').val(altLabel.val());
-    $('#original-comment').text(oriComment.val());
-    $('#alternate-comment').val(altComment.val());
-    $('#is-title-property').prop('checked', propId == titleProperty.val());
-    $('#is-description-property').prop('checked', propId == descriptionProperty.val());
-    $('#is-required').prop('checked', isRequired.val());
-    $('#is-private').prop('checked', isPrivate.val());
-    $('#data-type option[value="' + dataType.val() + '"]').prop('selected', true);
-    $('#data-type').trigger('chosen:updated');
+    // Copy values into the sidebar.
+    $('#edit-sidebar #original-label').text(oriLabel.val());
+    $('#edit-sidebar #alternate-label').val(altLabel.val());
+    $('#edit-sidebar #original-comment').text(oriComment.val());
+    $('#edit-sidebar #alternate-comment').val(altComment.val());
+    $('#edit-sidebar #is-title-property').prop('checked', propertyId == titleProperty.val());
+    $('#edit-sidebar #is-description-property').prop('checked', propertyId == descriptionProperty.val());
+    $('#edit-sidebar #is-required').prop('checked', isRequired.prop('checked'));
+    $('#edit-sidebar #is-private').prop('checked', isPrivate.prop('checked'));
+    $('#edit-sidebar #data-type option[value="' + dataType.val() + '"]').prop('selected', true);
+    $('#edit-sidebar #data-type').trigger('chosen:updated');
+    $.each(settings, function(index, hiddenElement) {
+        var settingKey = hiddenElement.data('setting-key');
+        var sidebarElement = $('#edit-sidebar [data-setting-key="' +  settingKey + '"]');
+        var sidebarElementType = sidebarElement.prop('type') ? sidebarElement.prop('type') : sidebarElement.prop('nodeName').toLowerCase();
+        if (sidebarElementType === 'checkbox') {
+            sidebarElement.prop('checked', hiddenElement.prop('checked'));
+        } else if (sidebarElementType === 'radio') {
+            $('#edit-sidebar [data-setting-key="' + hiddenElement.data('setting-key') + '"]')
+                .val([prop.find('[data-setting-key="' + hiddenElement.data('setting-key') + '"]:checked').val()]);
+        } else if (sidebarElementType === 'select' || sidebarElementType === 'select-multiple' ) {
+            sidebarElement.val(hiddenElement.val());
+            sidebarElement.trigger('chosen:updated');
+        } else { // Text, textarea, number…
+            sidebarElement.val(hiddenElement.val());
+        }
+    });
 
+    // When the sidebar fieldset is applied, store new values in the row.
     $('#set-changes').off('click.setchanges').on('click.setchanges', function(e) {
-        altLabel.val($('#alternate-label').val());
-        prop.find('.alternate-label-cell').text($('#alternate-label').val());
-        altComment.val($('#alternate-comment').val());
-        if ($('#is-title-property').prop('checked')) {
-            titleProperty.val(propId);
+        altLabel.val($('#edit-sidebar #alternate-label').val());
+        prop.find('.alternate-label-cell').text($('#edit-sidebar #alternate-label').val());
+        altComment.val($('#edit-sidebar #alternate-comment').val());
+        if ($('#edit-sidebar #is-title-property').prop('checked')) {
+            titleProperty.val(propertyId);
             $('.title-property-cell').remove();
             prop.find('.actions').before(titlePropertyTemplate);
-        } else if (propId == titleProperty.val()) {
+        } else if (propertyId == titleProperty.val()) {
             titleProperty.val(null);
             $('.title-property-cell').remove();
         }
-        if ($('#is-description-property').prop('checked')) {
-            descriptionProperty.val(propId);
+        if ($('#edit-sidebar #is-description-property').prop('checked')) {
+            descriptionProperty.val(propertyId);
             $('.description-property-cell').remove();
             prop.find('.actions').before(descriptionPropertyTemplate);
-        } else if (propId == descriptionProperty.val()) {
+        } else if (propertyId == descriptionProperty.val()) {
             descriptionProperty.val(null);
             $('.description-property-cell').remove();
         }
-        $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
-        $('#is-private').prop('checked') ? isPrivate.val(1) : isPrivate.val(null);
+        isRequired.prop('checked', $('#edit-sidebar #is-required').prop('checked'));
+        isPrivate.prop('checked', $('#edit-sidebar #is-private').prop('checked'));
         dataType.val($('#data-type').val());
+        // New fields are not yet stored in the row.
+        $('#edit-sidebar [data-setting-key]').each(function(index, sidebarElement) {
+            sidebarElement = $(sidebarElement);
+            var sidebarElementType = sidebarElement.prop('type') ? sidebarElement.prop('type') : sidebarElement.prop('nodeName').toLowerCase();
+            var hiddenElement = prop.find('[data-setting-key="' + sidebarElement.data('setting-key') + '"]');
+            if (sidebarElementType === 'checkbox') {
+                hiddenElement.prop('checked', sidebarElement.prop('checked'));
+            } else if (sidebarElementType === 'radio') {
+                prop.find('[data-setting-key="' + sidebarElement.data('setting-key') + '"]')
+                    .val([$('#edit-sidebar [data-setting-key="' + sidebarElement.data('setting-key') + '"]:checked').val()]);
+            } else {
+                hiddenElement.val(sidebarElement.val());
+            }
+        });
         Omeka.closeSidebar($('#edit-sidebar'));
     });
 

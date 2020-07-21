@@ -269,6 +269,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 $property = $templateProperty->property();
                 $term = $property->term();
                 $dataTypes = $templateProperty->dataTypes();
+                // Manage an exception.
+                if (in_array('resource', $dataTypes)) {
+                    $dataTypes = array_unique($dataTypes, ['resource:item', 'resource:itemset', 'resource:media']);
+                }
                 $keyTemplateProperty = $term . '-' . $templateProperty->position();
                 // With duplicate properties, keep only the first label and
                 // comment.
@@ -279,7 +283,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                         'alternate_label' => $templateProperty->alternateLabel(),
                         'alternate_comment' => $templateProperty->alternateComment(),
                     ];
-                    $dataTypesByProperty[$term] += array_fill_keys($dataTypes, $keyTemplateProperty);
+                    $dataTypesByProperty[$term] += empty($dataTypes)
+                        ? ['default' => $keyTemplateProperty]
+                        : array_fill_keys($dataTypes, $keyTemplateProperty);
                     continue;
                 }
                 $values[$term] = [
@@ -288,7 +294,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                     'alternate_comment' => $templateProperty->alternateComment(),
                 ];
                 $valuesByTemplateProperty[$term] = $values[$term];
-                $dataTypesByProperty[$term] = array_fill_keys($dataTypes, $term);
+                $dataTypesByProperty[$term] = empty($dataTypes)
+                    ? ['default' => $term]
+                    : array_fill_keys($dataTypes, $term);
             }
         } else {
             // Force prepend title and description when there is no template.
@@ -335,9 +343,13 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             foreach ($this->values as $term => $data) {
                 foreach ($data['values'] as $value) {
                     $dataType = $value->type();
-                    $keyTemplateProperty = isset($dataTypesByProperty[$term][$dataType])
-                        ? $dataTypesByProperty[$term][$dataType]
-                        : $term;
+                    if (isset($dataTypesByProperty[$term][$dataType])) {
+                        $keyTemplateProperty = $dataTypesByProperty[$term][$dataType];
+                    } elseif (isset($dataTypesByProperty[$term]['default'])) {
+                        $keyTemplateProperty = $dataTypesByProperty[$term]['default'];
+                    } else {
+                        $keyTemplateProperty = $term;
+                    }
                     if (!isset($valuesByTemplateProperty[$keyTemplateProperty]['property'])) {
                         $valuesByTemplateProperty[$keyTemplateProperty]['property'] = $value->property();
                         $valuesByTemplateProperty[$keyTemplateProperty]['alternate_label'] = null;

@@ -576,34 +576,47 @@
                 // Furthermore, the values are moved to the property row according
                 // to their data type when there are multiple duplicate properties.
                 // @see \Omeka\Api\Representation\AbstractEntityRepresentation::values()
-
-                // Prepare the list of data types one time and make easier to fill specific rows first.
                 var propertyValues = $('#properties .resource-values');
                 if (data['o:resource_template_property'].length > 0) {
+                    // Prepare the list of data types one time and make easier to fill specific rows first.
                     var dataTypesByProperty = {};
-                    data['o:resource_template_property'].forEach(function(templateProperty, index) {
+                    data['o:resource_template_property'].forEach(function(templateProperty) {
                         var propertyId = templateProperty['o:property']['o:id'];
                         var dataTypes = templateProperty['o:data_type'];
                         if (!dataTypesByProperty.hasOwnProperty(propertyId)) {
                             dataTypesByProperty[propertyId] = {};
                         }
-                        dataTypes.forEach(function(dataType) {
-                            dataTypesByProperty[propertyId][dataType] = dataTypes.join(',');
-                        });
+                        if (dataTypes.length) {
+                            dataTypes.reverse().forEach(function(dataType) {
+                                if (dataType === 'resource') {
+                                    dataTypesByProperty[propertyId]['resource'] = dataTypes.join(',');
+                                    dataTypesByProperty[propertyId]['resource:item'] = dataTypes.join(',');
+                                    dataTypesByProperty[propertyId]['resource:itemset'] = dataTypes.join(',');
+                                    dataTypesByProperty[propertyId]['resource:media'] = dataTypes.join(',');
+                                } else {
+                                    dataTypesByProperty[propertyId][dataType] = dataTypes.join(',');
+                                }
+                            });
+                        } else {
+                            dataTypesByProperty[propertyId]['default'] = $('div#properties').data('default-data-types');
+                        }
                     });
-                    propertyValues.filter('[data-template-id!="' + templateId + '"]').each(function() {
+                    propertyValues.each(function() {
                         var propertyId = $(this).attr('data-property-id');
-                        var templateFields = $('#properties .resource-values').filter('[data-template-id!="' + templateId + '"]');
-                        if (!dataTypesByProperty.hasOwnProperty(propertyId) || templateFields.length < 1 || $(this).find('.inputs .values > .value').length < 1) {
+                        if (!dataTypesByProperty.hasOwnProperty(propertyId) || $(this).find('.inputs .values > .value').length < 1) {
                             return;
                         }
                         $(this).find('.inputs .values > .value').each(function() {
                             var valueDataType = $(this).data('data-type');
-                            if (dataTypesByProperty[propertyId].hasOwnProperty(valueDataType)) {
-                                propertyValues.filter('[data-property-id="' + propertyId + '"][data-data-types="' + dataTypesByProperty[propertyId][valueDataType] + '"]')
-                                    .find('.inputs .values')
-                                    .append($(this));
+                            if (!dataTypesByProperty[propertyId].hasOwnProperty(valueDataType)) {
+                                if (!dataTypesByProperty[propertyId].hasOwnProperty('default')) {
+                                    return;
+                                }
+                                valueDataType = 'default';
                             }
+                            propertyValues.filter('[data-property-id="' + propertyId + '"][data-data-types="' + dataTypesByProperty[propertyId][valueDataType] + '"]')
+                                .find('.inputs .values')
+                                .append($(this));
                         });
                     });
                 }

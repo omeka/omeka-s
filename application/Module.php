@@ -547,7 +547,6 @@ class Module extends AbstractModule
         $qb = $event->getParam('queryBuilder');
 
         $searchAlias = $adapter->createAlias();
-        $matchAlias = $adapter->createAlias();
 
         $match = sprintf(
             'MATCH(%s.title, %s.text) AGAINST (%s)',
@@ -562,14 +561,13 @@ class Module extends AbstractModule
             $adapter->createNamedParameter($qb, $adapter->getResourceName())
         );
 
-        $qb->addSelect(sprintf('%s AS %s', $match, $matchAlias))
-            ->innerJoin('Omeka\Entity\FulltextSearch', $searchAlias, 'WITH', $joinConditions)
+        $qb->innerJoin('Omeka\Entity\FulltextSearch', $searchAlias, 'WITH', $joinConditions)
             // Filter out resources with no similarity.
             ->andWhere(sprintf('%s > 0', $match))
             // Order by the relevance. Note the use of orderBy() and not
             // addOrderBy(). This should ensure that ordering by relevance
             // is the first thing being ordered.
-            ->orderBy($matchAlias, 'DESC');
+            ->orderBy($match, 'DESC');
 
         // Set visibility constraints.
         $acl = $this->getServiceLocator()->get('Omeka\Acl');

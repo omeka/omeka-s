@@ -3,14 +3,17 @@ $fulltextSearch = $this->params()->fromQuery('fulltext_search');
 $this->headLink()->prependStylesheet($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.css', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.jquery.js', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
+$hasResults = false;
 ?>
 
 <h2><?php echo sprintf($this->translate('Search results for “%s”'), $fulltextSearch); ?></h2>
 
-<?php if ($responseSitePages): ?>
+<?php
+if ($responseSitePages && $responseSitePages->getTotalResults()):
+    $hasResults = true;
+?>
 <div class="site results">
     <h3><?php echo $this->translate('Site pages'); ?></h2>
-    <?php if ($responseSitePages->getTotalResults()): ?>
     <table class="tablesaw" data-tablesaw-mode="stack">
       <thead>
           <tr>
@@ -37,16 +40,15 @@ $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 
             true
         )
     ); ?>
-    <?php else: ?>
-    <p><?php echo $this->translate('No result found'); ?></p>
-    <?php endif; ?>
 </div>
 <?php endif; ?>
 
-<?php if ($responseItems): ?>
+<?php
+if ($responseItems && $responseItems->getTotalResults()):
+    $hasResults = true;
+?>
 <div class="item results">
     <h3><?php echo $this->translate('Items'); ?></h2>
-    <?php if ($responseItems->getTotalResults()): ?>
     <ul>
         <?php foreach ($responseItems->getContent() as $item): ?>
         <?php $sites = $item->sites(); ?>
@@ -69,16 +71,14 @@ $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 
             true
         )
     ); ?>
-    <?php else: ?>
-    <p><?php echo $this->translate('No result found'); ?></p>
-    <?php endif; ?>
 </div>
 <?php endif; ?>
 
-<?php if ($responseItemSets): ?>
+<?php if ($responseItemSets && $responseItemSets->getTotalResults()):
+    $hasResults = true;
+?>
 <div class="item-set results">
     <h3><?php echo $this->translate('Item sets'); ?></h2>
-    <?php if ($responseItemSets->getTotalResults()): ?>
     <ul>
         <?php foreach ($responseItemSets->getContent() as $itemSet): ?>
         <?php $sites = $itemSet->sites(); ?>
@@ -101,10 +101,11 @@ $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 
             true
         )
     ); ?>
-    <?php else: ?>
-    <p><?php echo $this->translate('No result found'); ?></p>
-    <?php endif; ?>
 </div>
+<?php endif; ?>
+
+<?php if (!$hasResults): ?>
+    <p><?php echo $this->translate('No result found'); ?>
 <?php endif; ?>
 
 <script>

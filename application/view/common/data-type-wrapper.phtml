@@ -12,7 +12,7 @@ $icons = [
 ];
 ?>
 
-<div class="template value" data-data-type="<?php echo $escape($dataType); ?>" data-data-type-label="<?php echo $escapeAttr($translate($dataType === 'resource' ? 'Omeka resource' : $dataTypeHelper->getLabel($dataType))); ?>" data-data-type-icon="<?php in_array($dataType, $icons) ? $icons[$dataType] : '' ?>" role="group">
+<div class="template value" data-data-type="<?php echo $escape($dataType); ?>" data-data-type-label="<?php echo $escapeAttr($translate($dataType === 'resource' ? 'Omeka resource' : $dataTypeHelper->getLabel($dataType))); ?>" data-data-type-icon="<?php echo in_array($dataType, $icons) ? $icons[$dataType] : '' ?>" role="group">
     <div class="sortable-handle"></div>
     <div class="input-body"><?php echo $dataTypeHelper->getTemplate($dataType); ?></div>
     <div class="input-footer">

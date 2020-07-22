@@ -132,7 +132,6 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
                 $dataTypes = explode("\n", $resTemProp->getDataType());
                 return in_array($dataType, $dataTypes);
             });
-
         if (!count($resTemProps)) {
             return $all ? [] : null;
         }
@@ -143,7 +142,15 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
                 return new ResourceTemplatePropertyRepresentation($resTemProp, $services);
             }, $resTemProps);
         } else {
-            return new ResourceTemplatePropertyRepresentation(reset($resTemProps), $services);
+            // Return the template property without data type, if any.
+            if (empty($dataType) && count($resTemProps) > 1) {
+                foreach ($resTemProps as $resTemProp) {
+                    if (!$resTemProp->getDataType()) {
+                        return new ResourceTemplatePropertyRepresentation($resTemProp, $services);
+                    }
+                }
+            }
+            return new ResourceTemplatePropertyRepresentation($resTemProps->first(), $services);
         }
     }
 

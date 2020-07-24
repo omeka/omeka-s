@@ -14,7 +14,7 @@
         <?php foreach ($itemSets as $itemSet): ?>
         <?php $sites = $itemSet->sites(); ?>
         <li>
-            <span class="item-title"><?php echo $itemSet->displayTitle(); ?></span>
+            <span class="result-title"><?php echo $itemSet->displayTitle(); ?></span>
             <ul>
                 <?php foreach ($sites as $site): ?>
                 <li><?php echo $this->hyperlink($site->title(), $itemSet->siteUrl($site->slug())); ?></li>

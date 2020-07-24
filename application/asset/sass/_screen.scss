@@ -4172,7 +4172,7 @@ body.minimal .site.results thead {
   margin: 0px (-1 * $spacing-small);
 }
 
-.results .item-title {
+.results .result-title {
   background-color: $gray-on-white;
   display: block;
   padding: $spacing-small;
@@ -4182,6 +4182,16 @@ body.minimal .site.results thead {
 
 .results + .pagination {
   margin-top: (-1 * $spacing-large);
+}
+
+.site.results .result-title {
+  border-bottom: 1px solid #dfdfdf;
+  margin-bottom: $spacing-small;
+}
+
+.site.results .result-site {
+  margin-bottom: $spacing-small;
+  display: block;
 }
 
 /* @end */

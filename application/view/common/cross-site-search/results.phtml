@@ -1,8 +1,5 @@
 <?php
 $fulltextSearch = $this->params()->fromQuery('fulltext_search');
-$this->headLink()->prependStylesheet($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.css', 'Omeka'));
-$this->headScript()->prependFile($this->assetUrl('vendor/tablesaw/tablesaw.stackonly.jquery.js', 'Omeka'));
-$this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
 $hasResults = false;
 ?>
 
@@ -14,23 +11,15 @@ if ($responseSitePages && $responseSitePages->getTotalResults()):
 ?>
 <div class="site results">
     <h3><?php echo $this->translate('Site pages'); ?></h2>
-    <table class="tablesaw" data-tablesaw-mode="stack">
-      <thead>
-          <tr>
-              <th><?php echo $this->translate('Page title'); ?></th>
-              <th><?php echo $this->translate('Site title'); ?></th>
-          </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($responseSitePages->getContent() as $sitePage): ?>
+    <ul>
+    <?php foreach ($responseSitePages->getContent() as $sitePage): ?>
         <?php $site = $sitePage->site(); ?>
-        <tr>
-            <td><?php echo $this->hyperlink($sitePage->title(), $sitePage->siteUrl()); ?></td>
-            <td><?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?></td>
-        </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+        <li>
+            <span class="result-title"><?php echo $this->hyperlink($sitePage->title(), $sitePage->siteUrl()); ?></span>
+            <span class="result-site"><?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?></span>
+        </li>
+    <?php endforeach; ?>
+    </ul>
     <?php echo $this->hyperlink(
         sprintf($this->translate('View all results (%s total)'), $responseSitePages->getTotalResults()),
         $this->url(
@@ -53,7 +42,7 @@ if ($responseItems && $responseItems->getTotalResults()):
         <?php foreach ($responseItems->getContent() as $item): ?>
         <?php $sites = $item->sites(); ?>
         <li>
-            <span class="item-title"><?php echo $item->displayTitle(); ?></span>
+            <span class="result-title"><?php echo $item->displayTitle(); ?></span>
             <ul>
                 <?php foreach ($sites as $site): ?>
                 <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>
@@ -83,7 +72,7 @@ if ($responseItems && $responseItems->getTotalResults()):
         <?php foreach ($responseItemSets->getContent() as $itemSet): ?>
         <?php $sites = $itemSet->sites(); ?>
         <li>
-            <span class="item-title"><?php echo $itemSet->displayTitle(); ?></span>
+            <span class="result-title"><?php echo $itemSet->displayTitle(); ?></span>
             <ul>
                 <?php foreach ($sites as $site): ?>
                 <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>

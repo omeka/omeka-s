@@ -292,6 +292,7 @@ class ResourceTemplateController extends AbstractActionController
             $property = $templateProperty->property();
             $vocab = $property->vocabulary();
 
+            // Deprecated but kept to export to Omeka < 3.0.
             $dataTypeName = $templateProperty->dataType();
             $dataTypeLabel = null;
             if ($dataTypeName) {
@@ -309,13 +310,13 @@ class ResourceTemplateController extends AbstractActionController
                 'o:alternate_comment' => $templateProperty->alternateComment(),
                 'o:is_required' => $templateProperty->isRequired(),
                 'o:is_private' => $templateProperty->isPrivate(),
-                'data_type_name' => $dataTypeName,
-                'data_type_label' => $dataTypeLabel,
                 'data_types' => array_values($dataTypes),
                 'vocabulary_namespace_uri' => $vocab->namespaceUri(),
                 'vocabulary_label' => $vocab->label(),
                 'local_name' => $property->localName(),
                 'label' => $property->label(),
+                'data_type_name' => $dataTypeName,
+                'data_type_label' => $dataTypeLabel,
             ];
         }
 
@@ -411,11 +412,10 @@ class ResourceTemplateController extends AbstractActionController
                 foreach ($data['o:resource_template_property'] as $key => $dataProperty) {
                     if (empty($dataProperty['o:data_type'])) {
                         $data['o:resource_template_property'][$key]['o:data_type'] = [];
+                    } elseif (is_array($dataProperty['o:data_type'])) {
+                        $data['o:resource_template_property'][$key]['o:data_type'] = $dataProperty['o:data_type'];
                     } else {
-                        $data['o:resource_template_property'][$key]['o:data_type'] = explode(
-                            strpos($dataProperty['o:data_type'], ',') === false ? "\n" : ',',
-                            $dataProperty['o:data_type']
-                        );
+                        $data['o:resource_template_property'][$key]['o:data_type'] = explode(',', $dataProperty['o:data_type']);
                     }
                 }
                 $response = $isUpdate

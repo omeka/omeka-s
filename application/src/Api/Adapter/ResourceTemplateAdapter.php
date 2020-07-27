@@ -119,16 +119,6 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     }
                     $checkDataTypesByProperty[$propertyId] = array_merge($checkDataTypesByProperty[$propertyId], $dataTypes);
                 }
-
-                $label = isset($resTemPropData['o:alternate_label']) ? $resTemPropData['o:alternate_label'] : '';
-                $check = $propertyId . '-' . $label;
-                if (isset($checkLabels[$check])) {
-                    $errorStore->addError('o:property', new Message(
-                        'Attempting to add duplicate property %s (ID %s) with the same label', // @translate
-                        @$resTemPropData['o:original_label'], $propertyId
-                    ));
-                }
-                $checkLabels[$check] = true;
             }
         }
     }

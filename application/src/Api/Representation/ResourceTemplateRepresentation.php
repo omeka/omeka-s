@@ -76,7 +76,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     /**
      * Return the title property of this resource template.
      *
-     * @return ResourceClassRepresentation
+     * @return PropertyRepresentation
      */
     public function titleProperty()
     {
@@ -87,7 +87,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     /**
      * Return the description property of this resource template.
      *
-     * @return ResourceClassRepresentation
+     * @return PropertyRepresentation
      */
     public function descriptionProperty()
     {
@@ -98,7 +98,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     /**
      * Return the properties assigned to this resource template.
      *
-     * @return array
+     * @return ResourceTemplatePropertyRepresentation[]
      */
     public function resourceTemplateProperties()
     {

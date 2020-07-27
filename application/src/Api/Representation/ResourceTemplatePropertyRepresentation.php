@@ -80,6 +80,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     }
 
     /**
+     * @deprecated Since version 3.0.0. Use dataTypes() instead.
      * @return string|null
      */
     public function dataType()
@@ -88,9 +89,6 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
         $dataTypes = $this->templateProperty->getDataType();
         if (empty($dataTypes)) {
             return null;
-        }
-        if (!is_array($dataTypes)) {
-            $dataTypes = explode("\n", $dataTypes);
         }
         $dataType = reset($dataTypes);
         try {
@@ -111,9 +109,6 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
         if (empty($dataTypes)) {
             return [];
         }
-        if (!is_array($dataTypes)) {
-            $dataTypes = explode("\n", $dataTypes);
-        }
         $dataTypeManager = $this->getServiceLocator()->get('Omeka\DataTypeManager');
         $result = [];
         foreach ($dataTypes as $dataType) {
@@ -128,6 +123,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     }
 
     /**
+     * @deprecated Since version 3.0.0. Use dataTypeLabels() instead.
      * @return string
      */
     public function dataTypeLabel()

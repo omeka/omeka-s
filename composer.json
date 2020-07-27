@@ -6,7 +6,7 @@
     "require": {
         "php": ">=7.1",
         "doctrine/orm": "^2.6",
-        "easyrdf/easyrdf": "dev-master",
+        "easyrdf/easyrdf": "^1.0",
         "ml/json-ld": "^1.1",
         "ezyang/htmlpurifier": "^4.8",
         "composer/semver": "^1.0",
@@ -86,10 +86,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/omeka-s-themes/default.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/omeka/easyrdf.git"
         },
         {
             "type": "path",

@@ -185,7 +185,7 @@ CREATE TABLE `resource_template_property` (
   `alternate_label` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `alternate_comment` longtext COLLATE utf8mb4_unicode_ci,
   `position` int(11) DEFAULT NULL,
-  `data_type` varchar(766) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `data_type` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:json_array)',
   `is_required` tinyint(1) NOT NULL,
   `is_private` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),

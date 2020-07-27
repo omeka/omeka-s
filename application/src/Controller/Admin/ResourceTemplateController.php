@@ -364,17 +364,13 @@ class ResourceTemplateController extends AbstractActionController
                 $dataTypeLabel = $dataType->getLabel();
             }
 
-            $dataTypes = array_map(function ($label, $name) {
-                return ['name' => $name, 'label' => $label];
-            }, $templateProperty->dataTypesLabels());
-
             // Note that "position" is implied by array order.
             $export['o:resource_template_property'][] = [
                 'o:alternate_label' => $templateProperty->alternateLabel(),
                 'o:alternate_comment' => $templateProperty->alternateComment(),
                 'o:is_required' => $templateProperty->isRequired(),
                 'o:is_private' => $templateProperty->isPrivate(),
-                'data_types' => array_values($dataTypes),
+                'data_types' => $templateProperty->dataTypeLabels(),
                 'vocabulary_namespace_uri' => $vocab->namespaceUri(),
                 'vocabulary_label' => $vocab->label(),
                 'local_name' => $property->localName(),

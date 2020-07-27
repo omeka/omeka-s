@@ -6,6 +6,11 @@ $form->prepare();
 $this->htmlElement('body')->appendAttribute('class', 'resource-templates review');
 echo $this->pageTitle($import['o:label'], 1, $translate('Resource templates'), $translate('Review'));
 ?>
+
+<style>
+#properties .data-types .tablesaw-cell-content { display: block; }
+</style>
+
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <button><?php echo $translate('Complete import'); ?></button>
@@ -55,12 +60,11 @@ if (!$hasVocab) {
         <?php endif; ?>
     <?php endif; ?>
 <?php endforeach; ?>
-
 <table id="properties" class="tablesaw" data-tablesaw-mode="stack">
 <thead>
     <tr>
         <th><?php echo $translate('Original label'); ?></th>
-        <th><?php echo $translate('Data type'); ?></th>
+        <th><?php echo $translate('Data types'); ?></th>
         <th><?php echo $translate('Alternate label'); ?></th>
         <th><?php echo $translate('Alternate comment'); ?></th>
         <th><?php echo $translate('Required?'); ?></th>
@@ -77,33 +81,39 @@ if (!$hasVocab) {
 } elseif (!$hasProperty) {
     $errorText = sprintf('Unknown property "%s" in vocabulary "%s": %s:%s', $property['label'], $property['vocabulary_label'], $property['vocabulary_prefix'], $property['local_name']);
 }
-// Set the data type
-if (is_null($property['data_type_name'])) {
-    $dataType = 'Default';
-} elseif (in_array($property['data_type_name'], ['literal', 'uri', 'resource'])) {
-    $dataType = $this->escapeHtml($property['data_type_label']);
-} elseif ($hasProperty) {
-    $dataTypeSelect = $this->dataType()->getSelect(
-        sprintf('data_types[%s]', $key),
-        isset($property['o:data_type']) ? $property['o:data_type'] : null,
-        ['style' => 'width:100%;', 'class' => 'chosen-select']
-    );
-    $dataType = sprintf('%s<br>%s', $this->escapeHtml($property['data_type_label']), $dataTypeSelect);
+// Prepare the data types (display the labels, then the select if needed).
+if ($hasProperty) {
+    if (empty($property['data_types'])):
+        $dataTypes = $translate('Default');
+    else:
+        $dataTypes = '<ul>';
+        foreach ($property['data_types'] as $dataType):
+            $dataTypes .= '<li>' . (isset($dataType['label']) ? $translate($dataType['label']) : $dataType['name']) . '</li>';
+        endforeach;
+        $dataTypes .= '</ul>';
+        if (count($property['data_types']) !== count($property['o:data_type'])):
+            $dataTypes .= $this->dataType()->getSelect(
+                sprintf('data_types[%s]', $key),
+                isset($property['o:data_type']) ? $property['o:data_type'] : null,
+                ['style' => 'width:100%;', 'class' => 'chosen-select', 'multiple' => 'multiple', 'data-placeholder' => $translate('Select data types…')]
+            );
+        endif;
+    endif;
 } else {
-    $dataType = $property['data_type_label'];
+    $dataTypes = $property['data_type_label'];
 }
 ?>
     <tr style="background-color:#<?php echo $hasProperty ? 'cdffcd;' : 'ffe6e6'; ?>">
-        <td><?php echo $this->escapeHtml($property['label']); ?></td>
-        <td><?php echo $dataType; ?></td>
-        <td><?php echo $this->escapeHtml($property['o:alternate_label']); ?></td>
-        <td><?php echo $this->escapeHtml($property['o:alternate_comment']); ?></td>
+        <td><?php echo $escape($property['label']); ?></td>
+        <td class="data-types"><?php echo $dataTypes; ?></td>
+        <td><?php echo $escape($property['o:alternate_label']); ?></td>
+        <td><?php echo $escape($property['o:alternate_comment']); ?></td>
         <td><?php echo $property['o:is_required'] ?  $translate('Yes') : $translate('No'); ?></td>
         <td><?php echo $property['o:is_private'] ? $translate('Yes') : $translate('No'); ?></td>
     </tr>
     <?php if (!$hasProperty): ?>
     <tr>
-        <td colspan="5" style="background-color:#ffe6e6; color:red;"><?php echo $this->escapeHtml($errorText); ?></td>
+        <td colspan="5" style="background-color:#ffe6e6; color:red;"><?php echo $escape($errorText); ?></td>
     </tr>
     <?php endif; ?>
 <?php endforeach; ?>

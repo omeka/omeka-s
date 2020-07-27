@@ -181,22 +181,11 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             && isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
         ) {
-            // Prepare a one-time index of all resource template properties, to
-            // be used to avoid duplicate elements (mysql is not set-theoretic).
-            $resTemProps = $entity->getResourceTemplateProperties();
-            $indexResTemProperties = [];
-            foreach ($resTemProps as $resTemProp) {
-                $dataType = $resTemProp->getDataType();
-                $dataTypes = array_unique(array_filter(array_map('trim', is_array($dataType) ? $dataType : explode("\n", $dataType))));
-                $dataType = implode("\n", $dataTypes);
-                $index = $resTemProp->getProperty()->getId() . '-' . $dataType;
-                $indexResTemProperties[$index] = $resTemProp;
-            }
-
             $propertyAdapter = $this->getAdapter('properties');
             $resTemProps = $entity->getResourceTemplateProperties();
             $resTemProps->first();
-            $resTemPropsToRetain = [];
+            $totalExisting = count($resTemProps);
+            // Position is one-based.
             $position = 1;
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
                 if (empty($resTemPropData['o:property']['o:id'])) {
@@ -231,22 +220,16 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                     $isPrivate = (bool) $resTemPropData['o:is_private'];
                 }
 
-                // Check whether a passed property is already assigned to this
-                // resource template.
-                $index = $propertyId . '-' . $dataType;
-                if (isset($indexResTemProperties[$index])) {
-                    $resTemProp = $indexResTemProperties[$index];
+                // Reuse existing records, because id has no meaning.
+                if ($position <= $totalExisting) {
+                    $resTemProp = $resTemProps[$position - 1];
                 } else {
-                    // It is not assigned. Add a new resource template property.
-                    // No need to explicitly add it to the collection since it
-                    // is added implicitly when setting the resource template.
-                    $property = $propertyAdapter->findEntity($propertyId);
                     $resTemProp = new ResourceTemplateProperty;
-                    $resTemProp->setResourceTemplate($entity);
-                    $resTemProp->setProperty($property);
                     $resTemProps->add($resTemProp);
                 }
 
+                $resTemProp->setResourceTemplate($entity);
+                $resTemProp->setProperty($propertyAdapter->findEntity($propertyId));
                 $resTemProp->setAlternateLabel($altLabel);
                 $resTemProp->setAlternateComment($altComment);
                 $resTemProp->setDataType($dataType);
@@ -255,15 +238,12 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 // Set the position of the property to its intrinsic order
                 // within the passed array.
                 $resTemProp->setPosition($position++);
-                $resTemPropsToRetain[] = $resTemProp;
             }
 
-            // Remove resource template properties that were not included in the
-            // passed data.
-            foreach ($resTemProps as $resTemProp) {
-                if (!in_array($resTemProp, $resTemPropsToRetain)) {
-                    $resTemProps->removeElement($resTemProp);
-                }
+            // Remove the remaining resource template properties that were not
+            // included in the passed data.
+            for (; $position <= $totalExisting; $position++) {
+                $resTemProps->remove($position - 1);
             }
         }
     }

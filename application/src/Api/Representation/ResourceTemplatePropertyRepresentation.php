@@ -2,7 +2,6 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Entity\ResourceTemplateProperty;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
@@ -91,12 +90,10 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
             return null;
         }
         $dataType = reset($dataTypes);
-        try {
-            return $this->getServiceLocator()->get('Omeka\DataTypeManager')->get($dataType);
-        } catch (ServiceNotFoundException $e) {
-            // Treat an unknown data type as "Default".
-            return null;
-        }
+        // Treat an unknown data type as "Default".
+        return $this->getServiceLocator()->get('Omeka\DataTypeManager')->has($dataType)
+            ? $dataType
+            : null;
     }
 
     /**
@@ -112,11 +109,9 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
         $dataTypeManager = $this->getServiceLocator()->get('Omeka\DataTypeManager');
         $result = [];
         foreach ($dataTypes as $dataType) {
-            try {
-                $dataTypeManager->get($dataType);
+            // Treat an unknown data type as "Default".
+            if ($dataTypeManager->has($dataType)) {
                 $result[] = $dataType;
-            } catch (ServiceNotFoundException $e) {
-                // Treat an unknown data type as "Default".
             }
         }
         return $result;
@@ -137,17 +132,19 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     }
 
     /**
-     * @return array Associative array of data type names and labels.
+     * @return array List of data type names and labels.
      */
     public function dataTypeLabels()
     {
-        $dataTypes = $this->dataTypes();
-        $dataTypes = array_flip($dataTypes);
+        $result = [];
         $dataTypeManager = $this->getServiceLocator()->get('Omeka\DataTypeManager');
-        foreach (array_keys($dataTypes) as $dataType) {
-            $dataTypes[$dataType] = $dataTypeManager->get($dataType)->getLabel();
+        foreach ($this->dataTypes() as $dataType) {
+            $result[] = [
+                'name' => $dataType,
+                'label' => $dataTypeManager->get($dataType)->getLabel(),
+            ];
         }
-        return $dataTypes;
+        return $result;
     }
 
     /**

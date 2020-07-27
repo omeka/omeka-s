@@ -47,8 +47,8 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
             </td>
             <td>
                 <ul>
-                    <?php foreach ($resourceTemplateProperty->dataTypeLabels() as $label): ?>
-                    <li><?php echo $escape($label); ?></li>
+                    <?php foreach ($resourceTemplateProperty->dataTypeLabels() as $dataTypeLabel): ?>
+                    <li><?php echo $escape($dataTypeLabel['label']); ?></li>
                     <?php endforeach; ?>
                 </ul>
             </td>

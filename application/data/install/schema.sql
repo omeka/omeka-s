@@ -198,10 +198,9 @@ CREATE TABLE `resource_template_property` (
   `is_required` tinyint(1) NOT NULL,
   `is_private` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `UNIQ_4689E2F116131EA549213EC37919CCB` (`resource_template_id`, `property_id`, `data_type`),
-  UNIQUE INDEX `UNIQ_4689E2F116131EA549213ECA633250B` (`resource_template_id`, `property_id`, `alternate_label`),
   KEY `IDX_4689E2F116131EA` (`resource_template_id`),
   KEY `IDX_4689E2F1549213EC` (`property_id`),
+  KEY `IDX_4689E2F116131EA549213EC` (`resource_template_id`, `property_id`),
   CONSTRAINT `FK_4689E2F116131EA` FOREIGN KEY (`resource_template_id`) REFERENCES `resource_template` (`id`),
   CONSTRAINT `FK_4689E2F1549213EC` FOREIGN KEY (`property_id`) REFERENCES `property` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -13,16 +13,27 @@ ALTER TABLE resource_template_property CHANGE data_type data_type VARCHAR(766) D
 SQL;
         $conn->exec($sql);
 
-        $sql = <<<SQL
-ALTER TABLE resource_template_property DROP INDEX UNIQ_4689E2F116131EA549213EC;
+        // Remove previous indexes if any.
+        $indexes = [
+            'UNIQ_4689E2F116131EA549213EC',
+            'UNIQ_4689E2F116131EA549213ECA633250B',
+            'UNIQ_4689E2F116131EA549213EC37919CCB',
+            'IDX_4689E2F116131EA549213EC',
+        ];
+        foreach ($indexes as $index) {
+            $sql = <<<SQL
+SHOW INDEX FROM resource_template_property WHERE Key_name = '$index';
 SQL;
-        $conn->exec($sql);
-        $sql = <<<SQL
-CREATE UNIQUE INDEX UNIQ_4689E2F116131EA549213ECA633250B ON resource_template_property (resource_template_id, property_id, alternate_label);
+            if ($conn->fetchAll($sql)) {
+                $sql = <<<SQL
+ALTER TABLE resource_template_property DROP INDEX $index;
 SQL;
-        $conn->exec($sql);
+                $conn->exec($sql);
+            }
+        }
+
         $sql = <<<SQL
-CREATE UNIQUE INDEX UNIQ_4689E2F116131EA549213EC37919CCB ON resource_template_property (resource_template_id, property_id, data_type);
+CREATE INDEX IDX_4689E2F116131EA549213EC ON resource_template_property (resource_template_id, property_id);
 SQL;
         $conn->exec($sql);
 

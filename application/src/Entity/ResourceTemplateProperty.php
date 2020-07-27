@@ -4,12 +4,9 @@ namespace Omeka\Entity;
 /**
  * @Entity
  * @Table(
- *     uniqueConstraints={
- *         @UniqueConstraint(
- *             columns={"resource_template_id", "property_id", "data_type"}
- *         ),
- *         @UniqueConstraint(
- *             columns={"resource_template_id", "property_id", "alternate_label"}
+ *     indexes={
+ *         @Index(
+ *             columns={"resource_template_id", "property_id"}
  *         )
  *     }
  * )

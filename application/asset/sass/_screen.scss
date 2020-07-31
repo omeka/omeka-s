@@ -1634,7 +1634,13 @@ td .o-icon-user-inactive {
     }
     
     .multi-value .add-value {
-        float: right;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    
+    .multi-value .field-meta {
+        padding-right: 1.5 * $spacing-large;
     }
 
     /* @end */

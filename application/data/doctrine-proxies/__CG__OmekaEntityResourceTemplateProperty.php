@@ -301,7 +301,7 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     /**
      * {@inheritDoc}
      */
-    public function setDataType($dataType)
+    public function setDataType(array $dataType = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDataType', [$dataType]);

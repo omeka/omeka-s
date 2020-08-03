@@ -31,6 +31,9 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
             <?php else: ?>
             <?php echo $page->title(); ?>
             <?php endif; ?>
+            <?php if (!$page->isPublic()): ?>
+                <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>
+            <?php endif; ?>
             <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
             <ul class="actions">
                 <li><?php echo $this->hyperlink('', $page->siteUrl(), [

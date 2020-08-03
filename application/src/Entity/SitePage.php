@@ -34,6 +34,11 @@ class SitePage extends AbstractEntity
     protected $title;
 
     /**
+     * @Column(type="boolean")
+     */
+    protected $isPublic = true;
+
+    /**
      * @ManyToOne(targetEntity="Site", inversedBy="pages")
      * @JoinColumn(nullable=false)
      */
@@ -88,6 +93,16 @@ class SitePage extends AbstractEntity
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = (bool) $isPublic;
+    }
+
+    public function isPublic()
+    {
+        return (bool) $this->isPublic;
     }
 
     public function setSite(Site $site)

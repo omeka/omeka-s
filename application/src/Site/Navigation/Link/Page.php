@@ -30,22 +30,39 @@ class Page implements LinkInterface
         if (isset($data['label']) && '' !== trim($data['label'])) {
             return $data['label'];
         }
+
         $pages = $site->pages();
         if (!isset($pages[$data['id']])) {
-            return '[Missing Page]';
+            $translator = $site->getServiceLocator()->get('MvcTranslator');
+            return $translator->translate('[Missing Page]'); // @translate
         }
-        return $pages[$data['id']]->title();
+        $sitePage = $pages[$data['id']];
+
+        // Handle a private page.
+        if (!$sitePage->userIsAllowed('read')) {
+            $translator = $site->getServiceLocator()->get('MvcTranslator');
+            return $translator->translate('[Private Page]'); // @translate
+        }
+
+        return $sitePage->title();
     }
 
     public function toZend(array $data, SiteRepresentation $site)
     {
         $pages = $site->pages();
+
+        // Handle an invalid page.
         if (!isset($pages[$data['id']])) {
-            // Handle an invalid page.
             $fallback = new Fallback('page');
             return $fallback->toZend($data, $site);
         }
         $sitePage = $pages[$data['id']];
+
+        // Handle a private page.
+        if (!$sitePage->userIsAllowed('read')) {
+            $fallback = new Fallback('page');
+            return $fallback->toZend($data, $site);
+        }
 
         return [
             'route' => 'site/page',

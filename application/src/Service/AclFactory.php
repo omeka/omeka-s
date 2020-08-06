@@ -7,10 +7,11 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use Omeka\Permissions\Acl;
 use Omeka\Permissions\Assertion\AssertionNegation;
 use Omeka\Permissions\Assertion\HasSitePermissionAssertion;
-use Omeka\Permissions\Assertion\SiteIsPublicAssertion;
-use Omeka\Permissions\Assertion\SitePageIsPublicAssertion;
 use Omeka\Permissions\Assertion\IsSelfAssertion;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
+use Omeka\Permissions\Assertion\OwnsSiteAssertion;
+use Omeka\Permissions\Assertion\SiteIsPublicAssertion;
+use Omeka\Permissions\Assertion\SitePageIsPublicAssertion;
 use Omeka\Permissions\Assertion\UserIsAdminAssertion;
 
 /**
@@ -225,13 +226,13 @@ class AclFactory implements FactoryInterface
 
         $viewerAssertion = $this->aggregate([
             new SitePageIsPublicAssertion,
-            new OwnsEntityAssertion,
+            new OwnsSiteAssertion,
             new HasSitePermissionAssertion('viewer'),
         ], AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             null,
             [\Omeka\Entity\SitePage::class],
-            'read',
+            ['read'],
             $viewerAssertion
         );
 

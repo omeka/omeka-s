@@ -24,6 +24,11 @@ class SitePageVisibilityFilter extends SQLFilter
             return '';
         }
 
+        $acl = $this->serviceLocator->get('Omeka\Acl');
+        if ($acl->userIsAllowed(\Omeka\Entity\SitePage::class, 'view-all')) {
+            return '';
+        }
+
         $identity = $this->serviceLocator->get('Omeka\AuthenticationService')->getIdentity();
         // Visitors can view public pages in public sites.
         if (!$identity) {

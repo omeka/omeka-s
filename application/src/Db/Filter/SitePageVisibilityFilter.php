@@ -27,12 +27,16 @@ class SitePageVisibilityFilter extends SQLFilter
         $identity = $this->serviceLocator->get('Omeka\AuthenticationService')->getIdentity();
         // Visitors can view public pages in public sites.
         if (!$identity) {
-            return "$targetTableAlias.id IN (SELECT sp.id FROM site_page sp INNER JOIN site st ON st.id = sp.site_id WHERE sp.id = $targetTableAlias.id AND sp.is_public = 1 AND st.is_public = 1)";
+            return "$targetTableAlias.id = (SELECT sp.id FROM site_page sp INNER JOIN site st ON st.id = sp.site_id WHERE sp.id = $targetTableAlias.id AND sp.is_public = 1 AND st.is_public = 1)";
         }
 
-        // Note: site pages have no owner.
-        // TODO Authenticated users can see pages according to their role or site permissions.
-        return '';
+        // Authenticated users can see public pages and any page in sites they
+        // own or where they have a role. Note: site pages have no owner.
+        return sprintf(
+            '%1$s.id = (SELECT sp.id FROM site_page sp INNER JOIN site st ON st.id = sp.site_id LEFT JOIN site_permission spm ON spm.site_id = st.id AND spm.user_id = %2$s WHERE sp.id = %1$s.id AND ((sp.is_public = 1 AND st.is_public = 1) OR (st.owner_id = %2$s) OR (spm.user_id IS NOT NULL))',
+            $targetTableAlias,
+            (int) $identity->getId()
+        );
     }
 
     /**

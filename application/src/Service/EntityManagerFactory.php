@@ -107,6 +107,8 @@ class EntityManagerFactory implements FactoryInterface
         $em->getFilters()->getFilter('resource_visibility')->setServiceLocator($serviceLocator);
         $em->getFilters()->enable('value_visibility');
         $em->getFilters()->getFilter('value_visibility')->setServiceLocator($serviceLocator);
+        $em->getFilters()->enable('site_page_visibility');
+        $em->getFilters()->getFilter('site_page_visibility')->setServiceLocator($serviceLocator);
 
         // Register a custom mapping type for an IP address.
         if (!Type::hasType('ip_address')) {

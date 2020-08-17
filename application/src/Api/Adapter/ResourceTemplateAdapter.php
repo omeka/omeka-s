@@ -188,6 +188,10 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 if (isset($resTemPropData['o:is_private'])) {
                     $isPrivate = (bool) $resTemPropData['o:is_private'];
                 }
+                $settings = [];
+                if (!empty($resTemPropData['o:settings'])) {
+                    $settings = $resTemPropData['o:settings'];
+                }
 
                 // Reuse existing records, because id has no meaning.
                 if ($position <= $totalExisting) {
@@ -204,6 +208,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 $resTemProp->setDataType($dataTypes);
                 $resTemProp->setIsRequired($isRequired);
                 $resTemProp->setIsPrivate($isPrivate);
+                $resTemProp->setSettings($settings);
                 // Set the position of the property to its intrinsic order
                 // within the passed array.
                 $resTemProp->setPosition($position++);

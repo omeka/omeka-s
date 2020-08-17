@@ -486,6 +486,7 @@ class ResourceTemplateController extends AbstractActionController
                 ->read('resource_templates', $this->params('id'))
                 ->getContent();
             $data = $resourceTemplate->jsonSerialize();
+            // TODO Move this inside form.
             if ($data['o:resource_class']) {
                 $data['o:resource_class[o:id]'] = $data['o:resource_class']->id();
             }
@@ -502,8 +503,14 @@ class ResourceTemplateController extends AbstractActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
             if ($form->isValid()) {
-                // TODO Get data from the form for security.
-                // TODO Fix form output for data types of each property.
+                // TODO Get data from the form for template properties too for security (but there is no form, it's just a phtml).
+                $data = [
+                    'o:resource_class' => ['o:id' => $data['o:resource_class']['o:id']],
+                    'o:title_property' => ['o:id' => $data['o:title_property']['o:id']],
+                    'o:description_property' => ['o:id' => $data['o:description_property']['o:id']],
+                    'o:resource_template_property' => $data['o:resource_template_property'],
+                ] + $form->getData();
+                // TODO Fix form output for data types of each property and manage array settings automatically.
                 foreach ($data['o:resource_template_property'] as $key => $dataProperty) {
                     if (empty($dataProperty['o:data_type'])) {
                         $data['o:resource_template_property'][$key]['o:data_type'] = [];
@@ -589,6 +596,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:data_type' => $resTemProp->dataTypes(),
                         'o:is_required' => $resTemProp->isRequired(),
                         'o:is_private' => $resTemProp->isPrivate(),
+                        'o:settings' => $resTemProp->settings(),
                     ];
                 }
             } else {
@@ -608,6 +616,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:data_type' => [],
                         'o:is_required' => false,
                         'o:is_private' => false,
+                        'o:settings' => [],
                     ],
                     [
                         'o:property' => $descriptionProperty,
@@ -616,6 +625,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:data_type' => [],
                         'o:is_required' => false,
                         'o:is_private' => false,
+                        'o:settings' => [],
                     ],
                 ];
             }
@@ -643,6 +653,7 @@ class ResourceTemplateController extends AbstractActionController
             'o:data_type' => [],
             'o:is_required' => false,
             'o:is_private' => false,
+            'o:settings' => [],
         ];
 
         $view = new ViewModel;

@@ -33,6 +33,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
             'o:data_type' => $this->dataTypes(),
             'o:is_required' => $this->isRequired(),
             'o:is_private' => $this->isPrivate(),
+            'o:settings' => $this->settings(),
         ];
     }
 
@@ -161,5 +162,26 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     public function isPrivate()
     {
         return $this->templateProperty->isPrivate();
+    }
+
+    /**
+     * @return array
+     */
+    public function settings()
+    {
+        return $this->templateProperty->getSettings();
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $default
+     * @return mixed
+     */
+    public function setting($name, $default = null)
+    {
+        $settings = $this->templateProperty->getSettings();
+        return array_key_exists($name, $settings)
+            ? $settings[$name]
+            : $default;
     }
 }

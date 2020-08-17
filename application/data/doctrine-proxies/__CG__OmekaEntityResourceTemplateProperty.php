@@ -66,10 +66,10 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType', 'isRequired', 'isPrivate'];
+            return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType', 'isRequired', 'isPrivate', 'settings'];
         }
 
-        return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType', 'isRequired', 'isPrivate'];
+        return ['__isInitialized__', 'id', 'resourceTemplate', 'property', 'alternateLabel', 'alternateComment', 'position', 'dataType', 'isRequired', 'isPrivate', 'settings'];
     }
 
     /**
@@ -387,6 +387,28 @@ class ResourceTemplateProperty extends \Omeka\Entity\ResourceTemplateProperty im
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPrivate', []);
 
         return parent::isPrivate();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setSettings(array $settings)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSettings', [$settings]);
+
+        return parent::setSettings($settings);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSettings()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSettings', []);
+
+        return parent::getSettings();
     }
 
     /**

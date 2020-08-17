@@ -2,10 +2,14 @@
 namespace Omeka\Form;
 
 use Omeka\Form\Element\ResourceClassSelect;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\Form\Form;
 
 class ResourceTemplateForm extends Form
 {
+    use EventManagerAwareTrait;
+
     public function init()
     {
         $this->add([
@@ -49,6 +53,9 @@ class ResourceTemplateForm extends Form
             ],
         ]);
 
+        $event = new Event('form.add_elements', $this);
+        $this->getEventManager()->triggerEvent($event);
+
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'o:label',
@@ -58,5 +65,10 @@ class ResourceTemplateForm extends Form
             'name' => 'o:resource_class[o:id]',
             'allow_empty' => true,
         ]);
+
+        // Separate events because calling $form->getInputFilters() resets
+        // everything.
+        $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
+        $this->getEventManager()->triggerEvent($event);
     }
 }

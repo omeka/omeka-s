@@ -471,6 +471,7 @@ return [
             'Omeka\Form\UserForm' => Service\Form\UserFormFactory::class,
             'Omeka\Form\SettingForm' => Service\Form\SettingFormFactory::class,
             'Omeka\Form\ModuleStateChangeForm' => Service\Form\ModuleStateChangeFormFactory::class,
+            'Omeka\Form\ResourceTemplateForm' => Service\Form\ResourceTemplateFormFactory::class,
             'Omeka\Form\SiteForm' => Service\Form\SiteFormFactory::class,
             'Omeka\Form\SiteSettingsForm' => Service\Form\SiteSettingsFormFactory::class,
             'Omeka\Form\UserBatchUpdateForm' => Service\Form\UserBatchUpdateFormFactory::class,

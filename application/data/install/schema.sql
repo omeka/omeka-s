@@ -197,6 +197,7 @@ CREATE TABLE `resource_template_property` (
   `data_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_required` tinyint(1) NOT NULL,
   `is_private` tinyint(1) NOT NULL,
+  `settings` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_4689E2F116131EA549213EC` (`resource_template_id`,`property_id`),
   KEY `IDX_4689E2F116131EA` (`resource_template_id`),

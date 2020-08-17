@@ -270,7 +270,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 $dataTypes = $templateProperty->dataTypes();
                 // Manage an exception.
                 if (in_array('resource', $dataTypes)) {
-                    $dataTypes = array_unique($dataTypes, ['resource:item', 'resource:itemset', 'resource:media']);
+                    $dataTypes = array_unique(array_merge($dataTypes, ['resource:item', 'resource:itemset', 'resource:media']));
                 }
                 $keyTemplateProperty = $term . '-' . $templateProperty->position();
                 // With duplicate properties, keep only the first label and

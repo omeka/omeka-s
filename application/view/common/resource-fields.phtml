@@ -3,6 +3,7 @@ $translate = $this->plugin('translate');
 $resourceTemplateSelect = $form->get('o:resource_template[o:id]');
 $resourceClassSelect = $form->get('o:resource_class[o:id]');
 $thumbnailInput = $form->get('o:thumbnail[o:id]');
+$ownerSelect = $form->get('o:owner[o:id]');
 if (isset($resource)) {
     if ($resourceTemplate = $resource->resourceTemplate()) {
         $resourceTemplateSelect->setValue($resourceTemplate->id());
@@ -12,6 +13,9 @@ if (isset($resource)) {
     }
     if ($thumbnail = $resource->thumbnail()) {
         $thumbnailInput->setValue($thumbnail->id());
+    }
+    if ($owner = $resource->owner()) {
+        $ownerSelect->setValue($owner->id());
     }
 } else {
     // Set the logged in user's default template when adding a resource.
@@ -35,12 +39,9 @@ if (isset($resource)) {
     <?php echo $this->partial('common/resource-select-sidebar'); ?>
 </fieldset>
 
-<fieldset id="thumbnail" class="section">
-    <p>
-    <?php
-    echo $translate('Omeka S automatically selects a thumbnail from among attached media for a resource. '
-        . 'You may use an image of your choice instead by choosing an asset here.');
-    ?>
-    </p>
-    <?php echo $this->formAsset($form->get('o:thumbnail[o:id]')); ?>
+<fieldset id="advanced-settings"
+    class="section"
+    aria-labelledby="advanced-settings-label">
+    <?php echo $this->formRow($thumbnailInput); ?>
+    <?php echo $this->formRow($ownerSelect); ?>
 </fieldset>

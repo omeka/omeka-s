@@ -10,7 +10,8 @@ echo $this->partial(
     'omeka/admin/resource-template/form.phtml',
     [
         'form' => $form,
-        'propertyRows' => $propertyRows,
+        'propertyFieldset' => $propertyFieldset,
+        'resourceTemplate' => null,
         'submitLabel' => $translate('Add'),
         'action' => 'add',
     ]

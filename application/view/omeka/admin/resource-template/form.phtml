@@ -1,9 +1,14 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$formLabel = $this->plugin('formLabel');
+$formElement = $this->plugin('formElement');
+$api = $this->plugin('api');
+
 $form->prepare();
-$this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 'Omeka'));
+$this->headScript()
+    ->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'))
+    ->appendFile($this->assetUrl('js/resource-template-form.js', 'Omeka'));
 ?>
 
 <?php echo $this->form()->openTag($form); ?>
@@ -15,22 +20,32 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $escape($submitLabel); ?></button>
 </div>
+
 <?php $this->trigger("view.$action.form.before", ['form' => $form]); ?>
-<?php echo $this->formCollection($form, false); ?>
+
+<?php foreach ($form->getElements() as $element): ?>
+<?php echo $this->formRow($element); ?>
+<?php endforeach; ?>
+
+<?php $templateSettings = $form->get('o:settings'); ?>
+<?php echo $this->formCollection($templateSettings, count($templateSettings->getElements())); // Don't display advanced settings label if empty. ?>
 
 <ul id="properties" data-add-new-property-row-url="<?php echo $escape($this->url(null, ['action' => 'add-new-property-row'], true)); ?>">
-    <?php foreach ($propertyRows as $propertyRow): ?>
-    <?php echo $this->partial(
+    <?php foreach ($form->get('o:resource_template_property') as $propertyFieldset): ?>
+    <?php $property = $propertyFieldset->get('o:property[o:id]')->getValue(); ?>
+    <?php $property = $api->read('properties', $property)->getContent();
+    echo $this->partial(
         'omeka/admin/resource-template/show-property-row',
-        ['propertyRow' => $propertyRow]
+        ['property' => $property, 'propertyFieldset' => $propertyFieldset]
     ) ?>
     <?php endforeach; ?>
 </ul>
+
 <?php $this->trigger("view.$action.form.after", ['form' => $form]); ?>
+
 <?php echo $this->form()->closeTag(); ?>
 
 <button id="property-selector-button" class="mobile-only"><?php echo $translate('Add property'); ?></button>
-
 
 <?php echo $this->propertySelector(); ?>
 <?php if (isset($resourceTemplate)): ?>
@@ -56,46 +71,58 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
             <h4><?php echo $translate('Original'); ?></h4>
             <span id="original-label"></span>
             <label for="alternate-label"><?php echo $translate('Alternate'); ?></label>
-            <input id="alternate-label" type="text">
+            <input id="alternate-label" type="text" data-property-key="o:alternate_label">
         </div>
         <div class="field">
             <h3><?php echo $escape($translate('Comment')); ?></h3>
             <h4><?php echo $translate('Original'); ?></h4>
             <span id="original-comment"></span>
             <label for="alternate-comment"><?php echo $translate('Alternate'); ?></label>
-            <textarea id="alternate-comment"></textarea>
+            <textarea id="alternate-comment" data-property-key="o:alternate_comment"></textarea>
         </div>
         <div class="field">
             <h3><?php echo $translate('Other options'); ?></h3>
             <div class="option">
                 <label for="is-title-property">
                     <?php echo $translate('Use for resource title'); ?>
-                    <input id="is-title-property" type="checkbox">
+                    <input id="is-title-property" type="checkbox" data-property-key="is-title-property">
                 </label>
             </div>
             <div class="option">
                 <label for="is-description-property">
                     <?php echo $translate('Use for resource description'); ?>
-                    <input id="is-description-property" type="checkbox">
+                    <input id="is-description-property" type="checkbox" data-property-key="is-description-property">
                 </label>
             </div>
             <div class="option">
                 <label for="is-required">
                     <?php echo $translate('Required'); ?>
-                    <input id="is-required" type="checkbox">
+                    <input id="is-required" type="checkbox" data-property-key="o:is_required">
                 </label>
             </div>
             <div class="option">
                 <label for="is-private">
                     <?php echo $translate('Private'); ?>
-                    <input id="is-private" type="checkbox">
+                    <input id="is-private" type="checkbox" data-property-key="o:is_private">
                 </label>
             </div>
             <div class="option">
                 <label for="data-type"><?php echo $translate('Data type'); ?></label>
-                <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type', 'class' => 'chosen-select']); ?>
+                <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type', 'multiple' => false, 'class' => 'chosen-select', 'data-property-key' => 'o:data_type']); ?>
             </div>
         </div>
+        <?php $elements = array_filter($propertyFieldset->getElements(), function ($element) { return $element->getAttribute('data-setting-key'); });
+        if (count($elements)): ?>
+        <div class="field settings">
+            <h3><?php echo $propertyFieldset->get('o:settings')->getLabel(); ?></h3>
+            <?php foreach ($elements as $element): ?>
+            <div class="option">
+                <?php echo $formLabel($element); ?>
+                <?php echo $formElement($element); ?>
+            </div>
+            <?php endforeach;; ?>
+        </div>
+        <?php endif; ?>
     </div>
     <div class="confirm-panel">
         <button id="set-changes"><?php echo $translate('Set changes'); ?></button>

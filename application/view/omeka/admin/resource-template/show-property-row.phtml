@@ -1,41 +1,45 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$property = $propertyRow['o:property'];
-$namePrefix = 'o:resource_template_property[' . $property->id() . ']';
-$propertyId = $escape($property->id());
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+$hyperlink = $this->plugin('hyperlink');
+$formElement = $this->plugin('formElement');
 ?>
-<li class="property row" data-property-id="<?php echo $propertyId; ?>">
 
-    <input class="property-id" type="hidden" name="<?php echo $escape($namePrefix . '[o:property][o:id]'); ?>" value="<?php echo $escape($property->id()); ?>">
-    <input class="original-label" type="hidden" name="<?php echo $escape($namePrefix . '[o:original_label]'); ?>" value="<?php echo $escape($translate($property->label())); ?>">
-    <input class="alternate-label" type="hidden" name="<?php echo $escape($namePrefix . '[o:alternate_label]'); ?>" value="<?php echo $escape($propertyRow['o:alternate_label']); ?>">
-    <input class="original-comment" type="hidden" name="<?php echo $escape($namePrefix . '[o:original_comment]'); ?>" value="<?php echo $escape($translate($property->comment())); ?>">
-    <input class="alternate-comment" type="hidden" name="<?php echo $escape($namePrefix . '[o:alternate_comment]'); ?>" value="<?php echo $escape($propertyRow['o:alternate_comment']); ?>">
-    <input class="is-required" type="hidden" name="<?php echo $escape($namePrefix . '[o:is_required]'); ?>" value="<?php echo $escape($propertyRow['o:is_required']); ?>">
-    <input class="is-private" type="hidden" name="<?php echo $escape($namePrefix . '[o:is_private]'); ?>" value="<?php echo $escape($propertyRow['o:is_private']); ?>">
-    <input class="data-type" type="hidden" name="<?php echo $escape($namePrefix . '[o:data_type]'); ?>" value="<?php echo $escape($propertyRow['o:data_type']); ?>">
+<li class="property row" data-property-id="<?php echo $property->id(); ?>">
+
+    <div class="row-fieldset hidden" style="display:none;">
+        <input class="original-label" type="hidden" name="o:original_label" value="<?php echo $escapeAttr($translate($property->label())); ?>">
+        <input class="original-comment" type="hidden" name="o:original_comment" value="<?php echo $escapeAttr($translate($property->comment())); ?>">
+        <?php
+        foreach ($propertyFieldset->getElements() as $element):
+            $name = $element->getName();
+            if (in_array($name, ['is-title-property', 'is-description-property'])) continue;
+            echo $formElement($element);
+        endforeach;
+        ?>
+    </div>
 
     <span class="sortable-handle"></span>
     <span class="original-label-cell"><?php echo $escape($translate($property->label())); ?></span>
-    <span class="alternate-label-cell"><?php echo $escape($propertyRow['o:alternate_label']); ?></span>
+    <span class="alternate-label-cell"><?php echo $escape($propertyFieldset->get('o:alternate_label')->getValue()); ?></span>
 
     <ul class="actions">
-        <li><?php echo $this->hyperlink('', '#', [
+        <li><?php echo $hyperlink('', '#', [
             'class' => 'o-icon-more sidebar-content',
             'title' => $translate('Details'),
             'data-sidebar-content-url' => $property->url('show-details'),
             'data-sidebar-selector' => '#details',
         ]); ?></li>
-        <li><?php echo $this->hyperlink('', '#', [
+        <li><?php echo $hyperlink('', '#', [
             'class' => 'o-icon-edit property-edit',
             'title' => $translate('Edit property'),
         ]); ?></li>
-        <li><?php echo $this->hyperlink('', '#', [
+        <li><?php echo $hyperlink('', '#', [
             'class' => 'o-icon-delete property-remove',
             'title' => $translate('Remove property'),
         ]); ?></li>
-        <li><?php echo $this->hyperlink('', '#', [
+        <li><?php echo $hyperlink('', '#', [
             'class' => 'o-icon-undo property-restore',
             'title' => $translate('Restore value'),
             'style' => 'display: none',

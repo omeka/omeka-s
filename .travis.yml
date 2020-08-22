@@ -24,7 +24,7 @@ before_install:
   
 install:
   - npm install
-  - ./node_modules/gulp/bin/gulp.js init
+  - npx gulp init
 
 before_script:
   - mysql -e "create database IF NOT EXISTS omeka_test;" -uroot

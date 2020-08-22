@@ -28,8 +28,7 @@ options in the [documentation](https://omeka.org/s/docs/user-manual/configuratio
    * `$ cd omeka-s`
 1. Perform first-time setup:
    * `$ npm install`
-   * `$ npm install --global gulp-cli` (if you do not already have `gulp` installed)
-   * `$ gulp init`
+   * `$ npx gulp init`
 1. Open `config/database.ini` and add your MySQL username, password, database
    name, and host name. The user and database must be created before this step.
 1. Make sure the `files/` directory is writable by Apache.

@@ -19,8 +19,8 @@ cache:
     - build/cache
 
 before_install:
- - nvm install 7
- - nvm use 7
+ - nvm install 8
+ - nvm use 8
   
 install:
   - npm install

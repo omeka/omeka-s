@@ -75,7 +75,7 @@ class ResourceTemplateController extends AbstractActionController
                         $view->setVariable('import', $import);
                         $view->setTemplate('omeka/admin/resource-template/review-import');
                     } else {
-                        $this->messenger()->addError('Invalid import file format');
+                        $this->messenger()->addError('Invalid import file format'); // @translate
                     }
                 } else {
                     // Process review import form.
@@ -265,6 +265,13 @@ class ResourceTemplateController extends AbstractActionController
             }
         }
 
+        // Manage import from an export of Omeka < 3.0 for settings.
+
+        // Validate template settings.
+        if (array_key_exists('o:settings', $import) && !is_array($import['o:settings'])) {
+            return false;
+        }
+
         // Validate properties.
         if (!isset($import['o:resource_template_property']) || !is_array($import['o:resource_template_property'])) {
             // missing or invalid o:resource_template_property
@@ -298,6 +305,7 @@ class ResourceTemplateController extends AbstractActionController
                 || (!is_string($property['o:alternate_comment']) && !is_null($property['o:alternate_comment']))
                 || !is_bool($property['o:is_required'])
                 || !is_bool($property['o:is_private'])
+                || (array_key_exists('o:settings', $property) && !is_array($property['o:settings']))
                 || (!is_string($property['data_type_name']) && !is_null($property['data_type_name']))
                 || (!is_string($property['data_type_label']) && !is_null($property['data_type_label']))
             ) {
@@ -320,6 +328,7 @@ class ResourceTemplateController extends AbstractActionController
         $export = [
             'o:label' => $template->label(),
             'o:resource_template_property' => [],
+            'o:settings' => $template->settings(),
         ];
 
         if ($templateClass) {
@@ -369,6 +378,7 @@ class ResourceTemplateController extends AbstractActionController
                 'o:alternate_comment' => $templateProperty->alternateComment(),
                 'o:is_required' => $templateProperty->isRequired(),
                 'o:is_private' => $templateProperty->isPrivate(),
+                'o:settings' => $templateProperty->settings(),
                 'data_type_name' => $dataTypeName,
                 'data_type_label' => $dataTypeLabel,
                 'vocabulary_namespace_uri' => $vocab->namespaceUri(),

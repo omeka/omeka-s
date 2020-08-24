@@ -263,14 +263,21 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
 
         $scalarField = $request->getOption('returnScalar');
         if ($scalarField) {
-            $fieldNames = $this->getEntityManager()->getClassMetadata($entityClass)->getFieldNames();
+            $classMetadata = $this->getEntityManager()->getClassMetadata($entityClass);
+            $fieldNames = $classMetadata->getFieldNames();
             if (!in_array($scalarField, $fieldNames)) {
-                throw new Exception\BadRequestException(sprintf(
-                    $this->getTranslator()->translate('The "%1$s" field is not available in the %2$s entity class.'),
-                    $scalarField, $entityClass
-                ));
+                $associationNames = $classMetadata->getAssociationNames();
+                if (!in_array($scalarField, $associationNames)) {
+                    throw new Exception\BadRequestException(sprintf(
+                        $this->getTranslator()->translate('The "%1$s" field is not available in the %2$s entity class.'),
+                        $scalarField, $entityClass
+                    ));
+                }
+                $qb->join('omeka_root.' . $scalarField, $scalarField . '_');
+                $qb->select(['omeka_root.id', $scalarField . '_.id AS ' . $scalarField]);
+            } else {
+                $qb->select(['omeka_root.id', 'omeka_root.' . $scalarField]);
             }
-            $qb->select(['omeka_root.id', 'omeka_root.' . $scalarField]);
             $content = array_column($qb->getQuery()->getScalarResult(), $scalarField, 'id');
             $response = new Response($content);
             $response->setTotalResults(count($content));

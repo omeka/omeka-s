@@ -562,6 +562,13 @@
                 });
                 field.removeData('allowed-languages');
                 field.find('.inputs .values input.value-language, .inputs .values select.value-language').removeClass('active');
+                // Apply first the global allowed languages if any.
+                if (resourceTemplate && resourceTemplate['o:settings']['allowed_languages'] && resourceTemplate['o:settings']['allowed_languages'].length) {
+                    field.data('allowed-languages', resourceTemplate['o:settings']['allowed_languages'].join(','));
+                    field.find('.inputs .values input.value-language').each(function() {
+                        initValueLanguage($(this));
+                    });
+                }
                 if (hasTemplateProperties) {
                     // Prepare allowed languages for specified property.
                     resourceTemplate['o:resource_template_property'].some(function(rtp) {

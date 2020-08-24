@@ -38,7 +38,7 @@ class SitePageVisibilityFilter extends SQLFilter
         // Authenticated users can see public pages and any page in sites they
         // own or where they have a role. Note: site pages have no owner.
         return sprintf(
-            '%1$s.id = (SELECT sp.id FROM site_page sp INNER JOIN site st ON st.id = sp.site_id LEFT JOIN site_permission spm ON spm.site_id = st.id AND spm.user_id = %2$s WHERE sp.id = %1$s.id AND ((sp.is_public = 1 AND st.is_public = 1) OR (st.owner_id = %2$s) OR (spm.user_id IS NOT NULL))',
+            '%1$s.id = (SELECT sp.id FROM site_page sp INNER JOIN site st ON st.id = sp.site_id LEFT JOIN site_permission spm ON spm.site_id = st.id AND spm.user_id = %2$s WHERE sp.id = %1$s.id AND ((sp.is_public = 1 AND st.is_public = 1) OR (st.owner_id = %2$s) OR (spm.user_id IS NOT NULL)))',
             $targetTableAlias,
             (int) $identity->getId()
         );

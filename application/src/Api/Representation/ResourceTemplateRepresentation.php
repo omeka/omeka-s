@@ -37,6 +37,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
             'o:resource_class' => $resourceClass,
             'o:title_property' => $titleProperty,
             'o:description_property' => $descriptionProperty,
+            'o:settings' => $this->settings(),
             'o:resource_template_property' => $this->resourceTemplateProperties(),
         ];
     }
@@ -93,6 +94,27 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     {
         return $this->getAdapter('properties')
             ->getRepresentation($this->resource->getDescriptionProperty());
+    }
+
+    /**
+     * @return array
+     */
+    public function settings()
+    {
+        return $this->resource->getSettings();
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $default
+     * @return mixed
+     */
+    public function setting($name, $default = null)
+    {
+        $settings = $this->resource->getSettings();
+        return array_key_exists($name, $settings)
+            ? $settings[$name]
+            : $default;
     }
 
     /**

@@ -45,6 +45,11 @@ class ResourceTemplate extends AbstractEntity
     protected $descriptionProperty;
 
     /**
+     * @Column(type="json_array", nullable=false)
+     */
+    protected $settings;
+
+    /**
      * @OneToMany(
      *     targetEntity="ResourceTemplateProperty",
      *     mappedBy="resourceTemplate",
@@ -122,6 +127,16 @@ class ResourceTemplate extends AbstractEntity
     public function getDescriptionProperty()
     {
         return $this->descriptionProperty;
+    }
+
+    public function setSettings(array $settings)
+    {
+        $this->settings = $settings;
+    }
+
+    public function getSettings()
+    {
+        return $this->settings;
     }
 
     public function getResourceTemplateProperties()

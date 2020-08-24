@@ -176,6 +176,7 @@ CREATE TABLE `resource_template` (
   `title_property_id` int(11) DEFAULT NULL,
   `description_property_id` int(11) DEFAULT NULL,
   `label` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `settings` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_39ECD52EEA750E8` (`label`),
   KEY `IDX_39ECD52E7E3C61F9` (`owner_id`),

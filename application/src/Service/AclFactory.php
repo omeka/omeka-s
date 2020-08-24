@@ -376,6 +376,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\ResourceClass',
                 'Omeka\Controller\Admin\Property',
                 'Omeka\Controller\Admin\SystemInfo',
+                'Omeka\Controller\Admin\Value',
             ],
             [
                 'index',
@@ -507,6 +508,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\ResourceClass',
                 'Omeka\Controller\Admin\Property',
                 'Omeka\Controller\Admin\SystemInfo',
+                'Omeka\Controller\Admin\Value',
             ],
             [
                 'index',
@@ -634,6 +636,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Admin\ResourceClass',
                 'Omeka\Controller\Admin\Property',
                 'Omeka\Controller\Admin\SystemInfo',
+                'Omeka\Controller\Admin\Value',
             ],
             [
                 'index',

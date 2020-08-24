@@ -331,6 +331,7 @@ return [
             'Omeka\Controller\Admin\User' => Service\Controller\Admin\UserControllerFactory::class,
             'Omeka\Controller\Admin\ResourceTemplate' => Service\Controller\Admin\ResourceTemplateControllerFactory::class,
             'Omeka\Controller\Admin\SystemInfo' => Service\Controller\Admin\SystemInfoControllerFactory::class,
+            'Omeka\Controller\Admin\Value' => Service\Controller\Admin\ValueControllerFactory::class,
             'Omeka\Controller\Admin\Vocabulary' => Service\Controller\Admin\VocabularyControllerFactory::class,
             'Omeka\Controller\Admin\Item' => Service\Controller\Admin\ItemControllerFactory::class,
             'Omeka\Controller\SiteAdmin\Index' => Service\Controller\SiteAdmin\IndexControllerFactory::class,

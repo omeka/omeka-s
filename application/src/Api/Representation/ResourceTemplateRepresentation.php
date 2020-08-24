@@ -77,7 +77,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     /**
      * Return the title property of this resource template.
      *
-     * @return ResourceClassRepresentation
+     * @return PropertyRepresentation
      */
     public function titleProperty()
     {
@@ -88,7 +88,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     /**
      * Return the description property of this resource template.
      *
-     * @return ResourceClassRepresentation
+     * @return PropertyRepresentation
      */
     public function descriptionProperty()
     {
@@ -125,9 +125,10 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     public function resourceTemplateProperties()
     {
         $resTemProps = [];
+        $services = $this->getServiceLocator();
         foreach ($this->resource->getResourceTemplateProperties() as $resTemProp) {
             $resTemProps[] = new ResourceTemplatePropertyRepresentation(
-                $resTemProp, $this->getServiceLocator());
+                $resTemProp, $services);
         }
         return $resTemProps;
     }

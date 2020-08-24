@@ -2,7 +2,6 @@
 namespace Omeka\Api\Representation;
 
 use Omeka\Entity\ResourceTemplateProperty;
-use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
@@ -87,13 +86,10 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     {
         // Check the data type against the list of registered data types.
         $dataType = $this->templateProperty->getDataType();
-        try {
-            $this->getServiceLocator()->get('Omeka\DataTypeManager')->get($dataType);
-        } catch (ServiceNotFoundException $e) {
-            // Treat an unknown data type as "Default"
-            $dataType = null;
-        }
-        return $dataType;
+        // Treat an unknown data type as "Default".
+        return $this->getServiceLocator()->get('Omeka\DataTypeManager')->has($dataType)
+            ? $dataType
+            : null;
     }
 
     /**

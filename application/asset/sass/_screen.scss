@@ -1789,6 +1789,31 @@ select.value-language,
     padding-left: $spacing-small;
 }
 
+.autocomplete-suggestions {
+    border: 1px solid #999;
+    background: #fff;
+    overflow: auto;
+}
+.autocomplete-suggestion {
+    padding: 2px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.autocomplete-selected {
+    background: #f0f0f0;
+}
+.autocomplete-suggestions strong {
+    font-weight: normal;
+    color: #3399ff;
+}
+.autocomplete-group {
+    padding: 2px 5px;
+}
+.autocomplete-group strong {
+    display: block;
+    border-bottom: 1px solid #000;
+}
+
 .non-properties {
     margin-bottom: $spacing-medium;
 }

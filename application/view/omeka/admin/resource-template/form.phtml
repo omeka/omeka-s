@@ -102,6 +102,13 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
                 </label>
             </div>
             <div class="option">
+                <label for="autocomplete"><?php echo $translate('Autocomplete'); ?></label>
+                <label><input type="radio" name="autocomplete" value="" id="autocomplete" checked="checked"><?php echo $translate('Use template setting'); ?></label>
+                <label><input type="radio" name="autocomplete" value="no" ><?php echo $translate('No'); ?></label>
+                <label><input type="radio" name="autocomplete" value="sw"><?php echo $translate('Starts with'); ?></label>
+                <label><input type="radio" name="autocomplete" value="in"><?php echo $translate('Contains'); ?></label>
+            </div>
+            <div class="option">
                 <label for="allowed-languages">
                     <?php echo $translate('Allowed languages'); ?>
                     <textarea id="allowed-languages"></textarea>

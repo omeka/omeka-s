@@ -3,7 +3,9 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $formLabel = $this->plugin('formLabel');
 $formElement = $this->plugin('formElement');
-$this->headScript()->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
+$this->headScript()
+    ->appendFile($this->assetUrl('vendor/jquery-autocomplete/jquery.autocomplete.min.js', 'Omeka'))
+    ->appendFile($this->assetUrl('js/resource-form.js', 'Omeka'));
 $form->prepare();
 ?>
 

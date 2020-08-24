@@ -65,6 +65,22 @@ class ResourceTemplateForm extends Form
         $settingsFieldset = $this->get('o:settings');
         $settingsFieldset
             ->add([
+                'name' => 'autocomplete',
+                'type' => Element\Radio::class,
+                'options' => [
+                    'label' => 'Autocomplete with existing values', // @translate
+                    'value_options' => [
+                        'no' => 'No', // @translate
+                        'sw' => 'Starts with', // @translate
+                        'in' => 'Contains', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'autocomplete',
+                    'value' => 'no',
+                ],
+            ])
+            ->add([
                 'name' => 'allowed_languages',
                 'type' => Element\Textarea::class,
                 'options' => [
@@ -98,6 +114,10 @@ class ResourceTemplateForm extends Form
             'allow_empty' => true,
         ]);
         $inputFilter->get('o:settings')
+            ->add([
+                'name' => 'autocomplete',
+                'required' => false,
+            ])
             ->add([
                 'name' => 'allowed_languages',
                 'required' => false,

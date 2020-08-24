@@ -18,6 +18,7 @@ $propertyId = $escape($property->id());
     <input class="is-private" type="hidden" name="<?php echo $namePrefix . '[o:is_private]'; ?>" value="<?php echo $escapeAttr($propertyRow['o:is_private']); ?>">
     <input class="data-type" type="hidden" name="<?php echo $namePrefix . '[o:data_type]'; ?>" value="<?php echo is_array($propertyRow['o:data_type']) ? $escapeAttr(implode(',', $propertyRow['o:data_type'])) : $escapeAttr($propertyRow['o:data_type']); ?>">
     <input class="default-value" type="hidden" name="<?php echo $namePrefix . '[o:settings][default_value]'; ?>" value="<?php echo array_key_exists('default_value', $propertyRow['o:settings']) ? $escapeAttr($propertyRow['o:settings']['default_value']) : ''; ?>">
+    <input class="autocomplete" type="hidden" name="<?php echo $namePrefix . '[o:settings][autocomplete]'; ?>" value="<?php echo array_key_exists('autocomplete', $propertyRow['o:settings']) ? $escapeAttr($propertyRow['o:settings']['autocomplete']) : ''; ?>">
     <input class="allowed-languages" type="hidden" name="<?php echo $namePrefix . '[o:settings][allowed_languages]'; ?>" value="<?php echo array_key_exists('allowed_languages', $propertyRow['o:settings']) && is_array($propertyRow['o:settings']['allowed_languages']) ? $escapeAttr(implode("\n", $propertyRow['o:settings']['allowed_languages'])) : ''; ?>">
     <input class="no-language" type="hidden" name="<?php echo $namePrefix . '[o:settings][no_language]'; ?>" value="<?php echo empty($propertyRow['o:settings']['no_language']) ? '' : '1'; ?>">
 

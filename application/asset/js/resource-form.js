@@ -61,6 +61,10 @@
             var field = typeButton.closest('.resource-values.field');
             var value = makeNewValue(field.data('property-term'), typeButton.data('type'))
             field.find('.values').append(value);
+            if (field.data('autocomplete')) {
+                value.find('textarea.input-value').addClass('autocomplete');
+                value.find('textarea.input-value.autocomplete').each(initAutocomplete);
+            }
             value.find('input.value-language').each(initValueLanguage);
         });
 
@@ -526,6 +530,15 @@
             }
 
             // Reset all settings, then prepare specific settings according to template.
+            // Reset autocomplete for all properties.
+            fields.removeData('autocomplete');
+            fields.find('.inputs .values textarea.input-value.autocomplete').each(function() {
+                var autocomp = $(this).autocomplete();
+                if (autocomp) {
+                    autocomp.dispose();
+                }
+            });
+            fields.find('.inputs .values textarea.input-value').prop('autocomplete', 'off').removeClass('autocomplete');
             // Reset languages select for all properties, but keep currently selected values.
             fields.find('.inputs .values input.value-language').each(function() {
                 if ($(this).closest('.resource-values.field').data('allowed-languages')) {
@@ -565,6 +578,10 @@
                 }
                 // Apply first the template settngs, then the property ones.
                 if (resourceTemplate) {
+                    if (resourceTemplate['o:settings']['autocomplete'] && $.inArray(resourceTemplate['o:settings']['autocomplete'], ['sw', 'in']) > -1) {
+                        field.data('autocomplete', resourceTemplate['o:settings']['autocomplete']);
+                        field.find('.inputs .values textarea.input-value').addClass('autocomplete');
+                    }
                     if (resourceTemplate['o:settings']['no_language'] > 0) {
                         field.data('no-language', '1');
                     } else if (resourceTemplate['o:settings']['allowed_languages'] && resourceTemplate['o:settings']['allowed_languages'].length) {
@@ -573,6 +590,10 @@
                     if (hasTemplateProperties) {
                         resourceTemplate['o:resource_template_property'].some(function(rtp) {
                             if (rtp['o:property']['o:id'] === propertyId) {
+                                if (rtp['o:settings']['autocomplete'] && $.inArray(rtp['o:settings']['autocomplete'], ['sw', 'in']) > -1) {
+                                    field.data('autocomplete', rtp['o:settings']['autocomplete']);
+                                    field.find('.inputs .values textarea.input-value').addClass('autocomplete');
+                                }
                                 if (rtp['o:settings']['no_language'] > 0) {
                                     field.data('no-language', '1');
                                 } else if (rtp['o:settings']['allowed_languages'] && rtp['o:settings']['allowed_languages'].length) {
@@ -585,6 +606,7 @@
                     }
                 }
                 // Initialize settings filtered by selectors.
+                fields.find('.inputs .values textarea.input-value.autocomplete').each(initAutocomplete);
                 fields.find('.inputs .values input.value-language').each(initValueLanguage);
             });
         };
@@ -732,6 +754,20 @@
             .append(makeDefaultValue('dcterms:description', defaultDataType));
     }
 
+    var initAutocomplete = function() {
+        var searchField = $(this);
+        searchField.autocomplete({
+            serviceUrl: searchField.data('autocomplete-url'),
+            dataType: 'json',
+            paramName: 'q',
+            params: {
+                prop: searchField.closest('.resource-values.field').data('property-id'),
+                type: searchField.closest('.resource-values.field').data('autocomplete'),
+                output: 'autocomplete',
+            }
+        });
+    }
+
     var initValueLanguage = function() {
         var languageInput = $(this);
         var languageElement;
@@ -802,6 +838,8 @@
         $.when(applyResourceTemplate(applyTemplateClass)).done(function () {
             $('#properties').closest('form').trigger('o:form-loaded');
         });
+
+        $('.inputs .values textarea.input-value').prop('autocomplete', 'off');
 
         $('input.value-language').each(initValueLanguage);
     };

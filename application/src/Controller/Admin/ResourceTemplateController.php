@@ -511,15 +511,24 @@ class ResourceTemplateController extends AbstractActionController
                     'o:resource_template_property' => $data['o:resource_template_property'],
                 ] + $form->getData();
                 // TODO Fix form output for data types of each property and manage array settings automatically.
-                foreach ($data['o:resource_template_property'] as $key => $dataProperty) {
-                    if (empty($dataProperty['o:data_type'])) {
-                        $data['o:resource_template_property'][$key]['o:data_type'] = [];
-                    } elseif (is_array($dataProperty['o:data_type'])) {
-                        $data['o:resource_template_property'][$key]['o:data_type'] = $dataProperty['o:data_type'];
+                $cleanArraySetting = function($arraySetting) {
+                    if (empty($arraySetting)) {
+                        return [];
+                    } elseif (is_array($arraySetting)) {
+                        return array_values($arraySetting);
                     } else {
-                        $data['o:resource_template_property'][$key]['o:data_type'] = explode(',', $dataProperty['o:data_type']);
+                        return array_values(array_unique(array_filter(array_map('trim', explode("\n", str_replace(',', "\n", $arraySetting))), 'strlen')));
+                    }
+                };
+                foreach ($data['o:resource_template_property'] as $key => $dataProperty) {
+                    $data['o:resource_template_property'][$key]['o:data_type'] = $cleanArraySetting($dataProperty['o:data_type']);
+                    foreach ($dataProperty['o:settings'] as $name => $value) {
+                        if (in_array($name, ['allowed_languages'])) {
+                            $data['o:resource_template_property'][$key]['o:settings'][$name] = $cleanArraySetting($value);
+                        }
                     }
                 }
+
                 $response = $isUpdate
                     ? $this->api($form)->update('resource_templates', $resourceTemplate->id(), $data)
                     : $this->api($form)->create('resource_templates', $data);

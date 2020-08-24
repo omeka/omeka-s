@@ -68,6 +68,7 @@ propertyList.on('click', '.property-edit', function(e) {
     var isPrivate = prop.find('.is-private');
     var dataTypes = prop.find('.data-type');
     var defaultValue = prop.find('.default-value');
+    var allowedLanguages = prop.find('.allowed-languages');
 
     $('#original-label').text(oriLabel.val());
     $('#alternate-label').val(altLabel.val());
@@ -80,6 +81,7 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#data-type').val(dataTypes.val().split(','));
     $('#data-type').trigger('chosen:updated');
     $('#default-value').val(defaultValue.val());
+    $('#allowed-languages').val(allowedLanguages.val());
 
     $('#set-changes').off('click.setchanges').on('click.setchanges', function(e) {
         altLabel.val($('#alternate-label').val());
@@ -106,6 +108,7 @@ propertyList.on('click', '.property-edit', function(e) {
         $('#is-private').prop('checked') ? isPrivate.val(1) : isPrivate.val(null);
         dataTypes.val($('#data-type').val());
         defaultValue.val($('#default-value').val());
+        allowedLanguages.val($('#allowed-languages').val());
         Omeka.closeSidebar($('#edit-sidebar'));
     });
 

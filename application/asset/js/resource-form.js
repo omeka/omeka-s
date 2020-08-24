@@ -733,6 +733,20 @@
             $.each(field.data('allowed-languages').split(','), function (index, value) {
                 languageSelect.append($('<option/>', {value: value,  text: value}));
             });
+            // Check if the existing language is listed in the select in order
+            // to keep languages set before applying the template.
+            if (language.length) {
+                var hasLanguage = false;
+                languageSelect.find('option').each(function(){
+                    if (this.value == language) {
+                        hasLanguage = true;
+                        return false;
+                    }
+                });
+                if (!hasLanguage) {
+                    languageSelect.append($('<option/>', {value: language, text: language + ' ' + '[unspecified]'}));
+                }
+            }
             languageSelect.val(language);
             languageElement = languageSelect;
         } else {

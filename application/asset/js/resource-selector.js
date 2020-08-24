@@ -98,11 +98,19 @@
         $(document).on('click', '.modal form.resource-form #page-actions button[type=submit]', function(e) {
             // Warning: the submit may not occur when the modal is not focus.
             $('form.resource-form').submit();
-            window.localStorage.removeItem('modal');
-            // Leave time to submit the form before closing form.
-            setTimeout(function() {
-                window.close();
-            }, 1000);
+            // TODO Manage error after submission (via ajax post?).
+            // To avoid most issues for now, tab "Media" and "Thumbnail" are hidden.
+            // Anyway, the user is working on the main resource.
+            if ($('form.resource-form').data('has-error') == 1) {
+                e.preventDefault();
+            } else {
+                window.localStorage.removeItem('modal');
+                // Leave time to submit the form before closing form.
+                setTimeout(function() {
+                    window.close();
+                }, 1000);
+            }
+            $('form.resource-form').removeData('has-error');
             return false;
         });
         // Cancel modal window.

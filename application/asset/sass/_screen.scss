@@ -883,6 +883,10 @@ body.modal header,
 body.modal footer {
     display: none !important;
 }
+body.modal .resource-form .section-nav #item-media-label,
+body.modal .resource-form .section-nav #thumbnail-label {
+    display: none !important;
+}
 
 /* @end */
 

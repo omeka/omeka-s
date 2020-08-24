@@ -185,6 +185,7 @@
             });
             if (errors.length) {
                 e.preventDefault();
+                thisForm.data('has-error', '1');
                 alert(errors.join("\n"));
             }
 

@@ -51,7 +51,7 @@ $form->prepare();
 
     <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
     <?php echo $this->cancelButton(); ?>
-    <input type="submit" name="add-item-set-submit" value="<?php echo $translate('Save'); ?>">
+    <button type="submit" name="add-item-set-submit"><?php echo $escape($submitLabel); ?></button>
 </div>
 
 <?php $this->trigger("view.$action.form.after", ['form' => $form]); ?>

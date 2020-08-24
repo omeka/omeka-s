@@ -1,6 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
-$this->htmlElement('body')->appendAttribute('class', 'add item-sets');
+$isModal = $this->params()->fromQuery('window') === 'modal';
+$this->htmlElement('body')->appendAttribute('class', ($isModal ? 'modal ' : '') . 'add item-sets');
 ?>
 
 <?php echo $this->pageTitle($translate('New item set'), 1, $translate('Item sets')); ?>
@@ -9,6 +10,7 @@ $this->htmlElement('body')->appendAttribute('class', 'add item-sets');
 echo $this->partial('omeka/admin/item-set/form.phtml', [
     'form' => $form,
     'itemSet' => null,
+    'submitLabel' => $translate('Add'),
     'sectionNavEvent' => 'view.add.section_nav',
     'action' => 'add',
 ]);

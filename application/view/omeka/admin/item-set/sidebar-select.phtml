@@ -16,6 +16,10 @@ $itemSetsFound = count($itemSets) > 0;
     <?php endif; ?>
 </div>
 
+<div data-data-type="resource:itemset">
+    <a class="o-icon-item-sets button quick-add-resource" href="<?php echo $this->url(null, ['action' => 'add'], ['query' => ['window' => 'modal']], true) ?>" target="_blank"> <?php echo $translate('New item set') ?></a>
+</div>
+
 <div class="resource-list">
     <?php if ($itemSetsFound): ?>
         <?php

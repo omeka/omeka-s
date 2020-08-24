@@ -73,6 +73,16 @@ class ResourceTemplateForm extends Form
                 'attributes' => [
                     'id' => 'allowed_languages',
                 ],
+            ])
+            ->add([
+                'name' => 'no_language',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'label' => 'No language', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'no_language',
+                ],
             ]);
 
         $event = new Event('form.add_elements', $this);

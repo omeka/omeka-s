@@ -561,26 +561,34 @@
                     languageSelect.prop('disabled', true);
                 });
                 field.removeData('allowed-languages');
+                field.removeData('no-language');
                 field.find('.inputs .values input.value-language, .inputs .values select.value-language').removeClass('active');
-                // Apply first the global allowed languages if any.
-                if (resourceTemplate && resourceTemplate['o:settings']['allowed_languages'] && resourceTemplate['o:settings']['allowed_languages'].length) {
-                    field.data('allowed-languages', resourceTemplate['o:settings']['allowed_languages'].join(','));
-                    field.find('.inputs .values input.value-language').each(function() {
-                        initValueLanguage($(this));
-                    });
+                field.find('.inputs .values a.value-language').removeClass('no-language');
+                // Apply first the global settngs to all properties.
+                if (resourceTemplate) {
+                    if (resourceTemplate['o:settings']['no_language'] > 0) {
+                        field.data('no-language', '1');
+                    } else if (resourceTemplate['o:settings']['allowed_languages'] && resourceTemplate['o:settings']['allowed_languages'].length) {
+                        field.data('allowed-languages', resourceTemplate['o:settings']['allowed_languages'].join(','));
+                    }
                 }
                 if (hasTemplateProperties) {
                     // Prepare allowed languages for specified property.
                     resourceTemplate['o:resource_template_property'].some(function(rtp) {
-                        if (rtp['o:property']['o:id'] === propertyId && rtp['o:settings']['allowed_languages'] && rtp['o:settings']['allowed_languages'].length) {
-                            field.data('allowed-languages', rtp['o:settings']['allowed_languages'].join(','));
-                            field.find('.inputs .values input.value-language').each(function() {
-                                initValueLanguage($(this));
-                            });
+                        if (rtp['o:property']['o:id'] === propertyId) {
+                            if (rtp['o:settings']['no_language'] > 0) {
+                                field.data('no-language', '1');
+                            } else if (rtp['o:settings']['allowed_languages'] && rtp['o:settings']['allowed_languages'].length) {
+                                field.removeData('no-language');
+                                field.data('allowed-languages', rtp['o:settings']['allowed_languages'].join(','));
+                            }
                             return true;
                         }
                     });
                 }
+                field.find('.inputs .values input.value-language').each(function() {
+                    initValueLanguage($(this));
+                });
             });
         };
 
@@ -730,9 +738,16 @@
     var initValueLanguage = function(languageInput) {
         var languageElement;
         var language = languageInput.val();
+        var languageButton = languageInput.prev('a.value-language');
         var languageSelect = languageInput.next('select.value-language');
         var field = languageInput.closest('.resource-values.field');
-        if (field.data('allowed-languages')) {
+        if (field.data('no-language')) {
+            language = '';
+            languageButton.removeClass('active').addClass('no-language');
+            languageInput.prop('disabled', true).removeClass('active');
+            languageSelect.find('option').remove().end().prop('disabled', true).removeClass('active');
+        } else if (field.data('allowed-languages')) {
+            languageButton.removeClass('no-language');
             languageInput.prop('disabled', true);
             languageSelect.prop('disabled', false)
                 .find('option').remove().end()
@@ -757,13 +772,14 @@
             languageSelect.val(language);
             languageElement = languageSelect;
         } else {
+            languageButton.removeClass('no-language');
             languageInput.prop('disabled', false);
             languageSelect.find('option').remove().end().prop('disabled', true);
             languageElement = languageInput;
         }
         if (language !== '') {
+            languageButton.addClass('active');
             languageElement.addClass('active');
-            languageInput.prev('a.value-language').addClass('active');
         }
     }
 

@@ -102,6 +102,12 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
                 </label>
             </div>
             <div class="option">
+                <label for="locked-value">
+                    <?php echo $translate('Locked value once saved'); ?>
+                    <input id="locked-value" type="checkbox">
+                </label>
+            </div>
+            <div class="option">
                 <label for="autocomplete"><?php echo $translate('Autocomplete'); ?></label>
                 <label><input type="radio" name="autocomplete" value="" id="autocomplete" checked="checked"><?php echo $translate('Use template setting'); ?></label>
                 <label><input type="radio" name="autocomplete" value="no" ><?php echo $translate('No'); ?></label>

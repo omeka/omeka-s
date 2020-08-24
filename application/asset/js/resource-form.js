@@ -250,7 +250,7 @@
     /**
      * Make a new value.
      */
-    var makeNewValue = function(term, dataType, valueObj) {
+    var makeNewValue = function(term, dataType, valueObj, originalValue) {
         // Get the value node from the templates.
         if (!dataType || typeof dataType !== 'string') {
             dataType = valueObj ? valueObj['type'] : '';
@@ -284,7 +284,7 @@
         value.find('textarea.input-value')
             .attr('aria-labelledby', valueLabelID);
         value.attr('aria-labelledby', valueLabelID);
-        $(document).trigger('o:prepare-value', [dataType, value, valueObj]);
+        $(document).trigger('o:prepare-value', [dataType, value, valueObj, originalValue]);
 
         return value;
     };
@@ -292,7 +292,7 @@
     /**
      * Prepare the markup for the default data types.
      */
-    $(document).on('o:prepare-value', function(e, dataType, value, valueObj) {
+    $(document).on('o:prepare-value', function(e, dataType, value, valueObj, originalValue) {
         // Prepare simple single-value form inputs using data-value-key
         value.find(':input').each(function () {
             var valueKey = $(this).data('valueKey');
@@ -324,6 +324,9 @@
                 resource.find('.o-title')
                     .prepend($('<img>', {src: valueObj['thumbnail_url']}));
             }
+        }
+        if (originalValue) {
+            value.find('.input-body').find('input, select, textarea').addClass('original-value');
         }
     });
 
@@ -530,6 +533,8 @@
             }
 
             // Reset all settings, then prepare specific settings according to template.
+            fields.find('.inputs .values .input-body .original-value').removeAttr('readonly');
+            fields.find('.inputs .values .input-footer .remove-value').show();
             // Reset autocomplete for all properties.
             fields.removeData('autocomplete');
             fields.find('.inputs .values textarea.input-value.autocomplete').each(function() {
@@ -590,6 +595,10 @@
                     if (hasTemplateProperties) {
                         resourceTemplate['o:resource_template_property'].some(function(rtp) {
                             if (rtp['o:property']['o:id'] === propertyId) {
+                                if (rtp['o:settings']['locked_value'] > 0) {
+                                    field.find('.inputs .values .input-body .original-value').prop('readonly', 'readonly');
+                                    field.find('.inputs .values .input-footer .remove-value').hide();
+                                }
                                 if (rtp['o:settings']['autocomplete'] && $.inArray(rtp['o:settings']['autocomplete'], ['sw', 'in']) > -1) {
                                     field.data('autocomplete', rtp['o:settings']['autocomplete']);
                                     field.find('.inputs .values textarea.input-value').addClass('autocomplete');
@@ -828,7 +837,7 @@
             $.each(valuesJson, function(term, valueObj) {
                 var field = makeNewField(term);
                 $.each(valueObj.values, function(index, value) {
-                    field.find('.values').append(makeNewValue(term, null, value));
+                    field.find('.values').append(makeNewValue(term, null, value, true));
                 });
             });
         }

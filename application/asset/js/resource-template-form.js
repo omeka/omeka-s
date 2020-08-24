@@ -68,6 +68,7 @@ propertyList.on('click', '.property-edit', function(e) {
     var isPrivate = prop.find('.is-private');
     var dataTypes = prop.find('.data-type');
     var defaultValue = prop.find('.default-value');
+    var lockedValue = prop.find('.locked-value');
     var autocomplete = prop.find('.autocomplete');
     var allowedLanguages = prop.find('.allowed-languages');
     var noLanguage = prop.find('.no-language');
@@ -83,6 +84,7 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#data-type').val(dataTypes.val().split(','));
     $('#data-type').trigger('chosen:updated');
     $('#default-value').val(defaultValue.val());
+    $('#locked-value').prop('checked', lockedValue.val());
     $('#edit-sidebar input[name=autocomplete]').val([autocomplete.val()]);
     $('#edit-sidebar #allowed-languages').val(allowedLanguages.val());
     $('#edit-sidebar #no-language').prop('checked', noLanguage.val());
@@ -112,6 +114,7 @@ propertyList.on('click', '.property-edit', function(e) {
         $('#is-private').prop('checked') ? isPrivate.val(1) : isPrivate.val(null);
         dataTypes.val($('#data-type').val());
         defaultValue.val($('#default-value').val());
+        lockedValue.val($('#locked-value').prop('checked') ? 1 : null);
         autocomplete.val($('#edit-sidebar input[name=autocomplete]:checked').val());
         allowedLanguages.val($('#edit-sidebar #allowed-languages').val());
         noLanguage.val($('#edit-sidebar #no-language').prop('checked') ? 1 : null);

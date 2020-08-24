@@ -29,11 +29,20 @@
         $('a.value-language').on('click', function(e) {
             e.preventDefault();
             var languageButton = $(this);
-            var languageInput =  languageButton.next('input.value-language');
+            var languageInput = languageButton.next('input.value-language');
+            var languageSelect = languageInput.next('select.value-language');
             languageButton.toggleClass('active');
-            languageInput.toggleClass('active');
-            if (languageInput.hasClass('active')) {
-                languageInput.focus();
+            if (languageButton.hasClass('active')) {
+                if (languageButton.closest('.resource-values.field').data('allowed-languages')) {
+                    languageInput.removeClass('active');
+                    languageSelect.addClass('active').focus();
+                } else {
+                    languageInput.addClass('active').focus();
+                    languageSelect.removeClass('active');
+                }
+            } else {
+                languageInput.removeClass('active');
+                languageSelect.removeClass('active');
             }
         });
 
@@ -52,6 +61,7 @@
             var field = typeButton.closest('.resource-values.field');
             var value = makeNewValue(field.data('property-term'), typeButton.data('type'))
             field.find('.values').append(value);
+            initValueLanguage(value.find('input.value-language'));
         });
 
         // Remove value.
@@ -513,13 +523,16 @@
             if (!$('#properties .resource-values').length) {
                 makeDefaultTemplate();
             }
-            // Add an empty value if none already exist in the property and fill
-            // it with the default value set in the resource template, if any.
+            // Prepare specific data for each property.
             fields.each(function() {
-                if (!$(this).find('.inputs .values > .value').length) {
+                var field = $(this);
+                var propertyId = Number(field.data('property-id'));
+                var hasTemplateProperties = resourceTemplate && resourceTemplate['o:resource_template_property'].length;
+                // Add an empty value if none already exist in the property and fill
+                // it with the default value set in the resource template, if any.
+                if (!field.find('.inputs .values > .value').length) {
                     var defaultValueObj = null;
-                    if (resourceTemplate && resourceTemplate['o:resource_template_property'].length) {
-                        var propertyId = Number($(this).data('property-id'));
+                    if (hasTemplateProperties) {
                         resourceTemplate['o:resource_template_property'].some(function(rtp) {
                             if (rtp['o:property']['o:id'] === propertyId && rtp['o:settings']['default_value'] && rtp['o:settings']['default_value'].length) {
                                 defaultValueObj = {
@@ -532,9 +545,34 @@
                             }
                         });
                     }
-                    $(this).find('.inputs .values').append(
-                        makeDefaultValue($(this).data('property-term'), $(this).data('data-types').substring(0, ($(this).data('data-types') + ',').indexOf(',')), defaultValueObj)
+                    field.find('.inputs .values').append(
+                        makeDefaultValue(field.data('property-term'), field.data('data-types').substring(0, (field.data('data-types') + ',').indexOf(',')), defaultValueObj)
                     );
+                }
+                // Reset and prepare specific settings.
+                // Reset allowed languages for all properties.
+                field.find('.inputs .values input.value-language').each(function() {
+                    var languageInput = $(this);
+                    var languageSelect = $(this).next('select.value-language');
+                    languageInput.prop('disabled', false);
+                    if (field.data('allowed-languages')) {
+                        languageInput.val(languageSelect.val());
+                    }
+                    languageSelect.prop('disabled', true);
+                });
+                field.removeData('allowed-languages');
+                field.find('.inputs .values input.value-language, .inputs .values select.value-language').removeClass('active');
+                if (hasTemplateProperties) {
+                    // Prepare allowed languages for specified property.
+                    resourceTemplate['o:resource_template_property'].some(function(rtp) {
+                        if (rtp['o:property']['o:id'] === propertyId && rtp['o:settings']['allowed_languages'] && rtp['o:settings']['allowed_languages'].length) {
+                            field.data('allowed-languages', rtp['o:settings']['allowed_languages'].join(','));
+                            field.find('.inputs .values input.value-language').each(function() {
+                                initValueLanguage($(this));
+                            });
+                            return true;
+                        }
+                    });
                 }
             });
         };
@@ -682,6 +720,32 @@
             .append(makeDefaultValue('dcterms:description', defaultDataType));
     }
 
+    var initValueLanguage = function(languageInput) {
+        var languageElement;
+        var language = languageInput.val();
+        var languageSelect = languageInput.next('select.value-language');
+        var field = languageInput.closest('.resource-values.field');
+        if (field.data('allowed-languages')) {
+            languageInput.prop('disabled', true);
+            languageSelect.prop('disabled', false)
+                .find('option').remove().end()
+                .append($('<option/>', {value: '',  text: ''}));
+            $.each(field.data('allowed-languages').split(','), function (index, value) {
+                languageSelect.append($('<option/>', {value: value,  text: value}));
+            });
+            languageSelect.val(language);
+            languageElement = languageSelect;
+        } else {
+            languageInput.prop('disabled', false);
+            languageSelect.find('option').remove().end().prop('disabled', true);
+            languageElement = languageInput;
+        }
+        if (language !== '') {
+            languageElement.addClass('active');
+            languageInput.prev('a.value-language').addClass('active');
+        }
+    }
+
     /**
      * Initialize the page.
      */
@@ -705,11 +769,7 @@
         });
 
         $('input.value-language').each(function() {
-            var languageInput = $(this);
-            if (languageInput.val() !== "") {
-                languageInput.addClass('active');
-                languageInput.prev('a.value-language').addClass('active');
-            }
+            initValueLanguage($(this));
         });
     };
 })(jQuery);

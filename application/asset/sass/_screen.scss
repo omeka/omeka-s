@@ -1762,6 +1762,7 @@ fieldset.section > legend {
     }
 }
 
+.inputs select.value-language.active,
 .inputs input[type="text"].value-language.active {
     line-height: $base-line-height;
     background-color: transparent;
@@ -1778,6 +1779,7 @@ fieldset.section > legend {
 }
 
 input[type="text"].value-language,
+select.value-language,
 .delete input[type="text"].value-language.active {
     display: none;
 }
@@ -2376,6 +2378,7 @@ input[type="text"].value-language,
         padding: 0 $spacing-small;
     }
 
+    .inputs .input-body select.value-language,
     .inputs .input-body input[type="text"] {
         margin: 0;
     }

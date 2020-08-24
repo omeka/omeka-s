@@ -20,6 +20,21 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
 </div>
 <?php endif; ?>
 
+<div>
+    <dl><?php foreach ($resourceTemplate->settings() as $key => $value): ?>
+        <?php if (!$value) continue; ?>
+        <dt><?php echo str_replace('_', ' ', $key); ?></dt>
+        <?php if (is_array($value)): ?>
+        <?php foreach ($value as $val): ?>
+        <dd><?php echo $escape($val); ?></dd>
+        <?php endforeach; ?>
+        <?php else: ?>
+        <dd><?php echo $escape($value); ?></dd>
+        <?php endif; ?>
+        <?php endforeach;
+    ?></dl>
+</div>
+
 <table id="properties" class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
     <thead>
     <tr>

@@ -63,6 +63,10 @@ $expanded = $resourceClassId || $itemSetId || $id;
         <?php endif; ?>
     </div>
 
+    <div data-data-type="resource:item">
+        <a class="o-icon-items button quick-add-resource" href="<?php echo $this->url(null, ['action' => 'add'], ['query' => ['window' => 'modal']], true) ?>" target="_blank"> <?php echo $translate('New item') ?></a>
+    </div>
+
     <?php if ($itemsFound): ?>
     <button type="button" class="quick-select-toggle"><?php echo $translate('Quick add'); ?></button>
 

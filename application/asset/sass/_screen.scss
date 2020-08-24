@@ -835,6 +835,10 @@ div[role="main"] > h1:first-of-type {
     line-height: 1.5 * $base-line-height;
 }
 
+body.modal div[role="main"] > h1:first-of-type {
+    width: 100%;
+}
+
 div[role="main"] > h1:first-of-type .title {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -873,6 +877,11 @@ div[role="main"] > h1:first-of-type .title {
 .action:before {
     content:"\00b7";
     margin: 0 $spacing-medium;
+}
+
+body.modal header,
+body.modal footer {
+    display: none !important;
 }
 
 /* @end */
@@ -2724,6 +2733,35 @@ input[type="text"].value-language,
     }
 }
 
+.quick-add-resource {
+    min-height: 0 !important;
+    background-color: rgba(0,0,0,.08) !important;
+    color: $copy-gray !important;
+    border-radius: 3px;
+    border: 0;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset !important;
+    padding: $spacing-small 10px;
+    margin: .75 * $spacing-medium 0 $spacing-small $spacing-small !important;
+    text-align: center;
+    cursor: pointer;
+    float: right;
+
+    &:before {
+        margin-right: $spacing-small;
+    }
+
+    &:hover:not(.inactive) {
+        box-shadow: 0 0 0 1px rgba(0,0,0,.3) inset !important;
+    }
+
+    &.inactive {
+        box-shadow: none !important;
+        background-color: #d2d2d2 !important;
+        cursor: default;
+        border: 0;
+    }
+}
+
 .sidebar button.quick-select-toggle {
     background-color: transparent;
     color: $copy-gray;
@@ -3184,6 +3222,12 @@ input[type="text"].value-language,
 
 body.sidebar-open #content {
     width: span(9 of 16);
+}
+body.modal.sidebar-open header {
+    width: 0;
+}
+body.modal.sidebar-open #content {
+    width: span(12 of 16);
 }
 
 .sidebar .meta-group {

@@ -1,6 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
-$this->htmlElement('body')->appendAttribute('class', 'add items');
+$isModal = $this->params()->fromQuery('window') === 'modal';
+$this->htmlElement('body')->appendAttribute('class', ($isModal ? 'modal ' : '') . 'add items');
 ?>
 
 <?php echo $this->pageTitle($translate('New item'), 1, $translate('Items')); ?>

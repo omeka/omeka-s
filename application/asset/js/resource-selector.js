@@ -71,6 +71,47 @@
             $('#filter-item-set').chosen(newOptions);
         });
 
+        // Allow to create a new resource in a modal window during edition of another resource.
+        var modal;
+        $(document).on('click', '.quick-add-resource', function(e) {
+            e.preventDefault();
+            // Save the modal in local storage to allow recursive new resources.
+            var d = new Date();
+            var windowName = 'new resource ' + d.getTime();
+            var windowFeatures = 'titlebar=no,menubar=no,location=no,resizable=yes,scrollbars=yes,status=yes,directories=no,fullscreen=no,top=90,left=120,width=830,height=700';
+            modal = window.open(e.target.href, windowName, windowFeatures);
+            window.localStorage.setItem('modal', modal);
+            // Check if the modal is closed, then refresh the list of resources.
+            var checkSidebarModal = setInterval(function() {
+                if (modal && modal.closed) {
+                    clearInterval(checkSidebarModal);
+                    // Wait to let Omeka saves the new resource, if any.
+                    setTimeout(function() {
+                        var s = $('#sidebar-resource-search');
+                        Omeka.populateSidebarContent(s.closest('.sidebar'), s.data('search-url'), '');
+                    }, 2000);
+                }
+            }, 100);
+            return false;
+        });
+        // Add a new resource on modal window.
+        $(document).on('click', '.modal form.resource-form #page-actions button[type=submit]', function(e) {
+            // Warning: the submit may not occur when the modal is not focus.
+            $('form.resource-form').submit();
+            window.localStorage.removeItem('modal');
+            // Leave time to submit the form before closing form.
+            setTimeout(function() {
+                window.close();
+            }, 1000);
+            return false;
+        });
+        // Cancel modal window.
+        $(document).on('click', '.modal form.resource-form #page-actions a.cancel', function(e) {
+            e.preventDefault();
+            window.localStorage.removeItem('modal');
+            window.close();
+            return false;
+        });
+
     });
 })(jQuery);
-

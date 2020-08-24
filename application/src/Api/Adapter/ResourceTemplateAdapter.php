@@ -124,6 +124,11 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $entity->setDescriptionProperty($descriptionProperty);
         }
 
+        if ($this->shouldHydrate($request, 'o:settings')) {
+            $settings = $request->getValue('o:settings') ?: [];
+            $entity->setSettings($settings);
+        }
+
         if ($this->shouldHydrate($request, 'o:resource_template_property')
             && isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])

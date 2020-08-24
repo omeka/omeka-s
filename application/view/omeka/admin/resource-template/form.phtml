@@ -95,6 +95,12 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
                 <label for="data-type"><?php echo $translate('Data types'); ?></label>
                 <?php echo $this->dataType()->getSelect('data_type', ['empty_option' => ''], ['id' => 'data-type', 'multiple' => true, 'class' => 'chosen-select', 'data-placeholder' => 'Select data types…']); ?>
             </div>
+            <div class="option">
+                <label for="default-value">
+                    <?php echo $translate('Default value'); ?>
+                    <textarea id="default-value"></textarea>
+                </label>
+            </div>
         </div>
     </div>
     <div class="confirm-panel">

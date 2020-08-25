@@ -755,11 +755,6 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'editor',
-            ['Omeka\Entity\SitePage'],
-            ['view-all']
-        );
-        $acl->allow(
-            'editor',
             'Omeka\Controller\Admin\User'
         );
         $acl->allow(

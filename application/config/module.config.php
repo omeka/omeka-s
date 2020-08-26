@@ -64,6 +64,7 @@ return [
         ],
         'filters' => [
             'resource_visibility' => Db\Filter\ResourceVisibilityFilter::class,
+            'site_page_visibility' => Db\Filter\SitePageVisibilityFilter::class,
             'value_visibility' => Db\Filter\ValueVisibilityFilter::class,
         ],
         'functions' => [

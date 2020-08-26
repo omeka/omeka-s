@@ -66,10 +66,10 @@ class SitePage extends \Omeka\Entity\SitePage implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'title', 'site', 'created', 'modified', 'blocks'];
+            return ['__isInitialized__', 'id', 'slug', 'title', 'isPublic', 'site', 'created', 'modified', 'blocks'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'title', 'site', 'created', 'modified', 'blocks'];
+        return ['__isInitialized__', 'id', 'slug', 'title', 'isPublic', 'site', 'created', 'modified', 'blocks'];
     }
 
     /**
@@ -233,6 +233,28 @@ class SitePage extends \Omeka\Entity\SitePage implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitle', []);
 
         return parent::getTitle();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setIsPublic($isPublic)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsPublic', [$isPublic]);
+
+        return parent::setIsPublic($isPublic);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isPublic()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', []);
+
+        return parent::isPublic();
     }
 
     /**

@@ -6,6 +6,19 @@ $form->prepare();
 <?php echo $this->pageTitle($translate('New page'), 1, $translate('Pages')); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
+    <?php if ($this->setting('default_to_private')) : ?>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'o-icon-private button',
+        'title' => $translate('Make public'),
+    ]); ?>
+    <input type="hidden" name="o:is_public" value="0">
+    <?php else: ?>
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'o-icon-public button',
+        'title' => $this->translate('Make private'),
+    ]); ?>
+    <input type="hidden" name="o:is_public" value="1">
+    <?php endif; ?>
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $translate('Add'); ?></button>
 </div>

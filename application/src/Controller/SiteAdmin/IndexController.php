@@ -141,10 +141,12 @@ class IndexController extends AbstractActionController
         $form = $this->getForm(SitePageForm::class, ['addPage' => $site->userIsAllowed('update')]);
 
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
+            $post = $this->params()->fromPost();
+            $form->setData($post);
             if ($form->isValid()) {
                 $formData = $form->getData();
                 $formData['o:site']['o:id'] = $site->id();
+                $formData['o:is_public'] = !empty($post['o:is_public']);
                 $response = $this->api($form)->create('site_pages', $formData);
                 if ($response) {
                     $page = $response->getContent();

@@ -39,7 +39,7 @@ $sortHeadings = [
         <tr>
             <th><?php echo $translate('Title'); ?></th>
             <th><?php echo $translate('Slug'); ?></th>
-            <th><?php echo $translate('Modified'); ?></th>
+            <th><?php echo $sortBy === 'created' ? $translate('Created') : $translate('Modified'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -82,7 +82,7 @@ $sortHeadings = [
             </ul>
         </td>
         <td><?php echo $page->slug(); ?></td>
-        <td><?php echo $escape($i18n->dateFormat($page->modified())); ?></td>
+        <td><?php echo $escape($i18n->dateFormat($sortBy === 'created' ? $page->created() : $page->modified())); ?></td>
     </tr>
 <?php endforeach; ?>
     </tbody>

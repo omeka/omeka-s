@@ -20,6 +20,8 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
         'id' => 'id',
         'created' => 'created',
         'modified' => 'modified',
+        'title' => 'title',
+        'slug' => 'slug',
     ];
 
     public function getResourceName()
@@ -60,6 +62,13 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
                 "$attachmentsAlias.item",
                 $this->createNamedParameter($qb, $query['item_id']))
             );
+        }
+
+        if (isset($query['slug'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'omeka_root.slug',
+                $this->createNamedParameter($qb, $query['slug'])
+            ));
         }
 
         if (isset($query['is_public'])) {

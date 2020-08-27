@@ -1277,6 +1277,10 @@ div[role="main"] {
     font-size: .8175 * $base-font-size;
 }
 
+.sites.pages.browse .browse-controls {
+    justify-content: flex-end;
+}
+
 .browse .browse-controls .advanced-search:before {
     @include fa-icon();
     font-family: "Font Awesome 5 Free";

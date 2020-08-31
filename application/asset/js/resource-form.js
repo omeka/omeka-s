@@ -516,6 +516,8 @@
             });
 
             fields.find('input.value-language').each(initValueLanguage);
+
+            $('#properties').closest('form').trigger('o:template-applied');
         };
     }
 

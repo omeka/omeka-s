@@ -27,7 +27,16 @@ $('#property-selector .selector-child').click(function(e) {
     }
     $.get(propertyList.data('addNewPropertyRowUrl'), {property_id: propertyId})
         .done(function(data) {
+            // Check if the property is the template title or description.
             propertyList.append(data);
+            if (propertyId == titleProperty.val()) {
+                $('.title-property-cell').remove();
+                $('#properties .property[data-property-id=' + propertyId + ']').find('.actions').before(titlePropertyTemplate);
+            }
+            if (propertyId == descriptionProperty.val()) {
+                $('.description-property-cell').remove();
+                $('#properties .property[data-property-id=' + propertyId + ']').find('.actions').before(descriptionPropertyTemplate);
+            }
         });
 });
 

@@ -1,5 +1,6 @@
 <?php
 $translate = $this->plugin('translate');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
 $resourceTemplateSelect = $form->get('o:resource_template[o:id]');
 $resourceClassSelect = $form->get('o:resource_class[o:id]');
 $thumbnailInput = $form->get('o:thumbnail[o:id]');
@@ -18,6 +19,7 @@ if (isset($resource)) {
     $resourceTemplateSelect->setValue($this->userSetting('default_resource_template'));
 }
 ?>
+
 <fieldset id="resource-values"
     class="section active"
     aria-labelledby="resource-values-label"
@@ -30,6 +32,11 @@ if (isset($resource)) {
     </div>
     <div id="properties"></div>
     <input type="hidden" name="values_json" id="values-json">
+    <datalist id="value-languages" class="value-languages">
+    <?php foreach ($this->setting('value_languages', []) as $value => $language): ?>
+        <option value="<?php echo $escapeAttr($value) ?>" label="<?php echo $escapeAttr(strlen($language) ? $language : $value); ?>"></option>
+        <?php endforeach; ?>
+    </datalist>
     <?php echo $this->propertySelector(); ?>
     <button id="property-selector-button" class="mobile-only" data-watch-target="#properties"><?php echo $translate('Add property'); ?></button>
     <?php echo $this->partial('common/resource-select-sidebar'); ?>

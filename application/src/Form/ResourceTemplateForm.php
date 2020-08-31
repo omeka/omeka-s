@@ -4,6 +4,7 @@ namespace Omeka\Form;
 use Omeka\Form\Element\ResourceClassSelect;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 use Laminas\Form\Form;
 
@@ -33,9 +34,9 @@ class ResourceTemplateForm extends Form
                 'empty_option' => '',
             ],
             'attributes' => [
+                'id' => 'o:resource_class[o:id]',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a class',
-                'id' => 'o:resource_class[o:id]',
             ],
         ]);
 
@@ -58,7 +59,30 @@ class ResourceTemplateForm extends Form
             'type' => Fieldset::class,
             'name' => 'o:settings',
             'options' => [
-                'label' => 'Other settings', // @translate
+                'label' => 'Advanced settings', // @translate
+            ],
+            'attributes' => [
+                'class' => 'settings',
+            ],
+        ]);
+
+        $this->add([
+            'type' => Element\Collection::class,
+            'name' => 'o:resource_template_property',
+            'options' => [
+                'label' => 'Properties', // @translate
+                'count' => 0,
+                'allow_add' => true,
+                'allow_remove' => true,
+                'should_create_template' => false,
+                'use_as_base_fieldset' => true,
+                'create_new_objects' => false,
+                'target_element' => [
+                    'type' => ResourceTemplatePropertyFieldset::class,
+                ],
+            ],
+            'attributes' => [
+                'id' => 'properties',
             ],
         ]);
 

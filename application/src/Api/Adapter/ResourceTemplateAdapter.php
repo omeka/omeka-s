@@ -124,6 +124,11 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $entity->setDescriptionProperty($descriptionProperty);
         }
 
+        if ($this->shouldHydrate($request, 'o:settings')) {
+            $settings = $request->getValue('o:settings') ?: [];
+            $entity->setSettings($settings);
+        }
+
         if ($this->shouldHydrate($request, 'o:resource_template_property')
             && isset($data['o:resource_template_property'])
             && is_array($data['o:resource_template_property'])
@@ -175,6 +180,10 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 if (isset($resTemPropData['o:is_private'])) {
                     $isPrivate = (bool) $resTemPropData['o:is_private'];
                 }
+                $settings = [];
+                if (!empty($resTemPropData['o:settings'])) {
+                    $settings = $resTemPropData['o:settings'];
+                }
 
                 // Check whether a passed property is already assigned to this
                 // resource template.
@@ -194,6 +203,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 $resTemProp->setDataType($dataType);
                 $resTemProp->setIsRequired($isRequired);
                 $resTemProp->setIsPrivate($isPrivate);
+                $resTemProp->setSettings($settings);
                 // Set the position of the property to its intrinsic order
                 // within the passed array.
                 $resTemProp->setPosition($position++);

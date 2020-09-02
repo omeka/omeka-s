@@ -47,11 +47,13 @@ class PageController extends AbstractActionController
         /** @var \Omeka\Api\Representation\SiteRepresentation $site */
         $site = $this->currentSite();
         $indents = [];
+        $navSorting = false;
 
         // Manage the default special sort (navigation).
         $sortBy = $this->params()->fromQuery('sort_by', 'nav');
 
         if (empty($sortBy) || $sortBy === 'nav') {
+            $navSorting = true;
             $pages = array_merge($site->linkedPages(), $site->notlinkedPages());
             if ($this->params()->fromQuery('sort_order') === 'desc') {
                 $pages = array_reverse($pages, true);
@@ -76,7 +78,9 @@ class PageController extends AbstractActionController
                 }
             }
         };
-        $iterate($site->navigation());
+        if ($navSorting) {
+            $iterate($site->navigation());
+        }
 
         return new ViewModel([
             'site' => $site,

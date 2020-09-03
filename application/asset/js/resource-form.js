@@ -229,7 +229,6 @@
     var makeDefaultValue = function (term, dataType) {
         return makeNewValue(term, dataType)
             .addClass('default-value')
-            // FIXME When the template is removed clicking directly on the cross, this event is skipped, so the content is removed.
             .one('change', '*', function (event) {
                 $(event.delegateTarget).removeClass('default-value');
             });
@@ -246,7 +245,7 @@
         }
         var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
-        value.attr('data-term', term);
+        value.data('data-term', term);
 
         // Get and display the value's visibility.
         var isPublic = true; // values are public by default

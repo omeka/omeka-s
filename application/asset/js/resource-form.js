@@ -2,6 +2,10 @@
 
     $(document).ready( function() {
 
+        if ($('div#properties').data('default-data-types').split(',').length < 1) {
+            $('div#properties').data('default-data-types', 'literal,resource,uri');
+        }
+
         // Select property
         $('#property-selector li.selector-child').on('click', function(e) {
             e.stopPropagation();
@@ -25,7 +29,7 @@
         $('a.value-language').on('click', function(e) {
             e.preventDefault();
             var languageButton = $(this);
-            var languageInput =  languageButton.next('input.value-language');
+            var languageInput = languageButton.next('input.value-language');
             languageButton.toggleClass('active');
             languageInput.toggleClass('active');
             if (languageInput.hasClass('active')) {
@@ -37,7 +41,7 @@
             if ('' === this.value || Omeka.langIsValid(this.value)) {
                 this.setCustomValidity('');
             } else {
-                this.setCustomValidity(Omeka.jsTranslate('Please enter a valid language tag'))
+                this.setCustomValidity(Omeka.jsTranslate('Please enter a valid language tag'));
             }
         });
 
@@ -46,7 +50,7 @@
             e.preventDefault();
             var typeButton = $(this);
             var field = typeButton.closest('.resource-values.field');
-            var value = makeNewValue(field.data('property-term'), null, typeButton.data('type'))
+            var value = makeNewValue(field.data('property-term'), typeButton.data('type'));
             field.find('.values').append(value);
         });
 
@@ -94,7 +98,6 @@
         $('#select-item a').on('o:resource-selected', function (e) {
             var value = $('.value.selecting-resource');
             var valueObj = $('.resource-details').data('resource-values');
-
             $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
             Omeka.closeSidebar($('#select-resource'));
         });
@@ -112,7 +115,7 @@
             $('#item-results').find('.resource')
                 .has('input.select-resource-checkbox:checked').each(function(index) {
                     if (0 < index) {
-                        value = makeNewValue(field.data('property-term'), null, 'resource');
+                        value = makeNewValue(field.data('property-term'), 'resource');
                         field.find('.values').append(value);
                     }
                     var valueObj = $(this).data('resource-values');
@@ -212,7 +215,7 @@
                 valueData['is_public'] = value.find('input.is_public').val();
                 value.find(':input[data-value-key]').each(function () {
                     var input = $(this);
-                    valueKey = input.data('valueKey');
+                    var valueKey = input.data('valueKey');
                     if (!valueKey || input.prop('disabled')) {
                         return;
                     }
@@ -221,23 +224,36 @@
                 propertyValues.push(valueData);
             });
             if (propertyValues.length) {
-                values[propertyTerm] = propertyValues;
+                values[propertyTerm] = values.hasOwnProperty(propertyTerm)
+                    ? values[propertyTerm].concat(propertyValues)
+                    : propertyValues;
             }
         });
         return values;
     };
 
+    var makeDefaultValue = function (term, dataType) {
+        return makeNewValue(term, dataType)
+            .addClass('default-value')
+            .one('change', '*', function (event) {
+                $(event.delegateTarget).removeClass('default-value');
+            });
+    };
+
     /**
      * Make a new value.
      */
-    var makeNewValue = function(term, valueObj, type) {
+    var makeNewValue = function(term, dataType, valueObj) {
         var field = $('.resource-values.field[data-property-term="' + term + '"]');
         // Get the value node from the templates.
-        if (typeof type !== 'string') {
-            type = valueObj['type'];
+        if (!dataType || typeof dataType !== 'string') {
+            dataType = valueObj ? valueObj['type'] : field.find('.add-value:visible:first').data('type');
         }
-        var value = $('.value.template[data-data-type="' + type + '"]').clone(true);
+        // In form resource fields, data-types is plural, but in template and value, it is singular. The button uses "type".
+        field = $('.resource-values.field[data-property-term="' + term + '"]' + (dataType ? '[data-data-types="' + dataType + '"]' : ''));
+        var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
+        value.data('data-term', term);
 
         // Get and display the value's visibility.
         var isPublic = true; // values are public by default
@@ -255,7 +271,6 @@
             valueVisibilityButton.attr('title', Omeka.jsTranslate('Make public'));
         }
         // Prepare the value node.
-        var count = field.find('.value').length;
         var valueLabelID = 'property-' + field.data('property-id') + '-label';
         value.find('input.is_public')
             .val(isPublic ? 1 : 0);
@@ -264,7 +279,7 @@
         value.find('textarea.input-value')
             .attr('aria-labelledby', valueLabelID);
         value.attr('aria-labelledby', valueLabelID);
-        $(document).trigger('o:prepare-value', [type, value, valueObj]);
+        $(document).trigger('o:prepare-value', [dataType, value, valueObj]);
 
         return value;
     };
@@ -272,7 +287,7 @@
     /**
      * Prepare the markup for the default data types.
      */
-    $(document).on('o:prepare-value', function(e, type, value, valueObj) {
+    $(document).on('o:prepare-value', function(e, dataType, value, valueObj) {
         // Prepare simple single-value form inputs using data-value-key
         value.find(':input').each(function () {
             var valueKey = $(this).data('valueKey');
@@ -290,7 +305,7 @@
             'resource:itemset',
             'resource:media',
         ];
-        if (valueObj && -1 !== resourceDataTypes.indexOf(type)) {
+        if (valueObj && -1 !== resourceDataTypes.indexOf(dataType)) {
             value.find('span.default').hide();
             var resource = value.find('.selected-resource');
             if (typeof valueObj['display_title'] === 'undefined') {
@@ -308,12 +323,16 @@
     });
 
     /**
-     * Make a new property field.
+     * Make a new property field with data stored in the property selector.
      */
-    var makeNewField = function(property) {
-        //sort out whether property is the LI that holds data, or the id
-        var propertyLi, propertyId;
+    var makeNewField = function(property, dataTypes) {
+        // Prepare data type name of the field.
+        if (!dataTypes || dataTypes.length < 1) {
+            dataTypes = $('#properties').data('default-data-types').split(',');
+        }
 
+        // Sort out whether property is the LI that holds data, or the id.
+        var propertyLi, propertyId;
         switch (typeof property) {
             case 'object':
                 propertyLi = property;
@@ -329,6 +348,9 @@
                 propertyLi = $('#property-selector').find("li[data-property-term='" + property + "']");
                 propertyId = propertyLi.data('property-id');
             break;
+
+            default:
+                return null;
         }
 
         var term = propertyLi.data('property-term');
@@ -339,10 +361,12 @@
         field.find('.field-description').prepend(propertyLi.find('.field-comment').text());
         field.data('property-term', term);
         field.data('property-id', propertyId);
+        field.data('data-types', dataTypes.join(','));
         // Adding the attr because selectors need them to find the correct field
         // and count when adding more.
         field.attr('data-property-term', term);
         field.attr('data-property-id', propertyId);
+        field.attr('data-data-types', dataTypes.join(','));
         field.attr('aria-labelledby', 'property-' + propertyId + '-label');
         $('div#properties').append(field);
 
@@ -356,66 +380,128 @@
     };
 
     /**
-     * Rewrite a property field following the rules defined by the selected
-     * resource template.
+     * Rewrite an existing property field, or create a new one, following the
+     * rules defined by the selected resource property template.
      */
-    var rewritePropertyField = function(template) {
+    var rewritePropertyField = function(templateProperty) {
+        var templateId = $('#resource-template-select').val();
         var properties = $('div#properties');
-        var propertyId = template['o:property']['o:id'];
-        var field = properties.find('[data-property-id="' + propertyId + '"]');
-        if (field.length == 0) {
-            field = makeNewField(propertyId);
+        var propertyId = templateProperty['o:property']['o:id'];
+        var dataTypes = templateProperty['o:data_type'];
+
+        // Check if an existing field exists in order to update it and to avoid duplication.
+        // Since fields can have the same property but different data types,
+        // a check is done on each field to find the good one, if any.
+        var field;
+        var fields = properties.find('[data-property-id="' + propertyId + '"]');
+        if (fields.length > 0) {
+            var useDefaultDataTypes = dataTypes.length < 1;
+            var dataTypesSorted = dataTypes.sort();
+            fields.each(function () {
+                var dataTypesElements = $(this).data('data-types').split(',').sort();
+                if (useDefaultDataTypes) {
+                    if (dataTypesElements.join(',') === $('div#properties').data('default-data-types').split(',').sort().join(',')){
+                        field = $(this);
+                        return false;
+                    }
+                } else if (dataTypesSorted.length === dataTypesElements.length
+                    && dataTypesSorted.every(function(value, index) { return value === dataTypesElements[index]})
+                ) {
+                    field = $(this);
+                    field.data('data-types', dataTypes.join(','));
+                    return false;
+                }
+            });
+        }
+        if (!field) {
+            field = makeNewField(propertyId, dataTypes);
         }
         var originalLabel = field.find('.field-label');
         var originalDescription = field.find('.field-description');
-        var singleSelector = field.find('div.single-selector');
         var defaultSelector = field.find('div.default-selector');
+        var multipleSelector = field.find('div.multiple-selector');
+        var singleSelector = field.find('div.single-selector');
 
-        if (template['o:is_required']) {
+        if (templateProperty['o:is_required']) {
             field.addClass('required');
         }
-        if (template['o:is_private']) {
+        if (templateProperty['o:is_private']) {
             field.addClass('private');
         }
-        if (template['o:alternate_label']) {
+        if (templateProperty['o:alternate_label']) {
             var altLabel = originalLabel.clone();
+            var altLabelId = 'property-' + propertyId + '-' + dataTypes.join('-') + '-label';
             altLabel.addClass('alternate');
-            altLabel.text(template['o:alternate_label']);
+            altLabel.text(templateProperty['o:alternate_label']);
             altLabel.insertAfter(originalLabel);
+            altLabel.attr('id', altLabelId);
+            field.attr('aria-labelledby', altLabelId);
             originalLabel.hide();
         }
-        if (template['o:alternate_comment']) {
+        if (templateProperty['o:alternate_comment']) {
             var altDescription = originalDescription.clone();
             altDescription.addClass('alternate');
-            altDescription.text(template['o:alternate_comment']);
+            altDescription.text(templateProperty['o:alternate_comment']);
             altDescription.insertAfter(originalDescription);
             originalDescription.hide();
         }
 
+        // Store specific settings of this template property.
+        field.attr('data-template-id', templateId);
+        field.data('settings', templateProperty['o:settings'] ? templateProperty['o:settings'] : {});
+
         // Remove any unchanged default values for this property so we start fresh.
         field.find('.value.default-value').remove();
 
-        // Change value selector and add empty value if needed.
-        if (template['o:data_type']) {
-            // Use the single selector if the property has a data type.
+        // Change value selector (multiple, single, or default).
+        if (templateProperty['o:data_type'].length > 1) {
             defaultSelector.hide();
-            singleSelector.find('a.add-value.button').data('type', template['o:data_type'])
-            singleSelector.show();
-            // Add an empty value if none already exist in the property.
-            if (!field.find('.value').length) {
-                field.find('.values').append(makeNewValue(field.data('property-term'), null, template['o:data_type']));
+            singleSelector.hide();
+            if (!multipleSelector.find('.add-value').length) {
+                multipleSelector.append(prepareMultipleSelector(templateProperty['o:data_type']));
             }
+            multipleSelector.show();
+        } else if (templateProperty['o:data_type'].length === 1) {
+            defaultSelector.hide();
+            multipleSelector.hide();
+            singleSelector.find('a.add-value.button').data('type', templateProperty['o:data_type'][0]);
+            singleSelector.show();
         } else {
-            // Use the default selector if the property has no data type.
+            multipleSelector.hide();
             singleSelector.hide();
             defaultSelector.show();
-            // Add an empty default value if none already exist in the property.
-            if (!field.find('.value').length) {
-                field.find('.values').append(makeDefaultValue(field.data('property-term'), 'literal'));
-            }
         }
 
         properties.prepend(field);
+    };
+
+    /**
+     * Prepare a selector (usualy a html list of buttons) from a list of data types.
+     *
+     * @see view/common/resource-form-templates.phtml
+     *
+     * @param array dataTypes
+     * @return string
+     */
+    var prepareMultipleSelector = function(dataTypes) {
+        var html = '';
+        dataTypes.forEach(function(dataType) {
+            var dataTypeTemplate = $('.template.value[data-data-type="' + dataType + '"]');
+            var label = dataTypeTemplate.data('data-type-label') ? dataTypeTemplate.data('data-type-label') : Omeka.jsTranslate('Add value');
+            var icon = dataTypeTemplate.data('data-type-icon') ? dataTypeTemplate.data('data-type-icon') : dataType.substring(0, (dataType + ':').indexOf(':'));
+            html += dataTypeTemplate.data('data-type-button')
+                ? dataTypeTemplate.data('data-type-button')
+                : '<a href="#" class="add-value button o-icon-' + icon + '" data-type="' + dataType + '">' + label + '</a>';
+        });
+        return html;
+    };
+
+    var makeDefaultTemplate = function() {
+        var defaultDataType = $('div#properties').data('default-data-types').substring(0, ($('div#properties').data('default-data-types') + ',').indexOf(','));
+        makeNewField('dcterms:title').find('.values')
+            .append(makeDefaultValue('dcterms:title', defaultDataType));
+        makeNewField('dcterms:description').find('.values')
+            .append(makeDefaultValue('dcterms:description', defaultDataType));
     };
 
     /**
@@ -424,95 +510,185 @@
      * @param bool changeClass Whether to change the suggested class
      */
     var applyResourceTemplate = function(changeClass) {
-
-        // Fieldsets may have been marked as required or private in a previous state.
-        $('.field').removeClass('required');
-        $('.field').removeClass('private');
-
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();
         var fields = $('#properties .resource-values');
-        if (!templateId) {
-            // Using the default resource template, so all properties should use the default
-            // selector.
-            fields.find('div.single-selector').hide();
-            fields.find('div.default-selector').show();
-            return;
-        }
-        var url = templateSelect.data('api-base-url') + '/' + templateId;
-        return $.get(url)
-            .done(function(data) {
-                if (changeClass) {
-                    // Change the resource class.
-                    var classSelect = $('#resource-class-select');
-                    if (data['o:resource_class'] && classSelect.val() === '') {
-                        classSelect.val(data['o:resource_class']['o:id']);
-                        classSelect.trigger('chosen:updated');
-                    }
-                }
 
-                // Rewrite every property field defined by the template. We
-                // reverse the order so property fields on page that are not
-                // defined by the template are ultimately appended.
-                var templatePropertyIds = data['o:resource_template_property']
-                    .reverse().map(function(templateProperty) {
-                        rewritePropertyField(templateProperty);
-                        return templateProperty['o:property']['o:id'];
-                    });
-                // Property fields that are not defined by the template should
-                // use the default selector.
-                fields.each(function() {
-                    var propertyId = $(this).data('property-id');
-                    if (templatePropertyIds.indexOf(propertyId) === -1) {
-                        var field = $(this);
-                        field.find('div.single-selector').hide();
-                        field.find('div.default-selector').show();
+        // Reset settings of the previous template.
+        $('#resource-values').data('template-settings', {});
+        fields.data('template-id', '');
+        fields.attr('data-template-id', '');
+        fields.data('settings', {});
+
+        // Fieldsets may have been marked as required or private in a previous state.
+        fields.removeClass('required');
+        fields.removeClass('private');
+
+        // Using the default resource template, so all properties should use the default
+        // selector.
+        fields.find('div.multiple-selector').hide();
+        fields.find('div.single-selector').hide();
+        fields.find('div.default-selector').show();
+
+        // All properties should uses the default data types.
+        fields.data('data-types', $('div#properties').data('default-data-types'));
+        fields.attr('data-data-types', $('div#properties').data('default-data-types'));
+
+        // Merge all duplicate properties, keeping order of values when possible.
+        fields.each(function() {
+            var propertyId = $(this).attr('data-property-id');
+            // Deduplicate only first properties, that are not already processed.
+            if ($(this).prevAll('[data-property-id="' + propertyId + '"]').length < 1) {
+                var duplicatedFields = $('div#properties').find('[data-property-id="' + propertyId + '"]');
+                var duplicatedFieldFirst = duplicatedFields.first();
+                duplicatedFields.each(function(index) {
+                    if (index > 0) {
+                        duplicatedFieldFirst.find('.inputs .values').append($(this).find('.inputs .values > .value'));
+                        $(this).remove();
                     }
                 });
-            })
-            .fail(function() {
-                console.log('Failed loading resource template from API');
+            }
+        });
+
+        if (templateId) {
+            var url = templateSelect.data('api-base-url') + '/' + templateId;
+            $.get(url)
+                .done(function(data) {
+                    if (changeClass) {
+                        // Change the resource class.
+                        var classSelect = $('#resource-class-select');
+                        if (data['o:resource_class'] && classSelect.val() === '') {
+                            classSelect.val(data['o:resource_class']['o:id']);
+                            classSelect.trigger('chosen:updated');
+                        }
+                    }
+
+                    // Store global settings of the template.
+                    $('#resource-values').data('template-settings', data['o:settings'] ? data['o:settings'] : {});
+
+                    // Rewrite every property field defined by the template. We
+                    // reverse the order so property fields on page that are not
+                    // defined by the template are ultimately appended.
+                    data['o:resource_template_property']
+                        .reverse().map(function(templateProperty) {
+                            rewritePropertyField(templateProperty);
+                        });
+
+                    // Furthermore, the values are moved to the property row according
+                    // to their data type when there are multiple duplicate properties.
+                    // @see \Omeka\Api\Representation\AbstractEntityRepresentation::values()
+                    fields = $('#properties .resource-values');
+                    if (fields.length > 0) {
+                        // Prepare the list of data types one time and make easier to fill specific rows first.
+                        var dataTypesByProperty = {};
+                        fields.each(function() {
+                            var fieldTemplateId = $(this).data('template-id');
+                            var propertyId = $(this).data('property-id');
+                            var dataTypes = $(this).data('data-types');
+                            if (!dataTypesByProperty.hasOwnProperty(propertyId)) {
+                                dataTypesByProperty[propertyId] = {};
+                            }
+                            if (fieldTemplateId && dataTypes.split(',').length) {
+                                dataTypes.split(',').forEach(function(dataType) {
+                                    if (dataType === 'resource') {
+                                        dataTypesByProperty[propertyId]['resource'] = dataTypes;
+                                        dataTypesByProperty[propertyId]['resource:item'] = dataTypes;
+                                        dataTypesByProperty[propertyId]['resource:itemset'] = dataTypes;
+                                        dataTypesByProperty[propertyId]['resource:media'] = dataTypes;
+                                    } else {
+                                        dataTypesByProperty[propertyId][dataType] = dataTypes;
+                                    }
+                                });
+                            } else {
+                                dataTypesByProperty[propertyId]['default'] = $('div#properties').data('default-data-types');
+                            }
+                        });
+                        fields.each(function() {
+                            var propertyId = $(this).data('property-id');
+                            $(this).find('.inputs .values > .value').each(function() {
+                                var valueDataType = $(this).data('data-type');
+                                if (!dataTypesByProperty[propertyId].hasOwnProperty(valueDataType)) {
+                                    if (!dataTypesByProperty[propertyId].hasOwnProperty('default')) {
+                                        return;
+                                    }
+                                    valueDataType = 'default';
+                                }
+                                fields
+                                    .filter('[data-property-id="' + propertyId + '"][data-data-types="' + dataTypesByProperty[propertyId][valueDataType] + '"]')
+                                    .find('.inputs .values')
+                                    .append($(this));
+                            });
+                        });
+                    }
+                })
+                .fail(function() {
+                    console.log('Failed loading resource template from API');
+                })
+                .always(finalize);
+        } else {
+            finalize();
+        }
+
+        function finalize() {
+            // Remove empty properties, except the templates ones.
+            // TODO Keep properties selected by user (remove the "default-value"?).
+            fields = templateId ? $('#properties .resource-values[data-template-id!="' + templateId + '"]') : $('#properties .resource-values');
+            fields.each(function() {
+                if ($(this).find('.inputs .values > .value').length === $(this).find('.inputs .values > .value.default-value').length) {
+                    $(this).remove();
+                }
             });
+
+            // Add default fields if none.
+            if (!$('#properties .resource-values').length) {
+                makeDefaultTemplate();
+            }
+
+            // Add a default value if none already exist in the property.
+            fields = $('#properties .resource-values');
+            fields.each(function(index, field) {
+                field = $(field);
+                if (!field.find('.value').length) {
+                    field.find('.inputs .values').append(
+                        makeDefaultValue(field.data('property-term'), field.find('.add-value:visible:first').data('type'))
+                    );
+                }
+            });
+
+            fields.find('input.value-language').each(initValueLanguage);
+
+            $('#properties').closest('form').trigger('o:template-applied');
+        };
     }
 
-    var makeDefaultValue = function (term, type) {
-        return makeNewValue(term, null, type)
-            .addClass('default-value')
-            .one('change', '*', function (event) {
-                $(event.delegateTarget).removeClass('default-value');
-            });
-    };
+    var initValueLanguage = function() {
+        var languageInput = $(this);
+        if (languageInput.val() !== '') {
+            languageInput.addClass('active');
+            languageInput.prev('a.value-language').addClass('active');
+        }
+    }
 
     /**
      * Initialize the page.
      */
     var initPage = function() {
-        if (typeof valuesJson == 'undefined') {
-            makeNewField('dcterms:title').find('.values')
-                .append(makeDefaultValue('dcterms:title', 'literal'));
-            makeNewField('dcterms:description').find('.values')
-                .append(makeDefaultValue('dcterms:description', 'literal'));
-        } else {
+        // Prepare the form with values if any, else an empty template will be displayed.
+        if (typeof valuesJson !== 'undefined') {
             $.each(valuesJson, function(term, valueObj) {
                 var field = makeNewField(term);
                 $.each(valueObj.values, function(index, value) {
-                    field.find('.values').append(makeNewValue(term, value));
+                    field.find('.values').append(makeNewValue(term, null, value));
                 });
             });
         }
 
+        // Adapt the form for the template, if any.
         var applyTemplateClass = $('body').hasClass('add');
-        $.when(applyResourceTemplate(applyTemplateClass)).done(function () {
-            $('#properties').closest('form').trigger('o:form-loaded');
-        });
-
-        $('input.value-language').each(function() {
-            var languageInput = $(this);
-            if (languageInput.val() !== "") {
-                languageInput.addClass('active');
-                languageInput.prev('a.value-language').addClass('active');
-            }
-        });
+        $.when(applyResourceTemplate(applyTemplateClass))
+            .done(function () {
+                $('#properties').closest('form').trigger('o:form-loaded');
+            });
     };
-})(jQuery);
 
+})(jQuery);

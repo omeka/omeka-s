@@ -79,12 +79,14 @@ class ResourceTemplateController extends AbstractActionController
                     }
                 } else {
                     // Process review import form.
-                    $import = json_decode($this->params()->fromPost('import'), true);
-                    $dataTypes = $this->params()->fromPost('data_types', []);
-
+                    $import = json_decode($form->getData()['import'], true);
                     $import['o:label'] = $this->params()->fromPost('label');
-                    foreach ($dataTypes as $key => $dataType) {
-                        $import['o:resource_template_property'][$key]['o:data_type'] = $dataType;
+
+                    $dataTypes = $this->params()->fromPost('data_types');
+                    if ($dataTypes) {
+                        foreach ($dataTypes as $key => $dataTypeList) {
+                            $import['o:resource_template_property'][$key]['o:data_type'] = $dataTypeList;
+                        }
                     }
 
                     $response = $this->api($form)->create('resource_templates', $import);
@@ -120,6 +122,8 @@ class ResourceTemplateController extends AbstractActionController
      * [o:property][o:id]. We flag a valid data type by adding [o:data_type] to
      * the property. By design, the API will only hydrate members and data types
      * that are flagged as valid.
+     *
+     * @todo Manage direct import of data types from Value Suggest and other modules.
      *
      * @param array $import
      * @return array
@@ -163,6 +167,21 @@ class ResourceTemplateController extends AbstractActionController
             }
         }
 
+        foreach (['o:title_property', 'o:description_property'] as $property) {
+            if (isset($import[$property])) {
+                if ($vocab = $getVocab($import[$property]['vocabulary_namespace_uri'])) {
+                    $import[$property]['vocabulary_prefix'] = $vocab->prefix();
+                    $prop = $this->api()->searchOne('properties', [
+                        'vocabulary_namespace_uri' => $import[$property]['vocabulary_namespace_uri'],
+                        'local_name' => $import[$property]['local_name'],
+                    ])->getContent();
+                    if ($prop) {
+                        $import[$property]['o:id'] = $prop->id();
+                    }
+                }
+            }
+        }
+
         foreach ($import['o:resource_template_property'] as $key => $property) {
             if ($vocab = $getVocab($property['vocabulary_namespace_uri'])) {
                 $import['o:resource_template_property'][$key]['vocabulary_prefix'] = $vocab->prefix();
@@ -172,8 +191,25 @@ class ResourceTemplateController extends AbstractActionController
                 ])->getContent();
                 if ($prop) {
                     $import['o:resource_template_property'][$key]['o:property'] = ['o:id' => $prop->id()];
-                    if (in_array($import['o:resource_template_property'][$key]['data_type_name'], $dataTypes)) {
-                        $import['o:resource_template_property'][$key]['o:data_type'] = $import['o:resource_template_property'][$key]['data_type_name'];
+                    // Check the deprecated "data_type_name" if needed and
+                    // normalize it.
+                    if (!array_key_exists('data_types', $import['o:resource_template_property'][$key])) {
+                        $import['o:resource_template_property'][$key]['data_types'] = [[
+                            'name' => $import['o:resource_template_property'][$key]['data_type_name'],
+                            'label' => $import['o:resource_template_property'][$key]['data_type_label'],
+                        ]];
+                    }
+                    $importDataTypes = [];
+                    foreach ($import['o:resource_template_property'][$key]['data_types'] as $dataType) {
+                        $importDataTypes[$dataType['name']] = $dataType;
+                    }
+                    $import['o:resource_template_property'][$key]['data_types'] = $importDataTypes;
+                    // Prepare the list of standard data types.
+                    $import['o:resource_template_property'][$key]['o:data_type'] = [];
+                    foreach ($importDataTypes as $name => $importDataType) {
+                        if (in_array($name, $dataTypes)) {
+                            $import['o:resource_template_property'][$key]['o:data_type'][] = $importDataType['name'];
+                        }
                     }
                 }
             }
@@ -224,6 +260,32 @@ class ResourceTemplateController extends AbstractActionController
             }
         }
 
+        // Validate title and description.
+        foreach (['o:title_property', 'o:description_property'] as $property) {
+            if (isset($import[$property])) {
+                if (!is_array($import[$property])) {
+                    // Invalid property.
+                    return false;
+                }
+                if (!array_key_exists('vocabulary_namespace_uri', $import[$property])
+                    || !array_key_exists('vocabulary_label', $import[$property])
+                    || !array_key_exists('local_name', $import[$property])
+                    || !array_key_exists('label', $import[$property])
+                ) {
+                    // Missing a property info.
+                    return false;
+                }
+                if (!is_string($import[$property]['vocabulary_namespace_uri'])
+                    || !is_string($import[$property]['vocabulary_label'])
+                    || !is_string($import[$property]['local_name'])
+                    || !is_string($import[$property]['label'])
+                ) {
+                    // Invalid property info.
+                    return false;
+                }
+            }
+        }
+
         // Validate properties.
         if (!isset($import['o:resource_template_property']) || !is_array($import['o:resource_template_property'])) {
             // missing or invalid o:resource_template_property
@@ -235,6 +297,11 @@ class ResourceTemplateController extends AbstractActionController
                 // invalid o:resource_template_property format
                 return false;
             }
+
+            // Manage import from an export of Omeka < 3.0.
+            $oldExport = !array_key_exists('data_types', $property);
+
+            // Check missing o:resource_template_property info.
             if (!array_key_exists('vocabulary_namespace_uri', $property)
                 || !array_key_exists('vocabulary_label', $property)
                 || !array_key_exists('local_name', $property)
@@ -243,12 +310,17 @@ class ResourceTemplateController extends AbstractActionController
                 || !array_key_exists('o:alternate_comment', $property)
                 || !array_key_exists('o:is_required', $property)
                 || !array_key_exists('o:is_private', $property)
-                || !array_key_exists('data_type_name', $property)
-                || !array_key_exists('data_type_label', $property)
             ) {
-                // missing o:resource_template_property info
                 return false;
             }
+            if ($oldExport
+                 && (!array_key_exists('data_type_name', $property)
+                    || !array_key_exists('data_type_label', $property)
+            )) {
+                return false;
+            }
+
+            // Check invalid o:resource_template_property info.
             if (!is_string($property['vocabulary_namespace_uri'])
                 || !is_string($property['vocabulary_label'])
                 || !is_string($property['local_name'])
@@ -257,10 +329,16 @@ class ResourceTemplateController extends AbstractActionController
                 || (!is_string($property['o:alternate_comment']) && !is_null($property['o:alternate_comment']))
                 || !is_bool($property['o:is_required'])
                 || !is_bool($property['o:is_private'])
-                || (!is_string($property['data_type_name']) && !is_null($property['data_type_name']))
-                || (!is_string($property['data_type_label']) && !is_null($property['data_type_label']))
             ) {
-                // invalid o:resource_template_property info
+                return false;
+            }
+            if ($oldExport) {
+                if ((!is_string($property['data_type_name']) && !is_null($property['data_type_name']))
+                    || (!is_string($property['data_type_label']) && !is_null($property['data_type_label']))
+                ) {
+                    return false;
+                }
+            } elseif (!is_array($property['data_types']) && !is_null($property['data_types'])) {
                 return false;
             }
         }
@@ -269,8 +347,11 @@ class ResourceTemplateController extends AbstractActionController
 
     public function exportAction()
     {
+        /** @var \Omeka\Api\Representation\ResourceTemplateRepresentation $template */
         $template = $this->api()->read('resource_templates', $this->params('id'))->getContent();
         $templateClass = $template->resourceClass();
+        $templateTitle = $template->titleProperty();
+        $templateDescription = $template->descriptionProperty();
         $templateProperties = $template->resourceTemplateProperties();
 
         $export = [
@@ -288,16 +369,29 @@ class ResourceTemplateController extends AbstractActionController
             ];
         }
 
+        if ($templateTitle) {
+            $vocab = $templateTitle->vocabulary();
+            $export['o:title_property'] = [
+                'vocabulary_namespace_uri' => $vocab->namespaceUri(),
+                'vocabulary_label' => $vocab->label(),
+                'local_name' => $templateTitle->localName(),
+                'label' => $templateTitle->label(),
+            ];
+        }
+
+        if ($templateDescription) {
+            $vocab = $templateDescription->vocabulary();
+            $export['o:description_property'] = [
+                'vocabulary_namespace_uri' => $vocab->namespaceUri(),
+                'vocabulary_label' => $vocab->label(),
+                'local_name' => $templateDescription->localName(),
+                'label' => $templateDescription->label(),
+            ];
+        }
+
         foreach ($templateProperties as $templateProperty) {
             $property = $templateProperty->property();
             $vocab = $property->vocabulary();
-
-            $dataTypeName = $templateProperty->dataType();
-            $dataTypeLabel = null;
-            if ($dataTypeName) {
-                $dataType = $this->dataTypeManager->get($dataTypeName);
-                $dataTypeLabel = $dataType->getLabel();
-            }
 
             // Note that "position" is implied by array order.
             $export['o:resource_template_property'][] = [
@@ -305,8 +399,7 @@ class ResourceTemplateController extends AbstractActionController
                 'o:alternate_comment' => $templateProperty->alternateComment(),
                 'o:is_required' => $templateProperty->isRequired(),
                 'o:is_private' => $templateProperty->isPrivate(),
-                'data_type_name' => $dataTypeName,
-                'data_type_label' => $dataTypeLabel,
+                'data_types' => $templateProperty->dataTypeLabels(),
                 'vocabulary_namespace_uri' => $vocab->namespaceUri(),
                 'vocabulary_label' => $vocab->label(),
                 'local_name' => $property->localName(),

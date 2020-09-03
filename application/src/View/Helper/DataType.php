@@ -38,7 +38,7 @@ class DataType extends AbstractHelper
      *   - Data types organized in option groups
      *
      * @param string $name
-     * @param string $value
+     * @param string|array $value
      * @param array $attributes
      */
     public function getSelect($name, $value = null, $attributes = [])
@@ -74,6 +74,9 @@ class DataType extends AbstractHelper
         $element->setEmptyOption('Default')
             ->setValueOptions($options)
             ->setAttributes($attributes);
+        if (!$element->getAttribute('multiple') && is_array($value)) {
+            $value = reset($value);
+        }
         $element->setValue($value);
         return $this->getView()->formSelect($element);
     }
@@ -82,10 +85,12 @@ class DataType extends AbstractHelper
     {
         $view = $this->getView();
         $templates = '';
+        $resource = isset($view->resource) ? $view->resource : null;
+        $partial = $view->plugin('partial');
         foreach ($this->dataTypes as $dataType) {
-            $templates .= $view->partial('common/data-type-wrapper', [
+            $templates .= $partial('common/data-type-wrapper', [
                 'dataType' => $dataType,
-                'resource' => isset($view->resource) ? $view->resource : null,
+                'resource' => $resource,
             ]);
         }
         return $templates;
@@ -94,6 +99,22 @@ class DataType extends AbstractHelper
     public function getTemplate($dataType)
     {
         return $this->manager->get($dataType)->form($this->getView());
+    }
+
+    public function getLabel($dataType)
+    {
+        return $this->manager->get($dataType)->getLabel();
+    }
+
+    /**
+     * @param string $dataType
+     * @return \Omeka\DataType\DataTypeInterface|null
+     */
+    public function getDataType($dataType)
+    {
+        return $this->manager->has($dataType)
+            ? $this->manager->get($dataType)
+            : null;
     }
 
     /**

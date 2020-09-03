@@ -2,6 +2,14 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->dataType()->prepareForm();
+
+$defaultDataTypes = $this->setting('resource_default_datatypes') ?: ['literal', 'resource', 'uri'];
+
+$icons = [
+    'resource:item' => 'items',
+    'resource:itemset' => 'item-sets',
+    'resource:media' => 'media',
+];
 ?>
 
 <div class="resource-values field template" data-template-id="" role="group">
@@ -19,9 +27,12 @@ $this->dataType()->prepareForm();
         </div>
         <div class="add-values default-selector">
             <label class="o-icon-add"><?php echo $translate('Add value'); ?></label>
-            <a href="#" class="add-value button o-icon-literal" data-type="literal"><?php echo $translate('Text'); ?></a>
-            <a href="#" class="add-value button o-icon-resource" data-type="resource"><?php echo $translate('Omeka resource'); ?></a>
-            <a href="#" class="add-value button o-icon-uri" data-type="uri"><?php echo $translate('URI'); ?></a>
+            <?php foreach ($defaultDataTypes as $dataType): ?>
+            <?php $typeData = $this->dataType()->getDataType($dataType); ?>
+            <?php if (!$typeData) continue; ?>
+            <?php $icon = isset($icons[$dataType]) ? $icons[$dataType] : strtok($dataType, ':'); ?>
+            <a href="#" class="add-value button o-icon-<?= $icon ?>" data-type="<?= $dataType ?>"><?php echo $dataType === 'resource' ? $translate('Omeka resource') : $translate($typeData->getLabel()); ?></a>
+            <?php endforeach; ?>
         </div>
         <div class="add-values multiple-selector" style="display:none">
             <label class="o-icon-add"><?php echo $translate('Add value'); ?></label>

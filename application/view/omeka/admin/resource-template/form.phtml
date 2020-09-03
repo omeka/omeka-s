@@ -19,10 +19,10 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
 <?php echo $this->formCollection($form, false); ?>
 
 <ul id="properties" data-add-new-property-row-url="<?php echo $escape($this->url(null, ['action' => 'add-new-property-row'], true)); ?>">
-    <?php foreach ($propertyRows as $propertyRow): ?>
+    <?php foreach ($propertyRows as $namePrefix => $propertyRow): ?>
     <?php echo $this->partial(
         'omeka/admin/resource-template/show-property-row',
-        ['propertyRow' => $propertyRow]
+        ['propertyRow' => $propertyRow, 'namePrefix' => 'o:resource_template_property[' . $namePrefix . ']']
     ) ?>
     <?php endforeach; ?>
 </ul>
@@ -56,44 +56,44 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
             <h4><?php echo $translate('Original'); ?></h4>
             <span id="original-label"></span>
             <label for="alternate-label"><?php echo $translate('Alternate'); ?></label>
-            <input id="alternate-label" type="text">
+            <input id="alternate-label" type="text" data-property-key="o:alternate_label">
         </div>
         <div class="field">
             <h3><?php echo $escape($translate('Comment')); ?></h3>
             <h4><?php echo $translate('Original'); ?></h4>
             <span id="original-comment"></span>
             <label for="alternate-comment"><?php echo $translate('Alternate'); ?></label>
-            <textarea id="alternate-comment"></textarea>
+            <textarea id="alternate-comment" data-property-key="o:alternate_comment"></textarea>
         </div>
         <div class="field">
             <h3><?php echo $translate('Other options'); ?></h3>
             <div class="option">
                 <label for="is-title-property">
                     <?php echo $translate('Use for resource title'); ?>
-                    <input id="is-title-property" type="checkbox">
+                    <input id="is-title-property" type="checkbox" data-property-key="is-title-property">
                 </label>
             </div>
             <div class="option">
                 <label for="is-description-property">
                     <?php echo $translate('Use for resource description'); ?>
-                    <input id="is-description-property" type="checkbox">
+                    <input id="is-description-property" type="checkbox" data-property-key="is-description-property">
                 </label>
             </div>
             <div class="option">
                 <label for="is-required">
                     <?php echo $translate('Required'); ?>
-                    <input id="is-required" type="checkbox">
+                    <input id="is-required" type="checkbox" data-property-key="o:is_required">
                 </label>
             </div>
             <div class="option">
                 <label for="is-private">
                     <?php echo $translate('Private'); ?>
-                    <input id="is-private" type="checkbox">
+                    <input id="is-private" type="checkbox" data-property-key="o:is_private">
                 </label>
             </div>
             <div class="option">
-                <label for="data-type"><?php echo $translate('Data type'); ?></label>
-                <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type', 'class' => 'chosen-select']); ?>
+                <label for="data-type"><?php echo $translate('Data types'); ?></label>
+                <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type', 'multiple' => true, 'class' => 'chosen-select', 'data-property-key' => 'o:data_type', 'data-placeholder' => $translate('Select data types…')]); ?>
             </div>
         </div>
     </div>

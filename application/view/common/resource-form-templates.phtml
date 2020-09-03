@@ -4,7 +4,7 @@ $escape = $this->plugin('escapeHtml');
 $this->dataType()->prepareForm();
 ?>
 
-<div class="resource-values field template" role="group">
+<div class="resource-values field template" data-template-id="" role="group">
     <div class="field-meta">
         <div class="field-label"></div>
         <a href="#" class="collapse" aria-label="<?php echo $escape($translate('Collapse')); ?>"></a>
@@ -22,6 +22,9 @@ $this->dataType()->prepareForm();
             <a href="#" class="add-value button o-icon-literal" data-type="literal"><?php echo $translate('Text'); ?></a>
             <a href="#" class="add-value button o-icon-resource" data-type="resource"><?php echo $translate('Omeka resource'); ?></a>
             <a href="#" class="add-value button o-icon-uri" data-type="uri"><?php echo $translate('URI'); ?></a>
+        </div>
+        <div class="add-values multiple-selector" style="display:none">
+            <label class="o-icon-add"><?php echo $translate('Add value'); ?></label>
         </div>
         <div class="add-values single-selector" style="display:none">
             <label class="o-icon-add"><?php echo $translate('Add value'); ?></label>

@@ -245,7 +245,7 @@
         }
         var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
-        value.data('data-term', term);
+        value.data('term', term);
 
         // Get and display the value's visibility.
         var isPublic = true; // values are public by default

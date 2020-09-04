@@ -43,5 +43,7 @@ if (isset($resource)) {
     class="section"
     aria-labelledby="advanced-settings-label">
     <?php echo $this->formRow($thumbnailInput); ?>
+    <?php if ($resource && $resource->userIsAllowed('change-owner')): ?>
     <?php echo $this->formRow($ownerSelect); ?>
+    <?php endif; ?>
 </fieldset>

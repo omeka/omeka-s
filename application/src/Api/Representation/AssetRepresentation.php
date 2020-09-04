@@ -53,4 +53,9 @@ class AssetRepresentation extends AbstractEntityRepresentation
     {
         return $this->getFileUrl('asset', $this->filename());
     }
+
+    public function thumbnail()
+    {
+        return $this;
+    }
 }

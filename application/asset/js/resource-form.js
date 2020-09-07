@@ -250,8 +250,8 @@
         if (!dataType || typeof dataType !== 'string') {
             dataType = valueObj ? valueObj['type'] : field.find('.add-value:visible:first').data('type');
         }
-        // In form resource fields, data-types is plural, but in template and value, it is singular. The button uses "type".
-        field = $('.resource-values.field[data-property-term="' + term + '"]' + (dataType ? '[data-data-types="' + dataType + '"]' : ''));
+        var fieldForDataType = field.filter(function() { return $.inArray(dataType, $(this).data('data-types').split(',')) > -1; });
+        field = fieldForDataType.length ? fieldForDataType.first() : field.first();
         var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
         value.data('data-term', term);
@@ -381,42 +381,25 @@
     };
 
     /**
-     * Rewrite an existing property field, or create a new one, following the
-     * rules defined by the selected resource property template.
+     * Rewrite an existing property field, or create a new one.
      */
     var rewritePropertyField = function(templateProperty) {
         var templateId = $('#resource-template-select').val();
         var properties = $('div#properties');
         var propertyId = templateProperty['o:property']['o:id'];
-        var dataTypes = templateProperty['o:data_type'];
+        var dataTypes = templateProperty['o:data_type'] && templateProperty['o:data_type'].length
+            ? templateProperty['o:data_type']
+            : $('div#properties').data('default-data-types').split(',');
 
         // Check if an existing field exists in order to update it and to avoid duplication.
-        // Since fields can have the same property but different data types,
-        // a check is done on each field to find the good one, if any.
-        var field;
-        var fields = properties.find('[data-property-id="' + propertyId + '"]');
-        if (fields.length > 0) {
-            var useDefaultDataTypes = dataTypes.length < 1;
-            var dataTypesSorted = dataTypes.sort();
-            fields.each(function () {
-                var dataTypesElements = $(this).data('data-types').split(',').sort();
-                if (useDefaultDataTypes) {
-                    if (dataTypesElements.join(',') === $('div#properties').data('default-data-types').split(',').sort().join(',')){
-                        field = $(this);
-                        return false;
-                    }
-                } else if (dataTypesSorted.length === dataTypesElements.length
-                    && dataTypesSorted.every(function(value, index) { return value === dataTypesElements[index]})
-                ) {
-                    field = $(this);
-                    field.data('data-types', dataTypes.join(','));
-                    return false;
-                }
-            });
-        }
-        if (!field) {
+        // Since fields can have the same property but only different data types, a filter is used.
+        var field = properties.find('[data-property-id="' + propertyId + '"]')
+            .filter(function() { return dataTypes.sort().join(',') === $(this).data('data-types').split(',').sort().join(','); })
+            .first().data('data-types', dataTypes.join(','));
+        if (!field.length) {
             field = makeNewField(propertyId, dataTypes);
         }
+
         var originalLabel = field.find('.field-label');
         var originalDescription = field.find('.field-description');
         var defaultSelector = field.find('div.default-selector');
@@ -589,6 +572,7 @@
                             if (!dataTypesByProperty.hasOwnProperty(propertyId)) {
                                 dataTypesByProperty[propertyId] = {};
                             }
+                            // Manage exception for resource values.
                             if (fieldTemplateId && dataTypes.split(',').length) {
                                 dataTypes.split(',').forEach(function(dataType) {
                                     if (dataType === 'resource') {

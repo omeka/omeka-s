@@ -69,7 +69,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $checkDataTypes = [];
             $checkDataTypesByProperty = [];
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
-                if (!isset($resTemPropData['o:property']['o:id'])) {
+                if (empty($resTemPropData['o:property']['o:id'])) {
                     // Skip when no property ID.
                     continue;
                 }

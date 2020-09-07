@@ -142,7 +142,7 @@ class ArrayTextarea extends Textarea implements InputProviderInterface
      */
     public function getAsKeyValue()
     {
-        return $this->restoreValue;
+        return $this->asKeyValue;
     }
 
     /**

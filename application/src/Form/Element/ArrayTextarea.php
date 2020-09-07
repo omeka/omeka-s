@@ -101,14 +101,14 @@ class ArrayTextarea extends Textarea implements InputProviderInterface
     }
 
     /**
-     * Get each unique line of a string separately as a list.
+     * Get each line of a string separately as a list.
      *
      * @param string $string
      * @return array
      */
     protected function stringToList($string)
     {
-        return array_unique(array_filter(array_map('trim', explode("\n", $this->fixEndOfLine($string))), 'strlen'));
+        return array_filter(array_map('trim', explode("\n", $this->fixEndOfLine($string))), 'strlen');
     }
 
     /**

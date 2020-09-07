@@ -186,6 +186,7 @@
                     errors.push('The following field is required: ' + propLabel);
                 }
             });
+            thisForm.data('has-error', errors.length > 0);
             if (errors.length) {
                 e.preventDefault();
                 alert(errors.join("\n"));

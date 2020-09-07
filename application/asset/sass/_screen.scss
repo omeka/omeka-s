@@ -377,7 +377,7 @@ body {
         /* @group ----- Forms elements: Chosen selects ----- */
 
         .chosen-container-single .chosen-single,
-        .chosen-container-multi .chosen-choices {
+        .chosen-container-multi ul.chosen-choices {
             background-image: none;
             background-color: #fff;
             box-shadow: none;
@@ -391,12 +391,12 @@ body {
             border-color: $border-gray;
         }
 
-        .chosen-container-multi.chosen-container-active .chosen-choices {
+        .chosen-container-multi.chosen-container-active ul.chosen-choices {
             border-color: #aaa;
             border-radius: 3px 3px 0 0;
         }
 
-        .chosen-container-multi.chosen-container.chosen-drop-up .chosen-choices {
+        .chosen-container-multi.chosen-container.chosen-drop-up ul.chosen-choices {
             border-radius: 0 0 3px 3px;
         }
 
@@ -409,16 +409,16 @@ body {
             bottom: calc(100% - 1px);
         }
 
-        .chosen-container-multi .chosen-choices {
+        .chosen-container-multi ul.chosen-choices {
             padding: (.5 * $spacing-small);
         }
 
-        .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+        .chosen-container-multi ul.chosen-choices li.search-field input[type="text"] {
             font-family: "Lato", sans-serif;
             margin: 0;
         }
 
-        .chosen-container-multi .chosen-choices li.search-choice {
+        .chosen-container-multi ul.chosen-choices li.search-choice {
             background: #f0f0f0;
             font-size: .875 * $base-font-size;
             line-height: $base-line-height;
@@ -426,7 +426,7 @@ body {
             padding: 0 (1.125 * $spacing-large) 0 0;
         }
 
-        .chosen-container-multi .chosen-choices li.search-choice span {
+        .chosen-container-multi ul.chosen-choices li.search-choice span {
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -443,7 +443,7 @@ body {
             vertical-align: top;
         }
 
-        .chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+        .chosen-container-multi ul.chosen-choices li.search-choice .search-choice-close {
             top: 50%;
             right: $spacing-small;
             transform: translateY(-50%);
@@ -453,7 +453,7 @@ body {
             content: "";
         }
 
-        .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+        .chosen-container-multi ul.chosen-choices li.search-field input[type="text"] {
             min-height: 0;
             margin: 3px;
             height: auto;

@@ -10,6 +10,7 @@
             var field = $('[data-property-term = "' + term + '"].field');
             if (!field.length) {
                 field = makeNewField(property);
+                field.addClass('user-added');
             }
             $('#property-selector').removeClass('mobile');
             Omeka.scrollTo(field);
@@ -490,10 +491,9 @@
         }
 
         function finalize() {
-            // Remove empty properties, except the templates ones.
-            // TODO Keep properties selected by user (remove the "default-value"?).
+            // Remove empty fields, except the templates and user added ones, to avoid mix of templates fields.
             fields = templateId ? $('#properties .resource-values[data-template-id!="' + templateId + '"]') : $('#properties .resource-values');
-            fields.each(function() {
+            fields.not('.user-added').each(function() {
                 if ($(this).find('.inputs .values > .value').length === $(this).find('.inputs .values > .value.default-value').length) {
                     $(this).remove();
                 }
@@ -504,7 +504,7 @@
                 makeDefaultTemplate();
             }
 
-            // Add a default value if none already exist in the property.
+            // Add a default empty value if none already exist in the property.
             fields = $('#properties .resource-values');
             fields.each(function(index, field) {
                 field = $(field);

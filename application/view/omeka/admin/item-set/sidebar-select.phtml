@@ -5,39 +5,39 @@ $hyperlink = $this->plugin('hyperlink');
 $itemSetsFound = count($itemSets) > 0;
 ?>
 
-<h3><?php echo $translate('Select item set'); ?></h3>
-<div class="search-nav">
-    <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
-        <input type="text" name="search" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
-        <button type="button" class="o-icon-search"><?php echo $translate('Search'); ?></button>
-    </div>
-    <?php if ($itemSetsFound): ?>
-        <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
-    <?php endif; ?>
-</div>
-
-<div class="resource-list">
-    <?php if ($itemSetsFound): ?>
-        <?php
-        foreach ($itemSets as $itemSet): ?>
-        <div class="resource item-set">
-            <?php
-            $content = sprintf(
-                '%s<span class="resource-name">%s</span>',
-                $this->thumbnail($itemSet, 'square'),
-                $escape($itemSet->displayTitle())
-            );
-            echo $hyperlink->raw($content, '#', [
-                'class' => 'sidebar-content select-resource resource-link',
-                'data-sidebar-content-url' => $itemSet->url('show-details'),
-                'data-sidebar-selector' => '#resource-details',
-            ]);
-            ?>
+<div id="item-set-results">
+    <h3><?php echo $translate('Select item set'); ?></h3>
+    <div class="search-nav">
+        <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
+            <input type="text" name="search" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
+            <button type="button" class="o-icon-search"><?php echo $translate('Search'); ?></button>
         </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <span class="no-resources"><?php echo $translate(sprintf('No %s found.', $translate('item sets'))); ?></span>
-    <?php endif; ?>
+        <?php if ($itemSetsFound): ?>
+            <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+        <?php endif; ?>
+    </div>
+
+    <div class="resource-list">
+        <?php if ($itemSetsFound): ?>
+            <?php
+            foreach ($itemSets as $itemSet): ?>
+            <div class="resource item-set">
+                <?php
+                $content = sprintf(
+                    '%s<span class="resource-name">%s</span>',
+                    $this->thumbnail($itemSet, 'square'),
+                    $escape($itemSet->displayTitle())
+                );
+                echo $hyperlink->raw($content, '#', [
+                    'class' => 'sidebar-content select-resource resource-link',
+                    'data-sidebar-content-url' => $itemSet->url('show-details'),
+                    'data-sidebar-selector' => '#resource-details',
+                ]);
+                ?>
+            </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <span class="no-resources"><?php echo $translate(sprintf('No %s found.', $translate('item sets'))); ?></span>
+        <?php endif; ?>
+    </div>
 </div>
-
-

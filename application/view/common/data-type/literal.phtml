@@ -2,5 +2,5 @@
 $translate = $this->plugin('translate');
 ?>
 <?php echo $this->hyperlink('', '#', ['class' => 'value-language o-icon-language', 'title' => $translate('Set language'), ]); ?>
-<input class="value-language" type="text" data-value-key="@language" aria-label="<?php echo $translate('Language'); ?>">
+<input class="value-language" type="text" list="value-languages" data-value-key="@language" aria-label="<?php echo $translate('Language'); ?>">
 <textarea name="" class="input-value to-require" data-value-key="@value"></textarea>

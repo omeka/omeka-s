@@ -6,6 +6,7 @@ RewriteEngine On
 # exists, simply serve it.
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule !\.(php[0-9]?|phtml|phps)$ - [C]
+RewriteRule !(?:^|/)\.(?!well-known(?:/.*)?$) - [C]
 RewriteRule .* - [L]
 
 # Strip any trailing slashes from incoming requests

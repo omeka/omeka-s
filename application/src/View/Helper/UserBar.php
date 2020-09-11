@@ -147,7 +147,12 @@ class UserBar extends AbstractHelper
             if ($id) {
                 $mapResourceNames = ['item' => 'items', 'item-set' => 'item_sets', 'media' => 'media'];
                 $resourceName = $mapResourceNames[$controller];
-                $resource = $view->api()->read($resourceName, $id)->getContent();
+                try {
+                    $resource = $view->api()->read($resourceName, $id)->getContent();
+                } catch (ApiException\NotFoundException $e) {
+                    // Skip all resource links if resource is not found
+                    return $links;
+                }
                 $links[] = [
                     'resource' => $controller,
                     'action' => 'show',

@@ -1,14 +1,24 @@
 <?php
-$siteRepresentations = $item
-    ? $item->sites()
-    : $this->api()->search('sites', ['assign_new_items' => true])->getContent();
+if ($item) {
+    $siteRepresentations = $item->sites();
+} else {
+    $siteRepresentations = $this->api()->search('sites', ['assign_new_items' => true])->getContent();
+
+    $userDefaultSites = $this->userSetting('default_item_sites');
+    if (is_array($userDefaultSites)) {
+        $userDefaultSiteRepresentations = $this->api()->search('sites', ['id' => $userDefaultSites])->getContent();
+        $siteRepresentations = array_merge($siteRepresentations, $userDefaultSiteRepresentations);
+    }
+}
+
 $sites = [];
 foreach ($siteRepresentations as $siteRepresentation) {
-  $sites[] = [
-    'id' => $siteRepresentation->id(),
-    'title' => $siteRepresentation->title(),
-    'email' => $siteRepresentation->owner(),
-  ];
+    $id = $siteRepresentation->id();
+    $sites[$id] = [
+        'id' => $id,
+        'title' => $siteRepresentation->title(),
+        'email' => $siteRepresentation->owner(),
+    ];
 }
 
 $siteTemplate = '
@@ -23,7 +33,7 @@ $siteTemplate = '
     </td>
 </tr>';
 ?>
-<table id="item-sites" data-existing-rows="<?php echo $this->escapeHtml(json_encode($sites)); ?>" data-row-template="<?php echo $this->escapeHtml($siteTemplate); ?>" data-tablesaw-mode="stack" class="selector-table tablesaw tablesaw-stack <?php echo ($item && (count($sites) > 0)) ? '' : 'empty'; ?>">
+<table id="item-sites" data-existing-rows="<?php echo $this->escapeHtml(json_encode(array_values($sites))); ?>" data-row-template="<?php echo $this->escapeHtml($siteTemplate); ?>" data-tablesaw-mode="stack" class="selector-table tablesaw tablesaw-stack <?php echo ($item && (count($sites) > 0)) ? '' : 'empty'; ?>">
     <thead>
     <tr>
         <th><?php echo $this->translate('Title'); ?></th>

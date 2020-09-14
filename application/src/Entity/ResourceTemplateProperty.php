@@ -65,7 +65,7 @@ class ResourceTemplateProperty extends AbstractEntity
     /**
      * @Column(type="json_array", nullable=false)
      */
-    protected $settings;
+    protected $data;
 
     public function getId()
     {
@@ -162,13 +162,13 @@ class ResourceTemplateProperty extends AbstractEntity
         return $this->getIsPrivate();
     }
 
-    public function setSettings(array $settings)
+    public function setData(array $data)
     {
-        $this->settings = $settings;
+        $this->data = $data;
     }
 
-    public function getSettings()
+    public function getData()
     {
-        return $this->settings;
+        return $this->data;
     }
 }

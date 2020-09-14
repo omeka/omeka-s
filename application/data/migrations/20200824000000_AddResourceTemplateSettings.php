@@ -10,13 +10,13 @@ class AddResourceTemplateSettings implements MigrationInterface
     {
         $sql = <<<SQL
 ALTER TABLE `resource_template`
-ADD `settings` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)';
+ADD `data` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json_array)';
 SQL;
         $conn->exec($sql);
 
         $sql = <<<SQL
 UPDATE `resource_template`
-SET `settings` = '[]';
+SET `data` = '[]';
 SQL;
         $conn->exec($sql);
     }

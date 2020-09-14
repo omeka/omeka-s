@@ -66,10 +66,10 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'titleProperty', 'descriptionProperty', 'settings', 'resourceTemplateProperties', 'resources'];
+            return ['__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'titleProperty', 'descriptionProperty', 'data', 'resourceTemplateProperties', 'resources'];
         }
 
-        return ['__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'titleProperty', 'descriptionProperty', 'settings', 'resourceTemplateProperties', 'resources'];
+        return ['__isInitialized__', 'id', 'label', 'owner', 'resourceClass', 'titleProperty', 'descriptionProperty', 'data', 'resourceTemplateProperties', 'resources'];
     }
 
     /**
@@ -304,23 +304,23 @@ class ResourceTemplate extends \Omeka\Entity\ResourceTemplate implements \Doctri
     /**
      * {@inheritDoc}
      */
-    public function setSettings(array $settings)
+    public function setData(array $data)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSettings', [$settings]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', [$data]);
 
-        return parent::setSettings($settings);
+        return parent::setData($data);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getSettings()
+    public function getData()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSettings', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', []);
 
-        return parent::getSettings();
+        return parent::getData();
     }
 
     /**

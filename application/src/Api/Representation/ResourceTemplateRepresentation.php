@@ -37,7 +37,7 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
             'o:resource_class' => $resourceClass,
             'o:title_property' => $titleProperty,
             'o:description_property' => $descriptionProperty,
-            'o:settings' => $this->settings(),
+            'o:data' => $this->data(),
             'o:resource_template_property' => $this->resourceTemplateProperties(),
         ];
     }
@@ -99,9 +99,9 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
     /**
      * @return array
      */
-    public function settings()
+    public function data()
     {
-        return $this->resource->getSettings();
+        return $this->resource->getData();
     }
 
     /**
@@ -109,11 +109,11 @@ class ResourceTemplateRepresentation extends AbstractEntityRepresentation
      * @param mixed $default
      * @return mixed
      */
-    public function setting($name, $default = null)
+    public function dataValue($name, $default = null)
     {
-        $settings = $this->resource->getSettings();
-        return array_key_exists($name, $settings)
-            ? $settings[$name]
+        $data = $this->resource->getData();
+        return array_key_exists($name, $data)
+            ? $data[$name]
             : $default;
     }
 

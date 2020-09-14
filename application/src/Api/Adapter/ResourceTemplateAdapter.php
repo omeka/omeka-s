@@ -66,7 +66,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         ) {
             $propertyIds = [];
             foreach ($data['o:resource_template_property'] as $resTemPropData) {
-                if (!isset($resTemPropData['o:property']['o:id'])) {
+                if (empty($resTemPropData['o:property']['o:id'])) {
                     continue; // skip when no property ID
                 }
                 $propertyId = $resTemPropData['o:property']['o:id'];
@@ -124,9 +124,9 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
             $entity->setDescriptionProperty($descriptionProperty);
         }
 
-        if ($this->shouldHydrate($request, 'o:settings')) {
-            $settings = $request->getValue('o:settings') ?: [];
-            $entity->setSettings($settings);
+        if ($this->shouldHydrate($request, 'o:data')) {
+            $oData = $request->getValue('o:data') ?: [];
+            $entity->setData($oData);
         }
 
         if ($this->shouldHydrate($request, 'o:resource_template_property')
@@ -180,9 +180,9 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 if (isset($resTemPropData['o:is_private'])) {
                     $isPrivate = (bool) $resTemPropData['o:is_private'];
                 }
-                $settings = [];
-                if (!empty($resTemPropData['o:settings'])) {
-                    $settings = $resTemPropData['o:settings'];
+                $oData = [];
+                if (!empty($resTemPropData['o:data'])) {
+                    $oData = $resTemPropData['o:data'];
                 }
 
                 // Check whether a passed property is already assigned to this
@@ -203,7 +203,7 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
                 $resTemProp->setDataType($dataType);
                 $resTemProp->setIsRequired($isRequired);
                 $resTemProp->setIsPrivate($isPrivate);
-                $resTemProp->setSettings($settings);
+                $resTemProp->setData($oData);
                 // Set the position of the property to its intrinsic order
                 // within the passed array.
                 $resTemProp->setPosition($position++);

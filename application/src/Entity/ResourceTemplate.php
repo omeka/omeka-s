@@ -47,7 +47,7 @@ class ResourceTemplate extends AbstractEntity
     /**
      * @Column(type="json_array", nullable=false)
      */
-    protected $settings;
+    protected $data;
 
     /**
      * @OneToMany(
@@ -130,14 +130,14 @@ class ResourceTemplate extends AbstractEntity
         return $this->descriptionProperty;
     }
 
-    public function setSettings(array $settings)
+    public function setData(array $data)
     {
-        $this->settings = $settings;
+        $this->data = $data;
     }
 
-    public function getSettings()
+    public function getData()
     {
-        return $this->settings;
+        return $this->data;
     }
 
     public function getResourceTemplateProperties()

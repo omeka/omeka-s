@@ -316,8 +316,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *   returns the first matching value.
      * - default: (null) Default value if no values match criteria. Returns null
      *   by default for single result, empty array for all results.
-     * - lang: (null) Get values of this language only. Returns values of all
-     *   languages by default.
+     * - lang (array|string): Get values of these languages only. Returns values
+     *   of all languages by default. Use `['']` to get values without language.
      * @return ValueRepresentation|ValueRepresentation[]|mixed
      */
     public function value($term, array $options = [])
@@ -328,9 +328,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
         if (!isset($options['default'])) {
             $options['default'] = $options['all'] ? [] : null;
-        }
-        if (!isset($options['lang'])) {
-            $options['lang'] = null;
         }
 
         if (!$this->getAdapter()->isTerm($term)) {
@@ -349,15 +346,21 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $types = [$options['type']];
         }
 
+        if (empty($options['lang'])) {
+            $langs = false;
+        } elseif (is_array($options['lang'])) {
+            $langs = $options['lang'];
+        } else {
+            $langs = [$options['lang']];
+        }
+
         // Match only the representations that fit all the criteria.
         $matchingValues = [];
         foreach ($this->values()[$term]['values'] as $value) {
             if ($types && !in_array($value->type(), $types)) {
                 continue;
             }
-            if (!is_null($options['lang'])
-                && $value->lang() !== $options['lang']
-            ) {
+            if ($langs && !in_array($value->lang(), $langs)) {
                 continue;
             }
             $matchingValues[] = $value;

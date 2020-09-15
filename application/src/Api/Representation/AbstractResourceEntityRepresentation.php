@@ -309,8 +309,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @param string $term The prefix:local_part
      * @param array $options
-     * - type: (null) Get values of this type only. Valid types are "literal",
-     *   "uri", and "resource". Returns all types by default.
+     * - type (array|string): Get values of these types only. Default types are
+     *   "literal", "uri", "resource", "resource:item", "resource:media" and
+     *   "resource:itemset". Returns all types by default.
      * - all: (false) If true, returns all values that match criteria. If false,
      *   returns the first matching value.
      * - default: (null) Default value if no values match criteria. Returns null
@@ -322,9 +323,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function value($term, array $options = [])
     {
         // Set defaults.
-        if (!isset($options['type'])) {
-            $options['type'] = null;
-        }
         if (!isset($options['all'])) {
             $options['all'] = false;
         }
@@ -343,12 +341,18 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             return $options['default'];
         }
 
+        if (empty($options['type'])) {
+            $types = false;
+        } elseif (is_array($options['type'])) {
+            $types = $options['type'];
+        } else {
+            $types = [$options['type']];
+        }
+
         // Match only the representations that fit all the criteria.
         $matchingValues = [];
         foreach ($this->values()[$term]['values'] as $value) {
-            if (!is_null($options['type'])
-                && $value->type() !== $options['type']
-            ) {
+            if ($types && !in_array($value->type(), $types)) {
                 continue;
             }
             if (!is_null($options['lang'])

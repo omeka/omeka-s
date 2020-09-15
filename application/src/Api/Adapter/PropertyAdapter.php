@@ -141,7 +141,7 @@ class PropertyAdapter extends AbstractEntityAdapter
             $valuesAlias = $this->createAlias();
             $qb->innerJoin(
                 'omeka_root.values',
-                $valuesAlias,
+                $valuesAlias
             );
         }
     }

@@ -132,7 +132,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             $valuesAlias = $this->createAlias();
             $qb->innerJoin(
                 'omeka_root.resources',
-                $valuesAlias,
+                $valuesAlias
             );
         }
     }

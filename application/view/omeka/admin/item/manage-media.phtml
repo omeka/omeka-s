@@ -1,7 +1,6 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/item-manage-media.js', 'Omeka'));
 ?>
 <?php foreach ($mediaForms as $type => $form): ?>

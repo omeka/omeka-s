@@ -100,4 +100,12 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
             ['force_canonical' => $canonical]
         );
     }
+
+    public function sitePages($siteId)
+    {
+        return $this->getServiceLocator()
+            ->get('Omeka\ApiManager')
+            ->search('site_pages', ['site_id' => $siteId, 'item_id' => $this->id()])
+            ->getContent();
+    }
 }

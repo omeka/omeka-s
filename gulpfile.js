@@ -184,6 +184,25 @@ function compileToMo(file) {
     return runCommand('msgfmt', [file, '-o', outFile]);
 }
 
+function phpCsFixer(fix, modulePath) {
+    let args = ['fix', '--verbose'];
+    if (!fix) {
+        args = args.concat(['--dry-run', '--diff', '--diff-format=udiff']);
+    }
+    if (modulePath) {
+        const [moduleName] = modulePath.split(path.sep).slice(-1);
+        args = args.concat([
+            '--cache-file=build/cache/.php_cs.cache_' + moduleName,
+            '--config=.php_cs_module', modulePath
+        ]);
+    } else {
+        args.push('--cache-file=build/cache/.php_cs.cache');
+    }
+    return ensureBuildDir().then(function () {
+        return runCommand('vendor/bin/php-cs-fixer', args);
+    });
+}
+
 function taskCss() {
     return cssToSass('./application');
 }
@@ -216,14 +235,23 @@ taskCssModuleWatch.description = 'Watch for module sass changes and auto-build c
 taskCssModuleWatch.flags = {'--module-name': 'Folder name of the module to watch for (required)'};
 gulp.task('css:module:watch', taskCssModuleWatch);
 
-
 function taskTestCs() {
-    return ensureBuildDir().then(function () {
-        return runCommand('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--verbose', '--diff', '--cache-file=build/cache/.php_cs.cache']);
-    });
+    return phpCsFixer(false);
 }
 taskTestCs.description = 'Check code standards';
 gulp.task('test:cs', taskTestCs);
+
+function taskTestModuleCs() {
+    return ensureBuildDir()
+        .then(getModulePath)
+        .then(function (modulePath) {
+            return phpCsFixer(false, modulePath);
+        }
+    );
+}
+taskTestModuleCs.description = 'Check code standards for a module';
+taskTestModuleCs.flags = {'--module-name': 'Folder name of the module to check'};
+gulp.task('test:module:cs', taskTestModuleCs);
 
 function taskTestPhp() {
     return ensureBuildDir().then(function () {
@@ -241,6 +269,24 @@ gulp.task('test:php', taskTestPhp);
 var taskTest = gulp.series('test:cs', 'test:php');
 taskTest.description = 'Run all tests'
 gulp.task('test', taskTest);
+
+function taskFixCs() {
+    return phpCsFixer(true);
+}
+taskFixCs.description = 'Fix code standards';
+gulp.task('fix:cs', taskFixCs);
+
+function taskFixModuleCs() {
+    return ensureBuildDir()
+        .then(getModulePath)
+        .then(function (modulePath) {
+            return phpCsFixer(true, modulePath);
+        }
+    );
+}
+taskFixModuleCs.description = 'Fix code standards for a module';
+taskFixModuleCs.flags = {'--module-name': 'Folder name of the module to fix'};
+gulp.task('fix:module:cs', taskFixModuleCs);
 
 function taskDeps() {
     return composer(['install']);
@@ -442,6 +488,7 @@ var taskZip = gulp.series('clean', 'init', function () {
             '!./package-lock.json',
             '!./**/.tx/**',
             '!./.php_cs',
+            '!./.php_cs_module',
             '!./.php_cs.cache',
             '!./.travis.yml',
             '!./gulpfile.js',

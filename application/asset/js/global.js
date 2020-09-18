@@ -12,16 +12,32 @@ $(document).ready(function() {
         // Add a value.
         $('form').on('click', '.multi-value .add-value', function(e) {
             e.preventDefault();
-            var template = $(this).parents('.field').data('field-template');
+            var fieldContainer = $(this).parents('.field');
+            var template = fieldContainer.data('field-template');
             var newValue = $(template);
             newValue.children('input[type="text"]').val(null);
             newValue.children('select').prop('selectedIndex', 0);
-            newValue.insertBefore($(this)).trigger('o:value-created');
+            newValue.appendTo(fieldContainer.find('.inputs'));
+            newValue.trigger('o:value-created');
         });
         
         // Remove a value.
         $('form').on('click', '.multi-value .remove-value', function(e) {
             e.preventDefault();
             $(this).closest('.value').remove();
+        });
+
+     // Set classes for expandable/collapsible content. 
+        $(document).on('click', 'a.expand, a.collapse', function(e) {
+            e.preventDefault();
+            var toggle = $(this);
+            toggle.toggleClass('collapse').toggleClass('expand');
+            if (toggle.hasClass('expand')) {
+                toggle.attr('aria-label', Omeka.jsTranslate('Expand')).attr('title', Omeka.jsTranslate('Expand'));
+                toggle.trigger('o:collapsed');
+            } else {
+                toggle.attr('aria-label', Omeka.jsTranslate('Collapse')).attr('title', Omeka.jsTranslate('Collapse'));
+                toggle.trigger('o:expanded');
+            }
         });
 });

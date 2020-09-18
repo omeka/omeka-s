@@ -30,9 +30,11 @@ class Page implements LinkInterface
         if (isset($data['label']) && '' !== trim($data['label'])) {
             return $data['label'];
         }
+
         $pages = $site->pages();
         if (!isset($pages[$data['id']])) {
-            return '[Missing Page]';
+            $translator = $site->getServiceLocator()->get('MvcTranslator');
+            return $translator->translate('[Missing Page]'); // @translate
         }
         return $pages[$data['id']]->title();
     }
@@ -40,8 +42,9 @@ class Page implements LinkInterface
     public function toZend(array $data, SiteRepresentation $site)
     {
         $pages = $site->pages();
+
+        // Handle an invalid page.
         if (!isset($pages[$data['id']])) {
-            // Handle an invalid page.
             $fallback = new Fallback('page');
             return $fallback->toZend($data, $site);
         }

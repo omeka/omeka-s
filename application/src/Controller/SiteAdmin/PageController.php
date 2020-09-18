@@ -44,9 +44,30 @@ class PageController extends AbstractActionController
 
     public function indexAction()
     {
+        /** @var \Omeka\Api\Representation\SiteRepresentation $site */
         $site = $this->currentSite();
-
         $indents = [];
+        $navSorting = false;
+
+        // Manage the default special sort (navigation).
+        $sortBy = $this->params()->fromQuery('sort_by', 'nav');
+
+        if (empty($sortBy) || $sortBy === 'nav') {
+            $navSorting = true;
+            $pages = array_merge($site->linkedPages(), $site->notlinkedPages());
+            if ($this->params()->fromQuery('sort_order') === 'desc') {
+                $pages = array_reverse($pages, true);
+            }
+        } else {
+            // No pagination for pages.
+            $this->setBrowseDefaults('modified', 'desc', null);
+            $query = $this->params()->fromQuery();
+            $query['site_id'] = $site->id();
+            $response = $this->api()->search('site_pages', $query);
+            $this->paginator($response->getTotalResults());
+            $pages = $response->getContent();
+        }
+
         $iterate = function ($linksIn, $depth = 0) use (&$iterate, &$indents) {
             foreach ($linksIn as $key => $data) {
                 if ('page' === $data['type']) {
@@ -57,13 +78,16 @@ class PageController extends AbstractActionController
                 }
             }
         };
-        $iterate($site->navigation());
+        if ($navSorting) {
+            $iterate($site->navigation());
+        }
 
-        $view = new ViewModel;
-        $view->setVariable('site', $site);
-        $view->setVariable('indents', $indents);
-        $view->setVariable('pages', array_merge($site->linkedPages(), $site->notlinkedPages()));
-        return $view;
+        return new ViewModel([
+            'site' => $site,
+            'pages' => $pages,
+            'indents' => $indents,
+            'sortBy' => $sortBy,
+        ]);
     }
 
     public function deleteConfirmAction()

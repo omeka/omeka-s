@@ -16,10 +16,10 @@ class IIIF implements RendererInterface
             '<div class="openseadragon" id="iiif-' . $media->id() . '" style="height: 400px;"></div>
             <script type="text/javascript">
                 var viewer = OpenSeadragon({
-                    id: "iiif-'.$media->id().'",
-                    prefixUrl: "'. $prefixUrl . '",
+                    id: "iiif-' . $media->id() . '",
+                    prefixUrl: "' . $prefixUrl . '",
                     tileSources: [
-                        '. json_encode($IIIFData) .'
+                        ' . json_encode($IIIFData) . '
                     ]
                 });
             </script>

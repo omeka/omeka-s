@@ -292,9 +292,12 @@ var Omeka = {
     $(function() {
         Omeka.reserveSidebarSpace();
 
-        if (window.location.hash && $('.section').filter(window.location.hash).length) {
-            // Open the section that corresponds to the URL fragment identifier.
-            Omeka.switchActiveSection($(window.location.hash));
+        // Open the section that corresponds to the URL fragment identifier.
+        if (window.location.hash && !$('body').hasClass('no-section-hashes')) {
+            var possibleSection = document.getElementById(window.location.hash.slice(1));
+            if (possibleSection && possibleSection.classList.contains('section')) {
+                Omeka.switchActiveSection($(possibleSection));
+            }
         }
 
         $('#content').on('click', '.button.cancel', function(e) {
@@ -390,20 +393,6 @@ var Omeka = {
             } else {
                 $(this).addClass('active');
                 navObject.addClass('active');
-            }
-        });
-
-        // Set classes for expandable/collapsible content.
-        $(document).on('click', 'a.expand, a.collapse', function(e) {
-            e.preventDefault();
-            var toggle = $(this);
-            toggle.toggleClass('collapse').toggleClass('expand');
-            if (toggle.hasClass('expand')) {
-                toggle.attr('aria-label', Omeka.jsTranslate('Expand')).attr('title', Omeka.jsTranslate('Expand'));
-                toggle.trigger('o:collapsed');
-            } else {
-                toggle.attr('aria-label', Omeka.jsTranslate('Collapse')).attr('title', Omeka.jsTranslate('Collapse'));
-                toggle.trigger('o:expanded');
             }
         });
 

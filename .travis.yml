@@ -19,12 +19,12 @@ cache:
     - build/cache
 
 before_install:
- - nvm install 7
- - nvm use 7
+ - nvm install 8
+ - nvm use 8
   
 install:
   - npm install
-  - ./node_modules/gulp/bin/gulp.js init
+  - npx gulp init
 
 before_script:
   - mysql -e "create database IF NOT EXISTS omeka_test;" -uroot

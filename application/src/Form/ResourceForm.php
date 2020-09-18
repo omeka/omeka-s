@@ -36,7 +36,9 @@ class ResourceForm extends Form
                 'empty_option' => '',
                 'resource_value_options' => [
                     'resource' => 'resource_templates',
-                    'query' => [],
+                    'query' => [
+                        'sort_by' => 'label',
+                    ],
                     'option_text_callback' => function ($resourceTemplate) {
                         return $resourceTemplate->label();
                     },
@@ -62,6 +64,30 @@ class ResourceForm extends Form
         $this->add([
             'name' => 'o:thumbnail[o:id]',
             'type' => 'Omeka\Form\Element\Asset',
+            'options' => [
+                'label' => 'Thumbnail', // @translate
+                'info' => 'Omeka S automatically selects a thumbnail from among attached media for a resource. You may use an image of your choice instead by choosing an asset here.', // @translate
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'o:owner[o:id]',
+            'type' => ResourceSelect::class,
+            'attributes' => [
+                'id' => 'resource-owner-select',
+                'class' => 'chosen-select',
+                'data-api-base-url' => $urlHelper('api/default', ['resource' => 'users']),
+            ],
+            'options' => [
+                'label' => 'Owner', // @translate
+                'resource_value_options' => [
+                    'resource' => 'users',
+                    'query' => [],
+                    'option_text_callback' => function ($user) {
+                        return $user->name();
+                    },
+                ],
+            ],
         ]);
 
         $addEvent = new Event('form.add_elements', $this);
@@ -74,6 +100,10 @@ class ResourceForm extends Form
         ]);
         $inputFilter->add([
             'name' => 'o:resource_class[o:id]',
+            'required' => false,
+        ]);
+        $inputFilter->add([
+            'name' => 'o:owner[o:id]',
             'required' => false,
         ]);
 

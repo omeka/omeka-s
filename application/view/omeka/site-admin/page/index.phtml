@@ -1,10 +1,40 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
+$i18n = $this->plugin('i18n');
+
 $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
+
+$sortHeadings = [
+    [
+        'label' => $translate('Navigation'),
+        'value' => 'nav',
+    ],
+    [
+        'label' => $translate('Title'),
+        'value' => 'title',
+    ],
+    [
+        'label' => $translate('URL slug'),
+        'value' => 'slug'
+    ],
+    [
+        'label' => $translate('Created'),
+        'value' => 'created',
+    ],
+    [
+        'label' => $translate('Modified'),
+        'value' => 'modified',
+    ],
+];
 ?>
 
 <?php echo $this->pageTitle($translate('Pages'), 1, $translate('Sites')); ?>
+
+<div class="browse-controls">
+    <?php echo $this->sortSelector($sortHeadings); ?>
+</div>
 
 <div id="page-actions">
     <?php if ($site->userIsAllowed('add-page')): ?>
@@ -17,6 +47,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
         <tr>
             <th><?php echo $translate('Title'); ?></th>
             <th><?php echo $translate('Slug'); ?></th>
+            <th><?php echo $sortBy === 'created' ? $translate('Created') : $translate('Modified'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -31,13 +62,18 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
             <?php else: ?>
             <?php echo $page->title(); ?>
             <?php endif; ?>
+            <?php if (!$page->isPublic()): ?>
+                <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>
+            <?php endif; ?>
             <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
             <ul class="actions">
-                <li><?php echo $this->hyperlink('', $page->siteUrl(), [
+                <?php if ($page->userIsAllowed('read')): ?>
+                <li><?php echo $hyperlink('', $page->siteUrl(), [
                     'target' => '_blank',
                     'class' => 'o-icon-external public',
                     'title' => $translate('View public page'),
                 ]); ?></li>
+                <?php endif; ?>
                 <?php if ($page->userIsAllowed('update')): ?>
                 <li><?php echo $page->link('', 'edit', [
                     'class' => 'o-icon-edit',
@@ -45,7 +81,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
                 ]); ?></li>
                 <?php endif; ?>
                 <?php if ($page->userIsAllowed('delete')): ?>
-                <li><?php echo $this->hyperlink('', '#', [
+                <li><?php echo $hyperlink('', '#', [
                     'class' => 'o-icon-delete sidebar-content',
                     'title' => $translate('Delete page'),
                     'data-sidebar-content-url' => $page->url('delete-confirm'),
@@ -54,13 +90,14 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
             </ul>
         </td>
         <td><?php echo $page->slug(); ?></td>
+        <td><?php echo $escape($i18n->dateFormat($sortBy === 'created' ? $page->created() : $page->modified())); ?></td>
     </tr>
 <?php endforeach; ?>
     </tbody>
 </table>
 
 <div class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
+    <?php echo $hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
         'title' => $translate('Close'),
     ]); ?>

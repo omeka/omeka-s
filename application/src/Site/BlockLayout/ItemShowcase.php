@@ -19,7 +19,7 @@ class ItemShowcase extends AbstractBlockLayout
         $html = '';
         $html .= $view->blockAttachmentsForm($block);
 
-        $html .= '<a href="#" class="collapse" aria-label="collapse"><h4>' . $view->translate('Options'). '</h4></a>';
+        $html .= '<a href="#" class="collapse" aria-label="collapse"><h4>' . $view->translate('Options') . '</h4></a>';
         $html .= '<div class="collapsible">';
         $html .= $view->blockThumbnailTypeSelect($block);
         $html .= $view->blockShowTitleSelect($block);

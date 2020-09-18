@@ -37,6 +37,7 @@ $queryText = function(array $search, $index) {
 <div id="property-queries" class="field removable multi-value" role="group" aria-labelledby="by-value-label">
     <div class="field-meta">
         <span id="by-value-label" class="label"><?php echo $translate('Search by value'); ?></span>
+        <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new value'); ?>" title="<?php echo $translate('Add new value'); ?>"></button>
     </div>
     <div class="inputs">
         <?php
@@ -72,13 +73,11 @@ $queryText = function(array $search, $index) {
                 <?php echo $queryOption('nex', $property, 'type', $translate('has no values')); ?>
             </select>
             <?php echo $queryText($property, $index); ?>
-            <button type="button" class="o-icon-delete remove-value button"><?php echo $translate('Remove value'); ?></button>
+            <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
         </div>
         <?php
         $index++;
         endforeach;
-
-        echo $this->hyperlink($translate('Add new value'), '#', ['class' => 'add-value button']);
         ?>
     </div>
 </div>

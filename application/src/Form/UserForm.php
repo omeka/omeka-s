@@ -2,6 +2,7 @@
 namespace Omeka\Form;
 
 use Omeka\Form\Element\ResourceSelect;
+use Omeka\Form\Element\SiteSelect;
 use Omeka\Permissions\Acl;
 use Omeka\Settings\Settings;
 use Omeka\Settings\UserSettings;
@@ -122,7 +123,9 @@ class UserForm extends Form
         if (null === $locale) {
             $locale = $this->settings->get('locale');
         }
-        $this->get('user-settings')->add([
+
+        $settingsFieldset = $this->get('user-settings');
+        $settingsFieldset->add([
             'name' => 'locale',
             'type' => 'Omeka\Form\Element\LocaleSelect',
             'options' => [
@@ -135,7 +138,7 @@ class UserForm extends Form
                 'id' => 'locale',
             ],
         ]);
-        $this->get('user-settings')->add([
+        $settingsFieldset->add([
             'name' => 'default_resource_template',
             'type' => ResourceSelect::class,
             'attributes' => [
@@ -149,11 +152,28 @@ class UserForm extends Form
                 'empty_option' => '',
                 'resource_value_options' => [
                     'resource' => 'resource_templates',
-                    'query' => [],
+                    'query' => [
+                        'sort_by' => 'label',
+                    ],
                     'option_text_callback' => function ($resourceTemplate) {
                         return $resourceTemplate->label();
                     },
                 ],
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'default_item_sites',
+            'type' => SiteSelect::class,
+            'attributes' => [
+                'value' => $userId ? $this->userSettings->get('default_item_sites', null, $userId) : [],
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select sites', // @translate
+                'multiple' => true,
+                'id' => 'default_sites',
+            ],
+            'options' => [
+                'label' => 'Default sites for items', // @translate
+                'empty_option' => '',
             ],
         ]);
 

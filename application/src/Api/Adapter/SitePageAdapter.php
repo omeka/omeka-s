@@ -20,6 +20,8 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
         'id' => 'id',
         'created' => 'created',
         'modified' => 'modified',
+        'title' => 'title',
+        'slug' => 'slug',
     ];
 
     public function getResourceName()
@@ -49,6 +51,31 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
                 "$siteAlias.id",
                 $this->createNamedParameter($qb, $query['site_id']))
             );
+        }
+
+        if (isset($query['item_id']) && is_numeric($query['item_id'])) {
+            $blocksAlias = $this->createAlias();
+            $qb->innerJoin('omeka_root.blocks', $blocksAlias);
+            $attachmentsAlias = $this->createAlias();
+            $qb->innerJoin("$blocksAlias.attachments", $attachmentsAlias);
+            $qb->andWhere($qb->expr()->eq(
+                "$attachmentsAlias.item",
+                $this->createNamedParameter($qb, $query['item_id']))
+            );
+        }
+
+        if (isset($query['slug'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'omeka_root.slug',
+                $this->createNamedParameter($qb, $query['slug'])
+            ));
+        }
+
+        if (isset($query['is_public'])) {
+            $qb->andWhere($qb->expr()->eq(
+                'omeka_root.isPublic',
+                $this->createNamedParameter($qb, (bool) $query['is_public'])
+            ));
         }
     }
 
@@ -88,6 +115,10 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
                 $slug = $this->getAutomaticSlug($title, $site);
             }
             $entity->setSlug($slug);
+        }
+
+        if ($this->shouldHydrate($request, 'o:is_public')) {
+            $entity->setIsPublic($request->getValue('o:is_public', true));
         }
 
         $appendBlocks = $request->getOperation() === Request::UPDATE && $request->getOption('isPartial', false);
@@ -284,7 +315,9 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
 
     public function getFulltextIsPublic($resource)
     {
-        return $resource->getSite()->isPublic();
+        // The page is public only if the site and the page are public.
+        return $resource->isPublic()
+            && $resource->getSite()->isPublic();
     }
 
     public function getFulltextTitle($resource)

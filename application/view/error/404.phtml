@@ -1,13 +1,15 @@
 <?php
 $translate = $this->plugin('translate');
 ?>
-<?php echo $this->pageTitle($translate('Not found')); ?>
+<?php echo $this->pageTitle($translate('Page not found')); ?>
 
-<?php if (isset($this->message)): ?>
-<p><?php echo $this->message; ?></p>
-<?php endif; ?>
+<p><?php echo $translate('The page you are trying to view does not exist. Use the back button to return to the last page.'); ?></p>
 
 <?php if (ini_get('display_errors')): ?>
+    <?php if (isset($this->message)): ?>
+    <p><?php echo $this->message; ?></p>
+    <?php endif; ?>
+
     <?php if (isset($this->reason)): ?>
     <p><?php echo sprintf($translate('Reason: %s'), "<tt>$this->reason</tt>"); ?></p>
     <?php endif; ?>

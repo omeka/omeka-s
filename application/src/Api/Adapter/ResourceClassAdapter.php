@@ -128,6 +128,13 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $localName))
             );
         }
+        if (!empty($query['used'])) {
+            $valuesAlias = $this->createAlias();
+            $qb->innerJoin(
+                'omeka_root.resources',
+                $valuesAlias
+            );
+        }
     }
 
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)

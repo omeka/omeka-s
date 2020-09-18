@@ -10,7 +10,11 @@ class SearchController extends AbstractActionController
     {
     }
 
-    public function advancedAction()
+    public function itemsAdvancedAction()
+    {
+    }
+
+    public function itemSetsAdvancedAction()
     {
     }
 
@@ -20,6 +24,7 @@ class SearchController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('responseSitePages', $this->api()->search('site_pages', $query));
         $view->setVariable('responseItems', $this->api()->search('items', array_merge($query, ['in_sites' => true])));
+        $view->setVariable('responseItemSets', $this->api()->search('item_sets', array_merge($query, ['in_sites' => true])));
         return $view;
     }
 
@@ -41,6 +46,17 @@ class SearchController extends AbstractActionController
         $this->paginator($response->getTotalResults());
         $view = new ViewModel;
         $view->setVariable('items', $response->getContent());
+        return $view;
+    }
+
+    public function itemSetsAction()
+    {
+        $this->setBrowseDefaults('created');
+        $query = array_merge($this->params()->fromQuery(), ['in_sites' => true]);
+        $response = $this->api()->search('item_sets', $query);
+        $this->paginator($response->getTotalResults());
+        $view = new ViewModel;
+        $view->setVariable('itemSets', $response->getContent());
         return $view;
     }
 }

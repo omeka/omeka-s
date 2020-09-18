@@ -27,6 +27,16 @@ $itemMedia = $item->media();
     <?php endforeach; ?>
     <?php endif; ?>
 </div>
+<?php if (($this->siteSetting('show_attached_pages', true)) && ($sitePages = $item->sitePages($site->id()))): ?>
+<div class="property">
+    <h4><?php echo $translate('Site pages'); ?></h4>
+    <div class="values">
+        <?php foreach ($sitePages as $sitePage): ?>
+        <div class="value"><?php echo $sitePage->link($sitePage->title()); ?></div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<?php endif; ?>
 <?php if (!$embedMedia && $itemMedia): ?>
 <div class="media-list">
     <?php foreach ($itemMedia as $media): ?>

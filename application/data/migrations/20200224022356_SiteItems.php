@@ -4,7 +4,7 @@ namespace Omeka\Db\Migrations;
 use Doctrine\DBAL\Connection;
 use Omeka\Db\Migration\ConstructedMigrationInterface;
 use Omeka\Job\Dispatcher;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class SiteItems implements ConstructedMigrationInterface
 {

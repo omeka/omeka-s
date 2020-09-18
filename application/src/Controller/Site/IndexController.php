@@ -72,9 +72,13 @@ class IndexController extends AbstractActionController
         $results = [];
         foreach ($resourceNames as $resourceName) {
             $response = $this->api()->search($resourceName, $query);
+            $totalResults = $response->getTotalResults();
+            if (!$totalResults) {
+                continue;
+            }
             $results[$resourceName] = [
                 'resources' => $response->getContent(),
-                'total' => $response->getTotalResults(),
+                'total' => $totalResults,
             ];
         }
 

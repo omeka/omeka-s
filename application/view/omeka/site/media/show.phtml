@@ -1,11 +1,15 @@
 <?php
 $translate = $this->plugin('translate');
-?>
-<?php $this->htmlElement('body')->appendAttribute('class', 'media resource show'); ?>
+$item = $media->item();
+
+$this->htmlElement('body')->appendAttribute('class', 'media resource show'); ?>
 
 <?php echo $this->pageTitle($media->displayTitle(), 2); ?>
 <h3><?php echo $translate('Media'); ?></h3>
 <?php $this->trigger('view.show.before'); ?>
+<p class="media-parent-item">
+    <?php echo sprintf($translate('Part of %s'), $item->link($item->displayTitle())); ?>
+</p>
 <?php echo $media->render(); ?>
 <?php echo $media->displayValues(); ?>
 <?php $this->trigger('view.show.after'); ?>

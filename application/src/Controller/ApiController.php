@@ -82,6 +82,12 @@ class ApiController extends AbstractRestfulController
 
         $this->getResponse()->getHeaders()
             ->addHeaderLine('Link', implode(', ', $links));
+
+        $totalResults = $response->getTotalResults();
+        if ($totalResults !== null) {
+            $this->getResponse()->getHeaders()
+                ->addHeaderLine('Omeka-S-Total-Results', $totalResults);
+        }
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 

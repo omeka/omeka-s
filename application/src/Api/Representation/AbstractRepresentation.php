@@ -105,6 +105,39 @@ abstract class AbstractRepresentation implements RepresentationInterface
     }
 
     /**
+     * Get the calculated thumbnail display URL for this representation.
+     *
+     * @param string $type The type of thumbnail to retrieve from the primary media,
+     *  if any is defined
+     * @return string}null
+     */
+    public function thumbnailDisplayUrl($type)
+    {
+        $thumbnail = $this->thumbnail();
+        $primaryMedia = $this->primaryMedia();
+        if (!$thumbnail && !$primaryMedia) {
+            return null;
+        }
+
+        return $thumbnail ? $thumbnail->assetUrl() : $primaryMedia->thumbnailUrl($type);
+    }
+
+    /**
+     * Get all calculated thumbnail display URLs, keyed by type.
+     *
+     * @return array
+     */
+    public function thumbnailDisplayUrls()
+    {
+        $thumbnailManager = $this->getServiceLocator()->get('Omeka\File\ThumbnailManager');
+        $urls = [];
+        foreach ($thumbnailManager->getTypes() as $type) {
+            $urls[$type] = $this->thumbnailDisplayUrl($type);
+        }
+        return $urls;
+    }
+
+    /**
      * Get the service locator.
      *
      * @return ServiceLocatorInterface

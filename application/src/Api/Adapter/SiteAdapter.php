@@ -306,6 +306,17 @@ class SiteAdapter extends AbstractEntityAdapter
         }
     }
 
+    public function sortQuery(QueryBuilder $qb, array $query)
+    {
+        if ('owner_name' == $query['sort_by']) {
+            $ownerAlias = $this->createAlias();
+            $qb->leftJoin("omeka_root.owner", $ownerAlias)
+                ->addOrderBy("$ownerAlias.name", $query['sort_order']);
+        } else {
+            parent::sortQuery($qb, $query);
+        }
+    }
+
     /**
      * Validate navigation.
      *

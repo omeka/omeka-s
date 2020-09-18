@@ -2,7 +2,7 @@
 $translate = $this->plugin('translate');
 $form->prepare();
 $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/site-item-sets.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/site-resources.js', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'sites resources');
 
 $rowTemplate = '
@@ -32,21 +32,33 @@ $rowTemplate = '
 </div>
 
 <div id="items-section" class="active section">
-    <?php echo $this->formRow($form->get('o:assign_new_items')); ?>
-    <p><?php echo sprintf(
-        $translate('There are currently %s items assigned to this site. Select an action below to manage item assignments.'),
+    <p>
+        <?php echo sprintf(
+        $translate('There are currently %s items assigned to this site.'),
         $this->hyperlink($itemCount, $this->url('admin/default', ['controller' => 'item'], ['query' => ['site_id' => $site->id()]]), ['target' => '_blank'])
-    ); ?></p>
-    <?php echo $this->formRow($form->get('item_assignment_action')); ?>
-    <?php echo $this->formRow($form->get('save_search')); ?>
-    <?php echo $this->hyperlink($this->translate('Preview this search'), '#', [
-        'id' => 'resources-preview-button',
-        'class' => 'button',
-        'title' => $this->translate('Preview this search'),
-        'data-url' => $this->url('admin/default', ['controller' => 'item', 'action' => 'browse']),
-    ]); ?>
-    <div id="advanced-search">
-        <?php echo $this->partial('common/advanced-search', ['query' => $site->itemPool(), 'resourceType' => 'item', 'isPool' => true]); ?>
+    ); ?>
+        <?php if ($site->assignNewItems()): ?>
+        <span class="auto-assign-setting"><?php echo sprintf(
+            $translate('This site currently auto-assigns newly created items. Change the setting in %s.'),
+            $this->hyperlink($translate('site admin'), $this->url(null, ['action' => 'edit'], ['fragment' => 'site-settings'], true))
+        ); ?></span>
+        <?php endif; ?>
+    </p>
+    <div class="manual-assignment">
+        <?php echo $this->formRow($form->get('item_assignment_action')); ?>
+        <div id="advanced-search" class="inactive">
+            <div class="advanced-search-header">
+                <?php $saveSearch = $form->get('save_search'); ?>
+                <?php echo $this->hyperlink($this->translate('Preview this search'), '#', [
+                    'id' => 'resources-preview-button',
+                    'class' => 'button',
+                    'title' => $this->translate('Preview this search'),
+                    'data-url' => $this->url('admin/default', ['controller' => 'item', 'action' => 'browse']),
+                ]); ?>
+                <label class="keep-search"><?php echo $saveSearch->getLabel() . $this->formElement($saveSearch); ?></label>
+            </div>
+            <?php echo $this->partial('common/advanced-search', ['query' => $site->itemPool(), 'resourceType' => 'item', 'isPool' => true]); ?>
+        </div>
     </div>
 </div>
 

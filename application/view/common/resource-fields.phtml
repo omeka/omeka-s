@@ -1,8 +1,10 @@
 <?php
 $translate = $this->plugin('translate');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
 $resourceTemplateSelect = $form->get('o:resource_template[o:id]');
 $resourceClassSelect = $form->get('o:resource_class[o:id]');
 $thumbnailInput = $form->get('o:thumbnail[o:id]');
+$ownerSelect = $form->get('o:owner[o:id]');
 if (isset($resource)) {
     if ($resourceTemplate = $resource->resourceTemplate()) {
         $resourceTemplateSelect->setValue($resourceTemplate->id());
@@ -13,11 +15,15 @@ if (isset($resource)) {
     if ($thumbnail = $resource->thumbnail()) {
         $thumbnailInput->setValue($thumbnail->id());
     }
+    if ($owner = $resource->owner()) {
+        $ownerSelect->setValue($owner->id());
+    }
 } else {
     // Set the logged in user's default template when adding a resource.
     $resourceTemplateSelect->setValue($this->userSetting('default_resource_template'));
 }
 ?>
+
 <fieldset id="resource-values"
     class="section active"
     aria-labelledby="resource-values-label"
@@ -30,17 +36,21 @@ if (isset($resource)) {
     </div>
     <div id="properties"></div>
     <input type="hidden" name="values_json" id="values-json">
+    <datalist id="value-languages" class="value-languages">
+    <?php foreach ($this->setting('value_languages', []) as $value => $language): ?>
+        <option value="<?php echo $escapeAttr($value) ?>" label="<?php echo $escapeAttr(strlen($language) ? $language : $value); ?>"></option>
+        <?php endforeach; ?>
+    </datalist>
     <?php echo $this->propertySelector(); ?>
     <button id="property-selector-button" class="mobile-only" data-watch-target="#properties"><?php echo $translate('Add property'); ?></button>
     <?php echo $this->partial('common/resource-select-sidebar'); ?>
 </fieldset>
 
-<fieldset id="thumbnail" class="section">
-    <p>
-    <?php
-    echo $translate('Omeka S automatically selects a thumbnail from among attached media for a resource. '
-        . 'You may use an image of your choice instead by choosing an asset here.');
-    ?>
-    </p>
-    <?php echo $this->formAsset($form->get('o:thumbnail[o:id]')); ?>
+<fieldset id="advanced-settings"
+    class="section"
+    aria-labelledby="advanced-settings-label">
+    <?php echo $this->formRow($thumbnailInput); ?>
+    <?php if ($resource && $resource->userIsAllowed('change-owner')): ?>
+    <?php echo $this->formRow($ownerSelect); ?>
+    <?php endif; ?>
 </fieldset>

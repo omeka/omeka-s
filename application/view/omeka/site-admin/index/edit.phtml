@@ -3,11 +3,11 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites edit');
 $form->prepare();
+$settingsForm->prepare();
 ?>
 <?php echo $this->pageTitle($site->title(), 1, $translate('Sites')); ?>
 <?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
-
 <div id="page-actions">
     <?php if ($site->isPublic()): ?>
     <?php echo $this->hyperlink('', '#', [
@@ -28,9 +28,18 @@ $form->prepare();
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $translate('Save'); ?></button>
 </div>
-<?php $this->trigger('view.edit.form.before', ['form' => $form, 'site' => $site]); ?>
-<?php echo $this->formCollection($form, false); ?>
-<?php $this->trigger('view.edit.form.after', ['form' => $form, 'site' => $site]); ?>
+<?php echo $this->sectionNav([
+    'site-info' => $translate('Info'),
+    'site-settings' => $translate('Settings'),
+], 'view.show.section_nav', $site); ?>
+<div id="site-info" class="active section">
+    <?php $this->trigger('view.edit.form.before', ['form' => $form, 'site' => $site]); ?>
+    <?php echo $this->formCollection($form, false); ?>
+    <?php $this->trigger('view.edit.form.after', ['form' => $form, 'site' => $site]); ?>
+</div>
+<div id="site-settings" class="section">
+    <?php echo $this->formCollection($settingsForm); ?>
+</div>
 <?php echo $this->form()->closeTag(); ?>
 <?php $this->trigger('view.edit.after'); ?>
 <?php echo $this->deleteConfirm($site, 'site'); ?>

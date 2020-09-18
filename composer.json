@@ -6,7 +6,7 @@
     "require": {
         "php": ">=7.1",
         "doctrine/orm": "^2.6",
-        "easyrdf/easyrdf": "dev-master",
+        "easyrdf/easyrdf": "^1.0",
         "ml/json-ld": "^1.1",
         "ezyang/htmlpurifier": "^4.8",
         "composer/semver": "^1.0",
@@ -62,7 +62,7 @@
         "laminas/laminas-xmlrpc": "^2.6",
         "laminas/laminas-xml": "^1.0.2",
         "omeka/composer-addon-installer": "*",
-        "omeka-s-themes/default": "dev-develop",
+        "omeka-s-themes/default": "3.x-dev",
         "beberlei/doctrineextensions": "^1.0",
         "lsolesen/pel": "^0.9.6"
     },
@@ -86,10 +86,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/omeka-s-themes/default.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/omeka/easyrdf.git"
         },
         {
             "type": "path",

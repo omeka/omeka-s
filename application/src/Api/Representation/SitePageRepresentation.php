@@ -24,6 +24,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         return [
             'o:slug' => $this->slug(),
             'o:title' => $this->title(),
+            'o:is_public' => $this->isPublic(),
             'o:block' => $this->blocks(),
             'o:site' => $this->site()->getReference(),
             'o:created' => $created,
@@ -59,6 +60,16 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     public function title()
     {
         return $this->resource->getTitle();
+    }
+
+    /**
+     * Get whether this site page is public or not public.
+     *
+     * @return bool
+     */
+    public function isPublic()
+    {
+        return $this->resource->isPublic();
     }
 
     /**

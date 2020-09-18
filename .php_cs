@@ -6,13 +6,16 @@ return PhpCsFixer\Config::create()
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
         'binary_operator_spaces' => true,
+        'blank_line_after_namespace' => true,
         'cast_spaces' => true,
+        'concat_space' => ['spacing' => 'one'],
         'include' => true,
-        'method_argument_space' => ['ensure_fully_multiline' => false],
+        'method_argument_space' => true,
         'no_blank_lines_after_class_opening' => true,
         'no_blank_lines_after_phpdoc' => true,
         'no_break_comment' => false,
-        'no_extra_consecutive_blank_lines' => true,
+        'no_empty_statement' => true,
+        'no_extra_blank_lines' => true,
         'no_leading_import_slash' => true,
         'no_leading_namespace_whitespace' => true,
         'no_trailing_comma_in_singleline_array' => true,
@@ -36,6 +39,7 @@ return PhpCsFixer\Config::create()
             ->exclude('files')
             ->exclude('modules')
             ->exclude('node_modules')
+            ->exclude('themes')
             ->in(__DIR__)
     )
 ;

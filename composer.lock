@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc26adb90af7415d888e0e4a19b59845",
+    "content-hash": "ff8757d97776d6f8ad0197c9d09f7e76",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -1070,29 +1070,29 @@
         },
         {
             "name": "easyrdf/easyrdf",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/omeka/easyrdf.git",
-                "reference": "8227c6426c55284fb8b7eaf68c078bb0cd578392"
+                "url": "https://github.com/easyrdf/easyrdf.git",
+                "reference": "8735708426066b791c2a6d40329050d5cf31385c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka/easyrdf/zipball/8227c6426c55284fb8b7eaf68c078bb0cd578392",
-                "reference": "8227c6426c55284fb8b7eaf68c078bb0cd578392",
+                "url": "https://api.github.com/repos/easyrdf/easyrdf/zipball/8735708426066b791c2a6d40329050d5cf31385c",
+                "reference": "8735708426066b791c2a6d40329050d5cf31385c",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "ext-pcre": "*",
-                "php": ">=5.3.0"
+                "php": ">=7.1.0"
             },
             "require-dev": {
                 "ml/json-ld": "~1.0",
-                "phpunit/phpunit": "~4.8.36|^6|^7",
-                "sami/sami": "~2.0",
+                "phpunit/phpunit": "^7",
+                "sami/sami": "^4",
                 "semsol/arc2": "~2.2",
-                "squizlabs/php_codesniffer": "~1.4.3",
+                "squizlabs/php_codesniffer": "3.*",
                 "zendframework/zend-http": "~2.3"
             },
             "suggest": {
@@ -1105,6 +1105,7 @@
                     "EasyRdf\\": "lib"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1127,18 +1128,12 @@
             "keywords": [
                 "Linked Data",
                 "RDF",
-                "RDFa",
-                "SPARQL",
                 "Semantic Web",
-                "Turtle"
+                "Turtle",
+                "rdfa",
+                "sparql"
             ],
-            "support": {
-                "forum": "http://groups.google.com/group/easyrdf/",
-                "issues": "http://github.com/njh/easyrdf/issues",
-                "irc": "irc://chat.freenode.net/easyrdf",
-                "source": "https://github.com/omeka/easyrdf/tree/master"
-            },
-            "time": "2019-11-27T10:53:52+00:00"
+            "time": "2020-07-14T23:45:20+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -4814,16 +4809,16 @@
         },
         {
             "name": "omeka-s-themes/default",
-            "version": "dev-develop",
+            "version": "3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omeka-s-themes/default.git",
-                "reference": "750d45f7ee8033be96a7645d7882fab48843f630"
+                "reference": "ba37452c34b03a01676e68f925e3bcfb430137e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/750d45f7ee8033be96a7645d7882fab48843f630",
-                "reference": "750d45f7ee8033be96a7645d7882fab48843f630",
+                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/ba37452c34b03a01676e68f925e3bcfb430137e7",
+                "reference": "ba37452c34b03a01676e68f925e3bcfb430137e7",
                 "shasum": ""
             },
             "require": {
@@ -4831,10 +4826,10 @@
             },
             "type": "omeka-s-theme",
             "support": {
-                "source": "https://github.com/omeka-s-themes/default/tree/v1.5.1",
+                "source": "https://github.com/omeka-s-themes/default/tree/3.x",
                 "issues": "https://github.com/omeka-s-themes/default/issues"
             },
-            "time": "2020-03-31T18:36:01+00:00"
+            "time": "2020-07-24T21:07:07+00:00"
         },
         {
             "name": "omeka/composer-addon-installer",
@@ -4858,7 +4853,10 @@
             },
             "license": [
                 "GPL-3.0"
-            ]
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "paragonie/random_compat",
@@ -7609,7 +7607,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "easyrdf/easyrdf": 20,
         "omeka-s-themes/default": 20,
         "zerocrates/extract-tagged-strings": 20
     },

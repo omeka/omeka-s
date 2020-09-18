@@ -1,0 +1,28 @@
+<?php $fulltextSearch = $this->params()->fromQuery('fulltext_search'); ?>
+<?php echo $this->hyperlink(
+    $this->translate('Advanced item search'),
+    $this->url(null, ['action' => 'items-advanced', 'class' => 'advanced-search'], ['query' => $this->params()->fromQuery()], true),
+    ['class' => 'advanced-search']
+); ?>
+
+<h2><?php echo sprintf($this->translate('Item results for "%s"'), $fulltextSearch); ?></h2>
+
+<?php echo $this->pagination(); ?>
+
+<div class="item results">
+    <ul>
+        <?php foreach ($items as $item): ?>
+        <?php $sites = $item->sites(); ?>
+        <li>
+            <span class="result-title"><?php echo $item->displayTitle(); ?></span>
+            <ul>
+                <?php foreach ($sites as $site): ?>
+                <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
+<?php echo $this->pagination(); ?>

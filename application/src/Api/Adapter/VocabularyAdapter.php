@@ -72,13 +72,13 @@ class VocabularyAdapter extends AbstractEntityAdapter
         $this->hydrateOwner($request, $entity);
 
         if ($this->shouldHydrate($request, 'o:namespace_uri')) {
-            $entity->setNamespaceUri($request->getValue('o:namespace_uri'));
+            $entity->setNamespaceUri(trim($request->getValue('o:namespace_uri')));
         }
         if ($this->shouldHydrate($request, 'o:prefix')) {
-            $entity->setPrefix($request->getValue('o:prefix'));
+            $entity->setPrefix(trim($request->getValue('o:prefix')));
         }
         if ($this->shouldHydrate($request, 'o:label')) {
-            $entity->setLabel($request->getValue('o:label'));
+            $entity->setLabel(trim($request->getValue('o:label')));
         }
         if ($this->shouldHydrate($request, 'o:comment')) {
             $entity->setComment($request->getValue('o:comment'));

@@ -10,6 +10,7 @@ use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\Mvc\Application as ZendApplication;
 use Laminas\Mvc\MvcEvent;
+use Laminas\Permissions\Acl\Exception as AclException;
 use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Container;
 use Laminas\Session\SessionManager;
@@ -431,7 +432,15 @@ class MvcListeners extends AbstractListenerAggregate
         $controller = $routeMatch->getParam('controller');
         $action = $routeMatch->getParam('action');
 
-        if (!$acl->userIsAllowed($controller, $action)) {
+        try {
+            $isAllowed = $acl->userIsAllowed($controller, $action);
+        } catch (AclException\InvalidArgumentException $e) {
+            // Allow "access" to nonexistent controllers, so we display
+            // a 404 instead of a 403 or an error
+            $isAllowed = true;
+        }
+
+        if (!$isAllowed) {
             $message = sprintf(
                 $t->translate('Permission denied for the current user to access the %1$s action of the %2$s controller.'),
                 $action,

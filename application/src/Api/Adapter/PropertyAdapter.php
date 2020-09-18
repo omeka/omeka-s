@@ -115,7 +115,6 @@ class PropertyAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $query['vocabulary_prefix']))
             );
         }
-
         if (isset($query['local_name'])) {
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.localName",
@@ -136,6 +135,13 @@ class PropertyAdapter extends AbstractEntityAdapter
             $qb->andWhere($qb->expr()->eq(
                 "omeka_root.localName",
                 $this->createNamedParameter($qb, $localName))
+            );
+        }
+        if (!empty($query['used'])) {
+            $valuesAlias = $this->createAlias();
+            $qb->innerJoin(
+                'omeka_root.values',
+                $valuesAlias
             );
         }
     }

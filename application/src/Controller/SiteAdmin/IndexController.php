@@ -52,12 +52,17 @@ class IndexController extends AbstractActionController
 
     public function addAction()
     {
-        $form = $this->getForm(SiteForm::class, ['action' => 'add']);
+        $form = $this->getForm(SiteForm::class);
         $themes = $this->themes->getThemes();
         if ($this->getRequest()->isPost()) {
-            $formData = $this->params()->fromPost();
-            $form->setData($formData);
+            $postData = $this->params()->fromPost();
+            $form->setData($postData);
             if ($form->isValid()) {
+                $formData = $form->getData();
+                // Set o:assign_new_items to true by default. This is the legacy
+                // setting from before v3.0 when sites were using the item pool.
+                $formData['o:assign_new_items'] = true;
+                $formData['o:theme'] = $postData['o:theme'];
                 $response = $this->api($form)->create('sites', $formData);
                 if ($response) {
                     $this->messenger()->addSuccess('Site successfully created'); // @translate
@@ -78,50 +83,25 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         $form = $this->getForm(SiteForm::class);
-        $form->setData($site->jsonSerialize());
-
+        $form->setAttribute('action', $this->url()->fromRoute(null, [], true));
+        $settingsForm = $this->getForm(SiteSettingsForm::class);
         if ($this->getRequest()->isPost()) {
-            $formData = $this->params()->fromPost();
-            $form->setData($formData);
-            if ($form->isValid()) {
-                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
-                if ($response) {
-                    $this->messenger()->addSuccess('Site successfully updated'); // @translate
-                    // Explicitly re-read the site URL instead of using
-                    // refresh() so we catch updates to the slug
-                    return $this->redirect()->toUrl($site->url());
-                }
-            } else {
-                $this->messenger()->addFormErrors($form);
-            }
-        }
-
-        $view = new ViewModel;
-        $view->setVariable('site', $site);
-        $view->setVariable('resourceClassId', $this->params()->fromQuery('resource_class_id'));
-        $view->setVariable('itemSetId', $this->params()->fromQuery('item_set_id'));
-        $view->setVariable('form', $form);
-        return $view;
-    }
-
-    public function settingsAction()
-    {
-        $site = $this->currentSite();
-        if (!$site->userIsAllowed('update')) {
-            throw new Exception\PermissionDeniedException(
-                'User does not have permission to edit site settings' // @translate
-            );
-        }
-        $form = $this->getForm(SiteSettingsForm::class);
-
-        if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
-            if ($form->isValid()) {
-                $data = $form->getData();
-                $fieldsets = $form->getFieldsets();
-                unset($data['csrf']);
-                foreach ($data as $id => $value) {
-                    if (array_key_exists($id, $fieldsets) && is_array($value)) {
+            $postData = $this->params()->fromPost();
+            $form->setData($postData);
+            $settingsForm->setData($postData);
+            if ($form->isValid() && $settingsForm->isValid()) {
+                // Prepare site form data.
+                $formData = $form->getData();
+                unset($formData['csrf']);
+                $formData['o:assign_new_items'] = $postData['general']['o:assign_new_items'];
+                // Prepare settings form data.
+                $settingsFormData = $settingsForm->getData();
+                unset($settingsFormData['csrf']);
+                unset($settingsFormData['general']['o:assign_new_items']);
+                // Update settings.
+                $settingsFormFieldsets = $settingsForm->getFieldsets();
+                foreach ($settingsFormData as $id => $value) {
+                    if (array_key_exists($id, $settingsFormFieldsets) && is_array($value)) {
                         // De-nest fieldsets.
                         foreach ($value as $fieldsetId => $fieldsetValue) {
                             $this->siteSettings()->set($fieldsetId, $fieldsetValue);
@@ -130,16 +110,28 @@ class IndexController extends AbstractActionController
                         $this->siteSettings()->set($id, $value);
                     }
                 }
-                $this->messenger()->addSuccess('Settings successfully updated'); // @translate
-                return $this->redirect()->refresh();
+                // Update site.
+                $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
+                if ($response) {
+                    $this->messenger()->addSuccess('Site successfully updated'); // @translate
+                    return $this->redirect()->toUrl($response->getContent()->url());
+                }
             } else {
                 $this->messenger()->addFormErrors($form);
+                $this->messenger()->addFormErrors($settingsForm);
             }
+        } else {
+            // Prepare form data on first load.
+            $form->setData($site->jsonSerialize());
+            $settingsForm->get('general')->get('o:assign_new_items')->setValue($site->assignNewItems());
         }
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('resourceClassId', $this->params()->fromQuery('resource_class_id'));
+        $view->setVariable('itemSetId', $this->params()->fromQuery('item_set_id'));
         $view->setVariable('form', $form);
+        $view->setVariable('settingsForm', $settingsForm);
         return $view;
     }
 
@@ -149,10 +141,12 @@ class IndexController extends AbstractActionController
         $form = $this->getForm(SitePageForm::class, ['addPage' => $site->userIsAllowed('update')]);
 
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->params()->fromPost());
+            $post = $this->params()->fromPost();
+            $form->setData($post);
             if ($form->isValid()) {
                 $formData = $form->getData();
                 $formData['o:site']['o:id'] = $site->id();
+                $formData['o:is_public'] = !empty($post['o:is_public']);
                 $response = $this->api($form)->create('site_pages', $formData);
                 if ($response) {
                     $page = $response->getContent();
@@ -236,14 +230,12 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         $form = $this->getForm(SiteResourcesForm::class)->setAttribute('id', 'site-form');
-        $form->get('o:assign_new_items')->setValue($site->assignNewItems());
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->params()->fromPost();
             $form->setData($formData);
             if ($form->isValid()) {
                 $updateData = [
-                    'o:assign_new_items' => $formData['o:assign_new_items'],
                     'o:site_item_set' => $formData['o:site_item_set'] ?? [],
                 ];
                 $itemPool = $formData;
@@ -251,8 +243,7 @@ class IndexController extends AbstractActionController
                     $itemPool['siteresourcesform_csrf'],
                     $itemPool['item_assignment_action'],
                     $itemPool['save_search'],
-                    $itemPool['o:site_item_set'],
-                    $itemPool['o:assign_new_items']
+                    $itemPool['o:site_item_set']
                 );
                 $updateData['o:item_pool'] = $formData['save_search'] ? $itemPool : $site->itemPool();
                 if ($formData['item_assignment_action']) {
@@ -260,6 +251,7 @@ class IndexController extends AbstractActionController
                         'sites' => [$site->id() => $itemPool],
                         'action' => $formData['item_assignment_action'],
                     ]);
+                    $this->messenger()->addSuccess('Item assignment in progress. To see the new item count, refresh the page.'); // @translate
                 }
                 $response = $this->api($form)->update('sites', $site->id(), $updateData, [], ['isPartial' => true]);
                 if ($response) {

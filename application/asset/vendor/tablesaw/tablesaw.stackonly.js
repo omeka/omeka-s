@@ -1,6 +1,6 @@
-/*! Tablesaw - v3.0.9 - 2018-02-14
+/*! Tablesaw - v3.1.2 - 2019-03-19
 * https://github.com/filamentgroup/tablesaw
-* Copyright (c) 2018 Filament Group; Licensed MIT */
+* Copyright (c) 2019 Filament Group; Licensed MIT */
 /*! Shoestring - v2.0.0 - 2017-02-14
 * http://github.com/filamentgroup/shoestring/
 * Copyright (c) 2017 Scott Jehl, Filament Group, Inc; Licensed MIT & GPLv2 */ 
@@ -1722,7 +1722,8 @@
 	"use strict";
 
   var document = window.document;
-var domContentLoadedTriggered = false;
+// Account for Tablesaw being loaded either before or after the DOMContentLoaded event is fired.
+var domContentLoadedTriggered = /complete|loaded/.test(document.readyState);
 document.addEventListener("DOMContentLoaded", function() {
 	domContentLoadedTriggered = true;
 });
@@ -1750,6 +1751,9 @@ var Tablesaw = {
 		Tablesaw.$(element || document).trigger("enhance.tablesaw");
 	},
 	init: function(element) {
+		// Account for Tablesaw being loaded either before or after the DOMContentLoaded event is fired.
+		domContentLoadedTriggered =
+			domContentLoadedTriggered || /complete|loaded/.test(document.readyState);
 		if (!domContentLoadedTriggered) {
 			if ("addEventListener" in document) {
 				// Use raw DOMContentLoaded instead of shoestring (may have issues in Android 2.3, exhibited by stack table)
@@ -2000,7 +2004,6 @@ if (Tablesaw.mustard) {
 
 	Table.prototype._findPrimaryHeadersForCell = function(cell) {
 		var $headerRow = this._getPrimaryHeaderRow();
-		var $headers = this._getPrimaryHeaderCells($headerRow);
 		var headerRowIndex = this._getRowIndex($headerRow);
 		var results = [];
 
@@ -2008,12 +2011,14 @@ if (Tablesaw.mustard) {
 			if (rowNumber === headerRowIndex) {
 				continue;
 			}
+
 			for (var colNumber = 0; colNumber < this.headerMapping[rowNumber].length; colNumber++) {
 				if (this.headerMapping[rowNumber][colNumber] === cell) {
-					results.push($headers[colNumber]);
+					results.push(this.headerMapping[headerRowIndex][colNumber]);
 				}
 			}
 		}
+
 		return results;
 	};
 
@@ -2192,7 +2197,12 @@ if (Tablesaw.mustard) {
 	$doc.on("enhance.tablesaw", function(e) {
 		// Cut the mustard
 		if (Tablesaw.mustard) {
-			$(e.target)
+			var $target = $(e.target);
+			if ($target.parent().length) {
+				$target = $target.parent();
+			}
+
+			$target
 				.find(initSelector)
 				.filter(initFilterSelector)
 				[pluginName]();
@@ -2269,6 +2279,7 @@ if (Tablesaw.mustard) {
 			})
 			.filter(function() {
 				return (
+					!$(this).is("[" + attrs.labelless + "]") &&
 					!$(this)
 						.closest("tr")
 						.is("[" + attrs.labelless + "]") &&
@@ -2313,6 +2324,7 @@ if (Tablesaw.mustard) {
 				// Update if already exists.
 				var $label = $cell.find("." + classes.cellLabels);
 				if (!$label.length) {
+					$cell.prepend(document.createTextNode(" "));
 					$cell.prepend($newHeader);
 				} else {
 					// only if changed
@@ -2325,7 +2337,7 @@ if (Tablesaw.mustard) {
 		this.$table.removeClass(classes.stackTable);
 		this.$table.find("." + classes.cellLabels).remove();
 		this.$table.find("." + classes.cellContentLabels).each(function() {
-			$(this).replaceWith(this.childNodes);
+			$(this).replaceWith($(this.childNodes));
 		});
 	};
 

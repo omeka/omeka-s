@@ -61,9 +61,11 @@ class EntityManagerFactory implements FactoryInterface
 
         // Set up the entity manager configuration.
         $emConfig = Setup::createAnnotationMetadataConfiguration(
-            $config['entity_manager']['mapping_classes_paths'], $isDevMode, null, $cache
+            $config['entity_manager']['mapping_classes_paths'],
+            $isDevMode,
+            OMEKA_PATH . '/application/data/doctrine-proxies',
+            $cache
         );
-        $emConfig->setProxyDir(OMEKA_PATH . '/application/data/doctrine-proxies');
 
         // Force non-persistent query cache, workaround for issue with SQL filters
         // that vary by user, permission level
@@ -105,6 +107,8 @@ class EntityManagerFactory implements FactoryInterface
         $em->getFilters()->getFilter('resource_visibility')->setServiceLocator($serviceLocator);
         $em->getFilters()->enable('value_visibility');
         $em->getFilters()->getFilter('value_visibility')->setServiceLocator($serviceLocator);
+        $em->getFilters()->enable('site_page_visibility');
+        $em->getFilters()->getFilter('site_page_visibility')->setServiceLocator($serviceLocator);
 
         // Register a custom mapping type for an IP address.
         if (!Type::hasType('ip_address')) {

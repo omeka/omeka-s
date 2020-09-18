@@ -1,0 +1,6 @@
+<?php echo $this->partial(
+    'common/cross-site-search/fulltext-form.phtml',
+    ['action' => $this->url(null, ['action' => 'results'], true)]
+); ?>
+
+<?php echo $this->partial('common/cross-site-search/results.phtml'); ?>

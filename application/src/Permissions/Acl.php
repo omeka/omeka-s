@@ -19,7 +19,7 @@ class Acl extends ZendAcl
      */
     protected $roleLabels = [
         self::ROLE_GLOBAL_ADMIN => 'Global Administrator', // @translate
-        self::ROLE_SITE_ADMIN => 'Site Administrator', // @translate
+        self::ROLE_SITE_ADMIN => 'Supervisor', // @translate
         self::ROLE_EDITOR => 'Editor', // @translate
         self::ROLE_REVIEWER => 'Reviewer', // @translate
         self::ROLE_AUTHOR => 'Author', // @translate

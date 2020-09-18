@@ -2,9 +2,6 @@
 <h2><?php echo $this->translate('Search'); ?></h2>
 
 <?php echo $this->partial(
-  'omeka/search/form.phtml',
-  [
-      'fulltextSearch' => $this->escapeHtml($this->params()->fromQuery('fulltext_search')),
-      'action' => 'results'
-  ]
+    'common/cross-site-search/fulltext-form.phtml',
+    ['action' => $this->url(null, ['action' => 'results'], true)]
 ); ?>

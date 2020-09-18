@@ -2,6 +2,7 @@
 namespace Omeka\Form;
 
 use DateTimeZone;
+use Omeka\Form\Element\ArrayTextarea;
 use Omeka\Form\Element\SiteSelect;
 use Omeka\Form\Element\RestoreTextarea;
 use Omeka\Settings\Settings;
@@ -252,6 +253,20 @@ class SettingForm extends Form
             'attributes' => [
                 'value' => $this->settings->get('default_to_private'),
                 'id' => 'default_to_private',
+            ],
+        ]);
+
+        $generalFieldset->add([
+            'name' => 'value_languages',
+            'type' => ArrayTextarea::class,
+            'options' => [
+                'label' => 'Suggested languages for values', // @translate
+                'info' => 'List of languages to facilitate filling of the values in the resource form. List them one by line. The label displayed for a language may be appended with a "=".', // @translate
+                'as_key_value' => true,
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('value_languages', []),
+                'id' => 'value_languages',
             ],
         ]);
 

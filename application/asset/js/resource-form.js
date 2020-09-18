@@ -33,7 +33,7 @@
             }
         });
 
-        $('input.value-language').on('keyup', function(e) {
+        $('input.value-language').on('keyup, change', function(e) {
             if ('' === this.value || Omeka.langIsValid(this.value)) {
                 this.setCustomValidity('');
             } else {
@@ -345,6 +345,13 @@
         field.attr('data-property-id', propertyId);
         field.attr('aria-labelledby', 'property-' + propertyId + '-label');
         $('div#properties').append(field);
+
+        new Sortable(field.find('.values')[0], {
+            draggable: '.value',
+            handle: '.sortable-handle'
+        });
+
+        field.trigger('o:property-added');
         return field;
     };
 

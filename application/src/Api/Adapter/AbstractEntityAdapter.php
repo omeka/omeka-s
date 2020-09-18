@@ -97,6 +97,33 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     }
 
     /**
+     * Build a conditional search query from an API request.
+     *
+     * Modify the passed query builder object according to the passed $query
+     * data. The sort_by, sort_order, page, limit, and offset parameters are
+     * included separately.
+     *
+     * This method is called before buildQuery by the abstract adapter, to
+     * provide common parameters for all entities.
+     *
+     * @param QueryBuilder $qb
+     * @param array $query
+     */
+    public function buildBaseQuery(QueryBuilder $qb, array $query)
+    {
+        if (isset($query['id'])) {
+            $ids = $query['id'];
+            if (!is_array($ids)) {
+                $ids = [$ids];
+            }
+            $qb->andWhere($qb->expr()->in(
+                'omeka_root.id',
+                $this->createNamedParameter($qb, $ids)
+            ));
+        }
+    }
+
+    /**
      * Set sort_by and sort_order conditions to the query builder.
      *
      * Note about random sorting: There is no random query in doctrine and no
@@ -208,6 +235,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             ->createQueryBuilder()
             ->select('omeka_root')
             ->from($entityClass, 'omeka_root');
+        $this->buildBaseQuery($qb, $query);
         $this->buildQuery($qb, $query);
         $qb->groupBy("omeka_root.id");
 
@@ -242,8 +270,8 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     $scalarField, $entityClass
                 ));
             }
-            $qb->select('omeka_root.' . $scalarField);
-            $content = array_column($qb->getQuery()->getScalarResult(), $scalarField);
+            $qb->select(['omeka_root.id', 'omeka_root.' . $scalarField]);
+            $content = array_column($qb->getQuery()->getScalarResult(), $scalarField, 'id');
             $response = new Response($content);
             $response->setTotalResults(count($content));
             return $response;

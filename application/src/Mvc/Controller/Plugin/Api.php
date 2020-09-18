@@ -79,7 +79,7 @@ class Api extends AbstractPlugin
         $data['limit'] = 1;
         $response = $this->search($resource, $data, $options);
         $content = $response->getContent();
-        $content = is_array($content) && count($content) ? $content[0] : null;
+        $content = is_array($content) && count($content) ? reset($content) : null;
         $response->setContent($content);
         return $response;
     }

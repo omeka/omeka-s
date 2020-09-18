@@ -36,7 +36,7 @@ return [
         'use_externals' => true,
         'externals' => [
             'Omeka' => [
-                'vendor/jquery/jquery.min.js' => '//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js',
+                'vendor/jquery/jquery.min.js' => '//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
             ],
         ],
     ],
@@ -64,6 +64,7 @@ return [
         ],
         'filters' => [
             'resource_visibility' => Db\Filter\ResourceVisibilityFilter::class,
+            'site_page_visibility' => Db\Filter\SitePageVisibilityFilter::class,
             'value_visibility' => Db\Filter\ValueVisibilityFilter::class,
         ],
         'functions' => [
@@ -311,6 +312,7 @@ return [
             'Omeka\Controller\Site\ItemSet' => Controller\Site\ItemSetController::class,
             'Omeka\Controller\Site\Media' => Controller\Site\MediaController::class,
             'Omeka\Controller\Site\Page' => Controller\Site\PageController::class,
+            'Omeka\Controller\Site\CrossSiteSearch' => Controller\Site\CrossSiteSearchController::class,
             'Omeka\Controller\Admin\Asset' => Controller\Admin\AssetController::class,
             'Omeka\Controller\Admin\Index' => Controller\Admin\IndexController::class,
             'Omeka\Controller\Admin\ItemSet' => Controller\Admin\ItemSetController::class,

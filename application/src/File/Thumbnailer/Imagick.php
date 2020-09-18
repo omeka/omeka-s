@@ -29,12 +29,18 @@ class Imagick extends AbstractThumbnailer
 
     public function create($strategy, $constraint, array $options = [])
     {
+        $mediaType = $this->sourceFile->getMediaType();
+        $origPath = sprintf('%s[%s]', $this->source, $this->getOption('page', 0));
+        if (strpos($mediaType, 'video/') === 0) {
+            $origPath = 'mpeg:' . $origPath;
+        }
+
         try {
             $imagick = new ImagickPhp;
-            if ($this->sourceFile->getMediaType() == 'application/pdf') {
+            if ($mediaType == 'application/pdf') {
                 $imagick->setResolution(150, 150);
             }
-            $imagick->readImage(sprintf('%s[%s]', $this->source, $this->getOption('page', 0)));
+            $imagick->readImage($origPath);
         } catch (ImagickException $e) {
             throw new Exception\CannotCreateThumbnailException;
         }

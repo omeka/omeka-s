@@ -1,0 +1,102 @@
+<?php
+$fulltextSearch = $this->params()->fromQuery('fulltext_search');
+$hasResults = false;
+?>
+
+<h2><?php echo sprintf($this->translate('Search results for “%s”'), $fulltextSearch); ?></h2>
+
+<?php
+if ($responseSitePages && $responseSitePages->getTotalResults()):
+    $hasResults = true;
+?>
+<div class="site results">
+    <h3><?php echo $this->translate('Site pages'); ?></h2>
+    <ul>
+    <?php foreach ($responseSitePages->getContent() as $sitePage): ?>
+        <?php $site = $sitePage->site(); ?>
+        <li>
+            <span class="result-title"><?php echo $this->hyperlink($sitePage->title(), $sitePage->siteUrl()); ?></span>
+            <span class="result-site"><?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?></span>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+    <?php echo $this->hyperlink(
+        sprintf($this->translate('View all results (%s total)'), $responseSitePages->getTotalResults()),
+        $this->url(
+            null,
+            ['action' => 'site-pages'],
+            ['query' => ['fulltext_search' => $fulltextSearch]],
+            true
+        )
+    ); ?>
+</div>
+<?php endif; ?>
+
+<?php
+if ($responseItems && $responseItems->getTotalResults()):
+    $hasResults = true;
+?>
+<div class="item results">
+    <h3><?php echo $this->translate('Items'); ?></h2>
+    <ul>
+        <?php foreach ($responseItems->getContent() as $item): ?>
+        <?php $sites = $item->sites(); ?>
+        <li>
+            <span class="result-title"><?php echo $item->displayTitle(); ?></span>
+            <ul>
+                <?php foreach ($sites as $site): ?>
+                <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php echo $this->hyperlink(
+        sprintf($this->translate('View all results (%s total)'), $responseItems->getTotalResults()),
+        $this->url(
+            null,
+            ['action' => 'items'],
+            ['query' => ['fulltext_search' => $fulltextSearch]],
+            true
+        )
+    ); ?>
+</div>
+<?php endif; ?>
+
+<?php if ($responseItemSets && $responseItemSets->getTotalResults()):
+    $hasResults = true;
+?>
+<div class="item-set results">
+    <h3><?php echo $this->translate('Item sets'); ?></h2>
+    <ul>
+        <?php foreach ($responseItemSets->getContent() as $itemSet): ?>
+        <?php $sites = $itemSet->sites(); ?>
+        <li>
+            <span class="result-title"><?php echo $itemSet->displayTitle(); ?></span>
+            <ul>
+                <?php foreach ($sites as $site): ?>
+                <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php echo $this->hyperlink(
+        sprintf($this->translate('View all results (%s total)'), $responseItemSets->getTotalResults()),
+        $this->url(
+            null,
+            ['action' => 'item-sets'],
+            ['query' => ['fulltext_search' => $fulltextSearch]],
+            true
+        )
+    ); ?>
+</div>
+<?php endif; ?>
+
+<?php if (!$hasResults): ?>
+    <p><?php echo $this->translate('No result found'); ?>
+<?php endif; ?>
+
+<script>
+  jQuery(document).trigger('enhance.tablesaw');
+</script>

@@ -43,6 +43,17 @@ class ResourceVisibilityFilter extends SQLFilter
             return $this->getResourceConstraint($targetTableAlias);
         }
 
+        if ('Omeka\Entity\SiteBlockAttachment' === $targetEntity->getName()) {
+            $itemConstraint = $this->getResourceConstraint('i');
+            $mediaConstraint = $this->getResourceConstraint('m');
+            if ('' !== $itemConstraint) {
+                return sprintf(
+                    '(%1$s.item_id IS NULL OR %1$s.item_id = (SELECT i.id FROM resource i WHERE (%2$s) AND i.id = %1$s.item_id)) AND (%1$s.media_id IS NULL OR %1$s.media_id = (SELECT m.id FROM resource m WHERE (%3$s) AND m.id = %1$s.media_id))',
+                    $targetTableAlias, $itemConstraint, $mediaConstraint
+                );
+            }
+        }
+
         if (array_key_exists($targetEntity->getName(), $this->relatedEntities)) {
             $constraint = $this->getResourceConstraint('r');
             if ('' !== $constraint) {

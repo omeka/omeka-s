@@ -44,7 +44,11 @@ class ImageMagick extends AbstractThumbnailer
 
     public function create($strategy, $constraint, array $options = [])
     {
+        $mediaType = $this->sourceFile->getMediaType();
         $origPath = sprintf('%s[%s]', $this->source, $this->getOption('page', 0));
+        if (strpos($mediaType, 'video/') === 0) {
+            $origPath = 'mpeg:' . $origPath;
+        }
 
         switch ($strategy) {
             case 'square':
@@ -54,7 +58,7 @@ class ImageMagick extends AbstractThumbnailer
                     '+repage',
                     '-alpha remove',
                     '-thumbnail ' . escapeshellarg(sprintf('%sx%s^', $constraint, $constraint)),
-                    '-gravity ' .  escapeshellarg($gravity),
+                    '-gravity ' . escapeshellarg($gravity),
                     '-crop ' . escapeshellarg(sprintf('%sx%s+0+0', $constraint, $constraint)),
                 ];
                 break;
@@ -77,7 +81,7 @@ class ImageMagick extends AbstractThumbnailer
         $tempFile->delete();
 
         $commandArgs = [$this->convertPath];
-        if ($this->sourceFile->getMediaType() == 'application/pdf') {
+        if ($mediaType == 'application/pdf') {
             $commandArgs[] = '-density 150';
         }
         $commandArgs[] = escapeshellarg($origPath);

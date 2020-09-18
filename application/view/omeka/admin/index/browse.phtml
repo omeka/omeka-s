@@ -43,10 +43,12 @@ echo $this->pageTitle($translate('Admin dashboard'));
         <?php $this->trigger('view.manage_sites.before'); ?>
         <?php foreach ($sites as $site): ?>
         <div class="site row">
-            <span class="site-name"><a href="<?php echo $site->siteUrl(); ?>"><?php echo $site->title(); ?></a></span>
-            <?php if ($site->userIsAllowed('update')): ?>
-            <span class="site-edit"><a href="<?php echo $site->adminUrl(); ?>" class="o-icon-edit button" title="<?php echo $translate('Edit'); ?>"></a></span>
-            <?php endif; ?>
+            <span class="site-name"><?php echo $site->link($site->title(), 'show'); ?></span>
+            <?php echo $this->hyperlink('', $site->siteUrl(), [
+                'target' => '_blank',
+                'class' => 'o-icon-external public button',
+                'title' => $translate('View public site'),
+            ]); ?>
         </div>
         <?php endforeach; ?>
         <?php if ($this->userIsAllowed('Omeka\Api\Adapter\SiteAdapter', 'create')): ?>

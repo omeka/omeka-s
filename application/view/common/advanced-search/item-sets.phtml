@@ -17,6 +17,7 @@ if (!$ids) {
         <div class="collapsible">
             <div class="field-description"><?php echo $translate('Searches for items that are assigned to any of these item sets.'); ?></div>
         </div>
+        <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new item set'); ?>" title="<?php echo $translate('Add new item set'); ?>"></button>
     </div>
     <div class="inputs">
         <?php foreach ($ids as $id): ?>
@@ -31,9 +32,8 @@ if (!$ids) {
                     'disable_group_by_owner' => $this->status()->isSiteRequest(),
                 ],
             ]); ?>
-            <button type="button" class="o-icon-delete remove-value button"><?php echo $translate('Remove value'); ?></button>
+            <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
         </div>
         <?php endforeach; ?>
-        <a href="#" class="add-value button"><?php echo $translate('Add new item set'); ?></a>
     </div>
 </div>

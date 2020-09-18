@@ -10,7 +10,8 @@
     "bluebird": "^3.5.2",
     "dateformat": "^3.0.3",
     "glob": "^7.1.1",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.3.0",
     "gulp-postcss": "^8.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
@@ -24,9 +25,9 @@
   "dependencies": {
     "chosen-js": "^1.8.3",
     "ckeditor": "^4.11.0",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.1",
     "jstree": "^3.3.5",
-    "openseadragon": "^2.2.1",
+    "openseadragon": "^2.4.2",
     "semver": "^4.3.6",
     "sortablejs": "^1.5.1",
     "tablesaw": "^3.0.9"

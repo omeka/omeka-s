@@ -1,0 +1,19 @@
+<?php $fulltextSearch = $this->params()->fromQuery('fulltext_search'); ?>
+
+<h2><?php echo sprintf($this->translate('Site page results for "%s"'), $fulltextSearch); ?></h2>
+
+<div class="site results">
+    <ul>
+    <?php foreach ($sitePages as $sitePage): ?>
+        <?php $site = $sitePage->site(); ?>
+        <li>
+            <span class="result-title"><?php echo $this->hyperlink($sitePage->title(), $sitePage->siteUrl()); ?></span>
+            <span class="result-site"><?php echo $this->hyperlink($site->title(), $site->siteUrl()); ?></span>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+</div>
+
+<script>
+  jQuery(document).trigger('enhance.tablesaw');
+</script>

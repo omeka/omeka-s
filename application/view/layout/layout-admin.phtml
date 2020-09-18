@@ -19,9 +19,9 @@ $this->jsTranslate();
 
 $escape = $this->plugin('escapeHtml');
 $siteNav = (string) $this->navigation('Laminas\Navigation\AdminSite')->menu();
-$globalNav =
-    '<h5>' . $translate('Resources') . '</h5>' . $this->navigation('Laminas\Navigation\AdminResource')->menu() .
-    '<h5>' . $translate('Admin') . '</h5>' . $this->navigation('Laminas\Navigation\AdminGlobal')->menu();
+$resourceNav = (string) $this->navigation('Laminas\Navigation\AdminResource')->menu();
+$adminNav = (string) $this->navigation('Laminas\Navigation\AdminGlobal')->menu();
+$moduleNav = (string) $this->navigation('Laminas\Navigation\AdminModule')->menu();
 $this->trigger('view.layout');
 ?>
 <?php echo $this->doctype(); ?>
@@ -81,17 +81,20 @@ $this->trigger('view.layout');
                     <?php echo $siteNav; ?>
                     <?php if (isset($site)): ?>
                     <nav id="site-nav">
-                        <h5>
-                            <?php echo $site->link($site->title(), 'show'); ?>
-                        </h5>
+                        <h5><?php echo $site->link($site->title(), 'show'); ?></h5>
                         <?php echo $this->hyperlink('', $site->siteUrl(), ['class' => 'o-icon-external public', 'target' => '_blank', 'title' => $translate('View public site')]); ?>
                     <?php echo $site->adminNav()->menu(); ?>
                     </nav>
                     <?php endif; ?>
-                    <?php echo $globalNav; ?>
-                    <?php if ($this->navigation('Laminas\Navigation\AdminModule')->count() > 0): ?>
-                    <h5><?php echo $translate('Modules'); ?></h5>
-                    <?php echo $this->navigation('Laminas\Navigation\AdminModule')->menu(); ?>
+                    <h5><?php echo $translate('Resources') ?></h5>
+                    <?php echo $resourceNav; ?>
+                    <?php if ($adminNav): ?>
+                    <h5><?php echo $translate('Admin') ?></h5>
+                    <?php echo $adminNav ?>
+                    <?php endif; ?>
+                    <?php if ($moduleNav): ?>
+                    <h5><?php echo $translate('Modules') ?></h5>
+                    <?php echo $moduleNav ?>
                     <?php endif; ?>
                 </nav>
             </header>

@@ -48,7 +48,7 @@ class ResourceTemplateProperty extends AbstractEntity
     protected $position;
 
     /**
-     * @Column(nullable=true)
+     * @Column(type="json_array", nullable=true)
      */
     protected $dataType;
 
@@ -117,7 +117,7 @@ class ResourceTemplateProperty extends AbstractEntity
         $this->position = (int) $position;
     }
 
-    public function setDataType($dataType)
+    public function setDataType(array $dataType = null)
     {
         $this->dataType = $dataType;
     }

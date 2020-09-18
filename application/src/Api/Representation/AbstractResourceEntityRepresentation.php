@@ -12,12 +12,14 @@ use Omeka\Entity\Resource;
 abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepresentation
 {
     /**
-     * All value representations of this resource, organized by property.
+     * All value representations of this resource, organized by property term.
      *
      * <code>
      * array(
      *   {JSON-LD term} => array(
      *     'property' => {property representation},
+     *     'alternate_label' => {label},
+     *     'alternate_comment' => {comment},
      *     'values' => {
      *       {value representation},
      *       {value representation},
@@ -156,7 +158,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Get the thumbnail of this resource.
      *
-     * @return Asset
+     * @return AssetRepresentation
      */
     public function thumbnail()
     {
@@ -222,7 +224,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
-     * Get all value representations of this resource.
+     * Get all value representations of this resource by term.
      *
      * <code>
      * array(
@@ -233,6 +235,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *     'values' => array(
      *       {ValueRepresentation},
      *       {ValueRepresentation},
+     *       {…},
      *     ),
      *   ),
      * )
@@ -461,9 +464,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $options['values'] = $args['values'];
 
         $template = $this->resourceTemplate();
-        if ($template) {
-            $options['templateProperties'] = $template->resourceTemplateProperties();
-        }
+        $options['templateProperties'] = $template
+            ? $template->resourceTemplateProperties()
+            : [];
 
         return $partial($options['viewName'], $options);
     }

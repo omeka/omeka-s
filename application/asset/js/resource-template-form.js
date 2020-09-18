@@ -17,6 +17,19 @@ new Sortable(propertyList[0], {
     handle: ".sortable-handle"
 });
 
+// Update the property data types, that are a list in an hidden input.
+$('#resourcetemplateform').on('submit', function(e) {
+    propertyList.find('.property.row').each(function() {
+        var prop = $(this);
+        var dataTypes = prop.find('.data-type').val().split(',').filter(function (el) { return el != ''; });
+        var inputName = prop.find('.data-type').attr('name');
+        prop.find('.data-type').remove();
+        dataTypes.forEach(function(dataType) {
+            prop.append('<input type="hidden" name="' + inputName + '" value="' + dataType +'">');
+        });
+    });
+});
+
 // Add property row via the property selector.
 $('#property-selector .selector-child').click(function(e) {
     e.preventDefault();
@@ -53,6 +66,8 @@ propertyList.on('click', '.property-restore', function(e) {
 
 propertyList.on('click', '.property-edit', function(e) {
     e.preventDefault();
+
+    // Get values stored in the row.
     var prop = $(this).closest('.property');
     var propId = prop.data('property-id');
     var oriLabel = prop.find('.original-label');
@@ -61,8 +76,9 @@ propertyList.on('click', '.property-edit', function(e) {
     var altComment = prop.find('.alternate-comment');
     var isRequired = prop.find('.is-required');
     var isPrivate = prop.find('.is-private');
-    var dataType = prop.find('.data-type');
+    var dataTypes = prop.find('.data-type');
 
+    // Copy values into the sidebar.
     $('#original-label').text(oriLabel.val());
     $('#alternate-label').val(altLabel.val());
     $('#original-comment').text(oriComment.val());
@@ -71,9 +87,13 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#is-description-property').prop('checked', propId == descriptionProperty.val());
     $('#is-required').prop('checked', isRequired.val());
     $('#is-private').prop('checked', isPrivate.val());
-    $('#data-type option[value="' + dataType.val() + '"]').prop('selected', true);
+    $('#data-type option').prop('selected', false);
+    dataTypes.val().split(',').filter(function (el) { return el != ''; }).forEach(function(selected) {
+        $('#data-type option[value="' + selected + '"]').prop('selected', true);
+    });
     $('#data-type').trigger('chosen:updated');
 
+    // When the sidebar fieldset is applied, store new values in the row.
     $('#set-changes').off('click.setchanges').on('click.setchanges', function(e) {
         altLabel.val($('#alternate-label').val());
         prop.find('.alternate-label-cell').text($('#alternate-label').val());
@@ -96,7 +116,7 @@ propertyList.on('click', '.property-edit', function(e) {
         }
         $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
         $('#is-private').prop('checked') ? isPrivate.val(1) : isPrivate.val(null);
-        dataType.val($('#data-type').val());
+        dataTypes.val($('#data-type').val().join(','));
         Omeka.closeSidebar($('#edit-sidebar'));
     });
 

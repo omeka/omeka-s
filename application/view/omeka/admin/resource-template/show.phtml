@@ -24,7 +24,7 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
     <thead>
     <tr>
         <th><?php echo $translate('Original label'); ?></th>
-        <th><?php echo $translate('Data type'); ?></th>
+        <th><?php echo $translate('Data types'); ?></th>
         <th><?php echo $translate('Alternate label'); ?></th>
         <th><?php echo $translate('Alternate comment'); ?></th>
         <th><?php echo $translate('Required?'); ?></th>
@@ -45,7 +45,13 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($resourceTemplateProperty->dataTypeLabel()); ?></td>
+            <td>
+                <ul>
+                    <?php foreach ($resourceTemplateProperty->dataTypeLabels() as $dataTypeLabel): ?>
+                    <li><?php echo $escape($dataTypeLabel['label']); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </td>
             <td><?php echo $escape($resourceTemplateProperty->alternateLabel()); ?></td>
             <td><?php echo $escape($resourceTemplateProperty->alternateComment()); ?></td>
             <td><?php echo $resourceTemplateProperty->isRequired() ? $translate('Yes') : $translate('No'); ?></td>

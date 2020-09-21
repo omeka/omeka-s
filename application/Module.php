@@ -38,11 +38,11 @@ class Module extends AbstractModule
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
         $sharedEventManager->attach(
-            'Omeka\Api\Adapter\UserAdapter',    
+            'Omeka\Api\Adapter\UserAdapter',
             'api.execute.post',
             [$this, 'batchUpdatePostUser']
         );
-        
+
         $sharedEventManager->attach(
             'Laminas\View\Helper\Navigation\AbstractHelper',
             'isAllowed',

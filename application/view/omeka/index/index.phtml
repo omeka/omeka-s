@@ -6,8 +6,7 @@ $title = $this->setting('installation_title', 'Omeka S');
 $subtitle = $translate('Sites');
 $this->headTitle($subtitle);
 ?>
-<h1><?php echo $title; ?></h1>
-<h2 class="site-list-heading"><?php echo $subtitle; ?></h2>
+<h1><?php echo $this->hyperlink($title, $this->url('top', ['action' => 'index'])); ?></h1>
 
 <?php if ($sites): ?>
 
@@ -15,6 +14,8 @@ $this->headTitle($subtitle);
     'common/cross-site-search/fulltext-form.phtml',
     ['action' => $this->url('search', ['action' => 'results'], true)]
 ); ?>
+
+<h2 class="site-list-heading"><?php echo $subtitle; ?></h2>
 
 <div class="site-list">
 <?php

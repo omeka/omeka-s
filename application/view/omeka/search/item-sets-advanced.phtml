@@ -1,4 +1,4 @@
-<h1><?php echo $this->setting('installation_title', 'Omeka S'); ?></h1>
+<h1><?php echo $this->hyperlink($this->setting('installation_title', 'Omeka S'), $this->url('top', ['action' => 'index'])); ?></h1>
 <h2><?php echo $this->translate('Advanced item set search'); ?></h2>
 
 <?php echo $this->partial(

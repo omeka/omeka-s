@@ -246,7 +246,7 @@ class IndexController extends AbstractActionController
                     $itemPool['o:site_item_set']
                 );
                 $updateData['o:item_pool'] = $formData['save_search'] ? $itemPool : $site->itemPool();
-                if ($formData['item_assignment_action']) {
+                if ($formData['item_assignment_action'] && $formData['item_assignment_action'] !== 'no_action') {
                     $this->jobDispatcher()->dispatch('Omeka\Job\UpdateSiteItems', [
                         'sites' => [$site->id() => $itemPool],
                         'action' => $formData['item_assignment_action'],

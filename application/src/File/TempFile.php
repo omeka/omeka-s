@@ -406,40 +406,43 @@ class TempFile
         ErrorStore $errorStore, $storeOriginal = true, $storeThumbnails = true,
         $deleteTempFile = true, $hydrateFileMetadataOnStoreOriginalFalse = false
     ) {
-        if (($storeOriginal || $hydrateFileMetadataOnStoreOriginalFalse)
-            && !$this->validator->validate($this, $errorStore)
-        ) {
-            // The file does not validate.
-            return;
-        }
-        $eventParams = [
-            'tempFile' => $this,
-            'request' => $request,
-            'errorStore' => $errorStore,
-            'storeOriginal' => $storeOriginal,
-            'storeThumbnails' => $storeThumbnails,
-            'deleteTempFile' => $deleteTempFile,
-        ];
-        $event = new Event('media.ingest_file.pre', $media, $eventParams);
-        $this->getEventManager()->triggerEvent($event);
+        try {
+            if (($storeOriginal || $hydrateFileMetadataOnStoreOriginalFalse)
+                && !$this->validator->validate($this, $errorStore)
+            ) {
+                // The file does not validate.
+                return;
+            }
+            $eventParams = [
+                'tempFile' => $this,
+                'request' => $request,
+                'errorStore' => $errorStore,
+                'storeOriginal' => $storeOriginal,
+                'storeThumbnails' => $storeThumbnails,
+                'deleteTempFile' => $deleteTempFile,
+            ];
+            $event = new Event('media.ingest_file.pre', $media, $eventParams);
+            $this->getEventManager()->triggerEvent($event);
 
-        $media->setStorageId($this->getStorageId());
-        if ($storeOriginal || $hydrateFileMetadataOnStoreOriginalFalse) {
-            $media->setExtension($this->getExtension());
-            $media->setMediaType($this->getMediaType());
-            $media->setSha256($this->getSha256());
-            $media->setSize($this->getSize());
-        }
-        if ($storeOriginal) {
-            $this->storeOriginal();
-            $media->setHasOriginal(true);
-        }
-        if ($storeThumbnails) {
-            $hasThumbnails = $this->storeThumbnails();
-            $media->setHasThumbnails($hasThumbnails);
-        }
-        if ($deleteTempFile) {
-            $this->delete();
+            $media->setStorageId($this->getStorageId());
+            if ($storeOriginal || $hydrateFileMetadataOnStoreOriginalFalse) {
+                $media->setExtension($this->getExtension());
+                $media->setMediaType($this->getMediaType());
+                $media->setSha256($this->getSha256());
+                $media->setSize($this->getSize());
+            }
+            if ($storeOriginal) {
+                $this->storeOriginal();
+                $media->setHasOriginal(true);
+            }
+            if ($storeThumbnails) {
+                $hasThumbnails = $this->storeThumbnails();
+                $media->setHasThumbnails($hasThumbnails);
+            }
+        } finally {
+            if ($deleteTempFile) {
+                $this->delete();
+            }
         }
 
         $event = new Event('media.ingest_file.post', $media, $eventParams);

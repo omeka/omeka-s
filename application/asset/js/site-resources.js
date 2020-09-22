@@ -9,5 +9,10 @@
                 advancedSearch.removeClass('inactive');
             }
         });
+
+        new Sortable(document.getElementById('site-item-sets'), {
+            draggable: '.resource-row',
+            handle: '.sortable-handle',
+        });
     });
 })(jQuery)

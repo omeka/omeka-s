@@ -2,10 +2,6 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites show');
-$roles = [
-    'viewer' => $translate('Viewer'),
-    'editor' => $translate('Editor')
-];
 ?>
 
 <?php echo $this->pageTitle($site->title(), 1, $translate('Sites')); ?>

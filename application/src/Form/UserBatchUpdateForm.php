@@ -92,8 +92,8 @@ class UserBatchUpdateForm extends Form
                 'empty_option' => '[No change]', // @translate
                 'value_options' => [
                     'viewer' => 'Viewer', // @translate
-                    'editor' => 'Editor', // @translate
-                    'admin' => 'Admin', // @translate
+                    'editor' => 'Creator', // @translate
+                    'admin' => 'Manager', // @translate
                 ],
             ],
         ]);

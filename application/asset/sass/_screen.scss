@@ -2307,7 +2307,7 @@ input[type="text"].value-language,
 
     .input-footer .actions {
         margin-left: 0;
-        flex-wrap: wrap;
+        flex-direction: column;
     }
 
     .input-footer .actions a:before {
@@ -2365,6 +2365,10 @@ input[type="text"].value-language,
     .inputs .value input[type="text"] {
         width: 100%;
         margin: 0;
+    }
+    
+    .inputs .value textarea {
+        min-height: 3 * $spacing-large;
     }
     
     .inputs .value .input-body > textarea {
@@ -2492,6 +2496,7 @@ input[type="text"].value-language,
         padding: $spacing-small;
         font-weight: normal;
         background: transparent;
+        min-height: 1.5 * $spacing-large;
     }
 
     [data-data-type="uri"] textarea.value-label {

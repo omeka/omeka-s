@@ -1769,6 +1769,8 @@ fieldset.section > legend {
 
     & ~ textarea {
         padding-left: 1.75 * $spacing-large;
+        width: calc(100% + #{$spacing-large});
+        margin: 0 (-$spacing-medium);
     }
 }
 
@@ -1776,7 +1778,8 @@ fieldset.section > legend {
     line-height: $base-line-height;
     background-color: transparent;
     border: 1px solid $border-gray;
-    width: 100%;
+    width: calc(100% + #{$spacing-large});
+    margin: 0 (-$spacing-medium);
     min-height: 0;
     padding: 0 0 0 (1.75 * $spacing-large);
     display: block;
@@ -2232,7 +2235,11 @@ input[type="text"].value-language,
 
     #resource-values div.value {
         display: flex;
-        align-items: flex-start;
+        align-items: stretch;
+        
+        &:only-of-type .sortable-handle {
+            display: none;
+        }
     }
 
     .value {
@@ -2300,7 +2307,7 @@ input[type="text"].value-language,
 
     .input-footer .actions {
         margin-left: 0;
-        flex-wrap: wrap;
+        flex-direction: column;
     }
 
     .input-footer .actions a:before {
@@ -2359,15 +2366,26 @@ input[type="text"].value-language,
         width: 100%;
         margin: 0;
     }
+    
+    .inputs .value textarea {
+        min-height: 3 * $spacing-large;
+    }
+    
+    .inputs .value .input-body > textarea {
+        margin: 0 (-$spacing-medium);
+        padding: $spacing-small $spacing-medium;
+        width: calc(100% + #{$spacing-large});
+    }
 
     [data-data-type^="resource"] .default,
     [data-data-type^="resource"] .o-title:not(:empty) {
-        margin: 0 (-$spacing-small);
-        padding: $spacing-small;
+        margin: 0 (-$spacing-medium);
+        padding: $spacing-small $spacing-medium;
         border-bottom: 1px solid $border-gray;
-        display: flex;
-        line-height: $base-line-height;
         word-wrap: break-word;
+        line-height: $base-line-height;
+        width: calc(100% + #{.75 * $spacing-large});
+        display: flex;
     }
 
     [data-data-type^="resource"].delete .o-icon-undo:before {
@@ -2379,10 +2397,14 @@ input[type="text"].value-language,
         background-color: #fff;
         width: calc(100% - #{1.5 * $spacing-large});
         position: relative;
+        display: flex;
+        flex-wrap: wrap;  
+        align-items: center;
+        box-shadow: 0 0 0 1px inset $border-gray;
+        padding: 0 $spacing-medium;
     }
 
     [data-data-type^="resource"] .input-body {
-        border: 1px solid $border-gray;
         padding: 0 $spacing-small;
     }
 
@@ -2415,6 +2437,7 @@ input[type="text"].value-language,
     p.selected-resource {
         margin: 0;
         position: relative;
+        width: 100%;
     }
 
     .selected-resource a {
@@ -2429,9 +2452,8 @@ input[type="text"].value-language,
     .selected-resource .o-title a:after {
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
-        position: absolute;
-        top: $spacing-small;
-        right: $spacing-small;
+        display: inline-block;
+        margin: 0 $spacing-small;
     }
 
     .selected-resource .items a:after {
@@ -2449,14 +2471,12 @@ input[type="text"].value-language,
     [data-data-type="uri"] .input {
         position: relative;
         clear: both;
+        width: calc(100% + #{$spacing-large});
+        margin: 0 (-$spacing-medium);
 
         &:first-child {
             border-bottom: 1px solid $border-gray;
         }
-    }
-
-    [data-data-type="uri"] .input-body {
-        border: 1px solid $border-gray;
     }
 
     [data-data-type="uri"] label {
@@ -2475,6 +2495,8 @@ input[type="text"].value-language,
         border: 0;
         padding: $spacing-small;
         font-weight: normal;
+        background: transparent;
+        min-height: 1.5 * $spacing-large;
     }
 
     [data-data-type="uri"] textarea.value-label {

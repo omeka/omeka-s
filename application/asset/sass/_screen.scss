@@ -1778,7 +1778,8 @@ fieldset.section > legend {
     line-height: $base-line-height;
     background-color: transparent;
     border: 1px solid $border-gray;
-    width: 100%;
+    width: calc(100% + #{$spacing-large});
+    margin: 0 (-$spacing-medium);
     min-height: 0;
     padding: 0 0 0 (1.75 * $spacing-large);
     display: block;
@@ -2235,6 +2236,10 @@ input[type="text"].value-language,
     #resource-values div.value {
         display: flex;
         align-items: stretch;
+        
+        &:only-of-type .sortable-handle {
+            display: none;
+        }
     }
 
     .value {
@@ -2365,6 +2370,7 @@ input[type="text"].value-language,
     .inputs .value .input-body > textarea {
         margin: 0 (-$spacing-medium);
         padding: $spacing-small $spacing-medium;
+        width: calc(100% + #{$spacing-large});
     }
 
     [data-data-type^="resource"] .default,
@@ -2469,10 +2475,6 @@ input[type="text"].value-language,
         }
     }
 
-    [data-data-type="uri"] .input-body {
-        border: 1px solid $border-gray;
-    }
-
     [data-data-type="uri"] label {
         padding: $spacing-small 0 $spacing-small $spacing-small;
         z-index: 1;
@@ -2489,6 +2491,7 @@ input[type="text"].value-language,
         border: 0;
         padding: $spacing-small;
         font-weight: normal;
+        background: transparent;
     }
 
     [data-data-type="uri"] textarea.value-label {

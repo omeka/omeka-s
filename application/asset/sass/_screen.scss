@@ -2392,10 +2392,6 @@ input[type="text"].value-language,
         box-shadow: 0 0 0 1px inset $border-gray;
     }
 
-    [data-data-type^="resource"] .input-body {
-        padding: 0 $spacing-small;
-    }
-
     .inputs .input-body input[type="text"] {
         margin: 0;
     }
@@ -2424,13 +2420,16 @@ input[type="text"].value-language,
 
     p.selected-resource {
         position: relative;
-        width: calc(100% + #{$spacing-large});
-        margin: 0 (-$spacing-medium);
-        padding: 0 $spacing-small;
+        width: 100%;
+        margin: 0;
     }
 
     .selected-resource a {
         width: calc(100% - #{3 * $spacing-large});
+    }
+    
+    .selected-resource + a.button {
+        margin-left: $spacing-small;
     }
 
     .selected-resource img {

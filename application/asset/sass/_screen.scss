@@ -1769,8 +1769,6 @@ fieldset.section > legend {
 
     & ~ textarea {
         padding-left: 1.75 * $spacing-large;
-        width: calc(100% + #{$spacing-large});
-        margin: 0 (-$spacing-medium);
     }
 }
 
@@ -1778,8 +1776,6 @@ fieldset.section > legend {
     line-height: $base-line-height;
     background-color: transparent;
     border: 1px solid $border-gray;
-    width: calc(100% + #{$spacing-large});
-    margin: 0 (-$spacing-medium);
     min-height: 0;
     padding: 0 0 0 (1.75 * $spacing-large);
     display: block;
@@ -2372,19 +2368,15 @@ input[type="text"].value-language,
     }
     
     .inputs .value .input-body > textarea {
-        margin: 0 (-$spacing-medium);
         padding: $spacing-small $spacing-medium;
-        width: calc(100% + #{$spacing-large});
     }
 
     [data-data-type^="resource"] .default,
     [data-data-type^="resource"] .o-title:not(:empty) {
-        margin: 0 (-$spacing-medium);
-        padding: $spacing-small $spacing-medium;
+        padding: $spacing-small;
         border-bottom: 1px solid $border-gray;
         word-wrap: break-word;
         line-height: $base-line-height;
-        width: calc(100% + #{.75 * $spacing-large});
         display: flex;
     }
 
@@ -2395,13 +2387,9 @@ input[type="text"].value-language,
     .input-body {
         clear: both;
         background-color: #fff;
-        width: calc(100% - #{1.5 * $spacing-large});
+        flex: 1;
         position: relative;
-        display: flex;
-        flex-wrap: wrap;  
-        align-items: center;
         box-shadow: 0 0 0 1px inset $border-gray;
-        padding: 0 $spacing-medium;
     }
 
     [data-data-type^="resource"] .input-body {
@@ -2435,9 +2423,10 @@ input[type="text"].value-language,
     }
 
     p.selected-resource {
-        margin: 0;
         position: relative;
-        width: 100%;
+        width: calc(100% + #{$spacing-large});
+        margin: 0 (-$spacing-medium);
+        padding: 0 $spacing-small;
     }
 
     .selected-resource a {
@@ -2471,8 +2460,6 @@ input[type="text"].value-language,
     [data-data-type="uri"] .input {
         position: relative;
         clear: both;
-        width: calc(100% + #{$spacing-large});
-        margin: 0 (-$spacing-medium);
 
         &:first-child {
             border-bottom: 1px solid $border-gray;

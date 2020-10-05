@@ -53,4 +53,5 @@ if (isset($resource)) {
     <?php if ($resource && $resource->userIsAllowed('change-owner')): ?>
     <?php echo $this->formRow($ownerSelect); ?>
     <?php endif; ?>
+    <?php $this->trigger("view.$action.form.advanced", ['form' => $form]); ?>
 </fieldset>

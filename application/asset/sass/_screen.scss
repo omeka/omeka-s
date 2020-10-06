@@ -1776,7 +1776,6 @@ fieldset.section > legend {
     line-height: $base-line-height;
     background-color: transparent;
     border: 1px solid $border-gray;
-    width: 100%;
     min-height: 0;
     padding: 0 0 0 (1.75 * $spacing-large);
     display: block;
@@ -2232,7 +2231,11 @@ input[type="text"].value-language,
 
     #resource-values div.value {
         display: flex;
-        align-items: flex-start;
+        align-items: stretch;
+        
+        &:only-of-type .sortable-handle {
+            display: none;
+        }
     }
 
     .value {
@@ -2300,7 +2303,7 @@ input[type="text"].value-language,
 
     .input-footer .actions {
         margin-left: 0;
-        flex-wrap: wrap;
+        flex-direction: column;
     }
 
     .input-footer .actions a:before {
@@ -2359,15 +2362,22 @@ input[type="text"].value-language,
         width: 100%;
         margin: 0;
     }
+    
+    .inputs .value textarea {
+        min-height: 3 * $spacing-large;
+    }
+    
+    .inputs .value .input-body > textarea {
+        padding: $spacing-small $spacing-medium;
+    }
 
     [data-data-type^="resource"] .default,
     [data-data-type^="resource"] .o-title:not(:empty) {
-        margin: 0 (-$spacing-small);
         padding: $spacing-small;
         border-bottom: 1px solid $border-gray;
-        display: flex;
-        line-height: $base-line-height;
         word-wrap: break-word;
+        line-height: $base-line-height;
+        display: flex;
     }
 
     [data-data-type^="resource"].delete .o-icon-undo:before {
@@ -2377,13 +2387,9 @@ input[type="text"].value-language,
     .input-body {
         clear: both;
         background-color: #fff;
-        width: calc(100% - #{1.5 * $spacing-large});
+        flex: 1;
         position: relative;
-    }
-
-    [data-data-type^="resource"] .input-body {
-        border: 1px solid $border-gray;
-        padding: 0 $spacing-small;
+        box-shadow: 0 0 0 1px inset $border-gray;
     }
 
     .inputs .input-body input[type="text"] {
@@ -2413,12 +2419,17 @@ input[type="text"].value-language,
     }
 
     p.selected-resource {
-        margin: 0;
         position: relative;
+        width: 100%;
+        margin: 0;
     }
 
     .selected-resource a {
         width: calc(100% - #{3 * $spacing-large});
+    }
+    
+    .selected-resource + a.button {
+        margin-left: $spacing-small;
     }
 
     .selected-resource img {
@@ -2429,9 +2440,8 @@ input[type="text"].value-language,
     .selected-resource .o-title a:after {
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
-        position: absolute;
-        top: $spacing-small;
-        right: $spacing-small;
+        display: inline-block;
+        margin: 0 $spacing-small;
     }
 
     .selected-resource .items a:after {
@@ -2455,10 +2465,6 @@ input[type="text"].value-language,
         }
     }
 
-    [data-data-type="uri"] .input-body {
-        border: 1px solid $border-gray;
-    }
-
     [data-data-type="uri"] label {
         padding: $spacing-small 0 $spacing-small $spacing-small;
         z-index: 1;
@@ -2475,6 +2481,8 @@ input[type="text"].value-language,
         border: 0;
         padding: $spacing-small;
         font-weight: normal;
+        background: transparent;
+        min-height: 1.5 * $spacing-large;
     }
 
     [data-data-type="uri"] textarea.value-label {

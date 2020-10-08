@@ -62,7 +62,7 @@
         "laminas/laminas-xmlrpc": "^2.6",
         "laminas/laminas-xml": "^1.0.2",
         "omeka/composer-addon-installer": "*",
-        "omeka-s-themes/default": "3.x-dev",
+        "omeka-s-themes/default": "dev-develop",
         "beberlei/doctrineextensions": "^1.0",
         "lsolesen/pel": "^0.9.6"
     },

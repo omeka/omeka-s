@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff8757d97776d6f8ad0197c9d09f7e76",
+    "content-hash": "9047cebd87001611ed8841c3226c65c8",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -4809,16 +4809,16 @@
         },
         {
             "name": "omeka-s-themes/default",
-            "version": "3.x-dev",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omeka-s-themes/default.git",
-                "reference": "ba37452c34b03a01676e68f925e3bcfb430137e7"
+                "reference": "a023c50013384aaea51ef16b50d6b3a40f17af9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/ba37452c34b03a01676e68f925e3bcfb430137e7",
-                "reference": "ba37452c34b03a01676e68f925e3bcfb430137e7",
+                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/a023c50013384aaea51ef16b50d6b3a40f17af9b",
+                "reference": "a023c50013384aaea51ef16b50d6b3a40f17af9b",
                 "shasum": ""
             },
             "require": {
@@ -4826,10 +4826,10 @@
             },
             "type": "omeka-s-theme",
             "support": {
-                "source": "https://github.com/omeka-s-themes/default/tree/3.x",
+                "source": "https://github.com/omeka-s-themes/default/tree/v1.6.0",
                 "issues": "https://github.com/omeka-s-themes/default/issues"
             },
-            "time": "2020-07-24T21:07:07+00:00"
+            "time": "2020-10-06T20:13:54+00:00"
         },
         {
             "name": "omeka/composer-addon-installer",
@@ -6247,6 +6247,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {

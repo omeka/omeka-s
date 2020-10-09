@@ -28,6 +28,7 @@ if (!$job) {
 }
 
 $serviceLocator->get('ViewHelperManager')->get('BasePath')->setBasePath($options['base-path']);
+$serviceLocator->get('Router')->setBaseUrl($options['base-path']);
 
 // Set the job owner as the authenticated identity.
 $owner = $job->getOwner();

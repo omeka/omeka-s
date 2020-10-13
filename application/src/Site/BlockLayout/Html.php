@@ -7,7 +7,8 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\HtmlPurifier;
 use Omeka\Stdlib\ErrorStore;
-use Laminas\Form\Element\Textarea;
+use Laminas\Form\Element;
+use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
 class Html extends AbstractBlockLayout
@@ -38,17 +39,39 @@ class Html extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
-        $textarea = new Textarea("o:block[__blockIndex__][o:data][html]");
-        $textarea->setAttribute('class', 'block-html full wysiwyg');
+
+        $form = new Form();
+        $html = new Element\Textarea("o:block[__blockIndex__][o:data][html]");
+        $html->setAttribute('class', 'block-html full wysiwyg');
+        $div_class = new Element\Text("o:block[__blockIndex__][o:data][divclass]");
+        $div_class->setOptions([
+            'label' => 'Class', // @translate
+            'info' => 'Optional CSS class for styling HTML.', // @translate
+        ]);
         if ($block) {
-            $textarea->setAttribute('value', $block->dataValue('html'));
+            $html->setValue($block->dataValue('html'));
+            $div_class->setValue($block->dataValue('divclass'));
         }
-        return $view->formRow($textarea);
+        $form->add($html);
+        $form->add($div_class);
+
+        return $view->formCollection($form);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        return $block->dataValue('html', '');
+        $html_block = $block->dataValue('html', '');
+        $div = htmlspecialchars($block->dataValue('divclass'));
+        if (!empty($div)) {
+            //wrap HTML in div with specified class, if present
+            $html_final = '<div class="' . $div . '">';
+            $html_final .= $html_block;
+            $html_final .= '</div>';
+        } else {
+            $html_final = $html_block;
+        }
+
+        return $html_final;
     }
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)

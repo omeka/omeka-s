@@ -95,6 +95,7 @@ class IndexController extends AbstractActionController
                 $formData = $form->getData();
                 unset($formData['csrf']);
                 $formData['o:assign_new_items'] = $postData['general']['o:assign_new_items'];
+                $formData['o:is_public'] = $postData['o:is_public'];
                 // Prepare settings form data.
                 $settingsFormData = $settingsForm->getData();
                 unset($settingsFormData['csrf']);

@@ -63,6 +63,7 @@ class IndexController extends AbstractActionController
                 // setting from before v3.0 when sites were using the item pool.
                 $formData['o:assign_new_items'] = true;
                 $formData['o:theme'] = $postData['o:theme'];
+                $formData['o:is_public'] = $postData['o:is_public'];
                 $response = $this->api($form)->create('sites', $formData);
                 if ($response) {
                     $this->messenger()->addSuccess('Site successfully created'); // @translate
@@ -94,6 +95,7 @@ class IndexController extends AbstractActionController
                 $formData = $form->getData();
                 unset($formData['csrf']);
                 $formData['o:assign_new_items'] = $postData['general']['o:assign_new_items'];
+                $formData['o:is_public'] = $postData['o:is_public'];
                 // Prepare settings form data.
                 $settingsFormData = $settingsForm->getData();
                 unset($settingsFormData['csrf']);

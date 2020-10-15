@@ -116,10 +116,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             if (!is_array($ids)) {
                 $ids = [$ids];
             }
-            $qb->andWhere($qb->expr()->in(
-                'omeka_root.id',
-                $this->createNamedParameter($qb, $ids)
-            ));
+            // Exclude null and empty-string ids. Previous resource-only version used
+            // is_numeric, but we want this to be able to work for possible string IDs
+            // also
+            $ids = array_filter($ids, function ($id) { return !($id === null || $id === ''); });
+            if ($ids) {
+                $qb->andWhere($qb->expr()->in(
+                    'omeka_root.id',
+                    $this->createNamedParameter($qb, $ids)
+                ));
+            }
         }
     }
 

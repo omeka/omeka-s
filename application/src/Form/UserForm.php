@@ -227,6 +227,10 @@ class UserForm extends Form
             'name' => 'default_resource_template',
             'allow_empty' => true,
         ]);
+        $inputFilter->get('user-settings')->add([
+            'name' => 'default_item_sites',
+            'allow_empty' => true,
+        ]);
 
         if ($this->getOption('include_key')) {
             $inputFilter->get('edit-keys')->add([

@@ -39,7 +39,6 @@ class Html extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
-
         $form = new Form();
         $html = new Element\Textarea("o:block[__blockIndex__][o:data][html]");
         $html->setAttribute('class', 'block-html full wysiwyg');

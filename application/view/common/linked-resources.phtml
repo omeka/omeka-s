@@ -44,12 +44,12 @@ $pagination->setFragment($fragment);
         <td><?php echo $value->resource()->linkPretty(); ?></td>
         <td>
         <?php if ($altLabel): ?>
-        <span class="alternate-label"><?php echo $this->escapeHtml($altLabel); ?></span>
+        <span class="alternate-label"><?php echo $translate($this->escapeHtml($altLabel)); ?></span>
         <?php endif; ?>
         </td>
         <td>
         <?php if ($value->resource()->resourceClass()): ?>
-        <span class="resource-class"><?php echo $this->escapeHtml($value->resource()->resourceClass()->label()); ?></span>
+        <span class="resource-class"><?php echo $translate($this->escapeHtml($value->resource()->resourceClass()->label())); ?></span>
         <?php endif; ?>
         </td>
     </tr>

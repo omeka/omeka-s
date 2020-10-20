@@ -2799,7 +2799,7 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/resources.phtml:43
 msgid "site admin"
-msgstr "interface administrateur"
+msgstr "administration du site"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
 #: application/view/omeka/site-admin/index/resources.phtml:55
@@ -3128,7 +3128,7 @@ msgstr "Administrateur général"
 
 #: application/src/Permissions/Acl.php:22
 msgid "Supervisor"
-msgstr "Responsable"
+msgstr "Superviseur"
 
 #: application/src/Permissions/Acl.php:24
 msgid "Reviewer"
@@ -3436,7 +3436,7 @@ msgstr "Tout retirer - détacher tous les contenus"
 
 #: application/src/Form/SiteResourcesForm.php:31
 msgid "Keep this search"
-msgstr "Conserver cette recherche"
+msgstr "Mémoriser cette recherche"
 
 #: application/src/Form/SiteResourcesForm.php:32
 msgid ""
@@ -3547,7 +3547,7 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:140
 msgid "Restrict browse to attached items"
-msgstr "Limiter la navigation aux contenus attachés"
+msgstr "Limiter la navigation aux contenus attachés à des pages"
 
 #: application/src/Form/SiteSettingsForm.php:151
 #: application/src/Form/SettingForm.php:161
@@ -3889,7 +3889,7 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:277
 msgid "Index full-text search"
-msgstr "Indexer la recherche en texte intégral"
+msgstr "Lancer l'indexation de la recherche en texte intégral"
 
 #: application/src/Form/SettingForm.php:291
 msgid "Security"
@@ -4802,7 +4802,7 @@ msgstr "URL pour l’image à intégrer."
 
 #: application/config/navigation.config.php:192
 msgid "Site admin"
-msgstr "Interface administrateur"
+msgstr "Administration du site"
 
 #: application/config/module.config.php:621
 msgid "Something went wrong"

@@ -655,7 +655,7 @@ msgstr "Otsi failitüübi järgi"
 
 #: application/view/common/advanced-search/owner.phtml:3
 msgid "Search by owner"
-msgstr ""
+msgstr "Otsi omaniku järgi"
 
 #: application/view/common/advanced-search/owner.phtml:6
 msgid "Searches for resources that are owned by this user."
@@ -838,7 +838,7 @@ msgstr ""
 #: application/view/common/cross-site-search/results.phtml:13
 #: application/view/omeka/site/item/show.phtml:32
 msgid "Site pages"
-msgstr ""
+msgstr "Saidi leheküljed"
 
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
@@ -873,7 +873,7 @@ msgstr "Ühikud"
 #: application/view/common/cross-site-search/results.phtml:97
 #: application/view/omeka/site/index/search.phtml:11
 msgid "No result found"
-msgstr ""
+msgstr "Tulemusi pole"
 
 #: application/view/common/cross-site-search/site-page-results.phtml:3
 #, php-format
@@ -1318,7 +1318,7 @@ msgstr "Keelatud"
 
 #: application/view/error/404.phtml:4
 msgid "Page not found"
-msgstr ""
+msgstr "Lehekülge ei leitud"
 
 #: application/view/error/404.phtml:6
 msgid ""
@@ -1996,7 +1996,7 @@ msgstr ""
 
 #: application/view/omeka/admin/item/manage-sites.phtml:51
 msgid "Assign to site"
-msgstr ""
+msgstr "Määra saidile"
 
 #: application/view/omeka/admin/item/show.phtml:21
 msgid "Edit item"
@@ -2356,7 +2356,7 @@ msgstr ""
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:40
 msgid "Resource description"
-msgstr ""
+msgstr "Ressursi kirjeldus"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:66
 #: application/view/omeka/admin/resource-template/show.phtml:26
@@ -2670,7 +2670,7 @@ msgstr "Leheküljed"
 #: application/view/omeka/site-admin/index/add.phtml:7
 #: application/view/omeka/site-admin/index/edit.phtml:32
 msgid "Info"
-msgstr ""
+msgstr "INfo"
 
 #: application/view/omeka/site-admin/index/add.phtml:8
 #: application/view/omeka/site-admin/index/show.phtml:32
@@ -2742,7 +2742,7 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/resources.phtml:43
 msgid "site admin"
-msgstr ""
+msgstr "saidi admin"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
 #: application/view/omeka/site-admin/index/resources.phtml:55
@@ -2828,7 +2828,7 @@ msgstr "Autor"
 
 #: application/view/omeka/site-admin/index/users.phtml:12
 msgid "Manager"
-msgstr ""
+msgstr "Haldaja"
 
 #: application/view/omeka/site-admin/index/users.phtml:41
 msgid "User permissions"
@@ -2865,7 +2865,7 @@ msgstr "Rakenda muudatused"
 #: application/view/omeka/site-admin/page/index.phtml:27
 #: application/view/omeka/site-admin/page/index.phtml:50
 msgid "Modified"
-msgstr ""
+msgstr "Muudetud"
 
 #: application/view/omeka/site-admin/page/index.phtml:41
 msgid "Add new page"
@@ -3069,7 +3069,7 @@ msgstr "Üldine administraator"
 
 #: application/src/Permissions/Acl.php:22
 msgid "Supervisor"
-msgstr ""
+msgstr "Ülevaataja"
 
 #: application/src/Permissions/Acl.php:24
 msgid "Reviewer"
@@ -3351,7 +3351,7 @@ msgstr ""
 
 #: application/src/Form/SiteResourcesForm.php:16
 msgid "Do nothing"
-msgstr ""
+msgstr "Ära tee midagi"
 
 #: application/src/Form/SiteResourcesForm.php:17
 msgid "Add - keep existing items and assign items from a new search"
@@ -3533,11 +3533,11 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:235
 msgid "This site"
-msgstr ""
+msgstr "See sait"
 
 #: application/src/Form/SiteSettingsForm.php:236
 msgid "All sites"
-msgstr ""
+msgstr "Kõik saidid"
 
 #: application/src/Form/SiteSettingsForm.php:253
 msgid "Search resources"
@@ -3675,7 +3675,7 @@ msgstr "Vaikimisi ressursi mall"
 
 #: application/src/Form/UserForm.php:170
 msgid "Select sites"
-msgstr ""
+msgstr "Vali saidid"
 
 #: application/src/Form/UserForm.php:175
 msgid "Default sites for items"

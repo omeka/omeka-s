@@ -14,18 +14,21 @@ use Laminas\Stdlib\ResponseInterface;
 use Laminas\View\Model\ViewModel;
 
 /**
- * MVC listener for handling specific exception types with "pretty" pages.
+ * MVC listener for handling dispatch and render exceptions.
  */
 class ExceptionListener extends AbstractListenerAggregate
 {
     public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'handleException'], -5000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'handleException'], -5000);
     }
 
     /**
-     * Listen for specific thrown exceptions and display the proper error page
-     * and code for each.
+     * Pass all exceptions that will display an error page to the logger.
+     *
+     * For dispatch exceptions, use custom error pages and status codes for
+     * 403/404-type exceptions.
      *
      * @param MvcEvent $e
      */
@@ -42,8 +45,22 @@ class ExceptionListener extends AbstractListenerAggregate
             return;
         }
 
+        // Only modify template and error code for dispatch errors
+        if ($e->getName() === MvcEvent::EVENT_DISPATCH_ERROR) {
+            $this->modifyResponse($e);
+        }
+
         $exception = $e->getParam('exception');
         $e->getApplication()->getServiceManager()->get('Omeka\Logger')->err((string) $exception);
+    }
+
+    /**
+     * Convert PermissionDenied and NotFound exceptions to 403/404 errors, with
+     * unique templates for each.
+     */
+    private function modifyResponse(MvcEvent $e)
+    {
+        $exception = $e->getParam('exception');
 
         if ($exception instanceof AclException\PermissionDeniedException) {
             $template = 'error/403';

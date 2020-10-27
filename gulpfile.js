@@ -95,7 +95,7 @@ function composer(args) {
 
     return stat(composerPath).catch(function (e) {
         return download(installerUrl, installerPath).then(function () {
-            return runPhpCommand(installerPath, [], {cwd: buildDir});
+            return runPhpCommand(installerPath, ['--1'], {cwd: buildDir});
         });
     }).then(function () {
         return runPhpCommand(composerPath, ['self-update']);

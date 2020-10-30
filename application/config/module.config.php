@@ -460,6 +460,9 @@ return [
             'Laminas\View\Helper\HeadTitle' => [
                 Service\Delegator\HeadTitleDelegatorFactory::class,
             ],
+            'Laminas\View\Helper\Url' => [
+                Service\Delegator\UrlDelegatorFactory::class,
+            ],
         ],
     ],
     'form_elements' => [

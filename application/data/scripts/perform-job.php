@@ -11,13 +11,17 @@ $serviceLocator = $application->getServiceManager();
 $entityManager = $serviceLocator->get('Omeka\EntityManager');
 $logger = $serviceLocator->get('Omeka\Logger');
 
-$options = getopt(null, ['job-id:', 'base-path:']);
+$options = getopt(null, ['job-id:', 'base-path:', 'server-url:']);
 if (!isset($options['job-id'])) {
     $logger->err('No job ID given; use --job-id <id>');
     exit;
 }
 if (!isset($options['base-path'])) {
     $logger->err('No base path given; use --base-path <basePath>');
+    exit;
+}
+if (!isset($options['server-url'])) {
+    $logger->err('No server URL given; use --server-url <serverUrl>');
     exit;
 }
 
@@ -27,8 +31,26 @@ if (!$job) {
     exit;
 }
 
-$serviceLocator->get('ViewHelperManager')->get('BasePath')->setBasePath($options['base-path']);
+$viewHelperManager = $serviceLocator->get('ViewHelperManager');
+$viewHelperManager->get('BasePath')->setBasePath($options['base-path']);
 $serviceLocator->get('Router')->setBaseUrl($options['base-path']);
+
+$serverUrlParts = parse_url($options['server-url']);
+$scheme = $serverUrlParts['scheme'];
+$host = $serverUrlParts['host'];
+if (isset($serverUrlParts['port'])) {
+    $port = $serverUrlParts['port'];
+} elseif ($serverUrlParts['scheme'] === 'http') {
+    $port = 80;
+} elseif ($serverUrlParts['scheme'] === 'https') {
+    $port = 443;
+} else {
+    $port = null;
+}
+$serverUrlHelper = $viewHelperManager->get('ServerUrl');
+$serverUrlHelper->setPort($port);
+$serverUrlHelper->setScheme($scheme);
+$serverUrlHelper->setHost($host);
 
 // Set the job owner as the authenticated identity.
 $owner = $job->getOwner();

@@ -22,9 +22,10 @@ class CliFactory implements FactoryInterface
         if (isset($config['cli']['execute_strategy'])) {
             $strategy = $config['cli']['execute_strategy'];
             if ($strategy === 'auto') {
-                if ($this->functionIsEnabled('proc_open')) {
+                $disabledFunctions = array_map('trim', explode(',', ini_get('disable_functions')));
+                if (function_exists('proc_open') && !in_array('proc_open', $disabledFunctions)) {
                     $strategy = 'proc_open';
-                } elseif ($this->functionIsEnabled('exec')) {
+                } elseif (function_exists('exec') && !in_array('exec', $disabledFunctions)) {
                     $strategy = 'exec';
                 } else {
                     throw new RuntimeException('Neither "proc_open()" nor "exec()" are available.'); // @translate
@@ -33,17 +34,5 @@ class CliFactory implements FactoryInterface
         }
 
         return new Cli($logger, $strategy);
-    }
-
-    /**
-     * Check if a function is available.
-     *
-     * @param string $function
-     * @return bool
-     */
-    protected function functionIsEnabled($function)
-    {
-        return function_exists($function)
-            && !in_array($function, array_map('trim', explode(',', ini_get('disable_functions'))));
     }
 }

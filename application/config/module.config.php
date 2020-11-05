@@ -195,7 +195,7 @@ return [
         'sslcafile' => null,
     ],
     'cli' => [
-        'execute_strategy' => 'exec',
+        'execute_strategy' => 'auto',
         'phpcli_path' => null,
     ],
     'thumbnails' => [

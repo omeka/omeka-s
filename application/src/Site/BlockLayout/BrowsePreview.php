@@ -23,7 +23,7 @@ class BrowsePreview extends AbstractBlockLayout
             'query' => '',
             'heading' => '',
             'limit' => 12,
-            'components' => ["resource-heading","resource-body","thumbnail"],
+            'components' => ['resource-heading', 'resource-body', 'thumbnail'],
             'link-text' => 'Browse all', // @translate
         ];
 
@@ -71,8 +71,8 @@ class BrowsePreview extends AbstractBlockLayout
                         'label' => 'Heading', // @translate
                     ],
                     [
-                        'value' => 'resource-body', // @translate
-                        'label' => 'Body',
+                        'value' => 'resource-body',
+                        'label' => 'Body', // @translate
                     ],
                     [
                         'value' => 'thumbnail',
@@ -134,7 +134,7 @@ class BrowsePreview extends AbstractBlockLayout
 
         //Show all resource components if none set
         if (empty($block->dataValue('components'))) {
-            $components = ["resource-heading","resource-body","thumbnail"];
+            $components = ['resource-heading', 'resource-body', 'thumbnail'];
         } else {
             $components = $block->dataValue('components');
         }

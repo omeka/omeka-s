@@ -42,35 +42,35 @@ class Html extends AbstractBlockLayout
         $form = new Form();
         $html = new Element\Textarea("o:block[__blockIndex__][o:data][html]");
         $html->setAttribute('class', 'block-html full wysiwyg');
-        $div_class = new Element\Text("o:block[__blockIndex__][o:data][divclass]");
-        $div_class->setOptions([
+        $divClass = new Element\Text("o:block[__blockIndex__][o:data][divclass]");
+        $divClass->setOptions([
             'label' => 'Class', // @translate
             'info' => 'Optional CSS class for styling HTML.', // @translate
         ]);
         if ($block) {
             $html->setValue($block->dataValue('html'));
-            $div_class->setValue($block->dataValue('divclass'));
+            $divClass->setValue($block->dataValue('divclass'));
         }
         $form->add($html);
-        $form->add($div_class);
+        $form->add($divClass);
 
         return $view->formCollection($form);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $html_block = $block->dataValue('html', '');
-        $div = htmlspecialchars($block->dataValue('divclass'));
-        if (!empty($div)) {
+        $htmlBlock = $block->dataValue('html', '');
+        $divClass = $view->escapeHtml($block->dataValue('divclass'));
+        if (!empty($divClass)) {
             //wrap HTML in div with specified class, if present
-            $html_final = '<div class="' . $div . '">';
-            $html_final .= $html_block;
-            $html_final .= '</div>';
+            $htmlFinal = '<div class="' . $divClass . '">';
+            $htmlFinal .= $htmlBlock;
+            $htmlFinal .= '</div>';
         } else {
-            $html_final = $html_block;
+            $htmlFinal = $htmlBlock;
         }
 
-        return $html_final;
+        return $htmlFinal;
     }
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)

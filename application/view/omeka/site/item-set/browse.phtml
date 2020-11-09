@@ -29,7 +29,7 @@ foreach ($itemSets as $itemSet):
         <?php endif; ?>
         <h4><?php echo $itemSet->link($heading); ?></h4>
         <?php if ($body): ?>
-        <div class="description"><?php echo $body; ?></div>
+        <div class="description"><?php echo $escape($body); ?></div>
         <?php endif; ?>
     </li>
 <?php endforeach; ?>

@@ -1,5 +1,6 @@
 <?php
 $translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
 ?>
 <div class="preview-block">
 
@@ -19,7 +20,7 @@ foreach ($this->resources as $resource):
         <?php echo $resource->linkRaw($this->thumbnail($resource, 'medium', ['title' => $heading])); ?>
         <h4><?php echo $resource->link($heading); ?></h4>
         <?php if ($body): ?>
-        <div class="description"><?php echo $body; ?></div>
+        <div class="description"><?php echo $escape($body); ?></div>
         <?php endif; ?>
     </li>
 <?php endforeach; ?>

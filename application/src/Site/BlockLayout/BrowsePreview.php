@@ -23,6 +23,7 @@ class BrowsePreview extends AbstractBlockLayout
             'query' => '',
             'heading' => '',
             'limit' => 12,
+            'components' => ['resource-heading', 'resource-body', 'thumbnail'],
             'link-text' => 'Browse all', // @translate
         ];
 
@@ -59,6 +60,28 @@ class BrowsePreview extends AbstractBlockLayout
             ],
         ]);
         $form->add([
+            'name' => 'o:block[__blockIndex__][o:data][components]',
+            'type' => Element\MultiCheckbox::class,
+            'options' => [
+                'label' => 'Components', // @translate
+                'info' => 'Components to display for each resource. If not set in Site Settings, Heading defaults to resource Title and Body to resource Description', // @translate
+                'value_options' => [
+                    [
+                        'value' => 'resource-heading',
+                        'label' => 'Heading', // @translate
+                    ],
+                    [
+                        'value' => 'resource-body',
+                        'label' => 'Body', // @translate
+                    ],
+                    [
+                        'value' => 'thumbnail',
+                        'label' => 'Thumbnail', // @translate
+                    ],
+                ],
+            ],
+        ]);
+        $form->add([
             'name' => 'o:block[__blockIndex__][o:data][heading]',
             'type' => Element\Text::class,
             'options' => [
@@ -80,6 +103,7 @@ class BrowsePreview extends AbstractBlockLayout
             'o:block[__blockIndex__][o:data][query]' => $data['query'],
             'o:block[__blockIndex__][o:data][heading]' => $data['heading'],
             'o:block[__blockIndex__][o:data][limit]' => $data['limit'],
+            'o:block[__blockIndex__][o:data][components]' => $data['components'],
             'o:block[__blockIndex__][o:data][link-text]' => $data['link-text'],
         ]);
 
@@ -108,6 +132,13 @@ class BrowsePreview extends AbstractBlockLayout
             $query['sort_order'] = 'desc';
         }
 
+        //Show all resource components if none set
+        if (empty($block->dataValue('components'))) {
+            $components = ['resource-heading', 'resource-body', 'thumbnail'];
+        } else {
+            $components = $block->dataValue('components');
+        }
+
         $response = $view->api()->search($resourceType, $query);
         $resources = $response->getContent();
 
@@ -122,6 +153,7 @@ class BrowsePreview extends AbstractBlockLayout
             'resources' => $resources,
             'heading' => $block->dataValue('heading'),
             'linkText' => $block->dataValue('link-text'),
+            'components' => $components,
             'query' => $originalQuery,
         ]);
     }

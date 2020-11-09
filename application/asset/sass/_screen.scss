@@ -2352,6 +2352,10 @@ input[type="text"].value-language,
         line-height: $base-line-height;
     }
 
+    .block.value .inputs label {
+        margin-right: $spacing-large;
+    }
+
     .add-values button,
     .add-values .button {
         line-height: $base-line-height;

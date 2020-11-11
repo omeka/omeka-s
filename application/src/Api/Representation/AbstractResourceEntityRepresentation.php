@@ -506,16 +506,20 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function displayTitle($default = null)
     {
         $title = $this->title();
-        if (null !== $title) {
-            return $title;
+        if ($title === null) {
+            if ($default === null) {
+                $translator = $this->getServiceLocator()->get('MvcTranslator');
+                $title = $translator->translate('[Untitled]');
+            } else {
+                $title = $default;
+            }
         }
 
-        if ($default === null) {
-            $translator = $this->getServiceLocator()->get('MvcTranslator');
-            $default = $translator->translate('[Untitled]');
-        }
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs(['title' => $title]);
+        $eventManager->trigger('rep.resource.display_title', $this, $args);
 
-        return $default;
+        return $args['title'];
     }
 
     /**
@@ -528,14 +532,17 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         $template = $this->resourceTemplate();
         if ($template && $template->descriptionProperty()) {
-            $description = $this->value($template->descriptionProperty()->term());
-            if (null !== $description) {
-                return $description;
-            }
+            $descriptionTerm = $template->descriptionProperty()->term();
+        } else {
+            $descriptionTerm = 'dcterms:description';
         }
-        return (string) $this->value('dcterms:description', [
-            'default' => $default,
-        ]);
+
+        $description = (string) $this->value($descriptionTerm, ['default' => $default]);
+
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs(['description' => $description]);
+        $eventManager->trigger('rep.resource.display_description', $this, $args);
+        return $args['description'];
     }
 
     /**

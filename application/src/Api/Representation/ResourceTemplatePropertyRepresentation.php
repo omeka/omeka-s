@@ -28,8 +28,8 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     {
         return [
             'o:property' => $this->property()->getReference(),
-            'o:alternate_label' => $this->alternateLabel(),
-            'o:alternate_comment' => $this->alternateComment(),
+            'o:alternate_label' => $this->alternateLabel(), //@translate
+            'o:alternate_comment' => $this->alternateComment(), //@translate
             'o:data_type' => $this->dataTypes(),
             'o:is_required' => $this->isRequired(),
             'o:is_private' => $this->isPrivate(),

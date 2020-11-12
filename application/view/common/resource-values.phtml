@@ -7,7 +7,7 @@ $labelInfo = $this->setting('property_label_information');
     <div class="property">
         <h4>
         <?php if ($propertyData['alternate_label']): ?>
-        <?php echo $escape($propertyData['alternate_label']); ?>
+        <?php echo $escape($translate($propertyData['alternate_label'])); ?>
         <?php else: ?>
         <?php echo $escape($translate($propertyData['property']->label())); ?>
         <?php endif; ?>

@@ -147,6 +147,15 @@ i.jstree-displaylink {
     right: 2.5 * $base-line-height;
 }
 
+.block-pagelist-tree .jstree-open > .jstree-anchor .jstree-displaylink,
+.block-pagelist-tree .jstree-closed > .jstree-anchor .jstree-displaylink {
+    right: 3 * $base-line-height;
+}
+
+.block-pagelist-tree i.jstree-displaylink {
+    right: 1.5 * $base-line-height;
+}
+
 .jstree-anchor:hover > .jstree-removenode-remove {
     display: block;
 }

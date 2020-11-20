@@ -1,0 +1,9 @@
+<div>
+    <ul>
+        <?php foreach($pagelist as $page):
+            echo str_repeat('<ul>', intval($page['depth']));
+            echo '<li>' . $this->hyperlink($page['pagename'], $page['pagelink']) . '</li>';
+            echo str_repeat('</ul>', intval($page['depth']));
+        endforeach; ?>
+    </ul>
+</div>

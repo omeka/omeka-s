@@ -518,6 +518,7 @@ return [
         ],
         'factories' => [
             'html' => Service\BlockLayout\HtmlFactory::class,
+            'listOfPages' => Service\BlockLayout\PageListFactory::class,
         ],
         'sorted_names' => [
             'html',

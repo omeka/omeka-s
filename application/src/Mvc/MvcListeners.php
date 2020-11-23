@@ -316,7 +316,8 @@ class MvcListeners extends AbstractListenerAggregate
         if (Manager::STATE_ACTIVE !== $currentTheme->getState()) {
             $event->setError(ZendApplication::ERROR_EXCEPTION);
             $message = sprintf(
-                'The current theme is not active. Its current state is "%s".', // @translate
+                'The current theme "%1$s" is not active. Its current state is "%2$s".', // @translate
+                $currentTheme->getName(),
                 $currentTheme->getState()
             );
             $event->setParam('exception', new \Exception($message));

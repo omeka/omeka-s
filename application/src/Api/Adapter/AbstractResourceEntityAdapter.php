@@ -76,7 +76,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
         }
 
-        if (isset($query['is_public'])) {
+        if (isset($query['is_public']) && is_numeric($query['is_public'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.isPublic',
                 $this->createNamedParameter($qb, (bool) $query['is_public'])

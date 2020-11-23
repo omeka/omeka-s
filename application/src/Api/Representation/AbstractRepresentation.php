@@ -109,7 +109,7 @@ abstract class AbstractRepresentation implements RepresentationInterface
      *
      * @param string $type The type of thumbnail to retrieve from the primary media,
      *  if any is defined
-     * @return string}null
+     * @return string|null
      */
     public function thumbnailDisplayUrl($type)
     {

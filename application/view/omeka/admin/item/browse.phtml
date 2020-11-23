@@ -5,7 +5,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
 $sortHeadings = [
     [
         'label' => $translate('Title'),
-        'value' => 'title'
+        'value' => 'title',
     ],
     [
         'label' => $translate('Identifier'),
@@ -84,8 +84,8 @@ $sortHeadings = [
                 $this->url('admin/id', [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id()]
-                )
+                    'id' => $owner->id(),
+                ])
             );
         } else {
             $ownerText = $translate('[no owner]');

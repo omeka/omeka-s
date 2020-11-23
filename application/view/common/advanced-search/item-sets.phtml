@@ -1,7 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
 // Prepare the item set queries
-$ids = isset($query['item_set_id']) ? $query['item_set_id'] : [];
+$ids = $query['item_set_id'] ?? [];
 if (!is_array($ids)) {
     $ids = [$ids];
 }
@@ -42,7 +42,7 @@ if ($this->status()->isSiteRequest()) {
                 'name' => 'item_set_id[]',
                 'attributes' => [
                     'value' => $id,
-                    'aria-labelledby' =>  'by-item-set-label'
+                    'aria-labelledby' => 'by-item-set-label',
                 ],
                 'options' => $selectOptions,
             ]); ?>

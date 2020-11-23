@@ -25,7 +25,7 @@ $itemMedia = $item->media();
 <?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $item); ?>
 
 <div id="item-metadata" class="active section">
-    <?php if ( $item->resourceClass()): ?>
+    <?php if ($item->resourceClass()): ?>
         <div class="meta-group">
             <h4><?php echo $translate('Class'); ?></h4>
             <div class="value"><?php echo $escape($translate($item->resourceClass()->label())); ?></div>

@@ -5,23 +5,23 @@ $this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
 $sortHeadings = [
     [
         'label' => $translate('Title'),
-        'value' => 'title'
+        'value' => 'title',
     ],
     [
         'label' => $translate('Identifier'),
-        'value' => 'dcterms:identifier'
+        'value' => 'dcterms:identifier',
     ],
     [
         'label' => $translate('Class'),
-        'value' => 'resource_class_label'
+        'value' => 'resource_class_label',
     ],
     [
         'label' => $translate('Owner'),
-        'value' => 'owner_name'
+        'value' => 'owner_name',
     ],
     [
         'label' => $translate('Created'),
-        'value' => 'created'
+        'value' => 'created',
     ],
 ];
 ?>
@@ -44,7 +44,7 @@ $sortHeadings = [
 </div>
 
 <?php $this->trigger('view.browse.before'); ?>
-<?php if($itemSets): ?>
+<?php if ($itemSets): ?>
 <form method="post" id="batch-form" class="disable-unsaved-warning">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'batch_update')): ?>
     <div class="batch-inputs">
@@ -86,8 +86,8 @@ $sortHeadings = [
                 $this->url('admin/id', [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id()]
-                )
+                    'id' => $owner->id(),
+                ])
             );
         } else {
             $ownerText = $translate('[no owner]');

@@ -27,7 +27,7 @@ $heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate
 $body = $bodyTerm ? $itemSet->value($bodyTerm, ['lang' => ($filterLocale ? [$lang, ''] : null)]) : $itemSet->displayDescription(null, ($filterLocale ? [$lang, ''] : null));
 ?>
     <li class="item-set resource">
-        <?php if($itemSetThumbnail = $this->thumbnail($itemSet, 'medium')): ?>
+        <?php if ($itemSetThumbnail = $this->thumbnail($itemSet, 'medium')): ?>
         <?php echo $itemSet->linkRaw($itemSetThumbnail); ?>
         <?php endif; ?>
         <h4><?php echo $itemSet->link($heading); ?></h4>

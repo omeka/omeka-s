@@ -1,7 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
 // Prepare the user queries
-$ids = isset($query['user_id']) ? $query['user_id'] : [];
+$ids = $query['user_id'] ?? [];
 if (!is_array($ids)) {
     $ids = [$ids];
 }
@@ -9,8 +9,8 @@ $ids = array_filter($ids);
 if (!$ids) {
     $ids = [null];
 }
-$role = isset($query['role']) ? $query['role'] : null;
-$sitePermissionSiteId = isset($query['site_permission_site_id']) ? $query['site_permission_site_id'] : null;
+$role = $query['role'] ?? null;
+$sitePermissionSiteId = $query['site_permission_site_id'] ?? null;
 ?>
 <div class="field">
     <div class="field-meta">
@@ -35,7 +35,7 @@ $sitePermissionSiteId = isset($query['site_permission_site_id']) ? $query['site_
     <div class="inputs">
         <?php echo $this->roleSelect([
             'name' => 'role',
-            'attributes' => ['id' => 'role', 'value' => $role]
+            'attributes' => ['id' => 'role', 'value' => $role],
         ]); ?>
     </div>
 </div>
@@ -55,7 +55,7 @@ $sitePermissionSiteId = isset($query['site_permission_site_id']) ? $query['site_
     <div class="inputs">
         <?php echo $this->siteSelect([
             'name' => 'site_permission_site_id',
-            'attributes' => ['id' => 'site_permission_site_id', 'value' => $sitePermissionSiteId]
+            'attributes' => ['id' => 'site_permission_site_id', 'value' => $sitePermissionSiteId],
         ]); ?>
     </div>
 </div>

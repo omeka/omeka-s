@@ -18,8 +18,8 @@ $formElement = $this->plugin('formElement');
     <?php echo $this->cancelButton(); ?>
     <button type="submit"><?php echo $translate('Save'); ?></button>
 </div>
-<?php echo $this->sectionNav($sectionNavs, 'view.edit.section_nav' ); ?>
-<?php $this->trigger('view.edit.form.before', array('form' => $form)); ?>
+<?php echo $this->sectionNav($sectionNavs, 'view.edit.section_nav'); ?>
+<?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>
 <fieldset id="user-information" class="section active">
     <?php echo $this->formCollection($form->get('user-information'), false); ?>
 </fieldset>
@@ -57,7 +57,7 @@ $formElement = $this->plugin('formElement');
     <h3><?php echo $translate('Add a new key'); ?></h3>
     <?php echo $this->formCollection($form->get('edit-keys'), false); ?>
 </fieldset>
-<?php $this->trigger('view.edit.form.after', array('form' => $form)); ?>
+<?php $this->trigger('view.edit.form.after', ['form' => $form]); ?>
  <?php echo $formElement($form->get('csrf')); ?>
 <?php echo $this->form()->closeTag(); ?>
 <?php $this->trigger('view.edit.after'); ?>

@@ -76,11 +76,11 @@ $this->plugin('formRow')->setPartial(null);
                         $this->url(
                             null,
                             ['action' => 'configure'],
-                            ['query' => ['id' => $module->getId()]
+                            ['query' => ['id' => $module->getId()],
                         ], true),
                         [
                             'class' => 'o-icon-configure button',
-                            'title' => $translate('Configure')
+                            'title' => $translate('Configure'),
                         ]
                     );
                 }

@@ -24,6 +24,8 @@ class Environment
 
     /**
      * The required PHP extensions
+     *
+     * (Note: the json extension is also required but must be checked separately)
      */
     const PHP_REQUIRED_EXTENSIONS = ['fileinfo', 'mbstring', 'PDO', 'pdo_mysql', 'xml'];
 
@@ -40,6 +42,17 @@ class Environment
     {
         $codeVersion = Module::VERSION;
         $dbVersion = $settings->get('version');
+
+        // The Message class used in other error messages requires
+        // \JsonSerializable, so we have to check for it before anything else
+        // or else we'll just hit a fatal error trying to create the message.
+        // The message here must be simple text with no variables so we don't
+        // need to use Message.
+        if (!interface_exists('JsonSerializable')) {
+            $this->errorMessages[] = 'Omeka requires the PHP extension json, but it is not loaded.'; // @translate
+            return;
+        }
+
         if ($dbVersion // Perform this check only if Omeka is installed.
             && version_compare($dbVersion, 1, '<')
         ) {

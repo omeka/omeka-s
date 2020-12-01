@@ -16,7 +16,7 @@ $pagination->setFragment($fragment);
         <select id="filter-property" name="property" data-url="<?php echo $escape($this->url(null, [], true)); ?>" data-fragment="<?php echo $escape($fragment); ?>">
             <option value=""><?php echo $translate('All'); ?></option>
             <?php foreach ($properties as $prop): ?>
-            <option value="<?php echo $escape($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $escape(sprintf('%s (%s)', $prop->label(), $prop->term())); ?></option>
+            <option value="<?php echo $escape($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $escape(sprintf('%s (%s)', $translate($prop->label()), $prop->term())); ?></option>
             <?php endforeach; ?>
         </select>
     </div>
@@ -49,7 +49,7 @@ $pagination->setFragment($fragment);
         </td>
         <td>
         <?php if ($value->resource()->resourceClass()): ?>
-        <span class="resource-class"><?php echo $this->escapeHtml($value->resource()->resourceClass()->label()); ?></span>
+        <span class="resource-class"><?php echo $this->escapeHtml($translate($value->resource()->resourceClass()->label())); ?></span>
         <?php endif; ?>
         </td>
     </tr>

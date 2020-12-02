@@ -227,6 +227,21 @@ class ApiController extends AbstractRestfulController
     }
 
     /**
+     * Check if the request contains an identifier.
+     *
+     * This method overrides parent in order to allow to query on one or
+     * multiple ids.
+     *
+     * {@inheritDoc}
+     * @see \Laminas\Mvc\Controller\AbstractRestfulController::getIdentifier()
+     */
+    protected function getIdentifier($routeMatch, $request)
+    {
+        $identifier = $this->getIdentifierName();
+        return $routeMatch->getParam($identifier, false);
+    }
+
+    /**
      * Set an error result to the MvcEvent and return the result.
      *
      * @param MvcEvent $event

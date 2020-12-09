@@ -116,12 +116,6 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
-            'Omeka\Api\Adapter\SitePageAdapter',
-            'api.delete.pre',
-            [$this, 'deleteFulltextPre']
-        );
-
-        $sharedEventManager->attach(
             '*',
             'api.delete.post',
             [$this, 'deleteFulltext']
@@ -525,30 +519,7 @@ class Module extends AbstractModule
     }
 
     /**
-     * Prepare to delete the fulltext of a site page.
-     *
-     * The site_pages resource uses a compound ID that cannot be read from the
-     * database. Here we set the actual entity ID to a request option so
-     * self::deleteFulltext() can handle it correctly.
-     *
-     * @param ZendEvent $event
-     */
-    public function deleteFulltextPre(ZendEvent $event)
-    {
-        $request = $event->getParam('request');
-        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $sitePage = $em->getRepository('Omeka\Entity\SitePage')->findOneBy($request->getId());
-        $request->setOption('deleted_entity_id', $sitePage->getId());
-    }
-
-    /**
      * Delete the fulltext of an API resource.
-     *
-     * Typically this will delete on the resource ID that's set on the request
-     * object. Resources that do not have conventional IDs should set the actual
-     * ID to the "deleted_entity_id" request option prior to the api.delete.post
-     * event. If the option exists, this function will use it to delete the
-     * fulltext.
      *
      * @param ZendEvent $event
      */
@@ -556,11 +527,14 @@ class Module extends AbstractModule
     {
         $fulltext = $this->getServiceLocator()->get('Omeka\FulltextSearch');
         $request = $event->getParam('request');
-        $fulltext->delete(
-            // Note that the resource may not have an ID after being deleted.
-            $request->getOption('deleted_entity_id') ?? $request->getId(),
-            $event->getTarget()
-        );
+        if (is_numeric($request->getOption('entity_id'))) {
+            $id = $request->getOption('entity_id');
+        } elseif (is_numeric($request->getId())) {
+            $id = $request->getId();
+        } else {
+            return;
+        }
+        $fulltext->delete($id, $event->getTarget());
     }
 
     /**

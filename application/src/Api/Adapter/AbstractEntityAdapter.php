@@ -323,6 +323,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             // that have not been loaded.
             $this->getEntityManager()->refresh($entity);
         }
+        $request->setOption('entity_id', $entity->getId());
         return new Response($entity);
     }
 
@@ -670,6 +671,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                 $this->getTranslator()->translate('%1$s entity with criteria %2$s not found'),
                 $entityClass, json_encode($criteria)
             ));
+        }
+        if ($request) {
+            $request->setOption('entity_id', $entity->getId());
         }
         return $entity;
     }

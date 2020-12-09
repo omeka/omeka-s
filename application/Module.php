@@ -116,7 +116,7 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
-            '*',
+            'Omeka\Api\Adapter\SitePageAdapter',
             'api.delete.pre',
             [$this, 'deleteFulltextPre']
         );
@@ -525,21 +525,20 @@ class Module extends AbstractModule
     }
 
     /**
-     * Prepare to delete the fulltext of an API resource.
+     * Prepare to delete the fulltext of a site page.
+     *
+     * The site_pages resource uses a compound ID that cannot be read from the
+     * database. Here we set the actual entity ID to a request option so
+     * self::deleteFulltext() can handle it correctly.
      *
      * @param ZendEvent $event
      */
     public function deleteFulltextPre(ZendEvent $event)
     {
         $request = $event->getParam('request');
-        if ('site_pages' === $request->getResource()) {
-            // The site_pages resource uses a compound ID that cannot be read
-            // from the database. Here we set the actual entity ID to a request
-            // option so self::deleteFulltext() can handle it correctly.
-            $em = $this->getServiceLocator()->get('Omeka\EntityManager');
-            $sitePage = $em->getRepository('Omeka\Entity\SitePage')->findOneBy($request->getId());
-            $request->setOption('deleted_entity_id', $sitePage->getId());
-        }
+        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $sitePage = $em->getRepository('Omeka\Entity\SitePage')->findOneBy($request->getId());
+        $request->setOption('deleted_entity_id', $sitePage->getId());
     }
 
     /**

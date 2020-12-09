@@ -117,7 +117,7 @@ class Module extends AbstractModule
 
         $sharedEventManager->attach(
             '*',
-            'api.delete.post',
+            'api.delete.pre',
             [$this, 'deleteFulltext']
         );
 

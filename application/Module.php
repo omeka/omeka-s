@@ -118,6 +118,12 @@ class Module extends AbstractModule
         $sharedEventManager->attach(
             '*',
             'api.delete.pre',
+            [$this, 'deleteFulltextPre']
+        );
+
+        $sharedEventManager->attach(
+            '*',
+            'api.delete.post',
             [$this, 'deleteFulltext']
         );
 
@@ -519,16 +525,41 @@ class Module extends AbstractModule
     }
 
     /**
+     * Prepare to delete the fulltext of an API resource.
+     *
+     * @param ZendEvent $event
+     */
+    public function deleteFulltextPre(ZendEvent $event)
+    {
+        $request = $event->getParam('request');
+        if ('site_pages' === $request->getResource()) {
+            // The site_pages resource uses a compound ID that cannot be read
+            // from the database. Here we set the actual entity ID to a request
+            // option so self::deleteFulltext() can handle it correctly.
+            $em = $this->getServiceLocator()->get('Omeka\EntityManager');
+            $sitePage = $em->getRepository('Omeka\Entity\SitePage')->findOneBy($request->getId());
+            $request->setOption('deleted_entity_id', $sitePage->getId());
+        }
+    }
+
+    /**
      * Delete the fulltext of an API resource.
+     *
+     * Typically this will delete on the resource ID that's set on the request
+     * object. Resources that do not have conventional IDs should set the actual
+     * ID to the "deleted_entity_id" request option prior to the api.delete.post
+     * event. If the option exists, this function will use it to delete the
+     * fulltext.
      *
      * @param ZendEvent $event
      */
     public function deleteFulltext(ZendEvent $event)
     {
         $fulltext = $this->getServiceLocator()->get('Omeka\FulltextSearch');
+        $request = $event->getParam('request');
         $fulltext->delete(
             // Note that the resource may not have an ID after being deleted.
-            $event->getParam('request')->getId(),
+            $request->getOption('deleted_entity_id') ?? $request->getId(),
             $event->getTarget()
         );
     }

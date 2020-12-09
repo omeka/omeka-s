@@ -1269,7 +1269,7 @@ msgstr "Φθίνουσα"
 
 #: application/view/common/sort-selector.phtml:17
 msgid "Sort"
-msgstr "Τακιμόνηση"
+msgstr "Ταξινόμηση"
 
 #: application/view/common/user-bar.phtml:22
 #: application/view/layout/layout-admin.phtml:48

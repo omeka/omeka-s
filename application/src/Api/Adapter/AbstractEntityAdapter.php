@@ -323,7 +323,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             // that have not been loaded.
             $this->getEntityManager()->refresh($entity);
         }
-        $request->setOption('entity_id', $entity->getId());
         return new Response($entity);
     }
 

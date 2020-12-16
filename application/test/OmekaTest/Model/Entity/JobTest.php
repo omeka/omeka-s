@@ -8,7 +8,7 @@ class JobTest extends TestCase
 {
     protected $job;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->job = new Job;
     }

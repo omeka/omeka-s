@@ -8,7 +8,7 @@ class MvcListenersTest extends TestCase
 {
     protected $mvcListeners;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->mvcListeners = new MvcListeners;
     }

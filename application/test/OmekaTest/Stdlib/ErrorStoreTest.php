@@ -5,7 +5,7 @@ use Omeka\Test\TestCase;
 
 class ErrorStoreTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->errorStore = new ErrorStore;
     }

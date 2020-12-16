@@ -9,7 +9,7 @@ class SitePageBlockTest extends TestCase
 {
     protected $block;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->block = new SitePageBlock;
     }

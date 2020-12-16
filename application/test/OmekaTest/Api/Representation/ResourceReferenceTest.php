@@ -11,7 +11,7 @@ class ResourceReferenceTest extends TestCase
     protected $adapter;
     protected $viewHelperManager;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->id = 'test_id';
         $this->resource = $this->getMockForAbstractClass('Omeka\Api\ResourceInterface');

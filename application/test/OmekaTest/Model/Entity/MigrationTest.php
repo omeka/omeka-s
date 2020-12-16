@@ -8,7 +8,7 @@ class MigrationTest extends TestCase
 {
     protected $migration;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->migration = new Migration;
     }

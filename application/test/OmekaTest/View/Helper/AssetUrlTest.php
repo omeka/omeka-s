@@ -8,7 +8,7 @@ class AssetUrlTest extends TestCase
 {
     protected $assetUrl;
 
-    public function setUp()
+    public function setUp(): void
     {
         $view = $this->createMock('Laminas\View\Renderer\PhpRenderer');
         $this->assetUrl = new AssetUrl(

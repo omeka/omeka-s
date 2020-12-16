@@ -9,7 +9,7 @@ class SynchronousStrategyTest extends TestCase
 {
     protected $synchronousStrategy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()

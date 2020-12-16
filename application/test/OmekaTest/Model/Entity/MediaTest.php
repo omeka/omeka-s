@@ -9,7 +9,7 @@ class MediaTest extends TestCase
 {
     protected $media;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->media = new Media;
     }

@@ -130,7 +130,6 @@ class Cli
             return false;
         }
 
-        $input = stream_get_contents($pipes[0]);
         $output = stream_get_contents($pipes[1]);
         $errors = stream_get_contents($pipes[2]);
         foreach ($pipes as $pipe) {

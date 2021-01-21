@@ -51,7 +51,7 @@ echo $this->pageTitle($translate('Admin dashboard'));
             ]); ?>
         </div>
         <?php endforeach; ?>
-        <?php if ($this->userIsAllowed('Omeka\Api\Adapter\SiteAdapter', 'create')): ?>
+        <?php if ($this->userIsAllowed('Omeka\Entity\Site', 'create')): ?>
         <?php echo $this->hyperlink($translate('Add site'), $this->url('admin/site/add'), ['class' => 'add button']); ?>
         <?php endif; ?>
     <?php $this->trigger('view.manage_sites.after'); ?>

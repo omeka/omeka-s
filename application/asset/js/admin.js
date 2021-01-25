@@ -62,7 +62,9 @@ var Omeka = {
             parent.find('li.selector-child').each(function() {
                 var child = $(this);
                 var label = child.data('child-search').toLowerCase();
-                if (label.indexOf(filter) > -1) {
+                var childId = child.data('resource-id');
+                var childRow = $('.resource-id[value="' + childId + '"]');
+                if ((label.indexOf(filter) > -1) && (childRow.length == 0)) {
                     // Label contains the filter string. Show the child.
                     child.show();
                     totalCount++;
@@ -194,7 +196,8 @@ var Omeka = {
         var existingRowData = table.data('existing-rows');
         var rowTemplate = $($.parseHTML(table.data('rowTemplate')));
         var selector = $(selectorId);
-        var totalCount = $(selectorId).find('.selector-total-count');
+        var totalCount = $('.resources-available').data('all-resources-count');
+        var selectorCount = $(selectorId).find('.selector-total-count');
       
         var parentToggle = function(e) {
             e.stopPropagation();
@@ -226,15 +229,16 @@ var Omeka = {
             var resourceParent = resource.parents('.selector-parent');
             var childCount = resourceParent.find('.selector-child-count').first();
             if (resource.hasClass('added')) {
-                var newTotalCount = parseInt(totalCount.text()) - 1;
+                var newTotalCount = parseInt(selectorCount.text()) - 1;
                 var newChildCount = parseInt(childCount.text()) - 1;
             } else {
-                var newTotalCount = parseInt(totalCount.text()) + 1;
+                var newTotalCount = parseInt(selectorCount.text()) + 1;
                 var newChildCount = parseInt(childCount.text()) + 1;
             }
-            totalCount.text(newTotalCount);
+            selectorCount.text(newTotalCount);
             childCount.text(newChildCount);
-            if (newTotalCount == 0) {
+            var currentRows = table.find('.resource-row').length;
+            if (totalCount - currentRows == 0) {
                 selector.find('.resources-available').addClass('empty');
             } else {
                 selector.find('.resources-available').removeClass('empty');

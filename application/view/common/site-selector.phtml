@@ -1,6 +1,6 @@
 <div id="site-selector" class='selector sidebar active'>
     <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
-    <div class="resources-available">
+    <div class="resources-available" data-all-resources-count="<?php echo $totalCount; ?>">
     <h3><?php echo $this->translate('Click on a site to add it to the edit panel.'); ?></h3>
     <input type="text" class="selector-filter" placeholder="<?php echo $this->escapeHtml($this->translate('Filter sites')); ?>">
     <ul>

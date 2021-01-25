@@ -56,22 +56,21 @@ var Omeka = {
         var filter = $(this).val().toLowerCase();
         var selector = $(this).closest('.selector');
         var totalCount = 0;
+        selector.addClass('filtered');
         selector.find('li.selector-parent').each(function() {
             var parent = $(this);
             var count = 0;
             parent.find('li.selector-child').each(function() {
                 var child = $(this);
                 var label = child.data('child-search').toLowerCase();
-                var childId = child.data('resource-id');
-                var childRow = $('.resource-id[value="' + childId + '"]');
-                if ((label.indexOf(filter) > -1) && (childRow.length == 0)) {
+                if ((label.indexOf(filter) > -1) && (!child.hasClass('added'))) {
                     // Label contains the filter string. Show the child.
-                    child.show();
+                    child.addClass('filter-match');
                     totalCount++;
                     count++;
                 } else {
                     // Label doesn't contain the filter string. Hide the child.
-                    child.hide();
+                    child.removeClass('filter-match');
                 }
             });
             if (count > 0) {
@@ -85,6 +84,8 @@ var Omeka = {
         });
         if (filter == '') {
             selector.find('li.selector-parent').removeClass('show');
+            selector.removeClass('filtered');
+            $('.filter-match').removeClass('filter-match');
         }
         selector.find('span.selector-total-count').text(totalCount);
     },
@@ -196,7 +197,7 @@ var Omeka = {
         var existingRowData = table.data('existing-rows');
         var rowTemplate = $($.parseHTML(table.data('rowTemplate')));
         var selector = $(selectorId);
-        var totalCount = $('.resources-available').data('all-resources-count');
+        var totalCount = $('.resources-available').data('all-resources-countgit ');
         var selectorCount = $(selectorId).find('.selector-total-count');
       
         var parentToggle = function(e) {
@@ -280,6 +281,10 @@ var Omeka = {
                 table.addClass('empty');
             }
         });
+    },
+    
+    checkSelectedResource : function(tableId, resourceId) {
+        
     },
 
 

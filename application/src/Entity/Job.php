@@ -51,7 +51,7 @@ class Job extends AbstractEntity
     protected $class;
 
     /**
-     * @Column(type="json_array", nullable=true)
+     * @Column(type="json", nullable=true)
      */
     protected $args;
 

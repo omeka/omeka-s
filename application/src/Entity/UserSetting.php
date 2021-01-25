@@ -20,7 +20,7 @@ class UserSetting extends AbstractEntity
     protected $user;
 
     /**
-     * @Column(type="json_array")
+     * @Column(type="json")
      */
     protected $value;
 

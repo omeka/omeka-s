@@ -29,7 +29,7 @@ class SitePageBlock extends AbstractEntity
     protected $layout;
 
     /**
-     * @Column(type="json_array")
+     * @Column(type="json")
      */
     protected $data;
 

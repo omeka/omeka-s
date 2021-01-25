@@ -62,7 +62,7 @@ class Page implements LinkInterface
     public function toJstree(array $data, SiteRepresentation $site)
     {
         return [
-            'label' => $data['label'],
+            'label' => $data['label'] ?? '',
             'id' => $data['id'],
         ];
     }

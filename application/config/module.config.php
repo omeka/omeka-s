@@ -228,6 +228,7 @@ return [
         ],
         'thumbnailer_options' => [
             'imagemagick_dir' => null,
+            'vips_dir' => null,
             'page' => 0,
         ],
     ],
@@ -260,6 +261,7 @@ return [
             'Omeka\File\Thumbnailer\Gd' => Service\File\Thumbnailer\GdFactory::class,
             'Omeka\File\Thumbnailer\Imagick' => Service\File\Thumbnailer\ImagickFactory::class,
             'Omeka\File\Thumbnailer\NoThumbnail' => Service\File\Thumbnailer\NoThumbnailFactory::class,
+            'Omeka\File\Thumbnailer\Vips' => Service\File\Thumbnailer\VipsFactory::class,
             'Omeka\File\Store\Local' => Service\File\Store\LocalFactory::class,
             'Omeka\File\MediaTypeMap' => Service\MediaTypeMapFactory::class,
             'Omeka\File\ThumbnailManager' => Service\File\ThumbnailManagerFactory::class,

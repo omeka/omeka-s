@@ -228,7 +228,7 @@ return [
         ],
         'thumbnailer_options' => [
             'imagemagick_dir' => null,
-            'vips_dir' => null,
+            'vips_dir' => false,
             'page' => 0,
         ],
     ],
@@ -257,8 +257,9 @@ return [
             'Omeka\Site\ThemeManager' => Service\ThemeManagerFactory::class,
             'Omeka\Site\NavigationLinkManager' => Service\NavigationLinkManagerFactory::class,
             'Omeka\Site\NavigationTranslator' => Service\SiteNavigationTranslatorFactory::class,
-            'Omeka\File\Thumbnailer\ImageMagick' => Service\File\Thumbnailer\ImageMagickFactory::class,
+            'Omeka\File\Thumbnailer\Auto' => Service\File\Thumbnailer\AutoFactory::class,
             'Omeka\File\Thumbnailer\Gd' => Service\File\Thumbnailer\GdFactory::class,
+            'Omeka\File\Thumbnailer\ImageMagick' => Service\File\Thumbnailer\ImageMagickFactory::class,
             'Omeka\File\Thumbnailer\Imagick' => Service\File\Thumbnailer\ImagickFactory::class,
             'Omeka\File\Thumbnailer\NoThumbnail' => Service\File\Thumbnailer\NoThumbnailFactory::class,
             'Omeka\File\Thumbnailer\Vips' => Service\File\Thumbnailer\VipsFactory::class,
@@ -294,7 +295,7 @@ return [
         ],
         'aliases' => [
             'Omeka\File\Store' => 'Omeka\File\Store\Local',
-            'Omeka\File\Thumbnailer' => 'Omeka\File\Thumbnailer\ImageMagick',
+            'Omeka\File\Thumbnailer' => 'Omeka\File\Thumbnailer\Auto',
             'Omeka\Job\DispatchStrategy' => 'Omeka\Job\DispatchStrategy\PhpCli',
             'Omeka\JobDispatcher' => 'Omeka\Job\Dispatcher',
             'Laminas\Authentication\AuthenticationService' => 'Omeka\AuthenticationService',

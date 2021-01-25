@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Omeka\Service\File\Thumbnailer;
 
 use Omeka\File\Thumbnailer\Vips;
@@ -21,10 +22,10 @@ class VipsFactory implements FactoryInterface
             $services->get('Omeka\File\TempFileFactory')
         );
 
-        // Set path one time.
-        $vipsPath = $services->get('Config')['thumbnails']['thumbnailer_options']['vips_dir'];
+        // Set path one time. Don't check if the path is false.
+        $vipsDir = $services->get('Config')['thumbnails']['thumbnailer_options']['vips_dir'];
         try {
-            $vips->setVipsPath($vipsPath);
+            $vips->setVipsPath($vipsDir);
         } catch (\Omeka\File\Exception\InvalidThumbnailerException $e) {
         }
 

@@ -194,7 +194,7 @@ class Vips extends AbstractThumbnailer
     public function setVipsPath($vipsDir): self
     {
         $cli = $this->cli;
-        if (empty($vipsDir)) {
+        if (is_null($vipsDir)) {
             $vipsPath = $cli->getCommandPath(self::VIPS_COMMAND);
             if (false === $vipsPath) {
                 throw new Exception\InvalidThumbnailerException('Vips error: cannot determine path to vips command.');
@@ -204,6 +204,8 @@ class Vips extends AbstractThumbnailer
             if (false === $vipsPath) {
                 throw new Exception\InvalidThumbnailerException('Vips error: invalid vips command.');
             }
+        } else {
+            $vipsPath = false;
         }
         $this->vipsPath = $vipsPath;
         return $this;

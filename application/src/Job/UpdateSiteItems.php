@@ -19,7 +19,8 @@ use Omeka\Job\Exception\InvalidArgumentException;
 class UpdateSiteItems extends AbstractJob
 {
     /**
-     * @var Valid actions
+     * Valid actions
+     * @var array
      */
     protected $actions = ['add', 'replace', 'remove', 'remove_all'];
 

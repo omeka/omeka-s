@@ -749,7 +749,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             ->from($this->getEntityClass(), 'e');
 
         // Exclude the passed entity from the query if it has an persistent
-        // indentifier.
+        // identifier.
         if ($entity->getId()) {
             $qb->andWhere($qb->expr()->neq(
                 'e.id',

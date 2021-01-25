@@ -9,6 +9,7 @@ use Laminas\Permissions\Acl\Role\RoleInterface;
 
 class OwnsEntityAssertion implements AssertionInterface
 {
+    // Not an Omeka resource interface.
     public function assert(Acl $acl, RoleInterface $role = null,
         ResourceInterface $resource = null, $privilege = null
     ) {

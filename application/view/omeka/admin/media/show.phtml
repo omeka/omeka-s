@@ -18,7 +18,7 @@ $sectionNavs = [
 
 <div id="media-metadata" class="active section">
     <?php echo $media->render(); ?>
-    <?php if ( $media->resourceClass()): ?>
+    <?php if ($media->resourceClass()): ?>
         <div class="meta-group">
             <h4><?php echo $translate('Class'); ?></h4>
             <div class="value"><?php echo $media->resourceClass()->label(); ?></div>

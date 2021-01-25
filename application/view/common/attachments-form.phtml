@@ -5,7 +5,7 @@ $attachments = $block ? $block->attachments() : [];
 $attachmentRowTemplate = '
  <div class="attachment">
     <span class="sortable-handle"></span>
-    <div class="item-title">'. $escape($translate('No item selected')) . '</div>
+    <div class="item-title">' . $escape($translate('No item selected')) . '</div>
     <ul class="actions">
         <li>' . $this->hyperlink('', '#', ['class' => 'attachment-options-icon o-icon-configure button', 'title' => $translate('Open attachment options')]) . '</li>
         <li class="delete">' . $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]) . '</li>
@@ -36,7 +36,7 @@ $attachmentRowTemplate = '
         $media = $attachment->media();
         if ($media) {
             $mediaId = $media->id();
-        } else if ($item) {
+        } elseif ($item) {
             $media = $item->primaryMedia();
         }
 

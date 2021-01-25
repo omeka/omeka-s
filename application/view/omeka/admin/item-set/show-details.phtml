@@ -18,5 +18,5 @@ $escape = $this->plugin('escapeHtml');
         <h4><?php echo $translate('Items'); ?></h4>
         <div class="value"><?php echo $this->hyperlink($resource->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $resource->id()]])); ?></div>
     </div>
-    <?php $this->trigger('view.details', array('entity' => $resource)); ?>
+    <?php $this->trigger('view.details', ['entity' => $resource]); ?>
 </div>

@@ -5,16 +5,16 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 $sortHeadings = [
     [
         'label' => $translate('Title'),
-        'value' => 'title'
+        'value' => 'title',
     ],
     [
         'label' => $translate('URL slug'),
-        'value' => 'slug'
+        'value' => 'slug',
     ],
     [
         'label' => $translate('Owner'),
-        'value' => 'owner_name'
-    ]
+        'value' => 'owner_name',
+    ],
 ];
 ?>
 
@@ -50,8 +50,8 @@ $sortHeadings = [
                 $this->url('admin/id', [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id()]
-                )
+                    'id' => $owner->id(),
+                ])
             );
         } else {
             $ownerText = $translate('[no owner]');

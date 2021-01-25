@@ -94,7 +94,7 @@ if ($hasProperty) {
         if (count($property['data_types']) !== count($property['o:data_type'])):
             $dataTypes .= $this->dataType()->getSelect(
                 sprintf('data_types[%s]', $key),
-                isset($property['o:data_type']) ? $property['o:data_type'] : null,
+                $property['o:data_type'] ?? null,
                 ['style' => 'width:100%;', 'class' => 'chosen-select', 'multiple' => 'multiple', 'data-placeholder' => $translate('Select data types…')]
             );
         endif;

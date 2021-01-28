@@ -344,26 +344,26 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         if (empty($options['type'])) {
             $types = false;
         } elseif (is_array($options['type'])) {
-            $types = $options['type'];
+            $types = array_fill_keys(array_map('mb_strtolower', $options['type']), true);
         } else {
-            $types = [$options['type']];
+            $types = [mb_strtolower($options['type']) => true];
         }
 
         if (empty($options['lang'])) {
             $langs = false;
         } elseif (is_array($options['lang'])) {
-            $langs = $options['lang'];
+            $langs = array_fill_keys(array_map('mb_strtolower', $options['lang']), true);
         } else {
-            $langs = [$options['lang']];
+            $langs = [mb_strtolower($options['lang']) => true];
         }
 
         // Match only the representations that fit all the criteria.
         $matchingValues = [];
         foreach ($this->values()[$term]['values'] as $value) {
-            if ($types && !in_array($value->type(), $types)) {
+            if ($types && empty($types[mb_strtolower($value->type())])) {
                 continue;
             }
-            if ($langs && !in_array($value->lang(), $langs)) {
+            if ($langs && empty($langs[mb_strtolower($value->lang())])) {
                 continue;
             }
             $matchingValues[] = $value;

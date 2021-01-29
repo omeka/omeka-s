@@ -344,26 +344,26 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         if (empty($options['type'])) {
             $types = false;
         } elseif (is_array($options['type'])) {
-            $types = array_fill_keys(array_map('mb_strtolower', $options['type']), true);
+            $types = array_fill_keys(array_map('strtolower', $options['type']), true);
         } else {
-            $types = [mb_strtolower($options['type']) => true];
+            $types = [strtolower($options['type']) => true];
         }
 
         if (empty($options['lang'])) {
             $langs = false;
         } elseif (is_array($options['lang'])) {
-            $langs = array_fill_keys(array_map('mb_strtolower', $options['lang']), true);
+            $langs = array_fill_keys(array_map('strtolower', $options['lang']), true);
         } else {
-            $langs = [mb_strtolower($options['lang']) => true];
+            $langs = [strtolower($options['lang']) => true];
         }
 
         // Match only the representations that fit all the criteria.
         $matchingValues = [];
         foreach ($this->values()[$term]['values'] as $value) {
-            if ($types && empty($types[mb_strtolower($value->type())])) {
+            if ($types && empty($types[strtolower($value->type())])) {
                 continue;
             }
-            if ($langs && empty($langs[mb_strtolower($value->lang())])) {
+            if ($langs && empty($langs[strtolower($value->lang())])) {
                 continue;
             }
             $matchingValues[] = $value;

@@ -52,6 +52,8 @@ $itemMedia = $item->media();
 
 
 <div class="sidebar active">
+    <?php echo '<p><a href="https://nfpl.historicniagara.ca/s/All/item/' . $item->id() . '" target="_blank">Public View of Item</a></p>';?>
+
     <?php echo $this->thumbnail($item, 'square'); ?>
     <div class="meta-group">
         <h4><?php echo $translate('Visibility'); ?></h4>

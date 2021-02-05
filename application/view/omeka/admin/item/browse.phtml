@@ -23,6 +23,10 @@ $sortHeadings = [
         'label' => $translate('Created'),
         'value' => 'created'
     ],
+    [
+        'label' => $translate('Bibligraphic Citation'),
+        'value' => 'dcterms:bibliographicCitation'
+    ],
 ];
 ?>
 
@@ -71,7 +75,9 @@ $sortHeadings = [
         <tr>
             <th><input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>"><?php echo $translate('Title'); ?></th>
             <th><?php echo $translate('Class'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
+            <th><?php echo $translate('Date'); ?></th>
+            <th><?php echo $translate('Type'); ?></th>
+            <th><?php echo $translate('Bib Citation'); ?></th>
             <th><?php echo $translate('Created'); ?></th>
         </tr>
     </thead>
@@ -124,8 +130,11 @@ $sortHeadings = [
                 </ul>
             </td>
             <td><?php echo $escape($translate($item->displayResourceClassLabel())); ?></td>
-            <td><?php echo $ownerText; ?></td>
+            <td><?php echo $item->value('dcterms:date'); ?></td>
+            <td><?php echo $item->value('dcterms:type'); ?></td>
+            <td><?php echo $item->value('dcterms:bibliographicCitation'); ?></td>
             <td><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></td>
+
         </tr>
         <?php endforeach; ?>
     </tbody>

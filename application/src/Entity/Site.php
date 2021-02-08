@@ -35,6 +35,12 @@ class Site extends AbstractEntity
      * @Column(type="text", nullable=true)
      */
     protected $summary;
+    
+    /**
+     * @ManyToOne(targetEntity="Asset")
+     * @JoinColumn(onDelete="SET NULL")
+     */
+    protected $thumbnail;
 
     /**
      * @Column(type="json_array")

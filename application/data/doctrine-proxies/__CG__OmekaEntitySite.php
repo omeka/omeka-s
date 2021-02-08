@@ -66,10 +66,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
+            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'thumbnail', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
+        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'thumbnail', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
     }
 
     /**

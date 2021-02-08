@@ -1,13 +1,14 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$labelInfo = $this->setting('property_label_information');
 
 if ($this->status()->isSiteRequest()) {
+    $labelInfo = $this->siteSetting('property_label_information');
     $showLocale = (bool) $this->siteSetting('show_locale_label', true);
     $filterLocale = $this->siteSetting('filter_locale_values');
     $lang = $this->lang();
 } else {
+    $labelInfo = $this->setting('property_label_information');
     $showLocale = true;
     $filterLocale = false;
     $lang = null;

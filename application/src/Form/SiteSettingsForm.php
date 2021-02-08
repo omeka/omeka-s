@@ -71,6 +71,23 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $generalFieldset->add([
+            'name' => 'property_label_information',
+            'type' => 'Select',
+            'options' => [
+                'label' => 'Property label information', // @translate
+                'info' => 'The additional information that accompanies labels on resource pages.', // @translate
+                'value_options' => [
+                    'none' => 'None', // @translate
+                    'vocab' => 'Show Vocabulary', // @translate
+                    'term' => 'Show Term', // @translate
+                ],
+            ],
+            'attributes' => [
+                'value' => $settings->get('property_label_information', 'none'),
+                'id' => 'property_label_information',
+            ],
+        ]);
+        $generalFieldset->add([
             'name' => 'show_page_pagination',
             'type' => 'checkbox',
             'options' => [

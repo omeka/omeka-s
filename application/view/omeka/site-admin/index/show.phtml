@@ -37,3 +37,13 @@ if ($summary):
     <div class="value"><?php echo nl2br($escape($summary)); ?></div>
 </div>
 <?php endif; ?>
+<?php
+$assetId = $site->thumbnailId();
+if ($assetId):
+    $asset = $this->api()->read('assets', $assetId)->getContent();
+?>
+<div class="property">
+    <h4><?php echo $escape($translate('Thumbnail')); ?></h4>
+    <div class="value"><img class="selected-asset-image" src="<?php echo $escape($asset->assetUrl()); ?>"></div>
+</div>
+<?php endif; ?>

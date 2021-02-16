@@ -211,6 +211,7 @@
 .list-of-sites .site-list {
     .site {
         margin-bottom: .5rem;
+        overflow: auto;
     }
 
     .site-link {
@@ -222,5 +223,11 @@
     .site-summary {
         margin: 0 0 0 .5rem;
         line-height: 20px;
+        margin-bottom: .25rem;
+    }
+    
+    .site-thumbnail-image {
+        max-width: 25%;
+        float: left;
     }
 }

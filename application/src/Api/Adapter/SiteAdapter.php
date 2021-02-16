@@ -223,6 +223,8 @@ class SiteAdapter extends AbstractEntityAdapter
                 }
             }
         }
+        
+        $this->hydrateThumbnail($request, $entity);
 
         $this->updateTimestamps($request, $entity);
     }

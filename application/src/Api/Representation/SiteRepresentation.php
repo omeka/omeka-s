@@ -71,6 +71,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:theme' => $this->theme(),
             'o:title' => $this->title(),
             'o:summary' => $this->summary(),
+            'o:thumbnail' => $this->thumbnailId(),
             'o:navigation' => $this->navigation(),
             'o:homepage' => $homepage,
             'o:item_pool' => $this->itemPool(),
@@ -99,6 +100,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function summary()
     {
         return $this->resource->getSummary();
+    }
+    
+    public function thumbnailId()
+    {
+        return $this->resource->getThumbnail() ? $this->resource->getThumbnail()->getId() : null;
     }
 
     public function theme()

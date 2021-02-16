@@ -4100,6 +4100,7 @@ body.minimal {
 
         .site {
             margin-bottom: $spacing-medium;
+            overflow: auto;
         }
 
         .site-link {
@@ -4110,6 +4111,11 @@ body.minimal {
         .site-summary {
             margin: 0 0 0 $spacing-medium;
             line-height: 20px;
+        }
+        
+        .site-thumbnail-image {
+            max-width: 25%;
+            float: left;
         }
     }
 

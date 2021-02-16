@@ -2,7 +2,7 @@
     <div class="site-list">
         <?php
         foreach($sites as $site):
-            echo $this->partial('common/site-list-entry', ['site' => $site, 'showSummary' => $summaries]);
+            echo $this->partial('common/site-list-entry', ['site' => $site, 'showSummary' => $summaries, 'showThumbnail' => $thumbnails]);
         endforeach;
         ?>
     </div>

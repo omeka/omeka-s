@@ -175,6 +175,16 @@ class Site extends AbstractEntity
     {
         return $this->summary;
     }
+    
+    public function setThumbnail(Asset $thumbnail = null)
+    {
+        $this->thumbnail = $thumbnail;
+    }
+
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
+    }
 
     public function setNavigation($navigation)
     {

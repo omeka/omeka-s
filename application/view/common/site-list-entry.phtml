@@ -1,7 +1,12 @@
 <?php
+$thumbnailId = $showThumbnail ? $site->thumbnailId() : null;
 $summary = $showSummary ? $site->summary() : null;
 ?>
 <div class="site">
+    <?php if ($thumbnailId):
+    $thumbnail = $this->api()->read('assets', $thumbnailId)->getContent(); ?>
+    <p class="site-thumbnail"><img class="site-thumbnail-image" src="<?php echo $this->escapeHtml($thumbnail->assetUrl()); ?>"></p>
+    <?php endif; ?>
     <?php echo $this->hyperlink($site->title(), $site->siteUrl(), ['class' => 'site-link']); ?>
     <?php if ($summary): ?>
     <p class="site-summary"><?php echo nl2br($this->escapeHtml($summary)); ?></p>

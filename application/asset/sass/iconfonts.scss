@@ -203,6 +203,10 @@
     @extend .fa-external-link-alt;
 }
 
+.o-icon-copy {
+    @extend .fa-copy;
+}
+
 .screen-reader-text {
     position: absolute;
     top: -9999px;

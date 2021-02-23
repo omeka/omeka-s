@@ -28,6 +28,7 @@ class ListOfPages extends AbstractBlockLayout
     public function prepareForm(PhpRenderer $view)
     {
         $view->headScript()->appendFile($view->assetUrl('vendor/jstree/jstree.min.js', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('js/jstree-plugins.js', 'Omeka'));
         $view->headLink()->appendStylesheet($view->assetUrl('css/jstree.css', 'Omeka'));
     }
 

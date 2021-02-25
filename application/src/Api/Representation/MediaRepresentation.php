@@ -25,6 +25,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             'o:size' => is_numeric($this->size()) ? (int) $this->size() : null,
             'o:filename' => $this->filename(),
             'o:lang' => $this->lang(),
+            'o:alt_text' => $this->altText(),
             'o:original_url' => $this->originalUrl(),
             'o:thumbnail_urls' => $this->thumbnailUrls(),
             'data' => $this->mediaData(),
@@ -246,6 +247,16 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function lang()
     {
         return $this->resource->getLang();
+    }
+
+    /**
+     * Get the alt text for the media.
+     *
+     * @return string|null
+     */
+    public function altText()
+    {
+        return $this->resource->getAltText();
     }
 
     /**

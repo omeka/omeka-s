@@ -155,6 +155,10 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             $entity->setLang($request->getValue('o:lang', null));
         }
 
+        if ($this->shouldHydrate($request, 'o:alt_text')) {
+            $entity->setAltText($request->getValue('o:alt_text'));
+        }
+
         if (Request::CREATE === $request->getOperation()) {
             $ingester->ingest($entity, $request, $errorStore);
         } elseif ($ingester instanceof MutableIngesterInterface) {

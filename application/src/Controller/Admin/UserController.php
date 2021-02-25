@@ -385,6 +385,7 @@ class UserController extends AbstractActionController
                     $this->api($form)->batchUpdate('users', $resourceIds, $properties, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,
+                        'detachEntities' => false,
                     ]);
                 }
 

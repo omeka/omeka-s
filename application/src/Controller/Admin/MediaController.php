@@ -226,6 +226,7 @@ class MediaController extends AbstractActionController
                     $this->api($form)->batchUpdate('media', $resourceIds, $properties, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,
+                        'detachEntities' => false,
                     ]);
                 }
 

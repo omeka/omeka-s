@@ -501,11 +501,27 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * Get the display title for this resource.
      *
      * @param string|null $default
+     * @param string|null $lang
      * @return string|null
      */
-    public function displayTitle($default = null)
+    public function displayTitle($default = null, $lang = null)
     {
-        $title = $this->title();
+        if ($lang !== null) {
+            $values = $this->values();
+
+            // TODO Retrieve Title property term instead of default dcterms:title
+            // TODO Test value return (null if none)
+            $titleValue = $this->value('dcterms:title', ['lang' => $lang]);
+            if ($titleValue !== null) {
+                $title = $titleValue->value();
+            }
+        }
+        
+        if (!isset($title) || $title === null)
+        {
+            $title = $this->title();
+        }
+        
         if ($title === null) {
             if ($default === null) {
                 $translator = $this->getServiceLocator()->get('MvcTranslator');
@@ -526,9 +542,10 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * Get the display description for this resource.
      *
      * @param string|null $default
+     * @param string|null $lang
      * @return string|null
      */
-    public function displayDescription($default = null)
+    public function displayDescription($default = null, $lang = null)
     {
         $template = $this->resourceTemplate();
         if ($template && $template->descriptionProperty()) {
@@ -537,7 +554,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $descriptionTerm = 'dcterms:description';
         }
 
-        $description = (string) $this->value($descriptionTerm, ['default' => $default]);
+        if ($lang !== null) {
+            $description = $this->value($descriptionTerm, ['lang' => $lang])->value();
+        }
+        else {
+            $description = (string) $this->value($descriptionTerm, ['default' => $default]);
+        }
 
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs(['description' => $description]);

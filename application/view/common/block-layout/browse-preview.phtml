@@ -16,7 +16,7 @@ $showBody = in_array('resource-body', $this->components);
 $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
 foreach ($this->resources as $resource):
-    $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]')]) : $resource->displayTitle();
+    $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]')]) : $resource->displayTitle(null, "fr-FR");
     $body = $bodyTerm ? $resource->value($bodyTerm) : $resource->displayDescription();
 ?>
     <li class="<?php echo $this->resourceType; ?> resource">

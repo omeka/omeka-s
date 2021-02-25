@@ -20,8 +20,8 @@ $this->htmlElement('body')->appendAttribute('class', 'item-set resource browse')
 $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
 foreach ($itemSets as $itemSet):
-    $heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate('[Untitled]')]) : $itemSet->displayTitle();
-    $body = $bodyTerm ? $itemSet->value($bodyTerm) : $itemSet->displayDescription();
+$heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate('[Untitled]')]) : $itemSet->displayTitle(null, $this->lang());
+    $body = $bodyTerm ? $itemSet->value($bodyTerm) : $itemSet->displayDescription(null, $this->lang());
 ?>
     <li class="item-set resource">
         <?php if($itemSetThumbnail = $this->thumbnail($itemSet, 'medium')): ?>

@@ -109,7 +109,17 @@ class SiteSettingsForm extends Form
                 'id' => 'disable_jsonld_embed',
             ],
         ]);
-        $generalFieldset->add([
+        
+        // Language section
+        $this->add([
+            'type' => 'fieldset',
+            'name' => 'language',
+            'options' => [
+                'label' => 'Language', // @translate
+            ],
+        ]);
+        $langFieldset = $this->get('language');
+        $langFieldset->add([
             'name' => 'locale',
             'id' => 'locale',
             'type' => 'Omeka\Form\Element\LocaleSelect',
@@ -123,6 +133,35 @@ class SiteSettingsForm extends Form
                 'class' => 'chosen-select',
             ],
         ]);
+        
+        $langFieldset->add([
+            'name' => 'filter_locale_values',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Filter values based on site localization', // @translate
+                'info' => 'Check to show only values matching the site language setting and values without locale ID.',
+            ],
+            'attributes' => [
+                'id' => 'filter_locale_values',
+                'value' => (bool) $settings->get('filter_locale_values', false),
+            ],
+        ]);
+        
+        $langFieldset->add([
+            'name' => 'show_locale_label',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Show values locale labels', // @translate
+                'info' => 'Check to show locale labels in front of properties values when applicable. Leave unchecked to hide those labels.',
+            ],
+            'attributes' => [
+                'id' => 'show_locale_label',
+                'value' => (bool) $settings->get('show_locale_label', false),
+            ],
+        ]);
+        
+        
+        
 
         $generalFieldset->add([
             'name' => 'show_locale_label',

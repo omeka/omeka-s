@@ -506,13 +506,15 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displayTitle($default = null, $lang = null)
     {
+        $template = $this->resourceTemplate();
+        if ($template && $template->titleProperty()) {
+            $titleTerm = $template->titleProperty()->term();
+        } else {
+            $titleTerm = 'dcterms:title';
+        }
+        
         if ($lang !== null) {
-            $values = $this->values();
-
-            // TODO Retrieve Title property term instead of default dcterms:title
-            // TODO Test value return (null if none)
-            $titleValue = $this->value('dcterms:title', ['lang' => $lang]);
-            if ($titleValue !== null) {
+            if ($titleValue = $this->value($titleTerm, ['lang' => $lang])) {
                 $title = $titleValue->value();
             }
         }
@@ -555,12 +557,16 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         if ($lang !== null) {
-            $description = $this->value($descriptionTerm, ['lang' => $lang])->value();
+            if ($descriptionValue = $this->value($descriptionTerm, ['default' => $default, 'lang' => $lang])) {
+                $description = $descriptionValue->value();
+            }
         }
-        else {
+        
+        if (!isset($description) || $description === null)
+        {
             $description = (string) $this->value($descriptionTerm, ['default' => $default]);
         }
-
+        
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs(['description' => $description]);
         $eventManager->trigger('rep.resource.display_description', $this, $args);

@@ -3,6 +3,9 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'item resource browse');
 
+$filterLocale = $this->siteSetting('filter_locale_values');
+$lang = $this->lang();
+
 $query = $this->params()->fromQuery();
 $itemSetShow = isset($itemSet);
 if ($itemSetShow):
@@ -30,7 +33,7 @@ $sortHeadings = [
 ?>
 
 <?php if ($itemSetShow): ?>
-    <?php echo $this->pageTitle($itemSet->displayTitle(null, $this->lang()), 2); ?>
+    <?php echo $this->pageTitle($itemSet->displayTitle(null, ($filterLocale == 1 ? $this->lang() : null)), 2); ?>
     <h3><?php echo $translate('Item set'); ?></h3>
     <div class="metadata">
         <?php echo $itemSet->displayValues(); ?>

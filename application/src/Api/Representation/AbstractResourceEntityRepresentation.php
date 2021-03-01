@@ -512,18 +512,17 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         } else {
             $titleTerm = 'dcterms:title';
         }
-        
+
         if ($lang !== null) {
             if ($titleValue = $this->value($titleTerm, ['lang' => $lang])) {
                 $title = $titleValue->value();
             }
         }
-        
-        if (!isset($title) || $title === null)
-        {
+
+        if (!isset($title) || $title === null) {
             $title = $this->title();
         }
-        
+
         if ($title === null) {
             if ($default === null) {
                 $translator = $this->getServiceLocator()->get('MvcTranslator');
@@ -561,12 +560,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
                 $description = $descriptionValue->value();
             }
         }
-        
-        if (!isset($description) || $description === null)
-        {
+
+        if (!isset($description) || $description === null) {
             $description = (string) $this->value($descriptionTerm, ['default' => $default]);
         }
-        
+
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs(['description' => $description]);
         $eventManager->trigger('rep.resource.display_description', $this, $args);

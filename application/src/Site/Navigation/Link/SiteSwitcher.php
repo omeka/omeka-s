@@ -1,14 +1,11 @@
 <?php
 namespace Omeka\Site\Navigation\Link;
 
-use Omeka\Site\Navigation\Link\LinkInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Api\Representation\SiteRepresentation;
-use RoleBasedNavigation\Module;
 
 class SiteSwitcher implements LinkInterface
 {
-
     /**
      * Get the link type name.
      *
@@ -76,10 +73,10 @@ class SiteSwitcher implements LinkInterface
     {
         $path = $_SERVER["REQUEST_URI"];
 
-        $path = preg_replace('/^\/s\/' . $site->slug() .'/', '/s/' . $data['site-slug'], $path);
+        $path = preg_replace('/^\/s\/' . $site->slug() . '/', '/s/' . $data['site-slug'], $path);
 
         $result = [
-            'uri' => $path
+            'uri' => $path,
         ];
 
         return $result;

@@ -109,7 +109,7 @@ class SiteSettingsForm extends Form
                 'id' => 'disable_jsonld_embed',
             ],
         ]);
-        
+
         // Language section
         $this->add([
             'type' => 'fieldset',
@@ -133,7 +133,7 @@ class SiteSettingsForm extends Form
                 'class' => 'chosen-select',
             ],
         ]);
-        
+
         $langFieldset->add([
             'name' => 'filter_locale_values',
             'type' => 'checkbox',
@@ -146,7 +146,7 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('filter_locale_values', false),
             ],
         ]);
-        
+
         $langFieldset->add([
             'name' => 'show_locale_label',
             'type' => 'checkbox',
@@ -159,9 +159,6 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('show_locale_label', false),
             ],
         ]);
-        
-        
-        
 
         $generalFieldset->add([
             'name' => 'show_locale_label',

@@ -9,10 +9,15 @@ $ids = array_filter($ids);
 if (!$ids) {
     $ids = [null];
 }
+
+$filterLocale = $this->siteSetting('filter_locale_values');
+$lang = $this->lang();
+
 if ($this->status()->isSiteRequest()) {
     $selectOptions = [
         'disable_group_by_owner' => true,
         'query' => ['site_id' => $this->layout()->site->id()],
+        'lang' => ($filterLocale == 1 ? $lang : null)
     ];
 } else {
     $selectOptions = [];

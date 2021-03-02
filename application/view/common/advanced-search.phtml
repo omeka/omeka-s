@@ -1,6 +1,5 @@
 <?php
 $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 
 $query = isset($query) ? $query : null;
 $resourceType = isset($resourceType) ? $resourceType : null;
@@ -51,3 +50,57 @@ foreach ($partials as $partial) {
 }
 ?>
 </div>
+<script>
+// The property values need an index.
+var index = $('#property-queries .value').length;
+// Prepare the multi-value templates used for duplicating values.
+$('.multi-value.field').each(function() {
+    var field = $(this);
+    var value = field.find('.value').first().clone();
+    var valueHtml = value.wrap('<div></div>').parent().html();
+    field.data('field-template', valueHtml);
+});
+// Disable query text according to query type.
+function disableQueryTextInput() {
+    var queryType = $(this);
+    var queryText = queryType.siblings('.query-text');
+    if (queryType.val() === 'ex' || queryType.val() === 'nex') {
+        queryText.prop('disabled', true);
+    } else {
+        queryText.prop('disabled', false);
+    }
+}
+$('#advanced-search').find('.query-type').each(disableQueryTextInput);
+
+// Add event handlers one time only or risk duplicating behavior.
+if (!$('body').hasClass('advanced-search-loaded')) {
+    // Add a multi-value.
+    $(document).on('click', '.multi-value .add-value', function(e) {
+        e.preventDefault();
+        var fieldContainer = $(this).parents('.field');
+        var template = fieldContainer.data('field-template');
+        var newValue = $(template);
+        newValue.children('input[type="text"]').val(null);
+        newValue.children('select').prop('selectedIndex', 0);
+        newValue.appendTo(fieldContainer.find('.inputs'));
+        newValue.trigger('o:value-created');
+    });
+    // Remove a multi-value.
+    $(document).on('click', '.multi-value .remove-value', function(e) {
+        e.preventDefault();
+        $(this).closest('.value').remove();
+    });
+    // Set an index to property values and increment.
+    $(document).on('o:value-created', '.value', function(e) {
+        var value = $(this);
+        value.children(':input').attr('name', function () {
+            return this.name.replace(/\[\d\]/, '[' + index + ']');
+        });
+        index++;
+    });
+    // Disable query text according to query type.
+    $(document).on('change', '.query-type', disableQueryTextInput);
+    // Flag that the advanced form was loaded.
+    $('body').addClass('advanced-search-loaded');
+}
+</script>

@@ -5,20 +5,23 @@ $(document).ready(function () {
     $('#content').on('click', '.query-form-edit', function (e) {
         selectingElement = $(this).closest('.query-form-element');
         Omeka.openSidebar(sidebar);
-        Omeka.populateSidebarContent(sidebar, selectingElement.data('sidebar-content-url') + '?' + selectingElement.find('.query-form-text').val());
+        const url = selectingElement.data('sidebar-content-url');
+        // The advanced search form will not recognize the first parameter if it begins with "?".
+        const query = selectingElement.find('.query-form-query').val().trim().replace(/^\?+/g, '');
+        Omeka.populateSidebarContent(sidebar, `${url}?${query}`);
     });
     $('#content').on('click', '.query-form-restore', function (e) {
         selectingElement = $(this).closest('.query-form-element');
-        selectingElement.find('.query-form-text').val(selectingElement.data('query'));
+        selectingElement.find('.query-form-query').val(selectingElement.data('query'));
         Omeka.closeSidebar(sidebar);
     });
     $('#content').on('click', '.query-form-clear', function (e) {
         selectingElement = $(this).closest('.query-form-element');
-        selectingElement.find('.query-form-text').val('');
+        selectingElement.find('.query-form-query').val('');
         Omeka.closeSidebar(sidebar);
     });
     $('#content').on('click', '.query-form-set', function (e) {
-        selectingElement.find('.query-form-text').val($('#advanced-search').serialize());
+        selectingElement.find('.query-form-query').val($('#advanced-search').serialize());
         Omeka.closeSidebar(sidebar);
     });
     $('#content').on('click', '.query-form-reset', function (e) {

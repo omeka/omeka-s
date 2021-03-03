@@ -1,0 +1,11 @@
+<?php
+$this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/query-form.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
+?>
+<div class="query-form-element" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-search'])); ?>">
+    <input type="text" class="query-form-query" value="<?php echo $this->escapeHtml($element->getValue()); ?>" disabled>
+    <button type="button" class="query-form-edit"><?php echo $this->translate('Edit query'); ?></button>
+    <button type="button" class="query-form-clear red button"><?php echo $this->translate('Clear query'); ?></button>
+    <?php echo $this->formHidden($element); ?>
+</div>

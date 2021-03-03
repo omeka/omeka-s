@@ -42,7 +42,7 @@ $lang = $this->lang();
                 <?php if (($showLocale == 1) && ($valueLang)): ?>
                 <span class="language"><?php echo $valueLang; ?></span>
                 <?php endif; ?>
-                <?php echo $value->asHtml(); ?>
+                <?php echo $value->asHtml($lang); ?>
             </div>
             <?php endif; ?>
         <?php endforeach; ?>

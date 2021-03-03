@@ -594,6 +594,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @return string
      */
     public function linkPretty(
+        $lang = null,
         $thumbnailType = 'square',
         $titleDefault = null,
         $action = null,
@@ -604,7 +605,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $linkContent = sprintf(
             '%s<span class="resource-name">%s</span>',
             $thumbnail($this, $thumbnailType),
-            $escape($this->displayTitle($titleDefault))
+            $escape($this->displayTitle($titleDefault, $lang))
         );
         if (empty($attributes['class'])) {
             $attributes['class'] = 'resource-link';

@@ -3,8 +3,11 @@ $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 
 $this->headLink()->appendStylesheet($this->assetUrl('css/query-form.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
 ?>
-<div class="query-form-element" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-search'])); ?>">
+<div class="query-form-element"
+    data-query="<?php echo $this->escapeHtml($element->getValue()); ?>"
+    data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-search'])); ?>">
     <?php echo $this->formText($element); ?>
-    <button type="button" class="query-form-edit"><?php echo $this->translate('Edit query'); ?></button>
-    <button type="button" class="query-form-clear red button"><?php echo $this->translate('Clear query'); ?></button>
+    <button type="button" class="query-form-edit"><?php echo $this->translate('Edit'); ?></button>
+    <button type="button" class="query-form-restore red button"><?php echo $this->translate('Restore'); ?></button>
+    <button type="button" class="query-form-clear red button"><?php echo $this->translate('Clear'); ?></button>
 </div>

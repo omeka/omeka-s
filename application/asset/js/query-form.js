@@ -24,6 +24,11 @@ $(document).ready(function () {
         selectingElement.find('.query-form-query').val($('#advanced-search').serialize());
         Omeka.closeSidebar(sidebar);
     });
+    $('#content').on('click', '.query-form-preview', function (e) {
+        const url = selectingElement.data('previewUrl');
+        const query = $('#advanced-search').serialize();
+        window.open(`${url}?${query}`, '_blank');
+    });
     $('#content').on('click', '.query-form-reset', function (e) {
         Omeka.populateSidebarContent(sidebar, selectingElement.data('sidebar-content-url'));
     });

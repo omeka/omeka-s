@@ -21,7 +21,7 @@ $(document).ready(function () {
         Omeka.closeSidebar(sidebar);
     });
     $('#content').on('click', '.query-form-set', function (e) {
-        selectingElement.find('.query-form-query').val($('#advanced-search').serialize());
+        selectingElement.find('.query-form-query').val(decodeURIComponent($('#advanced-search').serialize()));
         Omeka.closeSidebar(sidebar);
     });
     $('#content').on('click', '.query-form-preview', function (e) {

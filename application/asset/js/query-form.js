@@ -7,7 +7,7 @@ $(document).ready(function () {
         Omeka.openSidebar(sidebar);
         const url = selectingElement.data('sidebar-content-url');
         // The advanced search form will not recognize the first parameter if it begins with "?".
-        const query = selectingElement.find('.query-form-query').val().trim().replace(/^\?+/g, '');
+        const query = selectingElement.find('.query-form-query').val().trim().replace(/^\?+/, '');
         Omeka.populateSidebarContent(sidebar, `${url}?${query}`);
     });
     $('#content').on('click', '.query-form-restore', function (e) {

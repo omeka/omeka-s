@@ -10,6 +10,6 @@ $this->htmlElement('body')->appendAttribute('class', 'item-sets search');
 ); ?>
 <div id="page-actions">
     <?php echo $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
-    <input type="submit" name="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">
+    <input type="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">
 </div>
 </form>

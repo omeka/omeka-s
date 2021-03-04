@@ -100,6 +100,10 @@ if (!$('body').hasClass('advanced-search-loaded')) {
     });
     // Disable query text according to query type.
     $(document).on('change', '.query-type', disableQueryTextInput);
+    // Clean the query before submitting the form.
+    $('#advanced-search').on('submit', function(e) {
+        Omeka.cleanSearchQuery($(this));
+    });
     // Flag that the advanced form was loaded.
     $('body').addClass('advanced-search-loaded');
 }

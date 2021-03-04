@@ -284,6 +284,40 @@ var Omeka = {
     // while in the spec, it does not represent current usage.
     langIsValid: function(lang) {
         return lang.match(/^(((en-GB-oed|i-ami|i-bnn|i-default|i-enochian|i-hak|i-klingon|i-lux|i-mingo|i-navajo|i-pwn|i-tao|i-tay|i-tsu|sgn-BE-FR|sgn-BE-NL|sgn-CH-DE)|(art-lojban|cel-gaulish|no-bok|no-nyn|zh-guoyu|zh-hakka|zh-min|zh-min-nan|zh-xiang))|((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?))(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+))$/);
+    },
+
+    // Clean the search query of empty or otherwise unneeded inputs.
+    cleanSearchQuery: function(form) {
+        form.find(':input').each(function(index) {
+            const input = $(this);
+            const inputName = input.attr('name');
+            const inputValue = input.val();
+            if (inputName && '' === inputValue) {
+                const inputNames = [
+                    'fulltext_search',
+                    'resource_class_id[]',
+                    'resource_template_id[]',
+                    'item_set_id[]',
+                    'site_id',
+                    'owner_id',
+                    'media_type',
+                ];
+                if (inputNames.includes(inputName)) {
+                    input.prop('name', '');
+                } else {
+                    const match = inputName.match(/property\[(\d+)\]\[text\]/);
+                    if (match) {
+                        const propertyType = form.find(`[name="property[${match[1]}][type]"]`);
+                        if (['eq', 'neq', 'in', 'nin', 'res', 'nres'].includes(propertyType.val())) {
+                            form.find(`[name="property[${match[1]}][joiner]"]`).prop('name', '');
+                            form.find(`[name="property[${match[1]}][property]"]`).prop('name', '');
+                            form.find(`[name="property[${match[1]}][text]"]`).prop('name', '');
+                            propertyType.prop('name', '');
+                        }
+                    }
+                }
+            }
+        });
     }
 };
 

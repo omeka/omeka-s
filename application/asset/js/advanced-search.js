@@ -31,7 +31,7 @@ $(document).ready(function () {
     $(document).on('change', '.query-type', Omeka.disableQueryTextInput);
 
     // Clean the query before submitting the form.
-    $('#advanced-search').on('submit', function(e) {
+    $(document).on('submit', '#advanced-search', function(e) {
         Omeka.cleanSearchQuery($(this));
     });
 

@@ -13,18 +13,29 @@ class QueryController extends AbstractActionController
     {
         $view = new ViewModel;
         $view->setTerminal(true);
+        $view->setVariable('resourceType', $this->params()->fromQuery('query_resource_type'));
         return $view;
     }
 
     public function sidebarPreviewAction()
     {
+        switch ($this->params()->fromQuery('query_resource_type')) {
+            case 'item_set':
+                $apiResource = 'item_sets';
+                break;
+            case 'media':
+                $apiResource = 'media';
+                break;
+            default:
+                $apiResource = 'items';
+        }
         $this->setBrowseDefaults('created');
-        $response = $this->api()->search('items', $this->params()->fromQuery());
+        $response = $this->api()->search($apiResource , $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 
         $view = new ViewModel;
         $view->setTerminal(true);
-        $view->setVariable('items', $response->getContent());
+        $view->setVariable('resources', $response->getContent());
         return $view;
     }
 }

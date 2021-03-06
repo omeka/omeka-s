@@ -11,7 +11,8 @@ $(document).ready(function () {
         const url = selectingElement.data('sidebar-edit-url');
         // The advanced search form will not recognize the first parameter if it begins with "?".
         const query = selectingElement.find('.query-form-query').val().trim().replace(/^\?+/, '');
-        Omeka.populateSidebarContent(sidebarEdit, `${url}?${query}`);
+        const resourceType = selectingElement.data('resourceType');
+        Omeka.populateSidebarContent(sidebarEdit, `${url}?${query}&query_resource_type=${resourceType}`);
     });
     $('#content').on('click', '.query-form-restore', function (e) {
         selectingElement = $(this).closest('.query-form-element');
@@ -35,7 +36,8 @@ $(document).ready(function () {
         Omeka.openSidebar(sidebarPreview);
         const url = selectingElement.data('sidebar-preview-url');
         const query = $('#advanced-search').serialize();
-        Omeka.populateSidebarContent(sidebarPreview, `${url}?${query}`);
+        const resourceType = selectingElement.data('resourceType');
+        Omeka.populateSidebarContent(sidebarPreview, `${url}?${query}&query_resource_type=${resourceType}`);
     });
     $('#content').on('click', '.query-form-reset', function (e) {
         Omeka.populateSidebarContent(sidebarEdit, selectingElement.data('sidebar-edit-url'));

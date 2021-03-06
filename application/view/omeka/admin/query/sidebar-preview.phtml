@@ -1,10 +1,10 @@
 <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
 <h3><?php echo $this->translate('Query preview'); ?></h3>
 <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
-<?php if ($items): ?>
-<?php foreach ($items as $item): ?>
-<div><?php echo $item->linkPretty('square', null, null, ['target' => '_blank']); ?></div>
+<?php if ($resources): ?>
+<?php foreach ($resources as $resource): ?>
+<div><?php echo $resource->linkPretty('square', null, null, ['target' => '_blank']); ?></div>
 <?php endforeach; ?>
 <?php else: ?>
-<span class="no-resources"><?php echo $this->translate('No items found.'); ?></span>
+<span class="no-resources"><?php echo $this->translate('No resources found.'); ?></span>
 <?php endif; ?>

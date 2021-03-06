@@ -3,9 +3,11 @@ $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 
 $this->headLink()->prependStylesheet($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/query-form.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
+$resourceType = in_array($element->getOption('resource_type'), ['item', 'item_set', 'media']) ? $element->getOption('resource_type') : 'item';
 ?>
 <div class="query-form-element"
     data-query="<?php echo $this->escapeHtml($element->getValue()); ?>"
+    data-resource-type="<?php echo $this->escapeHtml($resourceType); ?>"
     data-sidebar-preview-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-preview'])); ?>"
     data-sidebar-edit-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-edit'])); ?>">
     <?php echo $this->formText($element); ?>

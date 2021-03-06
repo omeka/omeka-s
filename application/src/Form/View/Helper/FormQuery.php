@@ -6,9 +6,9 @@ use Laminas\Form\ElementInterface;
 
 class FormQuery extends AbstractHelper
 {
-    public function __invoke(ElementInterface $element, AssetRepresentation $asset = null)
+    public function __invoke(ElementInterface $element)
     {
-        return $this->render($element, $asset);
+        return $this->render($element);
     }
 
     public function render(ElementInterface $element)

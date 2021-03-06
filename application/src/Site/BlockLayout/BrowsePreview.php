@@ -15,6 +15,14 @@ class BrowsePreview extends AbstractBlockLayout
         return 'Browse preview'; // @translate
     }
 
+    public function prepareForm(PhpRenderer $view)
+    {
+        $view->headLink()->prependStylesheet($view->assetUrl('css/advanced-search.css', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('js/advanced-search.js', 'Omeka'));
+        $view->headLink()->appendStylesheet($view->assetUrl('css/query-form.css', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('js/query-form.js', 'Omeka'));
+    }
+
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
@@ -44,11 +52,11 @@ class BrowsePreview extends AbstractBlockLayout
         ]);
         $form->add([
             'name' => 'o:block[__blockIndex__][o:data][query]',
-            'type' => Element\Text::class,
+            'type' => \Omeka\Form\Element\Query::class,
             'options' => [
+                'resource_type' => 'item',
                 'label' => 'Query', // @translate
                 'info' => 'Display resources using this search query', // @translate
-                'documentation' => 'https://omeka.org/s/docs/user-manual/sites/site_pages/#browse-preview',
             ],
         ]);
         $form->add([

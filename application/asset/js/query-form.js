@@ -21,6 +21,8 @@ $(document).ready(function () {
         Omeka.closeSidebar(sidebarPreview);
         selectingElement = $(this).closest('.query-form-element');
         selectingElement.find('.query-form-query').prop('type', 'text');
+        selectingElement.find('.query-form-search-filters').empty();
+        selectingElement.find('.query-form-edit').prop('disabled', true);
         $(this).hide();
         selectingElement.find('.query-form-hide-query').show();
     });
@@ -30,6 +32,12 @@ $(document).ready(function () {
         Omeka.closeSidebar(sidebarPreview);
         selectingElement = $(this).closest('.query-form-element');
         selectingElement.find('.query-form-query').prop('type', 'hidden');
+        selectingElement.find('.query-form-edit').prop('disabled', false);
+        const url = selectingElement.data('searchFiltersUrl');
+        const query = selectingElement.find('.query-form-query').val();
+        $.get(`${url}?${query}`, function(data) {
+            selectingElement.find('.query-form-search-filters').html(data);
+        });
         $(this).hide();
         selectingElement.find('.query-form-show-query').show();
     });
@@ -38,6 +46,10 @@ $(document).ready(function () {
         Omeka.closeSidebar(sidebarEdit);
         Omeka.closeSidebar(sidebarPreview);
         selectingElement = $(this).closest('.query-form-element');
+        selectingElement.find('.query-form-query').prop('type', 'hidden');
+        selectingElement.find('.query-form-edit').prop('disabled', false);
+        selectingElement.find('.query-form-hide-query').hide();
+        selectingElement.find('.query-form-show-query').show();
         const url = selectingElement.data('searchFiltersUrl');
         const query = selectingElement.data('query');
         $.get(`${url}?${query}`, function(data) {

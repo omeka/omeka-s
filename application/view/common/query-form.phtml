@@ -14,6 +14,10 @@ switch ($element->getOption('resource_type')) {
         $resourceType = 'items';
 }
 parse_str($element->getValue(), $queryArray);
+$searchFilters = $this->searchFilters(null, $queryArray);
+if (!$queryArray) {
+    $searchFilters = $this->translate('No query. Click edit to create one.');
+}
 ?>
 <div class="query-form-element"
     data-query="<?php echo $this->escapeHtml($element->getValue()); ?>"
@@ -22,7 +26,7 @@ parse_str($element->getValue(), $queryArray);
     data-sidebar-preview-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-preview'])); ?>"
     data-sidebar-edit-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-edit'])); ?>">
     <div class="query-display">
-        <div class="query-form-search-filters"><?php echo $this->searchFilters(null, $queryArray); ?></div>
+        <div class="query-form-search-filters"><?php echo $searchFilters; ?></div>
         <?php echo $this->formHidden($element); ?>
     </div>
     <button type="button" class="query-form-edit"><?php echo $this->translate('Edit'); ?></button>

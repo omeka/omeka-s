@@ -1,1 +1,8 @@
-<?php echo $this->searchFilters(null, $this->params()->fromQuery()); ?>
+<?php
+$queryArray = $this->params()->fromQuery();
+$searchFilters = $this->searchFilters(null, $queryArray);
+if (!$queryArray) {
+    $searchFilters = $this->translate('No query. Click edit to create one.');
+}
+?>
+<?php echo $searchFilters; ?>

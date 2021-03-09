@@ -4,6 +4,7 @@ $(document).ready(function () {
     const sidebarPreview = $('<div class="sidebar" id="query-sidebar-preview"><div class="sidebar-content"></div></div>');
     sidebarEdit.appendTo('#content');
     sidebarPreview.appendTo('#content');
+    // Handle the button that opens the search sidebar..
     $('#content').on('click', '.query-form-edit', function (e) {
         Omeka.closeSidebar(sidebarPreview);
         Omeka.openSidebar(sidebarEdit);
@@ -14,6 +15,7 @@ $(document).ready(function () {
         const resourceType = selectingElement.data('resourceType');
         Omeka.populateSidebarContent(sidebarEdit, `${url}?${query}&query_resource_type=${resourceType}`);
     });
+    // Handle the button that shows the query string.
     $('#content').on('click', '.query-form-show-query', function (e) {
         Omeka.closeSidebar(sidebarEdit);
         Omeka.closeSidebar(sidebarPreview);
@@ -22,6 +24,7 @@ $(document).ready(function () {
         $(this).hide();
         selectingElement.find('.query-form-hide-query').show();
     });
+    // Handle the button that hides the query string.
     $('#content').on('click', '.query-form-hide-query', function (e) {
         Omeka.closeSidebar(sidebarEdit);
         Omeka.closeSidebar(sidebarPreview);
@@ -30,6 +33,7 @@ $(document).ready(function () {
         $(this).hide();
         selectingElement.find('.query-form-show-query').show();
     });
+    // Handle the button that restores the query string to its original state.
     $('#content').on('click', '.query-form-restore', function (e) {
         Omeka.closeSidebar(sidebarEdit);
         Omeka.closeSidebar(sidebarPreview);
@@ -41,6 +45,7 @@ $(document).ready(function () {
         });
         selectingElement.find('.query-form-query').val(query);
     });
+    // Handle the button that sets the query string from the search sidebar.
     $('#content').on('click', '.query-form-set', function (e) {
         Omeka.closeSidebar(sidebarEdit);
         const form = $('#advanced-search');
@@ -52,6 +57,7 @@ $(document).ready(function () {
         });
         selectingElement.find('.query-form-query').val(query);
     });
+    // Handle the button that opens the preview sidebar.
     $('#content').on('click', '.query-form-preview', function (e) {
         Omeka.openSidebar(sidebarPreview);
         const url = selectingElement.data('sidebar-preview-url');
@@ -59,6 +65,7 @@ $(document).ready(function () {
         const resourceType = selectingElement.data('resourceType');
         Omeka.populateSidebarContent(sidebarPreview, `${url}?${query}&query_resource_type=${resourceType}`);
     });
+    // handle the button that resets the search sidebar.
     $('#content').on('click', '.query-form-reset', function (e) {
         Omeka.populateSidebarContent(sidebarEdit, selectingElement.data('sidebar-edit-url'));
     });

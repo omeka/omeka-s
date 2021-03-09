@@ -2955,6 +2955,18 @@ input[type="text"].value-language,
     background-color: $border-gray;
 }
 
+.query-display {
+    min-height: 1.75 * $spacing-large;
+}
+
+input[type=text].query-form-query {
+    margin-top: 0;
+}
+
+.block .filter-value:not(:last-child):after {
+    content: none;
+}
+
 /* @end */
 
 /* @group ----- Vocabulary: Import ----- */

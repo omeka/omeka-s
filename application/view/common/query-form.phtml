@@ -21,8 +21,10 @@ parse_str($element->getValue(), $queryArray);
     data-search-filters-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'search-filters'])); ?>"
     data-sidebar-preview-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-preview'])); ?>"
     data-sidebar-edit-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-edit'])); ?>">
-    <div class="query-form-search-filters"><?php echo $this->searchFilters(null, $queryArray); ?></div>
-    <?php echo $this->formHidden($element); ?>
+    <div class="query-display">
+        <div class="query-form-search-filters"><?php echo $this->searchFilters(null, $queryArray); ?></div>
+        <?php echo $this->formHidden($element); ?>
+    </div>
     <button type="button" class="query-form-edit"><?php echo $this->translate('Edit'); ?></button>
     <button type="button" class="query-form-show-query"><?php echo $this->translate('Show query string'); ?></button>
     <button type="button" class="query-form-hide-query" style="display: none;"><?php echo $this->translate('Hide query string'); ?></button>

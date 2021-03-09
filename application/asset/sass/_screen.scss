@@ -2852,7 +2852,7 @@ input[type="text"].value-language,
 
 /* @end */
 
-/* @group ----- Query Editor Sidebar ----- */
+/* @group ----- Query Editor ----- */
 
 .sidebar .field-meta {
     width: 100%;
@@ -2936,6 +2936,23 @@ input[type="text"].value-language,
     button {
         width: calc(33.33% - #{$spacing-small});
     }
+}
+
+.block .block-content input[type="hidden"] + button {
+    padding-top: $spacing-small;
+}
+
+.block .search-filters {
+    margin-bottom: 0;
+}
+
+.block .filter {
+    background-color: #fff;
+    box-shadow: 0 0 0 1px $border-gray inset;
+}
+
+.block .filter-label {
+    background-color: $border-gray;
 }
 
 /* @end */

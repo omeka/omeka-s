@@ -45,4 +45,11 @@ class QueryController extends AbstractActionController
         $view->setVariable('resources', $response->getContent());
         return $view;
     }
+
+    public function searchFiltersAction()
+    {
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        return $view;
+    }
 }

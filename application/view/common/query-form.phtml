@@ -13,13 +13,16 @@ switch ($element->getOption('resource_type')) {
     default:
         $resourceType = 'items';
 }
+parse_str($element->getValue(), $queryArray);
 ?>
 <div class="query-form-element"
     data-query="<?php echo $this->escapeHtml($element->getValue()); ?>"
     data-resource-type="<?php echo $this->escapeHtml($resourceType); ?>"
+    data-search-filters-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'search-filters'])); ?>"
     data-sidebar-preview-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-preview'])); ?>"
     data-sidebar-edit-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-edit'])); ?>">
-    <?php echo $this->formText($element); ?>
+    <div class="query-form-search-filters"><?php echo $this->searchFilters(null, $queryArray); ?></div>
+    <?php echo $this->formHidden($element); ?>
     <button type="button" class="query-form-edit"><?php echo $this->translate('Edit'); ?></button>
     <button type="button" class="query-form-restore red button"><?php echo $this->translate('Restore'); ?></button>
     <button type="button" class="query-form-clear red button"><?php echo $this->translate('Clear'); ?></button>

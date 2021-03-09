@@ -24,6 +24,7 @@ parse_str($element->getValue(), $queryArray);
     <div class="query-form-search-filters"><?php echo $this->searchFilters(null, $queryArray); ?></div>
     <?php echo $this->formHidden($element); ?>
     <button type="button" class="query-form-edit"><?php echo $this->translate('Edit'); ?></button>
+    <button type="button" class="query-form-show-query"><?php echo $this->translate('Show query string'); ?></button>
+    <button type="button" class="query-form-hide-query" style="display: none;"><?php echo $this->translate('Hide query string'); ?></button>
     <button type="button" class="query-form-restore red button"><?php echo $this->translate('Restore'); ?></button>
-    <button type="button" class="query-form-clear red button"><?php echo $this->translate('Clear'); ?></button>
 </div>

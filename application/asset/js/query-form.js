@@ -5,16 +5,34 @@ $(document).ready(function () {
     sidebarEdit.appendTo('#content');
     sidebarPreview.appendTo('#content');
     $('#content').on('click', '.query-form-edit', function (e) {
-        selectingElement = $(this).closest('.query-form-element');
         Omeka.closeSidebar(sidebarPreview);
         Omeka.openSidebar(sidebarEdit);
+        selectingElement = $(this).closest('.query-form-element');
         const url = selectingElement.data('sidebar-edit-url');
         // The advanced search form will not recognize the first parameter if it begins with "?".
         const query = selectingElement.find('.query-form-query').val().trim().replace(/^\?+/, '');
         const resourceType = selectingElement.data('resourceType');
         Omeka.populateSidebarContent(sidebarEdit, `${url}?${query}&query_resource_type=${resourceType}`);
     });
+    $('#content').on('click', '.query-form-show-query', function (e) {
+        Omeka.closeSidebar(sidebarEdit);
+        Omeka.closeSidebar(sidebarPreview);
+        selectingElement = $(this).closest('.query-form-element');
+        selectingElement.find('.query-form-query').prop('type', 'text');
+        $(this).hide();
+        selectingElement.find('.query-form-hide-query').show();
+    });
+    $('#content').on('click', '.query-form-hide-query', function (e) {
+        Omeka.closeSidebar(sidebarEdit);
+        Omeka.closeSidebar(sidebarPreview);
+        selectingElement = $(this).closest('.query-form-element');
+        selectingElement.find('.query-form-query').prop('type', 'hidden');
+        $(this).hide();
+        selectingElement.find('.query-form-show-query').show();
+    });
     $('#content').on('click', '.query-form-restore', function (e) {
+        Omeka.closeSidebar(sidebarEdit);
+        Omeka.closeSidebar(sidebarPreview);
         selectingElement = $(this).closest('.query-form-element');
         const url = selectingElement.data('searchFiltersUrl');
         const query = selectingElement.data('query');
@@ -22,17 +40,9 @@ $(document).ready(function () {
             selectingElement.find('.query-form-search-filters').html(data);
         });
         selectingElement.find('.query-form-query').val(query);
-        Omeka.closeSidebar(sidebarEdit);
-        Omeka.closeSidebar(sidebarPreview);
-    });
-    $('#content').on('click', '.query-form-clear', function (e) {
-        selectingElement = $(this).closest('.query-form-element');
-        selectingElement.find('.query-form-search-filters').empty();
-        selectingElement.find('.query-form-query').val('');
-        Omeka.closeSidebar(sidebarEdit);
-        Omeka.closeSidebar(sidebarPreview);
     });
     $('#content').on('click', '.query-form-set', function (e) {
+        Omeka.closeSidebar(sidebarEdit);
         const form = $('#advanced-search');
         Omeka.cleanSearchQuery(form);
         const url = selectingElement.data('searchFiltersUrl');
@@ -41,7 +51,6 @@ $(document).ready(function () {
             selectingElement.find('.query-form-search-filters').html(data);
         });
         selectingElement.find('.query-form-query').val(query);
-        Omeka.closeSidebar(sidebarEdit);
     });
     $('#content').on('click', '.query-form-preview', function (e) {
         Omeka.openSidebar(sidebarPreview);

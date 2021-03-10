@@ -3,10 +3,10 @@ $queryArray = $this->params()->fromQuery();
 if ($queryArray) {
     $searchFilters = $this->searchFilters(null, $queryArray);
     if (!$searchFilters) {
-        $searchFilters = $this->translate('[Edit query below]');
+        $searchFilters = $this->translate('[Edit below]');
     }
 } else {
-    $searchFilters = $this->translate('[No query. Edit query below]');
+    $searchFilters = $this->translate('[Edit below]');
 }
 ?>
 <?php echo $searchFilters; ?>

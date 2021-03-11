@@ -4,7 +4,6 @@ $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'
 
 $query = isset($query) ? $query : null;
 $resourceType = isset($resourceType) ? $resourceType : null;
-$isPool = isset($isPool) ? $isPool : null;
 
 $partials = [
     'common/advanced-search/fulltext',
@@ -17,7 +16,7 @@ if ($this->status()->isAdminRequest()) {
 switch ($resourceType) {
     case 'item':
         $partials[] = 'common/advanced-search/item-sets';
-        if ($this->status()->isAdminRequest() && !$isPool) {
+        if ($this->status()->isAdminRequest()) {
             $partials[] = 'common/advanced-search/site';
         }
         break;

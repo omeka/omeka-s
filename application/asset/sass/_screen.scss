@@ -1415,6 +1415,7 @@ div[role="main"] {
         left: 0;
         width: 100%;
         opacity: .08;
+        content: fa-content($fa-var-cubes);
     }
 
     p {
@@ -1468,6 +1469,10 @@ td .o-icon-user-inactive {
 
 .sites .no-resources:before {
     content: fa-content($fa-var-laptop);
+}
+
+.sidebar .no-resources {
+    display: block;
 }
 
     /* @group ----- Batch Update ----- */

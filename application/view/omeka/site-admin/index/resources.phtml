@@ -46,18 +46,9 @@ $rowTemplate = '
     </p>
     <div class="manual-assignment">
         <?php echo $this->formRow($form->get('item_assignment_action')); ?>
-        <div id="advanced-search" class="inactive">
-            <div class="advanced-search-header">
-                <?php $saveSearch = $form->get('save_search'); ?>
-                <?php echo $this->hyperlink($this->translate('Preview this search'), '#', [
-                    'id' => 'resources-preview-button',
-                    'class' => 'button',
-                    'title' => $this->translate('Preview this search'),
-                    'data-url' => $this->url('admin/default', ['controller' => 'item', 'action' => 'browse']),
-                ]); ?>
-                <label class="keep-search"><?php echo $saveSearch->getLabel() . $this->formElement($saveSearch); ?></label>
-            </div>
-            <?php echo $this->partial('common/advanced-search', ['query' => $site->itemPool(), 'resourceType' => 'item', 'isPool' => true]); ?>
+        <div id="item-pool-container" style="display: none;">
+            <?php echo $this->formRow($form->get('item_pool')); ?>
+            <?php echo $this->formRow($form->get('save_search')); ?>
         </div>
     </div>
 </div>

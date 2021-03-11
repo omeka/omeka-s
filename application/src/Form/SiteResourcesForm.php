@@ -32,10 +32,21 @@ class SiteResourcesForm extends Form
                 'info' => 'Use this as a convenient way to store a commonly used query. For example, you will likely want to save a search for periodic adding, but will not want to save a search for a one-time removal.', // @translate
             ],
         ]);
+        $this->add([
+            'type' => \Omeka\Form\Element\Query::class,
+            'name' => 'item_pool',
+            'options' => [
+                'label' => 'Search', // @translate
+            ],
+        ]);
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'item_assignment_action',
+            'allow_empty' => true,
+        ]);
+        $inputFilter->add([
+            'name' => 'item_pool',
             'allow_empty' => true,
         ]);
         $inputFilter->add([

@@ -50,6 +50,7 @@ class QueryController extends AbstractActionController
     {
         $view = new ViewModel;
         $view->setTerminal(true);
+        $view->setVariable('queryArray', $this->params()->fromQuery());
         return $view;
     }
 }

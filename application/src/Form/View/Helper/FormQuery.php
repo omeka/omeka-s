@@ -14,7 +14,10 @@ class FormQuery extends AbstractHelper
     public function render(ElementInterface $element)
     {
         $view = $this->getView();
-        $element->setAttribute('class', 'query-form-query');
-        return $view->partial('common/query-form', ['element' => $element]);
+        parse_str($element->getValue(), $queryArray);
+        return $view->partial('common/query-form', [
+            'element' => $element,
+            'queryArray' => $queryArray,
+        ]);
     }
 }

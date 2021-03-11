@@ -4,6 +4,7 @@ namespace Omeka\Site\BlockLayout;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
+use Omeka\Form\Element as OmekaElement;
 use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
@@ -56,11 +57,11 @@ class BrowsePreview extends AbstractBlockLayout
         ]);
         $form->add([
             'name' => 'o:block[__blockIndex__][o:data][query]',
-            'type' => \Omeka\Form\Element\Query::class,
+            'type' => OmekaElement\Query::class,
             'options' => [
-                'resource_type' => $data['resource_type'],
                 'label' => 'Query', // @translate
                 'info' => 'Display resources using this search query', // @translate
+                'query_resource_type' => $data['resource_type'],
             ],
         ]);
         $form->add([

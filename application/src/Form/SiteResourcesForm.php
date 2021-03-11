@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Form\Element as OmekaElement;
 use Laminas\Form\Form;
 
 class SiteResourcesForm extends Form
@@ -33,7 +34,7 @@ class SiteResourcesForm extends Form
             ],
         ]);
         $this->add([
-            'type' => \Omeka\Form\Element\Query::class,
+            'type' => OmekaElement\Query::class,
             'name' => 'item_pool',
             'options' => [
                 'label' => 'Search', // @translate

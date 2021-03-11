@@ -57,6 +57,22 @@ $(document).ready(function () {
         });
         selectingElement.find('.query-form-query').val(query);
     });
+    // Handle the button that clears the query.
+    $('#content').on('click', '.query-form-clear', function (e) {
+        Omeka.closeSidebar(sidebarEdit);
+        Omeka.closeSidebar(sidebarPreview);
+        selectingElement = $(this).closest('.query-form-element');
+        selectingElement.find('.query-form-query').prop('type', 'hidden');
+        selectingElement.find('.query-form-edit').prop('disabled', false);
+        selectingElement.find('.query-form-hide-query').hide();
+        selectingElement.find('.query-form-show-query').show();
+        const url = selectingElement.data('searchFiltersUrl');
+        const query = '';
+        $.get(`${url}?${query}`, function(data) {
+            selectingElement.find('.query-form-search-filters').html(data);
+        });
+        selectingElement.find('.query-form-query').val('');
+    });
     // Handle the button that sets the query string from the search sidebar.
     $('#content').on('click', '.query-form-set', function (e) {
         Omeka.closeSidebar(sidebarEdit);

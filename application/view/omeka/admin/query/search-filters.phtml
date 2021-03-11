@@ -1,5 +1,4 @@
 <?php
-$queryArray = $this->params()->fromQuery();
 if ($queryArray) {
     $searchFilters = $this->searchFilters(null, $queryArray);
     if (!$searchFilters) {

@@ -3,17 +3,6 @@ $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/query-form.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
-switch ($element->getOption('resource_type')) {
-    case 'media':
-        $resourceType = 'media';
-        break;
-    case 'item_sets':
-        $resourceType = 'item_sets';
-        break;
-    default:
-        $resourceType = 'items';
-}
-parse_str($element->getValue(), $queryArray);
 if ($queryArray) {
     $searchFilters = $this->searchFilters(null, $queryArray);
     if (!$searchFilters) {
@@ -25,7 +14,7 @@ if ($queryArray) {
 ?>
 <div class="query-form-element"
     data-query="<?php echo $this->escapeHtml($element->getValue()); ?>"
-    data-resource-type="<?php echo $this->escapeHtml($resourceType); ?>"
+    data-resource-type="<?php echo $this->escapeHtml($element->getResourceType()); ?>"
     data-search-filters-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'search-filters'])); ?>"
     data-sidebar-preview-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-preview'])); ?>"
     data-sidebar-edit-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-edit'])); ?>">
@@ -37,4 +26,5 @@ if ($queryArray) {
     <button type="button" class="query-form-show-query"><?php echo $this->translate('Edit query string'); ?></button>
     <button type="button" class="query-form-hide-query" style="display: none;"><?php echo $this->translate('Hide query string'); ?></button>
     <button type="button" class="query-form-restore red button"><?php echo $this->translate('Restore'); ?></button>
+    <button type="button" class="query-form-clear red button"><?php echo $this->translate('Clear'); ?></button>
 </div>

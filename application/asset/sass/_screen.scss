@@ -2942,16 +2942,16 @@ input[type="text"].value-language,
     padding-top: $spacing-small;
 }
 
-.block .search-filters {
+.query-display .search-filters {
     margin-bottom: 0;
 }
 
-.block .filter {
+.query-display .filter {
     background-color: #fff;
     box-shadow: 0 0 0 1px $border-gray inset;
 }
 
-.block .filter-label {
+.query-display .filter-label {
     background-color: $border-gray;
 }
 
@@ -2963,7 +2963,7 @@ input[type=text].query-form-query {
     margin-top: 0;
 }
 
-.block .filter-value:not(:last-child):after {
+.query-display .filter-value:not(:last-child):after {
     content: none;
 }
 

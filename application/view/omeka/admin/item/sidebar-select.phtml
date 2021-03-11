@@ -66,7 +66,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
     <?php if ($itemsFound): ?>
     <button type="button" class="quick-select-toggle"><?php echo $translate('Quick add'); ?></button>
 
-    <div class="resource-list">
+    <div class="items resource-list">
         <?php foreach ($items as $item):?>
         <div class="resource item" data-resource-values="<?php echo $escape(json_encode($item->valueRepresentation())); ?>">
             <div class="select-resource-checkbox-wrapper">

@@ -635,7 +635,7 @@ class Module extends AbstractModule
         $view = $event->getTarget();
         $altText = $view->resource->altText() ?? null;
         $textarea = new \Laminas\Form\Element\Textarea('o:alt_text');
-        $textarea->setLabel('Alt Text'); // @translate
+        $textarea->setLabel('Alt text'); // @translate
         $textarea->setAttributes([
             'value' => $altText,
             'rows' => 4,

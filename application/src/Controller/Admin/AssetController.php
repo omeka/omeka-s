@@ -26,9 +26,10 @@ class AssetController extends AbstractActionController
         $httpResponse = $this->getResponse();
         $httpResponse->getHeaders()->addHeaderLine('Content-Type', 'application/json');
         if ($this->getRequest()->isPost()) {
+            $postData = $this->params()->fromPost();
             $fileData = $this->getRequest()->getFiles()->toArray();
             try {
-                $response = $this->api(null, true)->create('assets', [], $fileData);
+                $response = $this->api(null, true)->create('assets', $postData, $fileData);
                 $httpResponse->setContent(json_encode([]));
             } catch (ValidationException $e) {
                 $errors = [];

@@ -4303,9 +4303,19 @@ body.minimal .site.results thead {
     min-width: 0;
 }
 
-#asset-sidebar input[type="file"] {
-    width: 100%;
+#asset-sidebar {
+    input[type="file"] {
+        width: 100%;
+    }
+    .asset-upload label {
+        margin: $spacing-small 0;
+        padding: 0;
+        &:after {
+            content: none;
+        }
+    }
 }
+
 
 /* @end */
 

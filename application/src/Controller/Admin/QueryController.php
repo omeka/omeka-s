@@ -13,7 +13,7 @@ class QueryController extends AbstractActionController
                 $resourceType = 'media';
                 break;
             case 'item_sets':
-                $resourceType = 'item_set';
+                $resourceType = 'itemSet';
                 break;
             default:
                 $resourceType = 'item';

@@ -1,6 +1,8 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
+$thumbnail = $this->plugin('thumbnail');
 ?>
 
 <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
@@ -46,11 +48,11 @@ $escape = $this->plugin('escapeHtml');
         <?php if ($asset->userIsAllowed('delete')): ?>
         <span class="actions">
             <?php
-            echo $this->hyperlink('', '#', [
+            echo $hyperlink('', '#', [
                 'class' => 'o-icon-delete remove-value delete-asset',
                 'title' => $translate('Delete asset'),
             ]);
-            echo $this->hyperlink('', '#', [
+            echo $hyperlink('', '#', [
                 'class' => 'o-icon-undo cancel-delete',
                 'title' => $translate('Cancel delete'),
                 'style' => 'display: none',
@@ -59,10 +61,9 @@ $escape = $this->plugin('escapeHtml');
         </span>
         <?php endif; ?>
         <?php
-        $hyperlink = $this->plugin('hyperlink');
         echo $hyperlink->raw(
-            sprintf('<img src="%s"><span class="asset-name">%s</span>',
-                $escape($asset->assetUrl()),
+            sprintf('%s <span class="asset-name">%s</span>',
+                $thumbnail($asset, 'medium'),
                 $escape($asset->name())
             ),
             '#',

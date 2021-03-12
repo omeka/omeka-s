@@ -20,18 +20,12 @@ class ThemeSettingAssetUrl extends AbstractHelper
     {
         $view = $this->getView();
 
-        $setting = $view->themeSetting($id);
+        $asset = $view->themeSettingAsset($id);
 
-        if ($setting === null) {
+        if ($asset === null) {
             return $default;
         }
 
-        try {
-            $response = $view->api()->read('assets', $setting);
-        } catch (ApiException\NotFoundException $e) {
-            return $default;
-        }
-
-        return $response->getContent()->assetUrl();
+        return $asset->assetUrl();
     }
 }

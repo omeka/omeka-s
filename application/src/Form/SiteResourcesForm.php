@@ -38,6 +38,8 @@ class SiteResourcesForm extends Form
             'name' => 'item_pool',
             'options' => [
                 'label' => 'Search', // @translate
+                'query_resource_type' => 'items',
+                'query_partial_excludelist' => ['common/advanced-search/site'],
             ],
         ]);
 

@@ -18,9 +18,12 @@ class QueryController extends AbstractActionController
             default:
                 $resourceType = 'item';
         }
+        $partialExcludelist = json_decode($this->params()->fromQuery('query_partial_excludelist'), true);
+
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('resourceType', $resourceType);
+        $view->setVariable('partialExcludelist', $partialExcludelist);
         return $view;
     }
 

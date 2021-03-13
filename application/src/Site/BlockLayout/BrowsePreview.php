@@ -62,6 +62,7 @@ class BrowsePreview extends AbstractBlockLayout
                 'label' => 'Query', // @translate
                 'info' => 'Display resources using this search query', // @translate
                 'query_resource_type' => $data['resource_type'],
+                'query_partial_excludelist' => ['common/advanced-search/site'],
             ],
         ]);
         $form->add([

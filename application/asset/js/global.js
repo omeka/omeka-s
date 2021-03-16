@@ -329,6 +329,8 @@ var Omeka = {
                     'site_id',
                     'owner_id',
                     'media_type',
+                    'sort_by',
+                    'sort_order',
                 ];
                 if (inputNames.includes(inputName)) {
                     input.prop('name', '');

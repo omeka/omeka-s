@@ -27,6 +27,7 @@ $(document).ready(function () {
         selectingElement.find('.query-form-edit').prop('disabled', true);
         $(this).hide();
         selectingElement.find('.query-form-hide-query').show();
+        selectingElement.find('.query-form-clear').hide();
     });
     // Handle the button that hides the query string.
     $('#content').on('click', '.query-form-hide-query', function (e) {
@@ -39,6 +40,7 @@ $(document).ready(function () {
         const query = selectingElement.find('.query-form-query').val();
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
+            selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
         });
         $(this).hide();
         selectingElement.find('.query-form-show-query').show();
@@ -56,6 +58,7 @@ $(document).ready(function () {
         const query = selectingElement.data('query');
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
+            selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
         });
         selectingElement.find('.query-form-query').val(query);
     });
@@ -72,6 +75,7 @@ $(document).ready(function () {
         const query = '';
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
+            selectingElement.find('.query-form-clear').hide();
         });
         selectingElement.find('.query-form-query').val('');
     });
@@ -84,6 +88,7 @@ $(document).ready(function () {
         const query = form.serialize();
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
+            selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
         });
         selectingElement.find('.query-form-query').val(query);
     });

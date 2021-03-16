@@ -27,5 +27,5 @@ if ($queryArray) {
     <button type="button" class="query-form-show-query"><?php echo $this->translate('Edit query string'); ?></button>
     <button type="button" class="query-form-hide-query" style="display: none;"><?php echo $this->translate('Hide query string'); ?></button>
     <button type="button" class="query-form-restore red button"><?php echo $this->translate('Restore'); ?></button>
-    <button type="button" class="query-form-clear red button"><?php echo $this->translate('Clear'); ?></button>
+    <button type="button" class="query-form-clear red button" style="display: <?php echo $queryArray ? 'inline' : 'none'; ?>"><?php echo $this->translate('Clear'); ?></button>
 </div>

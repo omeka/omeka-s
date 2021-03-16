@@ -45,6 +45,7 @@ if ($this->status()->isAdminRequest()) {
 if ($this->status()->isSiteRequest()) {
     $addPartial('common/advanced-search/resource-template-restrict');
 }
+$addPartial('common/advanced-search/sort');
 
 $filterResults = $this->trigger(
     'view.advanced_search',

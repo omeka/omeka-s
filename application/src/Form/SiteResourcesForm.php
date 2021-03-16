@@ -39,7 +39,10 @@ class SiteResourcesForm extends Form
             'options' => [
                 'label' => 'Search', // @translate
                 'query_resource_type' => 'items',
-                'query_partial_excludelist' => ['common/advanced-search/site'],
+                'query_partial_excludelist' => [
+                    'common/advanced-search/site',
+                    'common/advanced-search/sort',
+                ],
             ],
         ]);
 

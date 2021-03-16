@@ -103,6 +103,9 @@ $(document).ready(function () {
     });
     // handle the button that resets the search sidebar.
     $('#content').on('click', '.query-form-reset', function (e) {
-        Omeka.populateSidebarContent(sidebarEdit, selectingElement.data('sidebar-edit-url'));
+        Omeka.populateSidebarContent(sidebarEdit, selectingElement.data('sidebar-edit-url'), {
+            query_resource_type: selectingElement.data('resourceType'),
+            query_partial_excludelist: JSON.stringify(selectingElement.data('partialExcludelist'))
+        });
     });
 });

@@ -3,12 +3,9 @@ $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/query-form.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
-if ($queryArray) {
-    $searchFilters = $this->searchFilters(null, $queryArray);
-    if (!$searchFilters) {
-        $searchFilters = $this->translate('[Edit below]');
-    }
-} else {
+
+$searchFilters = $this->searchFilters(null, $queryArray);
+if (!$searchFilters) {
     $searchFilters = $this->translate('[Edit below]');
 }
 ?>
@@ -26,6 +23,6 @@ if ($queryArray) {
     <button type="button" class="query-form-edit"><?php echo $this->translate('Edit'); ?></button>
     <button type="button" class="query-form-show-query"><?php echo $this->translate('Edit query string'); ?></button>
     <button type="button" class="query-form-hide-query" style="display: none;"><?php echo $this->translate('Hide query string'); ?></button>
-    <button type="button" class="query-form-restore red button"><?php echo $this->translate('Restore'); ?></button>
+    <button type="button" class="query-form-restore red button" style="display: none;"><?php echo $this->translate('Restore'); ?></button>
     <button type="button" class="query-form-clear red button" style="display: <?php echo $queryArray ? 'inline' : 'none'; ?>"><?php echo $this->translate('Clear'); ?></button>
 </div>

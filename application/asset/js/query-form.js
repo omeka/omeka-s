@@ -22,11 +22,12 @@ $(document).ready(function () {
         Omeka.closeSidebar(sidebarEdit);
         Omeka.closeSidebar(sidebarPreview);
         selectingElement = $(this).closest('.query-form-element');
-        selectingElement.find('.query-form-query').prop('type', 'text');
         selectingElement.find('.query-form-search-filters').empty();
-        selectingElement.find('.query-form-edit').prop('disabled', true);
-        $(this).hide();
+        selectingElement.find('.query-form-query').prop('type', 'text');
+        selectingElement.find('.query-form-edit').hide();
         selectingElement.find('.query-form-hide-query').show();
+        selectingElement.find('.query-form-show-query').hide();
+        selectingElement.find('.query-form-restore').hide();
         selectingElement.find('.query-form-clear').hide();
     });
     // Handle the button that hides the query string.
@@ -34,50 +35,51 @@ $(document).ready(function () {
         Omeka.closeSidebar(sidebarEdit);
         Omeka.closeSidebar(sidebarPreview);
         selectingElement = $(this).closest('.query-form-element');
-        selectingElement.find('.query-form-query').prop('type', 'hidden');
-        selectingElement.find('.query-form-edit').prop('disabled', false);
         const url = selectingElement.data('searchFiltersUrl');
         const query = selectingElement.find('.query-form-query').val();
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
-            selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
         });
-        $(this).hide();
+        selectingElement.find('.query-form-query').prop('type', 'hidden');
+        selectingElement.find('.query-form-edit').show();
+        selectingElement.find('.query-form-hide-query').hide();
         selectingElement.find('.query-form-show-query').show();
+        selectingElement.find('.query-form-restore').css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
+        selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
     });
     // Handle the button that restores the query string to its original state.
     $('#content').on('click', '.query-form-restore', function (e) {
         Omeka.closeSidebar(sidebarEdit);
         Omeka.closeSidebar(sidebarPreview);
         selectingElement = $(this).closest('.query-form-element');
-        selectingElement.find('.query-form-query').prop('type', 'hidden');
-        selectingElement.find('.query-form-edit').prop('disabled', false);
-        selectingElement.find('.query-form-hide-query').hide();
-        selectingElement.find('.query-form-show-query').show();
         const url = selectingElement.data('searchFiltersUrl');
         const query = selectingElement.data('query');
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
-            selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
         });
-        selectingElement.find('.query-form-query').val(query);
+        selectingElement.find('.query-form-query').val(query).prop('type', 'hidden');
+        selectingElement.find('.query-form-edit').prop('disabled', false);
+        selectingElement.find('.query-form-hide-query').hide();
+        selectingElement.find('.query-form-show-query').show();
+        selectingElement.find('.query-form-restore').css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
+        selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
     });
     // Handle the button that clears the query.
     $('#content').on('click', '.query-form-clear', function (e) {
         Omeka.closeSidebar(sidebarEdit);
         Omeka.closeSidebar(sidebarPreview);
         selectingElement = $(this).closest('.query-form-element');
-        selectingElement.find('.query-form-query').prop('type', 'hidden');
-        selectingElement.find('.query-form-edit').prop('disabled', false);
-        selectingElement.find('.query-form-hide-query').hide();
-        selectingElement.find('.query-form-show-query').show();
         const url = selectingElement.data('searchFiltersUrl');
         const query = '';
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
-            selectingElement.find('.query-form-clear').hide();
         });
-        selectingElement.find('.query-form-query').val('');
+        selectingElement.find('.query-form-query').val('').prop('type', 'hidden');
+        selectingElement.find('.query-form-edit').prop('disabled', false);
+        selectingElement.find('.query-form-hide-query').hide();
+        selectingElement.find('.query-form-show-query').show();
+        selectingElement.find('.query-form-restore').css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
+        selectingElement.find('.query-form-clear').hide();
     });
     // Handle the button that sets the query string from the search sidebar.
     $('#content').on('click', '.query-form-set', function (e) {
@@ -88,9 +90,10 @@ $(document).ready(function () {
         const query = form.serialize();
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
-            selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
         });
         selectingElement.find('.query-form-query').val(query);
+        selectingElement.find('.query-form-restore').css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
+        selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
     });
     // Handle the button that opens the preview sidebar.
     $('#content').on('click', '.query-form-preview', function (e) {

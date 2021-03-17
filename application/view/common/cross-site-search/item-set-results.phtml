@@ -5,7 +5,7 @@
     ['class' => 'advanced-search']
 ); ?>
 
-<h2><?php echo sprintf($this->translate('Item set results for "%s"'), $fulltextSearch); ?></h2>
+<h2><?php echo sprintf($this->translate('Item set results for "%s"'), $this->escapeHtml($fulltextSearch)); ?></h2>
 
 <?php echo $this->pagination(); ?>
 

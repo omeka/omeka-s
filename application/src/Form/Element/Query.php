@@ -17,12 +17,9 @@ class Query extends Element implements InputProviderInterface
     public function setOptions($options)
     {
         parent::setOptions($options);
-        if (in_array($this->getOption('query_resource_type'), ['items', 'item_sets', 'media'])) {
-            $this->resourceType = $this->getOption('query_resource_type');
-        }
-        if (is_array($this->getOption('query_partial_excludelist'))) {
-            $this->partialExcludelist = $this->getOption('query_partial_excludelist');
-        }
+        $this->setResourceType($this->getOption('query_resource_type'));
+        $this->setPartialExcludelist($this->getOption('query_partial_excludelist'));
+        return $this;
     }
 
     public function getInputSpecification()
@@ -30,9 +27,25 @@ class Query extends Element implements InputProviderInterface
         return [];
     }
 
+    public function setResourceType($resourceType)
+    {
+        if (in_array($resourceType, ['items', 'item_sets', 'media'])) {
+            $this->resourceType = $resourceType;
+        }
+        return $this;
+    }
+
     public function getResourceType()
     {
         return $this->resourceType;
+    }
+
+    public function setPartialExcludelist($partialExcludelist)
+    {
+        if (is_array($partialExcludelist)) {
+            $this->partialExcludelist = $partialExcludelist;
+        }
+        return $this;
     }
 
     public function getPartialExcludelist()

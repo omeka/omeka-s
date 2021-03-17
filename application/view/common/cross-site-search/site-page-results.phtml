@@ -1,6 +1,6 @@
 <?php $fulltextSearch = $this->params()->fromQuery('fulltext_search'); ?>
 
-<h2><?php echo sprintf($this->translate('Site page results for "%s"'), $fulltextSearch); ?></h2>
+<h2><?php echo sprintf($this->translate('Site page results for "%s"'), $this->escapeHtml($fulltextSearch)); ?></h2>
 
 <div class="site results">
     <ul>

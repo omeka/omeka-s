@@ -10,46 +10,26 @@ class Query extends Element implements InputProviderInterface
         'class' => 'query-form-query',
     ];
 
-    protected $resourceType = 'items';
-
-    protected $partialExcludelist = [];
-
-    public function setOptions($options)
-    {
-        parent::setOptions($options);
-        $this->setResourceType($this->getOption('query_resource_type'));
-        $this->setPartialExcludelist($this->getOption('query_partial_excludelist'));
-        return $this;
-    }
-
     public function getInputSpecification()
     {
         return [];
     }
 
-    public function setResourceType($resourceType)
-    {
-        if (in_array($resourceType, ['items', 'item_sets', 'media'])) {
-            $this->resourceType = $resourceType;
-        }
-        return $this;
-    }
-
     public function getResourceType()
     {
-        return $this->resourceType;
-    }
-
-    public function setPartialExcludelist($partialExcludelist)
-    {
-        if (is_array($partialExcludelist)) {
-            $this->partialExcludelist = $partialExcludelist;
+        $resourceType = 'items';
+        if (in_array($this->getOption('query_resource_type'), ['items', 'item_sets', 'media'])) {
+            $resourceType = $this->getOption('query_resource_type');
         }
-        return $this;
+        return $resourceType;
     }
 
     public function getPartialExcludelist()
     {
-        return $this->partialExcludelist;
+        $partialExcludelist = [];
+        if (is_array($this->getOption('query_partial_excludelist'))) {
+            $partialExcludelist = $this->getOption('query_partial_excludelist');
+        }
+        return $partialExcludelist;
     }
 }

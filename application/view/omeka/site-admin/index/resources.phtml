@@ -48,7 +48,7 @@ $rowTemplate = '
         <?php echo $this->formRow($form->get('item_assignment_action')); ?>
         <div id="item-pool-container" style="display: none;">
             <?php echo $this->formRow($form->get('item_pool')); ?>
-            <div id="save-search" style="display: none;">
+            <div id="save-search">
                 <label><?php echo $this->translate('Keep these changes'); ?><?php echo $this->formElement($form->get('save_search')); ?></label>
             </div>
         </div>
@@ -79,26 +79,42 @@ $rowTemplate = '
 <script>
 const saveSearch = $('#save-search');
 $('#content').on('click', '.query-form-show-query', function (e) {
-    saveSearch.hide();
+    saveSearch.removeClass('active');
 });
 $('#content').on('click', '.query-form-hide-query', function (e) {
     selectingElement = $(this).closest('.query-form-element');
     const query = selectingElement.find('.query-form-query').val();
-    saveSearch.css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
+    if (query !== selectingElement.data('query')) {
+        saveSearch.addClass('active');
+    } else {
+        saveSearch.removeClass('active');
+    }
 });
 $('#content').on('click', '.query-form-restore', function (e) {
     selectingElement = $(this).closest('.query-form-element');
     const query = selectingElement.data('query');
-    saveSearch.css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
+    if (query !== selectingElement.data('query')) {
+        saveSearch.addClass('active');
+    } else {
+        saveSearch.removeClass('active');
+    }
 });
 $('#content').on('click', '.query-form-clear', function (e) {
     selectingElement = $(this).closest('.query-form-element');
     const query = '';
-    saveSearch.css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
+    if (query !== selectingElement.data('query')) {
+        saveSearch.addClass('active');
+    } else {
+        saveSearch.removeClass('active');
+    }
 });
 $('#content').on('click', '.query-form-set', function (e) {
     const query = $('#advanced-search').serialize();
     selectingElement = $('.query-form-element');
-    saveSearch.css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
+    if (query !== selectingElement.data('query')) {
+        saveSearch.addClass('active');
+    } else {
+        saveSearch.removeClass('active');
+    }
 });
 </script>

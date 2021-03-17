@@ -2967,6 +2967,21 @@ input[type=text].query-form-query {
     content: none;
 }
 
+#save-search {
+    display: none;
+}
+
+#save-search.active {
+    display: flex;
+    margin-top: -1 * $spacing-small;
+    padding: 0 $spacing-small $spacing-medium calc(30% + #{.5 * $spacing-small});
+    background-color: $gray-on-white;
+
+    input {
+        margin-left: $spacing-small;
+    }
+}
+
 /* @end */
 
 /* @group ----- Vocabulary: Import ----- */

@@ -20,9 +20,9 @@ if (!$searchFilters) {
         <div class="query-form-search-filters"><?php echo $searchFilters; ?></div>
         <?php echo $this->formHidden($element); ?>
     </div>
-    <button type="button" class="query-form-edit"><?php echo $this->translate('Edit'); ?></button>
-    <button type="button" class="query-form-show-query"><?php echo $this->translate('Edit query string'); ?></button>
-    <button type="button" class="query-form-hide-query" style="display: none;"><?php echo $this->translate('Hide query string'); ?></button>
-    <button type="button" class="query-form-restore red button" style="display: none;"><?php echo $this->translate('Restore'); ?></button>
-    <button type="button" class="query-form-clear red button" style="display: <?php echo $queryArray ? 'inline' : 'none'; ?>"><?php echo $this->translate('Clear'); ?></button>
+    <button type="button" class="query-form-edit active"><?php echo $this->translate('Edit'); ?></button>
+    <button type="button" class="query-form-show-query active"><?php echo $this->translate('Edit query string'); ?></button>
+    <button type="button" class="query-form-hide-query inactive"><?php echo $this->translate('Hide query string'); ?></button>
+    <button type="button" class="query-form-restore red button inactive"><?php echo $this->translate('Restore'); ?></button>
+    <button type="button" class="query-form-clear red button <?php echo $queryArray ? 'active' : 'inactive'; ?>"><?php echo $this->translate('Clear'); ?></button>
 </div>

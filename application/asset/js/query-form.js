@@ -1,9 +1,14 @@
 $(document).ready(function () {
     let selectingElement;
+
     const sidebarEdit = $('<div class="sidebar" id="query-sidebar-edit"><div class="sidebar-content"></div></div>');
     const sidebarPreview = $('<div class="sidebar" id="query-sidebar-preview"><div class="sidebar-content"></div></div>');
     sidebarEdit.appendTo('#content');
     sidebarPreview.appendTo('#content');
+
+    const show = element => element.removeClass('inactive').addClass('active');
+    const hide = element => element.removeClass('active').addClass('inactive');
+
     // Handle the button that opens the search sidebar..
     $('#content').on('click', '.query-form-edit', function (e) {
         Omeka.closeSidebar(sidebarPreview);
@@ -17,6 +22,7 @@ $(document).ready(function () {
             query_partial_excludelist: JSON.stringify(selectingElement.data('partialExcludelist'))
         });
     });
+
     // Handle the button that shows the query string.
     $('#content').on('click', '.query-form-show-query', function (e) {
         Omeka.closeSidebar(sidebarEdit);
@@ -24,12 +30,13 @@ $(document).ready(function () {
         selectingElement = $(this).closest('.query-form-element');
         selectingElement.find('.query-form-search-filters').empty();
         selectingElement.find('.query-form-query').prop('type', 'text');
-        selectingElement.find('.query-form-edit').hide();
-        selectingElement.find('.query-form-hide-query').show();
-        selectingElement.find('.query-form-show-query').hide();
-        selectingElement.find('.query-form-restore').hide();
-        selectingElement.find('.query-form-clear').hide();
+        hide(selectingElement.find('.query-form-edit'));
+        show(selectingElement.find('.query-form-hide-query'));
+        hide(selectingElement.find('.query-form-show-query'));
+        hide(selectingElement.find('.query-form-restore'));
+        hide(selectingElement.find('.query-form-clear'));
     });
+
     // Handle the button that hides the query string.
     $('#content').on('click', '.query-form-hide-query', function (e) {
         Omeka.closeSidebar(sidebarEdit);
@@ -41,12 +48,17 @@ $(document).ready(function () {
             selectingElement.find('.query-form-search-filters').html(data);
         });
         selectingElement.find('.query-form-query').prop('type', 'hidden');
-        selectingElement.find('.query-form-edit').show();
-        selectingElement.find('.query-form-hide-query').hide();
-        selectingElement.find('.query-form-show-query').show();
-        selectingElement.find('.query-form-restore').css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
-        selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
+        show(selectingElement.find('.query-form-edit'));
+        hide(selectingElement.find('.query-form-hide-query'));
+        show(selectingElement.find('.query-form-show-query'));
+        (query === selectingElement.data('query'))
+            ? hide(selectingElement.find('.query-form-restore'))
+            : show(selectingElement.find('.query-form-restore'));
+        (query)
+            ? show(selectingElement.find('.query-form-clear'))
+            : hide(selectingElement.find('.query-form-clear'));
     });
+
     // Handle the button that restores the query string to its original state.
     $('#content').on('click', '.query-form-restore', function (e) {
         Omeka.closeSidebar(sidebarEdit);
@@ -59,11 +71,16 @@ $(document).ready(function () {
         });
         selectingElement.find('.query-form-query').val(query).prop('type', 'hidden');
         selectingElement.find('.query-form-edit').prop('disabled', false);
-        selectingElement.find('.query-form-hide-query').hide();
-        selectingElement.find('.query-form-show-query').show();
-        selectingElement.find('.query-form-restore').css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
-        selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
+        hide(selectingElement.find('.query-form-hide-query'));
+        show(selectingElement.find('.query-form-show-query'));
+        (query === selectingElement.data('query'))
+            ? hide(selectingElement.find('.query-form-restore'))
+            : show(selectingElement.find('.query-form-restore'));
+        (query)
+            ? show(selectingElement.find('.query-form-clear'))
+            : hide(selectingElement.find('.query-form-clear'));
     });
+
     // Handle the button that clears the query.
     $('#content').on('click', '.query-form-clear', function (e) {
         Omeka.closeSidebar(sidebarEdit);
@@ -76,10 +93,12 @@ $(document).ready(function () {
         });
         selectingElement.find('.query-form-query').val('').prop('type', 'hidden');
         selectingElement.find('.query-form-edit').prop('disabled', false);
-        selectingElement.find('.query-form-hide-query').hide();
-        selectingElement.find('.query-form-show-query').show();
-        selectingElement.find('.query-form-restore').css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
-        selectingElement.find('.query-form-clear').hide();
+        hide(selectingElement.find('.query-form-hide-query'));
+        show(selectingElement.find('.query-form-show-query'));
+        (query === selectingElement.data('query'))
+            ? hide(selectingElement.find('.query-form-restore'))
+            : show(selectingElement.find('.query-form-restore'));
+        hide(selectingElement.find('.query-form-clear'));
     });
     // Handle the button that sets the query string from the search sidebar.
     $('#content').on('click', '.query-form-set', function (e) {
@@ -92,9 +111,14 @@ $(document).ready(function () {
             selectingElement.find('.query-form-search-filters').html(data);
         });
         selectingElement.find('.query-form-query').val(query);
-        selectingElement.find('.query-form-restore').css('display', (query !== selectingElement.data('query')) ? 'inline' : 'none');
-        selectingElement.find('.query-form-clear').css('display', query ? 'inline' : 'none');
+        (query === selectingElement.data('query'))
+            ? hide(selectingElement.find('.query-form-restore'))
+            : show(selectingElement.find('.query-form-restore'));
+        (query)
+            ? show(selectingElement.find('.query-form-clear'))
+            : hide(selectingElement.find('.query-form-clear'));
     });
+
     // Handle the button that opens the preview sidebar.
     $('#content').on('click', '.query-form-preview', function (e) {
         Omeka.openSidebar(sidebarPreview);
@@ -104,6 +128,7 @@ $(document).ready(function () {
             query_resource_type: selectingElement.data('resourceType')
         });
     });
+
     // handle the button that resets the search sidebar.
     $('#content').on('click', '.query-form-reset', function (e) {
         Omeka.populateSidebarContent(sidebarEdit, selectingElement.data('sidebar-edit-url'), {

@@ -75,7 +75,7 @@ if ($responseItems && $responseItems->getTotalResults()):
             <span class="result-title"><?php echo $itemSet->displayTitle(); ?></span>
             <ul>
                 <?php foreach ($sites as $site): ?>
-                <li><?php echo $this->hyperlink($site->title(), $item->siteUrl($site->slug())); ?></li>
+                <li><?php echo $this->hyperlink($site->title(), $itemSet->siteUrl($site->slug())); ?></li>
                 <?php endforeach; ?>
             </ul>
         </li>

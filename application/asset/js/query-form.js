@@ -27,7 +27,7 @@ $(document).ready(function () {
     });
 
     // Handle the button that shows the query string.
-    $('#content').on('click', '.query-form-show-query', function (e) {
+    $('#content').on('click', '.query-form-advanced-edit-show', function (e) {
         Omeka.closeSidebar(sidebarEdit);
         Omeka.closeSidebar(sidebarPreview);
         selectingElement = $(this).closest('.query-form-element');
@@ -35,15 +35,15 @@ $(document).ready(function () {
         selectingElement.find('.query-form-search-filters').empty();
         selectingElement.find('.query-form-query').prop('type', 'text');
         hide('.query-form-edit');
-        show('.query-form-hide-query');
-        show('.query-form-show-query-cancel');
-        hide('.query-form-show-query');
+        hide('.query-form-advanced-edit-show');
+        show('.query-form-advanced-edit-apply');
+        show('.query-form-advanced-edit-cancel');
         hide('.query-form-restore');
         hide('.query-form-clear');
     });
 
     // Handle the button that hides the query string.
-    $('#content').on('click', '.query-form-hide-query', function (e) {
+    $('#content').on('click', '.query-form-advanced-edit-apply', function (e) {
         selectingElement = $(this).closest('.query-form-element');
         currentQuery = '';
         const url = selectingElement.data('searchFiltersUrl');
@@ -53,9 +53,9 @@ $(document).ready(function () {
         });
         selectingElement.find('.query-form-query').prop('type', 'hidden');
         show('.query-form-edit');
-        hide('.query-form-hide-query');
-        hide('.query-form-show-query-cancel');
-        show('.query-form-show-query');
+        show('.query-form-advanced-edit-show');
+        hide('.query-form-advanced-edit-apply');
+        hide('.query-form-advanced-edit-cancel');
         (query === selectingElement.data('query'))
             ? hide('.query-form-restore')
             : show('.query-form-restore');
@@ -64,7 +64,7 @@ $(document).ready(function () {
             : hide('.query-form-clear');
     });
 
-    $('#content').on('click', '.query-form-show-query-cancel', function (e) {
+    $('#content').on('click', '.query-form-advanced-edit-cancel', function (e) {
         selectingElement = $(this).closest('.query-form-element');
         const url = selectingElement.data('searchFiltersUrl');
         const query = currentQuery;
@@ -73,9 +73,9 @@ $(document).ready(function () {
         });
         selectingElement.find('.query-form-query').prop('type', 'hidden').val(currentQuery);
         show('.query-form-edit');
-        hide('.query-form-hide-query');
-        hide('.query-form-show-query-cancel');
-        show('.query-form-show-query');
+        show('.query-form-advanced-edit-show');
+        hide('.query-form-advanced-edit-apply');
+        hide('.query-form-advanced-edit-cancel');
         (query === selectingElement.data('query'))
             ? hide('.query-form-restore')
             : show('.query-form-restore');

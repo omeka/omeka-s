@@ -384,7 +384,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      */
     public function getSubjectValueTotalCount(Resource $resource, $property = null)
     {
-        $dql = 'SELECT COUNT(v.id) FROM Omeka\Entity\Value v WHERE v.valueResource = :resource';
+        $dql = 'SELECT COUNT(r.id) FROM Omeka\Entity\Value v JOIN v.resource r WHERE v.valueResource = :resource';
         $params = ['resource' => $resource];
         if ($property) {
             $dql .= ' AND v.property = :property';

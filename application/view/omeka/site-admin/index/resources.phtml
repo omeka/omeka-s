@@ -78,10 +78,19 @@ $rowTemplate = '
 
 <script>
 const saveSearch = $('#save-search');
-$('#content').on('click', '.query-form-show-query', function (e) {
+$('#content').on('click', '.query-form-advanced-edit-show', function (e) {
     saveSearch.removeClass('active');
 });
-$('#content').on('click', '.query-form-hide-query', function (e) {
+$('#content').on('click', '.query-form-advanced-edit-apply', function (e) {
+    selectingElement = $(this).closest('.query-form-element');
+    const query = selectingElement.find('.query-form-query').val();
+    if (query !== selectingElement.data('query')) {
+        saveSearch.addClass('active');
+    } else {
+        saveSearch.removeClass('active');
+    }
+});
+$('#content').on('click', '.query-form-advanced-edit-cancel', function (e) {
     selectingElement = $(this).closest('.query-form-element');
     const query = selectingElement.find('.query-form-query').val();
     if (query !== selectingElement.data('query')) {

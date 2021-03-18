@@ -2942,6 +2942,14 @@ input[type="text"].value-language,
     padding-top: $spacing-small;
 }
 
+.query-form-element .active {
+    display: block;
+}
+
+.query-form-element .inactive {
+    display: none;
+}
+
 .query-display .search-filters {
     margin-bottom: 0;
 }
@@ -2953,6 +2961,10 @@ input[type="text"].value-language,
 
 .query-display .filter-label {
     background-color: $border-gray;
+}
+
+.query-form-element button.active {
+    display: inline-block;
 }
 
 .query-display {

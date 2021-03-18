@@ -1,13 +1,16 @@
 $(document).ready(function () {
+    // The selecting (active) element.
     let selectingElement;
 
+    // Add sidebars to page.
     const sidebarEdit = $('<div class="sidebar" id="query-sidebar-edit"><div class="sidebar-content"></div></div>');
     const sidebarPreview = $('<div class="sidebar" id="query-sidebar-preview"><div class="sidebar-content"></div></div>');
     sidebarEdit.appendTo('#content');
     sidebarPreview.appendTo('#content');
 
-    const show = element => element.removeClass('inactive').addClass('active');
-    const hide = element => element.removeClass('active').addClass('inactive');
+    // Show or hide button by selector.
+    const show = selector => selectingElement.find(selector).removeClass('inactive').addClass('active');
+    const hide = selector => selectingElement.find(selector).removeClass('active').addClass('inactive');
 
     // Handle the button that opens the search sidebar..
     $('#content').on('click', '.query-form-edit', function (e) {
@@ -30,11 +33,11 @@ $(document).ready(function () {
         selectingElement = $(this).closest('.query-form-element');
         selectingElement.find('.query-form-search-filters').empty();
         selectingElement.find('.query-form-query').prop('type', 'text');
-        hide(selectingElement.find('.query-form-edit'));
-        show(selectingElement.find('.query-form-hide-query'));
-        hide(selectingElement.find('.query-form-show-query'));
-        hide(selectingElement.find('.query-form-restore'));
-        hide(selectingElement.find('.query-form-clear'));
+        hide('.query-form-edit');
+        show('.query-form-hide-query');
+        hide('.query-form-show-query');
+        hide('.query-form-restore');
+        hide('.query-form-clear');
     });
 
     // Handle the button that hides the query string.
@@ -48,15 +51,15 @@ $(document).ready(function () {
             selectingElement.find('.query-form-search-filters').html(data);
         });
         selectingElement.find('.query-form-query').prop('type', 'hidden');
-        show(selectingElement.find('.query-form-edit'));
-        hide(selectingElement.find('.query-form-hide-query'));
-        show(selectingElement.find('.query-form-show-query'));
+        show('.query-form-edit');
+        hide('.query-form-hide-query');
+        show('.query-form-show-query');
         (query === selectingElement.data('query'))
-            ? hide(selectingElement.find('.query-form-restore'))
-            : show(selectingElement.find('.query-form-restore'));
+            ? hide('.query-form-restore')
+            : show('.query-form-restore');
         (query)
-            ? show(selectingElement.find('.query-form-clear'))
-            : hide(selectingElement.find('.query-form-clear'));
+            ? show('.query-form-clear')
+            : hide('.query-form-clear');
     });
 
     // Handle the button that restores the query string to its original state.
@@ -71,14 +74,14 @@ $(document).ready(function () {
         });
         selectingElement.find('.query-form-query').val(query).prop('type', 'hidden');
         selectingElement.find('.query-form-edit').prop('disabled', false);
-        hide(selectingElement.find('.query-form-hide-query'));
-        show(selectingElement.find('.query-form-show-query'));
+        hide('.query-form-hide-query');
+        show('.query-form-show-query');
         (query === selectingElement.data('query'))
-            ? hide(selectingElement.find('.query-form-restore'))
-            : show(selectingElement.find('.query-form-restore'));
+            ? hide('.query-form-restore')
+            : show('.query-form-restore');
         (query)
-            ? show(selectingElement.find('.query-form-clear'))
-            : hide(selectingElement.find('.query-form-clear'));
+            ? show('.query-form-clear')
+            : hide('.query-form-clear');
     });
 
     // Handle the button that clears the query.
@@ -93,12 +96,12 @@ $(document).ready(function () {
         });
         selectingElement.find('.query-form-query').val('').prop('type', 'hidden');
         selectingElement.find('.query-form-edit').prop('disabled', false);
-        hide(selectingElement.find('.query-form-hide-query'));
-        show(selectingElement.find('.query-form-show-query'));
+        hide('.query-form-hide-query');
+        show('.query-form-show-query');
         (query === selectingElement.data('query'))
-            ? hide(selectingElement.find('.query-form-restore'))
-            : show(selectingElement.find('.query-form-restore'));
-        hide(selectingElement.find('.query-form-clear'));
+            ? hide('.query-form-restore')
+            : show('.query-form-restore');
+        hide('.query-form-clear');
     });
     // Handle the button that sets the query string from the search sidebar.
     $('#content').on('click', '.query-form-set', function (e) {
@@ -112,11 +115,11 @@ $(document).ready(function () {
         });
         selectingElement.find('.query-form-query').val(query);
         (query === selectingElement.data('query'))
-            ? hide(selectingElement.find('.query-form-restore'))
-            : show(selectingElement.find('.query-form-restore'));
+            ? hide('.query-form-restore')
+            : show('.query-form-restore');
         (query)
-            ? show(selectingElement.find('.query-form-clear'))
-            : hide(selectingElement.find('.query-form-clear'));
+            ? show('.query-form-clear')
+            : hide('.query-form-clear');
     });
 
     // Handle the button that opens the preview sidebar.

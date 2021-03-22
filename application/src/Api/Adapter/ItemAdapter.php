@@ -263,6 +263,9 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         if (isset($rawData['o:item_set'])) {
             $data['o:item_set'] = $rawData['o:item_set'];
         }
+        if (isset($rawData['o:site'])) {
+            $data['o:site'] = $rawData['o:site'];
+        }
 
         return $data;
     }

@@ -10,6 +10,7 @@ $ids = array_filter($ids);
 if (!$ids) {
     $ids = [null];
 }
+$type = (isset($query['resource_template_type']) && in_array($query['resource_template_type'], ['any', 'none'])) ? $query['resource_template_type'] : 'any';
 ?>
 <div id="resource-templates" class="field removable multi-value" role="group">
     <div class="field-meta">
@@ -21,6 +22,8 @@ if (!$ids) {
         <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new template'); ?>" title="<?php echo $translate('Add new template'); ?>"></button>
     </div>
     <div class="inputs">
+        <label><input type="radio" name="resource_template_type" value="any"<?php echo ('any' === $type) ? ' checked': ''; ?>><?php echo $translate('Any of these'); ?></label>
+        <label><input type="radio" name="resource_template_type" value="none"<?php echo ('none' === $type) ? ' checked': ''; ?>><?php echo $translate('None of these'); ?></label>
         <?php foreach ($ids as $id): ?>
         <div class="value">
             <?php echo $this->resourceTemplateSelect([

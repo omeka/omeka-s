@@ -55,10 +55,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
             $classes = array_filter($classes, 'is_numeric');
             if ($classes) {
-                $qb->andWhere($qb->expr()->in(
-                    'omeka_root.resourceClass',
-                    $this->createNamedParameter($qb, $classes)
-                ));
+                $namedParam = $this->createNamedParameter($qb, $classes);
+                if (isset($query['resource_class_type']) && 'none' === $query['resource_class_type']) {
+                    $expr = $qb->expr()->notIn('omeka_root.resourceClass', $namedParam);
+                } else {
+                    $expr = $qb->expr()->in('omeka_root.resourceClass', $namedParam);
+                }
+                $qb->andWhere($expr);
             }
         }
 
@@ -69,10 +72,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
             $templates = array_filter($templates, 'is_numeric');
             if ($templates) {
-                $qb->andWhere($qb->expr()->in(
-                    'omeka_root.resourceTemplate',
-                    $this->createNamedParameter($qb, $templates)
-                ));
+                $namedParam = $this->createNamedParameter($qb, $templates);
+                if (isset($query['resource_template_type']) && 'none' === $query['resource_template_type']) {
+                    $expr = $qb->expr()->notIn('omeka_root.resourceTemplate', $namedParam);
+                } else {
+                    $expr = $qb->expr()->in('omeka_root.resourceTemplate', $namedParam);
+                }
+                $qb->andWhere($expr);
             }
         }
 

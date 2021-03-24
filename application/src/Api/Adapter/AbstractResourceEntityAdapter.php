@@ -55,11 +55,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
             $classes = array_filter($classes, 'is_numeric');
             if ($classes) {
-                $namedParam = $this->createNamedParameter($qb, $classes);
                 if (isset($query['resource_class_type']) && 'none' === $query['resource_class_type']) {
-                    $expr = $qb->expr()->notIn('omeka_root.resourceClass', $namedParam);
+                    $expr = $qb->expr()->orX(
+                        $qb->expr()->notIn('omeka_root.resourceClass', $this->createNamedParameter($qb, $classes);),
+                        $qb->expr()->isNull('omeka_root.resourceClass')
+                    );
                 } else {
-                    $expr = $qb->expr()->in('omeka_root.resourceClass', $namedParam);
+                    $expr = $qb->expr()->in('omeka_root.resourceClass', $this->createNamedParameter($qb, $classes););
                 }
                 $qb->andWhere($expr);
             }
@@ -72,11 +74,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
             $templates = array_filter($templates, 'is_numeric');
             if ($templates) {
-                $namedParam = $this->createNamedParameter($qb, $templates);
                 if (isset($query['resource_template_type']) && 'none' === $query['resource_template_type']) {
-                    $expr = $qb->expr()->notIn('omeka_root.resourceTemplate', $namedParam);
+                    $expr = $qb->expr()->orX(
+                        $qb->expr()->notIn('omeka_root.resourceTemplate', $this->createNamedParameter($qb, $templates)),
+                        $qb->expr()->isNull('omeka_root.resourceTemplate')
+                    );
                 } else {
-                    $expr = $qb->expr()->in('omeka_root.resourceTemplate', $namedParam);
+                    $expr = $qb->expr()->in('omeka_root.resourceTemplate', $this->createNamedParameter($qb, $templates));
                 }
                 $qb->andWhere($expr);
             }

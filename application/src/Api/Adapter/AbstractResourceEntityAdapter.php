@@ -57,11 +57,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             if ($classes) {
                 if (isset($query['resource_class_type']) && 'none' === $query['resource_class_type']) {
                     $expr = $qb->expr()->orX(
-                        $qb->expr()->notIn('omeka_root.resourceClass', $this->createNamedParameter($qb, $classes);),
+                        $qb->expr()->notIn('omeka_root.resourceClass', $this->createNamedParameter($qb, $classes)),
                         $qb->expr()->isNull('omeka_root.resourceClass')
                     );
                 } else {
-                    $expr = $qb->expr()->in('omeka_root.resourceClass', $this->createNamedParameter($qb, $classes););
+                    $expr = $qb->expr()->in('omeka_root.resourceClass', $this->createNamedParameter($qb, $classes));
                 }
                 $qb->andWhere($expr);
             }

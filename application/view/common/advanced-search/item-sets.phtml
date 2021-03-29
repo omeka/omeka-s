@@ -1,13 +1,29 @@
 <?php
 $translate = $this->plugin('translate');
-// Prepare the item set queries
-$ids = isset($query['item_set_id']) ? $query['item_set_id'] : [];
-if (!is_array($ids)) {
-    $ids = [$ids];
+
+// Prepare the "item_set" query.
+$itemSets = (isset($query['item_set']) && is_array($query['item_set'])) ? $query['item_set'] : [];
+$itemSets = array_filter($itemSets, function ($itemSet) {
+    return (
+        isset($itemSet['type'])
+        && in_array($itemSet['type'], ['in', 'nin'])
+        && isset($itemSet['id'])
+        && is_numeric($itemSet['id'])
+    );
+});
+// Include the legacy "item_set_id" query.
+$itemSetIds = $query['item_set_id'] ?? [];
+if (!is_array($itemSetIds)) {
+    $itemSetIds = [$itemSetIds];
 }
-$ids = array_filter($ids);
-if (!$ids) {
-    $ids = [null];
+foreach ($itemSetIds as $itemSetId) {
+    if (is_numeric($itemSetId)) {
+        $itemSets[] = ['type' => 'in', 'id' => $itemSetId];
+    }
+}
+// Set the default state if no item sets are set.
+if (!$itemSets) {
+    $itemSets = [['type' => 'in', 'id' => '']];
 }
 ?>
 <div id="item-sets" class="field removable multi-value" role="group">
@@ -20,13 +36,16 @@ if (!$ids) {
         <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new item set'); ?>" title="<?php echo $translate('Add new item set'); ?>"></button>
     </div>
     <div class="inputs">
-        <?php foreach ($ids as $id): ?>
+        <?php foreach ($itemSets as $index => $itemSet): ?>
         <div class="value">
+            <select name="<?php echo sprintf('item_set[%s][type]', $index); ?>">
+                <option value="in"<?php echo ('in' === $itemSet['type']) ? ' selected' : ''; ?>><?php echo $translate('Is in'); ?></option>
+                <option value="nin"<?php echo ('nin' === $itemSet['type']) ? ' selected' : ''; ?>><?php echo $translate('Is not in'); ?></option>
+            </select>
             <?php echo $this->itemSetSelect([
-                'name' => 'item_set_id[]',
+                'name' => sprintf('item_set[%s][id]', $index),
                 'attributes' => [
-                    'value' => $id,
-                    'aria-labelledby' =>  'by-item-set-label'
+                    'value' => $itemSet['id'],
                 ],
                 'options' => [
                     'disable_group_by_owner' => $this->status()->isSiteRequest(),

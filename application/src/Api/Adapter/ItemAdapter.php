@@ -53,6 +53,42 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             }
         }
 
+        if (isset($query['item_set']) && is_array($query['item_set'])) {
+            $inItemSets = [];
+            $ninItemSets = [];
+            foreach ($query['item_set'] as $itemSet) {
+                if (!(
+                    isset($itemSet['type'])
+                    && in_array($itemSet['type'], ['in', 'nin'])
+                    && isset($itemSet['id'])
+                    && is_numeric($itemSet['id'])
+                )) {
+                    continue;
+                }
+                if ('in' === $itemSet['type']) {
+                    $inItemSets[] = $itemSet['id'];
+                } elseif ('nin' === $itemSet['type']) {
+                    $ninItemSets[] = $itemSet['id'];
+                }
+            }
+            if ($inItemSets) {
+                $itemSetAlias = $this->createAlias();
+                $qb->innerJoin(
+                    'omeka_root.itemSets',
+                    $itemSetAlias, 'WITH',
+                    $qb->expr()->in("$itemSetAlias.id", $this->createNamedParameter($qb, $inItemSets))
+                );
+            }
+            if ($ninItemSets) {
+                $itemSetAlias = $this->createAlias();
+                $qb->leftJoin('omeka_root.itemSets', $itemSetAlias);
+                $qb->andWhere($qb->expr()->orX(
+                    $qb->expr()->notIn("$itemSetAlias.id", $this->createNamedParameter($qb, $ninItemSets)),
+                    $qb->expr()->isNull("$itemSetAlias.id")
+                ));
+            }
+        }
+
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
             $siteAlias = $this->createAlias();
             $qb->innerJoin(

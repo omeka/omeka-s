@@ -15,9 +15,9 @@ class SiteResourcesForm extends Form
                 'label' => 'Manage current items', // @translate
                 'value_options' => [
                     'no_action' => 'Do nothing', // @translate
-                    'add' => 'Add - keep existing items and assign items from a new search', // @translate
-                    'replace' => 'Replace - unassign all items and assign items from a new search', // @translate
-                    'remove' => 'Remove - unassign items from a new search', // @translate
+                    'add' => 'Add - keep existing items and assign items from a new query', // @translate
+                    'replace' => 'Replace - unassign all items and assign items from a new query', // @translate
+                    'remove' => 'Remove - unassign items from a new query', // @translate
                     'remove_all' => 'Remove all - unassign all items', // @translate
                 ],
             ],
@@ -28,16 +28,12 @@ class SiteResourcesForm extends Form
         $this->add([
             'type' => 'checkbox',
             'name' => 'save_search',
-            'options' => [
-                'label' => 'Keep this search', // @translate
-                'info' => 'Use this as a convenient way to store a commonly used query. For example, you will likely want to save a search for periodic adding, but will not want to save a search for a one-time removal.', // @translate
-            ],
         ]);
         $this->add([
             'type' => OmekaElement\Query::class,
             'name' => 'item_pool',
             'options' => [
-                'label' => 'Search', // @translate
+                'label' => 'Query', // @translate
                 'query_resource_type' => 'items',
                 'query_partial_excludelist' => [
                     'common/advanced-search/site',

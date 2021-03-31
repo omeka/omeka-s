@@ -77,6 +77,7 @@ $rowTemplate = '
 <?php echo $this->form()->closeTag(); ?>
 
 <script>
+Omeka.initializeSelector('#site-item-sets', '#item-set-selector');
 const saveSearch = $('#save-search');
 $('#content').on('click', '.query-form-advanced-edit-show', function (e) {
     saveSearch.removeClass('active');

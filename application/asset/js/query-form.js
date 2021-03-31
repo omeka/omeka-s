@@ -146,7 +146,8 @@ $(document).ready(function () {
         const url = selectingElement.data('sidebar-preview-url');
         const query = $('#advanced-search').serialize();
         Omeka.populateSidebarContent(sidebarPreview, `${url}?${query}`, {
-            query_resource_type: selectingElement.data('resourceType')
+            query_resource_type: selectingElement.data('resourceType'),
+            query_preview_append_query: JSON.stringify(selectingElement.data('previewAppendQuery'))
         });
     });
 

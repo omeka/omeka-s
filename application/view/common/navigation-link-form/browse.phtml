@@ -9,7 +9,8 @@ $queryElement = (new Omeka\Form\Element\Query('query'))
     ->setValue($query)
     ->setAttribute('data-name', 'query')
     ->setOption('query_resource_type', ('Omeka\Site\Navigation\Link\Browse' === get_class($link)) ? 'items' : 'item_sets')
-    ->setOption('query_partial_excludelist', ['common/advanced-search/site']);
+    ->setOption('query_partial_excludelist', ['common/advanced-search/site'])
+    ->setOption('query_preview_append_query', ['site_id' => $site->id()]);
 ?>
 <label><?php echo $translate('Type'); ?> <input type="text" value="<?php echo $escape($translate($link->getName())); ?>" disabled></label>
 <label><?php echo $translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>"></label>

@@ -13,6 +13,7 @@ if (!$searchFilters) {
     data-query="<?php echo $this->escapeHtml($element->getValue()); ?>"
     data-resource-type="<?php echo $this->escapeHtml($element->getResourceType()); ?>"
     data-partial-excludelist="<?php echo $this->escapeHtml(json_encode($element->getPartialExcludelist())); ?>"
+    data-preview-append-query="<?php echo $this->escapeHtml(json_encode($element->getPreviewAppendQuery())); ?>"
     data-search-filters-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'search-filters'])); ?>"
     data-sidebar-preview-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-preview'])); ?>"
     data-sidebar-edit-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-edit'])); ?>">

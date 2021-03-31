@@ -15,6 +15,11 @@ class Query extends Element implements InputProviderInterface
         return [];
     }
 
+    /**
+     * Get the resource type of this query.
+     *
+     * @return string
+     */
     public function getResourceType()
     {
         $resourceType = 'items';
@@ -24,6 +29,11 @@ class Query extends Element implements InputProviderInterface
         return $resourceType;
     }
 
+    /**
+     * Get partials to exclude from the advanced search form.
+     *
+     * @return array
+     */
     public function getPartialExcludelist()
     {
         $partialExcludelist = [];
@@ -31,5 +41,22 @@ class Query extends Element implements InputProviderInterface
             $partialExcludelist = $this->getOption('query_partial_excludelist');
         }
         return $partialExcludelist;
+    }
+
+    /**
+     * Get additional parameters to append to the preview query.
+     *
+     * This element may be used in a context that needs additional query
+     * parameters for an accurate preview, such as ['site_id' => 1].
+     *
+     * @return array
+     */
+    public function getPreviewAppendQuery()
+    {
+        $appendQuery = [];
+        if (is_array($this->getOption('query_preview_append_query'))) {
+            $appendQuery = $this->getOption('query_preview_append_query');
+        }
+        return $appendQuery;
     }
 }

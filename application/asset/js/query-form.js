@@ -71,7 +71,7 @@ $(document).ready(function () {
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
         });
-        selectingElement.find('.query-form-query').prop('type', 'hidden').val(currentQuery);
+        selectingElement.find('.query-form-query').prop('type', 'hidden').val(currentQuery).trigger('input');
         show('.query-form-edit');
         show('.query-form-advanced-edit-show');
         hide('.query-form-advanced-edit-apply');
@@ -94,7 +94,7 @@ $(document).ready(function () {
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
         });
-        selectingElement.find('.query-form-query').val(query).prop('type', 'hidden');
+        selectingElement.find('.query-form-query').val(query).prop('type', 'hidden').trigger('input');
         selectingElement.find('.query-form-edit').prop('disabled', false);
         (query === selectingElement.data('query'))
             ? hide('.query-form-restore')
@@ -114,7 +114,7 @@ $(document).ready(function () {
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
         });
-        selectingElement.find('.query-form-query').val('').prop('type', 'hidden');
+        selectingElement.find('.query-form-query').val('').prop('type', 'hidden').trigger('input');
         selectingElement.find('.query-form-edit').prop('disabled', false);
         (query === selectingElement.data('query'))
             ? hide('.query-form-restore')
@@ -131,7 +131,7 @@ $(document).ready(function () {
         $.get(`${url}?${query}`, function(data) {
             selectingElement.find('.query-form-search-filters').html(data);
         });
-        selectingElement.find('.query-form-query').val(query);
+        selectingElement.find('.query-form-query').val(query).trigger('input');
         (query === selectingElement.data('query'))
             ? hide('.query-form-restore')
             : show('.query-form-restore');

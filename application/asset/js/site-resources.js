@@ -14,5 +14,17 @@
             draggable: '.resource-row',
             handle: '.sortable-handle',
         });
+
+        const saveSearch = $('#save-search');
+        const queryFormElement = $('.query-form-element');
+        $('#content').on('input', '.query-form-query', function (e) {
+            if (queryFormElement.data('query') === $(this).val()) {
+                saveSearch.removeClass('active');
+            } else {
+                saveSearch.addClass('active');
+            }
+        });
+
+        Omeka.initializeSelector('#site-item-sets', '#item-set-selector');
     });
 })(jQuery)

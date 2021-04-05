@@ -59,7 +59,7 @@ class BrowsePreview extends AbstractBlockLayout
             'name' => 'o:block[__blockIndex__][o:data][query]',
             'type' => OmekaElement\Query::class,
             'options' => [
-                'label' => 'Query', // @translate
+                'label' => 'Search query', // @translate
                 'info' => 'Display resources using this search query', // @translate
                 'query_resource_type' => $data['resource_type'],
                 'query_partial_excludelist' => ['common/advanced-search/site'],

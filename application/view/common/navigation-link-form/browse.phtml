@@ -5,7 +5,7 @@ $label = isset($data['label']) && '' !== trim($data['label']) ? $data['label'] :
 $query = isset($data['query']) && '' !== trim($data['query']) ? $data['query'] : null;
 
 $queryElement = (new Omeka\Form\Element\Query('query'))
-    ->setLabel($this->translate('Query'))
+    ->setLabel($this->translate('Search query'))
     ->setValue($query)
     ->setAttribute('data-name', 'query')
     ->setOption('query_resource_type', ('Omeka\Site\Navigation\Link\Browse' === get_class($link)) ? 'items' : 'item_sets')

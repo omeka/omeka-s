@@ -15,9 +15,9 @@ class SiteResourcesForm extends Form
                 'label' => 'Manage current items', // @translate
                 'value_options' => [
                     'no_action' => 'Do nothing', // @translate
-                    'add' => 'Add - keep existing items and assign items from a new query', // @translate
-                    'replace' => 'Replace - unassign all items and assign items from a new query', // @translate
-                    'remove' => 'Remove - unassign items from a new query', // @translate
+                    'add' => 'Add - keep existing items and assign items from a new search query', // @translate
+                    'replace' => 'Replace - unassign all items and assign items from a new search query', // @translate
+                    'remove' => 'Remove - unassign items from a new search query', // @translate
                     'remove_all' => 'Remove all - unassign all items', // @translate
                 ],
             ],
@@ -33,7 +33,7 @@ class SiteResourcesForm extends Form
             'type' => OmekaElement\Query::class,
             'name' => 'item_pool',
             'options' => [
-                'label' => 'Query', // @translate
+                'label' => 'Search query', // @translate
                 'query_resource_type' => 'items',
                 'query_partial_excludelist' => [
                     'common/advanced-search/site',

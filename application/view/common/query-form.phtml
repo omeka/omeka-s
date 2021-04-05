@@ -21,10 +21,10 @@ if (!$searchFilters) {
         <div class="query-form-search-filters"><?php echo $searchFilters; ?></div>
         <?php echo $this->formHidden($element); ?>
     </div>
-    <button type="button" class="query-form-edit active"><?php echo $this->translate('Edit'); ?></button>
-    <button type="button" class="query-form-advanced-edit-show active"><?php echo $this->translate('Advanced edit'); ?></button>
+    <button type="button" class="query-form-edit"><?php echo $this->translate('Edit'); ?></button>
+    <button type="button" class="query-form-advanced-edit-show"><?php echo $this->translate('Advanced edit'); ?></button>
     <button type="button" class="query-form-advanced-edit-apply inactive"><?php echo $this->translate('Apply'); ?></button>
     <button type="button" class="query-form-advanced-edit-cancel red button inactive"><?php echo $this->translate('Cancel'); ?></button>
     <button type="button" class="query-form-restore red button inactive"><?php echo $this->translate('Restore'); ?></button>
-    <button type="button" class="query-form-clear red button <?php echo $queryArray ? 'active' : 'inactive'; ?>"><?php echo $this->translate('Clear'); ?></button>
+    <button type="button" class="query-form-clear red button <?php echo $queryArray ? '' : 'inactive'; ?>"><?php echo $this->translate('Clear'); ?></button>
 </div>

@@ -9,8 +9,8 @@ $(document).ready(function () {
     sidebarPreview.appendTo('#content');
 
     // Show or hide button by selector.
-    const show = selector => selectingElement.find(selector).removeClass('inactive').addClass('active');
-    const hide = selector => selectingElement.find(selector).removeClass('active').addClass('inactive');
+    const show = selector => selectingElement.find(selector).removeClass('inactive');
+    const hide = selector => selectingElement.find(selector).addClass('inactive');
 
     // Handle the button that opens the search sidebar..
     $('#content').on('click', '.query-form-edit', function (e) {

@@ -10,6 +10,7 @@
 # Bruna Santiago <bruna.santiago@campus.fcsh.unl.pt>, 2020
 # Ângela Pité <angelaimp05@gmail.com>, 2020
 # Daniel Alves <daniel_r_alves@hotmail.com>, 2020
+# Joana Paulino <jpaulino@fcsh.unl.pt>, 2020
 # 
 #, fuzzy
 msgid ""
@@ -18,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-21 11:21-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Daniel Alves <daniel_r_alves@hotmail.com>, 2020\n"
+"Last-Translator: Joana Paulino <jpaulino@fcsh.unl.pt>, 2020\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/omeka/teams/14184/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -311,7 +312,7 @@ msgstr "Número de níveis de páginas filhas a apresentar"
 
 #: application/src/Site/Navigation/Link/Page.php:37
 msgid "[Missing Page]"
-msgstr ""
+msgstr "[Página em falta]"
 
 #: application/src/Site/Navigation/Translator.php:60
 msgid "Home"
@@ -672,11 +673,11 @@ msgstr "Pesquisar por tipo de MIME"
 
 #: application/view/common/advanced-search/owner.phtml:3
 msgid "Search by owner"
-msgstr ""
+msgstr "Pesquisar por proprietário"
 
 #: application/view/common/advanced-search/owner.phtml:6
 msgid "Searches for resources that are owned by this user."
-msgstr ""
+msgstr "Pesquisa por recursos que são propriedade deste utilizador."
 
 #: application/view/common/advanced-search/properties.phtml:33
 msgid "Query text"
@@ -704,7 +705,7 @@ msgstr "Pesquisa por classe"
 
 #: application/view/common/advanced-search/resource-class.phtml:18
 msgid "Searches for resources that are any of these classes."
-msgstr ""
+msgstr "Pesquisa por recursos que são qualquer uma destas classes."
 
 #: application/view/common/advanced-search/resource-class.phtml:20
 msgid "Add new class"
@@ -716,7 +717,7 @@ msgstr "Pesquisa por modelo"
 
 #: application/view/common/advanced-search/resource-template.phtml:19
 msgid "Searches for resources that use any of these templates."
-msgstr ""
+msgstr "Pesquisa por recursos que usam qualquer um destes modelos."
 
 #: application/view/common/advanced-search/resource-template.phtml:21
 msgid "Add new template"
@@ -724,11 +725,11 @@ msgstr "Adicionar um novo modelo"
 
 #: application/view/common/advanced-search/site.phtml:3
 msgid "Search by site"
-msgstr ""
+msgstr "Pesquisar por site"
 
 #: application/view/common/advanced-search/site.phtml:6
 msgid "Searches for items that are assigned to this site."
-msgstr ""
+msgstr "Pesquisa por itens que estão atribuídos a este site."
 
 #: application/view/common/advanced-search/users.phtml:17
 msgid "Search by email"
@@ -834,17 +835,17 @@ msgstr "Pesquisa avançada de itens"
 #: application/view/common/cross-site-search/item-results.phtml:8
 #, php-format
 msgid "Item results for \"%s\""
-msgstr ""
+msgstr "Resultados do item para \"%s\""
 
 #: application/view/common/cross-site-search/item-set-results.phtml:3
 #: application/view/omeka/search/item-sets-advanced.phtml:2
 msgid "Advanced item set search"
-msgstr ""
+msgstr "Pesquisa avançada do conjunto de itens"
 
 #: application/view/common/cross-site-search/item-set-results.phtml:8
 #, php-format
 msgid "Item set results for \"%s\""
-msgstr ""
+msgstr "Resultados do conjunto de itens para \"1 %s\""
 
 #: application/view/common/cross-site-search/results.phtml:6
 #: application/view/omeka/site/index/search.phtml:8
@@ -855,7 +856,7 @@ msgstr "Pesquisar resultados para \"%s\""
 #: application/view/common/cross-site-search/results.phtml:13
 #: application/view/omeka/site/item/show.phtml:32
 msgid "Site pages"
-msgstr ""
+msgstr "Páginas do site"
 
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
@@ -890,12 +891,12 @@ msgstr "Itens"
 #: application/view/common/cross-site-search/results.phtml:97
 #: application/view/omeka/site/index/search.phtml:11
 msgid "No result found"
-msgstr ""
+msgstr "Não foi encontrado resultado"
 
 #: application/view/common/cross-site-search/site-page-results.phtml:3
 #, php-format
 msgid "Site page results for \"%s\""
-msgstr ""
+msgstr "Resultados das páginas do site para \"1 %s\""
 
 #: application/view/common/data-type-wrapper.phtml:12
 #: application/view/common/resource-form-templates.phtml:23
@@ -1233,11 +1234,11 @@ msgstr "Anterior"
 
 #: application/view/common/site-selector.phtml:4
 msgid "Click on a site to add it to the edit panel."
-msgstr ""
+msgstr "Selecione um site para o adicionar ao painel de edição."
 
 #: application/view/common/site-selector.phtml:5
 msgid "Filter sites"
-msgstr ""
+msgstr "Filtrar sites"
 
 #: application/view/common/site-selector.phtml:7
 #: application/view/omeka/admin/item/form.phtml:17
@@ -1335,13 +1336,15 @@ msgstr "Proibido"
 
 #: application/view/error/404.phtml:4
 msgid "Page not found"
-msgstr ""
+msgstr "Página não encontrada"
 
 #: application/view/error/404.phtml:6
 msgid ""
 "The page you are trying to view does not exist. Use the back button to "
 "return to the last page."
 msgstr ""
+"A página que está a tentar visualizar não existe. Utilize o botão de "
+"retrocesso para regressar à última página."
 
 #: application/view/error/404.phtml:14
 #, php-format
@@ -1362,10 +1365,12 @@ msgid ""
 "To learn how to see more detailed information about this error, see the "
 "Omeka S User Manual page on %s."
 msgstr ""
+"Para saber informação mais detalhada sobre este erro, veja a página do "
+"Manual do Utilizador do Omeka S em 1 %s ."
 
 #: application/view/error/index.phtml:19
 msgid "retrieving error messages"
-msgstr ""
+msgstr "recuperar mensagens de erro"
 
 #: application/view/layout/layout-admin.phtml:37
 msgid "Skip to main content"
@@ -2012,17 +2017,19 @@ msgstr "Adicionar multimédia"
 
 #: application/view/omeka/admin/item/manage-sites.phtml:30
 msgid "Unassign from site"
-msgstr ""
+msgstr "Desatribuir do site"
 
 #: application/view/omeka/admin/item/manage-sites.phtml:48
 msgid ""
 "This item is part of no sites. Add it to a site using the interface to the "
 "right."
 msgstr ""
+"Este item não pertence a nenhhum site. Adicione-o a um site utilizando o "
+"menu à direita."
 
 #: application/view/omeka/admin/item/manage-sites.phtml:51
 msgid "Assign to site"
-msgstr ""
+msgstr "Atribuir a site"
 
 #: application/view/omeka/admin/item/show.phtml:21
 msgid "Edit item"
@@ -2358,12 +2365,12 @@ msgstr "Requerido"
 #: application/view/omeka/admin/resource-template/review-import.phtml:67
 #: application/view/omeka/admin/resource-template/show.phtml:27
 msgid "Data types"
-msgstr ""
+msgstr "Tipos de data"
 
 #: application/view/omeka/admin/resource-template/form.phtml:96
 #: application/view/omeka/admin/resource-template/review-import.phtml:98
 msgid "Select data types…"
-msgstr ""
+msgstr "Selecione tipos de data..."
 
 #: application/view/omeka/admin/resource-template/form.phtml:101
 msgid "Set changes"
@@ -2383,11 +2390,11 @@ msgstr "Completar importação"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:40
 msgid "Resource title"
-msgstr ""
+msgstr "Título do recurso"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:40
 msgid "Resource description"
-msgstr ""
+msgstr "Descrição do recurso"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:66
 #: application/view/omeka/admin/resource-template/show.phtml:26
@@ -2709,7 +2716,7 @@ msgstr "Páginas"
 #: application/view/omeka/site-admin/index/add.phtml:7
 #: application/view/omeka/site-admin/index/edit.phtml:32
 msgid "Info"
-msgstr ""
+msgstr "Informação"
 
 #: application/view/omeka/site-admin/index/add.phtml:8
 #: application/view/omeka/site-admin/index/show.phtml:32
@@ -2770,7 +2777,7 @@ msgstr "Não há páginas disponíveis."
 #: application/view/omeka/site-admin/index/resources.phtml:37
 #, php-format
 msgid "There are currently %s items assigned to this site."
-msgstr ""
+msgstr "Atualmente existem %s itens atribuídos a este site."
 
 #: application/view/omeka/site-admin/index/resources.phtml:42
 #, php-format
@@ -2778,15 +2785,17 @@ msgid ""
 "This site currently auto-assigns newly created items. Change the setting in "
 "%s."
 msgstr ""
+"Atualmente este site atribui automaticamente itens recém-criados. Altere "
+"esta configuração em %s. "
 
 #: application/view/omeka/site-admin/index/resources.phtml:43
 msgid "site admin"
-msgstr ""
+msgstr "Administrador do site"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
 #: application/view/omeka/site-admin/index/resources.phtml:55
 msgid "Preview this search"
-msgstr ""
+msgstr "Visualize esta pesquisa"
 
 #: application/view/omeka/site-admin/index/resources.phtml:80
 msgid "No item sets are assigned to this site."
@@ -2868,7 +2877,7 @@ msgstr "Criador"
 
 #: application/view/omeka/site-admin/index/users.phtml:12
 msgid "Manager"
-msgstr ""
+msgstr "Gestor"
 
 #: application/view/omeka/site-admin/index/users.phtml:41
 msgid "User permissions"
@@ -2907,7 +2916,7 @@ msgstr "Aplicar as alterações"
 #: application/view/omeka/site-admin/page/index.phtml:27
 #: application/view/omeka/site-admin/page/index.phtml:50
 msgid "Modified"
-msgstr ""
+msgstr "Modificado"
 
 #: application/view/omeka/site-admin/page/index.phtml:41
 msgid "Add new page"
@@ -2940,7 +2949,7 @@ msgstr "Item"
 #: application/view/omeka/site/media/show.phtml:11
 #, php-format
 msgid "Part of %s"
-msgstr ""
+msgstr "Parte de %s"
 
 #: application/view/omeka/site/page/browse.phtml:18
 msgid "No pages found"
@@ -3111,7 +3120,7 @@ msgstr "Administrador Global"
 
 #: application/src/Permissions/Acl.php:22
 msgid "Supervisor"
-msgstr ""
+msgstr "Supervisor"
 
 #: application/src/Permissions/Acl.php:24
 msgid "Reviewer"
@@ -3389,31 +3398,35 @@ msgstr "Token CSRF inválido ou ausente"
 
 #: application/src/Form/SiteResourcesForm.php:14
 msgid "Manage current items"
-msgstr ""
+msgstr "Gerir itens atuais"
 
 #: application/src/Form/SiteResourcesForm.php:16
 msgid "Do nothing"
-msgstr ""
+msgstr "Não fazer nada"
 
 #: application/src/Form/SiteResourcesForm.php:17
 msgid "Add - keep existing items and assign items from a new search"
 msgstr ""
+"Adicionar - manter os itens existentes e atribuir novos itens de uma nova "
+"pesquisa"
 
 #: application/src/Form/SiteResourcesForm.php:18
 msgid "Replace - unassign all items and assign items from a new search"
 msgstr ""
+"Substituir - desatribuir todos os itens e atribuir itens de uma nova "
+"pesquisa"
 
 #: application/src/Form/SiteResourcesForm.php:19
 msgid "Remove - unassign items from a new search"
-msgstr ""
+msgstr "Remover - desatribuir itens de uma nova pesquisa"
 
 #: application/src/Form/SiteResourcesForm.php:20
 msgid "Remove all - unassign all items"
-msgstr ""
+msgstr "Remover todos - desatribuir todos os itens"
 
 #: application/src/Form/SiteResourcesForm.php:31
 msgid "Keep this search"
-msgstr ""
+msgstr "Manter esta pesquisa"
 
 #: application/src/Form/SiteResourcesForm.php:32
 msgid ""
@@ -3421,6 +3434,10 @@ msgid ""
 "you will likely want to save a search for periodic adding, but will not want"
 " to save a search for a one-time removal."
 msgstr ""
+"Utilize isto como uma maneira conveniente para guardar uma pesquisa "
+"frequentemente realizada. Por exemplo, poderá querer salvar uma pesquisa "
+"para adições periódicas, mas não quererá salvar uma pesquisa para uma "
+"eliminação única."
 
 #: application/src/Form/SiteSettingsForm.php:28
 #: application/src/Form/SettingForm.php:110
@@ -3429,13 +3446,16 @@ msgstr "Geral"
 
 #: application/src/Form/SiteSettingsForm.php:38
 msgid "Auto-assign new items"
-msgstr ""
+msgstr "Atribuir automaticamente novos itens."
 
 #: application/src/Form/SiteSettingsForm.php:39
 msgid ""
 "Select this if you want new items to be automatically assigned to this site."
 " Note that item owners may unassign their items at any time."
 msgstr ""
+"Selecione isto se quiser que os novos itens sejam automaticamente atribuídos"
+" a este site. Note que os proprietários dos itens podem desatribuí-los em "
+"qualquer altura."
 
 #: application/src/Form/SiteSettingsForm.php:50
 msgid "Attachment link type"
@@ -3569,42 +3589,47 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:201
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #: application/src/Form/SiteSettingsForm.php:209
 msgid "Show attached pages"
-msgstr ""
+msgstr "Mostrar páginas anexas"
 
 #: application/src/Form/SiteSettingsForm.php:210
 msgid ""
 "Show site pages to which an item is attached on the public item show page."
 msgstr ""
+"Mostrar as páginas do site às quais um item está anexado na página de "
+"exibição do item público."
 
 #: application/src/Form/SiteSettingsForm.php:232
 msgid "Search type"
-msgstr ""
+msgstr "Tipo de pesquisa"
 
 #: application/src/Form/SiteSettingsForm.php:233
 msgid "Select the type of search the main search field will perform"
 msgstr ""
+"Selecione o tipo de pesquisa que o campo de pesquisa principal realizará"
 
 #: application/src/Form/SiteSettingsForm.php:235
 msgid "This site"
-msgstr ""
+msgstr "Este site"
 
 #: application/src/Form/SiteSettingsForm.php:236
 msgid "All sites"
-msgstr ""
+msgstr "Todos os sites"
 
 #: application/src/Form/SiteSettingsForm.php:253
 msgid "Search resources"
-msgstr ""
+msgstr "Pesquisar recursos"
 
 #: application/src/Form/SiteSettingsForm.php:254
 msgid ""
 "Customize which types of resources will be searchable in the main search "
 "field."
 msgstr ""
+"Personalize quais os tipos de recursos que serão pesquisáveis no campo de "
+"pesquisa principal."
 
 #: application/src/Form/SiteSettingsForm.php:267
 msgid "Templates"
@@ -3734,11 +3759,11 @@ msgstr "Modelo de recursos por defeito"
 
 #: application/src/Form/UserForm.php:170
 msgid "Select sites"
-msgstr ""
+msgstr "Selecionar sites"
 
 #: application/src/Form/UserForm.php:175
 msgid "Default sites for items"
-msgstr ""
+msgstr "Site padrão para itens"
 
 #: application/src/Form/UserForm.php:186
 msgid "Current password"
@@ -3835,7 +3860,7 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:263
 msgid "Suggested languages for values"
-msgstr ""
+msgstr "Idiomas sugeridos para valores"
 
 #: application/src/Form/SettingForm.php:264
 msgid ""
@@ -3843,6 +3868,9 @@ msgid ""
 "List them one by line. The label displayed for a language may be appended "
 "with a \"=\"."
 msgstr ""
+"Lista de idiomas para facilitar o preenchimento dos valores do formulário de"
+" recursos. Liste-os por linha. A etiqueta exibida para uma língua pode ser "
+"anexada com um \"=\"."
 
 #: application/src/Form/SettingForm.php:277
 msgid "Index full-text search"
@@ -4523,6 +4551,8 @@ msgstr "Navegação actualizada com sucesso"
 msgid ""
 "Item assignment in progress. To see the new item count, refresh the page."
 msgstr ""
+"Atribuição do item em progresso. Para verificar a nova contagem de itens "
+"atualize a página."
 
 #: application/src/Controller/SiteAdmin/IndexController.php:258
 msgid "Site resources successfully updated"
@@ -4741,7 +4771,7 @@ msgstr "URL para a imagem a incorporar."
 
 #: application/config/navigation.config.php:192
 msgid "Site admin"
-msgstr ""
+msgstr "Administrador do site"
 
 #: application/config/module.config.php:621
 msgid "Something went wrong"

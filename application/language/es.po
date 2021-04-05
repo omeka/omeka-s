@@ -14,6 +14,7 @@
 # mikasa254 <aferro2k6@gmail.com>, 2019
 # Carlos Rivera <Robertohernande9z9@hotmail.com>, 2019
 # John Flatness <john@zerocrates.org>, 2020
+# Adriana Hernández, 2021
 # 
 #, fuzzy
 msgid ""
@@ -22,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-21 11:21-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: John Flatness <john@zerocrates.org>, 2020\n"
+"Last-Translator: Adriana Hernández, 2021\n"
 "Language-Team: Spanish (https://www.transifex.com/omeka/teams/14184/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -323,7 +324,7 @@ msgstr "Número de niveles de páginas hijas a visualizar"
 
 #: application/src/Site/Navigation/Link/Page.php:37
 msgid "[Missing Page]"
-msgstr ""
+msgstr "[Página perdida]"
 
 #: application/src/Site/Navigation/Translator.php:60
 msgid "Home"
@@ -466,7 +467,7 @@ msgstr "no tiene valores"
 #: application/src/View/Helper/SearchFilters.php:47
 #: application/view/common/advanced-search/fulltext.phtml:6
 msgid "Search full-text"
-msgstr ""
+msgstr "Buscar texto completo"
 
 #: application/src/View/Helper/SearchFilters.php:60
 #: application/view/common/linked-resources.phtml:33
@@ -680,15 +681,15 @@ msgstr "Borrar valor"
 
 #: application/view/common/advanced-search/media-type.phtml:6
 msgid "Search by MIME type"
-msgstr ""
+msgstr "Buscar por tipo de MIME"
 
 #: application/view/common/advanced-search/owner.phtml:3
 msgid "Search by owner"
-msgstr ""
+msgstr "Buscar por propietario"
 
 #: application/view/common/advanced-search/owner.phtml:6
 msgid "Searches for resources that are owned by this user."
-msgstr ""
+msgstr "Buscar por recursos que pertenecen a este usuario."
 
 #: application/view/common/advanced-search/properties.phtml:33
 msgid "Query text"
@@ -716,7 +717,7 @@ msgstr "Buscar por clase"
 
 #: application/view/common/advanced-search/resource-class.phtml:18
 msgid "Searches for resources that are any of these classes."
-msgstr ""
+msgstr "Buscar por recursos que sean de cualquiera de estas clases."
 
 #: application/view/common/advanced-search/resource-class.phtml:20
 msgid "Add new class"
@@ -728,7 +729,7 @@ msgstr "Buscar por plantilla"
 
 #: application/view/common/advanced-search/resource-template.phtml:19
 msgid "Searches for resources that use any of these templates."
-msgstr ""
+msgstr "Buscar por recursos que usan alguna de estas plantillas."
 
 #: application/view/common/advanced-search/resource-template.phtml:21
 msgid "Add new template"
@@ -736,11 +737,11 @@ msgstr "Agregar nueva plantilla"
 
 #: application/view/common/advanced-search/site.phtml:3
 msgid "Search by site"
-msgstr ""
+msgstr "Buscar por sitio"
 
 #: application/view/common/advanced-search/site.phtml:6
 msgid "Searches for items that are assigned to this site."
-msgstr ""
+msgstr "Buscar por items asignados a este sitio."
 
 #: application/view/common/advanced-search/users.phtml:17
 msgid "Search by email"
@@ -846,28 +847,28 @@ msgstr "Búsqueda avanzada de item"
 #: application/view/common/cross-site-search/item-results.phtml:8
 #, php-format
 msgid "Item results for \"%s\""
-msgstr ""
+msgstr "Item encontrado para \"%s\""
 
 #: application/view/common/cross-site-search/item-set-results.phtml:3
 #: application/view/omeka/search/item-sets-advanced.phtml:2
 msgid "Advanced item set search"
-msgstr ""
+msgstr "Búsqueda avanzada de conjunto de items"
 
 #: application/view/common/cross-site-search/item-set-results.phtml:8
 #, php-format
 msgid "Item set results for \"%s\""
-msgstr ""
+msgstr "Resultados del conjunto de items para \"%s\""
 
 #: application/view/common/cross-site-search/results.phtml:6
 #: application/view/omeka/site/index/search.phtml:8
 #, php-format
 msgid "Search results for “%s”"
-msgstr ""
+msgstr "Resultados de búsqueda para \"%s\""
 
 #: application/view/common/cross-site-search/results.phtml:13
 #: application/view/omeka/site/item/show.phtml:32
 msgid "Site pages"
-msgstr ""
+msgstr "Páginas del sitio"
 
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
@@ -875,7 +876,7 @@ msgstr ""
 #: application/view/omeka/site/index/search.phtml:40
 #, php-format
 msgid "View all results (%s total)"
-msgstr ""
+msgstr "Ver todos los resultados ( %s total)"
 
 #: application/view/common/cross-site-search/results.phtml:40
 #: application/view/common/data-type/resource.phtml:22
@@ -902,12 +903,12 @@ msgstr "Items"
 #: application/view/common/cross-site-search/results.phtml:97
 #: application/view/omeka/site/index/search.phtml:11
 msgid "No result found"
-msgstr ""
+msgstr "No se encontraron resultados"
 
 #: application/view/common/cross-site-search/site-page-results.phtml:3
 #, php-format
 msgid "Site page results for \"%s\""
-msgstr ""
+msgstr "Resultados en página del Sitio para \"%s\" "
 
 #: application/view/common/data-type-wrapper.phtml:12
 #: application/view/common/resource-form-templates.phtml:23
@@ -1245,11 +1246,11 @@ msgstr "Ant"
 
 #: application/view/common/site-selector.phtml:4
 msgid "Click on a site to add it to the edit panel."
-msgstr ""
+msgstr "Hacer clic en el sitio para añadirlo al panel de edición."
 
 #: application/view/common/site-selector.phtml:5
 msgid "Filter sites"
-msgstr ""
+msgstr "Filtrar sitios"
 
 #: application/view/common/site-selector.phtml:7
 #: application/view/omeka/admin/item/form.phtml:17
@@ -1328,7 +1329,7 @@ msgstr "Filtrar usuarios"
 #: application/view/common/user-selector.phtml:16
 #, php-format
 msgid "Users (%s)"
-msgstr ""
+msgstr "Usuarios (%s)"
 
 #: application/view/common/version-notification.phtml:8
 #, php-format
@@ -1347,13 +1348,15 @@ msgstr "Prohibido"
 
 #: application/view/error/404.phtml:4
 msgid "Page not found"
-msgstr ""
+msgstr "Página no encontrada"
 
 #: application/view/error/404.phtml:6
 msgid ""
 "The page you are trying to view does not exist. Use the back button to "
 "return to the last page."
 msgstr ""
+"La página que estás tratando de ver no existe. Utiliza el botón de retorno "
+"para regresar a la última página."
 
 #: application/view/error/404.phtml:14
 #, php-format
@@ -1374,14 +1377,16 @@ msgid ""
 "To learn how to see more detailed information about this error, see the "
 "Omeka S User Manual page on %s."
 msgstr ""
+"Para aprender cómo ver información más detallada sobre este error, mira en "
+"la página %s del Manual de Usuario de Omeka S."
 
 #: application/view/error/index.phtml:19
 msgid "retrieving error messages"
-msgstr ""
+msgstr "recuperando los mensajes de error"
 
 #: application/view/layout/layout-admin.phtml:37
 msgid "Skip to main content"
-msgstr ""
+msgstr "Saltar al contenido principal"
 
 #: application/view/layout/layout-admin.phtml:42
 msgid "Navigation menu"
@@ -1851,7 +1856,7 @@ msgstr "Valores"
 #: application/view/omeka/admin/item/form.phtml:18
 #: application/view/omeka/admin/media/edit.phtml:14
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzado"
 
 #: application/view/omeka/admin/item-set/form.phtml:28
 msgid "Close item set"
@@ -2022,17 +2027,19 @@ msgstr "Añadir medios"
 
 #: application/view/omeka/admin/item/manage-sites.phtml:30
 msgid "Unassign from site"
-msgstr ""
+msgstr "Anular asignación del sitio"
 
 #: application/view/omeka/admin/item/manage-sites.phtml:48
 msgid ""
 "This item is part of no sites. Add it to a site using the interface to the "
 "right."
 msgstr ""
+"Éste item no es parte de un sitio. Asígnalo a un sitio utilizando la "
+"interfaz a la derecha."
 
 #: application/view/omeka/admin/item/manage-sites.phtml:51
 msgid "Assign to site"
-msgstr ""
+msgstr "Asignado al sitio"
 
 #: application/view/omeka/admin/item/show.phtml:21
 msgid "Edit item"
@@ -2353,11 +2360,11 @@ msgstr "Otras opciones"
 
 #: application/view/omeka/admin/resource-template/form.phtml:72
 msgid "Use for resource title"
-msgstr ""
+msgstr "Usar como título del recurso"
 
 #: application/view/omeka/admin/resource-template/form.phtml:78
 msgid "Use for resource description"
-msgstr ""
+msgstr "Usar como descripción del recurso"
 
 #: application/view/omeka/admin/resource-template/form.phtml:84
 msgid "Required"
@@ -2367,12 +2374,12 @@ msgstr "Requerido"
 #: application/view/omeka/admin/resource-template/review-import.phtml:67
 #: application/view/omeka/admin/resource-template/show.phtml:27
 msgid "Data types"
-msgstr ""
+msgstr "Tipos de datos"
 
 #: application/view/omeka/admin/resource-template/form.phtml:96
 #: application/view/omeka/admin/resource-template/review-import.phtml:98
 msgid "Select data types…"
-msgstr ""
+msgstr "Seleccionar tipos de datos..."
 
 #: application/view/omeka/admin/resource-template/form.phtml:101
 msgid "Set changes"
@@ -2392,11 +2399,11 @@ msgstr "Completar importación"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:40
 msgid "Resource title"
-msgstr ""
+msgstr "Título del recurso"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:40
 msgid "Resource description"
-msgstr ""
+msgstr "Descripción del recurso"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:66
 #: application/view/omeka/admin/resource-template/show.phtml:26
@@ -2692,12 +2699,16 @@ msgid ""
 "The entire site will be down for maintenance until you click the button "
 "below."
 msgstr ""
+"Hubo una reciente actualización de software y se necesita actualizar la base de datos.\n"
+"El sitio entero estará caído por mantenimiento hasta que pulses el botón de abajo."
 
 #: application/view/omeka/migrate/index.phtml:10
 msgid ""
 "There are environment errors that must be resolved before you can update the"
 " database."
 msgstr ""
+"Hay errores de entorno que deben ser resueltos antes de que puedas "
+"actualizar la base de datos."
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 msgid "New page"
@@ -2713,7 +2724,7 @@ msgstr "Páginas"
 #: application/view/omeka/site-admin/index/add.phtml:7
 #: application/view/omeka/site-admin/index/edit.phtml:32
 msgid "Info"
-msgstr ""
+msgstr "Información"
 
 #: application/view/omeka/site-admin/index/add.phtml:8
 #: application/view/omeka/site-admin/index/show.phtml:32
@@ -2774,7 +2785,7 @@ msgstr "No hay páginas disponibles"
 #: application/view/omeka/site-admin/index/resources.phtml:37
 #, php-format
 msgid "There are currently %s items assigned to this site."
-msgstr ""
+msgstr "Actualmente hay %s items asignados a este sitio."
 
 #: application/view/omeka/site-admin/index/resources.phtml:42
 #, php-format
@@ -2782,15 +2793,17 @@ msgid ""
 "This site currently auto-assigns newly created items. Change the setting in "
 "%s."
 msgstr ""
+"Actualmente este sitio asigna automáticamente los items recién creados. "
+"Cambia la opción en %s."
 
 #: application/view/omeka/site-admin/index/resources.phtml:43
 msgid "site admin"
-msgstr ""
+msgstr "administrador del sitio"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
 #: application/view/omeka/site-admin/index/resources.phtml:55
 msgid "Preview this search"
-msgstr ""
+msgstr "Previsualizar esta búsqueda"
 
 #: application/view/omeka/site-admin/index/resources.phtml:80
 msgid "No item sets are assigned to this site."
@@ -2871,7 +2884,7 @@ msgstr "Creador"
 
 #: application/view/omeka/site-admin/index/users.phtml:12
 msgid "Manager"
-msgstr ""
+msgstr "Gerente"
 
 #: application/view/omeka/site-admin/index/users.phtml:41
 msgid "User permissions"
@@ -2910,7 +2923,7 @@ msgstr "Aplicar cambios"
 #: application/view/omeka/site-admin/page/index.phtml:27
 #: application/view/omeka/site-admin/page/index.phtml:50
 msgid "Modified"
-msgstr ""
+msgstr "Modificado"
 
 #: application/view/omeka/site-admin/page/index.phtml:41
 msgid "Add new page"
@@ -2943,11 +2956,11 @@ msgstr "Item"
 #: application/view/omeka/site/media/show.phtml:11
 #, php-format
 msgid "Part of %s"
-msgstr ""
+msgstr "Parte de %s"
 
 #: application/view/omeka/site/page/browse.phtml:18
 msgid "No pages found"
-msgstr ""
+msgstr "No se encontraron páginas"
 
 #: application/src/Entity/Job.php:23
 msgid "starting"
@@ -3015,7 +3028,7 @@ msgstr "Mostrar resúmenes"
 
 #: application/src/Site/BlockLayout/ListOfSites.php:85
 msgid "Exclude current site"
-msgstr ""
+msgstr "Excluir el actual sitio"
 
 #: application/src/Site/BlockLayout/ItemWithMetadata.php:13
 msgid "Item with metadata"
@@ -3069,11 +3082,11 @@ msgstr "HTML"
 
 #: application/src/Site/BlockLayout/Media.php:14
 msgid "Media Embed"
-msgstr ""
+msgstr "Insertar el medio"
 
 #: application/src/Site/BlockLayout/Media.php:61
 msgid "Alignment"
-msgstr ""
+msgstr "Alineación"
 
 #: application/src/Site/BlockLayout/PageTitle.php:13
 msgid "Page title"
@@ -3114,7 +3127,7 @@ msgstr "Administrador Global"
 
 #: application/src/Permissions/Acl.php:22
 msgid "Supervisor"
-msgstr ""
+msgstr "Supervisor"
 
 #: application/src/Permissions/Acl.php:24
 msgid "Reviewer"
@@ -3331,7 +3344,7 @@ msgstr "Parado"
 #: application/src/Mvc/MvcListeners.php:326
 #, php-format
 msgid "The current theme is not active. Its current state is \"%s\"."
-msgstr ""
+msgstr "Este tema no está activo. Su estado actual es \"%s\"."
 
 #: application/src/Form/UserBatchUpdateForm.php:27
 #: application/src/Form/UserForm.php:98
@@ -3392,31 +3405,34 @@ msgstr "Token CSRF no válido o faltante"
 
 #: application/src/Form/SiteResourcesForm.php:14
 msgid "Manage current items"
-msgstr ""
+msgstr "Administrar los items actuales"
 
 #: application/src/Form/SiteResourcesForm.php:16
 msgid "Do nothing"
-msgstr ""
+msgstr "No hacer nada"
 
 #: application/src/Form/SiteResourcesForm.php:17
 msgid "Add - keep existing items and assign items from a new search"
 msgstr ""
+"Añadir - mantener los items existentes y asignar items de una nueva búsqueda"
 
 #: application/src/Form/SiteResourcesForm.php:18
 msgid "Replace - unassign all items and assign items from a new search"
 msgstr ""
+"Remplazar - anular la asignación de todos los items y asignar items de una "
+"nueva búsqueda"
 
 #: application/src/Form/SiteResourcesForm.php:19
 msgid "Remove - unassign items from a new search"
-msgstr ""
+msgstr "Eliminar - anular la asignación de items de una nueva búsqueda"
 
 #: application/src/Form/SiteResourcesForm.php:20
 msgid "Remove all - unassign all items"
-msgstr ""
+msgstr "Eliminar todos - anular la asignación de todos los items"
 
 #: application/src/Form/SiteResourcesForm.php:31
 msgid "Keep this search"
-msgstr ""
+msgstr "Mantener esta búsqueda"
 
 #: application/src/Form/SiteResourcesForm.php:32
 msgid ""
@@ -3424,6 +3440,10 @@ msgid ""
 "you will likely want to save a search for periodic adding, but will not want"
 " to save a search for a one-time removal."
 msgstr ""
+"Use esto como una forma conveniente de almacenar una consulta de uso "
+"recuente. Por ejemplo, es probable que desee guardar una búsqueda para "
+"agregar items periódicamente, pero no querrá guardar una búsqueda para una "
+"eliminación única."
 
 #: application/src/Form/SiteSettingsForm.php:28
 #: application/src/Form/SettingForm.php:110
@@ -3432,13 +3452,16 @@ msgstr "General"
 
 #: application/src/Form/SiteSettingsForm.php:38
 msgid "Auto-assign new items"
-msgstr ""
+msgstr "Auto-asignar nuevos items"
 
 #: application/src/Form/SiteSettingsForm.php:39
 msgid ""
 "Select this if you want new items to be automatically assigned to this site."
 " Note that item owners may unassign their items at any time."
 msgstr ""
+"Selecciona esto si deseas que los nuevos items sean asignados "
+"automáticamente a este sitio. Ten en cuenta que el dueño del item puede "
+"anular la asignación en cualquier momento."
 
 #: application/src/Form/SiteSettingsForm.php:50
 msgid "Attachment link type"
@@ -3548,6 +3571,9 @@ msgid ""
 "Use this property for the heading of each resource on a browse page. Keep "
 "unselected to use the default title property of each resource."
 msgstr ""
+"Utilice esta opción para modificar el encabezado de cada recurso en una "
+"página de navegación. No seleccionar para utilizar la propiedad de título "
+"predeterminada de cada recurso. "
 
 #: application/src/Form/SiteSettingsForm.php:175
 #: application/src/Form/SiteSettingsForm.php:192
@@ -3563,45 +3589,53 @@ msgid ""
 "Use this property for the body of each resource on a browse page. Keep "
 "unselected to use the default description property of each resource."
 msgstr ""
+"Utiliza esta propiedad para el cuerpo de cada recurso en una página de "
+"exploración. No seleccionar para utilizar la propiedad predeterminada de "
+"descripción para cada recurso."
 
 #: application/src/Form/SiteSettingsForm.php:201
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #: application/src/Form/SiteSettingsForm.php:209
 msgid "Show attached pages"
-msgstr ""
+msgstr "Mostrar las páginas adjuntas"
 
 #: application/src/Form/SiteSettingsForm.php:210
 msgid ""
 "Show site pages to which an item is attached on the public item show page."
 msgstr ""
+"Mostrar las páginas del sitio a las que se ha adjuntado un item, en la "
+"página pública de presentación de items."
 
 #: application/src/Form/SiteSettingsForm.php:232
 msgid "Search type"
-msgstr ""
+msgstr "Tipo de búsqueda"
 
 #: application/src/Form/SiteSettingsForm.php:233
 msgid "Select the type of search the main search field will perform"
 msgstr ""
+"Seleccione el tipo de búsqueda que realizará el campo de búsqueda principal"
 
 #: application/src/Form/SiteSettingsForm.php:235
 msgid "This site"
-msgstr ""
+msgstr "Este sitio"
 
 #: application/src/Form/SiteSettingsForm.php:236
 msgid "All sites"
-msgstr ""
+msgstr "Tdos los sitios"
 
 #: application/src/Form/SiteSettingsForm.php:253
 msgid "Search resources"
-msgstr ""
+msgstr "Buscar recursos"
 
 #: application/src/Form/SiteSettingsForm.php:254
 msgid ""
 "Customize which types of resources will be searchable in the main search "
 "field."
 msgstr ""
+"Personalizar qué tipo de recursos se podrán buscar en el campo de búsqueda "
+"principal."
 
 #: application/src/Form/SiteSettingsForm.php:267
 msgid "Templates"
@@ -3617,7 +3651,7 @@ msgstr "Seleccionar plantillas"
 
 #: application/src/Form/SiteSettingsForm.php:281
 msgid "Restrict to templates"
-msgstr ""
+msgstr "Restringir a plantillas"
 
 #: application/src/Form/SiteSettingsForm.php:282
 msgid "Restrict search results to resources of the selected templates."
@@ -3731,11 +3765,11 @@ msgstr "Plantilla de recurso por defecto"
 
 #: application/src/Form/UserForm.php:170
 msgid "Select sites"
-msgstr ""
+msgstr "Seleccionar sitios"
 
 #: application/src/Form/UserForm.php:175
 msgid "Default sites for items"
-msgstr ""
+msgstr "Sitios por defecto para los items"
 
 #: application/src/Form/UserForm.php:186
 msgid "Current password"
@@ -3820,17 +3854,19 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:250
 msgid "Default content visibility to Private"
-msgstr ""
+msgstr "Visibilidad predeterminada del contenido a Privada"
 
 #: application/src/Form/SettingForm.php:251
 msgid ""
 "If checked, all items, item sets and sites newly created will have their "
 "visibility set to private by default."
 msgstr ""
+"Si se selecciona, todos los items, conjunto de items y sitios recien creados"
+" tendrán como opción de visibilidad predeterminada la privada."
 
 #: application/src/Form/SettingForm.php:263
 msgid "Suggested languages for values"
-msgstr ""
+msgstr "Idioma sugerido para los valores"
 
 #: application/src/Form/SettingForm.php:264
 msgid ""
@@ -3838,10 +3874,13 @@ msgid ""
 "List them one by line. The label displayed for a language may be appended "
 "with a \"=\"."
 msgstr ""
+"Lista de idiomas para facilitar el llenado de los valores en el formulario "
+"de recursos. Enumerar uno por línea. La etiqueta a mostrar para un idioma se"
+" puede agregar con un \"=\"."
 
 #: application/src/Form/SettingForm.php:277
 msgid "Index full-text search"
-msgstr ""
+msgstr "Búsqueda de texto completo en índice"
 
 #: application/src/Form/SettingForm.php:291
 msgid "Security"
@@ -3907,19 +3946,19 @@ msgstr "Actualizar"
 
 #: application/src/Form/VocabularyForm.php:23
 msgid "Basic info"
-msgstr ""
+msgstr "Información básica"
 
 #: application/src/Form/VocabularyForm.php:30
 msgid "File"
-msgstr ""
+msgstr "Archivo"
 
 #: application/src/Form/VocabularyForm.php:46
 msgid "Enter a human-readable title of the vocabulary."
-msgstr ""
+msgstr "Introduzca un título del vocabulario legible para humanos."
 
 #: application/src/Form/VocabularyForm.php:58
 msgid "Enter a human-readable description of the vocabulary."
-msgstr ""
+msgstr "Introduzca una descripción del vocabulario legible para humanos."
 
 #: application/src/Form/VocabularyForm.php:69
 msgid "Namespace URI"
@@ -3930,16 +3969,20 @@ msgid ""
 "Enter the unique namespace URI used to identify the classes and properties "
 "of the vocabulary."
 msgstr ""
+"Introduzca el nombre único URI utilizado para identificar las clases y "
+"propiedades del vocabulario."
 
 #: application/src/Form/VocabularyForm.php:81
 msgid "Namespace prefix"
-msgstr ""
+msgstr "Prefijo de nombre de espacio"
 
 #: application/src/Form/VocabularyForm.php:82
 msgid ""
 "Enter a concise vocabulary identifier used as a shorthand for the namespace "
 "URI."
 msgstr ""
+"Ingresa un identificador de vocabulario conciso usado como atajo para el "
+"nombre de espacio URI."
 
 #: application/src/Form/VocabularyForm.php:94
 msgid "Vocabulary file"
@@ -3949,6 +3992,8 @@ msgstr "Fichero de vocabulario"
 msgid ""
 "Choose a RDF vocabulary file. You must choose a file or enter a URL below."
 msgstr ""
+"Selecciona un archivo de vocabulario RDF. Debe elegir un archivo o añadir "
+"una URL debajo."
 
 #: application/src/Form/VocabularyForm.php:105
 msgid "Vocabulary URL"
@@ -3958,6 +4003,8 @@ msgstr "URL de vocabulario"
 msgid ""
 "Enter a RDF vocabulary URL. You must enter a URL or choose a file above."
 msgstr ""
+"Ingresa la URL del archivo de vocabulario RDF. Debe añadir la URL o elegir "
+"un archivo de arriba."
 
 #: application/src/Form/VocabularyForm.php:116
 msgid "File format"
@@ -3989,7 +4036,7 @@ msgstr "Turtle (.ttl)"
 
 #: application/src/Form/VocabularyForm.php:135
 msgid "Preferred language"
-msgstr ""
+msgstr "Idioma preferido"
 
 #: application/src/Form/VocabularyForm.php:136
 msgid ""
@@ -3997,10 +4044,14 @@ msgid ""
 "target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
 "tags/\">IETF language tag</a>. Defaults to the first available."
 msgstr ""
+"Ingresa el idioma preferido de las etiquetas y comentarios utilizando una <a"
+" target=\"_blank\" href=\"https://www.w3.org/International/articles"
+"/language-tags/\">etiquetas de idioma IETF</a>. Opción por defecto para el "
+"primero disponible. "
 
 #: application/src/Form/VocabularyForm.php:147
 msgid "Label property"
-msgstr ""
+msgstr "Propiedad de etiqueta"
 
 #: application/src/Form/VocabularyForm.php:148
 msgid ""
@@ -4008,10 +4059,13 @@ msgid ""
 "uses an unconventional property for labels. Please use the full property URI"
 " enclosed in angle brackets."
 msgstr ""
+"Ingrese la propiedad de etiqueta. Por lo general, solo es necesario si el "
+"vocabulario usa una propiedad no convencional para las etiquetas. Por favor "
+"utilice la propiedad completa del URI dentro de paréntesis en ángulo."
 
 #: application/src/Form/VocabularyForm.php:158
 msgid "Comment property"
-msgstr ""
+msgstr "Propiedad de comentario"
 
 #: application/src/Form/VocabularyForm.php:159
 msgid ""
@@ -4019,6 +4073,9 @@ msgid ""
 "uses an unconventional property for comments. Please use the full property "
 "URI enclosed in angle brackets."
 msgstr ""
+"Ingrese la propiedad de comentario. Por lo general, solo es necesario si el "
+"vocabulario usa una propiedad no convencional para los comentarios. Por "
+"favor utilice la propiedad completa del URI dentro de paréntesis en ángulo."
 
 #: application/src/Form/ResourceForm.php:34
 msgid "Resource template"
@@ -4088,6 +4145,8 @@ msgid ""
 "You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
 "version %1$s. You are currently on version %2$s."
 msgstr ""
+"Antes de actualizar a la versión %1$s, debes actualizar Omeka S al menos a "
+"la versión 1.0.0. Actualmente estás usando la versión %2$s."
 
 #: application/src/Stdlib/Environment.php:54
 #, php-format
@@ -4095,11 +4154,13 @@ msgid ""
 "The installed PHP version (%1$s) is too low. Omeka requires at least version"
 " %2$s."
 msgstr ""
+"La versión de PHP instalada (%1$s) es muy antigua. Omeka requiere al menos "
+"de la versión %2$s."
 
 #: application/src/Stdlib/Environment.php:62
 #, php-format
 msgid "Omeka requires the PHP extension %s, but it is not loaded."
-msgstr ""
+msgstr "Omeka requiere de la extensión PHP %s, pero no está cargada."
 
 #: application/src/Stdlib/Environment.php:81
 #, php-format
@@ -4107,6 +4168,8 @@ msgid ""
 "The installed MySQL version (%1$s) is too low. Omeka requires at least "
 "version %2$s."
 msgstr ""
+"La versión instalada de MySQL (%1$s) es muy antigua. Omeka requiere al menos"
+" de la versión %2$s."
 
 #: application/src/Stdlib/Environment.php:89
 #, php-format
@@ -4114,6 +4177,8 @@ msgid ""
 "The installed MariaDB version (%1$s) is too low. Omeka requires at least "
 "version %2$s."
 msgstr ""
+"La versión instalada de MariaDB (%1$s) es muy antigua. Omeka requiere al "
+"menos de la versión %2$s."
 
 #: application/src/View/Helper/BlockShowTitleSelect.php:24
 msgid "item title"
@@ -4490,6 +4555,8 @@ msgstr "Navegación actualizada satisfactoriamente"
 msgid ""
 "Item assignment in progress. To see the new item count, refresh the page."
 msgstr ""
+"Asignación del item en curso. Para ver el recuento del nuevo item, actualice"
+" la página."
 
 #: application/src/Controller/SiteAdmin/IndexController.php:258
 msgid "Site resources successfully updated"
@@ -4705,7 +4772,7 @@ msgstr "URL de la imagen a incrustar."
 
 #: application/config/navigation.config.php:192
 msgid "Site admin"
-msgstr ""
+msgstr "Administrador del sitio"
 
 #: application/config/module.config.php:621
 msgid "Something went wrong"

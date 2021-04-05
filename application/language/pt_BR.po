@@ -5,8 +5,9 @@
 # 
 # Translators:
 # Diego Ecker <eckerdiego@gmail.com>, 2018
-# Rafael Trindade <drafael@usp.br>, 2019
 # John Flatness <john@zerocrates.org>, 2020
+# Rafael Trindade <drafael@usp.br>, 2021
+# Carlos Eduardo Maciel <carlosmaciel1@gmail.com>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-21 11:21-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: John Flatness <john@zerocrates.org>, 2020\n"
+"Last-Translator: Carlos Eduardo Maciel <carlosmaciel1@gmail.com>, 2021\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/omeka/teams/14184/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,75 +27,75 @@ msgstr ""
 #: application/src/Api/Adapter/AbstractAdapter.php:40
 #, php-format
 msgid "The %1$s adapter does not implement the search operation."
-msgstr ""
+msgstr "O adaptador %1$s não implementa a operação de busca."
 
 #: application/src/Api/Adapter/AbstractAdapter.php:50
 #, php-format
 msgid "The %1$s adapter does not implement the create operation."
-msgstr ""
+msgstr "O adaptador %1$s não implementa a operação de criação."
 
 #: application/src/Api/Adapter/AbstractAdapter.php:60
 #, php-format
 msgid "The %1$s adapter does not implement the batch create operation."
-msgstr ""
+msgstr "O adaptador %1$s não implementa a operação de criação em lote."
 
 #: application/src/Api/Adapter/AbstractAdapter.php:70
 #, php-format
 msgid "The %1$s adapter does not implement the read operation."
-msgstr ""
+msgstr "O adaptador %1$s não implementa a operação de leitura."
 
 #: application/src/Api/Adapter/AbstractAdapter.php:80
 #, php-format
 msgid "The %1$s adapter does not implement the update operation."
-msgstr ""
+msgstr "O adaptador %1$s não implementa a operação de atualização."
 
 #: application/src/Api/Adapter/AbstractAdapter.php:90
 #, php-format
 msgid "The %1$s adapter does not implement the batch update operation."
-msgstr ""
+msgstr "O adaptador %1$s não implementa a operação de atualização em lote."
 
 #: application/src/Api/Adapter/AbstractAdapter.php:111
 #, php-format
 msgid "The %1$s adapter does not implement the delete operation."
-msgstr ""
+msgstr "O adaptador %1$s não implementa a operação de exclusão."
 
 #: application/src/Api/Adapter/AbstractAdapter.php:121
 #, php-format
 msgid "The %1$s adapter does not implement the batch delete operation."
-msgstr ""
+msgstr "O adaptador %1$s não implementa a operação de exclusão em lote."
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:269
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s entity class."
-msgstr ""
+msgstr "O campo \"%1$s\" não está disponível na classe da entidade %2$s."
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:614
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s resource."
-msgstr ""
+msgstr "O usuário atual não tem autorização para %1$s o recurso %2$s."
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:656
 #, php-format
 msgid "%1$s entity with criteria %2$s not found"
-msgstr ""
+msgstr "entidade %1$s com o critério %2$s não foi encontrada "
 
 #: application/src/Api/Adapter/SiteAdapter.php:140
 msgid "Welcome"
-msgstr "Bem-vindo"
+msgstr "Bem-vindo(a)"
 
 #: application/src/Api/Adapter/SiteAdapter.php:145
 msgid "Welcome to your new site. This is an example page."
-msgstr " Bem-vindo ao seu novo site. Esta é uma página de exemplo."
+msgstr "Bem-vindo(a) ao seu novo site. Esta é uma página de exemplo."
 
 #: application/src/Api/Adapter/SiteAdapter.php:388
 msgid "Browse"
-msgstr "Procurar"
+msgstr "Navegar"
 
 #: application/src/Api/Manager.php:201
 #, php-format
 msgid "The API does not support the \"%s\" resource."
-msgstr "A API não suporta o \" 1%s \" do recurso."
+msgstr "A API não suporta o recurso \"%s\"."
 
 #: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:515
 #: application/view/common/block-layout/browse-preview.phtml:15
@@ -110,7 +111,7 @@ msgstr "Padrão"
 
 #: application/src/Controller/Admin/AssetController.php:48
 msgid "Asset uploads must be POSTed."
-msgstr ""
+msgstr "Os ativos carregados precisam ser POSTed."
 
 #: application/src/Controller/Admin/ItemController.php:214
 msgid "Add another item?"
@@ -118,7 +119,7 @@ msgstr "Adicionar outro item?"
 
 #: application/src/Controller/Admin/ItemSetController.php:36
 msgid "Add another item set?"
-msgstr "Adicionar outra coleção?"
+msgstr "Adicionar outro item para a coleção?"
 
 #: application/src/Controller/Admin/ModuleController.php:70
 #: application/src/Controller/Admin/ModuleController.php:77
@@ -140,7 +141,7 @@ msgstr "Não instalado"
 #: application/src/Controller/Admin/ModuleController.php:73
 #: application/src/Controller/Admin/ModuleController.php:80
 msgid "Needs upgrade"
-msgstr "Necessita de atualização"
+msgstr "Necessita atualização"
 
 #: application/src/Controller/Admin/ModuleController.php:74
 msgid "Error"
@@ -164,7 +165,7 @@ msgstr "Omeka S versão inválida"
 
 #: application/src/Controller/Admin/ResourceTemplateController.php:514
 msgid "Add another resource template?"
-msgstr "Adicionar outro modelo de recursos?"
+msgstr "Adicionar outro modelo de recurso?"
 
 #: application/src/Controller/Admin/UserController.php:117
 msgid "Add another user?"
@@ -172,7 +173,7 @@ msgstr "Adicionar novo usuário?"
 
 #: application/src/Controller/Admin/VocabularyController.php:92
 msgid "Must provide a vocabulary file or a vocabulary URL"
-msgstr "Forneça um arquivo com um vocabulário ou um link para um vocabulário."
+msgstr "Forneça um arquivo de vocabulário ou um URL de vocabulário"
 
 #: application/src/Controller/Admin/VocabularyController.php:101
 msgid "Import another vocabulary?"
@@ -181,7 +182,7 @@ msgstr "Importar novo vocabulário?"
 #: application/src/DataType/Resource/AbstractResource.php:51
 #, php-format
 msgid "Resource not found with id %s."
-msgstr ""
+msgstr "O recurso com a id %s não foi encontrado."
 
 #: application/src/Db/Migration/Manager.php:112
 msgid "Migration file did not contain the expected class"
@@ -190,31 +191,31 @@ msgstr "O arquivo de migração não continha a classe esperada"
 #: application/src/Form/Element/PasswordConfirm.php:22
 #, php-format
 msgid "be a minimum of %s characters in length."
-msgstr ""
+msgstr "ter no mínimo %s caracteres."
 
 #: application/src/Form/Element/PasswordConfirm.php:26
 #, php-format
 msgid "contain at least %s lowercase characters."
-msgstr ""
+msgstr "ter no mínimo %s caracteres em minúsculas."
 
 #: application/src/Form/Element/PasswordConfirm.php:30
 #, php-format
 msgid "contain at least %s uppercase characters."
-msgstr ""
+msgstr "ter no mínimo %s caracteres em maiúsculas."
 
 #: application/src/Form/Element/PasswordConfirm.php:34
 #, php-format
 msgid "contain at least %s numbers."
-msgstr ""
+msgstr "ter no mínimo %s números."
 
 #: application/src/Form/Element/PasswordConfirm.php:41
 #, php-format
 msgid "contain at least %1$s symbols: %2$s"
-msgstr ""
+msgstr "ter no mínimo %1$s símbolos: %2$s"
 
 #: application/src/Form/Element/PasswordConfirm.php:45
 msgid "Password must:"
-msgstr ""
+msgstr "A senha deve:"
 
 #: application/src/Media/Ingester/Fallback.php:33
 #: application/view/common/navigation-link-form/fallback.phtml:4
@@ -224,58 +225,60 @@ msgstr "Desconhecido"
 #: application/src/Media/Renderer/IIIF.php:14
 msgid "OpenSeadragon is not available unless JavaScript is enabled."
 msgstr ""
-"O OpenSeadragon não está disponível, a menos que o JavaScript esteja "
-"ativado."
+"O OpenSeadragon não é disponibilizado a menos que o JavaScript seja ativado."
 
 #: application/src/Module/Manager.php:170
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be activated"
-msgstr ""
+msgstr "O módulo \"%1$s\" está marcado como \"%2$s\" e não pode ser ativado"
 
 #: application/src/Module/Manager.php:181
 #, php-format
 msgid "Module \"%s\" not in database during activation"
-msgstr ""
+msgstr "O módulo \"%s\" não está disponível no banco de dados durante a ativação"
 
 #: application/src/Module/Manager.php:202
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be deactivated"
-msgstr ""
+msgstr "O módulo \"%1$s\" está marcado como \"%2$s\" e não pode ser desativado"
 
 #: application/src/Module/Manager.php:213
 #, php-format
 msgid "Module \"%s\" not in database during deactivation"
 msgstr ""
+"O módulo \"%s\" não está disponível no banco de dados durante a desativação"
 
 #: application/src/Module/Manager.php:233
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be installed"
-msgstr ""
+msgstr "O módulo \"%1$s\" está marcado como \"%2$s\" e não pode ser instalado"
 
 #: application/src/Module/Manager.php:271
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be uninstalled"
-msgstr ""
+msgstr "O módulo \"%1$s\" está marcado como \"%2$s\" e não pode ser desinstalado"
 
 #: application/src/Module/Manager.php:288
 #, php-format
 msgid "Module \"%s\" not found in database during uninstallation"
 msgstr ""
+"O módulo \"%s\" não foi encontrado no banco de dados durante a desinstalação"
 
 #: application/src/Module/Manager.php:309
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be upgraded"
-msgstr ""
+msgstr "O módulo \"%1$s\" está marcado como \"%2$s\" e não pode ser atualizado"
 
 #: application/src/Module/Manager.php:331
 #, php-format
 msgid "Module \"%s\" not found in database during upgrade"
 msgstr ""
+"O módulo \"%s\" não foi encontrado no banco de dados durante a atualização"
 
 #: application/src/Module/Manager.php:410
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s module."
-msgstr ""
+msgstr "O usuário atual não tem autorização para %1$s o módulo %2$s."
 
 #: application/src/Mvc/MvcListeners.php:445
 #, php-format
@@ -283,6 +286,8 @@ msgid ""
 "Permission denied for the current user to access the %1$s action of the %2$s"
 " controller."
 msgstr ""
+"O usuário atual não tem autorização para executar a ação de %1$s do "
+"controlador %2$s."
 
 #: application/src/Site/BlockLayout/Fallback.php:37
 msgid "This layout is invalid."
@@ -299,7 +304,7 @@ msgstr "Tipo de quebra"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:28
 msgid "Depth"
-msgstr ""
+msgstr "Profundidade"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:29
 msgid "Number of child page levels to display"
@@ -307,7 +312,7 @@ msgstr "Números de níveis de páginas filhas a serem exibidas."
 
 #: application/src/Site/Navigation/Link/Page.php:37
 msgid "[Missing Page]"
-msgstr ""
+msgstr "[Página Faltante]"
 
 #: application/src/Site/Navigation/Translator.php:60
 msgid "Home"
@@ -325,6 +330,14 @@ msgid ""
 "\n"
 "Your reset link will expire on %4$s."
 msgstr ""
+"Olá, %1$s!\n"
+"\n"
+"Parece que você esqueceu sua senha para %5$s em %2$s\n"
+"\n"
+"Para gerar nova senha, clique neste link:\n"
+"%3$s\n"
+"\n"
+"Este link de nova senha expira em %4$s."
 
 #: application/src/Stdlib/Mailer.php:193
 #, php-format
@@ -345,6 +358,16 @@ msgid ""
 "\n"
 "Your activation link will expire on %4$s. If you have not completed the user activation process by the time the link expires, you will need to request another activation email from your site administrator."
 msgstr ""
+"Olá!\n"
+"\n"
+"Um usuário foi criado para você em  %5$s em %1$s\n"
+"\n"
+"Seu nome de usuário é o seu email: %2$s\n"
+"\n"
+"Clique neste link para criar uma senha e começar a usar Omeka S:\n"
+"%3$s\n"
+"\n"
+"Seu llink de ativação expira em%4$s. Se você não tiver concluído o processo de ativação doe usuário quando o link expirar, será necessário solicitar outro e-mail de ativação do administrador do site."
 
 #: application/src/Stdlib/Mailer.php:233
 #, php-format
@@ -357,7 +380,7 @@ msgstr "Exibir título do anexo"
 
 #: application/src/View/Helper/BlockThumbnailTypeSelect.php:42
 msgid "Thumbnail type"
-msgstr "Tipo de Thumbnail"
+msgstr "Tipo de Miniatura"
 
 #: application/src/View/Helper/CancelButton.php:14
 #: application/view/omeka/admin/vocabulary/update.phtml:23
@@ -377,7 +400,7 @@ msgstr "A senha deve conter pelo menos %s caracteres minúsculos."
 #: application/src/View/Helper/PasswordRequirements.php:52
 #, php-format
 msgid "Password must contain at least %s uppercase characters."
-msgstr " A senha deve conter pelo menos %s caracteres maiúsculas."
+msgstr " A senha deve conter pelo menos %s caracteres maiúsculos."
 
 #: application/src/View/Helper/PasswordRequirements.php:58
 #, php-format
@@ -387,7 +410,7 @@ msgstr "A senha deve conter pelo menos %s números."
 #: application/src/View/Helper/PasswordRequirements.php:67
 #, php-format
 msgid "Password must contain at least %1$s symbols: <code>%2$s</code>"
-msgstr ""
+msgstr "A senha deve conter pelo menos%1$s símbolos: <code>%2$s</code>"
 
 #: application/src/View/Helper/SearchFilters.php:32
 #: application/view/common/advanced-search/properties.phtml:66
@@ -462,11 +485,11 @@ msgstr "Classe desconhecida"
 
 #: application/src/View/Helper/SearchFilters.php:102
 msgid "Unknown property"
-msgstr "Proprietário desconhecido"
+msgstr "Propriedade desconhecida"
 
 #: application/src/View/Helper/SearchFilters.php:105
 msgid "[Any property]"
-msgstr "[Qualquer proprietário]"
+msgstr "[Qualquer propriedade]"
 
 #: application/src/View/Helper/SearchFilters.php:113
 #: application/view/common/advanced-search/properties.phtml:51
@@ -510,11 +533,11 @@ msgstr "Modelo desconhecido"
 #: application/src/View/Helper/SearchFilters.php:156
 #: application/view/omeka/site/item/browse.phtml:34
 msgid "Item set"
-msgstr "Configuração do item"
+msgstr "Elemento de conjunto"
 
 #: application/src/View/Helper/SearchFilters.php:160
 msgid "Unknown item set"
-msgstr "Coleções desconhecidas"
+msgstr "Conjunto de itens desconhecido"
 
 #: application/src/View/Helper/SearchFilters.php:168
 #: application/view/omeka/site-admin/index/users.phtml:54
@@ -551,11 +574,11 @@ msgstr "Nome"
 #: application/view/omeka/admin/user/show.phtml:29
 #: application/view/omeka/site-admin/index/users.phtml:55
 msgid "Role"
-msgstr "Perfil"
+msgstr "Função"
 
 #: application/src/View/Helper/SearchUserFilters.php:62
 msgid "Unknown role"
-msgstr "Perfil desconhecido"
+msgstr "Função desconhecida"
 
 #: application/src/View/Helper/SearchUserFilters.php:66
 #: application/view/omeka/admin/user/show.phtml:35
@@ -610,7 +633,7 @@ msgstr "Visualizar"
 
 #: application/view/common/advanced-search/item-sets.phtml:15
 msgid "Search by item set"
-msgstr "Pesquisar por coleções"
+msgstr "Pesquisar por conjunto de itens"
 
 #: application/view/common/advanced-search/item-sets.phtml:16
 #: application/view/common/advanced-search/owner.phtml:4
@@ -647,15 +670,15 @@ msgstr "Remover valor"
 
 #: application/view/common/advanced-search/media-type.phtml:6
 msgid "Search by MIME type"
-msgstr ""
+msgstr "Procurar por tipo MIME"
 
 #: application/view/common/advanced-search/owner.phtml:3
 msgid "Search by owner"
-msgstr ""
+msgstr "Filtro por proprietário"
 
 #: application/view/common/advanced-search/owner.phtml:6
 msgid "Searches for resources that are owned by this user."
-msgstr ""
+msgstr "Procura por recursos que são de propriedade deste usuário."
 
 #: application/view/common/advanced-search/properties.phtml:33
 msgid "Query text"
@@ -683,7 +706,7 @@ msgstr "Pesquisar por classe"
 
 #: application/view/common/advanced-search/resource-class.phtml:18
 msgid "Searches for resources that are any of these classes."
-msgstr ""
+msgstr "Procura itens que estão em qualquer uma dessas classes."
 
 #: application/view/common/advanced-search/resource-class.phtml:20
 msgid "Add new class"
@@ -695,7 +718,7 @@ msgstr "Pesquisar por template"
 
 #: application/view/common/advanced-search/resource-template.phtml:19
 msgid "Searches for resources that use any of these templates."
-msgstr ""
+msgstr "Pesquisar por itens que usam qualquer um destes templates."
 
 #: application/view/common/advanced-search/resource-template.phtml:21
 msgid "Add new template"
@@ -703,11 +726,11 @@ msgstr "Adicionar novo template"
 
 #: application/view/common/advanced-search/site.phtml:3
 msgid "Search by site"
-msgstr ""
+msgstr "Pesquisar por site"
 
 #: application/view/common/advanced-search/site.phtml:6
 msgid "Searches for items that are assigned to this site."
-msgstr ""
+msgstr "Procura por itens que são atribuídos à este site."
 
 #: application/view/common/advanced-search/users.phtml:17
 msgid "Search by email"
@@ -719,11 +742,11 @@ msgstr "Pesquisar por nome"
 
 #: application/view/common/advanced-search/users.phtml:33
 msgid "Search by role"
-msgstr ""
+msgstr "Pesquisar por função"
 
 #: application/view/common/advanced-search/users.phtml:44
 msgid "Search by activity"
-msgstr ""
+msgstr "Pesquisar por atividade"
 
 #: application/view/common/asset-form.phtml:34
 msgid "[No asset selected]"
@@ -802,7 +825,7 @@ msgstr "Coleções"
 #: application/view/omeka/admin/item/search.phtml:12
 #: application/view/omeka/admin/media/search.phtml:12
 msgid "Reset"
-msgstr ""
+msgstr "Reiniciar"
 
 #: application/view/common/cross-site-search/item-results.phtml:3
 #: application/view/omeka/search/items-advanced.phtml:2
@@ -813,17 +836,17 @@ msgstr "Pesquisa avançada de itens"
 #: application/view/common/cross-site-search/item-results.phtml:8
 #, php-format
 msgid "Item results for \"%s\""
-msgstr ""
+msgstr "Resultados encontrados para \"%s\""
 
 #: application/view/common/cross-site-search/item-set-results.phtml:3
 #: application/view/omeka/search/item-sets-advanced.phtml:2
 msgid "Advanced item set search"
-msgstr ""
+msgstr "Pesquisa avançada de itens"
 
 #: application/view/common/cross-site-search/item-set-results.phtml:8
 #, php-format
 msgid "Item set results for \"%s\""
-msgstr ""
+msgstr "Resultados encontrados para \"%s\""
 
 #: application/view/common/cross-site-search/results.phtml:6
 #: application/view/omeka/site/index/search.phtml:8
@@ -834,7 +857,7 @@ msgstr "Resultados encontrados para \"%s\""
 #: application/view/common/cross-site-search/results.phtml:13
 #: application/view/omeka/site/item/show.phtml:32
 msgid "Site pages"
-msgstr ""
+msgstr "Páginas do site"
 
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
@@ -869,12 +892,12 @@ msgstr "Itens"
 #: application/view/common/cross-site-search/results.phtml:97
 #: application/view/omeka/site/index/search.phtml:11
 msgid "No result found"
-msgstr ""
+msgstr "Nenhum resultado encontrado"
 
 #: application/view/common/cross-site-search/site-page-results.phtml:3
 #, php-format
 msgid "Site page results for \"%s\""
-msgstr ""
+msgstr "Resultados encontrados na página do site para \"%s\""
 
 #: application/view/common/data-type-wrapper.phtml:12
 #: application/view/common/resource-form-templates.phtml:23
@@ -6546,50 +6569,58 @@ msgid ""
 "The sha1sum of the URI of an Internet mailbox associated with exactly one "
 "owner, the  first owner of the mailbox."
 msgstr ""
+"O sha1sum do URI de uma caixa de correio da Internet associada a exatamente "
+"um proprietário, o primeiro proprietário da caixa de correio."
 
 #. Property label for Friend of a Friend:gender
 msgid "gender"
-msgstr ""
+msgstr "gênero"
 
 #. Property comment for Friend of a Friend:gender
 msgid ""
 "The gender of this Agent (typically but not necessarily 'male' or 'female')."
 msgstr ""
+"O sexo deste Agente (normalmente, mas não necessariamente, 'masculino' ou "
+"'feminino')."
 
 #. Property label for Friend of a Friend:geekcode
 msgid "geekcode"
-msgstr ""
+msgstr "código geek"
 
 #. Property comment for Friend of a Friend:geekcode
 msgid ""
 "A textual geekcode for this person, see http://www.geekcode.com/geek.html"
 msgstr ""
+"Um geekcode textual para esta pessoa, consulte "
+"http://www.geekcode.com/geek.html"
 
 #. Property label for Friend of a Friend:dnaChecksum
 msgid "DNA checksum"
-msgstr ""
+msgstr "Soma de verificação de DNA"
 
 #. Property comment for Friend of a Friend:dnaChecksum
 msgid "A checksum for the DNA of some thing. Joke."
-msgstr ""
+msgstr "Verificando o DNA de alguma coisa. Brincadeira."
 
 #. Property label for Friend of a Friend:sha1
 msgid "sha1sum (hex)"
-msgstr ""
+msgstr "sha1sum (hex)"
 
 #. Property comment for Friend of a Friend:sha1
 msgid "A sha1sum hash, in hex."
-msgstr ""
+msgstr "Um hash sha1sum, em hexadecimal."
 
 #. Property label for Friend of a Friend:based_near
 msgid "based near"
-msgstr ""
+msgstr "baseado perto"
 
 #. Property comment for Friend of a Friend:based_near
 msgid ""
 "A location that something is based near, for some broadly human notion of "
 "near."
 msgstr ""
+"Um local próximo ao qual algo se baseia, para alguma noção amplamente humana"
+" de próximo."
 
 #. Property label for Friend of a Friend:title
 msgid "title"
@@ -6597,7 +6628,7 @@ msgstr "titulo"
 
 #. Property comment for Friend of a Friend:title
 msgid "Title (Mr, Mrs, Ms, Dr. etc)"
-msgstr ""
+msgstr "Título (Sr., Sra., Sra., Dr. etc.)"
 
 #. Property label for Friend of a Friend:nick
 msgid "nickname"
@@ -6608,54 +6639,56 @@ msgid ""
 "A short informal nickname characterising an agent (includes login "
 "identifiers, IRC and other chat nicknames)."
 msgstr ""
+"Um apelido informal curto que caracteriza um agente (inclui identificadores "
+"de login, IRC e outros apelidos de chat)."
 
 #. Property label for Friend of a Friend:jabberID
 msgid "jabber ID"
-msgstr ""
+msgstr "jabber ID"
 
 #. Property comment for Friend of a Friend:jabberID
 msgid "A jabber ID for something."
-msgstr ""
+msgstr "Uma identificação jabber para alguma coisa."
 
 #. Property label for Friend of a Friend:aimChatID
 msgid "AIM chat ID"
-msgstr ""
+msgstr "ID de bate-papo AIM"
 
 #. Property comment for Friend of a Friend:aimChatID
 msgid "An AIM chat ID"
-msgstr ""
+msgstr "Um ID de bate-papo AIM"
 
 #. Property label for Friend of a Friend:skypeID
 msgid "Skype ID"
-msgstr ""
+msgstr "Skype ID"
 
 #. Property comment for Friend of a Friend:skypeID
 msgid "A Skype ID"
-msgstr ""
+msgstr "Um ID Skype"
 
 #. Property label for Friend of a Friend:icqChatID
 msgid "ICQ chat ID"
-msgstr ""
+msgstr "ID de chat do ICQ"
 
 #. Property comment for Friend of a Friend:icqChatID
 msgid "An ICQ chat ID"
-msgstr ""
+msgstr "Um ID de chat ICQ"
 
 #. Property label for Friend of a Friend:yahooChatID
 msgid "Yahoo chat ID"
-msgstr ""
+msgstr "ID de bate-papo do Yahoo"
 
 #. Property comment for Friend of a Friend:yahooChatID
 msgid "A Yahoo chat ID"
-msgstr ""
+msgstr "Um ID de bate-papo do Yahoo"
 
 #. Property label for Friend of a Friend:msnChatID
 msgid "MSN chat ID"
-msgstr ""
+msgstr "ID de chat do MSN"
 
 #. Property comment for Friend of a Friend:msnChatID
 msgid "An MSN chat ID"
-msgstr ""
+msgstr "Um ID de chat do MSN"
 
 #. Property label for Friend of a Friend:name
 msgid "name"
@@ -6663,7 +6696,7 @@ msgstr "Nome"
 
 #. Property comment for Friend of a Friend:name
 msgid "A name for some thing."
-msgstr ""
+msgstr "Um nome para alguma coisa."
 
 #. Property label for Friend of a Friend:firstName
 msgid "firstName"
@@ -6671,25 +6704,25 @@ msgstr "Nome"
 
 #. Property comment for Friend of a Friend:firstName
 msgid "The first name of a person."
-msgstr ""
+msgstr "O primeiro nome de uma pessoa."
 
 #. Property label for Friend of a Friend:lastName
 msgid "lastName"
-msgstr ""
+msgstr "sobrenome"
 
 #. Property comment for Friend of a Friend:lastName
 msgid "The last name of a person."
-msgstr ""
+msgstr "O sobrenome de uma pessoa."
 
 #. Property label for Friend of a Friend:givenName
 #. Property label for Friend of a Friend:givenname
 msgid "Given name"
-msgstr ""
+msgstr "Nome"
 
 #. Property comment for Friend of a Friend:givenName
 #. Property comment for Friend of a Friend:givenname
 msgid "The given name of some person."
-msgstr ""
+msgstr "O nome de alguma pessoa."
 
 #. Property label for Friend of a Friend:surname
 msgid "Surname"
@@ -6697,16 +6730,16 @@ msgstr "Sobrenome"
 
 #. Property comment for Friend of a Friend:surname
 msgid "The surname of some person."
-msgstr ""
+msgstr "O sobrenome de alguma pessoa."
 
 #. Property label for Friend of a Friend:family_name
 msgid "family_name"
-msgstr ""
+msgstr "sobrenome"
 
 #. Property comment for Friend of a Friend:family_name
 #. Property comment for Friend of a Friend:familyName
 msgid "The family name of some person."
-msgstr ""
+msgstr "O sobrenome de alguma pessoa."
 
 #. Property label for Friend of a Friend:familyName
 msgid "familyName"
@@ -6721,6 +6754,8 @@ msgid ""
 "A phone,  specified using fully qualified tel: URI scheme (refs: "
 "http://www.w3.org/Addressing/schemes.html#tel)."
 msgstr ""
+"Um telefone, especificado usando um esquema tel: URI totalmente qualificado "
+"(refs: http://www.w3.org/Addressing/schemes.html#tel)."
 
 #. Property label for Friend of a Friend:homepage
 msgid "homepage"
@@ -6728,32 +6763,34 @@ msgstr "Página inicial"
 
 #. Property comment for Friend of a Friend:homepage
 msgid "A homepage for some thing."
-msgstr ""
+msgstr "Uma página inicial para alguma coisa."
 
 #. Property label for Friend of a Friend:weblog
 msgid "weblog"
-msgstr ""
+msgstr "weblog"
 
 #. Property comment for Friend of a Friend:weblog
 msgid "A weblog of some thing (whether person, group, company etc.)."
-msgstr ""
+msgstr "Um weblog de alguma coisa (seja pessoa, grupo, empresa etc.)."
 
 #. Property label for Friend of a Friend:openid
 msgid "openid"
-msgstr ""
+msgstr "openid"
 
 #. Property comment for Friend of a Friend:openid
 msgid "An OpenID for an Agent."
-msgstr ""
+msgstr "Um OpenID para um agente."
 
 #. Property label for Friend of a Friend:tipjar
 msgid "tipjar"
-msgstr ""
+msgstr "tipjar"
 
 #. Property comment for Friend of a Friend:tipjar
 msgid ""
 "A tipjar document for this agent, describing means for payment and reward."
 msgstr ""
+"Um documento tipjar para este agente, descrevendo os meios de pagamento e "
+"recompensa."
 
 #. Property label for Friend of a Friend:plan
 msgid "plan"
@@ -6769,15 +6806,15 @@ msgstr "feito"
 
 #. Property comment for Friend of a Friend:made
 msgid "Something that was made by this agent."
-msgstr ""
+msgstr "Algo que foi feito por este agente."
 
 #. Property label for Friend of a Friend:maker
 msgid "maker"
-msgstr ""
+msgstr "criador(a)"
 
 #. Property comment for Friend of a Friend:maker
 msgid "An agent that  made this thing."
-msgstr ""
+msgstr "Um agente que fez essa coisa."
 
 #. Property label for Friend of a Friend:img
 msgid "image"
@@ -6789,22 +6826,25 @@ msgid ""
 "which are particularly representative of something, eg. one's photo on a "
 "homepage)."
 msgstr ""
+"Uma imagem que pode ser usada para representar algo (ou seja, aquelas "
+"representações que são particularmente representativas de algo, por exemplo,"
+" a foto de alguém em uma página inicial)."
 
 #. Property label for Friend of a Friend:depiction
 msgid "depiction"
-msgstr ""
+msgstr "representação"
 
 #. Property comment for Friend of a Friend:depiction
 msgid "A depiction of some thing."
-msgstr ""
+msgstr "A representação de alguma coisa."
 
 #. Property label for Friend of a Friend:depicts
 msgid "depicts"
-msgstr ""
+msgstr "retrata"
 
 #. Property comment for Friend of a Friend:depicts
 msgid "A thing depicted in this representation."
-msgstr ""
+msgstr "Algo retratado nesta representação."
 
 #. Property label for Friend of a Friend:thumbnail
 msgid "thumbnail"
@@ -6812,43 +6852,47 @@ msgstr "thumbnail"
 
 #. Property comment for Friend of a Friend:thumbnail
 msgid "A derived thumbnail image."
-msgstr ""
+msgstr "Uma imagem em miniatura derivada."
 
 #. Property label for Friend of a Friend:myersBriggs
 msgid "myersBriggs"
-msgstr ""
+msgstr "myersBriggs"
 
 #. Property comment for Friend of a Friend:myersBriggs
 msgid "A Myers Briggs (MBTI) personality classification."
-msgstr ""
+msgstr "Uma classificação de personalidade de Myers Briggs (MBTI)."
 
 #. Property label for Friend of a Friend:workplaceHomepage
 msgid "workplace homepage"
-msgstr ""
+msgstr "homepage do local de trabalho"
 
 #. Property comment for Friend of a Friend:workplaceHomepage
 msgid ""
 "A workplace homepage of some person; the homepage of an organization they "
 "work for."
 msgstr ""
+"Uma página inicial do local de trabalho de alguma pessoa; a página inicial "
+"de uma organização para a qual trabalham."
 
 #. Property label for Friend of a Friend:workInfoHomepage
 msgid "work info homepage"
-msgstr ""
+msgstr "página inicial de informações de trabalho"
 
 #. Property comment for Friend of a Friend:workInfoHomepage
 msgid ""
 "A work info homepage of some person; a page about their work for some "
 "organization."
 msgstr ""
+"Uma página inicial de informações de trabalho de alguma pessoa; uma página "
+"sobre seu trabalho para alguma organização."
 
 #. Property label for Friend of a Friend:schoolHomepage
 msgid "schoolHomepage"
-msgstr ""
+msgstr "schoolHomepage"
 
 #. Property comment for Friend of a Friend:schoolHomepage
 msgid "A homepage of a school attended by the person."
-msgstr ""
+msgstr "A página inicial de uma escola frequentada pela pessoa."
 
 #. Property label for Friend of a Friend:knows
 msgid "knows"
@@ -6859,6 +6903,8 @@ msgid ""
 "A person known by this person (indicating some level of reciprocated "
 "interaction between the parties)."
 msgstr ""
+"Uma pessoa conhecida por essa pessoa (indicando algum nível de interação "
+"recíproca entre as partes)."
 
 #. Property label for Friend of a Friend:interest
 msgid "interest"
@@ -6866,15 +6912,15 @@ msgstr "interesse"
 
 #. Property comment for Friend of a Friend:interest
 msgid "A page about a topic of interest to this person."
-msgstr ""
+msgstr "Uma página sobre um tópico de interesse para esta pessoa."
 
 #. Property label for Friend of a Friend:topic_interest
 msgid "topic_interest"
-msgstr ""
+msgstr "topico_interesse"
 
 #. Property comment for Friend of a Friend:topic_interest
 msgid "A thing of interest to this person."
-msgstr ""
+msgstr "Algo de interesse para essa pessoa."
 
 #. Property label for Friend of a Friend:publications
 msgid "publications"
@@ -6882,15 +6928,15 @@ msgstr "publicações"
 
 #. Property comment for Friend of a Friend:publications
 msgid "A link to the publications of this person."
-msgstr ""
+msgstr "Um link para as publicações desta pessoa."
 
 #. Property label for Friend of a Friend:currentProject
 msgid "current project"
-msgstr ""
+msgstr "projeto atual"
 
 #. Property comment for Friend of a Friend:currentProject
 msgid "A current project this person works on."
-msgstr ""
+msgstr "Um projeto atual em que esta pessoa trabalha."
 
 #. Property label for Friend of a Friend:pastProject
 msgid "past project"
@@ -6898,7 +6944,7 @@ msgstr "projeto passado"
 
 #. Property comment for Friend of a Friend:pastProject
 msgid "A project this person has previously worked on."
-msgstr ""
+msgstr "Um projeto no qual esta pessoa já trabalhou."
 
 #. Property label for Friend of a Friend:fundedBy
 msgid "funded by"
@@ -6906,7 +6952,7 @@ msgstr "Fundado por"
 
 #. Property comment for Friend of a Friend:fundedBy
 msgid "An organization funding a project or person."
-msgstr ""
+msgstr "Uma organização que financia um projeto ou pessoa."
 
 #. Property label for Friend of a Friend:logo
 msgid "logo"
@@ -6914,7 +6960,7 @@ msgstr "logotipo"
 
 #. Property comment for Friend of a Friend:logo
 msgid "A logo representing some thing."
-msgstr ""
+msgstr "Um logotipo representando alguma coisa."
 
 #. Property label for Friend of a Friend:topic
 msgid "topic"
@@ -6922,15 +6968,15 @@ msgstr "topico"
 
 #. Property comment for Friend of a Friend:topic
 msgid "A topic of some page or document."
-msgstr ""
+msgstr "Um tópico de alguma página ou documento."
 
 #. Property label for Friend of a Friend:primaryTopic
 msgid "primary topic"
-msgstr ""
+msgstr "tópico principal"
 
 #. Property comment for Friend of a Friend:primaryTopic
 msgid "The primary topic of some page or document."
-msgstr ""
+msgstr "O tópico principal de alguma página ou documento."
 
 #. Property label for Friend of a Friend:focus
 msgid "focus"
@@ -6941,6 +6987,8 @@ msgid ""
 "The underlying or 'focal' entity associated with some SKOS-described "
 "concept."
 msgstr ""
+"A entidade subjacente ou 'focal' associada a algum conceito descrito pelo "
+"SKOS."
 
 #. Property label for Friend of a Friend:isPrimaryTopicOf
 msgid "is primary topic of"
@@ -6948,11 +6996,11 @@ msgstr "é o principal tema de"
 
 #. Property comment for Friend of a Friend:isPrimaryTopicOf
 msgid "A document that this thing is the primary topic of."
-msgstr ""
+msgstr "Um documento do qual esse assunto é o tópico principal."
 
 #. Property comment for Friend of a Friend:page
 msgid "A page or document about this thing."
-msgstr ""
+msgstr "Uma página ou documento sobre isso."
 
 #. Property label for Friend of a Friend:theme
 msgid "theme"
@@ -6970,15 +7018,16 @@ msgstr "conta"
 #. Property comment for Friend of a Friend:account
 #. Property comment for Friend of a Friend:holdsAccount
 msgid "Indicates an account held by this agent."
-msgstr ""
+msgstr "Indica uma conta mantida por este agente."
 
 #. Property label for Friend of a Friend:accountServiceHomepage
 msgid "account service homepage"
-msgstr ""
+msgstr "página inicial do serviço de conta"
 
 #. Property comment for Friend of a Friend:accountServiceHomepage
 msgid "Indicates a homepage of the service provide for this online account."
 msgstr ""
+"Indica uma página inicial do serviço fornecido para esta conta online."
 
 #. Property label for Friend of a Friend:accountName
 msgid "account name"
@@ -7002,7 +7051,7 @@ msgstr ""
 
 #. Property comment for Friend of a Friend:membershipClass
 msgid "Indicates the class of individuals that are a member of a Group"
-msgstr ""
+msgstr "Indica a classe de indivíduos que são membros de um Grupo"
 
 #. Property label for Friend of a Friend:birthday
 msgid "birthday"
@@ -7012,6 +7061,8 @@ msgstr "aniversário"
 msgid ""
 "The birthday of this Agent, represented in mm-dd string form, eg. '12-31'."
 msgstr ""
+"O aniversário deste Agente, representado na forma de string mm-dd, por "
+"exemplo. '12 -31 '."
 
 #. Property label for Friend of a Friend:age
 msgid "age"
@@ -7019,10 +7070,12 @@ msgstr "idade"
 
 #. Property comment for Friend of a Friend:age
 msgid "The age in years of some agent."
-msgstr ""
+msgstr "A idade em anos de algum agente."
 
 #. Property comment for Friend of a Friend:status
 msgid ""
 "A string expressing what the user is happy for the general public (normally)"
 " to know about their current activity."
 msgstr ""
+"Uma string que expressa o que o usuário deseja que o público em geral "
+"(normalmente) saiba sobre sua atividade atual."

@@ -5,6 +5,7 @@
 # 
 # Translators:
 # 志帆 徐 <billxu0521@gmail.com>, 2020
+# Lib Rain, 2021
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-21 11:21-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: 志帆 徐 <billxu0521@gmail.com>, 2020\n"
+"Last-Translator: Lib Rain, 2021\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/omeka/teams/14184/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2026,7 +2027,7 @@ msgstr "快速新增"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:98
 msgid "items"
-msgstr "條目"
+msgstr "物件"
 
 #: application/view/omeka/admin/job/browse.phtml:7
 #: application/view/omeka/admin/job/browse.phtml:37
@@ -2737,7 +2738,7 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/resources.phtml:43
 msgid "site admin"
-msgstr ""
+msgstr "典藏庫管理者"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
 #: application/view/omeka/site-admin/index/resources.phtml:55
@@ -3530,7 +3531,7 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:236
 msgid "All sites"
-msgstr ""
+msgstr "所有典藏庫"
 
 #: application/src/Form/SiteSettingsForm.php:253
 msgid "Search resources"
@@ -3630,7 +3631,7 @@ msgstr "[未設定類別]"
 #: application/src/Form/ResourceBatchUpdateForm.php:110
 #: application/src/Form/ResourceBatchUpdateForm.php:124
 msgid "Select item sets"
-msgstr "選擇條目集"
+msgstr "選擇物件集"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:113
 msgid "Add to item sets"
@@ -3668,11 +3669,11 @@ msgstr "預設資源範本"
 
 #: application/src/Form/UserForm.php:170
 msgid "Select sites"
-msgstr ""
+msgstr "選擇典藏庫"
 
 #: application/src/Form/UserForm.php:175
 msgid "Default sites for items"
-msgstr ""
+msgstr "物件預設典藏庫"
 
 #: application/src/Form/UserForm.php:186
 msgid "Current password"

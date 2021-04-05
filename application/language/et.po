@@ -66,7 +66,7 @@ msgstr "Adapteris %1$s pole hulgi kustutamise funktsiooni."
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:269
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s entity class."
-msgstr ""
+msgstr "Väli \"%1$s\" pole sissekande %2$s klassis saadaval."
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:614
 #: application/src/Api/Manager.php:209
@@ -1216,11 +1216,11 @@ msgstr "Eelmine"
 
 #: application/view/common/site-selector.phtml:4
 msgid "Click on a site to add it to the edit panel."
-msgstr ""
+msgstr "Kliki saidil, et lisada see muutmise lehele."
 
 #: application/view/common/site-selector.phtml:5
 msgid "Filter sites"
-msgstr ""
+msgstr "Filtreeri saite"
 
 #: application/view/common/site-selector.phtml:7
 #: application/view/omeka/admin/item/form.phtml:17
@@ -1290,7 +1290,7 @@ msgstr "Logi sisse"
 
 #: application/view/common/user-selector.phtml:11
 msgid "Click on a user to add it to the edit panel."
-msgstr ""
+msgstr "Kliki kasutajal, et lisada see muutmise lehele."
 
 #: application/view/common/user-selector.phtml:14
 msgid "Filter users"
@@ -1348,7 +1348,7 @@ msgstr ""
 
 #: application/view/error/index.phtml:19
 msgid "retrieving error messages"
-msgstr ""
+msgstr "veateadete ülevaatamine"
 
 #: application/view/layout/layout-admin.phtml:37
 msgid "Skip to main content"
@@ -4975,7 +4975,7 @@ msgstr "Sihtrühm"
 
 #. Property comment for Dublin Core:audience
 msgid "A class of entity for whom the resource is intended or useful."
-msgstr ""
+msgstr "Sisssekande klass, mis näitab kellele ressurss on mõeldud."
 
 #. Property label for Dublin Core:alternative
 msgid "Alternative Title"
@@ -5212,6 +5212,8 @@ msgid ""
 "An entity that mediates access to the resource and for whom the resource is "
 "intended or useful."
 msgstr ""
+"Sissekanne, mis piirab ligipääsu ressursile ning määrab, kellele see on "
+"mõeldud."
 
 #. Property label for Dublin Core:dateAccepted
 msgid "Date Accepted"
@@ -6949,7 +6951,7 @@ msgstr "fookus"
 msgid ""
 "The underlying or 'focal' entity associated with some SKOS-described "
 "concept."
-msgstr ""
+msgstr "'Keskne' sissekanne, mis on seotud mõningate SKOS-i mõistetega."
 
 #. Property label for Friend of a Friend:isPrimaryTopicOf
 msgid "is primary topic of"

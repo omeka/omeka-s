@@ -6,7 +6,7 @@
 # Translators:
 # Jishee Oyutan <jisheelibrary@gmail.com>, 2017
 # Khaidav Tumur <khaidaw@gmail.com>, 2020
-# Khaidav T. <khaidaw@yahoo.com>, 2020
+# Khaidav T. <khaidaw@yahoo.com>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-21 11:21-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Khaidav T. <khaidaw@yahoo.com>, 2020\n"
+"Last-Translator: Khaidav T. <khaidaw@yahoo.com>, 2021\n"
 "Language-Team: Mongolian (https://www.transifex.com/omeka/teams/14184/mn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -152,7 +152,7 @@ msgstr "Олдсонгүй"
 
 #: application/src/Controller/Admin/ModuleController.php:82
 msgid "Invalid module"
-msgstr ""
+msgstr "Тодорхойгүй модул"
 
 #: application/src/Controller/Admin/ModuleController.php:83
 msgid "Invalid INI"
@@ -214,7 +214,7 @@ msgstr ""
 
 #: application/src/Form/Element/PasswordConfirm.php:45
 msgid "Password must:"
-msgstr ""
+msgstr "Нууц үг ихэвчлэн:"
 
 #: application/src/Media/Ingester/Fallback.php:33
 #: application/view/common/navigation-link-form/fallback.phtml:4
@@ -305,7 +305,7 @@ msgstr ""
 
 #: application/src/Site/Navigation/Link/Page.php:37
 msgid "[Missing Page]"
-msgstr ""
+msgstr "[Алдагдсан хуудас]"
 
 #: application/src/Site/Navigation/Translator.php:60
 msgid "Home"
@@ -1001,7 +1001,7 @@ msgstr "Шүүлтүүр"
 
 #: application/view/common/form-row.phtml:20
 msgid "Learn more"
-msgstr ""
+msgstr "Илүү ихийг мэдэх"
 
 #: application/view/common/item-set-selector.phtml:8
 msgid "Click on an item set to add it to the edit panel."
@@ -1056,7 +1056,7 @@ msgstr "Бүгд"
 #: application/view/omeka/site-admin/page/index.phtml:48
 #: application/view/omeka/site/item/browse.phtml:14
 msgid "Title"
-msgstr ""
+msgstr "Нэр-Гарчиг"
 
 #: application/view/common/linked-resources.phtml:32
 #: application/view/omeka/admin/resource-template/review-import.phtml:68
@@ -1082,7 +1082,7 @@ msgstr "Хуудас"
 
 #: application/view/common/navigation-link-form/url.phtml:9
 msgid "URL"
-msgstr ""
+msgstr "URL хаяг"
 
 #: application/view/common/pagination.phtml:9
 #: application/view/common/sidebar-pagination.phtml:6
@@ -1229,7 +1229,7 @@ msgstr ""
 #: application/view/omeka/site-admin/index/users.phtml:41
 #: application/view/omeka/site-admin/page/index.phtml:33
 msgid "Sites"
-msgstr ""
+msgstr "Сайт"
 
 #: application/view/common/sort-link.phtml:4
 msgid "Switch to descending order"
@@ -1310,7 +1310,7 @@ msgstr "Мартагдсан"
 
 #: application/view/error/404.phtml:4
 msgid "Page not found"
-msgstr ""
+msgstr "Хуудас олдсонгүй"
 
 #: application/view/error/404.phtml:6
 msgid ""
@@ -1401,7 +1401,7 @@ msgstr "Админ"
 #: application/view/omeka/admin/module/browse.phtml:11
 #: application/view/omeka/admin/module/configure.phtml:6
 msgid "Modules"
-msgstr ""
+msgstr "Модулиуд"
 
 #: application/view/layout/layout-admin.phtml:114
 msgid "Omeka S"

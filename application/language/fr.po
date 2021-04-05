@@ -8,9 +8,9 @@
 # Stéphane Loret <stephane.loret@univ-nantes.fr>, 2018
 # symac <wikitipiac@laposte.net>, 2018
 # Pols12 <poltron54@gmail.com>, 2018
-# Julian Maurice <julian.maurice@biblibre.com>, 2020
-# Daniel Berthereau <daniel.transifex@berthereau.net>, 2020
 # Laurent Thomas, 2020
+# Daniel Berthereau <daniel.transifex@berthereau.net>, 2021
+# Julian Maurice <julian.maurice@biblibre.com>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-21 11:21-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Laurent Thomas, 2020\n"
+"Last-Translator: Julian Maurice <julian.maurice@biblibre.com>, 2021\n"
 "Language-Team: French (https://www.transifex.com/omeka/teams/14184/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -196,7 +196,7 @@ msgstr "Le fichier de migration ne contenait pas la classe attendue"
 #: application/src/Form/Element/PasswordConfirm.php:22
 #, php-format
 msgid "be a minimum of %s characters in length."
-msgstr "être composé d'au moins %s caractères."
+msgstr "être composé d’au moins %s caractères."
 
 #: application/src/Form/Element/PasswordConfirm.php:26
 #, php-format
@@ -398,7 +398,7 @@ msgstr "Annuler"
 #: application/src/View/Helper/PasswordRequirements.php:40
 #, php-format
 msgid "Password must be a minimum of %s characters in length."
-msgstr "Le mot de passe doit être composé d'au moins %s caractères."
+msgstr "Le mot de passe doit être composé d’au moins %s caractères."
 
 #: application/src/View/Helper/PasswordRequirements.php:46
 #, php-format
@@ -445,12 +445,12 @@ msgstr "ne contient pas"
 #: application/src/View/Helper/SearchFilters.php:36
 #: application/view/common/advanced-search/properties.phtml:70
 msgid "is resource with ID"
-msgstr "est la ressource avec l'ID"
+msgstr "est la ressource avec l’ID"
 
 #: application/src/View/Helper/SearchFilters.php:37
 #: application/view/common/advanced-search/properties.phtml:71
 msgid "is not resource with ID"
-msgstr "n'est pas la ressource avec l'ID"
+msgstr "n’est pas la ressource avec l’ID"
 
 #: application/src/View/Helper/SearchFilters.php:38
 #: application/view/common/advanced-search/properties.phtml:72
@@ -866,7 +866,7 @@ msgstr "Résultats de la recherche pour \"%s\""
 #: application/view/common/cross-site-search/results.phtml:13
 #: application/view/omeka/site/item/show.phtml:32
 msgid "Site pages"
-msgstr "Pages de sites"
+msgstr "Pages du site"
 
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
@@ -906,7 +906,7 @@ msgstr "Aucun résultat correspondant"
 #: application/view/common/cross-site-search/site-page-results.phtml:3
 #, php-format
 msgid "Site page results for \"%s\""
-msgstr "Pages de sites correspondant à \"%s\""
+msgstr "Pages du site correspondant à \"%s\""
 
 #: application/view/common/data-type-wrapper.phtml:12
 #: application/view/common/resource-form-templates.phtml:23
@@ -1140,7 +1140,7 @@ msgstr "Suivant"
 #: application/view/common/pagination.phtml:28
 #, php-format
 msgid "%1$s–%2$s of %3$s"
-msgstr "%1$s–%2$s de %3$s"
+msgstr "%1$s–%2$s sur %3$s"
 
 #: application/view/common/pagination.phtml:30
 msgid "0 results"
@@ -1217,7 +1217,7 @@ msgstr "Replier"
 
 #: application/view/common/resource-form-templates.phtml:13
 msgid "Property term for development use"
-msgstr "Vocable de propriété à l'usage des développeurs"
+msgstr "Vocable de propriété à l’usage des développeurs"
 
 #: application/view/common/resource-form-templates.phtml:18
 msgid "Select the first value type."
@@ -1244,7 +1244,7 @@ msgstr "Préc."
 
 #: application/view/common/site-selector.phtml:4
 msgid "Click on a site to add it to the edit panel."
-msgstr "Cliquez sur un site pour l'ajouter au volet d'édition"
+msgstr "Cliquez sur un site pour l’ajouter au volet d’édition"
 
 #: application/view/common/site-selector.phtml:5
 msgid "Filter sites"
@@ -1332,7 +1332,7 @@ msgstr "Utilisateurs (%s)"
 #: application/view/common/version-notification.phtml:8
 #, php-format
 msgid "A new version of Omeka S is available. %s"
-msgstr "Une nouvelle version d'Omeka S est disponible. %s"
+msgstr "Une nouvelle version d’Omeka S est disponible. %s"
 
 #: application/view/common/version-notification.phtml:12
 #: application/view/omeka/admin/module/browse.phtml:62
@@ -1353,7 +1353,7 @@ msgid ""
 "The page you are trying to view does not exist. Use the back button to "
 "return to the last page."
 msgstr ""
-"La page que vous tentez d'afficher n'existe pas. Utilisez le bouton "
+"La page que vous tentez d’afficher n’existe pas. Utilisez le bouton "
 "\"retour\" pour revenir à la dernière page visitée."
 
 #: application/view/error/404.phtml:14
@@ -1375,12 +1375,12 @@ msgid ""
 "To learn how to see more detailed information about this error, see the "
 "Omeka S User Manual page on %s."
 msgstr ""
-"Pour obtenir plus d'informations à propos de cette erreur, consultez le "
+"Pour obtenir plus d’informations à propos de cette erreur, consultez le "
 "manuel utilisateur Omeka S : %s"
 
 #: application/view/error/index.phtml:19
 msgid "retrieving error messages"
-msgstr "récupérer les messages d'erreur"
+msgstr "récupérer les messages d’erreur"
 
 #: application/view/layout/layout-admin.phtml:37
 msgid "Skip to main content"
@@ -1920,7 +1920,7 @@ msgstr "Les ressources suivantes sont liées à cette collection :"
 
 #: application/view/omeka/admin/item-set/show.phtml:58
 msgid "No resources link to this item set."
-msgstr "Aucune ressource n'est liée à cette collection."
+msgstr "Aucune ressource n’est liée à cette collection."
 
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:39
 msgid "item sets"
@@ -2009,14 +2009,14 @@ msgstr "Ajouter à la collection"
 
 #: application/view/omeka/admin/item/manage-media.phtml:21
 msgid "Media to be removed"
-msgstr "Media à enlever"
+msgstr "Média à enlever"
 
 #: application/view/omeka/admin/item/manage-media.phtml:63
 msgid ""
 "This resource has no media.<br>Start adding media using the sidebar to the "
 "right."
 msgstr ""
-"Cette ressource n’a aucun media.<br> Commencez à en ajouter à l’aide du "
+"Cette ressource n’a aucun média.<br> Commencez à en ajouter à l’aide du "
 "panneau de droite."
 
 #: application/view/omeka/admin/item/manage-media.phtml:67
@@ -2033,7 +2033,7 @@ msgid ""
 "This item is part of no sites. Add it to a site using the interface to the "
 "right."
 msgstr ""
-"Ce contenu n'est rattaché à aucun site. Ajoutez le à un site en utilisant le"
+"Ce contenu n’est rattaché à aucun site. Ajoutez le à un site en utilisant le"
 " volet sur la droite."
 
 #: application/view/omeka/admin/item/manage-sites.phtml:51
@@ -2050,7 +2050,7 @@ msgstr "Les ressources suivantes sont liées à ce contenu :"
 
 #: application/view/omeka/admin/item/show.phtml:48
 msgid "No resources link to this item."
-msgstr "Aucune ressource n'est liée à ce contenu."
+msgstr "Aucune ressource n’est liée à ce contenu."
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 msgid "Filter search"
@@ -2111,7 +2111,7 @@ msgstr "Arguments"
 
 #: application/view/omeka/admin/job/show.phtml:54
 msgid "[no args]"
-msgstr "[pas d'argument]"
+msgstr "[pas d’argument]"
 
 #: application/view/omeka/admin/job/show.phtml:58
 msgid "Log"
@@ -2408,7 +2408,7 @@ msgstr "Description de la ressource"
 #: application/view/omeka/admin/resource-template/review-import.phtml:66
 #: application/view/omeka/admin/resource-template/show.phtml:26
 msgid "Original label"
-msgstr "Libellé d'origine"
+msgstr "Libellé d’origine"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:69
 #: application/view/omeka/admin/resource-template/show.phtml:29
@@ -2700,7 +2700,7 @@ msgid ""
 "below."
 msgstr ""
 "Une mise à jour logicielle a récemment eu lieu et la base de donnée doit "
-"être mise à jour. Le site restera en maintenance jusqu'à ce que vous "
+"être mise à jour. Le site restera en maintenance jusqu’à ce que vous "
 "cliquiez sur le bouton ci-dessous."
 
 #: application/view/omeka/migrate/index.phtml:10
@@ -2708,7 +2708,7 @@ msgid ""
 "There are environment errors that must be resolved before you can update the"
 " database."
 msgstr ""
-"Des erreurs d'environnement nécessitent d'être résolues avant que vous ne "
+"Des erreurs d’environnement nécessitent d’être résolues avant que vous ne "
 "puissiez mettre à jour la base de données."
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
@@ -2747,7 +2747,7 @@ msgstr "Paramètres"
 #: application/view/omeka/site-admin/index/show.phtml:24
 #: application/view/omeka/site-admin/page/index.phtml:19
 msgid "URL slug"
-msgstr "Identifiant pour l'URL"
+msgstr "Identifiant pour l’URL"
 
 #: application/view/omeka/site-admin/index/index.phtml:25
 msgid "Add new site"
@@ -2769,7 +2769,7 @@ msgstr "Ajouter un lien vers une page du site"
 
 #: application/view/omeka/site-admin/index/navigation.phtml:28
 msgid "Select a homepage"
-msgstr "Choisir une page d'accueil"
+msgstr "Choisir une page d’accueil"
 
 #: application/view/omeka/site-admin/index/navigation.phtml:32
 msgid "Add a custom link"
@@ -2795,7 +2795,7 @@ msgid ""
 "%s."
 msgstr ""
 "Les nouveaux contenus sont actuellement automatiquement rattachés à ce site."
-" Modifiez ce paramétrage dans l'%s"
+" Modifiez ce paramétrage dans l’%s"
 
 #: application/view/omeka/site-admin/index/resources.phtml:43
 msgid "site admin"
@@ -3246,7 +3246,7 @@ msgstr "Un site doit avoir un réservoir de contenus."
 
 #: application/src/Api/Adapter/SiteAdapter.php:261
 msgid "A homepage must belong to its parent site."
-msgstr "Une page d'accueil doit appartenir à son site parent."
+msgstr "Une page d’accueil doit appartenir à son site parent."
 
 #: application/src/Api/Adapter/SiteAdapter.php:334
 msgid "Invalid navigation: navigation must be an array"
@@ -3347,7 +3347,7 @@ msgstr "Arrêté"
 #: application/src/Mvc/MvcListeners.php:326
 #, php-format
 msgid "The current theme is not active. Its current state is \"%s\"."
-msgstr "Le thème actuel n'est pas actif. Son état actuel est \"%s\"."
+msgstr "Le thème actuel n’est pas actif. Son état actuel est \"%s\"."
 
 #: application/src/Form/UserBatchUpdateForm.php:27
 #: application/src/Form/UserForm.php:98
@@ -3418,17 +3418,17 @@ msgstr "Ne rien faire"
 msgid "Add - keep existing items and assign items from a new search"
 msgstr ""
 "Ajouter - conserver les contenus existants et rattacher des contenus à "
-"partir d'une nouvelle recherche"
+"partir d’une nouvelle recherche"
 
 #: application/src/Form/SiteResourcesForm.php:18
 msgid "Replace - unassign all items and assign items from a new search"
 msgstr ""
 "Remplacer - détacher tous les contenus et rattacher des contenus à partir "
-"d'une nouvelle recherche"
+"d’une nouvelle recherche"
 
 #: application/src/Form/SiteResourcesForm.php:19
 msgid "Remove - unassign items from a new search"
-msgstr "Retirer - détacher les contenus à partir d'une nouvelle recherche"
+msgstr "Retirer - détacher les contenus à partir d’une nouvelle recherche"
 
 #: application/src/Form/SiteResourcesForm.php:20
 msgid "Remove all - unassign all items"
@@ -3445,8 +3445,8 @@ msgid ""
 " to save a search for a one-time removal."
 msgstr ""
 "Utilisez ceci comme un moyen pratique de mémoriser une recherche. Par "
-"exemple, il vous sera utile d'inscrire ici une recherche que vous utiliserez"
-" de manière récurrente pour ajouter des contenus. Il sera moins utile d'y "
+"exemple, il vous sera utile d’inscrire ici une recherche que vous utiliserez"
+" de manière récurrente pour ajouter des contenus. Il sera moins utile d’y "
 "inscrire une recherche utilisée une unique fois pour retirer des contenus."
 
 #: application/src/Form/SiteSettingsForm.php:28
@@ -3465,11 +3465,11 @@ msgid ""
 msgstr ""
 "Activez cette option si vous souhaitez que les nouveaux contenus soient "
 "automatiquement rattachés à ce site. Notez que les propriétaires des "
-"contenus peuvent détacher ces derniers à tout moment s'ils le souhaitent."
+"contenus peuvent détacher ces derniers à tout moment s’ils le souhaitent."
 
 #: application/src/Form/SiteSettingsForm.php:50
 msgid "Attachment link type"
-msgstr "Type d'affichage pour le media"
+msgstr "Type d’affichage pour le média"
 
 #: application/src/Form/SiteSettingsForm.php:52
 msgid "Item page"
@@ -3609,7 +3609,7 @@ msgstr "Afficher les pages rattachées"
 msgid ""
 "Show site pages to which an item is attached on the public item show page."
 msgstr ""
-"Afficher sur la page d'un contenu les pages de sites auxquelles ce dernier "
+"Afficher sur la page d’un contenu les pages du site auxquelles ce dernier "
 "est attaché."
 
 #: application/src/Form/SiteSettingsForm.php:232
@@ -3857,7 +3857,7 @@ msgid ""
 "Enable notifications when a new version of Omeka S, modules, or themes are "
 "available."
 msgstr ""
-"Activer les notifications lorsqu'une nouvelle version d'Omeka S, d'un module"
+"Activer les notifications lorsqu’une nouvelle version d’Omeka S, d’un module"
 " ou d'un thème est disponible."
 
 #: application/src/Form/SettingForm.php:250
@@ -3875,7 +3875,7 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:263
 msgid "Suggested languages for values"
-msgstr "Langages suggérés pour les valeurs"
+msgstr "Langues proposées pour les valeurs"
 
 #: application/src/Form/SettingForm.php:264
 msgid ""
@@ -3884,12 +3884,12 @@ msgid ""
 "with a \"=\"."
 msgstr ""
 "Liste des langues pour faciliter le remplissage des valeurs dans les "
-"formulaires de ressources. Listez un langage par ligne. Vous pouvez ajouter "
-"un libellé au langage en y suffixant le caractère \"=\"."
+"formulaires de ressources. Listez une langue par ligne. Vous pouvez ajouter "
+"un libellé à la langue en y suffixant le caractère \"=\"."
 
 #: application/src/Form/SettingForm.php:277
 msgid "Index full-text search"
-msgstr "Lancer l'indexation de la recherche en texte intégral"
+msgstr "Lancer l’indexation de la recherche en texte intégral"
 
 #: application/src/Form/SettingForm.php:291
 msgid "Security"
@@ -4136,7 +4136,7 @@ msgstr "Confirmer le mot de passe"
 
 #: application/src/Form/Element/PasswordConfirm.php:87
 msgid "The password is invalid"
-msgstr "Le mot de passe n'est pas valide."
+msgstr "Le mot de passe n’est pas valide."
 
 #: application/src/Form/Element/PasswordConfirm.php:102
 msgid "The passwords did not match"
@@ -4172,7 +4172,7 @@ msgstr ""
 #: application/src/Stdlib/Environment.php:62
 #, php-format
 msgid "Omeka requires the PHP extension %s, but it is not loaded."
-msgstr "Omeka requiert l'extension PHP %s, mais elle n'est pas chargée."
+msgstr "Omeka requiert l'extension PHP %s, mais elle n’est pas chargée."
 
 #: application/src/Stdlib/Environment.php:81
 #, php-format
@@ -4311,7 +4311,7 @@ msgstr ""
 #: application/src/Controller/Admin/UserController.php:371
 msgid "For security reasons, you can’t batch edit yourself."
 msgstr ""
-"Pour des raisons de sécurité, vous ne pouvez pas faire partie d'un "
+"Pour des raisons de sécurité, vous ne pouvez pas faire partie d’un "
 "traitement en lot."
 
 #: application/src/Controller/Admin/UserController.php:391
@@ -4726,7 +4726,7 @@ msgstr "Ressource"
 
 #: application/src/DataType/Resource/AbstractResource.php:59
 msgid "A value resource cannot be Media."
-msgstr "Une ressource de valeur ne peut pas être Media."
+msgstr "Une ressource de valeur ne peut pas être Média."
 
 #: application/src/Media/Ingester/Html.php:80
 msgid "HTML or plain text."
@@ -5072,7 +5072,7 @@ msgid ""
 "evaluated."
 msgstr ""
 "Une base de comparaison ; un point de référence par rapport auquel évaluer "
-"d'autres choses."
+"d’autres choses."
 
 #. Property comment for Dublin Core:title
 msgid "A name given to the resource."
@@ -5081,7 +5081,7 @@ msgstr "Un nom donné à la ressource."
 #. Property comment for Dublin Core:creator
 msgid "An entity primarily responsible for making the resource."
 msgstr ""
-"Une entité responsable au premier chef de l'élaboration de la ressource."
+"Une entité responsable au premier chef de l’élaboration de la ressource."
 
 #. Property label for Dublin Core:subject
 msgid "Subject"
@@ -5109,7 +5109,7 @@ msgstr "Contributeur"
 
 #. Property comment for Dublin Core:contributor
 msgid "An entity responsible for making contributions to the resource."
-msgstr "Une entité responsable d'une contribution à la ressource."
+msgstr "Une entité responsable d’une contribution à la ressource."
 
 #. Property label for Dublin Core:date
 msgid "Date"
@@ -5165,8 +5165,8 @@ msgid ""
 "The spatial or temporal topic of the resource, the spatial applicability of "
 "the resource, or the jurisdiction under which the resource is relevant."
 msgstr ""
-"Le thème spatial ou temporel de la ressource, l'applicabilité de la "
-"ressource dans l'espace ou la juridiction dont dépend la ressource."
+"Le thème spatial ou temporel de la ressource, l’applicabilité de la "
+"ressource dans l’espace ou la juridiction dont dépend la ressource."
 
 #. Property label for Dublin Core:rights
 msgid "Rights"
@@ -5265,7 +5265,7 @@ msgstr "La taille ou la durée de la ressource"
 
 #. Property label for Dublin Core:medium
 msgid "Medium"
-msgstr "Support"
+msgstr "Moyen"
 
 #. Property comment for Dublin Core:medium
 msgid "The material or physical carrier of the resource."
@@ -5449,7 +5449,7 @@ msgid ""
 "An entity that mediates access to the resource and for whom the resource is "
 "intended or useful."
 msgstr ""
-"Une entité qui modère l'accès à la ressource et à qui la ressource est "
+"Une entité qui modère l’accès à la ressource et à qui la ressource est "
 "destinée ou utile."
 
 #. Property label for Dublin Core:dateAccepted
@@ -5458,7 +5458,7 @@ msgstr "Date d’acceptation"
 
 #. Property comment for Dublin Core:dateAccepted
 msgid "Date of acceptance of the resource."
-msgstr "La date d'acceptation de la ressource."
+msgstr "La date d’acceptation de la ressource."
 
 #. Property label for Dublin Core:dateCopyrighted
 msgid "Date Copyrighted"
@@ -5485,8 +5485,8 @@ msgid ""
 "A class of entity, defined in terms of progression through an educational or"
 " training context, for which the described resource is intended."
 msgstr ""
-"Une classe d'entité, définie en fonction d'une progression dans un cadre "
-"éducatif ou d'apprentissage, à laquelle la ressource est destinée."
+"Une classe d’entité, définie en fonction d’une progression dans un cadre "
+"éducatif ou ’apprentissage, à laquelle la ressource est destinée."
 
 #. Property label for Dublin Core:accessRights
 msgid "Access Rights"
@@ -5540,7 +5540,7 @@ msgid ""
 "its creation that are significant for its authenticity, integrity, and "
 "interpretation."
 msgstr ""
-"Une déclaration de tous les changements d'appartenance et de garde de la "
+"Une déclaration de tous les changements d’appartenance et de garde de la "
 "ressource depuis sa création qui sont importants pour son authenticité, son "
 "intégrité et son interprétation."
 
@@ -5633,7 +5633,7 @@ msgid ""
 "A resource requiring interaction from the user to be understood, executed, "
 "or experienced."
 msgstr ""
-"Une ressource nécessitant une interaction de la part de l'utilisateur pour "
+"Une ressource nécessitant une interaction de la part de l’utilisateur pour "
 "être comprise, exécutée ou expérimentée."
 
 #. Class label for Dublin Core Type:Service
@@ -5658,7 +5658,7 @@ msgstr "Son"
 
 #. Class comment for Dublin Core Type:Sound
 msgid "A resource primarily intended to be heard."
-msgstr "Une ressource d'abord prévue pour être entendue."
+msgstr "Une ressource d’abord prévue pour être entendue."
 
 #. Class comment for Dublin Core Type:Text
 msgid "A resource consisting primarily of words for reading."
@@ -6002,7 +6002,7 @@ msgid ""
 "drawings, frequently specializing in a particular subject or area, as "
 "hobbies, news, or sports."
 msgstr ""
-"Les Articles d'un magazine périodique. Un magazine est une publication "
+"Les Articles d’un magazine périodique. Un magazine est une publication "
 "périodique, généralement reliée par une couverture en papier, contenant "
 "habituellement des essais, des récits, des poèmes, etc. de nombreux "
 "écrivains, et ordinairement des photographies et des dessins, souvent "
@@ -6525,7 +6525,7 @@ msgstr "transcription de"
 
 #. Property comment for Bibliographic Ontology:transcriptOf
 msgid "Relates a document to some transcribed original."
-msgstr "Lie un document à une transcription d'un document original"
+msgstr "Lie un document à une transcription d’un document original"
 
 #. Property label for Bibliographic Ontology:translationOf
 msgid "translation of"
@@ -6533,7 +6533,7 @@ msgstr "traduction de"
 
 #. Property comment for Bibliographic Ontology:translationOf
 msgid "Relates a translated document to the original document."
-msgstr "Lie un document traduit à l'original"
+msgstr "Lie un document traduit à l’original"
 
 #. Property label for Bibliographic Ontology:translator
 msgid "translator"
@@ -6541,7 +6541,8 @@ msgstr "traducteur"
 
 #. Property comment for Bibliographic Ontology:translator
 msgid "A person who translates written document from one language to another."
-msgstr "Une personne qui traduit des documents écrits d'un langue à une autre"
+msgstr ""
+"Une personne qui traduit des documents écrits d’une langue à une autre"
 
 #. Property label for Bibliographic Ontology:abstract
 msgid "abstract"
@@ -6740,7 +6741,7 @@ msgstr "préfixe"
 
 #. Property comment for Bibliographic Ontology:prefixName
 msgid "The prefix of a name"
-msgstr "Le préfixe d'un nom"
+msgstr "Le préfixe d’un nom"
 
 #. Property label for Bibliographic Ontology:section
 msgid "section"
@@ -7042,7 +7043,7 @@ msgstr "Un identifiant de messagerie Yahoo."
 
 #. Property label for Friend of a Friend:msnChatID
 msgid "MSN chat ID"
-msgstr "ID de messagerie MSN."
+msgstr "ID de messagerie MSN"
 
 #. Property comment for Friend of a Friend:msnChatID
 msgid "An MSN chat ID"
@@ -7188,7 +7189,7 @@ msgid ""
 msgstr ""
 "Une image qui peut être utilisée pour représenter quelque chose (en "
 "particulier les représentations particulièrement caractéristiques de quelque"
-" chose, comme la copie d’écran d’une page d'accueil)."
+" chose, comme la copie d’écran d’une page d’accueil)."
 
 #. Property label for Friend of a Friend:depiction
 msgid "depiction"
@@ -7224,7 +7225,7 @@ msgstr "Classification de la personnalité de Myers Briggs (MBTI)."
 
 #. Property label for Friend of a Friend:workplaceHomepage
 msgid "workplace homepage"
-msgstr "Page d'accueil du lieu de travail"
+msgstr "Page d’accueil du lieu de travail"
 
 #. Property comment for Friend of a Friend:workplaceHomepage
 msgid ""
@@ -7410,7 +7411,7 @@ msgstr "membershipClass"
 
 #. Property comment for Friend of a Friend:membershipClass
 msgid "Indicates the class of individuals that are a member of a Group"
-msgstr "Indique la classe des individus membres d'un Groupe."
+msgstr "Indique la classe des individus membres d’un Groupe."
 
 #. Property label for Friend of a Friend:birthday
 msgid "birthday"

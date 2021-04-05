@@ -4,8 +4,8 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Juozas Markauskas <juozas@dizi.lt>, 2018
 # John Flatness <john@zerocrates.org>, 2020
+# Juozas Markauskas <juozas@dizi.lt>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-21 11:21-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: John Flatness <john@zerocrates.org>, 2020\n"
+"Last-Translator: Juozas Markauskas <juozas@dizi.lt>, 2021\n"
 "Language-Team: Lithuanian (https://www.transifex.com/omeka/teams/14184/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +84,7 @@ msgstr "Sveiki"
 
 #: application/src/Api/Adapter/SiteAdapter.php:145
 msgid "Welcome to your new site. This is an example page."
-msgstr ""
+msgstr "Sukurti naują svetainę"
 
 #: application/src/Api/Adapter/SiteAdapter.php:388
 msgid "Browse"
@@ -288,7 +288,7 @@ msgstr ""
 #: application/src/Site/BlockLayout/ItemShowcase.php:22
 #: application/src/Site/BlockLayout/Media.php:22
 msgid "Options"
-msgstr ""
+msgstr "Nustatymai"
 
 #: application/src/Site/BlockLayout/LineBreak.php:43
 msgid "Break type"
@@ -359,7 +359,7 @@ msgstr ""
 #: application/src/View/Helper/CancelButton.php:14
 #: application/view/omeka/admin/vocabulary/update.phtml:23
 msgid "Cancel"
-msgstr ""
+msgstr "Atšaukti"
 
 #: application/src/View/Helper/PasswordRequirements.php:40
 #, php-format
@@ -597,13 +597,13 @@ msgstr ""
 #: application/view/omeka/site-admin/page/edit.phtml:11
 #: application/view/omeka/site-admin/page/index.phtml:80
 msgid "Edit"
-msgstr ""
+msgstr "Redaguoti"
 
 #: application/src/View/Helper/UserBar.php:159
 #: application/view/omeka/site-admin/index/show.phtml:17
 #: application/view/omeka/site-admin/page/edit.phtml:28
 msgid "View"
-msgstr ""
+msgstr "Peržiūra"
 
 #: application/view/common/advanced-search/item-sets.phtml:15
 msgid "Search by item set"
@@ -754,11 +754,11 @@ msgstr ""
 
 #: application/view/common/attachments-form.phtml:20
 msgid "Attachments"
-msgstr ""
+msgstr "Priedai"
 
 #: application/view/common/attachments-form.phtml:60
 msgid "Add attachment"
-msgstr ""
+msgstr "Įtraukti priedą"
 
 #: application/view/common/block-layout.phtml:10
 msgid "Block to be removed"
@@ -829,7 +829,7 @@ msgstr ""
 #: application/view/common/cross-site-search/results.phtml:13
 #: application/view/omeka/site/item/show.phtml:32
 msgid "Site pages"
-msgstr ""
+msgstr "Svetainės puslapiai"
 
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
@@ -1077,7 +1077,7 @@ msgstr ""
 #: application/view/common/pagination.phtml:8
 #: application/view/common/sidebar-pagination.phtml:5
 msgid "Page"
-msgstr ""
+msgstr "Puslapis"
 
 #: application/view/common/navigation-link-form/url.phtml:9
 msgid "URL"
@@ -1129,14 +1129,14 @@ msgstr ""
 #: application/view/omeka/admin/media/show-details.phtml:38
 #: application/view/omeka/admin/media/show.phtml:33
 msgid "Public"
-msgstr ""
+msgstr "Vieša"
 
 #: application/view/common/property-form-batch-edit.phtml:18
 #: application/view/common/property-form-batch-edit.phtml:32
 #: application/view/common/property-form-batch-edit.phtml:47
 #: application/view/common/property-form-batch-edit.phtml:67
 msgid "Not public"
-msgstr ""
+msgstr "Ne vieša"
 
 #: application/view/common/property-form-batch-edit.phtml:20
 #: application/view/common/property-form-batch-edit.phtml:34
@@ -1160,7 +1160,7 @@ msgstr ""
 
 #: application/view/common/property-selector.phtml:10
 msgid "Click on a property to add it to the edit panel."
-msgstr ""
+msgstr "Pasirinkite savybę norėdami pridėti prie redagavimo formos"
 
 #: application/view/common/property-selector.phtml:12
 msgid "Filter properties"
@@ -1207,7 +1207,7 @@ msgstr ""
 
 #: application/view/common/site-selector.phtml:4
 msgid "Click on a site to add it to the edit panel."
-msgstr ""
+msgstr "Pasirinkite svetainę norėdami įtraukti į formą"
 
 #: application/view/common/site-selector.phtml:5
 msgid "Filter sites"
@@ -1385,7 +1385,7 @@ msgstr "Ieškoti medijų"
 #: application/view/omeka/admin/index/browse.phtml:50
 #: application/view/omeka/site-admin/index/index.phtml:70
 msgid "View public site"
-msgstr ""
+msgstr "Peržiūrėti viešą svetainę"
 
 #: application/view/layout/layout-admin.phtml:89
 #: application/view/omeka/site-admin/index/resources.phtml:20
@@ -1457,7 +1457,7 @@ msgstr ""
 
 #: application/view/omeka/admin/asset/sidebar-select.phtml:53
 msgid "Cancel delete"
-msgstr ""
+msgstr "Atšaukti naikinimą"
 
 #: application/view/omeka/admin/asset/sidebar-select.phtml:73
 msgid "assets"
@@ -1835,7 +1835,7 @@ msgstr ""
 #: application/view/omeka/admin/media/show-details.phtml:37
 #: application/view/omeka/admin/media/show.phtml:32
 msgid "Visibility"
-msgstr ""
+msgstr "Matomomas"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:15
 #: application/view/omeka/admin/item-set/show.phtml:76
@@ -1851,13 +1851,13 @@ msgstr ""
 #: application/view/omeka/admin/item/show.phtml:12
 #: application/view/omeka/admin/media/show.phtml:7
 msgid "Metadata"
-msgstr ""
+msgstr "Metaduomenys"
 
 #: application/view/omeka/admin/item-set/show.phtml:22
 #: application/view/omeka/admin/item/show.phtml:13
 #: application/view/omeka/site/item/show.phtml:55
 msgid "Linked resources"
-msgstr ""
+msgstr "Susieti ištekliai"
 
 #: application/view/omeka/admin/item-set/show.phtml:30
 msgid "Edit item set"
@@ -2005,7 +2005,7 @@ msgstr ""
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:67
 msgid "Quick add"
-msgstr ""
+msgstr "Greitasis įtraukimas"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:98
 msgid "items"
@@ -2655,7 +2655,7 @@ msgstr ""
 #: application/view/omeka/site-admin/index/theme-settings.phtml:6
 #: application/view/omeka/site-admin/index/theme.phtml:11
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: application/view/omeka/site-admin/index/add.phtml:12
 msgid "New site"
@@ -2683,7 +2683,7 @@ msgstr ""
 #: application/view/omeka/site-admin/index/navigation.phtml:10
 #: application/view/omeka/site-admin/page/index.phtml:11
 msgid "Navigation"
-msgstr ""
+msgstr "Navigacija"
 
 #: application/view/omeka/site-admin/index/navigation.phtml:24
 #: application/view/omeka/site-admin/index/navigation.phtml:44
@@ -2720,7 +2720,7 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/resources.phtml:43
 msgid "site admin"
-msgstr ""
+msgstr "Svetainės administravimas"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
 #: application/view/omeka/site-admin/index/resources.phtml:55
@@ -2808,7 +2808,7 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/users.phtml:41
 msgid "User permissions"
-msgstr ""
+msgstr "Naudotojų leidimai"
 
 #: application/view/omeka/site-admin/index/users.phtml:62
 msgid "This site has no users. Add users using the interface to the right."
@@ -2828,7 +2828,7 @@ msgstr "Nepasirinktas objektas"
 
 #: application/view/omeka/site-admin/page/edit.phtml:41
 msgid "Add new block"
-msgstr ""
+msgstr "Pridėti naują bloką"
 
 #: application/view/omeka/site-admin/page/edit.phtml:54
 msgid "Caption"
@@ -2836,7 +2836,7 @@ msgstr ""
 
 #: application/view/omeka/site-admin/page/edit.phtml:65
 msgid "Apply changes"
-msgstr ""
+msgstr "Taikyti keitimus"
 
 #: application/view/omeka/site-admin/page/index.phtml:27
 #: application/view/omeka/site-admin/page/index.phtml:50
@@ -2906,7 +2906,7 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/ListOfSites.php:23
 msgid "List of sites"
-msgstr ""
+msgstr "Svetainių sąrašas"
 
 #: application/src/Site/BlockLayout/ListOfSites.php:38
 msgid "Alphabetical"
@@ -2954,11 +2954,11 @@ msgstr "Objektai su metaduomenimis"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:15
 msgid "Table of contents"
-msgstr ""
+msgstr "Turinys"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:15
 msgid "Browse preview"
-msgstr ""
+msgstr "Naršymo peržiūra"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:26
 msgid "Browse all"
@@ -3000,7 +3000,7 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/Media.php:14
 msgid "Media Embed"
-msgstr ""
+msgstr "Įtraukta medija"
 
 #: application/src/Site/BlockLayout/Media.php:61
 msgid "Alignment"
@@ -3008,7 +3008,7 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/PageTitle.php:13
 msgid "Page title"
-msgstr ""
+msgstr "Puslapio antraštė"
 
 #: application/src/Site/BlockLayout/LineBreak.php:14
 msgid "Line break"
@@ -3024,7 +3024,7 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/ItemShowcase.php:13
 msgid "Item showcase"
-msgstr ""
+msgstr "Objektų vitrina"
 
 #: application/src/Site/BlockLayout/Fallback.php:28
 #, php-format
@@ -3359,11 +3359,11 @@ msgstr ""
 #: application/src/Form/SiteSettingsForm.php:28
 #: application/src/Form/SettingForm.php:110
 msgid "General"
-msgstr ""
+msgstr "Bendrieji"
 
 #: application/src/Form/SiteSettingsForm.php:38
 msgid "Auto-assign new items"
-msgstr ""
+msgstr "Automatiškai priskirti naujai įkeliamus objektus"
 
 #: application/src/Form/SiteSettingsForm.php:39
 msgid ""
@@ -3569,7 +3569,7 @@ msgstr ""
 
 #: application/src/Form/ResourceBatchUpdateForm.php:33
 msgid "Set visibility"
-msgstr ""
+msgstr "Nustatyti matomumą"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:50
 msgid "Set openness"
@@ -4597,7 +4597,7 @@ msgstr ""
 
 #: application/config/navigation.config.php:192
 msgid "Site admin"
-msgstr ""
+msgstr "Svetainės administravimas"
 
 #: application/config/module.config.php:621
 msgid "Something went wrong"
@@ -4961,7 +4961,7 @@ msgstr ""
 
 #. Property label for Dublin Core:tableOfContents
 msgid "Table Of Contents"
-msgstr ""
+msgstr "Turinys"
 
 #. Property comment for Dublin Core:tableOfContents
 msgid "A list of subunits of the resource."
@@ -6333,7 +6333,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:pages
 msgid "pages"
-msgstr ""
+msgstr "Puslapiai"
 
 #. Property comment for Bibliographic Ontology:pages
 msgid ""

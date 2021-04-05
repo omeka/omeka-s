@@ -1,0 +1,16 @@
+<form id="advanced-search">
+    <div class="confirm-main">
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+        <h3><?php echo $this->translate('Search query edit'); ?></h3>
+        <?php echo $this->partial('common/advanced-search', [
+            'query' => $this->params()->fromQuery(),
+            'resourceType' => $resourceType,
+            'partialExcludelist' => $partialExcludelist,
+        ]); ?>
+    </div>
+    <div class="confirm-panel">
+        <button type="button" class="query-form-preview"><?php echo $this->translate('Preview'); ?></button>
+        <button type="button" class="query-form-reset"><?php echo $this->translate('Reset'); ?></button>
+        <button type="button" class="query-form-set"><?php echo $this->translate('Apply'); ?></button>
+    </div>
+</form>

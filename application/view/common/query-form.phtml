@@ -1,0 +1,30 @@
+<?php
+$this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/query-form.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
+
+$searchFilters = $this->searchFilters(null, $queryArray);
+if (!$searchFilters) {
+    $searchFilters = $this->translate('[Edit below]');
+}
+?>
+<div class="query-form-element"
+    data-query="<?php echo $this->escapeHtml($element->getValue()); ?>"
+    data-resource-type="<?php echo $this->escapeHtml($element->getResourceType()); ?>"
+    data-partial-excludelist="<?php echo $this->escapeHtml(json_encode($element->getPartialExcludelist())); ?>"
+    data-preview-append-query="<?php echo $this->escapeHtml(json_encode($element->getPreviewAppendQuery())); ?>"
+    data-search-filters-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'search-filters'])); ?>"
+    data-sidebar-preview-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-preview'])); ?>"
+    data-sidebar-edit-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'query', 'action' => 'sidebar-edit'])); ?>">
+    <div class="query-display">
+        <div class="query-form-search-filters"><?php echo $searchFilters; ?></div>
+        <?php echo $this->formHidden($element); ?>
+    </div>
+    <button type="button" class="query-form-edit"><?php echo $this->translate('Edit'); ?></button>
+    <button type="button" class="query-form-advanced-edit-show"><?php echo $this->translate('Advanced edit'); ?></button>
+    <button type="button" class="query-form-advanced-edit-apply inactive"><?php echo $this->translate('Apply'); ?></button>
+    <button type="button" class="query-form-advanced-edit-cancel red button inactive"><?php echo $this->translate('Cancel'); ?></button>
+    <button type="button" class="query-form-restore red button inactive"><?php echo $this->translate('Restore'); ?></button>
+    <button type="button" class="query-form-clear red button <?php echo $queryArray ? '' : 'inactive'; ?>"><?php echo $this->translate('Clear'); ?></button>
+</div>

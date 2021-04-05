@@ -1,0 +1,31 @@
+<?php
+use Laminas\Form\Element;
+
+$sortBy = new Element\Select('sort_by');
+$sortBy->setEmptyOption($this->translate('Select sort by…'));
+$sortBy->setValueOptions([
+    'title' => $this->translate('Title'),
+    'dcterms:identifier' => $this->translate('Identifier'),
+    'resource_class_label' => $this->translate('Class'),
+    'owner_name' => $this->translate('Owner'),
+    'created' => $this->translate('Created'),
+]);
+$sortBy->setValue($query['sort_by'] ?? '');
+
+$sortOrder = new Element\Select('sort_order');
+$sortOrder->setEmptyOption($this->translate('Select sort order…'));
+$sortOrder->setValueOptions([
+    'asc' => $this->translate('Ascending'),
+    'desc' => $this->translate('Descending'),
+]);
+$sortOrder->setValue($query['sort_order'] ?? '');
+?>
+<div class="field">
+    <div class="field-meta">
+        <label><?php echo $this->translate('Sort'); ?></label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->formSelect($sortBy); ?>
+        <?php echo $this->formSelect($sortOrder); ?>
+    </div>
+</div>

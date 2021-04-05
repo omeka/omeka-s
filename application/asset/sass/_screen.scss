@@ -2857,6 +2857,150 @@ input[type="text"].value-language,
 
 /* @end */
 
+/* @group ----- Query Editor ----- */
+
+.sidebar .field-meta {
+    width: 100%;
+    position: relative;
+    padding-right: 1.5 * $spacing-large;
+    margin-bottom: $spacing-medium;
+    border-bottom: 3px solid $border-gray;
+
+    .label, 
+    label {
+        margin: 0;
+        width: auto;
+        display: inline-block;
+        padding: 0 0 $spacing-small;
+
+        &:after {
+            content: none;
+        }
+    }
+
+    .collapsible {
+        margin-bottom: $spacing-medium;
+    }
+
+    button.add-value {
+        padding: 0;
+        background: transparent;
+        color: $copy-gray;
+        min-height: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        &:before {
+            height: auto;
+            line-height: 1.5;
+        }
+    }
+
+}
+
+.sidebar .inputs {
+    width: 100%;
+}
+
+.sidebar #advanced-search .value {
+    flex-wrap: wrap;
+
+    &:not(:first-child) {
+        margin-top: $spacing-small;
+    }
+}
+
+.sidebar .multi-value .value:not(:only-child) {
+    width: calc(100% - #{1.5 * $spacing-large});
+    position: relative;
+    padding-bottom: 0;
+    margin-bottom: 5px;
+    border-bottom: 0;
+}
+
+.sidebar .multi-value .value:only-child .remove-value {
+    display: none;
+}
+
+.sidebar .multi-value .remove-value {
+    position: absolute;
+    right: -1.5 * $spacing-large;
+    bottom: 0;;
+}
+
+.sidebar #advanced-search .value select, 
+.sidebar #advanced-search .value input {
+    margin-left: 0;
+}
+
+.sidebar #advanced-search .confirm-panel {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+        width: calc(33.33% - #{$spacing-small});
+    }
+}
+
+.block .block-content input[type="hidden"] + button {
+    padding-top: $spacing-small;
+}
+
+.query-form-element .active {
+    display: block;
+}
+
+.query-form-element .inactive {
+    display: none;
+}
+
+.query-display .search-filters {
+    margin-bottom: 0;
+}
+
+.query-display .filter {
+    background-color: #fff;
+    box-shadow: 0 0 0 1px $border-gray inset;
+}
+
+.query-display .filter-label {
+    background-color: $border-gray;
+}
+
+.query-form-element button.active {
+    display: inline-block;
+}
+
+.query-display {
+    min-height: 1.75 * $spacing-large;
+}
+
+input[type=text].query-form-query {
+    margin-top: 0;
+}
+
+.query-display .filter-value:not(:last-child):after {
+    content: none;
+}
+
+#save-search {
+    display: none;
+}
+
+#save-search.active {
+    display: flex;
+    margin-top: -1 * $spacing-small;
+    padding: 0 $spacing-small $spacing-medium calc(30% + #{.5 * $spacing-small});
+    background-color: $gray-on-white;
+
+    input {
+        margin-left: $spacing-small;
+    }
+}
+
+/* @end */
+
 /* @group ----- Vocabulary: Import ----- */
 
 .vocabs .field [type="file"] {
@@ -3137,6 +3281,7 @@ input[type="text"].value-language,
         position: relative;
         width: 100%;
         word-wrap: break-word;
+        max-width: none;
 
         &:after {
             content: "";

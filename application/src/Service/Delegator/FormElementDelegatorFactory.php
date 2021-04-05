@@ -19,6 +19,7 @@ class FormElementDelegatorFactory implements DelegatorFactoryInterface
         $formElement->addType('restore_textarea', 'formRestoreTextarea');
         $formElement->addType('color_picker', 'formColorPicker');
         $formElement->addClass('Omeka\Form\Element\Asset', 'formAsset');
+        $formElement->addClass('Omeka\Form\Element\Query', 'formQuery');
         return $formElement;
     }
 }

@@ -240,13 +240,7 @@ class IndexController extends AbstractActionController
                 $updateData = [
                     'o:site_item_set' => $formData['o:site_item_set'] ?? [],
                 ];
-                $itemPool = $formData;
-                unset(
-                    $itemPool['siteresourcesform_csrf'],
-                    $itemPool['item_assignment_action'],
-                    $itemPool['save_search'],
-                    $itemPool['o:site_item_set']
-                );
+                parse_str($formData['item_pool'], $itemPool);
                 $updateData['o:item_pool'] = $formData['save_search'] ? $itemPool : $site->itemPool();
                 if ($formData['item_assignment_action'] && $formData['item_assignment_action'] !== 'no_action') {
                     $this->jobDispatcher()->dispatch('Omeka\Job\UpdateSiteItems', [
@@ -263,6 +257,8 @@ class IndexController extends AbstractActionController
             } else {
                 $this->messenger()->addFormErrors($form);
             }
+        } else {
+            $form->setData(['item_pool' => http_build_query($site->itemPool())]);
         }
 
         $itemCount = $this->api()

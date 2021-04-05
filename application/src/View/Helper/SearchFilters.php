@@ -19,7 +19,7 @@ class SearchFilters extends AbstractHelper
      *
      * @return array
      */
-    public function __invoke($partialName = null)
+    public function __invoke($partialName = null, array $query = null)
     {
         $partialName = $partialName ?: self::PARTIAL_NAME;
 
@@ -27,7 +27,7 @@ class SearchFilters extends AbstractHelper
 
         $filters = [];
         $api = $this->getView()->api();
-        $query = $this->getView()->params()->fromQuery();
+        $query = $query ?? $this->getView()->params()->fromQuery();
         $queryTypes = [
             'eq' => $translate('is exactly'),
             'neq' => $translate('is not exactly'),

@@ -4,6 +4,7 @@ namespace Omeka\Site\BlockLayout;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
+use Omeka\Form\Element as OmekaElement;
 use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
@@ -13,6 +14,15 @@ class BrowsePreview extends AbstractBlockLayout
     public function getLabel()
     {
         return 'Browse preview'; // @translate
+    }
+
+    public function prepareForm(PhpRenderer $view)
+    {
+        $view->headLink()->prependStylesheet($view->assetUrl('css/advanced-search.css', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('js/advanced-search.js', 'Omeka'));
+        $view->headLink()->appendStylesheet($view->assetUrl('css/query-form.css', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('js/query-form.js', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('js/browse-preview-block-layout.js', 'Omeka'));
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
@@ -41,14 +51,18 @@ class BrowsePreview extends AbstractBlockLayout
                     'media' => 'Media',  // @translate
                 ],
             ],
+            'attributes' => [
+                'class' => 'browse-preview-resource-type',
+            ],
         ]);
         $form->add([
             'name' => 'o:block[__blockIndex__][o:data][query]',
-            'type' => Element\Text::class,
+            'type' => OmekaElement\Query::class,
             'options' => [
-                'label' => 'Query', // @translate
+                'label' => 'Search query', // @translate
                 'info' => 'Display resources using this search query', // @translate
-                'documentation' => 'https://omeka.org/s/docs/user-manual/sites/site_pages/#browse-preview',
+                'query_resource_type' => $data['resource_type'],
+                'query_partial_excludelist' => ['common/advanced-search/site'],
             ],
         ]);
         $form->add([

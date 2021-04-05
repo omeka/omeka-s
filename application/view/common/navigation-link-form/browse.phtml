@@ -3,7 +3,15 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $label = isset($data['label']) && '' !== trim($data['label']) ? $data['label'] : null;
 $query = isset($data['query']) && '' !== trim($data['query']) ? $data['query'] : null;
+
+$queryElement = (new Omeka\Form\Element\Query('query'))
+    ->setLabel($this->translate('Search query'))
+    ->setValue($query)
+    ->setAttribute('data-name', 'query')
+    ->setOption('query_resource_type', ('Omeka\Site\Navigation\Link\Browse' === get_class($link)) ? 'items' : 'item_sets')
+    ->setOption('query_partial_excludelist', ['common/advanced-search/site'])
+    ->setOption('query_preview_append_query', ['site_id' => $site->id()]);
 ?>
 <label><?php echo $translate('Type'); ?> <input type="text" value="<?php echo $escape($translate($link->getName())); ?>" disabled></label>
 <label><?php echo $translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>"></label>
-<label><?php echo $translate('Query'); ?> <input type="text" data-name="query" value="<?php echo $escape($query); ?>"></label>
+<label><?php echo $translate('Query'); ?><?php echo $this->formElement($queryElement); ?></label>

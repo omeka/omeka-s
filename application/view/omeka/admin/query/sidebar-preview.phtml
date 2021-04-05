@@ -1,0 +1,12 @@
+<a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+<h3><?php echo $this->translate('Search query preview'); ?></h3>
+<?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
+<?php if ($resources): ?>
+<div class="resource-list">
+    <?php foreach ($resources as $resource): ?>
+    <div class="resource"><?php echo $resource->linkPretty('square', null, null, ['target' => '_blank']); ?></div>
+    <?php endforeach; ?>
+</div>
+<?php else: ?>
+<span class="no-resources"><?php echo $this->translate('No resources found.'); ?></span>
+<?php endif; ?>

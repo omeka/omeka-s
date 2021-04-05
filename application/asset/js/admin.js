@@ -193,7 +193,7 @@ var Omeka = {
         var existingRowData = table.data('existing-rows');
         var rowTemplate = $($.parseHTML(table.data('rowTemplate')));
         var selector = $(selectorId);
-        var totalCount = $('.resources-available').data('all-resources-count');
+        var totalCount = $(selectorId + ' .resources-available').data('all-resources-count');
         var selectorCount = $(selectorId).find('.selector-total-count');
       
         var parentToggle = function(e) {
@@ -204,7 +204,7 @@ var Omeka = {
         }
         
         var appendRow = function(id) {
-            if (table.find(".resource-id[value='" + id + "']").length) {
+            if ($(selectorId + " .resource-id[value='" + id + "']").length) {
                 return;
             }
             var tableRow = rowTemplate.clone();
@@ -222,7 +222,7 @@ var Omeka = {
         }
     
         var updateSiteCount = function(id) {
-            var resource = $('[data-resource-id="' + id + '"]');
+            var resource = selector.find('[data-resource-id="' + id + '"]');
             var resourceParent = resource.parents('.selector-parent');
             var childCount = resourceParent.find('.selector-child-count').first();
             if (resource.hasClass('added')) {
@@ -240,6 +240,7 @@ var Omeka = {
             } else {
                 selector.find('.resources-available').removeClass('empty');
             }
+
             if (newChildCount == 0) {
                 resourceParent.addClass('empty');
             } else {

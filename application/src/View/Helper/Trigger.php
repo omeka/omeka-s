@@ -39,8 +39,9 @@ class Trigger extends AbstractHelper
      * @param string $name The event name
      * @param array $params The event parameters
      * @param bool $filter Filter and return parameters?
+     * @param array $ids The identifiers to which the events are attached
      */
-    public function __invoke($name, array $params = [], $filter = false)
+    public function __invoke($name, array $params = [], $filter = false, array $ids = null)
     {
         $controller = $this->controllerPluginManager->getController();
         if (!$controller) {
@@ -51,13 +52,11 @@ class Trigger extends AbstractHelper
             // Without a route match this request is 404. No need to trigger.
             return $filter ? $params : null;
         }
-
-        // Set the event, using the current controller as the event identifier.
         if ($filter) {
             $params = $this->events->prepareArgs($params);
         }
         $event = new Event($name, $this->getView(), $params);
-        $this->events->setIdentifiers([$routeMatch->getParam('controller')]);
+        $this->events->setIdentifiers($ids ?: [$routeMatch->getParam('controller')]);
         $this->events->triggerEvent($event);
         if ($filter) {
             return $params;

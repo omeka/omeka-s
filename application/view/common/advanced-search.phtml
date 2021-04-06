@@ -62,7 +62,7 @@ $partials = $filterResults['partials'];
 <div class="advanced-search-content">
 <?php
 foreach ($partials as $partial) {
-    echo $this->partial($partial, ['query' => $query]);
+    echo $this->partial($partial, ['query' => $query, 'resourceType' => $resourceType]);
 }
 ?>
 </div>

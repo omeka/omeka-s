@@ -7,7 +7,7 @@ $this->htmlElement('body')->appendAttribute('class', 'item-sets search');
 <form id="advanced-search" method="get" action="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>">
 <?php echo $this->partial(
     'common/advanced-search',
-    ['query' => $this->params()->fromQuery(), 'resourceType' => 'item_set']
+    ['query' => $this->params()->fromQuery(), 'resourceType' => 'itemSet']
 ); ?>
 <div id="page-actions">
     <input type="submit" name="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">

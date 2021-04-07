@@ -4,7 +4,7 @@ $escape = $this->plugin('escapeHtml');
 ?>
 <div id="item-set-selector" class='selector sidebar active'>
     <a href="#" class="mobile-only sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
-    <div class="resources-available">
+    <div class="resources-available" data-all-resources-count="<?php echo $totalItemSetCount; ?>">
         <h3><?php echo $translate('Click on an item set to add it to the edit panel.'); ?></h3>
         <input type="text" class="selector-filter" placeholder=" <?php echo $escape($translate('Filter item sets')); ?>">
         <ul>

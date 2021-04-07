@@ -684,6 +684,7 @@ a.collapse {
     display: block;
 }
 
+.selector .selector-child.filter-hidden,
 .selector .selector-child.added {
   display: none;
 }

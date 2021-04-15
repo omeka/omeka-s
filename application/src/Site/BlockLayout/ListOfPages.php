@@ -54,23 +54,9 @@ class ListOfPages extends AbstractBlockLayout
         if (!$pageList) {
             return '';
         }
-
-        $iterate = function ($linksIn, $depth = 0) use (&$iterate, &$listOfPages) {
-            foreach ($linksIn as $data) {
-                $listOfPages[] = [
-                  'pagename' => $data['text'],
-                  'pagelink' => $data['data']['url'],
-                  'depth' => $depth,
-                ];
-                if (isset($data['children'])) {
-                    $iterate($data['children'], $depth + 1);
-                }
-            }
-        };
-        $iterate($pageList);
-
+        
         return $view->partial('common/block-layout/list-of-pages', [
-            'pagelist' => $listOfPages,
+            'pageList' => $pageList,
         ]);
     }
 }

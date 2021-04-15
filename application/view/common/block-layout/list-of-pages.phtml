@@ -1,17 +1,17 @@
 <div>
     <ul>
-        <?php $indent = 0;
-        foreach ($pagelist as $page) {
-            $depth = intval($page['depth']);
-            if ($depth == $indent) {
-                echo '<li>' . $this->hyperlink($page['pagename'], $page['pagelink']) . '</li>';
-            } elseif ($depth > $indent) {
-                echo '<ul><li>' . $this->hyperlink($page['pagename'], $page['pagelink']) . '</li>';
-                $indent++;
-            } else {
-                echo '</ul><li>' . $this->hyperlink($page['pagename'], $page['pagelink']) . '</li>';
-                $indent--;
+        <?php $iterate = function ($pages) use (&$iterate) {
+            foreach ($pages as $page) {
+                $pageName = $page['text'];
+                $pageLink = $page['data']['url'];
+                echo '<li>' . $this->hyperlink($pageName, $pageLink) . '</li>';
+                if (isset($page['children'])) {
+                    echo '<ul>';
+                    $iterate($page['children']);
+                    echo '</ul>';
+                }
             }
-        } ?>
+        };
+        $iterate($pageList); ?>
     </ul>
 </div>

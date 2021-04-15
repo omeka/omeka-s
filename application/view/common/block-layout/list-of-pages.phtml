@@ -1,9 +1,17 @@
 <div>
     <ul>
-        <?php foreach($pagelist as $page):
-            echo str_repeat('<ul>', intval($page['depth']));
-            echo '<li>' . $this->hyperlink($page['pagename'], $page['pagelink']) . '</li>';
-            echo str_repeat('</ul>', intval($page['depth']));
-        endforeach; ?>
+        <?php $indent = 0;
+        foreach ($pagelist as $page) {
+            $depth = intval($page['depth']);
+            if ($depth == $indent) {
+                echo '<li>' . $this->hyperlink($page['pagename'], $page['pagelink']) . '</li>';
+            } elseif ($depth > $indent) {
+                echo '<ul><li>' . $this->hyperlink($page['pagename'], $page['pagelink']) . '</li>';
+                $indent++;
+            } else {
+                echo '</ul><li>' . $this->hyperlink($page['pagename'], $page['pagelink']) . '</li>';
+                $indent--;
+            }
+        } ?>
     </ul>
 </div>

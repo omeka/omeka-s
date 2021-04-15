@@ -56,7 +56,7 @@ class ListOfPages extends AbstractBlockLayout
         }
 
         $iterate = function ($linksIn, $depth = 0) use (&$iterate, &$listOfPages) {
-            foreach ($linksIn as $key => $data) {
+            foreach ($linksIn as $data) {
                 $listOfPages[] = [
                   'pagename' => $data['text'],
                   'pagelink' => $data['data']['url'],

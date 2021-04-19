@@ -29,6 +29,7 @@ class ListOfPages extends AbstractBlockLayout
     {
         $view->headScript()->appendFile($view->assetUrl('vendor/jstree/jstree.min.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('js/jstree-plugins.js', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('js/list-of-pages-block-layout.js', 'Omeka'));
         $view->headLink()->appendStylesheet($view->assetUrl('css/jstree.css', 'Omeka'));
     }
 

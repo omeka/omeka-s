@@ -59,7 +59,7 @@
                     thisBlock.find('.jstree-' + jstreeIndex + ' .jstree-node').each(function(index, element) {
                         //Remove deleted nodes and any children
                         if (element.classList.contains('jstree-removenode-removed')) {
-                            jstree.delete_node(element.children);
+                            jstree.delete_node(element);
                         }; 
                         if (jstree.get_node(element)) {
                             var nodeObj = jstree.get_node(element);

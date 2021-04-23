@@ -55,7 +55,7 @@ class ListOfPages extends AbstractBlockLayout
         if (!$pageList) {
             return '';
         }
-        
+
         return $view->partial('common/block-layout/list-of-pages', [
             'pageList' => $pageList,
         ]);

@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Omeka\Api\Exception as ApiException;
 use Laminas\View\Helper\AbstractHelper;
 
 /**

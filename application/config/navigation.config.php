@@ -186,6 +186,15 @@ return [
                 'resource' => 'Omeka\Controller\Admin\Setting',
                 'privilege' => 'browse',
             ],
+            [
+                'label' => 'Assets', // @translate
+                'class' => 'assets',
+                'route' => 'admin/default',
+                'controller' => 'asset',
+                'action' => 'browse',
+                'resource' => 'Omeka\Controller\Admin\Asset',
+                'privilege' => 'browse',
+            ],
         ],
         'site' => [
             [

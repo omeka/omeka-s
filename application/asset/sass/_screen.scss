@@ -1098,6 +1098,11 @@ nav.pagination + *:not(.sorting) {
         content: fa-content($fa-var-cogs);
     }
 
+    header nav .assets:before,
+    .assets .subhead:before {
+        content: fa-content($fa-var-image);
+    }
+
     header nav li li a:before {
         content: fa-content($fa-var-caret-right);
     }
@@ -4270,6 +4275,7 @@ body.minimal .site.results thead {
     ul.errors {
         color: $red;
         margin-top: 0;
+        word-wrap: break-word;
 
         &:empty {
             display: none;

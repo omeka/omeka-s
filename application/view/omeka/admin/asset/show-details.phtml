@@ -8,6 +8,11 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->thumbnail($resource, 'square', ['class' => 'asset-inline']); ?>
 
+<div class="meta-group">
+    <h4><?php echo $translate('Media type'); ?></h4>
+    <div class="value"><?php echo $escape($resource->mediaType()); ?></div>
+</div>
+
 <?php
 $altText = $resource->altText();
 if ($altText):

@@ -1470,6 +1470,16 @@ td .o-icon-user-inactive {
     content: fa-content($fa-var-laptop);
 }
 
+.browse.assets {
+    td:first-child, th:first-child {
+        width: 75%;
+    }
+}
+
+.asset-inline {
+    max-width: 100%;
+}
+
     /* @group ----- Batch Update ----- */
 
     #batch-form {
@@ -4235,10 +4245,6 @@ body.minimal .site.results thead {
     }
 }
 
-.select-asset img {
-    width: 25%;
-}
-
 .selected-asset,
 .no-selected-asset {
     display: block;
@@ -4273,6 +4279,18 @@ body.minimal .site.results thead {
             border-bottom: 1px solid $red;
         }
     }
+
+    label {
+        margin: $spacing-small 0;
+        padding: 0;
+        &:after {
+            content: none;
+        }
+    }
+
+    input[type="file"] {
+        width: 100%;
+    }
 }
 
 .asset-filters {
@@ -4289,33 +4307,22 @@ body.minimal .site.results thead {
     }
 }
 
-.asset-list .select-asset {
+.asset-entry {
     display: flex;
     align-items: center;
     word-wrap: break-word;
 }
 
-.asset-list .select-asset img {
+.asset-entry img {
     margin-right: $spacing-small;
+    width: 25%;
 }
 
-.asset-list .select-asset .asset-name {
+.asset-entry .asset-name {
     min-width: 0;
+    width: 0;
+    flex-grow: 1;
 }
-
-#asset-sidebar {
-    input[type="file"] {
-        width: 100%;
-    }
-    .asset-upload label {
-        margin: $spacing-small 0;
-        padding: 0;
-        &:after {
-            content: none;
-        }
-    }
-}
-
 
 /* @end */
 

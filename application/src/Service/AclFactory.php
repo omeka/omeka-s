@@ -341,7 +341,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'researcher',
             'Omeka\Controller\Admin\Asset',
-            'sidebar-select'
+            ['sidebar-select', 'browse', 'show-details']
         );
         $acl->allow(
             'researcher',
@@ -413,7 +413,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'author',
             'Omeka\Controller\Admin\Asset',
-            'sidebar-select'
+            ['sidebar-select', 'browse', 'show-details']
         );
         $acl->allow(
             'author',
@@ -539,7 +539,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'reviewer',
             'Omeka\Controller\Admin\Asset',
-            'sidebar-select'
+            ['sidebar-select', 'browse', 'show-details']
         );
         $acl->allow(
             'reviewer',

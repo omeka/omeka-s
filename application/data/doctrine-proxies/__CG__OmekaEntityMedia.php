@@ -66,10 +66,10 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'storageId', 'extension', 'sha256', 'size', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'isPublic', 'created', 'modified', 'values'];
+            return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'storageId', 'extension', 'sha256', 'size', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'altText', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'isPublic', 'created', 'modified', 'values'];
         }
 
-        return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'storageId', 'extension', 'sha256', 'size', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'isPublic', 'created', 'modified', 'values'];
+        return ['__isInitialized__', 'id', 'ingester', 'renderer', 'data', 'source', 'mediaType', 'storageId', 'extension', 'sha256', 'size', 'hasOriginal', 'hasThumbnails', 'position', 'item', 'lang', 'altText', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'isPublic', 'created', 'modified', 'values'];
     }
 
     /**
@@ -519,6 +519,28 @@ class Media extends \Omeka\Entity\Media implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLang', []);
 
         return parent::getLang();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setAltText($altText)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAltText', [$altText]);
+
+        return parent::setAltText($altText);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAltText()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAltText', []);
+
+        return parent::getAltText();
     }
 
     /**

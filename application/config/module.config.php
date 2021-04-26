@@ -407,6 +407,7 @@ return [
             'queryToHiddenInputs' => View\Helper\QueryToHiddenInputs::class,
             'formAsset' => Form\View\Helper\FormAsset::class,
             'formQuery' => Form\View\Helper\FormQuery::class,
+            'themeSettingAsset' => View\Helper\ThemeSettingAsset::class,
             'themeSettingAssetUrl' => View\Helper\ThemeSettingAssetUrl::class,
             'formColorPicker' => Form\View\Helper\FormColorPicker::class,
             'thumbnail' => View\Helper\Thumbnail::class,

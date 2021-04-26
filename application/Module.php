@@ -134,6 +134,12 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
+            'Omeka\Controller\Admin\Media',
+            'view.edit.form.advanced',
+            [$this, 'addMediaAltTextInput']
+        );
+
+        $sharedEventManager->attach(
             '*',
             'sql_filter.resource_visibility',
             function (ZendEvent $event) {
@@ -622,5 +628,19 @@ class Module extends AbstractModule
             );
         }
         $qb->andWhere($constraints);
+    }
+
+    public function addMediaAltTextInput(ZendEvent $event)
+    {
+        $view = $event->getTarget();
+        $altText = $view->resource->altText() ?? null;
+        $textarea = new \Laminas\Form\Element\Textarea('o:alt_text');
+        $textarea->setLabel('Alt text'); // @translate
+        $textarea->setAttributes([
+            'value' => $altText,
+            'rows' => 4,
+            'id' => 'alt_text',
+        ]);
+        echo $view->formRow($textarea);
     }
 }

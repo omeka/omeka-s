@@ -89,6 +89,10 @@ class AssetAdapter extends AbstractEntityAdapter
                 $entity->setName($request->getValue('o:name'));
             }
         }
+
+        if ($this->shouldHydrate($request, 'o:alt_text')) {
+            $entity->setAltText($request->getValue('o:alt_text'));
+        }
     }
 
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)

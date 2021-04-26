@@ -1099,6 +1099,11 @@ nav.pagination + *:not(.sorting) {
         content: fa-content($fa-var-cogs);
     }
 
+    header nav .assets:before,
+    .assets .subhead:before {
+        content: fa-content($fa-var-image);
+    }
+
     header nav li li a:before {
         content: fa-content($fa-var-caret-right);
     }
@@ -1474,6 +1479,16 @@ td .o-icon-user-inactive {
 
 .sidebar .no-resources {
     display: block;
+}
+
+.browse.assets {
+    td:first-child, th:first-child {
+        width: 75%;
+    }
+}
+
+.asset-inline {
+    max-width: 100%;
 }
 
     /* @group ----- Batch Update ----- */
@@ -4386,10 +4401,6 @@ body.minimal .site.results thead {
     }
 }
 
-.select-asset img {
-    width: 25%;
-}
-
 .selected-asset,
 .no-selected-asset {
     display: block;
@@ -4415,6 +4426,7 @@ body.minimal .site.results thead {
     ul.errors {
         color: $red;
         margin-top: 0;
+        word-wrap: break-word;
 
         &:empty {
             display: none;
@@ -4423,6 +4435,18 @@ body.minimal .site.results thead {
         a {
             border-bottom: 1px solid $red;
         }
+    }
+
+    label {
+        margin: $spacing-small 0;
+        padding: 0;
+        &:after {
+            content: none;
+        }
+    }
+
+    input[type="file"] {
+        width: 100%;
     }
 }
 
@@ -4440,22 +4464,21 @@ body.minimal .site.results thead {
     }
 }
 
-.asset-list .select-asset {
+.asset-entry {
     display: flex;
     align-items: center;
     word-wrap: break-word;
 }
 
-.asset-list .select-asset img {
+.asset-entry img {
     margin-right: $spacing-small;
+    width: 25%;
 }
 
-.asset-list .select-asset .asset-name {
+.asset-entry .asset-name {
     min-width: 0;
-}
-
-#asset-sidebar input[type="file"] {
-    width: 100%;
+    width: 0;
+    flex-grow: 1;
 }
 
 /* @end */

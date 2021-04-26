@@ -1,0 +1,13 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
+
+<h3 id="asset-upload-label"><?php echo $translate('Upload new asset'); ?></h3>
+<form class="asset-upload" method="post" enctype="multipart/form-data" action="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'add'])); ?>">
+    <input type="file" name="file" accept="image/jpeg,image/png,image/gif,image/svg+xml,image/svgz+xml" required aria-labelledby="asset-upload-label">
+    <label for="asset-upload-alt-text"><?php echo $translate('Alt text'); ?></label>
+    <textarea id="asset-upload-alt-text" name="o:alt_text"></textarea>
+    <button type="submit"><?php echo $translate('Upload'); ?></button>
+    <ul class="errors"></ul>
+</form>

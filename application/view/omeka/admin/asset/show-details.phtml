@@ -1,0 +1,26 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
+<h3>
+    <?php echo $escape($resource->name()); ?>
+</h3>
+
+<?php echo $this->thumbnail($resource, 'square', ['class' => 'asset-inline']); ?>
+
+<div class="meta-group">
+    <h4><?php echo $translate('Media type'); ?></h4>
+    <div class="value"><?php echo $escape($resource->mediaType()); ?></div>
+</div>
+
+<?php
+$altText = $resource->altText();
+if ($altText):
+?>
+<div class="meta-group">
+    <h4><?php echo $translate('Alt text'); ?></h4>
+    <div class="value"><?php echo $escape($resource->altText()); ?></div>
+</div>
+<?php endif; ?>
+
+<?php $this->trigger('view.details', array('entity' => $resource)); ?>

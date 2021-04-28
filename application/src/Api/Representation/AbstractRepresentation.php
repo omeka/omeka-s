@@ -135,7 +135,7 @@ abstract class AbstractRepresentation implements RepresentationInterface
             return null;
         }
 
-        return $thumbnail ? $thumbnail->altText() : $primaryMedia->altText();
+        return $thumbnail ? $thumbnail->altText() : $primaryMedia->altTextResolved();
     }
 
     /**

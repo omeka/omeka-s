@@ -260,6 +260,29 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     }
 
     /**
+     * Get the "resolved" alt text for the media.
+     *
+     * If an explicit alt text is set for this media, the return value is the
+     * same as altText(). If none is set, then the global setting
+     * media_alt_text_property is used to look up a value to use as alt text.
+     *
+     * @return string|null
+     */
+    public function altTextResolved()
+    {
+        $altText = $this->altText();
+        if (!strlen($altText)) {
+            $settings = $this->getServiceLocator()->get('Omeka\Settings');
+            $fallbackProperty = $settings->get('media_alt_text_property');
+            if ($fallbackProperty) {
+                $altText = $this->value($fallbackProperty);
+            }
+        }
+
+        return $altText;
+    }
+
+    /**
      * Return the parent item parent of this media.
      *
      * @return ItemRepresentation

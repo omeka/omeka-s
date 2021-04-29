@@ -38,12 +38,10 @@ if ($summary):
 </div>
 <?php endif; ?>
 <?php
-$assetId = $site->thumbnailId();
-if ($assetId):
-    $asset = $this->api()->read('assets', $assetId)->getContent();
-?>
+$thumbnail = $site->thumbnail();
+if ($thumbnail): ?>
 <div class="property">
     <h4><?php echo $escape($translate('Thumbnail')); ?></h4>
-    <div class="value"><?php echo $this->thumbnail($asset, 'square', ['class' => 'selected-asset-image']); ?></div>
+    <div class="value"><?php echo $this->thumbnail($thumbnail, 'square', ['class' => 'selected-asset-image']); ?></div>
 </div>
 <?php endif; ?>

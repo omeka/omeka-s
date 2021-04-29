@@ -44,6 +44,6 @@ if ($assetId):
 ?>
 <div class="property">
     <h4><?php echo $escape($translate('Thumbnail')); ?></h4>
-    <div class="value"><img class="selected-asset-image" src="<?php echo $escape($asset->assetUrl()); ?>"></div>
+    <div class="value"><?php echo $this->thumbnail($asset, 'square', ['class' => 'selected-asset-image']); ?></div>
 </div>
 <?php endif; ?>

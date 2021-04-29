@@ -101,7 +101,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
     {
         return $this->resource->getSummary();
     }
-    
+
     public function thumbnailId()
     {
         return $this->resource->getThumbnail() ? $this->resource->getThumbnail()->getId() : null;

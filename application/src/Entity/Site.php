@@ -35,7 +35,7 @@ class Site extends AbstractEntity
      * @Column(type="text", nullable=true)
      */
     protected $summary;
-    
+
     /**
      * @ManyToOne(targetEntity="Asset")
      * @JoinColumn(onDelete="SET NULL")
@@ -175,7 +175,7 @@ class Site extends AbstractEntity
     {
         return $this->summary;
     }
-    
+
     public function setThumbnail(Asset $thumbnail = null)
     {
         $this->thumbnail = $thumbnail;

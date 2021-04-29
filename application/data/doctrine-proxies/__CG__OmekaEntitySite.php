@@ -282,6 +282,28 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function setThumbnail(\Omeka\Entity\Asset $thumbnail = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setThumbnail', [$thumbnail]);
+
+        return parent::setThumbnail($thumbnail);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getThumbnail()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getThumbnail', []);
+
+        return parent::getThumbnail();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setNavigation($navigation)
     {
 

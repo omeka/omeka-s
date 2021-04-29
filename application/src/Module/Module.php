@@ -20,6 +20,9 @@ class Module implements ResourceInterface
     /** @var array */
     protected $db;
 
+    /** @var string */
+    protected $moduleFilePath;
+
     /**
      * Construct the module.
      *
@@ -106,6 +109,26 @@ class Module implements ResourceInterface
             return isset($this->db[$key]) ? $this->db[$key] : null;
         }
         return $this->db;
+    }
+
+    /**
+     * Set the path to the module's Module.php file.
+     *
+     * @param string $path
+     */
+    public function setModuleFilePath($path)
+    {
+        $this->moduleFilePath = $path;
+    }
+
+    /**
+     * Get the path to the module's Module.php file.
+     *
+     * @return string
+     */
+    public function getModuleFilePath()
+    {
+        return $this->moduleFilePath;
     }
 
     /**

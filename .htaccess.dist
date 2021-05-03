@@ -36,3 +36,7 @@ RewriteRule ^(.*)$ %{ENV:BASE}/index.php [E=OMEKA_REQ:"1",L]
         Deny from all
     </IfModule>
 </FilesMatch>
+
+<IfModule mod_headers.c>
+    Header always set Permissions-Policy: interest-cohort=()
+</IfModule>

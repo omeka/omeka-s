@@ -23,7 +23,6 @@ class AuthenticationServiceFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
-        $entityManager = $serviceLocator->get('Omeka\EntityManager');
         $status = $serviceLocator->get('Omeka\Status');
 
         // Skip auth retrieval entirely if we're installing or migrating.
@@ -35,20 +34,30 @@ class AuthenticationServiceFactory implements FactoryInterface
                 return null;
             });
         } else {
+            $entityManager = $serviceLocator->get('Omeka\EntityManager');
             $userRepository = $entityManager->getRepository('Omeka\Entity\User');
-            if ($status->isApiRequest()) {
-                // Authenticate using key for API requests.
+
+            $useApiKeyAuthentication = $status->isApiRequest();
+            if ($useApiKeyAuthentication) {
+                $request = $serviceLocator->get('Application')->getMvcEvent()->getRequest();
+                $useApiKeyAuthentication = $request->getQuery('key_identity') !== null
+                    && $request->getQuery('key_credential') !== null;
+            }
+
+            if ($useApiKeyAuthentication) {
+                // Authenticate using key for API requests with credentials.
                 $keyRepository = $entityManager->getRepository('Omeka\Entity\ApiKey');
                 $storage = new DoctrineWrapper(new NonPersistent, $userRepository);
                 $adapter = new KeyAdapter($keyRepository, $entityManager);
             } else {
                 // Authenticate using user/password for all other requests.
+                // The session storage is used for api requests too when
+                // credentials are not provided.
                 $storage = new DoctrineWrapper(new Session, $userRepository);
                 $adapter = new PasswordAdapter($userRepository);
             }
         }
 
-        $authService = new AuthenticationService($storage, $adapter);
-        return $authService;
+        return new AuthenticationService($storage, $adapter);
     }
 }

@@ -263,8 +263,9 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
-        $identity = $event->getRequest()->getQuery('key_identity');
-        $credential = $event->getRequest()->getQuery('key_credential');
+        $request = $event->getRequest();
+        $identity = $request->getQuery('key_identity');
+        $credential = $request->getQuery('key_credential');
 
         if (is_null($identity) || is_null($credential)) {
             // No identity/credential key to authenticate against.
@@ -273,8 +274,9 @@ class MvcListeners extends AbstractListenerAggregate
 
         $auth = $event->getApplication()->getServiceManager()
             ->get('Omeka\AuthenticationService');
-        $auth->getAdapter()->setIdentity($identity);
-        $auth->getAdapter()->setCredential($credential);
+        $auth->getAdapter()
+            ->setIdentity($identity)
+            ->setCredential($credential);
         $auth->authenticate();
     }
 

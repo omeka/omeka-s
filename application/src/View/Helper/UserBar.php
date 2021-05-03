@@ -141,7 +141,7 @@ class UserBar extends AbstractHelper
                 'resource' => $controller,
                 'action' => 'browse',
                 'text' => $translate($mapPluralLabels[$controller]),
-                'url' => $url('admin/default', ['controller' => $controller]),
+                'url' => $url('admin/default', ['controller' => $controller], ['query' => ['site_id' => $site->id()]]),
             ];
 
             if ($id) {

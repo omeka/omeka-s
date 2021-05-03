@@ -128,14 +128,15 @@ class Vips extends AbstractThumbnailer
         }
 
         $tempFile = $this->tempFileFactory->build();
-        $tempPath = $tempFile->getTempPath() . '.jpg[background=255 255 255,optimize-coding]';
+        $tempPath = $tempFile->getTempPath() . '.jpg';
+        $tempPathCommand = $tempPath . '[background=255 255 255,optimize-coding]';
         $tempFile->delete();
 
         $command = sprintf(
             '%s thumbnail %s %s %d --height %d%s%s --size both --linear --intent absolute',
             $this->vipsPath,
             escapeshellarg($origPath),
-            escapeshellarg($tempPath),
+            escapeshellarg($tempPathCommand),
             (int) $constraint,
             (int) $constraint,
             $crop,

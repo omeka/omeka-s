@@ -47,7 +47,7 @@ class SiteForm extends Form
             ],
         ]);
         $this->add([
-            'name' => 'o:thumbnail',
+            'name' => 'thumbnail_id',
             'type' => 'Omeka\Form\Element\Asset',
             'options' => [
                 'label' => 'Thumbnail', // @translate

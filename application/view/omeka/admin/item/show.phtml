@@ -54,6 +54,10 @@ $itemMedia = $item->media();
 <div class="sidebar active">
     <?php echo $this->thumbnail($item, 'square'); ?>
     <div class="meta-group">
+        <h4><?php echo $translate('ID'); ?></h4>
+        <div class="value"><?php echo $escape($item->id()); ?></div>
+    </div>
+    <div class="meta-group">
         <h4><?php echo $translate('Visibility'); ?></h4>
         <div class="value"><?php echo ($item->isPublic()) ? $escape($translate('Public')) : $escape($translate('Private')); ?></div>
     </div>

@@ -76,7 +76,7 @@ new, clean checkout.
 
 Omeka uses the following libraries, among others:
 
-* [Zend Framework 3](http://framework.zend.com/)
+* [Laminas](https://getlaminas.org/)
 * [Doctrine 2](http://www.doctrine-project.org/)
 * [EasyRdf](http://www.easyrdf.org/)
 * [PHPUnit](https://phpunit.de/)

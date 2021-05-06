@@ -410,6 +410,10 @@ class SettingForm extends Form
             'name' => 'locale',
             'allow_empty' => true,
         ]);
+        $generalInputFilter->add([
+            'name' => 'media_alt_text_property',
+            'allow_empty' => true,
+        ]);
 
         $securityInputFilter = $inputFilter->get('security');
         $securityInputFilter->add([

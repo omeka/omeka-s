@@ -376,6 +376,10 @@ body {
 
         /* @group ----- Forms elements: Chosen selects ----- */
 
+        .chosen-container {
+            max-width: 100%;
+        }
+
         .chosen-container-single .chosen-single,
         .chosen-container-multi .chosen-choices {
             background-image: none;

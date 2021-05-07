@@ -4,7 +4,7 @@ $summary = $showSummary ? $site->summary() : null;
 ?>
 <div class="site">
     <?php if ($thumbnail): ?>
-    <p class="site-thumbnail"><?php echo $this->thumbnail($thumbnail, 'square', ['class' => 'site-thumbnail-image']); ?></p>
+    <div class="site-thumbnail"><?php echo $this->thumbnail($thumbnail, 'square', ['class' => 'site-thumbnail-image']); ?></div>
     <?php endif; ?>
     <?php echo $this->hyperlink($site->title(), $site->siteUrl(), ['class' => 'site-link']); ?>
     <?php if ($summary): ?>

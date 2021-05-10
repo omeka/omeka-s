@@ -66,10 +66,10 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
+            return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'thumbnail', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
+        return ['__isInitialized__', 'id', 'slug', 'theme', 'title', 'summary', 'thumbnail', 'navigation', 'homepage', 'itemPool', 'owner', 'created', 'modified', 'isPublic', 'assignNewItems', 'pages', 'sitePermissions', 'siteItemSets', 'items'];
     }
 
     /**
@@ -277,6 +277,28 @@ class Site extends \Omeka\Entity\Site implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSummary', []);
 
         return parent::getSummary();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setThumbnail(\Omeka\Entity\Asset $thumbnail = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setThumbnail', [$thumbnail]);
+
+        return parent::setThumbnail($thumbnail);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getThumbnail()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getThumbnail', []);
+
+        return parent::getThumbnail();
     }
 
     /**

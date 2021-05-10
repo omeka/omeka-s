@@ -219,6 +219,7 @@ CREATE TABLE `setting` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `site` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `thumbnail_id` int DEFAULT NULL,
   `homepage_id` int DEFAULT NULL,
   `owner_id` int DEFAULT NULL,
   `slug` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -234,9 +235,11 @@ CREATE TABLE `site` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_694309E4989D9B62` (`slug`),
   UNIQUE KEY `UNIQ_694309E4571EDDA` (`homepage_id`),
+  KEY `IDX_694309E4FDFF2E92` (`thumbnail_id`),
   KEY `IDX_694309E47E3C61F9` (`owner_id`),
   CONSTRAINT `FK_694309E4571EDDA` FOREIGN KEY (`homepage_id`) REFERENCES `site_page` (`id`) ON DELETE SET NULL,
-  CONSTRAINT `FK_694309E47E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
+  CONSTRAINT `FK_694309E47E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_694309E4FDFF2E92` FOREIGN KEY (`thumbnail_id`) REFERENCES `asset` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `site_block_attachment` (
   `id` int NOT NULL AUTO_INCREMENT,

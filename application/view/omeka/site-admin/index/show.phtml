@@ -37,3 +37,11 @@ if ($summary):
     <div class="value"><?php echo nl2br($escape($summary)); ?></div>
 </div>
 <?php endif; ?>
+<?php
+$thumbnail = $site->thumbnail();
+if ($thumbnail): ?>
+<div class="property">
+    <h4><?php echo $escape($translate('Thumbnail')); ?></h4>
+    <div class="value"><?php echo $this->thumbnail($thumbnail, 'square', ['class' => 'selected-asset-image']); ?></div>
+</div>
+<?php endif; ?>

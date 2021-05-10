@@ -46,13 +46,25 @@ class SiteForm extends Form
                 'required' => false,
             ],
         ]);
+        $this->add([
+            'name' => 'thumbnail_id',
+            'type' => 'Omeka\Form\Element\Asset',
+            'options' => [
+                'label' => 'Thumbnail', // @translate
+                'info' => 'Choose or upload a thumbnail to display with site.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'thumbnail',
+                'required' => false,
+            ],
+        ]);
         $event = new Event('form.add_elements', $this);
         $triggerResult = $this->getEventManager()->triggerEvent($event);
 
         $inputFilter = $this->getInputFilter();
 
         // Separate events because calling $form->getInputFilters()
-        // resets everythhing
+        // resets everything
         $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($event);
     }

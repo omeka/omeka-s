@@ -1,7 +1,11 @@
 <?php
+$thumbnail = $showThumbnail ? $site->thumbnail() : null;
 $summary = $showSummary ? $site->summary() : null;
 ?>
 <div class="site">
+    <?php if ($thumbnail): ?>
+    <div class="site-thumbnail"><?php echo $this->thumbnail($thumbnail, 'square', ['class' => 'site-thumbnail-image']); ?></div>
+    <?php endif; ?>
     <?php echo $this->hyperlink($site->title(), $site->siteUrl(), ['class' => 'site-link']); ?>
     <?php if ($summary): ?>
     <p class="site-summary"><?php echo nl2br($this->escapeHtml($summary)); ?></p>

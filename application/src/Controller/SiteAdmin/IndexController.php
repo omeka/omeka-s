@@ -96,6 +96,7 @@ class IndexController extends AbstractActionController
                 unset($formData['csrf']);
                 $formData['o:assign_new_items'] = $postData['general']['o:assign_new_items'];
                 $formData['o:is_public'] = $postData['o:is_public'];
+                $formData['o:thumbnail'] = ['o:id' => $postData['thumbnail_id']];
                 // Prepare settings form data.
                 $settingsFormData = $settingsForm->getData();
                 unset($settingsFormData['csrf']);
@@ -126,6 +127,9 @@ class IndexController extends AbstractActionController
             // Prepare form data on first load.
             $form->setData($site->jsonSerialize());
             $settingsForm->get('general')->get('o:assign_new_items')->setValue($site->assignNewItems());
+            if ($site->thumbnail()) {
+                $form->get('thumbnail_id')->setValue($site->thumbnail()->id());
+            }
         }
 
         $view = new ViewModel;

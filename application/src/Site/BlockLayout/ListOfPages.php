@@ -39,8 +39,10 @@ class ListOfPages extends AbstractBlockLayout
         $escape = $view->plugin('escapeHtml');
         $pageList = new Hidden("o:block[__blockIndex__][o:data][pagelist]");
         $pageList->setValue($block ? $block->dataValue('pagelist') : json_encode($this->navTranslator->toJstree($site)));
+        // $pageList->setValue($block ? $block->dataValue('pagelist') : '');
 
-        $html = '<div class="block-pagelist-tree"';
+        $html = '<button type="button" class="site-page-add">' . $view->translate('Add pages') . '</button>';
+        $html .= '<div class="block-pagelist-tree"';
         $html .= 'data-link-form-url="' . $escape($view->url('admin/site/slug/action', ['action' => 'navigation-link-form'], true));
         $html .= '" data-jstree-data="' . $escape($pageList->getValue());
         $html .= '"></div><div class="inputs">' . $view->formRow($pageList) . '</div>';

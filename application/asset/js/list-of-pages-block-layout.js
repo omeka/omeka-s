@@ -77,7 +77,7 @@
         const sidebar = $('<div class="sidebar"><div class="sidebar-content"></div></div>');
         sidebar.appendTo('#content');
         $('#blocks').on('click', '.site-page-add', function (e) {
-            Omeka.populateSidebarContent(sidebar, "/~matthewmckinley/omeka-s/admin/site/s/big-test-site/page/blocks/sidebar-pagelist");
+            Omeka.populateSidebarContent(sidebar, $(this).data('sidebar-content-url'));
             Omeka.openSidebar(sidebar);
         });
     });

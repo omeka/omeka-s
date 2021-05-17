@@ -8,7 +8,7 @@ navTree.jstree({
         'check_callback': true,
         'data': navTree.data('jstree-data'),
     },
-    'plugins': ['dnd', 'removenode', 'editlink', 'display']
+    'plugins': ['dnd', 'removenode', 'editlink', 'addpages', 'display']
 }).on('loaded.jstree', function() {
     // Open all nodes by default.
     navTree.jstree(true).open_all();

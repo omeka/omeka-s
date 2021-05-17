@@ -16,7 +16,7 @@
                 },
                 'data': navTree.data('jstree-data'),
             },
-            'plugins': ['dnd', 'removenode', 'display']
+            'plugins': ['dnd', 'removenode', 'addpages', 'display']
         }).on('loaded.jstree', function() {
             // Open all nodes by default.
             navTree.jstree(true).open_all();

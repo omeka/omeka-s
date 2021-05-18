@@ -207,9 +207,9 @@ $.jstree.plugins.addpages = function(options, parent) {
             }, this)
         );
         // Add a site page link to the navigation tree.
-        $('#nav-page-links').on(
+        $('#content').on(
             'click',
-            '.nav-page-link',
+            '#nav-page-links .nav-page-link',
             $.proxy(function(e) {
                 var link = $(e.currentTarget);
                 var nodeId = this.create_node('#', {
@@ -224,7 +224,7 @@ $.jstree.plugins.addpages = function(options, parent) {
                 // There cannot be duplicate page links in navigation. Remove
                 // page links from the available list after they are added.
                 link.hide();
-                var pageLinks = $(e.delegateTarget);
+                var pageLinks = $('#nav-page-links');
                 if (!pageLinks.children('.nav-page-link').filter(':visible').length) {
                     pageLinks.siblings('.page-selector-filter').hide();
                     pageLinks.after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');

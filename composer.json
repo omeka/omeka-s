@@ -18,7 +18,6 @@
         "laminas/laminas-captcha": "^2.6",
         "laminas/laminas-code": "^3.0.2",
         "laminas/laminas-config": "^2.6",
-        "laminas/laminas-console": "^2.6",
         "laminas/laminas-crypt": "^3.0",
         "laminas/laminas-db": "^2.8.1",
         "laminas/laminas-di": "^2.6.1",

@@ -37,7 +37,7 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
     /**
      * Get the media associated with this item.
      *
-     * @return MediaRepresentation[] 
+     * @return MediaRepresentation[]
      */
     public function media()
     {

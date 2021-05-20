@@ -10,7 +10,7 @@ class ResourceTemplatePropertyTest extends TestCase
 {
     protected $resourceTemplateProperty;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->resourceTemplateProperty = new ResourceTemplateProperty;
     }

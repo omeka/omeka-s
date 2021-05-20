@@ -13,7 +13,7 @@ class AbstractEntityAdapterTest extends TestCase
 
     protected $adapter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapter = $this->getMockBuilder('Omeka\Api\Adapter\AbstractEntityAdapter')
             ->setMethods([

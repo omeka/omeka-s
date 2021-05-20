@@ -33,7 +33,7 @@ class EntityTest extends TestCase
             ->with($this->isInstanceOf('Laminas\EventManager\Event'));
         $entity = new Entity($eventManager);
 
-        $eventArgs = $this->getMockBuilder('Doctrine\Common\Persistence\Event\LifecycleEventArgs')
+        $eventArgs = $this->getMockBuilder('Doctrine\ORM\Event\LifecycleEventArgs')
             ->disableOriginalConstructor()
             ->getMock();
         $eventArgs->expects($this->any())

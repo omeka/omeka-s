@@ -8,7 +8,7 @@ class ModuleTest extends TestCase
 {
     protected $module;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->module = new Module;
     }

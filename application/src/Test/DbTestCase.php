@@ -25,7 +25,7 @@ class DbTestCase extends TestCase
      * Set the test application and begin a transaction during setUp.
      * Child classes should call parent::setUp() in their own setUp.
      */
-    public function setUp()
+    public function setUp(): void
     {
         self::getApplication()->getServiceManager()->get('Omeka\EntityManager')
             ->getConnection()->beginTransaction();
@@ -34,7 +34,7 @@ class DbTestCase extends TestCase
     /**
      * Rollback the transaction during tear down.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         self::getApplication()->getServiceManager()->get('Omeka\EntityManager')
             ->getConnection()->rollback();

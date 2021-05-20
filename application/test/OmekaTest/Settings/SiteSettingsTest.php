@@ -9,7 +9,7 @@ class SiteSettingsTest extends DbTestCase
     protected $site1;
     protected $site2;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

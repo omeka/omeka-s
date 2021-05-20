@@ -9,7 +9,7 @@ class VocabularyTest extends TestCase
 {
     protected $vocabulary;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->vocabulary = new Vocabulary;
     }

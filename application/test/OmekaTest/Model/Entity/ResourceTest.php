@@ -11,7 +11,7 @@ class ResourceTest extends TestCase
 {
     protected $resource;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->resource = $this->getMockForAbstractClass('Omeka\Entity\Resource');
     }

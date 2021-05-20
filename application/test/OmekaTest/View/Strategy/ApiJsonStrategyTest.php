@@ -14,7 +14,7 @@ class ApiJsonStrategyTest extends TestCase
     public $strategy;
     public $event;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->renderer = $this->createMock('Omeka\View\Renderer\ApiJsonRenderer');
 

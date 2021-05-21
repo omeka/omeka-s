@@ -80,5 +80,26 @@
             Omeka.populateSidebarContent(sidebar, $(this).data('sidebar-content-url'));
             Omeka.openSidebar(sidebar);
         });
+        
+        var filterPages = function() {
+            var thisInput = $(this);
+            var search = thisInput.val().toLowerCase();
+            var allPages = $('#nav-page-links .nav-page-link');
+            allPages.hide();
+            var results = allPages.filter(function() {
+                return $(this).attr('data-label').toLowerCase().indexOf(search) >= 0;
+            });
+            results.show();
+        };
+        $('#content').on(
+            'keyup',
+            '.page-selector-filter',
+            (function() {
+            var timer = 0;
+            return function() {
+                clearTimeout(timer);
+                timer = setTimeout(filterPages.bind(this), 400);
+            }
+        })());
     });
 })(window.jQuery);

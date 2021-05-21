@@ -4,6 +4,7 @@ namespace Omeka\Site\BlockLayout;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
+use Omeka\Site\Navigation\Link\Manager as LinkManager;
 use Omeka\Site\Navigation\Translator;
 use Laminas\Form\Element\Hidden;
 use Laminas\View\Renderer\PhpRenderer;
@@ -11,12 +12,18 @@ use Laminas\View\Renderer\PhpRenderer;
 class ListOfPages extends AbstractBlockLayout
 {
     /**
+     * @var LinkManager
+     */
+    protected $linkManager;
+
+    /**
      * @var Translator
      */
     protected $navTranslator;
 
-    public function __construct(Translator $navTranslator)
+    public function __construct(LinkManager $linkManager, Translator $navTranslator)
     {
+        $this->linkManager = $linkManager;
         $this->navTranslator = $navTranslator;
     }
 
@@ -38,8 +45,26 @@ class ListOfPages extends AbstractBlockLayout
     ) {
         $escape = $view->plugin('escapeHtml');
         $pageList = new Hidden("o:block[__blockIndex__][o:data][pagelist]");
-        $pageList->setValue($block ? $block->dataValue('pagelist') : json_encode($this->navTranslator->toJstree($site)));
-        // $pageList->setValue($block ? $block->dataValue('pagelist') : '');
+        if ($block) {
+            // Add page URL to jstree node data if not already present
+            $pageTree = json_decode($block->dataValue('pagelist'), true);
+            $iterate = function (&$value, &$key) use (&$iterate, $site) {
+                if (is_array($value)) {
+                    if (array_key_exists('type', $value) && !array_key_exists('url', $value)) {
+                        $manager = $this->linkManager;
+                        $linkType = $manager->get($value['type']);
+                        $linkData = $value;
+                        $pageUrl = $this->navTranslator->getLinkUrl($linkType, $linkData, $site);
+                        $value['url'] = $pageUrl;
+                    }
+                    array_walk($value, $iterate);
+                }
+            };
+            array_walk($pageTree, $iterate);
+        } else {
+            $pageTree = '';
+        }
+        $pageList->setValue(json_encode($pageTree));
 
         $html = '<button type="button" class="site-page-add"';
         $html .= 'data-sidebar-content-url="' . $escape($page->url('sidebar-pagelist'));

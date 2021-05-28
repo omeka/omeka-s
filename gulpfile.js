@@ -487,7 +487,7 @@ var taskZip = gulp.series('clean', 'init', function () {
             '!./package.json',
             '!./package-lock.json',
             '!./**/.tx/**',
-            '!./.php_cs',
+            '!./.php-cs-fixer.dist.php',
             '!./.php_cs_module',
             '!./.php_cs.cache',
             '!./.travis.yml',

@@ -94,6 +94,48 @@ $.jstree.plugins.editlink = function(options, parent) {
                 this.toggleLinkEdit($(e.currentTarget).closest('.jstree-node'));
             }, this)
         );
+        // Add a custom page link to the navigation tree.
+        $('#nav-custom-links').on(
+            'click',
+            'button.option',
+            $.proxy(function(e) {
+                var link = $(e.currentTarget);
+                var nodeId = this.create_node('#', {
+                    text: link.text(),
+                    data: {
+                        type: link.data('type'),
+                        data: {}
+                    }
+                });
+                this.toggleLinkEdit($('#' + nodeId));
+            }, this)
+        );
+        // Add a site page link to the navigation tree.
+        $('#nav-page-links').on(
+            'click',
+            '.nav-page-link',
+            $.proxy(function(e) {
+                var link = $(e.currentTarget);
+                var nodeId = this.create_node('#', {
+                    text: link.data('label'),
+                    data: {
+                        type: link.data('type'),
+                        data: {
+                            id: link.data('id')
+                        }
+                    }
+                });
+                // There cannot be duplicate page links in navigation. Remove
+                // page links from the available list after they are added.
+                link.hide();
+                var pageLinks = $(e.delegateTarget);
+                if (!pageLinks.children('.nav-page-link').filter(':visible').length) {
+                    pageLinks.siblings('.page-selector-filter').hide();
+                    pageLinks.after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
+                }
+                this.toggleLinkEdit($('#' + nodeId));
+            }, this)
+        );
         // Prepare the navigation tree data for submission.
         $('#site-form').on(
             'submit',
@@ -185,6 +227,7 @@ $.jstree.plugins.display = function(options, parent) {
         }
         return node;
     };
+<<<<<<< HEAD
 };
 
 $.jstree.plugins.addpages = function(options, parent) {
@@ -234,3 +277,6 @@ $.jstree.plugins.addpages = function(options, parent) {
         );
     }
 }
+=======
+};
+>>>>>>> parent of 380ac4ff5... Make addpages its own jstree plugin

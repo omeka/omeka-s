@@ -21,6 +21,7 @@ cache:
 before_install:
  - nvm install 14
  - nvm use 14
+ - npm install -g npm
   
 install:
   - npm install

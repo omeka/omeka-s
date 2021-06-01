@@ -520,6 +520,7 @@ return [
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
         ],
         'factories' => [
+            'asset' => Service\BlockLayout\AssetFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
             'listOfPages' => Service\BlockLayout\PageListFactory::class,
         ],

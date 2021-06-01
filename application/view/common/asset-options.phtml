@@ -1,0 +1,35 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$mediaInput = null;
+$altLabelInput = null;
+$headingInput = null;
+$descriptionInput = null;
+$form->prepare();
+?>
+<div class="sidebar" id="asset-options">
+  <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+  <div class="sidebar-content">
+    <h3><?php echo $translate('Asset Options'); ?></h3>
+    <span class="selected-asset">
+        <img class="selected-asset-image" src="" alt="">
+        <div class="selected-asset-name"></div>
+    </span>
+    <div class="alt-label">
+      <h3><?php echo $translate('Alternative Link Label'); ?></h3>
+      <?php //echo $this->formRow($altLabelInput); ?>
+    </div>
+    <div class="home-heading">
+      <h3><?php echo $translate('Home Heading'); ?></h3>
+      <?php //echo $this->formRow($headingInput); ?>
+    </div>
+    <div class="description">
+      <h3><?php echo $translate('Description'); ?></h3>
+      <?php //echo $this->formRow($descriptionInput); ?>
+    </div>
+  </div>
+
+  <div id="page-options-confirm-panel" class="confirm-panel">
+    <button><?php echo $translate('Apply changes'); ?></button>
+  </div>
+</div>

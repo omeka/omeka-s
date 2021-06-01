@@ -8,6 +8,7 @@
             Omeka.openSidebar(sidebar);
             Omeka.populateSidebarContent(sidebar, $(this).data('sidebar-content-url'));
             selectingForm = $(this).closest('.asset-form-element');
+            $(this).addClass('asset-selecting-button');
         });
 
         $('#content').on('click', '.asset-form-clear', function () {
@@ -19,13 +20,18 @@
 
         $('#content').on('click', '.asset-list .select-asset', function (e) {
             e.preventDefault();
+            if ($('.asset-selecting-button').hasClass('asset-attachment-select')) {
+                var assetOptions = $('#asset-options');
+                assetOptions.addClass('active');
+                selectingForm = assetOptions;
+            }
             selectingForm.find('input[type=hidden]').val($(this).data('assetId'));
             selectingForm.find('.selected-asset-image').attr('src', $(this).data('assetUrl'));
             selectingForm.find('.selected-asset-name').text($(this).text());
             selectingForm.find('.selected-asset').show();
             selectingForm.removeClass('empty');
-            Omeka.closeSidebar(sidebar);
             selectingForm = null;
+            Omeka.closeSidebar(sidebar);
         });
 
         $('#content').on('change', '.asset-upload [type="file"]', function() {
@@ -49,7 +55,7 @@
                 contentType: false,
                 processData: false
             }).done(function () {
-                Omeka.populateSidebarContent(sidebar, selectingForm.find('.asset-form-select').data('sidebar-content-url'));
+                Omeka.populateSidebarContent(sidebar, $('.asset-selecting-button').data('sidebar-content-url'));
             }).fail(function (jqXHR) {
                 var errorList = form.find('ul.errors');
                 errorList.empty();

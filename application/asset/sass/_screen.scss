@@ -4043,6 +4043,17 @@ body.sidebar-open #content {
         }
     }
 
+    #asset-options .selected-asset {
+        overflow: hidden;
+        margin-bottom: $spacing-large;
+    }
+
+    #asset-options .selected-asset-image {
+        float: left;
+        margin: 0 $spacing-medium 0 0;
+        max-width: 50%;
+    }
+
     /* @end */
 
     /* @group ----- Site Navigation ----- */

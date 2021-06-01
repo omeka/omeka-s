@@ -1,0 +1,68 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$attachmentRowTemplate = '
+ <div class="attachment">
+    <span class="sortable-handle"></span>
+    <div class="page-title"><div class="thumbnail"></div>' . $escape($translate('No page selected')) . '</div>
+    <ul class="actions">
+        <li>' . $this->hyperlink('', '#', ['class' => 'page-options-configure o-icon-configure button', 'title' => $translate('Open image options')]) . '</li>
+        <li class="delete">' . $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]) . '</li>
+        <li class="undo">' . $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]) . '</li>
+    </ul>
+    <input type="hidden" class="page" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][label]">
+    <input type="hidden" class="url" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][url]">
+    <input type="hidden" class="media" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][media]">
+    <input type="hidden" class="alt-label" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][alt_label]">
+    <input type="hidden" class="home-heading" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][home_heading]">
+    <input type="hidden" class="description" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][description]">
+    ';
+?>
+<div class="page-attachments-form" data-site-id="<?php echo $siteId; ?>" data-page-api-url="<?php echo $apiUrl; ?>">
+    <div class="attachments" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
+      <?php if ($pages !== ''): ?>
+        <?php foreach($pages as $key => $page): ?>
+          <?php if (isset($page['site_page'])): ?>
+          <div class="attachment">
+            <span class="sortable-handle"></span>
+            <?php $mediaId = ($page['site_page']['media']) ? $page['site_page']['media'] : '' ; ?>
+            <?php if ($mediaId !== ''): ?>
+            <?php $thumbnail = '<div class="thumbnail"><img src="' . $assets[$mediaId]->assetUrl() . '" alt="' . $assets[$mediaId]->name() . '"></div>'; ?>
+            <?php else: ?>
+            <?php $thumbnail = '<div class="thumbnail"></div>'; ?>
+            <?php endif; ?>
+            <div class="page-title"><?php echo $thumbnail; ?><?php echo $page['site_page']['label']; ?></div>
+            <ul class="actions">
+
+                <li><?php echo $this->hyperlink('', '#', ['class' => 'page-options-configure o-icon-configure button', 'title' => $translate('Open image options')]); ?></li>
+                <li class="delete"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]); ?></li>
+                <li class="undo"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]); ?></li>
+            </ul>
+            <input type="hidden" class="page" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][label]" value="<?php echo $page['site_page']['label']; ?>">
+            <input type="hidden" class="url" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][url]" value="<?php echo $page['site_page']['url']; ?>">
+            <input type="hidden" class="media" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][media]" value="<?php echo $mediaId; ?>">
+            <input type="hidden" class="alt-label" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][alt_label]" value="<?php echo (isset($page['site_page']['alt_label'])) ? $page['site_page']['alt_label'] : ''; ?>">
+            <input type="hidden" class="home-heading" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][home_heading]" value="<?php echo $page['site_page']['home_heading']; ?>">
+            <input type="hidden" class="description" name="o:block[__blockIndex__][o:data][__attachmentIndex__][site_page][description]" value="<?php echo $page['site_page']['description']; ?>">
+          </div>
+          <?php else: ?>
+          <?php $className = $page; ?>
+          <?php endif; ?>
+        <?php endforeach; ?>
+        <?php endif; ?>
+        <button type="button" class="asset-attachment-select" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Add asset'); ?></button>
+    </div>
+    <a class="collapse" href="#" aria-label="<?php echo $translate('collapse'); ?>">
+      <h4>Options</h4>
+    </a>
+    <div class="collapsible">
+      <div class="field">
+        <div class="field-meta">
+          <label for="o:block[__blockIndex__][o:data][className]">Class</label>
+        </div>
+        <div class="inputs">
+          <input type="text" name="o:block[__blockIndex__][o:data][className]" value="<?php echo (isset($className)) ? $className : ''?>">
+        </div>
+      </div>
+    </div>
+</div>

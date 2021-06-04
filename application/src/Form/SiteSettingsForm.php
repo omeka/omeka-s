@@ -138,7 +138,7 @@ class SiteSettingsForm extends Form
             'name' => 'filter_locale_values',
             'type' => 'checkbox',
             'options' => [
-                'label' => 'Filter values based on site localization', // @translate
+                'label' => 'Filter values based on site locale', // @translate
                 'info' => 'Check to show only values matching the site language setting and values without locale ID.',
             ],
             'attributes' => [

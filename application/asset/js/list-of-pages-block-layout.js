@@ -61,11 +61,6 @@
                         if (element.classList.contains('jstree-removenode-removed')) {
                             jstree.delete_node(element);
                         }; 
-                        if (jstree.get_node(element)) {
-                            var nodeObj = jstree.get_node(element);
-                            var element = $(element);
-                            nodeObj.data['data'][element.data('name')] = element.val()
-                        };
                     });
                     thisBlock.find('.jstree-' + jstreeIndex).siblings('.inputs').find(':input[type=hidden]').val(JSON.stringify(jstree.get_json()));
                     jstreeIndex++;

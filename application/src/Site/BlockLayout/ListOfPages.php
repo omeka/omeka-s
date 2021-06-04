@@ -70,7 +70,6 @@ class ListOfPages extends AbstractBlockLayout
         $html .= 'data-sidebar-content-url="' . $escape($page->url('sidebar-pagelist'));
         $html .= '">' . $view->translate('Add pages') . '</button>';
         $html .= '<div class="block-pagelist-tree"';
-        $html .= 'data-link-form-url="' . $escape($view->url('admin/site/slug/action', ['action' => 'navigation-link-form'], true));
         $html .= '" data-jstree-data="' . $escape($pageList->getValue());
         $html .= '"></div><div class="inputs">' . $view->formRow($pageList) . '</div>';
 

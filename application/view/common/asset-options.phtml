@@ -14,22 +14,18 @@ $form->prepare();
     <span class="selected-asset">
         <img class="selected-asset-image" src="" alt="">
         <div class="selected-asset-name"></div>
+        <input type="hidden" name="selected-asset-id" class="selected-asset-id">
+        <button type="button" class="asset-attachment-select" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Select'); ?></button>
     </span>
     <div class="alt-label">
-      <h3><?php echo $translate('Alternative Link Label'); ?></h3>
-      <?php //echo $this->formRow($altLabelInput); ?>
-    </div>
-    <div class="home-heading">
-      <h3><?php echo $translate('Home Heading'); ?></h3>
-      <?php //echo $this->formRow($headingInput); ?>
-    </div>
-    <div class="description">
-      <h3><?php echo $translate('Description'); ?></h3>
-      <?php //echo $this->formRow($descriptionInput); ?>
+      <h3><?php echo $translate('Page link'); ?></h3>
+      <span class="none-selected"><?php echo $translate('[No page selected]'); ?></span>
+      <button type="button"><?php echo $translate('Select'); ?></button>
+      <button type="button"><?php echo $translate('Clear'); ?></button>
     </div>
   </div>
 
-  <div id="page-options-confirm-panel" class="confirm-panel">
+  <div id="asset-options-confirm-panel" class="confirm-panel">
     <button><?php echo $translate('Apply changes'); ?></button>
   </div>
 </div>

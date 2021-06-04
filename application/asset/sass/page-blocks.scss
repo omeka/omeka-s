@@ -231,38 +231,3 @@
         margin-right: 1rem;
     }
 }
-
-#page-list.active {
-    z-index: 6;
-}
-  
-  #page-options .sidebar-content > div {
-    margin-bottom: 2rem;
-}
-  
-.page-add {
-    margin-top: .5rem;
-}
-  
-.page-title {
-    display: flex;
-    align-items: center;
-}
-  
-.page-title img {
-    height: 100%;
-    width: auto;
-    margin: 0;
-    position: absolute;
-    left: 25%;
-    transform: translateX(-25%);
-}
-  
-.page-title .thumbnail:not(:empty) {
-    border: 1px solid #dedede;
-    height: 2rem;
-    position: relative;
-    width: 2rem;
-    margin: .25rem .25rem .25rem 0;
-    overflow: hidden;
-}

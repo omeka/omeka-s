@@ -32,12 +32,12 @@ class Asset extends AbstractBlockLayout
         $html = '';
         $siteId = $site->id();
         $apiUrl = $site->apiUrl();
-        $pages = ($block) ? $block->data() : '';
+        $block = ($block) ? $block->data() : '';
         $assets = [];
-        if ($pages !== '') {
-          foreach ($pages as $key => $page) {
-            if (isset($page['site_page']['media']) && ($page['site_page']['media'] !== '')) {
-              $assetId = $page['site_page']['media'];
+        if ($block !== '') {  
+          foreach ($block as $value) {
+            if (isset($value['id'])) {
+              $assetId = $value['id'];
               $asset = $view->api()->read('assets', $assetId)->getContent();
               $assets[$assetId] = $asset;
             }
@@ -47,27 +47,23 @@ class Asset extends AbstractBlockLayout
           'block' => $block,
           'siteId' => $siteId,
           'apiUrl' => $apiUrl,
-          'pages' => $pages,
           'assets' => $assets,
         ]);
     }
     
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $pages = $block->data();
-        $pages = ($block) ? $block->data() : '';
-        $assets = [];
-        if ($pages !== '') {
-          foreach ($pages as $key => $page) {
-            if (isset($page['site_page']['media']) && ($page['site_page']['media'] !== '')) {
-              $assetId = $page['site_page']['media'];
+        $assets = ($block) ? $block->data() : '';
+        if ($assets !== '') {
+          foreach ($assets as $key => $asset) {
+            if (isset($asset['asset']['id']) && ($asset['asset']['id'] !== '')) {
+              $assetId = $asset['asset']['id'];
               $asset = $view->api()->read('assets', $assetId)->getContent();
               $assets[$assetId] = $asset;
             }
           }
         }
         return $view->partial('common/block-layout/asset', [
-          'pages' => $pages,
           'assets' => $assets,
         ]);
     }

@@ -4054,6 +4054,42 @@ body.sidebar-open #content {
         max-width: 50%;
     }
 
+    #asset-list.active {
+        z-index: 6;
+    }
+      
+    #asset-options .sidebar-content > div {
+        margin-bottom: 2rem;
+    }
+      
+    .asset-attachment-select {
+        margin-top: .5rem;
+    }
+      
+    .asset-title {
+        display: flex;
+        align-items: center;
+    }
+      
+    .asset-title img {
+        height: 100%;
+        width: auto;
+        margin: 0;
+        position: absolute;
+        left: 25%;
+        transform: translateX(-25%);
+    }
+      
+    .asset-title .thumbnail:not(:empty) {
+        border: 1px solid #dedede;
+        height: 2rem;
+        position: relative;
+        width: 2rem;
+        margin: .25rem .25rem .25rem 0;
+        overflow: hidden;
+    }
+    
+
     /* @end */
 
     /* @group ----- Site Navigation ----- */

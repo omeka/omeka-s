@@ -37,7 +37,7 @@ $lang = $this->lang();
                 $class[] = 'private';
             }
             ?>
-            <?php if (($filterLocale == 0) || ($valueLang == '') || ($valueLang == $lang)): ?>
+            <?php if ((!$filterLocale) || ($valueLang == '') || ($valueLang == $lang)): ?>
             <div class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($valueLang); ?>">
                 <?php if (($showLocale == 1) && ($valueLang)): ?>
                 <span class="language"><?php echo $valueLang; ?></span>

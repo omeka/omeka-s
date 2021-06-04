@@ -16,12 +16,12 @@ $showBody = in_array('resource-body', $this->components);
 $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
 
-$filterLocale = $this->siteSetting('filter_locale_values');
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $this->lang();
 
 foreach ($this->resources as $resource):
-$heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]')]) : $resource->displayTitle(null, ($filterLocale == 1 ? $lang : null));
-$body = $bodyTerm ? $resource->value($bodyTerm) : $resource->displayDescription(null, ($filterLocale == 1 ? $lang : null));
+$heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]')]) : $resource->displayTitle(null, ($filterLocale ? $lang : null));
+$body = $bodyTerm ? $resource->value($bodyTerm) : $resource->displayDescription(null, ($filterLocale ? $lang : null));
 ?>
     <li class="<?php echo $this->resourceType; ?> resource">
         <?php

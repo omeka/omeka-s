@@ -10,7 +10,7 @@ if (!$ids) {
     $ids = [null];
 }
 
-$filterLocale = $this->siteSetting('filter_locale_values');
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $this->lang();
 
 if ($this->status()->isSiteRequest()) {

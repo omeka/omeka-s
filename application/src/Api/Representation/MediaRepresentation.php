@@ -309,7 +309,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             $source = $default;
         }
 
-        return parent::displayTitle($source);
+        return parent::displayTitle($source, $lang);
     }
 
     public function siteUrl($siteSlug = null, $canonical = false)

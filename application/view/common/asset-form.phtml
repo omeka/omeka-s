@@ -22,7 +22,7 @@ if ($assetId) {
         echo sprintf('<img class="selected-asset-image" src="%s" alt="%s"><div class="selected-asset-name">%s</div>',
             $this->escapeHtml($asset->assetUrl()),
             $this->escapeHtml($asset->altText()),
-            $this->escapeHtml($asset->name()),
+            $this->escapeHtml($asset->name())
         );
         ?>
     </span>

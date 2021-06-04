@@ -532,8 +532,7 @@ return [
             'page' => Site\Navigation\Link\Page::class,
             'url' => Site\Navigation\Link\Url::class,
             'browse' => Site\Navigation\Link\Browse::class,
-            'browseItemSets' => Site\Navigation\Link\BrowseItemSets::class,
-            'siteSwitcher' => Site\Navigation\Link\SiteSwitcher::class,
+            'browseItemSets' => Site\Navigation\Link\BrowseItemSets::class
         ],
     ],
     'media_ingesters' => [

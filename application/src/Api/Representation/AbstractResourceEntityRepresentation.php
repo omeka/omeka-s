@@ -506,6 +506,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displayTitle($default = null, $lang = null)
     {
+        $title = null;
         $template = $this->resourceTemplate();
         if ($template && $template->titleProperty()) {
             $titleTerm = $template->titleProperty()->term();
@@ -515,11 +516,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
         if ($lang !== null) {
             if ($titleValue = $this->value($titleTerm, ['lang' => $lang])) {
-                $title = $titleValue->value();
+                $title = (string) $titleValue->value();
             }
         }
 
-        if (!isset($title) || $title === null) {
+        if ($title === null) {
             $title = $this->title();
         }
 
@@ -548,6 +549,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displayDescription($default = null, $lang = null)
     {
+        $description = null;
         $template = $this->resourceTemplate();
         if ($template && $template->descriptionProperty()) {
             $descriptionTerm = $template->descriptionProperty()->term();
@@ -557,11 +559,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
         if ($lang !== null) {
             if ($descriptionValue = $this->value($descriptionTerm, ['default' => $default, 'lang' => $lang])) {
-                $description = $descriptionValue->value();
+                $description = (string) $descriptionValue->value();
             }
         }
 
-        if (!isset($description) || $description === null) {
+        if ($description === null) {
             $description = (string) $this->value($descriptionTerm, ['default' => $default]);
         }
 
@@ -591,14 +593,15 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @param string|null $titleDefault See $default param for displayTitle()
      * @param string|null $action Action to link to (see link() and linkRaw())
      * @param array $attributes HTML attributes, key and value
+     * @param string|null $lang Language IETF tag
      * @return string
      */
     public function linkPretty(
-        $lang = null,
         $thumbnailType = 'square',
         $titleDefault = null,
         $action = null,
-        array $attributes = null
+        array $attributes = null,
+        $lang = null
     ) {
         $escape = $this->getViewHelper('escapeHtml');
         $thumbnail = $this->getViewHelper('thumbnail');

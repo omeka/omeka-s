@@ -77,10 +77,36 @@
         const sidebar = $('<div class="sidebar"><div class="sidebar-content"></div></div>');
         sidebar.appendTo('#content');
         $('#blocks').on('click', '.site-page-add', function (e) {
+            currentTree = $(e.currentTarget).siblings('.jstree').jstree();
             Omeka.populateSidebarContent(sidebar, $(this).data('sidebar-content-url'));
             Omeka.openSidebar(sidebar);
         });
         
+        // Add a site page link to the block tree
+        $('#content').on(
+            'click',
+            '.nav-page-link',
+            $.proxy(function(e) {
+                var link = $(e.currentTarget);
+                var nodeId = currentTree.create_node('#', {
+                    text: link.data('label'),
+                    data: {
+                        type: link.data('type'),
+                        data: {
+                            id: link.data('id')
+                        }
+                    }
+                });
+                // Remove page links from the available list after they are added.
+                link.hide();
+                var pageLinks = $('#nav-page-links');
+                if (!pageLinks.children('.nav-page-link').filter(':visible').length) {
+                    pageLinks.siblings('.page-selector-filter').hide();
+                    pageLinks.after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
+                }
+            }, this)
+        );
+
         var filterPages = function() {
             var thisInput = $(this);
             var search = thisInput.val().toLowerCase();

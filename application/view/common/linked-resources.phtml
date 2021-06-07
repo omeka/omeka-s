@@ -8,6 +8,9 @@ if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResour
 }
 $pagination = $this->pagination(null, $totalCount, $page, $perPage);
 $pagination->setFragment($fragment);
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $this->lang();
 ?>
 <div id="linked-resources">
 <div class="linked-header">
@@ -41,7 +44,7 @@ $pagination->setFragment($fragment);
     $altLabel = $templateProperty ? $templateProperty->alternateLabel() : null;
     ?>
     <tr class="linked-resource">
-        <td><?php echo $value->resource()->linkPretty(); ?></td>
+        <td><?php echo $value->resource()->linkPretty('square', null, null, null, ($filterLocale ? $lang : null)); ?></td>
         <td>
         <?php if ($altLabel): ?>
         <span class="alternate-label"><?php echo $this->escapeHtml($altLabel); ?></span>

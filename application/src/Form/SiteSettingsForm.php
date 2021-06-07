@@ -147,19 +147,6 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
-        $langFieldset->add([
-            'name' => 'show_locale_label',
-            'type' => 'checkbox',
-            'options' => [
-                'label' => 'Show values locale labels', // @translate
-                'info' => 'Check to show locale labels in front of properties values when applicable. Leave unchecked to hide those labels.',
-            ],
-            'attributes' => [
-                'id' => 'show_locale_label',
-                'value' => (bool) $settings->get('show_locale_label', false),
-            ],
-        ]);
-
         $generalFieldset->add([
             'name' => 'show_locale_label',
             'type' => 'checkbox',
@@ -172,6 +159,7 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('show_locale_label', true),
             ],
         ]);
+
 
         // Browse section
         $this->add([

@@ -559,7 +559,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
         if ($lang !== null) {
             if ($descriptionValue = $this->value($descriptionTerm, ['default' => $default, 'lang' => $lang])) {
-                $description = (string) $descriptionValue->value();
+                if (!empty($descriptionValue->valueResource())) {
+                    $description = $descriptionValue->valueResource()->displayTitle(null, $lang);
+                } else {
+                    $description = (string) $descriptionValue->value();
+                }
             }
         }
 

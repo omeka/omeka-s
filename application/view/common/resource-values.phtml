@@ -2,6 +2,7 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $labelInfo = $this->setting('property_label_information');
+$showLocale = (bool) $this->siteSetting('show_locale_label');
 ?>
 <?php foreach ($values as $term => $propertyData): ?>
     <div class="property">
@@ -33,7 +34,7 @@ $labelInfo = $this->setting('property_label_information');
             }
             ?>
             <div class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($value->lang()); ?>">
-                <?php if ($language = $value->lang()): ?>
+                <?php if ($showLocale && ($language = $value->lang())): ?>
                 <span class="language"><?php echo $language; ?></span>
                 <?php endif; ?>
                 <?php echo $value->asHtml(); ?>

@@ -20,8 +20,9 @@
 
         $('#content').on('click', '.asset-list .select-asset', function (e) {
             e.preventDefault();
-            if ($('.asset-selecting-button').hasClass('asset-attachment-select')) {
-                var assetOptions = $('#asset-options');
+            var assetSelectingButton = $('.asset-selecting-button');
+            var assetOptions = $('#asset-options');
+            if (assetOptions.length > 0) {
                 assetOptions.addClass('active');
                 selectingForm = assetOptions;
             }

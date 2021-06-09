@@ -106,24 +106,26 @@
     }
 
     /**
-     * Add a page attachment.
-     *
-     * Typically used when skipping attachment options.
+     * Add a asset attachment.
      *
      * @param object selectingAttachment Add the item to this attachment
      * @param object itemData The data of the item to add
      */
      function addAssetAttachment(selectingAttachmentButton)
      {
-         var attachment = $(selectingAttachmentButton.parents('.attachments').data('template'));
-         var asset = $('.selected-asset');
-         var assetImage = asset.find('img').clone();
-         var assetTitle = asset.find('.selected-asset-name').text();
-         var assetId = asset.find('.selected-asset-id').first().val();
-         attachment.find('.asset-title').empty().append(assetTitle).prepend($('<div class="thumbnail"></div>'));
-         attachment.find('.thumbnail').append(assetImage);
-         attachment.find('input.asset').val(assetId);
-         selectingAttachmentButton.before(attachment);
+        var attachment = $(selectingAttachmentButton.parents('.attachments').data('template'));
+        populateAssetAttachment(attachment);
+        selectingAttachmentButton.before(attachment);
+     }
+
+     function populateAssetAttachment(attachment) {
+        var asset = $('.selected-asset');
+        var assetImage = asset.find('img').clone().attr('class', '');
+        var assetTitle = asset.find('.selected-asset-name').text();
+        var assetId = asset.find('.selected-asset-id').val();
+        attachment.find('.asset-title').empty().append(assetTitle).prepend($('<div class="thumbnail"></div>'));
+        attachment.find('.thumbnail').append(assetImage);
+        attachment.find('input.asset').val(assetId);
      }
 
     $(document).ready(function () {
@@ -322,92 +324,45 @@
                 attachment.find('.item-title').empty().append(thumbnail).append(title);
             }
         });
-
-        $('#blocks').on('click', '.asset-add', function() {
-            Omeka.closeSidebar($('.sidebar.active:not(#new-block)'));
-            var sidebar = $('#page-list');
-            var pageList = $('#page-list .pages');
-            var optionTemplate = $('#page-list .option.template');
-
-            $('.selecting-attachment').removeClass('selecting-attachment');
-            $(this).addClass('selecting-attachment');
-            Omeka.openSidebar(sidebar);
-            if (pageList.is(':empty')) {
-               var apiUrl = $('.page-attachments-form').data('page-api-url');
-               $.get(apiUrl, function(data) {
-                   data['o:page'].forEach(function(page) {
-                       var newButton = optionTemplate.clone();
-                       $.get(page['@id'], function(pageData) {
-                           newButton.text(pageData['o:title']).val(pageData['o:slug']);
-                       });
-                       pageList.append(newButton);
-                       newButton.removeClass('template');
-                   });
-               }).done(function() {
-                  // Update attachment options sidebar after selecting item.
-                  pageList.on('click', 'button.option', function(e) {
-                      var thisSelectResource = $(this);
-                      var selectingAttachment = $('.selecting-attachment');
-                      Omeka.closeSidebar($('#page-list'));
-                      addPageAttachment(selectingAttachment, thisSelectResource);
-                  });
-              });
-            }
-        });
         
-        $('#blocks').on('click', '.page-options-configure', function(e) {
+        $('#blocks').on('click', '.asset-options-configure', function(e) {
             e.preventDefault();
             Omeka.closeSidebar($('.sidebar.active:not(#new-block)'));
-            var sidebar = $('#page-options');
-            var currentPage = $(this).closest('.attachment');
-            var mediaInput = currentPage.find('input.media');
-            $('.configuring-page').removeClass('configuring-page');
-            currentPage.addClass('configuring-page');
-            if (mediaInput.val() !== '') {
-              $('[name="o:thumbnail[o:id]"]').val(mediaInput.val());
-              var currentMedia = currentPage.find('.thumbnail img');
-              $('.selected-asset-image').attr('src', currentMedia.attr('src'));
-              $('.selected-asset-name').text(currentMedia.attr('alt'));
-              $('.selected-asset').show();
-            } else {
-              $('.selected-asset').hide();
-            }
-            $('#page-options [name="alt_label"]').val(currentPage.find('input.alt-label').val());
-            $('#page-options [name="home_heading"]').val(currentPage.find('input.home-heading').val());
-            $('#page-options [name="description"]').val(currentPage.find('input.description').val());
+            var sidebar = $('#asset-options');
+            var selectingAttachment = $(this).closest('.attachment');
+            var assetInput = selectingAttachment.find('input.asset');
+            $('.asset-selecting-button').removeClass('asset-selecting-button');
+            $(this).addClass('asset-button-selecting');
+            $('.selecting.attachment').removeClass('selecting');
+            selectingAttachment.addClass('selecting');
+
+            var currentAsset = selectingAttachment.find('.thumbnail img');
+            var newSelectedAsset = currentAsset.clone().addClass('selected-asset-image');
+            var assetOptionImage = $('#asset-options .selected-asset-image');
+            assetOptionImage.replaceWith(newSelectedAsset);
+            $('#asset-options .selected-asset-id').val(assetInput.val());
+            $('#asset-options .selected-asset-name').text(currentAsset.attr('alt'));
             Omeka.openSidebar(sidebar);
         });
-          
-        $('#content').on('click', '#page-options-confirm-panel button', function() {
-            var pageOptionsSidebar = $('#page-options');
-            var currentPage = $('.configuring-page');
-            var mediaInput = currentPage.find('input.media');
-            var selectedMediaInput = pageOptionsSidebar.find('[name="o:thumbnail[o:id]"]');
-            var selectedMediaAssetImage = $('.selected-asset-image');
-            var selectedMediaAssetImageUrl = selectedMediaAssetImage.attr('src');
-            mediaInput.val(selectedMediaInput.val());
-            if ((currentPage.find('img').length == 0) && (selectedMediaAssetImageUrl !== undefined)) {
-              currentPage.find('.thumbnail').prepend($('<img>', {src: selectedMediaAssetImageUrl}));
-            } else {
-              currentPage.find('img').attr('src', selectedMediaAssetImageUrl);
-            }
-            currentPage.find('input.alt-label').val($('#page-options [name="alt_label"]').val());
-            currentPage.find('input.home-heading').val($('#page-options [name="home_heading"]').val());
-            currentPage.find('input.description').val($('#page-options [name="description"]').val());
-            Omeka.closeSidebar(pageOptionsSidebar);
-            currentPage.removeClass('configuring-page');
-        });
 
-        $('#content').on('click', '.asset-attachment-select', function () {
+
+        $('#content').on('click', '.add-asset-attachment, .change-selected-asset', function () {
             var assetSidebar = $('#asset-sidebar');
             Omeka.openSidebar(assetSidebar);
             Omeka.populateSidebarContent(assetSidebar, $(this).data('sidebar-content-url'));
             $(this).addClass('asset-selecting-button');
         });
 
-        $('#content').on('click', '#asset-options-confirm-panel', function() {  
-            addAssetAttachment($('.asset-selecting-button'));
+        $('#content').on('click', '#asset-options-confirm-panel', function() {
+            var assetSelectingButton = $('.asset-selecting-button');
+            if ($('.asset-selecting-button').hasClass('add-asset-attachment')) {
+                addAssetAttachment(assetSelectingButton);
+            } else {
+                var selectingAttachment = $('.selecting.attachment');
+                populateAssetAttachment(selectingAttachment);
+            }
             Omeka.closeSidebar($('#asset-options'));
+            $('.selecting.attachment').removeClass('selecting');
         });
     });
 })(window.jQuery);

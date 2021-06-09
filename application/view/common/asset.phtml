@@ -6,7 +6,7 @@ $attachmentRowTemplate = '
     <span class="sortable-handle"></span>
     <div class="asset-title"><div class="thumbnail"></div>' . $escape($translate('No asset selected')) . '</div>
     <ul class="actions">
-        <li>' . $this->hyperlink('', '#', ['class' => 'page-options-configure o-icon-configure button', 'title' => $translate('Open image options')]) . '</li>
+        <li>' . $this->hyperlink('', '#', ['class' => 'asset-options-configure o-icon-configure button', 'title' => $translate('Open image options')]) . '</li>
         <li class="delete">' . $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]) . '</li>
         <li class="undo">' . $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]) . '</li>
     </ul>
@@ -17,7 +17,7 @@ $attachmentRowTemplate = '
 ?>
 <div class="asset-attachments-form" data-site-id="<?php echo $siteId; ?>" data-page-api-url="<?php echo $apiUrl; ?>">
     <div class="attachments" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
-      <?php if ($block !== null): ?>
+      <?php if ($block !== ''): ?>
         <?php foreach($block as $value): ?>
           <?php if (isset($value['id'])): ?>
           <div class="attachment">
@@ -27,7 +27,7 @@ $attachmentRowTemplate = '
             <?php $thumbnail = '<div class="thumbnail"><img src="' . $asset->assetUrl() . '" alt="' . $asset->name() . '"></div>'; ?>
             <div class="asset-title"><?php echo $thumbnail; ?><?php echo $asset->name(); ?></div>
             <ul class="actions">
-                <li><?php echo $this->hyperlink('', '#', ['class' => 'page-options-configure o-icon-configure button', 'title' => $translate('Open asset options')]); ?></li>
+                <li><?php echo $this->hyperlink('', '#', ['class' => 'asset-options-configure o-icon-configure button', 'title' => $translate('Open asset options')]); ?></li>
                 <li class="delete"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]); ?></li>
                 <li class="undo"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]); ?></li>
             </ul>
@@ -36,7 +36,7 @@ $attachmentRowTemplate = '
           <?php endif; ?>
         <?php endforeach; ?>
         <?php endif; ?>
-        <button type="button" class="asset-attachment-select" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Add asset'); ?></button>
+        <button type="button" class="add-asset-attachment" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Add asset'); ?></button>
     </div>
     <a class="collapse" href="#" aria-label="<?php echo $translate('collapse'); ?>">
       <h4>Options</h4>
@@ -47,7 +47,8 @@ $attachmentRowTemplate = '
           <label for="o:block[__blockIndex__][o:data][className]">Class</label>
         </div>
         <div class="inputs">
-          <input type="text" name="o:block[__blockIndex__][o:data][className]" value="<?php echo $block['className']; ?>">
+          <?php $className = (isset($block['className'])) ? $block['className'] : ''; ?>
+          <input type="text" name="o:block[__blockIndex__][o:data][className]" value="<?php echo $className; ?>">
         </div>
       </div>
     </div>

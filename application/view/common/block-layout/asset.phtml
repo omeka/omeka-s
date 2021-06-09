@@ -1,28 +1,7 @@
-<div class="site-pages <?php echo (isset($pages['className'])) ? $pages['className'] : ''; ?>">
-  <?php foreach ($pages as $page): ?>
-  <?php if (isset($page['site_page'])): ?>
-    <div class="site-page">
-      <?php if ($page['site_page']['home_heading'] !== ''): ?>
-      <span class="heading"><?php echo $page['site_page']['home_heading']; ?></span>
-      <?php endif; ?>
-      <a href="<?php echo $page['site_page']['url']; ?>" class="page-link">
-        <?php $mediaId = $page['site_page']['media']; ?>
-        <?php if ($mediaId !== ''): ?>
-        <img src="<?php echo $assets[$mediaId]->assetUrl(); ?>">
-        <?php endif; ?>
-        <span class="page-link-label">
-        <?php $altLabel = $page['site_page']['alt_label']; ?>
-        <?php if (isset($altLabel) && $altLabel !== ''): ?>
-        <?php echo $altLabel; ?>
-        <?php else: ?>
-        <?php echo $page['site_page']['label']; ?>
-        <?php endif; ?>
-        </span>
-      </a>
-      <?php if ($page['site_page']['description'] !== ''): ?>
-      <span class="description"><?php echo $page['site_page']['description']; ?></span>
-      <?php endif; ?>
+<div class="assets <?php echo $className; ?>">
+  <?php foreach ($assets as $asset): ?>
+    <div class="asset">
+        <img src="<?php echo $asset->assetUrl(); ?>">
     </div>
-  <?php endif; ?>
   <?php endforeach; ?>
 </div>

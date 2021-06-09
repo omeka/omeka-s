@@ -53,18 +53,23 @@ class Asset extends AbstractBlockLayout
     
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $assets = ($block) ? $block->data() : '';
-        if ($assets !== '') {
-          foreach ($assets as $key => $asset) {
-            if (isset($asset['asset']['id']) && ($asset['asset']['id'] !== '')) {
-              $assetId = $asset['asset']['id'];
+        $block = ($block) ? $block->data() : '';
+        $assets = [];
+        if ($block !== '') {
+          foreach ($block as $value) {
+            if (isset($value['id'])) {
+              $assetId = $value['id'];
               $asset = $view->api()->read('assets', $assetId)->getContent();
-              $assets[$assetId] = $asset;
+              $assets[] = $asset;
+            }
+            else {
+              $className = $value;
             }
           }
         }
         return $view->partial('common/block-layout/asset', [
           'assets' => $assets,
+          'className' => $className
         ]);
     }
 }

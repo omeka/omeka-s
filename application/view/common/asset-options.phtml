@@ -15,7 +15,7 @@ $form->prepare();
         <img class="selected-asset-image" src="" alt="">
         <div class="selected-asset-name"></div>
         <input type="hidden" name="selected-asset-id" class="selected-asset-id">
-        <button type="button" class="asset-attachment-select" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Select'); ?></button>
+        <button type="button" class="change-selected-asset" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Select'); ?></button>
     </span>
     <div class="alt-label">
       <h3><?php echo $translate('Page link'); ?></h3>

@@ -73,7 +73,11 @@
         sidebar.appendTo('#content');
         $('#blocks').on('click', '.site-page-add', function (e) {
             currentTree = $(e.currentTarget).siblings('.jstree').jstree();
-            Omeka.populateSidebarContent(sidebar, $(this).data('sidebar-content-url'));
+            Omeka.populateSidebarContent(
+                sidebar,
+                $(this).data('sidebar-content-url'),
+                {'current_nodes': currentTree.get_json('#', { 'flat': true })}
+            );
             Omeka.openSidebar(sidebar);
         });
         

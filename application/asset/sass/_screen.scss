@@ -4086,6 +4086,9 @@ body.sidebar-open #content {
         justify-content: center;
     }
     
+    #asset-options .none-selected.inactive {
+        display: none;
+    }
 
     /* @end */
 

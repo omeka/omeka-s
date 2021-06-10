@@ -126,6 +126,12 @@
         attachment.find('.asset-title').empty().append(assetTitle).prepend($('<div class="thumbnail"></div>'));
         attachment.find('.thumbnail').append(assetImage);
         attachment.find('input.asset').val(assetId);
+        attachment.find('input.page').val($('#selected-page-id').val());
+     }
+
+     function selectPageLink(pageButton) {
+         $('.selected-page').text(pageButton.text());
+         $('#selected-page-id').val(pageButton.val());
      }
 
     $(document).ready(function () {
@@ -363,6 +369,35 @@
             }
             Omeka.closeSidebar($('#asset-options'));
             $('.selecting.attachment').removeClass('selecting');
+        });
+
+        $('#content').on('click', '.page-select', function() {
+            var sidebar = $('#page-list');
+            var pageList = $('#page-list .pages');
+            var optionTemplate = $('#page-list .option.template');
+
+            Omeka.openSidebar(sidebar);
+            var apiUrl = sidebar.data('api-url');
+            if (pageList.find('.option').length == 1) {
+                $.get(apiUrl, function(data) {
+                    data['o:page'].forEach(function(page) {
+                        var newButton = optionTemplate.clone();
+                        $.get(page['@id'], function(pageData) {
+                            newButton.text(pageData['o:title']).val(pageData['o:id']);
+                            console.log(pageData);
+                        });
+                        pageList.append(newButton);
+                        newButton.removeClass('template');
+                    });
+                }).done(function() {
+                    // Update attachment options sidebar after selecting item.
+                    pageList.on('click', 'button.option', function(e) {
+                        Omeka.closeSidebar($('#page-list'));
+                        selectPageLink($(this));
+                        $('.none-selected').addClass('inactive');
+                    });
+                });
+            }
         });
     });
 })(window.jQuery);

@@ -24,6 +24,7 @@ $attachmentRowTemplate = '
             <span class="sortable-handle"></span>
             <?php $assetId = $value['id']; ?>
             <?php $asset = $assets[$assetId]; ?>
+            <?php $pageId = isset($value['page']) ? $value['page'] : ''; ?>
             <?php $thumbnail = '<div class="thumbnail"><img src="' . $asset->assetUrl() . '" alt="' . $asset->name() . '"></div>'; ?>
             <div class="asset-title"><?php echo $thumbnail; ?><?php echo $asset->name(); ?></div>
             <ul class="actions">
@@ -31,6 +32,7 @@ $attachmentRowTemplate = '
                 <li class="delete"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]); ?></li>
                 <li class="undo"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]); ?></li>
             </ul>
+            <input type="hidden" class="page" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" value="<?php echo $pageId; ?>">
             <input type="hidden" class="asset" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]" value="<?php echo $assetId; ?>">
           </div>
           <?php endif; ?>

@@ -128,12 +128,12 @@ class SiteSettingsForm extends Form
             'name' => 'show_locale_label',
             'type' => 'checkbox',
             'options' => [
-                'label' => 'Show values locale labels', // @translate
+                'label' => 'Show locale labels for values', // @translate
                 'info' => 'Check to show locale labels in front of properties values when applicable. Leave unchecked to hide those labels.',
             ],
             'attributes' => [
                 'id' => 'show_locale_label',
-                'value' => (bool) $settings->get('show_locale_label', false),
+                'value' => (bool) $settings->get('show_locale_label', true),
             ],
         ]);
 

@@ -139,7 +139,7 @@ class SiteSettingsForm extends Form
             'type' => 'checkbox',
             'options' => [
                 'label' => 'Filter values based on site locale', // @translate
-                'info' => 'Check to show only values matching the site language setting and values without locale ID.', // @translate
+                'info' => 'Show only values matching the site language setting and values without locale ID.', // @translate
             ],
             'attributes' => [
                 'id' => 'filter_locale_values',
@@ -151,8 +151,8 @@ class SiteSettingsForm extends Form
             'name' => 'show_locale_label',
             'type' => 'checkbox',
             'options' => [
-                'label' => 'Show locale labels for values', // @translate
-                'info' => 'Check to show locale labels in front of properties values when applicable. Leave unchecked to hide those labels.', // @translate
+                'label' => 'Show language labels for values', // @translate
+                'info' => 'Show a label indicating the language of each value on show pages.', // @translate
             ],
             'attributes' => [
                 'id' => 'show_locale_label',

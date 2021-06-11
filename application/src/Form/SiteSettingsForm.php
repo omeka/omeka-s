@@ -147,7 +147,7 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
-        $generalFieldset->add([
+        $langFieldset->add([
             'name' => 'show_locale_label',
             'type' => 'checkbox',
             'options' => [

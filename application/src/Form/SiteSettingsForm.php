@@ -160,7 +160,6 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
-
         // Browse section
         $this->add([
             'type' => 'fieldset',

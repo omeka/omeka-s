@@ -123,10 +123,11 @@
         var assetImage = asset.find('img').clone().attr('class', '');
         var assetTitle = asset.find('.selected-asset-name').text();
         var assetId = asset.find('.selected-asset-id').val();
+        var pageInput =  attachment.find('input.page');
         attachment.find('.asset-title').empty().append(assetTitle).prepend($('<div class="thumbnail"></div>'));
         attachment.find('.thumbnail').append(assetImage);
         attachment.find('input.asset').val(assetId);
-        attachment.find('input.page').val($('#selected-page-id').val());
+        pageInput.val($('#selected-page-id').val()).data('page-title', $('.selected-page').text());
      }
 
      function selectPageLink(pageButton) {
@@ -345,9 +346,18 @@
             var currentAsset = selectingAttachment.find('.thumbnail img');
             var newSelectedAsset = currentAsset.clone().addClass('selected-asset-image');
             var assetOptionImage = $('#asset-options .selected-asset-image');
+            var pageInput = selectingAttachment.find('input.page');
             assetOptionImage.replaceWith(newSelectedAsset);
             $('#asset-options .selected-asset-id').val(assetInput.val());
             $('#asset-options .selected-asset-name').text(currentAsset.attr('alt'));
+            $('#selected-page-id').val(pageInput.val());
+            var pageTitle = pageInput.data('page-title');
+            if (pageInput.data('page-title') == '') {
+                $('.none-selected').removeClass('inactive');
+            } else {
+                $('.none-selected').addClass('inactive');
+            }
+            $('.selected-page').text(pageTitle);
             Omeka.openSidebar(sidebar);
         });
 
@@ -384,7 +394,6 @@
                         var newButton = optionTemplate.clone();
                         $.get(page['@id'], function(pageData) {
                             newButton.text(pageData['o:title']).val(pageData['o:id']);
-                            console.log(pageData);
                         });
                         pageList.append(newButton);
                         newButton.removeClass('template');

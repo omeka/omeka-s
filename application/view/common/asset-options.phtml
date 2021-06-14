@@ -21,7 +21,7 @@ $form->prepare();
       <h3><?php echo $translate('Page link'); ?></h3>
       <div class="page-status" data-site-url="<?php echo $site->siteUrl(); ?>">
           <span class="none-selected"><?php echo $translate('[No page selected]'); ?></span>
-          <span class="selected-page"></span><a href="" target="_blank" class="o-icon-external"></a>
+          <span class="selected-page"></span><a href="" target="_blank" class="o-icon-external" aria-label="<?php echo $translate('Preview'); ?>" title="<?php echo $translate('Preview'); ?>"></a>
           <input type="hidden" name="selected-page-id" id="selected-page-id" value="">
       </div>
       <button type="button" class="page-select" data-sidebar-content-url=""<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Select'); ?></button>

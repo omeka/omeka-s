@@ -411,5 +411,12 @@
                 });
             }
         });
+
+        $('#content').on('click', '.page-clear', function() {
+            $('.selected-page').text('');
+            $('.selected-page + a').attr('href', '');
+            $('#selected-page-id').val('');
+            $('.none-selected').removeClass('inactive');
+        });
     });
 })(window.jQuery);

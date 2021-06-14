@@ -4090,6 +4090,10 @@ body.sidebar-open #content {
         display: none;
     }
 
+    #asset-options .none-selected:not(.inactive) ~ * {
+        display: none;
+    }
+
     #asset-options .page-status {
         margin-bottom: $spacing-medium;
     }

@@ -308,6 +308,84 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Among all values for this resource, filter according to given parameters.
+     *
+     * <code>
+     * array(
+     *   {term} => array(
+     *     'property' => {PropertyRepresentation},
+     *     'alternate_label' => {label},
+     *     'alternate_comment' => {comment},
+     *     'values' => array(
+     *       {ValueRepresentation},
+     *       {ValueRepresentation},
+     *       {…},
+     *     ),
+     *   ),
+     * )
+     * </code>
+     *
+     * @return array
+     */
+    public function valuesFiltered(array $filters = [])
+    {
+        $values = $this->values();
+
+        // Set defaults.
+        if (empty($filters['term'])) {
+            $terms = array_keys($values);
+        } elseif (is_array($filters['term'])) {
+            $terms = $filters['term'];
+        } else {
+            $terms = [$filters['term']]; // Fix me: Are terms case sensitive?
+        }
+
+        if (empty($filters['type'])) {
+            $types = false;
+        } elseif (is_array($filters['type'])) {
+            $types = array_fill_keys(array_map('strtolower', $filters['type']), true);
+        } else {
+            $types = [strtolower($filters['type']) => true];
+        }
+
+        if (empty($filters['lang'])) {
+            $langs = false;
+        } elseif (is_array($filters['lang'])) {
+            $langs = array_fill_keys(array_map('strtolower', $filters['lang']), true);
+        } else {
+            $langs = [strtolower($filters['lang']) => true];
+        }
+
+        // Term by term, match only the representations that fit all the criteria.
+        $filteredValues = [];
+        foreach ($terms as $term) {
+            if (!isset($values[$term])) {
+                continue;
+            }
+            $filteredValues[$term] = $values[$term];
+
+            $matchingValues = [];
+            foreach ($filteredValues[$term]['values'] as $value) {
+                if ($types && empty($types[strtolower($value->type())])) {
+                    continue;
+                }
+                if ($langs && empty($langs[strtolower($value->lang())])) {
+                    continue;
+                }
+                $matchingValues[] = $value;
+            }
+
+            if (!count($matchingValues)) {
+                unset($filteredValues[$term]);
+            } else {
+                $filteredValues[$term]['values'] = $matchingValues;
+            }
+        }
+
+        return $filteredValues;
+    }
+
+    /**
      * Get value representations.
      *
      * @param string $term The prefix:local_part
@@ -332,48 +410,26 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         if (!isset($options['default'])) {
             $options['default'] = $options['all'] ? [] : null;
         }
+        if (!isset($options['type'])) {
+            $options['type'] = null;
+        }
+        if (!isset($options['lang'])) {
+            $options['lang'] = null;
+        }
 
         if (!$this->getAdapter()->isTerm($term)) {
             return $options['default'];
         }
 
-        if (!isset($this->values()[$term])) {
+        if ($termValues = $this->valuesFiltered([
+            'term' => $term,
+            'lang' => $options['lang'],
+            'type' => $options['type'],
+        ])) {
+            return $options['all'] ? $termValues[$term]['values'] : $termValues[$term]['values'][0];
+        } else {
             return $options['default'];
         }
-
-        if (empty($options['type'])) {
-            $types = false;
-        } elseif (is_array($options['type'])) {
-            $types = array_fill_keys(array_map('strtolower', $options['type']), true);
-        } else {
-            $types = [strtolower($options['type']) => true];
-        }
-
-        if (empty($options['lang'])) {
-            $langs = false;
-        } elseif (is_array($options['lang'])) {
-            $langs = array_fill_keys(array_map('strtolower', $options['lang']), true);
-        } else {
-            $langs = [strtolower($options['lang']) => true];
-        }
-
-        // Match only the representations that fit all the criteria.
-        $matchingValues = [];
-        foreach ($this->values()[$term]['values'] as $value) {
-            if ($types && empty($types[strtolower($value->type())])) {
-                continue;
-            }
-            if ($langs && empty($langs[strtolower($value->lang())])) {
-                continue;
-            }
-            $matchingValues[] = $value;
-        }
-
-        if (!count($matchingValues)) {
-            return $options['default'];
-        }
-
-        return $options['all'] ? $matchingValues : $matchingValues[0];
     }
 
     /**
@@ -459,7 +515,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $partial = $this->getViewHelper('partial');
 
         $eventManager = $this->getEventManager();
-        $args = $eventManager->prepareArgs(['values' => $this->values()]);
+        if (empty($options['filters'])) {
+            $args = $eventManager->prepareArgs(['values' => $this->values()]);
+        } else {
+            $args = $eventManager->prepareArgs(['values' => $this->valuesFiltered($options['filters'])]);
+        }
         $eventManager->trigger('rep.resource.display_values', $this, $args);
         $options['values'] = $args['values'];
 

@@ -26,7 +26,7 @@
                 assetOptions.addClass('active');
                 selectingForm = assetOptions;
             }
-            selectingForm.find('input[type=hidden]').val($(this).data('assetId'));
+            selectingForm.find('.selected-asset-id').val($(this).data('assetId'));
             selectingForm.find('.selected-asset-image').attr('src', $(this).data('assetUrl'));
             selectingForm.find('.selected-asset-name').text($(this).text());
             selectingForm.find('.selected-asset').show();

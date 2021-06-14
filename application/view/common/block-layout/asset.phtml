@@ -1,7 +1,15 @@
 <div class="assets <?php echo $className; ?>">
-  <?php foreach ($assets as $asset): ?>
+  <?php foreach ($assets as $key => $asset): ?>
     <div class="asset">
-        <img src="<?php echo $asset->assetUrl(); ?>">
+        <?php $assetImage = '<img src="' . $asset->assetUrl() . '">'; ?>
+        <?php if (isset($pages[$key])): ?>
+            <a href="<?php echo $pages[$key]->siteUrl(); ?>">
+                <?php echo $assetImage; ?>
+                <span class="link-title"><?php echo $pages[$key]->title(); ?></span>
+            </a>
+        <?php else: ?>
+            <?php echo $assetImage; ?>
+        <?php endif; ?>
     </div>
   <?php endforeach; ?>
 </div>

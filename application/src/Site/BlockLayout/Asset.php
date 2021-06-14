@@ -56,11 +56,14 @@ class Asset extends AbstractBlockLayout
         $block = ($block) ? $block->data() : '';
         $assets = [];
         if ($block !== '') {
-          foreach ($block as $value) {
+          foreach ($block as $key => $value) {
             if (isset($value['id'])) {
               $assetId = $value['id'];
               $asset = $view->api()->read('assets', $assetId)->getContent();
-              $assets[] = $asset;
+              $assets[$key] = $asset;
+              if ($value['page'] !== '') {
+                $pages[$key] = $view->api()->read('site_pages', $value['page'])->getContent();
+              }
             }
             else {
               $className = $value;
@@ -69,6 +72,7 @@ class Asset extends AbstractBlockLayout
         }
         return $view->partial('common/block-layout/asset', [
           'assets' => $assets,
+          'pages' => $pages,
           'className' => $className
         ]);
     }

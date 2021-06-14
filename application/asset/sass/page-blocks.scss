@@ -231,3 +231,18 @@
         margin-right: 1rem;
     }
 }
+
+.assets .asset,
+.assets .asset img {
+    max-width: 100%;
+    height: auto;
+}
+
+.assets .asset {
+    margin-bottom: 1rem;
+}
+
+.assets .link-title {
+    display: block;
+    font-size: 1.25rem;
+}

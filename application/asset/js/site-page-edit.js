@@ -127,12 +127,14 @@
         attachment.find('.asset-title').empty().append(assetTitle).prepend($('<div class="thumbnail"></div>'));
         attachment.find('.thumbnail').append(assetImage);
         attachment.find('input.asset').val(assetId);
-        pageInput.val($('#selected-page-id').val()).data('page-title', $('.selected-page').text());
+        pageInput.val($('#selected-page-id').val()).data('page-title', $('.selected-page').text()).data('page-url', $('.selected-page + a').attr('href')); 
      }
 
      function selectPageLink(pageButton) {
+         var pageUrl = $('.page-status').data('site-url') + '/page/' + pageButton.data('page-slug');
          $('.selected-page').text(pageButton.text());
          $('#selected-page-id').val(pageButton.val());
+         $('.selected-page + a').attr('href', pageUrl);
      }
 
     $(document).ready(function () {
@@ -351,13 +353,13 @@
             $('#asset-options .selected-asset-id').val(assetInput.val());
             $('#asset-options .selected-asset-name').text(currentAsset.attr('alt'));
             $('#selected-page-id').val(pageInput.val());
-            var pageTitle = pageInput.data('page-title');
             if (pageInput.data('page-title') == '') {
                 $('.none-selected').removeClass('inactive');
             } else {
                 $('.none-selected').addClass('inactive');
             }
-            $('.selected-page').text(pageTitle);
+            $('.selected-page').text(pageInput.data('page-title'));
+            $('.selected-page + a').attr('href', pageInput.data('page-url'));
             Omeka.openSidebar(sidebar);
         });
 
@@ -394,6 +396,7 @@
                         var newButton = optionTemplate.clone();
                         $.get(page['@id'], function(pageData) {
                             newButton.text(pageData['o:title']).val(pageData['o:id']);
+                            newButton.data('page-slug', pageData['o:slug']);
                         });
                         pageList.append(newButton);
                         newButton.removeClass('template');

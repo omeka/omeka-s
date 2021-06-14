@@ -4090,6 +4090,14 @@ body.sidebar-open #content {
         display: none;
     }
 
+    #asset-options .page-status {
+        margin-bottom: $spacing-medium;
+    }
+
+    #asset-options .selected-page + .o-icon-external {
+        margin-left: $spacing-small;
+    }
+
     /* @end */
 
     /* @group ----- Site Navigation ----- */

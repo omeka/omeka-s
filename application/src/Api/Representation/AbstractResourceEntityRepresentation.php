@@ -364,21 +364,23 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             }
             $filteredValues[$term] = $values[$term];
 
-            $matchingValues = [];
-            foreach ($filteredValues[$term]['values'] as $value) {
-                if ($types && empty($types[strtolower($value->type())])) {
-                    continue;
+            if ($langs || $types) {
+                $matchingValues = [];
+                foreach ($filteredValues[$term]['values'] as $value) {
+                    if ($types && empty($types[strtolower($value->type())])) {
+                        continue;
+                    }
+                    if ($langs && empty($langs[strtolower($value->lang())])) {
+                        continue;
+                    }
+                    $matchingValues[] = $value;
                 }
-                if ($langs && empty($langs[strtolower($value->lang())])) {
-                    continue;
-                }
-                $matchingValues[] = $value;
-            }
 
-            if (!count($matchingValues)) {
-                unset($filteredValues[$term]);
-            } else {
-                $filteredValues[$term]['values'] = $matchingValues;
+                if (!count($matchingValues)) {
+                    unset($filteredValues[$term]);
+                } else {
+                    $filteredValues[$term]['values'] = $matchingValues;
+                }
             }
         }
 

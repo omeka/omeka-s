@@ -3,9 +3,15 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $labelInfo = $this->setting('property_label_information');
 
-$showLocale = (bool) $this->siteSetting('show_locale_label', true);
-$filterLocale = $this->siteSetting('filter_locale_values');
-$lang = $this->lang();
+if ($this->status()->isSiteRequest()) {
+    $showLocale = (bool) $this->siteSetting('show_locale_label', true);
+    $filterLocale = $this->siteSetting('filter_locale_values');
+    $lang = $this->lang();
+} else {
+    $showLocale = true;
+    $filterLocale = false;
+    $lang = null;
+}
 ?>
 <?php foreach ($values as $term => $propertyData): ?>
     <div class="property">

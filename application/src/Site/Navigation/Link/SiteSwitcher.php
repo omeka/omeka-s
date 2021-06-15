@@ -3,6 +3,7 @@ namespace Omeka\Site\Navigation\Link;
 
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Api\Manager;
 
 class SiteSwitcher implements LinkInterface
 {
@@ -34,7 +35,7 @@ class SiteSwitcher implements LinkInterface
      */
     public function isValid(array $data, ErrorStore $errorStore)
     {
-        // TODO: Check for site slug? Check for empty label?
+        // TODO: Check for site ID? Check for empty label?
         return true;
     }
 
@@ -51,15 +52,15 @@ class SiteSwitcher implements LinkInterface
     }
 
     /**
-     * Get site slug.
+     * Get site ID.
      *
      * @param array $data
      * @param SiteRepresentation $site
      * @return array
      */
-    public function getSiteSlug(array $data, SiteRepresentation $site)
+    public function getTargetSiteId(array $data, SiteRepresentation $site)
     {
-        return isset($data['site-slug']) && '' !== trim($data['site-slug']) ? $data['site-slug'] : null;
+        return isset($data['target-site-id']) && '' !== trim($data['target-site-id']) ? $data['target-site-id'] : null;
     }
 
     /**
@@ -72,8 +73,14 @@ class SiteSwitcher implements LinkInterface
     public function toZend(array $data, SiteRepresentation $site)
     {
         $path = $_SERVER["REQUEST_URI"];
-
-        $path = preg_replace('/^\/s\/' . $site->slug() . '/', '/s/' . $data['site-slug'], $path);
+        /** @var Manager $api */
+        $api = $site->getServiceLocator()->get('Omeka\ApiManager');
+        $response = $api->read('sites', ['id' => $data['target-site-id']]);
+        if ($targetSite = $response->getContent()) {
+            $path = preg_replace('/^\/s\/' . $site->slug() . '/', '/s/' . $targetSite->slug(), $path);
+        } else {
+            $path = '#';
+        }
 
         $result = [
             'uri' => $path,
@@ -93,7 +100,7 @@ class SiteSwitcher implements LinkInterface
     {
         $result = [
             'label' => $data['label'],
-            'site-slug' => $data['site-slug'],
+            'target-site-id' => $data['target-site-id'],
         ];
 
         return $result;

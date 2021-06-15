@@ -35,8 +35,7 @@ class SiteSwitcher implements LinkInterface
      */
     public function isValid(array $data, ErrorStore $errorStore)
     {
-        // TODO: Check for site ID? Check for empty label?
-        return true;
+        return (!isset($data['target-site-id']) || '' === trim($data['target-site-id']));
     }
 
     /**
@@ -72,6 +71,10 @@ class SiteSwitcher implements LinkInterface
      */
     public function toZend(array $data, SiteRepresentation $site)
     {
+        if (!$this->getTargetSiteId($data, $site)) {
+            return[];
+        }
+
         $path = $_SERVER["REQUEST_URI"];
         /** @var Manager $api */
         $api = $site->getServiceLocator()->get('Omeka\ApiManager');

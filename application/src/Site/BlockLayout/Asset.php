@@ -6,6 +6,7 @@ use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
+use Laminas\Form\Element\Select;
 use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
@@ -24,18 +25,33 @@ class Asset extends AbstractBlockLayout
     {
         $data = $block->getData();
         $block->setData($data);
-    }
-    
+      }
+      
+      public function alignmentClassSelect(PhpRenderer $view, SitePageBlockRepresentation $block = null
+      ) {
+          $alignmentLabels = ['default', 'float left', 'float right'];
+          $alignmentValues = ['default', 'left', 'right'];
+          $alignment = $block ? $block->dataValue('alignment', 'default') : 'default';
+          $select = new Select('o:block[__blockIndex__][o:data][alignment]');
+          $select->setValueOptions(array_combine($alignmentValues, $alignmentLabels))->setValue($alignment);
+          $selectLabel = 'Alignment'; // @translate
+          $select->setAttributes(['title' => $selectLabel, 'aria-label' => $selectLabel]);
+          $html = '<div class="field"><div class="field-meta">';
+          $html .= '<label class="thumbnail-option" for="o:block[__blockIndex__][o:data][alignment]">' . $selectLabel . '</label></div>';
+          $html .= '<div class="inputs">' . $view->formSelect($select) . '</div></div>';
+          return $html;
+      }
+
     public function form(PhpRenderer $view, SiteRepresentation $site, SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
         $escape = $view->plugin('escapeHtml');
         $html = '';
         $siteId = $site->id();
         $apiUrl = $site->apiUrl();
-        $block = ($block) ? $block->data() : '';
+        $blockData = ($block) ? $block->data() : '';
         $assets = [];
-        if ($block !== '') {  
-          foreach ($block as $value) {
+        if ($blockData !== '') {  
+          foreach ($blockData as $value) {
             if (isset($value['id'])) {
               $assetId = $value['id'];
               $asset = $view->api()->read('assets', $assetId)->getContent();
@@ -43,20 +59,23 @@ class Asset extends AbstractBlockLayout
             }
           }
         }
+        $alignmentClassSelect = $this->alignmentClassSelect($view, $block);
         return $view->partial('common/asset', [
-          'block' => $block,
+          'block' => $blockData,
           'siteId' => $siteId,
           'apiUrl' => $apiUrl,
           'assets' => $assets,
+          'alignmentClassSelect' => $alignmentClassSelect,
         ]);
     }
+
     
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $block = ($block) ? $block->data() : '';
+        $blockData = ($block) ? $block->data() : '';
         $assets = [];
         if ($block !== '') {
-          foreach ($block as $key => $value) {
+          foreach ($blockData as $key => $value) {
             if (isset($value['id'])) {
               $assetId = $value['id'];
               $asset = $view->api()->read('assets', $assetId)->getContent();
@@ -65,15 +84,16 @@ class Asset extends AbstractBlockLayout
                 $pages[$key] = $view->api()->read('site_pages', $value['page'])->getContent();
               }
             }
-            else {
-              $className = $value;
-            }
           }
         }
+
+        $customClass = $block->dataValue('className');
+        $alignment = $block->dataValue('alignment');
         return $view->partial('common/block-layout/asset', [
           'assets' => $assets,
           'pages' => $pages,
-          'className' => $className
+          'className' => $customClass,
+          'alignment' => $alignment,
         ]);
     }
 }

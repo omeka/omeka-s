@@ -51,12 +51,13 @@ $attachmentRowTemplate = '
     <div class="collapsible">
       <div class="field">
         <div class="field-meta">
-          <label for="o:block[__blockIndex__][o:data][className]">Class</label>
+          <label for="o:block[__blockIndex__][o:data][className]"><?php echo $translate('Class'); ?></label>
         </div>
         <div class="inputs">
           <?php $className = (isset($block['className'])) ? $block['className'] : ''; ?>
           <input type="text" name="o:block[__blockIndex__][o:data][className]" value="<?php echo $className; ?>">
         </div>
       </div>
+      <?php echo $alignmentClassSelect; ?>
     </div>
 </div>

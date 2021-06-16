@@ -22,11 +22,19 @@ $form->prepare();
       <div class="page-status" data-site-url="<?php echo $site->siteUrl(); ?>">
           <span class="none-selected"><?php echo $translate('[No page selected]'); ?></span>
           <span class="selected-page"></span><a href="" target="_blank" class="o-icon-external" aria-label="<?php echo $translate('Preview'); ?>" title="<?php echo $translate('Preview'); ?>"></a>
-          <input type="hidden" name="selected-page-id" id="selected-page-id" value="">
+          <input type="hidden" name="asset-page-id" id="asset-page-id" value="" class="asset-option">
       </div>
       <button type="button" class="page-select" data-sidebar-content-url=""<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Select'); ?></button>
       <button type="button" class="page-clear"><?php echo $translate('Clear'); ?></button>
     </div>
+  </div>
+  <div class="alternative-link-name">
+      <h3 id="alternative-link-title-label"><?php echo $translate('Alternative link title'); ?></h3>
+      <input type="text" name="alternative-link-title" aria-labelledby="alternative-link-title-label" class="asset-option">
+  </div>
+  <div class="description">
+      <h3 id="caption-label"><?php echo $translate('Caption'); ?></h3>
+      <textarea name="asset-caption" aria-labelledby="caption-label" class="asset-option"></textarea>
   </div>
 
   <div id="asset-options-confirm-panel" class="confirm-panel">

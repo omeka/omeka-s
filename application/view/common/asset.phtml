@@ -10,8 +10,10 @@ $attachmentRowTemplate = '
         <li class="delete">' . $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]) . '</li>
         <li class="undo">' . $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]) . '</li>
     </ul>
-    <input type="hidden" class="page" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" data-page-title="" data-page-url="">
-    <input type="hidden" class="asset" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]">
+    <input type="hidden" class="asset-page-id asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" data-page-title="" data-page-url="">
+    <input type="hidden" class="asset asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]">
+    <input type="hidden" class="alternative-link-title asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][alt_link_title]">
+    <input type="hidden" class="asset-caption asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][caption]">
     ';
 ?>
 <div class="asset-attachments-form" data-site-id="<?php echo $siteId; ?>" data-page-api-url="<?php echo $apiUrl; ?>">
@@ -28,6 +30,8 @@ $attachmentRowTemplate = '
                 if ($value['page'] !== '') {
                     $pageId = $value['page'];
                     $page = $this->api()->read('site_pages', ['id' => $pageId])->getContent();
+                    $altLinkTitle = $value['alt_link_title'];
+                    $caption = $value['caption'];
                 }
             ?>
             <?php $thumbnail = '<div class="thumbnail"><img src="' . $asset->assetUrl() . '" alt="' . $asset->name() . '"></div>'; ?>
@@ -37,8 +41,10 @@ $attachmentRowTemplate = '
                 <li class="delete"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]); ?></li>
                 <li class="undo"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]); ?></li>
             </ul>
-            <input type="hidden" class="page" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" value="<?php echo $pageId; ?>" data-page-title="<?php echo (isset($page)) ? $page->title() : ''; ?>" data-page-url="<?php echo (isset($page)) ? $page->siteUrl() : ''; ?>">
+            <input type="hidden" class="asset-page-id asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" value="<?php echo $pageId; ?>" data-page-title="<?php echo (isset($page)) ? $page->title() : ''; ?>" data-page-url="<?php echo (isset($page)) ? $page->siteUrl() : ''; ?>">
             <input type="hidden" class="asset" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]" value="<?php echo $assetId; ?>">
+            <input type="hidden" class="alternative-link-title asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][alt_link_title]" value="<?php echo $altLinkTitle; ?>">
+            <input type="hidden" class="asset-caption asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][caption]" value="<?php echo $caption; ?>">
           </div>
           <?php endif; ?>
         <?php endforeach; ?>

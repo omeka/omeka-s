@@ -123,17 +123,22 @@
         var assetImage = asset.find('img').clone().attr('class', '');
         var assetTitle = asset.find('.selected-asset-name').text();
         var assetId = asset.find('.selected-asset-id').val();
-        var pageInput =  attachment.find('input.page');
+        var pageInput =  attachment.find('input.asset-page-id');
         attachment.find('.asset-title').empty().append(assetTitle).prepend($('<div class="thumbnail"></div>'));
         attachment.find('.thumbnail').append(assetImage);
         attachment.find('input.asset').val(assetId);
-        pageInput.val($('#selected-page-id').val()).data('page-title', $('.selected-page').text()).data('page-url', $('.selected-page + a').attr('href')); 
+        pageInput.attr('data-page-title', $('.selected-page').text()).attr('data-page-url', $('.selected-page + a').attr('href')); 
+        $('#asset-options .asset-option').each(function() {
+            var assetOption = $(this);
+            var optionName = assetOption.attr('name');
+            attachment.find('.' + optionName).val(assetOption.val());
+        });
      }
 
      function selectPageLink(pageButton) {
          var pageUrl = $('.page-status').data('site-url') + '/page/' + pageButton.data('page-slug');
          $('.selected-page').text(pageButton.text());
-         $('#selected-page-id').val(pageButton.val());
+         $('#asset-page-id').val(pageButton.val());
          $('.selected-page + a').attr('href', pageUrl);
      }
 
@@ -341,18 +346,23 @@
             var selectingAttachment = $(this).closest('.attachment');
             var assetInput = selectingAttachment.find('input.asset');
             $('.asset-selecting-button').removeClass('asset-selecting-button');
-            $(this).addClass('asset-button-selecting');
+            $(this).addClass('asset-selecting-button');
             $('.selecting.attachment').removeClass('selecting');
             selectingAttachment.addClass('selecting');
 
             var currentAsset = selectingAttachment.find('.thumbnail img');
             var newSelectedAsset = currentAsset.clone().addClass('selected-asset-image');
             var assetOptionImage = $('#asset-options .selected-asset-image');
-            var pageInput = selectingAttachment.find('input.page');
+            var pageInput = selectingAttachment.find('input.asset-page-id');
             assetOptionImage.replaceWith(newSelectedAsset);
             $('#asset-options .selected-asset-id').val(assetInput.val());
-            $('#asset-options .selected-asset-name').text(currentAsset.attr('alt'));
-            $('#selected-page-id').val(pageInput.val());
+            $('#asset-options .selected-asset-name').text(selectingAttachment.find('.asset-title').text());
+            $('#asset-page-id').val(pageInput.val());
+            $('#asset-options .asset-option').each(function() {
+                var assetOption = $(this);
+                var optionName = assetOption.attr('name');
+                assetOption.val(selectingAttachment.find('.' + optionName).val());
+            });
             if (pageInput.data('page-title') == '') {
                 $('.none-selected').removeClass('inactive');
             } else {
@@ -415,7 +425,7 @@
         $('#content').on('click', '.page-clear', function() {
             $('.selected-page').text('');
             $('.selected-page + a').attr('href', '');
-            $('#selected-page-id').val('');
+            $('#asset-page-id').val('');
             $('.none-selected').removeClass('inactive');
         });
     });

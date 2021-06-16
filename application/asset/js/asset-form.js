@@ -25,6 +25,12 @@
             if (assetOptions.length > 0) {
                 assetOptions.addClass('active');
                 selectingForm = assetOptions;
+                if ($('.add-asset-attachment').hasClass('asset-selecting-button')) {
+                    selectingForm.find('.asset-option').val('');
+                    $('#asset-options .selected-page').text('');
+                    $('#asset-options .selected-page + a').attr('href','');
+                    $('#asset-options .none-selected').removeClass('inactive');
+                }
             }
             selectingForm.find('.selected-asset-id').val($(this).data('assetId'));
             selectingForm.find('.selected-asset-image').attr('src', $(this).data('assetUrl'));

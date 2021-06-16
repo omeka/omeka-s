@@ -10,10 +10,10 @@ if (!$ids) {
     $ids = [null];
 }
 
-$filterLocale = (bool) $this->siteSetting('filter_locale_values');
-$lang = $this->lang();
-
 if ($this->status()->isSiteRequest()) {
+    $filterLocale = (bool) $this->siteSetting('filter_locale_values');
+    $lang = $this->lang();
+
     $selectOptions = [
         'disable_group_by_owner' => true,
         'query' => ['site_id' => $this->layout()->site->id()],

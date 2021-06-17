@@ -376,9 +376,13 @@
 
         $('#content').on('click', '.add-asset-attachment, .change-selected-asset', function () {
             var assetSidebar = $('#asset-sidebar');
+            var selectingAttachmentButton = $(this);
             Omeka.openSidebar(assetSidebar);
-            Omeka.populateSidebarContent(assetSidebar, $(this).data('sidebar-content-url'));
-            $(this).addClass('asset-selecting-button');
+            Omeka.populateSidebarContent(assetSidebar, selectingAttachmentButton.data('sidebar-content-url'));
+            if (selectingAttachmentButton.hasClass('add-asset-attachment')) {
+                $('.asset-selecting-button').removeClass('asset-selecting-button');
+            }
+            selectingAttachmentButton.addClass('asset-selecting-button');
         });
 
         $('#content').on('click', '#asset-options-confirm-panel', function() {

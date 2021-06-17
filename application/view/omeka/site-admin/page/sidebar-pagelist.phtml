@@ -6,9 +6,7 @@ $escape = $this->plugin('escapeHtml');
     <div id="nav-selector">
         <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
         <label><?php echo $translate('Add to List of pages'); ?></label>
-        <?php $pages = array_merge($site->linkedPages(), $site->notlinkedPages());
-        $buttons = false;
-        if ($pages): ?>
+        <?php $pages = array_merge($site->linkedPages(), $site->notlinkedPages()); ?>
         <input type="text" class="page-selector-filter" placeholder="<?php echo $translate('Filter pages'); ?>" aria-label="<?php echo $translate('Filter pages'); ?>">
         <div id="nav-page-links">
         <?php foreach ($pages as $page):
@@ -21,13 +19,7 @@ $escape = $this->plugin('escapeHtml');
                 data-slug="<?php echo $escape($page->slug()); ?>">
                 <?php echo sprintf('%s (%s)', $page->title(), $page->slug()); ?>
             </button>
-        <?php $buttons = true;
-        endif;
-        endforeach; ?>
-        </div>
         <?php endif;
-        if (!$pages || !$buttons): ?>
-        <p><?php echo $translate('There are no available pages.'); ?></p>
-        <?php endif; ?>
+        endforeach; ?>
     </div>
 </form>

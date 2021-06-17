@@ -69,7 +69,7 @@
         });
 
         // Add page select sidebar
-        const sidebar = $('<div class="sidebar"><div class="sidebar-content"></div></div>');
+        const sidebar = $('<div class="sidebar"><div class="sidebar-content" id="add-pages"></div></div>');
         sidebar.appendTo('#content');
         $('#blocks').on('click', '.site-page-add', function (e) {
             currentTree = $(e.currentTarget).siblings('.jstree').jstree();
@@ -81,6 +81,15 @@
             Omeka.openSidebar(sidebar);
         });
         
+        // Show message if no initial pages
+        $('#content').on('o:sidebar-content-loaded', '.sidebar', function(e) {
+                var pageLinks = $('#nav-page-links');
+                if (!pageLinks.children('.nav-page-link').filter(':visible').length) {
+                    pageLinks.siblings('.page-selector-filter').hide();
+                    pageLinks.after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
+                }
+            });
+
         // Add a site page link to the block tree
         $('#content').on(
             'click',

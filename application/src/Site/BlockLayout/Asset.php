@@ -29,8 +29,8 @@ class Asset extends AbstractBlockLayout
       
       public function alignmentClassSelect(PhpRenderer $view, SitePageBlockRepresentation $block = null
       ) {
-          $alignmentLabels = ['default', 'float left', 'float right'];
-          $alignmentValues = ['default', 'left', 'right'];
+          $alignmentLabels = ['default', 'float left', 'float right', 'center'];
+          $alignmentValues = ['default', 'left', 'right', 'center'];
           $alignment = $block ? $block->dataValue('alignment', 'default') : 'default';
           $select = new Select('o:block[__blockIndex__][o:data][alignment]');
           $select->setValueOptions(array_combine($alignmentValues, $alignmentLabels))->setValue($alignment);
@@ -49,13 +49,18 @@ class Asset extends AbstractBlockLayout
         $siteId = $site->id();
         $apiUrl = $site->apiUrl();
         $blockData = ($block) ? $block->data() : '';
-        $assets = [];
+        $attachments = [];
         if ($blockData !== '') {  
-          foreach ($blockData as $value) {
+          foreach ($blockData as $key => $value) {
             if (isset($value['id'])) {
               $assetId = $value['id'];
               $asset = $view->api()->read('assets', $assetId)->getContent();
-              $assets[$assetId] = $asset;
+              $attachments[$key]['asset'] = $asset;
+              if ($value['page'] !== '') {
+                $attachments[$key]['page'] = $view->api()->read('site_pages', $value['page'])->getContent();
+              }
+              $attachments[$key]['alt_link_title'] = $value['alt_link_title'];
+              $attachments[$key]['caption'] = $value['caption'];
             }
           }
         }
@@ -64,7 +69,7 @@ class Asset extends AbstractBlockLayout
           'block' => $blockData,
           'siteId' => $siteId,
           'apiUrl' => $apiUrl,
-          'assets' => $assets,
+          'attachments' => $attachments,
           'alignmentClassSelect' => $alignmentClassSelect,
         ]);
     }
@@ -73,16 +78,18 @@ class Asset extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $blockData = ($block) ? $block->data() : '';
-        $assets = [];
+        $attachments = [];
         if ($block !== '') {
           foreach ($blockData as $key => $value) {
             if (isset($value['id'])) {
               $assetId = $value['id'];
               $asset = $view->api()->read('assets', $assetId)->getContent();
-              $assets[$key] = $asset;
+              $attachments[$key]['asset'] = $asset;
               if ($value['page'] !== '') {
-                $pages[$key] = $view->api()->read('site_pages', $value['page'])->getContent();
+                $attachments[$key]['page'] = $view->api()->read('site_pages', $value['page'])->getContent();
               }
+              $attachments[$key]['alt_link_title'] = $value['alt_link_title'];
+              $attachments[$key]['caption'] = $value['caption'];
             }
           }
         }
@@ -90,8 +97,7 @@ class Asset extends AbstractBlockLayout
         $customClass = $block->dataValue('className');
         $alignment = $block->dataValue('alignment');
         return $view->partial('common/block-layout/asset', [
-          'assets' => $assets,
-          'pages' => $pages,
+          'attachments' => $attachments,
           'className' => $customClass,
           'alignment' => $alignment,
         ]);

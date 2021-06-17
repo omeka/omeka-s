@@ -19,20 +19,18 @@ $attachmentRowTemplate = '
 <div class="asset-attachments-form" data-site-id="<?php echo $siteId; ?>" data-page-api-url="<?php echo $apiUrl; ?>">
     <div class="attachments" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
       <?php if ($block !== ''): ?>
-        <?php foreach($block as $value): ?>
-          <?php if (isset($value['id'])): ?>
+        <?php foreach($attachments as $attachment): ?>
           <div class="attachment">
             <span class="sortable-handle"></span>
             <?php 
-                $assetId = $value['id'];
-                $asset = $assets[$assetId];
-                $pageId = isset($value['page']) ? $value['page'] : ''; 
-                if ($value['page'] !== '') {
-                    $pageId = $value['page'];
-                    $page = $this->api()->read('site_pages', ['id' => $pageId])->getContent();
-                    $altLinkTitle = $value['alt_link_title'];
-                    $caption = $value['caption'];
+                $asset = $attachment['asset'];
+                $assetId = $asset->id();
+                $page = (array_key_exists('page', $attachment)) ? $attachment['page'] : '';
+                if ($page) {
+                    $pageId = $page->id();
+                    $altLinkTitle = $attachment['alt_link_title'];
                 }
+                $caption = $attachment['caption'];
             ?>
             <?php $thumbnail = '<div class="thumbnail"><img src="' . $asset->assetUrl() . '" alt="' . $asset->name() . '"></div>'; ?>
             <div class="asset-title"><?php echo $thumbnail; ?><?php echo $asset->name(); ?></div>
@@ -41,12 +39,11 @@ $attachmentRowTemplate = '
                 <li class="delete"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]); ?></li>
                 <li class="undo"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]); ?></li>
             </ul>
-            <input type="hidden" class="asset-page-id asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" value="<?php echo $pageId; ?>" data-page-title="<?php echo (isset($page)) ? $page->title() : ''; ?>" data-page-url="<?php echo (isset($page)) ? $page->siteUrl() : ''; ?>">
+            <input type="hidden" class="asset-page-id asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" value="<?php echo $pageId; ?>" data-page-title="<?php echo ($page !== '') ? $page->title() : ''; ?>" data-page-url="<?php echo ($page !== '') ? $page->siteUrl() : ''; ?>">
             <input type="hidden" class="asset" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]" value="<?php echo $assetId; ?>">
             <input type="hidden" class="alternative-link-title asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][alt_link_title]" value="<?php echo $altLinkTitle; ?>">
             <input type="hidden" class="asset-caption asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][caption]" value="<?php echo $caption; ?>">
           </div>
-          <?php endif; ?>
         <?php endforeach; ?>
         <?php endif; ?>
         <button type="button" class="add-asset-attachment" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Add asset'); ?></button>

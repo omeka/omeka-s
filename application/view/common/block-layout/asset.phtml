@@ -1,14 +1,20 @@
 <div class="assets <?php echo $className; ?> <?php echo $alignment; ?>">
-  <?php foreach ($assets as $key => $asset): ?>
+  <?php foreach ($attachments as $attachment): ?>
+    <?php $asset = $attachment['asset']; ?>
     <div class="asset">
         <?php $assetImage = '<img src="' . $asset->assetUrl() . '">'; ?>
-        <?php if (isset($pages[$key])): ?>
-            <a href="<?php echo $pages[$key]->siteUrl(); ?>">
+        <?php if (array_key_exists('page', $attachment)): ?>
+            <?php $page = $attachment['page']; ?>
+            <a href="<?php echo $page->siteUrl(); ?>">
                 <?php echo $assetImage; ?>
-                <span class="link-title"><?php echo $pages[$key]->title(); ?></span>
+                <?php $altLinkTitle = ($attachment['alt_link_title'] !== '') ? $attachment['alt_link_title'] : false; ?>
+                <span class="link-title"><?php echo ($altLinkTitle) ? $altLinkTitle : $page->title(); ?></span>
             </a>
         <?php else: ?>
             <?php echo $assetImage; ?>
+        <?php endif; ?>
+        <?php if ($attachment['caption'] !== ''): ?>
+        <div class="caption"><?php echo $attachment['caption']; ?></div>
         <?php endif; ?>
     </div>
   <?php endforeach; ?>

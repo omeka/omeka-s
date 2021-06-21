@@ -3895,6 +3895,10 @@ body.sidebar-open #content {
         display: none;
     }
 
+    .block-content fieldset:last-of-type {
+        margin-bottom: 0;
+    }
+
     .block .attachment {
         display: flex;
         align-items: center;

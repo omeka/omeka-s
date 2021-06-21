@@ -326,12 +326,9 @@ class SiteSettingsForm extends Form
         $this->getEventManager()->triggerEvent($addEvent);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->get('general')->add([
+        $inputFilter->get('language')->add([
             'name' => 'locale',
             'allow_empty' => true,
-            'attributes' => [
-                'id' => 'locale',
-            ],
         ]);
         $inputFilter->get('browse')->add([
             'name' => 'pagination_per_page',

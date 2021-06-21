@@ -2419,10 +2419,20 @@ input[type="text"].value-language,
         flex: 1;
         position: relative;
         box-shadow: 0 0 0 1px inset $border-gray;
+        max-width: calc(100% - 30px);
+    }
+
+    .value:not(:only-of-type) .input-body {
+        max-width: calc(100% - 48px);
     }
 
     .inputs .input-body input[type="text"] {
         margin: 0;
+    }
+
+    .inputs .input-body .chosen-container {
+        max-width: calc(100% - 12px);
+        margin: 6px;
     }
 
     [data-data-type^="resource"] .button {

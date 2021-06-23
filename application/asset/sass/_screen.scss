@@ -4057,6 +4057,10 @@ body.sidebar-open #content {
     #asset-list.active {
         z-index: 6;
     }
+
+    .add-asset-attachment {
+        margin-top: $spacing-small;
+    }
       
     #asset-options .sidebar-content > div {
         margin-bottom: 2rem;

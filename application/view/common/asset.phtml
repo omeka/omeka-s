@@ -17,7 +17,8 @@ $attachmentRowTemplate = '
     ';
 ?>
 <div class="asset-attachments-form" data-site-id="<?php echo $siteId; ?>" data-page-api-url="<?php echo $apiUrl; ?>">
-    <div class="attachments" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
+    <a href="#" class="collapse" aria-label="<?php echo $this->translate('Collapse'); ?>" title="<?php echo $this->translate('Collapse'); ?>"><h4><?php echo $translate('Attachments'); ?></h4></a>
+    <div class="attachments collapsible" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
       <?php if ($block !== ''): ?>
         <?php foreach($attachments as $attachment): ?>
           <div class="attachment">

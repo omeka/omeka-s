@@ -47,19 +47,19 @@ $attachmentRowTemplate = '
         <?php endif; ?>
         <button type="button" class="add-asset-attachment" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Add asset'); ?></button>
     </div>
-    <a class="collapse" href="#" aria-label="<?php echo $translate('collapse'); ?>">
-      <h4>Options</h4>
-    </a>
-    <div class="collapsible">
-      <div class="field">
-        <div class="field-meta">
-          <label for="o:block[__blockIndex__][o:data][className]"><?php echo $translate('Class'); ?></label>
-        </div>
-        <div class="inputs">
-          <?php $className = (isset($block['className'])) ? $block['className'] : ''; ?>
-          <input type="text" name="o:block[__blockIndex__][o:data][className]" value="<?php echo $className; ?>">
-        </div>
-      </div>
-      <?php echo $alignmentClassSelect; ?>
+</div>
+<a class="collapse" href="#" aria-label="<?php echo $translate('collapse'); ?>">
+  <h4>Options</h4>
+</a>
+<div class="collapsible">
+  <div class="field">
+    <div class="field-meta">
+      <label for="o:block[__blockIndex__][o:data][className]"><?php echo $translate('Class'); ?></label>
     </div>
+    <div class="inputs">
+      <?php $className = (isset($block['className'])) ? $block['className'] : ''; ?>
+      <input type="text" name="o:block[__blockIndex__][o:data][className]" value="<?php echo $className; ?>">
+    </div>
+  </div>
+  <?php echo $alignmentClassSelect; ?>
 </div>

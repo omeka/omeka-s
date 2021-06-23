@@ -46,21 +46,8 @@ class ListOfPages extends AbstractBlockLayout
         $escape = $view->plugin('escapeHtml');
         $pageList = new Hidden("o:block[__blockIndex__][o:data][pagelist]");
         if ($block) {
-            // Add page URL to jstree node data if not already present
-            $pageTree = json_decode($block->dataValue('pagelist'), true);
-            $iterate = function (&$value, &$key) use (&$iterate, $site) {
-                if (is_array($value)) {
-                    if (array_key_exists('type', $value) && !array_key_exists('url', $value)) {
-                        $manager = $this->linkManager;
-                        $linkType = $manager->get($value['type']);
-                        $linkData = $value;
-                        $pageUrl = $this->navTranslator->getLinkUrl($linkType, $linkData, $site);
-                        $value['url'] = $pageUrl;
-                    }
-                    array_walk($value, $iterate);
-                }
-            };
-            array_walk($pageTree, $iterate);
+            $nodes = json_decode($block->dataValue('pagelist'), true);
+            $pageTree = $this->getPageNodeURLs($nodes, $block);
         } else {
             $pageTree = '';
         }
@@ -78,14 +65,36 @@ class ListOfPages extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $pageList = json_decode($block->dataValue('pagelist'), true);
-
-        if (!$pageList) {
+        $nodes = json_decode($block->dataValue('pagelist'), true);
+        if (!$nodes) {
             return '';
         }
 
+        $pageTree = $this->getPageNodeURLs($nodes, $block);
+
         return $view->partial('common/block-layout/list-of-pages', [
-            'pageList' => $pageList,
+            'pageList' => $pageTree,
         ]);
+    }
+
+    public function getPageNodeURLs($nodes, SitePageBlockRepresentation $block)
+    {
+        $site = $block->page()->site();
+
+        // Add page URL to jstree node data if not already present
+        $iterate = function (&$value, &$key) use (&$iterate, $site) {
+            if (is_array($value)) {
+                if (array_key_exists('type', $value)) {
+                    $manager = $this->linkManager;
+                    $linkType = $manager->get($value['type']);
+                    $linkData = $value;
+                    $pageUrl = $this->navTranslator->getLinkUrl($linkType, $linkData, $site);
+                    $value['url'] = $pageUrl;
+                }
+                array_walk($value, $iterate);
+            }
+        };
+        array_walk($nodes, $iterate);
+        return $nodes;
     }
 }

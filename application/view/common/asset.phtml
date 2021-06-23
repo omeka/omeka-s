@@ -26,10 +26,8 @@ $attachmentRowTemplate = '
                 $asset = $attachment['asset'];
                 $assetId = $asset->id();
                 $page = (array_key_exists('page', $attachment)) ? $attachment['page'] : '';
-                if ($page) {
-                    $pageId = $page->id();
-                    $altLinkTitle = $attachment['alt_link_title'];
-                }
+                $pageId = ($page !== '') ? $page->id() : '';
+                $altLinkTitle = ($page !== '') ? $attachment['alt_link_title'] : '';
                 $caption = $attachment['caption'];
             ?>
             <?php $thumbnail = '<div class="thumbnail"><img src="' . $asset->assetUrl() . '" alt="' . $asset->name() . '"></div>'; ?>

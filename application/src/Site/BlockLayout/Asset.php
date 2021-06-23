@@ -66,7 +66,7 @@ class Asset extends AbstractBlockLayout
         $siteId = $site->id();
         $apiUrl = $site->apiUrl();
         $blockData = ($block) ? $block->data() : '';
-        $attachments = $this->prepareAssetAttachments($view,$asset);
+        $attachments = $this->prepareAssetAttachments($view, $block);
         $alignmentClassSelect = $this->alignmentClassSelect($view, $block);
         return $view->partial('common/asset', [
           'block' => $blockData,

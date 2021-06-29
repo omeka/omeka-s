@@ -22,6 +22,7 @@
             e.preventDefault();
             var assetSelectingButton = $('.asset-selecting-button');
             var assetOptions = $('#asset-options');
+            var hiddenInput = 'input[type="hidden"]';
             if (assetOptions.length > 0) {
                 assetOptions.addClass('active');
                 selectingForm = assetOptions;
@@ -31,8 +32,9 @@
                     $('#asset-options .selected-page + a').attr('href','');
                     $('#asset-options .none-selected').removeClass('inactive');
                 }
+                hiddenInput = '.selected-asset-id';
             }
-            selectingForm.find('.selected-asset-id').val($(this).data('assetId'));
+            selectingForm.find(hiddenInput).val($(this).data('assetId'));
             selectingForm.find('.selected-asset-image').attr('src', $(this).data('assetUrl'));
             selectingForm.find('.selected-asset-name').text($(this).text());
             selectingForm.find('.selected-asset').show();

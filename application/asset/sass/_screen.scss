@@ -1763,6 +1763,124 @@ fieldset.section > legend {
     }
 }
 
+.page-action-menu {
+    display: inline-block;
+    position: relative;
+}
+
+.page-action-menu ul {
+    display: none;
+    list-style: none;
+    border: 1px solid #dfdfdf;
+    background-color: #fff;
+    border-radius: 3px;
+    text-align: left;
+    padding: 0;
+    position: relative;
+    box-shadow: 0 0 5px #dfdfdf;
+    position: absolute;
+    right: 0;
+    width: auto;
+    white-space: nowrap;
+    margin: 12px 0;
+}
+
+.page-action-menu ul:before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% - 1px);
+    right: 12px;
+    width: 0;
+    height: 0;
+    border-bottom: 12px solid #fff;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+}
+
+.page-action-menu ul:after {
+    content: "";
+    position: absolute;
+    bottom: calc(100% - 1px);
+    right: 11px;
+    width: 0;
+    height: 0;
+    border-bottom: 14px solid #dfdfdf;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    z-index: -1;
+}
+
+.page-action-menu ul a,
+.page-action-menu ul .inactive {
+    padding: 6px 12px 5px;
+    display: block;
+    position: relative;
+}
+
+.page-action-menu ul .inactive {
+    color: #dfdfdf;
+}
+
+.page-action-menu ul li {
+  position: relative;
+}
+
+.page-action-menu ul li:hover:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: #dfdfdf;
+}
+
+.page-action-menu ul li:not(:last-child) a,
+.page-action-menu ul li:not(:last-child) span,
+.page-action-menu ul li:not(:last-child) [type="submit"] {
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.page-action-menu [type="submit"] {
+    background: none;
+    box-shadow: none;
+    width: 100%;
+    margin-bottom: 0;
+    text-align: left;
+}
+
+.page-action-menu li label {
+    display: inline-block;
+    height: 36px;
+    padding: 6px 1em;
+    min-height: 0;
+    vertical-align: top;
+    width: 100%;
+}
+
+.page-action-menu li label input {
+    margin-left: .25em;
+}
+
+.page-action-menu li:not(:last-child) label {
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.page-action-menu .expand:after {
+    content: "\f0d7";
+}
+
+.page-action-menu .expand:after,
+.page-action-menu .collapse:after {
+    margin-left: 6px;
+}
+
+.page-action-menu .collapse + .collapsible {
+    overflow: visible;
+    display: block;
+}
+
+
 .add-property.button {
     margin-top: $spacing-large;
 }

@@ -226,6 +226,16 @@
         $(document).on('chosen:hiding_dropdown', '.chosen-select', function(e) {
             $(e.target).next('.chosen-container').removeClass('chosen-drop-up');
         });
+
+        // Close page action menu if it is open and the user clicks outside it.
+        $(document).click(function(e) {
+            if (null === e.target.closest('.page-action-menu')) {
+                var button = $('.page-action-menu .collapse');
+                if (button.length > 0) {
+                    button.click();
+                }
+            }
+        });
     });
 
 }(window.jQuery, window, document));

@@ -230,12 +230,15 @@
         // Close page action menu if it is open and the user clicks outside it.
         $(document).click(function(e) {
             if (null === e.target.closest('.page-action-menu')) {
-                var button = $('.page-action-menu .collapse');
-                if (button.length > 0) {
-                    button.click();
-                }
+                Omeka.closeOpenPageActionsMenu(e);
             }
         });
+
+        $('#page-actions').on('click', '.page-action-menu .expand', function(e) {
+            Omeka.closeOpenPageActionsMenu(e);
+        });
+
+
     });
 
 }(window.jQuery, window, document));

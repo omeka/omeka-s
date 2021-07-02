@@ -348,6 +348,13 @@ var Omeka = {
                 }
             }
         });
+    },
+
+    closeOpenPageActionsMenu: function(e) {
+        var button = $('.page-action-menu .collapse');
+        if (button.length > 0) {
+            button.click();
+        }
     }
 };
 

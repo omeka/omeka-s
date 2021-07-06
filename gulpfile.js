@@ -19,7 +19,7 @@ var glob = Promise.promisify(require('glob'));
 var rimraf = Promise.promisify(require('rimraf'));
 var tmpFile = Promise.promisify(require('tmp').file, {multiArgs: true});
 
-var sass = require('gulp-sass');
+var sass = require('gulp-sass')(require('sass'));
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 

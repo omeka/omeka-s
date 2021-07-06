@@ -8,12 +8,12 @@ See the [user manual](https://omeka.org/s/docs/user-manual) for more information
 
 ### Requirements
 * Linux
-* Apache (with [AllowOverride](https://httpd.apache.org/docs/2.4/mod/core.html#allowoverride) set to "All" and [mod_rewrite](http://httpd.apache.org/docs/current/mod/mod_rewrite.html) enabled)
-* MySQL 5.6.4+ (or MariaDB 10.0.5+)
-* PHP 7.2+ (latest stable version preferred, with [PDO](http://php.net/manual/en/intro.pdo.php), [pdo_mysql](http://php.net/manual/en/ref.pdo-mysql.php), and [xml](http://php.net/manual/en/intro.xml.php) extensions installed)
+* [Apache](https://www.apache.org/) (with [AllowOverride](https://httpd.apache.org/docs/2.4/mod/core.html#allowoverride) set to "All" and [mod_rewrite](http://httpd.apache.org/docs/current/mod/mod_rewrite.html) enabled)
+* [MySQL](https://www.mysql.com/) 5.6.4+ (or [MariaDB](https://mariadb.org/) 10.0.5+)
+* [PHP](https://www.php.net/) 7.2+ (latest stable version preferred, with [PDO](http://php.net/manual/en/intro.pdo.php), [pdo_mysql](http://php.net/manual/en/ref.pdo-mysql.php), and [xml](http://php.net/manual/en/intro.xml.php) extensions installed)
 
 ### Generating thumbnails
-* The default library for generating thumbnails is [ImageMagick](https://imagemagick.org/index.php), at least version 6.7.5. Older versions will not correctly produce thumbnails. See local.config.php options in the [documentation](https://omeka.org/s/docs/user-manual/configuration/).
+* The default library for generating thumbnails is [ImageMagick](https://imagemagick.org/index.php), at least version 6.7.5. Older versions will not correctly produce thumbnails. For alternative thumbnail options, see the [user manual](https://omeka.org/s/docs/user-manual/configuration/#thumbnails).
 
 ### Installing from GitHub
 
@@ -31,7 +31,7 @@ See the [user manual](https://omeka.org/s/docs/user-manual) for more information
 
 ### Installing from released zip file
 
-1. Download the latest release from the [release page](https://github.com/omeka/omeka-s/releases)
+1. Download the latest release from the [release page](https://github.com/omeka/omeka-s/releases) (download the first asset listed)
 1. Open `config/database.ini` and add your MySQL username, password, database name, and host name. The user and database must be created before this step.
 1. Make sure the `files/` directory is writable by Apache.
 1. In your web browser, navigate to the omeka-s directory, where you can complete installation.

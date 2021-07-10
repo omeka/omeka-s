@@ -2,6 +2,7 @@
 
     $(document).ready( function() {
 
+        const annotateValueSidebar = $('#annotate-value');
         $(document).on('click', '.annotate-value', function(e) {
             e.preventDefault();
             const valueData = $(this).closest('.value').data('value');

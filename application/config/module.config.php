@@ -61,6 +61,7 @@ return [
             'Omeka\Entity\Item' => Entity\Item::class,
             'Omeka\Entity\Media' => Entity\Media::class,
             'Omeka\Entity\ItemSet' => Entity\ItemSet::class,
+            'Omeka\Entity\Annotation' => Entity\Annotation::class,
         ],
         'filters' => [
             'resource_visibility' => Db\Filter\ResourceVisibilityFilter::class,
@@ -378,6 +379,7 @@ return [
             'resources' => Api\Adapter\ResourceAdapter::class,
             'assets' => Api\Adapter\AssetAdapter::class,
             'api_resources' => Api\Adapter\ApiResourceAdapter::class,
+            'annotations' => Api\Adapter\AnnotationAdapter::class,
         ],
     ],
     'view_helpers' => [

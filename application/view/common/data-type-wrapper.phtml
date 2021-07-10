@@ -21,6 +21,10 @@ $icons = [
                 <?php echo $this->hyperlink('' , '#', ['class' => 'value-visibility o-icon-public', 'title' => $translate('Make private'), 'aria-label' => $translate('Make private')]); ?>
                 <input type="hidden" class="is_public">
             </li>
+            <li>
+                <?php echo $this->hyperlink('', '#', ['class' => 'annotate-value o-icon-more', 'title' => $translate('Annotate value')]); ?>
+                <input type="hidden" data-value-key="@annotation">
+            </li>
         </ul>
     </div>
 </div>

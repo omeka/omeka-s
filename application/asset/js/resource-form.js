@@ -2,6 +2,14 @@
 
     $(document).ready( function() {
 
+        $(document).on('click', '.annotate-value', function(e) {
+            e.preventDefault();
+            const valueData = $(this).closest('.value').data('value');
+            const annotation = valueData ? valueData['@annotation'] : null;
+            console.log(annotation);
+            Omeka.openSidebar(annotateValueSidebar);
+        });
+
         // Select property
         $('#property-selector li.selector-child').on('click', function(e) {
             e.stopPropagation();

@@ -26,7 +26,7 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     /**
      * @var boolean flag indicating if this object was already initialized
      *
-     * @see \Doctrine\Common\Persistence\Proxy::__isInitialized
+     * @see \Doctrine\Persistence\Proxy::__isInitialized
      */
     public $__isInitialized__ = false;
 
@@ -66,10 +66,10 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource', 'isPublic'];
+            return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource', 'isPublic', 'annotation'];
         }
 
-        return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource', 'isPublic'];
+        return ['__isInitialized__', 'id', 'resource', 'property', 'type', 'lang', 'value', 'uri', 'valueResource', 'isPublic', 'annotation'];
     }
 
     /**
@@ -376,6 +376,28 @@ class Value extends \Omeka\Entity\Value implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', []);
 
         return parent::isPublic();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setAnnotation(\Omeka\Entity\Annotation $annotation = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAnnotation', [$annotation]);
+
+        return parent::setAnnotation($annotation);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAnnotation()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAnnotation', []);
+
+        return parent::getAnnotation();
     }
 
     /**

@@ -1,4 +1,9 @@
 SET FOREIGN_KEY_CHECKS = 0;
+CREATE TABLE `annotation` (
+  `id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `FK_2E443EF2BF396750` FOREIGN KEY (`id`) REFERENCES `resource` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `api_key` (
   `id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `owner_id` int NOT NULL,
@@ -339,12 +344,14 @@ CREATE TABLE `value` (
   `resource_id` int NOT NULL,
   `property_id` int NOT NULL,
   `value_resource_id` int DEFAULT NULL,
+  `annotation_id` int DEFAULT NULL,
   `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `lang` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `value` longtext COLLATE utf8mb4_unicode_ci,
   `uri` longtext COLLATE utf8mb4_unicode_ci,
   `is_public` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_1D775834E075FC54` (`annotation_id`),
   KEY `IDX_1D77583489329D25` (`resource_id`),
   KEY `IDX_1D775834549213EC` (`property_id`),
   KEY `IDX_1D7758344BC72506` (`value_resource_id`),
@@ -352,7 +359,8 @@ CREATE TABLE `value` (
   KEY `uri` (`uri`(190)),
   CONSTRAINT `FK_1D7758344BC72506` FOREIGN KEY (`value_resource_id`) REFERENCES `resource` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_1D775834549213EC` FOREIGN KEY (`property_id`) REFERENCES `property` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_1D77583489329D25` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`id`)
+  CONSTRAINT `FK_1D77583489329D25` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`id`),
+  CONSTRAINT `FK_1D775834E075FC54` FOREIGN KEY (`annotation_id`) REFERENCES `annotation` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `vocabulary` (
   `id` int NOT NULL AUTO_INCREMENT,

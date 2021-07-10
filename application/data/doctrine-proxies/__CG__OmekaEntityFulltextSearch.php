@@ -26,7 +26,7 @@ class FulltextSearch extends \Omeka\Entity\FulltextSearch implements \Doctrine\O
     /**
      * @var boolean flag indicating if this object was already initialized
      *
-     * @see \Doctrine\Common\Persistence\Proxy::__isInitialized
+     * @see \Doctrine\Persistence\Proxy::__isInitialized
      */
     public $__isInitialized__ = false;
 

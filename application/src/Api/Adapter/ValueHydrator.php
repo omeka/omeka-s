@@ -118,6 +118,18 @@ class ValueHydrator
                     $value->setIsPublic($valueData['is_public']);
                 }
                 $dataType->hydrate($valueData, $value, $adapter);
+
+                // Hydrate annotation resource.
+                if (isset($valueData['@annotation']) && is_array($valueData['@annotation'])) {
+                    $api = $adapter->getServiceLocator()->get('Omeka\ApiManager');
+                    $annotation = $value->getAnnotation();
+                    if ($annotation) {
+                        $annotation = $api->update('annotations', $annotation->getId(), $valueData['@annotation'], [], ['responseContent' => 'resource']);
+                    } else {
+                        $annotation = $api->create('annotations', $valueData['@annotation'], [], ['responseContent' => 'resource']);
+                    }
+                    $value->setAnnotation($annotation);
+                }
             }
         }
 

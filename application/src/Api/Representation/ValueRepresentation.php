@@ -65,7 +65,7 @@ class ValueRepresentation extends AbstractRepresentation
             'property_id' => $this->value->getProperty()->getId(),
             'property_label' => $this->value->getProperty()->getLabel(),
             'is_public' => $this->isPublic(),
-            '@annotation' => [[
+            '@annotation' => [
                 'dcterms:type' => [
                     [
                         '@value' => 'doi',
@@ -74,7 +74,7 @@ class ValueRepresentation extends AbstractRepresentation
                         'property_label' => 'Type'
                     ]
                 ],
-            ]],
+            ],
         ];
         $jsonLd = $this->dataType->getJsonLd($this);
         if (!is_array($jsonLd)) {

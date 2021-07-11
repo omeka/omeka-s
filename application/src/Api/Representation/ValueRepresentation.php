@@ -59,22 +59,22 @@ class ValueRepresentation extends AbstractRepresentation
 
     public function jsonSerialize()
     {
-        $annotation = $this->value->getAnnotation();
+        $annotation = $this->annotation();
         $valueObject = [
             'type' => $this->type(),
             'property_id' => $this->value->getProperty()->getId(),
             'property_label' => $this->value->getProperty()->getLabel(),
             'is_public' => $this->isPublic(),
-            '@annotation' => [
+            '@annotation' => [[
                 'dcterms:type' => [
                     [
                         '@value' => 'doi',
                         'type' => 'literal',
-                        'property_id' => 1,
+                        'property_id' => 8,
                         'property_label' => 'Type'
                     ]
                 ],
-            ],
+            ]],
         ];
         $jsonLd = $this->dataType->getJsonLd($this);
         if (!is_array($jsonLd)) {
@@ -179,6 +179,17 @@ class ValueRepresentation extends AbstractRepresentation
     public function isPublic()
     {
         return $this->value->isPublic();
+    }
+
+    /**
+     * Get the annotation representation.
+     *
+     * @return null|AbstractResourceEntityRepresentation
+     */
+    public function annotation()
+    {
+        $annotation = $this->value->getAnnotation();
+        return $annotation ? $this->getAdapter('annotations')->getRepresentation($annotation) : null;
     }
 
     /**

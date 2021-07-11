@@ -5,9 +5,11 @@
         const annotateValueSidebar = $('#annotate-value');
         $(document).on('click', '.annotate-value', function(e) {
             e.preventDefault();
-            const valueData = $(this).closest('.value').data('value');
-            const annotation = valueData ? valueData['@annotation'] : null;
-            console.log(annotation);
+            const annotation = $(this).closest('.value').data('annotation');
+            // @todo: Make a request for the annotation form with this annotation
+            // data structure as an argument. The user will create/update/delete
+            // annotations via this form and then click on "Set annotations" which
+            // will serialize the annotations and set to value.data('annotation').
             Omeka.openSidebar(annotateValueSidebar);
         });
 
@@ -220,6 +222,7 @@
                 valueData['property_id'] = propertyId;
                 valueData['type'] = value.data('dataType');
                 valueData['is_public'] = value.find('input.is_public').val();
+                valueData['@annotation'] = value.data('annotation');
                 value.find(':input[data-value-key]').each(function () {
                     var input = $(this);
                     valueKey = input.data('valueKey');
@@ -251,6 +254,7 @@
         var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
         value.data('data-term', term);
+        value.data('annotation', valueObj ? valueObj['@annotation'] : null);
 
         // Get and display the value's visibility.
         var isPublic = true; // values are public by default

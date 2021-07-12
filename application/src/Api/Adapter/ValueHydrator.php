@@ -124,11 +124,11 @@ class ValueHydrator
                     $api = $adapter->getServiceLocator()->get('Omeka\ApiManager');
                     $annotation = $value->getAnnotation();
                     if ($annotation) {
-                        $annotation = $api->update('annotations', $annotation->getId(), $valueData['@annotation'], [], ['responseContent' => 'resource']);
+                        $response = $api->update('annotations', $annotation->getId(), $valueData['@annotation'], [], ['responseContent' => 'resource']);
                     } else {
-                        $annotation = $api->create('annotations', $valueData['@annotation'], [], ['responseContent' => 'resource']);
+                        $response = $api->create('annotations', $valueData['@annotation'], [], ['responseContent' => 'resource']);
                     }
-                    $value->setAnnotation($annotation);
+                    $value->setAnnotation($response->getContent());
                 }
             }
         }

@@ -59,23 +59,25 @@ class ValueRepresentation extends AbstractRepresentation
 
     public function jsonSerialize()
     {
-        $annotation = $this->annotation();
         $valueObject = [
             'type' => $this->type(),
             'property_id' => $this->value->getProperty()->getId(),
             'property_label' => $this->value->getProperty()->getLabel(),
             'is_public' => $this->isPublic(),
-            '@annotation' => [
-                'dcterms:type' => [
-                    [
-                        '@value' => 'doi',
-                        'type' => 'literal',
-                        'property_id' => 8,
-                        'property_label' => 'Type'
-                    ]
-                ],
-            ],
         ];
+        // Set the annotation values.
+        $annotation = $this->annotation();
+        if ($annotation) {
+            $annotationValues = [];
+            foreach ($annotation->values() as $term => $property) {
+                foreach ($property['values'] as $value) {
+                    $annotationValues[$term][] = $value;
+                }
+            }
+            if ($annotationValues) {
+                $valueObject['@annotation'] = $annotationValues;
+            }
+        }
         $jsonLd = $this->dataType->getJsonLd($this);
         if (!is_array($jsonLd)) {
             $jsonLd = [];

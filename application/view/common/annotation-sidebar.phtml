@@ -1,0 +1,31 @@
+<?php
+$translate = $this->plugin('translate');
+$escapeHtml = $this->plugin('escapeHtml');
+?>
+<div id="annotation-sidebar" class='sidebar'>
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+    <div class="sidebar-content">
+        <h3><?php echo $translate('Annotate value'); ?></h3>
+        <div id="annotation-values">
+            <div class="annotation-value">
+                <?php echo $this->propertySelect([
+                    'name' => 'annotation-property',
+                    'attributes' => [
+                        'class' => 'annotation-property chosen-select',
+                    ],
+                ]); ?>
+                <select class="annotation-type">
+                    <option value="literal"><?php echo $this->translate('Text'); ?></option>
+                    <option value="uri"><?php echo $this->translate('URI'); ?></option>
+                </select>
+                <input type="text" class="annotation-input">
+                <a href="#" class="o-icon-delete remove-annotation-value" title="<?php echo $escapeHtml($translate('Remove value')) ?>" aria-label="<?php echo $escapeHtml($translate('Remove value')) ?>"></a>
+                <a href="#" class="o-icon-undo restore-annotation-value" title="<?php echo $escapeHtml($translate('Restore value')) ?>" aria-label="<?php echo $escapeHtml($translate('Restore value')) ?>" style="display: none;"></a>
+            </div>
+        </div>
+        <button type="button" id="annotation-add"><?php echo $this->translate('Add annotation'); ?></button>
+        <div class="confirm-panel">
+            <button type="button" id="annotation-set" style="width: 100%;"><?php echo $translate('Set annotations'); ?></button>
+        </div>
+    </div>
+</div>

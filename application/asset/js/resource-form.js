@@ -2,15 +2,18 @@
 
     $(document).ready( function() {
 
-        const annotateValueSidebar = $('#annotate-value');
+        let annotatingValue;
+        const annotationSidebar = $('#annotation-sidebar');
         $(document).on('click', '.annotate-value', function(e) {
             e.preventDefault();
-            const annotation = $(this).closest('.value').data('annotation');
-            // @todo: Make a request for the annotation form with this annotation
-            // data structure as an argument. The user will create/update/delete
-            // annotations via this form and then click on "Set annotations" which
-            // will serialize the annotations and set to value.data('annotation').
-            Omeka.openSidebar(annotateValueSidebar);
+            annotatingValue = $(this).closest('.value');
+            const annotation = annotatingValue.data('annotation');
+            Omeka.openSidebar(annotationSidebar);
+        });
+        $(document).on('click', '#annotation-set', function(e) {
+            e.preventDefault();
+            // @todo: serialize the annotations and set to value.data('annotation')
+            Omeka.closeSidebar(annotationSidebar);
         });
 
         // Select property

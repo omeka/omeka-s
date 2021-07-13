@@ -58,7 +58,8 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./build/cache
-        key: build-cache
+        key: build-cache-${{ github.sha }}
+        restore-keys: build-cache-
         
     - name: Start MySQL
       run: sudo systemctl start mysql.service

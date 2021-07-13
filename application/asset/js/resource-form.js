@@ -12,32 +12,61 @@
             Omeka.openSidebar(annotationSidebar);
         });
         // Handle annotation-set click.
-        $(document).on('click', '#annotation-set', function(e) {
+        $('#annotation-set').on('click', function(e) {
             e.preventDefault();
             const annotations = {};
             $('.annotation-value').each(function() {
                 const thisAnnotation = $(this);
-                const property = thisAnnotation.find('.annotation-property').find(':selected');
+                const property = thisAnnotation.find('.annotation-property option:selected');
+                if ('' === property.val()) {
+                    return; // No property selected. Do nothing.
+                }
                 const propertyTerm = property.data('term');
-                const typeValue = thisAnnotation.find('.annotation-type').find(':selected').val();
-                const inputValue = thisAnnotation.find('.annotation-input').val();
+                const type = thisAnnotation.find('.annotation-type option:selected');
+                if ('' === type.val()) {
+                    return; // No type selected. Do nothing.
+                }
+                const annotation = {
+                    type: type.val(),
+                    property_id: property.val(),
+                };
+                switch (type.val()) {
+                    case 'uri':
+                        annotation['@id'] = thisAnnotation.find('.annotation-uri-uri').val();
+                        annotation['o:label'] = thisAnnotation.find('.annotation-uri-label').val();
+                        break;
+                    case 'literal':
+                        annotation['@value'] = thisAnnotation.find('.annotation-literal-value').val();
+                        break;
+                    default:
+                        return; // Invalid type. Do nothing.
+                }
                 if (!annotations.hasOwnProperty(propertyTerm)) {
                     annotations[propertyTerm] = [];
                 }
-                const annotation = {
-                    type: typeValue,
-                    property_id: property.val(),
-                };
-                if ('uri' === typeValue) {
-                    annotation['@id'] = inputValue;
-                } else {
-                    annotation['@value'] = inputValue;
-                }
                 annotations[propertyTerm].push(annotation);
             });
-            console.log(annotations);
             annotatingValue.data('annotation', annotations);
             Omeka.closeSidebar(annotationSidebar);
+        });
+        // Handle annotation-type change.
+        $(document).on('change', '.annotation-type', function(e) {
+            const thisType = $(this);
+            const annotation = thisType.closest('.annotation-value');
+            switch (thisType.val()) {
+                case 'uri':
+                    annotation.find('.annotation-literal-value').hide();
+                    annotation.find('.annotation-uri-uri').show();
+                    annotation.find('.annotation-uri-label').show();
+                    break;
+                case 'literal':
+                    annotation.find('.annotation-uri-uri').hide();
+                    annotation.find('.annotation-uri-label').hide();
+                    annotation.find('.annotation-literal-value').show();
+                    break;
+                default:
+                    return; // Invalid type. Do nothing.
+            }
         });
 
         // Select property

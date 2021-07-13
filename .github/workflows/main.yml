@@ -61,6 +61,12 @@ jobs:
         
     - name: Start MySQL
       run: sudo systemctl start mysql.service
+        
+    - name: Install Node dependencies
+      run: npm install
+  
+    - name: Gulp init
+      run: npx gulp init
       
     - name: Set up database
       run: |
@@ -69,12 +75,6 @@ jobs:
         sed -i 's/^user.*/user = "root"/' application/test/config/database.ini
         sed -i 's/^dbname.*/dbname = "omeka_test"/' application/test/config/database.ini
         sed -i 's/^password.*/password = "root"/' application/test/config/database.ini
-        
-    - name: Install Node dependencies
-      run: npm install
-  
-    - name: Gulp init
-      run: npx gulp init
         
     - name: Run tests
       run: npx gulp test --continue

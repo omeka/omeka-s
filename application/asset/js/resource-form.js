@@ -4,15 +4,39 @@
 
         let annotatingValue;
         const annotationSidebar = $('#annotation-sidebar');
+        // Handle annotate-value click.
         $(document).on('click', '.annotate-value', function(e) {
             e.preventDefault();
             annotatingValue = $(this).closest('.value');
             const annotation = annotatingValue.data('annotation');
             Omeka.openSidebar(annotationSidebar);
         });
+        // Handle annotation-set click.
         $(document).on('click', '#annotation-set', function(e) {
             e.preventDefault();
-            // @todo: serialize the annotations and set to value.data('annotation')
+            const annotations = {};
+            $('.annotation-value').each(function() {
+                const thisAnnotation = $(this);
+                const property = thisAnnotation.find('.annotation-property').find(':selected');
+                const propertyTerm = property.data('term');
+                const typeValue = thisAnnotation.find('.annotation-type').find(':selected').val();
+                const inputValue = thisAnnotation.find('.annotation-input').val();
+                if (!annotations.hasOwnProperty(propertyTerm)) {
+                    annotations[propertyTerm] = [];
+                }
+                const annotation = {
+                    type: typeValue,
+                    property_id: property.val(),
+                };
+                if ('uri' === typeValue) {
+                    annotation['@id'] = inputValue;
+                } else {
+                    annotation['@value'] = inputValue;
+                }
+                annotations[propertyTerm].push(annotation);
+            });
+            console.log(annotations);
+            annotatingValue.data('annotation', annotations);
             Omeka.closeSidebar(annotationSidebar);
         });
 

@@ -9,6 +9,31 @@
             e.preventDefault();
             annotatingValue = $(this).closest('.value');
             const annotation = annotatingValue.data('annotation');
+            const annotationValues = $('#annotation-values');
+            const annotationValueTemplate = $($.parseHTML(annotationValues.data('annotationValue')));
+            annotationValues.empty();
+            $.each(annotation, function(term, values) {
+                $.each(values, function(index, value) {
+                    const annotationValue = annotationValueTemplate.clone();
+                    const property = annotationValue.find('.annotation-property');
+                    const type = annotationValue.find('.annotation-type');
+                    property.val(value.property_id);
+                    type.val(value.type);
+                    switch (type.val()) {
+                        case 'uri':
+                            annotationValue.find('.annotation-uri-uri').val(value['@id']);
+                            annotationValue.find('.annotation-uri-label').val(value['o:label']);
+                            break;
+                        case 'literal':
+                            annotationValue.find('.annotation-literal-value').val(value['@value']);;
+                            break;
+                        default:
+                            return; // Invalid type. Do nothing.
+                    }
+                    annotationValues.append(annotationValue);
+                    annotationValue.find('.annotation-type').trigger('change');
+                });
+            });
             Omeka.openSidebar(annotationSidebar);
         });
         // Handle annotation-set click.
@@ -67,6 +92,12 @@
                 default:
                     return; // Invalid type. Do nothing.
             }
+        });
+        // Handle annotation-add click.
+        $('#annotation-add').on('click', function(e) {
+            const annotationValues = $('#annotation-values');
+            const annotationValueTemplate = $($.parseHTML(annotationValues.data('annotationValue')));
+            annotationValues.append(annotationValueTemplate);
         });
 
         // Select property

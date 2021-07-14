@@ -4,12 +4,12 @@
 
         let annotatingValue;
         const annotationSidebar = $('#annotation-sidebar');
+        const annotationValues = $('#annotation-values');
         // Handle annotate-value click.
         $(document).on('click', '.annotate-value', function(e) {
             e.preventDefault();
             annotatingValue = $(this).closest('.value');
             const annotation = annotatingValue.data('annotation');
-            const annotationValues = $('#annotation-values');
             const annotationValueTemplate = $($.parseHTML(annotationValues.data('annotationValue')));
             annotationValues.empty();
             $.each(annotation, function(term, values) {
@@ -95,7 +95,6 @@
         });
         // Handle annotation-add click.
         $('#annotation-add').on('click', function(e) {
-            const annotationValues = $('#annotation-values');
             const annotationValueTemplate = $($.parseHTML(annotationValues.data('annotationValue')));
             annotationValues.append(annotationValueTemplate);
         });

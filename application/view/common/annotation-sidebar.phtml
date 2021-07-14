@@ -1,9 +1,11 @@
 <div id="annotation-sidebar" class='sidebar'>
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
     <div class="sidebar-content">
-        <h3><?php echo $this->translate('Annotate value'); ?></h3>
-        <div id="annotation-values" data-annotation-value="<?php echo $this->escapeHtml($this->partial('common/annotation-value')); ?>"></div>
-        <button type="button" id="annotation-add"><?php echo $this->translate('Add annotation'); ?></button>
+        <div class="confirm-main">
+            <h3><?php echo $this->translate('Annotate value'); ?></h3>
+            <div id="annotation-values" data-annotation-value="<?php echo $this->escapeHtml($this->partial('common/annotation-value')); ?>"></div>
+            <button type="button" id="annotation-add"><?php echo $this->translate('Add annotation'); ?></button>
+        </div>
         <div class="confirm-panel">
             <button type="button" id="annotation-set" style="width: 100%;"><?php echo $this->translate('Set annotations'); ?></button>
         </div>

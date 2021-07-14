@@ -120,15 +120,24 @@ class ValueHydrator
                 $dataType->hydrate($valueData, $value, $adapter);
 
                 // Hydrate annotation resource.
-                if (isset($valueData['@annotation']) && is_array($valueData['@annotation'])) {
+                $annotation = $value->getAnnotation();
+                if (isset($valueData['@annotation']) && is_array($valueData['@annotation']) && $valueData['@annotation']) {
+                    // This value has annotation data. Create or update the
+                    // annotation resource.
                     $api = $adapter->getServiceLocator()->get('Omeka\ApiManager');
-                    $annotation = $value->getAnnotation();
                     if ($annotation) {
                         $response = $api->update('annotations', $annotation->getId(), $valueData['@annotation'], [], ['responseContent' => 'resource']);
                     } else {
                         $response = $api->create('annotations', $valueData['@annotation'], [], ['responseContent' => 'resource']);
                     }
                     $value->setAnnotation($response->getContent());
+                } elseif ($annotation) {
+                    // This value does not have annotation data. Delete the
+                    // annotation resource. Must set the annotation to null
+                    // before deleting or the foreign key constraint would fail.
+                    $value->setAnnotation(null);
+                    $api = $adapter->getServiceLocator()->get('Omeka\ApiManager');
+                    $api->delete('annotations', $annotation->getId());
                 }
             }
         }

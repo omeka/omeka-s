@@ -139,6 +139,19 @@ class Module extends AbstractModule
             [$this, 'addMediaAltTextInput']
         );
 
+        $resources = [
+            'Omeka\Api\Adapter\ItemAdapter',
+            'Omeka\Api\Adapter\ItemSetAdapter',
+            'Omeka\Api\Adapter\MediaAdapter',
+        ];
+        foreach ($resources as $resource) {
+            $sharedEventManager->attach(
+                $resource,
+                'api.delete.post',
+                [$this, 'deleteOrphanAnnotations']
+            );
+        }
+
         $sharedEventManager->attach(
             '*',
             'sql_filter.resource_visibility',
@@ -642,5 +655,15 @@ class Module extends AbstractModule
             'id' => 'alt_text',
         ]);
         echo $view->formRow($textarea);
+    }
+
+    public function deleteOrphanAnnotations(ZendEvent $event)
+    {
+        $conn = $this->getServiceLocator()->get('Omeka\Connection');
+        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $sql = 'SELECT a.id FROM annotation a LEFT JOIN value v ON a.id = v.annotation_id WHERE v.id IS NULL';
+        foreach ($conn->fetchAll($sql) as $orphanAnnotation) {
+            $api->delete('annotations', $orphanAnnotation['id']);
+        }
     }
 }

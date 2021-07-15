@@ -42,9 +42,10 @@
             const annotations = {};
             $('.annotation-value').each(function() {
                 const thisAnnotation = $(this);
-                const property = thisAnnotation.find('.annotation-property option:selected');
-                if ('' === property.val()) {
-                    return; // No property selected. Do nothing.
+                // Note the :enabled here. Clicking remove disables this element.
+                const property = thisAnnotation.find('.annotation-property:enabled option:selected');
+                if ('' === property.val() || undefined === property.val()) {
+                    return; // No property selected or select was disabled. Do nothing.
                 }
                 const propertyTerm = property.data('term');
                 const type = thisAnnotation.find('.annotation-type option:selected');
@@ -97,6 +98,24 @@
         $('#annotation-add').on('click', function(e) {
             const annotationValueTemplate = $($.parseHTML(annotationValues.data('annotationValue')));
             annotationValues.append(annotationValueTemplate);
+        });
+        // Handle remove-annotation-value click.
+        $(document).on('click', '.remove-annotation-value', function(e) {
+            e.preventDefault();
+            const thisRemove = $(this);
+            const annotation = thisRemove.closest('.annotation-value');
+            thisRemove.hide();
+            annotation.find(':input').prop('disabled', true);
+            annotation.find('.restore-annotation-value').show();
+        });
+        // Handle restore-annotation-value click.
+        $(document).on('click', '.restore-annotation-value', function(e) {
+            e.preventDefault();
+            const thisRestore = $(this);
+            const annotation = thisRestore.closest('.annotation-value');
+            thisRestore.hide();
+            annotation.find(':input').prop('disabled', false);
+            annotation.find('.remove-annotation-value').show();
         });
 
         // Select property

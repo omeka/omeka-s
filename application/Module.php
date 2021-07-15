@@ -657,13 +657,21 @@ class Module extends AbstractModule
         echo $view->formRow($textarea);
     }
 
+    /**
+     * Delete all orphan annotations.
+     *
+     * @param ZendEvent $event
+     */
     public function deleteOrphanAnnotations(ZendEvent $event)
     {
         $conn = $this->getServiceLocator()->get('Omeka\Connection');
-        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
         $sql = 'SELECT a.id FROM annotation a LEFT JOIN value v ON a.id = v.annotation_id WHERE v.id IS NULL';
-        foreach ($conn->fetchAll($sql) as $orphanAnnotation) {
-            $api->delete('annotations', $orphanAnnotation['id']);
+        $orpahAnnotations = $conn->fetchAll($sql);
+        if ($orpahAnnotations) {
+            $api = $this->getServiceLocator()->get('Omeka\ApiManager');
+            foreach ($conn->fetchAll($sql) as $orphanAnnotation) {
+                $api->delete('annotations', $orphanAnnotation['id']);
+            }
         }
     }
 }

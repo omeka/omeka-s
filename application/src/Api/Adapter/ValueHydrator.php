@@ -69,6 +69,7 @@ class ValueHydrator
         $existingValues = $valueCollection->toArray();
         $entityManager = $adapter->getEntityManager();
         $dataTypes = $adapter->getServiceLocator()->get('Omeka\DataTypeManager');
+        $api = $adapter->getServiceLocator()->get('Omeka\ApiManager');
 
         // Iterate the representation data. Note that we ignore terms.
         $valuePassed = false;
@@ -124,7 +125,6 @@ class ValueHydrator
                 if (isset($valueData['@annotation']) && is_array($valueData['@annotation']) && $valueData['@annotation']) {
                     // This value has annotation data. Create or update the
                     // annotation resource.
-                    $api = $adapter->getServiceLocator()->get('Omeka\ApiManager');
                     if ($annotation) {
                         $response = $api->update('annotations', $annotation->getId(), $valueData['@annotation'], [], ['responseContent' => 'resource']);
                     } else {
@@ -136,7 +136,6 @@ class ValueHydrator
                     // annotation resource. Must set the annotation to null
                     // before deleting or the foreign key constraint would fail.
                     $value->setAnnotation(null);
-                    $api = $adapter->getServiceLocator()->get('Omeka\ApiManager');
                     $api->delete('annotations', $annotation->getId());
                 }
             }
@@ -149,7 +148,12 @@ class ValueHydrator
         if (!$isPartial || (!$append && $valuePassed)) {
             foreach ($existingValues as $key => $existingValue) {
                 if ($existingValue !== null) {
+                    $annotation = $valueCollection->get($key)->getAnnotation();
                     $valueCollection->remove($key);
+                    if ($annotation) {
+                        // Delete orpahn annotations.
+                        $api->delete('annotations', $annotation->getId());
+                    }
                 }
             }
         }

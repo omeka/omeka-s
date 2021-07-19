@@ -9,8 +9,13 @@ if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResour
 $pagination = $this->pagination(null, $totalCount, $page, $perPage);
 $pagination->setFragment($fragment);
 
-$filterLocale = (bool) $this->siteSetting('filter_locale_values');
-$lang = $this->lang();
+if ($this->status()->isSiteRequest()) {
+    $filterLocale = (bool) $this->siteSetting('filter_locale_values');
+    $lang = $this->lang();
+} else {
+    $filterLocale = false;
+    $lang = null;
+}
 ?>
 <div id="linked-resources">
 <div class="linked-header">

@@ -11,6 +11,9 @@ if (!$ids) {
 }
 
 if ($this->status()->isSiteRequest()) {
+    if (!$this->layout()->site->siteItemSets()) {
+        return;
+    }
     $filterLocale = (bool) $this->siteSetting('filter_locale_values');
     $lang = $this->lang();
 

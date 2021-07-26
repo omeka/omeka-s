@@ -1,0 +1,25 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
+<form>
+    <div id="nav-selector">
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+        <label><?php echo $translate('Add to List of pages'); ?></label>
+        <?php $pages = array_merge($site->linkedPages(), $site->notlinkedPages()); ?>
+        <input type="text" class="page-selector-filter" placeholder="<?php echo $translate('Filter pages'); ?>" aria-label="<?php echo $translate('Filter pages'); ?>">
+        <div id="nav-page-links">
+        <?php foreach ($pages as $page):
+        if (!in_array($page->title(), $currentPageNames)): ?>
+            <button class="nav-page-link option"
+                type="button"
+                data-type="page"
+                data-label="<?php echo $escape($page->title()); ?>"
+                data-id="<?php echo $escape($page->id()); ?>"
+                data-slug="<?php echo $escape($page->slug()); ?>">
+                <?php echo sprintf('%s (%s)', $page->title(), $page->slug()); ?>
+            </button>
+        <?php endif;
+        endforeach; ?>
+    </div>
+</form>

@@ -4399,10 +4399,15 @@ body.minimal {
 
     .site-list {
         margin-bottom: $spacing-large;
-
+        display: flex;
+        flex-wrap: wrap;
+        
         .site {
             margin-bottom: $spacing-medium;
             overflow: auto;
+            max-width: 60rem;
+            width: 50%;
+            padding-right: 1rem;
         }
 
         .site-link {
@@ -4411,14 +4416,19 @@ body.minimal {
         }
         
         .site-summary {
-            margin: 0 0 0 $spacing-medium;
+            margin: 0;
             line-height: 20px;
         }
         
-        .site-thumbnail-image {
-            max-width: 25%;
+        .site-thumbnail {
             float: left;
+            display: block;
             margin-right: 1rem;
+        }
+
+        .site-thumbnail-image {
+            max-width: 15rem;
+            vertical-align: bottom;
         }
     }
 

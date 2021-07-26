@@ -3,8 +3,12 @@
     <div class="sidebar-content">
         <div class="confirm-main">
             <h3><?php echo $this->translate('Annotate value'); ?></h3>
+            <button type="button" id="annotation-add" style="width: 30%;"><?php echo $this->translate('Add annotation'); ?></button>
+            <select id="annotation-add-type" style="width: 65%;">
+                <option value="literal"><?php echo $this->translate('Text'); ?></option>
+                <option value="uri"><?php echo $this->translate('URI'); ?></option>
+            </select>
             <div id="annotation-values" data-annotation-value="<?php echo $this->escapeHtml($this->partial('common/annotation-value')); ?>"></div>
-            <button type="button" id="annotation-add"><?php echo $this->translate('Add annotation'); ?></button>
         </div>
         <div class="confirm-panel">
             <button type="button" id="annotation-set" style="width: 100%;"><?php echo $this->translate('Set annotations'); ?></button>

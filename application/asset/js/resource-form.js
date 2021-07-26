@@ -5,6 +5,22 @@
         let annotatingValue;
         const annotationSidebar = $('#annotation-sidebar');
         const annotationValues = $('#annotation-values');
+        const prepareAnnotationValue = function(annotationValue, type) {
+            switch (type) {
+                case 'uri':
+                    annotationValue.find('.annotation-literal-value').hide();
+                    annotationValue.find('.annotation-uri-uri').show();
+                    annotationValue.find('.annotation-uri-label').show();
+                    break;
+                case 'literal':
+                    annotationValue.find('.annotation-uri-uri').hide();
+                    annotationValue.find('.annotation-uri-label').hide();
+                    annotationValue.find('.annotation-literal-value').show();
+                    break;
+                default:
+                    return false; // Invalid type.
+            }
+        };
         // Handle annotate-value click.
         $(document).on('click', '.annotate-value', function(e) {
             e.preventDefault();
@@ -16,10 +32,9 @@
                 $.each(values, function(index, value) {
                     const annotationValue = annotationValueTemplate.clone();
                     const property = annotationValue.find('.annotation-property');
-                    const type = annotationValue.find('.annotation-type');
                     property.val(value.property_id);
-                    type.val(value.type);
-                    switch (type.val()) {
+                    annotationValue.data('type', value.type);
+                    switch (value.type) {
                         case 'uri':
                             annotationValue.find('.annotation-uri-uri').val(value['@id']);
                             annotationValue.find('.annotation-uri-label').val(value['o:label']);
@@ -30,11 +45,19 @@
                         default:
                             return; // Invalid type. Do nothing.
                     }
+                    prepareAnnotationValue(annotationValue, value.type);
                     annotationValues.append(annotationValue);
-                    annotationValue.find('.annotation-type').trigger('change');
                 });
             });
             Omeka.openSidebar(annotationSidebar);
+        });
+        // Handle annotation-add click.
+        $('#annotation-add').on('click', function(e) {
+            const annotationValueTemplate = $($.parseHTML(annotationValues.data('annotationValue')));
+            const type = $('#annotation-add-type').val();
+            annotationValueTemplate.data('type', type);
+            prepareAnnotationValue(annotationValueTemplate, type);
+            annotationValues.append(annotationValueTemplate);
         });
         // Handle annotation-set click.
         $('#annotation-set').on('click', function(e) {
@@ -48,15 +71,15 @@
                     return; // No property selected or select was disabled. Do nothing.
                 }
                 const propertyTerm = property.data('term');
-                const type = thisAnnotation.find('.annotation-type option:selected');
-                if ('' === type.val()) {
+                const type = thisAnnotation.data('type');
+                if ('' === type) {
                     return; // No type selected. Do nothing.
                 }
                 const annotation = {
-                    type: type.val(),
+                    type: type,
                     property_id: property.val(),
                 };
-                switch (type.val()) {
+                switch (type) {
                     case 'uri':
                         annotation['@id'] = thisAnnotation.find('.annotation-uri-uri').val();
                         annotation['o:label'] = thisAnnotation.find('.annotation-uri-label').val();
@@ -74,30 +97,6 @@
             });
             annotatingValue.data('annotation', annotations);
             Omeka.closeSidebar(annotationSidebar);
-        });
-        // Handle annotation-type change.
-        $(document).on('change', '.annotation-type', function(e) {
-            const thisType = $(this);
-            const annotation = thisType.closest('.annotation-value');
-            switch (thisType.val()) {
-                case 'uri':
-                    annotation.find('.annotation-literal-value').hide();
-                    annotation.find('.annotation-uri-uri').show();
-                    annotation.find('.annotation-uri-label').show();
-                    break;
-                case 'literal':
-                    annotation.find('.annotation-uri-uri').hide();
-                    annotation.find('.annotation-uri-label').hide();
-                    annotation.find('.annotation-literal-value').show();
-                    break;
-                default:
-                    return; // Invalid type. Do nothing.
-            }
-        });
-        // Handle annotation-add click.
-        $('#annotation-add').on('click', function(e) {
-            const annotationValueTemplate = $($.parseHTML(annotationValues.data('annotationValue')));
-            annotationValues.append(annotationValueTemplate);
         });
         // Handle remove-annotation-value click.
         $(document).on('click', '.remove-annotation-value', function(e) {

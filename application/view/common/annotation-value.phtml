@@ -5,10 +5,6 @@
             'class' => 'annotation-property',
         ],
     ]); ?>
-    <select class="annotation-type">
-        <option value="literal"><?php echo $this->translate('Text'); ?></option>
-        <option value="uri"><?php echo $this->translate('URI'); ?></option>
-    </select>
     <textarea class="annotation-literal-value"></textarea>
     <input type="text" class="annotation-uri-uri" placeholder="<?php echo $this->escapeHtml($this->translate('URI')); ?>" style="display: none;">
     <input type="text" class="annotation-uri-label" placeholder="<?php echo $this->escapeHtml($this->translate('Label')); ?>" style="display: none;">

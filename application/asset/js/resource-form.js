@@ -6,6 +6,7 @@
         const annotationSidebar = $('#annotation-sidebar');
         const annotationValues = $('#annotation-values');
         const prepareAnnotationValue = function(annotationValue, type) {
+            annotationValue.find('.annotation-property').chosen({width: '100%'})
             switch (type) {
                 case 'uri':
                     annotationValue.find('.annotation-literal-value').hide();

@@ -2,6 +2,7 @@
 namespace Omeka\Site\Navigation;
 
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Site\Navigation\Link\Fallback;
 use Omeka\Site\Navigation\Link\LinkInterface;
 use Omeka\Site\Navigation\Link\Manager as LinkManager;
 use Laminas\Mvc\I18n\Translator as I18n;
@@ -136,6 +137,9 @@ class Translator
      */
     public function getLinkLabel(LinkInterface $linkType, array $data, SiteRepresentation $site)
     {
+        if ($linkType instanceof Fallback) {
+            return $this->i18n->translate('[Missing Page]');
+        }
         $label = $linkType->getLabel($data, $site);
         if ($label) {
             return $label;

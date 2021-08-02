@@ -8,6 +8,12 @@ class AddValueAnnotation implements MigrationInterface
 {
     public function up(Connection $conn)
     {
+        // Rename the table of the module Annotate if exists.
+        try {
+            $conn->query('ALTER TABLE `annotation` RENAME TO `annotation_annotation`;');
+        } catch (\Exception $e) {
+        }
+
         $conn->query('CREATE TABLE annotation (id INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;');
         $conn->query('ALTER TABLE annotation ADD CONSTRAINT FK_2E443EF2BF396750 FOREIGN KEY (id) REFERENCES resource (id) ON DELETE CASCADE;');
         $conn->query('ALTER TABLE value ADD annotation_id INT DEFAULT NULL;');

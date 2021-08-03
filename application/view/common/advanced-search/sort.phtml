@@ -18,6 +18,7 @@ if ('itemSet' === $resourceType) {
     $idController = 'ItemSet';
 } elseif ('media' === $resourceType) {
     $idController = 'Media';
+    $args['sortBy'][] = ['value' => 'size', 'label' => $this->translate('Size')];
 }
 $id = [sprintf('Omeka\Controller\%s\%s', $idRequest, $idController)];
 $args = $this->trigger('view.sort-selector', $args, true, $id);

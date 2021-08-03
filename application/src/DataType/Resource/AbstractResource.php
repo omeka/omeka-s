@@ -66,9 +66,9 @@ abstract class AbstractResource extends AbstractDataType
         $value->setValueResource($valueResource);
     }
 
-    public function render(PhpRenderer $view, ValueRepresentation $value)
+    public function render(PhpRenderer $view, ValueRepresentation $value, $lang = null)
     {
-        return $value->valueResource()->linkPretty();
+        return $value->valueResource()->linkPretty('square', null, null, null, $lang);
     }
 
     public function toString(ValueRepresentation $value)

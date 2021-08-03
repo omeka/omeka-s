@@ -299,16 +299,17 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      * Change the fallback title to be the media's source, if it exists.
      *
      * @param string|null $default
+     * @param string|null $lang
      * @return string|null
      */
-    public function displayTitle($default = null)
+    public function displayTitle($default = null, $lang = null)
     {
         $source = $this->source();
         if (!$source) {
             $source = $default;
         }
 
-        return parent::displayTitle($source);
+        return parent::displayTitle($source, $lang);
     }
 
     public function siteUrl($siteSlug = null, $canonical = false)

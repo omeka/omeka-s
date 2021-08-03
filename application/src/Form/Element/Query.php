@@ -12,7 +12,10 @@ class Query extends Element implements InputProviderInterface
 
     public function getInputSpecification()
     {
-        return [];
+        return [
+            // Not required by default because an empty string is meaningful (all resources).
+            'required' => false,
+        ];
     }
 
     /**

@@ -13,9 +13,11 @@ class PageListFactory implements FactoryInterface
      * @param ContainerInterface $serviceLocator
      * @return ListOfPages
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $navTranslator = $serviceLocator->get('Omeka\Site\NavigationTranslator');
-        return new ListOfPages($navTranslator);
+        return new ListOfPages(
+            $services->get('Omeka\Site\NavigationLinkManager'),
+            $services->get('Omeka\Site\NavigationTranslator')
+        );
     }
 }

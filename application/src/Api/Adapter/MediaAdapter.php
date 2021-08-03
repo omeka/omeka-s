@@ -20,6 +20,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         'modified' => 'modified',
         'title' => 'title',
         'media_type' => 'mediaType',
+        'size' => 'size',
     ];
 
     public function getResourceName()

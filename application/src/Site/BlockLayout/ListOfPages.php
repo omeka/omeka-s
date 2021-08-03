@@ -4,6 +4,7 @@ namespace Omeka\Site\BlockLayout;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
+use Omeka\Site\Navigation\Link\Manager as LinkManager;
 use Omeka\Site\Navigation\Translator;
 use Laminas\Form\Element\Hidden;
 use Laminas\View\Renderer\PhpRenderer;
@@ -11,12 +12,18 @@ use Laminas\View\Renderer\PhpRenderer;
 class ListOfPages extends AbstractBlockLayout
 {
     /**
+     * @var LinkManager
+     */
+    protected $linkManager;
+
+    /**
      * @var Translator
      */
     protected $navTranslator;
 
-    public function __construct(Translator $navTranslator)
+    public function __construct(LinkManager $linkManager, Translator $navTranslator)
     {
+        $this->linkManager = $linkManager;
         $this->navTranslator = $navTranslator;
     }
 
@@ -38,10 +45,18 @@ class ListOfPages extends AbstractBlockLayout
     ) {
         $escape = $view->plugin('escapeHtml');
         $pageList = new Hidden("o:block[__blockIndex__][o:data][pagelist]");
-        $pageList->setValue($block ? $block->dataValue('pagelist') : json_encode($this->navTranslator->toJstree($site)));
+        if ($block) {
+            $nodes = json_decode($block->dataValue('pagelist'), true);
+            $pageTree = $this->getPageNodeURLs($nodes, $block);
+        } else {
+            $pageTree = '';
+        }
+        $pageList->setValue(json_encode($pageTree));
 
-        $html = '<div class="block-pagelist-tree"';
-        $html .= 'data-link-form-url="' . $escape($view->url('admin/site/slug/action', ['action' => 'navigation-link-form'], true));
+        $html = '<button type="button" class="site-page-add"';
+        $html .= 'data-sidebar-content-url="' . $escape($page->url('sidebar-pagelist'));
+        $html .= '">' . $view->translate('Add pages') . '</button>';
+        $html .= '<div class="block-pagelist-tree"';
         $html .= '" data-jstree-data="' . $escape($pageList->getValue());
         $html .= '"></div><div class="inputs">' . $view->formRow($pageList) . '</div>';
 
@@ -50,14 +65,36 @@ class ListOfPages extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        $pageList = json_decode($block->dataValue('pagelist'), true);
-
-        if (!$pageList) {
+        $nodes = json_decode($block->dataValue('pagelist'), true);
+        if (!$nodes) {
             return '';
         }
 
+        $pageTree = $this->getPageNodeURLs($nodes, $block);
+
         return $view->partial('common/block-layout/list-of-pages', [
-            'pageList' => $pageList,
+            'pageList' => $pageTree,
         ]);
+    }
+
+    public function getPageNodeURLs($nodes, SitePageBlockRepresentation $block)
+    {
+        $site = $block->page()->site();
+
+        // Add page URL to jstree node data if not already present
+        $iterate = function (&$value, &$key) use (&$iterate, $site) {
+            if (is_array($value)) {
+                if (array_key_exists('type', $value)) {
+                    $manager = $this->linkManager;
+                    $linkType = $manager->get($value['type']);
+                    $linkData = $value;
+                    $pageUrl = $this->navTranslator->getLinkUrl($linkType, $linkData, $site);
+                    $value['url'] = $pageUrl;
+                }
+                array_walk($value, $iterate);
+            }
+        };
+        array_walk($nodes, $iterate);
+        return $nodes;
     }
 }

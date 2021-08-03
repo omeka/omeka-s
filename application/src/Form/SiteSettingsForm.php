@@ -109,7 +109,17 @@ class SiteSettingsForm extends Form
                 'id' => 'disable_jsonld_embed',
             ],
         ]);
-        $generalFieldset->add([
+
+        // Language section
+        $this->add([
+            'type' => 'fieldset',
+            'name' => 'language',
+            'options' => [
+                'label' => 'Language', // @translate
+            ],
+        ]);
+        $langFieldset = $this->get('language');
+        $langFieldset->add([
             'name' => 'locale',
             'id' => 'locale',
             'type' => 'Omeka\Form\Element\LocaleSelect',
@@ -121,6 +131,32 @@ class SiteSettingsForm extends Form
                 'id' => 'locale',
                 'value' => $settings->get('locale'),
                 'class' => 'chosen-select',
+            ],
+        ]);
+
+        $langFieldset->add([
+            'name' => 'filter_locale_values',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Filter values based on site locale', // @translate
+                'info' => 'Show only values matching the site language setting and values without locale ID.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'filter_locale_values',
+                'value' => (bool) $settings->get('filter_locale_values', false),
+            ],
+        ]);
+
+        $langFieldset->add([
+            'name' => 'show_locale_label',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Show language labels for values', // @translate
+                'info' => 'Show a label indicating the language of each value on show pages.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'show_locale_label',
+                'value' => (bool) $settings->get('show_locale_label', true),
             ],
         ]);
 
@@ -290,12 +326,9 @@ class SiteSettingsForm extends Form
         $this->getEventManager()->triggerEvent($addEvent);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->get('general')->add([
+        $inputFilter->get('language')->add([
             'name' => 'locale',
             'allow_empty' => true,
-            'attributes' => [
-                'id' => 'locale',
-            ],
         ]);
         $inputFilter->get('browse')->add([
             'name' => 'pagination_per_page',

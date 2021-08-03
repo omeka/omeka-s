@@ -226,6 +226,19 @@
         $(document).on('chosen:hiding_dropdown', '.chosen-select', function(e) {
             $(e.target).next('.chosen-container').removeClass('chosen-drop-up');
         });
+
+        // Close page action menu if it is open and the user clicks outside it.
+        $(document).click(function(e) {
+            if (null === e.target.closest('.page-action-menu')) {
+                Omeka.closeOpenPageActionsMenu(e);
+            }
+        });
+
+        $('#page-actions').on('click', '.page-action-menu .expand', function(e) {
+            Omeka.closeOpenPageActionsMenu(e);
+        });
+
+
     });
 
 }(window.jQuery, window, document));

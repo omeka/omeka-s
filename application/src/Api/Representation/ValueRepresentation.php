@@ -46,12 +46,12 @@ class ValueRepresentation extends AbstractRepresentation
      *
      * @return string
      */
-    public function asHtml()
+    public function asHtml($lang = null)
     {
         $view = $this->getServiceLocator()->get('ViewRenderer');
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs([
-            'html' => $this->dataType->render($view, $this),
+            'html' => $this->dataType->render($view, $this, $lang),
         ]);
         $eventManager->trigger('rep.value.html', $this, $args);
         return $args['html'];

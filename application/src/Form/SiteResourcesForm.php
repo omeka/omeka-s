@@ -48,10 +48,6 @@ class SiteResourcesForm extends Form
             'allow_empty' => true,
         ]);
         $inputFilter->add([
-            'name' => 'item_pool',
-            'allow_empty' => true,
-        ]);
-        $inputFilter->add([
             'name' => 'save_search',
             'allow_empty' => true,
         ]);

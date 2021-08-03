@@ -35,15 +35,16 @@ class BlockLayout extends AbstractHelper
      */
     public function getLayouts()
     {
+        $labels = [];
         $translate = $this->getView()->plugin('translate');
+        foreach ($this->manager->getRegisteredNames() as $name) {
+            $labels[$name] = $translate($this->manager->get($name)->getLabel());
+        }
         $collator = extension_loaded('intl') ? new Collator('root') : null;
-        $registeredNames = $this->manager->getRegisteredNames();
-        usort($registeredNames, function ($a, $b) use ($translate, $collator) {
-            $aName = $translate($this->manager->get($a)->getLabel());
-            $bName = $translate($this->manager->get($b)->getLabel());
+        uasort($labels, function ($aName, $bName) use ($collator) {
             return $collator ? $collator->compare($aName, $bName) : strcasecmp($aName, $bName);
         });
-        return $registeredNames;
+        return array_keys($labels);
     }
 
     /**

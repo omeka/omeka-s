@@ -47,7 +47,7 @@ class Asset extends AbstractBlockLayout
         $selectLabel = 'Alignment'; // @translate
         $select->setAttributes(['title' => $selectLabel, 'aria-label' => $selectLabel]);
         $html = '<div class="field"><div class="field-meta">';
-        $html .= '<label class="thumbnail-option" for="o:block[__blockIndex__][o:data][alignment]">' . $selectLabel . '</label></div>';
+        $html .= '<label for="o:block[__blockIndex__][o:data][alignment]">' . $selectLabel . '</label></div>';
         $html .= '<div class="inputs">' . $view->formSelect($select) . '</div></div>';
         return $html;
     }
@@ -78,7 +78,7 @@ class Asset extends AbstractBlockLayout
         $blockData = ($block) ? $block->data() : '';
         $attachments = $this->prepareAssetAttachments($view, $blockData);
         $alignmentClassSelect = $this->alignmentClassSelect($view, $block);
-        return $view->partial('common/asset', [
+        return $view->partial('common/asset-block-form', [
           'block' => $blockData,
           'siteId' => $siteId,
           'apiUrl' => $apiUrl,

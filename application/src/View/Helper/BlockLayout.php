@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Collator;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
@@ -34,7 +35,15 @@ class BlockLayout extends AbstractHelper
      */
     public function getLayouts()
     {
-        return $this->manager->getRegisteredNames();
+        $translate = $this->getView()->plugin('translate');
+        $collator = extension_loaded('intl') ? new Collator('root') : null;
+        $registeredNames = $this->manager->getRegisteredNames();
+        usort($registeredNames, function ($a, $b) use ($translate, $collator) {
+            $aName = $translate($this->manager->get($a)->getLabel());
+            $bName = $translate($this->manager->get($b)->getLabel());
+            return $collator ? $collator->compare($aName, $bName) : strcmp($aName, $bName);
+        });
+        return $registeredNames;
     }
 
     /**

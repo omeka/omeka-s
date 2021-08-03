@@ -41,7 +41,7 @@ class BlockLayout extends AbstractHelper
         usort($registeredNames, function ($a, $b) use ($translate, $collator) {
             $aName = $translate($this->manager->get($a)->getLabel());
             $bName = $translate($this->manager->get($b)->getLabel());
-            return $collator ? $collator->compare($aName, $bName) : strcmp($aName, $bName);
+            return $collator ? $collator->compare($aName, $bName) : strcasecmp($aName, $bName);
         });
         return $registeredNames;
     }

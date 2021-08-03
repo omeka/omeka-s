@@ -16,7 +16,7 @@ $attachmentRowTemplate = '
     <input type="hidden" class="asset-caption asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][caption]">
     ';
 ?>
-<div class="asset-attachments-form" data-site-id="<?php echo $siteId; ?>" data-page-api-url="<?php echo $apiUrl; ?>">
+<div class="asset-attachments-form" data-site-id="<?php echo $escape($siteId); ?>" data-page-api-url="<?php echo $escape($apiUrl); ?>">
     <a href="#" class="collapse" aria-label="<?php echo $this->translate('Collapse'); ?>" title="<?php echo $this->translate('Collapse'); ?>"><h4><?php echo $translate('Attachments'); ?></h4></a>
     <div class="attachments collapsible" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
       <?php if ($block !== ''): ?>
@@ -25,11 +25,13 @@ $attachmentRowTemplate = '
             <span class="sortable-handle"></span>
             <?php 
                 $asset = $attachment['asset'];
-                $assetId = $asset->id();
-                $page = (array_key_exists('page', $attachment)) ? $attachment['page'] : '';
-                $pageId = ($page !== '') ? $page->id() : '';
-                $altLinkTitle = ($page !== '') ? $attachment['alt_link_title'] : '';
-                $caption = $attachment['caption'];
+                $assetId = $escape($asset->id());
+                $page = (array_key_exists('page', $attachment)) ? $attachment['page'] : null;
+                $pageId = ($page) ? $escape($page->id()) : '';
+                $pageUrl = ($page) ? $page->siteUrl() : '';
+                $pageTitle = ($page) ? $escape($page->title()) : '';
+                $altLinkTitle = ($page) ? $escape($attachment['alt_link_title']) : '';
+                $caption = $escape($attachment['caption']);
             ?>
             <?php $thumbnail = '<div class="thumbnail"><img src="' . $asset->assetUrl() . '" alt="' . $asset->name() . '"></div>'; ?>
             <div class="asset-title"><?php echo $thumbnail; ?><?php echo $asset->name(); ?></div>
@@ -38,14 +40,14 @@ $attachmentRowTemplate = '
                 <li class="delete"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete button', 'title' => $translate('Delete attachment')]); ?></li>
                 <li class="undo"><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo button', 'title' => $translate('Restore attachment')]); ?></li>
             </ul>
-            <input type="hidden" class="asset-page-id asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" value="<?php echo $pageId; ?>" data-page-title="<?php echo ($page !== '') ? $page->title() : ''; ?>" data-page-url="<?php echo ($page !== '') ? $page->siteUrl() : ''; ?>">
+            <input type="hidden" class="asset-page-id asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][page]" value="<?php echo $pageId; ?>" data-page-title="<?php echo $pageTitle; ?>" data-page-url="<?php echo $pageUrl; ?>">
             <input type="hidden" class="asset" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]" value="<?php echo $assetId; ?>">
             <input type="hidden" class="alternative-link-title asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][alt_link_title]" value="<?php echo $altLinkTitle; ?>">
             <input type="hidden" class="asset-caption asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][caption]" value="<?php echo $caption; ?>">
           </div>
         <?php endforeach; ?>
         <?php endif; ?>
-        <button type="button" class="add-asset-attachment" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Add asset'); ?></button>
+        <button type="button" class="add-asset-attachment" data-sidebar-content-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Add asset'); ?></button>
     </div>
 </div>
 <a class="collapse" href="#" aria-label="<?php echo $translate('collapse'); ?>">
@@ -57,7 +59,7 @@ $attachmentRowTemplate = '
       <label for="o:block[__blockIndex__][o:data][className]"><?php echo $translate('Class'); ?></label>
     </div>
     <div class="inputs">
-      <?php $className = (isset($block['className'])) ? $block['className'] : ''; ?>
+      <?php $className = (isset($block['className'])) ? $escape($block['className']) : ''; ?>
       <input type="text" name="o:block[__blockIndex__][o:data][className]" value="<?php echo $className; ?>">
     </div>
   </div>

@@ -29,8 +29,18 @@ class Asset extends AbstractBlockLayout
       
     public function alignmentClassSelect(PhpRenderer $view, SitePageBlockRepresentation $block = null
     ) {
-        $alignmentLabels = ['default', 'float left', 'float right', 'center'];
-        $alignmentValues = ['default', 'left', 'right', 'center'];
+        $alignmentLabels = [
+          'default', // @translate
+          'float left', // @translate
+          'float right', // @translate
+          'center' // @translate
+        ];
+        $alignmentValues = [
+          'default', // @translate
+          'left', // @translate
+          'right', // @translate
+          'center' // @translate
+        ];
         $alignment = $block ? $block->dataValue('alignment', 'default') : 'default';
         $select = new Select('o:block[__blockIndex__][o:data][alignment]');
         $select->setValueOptions(array_combine($alignmentValues, $alignmentLabels))->setValue($alignment);

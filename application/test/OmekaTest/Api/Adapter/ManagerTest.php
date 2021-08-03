@@ -12,6 +12,7 @@ class ManagerTest extends TestCase
     {
         $serviceManager = $this->getServiceManager([
             'EventManager' => $this->getMockForAbstractClass('Laminas\EventManager\EventManagerInterface'),
+            'MvcTranslator' => $this->getMockForAbstractClass('Laminas\I18n\Translator\TranslatorInterface'),
         ]);
         $this->manager = new Manager($serviceManager);
     }

@@ -89,10 +89,12 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
                 }
             }
             // Sort strings alphabetically.
-            $collator = extension_loaded('intl') ? new \Collator('root') : null;
-            uasort($sortedStrings, function ($aName, $bName) use ($collator) {
-                return $collator ? $collator->compare($aName, $bName) : strcasecmp($aName, $bName);
-            });
+            if (extension_loaded('intl')) {
+                $collator = new \Collator('root');
+                $collator->asort($sortedStrings);
+            } else {
+                natcasesort($sortedStrings);
+            }
             // Sorted names come before unsorted names.
             $registeredNames = array_merge(array_keys($sortedStrings), $unsortedNames);
         }

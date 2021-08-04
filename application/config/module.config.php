@@ -523,9 +523,6 @@ return [
             'html' => Service\BlockLayout\HtmlFactory::class,
             'listOfPages' => Service\BlockLayout\PageListFactory::class,
         ],
-        'sorted_names' => [
-            'html',
-        ],
     ],
     'navigation_links' => [
         'invokables' => [

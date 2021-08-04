@@ -165,7 +165,7 @@ class MediaController extends AbstractActionController
         if ($form->isValid()) {
             $response = $this->api($form)->batchDelete('media', $resourceIds, [], ['continueOnError' => true]);
             if ($response) {
-                $this->messenger()->addSuccess('Medias successfully deleted'); // @translate
+                $this->messenger()->addSuccess('Media successfully deleted'); // @translate
             }
         } else {
             $this->messenger()->addFormErrors($form);
@@ -191,7 +191,7 @@ class MediaController extends AbstractActionController
                 'resource' => 'media',
                 'query' => $query,
             ]);
-            $this->messenger()->addSuccess('Deleting medias. This may take a while.'); // @translate
+            $this->messenger()->addSuccess('Deleting media. This may take a while.'); // @translate
         } else {
             $this->messenger()->addFormErrors($form);
         }
@@ -230,7 +230,7 @@ class MediaController extends AbstractActionController
                     ]);
                 }
 
-                $this->messenger()->addSuccess('Medias successfully edited'); // @translate
+                $this->messenger()->addSuccess('Media successfully edited'); // @translate
                 return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
             } else {
                 $this->messenger()->addFormErrors($form);
@@ -282,7 +282,7 @@ class MediaController extends AbstractActionController
                     'data_append' => isset($data['append']) ? $data['append'] : [],
                 ]);
 
-                $this->messenger()->addSuccess('Editing medias. This may take a while.'); // @translate
+                $this->messenger()->addSuccess('Editing media. This may take a while.'); // @translate
                 return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
             } else {
                 $this->messenger()->addFormErrors($form);

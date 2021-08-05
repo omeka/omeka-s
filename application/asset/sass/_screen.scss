@@ -4177,7 +4177,6 @@ body.sidebar-open #content {
 
     #asset-options .selected-asset {
         overflow: hidden;
-        margin-bottom: $spacing-large;
     }
 
     #asset-options .selected-asset-image {
@@ -4628,6 +4627,14 @@ body.minimal .site.results thead {
 
 .selected-asset-image {
     max-width: 100%;
+}
+
+.asset-form-select {
+    margin-top: $spacing-medium;
+}
+
+.new.attachment {
+    display: none;
 }
 
 .asset-upload {

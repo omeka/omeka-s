@@ -57,9 +57,13 @@ class Asset extends AbstractBlockLayout
       if ($blockData) {  
         foreach ($blockData as $key => $value) {
           if (isset($value['id'])) {
-            $assetId = $value['id'];
-            $asset = $view->api()->read('assets', $assetId)->getContent();
-            $attachments[$key]['asset'] = $asset;
+            if($value['id'] !== '') {
+              $assetId = $value['id'];
+              $asset = $view->api()->read('assets', $assetId)->getContent();
+              $attachments[$key]['asset'] = $asset;
+            } else{
+              $attachments[$key]['asset'] = null;
+            }
             if ($value['page'] !== '') {
               $attachments[$key]['page'] = $view->api()->read('site_pages', $value['page'])->getContent();
             }

@@ -105,29 +105,20 @@
         }
     }
 
-    /**
-     * Add a asset attachment.
-     *
-     * @param object selectingAttachment Add the item to this attachment
-     * @param object itemData The data of the item to add
-     */
-     function addAssetAttachment(selectingAttachmentButton)
-     {
-        var attachment = $(selectingAttachmentButton.parents('.attachments').data('template'));
-        populateAssetAttachment(attachment);
-        selectingAttachmentButton.before(attachment);
-     }
-
      function populateAssetAttachment(attachment) {
         var asset = $('.selected-asset');
-        var assetImage = asset.find('img').clone().attr('class', '');
         var assetTitle = asset.find('.selected-asset-name').text();
+        var assetImage = asset.find('img').clone().attr('class', '');
         var assetId = asset.find('.selected-asset-id').val();
+        if (assetTitle !== '') {
+            attachment.find('.asset-title').empty().append(assetTitle).prepend($('<div class="thumbnail"></div>'));
+            attachment.find('.thumbnail').append(assetImage);
+            attachment.find('input.asset').val(assetId);
+        }
+
         var pageInput =  attachment.find('input.asset-page-id');
-        attachment.find('.asset-title').empty().append(assetTitle).prepend($('<div class="thumbnail"></div>'));
-        attachment.find('.thumbnail').append(assetImage);
-        attachment.find('input.asset').val(assetId);
         pageInput.attr('data-page-title', $('.selected-page').text()).attr('data-page-url', $('.selected-page + a').attr('href')); 
+
         $('#asset-options .asset-option').each(function() {
             var assetOption = $(this);
             var optionName = assetOption.attr('name');
@@ -351,30 +342,46 @@
             selectingAttachment.addClass('selecting');
 
             var currentAsset = selectingAttachment.find('.thumbnail img');
-            var newSelectedAsset = currentAsset.clone().addClass('selected-asset-image');
-            var assetOptionImage = $('#asset-options .selected-asset-image');
-            var pageInput = selectingAttachment.find('input.asset-page-id');
-            assetOptionImage.replaceWith(newSelectedAsset);
+            if (currentAsset.length > 0) {
+                $('#asset-options .asset-form-element').removeClass('empty');
+                $('#asset-options .selected-asset-name').text(selectingAttachment.find('.asset-title').text());
+                var newSelectedAsset = currentAsset.clone().addClass('selected-asset-image');
+                var assetOptionImage = $('#asset-options .selected-asset-image');
+                assetOptionImage.replaceWith(newSelectedAsset);
+            } else {
+                $('#asset-options .asset-form-element').addClass('empty');
+                $('#asset-options .selected-asset-name').text('');
+                $('#asset-options .selected-asset-image').attr('src', '').attr('alt', '');
+            }
             $('#asset-options .selected-asset-id').val(assetInput.val());
-            $('#asset-options .selected-asset-name').text(selectingAttachment.find('.asset-title').text());
+
+            var pageInput = selectingAttachment.find('input.asset-page-id');
             $('#asset-page-id').val(pageInput.val());
+            if (pageInput.attr('data-page-title') == '') {
+                $('.none-selected').removeClass('inactive');
+            } else {
+                $('.none-selected').addClass('inactive');
+            }
+            $('.selected-page').text(pageInput.attr('data-page-title'));
+            $('.selected-page + a').attr('href', pageInput.attr('data-page-url'));
+            
             $('#asset-options .asset-option').each(function() {
                 var assetOption = $(this);
                 var optionName = assetOption.attr('name');
                 assetOption.val(selectingAttachment.find('.' + optionName).val());
             });
-            if (pageInput.data('page-title') == '') {
-                $('.none-selected').removeClass('inactive');
-            } else {
-                $('.none-selected').addClass('inactive');
-            }
-            $('.selected-page').text(pageInput.data('page-title'));
-            $('.selected-page + a').attr('href', pageInput.data('page-url'));
             Omeka.openSidebar(sidebar);
         });
 
+        $('#content').on('click', '.add-asset-attachment', function() {
+            var selectingAttachmentButton = $(this);
+            var newAsset = selectingAttachmentButton.parents('.attachments').data('template');
+            selectingAttachmentButton.before(newAsset);
+            $('.new.attachment .asset-options-configure').click();
+            $('#asset-options .asset-form-select').click();
+        });
 
-        $('#content').on('click', '.add-asset-attachment, .change-selected-asset', function () {
+        $('#content').on('click', '.change-selected-asset', function () {
             var assetSidebar = $('#asset-sidebar');
             var selectingAttachmentButton = $(this);
             Omeka.openSidebar(assetSidebar);
@@ -385,16 +392,30 @@
             selectingAttachmentButton.addClass('asset-selecting-button');
         });
 
-        $('#content').on('click', '#asset-options-confirm-panel', function() {
-            var assetSelectingButton = $('.asset-selecting-button');
-            if ($('.asset-selecting-button').hasClass('add-asset-attachment')) {
-                addAssetAttachment(assetSelectingButton);
-            } else {
-                var selectingAttachment = $('.selecting.attachment');
-                populateAssetAttachment(selectingAttachment);
+        $('#content').on('click', '.asset-list .select-asset', function (e) {
+            var assetOptions = $('#asset-options');
+            if (assetOptions.length > 0) {
+                assetOptions.addClass('active');
+                if ($('.add-asset-attachment').hasClass('asset-selecting-button')) {
+                    assetOptions.find('.asset-option').val('');
+                    $('#asset-options .selected-page').text('');
+                    $('#asset-options .selected-page + a').attr('href','');
+                    $('#asset-options .none-selected').removeClass('inactive');
+                }
+                hiddenInput = '.selected-asset-id';
             }
+        });
+
+        $('#content').on('click', '#asset-options-confirm-panel', function() {
+            var selectingAttachment = $('.selecting.attachment');
+            selectingAttachment.removeClass('new');
+            populateAssetAttachment(selectingAttachment);
             Omeka.closeSidebar($('#asset-options'));
             $('.selecting.attachment').removeClass('selecting');
+        });
+
+        $('#content').on('click', '#asset-options .sidebar-close', function() {
+            $('.new.attachment').remove();
         });
 
         $('#content').on('click', '.page-select', function() {

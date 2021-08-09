@@ -6,28 +6,32 @@ $altLabelInput = null;
 $headingInput = null;
 $descriptionInput = null;
 $form->prepare();
+$selectedAssetTemplate = '
+<span class="selected-asset">
+<img class="selected-asset-image">
+<div class="selected-asset-name"></div>
+<input type="hidden" name="selected-asset-id" class="selected-asset-id">
+<span class="none-selected">' . $translate('[No asset selected]') . '</span>
+</span>
+';
+$selectedPageTemplate = '
+<span class="selected-page"></span><a href="" target="_blank" class="o-icon-external" aria-label="' . $translate('Preview') . '" title="' . $translate('Preview') . '"></a>
+<span class="none-selected">' . $translate('[No page selected]') . '</span>
+<input type="hidden" name="asset-page-id" id="asset-page-id" value="" class="asset-option">
+';
 ?>
 <div class="sidebar" id="asset-options">
   <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
   <div class="sidebar-content">
     <h3><?php echo $translate('Asset Options'); ?></h3>
-    <div class="asset-form-element">
-      <span class="selected-asset">
-          <img class="selected-asset-image">
-          <div class="selected-asset-name"></div>
-          <input type="hidden" name="selected-asset-id" class="selected-asset-id">
-        </span>
-        <span class="no-selected-asset">
-          <?php echo $translate('[No asset selected]'); ?>
-        </span>
-        <button type="button" class="asset-form-select" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Select'); ?></button>
+    <div class="asset-form-element" data-default-html="<?php echo $escape($selectedAssetTemplate); ?>">
+      <div class="asset-option-selection"><?php echo $selectedAssetTemplate; ?></div>
+      <button type="button" class="asset-form-select" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Select'); ?></button>
     </div>
-    <div class="page-link">
+    <div class="page-link" data-default-html="<?php echo $escape($selectedPageTemplate); ?>">
       <h3><?php echo $translate('Page link'); ?></h3>
       <div class="page-status" data-site-url="<?php echo $site->siteUrl(); ?>">
-          <span class="none-selected"><?php echo $translate('[No page selected]'); ?></span>
-          <span class="selected-page"></span><a href="" target="_blank" class="o-icon-external" aria-label="<?php echo $translate('Preview'); ?>" title="<?php echo $translate('Preview'); ?>"></a>
-          <input type="hidden" name="asset-page-id" id="asset-page-id" value="" class="asset-option">
+        <div class="asset-option-selection"><?php echo $selectedPageTemplate; ?></div>
       </div>
       <button type="button" class="page-select"><?php echo $translate('Select'); ?></button>
       <button type="button" class="page-clear"><?php echo $translate('Clear'); ?></button>

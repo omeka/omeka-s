@@ -126,6 +126,11 @@
         });
      }
 
+     function resetAssetOption(optionSelector) {
+         var template = $(optionSelector).data('default-html');
+        $(optionSelector).find('.asset-option-selection').html(template);
+     }
+
      function selectPageLink(pageButton) {
          var pageUrl = $('.page-status').data('site-url') + '/page/' + pageButton.data('page-slug');
          $('.selected-page').text(pageButton.text());
@@ -333,7 +338,6 @@
         $('#blocks').on('click', '.asset-options-configure', function(e) {
             e.preventDefault();
             Omeka.closeSidebar($('.sidebar.active:not(#new-block)'));
-            var sidebar = $('#asset-options');
             var selectingAttachment = $(this).closest('.attachment');
             var assetInput = selectingAttachment.find('input.asset');
             $('.asset-selecting-button').removeClass('asset-selecting-button');
@@ -343,25 +347,16 @@
 
             var currentAsset = selectingAttachment.find('.thumbnail img');
             if (currentAsset.length > 0) {
-                $('#asset-options .asset-form-element').removeClass('empty');
-                $('#asset-options .selected-asset-name').text(selectingAttachment.find('.asset-title').text());
                 var newSelectedAsset = currentAsset.clone().addClass('selected-asset-image');
-                var assetOptionImage = $('#asset-options .selected-asset-image');
-                assetOptionImage.replaceWith(newSelectedAsset);
+                $('#asset-options .selected-asset-name').text(selectingAttachment.find('.asset-title').text());
+                $('#asset-options .selected-asset-image').replaceWith(newSelectedAsset);
             } else {
-                $('#asset-options .asset-form-element').addClass('empty');
-                $('#asset-options .selected-asset-name').text('');
-                $('#asset-options .selected-asset-image').attr('src', '').attr('alt', '');
+                resetAssetOption('#asset-options .asset-form-element');
             }
             $('#asset-options .selected-asset-id').val(assetInput.val());
 
             var pageInput = selectingAttachment.find('input.asset-page-id');
             $('#asset-page-id').val(pageInput.val());
-            if (pageInput.attr('data-page-title') == '') {
-                $('.none-selected').removeClass('inactive');
-            } else {
-                $('.none-selected').addClass('inactive');
-            }
             $('.selected-page').text(pageInput.attr('data-page-title'));
             $('.selected-page + a').attr('href', pageInput.attr('data-page-url'));
             
@@ -370,13 +365,13 @@
                 var optionName = assetOption.attr('name');
                 assetOption.val(selectingAttachment.find('.' + optionName).val());
             });
-            Omeka.openSidebar(sidebar);
+            Omeka.openSidebar($('#asset-options'));
         });
 
         $('#content').on('click', '.add-asset-attachment', function() {
             var selectingAttachmentButton = $(this);
             var newAsset = selectingAttachmentButton.parents('.attachments').data('template');
-            selectingAttachmentButton.before(newAsset);
+            selectingAttachmentButton.before(newAsset).addClass('asset-selecting-button');
             $('.new.attachment .asset-options-configure').click();
             $('#asset-options .asset-form-select').click();
         });
@@ -394,15 +389,10 @@
 
         $('#content').on('click', '.asset-list .select-asset', function (e) {
             var assetOptions = $('#asset-options');
-            if (assetOptions.length > 0) {
-                assetOptions.addClass('active');
-                if ($('.add-asset-attachment').hasClass('asset-selecting-button')) {
-                    assetOptions.find('.asset-option').val('');
-                    $('#asset-options .selected-page').text('');
-                    $('#asset-options .selected-page + a').attr('href','');
-                    $('#asset-options .none-selected').removeClass('inactive');
-                }
-                hiddenInput = '.selected-asset-id';
+            assetOptions.addClass('active');
+            if ($('.add-asset-attachment').hasClass('asset-selecting-button')) {
+                assetOptions.find('.asset-option').val('');
+                resetAssetOption($('#asset-options .page-link'));
             }
         });
 
@@ -441,17 +431,13 @@
                     pageList.on('click', 'button.option', function(e) {
                         Omeka.closeSidebar($('#page-list'));
                         selectPageLink($(this));
-                        $('.none-selected').addClass('inactive');
                     });
                 });
             }
         });
 
         $('#content').on('click', '.page-clear', function() {
-            $('.selected-page').text('');
-            $('.selected-page + a').attr('href', '');
-            $('#asset-page-id').val('');
-            $('.none-selected').removeClass('inactive');
+            resetAssetOption('#asset-options .page-link');
         });
     });
 })(window.jQuery);

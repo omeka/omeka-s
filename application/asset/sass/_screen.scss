@@ -4625,6 +4625,12 @@ body.minimal .site.results thead {
     display: block;
 }
 
+.selected-asset-name:not(:empty) ~ .none-selected,
+.selected-page:empty + a,
+.selected-page:not(:empty) ~ .none-selected {
+    display: none;
+}
+
 .selected-asset-image {
     max-width: 100%;
 }

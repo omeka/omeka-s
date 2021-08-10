@@ -62,6 +62,11 @@ class Value extends AbstractEntity
      */
     protected $isPublic = true;
 
+    /**
+     * @OneToOne(targetEntity="ValueAnnotation", orphanRemoval=true)
+     */
+    protected $valueAnnotation;
+
     public function getId()
     {
         return $this->id;
@@ -150,5 +155,15 @@ class Value extends AbstractEntity
     public function isPublic()
     {
         return $this->getIsPublic();
+    }
+
+    public function setValueAnnotation(ValueAnnotation $valueAnnotation = null)
+    {
+        $this->valueAnnotation = $valueAnnotation;
+    }
+
+    public function getValueAnnotation()
+    {
+        return $this->valueAnnotation;
     }
 }

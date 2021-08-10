@@ -61,6 +61,7 @@ return [
             'Omeka\Entity\Item' => Entity\Item::class,
             'Omeka\Entity\Media' => Entity\Media::class,
             'Omeka\Entity\ItemSet' => Entity\ItemSet::class,
+            'Omeka\Entity\ValueAnnotation' => Entity\ValueAnnotation::class,
         ],
         'filters' => [
             'resource_visibility' => Db\Filter\ResourceVisibilityFilter::class,

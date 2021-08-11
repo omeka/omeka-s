@@ -65,6 +65,19 @@ class ValueRepresentation extends AbstractRepresentation
             'property_label' => $this->value->getProperty()->getLabel(),
             'is_public' => $this->isPublic(),
         ];
+        // Set the value annotations.
+        $valueAnnotation = $this->valueAnnotation();
+        if ($valueAnnotation) {
+            $valueAnnotations = [];
+            foreach ($valueAnnotation->values() as $term => $property) {
+                foreach ($property['values'] as $value) {
+                    $valueAnnotations[$term][] = $value;
+                }
+            }
+            if ($valueAnnotations) {
+                $valueObject['@annotation'] = $valueAnnotations;
+            }
+        }
         $jsonLd = $this->dataType->getJsonLd($this);
         if (!is_array($jsonLd)) {
             $jsonLd = [];
@@ -168,6 +181,17 @@ class ValueRepresentation extends AbstractRepresentation
     public function isPublic()
     {
         return $this->value->isPublic();
+    }
+
+    /**
+     * Get the value annotation representation.
+     *
+     * @return null|AbstractResourceEntityRepresentation
+     */
+    public function valueAnnotation()
+    {
+        $valueAnnotation = $this->value->getValueAnnotation();
+        return $valueAnnotation ? $this->getAdapter('value_annotations')->getRepresentation($valueAnnotation) : null;
     }
 
     /**

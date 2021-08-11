@@ -63,7 +63,7 @@ class Value extends AbstractEntity
     protected $isPublic = true;
 
     /**
-     * @OneToOne(targetEntity="ValueAnnotation", orphanRemoval=true)
+     * @OneToOne(targetEntity="ValueAnnotation", orphanRemoval=true, cascade={"persist"})
      */
     protected $valueAnnotation;
 

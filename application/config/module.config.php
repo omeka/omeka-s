@@ -372,6 +372,7 @@ return [
             'items' => Api\Adapter\ItemAdapter::class,
             'media' => Api\Adapter\MediaAdapter::class,
             'item_sets' => Api\Adapter\ItemSetAdapter::class,
+            'value_annotations' => Api\Adapter\ValueAnnotationAdapter::class,
             'modules' => Api\Adapter\ModuleAdapter::class,
             'sites' => Api\Adapter\SiteAdapter::class,
             'site_pages' => Api\Adapter\SitePageAdapter::class,

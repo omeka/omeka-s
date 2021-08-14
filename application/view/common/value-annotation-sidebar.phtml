@@ -1,0 +1,14 @@
+<div id="value-annotation-sidebar" class='sidebar'>
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+    <div class="sidebar-content">
+        <div class="confirm-main">
+            <h3><?php echo $this->translate('Annotate value'); ?></h3>
+            <button type="button" id="value-annotation-add"><?php echo $this->translate('Add annotation'); ?></button>
+            <select id="value-annotation-add-type"></select>
+            <div id="value-annotation-container" data-value-annotation-templates="<?php /* echo $this->escapeHtml($this->partial('common/annotation-value')); */ ?>"></div>
+        </div>
+        <div class="confirm-panel">
+            <button type="button" id="value-annotation-set"><?php echo $this->translate('Set annotations'); ?></button>
+        </div>
+    </div>
+</div>

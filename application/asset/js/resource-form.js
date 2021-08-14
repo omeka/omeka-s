@@ -2,6 +2,31 @@
 
     $(document).ready( function() {
 
+        let annotatingValue;
+        const valueAnnotationSidebar = $('#value-annotation-sidebar');
+        const valueAnnotationContainer = $('#value-annotation-container');
+        // Handle "Annotate value" click.
+        $(document).on('click', '.value-annotation-annotate', function(e) {
+            e.preventDefault();
+            annotatingValue = $(this).closest('.value');
+            const valueAnnotations = annotatingValue.data('value-annotations');
+            valueAnnotationContainer.empty();
+            $.each(valueAnnotations, function(term, values) {
+                $.each(values, function(index, value) {
+                    // @todo: populate sidebar with value annotations
+                });
+            });
+            Omeka.openSidebar(valueAnnotationSidebar);
+        });
+        // Handle "Set annotations" click.
+        $('#value-annotation-set').on('click', function(e) {
+            e.preventDefault();
+            const valueAnnotations = {};
+            // @todo: validate annotations
+            annotatingValue.data('value-annotations', valueAnnotations);
+            Omeka.closeSidebar(valueAnnotationSidebar);
+        });
+
         // Select property
         $('#property-selector li.selector-child').on('click', function(e) {
             e.stopPropagation();

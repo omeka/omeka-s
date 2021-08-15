@@ -126,4 +126,35 @@ class DataType extends AbstractHelper
             $this->manager->get($dataType)->prepareForm($this->getView());
         }
     }
+
+    public function getValueAnnotationDataTypes()
+    {
+        $dataTypes = [];
+        foreach ($this->dataTypes as $dataTypeName) {
+            $dataType = $this->manager->get($dataTypeName);
+            if ($dataType instanceof \Omeka\DataType\ValueAnnotatableInterface) {
+                $dataTypes[$dataTypeName] = $dataType;
+            }
+        }
+        return $dataTypes;
+    }
+
+    public function getValueAnnotationSelect()
+    {
+        $valueOptions = [];
+        foreach ($this->getValueAnnotationDataTypes() as $dataTypeName => $dataType) {
+            $valueOptions[$dataTypeName] = $dataType->getLabel();
+        }
+        $element = new Select('value-annotation-select');
+        $element->setValueOptions($valueOptions);
+        return $this->getView()->formSelect($element);
+    }
+
+    public function getValueAnnotationTemplates()
+    {
+    }
+
+    public function getValueAnnotationTemplate($dataType)
+    {
+    }
 }

@@ -9,7 +9,7 @@
         $(document).on('click', '.value-annotation-annotate', function(e) {
             e.preventDefault();
             annotatingValue = $(this).closest('.value');
-            const valueAnnotations = annotatingValue.data('value-annotations');
+            const valueAnnotations = annotatingValue.data('valueAnnotations');
             valueAnnotationContainer.empty();
             $.each(valueAnnotations, function(term, values) {
                 $.each(values, function(index, value) {
@@ -22,8 +22,8 @@
         $('#value-annotation-set').on('click', function(e) {
             e.preventDefault();
             const valueAnnotations = {};
-            // @todo: validate annotations
-            annotatingValue.data('value-annotations', valueAnnotations);
+            // @todo: populate annotation object
+            annotatingValue.data('valueAnnotations', valueAnnotations);
             Omeka.closeSidebar(valueAnnotationSidebar);
         });
 
@@ -236,6 +236,7 @@
                 valueData['property_id'] = propertyId;
                 valueData['type'] = value.data('dataType');
                 valueData['is_public'] = value.find('input.is_public').val();
+                valueData['@annotation'] = value.data('valueAnnotations');
                 value.find(':input[data-value-key]').each(function () {
                     var input = $(this);
                     valueKey = input.data('valueKey');
@@ -267,6 +268,7 @@
         var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
         value.data('data-term', term);
+        value.data('valueAnnotations', valueObj ? valueObj['@annotation'] : null);
 
         // Get and display the value's visibility.
         var isPublic = true; // values are public by default

@@ -4,7 +4,7 @@
         <div class="confirm-main">
             <h3><?php echo $this->translate('Annotate value'); ?></h3>
             <button type="button" id="value-annotation-add"><?php echo $this->translate('Add annotation'); ?></button>
-            <select id="value-annotation-add-type"></select>
+            <?php echo $this->dataType()->getValueAnnotationSelect(); ?>
             <div id="value-annotation-container" data-value-annotation-templates="<?php /* echo $this->escapeHtml($this->partial('common/annotation-value')); */ ?>"></div>
         </div>
         <div class="confirm-panel">

@@ -66,5 +66,8 @@ class Literal extends AbstractDataType implements ValueAnnotatableInterface
 
     public function valueAnnotationForm(PhpRenderer $view)
     {
+        return '
+        <input type="text" data-value-key="@language">
+        <textarea data-value-key="@value"></textarea>';
     }
 }

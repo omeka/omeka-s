@@ -6,6 +6,7 @@ var initialTreeData;
 navTree.jstree({
     'core': {
         'check_callback': true,
+        'force_text': true,
         'data': navTree.data('jstree-data'),
     },
     'plugins': ['dnd', 'removenode', 'editlink', 'display']

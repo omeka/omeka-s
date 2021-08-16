@@ -14,6 +14,7 @@
                     }
                     return true; // allow everything else
                 },
+                'force_text': true,
                 'data': navTree.data('jstree-data'),
             },
             'plugins': ['dnd', 'removenode', 'display']

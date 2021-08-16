@@ -17,7 +17,7 @@ $escape = $this->plugin('escapeHtml');
                 data-label="<?php echo $escape($page->title()); ?>"
                 data-id="<?php echo $escape($page->id()); ?>"
                 data-slug="<?php echo $escape($page->slug()); ?>">
-                <?php echo sprintf('%s (%s)', $page->title(), $page->slug()); ?>
+                <?php echo sprintf('%s (%s)', $escape($page->title()), $escape($page->slug())); ?>
             </button>
         <?php endif;
         endforeach; ?>

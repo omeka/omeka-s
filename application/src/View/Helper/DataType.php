@@ -2,6 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\DataType\Manager as DataTypeManager;
+use Omeka\DataType\ValueAnnotatableInterface;
 use Laminas\Form\Element\Select;
 use Laminas\View\Helper\AbstractHelper;
 
@@ -132,29 +133,33 @@ class DataType extends AbstractHelper
         $dataTypes = [];
         foreach ($this->dataTypes as $dataTypeName) {
             $dataType = $this->manager->get($dataTypeName);
-            if ($dataType instanceof \Omeka\DataType\ValueAnnotatableInterface) {
+            if ($dataType instanceof ValueAnnotatableInterface) {
                 $dataTypes[$dataTypeName] = $dataType;
             }
         }
         return $dataTypes;
     }
 
-    public function getValueAnnotationSelect()
+    public function getValueAnnotationSelect($name, $attributes = [])
     {
         $valueOptions = [];
         foreach ($this->getValueAnnotationDataTypes() as $dataTypeName => $dataType) {
             $valueOptions[$dataTypeName] = $dataType->getLabel();
         }
-        $element = new Select('value-annotation-select');
-        $element->setValueOptions($valueOptions);
+        $element = new Select($name);
+        $element->setValueOptions($valueOptions)
+            ->setAttributes($attributes);
         return $this->getView()->formSelect($element);
     }
 
     public function getValueAnnotationTemplates()
     {
-    }
-
-    public function getValueAnnotationTemplate($dataType)
-    {
+        $view = $this->getView();
+        $templates = [];
+        foreach ($this->getValueAnnotationDataTypes() as $dataTypeName => $dataType) {
+            $template = $view->partial('common/value-annotation-wrapper', ['dataType' => $dataType]);
+            $templates[$dataTypeName] = $template;
+        }
+        return $templates;
     }
 }

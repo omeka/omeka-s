@@ -13,6 +13,8 @@
         // Make a value annotation jQuery object.
         const makeValueAnnotation = function(dataTypeName, value) {
             const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
+            const propertyLabel = vaPropertySelect.find(`option[value="${value.property_id}"]`).text();
+            valueAnnotation.find('.value-annotation-property').text(propertyLabel);
             valueAnnotation.data('propertyId', value.property_id);
             valueAnnotation.data('propertyTerm', value.property_term);
             $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation, value]);

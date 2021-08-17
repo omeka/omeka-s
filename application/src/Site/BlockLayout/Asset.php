@@ -12,34 +12,35 @@ use Laminas\View\Renderer\PhpRenderer;
 
 class Asset extends AbstractBlockLayout
 {
-    public function getLabel() {
+    public function getLabel()
+    {
         return 'Asset'; // @translate
     }
 
-    public function prepareForm(PhpRenderer $view) 
+    public function prepareForm(PhpRenderer $view)
     {
-      $view->headScript()->appendFile($view->assetUrl('js/asset-form.js', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('js/asset-form.js', 'Omeka'));
     }
-    
+
     public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
     {
         $data = $block->getData();
         $block->setData($data);
-      }
-      
+    }
+
     public function alignmentClassSelect(PhpRenderer $view, SitePageBlockRepresentation $block = null
     ) {
         $alignmentLabels = [
           'default', // @translate
           'float left', // @translate
           'float right', // @translate
-          'center' // @translate
+          'center', // @translate
         ];
         $alignmentValues = [
           'default', // @translate
           'left', // @translate
           'right', // @translate
-          'center' // @translate
+          'center', // @translate
         ];
         $alignment = $block ? $block->dataValue('alignment', 'default') : 'default';
         $select = new Select('o:block[__blockIndex__][o:data][alignment]');
@@ -52,27 +53,28 @@ class Asset extends AbstractBlockLayout
         return $html;
     }
 
-    public function prepareAssetAttachments(PhpRenderer $view, $blockData = null) {
-      $attachments = [];
-      if ($blockData) {  
-        foreach ($blockData as $key => $value) {
-          if (isset($value['id'])) {
-            if($value['id'] !== '') {
-              $assetId = $value['id'];
-              $asset = $view->api()->read('assets', $assetId)->getContent();
-              $attachments[$key]['asset'] = $asset;
-            } else{
-              $attachments[$key]['asset'] = null;
+    public function prepareAssetAttachments(PhpRenderer $view, $blockData = null)
+    {
+        $attachments = [];
+        if ($blockData) {
+            foreach ($blockData as $key => $value) {
+                if (isset($value['id'])) {
+                    if ($value['id'] !== '') {
+                        $assetId = $value['id'];
+                        $asset = $view->api()->read('assets', $assetId)->getContent();
+                        $attachments[$key]['asset'] = $asset;
+                    } else {
+                        $attachments[$key]['asset'] = null;
+                    }
+                    if ($value['page'] !== '') {
+                        $attachments[$key]['page'] = $view->api()->read('site_pages', $value['page'])->getContent();
+                    }
+                    $attachments[$key]['alt_link_title'] = $value['alt_link_title'];
+                    $attachments[$key]['caption'] = $value['caption'];
+                }
             }
-            if ($value['page'] !== '') {
-              $attachments[$key]['page'] = $view->api()->read('site_pages', $value['page'])->getContent();
-            }
-            $attachments[$key]['alt_link_title'] = $value['alt_link_title'];
-            $attachments[$key]['caption'] = $value['caption'];
-          }
         }
-      }
-      return $attachments;
+        return $attachments;
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site, SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
@@ -90,7 +92,7 @@ class Asset extends AbstractBlockLayout
           'alignmentClassSelect' => $alignmentClassSelect,
         ]);
     }
-    
+
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $blockData = ($block) ? $block->data() : '';

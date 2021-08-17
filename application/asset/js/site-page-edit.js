@@ -390,6 +390,7 @@
         $('#content').on('click', '.asset-list .select-asset', function (e) {
             var assetOptions = $('#asset-options');
             assetOptions.addClass('active');
+            assetOptions.find('h3.selected-asset-name').text($(this).find('.asset-name').text());
             if ($('.add-asset-attachment').hasClass('asset-selecting-button')) {
                 assetOptions.find('.asset-option').val('');
                 resetAssetOption($('#asset-options .page-link'));

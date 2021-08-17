@@ -7,6 +7,7 @@ $headingInput = null;
 $descriptionInput = null;
 $form->prepare();
 $selectedAssetTemplate = '
+<h3><span class="selected-asset-name">' . $translate('No Asset') . '</span></h3>
 <span class="selected-asset">
 <img class="selected-asset-image">
 <div class="selected-asset-name"></div>
@@ -23,7 +24,6 @@ $selectedPageTemplate = '
 <div class="sidebar" id="asset-options">
   <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
   <div class="sidebar-content">
-    <h3><?php echo $translate('Asset Options'); ?></h3>
     <div class="asset-form-element" data-default-html="<?php echo $escape($selectedAssetTemplate); ?>">
       <div class="asset-option-selection"><?php echo $selectedAssetTemplate; ?></div>
       <button type="button" class="asset-form-select" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Select'); ?></button>

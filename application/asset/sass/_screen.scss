@@ -4189,6 +4189,10 @@ body.sidebar-open #content {
         z-index: 6;
     }
 
+    #asset-options .selected-asset .selected-asset-name {
+        display: none;
+    }
+
     .asset-attachments-form {
         margin-bottom: $spacing-medium;
     }

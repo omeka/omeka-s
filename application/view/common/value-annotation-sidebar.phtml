@@ -7,12 +7,15 @@
                 'name' => 'value-annotation-property-select',
                 'attributes' => [
                     'id' => 'value-annotation-property-select',
+                    'class' => 'chosen-select',
                 ],
             ]); ?>
             <?php echo $this->dataType()->getValueAnnotationSelect(
                 'value-annotation-type-select',
-                ['id' => 'value-annotation-type-select',
-            ]); ?>
+                [
+                    'id' => 'value-annotation-type-select',
+                    'class' => 'chosen-select',
+                ]); ?>
             <button type="button" id="value-annotation-add" disabled><?php echo $this->translate('Add annotation'); ?></button>
             <div id="value-annotation-container" data-value-annotation-templates="<?php echo $this->escapeHtml(json_encode($this->dataType()->getValueAnnotationTemplates(), true)); ?>"></div>
         </div>

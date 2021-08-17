@@ -1,4 +1,6 @@
 <div class="value-annotation" data-data-type="<?php echo $this->escapeHtml($dataType->getName()); ?>">
     <h4 class="value-annotation-property"></h4>
     <?php echo $dataType->valueAnnotationForm($this); ?>
+    <a href="#" class="o-icon-delete value-annotation-remove" title="<?php echo $this->escapeHtml($this->translate('Remove value')) ?>" aria-label="<?php echo $this->escapeHtml($this->translate('Remove value')) ?>"></a>
+    <a href="#" class="o-icon-undo value-annotation-restore" title="<?php echo $this->escapeHtml($this->translate('Restore value')) ?>" aria-label="<?php echo $this->escapeHtml($this->translate('Restore value')) ?>" style="display: none;"></a>
 </div>

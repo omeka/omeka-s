@@ -10,18 +10,25 @@
         const vaAddButton = $('#value-annotation-add');
         const vaSetButton = $('#value-annotation-set');
         const vaTemplates = vaContainer.data('valueAnnotationTemplates');
-        const getValueAnnotation = function(dataTypeName, value) {
+        // Make a value annotation jQuery object.
+        const makeValueAnnotation = function(dataTypeName, value) {
             const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
             valueAnnotation.data('propertyId', value.property_id);
             valueAnnotation.data('propertyTerm', value.property_term);
+            $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation, value]);
+            return valueAnnotation;
+        };
+        // Prepare the value annotation markup.
+        $(document).on('o:prepare-value-annotation', function(e, dataTypeName, valueAnnotation, value) {
+            // For all data types, hydrate inputs by mapping the value object to
+            // the data-value-key attribute.
             valueAnnotation.find(':input').each(function () {
                 const thisInput = $(this);
                 var valueKey = thisInput.data('valueKey');
                 if (!valueKey) return;
                 thisInput.removeAttr('name').val(value ? value[valueKey] : null);
             });
-            return valueAnnotation;
-        };
+        });
         // Handle "Annotate value" click.
         $(document).on('click', '.value-annotation-annotate', function(e) {
             e.preventDefault();
@@ -31,22 +38,24 @@
             $.each(valueAnnotations, function(propertyTerm, values) {
                 $.each(values, function(index, value) {
                     value.property_term = propertyTerm;
-                    const valueAnnotation = getValueAnnotation(value.type, value);
+                    const valueAnnotation = makeValueAnnotation(value.type, value);
                     vaContainer.append(valueAnnotation);
                 });
             });
             Omeka.openSidebar(vaSidebar);
         });
+        // Enable/disable "Add annotation" button.
         vaPropertySelect.on('change', function(e) {
             e.preventDefault();
             vaAddButton.prop('disabled', '' === vaPropertySelect.val() ? true : false);
         });
+        // Handle "Add annotation" click.
         vaAddButton.on('click', function(e) {
             e.preventDefault();
             const dataTypeName = vaTypeSelect.val();
             const propertyId = vaPropertySelect.val();
             const propertyTerm = vaPropertySelect.find('option:selected').data('term');
-            const valueAnnotation = getValueAnnotation(dataTypeName, {property_id: propertyId, property_term: propertyTerm});
+            const valueAnnotation = makeValueAnnotation(dataTypeName, {property_id: propertyId, property_term: propertyTerm});
             vaContainer.append(valueAnnotation);
         });
         // Handle "Set annotations" click.
@@ -71,7 +80,6 @@
                 }
                 valueAnnotations[propertyTerm].push(valueAnnotation);
             });
-            console.log(valueAnnotations);
             annotatingValue.data('valueAnnotations', valueAnnotations);
             Omeka.closeSidebar(vaSidebar);
         });

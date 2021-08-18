@@ -3,7 +3,7 @@
     <?php echo $dataType->valueAnnotationForm($this); ?>
     <?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete value-annotation-remove', 'title' => $this->translate('Remove value'), 'aria-label' => $this->translate('Remove value')]); ?>
     <?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo value-annotation-restore', 'title' => $this->translate('Restore value'), 'aria-label' => $this->translate('Restore value'), 'style' => 'display: none;']); ?>
-    <input type="hidden" class="data_type" value="<?php echo $this->escapeHtml($dataType->getName()); ?>">
-    <input type="hidden" class="property_id">
-    <input type="hidden" class="property_term">
+    <input type="hidden" class="data_type" data-value-key="type" value="<?php echo $this->escapeHtml($dataType->getName()); ?>">
+    <input type="hidden" class="property_id" data-value-key="property_id">
+    <input type="hidden" class="property_term" data-value-key="property_term">
 </div>

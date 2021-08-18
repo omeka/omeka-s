@@ -15,8 +15,6 @@
             const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
             const propertyLabel = vaPropertySelect.find(`option[value="${value.property_id}"]`).text();
             valueAnnotation.find('.value-annotation-property').text(propertyLabel);
-            valueAnnotation.find('.property_id').val(value.property_id);
-            valueAnnotation.find('.property_term').val(value.property_term);
             $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation, value]);
             return valueAnnotation;
         };
@@ -35,9 +33,8 @@
         $(document).on('click', '.value-annotation-annotate', function(e) {
             e.preventDefault();
             annotatingValue = $(this).closest('.value');
-            const valueAnnotations = annotatingValue.data('valueAnnotations');
             vaContainer.empty();
-            $.each(valueAnnotations, function(propertyTerm, values) {
+            $.each(annotatingValue.data('valueAnnotations'), function(propertyTerm, values) {
                 $.each(values, function(index, value) {
                     value.property_term = propertyTerm;
                     const valueAnnotation = makeValueAnnotation(value.type, value);
@@ -55,40 +52,39 @@
         vaAddButton.on('click', function(e) {
             e.preventDefault();
             const dataTypeName = vaTypeSelect.val();
-            const propertyId = vaPropertySelect.val();
-            const propertyTerm = vaPropertySelect.find('option:selected').data('term');
-            const valueAnnotation = makeValueAnnotation(dataTypeName, {property_id: propertyId, property_term: propertyTerm});
+            const value = {
+                type: dataTypeName,
+                property_id: vaPropertySelect.val(),
+                property_term: vaPropertySelect.find('option:selected').data('term')
+            };
+            const valueAnnotation = makeValueAnnotation(dataTypeName, value);
             vaContainer.append(valueAnnotation);
         });
         // Handle "Set annotations" click.
         vaSetButton.on('click', function(e) {
             e.preventDefault();
-            const valueAnnotations = {};
+            const values = {};
             vaContainer.find('.value-annotation').each(function() {
                 const thisValueAnnotation = $(this);
                 if (thisValueAnnotation.data('removed')) {
                     // This annotation was flagged for removal.
                     return;
                 }
-                const dataType = thisValueAnnotation.find('.data_type').val();
-                const propertyId = thisValueAnnotation.find('.property_id').val();
-                const propertyTerm = thisValueAnnotation.find('.property_term').val();
-                const valueAnnotation = {};
-                valueAnnotation.type = dataType;
-                valueAnnotation.property_id = propertyId;
-                // Map the the data-value-key attributes to the valueAnnotations object.
+                const value = {};
+                // Map the the data-value-key attributes to the values object.
                 thisValueAnnotation.find(':input').each(function() {
                     const thisInput = $(this);
                     const valueKey = thisInput.data('valueKey');
                     if (!valueKey) return;
-                    valueAnnotation[valueKey] = thisInput.val();
+                    value[valueKey] = thisInput.val();
                 });
-                if (!valueAnnotations.hasOwnProperty(propertyTerm)) {
-                    valueAnnotations[propertyTerm] = [];
+                const propertyTerm = thisValueAnnotation.find('.property_term').val();
+                if (!values.hasOwnProperty(propertyTerm)) {
+                    values[propertyTerm] = [];
                 }
-                valueAnnotations[propertyTerm].push(valueAnnotation);
+                values[propertyTerm].push(value);
             });
-            annotatingValue.data('valueAnnotations', valueAnnotations);
+            annotatingValue.data('valueAnnotations', values);
             Omeka.closeSidebar(vaSidebar);
         });
         // Handle "Remove value" click.

@@ -26,6 +26,23 @@
                 const thisInput = $(this);
                 const valueKey = thisInput.data('valueKey');
                 if (!valueKey) return;
+                if ('is_public' === valueKey) {
+                    // Prepare the visibility icon and value.
+                    const visibilityIcon = thisInput.prev('.value-annotation-visibility');
+                    if (0 == value['is_public']) {
+                        value['is_public'] = 0; // Cast false and "0" to 0
+                        visibilityIcon.removeClass('o-icon-public')
+                            .addClass('o-icon-private')
+                            .attr('aria-label', Omeka.jsTranslate('Make public'))
+                            .attr('title', Omeka.jsTranslate('Make public'));
+                    } else {
+                        value['is_public'] = 1; // Cast true and "1" to 1
+                        visibilityIcon.removeClass('o-icon-private')
+                            .addClass('o-icon-public')
+                            .attr('aria-label', Omeka.jsTranslate('Make private'))
+                            .attr('title', Omeka.jsTranslate('Make private'));
+                    }
+                }
                 thisInput.removeAttr('name').val(value ? value[valueKey] : null);
             });
         });

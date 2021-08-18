@@ -1,6 +1,9 @@
-<div class="value-annotation" data-data-type="<?php echo $this->escapeHtml($dataType->getName()); ?>">
+<div class="value-annotation">
     <h4 class="value-annotation-property"></h4>
     <?php echo $dataType->valueAnnotationForm($this); ?>
-    <a href="#" class="o-icon-delete value-annotation-remove" title="<?php echo $this->escapeHtml($this->translate('Remove value')) ?>" aria-label="<?php echo $this->escapeHtml($this->translate('Remove value')) ?>"></a>
-    <a href="#" class="o-icon-undo value-annotation-restore" title="<?php echo $this->escapeHtml($this->translate('Restore value')) ?>" aria-label="<?php echo $this->escapeHtml($this->translate('Restore value')) ?>" style="display: none;"></a>
+    <?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete value-annotation-remove', 'title' => $this->translate('Remove value'), 'aria-label' => $this->translate('Remove value')]); ?>
+    <?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo value-annotation-restore', 'title' => $this->translate('Restore value'), 'aria-label' => $this->translate('Restore value'), 'style' => 'display: none;']); ?>
+    <input type="hidden" class="data_type" value="<?php echo $this->escapeHtml($dataType->getName()); ?>">
+    <input type="hidden" class="property_id">
+    <input type="hidden" class="property_term">
 </div>

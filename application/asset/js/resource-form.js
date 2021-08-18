@@ -15,8 +15,8 @@
             const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
             const propertyLabel = vaPropertySelect.find(`option[value="${value.property_id}"]`).text();
             valueAnnotation.find('.value-annotation-property').text(propertyLabel);
-            valueAnnotation.data('propertyId', value.property_id);
-            valueAnnotation.data('propertyTerm', value.property_term);
+            valueAnnotation.find('.property_id').val(value.property_id);
+            valueAnnotation.find('.property_term').val(value.property_term);
             $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation, value]);
             return valueAnnotation;
         };
@@ -24,9 +24,9 @@
         $(document).on('o:prepare-value-annotation', function(e, dataTypeName, valueAnnotation, value) {
             // For all data types, hydrate inputs by mapping the value object to
             // the data-value-key attribute.
-            valueAnnotation.find(':input').each(function () {
+            valueAnnotation.find(':input').each(function() {
                 const thisInput = $(this);
-                var valueKey = thisInput.data('valueKey');
+                const valueKey = thisInput.data('valueKey');
                 if (!valueKey) return;
                 thisInput.removeAttr('name').val(value ? value[valueKey] : null);
             });
@@ -70,14 +70,16 @@
                     // This annotation was flagged for removal.
                     return;
                 }
-                const propertyId = thisValueAnnotation.data('propertyId');
-                const propertyTerm = thisValueAnnotation.data('propertyTerm');
+                const dataType = thisValueAnnotation.find('.data_type').val();
+                const propertyId = thisValueAnnotation.find('.property_id').val();
+                const propertyTerm = thisValueAnnotation.find('.property_term').val();
                 const valueAnnotation = {};
-                valueAnnotation.type = thisValueAnnotation.data('dataType');
+                valueAnnotation.type = dataType;
                 valueAnnotation.property_id = propertyId;
-                thisValueAnnotation.find(':input').each(function () {
+                // Map the the data-value-key attributes to the valueAnnotations object.
+                thisValueAnnotation.find(':input').each(function() {
                     const thisInput = $(this);
-                    var valueKey = thisInput.data('valueKey');
+                    const valueKey = thisInput.data('valueKey');
                     if (!valueKey) return;
                     valueAnnotation[valueKey] = thisInput.val();
                 });

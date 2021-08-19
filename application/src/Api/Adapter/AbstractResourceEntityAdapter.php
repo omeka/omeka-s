@@ -377,7 +377,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ->andWhere($qb->expr()->orX(
                 'r INSTANCE OF Omeka\Entity\Item',
                 'r INSTANCE OF Omeka\Entity\ItemSet',
-                'r INSTANCE OF Omeka\Entity\Media',
+                'r INSTANCE OF Omeka\Entity\Media'
             ));
 
         if (!$acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {

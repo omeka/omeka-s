@@ -5,7 +5,7 @@ use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\DataType\AbstractDataType;
-use Omeka\Entity\Value;
+use Omeka\Entity;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Stdlib\Message;
 
@@ -34,7 +34,7 @@ abstract class AbstractResource extends AbstractDataType
         return false;
     }
 
-    public function hydrate(array $valueObject, Value $value, AbstractEntityAdapter $adapter)
+    public function hydrate(array $valueObject, Entity\Value $value, AbstractEntityAdapter $adapter)
     {
         $serviceLocator = $adapter->getServiceLocator();
 
@@ -53,14 +53,21 @@ abstract class AbstractResource extends AbstractDataType
                 )
             );
         }
-        if ($valueResource instanceof Media) {
+        // Limit value resources to those that are valid for the data type.
+        $validationMap = [
+            'resource' => [Entity\Item::class, Entity\ItemSet::class, Entity\Media::class],
+            'resource:item' => [Entity\Item::class],
+            'resource:itemset' => [Entity\ItemSet::class],
+            'resource:media' => [Entity\ItemMedia::class],
+        ];
+        if (!in_array(get_class($valueResource), $validationMap[$valueObject['type']])) {
+            $message = new Message(sprintf(
+                'Invalid value resource %s for type %s', // @translate
+                get_class($valueResource),
+                $valueObject['type']
+            ));
             $exception = new Exception\ValidationException;
-            $message = new Message(
-                'A value resource cannot be Media.' // @translate
-                );
-            $exception->getErrorStore()->addError(
-                'value', $message
-            );
+            $exception->getErrorStore()->addError('value', $message);
             throw $exception;
         }
         $value->setValueResource($valueResource);

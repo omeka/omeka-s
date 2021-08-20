@@ -20,6 +20,10 @@
         };
         // Prepare the value annotation markup.
         $(document).on('o:prepare-value-annotation', function(e, dataTypeName, valueAnnotation, value) {
+            if (['resource:item', 'resource:itemset', 'resource:media'].includes(dataTypeName)) {
+                valueAnnotation.find('.display-title').text(value.display_title);
+                valueAnnotation.find('.display_title').val(value.display_title);
+            }
             // For all data types, hydrate inputs by mapping the value object to
             // the data-value-key attribute.
             valueAnnotation.find(':input').each(function() {
@@ -124,6 +128,15 @@
             valueAnnotation.find(':input').prop('disabled', false);
             valueAnnotation.find('.value-annotation-remove').show();
         });
+        $(document).on('click', '.value-annotation-resource-select', function(e) {
+            e.preventDefault();
+            const thisButton = $(this);
+            const selectResourceSidebar = $('#select-resource');
+            $('.selecting-resource').removeClass('selecting-resource');
+            thisButton.closest('.value-annotation').addClass('selecting-resource');
+            Omeka.populateSidebarContent(selectResourceSidebar, thisButton.data('sidebar-content-url'));
+            Omeka.openSidebar(selectResourceSidebar);
+        });
 
         // Select property
         $('#property-selector li.selector-child').on('click', function(e) {
@@ -215,10 +228,18 @@
         });
 
         $('#select-item a').on('o:resource-selected', function (e) {
-            var value = $('.value.selecting-resource');
             var valueObj = $('.resource-details').data('resource-values');
-
-            $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
+            var value = $('.selecting-resource');
+            if (value.hasClass('value')) {
+                $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
+            } else if (value.hasClass('value-annotation')) {
+                const dataTypeName = value.find('input.data_type').val();
+                valueObj.type = dataTypeName;
+                valueObj.is_public = value.find('input.is_public').val();
+                valueObj.property_id = value.find('input.property_id').val();
+                valueObj.property_term = value.find('input.property_term').val();
+                $(document).trigger('o:prepare-value-annotation', [dataTypeName, value, valueObj]);
+            }
             Omeka.closeSidebar($('#select-resource'));
         });
 

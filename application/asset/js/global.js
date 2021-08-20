@@ -3,6 +3,16 @@ var Omeka = {
         sidebar.addClass('active');
         this.reserveSidebarSpace();
         sidebar.trigger('o:sidebar-opened');
+        if ($('.active.sidebar').length > 1) {
+            var highestIndex = 3; // The CSS currently defines the default sidebar z-index as 3.
+            $('.active.sidebar').each(function() {
+                var currentIndex = parseInt($(this).css('zIndex'), 10);
+                if (currentIndex > highestIndex) {
+                    highestIndex = currentIndex;
+                }
+            });
+            sidebar.css('zIndex', highestIndex + 1);
+        }
     },
 
     closeSidebar : function(sidebar) {

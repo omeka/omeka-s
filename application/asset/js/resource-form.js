@@ -10,22 +10,17 @@
         const vaAddButton = $('#value-annotation-add');
         const vaSetButton = $('#value-annotation-set');
         const vaTemplates = vaContainer.data('valueAnnotationTemplates');
-        // Make a value annotation jQuery object.
+        // Make a value annotation jQuery/DOM object.
         const makeValueAnnotation = function(dataTypeName, value) {
             const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
-            const propertyLabel = vaPropertySelect.find(`option[value="${value.property_id}"]`).text();
-            valueAnnotation.find('.value-annotation-property').text(propertyLabel);
             $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation, value]);
+            hydrateValueAnnotation(valueAnnotation, value);
             return valueAnnotation;
         };
-        // Prepare the value annotation markup.
-        $(document).on('o:prepare-value-annotation', function(e, dataTypeName, valueAnnotation, value) {
-            if (['resource:item', 'resource:itemset', 'resource:media'].includes(dataTypeName)) {
-                valueAnnotation.find('.display-title').text(value.display_title);
-                valueAnnotation.find('.display_title').val(value.display_title);
-            }
-            // For all data types, hydrate inputs by mapping the value object to
-            // the data-value-key attribute.
+        // Hydrate value annotation inputs by mapping the value object to the
+        // data-value-key attribute. Always call this after triggering the
+        // o:prepare-value-annotation event.
+        const hydrateValueAnnotation = function(valueAnnotation, value) {
             valueAnnotation.find(':input').each(function() {
                 const thisInput = $(this);
                 const valueKey = thisInput.data('valueKey');
@@ -49,6 +44,17 @@
                 }
                 thisInput.removeAttr('name').val(value ? value[valueKey] : null);
             });
+        };
+        // Prepare the value annotation markup.
+        $(document).on('o:prepare-value-annotation', function(e, dataTypeName, valueAnnotation, value) {
+            // Set the translated property label as the value annotation heading.
+            const propertyLabel = vaPropertySelect.find(`option[value="${value.property_id}"]`).text();
+            valueAnnotation.find('.value-annotation-heading').text(propertyLabel);
+            // Set the display title for resource types.
+            if (['resource:item', 'resource:itemset', 'resource:media'].includes(dataTypeName)) {
+                valueAnnotation.find('.display-title').text(value.display_title);
+                valueAnnotation.find('.display_title').val(value.display_title);
+            }
         });
         // Handle "Annotate value" click.
         $(document).on('click', '.value-annotation-annotate', function(e) {
@@ -239,6 +245,7 @@
                 valueObj.property_id = value.find('input.property_id').val();
                 valueObj.property_term = value.find('input.property_term').val();
                 $(document).trigger('o:prepare-value-annotation', [dataTypeName, value, valueObj]);
+                hydrateValueAnnotation(valueAnnotation, value);
             }
             Omeka.closeSidebar($('#select-resource'));
         });

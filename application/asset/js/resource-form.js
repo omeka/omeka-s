@@ -245,7 +245,7 @@
                 valueObj.property_id = value.find('input.property_id').val();
                 valueObj.property_term = value.find('input.property_term').val();
                 $(document).trigger('o:prepare-value-annotation', [dataTypeName, value, valueObj]);
-                hydrateValueAnnotation(valueAnnotation, value);
+                hydrateValueAnnotation(value, valueObj);
             }
             Omeka.closeSidebar($('#select-resource'));
         });

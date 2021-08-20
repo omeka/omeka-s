@@ -22,7 +22,9 @@ class ThumbnailRenderer implements RendererInterface
             return $img;
         }
 
-        return sprintf('<a href="%s">%s</a>', $view->escapeHtml($url), $img);
+        $title = $media->displayTitle();
+
+        return sprintf('<a href="%s" title="%s">%s</a>', $view->escapeHtml($url), $view->escapeHtml($title), $img);
     }
 
     /**

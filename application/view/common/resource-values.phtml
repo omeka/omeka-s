@@ -32,6 +32,7 @@ if ($this->status()->isSiteRequest()) {
             <?php
             $valueType = $value->type();
             $valueLang = $value->lang();
+            $valueAnnotation = $value->valueAnnotation();
             $class = ['value'];
             if ('resource' == $valueType || strpos($valueType, 'resource') !== false) {
                 $class[] = 'resource';
@@ -49,6 +50,9 @@ if ($this->status()->isSiteRequest()) {
                 <span class="language"><?php echo $valueLang; ?></span>
                 <?php endif; ?>
                 <?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?>
+                <?php if ($valueAnnotation): ?>
+                <?php echo $valueAnnotation->displayValues(); ?>
+                <?php endif; ?>
             </div>
             <?php endif; ?>
         <?php endforeach; ?>

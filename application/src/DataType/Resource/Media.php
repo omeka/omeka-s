@@ -22,6 +22,6 @@ class Media extends AbstractResource implements ValueAnnotatableInterface
 
     public function valueAnnotationForm(PhpRenderer $view)
     {
-        return $view->partial('common/data-type/value-annotation-resource', ['dataTypeName' => 'resource:media']);
+        return $view->partial('common/data-type/value-annotation-resource', ['dataTypeName' => $this->getName()]);
     }
 }

@@ -3,14 +3,14 @@
 <input type="hidden" class="display_title" data-value-key="display_title">
 <input type="hidden" class="url" data-value-key="url">
 
-<?php if ('resource:items' === $dataTypeName): ?>
+<?php if ('resource:item' === $dataTypeName): ?>
 <?php echo $this->hyperlink($this->translate('Items'), '#', [
     'class' => 'o-icon-items button value-annotation-resource-select',
     'data-sidebar-content-url' => $this->url('admin/default', ['controller' => 'item', 'action' => 'sidebar-select'], false),
 ]); ?>
 <?php endif; ?>
 
-<?php if ('resource:itemsets' === $dataTypeName): ?>
+<?php if ('resource:itemset' === $dataTypeName): ?>
 <?php echo $this->hyperlink($this->translate('Item sets'), '#', [
     'class' => 'o-icon-item-sets button value-annotation-resource-select',
     'data-sidebar-content-url' => $this->url('admin/default', ['controller' => 'item-set', 'action' => 'sidebar-select'], false),

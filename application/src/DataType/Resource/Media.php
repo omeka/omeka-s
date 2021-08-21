@@ -23,18 +23,7 @@ class Media extends AbstractResource implements ValueAnnotatableInterface
 
     public function valueAnnotationForm(PhpRenderer $view)
     {
-        $form = '
-        <span class="display-title"></span>
-        <input type="hidden" class="value_resource_id" data-value-key="value_resource_id">
-        <input type="hidden" class="display_title" data-value-key="display_title">
-        %s';
-        return sprintf(
-            $form,
-            $view->hyperlink($view->translate('Media'), '#', [
-                'class' => 'o-icon-media button value-annotation-resource-select',
-                'data-sidebar-content-url' => $view->url('admin/default', ['controller' => 'media', 'action' => 'sidebar-select'], false),
-            ])
-        );
+        return $view->partial('common/data-type/value-annotation-resource', ['dataTypeName' => 'resource:media']);
     }
 
     public function getValidValueResources()

@@ -52,8 +52,14 @@
             valueAnnotation.find('.value-annotation-heading').text(propertyLabel);
             // Set the display title for resource types.
             if (['resource:item', 'resource:itemset', 'resource:media'].includes(dataTypeName)) {
-                valueAnnotation.find('.display-title').text(value.display_title);
+                const resourceLink = $('<a>', {
+                    text: value.display_title,
+                    href: value.url,
+                    target: '_blank',
+                });
+                valueAnnotation.find('.display-title').html(resourceLink);
                 valueAnnotation.find('.display_title').val(value.display_title);
+                valueAnnotation.find('.url').val(value.url);
             }
         });
         // Handle "Annotate value" click.

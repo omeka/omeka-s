@@ -103,19 +103,22 @@
     margin-bottom: 1rem;
 }
 
-.left.file {
+.left.file,
+.left.assets {
     float: left;
     clear: left;
     margin: 0 1rem 1rem 0;
 }
 
-.right.file {
+.right.file,
+.right.assets {
     float: right;
     clear: right;
     margin: 0 0 1rem 1rem;
 }
 
-.center.file {
+.center.file,
+.center.assets {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -230,4 +233,20 @@
         float: left;
         margin-right: 1rem;
     }
+}
+
+.assets .asset,
+.assets .asset img {
+    max-width: 100%;
+    height: auto;
+}
+
+.assets .asset {
+    margin-bottom: 1rem;
+}
+
+.assets .link-title {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: bold;
 }

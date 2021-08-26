@@ -4175,6 +4175,76 @@ body.sidebar-open #content {
         }
     }
 
+    #asset-options .selected-asset {
+        overflow: hidden;
+    }
+
+    #asset-options .selected-asset-image {
+        float: left;
+        margin: 0 $spacing-medium 0 0;
+        max-width: 50%;
+    }
+
+    #asset-list.active {
+        z-index: 6;
+    }
+
+    #asset-options .selected-asset .selected-asset-name {
+        display: none;
+    }
+
+    .asset-attachments-form {
+        margin-bottom: $spacing-medium;
+    }
+
+    .add-asset-attachment {
+        margin-top: $spacing-small;
+    }
+      
+    #asset-options .sidebar-content > div {
+        margin-bottom: 2rem;
+    }
+      
+    .asset-attachment-select {
+        margin-top: .5rem;
+    }
+      
+    .asset-title {
+        display: flex;
+        align-items: center;
+    }
+      
+    .asset-title img {
+        height: 100%;
+        width: auto;
+    }
+      
+    .asset-title .thumbnail:not(:empty) {
+        height: 2rem;
+        position: relative;
+        width: 2rem;
+        margin: .25rem .25rem .25rem 0;
+        overflow: hidden;
+        display: inline-flex;
+        justify-content: center;
+    }
+    
+    #asset-options .none-selected.inactive {
+        display: none;
+    }
+
+    #asset-options .none-selected:not(.inactive) ~ * {
+        display: none;
+    }
+
+    #asset-options .page-status {
+        margin-bottom: $spacing-medium;
+    }
+
+    #asset-options .selected-page + .o-icon-external {
+        margin-left: $spacing-small;
+    }
+
     /* @end */
 
     /* @group ----- Site Navigation ----- */
@@ -4559,8 +4629,22 @@ body.minimal .site.results thead {
     display: block;
 }
 
+.selected-asset-name:not(:empty) ~ .none-selected,
+.selected-page:empty + a,
+.selected-page:not(:empty) ~ .none-selected {
+    display: none;
+}
+
 .selected-asset-image {
     max-width: 100%;
+}
+
+.asset-form-select {
+    margin-top: $spacing-medium;
+}
+
+.new.attachment {
+    display: none;
 }
 
 .asset-upload {

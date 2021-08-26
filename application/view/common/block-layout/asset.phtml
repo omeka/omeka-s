@@ -4,7 +4,7 @@
   <?php foreach ($attachments as $attachment): ?>
     <?php $asset = $attachment['asset']; ?>
     <div class="asset">
-        <?php $assetImage = ($asset) ? '<img src="' . $escape($asset->assetUrl()) . '">' : ''; ?> 
+        <?php $assetImage = ($asset) ? $this->thumbnail($asset, 'square') : ''; ?>
         <?php if (array_key_exists('page', $attachment)): ?>
             <?php $page = $attachment['page']; ?>
             <a href="<?php echo $escape($page->siteUrl()); ?>">

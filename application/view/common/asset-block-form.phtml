@@ -34,8 +34,8 @@ $attachmentRowTemplate = '
                 $caption = $escape($attachment['caption']);
                 ?>
             <?php if ($asset): ?>
-              <?php $thumbnail = '<div class="thumbnail"><img src="' . $asset->assetUrl() . '" alt="' . $asset->name() . '"></div>'; ?>
-              <div class="asset-title"><?php echo $thumbnail; ?><?php echo $asset->name(); ?></div>
+              <?php $thumbnail = '<div class="thumbnail">' . $this->thumbnail($asset, 'square') . '</div>'; ?>
+              <div class="asset-title"><?php echo $thumbnail; ?><?php echo $escape($asset->name()); ?></div>
               <?php else: ?>
                 <div class="asset-title"><div class="thumbnail"></div><?php echo $escape($translate('No asset selected')); ?></div>
               <?php endif; ?>

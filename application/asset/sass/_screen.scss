@@ -2988,14 +2988,13 @@ input[type="text"].value-language,
 
 
 .confirm-panel {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     right: 0;
+    left: 0;
     padding: $spacing-medium;
     background-color: #f7f7f7;
-    border: 1px solid $border-gray;
-    border-width: 1px 0 0 1px;
-    width: 25%;
+    border-top: 1px solid $border-gray;
 
     button,
     .button {

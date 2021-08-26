@@ -82,7 +82,7 @@ class ListOfPages extends AbstractBlockLayout
         $site = $block->page()->site();
 
         // Add page URL to jstree node data if not already present
-        $iterate = function (&$value, &$key) use (&$iterate, $site) {
+        $iterate = function (&$value, $key) use (&$iterate, $site) {
             if (is_array($value)) {
                 if (array_key_exists('type', $value)) {
                     $manager = $this->linkManager;

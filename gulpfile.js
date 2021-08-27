@@ -19,7 +19,7 @@ var glob = Promise.promisify(require('glob'));
 var rimraf = Promise.promisify(require('rimraf'));
 var tmpFile = Promise.promisify(require('tmp').file, {multiArgs: true});
 
-var sass = require('gulp-sass');
+var sass = require('gulp-sass')(require('sass'));
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 
@@ -487,10 +487,10 @@ var taskZip = gulp.series('clean', 'init', function () {
             '!./package.json',
             '!./package-lock.json',
             '!./**/.tx/**',
-            '!./.php_cs',
+            '!./.php-cs-fixer.dist.php',
             '!./.php_cs_module',
             '!./.php_cs.cache',
-            '!./.travis.yml',
+            '!./.github/**',
             '!./gulpfile.js',
             '!./**/.git/**',
             '!./**/.gitattributes',

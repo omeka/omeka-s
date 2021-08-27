@@ -45,6 +45,11 @@ class SiteRepresentation extends AbstractEntityRepresentation
             $homepage = $this->homepage()->getReference();
         }
 
+        $thumbnail = null;
+        if ($this->thumbnail()) {
+            $thumbnail = $this->thumbnail()->getReference();
+        }
+
         $created = [
             '@value' => $this->getDateTime($this->created()),
             '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
@@ -71,6 +76,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
             'o:theme' => $this->theme(),
             'o:title' => $this->title(),
             'o:summary' => $this->summary(),
+            'o:thumbnail' => $thumbnail,
             'o:navigation' => $this->navigation(),
             'o:homepage' => $homepage,
             'o:item_pool' => $this->itemPool(),
@@ -99,6 +105,12 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function summary()
     {
         return $this->resource->getSummary();
+    }
+
+    public function thumbnail()
+    {
+        return $this->getAdapter('assets')
+            ->getRepresentation($this->resource->getThumbnail());
     }
 
     public function theme()

@@ -69,20 +69,11 @@ class ModuleManagerFactory implements FactoryInterface
                 $module->setState(ModuleManager::STATE_INVALID_MODULE);
                 continue;
             }
+            $module->setModuleFilePath($moduleFile->getRealPath());
 
             $omekaConstraint = $module->getIni('omeka_version_constraint');
             if ($omekaConstraint !== null && !Semver::satisfies(CoreModule::VERSION, $omekaConstraint)) {
                 $module->setState(ModuleManager::STATE_INVALID_OMEKA_VERSION);
-                continue;
-            }
-
-            // Module class must extend Omeka\Module\AbstractModule
-            require_once $moduleFile->getRealPath();
-            $moduleClass = $dir->getBasename() . '\Module';
-            if (!class_exists($moduleClass)
-                || !is_subclass_of($moduleClass, 'Omeka\Module\AbstractModule')
-            ) {
-                $module->setState(ModuleManager::STATE_INVALID_MODULE);
                 continue;
             }
         }
@@ -125,13 +116,25 @@ class ModuleManagerFactory implements FactoryInterface
                 continue;
             }
 
-            if ($moduleRow['is_active']) {
-                // Module valid, installed, and active
-                $module->setState(ModuleManager::STATE_ACTIVE);
-            } else {
-                // Module valid, installed, and not active
+            if (!$moduleRow['is_active']) {
+                // Module valid, installed, but not active
                 $module->setState(ModuleManager::STATE_NOT_ACTIVE);
+                continue;
             }
+
+            // Module class must extend Omeka\Module\AbstractModule
+            // (delay this check until here to avoid loading non-active module files)
+            require_once $module->getModuleFilePath();
+            $moduleClass = $module->getId() . '\Module';
+            if (!class_exists($moduleClass)
+                || !is_subclass_of($moduleClass, 'Omeka\Module\AbstractModule')
+            ) {
+                $module->setState(ModuleManager::STATE_INVALID_MODULE);
+                continue;
+            }
+
+            // Module valid, installed, and active
+            $module->setState(ModuleManager::STATE_ACTIVE);
         }
 
         foreach ($manager->getModules() as $id => $module) {

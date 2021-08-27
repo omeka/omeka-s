@@ -8,10 +8,11 @@ class ManagerTest extends TestCase
 {
     protected $manager;
 
-    public function setUp()
+    public function setUp(): void
     {
         $serviceManager = $this->getServiceManager([
             'EventManager' => $this->getMockForAbstractClass('Laminas\EventManager\EventManagerInterface'),
+            'MvcTranslator' => $this->getMockForAbstractClass('Laminas\I18n\Translator\TranslatorInterface'),
         ]);
         $this->manager = new Manager($serviceManager);
     }

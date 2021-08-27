@@ -4,8 +4,9 @@
     "description": "The Omeka S collections management system. A local network of independently curated exhibits sharing a collaboratively built pool of items and their metadata.",
     "license": "GPL-3.0",
     "require": {
-        "php": ">=7.1",
-        "doctrine/orm": "^2.6",
+        "php": ">=7.2",
+        "doctrine/orm": "^2.8.4",
+        "doctrine/dbal": "^2.13.1",
         "easyrdf/easyrdf": "^1.0",
         "ml/json-ld": "^1.1",
         "ezyang/htmlpurifier": "^4.8",
@@ -17,7 +18,6 @@
         "laminas/laminas-captcha": "^2.6",
         "laminas/laminas-code": "^3.0.2",
         "laminas/laminas-config": "^2.6",
-        "laminas/laminas-console": "^2.6",
         "laminas/laminas-crypt": "^3.0",
         "laminas/laminas-db": "^2.8.1",
         "laminas/laminas-di": "^2.6.1",
@@ -67,7 +67,7 @@
         "lsolesen/pel": "^0.9.6"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7",
+        "phpunit/phpunit": "^8",
         "friendsofphp/php-cs-fixer": "^2.0",
         "laminas/laminas-test": "^3.0.1",
         "zerocrates/extract-tagged-strings": "dev-master"
@@ -76,7 +76,7 @@
         "psr-4": {"Omeka\\": "application/src"}
     },
     "config": {
-        "platform": {"php": "7.1"}
+        "platform": {"php": "7.2"}
     },
     "repositories": [
         {

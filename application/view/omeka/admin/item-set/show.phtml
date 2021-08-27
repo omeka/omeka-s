@@ -63,6 +63,10 @@ $sectionNavs = [
 
 <div class="active sidebar">
     <div class="meta-group">
+        <h4><?php echo $translate('ID'); ?></h4>
+        <div class="value"><?php echo $escape($itemSet->id()); ?></div>
+    </div>
+    <div class="meta-group">
         <h4><?php echo $translate('Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($itemSet->created())); ?></div>
     </div>

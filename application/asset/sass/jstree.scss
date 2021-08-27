@@ -39,12 +39,17 @@
     line-height: 1.5 * $base-line-height;
     font-weight: bold;
 
-    input,
-    textarea,
-    select{
+    & > label > input,
+    & > label > textarea,
+    & > label > select,
+    .query-form-element {
         float: right;
         width: span(7 of 10);
         font-weight: normal;
+    }
+
+    .query-form-element input {
+        width: 100%;
     }
 
     label {
@@ -145,6 +150,15 @@ i.jstree-editlink-edit {
 
 i.jstree-displaylink {
     right: 2.5 * $base-line-height;
+}
+
+.block-pagelist-tree .jstree-open > .jstree-anchor .jstree-displaylink,
+.block-pagelist-tree .jstree-closed > .jstree-anchor .jstree-displaylink {
+    right: 3 * $base-line-height;
+}
+
+.block-pagelist-tree i.jstree-displaylink {
+    right: 1.5 * $base-line-height;
 }
 
 .jstree-anchor:hover > .jstree-removenode-remove {

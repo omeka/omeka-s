@@ -123,6 +123,22 @@ abstract class AbstractRepresentation implements RepresentationInterface
     }
 
     /**
+     * Get the alt text corresponding to this resource's thumbnail
+     *
+     * @return string|null
+     */
+    public function thumbnailAltText()
+    {
+        $thumbnail = $this->thumbnail();
+        $primaryMedia = $this->primaryMedia();
+        if (!$thumbnail && !$primaryMedia) {
+            return null;
+        }
+
+        return $thumbnail ? $thumbnail->altText() : $primaryMedia->altTextResolved();
+    }
+
+    /**
      * Get all calculated thumbnail display URLs, keyed by type.
      *
      * @return array

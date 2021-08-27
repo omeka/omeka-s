@@ -71,10 +71,22 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             ));
         }
 
-        if (isset($query['is_public'])) {
+        if (isset($query['is_public']) && is_numeric($query['is_public'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.isPublic',
                 $this->createNamedParameter($qb, (bool) $query['is_public'])
+            ));
+        }
+
+        if (!empty($query['site_slug'])) {
+            $siteAlias = $this->createAlias();
+            $qb->innerJoin(
+                'omeka_root.site',
+                $siteAlias
+            );
+            $qb->andWhere($qb->expr()->eq(
+                "$siteAlias.slug",
+                $this->createNamedParameter($qb, $query['site_slug'])
             ));
         }
     }

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-21 11:21-0400\n"
+"POT-Creation-Date: 2021-08-26 15:28-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
 "Last-Translator: Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2020\n"
 "Language-Team: Catalan (Spain) (https://www.transifex.com/omeka/teams/14184/ca_ES/)\n"
@@ -62,18 +62,18 @@ msgstr "L'adaptador %1$s no implementa l'operació de supressió."
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "L'adaptador %1$s no implementa l'operació de supressió en lot."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:269
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:280
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s entity class."
 msgstr "El camp \"%1$s\" no està disponible en la classe d'entitat %2$s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:614
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:645
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s resource."
 msgstr "Permís denegat per a l'usuari actual per %1$s al recurs %2$s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:656
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:687
 #, php-format
 msgid "%1$s entity with criteria %2$s not found"
 msgstr "No s'ha trobat l'entitat %1$samb el criteri %2$s"
@@ -86,7 +86,7 @@ msgstr "Benvingut"
 msgid "Welcome to your new site. This is an example page."
 msgstr "Benvingut al nou lloc. Aquesta és una pàgina d'exemple."
 
-#: application/src/Api/Adapter/SiteAdapter.php:388
+#: application/src/Api/Adapter/SiteAdapter.php:390
 msgid "Browse"
 msgstr "Consulta"
 
@@ -95,10 +95,10 @@ msgstr "Consulta"
 msgid "The API does not support the \"%s\" resource."
 msgstr "L'API no suporta el recurs \"%s\"."
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:515
-#: application/view/common/block-layout/browse-preview.phtml:15
-#: application/view/omeka/site/item-set/browse.phtml:23
-#: application/view/omeka/site/item/browse.phtml:58
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:530
+#: application/view/common/block-layout/browse-preview.phtml:23
+#: application/view/omeka/site/item-set/browse.phtml:26
+#: application/view/omeka/site/item/browse.phtml:61
 msgid "[Untitled]"
 msgstr "[Sense títol]"
 
@@ -107,7 +107,7 @@ msgstr "[Sense títol]"
 msgid "Default"
 msgstr "Per defecte"
 
-#: application/src/Controller/Admin/AssetController.php:48
+#: application/src/Controller/Admin/AssetController.php:73
 msgid "Asset uploads must be POSTed."
 msgstr "Les càrregues de fitxers han d'emprar el mètode POST."
 
@@ -289,12 +289,17 @@ msgstr "Aquest disseny no és vàlid."
 
 #: application/src/Site/BlockLayout/ItemShowcase.php:22
 #: application/src/Site/BlockLayout/Media.php:22
+#: application/view/common/asset-block-form.phtml:58
 msgid "Options"
 msgstr "Opcions"
 
 #: application/src/Site/BlockLayout/LineBreak.php:43
 msgid "Break type"
 msgstr "Tipus de salt"
+
+#: application/src/Site/BlockLayout/ListOfPages.php:58
+msgid "Add pages"
+msgstr ""
 
 #: application/src/Site/BlockLayout/TableOfContents.php:28
 msgid "Depth"
@@ -305,6 +310,7 @@ msgid "Number of child page levels to display"
 msgstr "Nombre de nivells inferiors en la jerarquia de les pàgines"
 
 #: application/src/Site/Navigation/Link/Page.php:37
+#: application/view/common/block-layout/list-of-pages.phtml:11
 msgid "[Missing Page]"
 msgstr ""
 
@@ -377,6 +383,7 @@ msgid "Thumbnail type"
 msgstr "Tipus de miniatura"
 
 #: application/src/View/Helper/CancelButton.php:14
+#: application/view/common/query-form.phtml:27
 #: application/view/omeka/admin/vocabulary/update.phtml:23
 msgid "Cancel"
 msgstr "Cancel·la"
@@ -452,7 +459,9 @@ msgid "Search full-text"
 msgstr "Cerca a text complet"
 
 #: application/src/View/Helper/SearchFilters.php:60
-#: application/view/common/linked-resources.phtml:33
+#: application/view/common/advanced-search/sort.phtml:8
+#: application/view/common/asset-block-form.phtml:63
+#: application/view/common/linked-resources.phtml:41
 #: application/view/omeka/admin/item-set/browse.phtml:15
 #: application/view/omeka/admin/item-set/browse.phtml:75
 #: application/view/omeka/admin/item-set/show.phtml:40
@@ -463,13 +472,13 @@ msgstr "Cerca a text complet"
 #: application/view/omeka/admin/job/browse.phtml:38
 #: application/view/omeka/admin/job/show.phtml:41
 #: application/view/omeka/admin/media/browse.phtml:17
-#: application/view/omeka/admin/media/browse.phtml:81
+#: application/view/omeka/admin/media/browse.phtml:85
 #: application/view/omeka/admin/media/show.phtml:23
 #: application/view/omeka/admin/resource-template/browse.phtml:11
 #: application/view/omeka/admin/resource-template/browse.phtml:45
 #: application/view/omeka/admin/resource-template/review-import.phtml:32
 #: application/view/omeka/admin/resource-template/show.phtml:18
-#: application/view/omeka/site/item/browse.phtml:22
+#: application/view/omeka/site/item/browse.phtml:25
 msgid "Class"
 msgstr "Classe"
 
@@ -525,7 +534,7 @@ msgid "Unknown template"
 msgstr "Plantilla desconeguda"
 
 #: application/src/View/Helper/SearchFilters.php:156
-#: application/view/omeka/site/item/browse.phtml:34
+#: application/view/omeka/site/item/browse.phtml:37
 msgid "Item set"
 msgstr "Conjunt d'ítems"
 
@@ -559,6 +568,8 @@ msgid "Email"
 msgstr "Correu electrònic"
 
 #: application/src/View/Helper/SearchUserFilters.php:54
+#: application/view/omeka/admin/asset/browse.phtml:12
+#: application/view/omeka/admin/asset/browse.phtml:37
 msgid "Name"
 msgstr "Nom"
 
@@ -601,35 +612,38 @@ msgstr "La mida màxima de les pujades és %s MB."
 
 #: application/src/View/Helper/UserBar.php:120
 #: application/src/View/Helper/UserBar.php:166
+#: application/view/common/query-form.phtml:24
+#: application/view/omeka/admin/asset/browse.phtml:67
+#: application/view/omeka/admin/asset/edit.phtml:10
 #: application/view/omeka/admin/item-set/browse.phtml:109
 #: application/view/omeka/admin/item-set/edit.phtml:14
 #: application/view/omeka/admin/item/browse.phtml:107
 #: application/view/omeka/admin/item/edit.phtml:14
 #: application/view/omeka/admin/item/manage-media.phtml:43
-#: application/view/omeka/admin/media/browse.phtml:117
+#: application/view/omeka/admin/media/browse.phtml:121
 #: application/view/omeka/admin/resource-template/browse.phtml:72
 #: application/view/omeka/admin/user/browse.phtml:101
 #: application/view/omeka/admin/user/edit.phtml:14
 #: application/view/omeka/admin/vocabulary/browse.phtml:60
 #: application/view/omeka/admin/vocabulary/edit.phtml:7
 #: application/view/omeka/site-admin/index/index.phtml:75
-#: application/view/omeka/site-admin/index/show.phtml:15
+#: application/view/omeka/site-admin/index/show.phtml:11
 #: application/view/omeka/site-admin/page/edit.phtml:11
 #: application/view/omeka/site-admin/page/index.phtml:80
 msgid "Edit"
 msgstr "Edita"
 
 #: application/src/View/Helper/UserBar.php:159
-#: application/view/omeka/site-admin/index/show.phtml:17
+#: application/view/omeka/site-admin/index/show.phtml:13
 #: application/view/omeka/site-admin/page/edit.phtml:28
 msgid "View"
 msgstr "Vista"
 
-#: application/view/common/advanced-search/item-sets.phtml:15
+#: application/view/common/advanced-search/item-sets.phtml:31
 msgid "Search by item set"
 msgstr "Cerca per conjunts d'ítems"
 
-#: application/view/common/advanced-search/item-sets.phtml:16
+#: application/view/common/advanced-search/item-sets.phtml:32
 #: application/view/common/advanced-search/owner.phtml:4
 #: application/view/common/advanced-search/resource-class.phtml:16
 #: application/view/common/advanced-search/resource-template.phtml:17
@@ -639,18 +653,18 @@ msgstr "Cerca per conjunts d'ítems"
 msgid "Expand"
 msgstr "Expandeix"
 
-#: application/view/common/advanced-search/item-sets.phtml:18
+#: application/view/common/advanced-search/item-sets.phtml:34
 msgid "Searches for items that are assigned to any of these item sets."
 msgstr ""
 "Cerques per als ítems que pertanyen a un dels conjunts d'ítems següents."
 
-#: application/view/common/advanced-search/item-sets.phtml:20
+#: application/view/common/advanced-search/item-sets.phtml:36
 #: application/view/omeka/admin/index/browse.phtml:23
 #: application/view/omeka/admin/item-set/browse.phtml:42
 msgid "Add new item set"
 msgstr "Afegeix un conjunt d'ítems"
 
-#: application/view/common/advanced-search/item-sets.phtml:35
+#: application/view/common/advanced-search/item-sets.phtml:49
 #: application/view/common/advanced-search/properties.phtml:76
 #: application/view/common/advanced-search/resource-class.phtml:32
 #: application/view/common/advanced-search/resource-template.phtml:33
@@ -725,6 +739,105 @@ msgstr ""
 msgid "Searches for items that are assigned to this site."
 msgstr ""
 
+#: application/view/common/advanced-search/sort.phtml:6
+#: application/view/common/linked-resources.phtml:39
+#: application/view/omeka/admin/item-set/browse.phtml:7
+#: application/view/omeka/admin/item-set/browse.phtml:73
+#: application/view/omeka/admin/item/browse.phtml:7
+#: application/view/omeka/admin/item/browse.phtml:72
+#: application/view/omeka/admin/item/manage-item-sets.phtml:33
+#: application/view/omeka/admin/item/manage-sites.phtml:39
+#: application/view/omeka/admin/media/browse.phtml:9
+#: application/view/omeka/admin/media/browse.phtml:83
+#: application/view/omeka/site-admin/index/index.phtml:7
+#: application/view/omeka/site-admin/index/index.phtml:39
+#: application/view/omeka/site-admin/index/resources.phtml:66
+#: application/view/omeka/site-admin/index/show.phtml:24
+#: application/view/omeka/site-admin/page/index.phtml:15
+#: application/view/omeka/site-admin/page/index.phtml:48
+#: application/view/omeka/site/item/browse.phtml:17
+msgid "Title"
+msgstr "Títol"
+
+#: application/view/common/advanced-search/sort.phtml:7
+#: application/view/omeka/admin/item-set/browse.phtml:11
+#: application/view/omeka/admin/item/browse.phtml:11
+#: application/view/omeka/admin/media/browse.phtml:13
+#: application/view/omeka/site/item/browse.phtml:21
+msgid "Identifier"
+msgstr "Identificador"
+
+#: application/view/common/advanced-search/sort.phtml:9
+#: application/view/omeka/admin/asset/browse.phtml:38
+#: application/view/omeka/admin/item-set/browse.phtml:19
+#: application/view/omeka/admin/item-set/browse.phtml:76
+#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item/browse.phtml:19
+#: application/view/omeka/admin/item/browse.phtml:74
+#: application/view/omeka/admin/item/manage-item-sets.phtml:34
+#: application/view/omeka/admin/item/manage-sites.phtml:40
+#: application/view/omeka/admin/item/show.phtml:87
+#: application/view/omeka/admin/job/browse.phtml:19
+#: application/view/omeka/admin/job/browse.phtml:40
+#: application/view/omeka/admin/job/show.phtml:45
+#: application/view/omeka/admin/media/browse.phtml:21
+#: application/view/omeka/admin/media/browse.phtml:86
+#: application/view/omeka/admin/resource-template/browse.phtml:15
+#: application/view/omeka/admin/resource-template/browse.phtml:46
+#: application/view/omeka/site-admin/index/index.phtml:15
+#: application/view/omeka/site-admin/index/index.phtml:41
+#: application/view/omeka/site-admin/index/resources.phtml:67
+msgid "Owner"
+msgstr "Propietari"
+
+#: application/view/common/advanced-search/sort.phtml:10
+#: application/view/omeka/admin/item-set/browse.phtml:23
+#: application/view/omeka/admin/item-set/browse.phtml:77
+#: application/view/omeka/admin/item-set/show.phtml:70
+#: application/view/omeka/admin/item/browse.phtml:23
+#: application/view/omeka/admin/item/browse.phtml:75
+#: application/view/omeka/admin/item/show.phtml:83
+#: application/view/omeka/admin/media/browse.phtml:25
+#: application/view/omeka/admin/media/browse.phtml:87
+#: application/view/omeka/admin/media/show.phtml:45
+#: application/view/omeka/admin/user/browse.phtml:18
+#: application/view/omeka/admin/user/browse.phtml:81
+#: application/view/omeka/site-admin/page/index.phtml:23
+#: application/view/omeka/site-admin/page/index.phtml:50
+#: application/view/omeka/site/item/browse.phtml:29
+msgid "Created"
+msgstr "Creat"
+
+#: application/view/common/advanced-search/sort.phtml:21
+#: application/view/omeka/admin/media/browse.phtml:29
+#: application/view/omeka/admin/media/show-details.phtml:31
+#: application/view/omeka/admin/media/show.phtml:56
+msgid "Size"
+msgstr "Mida"
+
+#: application/view/common/advanced-search/sort.phtml:27
+msgid "Select sort by…"
+msgstr ""
+
+#: application/view/common/advanced-search/sort.phtml:32
+msgid "Select sort order…"
+msgstr ""
+
+#: application/view/common/advanced-search/sort.phtml:34
+#: application/view/common/sort-selector.phtml:14
+msgid "Ascending"
+msgstr "Ascendent"
+
+#: application/view/common/advanced-search/sort.phtml:35
+#: application/view/common/sort-selector.phtml:15
+msgid "Descending"
+msgstr "Descendent"
+
+#: application/view/common/advanced-search/sort.phtml:41
+#: application/view/common/sort-selector.phtml:17
+msgid "Sort"
+msgstr "Ordena"
+
 #: application/view/common/advanced-search/users.phtml:17
 msgid "Search by email"
 msgstr "Cerca per email"
@@ -741,17 +854,139 @@ msgstr "Cerca per rol"
 msgid "Search by activity"
 msgstr "Cerca per activitat"
 
-#: application/view/common/asset-form.phtml:34
+#: application/view/common/asset-block-form.phtml:7
+#: application/view/common/asset-block-form.phtml:40
+msgid "No asset selected"
+msgstr ""
+
+#: application/view/common/asset-block-form.phtml:9
+#: application/view/common/asset-block-form.phtml:43
+msgid "Open asset options"
+msgstr ""
+
+#: application/view/common/asset-block-form.phtml:10
+#: application/view/common/asset-block-form.phtml:44
+#: application/view/common/attachments-form.phtml:11
+#: application/view/common/attachments-form.phtml:52
+msgid "Delete attachment"
+msgstr "Suprimeix els fitxers adjunts"
+
+#: application/view/common/asset-block-form.phtml:11
+#: application/view/common/asset-block-form.phtml:45
+#: application/view/common/attachments-form.phtml:12
+#: application/view/common/attachments-form.phtml:53
+msgid "Restore attachment"
+msgstr "Restaura els fitxers adjunts"
+
+#: application/view/common/asset-block-form.phtml:20
+#: application/view/common/asset-block-form.phtml:57
+#: application/view/common/resource-form-templates.phtml:10
+#: application/view/omeka/admin/item/sidebar-select.phtml:28
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:35
+#: application/view/omeka/site-admin/page/edit.phtml:57
+msgid "Collapse"
+msgstr "Col·lapsa"
+
+#: application/view/common/asset-block-form.phtml:20
+#: application/view/omeka/admin/asset/browse.phtml:18
+#: application/view/omeka/admin/asset/edit.phtml:10
+msgid "Assets"
+msgstr ""
+
+#: application/view/common/asset-block-form.phtml:54
+msgid "Add asset"
+msgstr ""
+
+#: application/view/common/asset-form.phtml:35
+#: application/view/common/asset-options.phtml:15
 msgid "[No asset selected]"
 msgstr "[Sense actius seleccionats]"
 
-#: application/view/common/asset-form.phtml:37
+#: application/view/common/asset-form.phtml:38
+#: application/view/common/asset-options.phtml:29
+#: application/view/common/asset-options.phtml:36
 msgid "Select"
 msgstr "Selecciona"
 
-#: application/view/common/asset-form.phtml:40
+#: application/view/common/asset-form.phtml:41
+#: application/view/common/asset-options.phtml:37
+#: application/view/common/query-form.phtml:29
 msgid "Clear"
 msgstr "Neteja"
+
+#: application/view/common/asset-options.phtml:10
+msgid "No Asset"
+msgstr ""
+
+#: application/view/common/asset-options.phtml:19
+#: application/view/omeka/admin/query/sidebar-edit.phtml:12
+msgid "Preview"
+msgstr ""
+
+#: application/view/common/asset-options.phtml:20
+msgid "[No page selected]"
+msgstr ""
+
+#: application/view/common/asset-options.phtml:25
+#: application/view/common/delete-confirm.phtml:8
+#: application/view/common/item-set-selector.phtml:6
+#: application/view/common/page-select-sidebar.phtml:6
+#: application/view/common/property-selector.phtml:6
+#: application/view/common/resource-select-sidebar.phtml:6
+#: application/view/common/resource-select-sidebar.phtml:12
+#: application/view/common/site-selector.phtml:2
+#: application/view/common/user-selector.phtml:6
+#: application/view/omeka/admin/asset/browse.phtml:100
+#: application/view/omeka/admin/asset/browse.phtml:117
+#: application/view/omeka/admin/asset/sidebar-select.phtml:8
+#: application/view/omeka/admin/item-set/browse.phtml:146
+#: application/view/omeka/admin/item-set/browse.phtml:153
+#: application/view/omeka/admin/item-set/browse.phtml:171
+#: application/view/omeka/admin/item/browse.phtml:144
+#: application/view/omeka/admin/item/browse.phtml:151
+#: application/view/omeka/admin/item/browse.phtml:169
+#: application/view/omeka/admin/item/manage-media.phtml:70
+#: application/view/omeka/admin/media/browse.phtml:158
+#: application/view/omeka/admin/media/browse.phtml:167
+#: application/view/omeka/admin/media/browse.phtml:185
+#: application/view/omeka/admin/module/browse.phtml:159
+#: application/view/omeka/admin/query/sidebar-edit.phtml:3
+#: application/view/omeka/admin/query/sidebar-preview.phtml:1
+#: application/view/omeka/admin/resource-template/browse.phtml:99
+#: application/view/omeka/admin/resource-template/form.phtml:43
+#: application/view/omeka/admin/resource-template/form.phtml:52
+#: application/view/omeka/admin/resource-template/show.phtml:67
+#: application/view/omeka/admin/user/browse.phtml:137
+#: application/view/omeka/admin/user/browse.phtml:146
+#: application/view/omeka/admin/user/browse.phtml:164
+#: application/view/omeka/admin/vocabulary/browse.phtml:93
+#: application/view/omeka/admin/vocabulary/classes.phtml:67
+#: application/view/omeka/admin/vocabulary/properties.phtml:50
+#: application/view/omeka/site-admin/index/index.phtml:101
+#: application/view/omeka/site-admin/index/navigation.phtml:31
+#: application/view/omeka/site-admin/page/edit.phtml:51
+#: application/view/omeka/site-admin/page/index.phtml:102
+#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:7
+msgid "Close"
+msgstr "Tanca"
+
+#: application/view/common/asset-options.phtml:32
+msgid "Page link"
+msgstr ""
+
+#: application/view/common/asset-options.phtml:40
+msgid "Alternative link title"
+msgstr ""
+
+#: application/view/common/asset-options.phtml:44
+#: application/view/omeka/site-admin/page/edit.phtml:54
+msgid "Caption"
+msgstr "Llegenda"
+
+#: application/view/common/asset-options.phtml:50
+#: application/view/omeka/site-admin/page/edit.phtml:65
+msgid "Apply changes"
+msgstr "Aplica els canvis"
 
 #: application/view/common/attachments-form.phtml:8
 #: application/view/common/attachments-form.phtml:28
@@ -762,16 +997,6 @@ msgstr "Sense ítems seleccionats"
 #: application/view/common/attachments-form.phtml:51
 msgid "Open attachment options"
 msgstr "Obre les opcions dels fitxers adjunts"
-
-#: application/view/common/attachments-form.phtml:11
-#: application/view/common/attachments-form.phtml:52
-msgid "Delete attachment"
-msgstr "Suprimeix els fitxers adjunts"
-
-#: application/view/common/attachments-form.phtml:12
-#: application/view/common/attachments-form.phtml:53
-msgid "Restore attachment"
-msgstr "Restaura els fitxers adjunts"
 
 #: application/view/common/attachments-form.phtml:20
 msgid "Attachments"
@@ -804,11 +1029,11 @@ msgstr "Restaura el valor"
 #: application/view/omeka/admin/item-set/show.phtml:26
 #: application/view/omeka/admin/item/form.phtml:16
 #: application/view/omeka/admin/item/show-details.phtml:19
-#: application/view/omeka/admin/item/show.phtml:63
+#: application/view/omeka/admin/item/show.phtml:67
 #: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:23
-#: application/view/omeka/site/item-set/browse.phtml:8
-#: application/view/omeka/site/item/show.phtml:24
+#: application/view/omeka/site/item-set/browse.phtml:11
+#: application/view/omeka/site/item/show.phtml:27
 msgid "Item sets"
 msgstr "Conjunts d'ítems"
 
@@ -817,6 +1042,7 @@ msgstr "Conjunts d'ítems"
 #: application/view/omeka/admin/item-set/search.phtml:12
 #: application/view/omeka/admin/item/search.phtml:12
 #: application/view/omeka/admin/media/search.phtml:12
+#: application/view/omeka/admin/query/sidebar-edit.phtml:13
 msgid "Reset"
 msgstr "Reinicia"
 
@@ -848,7 +1074,7 @@ msgid "Search results for “%s”"
 msgstr "Resultats de cerca per “%s”"
 
 #: application/view/common/cross-site-search/results.phtml:13
-#: application/view/omeka/site/item/show.phtml:32
+#: application/view/omeka/site/item/show.phtml:35
 msgid "Site pages"
 msgstr ""
 
@@ -864,7 +1090,7 @@ msgstr "Veure tots els resultats (%s)"
 #: application/view/common/data-type/resource.phtml:22
 #: application/view/layout/layout-admin.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:79
+#: application/view/omeka/admin/item-set/show.phtml:83
 #: application/view/omeka/admin/item/add.phtml:6
 #: application/view/omeka/admin/item/browse.phtml:29
 #: application/view/omeka/admin/item/edit.phtml:14
@@ -877,8 +1103,8 @@ msgstr "Veure tots els resultats (%s)"
 #: application/view/omeka/admin/user/show-details.phtml:12
 #: application/view/omeka/admin/vocabulary/classes.phtml:15
 #: application/view/omeka/site-admin/index/resources.phtml:22
-#: application/view/omeka/site/item/browse.phtml:39
-#: application/view/omeka/site/item/browse.phtml:41
+#: application/view/omeka/site/item/browse.phtml:42
+#: application/view/omeka/site/item/browse.phtml:44
 msgid "Items"
 msgstr "Ítems"
 
@@ -903,10 +1129,10 @@ msgstr "El valor que se suprimirà"
 
 #: application/view/common/data-type-wrapper.phtml:21
 #: application/view/common/media-field-wrapper.phtml:10
-#: application/view/omeka/admin/item-set/form.phtml:42
-#: application/view/omeka/admin/item/form.phtml:51
+#: application/view/omeka/admin/item-set/form.phtml:43
+#: application/view/omeka/admin/item/form.phtml:52
 #: application/view/omeka/admin/item/manage-media.phtml:30
-#: application/view/omeka/admin/media/edit.phtml:53
+#: application/view/omeka/admin/media/edit.phtml:54
 #: application/view/omeka/site-admin/index/add-page.phtml:18
 #: application/view/omeka/site-admin/index/add.phtml:26
 #: application/view/omeka/site-admin/index/edit.phtml:15
@@ -930,8 +1156,8 @@ msgstr "No s'ha seleccionat cap recurs"
 #: application/view/layout/layout-admin.phtml:76
 #: application/view/omeka/admin/item/form.phtml:15
 #: application/view/omeka/admin/item/show-details.phtml:36
-#: application/view/omeka/admin/item/show.phtml:88
-#: application/view/omeka/admin/media/browse.phtml:31
+#: application/view/omeka/admin/item/show.phtml:92
+#: application/view/omeka/admin/media/browse.phtml:35
 #: application/view/omeka/admin/media/edit.phtml:17
 #: application/view/omeka/admin/media/edit.phtml:25
 #: application/view/omeka/admin/media/search.phtml:5
@@ -948,7 +1174,7 @@ msgid "URI"
 msgstr "URI"
 
 #: application/view/common/data-type/uri.phtml:12
-#: application/view/common/navigation-link-form/browse.phtml:8
+#: application/view/common/navigation-link-form/browse.phtml:16
 #: application/view/common/navigation-link-form/page.phtml:15
 #: application/view/common/navigation-link-form/url.phtml:8
 #: application/view/common/property-form-batch-edit.phtml:45
@@ -963,42 +1189,6 @@ msgstr "URI"
 #: application/view/omeka/admin/vocabulary/properties.phtml:20
 msgid "Label"
 msgstr "Etiqueta"
-
-#: application/view/common/delete-confirm.phtml:8
-#: application/view/common/item-set-selector.phtml:6
-#: application/view/common/property-selector.phtml:6
-#: application/view/common/resource-select-sidebar.phtml:6
-#: application/view/common/resource-select-sidebar.phtml:12
-#: application/view/common/site-selector.phtml:2
-#: application/view/common/user-selector.phtml:5
-#: application/view/omeka/admin/asset/sidebar-select.phtml:6
-#: application/view/omeka/admin/item-set/browse.phtml:146
-#: application/view/omeka/admin/item-set/browse.phtml:153
-#: application/view/omeka/admin/item-set/browse.phtml:171
-#: application/view/omeka/admin/item/browse.phtml:144
-#: application/view/omeka/admin/item/browse.phtml:151
-#: application/view/omeka/admin/item/browse.phtml:169
-#: application/view/omeka/admin/item/manage-media.phtml:70
-#: application/view/omeka/admin/media/browse.phtml:154
-#: application/view/omeka/admin/media/browse.phtml:163
-#: application/view/omeka/admin/media/browse.phtml:181
-#: application/view/omeka/admin/module/browse.phtml:159
-#: application/view/omeka/admin/resource-template/browse.phtml:99
-#: application/view/omeka/admin/resource-template/form.phtml:43
-#: application/view/omeka/admin/resource-template/form.phtml:52
-#: application/view/omeka/admin/resource-template/show.phtml:67
-#: application/view/omeka/admin/user/browse.phtml:137
-#: application/view/omeka/admin/user/browse.phtml:146
-#: application/view/omeka/admin/user/browse.phtml:164
-#: application/view/omeka/admin/vocabulary/browse.phtml:93
-#: application/view/omeka/admin/vocabulary/classes.phtml:67
-#: application/view/omeka/admin/vocabulary/properties.phtml:50
-#: application/view/omeka/site-admin/index/index.phtml:101
-#: application/view/omeka/site-admin/index/navigation.phtml:26
-#: application/view/omeka/site-admin/page/edit.phtml:51
-#: application/view/omeka/site-admin/page/index.phtml:102
-msgid "Close"
-msgstr "Tanca"
 
 #: application/view/common/delete-confirm.phtml:12
 #, php-format
@@ -1033,13 +1223,14 @@ msgstr "Filtra els conjunts d'ítems"
 
 #: application/view/common/item-set-selector.phtml:18
 #: application/view/common/site-selector.phtml:10
+#: application/view/omeka/admin/asset/browse.phtml:54
 #: application/view/omeka/admin/item-set/browse.phtml:93
 #: application/view/omeka/admin/item-set/show.phtml:17
 #: application/view/omeka/admin/item/browse.phtml:91
 #: application/view/omeka/admin/item/show.phtml:8
 #: application/view/omeka/admin/job/browse.phtml:56
 #: application/view/omeka/admin/job/show.phtml:18
-#: application/view/omeka/admin/media/browse.phtml:101
+#: application/view/omeka/admin/media/browse.phtml:105
 #: application/view/omeka/admin/resource-template/browse.phtml:62
 #: application/view/omeka/site-admin/index/index.phtml:57
 msgid "[no owner]"
@@ -1051,46 +1242,31 @@ msgstr "[sense propietari]"
 msgid "More info"
 msgstr "Més informació"
 
-#: application/view/common/linked-resources.phtml:15
+#: application/view/common/linked-resources.phtml:23
 msgid "Filter by property"
 msgstr "Filtra per propietat"
 
-#: application/view/common/linked-resources.phtml:17
+#: application/view/common/linked-resources.phtml:25
 msgid "All"
 msgstr "Tot"
 
-#: application/view/common/linked-resources.phtml:31
-#: application/view/omeka/admin/item-set/browse.phtml:7
-#: application/view/omeka/admin/item-set/browse.phtml:73
-#: application/view/omeka/admin/item/browse.phtml:7
-#: application/view/omeka/admin/item/browse.phtml:72
-#: application/view/omeka/admin/item/manage-item-sets.phtml:33
-#: application/view/omeka/admin/item/manage-sites.phtml:39
-#: application/view/omeka/admin/media/browse.phtml:9
-#: application/view/omeka/admin/media/browse.phtml:79
-#: application/view/omeka/site-admin/index/index.phtml:7
-#: application/view/omeka/site-admin/index/index.phtml:39
-#: application/view/omeka/site-admin/index/resources.phtml:73
-#: application/view/omeka/site-admin/index/show.phtml:28
-#: application/view/omeka/site-admin/page/index.phtml:15
-#: application/view/omeka/site-admin/page/index.phtml:48
-#: application/view/omeka/site/item/browse.phtml:14
-msgid "Title"
-msgstr "Títol"
-
-#: application/view/common/linked-resources.phtml:32
+#: application/view/common/linked-resources.phtml:40
 #: application/view/omeka/admin/resource-template/review-import.phtml:68
 #: application/view/omeka/admin/resource-template/show.phtml:28
 msgid "Alternate label"
 msgstr "Etiqueta alternativa"
 
-#: application/view/common/navigation-link-form/browse.phtml:7
+#: application/view/common/navigation-link-form/browse.phtml:8
+msgid "Search query"
+msgstr ""
+
+#: application/view/common/navigation-link-form/browse.phtml:15
 #: application/view/common/navigation-link-form/page.phtml:13
 #: application/view/common/navigation-link-form/url.phtml:7
 msgid "Type"
 msgstr "Tipus"
 
-#: application/view/common/navigation-link-form/browse.phtml:9
+#: application/view/common/navigation-link-form/browse.phtml:17
 msgid "Query"
 msgstr "Consulta"
 
@@ -1103,6 +1279,10 @@ msgstr "Pàgina"
 #: application/view/common/navigation-link-form/url.phtml:9
 msgid "URL"
 msgstr "URL"
+
+#: application/view/common/page-select-sidebar.phtml:8
+msgid "Select Pages"
+msgstr ""
 
 #: application/view/common/pagination.phtml:9
 #: application/view/common/sidebar-pagination.phtml:6
@@ -1144,11 +1324,11 @@ msgstr "Afegeix un valor textual"
 #: application/view/common/property-form-batch-edit.phtml:46
 #: application/view/common/property-form-batch-edit.phtml:66
 #: application/view/omeka/admin/item-set/show-details.phtml:14
-#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:79
 #: application/view/omeka/admin/item/show-details.phtml:14
-#: application/view/omeka/admin/item/show.phtml:58
+#: application/view/omeka/admin/item/show.phtml:62
 #: application/view/omeka/admin/media/show-details.phtml:38
-#: application/view/omeka/admin/media/show.phtml:33
+#: application/view/omeka/admin/media/show.phtml:37
 msgid "Public"
 msgstr "Públic"
 
@@ -1187,17 +1367,29 @@ msgstr "Feu clic sobre una propietat per afegir-la al panel d'edició."
 msgid "Filter properties"
 msgstr "Propietats del filtre"
 
+#: application/view/common/query-form.phtml:9
+#: application/view/omeka/admin/query/search-filters.phtml:4
+msgid "[Edit below]"
+msgstr ""
+
+#: application/view/common/query-form.phtml:25
+msgid "Advanced edit"
+msgstr ""
+
+#: application/view/common/query-form.phtml:26
+#: application/view/omeka/admin/query/sidebar-edit.phtml:14
+msgid "Apply"
+msgstr ""
+
+#: application/view/common/query-form.phtml:28
+#: application/view/omeka/site-admin/index/users.phtml:8
+msgid "Restore"
+msgstr "Restaura"
+
 #: application/view/common/resource-fields.phtml:45
 #: application/view/omeka/admin/resource-template/form.phtml:32
 msgid "Add property"
 msgstr "Afegeix una propietat"
-
-#: application/view/common/resource-form-templates.phtml:10
-#: application/view/omeka/admin/item/sidebar-select.phtml:28
-#: application/view/omeka/site-admin/page/attachment-item-options.phtml:35
-#: application/view/omeka/site-admin/page/edit.phtml:57
-msgid "Collapse"
-msgstr "Col·lapsa"
 
 #: application/view/common/resource-form-templates.phtml:13
 msgid "Property term for development use"
@@ -1237,14 +1429,14 @@ msgstr ""
 #: application/view/common/site-selector.phtml:7
 #: application/view/omeka/admin/item/form.phtml:17
 #: application/view/omeka/admin/item/show-details.phtml:28
-#: application/view/omeka/admin/item/show.phtml:72
+#: application/view/omeka/admin/item/show.phtml:76
 #: application/view/omeka/index/index.phtml:6
 #: application/view/omeka/site-admin/index/add.phtml:12
 #: application/view/omeka/site-admin/index/edit.phtml:8
 #: application/view/omeka/site-admin/index/index.phtml:21
-#: application/view/omeka/site-admin/index/navigation.phtml:10
+#: application/view/omeka/site-admin/index/navigation.phtml:15
 #: application/view/omeka/site-admin/index/resources.phtml:20
-#: application/view/omeka/site-admin/index/show.phtml:11
+#: application/view/omeka/site-admin/index/show.phtml:7
 #: application/view/omeka/site-admin/index/theme.phtml:11
 #: application/view/omeka/site-admin/index/users.phtml:41
 #: application/view/omeka/site-admin/page/index.phtml:33
@@ -1272,18 +1464,6 @@ msgstr "Ordena per"
 msgid "Sort order"
 msgstr "Ordenació"
 
-#: application/view/common/sort-selector.phtml:14
-msgid "Ascending"
-msgstr "Ascendent"
-
-#: application/view/common/sort-selector.phtml:15
-msgid "Descending"
-msgstr "Descendent"
-
-#: application/view/common/sort-selector.phtml:17
-msgid "Sort"
-msgstr "Ordena"
-
 #: application/view/common/user-bar.phtml:22
 #: application/view/layout/layout-admin.phtml:48
 #, php-format
@@ -1300,15 +1480,15 @@ msgstr "Surt"
 msgid "Log in"
 msgstr "Inicia sessió"
 
-#: application/view/common/user-selector.phtml:11
+#: application/view/common/user-selector.phtml:12
 msgid "Click on a user to add it to the edit panel."
 msgstr "Feu clic sobre un usuari per afegir-lo al panel d'edició."
 
-#: application/view/common/user-selector.phtml:14
+#: application/view/common/user-selector.phtml:15
 msgid "Filter users"
 msgstr "Filtra els usuaris"
 
-#: application/view/common/user-selector.phtml:16
+#: application/view/common/user-selector.phtml:17
 #, php-format
 msgid "Users (%s)"
 msgstr "Usuaris (%s)"
@@ -1452,52 +1632,94 @@ msgstr "Fòrums de suport"
 msgid "Powered by Omeka S"
 msgstr "Funciona amb l'Omeka S"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:9
+#: application/view/omeka/admin/asset/add-form.phtml:6
 msgid "Upload new asset"
 msgstr "Puja un nou actiu"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:12
+#: application/view/omeka/admin/asset/add-form.phtml:9
+#: application/view/omeka/admin/asset/show-details.phtml:21
+msgid "Alt text"
+msgstr ""
+
+#: application/view/omeka/admin/asset/add-form.phtml:11
 msgid "Upload"
 msgstr "Puja"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:17
+#: application/view/omeka/admin/asset/browse.phtml:8
+#: application/view/omeka/admin/item-set/show.phtml:66
+#: application/view/omeka/admin/item/show.phtml:57
+#: application/view/omeka/admin/job/browse.phtml:7
+#: application/view/omeka/admin/job/browse.phtml:37
+#: application/view/omeka/admin/media/show.phtml:32
+#: application/view/omeka/admin/user/edit.phtml:39
+msgid "ID"
+msgstr "ID"
+
+#: application/view/omeka/admin/asset/browse.phtml:27
+msgid "Add new asset"
+msgstr ""
+
+#: application/view/omeka/admin/asset/browse.phtml:75
+#: application/view/omeka/admin/asset/edit.phtml:6
+#: application/view/omeka/admin/item-set/browse.phtml:117
+#: application/view/omeka/admin/item-set/edit.phtml:6
+#: application/view/omeka/admin/item/browse.phtml:115
+#: application/view/omeka/admin/item/edit.phtml:6
+#: application/view/omeka/admin/media/browse.phtml:129
+#: application/view/omeka/admin/media/edit.phtml:65
+#: application/view/omeka/admin/resource-template/browse.phtml:79
+#: application/view/omeka/admin/resource-template/form.phtml:13
+#: application/view/omeka/admin/user/browse.phtml:108
+#: application/view/omeka/admin/user/edit.phtml:40
+#: application/view/omeka/admin/vocabulary/browse.phtml:67
+#: application/view/omeka/admin/vocabulary/edit.phtml:11
+#: application/view/omeka/site-admin/index/edit.phtml:26
+#: application/view/omeka/site-admin/index/index.phtml:82
+#: application/view/omeka/site-admin/index/users.phtml:7
+#: application/view/omeka/site-admin/page/edit.phtml:29
+msgid "Delete"
+msgstr "Suprimeix"
+
+#: application/view/omeka/admin/asset/browse.phtml:82
+#: application/view/omeka/admin/item-set/browse.phtml:124
+#: application/view/omeka/admin/item/browse.phtml:122
+#: application/view/omeka/admin/media/browse.phtml:136
+#: application/view/omeka/admin/resource-template/browse.phtml:85
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:27
+#: application/view/omeka/admin/resource-template/show.phtml:44
+#: application/view/omeka/admin/user/browse.phtml:115
+#: application/view/omeka/admin/vocabulary/browse.phtml:74
+#: application/view/omeka/admin/vocabulary/classes.phtml:52
+#: application/view/omeka/admin/vocabulary/properties.phtml:35
+msgid "Details"
+msgstr "Detalls"
+
+#: application/view/omeka/admin/asset/browse.phtml:108
+msgid "Omeka could not find any assets."
+msgstr ""
+
+#: application/view/omeka/admin/asset/show-details.phtml:12
+msgid "Media type"
+msgstr ""
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:16
 msgid "Select asset"
 msgstr "Selecciona l'actiu"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:26
+#: application/view/omeka/admin/asset/sidebar-select.phtml:25
 msgid "No owner"
 msgstr "Sense propietari"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:33
+#: application/view/omeka/admin/asset/sidebar-select.phtml:32
 msgid "Filter by owner"
 msgstr "Filtra per propietari"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:49
-msgid "Delete asset"
-msgstr "Suprimeix l'actiu"
-
-#: application/view/omeka/admin/asset/sidebar-select.phtml:53
-msgid "Cancel delete"
-msgstr "Cancel·la l'esborrat"
-
-#: application/view/omeka/admin/asset/sidebar-select.phtml:73
+#: application/view/omeka/admin/asset/sidebar-select.phtml:56
 msgid "assets"
 msgstr "fitxers"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:78
-msgid ""
-"Are you sure you want to delete this asset? It will no longer be available "
-"to any resources currently using it."
-msgstr ""
-"Esteu segur que voleu suprimir aquest fitxer? Deixarà d'estar disponible per"
-" qualsevol altre recurs que l'estigui emprant."
-
-#: application/view/omeka/admin/asset/sidebar-select.phtml:79
-msgid "Confirm delete"
-msgstr "Confirmeu la supressió"
-
 #: application/view/omeka/admin/index/browse.phtml:4
-#: application/view/omeka/index/index.phtml:32
+#: application/view/omeka/index/index.phtml:33
 msgid "Admin dashboard"
 msgstr "Tauler d'administració"
 
@@ -1563,18 +1785,18 @@ msgstr "Edició en lot dels conjunts d'ítems"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:19
 #: application/view/omeka/admin/item-set/edit.phtml:20
-#: application/view/omeka/admin/item-set/form.phtml:55
+#: application/view/omeka/admin/item-set/form.phtml:56
 #: application/view/omeka/admin/item/batch-edit.phtml:19
 #: application/view/omeka/admin/item/edit.phtml:22
 #: application/view/omeka/admin/media/batch-edit.phtml:21
-#: application/view/omeka/admin/media/edit.phtml:67
+#: application/view/omeka/admin/media/edit.phtml:68
 #: application/view/omeka/admin/resource-template/edit.phtml:15
 #: application/view/omeka/admin/setting/browse.phtml:11
 #: application/view/omeka/admin/user/batch-edit.phtml:19
 #: application/view/omeka/admin/user/edit.phtml:19
 #: application/view/omeka/admin/vocabulary/edit.phtml:13
 #: application/view/omeka/site-admin/index/edit.phtml:29
-#: application/view/omeka/site-admin/index/navigation.phtml:17
+#: application/view/omeka/site-admin/index/navigation.phtml:22
 #: application/view/omeka/site-admin/index/resources.phtml:31
 #: application/view/omeka/site-admin/index/theme-settings.phtml:12
 #: application/view/omeka/site-admin/index/theme.phtml:18
@@ -1597,61 +1819,16 @@ msgstr "Esteu editant el conjunt de %s ítems següent:"
 msgid "You are editing %s item sets."
 msgstr "Esteu editant %s conjunts d'ítems."
 
-#: application/view/omeka/admin/item-set/browse.phtml:11
-#: application/view/omeka/admin/item/browse.phtml:11
-#: application/view/omeka/admin/media/browse.phtml:13
-#: application/view/omeka/site/item/browse.phtml:18
-msgid "Identifier"
-msgstr "Identificador"
-
-#: application/view/omeka/admin/item-set/browse.phtml:19
-#: application/view/omeka/admin/item-set/browse.phtml:76
-#: application/view/omeka/admin/item-set/show.phtml:70
-#: application/view/omeka/admin/item/browse.phtml:19
-#: application/view/omeka/admin/item/browse.phtml:74
-#: application/view/omeka/admin/item/manage-item-sets.phtml:34
-#: application/view/omeka/admin/item/manage-sites.phtml:40
-#: application/view/omeka/admin/item/show.phtml:83
-#: application/view/omeka/admin/job/browse.phtml:19
-#: application/view/omeka/admin/job/browse.phtml:40
-#: application/view/omeka/admin/job/show.phtml:45
-#: application/view/omeka/admin/media/browse.phtml:21
-#: application/view/omeka/admin/media/browse.phtml:82
-#: application/view/omeka/admin/resource-template/browse.phtml:15
-#: application/view/omeka/admin/resource-template/browse.phtml:46
-#: application/view/omeka/site-admin/index/index.phtml:15
-#: application/view/omeka/site-admin/index/index.phtml:41
-#: application/view/omeka/site-admin/index/resources.phtml:74
-msgid "Owner"
-msgstr "Propietari"
-
-#: application/view/omeka/admin/item-set/browse.phtml:23
-#: application/view/omeka/admin/item-set/browse.phtml:77
-#: application/view/omeka/admin/item-set/show.phtml:66
-#: application/view/omeka/admin/item/browse.phtml:23
-#: application/view/omeka/admin/item/browse.phtml:75
-#: application/view/omeka/admin/item/show.phtml:79
-#: application/view/omeka/admin/media/browse.phtml:25
-#: application/view/omeka/admin/media/browse.phtml:83
-#: application/view/omeka/admin/media/show.phtml:41
-#: application/view/omeka/admin/user/browse.phtml:18
-#: application/view/omeka/admin/user/browse.phtml:81
-#: application/view/omeka/site-admin/page/index.phtml:23
-#: application/view/omeka/site-admin/page/index.phtml:50
-#: application/view/omeka/site/item/browse.phtml:26
-msgid "Created"
-msgstr "Creat"
-
 #: application/view/omeka/admin/item-set/browse.phtml:35
 #: application/view/omeka/admin/item-set/search.phtml:5
 #: application/view/omeka/admin/item/browse.phtml:35
 #: application/view/omeka/admin/item/search.phtml:5
-#: application/view/omeka/admin/media/browse.phtml:37
+#: application/view/omeka/admin/media/browse.phtml:41
 #: application/view/omeka/admin/media/search.phtml:5
 #: application/view/omeka/admin/user/browse.phtml:30
 #: application/view/omeka/admin/user/search.phtml:5
-#: application/view/omeka/site/item-set/browse.phtml:14
-#: application/view/omeka/site/item/browse.phtml:48
+#: application/view/omeka/site/item-set/browse.phtml:17
+#: application/view/omeka/site/item/browse.phtml:51
 msgid "Advanced search"
 msgstr "Cerca avançada"
 
@@ -1659,8 +1836,8 @@ msgstr "Cerca avançada"
 #: application/view/omeka/admin/item-set/browse.phtml:52
 #: application/view/omeka/admin/item/browse.phtml:50
 #: application/view/omeka/admin/item/browse.phtml:51
-#: application/view/omeka/admin/media/browse.phtml:46
-#: application/view/omeka/admin/media/browse.phtml:47
+#: application/view/omeka/admin/media/browse.phtml:50
+#: application/view/omeka/admin/media/browse.phtml:51
 #: application/view/omeka/admin/user/browse.phtml:45
 #: application/view/omeka/admin/user/browse.phtml:46
 msgid "Batch actions"
@@ -1668,28 +1845,28 @@ msgstr "Accions en lot"
 
 #: application/view/omeka/admin/item-set/browse.phtml:53
 #: application/view/omeka/admin/item/browse.phtml:52
-#: application/view/omeka/admin/media/browse.phtml:49
+#: application/view/omeka/admin/media/browse.phtml:53
 #: application/view/omeka/admin/user/browse.phtml:48
 msgid "Edit selected"
 msgstr "Edita els seleccionats"
 
 #: application/view/omeka/admin/item-set/browse.phtml:54
 #: application/view/omeka/admin/item/browse.phtml:53
-#: application/view/omeka/admin/media/browse.phtml:50
+#: application/view/omeka/admin/media/browse.phtml:54
 #: application/view/omeka/admin/user/browse.phtml:49
 msgid "Edit all"
 msgstr "Edita-ho tot"
 
 #: application/view/omeka/admin/item-set/browse.phtml:55
 #: application/view/omeka/admin/item/browse.phtml:54
-#: application/view/omeka/admin/media/browse.phtml:53
+#: application/view/omeka/admin/media/browse.phtml:57
 #: application/view/omeka/admin/user/browse.phtml:52
 msgid "Delete selected"
 msgstr "Suprimeix els seleccionats"
 
 #: application/view/omeka/admin/item-set/browse.phtml:56
 #: application/view/omeka/admin/item/browse.phtml:55
-#: application/view/omeka/admin/media/browse.phtml:54
+#: application/view/omeka/admin/media/browse.phtml:58
 #: application/view/omeka/admin/user/browse.phtml:53
 msgid "Delete all"
 msgstr "Suprimeix-ho tot"
@@ -1704,11 +1881,11 @@ msgstr "Suprimeix-ho tot"
 #: application/view/omeka/admin/item/browse.phtml:60
 #: application/view/omeka/admin/item/browse.phtml:62
 #: application/view/omeka/admin/item/browse.phtml:63
-#: application/view/omeka/admin/media/browse.phtml:58
-#: application/view/omeka/admin/media/browse.phtml:60
-#: application/view/omeka/admin/media/browse.phtml:61
+#: application/view/omeka/admin/media/browse.phtml:62
+#: application/view/omeka/admin/media/browse.phtml:64
 #: application/view/omeka/admin/media/browse.phtml:65
-#: application/view/omeka/admin/media/browse.phtml:66
+#: application/view/omeka/admin/media/browse.phtml:69
+#: application/view/omeka/admin/media/browse.phtml:70
 #: application/view/omeka/admin/user/browse.phtml:57
 #: application/view/omeka/admin/user/browse.phtml:59
 #: application/view/omeka/admin/user/browse.phtml:60
@@ -1719,7 +1896,7 @@ msgstr "Vés"
 
 #: application/view/omeka/admin/item-set/browse.phtml:72
 #: application/view/omeka/admin/item/browse.phtml:72
-#: application/view/omeka/admin/media/browse.phtml:77
+#: application/view/omeka/admin/media/browse.phtml:81
 msgid "Select all"
 msgstr "Selecciona-ho tot"
 
@@ -1730,50 +1907,18 @@ msgstr "Selecciona el conjunt d'ítems"
 
 #: application/view/omeka/admin/item-set/browse.phtml:103
 #: application/view/omeka/admin/item-set/show-details.phtml:14
-#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:79
 #: application/view/omeka/admin/item/browse.phtml:101
 #: application/view/omeka/admin/item/show-details.phtml:14
-#: application/view/omeka/admin/item/show.phtml:58
-#: application/view/omeka/admin/media/browse.phtml:111
+#: application/view/omeka/admin/item/show.phtml:62
+#: application/view/omeka/admin/media/browse.phtml:115
 #: application/view/omeka/admin/media/show-details.phtml:38
-#: application/view/omeka/admin/media/show.phtml:33
+#: application/view/omeka/admin/media/show.phtml:37
 #: application/view/omeka/admin/resource-template/form.phtml:90
 #: application/view/omeka/site-admin/index/index.phtml:64
 #: application/view/omeka/site-admin/page/index.phtml:66
 msgid "Private"
 msgstr "Privat"
-
-#: application/view/omeka/admin/item-set/browse.phtml:117
-#: application/view/omeka/admin/item-set/edit.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:115
-#: application/view/omeka/admin/item/edit.phtml:6
-#: application/view/omeka/admin/media/browse.phtml:125
-#: application/view/omeka/admin/media/edit.phtml:64
-#: application/view/omeka/admin/resource-template/browse.phtml:79
-#: application/view/omeka/admin/resource-template/form.phtml:13
-#: application/view/omeka/admin/user/browse.phtml:108
-#: application/view/omeka/admin/user/edit.phtml:40
-#: application/view/omeka/admin/vocabulary/browse.phtml:67
-#: application/view/omeka/admin/vocabulary/edit.phtml:11
-#: application/view/omeka/site-admin/index/edit.phtml:26
-#: application/view/omeka/site-admin/index/index.phtml:82
-#: application/view/omeka/site-admin/index/users.phtml:7
-#: application/view/omeka/site-admin/page/edit.phtml:29
-msgid "Delete"
-msgstr "Suprimeix"
-
-#: application/view/omeka/admin/item-set/browse.phtml:124
-#: application/view/omeka/admin/item/browse.phtml:122
-#: application/view/omeka/admin/media/browse.phtml:132
-#: application/view/omeka/admin/resource-template/browse.phtml:85
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:27
-#: application/view/omeka/admin/resource-template/show.phtml:44
-#: application/view/omeka/admin/user/browse.phtml:115
-#: application/view/omeka/admin/vocabulary/browse.phtml:74
-#: application/view/omeka/admin/vocabulary/classes.phtml:52
-#: application/view/omeka/admin/vocabulary/properties.phtml:35
-msgid "Details"
-msgstr "Detalls"
 
 #: application/view/omeka/admin/item-set/browse.phtml:157
 #: application/view/omeka/admin/item-set/browse.phtml:175
@@ -1798,8 +1943,8 @@ msgstr ""
 #: application/view/omeka/admin/item-set/browse.phtml:179
 #: application/view/omeka/admin/item/browse.phtml:159
 #: application/view/omeka/admin/item/browse.phtml:177
-#: application/view/omeka/admin/media/browse.phtml:171
-#: application/view/omeka/admin/media/browse.phtml:189
+#: application/view/omeka/admin/media/browse.phtml:175
+#: application/view/omeka/admin/media/browse.phtml:193
 #: application/view/omeka/admin/user/browse.phtml:154
 #: application/view/omeka/admin/user/browse.phtml:172
 msgid "Warning"
@@ -1815,7 +1960,7 @@ msgstr ""
 
 #: application/view/omeka/admin/item-set/browse.phtml:182
 #: application/view/omeka/admin/item/browse.phtml:180
-#: application/view/omeka/admin/media/browse.phtml:192
+#: application/view/omeka/admin/media/browse.phtml:196
 #: application/view/omeka/admin/user/browse.phtml:175
 msgid "Are you sure?"
 msgstr "Esteu segur?"
@@ -1836,18 +1981,18 @@ msgstr "Valors"
 msgid "Advanced"
 msgstr "Avançat"
 
-#: application/view/omeka/admin/item-set/form.phtml:28
+#: application/view/omeka/admin/item-set/form.phtml:29
 msgid "Close item set"
 msgstr "Tanca el conjunt d'ítems"
 
-#: application/view/omeka/admin/item-set/form.phtml:34
+#: application/view/omeka/admin/item-set/form.phtml:35
 msgid "Open item set"
 msgstr "Obre el conjunt d'ítems"
 
-#: application/view/omeka/admin/item-set/form.phtml:48
-#: application/view/omeka/admin/item/form.phtml:57
+#: application/view/omeka/admin/item-set/form.phtml:49
+#: application/view/omeka/admin/item/form.phtml:58
 #: application/view/omeka/admin/item/manage-media.phtml:36
-#: application/view/omeka/admin/media/edit.phtml:59
+#: application/view/omeka/admin/media/edit.phtml:60
 #: application/view/omeka/site-admin/index/add-page.phtml:12
 #: application/view/omeka/site-admin/index/add.phtml:20
 #: application/view/omeka/site-admin/index/edit.phtml:21
@@ -1856,21 +2001,21 @@ msgid "Make public"
 msgstr "Fes-lo públic"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:13
-#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item-set/show.phtml:78
 #: application/view/omeka/admin/item/show-details.phtml:13
-#: application/view/omeka/admin/item/show.phtml:57
+#: application/view/omeka/admin/item/show.phtml:61
 #: application/view/omeka/admin/media/show-details.phtml:37
-#: application/view/omeka/admin/media/show.phtml:32
+#: application/view/omeka/admin/media/show.phtml:36
 msgid "Visibility"
 msgstr "Visibilitat"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:15
-#: application/view/omeka/admin/item-set/show.phtml:76
+#: application/view/omeka/admin/item-set/show.phtml:80
 msgid "Open to additions"
 msgstr "Obert a addicions"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:15
-#: application/view/omeka/admin/item-set/show.phtml:76
+#: application/view/omeka/admin/item-set/show.phtml:80
 msgid "Closed to additions"
 msgstr "Tancat a addicions"
 
@@ -1882,7 +2027,7 @@ msgstr "Metadades"
 
 #: application/view/omeka/admin/item-set/show.phtml:22
 #: application/view/omeka/admin/item/show.phtml:13
-#: application/view/omeka/site/item/show.phtml:55
+#: application/view/omeka/site/item/show.phtml:58
 msgid "Linked resources"
 msgstr "Recursos enllaçats"
 
@@ -2045,11 +2190,9 @@ msgstr "Addició ràpida"
 msgid "items"
 msgstr "ítems"
 
-#: application/view/omeka/admin/job/browse.phtml:7
-#: application/view/omeka/admin/job/browse.phtml:37
-#: application/view/omeka/admin/user/edit.phtml:39
-msgid "ID"
-msgstr "ID"
+#: application/view/omeka/admin/item/sidebar-select.phtml:103
+msgid "Add selected"
+msgstr ""
 
 #: application/view/omeka/admin/job/browse.phtml:15
 #: application/view/omeka/admin/job/browse.phtml:39
@@ -2103,73 +2246,64 @@ msgid "[no log]"
 msgstr "[no log]"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:9
-msgid "Batch edit medias"
-msgstr "Edició en lot de fitxers"
+msgid "Batch edit media"
+msgstr ""
 
 #: application/view/omeka/admin/media/batch-edit.phtml:29
-msgid "Affected medias"
-msgstr "Fitxers afectats"
+msgid "Affected media"
+msgstr ""
 
 #: application/view/omeka/admin/media/batch-edit.phtml:31
 #, php-format
-msgid "You are editing the following %s medias:"
-msgstr "Esteu editant els %s fitxers següents:"
+msgid "You are editing the following %s media:"
+msgstr ""
 
 #: application/view/omeka/admin/media/batch-edit.phtml:38
 #, php-format
-msgid "You are editing %s medias."
-msgstr "Esteu editant %s fitxers."
+msgid "You are editing %s media."
+msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:107
+#: application/view/omeka/admin/media/browse.phtml:111
 #: application/view/omeka/admin/media/sidebar-select.phtml:8
 msgid "Select media"
 msgstr "Selecciona el fitxer"
 
-#: application/view/omeka/admin/media/browse.phtml:167
-#: application/view/omeka/admin/media/browse.phtml:185
-msgid "Delete medias"
-msgstr "Esborra els fitxers"
+#: application/view/omeka/admin/media/browse.phtml:171
+#: application/view/omeka/admin/media/browse.phtml:189
+msgid "Delete media"
+msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:168
-msgid "Are you sure you would like to delete the selected medias?"
-msgstr "Esteu segur que voleu suprimir els fitxers seleccionats?"
+#: application/view/omeka/admin/media/browse.phtml:172
+msgid "Are you sure you would like to delete the selected media?"
+msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:170
-#: application/view/omeka/admin/media/browse.phtml:188
+#: application/view/omeka/admin/media/browse.phtml:174
+#: application/view/omeka/admin/media/browse.phtml:192
 #, php-format
 msgid ""
-"%1$s: this action will permanently delete %2$s medias and cannot be undone."
+"%1$s: this action will permanently delete %2$s media and cannot be undone."
 msgstr ""
-"%1$s: aquesta acció suprimirà permanentment %2$s fitxers i no es pot desfer."
 
-#: application/view/omeka/admin/media/browse.phtml:186
+#: application/view/omeka/admin/media/browse.phtml:190
 msgid ""
-"Are you sure you would like to delete all medias on all pages of this "
-"result?"
+"Are you sure you would like to delete all media on all pages of this result?"
 msgstr ""
-"Esteu segur que voleu suprimir tots els fitxers en totes les pàgines "
-"d'aquest resultat?"
 
-#: application/view/omeka/admin/media/browse.phtml:227
-msgid "Omeka could not find any medias."
-msgstr "L'Omeka S no ha pogut trobar cap fitxer."
+#: application/view/omeka/admin/media/browse.phtml:231
+msgid "Omeka could not find any media."
+msgstr ""
 
 #: application/view/omeka/admin/media/show-details.phtml:18
 msgid "Part of Item"
 msgstr "Part de l'ítem"
 
 #: application/view/omeka/admin/media/show-details.phtml:24
-#: application/view/omeka/admin/media/show.phtml:46
+#: application/view/omeka/admin/media/show.phtml:50
 msgid "MIME type"
 msgstr "Tipus MIME"
 
-#: application/view/omeka/admin/media/show-details.phtml:31
-#: application/view/omeka/admin/media/show.phtml:52
-msgid "Size"
-msgstr "Mida"
-
 #: application/view/omeka/admin/media/show-details.phtml:32
-#: application/view/omeka/admin/media/show.phtml:53
+#: application/view/omeka/admin/media/show.phtml:57
 #, php-format
 msgid "%s bytes"
 msgstr "%s bytes"
@@ -2178,35 +2312,35 @@ msgstr "%s bytes"
 msgid "Edit media"
 msgstr "Edita el mèdia"
 
-#: application/view/omeka/admin/media/show.phtml:36
+#: application/view/omeka/admin/media/show.phtml:40
 msgid "Part of item"
 msgstr "Part de l'ítem"
 
-#: application/view/omeka/admin/media/show.phtml:57
+#: application/view/omeka/admin/media/show.phtml:61
 msgid "Ingester"
 msgstr "Ingesta"
 
-#: application/view/omeka/admin/media/show.phtml:62
+#: application/view/omeka/admin/media/show.phtml:66
 msgid "Source"
 msgstr "Font"
 
-#: application/view/omeka/admin/media/show.phtml:68
+#: application/view/omeka/admin/media/show.phtml:72
 msgid "File Derivatives"
 msgstr "Derivats del fitxer"
 
-#: application/view/omeka/admin/media/show.phtml:70
+#: application/view/omeka/admin/media/show.phtml:74
 msgid "original"
 msgstr "original"
 
-#: application/view/omeka/admin/media/show.phtml:73
+#: application/view/omeka/admin/media/show.phtml:77
 msgid "large"
 msgstr "gran"
 
-#: application/view/omeka/admin/media/show.phtml:74
+#: application/view/omeka/admin/media/show.phtml:78
 msgid "medium"
 msgstr "mitjà"
 
-#: application/view/omeka/admin/media/show.phtml:75
+#: application/view/omeka/admin/media/show.phtml:79
 msgid "square"
 msgstr "quadrat"
 
@@ -2296,6 +2430,18 @@ msgstr "Terme"
 #: application/view/omeka/admin/resource-template/form.phtml:62
 msgid "Comment"
 msgstr "Comentari"
+
+#: application/view/omeka/admin/query/sidebar-edit.phtml:4
+msgid "Search query edit"
+msgstr ""
+
+#: application/view/omeka/admin/query/sidebar-preview.phtml:2
+msgid "Search query preview"
+msgstr ""
+
+#: application/view/omeka/admin/query/sidebar-preview.phtml:11
+msgid "No resources found."
+msgstr ""
 
 #: application/view/omeka/admin/resource-template/add.phtml:6
 msgid "New resource template"
@@ -2618,7 +2764,7 @@ msgstr "Actualitza"
 msgid "Accept changes"
 msgstr "Accepta els canvis"
 
-#: application/view/omeka/index/index.phtml:31
+#: application/view/omeka/index/index.phtml:32
 #, php-format
 msgid "Go to the %1$s to start working with %2$s."
 msgstr "Aneu al %1$s per començar a treballar amb %2$s."
@@ -2705,7 +2851,7 @@ msgid "Info"
 msgstr "Info"
 
 #: application/view/omeka/site-admin/index/add.phtml:8
-#: application/view/omeka/site-admin/index/show.phtml:32
+#: application/view/omeka/site-admin/index/show.phtml:28
 #: application/view/omeka/site-admin/index/theme-settings.phtml:6
 #: application/view/omeka/site-admin/index/theme.phtml:11
 msgid "Theme"
@@ -2721,7 +2867,7 @@ msgstr "Paràmetres"
 
 #: application/view/omeka/site-admin/index/index.phtml:11
 #: application/view/omeka/site-admin/index/index.phtml:40
-#: application/view/omeka/site-admin/index/show.phtml:24
+#: application/view/omeka/site-admin/index/show.phtml:20
 #: application/view/omeka/site-admin/page/index.phtml:19
 msgid "URL slug"
 msgstr "Ruta de l'URL"
@@ -2734,29 +2880,30 @@ msgstr "Afegeix un nou lloc"
 msgid "Omeka could not find any sites."
 msgstr "L'Omeka no ha trobat cap lloc."
 
-#: application/view/omeka/site-admin/index/navigation.phtml:10
+#: application/view/omeka/site-admin/index/navigation.phtml:15
 #: application/view/omeka/site-admin/page/index.phtml:11
 msgid "Navigation"
 msgstr "Navegació"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:24
-#: application/view/omeka/site-admin/index/navigation.phtml:44
+#: application/view/omeka/site-admin/index/navigation.phtml:29
+#: application/view/omeka/site-admin/index/navigation.phtml:49
 msgid "Add a link to a site page"
 msgstr "Afegeix un enllaç a una pàgina del lloc"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:28
+#: application/view/omeka/site-admin/index/navigation.phtml:33
 msgid "Select a homepage"
 msgstr "Selecciona una pàgina d'inici"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:32
+#: application/view/omeka/site-admin/index/navigation.phtml:37
 msgid "Add a custom link"
 msgstr "Afegeix un enllaç personalitzat"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:46
+#: application/view/omeka/site-admin/index/navigation.phtml:51
+#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:10
 msgid "Filter pages"
 msgstr "Filtra les pàgines"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:60
+#: application/view/omeka/site-admin/index/navigation.phtml:65
 msgid "There are no available pages."
 msgstr "No hi ha pàgines disponibles."
 
@@ -2777,30 +2924,24 @@ msgid "site admin"
 msgstr ""
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
-#: application/view/omeka/site-admin/index/resources.phtml:55
-msgid "Preview this search"
+msgid "Keep this query"
 msgstr ""
 
-#: application/view/omeka/site-admin/index/resources.phtml:80
+#: application/view/omeka/site-admin/index/resources.phtml:73
 msgid "No item sets are assigned to this site."
 msgstr "No s'ha assignat cap conjunt d'ítems a aquest lloc."
 
-#: application/view/omeka/site-admin/index/show.phtml:6
-#: application/view/omeka/site-admin/index/users.phtml:10
-msgid "Viewer"
-msgstr "Visor"
-
-#: application/view/omeka/site-admin/index/show.phtml:7
-msgid "Editor"
-msgstr "Editor"
-
-#: application/view/omeka/site-admin/index/show.phtml:20
+#: application/view/omeka/site-admin/index/show.phtml:16
 msgid "Back to site list"
 msgstr "Torna a la llista de llocs"
 
-#: application/view/omeka/site-admin/index/show.phtml:40
+#: application/view/omeka/site-admin/index/show.phtml:36
 msgid "Summary"
 msgstr "Resum"
+
+#: application/view/omeka/site-admin/index/show.phtml:44
+msgid "Thumbnail"
+msgstr "Miniatura"
 
 #: application/view/omeka/site-admin/index/theme-selector.phtml:26
 msgid "Invalid theme.ini file"
@@ -2850,9 +2991,9 @@ msgstr ""
 "Contacteu amb l'administrador de l'Omeka S. Aquest lloc no estarà disponible"
 " fins que es resolgui el problema o seleccioneu un altre tema."
 
-#: application/view/omeka/site-admin/index/users.phtml:8
-msgid "Restore"
-msgstr "Restaura"
+#: application/view/omeka/site-admin/index/users.phtml:10
+msgid "Viewer"
+msgstr "Visor"
 
 #: application/view/omeka/site-admin/index/users.phtml:11
 msgid "Creator"
@@ -2887,14 +3028,6 @@ msgstr "Cap ítem seleccionat."
 msgid "Add new block"
 msgstr "Afegeix un nou bloc"
 
-#: application/view/omeka/site-admin/page/edit.phtml:54
-msgid "Caption"
-msgstr "Llegenda"
-
-#: application/view/omeka/site-admin/page/edit.phtml:65
-msgid "Apply changes"
-msgstr "Aplica els canvis"
-
 #: application/view/omeka/site-admin/page/index.phtml:27
 #: application/view/omeka/site-admin/page/index.phtml:50
 msgid "Modified"
@@ -2916,6 +3049,10 @@ msgstr "Pàgina pública"
 msgid "Delete page"
 msgstr "Suprimeix la pàgina"
 
+#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:8
+msgid "Add to List of pages"
+msgstr ""
+
 #: application/view/omeka/site/index/index.phtml:4
 msgid "This site has no pages."
 msgstr "Aquest lloc no té pàgines."
@@ -2924,7 +3061,7 @@ msgstr "Aquest lloc no té pàgines."
 msgid "Advanced item set Search"
 msgstr "Cerca avançada de conjunts d'ítems"
 
-#: application/view/omeka/site/item/show.phtml:10
+#: application/view/omeka/site/item/show.phtml:13
 msgid "Item"
 msgstr "Ítem"
 
@@ -2937,135 +3074,180 @@ msgstr ""
 msgid "No pages found"
 msgstr "No s'ha trobat cap pàgina"
 
-#: application/src/Entity/Job.php:23
-msgid "starting"
-msgstr "Començant"
+#: application/src/Stdlib/Cli.php:105 application/src/Stdlib/Cli.php:143
+#, php-format
+msgid "Command \"%s\" failed with status code %s."
+msgstr ""
 
-#: application/src/Entity/Job.php:24
-msgid "stopping"
-msgstr "Aturant"
+#: application/src/Stdlib/Environment.php:52
+msgid "Omeka requires the PHP extension json, but it is not loaded."
+msgstr ""
 
-#: application/src/Entity/Job.php:25
-msgid "in_progress"
-msgstr "in_progress"
+#: application/src/Stdlib/Environment.php:60
+#, php-format
+msgid ""
+"You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
+"version %1$s. You are currently on version %2$s."
+msgstr ""
+"Heu d'actualitzar l'Omeka S, com a mínim, a la versió 1.0.0 abans "
+"d'actualitzar a la versió %1$s. La versió instal·lada actualment és la %2$s."
 
-#: application/src/Entity/Job.php:26
-msgid "completed"
-msgstr "completat"
+#: application/src/Stdlib/Environment.php:67
+#, php-format
+msgid ""
+"The installed PHP version (%1$s) is too low. Omeka requires at least version"
+" %2$s."
+msgstr ""
+"La versió instal·lada del PHP (%1$s) és massa antiga. L'Omeka S requereix, "
+"com a mínim, la versió %2$s."
 
-#: application/src/Entity/Job.php:27
-msgid "stopped"
-msgstr "aturat"
+#: application/src/Stdlib/Environment.php:75
+#, php-format
+msgid "Omeka requires the PHP extension %s, but it is not loaded."
+msgstr "L'Omeka S requereix l'extensió PHP %s, però no s'ha carregat."
 
-#: application/src/Entity/Job.php:28
-msgid "error"
-msgstr "error"
+#: application/src/Stdlib/Environment.php:94
+#, php-format
+msgid ""
+"The installed MySQL version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
+msgstr ""
+"La versió instal·lada del MySQL (%1$s) és massa antiga. L'Omeka S requereix,"
+" com a mínim, la versió %2$s."
 
-#: application/src/Site/BlockLayout/ListOfSites.php:23
-msgid "List of sites"
-msgstr "Llista de llocs"
+#: application/src/Stdlib/Environment.php:102
+#, php-format
+msgid ""
+"The installed MariaDB version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
+msgstr ""
+"La versió instal·lada del MariaDB (%1$s) és massa antiga. L'Omeka S "
+"requereix, com a mínim, la versió %2$s."
 
-#: application/src/Site/BlockLayout/ListOfSites.php:38
-msgid "Alphabetical"
-msgstr "Alfabètic"
+#: application/src/DataType/Resource/ItemSet.php:13
+msgid "Item Set"
+msgstr "Conjunt d'ítems"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:39
-msgid "Oldest first"
-msgstr "Els més antics primer"
+#: application/src/DataType/Resource/AbstractResource.php:16
+msgid "Resource"
+msgstr "Recurs"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:40
-msgid "Newest first"
-msgstr "Els més nous primer"
+#: application/src/DataType/Resource/AbstractResource.php:59
+msgid "A value resource cannot be Media."
+msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:51
-msgid "Max number of sites"
-msgstr "Nombre màxim de llocs"
+#: application/src/Site/BlockLayout/ItemShowcase.php:13
+msgid "Item showcase"
+msgstr "Galeria d'ítems"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:52
-msgid "An empty value means no limit."
-msgstr "Si es deixa en blanc equival a sense límitació."
+#: application/src/Site/BlockLayout/ListOfPages.php:32
+msgid "List of pages"
+msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:56
-msgid "Unlimited"
-msgstr "Il·limitat"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:64
-msgid "Pagination"
-msgstr "Paginació"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:65
-msgid "Show pagination (only if a limit is set)"
-msgstr "Mostra la paginació (només si s'ha establert un límit)"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:75
-msgid "Show summaries"
-msgstr "Mostra els resums"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:85
-msgid "Exclude current site"
-msgstr "Exclou el lloc web actual"
-
-#: application/src/Site/BlockLayout/ItemWithMetadata.php:13
-msgid "Item with metadata"
-msgstr "Ítem amb metadades"
+#: application/src/Site/BlockLayout/PageTitle.php:13
+msgid "Page title"
+msgstr "Títol de la pàgina"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:15
 msgid "Table of contents"
 msgstr "Sumari"
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:15
-msgid "Browse preview"
-msgstr "Previsualització"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:26
-msgid "Browse all"
-msgstr "Consulta tot"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:49
-msgid "Display resources using this search query"
-msgstr "Mostra els recursos utilitzant aquesta equació de cerca"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:57
-msgid "Limit"
-msgstr "Límit"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:58
-msgid "Maximum number of resources to display in the preview."
-msgstr "Nombre màxim de recursos que es mostraran a la previsualització."
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:65
-msgid "Preview title"
-msgstr "Previsualització del títol"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:66
-msgid "Heading above resource list, if any."
+#: application/src/Site/BlockLayout/Asset.php:17
+msgid "Asset"
 msgstr ""
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:73
-msgid "Link text"
+#: application/src/Site/BlockLayout/Asset.php:34
+#: application/src/Site/BlockLayout/Asset.php:40
+msgid "default"
 msgstr ""
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:74
-msgid "Text for link to full browse view, if any."
+#: application/src/Site/BlockLayout/Asset.php:35
+msgid "float left"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Html.php:27
-#: application/src/Media/Ingester/Html.php:36
-#: application/src/Media/Ingester/Html.php:79
-msgid "HTML"
-msgstr "HTML"
+#: application/src/Site/BlockLayout/Asset.php:36
+msgid "float right"
+msgstr ""
 
-#: application/src/Site/BlockLayout/Media.php:14
-msgid "Media Embed"
-msgstr "Multimèdia incrustat"
+#: application/src/Site/BlockLayout/Asset.php:37
+#: application/src/Site/BlockLayout/Asset.php:43
+msgid "center"
+msgstr ""
 
+#: application/src/Site/BlockLayout/Asset.php:41
+msgid "left"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Asset.php:42
+msgid "right"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Asset.php:48
 #: application/src/Site/BlockLayout/Media.php:61
 msgid "Alignment"
 msgstr "Alineació"
 
-#: application/src/Site/BlockLayout/PageTitle.php:13
-msgid "Page title"
-msgstr "Títol de la pàgina"
+#: application/src/Site/BlockLayout/BrowsePreview.php:16
+msgid "Browse preview"
+msgstr "Previsualització"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:37
+msgid "Browse all"
+msgstr "Consulta tot"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:63
+msgid "Display resources using this search query"
+msgstr "Mostra els recursos utilitzant aquesta equació de cerca"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:72
+msgid "Limit"
+msgstr "Límit"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:73
+msgid "Maximum number of resources to display in the preview."
+msgstr "Nombre màxim de recursos que es mostraran a la previsualització."
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:80
+msgid "Components"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:81
+msgid ""
+"Components to display for each resource. If not set in Site Settings, "
+"Heading defaults to resource Title and Body to resource Description"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:85
+msgid "Heading"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:89
+msgid "Body"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:102
+msgid "Preview title"
+msgstr "Previsualització del títol"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:103
+msgid "Heading above resource list, if any."
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:110
+msgid "Link text"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:111
+msgid "Text for link to full browse view, if any."
+msgstr ""
+
+#: application/src/Site/BlockLayout/ItemWithMetadata.php:13
+msgid "Item with metadata"
+msgstr "Ítem amb metadades"
+
+#: application/src/Site/BlockLayout/Media.php:14
+msgid "Media Embed"
+msgstr "Multimèdia incrustat"
 
 #: application/src/Site/BlockLayout/LineBreak.php:14
 msgid "Line break"
@@ -3079,22 +3261,140 @@ msgstr "Transparent"
 msgid "Opaque"
 msgstr "Opac"
 
-#: application/src/Site/BlockLayout/ItemShowcase.php:13
-msgid "Item showcase"
-msgstr "Galeria d'ítems"
+#: application/src/Site/BlockLayout/ListOfSites.php:24
+msgid "List of sites"
+msgstr "Llista de llocs"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:39
+msgid "Alphabetical"
+msgstr "Alfabètic"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:40
+msgid "Oldest first"
+msgstr "Els més antics primer"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:41
+msgid "Newest first"
+msgstr "Els més nous primer"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:52
+msgid "Max number of sites"
+msgstr "Nombre màxim de llocs"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:53
+msgid "An empty value means no limit."
+msgstr "Si es deixa en blanc equival a sense límitació."
+
+#: application/src/Site/BlockLayout/ListOfSites.php:57
+msgid "Unlimited"
+msgstr "Il·limitat"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:65
+msgid "Pagination"
+msgstr "Paginació"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:66
+msgid "Show pagination (only if a limit is set)"
+msgstr "Mostra la paginació (només si s'ha establert un límit)"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:76
+msgid "Show summaries"
+msgstr "Mostra els resums"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:86
+msgid "Show thumbnails"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:96
+msgid "Exclude current site"
+msgstr "Exclou el lloc web actual"
+
+#: application/src/Site/BlockLayout/Html.php:28
+#: application/src/Media/Ingester/Html.php:36
+#: application/src/Media/Ingester/Html.php:79
+msgid "HTML"
+msgstr "HTML"
+
+#: application/src/Site/BlockLayout/Html.php:48
+msgid "Optional CSS class for styling HTML."
+msgstr ""
 
 #: application/src/Site/BlockLayout/Fallback.php:28
 #, php-format
 msgid "Unknown [%s]"
 msgstr "Desconegut [%s]"
 
+#: application/src/Site/Navigation/Link/Url.php:11
+msgid "Custom URL"
+msgstr "URL personalitzada"
+
 #: application/src/Site/Navigation/Link/BrowseItemSets.php:11
 msgid "Browse item sets"
 msgstr "Conjunts d'ítems"
 
-#: application/src/Site/Navigation/Link/Url.php:11
-msgid "Custom URL"
-msgstr "URL personalitzada"
+#: application/src/File/ThumbnailManager.php:102
+msgid "Missing thumbnail configuration."
+msgstr "No s'ha trobat la configuració de les miniatures."
+
+#: application/src/File/ThumbnailManager.php:106
+msgid "Missing thumbnail types configuration."
+msgstr "No s'ha trobat la configuració dels tipus de miniatures."
+
+#: application/src/File/ThumbnailManager.php:109
+msgid "Missing the large, medium, or square thumbnail type configuration."
+msgstr ""
+"No s'ha trobat la configuració del tipus de miniatura mitjana o quadrada."
+
+#: application/src/File/ThumbnailManager.php:113
+msgid "Missing constraint for a thumbnail type configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:117
+msgid "Missing thumbnail fallbacks configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:120
+msgid "Missing default thumbnail fallback configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:123
+msgid "Missing thumbnail fallback configuration."
+msgstr ""
+
+#: application/src/File/ThumbnailManager.php:127
+msgid "Invalid thumbnail fallback configuration."
+msgstr ""
+
+#: application/src/File/Downloader.php:71
+#, php-format
+msgid "Error downloading %1$s: %2$s"
+msgstr "Error en la descàrrega %1$s: %2$s"
+
+#: application/src/File/Downloader.php:83
+#, php-format
+msgid "Error downloading %1$s: %2$s %3$s"
+msgstr "Error en la descàrrega %1$s: %2$s %3$s"
+
+#: application/src/File/Validator.php:65
+#, php-format
+msgid "Error validating \"%1$s\". Cannot store files with the media type \"%2$s\"."
+msgstr ""
+"Error en la validació de \"%1$s\". No es poden emmagatzemar fitxers del "
+"tipus \"%2$s\"."
+
+#: application/src/File/Validator.php:78
+#, php-format
+msgid ""
+"Error validating \"%1$s\". Cannot store files with the resolved extension "
+"\"%2$s\"."
+msgstr ""
+"Error en la validació de \"%1$s\". No es poden emmagatzemar fitxers amb "
+"l'extensió \"%2$s\"."
+
+#: application/src/Mvc/MvcListeners.php:326
+#, php-format
+msgid "The current theme is not active. Its current state is \"%s\"."
+msgstr "El tema actual no es troba actiu. L'estat actual és \"%s\"."
 
 #: application/src/Permissions/Acl.php:21
 msgid "Global Administrator"
@@ -3103,6 +3403,10 @@ msgstr "Administrador global"
 #: application/src/Permissions/Acl.php:22
 msgid "Supervisor"
 msgstr ""
+
+#: application/src/Permissions/Acl.php:23
+msgid "Editor"
+msgstr "Editor"
 
 #: application/src/Permissions/Acl.php:24
 msgid "Reviewer"
@@ -3116,30 +3420,41 @@ msgstr "Autor"
 msgid "Researcher"
 msgstr "Investigador"
 
-#: application/src/Api/Adapter/ResourceClassAdapter.php:144
-#: application/src/Api/Adapter/PropertyAdapter.php:153
-msgid "The local name cannot be empty."
-msgstr "El nom local no pot quedar en blanc."
+#: application/src/Api/Adapter/ItemAdapter.php:103
+msgid "Item sets must be an array"
+msgstr "Els conjunts d'ítems han de ser una matriu"
 
-#: application/src/Api/Adapter/ResourceClassAdapter.php:149
+#: application/src/Api/Adapter/ItemAdapter.php:109
+msgid "Media must be an array"
+msgstr "Els fitxers multimèdia han de ser una matriu"
+
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:75
+#, php-format
+msgid "Attempting to add duplicate property with ID %s"
+msgstr "S'està intentant afegir una propietat duplicada amb ID %s"
+
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:89
-#: application/src/Api/Adapter/VocabularyAdapter.php:214
 #: application/src/Api/Adapter/PropertyAdapter.php:158
+#: application/src/Api/Adapter/ResourceClassAdapter.php:149
+#: application/src/Api/Adapter/VocabularyAdapter.php:214
 msgid "The label cannot be empty."
 msgstr "L'etiqueta no pot estar en blanc."
 
-#: application/src/Api/Adapter/ResourceClassAdapter.php:162
-#: application/src/Api/Adapter/VocabularyAdapter.php:222
-#: application/src/Api/Adapter/VocabularyAdapter.php:235
-#: application/src/Api/Adapter/PropertyAdapter.php:171
-#, php-format
-msgid "The local name \"%s\" is already taken."
-msgstr "El nom \"%s\" ja està en ús"
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:92
+msgid "The label is already taken."
+msgstr "L'etiqueta ja està en ús."
 
-#: application/src/Api/Adapter/ResourceClassAdapter.php:168
-#: application/src/Api/Adapter/PropertyAdapter.php:177
-msgid "A vocabulary must be set."
-msgstr "S'ha d'especificar un vocabulari."
+#: application/src/Api/Adapter/MediaAdapter.php:112
+msgid "Media must set an ingester."
+msgstr ""
+
+#: application/src/Api/Adapter/MediaAdapter.php:134
+msgid "Media must set a valid ingester."
+msgstr ""
+
+#: application/src/Api/Adapter/MediaAdapter.php:174
+msgid "Media must belong to an item."
+msgstr "El fitxer multimèdia ha de pertànyer a un ítem."
 
 #: application/src/Api/Adapter/UserAdapter.php:120
 msgid "The name cannot be empty."
@@ -3159,112 +3474,101 @@ msgstr "Els usuaris han de tenir un rol."
 msgid "The current user #%d was removed from the batch process."
 msgstr "L'usuari #%d s'ha eliminat del procés en lot."
 
-#: application/src/Api/Adapter/MediaAdapter.php:111
-msgid "Media must set an ingester."
-msgstr ""
+#: application/src/Api/Adapter/PropertyAdapter.php:153
+#: application/src/Api/Adapter/ResourceClassAdapter.php:144
+msgid "The local name cannot be empty."
+msgstr "El nom local no pot quedar en blanc."
 
-#: application/src/Api/Adapter/MediaAdapter.php:133
-msgid "Media must set a valid ingester."
-msgstr ""
-
-#: application/src/Api/Adapter/MediaAdapter.php:169
-msgid "Media must belong to an item."
-msgstr "El fitxer multimèdia ha de pertànyer a un ítem."
-
-#: application/src/Api/Adapter/ItemAdapter.php:103
-msgid "Item sets must be an array"
-msgstr "Els conjunts d'ítems han de ser una matriu"
-
-#: application/src/Api/Adapter/ItemAdapter.php:109
-msgid "Media must be an array"
-msgstr "Els fitxers multimèdia han de ser una matriu"
-
-#: application/src/Api/Adapter/ResourceTemplateAdapter.php:75
+#: application/src/Api/Adapter/PropertyAdapter.php:171
+#: application/src/Api/Adapter/ResourceClassAdapter.php:162
+#: application/src/Api/Adapter/VocabularyAdapter.php:222
+#: application/src/Api/Adapter/VocabularyAdapter.php:235
 #, php-format
-msgid "Attempting to add duplicate property with ID %s"
-msgstr "S'està intentant afegir una propietat duplicada amb ID %s"
+msgid "The local name \"%s\" is already taken."
+msgstr "El nom \"%s\" ja està en ús"
 
-#: application/src/Api/Adapter/ResourceTemplateAdapter.php:92
-msgid "The label is already taken."
-msgstr "L'etiqueta ja està en ús."
+#: application/src/Api/Adapter/PropertyAdapter.php:177
+#: application/src/Api/Adapter/ResourceClassAdapter.php:168
+msgid "A vocabulary must be set."
+msgstr "S'ha d'especificar un vocabulari."
 
-#: application/src/Api/Adapter/SiteAdapter.php:234
-msgid "A site must have a title."
-msgstr "El lloc ha de tenir un títol."
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:177
+#, php-format
+msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
+msgstr "La plantilla \"%1$s\" requereix un valor \"%2$s\""
 
-#: application/src/Api/Adapter/SiteAdapter.php:238
-#: application/src/Api/Adapter/SitePageAdapter.php:142
+#: application/src/Api/Adapter/SitePageAdapter.php:144
+msgid "A page must belong to a site."
+msgstr "La pàgina ha de pertànyer a un lloc."
+
+#: application/src/Api/Adapter/SitePageAdapter.php:149
+msgid "A page must have a title."
+msgstr "La pàgina ha de tenir un títol."
+
+#: application/src/Api/Adapter/SitePageAdapter.php:154
+#: application/src/Api/Adapter/SiteAdapter.php:240
 msgid "The slug cannot be empty."
 msgstr "La ruta no pot estar en blanc."
 
-#: application/src/Api/Adapter/SiteAdapter.php:241
-#: application/src/Api/Adapter/SitePageAdapter.php:145
+#: application/src/Api/Adapter/SitePageAdapter.php:157
+#: application/src/Api/Adapter/SiteAdapter.php:243
 msgid "A slug can only contain letters, numbers, underscores, and hyphens."
 msgstr ""
 "La ruta només pot estar formada per lletres, números, guions baixos i "
 "guionets."
 
-#: application/src/Api/Adapter/SiteAdapter.php:245
-#: application/src/Api/Adapter/SitePageAdapter.php:153
+#: application/src/Api/Adapter/SitePageAdapter.php:165
+#: application/src/Api/Adapter/SiteAdapter.php:247
 #, php-format
 msgid "The slug \"%s\" is already taken."
 msgstr "La ruta \"%s\" ja està en ús."
 
-#: application/src/Api/Adapter/SiteAdapter.php:251
-msgid "A site must have a theme."
-msgstr "El lloc ha de tenir un tema."
-
-#: application/src/Api/Adapter/SiteAdapter.php:256
-msgid "A site must have item pool data."
-msgstr "Un lloc ha de tenir dades del fons d'ítems."
-
-#: application/src/Api/Adapter/SiteAdapter.php:261
-msgid "A homepage must belong to its parent site."
-msgstr "La pàgina d'inici ha de pertànyer al seu propi lloc web."
-
-#: application/src/Api/Adapter/SiteAdapter.php:334
-msgid "Invalid navigation: navigation must be an array"
-msgstr "Navegació invàlida: ha de ser una matriu"
-
-#: application/src/Api/Adapter/SiteAdapter.php:343
-msgid "Invalid navigation: link missing type"
-msgstr ""
-
-#: application/src/Api/Adapter/SiteAdapter.php:347
-msgid "Invalid navigation: link missing data"
-msgstr ""
-
-#: application/src/Api/Adapter/SiteAdapter.php:351
-msgid "Invalid navigation: invalid link data"
-msgstr ""
-
-#: application/src/Api/Adapter/SiteAdapter.php:356
-msgid "Invalid navigation: page links must be unique"
-msgstr ""
-
-#: application/src/Api/Adapter/SiteAdapter.php:363
-msgid "Invalid navigation: links must be an array"
-msgstr ""
-
-#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:161
-#, php-format
-msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
-msgstr "La plantilla \"%1$s\" requereix un valor \"%2$s\""
-
-#: application/src/Api/Adapter/SitePageAdapter.php:132
-msgid "A page must belong to a site."
-msgstr "La pàgina ha de pertànyer a un lloc."
-
-#: application/src/Api/Adapter/SitePageAdapter.php:137
-msgid "A page must have a title."
-msgstr "La pàgina ha de tenir un títol."
-
-#: application/src/Api/Adapter/SitePageAdapter.php:197
+#: application/src/Api/Adapter/SitePageAdapter.php:209
 msgid "All blocks must have a layout."
 msgstr "Tots els blocs han de tenir un disseny."
 
-#: application/src/Api/Adapter/SitePageAdapter.php:201
+#: application/src/Api/Adapter/SitePageAdapter.php:213
 msgid "Block data must not be a scalar value."
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:236
+msgid "A site must have a title."
+msgstr "El lloc ha de tenir un títol."
+
+#: application/src/Api/Adapter/SiteAdapter.php:253
+msgid "A site must have a theme."
+msgstr "El lloc ha de tenir un tema."
+
+#: application/src/Api/Adapter/SiteAdapter.php:258
+msgid "A site must have item pool data."
+msgstr "Un lloc ha de tenir dades del fons d'ítems."
+
+#: application/src/Api/Adapter/SiteAdapter.php:263
+msgid "A homepage must belong to its parent site."
+msgstr "La pàgina d'inici ha de pertànyer al seu propi lloc web."
+
+#: application/src/Api/Adapter/SiteAdapter.php:336
+msgid "Invalid navigation: navigation must be an array"
+msgstr "Navegació invàlida: ha de ser una matriu"
+
+#: application/src/Api/Adapter/SiteAdapter.php:345
+msgid "Invalid navigation: link missing type"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:349
+msgid "Invalid navigation: link missing data"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:353
+msgid "Invalid navigation: invalid link data"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:358
+msgid "Invalid navigation: page links must be unique"
+msgstr ""
+
+#: application/src/Api/Adapter/SiteAdapter.php:365
+msgid "Invalid navigation: links must be an array"
 msgstr ""
 
 #: application/src/Api/Adapter/VocabularyAdapter.php:59
@@ -3318,172 +3622,195 @@ msgstr "Completat"
 msgid "Stopped"
 msgstr "Aturat"
 
-#: application/src/Mvc/MvcListeners.php:326
-#, php-format
-msgid "The current theme is not active. Its current state is \"%s\"."
-msgstr "El tema actual no es troba actiu. L'estat actual és \"%s\"."
+#: application/src/Entity/Job.php:23
+msgid "starting"
+msgstr "Començant"
 
-#: application/src/Form/UserBatchUpdateForm.php:27
-#: application/src/Form/UserForm.php:98
-#: application/src/Service/Form/Element/RoleSelectFactory.php:16
-#: application/src/View/Helper/RoleSelect.php:39
-msgid "Select role…"
-msgstr "Selecciona el rol..."
+#: application/src/Entity/Job.php:24
+msgid "stopping"
+msgstr "Aturant"
 
-#: application/src/Form/UserBatchUpdateForm.php:30
-msgid "Set role"
-msgstr "Estableix el rol"
+#: application/src/Entity/Job.php:25
+msgid "in_progress"
+msgstr "in_progress"
 
-#: application/src/Form/UserBatchUpdateForm.php:31
-#: application/src/Form/UserBatchUpdateForm.php:43
-#: application/src/Form/UserBatchUpdateForm.php:60
-#: application/src/Form/UserBatchUpdateForm.php:77
-#: application/src/Form/UserBatchUpdateForm.php:92
-#: application/src/Form/ResourceBatchUpdateForm.php:37
-#: application/src/Form/ResourceBatchUpdateForm.php:54
-#: application/src/Form/ResourceBatchUpdateForm.php:74
-#: application/src/Form/ResourceBatchUpdateForm.php:97
-msgid "[No change]"
-msgstr "[Sense canvis]"
+#: application/src/Entity/Job.php:26
+msgid "completed"
+msgstr "completat"
 
-#: application/src/Form/UserBatchUpdateForm.php:39
-msgid "Set activity"
-msgstr "Estableix l'activitat"
+#: application/src/Entity/Job.php:27
+msgid "stopped"
+msgstr "aturat"
 
-#: application/src/Form/UserBatchUpdateForm.php:55
-#: application/src/Form/UserBatchUpdateForm.php:72
-msgid "Select sites…"
-msgstr "Selecciona els llocs..."
+#: application/src/Entity/Job.php:28
+msgid "error"
+msgstr "error"
 
-#: application/src/Form/UserBatchUpdateForm.php:59
-msgid "Remove from site permission"
-msgstr ""
+#: application/src/Media/Ingester/IIIF.php:33
+msgid "IIIF image"
+msgstr "imatge IIIF"
 
-#: application/src/Form/UserBatchUpdateForm.php:61
-#: application/src/Form/UserBatchUpdateForm.php:78
-msgid "[All sites]"
-msgstr "[Tots els llocs]"
+#: application/src/Media/Ingester/IIIF.php:107
+msgid "IIIF image URL"
+msgstr "URL de la imatge IIIF"
 
-#: application/src/Form/UserBatchUpdateForm.php:76
-msgid "Add to site permission"
-msgstr ""
+#: application/src/Media/Ingester/IIIF.php:108
+msgid "URL for the image to embed."
+msgstr "URL per embeure la imatge."
 
-#: application/src/Form/UserBatchUpdateForm.php:87
-msgid "Select permission…"
-msgstr "Selecciona el permís..."
+#: application/src/Media/Ingester/Upload.php:69
+msgid "Upload file"
+msgstr "Puja el fitxer"
 
-#: application/src/Form/UserBatchUpdateForm.php:91
-msgid "Add to site permission as"
-msgstr ""
+#: application/src/Media/Ingester/Youtube.php:27
+msgid "YouTube"
+msgstr "YouTube"
 
-#: application/src/Form/Initializer/Csrf.php:35
-msgid "Invalid or missing CSRF token"
-msgstr "Token CSRF invàlid o inexistent"
+#: application/src/Media/Ingester/Youtube.php:90
+msgid "Video URL"
+msgstr "URL del vídeo"
 
-#: application/src/Form/SiteResourcesForm.php:14
-msgid "Manage current items"
-msgstr ""
+#: application/src/Media/Ingester/Youtube.php:91
+msgid "URL for the video to embed."
+msgstr "URL per embeure el vídeo."
 
-#: application/src/Form/SiteResourcesForm.php:16
-msgid "Do nothing"
-msgstr ""
+#: application/src/Media/Ingester/Youtube.php:99
+msgid "Start"
+msgstr "Inici"
 
-#: application/src/Form/SiteResourcesForm.php:17
-msgid "Add - keep existing items and assign items from a new search"
-msgstr ""
-
-#: application/src/Form/SiteResourcesForm.php:18
-msgid "Replace - unassign all items and assign items from a new search"
-msgstr ""
-
-#: application/src/Form/SiteResourcesForm.php:19
-msgid "Remove - unassign items from a new search"
-msgstr ""
-
-#: application/src/Form/SiteResourcesForm.php:20
-msgid "Remove all - unassign all items"
-msgstr ""
-
-#: application/src/Form/SiteResourcesForm.php:31
-msgid "Keep this search"
-msgstr ""
-
-#: application/src/Form/SiteResourcesForm.php:32
+#: application/src/Media/Ingester/Youtube.php:100
 msgid ""
-"Use this as a convenient way to store a commonly used query. For example, "
-"you will likely want to save a search for periodic adding, but will not want"
-" to save a search for a one-time removal."
-msgstr ""
+"Begin playing the video at the given number of seconds from the start of the"
+" video."
+msgstr "Comença a reproduir el vídeo en el moment indicat (en segons)."
 
+#: application/src/Media/Ingester/Youtube.php:104
+msgid "End"
+msgstr "Final"
+
+#: application/src/Media/Ingester/Youtube.php:105
+msgid ""
+"End playing the video at the given number of seconds from the start of the "
+"video."
+msgstr "Finalitza la reproducció del vídeo en el moment indicat (en segons)"
+
+#: application/src/Media/Ingester/Url.php:80
+msgid "A URL to the media."
+msgstr "L'URL del multimèdia."
+
+#: application/src/Media/Ingester/Html.php:80
+msgid "HTML or plain text."
+msgstr "HTML o text pla."
+
+#: application/src/Media/Ingester/OEmbed.php:41
+msgid "oEmbed"
+msgstr "oEmbed"
+
+#: application/src/Media/Ingester/OEmbed.php:114
+msgid "oEmbed URL"
+msgstr "URL de l'oEmbed"
+
+#: application/src/Media/Ingester/OEmbed.php:115
+msgid "URL for the media to embed."
+msgstr "URL per embeure el multimèdia."
+
+#: application/src/Form/SettingForm.php:111
 #: application/src/Form/SiteSettingsForm.php:28
-#: application/src/Form/SettingForm.php:110
 msgid "General"
 msgstr "General"
 
-#: application/src/Form/SiteSettingsForm.php:38
-msgid "Auto-assign new items"
-msgstr ""
+#: application/src/Form/SettingForm.php:120
+msgid "Administrator email"
+msgstr "Correu electrònic de l'administrador"
 
-#: application/src/Form/SiteSettingsForm.php:39
+#: application/src/Form/SettingForm.php:133
+#: application/src/Form/InstallationForm.php:80
+msgid "Installation title"
+msgstr "Títol de la instal·lació"
+
+#: application/src/Form/SettingForm.php:148
+#: application/src/Form/InstallationForm.php:98
+msgid "Time zone"
+msgstr "Zona horària"
+
+#: application/src/Form/SettingForm.php:162
+#: application/src/Form/SiteSettingsForm.php:187
+msgid "Results per page"
+msgstr "Resultats per pàgina"
+
+#: application/src/Form/SettingForm.php:163
+msgid "The maximum number of results per page on browse pages."
+msgstr "El nombre màxim de resultats per pàgina en les pàgines de navegació."
+
+#: application/src/Form/SettingForm.php:176
+msgid "Property label information"
+msgstr "Informació de l'etiqueta de la propietat"
+
+#: application/src/Form/SettingForm.php:177
+msgid "The additional information that accompanies labels on resource pages."
+msgstr ""
+"Informació addicional que acompanya les etiquetes en les pàgines de "
+"recursos."
+
+#: application/src/Form/SettingForm.php:179
+msgid "None"
+msgstr "Cap"
+
+#: application/src/Form/SettingForm.php:180
+msgid "Show Vocabulary"
+msgstr "Mostra el vocabulari"
+
+#: application/src/Form/SettingForm.php:181
+msgid "Show Term"
+msgstr "Mostra el terme"
+
+#: application/src/Form/SettingForm.php:194
+msgid "Default site"
+msgstr "Lloc per defecte"
+
+#: application/src/Form/SettingForm.php:195
 msgid ""
-"Select this if you want new items to be automatically assigned to this site."
-" Note that item owners may unassign their items at any time."
+"Select which site should appear when users go to the front page of the "
+"installation."
 msgstr ""
+"Selecciona com el lloc ha d'aparèixer quan els usuaris visiten la pàgina "
+"principal de la instal·lació."
 
-#: application/src/Form/SiteSettingsForm.php:50
-msgid "Attachment link type"
-msgstr "Tipus d'enllaç adjunt"
+#: application/src/Form/SettingForm.php:200
+msgid "No default (show index of sites)"
+msgstr "Cap per defecte (mostra un sumari dels llocs)"
 
-#: application/src/Form/SiteSettingsForm.php:52
-msgid "Item page"
-msgstr "Pàgina d'ítem"
+#: application/src/Form/SettingForm.php:211
+#: application/src/Form/SiteSettingsForm.php:127
+#: application/src/Form/UserForm.php:132
+#: application/src/Form/InstallationForm.php:112
+msgid "Locale"
+msgstr "Idioma"
 
-#: application/src/Form/SiteSettingsForm.php:53
-msgid "Media page"
-msgstr "Pàgina de multimèdia"
+#: application/src/Form/SettingForm.php:212
+#: application/src/Form/UserForm.php:133
+msgid "Global locale/language code for all interfaces."
+msgstr "Codi de localització/idioma global per a totes les interfícies."
 
-#: application/src/Form/SiteSettingsForm.php:54
-msgid "Direct link to file"
-msgstr "Enllaç directe al fitxer"
+#: application/src/Form/SettingForm.php:225
+msgid "Enable version notifications"
+msgstr "Activa les notificacions de versió"
 
-#: application/src/Form/SiteSettingsForm.php:66
-msgid "Embed media on item pages"
-msgstr "Multimèdia embeguts en les pàgines d'ítem"
-
-#: application/src/Form/SiteSettingsForm.php:77
-msgid "Show page pagination"
-msgstr "Mostra la paginació"
-
-#: application/src/Form/SiteSettingsForm.php:78
+#: application/src/Form/SettingForm.php:226
 msgid ""
-"Show pagination that helps users follow a linear narrative through a site."
+"Enable notifications when a new version of Omeka S, modules, or themes are "
+"available."
 msgstr ""
-"Mostra una paginació per ajudar als usuaris a seguir un recorregut linial "
-"pel lloc."
+"Activa les notificacions de noves versions disponibles de l'Omeka S, mòduls "
+"o temes."
 
-#: application/src/Form/SiteSettingsForm.php:89
-msgid "Show user bar on public views"
-msgstr "Mostra la barra d'usuari en la vista pública"
-
-#: application/src/Form/SiteSettingsForm.php:91
-msgid "Never"
-msgstr "Mai"
-
-#: application/src/Form/SiteSettingsForm.php:92
-msgid "When logged in"
-msgstr "En iniciar sessió"
-
-#: application/src/Form/SiteSettingsForm.php:93
-msgid "Always"
-msgstr "Sempre"
-
+#: application/src/Form/SettingForm.php:238
 #: application/src/Form/SiteSettingsForm.php:104
-#: application/src/Form/SettingForm.php:237
 msgid "Disable JSON-LD embed"
 msgstr "Desactiva la incrustació del JSON-LD"
 
+#: application/src/Form/SettingForm.php:239
 #: application/src/Form/SiteSettingsForm.php:105
-#: application/src/Form/SettingForm.php:238
 msgid ""
 "By default, Omeka embeds JSON-LD in resource browse and show pages for the "
 "purpose of machine-readable metadata discovery. Check this to disable "
@@ -3493,333 +3820,11 @@ msgstr ""
 " dels registres bibliogràfics perquè puguin ser compreses per les màquines. "
 "Marcar aquesta opció deshabilitarà la generació del codi JSON-LD."
 
-#: application/src/Form/SiteSettingsForm.php:117
-#: application/src/Form/InstallationForm.php:112
-#: application/src/Form/UserForm.php:132
-#: application/src/Form/SettingForm.php:210
-msgid "Locale"
-msgstr "Idioma"
-
-#: application/src/Form/SiteSettingsForm.php:118
-msgid ""
-"Locale/language code for this site. Leave blank to use the global locale "
-"setting."
-msgstr ""
-"Codi de localització/Idioma per aquest lloc. Deixeu-lo en blanc per "
-"utilitzar el valor de la configuració global."
-
-#: application/src/Form/SiteSettingsForm.php:140
-msgid "Restrict browse to attached items"
-msgstr "Restringeix la navegació als ítems adjunts"
-
-#: application/src/Form/SiteSettingsForm.php:151
-#: application/src/Form/SettingForm.php:161
-msgid "Results per page"
-msgstr "Resultats per pàgina"
-
-#: application/src/Form/SiteSettingsForm.php:152
-msgid ""
-"The maximum number of results per page on browse pages. Leave blank to use "
-"the global setting."
-msgstr ""
-"El nombre de resultats màxim per pàgina en les llistes de resultats. Si ho "
-"deixeu en blanc, s'aplica la configuració global."
-
-#: application/src/Form/SiteSettingsForm.php:158
-msgid "Use global setting"
-msgstr "Utilitza la configuració global"
-
-#: application/src/Form/SiteSettingsForm.php:166
-msgid "Browse heading property"
-msgstr "Propietat per als encapçalaments"
-
-#: application/src/Form/SiteSettingsForm.php:167
-msgid ""
-"Use this property for the heading of each resource on a browse page. Keep "
-"unselected to use the default title property of each resource."
-msgstr ""
-"Utilitzeu aquesta propietat per a l'encapçalament dels recursos en la pàgina"
-" de navegació. Manteniu aquesta opció desseleccionada per utilitzar el títol"
-" de la propietat per defecte de cada recurs."
-
-#: application/src/Form/SiteSettingsForm.php:175
-#: application/src/Form/SiteSettingsForm.php:192
-msgid "Select a property"
-msgstr "Selecciona una propietat"
-
-#: application/src/Form/SiteSettingsForm.php:183
-msgid "Browse body property"
-msgstr "Propietat per a l'extracte"
-
-#: application/src/Form/SiteSettingsForm.php:184
-msgid ""
-"Use this property for the body of each resource on a browse page. Keep "
-"unselected to use the default description property of each resource."
-msgstr ""
-"Utilitzeu aquesta propeitat per al cos de cada recurs en la pàgina de "
-"navegació. Manteniu aquesta opció desseleccionada per utilitzar la "
-"descripció per defecte de cada recurs."
-
-#: application/src/Form/SiteSettingsForm.php:201
-msgid "Show"
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:209
-msgid "Show attached pages"
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:210
-msgid ""
-"Show site pages to which an item is attached on the public item show page."
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:232
-msgid "Search type"
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:233
-msgid "Select the type of search the main search field will perform"
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:235
-msgid "This site"
-msgstr "Aquest lloc"
-
-#: application/src/Form/SiteSettingsForm.php:236
-msgid "All sites"
-msgstr "Tots els llocs"
-
-#: application/src/Form/SiteSettingsForm.php:253
-msgid "Search resources"
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:254
-msgid ""
-"Customize which types of resources will be searchable in the main search "
-"field."
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:267
-msgid "Templates"
-msgstr "Plantilles"
-
-#: application/src/Form/SiteSettingsForm.php:268
-msgid "Select which templates to apply to the advanced search form."
-msgstr "Seleccioneu quines plantilles voleu aplicar a la cerca avançada."
-
-#: application/src/Form/SiteSettingsForm.php:273
-msgid "Select templates"
-msgstr "Selecciona les plantilles"
-
-#: application/src/Form/SiteSettingsForm.php:281
-msgid "Restrict to templates"
-msgstr "Restringeix a les plantilles"
-
-#: application/src/Form/SiteSettingsForm.php:282
-msgid "Restrict search results to resources of the selected templates."
-msgstr ""
-"Restringeix els resultats de cerca als recursos de les plantilles "
-"seleccionades."
-
-#: application/src/Form/InstallationForm.php:19
-msgid "Create the first user"
-msgstr "Crea el primer usuari"
-
-#: application/src/Form/InstallationForm.php:52
-msgid "Confirm email"
-msgstr "Confirma el correu electrònic"
-
-#: application/src/Form/InstallationForm.php:80
-#: application/src/Form/SettingForm.php:132
-msgid "Installation title"
-msgstr "Títol de la instal·lació"
-
-#: application/src/Form/InstallationForm.php:98
-#: application/src/Form/SettingForm.php:147
-msgid "Time zone"
-msgstr "Zona horària"
-
-#: application/src/Form/InstallationForm.php:128
-msgid "The emails did not match"
-msgstr "Els correus electrònics no coincideixen"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:33
-msgid "Set visibility"
-msgstr "Estableix la visibilitat"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:50
-msgid "Set openness"
-msgstr "Estableix l’apertura"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:52
-msgid "Open"
-msgstr "Obert"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:53
-msgid "Not open"
-msgstr "Tancat"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:69
-#: application/src/Form/UserForm.php:147
-#: application/src/Form/ResourceForm.php:30
-msgid "Select a template"
-msgstr "Selecciona una plantilla"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:73
-msgid "Set template"
-msgstr "Estableix la plantilla"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:75
-msgid "[Unset template]"
-msgstr "[Plantilla deshabilitada]"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:92
-#: application/src/Form/ResourceForm.php:55
-msgid "Select a class"
-msgstr "Selecciona una classe"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:95
-msgid "Set class"
-msgstr "Estableix la classe"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:96
-msgid "[Unset class]"
-msgstr "[Classe no configurada]"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:110
-#: application/src/Form/ResourceBatchUpdateForm.php:124
-msgid "Select item sets"
-msgstr "Selecciona els conjunts d'ítems"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:113
-msgid "Add to item sets"
-msgstr "Afegeix als conjunts d'ítems"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:127
-msgid "Remove from item sets"
-msgstr "Suprimeix dels conjunts d'ítems"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:137
-msgid "Clear language"
-msgstr ""
-
-#: application/src/Form/ResourceBatchUpdateForm.php:161
-#: application/view/common/property-form-batch-edit.phtml:63
-msgid "Select properties"
-msgstr "Selecciona les propietats"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:164
-msgid "Clear property values"
-msgstr ""
-
-#: application/src/Form/ConfirmForm.php:17
-msgid "Confirm"
-msgstr "Confirma"
-
-#: application/src/Form/UserForm.php:133
-#: application/src/Form/SettingForm.php:211
-msgid "Global locale/language code for all interfaces."
-msgstr "Codi de localització/idioma global per a totes les interfícies."
-
-#: application/src/Form/UserForm.php:151
-msgid "Default resource template"
-msgstr "Plantilla de recurs per defecte"
-
-#: application/src/Form/UserForm.php:170
-msgid "Select sites"
-msgstr ""
-
-#: application/src/Form/UserForm.php:175
-msgid "Default sites for items"
-msgstr ""
-
-#: application/src/Form/UserForm.php:186
-msgid "Current password"
-msgstr "Contrasenya actual"
-
-#: application/src/Form/UserForm.php:198
-msgid "New password"
-msgstr "Contrasenya nova"
-
-#: application/src/Form/UserForm.php:199
-msgid "Confirm new password"
-msgstr "Confirma la contrasenya nova"
-
-#: application/src/Form/UserForm.php:208
-msgid "New key label"
-msgstr "Nova etiqueta de la clau"
-
-#: application/src/Form/ResourceTemplateImportForm.php:14
-msgid "Resource template file"
-msgstr "Fitxer de la plantilla del recurs"
-
-#: application/src/Form/ResourceTemplateForm.php:27
-msgid "Suggested class"
-msgstr "Classe suggerida"
-
-#: application/src/Form/SettingForm.php:119
-msgid "Administrator email"
-msgstr "Correu electrònic de l'administrador"
-
-#: application/src/Form/SettingForm.php:162
-msgid "The maximum number of results per page on browse pages."
-msgstr "El nombre màxim de resultats per pàgina en les pàgines de navegació."
-
-#: application/src/Form/SettingForm.php:175
-msgid "Property label information"
-msgstr "Informació de l'etiqueta de la propietat"
-
-#: application/src/Form/SettingForm.php:176
-msgid "The additional information that accompanies labels on resource pages."
-msgstr ""
-"Informació addicional que acompanya les etiquetes en les pàgines de "
-"recursos."
-
-#: application/src/Form/SettingForm.php:178
-msgid "None"
-msgstr "Cap"
-
-#: application/src/Form/SettingForm.php:179
-msgid "Show Vocabulary"
-msgstr "Mostra el vocabulari"
-
-#: application/src/Form/SettingForm.php:180
-msgid "Show Term"
-msgstr "Mostra el terme"
-
-#: application/src/Form/SettingForm.php:193
-msgid "Default site"
-msgstr "Lloc per defecte"
-
-#: application/src/Form/SettingForm.php:194
-msgid ""
-"Select which site should appear when users go to the front page of the "
-"installation."
-msgstr ""
-"Selecciona com el lloc ha d'aparèixer quan els usuaris visiten la pàgina "
-"principal de la instal·lació."
-
-#: application/src/Form/SettingForm.php:199
-msgid "No default (show index of sites)"
-msgstr "Cap per defecte (mostra un sumari dels llocs)"
-
-#: application/src/Form/SettingForm.php:224
-msgid "Enable version notifications"
-msgstr "Activa les notificacions de versió"
-
-#: application/src/Form/SettingForm.php:225
-msgid ""
-"Enable notifications when a new version of Omeka S, modules, or themes are "
-"available."
-msgstr ""
-"Activa les notificacions de noves versions disponibles de l'Omeka S, mòduls "
-"o temes."
-
-#: application/src/Form/SettingForm.php:250
+#: application/src/Form/SettingForm.php:251
 msgid "Default content visibility to Private"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:251
+#: application/src/Form/SettingForm.php:252
 msgid ""
 "If checked, all items, item sets and sites newly created will have their "
 "visibility set to private by default."
@@ -3827,81 +3832,118 @@ msgstr ""
 "Si se selecciona, tots els ítems, conjunts d'ítems i llocs de nova creació "
 "seran privats per defecte."
 
-#: application/src/Form/SettingForm.php:263
+#: application/src/Form/SettingForm.php:264
 msgid "Suggested languages for values"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:264
+#: application/src/Form/SettingForm.php:265
 msgid ""
 "List of languages to facilitate filling of the values in the resource form. "
 "List them one by line. The label displayed for a language may be appended "
 "with a \"=\"."
 msgstr ""
 
-#: application/src/Form/SettingForm.php:277
+#: application/src/Form/SettingForm.php:278
+msgid "Media alt text property"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:279
+msgid "Media property to use as alt text if no alt text is explicitly set."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:280
+msgid "[None]"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:294
 msgid "Index full-text search"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:291
+#: application/src/Form/SettingForm.php:308
 msgid "Security"
 msgstr "Seguretat"
 
-#: application/src/Form/SettingForm.php:300
+#: application/src/Form/SettingForm.php:317
 msgid "Use HTMLPurifier"
 msgstr "Utilitza l'HTMLPurifier"
 
-#: application/src/Form/SettingForm.php:301
+#: application/src/Form/SettingForm.php:318
 msgid "Clean up user-entered HTML."
 msgstr "Neteja l'HTML dels usuaris."
 
-#: application/src/Form/SettingForm.php:313
+#: application/src/Form/SettingForm.php:330
 msgid "Disable file validation"
 msgstr "Desactiva la validació de fitxers"
 
-#: application/src/Form/SettingForm.php:314
+#: application/src/Form/SettingForm.php:331
 msgid "Check this to disable file media type and extension validation."
 msgstr ""
 "Marqueu aquesta opció per desactivar la validació de formats i d'extensions."
 
-#: application/src/Form/SettingForm.php:323
+#: application/src/Form/SettingForm.php:340
 msgid "Allowed media types"
 msgstr "Tipus de contingut permesos"
 
-#: application/src/Form/SettingForm.php:324
+#: application/src/Form/SettingForm.php:341
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr ""
 "Una llista separada per comes dels tipus de formats permesos per a la "
 "càrrega de fitxers."
 
-#: application/src/Form/SettingForm.php:336
+#: application/src/Form/SettingForm.php:353
 msgid "Allowed file extensions"
 msgstr "Extensions de fitxer permeses"
 
-#: application/src/Form/SettingForm.php:337
+#: application/src/Form/SettingForm.php:354
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr ""
 "Una llista separada per comes de les extensions permeses per a la càrrega de"
 " fitxers."
 
-#: application/src/Form/SettingForm.php:351
+#: application/src/Form/SettingForm.php:368
 msgid "reCAPTCHA site key"
 msgstr "Clau reCAPTCHA del lloc"
 
-#: application/src/Form/SettingForm.php:362
+#: application/src/Form/SettingForm.php:379
 msgid "reCAPTCHA secret key"
 msgstr "Clau secreta del reCAPTCHA"
 
-#: application/src/Form/ModuleStateChangeForm.php:37
-msgid "Install"
-msgstr "Instal·la"
+#: application/src/Form/ResourceForm.php:30
+#: application/src/Form/ResourceBatchUpdateForm.php:70
+#: application/src/Form/UserForm.php:147
+msgid "Select a template"
+msgstr "Selecciona una plantilla"
 
-#: application/src/Form/ModuleStateChangeForm.php:55
-msgid "Deactivate"
-msgstr "Desactiva"
+#: application/src/Form/ResourceForm.php:34
+msgid "Resource template"
+msgstr "Plantilla del recurs"
 
-#: application/src/Form/ModuleStateChangeForm.php:64
-msgid "Upgrade"
-msgstr "Actualitza"
+#: application/src/Form/ResourceForm.php:35
+msgid "A pre-defined template for resource creation."
+msgstr "Una plantilla predefinida per a la descripció de recursos."
+
+#: application/src/Form/ResourceForm.php:55
+#: application/src/Form/ResourceBatchUpdateForm.php:93
+msgid "Select a class"
+msgstr "Selecciona una classe"
+
+#: application/src/Form/ResourceForm.php:59
+msgid ""
+"A type for the resource. Different types have different default properties "
+"attached to them."
+msgstr ""
+"Un tipus per al recurs. Cada tipus té diferents propietats per defecte "
+"associades."
+
+#: application/src/Form/ResourceForm.php:69
+msgid ""
+"Omeka S automatically selects a thumbnail from among attached media for a "
+"resource. You may use an image of your choice instead by choosing an asset "
+"here."
+msgstr ""
+"L'Omeka S selecciona automàticament una miniatura d'entre els fitxers "
+"adjunts per al recurs. Podeu fer servir una imatge diferent en comptes "
+"d'emprar un d'aquests fitxers."
 
 #: application/src/Form/VocabularyForm.php:23
 msgid "Basic info"
@@ -4036,47 +4078,113 @@ msgstr ""
 "utilitza propietats poc convencionals. Empreu l'URI completa dins de "
 "claudàtors"
 
-#: application/src/Form/ResourceForm.php:34
-msgid "Resource template"
-msgstr "Plantilla del recurs"
-
-#: application/src/Form/ResourceForm.php:35
-msgid "A pre-defined template for resource creation."
-msgstr "Una plantilla predefinida per a la descripció de recursos."
-
-#: application/src/Form/ResourceForm.php:59
-msgid ""
-"A type for the resource. Different types have different default properties "
-"attached to them."
+#: application/src/Form/SiteForm.php:54
+msgid "Choose or upload a thumbnail to display with site."
 msgstr ""
-"Un tipus per al recurs. Cada tipus té diferents propietats per defecte "
-"associades."
 
-#: application/src/Form/ResourceForm.php:68
-msgid "Thumbnail"
-msgstr "Miniatura"
+#: application/src/Form/ResourceTemplateForm.php:27
+msgid "Suggested class"
+msgstr "Classe suggerida"
 
-#: application/src/Form/ResourceForm.php:69
-msgid ""
-"Omeka S automatically selects a thumbnail from among attached media for a "
-"resource. You may use an image of your choice instead by choosing an asset "
-"here."
+#: application/src/Form/ResourceBatchUpdateForm.php:34
+msgid "Set visibility"
+msgstr "Estableix la visibilitat"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:38
+#: application/src/Form/ResourceBatchUpdateForm.php:55
+#: application/src/Form/ResourceBatchUpdateForm.php:75
+#: application/src/Form/ResourceBatchUpdateForm.php:98
+#: application/src/Form/UserBatchUpdateForm.php:31
+#: application/src/Form/UserBatchUpdateForm.php:43
+#: application/src/Form/UserBatchUpdateForm.php:60
+#: application/src/Form/UserBatchUpdateForm.php:77
+#: application/src/Form/UserBatchUpdateForm.php:92
+msgid "[No change]"
+msgstr "[Sense canvis]"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:51
+msgid "Set openness"
+msgstr "Estableix l’apertura"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:53
+msgid "Open"
+msgstr "Obert"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:54
+msgid "Not open"
+msgstr "Tancat"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:74
+msgid "Set template"
+msgstr "Estableix la plantilla"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:76
+msgid "[Unset template]"
+msgstr "[Plantilla deshabilitada]"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:96
+msgid "Set class"
+msgstr "Estableix la classe"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:97
+msgid "[Unset class]"
+msgstr "[Classe no configurada]"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:111
+#: application/src/Form/ResourceBatchUpdateForm.php:125
+msgid "Select item sets"
+msgstr "Selecciona els conjunts d'ítems"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:114
+msgid "Add to item sets"
+msgstr "Afegeix als conjunts d'ítems"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:128
+msgid "Remove from item sets"
+msgstr "Suprimeix dels conjunts d'ítems"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:139
+#: application/src/Form/ResourceBatchUpdateForm.php:153
+#: application/src/Form/UserForm.php:170
+msgid "Select sites"
 msgstr ""
-"L'Omeka S selecciona automàticament una miniatura d'entre els fitxers "
-"adjunts per al recurs. Podeu fer servir una imatge diferent en comptes "
-"d'emprar un d'aquests fitxers."
 
-#: application/src/Form/SitePageForm.php:39
-msgid "Add to navigation"
-msgstr "Afegeix a la navegació"
+#: application/src/Form/ResourceBatchUpdateForm.php:142
+msgid "Add to sites"
+msgstr ""
 
-#: application/src/Form/Element/Recaptcha.php:99
-msgid "You must verify that you are human by completing the CAPTCHA."
-msgstr "Heu de verificar que sou una persona amb el CAPTCHA."
+#: application/src/Form/ResourceBatchUpdateForm.php:156
+msgid "Remove from sites"
+msgstr ""
 
-#: application/src/Form/Element/Recaptcha.php:108
-msgid "Could not verify that you are a human."
-msgstr "No s'ha pogut verificar que ets una persona."
+#: application/src/Form/ResourceBatchUpdateForm.php:166
+msgid "Clear language"
+msgstr ""
+
+#: application/src/Form/ResourceBatchUpdateForm.php:190
+#: application/view/common/property-form-batch-edit.phtml:63
+msgid "Select properties"
+msgstr "Selecciona les propietats"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:193
+msgid "Clear property values"
+msgstr ""
+
+#: application/src/Form/ModuleStateChangeForm.php:37
+msgid "Install"
+msgstr "Instal·la"
+
+#: application/src/Form/ModuleStateChangeForm.php:55
+msgid "Deactivate"
+msgstr "Desactiva"
+
+#: application/src/Form/ModuleStateChangeForm.php:64
+msgid "Upgrade"
+msgstr "Actualitza"
+
+#: application/src/Form/Initializer/Csrf.php:35
+msgid "Invalid or missing CSRF token"
+msgstr "Token CSRF invàlid o inexistent"
 
 #: application/src/Form/Element/PasswordConfirm.php:68
 msgid "Confirm password"
@@ -4090,6 +4198,14 @@ msgstr "La contrasenya és incorrecta"
 msgid "The passwords did not match"
 msgstr "Les contrasenyes no coincideixen"
 
+#: application/src/Form/Element/Recaptcha.php:99
+msgid "You must verify that you are human by completing the CAPTCHA."
+msgstr "Heu de verificar que sou una persona amb el CAPTCHA."
+
+#: application/src/Form/Element/Recaptcha.php:108
+msgid "Could not verify that you are a human."
+msgstr "No s'ha pogut verificar que ets una persona."
+
 #: application/src/Form/Element/ColorPicker.php:10
 msgid "three- or six-digit hexadecimal color, or \"transparent\""
 msgstr "codi hexadecimal de tres o sis dígits, o \"transparent\""
@@ -4098,46 +4214,321 @@ msgstr "codi hexadecimal de tres o sis dígits, o \"transparent\""
 msgid "Invalid color format"
 msgstr "Format de color no vàlid"
 
-#: application/src/Stdlib/Environment.php:47
-#, php-format
-msgid ""
-"You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
-"version %1$s. You are currently on version %2$s."
+#: application/src/Form/SiteSettingsForm.php:38
+msgid "Auto-assign new items"
 msgstr ""
-"Heu d'actualitzar l'Omeka S, com a mínim, a la versió 1.0.0 abans "
-"d'actualitzar a la versió %1$s. La versió instal·lada actualment és la %2$s."
 
-#: application/src/Stdlib/Environment.php:54
-#, php-format
+#: application/src/Form/SiteSettingsForm.php:39
 msgid ""
-"The installed PHP version (%1$s) is too low. Omeka requires at least version"
-" %2$s."
+"Select this if you want new items to be automatically assigned to this site."
+" Note that item owners may unassign their items at any time."
 msgstr ""
-"La versió instal·lada del PHP (%1$s) és massa antiga. L'Omeka S requereix, "
-"com a mínim, la versió %2$s."
 
-#: application/src/Stdlib/Environment.php:62
-#, php-format
-msgid "Omeka requires the PHP extension %s, but it is not loaded."
-msgstr "L'Omeka S requereix l'extensió PHP %s, però no s'ha carregat."
+#: application/src/Form/SiteSettingsForm.php:50
+msgid "Attachment link type"
+msgstr "Tipus d'enllaç adjunt"
 
-#: application/src/Stdlib/Environment.php:81
-#, php-format
+#: application/src/Form/SiteSettingsForm.php:52
+msgid "Item page"
+msgstr "Pàgina d'ítem"
+
+#: application/src/Form/SiteSettingsForm.php:53
+msgid "Media page"
+msgstr "Pàgina de multimèdia"
+
+#: application/src/Form/SiteSettingsForm.php:54
+msgid "Direct link to file"
+msgstr "Enllaç directe al fitxer"
+
+#: application/src/Form/SiteSettingsForm.php:66
+msgid "Embed media on item pages"
+msgstr "Multimèdia embeguts en les pàgines d'ítem"
+
+#: application/src/Form/SiteSettingsForm.php:77
+msgid "Show page pagination"
+msgstr "Mostra la paginació"
+
+#: application/src/Form/SiteSettingsForm.php:78
 msgid ""
-"The installed MySQL version (%1$s) is too low. Omeka requires at least "
-"version %2$s."
+"Show pagination that helps users follow a linear narrative through a site."
 msgstr ""
-"La versió instal·lada del MySQL (%1$s) és massa antiga. L'Omeka S requereix,"
-" com a mínim, la versió %2$s."
+"Mostra una paginació per ajudar als usuaris a seguir un recorregut linial "
+"pel lloc."
 
-#: application/src/Stdlib/Environment.php:89
-#, php-format
+#: application/src/Form/SiteSettingsForm.php:89
+msgid "Show user bar on public views"
+msgstr "Mostra la barra d'usuari en la vista pública"
+
+#: application/src/Form/SiteSettingsForm.php:91
+msgid "Never"
+msgstr "Mai"
+
+#: application/src/Form/SiteSettingsForm.php:92
+msgid "When logged in"
+msgstr "En iniciar sessió"
+
+#: application/src/Form/SiteSettingsForm.php:93
+msgid "Always"
+msgstr "Sempre"
+
+#: application/src/Form/SiteSettingsForm.php:128
 msgid ""
-"The installed MariaDB version (%1$s) is too low. Omeka requires at least "
-"version %2$s."
+"Locale/language code for this site. Leave blank to use the global locale "
+"setting."
 msgstr ""
-"La versió instal·lada del MariaDB (%1$s) és massa antiga. L'Omeka S "
-"requereix, com a mínim, la versió %2$s."
+"Codi de localització/Idioma per aquest lloc. Deixeu-lo en blanc per "
+"utilitzar el valor de la configuració global."
+
+#: application/src/Form/SiteSettingsForm.php:141
+msgid "Filter values based on site locale"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:142
+msgid ""
+"Show only values matching the site language setting and values without "
+"locale ID."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:154
+msgid "Show language labels for values"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:155
+msgid "Show a label indicating the language of each value on show pages."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:176
+msgid "Restrict browse to attached items"
+msgstr "Restringeix la navegació als ítems adjunts"
+
+#: application/src/Form/SiteSettingsForm.php:188
+msgid ""
+"The maximum number of results per page on browse pages. Leave blank to use "
+"the global setting."
+msgstr ""
+"El nombre de resultats màxim per pàgina en les llistes de resultats. Si ho "
+"deixeu en blanc, s'aplica la configuració global."
+
+#: application/src/Form/SiteSettingsForm.php:194
+msgid "Use global setting"
+msgstr "Utilitza la configuració global"
+
+#: application/src/Form/SiteSettingsForm.php:202
+msgid "Browse heading property"
+msgstr "Propietat per als encapçalaments"
+
+#: application/src/Form/SiteSettingsForm.php:203
+msgid ""
+"Use this property for the heading of each resource on a browse page. Keep "
+"unselected to use the default title property of each resource."
+msgstr ""
+"Utilitzeu aquesta propietat per a l'encapçalament dels recursos en la pàgina"
+" de navegació. Manteniu aquesta opció desseleccionada per utilitzar el títol"
+" de la propietat per defecte de cada recurs."
+
+#: application/src/Form/SiteSettingsForm.php:211
+#: application/src/Form/SiteSettingsForm.php:228
+msgid "Select a property"
+msgstr "Selecciona una propietat"
+
+#: application/src/Form/SiteSettingsForm.php:219
+msgid "Browse body property"
+msgstr "Propietat per a l'extracte"
+
+#: application/src/Form/SiteSettingsForm.php:220
+msgid ""
+"Use this property for the body of each resource on a browse page. Keep "
+"unselected to use the default description property of each resource."
+msgstr ""
+"Utilitzeu aquesta propeitat per al cos de cada recurs en la pàgina de "
+"navegació. Manteniu aquesta opció desseleccionada per utilitzar la "
+"descripció per defecte de cada recurs."
+
+#: application/src/Form/SiteSettingsForm.php:237
+msgid "Show"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:245
+msgid "Show attached pages"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:246
+msgid ""
+"Show site pages to which an item is attached on the public item show page."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:268
+msgid "Search type"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:269
+msgid "Select the type of search the main search field will perform"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:271
+msgid "This site"
+msgstr "Aquest lloc"
+
+#: application/src/Form/SiteSettingsForm.php:272
+msgid "All sites"
+msgstr "Tots els llocs"
+
+#: application/src/Form/SiteSettingsForm.php:289
+msgid "Search resources"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:290
+msgid ""
+"Customize which types of resources will be searchable in the main search "
+"field."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:303
+msgid "Templates"
+msgstr "Plantilles"
+
+#: application/src/Form/SiteSettingsForm.php:304
+msgid "Select which templates to apply to the advanced search form."
+msgstr "Seleccioneu quines plantilles voleu aplicar a la cerca avançada."
+
+#: application/src/Form/SiteSettingsForm.php:309
+msgid "Select templates"
+msgstr "Selecciona les plantilles"
+
+#: application/src/Form/SiteSettingsForm.php:317
+msgid "Restrict to templates"
+msgstr "Restringeix a les plantilles"
+
+#: application/src/Form/SiteSettingsForm.php:318
+msgid "Restrict search results to resources of the selected templates."
+msgstr ""
+"Restringeix els resultats de cerca als recursos de les plantilles "
+"seleccionades."
+
+#: application/src/Form/UserBatchUpdateForm.php:27
+#: application/src/Form/UserForm.php:98
+#: application/src/Service/Form/Element/RoleSelectFactory.php:16
+#: application/src/View/Helper/RoleSelect.php:39
+msgid "Select role…"
+msgstr "Selecciona el rol..."
+
+#: application/src/Form/UserBatchUpdateForm.php:30
+msgid "Set role"
+msgstr "Estableix el rol"
+
+#: application/src/Form/UserBatchUpdateForm.php:39
+msgid "Set activity"
+msgstr "Estableix l'activitat"
+
+#: application/src/Form/UserBatchUpdateForm.php:55
+#: application/src/Form/UserBatchUpdateForm.php:72
+msgid "Select sites…"
+msgstr "Selecciona els llocs..."
+
+#: application/src/Form/UserBatchUpdateForm.php:59
+msgid "Remove from site permission"
+msgstr ""
+
+#: application/src/Form/UserBatchUpdateForm.php:61
+#: application/src/Form/UserBatchUpdateForm.php:78
+msgid "[All sites]"
+msgstr "[Tots els llocs]"
+
+#: application/src/Form/UserBatchUpdateForm.php:76
+msgid "Add to site permission"
+msgstr ""
+
+#: application/src/Form/UserBatchUpdateForm.php:87
+msgid "Select permission…"
+msgstr "Selecciona el permís..."
+
+#: application/src/Form/UserBatchUpdateForm.php:91
+msgid "Add to site permission as"
+msgstr ""
+
+#: application/src/Form/SiteResourcesForm.php:15
+msgid "Manage current items"
+msgstr ""
+
+#: application/src/Form/SiteResourcesForm.php:17
+msgid "Do nothing"
+msgstr ""
+
+#: application/src/Form/SiteResourcesForm.php:18
+msgid "Add - keep existing items and assign items from a new search query"
+msgstr ""
+
+#: application/src/Form/SiteResourcesForm.php:19
+msgid "Replace - unassign all items and assign items from a new search query"
+msgstr ""
+
+#: application/src/Form/SiteResourcesForm.php:20
+msgid "Remove - unassign items from a new search query"
+msgstr ""
+
+#: application/src/Form/SiteResourcesForm.php:21
+msgid "Remove all - unassign all items"
+msgstr ""
+
+#: application/src/Form/ResourceTemplateImportForm.php:14
+msgid "Resource template file"
+msgstr "Fitxer de la plantilla del recurs"
+
+#: application/src/Form/UserForm.php:151
+msgid "Default resource template"
+msgstr "Plantilla de recurs per defecte"
+
+#: application/src/Form/UserForm.php:175
+msgid "Default sites for items"
+msgstr ""
+
+#: application/src/Form/UserForm.php:186
+msgid "Current password"
+msgstr "Contrasenya actual"
+
+#: application/src/Form/UserForm.php:198
+msgid "New password"
+msgstr "Contrasenya nova"
+
+#: application/src/Form/UserForm.php:199
+msgid "Confirm new password"
+msgstr "Confirma la contrasenya nova"
+
+#: application/src/Form/UserForm.php:208
+msgid "New key label"
+msgstr "Nova etiqueta de la clau"
+
+#: application/src/Form/InstallationForm.php:19
+msgid "Create the first user"
+msgstr "Crea el primer usuari"
+
+#: application/src/Form/InstallationForm.php:52
+msgid "Confirm email"
+msgstr "Confirma el correu electrònic"
+
+#: application/src/Form/InstallationForm.php:128
+msgid "The emails did not match"
+msgstr "Els correus electrònics no coincideixen"
+
+#: application/src/Form/ConfirmForm.php:17
+msgid "Confirm"
+msgstr "Confirma"
+
+#: application/src/Form/SitePageForm.php:39
+msgid "Add to navigation"
+msgstr "Afegeix a la navegació"
+
+#: application/src/Service/CliFactory.php:31
+msgid "Neither \"proc_open()\" nor \"exec()\" are available."
+msgstr ""
+
+#: application/src/View/Helper/SiteSelect.php:39
+msgid "Select site…"
+msgstr "Selecciona el lloc..."
+
+#: application/src/View/Helper/ResourceClassSelect.php:39
+msgid "Select class…"
+msgstr "Selecciona la classe…"
 
 #: application/src/View/Helper/BlockShowTitleSelect.php:24
 msgid "item title"
@@ -4151,14 +4542,6 @@ msgstr "títol del mèdia"
 msgid "no title"
 msgstr "sense títol"
 
-#: application/src/View/Helper/ItemSetSelect.php:39
-msgid "Select item set…"
-msgstr "Selecciona el conjunt d'ítems…"
-
-#: application/src/View/Helper/SiteSelect.php:39
-msgid "Select site…"
-msgstr "Selecciona el lloc..."
-
 #: application/src/View/Helper/ResourceTemplateSelect.php:39
 msgid "Select template…"
 msgstr "Selecciona la plantilla..."
@@ -4171,24 +4554,174 @@ msgstr "Selecciona la propietat…"
 msgid "Select user…"
 msgstr "Selecciona l'usuari..."
 
-#: application/src/View/Helper/ResourceClassSelect.php:39
-msgid "Select class…"
-msgstr "Selecciona la classe…"
+#: application/src/View/Helper/ItemSetSelect.php:39
+msgid "Select item set…"
+msgstr "Selecciona el conjunt d'ítems…"
+
+#: application/src/Controller/InstallController.php:52
+msgid "Installation successful. Please log in."
+msgstr "Instal·lació correcta. Inicieu sessió."
+
+#: application/src/Controller/InstallController.php:56
+msgid "There were errors during installation."
+msgstr "Hi ha hagut errors durant la instal·lació."
+
+#: application/src/Controller/SiteAdmin/IndexController.php:69
+msgid "Site successfully created"
+msgstr "Lloc creat correctament"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:119
+msgid "Site successfully updated"
+msgstr "Lloc actualitzat correctament"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:169
+msgid "Page successfully created"
+msgstr "Pàgina creada correctament"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:198
+msgid "Homepage"
+msgstr "Pàgina d'inici"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:204
+msgid "First page in navigation"
+msgstr "Primera pàgina en la navegació"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:220
+msgid "Navigation successfully updated"
+msgstr "Navegació actualitzada correctament"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:254
+msgid ""
+"Item assignment in progress. To see the new item count, refresh the page."
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:258
+msgid "Site resources successfully updated"
+msgstr "Recursos del lloc actualitzat correctament"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:301
+msgid "User permissions successfully updated"
+msgstr "Permisos d'usuari actualitzats correctament"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:333
+msgid "Site theme successfully updated"
+msgstr "Tema del lloc actualitzat correctament"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:407
+msgid "Theme settings successfully updated"
+msgstr "Paràmetres del tema actualitzats correctament"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:424
+msgid "Site successfully deleted"
+msgstr "Lloc suprimit correctament"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:447
+msgid "site"
+msgstr "lloc"
+
+#: application/src/Controller/SiteAdmin/PageController.php:28
+msgid "Page successfully updated"
+msgstr "Pàgina actualitzada correctament"
+
+#: application/src/Controller/SiteAdmin/PageController.php:105
+msgid "page"
+msgstr "pàgina"
+
+#: application/src/Controller/SiteAdmin/PageController.php:122
+msgid "Page successfully deleted"
+msgstr "Pàgina suprimida correctament"
+
+#: application/src/Controller/LoginController.php:56
+msgid "Successfully logged in"
+msgstr "Sessió iniciada correctament"
+
+#: application/src/Controller/LoginController.php:65
+msgid "Email or password is invalid"
+msgstr "L'adreça de correu electrònic o la contrasenya és incorrecte"
+
+#: application/src/Controller/LoginController.php:88
+msgid "Successfully logged out"
+msgstr "Sessió tancada correctament"
+
+#: application/src/Controller/LoginController.php:104
+msgid "Invalid password creation key."
+msgstr "Clau de creació de la contrasenya no vàlida."
+
+#: application/src/Controller/LoginController.php:113
+msgid "Password creation key expired."
+msgstr "La clau de creació de la contrasenya ha expirat."
+
+#: application/src/Controller/LoginController.php:129
+msgid "Successfully created your password. Please log in."
+msgstr "La contrasenya s'ha creat correctament. Inicieu sessió."
+
+#: application/src/Controller/LoginController.php:132
+msgid "Password creation unsuccessful"
+msgstr "La contrasenya no s'ha creat correctament."
+
+#: application/src/Controller/LoginController.php:168
+msgid "Check your email for instructions on how to reset your password"
+msgstr "Reviseu el correu electrònic per saber com reiniciar la contrasenya"
+
+#: application/src/Controller/LoginController.php:171
+msgid "Activation unsuccessful"
+msgstr ""
 
 #: application/src/Controller/MigrateController.php:40
 msgid "Migration successful"
 msgstr "Migració correcta"
 
-#: application/src/Controller/Admin/UserController.php:44
-#: application/src/Controller/Admin/UserController.php:49
 #: application/src/Controller/Admin/ItemController.php:42
 #: application/src/Controller/Admin/ItemController.php:47
+#: application/src/Controller/Admin/UserController.php:44
+#: application/src/Controller/Admin/UserController.php:49
 #: application/src/Controller/Admin/MediaController.php:27
 #: application/src/Controller/Admin/MediaController.php:32
 #: application/src/Controller/Admin/ItemSetController.php:87
 #: application/src/Controller/Admin/ItemSetController.php:92
 msgid "Confirm Delete"
 msgstr "Confirmeu la supressió"
+
+#: application/src/Controller/Admin/ItemController.php:114
+msgid "item"
+msgstr "ítem"
+
+#: application/src/Controller/Admin/ItemController.php:130
+msgid "Item successfully deleted"
+msgstr "L'ítem s'ha suprimit correctament"
+
+#: application/src/Controller/Admin/ItemController.php:151
+msgid "You must select at least one item to batch delete."
+msgstr "Heu de seleccionar com a mínim un ítem per suprimir-lo en lot."
+
+#: application/src/Controller/Admin/ItemController.php:160
+msgid "Items successfully deleted"
+msgstr "Els ítems s'han suprimit correctament"
+
+#: application/src/Controller/Admin/ItemController.php:186
+msgid "Deleting items. This may take a while."
+msgstr "S'estan suprimint els ítems. Pot trigar una estona."
+
+#: application/src/Controller/Admin/ItemController.php:210
+#, php-format
+msgid "Item successfully created. %s"
+msgstr "L'ítem s'ha creat correctament. %s"
+
+#: application/src/Controller/Admin/ItemController.php:247
+msgid "Item successfully updated"
+msgstr "L'ítem s'ha actualitzat correctament"
+
+#: application/src/Controller/Admin/ItemController.php:274
+msgid "You must select at least one item to batch edit."
+msgstr "Heu de seleccionar com a mínim un ítem per editar-lo en lot."
+
+#: application/src/Controller/Admin/ItemController.php:295
+msgid "Items successfully edited"
+msgstr "Els ítems s'han editat correctament"
+
+#: application/src/Controller/Admin/ItemController.php:347
+msgid "Editing items. This may take a while."
+msgstr "S'estan editant els ítems. Pot trigar una estona."
 
 #: application/src/Controller/Admin/UserController.php:113
 #, php-format
@@ -4257,115 +4790,13 @@ msgid "For security reasons, you can’t batch edit yourself."
 msgstr ""
 "Per raons de seguretat, no podeu editar-vos en lot a vosaltres mateixos."
 
-#: application/src/Controller/Admin/UserController.php:391
+#: application/src/Controller/Admin/UserController.php:392
 msgid "Users successfully edited"
 msgstr "Els usuaris s'han editat"
 
-#: application/src/Controller/Admin/UserController.php:444
+#: application/src/Controller/Admin/UserController.php:445
 msgid "Editing users. This may take a while."
 msgstr "Editant els usuaris. El procés pot trigar una estona."
-
-#: application/src/Controller/Admin/ItemController.php:114
-msgid "item"
-msgstr "ítem"
-
-#: application/src/Controller/Admin/ItemController.php:130
-msgid "Item successfully deleted"
-msgstr "L'ítem s'ha suprimit correctament"
-
-#: application/src/Controller/Admin/ItemController.php:151
-msgid "You must select at least one item to batch delete."
-msgstr "Heu de seleccionar com a mínim un ítem per suprimir-lo en lot."
-
-#: application/src/Controller/Admin/ItemController.php:160
-msgid "Items successfully deleted"
-msgstr "Els ítems s'han suprimit correctament"
-
-#: application/src/Controller/Admin/ItemController.php:186
-msgid "Deleting items. This may take a while."
-msgstr "S'estan suprimint els ítems. Pot trigar una estona."
-
-#: application/src/Controller/Admin/ItemController.php:210
-#, php-format
-msgid "Item successfully created. %s"
-msgstr "L'ítem s'ha creat correctament. %s"
-
-#: application/src/Controller/Admin/ItemController.php:247
-msgid "Item successfully updated"
-msgstr "L'ítem s'ha actualitzat correctament"
-
-#: application/src/Controller/Admin/ItemController.php:274
-msgid "You must select at least one item to batch edit."
-msgstr "Heu de seleccionar com a mínim un ítem per editar-lo en lot."
-
-#: application/src/Controller/Admin/ItemController.php:294
-msgid "Items successfully edited"
-msgstr "Els ítems s'han editat correctament"
-
-#: application/src/Controller/Admin/ItemController.php:346
-msgid "Editing items. This may take a while."
-msgstr "S'estan editant els ítems. Pot trigar una estona."
-
-#: application/src/Controller/Admin/SettingController.php:35
-msgid "Settings successfully updated"
-msgstr "Paràmetres actualitzats correctament"
-
-#: application/src/Controller/Admin/MediaController.php:59
-msgid "Media successfully updated"
-msgstr "El multimèdia s'ha actualitzat correctament"
-
-#: application/src/Controller/Admin/MediaController.php:125
-msgid "Media successfully deleted"
-msgstr "El multimèdia s'ha suprimit correctament"
-
-#: application/src/Controller/Admin/MediaController.php:159
-msgid "You must select at least one media to batch delete."
-msgstr "Heu de seleccionar, com a mínim, un fitxer per suprimir en lot."
-
-#: application/src/Controller/Admin/MediaController.php:168
-msgid "Medias successfully deleted"
-msgstr "Els fitxers multimèdia s'han editat"
-
-#: application/src/Controller/Admin/MediaController.php:194
-msgid "Deleting medias. This may take a while."
-msgstr "Suprimint els fitxers multimèdia. El procés pot trigar una estona."
-
-#: application/src/Controller/Admin/MediaController.php:212
-msgid "You must select at least one media to batch edit."
-msgstr "Heu de seleccionar, com a mínim, un fitxer per editar en lot."
-
-#: application/src/Controller/Admin/MediaController.php:232
-msgid "Medias successfully edited"
-msgstr "Els fitxers multimèdia s'han editat"
-
-#: application/src/Controller/Admin/MediaController.php:284
-msgid "Editing medias. This may take a while."
-msgstr "Editant els fitxers multimèdia. El procés pot trigar una estona."
-
-#: application/src/Controller/Admin/VocabularyController.php:59
-msgid "vocabulary"
-msgstr "vocabulari"
-
-#: application/src/Controller/Admin/VocabularyController.php:97
-#, php-format
-msgid "Vocabulary successfully imported. %s"
-msgstr "El vocabulari s'ha importat correctament. %s"
-
-#: application/src/Controller/Admin/VocabularyController.php:176
-msgid "Please review these changes before you accept them."
-msgstr "Reviseu els canvis abans d'acceptar-los."
-
-#: application/src/Controller/Admin/VocabularyController.php:184
-msgid "Vocabulary successfully updated"
-msgstr "El vocabulari s'ha importat correctament"
-
-#: application/src/Controller/Admin/VocabularyController.php:204
-msgid "Changes to the vocabulary successfully made"
-msgstr "S'han realitzat els canvis en el vocabulari"
-
-#: application/src/Controller/Admin/VocabularyController.php:220
-msgid "Vocabulary successfully deleted"
-msgstr "El vocabulari s'ha suprimit correctament"
 
 #: application/src/Controller/Admin/ModuleController.php:122
 msgid "The module was successfully installed"
@@ -4398,6 +4829,63 @@ msgstr "El mòdul s'ha configurat correctament"
 #: application/src/Controller/Admin/ModuleController.php:284
 msgid "There was a problem during configuration"
 msgstr "Hi ha hagut un problema durant la configuració"
+
+#: application/src/Controller/Admin/JobController.php:27
+msgid "Attempt Stop"
+msgstr "Atura"
+
+#: application/src/Controller/Admin/JobController.php:56
+msgid "Attempting to stop the job."
+msgstr "S'està intentant aturar el procés."
+
+#: application/src/Controller/Admin/JobController.php:58
+msgid "The job could not be stopped."
+msgstr "El procés no es pot aturar."
+
+#: application/src/Controller/Admin/SettingController.php:35
+msgid "Settings successfully updated"
+msgstr "Paràmetres actualitzats correctament"
+
+#: application/src/Controller/Admin/MediaController.php:59
+msgid "Media successfully updated"
+msgstr "El multimèdia s'ha actualitzat correctament"
+
+#: application/src/Controller/Admin/MediaController.php:125
+#: application/src/Controller/Admin/MediaController.php:168
+msgid "Media successfully deleted"
+msgstr "El multimèdia s'ha suprimit correctament"
+
+#: application/src/Controller/Admin/MediaController.php:159
+msgid "You must select at least one media to batch delete."
+msgstr "Heu de seleccionar, com a mínim, un fitxer per suprimir en lot."
+
+#: application/src/Controller/Admin/MediaController.php:194
+msgid "Deleting media. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:212
+msgid "You must select at least one media to batch edit."
+msgstr "Heu de seleccionar, com a mínim, un fitxer per editar en lot."
+
+#: application/src/Controller/Admin/MediaController.php:233
+msgid "Media successfully edited"
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:285
+msgid "Editing media. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/AssetController.php:93
+msgid "Asset successfully updated"
+msgstr ""
+
+#: application/src/Controller/Admin/AssetController.php:124
+msgid "asset"
+msgstr ""
+
+#: application/src/Controller/Admin/AssetController.php:137
+msgid "Asset successfully deleted"
+msgstr ""
 
 #: application/src/Controller/Admin/ItemSetController.php:32
 #, php-format
@@ -4433,13 +4921,38 @@ msgstr "S'estan suprimint els conjunts d'ítems. Pot trigar una estona."
 msgid "You must select at least one item set to batch edit."
 msgstr "Heu de seleccionar com a mínim un conjunt d'ítems per editar en lot."
 
-#: application/src/Controller/Admin/ItemSetController.php:264
+#: application/src/Controller/Admin/ItemSetController.php:265
 msgid "Item sets successfully edited"
 msgstr "Els conjunts d'ítems s'han editat correctament"
 
-#: application/src/Controller/Admin/ItemSetController.php:316
+#: application/src/Controller/Admin/ItemSetController.php:317
 msgid "Editing item sets. This may take a while."
 msgstr "S'estan editant els conjunts d'ítems. Pot trigar una estona."
+
+#: application/src/Controller/Admin/VocabularyController.php:59
+msgid "vocabulary"
+msgstr "vocabulari"
+
+#: application/src/Controller/Admin/VocabularyController.php:97
+#, php-format
+msgid "Vocabulary successfully imported. %s"
+msgstr "El vocabulari s'ha importat correctament. %s"
+
+#: application/src/Controller/Admin/VocabularyController.php:176
+msgid "Please review these changes before you accept them."
+msgstr "Reviseu els canvis abans d'acceptar-los."
+
+#: application/src/Controller/Admin/VocabularyController.php:184
+msgid "Vocabulary successfully updated"
+msgstr "El vocabulari s'ha importat correctament"
+
+#: application/src/Controller/Admin/VocabularyController.php:204
+msgid "Changes to the vocabulary successfully made"
+msgstr "S'han realitzat els canvis en el vocabulari"
+
+#: application/src/Controller/Admin/VocabularyController.php:220
+msgid "Vocabulary successfully deleted"
+msgstr "El vocabulari s'ha suprimit correctament"
 
 #: application/src/Controller/Admin/ResourceTemplateController.php:437
 msgid "resource template"
@@ -4463,305 +4976,53 @@ msgstr "La plantilla de recurs s'ha actualitzat correctament"
 msgid "Resource template successfully created. %s"
 msgstr "La plantilla de recurs s'ha creat correctament. %s"
 
-#: application/src/Controller/Admin/JobController.php:27
-msgid "Attempt Stop"
-msgstr "Atura"
-
-#: application/src/Controller/Admin/JobController.php:56
-msgid "Attempting to stop the job."
-msgstr "S'està intentant aturar el procés."
-
-#: application/src/Controller/Admin/JobController.php:58
-msgid "The job could not be stopped."
-msgstr "El procés no es pot aturar."
-
-#: application/src/Controller/SiteAdmin/PageController.php:28
-msgid "Page successfully updated"
-msgstr "Pàgina actualitzada correctament"
-
-#: application/src/Controller/SiteAdmin/PageController.php:105
-msgid "page"
-msgstr "pàgina"
-
-#: application/src/Controller/SiteAdmin/PageController.php:122
-msgid "Page successfully deleted"
-msgstr "Pàgina suprimida correctament"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:68
-msgid "Site successfully created"
-msgstr "Lloc creat correctament"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:116
-msgid "Site successfully updated"
-msgstr "Lloc actualitzat correctament"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:163
-msgid "Page successfully created"
-msgstr "Pàgina creada correctament"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:192
-msgid "Homepage"
-msgstr "Pàgina d'inici"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:198
-msgid "First page in navigation"
-msgstr "Primera pàgina en la navegació"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:214
-msgid "Navigation successfully updated"
-msgstr "Navegació actualitzada correctament"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:254
-msgid ""
-"Item assignment in progress. To see the new item count, refresh the page."
-msgstr ""
-
-#: application/src/Controller/SiteAdmin/IndexController.php:258
-msgid "Site resources successfully updated"
-msgstr "Recursos del lloc actualitzat correctament"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:299
-msgid "User permissions successfully updated"
-msgstr "Permisos d'usuari actualitzats correctament"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:331
-msgid "Site theme successfully updated"
-msgstr "Tema del lloc actualitzat correctament"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:405
-msgid "Theme settings successfully updated"
-msgstr "Paràmetres del tema actualitzats correctament"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:422
-msgid "Site successfully deleted"
-msgstr "Lloc suprimit correctament"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:445
-msgid "site"
-msgstr "lloc"
-
-#: application/src/Controller/LoginController.php:56
-msgid "Successfully logged in"
-msgstr "Sessió iniciada correctament"
-
-#: application/src/Controller/LoginController.php:65
-msgid "Email or password is invalid"
-msgstr "L'adreça de correu electrònic o la contrasenya és incorrecte"
-
-#: application/src/Controller/LoginController.php:88
-msgid "Successfully logged out"
-msgstr "Sessió tancada correctament"
-
-#: application/src/Controller/LoginController.php:104
-msgid "Invalid password creation key."
-msgstr "Clau de creació de la contrasenya no vàlida."
-
-#: application/src/Controller/LoginController.php:113
-msgid "Password creation key expired."
-msgstr "La clau de creació de la contrasenya ha expirat."
-
-#: application/src/Controller/LoginController.php:129
-msgid "Successfully created your password. Please log in."
-msgstr "La contrasenya s'ha creat correctament. Inicieu sessió."
-
-#: application/src/Controller/LoginController.php:132
-msgid "Password creation unsuccessful"
-msgstr "La contrasenya no s'ha creat correctament."
-
-#: application/src/Controller/LoginController.php:168
-msgid "Check your email for instructions on how to reset your password"
-msgstr "Reviseu el correu electrònic per saber com reiniciar la contrasenya"
-
-#: application/src/Controller/LoginController.php:171
-msgid "Activation unsuccessful"
-msgstr ""
-
-#: application/src/Controller/InstallController.php:52
-msgid "Installation successful. Please log in."
-msgstr "Instal·lació correcta. Inicieu sessió."
-
-#: application/src/Controller/InstallController.php:56
-msgid "There were errors during installation."
-msgstr "Hi ha hagut errors durant la instal·lació."
-
-#: application/src/File/Validator.php:65
-#, php-format
-msgid "Error validating \"%1$s\". Cannot store files with the media type \"%2$s\"."
-msgstr ""
-"Error en la validació de \"%1$s\". No es poden emmagatzemar fitxers del "
-"tipus \"%2$s\"."
-
-#: application/src/File/Validator.php:78
-#, php-format
-msgid ""
-"Error validating \"%1$s\". Cannot store files with the resolved extension "
-"\"%2$s\"."
-msgstr ""
-"Error en la validació de \"%1$s\". No es poden emmagatzemar fitxers amb "
-"l'extensió \"%2$s\"."
-
-#: application/src/File/ThumbnailManager.php:102
-msgid "Missing thumbnail configuration."
-msgstr "No s'ha trobat la configuració de les miniatures."
-
-#: application/src/File/ThumbnailManager.php:106
-msgid "Missing thumbnail types configuration."
-msgstr "No s'ha trobat la configuració dels tipus de miniatures."
-
-#: application/src/File/ThumbnailManager.php:109
-msgid "Missing the large, medium, or square thumbnail type configuration."
-msgstr ""
-"No s'ha trobat la configuració del tipus de miniatura mitjana o quadrada."
-
-#: application/src/File/ThumbnailManager.php:113
-msgid "Missing constraint for a thumbnail type configuration."
-msgstr ""
-
-#: application/src/File/ThumbnailManager.php:117
-msgid "Missing thumbnail fallbacks configuration."
-msgstr ""
-
-#: application/src/File/ThumbnailManager.php:120
-msgid "Missing default thumbnail fallback configuration."
-msgstr ""
-
-#: application/src/File/ThumbnailManager.php:123
-msgid "Missing thumbnail fallback configuration."
-msgstr ""
-
-#: application/src/File/ThumbnailManager.php:127
-msgid "Invalid thumbnail fallback configuration."
-msgstr ""
-
-#: application/src/File/Downloader.php:71
-#, php-format
-msgid "Error downloading %1$s: %2$s"
-msgstr "Error en la descàrrega %1$s: %2$s"
-
-#: application/src/File/Downloader.php:83
-#, php-format
-msgid "Error downloading %1$s: %2$s %3$s"
-msgstr "Error en la descàrrega %1$s: %2$s %3$s"
-
-#: application/src/DataType/Resource/ItemSet.php:13
-msgid "Item Set"
-msgstr "Conjunt d'ítems"
-
-#: application/src/DataType/Resource/AbstractResource.php:16
-msgid "Resource"
-msgstr "Recurs"
-
-#: application/src/DataType/Resource/AbstractResource.php:59
-msgid "A value resource cannot be Media."
-msgstr ""
-
-#: application/src/Media/Ingester/Html.php:80
-msgid "HTML or plain text."
-msgstr "HTML o text pla."
-
-#: application/src/Media/Ingester/Youtube.php:27
-msgid "YouTube"
-msgstr "YouTube"
-
-#: application/src/Media/Ingester/Youtube.php:90
-msgid "Video URL"
-msgstr "URL del vídeo"
-
-#: application/src/Media/Ingester/Youtube.php:91
-msgid "URL for the video to embed."
-msgstr "URL per embeure el vídeo."
-
-#: application/src/Media/Ingester/Youtube.php:99
-msgid "Start"
-msgstr "Inici"
-
-#: application/src/Media/Ingester/Youtube.php:100
-msgid ""
-"Begin playing the video at the given number of seconds from the start of the"
-" video."
-msgstr "Comença a reproduir el vídeo en el moment indicat (en segons)."
-
-#: application/src/Media/Ingester/Youtube.php:104
-msgid "End"
-msgstr "Final"
-
-#: application/src/Media/Ingester/Youtube.php:105
-msgid ""
-"End playing the video at the given number of seconds from the start of the "
-"video."
-msgstr "Finalitza la reproducció del vídeo en el moment indicat (en segons)"
-
-#: application/src/Media/Ingester/Upload.php:69
-msgid "Upload file"
-msgstr "Puja el fitxer"
-
-#: application/src/Media/Ingester/Url.php:80
-msgid "A URL to the media."
-msgstr "L'URL del multimèdia."
-
-#: application/src/Media/Ingester/OEmbed.php:41
-msgid "oEmbed"
-msgstr "oEmbed"
-
-#: application/src/Media/Ingester/OEmbed.php:114
-msgid "oEmbed URL"
-msgstr "URL de l'oEmbed"
-
-#: application/src/Media/Ingester/OEmbed.php:115
-msgid "URL for the media to embed."
-msgstr "URL per embeure el multimèdia."
-
-#: application/src/Media/Ingester/IIIF.php:33
-msgid "IIIF image"
-msgstr "imatge IIIF"
-
-#: application/src/Media/Ingester/IIIF.php:107
-msgid "IIIF image URL"
-msgstr "URL de la imatge IIIF"
-
-#: application/src/Media/Ingester/IIIF.php:108
-msgid "URL for the image to embed."
-msgstr "URL per embeure la imatge."
-
-#: application/config/navigation.config.php:192
-msgid "Site admin"
-msgstr ""
-
-#: application/config/module.config.php:621
+#: application/config/module.config.php:626
 msgid "Something went wrong"
 msgstr "Vatua l’olla! Alguna cosa ha anat malament"
 
-#: application/config/module.config.php:626
+#: application/config/module.config.php:631
 msgid "You have unsaved changes."
 msgstr "Teniu canvis sense desar."
 
-#: application/config/module.config.php:627
+#: application/config/module.config.php:632
 msgid "Restore item set"
 msgstr "Restaura el conjunt d'ítems"
 
-#: application/config/module.config.php:628
+#: application/config/module.config.php:633
 msgid "Close icon set"
 msgstr "Tanca la col·lecció d'icones"
 
-#: application/config/module.config.php:629
+#: application/config/module.config.php:634
 msgid "Open icon set"
 msgstr "Obre la col·lecció d'icones"
 
-#: application/config/module.config.php:631
+#: application/config/module.config.php:636
 msgid "Failed loading resource template from API"
 msgstr "Error en carregar la plantilla de recurs mitjançant l'API"
 
-#: application/config/module.config.php:632
+#: application/config/module.config.php:637
 msgid "Restore property"
 msgstr "Restaura la propietat"
 
-#: application/config/module.config.php:634
+#: application/config/module.config.php:639
 msgid "Please enter a valid language tag"
 msgstr "Introduïu una etiqueta d'idioma vàlida"
 
-#: application/config/module.config.php:636
+#: application/config/module.config.php:641
 msgid "Description"
 msgstr "Descripció"
+
+#: application/config/navigation.config.php:201
+msgid "Site admin"
+msgstr ""
+
+#: application/view/common/advanced-search/properties.phtml:61
+msgid "[Any Property]"
+msgstr "[Qualsevol propietat]"
+
+#: application/view/common/delete-confirm.phtml:4
+msgid "Confirm delete"
+msgstr "Confirmeu la supressió"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:41
 msgid "Filter by class"
@@ -4770,10 +5031,6 @@ msgstr "Filtra per classe"
 #: application/view/omeka/admin/item/sidebar-select.phtml:53
 msgid "Filter by item set"
 msgstr "Filtra per conjunt d'ítems"
-
-#: application/view/common/advanced-search/properties.phtml:61
-msgid "[Any Property]"
-msgstr "[Qualsevol propietat]"
 
 #. Vocabulary label for Dublin Core
 msgid "Dublin Core"

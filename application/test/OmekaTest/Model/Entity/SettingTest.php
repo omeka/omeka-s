@@ -8,7 +8,7 @@ class SettingTest extends TestCase
 {
     protected $option;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setting = new Setting;
     }

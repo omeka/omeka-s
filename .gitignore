@@ -10,6 +10,7 @@
 /modules/
 /themes/
 /application/test/config/database.ini
+/application/test/.phpunit.result.cache
 /application/asset/css/font-awesome/
 /vendor/
 /node_modules/

@@ -20,7 +20,7 @@ $this->headTitle($subtitle);
 <div class="site-list">
 <?php
 foreach ($sites as $site):
-    echo $this->partial('common/site-list-entry', ['site' => $site, 'showSummary' => true]);
+    echo $this->partial('common/site-list-entry', ['site' => $site, 'showSummary' => true, 'showThumbnail' => true]);
 endforeach;
 ?>
 </div>

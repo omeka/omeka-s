@@ -9,6 +9,22 @@ $ids = array_filter($ids);
 if (!$ids) {
     $ids = [null];
 }
+
+if ($this->status()->isSiteRequest()) {
+    if (!$this->layout()->site->siteItemSets()) {
+        return;
+    }
+    $filterLocale = (bool) $this->siteSetting('filter_locale_values');
+    $lang = $this->lang();
+
+    $selectOptions = [
+        'disable_group_by_owner' => true,
+        'query' => ['site_id' => $this->layout()->site->id()],
+        'lang' => ($filterLocale == 1 ? $lang : null)
+    ];
+} else {
+    $selectOptions = [];
+}
 ?>
 <div id="item-sets" class="field removable multi-value" role="group">
     <div class="field-meta">
@@ -28,9 +44,7 @@ if (!$ids) {
                     'value' => $id,
                     'aria-labelledby' =>  'by-item-set-label'
                 ],
-                'options' => [
-                    'disable_group_by_owner' => $this->status()->isSiteRequest(),
-                ],
+                'options' => $selectOptions,
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
         </div>

@@ -1,12 +1,12 @@
 (function($) {
     $(document).ready(function() {
-        var advancedSearch = $('#advanced-search');
+        var container = $('#item-pool-container');
         $(document).on('change', '[name="item_assignment_action"]', function() {
             var selectedValue = $(this).val();
             if ((selectedValue == 'no_action') || (selectedValue == 'remove_all')) {
-                advancedSearch.addClass('inactive');
+                container.hide();
             } else {
-                advancedSearch.removeClass('inactive');
+                container.show();
             }
         });
 
@@ -14,5 +14,17 @@
             draggable: '.resource-row',
             handle: '.sortable-handle',
         });
+
+        const saveSearch = $('#save-search');
+        const queryFormElement = $('.query-form-element');
+        $('#content').on('input', '.query-form-query', function (e) {
+            if (queryFormElement.data('query') === $(this).val()) {
+                saveSearch.removeClass('active');
+            } else {
+                saveSearch.addClass('active');
+            }
+        });
+
+        Omeka.initializeSelector('#site-item-sets', '#item-set-selector');
     });
 })(jQuery)

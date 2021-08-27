@@ -1,0 +1,121 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'assets browse');
+$this->headScript()->appendFile($this->assetUrl('js/asset-browse.js', 'Omeka'));
+$sortHeadings = [
+    [
+        'label' => $translate('ID'),
+        'value' => 'id'
+    ],
+    [
+        'label' => $translate('Name'),
+        'value' => 'name'
+    ],
+];
+?>
+
+<?php echo $this->pageTitle($translate('Assets')); ?>
+
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+    <?php echo $this->sortSelector($sortHeadings); ?>
+</div>
+
+<div id="page-actions">
+    <?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'create')): ?>
+    <?php echo $this->hyperlink($translate('Add new asset'), '#', ['class' => 'button sidebar-content', 'data-sidebar-selector' => '#add-asset-sidebar']); ?>
+    <?php endif; ?>
+</div>
+
+<?php $this->trigger('view.browse.before'); ?>
+<?php if ($assets): ?>
+
+<table class="tablesaw batch-edit" data-tablesaw-mode="stack">
+    <thead>
+        <tr>
+            <th><?php echo $translate('Name'); ?></th>
+            <th><?php echo $translate('Owner'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($assets as $asset): ?>
+        <?php
+        if ($owner = $asset->owner()) {
+            $ownerText = $this->hyperlink(
+                $owner->name(),
+                $this->url('admin/id', [
+                    'controller' => 'user',
+                    'action' => 'show',
+                    'id' => $owner->id()]
+                )
+            );
+        } else {
+            $ownerText = $translate('[no owner]');
+        }
+        ?>
+        <tr>
+            <td>
+                <span class="asset-entry">
+                    <?php echo $this->thumbnail($asset, 'square'); ?>
+                    <span class="asset-name"><?php echo $escape($asset->name()); ?></span>
+                </span>
+                <ul class="actions">
+                    <?php if ($asset->userIsAllowed('update')): ?>
+                    <li><?php echo $asset->link('', 'edit', [
+                        'class' => 'o-icon-edit',
+                        'title' => $translate('Edit'),
+                    ]); ?></li>
+                    <?php endif; ?>
+                    <?php if ($asset->userIsAllowed('delete')): ?>
+                    <li><?php echo $this->hyperlink('', '#', [
+                        'data-sidebar-selector' => '#sidebar',
+                        'data-sidebar-content-url' => $asset->url('delete-confirm'),
+                        'class' => 'o-icon-delete sidebar-content',
+                        'title' => $translate('Delete'),
+                    ]); ?></li>
+                    <?php endif; ?>
+                    <li><?php echo $this->hyperlink('', '#', [
+                        'data-sidebar-selector' => '#sidebar',
+                        'data-sidebar-content-url' => $asset->url('show-details'),
+                        'class' => 'o-icon-more sidebar-content',
+                        'title' => $translate('Details'),
+                    ]); ?></li>
+                </ul>
+            </td>
+            <td><?php echo $ownerText; ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<?php $this->trigger('view.browse.after'); ?>
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+</div>
+
+<div id="sidebar" class="sidebar">
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $translate('Close'),
+    ]); ?>
+    <div class="sidebar-content"></div>
+</div>
+
+<?php else: ?>
+
+<div class="no-resources">
+    <p><?php echo $translate('Omeka could not find any assets.'); ?></p>
+</div>
+
+<?php endif; ?>
+
+<?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'create')): ?>
+<div id="add-asset-sidebar" class="sidebar">
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $translate('Close'),
+    ]); ?>
+    <?php echo $this->partial('omeka/admin/asset/add-form'); ?>
+</div>
+<?php endif; ?>

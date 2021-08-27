@@ -1,0 +1,31 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'edit assets');
+$deleteButton = $asset->userIsAllowed('delete')
+    ? '<a href="#" class="delete button">' . $translate('Delete') . '</a>'
+    : null;
+?>
+
+<?php echo $this->pageTitle($asset->name(), 1, $translate('Assets'), $translate('Edit')); ?>
+<?php $this->trigger('view.edit.before'); ?>
+
+<?php echo $this->thumbnail($asset, 'square', ['class' => 'asset-inline']); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<?php $this->trigger('view.edit.form.before', array('form' => $form)); ?>
+
+<?php echo $this->formCollection($form, false); ?>
+
+<div id="page-actions">
+    <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
+    <?php echo $this->cancelButton(); ?>
+    <button type="submit"><?php echo $escape('Save'); ?></button>
+</div>
+
+<?php $this->trigger('view.edit.form.after', array('form' => $form)); ?>
+<?php echo $this->form()->closeTag(); ?>
+
+<?php echo $this->deleteConfirm($asset, 'asset')?>
+
+<?php $this->trigger('view.edit.after'); ?>

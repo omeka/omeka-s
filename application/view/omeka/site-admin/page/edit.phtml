@@ -9,7 +9,7 @@ $this->blockLayout()->prepareForm();
 $form->prepare();
 ?>
 <?php echo $this->pageTitle($page->title(), 1, $translate('Pages'), $translate('Edit')); ?>
-
+<?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
     <?php if ($page->isPublic()): ?>
@@ -68,4 +68,10 @@ $form->prepare();
 
 <?php echo $this->deleteConfirm($page, 'page'); ?>
 
+<?php echo $this->partial('common/asset-options'); ?>
+
 <?php echo $this->partial('common/resource-select-sidebar'); ?>
+
+<?php echo $this->partial('common/page-select-sidebar'); ?>
+
+<?php $this->trigger('view.edit.after'); ?>

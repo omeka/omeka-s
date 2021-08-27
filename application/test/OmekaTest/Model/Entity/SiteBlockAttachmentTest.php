@@ -9,7 +9,7 @@ class SiteBlockAttachmentTest extends TestCase
 {
     protected $attachment;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->attachment = new SiteBlockAttachment;
     }

@@ -37,6 +37,12 @@ class Site extends AbstractEntity
     protected $summary;
 
     /**
+     * @ManyToOne(targetEntity="Asset")
+     * @JoinColumn(onDelete="SET NULL")
+     */
+    protected $thumbnail;
+
+    /**
      * @Column(type="json_array")
      */
     protected $navigation;
@@ -168,6 +174,16 @@ class Site extends AbstractEntity
     public function getSummary()
     {
         return $this->summary;
+    }
+
+    public function setThumbnail(Asset $thumbnail = null)
+    {
+        $this->thumbnail = $thumbnail;
+    }
+
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
     }
 
     public function setNavigation($navigation)

@@ -66,10 +66,10 @@ class Asset extends \Omeka\Entity\Asset implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'owner', 'name', 'mediaType', 'storageId', 'extension'];
+            return ['__isInitialized__', 'id', 'owner', 'name', 'mediaType', 'storageId', 'extension', 'altText'];
         }
 
-        return ['__isInitialized__', 'id', 'owner', 'name', 'mediaType', 'storageId', 'extension'];
+        return ['__isInitialized__', 'id', 'owner', 'name', 'mediaType', 'storageId', 'extension', 'altText'];
     }
 
     /**
@@ -310,6 +310,28 @@ class Asset extends \Omeka\Entity\Asset implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getExtension', []);
 
         return parent::getExtension();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setAltText($altText)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAltText', [$altText]);
+
+        return parent::setAltText($altText);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAltText()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAltText', []);
+
+        return parent::getAltText();
     }
 
     /**

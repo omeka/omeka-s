@@ -18,6 +18,11 @@ class PhpCli implements StrategyInterface
     protected $basePath;
 
     /**
+     * @var string
+     */
+    protected $serverUrl;
+
+    /**
      * @var string|null
      */
     protected $phpPath;
@@ -29,10 +34,11 @@ class PhpCli implements StrategyInterface
      * @param string $basePath Base URL for the installation
      * @param string|null $phpPath Path to the PHP CLI
      */
-    public function __construct(Cli $cli, $basePath, $phpPath = null)
+    public function __construct(Cli $cli, $basePath, $serverUrl, $phpPath = null)
     {
         $this->cli = $cli;
         $this->basePath = $basePath;
+        $this->serverUrl = $serverUrl;
         $this->phpPath = $phpPath;
     }
 
@@ -66,11 +72,12 @@ class PhpCli implements StrategyInterface
         $script = OMEKA_PATH . '/application/data/scripts/perform-job.php';
 
         $command = sprintf(
-            '%s %s --job-id %s --base-path %s',
+            '%s %s --job-id %s --base-path %s --server-url %s',
             escapeshellcmd($phpPath),
             escapeshellarg($script),
             escapeshellarg($job->getId()),
-            escapeshellarg($this->basePath)
+            escapeshellarg($this->basePath),
+            escapeshellarg($this->serverUrl)
         );
 
         $status = $this->cli->execute(sprintf('%s > /dev/null 2>&1 &', $command));

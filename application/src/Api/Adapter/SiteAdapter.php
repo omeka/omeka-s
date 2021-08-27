@@ -224,6 +224,8 @@ class SiteAdapter extends AbstractEntityAdapter
             }
         }
 
+        $this->hydrateThumbnail($request, $entity);
+
         $this->updateTimestamps($request, $entity);
     }
 
@@ -298,7 +300,7 @@ class SiteAdapter extends AbstractEntityAdapter
             ));
         }
 
-        if (isset($query['assign_new_items'])) {
+        if (isset($query['assign_new_items']) && is_numeric($query['assign_new_items'])) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.assignNewItems',
                 $this->createNamedParameter($qb, (bool) $query['assign_new_items'])

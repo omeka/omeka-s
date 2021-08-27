@@ -2,6 +2,16 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $labelInfo = $this->setting('property_label_information');
+
+if ($this->status()->isSiteRequest()) {
+    $showLocale = (bool) $this->siteSetting('show_locale_label', true);
+    $filterLocale = $this->siteSetting('filter_locale_values');
+    $lang = $this->lang();
+} else {
+    $showLocale = true;
+    $filterLocale = false;
+    $lang = null;
+}
 ?>
 <?php foreach ($values as $term => $propertyData): ?>
     <div class="property">
@@ -21,6 +31,7 @@ $labelInfo = $this->setting('property_label_information');
         <?php foreach ($propertyData['values'] as $value): ?>
             <?php
             $valueType = $value->type();
+            $valueLang = $value->lang();
             $class = ['value'];
             if ('resource' == $valueType || strpos($valueType, 'resource') !== false) {
                 $class[] = 'resource';
@@ -32,12 +43,14 @@ $labelInfo = $this->setting('property_label_information');
                 $class[] = 'private';
             }
             ?>
-            <div class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($value->lang()); ?>">
-                <?php if ($language = $value->lang()): ?>
-                <span class="language"><?php echo $language; ?></span>
+            <?php if ((!$filterLocale) || ($valueLang == '') || (strcasecmp($valueLang, $lang) == 0)): ?>
+            <div class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($valueLang); ?>">
+                <?php if ($showLocale && $valueLang): ?>
+                <span class="language"><?php echo $valueLang; ?></span>
                 <?php endif; ?>
-                <?php echo $value->asHtml(); ?>
+                <?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?>
             </div>
+            <?php endif; ?>
         <?php endforeach; ?>
         </div>
     </div>

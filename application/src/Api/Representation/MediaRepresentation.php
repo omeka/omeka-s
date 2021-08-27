@@ -25,6 +25,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             'o:size' => is_numeric($this->size()) ? (int) $this->size() : null,
             'o:filename' => $this->filename(),
             'o:lang' => $this->lang(),
+            'o:alt_text' => $this->altText(),
             'o:original_url' => $this->originalUrl(),
             'o:thumbnail_urls' => $this->thumbnailUrls(),
             'data' => $this->mediaData(),
@@ -249,6 +250,39 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     }
 
     /**
+     * Get the alt text for the media.
+     *
+     * @return string|null
+     */
+    public function altText()
+    {
+        return $this->resource->getAltText();
+    }
+
+    /**
+     * Get the "resolved" alt text for the media.
+     *
+     * If an explicit alt text is set for this media, the return value is the
+     * same as altText(). If none is set, then the global setting
+     * media_alt_text_property is used to look up a value to use as alt text.
+     *
+     * @return string|null
+     */
+    public function altTextResolved()
+    {
+        $altText = $this->altText();
+        if (!strlen($altText)) {
+            $settings = $this->getServiceLocator()->get('Omeka\Settings');
+            $fallbackProperty = $settings->get('media_alt_text_property');
+            if ($fallbackProperty) {
+                $altText = $this->value($fallbackProperty);
+            }
+        }
+
+        return $altText;
+    }
+
+    /**
      * Return the parent item parent of this media.
      *
      * @return ItemRepresentation
@@ -265,16 +299,17 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
      * Change the fallback title to be the media's source, if it exists.
      *
      * @param string|null $default
+     * @param string|null $lang
      * @return string|null
      */
-    public function displayTitle($default = null)
+    public function displayTitle($default = null, $lang = null)
     {
         $source = $this->source();
         if (!$source) {
             $source = $default;
         }
 
-        return parent::displayTitle($source);
+        return parent::displayTitle($source, $lang);
     }
 
     public function siteUrl($siteSlug = null, $canonical = false)

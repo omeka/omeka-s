@@ -8,7 +8,7 @@ class ItemTest extends TestCase
 {
     protected $item;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->item = new Item;
     }

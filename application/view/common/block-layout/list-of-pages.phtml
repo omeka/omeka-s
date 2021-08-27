@@ -1,0 +1,24 @@
+<?php
+$translate = $this->plugin('translate');
+?>
+<div>
+    <ul>
+        <?php $iterate = function ($pages) use (&$iterate, $translate) {
+            foreach ($pages as $page) {
+                $pageName = $page['text'];
+                $pageLink = $page['data']['url'];
+                if (empty($pageLink)) {
+                    echo '<li>' . $translate('[Missing Page]') . '</li>';
+                } else {
+                    echo '<li>' . $this->hyperlink($pageName, $pageLink) . '</li>';
+                }
+                if (isset($page['children'])) {
+                    echo '<ul>';
+                    $iterate($page['children']);
+                    echo '</ul>';
+                }
+            }
+        };
+        $iterate($pageList); ?>
+    </ul>
+</div>

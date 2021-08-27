@@ -5,7 +5,12 @@ $this->htmlElement('body')->appendAttribute('class', 'sites edit');
 $this->headScript()->appendFile($this->assetUrl('vendor/jstree/jstree.min.js', 'Omeka'));
 $form->prepare();
 $this->headScript()->appendFile($this->assetUrl('js/site-navigation.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/jstree-plugins.js', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/jstree.css', 'Omeka'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/query-form.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
 ?>
 <?php echo $this->pageTitle($translate('Navigation'), 1, $translate('Sites')); ?>
 
@@ -52,7 +57,7 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/jstree.css', 'Omeka'));
                 data-label="<?php echo $escape($page->title()); ?>"
                 data-id="<?php echo $escape($page->id()); ?>"
                 data-slug="<?php echo $escape($page->slug()); ?>">
-                <?php echo sprintf('%s (%s)', $page->title(), $page->slug()); ?>
+                <?php echo sprintf('%s (%s)', $escape($page->title()), $escape($page->slug())); ?>
             </button>
         <?php endforeach; ?>
         </div>

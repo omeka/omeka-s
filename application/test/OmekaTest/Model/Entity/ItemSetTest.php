@@ -8,7 +8,7 @@ class ItemSetTest extends TestCase
 {
     protected $itemSet;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->itemSet = new ItemSet;
     }

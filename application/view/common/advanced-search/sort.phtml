@@ -1,0 +1,47 @@
+<?php
+use Laminas\Form\Element;
+
+$args = [
+    'sortBy' => [
+        ['value' => 'title', 'label' => $this->translate('Title')],
+        ['value' => 'dcterms:identifier', 'label' => $this->translate('Identifier')],
+        ['value' => 'resource_class_label', 'label' => $this->translate('Class')],
+        ['value' => 'owner_name', 'label' => $this->translate('Owner')],
+        ['value' => 'created', 'label' => $this->translate('Created')],
+    ],
+    'sortByQuery' => $query['sort_by'] ?? '',
+    'sortOrderQuery' => $query['sort_order'] ?? '',
+];
+$idRequest = $this->status()->isSiteRequest() ? 'Site' : 'Admin';
+$idController = 'Item';
+if ('itemSet' === $resourceType) {
+    $idController = 'ItemSet';
+} elseif ('media' === $resourceType) {
+    $idController = 'Media';
+    $args['sortBy'][] = ['value' => 'size', 'label' => $this->translate('Size')];
+}
+$id = [sprintf('Omeka\Controller\%s\%s', $idRequest, $idController)];
+$args = $this->trigger('view.sort-selector', $args, true, $id);
+
+$sortBy = new Element\Select('sort_by');
+$sortBy->setEmptyOption($this->translate('Select sort by…'));
+$sortBy->setValueOptions($args['sortBy']);
+$sortBy->setValue($args['sortByQuery']);
+
+$sortOrder = new Element\Select('sort_order');
+$sortOrder->setEmptyOption($this->translate('Select sort order…'));
+$sortOrder->setValueOptions([
+    'asc' => $this->translate('Ascending'),
+    'desc' => $this->translate('Descending'),
+]);
+$sortOrder->setValue($args['sortOrderQuery']);
+?>
+<div class="field">
+    <div class="field-meta">
+        <label><?php echo $this->translate('Sort'); ?></label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->formSelect($sortBy); ?>
+        <?php echo $this->formSelect($sortOrder); ?>
+    </div>
+</div>

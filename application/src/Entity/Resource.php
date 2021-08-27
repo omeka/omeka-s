@@ -37,7 +37,7 @@ abstract class Resource extends AbstractEntity
     protected $resourceClass;
 
     /**
-     * @ManyToOne(targetEntity="ResourceTemplate")
+     * @ManyToOne(targetEntity="ResourceTemplate", inversedBy="resources")
      * @JoinColumn(onDelete="SET NULL")
      */
     protected $resourceTemplate;

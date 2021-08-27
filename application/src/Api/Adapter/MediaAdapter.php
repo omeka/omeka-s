@@ -20,6 +20,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         'modified' => 'modified',
         'title' => 'title',
         'media_type' => 'mediaType',
+        'size' => 'size',
     ];
 
     public function getResourceName()
@@ -153,6 +154,10 @@ class MediaAdapter extends AbstractResourceEntityAdapter
 
         if ($this->shouldHydrate($request, 'o:lang')) {
             $entity->setLang($request->getValue('o:lang', null));
+        }
+
+        if ($this->shouldHydrate($request, 'o:alt_text')) {
+            $entity->setAltText($request->getValue('o:alt_text'));
         }
 
         if (Request::CREATE === $request->getOperation()) {

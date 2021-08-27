@@ -29,6 +29,10 @@ $sectionNavs = [
 
 <div class="sidebar active">
     <div class="meta-group">
+        <h4><?php echo $translate('ID'); ?></h4>
+        <div class="value"><?php echo $escape($media->id()); ?></div>
+    </div>
+    <div class="meta-group">
         <h4><?php echo $translate('Visibility'); ?></h4>
         <div class="value"><?php echo ($media->isPublic()) ? $translate('Public') : $translate('Private'); ?></div>
     </div>

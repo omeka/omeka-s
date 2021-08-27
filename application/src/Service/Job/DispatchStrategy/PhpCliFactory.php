@@ -14,12 +14,14 @@ class PhpCliFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $basePathHelper = $services->get('ViewHelperManager')->get('BasePath');
+        $viewHelpers = $services->get('ViewHelperManager');
+        $basePathHelper = $viewHelpers->get('BasePath');
+        $serverUrlHelper = $viewHelpers->get('ServerUrl');
         $config = $services->get('Config');
         $phpPath = null;
         if (isset($config['cli']['phpcli_path']) && $config['cli']['phpcli_path']) {
             $phpPath = $config['cli']['phpcli_path'];
         }
-        return new PhpCli($services->get('Omeka\Cli'), $basePathHelper(), $phpPath);
+        return new PhpCli($services->get('Omeka\Cli'), $basePathHelper(), $serverUrlHelper(), $phpPath);
     }
 }

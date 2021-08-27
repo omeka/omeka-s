@@ -14,7 +14,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '3.0.2';
+    const VERSION = '3.1.0';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -131,6 +131,12 @@ class Module extends AbstractModule
             '*',
             'api.search.query',
             [$this, 'searchFulltext']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Controller\Admin\Media',
+            'view.edit.form.advanced',
+            [$this, 'addMediaAltTextInput']
         );
 
         $sharedEventManager->attach(
@@ -622,5 +628,19 @@ class Module extends AbstractModule
             );
         }
         $qb->andWhere($constraints);
+    }
+
+    public function addMediaAltTextInput(ZendEvent $event)
+    {
+        $view = $event->getTarget();
+        $altText = $view->resource->altText() ?? null;
+        $textarea = new \Laminas\Form\Element\Textarea('o:alt_text');
+        $textarea->setLabel('Alt text'); // @translate
+        $textarea->setAttributes([
+            'value' => $altText,
+            'rows' => 4,
+            'id' => 'alt_text',
+        ]);
+        echo $view->formRow($textarea);
     }
 }

@@ -2,6 +2,9 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $this->lang();
+
 $this->htmlElement('body')->appendAttribute('class', 'item-set resource browse');
 ?>
 
@@ -20,8 +23,8 @@ $this->htmlElement('body')->appendAttribute('class', 'item-set resource browse')
 $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
 foreach ($itemSets as $itemSet):
-    $heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate('[Untitled]')]) : $itemSet->displayTitle();
-    $body = $bodyTerm ? $itemSet->value($bodyTerm) : $itemSet->displayDescription();
+$heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => ($filterLocale ? [$lang, ''] : null)]) : $itemSet->displayTitle(null, ($filterLocale ? [$lang, ''] : null));
+$body = $bodyTerm ? $itemSet->value($bodyTerm, ['lang' => ($filterLocale ? [$lang, ''] : null)]) : $itemSet->displayDescription(null, ($filterLocale ? [$lang, ''] : null));
 ?>
     <li class="item-set resource">
         <?php if($itemSetThumbnail = $this->thumbnail($itemSet, 'medium')): ?>

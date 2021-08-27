@@ -2,7 +2,7 @@
 namespace Omeka\Db\Event\Subscriber;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events as DoctrineEvent;
 use Omeka\Entity\Resource as OmekaResource;
 use Laminas\EventManager\EventManagerInterface;

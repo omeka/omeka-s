@@ -195,7 +195,7 @@ return [
         'sslcafile' => null,
     ],
     'cli' => [
-        'execute_strategy' => 'exec',
+        'execute_strategy' => 'auto',
         'phpcli_path' => null,
     ],
     'thumbnails' => [
@@ -314,6 +314,7 @@ return [
             'Omeka\Controller\Site\Page' => Controller\Site\PageController::class,
             'Omeka\Controller\Site\CrossSiteSearch' => Controller\Site\CrossSiteSearchController::class,
             'Omeka\Controller\Admin\Asset' => Controller\Admin\AssetController::class,
+            'Omeka\Controller\Admin\Query' => Controller\Admin\QueryController::class,
             'Omeka\Controller\Admin\Index' => Controller\Admin\IndexController::class,
             'Omeka\Controller\Admin\ItemSet' => Controller\Admin\ItemSetController::class,
             'Omeka\Controller\Admin\Job' => Controller\Admin\JobController::class,
@@ -405,6 +406,8 @@ return [
             'formRestoreTextarea' => Form\View\Helper\FormRestoreTextarea::class,
             'queryToHiddenInputs' => View\Helper\QueryToHiddenInputs::class,
             'formAsset' => Form\View\Helper\FormAsset::class,
+            'formQuery' => Form\View\Helper\FormQuery::class,
+            'themeSettingAsset' => View\Helper\ThemeSettingAsset::class,
             'themeSettingAssetUrl' => View\Helper\ThemeSettingAssetUrl::class,
             'formColorPicker' => Form\View\Helper\FormColorPicker::class,
             'thumbnail' => View\Helper\Thumbnail::class,
@@ -460,6 +463,9 @@ return [
             'Laminas\View\Helper\HeadTitle' => [
                 Service\Delegator\HeadTitleDelegatorFactory::class,
             ],
+            'Laminas\View\Helper\Url' => [
+                Service\Delegator\UrlDelegatorFactory::class,
+            ],
         ],
     ],
     'form_elements' => [
@@ -514,10 +520,9 @@ return [
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
         ],
         'factories' => [
+            'asset' => Service\BlockLayout\AssetFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
-        ],
-        'sorted_names' => [
-            'html',
+            'listOfPages' => Service\BlockLayout\PageListFactory::class,
         ],
     ],
     'navigation_links' => [

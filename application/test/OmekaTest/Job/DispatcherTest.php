@@ -15,7 +15,7 @@ class DispatcherTest extends TestCase
 
     protected $logger;
 
-    public function setUp()
+    public function setUp(): void
     {
         $strategy = $this->createMock('Omeka\Job\DispatchStrategy\StrategyInterface');
 

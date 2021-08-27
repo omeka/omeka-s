@@ -3,8 +3,9 @@ namespace Omeka\Form;
 
 use DateTimeZone;
 use Omeka\Form\Element\ArrayTextarea;
-use Omeka\Form\Element\SiteSelect;
+use Omeka\Form\Element\PropertySelect;
 use Omeka\Form\Element\RestoreTextarea;
+use Omeka\Form\Element\SiteSelect;
 use Omeka\Settings\Settings;
 use Laminas\Form\Form;
 use Laminas\EventManager\EventManagerAwareTrait;
@@ -271,6 +272,22 @@ class SettingForm extends Form
         ]);
 
         $generalFieldset->add([
+            'name' => 'media_alt_text_property',
+            'type' => PropertySelect::class,
+            'options' => [
+                'label' => 'Media alt text property', // @translate
+                'info' => 'Media property to use as alt text if no alt text is explicitly set.', // @translate
+                'empty_option' => '[None]', // @translate
+                'term_as_value' => true,
+            ],
+            'attributes' => [
+                'id' => 'media_alt_text_property',
+                'class' => 'chosen-select',
+                'value' => $this->settings->get('media_alt_text_property'),
+            ],
+        ]);
+
+        $generalFieldset->add([
             'name' => 'index_fulltext_search',
             'type' => 'Checkbox',
             'options' => [
@@ -391,6 +408,10 @@ class SettingForm extends Form
         ]);
         $generalInputFilter->add([
             'name' => 'locale',
+            'allow_empty' => true,
+        ]);
+        $generalInputFilter->add([
+            'name' => 'media_alt_text_property',
             'allow_empty' => true,
         ]);
 

@@ -60,47 +60,5 @@
                 })
             });
         });
-
-        $('#content').on('click', '.delete-asset', function (e) {
-            e.preventDefault();
-            $('.cancel-delete').hide();
-            $('.delete-asset').show();
-            $(this).toggle();
-            $(this).siblings('.cancel-delete').toggle();
-            var deleteWarning = $('#delete-warning');
-            var assetDiv = $(e.target).parents('.asset');
-            assetDiv.append(deleteWarning);
-            deleteWarning.show();
-        });
-
-        $('#content').on('click', '.cancel-delete', function (e) {
-            e.preventDefault();
-            $(this).toggle();
-            $(this).siblings('.delete-asset').toggle();
-            var deleteWarning = $('#delete-warning');
-            var assetDiv = $(e.target).parents('.asset');
-            assetDiv.append(deleteWarning);
-            deleteWarning.hide();
-        });
-
-        $('#content').on('click', '.confirm-delete', function (e) {
-            var assetDiv = $(e.target).parents('.asset');
-            var deleteUrl = $('.asset-list').data('delete-url');
-            var assetId = assetDiv.data('asset-id');
-            
-            $.post(deleteUrl, { asset_id: assetId }
-            ).done(function () {
-                Omeka.populateSidebarContent(sidebar, selectingForm.find('.asset-form-select').data('sidebar-content-url'));
-            }).fail(function (jqXHR) {
-                var form = $('form.asset-upload');
-                var errorList = form.find('ul.errors');
-                errorList.empty();
-                $.each(JSON.parse(jqXHR.responseText), function () {
-                    errorList.append($('<li>', {
-                        text: this
-                    }));
-                })
-            });
-        });
     });
 })(jQuery);

@@ -26,6 +26,7 @@ class AssetRepresentation extends AbstractEntityRepresentation
             'o:filename' => $this->filename(),
             'o:media_type' => $this->mediaType(),
             'o:asset_url' => $this->assetUrl(),
+            'o:alt_text' => $this->altText(),
         ];
     }
 
@@ -52,6 +53,11 @@ class AssetRepresentation extends AbstractEntityRepresentation
     public function assetUrl()
     {
         return $this->getFileUrl('asset', $this->filename());
+    }
+
+    public function altText()
+    {
+        return $this->resource->getAltText();
     }
 
     public function thumbnail()

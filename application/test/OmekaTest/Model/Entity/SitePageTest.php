@@ -9,7 +9,7 @@ class SitePageTest extends TestCase
 {
     protected $page;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->page = new SitePage;
     }

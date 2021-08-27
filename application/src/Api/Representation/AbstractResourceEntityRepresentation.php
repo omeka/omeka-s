@@ -501,41 +501,76 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * Get the display title for this resource.
      *
      * @param string|null $default
+     * @param array|string|null $lang
      * @return string|null
      */
-    public function displayTitle($default = null)
+    public function displayTitle($default = null, $lang = null)
     {
-        $title = $this->title();
-        if (null !== $title) {
-            return $title;
+        $title = null;
+        $template = $this->resourceTemplate();
+        if ($template && $template->titleProperty()) {
+            $titleTerm = $template->titleProperty()->term();
+        } else {
+            $titleTerm = 'dcterms:title';
         }
 
-        if ($default === null) {
-            $translator = $this->getServiceLocator()->get('MvcTranslator');
-            $default = $translator->translate('[Untitled]');
+        if ($lang !== null) {
+            if ($titleValue = $this->value($titleTerm, ['lang' => $lang])) {
+                $title = (string) $titleValue->value();
+            }
         }
 
-        return $default;
+        if ($title === null) {
+            $title = $this->title();
+        }
+
+        if ($title === null) {
+            if ($default === null) {
+                $translator = $this->getServiceLocator()->get('MvcTranslator');
+                $title = $translator->translate('[Untitled]');
+            } else {
+                $title = $default;
+            }
+        }
+
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs(['title' => $title]);
+        $eventManager->trigger('rep.resource.display_title', $this, $args);
+
+        return $args['title'];
     }
 
     /**
      * Get the display description for this resource.
      *
      * @param string|null $default
+     * @param array|string|null $lang
      * @return string|null
      */
-    public function displayDescription($default = null)
+    public function displayDescription($default = null, $lang = null)
     {
+        $description = null;
         $template = $this->resourceTemplate();
         if ($template && $template->descriptionProperty()) {
-            $description = $this->value($template->descriptionProperty()->term());
-            if (null !== $description) {
-                return $description;
+            $descriptionTerm = $template->descriptionProperty()->term();
+        } else {
+            $descriptionTerm = 'dcterms:description';
+        }
+
+        if ($lang !== null) {
+            if ($descriptionValue = $this->value($descriptionTerm, ['default' => $default, 'lang' => $lang])) {
+                $description = (string) $descriptionValue->value();
             }
         }
-        return (string) $this->value('dcterms:description', [
-            'default' => $default,
-        ]);
+
+        if ($description === null) {
+            $description = (string) $this->value($descriptionTerm, ['default' => $default]);
+        }
+
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs(['description' => $description]);
+        $eventManager->trigger('rep.resource.display_description', $this, $args);
+        return $args['description'];
     }
 
     /**
@@ -558,20 +593,22 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @param string|null $titleDefault See $default param for displayTitle()
      * @param string|null $action Action to link to (see link() and linkRaw())
      * @param array $attributes HTML attributes, key and value
+     * @param array|string|null $lang Language IETF tag
      * @return string
      */
     public function linkPretty(
         $thumbnailType = 'square',
         $titleDefault = null,
         $action = null,
-        array $attributes = null
+        array $attributes = null,
+        $lang = null
     ) {
         $escape = $this->getViewHelper('escapeHtml');
         $thumbnail = $this->getViewHelper('thumbnail');
         $linkContent = sprintf(
             '%s<span class="resource-name">%s</span>',
             $thumbnail($this, $thumbnailType),
-            $escape($this->displayTitle($titleDefault))
+            $escape($this->displayTitle($titleDefault, $lang))
         );
         if (empty($attributes['class'])) {
             $attributes['class'] = 'resource-link';

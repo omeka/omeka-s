@@ -1,18 +1,17 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
+$thumbnail = $this->plugin('thumbnail');
 ?>
 
 <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
 
-<?php if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'create')): ?>
-<h3 id="asset-upload-label"><?php echo $translate('Upload new asset'); ?></h3>
-<form class="asset-upload" method="post" enctype="multipart/form-data" action="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'add'])); ?>">
-    <input type="file" name="file" accept="image/jpeg,image/png,image/gif,image/svg+xml,image/svgz+xml" required aria-labelledby="asset-upload-label">
-    <button type="submit"><?php echo $translate('Upload'); ?></button>
-    <ul class="errors"></ul>
-</form>
-<?php endif; ?>
+<?php
+if ($this->userIsAllowed('Omeka\Api\Adapter\AssetAdapter', 'create')):
+    echo $this->partial('omeka/admin/asset/add-form');
+endif;
+?>
 
 <h3><?php echo $translate('Select asset'); ?></h3>
 
@@ -38,33 +37,17 @@ $escape = $this->plugin('escapeHtml');
 
 <?php if (count($assets) > 0): ?>
 <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
-<div class="asset-list" data-delete-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'delete'])); ?>">
+<div class="asset-list">
 <?php foreach ($assets as $asset): ?>
     <div class="asset" data-asset-id='<?php echo $escape($asset->id()); ?>'>
-        <?php if ($asset->userIsAllowed('delete')): ?>
-        <span class="actions">
-            <?php
-            echo $this->hyperlink('', '#', [
-                'class' => 'o-icon-delete remove-value delete-asset',
-                'title' => $translate('Delete asset'),
-            ]);
-            echo $this->hyperlink('', '#', [
-                'class' => 'o-icon-undo cancel-delete',
-                'title' => $translate('Cancel delete'),
-                'style' => 'display: none',
-            ]);
-            ?>
-        </span>
-        <?php endif; ?>
         <?php
-        $hyperlink = $this->plugin('hyperlink');
         echo $hyperlink->raw(
-            sprintf('<img src="%s"><span class="asset-name">%s</span>',
-                $escape($asset->assetUrl()),
+            sprintf('%s <span class="asset-name">%s</span>',
+                $thumbnail($asset, 'medium'),
                 $escape($asset->name())
             ),
             '#',
-            ['class' => 'select-asset', 'data-asset-id' => $asset->id(), 'data-asset-url' => $asset->assetUrl()]
+            ['class' => 'select-asset asset-entry', 'data-asset-id' => $asset->id(), 'data-asset-url' => $asset->assetUrl()]
         );
         ?>
     </div>
@@ -72,11 +55,6 @@ $escape = $this->plugin('escapeHtml');
 <?php else: ?>
 <span class="no-resources"><?php echo $translate(sprintf('No %s found.', $translate('assets'))); ?></span>
 <?php endif; ?>
-</div>
-
-<div id="delete-warning" style="display:none">
-    <p><?php echo $translate("Are you sure you want to delete this asset? It will no longer be available to any resources currently using it.");?></p>
-    <a class="button confirm-delete"><?php echo $translate("Confirm delete");?></a>
 </div>
 
 <script>

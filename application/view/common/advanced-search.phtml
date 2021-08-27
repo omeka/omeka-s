@@ -1,36 +1,51 @@
 <?php
+/**
+ * This template accepts three variables:
+ *   - $query: The query array
+ *   - $resourceType: The resource type; options are item, media, itemSet
+ *   - $partialExcludelist: An array of partials to exclude
+ */
+$query = isset($query) ? $query : null;
+$resourceType = isset($resourceType) ? $resourceType : 'item';
+$partialExcludelist = (isset($partialExcludelist) && is_array($partialExcludelist)) ? $partialExcludelist : [];
+
 $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 
-$query = isset($query) ? $query : null;
-$resourceType = isset($resourceType) ? $resourceType : null;
-$isPool = isset($isPool) ? $isPool : null;
+$partials = [];
+$addPartial = function($partial) use (&$partials, $partialExcludelist) {
+    if (!in_array($partial, $partialExcludelist)) {
+        // Add the partial if it is not in the exclude list.
+        $partials[] = $partial;
+    }
+};
 
-$partials = [
-    'common/advanced-search/fulltext',
-    'common/advanced-search/properties',
-    'common/advanced-search/resource-class',
-];
+$addPartial('common/advanced-search/fulltext');
+$addPartial('common/advanced-search/properties');
+$addPartial('common/advanced-search/resource-class');
 if ($this->status()->isAdminRequest()) {
-    $partials[] = 'common/advanced-search/resource-template';
+    $addPartial('common/advanced-search/resource-template');
 }
 switch ($resourceType) {
     case 'item':
-        $partials[] = 'common/advanced-search/item-sets';
-        if ($this->status()->isAdminRequest() && !$isPool) {
-            $partials[] = 'common/advanced-search/site';
+        $addPartial('common/advanced-search/item-sets');
+        if ($this->status()->isAdminRequest()) {
+            $addPartial('common/advanced-search/site');
         }
         break;
     case 'media':
-        $partials[] = 'common/advanced-search/media-type';
+        $addPartial('common/advanced-search/media-type');
+        break;
+    case 'itemSet':
         break;
 }
 if ($this->status()->isAdminRequest()) {
-    $partials[] = 'common/advanced-search/owner';
+    $addPartial('common/advanced-search/owner');
 }
 if ($this->status()->isSiteRequest()) {
-    $partials[] = 'common/advanced-search/resource-template-restrict';
+    $addPartial('common/advanced-search/resource-template-restrict');
 }
+$addPartial('common/advanced-search/sort');
 
 $filterResults = $this->trigger(
     'view.advanced_search',
@@ -47,7 +62,8 @@ $partials = $filterResults['partials'];
 <div class="advanced-search-content">
 <?php
 foreach ($partials as $partial) {
-    echo $this->partial($partial, ['query' => $query]);
+    echo $this->partial($partial, ['query' => $query, 'resourceType' => $resourceType]);
 }
 ?>
 </div>
+<script>Omeka.prepareSearchForm($('#advanced-search'));</script>

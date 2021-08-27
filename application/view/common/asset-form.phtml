@@ -19,8 +19,9 @@ if ($assetId) {
     <?php if ($asset): ?>
     <span class="selected-asset">
         <?php
-        echo sprintf('<img class="selected-asset-image" src="%s"><div class="selected-asset-name">%s</div>',
+        echo sprintf('<img class="selected-asset-image" src="%s" alt="%s"><div class="selected-asset-name">%s</div>',
             $this->escapeHtml($asset->assetUrl()),
+            $this->escapeHtml($asset->altText()),
             $this->escapeHtml($asset->name())
         );
         ?>

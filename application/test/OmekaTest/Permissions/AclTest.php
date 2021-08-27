@@ -8,7 +8,7 @@ class AclTest extends TestCase
 {
     protected $acl;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->acl = new Acl;
         $this->acl->addRole('guest');

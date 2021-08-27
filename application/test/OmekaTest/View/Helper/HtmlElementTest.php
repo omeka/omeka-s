@@ -8,7 +8,7 @@ class HtmlElementTest extends TestCase
 {
     protected $htmlElement;
 
-    public function setUp()
+    public function setUp(): void
     {
         $view = $this->createMock('Laminas\View\Renderer\PhpRenderer');
         $view->expects($this->any())

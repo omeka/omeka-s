@@ -1,6 +1,7 @@
 <?php
 
-return PhpCsFixer\Config::create()
+$config = new PhpCsFixer\Config();
+return $config
     ->setUsingCache(true)
     ->setRules([
         '@PSR2' => true,
@@ -27,7 +28,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_scalar' => true,
         'phpdoc_to_comment' => true,
         'phpdoc_trim' => true,
-        'trailing_comma_in_multiline_array' => true,
+        'trailing_comma_in_multiline' => true,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()

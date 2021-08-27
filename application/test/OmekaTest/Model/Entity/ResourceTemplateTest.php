@@ -9,7 +9,7 @@ class ResourceTemplateTest extends TestCase
 {
     protected $resourceTemplate;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->resourceTemplate = new ResourceTemplate;
     }

@@ -142,12 +142,26 @@ class DataType extends AbstractHelper
 
     public function getValueAnnotationSelect($name, $attributes = [])
     {
-        $valueOptions = [];
+        $options = [];
+        $optgroupOptions = [];
         foreach ($this->getValueAnnotationDataTypes() as $dataTypeName => $dataType) {
-            $valueOptions[$dataTypeName] = $dataType->getLabel();
+            $label = $dataType->getLabel();
+            if ($optgroupLabel = $dataType->getOptgroupLabel()) {
+                $optgroupKey = md5($optgroupLabel);
+                $optionsVal = in_array($dataTypeName, ['resource', 'resource:item', 'resource:itemset', 'resource:media']) ? 'options' : 'optgroupOptions';
+                if (!isset(${$optionsVal}[$optgroupKey])) {
+                    ${$optionsVal}[$optgroupKey] = [
+                        'label' => $optgroupLabel,
+                        'options' => [],
+                    ];
+                }
+                ${$optionsVal}[$optgroupKey]['options'][$dataTypeName] = $label;
+            } else {
+                $options[$dataTypeName] = $label;
+            }
         }
         $element = new Select($name);
-        $element->setValueOptions($valueOptions)
+        $element->setValueOptions(array_merge($options, $optgroupOptions))
             ->setAttributes($attributes);
         return $this->getView()->formSelect($element);
     }

@@ -1566,6 +1566,7 @@
                     "type": "community_bridge"
                 }
             ],
+            "abandoned": true,
             "time": "2020-10-12T16:04:12+00:00"
         },
         {
@@ -1728,6 +1729,7 @@
                     "type": "community_bridge"
                 }
             ],
+            "abandoned": true,
             "time": "2020-10-12T16:08:58+00:00"
         },
         {
@@ -1890,6 +1892,7 @@
                     "type": "community_bridge"
                 }
             ],
+            "abandoned": true,
             "time": "2020-10-12T16:13:36+00:00"
         },
         {
@@ -2046,6 +2049,7 @@
                     "type": "community_bridge"
                 }
             ],
+            "abandoned": true,
             "time": "2020-10-12T16:19:10+00:00"
         },
         {
@@ -2209,6 +2213,7 @@
                     "type": "community_bridge"
                 }
             ],
+            "abandoned": true,
             "time": "2020-10-12T16:22:49+00:00"
         },
         {
@@ -2265,6 +2270,7 @@
                     "type": "community_bridge"
                 }
             ],
+            "abandoned": true,
             "time": "2020-10-12T16:23:46+00:00"
         },
         {
@@ -5669,12 +5675,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/omeka-s-themes/default.git",
-                "reference": "aeb8474219ab6f5dc9a411ce23dbf17890cec030"
+                "reference": "1c1797c148e4705489507c4b0f1fbfc22fe25478"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/aeb8474219ab6f5dc9a411ce23dbf17890cec030",
-                "reference": "aeb8474219ab6f5dc9a411ce23dbf17890cec030",
+                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/1c1797c148e4705489507c4b0f1fbfc22fe25478",
+                "reference": "1c1797c148e4705489507c4b0f1fbfc22fe25478",
                 "shasum": ""
             },
             "require": {
@@ -5682,10 +5688,10 @@
             },
             "type": "omeka-s-theme",
             "support": {
-                "source": "https://github.com/omeka-s-themes/default/tree/develop",
+                "source": "https://github.com/omeka-s-themes/default/tree/v1.6.1",
                 "issues": "https://github.com/omeka-s-themes/default/issues"
             },
-            "time": "2021-05-12T19:44:22+00:00"
+            "time": "2021-07-20T15:00:31+00:00"
         },
         {
             "name": "omeka/composer-addon-installer",

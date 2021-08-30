@@ -11,6 +11,13 @@ use Omeka\Stdlib\Message;
 
 abstract class AbstractResource extends AbstractDataType
 {
+    /**
+     * Get the class names of valid value resources.
+     *
+     * @return array
+     */
+    abstract public function getValidValueResources();
+
     public function getOptgroupLabel()
     {
         return 'Resource'; // @translate
@@ -54,13 +61,7 @@ abstract class AbstractResource extends AbstractDataType
             );
         }
         // Limit value resources to those that are valid for the data type.
-        $validationMap = [
-            'resource' => [Entity\Item::class, Entity\ItemSet::class, Entity\Media::class],
-            'resource:item' => [Entity\Item::class],
-            'resource:itemset' => [Entity\ItemSet::class],
-            'resource:media' => [Entity\ItemMedia::class],
-        ];
-        if (!in_array(get_class($valueResource), $validationMap[$valueObject['type']])) {
+        if (!in_array(get_class($valueResource), $this->getValidValueResources())) {
             $message = new Message(sprintf(
                 'Invalid value resource %s for type %s', // @translate
                 get_class($valueResource),

@@ -64,6 +64,7 @@ class Value extends AbstractEntity
 
     /**
      * @OneToOne(targetEntity="ValueAnnotation", orphanRemoval=true, cascade={"persist"})
+     * @JoinColumn(onDelete="SET NULL")
      */
     protected $valueAnnotation;
 

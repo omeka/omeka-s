@@ -1,6 +1,8 @@
 <?php
 namespace Omeka\DataType\Resource;
 
+use Omeka\Entity;
+
 class Item extends AbstractResource
 {
     public function getName()
@@ -11,5 +13,10 @@ class Item extends AbstractResource
     public function getLabel()
     {
         return 'Item'; // @translate
+    }
+
+    public function getValidValueResources()
+    {
+        return [Entity\Item::class];
     }
 }

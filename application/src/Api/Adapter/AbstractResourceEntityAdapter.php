@@ -372,7 +372,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $qb->select('v')
             ->from('Omeka\Entity\Value', 'v')
             ->join('v.resource', 'r')
-            ->where($qb->expr()->eq('v.valueResource', $this->createNamedParameter($qb, $resource)));
+            ->where($qb->expr()->eq('v.valueResource', $this->createNamedParameter($qb, $resource)))
+            // Limit subject values to those belonging to primary resources.
+            ->andWhere($qb->expr()->orX(
+                'r INSTANCE OF Omeka\Entity\Item',
+                'r INSTANCE OF Omeka\Entity\ItemSet',
+                'r INSTANCE OF Omeka\Entity\Media'
+            ));
 
         if (!$acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
             $qb->andWhere($qb->expr()->orX(

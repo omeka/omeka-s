@@ -20,7 +20,7 @@ $changeItemButton = '<button id="attachment-item-select" data-sidebar-content-ur
 <div class="selected-attachment">
     <?php if ($currentMedia): ?>
     <h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>
-    <span class="media-title"><?php echo $currentMedia->displayTitle(); ?></span>
+    <span class="media-title"><?php echo $escape($currentMedia->displayTitle()); ?></span>
     <?php echo $this->thumbnail($currentMedia, 'square', ['class' => 'item-thumbnail']); ?>
     <?php else: ?>
     <h3 class="item-title"><?php echo $escape($attachedItem->displayTitle()); ?></h3>

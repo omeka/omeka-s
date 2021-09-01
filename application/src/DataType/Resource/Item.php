@@ -24,4 +24,9 @@ class Item extends AbstractResource implements ValueAnnotatableInterface
     {
         return $view->partial('common/data-type/value-annotation-resource', ['dataTypeName' => $this->getName()]);
     }
+
+    public function getValidValueResources()
+    {
+        return [Entity\Item::class];
+    }
 }

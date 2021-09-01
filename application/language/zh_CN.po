@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-21 11:21-0400\n"
+"POT-Creation-Date: 2021-08-26 15:28-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
 "Last-Translator: Hong Zhang <zhangh@unlv.nevada.edu>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/omeka/teams/14184/zh_CN/)\n"
@@ -62,18 +62,18 @@ msgstr "%1$s适配器没有实现删除操作。"
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "%1$s适配器没有实现批量删除操作。"
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:269
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:280
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s entity class."
 msgstr "在%2$s实体类中没有“%1$s”域。"
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:614
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:645
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s resource."
 msgstr "当前用户被拒绝授予权限于%1$s%2$s资源。"
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:656
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:687
 #, php-format
 msgid "%1$s entity with criteria %2$s not found"
 msgstr "未发现符合标准%1$s的%2$s实体"
@@ -86,7 +86,7 @@ msgstr "欢迎"
 msgid "Welcome to your new site. This is an example page."
 msgstr "欢迎来到您的新网站。这是样板页面。"
 
-#: application/src/Api/Adapter/SiteAdapter.php:388
+#: application/src/Api/Adapter/SiteAdapter.php:390
 msgid "Browse"
 msgstr "浏览"
 
@@ -95,10 +95,10 @@ msgstr "浏览"
 msgid "The API does not support the \"%s\" resource."
 msgstr "API不支持“%s”资源。"
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:515
-#: application/view/common/block-layout/browse-preview.phtml:15
-#: application/view/omeka/site/item-set/browse.phtml:23
-#: application/view/omeka/site/item/browse.phtml:58
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:530
+#: application/view/common/block-layout/browse-preview.phtml:23
+#: application/view/omeka/site/item-set/browse.phtml:26
+#: application/view/omeka/site/item/browse.phtml:61
 msgid "[Untitled]"
 msgstr "【无标题】"
 
@@ -107,7 +107,7 @@ msgstr "【无标题】"
 msgid "Default"
 msgstr "默认"
 
-#: application/src/Controller/Admin/AssetController.php:48
+#: application/src/Controller/Admin/AssetController.php:73
 msgid "Asset uploads must be POSTed."
 msgstr "素材上传必须使用HTTP POST方法。"
 
@@ -134,7 +134,7 @@ msgstr "非活跃的"
 #: application/src/Controller/Admin/ModuleController.php:72
 #: application/src/Controller/Admin/ModuleController.php:79
 msgid "Not installed"
-msgstr "未安装"
+msgstr "未安装的"
 
 #: application/src/Controller/Admin/ModuleController.php:73
 #: application/src/Controller/Admin/ModuleController.php:80
@@ -287,12 +287,17 @@ msgstr "该布局无效。"
 
 #: application/src/Site/BlockLayout/ItemShowcase.php:22
 #: application/src/Site/BlockLayout/Media.php:22
+#: application/view/common/asset-block-form.phtml:58
 msgid "Options"
 msgstr "选项"
 
 #: application/src/Site/BlockLayout/LineBreak.php:43
 msgid "Break type"
 msgstr "断路类型"
+
+#: application/src/Site/BlockLayout/ListOfPages.php:58
+msgid "Add pages"
+msgstr ""
 
 #: application/src/Site/BlockLayout/TableOfContents.php:28
 msgid "Depth"
@@ -303,6 +308,7 @@ msgid "Number of child page levels to display"
 msgstr "要显示的子页层级数目"
 
 #: application/src/Site/Navigation/Link/Page.php:37
+#: application/view/common/block-layout/list-of-pages.phtml:11
 msgid "[Missing Page]"
 msgstr "【缺失页面】"
 
@@ -375,6 +381,7 @@ msgid "Thumbnail type"
 msgstr "缩略图类型"
 
 #: application/src/View/Helper/CancelButton.php:14
+#: application/view/common/query-form.phtml:27
 #: application/view/omeka/admin/vocabulary/update.phtml:23
 msgid "Cancel"
 msgstr "取消"
@@ -407,12 +414,12 @@ msgstr "密码必须包含最少%1$s个符号：<code>%2$s</code>"
 #: application/src/View/Helper/SearchFilters.php:32
 #: application/view/common/advanced-search/properties.phtml:66
 msgid "is exactly"
-msgstr "是精确的"
+msgstr "完全一样"
 
 #: application/src/View/Helper/SearchFilters.php:33
 #: application/view/common/advanced-search/properties.phtml:67
 msgid "is not exactly"
-msgstr "是不精确的"
+msgstr "不完全一样"
 
 #: application/src/View/Helper/SearchFilters.php:34
 #: application/view/common/advanced-search/properties.phtml:68
@@ -450,7 +457,9 @@ msgid "Search full-text"
 msgstr "搜索全文"
 
 #: application/src/View/Helper/SearchFilters.php:60
-#: application/view/common/linked-resources.phtml:33
+#: application/view/common/advanced-search/sort.phtml:8
+#: application/view/common/asset-block-form.phtml:63
+#: application/view/common/linked-resources.phtml:41
 #: application/view/omeka/admin/item-set/browse.phtml:15
 #: application/view/omeka/admin/item-set/browse.phtml:75
 #: application/view/omeka/admin/item-set/show.phtml:40
@@ -461,13 +470,13 @@ msgstr "搜索全文"
 #: application/view/omeka/admin/job/browse.phtml:38
 #: application/view/omeka/admin/job/show.phtml:41
 #: application/view/omeka/admin/media/browse.phtml:17
-#: application/view/omeka/admin/media/browse.phtml:81
+#: application/view/omeka/admin/media/browse.phtml:85
 #: application/view/omeka/admin/media/show.phtml:23
 #: application/view/omeka/admin/resource-template/browse.phtml:11
 #: application/view/omeka/admin/resource-template/browse.phtml:45
 #: application/view/omeka/admin/resource-template/review-import.phtml:32
 #: application/view/omeka/admin/resource-template/show.phtml:18
-#: application/view/omeka/site/item/browse.phtml:22
+#: application/view/omeka/site/item/browse.phtml:25
 msgid "Class"
 msgstr "类"
 
@@ -523,7 +532,7 @@ msgid "Unknown template"
 msgstr "未知模板"
 
 #: application/src/View/Helper/SearchFilters.php:156
-#: application/view/omeka/site/item/browse.phtml:34
+#: application/view/omeka/site/item/browse.phtml:37
 msgid "Item set"
 msgstr "条目集"
 
@@ -557,6 +566,8 @@ msgid "Email"
 msgstr "电子邮件"
 
 #: application/src/View/Helper/SearchUserFilters.php:54
+#: application/view/omeka/admin/asset/browse.phtml:12
+#: application/view/omeka/admin/asset/browse.phtml:37
 msgid "Name"
 msgstr "名称"
 
@@ -599,35 +610,38 @@ msgstr "最大上传尺寸是%sMB。"
 
 #: application/src/View/Helper/UserBar.php:120
 #: application/src/View/Helper/UserBar.php:166
+#: application/view/common/query-form.phtml:24
+#: application/view/omeka/admin/asset/browse.phtml:67
+#: application/view/omeka/admin/asset/edit.phtml:10
 #: application/view/omeka/admin/item-set/browse.phtml:109
 #: application/view/omeka/admin/item-set/edit.phtml:14
 #: application/view/omeka/admin/item/browse.phtml:107
 #: application/view/omeka/admin/item/edit.phtml:14
 #: application/view/omeka/admin/item/manage-media.phtml:43
-#: application/view/omeka/admin/media/browse.phtml:117
+#: application/view/omeka/admin/media/browse.phtml:121
 #: application/view/omeka/admin/resource-template/browse.phtml:72
 #: application/view/omeka/admin/user/browse.phtml:101
 #: application/view/omeka/admin/user/edit.phtml:14
 #: application/view/omeka/admin/vocabulary/browse.phtml:60
 #: application/view/omeka/admin/vocabulary/edit.phtml:7
 #: application/view/omeka/site-admin/index/index.phtml:75
-#: application/view/omeka/site-admin/index/show.phtml:15
+#: application/view/omeka/site-admin/index/show.phtml:11
 #: application/view/omeka/site-admin/page/edit.phtml:11
 #: application/view/omeka/site-admin/page/index.phtml:80
 msgid "Edit"
 msgstr "编辑"
 
 #: application/src/View/Helper/UserBar.php:159
-#: application/view/omeka/site-admin/index/show.phtml:17
+#: application/view/omeka/site-admin/index/show.phtml:13
 #: application/view/omeka/site-admin/page/edit.phtml:28
 msgid "View"
 msgstr "视图"
 
-#: application/view/common/advanced-search/item-sets.phtml:15
+#: application/view/common/advanced-search/item-sets.phtml:31
 msgid "Search by item set"
 msgstr "按条目集搜索"
 
-#: application/view/common/advanced-search/item-sets.phtml:16
+#: application/view/common/advanced-search/item-sets.phtml:32
 #: application/view/common/advanced-search/owner.phtml:4
 #: application/view/common/advanced-search/resource-class.phtml:16
 #: application/view/common/advanced-search/resource-template.phtml:17
@@ -637,17 +651,17 @@ msgstr "按条目集搜索"
 msgid "Expand"
 msgstr "扩展"
 
-#: application/view/common/advanced-search/item-sets.phtml:18
+#: application/view/common/advanced-search/item-sets.phtml:34
 msgid "Searches for items that are assigned to any of these item sets."
 msgstr "搜索被分配给这里任意一个条目集的条目。"
 
-#: application/view/common/advanced-search/item-sets.phtml:20
+#: application/view/common/advanced-search/item-sets.phtml:36
 #: application/view/omeka/admin/index/browse.phtml:23
 #: application/view/omeka/admin/item-set/browse.phtml:42
 msgid "Add new item set"
 msgstr "添加新条目集"
 
-#: application/view/common/advanced-search/item-sets.phtml:35
+#: application/view/common/advanced-search/item-sets.phtml:49
 #: application/view/common/advanced-search/properties.phtml:76
 #: application/view/common/advanced-search/resource-class.phtml:32
 #: application/view/common/advanced-search/resource-template.phtml:33
@@ -722,6 +736,105 @@ msgstr "按网站搜索"
 msgid "Searches for items that are assigned to this site."
 msgstr "搜索被分配给此网站条目。"
 
+#: application/view/common/advanced-search/sort.phtml:6
+#: application/view/common/linked-resources.phtml:39
+#: application/view/omeka/admin/item-set/browse.phtml:7
+#: application/view/omeka/admin/item-set/browse.phtml:73
+#: application/view/omeka/admin/item/browse.phtml:7
+#: application/view/omeka/admin/item/browse.phtml:72
+#: application/view/omeka/admin/item/manage-item-sets.phtml:33
+#: application/view/omeka/admin/item/manage-sites.phtml:39
+#: application/view/omeka/admin/media/browse.phtml:9
+#: application/view/omeka/admin/media/browse.phtml:83
+#: application/view/omeka/site-admin/index/index.phtml:7
+#: application/view/omeka/site-admin/index/index.phtml:39
+#: application/view/omeka/site-admin/index/resources.phtml:66
+#: application/view/omeka/site-admin/index/show.phtml:24
+#: application/view/omeka/site-admin/page/index.phtml:15
+#: application/view/omeka/site-admin/page/index.phtml:48
+#: application/view/omeka/site/item/browse.phtml:17
+msgid "Title"
+msgstr "标题"
+
+#: application/view/common/advanced-search/sort.phtml:7
+#: application/view/omeka/admin/item-set/browse.phtml:11
+#: application/view/omeka/admin/item/browse.phtml:11
+#: application/view/omeka/admin/media/browse.phtml:13
+#: application/view/omeka/site/item/browse.phtml:21
+msgid "Identifier"
+msgstr "标识符"
+
+#: application/view/common/advanced-search/sort.phtml:9
+#: application/view/omeka/admin/asset/browse.phtml:38
+#: application/view/omeka/admin/item-set/browse.phtml:19
+#: application/view/omeka/admin/item-set/browse.phtml:76
+#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item/browse.phtml:19
+#: application/view/omeka/admin/item/browse.phtml:74
+#: application/view/omeka/admin/item/manage-item-sets.phtml:34
+#: application/view/omeka/admin/item/manage-sites.phtml:40
+#: application/view/omeka/admin/item/show.phtml:87
+#: application/view/omeka/admin/job/browse.phtml:19
+#: application/view/omeka/admin/job/browse.phtml:40
+#: application/view/omeka/admin/job/show.phtml:45
+#: application/view/omeka/admin/media/browse.phtml:21
+#: application/view/omeka/admin/media/browse.phtml:86
+#: application/view/omeka/admin/resource-template/browse.phtml:15
+#: application/view/omeka/admin/resource-template/browse.phtml:46
+#: application/view/omeka/site-admin/index/index.phtml:15
+#: application/view/omeka/site-admin/index/index.phtml:41
+#: application/view/omeka/site-admin/index/resources.phtml:67
+msgid "Owner"
+msgstr "所有人"
+
+#: application/view/common/advanced-search/sort.phtml:10
+#: application/view/omeka/admin/item-set/browse.phtml:23
+#: application/view/omeka/admin/item-set/browse.phtml:77
+#: application/view/omeka/admin/item-set/show.phtml:70
+#: application/view/omeka/admin/item/browse.phtml:23
+#: application/view/omeka/admin/item/browse.phtml:75
+#: application/view/omeka/admin/item/show.phtml:83
+#: application/view/omeka/admin/media/browse.phtml:25
+#: application/view/omeka/admin/media/browse.phtml:87
+#: application/view/omeka/admin/media/show.phtml:45
+#: application/view/omeka/admin/user/browse.phtml:18
+#: application/view/omeka/admin/user/browse.phtml:81
+#: application/view/omeka/site-admin/page/index.phtml:23
+#: application/view/omeka/site-admin/page/index.phtml:50
+#: application/view/omeka/site/item/browse.phtml:29
+msgid "Created"
+msgstr "创建于"
+
+#: application/view/common/advanced-search/sort.phtml:21
+#: application/view/omeka/admin/media/browse.phtml:29
+#: application/view/omeka/admin/media/show-details.phtml:31
+#: application/view/omeka/admin/media/show.phtml:56
+msgid "Size"
+msgstr "尺寸"
+
+#: application/view/common/advanced-search/sort.phtml:27
+msgid "Select sort by…"
+msgstr ""
+
+#: application/view/common/advanced-search/sort.phtml:32
+msgid "Select sort order…"
+msgstr ""
+
+#: application/view/common/advanced-search/sort.phtml:34
+#: application/view/common/sort-selector.phtml:14
+msgid "Ascending"
+msgstr "升序排列"
+
+#: application/view/common/advanced-search/sort.phtml:35
+#: application/view/common/sort-selector.phtml:15
+msgid "Descending"
+msgstr "降序排列"
+
+#: application/view/common/advanced-search/sort.phtml:41
+#: application/view/common/sort-selector.phtml:17
+msgid "Sort"
+msgstr "排序"
+
 #: application/view/common/advanced-search/users.phtml:17
 msgid "Search by email"
 msgstr "按电子邮件地址搜索"
@@ -738,17 +851,139 @@ msgstr "按角色搜索"
 msgid "Search by activity"
 msgstr "按活动搜索"
 
-#: application/view/common/asset-form.phtml:34
+#: application/view/common/asset-block-form.phtml:7
+#: application/view/common/asset-block-form.phtml:40
+msgid "No asset selected"
+msgstr ""
+
+#: application/view/common/asset-block-form.phtml:9
+#: application/view/common/asset-block-form.phtml:43
+msgid "Open asset options"
+msgstr ""
+
+#: application/view/common/asset-block-form.phtml:10
+#: application/view/common/asset-block-form.phtml:44
+#: application/view/common/attachments-form.phtml:11
+#: application/view/common/attachments-form.phtml:52
+msgid "Delete attachment"
+msgstr "删除附件"
+
+#: application/view/common/asset-block-form.phtml:11
+#: application/view/common/asset-block-form.phtml:45
+#: application/view/common/attachments-form.phtml:12
+#: application/view/common/attachments-form.phtml:53
+msgid "Restore attachment"
+msgstr "恢复附件"
+
+#: application/view/common/asset-block-form.phtml:20
+#: application/view/common/asset-block-form.phtml:57
+#: application/view/common/resource-form-templates.phtml:10
+#: application/view/omeka/admin/item/sidebar-select.phtml:28
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:35
+#: application/view/omeka/site-admin/page/edit.phtml:57
+msgid "Collapse"
+msgstr "折叠"
+
+#: application/view/common/asset-block-form.phtml:20
+#: application/view/omeka/admin/asset/browse.phtml:18
+#: application/view/omeka/admin/asset/edit.phtml:10
+msgid "Assets"
+msgstr ""
+
+#: application/view/common/asset-block-form.phtml:54
+msgid "Add asset"
+msgstr ""
+
+#: application/view/common/asset-form.phtml:35
+#: application/view/common/asset-options.phtml:15
 msgid "[No asset selected]"
 msgstr "【尚未选择素材】"
 
-#: application/view/common/asset-form.phtml:37
+#: application/view/common/asset-form.phtml:38
+#: application/view/common/asset-options.phtml:29
+#: application/view/common/asset-options.phtml:36
 msgid "Select"
 msgstr "选择"
 
-#: application/view/common/asset-form.phtml:40
+#: application/view/common/asset-form.phtml:41
+#: application/view/common/asset-options.phtml:37
+#: application/view/common/query-form.phtml:29
 msgid "Clear"
 msgstr "清空"
+
+#: application/view/common/asset-options.phtml:10
+msgid "No Asset"
+msgstr ""
+
+#: application/view/common/asset-options.phtml:19
+#: application/view/omeka/admin/query/sidebar-edit.phtml:12
+msgid "Preview"
+msgstr ""
+
+#: application/view/common/asset-options.phtml:20
+msgid "[No page selected]"
+msgstr ""
+
+#: application/view/common/asset-options.phtml:25
+#: application/view/common/delete-confirm.phtml:8
+#: application/view/common/item-set-selector.phtml:6
+#: application/view/common/page-select-sidebar.phtml:6
+#: application/view/common/property-selector.phtml:6
+#: application/view/common/resource-select-sidebar.phtml:6
+#: application/view/common/resource-select-sidebar.phtml:12
+#: application/view/common/site-selector.phtml:2
+#: application/view/common/user-selector.phtml:6
+#: application/view/omeka/admin/asset/browse.phtml:100
+#: application/view/omeka/admin/asset/browse.phtml:117
+#: application/view/omeka/admin/asset/sidebar-select.phtml:8
+#: application/view/omeka/admin/item-set/browse.phtml:146
+#: application/view/omeka/admin/item-set/browse.phtml:153
+#: application/view/omeka/admin/item-set/browse.phtml:171
+#: application/view/omeka/admin/item/browse.phtml:144
+#: application/view/omeka/admin/item/browse.phtml:151
+#: application/view/omeka/admin/item/browse.phtml:169
+#: application/view/omeka/admin/item/manage-media.phtml:70
+#: application/view/omeka/admin/media/browse.phtml:158
+#: application/view/omeka/admin/media/browse.phtml:167
+#: application/view/omeka/admin/media/browse.phtml:185
+#: application/view/omeka/admin/module/browse.phtml:159
+#: application/view/omeka/admin/query/sidebar-edit.phtml:3
+#: application/view/omeka/admin/query/sidebar-preview.phtml:1
+#: application/view/omeka/admin/resource-template/browse.phtml:99
+#: application/view/omeka/admin/resource-template/form.phtml:43
+#: application/view/omeka/admin/resource-template/form.phtml:52
+#: application/view/omeka/admin/resource-template/show.phtml:67
+#: application/view/omeka/admin/user/browse.phtml:137
+#: application/view/omeka/admin/user/browse.phtml:146
+#: application/view/omeka/admin/user/browse.phtml:164
+#: application/view/omeka/admin/vocabulary/browse.phtml:93
+#: application/view/omeka/admin/vocabulary/classes.phtml:67
+#: application/view/omeka/admin/vocabulary/properties.phtml:50
+#: application/view/omeka/site-admin/index/index.phtml:101
+#: application/view/omeka/site-admin/index/navigation.phtml:31
+#: application/view/omeka/site-admin/page/edit.phtml:51
+#: application/view/omeka/site-admin/page/index.phtml:102
+#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:7
+msgid "Close"
+msgstr "关闭"
+
+#: application/view/common/asset-options.phtml:32
+msgid "Page link"
+msgstr ""
+
+#: application/view/common/asset-options.phtml:40
+msgid "Alternative link title"
+msgstr ""
+
+#: application/view/common/asset-options.phtml:44
+#: application/view/omeka/site-admin/page/edit.phtml:54
+msgid "Caption"
+msgstr "标题"
+
+#: application/view/common/asset-options.phtml:50
+#: application/view/omeka/site-admin/page/edit.phtml:65
+msgid "Apply changes"
+msgstr "实施更改"
 
 #: application/view/common/attachments-form.phtml:8
 #: application/view/common/attachments-form.phtml:28
@@ -759,16 +994,6 @@ msgstr "尚未选择条目"
 #: application/view/common/attachments-form.phtml:51
 msgid "Open attachment options"
 msgstr "打开附件选项"
-
-#: application/view/common/attachments-form.phtml:11
-#: application/view/common/attachments-form.phtml:52
-msgid "Delete attachment"
-msgstr "删除附件"
-
-#: application/view/common/attachments-form.phtml:12
-#: application/view/common/attachments-form.phtml:53
-msgid "Restore attachment"
-msgstr "恢复附件"
 
 #: application/view/common/attachments-form.phtml:20
 msgid "Attachments"
@@ -801,11 +1026,11 @@ msgstr "恢复值"
 #: application/view/omeka/admin/item-set/show.phtml:26
 #: application/view/omeka/admin/item/form.phtml:16
 #: application/view/omeka/admin/item/show-details.phtml:19
-#: application/view/omeka/admin/item/show.phtml:63
+#: application/view/omeka/admin/item/show.phtml:67
 #: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:23
-#: application/view/omeka/site/item-set/browse.phtml:8
-#: application/view/omeka/site/item/show.phtml:24
+#: application/view/omeka/site/item-set/browse.phtml:11
+#: application/view/omeka/site/item/show.phtml:27
 msgid "Item sets"
 msgstr "条目集"
 
@@ -814,6 +1039,7 @@ msgstr "条目集"
 #: application/view/omeka/admin/item-set/search.phtml:12
 #: application/view/omeka/admin/item/search.phtml:12
 #: application/view/omeka/admin/media/search.phtml:12
+#: application/view/omeka/admin/query/sidebar-edit.phtml:13
 msgid "Reset"
 msgstr "重置"
 
@@ -845,7 +1071,7 @@ msgid "Search results for “%s”"
 msgstr "“%s”的搜索结果"
 
 #: application/view/common/cross-site-search/results.phtml:13
-#: application/view/omeka/site/item/show.phtml:32
+#: application/view/omeka/site/item/show.phtml:35
 msgid "Site pages"
 msgstr "网站页面"
 
@@ -861,7 +1087,7 @@ msgstr "浏览所有结果（总共%s）"
 #: application/view/common/data-type/resource.phtml:22
 #: application/view/layout/layout-admin.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:79
+#: application/view/omeka/admin/item-set/show.phtml:83
 #: application/view/omeka/admin/item/add.phtml:6
 #: application/view/omeka/admin/item/browse.phtml:29
 #: application/view/omeka/admin/item/edit.phtml:14
@@ -874,8 +1100,8 @@ msgstr "浏览所有结果（总共%s）"
 #: application/view/omeka/admin/user/show-details.phtml:12
 #: application/view/omeka/admin/vocabulary/classes.phtml:15
 #: application/view/omeka/site-admin/index/resources.phtml:22
-#: application/view/omeka/site/item/browse.phtml:39
-#: application/view/omeka/site/item/browse.phtml:41
+#: application/view/omeka/site/item/browse.phtml:42
+#: application/view/omeka/site/item/browse.phtml:44
 msgid "Items"
 msgstr "条目"
 
@@ -900,10 +1126,10 @@ msgstr "将被移除的值"
 
 #: application/view/common/data-type-wrapper.phtml:21
 #: application/view/common/media-field-wrapper.phtml:10
-#: application/view/omeka/admin/item-set/form.phtml:42
-#: application/view/omeka/admin/item/form.phtml:51
+#: application/view/omeka/admin/item-set/form.phtml:43
+#: application/view/omeka/admin/item/form.phtml:52
 #: application/view/omeka/admin/item/manage-media.phtml:30
-#: application/view/omeka/admin/media/edit.phtml:53
+#: application/view/omeka/admin/media/edit.phtml:54
 #: application/view/omeka/site-admin/index/add-page.phtml:18
 #: application/view/omeka/site-admin/index/add.phtml:26
 #: application/view/omeka/site-admin/index/edit.phtml:15
@@ -927,8 +1153,8 @@ msgstr "尚未选择资源"
 #: application/view/layout/layout-admin.phtml:76
 #: application/view/omeka/admin/item/form.phtml:15
 #: application/view/omeka/admin/item/show-details.phtml:36
-#: application/view/omeka/admin/item/show.phtml:88
-#: application/view/omeka/admin/media/browse.phtml:31
+#: application/view/omeka/admin/item/show.phtml:92
+#: application/view/omeka/admin/media/browse.phtml:35
 #: application/view/omeka/admin/media/edit.phtml:17
 #: application/view/omeka/admin/media/edit.phtml:25
 #: application/view/omeka/admin/media/search.phtml:5
@@ -936,7 +1162,7 @@ msgstr "尚未选择资源"
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:32
 #: application/view/omeka/site/media/show.phtml:8
 msgid "Media"
-msgstr "媒体"
+msgstr "媒介"
 
 #: application/view/common/data-type/uri.phtml:6
 #: application/view/common/property-form-batch-edit.phtml:44
@@ -945,7 +1171,7 @@ msgid "URI"
 msgstr "URI"
 
 #: application/view/common/data-type/uri.phtml:12
-#: application/view/common/navigation-link-form/browse.phtml:8
+#: application/view/common/navigation-link-form/browse.phtml:16
 #: application/view/common/navigation-link-form/page.phtml:15
 #: application/view/common/navigation-link-form/url.phtml:8
 #: application/view/common/property-form-batch-edit.phtml:45
@@ -960,42 +1186,6 @@ msgstr "URI"
 #: application/view/omeka/admin/vocabulary/properties.phtml:20
 msgid "Label"
 msgstr "标签"
-
-#: application/view/common/delete-confirm.phtml:8
-#: application/view/common/item-set-selector.phtml:6
-#: application/view/common/property-selector.phtml:6
-#: application/view/common/resource-select-sidebar.phtml:6
-#: application/view/common/resource-select-sidebar.phtml:12
-#: application/view/common/site-selector.phtml:2
-#: application/view/common/user-selector.phtml:5
-#: application/view/omeka/admin/asset/sidebar-select.phtml:6
-#: application/view/omeka/admin/item-set/browse.phtml:146
-#: application/view/omeka/admin/item-set/browse.phtml:153
-#: application/view/omeka/admin/item-set/browse.phtml:171
-#: application/view/omeka/admin/item/browse.phtml:144
-#: application/view/omeka/admin/item/browse.phtml:151
-#: application/view/omeka/admin/item/browse.phtml:169
-#: application/view/omeka/admin/item/manage-media.phtml:70
-#: application/view/omeka/admin/media/browse.phtml:154
-#: application/view/omeka/admin/media/browse.phtml:163
-#: application/view/omeka/admin/media/browse.phtml:181
-#: application/view/omeka/admin/module/browse.phtml:159
-#: application/view/omeka/admin/resource-template/browse.phtml:99
-#: application/view/omeka/admin/resource-template/form.phtml:43
-#: application/view/omeka/admin/resource-template/form.phtml:52
-#: application/view/omeka/admin/resource-template/show.phtml:67
-#: application/view/omeka/admin/user/browse.phtml:137
-#: application/view/omeka/admin/user/browse.phtml:146
-#: application/view/omeka/admin/user/browse.phtml:164
-#: application/view/omeka/admin/vocabulary/browse.phtml:93
-#: application/view/omeka/admin/vocabulary/classes.phtml:67
-#: application/view/omeka/admin/vocabulary/properties.phtml:50
-#: application/view/omeka/site-admin/index/index.phtml:101
-#: application/view/omeka/site-admin/index/navigation.phtml:26
-#: application/view/omeka/site-admin/page/edit.phtml:51
-#: application/view/omeka/site-admin/page/index.phtml:102
-msgid "Close"
-msgstr "关闭"
 
 #: application/view/common/delete-confirm.phtml:12
 #, php-format
@@ -1030,13 +1220,14 @@ msgstr "过滤条目集"
 
 #: application/view/common/item-set-selector.phtml:18
 #: application/view/common/site-selector.phtml:10
+#: application/view/omeka/admin/asset/browse.phtml:54
 #: application/view/omeka/admin/item-set/browse.phtml:93
 #: application/view/omeka/admin/item-set/show.phtml:17
 #: application/view/omeka/admin/item/browse.phtml:91
 #: application/view/omeka/admin/item/show.phtml:8
 #: application/view/omeka/admin/job/browse.phtml:56
 #: application/view/omeka/admin/job/show.phtml:18
-#: application/view/omeka/admin/media/browse.phtml:101
+#: application/view/omeka/admin/media/browse.phtml:105
 #: application/view/omeka/admin/resource-template/browse.phtml:62
 #: application/view/omeka/site-admin/index/index.phtml:57
 msgid "[no owner]"
@@ -1048,46 +1239,31 @@ msgstr "【无所有人】"
 msgid "More info"
 msgstr "更多信息"
 
-#: application/view/common/linked-resources.phtml:15
+#: application/view/common/linked-resources.phtml:23
 msgid "Filter by property"
 msgstr "按属性过滤"
 
-#: application/view/common/linked-resources.phtml:17
+#: application/view/common/linked-resources.phtml:25
 msgid "All"
 msgstr "所有"
 
-#: application/view/common/linked-resources.phtml:31
-#: application/view/omeka/admin/item-set/browse.phtml:7
-#: application/view/omeka/admin/item-set/browse.phtml:73
-#: application/view/omeka/admin/item/browse.phtml:7
-#: application/view/omeka/admin/item/browse.phtml:72
-#: application/view/omeka/admin/item/manage-item-sets.phtml:33
-#: application/view/omeka/admin/item/manage-sites.phtml:39
-#: application/view/omeka/admin/media/browse.phtml:9
-#: application/view/omeka/admin/media/browse.phtml:79
-#: application/view/omeka/site-admin/index/index.phtml:7
-#: application/view/omeka/site-admin/index/index.phtml:39
-#: application/view/omeka/site-admin/index/resources.phtml:73
-#: application/view/omeka/site-admin/index/show.phtml:28
-#: application/view/omeka/site-admin/page/index.phtml:15
-#: application/view/omeka/site-admin/page/index.phtml:48
-#: application/view/omeka/site/item/browse.phtml:14
-msgid "Title"
-msgstr "标题"
-
-#: application/view/common/linked-resources.phtml:32
+#: application/view/common/linked-resources.phtml:40
 #: application/view/omeka/admin/resource-template/review-import.phtml:68
 #: application/view/omeka/admin/resource-template/show.phtml:28
 msgid "Alternate label"
 msgstr "替代标签"
 
-#: application/view/common/navigation-link-form/browse.phtml:7
+#: application/view/common/navigation-link-form/browse.phtml:8
+msgid "Search query"
+msgstr ""
+
+#: application/view/common/navigation-link-form/browse.phtml:15
 #: application/view/common/navigation-link-form/page.phtml:13
 #: application/view/common/navigation-link-form/url.phtml:7
 msgid "Type"
 msgstr "类型"
 
-#: application/view/common/navigation-link-form/browse.phtml:9
+#: application/view/common/navigation-link-form/browse.phtml:17
 msgid "Query"
 msgstr "查询"
 
@@ -1095,11 +1271,15 @@ msgstr "查询"
 #: application/view/common/pagination.phtml:8
 #: application/view/common/sidebar-pagination.phtml:5
 msgid "Page"
-msgstr "页"
+msgstr "页面"
 
 #: application/view/common/navigation-link-form/url.phtml:9
 msgid "URL"
 msgstr "URL"
+
+#: application/view/common/page-select-sidebar.phtml:8
+msgid "Select Pages"
+msgstr ""
 
 #: application/view/common/pagination.phtml:9
 #: application/view/common/sidebar-pagination.phtml:6
@@ -1141,11 +1321,11 @@ msgstr "添加文本值"
 #: application/view/common/property-form-batch-edit.phtml:46
 #: application/view/common/property-form-batch-edit.phtml:66
 #: application/view/omeka/admin/item-set/show-details.phtml:14
-#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:79
 #: application/view/omeka/admin/item/show-details.phtml:14
-#: application/view/omeka/admin/item/show.phtml:58
+#: application/view/omeka/admin/item/show.phtml:62
 #: application/view/omeka/admin/media/show-details.phtml:38
-#: application/view/omeka/admin/media/show.phtml:33
+#: application/view/omeka/admin/media/show.phtml:37
 msgid "Public"
 msgstr "公开"
 
@@ -1184,17 +1364,29 @@ msgstr "点击一个属性，加入到编辑面板中。"
 msgid "Filter properties"
 msgstr "过滤属性"
 
+#: application/view/common/query-form.phtml:9
+#: application/view/omeka/admin/query/search-filters.phtml:4
+msgid "[Edit below]"
+msgstr ""
+
+#: application/view/common/query-form.phtml:25
+msgid "Advanced edit"
+msgstr ""
+
+#: application/view/common/query-form.phtml:26
+#: application/view/omeka/admin/query/sidebar-edit.phtml:14
+msgid "Apply"
+msgstr ""
+
+#: application/view/common/query-form.phtml:28
+#: application/view/omeka/site-admin/index/users.phtml:8
+msgid "Restore"
+msgstr "恢复"
+
 #: application/view/common/resource-fields.phtml:45
 #: application/view/omeka/admin/resource-template/form.phtml:32
 msgid "Add property"
 msgstr "添加属性"
-
-#: application/view/common/resource-form-templates.phtml:10
-#: application/view/omeka/admin/item/sidebar-select.phtml:28
-#: application/view/omeka/site-admin/page/attachment-item-options.phtml:35
-#: application/view/omeka/site-admin/page/edit.phtml:57
-msgid "Collapse"
-msgstr "折叠"
 
 #: application/view/common/resource-form-templates.phtml:13
 msgid "Property term for development use"
@@ -1234,14 +1426,14 @@ msgstr "过滤网站"
 #: application/view/common/site-selector.phtml:7
 #: application/view/omeka/admin/item/form.phtml:17
 #: application/view/omeka/admin/item/show-details.phtml:28
-#: application/view/omeka/admin/item/show.phtml:72
+#: application/view/omeka/admin/item/show.phtml:76
 #: application/view/omeka/index/index.phtml:6
 #: application/view/omeka/site-admin/index/add.phtml:12
 #: application/view/omeka/site-admin/index/edit.phtml:8
 #: application/view/omeka/site-admin/index/index.phtml:21
-#: application/view/omeka/site-admin/index/navigation.phtml:10
+#: application/view/omeka/site-admin/index/navigation.phtml:15
 #: application/view/omeka/site-admin/index/resources.phtml:20
-#: application/view/omeka/site-admin/index/show.phtml:11
+#: application/view/omeka/site-admin/index/show.phtml:7
 #: application/view/omeka/site-admin/index/theme.phtml:11
 #: application/view/omeka/site-admin/index/users.phtml:41
 #: application/view/omeka/site-admin/page/index.phtml:33
@@ -1269,18 +1461,6 @@ msgstr ""
 msgid "Sort order"
 msgstr ""
 
-#: application/view/common/sort-selector.phtml:14
-msgid "Ascending"
-msgstr "升序排列"
-
-#: application/view/common/sort-selector.phtml:15
-msgid "Descending"
-msgstr "降序排列"
-
-#: application/view/common/sort-selector.phtml:17
-msgid "Sort"
-msgstr "排序"
-
 #: application/view/common/user-bar.phtml:22
 #: application/view/layout/layout-admin.phtml:48
 #, php-format
@@ -1297,15 +1477,15 @@ msgstr "登出"
 msgid "Log in"
 msgstr "登录"
 
-#: application/view/common/user-selector.phtml:11
+#: application/view/common/user-selector.phtml:12
 msgid "Click on a user to add it to the edit panel."
 msgstr "点击一个用户，加入到编辑面板中。"
 
-#: application/view/common/user-selector.phtml:14
+#: application/view/common/user-selector.phtml:15
 msgid "Filter users"
 msgstr "过滤用户"
 
-#: application/view/common/user-selector.phtml:16
+#: application/view/common/user-selector.phtml:17
 #, php-format
 msgid "Users (%s)"
 msgstr "用户 （%s）"
@@ -1353,7 +1533,7 @@ msgstr "细节："
 msgid ""
 "To learn how to see more detailed information about this error, see the "
 "Omeka S User Manual page on %s."
-msgstr ""
+msgstr "要得知此错误的更多详细信息，参见有关%s的Omeka S用户手册页。"
 
 #: application/view/error/index.phtml:19
 msgid "retrieving error messages"
@@ -1397,7 +1577,7 @@ msgstr "搜索条目集"
 
 #: application/view/layout/layout-admin.phtml:74
 msgid "Search media"
-msgstr "搜索媒体"
+msgstr "搜索媒介"
 
 #: application/view/layout/layout-admin.phtml:85
 #: application/view/omeka/admin/index/browse.phtml:50
@@ -1449,50 +1629,94 @@ msgstr "支持论坛"
 msgid "Powered by Omeka S"
 msgstr "由Omeka S支持"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:9
+#: application/view/omeka/admin/asset/add-form.phtml:6
 msgid "Upload new asset"
 msgstr "添加新素材"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:12
+#: application/view/omeka/admin/asset/add-form.phtml:9
+#: application/view/omeka/admin/asset/show-details.phtml:21
+msgid "Alt text"
+msgstr ""
+
+#: application/view/omeka/admin/asset/add-form.phtml:11
 msgid "Upload"
 msgstr "上传"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:17
+#: application/view/omeka/admin/asset/browse.phtml:8
+#: application/view/omeka/admin/item-set/show.phtml:66
+#: application/view/omeka/admin/item/show.phtml:57
+#: application/view/omeka/admin/job/browse.phtml:7
+#: application/view/omeka/admin/job/browse.phtml:37
+#: application/view/omeka/admin/media/show.phtml:32
+#: application/view/omeka/admin/user/edit.phtml:39
+msgid "ID"
+msgstr "ID"
+
+#: application/view/omeka/admin/asset/browse.phtml:27
+msgid "Add new asset"
+msgstr ""
+
+#: application/view/omeka/admin/asset/browse.phtml:75
+#: application/view/omeka/admin/asset/edit.phtml:6
+#: application/view/omeka/admin/item-set/browse.phtml:117
+#: application/view/omeka/admin/item-set/edit.phtml:6
+#: application/view/omeka/admin/item/browse.phtml:115
+#: application/view/omeka/admin/item/edit.phtml:6
+#: application/view/omeka/admin/media/browse.phtml:129
+#: application/view/omeka/admin/media/edit.phtml:65
+#: application/view/omeka/admin/resource-template/browse.phtml:79
+#: application/view/omeka/admin/resource-template/form.phtml:13
+#: application/view/omeka/admin/user/browse.phtml:108
+#: application/view/omeka/admin/user/edit.phtml:40
+#: application/view/omeka/admin/vocabulary/browse.phtml:67
+#: application/view/omeka/admin/vocabulary/edit.phtml:11
+#: application/view/omeka/site-admin/index/edit.phtml:26
+#: application/view/omeka/site-admin/index/index.phtml:82
+#: application/view/omeka/site-admin/index/users.phtml:7
+#: application/view/omeka/site-admin/page/edit.phtml:29
+msgid "Delete"
+msgstr "删除"
+
+#: application/view/omeka/admin/asset/browse.phtml:82
+#: application/view/omeka/admin/item-set/browse.phtml:124
+#: application/view/omeka/admin/item/browse.phtml:122
+#: application/view/omeka/admin/media/browse.phtml:136
+#: application/view/omeka/admin/resource-template/browse.phtml:85
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:27
+#: application/view/omeka/admin/resource-template/show.phtml:44
+#: application/view/omeka/admin/user/browse.phtml:115
+#: application/view/omeka/admin/vocabulary/browse.phtml:74
+#: application/view/omeka/admin/vocabulary/classes.phtml:52
+#: application/view/omeka/admin/vocabulary/properties.phtml:35
+msgid "Details"
+msgstr "细节"
+
+#: application/view/omeka/admin/asset/browse.phtml:108
+msgid "Omeka could not find any assets."
+msgstr ""
+
+#: application/view/omeka/admin/asset/show-details.phtml:12
+msgid "Media type"
+msgstr ""
+
+#: application/view/omeka/admin/asset/sidebar-select.phtml:16
 msgid "Select asset"
 msgstr "选择素材"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:26
+#: application/view/omeka/admin/asset/sidebar-select.phtml:25
 msgid "No owner"
 msgstr "无所有人"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:33
+#: application/view/omeka/admin/asset/sidebar-select.phtml:32
 msgid "Filter by owner"
 msgstr "按所有者过滤"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:49
-msgid "Delete asset"
-msgstr "删除素材"
-
-#: application/view/omeka/admin/asset/sidebar-select.phtml:53
-msgid "Cancel delete"
-msgstr "取消删除"
-
-#: application/view/omeka/admin/asset/sidebar-select.phtml:73
+#: application/view/omeka/admin/asset/sidebar-select.phtml:56
 msgid "assets"
 msgstr "素材"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:78
-msgid ""
-"Are you sure you want to delete this asset? It will no longer be available "
-"to any resources currently using it."
-msgstr "您确定要删除这个素材吗？它将不再能被现在正使用它的任何资源使用。"
-
-#: application/view/omeka/admin/asset/sidebar-select.phtml:79
-msgid "Confirm delete"
-msgstr "确认删除"
-
 #: application/view/omeka/admin/index/browse.phtml:4
-#: application/view/omeka/index/index.phtml:32
+#: application/view/omeka/index/index.phtml:33
 msgid "Admin dashboard"
 msgstr "管理控制面板"
 
@@ -1558,18 +1782,18 @@ msgstr "批量编辑条目集"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:19
 #: application/view/omeka/admin/item-set/edit.phtml:20
-#: application/view/omeka/admin/item-set/form.phtml:55
+#: application/view/omeka/admin/item-set/form.phtml:56
 #: application/view/omeka/admin/item/batch-edit.phtml:19
 #: application/view/omeka/admin/item/edit.phtml:22
 #: application/view/omeka/admin/media/batch-edit.phtml:21
-#: application/view/omeka/admin/media/edit.phtml:67
+#: application/view/omeka/admin/media/edit.phtml:68
 #: application/view/omeka/admin/resource-template/edit.phtml:15
 #: application/view/omeka/admin/setting/browse.phtml:11
 #: application/view/omeka/admin/user/batch-edit.phtml:19
 #: application/view/omeka/admin/user/edit.phtml:19
 #: application/view/omeka/admin/vocabulary/edit.phtml:13
 #: application/view/omeka/site-admin/index/edit.phtml:29
-#: application/view/omeka/site-admin/index/navigation.phtml:17
+#: application/view/omeka/site-admin/index/navigation.phtml:22
 #: application/view/omeka/site-admin/index/resources.phtml:31
 #: application/view/omeka/site-admin/index/theme-settings.phtml:12
 #: application/view/omeka/site-admin/index/theme.phtml:18
@@ -1592,61 +1816,16 @@ msgstr "您正在编辑以下%s条目集："
 msgid "You are editing %s item sets."
 msgstr "您正在编辑%s条目集。"
 
-#: application/view/omeka/admin/item-set/browse.phtml:11
-#: application/view/omeka/admin/item/browse.phtml:11
-#: application/view/omeka/admin/media/browse.phtml:13
-#: application/view/omeka/site/item/browse.phtml:18
-msgid "Identifier"
-msgstr "标识符"
-
-#: application/view/omeka/admin/item-set/browse.phtml:19
-#: application/view/omeka/admin/item-set/browse.phtml:76
-#: application/view/omeka/admin/item-set/show.phtml:70
-#: application/view/omeka/admin/item/browse.phtml:19
-#: application/view/omeka/admin/item/browse.phtml:74
-#: application/view/omeka/admin/item/manage-item-sets.phtml:34
-#: application/view/omeka/admin/item/manage-sites.phtml:40
-#: application/view/omeka/admin/item/show.phtml:83
-#: application/view/omeka/admin/job/browse.phtml:19
-#: application/view/omeka/admin/job/browse.phtml:40
-#: application/view/omeka/admin/job/show.phtml:45
-#: application/view/omeka/admin/media/browse.phtml:21
-#: application/view/omeka/admin/media/browse.phtml:82
-#: application/view/omeka/admin/resource-template/browse.phtml:15
-#: application/view/omeka/admin/resource-template/browse.phtml:46
-#: application/view/omeka/site-admin/index/index.phtml:15
-#: application/view/omeka/site-admin/index/index.phtml:41
-#: application/view/omeka/site-admin/index/resources.phtml:74
-msgid "Owner"
-msgstr "所有人"
-
-#: application/view/omeka/admin/item-set/browse.phtml:23
-#: application/view/omeka/admin/item-set/browse.phtml:77
-#: application/view/omeka/admin/item-set/show.phtml:66
-#: application/view/omeka/admin/item/browse.phtml:23
-#: application/view/omeka/admin/item/browse.phtml:75
-#: application/view/omeka/admin/item/show.phtml:79
-#: application/view/omeka/admin/media/browse.phtml:25
-#: application/view/omeka/admin/media/browse.phtml:83
-#: application/view/omeka/admin/media/show.phtml:41
-#: application/view/omeka/admin/user/browse.phtml:18
-#: application/view/omeka/admin/user/browse.phtml:81
-#: application/view/omeka/site-admin/page/index.phtml:23
-#: application/view/omeka/site-admin/page/index.phtml:50
-#: application/view/omeka/site/item/browse.phtml:26
-msgid "Created"
-msgstr "创建于"
-
 #: application/view/omeka/admin/item-set/browse.phtml:35
 #: application/view/omeka/admin/item-set/search.phtml:5
 #: application/view/omeka/admin/item/browse.phtml:35
 #: application/view/omeka/admin/item/search.phtml:5
-#: application/view/omeka/admin/media/browse.phtml:37
+#: application/view/omeka/admin/media/browse.phtml:41
 #: application/view/omeka/admin/media/search.phtml:5
 #: application/view/omeka/admin/user/browse.phtml:30
 #: application/view/omeka/admin/user/search.phtml:5
-#: application/view/omeka/site/item-set/browse.phtml:14
-#: application/view/omeka/site/item/browse.phtml:48
+#: application/view/omeka/site/item-set/browse.phtml:17
+#: application/view/omeka/site/item/browse.phtml:51
 msgid "Advanced search"
 msgstr "高级搜索"
 
@@ -1654,8 +1833,8 @@ msgstr "高级搜索"
 #: application/view/omeka/admin/item-set/browse.phtml:52
 #: application/view/omeka/admin/item/browse.phtml:50
 #: application/view/omeka/admin/item/browse.phtml:51
-#: application/view/omeka/admin/media/browse.phtml:46
-#: application/view/omeka/admin/media/browse.phtml:47
+#: application/view/omeka/admin/media/browse.phtml:50
+#: application/view/omeka/admin/media/browse.phtml:51
 #: application/view/omeka/admin/user/browse.phtml:45
 #: application/view/omeka/admin/user/browse.phtml:46
 msgid "Batch actions"
@@ -1663,28 +1842,28 @@ msgstr "批量操作"
 
 #: application/view/omeka/admin/item-set/browse.phtml:53
 #: application/view/omeka/admin/item/browse.phtml:52
-#: application/view/omeka/admin/media/browse.phtml:49
+#: application/view/omeka/admin/media/browse.phtml:53
 #: application/view/omeka/admin/user/browse.phtml:48
 msgid "Edit selected"
 msgstr "编辑被选中的"
 
 #: application/view/omeka/admin/item-set/browse.phtml:54
 #: application/view/omeka/admin/item/browse.phtml:53
-#: application/view/omeka/admin/media/browse.phtml:50
+#: application/view/omeka/admin/media/browse.phtml:54
 #: application/view/omeka/admin/user/browse.phtml:49
 msgid "Edit all"
 msgstr "编辑所有"
 
 #: application/view/omeka/admin/item-set/browse.phtml:55
 #: application/view/omeka/admin/item/browse.phtml:54
-#: application/view/omeka/admin/media/browse.phtml:53
+#: application/view/omeka/admin/media/browse.phtml:57
 #: application/view/omeka/admin/user/browse.phtml:52
 msgid "Delete selected"
 msgstr "删除被选中的"
 
 #: application/view/omeka/admin/item-set/browse.phtml:56
 #: application/view/omeka/admin/item/browse.phtml:55
-#: application/view/omeka/admin/media/browse.phtml:54
+#: application/view/omeka/admin/media/browse.phtml:58
 #: application/view/omeka/admin/user/browse.phtml:53
 msgid "Delete all"
 msgstr "删除所有"
@@ -1699,11 +1878,11 @@ msgstr "删除所有"
 #: application/view/omeka/admin/item/browse.phtml:60
 #: application/view/omeka/admin/item/browse.phtml:62
 #: application/view/omeka/admin/item/browse.phtml:63
-#: application/view/omeka/admin/media/browse.phtml:58
-#: application/view/omeka/admin/media/browse.phtml:60
-#: application/view/omeka/admin/media/browse.phtml:61
+#: application/view/omeka/admin/media/browse.phtml:62
+#: application/view/omeka/admin/media/browse.phtml:64
 #: application/view/omeka/admin/media/browse.phtml:65
-#: application/view/omeka/admin/media/browse.phtml:66
+#: application/view/omeka/admin/media/browse.phtml:69
+#: application/view/omeka/admin/media/browse.phtml:70
 #: application/view/omeka/admin/user/browse.phtml:57
 #: application/view/omeka/admin/user/browse.phtml:59
 #: application/view/omeka/admin/user/browse.phtml:60
@@ -1714,7 +1893,7 @@ msgstr "前往"
 
 #: application/view/omeka/admin/item-set/browse.phtml:72
 #: application/view/omeka/admin/item/browse.phtml:72
-#: application/view/omeka/admin/media/browse.phtml:77
+#: application/view/omeka/admin/media/browse.phtml:81
 msgid "Select all"
 msgstr "选择所有"
 
@@ -1725,50 +1904,18 @@ msgstr "选择条目集"
 
 #: application/view/omeka/admin/item-set/browse.phtml:103
 #: application/view/omeka/admin/item-set/show-details.phtml:14
-#: application/view/omeka/admin/item-set/show.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:79
 #: application/view/omeka/admin/item/browse.phtml:101
 #: application/view/omeka/admin/item/show-details.phtml:14
-#: application/view/omeka/admin/item/show.phtml:58
-#: application/view/omeka/admin/media/browse.phtml:111
+#: application/view/omeka/admin/item/show.phtml:62
+#: application/view/omeka/admin/media/browse.phtml:115
 #: application/view/omeka/admin/media/show-details.phtml:38
-#: application/view/omeka/admin/media/show.phtml:33
+#: application/view/omeka/admin/media/show.phtml:37
 #: application/view/omeka/admin/resource-template/form.phtml:90
 #: application/view/omeka/site-admin/index/index.phtml:64
 #: application/view/omeka/site-admin/page/index.phtml:66
 msgid "Private"
 msgstr "私有"
-
-#: application/view/omeka/admin/item-set/browse.phtml:117
-#: application/view/omeka/admin/item-set/edit.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:115
-#: application/view/omeka/admin/item/edit.phtml:6
-#: application/view/omeka/admin/media/browse.phtml:125
-#: application/view/omeka/admin/media/edit.phtml:64
-#: application/view/omeka/admin/resource-template/browse.phtml:79
-#: application/view/omeka/admin/resource-template/form.phtml:13
-#: application/view/omeka/admin/user/browse.phtml:108
-#: application/view/omeka/admin/user/edit.phtml:40
-#: application/view/omeka/admin/vocabulary/browse.phtml:67
-#: application/view/omeka/admin/vocabulary/edit.phtml:11
-#: application/view/omeka/site-admin/index/edit.phtml:26
-#: application/view/omeka/site-admin/index/index.phtml:82
-#: application/view/omeka/site-admin/index/users.phtml:7
-#: application/view/omeka/site-admin/page/edit.phtml:29
-msgid "Delete"
-msgstr "删除"
-
-#: application/view/omeka/admin/item-set/browse.phtml:124
-#: application/view/omeka/admin/item/browse.phtml:122
-#: application/view/omeka/admin/media/browse.phtml:132
-#: application/view/omeka/admin/resource-template/browse.phtml:85
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:27
-#: application/view/omeka/admin/resource-template/show.phtml:44
-#: application/view/omeka/admin/user/browse.phtml:115
-#: application/view/omeka/admin/vocabulary/browse.phtml:74
-#: application/view/omeka/admin/vocabulary/classes.phtml:52
-#: application/view/omeka/admin/vocabulary/properties.phtml:35
-msgid "Details"
-msgstr "细节"
 
 #: application/view/omeka/admin/item-set/browse.phtml:157
 #: application/view/omeka/admin/item-set/browse.phtml:175
@@ -1791,8 +1938,8 @@ msgstr "%1$s：该操作将永久删除%2$s条目集，并且不能被恢复。"
 #: application/view/omeka/admin/item-set/browse.phtml:179
 #: application/view/omeka/admin/item/browse.phtml:159
 #: application/view/omeka/admin/item/browse.phtml:177
-#: application/view/omeka/admin/media/browse.phtml:171
-#: application/view/omeka/admin/media/browse.phtml:189
+#: application/view/omeka/admin/media/browse.phtml:175
+#: application/view/omeka/admin/media/browse.phtml:193
 #: application/view/omeka/admin/user/browse.phtml:154
 #: application/view/omeka/admin/user/browse.phtml:172
 msgid "Warning"
@@ -1806,7 +1953,7 @@ msgstr "您确定要删除该结果的所有页面上的所有条目集吗？"
 
 #: application/view/omeka/admin/item-set/browse.phtml:182
 #: application/view/omeka/admin/item/browse.phtml:180
-#: application/view/omeka/admin/media/browse.phtml:192
+#: application/view/omeka/admin/media/browse.phtml:196
 #: application/view/omeka/admin/user/browse.phtml:175
 msgid "Are you sure?"
 msgstr "您是否确定执行操作？"
@@ -1827,18 +1974,18 @@ msgstr "值"
 msgid "Advanced"
 msgstr "高级的"
 
-#: application/view/omeka/admin/item-set/form.phtml:28
+#: application/view/omeka/admin/item-set/form.phtml:29
 msgid "Close item set"
 msgstr "关闭条目集"
 
-#: application/view/omeka/admin/item-set/form.phtml:34
+#: application/view/omeka/admin/item-set/form.phtml:35
 msgid "Open item set"
 msgstr "打开条目集"
 
-#: application/view/omeka/admin/item-set/form.phtml:48
-#: application/view/omeka/admin/item/form.phtml:57
+#: application/view/omeka/admin/item-set/form.phtml:49
+#: application/view/omeka/admin/item/form.phtml:58
 #: application/view/omeka/admin/item/manage-media.phtml:36
-#: application/view/omeka/admin/media/edit.phtml:59
+#: application/view/omeka/admin/media/edit.phtml:60
 #: application/view/omeka/site-admin/index/add-page.phtml:12
 #: application/view/omeka/site-admin/index/add.phtml:20
 #: application/view/omeka/site-admin/index/edit.phtml:21
@@ -1847,21 +1994,21 @@ msgid "Make public"
 msgstr "设置为公开"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:13
-#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item-set/show.phtml:78
 #: application/view/omeka/admin/item/show-details.phtml:13
-#: application/view/omeka/admin/item/show.phtml:57
+#: application/view/omeka/admin/item/show.phtml:61
 #: application/view/omeka/admin/media/show-details.phtml:37
-#: application/view/omeka/admin/media/show.phtml:32
+#: application/view/omeka/admin/media/show.phtml:36
 msgid "Visibility"
 msgstr "可视度"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:15
-#: application/view/omeka/admin/item-set/show.phtml:76
+#: application/view/omeka/admin/item-set/show.phtml:80
 msgid "Open to additions"
 msgstr "添加是开放的"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:15
-#: application/view/omeka/admin/item-set/show.phtml:76
+#: application/view/omeka/admin/item-set/show.phtml:80
 msgid "Closed to additions"
 msgstr "添加已关闭"
 
@@ -1873,7 +2020,7 @@ msgstr "元数据"
 
 #: application/view/omeka/admin/item-set/show.phtml:22
 #: application/view/omeka/admin/item/show.phtml:13
-#: application/view/omeka/site/item/show.phtml:55
+#: application/view/omeka/site/item/show.phtml:58
 msgid "Linked resources"
 msgstr "关联资源"
 
@@ -1974,18 +2121,18 @@ msgstr "添加入条目集"
 
 #: application/view/omeka/admin/item/manage-media.phtml:21
 msgid "Media to be removed"
-msgstr "将被移除的媒体"
+msgstr "将被移除的媒介"
 
 #: application/view/omeka/admin/item/manage-media.phtml:63
 msgid ""
 "This resource has no media.<br>Start adding media using the sidebar to the "
 "right."
-msgstr "该资源没有媒体。<br>用右边的界面添加媒体。"
+msgstr "该资源没有媒介。<br>用右边的界面添加媒介。"
 
 #: application/view/omeka/admin/item/manage-media.phtml:67
 #: application/view/omeka/admin/item/manage-media.phtml:71
 msgid "Add media"
-msgstr "添加媒体"
+msgstr "添加媒介"
 
 #: application/view/omeka/admin/item/manage-sites.phtml:30
 msgid "Unassign from site"
@@ -2029,11 +2176,9 @@ msgstr "快速添加"
 msgid "items"
 msgstr "条目"
 
-#: application/view/omeka/admin/job/browse.phtml:7
-#: application/view/omeka/admin/job/browse.phtml:37
-#: application/view/omeka/admin/user/edit.phtml:39
-msgid "ID"
-msgstr "ID"
+#: application/view/omeka/admin/item/sidebar-select.phtml:103
+msgid "Add selected"
+msgstr ""
 
 #: application/view/omeka/admin/job/browse.phtml:15
 #: application/view/omeka/admin/job/browse.phtml:39
@@ -2087,113 +2232,107 @@ msgid "[no log]"
 msgstr "【无日志】"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:9
-msgid "Batch edit medias"
-msgstr "批量编辑媒体"
+msgid "Batch edit media"
+msgstr ""
 
 #: application/view/omeka/admin/media/batch-edit.phtml:29
-msgid "Affected medias"
-msgstr "受影响的媒体"
+msgid "Affected media"
+msgstr ""
 
 #: application/view/omeka/admin/media/batch-edit.phtml:31
 #, php-format
-msgid "You are editing the following %s medias:"
-msgstr "您正在编辑以下%s媒体："
+msgid "You are editing the following %s media:"
+msgstr ""
 
 #: application/view/omeka/admin/media/batch-edit.phtml:38
 #, php-format
-msgid "You are editing %s medias."
-msgstr "您正在编辑%s媒体。"
+msgid "You are editing %s media."
+msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:107
+#: application/view/omeka/admin/media/browse.phtml:111
 #: application/view/omeka/admin/media/sidebar-select.phtml:8
 msgid "Select media"
-msgstr "选择媒体"
+msgstr "选择媒介"
 
-#: application/view/omeka/admin/media/browse.phtml:167
-#: application/view/omeka/admin/media/browse.phtml:185
-msgid "Delete medias"
-msgstr "删除媒体"
+#: application/view/omeka/admin/media/browse.phtml:171
+#: application/view/omeka/admin/media/browse.phtml:189
+msgid "Delete media"
+msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:168
-msgid "Are you sure you would like to delete the selected medias?"
-msgstr "您确定要删除选定的媒体吗？"
+#: application/view/omeka/admin/media/browse.phtml:172
+msgid "Are you sure you would like to delete the selected media?"
+msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:170
-#: application/view/omeka/admin/media/browse.phtml:188
+#: application/view/omeka/admin/media/browse.phtml:174
+#: application/view/omeka/admin/media/browse.phtml:192
 #, php-format
 msgid ""
-"%1$s: this action will permanently delete %2$s medias and cannot be undone."
-msgstr "%1$s：该操作将永久删除%2$s媒体，并且不能被恢复。"
+"%1$s: this action will permanently delete %2$s media and cannot be undone."
+msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:186
+#: application/view/omeka/admin/media/browse.phtml:190
 msgid ""
-"Are you sure you would like to delete all medias on all pages of this "
-"result?"
-msgstr "您确定要删除该结果的所有页面上的所有媒体吗？"
+"Are you sure you would like to delete all media on all pages of this result?"
+msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:227
-msgid "Omeka could not find any medias."
-msgstr "Omeka找不到任何媒体。"
+#: application/view/omeka/admin/media/browse.phtml:231
+msgid "Omeka could not find any media."
+msgstr ""
 
 #: application/view/omeka/admin/media/show-details.phtml:18
 msgid "Part of Item"
 msgstr "条目的一部分"
 
 #: application/view/omeka/admin/media/show-details.phtml:24
-#: application/view/omeka/admin/media/show.phtml:46
+#: application/view/omeka/admin/media/show.phtml:50
 msgid "MIME type"
 msgstr "MIME类型"
 
-#: application/view/omeka/admin/media/show-details.phtml:31
-#: application/view/omeka/admin/media/show.phtml:52
-msgid "Size"
-msgstr "尺寸"
-
 #: application/view/omeka/admin/media/show-details.phtml:32
-#: application/view/omeka/admin/media/show.phtml:53
+#: application/view/omeka/admin/media/show.phtml:57
 #, php-format
 msgid "%s bytes"
 msgstr "%s字节数"
 
 #: application/view/omeka/admin/media/show.phtml:14
 msgid "Edit media"
-msgstr "编辑媒体"
+msgstr "编辑媒介"
 
-#: application/view/omeka/admin/media/show.phtml:36
+#: application/view/omeka/admin/media/show.phtml:40
 msgid "Part of item"
 msgstr "条目的一部分"
 
-#: application/view/omeka/admin/media/show.phtml:57
+#: application/view/omeka/admin/media/show.phtml:61
 msgid "Ingester"
 msgstr "获取器"
 
-#: application/view/omeka/admin/media/show.phtml:62
+#: application/view/omeka/admin/media/show.phtml:66
 msgid "Source"
 msgstr "来源"
 
-#: application/view/omeka/admin/media/show.phtml:68
+#: application/view/omeka/admin/media/show.phtml:72
 msgid "File Derivatives"
 msgstr "文件衍生品"
 
-#: application/view/omeka/admin/media/show.phtml:70
+#: application/view/omeka/admin/media/show.phtml:74
 msgid "original"
 msgstr "原版"
 
-#: application/view/omeka/admin/media/show.phtml:73
+#: application/view/omeka/admin/media/show.phtml:77
 msgid "large"
 msgstr "大"
 
-#: application/view/omeka/admin/media/show.phtml:74
+#: application/view/omeka/admin/media/show.phtml:78
 msgid "medium"
 msgstr "中"
 
-#: application/view/omeka/admin/media/show.phtml:75
+#: application/view/omeka/admin/media/show.phtml:79
 msgid "square"
 msgstr "正方形"
 
 #: application/view/omeka/admin/media/sidebar-select.phtml:38
 msgid "media"
-msgstr "媒体"
+msgstr "媒介"
 
 #: application/view/omeka/admin/module/browse.phtml:15
 msgid "All modules"
@@ -2276,6 +2415,18 @@ msgstr "术语"
 #: application/view/omeka/admin/resource-template/form.phtml:62
 msgid "Comment"
 msgstr "评论"
+
+#: application/view/omeka/admin/query/sidebar-edit.phtml:4
+msgid "Search query edit"
+msgstr ""
+
+#: application/view/omeka/admin/query/sidebar-preview.phtml:2
+msgid "Search query preview"
+msgstr ""
+
+#: application/view/omeka/admin/query/sidebar-preview.phtml:11
+msgid "No resources found."
+msgstr ""
 
 #: application/view/omeka/admin/resource-template/add.phtml:6
 msgid "New resource template"
@@ -2403,7 +2554,7 @@ msgstr "编辑属性"
 
 #: application/view/omeka/admin/resource-template/show-property-row.phtml:37
 msgid "Remove property"
-msgstr "移除属性"
+msgstr "取消属性"
 
 #: application/view/omeka/admin/resource-template/show.phtml:10
 msgid "Export"
@@ -2475,7 +2626,7 @@ msgstr "%1$s：该操作将永久删除%2$s用户，并且不能被恢复。"
 msgid ""
 "Are you sure you would like to delete all users (except yourself) on all "
 "pages of this result?"
-msgstr ""
+msgstr "您确定要删除该结果的所有页面上的所有用户（除了您自己）吗？"
 
 #: application/view/omeka/admin/user/browse.phtml:171
 #, php-format
@@ -2573,7 +2724,7 @@ msgstr "该词汇没有类。"
 msgid ""
 "You may update this vocabulary to a newer version. You will be able to "
 "review the changes before you accept."
-msgstr ""
+msgstr "您可以把这个词汇表更新到新版本。您在接受前可以先审核更新。"
 
 #: application/view/omeka/admin/vocabulary/import.phtml:7
 msgid "New vocabulary"
@@ -2591,7 +2742,7 @@ msgstr "更新"
 msgid "Accept changes"
 msgstr "接受更改"
 
-#: application/view/omeka/index/index.phtml:31
+#: application/view/omeka/index/index.phtml:32
 #, php-format
 msgid "Go to the %1$s to start working with %2$s."
 msgstr "前往%1$s，开始为%2$s工作。"
@@ -2644,7 +2795,7 @@ msgid ""
 "There was a recent software upgrade and the database needs to be updated. "
 "The entire site will be down for maintenance until you click the button "
 "below."
-msgstr ""
+msgstr "最近软件升级，数据库需要更新。在您点击下面的按钮之前，整个网站将关闭以便维护。"
 
 #: application/view/omeka/migrate/index.phtml:10
 msgid ""
@@ -2669,7 +2820,7 @@ msgid "Info"
 msgstr "信息"
 
 #: application/view/omeka/site-admin/index/add.phtml:8
-#: application/view/omeka/site-admin/index/show.phtml:32
+#: application/view/omeka/site-admin/index/show.phtml:28
 #: application/view/omeka/site-admin/index/theme-settings.phtml:6
 #: application/view/omeka/site-admin/index/theme.phtml:11
 msgid "Theme"
@@ -2685,7 +2836,7 @@ msgstr "设置"
 
 #: application/view/omeka/site-admin/index/index.phtml:11
 #: application/view/omeka/site-admin/index/index.phtml:40
-#: application/view/omeka/site-admin/index/show.phtml:24
+#: application/view/omeka/site-admin/index/show.phtml:20
 #: application/view/omeka/site-admin/page/index.phtml:19
 msgid "URL slug"
 msgstr "URL缩略词"
@@ -2698,29 +2849,30 @@ msgstr "添加新网站"
 msgid "Omeka could not find any sites."
 msgstr "Omeka找不到任何网站。"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:10
+#: application/view/omeka/site-admin/index/navigation.phtml:15
 #: application/view/omeka/site-admin/page/index.phtml:11
 msgid "Navigation"
 msgstr "导航"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:24
-#: application/view/omeka/site-admin/index/navigation.phtml:44
+#: application/view/omeka/site-admin/index/navigation.phtml:29
+#: application/view/omeka/site-admin/index/navigation.phtml:49
 msgid "Add a link to a site page"
 msgstr "在网站页面上添加链接"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:28
+#: application/view/omeka/site-admin/index/navigation.phtml:33
 msgid "Select a homepage"
 msgstr "选择一个主页"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:32
+#: application/view/omeka/site-admin/index/navigation.phtml:37
 msgid "Add a custom link"
 msgstr "添加一个定制链接"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:46
+#: application/view/omeka/site-admin/index/navigation.phtml:51
+#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:10
 msgid "Filter pages"
 msgstr "过滤页面"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:60
+#: application/view/omeka/site-admin/index/navigation.phtml:65
 msgid "There are no available pages."
 msgstr "没有可用页面。"
 
@@ -2734,37 +2886,31 @@ msgstr "目前有%s个条目被分配给此网站。"
 msgid ""
 "This site currently auto-assigns newly created items. Change the setting in "
 "%s."
-msgstr ""
+msgstr "该网站现在自动指定新创建的条目。在%s里面改变设置。"
 
 #: application/view/omeka/site-admin/index/resources.phtml:43
 msgid "site admin"
 msgstr "网站管理员"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
-#: application/view/omeka/site-admin/index/resources.phtml:55
-msgid "Preview this search"
-msgstr "预览本搜索"
+msgid "Keep this query"
+msgstr ""
 
-#: application/view/omeka/site-admin/index/resources.phtml:80
+#: application/view/omeka/site-admin/index/resources.phtml:73
 msgid "No item sets are assigned to this site."
 msgstr "没有条目集被分配给该网站。"
 
-#: application/view/omeka/site-admin/index/show.phtml:6
-#: application/view/omeka/site-admin/index/users.phtml:10
-msgid "Viewer"
-msgstr "观众"
-
-#: application/view/omeka/site-admin/index/show.phtml:7
-msgid "Editor"
-msgstr "编辑"
-
-#: application/view/omeka/site-admin/index/show.phtml:20
+#: application/view/omeka/site-admin/index/show.phtml:16
 msgid "Back to site list"
 msgstr "返回到网站列表"
 
-#: application/view/omeka/site-admin/index/show.phtml:40
+#: application/view/omeka/site-admin/index/show.phtml:36
 msgid "Summary"
 msgstr "总结"
+
+#: application/view/omeka/site-admin/index/show.phtml:44
+msgid "Thumbnail"
+msgstr "缩略图"
 
 #: application/view/omeka/site-admin/index/theme-selector.phtml:26
 msgid "Invalid theme.ini file"
@@ -2812,9 +2958,9 @@ msgid ""
 "available until the problem is resolved or you select another theme below."
 msgstr "请联系Omeka S管理员。本网站将不会公开，直到问题被解决或您在下面选择另一个主题。"
 
-#: application/view/omeka/site-admin/index/users.phtml:8
-msgid "Restore"
-msgstr "恢复"
+#: application/view/omeka/site-admin/index/users.phtml:10
+msgid "Viewer"
+msgstr "观众"
 
 #: application/view/omeka/site-admin/index/users.phtml:11
 msgid "Creator"
@@ -2848,14 +2994,6 @@ msgstr "尚未选择条目。"
 msgid "Add new block"
 msgstr "添加新段落"
 
-#: application/view/omeka/site-admin/page/edit.phtml:54
-msgid "Caption"
-msgstr "标题"
-
-#: application/view/omeka/site-admin/page/edit.phtml:65
-msgid "Apply changes"
-msgstr "实施更改"
-
 #: application/view/omeka/site-admin/page/index.phtml:27
 #: application/view/omeka/site-admin/page/index.phtml:50
 msgid "Modified"
@@ -2877,6 +3015,10 @@ msgstr "访问公共页面"
 msgid "Delete page"
 msgstr "删除页面"
 
+#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:8
+msgid "Add to List of pages"
+msgstr ""
+
 #: application/view/omeka/site/index/index.phtml:4
 msgid "This site has no pages."
 msgstr "本网站没有页面。"
@@ -2885,7 +3027,7 @@ msgstr "本网站没有页面。"
 msgid "Advanced item set Search"
 msgstr "高级条目集搜索"
 
-#: application/view/omeka/site/item/show.phtml:10
+#: application/view/omeka/site/item/show.phtml:13
 msgid "Item"
 msgstr "条目"
 
@@ -2898,135 +3040,172 @@ msgstr "%s的一部分"
 msgid "No pages found"
 msgstr "没有找到任何页面"
 
-#: application/src/Entity/Job.php:23
-msgid "starting"
-msgstr "正在开始"
-
-#: application/src/Entity/Job.php:24
-msgid "stopping"
-msgstr "正在终止"
-
-#: application/src/Entity/Job.php:25
-msgid "in_progress"
-msgstr "正在进行中"
-
-#: application/src/Entity/Job.php:26
-msgid "completed"
-msgstr "已完成"
-
-#: application/src/Entity/Job.php:27
-msgid "stopped"
-msgstr "已终止"
-
-#: application/src/Entity/Job.php:28
-msgid "error"
-msgstr "错误"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:23
-msgid "List of sites"
-msgstr "网站列表"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:38
-msgid "Alphabetical"
-msgstr "字母顺序"
-
-#: application/src/Site/BlockLayout/ListOfSites.php:39
-msgid "Oldest first"
+#: application/src/Stdlib/Cli.php:105 application/src/Stdlib/Cli.php:143
+#, php-format
+msgid "Command \"%s\" failed with status code %s."
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:40
-msgid "Newest first"
+#: application/src/Stdlib/Environment.php:52
+msgid "Omeka requires the PHP extension json, but it is not loaded."
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfSites.php:51
-msgid "Max number of sites"
-msgstr "最大网站数"
+#: application/src/Stdlib/Environment.php:60
+#, php-format
+msgid ""
+"You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
+"version %1$s. You are currently on version %2$s."
+msgstr "在升级至版本%1$s之前，您必须把Omeka S升级到至少版本1.0.0。您现在在版本%2$s。"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:52
-msgid "An empty value means no limit."
-msgstr "空值表示无极限"
+#: application/src/Stdlib/Environment.php:67
+#, php-format
+msgid ""
+"The installed PHP version (%1$s) is too low. Omeka requires at least version"
+" %2$s."
+msgstr "安装的PHP版本（%1$s）太低。Omeka要求最低版本%2$s。"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:56
-msgid "Unlimited"
-msgstr "无限"
+#: application/src/Stdlib/Environment.php:75
+#, php-format
+msgid "Omeka requires the PHP extension %s, but it is not loaded."
+msgstr "Omeka要求PHP扩展名%s，但是尚未加载。"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:64
-msgid "Pagination"
-msgstr "分页"
+#: application/src/Stdlib/Environment.php:94
+#, php-format
+msgid ""
+"The installed MySQL version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
+msgstr "安装的MySQL版本（%1$s）太低。Omeka要求最低版本%2$s。"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:65
-msgid "Show pagination (only if a limit is set)"
-msgstr "显示分页（只当设定了一个极限时）"
+#: application/src/Stdlib/Environment.php:102
+#, php-format
+msgid ""
+"The installed MariaDB version (%1$s) is too low. Omeka requires at least "
+"version %2$s."
+msgstr "安装的MariaDB版本（%1$s）太低。Omeka要求最低版本%2$s。"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:75
-msgid "Show summaries"
-msgstr "显示总结"
+#: application/src/DataType/Resource/ItemSet.php:13
+msgid "Item Set"
+msgstr "条目集"
 
-#: application/src/Site/BlockLayout/ListOfSites.php:85
-msgid "Exclude current site"
-msgstr "排除当前网站"
+#: application/src/DataType/Resource/AbstractResource.php:16
+msgid "Resource"
+msgstr "资源"
 
-#: application/src/Site/BlockLayout/ItemWithMetadata.php:13
-msgid "Item with metadata"
-msgstr "有元数据的条目"
+#: application/src/DataType/Resource/AbstractResource.php:59
+msgid "A value resource cannot be Media."
+msgstr "一个数值资源不能是媒体。"
 
-#: application/src/Site/BlockLayout/TableOfContents.php:15
-msgid "Table of contents"
-msgstr "目录表"
+#: application/src/Site/BlockLayout/ItemShowcase.php:13
+msgid "Item showcase"
+msgstr "条目陈列"
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:15
-msgid "Browse preview"
-msgstr "浏览预展"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:26
-msgid "Browse all"
-msgstr "浏览全部"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:49
-msgid "Display resources using this search query"
-msgstr "以该搜索查询显示资源"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:57
-msgid "Limit"
-msgstr ""
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:58
-msgid "Maximum number of resources to display in the preview."
-msgstr "在预览中显示的最大资源数。"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:65
-msgid "Preview title"
-msgstr "预展标题"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:66
-msgid "Heading above resource list, if any."
-msgstr "资源列表之上的标题，如有的话。"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:73
-msgid "Link text"
-msgstr "链接文本"
-
-#: application/src/Site/BlockLayout/BrowsePreview.php:74
-msgid "Text for link to full browse view, if any."
-msgstr ""
-
-#: application/src/Site/BlockLayout/Html.php:27
-#: application/src/Media/Ingester/Html.php:36
-#: application/src/Media/Ingester/Html.php:79
-msgid "HTML"
-msgstr "HTML"
-
-#: application/src/Site/BlockLayout/Media.php:14
-msgid "Media Embed"
-msgstr "媒体嵌入"
-
-#: application/src/Site/BlockLayout/Media.php:61
-msgid "Alignment"
+#: application/src/Site/BlockLayout/ListOfPages.php:32
+msgid "List of pages"
 msgstr ""
 
 #: application/src/Site/BlockLayout/PageTitle.php:13
 msgid "Page title"
 msgstr "页面标题"
+
+#: application/src/Site/BlockLayout/TableOfContents.php:15
+msgid "Table of contents"
+msgstr "目录表"
+
+#: application/src/Site/BlockLayout/Asset.php:17
+msgid "Asset"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Asset.php:34
+#: application/src/Site/BlockLayout/Asset.php:40
+msgid "default"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Asset.php:35
+msgid "float left"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Asset.php:36
+msgid "float right"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Asset.php:37
+#: application/src/Site/BlockLayout/Asset.php:43
+msgid "center"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Asset.php:41
+msgid "left"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Asset.php:42
+msgid "right"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Asset.php:48
+#: application/src/Site/BlockLayout/Media.php:61
+msgid "Alignment"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:16
+msgid "Browse preview"
+msgstr "浏览预展"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:37
+msgid "Browse all"
+msgstr "浏览全部"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:63
+msgid "Display resources using this search query"
+msgstr "以该搜索查询显示资源"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:72
+msgid "Limit"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:73
+msgid "Maximum number of resources to display in the preview."
+msgstr "在预览中显示的最大资源数。"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:80
+msgid "Components"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:81
+msgid ""
+"Components to display for each resource. If not set in Site Settings, "
+"Heading defaults to resource Title and Body to resource Description"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:85
+msgid "Heading"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:89
+msgid "Body"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:102
+msgid "Preview title"
+msgstr "预展标题"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:103
+msgid "Heading above resource list, if any."
+msgstr "资源列表之上的标题，如有的话。"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:110
+msgid "Link text"
+msgstr "链接文本"
+
+#: application/src/Site/BlockLayout/BrowsePreview.php:111
+msgid "Text for link to full browse view, if any."
+msgstr ""
+
+#: application/src/Site/BlockLayout/ItemWithMetadata.php:13
+msgid "Item with metadata"
+msgstr "有元数据的条目"
+
+#: application/src/Site/BlockLayout/Media.php:14
+msgid "Media Embed"
+msgstr "媒体嵌入"
 
 #: application/src/Site/BlockLayout/LineBreak.php:14
 msgid "Line break"
@@ -3040,22 +3219,135 @@ msgstr "透明的"
 msgid "Opaque"
 msgstr "不透明的"
 
-#: application/src/Site/BlockLayout/ItemShowcase.php:13
-msgid "Item showcase"
-msgstr "条目陈列"
+#: application/src/Site/BlockLayout/ListOfSites.php:24
+msgid "List of sites"
+msgstr "网站列表"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:39
+msgid "Alphabetical"
+msgstr "字母顺序"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:40
+msgid "Oldest first"
+msgstr "最老的排第一位"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:41
+msgid "Newest first"
+msgstr "最新的排第一位"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:52
+msgid "Max number of sites"
+msgstr "最大网站数"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:53
+msgid "An empty value means no limit."
+msgstr "空值表示无极限"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:57
+msgid "Unlimited"
+msgstr "无限"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:65
+msgid "Pagination"
+msgstr "分页"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:66
+msgid "Show pagination (only if a limit is set)"
+msgstr "显示分页（只当设定了一个极限时）"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:76
+msgid "Show summaries"
+msgstr "显示总结"
+
+#: application/src/Site/BlockLayout/ListOfSites.php:86
+msgid "Show thumbnails"
+msgstr ""
+
+#: application/src/Site/BlockLayout/ListOfSites.php:96
+msgid "Exclude current site"
+msgstr "排除当前网站"
+
+#: application/src/Site/BlockLayout/Html.php:28
+#: application/src/Media/Ingester/Html.php:36
+#: application/src/Media/Ingester/Html.php:79
+msgid "HTML"
+msgstr "HTML"
+
+#: application/src/Site/BlockLayout/Html.php:48
+msgid "Optional CSS class for styling HTML."
+msgstr ""
 
 #: application/src/Site/BlockLayout/Fallback.php:28
 #, php-format
 msgid "Unknown [%s]"
 msgstr "未知的【%s】"
 
+#: application/src/Site/Navigation/Link/Url.php:11
+msgid "Custom URL"
+msgstr "定制URL"
+
 #: application/src/Site/Navigation/Link/BrowseItemSets.php:11
 msgid "Browse item sets"
 msgstr "浏览条目集"
 
-#: application/src/Site/Navigation/Link/Url.php:11
-msgid "Custom URL"
-msgstr "定制URL"
+#: application/src/File/ThumbnailManager.php:102
+msgid "Missing thumbnail configuration."
+msgstr "缺失缩略图设置。"
+
+#: application/src/File/ThumbnailManager.php:106
+msgid "Missing thumbnail types configuration."
+msgstr "缺失缩略图类型设置。"
+
+#: application/src/File/ThumbnailManager.php:109
+msgid "Missing the large, medium, or square thumbnail type configuration."
+msgstr "缺失大、中、或正方形缩略图类型设置。"
+
+#: application/src/File/ThumbnailManager.php:113
+msgid "Missing constraint for a thumbnail type configuration."
+msgstr "缺失对缩略图类型设置的限制。"
+
+#: application/src/File/ThumbnailManager.php:117
+msgid "Missing thumbnail fallbacks configuration."
+msgstr "缺失后备缩略图设置。"
+
+#: application/src/File/ThumbnailManager.php:120
+msgid "Missing default thumbnail fallback configuration."
+msgstr "缺失默认后备缩略图设置。"
+
+#: application/src/File/ThumbnailManager.php:123
+msgid "Missing thumbnail fallback configuration."
+msgstr "缺失后备缩略图设置。"
+
+#: application/src/File/ThumbnailManager.php:127
+msgid "Invalid thumbnail fallback configuration."
+msgstr "无效后备缩略图设置。"
+
+#: application/src/File/Downloader.php:71
+#, php-format
+msgid "Error downloading %1$s: %2$s"
+msgstr "下载%1$s错误：%2$s"
+
+#: application/src/File/Downloader.php:83
+#, php-format
+msgid "Error downloading %1$s: %2$s %3$s"
+msgstr "下载%1$s错误：%2$s %3$s"
+
+#: application/src/File/Validator.php:65
+#, php-format
+msgid "Error validating \"%1$s\". Cannot store files with the media type \"%2$s\"."
+msgstr "确证“%1$s”时出错。无法保存媒体类型为“%2$s”的文件。"
+
+#: application/src/File/Validator.php:78
+#, php-format
+msgid ""
+"Error validating \"%1$s\". Cannot store files with the resolved extension "
+"\"%2$s\"."
+msgstr "确证“%1$s”时出错。无法保存解析后缀为“%2$s”的文件。"
+
+#: application/src/Mvc/MvcListeners.php:326
+#, php-format
+msgid "The current theme is not active. Its current state is \"%s\"."
+msgstr "当前主题是非活跃的。它的当前状态是“%s”。"
 
 #: application/src/Permissions/Acl.php:21
 msgid "Global Administrator"
@@ -3065,9 +3357,13 @@ msgstr "全局管理员"
 msgid "Supervisor"
 msgstr "主管"
 
+#: application/src/Permissions/Acl.php:23
+msgid "Editor"
+msgstr "编辑"
+
 #: application/src/Permissions/Acl.php:24
 msgid "Reviewer"
-msgstr "审核员"
+msgstr "审核者"
 
 #: application/src/Permissions/Acl.php:25
 msgid "Author"
@@ -3077,30 +3373,41 @@ msgstr "作者"
 msgid "Researcher"
 msgstr "研究者"
 
-#: application/src/Api/Adapter/ResourceClassAdapter.php:144
-#: application/src/Api/Adapter/PropertyAdapter.php:153
-msgid "The local name cannot be empty."
-msgstr "本地名称不能为空。"
+#: application/src/Api/Adapter/ItemAdapter.php:103
+msgid "Item sets must be an array"
+msgstr "条目集必须是数列"
 
-#: application/src/Api/Adapter/ResourceClassAdapter.php:149
+#: application/src/Api/Adapter/ItemAdapter.php:109
+msgid "Media must be an array"
+msgstr "媒体必须是数列"
+
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:75
+#, php-format
+msgid "Attempting to add duplicate property with ID %s"
+msgstr "尝试添加ID为%s的重复属性"
+
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:89
-#: application/src/Api/Adapter/VocabularyAdapter.php:214
 #: application/src/Api/Adapter/PropertyAdapter.php:158
+#: application/src/Api/Adapter/ResourceClassAdapter.php:149
+#: application/src/Api/Adapter/VocabularyAdapter.php:214
 msgid "The label cannot be empty."
 msgstr "标签不能为空。"
 
-#: application/src/Api/Adapter/ResourceClassAdapter.php:162
-#: application/src/Api/Adapter/VocabularyAdapter.php:222
-#: application/src/Api/Adapter/VocabularyAdapter.php:235
-#: application/src/Api/Adapter/PropertyAdapter.php:171
-#, php-format
-msgid "The local name \"%s\" is already taken."
-msgstr "本地名称“%s”已被占用。"
+#: application/src/Api/Adapter/ResourceTemplateAdapter.php:92
+msgid "The label is already taken."
+msgstr "标签已被占用。"
 
-#: application/src/Api/Adapter/ResourceClassAdapter.php:168
-#: application/src/Api/Adapter/PropertyAdapter.php:177
-msgid "A vocabulary must be set."
-msgstr "必须设定词汇。"
+#: application/src/Api/Adapter/MediaAdapter.php:112
+msgid "Media must set an ingester."
+msgstr "媒体必须设定一个获取器。"
+
+#: application/src/Api/Adapter/MediaAdapter.php:134
+msgid "Media must set a valid ingester."
+msgstr "媒体必须设定一个有效获取器。"
+
+#: application/src/Api/Adapter/MediaAdapter.php:174
+msgid "Media must belong to an item."
+msgstr "媒体必须属于一个条目。"
 
 #: application/src/Api/Adapter/UserAdapter.php:120
 msgid "The name cannot be empty."
@@ -3120,111 +3427,100 @@ msgstr "用户必须有一个角色。"
 msgid "The current user #%d was removed from the batch process."
 msgstr "当前用户#%d已从批量作业中移除。"
 
-#: application/src/Api/Adapter/MediaAdapter.php:111
-msgid "Media must set an ingester."
-msgstr "媒体必须设定一个获取器。"
+#: application/src/Api/Adapter/PropertyAdapter.php:153
+#: application/src/Api/Adapter/ResourceClassAdapter.php:144
+msgid "The local name cannot be empty."
+msgstr "本地名称不能为空。"
 
-#: application/src/Api/Adapter/MediaAdapter.php:133
-msgid "Media must set a valid ingester."
-msgstr "媒体必须设定一个有效获取器。"
-
-#: application/src/Api/Adapter/MediaAdapter.php:169
-msgid "Media must belong to an item."
-msgstr "媒体必须属于一个条目。"
-
-#: application/src/Api/Adapter/ItemAdapter.php:103
-msgid "Item sets must be an array"
-msgstr "条目集必须是数列"
-
-#: application/src/Api/Adapter/ItemAdapter.php:109
-msgid "Media must be an array"
-msgstr "媒体必须是数列"
-
-#: application/src/Api/Adapter/ResourceTemplateAdapter.php:75
+#: application/src/Api/Adapter/PropertyAdapter.php:171
+#: application/src/Api/Adapter/ResourceClassAdapter.php:162
+#: application/src/Api/Adapter/VocabularyAdapter.php:222
+#: application/src/Api/Adapter/VocabularyAdapter.php:235
 #, php-format
-msgid "Attempting to add duplicate property with ID %s"
-msgstr "尝试添加ID为%s的重复属性"
+msgid "The local name \"%s\" is already taken."
+msgstr "本地名称“%s”已被占用。"
 
-#: application/src/Api/Adapter/ResourceTemplateAdapter.php:92
-msgid "The label is already taken."
-msgstr "标签已被占用。"
+#: application/src/Api/Adapter/PropertyAdapter.php:177
+#: application/src/Api/Adapter/ResourceClassAdapter.php:168
+msgid "A vocabulary must be set."
+msgstr "必须设定词汇。"
 
-#: application/src/Api/Adapter/SiteAdapter.php:234
-msgid "A site must have a title."
-msgstr "网站必须有标题。"
-
-#: application/src/Api/Adapter/SiteAdapter.php:238
-#: application/src/Api/Adapter/SitePageAdapter.php:142
-msgid "The slug cannot be empty."
-msgstr "缩略词不能为空。"
-
-#: application/src/Api/Adapter/SiteAdapter.php:241
-#: application/src/Api/Adapter/SitePageAdapter.php:145
-msgid "A slug can only contain letters, numbers, underscores, and hyphens."
-msgstr "缩略词只能包含字母、数字、下划线和连字符。"
-
-#: application/src/Api/Adapter/SiteAdapter.php:245
-#: application/src/Api/Adapter/SitePageAdapter.php:153
-#, php-format
-msgid "The slug \"%s\" is already taken."
-msgstr "缩略词“%s”已被占用。"
-
-#: application/src/Api/Adapter/SiteAdapter.php:251
-msgid "A site must have a theme."
-msgstr "网站必须有主题。"
-
-#: application/src/Api/Adapter/SiteAdapter.php:256
-msgid "A site must have item pool data."
-msgstr "网站必须有条目池数据。"
-
-#: application/src/Api/Adapter/SiteAdapter.php:261
-msgid "A homepage must belong to its parent site."
-msgstr "一个主页必须属于它的母网站。"
-
-#: application/src/Api/Adapter/SiteAdapter.php:334
-msgid "Invalid navigation: navigation must be an array"
-msgstr "无效导航：导航必须是数列"
-
-#: application/src/Api/Adapter/SiteAdapter.php:343
-msgid "Invalid navigation: link missing type"
-msgstr "无效导航：链接缺失类型"
-
-#: application/src/Api/Adapter/SiteAdapter.php:347
-msgid "Invalid navigation: link missing data"
-msgstr "无效导航：链接缺失数据"
-
-#: application/src/Api/Adapter/SiteAdapter.php:351
-msgid "Invalid navigation: invalid link data"
-msgstr "无效导航：无效链接数据"
-
-#: application/src/Api/Adapter/SiteAdapter.php:356
-msgid "Invalid navigation: page links must be unique"
-msgstr "无效导航：页面链接必须是唯一的"
-
-#: application/src/Api/Adapter/SiteAdapter.php:363
-msgid "Invalid navigation: links must be an array"
-msgstr "无效导航：链接必须是数列"
-
-#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:161
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:177
 #, php-format
 msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
 msgstr "“%1$s”资源模板需要一个“%2$s”值"
 
-#: application/src/Api/Adapter/SitePageAdapter.php:132
+#: application/src/Api/Adapter/SitePageAdapter.php:144
 msgid "A page must belong to a site."
 msgstr "页面必须属于一个网站。"
 
-#: application/src/Api/Adapter/SitePageAdapter.php:137
+#: application/src/Api/Adapter/SitePageAdapter.php:149
 msgid "A page must have a title."
-msgstr "页面必须有标题。"
+msgstr "页面必须有一个标题。"
 
-#: application/src/Api/Adapter/SitePageAdapter.php:197
+#: application/src/Api/Adapter/SitePageAdapter.php:154
+#: application/src/Api/Adapter/SiteAdapter.php:240
+msgid "The slug cannot be empty."
+msgstr "缩略词不能为空。"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:157
+#: application/src/Api/Adapter/SiteAdapter.php:243
+msgid "A slug can only contain letters, numbers, underscores, and hyphens."
+msgstr "缩略词只能包含字母、数字、下划线和连字符。"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:165
+#: application/src/Api/Adapter/SiteAdapter.php:247
+#, php-format
+msgid "The slug \"%s\" is already taken."
+msgstr "缩略词“%s”已被占用。"
+
+#: application/src/Api/Adapter/SitePageAdapter.php:209
 msgid "All blocks must have a layout."
 msgstr "所有段落都必须有布局。"
 
-#: application/src/Api/Adapter/SitePageAdapter.php:201
+#: application/src/Api/Adapter/SitePageAdapter.php:213
 msgid "Block data must not be a scalar value."
 msgstr "段落数据不鞥是标量值。"
+
+#: application/src/Api/Adapter/SiteAdapter.php:236
+msgid "A site must have a title."
+msgstr "网站必须有一个标题。"
+
+#: application/src/Api/Adapter/SiteAdapter.php:253
+msgid "A site must have a theme."
+msgstr "网站必须有一个主题。"
+
+#: application/src/Api/Adapter/SiteAdapter.php:258
+msgid "A site must have item pool data."
+msgstr "网站必须有条目池数据。"
+
+#: application/src/Api/Adapter/SiteAdapter.php:263
+msgid "A homepage must belong to its parent site."
+msgstr "一个主页必须属于它的母网站。"
+
+#: application/src/Api/Adapter/SiteAdapter.php:336
+msgid "Invalid navigation: navigation must be an array"
+msgstr "无效导航：导航必须是数列"
+
+#: application/src/Api/Adapter/SiteAdapter.php:345
+msgid "Invalid navigation: link missing type"
+msgstr "无效导航：链接缺失类型"
+
+#: application/src/Api/Adapter/SiteAdapter.php:349
+msgid "Invalid navigation: link missing data"
+msgstr "无效导航：链接缺失数据"
+
+#: application/src/Api/Adapter/SiteAdapter.php:353
+msgid "Invalid navigation: invalid link data"
+msgstr "无效导航：无效链接数据"
+
+#: application/src/Api/Adapter/SiteAdapter.php:358
+msgid "Invalid navigation: page links must be unique"
+msgstr "无效导航：页面链接必须是唯一的"
+
+#: application/src/Api/Adapter/SiteAdapter.php:365
+msgid "Invalid navigation: links must be an array"
+msgstr "无效导航：链接必须是数列"
 
 #: application/src/Api/Adapter/VocabularyAdapter.php:59
 msgid "Classes must be an array"
@@ -3277,560 +3573,307 @@ msgstr "已完成"
 msgid "Stopped"
 msgstr "已终止"
 
-#: application/src/Mvc/MvcListeners.php:326
-#, php-format
-msgid "The current theme is not active. Its current state is \"%s\"."
-msgstr ""
+#: application/src/Entity/Job.php:23
+msgid "starting"
+msgstr "正在开始"
 
-#: application/src/Form/UserBatchUpdateForm.php:27
-#: application/src/Form/UserForm.php:98
-#: application/src/Service/Form/Element/RoleSelectFactory.php:16
-#: application/src/View/Helper/RoleSelect.php:39
-msgid "Select role…"
-msgstr "选择角色 ......"
+#: application/src/Entity/Job.php:24
+msgid "stopping"
+msgstr "正在终止"
 
-#: application/src/Form/UserBatchUpdateForm.php:30
-msgid "Set role"
-msgstr "设定角色"
+#: application/src/Entity/Job.php:25
+msgid "in_progress"
+msgstr "正在进行中"
 
-#: application/src/Form/UserBatchUpdateForm.php:31
-#: application/src/Form/UserBatchUpdateForm.php:43
-#: application/src/Form/UserBatchUpdateForm.php:60
-#: application/src/Form/UserBatchUpdateForm.php:77
-#: application/src/Form/UserBatchUpdateForm.php:92
-#: application/src/Form/ResourceBatchUpdateForm.php:37
-#: application/src/Form/ResourceBatchUpdateForm.php:54
-#: application/src/Form/ResourceBatchUpdateForm.php:74
-#: application/src/Form/ResourceBatchUpdateForm.php:97
-msgid "[No change]"
-msgstr "【无更改】"
+#: application/src/Entity/Job.php:26
+msgid "completed"
+msgstr "已完成"
 
-#: application/src/Form/UserBatchUpdateForm.php:39
-msgid "Set activity"
-msgstr "设定活动"
+#: application/src/Entity/Job.php:27
+msgid "stopped"
+msgstr "已终止"
 
-#: application/src/Form/UserBatchUpdateForm.php:55
-#: application/src/Form/UserBatchUpdateForm.php:72
-msgid "Select sites…"
-msgstr "选择网站"
+#: application/src/Entity/Job.php:28
+msgid "error"
+msgstr "错误"
 
-#: application/src/Form/UserBatchUpdateForm.php:59
-msgid "Remove from site permission"
-msgstr "从网站权限里移除"
+#: application/src/Media/Ingester/IIIF.php:33
+msgid "IIIF image"
+msgstr "IIIF图像"
 
-#: application/src/Form/UserBatchUpdateForm.php:61
-#: application/src/Form/UserBatchUpdateForm.php:78
-msgid "[All sites]"
-msgstr "【所有网站】"
+#: application/src/Media/Ingester/IIIF.php:107
+msgid "IIIF image URL"
+msgstr "IIIF图像URL"
 
-#: application/src/Form/UserBatchUpdateForm.php:76
-msgid "Add to site permission"
-msgstr "添加入网站权限"
+#: application/src/Media/Ingester/IIIF.php:108
+msgid "URL for the image to embed."
+msgstr "指向内嵌图像的URL。"
 
-#: application/src/Form/UserBatchUpdateForm.php:87
-msgid "Select permission…"
-msgstr "选择权限 ......"
+#: application/src/Media/Ingester/Upload.php:69
+msgid "Upload file"
+msgstr "上传文件"
 
-#: application/src/Form/UserBatchUpdateForm.php:91
-msgid "Add to site permission as"
-msgstr ""
+#: application/src/Media/Ingester/Youtube.php:27
+msgid "YouTube"
+msgstr "YouTube"
 
-#: application/src/Form/Initializer/Csrf.php:35
-msgid "Invalid or missing CSRF token"
-msgstr "无效或缺失的CSRF令牌"
+#: application/src/Media/Ingester/Youtube.php:90
+msgid "Video URL"
+msgstr "视频URL"
 
-#: application/src/Form/SiteResourcesForm.php:14
-msgid "Manage current items"
-msgstr "管理当前条目"
+#: application/src/Media/Ingester/Youtube.php:91
+msgid "URL for the video to embed."
+msgstr "指向内嵌视频的URL。"
 
-#: application/src/Form/SiteResourcesForm.php:16
-msgid "Do nothing"
-msgstr ""
+#: application/src/Media/Ingester/Youtube.php:99
+msgid "Start"
+msgstr "开始"
 
-#: application/src/Form/SiteResourcesForm.php:17
-msgid "Add - keep existing items and assign items from a new search"
-msgstr "添加 — 保留现有条目并从一个新搜索分配条目"
-
-#: application/src/Form/SiteResourcesForm.php:18
-msgid "Replace - unassign all items and assign items from a new search"
-msgstr ""
-
-#: application/src/Form/SiteResourcesForm.php:19
-msgid "Remove - unassign items from a new search"
-msgstr ""
-
-#: application/src/Form/SiteResourcesForm.php:20
-msgid "Remove all - unassign all items"
-msgstr ""
-
-#: application/src/Form/SiteResourcesForm.php:31
-msgid "Keep this search"
-msgstr "保存本搜索"
-
-#: application/src/Form/SiteResourcesForm.php:32
+#: application/src/Media/Ingester/Youtube.php:100
 msgid ""
-"Use this as a convenient way to store a commonly used query. For example, "
-"you will likely want to save a search for periodic adding, but will not want"
-" to save a search for a one-time removal."
-msgstr ""
+"Begin playing the video at the given number of seconds from the start of the"
+" video."
+msgstr "从视频的起始之后的给定秒数开始播放视频。"
 
+#: application/src/Media/Ingester/Youtube.php:104
+msgid "End"
+msgstr "结束"
+
+#: application/src/Media/Ingester/Youtube.php:105
+msgid ""
+"End playing the video at the given number of seconds from the start of the "
+"video."
+msgstr "从视频的起始之后的给定秒数停止播放视频。"
+
+#: application/src/Media/Ingester/Url.php:80
+msgid "A URL to the media."
+msgstr "指向媒体的链接。"
+
+#: application/src/Media/Ingester/Html.php:80
+msgid "HTML or plain text."
+msgstr "HTML或纯文本"
+
+#: application/src/Media/Ingester/OEmbed.php:41
+msgid "oEmbed"
+msgstr "内嵌"
+
+#: application/src/Media/Ingester/OEmbed.php:114
+msgid "oEmbed URL"
+msgstr "内嵌URL"
+
+#: application/src/Media/Ingester/OEmbed.php:115
+msgid "URL for the media to embed."
+msgstr "指向内嵌媒体的URL。"
+
+#: application/src/Form/SettingForm.php:111
 #: application/src/Form/SiteSettingsForm.php:28
-#: application/src/Form/SettingForm.php:110
 msgid "General"
 msgstr "一般信息"
 
-#: application/src/Form/SiteSettingsForm.php:38
-msgid "Auto-assign new items"
-msgstr "自动分配新条目"
-
-#: application/src/Form/SiteSettingsForm.php:39
-msgid ""
-"Select this if you want new items to be automatically assigned to this site."
-" Note that item owners may unassign their items at any time."
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:50
-msgid "Attachment link type"
-msgstr "附件链接类型"
-
-#: application/src/Form/SiteSettingsForm.php:52
-msgid "Item page"
-msgstr "条目页"
-
-#: application/src/Form/SiteSettingsForm.php:53
-msgid "Media page"
-msgstr "媒体页"
-
-#: application/src/Form/SiteSettingsForm.php:54
-msgid "Direct link to file"
-msgstr "文件的直接链接"
-
-#: application/src/Form/SiteSettingsForm.php:66
-msgid "Embed media on item pages"
-msgstr "在条目页面上内嵌媒体"
-
-#: application/src/Form/SiteSettingsForm.php:77
-msgid "Show page pagination"
-msgstr "显示页面分页"
-
-#: application/src/Form/SiteSettingsForm.php:78
-msgid ""
-"Show pagination that helps users follow a linear narrative through a site."
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:89
-msgid "Show user bar on public views"
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:91
-msgid "Never"
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:92
-msgid "When logged in"
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:93
-msgid "Always"
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:104
-#: application/src/Form/SettingForm.php:237
-msgid "Disable JSON-LD embed"
-msgstr "禁用JSON-LD嵌入"
-
-#: application/src/Form/SiteSettingsForm.php:105
-#: application/src/Form/SettingForm.php:238
-msgid ""
-"By default, Omeka embeds JSON-LD in resource browse and show pages for the "
-"purpose of machine-readable metadata discovery. Check this to disable "
-"embedding."
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:117
-#: application/src/Form/InstallationForm.php:112
-#: application/src/Form/UserForm.php:132
-#: application/src/Form/SettingForm.php:210
-msgid "Locale"
-msgstr "区域"
-
-#: application/src/Form/SiteSettingsForm.php:118
-msgid ""
-"Locale/language code for this site. Leave blank to use the global locale "
-"setting."
-msgstr "本网站的区域/语言代码。使用全局区域设置时，此处保持空白。"
-
-#: application/src/Form/SiteSettingsForm.php:140
-msgid "Restrict browse to attached items"
-msgstr "限制只浏览附属条目"
-
-#: application/src/Form/SiteSettingsForm.php:151
-#: application/src/Form/SettingForm.php:161
-msgid "Results per page"
-msgstr "每页结果数"
-
-#: application/src/Form/SiteSettingsForm.php:152
-msgid ""
-"The maximum number of results per page on browse pages. Leave blank to use "
-"the global setting."
-msgstr "浏览页面上每页显示的最大结果数。使用全局设置时，此处保持空白。"
-
-#: application/src/Form/SiteSettingsForm.php:158
-msgid "Use global setting"
-msgstr "使用全局设置"
-
-#: application/src/Form/SiteSettingsForm.php:166
-msgid "Browse heading property"
-msgstr "浏览标题属性"
-
-#: application/src/Form/SiteSettingsForm.php:167
-msgid ""
-"Use this property for the heading of each resource on a browse page. Keep "
-"unselected to use the default title property of each resource."
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:175
-#: application/src/Form/SiteSettingsForm.php:192
-msgid "Select a property"
-msgstr "选择一个属性"
-
-#: application/src/Form/SiteSettingsForm.php:183
-msgid "Browse body property"
-msgstr "浏览正文属性"
-
-#: application/src/Form/SiteSettingsForm.php:184
-msgid ""
-"Use this property for the body of each resource on a browse page. Keep "
-"unselected to use the default description property of each resource."
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:201
-msgid "Show"
-msgstr "显示"
-
-#: application/src/Form/SiteSettingsForm.php:209
-msgid "Show attached pages"
-msgstr "显示附属页面"
-
-#: application/src/Form/SiteSettingsForm.php:210
-msgid ""
-"Show site pages to which an item is attached on the public item show page."
-msgstr ""
-
-#: application/src/Form/SiteSettingsForm.php:232
-msgid "Search type"
-msgstr "搜索类型"
-
-#: application/src/Form/SiteSettingsForm.php:233
-msgid "Select the type of search the main search field will perform"
-msgstr "选择主搜索域要完成的搜索类型"
-
-#: application/src/Form/SiteSettingsForm.php:235
-msgid "This site"
-msgstr "该网站"
-
-#: application/src/Form/SiteSettingsForm.php:236
-msgid "All sites"
-msgstr "所有网站"
-
-#: application/src/Form/SiteSettingsForm.php:253
-msgid "Search resources"
-msgstr "搜索资源"
-
-#: application/src/Form/SiteSettingsForm.php:254
-msgid ""
-"Customize which types of resources will be searchable in the main search "
-"field."
-msgstr "定制哪种资源可以在主搜索域中被搜索到。"
-
-#: application/src/Form/SiteSettingsForm.php:267
-msgid "Templates"
-msgstr "模板"
-
-#: application/src/Form/SiteSettingsForm.php:268
-msgid "Select which templates to apply to the advanced search form."
-msgstr "选择哪些模板要用在高级搜索表单上。"
-
-#: application/src/Form/SiteSettingsForm.php:273
-msgid "Select templates"
-msgstr "选择模板"
-
-#: application/src/Form/SiteSettingsForm.php:281
-msgid "Restrict to templates"
-msgstr "限定在模板上"
-
-#: application/src/Form/SiteSettingsForm.php:282
-msgid "Restrict search results to resources of the selected templates."
-msgstr "搜索结果限定在选中模板的资源。"
-
-#: application/src/Form/InstallationForm.php:19
-msgid "Create the first user"
-msgstr "创建第一个用户"
-
-#: application/src/Form/InstallationForm.php:52
-msgid "Confirm email"
-msgstr "确认电邮地址"
-
-#: application/src/Form/InstallationForm.php:80
-#: application/src/Form/SettingForm.php:132
-msgid "Installation title"
-msgstr "安装标题"
-
-#: application/src/Form/InstallationForm.php:98
-#: application/src/Form/SettingForm.php:147
-msgid "Time zone"
-msgstr "时区"
-
-#: application/src/Form/InstallationForm.php:128
-msgid "The emails did not match"
-msgstr "电邮地址不匹配"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:33
-msgid "Set visibility"
-msgstr "设定可视度"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:50
-msgid "Set openness"
-msgstr "设定开放性"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:52
-msgid "Open"
-msgstr "开放"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:53
-msgid "Not open"
-msgstr "不开放"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:69
-#: application/src/Form/UserForm.php:147
-#: application/src/Form/ResourceForm.php:30
-msgid "Select a template"
-msgstr "选择一个模板"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:73
-msgid "Set template"
-msgstr "设置模板"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:75
-msgid "[Unset template]"
-msgstr "【取消模板】"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:92
-#: application/src/Form/ResourceForm.php:55
-msgid "Select a class"
-msgstr "选择一个类"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:95
-msgid "Set class"
-msgstr "设定类别"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:96
-msgid "[Unset class]"
-msgstr "【取消类别】"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:110
-#: application/src/Form/ResourceBatchUpdateForm.php:124
-msgid "Select item sets"
-msgstr "选择条目集"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:113
-msgid "Add to item sets"
-msgstr "添加入条目集"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:127
-msgid "Remove from item sets"
-msgstr "从条目集里移除"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:137
-msgid "Clear language"
-msgstr "清空语言"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:161
-#: application/view/common/property-form-batch-edit.phtml:63
-msgid "Select properties"
-msgstr "选择属性"
-
-#: application/src/Form/ResourceBatchUpdateForm.php:164
-msgid "Clear property values"
-msgstr "清空属性值"
-
-#: application/src/Form/ConfirmForm.php:17
-msgid "Confirm"
-msgstr "确认"
-
-#: application/src/Form/UserForm.php:133
-#: application/src/Form/SettingForm.php:211
-msgid "Global locale/language code for all interfaces."
-msgstr "所有界面的全局区域/语言代码。"
-
-#: application/src/Form/UserForm.php:151
-msgid "Default resource template"
-msgstr "默认资源模板"
-
-#: application/src/Form/UserForm.php:170
-msgid "Select sites"
-msgstr "选择网站"
-
-#: application/src/Form/UserForm.php:175
-msgid "Default sites for items"
-msgstr "条目的默认网站"
-
-#: application/src/Form/UserForm.php:186
-msgid "Current password"
-msgstr "当前密码"
-
-#: application/src/Form/UserForm.php:198
-msgid "New password"
-msgstr "新密码"
-
-#: application/src/Form/UserForm.php:199
-msgid "Confirm new password"
-msgstr "确认新密码"
-
-#: application/src/Form/UserForm.php:208
-msgid "New key label"
-msgstr "新密钥标签"
-
-#: application/src/Form/ResourceTemplateImportForm.php:14
-msgid "Resource template file"
-msgstr "资源模板文件"
-
-#: application/src/Form/ResourceTemplateForm.php:27
-msgid "Suggested class"
-msgstr "推荐的类"
-
-#: application/src/Form/SettingForm.php:119
+#: application/src/Form/SettingForm.php:120
 msgid "Administrator email"
 msgstr "管理员电邮"
 
+#: application/src/Form/SettingForm.php:133
+#: application/src/Form/InstallationForm.php:80
+msgid "Installation title"
+msgstr "安装标题"
+
+#: application/src/Form/SettingForm.php:148
+#: application/src/Form/InstallationForm.php:98
+msgid "Time zone"
+msgstr "时区"
+
 #: application/src/Form/SettingForm.php:162
+#: application/src/Form/SiteSettingsForm.php:187
+msgid "Results per page"
+msgstr "每页结果数"
+
+#: application/src/Form/SettingForm.php:163
 msgid "The maximum number of results per page on browse pages."
 msgstr "浏览页面上每页显示的最大结果数。"
 
-#: application/src/Form/SettingForm.php:175
+#: application/src/Form/SettingForm.php:176
 msgid "Property label information"
 msgstr "属性标签信息"
 
-#: application/src/Form/SettingForm.php:176
+#: application/src/Form/SettingForm.php:177
 msgid "The additional information that accompanies labels on resource pages."
 msgstr "资源页面上和标签相伴的附加信息。"
 
-#: application/src/Form/SettingForm.php:178
+#: application/src/Form/SettingForm.php:179
 msgid "None"
 msgstr "无"
 
-#: application/src/Form/SettingForm.php:179
+#: application/src/Form/SettingForm.php:180
 msgid "Show Vocabulary"
 msgstr "显示词汇"
 
-#: application/src/Form/SettingForm.php:180
+#: application/src/Form/SettingForm.php:181
 msgid "Show Term"
 msgstr "显示术语"
 
-#: application/src/Form/SettingForm.php:193
+#: application/src/Form/SettingForm.php:194
 msgid "Default site"
 msgstr "默认网站"
 
-#: application/src/Form/SettingForm.php:194
+#: application/src/Form/SettingForm.php:195
 msgid ""
 "Select which site should appear when users go to the front page of the "
 "installation."
 msgstr "选择当用户前往安装的首页时要显示的网站。"
 
-#: application/src/Form/SettingForm.php:199
+#: application/src/Form/SettingForm.php:200
 msgid "No default (show index of sites)"
 msgstr "没有默认（显示网站索引）"
 
-#: application/src/Form/SettingForm.php:224
+#: application/src/Form/SettingForm.php:211
+#: application/src/Form/SiteSettingsForm.php:127
+#: application/src/Form/UserForm.php:132
+#: application/src/Form/InstallationForm.php:112
+msgid "Locale"
+msgstr "区域"
+
+#: application/src/Form/SettingForm.php:212
+#: application/src/Form/UserForm.php:133
+msgid "Global locale/language code for all interfaces."
+msgstr "所有界面的全局区域/语言代码。"
+
+#: application/src/Form/SettingForm.php:225
 msgid "Enable version notifications"
 msgstr "启用版本通知"
 
-#: application/src/Form/SettingForm.php:225
+#: application/src/Form/SettingForm.php:226
 msgid ""
 "Enable notifications when a new version of Omeka S, modules, or themes are "
 "available."
 msgstr "启用当Omeka S、模块、或主题的新版本可用时的通知功能。"
 
-#: application/src/Form/SettingForm.php:250
+#: application/src/Form/SettingForm.php:238
+#: application/src/Form/SiteSettingsForm.php:104
+msgid "Disable JSON-LD embed"
+msgstr "禁用JSON-LD嵌入"
+
+#: application/src/Form/SettingForm.php:239
+#: application/src/Form/SiteSettingsForm.php:105
+msgid ""
+"By default, Omeka embeds JSON-LD in resource browse and show pages for the "
+"purpose of machine-readable metadata discovery. Check this to disable "
+"embedding."
+msgstr "默认情况下，为了机器可读元数据发掘的目的，Omeka把JSON-LD嵌入到资源浏览和显示页面。点选此处来停用嵌入。"
+
+#: application/src/Form/SettingForm.php:251
 msgid "Default content visibility to Private"
 msgstr "默认内容可见性为私密"
 
-#: application/src/Form/SettingForm.php:251
+#: application/src/Form/SettingForm.php:252
 msgid ""
 "If checked, all items, item sets and sites newly created will have their "
 "visibility set to private by default."
 msgstr "如果点选的话，所有条目、条目集和新建网站的可视性将默认设置为私密。"
 
-#: application/src/Form/SettingForm.php:263
+#: application/src/Form/SettingForm.php:264
 msgid "Suggested languages for values"
 msgstr "值的推荐语言"
 
-#: application/src/Form/SettingForm.php:264
+#: application/src/Form/SettingForm.php:265
 msgid ""
 "List of languages to facilitate filling of the values in the resource form. "
 "List them one by line. The label displayed for a language may be appended "
 "with a \"=\"."
+msgstr "用于填写资源表单值的语言列表。每行列一个语言。语言显示的标签可以在后面跟一个“=”。"
+
+#: application/src/Form/SettingForm.php:278
+msgid "Media alt text property"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:277
+#: application/src/Form/SettingForm.php:279
+msgid "Media property to use as alt text if no alt text is explicitly set."
+msgstr ""
+
+#: application/src/Form/SettingForm.php:280
+msgid "[None]"
+msgstr ""
+
+#: application/src/Form/SettingForm.php:294
 msgid "Index full-text search"
 msgstr "为全文搜索建立索引"
 
-#: application/src/Form/SettingForm.php:291
+#: application/src/Form/SettingForm.php:308
 msgid "Security"
 msgstr "安全"
 
-#: application/src/Form/SettingForm.php:300
+#: application/src/Form/SettingForm.php:317
 msgid "Use HTMLPurifier"
 msgstr "使用HTMLPurifier"
 
-#: application/src/Form/SettingForm.php:301
+#: application/src/Form/SettingForm.php:318
 msgid "Clean up user-entered HTML."
 msgstr "清理用户输入的HTML。"
 
-#: application/src/Form/SettingForm.php:313
+#: application/src/Form/SettingForm.php:330
 msgid "Disable file validation"
 msgstr "禁用文件验证"
 
-#: application/src/Form/SettingForm.php:314
+#: application/src/Form/SettingForm.php:331
 msgid "Check this to disable file media type and extension validation."
 msgstr "点选此处以禁用文件媒体类型和后缀验证。"
 
-#: application/src/Form/SettingForm.php:323
+#: application/src/Form/SettingForm.php:340
 msgid "Allowed media types"
 msgstr "允许的媒体类型"
 
-#: application/src/Form/SettingForm.php:324
+#: application/src/Form/SettingForm.php:341
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr "文件上传允许的以逗号分隔的媒体类型列表。"
 
-#: application/src/Form/SettingForm.php:336
+#: application/src/Form/SettingForm.php:353
 msgid "Allowed file extensions"
 msgstr "允许的文件名后缀"
 
-#: application/src/Form/SettingForm.php:337
+#: application/src/Form/SettingForm.php:354
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr "文件上传允许的以逗号分隔的文件后缀列表。"
 
-#: application/src/Form/SettingForm.php:351
+#: application/src/Form/SettingForm.php:368
 msgid "reCAPTCHA site key"
 msgstr "reCAPTCHA网站密钥"
 
-#: application/src/Form/SettingForm.php:362
+#: application/src/Form/SettingForm.php:379
 msgid "reCAPTCHA secret key"
 msgstr "reCAPTCHA密钥"
 
-#: application/src/Form/ModuleStateChangeForm.php:37
-msgid "Install"
-msgstr "安装"
+#: application/src/Form/ResourceForm.php:30
+#: application/src/Form/ResourceBatchUpdateForm.php:70
+#: application/src/Form/UserForm.php:147
+msgid "Select a template"
+msgstr "选择一个模板"
 
-#: application/src/Form/ModuleStateChangeForm.php:55
-msgid "Deactivate"
-msgstr "禁用"
+#: application/src/Form/ResourceForm.php:34
+msgid "Resource template"
+msgstr "资源模板"
 
-#: application/src/Form/ModuleStateChangeForm.php:64
-msgid "Upgrade"
-msgstr "升级"
+#: application/src/Form/ResourceForm.php:35
+msgid "A pre-defined template for resource creation."
+msgstr "资源创建的预定义模板。"
+
+#: application/src/Form/ResourceForm.php:55
+#: application/src/Form/ResourceBatchUpdateForm.php:93
+msgid "Select a class"
+msgstr "选择一个类"
+
+#: application/src/Form/ResourceForm.php:59
+msgid ""
+"A type for the resource. Different types have different default properties "
+"attached to them."
+msgstr "资源类型。不同类型有不同的相关默认属性。"
+
+#: application/src/Form/ResourceForm.php:69
+msgid ""
+"Omeka S automatically selects a thumbnail from among attached media for a "
+"resource. You may use an image of your choice instead by choosing an asset "
+"here."
+msgstr "Omeka S 自动从附加的媒体中为一个资源挑选一个缩略图。您可以在此挑选一个素材，使用您自己选择的图像。"
 
 #: application/src/Form/VocabularyForm.php:23
 msgid "Basic info"
@@ -3866,7 +3909,7 @@ msgstr "命名空间前缀"
 msgid ""
 "Enter a concise vocabulary identifier used as a shorthand for the namespace "
 "URI."
-msgstr ""
+msgstr "输入一个简洁的词汇标识符，用做命名空间的缩写。"
 
 #: application/src/Form/VocabularyForm.php:94
 msgid "Vocabulary file"
@@ -3924,6 +3967,8 @@ msgid ""
 "target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
 "tags/\">IETF language tag</a>. Defaults to the first available."
 msgstr ""
+"用<a target=\"_blank\" href=\"https://www.w3.org/International/articles"
+"/language-tags/\">IETF语言标签</a>，输入用于标签和评论的首选语言。"
 
 #: application/src/Form/VocabularyForm.php:147
 msgid "Label property"
@@ -3934,7 +3979,7 @@ msgid ""
 "Enter the label property. This is typically only needed if the vocabulary "
 "uses an unconventional property for labels. Please use the full property URI"
 " enclosed in angle brackets."
-msgstr ""
+msgstr "输入标签属性。通常只有当词汇表给标签使用了非常规属性的时候才需要。请使用包括在尖括号中的完整属性URI。"
 
 #: application/src/Form/VocabularyForm.php:158
 msgid "Comment property"
@@ -3945,44 +3990,115 @@ msgid ""
 "Enter the comment property. This is typically only needed if the vocabulary "
 "uses an unconventional property for comments. Please use the full property "
 "URI enclosed in angle brackets."
+msgstr "输入评论属性。通常只有当词汇表给评论使用了非常规属性的时候才需要。请使用包括在尖括号中的完整属性URI。"
+
+#: application/src/Form/SiteForm.php:54
+msgid "Choose or upload a thumbnail to display with site."
 msgstr ""
 
-#: application/src/Form/ResourceForm.php:34
-msgid "Resource template"
-msgstr "资源模板"
+#: application/src/Form/ResourceTemplateForm.php:27
+msgid "Suggested class"
+msgstr "推荐的类"
 
-#: application/src/Form/ResourceForm.php:35
-msgid "A pre-defined template for resource creation."
-msgstr "资源创建的预定义模板。"
+#: application/src/Form/ResourceBatchUpdateForm.php:34
+msgid "Set visibility"
+msgstr "设定可视度"
 
-#: application/src/Form/ResourceForm.php:59
-msgid ""
-"A type for the resource. Different types have different default properties "
-"attached to them."
-msgstr "资源类型。不同类型有不同的相关默认属性。"
+#: application/src/Form/ResourceBatchUpdateForm.php:38
+#: application/src/Form/ResourceBatchUpdateForm.php:55
+#: application/src/Form/ResourceBatchUpdateForm.php:75
+#: application/src/Form/ResourceBatchUpdateForm.php:98
+#: application/src/Form/UserBatchUpdateForm.php:31
+#: application/src/Form/UserBatchUpdateForm.php:43
+#: application/src/Form/UserBatchUpdateForm.php:60
+#: application/src/Form/UserBatchUpdateForm.php:77
+#: application/src/Form/UserBatchUpdateForm.php:92
+msgid "[No change]"
+msgstr "【无更改】"
 
-#: application/src/Form/ResourceForm.php:68
-msgid "Thumbnail"
-msgstr "缩略图"
+#: application/src/Form/ResourceBatchUpdateForm.php:51
+msgid "Set openness"
+msgstr "设定开放性"
 
-#: application/src/Form/ResourceForm.php:69
-msgid ""
-"Omeka S automatically selects a thumbnail from among attached media for a "
-"resource. You may use an image of your choice instead by choosing an asset "
-"here."
+#: application/src/Form/ResourceBatchUpdateForm.php:53
+msgid "Open"
+msgstr "开放"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:54
+msgid "Not open"
+msgstr "不开放"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:74
+msgid "Set template"
+msgstr "设置模板"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:76
+msgid "[Unset template]"
+msgstr "【取消模板】"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:96
+msgid "Set class"
+msgstr "设定类"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:97
+msgid "[Unset class]"
+msgstr "【取消类别】"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:111
+#: application/src/Form/ResourceBatchUpdateForm.php:125
+msgid "Select item sets"
+msgstr "选择条目集"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:114
+msgid "Add to item sets"
+msgstr "添加入条目集"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:128
+msgid "Remove from item sets"
+msgstr "从条目集里移除"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:139
+#: application/src/Form/ResourceBatchUpdateForm.php:153
+#: application/src/Form/UserForm.php:170
+msgid "Select sites"
+msgstr "选择网站"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:142
+msgid "Add to sites"
 msgstr ""
 
-#: application/src/Form/SitePageForm.php:39
-msgid "Add to navigation"
-msgstr "添加至导航"
+#: application/src/Form/ResourceBatchUpdateForm.php:156
+msgid "Remove from sites"
+msgstr ""
 
-#: application/src/Form/Element/Recaptcha.php:99
-msgid "You must verify that you are human by completing the CAPTCHA."
-msgstr "您必须完成CAPTCHA以证实您是人类。"
+#: application/src/Form/ResourceBatchUpdateForm.php:166
+msgid "Clear language"
+msgstr "清空语言"
 
-#: application/src/Form/Element/Recaptcha.php:108
-msgid "Could not verify that you are a human."
-msgstr "无法证实您是人类。"
+#: application/src/Form/ResourceBatchUpdateForm.php:190
+#: application/view/common/property-form-batch-edit.phtml:63
+msgid "Select properties"
+msgstr "选择属性"
+
+#: application/src/Form/ResourceBatchUpdateForm.php:193
+msgid "Clear property values"
+msgstr "清空属性值"
+
+#: application/src/Form/ModuleStateChangeForm.php:37
+msgid "Install"
+msgstr "安装"
+
+#: application/src/Form/ModuleStateChangeForm.php:55
+msgid "Deactivate"
+msgstr "禁用"
+
+#: application/src/Form/ModuleStateChangeForm.php:64
+msgid "Upgrade"
+msgstr "升级"
+
+#: application/src/Form/Initializer/Csrf.php:35
+msgid "Invalid or missing CSRF token"
+msgstr "无效或缺失的CSRF令牌"
 
 #: application/src/Form/Element/PasswordConfirm.php:68
 msgid "Confirm password"
@@ -3996,6 +4112,14 @@ msgstr "密码是无效的"
 msgid "The passwords did not match"
 msgstr "密码不匹配"
 
+#: application/src/Form/Element/Recaptcha.php:99
+msgid "You must verify that you are human by completing the CAPTCHA."
+msgstr "您必须完成CAPTCHA以证实您是人类。"
+
+#: application/src/Form/Element/Recaptcha.php:108
+msgid "Could not verify that you are a human."
+msgstr "无法证实您是人类。"
+
 #: application/src/Form/Element/ColorPicker.php:10
 msgid "three- or six-digit hexadecimal color, or \"transparent\""
 msgstr "三位或六位数十六进制色彩，或“透明的”"
@@ -4004,38 +4128,307 @@ msgstr "三位或六位数十六进制色彩，或“透明的”"
 msgid "Invalid color format"
 msgstr "无效色彩格式"
 
-#: application/src/Stdlib/Environment.php:47
-#, php-format
-msgid ""
-"You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
-"version %1$s. You are currently on version %2$s."
-msgstr "在升级至版本%1$s之前，您必须把Omeka S升级到至少版本1.0.0。您现在在版本%2$s。"
+#: application/src/Form/SiteSettingsForm.php:38
+msgid "Auto-assign new items"
+msgstr "自动分配新条目"
 
-#: application/src/Stdlib/Environment.php:54
-#, php-format
+#: application/src/Form/SiteSettingsForm.php:39
 msgid ""
-"The installed PHP version (%1$s) is too low. Omeka requires at least version"
-" %2$s."
-msgstr "安装的PHP版本（%1$s）太低。Omeka要求最低版本%2$s。"
+"Select this if you want new items to be automatically assigned to this site."
+" Note that item owners may unassign their items at any time."
+msgstr ""
 
-#: application/src/Stdlib/Environment.php:62
-#, php-format
-msgid "Omeka requires the PHP extension %s, but it is not loaded."
-msgstr "Omeka要求PHP扩展名%s，但是尚未加载。"
+#: application/src/Form/SiteSettingsForm.php:50
+msgid "Attachment link type"
+msgstr "附件链接类型"
 
-#: application/src/Stdlib/Environment.php:81
-#, php-format
+#: application/src/Form/SiteSettingsForm.php:52
+msgid "Item page"
+msgstr "条目页"
+
+#: application/src/Form/SiteSettingsForm.php:53
+msgid "Media page"
+msgstr "媒体页"
+
+#: application/src/Form/SiteSettingsForm.php:54
+msgid "Direct link to file"
+msgstr "文件的直接链接"
+
+#: application/src/Form/SiteSettingsForm.php:66
+msgid "Embed media on item pages"
+msgstr "在条目页面上内嵌媒体"
+
+#: application/src/Form/SiteSettingsForm.php:77
+msgid "Show page pagination"
+msgstr "显示页面分页"
+
+#: application/src/Form/SiteSettingsForm.php:78
 msgid ""
-"The installed MySQL version (%1$s) is too low. Omeka requires at least "
-"version %2$s."
-msgstr "安装的MySQL版本（%1$s）太低。Omeka要求最低版本%2$s。"
+"Show pagination that helps users follow a linear narrative through a site."
+msgstr "显示分页以帮助用户沿线性叙述方式浏览网站。"
 
-#: application/src/Stdlib/Environment.php:89
-#, php-format
+#: application/src/Form/SiteSettingsForm.php:89
+msgid "Show user bar on public views"
+msgstr "在公共视图上显示用户条"
+
+#: application/src/Form/SiteSettingsForm.php:91
+msgid "Never"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:92
+msgid "When logged in"
+msgstr "当已经登录时"
+
+#: application/src/Form/SiteSettingsForm.php:93
+msgid "Always"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:128
 msgid ""
-"The installed MariaDB version (%1$s) is too low. Omeka requires at least "
-"version %2$s."
-msgstr "安装的MariaDB版本（%1$s）太低。Omeka要求最低版本%2$s。"
+"Locale/language code for this site. Leave blank to use the global locale "
+"setting."
+msgstr "本网站的区域/语言代码。使用全局区域设置时，此处保持空白。"
+
+#: application/src/Form/SiteSettingsForm.php:141
+msgid "Filter values based on site locale"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:142
+msgid ""
+"Show only values matching the site language setting and values without "
+"locale ID."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:154
+msgid "Show language labels for values"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:155
+msgid "Show a label indicating the language of each value on show pages."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:176
+msgid "Restrict browse to attached items"
+msgstr "限制只浏览附属条目"
+
+#: application/src/Form/SiteSettingsForm.php:188
+msgid ""
+"The maximum number of results per page on browse pages. Leave blank to use "
+"the global setting."
+msgstr "浏览页面上每页显示的最大结果数。使用全局设置时，此处保持空白。"
+
+#: application/src/Form/SiteSettingsForm.php:194
+msgid "Use global setting"
+msgstr "使用全局设置"
+
+#: application/src/Form/SiteSettingsForm.php:202
+msgid "Browse heading property"
+msgstr "浏览标题属性"
+
+#: application/src/Form/SiteSettingsForm.php:203
+msgid ""
+"Use this property for the heading of each resource on a browse page. Keep "
+"unselected to use the default title property of each resource."
+msgstr "在浏览页面上给每个资源的标题使用这个属性。取消选择以便使用每个资源的默认标题属性。"
+
+#: application/src/Form/SiteSettingsForm.php:211
+#: application/src/Form/SiteSettingsForm.php:228
+msgid "Select a property"
+msgstr "选择一个属性"
+
+#: application/src/Form/SiteSettingsForm.php:219
+msgid "Browse body property"
+msgstr "浏览正文属性"
+
+#: application/src/Form/SiteSettingsForm.php:220
+msgid ""
+"Use this property for the body of each resource on a browse page. Keep "
+"unselected to use the default description property of each resource."
+msgstr "在浏览页面上给每个资源的正文使用这个属性。取消选择以便使用每个资源的默认描述属性。"
+
+#: application/src/Form/SiteSettingsForm.php:237
+msgid "Show"
+msgstr "显示"
+
+#: application/src/Form/SiteSettingsForm.php:245
+msgid "Show attached pages"
+msgstr "显示附属页面"
+
+#: application/src/Form/SiteSettingsForm.php:246
+msgid ""
+"Show site pages to which an item is attached on the public item show page."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:268
+msgid "Search type"
+msgstr "搜索类型"
+
+#: application/src/Form/SiteSettingsForm.php:269
+msgid "Select the type of search the main search field will perform"
+msgstr "选择主搜索域要完成的搜索类型"
+
+#: application/src/Form/SiteSettingsForm.php:271
+msgid "This site"
+msgstr "该网站"
+
+#: application/src/Form/SiteSettingsForm.php:272
+msgid "All sites"
+msgstr "所有网站"
+
+#: application/src/Form/SiteSettingsForm.php:289
+msgid "Search resources"
+msgstr "搜索资源"
+
+#: application/src/Form/SiteSettingsForm.php:290
+msgid ""
+"Customize which types of resources will be searchable in the main search "
+"field."
+msgstr "定制哪种资源可以在主搜索域中被搜索到。"
+
+#: application/src/Form/SiteSettingsForm.php:303
+msgid "Templates"
+msgstr "模板"
+
+#: application/src/Form/SiteSettingsForm.php:304
+msgid "Select which templates to apply to the advanced search form."
+msgstr "选择哪些模板要用在高级搜索表单上。"
+
+#: application/src/Form/SiteSettingsForm.php:309
+msgid "Select templates"
+msgstr "选择模板"
+
+#: application/src/Form/SiteSettingsForm.php:317
+msgid "Restrict to templates"
+msgstr "限定在模板上"
+
+#: application/src/Form/SiteSettingsForm.php:318
+msgid "Restrict search results to resources of the selected templates."
+msgstr "搜索结果限定在选中模板的资源。"
+
+#: application/src/Form/UserBatchUpdateForm.php:27
+#: application/src/Form/UserForm.php:98
+#: application/src/Service/Form/Element/RoleSelectFactory.php:16
+#: application/src/View/Helper/RoleSelect.php:39
+msgid "Select role…"
+msgstr "选择角色 ......"
+
+#: application/src/Form/UserBatchUpdateForm.php:30
+msgid "Set role"
+msgstr "设定角色"
+
+#: application/src/Form/UserBatchUpdateForm.php:39
+msgid "Set activity"
+msgstr "设定活动"
+
+#: application/src/Form/UserBatchUpdateForm.php:55
+#: application/src/Form/UserBatchUpdateForm.php:72
+msgid "Select sites…"
+msgstr "选择网站"
+
+#: application/src/Form/UserBatchUpdateForm.php:59
+msgid "Remove from site permission"
+msgstr "从网站权限里移除"
+
+#: application/src/Form/UserBatchUpdateForm.php:61
+#: application/src/Form/UserBatchUpdateForm.php:78
+msgid "[All sites]"
+msgstr "【所有网站】"
+
+#: application/src/Form/UserBatchUpdateForm.php:76
+msgid "Add to site permission"
+msgstr "添加入网站权限"
+
+#: application/src/Form/UserBatchUpdateForm.php:87
+msgid "Select permission…"
+msgstr "选择权限 ......"
+
+#: application/src/Form/UserBatchUpdateForm.php:91
+msgid "Add to site permission as"
+msgstr "添加入网站权限为"
+
+#: application/src/Form/SiteResourcesForm.php:15
+msgid "Manage current items"
+msgstr "管理当前条目"
+
+#: application/src/Form/SiteResourcesForm.php:17
+msgid "Do nothing"
+msgstr ""
+
+#: application/src/Form/SiteResourcesForm.php:18
+msgid "Add - keep existing items and assign items from a new search query"
+msgstr ""
+
+#: application/src/Form/SiteResourcesForm.php:19
+msgid "Replace - unassign all items and assign items from a new search query"
+msgstr ""
+
+#: application/src/Form/SiteResourcesForm.php:20
+msgid "Remove - unassign items from a new search query"
+msgstr ""
+
+#: application/src/Form/SiteResourcesForm.php:21
+msgid "Remove all - unassign all items"
+msgstr ""
+
+#: application/src/Form/ResourceTemplateImportForm.php:14
+msgid "Resource template file"
+msgstr "资源模板文件"
+
+#: application/src/Form/UserForm.php:151
+msgid "Default resource template"
+msgstr "默认资源模板"
+
+#: application/src/Form/UserForm.php:175
+msgid "Default sites for items"
+msgstr "条目的默认网站"
+
+#: application/src/Form/UserForm.php:186
+msgid "Current password"
+msgstr "当前密码"
+
+#: application/src/Form/UserForm.php:198
+msgid "New password"
+msgstr "新密码"
+
+#: application/src/Form/UserForm.php:199
+msgid "Confirm new password"
+msgstr "确认新密码"
+
+#: application/src/Form/UserForm.php:208
+msgid "New key label"
+msgstr "新密钥标签"
+
+#: application/src/Form/InstallationForm.php:19
+msgid "Create the first user"
+msgstr "创建第一个用户"
+
+#: application/src/Form/InstallationForm.php:52
+msgid "Confirm email"
+msgstr "确认电邮地址"
+
+#: application/src/Form/InstallationForm.php:128
+msgid "The emails did not match"
+msgstr "电邮地址不匹配"
+
+#: application/src/Form/ConfirmForm.php:17
+msgid "Confirm"
+msgstr "确认"
+
+#: application/src/Form/SitePageForm.php:39
+msgid "Add to navigation"
+msgstr "添加至导航"
+
+#: application/src/Service/CliFactory.php:31
+msgid "Neither \"proc_open()\" nor \"exec()\" are available."
+msgstr ""
+
+#: application/src/View/Helper/SiteSelect.php:39
+msgid "Select site…"
+msgstr "选择网站 ......"
+
+#: application/src/View/Helper/ResourceClassSelect.php:39
+msgid "Select class…"
+msgstr "选择类 ......"
 
 #: application/src/View/Helper/BlockShowTitleSelect.php:24
 msgid "item title"
@@ -4049,14 +4442,6 @@ msgstr "媒体标题"
 msgid "no title"
 msgstr "无标题"
 
-#: application/src/View/Helper/ItemSetSelect.php:39
-msgid "Select item set…"
-msgstr "选择条目集 ......"
-
-#: application/src/View/Helper/SiteSelect.php:39
-msgid "Select site…"
-msgstr "选择网站 ......"
-
 #: application/src/View/Helper/ResourceTemplateSelect.php:39
 msgid "Select template…"
 msgstr "选择模板 ......"
@@ -4069,24 +4454,174 @@ msgstr "选择属性 ......"
 msgid "Select user…"
 msgstr "选择用户 ......"
 
-#: application/src/View/Helper/ResourceClassSelect.php:39
-msgid "Select class…"
-msgstr "选择类别 ......"
+#: application/src/View/Helper/ItemSetSelect.php:39
+msgid "Select item set…"
+msgstr "选择条目集 ......"
+
+#: application/src/Controller/InstallController.php:52
+msgid "Installation successful. Please log in."
+msgstr "安装成功。请登录。"
+
+#: application/src/Controller/InstallController.php:56
+msgid "There were errors during installation."
+msgstr "安装时有错误。"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:69
+msgid "Site successfully created"
+msgstr "网站已成功创建"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:119
+msgid "Site successfully updated"
+msgstr "网站已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:169
+msgid "Page successfully created"
+msgstr "网页已成功创建"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:198
+msgid "Homepage"
+msgstr "主页"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:204
+msgid "First page in navigation"
+msgstr "分页的首页"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:220
+msgid "Navigation successfully updated"
+msgstr "导航已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:254
+msgid ""
+"Item assignment in progress. To see the new item count, refresh the page."
+msgstr "条目分配正在进行。要看新的条目数，请刷新页面。"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:258
+msgid "Site resources successfully updated"
+msgstr "网站资源已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:301
+msgid "User permissions successfully updated"
+msgstr "用户权限已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:333
+msgid "Site theme successfully updated"
+msgstr "网站主题已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:407
+msgid "Theme settings successfully updated"
+msgstr "主题设置已成功更新"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:424
+msgid "Site successfully deleted"
+msgstr "网站已成功删除"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:447
+msgid "site"
+msgstr "网站"
+
+#: application/src/Controller/SiteAdmin/PageController.php:28
+msgid "Page successfully updated"
+msgstr "页面已成功更新"
+
+#: application/src/Controller/SiteAdmin/PageController.php:105
+msgid "page"
+msgstr "页面"
+
+#: application/src/Controller/SiteAdmin/PageController.php:122
+msgid "Page successfully deleted"
+msgstr "页面已成功删除"
+
+#: application/src/Controller/LoginController.php:56
+msgid "Successfully logged in"
+msgstr "成功登录"
+
+#: application/src/Controller/LoginController.php:65
+msgid "Email or password is invalid"
+msgstr "电子邮件地址或密码是无效的"
+
+#: application/src/Controller/LoginController.php:88
+msgid "Successfully logged out"
+msgstr "成功登出"
+
+#: application/src/Controller/LoginController.php:104
+msgid "Invalid password creation key."
+msgstr "无效的密码创建密钥。"
+
+#: application/src/Controller/LoginController.php:113
+msgid "Password creation key expired."
+msgstr "密码创建密钥已过期。"
+
+#: application/src/Controller/LoginController.php:129
+msgid "Successfully created your password. Please log in."
+msgstr "成功创建了您的密码。请登录。"
+
+#: application/src/Controller/LoginController.php:132
+msgid "Password creation unsuccessful"
+msgstr "密码创建未成功"
+
+#: application/src/Controller/LoginController.php:168
+msgid "Check your email for instructions on how to reset your password"
+msgstr "请检查您的电子邮件，找到重置您的密码的指示"
+
+#: application/src/Controller/LoginController.php:171
+msgid "Activation unsuccessful"
+msgstr "激活未成功"
 
 #: application/src/Controller/MigrateController.php:40
 msgid "Migration successful"
 msgstr "迁移成功"
 
-#: application/src/Controller/Admin/UserController.php:44
-#: application/src/Controller/Admin/UserController.php:49
 #: application/src/Controller/Admin/ItemController.php:42
 #: application/src/Controller/Admin/ItemController.php:47
+#: application/src/Controller/Admin/UserController.php:44
+#: application/src/Controller/Admin/UserController.php:49
 #: application/src/Controller/Admin/MediaController.php:27
 #: application/src/Controller/Admin/MediaController.php:32
 #: application/src/Controller/Admin/ItemSetController.php:87
 #: application/src/Controller/Admin/ItemSetController.php:92
 msgid "Confirm Delete"
 msgstr "确认删除"
+
+#: application/src/Controller/Admin/ItemController.php:114
+msgid "item"
+msgstr "条目"
+
+#: application/src/Controller/Admin/ItemController.php:130
+msgid "Item successfully deleted"
+msgstr "条目已成功删除"
+
+#: application/src/Controller/Admin/ItemController.php:151
+msgid "You must select at least one item to batch delete."
+msgstr "您必须选择最少一个条目以批量删除。"
+
+#: application/src/Controller/Admin/ItemController.php:160
+msgid "Items successfully deleted"
+msgstr "条目已成功删除"
+
+#: application/src/Controller/Admin/ItemController.php:186
+msgid "Deleting items. This may take a while."
+msgstr "正在删除条目。这需要一段时间。"
+
+#: application/src/Controller/Admin/ItemController.php:210
+#, php-format
+msgid "Item successfully created. %s"
+msgstr "条目已成功创建。%s"
+
+#: application/src/Controller/Admin/ItemController.php:247
+msgid "Item successfully updated"
+msgstr "条目已成功更新"
+
+#: application/src/Controller/Admin/ItemController.php:274
+msgid "You must select at least one item to batch edit."
+msgstr "您必须选择最少一个条目以批量编辑。"
+
+#: application/src/Controller/Admin/ItemController.php:295
+msgid "Items successfully edited"
+msgstr "条目已成功编辑"
+
+#: application/src/Controller/Admin/ItemController.php:347
+msgid "Editing items. This may take a while."
+msgstr "正在编辑条目。这需要一段时间。"
 
 #: application/src/Controller/Admin/UserController.php:113
 #, php-format
@@ -4151,115 +4686,13 @@ msgstr "您必须选择最少一个用户以批量编辑。"
 msgid "For security reasons, you can’t batch edit yourself."
 msgstr "限于安全原因，您不能批量编辑您自己。"
 
-#: application/src/Controller/Admin/UserController.php:391
+#: application/src/Controller/Admin/UserController.php:392
 msgid "Users successfully edited"
 msgstr "用户已成功编辑"
 
-#: application/src/Controller/Admin/UserController.php:444
+#: application/src/Controller/Admin/UserController.php:445
 msgid "Editing users. This may take a while."
 msgstr "正在编辑用户。这需要一段时间。"
-
-#: application/src/Controller/Admin/ItemController.php:114
-msgid "item"
-msgstr "条目"
-
-#: application/src/Controller/Admin/ItemController.php:130
-msgid "Item successfully deleted"
-msgstr "条目已成功删除"
-
-#: application/src/Controller/Admin/ItemController.php:151
-msgid "You must select at least one item to batch delete."
-msgstr "您必须选择最少一个条目以批量删除。"
-
-#: application/src/Controller/Admin/ItemController.php:160
-msgid "Items successfully deleted"
-msgstr "条目已成功删除"
-
-#: application/src/Controller/Admin/ItemController.php:186
-msgid "Deleting items. This may take a while."
-msgstr "正在删除条目。这需要一段时间。"
-
-#: application/src/Controller/Admin/ItemController.php:210
-#, php-format
-msgid "Item successfully created. %s"
-msgstr "条目已成功创建。%s"
-
-#: application/src/Controller/Admin/ItemController.php:247
-msgid "Item successfully updated"
-msgstr "条目已成功更新"
-
-#: application/src/Controller/Admin/ItemController.php:274
-msgid "You must select at least one item to batch edit."
-msgstr "您必须选择最少一个条目以批量编辑。"
-
-#: application/src/Controller/Admin/ItemController.php:294
-msgid "Items successfully edited"
-msgstr "条目已成功编辑"
-
-#: application/src/Controller/Admin/ItemController.php:346
-msgid "Editing items. This may take a while."
-msgstr "正在编辑条目。这需要一段时间。"
-
-#: application/src/Controller/Admin/SettingController.php:35
-msgid "Settings successfully updated"
-msgstr "设置已成功更新"
-
-#: application/src/Controller/Admin/MediaController.php:59
-msgid "Media successfully updated"
-msgstr "媒体已成功更新"
-
-#: application/src/Controller/Admin/MediaController.php:125
-msgid "Media successfully deleted"
-msgstr "媒体已成功删除"
-
-#: application/src/Controller/Admin/MediaController.php:159
-msgid "You must select at least one media to batch delete."
-msgstr "您必须选择最少一个媒体以批量删除。"
-
-#: application/src/Controller/Admin/MediaController.php:168
-msgid "Medias successfully deleted"
-msgstr "媒体已成功删除"
-
-#: application/src/Controller/Admin/MediaController.php:194
-msgid "Deleting medias. This may take a while."
-msgstr "正在删除媒体。这需要一段时间。"
-
-#: application/src/Controller/Admin/MediaController.php:212
-msgid "You must select at least one media to batch edit."
-msgstr "您必须选择最少一个媒体以批量编辑。"
-
-#: application/src/Controller/Admin/MediaController.php:232
-msgid "Medias successfully edited"
-msgstr "媒体已成功编辑"
-
-#: application/src/Controller/Admin/MediaController.php:284
-msgid "Editing medias. This may take a while."
-msgstr "正在编辑媒体。这需要一段时间。"
-
-#: application/src/Controller/Admin/VocabularyController.php:59
-msgid "vocabulary"
-msgstr "词汇"
-
-#: application/src/Controller/Admin/VocabularyController.php:97
-#, php-format
-msgid "Vocabulary successfully imported. %s"
-msgstr "词汇已成功输入。%s"
-
-#: application/src/Controller/Admin/VocabularyController.php:176
-msgid "Please review these changes before you accept them."
-msgstr "在接受这些更新前，请先审核。"
-
-#: application/src/Controller/Admin/VocabularyController.php:184
-msgid "Vocabulary successfully updated"
-msgstr "词汇已成功更新"
-
-#: application/src/Controller/Admin/VocabularyController.php:204
-msgid "Changes to the vocabulary successfully made"
-msgstr "已成功完成对词汇的更新"
-
-#: application/src/Controller/Admin/VocabularyController.php:220
-msgid "Vocabulary successfully deleted"
-msgstr "词汇已成功删除"
 
 #: application/src/Controller/Admin/ModuleController.php:122
 msgid "The module was successfully installed"
@@ -4292,6 +4725,63 @@ msgstr "模块已成功设置"
 #: application/src/Controller/Admin/ModuleController.php:284
 msgid "There was a problem during configuration"
 msgstr "安装是有错误"
+
+#: application/src/Controller/Admin/JobController.php:27
+msgid "Attempt Stop"
+msgstr "尝试终止"
+
+#: application/src/Controller/Admin/JobController.php:56
+msgid "Attempting to stop the job."
+msgstr "尝试终止任务。"
+
+#: application/src/Controller/Admin/JobController.php:58
+msgid "The job could not be stopped."
+msgstr "任务无法终止。"
+
+#: application/src/Controller/Admin/SettingController.php:35
+msgid "Settings successfully updated"
+msgstr "设置已成功更新"
+
+#: application/src/Controller/Admin/MediaController.php:59
+msgid "Media successfully updated"
+msgstr "媒体已成功更新"
+
+#: application/src/Controller/Admin/MediaController.php:125
+#: application/src/Controller/Admin/MediaController.php:168
+msgid "Media successfully deleted"
+msgstr "媒体已成功删除"
+
+#: application/src/Controller/Admin/MediaController.php:159
+msgid "You must select at least one media to batch delete."
+msgstr "您必须选择最少一个媒体以批量删除。"
+
+#: application/src/Controller/Admin/MediaController.php:194
+msgid "Deleting media. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:212
+msgid "You must select at least one media to batch edit."
+msgstr "您必须选择最少一个媒体以批量编辑。"
+
+#: application/src/Controller/Admin/MediaController.php:233
+msgid "Media successfully edited"
+msgstr ""
+
+#: application/src/Controller/Admin/MediaController.php:285
+msgid "Editing media. This may take a while."
+msgstr ""
+
+#: application/src/Controller/Admin/AssetController.php:93
+msgid "Asset successfully updated"
+msgstr ""
+
+#: application/src/Controller/Admin/AssetController.php:124
+msgid "asset"
+msgstr ""
+
+#: application/src/Controller/Admin/AssetController.php:137
+msgid "Asset successfully deleted"
+msgstr ""
 
 #: application/src/Controller/Admin/ItemSetController.php:32
 #, php-format
@@ -4326,13 +4816,38 @@ msgstr "正在删除条目集。这需要一段时间。"
 msgid "You must select at least one item set to batch edit."
 msgstr "您必须选择至少一个条目集以批量编辑。"
 
-#: application/src/Controller/Admin/ItemSetController.php:264
+#: application/src/Controller/Admin/ItemSetController.php:265
 msgid "Item sets successfully edited"
 msgstr "条目集已成功编辑"
 
-#: application/src/Controller/Admin/ItemSetController.php:316
+#: application/src/Controller/Admin/ItemSetController.php:317
 msgid "Editing item sets. This may take a while."
 msgstr "正在编辑条目集。这需要一段时间。"
+
+#: application/src/Controller/Admin/VocabularyController.php:59
+msgid "vocabulary"
+msgstr "词汇"
+
+#: application/src/Controller/Admin/VocabularyController.php:97
+#, php-format
+msgid "Vocabulary successfully imported. %s"
+msgstr "词汇已成功输入。%s"
+
+#: application/src/Controller/Admin/VocabularyController.php:176
+msgid "Please review these changes before you accept them."
+msgstr "在接受这些更新前，请先审核。"
+
+#: application/src/Controller/Admin/VocabularyController.php:184
+msgid "Vocabulary successfully updated"
+msgstr "词汇已成功更新"
+
+#: application/src/Controller/Admin/VocabularyController.php:204
+msgid "Changes to the vocabulary successfully made"
+msgstr "已成功完成对词汇的更新"
+
+#: application/src/Controller/Admin/VocabularyController.php:220
+msgid "Vocabulary successfully deleted"
+msgstr "词汇已成功删除"
 
 #: application/src/Controller/Admin/ResourceTemplateController.php:437
 msgid "resource template"
@@ -4356,300 +4871,53 @@ msgstr "资源模板已成功更新"
 msgid "Resource template successfully created. %s"
 msgstr "资源模板已成功创建。%s"
 
-#: application/src/Controller/Admin/JobController.php:27
-msgid "Attempt Stop"
-msgstr "尝试终止"
-
-#: application/src/Controller/Admin/JobController.php:56
-msgid "Attempting to stop the job."
-msgstr "尝试终止任务。"
-
-#: application/src/Controller/Admin/JobController.php:58
-msgid "The job could not be stopped."
-msgstr "任务无法终止。"
-
-#: application/src/Controller/SiteAdmin/PageController.php:28
-msgid "Page successfully updated"
-msgstr "页面已成功更新"
-
-#: application/src/Controller/SiteAdmin/PageController.php:105
-msgid "page"
-msgstr "页面"
-
-#: application/src/Controller/SiteAdmin/PageController.php:122
-msgid "Page successfully deleted"
-msgstr "页面已成功删除"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:68
-msgid "Site successfully created"
-msgstr "网站已成功创建"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:116
-msgid "Site successfully updated"
-msgstr "网站已成功更新"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:163
-msgid "Page successfully created"
-msgstr "网页已成功创建"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:192
-msgid "Homepage"
-msgstr "主页"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:198
-msgid "First page in navigation"
-msgstr "分页的首页"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:214
-msgid "Navigation successfully updated"
-msgstr "导航已成功更新"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:254
-msgid ""
-"Item assignment in progress. To see the new item count, refresh the page."
-msgstr ""
-
-#: application/src/Controller/SiteAdmin/IndexController.php:258
-msgid "Site resources successfully updated"
-msgstr "网站资源已成功更新"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:299
-msgid "User permissions successfully updated"
-msgstr "用户权限已成功更新"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:331
-msgid "Site theme successfully updated"
-msgstr "网站主题已成功更新"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:405
-msgid "Theme settings successfully updated"
-msgstr "主题设置已成功更新"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:422
-msgid "Site successfully deleted"
-msgstr "网站已成功删除"
-
-#: application/src/Controller/SiteAdmin/IndexController.php:445
-msgid "site"
-msgstr "网站"
-
-#: application/src/Controller/LoginController.php:56
-msgid "Successfully logged in"
-msgstr "成功登入"
-
-#: application/src/Controller/LoginController.php:65
-msgid "Email or password is invalid"
-msgstr "电子邮件地址或密码是无效的"
-
-#: application/src/Controller/LoginController.php:88
-msgid "Successfully logged out"
-msgstr "成功登出"
-
-#: application/src/Controller/LoginController.php:104
-msgid "Invalid password creation key."
-msgstr "无效的密码创建密钥。"
-
-#: application/src/Controller/LoginController.php:113
-msgid "Password creation key expired."
-msgstr "密码创建密钥已过期。"
-
-#: application/src/Controller/LoginController.php:129
-msgid "Successfully created your password. Please log in."
-msgstr "成功创建了您的密码。请登录。"
-
-#: application/src/Controller/LoginController.php:132
-msgid "Password creation unsuccessful"
-msgstr "密码创建未成功"
-
-#: application/src/Controller/LoginController.php:168
-msgid "Check your email for instructions on how to reset your password"
-msgstr "请检查您的电子邮件，找到重置您的密码的指示"
-
-#: application/src/Controller/LoginController.php:171
-msgid "Activation unsuccessful"
-msgstr "激活未成功"
-
-#: application/src/Controller/InstallController.php:52
-msgid "Installation successful. Please log in."
-msgstr "安装成功。请登录。"
-
-#: application/src/Controller/InstallController.php:56
-msgid "There were errors during installation."
-msgstr "安装时有错误。"
-
-#: application/src/File/Validator.php:65
-#, php-format
-msgid "Error validating \"%1$s\". Cannot store files with the media type \"%2$s\"."
-msgstr "确证“%1$s”时出错。无法保存媒体类型为“%2$s”的文件。"
-
-#: application/src/File/Validator.php:78
-#, php-format
-msgid ""
-"Error validating \"%1$s\". Cannot store files with the resolved extension "
-"\"%2$s\"."
-msgstr "确证“%1$s”时出错。无法保存解析后缀为“%2$s”的文件。"
-
-#: application/src/File/ThumbnailManager.php:102
-msgid "Missing thumbnail configuration."
-msgstr "缺失缩略图设置。"
-
-#: application/src/File/ThumbnailManager.php:106
-msgid "Missing thumbnail types configuration."
-msgstr "缺失缩略图类型设置。"
-
-#: application/src/File/ThumbnailManager.php:109
-msgid "Missing the large, medium, or square thumbnail type configuration."
-msgstr "缺失大、中、或正方形缩略图类型设置。"
-
-#: application/src/File/ThumbnailManager.php:113
-msgid "Missing constraint for a thumbnail type configuration."
-msgstr "缺失对缩略图类型设置的限制。"
-
-#: application/src/File/ThumbnailManager.php:117
-msgid "Missing thumbnail fallbacks configuration."
-msgstr "缺失后备缩略图设置。"
-
-#: application/src/File/ThumbnailManager.php:120
-msgid "Missing default thumbnail fallback configuration."
-msgstr "缺失默认后备缩略图设置。"
-
-#: application/src/File/ThumbnailManager.php:123
-msgid "Missing thumbnail fallback configuration."
-msgstr "缺失后备缩略图设置。"
-
-#: application/src/File/ThumbnailManager.php:127
-msgid "Invalid thumbnail fallback configuration."
-msgstr "无效后备缩略图设置。"
-
-#: application/src/File/Downloader.php:71
-#, php-format
-msgid "Error downloading %1$s: %2$s"
-msgstr "下载%1$s错误：%2$s"
-
-#: application/src/File/Downloader.php:83
-#, php-format
-msgid "Error downloading %1$s: %2$s %3$s"
-msgstr "下载%1$s错误：%2$s %3$s"
-
-#: application/src/DataType/Resource/ItemSet.php:13
-msgid "Item Set"
-msgstr "条目集"
-
-#: application/src/DataType/Resource/AbstractResource.php:16
-msgid "Resource"
-msgstr "资源"
-
-#: application/src/DataType/Resource/AbstractResource.php:59
-msgid "A value resource cannot be Media."
-msgstr "一个数值资源不能是媒体。"
-
-#: application/src/Media/Ingester/Html.php:80
-msgid "HTML or plain text."
-msgstr "HTML或纯文本"
-
-#: application/src/Media/Ingester/Youtube.php:27
-msgid "YouTube"
-msgstr "YouTube"
-
-#: application/src/Media/Ingester/Youtube.php:90
-msgid "Video URL"
-msgstr "视频URL"
-
-#: application/src/Media/Ingester/Youtube.php:91
-msgid "URL for the video to embed."
-msgstr "指向内嵌视频的URL。"
-
-#: application/src/Media/Ingester/Youtube.php:99
-msgid "Start"
-msgstr "开始"
-
-#: application/src/Media/Ingester/Youtube.php:100
-msgid ""
-"Begin playing the video at the given number of seconds from the start of the"
-" video."
-msgstr "从视频的起始之后的给定秒数开始播放视频。"
-
-#: application/src/Media/Ingester/Youtube.php:104
-msgid "End"
-msgstr "结束"
-
-#: application/src/Media/Ingester/Youtube.php:105
-msgid ""
-"End playing the video at the given number of seconds from the start of the "
-"video."
-msgstr "从视频的起始之后的给定秒数停止播放视频。"
-
-#: application/src/Media/Ingester/Upload.php:69
-msgid "Upload file"
-msgstr "上传文件"
-
-#: application/src/Media/Ingester/Url.php:80
-msgid "A URL to the media."
-msgstr "指向媒体的链接。"
-
-#: application/src/Media/Ingester/OEmbed.php:41
-msgid "oEmbed"
-msgstr "内嵌"
-
-#: application/src/Media/Ingester/OEmbed.php:114
-msgid "oEmbed URL"
-msgstr "内嵌URL"
-
-#: application/src/Media/Ingester/OEmbed.php:115
-msgid "URL for the media to embed."
-msgstr "指向内嵌媒体的URL。"
-
-#: application/src/Media/Ingester/IIIF.php:33
-msgid "IIIF image"
-msgstr "IIIF图像"
-
-#: application/src/Media/Ingester/IIIF.php:107
-msgid "IIIF image URL"
-msgstr "IIIF图像URL"
-
-#: application/src/Media/Ingester/IIIF.php:108
-msgid "URL for the image to embed."
-msgstr "指向内嵌图像的URL。"
-
-#: application/config/navigation.config.php:192
-msgid "Site admin"
-msgstr "网站管理员"
-
-#: application/config/module.config.php:621
+#: application/config/module.config.php:626
 msgid "Something went wrong"
 msgstr "出错了"
 
-#: application/config/module.config.php:626
+#: application/config/module.config.php:631
 msgid "You have unsaved changes."
 msgstr "您还有未保存的改变。"
 
-#: application/config/module.config.php:627
+#: application/config/module.config.php:632
 msgid "Restore item set"
 msgstr "恢复条目集"
 
-#: application/config/module.config.php:628
+#: application/config/module.config.php:633
 msgid "Close icon set"
 msgstr "关闭图标集"
 
-#: application/config/module.config.php:629
+#: application/config/module.config.php:634
 msgid "Open icon set"
 msgstr "打开图标集"
 
-#: application/config/module.config.php:631
+#: application/config/module.config.php:636
 msgid "Failed loading resource template from API"
 msgstr "从API加载资源模板失败了"
 
-#: application/config/module.config.php:632
+#: application/config/module.config.php:637
 msgid "Restore property"
 msgstr "恢复属性"
 
-#: application/config/module.config.php:634
+#: application/config/module.config.php:639
 msgid "Please enter a valid language tag"
 msgstr "请输入一个有效的语言标签"
 
-#: application/config/module.config.php:636
+#: application/config/module.config.php:641
 msgid "Description"
 msgstr "描述"
+
+#: application/config/navigation.config.php:201
+msgid "Site admin"
+msgstr "网站管理员"
+
+#: application/view/common/advanced-search/properties.phtml:61
+msgid "[Any Property]"
+msgstr "【任意属性】"
+
+#: application/view/common/delete-confirm.phtml:4
+msgid "Confirm delete"
+msgstr "确认删除"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:41
 msgid "Filter by class"
@@ -4658,10 +4926,6 @@ msgstr "按类过滤"
 #: application/view/omeka/admin/item/sidebar-select.phtml:53
 msgid "Filter by item set"
 msgstr "按条目集过滤"
-
-#: application/view/common/advanced-search/properties.phtml:61
-msgid "[Any Property]"
-msgstr "【任意属性】"
 
 #. Vocabulary label for Dublin Core
 msgid "Dublin Core"
@@ -5955,7 +6219,7 @@ msgstr "作者的有序列表。一般来讲，该列表可以视为把作者按
 
 #. Property label for Bibliographic Ontology:citedBy
 msgid "cited by"
-msgstr "被以下的引用："
+msgstr "引用者："
 
 #. Property comment for Bibliographic Ontology:citedBy
 msgid ""

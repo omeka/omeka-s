@@ -264,17 +264,35 @@
         });
 
         $('#select-resource').on('o:resources-selected', '.select-resources-button', function(e) {
-            var value = $('.value.selecting-resource');
-            var field = value.closest('.resource-values.field');
-            $('#item-results').find('.resource')
-                .has('input.select-resource-checkbox:checked').each(function(index) {
-                    if (0 < index) {
-                        value = makeNewValue(field.data('property-term'), 'resource');
-                        field.find('.values').append(value);
+            var value = $('.selecting-resource');
+            if (value.hasClass('value')) {
+                var field = value.closest('.resource-values.field');
+                $('#item-results').find('.resource')
+                    .has('input.select-resource-checkbox:checked').each(function(index) {
+                        if (0 < index) {
+                            value = makeNewValue(field.data('property-term'), 'resource');
+                            field.find('.values').append(value);
+                        }
+                        var valueObj = $(this).data('resource-values');
+                        $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
+                    });
+            } else if (value.hasClass('value-annotation')) {
+                const dataTypeName = value.find('input.data_type').val();
+                $('#item-results').find('.resource').has('input.select-resource-checkbox:checked').each(function(index) {
+                    const valueObj = $(this).data('resource-values');
+                    valueObj.type = dataTypeName;
+                    valueObj.is_public = value.find('input.is_public').val();
+                    valueObj.property_id = value.find('input.property_id').val();
+                    valueObj.property_term = value.find('input.property_term').val();
+                    if (0 === index) {
+                        $(document).trigger('o:prepare-value-annotation', [dataTypeName, value, valueObj]);
+                        hydrateValueAnnotation(value, valueObj);
+                    } else {
+                        newValue = makeValueAnnotation(dataTypeName, valueObj);
+                        value.after(newValue);
                     }
-                    var valueObj = $(this).data('resource-values');
-                    $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
                 });
+            }
         });
 
         $('.button.resource-select').on('click', function(e) {

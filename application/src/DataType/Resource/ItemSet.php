@@ -2,6 +2,7 @@
 namespace Omeka\DataType\Resource;
 
 use Omeka\DataType\ValueAnnotatableInterface;
+use Omeka\Entity;
 use Laminas\View\Renderer\PhpRenderer;
 
 class Itemset extends AbstractResource implements ValueAnnotatableInterface

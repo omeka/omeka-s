@@ -13,8 +13,8 @@
         // Make a value annotation jQuery/DOM object.
         const makeValueAnnotation = function(dataTypeName, value) {
             const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
-            $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation, value]);
             hydrateValueAnnotation(valueAnnotation, value);
+            $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation, value]);
             return valueAnnotation;
         };
         // Hydrate value annotation inputs by mapping the value object to the
@@ -250,8 +250,8 @@
                 valueObj.is_public = value.find('input.is_public').val();
                 valueObj.property_id = value.find('input.property_id').val();
                 valueObj.property_term = value.find('input.property_term').val();
-                $(document).trigger('o:prepare-value-annotation', [dataTypeName, value, valueObj]);
                 hydrateValueAnnotation(value, valueObj);
+                $(document).trigger('o:prepare-value-annotation', [dataTypeName, value, valueObj]);
             }
             Omeka.closeSidebar($('#select-resource'));
         });
@@ -285,8 +285,8 @@
                     valueObj.property_id = value.find('input.property_id').val();
                     valueObj.property_term = value.find('input.property_term').val();
                     if (0 === index) {
-                        $(document).trigger('o:prepare-value-annotation', [dataTypeName, value, valueObj]);
                         hydrateValueAnnotation(value, valueObj);
+                        $(document).trigger('o:prepare-value-annotation', [dataTypeName, value, valueObj]);
                     } else {
                         newValue = makeValueAnnotation(dataTypeName, valueObj);
                         value.after(newValue);

@@ -13,18 +13,22 @@
         // Make a value annotation jQuery/DOM object.
         const makeValueAnnotation = function(dataTypeName, value) {
             const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
+            const propertyLabel = vaPropertySelect.find(`option[value="${value.property_id}"]`).text();
+            // Set the translated property label as the value annotation heading.
+            valueAnnotation.find('.value-annotation-heading').text(propertyLabel);
             hydrateValueAnnotation(valueAnnotation, value);
             $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation, value]);
             return valueAnnotation;
         };
         // Hydrate value annotation inputs by mapping the value object to the
-        // data-value-key attribute. Always call this after triggering the
+        // data-value-key attribute. Always call this before triggering the
         // o:prepare-value-annotation event.
         const hydrateValueAnnotation = function(valueAnnotation, value) {
             valueAnnotation.find(':input').each(function() {
                 const thisInput = $(this);
                 const valueKey = thisInput.data('valueKey');
                 if (!valueKey) return;
+                thisInput.removeAttr('name').val(value ? value[valueKey] : null);
                 if ('is_public' === valueKey) {
                     // Prepare the visibility icon and value.
                     const visibilityIcon = thisInput.prev('.value-annotation-visibility');
@@ -42,14 +46,10 @@
                             .attr('title', Omeka.jsTranslate('Make private'));
                     }
                 }
-                thisInput.removeAttr('name').val(value ? value[valueKey] : null);
             });
         };
         // Prepare the value annotation markup.
         $(document).on('o:prepare-value-annotation', function(e, dataTypeName, valueAnnotation, value) {
-            // Set the translated property label as the value annotation heading.
-            const propertyLabel = vaPropertySelect.find(`option[value="${value.property_id}"]`).text();
-            valueAnnotation.find('.value-annotation-heading').text(propertyLabel);
             // Set the display title for resource types.
             if (['resource:item', 'resource:itemset', 'resource:media'].includes(dataTypeName)) {
                 const resourceLink = $('<a>', {

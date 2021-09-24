@@ -23,7 +23,11 @@ class Itemset extends AbstractResource implements ValueAnnotatableInterface
 
     public function valueAnnotationForm(PhpRenderer $view)
     {
-        return $view->partial('common/data-type/value-annotation-resource', ['dataTypeName' => $this->getName()]);
+        return $view->partial('common/data-type/value-annotation-resource', [
+            'dataTypeLabel' => $view->translate('Item Sets'),
+            'dataTypeSingle' => 'item-set',
+            'dataTypePlural' => 'item-sets'
+        ]);    
     }
 
     public function getValidValueResources()

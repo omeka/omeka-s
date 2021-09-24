@@ -57,7 +57,7 @@
                     href: value.url,
                     target: '_blank',
                 });
-                valueAnnotation.find('.display-title').html(resourceLink);
+                valueAnnotation.find('.o-title').html(resourceLink);
                 valueAnnotation.find('.display_title').val(value.display_title);
                 valueAnnotation.find('.url').val(value.url);
             }
@@ -170,7 +170,7 @@
             applyResourceTemplate(true);
         });
 
-        $('a.value-language').on('click', function(e) {
+        $('#resource-values').on('click', 'a.value-language', function(e) {
             e.preventDefault();
             var languageButton = $(this);
             var languageInput =  languageButton.next('input.value-language');

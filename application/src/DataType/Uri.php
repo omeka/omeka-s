@@ -80,7 +80,18 @@ class Uri extends AbstractDataType implements ValueAnnotatableInterface
     public function valueAnnotationForm(PhpRenderer $view)
     {
         return '
-        <input type="text" data-value-key="@id">
-        <textarea data-value-key="o:label"></textarea>';
+        <div class="input-body"><div class="input">
+            <label class="value">' . 
+            'URI' . // @translate
+            '<input type="text" class="value to-require touched" data-value-key="@id">
+            </label>
+        </div>
+        <div class="input">
+            <label class="value-label">' .
+            'Label' . // @translate
+            '<textarea class="value-label" rows="1" data-value-key="o:label"></textarea>
+            </label>
+        </div>
+        </div>';
     }
 }

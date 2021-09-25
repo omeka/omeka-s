@@ -31,7 +31,7 @@
                 thisInput.removeAttr('name').val(value ? value[valueKey] : null);
                 if ('is_public' === valueKey) {
                     // Prepare the visibility icon and value.
-                    const visibilityIcon = thisInput.prev('.value-annotation-visibility');
+                    const visibilityIcon = thisInput.closest('.value').find('.value-annotation-visibility');
                     if (0 == value['is_public']) {
                         value['is_public'] = 0; // Cast false and "0" to 0
                         visibilityIcon.removeClass('o-icon-public')
@@ -86,6 +86,7 @@
             e.preventDefault();
             const dataTypeName = vaTypeSelect.val();
             const value = {
+                is_public: 1,
                 type: dataTypeName,
                 property_id: vaPropertySelect.val(),
                 property_term: vaPropertySelect.find('option:selected').data('term')
@@ -148,6 +149,13 @@
             thisButton.closest('.value-annotation').addClass('selecting-resource');
             Omeka.populateSidebarContent(selectResourceSidebar, thisButton.data('sidebar-content-url'));
             Omeka.openSidebar(selectResourceSidebar);
+        });
+        // Handle value visibility click.
+        $(document).on('click', '.value-annotation-visibility', function(e) {
+            e.preventDefault();
+            const thisVisibilityIcon = $(this);
+            const isPublicInput = thisVisibilityIcon.closest('.value').find('input.is_public');
+            isPublicInput.val(thisVisibilityIcon.hasClass('o-icon-public') ? 1 : 0);
         });
 
         // Select property

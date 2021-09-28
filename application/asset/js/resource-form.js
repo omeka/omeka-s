@@ -57,6 +57,9 @@
                     href: value.url,
                     target: '_blank',
                 });
+                if (value.value_resource_id !== undefined) {
+                    valueAnnotation.find('.default').hide();
+                }
                 valueAnnotation.find('.o-title').html(resourceLink);
                 valueAnnotation.find('.display_title').val(value.display_title);
                 valueAnnotation.find('.url').val(value.url);
@@ -284,7 +287,7 @@
                         var valueObj = $(this).data('resource-values');
                         $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
                     });
-            } else if (value.hasClass('value-annotation')) {
+            } else if (value.hasClass('value-annotation')) { 
                 const dataTypeName = value.find('input.data_type').val();
                 $('#item-results').find('.resource').has('input.select-resource-checkbox:checked').each(function(index) {
                     const valueObj = $(this).data('resource-values');

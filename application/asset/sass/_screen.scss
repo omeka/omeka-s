@@ -1938,6 +1938,25 @@ input[type="text"].value-language,
     content: none;
 }
 
+.sidebar .value-annotation p.selected-resource {
+    margin-bottom: .5 * $spacing-small;
+}
+
+.sidebar [data-data-type^="resource"] .o-title:not(:empty) {
+    padding: 0;
+    border-bottom: 0;
+
+    a:empty { 
+        display: none;
+    }
+
+    a {
+        padding: $spacing-small;
+        border-bottom: 1px solid $border-gray;
+        width: 100%;
+    }
+}
+
 .non-properties {
     margin-bottom: $spacing-medium;
 }

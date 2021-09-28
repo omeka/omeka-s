@@ -1934,6 +1934,10 @@ input[type="text"].value-language,
     display: none;
 }
 
+.sidebar .value-annotation .value {
+    padding-bottom: 0;
+}
+
 .sidebar .value-annotation label:after {
     content: none;
 }
@@ -2484,13 +2488,10 @@ input[type="text"].value-language,
         overflow: hidden;
     }
 
-    .value.delete .input-footer .actions li:last-child {
-        display: none;
-    }
-
     .value a.restore-value,
     .value span.restore-value,
-    .value.delete a.tab {
+    .value.delete a.tab,
+    .value.delete [class*="o-icon-"] {
         display: none;
     }
 
@@ -2591,6 +2592,7 @@ input[type="text"].value-language,
     .value.delete span.restore-value {
         display: inline-block;
         padding: 0 $spacing-small;
+        line-height: 1.5 * $base-line-height;
         width: calc(100% - #{1.5 * $spacing-large});
     }
 

@@ -51,7 +51,11 @@ if ($this->status()->isSiteRequest()) {
                 <?php endif; ?>
                 <?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?>
                 <?php if ($valueAnnotation): ?>
-                <?php echo $valueAnnotation->displayValues(); ?>
+                    <span class="has-annotation" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Has annotation')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Has annotation')); ?>"></span>
+                    <a href="#" class="expand" aria-label="<?php echo $this->escapeHtml($translate('Expand')); ?>"></a>
+                    <div class="collapsible annotation">
+                        <?php echo $valueAnnotation->displayValues(); ?>
+                    </div>
                 <?php endif; ?>
             </div>
             <?php endif; ?>

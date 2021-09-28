@@ -132,6 +132,7 @@
             valueAnnotation.data('removed', true); // Flag annotation for removal
             thisRemove.hide();
             valueAnnotation.find(':input').prop('disabled', true);
+            valueAnnotation.find('.value').addClass('delete');
             valueAnnotation.find('.value-annotation-restore').show();
         });
         // Handle "Restore value" click.
@@ -142,6 +143,7 @@
             valueAnnotation.removeData('removed'); // Un-flag annotation for removal
             thisRestore.hide();
             valueAnnotation.find(':input').prop('disabled', false);
+            valueAnnotation.find('.value').removeClass('delete');
             valueAnnotation.find('.value-annotation-remove').show();
         });
         $(document).on('click', '.value-annotation-resource-select', function(e) {

@@ -1907,6 +1907,20 @@ fieldset.section > legend {
     }
 }
 
+.value .sortable-handle ~ .input-body a.value-language {
+    left: $spacing-small;
+    top: $spacing-small;
+}
+
+.actions a.o-icon-more {
+    display: block;
+    height: 1.5 * $spacing-large;
+}
+
+.more-actions.active a.o-icon-more {
+    border-bottom: 1px solid #dfdfdf;
+}
+
 input[type="text"].value-language.active {
     line-height: $base-line-height;
     background-color: transparent;
@@ -2464,7 +2478,7 @@ input[type="text"].value-language,
     }
 
     .input-footer .actions {
-        margin-left: 0;
+        margin-left: $spacing-small;
         flex-direction: column;
     }
 
@@ -2472,7 +2486,21 @@ input[type="text"].value-language,
         line-height: 1.5 * $spacing-large;
         height: 1.5 * $spacing-large;
         text-align: center;
-        margin-left: $spacing-small;
+    }
+
+    .more-actions ul {
+        padding: 0;
+        display: none;
+    }
+
+    .more-actions.active {
+        box-shadow: 0 0 0 1px $border-gray;
+        background-color: #fff;
+        border-radius: 2px;
+
+        ul {
+            display: block;
+        }
     }
     
     .value.delete {
@@ -2562,6 +2590,7 @@ input[type="text"].value-language,
 
     .inputs .input-body input[type="text"] {
         margin: 0;
+        background-color: #fff;
     }
 
     .inputs .input-body .chosen-container {
@@ -2590,6 +2619,16 @@ input[type="text"].value-language,
 
     .value.delete > *:not(.input-footer) {
         display: none;
+    }
+
+    .sortable-handle ~ .input-body {
+        padding: $spacing-small;
+        background-color: transparent;
+    }
+
+    .resource-inputs {
+        background-color: #fff;
+        box-shadow: 0 0 0 1px $border-gray;
     }
 
     p.selected-resource {
@@ -2632,6 +2671,8 @@ input[type="text"].value-language,
     [data-data-type="uri"] .input {
         position: relative;
         clear: both;
+        background-color: #fff;
+        box-shadow: 0 0 0 1px $border-gray;
 
         &:first-child {
             border-bottom: 1px solid $border-gray;

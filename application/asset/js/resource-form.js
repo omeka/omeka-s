@@ -206,6 +206,11 @@
             }
         });
 
+        $('.o-icon-more').on('click', function(e) {
+            e.preventDefault();
+            $(this).parent('.more-actions').toggleClass('active');
+        });
+
         // Make new value inputs whenever "add value" button clicked.
         $('#properties').on('click', '.add-value', function(e) {
             e.preventDefault();

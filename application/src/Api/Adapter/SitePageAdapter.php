@@ -71,7 +71,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             ));
         }
 
-        if (isset($query['is_public']) && is_numeric($query['is_public'])) {
+        if (isset($query['is_public']) && (is_numeric($query['is_public']) || is_bool($query['is_public']))) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.isPublic',
                 $this->createNamedParameter($qb, (bool) $query['is_public'])

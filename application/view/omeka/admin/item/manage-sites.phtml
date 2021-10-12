@@ -2,7 +2,7 @@
 if ($item) {
     $siteRepresentations = $item->sites();
 } else {
-    $siteRepresentations = $this->api()->search('sites', ['assign_new_items' => 1])->getContent();
+    $siteRepresentations = $this->api()->search('sites', ['assign_new_items' => true])->getContent();
 
     $userDefaultSites = $this->userSetting('default_item_sites');
     if (is_array($userDefaultSites)) {

@@ -6,11 +6,19 @@
 #advanced-search .value {
     margin-bottom: 0;
     display: flex;
+    flex-wrap: wrap;
 }
 
-#advanced-search .value select, #advanced-search .value input {
-    margin-left: 5px;
+#advanced-search .inputs select, 
+#advanced-search .inputs input,
+#advanced-search .inputs button, 
+#advanced-search .inputs a.button {
+    margin: .25rem .25rem .25rem 0;
     min-width: 0;
+}
+
+#advanced-search .field-meta {
+    margin: .25rem 0;
 }
 
 #advanced-search .value > * {
@@ -23,7 +31,8 @@
     margin-left: 0;
 }
 
-#advanced-search .multi-value .value:first-child .joiner {
+#advanced-search .multi-value .value:first-child .joiner,
+#advanced-search .multi-value .value:only-child button.remove-value {
     display: none;
 }
 
@@ -39,6 +48,5 @@
 #advanced-search .add-value {
     margin-bottom: 0;
 }
-
 
 /* @end */

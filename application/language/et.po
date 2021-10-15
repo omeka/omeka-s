@@ -298,7 +298,7 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/ListOfPages.php:58
 msgid "Add pages"
-msgstr ""
+msgstr "Lisa lehekülgi"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:28
 msgid "Depth"

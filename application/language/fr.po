@@ -7,10 +7,10 @@
 # pprwf <p.willaime@free.fr>, 2017
 # Stéphane Loret <stephane.loret@univ-nantes.fr>, 2018
 # symac <wikitipiac@laposte.net>, 2018
-# Pols12 <poltron54@gmail.com>, 2018
 # Laurent Thomas, 2020
 # Daniel Berthereau <daniel.transifex@berthereau.net>, 2021
 # Julian Maurice <julian.maurice@biblibre.com>, 2021
+# Pols12 <poltron54@gmail.com>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-26 15:28-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Julian Maurice <julian.maurice@biblibre.com>, 2021\n"
+"Last-Translator: Pols12 <poltron54@gmail.com>, 2021\n"
 "Language-Team: French (https://www.transifex.com/omeka/teams/14184/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -116,7 +116,7 @@ msgstr "Défaut"
 
 #: application/src/Controller/Admin/AssetController.php:73
 msgid "Asset uploads must be POSTed."
-msgstr "Les fichiers téléchargés doivent être POSTés."
+msgstr "Les fichiers téléversés doivent être POSTés."
 
 #: application/src/Controller/Admin/ItemController.php:214
 msgid "Add another item?"
@@ -313,7 +313,7 @@ msgstr "Type de rupture"
 
 #: application/src/Site/BlockLayout/ListOfPages.php:58
 msgid "Add pages"
-msgstr ""
+msgstr "Ajouter des pages"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:28
 msgid "Depth"
@@ -833,11 +833,11 @@ msgstr "Taille"
 
 #: application/view/common/advanced-search/sort.phtml:27
 msgid "Select sort by…"
-msgstr ""
+msgstr "Trier par…"
 
 #: application/view/common/advanced-search/sort.phtml:32
 msgid "Select sort order…"
-msgstr ""
+msgstr "Choisir l’ordre de tri…"
 
 #: application/view/common/advanced-search/sort.phtml:34
 #: application/view/common/sort-selector.phtml:14
@@ -873,12 +873,12 @@ msgstr "Recherche par activité"
 #: application/view/common/asset-block-form.phtml:7
 #: application/view/common/asset-block-form.phtml:40
 msgid "No asset selected"
-msgstr ""
+msgstr "Aucun fichier sélectionné"
 
 #: application/view/common/asset-block-form.phtml:9
 #: application/view/common/asset-block-form.phtml:43
 msgid "Open asset options"
-msgstr ""
+msgstr "Ouvrir les options pour le fichier"
 
 #: application/view/common/asset-block-form.phtml:10
 #: application/view/common/asset-block-form.phtml:44
@@ -907,11 +907,11 @@ msgstr "Replier"
 #: application/view/omeka/admin/asset/browse.phtml:18
 #: application/view/omeka/admin/asset/edit.phtml:10
 msgid "Assets"
-msgstr ""
+msgstr "Fichiers"
 
 #: application/view/common/asset-block-form.phtml:54
 msgid "Add asset"
-msgstr ""
+msgstr "Ajouter un fichier"
 
 #: application/view/common/asset-form.phtml:35
 #: application/view/common/asset-options.phtml:15
@@ -932,16 +932,16 @@ msgstr "Retirer"
 
 #: application/view/common/asset-options.phtml:10
 msgid "No Asset"
-msgstr ""
+msgstr "Aucun fichier"
 
 #: application/view/common/asset-options.phtml:19
 #: application/view/omeka/admin/query/sidebar-edit.phtml:12
 msgid "Preview"
-msgstr ""
+msgstr "Aperçu"
 
 #: application/view/common/asset-options.phtml:20
 msgid "[No page selected]"
-msgstr ""
+msgstr "[Aucune page sélectionnée]"
 
 #: application/view/common/asset-options.phtml:25
 #: application/view/common/delete-confirm.phtml:8
@@ -988,11 +988,11 @@ msgstr "Fermer"
 
 #: application/view/common/asset-options.phtml:32
 msgid "Page link"
-msgstr ""
+msgstr "Lien de la page"
 
 #: application/view/common/asset-options.phtml:40
 msgid "Alternative link title"
-msgstr ""
+msgstr "Titre alternatif pour le lien"
 
 #: application/view/common/asset-options.phtml:44
 #: application/view/omeka/site-admin/page/edit.phtml:54
@@ -1071,7 +1071,7 @@ msgstr "Recherche de contenus avancée"
 #: application/view/common/cross-site-search/item-results.phtml:8
 #, php-format
 msgid "Item results for \"%s\""
-msgstr "Contenus correspondant à \"%s\""
+msgstr "Contenus correspondant à « %s » "
 
 #: application/view/common/cross-site-search/item-set-results.phtml:3
 #: application/view/omeka/search/item-sets-advanced.phtml:2
@@ -1081,7 +1081,7 @@ msgstr "Recherche avancée dans les collections"
 #: application/view/common/cross-site-search/item-set-results.phtml:8
 #, php-format
 msgid "Item set results for \"%s\""
-msgstr "Collections correspondant à \"%s\""
+msgstr "Collections correspondant à « %s »"
 
 #: application/view/common/cross-site-search/results.phtml:6
 #: application/view/omeka/site/index/search.phtml:8
@@ -1274,7 +1274,7 @@ msgstr "Libellé alternatif"
 
 #: application/view/common/navigation-link-form/browse.phtml:8
 msgid "Search query"
-msgstr ""
+msgstr "Requête à rechercher"
 
 #: application/view/common/navigation-link-form/browse.phtml:15
 #: application/view/common/navigation-link-form/page.phtml:13
@@ -1298,7 +1298,7 @@ msgstr "URL"
 
 #: application/view/common/page-select-sidebar.phtml:8
 msgid "Select Pages"
-msgstr ""
+msgstr "Choix des pages"
 
 #: application/view/common/pagination.phtml:9
 #: application/view/common/sidebar-pagination.phtml:6
@@ -1386,16 +1386,16 @@ msgstr "Filtrer les propriétés"
 #: application/view/common/query-form.phtml:9
 #: application/view/omeka/admin/query/search-filters.phtml:4
 msgid "[Edit below]"
-msgstr ""
+msgstr "[Modifier plus bas]"
 
 #: application/view/common/query-form.phtml:25
 msgid "Advanced edit"
-msgstr ""
+msgstr "Modification avancée"
 
 #: application/view/common/query-form.phtml:26
 #: application/view/omeka/admin/query/sidebar-edit.phtml:14
 msgid "Apply"
-msgstr ""
+msgstr "Appliquer"
 
 #: application/view/common/query-form.phtml:28
 #: application/view/omeka/site-admin/index/users.phtml:8
@@ -1436,7 +1436,7 @@ msgstr "Préc."
 
 #: application/view/common/site-selector.phtml:4
 msgid "Click on a site to add it to the edit panel."
-msgstr "Cliquez sur un site pour l’ajouter au volet d’édition"
+msgstr "Cliquez sur un site pour l’ajouter au panneau de modification."
 
 #: application/view/common/site-selector.phtml:5
 msgid "Filter sites"
@@ -1659,7 +1659,7 @@ msgstr "Téléverser un nouveau fichier"
 #: application/view/omeka/admin/asset/add-form.phtml:9
 #: application/view/omeka/admin/asset/show-details.phtml:21
 msgid "Alt text"
-msgstr ""
+msgstr "Texte alternatif (alt)"
 
 #: application/view/omeka/admin/asset/add-form.phtml:11
 msgid "Upload"
@@ -1677,7 +1677,7 @@ msgstr "ID"
 
 #: application/view/omeka/admin/asset/browse.phtml:27
 msgid "Add new asset"
-msgstr ""
+msgstr "Ajouter un nouveau fichier"
 
 #: application/view/omeka/admin/asset/browse.phtml:75
 #: application/view/omeka/admin/asset/edit.phtml:6
@@ -1716,11 +1716,11 @@ msgstr "Détails"
 
 #: application/view/omeka/admin/asset/browse.phtml:108
 msgid "Omeka could not find any assets."
-msgstr ""
+msgstr "Omeka n’a trouvé aucun fichier."
 
 #: application/view/omeka/admin/asset/show-details.phtml:12
 msgid "Media type"
-msgstr ""
+msgstr "Type de média"
 
 #: application/view/omeka/admin/asset/sidebar-select.phtml:16
 msgid "Select asset"
@@ -2215,7 +2215,7 @@ msgstr "contenus"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:103
 msgid "Add selected"
-msgstr ""
+msgstr "Ajouter la sélection"
 
 #: application/view/omeka/admin/job/browse.phtml:15
 #: application/view/omeka/admin/job/browse.phtml:39
@@ -2270,21 +2270,21 @@ msgstr "[pas de journal]"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:9
 msgid "Batch edit media"
-msgstr ""
+msgstr "Modification de médias par lots"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:29
 msgid "Affected media"
-msgstr ""
+msgstr "Médias impactés"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:31
 #, php-format
 msgid "You are editing the following %s media:"
-msgstr ""
+msgstr "Vous allez modifier les %s médias suivants :"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:38
 #, php-format
 msgid "You are editing %s media."
-msgstr ""
+msgstr "Vous allez modifier %s médias."
 
 #: application/view/omeka/admin/media/browse.phtml:111
 #: application/view/omeka/admin/media/sidebar-select.phtml:8
@@ -2294,11 +2294,11 @@ msgstr "Choisir le média"
 #: application/view/omeka/admin/media/browse.phtml:171
 #: application/view/omeka/admin/media/browse.phtml:189
 msgid "Delete media"
-msgstr ""
+msgstr "Supprimer les médias"
 
 #: application/view/omeka/admin/media/browse.phtml:172
 msgid "Are you sure you would like to delete the selected media?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer les médias sélectionnés ?"
 
 #: application/view/omeka/admin/media/browse.phtml:174
 #: application/view/omeka/admin/media/browse.phtml:192
@@ -2306,15 +2306,19 @@ msgstr ""
 msgid ""
 "%1$s: this action will permanently delete %2$s media and cannot be undone."
 msgstr ""
+"%1$s : cette action supprimera définitivement %2$s médias et ne pourra pas "
+"être annulée."
 
 #: application/view/omeka/admin/media/browse.phtml:190
 msgid ""
 "Are you sure you would like to delete all media on all pages of this result?"
 msgstr ""
+"Voulez-vous vraiment supprimer tous les médias de toutes les pages de cette "
+"liste ?"
 
 #: application/view/omeka/admin/media/browse.phtml:231
 msgid "Omeka could not find any media."
-msgstr ""
+msgstr "Omeka n’a trouvé aucun média."
 
 #: application/view/omeka/admin/media/show-details.phtml:18
 msgid "Part of Item"
@@ -2456,15 +2460,15 @@ msgstr "Commentaire"
 
 #: application/view/omeka/admin/query/sidebar-edit.phtml:4
 msgid "Search query edit"
-msgstr ""
+msgstr "Modification de la requête de recherche"
 
 #: application/view/omeka/admin/query/sidebar-preview.phtml:2
 msgid "Search query preview"
-msgstr ""
+msgstr "Aperçu de la requête de recherche"
 
 #: application/view/omeka/admin/query/sidebar-preview.phtml:11
 msgid "No resources found."
-msgstr ""
+msgstr "Aucune ressource trouvée."
 
 #: application/view/omeka/admin/resource-template/add.phtml:6
 msgid "New resource template"
@@ -2949,7 +2953,7 @@ msgstr "administration du site"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
 msgid "Keep this query"
-msgstr ""
+msgstr "Garder cette requête"
 
 #: application/view/omeka/site-admin/index/resources.phtml:73
 msgid "No item sets are assigned to this site."
@@ -3076,7 +3080,7 @@ msgstr "Supprimer la page"
 
 #: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:8
 msgid "Add to List of pages"
-msgstr ""
+msgstr "Ajouter à la Liste des pages"
 
 #: application/view/omeka/site/index/index.phtml:4
 msgid "This site has no pages."
@@ -3102,11 +3106,12 @@ msgstr "Aucune page correspondante"
 #: application/src/Stdlib/Cli.php:105 application/src/Stdlib/Cli.php:143
 #, php-format
 msgid "Command \"%s\" failed with status code %s."
-msgstr ""
+msgstr "La commande « %s » a échoué avec le code d’état %s."
 
 #: application/src/Stdlib/Environment.php:52
 msgid "Omeka requires the PHP extension json, but it is not loaded."
 msgstr ""
+"Omeka nécessite l’extension Json pour PHP, mais celle-ci n’est pas chargée."
 
 #: application/src/Stdlib/Environment.php:60
 #, php-format
@@ -3168,7 +3173,7 @@ msgstr "Vitrine de contenus"
 
 #: application/src/Site/BlockLayout/ListOfPages.php:32
 msgid "List of pages"
-msgstr ""
+msgstr "Liste des pages"
 
 #: application/src/Site/BlockLayout/PageTitle.php:13
 msgid "Page title"
@@ -3180,33 +3185,33 @@ msgstr "Table des matières"
 
 #: application/src/Site/BlockLayout/Asset.php:17
 msgid "Asset"
-msgstr ""
+msgstr "Fichier"
 
 #: application/src/Site/BlockLayout/Asset.php:34
 #: application/src/Site/BlockLayout/Asset.php:40
 msgid "default"
-msgstr ""
+msgstr "par défaut"
 
 #: application/src/Site/BlockLayout/Asset.php:35
 msgid "float left"
-msgstr ""
+msgstr "flotter à gauche"
 
 #: application/src/Site/BlockLayout/Asset.php:36
 msgid "float right"
-msgstr ""
+msgstr "flotter à droite"
 
 #: application/src/Site/BlockLayout/Asset.php:37
 #: application/src/Site/BlockLayout/Asset.php:43
 msgid "center"
-msgstr ""
+msgstr "centré"
 
 #: application/src/Site/BlockLayout/Asset.php:41
 msgid "left"
-msgstr ""
+msgstr "gauche"
 
 #: application/src/Site/BlockLayout/Asset.php:42
 msgid "right"
-msgstr ""
+msgstr "droite"
 
 #: application/src/Site/BlockLayout/Asset.php:48
 #: application/src/Site/BlockLayout/Media.php:61
@@ -3235,21 +3240,24 @@ msgstr "Le nombre maximum de ressources à afficher dans l’aperçu."
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:80
 msgid "Components"
-msgstr ""
+msgstr "Composants"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:81
 msgid ""
 "Components to display for each resource. If not set in Site Settings, "
 "Heading defaults to resource Title and Body to resource Description"
 msgstr ""
+"Composants à afficher pour chaque ressource. S’ils ne sont pas définis dans "
+"les Paramètres de site, le titre et le corps prennent respectivement pour "
+"valeur le titre de la ressource et la description de la ressource."
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:85
 msgid "Heading"
-msgstr ""
+msgstr "Titre"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:89
 msgid "Body"
-msgstr ""
+msgstr "Corps"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:102
 msgid "Preview title"
@@ -3329,7 +3337,7 @@ msgstr "Montrer les descriptions"
 
 #: application/src/Site/BlockLayout/ListOfSites.php:86
 msgid "Show thumbnails"
-msgstr ""
+msgstr "Montrer les vignettes"
 
 #: application/src/Site/BlockLayout/ListOfSites.php:96
 msgid "Exclude current site"
@@ -3343,7 +3351,7 @@ msgstr "HTML"
 
 #: application/src/Site/BlockLayout/Html.php:48
 msgid "Optional CSS class for styling HTML."
-msgstr ""
+msgstr "Classe CSS facultative pour styliser le HTML."
 
 #: application/src/Site/BlockLayout/Fallback.php:28
 #, php-format
@@ -3880,15 +3888,17 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:278
 msgid "Media alt text property"
-msgstr ""
+msgstr "Propriété “alt” du média"
 
 #: application/src/Form/SettingForm.php:279
 msgid "Media property to use as alt text if no alt text is explicitly set."
 msgstr ""
+"Propriété du média à utiliser comme texte alternatif si aucun texte "
+"alternatif n’est défini explicitement."
 
 #: application/src/Form/SettingForm.php:280
 msgid "[None]"
-msgstr ""
+msgstr "[Aucun]"
 
 #: application/src/Form/SettingForm.php:294
 msgid "Index full-text search"
@@ -4118,7 +4128,7 @@ msgstr ""
 
 #: application/src/Form/SiteForm.php:54
 msgid "Choose or upload a thumbnail to display with site."
-msgstr ""
+msgstr "Choisir ou téléverser une vignette à afficher avec le site."
 
 #: application/src/Form/ResourceTemplateForm.php:27
 msgid "Suggested class"
@@ -4189,11 +4199,11 @@ msgstr "Choisissez des sites"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:142
 msgid "Add to sites"
-msgstr ""
+msgstr "Ajouter aux sites"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:156
 msgid "Remove from sites"
-msgstr ""
+msgstr "Retirer des sites"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:166
 msgid "Clear language"
@@ -4322,21 +4332,25 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:141
 msgid "Filter values based on site locale"
-msgstr ""
+msgstr "Filtrer les valeurs selon la langue du site"
 
 #: application/src/Form/SiteSettingsForm.php:142
 msgid ""
 "Show only values matching the site language setting and values without "
 "locale ID."
 msgstr ""
+"N’afficher que les valeurs correspondant au paramètre de langue du site et "
+"les valeurs sans identifiant de langue."
 
 #: application/src/Form/SiteSettingsForm.php:154
 msgid "Show language labels for values"
-msgstr ""
+msgstr "Montrer la langue des valeurs"
 
 #: application/src/Form/SiteSettingsForm.php:155
 msgid "Show a label indicating the language of each value on show pages."
 msgstr ""
+"Afficher une indication de la langue de chaque valeur sur les pages "
+"d’affichage des ressources."
 
 #: application/src/Form/SiteSettingsForm.php:176
 msgid "Restrict browse to attached items"
@@ -4505,14 +4519,18 @@ msgstr "Ne rien faire"
 #: application/src/Form/SiteResourcesForm.php:18
 msgid "Add - keep existing items and assign items from a new search query"
 msgstr ""
+"Ajouter – conserve les contenus existants et attribue les contenus d’une "
+"nouvelle recherche"
 
 #: application/src/Form/SiteResourcesForm.php:19
 msgid "Replace - unassign all items and assign items from a new search query"
 msgstr ""
+"Remplacer – retire tous les contenus et attribue les contenus d’une nouvelle"
+" recherche"
 
 #: application/src/Form/SiteResourcesForm.php:20
 msgid "Remove - unassign items from a new search query"
-msgstr ""
+msgstr "Supprimer – retire les contenus d’une nouvelle recherche"
 
 #: application/src/Form/SiteResourcesForm.php:21
 msgid "Remove all - unassign all items"
@@ -4568,7 +4586,7 @@ msgstr "Ajouter à la navigation"
 
 #: application/src/Service/CliFactory.php:31
 msgid "Neither \"proc_open()\" nor \"exec()\" are available."
-msgstr ""
+msgstr "Ni « proc_open() » ni « exec() » ne sont disponibles."
 
 #: application/src/View/Helper/SiteSelect.php:39
 msgid "Select site…"
@@ -4924,7 +4942,7 @@ msgstr ""
 
 #: application/src/Controller/Admin/MediaController.php:194
 msgid "Deleting media. This may take a while."
-msgstr ""
+msgstr "Suppression des médias en cours. Cela peut prendre un moment."
 
 #: application/src/Controller/Admin/MediaController.php:212
 msgid "You must select at least one media to batch edit."
@@ -4934,23 +4952,23 @@ msgstr ""
 
 #: application/src/Controller/Admin/MediaController.php:233
 msgid "Media successfully edited"
-msgstr ""
+msgstr "Les médias ont bien été modifiés."
 
 #: application/src/Controller/Admin/MediaController.php:285
 msgid "Editing media. This may take a while."
-msgstr ""
+msgstr "Modification des médias en cours. Cela peut prendre un moment."
 
 #: application/src/Controller/Admin/AssetController.php:93
 msgid "Asset successfully updated"
-msgstr ""
+msgstr "Le fichier a bien été mis à jour."
 
 #: application/src/Controller/Admin/AssetController.php:124
 msgid "asset"
-msgstr ""
+msgstr "fichier"
 
 #: application/src/Controller/Admin/AssetController.php:137
 msgid "Asset successfully deleted"
-msgstr ""
+msgstr "Le fichier a bien été supprimé."
 
 #: application/src/Controller/Admin/ItemSetController.php:32
 #, php-format

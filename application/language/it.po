@@ -856,12 +856,12 @@ msgstr "Cerca per attività"
 #: application/view/common/asset-block-form.phtml:7
 #: application/view/common/asset-block-form.phtml:40
 msgid "No asset selected"
-msgstr ""
+msgstr "Nessun asset selezionato"
 
 #: application/view/common/asset-block-form.phtml:9
 #: application/view/common/asset-block-form.phtml:43
 msgid "Open asset options"
-msgstr ""
+msgstr "Apri opzioni per l'asset"
 
 #: application/view/common/asset-block-form.phtml:10
 #: application/view/common/asset-block-form.phtml:44
@@ -894,7 +894,7 @@ msgstr "Asset"
 
 #: application/view/common/asset-block-form.phtml:54
 msgid "Add asset"
-msgstr ""
+msgstr "Aggiungi asset"
 
 #: application/view/common/asset-form.phtml:35
 #: application/view/common/asset-options.phtml:15
@@ -915,7 +915,7 @@ msgstr "Cancella"
 
 #: application/view/common/asset-options.phtml:10
 msgid "No Asset"
-msgstr ""
+msgstr "Nessun asset"
 
 #: application/view/common/asset-options.phtml:19
 #: application/view/omeka/admin/query/sidebar-edit.phtml:12
@@ -924,7 +924,7 @@ msgstr "Anteprima"
 
 #: application/view/common/asset-options.phtml:20
 msgid "[No page selected]"
-msgstr ""
+msgstr "[Nessuna pagina selezionata]"
 
 #: application/view/common/asset-options.phtml:25
 #: application/view/common/delete-confirm.phtml:8
@@ -971,11 +971,11 @@ msgstr "Chiudi"
 
 #: application/view/common/asset-options.phtml:32
 msgid "Page link"
-msgstr ""
+msgstr "Link alla pagina"
 
 #: application/view/common/asset-options.phtml:40
 msgid "Alternative link title"
-msgstr ""
+msgstr "Titolo del link alternativo"
 
 #: application/view/common/asset-options.phtml:44
 #: application/view/omeka/site-admin/page/edit.phtml:54
@@ -1282,7 +1282,7 @@ msgstr "URL"
 
 #: application/view/common/page-select-sidebar.phtml:8
 msgid "Select Pages"
-msgstr ""
+msgstr "Seleziona pagine"
 
 #: application/view/common/pagination.phtml:9
 #: application/view/common/sidebar-pagination.phtml:6
@@ -3171,33 +3171,33 @@ msgstr "Indice dei contenuti"
 
 #: application/src/Site/BlockLayout/Asset.php:17
 msgid "Asset"
-msgstr ""
+msgstr "Asset"
 
 #: application/src/Site/BlockLayout/Asset.php:34
 #: application/src/Site/BlockLayout/Asset.php:40
 msgid "default"
-msgstr ""
+msgstr "predefinito"
 
 #: application/src/Site/BlockLayout/Asset.php:35
 msgid "float left"
-msgstr ""
+msgstr "fluttua a sinistra"
 
 #: application/src/Site/BlockLayout/Asset.php:36
 msgid "float right"
-msgstr ""
+msgstr "fluttua a destra"
 
 #: application/src/Site/BlockLayout/Asset.php:37
 #: application/src/Site/BlockLayout/Asset.php:43
 msgid "center"
-msgstr ""
+msgstr "centro"
 
 #: application/src/Site/BlockLayout/Asset.php:41
 msgid "left"
-msgstr ""
+msgstr "sinistra"
 
 #: application/src/Site/BlockLayout/Asset.php:42
 msgid "right"
-msgstr ""
+msgstr "destra"
 
 #: application/src/Site/BlockLayout/Asset.php:48
 #: application/src/Site/BlockLayout/Media.php:61

@@ -15,7 +15,8 @@
 # Carlos Rivera <Robertohernande9z9@hotmail.com>, 2019
 # John Flatness <john@zerocrates.org>, 2020
 # Adriana Hernández, 2021
-# Alfonso Montejo <almontejor@gmail.com>, 2021
+# Alfonso <almontejor@gmail.com>, 2021
+# Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -24,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-26 15:28-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Alfonso Montejo <almontejor@gmail.com>, 2021\n"
+"Last-Translator: Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2021\n"
 "Language-Team: Spanish (https://www.transifex.com/omeka/teams/14184/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -877,12 +878,12 @@ msgstr "Búsqueda por actividad"
 #: application/view/common/asset-block-form.phtml:7
 #: application/view/common/asset-block-form.phtml:40
 msgid "No asset selected"
-msgstr ""
+msgstr "Ningún recurso seleccionado"
 
 #: application/view/common/asset-block-form.phtml:9
 #: application/view/common/asset-block-form.phtml:43
 msgid "Open asset options"
-msgstr ""
+msgstr "Abrir opciones de recursos"
 
 #: application/view/common/asset-block-form.phtml:10
 #: application/view/common/asset-block-form.phtml:44
@@ -915,7 +916,7 @@ msgstr "Recursos"
 
 #: application/view/common/asset-block-form.phtml:54
 msgid "Add asset"
-msgstr ""
+msgstr "Añadir recurso"
 
 #: application/view/common/asset-form.phtml:35
 #: application/view/common/asset-options.phtml:15
@@ -936,7 +937,7 @@ msgstr "Limpiar"
 
 #: application/view/common/asset-options.phtml:10
 msgid "No Asset"
-msgstr ""
+msgstr "Ningún recurso"
 
 #: application/view/common/asset-options.phtml:19
 #: application/view/omeka/admin/query/sidebar-edit.phtml:12
@@ -945,7 +946,7 @@ msgstr "Previsualizar"
 
 #: application/view/common/asset-options.phtml:20
 msgid "[No page selected]"
-msgstr ""
+msgstr "[Ninguna página seleccionada]"
 
 #: application/view/common/asset-options.phtml:25
 #: application/view/common/delete-confirm.phtml:8
@@ -992,11 +993,11 @@ msgstr "Cerrar"
 
 #: application/view/common/asset-options.phtml:32
 msgid "Page link"
-msgstr ""
+msgstr "Enlace a la página"
 
 #: application/view/common/asset-options.phtml:40
 msgid "Alternative link title"
-msgstr ""
+msgstr "Título alternativo para el enlace"
 
 #: application/view/common/asset-options.phtml:44
 #: application/view/omeka/site-admin/page/edit.phtml:54
@@ -1302,7 +1303,7 @@ msgstr "URL"
 
 #: application/view/common/page-select-sidebar.phtml:8
 msgid "Select Pages"
-msgstr ""
+msgstr "Seleccionar páginas"
 
 #: application/view/common/pagination.phtml:9
 #: application/view/common/sidebar-pagination.phtml:6
@@ -3031,7 +3032,7 @@ msgstr "Observación"
 
 #: application/view/omeka/site-admin/index/users.phtml:11
 msgid "Creator"
-msgstr "Creación"
+msgstr "Autoría"
 
 #: application/view/omeka/site-admin/index/users.phtml:12
 msgid "Manager"
@@ -3189,33 +3190,33 @@ msgstr "Tabla de contenido"
 
 #: application/src/Site/BlockLayout/Asset.php:17
 msgid "Asset"
-msgstr ""
+msgstr "Recurso"
 
 #: application/src/Site/BlockLayout/Asset.php:34
 #: application/src/Site/BlockLayout/Asset.php:40
 msgid "default"
-msgstr ""
+msgstr "predeterminado"
 
 #: application/src/Site/BlockLayout/Asset.php:35
 msgid "float left"
-msgstr ""
+msgstr "flotar a la izquierda"
 
 #: application/src/Site/BlockLayout/Asset.php:36
 msgid "float right"
-msgstr ""
+msgstr "flotar a la derecha"
 
 #: application/src/Site/BlockLayout/Asset.php:37
 #: application/src/Site/BlockLayout/Asset.php:43
 msgid "center"
-msgstr ""
+msgstr "centro"
 
 #: application/src/Site/BlockLayout/Asset.php:41
 msgid "left"
-msgstr ""
+msgstr "izquierda"
 
 #: application/src/Site/BlockLayout/Asset.php:42
 msgid "right"
-msgstr ""
+msgstr "derecha"
 
 #: application/src/Site/BlockLayout/Asset.php:48
 #: application/src/Site/BlockLayout/Media.php:61

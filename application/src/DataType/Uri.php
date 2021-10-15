@@ -6,7 +6,7 @@ use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Value;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Uri extends AbstractDataType implements ValueAnnotatableInterface
+class Uri extends AbstractDataType implements ValueAnnotatingInterface
 {
     public function getName()
     {
@@ -81,7 +81,7 @@ class Uri extends AbstractDataType implements ValueAnnotatableInterface
     {
         return '
         <div class="input-body"><div class="input">
-            <label class="value">' . 
+            <label class="value">' .
             'URI' . // @translate
             '<input type="text" class="value to-require touched" data-value-key="@id">
             </label>

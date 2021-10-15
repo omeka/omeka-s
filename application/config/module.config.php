@@ -510,6 +510,13 @@ return [
             'resource:media' => DataType\Resource\Media::class,
         ],
     ],
+    'data_types_value_annotating' => [
+        'literal',
+        'uri',
+        'resource:item',
+        'resource:itemset',
+        'resource:media',
+    ],
     'block_layouts' => [
         'invokables' => [
             'pageTitle' => Site\BlockLayout\PageTitle::class,

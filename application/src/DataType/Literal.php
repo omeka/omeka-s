@@ -6,7 +6,7 @@ use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Value;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Literal extends AbstractDataType implements ValueAnnotatableInterface
+class Literal extends AbstractDataType implements ValueAnnotatingInterface
 {
     public function getName()
     {
@@ -66,7 +66,7 @@ class Literal extends AbstractDataType implements ValueAnnotatableInterface
 
     public function valueAnnotationForm(PhpRenderer $view)
     {
-        return 
+        return
         '
         <div class="input-body">' .
         $view->hyperlink('', '#', ['class' => 'value-language o-icon-language', 'title' => $view->translate('Set language'), ]) . '

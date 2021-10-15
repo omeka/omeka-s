@@ -3,7 +3,7 @@ namespace Omeka\DataType;
 
 use Laminas\View\Renderer\PhpRenderer;
 
-interface ValueAnnotatableInterface
+interface ValueAnnotatingInterface
 {
     public function valueAnnotationPrepareForm(PhpRenderer $view);
 

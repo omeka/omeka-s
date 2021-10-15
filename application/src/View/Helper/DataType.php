@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\DataType\Manager as DataTypeManager;
-use Omeka\DataType\ValueAnnotatableInterface;
+use Omeka\DataType\ValueAnnotatingInterface;
 use Laminas\Form\Element\Select;
 use Laminas\View\Helper\AbstractHelper;
 
@@ -16,6 +16,8 @@ class DataType extends AbstractHelper
      */
     protected $manager;
 
+    protected $valueAnnotatingDataTypes;
+
     protected $dataTypes;
 
     /**
@@ -23,9 +25,10 @@ class DataType extends AbstractHelper
      *
      * @param DataTypeManager $dataTypeManager
      */
-    public function __construct(DataTypeManager $dataTypeManager)
+    public function __construct(DataTypeManager $dataTypeManager, array $valueAnnotatingDataTypes)
     {
         $this->manager = $dataTypeManager;
+        $this->valueAnnotatingDataTypes = $valueAnnotatingDataTypes;
         $this->dataTypes = $this->manager->getRegisteredNames();
     }
 
@@ -131,9 +134,9 @@ class DataType extends AbstractHelper
     public function getValueAnnotationDataTypes()
     {
         $dataTypes = [];
-        foreach ($this->dataTypes as $dataTypeName) {
+        foreach ($this->valueAnnotatingDataTypes as $dataTypeName) {
             $dataType = $this->manager->get($dataTypeName);
-            if ($dataType instanceof ValueAnnotatableInterface) {
+            if ($dataType instanceof ValueAnnotatingInterface) {
                 $dataTypes[$dataTypeName] = $dataType;
             }
         }
@@ -148,7 +151,7 @@ class DataType extends AbstractHelper
             $label = $dataType->getLabel();
             if ($optgroupLabel = $dataType->getOptgroupLabel()) {
                 $optgroupKey = md5($optgroupLabel);
-                $optionsVal = in_array($dataTypeName, ['resource', 'resource:item', 'resource:itemset', 'resource:media']) ? 'options' : 'optgroupOptions';
+                $optionsVal = in_array($dataTypeName, ['resource:item', 'resource:itemset', 'resource:media']) ? 'options' : 'optgroupOptions';
                 if (!isset(${$optionsVal}[$optgroupKey])) {
                     ${$optionsVal}[$optgroupKey] = [
                         'label' => $optgroupLabel,

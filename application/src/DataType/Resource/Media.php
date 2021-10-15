@@ -1,11 +1,11 @@
 <?php
 namespace Omeka\DataType\Resource;
 
-use Omeka\DataType\ValueAnnotatableInterface;
+use Omeka\DataType\ValueAnnotatingInterface;
 use Omeka\Entity;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Media extends AbstractResource implements ValueAnnotatableInterface
+class Media extends AbstractResource implements ValueAnnotatingInterface
 {
     public function getName()
     {

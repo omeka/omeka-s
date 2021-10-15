@@ -1,11 +1,11 @@
 <?php
 namespace Omeka\DataType\Resource;
 
-use Omeka\DataType\ValueAnnotatableInterface;
+use Omeka\DataType\ValueAnnotatingInterface;
 use Omeka\Entity;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Itemset extends AbstractResource implements ValueAnnotatableInterface
+class Itemset extends AbstractResource implements ValueAnnotatingInterface
 {
     public function getName()
     {
@@ -27,7 +27,7 @@ class Itemset extends AbstractResource implements ValueAnnotatableInterface
             'dataTypeLabel' => $view->translate('Item Sets'),
             'dataTypeSingle' => 'item-set',
             'dataTypePlural' => 'item-sets'
-        ]);    
+        ]);
     }
 
     public function getValidValueResources()

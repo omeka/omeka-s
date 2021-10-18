@@ -509,13 +509,13 @@ return [
             'resource:itemset' => DataType\Resource\ItemSet::class,
             'resource:media' => DataType\Resource\Media::class,
         ],
-    ],
-    'data_types_value_annotating' => [
-        'literal',
-        'uri',
-        'resource:item',
-        'resource:itemset',
-        'resource:media',
+        'value_annotating' => [
+            'literal',
+            'uri',
+            'resource:item',
+            'resource:itemset',
+            'resource:media',
+        ]
     ],
     'block_layouts' => [
         'invokables' => [

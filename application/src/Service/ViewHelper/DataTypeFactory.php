@@ -21,7 +21,7 @@ class DataTypeFactory implements FactoryInterface
         $config = $services->get('Config');
         return new DataType(
             $services->get('Omeka\DataTypeManager'),
-            $config['data_types_value_annotating'],
+            $config['data_types']['value_annotating'],
         );
     }
 }

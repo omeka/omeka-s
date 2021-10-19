@@ -49,7 +49,7 @@ if ($this->status()->isSiteRequest()) {
                 <?php if ($showLocale && $valueLang): ?>
                 <span class="language"><?php echo $valueLang; ?></span>
                 <?php endif; ?>
-                <?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?>
+                <span class="value-content"><?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?></span>
                 <?php if ($valueAnnotation): ?>
                     <span class="has-annotation o-icon-annotation" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Has annotation')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Has annotation')); ?>"></span>
                     <a href="#" class="expand" aria-label="<?php echo $this->escapeHtml($translate('Expand')); ?>"></a>

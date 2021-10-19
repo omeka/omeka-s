@@ -3327,8 +3327,7 @@ input[type=text].query-form-query {
         background-color: $gray-on-white;
     }
 
-    .private:after {
-        @include fa-icon();
+    .private .value-content:after {
         content: fa-content($fa-var-eye-slash);
         font-family: "Font Awesome 5 Free";
         display: inline-block;

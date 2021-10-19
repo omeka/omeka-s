@@ -1957,7 +1957,11 @@ input[type="text"].value-language,
 }
 
 .sidebar .value-annotation p.selected-resource {
-    margin-bottom: .5 * $spacing-small;
+    border-bottom: 1px solid $border-gray;
+}
+
+.sidebar .value-annotation-resource-select {
+    margin: $spacing-small !important;
 }
 
 .sidebar [data-data-type^="resource"] .o-title:not(:empty) {
@@ -1968,9 +1972,13 @@ input[type="text"].value-language,
         display: none;
     }
 
+    img {
+        margin: $spacing-small;
+    }
+
+
     a {
         padding: $spacing-small;
-        border-bottom: 1px solid $border-gray;
         width: 100%;
     }
 }
@@ -3363,19 +3371,22 @@ input[type=text].query-form-query {
 
 .has-annotation {
     margin-left: $spacing-medium;
+
+    &:before {
+        display: inline-block;
+    }
+}
+
+.o-icon-annotation:before {
+    content: "\f27a";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
 }
 
 .show .value {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-}
-
-.has-annotation:before {
-    content: "\f27a";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    display: inline-block;
 }
 
 .collapsible.annotation {

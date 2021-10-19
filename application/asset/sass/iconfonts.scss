@@ -127,6 +127,7 @@
 .o-icon-activate {
     @extend .fa-toggle-off;
 }
+
 .o-icon-deactivate {
     @extend .fa-toggle-on;
 }
@@ -201,6 +202,10 @@
 
 .o-icon-external {
     @extend .fa-external-link-alt;
+}
+
+.o-icon-annotation {
+    @extend .fa-comment-dots;
 }
 
 .screen-reader-text {

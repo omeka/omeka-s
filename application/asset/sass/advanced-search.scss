@@ -6,7 +6,16 @@
 #advanced-search .value {
     margin-bottom: 0;
     display: flex;
-    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 767px) {
+    #advanced-search .value {
+        flex-wrap: wrap;
+    }
+}
+
+.inputs select[name*="sort"] {
+    width: auto;
 }
 
 #advanced-search .inputs select, 

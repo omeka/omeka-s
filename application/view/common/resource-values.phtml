@@ -57,6 +57,7 @@ if ($this->status()->isSiteRequest()) {
                         <?php echo $valueAnnotation->displayValues(); ?>
                     </div>
                 <?php endif; ?>
+                <?php $this->trigger('view.show.value', ['value' => $value]); ?>
             </div>
             <?php endif; ?>
         <?php endforeach; ?>

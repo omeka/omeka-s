@@ -96,10 +96,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         }
 
         $dateSearches = [
-            'modified_after' => ['gt', 'modified'],
-            'modified_before' => ['lt', 'modified'],
-            'created_after' => ['gt', 'created'],
-            'created_before' => ['lt', 'created'],
+            'modified_lt' => ['lt', 'modified'],
+            'modified_lte' => ['lte', 'modified'],
+            'modified_gt' => ['gt', 'modified'],
+            'modified_gte' => ['gte', 'modified'],
+            'created_lt' => ['lt', 'created'],
+            'created_lte' => ['lte', 'created'],
+            'created_gt' => ['gt', 'created'],
+            'created_gte' => ['gte', 'created'],
         ];
         foreach ($dateSearches as $dateSearchKey => $dateSearch) {
             if (isset($query[$dateSearchKey])) {

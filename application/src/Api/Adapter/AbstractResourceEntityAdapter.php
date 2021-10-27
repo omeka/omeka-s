@@ -94,6 +94,27 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $this->createNamedParameter($qb, (bool) $query['is_public'])
             ));
         }
+
+        $dateSearches = [
+            'modified_after' => ['gt', 'modified'],
+            'modified_before' => ['lt', 'modified'],
+            'created_after' => ['gt', 'created'],
+            'created_before' => ['lt', 'created'],
+        ];
+        foreach ($dateSearches as $dateSearchKey => $dateSearch) {
+            if (isset($query[$dateSearchKey])) {
+                try {
+                    $date = new \DateTime($query[$dateSearchKey]);
+                } catch (\Exception $e) {
+                    // Invalid date. Set null to ensure no results.
+                    $date = null;
+                }
+                $qb->andWhere($qb->expr()->{$dateSearch[0]}(
+                    sprintf('omeka_root.%s', $dateSearch[1]),
+                    $this->createNamedParameter($qb, $date)
+                ));
+            }
+        }
     }
 
     public function sortQuery(QueryBuilder $qb, array $query)

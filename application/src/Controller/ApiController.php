@@ -63,7 +63,11 @@ class ApiController extends AbstractRestfulController
             $view = new ViewModel;
             $view->setTerminal(true);
             $view->setTemplate('omeka/api/root');
-            $view->setVariable('apiResources', $this->api->search('api_resources')->getContent());
+            $apiResources = $this->api->search('api_resources')->getContent();
+            usort($apiResources, function ($a, $b) {
+                return strcmp($a->id(), $b->id());
+            });
+            $view->setVariable('apiResources', $apiResources);
             return $view;
         }
 

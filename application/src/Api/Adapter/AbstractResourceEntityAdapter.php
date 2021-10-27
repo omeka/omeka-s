@@ -96,10 +96,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         }
 
         $dateSearches = [
+            'modified_eq' => ['eq', 'modified'],
             'modified_lt' => ['lt', 'modified'],
             'modified_lte' => ['lte', 'modified'],
             'modified_gt' => ['gt', 'modified'],
             'modified_gte' => ['gte', 'modified'],
+            'created_eq' => ['eq', 'created'],
             'created_lt' => ['lt', 'created'],
             'created_lte' => ['lte', 'created'],
             'created_gt' => ['gt', 'created'],

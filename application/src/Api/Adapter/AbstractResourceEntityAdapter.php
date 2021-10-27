@@ -1,8 +1,10 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
@@ -109,15 +111,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         ];
         foreach ($dateSearches as $dateSearchKey => $dateSearch) {
             if (isset($query[$dateSearchKey])) {
-                try {
-                    $date = new \DateTime($query[$dateSearchKey]);
-                } catch (\Exception $e) {
-                    // Invalid date. Set null to ensure no results.
-                    $date = null;
-                }
+                // Mandate ISO 8601 format.
+                $date = DateTime::createFromFormat(DateTime::ISO8601, $query[$dateSearchKey]);
                 $qb->andWhere($qb->expr()->{$dateSearch[0]}(
                     sprintf('omeka_root.%s', $dateSearch[1]),
-                    $this->createNamedParameter($qb, $date)
+                    // If the date is invalid, pass null to ensure no results.
+                    $this->createNamedParameter($qb, $date ?: null)
                 ));
             }
         }

@@ -109,10 +109,23 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             'created_gt' => ['gt', 'created'],
             'created_gte' => ['gte', 'created'],
         ];
+        $dateGranularities = [
+            DateTime::ISO8601,
+            'Y-m-d\TH:i:s',
+            'Y-m-d\TH:i',
+            'Y-m-d\TH',
+            'Y-m-d',
+            'Y-m',
+            'Y',
+        ];
         foreach ($dateSearches as $dateSearchKey => $dateSearch) {
             if (isset($query[$dateSearchKey])) {
-                // Mandate ISO 8601 format.
-                $date = DateTime::createFromFormat(DateTime::ISO8601, $query[$dateSearchKey]);
+                foreach ($dateGranularities as $dateGranularity) {
+                    $date = DateTime::createFromFormat($dateGranularity, $query[$dateSearchKey]);
+                    if (false !== $date) {
+                        break;
+                    }
+                }
                 $qb->andWhere($qb->expr()->{$dateSearch[0]}(
                     sprintf('omeka_root.%s', $dateSearch[1]),
                     // If the date is invalid, pass null to ensure no results.

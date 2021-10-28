@@ -98,25 +98,19 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         }
 
         $dateSearches = [
-            'modified_eq' => ['eq', 'modified'],
-            'modified_lt' => ['lt', 'modified'],
-            'modified_lte' => ['lte', 'modified'],
-            'modified_gt' => ['gt', 'modified'],
-            'modified_gte' => ['gte', 'modified'],
-            'created_eq' => ['eq', 'created'],
-            'created_lt' => ['lt', 'created'],
-            'created_lte' => ['lte', 'created'],
-            'created_gt' => ['gt', 'created'],
-            'created_gte' => ['gte', 'created'],
+            'modified_before' => ['lt', 'modified'],
+            'modified_after' => ['gt', 'modified'],
+            'created_before' => ['lt', 'created'],
+            'created_after' => ['gt', 'created'],
         ];
         $dateGranularities = [
             DateTime::ISO8601,
-            'Y-m-d\TH:i:s',
-            'Y-m-d\TH:i',
-            'Y-m-d\TH',
-            'Y-m-d',
-            'Y-m',
-            'Y',
+            '!Y-m-d\TH:i:s',
+            '!Y-m-d\TH:i',
+            '!Y-m-d\TH',
+            '!Y-m-d',
+            '!Y-m',
+            '!Y',
         ];
         foreach ($dateSearches as $dateSearchKey => $dateSearch) {
             if (isset($query[$dateSearchKey])) {

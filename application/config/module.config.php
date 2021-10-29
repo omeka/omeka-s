@@ -378,6 +378,7 @@ return [
             'resources' => Api\Adapter\ResourceAdapter::class,
             'assets' => Api\Adapter\AssetAdapter::class,
             'api_resources' => Api\Adapter\ApiResourceAdapter::class,
+            'data_types' => Api\Adapter\DataTypeAdapter::class,
         ],
     ],
     'view_helpers' => [

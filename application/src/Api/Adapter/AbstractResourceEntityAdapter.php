@@ -4,7 +4,6 @@ namespace Omeka\Api\Adapter;
 use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
-use Exception;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;

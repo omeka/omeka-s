@@ -40,9 +40,6 @@ if ($this->status()->isSiteRequest()) {
             } elseif ('uri' == $valueType) {
                 $class[] = 'uri';
             }
-            if (!$value->isPublic()) {
-                $class[] = 'private';
-            }
             ?>
             <?php if ((!$filterLocale) || ($valueLang == '') || (strcasecmp($valueLang, $lang) == 0)): ?>
             <div class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($valueLang); ?>">
@@ -50,9 +47,13 @@ if ($this->status()->isSiteRequest()) {
                 <span class="language"><?php echo $valueLang; ?></span>
                 <?php endif; ?>
                 <span class="value-content"><?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?></span>
+                <?php if(!$value->isPublic()): ?>
+                    <span class="o-icon-private" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Private')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Private')); ?>"></span>
+                <?php endif; ?>
                 <?php if ($valueAnnotation): ?>
-                    <span class="has-annotation o-icon-annotation" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Has annotation')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Has annotation')); ?>"></span>
-                    <a href="#" class="expand" aria-label="<?php echo $this->escapeHtml($translate('Expand')); ?>"></a>
+                    <a href="#" class="expand" aria-label="<?php echo $this->escapeHtml($translate('Expand')); ?>">
+                        <span class="has-annotation o-icon-annotation" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Has annotation')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Has annotation')); ?>"></span>
+                    </a>
                     <div class="collapsible annotation">
                         <?php echo $valueAnnotation->displayValues(); ?>
                     </div>

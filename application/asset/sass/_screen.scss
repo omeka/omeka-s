@@ -3326,13 +3326,6 @@ input[type=text].query-form-query {
         margin-right: $spacing-small;
         background-color: $gray-on-white;
     }
-
-    .private > .value-content:after {
-        content: fa-content($fa-var-eye-slash);
-        font-family: "Font Awesome 5 Free";
-        display: inline-block;
-        margin-left: $spacing-small;
-    }
 }
 
 #linked-filter {
@@ -3368,12 +3361,8 @@ input[type=text].query-form-query {
     border-bottom: 1px solid $border-gray;
 }
 
-.has-annotation {
-    margin-left: $spacing-medium;
-
-    &:before {
-        display: inline-block;
-    }
+.has-annotation:before {
+    display: inline-block;
 }
 
 .o-icon-annotation:before {
@@ -3382,11 +3371,18 @@ input[type=text].query-form-query {
     font-weight: 900;
 }
 
-.show .value {
+.show .value.resource,
+.show .value.resource .value-content {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
 }
+
+.show .value .o-icon-private,
+.show .value .value-content {
+    margin-right: $spacing-medium;
+}
+
 
 .collapsible.annotation {
     border-left: 3px solid $border-gray;

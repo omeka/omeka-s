@@ -274,7 +274,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      *
      * @return string|null
      */
-    protected function getControllerName()
+    public function getControllerName()
     {
         return null;
     }

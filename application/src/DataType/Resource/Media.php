@@ -26,7 +26,7 @@ class Media extends AbstractResource implements ValueAnnotatingInterface
         return $view->partial('common/data-type/value-annotation-resource', [
             'dataTypeLabel' => $view->translate('Media'),
             'dataTypeSingle' => 'media',
-            'dataTypePlural' => 'media'
+            'dataTypePlural' => 'media',
         ]);
     }
 

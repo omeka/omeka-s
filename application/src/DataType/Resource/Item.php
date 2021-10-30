@@ -26,7 +26,7 @@ class Item extends AbstractResource implements ValueAnnotatingInterface
         return $view->partial('common/data-type/value-annotation-resource', [
             'dataTypeLabel' => $view->translate('Items'),
             'dataTypeSingle' => 'item',
-            'dataTypePlural' => 'items'
+            'dataTypePlural' => 'items',
         ]);
     }
 

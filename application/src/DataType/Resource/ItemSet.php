@@ -26,7 +26,7 @@ class Itemset extends AbstractResource implements ValueAnnotatingInterface
         return $view->partial('common/data-type/value-annotation-resource', [
             'dataTypeLabel' => $view->translate('Item Sets'),
             'dataTypeSingle' => 'item-set',
-            'dataTypePlural' => 'item-sets'
+            'dataTypePlural' => 'item-sets',
         ]);
     }
 

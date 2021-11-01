@@ -10,8 +10,12 @@ class DataTypeRepresentation extends AbstractResourceRepresentation
 
     public function getJsonLd()
     {
+        $dataType = $this->getServiceLocator()
+            ->get('Omeka\DataTypeManager')
+            ->get($this->resource->getId());
         return [
             'o:id' => $this->resource->getId(),
+            'o:label' => $dataType->getLabel(),
         ];
     }
 }

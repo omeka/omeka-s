@@ -3,6 +3,7 @@ namespace Omeka\Controller;
 
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Mvc\Exception;
+use Omeka\Settings\Settings;
 use Omeka\Stdlib\Paginator;
 use Omeka\View\Model\ApiJsonModel;
 use Laminas\Mvc\Controller\AbstractRestfulController;
@@ -28,12 +29,18 @@ class ApiController extends AbstractRestfulController
     protected $api;
 
     /**
+     * @var Settings
+     */
+    protected $settings;
+
+    /**
      * @param Paginator $paginator
      */
-    public function __construct(Paginator $paginator, ApiManager $api)
+    public function __construct(Paginator $paginator, ApiManager $api, Settings $settings)
     {
         $this->paginator = $paginator;
         $this->api = $api;
+        $this->settings = $settings;
     }
 
     /**
@@ -75,6 +82,7 @@ class ApiController extends AbstractRestfulController
         $response = $this->api->search($resource, $query);
 
         $this->paginator->setCurrentPage($query['page']);
+        $this->paginator->setPerPage($query['per_page'] ?? $this->settings->get('pagination_per_page', Paginator::PER_PAGE));
         $this->paginator->setTotalCount($response->getTotalResults());
 
         // Add Link header for pagination.

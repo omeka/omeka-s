@@ -3,7 +3,6 @@ namespace Omeka\Controller;
 
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Mvc\Exception;
-use Omeka\Settings\Settings;
 use Omeka\Stdlib\Paginator;
 use Omeka\View\Model\ApiJsonModel;
 use Laminas\Mvc\Controller\AbstractRestfulController;

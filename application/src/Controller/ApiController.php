@@ -29,18 +29,12 @@ class ApiController extends AbstractRestfulController
     protected $api;
 
     /**
-     * @var Settings
-     */
-    protected $settings;
-
-    /**
      * @param Paginator $paginator
      */
-    public function __construct(Paginator $paginator, ApiManager $api, Settings $settings)
+    public function __construct(Paginator $paginator, ApiManager $api)
     {
         $this->paginator = $paginator;
         $this->api = $api;
-        $this->settings = $settings;
     }
 
     /**
@@ -82,7 +76,9 @@ class ApiController extends AbstractRestfulController
         $response = $this->api->search($resource, $query);
 
         $this->paginator->setCurrentPage($query['page']);
-        $this->paginator->setPerPage($query['per_page'] ?? $this->settings->get('pagination_per_page', Paginator::PER_PAGE));
+        if (isset($query['per_page'])) {
+            $this->paginator->setPerPage($query['per_page']);
+        }
         $this->paginator->setTotalCount($response->getTotalResults());
 
         // Add Link header for pagination.

@@ -75,6 +75,9 @@ class ApiController extends AbstractRestfulController
         $response = $this->api->search($resource, $query);
 
         $this->paginator->setCurrentPage($query['page']);
+        if (isset($query['per_page'])) {
+            $this->paginator->setPerPage($query['per_page']);
+        }
         $this->paginator->setTotalCount($response->getTotalResults());
 
         // Add Link header for pagination.

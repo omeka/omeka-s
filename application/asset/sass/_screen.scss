@@ -1010,6 +1010,11 @@ nav.pagination + *:not(.sorting) {
     position: relative;
 }
 
+button .o-icon-private {
+    margin: 0 $spacing-small;
+    color: $border-gray;
+}
+
     /* @group ----- Top-level navigation ----- */
 
     header nav h4 {

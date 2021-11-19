@@ -68,6 +68,33 @@ $.jstree.plugins.removenode = function(options, parent) {
 };
 
 /**
+ * PrivateStatus plugin for jsTree
+ */
+
+$.jstree.plugins.privateStatus = function(options, parent) {
+    var privateIcon = $('<i>', {
+        class: 'jstree-icon jstree-private',
+        attr:{
+            'role':'presentation',
+            'aria-label':Omeka.jsTranslate('Private'),
+            'title': Omeka.jsTranslate('Private')},
+    });
+    this.redraw_node = function(node, deep, is_callback, force_render) {
+        node = parent.redraw_node.apply(this, arguments);
+        if (node) {
+            var nodeObj = this.get_node(node);
+            var nodeIsPublic = nodeObj.data.data.is_public;
+            if (nodeIsPublic == 0) {
+                var nodeJq = $(node);
+                var anchor = nodeJq.children('.jstree-anchor');
+                anchor.append(privateIcon.clone());
+            }
+        }
+        return node;
+    };
+}
+
+/**
  * EditLink plugin for jsTree
  */
 $.jstree.plugins.editlink = function(options, parent) {
@@ -121,7 +148,8 @@ $.jstree.plugins.editlink = function(options, parent) {
                     data: {
                         type: link.data('type'),
                         data: {
-                            id: link.data('id')
+                            id: link.data('id'),
+                            'is_public': link.data('is_public')
                         }
                     }
                 });

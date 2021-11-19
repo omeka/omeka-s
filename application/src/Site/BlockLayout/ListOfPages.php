@@ -80,16 +80,19 @@ class ListOfPages extends AbstractBlockLayout
     public function getPageNodeURLs($nodes, SitePageBlockRepresentation $block)
     {
         $site = $block->page()->site();
+        $pages = $site->pages();
 
         // Add page URL to jstree node data if not already present
-        $iterate = function (&$value, $key) use (&$iterate, $site) {
+        $iterate = function (&$value, $key) use (&$iterate, $site, $pages) {
             if (is_array($value)) {
                 if (array_key_exists('type', $value)) {
+                    $isPublic = isset($pages[$value['data']['id']]) ? $pages[$value['data']['id']]->isPublic() : true;
                     $manager = $this->linkManager;
                     $linkType = $manager->get($value['type']);
                     $linkData = $value;
                     $pageUrl = $this->navTranslator->getLinkUrl($linkType, $linkData, $site);
                     $value['url'] = $pageUrl;
+                    $value['data']['is_public'] = $isPublic;
                 }
                 array_walk($value, $iterate);
             }

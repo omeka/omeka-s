@@ -13,3 +13,4 @@ $label = isset($data['label']) && '' !== trim($data['label']) ? $data['label'] :
 <label><?php echo $translate('Type'); ?> <input type="text" value="<?php echo $escape($translate($link->getName())); ?>" disabled></label>
 <label><?php echo $translate('Page'); ?> <input type="text" value="<?php echo $escape($pageLabel); ?>" disabled></label>
 <label><?php echo $translate('Label'); ?> <input type="text" data-name="label" value="<?php echo $escape($label); ?>"></label>
+<input type="hidden" data-name="is_public" value="<?php echo ($page->isPublic()) ? 1 : 0; ?>">

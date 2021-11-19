@@ -68,6 +68,30 @@ $.jstree.plugins.removenode = function(options, parent) {
 };
 
 /**
+ * PrivateStatus plugin for jsTree
+ */
+
+$.jstree.plugins.privateStatus = function(options, parent) {
+    var privateIcon = $('<i>', {
+        class: 'jstree-icon jstree-private',
+        attr:{role:'presentation'},
+    });
+    this.redraw_node = function(node, deep, is_callback, force_render) {
+        node = parent.redraw_node.apply(this, arguments);
+        if (node) {
+            var nodeObj = this.get_node(node);
+            var nodeIsPublic = nodeObj.data.data.is_public;
+            if (nodeIsPublic == 0) {
+                var nodeJq = $(node);
+                var anchor = nodeJq.children('.jstree-anchor');
+                anchor.prepend(privateIcon.clone());
+            }
+        }
+        return node;
+    };
+}
+
+/**
  * EditLink plugin for jsTree
  */
 $.jstree.plugins.editlink = function(options, parent) {
@@ -195,7 +219,7 @@ $.jstree.plugins.editlink = function(options, parent) {
 /**
  * Display Plugin for jsTree
  */
-$.jstree.plugins.display = function(options, parent) {
+$.jstree.plugins.display = function(options, parent) { 
     var displayIcon = $('<i>', {
         class: 'jstree-icon jstree-displaylink',
         attr:{role: 'presentation'}

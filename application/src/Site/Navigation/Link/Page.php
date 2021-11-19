@@ -64,6 +64,7 @@ class Page implements LinkInterface
         return [
             'label' => $data['label'],
             'id' => $data['id'],
+            'is_public' => $data['is_public'],
         ];
     }
 }

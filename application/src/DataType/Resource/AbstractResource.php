@@ -61,7 +61,14 @@ abstract class AbstractResource extends AbstractDataType
             );
         }
         // Limit value resources to those that are valid for the data type.
-        if (!in_array(get_class($valueResource), $this->getValidValueResources())) {
+        $isValid = false;
+        foreach ($this->getValidValueResources() as $validValueResource) {
+            if ($valueResource instanceof $validValueResource) {
+                $isValid = true;
+                break;
+            }
+        }
+        if (!$isValid) {
             $message = new Message(sprintf(
                 'Invalid value resource %s for type %s', // @translate
                 get_class($valueResource),

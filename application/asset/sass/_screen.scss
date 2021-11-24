@@ -269,6 +269,7 @@ body {
             font-family: "Font Awesome 5 Free";
             content: fa-content($fa-var-asterisk);
             font-size: .75 * $base-font-size;
+            font-weight: 900;
             position: absolute;
             right: $spacing-medium;
             color: $red;
@@ -1295,6 +1296,7 @@ div[role="main"] {
     @include fa-icon();
     font-family: "Font Awesome 5 Free";
     content: fa-content($fa-var-search);
+    font-weight: 900;
     padding: .25em;
 }
 

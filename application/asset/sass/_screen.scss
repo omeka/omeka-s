@@ -478,6 +478,7 @@ body {
 
             &:after {
                 font-family: "Font Awesome 5 Free";
+                font-weight: 900;
                 content: fa-content($fa-var-caret-down);
                 line-height: $base-line-height;
                 padding: $spacing-small 0;
@@ -498,6 +499,7 @@ body {
 
             &:after  {
                 font-family: "Font Awesome 5 Free";
+                font-weight: 900;
                 content: fa-content($fa-var-search);
                 line-height: $base-line-height;
                 padding: $spacing-small 0;
@@ -2087,6 +2089,7 @@ input[type="text"].value-language,
         &:after {
             content: fa-content($fa-var-caret-right);
             font-family: "Font Awesome 5 Free";
+            font-weight: 900;
             position: absolute;
             right: 0;
             top: $spacing-small;
@@ -2284,6 +2287,7 @@ input[type="text"].value-language,
     .field .docs-link:before {
         content: fa-content($fa-var-info-circle);
         font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         display: inline-block;
         margin-right: $spacing-small;
         font-size: 14px;
@@ -3243,6 +3247,7 @@ input[type=text].query-form-query {
         @include fa-icon();
         content: fa-content($fa-var-eye-slash);
         font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         display: inline-block;
         margin-left: $spacing-small;
     }
@@ -3363,6 +3368,7 @@ input[type=text].query-form-query {
         &:after {
             font-family: "Font Awesome 5 Free";
             @include fa-icon();
+            font-weight: 900;
             content: fa-content($fa-var-circle-notch);
             position: absolute;
             top: .75em;
@@ -3481,6 +3487,7 @@ input[type=text].query-form-query {
         &:after {
             content: fa-content($fa-var-plus);
             font-family: "Font Awesome 5 Free";
+            font-weight: 900;
             float: right;
             color: $border-gray;
         }
@@ -3650,6 +3657,7 @@ body.sidebar-open #content {
     &:after {
         content: "\f00c";
         font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         display: inline-block;
         margin-left: $spacing-small;
     }
@@ -4340,6 +4348,7 @@ body.sidebar-open #content {
         &:after {
             content: fa-content($fa-var-check);
             font-family: "Font Awesome 5 Free";
+            font-weight: 900;
             position: absolute;
             bottom: 0;
             right: 0;

@@ -1159,7 +1159,7 @@ nav.pagination + *:not(.sorting) {
         font-family: "Font Awesome 5 Free";
         width: $spacing-large;
         display: inline-block;
-        font-weight: normal;
+        font-weight: 900;
         font-size: $base-font-size;
     }
 
@@ -1223,6 +1223,7 @@ div[role="main"] {
 #manage-resources .add.button:before {
     content: fa-content($fa-var-plus);
     font-family: "Font Awesome 5 Free";
+    font-weight: 900;
 }
 
 .panel {

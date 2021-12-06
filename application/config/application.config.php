@@ -3,10 +3,18 @@ namespace Omeka;
 
 $reader = new \Laminas\Config\Reader\Ini;
 
-$database = $reader->fromFile(OMEKA_PATH . '/config/database.ini');
 $url = getenv('OMEKA_DB_CONNECTION_URL');
-if ($url) {
-  $database['url'] = $url;
+
+try {
+  $database = $reader->fromFile(OMEKA_PATH . '/config/database.ini');
+} catch (\Laminas\Config\Exception\RuntimeException $e) {
+  if (!$url) {
+    throw $e;
+  }
+} finally {
+  if ($url) {
+    $database['url'] = $url;
+  }
 }
 
 return [

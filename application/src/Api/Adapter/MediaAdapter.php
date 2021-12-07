@@ -160,6 +160,10 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             $entity->setAltText($request->getValue('o:alt_text'));
         }
 
+        if ($this->shouldHydrate($request, 'o:position')) {
+            $entity->setPosition($request->getValue('o:position', null));
+        }
+
         if (Request::CREATE === $request->getOperation()) {
             $ingester->ingest($entity, $request, $errorStore);
         } elseif ($ingester instanceof MutableIngesterInterface) {

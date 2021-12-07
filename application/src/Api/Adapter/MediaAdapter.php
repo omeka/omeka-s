@@ -152,16 +152,16 @@ class MediaAdapter extends AbstractResourceEntityAdapter
 
         parent::hydrate($request, $entity, $errorStore);
 
+        if (isset($data['position']) && is_numeric($data['position'])) {
+            $entity->setPosition($data['position']);
+        }
+
         if ($this->shouldHydrate($request, 'o:lang')) {
             $entity->setLang($request->getValue('o:lang', null));
         }
 
         if ($this->shouldHydrate($request, 'o:alt_text')) {
             $entity->setAltText($request->getValue('o:alt_text'));
-        }
-
-        if ($this->shouldHydrate($request, 'o:position')) {
-            $entity->setPosition($request->getValue('o:position', $entity->getPosition()));
         }
 
         if (Request::CREATE === $request->getOperation()) {

@@ -161,7 +161,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
 
         if ($this->shouldHydrate($request, 'o:position')) {
-            $entity->setPosition($request->getValue('o:position', null));
+            $entity->setPosition($request->getValue('o:position', $entity->getPosition()));
         }
 
         if (Request::CREATE === $request->getOperation()) {

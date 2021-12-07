@@ -22,7 +22,7 @@ class PageTitle extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         return $view->partial('common/block-layout/page-title', [
-            'pageTitle' => $view->escapeHtml($block->page()->title()),
+            'pageTitle' => $block->page()->title(),
         ]);
     }
 }

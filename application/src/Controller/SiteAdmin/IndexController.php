@@ -373,18 +373,14 @@ class IndexController extends AbstractActionController
             $form->add($elementSpec);
         }
 
-        // Fix to manage empty values for selects and multicheckboxes.
+        // Set backend required flag according to client-side attr
+        // (also, handle elements that otherwise default to required)
         $inputFilter = $form->getInputFilter();
         foreach ($form->getElements() as $element) {
-            if ($element instanceof \Laminas\Form\Element\MultiCheckbox
-                || ($element instanceof \Laminas\Form\Element\Select
-                    && $element->getOption('empty_option') !== null)
-            ) {
-                $inputFilter->add([
-                    'name' => $element->getName(),
-                    'allow_empty' => true,
-                ]);
-            }
+            $inputFilter->add([
+                'name' => $element->getName(),
+                'required' => (bool) $element->getAttribute('required'),
+            ]);
         }
 
         $oldSettings = $this->siteSettings()->get($theme->getSettingsKey());

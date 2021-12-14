@@ -281,12 +281,12 @@ class SiteSettingsForm extends Form
             'name' => 'vocabulary_scope',
             'type' => 'Select',
             'options' => [
-                'label' => 'Search facets', // @translate
+                'label' => 'Search by value options', // @translate
                 'info' => 'Limit the search options for property and class', // @translate
                 'value_options' => [
                     'sitewide' => 'This site', // @translate
                     'cross-site' => 'All sites', // @translate
-                    'all-installed' => 'All metadata', // @translate
+                    'all-installed' => 'All installed metadata', // @translate
                 ],
             ],
             'attributes' => [

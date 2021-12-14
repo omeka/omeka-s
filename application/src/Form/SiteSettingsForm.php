@@ -277,6 +277,24 @@ class SiteSettingsForm extends Form
                 'value' => $settings->get('search_type', 'sitewide'),
             ],
         ]);
+        $searchFieldset->add([
+            'name' => 'vocabulary_scope',
+            'type' => 'Select',
+            'options' => [
+                'label' => 'Search facets', // @translate
+                'info' => 'Limit the search options for property and class', // @translate
+                'value_options' => [
+                    'sitewide' => 'This site', // @translate
+                    'cross-site' => 'All sites', // @translate
+                    'all-installed' => 'All metadata', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'vocabulary_scope',
+                'value' => $settings->get('vocabulary_scope', 'all-installed'),
+            ],
+        ]);
+
         $resourceNames = [
             'site_pages' => 'Site pages', // @translate
             'items' => 'Items', // @translate

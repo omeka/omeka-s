@@ -31,6 +31,15 @@ $queryText = function(array $search, $index) use ($translate) {
         $this->escapeHtml("property[$index][text]"),
         $this->escapeHtml($text),
         $this->escapeHtml($translate('Query text')));
+};
+
+$optionsQuery = [];
+if ($this->status()->isSiteRequest()) {
+    if ($this->siteSetting('vocabulary_scope') === 'sitewide') {
+        $optionsQuery['site_id'] = $this->layout()->site->id();
+    } elseif ($this->siteSetting('vocabulary_scope') === 'cross-site') {
+        $optionsQuery['used'] = true;
+    }
 }
 ?>
 
@@ -60,6 +69,7 @@ $queryText = function(array $search, $index) use ($translate) {
                 'options' => [
                     'empty_option' => '[Any Property]', // @translate
                     'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
+                    'query' => $optionsQuery,
                 ]
             ]); ?>
             <select class="query-type" name="<?php echo $this->escapeHtml($stem . '[type]'); ?>" aria-label="<?php echo $translate('Query type'); ?>">

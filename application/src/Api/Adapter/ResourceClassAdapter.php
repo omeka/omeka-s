@@ -128,11 +128,29 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $localName))
             );
         }
+        //limit results to classes used by resources
         if (!empty($query['used'])) {
             $valuesAlias = $this->createAlias();
             $qb->innerJoin(
                 'omeka_root.resources',
                 $valuesAlias
+            );
+        }
+        //limit results to classes used by items in the site
+        if (isset($query['site_id']) && is_numeric($query['site_id'])) {
+            $siteAlias = $this->createAlias();
+            $itemAlias = $this->createAlias();
+            $valuesAlias = $this->createAlias();
+            $qb->innerJoin(
+                'omeka_root.resources',
+                $valuesAlias
+            );
+            $qb->join('Omeka\Entity\Site', $siteAlias);
+            $qb->join(
+                "$siteAlias.items",
+                $itemAlias,
+                'WITH',
+                "$itemAlias.id = $valuesAlias.id"
             );
         }
     }

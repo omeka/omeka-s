@@ -271,6 +271,8 @@ class SiteSettingsForm extends Form
                 'value' => $settings->get('search_type', 'sitewide'),
             ],
         ]);
+
+
         $resourceNames = [
             'site_pages' => 'Site pages', // @translate
             'items' => 'Items', // @translate
@@ -291,6 +293,26 @@ class SiteSettingsForm extends Form
                 'required' => false,
             ],
         ]);
+
+        $this->add([
+            'name' => 'vocabulary_scope',
+            'type' => 'Select',
+            'options' => [
+                'element_group' => 'search',
+                'label' => 'Advanced search vocabulary members', // @translate
+                'info' => 'Limit the search options for property and class', // @translate
+                'empty_option' => 'All vocabulary members', // @translate
+                'value_options' => [
+                    'sitewide' => 'Used by resources in this site', // @translate
+                    'cross-site' => 'Used by any resource in the installation', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'vocabulary_scope',
+                'value' => $settings->get('vocabulary_scope'),
+            ],
+        ]);
+
         $this->add([
             'type' => 'Omeka\Form\Element\ResourceTemplateSelect',
             'name' => 'search_apply_templates',
@@ -351,6 +373,10 @@ class SiteSettingsForm extends Form
         $inputFilter->add([
             'name' => 'search_resource_names',
             'required' => false,
+            'allow_empty' => true,
+        ]);
+        $inputFilter->add([
+            'name' => 'vocabulary_scope',
             'allow_empty' => true,
         ]);
         $inputFilter->add([

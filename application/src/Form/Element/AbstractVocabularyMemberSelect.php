@@ -62,6 +62,18 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
         $events->trigger('form.vocab_member_select.query', $this, $args);
         $query = $args['query'];
 
+        if ($this->getOption('vocabulary_scope')){
+            $vocabulary_scope = $this->getOption('vocabulary_scope')['scope'];
+            $site_id = $this->getOption('vocabulary_scope')['site'];
+            if ($vocabulary_scope === 'cross-site'){
+                $query['used'] = true;
+            }
+           if ($vocabulary_scope === 'sitewide'){
+               $query['used'] = true;
+               $query['site'] = $site_id;
+           }
+        }
+
         $valueOptions = [];
         $response = $this->getApiManager()->search($resourceName, $query);
         $termAsValue = $this->getOption('term_as_value');

@@ -1,9 +1,7 @@
 @import "font-awesome/fontawesome";
 
 [class*="o-icon-"]:before {
-    @extend .fa;
     @extend .#{$fa-css-prefix};
-    font-weight: 900;
 }
 
 .o-icon-menu {

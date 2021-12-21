@@ -266,10 +266,9 @@ body {
         padding-right: (1.5 * $spacing-large);
 
         &:after {
-            font-family: "Font Awesome 5 Free";
+            @include font-awesome;
             content: fa-content($fa-var-asterisk);
             font-size: .75 * $base-font-size;
-            font-weight: 900;
             position: absolute;
             right: $spacing-medium;
             color: $red;
@@ -283,8 +282,7 @@ body {
     }
 
     label.required:after  {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         content: fa-content($fa-var-asterisk);
         font-size: .75 * $base-font-size;
         color: $red;
@@ -477,8 +475,7 @@ body {
             background: none !important;
 
             &:after {
-                font-family: "Font Awesome 5 Free";
-                font-weight: 900;
+                @include font-awesome;
                 content: fa-content($fa-var-caret-down);
                 line-height: $base-line-height;
                 padding: $spacing-small 0;
@@ -498,9 +495,8 @@ body {
             position: relative;
 
             &:after  {
-                font-family: "Font Awesome 5 Free";
-                font-weight: 900;
-                content: fa-content($fa-var-search);
+                @include font-awesome;
+                    content: fa-content($fa-var-search);
                 line-height: $base-line-height;
                 padding: $spacing-small 0;
                 display: block;
@@ -638,8 +634,7 @@ table .icon-sortable {
 
     &:before {
         content: fa-content($fa-var-bars);
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         opacity: .35;
         font-size: 1.25 * $base-font-size;
         line-height: $base-line-height;
@@ -657,15 +652,13 @@ a.collapse {
 
 .expand:after {
     content: fa-content($fa-var-caret-right);
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    @include font-awesome;
     margin-left: 3px;
 }
 
 .collapse:after {
     content: fa-content($fa-var-caret-down);
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    @include font-awesome;
     margin-left: 3px;
 }
 
@@ -812,8 +805,7 @@ header {
 
     &:after {
         content: fa-content($fa-var-ellipsis-h);
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         text-indent: 0;
         position: absolute;
         top: 0;
@@ -865,8 +857,7 @@ div[role="main"] > h1:first-of-type .title {
 }
 
 .subhead:before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    @include font-awesome;
     display: inline-block;
     margin-right: $spacing-small;
     font-size: $base-font-size;
@@ -1050,8 +1041,7 @@ nav.pagination + *:not(.sorting) {
 
     header nav li > a:before {
         content: fa-content($fa-var-plus-square);
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         display: inline-block;
         width: $spacing-large;
     }
@@ -1158,10 +1148,9 @@ nav.pagination + *:not(.sorting) {
 
     header nav#site-nav h5 a:before {
         content: fa-content($fa-var-laptop);
-        font-family: "Font Awesome 5 Free";
+        @include font-awesome;
         width: $spacing-large;
         display: inline-block;
-        font-weight: 900;
         font-size: $base-font-size;
     }
 
@@ -1224,8 +1213,7 @@ div[role="main"] {
 
 #manage-resources .add.button:before {
     content: fa-content($fa-var-plus);
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    @include font-awesome;
 }
 
 .panel {
@@ -1297,9 +1285,8 @@ div[role="main"] {
 
 .browse .browse-controls .advanced-search:before {
     @include fa-icon();
-    font-family: "Font Awesome 5 Free";
+    @include font-awesome;
     content: fa-content($fa-var-search);
-    font-weight: 900;
     padding: .25em;
 }
 
@@ -1422,8 +1409,7 @@ div[role="main"] {
     margin-top: (4 * $spacing-large);
 
     &:before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         font-size: 6 * $base-font-size;
         position: absolute;
         top: 0;
@@ -2088,8 +2074,7 @@ input[type="text"].value-language,
 
         &:after {
             content: fa-content($fa-var-caret-right);
-            font-family: "Font Awesome 5 Free";
-            font-weight: 900;
+            @include font-awesome;
             position: absolute;
             right: 0;
             top: $spacing-small;
@@ -2286,8 +2271,7 @@ input[type="text"].value-language,
 
     .field .docs-link:before {
         content: fa-content($fa-var-info-circle);
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         display: inline-block;
         margin-right: $spacing-small;
         font-size: 14px;
@@ -2602,8 +2586,7 @@ input[type="text"].value-language,
     }
 
     .selected-resource .o-title a:after {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         display: inline-block;
         margin: 0 $spacing-small;
     }
@@ -2910,8 +2893,7 @@ input[type="text"].value-language,
     min-height: 0;
 
     &:before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         content: fa-content($fa-var-toggle-off);
         display: inline-block;
         margin-right: $spacing-small;
@@ -3246,8 +3228,7 @@ input[type=text].query-form-query {
     .private:after {
         @include fa-icon();
         content: fa-content($fa-var-eye-slash);
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         display: inline-block;
         margin-left: $spacing-small;
     }
@@ -3292,8 +3273,7 @@ input[type=text].query-form-query {
 
     .property .value .resource-name:after,
     .property .value.uri .uri-value-link:after {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         display: inline-block;
         margin-left: .5em;
     }
@@ -3366,9 +3346,8 @@ input[type=text].query-form-query {
         }
 
         &:after {
-            font-family: "Font Awesome 5 Free";
+            @include font-awesome;
             @include fa-icon();
-            font-weight: 900;
             content: fa-content($fa-var-circle-notch);
             position: absolute;
             top: .75em;
@@ -3378,7 +3357,6 @@ input[type=text].query-form-query {
             height: 0.95em;
             width: 1.2em;
             text-align: center;
-            font-weight: 900;
         }
     }
 
@@ -3486,8 +3464,7 @@ input[type=text].query-form-query {
 
         &:after {
             content: fa-content($fa-var-plus);
-            font-family: "Font Awesome 5 Free";
-            font-weight: 900;
+            @include font-awesome;
             float: right;
             color: $border-gray;
         }
@@ -3656,8 +3633,7 @@ body.sidebar-open #content {
     
     &:after {
         content: "\f00c";
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         display: inline-block;
         margin-left: $spacing-small;
     }
@@ -3811,8 +3787,7 @@ body.sidebar-open #content {
 
 .breadcrumbs > *:not(:last-child):after {
     content: fa-content($fa-var-caret-right);
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    @include font-awesome;
     display: inline-block;
     margin: 0 calc(#{$spacing-medium} - 3px) 0 $spacing-medium;
     color: #000;
@@ -4347,8 +4322,7 @@ body.sidebar-open #content {
 
         &:after {
             content: fa-content($fa-var-check);
-            font-family: "Font Awesome 5 Free";
-            font-weight: 900;
+            @include font-awesome;
             position: absolute;
             bottom: 0;
             right: 0;

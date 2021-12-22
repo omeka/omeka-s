@@ -377,7 +377,7 @@ class MvcListeners extends AbstractListenerAggregate
     /**
      * Get the current site by slug and inject it where needed.
      *
-     * Returns false if the site is not found or another error occured.
+     * Returns false if the site is not found or another error occurred.
      *
      * @param MvcEvent $event
      * @return \Omeka\Api\Representation\SiteRepresentation|false

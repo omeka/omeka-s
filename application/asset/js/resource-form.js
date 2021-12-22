@@ -446,7 +446,7 @@
     };
 
     /**
-     * Prepare a selector (usualy a html list of buttons) from a list of data types.
+     * Prepare a selector (usually a html list of buttons) from a list of data types.
      *
      * @param array dataTypes
      * @return string

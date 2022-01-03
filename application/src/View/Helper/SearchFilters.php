@@ -104,7 +104,10 @@ class SearchFilters extends AbstractHelper
                             continue;
                         }
                         $value = $queryRow['text'] ?? null;
-                        if (!$value && !in_array($queryType, $withoutValueQueryTypes, true)) {
+                        // An empty string "" is not a value, but "0" is a value.
+                        if (in_array($queryType, $withoutValueQueryTypes, true)) {
+                            $value = null;
+                        } elseif ((is_array($value) && !count($value)) || !strlen((string) $value)) {
                             continue;
                         }
                         $joiner = $queryRow['joiner'] ?? null;

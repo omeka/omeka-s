@@ -83,6 +83,8 @@ $queryText = function (array $search, $index) use ($escape, $translate) {
                 <?php echo $queryOption('nex', $property, 'type', $translate('has no values')); ?>
                 <?php echo $queryOption('lex', $property, 'type', $translate('is a linked resource')); ?>
                 <?php echo $queryOption('lnex', $property, 'type', $translate('is not a linked resource')); ?>
+                <?php echo $queryOption('lres', $property, 'type', $translate('is linked with resource with ID')); ?>
+                <?php echo $queryOption('nlres', $property, 'type', $translate('is not linked with resource with ID')); ?>
             </select>
             <?php echo $queryText($property, $index); ?>
             <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>

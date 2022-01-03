@@ -51,6 +51,8 @@ class SearchFilters extends AbstractHelper
             'nex' => $translate('has no values'),
             'lex' => $translate('is a linked resource'),
             'nlex' => $translate('is not a linked resource'),
+            'lres' => $translate('is linked with resource with ID'),
+            'nlres' => $translate('is not linked with resource with ID'),
         ];
 
         $withoutValueQueryTypes = [

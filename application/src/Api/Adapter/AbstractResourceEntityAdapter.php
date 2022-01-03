@@ -310,6 +310,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
 
             // Narrow to specific properties, if one or more are selected.
             $propertyIds = $queryRow['property'] ?? null;
+            // Properties may be an array with an empty value (any property) in
+            // advanced form, so remove empty strings from it, in which case the
+            // check should be skipped.
+            if (is_array($propertyIds) && in_array('', $propertyIds, true)) {
+                $propertyIds = [];
+            }
             if ($propertyIds) {
                 $propertyIds = array_values(array_unique($this->getPropertyIds($propertyIds)));
                 if ($propertyIds) {

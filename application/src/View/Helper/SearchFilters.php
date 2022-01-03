@@ -98,9 +98,16 @@ class SearchFilters extends AbstractHelper
                             }
                             $joiner = $queryRow['joiner'] ?? null;
                             $queriedProperties = $queryRow['property'] ?? null;
+                            // Properties may be an array with an empty value
+                            // (any property) in advanced form, so remove empty
+                            // strings from it, in which case the check should
+                            // be skipped.
+                            if (is_array($queriedProperties) && in_array('', $queriedProperties, true)) {
+                                $queriedProperties = [];
+                            }
                             if ($queriedProperties) {
                                 $propertyIds = $this->resourceAdapter->getPropertyIds($queriedProperties);
-                                $properties = $api->search('properties', ['id' => $propertyIds])->getContent();
+                                $properties = $propertyIds ? $api->search('properties', ['id' => $propertyIds])->getContent() : [];
                                 if ($properties) {
                                     $propertyLabel = [];
                                     foreach ($properties as $property) {

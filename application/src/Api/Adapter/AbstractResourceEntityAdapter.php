@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query\Expr\Join;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
@@ -212,8 +213,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $valuesJoin = 'omeka_root.values';
         $where = '';
 
+        // @see \Doctrine\ORM\QueryBuilder::expr().
+        $expr = $qb->expr();
+
         foreach ($query['property'] as $queryRow) {
-            if (!(is_array($queryRow)
+            if (!(
+                is_array($queryRow)
                 && array_key_exists('property', $queryRow)
                 && array_key_exists('type', $queryRow)
             )) {
@@ -234,6 +239,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             switch ($queryType) {
                 case 'neq':
                     $positive = false;
+                    // no break.
                 case 'eq':
                     $param = $this->createNamedParameter($qb, $value);
                     $subqueryAlias = $this->createAlias();
@@ -241,15 +247,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         ->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)
-                        ->where($qb->expr()->eq("$subqueryAlias.title", $param));
-                    $predicateExpr = $qb->expr()->orX(
-                        $qb->expr()->in("$valuesAlias.valueResource", $subquery->getDQL()),
-                        $qb->expr()->eq("$valuesAlias.value", $param),
-                        $qb->expr()->eq("$valuesAlias.uri", $param)
+                        ->where($expr->eq("$subqueryAlias.title", $param));
+                    $predicateExpr = $expr->orX(
+                        $expr->in("$valuesAlias.valueResource", $subquery->getDQL()),
+                        $expr->eq("$valuesAlias.value", $param),
+                        $expr->eq("$valuesAlias.uri", $param)
                     );
                     break;
                 case 'nin':
                     $positive = false;
+                    // no break.
                 case 'in':
                     $param = $this->createNamedParameter($qb, "%$value%");
                     $subqueryAlias = $this->createAlias();
@@ -257,25 +264,27 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         ->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)
-                        ->where($qb->expr()->like("$subqueryAlias.title", $param));
-                    $predicateExpr = $qb->expr()->orX(
-                        $qb->expr()->in("$valuesAlias.valueResource", $subquery->getDQL()),
-                        $qb->expr()->like("$valuesAlias.value", $param),
-                        $qb->expr()->like("$valuesAlias.uri", $param)
+                        ->where($expr->like("$subqueryAlias.title", $param));
+                    $predicateExpr = $expr->orX(
+                        $expr->in("$valuesAlias.valueResource", $subquery->getDQL()),
+                        $expr->like("$valuesAlias.value", $param),
+                        $expr->like("$valuesAlias.uri", $param)
                     );
                     break;
                 case 'nres':
                     $positive = false;
+                    // no break.
                 case 'res':
-                    $predicateExpr = $qb->expr()->eq(
+                    $predicateExpr = $expr->eq(
                         "$valuesAlias.valueResource",
                         $this->createNamedParameter($qb, $value)
                     );
                     break;
                 case 'nex':
                     $positive = false;
+                    // no break.
                 case 'ex':
-                    $predicateExpr = $qb->expr()->isNotNull("$valuesAlias.id");
+                    $predicateExpr = $expr->isNotNull("$valuesAlias.id");
                     break;
                 default:
                     continue 2;
@@ -294,18 +303,18 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         $propertyId = 0;
                     }
                 }
-                $joinConditions[] = $qb->expr()->eq("$valuesAlias.property", (int) $propertyId);
+                $joinConditions[] = $expr->eq("$valuesAlias.property", (int) $propertyId);
             }
 
             if ($positive) {
                 $whereClause = '(' . $predicateExpr . ')';
             } else {
                 $joinConditions[] = $predicateExpr;
-                $whereClause = $qb->expr()->isNull("$valuesAlias.id");
+                $whereClause = $expr->isNull("$valuesAlias.id");
             }
 
             if ($joinConditions) {
-                $qb->leftJoin($valuesJoin, $valuesAlias, 'WITH', $qb->expr()->andX(...$joinConditions));
+                $qb->leftJoin($valuesJoin, $valuesAlias, Join::WITH, $expr->andX(...$joinConditions));
             } else {
                 $qb->leftJoin($valuesJoin, $valuesAlias);
             }

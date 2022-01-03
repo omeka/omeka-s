@@ -69,14 +69,14 @@ class DbTestCase extends TestCase
     {
         $connection = self::getApplication()->getServiceManager()
             ->get('Omeka\EntityManager')->getConnection();
-        $connection->query('SET FOREIGN_KEY_CHECKS=0');
+        $connection->executeQuery('SET FOREIGN_KEY_CHECKS=0');
         foreach ($connection->getSchemaManager()->listTableNames() as $table) {
             $connection->executeUpdate(
                 $connection->getDatabasePlatform()
                     ->getDropTableSQL($table)
             );
         }
-        $connection->query('SET FOREIGN_KEY_CHECKS=1');
+        $connection->executeQuery('SET FOREIGN_KEY_CHECKS=1');
     }
 
     /**

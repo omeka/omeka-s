@@ -51,21 +51,21 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter
         <select class="batch-actions-select" aria-label="<?php echo $translate('Batch actions'); ?>">
             <option value="default"><?php echo $translate('Batch actions'); ?></option>
             <?php if ($userIsAllowedBatchUpdate): ?>
-            <option value="update-selected" disabled><?php echo $translate('Edit selected'); ?></option>
+            <option value="update-selected" disabled="disabled"><?php echo $translate('Edit selected'); ?></option>
             <option value="update-all"><?php echo $translate('Edit all'); ?></option>
             <?php endif; ?>
             <?php if ($userIsAllowedBatchDelete): ?>
-            <option value="delete-selected" disabled><?php echo $translate('Delete selected'); ?></option>
+            <option value="delete-selected" disabled="disabled"><?php echo $translate('Delete selected'); ?></option>
             <option value="delete-all"><?php echo $translate('Delete all'); ?></option>
             <?php endif; ?>
         </select>
         <div class="batch-actions">
-            <button type="button" class="default active" disabled><?php echo $translate('Go'); ?></button>
+            <button type="button" class="default active" disabled="disabled"><?php echo $translate('Go'); ?></button>
+            <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
             <?php if ($userIsAllowedBatchUpdate): ?>
             <input type="submit" class="update-selected" name="update_selected" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
             <input type="submit" class="update-all" name="update_all" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
             <?php endif; ?>
-            <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
             <?php if ($userIsAllowedBatchDelete): ?>
             <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $translate('Go'); ?></a>
             <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $translate('Go'); ?></a>
@@ -77,7 +77,9 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter
     <thead>
         <tr>
             <th>
+                <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
                 <input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>">
+                <?php endif; ?>
                 <?php echo $translate('Title'); ?>
             </th>
             <th><?php echo $translate('Class'); ?></th>
@@ -105,7 +107,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter
         ?>
         <tr>
             <td>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>" aria-label="<?php echo $translate('Select media'); ?>">
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"  aria-label="<?php echo $translate('Select media'); ?>">
                 <?php echo $media->linkPretty(); ?>
                 <?php if (!$media->isPublic()): ?>
                     <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>

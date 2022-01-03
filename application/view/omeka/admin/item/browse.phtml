@@ -53,21 +53,21 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter'
         <select class="batch-actions-select" aria-label="<?php echo $translate('Batch actions'); ?>">
             <option value="default"><?php echo $translate('Batch actions'); ?></option>
             <?php if ($userIsAllowedBatchUpdate): ?>
-            <option value="update-selected" disabled><?php echo $translate('Edit selected'); ?></option>
+            <option value="update-selected" disabled="true"><?php echo $translate('Edit selected'); ?></option>
             <option value="update-all"><?php echo $translate('Edit all'); ?></option>
             <?php endif; ?>
             <?php if ($userIsAllowedBatchDelete): ?>
-            <option value="delete-selected" disabled><?php echo $translate('Delete selected'); ?></option>
+            <option value="delete-selected" disabled="true"><?php echo $translate('Delete selected'); ?></option>
             <option value="delete-all"><?php echo $translate('Delete all'); ?></option>
             <?php endif; ?>
         </select>
         <div class="batch-actions">
-            <button type="button" class="default active" disabled><?php echo $translate('Go'); ?></button>
+            <button type="button" class="default active" disabled="true"><?php echo $translate('Go'); ?></button>
+            <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
             <?php if ($userIsAllowedBatchUpdate): ?>
             <input type="submit" class="update-selected" name="update_selected" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
             <input type="submit" class="update-all" name="update_all" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
             <?php endif; ?>
-            <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
             <?php if ($userIsAllowedBatchDelete): ?>
             <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $translate('Go'); ?></a>
             <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $translate('Go'); ?></a>
@@ -78,10 +78,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter'
 <table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th>
-                <input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>">
-                <?php echo $translate('Title'); ?>
-            </th>
+            <th><input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>"><?php echo $translate('Title'); ?></th>
             <th><?php echo $translate('Class'); ?></th>
             <th><?php echo $translate('Owner'); ?></th>
             <th><?php echo $translate('Created'); ?></th>
@@ -89,8 +86,6 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter'
     </thead>
     <tbody>
         <?php foreach ($items as $item): ?>
-        <?php $userIsAllowedUpdate = $item->userIsAllowed('update'); ?>
-        <?php $userIsAllowedDelete = $item->userIsAllowed('delete'); ?>
         <?php
         if ($owner = $item->owner()) {
             $ownerText = $this->hyperlink(
@@ -113,13 +108,13 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\ItemAdapter'
                     <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>
                 <?php endif; ?>
                 <ul class="actions">
-                    <?php if ($userIsAllowedUpdate): ?>
+                    <?php if ($item->userIsAllowed('update')): ?>
                     <li><?php echo $item->link('', 'edit', [
                         'class' => 'o-icon-edit',
                         'title' => $translate('Edit'),
                     ]); ?></li>
                     <?php endif; ?>
-                    <?php if ($userIsAllowedDelete): ?>
+                    <?php if ($item->userIsAllowed('delete')): ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-selector' => '#sidebar',
                         'data-sidebar-content-url' => $item->url('delete-confirm'),

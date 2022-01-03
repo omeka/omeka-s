@@ -52,152 +52,153 @@ class SearchFilters extends AbstractHelper
         ];
 
         foreach ($query as $key => $value) {
-            if ($value != null) {
-                switch ($key) {
-                    // Fulltext
-                    case 'fulltext_search':
-                        $filterLabel = $translate('Search full-text');
-                        $filters[$filterLabel][] = $value;
-                        break;
+            if ($value === null || $value === '' || $value === []) {
+                continue;
+            }
+            switch ($key) {
+                // Fulltext
+                case 'fulltext_search':
+                    $filterLabel = $translate('Search full-text');
+                    $filters[$filterLabel][] = $value;
+                    break;
 
-                    // Search by class
-                    case 'resource_class_id':
-                        if (!is_array($value)) {
-                            $value = [$value];
+                // Search by class
+                case 'resource_class_id':
+                    if (!is_array($value)) {
+                        $value = [$value];
+                    }
+                    foreach ($value as $subValue) {
+                        if (!is_numeric($subValue)) {
+                            continue;
                         }
-                        foreach ($value as $subValue) {
-                            if (!is_numeric($subValue)) {
-                                continue;
-                            }
-                            $filterLabel = $translate('Class');
-                            try {
-                                $filterValue = $translate($api->read('resource_classes', $subValue)->getContent()->label());
-                            } catch (NotFoundException $e) {
-                                $filterValue = $translate('Unknown class');
-                            }
-                            $filters[$filterLabel][] = $filterValue;
+                        $filterLabel = $translate('Class');
+                        try {
+                            $filterValue = $translate($api->read('resource_classes', $subValue)->getContent()->label());
+                        } catch (NotFoundException $e) {
+                            $filterValue = $translate('Unknown class');
                         }
-                        break;
+                        $filters[$filterLabel][] = $filterValue;
+                    }
+                    break;
 
-                    // Search values (by property or all)
-                    case 'property':
-                        $index = 0;
-                        foreach ($value as $queryRow) {
-                            if (!(is_array($queryRow)
-                                && array_key_exists('type', $queryRow)
-                            )) {
-                                continue;
-                            }
-                            $queryType = $queryRow['type'];
-                            if (!isset($queryTypes[$queryType])) {
-                                continue;
-                            }
-                            $value = $queryRow['text'] ?? null;
-                            if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
-                                continue;
-                            }
-                            $joiner = $queryRow['joiner'] ?? null;
-                            $queriedProperties = $queryRow['property'] ?? null;
-                            // Properties may be an array with an empty value
-                            // (any property) in advanced form, so remove empty
-                            // strings from it, in which case the check should
-                            // be skipped.
-                            if (is_array($queriedProperties) && in_array('', $queriedProperties, true)) {
-                                $queriedProperties = [];
-                            }
-                            if ($queriedProperties) {
-                                $propertyIds = $this->resourceAdapter->getPropertyIds($queriedProperties);
-                                $properties = $propertyIds ? $api->search('properties', ['id' => $propertyIds])->getContent() : [];
-                                if ($properties) {
-                                    $propertyLabel = [];
-                                    foreach ($properties as $property) {
-                                        $propertyLabel[] = $translate($property->label());
-                                    }
-                                    $propertyLabel = implode(' ' . $translate('OR') . ' ', $propertyLabel);
-                                } else {
-                                    $propertyLabel = $translate('Unknown property');
+                // Search values (by property or all)
+                case 'property':
+                    $index = 0;
+                    foreach ($value as $queryRow) {
+                        if (!(is_array($queryRow)
+                            && array_key_exists('type', $queryRow)
+                        )) {
+                            continue;
+                        }
+                        $queryType = $queryRow['type'];
+                        if (!isset($queryTypes[$queryType])) {
+                            continue;
+                        }
+                        $value = $queryRow['text'] ?? null;
+                        if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
+                            continue;
+                        }
+                        $joiner = $queryRow['joiner'] ?? null;
+                        $queriedProperties = $queryRow['property'] ?? null;
+                        // Properties may be an array with an empty value
+                        // (any property) in advanced form, so remove empty
+                        // strings from it, in which case the check should
+                        // be skipped.
+                        if (is_array($queriedProperties) && in_array('', $queriedProperties, true)) {
+                            $queriedProperties = [];
+                        }
+                        if ($queriedProperties) {
+                            $propertyIds = $this->resourceAdapter->getPropertyIds($queriedProperties);
+                            $properties = $propertyIds ? $api->search('properties', ['id' => $propertyIds])->getContent() : [];
+                            if ($properties) {
+                                $propertyLabel = [];
+                                foreach ($properties as $property) {
+                                    $propertyLabel[] = $translate($property->label());
                                 }
+                                $propertyLabel = implode(' ' . $translate('OR') . ' ', $propertyLabel);
                             } else {
-                                $propertyLabel = $translate('[Any property]');
+                                $propertyLabel = $translate('Unknown property');
                             }
-                            $filterLabel = $propertyLabel . ' ' . $queryTypes[$queryType];
-                            if ($index > 0) {
-                                if ($joiner === 'or') {
-                                    $filterLabel = $translate('OR') . ' ' . $filterLabel;
-                                } else {
-                                    $filterLabel = $translate('AND') . ' ' . $filterLabel;
-                                }
-                            }
-
-                            $filters[$filterLabel][] = $value;
-                            $index++;
+                        } else {
+                            $propertyLabel = $translate('[Any property]');
                         }
-                        break;
+                        $filterLabel = $propertyLabel . ' ' . $queryTypes[$queryType];
+                        if ($index > 0) {
+                            if ($joiner === 'or') {
+                                $filterLabel = $translate('OR') . ' ' . $filterLabel;
+                            } else {
+                                $filterLabel = $translate('AND') . ' ' . $filterLabel;
+                            }
+                        }
 
-                    case 'search':
-                        $filterLabel = $translate('Search');
                         $filters[$filterLabel][] = $value;
-                        break;
+                        $index++;
+                    }
+                    break;
 
-                    // Search resource template
-                    case 'resource_template_id':
-                        if (!is_array($value)) {
-                            $value = [$value];
-                        }
-                        foreach ($value as $subValue) {
-                            if (!is_numeric($subValue)) {
-                                continue;
-                            }
-                            $filterLabel = $translate('Template');
-                            try {
-                                $filterValue = $api->read('resource_templates', $subValue)->getContent()->label();
-                            } catch (NotFoundException $e) {
-                                $filterValue = $translate('Unknown template');
-                            }
-                            $filters[$filterLabel][] = $filterValue;
-                        }
-                        break;
+                case 'search':
+                    $filterLabel = $translate('Search');
+                    $filters[$filterLabel][] = $value;
+                    break;
 
-                    // Search item set
-                    case 'item_set_id':
-                        if (!is_array($value)) {
-                            $value = [$value];
+                // Search resource template
+                case 'resource_template_id':
+                    if (!is_array($value)) {
+                        $value = [$value];
+                    }
+                    foreach ($value as $subValue) {
+                        if (!is_numeric($subValue)) {
+                            continue;
                         }
-                        foreach ($value as $subValue) {
-                            if (!is_numeric($subValue)) {
-                                continue;
-                            }
-                            $filterLabel = $translate('Item set');
-                            try {
-                                $filterValue = $api->read('item_sets', $subValue)->getContent()->displayTitle();
-                            } catch (NotFoundException $e) {
-                                $filterValue = $translate('Unknown item set');
-                            }
-                            $filters[$filterLabel][] = $filterValue;
-                        }
-                        break;
-
-                    // Search user
-                    case 'owner_id':
-                        $filterLabel = $translate('User');
+                        $filterLabel = $translate('Template');
                         try {
-                            $filterValue = $api->read('users', $value)->getContent()->name();
+                            $filterValue = $api->read('resource_templates', $subValue)->getContent()->label();
                         } catch (NotFoundException $e) {
-                            $filterValue = $translate('Unknown user');
+                            $filterValue = $translate('Unknown template');
                         }
                         $filters[$filterLabel][] = $filterValue;
-                        break;
+                    }
+                    break;
 
-                    case 'site_id':
-                        $filterLabel = $translate('Site');
+                // Search item set
+                case 'item_set_id':
+                    if (!is_array($value)) {
+                        $value = [$value];
+                    }
+                    foreach ($value as $subValue) {
+                        if (!is_numeric($subValue)) {
+                            continue;
+                        }
+                        $filterLabel = $translate('Item set');
                         try {
-                            $filterValue = $api->read('sites', $value)->getContent()->title();
+                            $filterValue = $api->read('item_sets', $subValue)->getContent()->displayTitle();
                         } catch (NotFoundException $e) {
-                            $filterValue = $translate('Unknown site');
+                            $filterValue = $translate('Unknown item set');
                         }
                         $filters[$filterLabel][] = $filterValue;
-                        break;
-                }
+                    }
+                    break;
+
+                // Search user
+                case 'owner_id':
+                    $filterLabel = $translate('User');
+                    try {
+                        $filterValue = $api->read('users', $value)->getContent()->name();
+                    } catch (NotFoundException $e) {
+                        $filterValue = $translate('Unknown user');
+                    }
+                    $filters[$filterLabel][] = $filterValue;
+                    break;
+
+                case 'site_id':
+                    $filterLabel = $translate('Site');
+                    try {
+                        $filterValue = $api->read('sites', $value)->getContent()->title();
+                    } catch (NotFoundException $e) {
+                        $filterValue = $translate('Unknown site');
+                    }
+                    $filters[$filterLabel][] = $filterValue;
+                    break;
             }
         }
 

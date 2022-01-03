@@ -279,7 +279,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         continue 2;
                     }
                     $param = $this->createNamedParameter($qb, $list);
+                    $subqueryAlias = $this->createAlias();
+                    $subquery = $this->getEntityManager()
+                        ->createQueryBuilder()
+                        ->select("$subqueryAlias.id")
+                        ->from('Omeka\Entity\Resource', $subqueryAlias)
+                        ->where($qb->expr()->eq("$subqueryAlias.title", $param));
                     $predicateExpr = $qb->expr()->orX(
+                        $qb->expr()->in("$valuesAlias.valueResource", $subquery->getDQL()),
                         $qb->expr()->in("$valuesAlias.value", $param),
                         $qb->expr()->in("$valuesAlias.uri", $param)
                     );

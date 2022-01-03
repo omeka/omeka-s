@@ -199,12 +199,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *     - neq: is not exactly
      *     - in: contains
      *     - nin: does not contain
-     *     - res: has resource
-     *     - nres: has no resource
+     *     - res: has resource #id
+     *     - nres: has no resource #id
      *     - ex: has any value
      *     - nex: has no value
      *     - lex: is a linked resource
      *     - nlex: is not a linked resource
+     *     - lres: is linked with resource #id
+     *     - nlres: is not linked with resource #id
      *
      * @param QueryBuilder $qb
      * @param array $query
@@ -233,6 +235,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             'nex' => null,
             'lex' => null,
             'nlex' => null,
+            'lres' => null,
+            'nlres' => null,
         ];
 
         $withoutValueQueryTypes = [
@@ -245,6 +249,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $subjectQueryTypes = [
             'lex',
             'nlex',
+            'lres',
+            'nlres',
         ];
 
         foreach ($query['property'] as $queryRow) {
@@ -326,10 +332,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     $predicateExpr = $expr->isNotNull("$valuesAlias.id");
                     break;
 
+                // The linked resources (subject values) use the same sub-query.
                 case 'nlex':
+                    // For consistency, "nlex" is the reverse of "lex" even when
+                    // a resource is linked with a public and a private resource.
+                    // A private linked resource is not linked for an anonymous.
+                case 'nlres':
                     $positive = false;
                     // no break.
                 case 'lex':
+                case 'lres':
                     $subValuesAlias = $this->createAlias();
                     $subResourceAlias = $this->createAlias();
                     // Use a subquery so rights are automatically managed.
@@ -340,6 +352,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         ->where($expr->isNotNull("$subValuesAlias.valueResource"));
                     // Warning: the property check should be done on subjects,
                     // so the predicate expression is finalized below.
+                    if (in_array($queryType, ['lres', 'nlres'])) {
+                        // In fact, "lres" is the list of linked resources.
+                        $param = $this->createNamedParameter($qb, $value);
+                        $subQb->andWhere($expr->eq("$subValuesAlias.resource", $param));
+                    }
                     break;
 
                 default:

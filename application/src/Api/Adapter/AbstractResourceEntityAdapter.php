@@ -203,6 +203,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *     - nres: has no resource
      *     - ex: has any value
      *     - nex: has no value
+     *     - lex: is a linked resource
+     *     - nlex: is not a linked resource
      *
      * @param QueryBuilder $qb
      * @param array $query
@@ -212,11 +214,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         if (!isset($query['property']) || !is_array($query['property'])) {
             return;
         }
+
         $valuesJoin = 'omeka_root.values';
         $where = '';
 
         // @see \Doctrine\ORM\QueryBuilder::expr().
         $expr = $qb->expr();
+        $entityManager = $this->getEntityManager();
 
         $queryTypes = [
             'eq' => null,
@@ -227,6 +231,20 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             'nres' => null,
             'ex' => null,
             'nex' => null,
+            'lex' => null,
+            'nlex' => null,
+        ];
+
+        $withoutValueQueryTypes = [
+            'ex',
+            'nex',
+            'lex',
+            'nlex',
+        ];
+
+        $subjectQueryTypes = [
+            'lex',
+            'nlex',
         ];
 
         foreach ($query['property'] as $queryRow) {
@@ -243,7 +261,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
 
             $value = $queryRow['text'] ?? null;
-            if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
+            // Quick check of value.
+            // An empty string "" is not a value, but "0" is a value.
+            if (in_array($queryType, $withoutValueQueryTypes, true)) {
+                $value = null;
+            } elseif ((is_array($value) && !count($value)) || !strlen((string) $value)) {
                 continue;
             }
 
@@ -259,8 +281,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 case 'eq':
                     $param = $this->createNamedParameter($qb, $value);
                     $subqueryAlias = $this->createAlias();
-                    $subquery = $this->getEntityManager()
-                        ->createQueryBuilder()
+                    $subquery = $entityManager->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)
                         ->where($expr->eq("$subqueryAlias.title", $param));
@@ -270,14 +291,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         $expr->eq("$valuesAlias.uri", $param)
                     );
                     break;
+
                 case 'nin':
                     $positive = false;
                     // no break.
                 case 'in':
                     $param = $this->createNamedParameter($qb, "%$value%");
                     $subqueryAlias = $this->createAlias();
-                    $subquery = $this->getEntityManager()
-                        ->createQueryBuilder()
+                    $subquery = $entityManager->createQueryBuilder()
                         ->select("$subqueryAlias.id")
                         ->from('Omeka\Entity\Resource', $subqueryAlias)
                         ->where($expr->like("$subqueryAlias.title", $param));
@@ -287,6 +308,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         $expr->like("$valuesAlias.uri", $param)
                     );
                     break;
+
                 case 'nres':
                     $positive = false;
                     // no break.
@@ -296,12 +318,30 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         $this->createNamedParameter($qb, $value)
                     );
                     break;
+
                 case 'nex':
                     $positive = false;
                     // no break.
                 case 'ex':
                     $predicateExpr = $expr->isNotNull("$valuesAlias.id");
                     break;
+
+                case 'nlex':
+                    $positive = false;
+                    // no break.
+                case 'lex':
+                    $subValuesAlias = $this->createAlias();
+                    $subResourceAlias = $this->createAlias();
+                    // Use a subquery so rights are automatically managed.
+                    $subQb = $entityManager->createQueryBuilder()
+                        ->select("IDENTITY($subValuesAlias.valueResource)")
+                        ->from(\Omeka\Entity\Value::class, $subValuesAlias)
+                        ->innerJoin("$subValuesAlias.resource", $subResourceAlias)
+                        ->where($expr->isNotNull("$subValuesAlias.valueResource"));
+                    // Warning: the property check should be done on subjects,
+                    // so the predicate expression is finalized below.
+                    break;
+
                 default:
                     continue 2;
             }
@@ -319,13 +359,28 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             if ($propertyIds) {
                 $propertyIds = array_values(array_unique($this->getPropertyIds($propertyIds)));
                 if ($propertyIds) {
-                    $joinConditions[] = count($propertyIds) < 2
-                        ? $expr->eq("$valuesAlias.property", reset($propertyIds))
-                        : $expr->in("$valuesAlias.property", $propertyIds);
+                    // For queries on subject values, the properties should be
+                    // checked against the sub-query.
+                    if (in_array($queryType, $subjectQueryTypes)) {
+                        $subQb
+                            ->andWhere(count($propertyIds) < 2
+                                ? $expr->eq("$subValuesAlias.property", reset($propertyIds))
+                                : $expr->in("$subValuesAlias.property", $propertyIds)
+                            );
+                    } else {
+                        $joinConditions[] = count($propertyIds) < 2
+                            ? $expr->eq("$valuesAlias.property", reset($propertyIds))
+                            : $expr->in("$valuesAlias.property", $propertyIds);
+                    }
                 } else {
                     // Don't return results for this part for fake properties.
                     $joinConditions[] = $expr->eq("$valuesAlias.property", 0);
                 }
+            }
+
+            // Finalize predicate expression on subject values.
+            if (in_array($queryType, $subjectQueryTypes)) {
+                $predicateExpr = $expr->in("$valuesAlias.resource", $subQb->getDQL());
             }
 
             if ($positive) {

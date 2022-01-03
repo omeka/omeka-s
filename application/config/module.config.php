@@ -228,7 +228,7 @@ return [
         ],
         'thumbnailer_options' => [
             'imagemagick_dir' => null,
-            'vips_dir' => false,
+            'vips_dir' => null,
             'page' => 0,
         ],
     ],

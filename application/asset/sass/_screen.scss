@@ -176,6 +176,7 @@ body {
     }
 
     input[type="text"],
+    input[type="search"],
     input[type="password"],
     input[type="email"],
     input[type="url"],
@@ -364,6 +365,7 @@ body {
         min-width: 100%;
     }
 
+    .selector input[type="search"],
     .selector input[type="text"],
     .selector > ul {
         width: 100%;
@@ -416,6 +418,7 @@ body {
             padding: (.5 * $spacing-small);
         }
 
+        .chosen-container-multi .chosen-choices li.search-field input[type="search"],
         .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
             font-family: "Lato", sans-serif;
             margin: 0;
@@ -456,6 +459,7 @@ body {
             content: "";
         }
 
+        .chosen-container-multi .chosen-choices li.search-field input[type="search"],
         .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
             min-height: 0;
             margin: 3px;
@@ -487,6 +491,7 @@ body {
             content: fa-content($fa-var-caret-up);
         }
 
+        .chosen-container-single .chosen-search input[type="search"],
         .chosen-container-single .chosen-search input[type="text"] {
             background: none !important;
         }
@@ -776,6 +781,7 @@ header {
     margin: $spacing-large 0;
 }
 
+#search input[type="search"],
 #search input[type="text"] {
     width: calc(100% - #{3 * $spacing-large});
     float: left;
@@ -2329,6 +2335,7 @@ input[type="text"].value-language,
         select,
         textarea,
         input[type="text"],
+        input[type="search"],
         input[type="password"],
         input[type="email"],
         input[type="url"],
@@ -2793,6 +2800,7 @@ input[type="text"].value-language,
         }
     }
 
+    .resource-search > input[type="search"],
     .resource-search > input[type="text"] {
         width: calc(100% - #{(1.5 * $spacing-large)});
         border-right: 0;
@@ -3113,6 +3121,7 @@ input[type="text"].value-language,
     min-height: 1.75 * $spacing-large;
 }
 
+input[type=search].query-form-query,
 input[type=text].query-form-query {
     margin-top: 0;
 }
@@ -4523,6 +4532,7 @@ body.minimal {
     display: flex;
     margin-bottom: $spacing-large;
 
+    input[type="search"],
     input[type="text"] {
       min-width: 60%;
       margin-right: $spacing-small;      

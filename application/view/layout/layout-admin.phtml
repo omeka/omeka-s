@@ -57,7 +57,7 @@ $this->trigger('view.layout');
                 <div id="search">
                     <form action="" id="search-form">
                         <?php $searchValue = isset($_GET['fulltext_search']) ? $_GET['fulltext_search'] : ''; ?>
-                        <input type="text" name="fulltext_search" value="<?php echo $escape($searchValue); ?>">
+                        <input type="search" name="fulltext_search" value="<?php echo $escape($searchValue); ?>">
                         <button type="button" id="advanced"><?php echo $translate('Advanced options'); ?></button>
                         <button type="submit"><?php echo $translate('Search'); ?></button>
                         <fieldset id="advanced-options">

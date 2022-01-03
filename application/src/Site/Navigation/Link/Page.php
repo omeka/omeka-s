@@ -19,7 +19,7 @@ class Page implements LinkInterface
     public function isValid(array $data, ErrorStore $errorStore)
     {
         if (!isset($data['id']) || !is_numeric($data['id'])) {
-            $errorStore->addError('o:navigation', 'Invalid navigation: page link missing page ID');
+            $errorStore->addError('o:navigation', 'Invalid navigation: page link missing page ID'); // @translate
             return false;
         }
         return true;

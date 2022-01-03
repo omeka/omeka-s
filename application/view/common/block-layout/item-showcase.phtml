@@ -1,3 +1,10 @@
+<?php
+$siteLang = $this->lang();
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $filterLocale ? $siteLang : null;
+
+?>
+
 <div class="item-showcase">
 <?php foreach ($attachments as $attachment): ?>
     <div class="item resource">
@@ -13,9 +20,9 @@
         ?>
         <?php $showTitleOption = $this->showTitleOption; ?>
         <?php if ($showTitleOption == 'item_title'): ?>
-        <h3><?php echo $item->link($item->displayTitle()); ?></h3>
+        <h3><?php echo $item->link($item->displayTitle(null, $lang)); ?></h3>
         <?php elseif ($showTitleOption == 'file_name'): ?>
-        <h3><?php echo $media->displayTitle(); ?></h3>
+        <h3><?php echo $media->displayTitle(null, $lang); ?></h3>
         <?php endif; ?>
     <?php endif; ?>
 

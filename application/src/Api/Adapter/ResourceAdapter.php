@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Api\ResourceInterface;
 use Omeka\Entity\EntityInterface;
@@ -50,12 +51,35 @@ class ResourceAdapter extends AbstractResourceEntityAdapter
 
     public function create(Request $request)
     {
-        AbstractAdapter::create($request);
-    }
-
-    public function batchCreate(Request $request)
-    {
-        AbstractAdapter::batchCreate($request);
+        $content = $request->getContent();
+        if (empty($content['@type'])) {
+            throw new Exception\BadRequestException(
+                $this->getTranslator()->translate('The resource type must be set as "@type" when creating a generic resource.') // @translate
+            );
+        }
+        $adapterManager = $this->getServiceLocator()->get('Omeka\ApiAdapterManager');
+        $contentTypesToResourceNames = [
+            'o:ItemSet' => 'item_sets',
+            'o:Item' => 'items',
+            'o:Media' => 'media',
+        ];
+        if (is_array($content['@type'])) {
+            $resourceName = array_intersect_key($contentTypesToResourceNames, array_flip($content['@type']));
+            if (!$resourceName) {
+                throw new Exception\BadRequestException(
+                    $this->getTranslator()->translate('The generic creation of a resource is not managed for content type.') // @translate
+                );
+            }
+            $resourceName = reset($resourceName);
+        } elseif (!isset($contentTypesToResourceNames[$content['@type']])) {
+            throw new Exception\BadRequestException(sprintf(
+                $this->getTranslator()->translate('The generic creation of a resource is not managed for content type "%s".'), // @translate
+                $content['@type']
+            ));
+        } else {
+            $resourceName = $contentTypesToResourceNames[$content['@type']];
+        }
+        return $adapterManager->get($resourceName)->create($request);
     }
 
     public function update(Request $request)

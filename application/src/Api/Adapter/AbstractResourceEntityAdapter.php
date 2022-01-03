@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr\Join;
@@ -193,7 +194,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *
      *   - property[{index}][joiner]: "and" OR "or" joiner with previous query
      *   - property[{index}][property]: property ID or term or array of property IDs or terms
-     *   - property[{index}][text]: search text
+     *   - property[{index}][text]: search text or array of texts or values
      *   - property[{index}][type]: search type
      *     - eq: is exactly
      *     - neq: is not exactly
@@ -239,6 +240,20 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             'nlres' => null,
         ];
 
+        $arrayValueQueryTypes = [
+            'res',
+            'nres',
+            'lres',
+            'nlres',
+        ];
+
+        $intValueQueryTypes = [
+            'res',
+            'nres',
+            'lres',
+            'nlres',
+        ];
+
         $withoutValueQueryTypes = [
             'ex',
             'nex',
@@ -271,7 +286,21 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             // An empty string "" is not a value, but "0" is a value.
             if (in_array($queryType, $withoutValueQueryTypes, true)) {
                 $value = null;
-            } elseif ((is_array($value) && !count($value)) || !strlen((string) $value)) {
+            }
+            // Check array of values.
+            elseif (in_array($queryType, $arrayValueQueryTypes, true)) {
+                if ((is_array($value) && !count($value)) || !strlen((string) $value)) {
+                    continue;
+                }
+                if (!is_array($value)) {
+                    $value = [$value];
+                }
+                $value = in_array($queryType, $intValueQueryTypes)
+                    ? array_unique(array_map('intval', $value))
+                    : array_unique(array_filter(array_map('trim', array_map('strval', $value)), 'strlen'));
+            }
+            // The value should be a scalar in all other cases.
+            elseif (is_array($value) || !strlen((string) $value)) {
                 continue;
             }
 
@@ -319,10 +348,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     $positive = false;
                     // no break.
                 case 'res':
-                    $predicateExpr = $expr->eq(
-                        "$valuesAlias.valueResource",
-                        $this->createNamedParameter($qb, $value)
-                    );
+                    if (count($value) <= 1) {
+                        $param = $this->createNamedParameter($qb, (int) reset($value));
+                        $predicateExpr = $expr->eq("$valuesAlias.valueResource", $param);
+                    } else {
+                        $param = $this->createNamedParameter($qb, $value);
+                        $qb->setParameter(substr($param, 1), $value, Connection::PARAM_INT_ARRAY);
+                        $predicateExpr = $expr->in("$valuesAlias.valueResource", $param);
+                    }
                     break;
 
                 case 'nex':
@@ -352,10 +385,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         ->where($expr->isNotNull("$subValuesAlias.valueResource"));
                     // Warning: the property check should be done on subjects,
                     // so the predicate expression is finalized below.
-                    if (in_array($queryType, ['lres', 'nlres'])) {
+                    if (is_array($value)) {
                         // In fact, "lres" is the list of linked resources.
-                        $param = $this->createNamedParameter($qb, $value);
-                        $subQb->andWhere($expr->eq("$subValuesAlias.resource", $param));
+                        if (count($value) <= 1) {
+                            $param = $this->createNamedParameter($qb, (int) reset($value));
+                            $subQb->andWhere($expr->eq("$subValuesAlias.resource", $param));
+                        } else {
+                            $param = $this->createNamedParameter($qb, $value);
+                            $qb->setParameter(substr($param, 1), $value, Connection::PARAM_INT_ARRAY);
+                            $subQb->andWhere($expr->in("$subValuesAlias.resource", $param));
+                        }
                     }
                     break;
 

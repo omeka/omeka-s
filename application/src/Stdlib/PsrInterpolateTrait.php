@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Omeka\Stdlib;
 
@@ -18,13 +18,14 @@ trait PsrInterpolateTrait
      * @param array $context Associative array with placeholders and strings.
      * @return string
      */
-    public function interpolate($message, array $context = [])
+    public function interpolate($message, array $context = null): string
     {
+        $message = (string) $message;
+
         if (empty($context)) {
             return $message;
         }
 
-        $message = (string) $message;
         if (strpos($message, '{') === false) {
             return $message;
         }

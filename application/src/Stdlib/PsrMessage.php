@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Omeka\Stdlib;
 
@@ -6,9 +6,9 @@ use Laminas\I18n\Translator\TranslatorAwareInterface;
 use Laminas\I18n\Translator\TranslatorAwareTrait;
 
 /**
- * Manage a message with a list of placeholders formatted as psr-3.
+ * Manage a message with a context list of placeholders formatted as psr-3.
  *
- * It is similar to Message, except the constructor, that requires an array, and
+ * Copy of Omeka Message, except the constructor, that requires an array, and
  * the possibility to translate automatically when the translator is enabled.
  * Generally, the translator is not set, as it is usually managed internally.
  *
@@ -42,7 +42,7 @@ class PsrMessage implements MessageInterface, TranslatorAwareInterface, \JsonSer
     /**
      * @var array
      */
-    protected $context;
+    protected $context = [];
 
     /**
      * @var bool
@@ -51,9 +51,6 @@ class PsrMessage implements MessageInterface, TranslatorAwareInterface, \JsonSer
 
     /**
      * Set the message string and its context. The plural is not managed.
-     *
-     * @param string $message
-     * @param array $context
      */
     public function __construct($message, array $context = [])
     {
@@ -63,39 +60,57 @@ class PsrMessage implements MessageInterface, TranslatorAwareInterface, \JsonSer
 
     /**
      * Get the message string.
-     *
-     * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
-        return $this->message;
+        return (string) $this->message;
     }
 
     /**
      * Get the message context.
      */
-    public function getContext()
+    public function getContext(): array
     {
         return $this->context;
     }
 
     /**
      * Does this message have context?
-     *
-     * @return bool
      */
-    public function hasContext()
+    public function hasContext(): bool
     {
         return (bool) $this->context;
     }
 
-    public function setEscapeHtml($escapeHtml)
+    /**
+     * Get the message arguments for compatibility purpose only.
+     *
+     * @deprecated Use hasContext() instead.
+     * @return array Non-associative array in order to comply with sprintf.
+     */
+    public function getArgs()
+    {
+        return array_values($this->getContext());
+    }
+
+    /**
+     * Does this message have arguments? For compatibility purpose only.
+     *
+     * @deprecated Use hasContext() instead.
+     * @return bool
+     */
+    public function hasArgs()
+    {
+        return $this->hasContext();
+    }
+
+    public function setEscapeHtml($escapeHtml): self
     {
         $this->escapeHtml = (bool) $escapeHtml;
         return $this;
     }
 
-    public function escapeHtml()
+    public function escapeHtml(): bool
     {
         return $this->escapeHtml;
     }
@@ -111,12 +126,8 @@ class PsrMessage implements MessageInterface, TranslatorAwareInterface, \JsonSer
      * Translate the message with the context.
      *
      * Same as TranslatorInterface::translate(), but the message is the current one.
-     *
-     * @param string $textDomain
-     * @param string $locale
-     * @return string
      */
-    public function translate($textDomain = 'default', $locale = null)
+    public function translate($textDomain = 'default', $locale = null): string
     {
         return $this->hasTranslator()
             ? $this->interpolate($this->translator->translate($this->getMessage(), $textDomain, $locale), $this->getContext())

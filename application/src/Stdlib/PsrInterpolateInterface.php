@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Omeka\Stdlib;
 
@@ -16,5 +16,5 @@ interface PsrInterpolateInterface
      * @param array $context Associative array with placeholders and strings.
      * @return string
      */
-    public function interpolate($message, array $context = []);
+    public function interpolate($message, array $context = null): string;
 }

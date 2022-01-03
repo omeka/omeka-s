@@ -232,7 +232,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         foreach ($query['property'] as $queryRow) {
             if (!(
                 is_array($queryRow)
-                && array_key_exists('property', $queryRow)
                 && array_key_exists('type', $queryRow)
             )) {
                 continue;
@@ -310,7 +309,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             $joinConditions = [];
 
             // Narrow to specific properties, if one or more are selected.
-            $propertyIds = $queryRow['property'];
+            $propertyIds = $queryRow['property'] ?? null;
             if ($propertyIds) {
                 $propertyIds = array_values(array_unique($this->getPropertyIds($propertyIds)));
                 if ($propertyIds) {

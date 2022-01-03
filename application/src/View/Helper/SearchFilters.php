@@ -26,8 +26,9 @@ class SearchFilters extends AbstractHelper
         $translate = $this->getView()->plugin('translate');
 
         $filters = [];
-        $api = $this->getView()->api();
-        $query = $query ?? $this->getView()->params()->fromQuery();
+        $view = $this->getView();
+        $api = $view->api();
+        $query = $query ?? $view->params()->fromQuery();
         $queryTypes = [
             'eq' => $translate('is exactly'),
             'neq' => $translate('is not exactly'),
@@ -72,19 +73,20 @@ class SearchFilters extends AbstractHelper
                         $index = 0;
                         foreach ($value as $queryRow) {
                             if (!(is_array($queryRow)
-                                && array_key_exists('property', $queryRow)
                                 && array_key_exists('type', $queryRow)
                             )) {
                                 continue;
                             }
-                            $propertyId = $queryRow['property'];
                             $queryType = $queryRow['type'];
-                            $joiner = isset($queryRow['joiner']) ? $queryRow['joiner'] : null;
-                            $value = isset($queryRow['text']) ? $queryRow['text'] : null;
-
+                            if (!isset($queryTypes[$queryType])) {
+                                continue;
+                            }
+                            $value = $queryRow['text'] ?? null;
                             if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
                                 continue;
                             }
+                            $joiner = $queryRow['joiner'] ?? null;
+                            $propertyId = $queryRow['property'] ?? null;
                             if ($propertyId) {
                                 if (is_numeric($propertyId)) {
                                     try {
@@ -104,9 +106,6 @@ class SearchFilters extends AbstractHelper
                             } else {
                                 $propertyLabel = $translate('[Any property]');
                             }
-                            if (!isset($queryTypes[$queryType])) {
-                                continue;
-                            }
                             $filterLabel = $propertyLabel . ' ' . $queryTypes[$queryType];
                             if ($index > 0) {
                                 if ($joiner === 'or') {
@@ -120,6 +119,7 @@ class SearchFilters extends AbstractHelper
                             $index++;
                         }
                         break;
+
                     case 'search':
                         $filterLabel = $translate('Search');
                         $filters[$filterLabel][] = $value;
@@ -187,14 +187,14 @@ class SearchFilters extends AbstractHelper
             }
         }
 
-        $result = $this->getView()->trigger(
+        $result = $view->trigger(
             'view.search.filters',
             ['filters' => $filters, 'query' => $query],
             true
         );
         $filters = $result['filters'];
 
-        return $this->getView()->partial(
+        return $view->partial(
             $partialName,
             [
                 'filters' => $filters,

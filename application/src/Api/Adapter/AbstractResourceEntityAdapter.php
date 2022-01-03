@@ -279,7 +279,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     // No break.
                 case 'sw':
                     $param = $this->createNamedParameter($qb, "$value%");
+                    $subqueryAlias = $this->createAlias();
+                    $subquery = $this->getEntityManager()
+                        ->createQueryBuilder()
+                        ->select("$subqueryAlias.id")
+                        ->from('Omeka\Entity\Resource', $subqueryAlias)
+                        ->where($qb->expr()->like("$subqueryAlias.title", $param));
                     $predicateExpr = $qb->expr()->orX(
+                        $qb->expr()->in("$valuesAlias.valueResource", $subquery->getDQL()),
                         $qb->expr()->like("$valuesAlias.value", $param),
                         $qb->expr()->like("$valuesAlias.uri", $param)
                     );
@@ -290,7 +297,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     // No break.
                 case 'ew':
                     $param = $this->createNamedParameter($qb, "%$value");
+                    $subqueryAlias = $this->createAlias();
+                    $subquery = $this->getEntityManager()
+                        ->createQueryBuilder()
+                        ->select("$subqueryAlias.id")
+                        ->from('Omeka\Entity\Resource', $subqueryAlias)
+                        ->where($qb->expr()->like("$subqueryAlias.title", $param));
                     $predicateExpr = $qb->expr()->orX(
+                        $qb->expr()->in("$valuesAlias.valueResource", $subquery->getDQL()),
                         $qb->expr()->like("$valuesAlias.value", $param),
                         $qb->expr()->like("$valuesAlias.uri", $param)
                     );

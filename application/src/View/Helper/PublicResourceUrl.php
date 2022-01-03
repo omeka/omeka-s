@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Omeka\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
@@ -10,18 +11,25 @@ use Omeka\Api\Representation\AbstractResourceRepresentation;
 class PublicResourceUrl extends AbstractHelper
 {
     /**
-     * @var string
+     * @var string[]
+     */
+    protected $siteSlugs;
+
+    /**
+     * @var ?string
      */
     protected $defaultSiteSlug;
 
     /**
-     * Construct the helper.
-     *
-     * @param string|null $defaultSiteSlug
+     * @var int
      */
-    public function __construct($defaultSiteSlug)
+    protected $defaultSiteId;
+
+    public function __construct(array $siteSlugs, ?string $defaultSiteSlug)
     {
+        $this->siteSlugs = $siteSlugs;
         $this->defaultSiteSlug = $defaultSiteSlug;
+        $this->defaultSiteId = (int) array_search($defaultSiteSlug, $siteSlugs);
     }
 
     /**
@@ -33,11 +41,26 @@ class PublicResourceUrl extends AbstractHelper
      * @param bool $canonical Whether to return an absolute URL
      * @return string
      */
-    public function __invoke(AbstractResourceRepresentation $resource, $canonical = false)
+    public function __invoke(AbstractResourceRepresentation $resource, $canonical = false): ?string
     {
+        // Use default site by default.
+        $siteSlug = $this->defaultSiteSlug;
+
+        // The resource should belong to the site.
+        $res = $resource;
+        if ($resource->getResourceJsonLdType() === 'o:Media') {
+            $res = $resource->item();
+        }
+        if (method_exists($res, 'sites')) {
+            $resourceSites = $res->sites();
+            if (!isset($resourceSites[$this->defaultSiteId]) && count($resourceSites)) {
+                $siteSlug = (reset($resourceSites))->slug();
+            }
+        }
+
         // Manage the case where there is no site.
-        return $this->defaultSiteSlug
-            ? $resource->siteUrl($this->defaultSiteSlug, $canonical)
-            : '';
+        return $siteSlug
+            ? $resource->siteUrl($siteSlug, $canonical)
+            : null;
     }
 }

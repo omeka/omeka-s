@@ -37,6 +37,8 @@ class ErrorStore
                     foreach ($messages as $message) {
                         $this->addError($origKey, $message);
                     }
+                } else {
+                    $this->addError($origKey, $message);
                 }
             }
         } elseif ($errorStore->hasErrors()) {

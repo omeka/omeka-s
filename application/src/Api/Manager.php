@@ -242,12 +242,12 @@ class Manager
                 $response = $adapter->batchDelete($request);
                 break;
             default:
-                throw new Exception\BadRequestException('Invalid API request operation.');
+                throw new Exception\BadRequestException($t->translate('Invalid API request operation.'));
         }
 
         // Validate the response and response content.
         if (!$response instanceof Response) {
-            throw new Exception\BadResponseException('The API response must implement Omeka\Api\Response');
+            throw new Exception\BadResponseException($t->translate('The API response must implement Omeka\Api\Response'));
         }
 
         $response->setRequest($request);
@@ -257,9 +257,9 @@ class Manager
             return $response;
         }
 
-        $validateContent = function ($value) {
+        $validateContent = function ($value) use ($t) {
             if (!$value instanceof ResourceInterface) {
-                throw new Exception\BadResponseException('API response content must implement Omeka\Api\ResourceInterface.');
+                throw new Exception\BadResponseException($t->translate('API response content must implement Omeka\Api\ResourceInterface.'));
             }
         };
         $content = $response->getContent();

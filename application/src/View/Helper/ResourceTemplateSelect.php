@@ -27,7 +27,7 @@ class ResourceTemplateSelect extends AbstractHelper
     }
 
     /**
-     * Render a select menu containing all resource classes.
+     * Render a select menu containing all resource templates.
      *
      * @param array $spec
      * @return string

@@ -316,6 +316,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     $joinConditions[] = count($propertyIds) < 2
                         ? $expr->eq("$valuesAlias.property", reset($propertyIds))
                         : $expr->in("$valuesAlias.property", $propertyIds);
+                } else {
+                    // Don't return results for this part for fake properties.
+                    $joinConditions[] = $expr->eq("$valuesAlias.property", 0);
                 }
             }
 

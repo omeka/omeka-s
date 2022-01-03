@@ -53,12 +53,19 @@ class ListOfPages extends AbstractBlockLayout
         }
         $pageList->setValue(json_encode($pageTree));
 
-        $html = '<button type="button" class="site-page-add"';
-        $html .= 'data-sidebar-content-url="' . $escape($page->url('sidebar-pagelist'));
-        $html .= '">' . $view->translate('Add pages') . '</button>';
-        $html .= '<div class="block-pagelist-tree"';
-        $html .= '" data-jstree-data="' . $escape($pageList->getValue());
-        $html .= '"></div><div class="inputs">' . $view->formRow($pageList) . '</div>';
+        $html = <<<'HTML'
+<button type="button" class="site-page-add" data-sidebar-content-url="%s">%s</button>
+<div class="block-pagelist-tree" data-jstree-data="%s"></div>
+<div class="inputs">%s</div>
+
+HTML;
+        $html = sprintf(
+            $html,
+            $escape($page->url('sidebar-pagelist')),
+            $view->translate('Add pages'),
+            $escape($pageList->getValue()),
+            $view->formRow($pageList)
+        );
 
         return $html;
     }

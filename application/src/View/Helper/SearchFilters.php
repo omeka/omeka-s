@@ -17,7 +17,7 @@ class SearchFilters extends AbstractHelper
     /**
      * Render filters from search query.
      *
-     * @return array
+     * @return string
      */
     public function __invoke($partialName = null, array $query = null)
     {

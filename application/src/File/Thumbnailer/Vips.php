@@ -108,7 +108,7 @@ class Vips extends AbstractThumbnailer
             $mapImagickToVips = [
                 'northwest' => 'high',
                 'north' => 'high',
-                'northearth' => 'high',
+                'northeast' => 'high',
                 'west' => 'centre',
                 'center' => 'centre',
                 'east' => 'centre',

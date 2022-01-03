@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
+use Omeka\Api\Adapter\ResourceAdapter;
 use Omeka\Api\Exception\NotFoundException;
 use Laminas\View\Helper\AbstractHelper;
 
@@ -13,6 +14,16 @@ class SearchFilters extends AbstractHelper
      * The default partial view script.
      */
     const PARTIAL_NAME = 'common/search-filters';
+
+    /**
+     * @var ResourceAdapter
+     */
+    protected $resourceAdapter;
+
+    public function __construct(ResourceAdapter $resourceAdapter)
+    {
+        $this->resourceAdapter = $resourceAdapter;
+    }
 
     /**
      * Render filters from search query.
@@ -86,20 +97,16 @@ class SearchFilters extends AbstractHelper
                                 continue;
                             }
                             $joiner = $queryRow['joiner'] ?? null;
-                            $propertyId = $queryRow['property'] ?? null;
-                            if ($propertyId) {
-                                if (is_numeric($propertyId)) {
-                                    try {
-                                        $property = $api->read('properties', $propertyId)->getContent();
-                                    } catch (NotFoundException $e) {
-                                        $property = null;
+                            $queriedProperties = $queryRow['property'] ?? null;
+                            if ($queriedProperties) {
+                                $propertyIds = $this->resourceAdapter->getPropertyIds($queriedProperties);
+                                $properties = $api->search('properties', ['id' => $propertyIds])->getContent();
+                                if ($properties) {
+                                    $propertyLabel = [];
+                                    foreach ($properties as $property) {
+                                        $propertyLabel[] = $translate($property->label());
                                     }
-                                } else {
-                                    $property = $api->searchOne('properties', ['term' => $propertyId])->getContent();
-                                }
-
-                                if ($property) {
-                                    $propertyLabel = $translate($property->label());
+                                    $propertyLabel = implode(' ' . $translate('OR') . ' ', $propertyLabel);
                                 } else {
                                     $propertyLabel = $translate('Unknown property');
                                 }

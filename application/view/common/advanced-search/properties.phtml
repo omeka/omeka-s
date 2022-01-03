@@ -53,9 +53,11 @@ $queryText = function(array $search, $index) {
             <?php echo $this->propertySelect([
                 'name' => $stem . '[property]',
                 'attributes' => [
-                    'class' => 'query-property',
-                    'value' => isset($property['property']) ? $property['property'] : null,
+                    'class' => 'query-property chosen-select',
+                    'value' => isset($property['property']) ? (is_array($property['property']) ? $property['property'] : [$property['property']]) : null,
                     'aria-label' => $translate('Property'),
+                    'multiple' => true,
+                    'data-placeholder' => $translate('Select properties…'),
                 ],
                 'options' => [
                     'empty_option' => '[Any Property]', // @translate

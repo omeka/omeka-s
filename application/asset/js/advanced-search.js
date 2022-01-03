@@ -8,6 +8,7 @@ $(document).ready(function () {
         var newValue = $(template);
         newValue.children('input[type="text"]').val(null);
         newValue.children('select').prop('selectedIndex', 0);
+        newValue.children('select.chosen-select').chosen(chosenOptions);
         newValue.appendTo(fieldContainer.find('.inputs'));
         newValue.trigger('o:value-created');
     });

@@ -192,7 +192,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      * Query format:
      *
      *   - property[{index}][joiner]: "and" OR "or" joiner with previous query
-     *   - property[{index}][property]: property ID or array of property IDs
+     *   - property[{index}][property]: property ID or term or array of property IDs or terms
      *   - property[{index}][text]: search text
      *   - property[{index}][type]: search type
      *     - eq: is exactly

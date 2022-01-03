@@ -199,6 +199,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *     - neq: is not exactly
      *     - in: contains
      *     - nin: does not contain
+     *     - res: has resource
+     *     - nres: has no resource
      *     - ex: has any value
      *     - nex: has no value
      *
@@ -216,6 +218,17 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         // @see \Doctrine\ORM\QueryBuilder::expr().
         $expr = $qb->expr();
 
+        $queryTypes = [
+            'eq' => null,
+            'neq' => null,
+            'in' => null,
+            'nin' => null,
+            'res' => null,
+            'nres' => null,
+            'ex' => null,
+            'nex' => null,
+        ];
+
         foreach ($query['property'] as $queryRow) {
             if (!(
                 is_array($queryRow)
@@ -226,12 +239,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
             $propertyId = $queryRow['property'];
             $queryType = $queryRow['type'];
-            $joiner = isset($queryRow['joiner']) ? $queryRow['joiner'] : null;
-            $value = isset($queryRow['text']) ? $queryRow['text'] : null;
+            if (!array_key_exists($queryType, $queryTypes)) {
+                continue;
+            }
 
+            $value = $queryRow['text'] ?? null;
             if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
                 continue;
             }
+
+            $joiner = $queryRow['joiner'] ?? null;
 
             $valuesAlias = $this->createAlias();
             $positive = true;

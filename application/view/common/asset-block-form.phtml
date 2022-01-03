@@ -14,7 +14,8 @@ $attachmentRowTemplate = '
     <input type="hidden" class="asset asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][id]">
     <input type="hidden" class="alternative-link-title asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][alt_link_title]">
     <input type="hidden" class="asset-caption asset-option" name="o:block[__blockIndex__][o:data][__attachmentIndex__][caption]">
-    ';
+</div>
+';
     ?>
 <div class="asset-attachments-form" data-site-id="<?php echo $escape($siteId); ?>" data-page-api-url="<?php echo $escape($apiUrl); ?>">
 <a href="#" class="collapse" aria-label="<?php echo $this->translate('Collapse'); ?>" title="<?php echo $this->translate('Collapse'); ?>"><h4><?php echo $translate('Assets'); ?></h4></a>
@@ -23,7 +24,7 @@ $attachmentRowTemplate = '
     <?php foreach($attachments as $attachment): ?>
       <div class="attachment">
         <span class="sortable-handle"></span>
-        <?php 
+        <?php
                 $asset = $attachment['asset'];
                 $assetId = ($asset) ? $escape($asset->id()) : '';
                 $page = (array_key_exists('page', $attachment)) ? $attachment['page'] : null;
@@ -52,7 +53,7 @@ $attachmentRowTemplate = '
         <?php endforeach; ?>
         <?php endif; ?>
         <button type="button" class="add-asset-attachment" data-sidebar-content-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Add asset'); ?></button>
-    </div>
+</div>
 </div>
 <a class="collapse" href="#" aria-label="<?php echo $translate('Collapse'); ?>">
     <h4><?php echo $translate('Options'); ?></h4>

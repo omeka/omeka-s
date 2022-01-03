@@ -475,6 +475,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\Item',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
+                'Omeka\Entity\Resource',
                 'Omeka\Entity\ResourceTemplate',
                 'Omeka\Entity\Asset',
             ],
@@ -601,6 +602,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\Item',
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
+                'Omeka\Entity\Resource',
                 'Omeka\Entity\Asset',
             ],
             [

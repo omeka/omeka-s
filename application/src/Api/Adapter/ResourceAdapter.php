@@ -81,14 +81,4 @@ class ResourceAdapter extends AbstractResourceEntityAdapter
         }
         return $adapterManager->get($resourceName)->create($request);
     }
-
-    public function update(Request $request)
-    {
-        AbstractAdapter::batchCreate($request);
-    }
-
-    public function delete(Request $request)
-    {
-        AbstractAdapter::delete($request);
-    }
 }

@@ -10,7 +10,7 @@ $form->prepare();
 <?php $this->trigger('view.add.form.before', ['form' => $form]); ?>
 <div id="page-actions">
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $translate('Add'); ?></button>
+    <button type="submit"><?php echo $translate('Add'); ?></button>
 </div>
 <?php echo $this->formCollection($form, false); ?>
 <?php $this->trigger('view.add.form.after', ['form' => $form]); ?>

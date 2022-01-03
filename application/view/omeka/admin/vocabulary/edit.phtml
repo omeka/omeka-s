@@ -10,7 +10,7 @@ $form->prepare();
 <div id="page-actions">
     <a href="#" class="delete button"><?php echo $translate('Delete'); ?></a>
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $translate('Save'); ?></button>
+    <button type="submit"><?php echo $translate('Save'); ?></button>
 </div>
 <?php $this->trigger('view.edit.form.before', ['form' => $form]); ?>
 <?php echo $this->formRow($form->get('vocabularyform_csrf')); ?>

@@ -7,7 +7,7 @@ $this->htmlElement('body')->appendAttribute('class', 'modules configure');
 
 <form method="post">
 <div id="page-actions">
-    <button><?php echo $translate('Submit'); ?></button>
+    <button type="submit"><?php echo $translate('Submit'); ?></button>
 </div>
 <?php echo $configForm; ?>
 <?php echo $this->formElement($csrfForm->get($csrfForm->getName() . '_csrf')); ?>

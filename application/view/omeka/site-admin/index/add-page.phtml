@@ -20,7 +20,7 @@ $form->prepare();
     <input type="hidden" name="o:is_public" value="1">
     <?php endif; ?>
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $translate('Add'); ?></button>
+    <button type="submit"><?php echo $translate('Add'); ?></button>
 </div>
 <?php echo $this->formCollection($form, false); ?>
 <?php echo $this->form()->closeTag(); ?>

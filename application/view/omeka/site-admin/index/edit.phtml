@@ -26,7 +26,7 @@ $settingsForm->prepare();
     <?php echo $this->hyperlink($translate('Delete'), '#', ['class' => 'delete button']); ?>
     <?php endif; ?>
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $translate('Save'); ?></button>
+    <button type="submit"><?php echo $translate('Save'); ?></button>
 </div>
 <?php echo $this->sectionNav([
     'site-info' => $translate('Info'),

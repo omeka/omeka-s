@@ -45,7 +45,7 @@ foreach ($sitePermissions as $sitePermission) {
 
 <div id="page-actions">
     <?php echo $this->cancelButton(); ?>
-    <button><?php echo $translate('Save'); ?></button>
+    <button type="submit"><?php echo $translate('Save'); ?></button>
 </div>
 
 <table id="site-user-permissions"  data-row-template="<?php echo $escape($userRowTemplate); ?>" data-existing-rows="<?php echo $this->escapeHtml(json_encode($users)); ?>" class="selector-table tablesaw tablesaw-stack <?php echo (count($sitePermissions) > 0) ? '' : 'empty'; ?>" data-tablesaw-mode="stack">

@@ -192,7 +192,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      * Query format:
      *
      *   - property[{index}][joiner]: "and" OR "or" joiner with previous query
-     *   - property[{index}][property]: property ID
+     *   - property[{index}][property]: property ID or array of property IDs
      *   - property[{index}][text]: search text
      *   - property[{index}][type]: search type
      *     - eq: is exactly
@@ -237,7 +237,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             )) {
                 continue;
             }
-            $propertyId = $queryRow['property'];
+
             $queryType = $queryRow['type'];
             if (!array_key_exists($queryType, $queryTypes)) {
                 continue;
@@ -308,19 +308,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
 
             $joinConditions = [];
-            // Narrow to specific property, if one is selected
-            if ($propertyId) {
-                if (is_numeric($propertyId)) {
-                    $propertyId = (int) $propertyId;
-                } else {
-                    $property = $this->getPropertyByTerm($propertyId);
-                    if ($property) {
-                        $propertyId = $property->getId();
-                    } else {
-                        $propertyId = 0;
-                    }
+
+            // Narrow to specific properties, if one or more are selected.
+            $propertyIds = $queryRow['property'];
+            if ($propertyIds) {
+                $propertyIds = array_values(array_unique($this->getPropertyIds($propertyIds)));
+                if ($propertyIds) {
+                    $joinConditions[] = count($propertyIds) < 2
+                        ? $expr->eq("$valuesAlias.property", reset($propertyIds))
+                        : $expr->in("$valuesAlias.property", $propertyIds);
                 }
-                $joinConditions[] = $expr->eq("$valuesAlias.property", (int) $propertyId);
             }
 
             if ($positive) {
@@ -371,6 +368,50 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 'localName' => $localName,
                 'prefix' => $prefix,
             ])->getOneOrNullResult();
+    }
+
+    /**
+     * Get one or more property ids by JSON-LD terms or by numeric ids.
+     *
+     * @param array|int|string|null $termsOrIds One or multiple ids or terms.
+     * @return int[] The property ids matching terms or ids, or all properties
+     * by terms.
+     */
+    public function getPropertyIds($termsOrIds = null): array
+    {
+        static $propertiesByTerms;
+        static $propertiesByTermsAndIds;
+
+        if (is_null($propertiesByTermsAndIds)) {
+            $connection = $this->getServiceLocator()->get('Omeka\Connection');
+            $qb = $connection->createQueryBuilder();
+            $qb
+                ->select(
+                    'DISTINCT CONCAT(vocabulary.prefix, ":", property.local_name) AS term',
+                    'property.id AS id',
+                    // Required with only_full_group_by.
+                    'vocabulary.id'
+                )
+                ->from('property', 'property')
+                ->innerJoin('property', 'vocabulary', 'vocabulary', 'property.vocabulary_id = vocabulary.id')
+                ->orderBy('vocabulary.id', 'asc')
+                ->addOrderBy('property.id', 'asc')
+            ;
+            $propertiesByTerms = array_map('intval', $connection->executeQuery($qb)->fetchAllKeyValue());
+            $propertiesByTermsAndIds = array_replace($propertiesByTerms, array_combine($propertiesByTerms, $propertiesByTerms));
+        }
+
+        if (is_null($termsOrIds)) {
+            return $propertiesByTerms;
+        }
+
+        if (is_scalar($termsOrIds)) {
+            return isset($propertiesByTermsAndIds[$termsOrIds])
+                ? [$termsOrIds => $propertiesByTermsAndIds[$termsOrIds]]
+                : [];
+        }
+
+        return array_intersect_key($propertiesByTermsAndIds, array_flip($termsOrIds));
     }
 
     /**

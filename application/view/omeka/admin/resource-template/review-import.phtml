@@ -100,7 +100,7 @@ if ($hasProperty) {
         endif;
     endif;
 } else {
-    $dataTypes = $property['data_type_label'];
+    $dataTypes = $property['data_type_label'] ?? '';
 }
 ?>
     <tr style="background-color:#<?php echo $hasProperty ? 'cdffcd;' : 'ffe6e6'; ?>">

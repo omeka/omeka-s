@@ -49,6 +49,15 @@ class SearchFilters extends AbstractHelper
             'nres' => $translate('is not resource with ID'),
             'ex' => $translate('has any value'),
             'nex' => $translate('has no values'),
+            'lex' => $translate('is a linked resource'),
+            'nlex' => $translate('is not a linked resource'),
+        ];
+
+        $withoutValueQueryTypes = [
+            'ex',
+            'nex',
+            'lex',
+            'nlex',
         ];
 
         foreach ($query as $key => $value) {
@@ -95,7 +104,7 @@ class SearchFilters extends AbstractHelper
                             continue;
                         }
                         $value = $queryRow['text'] ?? null;
-                        if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
+                        if (!$value && !in_array($queryType, $withoutValueQueryTypes, true)) {
                             continue;
                         }
                         $joiner = $queryRow['joiner'] ?? null;

@@ -7,7 +7,7 @@ use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Resource as ResourceEntity;
 use Omeka\Stdlib\ErrorStore;
 
-class ResourceAdapter extends AbstractEntityAdapter
+class ResourceAdapter extends AbstractResourceEntityAdapter
 {
     public function getResourceName()
     {
@@ -46,11 +46,6 @@ class ResourceAdapter extends AbstractEntityAdapter
 
         $adapter = $this->getAdapter($data->getResourceName());
         return $adapter->getRepresentation($data);
-    }
-
-    public function search(Request $request)
-    {
-        AbstractAdapter::search($request);
     }
 
     public function create(Request $request)

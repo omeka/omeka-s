@@ -194,6 +194,7 @@ body {
         background-color: $gray-on-white;
         box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
         color: lighten($copy-gray, 25);
+        -webkit-text-fill-color: lighten($copy-gray, 25);
         cursor: default;
 
         &:hover {

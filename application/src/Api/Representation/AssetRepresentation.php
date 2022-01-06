@@ -60,6 +60,11 @@ class AssetRepresentation extends AbstractEntityRepresentation
         return $this->resource->getAltText();
     }
 
+    public function displayTitle()
+    {
+        return $this->name();
+    }
+
     public function thumbnail()
     {
         return $this;

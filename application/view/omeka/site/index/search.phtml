@@ -28,13 +28,13 @@ $resourceControllers = [
 <div class="<?php echo $resourceName; ?> results">
     <h2><?php echo $translate($resourceLabels[$resourceName]); ?></h2>
 
-        <?php $titleMethod = $resourceName === 'site_pages' ? 'title' : 'displayTitle'; ?>
+    <?php if ($result['total']): ?>
     <ul>
         <?php foreach ($result['resources'] as $resource): ?>
         <?php $hasThumbnail = $resource->primaryMedia(); ?>
         <li>
             <?php if (!$hasThumbnail): ?>
-            <?php echo $resource->link($resource->$titleMethod()); ?>
+            <?php echo $resource->link($resource->displayTitle()); ?>
             <?php else: ?>
             <?php echo $resource->linkPretty(); ?>
             <?php endif; ?>
@@ -50,6 +50,7 @@ $resourceControllers = [
                 true
             )
         ); ?>
+    <?php endif; ?>
 </div>
     <?php endforeach; ?>
 <?php endif; ?>

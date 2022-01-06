@@ -73,6 +73,16 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     }
 
     /**
+     * Alias of title().
+     *
+     * @return string
+     */
+    public function displayTitle()
+    {
+        return $this->title();
+    }
+
+    /**
      * Get the blocks assigned to this page.
      *
      * @return array

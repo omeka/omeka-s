@@ -255,6 +255,16 @@ class SiteRepresentation extends AbstractEntityRepresentation
             ->getRepresentation($this->resource->getOwner());
     }
 
+    public function displayTitle()
+    {
+        return $this->title();
+    }
+
+    public function displayDescription()
+    {
+        return $this->summary();
+    }
+
     public function siteUrl($siteSlug = null, $canonical = false)
     {
         if (!$siteSlug) {

@@ -2,8 +2,6 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'media browse');
-$userIsAllowedBatchUpdate = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_update');
-$userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_delete');
 $sortHeadings = [
     [
         'label' => $translate('Title'),
@@ -44,8 +42,11 @@ $sortHeadings = [
 
 <?php $this->trigger('view.browse.before'); ?>
 <?php if ($medias): ?>
+<?php
+$userIsAllowedBatchUpdate = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_update');
+$userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_delete');
+?>
 <form method="post" id="batch-form" class="disable-unsaved-warning">
-    <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
     <div class="batch-inputs">
         <select class="batch-actions-select" aria-label="<?php echo $translate('Batch actions'); ?>">
             <option value="default"><?php echo $translate('Batch actions'); ?></option>
@@ -60,18 +61,17 @@ $sortHeadings = [
         </select>
         <div class="batch-actions">
             <button type="button" class="default active" disabled="disabled"><?php echo $translate('Go'); ?></button>
+            <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
             <?php if ($userIsAllowedBatchUpdate): ?>
             <input type="submit" class="update-selected" name="update_selected" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
             <input type="submit" class="update-all" name="update_all" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
             <?php endif; ?>
-            <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
             <?php if ($userIsAllowedBatchDelete): ?>
             <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $translate('Go'); ?></a>
             <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $translate('Go'); ?></a>
             <?php endif; ?>
         </div>
     </div>
-    <?php endif; ?>
 
 <table class="tablesaw batch-edit" data-tablesaw-mode="stack">
     <thead>
@@ -107,9 +107,7 @@ $sortHeadings = [
         ?>
         <tr>
             <td>
-                <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"  aria-label="<?php echo $translate('Select media'); ?>" <?php if (!($userIsAllowedUpdate || $userIsAllowedDelete)): ?> disabled<?php endif; ?>>
-                <?php endif; ?>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $media->id(); ?>"  aria-label="<?php echo $translate('Select media'); ?>">
                 <?php echo $media->linkPretty(); ?>
                 <?php if (!$media->isPublic()): ?>
                     <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>

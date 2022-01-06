@@ -73,6 +73,8 @@ CREATE TABLE `job` (
   `class` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `args` longtext COLLATE utf8mb4_unicode_ci COMMENT '(DC2Type:json_array)',
   `log` longtext COLLATE utf8mb4_unicode_ci,
+  `step` int(11) DEFAULT NULL,
+  `total_steps` int(11) DEFAULT NULL,
   `started` datetime NOT NULL,
   `ended` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),

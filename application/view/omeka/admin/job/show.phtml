@@ -4,8 +4,12 @@ $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'jobs show');
 if ($job->started()) {
     $started = $this->i18n()->dateFormat($job->started(), 'long', 'long');
+    $step = $job->step();
+    $totalSteps = $job->totalSteps();
+    $progress = $totalSteps ? sprintf('%s / %s', $step, $totalSteps) : $translate('[undefined]');
 } else {
     $started = $translate('[not started]');
+    $progress = '-';
 }
 if ($job->ended()) {
     $ended = $this->i18n()->dateFormat($job->ended(), 'long', 'long');
@@ -30,6 +34,10 @@ if ($owner = $job->owner()) {
     <div class="value"><?php echo $job->statusLabel(); ?></div>
 </div>
 <div class="meta-group">
+    <h4><?php echo $translate('Progress'); ?></h4>
+    <div class="value"><?php echo $progress; ?></div>
+</div>
+<div class="meta-group">
     <h4><?php echo $translate('Started'); ?></h4>
     <div class="value"><?php echo $started; ?></div>
 </div>
@@ -48,8 +56,8 @@ if ($owner = $job->owner()) {
 <div class="meta-group">
     <h4><?php echo $translate('Args'); ?></h4>
     <?php if ($job->args()): ?>
-        <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT); ?>
-        <div class="value"><pre><?php echo $args; ?></pre></div>
+        <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?>
+        <div class="value"><pre><?php echo $escape($args); ?></pre></div>
     <?php else: ?>
     <div class="value"><?php echo $translate('[no args]') ?></div>
     <?php endif; ?>

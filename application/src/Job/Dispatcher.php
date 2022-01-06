@@ -105,19 +105,22 @@ class Dispatcher
             $strategy->send($job);
         } catch (\Exception $e) {
             $this->logger->err((string) $e);
-            $job->setStatus(Job::STATUS_ERROR);
-            $job->setEnded(new DateTime('now'));
 
             // Account for "inside Doctrine" errors that close the EM
             if ($this->entityManager->isOpen()) {
-                $entityManager = $this->entityManager;
+                $em = $this->entityManager;
             } else {
-                $entityManager = $this->getNewEntityManager($this->entityManager);
+                $em = $this->getNewEntityManager($this->entityManager);
             }
 
-            $entityManager->clear();
-            $entityManager->merge($job);
-            $entityManager->flush();
+            // Reload job that may have been updated during process, but keep
+            // the logs since the job object itself is up-to-date.
+            $em->clear();
+            $jobEntity = $em->find(Job::class, $job->getId());
+            $jobEntity->setLog($job->getLog());
+            $jobEntity->setStatus(Job::STATUS_ERROR);
+            $jobEntity->setEnded(new DateTime('now'));
+            $em->flush();
         }
     }
 
@@ -132,7 +135,7 @@ class Dispatcher
      */
     public function stop($jobId)
     {
-        $job = $this->entityManager->find('Omeka\Entity\Job', $jobId);
+        $job = $this->entityManager->find(Job::class, $jobId);
         if (!$job) {
             throw new Exception\InvalidArgumentException(sprintf('The job ID "%s" is invalid.', $jobId));
         }

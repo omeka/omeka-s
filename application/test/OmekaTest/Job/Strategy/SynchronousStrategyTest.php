@@ -15,8 +15,11 @@ class SynchronousStrategyTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $logger = $this->createMock('Laminas\Log\Logger');
+
         $serviceLocator = $this->getServiceManager([
             'Omeka\EntityManager' => $entityManager,
+            'Omeka\Logger' => $logger,
         ]);
         $synchronousStrategy = new Synchronous($serviceLocator);
         $this->synchronousStrategy = $synchronousStrategy;

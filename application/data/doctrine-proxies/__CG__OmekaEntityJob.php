@@ -66,10 +66,10 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'log', 'owner', 'started', 'ended'];
+            return ['__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'log', 'owner', 'step', 'totalSteps', 'started', 'ended'];
         }
 
-        return ['__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'log', 'owner', 'started', 'ended'];
+        return ['__isInitialized__', 'id', 'pid', 'status', 'class', 'args', 'log', 'owner', 'step', 'totalSteps', 'started', 'ended'];
     }
 
     /**
@@ -277,6 +277,61 @@ class Job extends \Omeka\Entity\Job implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getArgs', []);
 
         return parent::getArgs();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setStep($step)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStep', [$step]);
+
+        return parent::setStep($step);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addStep($step = 1)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addStep', [$step]);
+
+        return parent::addStep($step);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getStep()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStep', []);
+
+        return parent::getStep();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTotalSteps($totalSteps)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTotalSteps', [$totalSteps]);
+
+        return parent::setTotalSteps($totalSteps);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTotalSteps()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTotalSteps', []);
+
+        return parent::getTotalSteps();
     }
 
     /**

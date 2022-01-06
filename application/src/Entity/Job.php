@@ -67,6 +67,18 @@ class Job extends AbstractEntity
     protected $owner;
 
     /**
+     * @var int
+     * @Column(type="integer", nullable=true)
+     */
+    protected $step;
+
+    /**
+     * @var int
+     * @Column(type="integer", nullable=true)
+     */
+    protected $totalSteps;
+
+    /**
      * @Column(type="datetime")
      */
     protected $started;
@@ -119,6 +131,31 @@ class Job extends AbstractEntity
     public function getArgs()
     {
         return $this->args;
+    }
+
+    public function setStep($step)
+    {
+        $this->step = $step;
+    }
+
+    public function addStep($step = 1)
+    {
+        $this->step += $step;
+    }
+
+    public function getStep()
+    {
+        return $this->step;
+    }
+
+    public function setTotalSteps($totalSteps)
+    {
+        $this->totalSteps = $totalSteps;
+    }
+
+    public function getTotalSteps()
+    {
+        return $this->totalSteps;
     }
 
     public function setLog($log)

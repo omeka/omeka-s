@@ -213,7 +213,7 @@
                 valueData['is_public'] = value.find('input.is_public').val();
                 value.find(':input[data-value-key]').each(function () {
                     var input = $(this);
-                    valueKey = input.data('valueKey');
+                    var valueKey = input.data('valueKey');
                     if (!valueKey || input.prop('disabled')) {
                         return;
                     }
@@ -241,7 +241,7 @@
         field = fieldForDataType.length ? fieldForDataType.first() : field.first();
         var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
-        value.data('data-term', term);
+        value.attr('data-term', term);
 
         // Get and display the value's visibility.
         var isPublic = true; // values are public by default

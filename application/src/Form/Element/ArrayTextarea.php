@@ -161,7 +161,7 @@ class ArrayTextarea extends Textarea implements InputProviderInterface
      *
      * @return string
      */
-    public function getKeyValueSeparator($separator)
+    public function getKeyValueSeparator()
     {
         return $this->keyValueSeparator;
     }

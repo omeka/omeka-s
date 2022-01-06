@@ -5,20 +5,20 @@ $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
 $sortHeadings = [
     [
         'label' => $translate('ID'),
-        'value' => 'id'
+        'value' => 'id',
     ],
     [
         'label' => $translate('Class'),
-        'value' => 'class'
+        'value' => 'class',
     ],
     [
         'label' => $translate('Status'),
-        'value' => 'status'
+        'value' => 'status',
     ],
     [
         'label' => $translate('Owner'),
-        'value' => 'owner'
-    ]
+        'value' => 'owner',
+    ],
 ];
 ?>
 
@@ -49,8 +49,8 @@ $sortHeadings = [
                 [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id()]
-                )
+                    'id' => $owner->id(),
+                ])
             );
         } else {
             $ownerText = $translate('[no owner]');

@@ -1,5 +1,5 @@
 <?php
-$value = isset($query['fulltext_search']) ? $query['fulltext_search'] : null;
+$value = $query['fulltext_search'] ?? null;
 ?>
 <div class="field">
     <div class="field-meta">

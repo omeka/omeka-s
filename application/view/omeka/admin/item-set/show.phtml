@@ -6,9 +6,9 @@ $viewItemsLink = $this->url(
     'admin/default',
     ['controller' => 'item', 'action' => 'browse'],
     [
-        'query' =>  [
-            'item_set_id' => $itemSet->id()
-        ]
+        'query' => [
+            'item_set_id' => $itemSet->id(),
+        ],
     ]
 );
 if ($owner = $itemSet->owner()) {
@@ -35,7 +35,7 @@ $sectionNavs = [
 <?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $itemSet); ?>
 
 <div id="item-set-metadata" class="active section">
-    <?php if ( $itemSet->resourceClass()): ?>
+    <?php if ($itemSet->resourceClass()): ?>
         <div class="meta-group">
             <h4><?php echo $translate('Class'); ?></h4>
             <div class="value"><?php echo $escape($itemSet->resourceClass()->label()); ?></div>

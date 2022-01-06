@@ -16,6 +16,6 @@ $translate = $this->plugin('translate');
 </div>
 <div class="meta-group">
     <h4><?php echo $translate('Items'); ?></h4>
-    <div class="value"><?php echo $this->hyperlink($property->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['property[0][property]' => $property->id(), 'property[0][type]' => 'ex',]])); ?></div>
+    <div class="value"><?php echo $this->hyperlink($property->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['property[0][property]' => $property->id(), 'property[0][type]' => 'ex']])); ?></div>
 </div>
-<?php $this->trigger('view.details', array('entity' => $property)); ?>
+<?php $this->trigger('view.details', ['entity' => $property]); ?>

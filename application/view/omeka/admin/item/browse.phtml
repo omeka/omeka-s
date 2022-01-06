@@ -5,23 +5,23 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
 $sortHeadings = [
     [
         'label' => $translate('Title'),
-        'value' => 'title'
+        'value' => 'title',
     ],
     [
         'label' => $translate('Identifier'),
-        'value' => 'dcterms:identifier'
+        'value' => 'dcterms:identifier',
     ],
     [
         'label' => $translate('Class'),
-        'value' => 'resource_class_label'
+        'value' => 'resource_class_label',
     ],
     [
         'label' => $translate('Owner'),
-        'value' => 'owner_name'
+        'value' => 'owner_name',
     ],
     [
         'label' => $translate('Created'),
-        'value' => 'created'
+        'value' => 'created',
     ],
 ];
 ?>
@@ -84,8 +84,8 @@ $sortHeadings = [
                 $this->url('admin/id', [
                     'controller' => 'user',
                     'action' => 'show',
-                    'id' => $owner->id()]
-                )
+                    'id' => $owner->id(),
+                ])
             );
         } else {
             $ownerText = $translate('[no owner]');

@@ -41,5 +41,5 @@ $escape = $this->plugin('escapeHtml');
         <?php endforeach; ?>
     </div>
     <?php endif; ?>
-    <?php $this->trigger('view.details', array('entity' => $resource)); ?>
+    <?php $this->trigger('view.details', ['entity' => $resource]); ?>
 </div>

@@ -9,9 +9,9 @@ class ThumbnailRenderer implements RendererInterface
     public function render(PhpRenderer $view, MediaRepresentation $media,
         array $options = []
     ) {
-        $thumbnailType = isset($options['thumbnailType']) ? $options['thumbnailType'] : 'large';
+        $thumbnailType = $options['thumbnailType'] ?? 'large';
         $link = array_key_exists('link', $options) ? $options['link'] : 'original';
-        $attribs = isset($options['thumbnailAttribs']) ? $options['thumbnailAttribs'] : [];
+        $attribs = $options['thumbnailAttribs'] ?? [];
         $img = $view->thumbnail($media, $thumbnailType, $attribs);
         if (!$link) {
             return $img;

@@ -13,7 +13,7 @@ class StatusFactory implements FactoryInterface
     /**
      * Create and return the status view helper
      *
-     * @return Setting
+     * @return Status
      */
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {

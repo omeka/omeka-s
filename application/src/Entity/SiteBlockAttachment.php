@@ -57,6 +57,7 @@ class SiteBlockAttachment extends AbstractEntity
     public function setCaption($caption)
     {
         $this->caption = $caption;
+        return $this;
     }
 
     public function getCaption()
@@ -67,6 +68,7 @@ class SiteBlockAttachment extends AbstractEntity
     public function setPosition($position)
     {
         $this->position = $position;
+        return $this;
     }
 
     public function getPosition()
@@ -77,6 +79,7 @@ class SiteBlockAttachment extends AbstractEntity
     public function setItem(Item $item = null)
     {
         $this->item = $item;
+        return $this;
     }
 
     public function getItem()
@@ -87,6 +90,7 @@ class SiteBlockAttachment extends AbstractEntity
     public function setMedia(Media $media = null)
     {
         $this->media = $media;
+        return $this;
     }
 
     public function getMedia()
@@ -97,6 +101,7 @@ class SiteBlockAttachment extends AbstractEntity
     public function setBlock(SitePageBlock $block)
     {
         $this->block = $block;
+        return $this;
     }
 
     public function getBlock()

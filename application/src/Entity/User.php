@@ -109,6 +109,7 @@ class User extends AbstractEntity implements RoleInterface
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     public function getName()
@@ -119,6 +120,7 @@ class User extends AbstractEntity implements RoleInterface
     public function setEmail($email)
     {
         $this->email = $email;
+        return $this;
     }
 
     public function getEmail()
@@ -134,11 +136,13 @@ class User extends AbstractEntity implements RoleInterface
     public function setCreated(DateTime $created)
     {
         $this->created = $created;
+        return $this;
     }
 
     public function setModified(DateTime $dateTime)
     {
         $this->modified = $dateTime;
+        return $this;
     }
 
     public function getModified()
@@ -154,6 +158,7 @@ class User extends AbstractEntity implements RoleInterface
     public function setPassword($password)
     {
         $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        return $this;
     }
 
     /**
@@ -175,6 +180,7 @@ class User extends AbstractEntity implements RoleInterface
     public function setRole($role)
     {
         $this->role = $role;
+        return $this;
     }
 
     public function getRole()
@@ -185,6 +191,7 @@ class User extends AbstractEntity implements RoleInterface
     public function setIsActive($isActive)
     {
         $this->isActive = (bool) $isActive;
+        return $this;
     }
 
     public function isActive()

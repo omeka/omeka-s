@@ -97,7 +97,7 @@ abstract class AbstractRepresentation implements RepresentationInterface
     /**
      * Get one thumbnail of this representation.
      *
-     * @return Asset
+     * @return AssetRepresentation|null
      */
     public function thumbnail()
     {

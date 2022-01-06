@@ -70,6 +70,7 @@ class Value extends AbstractEntity
     public function setResource(Resource $resource = null)
     {
         $this->resource = $resource;
+        return $this;
     }
 
     public function getResource()
@@ -80,6 +81,7 @@ class Value extends AbstractEntity
     public function setProperty(Property $property)
     {
         $this->property = $property;
+        return $this;
     }
 
     public function getProperty()
@@ -90,6 +92,7 @@ class Value extends AbstractEntity
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
     }
 
     public function getType()
@@ -100,6 +103,7 @@ class Value extends AbstractEntity
     public function setValue($value)
     {
         $this->value = $value;
+        return $this;
     }
 
     public function getValue()
@@ -110,6 +114,7 @@ class Value extends AbstractEntity
     public function setLang($lang)
     {
         $this->lang = $lang;
+        return $this;
     }
 
     public function getLang()
@@ -120,6 +125,7 @@ class Value extends AbstractEntity
     public function setUri($uri)
     {
         $this->uri = $uri;
+        return $this;
     }
 
     public function getUri()
@@ -130,6 +136,7 @@ class Value extends AbstractEntity
     public function setValueResource(Resource $valueResource = null)
     {
         $this->valueResource = $valueResource;
+        return $this;
     }
 
     public function getValueResource()
@@ -140,6 +147,7 @@ class Value extends AbstractEntity
     public function setIsPublic($isPublic)
     {
         $this->isPublic = (bool) $isPublic;
+        return $this;
     }
 
     public function getIsPublic()

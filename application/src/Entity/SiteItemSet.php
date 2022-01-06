@@ -51,6 +51,7 @@ class SiteItemSet extends AbstractEntity
     public function setSite(Site $site)
     {
         $this->site = $site;
+        return $this;
     }
 
     public function getSite()
@@ -61,6 +62,7 @@ class SiteItemSet extends AbstractEntity
     public function setItemSet(ItemSet $itemSet)
     {
         $this->itemSet = $itemSet;
+        return $this;
     }
 
     public function getItemSet()
@@ -71,6 +73,7 @@ class SiteItemSet extends AbstractEntity
     public function setPosition($position)
     {
         $this->position = (int) $position;
+        return $this;
     }
 
     public function getPosition()

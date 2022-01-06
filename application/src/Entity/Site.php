@@ -139,6 +139,7 @@ class Site extends AbstractEntity
     public function setSlug($slug)
     {
         $this->slug = $slug;
+        return $this;
     }
 
     public function getSlug()
@@ -149,6 +150,7 @@ class Site extends AbstractEntity
     public function setTheme($theme)
     {
         $this->theme = $theme;
+        return $this;
     }
 
     public function getTheme()
@@ -159,6 +161,7 @@ class Site extends AbstractEntity
     public function setTitle($title)
     {
         $this->title = $title;
+        return $this;
     }
 
     public function getTitle()
@@ -169,6 +172,7 @@ class Site extends AbstractEntity
     public function setSummary($summary)
     {
         $this->summary = $summary;
+        return $this;
     }
 
     public function getSummary()
@@ -189,6 +193,7 @@ class Site extends AbstractEntity
     public function setNavigation($navigation)
     {
         $this->navigation = $navigation;
+        return $this;
     }
 
     public function getNavigation()
@@ -209,6 +214,7 @@ class Site extends AbstractEntity
     public function setItemPool($itemPool)
     {
         $this->itemPool = $itemPool;
+        return $this;
     }
 
     public function getItemPool()
@@ -219,6 +225,7 @@ class Site extends AbstractEntity
     public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
+        return $this;
     }
 
     public function getOwner()
@@ -229,6 +236,7 @@ class Site extends AbstractEntity
     public function setCreated(DateTime $dateTime)
     {
         $this->created = $dateTime;
+        return $this;
     }
 
     public function getCreated()
@@ -239,6 +247,7 @@ class Site extends AbstractEntity
     public function setModified(DateTime $dateTime)
     {
         $this->modified = $dateTime;
+        return $this;
     }
 
     public function getModified()
@@ -249,6 +258,7 @@ class Site extends AbstractEntity
     public function setIsPublic($isPublic)
     {
         $this->isPublic = (bool) $isPublic;
+        return $this;
     }
 
     public function isPublic()

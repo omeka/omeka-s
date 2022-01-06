@@ -186,9 +186,11 @@ class UserController extends AbstractActionController
                 }
                 $this->messenger()->addSuccess('User successfully updated'); // @translate
 
+                $userSettings = $this->userSettings();
+                $userSettings->setTargetId($id);
                 if (!empty($values['user-settings'])) {
                     foreach ($values['user-settings'] as $settingId => $settingValue) {
-                        $this->userSettings()->set($settingId, $settingValue, $id);
+                        $userSettings->set($settingId, $settingValue);
                     }
                 }
 

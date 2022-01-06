@@ -7,8 +7,8 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
-use Omeka\Entity\User;
 use Omeka\Entity\EntityInterface;
+use Omeka\Entity\User;
 use Omeka\Stdlib\ErrorStore;
 use Laminas\EventManager\Event;
 
@@ -212,28 +212,16 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $query = $request->getContent();
 
         // Set default query parameters
-        if (!isset($query['page'])) {
-            $query['page'] = null;
-        }
-        if (!isset($query['per_page'])) {
-            $query['per_page'] = null;
-        }
-        if (!isset($query['limit'])) {
-            $query['limit'] = null;
-        }
-        if (!isset($query['offset'])) {
-            $query['offset'] = null;
-        }
-        if (!isset($query['sort_by'])) {
-            $query['sort_by'] = null;
-        }
-        if (isset($query['sort_order'])
-            && in_array(strtoupper($query['sort_order']), ['ASC', 'DESC'])
-        ) {
-            $query['sort_order'] = strtoupper($query['sort_order']);
-        } else {
-            $query['sort_order'] = 'ASC';
-        }
+        $defaultQuery = [
+            'page' => null,
+            'per_page' => null,
+            'limit' => null,
+            'offset' => null,
+            'sort_by' => null,
+            'sort_order' => null,
+        ];
+        $query += $defaultQuery;
+        $query['sort_order'] = strtoupper($query['sort_order']) === 'DESC' ? 'DESC' : 'ASC';
 
         // Begin building the search query.
         $entityClass = $this->getEntityClass();
@@ -667,8 +655,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $this->index = 0;
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('omeka_root')->from($entityClass, 'omeka_root');
+        $expr = $qb->expr();
         foreach ($criteria as $field => $value) {
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 "omeka_root.$field",
                 $this->createNamedParameter($qb, $value)
             ));
@@ -747,18 +736,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('e.id')
             ->from($this->getEntityClass(), 'e');
+        $expr = $qb->expr();
 
         // Exclude the passed entity from the query if it has an persistent
         // indentifier.
         if ($entity->getId()) {
-            $qb->andWhere($qb->expr()->neq(
+            $qb->andWhere($expr->neq(
                 'e.id',
                 $this->createNamedParameter($qb, $entity->getId())
             ));
         }
 
         foreach ($criteria as $field => $value) {
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 "e.$field",
                 $this->createNamedParameter($qb, $value)
             ));

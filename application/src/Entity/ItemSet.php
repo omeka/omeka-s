@@ -50,6 +50,7 @@ class ItemSet extends Resource
     public function setIsOpen($isOpen)
     {
         $this->isOpen = (bool) $isOpen;
+        return $this;
     }
 
     public function isOpen()

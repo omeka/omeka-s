@@ -29,7 +29,7 @@ class ResourceTemplateForm extends Form
             ],
             'attributes' => [
                 'class' => 'chosen-select',
-                'data-placeholder' => 'Select a class',
+                'data-placeholder' => 'Select a class', // @translate
                 'id' => 'o:resource_class[o:id]',
             ],
         ]);

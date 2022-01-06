@@ -103,7 +103,7 @@ class AclFactory implements FactoryInterface
         $entities = $serviceLocator->get('Omeka\EntityManager')->getConfiguration()
             ->getMetadataDriverImpl()->getAllClassNames();
         foreach ($entities as $entityClass) {
-            if (is_subclass_of($entityClass, 'Laminas\Permissions\Acl\Resource\ResourceInterface')) {
+            if (is_subclass_of($entityClass, \Laminas\Permissions\Acl\Resource\ResourceInterface::class)) {
                 $acl->addResource($entityClass);
             }
         }

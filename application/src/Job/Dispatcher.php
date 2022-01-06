@@ -65,7 +65,7 @@ class Dispatcher
      * @param string $class
      * @param mixed $args
      * @param StrategyInterface $strategy
-     * @return null|Job $job
+     * @return Job|null $job
      */
     public function dispatch($class, $args = null, StrategyInterface $strategy = null)
     {

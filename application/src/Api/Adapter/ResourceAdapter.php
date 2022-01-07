@@ -72,4 +72,10 @@ class ResourceAdapter extends AbstractEntityAdapter
     {
         AbstractAdapter::delete($request);
     }
+
+    public function getPropertyIds($termOrIds = null): array
+    {
+        // ResourceAdapter is not instanceof AbstractResourceEntityAdapter (or see PR search_resource).
+        return $this->getAdapter('items')->getPropertyIds($termOrIds);
+    }
 }

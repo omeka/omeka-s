@@ -60,10 +60,10 @@ class Html extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $htmlBlock = $block->dataValue('html', '');
-        $divClass = $view->escapeHtml($block->dataValue('divclass'));
+        $divClass = $block->dataValue('divclass');
+        // Wrap HTML in div with specified class, if present.
         if (!empty($divClass)) {
-            //wrap HTML in div with specified class, if present
-            $htmlFinal = '<div class="' . $divClass . '">';
+            $htmlFinal = '<div class="' . $view->escapeHtmlAttr($divClass) . '">';
             $htmlFinal .= $htmlBlock;
             $htmlFinal .= '</div>';
         } else {

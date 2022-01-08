@@ -19,11 +19,11 @@ class Url implements LinkInterface
     public function isValid(array $data, ErrorStore $errorStore)
     {
         if (!isset($data['label']) || '' === trim($data['label'])) {
-            $errorStore->addError('o:navigation', 'Invalid navigation: URL link missing label');
+            $errorStore->addError('o:navigation', 'Invalid navigation: URL link missing label'); // @translate
             return false;
         }
         if (!isset($data['url']) || '' === trim($data['url'])) {
-            $errorStore->addError('o:navigation', 'Invalid navigation: URL link missing URL');
+            $errorStore->addError('o:navigation', 'Invalid navigation: URL link missing URL'); // @translate
             return false;
         }
         return true;

@@ -30,8 +30,8 @@ $userRowTemplate .= '</select></td>
 $sitePermissions = $site->sitePermissions();
 $users = [];
 foreach ($sitePermissions as $sitePermission) {
-  $user = $sitePermission->user();
-  $users[] = [
+    $user = $sitePermission->user();
+    $users[] = [
     'id' => $user->id(),
     'role' => $sitePermission->role(),
   ];

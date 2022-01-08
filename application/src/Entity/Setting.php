@@ -13,7 +13,7 @@ class Setting extends AbstractEntity
     protected $id;
 
     /**
-     * @Column(type="json_array")
+     * @Column(type="json")
      */
     protected $value;
 

@@ -20,7 +20,7 @@ class SiteSetting extends AbstractEntity
     protected $site;
 
     /**
-     * @Column(type="json_array")
+     * @Column(type="json")
      */
     protected $value;
 

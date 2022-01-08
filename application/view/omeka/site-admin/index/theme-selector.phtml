@@ -32,7 +32,7 @@ $this->headScript()->appendFile($this->assetUrl('js/site-theme.js', 'Omeka'));
 
         <h4><?php echo $this->escapeHtml($theme->getName()); ?></h4>
         <div class="theme-meta">
-            <?php if(!empty($version)): ?>
+            <?php if (!empty($version)): ?>
             <span class="theme-version">
                 <?php echo sprintf($translate('version %s'), $version); ?>
             </span>

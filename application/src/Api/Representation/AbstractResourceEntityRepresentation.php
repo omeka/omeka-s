@@ -534,7 +534,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         $eventManager = $this->getEventManager();
-        $args = $eventManager->prepareArgs(['title' => $title]);
+        $args = $eventManager->prepareArgs(['title' => $title, 'lang' => $lang]);
         $eventManager->trigger('rep.resource.display_title', $this, $args);
 
         return $args['title'];

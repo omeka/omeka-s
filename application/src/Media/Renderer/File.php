@@ -3,7 +3,6 @@ namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Media\FileRenderer\Manager as FileRendererManager;
-use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\View\Renderer\PhpRenderer;
 
 class File implements RendererInterface
@@ -24,13 +23,17 @@ class File implements RendererInterface
     public function render(PhpRenderer $view, MediaRepresentation $media,
         array $options = []
     ) {
-        try {
-            $renderer = $this->fileRendererManager->get($media->mediaType());
-        } catch (ServiceNotFoundException $e) {
-            try {
-                $renderer = $this->fileRendererManager->get($media->extension());
-            } catch (ServiceNotFoundException $e) {
-                $renderer = $this->fileRendererManager->get('thumbnail');
+        $mediaType = $media->mediaType();
+        if ($this->fileRendererManager->has($mediaType)) {
+            $renderer = $this->fileRendererManager->get($mediaType);
+        } else {
+            $extension = $media->extension();
+            if ($this->fileRendererManager->has($extension)) {
+                $renderer = $this->fileRendererManager->get($extension);
+            } else {
+                $renderer = $media->hasThumbnails()
+                    ? $this->fileRendererManager->get('thumbnail')
+                    : $this->fileRendererManager->get('fallback');
             }
         }
         return $renderer->render($view, $media, $options);

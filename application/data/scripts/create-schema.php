@@ -42,9 +42,9 @@ dropTables($entityManager->getConnection());
  */
 function dropTables(Doctrine\DBAL\Connection $connection)
 {
-    $connection->query('SET FOREIGN_KEY_CHECKS=0');
+    $connection->executeQuery('SET FOREIGN_KEY_CHECKS=0');
     foreach ($connection->getSchemaManager()->listTableNames() as $table) {
         $connection->getSchemaManager()->dropTable($table);
     }
-    $connection->query('SET FOREIGN_KEY_CHECKS=1');
+    $connection->executeQuery('SET FOREIGN_KEY_CHECKS=1');
 }

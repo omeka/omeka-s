@@ -43,7 +43,7 @@ class Site extends AbstractEntity
     protected $thumbnail;
 
     /**
-     * @Column(type="json_array")
+     * @Column(type="json")
      */
     protected $navigation;
 
@@ -54,7 +54,7 @@ class Site extends AbstractEntity
     protected $homepage;
 
     /**
-     * @Column(type="json_array")
+     * @Column(type="json")
      */
     protected $itemPool;
 

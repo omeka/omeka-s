@@ -348,6 +348,43 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
     }
 
     /**
+     * Get the query builder needed to get subject values.
+     *
+     * Note that the returned query builder does not include $qb->select().
+     *
+     * @param Resource $resource
+     * @param int|null $property
+     * @return QueryBuilder
+     */
+    public function getSubjectValuesQueryBuilder(Resource $resource, $property = null)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->from('Omeka\Entity\Value', 'v')
+            ->join('v.resource', 'r')
+            ->where($qb->expr()->eq('v.valueResource', $this->createNamedParameter($qb, $resource)))
+            // Limit subject values to those belonging to primary resources.
+            ->andWhere($qb->expr()->orX(
+                'r INSTANCE OF Omeka\Entity\Item',
+                'r INSTANCE OF Omeka\Entity\ItemSet',
+                'r INSTANCE OF Omeka\Entity\Media'
+            ));
+        if ($property) {
+            $qb->andWhere($qb->expr()->eq('v.property', $this->createNamedParameter($qb, $property)));
+        }
+        // Need to check visibility manually here
+        $services = $this->getServiceLocator();
+        $acl = $services->get('Omeka\Acl');
+        $identity = $services->get('Omeka\AuthenticationService')->getIdentity();
+        if (!$acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->eq('r.isPublic', '1'),
+                $qb->expr()->eq('r.owner', $this->createNamedParameter($qb, $identity))
+            ));
+        }
+        return $qb;
+    }
+
+    /**
      * Get values where the provided resource is the RDF object.
      *
      * @param Resource $resource
@@ -361,39 +398,30 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $offset = (is_numeric($page) && is_numeric($perPage))
             ? (($page - 1) * $perPage)
             : null;
-
-        // Need to check visibility manually here
-        $services = $this->getServiceLocator();
-        $identity = $services->get('Omeka\AuthenticationService')->getIdentity();
-        $acl = $services->get('Omeka\Acl');
-
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-        $qb->select('v')
-            ->from('Omeka\Entity\Value', 'v')
-            ->join('v.resource', 'r')
-            ->where($qb->expr()->eq('v.valueResource', $this->createNamedParameter($qb, $resource)))
-            // Limit subject values to those belonging to primary resources.
-            ->andWhere($qb->expr()->orX(
-                'r INSTANCE OF Omeka\Entity\Item',
-                'r INSTANCE OF Omeka\Entity\ItemSet',
-                'r INSTANCE OF Omeka\Entity\Media'
-            ));
-
-        if (!$acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->eq('r.isPublic', '1'),
-                $qb->expr()->eq('r.owner', $this->createNamedParameter($qb, $identity))
-            ));
-        }
-
-        if ($property) {
-            $qb->andWhere($qb->expr()->eq('v.property', $this->createNamedParameter($qb, $property)));
-        }
-
+        $qb = $this->getSubjectValuesQueryBuilder($resource, $property)
+            ->select('v');
         $qb->setMaxResults($perPage);
         $qb->setFirstResult($offset);
+        return $qb->getQuery()->getResult();
+    }
 
+    /**
+     * Get values where the provided resource is the RDF object.
+     *
+     * This method gets simple value data (term, id, and title) instead of the
+     * value represenations. Because of this there is no need to include
+     * pagination arguments, like self::getSubjectValues().
+     *
+     * @param Resource $resource
+     * @param int $property Filter by property ID
+     * @return array
+     */
+    public function getSubjectValuesSimple(Resource $resource, $property = null)
+    {
+        $qb = $this->getSubjectValuesQueryBuilder($resource, $property)
+            ->select("CONCAT(y.prefix, ':', p.localName) term, IDENTITY(v.valueResource) id, r.title title")
+            ->join('v.property', 'p')
+            ->join('p.vocabulary', 'y');
         return $qb->getQuery()->getResult();
     }
 

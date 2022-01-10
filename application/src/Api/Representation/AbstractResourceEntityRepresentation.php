@@ -119,7 +119,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             ],
             $dateTime,
             $this->getResourceJsonLd(),
-            $values
+            $values,
+            ['@reverse' => $this->subjectValuesForReverse()]
         );
     }
 
@@ -391,6 +392,27 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         foreach ($values as $value) {
             $valueRep = new ValueRepresentation($value, $this->getServiceLocator());
             $subjectValues[$valueRep->property()->term()][] = $valueRep;
+        }
+        return $subjectValues;
+    }
+
+    /**
+     * Get the subject values for the JSON-LD @reverse array.
+     *
+     * @see https://w3c.github.io/json-ld-syntax/#reverse-properties
+     * @param int $property Filter by property ID
+     * @return array
+     */
+    public function subjectValuesForReverse($property = null)
+    {
+        $url = $this->getViewHelper('Url');
+        $subjectValuesSimple = $this->getAdapter()->getSubjectValuesSimple($this->resource, $property);
+        $subjectValues = [];
+        foreach ($subjectValuesSimple as $subjectValue) {
+            $subjectValues[$subjectValue['term']][] = [
+                '@id' => $url('api/default', ['resource' => 'items', 'id' => $subjectValue['id']], ['force_canonical' => true]),
+                'o:title' => $subjectValue['title'],
+            ];
         }
         return $subjectValues;
     }

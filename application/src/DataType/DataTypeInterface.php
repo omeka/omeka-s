@@ -71,9 +71,10 @@ interface DataTypeInterface
      *
      * @param PhpRenderer $view
      * @param ValueRepresentation $value
+     * @param array $options A common option is "lang".
      * @return string
      */
-    public function render(PhpRenderer $view, ValueRepresentation $value);
+    public function render(PhpRenderer $view, ValueRepresentation $value, $options = []);
 
     /**
      * Get the value as a simple string.

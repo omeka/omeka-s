@@ -44,14 +44,15 @@ class ValueRepresentation extends AbstractRepresentation
     /**
      * Return this value for display on a webpage.
      *
+     * @param array|string|null $options If string, the options is the lang.
      * @return string
      */
-    public function asHtml($lang = null)
+    public function asHtml($options = [])
     {
         $view = $this->getServiceLocator()->get('ViewRenderer');
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs([
-            'html' => $this->dataType->render($view, $this, $lang),
+            'html' => $this->dataType->render($view, $this, is_array($options) ? $options : ['lang' => $options]),
         ]);
         $eventManager->trigger('rep.value.html', $this, $args);
         return $args['html'];

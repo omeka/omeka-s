@@ -49,7 +49,7 @@ class Uri extends AbstractDataType
         $value->setValueResource(null); // set default
     }
 
-    public function render(PhpRenderer $view, ValueRepresentation $value)
+    public function render(PhpRenderer $view, ValueRepresentation $value, $options = [])
     {
         $uri = $value->uri();
         $uriLabel = $value->value();

@@ -80,11 +80,7 @@
         "psr-4": {"Omeka\\": "application/src"}
     },
     "config": {
-        "platform": {"php": "7.2"},
-        "allow-plugins": {
-            "composer/package-versions-deprecated": true,
-            "omeka/composer-addon-installer": true
-        }
+        "platform": {"php": "7.2"}
     },
     "repositories": [
         {

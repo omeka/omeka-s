@@ -2676,6 +2676,11 @@ return array (
   array (
     0 => 'ief',
   ),
+  'image/jp2' =>
+  array (
+    0 => 'jp2',
+    1 => 'j2k',
+  ),
   'image/jpeg' => 
   array (
     0 => 'jpeg',

@@ -71,7 +71,7 @@ class Validator
         }
         if (null !== $this->extensions) {
             $extension = $tempFile->getExtension();
-            if (!in_array($extension, $this->extensions)) {
+            if ($extension && !in_array($extension, $this->extensions)) {
                 $isValid = false;
                 if ($errorStore) {
                     $message = new Message(

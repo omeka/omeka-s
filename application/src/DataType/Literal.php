@@ -46,7 +46,7 @@ class Literal extends AbstractDataType
         $value->setValueResource(null); // set default
     }
 
-    public function render(PhpRenderer $view, ValueRepresentation $value, $options = [])
+    public function render(PhpRenderer $view, ValueRepresentation $value)
     {
         return nl2br($view->escapeHtml($value->value()));
     }

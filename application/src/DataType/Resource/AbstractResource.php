@@ -9,7 +9,7 @@ use Omeka\Entity;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Stdlib\Message;
 
-abstract class AbstractResource extends AbstractDataType
+abstract class AbstractResource implements DataTypeWithOptionsInterface
 {
     /**
      * Get the class names of valid value resources.

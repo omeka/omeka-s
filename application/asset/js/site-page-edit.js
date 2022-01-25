@@ -412,29 +412,13 @@
         $('#content').on('click', '.page-select', function() {
             var sidebar = $('#page-list');
             var pageList = $('#page-list .pages');
-            var optionTemplate = $('#page-list .option.template');
-
             Omeka.openSidebar(sidebar);
-            var apiUrl = sidebar.data('api-url');
-            if (pageList.find('.option').length == 1) {
-                $.get(apiUrl, function(data) {
-                    data['o:page'].forEach(function(page) {
-                        var newButton = optionTemplate.clone();
-                        $.get(page['@id'], function(pageData) {
-                            newButton.text(pageData['o:title']).val(pageData['o:id']);
-                            newButton.data('page-slug', pageData['o:slug']);
-                        });
-                        pageList.append(newButton);
-                        newButton.removeClass('template');
-                    });
-                }).done(function() {
-                    // Update attachment options sidebar after selecting item.
-                    pageList.on('click', 'button.option', function(e) {
-                        Omeka.closeSidebar($('#page-list'));
-                        selectPageLink($(this));
-                    });
-                });
-            }
+
+            pageList.on('click', 'button.option', function(e) {
+                Omeka.closeSidebar(sidebar);
+                selectPageLink($(this));
+            });
+
         });
 
         $('#content').on('click', '.page-clear', function() {

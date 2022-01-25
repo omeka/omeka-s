@@ -56,6 +56,12 @@ class Asset extends AbstractBlockLayout
     public function prepareAssetAttachments(PhpRenderer $view, $blockData = null)
     {
         $attachments = [];
+        $site = $view->site;
+        $sitePages = $site->pages();
+        $sitePageArray = [];
+        foreach ($sitePages as $sitePage) {
+            $sitePageArray[$sitePage->id()] = $sitePage;
+        }
         if ($blockData) {
             foreach ($blockData as $key => $value) {
                 if (isset($value['id'])) {
@@ -67,7 +73,8 @@ class Asset extends AbstractBlockLayout
                         $attachments[$key]['asset'] = null;
                     }
                     if ($value['page'] !== '') {
-                        $attachments[$key]['page'] = $view->api()->read('site_pages', $value['page'])->getContent();
+                        $linkPageId = $value['page'];
+                        $attachments[$key]['page'] = (isset($sitePageArray[$linkPageId])) ? $sitePageArray[$linkPageId] : null;
                     }
                     $attachments[$key]['alt_link_title'] = $value['alt_link_title'];
                     $attachments[$key]['caption'] = $value['caption'];

@@ -15,7 +15,7 @@ class Imagick extends AbstractThumbnailer
     protected $tempFileFactory;
 
     /**
-     * Check whether the GD entension is loaded.
+     * Check whether the GD extension is loaded.
      *
      * @throws Exception\InvalidThumbnailer
      */

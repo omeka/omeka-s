@@ -41,7 +41,7 @@ class Cli
     }
 
     /**
-     * Verfy that a command exists and is executable.
+     * Verify that a command exists and is executable.
      *
      * @param string $commandDir The command's directory or the command path if
      *     $command is not passed

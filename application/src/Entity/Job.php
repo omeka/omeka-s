@@ -16,7 +16,7 @@ class Job extends AbstractEntity
      * STATUS_STARTING:    The job was dispatched.
      * STATUS_STOPPING:    The job is currently stopping.
      * STATUS_IN_PROGRESS: The job was sent and is in progress.
-     * STATUS_COMPLETED:   The job was performed and is sucessfully completed.
+     * STATUS_COMPLETED:   The job was performed and is successfully completed.
      * STATUS_STOPPED:     The job was stopped and most likely incomplete.
      * STATUS_ERROR:       There was an unrecoverable error during the job.
      */

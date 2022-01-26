@@ -13,7 +13,7 @@ class FilterSelector extends AbstractHelper
     /**
      * Render a browse filtering form.
      *
-     * @param array $filters An array of arrays containg filter "value" and "label"
+     * @param array $filters An array of arrays containing filter "value" and "label"
      * @param string $partialName
      * @return string
      */

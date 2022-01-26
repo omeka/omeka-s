@@ -9,7 +9,7 @@ use Omeka\Entity;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Stdlib\Message;
 
-abstract class AbstractResource extends AbstractDataType
+abstract class AbstractResource implements DataTypeWithOptionsInterface
 {
     /**
      * Get the class names of valid value resources.
@@ -81,9 +81,9 @@ abstract class AbstractResource extends AbstractDataType
         $value->setValueResource($valueResource);
     }
 
-    public function render(PhpRenderer $view, ValueRepresentation $value, $lang = null)
+    public function render(PhpRenderer $view, ValueRepresentation $value, $options = [])
     {
-        return $value->valueResource()->linkPretty('square', null, null, null, $lang);
+        return $value->valueResource()->linkPretty('square', null, null, null, is_array($options) ? $options['lang'] ?? [] : $options);
     }
 
     public function toString(ValueRepresentation $value)

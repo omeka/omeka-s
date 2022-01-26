@@ -4,7 +4,7 @@ namespace Omeka\DataType\Resource;
 use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\ValueRepresentation;
-use Omeka\DataType\AbstractDataType;
+use Omeka\DataType\DataTypeWithOptionsInterface;
 use Omeka\Entity;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Stdlib\Message;
@@ -21,6 +21,10 @@ abstract class AbstractResource implements DataTypeWithOptionsInterface
     public function getOptgroupLabel()
     {
         return 'Resource'; // @translate
+    }
+
+    public function prepareForm(PhpRenderer $view)
+    {
     }
 
     public function form(PhpRenderer $view)

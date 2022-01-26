@@ -2,7 +2,6 @@
 namespace Omeka\DataType;
 
 use Omeka\Entity\Value;
-use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Representation\ValueRepresentation;
 use Laminas\View\Renderer\PhpRenderer;
 

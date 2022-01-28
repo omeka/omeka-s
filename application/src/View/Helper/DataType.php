@@ -2,6 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\DataType\Manager as DataTypeManager;
+use Omeka\DataType\ValueAnnotatingInterface;
 use Laminas\Form\Element\Select;
 use Laminas\View\Helper\AbstractHelper;
 
@@ -15,6 +16,8 @@ class DataType extends AbstractHelper
      */
     protected $manager;
 
+    protected $valueAnnotatingDataTypes;
+
     protected $dataTypes;
 
     /**
@@ -22,9 +25,10 @@ class DataType extends AbstractHelper
      *
      * @param DataTypeManager $dataTypeManager
      */
-    public function __construct(DataTypeManager $dataTypeManager)
+    public function __construct(DataTypeManager $dataTypeManager, array $valueAnnotatingDataTypes)
     {
         $this->manager = $dataTypeManager;
+        $this->valueAnnotatingDataTypes = $valueAnnotatingDataTypes;
         $this->dataTypes = $this->manager->getRegisteredNames();
     }
 
@@ -125,5 +129,54 @@ class DataType extends AbstractHelper
         foreach ($this->dataTypes as $dataType) {
             $this->manager->get($dataType)->prepareForm($this->getView());
         }
+    }
+
+    public function getValueAnnotationDataTypes()
+    {
+        $dataTypes = [];
+        foreach ($this->valueAnnotatingDataTypes as $dataTypeName) {
+            $dataType = $this->manager->get($dataTypeName);
+            if ($dataType instanceof ValueAnnotatingInterface) {
+                $dataTypes[$dataTypeName] = $dataType;
+            }
+        }
+        return $dataTypes;
+    }
+
+    public function getValueAnnotationSelect($name, $attributes = [])
+    {
+        $options = [];
+        $optgroupOptions = [];
+        foreach ($this->getValueAnnotationDataTypes() as $dataTypeName => $dataType) {
+            $label = $dataType->getLabel();
+            if ($optgroupLabel = $dataType->getOptgroupLabel()) {
+                $optgroupKey = md5($optgroupLabel);
+                $optionsVal = in_array($dataTypeName, ['resource:item', 'resource:itemset', 'resource:media']) ? 'options' : 'optgroupOptions';
+                if (!isset(${$optionsVal}[$optgroupKey])) {
+                    ${$optionsVal}[$optgroupKey] = [
+                        'label' => $optgroupLabel,
+                        'options' => [],
+                    ];
+                }
+                ${$optionsVal}[$optgroupKey]['options'][$dataTypeName] = $label;
+            } else {
+                $options[$dataTypeName] = $label;
+            }
+        }
+        $element = new Select($name);
+        $element->setValueOptions(array_merge($options, $optgroupOptions))
+            ->setAttributes($attributes);
+        return $this->getView()->formSelect($element);
+    }
+
+    public function getValueAnnotationTemplates()
+    {
+        $view = $this->getView();
+        $templates = [];
+        foreach ($this->getValueAnnotationDataTypes() as $dataTypeName => $dataType) {
+            $template = $view->partial('common/value-annotation-wrapper', ['dataType' => $dataType]);
+            $templates[$dataTypeName] = $template;
+        }
+        return $templates;
     }
 }

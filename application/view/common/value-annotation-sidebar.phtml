@@ -1,0 +1,30 @@
+<div id="value-annotation-sidebar" class='sidebar'>
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+    <div class="sidebar-content">
+        <div class="confirm-main">
+            <div class="annotation-form">
+                <h3><?php echo $this->translate('Annotate value'); ?></h3>
+                <?php echo $this->propertySelect([
+                    'name' => 'value-annotation-property-select',
+                    'attributes' => [
+                        'id' => 'value-annotation-property-select',
+                        'class' => 'chosen-select',
+                    ],
+                ]); ?>
+                <?php echo $this->dataType()->getValueAnnotationSelect(
+                    'value-annotation-type-select',
+                    [
+                        'id' => 'value-annotation-type-select',
+                        'class' => 'chosen-select',
+                    ]); ?>
+                <button type="button" id="value-annotation-add" disabled><?php echo $this->translate('Add annotation'); ?></button>
+            </div>
+            <h3><?php echo $this->translate('Annotations'); ?></h3>
+            <div id="value-annotation-container" data-value-annotation-templates="<?php echo $this->escapeHtml(json_encode($this->dataType()->getValueAnnotationTemplates(), true)); ?>">
+            </div>
+        </div>
+        <div class="confirm-panel">
+            <button type="button" id="value-annotation-set"><?php echo $this->translate('Set annotations'); ?></button>
+        </div>
+    </div>
+</div>

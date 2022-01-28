@@ -6,7 +6,7 @@ use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Value;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Literal extends AbstractDataType
+class Literal extends AbstractDataType implements ValueAnnotatingInterface
 {
     public function getName()
     {
@@ -58,5 +58,14 @@ class Literal extends AbstractDataType
             $jsonLd['@language'] = $value->lang();
         }
         return $jsonLd;
+    }
+
+    public function valueAnnotationPrepareForm(PhpRenderer $view)
+    {
+    }
+
+    public function valueAnnotationForm(PhpRenderer $view)
+    {
+        return $view->partial('common/data-type/value-annotation-literal');
     }
 }

@@ -73,7 +73,7 @@
         const sidebar = $('<div class="sidebar"><div class="sidebar-content" id="add-pages"></div></div>');
         sidebar.appendTo('#content');
         $('#blocks').on('click', '.site-page-add', function (e) {
-            currentTree = $(e.currentTarget).siblings('.jstree').jstree();
+            var currentTree = $(e.currentTarget).siblings('.jstree').jstree();
             Omeka.populateSidebarContent(
                 sidebar,
                 $(this).data('sidebar-content-url'),

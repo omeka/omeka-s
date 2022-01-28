@@ -38,7 +38,12 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function __toString()
     {
-        return $this->dataType->toString($this);
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs([
+            'string' => $this->dataType->toString($this),
+        ]);
+        $eventManager->trigger('rep.value.string', $this, $args);
+        return $args['string'];
     }
 
     /**
@@ -70,7 +75,12 @@ class ValueRepresentation extends AbstractRepresentation
         if (!is_array($jsonLd)) {
             $jsonLd = [];
         }
-        return $valueObject + $jsonLd;
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs([
+            'json' => $valueObject + $jsonLd,
+        ]);
+        $eventManager->trigger('rep.value.json', $this, $args);
+        return $args['json'];
     }
 
     /**

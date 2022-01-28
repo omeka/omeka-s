@@ -303,7 +303,7 @@ gulp.task('deps:update', taskDepsUpdate);
 function taskDepsJs(cb) {
     var deps = {
         'chosen-js': ['**', '!*.proto.*'],
-        'ckeditor': ['**', '!samples/**'],
+        'ckeditor4': ['**', '!samples/**'],
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',
         'openseadragon': 'build/openseadragon/**',
@@ -311,9 +311,13 @@ function taskDepsJs(cb) {
         'sortablejs': 'Sortable.min.js',
         'tablesaw': 'dist/stackonly/**'
     }
+    var depRenames = {
+        'ckeditor4': 'ckeditor'
+    }
 
     Object.keys(deps).forEach(function (module) {
         var moduleDeps = deps[module];
+        var dest = depRenames.hasOwnProperty(module) ? depRenames[module] : module;
         if (!(moduleDeps instanceof Array)) {
             moduleDeps = [moduleDeps];
         }
@@ -324,7 +328,7 @@ function taskDepsJs(cb) {
             return './node_modules/' + module + '/' + value;
         });
         gulp.src(moduleDeps, {nodir: true})
-            .pipe(gulp.dest('./application/asset/vendor/' + module));
+            .pipe(gulp.dest('./application/asset/vendor/' + dest));
     });
     cb();
 }

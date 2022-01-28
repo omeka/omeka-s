@@ -12,6 +12,25 @@ use Laminas\View\Renderer\JsonRenderer;
  */
 class ApiJsonRenderer extends JsonRenderer
 {
+    /**
+     * @var bool
+     */
+    protected $hasJsonpCallback = false;
+
+    /**
+     * Return whether the response is JSONP
+     *
+     * The view strategy checks this to decide what Content-Type to send, and
+     * we need to provide a different implementation to preserve that signal
+     * since we're handling JSONP manually here.
+     *
+     * @return bool
+     */
+    public function hasJsonpCallback()
+    {
+        return $this->hasJsonpCallback;
+    }
+
     public function render($model, $values = null)
     {
         $response = $model->getApiResponse();
@@ -46,12 +65,13 @@ class ApiJsonRenderer extends JsonRenderer
             $output = Json::prettyPrint($output);
         }
 
-        $jsonpCallback = $model->getOption('callback');
-        if (null !== $jsonpCallback) {
+        $jsonpCallback = (string) $model->getOption('callback');
+        if (!empty($jsonpCallback)) {
             // Wrap the JSON in a JSONP callback. Normally this would be done
             // via `$this->setJsonpCallback()` but we don't want to pass the
             // wrapped string to `rep.resource.json_output` handlers.
-            $output = sprintf('%s(%s)', $jsonpCallback, $output);
+            $output = sprintf('%s(%s);', $jsonpCallback, $output);
+            $this->hasJsonpCallback = true;
         }
 
         return $output;

@@ -23,11 +23,14 @@ class PageController extends AbstractActionController
 
     public function showAction()
     {
+        $slug = $this->params('page-slug');
         $site = $this->currentSite();
         $page = $this->api()->read('site_pages', [
-            'slug' => $this->params('page-slug'),
+            'slug' => $slug,
             'site' => $site->id(),
         ])->getContent();
+
+        $pageBodyClass = 'page site-page-' . preg_replace('([^a-zA-Z0-9\-])', '-', $slug);
 
         $this->viewHelpers()->get('sitePagePagination')->setPage($page);
 
@@ -35,6 +38,7 @@ class PageController extends AbstractActionController
 
         $view->setVariable('site', $site);
         $view->setVariable('page', $page);
+        $view->setVariable('pageBodyClass', $pageBodyClass);
         $view->setVariable('displayNavigation', true);
 
         $contentView = clone $view;

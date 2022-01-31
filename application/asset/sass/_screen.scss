@@ -1907,11 +1907,6 @@ fieldset.section > legend {
     }
 }
 
-.value .sortable-handle ~ .input-body a.value-language {
-    left: $spacing-small;
-    top: $spacing-small;
-}
-
 .value .actions a.o-icon-more {
     display: block;
     height: 1.5 * $spacing-large;
@@ -2630,7 +2625,6 @@ input[type="text"].value-language,
     }
 
     .sortable-handle ~ .input-body {
-        padding: $spacing-small;
         background-color: transparent;
     }
 

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Site\BlockLayout;
 
+use Omeka\Api\Exception as ApiException;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
@@ -61,13 +62,21 @@ class Asset extends AbstractBlockLayout
                 if (isset($value['id'])) {
                     if ($value['id'] !== '') {
                         $assetId = $value['id'];
-                        $asset = $view->api()->read('assets', $assetId)->getContent();
-                        $attachments[$key]['asset'] = $asset;
+                        try {
+                            $asset = $view->api()->read('assets', $assetId)->getContent();
+                            $attachments[$key]['asset'] = $asset;
+                        } catch (ApiException\NotFoundException $e) {
+                            $attachments[$key]['asset'] = null;
+                        }
                     } else {
                         $attachments[$key]['asset'] = null;
                     }
                     if ($value['page'] !== '') {
-                        $attachments[$key]['page'] = $view->api()->read('site_pages', $value['page'])->getContent();
+                        try {
+                            $attachments[$key]['page'] = $view->api()->read('site_pages', $value['page'])->getContent();
+                        } catch (ApiException\NotFoundException $e) {
+                            // do nothing
+                        }
                     }
                     $attachments[$key]['alt_link_title'] = $value['alt_link_title'];
                     $attachments[$key]['caption'] = $value['caption'];

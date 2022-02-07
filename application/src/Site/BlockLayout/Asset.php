@@ -77,10 +77,9 @@ class Asset extends AbstractBlockLayout
                         $attachments[$key]['asset'] = null;
                     }
                     if ($value['page'] !== '') {
-                        $linkPageId = $value['page'];
-                        $attachments[$key]['page'] = (isset($sitePageArray[$linkPageId])) ? $sitePageArray[$linkPageId] : null;
                         try {
-                            $attachments[$key]['page'] = $view->api()->read('site_pages', $value['page'])->getContent();
+                            $linkPageId = $value['page'];
+                            $attachments[$key]['page'] = (isset($sitePageArray[$linkPageId])) ? $sitePageArray[$linkPageId] : null;
                         } catch (ApiException\NotFoundException $e) {
                             // do nothing
                         }

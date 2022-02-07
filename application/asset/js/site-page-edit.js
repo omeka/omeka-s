@@ -401,6 +401,7 @@
         $('#content').on('click', '#asset-options-confirm-panel', function() {
             var selectingAttachment = $('.selecting.attachment');
             selectingAttachment.removeClass('new');
+            selectingAttachment.find('input[type="hidden"').removeAttr('disabled');
             populateAssetAttachment(selectingAttachment);
             Omeka.closeSidebar($('#asset-options'));
             $('.selecting.attachment').removeClass('selecting');

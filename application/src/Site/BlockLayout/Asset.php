@@ -54,10 +54,9 @@ class Asset extends AbstractBlockLayout
         return $html;
     }
 
-    public function prepareAssetAttachments(PhpRenderer $view, $blockData = null)
+    public function prepareAssetAttachments(PhpRenderer $view, $blockData = null, SiteRepresentation $site)
     {
         $attachments = [];
-        $site = $view->site;
         $sitePages = $site->pages();
         $sitePageArray = [];
         foreach ($sitePages as $sitePage) {
@@ -80,6 +79,11 @@ class Asset extends AbstractBlockLayout
                     if ($value['page'] !== '') {
                         $linkPageId = $value['page'];
                         $attachments[$key]['page'] = (isset($sitePageArray[$linkPageId])) ? $sitePageArray[$linkPageId] : null;
+                        try {
+                            $attachments[$key]['page'] = $view->api()->read('site_pages', $value['page'])->getContent();
+                        } catch (ApiException\NotFoundException $e) {
+                            // do nothing
+                        }
                     }
                     $attachments[$key]['alt_link_title'] = $value['alt_link_title'];
                     $attachments[$key]['caption'] = $value['caption'];
@@ -87,14 +91,13 @@ class Asset extends AbstractBlockLayout
             }
         }
         return $attachments;
-    }
-
+    } 
     public function form(PhpRenderer $view, SiteRepresentation $site, SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
         $siteId = $site->id();
         $apiUrl = $site->apiUrl();
         $blockData = ($block) ? $block->data() : '';
-        $attachments = $this->prepareAssetAttachments($view, $blockData);
+        $attachments = $this->prepareAssetAttachments($view, $blockData, $site);
         $alignmentClassSelect = $this->alignmentClassSelect($view, $block);
         return $view->partial('common/asset-block-form', [
           'block' => $blockData,
@@ -108,7 +111,8 @@ class Asset extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $blockData = ($block) ? $block->data() : '';
-        $attachments = $this->prepareAssetAttachments($view, $blockData);
+        $site = $view->site;
+        $attachments = $this->prepareAssetAttachments($view, $blockData, $site);
         $customClass = $block->dataValue('className');
         $alignment = $block->dataValue('alignment');
         return $view->partial('common/block-layout/asset', [

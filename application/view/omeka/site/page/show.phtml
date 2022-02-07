@@ -1,6 +1,6 @@
 <?php
 $this->headLink()->appendStylesheet($this->assetUrl('css/page-blocks.css', 'Omeka'));
-$this->htmlElement('body')->appendAttribute('class', 'page');
+$this->htmlElement('body')->appendAttribute('class', $pageBodyClass);
 $this->pageTitle($page->title(), 2);
 $showPagePagination = $this->siteSetting('show_page_pagination', true);
 ?>

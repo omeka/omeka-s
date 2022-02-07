@@ -1,0 +1,14 @@
+<div class="input-body">
+    <span class="default"><?php echo $this->translate('No resource selected'); ?></span>
+    <p class="selected-resource">
+        <span class="o-title <?php echo str_replace('-', '_', $dataTypePlural); ?>"></span>
+        <input type="hidden" class="value_resource_id" data-value-key="value_resource_id">
+        <input type="hidden" class="display_title" data-value-key="display_title">
+        <input type="hidden" class="url" data-value-key="url">
+        <input type="hidden" class="thumbnail_url" data-value-key="thumbnail_url">
+    </p>
+    <?php echo $this->hyperlink($dataTypeLabel, '#', [
+        'class' => 'o-icon-' . $dataTypePlural . ' button value-annotation-resource-select',
+        'data-sidebar-content-url' => $this->url('admin/default', ['controller' => $dataTypeSingle, 'action' => 'sidebar-select'], false),
+    ]); ?>
+</div>

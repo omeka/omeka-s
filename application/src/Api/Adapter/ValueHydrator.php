@@ -5,6 +5,8 @@ use Doctrine\Common\Collections\Criteria;
 use Omeka\Api\Request;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
+use Omeka\Entity\ValueAnnotation;
+use Omeka\Stdlib\ErrorStore;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 
 class ValueHydrator
@@ -28,6 +30,7 @@ class ValueHydrator
         $isPartial = $isUpdate && $request->getOption('isPartial');
         $append = $isPartial && 'append' === $request->getOption('collectionAction');
         $remove = $isPartial && 'remove' === $request->getOption('collectionAction');
+        $valueAnnotationAdapter = $adapter->getAdapter('value_annotations');
 
         $representation = $request->getContent();
         $valueCollection = $entity->getValues();
@@ -118,6 +121,27 @@ class ValueHydrator
                     $value->setIsPublic($valueData['is_public']);
                 }
                 $dataType->hydrate($valueData, $value, $adapter);
+
+                // Hydrate annotation resource.
+                $valueAnnotation = $value->getValueAnnotation();
+                if (isset($valueData['@annotation']) && is_array($valueData['@annotation']) && $valueData['@annotation']) {
+                    // This value has annotation data. Create or update the
+                    // value annotation resource.
+                    if ($valueAnnotation) {
+                        $operation = Request::UPDATE;
+                    } else {
+                        $operation = Request::CREATE;
+                        $valueAnnotation = new ValueAnnotation;
+                    }
+                    $subrequest = new Request($operation, 'value_annotations');
+                    $subrequest->setContent($valueData['@annotation']);
+                    $valueAnnotationAdapter->hydrateEntity($subrequest, $valueAnnotation, new ErrorStore);
+                    $value->setValueAnnotation($valueAnnotation);
+                } elseif ($valueAnnotation) {
+                    // This value does not have annotation data. Delete the
+                    // value annotation resource.
+                    $value->setValueAnnotation(null);
+                }
             }
         }
 

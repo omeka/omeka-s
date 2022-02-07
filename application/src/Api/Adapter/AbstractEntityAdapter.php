@@ -371,7 +371,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     $logger->err((string) $e);
                     continue;
                 }
-                // Detatch previously persisted entities before re-throwing.
+                // Detach previously persisted entities before re-throwing.
                 if ($detachEntities) {
                     $this->detachAllNewEntities($originalIdentityMap);
                 }
@@ -452,7 +452,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     $logger->err((string) $e);
                     continue;
                 }
-                // Detatch managed entities before re-throwing.
+                // Detach managed entities before re-throwing.
                 if ($detachEntities) {
                     $this->detachAllNewEntities($originalIdentityMap);
                 }
@@ -512,7 +512,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     $logger->err((string) $e);
                     continue;
                 }
-                // Detatch managed entities before re-throwing.
+                // Detach managed entities before re-throwing.
                 $this->detachAllNewEntities($originalIdentityMap);
                 throw $e;
             }
@@ -749,7 +749,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             ->from($this->getEntityClass(), 'e');
 
         // Exclude the passed entity from the query if it has an persistent
-        // indentifier.
+        // identifier.
         if ($entity->getId()) {
             $qb->andWhere($qb->expr()->neq(
                 'e.id',

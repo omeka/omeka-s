@@ -38,20 +38,26 @@ class ValueRepresentation extends AbstractRepresentation
      */
     public function __toString()
     {
-        return $this->dataType->toString($this);
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs([
+            'string' => $this->dataType->toString($this),
+        ]);
+        $eventManager->trigger('rep.value.string', $this, $args);
+        return $args['string'];
     }
 
     /**
      * Return this value for display on a webpage.
      *
+     * @param array|string|null $options If string, the options is the lang.
      * @return string
      */
-    public function asHtml($lang = null)
+    public function asHtml($options = [])
     {
         $view = $this->getServiceLocator()->get('ViewRenderer');
         $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs([
-            'html' => $this->dataType->render($view, $this, $lang),
+            'html' => $this->dataType->render($view, $this, is_array($options) ? $options : ['lang' => $options]),
         ]);
         $eventManager->trigger('rep.value.html', $this, $args);
         return $args['html'];
@@ -65,11 +71,29 @@ class ValueRepresentation extends AbstractRepresentation
             'property_label' => $this->value->getProperty()->getLabel(),
             'is_public' => $this->isPublic(),
         ];
+        // Set the value annotations.
+        $valueAnnotation = $this->valueAnnotation();
+        if ($valueAnnotation) {
+            $valueAnnotations = [];
+            foreach ($valueAnnotation->values() as $term => $property) {
+                foreach ($property['values'] as $value) {
+                    $valueAnnotations[$term][] = $value;
+                }
+            }
+            if ($valueAnnotations) {
+                $valueObject['@annotation'] = $valueAnnotations;
+            }
+        }
         $jsonLd = $this->dataType->getJsonLd($this);
         if (!is_array($jsonLd)) {
             $jsonLd = [];
         }
-        return $valueObject + $jsonLd;
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs([
+            'json' => $valueObject + $jsonLd,
+        ]);
+        $eventManager->trigger('rep.value.json', $this, $args);
+        return $args['json'];
     }
 
     /**
@@ -168,6 +192,17 @@ class ValueRepresentation extends AbstractRepresentation
     public function isPublic()
     {
         return $this->value->isPublic();
+    }
+
+    /**
+     * Get the value annotation representation.
+     *
+     * @return null|AbstractResourceEntityRepresentation
+     */
+    public function valueAnnotation()
+    {
+        $valueAnnotation = $this->value->getValueAnnotation();
+        return $valueAnnotation ? $this->getAdapter('value_annotations')->getRepresentation($valueAnnotation) : null;
     }
 
     /**

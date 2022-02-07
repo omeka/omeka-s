@@ -5,6 +5,10 @@
     "license": "GPL-3.0",
     "require": {
         "php": ">=7.2",
+        "ext-fileinfo": "*",
+        "ext-mbstring": "*",
+        "ext-pdo_mysql": "*",
+        "ext-xml": "*",
         "doctrine/orm": "^2.8.4",
         "doctrine/dbal": "^2.13.1",
         "easyrdf/easyrdf": "^1.0",

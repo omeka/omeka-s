@@ -2,6 +2,171 @@
 
     $(document).ready( function() {
 
+        let annotatingValue;
+        const vaSidebar = $('#value-annotation-sidebar');
+        const vaContainer = $('#value-annotation-container');
+        const vaTypeSelect = $('#value-annotation-type-select');
+        const vaPropertySelect = $('#value-annotation-property-select');
+        const vaAddButton = $('#value-annotation-add');
+        const vaSetButton = $('#value-annotation-set');
+        const vaTemplates = vaContainer.data('valueAnnotationTemplates');
+        // Make a value annotation jQuery/DOM object.
+        const makeValueAnnotation = function(dataTypeName, value) {
+            const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
+            const propertyLabel = vaPropertySelect.find(`option[value="${value.property_id}"]`).text();
+            // Set the translated property label as the value annotation heading.
+            valueAnnotation.find('.value-annotation-heading').text(propertyLabel);
+            hydrateValueAnnotation(valueAnnotation, value);
+            $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation, value]);
+            return valueAnnotation;
+        };
+        // Hydrate value annotation inputs by mapping the value object to the
+        // data-value-key attribute. Always call this before triggering the
+        // o:prepare-value-annotation event.
+        const hydrateValueAnnotation = function(valueAnnotation, value) {
+            valueAnnotation.find(':input').each(function() {
+                const thisInput = $(this);
+                const valueKey = thisInput.data('valueKey');
+                if (!valueKey) return;
+                thisInput.removeAttr('name').val(value ? value[valueKey] : null);
+                if ('is_public' === valueKey) {
+                    // Prepare the visibility icon and value.
+                    const visibilityIcon = thisInput.closest('.value').find('.value-annotation-visibility');
+                    if (0 == value['is_public']) {
+                        value['is_public'] = 0; // Cast false and "0" to 0
+                        visibilityIcon.removeClass('o-icon-public')
+                            .addClass('o-icon-private')
+                            .attr('aria-label', Omeka.jsTranslate('Make public'))
+                            .attr('title', Omeka.jsTranslate('Make public'));
+                    } else {
+                        value['is_public'] = 1; // Cast true and "1" to 1
+                        visibilityIcon.removeClass('o-icon-private')
+                            .addClass('o-icon-public')
+                            .attr('aria-label', Omeka.jsTranslate('Make private'))
+                            .attr('title', Omeka.jsTranslate('Make private'));
+                    }
+                }
+            });
+        };
+        // Prepare the value annotation markup.
+        $(document).on('o:prepare-value-annotation', function(e, dataTypeName, valueAnnotation, value) {
+            // Set the display title for resource types.
+            if (['resource:item', 'resource:itemset', 'resource:media'].includes(dataTypeName)) {
+                let thumbnail = '';
+                if (value.thumbnail_url) {
+                    thumbnail = $('<img>', {src: value.thumbnail_url});
+                }
+                const resourceLink = $('<a>', {
+                    text: value.display_title,
+                    href: value.url,
+                    target: '_blank',
+                });
+                if (value.value_resource_id !== undefined) {
+                    valueAnnotation.find('.default').hide();
+                }
+                valueAnnotation.find('.o-title').append(thumbnail, resourceLink);
+                valueAnnotation.find('.display_title').val(value.display_title);
+                valueAnnotation.find('.url').val(value.url);
+            }
+        });
+        // Handle "Annotate value" click.
+        $(document).on('click', '.value-annotation-annotate', function(e) {
+            e.preventDefault();
+            annotatingValue = $(this).closest('.value');
+            vaContainer.empty();
+            $.each(annotatingValue.data('valueAnnotations'), function(propertyTerm, values) {
+                $.each(values, function(index, value) {
+                    value.property_term = propertyTerm;
+                    const valueAnnotation = makeValueAnnotation(value.type, value);
+                    vaContainer.append(valueAnnotation);
+                });
+            });
+            Omeka.openSidebar(vaSidebar);
+        });
+        // Enable/disable "Add annotation" button.
+        vaPropertySelect.on('change', function(e) {
+            e.preventDefault();
+            vaAddButton.prop('disabled', '' === vaPropertySelect.val() ? true : false);
+        });
+        // Handle "Add annotation" click.
+        vaAddButton.on('click', function(e) {
+            e.preventDefault();
+            const dataTypeName = vaTypeSelect.val();
+            const value = {
+                is_public: 1,
+                type: dataTypeName,
+                property_id: vaPropertySelect.val(),
+                property_term: vaPropertySelect.find('option:selected').data('term')
+            };
+            const valueAnnotation = makeValueAnnotation(dataTypeName, value);
+            vaContainer.append(valueAnnotation);
+        });
+        // Handle "Set annotations" click.
+        vaSetButton.on('click', function(e) {
+            e.preventDefault();
+            const values = {};
+            vaContainer.find('.value-annotation').each(function() {
+                const thisValueAnnotation = $(this);
+                if (thisValueAnnotation.data('removed')) {
+                    // This annotation was flagged for removal.
+                    return;
+                }
+                const value = {};
+                // Map the the data-value-key attributes to the values object.
+                thisValueAnnotation.find(':input').each(function() {
+                    const thisInput = $(this);
+                    const valueKey = thisInput.data('valueKey');
+                    if (!valueKey) return;
+                    value[valueKey] = thisInput.val();
+                });
+                const propertyTerm = thisValueAnnotation.find('.property_term').val();
+                if (!values.hasOwnProperty(propertyTerm)) {
+                    values[propertyTerm] = [];
+                }
+                values[propertyTerm].push(value);
+            });
+            annotatingValue.data('valueAnnotations', values);
+            Omeka.closeSidebar(vaSidebar);
+        });
+        // Handle "Remove value" click.
+        $(document).on('click', '.value-annotation-remove', function(e) {
+            e.preventDefault();
+            const thisRemove = $(this);
+            const valueAnnotation = thisRemove.closest('.value-annotation');
+            valueAnnotation.data('removed', true); // Flag annotation for removal
+            thisRemove.hide();
+            valueAnnotation.find(':input').prop('disabled', true);
+            valueAnnotation.find('.value').addClass('delete');
+            valueAnnotation.find('.value-annotation-restore').show();
+        });
+        // Handle "Restore value" click.
+        $(document).on('click', '.value-annotation-restore', function(e) {
+            e.preventDefault();
+            const thisRestore = $(this);
+            const valueAnnotation = thisRestore.closest('.value-annotation');
+            valueAnnotation.removeData('removed'); // Un-flag annotation for removal
+            thisRestore.hide();
+            valueAnnotation.find(':input').prop('disabled', false);
+            valueAnnotation.find('.value').removeClass('delete');
+            valueAnnotation.find('.value-annotation-remove').show();
+        });
+        $(document).on('click', '.value-annotation-resource-select', function(e) {
+            e.preventDefault();
+            const thisButton = $(this);
+            const selectResourceSidebar = $('#select-resource');
+            $('.selecting-resource').removeClass('selecting-resource');
+            thisButton.closest('.value-annotation').addClass('selecting-resource');
+            Omeka.populateSidebarContent(selectResourceSidebar, thisButton.data('sidebar-content-url'));
+            Omeka.openSidebar(selectResourceSidebar);
+        });
+        // Handle value visibility click.
+        $(document).on('click', '.value-annotation-visibility', function(e) {
+            e.preventDefault();
+            const thisVisibilityIcon = $(this);
+            const isPublicInput = thisVisibilityIcon.closest('.value').find('input.is_public');
+            isPublicInput.val(thisVisibilityIcon.hasClass('o-icon-public') ? 1 : 0);
+        });
+
         // Select property
         $('#property-selector li.selector-child').on('click', function(e) {
             e.stopPropagation();
@@ -22,7 +187,7 @@
             applyResourceTemplate(true);
         });
 
-        $('a.value-language').on('click', function(e) {
+        $('#resource-values').on('click', 'a.value-language', function(e) {
             e.preventDefault();
             var languageButton = $(this);
             var languageInput =  languageButton.next('input.value-language');
@@ -39,6 +204,11 @@
             } else {
                 this.setCustomValidity(Omeka.jsTranslate('Please enter a valid language tag'))
             }
+        });
+
+        $('.o-icon-more').on('click', function(e) {
+            e.preventDefault();
+            $(this).parent('.more-actions').toggleClass('active');
         });
 
         // Make new value inputs whenever "add value" button clicked.
@@ -92,10 +262,19 @@
         });
 
         $('#select-item a').on('o:resource-selected', function (e) {
-            var value = $('.value.selecting-resource');
             var valueObj = $('.resource-details').data('resource-values');
-
-            $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
+            var value = $('.selecting-resource');
+            if (value.hasClass('value')) {
+                $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
+            } else if (value.hasClass('value-annotation')) {
+                const dataTypeName = value.find('input.data_type').val();
+                valueObj.type = dataTypeName;
+                valueObj.is_public = value.find('input.is_public').val();
+                valueObj.property_id = value.find('input.property_id').val();
+                valueObj.property_term = value.find('input.property_term').val();
+                hydrateValueAnnotation(value, valueObj);
+                $(document).trigger('o:prepare-value-annotation', [dataTypeName, value, valueObj]);
+            }
             Omeka.closeSidebar($('#select-resource'));
         });
 
@@ -107,17 +286,35 @@
         });
 
         $('#select-resource').on('o:resources-selected', '.select-resources-button', function(e) {
-            var value = $('.value.selecting-resource');
-            var field = value.closest('.resource-values.field');
-            $('#item-results').find('.resource')
-                .has('input.select-resource-checkbox:checked').each(function(index) {
-                    if (0 < index) {
-                        value = makeNewValue(field.data('property-term'), 'resource');
-                        field.find('.values').append(value);
+            var value = $('.selecting-resource');
+            if (value.hasClass('value')) {
+                var field = value.closest('.resource-values.field');
+                $('#item-results').find('.resource')
+                    .has('input.select-resource-checkbox:checked').each(function(index) {
+                        if (0 < index) {
+                            value = makeNewValue(field.data('property-term'), 'resource');
+                            field.find('.values').append(value);
+                        }
+                        var valueObj = $(this).data('resource-values');
+                        $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
+                    });
+            } else if (value.hasClass('value-annotation')) {
+                const dataTypeName = value.find('input.data_type').val();
+                $('#item-results').find('.resource').has('input.select-resource-checkbox:checked').each(function(index) {
+                    const valueObj = $(this).data('resource-values');
+                    valueObj.type = dataTypeName;
+                    valueObj.is_public = value.find('input.is_public').val();
+                    valueObj.property_id = value.find('input.property_id').val();
+                    valueObj.property_term = value.find('input.property_term').val();
+                    if (0 === index) {
+                        hydrateValueAnnotation(value, valueObj);
+                        $(document).trigger('o:prepare-value-annotation', [dataTypeName, value, valueObj]);
+                    } else {
+                        newValue = makeValueAnnotation(dataTypeName, valueObj);
+                        value.after(newValue);
                     }
-                    var valueObj = $(this).data('resource-values');
-                    $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
                 });
+            }
         });
 
         $('.button.resource-select').on('click', function(e) {
@@ -211,6 +408,7 @@
                 valueData['property_id'] = propertyId;
                 valueData['type'] = value.data('dataType');
                 valueData['is_public'] = value.find('input.is_public').val();
+                valueData['@annotation'] = value.data('valueAnnotations');
                 value.find(':input[data-value-key]').each(function () {
                     var input = $(this);
                     valueKey = input.data('valueKey');
@@ -242,6 +440,7 @@
         var value = $('.value.template[data-data-type="' + dataType + '"]').clone(true);
         value.removeClass('template');
         value.data('data-term', term);
+        value.data('valueAnnotations', valueObj ? valueObj['@annotation'] : null);
 
         // Get and display the value's visibility.
         var isPublic = true; // values are public by default
@@ -446,7 +645,7 @@
     };
 
     /**
-     * Prepare a selector (usualy a html list of buttons) from a list of data types.
+     * Prepare a selector (usually a html list of buttons) from a list of data types.
      *
      * @param array dataTypes
      * @return string

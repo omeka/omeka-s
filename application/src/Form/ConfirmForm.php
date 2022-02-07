@@ -4,7 +4,7 @@ namespace Omeka\Form;
 use Laminas\Form\Form;
 
 /**
- * General form for confirming an irreversable action in a sidebar.
+ * General form for confirming an irreversible action in a sidebar.
  */
 class ConfirmForm extends Form
 {

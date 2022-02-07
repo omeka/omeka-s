@@ -43,6 +43,7 @@ if (isset($resource)) {
     </datalist>
     <?php echo $this->propertySelector(); ?>
     <button id="property-selector-button" class="mobile-only" data-watch-target="#properties"><?php echo $translate('Add property'); ?></button>
+    <?php echo $this->partial('common/value-annotation-sidebar'); ?>
     <?php echo $this->partial('common/resource-select-sidebar'); ?>
 </fieldset>
 

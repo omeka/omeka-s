@@ -9,6 +9,7 @@
         };
 
         context.find('.wysiwyg').each(function () {
+            var editor = null;
             if ($(this).is('.caption')) {
                 editor = CKEDITOR.inline(this, config)
             } else {

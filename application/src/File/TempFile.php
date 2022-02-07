@@ -83,7 +83,7 @@ class TempFile
     protected $tempDir;
 
     /**
-     * @var string Path to this temprorary file
+     * @var string Path to this temporary file
      */
     protected $tempPath;
 

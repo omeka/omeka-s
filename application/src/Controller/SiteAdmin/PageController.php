@@ -15,6 +15,7 @@ class PageController extends AbstractActionController
             'slug' => $this->params('page-slug'),
             'site' => $site->id(),
         ])->getContent();
+        $sitePages = $site->pages();
 
         $form = $this->getForm(SitePageForm::class);
         $form->setData($page->jsonSerialize());
@@ -37,6 +38,7 @@ class PageController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('sitePages', $sitePages);
         $view->setVariable('page', $page);
         $view->setVariable('form', $form);
         return $view;

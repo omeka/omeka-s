@@ -2,12 +2,14 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 ?>
-<div class="sidebar" id="page-list" data-api-url="<?php echo $site->apiUrl(); ?>">
+<div class="sidebar" id="page-list">
   <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
   <div class="sidebar-content">
     <h3><?php echo $translate('Select Pages'); ?></h3>
   </div>
   <div class="pages">
-      <button class="option template" type="button" value="" data-page-slug="">
+      <?php foreach ($sitePages as $sitePage): ?>
+        <button class="option" type="button" value="<?php echo $escape($sitePage->id()); ?>" data-page-slug="<?php echo $escape($sitePage->slug()); ?>"><?php echo $escape($sitePage->title()); ?></button>
+      <?php endforeach; ?>
   </div>
 </div>

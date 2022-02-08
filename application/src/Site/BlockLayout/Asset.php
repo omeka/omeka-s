@@ -77,12 +77,8 @@ class Asset extends AbstractBlockLayout
                         $attachments[$key]['asset'] = null;
                     }
                     if ($value['page'] !== '') {
-                        try {
-                            $linkPageId = $value['page'];
-                            $attachments[$key]['page'] = (isset($sitePageArray[$linkPageId])) ? $sitePageArray[$linkPageId] : null;
-                        } catch (ApiException\NotFoundException $e) {
-                            // do nothing
-                        }
+                        $linkPageId = $value['page'];
+                        $attachments[$key]['page'] = (isset($sitePageArray[$linkPageId])) ? $sitePageArray[$linkPageId] : null;
                     }
                     $attachments[$key]['alt_link_title'] = $value['alt_link_title'];
                     $attachments[$key]['caption'] = $value['caption'];

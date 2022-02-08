@@ -9,7 +9,7 @@ $escape = $this->plugin('escapeHtml');
   </div>
   <div class="pages">
       <?php foreach ($sitePages as $sitePage): ?>
-        <button class="option" type="button" value="<?php echo $escape($sitePage->id()); ?>" data-page-slug="<?php echo $escape($sitePage->slug()); ?>"><?php echo $sitePage->title(); ?></button>
+        <button class="option" type="button" value="<?php echo $escape($sitePage->id()); ?>" data-page-slug="<?php echo $escape($sitePage->slug()); ?>"><?php echo $escape($sitePage->title()); ?></button>
       <?php endforeach; ?>
   </div>
 </div>

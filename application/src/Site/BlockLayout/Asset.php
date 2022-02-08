@@ -90,7 +90,8 @@ class Asset extends AbstractBlockLayout
             }
         }
         return $attachments;
-    } 
+    }
+
     public function form(PhpRenderer $view, SiteRepresentation $site, SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
         $siteId = $site->id();

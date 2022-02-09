@@ -1,4 +1,6 @@
 (function ($) {
+    var currentTree;
+
     function loadJStree(index) {
         
         //Initialize unique jsTree for each block
@@ -73,7 +75,7 @@
         const sidebar = $('<div class="sidebar"><div class="sidebar-content" id="add-pages"></div></div>');
         sidebar.appendTo('#content');
         $('#blocks').on('click', '.site-page-add', function (e) {
-            var currentTree = $(e.currentTarget).siblings('.jstree').jstree();
+            currentTree = $(e.currentTarget).siblings('.jstree').jstree();
             Omeka.populateSidebarContent(
                 sidebar,
                 $(this).data('sidebar-content-url'),

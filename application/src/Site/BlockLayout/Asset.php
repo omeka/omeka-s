@@ -54,7 +54,7 @@ class Asset extends AbstractBlockLayout
         return $html;
     }
 
-    public function prepareAssetAttachments(PhpRenderer $view, $blockData = null, SiteRepresentation $site)
+    public function prepareAssetAttachments(PhpRenderer $view, $blockData, SiteRepresentation $site)
     {
         $attachments = [];
         $sitePages = $site->pages();

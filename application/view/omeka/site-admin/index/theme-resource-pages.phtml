@@ -1,16 +1,98 @@
 <?php $this->htmlElement('body')->appendAttribute('class', 'sites theme-resource-pages'); ?>
 <?php echo $this->pageTitle($theme->getName(), 1, $this->translate('Theme'), $this->translate('Configure resource pages')); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<?php echo $this->formCollection($form, false); ?>
+
+<div id="page-actions">
+    <?php echo $this->cancelButton(); ?>
+    <button><?php echo $this->translate('Save'); ?></button>
+</div>
+
 <?php
 echo $this->sectionNav([
-    'show-items-section' => $this->translate('Item show'),
-    'show-media-section' => $this->translate('Media show'),
-    'show-item-sets-section' => $this->translate('Item set show'),
+    'item-section' => $this->translate('Item page'),
+    'media-section' => $this->translate('Media page'),
+    'item-set-section' => $this->translate('Item set page'),
 ]);
 ?>
-<div id="show-items-section" class="active section"></div>
-<div id="show-media-section" class="section"></div>
-<div id="show-items-sets-section" class="section"></div>
 
-<div id="show-items-block-layout-selector" class="sidebar"></div>
-<div id="show-media-block-layout-selector" class="sidebar"></div>
-<div id="show-item-sets-block-layout-selector" class="sidebar"></div>
+<div id="item-section" class="section active">
+    <ul class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><input type="hidden" class="block-layout-input" name="resource_page_block_layouts[items][]"></li>'); ?>"></ul>
+</div>
+
+<div id="media-section" class="section">
+    <ul class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><input type="hidden" class="block-layout-input" name="resource_page_block_layouts[media][]"></li>'); ?>"></ul>
+</div>
+
+<div id="item-set-section" class="section">
+    <ul class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><input type="hidden" class="block-layout-input" name="resource_page_block_layouts[item_sets][]"></li>'); ?>"></ul>
+</div>
+
+<?php echo $this->form()->closeTag(); ?>
+
+<div id="item-block-layout-selector" class="sidebar">
+    <h3><?php echo $this->translate('Add a new block'); ?></h3>
+    <?php foreach ($blockLayoutManager->getAllForResource('items') as $blockLayoutName => $blockLayout): ?>
+    <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
+        <?php echo $this->translate($blockLayout->getLabel()); ?>
+    </button>
+    <?php endforeach; ?>
+</div>
+
+<div id="media-block-layout-selector" class="sidebar">
+    <h3><?php echo $this->translate('Add a new block'); ?></h3>
+    <?php foreach ($blockLayoutManager->getAllForResource('media') as $blockLayoutName => $blockLayout): ?>
+    <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
+        <?php echo $this->translate($blockLayout->getLabel()); ?>
+    </button>
+    <?php endforeach; ?>
+</div>
+
+<div id="item-set-block-layout-selector" class="sidebar">
+    <h3><?php echo $this->translate('Add a new block'); ?></h3>
+    <?php foreach ($blockLayoutManager->getAllForResource('item_sets') as $blockLayoutName => $blockLayout): ?>
+    <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
+        <?php echo $this->translate($blockLayout->getLabel()); ?>
+    </button>
+    <?php endforeach; ?>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Open the correct sidebar on load.
+    switch (window.location.hash.substr(1)) {
+        case 'media-section':
+            Omeka.openSidebar($('#media-block-layout-selector'));
+            break;
+        case 'item-set-section':
+            Omeka.openSidebar($('#item-set-block-layout-selector'));
+            break;
+        case 'item-section':
+        default:
+            Omeka.openSidebar($('#item-block-layout-selector'));
+    }
+    // Handle navigation switch.
+    $('#item-section-label').on('click', function(e) {
+        Omeka.closeSidebar($('.sidebar'));
+        Omeka.openSidebar($('#item-block-layout-selector'));
+    });
+    $('#media-section-label').on('click', function(e) {
+        Omeka.closeSidebar($('.sidebar'));
+        Omeka.openSidebar($('#media-block-layout-selector'));
+    });
+    $('#item-set-section-label').on('click', function(e) {
+        Omeka.closeSidebar($('.sidebar'));
+        Omeka.openSidebar($('#item-set-block-layout-selector'));
+    });
+    $('button.option').on('click', function(e) {
+        const thisBlockLayout = $(this);
+        const blockLayouts = $('.section.active .block-layouts');
+        const blockLayout = $(blockLayouts.data('blockLayoutTemplate'));
+        blockLayout.find('.block-layout-input').val(thisBlockLayout.val());
+        blockLayout.append(thisBlockLayout.text());
+        blockLayouts.append(blockLayout);
+        thisBlockLayout.prop('disabled', true);
+    });
+});
+</script>

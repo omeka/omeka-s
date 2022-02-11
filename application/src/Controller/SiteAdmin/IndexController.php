@@ -9,6 +9,7 @@ use Omeka\Form\SiteSettingsForm;
 use Omeka\Mvc\Exception;
 use Omeka\Site\Navigation\Link\Manager as LinkManager;
 use Omeka\Site\Navigation\Translator;
+use Omeka\Site\ResourcePageBlockLayout\Manager as ResourcePageBlockLayoutManager;
 use Omeka\Site\Theme\Manager as ThemeManager;
 use Laminas\Form\Form;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -31,12 +32,18 @@ class IndexController extends AbstractActionController
      */
     protected $navTranslator;
 
+    /**
+     * @var ResourcePageBlockLayoutManager
+     */
+    protected $resourcePageBlockLayoutManager;
+
     public function __construct(ThemeManager $themes, LinkManager $navLinks,
-        Translator $navTranslator
+        Translator $navTranslator, ResourcePageBlockLayoutManager $resourcePageBlockLayoutManager
     ) {
         $this->themes = $themes;
         $this->navLinks = $navLinks;
         $this->navTranslator = $navTranslator;
+        $this->resourcePageBlockLayoutManager = $resourcePageBlockLayoutManager;
     }
 
     public function indexAction()
@@ -421,8 +428,21 @@ class IndexController extends AbstractActionController
         // @todo Get default resource page block layouts from the theme INI via $theme->getResourcePageBlockLayouts()
         // @todo Get configured resource page block layouts from the theme settings via $this->siteSettings()->get($theme->getSettingsKey());
 
+        $form = $this->getForm(Form::class);
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->params()->fromPost();
+            $form->setData($postData);
+            if ($form->isValid()) {
+                echo '<pre>',print_r($postData),'</pre>',exit;
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
         $view = new ViewModel;
         $view->setVariable('theme', $theme);
+        $view->setVariable('form', $form);
+        $view->setVariable('blockLayoutManager', $this->resourcePageBlockLayoutManager);
         return $view;
     }
 

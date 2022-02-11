@@ -72,24 +72,31 @@
         });
 
         // Add page select sidebar
-        const sidebar = $('<div class="sidebar"><div class="sidebar-content" id="add-pages"></div></div>');
+        var sidebar = $('<div class="sidebar"><div class="sidebar-content" id="add-pages"></div></div>');
         sidebar.appendTo('#content');
         $('#blocks').on('click', '.site-page-add', function (e) {
             currentTree = $(e.currentTarget).siblings('.jstree').jstree();
             Omeka.populateSidebarContent(
                 sidebar,
                 $(this).data('sidebar-content-url'),
-                {'current_nodes': currentTree.get_json('#', { 'flat': true })}
             );
             Omeka.openSidebar(sidebar);
         });
         
-        // Show message if no initial pages
         $('#content').on('o:sidebar-content-loaded', '.sidebar', function(e) {
-                var pageLinks = $('#nav-page-links');
-                if (!pageLinks.children('.nav-page-link').filter(':visible').length) {
-                    pageLinks.siblings('.page-selector-filter').hide();
-                    pageLinks.after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
+                var pageLinks = $('#nav-page-links .nav-page-link');
+                // Remove already selected pages by comparing slugs
+                $(currentTree.get_json('#', { 'flat': true })).each(function(index, value) {
+                    $(pageLinks).each(function() {
+                        if ($(this).attr('data-id') == value['data']['data']['id']) {
+                            $(this).hide();
+                        };
+                    });
+                });
+                // Show message if no initial pages
+                if (!pageLinks.filter(':visible').length) {
+                    pageLinks.parent().siblings('.page-selector-filter').hide();
+                    pageLinks.parent().after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
                 }
             });
 
@@ -110,10 +117,11 @@
                 });
                 // Remove page links from the available list after they are added.
                 link.hide();
-                var pageLinks = $('#nav-page-links');
-                if (!pageLinks.children('.nav-page-link').filter(':visible').length) {
-                    pageLinks.siblings('.page-selector-filter').hide();
-                    pageLinks.after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
+                // Show message if no pages remain
+                var pageLinks = $('#nav-page-links .nav-page-link');
+                if (!pageLinks.filter(':visible').length) {
+                    pageLinks.parent().siblings('.page-selector-filter').hide();
+                    pageLinks.parent().after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
                 }
             }, this)
         );

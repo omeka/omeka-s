@@ -176,18 +176,10 @@ class PageController extends AbstractActionController
 
     public function sidebarPagelistAction()
     {
-        $nodes = $this->params()->fromQuery('current_nodes');
-        $pageNames = [];
-        if ($nodes) {
-            foreach ($nodes as $node) {
-                $pageNames[] = $node['text'];
-            }
-        }
 
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('site', $this->currentSite());
-        $view->setVariable('currentPageNames', $pageNames);
         return $view;
     }
 }

@@ -145,6 +145,11 @@ class Theme
         return "theme_settings_" . $this->getId();
     }
 
+    public function getResourcePageConfigKey()
+    {
+        return "theme_resource_page_config_" . $this->getId();
+    }
+
     public function getThumbnail($key = null)
     {
         if ($key) {

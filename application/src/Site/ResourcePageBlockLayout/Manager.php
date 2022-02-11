@@ -32,4 +32,14 @@ class Manager extends AbstractPluginManager
         }
         return $allForResource;
     }
+
+    public function getAllLabels()
+    {
+        $allLabels = [];
+        foreach ($this->getRegisteredNames() as $blockLayoutName) {
+            $blockLayout = $this->get($blockLayoutName);
+            $allLabels[$blockLayoutName] = $blockLayout->getLabel();
+        }
+        return $allLabels;
+    }
 }

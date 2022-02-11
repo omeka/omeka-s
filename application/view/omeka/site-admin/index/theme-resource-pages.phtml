@@ -18,15 +18,15 @@ echo $this->sectionNav([
 ?>
 
 <div id="item-section" class="section active">
-    <ul class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><input type="hidden" class="block-layout-input" name="resource_page_block_layouts[items][]"></li>'); ?>"></ul>
+    <ul id="item-block-layouts" class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><span class="block-layout-label"></span><a href="#" class="o-icon-delete block-layout-remove"></a><input type="hidden" class="block-layout-input" name="block_layouts[items][]"></li>'); ?>"></ul>
 </div>
 
 <div id="media-section" class="section">
-    <ul class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><input type="hidden" class="block-layout-input" name="resource_page_block_layouts[media][]"></li>'); ?>"></ul>
+    <ul id="media-block-layouts" class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><span class="block-layout-label"></span><a href="#" class="o-icon-delete block-layout-remove"></a><input type="hidden" class="block-layout-input" name="block_layouts[media][]"></li>'); ?>"></ul>
 </div>
 
 <div id="item-set-section" class="section">
-    <ul class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><input type="hidden" class="block-layout-input" name="resource_page_block_layouts[item_sets][]"></li>'); ?>"></ul>
+    <ul id="item-set-block-layouts" class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><span class="block-layout-label"></span><a href="#" class="o-icon-delete block-layout-remove"></a><input type="hidden" class="block-layout-input" name="block_layouts[item_sets][]"></li>'); ?>"></ul>
 </div>
 
 <?php echo $this->form()->closeTag(); ?>
@@ -60,6 +60,31 @@ echo $this->sectionNav([
 
 <script>
 $(document).ready(function() {
+    const resourcePageConfig = $('#resource-page-config-form').data('resourcePageConfig');
+    const blockLayoutLabels = $('#resource-page-config-form').data('blockLayoutLabels');
+    // Add a block layout to a list.
+    const addBlockLayout = function(blockLayouts, blockLayoutName) {
+        const blockLayout = $(blockLayouts.data('blockLayoutTemplate'));
+        blockLayout.find('.block-layout-label').text(blockLayoutLabels[blockLayoutName]);
+        blockLayout.find('.block-layout-input').val(blockLayoutName);
+        blockLayouts.append(blockLayout);
+    };
+    // Populate the block layout lists on load.
+    $.each(resourcePageConfig['block_layouts']['items'], function(key, blockLayoutName) {
+        const blockLayouts = $('#item-block-layouts');
+        addBlockLayout(blockLayouts, blockLayoutName);
+        $('#item-block-layout-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
+    })
+    $.each(resourcePageConfig['block_layouts']['media'], function(key, blockLayoutName) {
+        const blockLayouts = $('#media-block-layouts');
+        addBlockLayout(blockLayouts, blockLayoutName);
+        $('#media-block-layout-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
+    })
+    $.each(resourcePageConfig['block_layouts']['item_sets'], function(key, blockLayoutName) {
+        const blockLayouts = $('#item-set-block-layouts');
+        addBlockLayout(blockLayouts, blockLayoutName);
+        $('#item-set-block-layout-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
+    })
     // Open the correct sidebar on load.
     switch (window.location.hash.substr(1)) {
         case 'media-section':
@@ -85,14 +110,13 @@ $(document).ready(function() {
         Omeka.closeSidebar($('.sidebar'));
         Omeka.openSidebar($('#item-set-block-layout-selector'));
     });
+    // Handle a block layout button click.
     $('button.option').on('click', function(e) {
-        const thisBlockLayout = $(this);
+        const thisBlockLayoutButton = $(this);
+        const blockLayoutName = thisBlockLayoutButton.val();
         const blockLayouts = $('.section.active .block-layouts');
-        const blockLayout = $(blockLayouts.data('blockLayoutTemplate'));
-        blockLayout.find('.block-layout-input').val(thisBlockLayout.val());
-        blockLayout.append(thisBlockLayout.text());
-        blockLayouts.append(blockLayout);
-        thisBlockLayout.prop('disabled', true);
+        addBlockLayout(blockLayouts, blockLayoutName);
+        thisBlockLayoutButton.prop('disabled', true);
     });
 });
 </script>

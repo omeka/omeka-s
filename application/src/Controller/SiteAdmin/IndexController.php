@@ -422,18 +422,31 @@ class IndexController extends AbstractActionController
         if (!$site->userIsAllowed('update')) {
             throw new Exception\PermissionDeniedException('User does not have permission to edit site theme settings');
         }
+        $blockLayoutManager = $this->resourcePageBlockLayoutManager;
+
+        // Translate the labels.
+        $allLabels = [];
+        foreach ($blockLayoutManager->getAllLabels() as $blockLayoutName => $blockLayoutLabel) {
+            $allLabels[$blockLayoutName] = $this->translate($blockLayoutLabel);
+        }
+
         $theme = $this->themes->getTheme($site->theme());
+        $resourcePageConfig = $this->siteSettings()->get($theme->getResourcePageConfigKey(), []);
 
         // @todo Get all available resource page block layouts from the ResourcePageBlockLayoutManager
         // @todo Get default resource page block layouts from the theme INI via $theme->getResourcePageBlockLayouts()
         // @todo Get configured resource page block layouts from the theme settings via $this->siteSettings()->get($theme->getSettingsKey());
 
         $form = $this->getForm(Form::class);
+        $form->setAttribute('id', 'resource-page-config-form');
+        $form->setAttribute('data-resource-page-config', json_encode($resourcePageConfig));
+        $form->setAttribute('data-block-layout-labels', json_encode($allLabels));
         if ($this->getRequest()->isPost()) {
             $postData = $this->params()->fromPost();
             $form->setData($postData);
             if ($form->isValid()) {
-                echo '<pre>',print_r($postData),'</pre>',exit;
+                $resourcePageConfig['block_layouts'] = $postData['block_layouts'];
+                $this->siteSettings()->set($theme->getResourcePageConfigKey(), $resourcePageConfig);
             } else {
                 $this->messenger()->addFormErrors($form);
             }
@@ -442,7 +455,7 @@ class IndexController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('theme', $theme);
         $view->setVariable('form', $form);
-        $view->setVariable('blockLayoutManager', $this->resourcePageBlockLayoutManager);
+        $view->setVariable('blockLayoutManager', $blockLayoutManager);
         return $view;
     }
 

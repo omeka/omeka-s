@@ -176,7 +176,6 @@ class PageController extends AbstractActionController
 
     public function sidebarPagelistAction()
     {
-
         $view = new ViewModel;
         $view->setTerminal(true);
         $view->setVariable('site', $this->currentSite());

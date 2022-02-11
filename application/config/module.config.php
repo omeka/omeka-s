@@ -250,6 +250,7 @@ return [
             'Omeka\Mailer' => Service\MailerFactory::class,
             'Omeka\HtmlPurifier' => Service\HtmlPurifierFactory::class,
             'Omeka\BlockLayoutManager' => Service\BlockLayoutManagerFactory::class,
+            'Omeka\ResourcePageBlockLayoutManager' => Service\ResourcePageBlockLayoutManagerFactory::class,
             'Omeka\DataTypeManager' => Service\DataTypeManagerFactory::class,
             'Omeka\Cli' => Service\CliFactory::class,
             'Omeka\Paginator' => Service\PaginatorFactory::class,
@@ -533,6 +534,12 @@ return [
             'asset' => Service\BlockLayout\AssetFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
             'listOfPages' => Service\BlockLayout\PageListFactory::class,
+        ],
+    ],
+    'resource_page_block_layouts' => [
+        'invokables' => [
+            'values' => Site\ResourcePageBlockLayout\Values::class,
+            'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
         ],
     ],
     'navigation_links' => [

@@ -24,6 +24,11 @@ class Theme
     protected $configSpec;
 
     /**
+     * @var array
+     */
+    protected $resourcePageBlocks;
+
+    /**
      * Construct the theme.
      *
      * @param string $id The theme identifier, the directory name
@@ -113,6 +118,26 @@ class Theme
     public function getConfigSpec()
     {
         return $this->configSpec;
+    }
+
+    /**
+     * Set the default resource page block layouts for this theme.
+     *
+     * @param array $resourcePageBlockLayouts
+     */
+    public function setResourcePageBlockLayouts($resourcePageBlockLayouts)
+    {
+        $this->resourcePageBlockLayouts = $resourcePageBlockLayouts;
+    }
+
+    /**
+     * Get the default resource page block layouts for this theme.
+     *
+     * @return array
+     */
+    public function getResourcePageBlockLayouts()
+    {
+        return $this->resourcePageBlockLayouts;
     }
 
     public function getSettingsKey()

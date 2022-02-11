@@ -45,9 +45,14 @@ class ThemeManagerFactory implements FactoryInterface
             if (isset($ini['config'])) {
                 $configSpec = $ini['config'];
             }
+            $resourcePageBlockLayouts = [];
+            if (isset($ini['resource_page_block_layouts'])) {
+                $resourcePageBlockLayouts = $ini['resource_page_block_layouts'];
+            }
 
             $theme->setIni($ini['info']);
             $theme->setConfigSpec($configSpec);
+            $theme->setResourcePageBlockLayouts($resourcePageBlockLayouts);
 
             // Theme INI must be valid
             if (!$manager->iniIsValid($theme)) {

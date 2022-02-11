@@ -254,6 +254,18 @@ return [
                 'action' => 'theme',
                 'privilege' => 'update',
                 'useRouteMatch' => true,
+                'pages' => [
+                    [
+                        'route' => 'admin/site/slug/action',
+                        'action' => 'theme-settings',
+                        'visible' => false,
+                    ],
+                    [
+                        'route' => 'admin/site/slug/action',
+                        'action' => 'theme-resource-pages',
+                        'visible' => false,
+                    ],
+                ],
             ],
         ],
     ],

@@ -1,0 +1,16 @@
+<?php $this->htmlElement('body')->appendAttribute('class', 'sites theme-resource-pages'); ?>
+<?php echo $this->pageTitle($theme->getName(), 1, $this->translate('Theme'), $this->translate('Configure resource pages')); ?>
+<?php
+echo $this->sectionNav([
+    'show-items-section' => $this->translate('Item show'),
+    'show-media-section' => $this->translate('Media show'),
+    'show-item-sets-section' => $this->translate('Item set show'),
+]);
+?>
+<div id="show-items-section" class="active section"></div>
+<div id="show-media-section" class="section"></div>
+<div id="show-items-sets-section" class="section"></div>
+
+<div id="show-items-block-layout-selector" class="sidebar"></div>
+<div id="show-media-block-layout-selector" class="sidebar"></div>
+<div id="show-item-sets-block-layout-selector" class="sidebar"></div>

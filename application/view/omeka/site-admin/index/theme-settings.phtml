@@ -3,7 +3,7 @@ $translate = $this->plugin('translate');
 $this->headLink()->appendStylesheet($this->assetUrl('css/asset-form.css', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'sites theme-settings');
 ?>
-<?php echo $this->pageTitle($theme->getName(), 1, $translate('Theme'), $translate('Configure')); ?>
+<?php echo $this->pageTitle($theme->getName(), 1, $translate('Theme'), $translate('Edit settings')); ?>
 <?php if(isset($this->form)): ?>
     <?php $form->prepare(); ?>
     <?php echo $this->form()->openTag($form); ?>

@@ -409,6 +409,23 @@ class IndexController extends AbstractActionController
         return $view;
     }
 
+    public function themeResourcePagesAction()
+    {
+        $site = $this->currentSite();
+        if (!$site->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException('User does not have permission to edit site theme settings');
+        }
+        $theme = $this->themes->getTheme($site->theme());
+
+        // @todo Get all available resource page block layouts from the ResourcePageBlockLayoutManager
+        // @todo Get default resource page block layouts from the theme INI via $theme->getResourcePageBlockLayouts()
+        // @todo Get configured resource page block layouts from the theme settings via $this->siteSettings()->get($theme->getSettingsKey());
+
+        $view = new ViewModel;
+        $view->setVariable('theme', $theme);
+        return $view;
+    }
+
     public function deleteAction()
     {
         if ($this->getRequest()->isPost()) {

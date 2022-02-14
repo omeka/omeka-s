@@ -138,6 +138,15 @@
          $('.selected-page + a').attr('href', pageUrl);
      }
 
+    // Prevent drop into ckeditors to avoid picking up block content when sorting
+    CKEDITOR.on('instanceReady', function(e) {
+        var editor = e.editor;
+        editor.editable().attachListener(editor.container, 'drop', function (dropEv) {
+            console.log(dropEv);
+            dropEv.data.preventDefault();
+        })
+    });
+
     $(document).ready(function () {
         var list = document.getElementById('blocks');
         var blockIndex = 0;

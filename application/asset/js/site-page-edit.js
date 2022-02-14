@@ -143,7 +143,6 @@
     CKEDITOR.on('instanceReady', function(e) {
         var editor = e.editor;
         editor.editable().attachListener(editor.container, 'drop', function (dropEv) {
-            console.log(dropEv);
             dropEv.data.preventDefault();
         })
     });

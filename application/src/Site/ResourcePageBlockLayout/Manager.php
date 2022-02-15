@@ -20,6 +20,12 @@ class Manager extends AbstractPluginManager
         return $instance;
     }
 
+    /**
+     * Get all block layouts that are compatible with a resource.
+     *
+     * @param string $resourceName
+     * @return array
+     */
     public function getAllForResource($resourceName)
     {
         $allForResource = [];
@@ -33,6 +39,11 @@ class Manager extends AbstractPluginManager
         return $allForResource;
     }
 
+    /**
+     * Get all block layout labels.
+     *
+     * @return array
+     */
     public function getAllLabels()
     {
         $allLabels = [];

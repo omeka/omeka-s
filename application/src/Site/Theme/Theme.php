@@ -26,7 +26,7 @@ class Theme
     /**
      * @var array
      */
-    protected $resourcePageBlocks;
+    protected $resourcePageConfig;
 
     /**
      * Construct the theme.
@@ -121,23 +121,23 @@ class Theme
     }
 
     /**
-     * Set the default resource page block layouts for this theme.
+     * Set the default resource page config for this theme.
      *
-     * @param array $resourcePageBlockLayouts
+     * @param array $resourcePageConfig
      */
-    public function setResourcePageBlockLayouts($resourcePageBlockLayouts)
+    public function setResourcePageConfig($resourcePageConfig)
     {
-        $this->resourcePageBlockLayouts = $resourcePageBlockLayouts;
+        $this->resourcePageConfig = $resourcePageConfig;
     }
 
     /**
-     * Get the default resource page block layouts for this theme.
+     * Get the default resource page config for this theme.
      *
      * @return array
      */
-    public function getResourcePageBlockLayouts()
+    public function getResourcePageConfig()
     {
-        return $this->resourcePageBlockLayouts;
+        return $this->resourcePageConfig;
     }
 
     public function getSettingsKey()

@@ -422,31 +422,40 @@ class IndexController extends AbstractActionController
         if (!$site->userIsAllowed('update')) {
             throw new Exception\PermissionDeniedException('User does not have permission to edit site theme settings');
         }
+
+        // Standardize resource page configuration to an expected structure.
+        $standardizeResourcePageConfig = function ($config = []) {
+            $resourcePageConfig = [];
+            $resourcePageConfig['blocks']['items']['main'] = $config['blocks']['items']['main'] ?? [];
+            $resourcePageConfig['blocks']['item_sets']['main'] = $config['blocks']['item_sets']['main'] ?? [];
+            $resourcePageConfig['blocks']['media']['main'] = $config['blocks']['media']['main'] ?? [];
+            return $resourcePageConfig;
+        };
+
+        $theme = $this->themes->getTheme($site->theme());
+        $resourcePageConfigDefault = $theme->getResourcePageConfig();
+        $resourcePageConfig = $standardizeResourcePageConfig($this->siteSettings()->get($theme->getResourcePageConfigKey()));
         $blockLayoutManager = $this->resourcePageBlockLayoutManager;
 
-        // Translate the labels.
+        // Translate the block layout labels.
         $allLabels = [];
         foreach ($blockLayoutManager->getAllLabels() as $blockLayoutName => $blockLayoutLabel) {
             $allLabels[$blockLayoutName] = $this->translate($blockLayoutLabel);
         }
 
-        $theme = $this->themes->getTheme($site->theme());
-        $resourcePageConfig = $this->siteSettings()->get($theme->getResourcePageConfigKey(), []);
-
-        // @todo Get all available resource page block layouts from the ResourcePageBlockLayoutManager
-        // @todo Get default resource page block layouts from the theme INI via $theme->getResourcePageBlockLayouts()
-        // @todo Get configured resource page block layouts from the theme settings via $this->siteSettings()->get($theme->getSettingsKey());
-
         $form = $this->getForm(Form::class);
         $form->setAttribute('id', 'resource-page-config-form');
+        $form->setAttribute('data-resource-page-config-default', json_encode($resourcePageConfigDefault));
         $form->setAttribute('data-resource-page-config', json_encode($resourcePageConfig));
         $form->setAttribute('data-block-layout-labels', json_encode($allLabels));
+
         if ($this->getRequest()->isPost()) {
             $postData = $this->params()->fromPost();
             $form->setData($postData);
             if ($form->isValid()) {
-                $resourcePageConfig['block_layouts'] = $postData['block_layouts'];
+                $resourcePageConfig = $standardizeResourcePageConfig($postData);
                 $this->siteSettings()->set($theme->getResourcePageConfigKey(), $resourcePageConfig);
+                return $this->redirect()->refresh();
             } else {
                 $this->messenger()->addFormErrors($form);
             }

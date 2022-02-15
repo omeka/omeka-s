@@ -1,4 +1,24 @@
-<?php $this->htmlElement('body')->appendAttribute('class', 'sites theme-resource-pages'); ?>
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'sites theme-resource-pages');
+$this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
+
+// Get the block template for a resource page.
+$getBlockTemplate = function ($resource) {
+    $removeBlockText = $this->escapeHtml($this->translate('Remove block'));
+    $restoreBlockText = $this->escapeHtml($this->translate('Restore block'));
+    return <<<EOT
+    <li class="block">
+        <span class="sortable-handle"></span>
+        <span class="block-layout-label"></span>
+        <ul class="actions">
+            <li><a href="#" class="o-icon-delete block-remove" aria-label="$removeBlockText" title="$removeBlockText"></a></li>
+            <li><a href="#" class="o-icon-undo block-restore" aria-label="$restoreBlockText" title="$restoreBlockText" style="display: none;"></a></li>
+        </ul>
+        <input type="hidden" class="block-layout-name" name="blocks[$resource][main][]">
+    </li>
+    EOT;
+};
+?>
 <?php echo $this->pageTitle($theme->getName(), 1, $this->translate('Theme'), $this->translate('Configure resource pages')); ?>
 
 <?php echo $this->form()->openTag($form); ?>
@@ -18,20 +38,20 @@ echo $this->sectionNav([
 ?>
 
 <div id="item-section" class="section active">
-    <ul id="item-block-layouts" class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><span class="block-layout-label"></span><a href="#" class="o-icon-delete block-layout-remove"></a><input type="hidden" class="block-layout-input" name="block_layouts[items][]"></li>'); ?>"></ul>
+    <ul id="item-blocks" class="blocks" data-block-template="<?php echo $this->escapeHtml($getBlockTemplate('items')); ?>"></ul>
 </div>
 
 <div id="media-section" class="section">
-    <ul id="media-block-layouts" class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><span class="block-layout-label"></span><a href="#" class="o-icon-delete block-layout-remove"></a><input type="hidden" class="block-layout-input" name="block_layouts[media][]"></li>'); ?>"></ul>
+    <ul id="media-blocks" class="blocks" data-block-template="<?php echo $this->escapeHtml($getBlockTemplate('media')); ?>"></ul>
 </div>
 
 <div id="item-set-section" class="section">
-    <ul id="item-set-block-layouts" class="block-layouts" data-block-layout-template="<?php echo $this->escapeHtml('<li class="block-layout"><span class="block-layout-label"></span><a href="#" class="o-icon-delete block-layout-remove"></a><input type="hidden" class="block-layout-input" name="block_layouts[item_sets][]"></li>'); ?>"></ul>
+    <ul id="item-set-blocks" class="blocks" data-block-template="<?php echo $this->escapeHtml($getBlockTemplate('item_sets')); ?>"></ul>
 </div>
 
 <?php echo $this->form()->closeTag(); ?>
 
-<div id="item-block-layout-selector" class="sidebar">
+<div id="item-block-selector" class="sidebar">
     <h3><?php echo $this->translate('Add a new block'); ?></h3>
     <?php foreach ($blockLayoutManager->getAllForResource('items') as $blockLayoutName => $blockLayout): ?>
     <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
@@ -40,7 +60,7 @@ echo $this->sectionNav([
     <?php endforeach; ?>
 </div>
 
-<div id="media-block-layout-selector" class="sidebar">
+<div id="media-block-selector" class="sidebar">
     <h3><?php echo $this->translate('Add a new block'); ?></h3>
     <?php foreach ($blockLayoutManager->getAllForResource('media') as $blockLayoutName => $blockLayout): ?>
     <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
@@ -49,7 +69,7 @@ echo $this->sectionNav([
     <?php endforeach; ?>
 </div>
 
-<div id="item-set-block-layout-selector" class="sidebar">
+<div id="item-set-block-selector" class="sidebar">
     <h3><?php echo $this->translate('Add a new block'); ?></h3>
     <?php foreach ($blockLayoutManager->getAllForResource('item_sets') as $blockLayoutName => $blockLayout): ?>
     <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
@@ -62,61 +82,96 @@ echo $this->sectionNav([
 $(document).ready(function() {
     const resourcePageConfig = $('#resource-page-config-form').data('resourcePageConfig');
     const blockLayoutLabels = $('#resource-page-config-form').data('blockLayoutLabels');
-    // Add a block layout to a list.
-    const addBlockLayout = function(blockLayouts, blockLayoutName) {
-        const blockLayout = $(blockLayouts.data('blockLayoutTemplate'));
-        blockLayout.find('.block-layout-label').text(blockLayoutLabels[blockLayoutName]);
-        blockLayout.find('.block-layout-input').val(blockLayoutName);
-        blockLayouts.append(blockLayout);
+    // Add a block to a resource page.
+    const addBlock = function(blocks, blockLayoutName) {
+        const block = $(blocks.data('blockTemplate'));
+        let blockLayoutLabel = blockLayoutLabels[blockLayoutName];
+        if (!blockLayoutLabel) {
+            blockLayoutLabel = `${Omeka.jsTranslate('Unknown block layout')} [${blockLayoutName}]`;
+        }
+        block.find('.block-layout-label').text(blockLayoutLabel);
+        block.find('.block-layout-name').val(blockLayoutName);
+        blocks.append(block);
     };
     // Populate the block layout lists on load.
-    $.each(resourcePageConfig['block_layouts']['items'], function(key, blockLayoutName) {
-        const blockLayouts = $('#item-block-layouts');
-        addBlockLayout(blockLayouts, blockLayoutName);
-        $('#item-block-layout-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
+    $.each(resourcePageConfig['blocks']['items']['main'], function(key, blockLayoutName) {
+        const blocks = $('#item-blocks');
+        addBlock(blocks, blockLayoutName);
+        $('#item-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
     })
-    $.each(resourcePageConfig['block_layouts']['media'], function(key, blockLayoutName) {
-        const blockLayouts = $('#media-block-layouts');
-        addBlockLayout(blockLayouts, blockLayoutName);
-        $('#media-block-layout-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
+    $.each(resourcePageConfig['blocks']['media']['main'], function(key, blockLayoutName) {
+        const blocks = $('#media-blocks');
+        addBlock(blocks, blockLayoutName);
+        $('#media-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
     })
-    $.each(resourcePageConfig['block_layouts']['item_sets'], function(key, blockLayoutName) {
-        const blockLayouts = $('#item-set-block-layouts');
-        addBlockLayout(blockLayouts, blockLayoutName);
-        $('#item-set-block-layout-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
+    $.each(resourcePageConfig['blocks']['item_sets']['main'], function(key, blockLayoutName) {
+        const blocks = $('#item-set-blocks');
+        addBlock(blocks, blockLayoutName);
+        $('#item-set-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
     })
     // Open the correct sidebar on load.
     switch (window.location.hash.substr(1)) {
         case 'media-section':
-            Omeka.openSidebar($('#media-block-layout-selector'));
+            Omeka.openSidebar($('#media-block-selector'));
             break;
         case 'item-set-section':
-            Omeka.openSidebar($('#item-set-block-layout-selector'));
+            Omeka.openSidebar($('#item-set-block-selector'));
             break;
         case 'item-section':
         default:
-            Omeka.openSidebar($('#item-block-layout-selector'));
+            Omeka.openSidebar($('#item-block-selector'));
     }
+    // Make blocks sortable on load.
+    new Sortable(
+        document.getElementById('item-blocks'),
+        {draggable: '.block', handle: '.sortable-handle'}
+    );
+    new Sortable(
+        document.getElementById('item-set-blocks'),
+        {draggable: '.block', handle: '.sortable-handle'}
+    );
+    new Sortable(
+        document.getElementById('media-blocks'),
+        {draggable: '.block', handle: '.sortable-handle'}
+    );
     // Handle navigation switch.
     $('#item-section-label').on('click', function(e) {
         Omeka.closeSidebar($('.sidebar'));
-        Omeka.openSidebar($('#item-block-layout-selector'));
+        Omeka.openSidebar($('#item-block-selector'));
     });
     $('#media-section-label').on('click', function(e) {
         Omeka.closeSidebar($('.sidebar'));
-        Omeka.openSidebar($('#media-block-layout-selector'));
+        Omeka.openSidebar($('#media-block-selector'));
     });
     $('#item-set-section-label').on('click', function(e) {
         Omeka.closeSidebar($('.sidebar'));
-        Omeka.openSidebar($('#item-set-block-layout-selector'));
+        Omeka.openSidebar($('#item-set-block-selector'));
     });
-    // Handle a block layout button click.
+    // Handle a block button click.
     $('button.option').on('click', function(e) {
         const thisBlockLayoutButton = $(this);
         const blockLayoutName = thisBlockLayoutButton.val();
-        const blockLayouts = $('.section.active .block-layouts');
-        addBlockLayout(blockLayouts, blockLayoutName);
+        const blocks = $('.section.active .blocks');
+        addBlock(blocks, blockLayoutName);
         thisBlockLayoutButton.prop('disabled', true);
+    });
+    // Handle remove block button click.
+    $(document).on('click', '.block-remove', function(e) {
+        const thisRemoveIcon = $(this);
+        const block = thisRemoveIcon.closest('.block');
+        thisRemoveIcon.hide();
+        block.addClass('delete');
+        block.find('.block-restore').show();
+        block.find(':input').prop('disabled', true);
+    });
+    // Handle restore block button click.
+    $(document).on('click', '.block-restore', function(e) {
+        const thisRestoreIcon = $(this);
+        const block = thisRestoreIcon.closest('.block');
+        thisRestoreIcon.hide();
+        block.removeClass('delete');
+        block.find('.block-remove').show();
+        block.find(':input').prop('disabled', false);
     });
 });
 </script>

@@ -539,11 +539,11 @@ return [
     'resource_page_block_layouts' => [
         'invokables' => [
             // 'itemSets' => Site\ResourcePageBlockLayout\ItemSets::class,
-            // 'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
             // 'mediaEmbeds' => Site\ResourcePageBlockLayout\MediaEmbeds::class,
             // 'mediaLinks' => Site\ResourcePageBlockLayout\MediaLinks::class,
             // 'attachedPages' => Site\ResourcePageBlockLayout\AttachedPages::class,
             'values' => Site\ResourcePageBlockLayout\Values::class,
+            'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
         ],
     ],
     'navigation_links' => [
@@ -660,5 +660,6 @@ return [
         'Please enter a valid language tag', // @translate
         'Title', // @translate
         'Description', // @translate
+        'Unknown block layout', // @translate
     ],
 ];

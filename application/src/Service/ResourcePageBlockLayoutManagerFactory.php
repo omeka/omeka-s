@@ -10,9 +10,10 @@ class ResourcePageBlockLayoutManagerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $config = $services->get('Config');
-        if (!isset($config['resource_page_block_layouts'])) {
-            throw new Exception\ConfigException('Missing resource page block layout configuration');
-        }
-        return new Manager($services, $config['resource_page_block_layouts']);
+        $manager = new Manager($services, $config['resource_page_block_layouts']);
+        $manager->setBlockConfig($config['resource_page_blocks']);
+        $manager->setThemeManager($services->get('Omeka\Site\ThemeManager'));
+        $manager->setSiteSettings($services->get('Omeka\Settings\Site'));
+        return $manager;
     }
 }

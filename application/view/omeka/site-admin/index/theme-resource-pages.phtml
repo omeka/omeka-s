@@ -80,7 +80,7 @@ echo $this->sectionNav([
 
 <script>
 $(document).ready(function() {
-    const resourcePageConfig = $('#resource-page-config-form').data('resourcePageConfig');
+    const blockConfig = $('#resource-page-config-form').data('block-config');
     const blockLayoutLabels = $('#resource-page-config-form').data('blockLayoutLabels');
     // Add a block to a resource page.
     const addBlock = function(blocks, blockLayoutName) {
@@ -94,17 +94,17 @@ $(document).ready(function() {
         blocks.append(block);
     };
     // Populate the block layout lists on load.
-    $.each(resourcePageConfig['blocks']['items']['main'], function(key, blockLayoutName) {
+    $.each(blockConfig['items']['main'], function(key, blockLayoutName) {
         const blocks = $('#item-blocks');
         addBlock(blocks, blockLayoutName);
         $('#item-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
     })
-    $.each(resourcePageConfig['blocks']['media']['main'], function(key, blockLayoutName) {
+    $.each(blockConfig['media']['main'], function(key, blockLayoutName) {
         const blocks = $('#media-blocks');
         addBlock(blocks, blockLayoutName);
         $('#media-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
     })
-    $.each(resourcePageConfig['blocks']['item_sets']['main'], function(key, blockLayoutName) {
+    $.each(blockConfig['item_sets']['main'], function(key, blockLayoutName) {
         const blocks = $('#item-set-blocks');
         addBlock(blocks, blockLayoutName);
         $('#item-set-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);

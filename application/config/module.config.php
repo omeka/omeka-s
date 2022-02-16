@@ -538,12 +538,23 @@ return [
     ],
     'resource_page_block_layouts' => [
         'invokables' => [
+            'values' => Site\ResourcePageBlockLayout\Values::class,
+            'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
             // 'itemSets' => Site\ResourcePageBlockLayout\ItemSets::class,
             // 'mediaEmbeds' => Site\ResourcePageBlockLayout\MediaEmbeds::class,
             // 'mediaLinks' => Site\ResourcePageBlockLayout\MediaLinks::class,
             // 'attachedPages' => Site\ResourcePageBlockLayout\AttachedPages::class,
-            'values' => Site\ResourcePageBlockLayout\Values::class,
-            'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
+        ],
+    ],
+    'resource_page_blocks' => [
+        'items' => [
+            'main' => [],
+        ],
+        'item_sets' => [
+            'main' => [],
+        ],
+        'media' => [
+            'main' => [],
         ],
     ],
     'navigation_links' => [

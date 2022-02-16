@@ -76,6 +76,7 @@
             currentTree = $(e.currentTarget).siblings('.jstree').jstree();
             var pageLinks = $('#nav-page-links .nav-page-link');
             pageLinks.show();
+            $('#no-pages').hide();
 
             // Remove already selected pages by comparing slugs
             $(currentTree.get_json('#', { 'flat': true })).each(function(index, value) {
@@ -88,7 +89,9 @@
             // Show message if no initial pages
             if (!pageLinks.filter(':visible').length) {
                 pageLinks.parent().siblings('.page-selector-filter').hide();
-                pageLinks.parent().after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
+                $('#no-pages').show();
+            } else {
+                pageLinks.parent().siblings('.page-selector-filter').show();
             }
 
             Omeka.openSidebar($('#add-pages'));
@@ -115,7 +118,7 @@
                 var pageLinks = $('#nav-page-links .nav-page-link');
                 if (!pageLinks.filter(':visible').length) {
                     pageLinks.parent().siblings('.page-selector-filter').hide();
-                    pageLinks.parent().after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
+                    $('#no-pages').show();
                 }
             }, this)
         );

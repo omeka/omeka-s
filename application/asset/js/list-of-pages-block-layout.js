@@ -75,6 +75,7 @@
         $('#blocks').on('click', '.site-page-add', function (e) {
             currentTree = $(e.currentTarget).siblings('.jstree').jstree();
             var pageLinks = $('#nav-page-links .nav-page-link');
+            pageLinks.show();
 
             // Remove already selected pages by comparing slugs
             $(currentTree.get_json('#', { 'flat': true })).each(function(index, value) {

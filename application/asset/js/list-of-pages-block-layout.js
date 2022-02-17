@@ -98,7 +98,7 @@
         });
 
         // Add a site page link to the block tree
-        $('#content').on(
+        $('#add-pages').on(
             'click',
             '.nav-page-link',
             $.proxy(function(e) {
@@ -133,7 +133,7 @@
             });
             results.show();
         };
-        $('#content').on(
+        $('#add-pages').on(
             'keyup',
             '.page-selector-filter',
             (function() {

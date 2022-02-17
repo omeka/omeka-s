@@ -72,33 +72,30 @@
         });
 
         // Add page select sidebar
-        var sidebar = $('<div class="sidebar"><div class="sidebar-content" id="add-pages"></div></div>');
-        sidebar.appendTo('#content');
         $('#blocks').on('click', '.site-page-add', function (e) {
             currentTree = $(e.currentTarget).siblings('.jstree').jstree();
-            Omeka.populateSidebarContent(
-                sidebar,
-                $(this).data('sidebar-content-url'),
-            );
-            Omeka.openSidebar(sidebar);
-        });
-        
-        $('#content').on('o:sidebar-content-loaded', '.sidebar', function(e) {
-                var pageLinks = $('#nav-page-links .nav-page-link');
-                // Remove already selected pages by comparing slugs
-                $(currentTree.get_json('#', { 'flat': true })).each(function(index, value) {
-                    $(pageLinks).each(function() {
-                        if ($(this).attr('data-id') == value['data']['data']['id']) {
-                            $(this).hide();
-                        };
-                    });
+            var pageLinks = $('#nav-page-links .nav-page-link');
+            pageLinks.show();
+            $('#no-pages').hide();
+
+            // Remove already selected pages by comparing slugs
+            $(currentTree.get_json('#', { 'flat': true })).each(function(index, value) {
+                $(pageLinks).each(function() {
+                    if ($(this).attr('data-id') == value['data']['data']['id']) {
+                        $(this).hide();
+                    };
                 });
-                // Show message if no initial pages
-                if (!pageLinks.filter(':visible').length) {
-                    pageLinks.parent().siblings('.page-selector-filter').hide();
-                    pageLinks.parent().after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
-                }
             });
+            // Show message if no initial pages
+            if (!pageLinks.filter(':visible').length) {
+                pageLinks.parent().siblings('.page-selector-filter').hide();
+                $('#no-pages').show();
+            } else {
+                pageLinks.parent().siblings('.page-selector-filter').show();
+            }
+
+            Omeka.openSidebar($('#add-pages'));
+        });
 
         // Add a site page link to the block tree
         $('#content').on(
@@ -121,7 +118,7 @@
                 var pageLinks = $('#nav-page-links .nav-page-link');
                 if (!pageLinks.filter(':visible').length) {
                     pageLinks.parent().siblings('.page-selector-filter').hide();
-                    pageLinks.parent().after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
+                    $('#no-pages').show();
                 }
             }, this)
         );

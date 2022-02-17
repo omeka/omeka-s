@@ -87,7 +87,7 @@ function runPhpCommand(cmd, args, options, resolveWith) {
     return runCommand(cliOptions['php-path'], [cmd].concat(args), options, resolveWith);
 }
 
-function composer(args) {
+function composer(args, options) {
     var composerPath = buildDir + '/composer.phar';
     var installerPath = buildDir + '/composer-installer';
     var installerUrl = 'https://getcomposer.org/installer';
@@ -103,8 +103,16 @@ function composer(args) {
         if (!cliOptions['dev']) {
             args.push('--no-dev');
         }
-        return runPhpCommand(composerPath, args);
+        return runPhpCommand(composerPath, args, options);
     });
+}
+
+function ensureModuleUsesComposer(modulePath) {
+    var composerPath = path.join(modulePath, 'composer.json');
+    return fs.statAsync(composerPath).then(
+        function () { return modulePath; },
+        function () { throw new Error('No composer.json found in this module.'); }
+    );
 }
 
 function cssToSass(dir) {
@@ -294,11 +302,35 @@ function taskDeps() {
 taskDeps.description = 'Install Composer dependencies';
 gulp.task('deps', taskDeps);
 
+function taskDepsModule() {
+    return getModulePath()
+        .then(ensureModuleUsesComposer)
+        .then(function (modulePath) {
+            return composer(['install'], {cwd: modulePath})
+        }
+    );
+}
+taskDepsModule.description = 'Install Composer dependencies for a module';
+taskDepsModule.flags = {'--module-name': 'Folder name of the module'};
+gulp.task('deps:module', taskDepsModule);
+
 function taskDepsUpdate() {
     return composer(['update']);
 }
 taskDepsUpdate.description = 'Update locked Composer dependencies';
 gulp.task('deps:update', taskDepsUpdate);
+
+function taskDepsModuleUpdate() {
+    return getModulePath()
+        .then(ensureModuleUsesComposer)
+        .then(function (modulePath) {
+            return composer(['update'], {cwd: modulePath});
+        }
+    );
+}
+taskDepsModuleUpdate.description = 'Update locked Composer dependencies for a module';
+taskDepsModuleUpdate.flags = {'--module-name': 'Folder name of the module'};
+gulp.task('deps:module:update', taskDepsModuleUpdate);
 
 function taskDepsJs(cb) {
     var deps = {

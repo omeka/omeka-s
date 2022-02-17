@@ -24,11 +24,6 @@ class Theme
     protected $configSpec;
 
     /**
-     * @var array
-     */
-    protected $resourcePageConfig;
-
-    /**
      * Construct the theme.
      *
      * @param string $id The theme identifier, the directory name
@@ -120,34 +115,9 @@ class Theme
         return $this->configSpec;
     }
 
-    /**
-     * Set the default resource page config for this theme.
-     *
-     * @param array $resourcePageConfig
-     */
-    public function setResourcePageConfig($resourcePageConfig)
-    {
-        $this->resourcePageConfig = $resourcePageConfig;
-    }
-
-    /**
-     * Get the default resource page config for this theme.
-     *
-     * @return array
-     */
-    public function getResourcePageConfig()
-    {
-        return $this->resourcePageConfig;
-    }
-
     public function getSettingsKey()
     {
         return "theme_settings_" . $this->getId();
-    }
-
-    public function getResourcePageConfigKey()
-    {
-        return "theme_resource_page_config_" . $this->getId();
     }
 
     public function getThumbnail($key = null)
@@ -170,5 +140,16 @@ class Theme
     {
         $configSpec = $this->getConfigSpec();
         return $configSpec && $configSpec['elements'];
+    }
+
+    /**
+     * Return whether this theme has resource page blocks configuration.
+     *
+     * @return bool
+     */
+    public function isConfigurableResourcePageBlocks()
+    {
+        $configSpec = $this->getConfigSpec();
+        return $configSpec && $configSpec['resource_page_blocks'];
     }
 }

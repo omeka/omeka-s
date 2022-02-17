@@ -14,7 +14,7 @@ $getBlockTemplate = function ($resource) {
             <li><a href="#" class="o-icon-delete block-remove" aria-label="$removeBlockText" title="$removeBlockText"></a></li>
             <li><a href="#" class="o-icon-undo block-restore" aria-label="$restoreBlockText" title="$restoreBlockText" style="display: none;"></a></li>
         </ul>
-        <input type="hidden" class="block-layout-name" name="blocks[$resource][main][]">
+        <input type="hidden" class="block-layout-name" name="resource_page_blocks[$resource][main][]">
     </li>
     EOT;
 };
@@ -80,7 +80,7 @@ echo $this->sectionNav([
 
 <script>
 $(document).ready(function() {
-    const blockConfig = $('#resource-page-config-form').data('block-config');
+    const resourcePageBlocks = $('#resource-page-config-form').data('resourcePageBlocks');
     const blockLayoutLabels = $('#resource-page-config-form').data('blockLayoutLabels');
     // Add a block to a resource page.
     const addBlock = function(blocks, blockLayoutName) {
@@ -94,17 +94,17 @@ $(document).ready(function() {
         blocks.append(block);
     };
     // Populate the block layout lists on load.
-    $.each(blockConfig['items']['main'], function(key, blockLayoutName) {
+    $.each(resourcePageBlocks['items']['main'], function(key, blockLayoutName) {
         const blocks = $('#item-blocks');
         addBlock(blocks, blockLayoutName);
         $('#item-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
     })
-    $.each(blockConfig['media']['main'], function(key, blockLayoutName) {
+    $.each(resourcePageBlocks['media']['main'], function(key, blockLayoutName) {
         const blocks = $('#media-blocks');
         addBlock(blocks, blockLayoutName);
         $('#media-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
     })
-    $.each(blockConfig['item_sets']['main'], function(key, blockLayoutName) {
+    $.each(resourcePageBlocks['item_sets']['main'], function(key, blockLayoutName) {
         const blocks = $('#item-set-blocks');
         addBlock(blocks, blockLayoutName);
         $('#item-set-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);

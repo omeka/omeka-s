@@ -406,6 +406,10 @@ class IndexController extends AbstractActionController
         if ($form->isValid()) {
             $data = $form->getData();
             unset($data['form_csrf']);
+            if (isset($oldSettings['resource_page_blocks'])) {
+                // Don't delete resource_page_blocks setting.
+                $data['resource_page_blocks'] = $oldSettings['resource_page_blocks'];
+            }
             $this->siteSettings()->set($theme->getSettingsKey(), $data);
             $this->messenger()->addSuccess('Theme settings successfully updated'); // @translate
             return $this->redirect()->refresh();
@@ -425,7 +429,7 @@ class IndexController extends AbstractActionController
 
         $theme = $this->themes->getTheme($site->theme());
         $blockLayoutManager = $this->resourcePageBlockLayoutManager;
-        $blockConfig = $blockLayoutManager->getBlockConfig($site->theme());
+        $resourcePageBlocks = $blockLayoutManager->getResourcePageBlocks($site->theme());
 
         // Translate the block layout labels.
         $allLabels = [];
@@ -435,15 +439,16 @@ class IndexController extends AbstractActionController
 
         $form = $this->getForm(Form::class);
         $form->setAttribute('id', 'resource-page-config-form');
-        $form->setAttribute('data-block-config', json_encode($blockConfig));
+        $form->setAttribute('data-resource-page-blocks', json_encode($resourcePageBlocks));
         $form->setAttribute('data-block-layout-labels', json_encode($allLabels));
 
         if ($this->getRequest()->isPost()) {
             $postData = $this->params()->fromPost();
             $form->setData($postData);
             if ($form->isValid()) {
-                unset($postData['form_csrf']);
-                $this->siteSettings()->set($theme->getResourcePageConfigKey(), $postData);
+                $themeSettings = $this->siteSettings()->get($theme->getSettingsKey());
+                $themeSettings['resource_page_blocks'] = $postData['resource_page_blocks'];
+                $this->siteSettings()->set($theme->getSettingsKey(), $themeSettings);
                 return $this->redirect()->refresh();
             } else {
                 $this->messenger()->addFormErrors($form);

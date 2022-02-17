@@ -45,14 +45,9 @@ class ThemeManagerFactory implements FactoryInterface
             if (isset($ini['config'])) {
                 $configSpec = $ini['config'];
             }
-            $resourcePageConfig = [];
-            if (isset($ini['resource_page_config'])) {
-                $resourcePageConfig = $ini['resource_page_config'];
-            }
 
             $theme->setIni($ini['info']);
             $theme->setConfigSpec($configSpec);
-            $theme->setResourcePageConfig($resourcePageConfig);
 
             // Theme INI must be valid
             if (!$manager->iniIsValid($theme)) {

@@ -53,7 +53,7 @@ echo $this->sectionNav([
 
 <div id="item-block-selector" class="sidebar">
     <h3><?php echo $this->translate('Add a new block'); ?></h3>
-    <?php foreach ($blockLayoutManager->getAllForResource('items') as $blockLayoutName => $blockLayout): ?>
+    <?php foreach ($blockLayoutItems as $blockLayoutName => $blockLayout): ?>
     <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
         <?php echo $this->translate($blockLayout->getLabel()); ?>
     </button>
@@ -62,7 +62,7 @@ echo $this->sectionNav([
 
 <div id="media-block-selector" class="sidebar">
     <h3><?php echo $this->translate('Add a new block'); ?></h3>
-    <?php foreach ($blockLayoutManager->getAllForResource('media') as $blockLayoutName => $blockLayout): ?>
+    <?php foreach ($blockLayoutMedia as $blockLayoutName => $blockLayout): ?>
     <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
         <?php echo $this->translate($blockLayout->getLabel()); ?>
     </button>
@@ -71,7 +71,7 @@ echo $this->sectionNav([
 
 <div id="item-set-block-selector" class="sidebar">
     <h3><?php echo $this->translate('Add a new block'); ?></h3>
-    <?php foreach ($blockLayoutManager->getAllForResource('item_sets') as $blockLayoutName => $blockLayout): ?>
+    <?php foreach ($blockLayoutItemSets as $blockLayoutName => $blockLayout): ?>
     <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
         <?php echo $this->translate($blockLayout->getLabel()); ?>
     </button>

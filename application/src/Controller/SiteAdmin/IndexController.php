@@ -453,7 +453,9 @@ class IndexController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('theme', $theme);
         $view->setVariable('form', $form);
-        $view->setVariable('blockLayoutManager', $blockLayoutManager);
+        $view->setVariable('blockLayoutItems', $blockLayoutManager->getAllForResource('items'));
+        $view->setVariable('blockLayoutItemSets', $blockLayoutManager->getAllForResource('item_sets'));
+        $view->setVariable('blockLayoutMedia', $blockLayoutManager->getAllForResource('media'));
         return $view;
     }
 

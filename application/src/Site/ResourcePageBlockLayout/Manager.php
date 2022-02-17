@@ -75,6 +75,12 @@ class Manager extends AbstractPluginManager
         return $allLabels;
     }
 
+    /**
+     * Get the current block configuration for a theme.
+     *
+     * @param string $themeName
+     * @return array
+     */
     public function getBlockConfig($themeName)
     {
         $theme = $this->themeManager->getTheme($themeName);
@@ -87,15 +93,30 @@ class Manager extends AbstractPluginManager
         }
 
         // If a site administrator did not configure blocks, use the block
-        // config set in the theme configuration file.
+        // config set in the theme configuration file, if any.
         $resourcePageConfigTheme = $theme->getResourcePageConfig();
         $blockConfigTheme = $resourcePageConfigTheme['blocks'] ?? null;
         if (!$blockConfigTheme) {
             // Set fallback defaults if the theme has no block config.
             $blockConfigTheme = [
-                'items' => ['main' => ['values', 'linkedResources']],
-                'item_sets' => ['main' => ['values', 'linkedResources']],
-                'media' => ['main' => ['values', 'linkedResources']],
+                'items' => [
+                    'main' => [
+                        'values',
+                        'linkedResources',
+                    ]
+                ],
+                'item_sets' => [
+                    'main' => [
+                        'values',
+                        'linkedResources',
+                    ]
+                ],
+                'media' => [
+                    'main' => [
+                        'values',
+                        'linkedResources',
+                    ]
+                ],
             ];
         }
 
@@ -107,6 +128,12 @@ class Manager extends AbstractPluginManager
         );
     }
 
+    /**
+     * Standardize block configuration into an expected structure.
+     *
+     * @param mixed $configIn
+     * @return array
+     */
     public function standardizeBlockConfig($configIn)
     {
         $configIn = is_array($configIn) ? $configIn : [];

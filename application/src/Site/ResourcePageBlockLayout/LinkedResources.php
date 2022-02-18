@@ -18,6 +18,6 @@ class LinkedResources implements ResourcePageBlockLayoutInterface
 
     public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
     {
-        return '';
+        return $view->partial('common/resource-page-block-layout/linked-resources', ['resource' => $resource]);
     }
 }

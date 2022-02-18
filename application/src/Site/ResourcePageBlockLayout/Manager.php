@@ -93,7 +93,11 @@ class Manager extends AbstractPluginManager
             $resourcePageBlocks = [
                 'items' => [
                     'main' => [
+                        'mediaEmbeds',
                         'values',
+                        'itemSets',
+                        'sitePages',
+                        'mediaLinks',
                         'linkedResources',
                     ]
                 ],

@@ -1,0 +1,11 @@
+<?php
+$page = $this->params()->fromQuery('page', 1);
+$property = $this->params()->fromQuery('property');
+$subjectValues = $resource->displaySubjectValues($page, 25, $property);
+?>
+<?php if ($subjectValues): ?>
+<div id="resource-linked">
+    <h3><?php echo $this->translate('Linked resources'); ?></h3>
+    <?php echo $subjectValues; ?>
+</div>
+<?php endif; ?>

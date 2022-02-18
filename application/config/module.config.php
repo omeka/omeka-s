@@ -541,10 +541,10 @@ return [
         'invokables' => [
             'values' => Site\ResourcePageBlockLayout\Values::class,
             'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
-            // 'itemSets' => Site\ResourcePageBlockLayout\ItemSets::class,
-            // 'mediaEmbeds' => Site\ResourcePageBlockLayout\MediaEmbeds::class,
-            // 'mediaLinks' => Site\ResourcePageBlockLayout\MediaLinks::class,
-            // 'attachedPages' => Site\ResourcePageBlockLayout\AttachedPages::class,
+            'itemSets' => Site\ResourcePageBlockLayout\ItemSets::class,
+            'mediaEmbeds' => Site\ResourcePageBlockLayout\MediaEmbeds::class,
+            'mediaLinks' => Site\ResourcePageBlockLayout\MediaLinks::class,
+            'sitePages' => Site\ResourcePageBlockLayout\SitePages::class,
         ],
     ],
     'resource_page_blocks' => [

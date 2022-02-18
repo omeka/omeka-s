@@ -1,6 +1,9 @@
 <?php
 namespace Omeka\Site\ResourcePageBlockLayout;
 
+use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
+use Laminas\View\Renderer\PhpRenderer;
+
 class Values implements ResourcePageBlockLayoutInterface
 {
     public function getLabel() : string
@@ -13,6 +16,8 @@ class Values implements ResourcePageBlockLayoutInterface
         return ['items', 'media', 'item_sets'];
     }
 
-    public function render(PhpRenderer $view) : string
-    {}
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
+    {
+        return '';
+    }
 }

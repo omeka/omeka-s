@@ -450,6 +450,7 @@ return [
             'lang' => Service\ViewHelper\LangFactory::class,
             'status' => Service\ViewHelper\StatusFactory::class,
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
+            'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
         ],
         'delegators' => [
             'Laminas\Form\View\Helper\FormElement' => [

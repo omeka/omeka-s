@@ -404,12 +404,8 @@ class IndexController extends AbstractActionController
         $postData = $this->params()->fromPost();
         $form->setData($postData);
         if ($form->isValid()) {
-            $data = $form->getData();
+            $data = array_merge($oldSettings, $form->getData());
             unset($data['form_csrf']);
-            if (isset($oldSettings['resource_page_blocks'])) {
-                // Don't delete resource_page_blocks setting.
-                $data['resource_page_blocks'] = $oldSettings['resource_page_blocks'];
-            }
             $this->siteSettings()->set($theme->getSettingsKey(), $data);
             $this->messenger()->addSuccess('Theme settings successfully updated'); // @translate
             return $this->redirect()->refresh();
@@ -429,7 +425,7 @@ class IndexController extends AbstractActionController
 
         $theme = $this->themes->getTheme($site->theme());
         $blockLayoutManager = $this->resourcePageBlockLayoutManager;
-        $resourcePageBlocks = $blockLayoutManager->getResourcePageBlocks($site->theme());
+        $resourcePageBlocks = $blockLayoutManager->getResourcePageBlocks($theme);
 
         // Translate the block layout labels.
         $allLabels = [];
@@ -447,7 +443,7 @@ class IndexController extends AbstractActionController
             $form->setData($postData);
             if ($form->isValid()) {
                 $themeSettings = $this->siteSettings()->get($theme->getSettingsKey());
-                $themeSettings['resource_page_blocks'] = $postData['resource_page_blocks'];
+                $themeSettings['resource_page_blocks'] = $blockLayoutManager->standardizeResourcePageBlocks($postData['resource_page_blocks']);
                 $this->siteSettings()->set($theme->getSettingsKey(), $themeSettings);
                 return $this->redirect()->refresh();
             } else {

@@ -1,10 +1,13 @@
 <?php
 namespace Omeka\Site\ResourcePageBlockLayout;
 
+use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
+use Laminas\View\Renderer\PhpRenderer;
+
 interface ResourcePageBlockLayoutInterface
 {
     /**
-     * Get a human-readable label for the block layout.
+     * Get a human-readable label for this block layout.
      *
      * @return string
      */
@@ -18,10 +21,11 @@ interface ResourcePageBlockLayoutInterface
     public function getCompatibleResourceNames() : array;
 
     /**
-     * Render the block.
+     * Return the markup for this block layout.
      *
      * @param PhpRenderer $view
+     * @param AbstractResourceEntityRepresentation $resource
      * @return string
      */
-    public function render(PhpRenderer $view) : string;
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string;
 }

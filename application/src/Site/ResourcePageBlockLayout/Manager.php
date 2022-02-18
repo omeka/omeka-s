@@ -2,6 +2,7 @@
 namespace Omeka\Site\ResourcePageBlockLayout;
 
 use Omeka\ServiceManager\AbstractPluginManager;
+use Omeka\Site\Theme\Theme;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 
 class Manager extends AbstractPluginManager
@@ -11,8 +12,6 @@ class Manager extends AbstractPluginManager
     protected $instanceOf = ResourcePageBlockLayoutInterface::class;
 
     protected $resourcePageBlocks;
-
-    protected $themeManager;
 
     protected $siteSettings;
 
@@ -29,11 +28,6 @@ class Manager extends AbstractPluginManager
     public function setResourcePageBlocks(array $resourcePageBlocks)
     {
         $this->resourcePageBlocks = $resourcePageBlocks;
-    }
-
-    public function setThemeManager($themeManager)
-    {
-        $this->themeManager = $themeManager;
     }
 
     public function setSiteSettings($siteSettings)
@@ -78,13 +72,11 @@ class Manager extends AbstractPluginManager
     /**
      * Get the current resource page blocks configuration for a theme.
      *
-     * @param string $themeName
+     * @param Theme $theme
      * @return array
      */
-    public function getResourcePageBlocks($themeName)
+    public function getResourcePageBlocks(Theme $theme)
     {
-        $theme = $this->themeManager->getTheme($themeName);
-
         // Prioritize blocks set by a site administrator.
         $themeSettings = $this->siteSettings->get($theme->getSettingsKey());
         $resourcePageBlocks = $themeSettings['resource_page_blocks'] ?? null;
@@ -92,12 +84,12 @@ class Manager extends AbstractPluginManager
             return $this->standardizeResourcePageBlocks($resourcePageBlocks);
         }
 
-        // If a site administrator did not configure blocks, use the block
-        // configuration set in the theme's INI file, if any.
+        // If a site administrator did not set any blocks, use the theme's
+        // blocks configuration (set in the theme's INI file), if any.
         $themeConfig = $theme->getConfigSpec();
         $resourcePageBlocks = $themeConfig['resource_page_blocks'] ?? null;
         if (!$resourcePageBlocks) {
-            // Set fallback defaults if the theme has no block config.
+            // Set fallback blocks if the theme has no blocks configuration.
             $resourcePageBlocks = [
                 'items' => [
                     'main' => [

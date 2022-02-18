@@ -539,12 +539,13 @@ return [
     ],
     'resource_page_block_layouts' => [
         'invokables' => [
-            'values' => Site\ResourcePageBlockLayout\Values::class,
-            'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
             'itemSets' => Site\ResourcePageBlockLayout\ItemSets::class,
+            'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
             'mediaEmbeds' => Site\ResourcePageBlockLayout\MediaEmbeds::class,
             'mediaLinks' => Site\ResourcePageBlockLayout\MediaLinks::class,
+            'mediaRender' => Site\ResourcePageBlockLayout\MediaRender::class,
             'sitePages' => Site\ResourcePageBlockLayout\SitePages::class,
+            'values' => Site\ResourcePageBlockLayout\Values::class,
         ],
     ],
     'resource_page_blocks' => [

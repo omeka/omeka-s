@@ -104,13 +104,11 @@ class Manager extends AbstractPluginManager
                 'item_sets' => [
                     'main' => [
                         'values',
-                        'linkedResources',
                     ]
                 ],
                 'media' => [
                     'main' => [
                         'values',
-                        'linkedResources',
                     ]
                 ],
             ];

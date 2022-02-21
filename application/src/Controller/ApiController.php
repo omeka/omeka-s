@@ -72,7 +72,15 @@ class ApiController extends AbstractRestfulController
         }
 
         $query = $this->params()->fromQuery();
-        $response = $this->api->search($resource, $query);
+
+        $options = [
+            'responseContent' => $query['response_content'] ?? 'representation',
+            'returnScalar' => $query['return_scalar'] ?? false,
+        ];
+        unset($query['response_content']);
+        unset($query['return_scalar']);
+
+        $response = $this->api->search($resource, $query, $options);
 
         $this->paginator->setCurrentPage($query['page']);
         if (isset($query['per_page'])) {

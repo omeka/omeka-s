@@ -150,6 +150,6 @@ class Theme
     public function isConfigurableResourcePageBlocks()
     {
         $configSpec = $this->getConfigSpec();
-        return $configSpec && $configSpec['resource_page_blocks'];
+        return $configSpec && isset($configSpec['resource_page_blocks']);
     }
 }

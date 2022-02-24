@@ -10,5 +10,5 @@ $this->htmlElement('body')->appendAttribute('class', 'media resource show'); ?>
 <p class="media-parent-item">
     <?php echo sprintf($translate('Part of %s'), $item->link($item->displayTitle())); ?>
 </p>
-<?php echo $this->resourcePageBlocks($media)->main(); ?>
+<?php echo $this->resourcePageBlocks($media); ?>
 <?php $this->trigger('view.show.after'); ?>

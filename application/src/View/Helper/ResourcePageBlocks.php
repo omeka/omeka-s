@@ -15,41 +15,39 @@ class ResourcePageBlocks extends AbstractHelper
     }
 
     /**
-     * Invoke this helper.
+     * Return the markup for a region of the resource page.
      *
      * @param Representation\AbstractResourceEntityRepresentation $resource
+     * @param string $regionName
      * @return ResourcePageBlocks
      */
-    public function __invoke(Representation\AbstractResourceEntityRepresentation $resource)
+    public function __invoke(Representation\AbstractResourceEntityRepresentation $resource, $regionName = 'main')
     {
-        $this->resource = $resource;
-        switch (get_class($resource)) {
+        $view = $this->getView();
+        $resourceClass = get_class($resource);
+        switch ($resourceClass) {
             case Representation\ItemRepresentation::class:
-                $this->resourceName = 'items';
+                $resourceName = 'items';
                 break;
             case Representation\ItemSetRepresentation::class:
-                $this->resourceName = 'item_sets';
+                $resourceName = 'item_sets';
                 break;
             case Representation\MediaRepresentation::class:
-                $this->resourceName = 'media';
+                $resourceName = 'media';
                 break;
             default:
-                throw new \Exception('Cannot invoke resourcePageBlocks(). Invalid resource.');
+                return '<!-- ' . sprintf($view->translate('Resource page blocks error: invalid resource "%s"'), $resourceClass) . ' -->';
         }
-        return $this;
-    }
-
-    /**
-     * Return the markup for the "main" region of the resource page.
-     *
-     * @return string
-     */
-    public function main()
-    {
+        if (!isset($this->resourcePageBlocks[$resourceName])) {
+            return '<!-- ' . sprintf($view->translate('Resource page blocks error: resource not supported "%s"'), $resourceName) . ' -->';
+        }
+        if (!isset($this->resourcePageBlocks[$resourceName][$regionName])) {
+            return '<!-- ' . sprintf($view->translate('Resource page blocks error: region not supported "%s"'), $regionName) . ' -->';
+        }
         $blockMarkup = [];
-        foreach ($this->resourcePageBlocks[$this->resourceName]['main'] as $blockName) {
+        foreach ($this->resourcePageBlocks[$resourceName][$regionName] as $blockName) {
             $blockLayout = $this->blockLayoutManager->get($blockName);
-            $blockMarkup[] = $blockLayout->render($this->getView(), $this->resource);
+            $blockMarkup[] = $blockLayout->render($view, $resource);
         }
         return implode('', $blockMarkup);
     }

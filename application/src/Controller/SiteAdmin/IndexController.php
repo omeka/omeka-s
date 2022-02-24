@@ -426,6 +426,7 @@ class IndexController extends AbstractActionController
         $theme = $this->themes->getTheme($site->theme());
         $blockLayoutManager = $this->resourcePageBlockLayoutManager;
         $resourcePageBlocks = $blockLayoutManager->getResourcePageBlocks($theme);
+        $resourcePageRegions = $blockLayoutManager->getResourcePageRegions($theme);
 
         // Translate the block layout labels.
         $allLabels = [];
@@ -436,6 +437,7 @@ class IndexController extends AbstractActionController
         $form = $this->getForm(Form::class);
         $form->setAttribute('id', 'resource-page-config-form');
         $form->setAttribute('data-resource-page-blocks', json_encode($resourcePageBlocks));
+        $form->setAttribute('data-resource-page-regions', json_encode($resourcePageRegions));
         $form->setAttribute('data-block-layout-labels', json_encode($allLabels));
 
         if ($this->getRequest()->isPost()) {
@@ -454,9 +456,8 @@ class IndexController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('theme', $theme);
         $view->setVariable('form', $form);
-        $view->setVariable('blockLayoutItems', $blockLayoutManager->getAllForResource('items'));
-        $view->setVariable('blockLayoutItemSets', $blockLayoutManager->getAllForResource('item_sets'));
-        $view->setVariable('blockLayoutMedia', $blockLayoutManager->getAllForResource('media'));
+        $view->setVariable('resourcePageRegions', $resourcePageRegions);
+        $view->setVariable('blockLayoutManager', $blockLayoutManager);
         return $view;
     }
 

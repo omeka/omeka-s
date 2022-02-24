@@ -3,22 +3,20 @@ $this->htmlElement('body')->appendAttribute('class', 'sites theme-resource-pages
 $this->headScript()->appendFile($this->assetUrl('js/site-theme-resource-pages.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
 
-// Get the block template for a resource page.
-$getBlockTemplate = function ($resource) {
-    $removeBlockText = $this->escapeHtml($this->translate('Remove block'));
-    $restoreBlockText = $this->escapeHtml($this->translate('Restore block'));
-    return <<<EOT
-    <li class="block">
-        <span class="sortable-handle"></span>
-        <span class="block-layout-label"></span>
-        <ul class="actions">
-            <li><a href="#" class="o-icon-delete block-remove" aria-label="$removeBlockText" title="$removeBlockText"></a></li>
-            <li><a href="#" class="o-icon-undo block-restore" aria-label="$restoreBlockText" title="$restoreBlockText" style="display: none;"></a></li>
-        </ul>
-        <input type="hidden" class="block-layout-name" name="resource_page_blocks[$resource][main][]">
-    </li>
-    EOT;
-};
+$removeBlockText = $this->escapeHtml($this->translate('Remove block'));
+$restoreBlockText = $this->escapeHtml($this->translate('Restore block'));
+$blockTemplate = <<<EOT
+<li class="block">
+    <span class="sortable-handle"></span>
+    <span class="block-layout-label"></span>
+    <ul class="actions">
+        <li><a href="#" class="o-icon-delete block-remove" aria-label="$removeBlockText" title="$removeBlockText"></a></li>
+        <li><a href="#" class="o-icon-undo block-restore" aria-label="$restoreBlockText" title="$restoreBlockText" style="display: none;"></a></li>
+    </ul>
+    <input type="hidden" class="block-layout-name" name="" data-name-template="resource_page_blocks[__RESOURCE_NAME__][__REGION_NAME__][]">
+</li>
+EOT;
+$form->setAttribute('data-block-template', $blockTemplate);
 ?>
 <?php echo $this->pageTitle($theme->getName(), 1, $this->translate('Theme'), $this->translate('Configure resource pages')); ?>
 
@@ -32,49 +30,38 @@ $getBlockTemplate = function ($resource) {
 
 <?php
 echo $this->sectionNav([
-    'item-section' => $this->translate('Item page'),
-    'media-section' => $this->translate('Media page'),
-    'item-set-section' => $this->translate('Item set page'),
+    'section-items' => $this->translate('Item page'),
+    'section-media' => $this->translate('Media page'),
+    'section-item_sets' => $this->translate('Item set page'),
 ]);
 ?>
 
-<div id="item-section" class="section active">
-    <ul id="item-blocks" class="blocks" data-block-template="<?php echo $this->escapeHtml($getBlockTemplate('items')); ?>"></ul>
+<?php foreach (['items', 'item_sets', 'media'] as $resourceName): ?>
+<div id="<?php echo $this->escapeHtml(sprintf('section-%s', $resourceName)); ?>" class="section<?php echo 'items' === $resourceName ? ' active' : ''; ?>">
+    <?php foreach ($resourcePageRegions[$resourceName] as $regionName => $regionLabel): ?>
+    <h3><?php echo sprintf($this->translate('Region: %s'), $regionLabel); ?></h3>
+    <ul class="blocks" style="border: 1px solid #DFDFDF; padding: 20px; min-height: 30px;" data-resource-name="<?php echo $this->escapeHtml($resourceName); ?>" data-region-name="<?php echo $this->escapeHtml($regionName); ?>"></ul>
+    <?php endforeach; ?>
 </div>
-
-<div id="media-section" class="section">
-    <ul id="media-blocks" class="blocks" data-block-template="<?php echo $this->escapeHtml($getBlockTemplate('media')); ?>"></ul>
-</div>
-
-<div id="item-set-section" class="section">
-    <ul id="item-set-blocks" class="blocks" data-block-template="<?php echo $this->escapeHtml($getBlockTemplate('item_sets')); ?>"></ul>
-</div>
+<?php endforeach; ?>
 
 <?php echo $this->form()->closeTag(); ?>
 
-<div id="item-block-selector" class="sidebar">
-    <h3><?php echo $this->translate('Add a new block'); ?></h3>
-    <?php foreach ($blockLayoutItems as $blockLayoutName => $blockLayout): ?>
-    <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
+<?php foreach (['items', 'item_sets', 'media'] as $resourceName): ?>
+<div id="<?php echo $this->escapeHtml(sprintf('block-selector-%s', $resourceName)); ?>" class="sidebar">
+    <div class="field">
+        <label><?php echo $this->translate('Select a region'); ?></label>
+        <select id="<?php echo $this->escapeHtml(sprintf('region-select-%s', $resourceName)); ?>" class="chosen-select">
+            <?php foreach ($resourcePageRegions[$resourceName] as $regionName => $regionLabel): ?>
+            <option value="<?php echo $this->escapeHtml($regionName); ?>"><?php echo $regionLabel; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <h3><?php echo $this->translate('Add a block to selected region'); ?></h3>
+    <?php foreach ($blockLayoutManager->getAllForResource($resourceName) as $blockLayoutName => $blockLayout): ?>
+    <button type="button" class="option" data-resource-name="<?php echo $this->escapeHtml($resourceName); ?>" data-block-layout-name="<?php echo $this->escapeHtml($blockLayoutName); ?>">
         <?php echo $this->translate($blockLayout->getLabel()); ?>
     </button>
     <?php endforeach; ?>
 </div>
-
-<div id="media-block-selector" class="sidebar">
-    <h3><?php echo $this->translate('Add a new block'); ?></h3>
-    <?php foreach ($blockLayoutMedia as $blockLayoutName => $blockLayout): ?>
-    <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
-        <?php echo $this->translate($blockLayout->getLabel()); ?>
-    </button>
-    <?php endforeach; ?>
-</div>
-
-<div id="item-set-block-selector" class="sidebar">
-    <h3><?php echo $this->translate('Add a new block'); ?></h3>
-    <?php foreach ($blockLayoutItemSets as $blockLayoutName => $blockLayout): ?>
-    <button type="button" class="option" value="<?php echo $this->escapeHtml($blockLayoutName); ?>">
-        <?php echo $this->translate($blockLayout->getLabel()); ?>
-    </button>
-    <?php endforeach; ?>
-</div>
+<?php endforeach; ?>

@@ -1,9 +1,13 @@
 $(document).ready(function() {
-    const resourcePageBlocks = $('#resource-page-config-form').data('resourcePageBlocks');
-    const blockLayoutLabels = $('#resource-page-config-form').data('blockLayoutLabels');
+    const form = $('#resource-page-config-form');
+    const resourcePageBlocks = form.data('resourcePageBlocks');
+    const resourcePageRegions = form.data('resourcePageRegions');
+    const blockLayoutLabels = form.data('blockLayoutLabels');
+
     // Add a block to a resource page.
-    const addBlock = function(blocks, blockLayoutName) {
-        const block = $(blocks.data('blockTemplate'));
+    const addBlock = function(blocks, resourceName, regionName, blockLayoutName) {
+        const block = $(form.data('blockTemplate'));
+        setBlockInputName(block, resourceName, regionName);
         let blockLayoutLabel = blockLayoutLabels[blockLayoutName];
         if (!blockLayoutLabel) {
             blockLayoutLabel = `${Omeka.jsTranslate('Unknown block layout')} [${blockLayoutName}]`;
@@ -12,68 +16,74 @@ $(document).ready(function() {
         block.find('.block-layout-name').val(blockLayoutName);
         blocks.append(block);
     };
-    // Populate the block layout lists on load.
-    $.each(resourcePageBlocks['items']['main'], function(key, blockLayoutName) {
-        const blocks = $('#item-blocks');
-        addBlock(blocks, blockLayoutName);
-        $('#item-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
-    })
-    $.each(resourcePageBlocks['media']['main'], function(key, blockLayoutName) {
-        const blocks = $('#media-blocks');
-        addBlock(blocks, blockLayoutName);
-        $('#media-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
-    })
-    $.each(resourcePageBlocks['item_sets']['main'], function(key, blockLayoutName) {
-        const blocks = $('#item-set-blocks');
-        addBlock(blocks, blockLayoutName);
-        $('#item-set-block-selector').find(`button.option[value="${blockLayoutName}"]`).prop('disabled', true);
-    })
+
+    // Set the block input name
+    const setBlockInputName = function(block, resourceName, regionName) {
+        const blockNameInput = block.find('.block-layout-name');
+        blockNameInput.attr('name', blockNameInput.data('nameTemplate')
+            .replace('__RESOURCE_NAME__', resourceName)
+            .replace('__REGION_NAME__', regionName)
+        );
+    };
+
+    $.each(['items', 'item_sets', 'media'], function(index, resourceName) {
+        // Populate the block layout lists on load.
+        $.each(resourcePageBlocks[resourceName], function(regionName, blockLayoutNames) {
+            const blocks = $(`ul.blocks[data-resource-name="${resourceName}"][data-region-name="${regionName}"]`);
+            if (!blocks.length) {
+                // There is no corresponding list for this region. Continue to
+                // next region.
+                return;
+            }
+            $.each(blockLayoutNames, function(index, blockLayoutName) {
+                addBlock(blocks, resourceName, regionName, blockLayoutName);
+                $(`button.option[data-resource-name="${resourceName}"][data-block-layout-name="${blockLayoutName}"]`).prop('disabled', true);
+            });
+        });
+        // Make blocks sortable on load.
+        $.each(resourcePageRegions[resourceName], function(regionName, regionLabel) {
+            const blocks = $(`ul.blocks[data-resource-name="${resourceName}"][data-region-name="${regionName}"]`);
+            new Sortable.create(blocks[0], {
+                draggable: '.block',
+                handle: '.sortable-handle',
+                group: {put: true},
+                onAdd: function(e) {
+                    const block = $(e.item);
+                    setBlockInputName(block, resourceName, regionName);
+                }
+            });
+        });
+        // Handle navigation switch.
+        $(`#section-${resourceName}-label`).on('click', function(e) {
+            Omeka.closeSidebar($('.sidebar'));
+            Omeka.openSidebar($(`#block-selector-${resourceName}`));
+        });
+    });
+
     // Open the correct sidebar on load.
-    switch (window.location.hash.substr(1)) {
-        case 'media-section':
-            Omeka.openSidebar($('#media-block-selector'));
+    switch (window.location.hash.substring(1)) {
+        case 'section-media':
+            Omeka.openSidebar($('#block-selector-media'));
             break;
-        case 'item-set-section':
-            Omeka.openSidebar($('#item-set-block-selector'));
+        case 'section-item_sets':
+            Omeka.openSidebar($('#block-selector-item_sets'));
             break;
-        case 'item-section':
+        case 'section-items':
         default:
-            Omeka.openSidebar($('#item-block-selector'));
+            Omeka.openSidebar($('#block-selector-items'));
     }
-    // Make blocks sortable on load.
-    new Sortable(
-        document.getElementById('item-blocks'),
-        {draggable: '.block', handle: '.sortable-handle'}
-    );
-    new Sortable(
-        document.getElementById('item-set-blocks'),
-        {draggable: '.block', handle: '.sortable-handle'}
-    );
-    new Sortable(
-        document.getElementById('media-blocks'),
-        {draggable: '.block', handle: '.sortable-handle'}
-    );
-    // Handle navigation switch.
-    $('#item-section-label').on('click', function(e) {
-        Omeka.closeSidebar($('.sidebar'));
-        Omeka.openSidebar($('#item-block-selector'));
-    });
-    $('#media-section-label').on('click', function(e) {
-        Omeka.closeSidebar($('.sidebar'));
-        Omeka.openSidebar($('#media-block-selector'));
-    });
-    $('#item-set-section-label').on('click', function(e) {
-        Omeka.closeSidebar($('.sidebar'));
-        Omeka.openSidebar($('#item-set-block-selector'));
-    });
+
     // Handle a block button click.
     $('button.option').on('click', function(e) {
         const thisBlockLayoutButton = $(this);
-        const blockLayoutName = thisBlockLayoutButton.val();
-        const blocks = $('.section.active .blocks');
-        addBlock(blocks, blockLayoutName);
+        const resourceName = thisBlockLayoutButton.data('resourceName');
+        const regionName = $(`#region-select-${resourceName}`).val();
+        const blockLayoutName = thisBlockLayoutButton.data('blockLayoutName');
+        const blocks = $(`ul.blocks[data-resource-name="${resourceName}"][data-region-name="${regionName}"]`);
+        addBlock(blocks, resourceName, regionName, blockLayoutName);
         thisBlockLayoutButton.prop('disabled', true);
     });
+
     // Handle remove block button click.
     $(document).on('click', '.block-remove', function(e) {
         const thisRemoveIcon = $(this);
@@ -83,6 +93,7 @@ $(document).ready(function() {
         block.find('.block-restore').show();
         block.find(':input').prop('disabled', true);
     });
+
     // Handle restore block button click.
     $(document).on('click', '.block-restore', function(e) {
         const thisRestoreIcon = $(this);

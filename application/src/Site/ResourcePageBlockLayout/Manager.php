@@ -123,6 +123,32 @@ class Manager extends AbstractPluginManager
     }
 
     /**
+     * Get the current resource page regions configuration for a theme.
+     *
+     * @param Theme $theme
+     * @return array
+     */
+    public function getResourcePageRegions(Theme $theme)
+    {
+        $themeConfig = $theme->getConfigSpec();
+        $resourcePageRegions = $themeConfig['resource_page_regions'] ?? null;
+        if (!$resourcePageRegions) {
+            $resourcePageRegions = [
+                'items' => [
+                    'main' => 'Main',
+                ],
+                'item_sets' => [
+                    'main' => 'Main',
+                ],
+                'media' => [
+                    'main' => 'Main',
+                ],
+            ];
+        }
+        return $this->standardizeResourcePageRegions($resourcePageRegions);
+    }
+
+    /**
      * Standardize resource page blocks into an expected structure.
      *
      * @param mixed $blocksIn
@@ -132,21 +158,61 @@ class Manager extends AbstractPluginManager
     {
         $blocksIn = is_array($blocksIn) ? $blocksIn : [];
         $blocksOut = [];
-        if (isset($blocksIn['items']['main']) && is_array($blocksIn['items']['main'])) {
-            $blocksOut['items']['main'] = $blocksIn['items']['main'];
+        if (isset($blocksIn['items']) && is_array($blocksIn['items'])) {
+            foreach ($blocksIn['items'] as $regionName => $blockLayouts) {
+                $blocksOut['items'][$regionName] = array_filter(array_map('strval', $blockLayouts));
+            }
         } else {
-            $blocksOut['items']['main'] = [];
+            $blocksOut['items'] = [];
         }
-        if (isset($blocksIn['item_sets']['main']) && is_array($blocksIn['item_sets']['main'])) {
-            $blocksOut['item_sets']['main'] = $blocksIn['item_sets']['main'];
+        if (isset($blocksIn['item_sets']) && is_array($blocksIn['item_sets'])) {
+            foreach ($blocksIn['item_sets'] as $regionName => $blockLayouts) {
+                $blocksOut['item_sets'][$regionName] = array_filter(array_map('strval', $blockLayouts));
+            }
         } else {
-            $blocksOut['item_sets']['main'] = [];
+            $blocksOut['item_sets'] = [];
         }
-        if (isset($blocksIn['media']['main']) && is_array($blocksIn['media']['main'])) {
-            $blocksOut['media']['main'] = $blocksIn['media']['main'];
+        if (isset($blocksIn['media']) && is_array($blocksIn['media'])) {
+            foreach ($blocksIn['media'] as $regionName => $blockLayouts) {
+                $blocksOut['media'][$regionName] = array_filter(array_map('strval', $blockLayouts));
+            }
         } else {
-            $blocksOut['media']['main'] = [];
+            $blocksOut['media'] = [];
         }
         return $blocksOut;
+    }
+
+    /**
+     * Standardize resource page regions into an expected structure.
+     *
+     * @param mixed $regionsIn
+     * @return array
+     */
+    public function standardizeResourcePageRegions($regionsIn)
+    {
+        $regionsIn = is_array($regionsIn) ? $regionsIn : [];
+        $regionsOut = [];
+        if (isset($regionsIn['items']) && is_array($regionsIn['items'])) {
+            foreach ($regionsIn['items'] as $regionName => $regionLabel) {
+                $regionsOut['items'][$regionName] = strval($regionLabel);
+            }
+        } else {
+            $regionsOut['items'] = [];
+        }
+        if (isset($regionsIn['item_sets']) && is_array($regionsIn['item_sets'])) {
+            foreach ($regionsIn['item_sets'] as $regionName => $regionLabel) {
+                $regionsOut['item_sets'][$regionName] = strval($regionLabel);
+            }
+        } else {
+            $regionsOut['item_sets'] = [];
+        }
+        if (isset($regionsIn['media']) && is_array($regionsIn['media'])) {
+            foreach ($regionsIn['media'] as $regionName => $regionLabel) {
+                $regionsOut['media'][$regionName] = strval($regionLabel);
+            }
+        } else {
+            $regionsOut['media'] = [];
+        }
+        return $regionsOut;
     }
 }

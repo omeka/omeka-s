@@ -542,7 +542,7 @@ return [
             'itemSets' => Site\ResourcePageBlockLayout\ItemSets::class,
             'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
             'mediaEmbeds' => Site\ResourcePageBlockLayout\MediaEmbeds::class,
-            'mediaLinks' => Site\ResourcePageBlockLayout\MediaLinks::class,
+            'mediaList' => Site\ResourcePageBlockLayout\MediaList::class,
             'mediaRender' => Site\ResourcePageBlockLayout\MediaRender::class,
             'sitePages' => Site\ResourcePageBlockLayout\SitePages::class,
             'values' => Site\ResourcePageBlockLayout\Values::class,

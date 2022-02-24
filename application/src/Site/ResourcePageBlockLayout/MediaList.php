@@ -4,11 +4,11 @@ namespace Omeka\Site\ResourcePageBlockLayout;
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Laminas\View\Renderer\PhpRenderer;
 
-class MediaLinks implements ResourcePageBlockLayoutInterface
+class MediaList implements ResourcePageBlockLayoutInterface
 {
     public function getLabel() : string
     {
-        return 'Media links'; // @translate
+        return 'Media list'; // @translate
     }
 
     public function getCompatibleResourceNames() : array
@@ -18,6 +18,6 @@ class MediaLinks implements ResourcePageBlockLayoutInterface
 
     public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
     {
-        return $view->partial('common/resource-page-block-layout/media-links', ['resource' => $resource]);
+        return $view->partial('common/resource-page-block-layout/media-list', ['resource' => $resource]);
     }
 }

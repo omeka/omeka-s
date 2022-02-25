@@ -629,6 +629,7 @@ table .icon-sortable {
     @include field-row;
 }
 
+.jstree-themeicon,
 .sortable-handle {
     cursor: move;
     margin-right: $spacing-medium;
@@ -640,6 +641,13 @@ table .icon-sortable {
         font-size: 1.25 * $base-font-size;
         line-height: $base-line-height;
     }
+}
+
+.jstree i.jstree-themeicon {
+    color: $copy-gray;
+    position: static;
+    top: auto;
+    right: auto;
 }
 
 .o-description {

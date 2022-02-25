@@ -15,6 +15,41 @@ class Manager extends AbstractPluginManager
 
     protected $siteSettings;
 
+    const DEFAULT_RESOURCE_PAGE_BLOCKS = [
+        'items' => [
+            'main' => [
+                'mediaEmbeds',
+                'values',
+                'itemSets',
+                'sitePages',
+                'mediaLinks',
+                'linkedResources',
+            ]
+        ],
+        'item_sets' => [
+            'main' => [
+                'values',
+            ]
+        ],
+        'media' => [
+            'main' => [
+                'values',
+            ]
+        ],
+    ];
+
+    const DEFAULT_RESOURCE_PAGE_REGIONS = [
+        'items' => [
+            'main' => 'Main', // @translate
+        ],
+        'item_sets' => [
+            'main' => 'Main', // @translate
+        ],
+        'media' => [
+            'main' => 'Main', // @translate
+        ],
+    ];
+
     public function get($name, $options = [], $usePeeringServiceManagers = true)
     {
         try {
@@ -89,29 +124,8 @@ class Manager extends AbstractPluginManager
         $themeConfig = $theme->getConfigSpec();
         $resourcePageBlocks = $themeConfig['resource_page_blocks'] ?? null;
         if (!$resourcePageBlocks) {
-            // Set fallback blocks if the theme has no blocks configuration.
-            $resourcePageBlocks = [
-                'items' => [
-                    'main' => [
-                        'mediaEmbeds',
-                        'values',
-                        'itemSets',
-                        'sitePages',
-                        'mediaLinks',
-                        'linkedResources',
-                    ]
-                ],
-                'item_sets' => [
-                    'main' => [
-                        'values',
-                    ]
-                ],
-                'media' => [
-                    'main' => [
-                        'values',
-                    ]
-                ],
-            ];
+            // Set deafult blocks if the theme has no blocks configuration.
+            $resourcePageBlocks = self::DEFAULT_RESOURCE_PAGE_BLOCKS;
         }
 
         // Merge the theme's block config with the block config set in module
@@ -133,17 +147,8 @@ class Manager extends AbstractPluginManager
         $themeConfig = $theme->getConfigSpec();
         $resourcePageRegions = $themeConfig['resource_page_regions'] ?? null;
         if (!$resourcePageRegions) {
-            $resourcePageRegions = [
-                'items' => [
-                    'main' => 'Main',
-                ],
-                'item_sets' => [
-                    'main' => 'Main',
-                ],
-                'media' => [
-                    'main' => 'Main',
-                ],
-            ];
+            // Set default regions if the theme has no regions configuration.
+            $resourcePageRegions = self::DEFAULT_RESOURCE_PAGE_REGIONS;
         }
         return $this->standardizeResourcePageRegions($resourcePageRegions);
     }

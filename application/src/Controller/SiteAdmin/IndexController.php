@@ -420,7 +420,7 @@ class IndexController extends AbstractActionController
     {
         $site = $this->currentSite();
         if (!$site->userIsAllowed('update')) {
-            throw new Exception\PermissionDeniedException('User does not have permission to edit site theme settings');
+            throw new Exception\PermissionDeniedException('User does not have permission to configure theme resource pages');
         }
 
         $theme = $this->themes->getTheme($site->theme());
@@ -447,6 +447,7 @@ class IndexController extends AbstractActionController
                 $themeSettings = $this->siteSettings()->get($theme->getSettingsKey());
                 $themeSettings['resource_page_blocks'] = $blockLayoutManager->standardizeResourcePageBlocks($postData['resource_page_blocks']);
                 $this->siteSettings()->set($theme->getSettingsKey(), $themeSettings);
+                $this->messenger()->addSuccess('Theme resource pages successfully updated'); // @translate
                 return $this->redirect()->refresh();
             } else {
                 $this->messenger()->addFormErrors($form);

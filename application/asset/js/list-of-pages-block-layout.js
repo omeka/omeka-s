@@ -73,25 +73,19 @@
         $('#blocks').on('click', '.site-page-add', function (e) {
             currentTree = $(e.currentTarget).siblings('.jstree').jstree();
             var pageLinks = $('#nav-page-links .nav-page-link');
-            pageLinks.show();
-            $('#no-pages').hide();
+            pageLinks.addClass('active').removeClass('added');
 
             // Remove already selected pages by comparing slugs
             $(currentTree.get_json('#', { 'flat': true })).each(function(index, value) {
                 $(pageLinks).each(function() {
                     if ($(this).attr('data-id') == value['data']['data']['id']) {
-                        $(this).hide();
+                        $(this).addClass('added').removeClass('active');
                     };
                 });
             });
-            // Show message if no initial pages
-            if (!pageLinks.filter(':visible').length) {
-                pageLinks.parent().siblings('.page-selector-filter').hide();
-                $('#no-pages').show();
-            } else {
-                pageLinks.parent().siblings('.page-selector-filter').show();
-            }
 
+            $('.page-selector-filter').val('').removeClass('empty');
+            checkIfEmpty(pageLinks);
             Omeka.openSidebar($('#add-pages'));
         });
 
@@ -111,26 +105,38 @@
                     }
                 });
                 // Remove page links from the available list after they are added.
-                link.hide();
-                // Show message if no pages remain
-                var pageLinks = $('#nav-page-links .nav-page-link');
-                if (!pageLinks.filter(':visible').length) {
-                    pageLinks.parent().siblings('.page-selector-filter').hide();
-                    $('#no-pages').show();
-                }
+                link.addClass('added').removeClass('active');
+                var activePages = $('.nav-page-link.active');
+                checkIfEmpty(activePages);
             }, this)
         );
+
+        var checkIfEmpty = function(pageLinks) {
+            var pageContainer = $('#nav-page-links');
+            if (pageLinks.length == 0) {
+                pageContainer.addClass('empty');
+            } else {
+                pageContainer.removeClass('empty');
+            }
+            if ($('.added.nav-page-link').length == $('.nav-page-link').length) {
+                $('.page-selector-filter').addClass('empty');
+            }
+        }
 
         var filterPages = function() {
             var thisInput = $(this);
             var search = thisInput.val().toLowerCase();
             var allPages = $('#nav-page-links .nav-page-link');
-            allPages.hide();
+            allPages.removeClass('active');
             var results = allPages.filter(function() {
-                return $(this).attr('data-label').toLowerCase().indexOf(search) >= 0;
+                if (!$(this).hasClass('added')) {
+                    return $(this).attr('data-label').toLowerCase().indexOf(search) >= 0;
+                }
             });
-            results.show();
+            results.addClass('active');
+            checkIfEmpty(results);
         };
+
         $('#add-pages').on(
             'keyup',
             '.page-selector-filter',

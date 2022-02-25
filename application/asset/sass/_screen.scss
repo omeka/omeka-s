@@ -3475,11 +3475,12 @@ input[type=text].query-form-query {
         border-color: $border-gray;
         background-color: #fff;
         color: $copy-gray;
+        display: flex;
+        justify-content: space-between;
 
         &:after {
             content: fa-content($fa-var-plus);
             font-family: "Font Awesome 5 Free";
-            float: right;
             color: $border-gray;
         }
     }
@@ -4257,6 +4258,21 @@ body.sidebar-open #content {
 
     #nav-page-links {
         width: 100%;
+    }
+
+    .page-selector-filter.empty,
+    #nav-page-links .nav-page-link,
+    #nav-page-links .added.active.nav-page-link,
+    #no-pages {
+        display: none;
+    }
+
+    #nav-page-links .active.nav-page-link {
+        display: flex;
+    }
+
+    .empty ~ #no-pages {
+        display: block;
     }
 
     /* @end */

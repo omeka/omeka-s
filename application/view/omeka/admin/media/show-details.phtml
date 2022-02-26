@@ -15,6 +15,11 @@ $item = $resource->item();
     <?php echo $this->thumbnail($resource, 'square'); ?>
 
     <div class="meta-group">
+        <h4><?php echo $translate('ID'); ?></h4>
+        <div class="value"><?php echo $escape($resource->id()); ?></div>
+    </div>
+
+    <div class="meta-group">
         <h4><?php echo $translate('Part of Item'); ?></h4>
         <div class="value"><?php echo $item->link($item->displayTitle()); ?></div>
     </div>

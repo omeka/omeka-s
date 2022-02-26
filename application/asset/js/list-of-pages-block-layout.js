@@ -71,7 +71,7 @@
 
         // Add page select sidebar
         $('#blocks').on('click', '.site-page-add', function (e) {
-            currentTree = $(e.currentTarget).siblings('.jstree').jstree();
+            currentTree = $(e.currentTarget).prev('.jstree').jstree();
             var pageLinks = $('#nav-page-links .nav-page-link');
             pageLinks.addClass('active').removeClass('added');
 

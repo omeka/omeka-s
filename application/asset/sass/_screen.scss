@@ -4257,7 +4257,7 @@ body.sidebar-open #content {
 
     /* @end */
 
-    /* @group ----- Site Navigation ----- */
+    /* @group ----- Site Navigation/List of Pages ----- */
 
     input[type="text"].page-selector-filter {
         width: 100%;
@@ -4281,6 +4281,18 @@ body.sidebar-open #content {
 
     .empty ~ #no-pages {
         display: block;
+    }
+
+    .site-page-add {
+        margin: 0;
+    }
+
+    .jstree > .jstree-node:first-child .jstree-anchor {
+        margin-top: 0;
+    }
+
+    .block-pagelist-tree li:last-child {
+        margin-bottom: $spacing-small;
     }
 
     /* @end */

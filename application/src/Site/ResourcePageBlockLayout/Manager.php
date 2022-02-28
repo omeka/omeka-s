@@ -107,6 +107,18 @@ class Manager extends AbstractPluginManager
     /**
      * Get the current resource page blocks configuration for a theme.
      *
+     * Themes may register default blocks by using the following template in
+     * their theme.ini file:
+     *
+     * resource_page_blocks.<resource_name>.<region_name>[] = "<block_layout_name>"
+     *
+     * - resource_name: The name of the resource page's resource: items, item_sets, or media.
+     * - region_name: The name of the region within the resource page.
+     * - block_layout_name: The name of the block layout.
+     *
+     * Note the [] to create an array of block layouts that will be rendered in
+     * the given order.
+     *
      * @param Theme $theme
      * @return array
      */
@@ -139,6 +151,15 @@ class Manager extends AbstractPluginManager
     /**
      * Get the current resource page regions configuration for a theme.
      *
+     * Themes may register regions by using the following template in their
+     * theme.ini file:
+     *
+     * resource_page_regions.<resource_name>.<region_name> = "<region_label>"
+     *
+     * - resource_name: The name of the resource page's resource: items, item_sets, or media.
+     * - region_name: The name of the region within the resource page.
+     * - region_label: The human-readable label of the region.
+     *
      * @param Theme $theme
      * @return array
      */
@@ -155,6 +176,8 @@ class Manager extends AbstractPluginManager
 
     /**
      * Standardize resource page blocks into an expected structure.
+     *
+     * Use to prevent data corruption when processing user data.
      *
      * @param mixed $blocksIn
      * @return array
@@ -189,6 +212,8 @@ class Manager extends AbstractPluginManager
 
     /**
      * Standardize resource page regions into an expected structure.
+     *
+     * Use to prevent data corruption when processing user data.
      *
      * @param mixed $regionsIn
      * @return array

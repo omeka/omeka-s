@@ -213,7 +213,8 @@ class Manager extends AbstractPluginManager
     /**
      * Standardize resource page regions into an expected structure.
      *
-     * Use to prevent data corruption when processing user data.
+     * Use to prevent data corruption when processing user data. Note that the
+     * "main" region is required and will be included if not present.
      *
      * @param mixed $regionsIn
      * @return array
@@ -226,22 +227,31 @@ class Manager extends AbstractPluginManager
             foreach ($regionsIn['items'] as $regionName => $regionLabel) {
                 $regionsOut['items'][$regionName] = strval($regionLabel);
             }
+            if (!isset($regionsOut['items']['main'])) {
+                $regionsOut['items']['main'] = 'Main';
+            }
         } else {
-            $regionsOut['items'] = [];
+            $regionsOut['items'] = ['main' => 'Main'];
         }
         if (isset($regionsIn['item_sets']) && is_array($regionsIn['item_sets'])) {
             foreach ($regionsIn['item_sets'] as $regionName => $regionLabel) {
                 $regionsOut['item_sets'][$regionName] = strval($regionLabel);
             }
+            if (!isset($regionsOut['item_sets']['main'])) {
+                $regionsOut['item_sets']['main'] = 'Main';
+            }
         } else {
-            $regionsOut['item_sets'] = [];
+            $regionsOut['item_sets'] = ['main' => 'Main'];
         }
         if (isset($regionsIn['media']) && is_array($regionsIn['media'])) {
             foreach ($regionsIn['media'] as $regionName => $regionLabel) {
                 $regionsOut['media'][$regionName] = strval($regionLabel);
             }
+            if (!isset($regionsOut['media']['main'])) {
+                $regionsOut['media']['main'] = 'Main';
+            }
         } else {
-            $regionsOut['media'] = [];
+            $regionsOut['media'] = ['main' => 'Main'];
         }
         return $regionsOut;
     }

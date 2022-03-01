@@ -191,21 +191,21 @@ class Manager extends AbstractPluginManager
                 $blocksOut['items'][$regionName] = array_filter(array_map('strval', $blockLayouts));
             }
         } else {
-            $blocksOut['items'] = [];
+            $blocksOut['items'] = ['main' => []];
         }
         if (isset($blocksIn['item_sets']) && is_array($blocksIn['item_sets'])) {
             foreach ($blocksIn['item_sets'] as $regionName => $blockLayouts) {
                 $blocksOut['item_sets'][$regionName] = array_filter(array_map('strval', $blockLayouts));
             }
         } else {
-            $blocksOut['item_sets'] = [];
+            $blocksOut['item_sets'] = ['main' => []];
         }
         if (isset($blocksIn['media']) && is_array($blocksIn['media'])) {
             foreach ($blocksIn['media'] as $regionName => $blockLayouts) {
                 $blocksOut['media'][$regionName] = array_filter(array_map('strval', $blockLayouts));
             }
         } else {
-            $blocksOut['media'] = [];
+            $blocksOut['media'] = ['main' => []];
         }
         return $blocksOut;
     }

@@ -3483,7 +3483,7 @@ input[type=text].query-form-query {
         border-color: $border-gray;
         background-color: #fff;
         color: $copy-gray;
-        display: flex;
+        display: inline-flex;
         justify-content: space-between;
 
         &:after {
@@ -4264,7 +4264,8 @@ body.sidebar-open #content {
         margin-bottom: $spacing-medium;
     }
 
-    #nav-page-links {
+    #nav-page-links,
+    #nav-custom-links {
         width: 100%;
     }
 

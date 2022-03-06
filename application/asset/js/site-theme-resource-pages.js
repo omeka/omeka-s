@@ -20,10 +20,7 @@ $(document).ready(function() {
     // Set the block input name
     const setBlockInputName = function(block, resourceName, regionName) {
         const blockNameInput = block.find('.block-layout-name');
-        blockNameInput.attr('name', blockNameInput.data('nameTemplate')
-            .replace('__RESOURCE_NAME__', resourceName)
-            .replace('__REGION_NAME__', regionName)
-        );
+        blockNameInput.attr('name', `resource_page_blocks[${resourceName}][${regionName}][]`);
     };
 
     $.each(['items', 'item_sets', 'media'], function(index, resourceName) {

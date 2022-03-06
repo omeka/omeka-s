@@ -548,7 +548,7 @@ return [
             'values' => Site\ResourcePageBlockLayout\Values::class,
         ],
     ],
-    'resource_page_blocks' => [
+    'resource_page_blocks_default' => [
         'items' => [
             'main' => [],
         ],

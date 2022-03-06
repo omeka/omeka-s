@@ -11,11 +11,11 @@ class Manager extends AbstractPluginManager
 
     protected $instanceOf = ResourcePageBlockLayoutInterface::class;
 
-    protected $resourcePageBlocks;
+    protected $resourcePageBlocksDefault;
 
     protected $siteSettings;
 
-    const DEFAULT_RESOURCE_PAGE_BLOCKS = [
+    const RESOURCE_PAGE_BLOCKS_DEFAULT = [
         'items' => [
             'main' => [
                 'mediaEmbeds',
@@ -38,18 +38,6 @@ class Manager extends AbstractPluginManager
         ],
     ];
 
-    const DEFAULT_RESOURCE_PAGE_REGIONS = [
-        'items' => [
-            'main' => 'Main', // @translate
-        ],
-        'item_sets' => [
-            'main' => 'Main', // @translate
-        ],
-        'media' => [
-            'main' => 'Main', // @translate
-        ],
-    ];
-
     public function get($name, $options = [], $usePeeringServiceManagers = true)
     {
         try {
@@ -60,9 +48,9 @@ class Manager extends AbstractPluginManager
         return $instance;
     }
 
-    public function setResourcePageBlocks(array $resourcePageBlocks)
+    public function setResourcePageBlocksDefault(array $resourcePageBlocksDefault)
     {
-        $this->resourcePageBlocks = $resourcePageBlocks;
+        $this->resourcePageBlocksDefault = $resourcePageBlocksDefault;
     }
 
     public function setSiteSettings($siteSettings)
@@ -137,14 +125,14 @@ class Manager extends AbstractPluginManager
         $resourcePageBlocks = $themeConfig['resource_page_blocks'] ?? null;
         if (!$resourcePageBlocks) {
             // Set deafult blocks if the theme has no blocks configuration.
-            $resourcePageBlocks = self::DEFAULT_RESOURCE_PAGE_BLOCKS;
+            $resourcePageBlocks = self::RESOURCE_PAGE_BLOCKS_DEFAULT;
         }
 
         // Merge the theme's block config with the block config set in module
         // configuration files.
         return array_merge_recursive(
             $this->standardizeResourcePageBlocks($resourcePageBlocks),
-            $this->standardizeResourcePageBlocks($this->resourcePageBlocks)
+            $this->standardizeResourcePageBlocks($this->resourcePageBlocksDefault)
         );
     }
 
@@ -166,11 +154,7 @@ class Manager extends AbstractPluginManager
     public function getResourcePageRegions(Theme $theme)
     {
         $themeConfig = $theme->getConfigSpec();
-        $resourcePageRegions = $themeConfig['resource_page_regions'] ?? null;
-        if (!$resourcePageRegions) {
-            // Set default regions if the theme has no regions configuration.
-            $resourcePageRegions = self::DEFAULT_RESOURCE_PAGE_REGIONS;
-        }
+        $resourcePageRegions = $themeConfig['resource_page_regions'] ?? [];
         return $this->standardizeResourcePageRegions($resourcePageRegions);
     }
 
@@ -186,26 +170,17 @@ class Manager extends AbstractPluginManager
     {
         $blocksIn = is_array($blocksIn) ? $blocksIn : [];
         $blocksOut = [];
-        if (isset($blocksIn['items']) && is_array($blocksIn['items'])) {
-            foreach ($blocksIn['items'] as $regionName => $blockLayouts) {
-                $blocksOut['items'][$regionName] = array_filter(array_map('strval', $blockLayouts));
+        foreach (['items', 'item_sets', 'media'] as $resourceName) {
+            if (isset($blocksIn[$resourceName]) && is_array($blocksIn[$resourceName])) {
+                foreach ($blocksIn[$resourceName] as $regionName => $blockLayouts) {
+                    if (!is_array($blockLayouts)) {
+                        $blockLayouts = [];
+                    }
+                    $blocksOut[$resourceName][$regionName] = array_filter(array_map('strval', $blockLayouts));
+                }
+            } else {
+                $blocksOut[$resourceName] = ['main' => []];
             }
-        } else {
-            $blocksOut['items'] = ['main' => []];
-        }
-        if (isset($blocksIn['item_sets']) && is_array($blocksIn['item_sets'])) {
-            foreach ($blocksIn['item_sets'] as $regionName => $blockLayouts) {
-                $blocksOut['item_sets'][$regionName] = array_filter(array_map('strval', $blockLayouts));
-            }
-        } else {
-            $blocksOut['item_sets'] = ['main' => []];
-        }
-        if (isset($blocksIn['media']) && is_array($blocksIn['media'])) {
-            foreach ($blocksIn['media'] as $regionName => $blockLayouts) {
-                $blocksOut['media'][$regionName] = array_filter(array_map('strval', $blockLayouts));
-            }
-        } else {
-            $blocksOut['media'] = ['main' => []];
         }
         return $blocksOut;
     }
@@ -223,36 +198,18 @@ class Manager extends AbstractPluginManager
     {
         $regionsIn = is_array($regionsIn) ? $regionsIn : [];
         $regionsOut = [];
-        if (isset($regionsIn['items']) && is_array($regionsIn['items'])) {
-            foreach ($regionsIn['items'] as $regionName => $regionLabel) {
-                $regionsOut['items'][$regionName] = strval($regionLabel);
+        foreach (['items', 'item_sets', 'media'] as $resourceName) {
+            if (isset($regionsIn[$resourceName]) && is_array($regionsIn[$resourceName])) {
+                foreach ($regionsIn[$resourceName] as $regionName => $regionLabel) {
+                    $regionsOut[$resourceName][$regionName] = strval($regionLabel);
+                }
+            } else {
+                $regionsOut[$resourceName] = [];
             }
-            if (!isset($regionsOut['items']['main'])) {
-                $regionsOut['items']['main'] = 'Main';
+            if (!isset($regionsOut[$resourceName]['main'])) {
+                $regionsOut[$resourceName]['main'] = 'Main'; // @translate
             }
-        } else {
-            $regionsOut['items'] = ['main' => 'Main'];
         }
-        if (isset($regionsIn['item_sets']) && is_array($regionsIn['item_sets'])) {
-            foreach ($regionsIn['item_sets'] as $regionName => $regionLabel) {
-                $regionsOut['item_sets'][$regionName] = strval($regionLabel);
-            }
-            if (!isset($regionsOut['item_sets']['main'])) {
-                $regionsOut['item_sets']['main'] = 'Main';
-            }
-        } else {
-            $regionsOut['item_sets'] = ['main' => 'Main'];
-        }
-        if (isset($regionsIn['media']) && is_array($regionsIn['media'])) {
-            foreach ($regionsIn['media'] as $regionName => $regionLabel) {
-                $regionsOut['media'][$regionName] = strval($regionLabel);
-            }
-            if (!isset($regionsOut['media']['main'])) {
-                $regionsOut['media']['main'] = 'Main';
-            }
-        } else {
-            $regionsOut['media'] = ['main' => 'Main'];
-        }
-        return $regionsOut;
+         return $regionsOut;
     }
 }

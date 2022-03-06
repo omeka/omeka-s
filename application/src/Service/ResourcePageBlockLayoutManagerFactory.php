@@ -11,7 +11,7 @@ class ResourcePageBlockLayoutManagerFactory implements FactoryInterface
     {
         $config = $services->get('Config');
         $manager = new Manager($services, $config['resource_page_block_layouts']);
-        $manager->setResourcePageBlocks($config['resource_page_blocks']);
+        $manager->setResourcePageBlocksDefault($config['resource_page_blocks_default']);
         $manager->setSiteSettings($services->get('Omeka\Settings\Site'));
         return $manager;
     }

@@ -8,6 +8,7 @@
 # Souta Ito <soutaito@info-lounge.jp>, 2018
 # Naosuke Okamoto, 2021
 # Satoru Nakamura <na.kamura.1263@gmail.com>, 2021
+# Tatsuro YOKOTA <hidaruma@outlook.jp>, 2022
 # 
 #, fuzzy
 msgid ""
@@ -16,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-26 15:28-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Satoru Nakamura <na.kamura.1263@gmail.com>, 2021\n"
+"Last-Translator: Tatsuro YOKOTA <hidaruma@outlook.jp>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/omeka/teams/14184/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,27 +43,27 @@ msgstr "%1$s  アダプタは一括作成操作を実装していません。"
 #: application/src/Api/Adapter/AbstractAdapter.php:70
 #, php-format
 msgid "The %1$s adapter does not implement the read operation."
-msgstr "%1$s アダプターは読み取り操作を実装しません。"
+msgstr "%1$s アダプタは読み取り操作を実装しません。"
 
 #: application/src/Api/Adapter/AbstractAdapter.php:80
 #, php-format
 msgid "The %1$s adapter does not implement the update operation."
-msgstr "%1$s アダプターはアップデート操作を実装しません。"
+msgstr "%1$s アダプタはアップデート操作を実装しません。"
 
 #: application/src/Api/Adapter/AbstractAdapter.php:90
 #, php-format
 msgid "The %1$s adapter does not implement the batch update operation."
-msgstr "%1$s アダプターは一括アップデート操作を実装しません。"
+msgstr "%1$s アダプタは一括アップデート操作を実装しません。"
 
 #: application/src/Api/Adapter/AbstractAdapter.php:111
 #, php-format
 msgid "The %1$s adapter does not implement the delete operation."
-msgstr "%1$s アダプターは削除操作を実装しません。"
+msgstr "%1$s アダプタは削除操作を実装しません。"
 
 #: application/src/Api/Adapter/AbstractAdapter.php:121
 #, php-format
 msgid "The %1$s adapter does not implement the batch delete operation."
-msgstr "%1$s アダプターは一括削除操作を実装しません。"
+msgstr "%1$s アダプタは一括削除操作を実装しません。"
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:280
 #, php-format
@@ -299,7 +300,7 @@ msgstr "Break type"
 
 #: application/src/Site/BlockLayout/ListOfPages.php:58
 msgid "Add pages"
-msgstr ""
+msgstr "ページを追加"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:28
 msgid "Depth"
@@ -681,11 +682,11 @@ msgstr "MIMEタイプから検索"
 
 #: application/view/common/advanced-search/owner.phtml:3
 msgid "Search by owner"
-msgstr ""
+msgstr "オーナによる検索"
 
 #: application/view/common/advanced-search/owner.phtml:6
 msgid "Searches for resources that are owned by this user."
-msgstr ""
+msgstr "このユーザが所有するリソースの検索"
 
 #: application/view/common/advanced-search/properties.phtml:33
 msgid "Query text"
@@ -733,7 +734,7 @@ msgstr "新規テンプレートを追加"
 
 #: application/view/common/advanced-search/site.phtml:3
 msgid "Search by site"
-msgstr ""
+msgstr "サイト毎に検索"
 
 #: application/view/common/advanced-search/site.phtml:6
 msgid "Searches for items that are assigned to this site."
@@ -817,11 +818,11 @@ msgstr "容量"
 
 #: application/view/common/advanced-search/sort.phtml:27
 msgid "Select sort by…"
-msgstr ""
+msgstr "ソート方法を選択"
 
 #: application/view/common/advanced-search/sort.phtml:32
 msgid "Select sort order…"
-msgstr ""
+msgstr "ソート順を選択"
 
 #: application/view/common/advanced-search/sort.phtml:34
 #: application/view/common/sort-selector.phtml:14
@@ -976,7 +977,7 @@ msgstr ""
 
 #: application/view/common/asset-options.phtml:40
 msgid "Alternative link title"
-msgstr ""
+msgstr "代替のリンクタイトル"
 
 #: application/view/common/asset-options.phtml:44
 #: application/view/omeka/site-admin/page/edit.phtml:54
@@ -1343,7 +1344,7 @@ msgstr "非公開"
 #: application/view/common/property-form-batch-edit.phtml:34
 #: application/view/common/property-form-batch-edit.phtml:49
 msgid "Remove"
-msgstr "削除"
+msgstr "除去"
 
 #: application/view/common/property-form-batch-edit.phtml:26
 #: application/view/common/property-form-batch-edit.phtml:77
@@ -1696,7 +1697,7 @@ msgstr "詳細"
 
 #: application/view/omeka/admin/asset/browse.phtml:108
 msgid "Omeka could not find any assets."
-msgstr ""
+msgstr "Omekaはアセットを見つけられませんでした。"
 
 #: application/view/omeka/admin/asset/show-details.phtml:12
 msgid "Media type"
@@ -2260,7 +2261,7 @@ msgstr "メディアを選択"
 #: application/view/omeka/admin/media/browse.phtml:171
 #: application/view/omeka/admin/media/browse.phtml:189
 msgid "Delete media"
-msgstr ""
+msgstr "メディアを削除"
 
 #: application/view/omeka/admin/media/browse.phtml:172
 msgid "Are you sure you would like to delete the selected media?"
@@ -2421,7 +2422,7 @@ msgstr "コメント"
 
 #: application/view/omeka/admin/query/sidebar-edit.phtml:4
 msgid "Search query edit"
-msgstr ""
+msgstr "検索クエリの編集"
 
 #: application/view/omeka/admin/query/sidebar-preview.phtml:2
 msgid "Search query preview"
@@ -3121,7 +3122,7 @@ msgstr ""
 #: application/src/Site/BlockLayout/Asset.php:34
 #: application/src/Site/BlockLayout/Asset.php:40
 msgid "default"
-msgstr ""
+msgstr "既定"
 
 #: application/src/Site/BlockLayout/Asset.php:35
 msgid "float left"
@@ -3181,7 +3182,7 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:85
 msgid "Heading"
-msgstr ""
+msgstr "見出し／Heading"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:89
 msgid "Body"
@@ -3975,8 +3976,9 @@ msgid ""
 "target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
 "tags/\">IETF language tag</a>. Defaults to the first available."
 msgstr ""
-"<a target=\"_blank\" href=\"https://www.w3.org/International/articles"
-"/language-tags/\">IETF言語タグ</a>を使用して、ラベルとコメントの優先言語を入力します。 デフォルトは利用可能な最初のものです。"
+"<a target=\"_blank\" "
+"href=\"https://www.w3.org/International/articles/language-"
+"tags/\">IETF言語タグ</a>を使用して、ラベルとコメントの優先言語を入力します。 デフォルトは利用可能な最初のものです。"
 
 #: application/src/Form/VocabularyForm.php:147
 msgid "Label property"
@@ -4370,15 +4372,15 @@ msgstr ""
 
 #: application/src/Form/SiteResourcesForm.php:18
 msgid "Add - keep existing items and assign items from a new search query"
-msgstr ""
+msgstr "追加 - 新しい検索クエリから、既存のアイテムはそのままに、アイテムの割り当てを追加します"
 
 #: application/src/Form/SiteResourcesForm.php:19
 msgid "Replace - unassign all items and assign items from a new search query"
-msgstr ""
+msgstr "置換 - 新しい検索クエリから、全てのアイテムを除き、別のアイテムを割り当てます"
 
 #: application/src/Form/SiteResourcesForm.php:20
 msgid "Remove - unassign items from a new search query"
-msgstr ""
+msgstr "除去 - 新しい検索クエリから、アイテムを除きます"
 
 #: application/src/Form/SiteResourcesForm.php:21
 msgid "Remove all - unassign all items"
@@ -4947,8 +4949,8 @@ msgstr "Dublin Core"
 #. Vocabulary comment for Dublin Core
 msgid "Basic resource metadata (DCMI Metadata Terms)"
 msgstr ""
-"基本的なリソースメタデータ（DCMIメタデータ語彙。日本語訳はhttp://ndl.go.jp/jp/dlib/standards/translation"
-"/dcmi-terms.htmから引用）"
+"基本的なリソースメタデータ（DCMIメタデータ語彙。日本語訳はhttp://ndl.go.jp/jp/dlib/standards/translation/dcmi-"
+"terms.htmから引用）"
 
 #. Class label for Dublin Core:Agent
 #. Class label for Friend of a Friend:Agent
@@ -7301,7 +7303,7 @@ msgstr "基礎となる「focal」エンティティは、いくつかのSKOS記
 
 #. Property label for Friend of a Friend:isPrimaryTopicOf
 msgid "is primary topic of"
-msgstr "の主な話題／is primary topic of"
+msgstr "の主要トピック／is primary topic of"
 
 #. Property comment for Friend of a Friend:isPrimaryTopicOf
 msgid "A document that this thing is the primary topic of."

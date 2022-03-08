@@ -15,8 +15,8 @@
 # Carlos Rivera <Robertohernande9z9@hotmail.com>, 2019
 # John Flatness <john@zerocrates.org>, 2020
 # Adriana Hernández, 2021
-# Alfonso <almontejor@gmail.com>, 2021
 # Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2021
+# Alfonso Montejo <almontejor@gmail.com>, 2022
 # 
 #, fuzzy
 msgid ""
@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-26 15:28-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2021\n"
+"Last-Translator: Alfonso Montejo <almontejor@gmail.com>, 2022\n"
 "Language-Team: Spanish (https://www.transifex.com/omeka/teams/14184/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3455,7 +3455,7 @@ msgstr "Revisión"
 
 #: application/src/Permissions/Acl.php:25
 msgid "Author"
-msgstr "Autoría"
+msgstr "Redacción"
 
 #: application/src/Permissions/Acl.php:26
 msgid "Researcher"
@@ -4099,9 +4099,9 @@ msgid ""
 "tags/\">IETF language tag</a>. Defaults to the first available."
 msgstr ""
 "Especificar el idioma preferido para las etiquetas y comentarios utilizando "
-"el <a target=\"_blank\" href=\"https://www.w3.org/International/articles"
-"/language-tags/\">código de idioma IETF</a>. Por defecto, se elegirá el "
-"primero disponible."
+"el <a target=\"_blank\" "
+"href=\"https://www.w3.org/International/articles/language-tags/\">código de "
+"idioma IETF</a>. Por defecto, se elegirá el primero disponible."
 
 #: application/src/Form/VocabularyForm.php:147
 msgid "Label property"

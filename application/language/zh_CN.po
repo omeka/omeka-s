@@ -1162,7 +1162,7 @@ msgstr "尚未选择资源"
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:32
 #: application/view/omeka/site/media/show.phtml:8
 msgid "Media"
-msgstr "媒体"
+msgstr "媒介"
 
 #: application/view/common/data-type/uri.phtml:6
 #: application/view/common/property-form-batch-edit.phtml:44
@@ -3967,8 +3967,9 @@ msgid ""
 "target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
 "tags/\">IETF language tag</a>. Defaults to the first available."
 msgstr ""
-"用<a target=\"_blank\" href=\"https://www.w3.org/International/articles"
-"/language-tags/\">IETF语言标签</a>，输入用于标签和评论的首选语言。"
+"用<a target=\"_blank\" "
+"href=\"https://www.w3.org/International/articles/language-"
+"tags/\">IETF语言标签</a>，输入用于标签和评论的首选语言。"
 
 #: application/src/Form/VocabularyForm.php:147
 msgid "Label property"

@@ -10,6 +10,8 @@
 # m_art_in <220180@gmail.com>, 2020
 # nebulon42, 2020
 # Tobias Hodel <tobias.hodel@wbkolleg.unibe.ch>, 2021
+# Wilson <robinnamtab@gmx.net>, 2021
+# StackNeverFlow, 2022
 # 
 #, fuzzy
 msgid ""
@@ -18,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-26 15:28-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Tobias Hodel <tobias.hodel@wbkolleg.unibe.ch>, 2021\n"
+"Last-Translator: StackNeverFlow, 2022\n"
 "Language-Team: German (Germany) (https://www.transifex.com/omeka/teams/14184/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -324,7 +326,7 @@ msgstr "Art des Umbruchs"
 
 #: application/src/Site/BlockLayout/ListOfPages.php:58
 msgid "Add pages"
-msgstr ""
+msgstr "Seiten hinzufügen"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:28
 msgid "Depth"
@@ -337,7 +339,7 @@ msgstr "Anzahl der anzuzeigenden Ebenen von Unterseiten"
 #: application/src/Site/Navigation/Link/Page.php:37
 #: application/view/common/block-layout/list-of-pages.phtml:11
 msgid "[Missing Page]"
-msgstr ""
+msgstr "[Fehlende Seite]"
 
 #: application/src/Site/Navigation/Translator.php:60
 msgid "Home"
@@ -706,11 +708,11 @@ msgstr "Nach MIME-Typ suchen"
 
 #: application/view/common/advanced-search/owner.phtml:3
 msgid "Search by owner"
-msgstr ""
+msgstr "Suche nach Besitzer"
 
 #: application/view/common/advanced-search/owner.phtml:6
 msgid "Searches for resources that are owned by this user."
-msgstr ""
+msgstr "Sucht nach Ressourcen, die diesem Benutzer gehören."
 
 #: application/view/common/advanced-search/properties.phtml:33
 msgid "Query text"
@@ -750,7 +752,7 @@ msgstr "Nach Vorlage suchen"
 
 #: application/view/common/advanced-search/resource-template.phtml:19
 msgid "Searches for resources that use any of these templates."
-msgstr ""
+msgstr "Sucht nach Ressourcen, die eine der folgenden Vorlagen verwenden."
 
 #: application/view/common/advanced-search/resource-template.phtml:21
 msgid "Add new template"
@@ -758,11 +760,11 @@ msgstr "Neue Vorlage hinzufügen"
 
 #: application/view/common/advanced-search/site.phtml:3
 msgid "Search by site"
-msgstr ""
+msgstr "Nach Standort suchen"
 
 #: application/view/common/advanced-search/site.phtml:6
 msgid "Searches for items that are assigned to this site."
-msgstr ""
+msgstr "Sucht nach Objekten, die diesen Standort zugewiesen sind."
 
 #: application/view/common/advanced-search/sort.phtml:6
 #: application/view/common/linked-resources.phtml:39
@@ -946,11 +948,11 @@ msgstr ""
 #: application/view/common/asset-options.phtml:19
 #: application/view/omeka/admin/query/sidebar-edit.phtml:12
 msgid "Preview"
-msgstr ""
+msgstr "Vorschau"
 
 #: application/view/common/asset-options.phtml:20
 msgid "[No page selected]"
-msgstr ""
+msgstr "[Keine Seite ausgewählt]"
 
 #: application/view/common/asset-options.phtml:25
 #: application/view/common/delete-confirm.phtml:8
@@ -997,16 +999,16 @@ msgstr "Schließen"
 
 #: application/view/common/asset-options.phtml:32
 msgid "Page link"
-msgstr ""
+msgstr "Seitenlink"
 
 #: application/view/common/asset-options.phtml:40
 msgid "Alternative link title"
-msgstr ""
+msgstr "Alternativer Linktitel"
 
 #: application/view/common/asset-options.phtml:44
 #: application/view/omeka/site-admin/page/edit.phtml:54
 msgid "Caption"
-msgstr ""
+msgstr "Legende"
 
 #: application/view/common/asset-options.phtml:50
 #: application/view/omeka/site-admin/page/edit.phtml:65
@@ -1080,7 +1082,7 @@ msgstr "Erweiterte Objektsuche"
 #: application/view/common/cross-site-search/item-results.phtml:8
 #, php-format
 msgid "Item results for \"%s\""
-msgstr ""
+msgstr "Objekt-Suchergebnisse für \\\"%s\\\""
 
 #: application/view/common/cross-site-search/item-set-results.phtml:3
 #: application/view/omeka/search/item-sets-advanced.phtml:2
@@ -1090,18 +1092,18 @@ msgstr ""
 #: application/view/common/cross-site-search/item-set-results.phtml:8
 #, php-format
 msgid "Item set results for \"%s\""
-msgstr ""
+msgstr "Sammlungs-Suchergebnisse für \\\"%s\\\""
 
 #: application/view/common/cross-site-search/results.phtml:6
 #: application/view/omeka/site/index/search.phtml:8
 #, php-format
 msgid "Search results for “%s”"
-msgstr ""
+msgstr "Suchergebnisse für “%s”"
 
 #: application/view/common/cross-site-search/results.phtml:13
 #: application/view/omeka/site/item/show.phtml:35
 msgid "Site pages"
-msgstr ""
+msgstr "Standortseiten"
 
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
@@ -1109,7 +1111,7 @@ msgstr ""
 #: application/view/omeka/site/index/search.phtml:40
 #, php-format
 msgid "View all results (%s total)"
-msgstr ""
+msgstr "Zeige alle Ergebnisse (%s insgesamt)"
 
 #: application/view/common/cross-site-search/results.phtml:40
 #: application/view/common/data-type/resource.phtml:22
@@ -1136,12 +1138,12 @@ msgstr "Objekte"
 #: application/view/common/cross-site-search/results.phtml:97
 #: application/view/omeka/site/index/search.phtml:11
 msgid "No result found"
-msgstr ""
+msgstr "Keine Ergebnisse gefunden"
 
 #: application/view/common/cross-site-search/site-page-results.phtml:3
 #, php-format
 msgid "Site page results for \"%s\""
-msgstr ""
+msgstr "Standortseiten-Suchergebnisse für “%s”"
 
 #: application/view/common/data-type-wrapper.phtml:12
 #: application/view/common/resource-form-templates.phtml:23
@@ -1284,7 +1286,7 @@ msgstr "Alternative Bezeichnung"
 
 #: application/view/common/navigation-link-form/browse.phtml:8
 msgid "Search query"
-msgstr ""
+msgstr "Suchanfrage"
 
 #: application/view/common/navigation-link-form/browse.phtml:15
 #: application/view/common/navigation-link-form/page.phtml:13
@@ -1308,7 +1310,7 @@ msgstr "URL"
 
 #: application/view/common/page-select-sidebar.phtml:8
 msgid "Select Pages"
-msgstr ""
+msgstr "Seiten auswählen"
 
 #: application/view/common/pagination.phtml:9
 #: application/view/common/sidebar-pagination.phtml:6
@@ -1374,11 +1376,11 @@ msgstr "Entfernen"
 #: application/view/common/property-form-batch-edit.phtml:26
 #: application/view/common/property-form-batch-edit.phtml:77
 msgid "Add resource value"
-msgstr ""
+msgstr "Ressourcenwert hinzufügen"
 
 #: application/view/common/property-form-batch-edit.phtml:30
 msgid "Resource ID"
-msgstr ""
+msgstr "Ressourcen-ID"
 
 #: application/view/common/property-form-batch-edit.phtml:40
 #: application/view/common/property-form-batch-edit.phtml:78
@@ -1401,12 +1403,12 @@ msgstr ""
 
 #: application/view/common/query-form.phtml:25
 msgid "Advanced edit"
-msgstr ""
+msgstr "Erweitertes editieren"
 
 #: application/view/common/query-form.phtml:26
 #: application/view/omeka/admin/query/sidebar-edit.phtml:14
 msgid "Apply"
-msgstr ""
+msgstr "Anwenden"
 
 #: application/view/common/query-form.phtml:28
 #: application/view/omeka/site-admin/index/users.phtml:8
@@ -1518,7 +1520,7 @@ msgstr "Nutzer filtern"
 #: application/view/common/user-selector.phtml:17
 #, php-format
 msgid "Users (%s)"
-msgstr ""
+msgstr "Nutzer (%s)"
 
 #: application/view/common/version-notification.phtml:8
 #, php-format
@@ -1533,11 +1535,11 @@ msgstr "Neue Version herunterladen"
 
 #: application/view/error/403.phtml:4
 msgid "Forbidden"
-msgstr ""
+msgstr "Nicht erlaubt"
 
 #: application/view/error/404.phtml:4
 msgid "Page not found"
-msgstr ""
+msgstr "Seite nicht gefunden"
 
 #: application/view/error/404.phtml:6
 msgid ""
@@ -1548,7 +1550,7 @@ msgstr ""
 #: application/view/error/404.phtml:14
 #, php-format
 msgid "Reason: %s"
-msgstr ""
+msgstr "Grund: %s"
 
 #: application/view/error/index.phtml:4
 msgid "Omeka S encountered an error"
@@ -1556,7 +1558,7 @@ msgstr "Omeka S ist auf einen Fehler gestoßen"
 
 #: application/view/error/index.phtml:11
 msgid "Details:"
-msgstr ""
+msgstr "Details:"
 
 #: application/view/error/index.phtml:18
 #, php-format
@@ -1567,7 +1569,7 @@ msgstr ""
 
 #: application/view/error/index.phtml:19
 msgid "retrieving error messages"
-msgstr ""
+msgstr "Abrufen von Fehlermeldungen"
 
 #: application/view/layout/layout-admin.phtml:37
 msgid "Skip to main content"
@@ -1575,7 +1577,7 @@ msgstr ""
 
 #: application/view/layout/layout-admin.phtml:42
 msgid "Navigation menu"
-msgstr ""
+msgstr "Navigationsmenü"
 
 #: application/view/layout/layout-admin.phtml:43
 msgid "Search site"
@@ -1583,7 +1585,7 @@ msgstr "Standort durchsuchen"
 
 #: application/view/layout/layout-admin.phtml:44
 msgid "User menu"
-msgstr ""
+msgstr "Nutzermenü"
 
 #: application/view/layout/layout-admin.phtml:54
 msgid "not logged in"
@@ -1622,7 +1624,7 @@ msgstr "Ressourcen"
 
 #: application/view/layout/layout-admin.phtml:92
 msgid "Admin"
-msgstr ""
+msgstr "Admininstrator"
 
 #: application/view/layout/layout-admin.phtml:96
 #: application/view/omeka/admin/module/browse.phtml:11
@@ -1657,7 +1659,7 @@ msgstr "Nutzerforen"
 
 #: application/view/layout/layout.phtml:30
 msgid "Powered by Omeka S"
-msgstr ""
+msgstr "Powered by Omeka S"
 
 #: application/view/omeka/admin/asset/add-form.phtml:6
 msgid "Upload new asset"
@@ -1666,7 +1668,7 @@ msgstr "Neue Datei hochladen"
 #: application/view/omeka/admin/asset/add-form.phtml:9
 #: application/view/omeka/admin/asset/show-details.phtml:21
 msgid "Alt text"
-msgstr ""
+msgstr "Alternativer Text"
 
 #: application/view/omeka/admin/asset/add-form.phtml:11
 msgid "Upload"
@@ -1680,7 +1682,7 @@ msgstr "Hochladen"
 #: application/view/omeka/admin/media/show.phtml:32
 #: application/view/omeka/admin/user/edit.phtml:39
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: application/view/omeka/admin/asset/browse.phtml:27
 msgid "Add new asset"
@@ -1727,7 +1729,7 @@ msgstr ""
 
 #: application/view/omeka/admin/asset/show-details.phtml:12
 msgid "Media type"
-msgstr ""
+msgstr "Datentyp"
 
 #: application/view/omeka/admin/asset/sidebar-select.phtml:16
 msgid "Select asset"
@@ -2007,7 +2009,7 @@ msgstr "Werte"
 #: application/view/omeka/admin/item/form.phtml:18
 #: application/view/omeka/admin/media/edit.phtml:14
 msgid "Advanced"
-msgstr ""
+msgstr "Erweitert"
 
 #: application/view/omeka/admin/item-set/form.phtml:29
 msgid "Close item set"
@@ -2264,11 +2266,11 @@ msgstr ""
 
 #: application/view/omeka/admin/job/show.phtml:58
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: application/view/omeka/admin/job/show.phtml:61
 msgid "view log"
-msgstr ""
+msgstr "Öffne Log"
 
 #: application/view/omeka/admin/job/show.phtml:65
 msgid "[no log]"
@@ -2300,7 +2302,7 @@ msgstr "Medien auswählen"
 #: application/view/omeka/admin/media/browse.phtml:171
 #: application/view/omeka/admin/media/browse.phtml:189
 msgid "Delete media"
-msgstr ""
+msgstr "Lösche Datei"
 
 #: application/view/omeka/admin/media/browse.phtml:172
 msgid "Are you sure you would like to delete the selected media?"
@@ -2389,7 +2391,7 @@ msgstr "Name nicht gefunden"
 #: application/view/omeka/admin/module/browse.phtml:46
 #, php-format
 msgid "by %s"
-msgstr ""
+msgstr "von %s"
 
 #: application/view/omeka/admin/module/browse.phtml:58
 #, php-format
@@ -2507,7 +2509,7 @@ msgstr ""
 
 #: application/view/omeka/admin/resource-template/form.phtml:69
 msgid "Other options"
-msgstr ""
+msgstr "Erweiterte Optionen"
 
 #: application/view/omeka/admin/resource-template/form.phtml:72
 msgid "Use for resource title"
@@ -2525,12 +2527,12 @@ msgstr "Erforderlich"
 #: application/view/omeka/admin/resource-template/review-import.phtml:67
 #: application/view/omeka/admin/resource-template/show.phtml:27
 msgid "Data types"
-msgstr ""
+msgstr "Datentyp"
 
 #: application/view/omeka/admin/resource-template/form.phtml:96
 #: application/view/omeka/admin/resource-template/review-import.phtml:98
 msgid "Select data types…"
-msgstr ""
+msgstr "Wähle Datentyp aus..."
 
 #: application/view/omeka/admin/resource-template/form.phtml:101
 msgid "Set changes"
@@ -2550,7 +2552,7 @@ msgstr "Import abschließen"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:40
 msgid "Resource title"
-msgstr ""
+msgstr "Resourcen Titel"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:40
 msgid "Resource description"
@@ -2904,7 +2906,7 @@ msgstr "Omeka konnte keine Standorte finden"
 #: application/view/omeka/site-admin/index/navigation.phtml:15
 #: application/view/omeka/site-admin/page/index.phtml:11
 msgid "Navigation"
-msgstr ""
+msgstr "Navigation"
 
 #: application/view/omeka/site-admin/index/navigation.phtml:29
 #: application/view/omeka/site-admin/index/navigation.phtml:49
@@ -2942,7 +2944,7 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/resources.phtml:43
 msgid "site admin"
-msgstr ""
+msgstr "Seiten Administrator"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
 msgid "Keep this query"
@@ -3091,11 +3093,11 @@ msgstr "Objekt"
 #: application/view/omeka/site/media/show.phtml:11
 #, php-format
 msgid "Part of %s"
-msgstr ""
+msgstr "Teil von %s"
 
 #: application/view/omeka/site/page/browse.phtml:18
 msgid "No pages found"
-msgstr ""
+msgstr "Keine Seiten gefunden"
 
 #: application/src/Stdlib/Cli.php:105 application/src/Stdlib/Cli.php:143
 #, php-format
@@ -3157,7 +3159,7 @@ msgstr "Objektbeispiel"
 
 #: application/src/Site/BlockLayout/ListOfPages.php:32
 msgid "List of pages"
-msgstr ""
+msgstr "Liste der Seiten"
 
 #: application/src/Site/BlockLayout/PageTitle.php:13
 msgid "Page title"
@@ -3174,7 +3176,7 @@ msgstr ""
 #: application/src/Site/BlockLayout/Asset.php:34
 #: application/src/Site/BlockLayout/Asset.php:40
 msgid "default"
-msgstr ""
+msgstr "Standart"
 
 #: application/src/Site/BlockLayout/Asset.php:35
 msgid "float left"
@@ -3191,11 +3193,11 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/Asset.php:41
 msgid "left"
-msgstr ""
+msgstr "Links"
 
 #: application/src/Site/BlockLayout/Asset.php:42
 msgid "right"
-msgstr ""
+msgstr "Rechts"
 
 #: application/src/Site/BlockLayout/Asset.php:48
 #: application/src/Site/BlockLayout/Media.php:61
@@ -3224,7 +3226,7 @@ msgstr "Maximale Anzahl an Ressourcen zur Anzeige in der Vorschau"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:80
 msgid "Components"
-msgstr ""
+msgstr "Kom­po­nen­ten"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:81
 msgid ""
@@ -3250,7 +3252,7 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:110
 msgid "Link text"
-msgstr ""
+msgstr "Link Text"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:111
 msgid "Text for link to full browse view, if any."
@@ -3262,7 +3264,7 @@ msgstr "Objekt mit Metadaten"
 
 #: application/src/Site/BlockLayout/Media.php:14
 msgid "Media Embed"
-msgstr ""
+msgstr "Medien Einbinden"
 
 #: application/src/Site/BlockLayout/LineBreak.php:14
 msgid "Line break"
@@ -3328,7 +3330,7 @@ msgstr ""
 #: application/src/Media/Ingester/Html.php:36
 #: application/src/Media/Ingester/Html.php:79
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: application/src/Site/BlockLayout/Html.php:48
 msgid "Optional CSS class for styling HTML."
@@ -3412,7 +3414,7 @@ msgstr "Installationsadministrator"
 
 #: application/src/Permissions/Acl.php:22
 msgid "Supervisor"
-msgstr ""
+msgstr "Supervisor"
 
 #: application/src/Permissions/Acl.php:23
 msgid "Editor"
@@ -3614,23 +3616,23 @@ msgstr ""
 
 #: application/src/Api/Representation/JobRepresentation.php:12
 msgid "Starting"
-msgstr ""
+msgstr "Startet"
 
 #: application/src/Api/Representation/JobRepresentation.php:13
 msgid "Stopping"
-msgstr ""
+msgstr "Stoppt"
 
 #: application/src/Api/Representation/JobRepresentation.php:14
 msgid "In Progress"
-msgstr ""
+msgstr "in Arbeit"
 
 #: application/src/Api/Representation/JobRepresentation.php:15
 msgid "Completed"
-msgstr ""
+msgstr "Abgeschlossen"
 
 #: application/src/Api/Representation/JobRepresentation.php:16
 msgid "Stopped"
-msgstr ""
+msgstr "Gestoppt"
 
 #: application/src/Entity/Job.php:23
 msgid "starting"
@@ -3658,11 +3660,11 @@ msgstr "Fehler"
 
 #: application/src/Media/Ingester/IIIF.php:33
 msgid "IIIF image"
-msgstr ""
+msgstr "IIIF Image"
 
 #: application/src/Media/Ingester/IIIF.php:107
 msgid "IIIF image URL"
-msgstr ""
+msgstr "IIIF Image URL"
 
 #: application/src/Media/Ingester/IIIF.php:108
 msgid "URL for the image to embed."
@@ -3674,19 +3676,19 @@ msgstr "Datei hochladen"
 
 #: application/src/Media/Ingester/Youtube.php:27
 msgid "YouTube"
-msgstr ""
+msgstr "YouTube"
 
 #: application/src/Media/Ingester/Youtube.php:90
 msgid "Video URL"
-msgstr ""
+msgstr "Video URL"
 
 #: application/src/Media/Ingester/Youtube.php:91
 msgid "URL for the video to embed."
-msgstr ""
+msgstr "URL für das Einbinden des Videos."
 
 #: application/src/Media/Ingester/Youtube.php:99
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #: application/src/Media/Ingester/Youtube.php:100
 msgid ""
@@ -3696,7 +3698,7 @@ msgstr ""
 
 #: application/src/Media/Ingester/Youtube.php:104
 msgid "End"
-msgstr ""
+msgstr "Ende"
 
 #: application/src/Media/Ingester/Youtube.php:105
 msgid ""
@@ -3710,7 +3712,7 @@ msgstr ""
 
 #: application/src/Media/Ingester/Html.php:80
 msgid "HTML or plain text."
-msgstr ""
+msgstr "HTML oder Klartext."
 
 #: application/src/Media/Ingester/OEmbed.php:41
 msgid "oEmbed"
@@ -3878,7 +3880,7 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:330
 msgid "Disable file validation"
-msgstr ""
+msgstr "Deaktiviere die Datei Überprüfung"
 
 #: application/src/Form/SettingForm.php:331
 msgid "Check this to disable file media type and extension validation."
@@ -3902,11 +3904,11 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:368
 msgid "reCAPTCHA site key"
-msgstr ""
+msgstr "reCAPTCHA Site Key"
 
 #: application/src/Form/SettingForm.php:379
 msgid "reCAPTCHA secret key"
-msgstr ""
+msgstr "reCAPTCHA Secret Key"
 
 #: application/src/Form/ResourceForm.php:30
 #: application/src/Form/ResourceBatchUpdateForm.php:70
@@ -4003,7 +4005,7 @@ msgstr "Dateiformat"
 
 #: application/src/Form/VocabularyForm.php:118
 msgid "[Autodetect]"
-msgstr ""
+msgstr "[Automatisch Erkennen]"
 
 #: application/src/Form/VocabularyForm.php:119
 msgid "JSON-LD (.jsonld)"
@@ -4164,7 +4166,7 @@ msgstr "Upgrade"
 
 #: application/src/Form/Initializer/Csrf.php:35
 msgid "Invalid or missing CSRF token"
-msgstr ""
+msgstr "Fehlender oder falscher CSRF Token"
 
 #: application/src/Form/Element/PasswordConfirm.php:68
 msgid "Confirm password"
@@ -4192,7 +4194,7 @@ msgstr ""
 
 #: application/src/Form/Element/ColorPicker.php:29
 msgid "Invalid color format"
-msgstr ""
+msgstr "Falsches Farb-Format"
 
 #: application/src/Form/SiteSettingsForm.php:38
 msgid "Auto-assign new items"
@@ -4318,7 +4320,7 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:237
 msgid "Show"
-msgstr ""
+msgstr "Zeige"
 
 #: application/src/Form/SiteSettingsForm.php:245
 msgid "Show attached pages"
@@ -4328,6 +4330,8 @@ msgstr ""
 msgid ""
 "Show site pages to which an item is attached on the public item show page."
 msgstr ""
+"Zeige Standortseiten, an die ein Objekt angehängt ist, auf der öffentlichen "
+"Objekt-Anzeigen-Seite."
 
 #: application/src/Form/SiteSettingsForm.php:268
 msgid "Search type"
@@ -4556,7 +4560,7 @@ msgstr "Startseite"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:204
 msgid "First page in navigation"
-msgstr ""
+msgstr "Erste Seite in der Navigation"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:220
 msgid "Navigation successfully updated"
@@ -4629,7 +4633,7 @@ msgstr "Passwort wurde erfolgreich erstellt. Bitte melden Sie sich an."
 
 #: application/src/Controller/LoginController.php:132
 msgid "Password creation unsuccessful"
-msgstr ""
+msgstr "Passwort Erstellung fehlgeschlagen"
 
 #: application/src/Controller/LoginController.php:168
 msgid "Check your email for instructions on how to reset your password"
@@ -5000,7 +5004,7 @@ msgstr "Nach Sammlung filtern"
 
 #. Vocabulary label for Dublin Core
 msgid "Dublin Core"
-msgstr ""
+msgstr "Dublin Core"
 
 #. Vocabulary comment for Dublin Core
 msgid "Basic resource metadata (DCMI Metadata Terms)"
@@ -5009,7 +5013,7 @@ msgstr ""
 #. Class label for Dublin Core:Agent
 #. Class label for Friend of a Friend:Agent
 msgid "Agent"
-msgstr ""
+msgstr "Agent"
 
 #. Class comment for Dublin Core:Agent
 msgid "A resource that acts or has the power to act."
@@ -5025,7 +5029,7 @@ msgstr ""
 
 #. Class label for Dublin Core:BibliographicResource
 msgid "Bibliographic Resource"
-msgstr ""
+msgstr "Biblografische Ressourcen"
 
 #. Class comment for Dublin Core:BibliographicResource
 msgid "A book, article, or other documentary resource."
@@ -5076,7 +5080,7 @@ msgstr ""
 
 #. Class label for Dublin Core:Location
 msgid "Location"
-msgstr ""
+msgstr "Standort"
 
 #. Class comment for Dublin Core:Location
 msgid "A spatial region or named place."
@@ -5124,7 +5128,7 @@ msgstr ""
 
 #. Class label for Dublin Core:PeriodOfTime
 msgid "Period of Time"
-msgstr ""
+msgstr "Dauer der Zeit"
 
 #. Class comment for Dublin Core:PeriodOfTime
 msgid ""
@@ -5181,7 +5185,7 @@ msgstr ""
 
 #. Class label for Dublin Core:SizeOrDuration
 msgid "Size or Duration"
-msgstr ""
+msgstr "Größe oder Dauer"
 
 #. Class comment for Dublin Core:SizeOrDuration
 msgid "A dimension or extent, or a time taken to play or execute."
@@ -5446,7 +5450,7 @@ msgstr ""
 
 #. Property label for Dublin Core:isPartOf
 msgid "Is Part Of"
-msgstr ""
+msgstr "Ist Teil von"
 
 #. Property comment for Dublin Core:isPartOf
 msgid ""
@@ -5476,7 +5480,7 @@ msgstr ""
 
 #. Property label for Dublin Core:references
 msgid "References"
-msgstr ""
+msgstr "Referenzen"
 
 #. Property comment for Dublin Core:references
 msgid ""
@@ -5584,7 +5588,7 @@ msgstr ""
 
 #. Property label for Dublin Core:bibliographicCitation
 msgid "Bibliographic Citation"
-msgstr ""
+msgstr "Biblografische Zitierungen"
 
 #. Property comment for Dublin Core:bibliographicCitation
 msgid "A bibliographic reference for the resource."
@@ -5657,7 +5661,7 @@ msgstr ""
 
 #. Vocabulary label for Dublin Core Type
 msgid "Dublin Core Type"
-msgstr ""
+msgstr "Dublin Core Typ"
 
 #. Vocabulary comment for Dublin Core Type
 msgid "Basic resource types (DCMI Type Vocabulary)"
@@ -5719,7 +5723,7 @@ msgstr ""
 
 #. Class label for Dublin Core Type:Software
 msgid "Software"
-msgstr ""
+msgstr "Software"
 
 #. Class comment for Dublin Core Type:Software
 msgid "A computer program in source or compiled form."
@@ -5773,7 +5777,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:AcademicArticle
 msgid "Academic Article"
-msgstr ""
+msgstr "Wissenschaftliche Publikation"
 
 #. Class comment for Bibliographic Ontology:AcademicArticle
 msgid "A scholarly academic article, typically published in a journal."
@@ -5781,7 +5785,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Article
 msgid "Article"
-msgstr ""
+msgstr "Publikation"
 
 #. Class comment for Bibliographic Ontology:Article
 msgid ""
@@ -5808,7 +5812,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Bill
 msgid "Bill"
-msgstr ""
+msgstr "Rechnung"
 
 #. Class comment for Bibliographic Ontology:Bill
 msgid "Draft legislation presented for discussion to a legal body."
@@ -5851,7 +5855,7 @@ msgstr "Das Kapitel eines Buches"
 
 #. Class label for Bibliographic Ontology:Code
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #. Class comment for Bibliographic Ontology:Code
 msgid "A collection of statutes."
@@ -5871,7 +5875,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Conference
 msgid "Conference"
-msgstr ""
+msgstr "Konferenz"
 
 #. Class comment for Bibliographic Ontology:Conference
 msgid "A meeting for consultation or discussion."
@@ -5883,12 +5887,12 @@ msgstr "Gerichtsreporter"
 
 #. Class comment for Bibliographic Ontology:CourtReporter
 msgid "A collection of legal cases."
-msgstr ""
+msgstr "Eine Sammlung rechtlicher Fälle."
 
 #. Class label for Bibliographic Ontology:Document
 #. Class label for Friend of a Friend:Document
 msgid "Document"
-msgstr ""
+msgstr "Dokument"
 
 #. Class comment for Bibliographic Ontology:Document
 msgid ""
@@ -5908,7 +5912,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:DocumentStatus
 msgid "Document Status"
-msgstr ""
+msgstr "Dokumenten Status"
 
 #. Class comment for Bibliographic Ontology:DocumentStatus
 msgid "The status of the publication of a document."
@@ -5964,7 +5968,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Interview
 msgid "Interview"
-msgstr ""
+msgstr "Interview"
 
 #. Class comment for Bibliographic Ontology:Interview
 msgid "A formalized discussion between two or more people."
@@ -5982,7 +5986,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Journal
 msgid "Journal"
-msgstr ""
+msgstr "Zeitschrift"
 
 #. Class comment for Bibliographic Ontology:Journal
 msgid "A periodical of scholarly journal Articles."
@@ -6025,7 +6029,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Letter
 msgid "Letter"
-msgstr ""
+msgstr "Brief"
 
 #. Class comment for Bibliographic Ontology:Letter
 msgid ""
@@ -6035,7 +6039,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Magazine
 msgid "Magazine"
-msgstr ""
+msgstr "Magazin"
 
 #. Class comment for Bibliographic Ontology:Magazine
 msgid ""
@@ -6085,7 +6089,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Newspaper
 msgid "Newspaper"
-msgstr ""
+msgstr "Zeitung / Zeitschrift"
 
 #. Class comment for Bibliographic Ontology:Newspaper
 msgid ""
@@ -6095,7 +6099,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Note
 msgid "Note"
-msgstr ""
+msgstr "Notiz"
 
 #. Class comment for Bibliographic Ontology:Note
 msgid "Notes or annotations about a resource."
@@ -6103,7 +6107,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Patent
 msgid "Patent"
-msgstr ""
+msgstr "Patent"
 
 #. Class comment for Bibliographic Ontology:Patent
 msgid ""
@@ -6130,7 +6134,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:PersonalCommunication
 msgid "Personal Communication"
-msgstr ""
+msgstr "Persönliche Kommunikation"
 
 #. Class comment for Bibliographic Ontology:PersonalCommunication
 msgid "A communication between an agent and one or more specific recipients."
@@ -6155,7 +6159,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Quote
 msgid "Quote"
-msgstr ""
+msgstr "Zitat"
 
 #. Class comment for Bibliographic Ontology:Quote
 msgid "An excerpted collection of words."
@@ -6173,7 +6177,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Report
 msgid "Report"
-msgstr ""
+msgstr "Bericht"
 
 #. Class comment for Bibliographic Ontology:Report
 msgid ""
@@ -6188,7 +6192,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Slide
 msgid "Slide"
-msgstr ""
+msgstr "Folie einer Präsentation"
 
 #. Class comment for Bibliographic Ontology:Slide
 msgid "A slide in a slideshow"
@@ -6196,7 +6200,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Slideshow
 msgid "Slideshow"
-msgstr ""
+msgstr "Präsentation"
 
 #. Class comment for Bibliographic Ontology:Slideshow
 msgid ""

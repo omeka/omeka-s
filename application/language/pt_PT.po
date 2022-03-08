@@ -3877,8 +3877,6 @@ msgstr ""
 #: application/src/Form/SettingForm.php:280
 msgid "[None]"
 msgstr ""
-"Mostrar as páginas do site às quais um item está anexado na página de "
-"exibição do item público."
 
 #: application/src/Form/SettingForm.php:294
 msgid "Index full-text search"

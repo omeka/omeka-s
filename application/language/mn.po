@@ -298,7 +298,7 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/ListOfPages.php:58
 msgid "Add pages"
-msgstr ""
+msgstr "Хуудас нэмэх"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:28
 msgid "Depth"
@@ -412,7 +412,7 @@ msgstr "агуулсан"
 #: application/src/View/Helper/SearchFilters.php:35
 #: application/view/common/advanced-search/properties.phtml:69
 msgid "does not contain"
-msgstr ""
+msgstr "агуулагдаагүй"
 
 #: application/src/View/Helper/SearchFilters.php:36
 #: application/view/common/advanced-search/properties.phtml:70
@@ -673,11 +673,11 @@ msgstr ""
 
 #: application/view/common/advanced-search/properties.phtml:39
 msgid "Search by value"
-msgstr ""
+msgstr "Өгөгдлөөр хайх"
 
 #: application/view/common/advanced-search/properties.phtml:40
 msgid "Add new value"
-msgstr ""
+msgstr "Шинэ өгөгдөл нэмэх"
 
 #: application/view/common/advanced-search/properties.phtml:58
 msgid "Property"
@@ -793,7 +793,7 @@ msgstr ""
 #: application/view/omeka/admin/media/show-details.phtml:31
 #: application/view/omeka/admin/media/show.phtml:56
 msgid "Size"
-msgstr ""
+msgstr "Хэмжээ"
 
 #: application/view/common/advanced-search/sort.phtml:27
 msgid "Select sort by…"
@@ -6425,7 +6425,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:translator
 msgid "translator"
-msgstr ""
+msgstr "орчуулагч"
 
 #. Property comment for Bibliographic Ontology:translator
 msgid "A person who translates written document from one language to another."

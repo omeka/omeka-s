@@ -8,9 +8,9 @@
 # Stéphane Loret <stephane.loret@univ-nantes.fr>, 2018
 # symac <wikitipiac@laposte.net>, 2018
 # Laurent Thomas, 2020
-# Daniel Berthereau <daniel.transifex@berthereau.net>, 2021
 # Julian Maurice <julian.maurice@biblibre.com>, 2021
 # Pols12 <poltron54@gmail.com>, 2021
+# Daniel Berthereau <daniel.transifex@berthereau.net>, 2022
 # 
 #, fuzzy
 msgid ""
@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-26 15:28-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Pols12 <poltron54@gmail.com>, 2021\n"
+"Last-Translator: Daniel Berthereau <daniel.transifex@berthereau.net>, 2022\n"
 "Language-Team: French (https://www.transifex.com/omeka/teams/14184/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4092,9 +4092,10 @@ msgid ""
 "tags/\">IETF language tag</a>. Defaults to the first available."
 msgstr ""
 "Saisir la langue préférée pour les libellés et les commentaires en utilisant"
-" un <a target=\"_blank\" href=\"https://www.w3.org/International/articles"
-"/language-tags/\">identifiant IETF</a>. Le premier disponible sera appliqué "
-"par défaut."
+" un <a target=\"_blank\" "
+"href=\"https://www.w3.org/International/articles/language-"
+"tags/\">identifiant IETF</a>. Le premier disponible sera appliqué par "
+"défaut."
 
 #: application/src/Form/VocabularyForm.php:147
 msgid "Label property"
@@ -6478,7 +6479,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:ThesisDegree
 msgid "Thesis degree"
-msgstr "Doctorat"
+msgstr "Diplôme de thèse"
 
 #. Class comment for Bibliographic Ontology:ThesisDegree
 msgid "The academic degree of a Thesis"
@@ -6600,15 +6601,15 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:degree
 msgid "degree"
-msgstr "degré"
+msgstr "diplôme"
 
 #. Property comment for Bibliographic Ontology:degree
 msgid "The thesis degree."
-msgstr "Le doctorat obtenu."
+msgstr "Le diplôme obtenu."
 
 #. Property label for Bibliographic Ontology:director
 msgid "director"
-msgstr "directeur"
+msgstr "réalisateur"
 
 #. Property comment for Bibliographic Ontology:director
 msgid "A Film director."
@@ -6666,7 +6667,7 @@ msgstr "Un agent qui interview un autre agent."
 
 #. Property label for Bibliographic Ontology:issuer
 msgid "issuer"
-msgstr "distributeur"
+msgstr "diffuseur"
 
 #. Property comment for Bibliographic Ontology:issuer
 msgid ""

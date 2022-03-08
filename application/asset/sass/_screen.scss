@@ -632,6 +632,7 @@ table .icon-sortable {
 .sortable-handle {
     cursor: move;
     margin-right: $spacing-medium;
+    width: 1.5 * $spacing-medium;
 
     &:before {
         content: fa-content($fa-var-bars);
@@ -4496,6 +4497,41 @@ body.sidebar-open #content {
     }
 
     /* @end */
+
+/* @end */
+
+/* @groups ----- Page Block Config ----- */
+
+.theme-resource-pages .blocks {
+    list-style: none;
+    padding-left: 0;
+    border: 1px solid $border-gray; 
+    padding: $spacing-medium; 
+    min-height: 30px;
+}
+
+.theme-resource-pages .block {
+    @include field-row;
+    display: flex;
+    height: 1.5 * $spacing-large;
+
+    &.delete {
+        background-color: $delete-bg;
+        padding-left: 1.5 * $spacing-large;
+    }
+}
+
+.theme-resource-pages .block.delete > *:not(.block-header) {
+    display: block;
+}
+
+.theme-resource-pages .block.delete .sortable-handle {
+    display: none;
+}
+
+.theme-resource-pages button:disabled {
+    display: none;
+}
 
 /* @end */
 

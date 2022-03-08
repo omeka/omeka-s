@@ -40,7 +40,7 @@ echo $this->sectionNav([
 <div id="<?php echo $this->escapeHtml(sprintf('section-%s', $resourceName)); ?>" class="section<?php echo 'items' === $resourceName ? ' active' : ''; ?>">
     <?php foreach ($resourcePageRegions[$resourceName] as $regionName => $regionLabel): ?>
     <h3><?php echo sprintf($this->translate('Region: %s'), $regionLabel); ?></h3>
-    <ul class="blocks" style="border: 1px solid #DFDFDF; padding: 20px; min-height: 30px;" data-resource-name="<?php echo $this->escapeHtml($resourceName); ?>" data-region-name="<?php echo $this->escapeHtml($regionName); ?>"></ul>
+    <ul class="blocks" data-resource-name="<?php echo $this->escapeHtml($resourceName); ?>" data-region-name="<?php echo $this->escapeHtml($regionName); ?>"></ul>
     <?php endforeach; ?>
 </div>
 <?php endforeach; ?>

@@ -5,16 +5,28 @@ $(document).ready(function() {
     const blockLayoutLabels = form.data('blockLayoutLabels');
 
     // Add a block to a resource page.
-    const addBlock = function(blocks, resourceName, regionName, blockLayoutName) {
+    const addBlock = function(resourceName, regionName, blockLayoutName) {
+        const blocks = $(`ul.blocks[data-resource-name="${resourceName}"][data-region-name="${regionName}"]`);
+        const blockLayoutButton = $(`button.option[data-resource-name="${resourceName}"][data-block-layout-name="${blockLayoutName}"]`);
+        const blockSelector = $(`#block-selector-${resourceName}`);
         const block = $(form.data('blockTemplate'));
-        setBlockInputName(block, resourceName, regionName);
         let blockLayoutLabel = blockLayoutLabels[blockLayoutName];
         if (!blockLayoutLabel) {
             blockLayoutLabel = `${Omeka.jsTranslate('Unknown block layout')} [${blockLayoutName}]`;
         }
+
+        // Add the block to the region.
+        setBlockInputName(block, resourceName, regionName);
         block.find('.block-layout-label').text(blockLayoutLabel);
         block.find('.block-layout-name').val(blockLayoutName);
         blocks.append(block);
+
+        // Handle block selector display.
+        blockLayoutButton.prop('disabled', true);
+        blockSelector.find('.no-block-layouts').css(
+            'display',
+            blockSelector.find('button.option').not(':disabled').length ? 'none' : 'inline'
+        );
     };
 
     // Set the block input name
@@ -28,12 +40,10 @@ $(document).ready(function() {
         $.each(resourcePageBlocks[resourceName], function(regionName, blockLayoutNames) {
             const blocks = $(`ul.blocks[data-resource-name="${resourceName}"][data-region-name="${regionName}"]`);
             if (!blocks.length) {
-                // There is no corresponding list for this region. Continue to
-                // next region.
-                return;
+                return; // There is no corresponding list for this region. Continue to next region.
             }
             $.each(blockLayoutNames, function(index, blockLayoutName) {
-                addBlock(blocks, resourceName, regionName, blockLayoutName);
+                addBlock(resourceName, regionName, blockLayoutName);
                 $(`button.option[data-resource-name="${resourceName}"][data-block-layout-name="${blockLayoutName}"]`).prop('disabled', true);
             });
         });
@@ -76,8 +86,7 @@ $(document).ready(function() {
         const resourceName = thisBlockLayoutButton.data('resourceName');
         const regionName = $(`#region-select-${resourceName}`).val();
         const blockLayoutName = thisBlockLayoutButton.data('blockLayoutName');
-        const blocks = $(`ul.blocks[data-resource-name="${resourceName}"][data-region-name="${regionName}"]`);
-        addBlock(blocks, resourceName, regionName, blockLayoutName);
+        addBlock(resourceName, regionName, blockLayoutName);
         thisBlockLayoutButton.prop('disabled', true);
     });
 

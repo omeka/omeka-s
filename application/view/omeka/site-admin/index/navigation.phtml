@@ -51,7 +51,7 @@ $this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
         <input type="text" class="page-selector-filter" placeholder="<?php echo $translate('Filter pages'); ?>" aria-label="<?php echo $translate('Filter pages'); ?>">
         <div id="nav-page-links">
         <?php foreach ($pages as $page): ?>
-            <button class="nav-page-link option"
+            <button class="nav-page-link option active"
                 type="button"
                 data-type="page"
                 data-label="<?php echo $escape($page->title()); ?>"

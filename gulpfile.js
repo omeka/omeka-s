@@ -340,12 +340,9 @@ function taskDepsJs(cb) {
         'jstree': 'dist/jstree.min.js',
         'lightgallery': [
             '**',
-            '!*.ts', '!*.es5.*', '!*.umd.*', '!package.json', '!README.md',
+            '!**/*.ts', '!**/*.es5.*', '!**/*.umd.*', '!**/package.json', '!README.md',
             '!angular/**', '!lib/**', '!lit/**', '!react/**', '!scss/**', '!vue/**',
             '!plugins/autoplay/**', '!plugins/comment/**', '!plugins/fullscreen/**', '!plugins/hash/**', '!plugins/mediumZoom/**', '!plugins/pager/**', '!plugins/relativeCaption/**', '!plugins/rotate/**', '!plugins/share/**',
-            '!plugins/thumbnail/*.ts', '!plugins/thumbnail/*.es5.*', '!plugins/thumbnail/*.umd.*', '!plugins/thumbnail/package.json',
-            '!plugins/video/*.ts', '!plugins/video/*.es5.*', '!plugins/video/*.umd.*', '!plugins/video/package.json',
-            '!plugins/zoom/*.ts', '!plugins/zoom/*.es5.*', '!plugins/zoom/*.umd.*', '!plugins/zoom/package.json',
             '!css/lg-autoplay.css', '!css/lg-fullscreen.css', '!css/lg-pager.css', '!css/lg-rotate.css', '!css/lightgallery-bundle.css', '!css/lightgallery-core.css', '!css/lg-comments.css',  '!css/lg-medium-zoom.css', '!css/lg-relative-caption.css', '!css/lg-share.css', '!css/lg-transitions.css', '!css/lightgallery-bundle.min.css'
         ],
         'openseadragon': 'build/openseadragon/**',

@@ -338,7 +338,12 @@ function taskDepsJs(cb) {
         'ckeditor4': ['**', '!samples/**'],
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',
-        'lightgallery': ['**', '!angular/**', '!lib/**', '!react/**', '!scss/**', '!vue/**'],
+        'lightgallery': [
+            '**', '!angular/**', '!lib/**', '!react/**', '!scss/**', '!vue/**',
+            '!plugins/autoplay/**', '!plugins/comment/**', '!plugins/fullscreen/**',
+            '!plugins/hash/**', '!plugins/mediumZoom/**', '!plugins/pager/**',
+            '!plugins/relativeCaption/**', '!plugins/rotate/**', '!plugins/share/**'
+        ],
         'openseadragon': 'build/openseadragon/**',
         'semver': 'semver.min.js',
         'sortablejs': 'Sortable.min.js',

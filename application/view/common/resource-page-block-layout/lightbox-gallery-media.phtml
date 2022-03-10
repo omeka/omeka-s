@@ -1,0 +1,32 @@
+<?php
+$media = $resource;
+$mediaType = $media->mediaType();
+$enableLightGallery = strpos($mediaType, 'image') !== false;
+?>
+<?php if ($enableLightGallery): ?>
+    <?php echo $this->lightGalleryOutput([['media' => $media]]); ?>
+<?php else: ?>
+    <?php if (strpos($mediaType, 'video') !== false): ?>
+        <?php
+            $mediaItem = $media->item();
+            $itemAttachments = $this->sortMedia($mediaItem->media());
+        ?>
+        <?php foreach ($itemAttachments['lightMedia'] as $itemAttachment): ?>
+            <?php if ($itemAttachment['media']->source() == $media->source()): ?>
+                <div class="media-render">
+                <video controls>
+                    <source src="<?php echo $media->originalUrl(); ?>" type="<?php echo $mediaType; ?>">
+                    <p><?php $this->translate('Your browser does not support HTML5 video.'); ?></p>
+                    <?php if ($tracks = $itemAttachment['tracks']): ?>
+                        <?php foreach ($tracks as $track): ?>
+                            <track label="<?php echo $track->displayTitle(); ?>" kind="<?php echo $track->value('dcterms:type'); ?>" srclang="<?php echo $track->value('dcterms:language'); ?>" src="<?php echo $track->originalUrl(); ?>">
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </video>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php else: ?>
+    <?php echo $media->render(); ?>
+    <?php endif; ?>
+<?php endif; ?>

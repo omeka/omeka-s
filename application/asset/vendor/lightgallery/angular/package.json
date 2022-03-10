@@ -1,0 +1,22 @@
+{
+  "name": "lightgallery/angular",
+  "version": "0.0.1",
+  "private": true,
+  "peerDependencies": {
+    "@angular/common": "^12.0.4",
+    "@angular/core": "^12.0.4"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "main": "bundles/lightgallery-angular.umd.js",
+  "module": "fesm2015/lightgallery-angular.js",
+  "es2015": "fesm2015/lightgallery-angular.js",
+  "esm2015": "esm2015/lightgallery-angular.js",
+  "fesm2015": "fesm2015/lightgallery-angular.js",
+  "typings": "lightgallery-angular.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "prepublishOnly": "node --eval \"console.error('ERROR: Trying to publish a package that has been compiled by Ivy in full compilation mode. This is not allowed.\\nPlease delete and rebuild the package with Ivy partial compilation mode, before attempting to publish.\\n')\" && exit 1"
+  }
+}

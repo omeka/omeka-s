@@ -417,6 +417,8 @@ return [
             'thumbnail' => View\Helper\Thumbnail::class,
             'userBar' => View\Helper\UserBar::class,
             'cancelButton' => View\Helper\CancelButton::class,
+            'sortMedia' => View\Helper\SortMedia::class,
+            'lightGalleryOutput' => View\Helper\LightGalleryOutput::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,
@@ -540,6 +542,7 @@ return [
     'resource_page_block_layouts' => [
         'invokables' => [
             'itemSets' => Site\ResourcePageBlockLayout\ItemSets::class,
+            'lightboxGallery' => Site\ResourcePageBlockLayout\LightboxGallery::class,
             'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
             'mediaEmbeds' => Site\ResourcePageBlockLayout\MediaEmbeds::class,
             'mediaList' => Site\ResourcePageBlockLayout\MediaList::class,

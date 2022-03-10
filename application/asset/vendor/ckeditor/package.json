@@ -1,12 +1,41 @@
 {
-  "name": "ckeditor4",
-  "version": "4.17.1",
-  "description": "JavaScript WYSIWYG web text editor.",
-  "main": "ckeditor.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ckeditor/ckeditor4-releases.git"
+  "_args": [
+    [
+      "ckeditor4@4.17.1",
+      "/var/www/html/omeka-s"
+    ]
+  ],
+  "_from": "ckeditor4@4.17.1",
+  "_id": "ckeditor4@4.17.1",
+  "_inBundle": false,
+  "_integrity": "sha512-VSTyro6tWd0B356SjJX8Zbix2Q85M/5h7469+vLb7DeNUP2vAimrPYoo29am2RRTTllyKxfLzVuTF8E9A1ssdA==",
+  "_location": "/ckeditor4",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "ckeditor4@4.17.1",
+    "name": "ckeditor4",
+    "escapedName": "ckeditor4",
+    "rawSpec": "4.17.1",
+    "saveSpec": null,
+    "fetchSpec": "4.17.1"
   },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ckeditor4/-/ckeditor4-4.17.1.tgz",
+  "_spec": "4.17.1",
+  "_where": "/var/www/html/omeka-s",
+  "author": {
+    "name": "CKSource",
+    "url": "https://cksource.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/ckeditor/ckeditor4/issues"
+  },
+  "description": "JavaScript WYSIWYG web text editor.",
+  "homepage": "https://ckeditor.com/ckeditor-4/",
   "keywords": [
     "ckeditor4",
     "ckeditor",
@@ -18,10 +47,12 @@
     "text",
     "javascript"
   ],
-  "author": "CKSource (https://cksource.com/)",
   "license": "(GPL-2.0 OR LGPL-2.1 OR MPL-1.1)",
-  "bugs": {
-    "url": "https://github.com/ckeditor/ckeditor4/issues"
+  "main": "ckeditor.js",
+  "name": "ckeditor4",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ckeditor/ckeditor4-releases.git"
   },
-  "homepage": "https://ckeditor.com/ckeditor-4/"
+  "version": "4.17.1"
 }

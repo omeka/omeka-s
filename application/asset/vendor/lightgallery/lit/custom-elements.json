@@ -1,0 +1,82 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "light-gallery-demo",
+      "path": "./../src/lightgallery-demo.ts",
+      "attributes": [
+        {
+          "name": "list",
+          "type": "{ id: string; size: string; src: string; thumb: string; subHtml: string; }[]",
+          "default": "[{\"id\":\"1\",\"size\":\"1400-933\",\"src\":\"https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80\",\"thumb\":\"https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80\",\"subHtml\":\"<div class=\\\"lightGallery-captions\\\">\\n            <h4>Photo by <a href=\\\"https://unsplash.com/@dann\\\">Dan</a></h4>\\n            <p>Published on November 13, 2018</p>\\n        </div>\"},{\"id\":\"2\",\"size\":\"1400-933\",\"src\":\"https://images.unsplash.com/photo-1473876988266-ca0860a443b8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80\",\"thumb\":\"https://images.unsplash.com/photo-1473876988266-ca0860a443b8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80\",\"subHtml\":\"<div class=\\\"lightGallery-captions\\\">\\n            <h4>Photo by <a href=\\\"https://unsplash.com/@kylepyt\\\">Kyle Peyton</a></h4>\\n            <p>Published on September 14, 2016</p>\\n        </div>\"}]"
+        }
+      ],
+      "properties": [
+        {
+          "name": "gallery"
+        },
+        {
+          "name": "list",
+          "attribute": "list",
+          "type": "{ id: string; size: string; src: string; thumb: string; subHtml: string; }[]",
+          "default": "[{\"id\":\"1\",\"size\":\"1400-933\",\"src\":\"https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80\",\"thumb\":\"https://images.unsplash.com/photo-1542103749-8ef59b94f47e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80\",\"subHtml\":\"<div class=\\\"lightGallery-captions\\\">\\n            <h4>Photo by <a href=\\\"https://unsplash.com/@dann\\\">Dan</a></h4>\\n            <p>Published on November 13, 2018</p>\\n        </div>\"},{\"id\":\"2\",\"size\":\"1400-933\",\"src\":\"https://images.unsplash.com/photo-1473876988266-ca0860a443b8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80\",\"thumb\":\"https://images.unsplash.com/photo-1473876988266-ca0860a443b8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80\",\"subHtml\":\"<div class=\\\"lightGallery-captions\\\">\\n            <h4>Photo by <a href=\\\"https://unsplash.com/@kylepyt\\\">Kyle Peyton</a></h4>\\n            <p>Published on September 14, 2016</p>\\n        </div>\"}]"
+        },
+        {
+          "name": "renderRoot",
+          "description": "Node or ShadowRoot into which element DOM should be rendered. Defaults\nto an open shadowRoot.",
+          "type": "HTMLElement | ShadowRoot"
+        },
+        {
+          "name": "isUpdatePending",
+          "type": "boolean"
+        },
+        {
+          "name": "hasUpdated",
+          "type": "boolean"
+        },
+        {
+          "name": "updateComplete",
+          "description": "Returns a Promise that resolves when the element has completed updating.\nThe Promise value is a boolean that is `true` if the element completed the\nupdate without triggering another update. The Promise result is `false` if\na property was set inside `updated()`. If the Promise is rejected, an\nexception was thrown during the update.\n\nTo await additional asynchronous work, override the `getUpdateComplete`\nmethod. For example, it is sometimes useful to await a rendered element\nbefore fulfilling this Promise. To do this, first await\n`super.getUpdateComplete()`, then any subsequent state.",
+          "type": "Promise<boolean>"
+        }
+      ]
+    },
+    {
+      "name": "light-gallery",
+      "path": "./../src/lightgallery.ts",
+      "attributes": [
+        {
+          "name": "settings",
+          "type": "Partial<LightGalleryAllSettings>",
+          "default": "{}"
+        }
+      ],
+      "properties": [
+        {
+          "name": "settings",
+          "attribute": "settings",
+          "type": "Partial<LightGalleryAllSettings>",
+          "default": "{}"
+        },
+        {
+          "name": "renderRoot",
+          "description": "Node or ShadowRoot into which element DOM should be rendered. Defaults\nto an open shadowRoot.",
+          "type": "HTMLElement | ShadowRoot"
+        },
+        {
+          "name": "isUpdatePending",
+          "type": "boolean"
+        },
+        {
+          "name": "hasUpdated",
+          "type": "boolean"
+        },
+        {
+          "name": "updateComplete",
+          "description": "Returns a Promise that resolves when the element has completed updating.\nThe Promise value is a boolean that is `true` if the element completed the\nupdate without triggering another update. The Promise result is `false` if\na property was set inside `updated()`. If the Promise is rejected, an\nexception was thrown during the update.\n\nTo await additional asynchronous work, override the `getUpdateComplete`\nmethod. For example, it is sometimes useful to await a rendered element\nbefore fulfilling this Promise. To do this, first await\n`super.getUpdateComplete()`, then any subsequent state.",
+          "type": "Promise<boolean>"
+        }
+      ]
+    }
+  ]
+}

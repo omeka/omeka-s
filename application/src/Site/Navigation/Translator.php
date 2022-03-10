@@ -47,6 +47,7 @@ class Translator
                 $linkData = $data['data'];
                 $linksOut[$key] = $linkType->toZend($linkData, $site);
                 $linksOut[$key]['label'] = $this->getLinkLabel($linkType, $linkData, $site);
+                $linksOut[$key]['is_public'] = $linkType->isPublic();
                 if (isset($data['links'])) {
                     $linksOut[$key]['pages'] = $buildLinks($data['links']);
                 }

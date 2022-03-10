@@ -74,7 +74,10 @@ $.jstree.plugins.removenode = function(options, parent) {
 $.jstree.plugins.privateStatus = function(options, parent) {
     var privateIcon = $('<i>', {
         class: 'jstree-icon jstree-private',
-        attr:{role:'presentation'},
+        attr:{
+            'role':'presentation',
+            'aria-label':Omeka.jsTranslate('Private'),
+            'title': Omeka.jsTranslate('Private')},
     });
     this.redraw_node = function(node, deep, is_callback, force_render) {
         node = parent.redraw_node.apply(this, arguments);
@@ -84,7 +87,7 @@ $.jstree.plugins.privateStatus = function(options, parent) {
             if (nodeIsPublic == 0) {
                 var nodeJq = $(node);
                 var anchor = nodeJq.children('.jstree-anchor');
-                anchor.prepend(privateIcon.clone());
+                anchor.append(privateIcon.clone());
             }
         }
         return node;
@@ -145,7 +148,8 @@ $.jstree.plugins.editlink = function(options, parent) {
                     data: {
                         type: link.data('type'),
                         data: {
-                            id: link.data('id')
+                            id: link.data('id'),
+                            'is_public': link.data('is_public')
                         }
                     }
                 });

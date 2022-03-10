@@ -120,12 +120,21 @@ i.jstree-icon.jstree-er {
 .jstree-removenode-remove,
 .jstree-removenode-undo,
 .jstree-editlink-edit,
-.jstree-displaylink {
+.jstree-displaylink,
+.jstree-private {
     background-color: transparent;
     opacity: .5;
 
     &:hover {
         opacity: 1;
+    }
+}
+
+.jstree-private {
+    color: $copy-gray;
+
+    &:hover {
+        opacity: .5;
     }
 }
 

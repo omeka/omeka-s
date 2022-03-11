@@ -74,10 +74,8 @@ class ApiController extends AbstractRestfulController
         $query = $this->params()->fromQuery();
 
         $options = [
-            'responseContent' => $query['response_content'] ?? 'representation',
             'returnScalar' => $query['return_scalar'] ?? false,
         ];
-        unset($query['response_content']);
         unset($query['return_scalar']);
 
         $response = $this->api->search($resource, $query, $options);

@@ -73,32 +73,14 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
             $itemAlias = $this->createAlias();
             $qb->innerJoin(
-                'omeka_root.item',
-                $itemAlias
-            );
-            $siteBlockAttachmentsAlias = $this->createAlias();
-            $qb->innerJoin(
-                "$itemAlias.siteBlockAttachments",
-                $siteBlockAttachmentsAlias
-            );
-            $sitePageBlockAlias = $this->createAlias();
-            $qb->innerJoin(
-                "$siteBlockAttachmentsAlias.block",
-                $sitePageBlockAlias
-            );
-            $sitePageAlias = $this->createAlias();
-            $qb->innerJoin(
-                "$sitePageBlockAlias.page",
-                $sitePageAlias
+                'omeka_root.item', $itemAlias
             );
             $siteAlias = $this->createAlias();
             $qb->innerJoin(
-                "$sitePageAlias.site",
-                $siteAlias
-            );
-            $qb->andWhere($qb->expr()->eq(
-                "$siteAlias.id",
-                $this->createNamedParameter($qb, $query['site_id']))
+                "$itemAlias.sites", $siteAlias, 'WITH', $qb->expr()->eq(
+                    "$siteAlias.id",
+                    $this->createNamedParameter($qb, $query['site_id'])
+                )
             );
         }
     }

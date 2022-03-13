@@ -116,6 +116,18 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
+            'Omeka\Entity\Media',
+            'entity.persist.post',
+            [$this, 'saveFulltextOnMediaSave']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Entity\Media',
+            'entity.update.post',
+            [$this, 'saveFulltextOnMediaSave']
+        );
+
+        $sharedEventManager->attach(
             'Omeka\Api\Adapter\SitePageAdapter',
             'api.delete.pre',
             [$this, 'deleteFulltextPre']
@@ -528,6 +540,28 @@ class Module extends AbstractModule
             $event->getParam('response')->getContent(),
             $event->getTarget()
         );
+    }
+
+    /**
+     * Save fulltext on media save.
+     *
+     * This method does two things. First, it updates the parent item's fulltext
+     * to contain any new text introduced by this media. Second it ensures that
+     * the fulltext of newly created media is saved. Otherwise, media created
+     * in the item context (via cascade persist) will not have fulltext.
+     *
+     * @param ZendEvent $event
+     */
+    public function saveFulltextOnMediaSave(ZendEvent $event)
+    {
+        $fulltextSearch = $this->getServiceLocator()->get('Omeka\FulltextSearch');
+        $adapterManager = $this->getServiceLocator()->get('Omeka\ApiAdapterManager');
+        $mediaEntity = $event->getTarget();
+        $itemEntity = $mediaEntity->getItem();
+        if ('entity.persist.post' === $event->getName()) {
+            $fulltextSearch->save($mediaEntity, $adapterManager->get('media'));
+        }
+        $fulltextSearch->save($itemEntity, $adapterManager->get('items'));
     }
 
     /**

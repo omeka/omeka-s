@@ -522,6 +522,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         foreach ($resource->getValues()->matching($criteria) as $value) {
             $valueRepresentation = new ValueRepresentation($value, $services);
             $texts[] = $dataTypes->getForExtract($value)->getFulltextText($view, $valueRepresentation);
+            // Add value annotation text, if any.
+            $valueAnnotation = $value->getValueAnnotation();
+            if ($valueAnnotation) {
+                foreach ($valueAnnotation->getValues()->matching($criteria) as $value) {
+                    $valueRepresentation = new ValueRepresentation($value, $services);
+                    $texts[] = $dataTypes->getForExtract($value)->getFulltextText($view, $valueRepresentation);
+                }
+            }
         }
         return implode("\n", $texts);
     }

@@ -19,6 +19,9 @@ class PageTitleTest extends TestCase
         $view->expects($this->any())
             ->method('escapeHtml')
             ->will($this->returnArgument(0));
+        $view->expects($this->exactly(3))
+            ->method('headTitle')
+            ->withConsecutive([$subhead], [$title], [$action]);
         $view->expects($this->once())
             ->method('partial')
             ->with(

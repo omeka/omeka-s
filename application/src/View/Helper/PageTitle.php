@@ -2,6 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
+use Laminas\View\Helper\Placeholder\Container\AbstractContainer;
 
 /**
  * View helper for rendering a title heading for a page.
@@ -27,7 +28,11 @@ class PageTitle extends AbstractHelper
     public function __invoke($title, $level = 1, $subheadLabel = null, $actionLabel = null, $partialName = null)
     {
         $partialName = $partialName ?: self::PARTIAL_NAME;
-        return $this->getView()->partial(
+        $view = $this->getView();
+        $view->headTitle($subheadLabel, AbstractContainer::PREPEND);
+        $view->headTitle($title, AbstractContainer::PREPEND);
+        $view->headTitle($actionLabel, AbstractContainer::PREPEND);
+        return $view->partial(
             $partialName,
             [
                 'title' => $title,

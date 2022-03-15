@@ -43,7 +43,7 @@ class Manager extends AbstractPluginManager
         try {
             $instance = parent::get($name, $options, $usePeeringServiceManagers);
         } catch (ServiceNotFoundException $e) {
-            $instance = new Unknown($name);
+            $instance = new Fallback($name);
         }
         return $instance;
     }

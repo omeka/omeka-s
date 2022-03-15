@@ -1,30 +1,31 @@
 <?php
 namespace Omeka\Site\ResourcePageBlockLayout;
 
+use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Fallback extends AbstractBlockLayout
+class Fallback implements ResourcePageBlockLayoutInterface
 {
-    /**
-     * @var string The name of the unknown block layout
-     */
     protected $name;
 
-    /**
-     * @param string $name
-     */
     public function __construct($name)
     {
         $this->name = $name;
     }
 
-    public function getLabel()
+    public function getLabel() : string
     {
         return sprintf('Unknown [%s]', $this->name); // @translate
     }
 
-    public function render(PhpRenderer $view)
+    public function getCompatibleResourceNames() : array
+    {
+        return [];
+    }
+
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
     {
         return '';
     }
+
 }

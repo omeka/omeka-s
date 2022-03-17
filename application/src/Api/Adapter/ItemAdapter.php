@@ -275,8 +275,9 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         $texts = [];
         $texts[] = parent::getFulltextText($resource);
         // Get media text.
+        $mediaAdapter = $this->getAdapter('media');
         foreach ($resource->getMedia() as $media) {
-            $texts[] = parent::getFulltextText($media);
+            $texts[] = $mediaAdapter->getFulltextText($media);
         }
         // Remove empty texts.
         $texts = array_filter($texts, function ($text) {

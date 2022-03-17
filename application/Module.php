@@ -2,6 +2,7 @@
 namespace Omeka;
 
 use Omeka\Api\Adapter\FulltextSearchableInterface;
+use Omeka\Entity\Media;
 use Omeka\Module\AbstractModule;
 use Laminas\EventManager\Event as ZendEvent;
 use Laminas\EventManager\SharedEventManagerInterface;
@@ -535,11 +536,16 @@ class Module extends AbstractModule
      */
     public function saveFulltext(ZendEvent $event)
     {
+        $adapter = $event->getTarget();
+        $entity = $event->getParam('response')->getContent();
+        if ($entity instanceof Media) {
+            // Media get special handling during entity.persist.post and
+            // entity.update.post in self::saveFulltextOnMediaSave(). There's no
+            // need to process them here.
+            return;
+        }
         $fulltext = $this->getServiceLocator()->get('Omeka\FulltextSearch');
-        $fulltext->save(
-            $event->getParam('response')->getContent(),
-            $event->getTarget()
-        );
+        $fulltext->save($entity, $adapter);
     }
 
     /**
@@ -558,9 +564,7 @@ class Module extends AbstractModule
         $adapterManager = $this->getServiceLocator()->get('Omeka\ApiAdapterManager');
         $mediaEntity = $event->getTarget();
         $itemEntity = $mediaEntity->getItem();
-        if ('entity.persist.post' === $event->getName()) {
-            $fulltextSearch->save($mediaEntity, $adapterManager->get('media'));
-        }
+        $fulltextSearch->save($mediaEntity, $adapterManager->get('media'));
         $fulltextSearch->save($itemEntity, $adapterManager->get('items'));
     }
 

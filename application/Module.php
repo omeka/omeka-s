@@ -2,6 +2,7 @@
 namespace Omeka;
 
 use Omeka\Api\Adapter\FulltextSearchableInterface;
+use Omeka\Entity\Media;
 use Omeka\Module\AbstractModule;
 use Laminas\EventManager\Event as ZendEvent;
 use Laminas\EventManager\SharedEventManagerInterface;
@@ -113,6 +114,18 @@ class Module extends AbstractModule
             '*',
             'api.update.post',
             [$this, 'saveFulltext']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Entity\Media',
+            'entity.persist.post',
+            [$this, 'saveFulltextOnMediaSave']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Entity\Media',
+            'entity.update.post',
+            [$this, 'saveFulltextOnMediaSave']
         );
 
         $sharedEventManager->attach(
@@ -523,11 +536,36 @@ class Module extends AbstractModule
      */
     public function saveFulltext(ZendEvent $event)
     {
+        $adapter = $event->getTarget();
+        $entity = $event->getParam('response')->getContent();
+        if ($entity instanceof Media) {
+            // Media get special handling during entity.persist.post and
+            // entity.update.post in self::saveFulltextOnMediaSave(). There's no
+            // need to process them here.
+            return;
+        }
         $fulltext = $this->getServiceLocator()->get('Omeka\FulltextSearch');
-        $fulltext->save(
-            $event->getParam('response')->getContent(),
-            $event->getTarget()
-        );
+        $fulltext->save($entity, $adapter);
+    }
+
+    /**
+     * Save fulltext on media save.
+     *
+     * This method does two things. First, it updates the parent item's fulltext
+     * to contain any new text introduced by this media. Second it ensures that
+     * the fulltext of newly created media is saved. Otherwise, media created
+     * in the item context (via cascade persist) will not have fulltext.
+     *
+     * @param ZendEvent $event
+     */
+    public function saveFulltextOnMediaSave(ZendEvent $event)
+    {
+        $fulltextSearch = $this->getServiceLocator()->get('Omeka\FulltextSearch');
+        $adapterManager = $this->getServiceLocator()->get('Omeka\ApiAdapterManager');
+        $mediaEntity = $event->getTarget();
+        $itemEntity = $mediaEntity->getItem();
+        $fulltextSearch->save($mediaEntity, $adapterManager->get('media'));
+        $fulltextSearch->save($itemEntity, $adapterManager->get('items'));
     }
 
     /**

@@ -532,6 +532,7 @@ return [
         'factories' => [
             'asset' => Service\BlockLayout\AssetFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
+            'rawHtml' => Service\BlockLayout\RawHtmlFactory::class,
             'listOfPages' => Service\BlockLayout\PageListFactory::class,
         ],
     ],

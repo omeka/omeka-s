@@ -528,6 +528,8 @@ return [
             'tableOfContents' => Site\BlockLayout\TableOfContents::class,
             'lineBreak' => Site\BlockLayout\LineBreak::class,
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
+            'groupOpen' => Site\BlockLayout\GroupOpen::class,
+            'groupClose' => Site\BlockLayout\GroupClose::class,
         ],
         'factories' => [
             'asset' => Service\BlockLayout\AssetFactory::class,

@@ -17,13 +17,20 @@ CKEDITOR.editorConfig = function( config ) {
                       "/",
                       { "items" :
                           ['Bold', 'Italic', 'Underline', 'Strike', '-',
-                           'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote'
+                           'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote', '-',
+                           'Zotero'
                           ]
                       }
                      ];
 
     // Disable content filtering
     config.allowedContent = true;
-    config.extraPlugins = 'sourcedialog';
+    config.extraPlugins = ['sourcedialog', 'zotero'];
 };
 
+CKEDITOR.zoteroDefaultSettings = {
+    apiKey: '',
+    apiLibraryType: 'users',
+    apiLibraryId: 15,
+    citationStyle: 'chicago-author-date',
+};

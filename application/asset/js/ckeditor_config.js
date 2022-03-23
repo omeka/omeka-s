@@ -16,5 +16,5 @@ CKEDITOR.editorConfig = function(config) {
     // Add extra plugins
     config.extraPlugins = ['sourcedialog'];
     // Allow other scripts to modify configuration.
-    $(document).trigger('ckeditor:config', config);
+    $(document).trigger('o:ckeditor-config', config);
 };

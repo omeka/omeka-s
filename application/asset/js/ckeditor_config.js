@@ -7,30 +7,41 @@ CKEDITOR.editorConfig = function( config ) {
     // For complete reference see:
     // http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-    config.toolbar = [
-                      { "name" : "advanced", "items" :
-                          ['Sourcedialog', '-',
-                           'Link', 'Unlink', 'Anchor', '-',
-                           'Format', 'Styles', 'PasteFromWord'
-                           ]
-                      },
-                      "/",
-                      { "items" :
-                          ['Bold', 'Italic', 'Underline', 'Strike', '-',
-                           'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote', '-',
-                           'Zotero'
-                          ]
-                      }
-                     ];
+    let eventData;
+
+    // Configure the toolbar
+    eventData = {
+        toolbar: [
+            {
+                name: 'advanced',
+                items : [
+                    'Sourcedialog',
+                    '-',
+                    'Link', 'Unlink', 'Anchor',
+                    '-',
+                    'Format', 'Styles', 'PasteFromWord'
+                ]
+            },
+            '/',
+            {
+                items: [
+                    'Bold', 'Italic', 'Underline', 'Strike',
+                    '-',
+                    'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote',
+                ]
+            }
+        ]
+    };
+    $(document).trigger('ckeditor:toolbar', eventData);
+    config.toolbar = eventData.toolbar;
 
     // Disable content filtering
     config.allowedContent = true;
-    config.extraPlugins = ['sourcedialog', 'zotero'];
-};
 
-CKEDITOR.zoteroDefaultSettings = {
-    apiKey: '',
-    apiLibraryType: 'users',
-    apiLibraryId: 15,
-    citationStyle: 'chicago-author-date',
+    // Add extra plugins
+    eventData = {
+        extraPlugins: ['sourcedialog']
+    };
+    $(document).trigger('ckeditor:extra-plugins', eventData);
+    config.extraPlugins = eventData.extraPlugins;
 };

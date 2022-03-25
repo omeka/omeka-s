@@ -2,10 +2,12 @@
 namespace Omeka;
 
 use Omeka\Api\Adapter\FulltextSearchableInterface;
+use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\Entity\Media;
 use Omeka\Module\AbstractModule;
 use Laminas\EventManager\Event as ZendEvent;
 use Laminas\EventManager\SharedEventManagerInterface;
+use Laminas\View\Renderer\PhpRenderer;
 
 /**
  * The Omeka module.
@@ -150,6 +152,24 @@ class Module extends AbstractModule
             'Omeka\Controller\Admin\Media',
             'view.edit.form.advanced',
             [$this, 'addMediaAltTextInput']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Controller\Site\Item',
+            'view.show.after',
+            [$this, 'noindexItem']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Controller\Site\Media',
+            'view.show.after',
+            [$this, 'noindexMedia']
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Controller\Site\Item',
+            'view.browse.after',
+            [$this, 'noindexItemSet']
         );
 
         $sharedEventManager->attach(
@@ -680,5 +700,39 @@ class Module extends AbstractModule
             'id' => 'alt_text',
         ]);
         echo $view->formRow($textarea);
+    }
+
+    public function noindexItem(ZendEvent $event)
+    {
+        $view = $event->getTarget();
+        $this->noindexResourceShow($view, $view->item);
+    }
+
+    public function noindexMedia(ZendEvent $event)
+    {
+        $view = $event->getTarget();
+        $this->noindexResourceShow($view, $view->media->item());
+    }
+
+    public function noindexItemSet(ZendEvent $event)
+    {
+        $view = $event->getTarget();
+        if (!isset($view->itemSet)) {
+            return;
+        }
+        $this->noindexResourceShow($view, $view->itemSet);
+    }
+
+    /**
+     * Add a robots "noindex" metatag to the current view if the resource
+     * being viewed does not belong to the current site.
+     */
+    protected function noindexResourceShow(PhpRenderer $view, AbstractResourceEntityRepresentation $resource)
+    {
+        $currentSite = $view->site;
+        $sites = $resource->sites();
+        if (!array_key_exists($currentSite->id(), $sites)) {
+            $view->headMeta()->prependName('robots', 'noindex');
+        }
     }
 }

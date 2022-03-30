@@ -17,6 +17,16 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         'title' => 'title',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        'title' => 'title',
+        'created' => 'created',
+        'modified' => 'modified',
+        'owner' => 'owner',
+        'resourceClass' => 'resourceClass',
+        'resourceTemplate' => 'resourceTemplate',
+    ];
+
     public function getResourceName()
     {
         return 'items';

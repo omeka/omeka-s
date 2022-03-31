@@ -9,7 +9,7 @@ class SortMedia extends AbstractHelper
     {
         $sortedMedia = [];
         $whitelist = ['image/bmp', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'video/flv', 'video/x-flv', 'video/mp4', 'video/m4v',
-                    'video/webm', 'video/wmv', 'video/quicktime'];
+                    'video/webm', 'video/wmv', 'video/quicktime', 'application/pdf'];
         $html5videos = [];
         $mediaCount = 0;
 

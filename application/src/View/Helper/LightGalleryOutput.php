@@ -12,10 +12,13 @@ class LightGalleryOutput extends AbstractHelper
         $view->headScript()->appendFile($view->assetUrl('vendor/lightgallery/plugins/thumbnail/lg-thumbnail.min.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('vendor/lightgallery/plugins/zoom/lg-zoom.min.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('vendor/lightgallery/plugins/video/lg-video.min.js', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('vendor/lightgallery/plugins/rotate/lg-rotate.min.js', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('vendor/lightgallery/plugins/hash/lg-hash.min.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('js/lg-itemfiles-config.js', 'Omeka'));
         $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lg-thumbnail.css', 'Omeka'));
         $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lg-zoom.css', 'Omeka'));
         $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lg-video.css', 'Omeka'));
+        $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lg-rotate.css', 'Omeka'));
         $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lightgallery.css', 'Omeka'));
         $escape = $view->plugin('escapeHtml');
 
@@ -59,6 +62,8 @@ class LightGalleryOutput extends AbstractHelper
                 }
                 $videoSrcJson = json_encode($videoSrcObject);
                 $html .=  '<li data-video="' . $escape($videoSrcJson) . '" ' . $mediaCaptionAttribute . 'data-thumb="' . $escape($media->thumbnailUrl('medium')) . '" data-download-url="' . $source . '" class="media resource">';
+            } else if ($mediaType == 'application/pdf') {
+                $html .=  '<li data-iframe="' . $escape($source) . '" '. $mediaCaptionAttribute . 'data-src="' . $source . '" data-thumb="' . $escape($media->thumbnailUrl('medium')) . '" data-download-url="' . $source . '" class="media resource">';
             } else {
                 $html .=  '<li data-src="' . $source . '" ' . $mediaCaptionAttribute . 'data-thumb="' . $escape($media->thumbnailUrl('medium')) . '" data-download-url="' . $source . '" class="media resource">';
             }

@@ -88,7 +88,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                     $this->createNamedParameter($qb, $query['site_id']))
                 );
             }
-        } elseif (isset($query['in_sites'])) {
+        } elseif (isset($query['in_sites']) && (is_numeric($query['in_sites']) || is_bool($query['in_sites']))) {
             $siteAlias = $this->createAlias();
             if ($query['in_sites']) {
                 $qb->innerJoin('omeka_root.sites', $siteAlias);

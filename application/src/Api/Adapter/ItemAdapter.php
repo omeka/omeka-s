@@ -22,9 +22,11 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         'title' => 'title',
         'created' => 'created',
         'modified' => 'modified',
+        'is_public' => 'isPublic',
+        'thumbnail' => 'thumbnail',
         'owner' => 'owner',
-        'resourceClass' => 'resourceClass',
-        'resourceTemplate' => 'resourceTemplate',
+        'resource_class' => 'resourceClass',
+        'resource_template' => 'resourceTemplate',
     ];
 
     public function getResourceName()

@@ -368,6 +368,7 @@ class IndexController extends AbstractActionController
 
         /** @var Form $form */
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
+        $form->setOption('element_groups', $config['element_groups']);
 
         foreach ($config['elements'] as $elementSpec) {
             $form->add($elementSpec);

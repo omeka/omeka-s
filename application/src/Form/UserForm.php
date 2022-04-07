@@ -125,6 +125,7 @@ class UserForm extends Form
         }
 
         $settingsFieldset = $this->get('user-settings');
+        $settingsFieldset->setOption('element_groups', []);
         $settingsFieldset->add([
             'name' => 'locale',
             'type' => 'Omeka\Form\Element\LocaleSelect',

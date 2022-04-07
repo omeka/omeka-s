@@ -38,7 +38,7 @@ $settingsForm->prepare();
     <?php $this->trigger('view.edit.form.after', ['form' => $form, 'site' => $site]); ?>
 </div>
 <div id="site-settings" class="section">
-    <?php echo $this->formCollection($settingsForm); ?>
+    <?php echo $this->formCollectionElementGroups($settingsForm); ?>
 </div>
 <?php echo $this->form()->closeTag(); ?>
 <?php $this->trigger('view.edit.after'); ?>

@@ -15,6 +15,17 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
         'modified' => 'modified',
         'title' => 'title',
     ];
+
+    protected $scalarFields = [
+        'id' => 'id',
+        'title' => 'title',
+        'created' => 'created',
+        'modified' => 'modified',
+        'is_public' => 'isPublic',
+        'thumbnail' => 'thumbnail',
+        'is_open' => 'isOpen',
+    ];
+
     /**
      * Alias of query builder for join clause between `site` and `item_sets`.
      * @var string

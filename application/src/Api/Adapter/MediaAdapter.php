@@ -23,6 +23,25 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         'size' => 'size',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        'title' => 'title',
+        'created' => 'created',
+        'modified' => 'modified',
+        'is_public' => 'isPublic',
+        'thumbnail' => 'thumbnail',
+        'ingester' => 'ingester',
+        'renderer' => 'renderer',
+        'data' => 'data',
+        'source' => 'source',
+        'media_type' => 'mediaType',
+        'sha256' => 'sha256',
+        'size' => 'size',
+        'item' => 'item',
+        'lang' => 'lang',
+        'alt_text' => 'altText',
+    ];
+
     public function getResourceName()
     {
         return 'media';

@@ -19,7 +19,7 @@
                 'force_text': true,
                 'data': navTree.data('jstree-data'),
             },
-            'plugins': ['privateStatus', 'dnd', 'removenode', 'display']
+            'plugins': ['dnd', 'removenode', 'display']
         }).on('loaded.jstree', function() {
             // Open all nodes by default.
             navTree.jstree(true).open_all();

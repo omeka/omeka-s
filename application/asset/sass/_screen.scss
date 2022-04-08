@@ -1011,7 +1011,7 @@ nav.pagination + *:not(.sorting) {
 }
 
 button .o-icon-private {
-    margin: 0 $spacing-medium 0 auto;
+    margin: 0 $spacing-medium 0 $spacing-small;
     color: $border-gray;
 }
 

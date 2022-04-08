@@ -1011,7 +1011,8 @@ nav.pagination + *:not(.sorting) {
 }
 
 button .o-icon-private {
-    margin: 0 auto 0 $spacing-small;
+    margin: 0 $spacing-medium 0 $spacing-small;
+    color: $border-gray;
 }
 
     /* @group ----- Top-level navigation ----- */

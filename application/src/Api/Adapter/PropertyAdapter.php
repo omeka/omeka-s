@@ -145,7 +145,7 @@ class PropertyAdapter extends AbstractEntityAdapter
             );
 
             //limit results to properties used by items in the site
-            if (!empty($query['site']) && is_numeric($query['site'])){
+            if (!empty($query['site_id']) && is_numeric($query['site_id'])){
                 $siteAlias = $this->createAlias();
                 $itemAlias = $this->createAlias();
                 $qb->join('Omeka\Entity\Site', $siteAlias);
@@ -154,7 +154,7 @@ class PropertyAdapter extends AbstractEntityAdapter
                     "$itemAlias.id =  $valuesAlias.resource"
                 );
                 $qb->andWhere("$siteAlias.id = :site_id");
-                $qb->setParameter('site_id', $query['site']);
+                $qb->setParameter('site_id', $query['site_id']);
             }
 
         }

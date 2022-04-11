@@ -61,7 +61,7 @@ $queryText = function(array $search, $index) {
                     'empty_option' => '[Any Property]', // @translate
                     'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
                     'vocabulary_scope' => $this->status()->isSiteRequest() ? ['scope' => $this->siteSetting('vocabulary_scope'),
-                        'site'=> $this->api()->read('sites', ['slug' => $this->params()->fromRoute('site-slug')])->getContent()->id()] : false,
+                        'site_id'=> $this->api()->read('sites', ['slug' => $this->params()->fromRoute('site-slug')])->getContent()->id()] : false,
                 ]
             ]); ?>
             <select class="query-type" name="<?php echo $this->escapeHtml($stem . '[type]'); ?>" aria-label="<?php echo $translate('Query type'); ?>">

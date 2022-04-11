@@ -30,7 +30,7 @@ if (!$ids) {
                 ],
                 'options' => [
                     'vocabulary_scope' => $this->status()->isSiteRequest() ? ['scope' => $this->siteSetting('vocabulary_scope'),
-                        'site'=> $this->api()->read('sites', ['slug' => $this->params()->fromRoute('site-slug')])->getContent()->id()] : false,
+                        'site_id'=> $this->api()->read('sites', ['slug' => $this->params()->fromRoute('site-slug')])->getContent()->id()] : false,
                 ]
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>

@@ -64,13 +64,13 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
 
         if ($this->getOption('vocabulary_scope')){
             $vocabulary_scope = $this->getOption('vocabulary_scope')['scope'];
-            $site_id = $this->getOption('vocabulary_scope')['site'];
+            $site_id = $this->getOption('vocabulary_scope')['site_id'];
             if ($vocabulary_scope === 'cross-site'){
                 $query['used'] = true;
             }
            if ($vocabulary_scope === 'sitewide'){
                $query['used'] = true;
-               $query['site'] = $site_id;
+               $query['site_id'] = $site_id;
            }
         }
 

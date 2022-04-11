@@ -285,7 +285,7 @@ class SiteSettingsForm extends Form
                 'info' => 'Limit the search options for property and class', // @translate
                 'value_options' => [
                     'sitewide' => 'This site', // @translate
-                    'cross-site' => 'All sites', // @translate
+                    'cross-site' => 'Used by any resource', // @translate
                     'all-installed' => 'All installed metadata', // @translate
                 ],
             ],

@@ -153,7 +153,6 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                 "$itemAlias.id = $valuesAlias.id"
             );
         }
-
     }
 
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)

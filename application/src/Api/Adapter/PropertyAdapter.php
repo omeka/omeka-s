@@ -143,7 +143,7 @@ class PropertyAdapter extends AbstractEntityAdapter
             $qb->innerJoin('omeka_root.values', $valuesAlias);
         }
         //limit results to properties used by items in the site
-        if (!empty($query['site_id']) && is_numeric($query['site_id'])) {
+        if (isset($query['site_id']) && is_numeric($query['site_id'])) {
             $siteAlias = $this->createAlias();
             $itemAlias = $this->createAlias();
             $valuesAlias = $this->createAlias();

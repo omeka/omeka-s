@@ -9,6 +9,20 @@ $ids = array_filter($ids);
 if (!$ids) {
     $ids = [null];
 }
+
+if (!$query) {
+    $query = array();
+}
+
+if ($this->status()->isSiteRequest()) {
+    if ($this->siteSetting('vocabulary_scope') == 'sitewide') {
+        $site_id = $this->api()->read('sites', ['slug' => $this->params()->fromRoute('site-slug')])->getContent()->id();
+        $query['site_id'] = $site_id;
+    }
+    if ($this->siteSetting('vocabulary_scope') == 'cross-site') {
+        $query['used'] = true;
+    }
+}
 ?>
 <div id="resource-class" class="field removable multi-value" role="group">
     <div class="field-meta">
@@ -29,8 +43,7 @@ if (!$ids) {
                     'aria-labelledby' =>  'by-resource-class-label'
                 ],
                 'options' => [
-                    'vocabulary_scope' => $this->status()->isSiteRequest() ? ['scope' => $this->siteSetting('vocabulary_scope'),
-                        'site_id'=> $this->api()->read('sites', ['slug' => $this->params()->fromRoute('site-slug')])->getContent()->id()] : false,
+                    'query' => $query
                 ]
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>

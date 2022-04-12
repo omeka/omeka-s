@@ -137,26 +137,26 @@ class PropertyAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $localName))
             );
         }
-        if (!empty($query['used'])) {
+        //limit results to properties used by resources
+        if (isset($query['used']) && $query['used']) {
             $valuesAlias = $this->createAlias();
-            $qb->innerJoin(
-                'omeka_root.values',
-                $valuesAlias
+            $qb->innerJoin('omeka_root.values', $valuesAlias);
+        }
+        //limit results to properties used by items in the site
+        if (!empty($query['site_id']) && is_numeric($query['site_id'])) {
+            $siteAlias = $this->createAlias();
+            $itemAlias = $this->createAlias();
+            $valuesAlias = $this->createAlias();
+            $qb->innerJoin('omeka_root.values', $valuesAlias);
+            $qb->join('Omeka\Entity\Site', $siteAlias);
+            $qb->join(
+                "$siteAlias.items",
+                $itemAlias,
+                'WITH',
+                "$itemAlias.id = $valuesAlias.resource"
             );
-
-            //limit results to properties used by items in the site
-            if (!empty($query['site_id']) && is_numeric($query['site_id'])){
-                $siteAlias = $this->createAlias();
-                $itemAlias = $this->createAlias();
-                $qb->join('Omeka\Entity\Site', $siteAlias);
-                $qb->join("$siteAlias.items", $itemAlias,
-                    'WITH',
-                    "$itemAlias.id =  $valuesAlias.resource"
-                );
-                $qb->andWhere("$siteAlias.id = :site_id");
-                $qb->setParameter('site_id', $query['site_id']);
-            }
-
+            $qb->andWhere("$siteAlias.id = :site_id");
+            $qb->setParameter('site_id', $query['site_id']);
         }
     }
 

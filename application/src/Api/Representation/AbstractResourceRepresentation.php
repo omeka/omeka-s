@@ -274,7 +274,7 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      *
      * @return string|null
      */
-    protected function getControllerName()
+    public function getControllerName()
     {
         return null;
     }
@@ -286,8 +286,9 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
      */
     public function embeddedJsonLd()
     {
-        echo '<script type="application/ld+json">'
-            . json_encode($this)
-            . '</script>';
+        $eventManager = $this->getEventManager();
+        $args = $eventManager->prepareArgs(['jsonLd' => json_encode($this)]);
+        $eventManager->trigger('rep.resource.json_output', $this, $args);
+        return sprintf('<script type="application/ld+json">%s</script>', $args['jsonLd']);
     }
 }

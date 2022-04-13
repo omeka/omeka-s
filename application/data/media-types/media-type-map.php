@@ -84,10 +84,6 @@ return array (
   array (
     0 => 'pfr',
   ),
-  'application/font-woff' => 
-  array (
-    0 => 'woff',
-  ),
   'application/gml+xml' => 
   array (
     0 => 'gml',
@@ -2120,10 +2116,6 @@ return array (
   array (
     0 => 'psf',
   ),
-  'application/x-font-otf' => 
-  array (
-    0 => 'otf',
-  ),
   'application/x-font-pcf' => 
   array (
     0 => 'pcf',
@@ -2131,11 +2123,6 @@ return array (
   'application/x-font-snf' => 
   array (
     0 => 'snf',
-  ),
-  'application/x-font-ttf' => 
-  array (
-    0 => 'ttf',
-    1 => 'ttc',
   ),
   'application/x-font-type1' => 
   array (
@@ -2523,6 +2510,7 @@ return array (
     0 => 'oga',
     1 => 'ogg',
     2 => 'spx',
+    3 => 'opus',
   ),
   'audio/s3m' => 
   array (
@@ -2656,6 +2644,26 @@ return array (
   array (
     0 => 'xyz',
   ),
+  'font/collection' => 
+  array (
+    0 => 'ttc',
+  ),
+  'font/otf' => 
+  array (
+    0 => 'otf',
+  ),
+  'font/ttf' => 
+  array (
+    0 => 'ttf',
+  ),
+  'font/woff' => 
+  array (
+    0 => 'woff',
+  ),
+  'font/woff2' => 
+  array (
+    0 => 'woff2',
+  ),
   'image/bmp' => 
   array (
     0 => 'bmp',
@@ -2675,6 +2683,11 @@ return array (
   'image/ief' => 
   array (
     0 => 'ief',
+  ),
+  'image/jp2' => 
+  array (
+    0 => 'jp2',
+    1 => 'j2k',
   ),
   'image/jpeg' => 
   array (

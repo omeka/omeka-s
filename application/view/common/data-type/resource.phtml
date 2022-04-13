@@ -11,6 +11,7 @@ if ($resource instanceof ItemRepresentation) {
     $mediaContentUrlOptions['query']['item_id'] = $resource->id();
 }
 ?>
+<div class="resource-inputs">
 <span class="default"><?php echo $translate('No resource selected'); ?></span>
 <p class="selected-resource">
     <span class="o-title"></span>
@@ -38,3 +39,5 @@ if (in_array($dataType, ['resource', 'resource:media']) && $resource instanceof 
         'data-sidebar-content-url' => $this->url('admin/default', ['controller' => 'media', 'action' => 'sidebar-select'], $mediaContentUrlOptions, false),
     ]);
 endif;
+?>
+</div>

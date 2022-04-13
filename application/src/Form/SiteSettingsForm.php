@@ -250,6 +250,18 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('show_attached_pages', true),
             ],
         ]);
+        $showFieldset->add([
+            'name' => 'show_value_annotations',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Show value annotations', // @translate
+                'info' => 'Show annotations that are set to a value, if any.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'show_value_annotations',
+                'value' => (bool) $settings->get('show_value_annotations', false),
+            ],
+        ]);
 
         // Search section
         $this->add([

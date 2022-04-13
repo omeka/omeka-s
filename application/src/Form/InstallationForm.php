@@ -9,7 +9,7 @@ class InstallationForm extends Form
     public function init()
     {
         // By removing CSRF protection we're removing the need to use session
-        // data during installation. This is needed for databse session storage.
+        // data during installation. This is needed for database session storage.
         $this->remove('installationform_csrf');
 
         $this->add([

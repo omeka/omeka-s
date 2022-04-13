@@ -131,7 +131,7 @@ class UserBatchUpdateForm extends Form
      * Preprocess data to get data to replace, to remove and to append.
      *
      * Batch update data contains instructions on what to update. It needs to be
-     * preprocessed before it's sent to the API. The elements are udpated by
+     * preprocessed before it's sent to the API. The elements are updated by
      * entity according to the attribute "data-collection-action", that can be
      * "replace" (default), "remove" or "append".
      *

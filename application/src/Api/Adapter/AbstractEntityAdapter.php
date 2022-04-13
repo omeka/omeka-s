@@ -36,6 +36,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     protected $sortFields = [];
 
     /**
+     * Individual entity fields that users may return in an REST API response.
+     *
+     * The keys are the value of "return_scalar" query. The values are the
+     * corresponding entity fields to return.
+     */
+    protected $scalarFields = [];
+
+    /**
      * Hydrate an entity with the provided array.
      *
      * Validation should be done in {@link self::validateRequest()} or
@@ -234,6 +242,9 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         } else {
             $query['sort_order'] = 'ASC';
         }
+        if (!isset($query['return_scalar'])) {
+            $query['return_scalar'] = null;
+        }
 
         // Begin building the search query.
         $entityClass = $this->getEntityClass();
@@ -270,6 +281,18 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         $qb->addOrderBy("omeka_root.id", $query['sort_order']);
 
         $scalarField = $request->getOption('returnScalar');
+        if (!$scalarField && $query['return_scalar']) {
+            if (!array_key_exists($query['return_scalar'], $this->scalarFields)) {
+                throw new Exception\BadRequestException(sprintf(
+                    $this->getTranslator()->translate('The "%1$s" field is not available in the %2$s adapter class.'),
+                    $query['return_scalar'], get_class($this)
+                ));
+            }
+            // The return_scalar passed in the query is valid. Note that we must
+            // set returnScalar to the request so the API manager skips validation.
+            $scalarField = $query['return_scalar'];
+            $request->setOption('returnScalar', $scalarField);
+        }
         if ($scalarField) {
             $classMetadata = $this->getEntityManager()->getClassMetadata($entityClass);
             $fieldNames = $classMetadata->getFieldNames();
@@ -371,7 +394,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     $logger->err((string) $e);
                     continue;
                 }
-                // Detatch previously persisted entities before re-throwing.
+                // Detach previously persisted entities before re-throwing.
                 if ($detachEntities) {
                     $this->detachAllNewEntities($originalIdentityMap);
                 }
@@ -452,7 +475,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     $logger->err((string) $e);
                     continue;
                 }
-                // Detatch managed entities before re-throwing.
+                // Detach managed entities before re-throwing.
                 if ($detachEntities) {
                     $this->detachAllNewEntities($originalIdentityMap);
                 }
@@ -512,7 +535,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
                     $logger->err((string) $e);
                     continue;
                 }
-                // Detatch managed entities before re-throwing.
+                // Detach managed entities before re-throwing.
                 $this->detachAllNewEntities($originalIdentityMap);
                 throw $e;
             }
@@ -749,7 +772,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             ->from($this->getEntityClass(), 'e');
 
         // Exclude the passed entity from the query if it has an persistent
-        // indentifier.
+        // identifier.
         if ($entity->getId()) {
             $qb->andWhere($qb->expr()->neq(
                 'e.id',

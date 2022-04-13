@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ad1607ce8cc50a714c4fd2fd3402a3b",
+    "content-hash": "a6ebf7fa36d4a4da7aa874c75c131077",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -5675,12 +5675,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/omeka-s-themes/default.git",
-                "reference": "1c1797c148e4705489507c4b0f1fbfc22fe25478"
+                "reference": "a203cbbf17c3df76c85dbd21c07d11909b1952d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/1c1797c148e4705489507c4b0f1fbfc22fe25478",
-                "reference": "1c1797c148e4705489507c4b0f1fbfc22fe25478",
+                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/a203cbbf17c3df76c85dbd21c07d11909b1952d4",
+                "reference": "a203cbbf17c3df76c85dbd21c07d11909b1952d4",
                 "shasum": ""
             },
             "require": {
@@ -5688,10 +5688,10 @@
             },
             "type": "omeka-s-theme",
             "support": {
-                "source": "https://github.com/omeka-s-themes/default/tree/v1.6.1",
+                "source": "https://github.com/omeka-s-themes/default/tree/v1.6.3",
                 "issues": "https://github.com/omeka-s-themes/default/issues"
             },
-            "time": "2021-07-20T15:00:31+00:00"
+            "time": "2022-04-05T20:38:42+00:00"
         },
         {
             "name": "omeka/composer-addon-installer",
@@ -9026,7 +9026,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "ext-fileinfo": "*",
+        "ext-mbstring": "*",
+        "ext-pdo_mysql": "*",
+        "ext-xml": "*"
     },
     "platform-dev": [],
     "platform-overrides": {

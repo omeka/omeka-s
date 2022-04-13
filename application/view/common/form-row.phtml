@@ -5,6 +5,19 @@ $showRequired = $element->getOption('show_required');
 $isRequired = null === $showRequired ? $required : $showRequired;
 $class = $isRequired ? 'field required' : 'field';
 $escapeInfo = (false !== $element->getOption('escape_info'));
+
+// mitigate LP-2022-01
+$messages = $element->getMessages();
+if ($messages) {
+    $escaped  = [];
+    array_walk_recursive(
+        $messages,
+        function (string $item) use (&$escaped) {
+            $escaped[] = $this->escapeHtml($item);
+        }
+    );
+    $element->setMessages($escaped);
+}
 ?>
 <?php if (null === $label || 'hidden' === $element->getAttribute('type')): ?>
 <?php echo $this->formElement($element); ?>

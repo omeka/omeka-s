@@ -9,7 +9,7 @@ navTree.jstree({
         'force_text': true,
         'data': navTree.data('jstree-data'),
     },
-    'plugins': ['dnd', 'removenode', 'editlink', 'display']
+    'plugins': ['privateStatus', 'dnd', 'removenode', 'editlink', 'display']
 }).on('loaded.jstree', function() {
     // Open all nodes by default.
     navTree.jstree(true).open_all();

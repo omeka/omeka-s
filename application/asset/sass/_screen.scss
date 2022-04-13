@@ -267,7 +267,7 @@ body {
         padding-right: (1.5 * $spacing-large);
 
         &:after {
-            font-family: "Font Awesome 5 Free";
+            @include font-awesome;
             content: fa-content($fa-var-asterisk);
             font-size: .75 * $base-font-size;
             position: absolute;
@@ -283,8 +283,7 @@ body {
     }
 
     label.required:after  {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         content: fa-content($fa-var-asterisk);
         font-size: .75 * $base-font-size;
         color: $red;
@@ -477,7 +476,7 @@ body {
             background: none !important;
 
             &:after {
-                font-family: "Font Awesome 5 Free";
+                @include font-awesome;
                 content: fa-content($fa-var-caret-down);
                 line-height: $base-line-height;
                 padding: $spacing-small 0;
@@ -497,8 +496,8 @@ body {
             position: relative;
 
             &:after  {
-                font-family: "Font Awesome 5 Free";
-                content: fa-content($fa-var-search);
+                @include font-awesome;
+                    content: fa-content($fa-var-search);
                 line-height: $base-line-height;
                 padding: $spacing-small 0;
                 display: block;
@@ -637,8 +636,7 @@ table .icon-sortable {
 
     &:before {
         content: fa-content($fa-var-bars);
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         opacity: .35;
         font-size: 1.25 * $base-font-size;
         line-height: $base-line-height;
@@ -663,15 +661,13 @@ a.collapse {
 
 .expand:after {
     content: fa-content($fa-var-caret-right);
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    @include font-awesome;
     margin-left: 3px;
 }
 
 .collapse:after {
     content: fa-content($fa-var-caret-down);
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    @include font-awesome;
     margin-left: 3px;
 }
 
@@ -818,8 +814,7 @@ header {
 
     &:after {
         content: fa-content($fa-var-ellipsis-h);
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         text-indent: 0;
         position: absolute;
         top: 0;
@@ -871,8 +866,7 @@ div[role="main"] > h1:first-of-type .title {
 }
 
 .subhead:before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    @include font-awesome;
     display: inline-block;
     margin-right: $spacing-small;
     font-size: $base-font-size;
@@ -1016,6 +1010,11 @@ nav.pagination + *:not(.sorting) {
     position: relative;
 }
 
+button .o-icon-private {
+    margin: 0 $spacing-small;
+    color: $border-gray;
+}
+
     /* @group ----- Top-level navigation ----- */
 
     header nav h4 {
@@ -1056,8 +1055,7 @@ nav.pagination + *:not(.sorting) {
 
     header nav li > a:before {
         content: fa-content($fa-var-plus-square);
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         display: inline-block;
         width: $spacing-large;
     }
@@ -1164,10 +1162,9 @@ nav.pagination + *:not(.sorting) {
 
     header nav#site-nav h5 a:before {
         content: fa-content($fa-var-laptop);
-        font-family: "Font Awesome 5 Free";
+        @include font-awesome;
         width: $spacing-large;
         display: inline-block;
-        font-weight: normal;
         font-size: $base-font-size;
     }
 
@@ -1230,7 +1227,7 @@ div[role="main"] {
 
 #manage-resources .add.button:before {
     content: fa-content($fa-var-plus);
-    font-family: "Font Awesome 5 Free";
+    @include font-awesome;
 }
 
 .panel {
@@ -1302,7 +1299,7 @@ div[role="main"] {
 
 .browse .browse-controls .advanced-search:before {
     @include fa-icon();
-    font-family: "Font Awesome 5 Free";
+    @include font-awesome;
     content: fa-content($fa-var-search);
     padding: .25em;
 }
@@ -1426,8 +1423,7 @@ div[role="main"] {
     margin-top: (4 * $spacing-large);
 
     &:before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         font-size: 6 * $base-font-size;
         position: absolute;
         top: 0;
@@ -1900,7 +1896,7 @@ fieldset.section > legend {
     font-size: .75 * $base-font-size;
 }
 
-.inputs .value a.value-language {
+.value .input-body a.value-language {
     margin-right: 0;
     vertical-align: top;
     position: absolute;
@@ -1924,7 +1920,16 @@ fieldset.section > legend {
     }
 }
 
-.inputs input[type="text"].value-language.active {
+.value .actions a.o-icon-more {
+    display: block;
+    height: 1.5 * $spacing-large;
+}
+
+.more-actions.active a.o-icon-more {
+    border-bottom: 1px solid #dfdfdf;
+}
+
+input[type="text"].value-language.active {
     line-height: $base-line-height;
     background-color: transparent;
     border: 1px solid $border-gray;
@@ -1941,6 +1946,41 @@ fieldset.section > legend {
 input[type="text"].value-language,
 .delete input[type="text"].value-language.active {
     display: none;
+}
+
+.sidebar .value-annotation .value {
+    padding-bottom: 0;
+}
+
+.sidebar .value-annotation label:after {
+    content: none;
+}
+
+.sidebar .value-annotation p.selected-resource {
+    border-bottom: 1px solid $border-gray;
+}
+
+.sidebar .value-annotation-resource-select {
+    margin: $spacing-small !important;
+}
+
+.sidebar [data-data-type^="resource"] .o-title:not(:empty) {
+    padding: 0;
+    border-bottom: 0;
+
+    a:empty { 
+        display: none;
+    }
+
+    img {
+        margin: $spacing-small;
+    }
+
+
+    a {
+        padding: $spacing-small;
+        width: 100%;
+    }
 }
 
 .non-properties {
@@ -2092,7 +2132,7 @@ input[type="text"].value-language,
 
         &:after {
             content: fa-content($fa-var-caret-right);
-            font-family: "Font Awesome 5 Free";
+            @include font-awesome;
             position: absolute;
             right: 0;
             top: $spacing-small;
@@ -2289,7 +2329,7 @@ input[type="text"].value-language,
 
     .field .docs-link:before {
         content: fa-content($fa-var-info-circle);
-        font-family: "Font Awesome 5 Free";
+        @include font-awesome;
         display: inline-block;
         margin-right: $spacing-small;
         font-size: 14px;
@@ -2454,7 +2494,7 @@ input[type="text"].value-language,
     }
 
     .input-footer .actions {
-        margin-left: 0;
+        margin-left: $spacing-small;
         flex-direction: column;
     }
 
@@ -2462,7 +2502,21 @@ input[type="text"].value-language,
         line-height: 1.5 * $spacing-large;
         height: 1.5 * $spacing-large;
         text-align: center;
-        margin-left: $spacing-small;
+    }
+
+    .more-actions ul {
+        padding: 0;
+        display: none;
+    }
+
+    .more-actions.active {
+        box-shadow: 0 0 0 1px $border-gray;
+        background-color: #fff;
+        border-radius: 2px;
+
+        ul {
+            display: block;
+        }
     }
     
     .value.delete {
@@ -2470,13 +2524,10 @@ input[type="text"].value-language,
         overflow: hidden;
     }
 
-    .value.delete .input-footer .actions li:last-child {
-        display: none;
-    }
-
     .value a.restore-value,
     .value span.restore-value,
-    .value.delete a.tab {
+    .value.delete a.tab,
+    .value.delete [class*="o-icon-"] {
         display: none;
     }
 
@@ -2555,6 +2606,7 @@ input[type="text"].value-language,
 
     .inputs .input-body input[type="text"] {
         margin: 0;
+        background-color: #fff;
     }
 
     .inputs .input-body .chosen-container {
@@ -2577,11 +2629,21 @@ input[type="text"].value-language,
     .value.delete span.restore-value {
         display: inline-block;
         padding: 0 $spacing-small;
+        line-height: 1.5 * $base-line-height;
         width: calc(100% - #{1.5 * $spacing-large});
     }
 
     .value.delete > *:not(.input-footer) {
         display: none;
+    }
+
+    .sortable-handle ~ .input-body {
+        background-color: transparent;
+    }
+
+    .resource-inputs {
+        background-color: #fff;
+        box-shadow: 0 0 0 1px $border-gray;
     }
 
     p.selected-resource {
@@ -2604,8 +2666,7 @@ input[type="text"].value-language,
     }
 
     .selected-resource .o-title a:after {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         display: inline-block;
         margin: 0 $spacing-small;
     }
@@ -2625,19 +2686,23 @@ input[type="text"].value-language,
     [data-data-type="uri"] .input {
         position: relative;
         clear: both;
+        background-color: #fff;
+        box-shadow: 0 0 0 1px $border-gray;
 
         &:first-child {
             border-bottom: 1px solid $border-gray;
         }
     }
 
-    [data-data-type="uri"] label {
+    [data-data-type="uri"] label,
+    .sidebar [data-data-type="uri"] label {
         padding: $spacing-small 0 $spacing-small $spacing-small;
         z-index: 1;
         font-weight: bold;
         color: rgba(0,0,0,.35);
         width: auto;
         display: flex;
+        height: (1.5 * $spacing-large);
     }
 
     [data-data-type="uri"] .input-body input.value,
@@ -2653,6 +2718,21 @@ input[type="text"].value-language,
 
     [data-data-type="uri"] textarea.value-label {
         border-top-width: 0;
+    }
+
+    .annotation-form {
+        padding-bottom: $spacing-medium;
+
+        & > div,
+        & > select {
+            margin-bottom: $spacing-small;
+        }
+    }
+
+    .value-annotation:not(:last-child) {
+        border-bottom: 1px solid $border-gray;
+        padding-bottom: $spacing-medium;
+        margin-bottom: $spacing-medium;
     }
 
     /* @end */
@@ -2912,8 +2992,7 @@ input[type="text"].value-language,
     min-height: 0;
 
     &:before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         content: fa-content($fa-var-toggle-off);
         display: inline-block;
         margin-right: $spacing-small;
@@ -3244,14 +3323,6 @@ input[type=text].query-form-query {
         margin-right: $spacing-small;
         background-color: $gray-on-white;
     }
-
-    .private:after {
-        @include fa-icon();
-        content: fa-content($fa-var-eye-slash);
-        font-family: "Font Awesome 5 Free";
-        display: inline-block;
-        margin-left: $spacing-small;
-    }
 }
 
 #linked-filter {
@@ -3287,14 +3358,60 @@ input[type=text].query-form-query {
     border-bottom: 1px solid $border-gray;
 }
 
+.has-annotation:before {
+    display: inline-block;
+}
+
+.o-icon-annotation:before {
+    content: "\f27a";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+.show .value.resource,
+.show .value.resource .value-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.show .value .o-icon-private,
+.show .value .value-content {
+    margin-right: $spacing-medium;
+}
+
+
+.collapsible.annotation {
+    border-left: 3px solid $border-gray;
+    padding: 0;
+    border-radius: 3px;
+    margin: $spacing-small 0 $spacing-medium $spacing-large;
+    width: 100%;
+}
+
+.collapsible.annotation h4, 
+.collapsible.annotation .values {
+    width: 100%;
+    padding: 0;
+}
+
+.collapsible.annotation .property {
+    padding: 0 $spacing-medium;
+}
+
+.collapsible.annotation .property:not(:first-child) {
+    margin-top: $spacing-medium;
+    border-top: 1px solid $border-gray;
+    padding-top: $spacing-medium;
+}
+
 /* @end */
 
     /* @group ----- Item: Show----- */
 
     .property .value .resource-name:after,
     .property .value.uri .uri-value-link:after {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+        @include font-awesome;
         display: inline-block;
         margin-left: .5em;
     }
@@ -3367,7 +3484,7 @@ input[type=text].query-form-query {
         }
 
         &:after {
-            font-family: "Font Awesome 5 Free";
+            @include font-awesome;
             @include fa-icon();
             content: fa-content($fa-var-circle-notch);
             position: absolute;
@@ -3378,7 +3495,6 @@ input[type=text].query-form-query {
             height: 0.95em;
             width: 1.2em;
             text-align: center;
-            font-weight: 900;
         }
     }
 
@@ -3475,6 +3591,14 @@ input[type=text].query-form-query {
         background-color: $copy-gray;
         border-color: $copy-gray;
         color: #fff;
+
+        &:disabled,
+        &.disabled {
+            background-color: $gray-on-white;
+            border-color: $gray-on-white;
+            color: $copy-gray;
+            box-shadow: none !important;
+        }
     }
 
     button.option {
@@ -3488,7 +3612,7 @@ input[type=text].query-form-query {
 
         &:after {
             content: fa-content($fa-var-plus);
-            font-family: "Font Awesome 5 Free";
+            @include font-awesome;
             color: $border-gray;
         }
     }
@@ -3656,7 +3780,7 @@ body.sidebar-open #content {
     
     &:after {
         content: "\f00c";
-        font-family: "Font Awesome 5 Free";
+        @include font-awesome;
         display: inline-block;
         margin-left: $spacing-small;
     }
@@ -3810,8 +3934,7 @@ body.sidebar-open #content {
 
 .breadcrumbs > *:not(:last-child):after {
     content: fa-content($fa-var-caret-right);
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    @include font-awesome;
     display: inline-block;
     margin: 0 calc(#{$spacing-medium} - 3px) 0 $spacing-medium;
     color: #000;
@@ -4374,7 +4497,7 @@ body.sidebar-open #content {
 
         &:after {
             content: fa-content($fa-var-check);
-            font-family: "Font Awesome 5 Free";
+            @include font-awesome;
             position: absolute;
             bottom: 0;
             right: 0;

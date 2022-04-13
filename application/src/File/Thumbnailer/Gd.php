@@ -33,7 +33,7 @@ class Gd extends AbstractThumbnailer
     protected $icc;
 
     /**
-     * Check whether the GD entension is loaded.
+     * Check whether the GD extension is loaded.
      *
      * @throws Exception\InvalidThumbnailer
      */

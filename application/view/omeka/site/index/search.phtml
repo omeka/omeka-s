@@ -31,8 +31,13 @@ $resourceControllers = [
         <?php $titleMethod = $resourceName === 'site_pages' ? 'title' : 'displayTitle'; ?>
     <ul>
         <?php foreach ($result['resources'] as $resource): ?>
+        <?php $hasThumbnail = $resource->primaryMedia(); ?>
         <li>
+            <?php if (!$hasThumbnail): ?>
             <?php echo $resource->link($resource->$titleMethod()); ?>
+            <?php else: ?>
+            <?php echo $resource->linkPretty(); ?>
+            <?php endif; ?>
         </li>
         <?php endforeach; ?>
     </ul>

@@ -1,35 +1,18 @@
 {
-  "_args": [
-    [
-      "chosen-js@1.8.7",
-      "/var/www/localhost/htdocs/omeka-s"
-    ]
+  "name": "chosen-js",
+  "version": "1.8.7",
+  "description": "Chosen is a JavaScript plugin that makes select boxes user-friendly. It is currently available in both jQuery and Prototype flavors.",
+  "keywords": [
+    "select",
+    "multiselect",
+    "dropdown",
+    "form",
+    "input",
+    "ui"
   ],
-  "_from": "chosen-js@1.8.7",
-  "_id": "chosen-js@1.8.7",
-  "_inBundle": false,
-  "_integrity": "sha512-eVdrZJ2U5ISdObkgsi0od5vIJdLwq1P1Xa/Vj/mgxkMZf14DlgobfB6nrlFi3kW4kkvKLsKk4NDqZj1MU1DCpw==",
-  "_location": "/chosen-js",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "chosen-js@1.8.7",
-    "name": "chosen-js",
-    "escapedName": "chosen-js",
-    "rawSpec": "1.8.7",
-    "saveSpec": null,
-    "fetchSpec": "1.8.7"
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/chosen-js/-/chosen-js-1.8.7.tgz",
-  "_spec": "1.8.7",
-  "_where": "/var/www/localhost/htdocs/omeka-s",
-  "bugs": {
-    "url": "https://github.com/harvesthq/chosen/issues"
-  },
+  "homepage": "https://harvesthq.github.io/chosen/",
+  "bugs": "https://github.com/harvesthq/chosen/issues",
+  "license": "MIT",
   "contributors": [
     {
       "name": "Patrick Filler",
@@ -49,7 +32,6 @@
     }
   ],
   "dependencies": {},
-  "description": "Chosen is a JavaScript plugin that makes select boxes user-friendly. It is currently available in both jQuery and Prototype flavors.",
   "files": [
     "chosen.jquery.js",
     "chosen.jquery.min.js",
@@ -60,21 +42,9 @@
     "chosen-sprite@2x.png",
     "chosen-sprite.png"
   ],
-  "homepage": "https://harvesthq.github.io/chosen/",
-  "keywords": [
-    "select",
-    "multiselect",
-    "dropdown",
-    "form",
-    "input",
-    "ui"
-  ],
-  "license": "MIT",
   "main": "chosen.jquery.js",
-  "name": "chosen-js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/harvesthq/chosen.git"
-  },
-  "version": "1.8.7"
+    "url": "https://github.com/harvesthq/chosen.git"
+  }
 }

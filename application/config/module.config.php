@@ -36,7 +36,7 @@ return [
         'use_externals' => true,
         'externals' => [
             'Omeka' => [
-                'vendor/jquery/jquery.min.js' => '//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
+                'vendor/jquery/jquery.min.js' => '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js',
             ],
         ],
     ],
@@ -61,6 +61,7 @@ return [
             'Omeka\Entity\Item' => Entity\Item::class,
             'Omeka\Entity\Media' => Entity\Media::class,
             'Omeka\Entity\ItemSet' => Entity\ItemSet::class,
+            'Omeka\Entity\ValueAnnotation' => Entity\ValueAnnotation::class,
         ],
         'filters' => [
             'resource_visibility' => Db\Filter\ResourceVisibilityFilter::class,
@@ -371,6 +372,7 @@ return [
             'items' => Api\Adapter\ItemAdapter::class,
             'media' => Api\Adapter\MediaAdapter::class,
             'item_sets' => Api\Adapter\ItemSetAdapter::class,
+            'value_annotations' => Api\Adapter\ValueAnnotationAdapter::class,
             'modules' => Api\Adapter\ModuleAdapter::class,
             'sites' => Api\Adapter\SiteAdapter::class,
             'site_pages' => Api\Adapter\SitePageAdapter::class,
@@ -378,6 +380,7 @@ return [
             'resources' => Api\Adapter\ResourceAdapter::class,
             'assets' => Api\Adapter\AssetAdapter::class,
             'api_resources' => Api\Adapter\ApiResourceAdapter::class,
+            'data_types' => Api\Adapter\DataTypeAdapter::class,
         ],
     ],
     'view_helpers' => [
@@ -507,6 +510,13 @@ return [
             'resource:itemset' => DataType\Resource\ItemSet::class,
             'resource:media' => DataType\Resource\Media::class,
         ],
+        'value_annotating' => [
+            'literal',
+            'uri',
+            'resource:item',
+            'resource:itemset',
+            'resource:media',
+        ]
     ],
     'block_layouts' => [
         'invokables' => [

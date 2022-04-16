@@ -22,9 +22,12 @@ $this->htmlElement('body')->appendAttribute('class', 'item-set resource browse')
 <?php
 $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
+$body = false;
 foreach ($itemSets as $itemSet):
 $heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => ($filterLocale ? [$lang, ''] : null)]) : $itemSet->displayTitle(null, ($filterLocale ? [$lang, ''] : null));
-$body = $bodyTerm ? $itemSet->value($bodyTerm, ['lang' => ($filterLocale ? [$lang, ''] : null)]) : $itemSet->displayDescription(null, ($filterLocale ? [$lang, ''] : null));
+if ($bodyTermValue = $bodyTerm ? $itemSet->value($bodyTerm, ['lang' => ($filterLocale ? [$lang, ''] : null)]) : $itemSet->displayDescription(null, ($filterLocale ? [$lang, ''] : null))) {
+    $body = (is_string($bodyTermValue)) ? $bodyTermValue : $bodyTermValue->valueResource()->displayTitle(null, ($filterLocale ? [$lang, ''] : null));
+}
 ?>
     <li class="item-set resource">
         <?php if($itemSetThumbnail = $this->thumbnail($itemSet, 'medium')): ?>

@@ -579,14 +579,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             $descriptionTerm = 'dcterms:description';
         }
 
-        if ($lang !== null) {
-            if ($descriptionValue = $this->value($descriptionTerm, ['default' => $default, 'lang' => $lang])) {
+        if ($descriptionValue = $this->value($descriptionTerm, ['default' => $default, 'lang' => $lang])) {
+            if (!empty($descriptionValue->valueResource())) {
+                $description = $descriptionValue->valueResource()->displayTitle($default, $lang);
+            } else {
                 $description = (string) $descriptionValue->value();
             }
-        }
-
-        if ($description === null) {
-            $description = (string) $this->value($descriptionTerm, ['default' => $default]);
         }
 
         $eventManager = $this->getEventManager();

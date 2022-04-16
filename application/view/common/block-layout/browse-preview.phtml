@@ -21,7 +21,10 @@ $lang = $this->lang();
 
 foreach ($this->resources as $resource):
 $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]')]) : $resource->displayTitle(null, ($filterLocale ? $lang : null));
-$body = $bodyTerm ? $resource->value($bodyTerm) : $resource->displayDescription(null, ($filterLocale ? $lang : null));
+$body = false;
+if ($bodyTermValue = $bodyTerm ? $resource->value($bodyTerm, ['lang' => ($filterLocale ? [$lang, ''] : null)]) : $resource->displayDescription(null, ($filterLocale ? [$lang, ''] : null))) {
+    $body = (is_string($bodyTermValue)) ? $bodyTermValue : $bodyTermValue->valueResource()->displayTitle(null, ($filterLocale ? [$lang, ''] : null));
+}
 ?>
     <li class="<?php echo $this->resourceType; ?> resource">
         <?php

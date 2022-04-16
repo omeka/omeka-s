@@ -59,7 +59,10 @@ $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
 foreach ($items as $item):
     $heading = $headingTerm ? $item->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => ($filterLocale ? [$lang, ''] : null)]) : $item->displayTitle(null, ($filterLocale ? [$lang, ''] : null));
-    $body = $bodyTerm ? $item->value($bodyTerm, ['lang' => ($filterLocale ? [$lang, ''] : null)]) : $item->displayDescription(null, ($filterLocale ? [$lang, ''] : null));
+    $body = false;
+    if ($bodyTermValue = $bodyTerm ? $item->value($bodyTerm, ['lang' => ($filterLocale ? [$lang, ''] : null)]) : $item->displayDescription(null, ($filterLocale ? [$lang, ''] : null))) {
+        $body = (is_string($bodyTermValue)) ? $bodyTermValue : $bodyTermValue->valueResource()->displayTitle(null, ($filterLocale ? [$lang, ''] : null));
+    }
 ?>
     <li class="item resource">
         <?php if ($itemThumbnail = $this->thumbnail($item, 'medium')): ?>

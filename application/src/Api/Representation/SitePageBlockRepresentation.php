@@ -24,7 +24,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
         $this->block = $block;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'o:layout' => $this->layout(),

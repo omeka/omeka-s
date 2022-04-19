@@ -38,7 +38,7 @@ class DateTime implements JsonSerializable
     /**
      * Serialize DateTime as an ISO 8601 date.
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): string
     {
         return $this->dateTime->format('c');
     }

@@ -46,7 +46,7 @@ class Db implements SaveHandlerInterface
     /**
      * Read session data
      */
-    public function read(string $id): string|false
+    public function read(string $id): string
     {
         $session = $this->conn->fetchAssoc('SELECT * FROM session WHERE id = ?', [$id]);
         if ($session) {
@@ -81,7 +81,8 @@ class Db implements SaveHandlerInterface
     /**
      * Garbage Collection
      */
-    public function gc(int $maxlifetime): int|false
+    #[\ReturnTypeWillChange]
+    public function gc(int $maxlifetime)
     {
         $sql = 'DELETE FROM session WHERE modified < ?';
         $stmt = $this->conn->prepare($sql);

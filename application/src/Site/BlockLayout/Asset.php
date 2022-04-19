@@ -8,7 +8,6 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 use Laminas\Form\Element\Select;
-use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
 class Asset extends AbstractBlockLayout

@@ -195,7 +195,7 @@ function compileToMo(file) {
 function phpCsFixer(fix, modulePath) {
     let args = ['fix', '--verbose'];
     if (!fix) {
-        args = args.concat(['--dry-run', '--diff', '--diff-format=udiff']);
+        args = args.concat(['--dry-run', '--diff']);
     }
     if (modulePath) {
         const [moduleName] = modulePath.split(path.sep).slice(-1);

@@ -3,6 +3,7 @@
 namespace Omeka\Test;
 
 use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
+use Omeka\Mvc\Application;
 
 abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpControllerTestCase
 {
@@ -15,22 +16,22 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
         ];
         $config = array_merge($config, $testConfig);
         $this->setApplicationConfig($config);
+
+        parent::setUp();
     }
-/*
+
     public function getApplication()
     {
-        // Return the application immediately if already set.
         if ($this->application) {
             return $this->application;
         }
 
-        \Laminas\Console\Console::overrideIsConsole($this->getUseConsoleRequest());
-        $this->application = \Omeka\Mvc\Application::init($config);
+        $appConfig = $this->applicationConfig;
+        $this->application = Application::init($appConfig);
 
         $events = $this->application->getEventManager();
         $this->application->getServiceManager()->get('SendResponseListener')->detach($events);
 
         return $this->application;
     }
- */
 }

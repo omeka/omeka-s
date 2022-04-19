@@ -16,10 +16,8 @@ class PropertySelect extends AbstractVocabularyMemberSelect
      * If the "apply_templates" option is set, get only the properties of the
      * configured resource templates and include alternate labels, if any.
      * Otherwise get the default value options.
-     *
-     * @return array
      */
-    public function getValueOptions()
+    public function getValueOptions(): array
     {
         $applyTemplates = $this->getOption('apply_templates');
         $applyTemplates = is_array($applyTemplates) ? $applyTemplates : false;

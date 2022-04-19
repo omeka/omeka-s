@@ -95,10 +95,10 @@ function composer(args, options) {
 
     return stat(composerPath).catch(function (e) {
         return download(installerUrl, installerPath).then(function () {
-            return runPhpCommand(installerPath, ['--1'], {cwd: buildDir});
+            return runPhpCommand(installerPath, ['--2'], {cwd: buildDir});
         });
     }).then(function () {
-        return runPhpCommand(composerPath, ['self-update']);
+        return runPhpCommand(composerPath, ['self-update', '--2']);
     }).then(function () {
         if (!cliOptions['dev']) {
             args.push('--no-dev');
@@ -195,7 +195,7 @@ function compileToMo(file) {
 function phpCsFixer(fix, modulePath) {
     let args = ['fix', '--verbose'];
     if (!fix) {
-        args = args.concat(['--dry-run', '--diff', '--diff-format=udiff']);
+        args = args.concat(['--dry-run', '--diff']);
     }
     if (modulePath) {
         const [moduleName] = modulePath.split(path.sep).slice(-1);

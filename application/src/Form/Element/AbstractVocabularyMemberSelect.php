@@ -42,10 +42,8 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
 
     /**
      * Get default value options for this vocabulary member.
-     *
-     * @return array
      */
-    public function getValueOptions()
+    public function getValueOptions(): array
     {
         $events = $this->getEventManager();
         $resourceName = $this->getResourceName();

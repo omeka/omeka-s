@@ -11,7 +11,7 @@ return $config
         'cast_spaces' => true,
         'concat_space' => ['spacing' => 'one'],
         'include' => true,
-        'method_argument_space' => true,
+        'method_argument_space' => ['on_multiline' => 'ignore'],
         'no_blank_lines_after_class_opening' => true,
         'no_blank_lines_after_phpdoc' => true,
         'no_break_comment' => false,

@@ -28,12 +28,8 @@ class Db implements SaveHandlerInterface
 
     /**
      * Open session
-     *
-     * @param string $savePath
-     * @param string $name
-     * @return bool
      */
-    public function open($savePath, $name)
+    public function open(string $savePath, string $name): bool
     {
         $this->lifetime = ini_get('session.gc_maxlifetime');
         return true;
@@ -41,21 +37,16 @@ class Db implements SaveHandlerInterface
 
     /**
      * Close session
-     *
-     * @return bool
      */
-    public function close()
+    public function close(): bool
     {
         return true;
     }
 
     /**
      * Read session data
-     *
-     * @param string $id
-     * @return string
      */
-    public function read($id)
+    public function read(string $id): string
     {
         $session = $this->conn->fetchAssoc('SELECT * FROM session WHERE id = ?', [$id]);
         if ($session) {
@@ -69,12 +60,8 @@ class Db implements SaveHandlerInterface
 
     /**
      * Write session data
-     *
-     * @param string $id
-     * @param string $data
-     * @return bool
      */
-    public function write($id, $data)
+    public function write(string $id, string $data): bool
     {
         $sql = 'INSERT INTO session (id, modified, data) VALUES (:id, :modified, :data) '
              . 'ON DUPLICATE KEY UPDATE modified = :modified, data = :data';
@@ -85,26 +72,25 @@ class Db implements SaveHandlerInterface
 
     /**
      * Destroy session
-     *
-     * @param string $id
-     * @return bool
      */
-    public function destroy($id)
+    public function destroy(string $id): bool
     {
         return (bool) $this->conn->delete('session', ['id' => $id]);
     }
 
     /**
      * Garbage Collection
-     *
-     * @param int $maxlifetime
-     * @return true
      */
-    public function gc($maxlifetime)
+    #[\ReturnTypeWillChange]
+    public function gc(int $maxlifetime)
     {
         $sql = 'DELETE FROM session WHERE modified < ?';
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(1, (time() - $this->lifetime));
-        return $stmt->execute();
+        if ($stmt->execute()) {
+            return $stmt->rowCount();
+        } else {
+            return false;
+        }
     }
 }

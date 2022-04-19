@@ -17,7 +17,7 @@ class SitePageSelect extends Select
         return $this->site;
     }
 
-    public function getValueOptions()
+    public function getValueOptions(): array
     {
         $valueOptions = [];
         foreach ($this->getSite()->pages() as $sitePage) {

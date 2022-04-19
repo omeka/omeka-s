@@ -57,7 +57,6 @@ class DbTestCase extends TestCase
             'connection' => $reader->fromFile(OMEKA_PATH . '/application/test/config/database.ini'),
         ];
         $config = array_merge($config, $testConfig);
-        \Laminas\Console\Console::overrideIsConsole(false);
         self::$application = Application::init($config);
         return self::$application;
     }

@@ -29,7 +29,8 @@ class Db implements SaveHandlerInterface
     /**
      * Open session
      */
-    public function open(string $savePath, string $name): bool
+    #[\ReturnTypeWillChange]
+    public function open($savePath, $name)
     {
         $this->lifetime = ini_get('session.gc_maxlifetime');
         return true;
@@ -38,7 +39,8 @@ class Db implements SaveHandlerInterface
     /**
      * Close session
      */
-    public function close(): bool
+    #[\ReturnTypeWillChange]
+    public function close()
     {
         return true;
     }
@@ -46,7 +48,8 @@ class Db implements SaveHandlerInterface
     /**
      * Read session data
      */
-    public function read(string $id): string
+    #[\ReturnTypeWillChange]
+    public function read($id)
     {
         $session = $this->conn->fetchAssoc('SELECT * FROM session WHERE id = ?', [$id]);
         if ($session) {
@@ -61,7 +64,8 @@ class Db implements SaveHandlerInterface
     /**
      * Write session data
      */
-    public function write(string $id, string $data): bool
+    #[\ReturnTypeWillChange]
+    public function write($id, $data)
     {
         $sql = 'INSERT INTO session (id, modified, data) VALUES (:id, :modified, :data) '
              . 'ON DUPLICATE KEY UPDATE modified = :modified, data = :data';
@@ -73,7 +77,8 @@ class Db implements SaveHandlerInterface
     /**
      * Destroy session
      */
-    public function destroy(string $id): bool
+    #[\ReturnTypeWillChange]
+    public function destroy($id)
     {
         return (bool) $this->conn->delete('session', ['id' => $id]);
     }
@@ -82,7 +87,7 @@ class Db implements SaveHandlerInterface
      * Garbage Collection
      */
     #[\ReturnTypeWillChange]
-    public function gc(int $maxlifetime)
+    public function gc($maxlifetime)
     {
         $sql = 'DELETE FROM session WHERE modified < ?';
         $stmt = $this->conn->prepare($sql);

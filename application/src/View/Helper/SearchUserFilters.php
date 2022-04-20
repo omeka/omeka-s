@@ -57,9 +57,8 @@ class SearchUserFilters extends AbstractHelper
 
                 case 'role':
                     $filterLabel = $translate('Role');
-                    $filters[$filterLabel][] = isset($this->roleLabels[$value])
-                        ? $this->roleLabels[$value]
-                        : $translate('Unknown role');
+                    $filters[$filterLabel][] = $this->roleLabels[$value]
+                        ?? $translate('Unknown role');
                     break;
 
                 case 'is_active':

@@ -89,7 +89,7 @@ class DataType extends AbstractHelper
     {
         $view = $this->getView();
         $templates = '';
-        $resource = isset($view->resource) ? $view->resource : null;
+        $resource = $view->resource ?? null;
         $partial = $view->plugin('partial');
         foreach ($this->dataTypes as $dataType) {
             $templates .= $partial('common/data-type-wrapper', [

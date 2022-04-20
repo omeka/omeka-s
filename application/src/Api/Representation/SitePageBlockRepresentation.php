@@ -76,7 +76,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     public function dataValue($key, $default = null)
     {
         $data = $this->block->getData();
-        return isset($data[$key]) ? $data[$key] : $default;
+        return $data[$key] ?? $default;
     }
 
     public function attachments()

@@ -259,8 +259,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
             $propertyId = $queryRow['property'];
             $queryType = $queryRow['type'];
-            $joiner = isset($queryRow['joiner']) ? $queryRow['joiner'] : null;
-            $value = isset($queryRow['text']) ? $queryRow['text'] : null;
+            $joiner = $queryRow['joiner'] ?? null;
+            $value = $queryRow['text'] ?? null;
 
             if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
                 continue;
@@ -417,7 +417,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         if (!$this->isTerm($term)) {
             return null;
         }
-        list($prefix, $localName) = explode(':', $term);
+        [$prefix, $localName] = explode(':', $term);
         $dql = 'SELECT p FROM Omeka\Entity\Property p
         JOIN p.vocabulary v WHERE p.localName = :localName
         AND v.prefix = :prefix';

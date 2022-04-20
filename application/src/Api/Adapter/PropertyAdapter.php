@@ -122,7 +122,7 @@ class PropertyAdapter extends AbstractEntityAdapter
             );
         }
         if (isset($query['term']) && $this->isTerm($query['term'])) {
-            list($prefix, $localName) = explode(':', $query['term']);
+            [$prefix, $localName] = explode(':', $query['term']);
             $vocabularyAlias = $this->createAlias();
             $qb->innerJoin(
                 'omeka_root.vocabulary',

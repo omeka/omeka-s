@@ -59,7 +59,7 @@ class Imagick extends AbstractThumbnailer
 
         switch ($strategy) {
             case 'square':
-                $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
+                $gravity = $options['gravity'] ?? 'center';
                 if ($origWidth < $origHeight) {
                     $tempWidth = $constraint;
                     $tempHeight = $origHeight * ($constraint / $origWidth);

@@ -164,7 +164,7 @@ class Gd extends AbstractThumbnailer
      */
     public function createSquare($constraint, array $options)
     {
-        $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
+        $gravity = $options['gravity'] ?? 'center';
 
         // Original is landscape
         if ($this->origWidth > $this->origHeight) {

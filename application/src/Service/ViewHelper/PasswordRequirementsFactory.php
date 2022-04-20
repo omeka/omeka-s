@@ -10,7 +10,7 @@ class PasswordRequirementsFactory implements FactoryInterface
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
         $config = $services->get('Config');
-        $passwordConfig = isset($config['password']) ? $config['password'] : [];
+        $passwordConfig = $config['password'] ?? [];
         return new PasswordRequirements($passwordConfig);
     }
 }

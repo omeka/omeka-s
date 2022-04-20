@@ -86,7 +86,7 @@ class MvcListeners extends AbstractListenerAggregate
             'use_only_cookies' => true,
             'gc_maxlifetime' => 1209600,
         ];
-        $userOptions = isset($config['session']['config']) ? $config['session']['config'] : [];
+        $userOptions = $config['session']['config'] ?? [];
         $sessionConfig->setOptions(array_merge($defaultOptions, $userOptions));
 
         $sessionSaveHandler = null;

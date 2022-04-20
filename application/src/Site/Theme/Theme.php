@@ -82,7 +82,7 @@ class Theme
     public function getIni($key = null)
     {
         if ($key) {
-            return isset($this->ini[$key]) ? $this->ini[$key] : null;
+            return $this->ini[$key] ?? null;
         }
         return $this->ini;
     }

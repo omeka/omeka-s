@@ -67,8 +67,7 @@ class JobRepresentation extends AbstractEntityRepresentation
     public function statusLabel()
     {
         $status = $this->resource->getStatus();
-        return isset($this->statusLabels[$status])
-            ? $this->statusLabels[$status] : 'Unknown';
+        return $this->statusLabels[$status] ?? 'Unknown';
     }
 
     public function jobClass()

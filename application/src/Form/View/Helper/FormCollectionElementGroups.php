@@ -20,7 +20,7 @@ class FormCollectionElementGroups extends FormCollection
      * @param ElementInterface $element
      * @return string
      */
-    public function render(ElementInterface $element)
+    public function render(ElementInterface $element): string
     {
         $elementGroups = $element->getOption('element_groups');
         if (!$elementGroups || !is_array($elementGroups)) {

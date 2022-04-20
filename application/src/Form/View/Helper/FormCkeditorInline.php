@@ -9,7 +9,7 @@ use Laminas\Form\ElementInterface;
  */
 class FormCkeditorInline extends FormTextarea
 {
-    public function render(ElementInterface $element)
+    public function render(ElementInterface $element): string
     {
         $id = $element->getAttribute('id');
         $textarea = parent::render($element);

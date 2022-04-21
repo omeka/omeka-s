@@ -24,17 +24,17 @@ class Manager extends AbstractPluginManager
                 'sitePages',
                 'mediaLinks',
                 'linkedResources',
-            ]
+            ],
         ],
         'item_sets' => [
             'main' => [
                 'values',
-            ]
+            ],
         ],
         'media' => [
             'main' => [
                 'values',
-            ]
+            ],
         ],
     ];
 
@@ -210,6 +210,6 @@ class Manager extends AbstractPluginManager
                 $regionsOut[$resourceName]['main'] = 'Main'; // @translate
             }
         }
-         return $regionsOut;
+        return $regionsOut;
     }
 }

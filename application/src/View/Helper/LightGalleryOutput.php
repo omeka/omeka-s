@@ -31,7 +31,7 @@ class LightGalleryOutput extends AbstractHelper
             $mediaCaptionOptions = [
                 'none' => '',
                 'title' => 'data-sub-html="' . $media->displayTitle() . '"',
-                'description' => 'data-sub-html="'. $media->displayDescription() . '"'
+                'description' => 'data-sub-html="' . $media->displayDescription() . '"',
             ];
             $mediaCaptionAttribute = ($mediaCaption) ? $mediaCaptionOptions[$mediaCaption] : '';
             $mediaType = $media->mediatype();
@@ -41,7 +41,7 @@ class LightGalleryOutput extends AbstractHelper
                         [
                             'src' => $source,
                             'type' => $mediaType,
-                        ]
+                        ],
                     ],
                     'attributes' => [
                         'preload' => false,
@@ -61,11 +61,11 @@ class LightGalleryOutput extends AbstractHelper
                     }
                 }
                 $videoSrcJson = json_encode($videoSrcObject);
-                $html .=  '<li data-video="' . $escape($videoSrcJson) . '" ' . $mediaCaptionAttribute . 'data-thumb="' . $escape($media->thumbnailUrl('medium')) . '" data-download-url="' . $source . '" class="media resource">';
-            } else if ($mediaType == 'application/pdf') {
-                $html .=  '<li data-iframe="' . $escape($source) . '" '. $mediaCaptionAttribute . 'data-src="' . $source . '" data-thumb="' . $escape($media->thumbnailUrl('medium')) . '" data-download-url="' . $source . '" class="media resource">';
+                $html .= '<li data-video="' . $escape($videoSrcJson) . '" ' . $mediaCaptionAttribute . 'data-thumb="' . $escape($media->thumbnailUrl('medium')) . '" data-download-url="' . $source . '" class="media resource">';
+            } elseif ($mediaType == 'application/pdf') {
+                $html .= '<li data-iframe="' . $escape($source) . '" ' . $mediaCaptionAttribute . 'data-src="' . $source . '" data-thumb="' . $escape($media->thumbnailUrl('medium')) . '" data-download-url="' . $source . '" class="media resource">';
             } else {
-                $html .=  '<li data-src="' . $source . '" ' . $mediaCaptionAttribute . 'data-thumb="' . $escape($media->thumbnailUrl('medium')) . '" data-download-url="' . $source . '" class="media resource">';
+                $html .= '<li data-src="' . $source . '" ' . $mediaCaptionAttribute . 'data-thumb="' . $escape($media->thumbnailUrl('medium')) . '" data-download-url="' . $source . '" class="media resource">';
             }
             $html .= $media->render();
             $html .= '</li>';

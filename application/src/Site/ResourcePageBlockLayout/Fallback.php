@@ -27,5 +27,4 @@ class Fallback implements ResourcePageBlockLayoutInterface
     {
         return '';
     }
-
 }

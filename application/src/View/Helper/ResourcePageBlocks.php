@@ -3,7 +3,6 @@ namespace Omeka\View\Helper;
 
 use Omeka\Api\Representation;
 use Omeka\Site\ResourcePageBlockLayout\Manager;
-use Omeka\Site\Theme\Theme;
 use Laminas\View\Helper\AbstractHelper;
 
 class ResourcePageBlocks extends AbstractHelper

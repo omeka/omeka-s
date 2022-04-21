@@ -9,6 +9,7 @@ use Omeka\Form\SiteSettingsForm;
 use Omeka\Mvc\Exception;
 use Omeka\Site\Navigation\Link\Manager as LinkManager;
 use Omeka\Site\Navigation\Translator;
+use Omeka\Site\ResourcePageBlockLayout\Manager as ResourcePageBlockLayoutManager;
 use Omeka\Site\Theme\Manager as ThemeManager;
 use Laminas\Form\Form;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -31,12 +32,18 @@ class IndexController extends AbstractActionController
      */
     protected $navTranslator;
 
+    /**
+     * @var ResourcePageBlockLayoutManager
+     */
+    protected $resourcePageBlockLayoutManager;
+
     public function __construct(ThemeManager $themes, LinkManager $navLinks,
-        Translator $navTranslator
+        Translator $navTranslator, ResourcePageBlockLayoutManager $resourcePageBlockLayoutManager
     ) {
         $this->themes = $themes;
         $this->navLinks = $navLinks;
         $this->navTranslator = $navTranslator;
+        $this->resourcePageBlockLayoutManager = $resourcePageBlockLayoutManager;
     }
 
     public function indexAction()
@@ -398,7 +405,7 @@ class IndexController extends AbstractActionController
         $postData = $this->params()->fromPost();
         $form->setData($postData);
         if ($form->isValid()) {
-            $data = $form->getData();
+            $data = array_merge($oldSettings, $form->getData());
             unset($data['form_csrf']);
             $this->siteSettings()->set($theme->getSettingsKey(), $data);
             $this->messenger()->addSuccess('Theme settings successfully updated'); // @translate
@@ -407,6 +414,52 @@ class IndexController extends AbstractActionController
 
         $this->messenger()->addFormErrors($form);
 
+        return $view;
+    }
+
+    public function themeResourcePagesAction()
+    {
+        $site = $this->currentSite();
+        if (!$site->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException('User does not have permission to configure theme resource pages');
+        }
+
+        $theme = $this->themes->getTheme($site->theme());
+        $blockLayoutManager = $this->resourcePageBlockLayoutManager;
+        $resourcePageBlocks = $blockLayoutManager->getResourcePageBlocks($theme);
+        $resourcePageRegions = $blockLayoutManager->getResourcePageRegions($theme);
+
+        // Translate the block layout labels.
+        $allLabels = [];
+        foreach ($blockLayoutManager->getAllLabels() as $blockLayoutName => $blockLayoutLabel) {
+            $allLabels[$blockLayoutName] = $this->translate($blockLayoutLabel);
+        }
+
+        $form = $this->getForm(Form::class);
+        $form->setAttribute('id', 'resource-page-config-form');
+        $form->setAttribute('data-resource-page-blocks', json_encode($resourcePageBlocks));
+        $form->setAttribute('data-resource-page-regions', json_encode($resourcePageRegions));
+        $form->setAttribute('data-block-layout-labels', json_encode($allLabels));
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->params()->fromPost();
+            $form->setData($postData);
+            if ($form->isValid()) {
+                $themeSettings = $this->siteSettings()->get($theme->getSettingsKey());
+                $themeSettings['resource_page_blocks'] = $blockLayoutManager->standardizeResourcePageBlocks($postData['resource_page_blocks']);
+                $this->siteSettings()->set($theme->getSettingsKey(), $themeSettings);
+                $this->messenger()->addSuccess('Theme resource pages successfully updated'); // @translate
+                return $this->redirect()->refresh();
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
+
+        $view = new ViewModel;
+        $view->setVariable('theme', $theme);
+        $view->setVariable('form', $form);
+        $view->setVariable('resourcePageRegions', $resourcePageRegions);
+        $view->setVariable('blockLayoutManager', $blockLayoutManager);
         return $view;
     }
 

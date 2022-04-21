@@ -141,4 +141,15 @@ class Theme
         $configSpec = $this->getConfigSpec();
         return $configSpec && $configSpec['elements'];
     }
+
+    /**
+     * Return whether this theme has resource page blocks configuration.
+     *
+     * @return bool
+     */
+    public function isConfigurableResourcePageBlocks()
+    {
+        $configSpec = $this->getConfigSpec();
+        return $configSpec && isset($configSpec['resource_page_blocks']);
+    }
 }

@@ -36,7 +36,7 @@ $sortHeadings = [
     <?php echo $this->pageTitle($itemSet->displayTitle(null, ($filterLocale ? $lang : null)), 2); ?>
     <h3><?php echo $translate('Item set'); ?></h3>
     <div class="metadata">
-        <?php echo $itemSet->displayValues(); ?>
+        <?php echo $this->resourcePageBlocks($itemSet); ?>
     </div>
     <div class="item-set-items">
     <?php echo '<h3>' . $escape($translate('Items')) . '</h3>'; ?>

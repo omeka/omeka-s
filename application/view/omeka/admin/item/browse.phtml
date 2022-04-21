@@ -24,6 +24,65 @@ $sortHeadings = [
         'value' => 'created'
     ],
 ];
+$columns = [
+    [
+        'type' => 'id',
+        'options' => [],
+        'get_header' => fn(array $options) => $options['header'] ?? $translate('ID'),
+        'get_data' => fn($item, array $options) => $item->id(),
+    ],
+    [
+        'type' => 'is_public',
+        'options' => [],
+        'get_header' => fn(array $options) => $options['header'] ?? $translate('Public'),
+        'get_data' => fn($item, array $options) => $item->isPublic() ? $translate('Yes') : $translate('No'),
+    ],
+    [
+        'type' => 'resource_class',
+        'options' => [],
+        'get_header' => fn(array $options) => $options['header'] ?? $translate('Class'),
+        'get_data' => fn($item, array $options) => $escape($translate($item->displayResourceClassLabel())),
+    ],
+    [
+        'type' => 'resource_template',
+        'options' => [],
+        'get_header' => fn(array $options) => $options['header'] ?? $translate('Template'),
+        'get_data' => fn($item, array $options) => $escape($translate($item->displayResourceTemplateLabel())),
+    ],
+    [
+        'type' => 'owner',
+        'options' => [],
+        'get_header' => fn(array $options) => $options['header'] ?? $translate('Owner'),
+        'get_data' => function($item, array $options) use ($translate) {
+            $owner = $item->owner();
+            return $owner
+                ? $this->hyperlink($owner->name(), $this->url('admin/id', [
+                    'controller' => 'user',
+                    'action' => 'show',
+                    'id' => $owner->id()]
+                ))
+                : $translate('[no owner]');
+        },
+    ],
+    [
+        'type' => 'created',
+        'options' => [],
+        'get_header' => fn(array $options) => $options['header'] ?? $translate('Created'),
+        'get_data' => fn($item, array $options) => $escape($this->i18n()->dateFormat($item->created())),
+    ],
+    [
+        'type' => 'modified',
+        'options' => [],
+        'get_header' => fn(array $options) => $options['header'] ?? $translate('Modified'),
+        'get_data' => fn($item, array $options) => $escape($this->i18n()->dateFormat($item->modified())),
+    ],
+    [
+        'type' => 'value',
+        'options' => ['property_term' => 'dcterms:subject', 'header' => $translate('Subject')],
+        'get_header' => fn(array $options) => $options['header'] ?? $options['property_term'],
+        'get_data' => fn($item, array $options) => $item->value($options['property_term']),
+    ],
+];
 ?>
 
 <?php echo $this->pageTitle($translate('Items')); ?>
@@ -70,27 +129,13 @@ $sortHeadings = [
     <thead>
         <tr>
             <th><input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>"><?php echo $translate('Title'); ?></th>
-            <th><?php echo $translate('Class'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
-            <th><?php echo $translate('Created'); ?></th>
+            <?php foreach ($columns as $column): ?>
+            <th><?php echo $column['get_header']($column['options']); ?></th>
+            <?php endforeach; ?>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($items as $item): ?>
-        <?php
-        if ($owner = $item->owner()) {
-            $ownerText = $this->hyperlink(
-                $owner->name(),
-                $this->url('admin/id', [
-                    'controller' => 'user',
-                    'action' => 'show',
-                    'id' => $owner->id()]
-                )
-            );
-        } else {
-            $ownerText = $translate('[no owner]');
-        }
-        ?>
         <tr>
             <td>
                 <?php if ($item->userIsAllowed('update') || $item->userIsAllowed('delete')): ?>
@@ -123,9 +168,9 @@ $sortHeadings = [
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($translate($item->displayResourceClassLabel())); ?></td>
-            <td><?php echo $ownerText; ?></td>
-            <td><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></td>
+            <?php foreach ($columns as $column): ?>
+            <td><?php echo $column['get_data']($item, $column['options']); ?></td>
+            <?php endforeach; ?>
         </tr>
         <?php endforeach; ?>
     </tbody>
@@ -215,5 +260,3 @@ $('#sidebar-delete-all').on('click', 'input[name="confirm-delete-all-check"]', f
 </div>
 
 <?php endif; ?>
-
-

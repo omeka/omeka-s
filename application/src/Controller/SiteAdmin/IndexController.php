@@ -101,24 +101,16 @@ class IndexController extends AbstractActionController
                 // Prepare site form data.
                 $formData = $form->getData();
                 unset($formData['csrf']);
-                $formData['o:assign_new_items'] = $postData['general']['o:assign_new_items'];
+                $formData['o:assign_new_items'] = $postData['o:assign_new_items'];
                 $formData['o:is_public'] = $postData['o:is_public'];
                 $formData['o:thumbnail'] = ['o:id' => $postData['thumbnail_id']];
                 // Prepare settings form data.
                 $settingsFormData = $settingsForm->getData();
                 unset($settingsFormData['csrf']);
-                unset($settingsFormData['general']['o:assign_new_items']);
+                unset($settingsFormData['o:assign_new_items']);
                 // Update settings.
-                $settingsFormFieldsets = $settingsForm->getFieldsets();
                 foreach ($settingsFormData as $id => $value) {
-                    if (array_key_exists($id, $settingsFormFieldsets) && is_array($value)) {
-                        // De-nest fieldsets.
-                        foreach ($value as $fieldsetId => $fieldsetValue) {
-                            $this->siteSettings()->set($fieldsetId, $fieldsetValue);
-                        }
-                    } else {
-                        $this->siteSettings()->set($id, $value);
-                    }
+                    $this->siteSettings()->set($id, $value);
                 }
                 // Update site.
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
@@ -133,7 +125,7 @@ class IndexController extends AbstractActionController
         } else {
             // Prepare form data on first load.
             $form->setData($site->jsonSerialize());
-            $settingsForm->get('general')->get('o:assign_new_items')->setValue($site->assignNewItems());
+            $settingsForm->get('o:assign_new_items')->setValue($site->assignNewItems());
             if ($site->thumbnail()) {
                 $form->get('thumbnail_id')->setValue($site->thumbnail()->id());
             }

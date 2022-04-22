@@ -27,60 +27,51 @@ $sortHeadings = [
 $columns = [
     [
         'type' => 'id',
+        'header' => null,
+        'default' => null,
         'options' => [],
-        'get_header' => fn(array $options) => $options['header'] ?? $translate('ID'),
-        'get_data' => fn($item, array $options) => $item->id(),
     ],
     [
         'type' => 'is_public',
+        'header' => null,
+        'default' => null,
         'options' => [],
-        'get_header' => fn(array $options) => $options['header'] ?? $translate('Public'),
-        'get_data' => fn($item, array $options) => $item->isPublic() ? $translate('Yes') : $translate('No'),
     ],
     [
         'type' => 'resource_class',
+        'header' => null,
+        'default' => null,
         'options' => [],
-        'get_header' => fn(array $options) => $options['header'] ?? $translate('Class'),
-        'get_data' => fn($item, array $options) => $escape($translate($item->displayResourceClassLabel())),
     ],
     [
         'type' => 'resource_template',
+        'header' => null,
+        'default' => null,
         'options' => [],
-        'get_header' => fn(array $options) => $options['header'] ?? $translate('Template'),
-        'get_data' => fn($item, array $options) => $escape($translate($item->displayResourceTemplateLabel())),
     ],
     [
         'type' => 'owner',
+        'header' => null,
+        'default' => null,
         'options' => [],
-        'get_header' => fn(array $options) => $options['header'] ?? $translate('Owner'),
-        'get_data' => function($item, array $options) use ($translate) {
-            $owner = $item->owner();
-            return $owner
-                ? $this->hyperlink($owner->name(), $this->url('admin/id', [
-                    'controller' => 'user',
-                    'action' => 'show',
-                    'id' => $owner->id()]
-                ))
-                : $translate('[no owner]');
-        },
     ],
     [
         'type' => 'created',
+        'header' => null,
+        'default' => null,
         'options' => [],
-        'get_header' => fn(array $options) => $options['header'] ?? $translate('Created'),
-        'get_data' => fn($item, array $options) => $escape($this->i18n()->dateFormat($item->created())),
     ],
     [
         'type' => 'modified',
+        'header' => null,
+        'default' => null,
         'options' => [],
-        'get_header' => fn(array $options) => $options['header'] ?? $translate('Modified'),
-        'get_data' => fn($item, array $options) => $escape($this->i18n()->dateFormat($item->modified())),
     ],
     [
-        'type' => 'value',
-        'options' => ['property_term' => 'dcterms:subject', 'header' => $translate('Subject')],
-        'get_header' => fn(array $options) => $options['header'] ?? $options['property_term'],
-        'get_data' => fn($item, array $options) => $item->value($options['property_term']),
+        'type' => 'property_value',
+        'header' => null,
+        'default' => null,
+        'options' => ['property_term' => 'dcterms:subject'],
     ],
 ];
 ?>
@@ -130,7 +121,9 @@ $columns = [
         <tr>
             <th><input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>"><?php echo $translate('Title'); ?></th>
             <?php foreach ($columns as $column): ?>
-            <th><?php echo $column['get_header']($column['options']); ?></th>
+            <?php if ($this->browseColumns()->isValid($column['type'], 'items')): ?>
+            <th><?php echo $this->browseColumns()->getHeader($column['type'], $column['header'], $column['options']); ?></th>
+            <?php endif; ?>
             <?php endforeach; ?>
         </tr>
     </thead>
@@ -169,7 +162,9 @@ $columns = [
                 </ul>
             </td>
             <?php foreach ($columns as $column): ?>
-            <td><?php echo $column['get_data']($item, $column['options']); ?></td>
+            <?php if ($this->browseColumns()->isValid($column['type'], 'items')): ?>
+            <td><?php echo $this->browseColumns()->getData($column['type'], $item, $column['default'], $column['options']); ?></td>
+            <?php endif; ?>
             <?php endforeach; ?>
         </tr>
         <?php endforeach; ?>

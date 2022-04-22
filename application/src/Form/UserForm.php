@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Form\Element\BrowseColumns;
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Form\Element\SiteSelect;
 use Omeka\Permissions\Acl;
@@ -125,7 +126,9 @@ class UserForm extends Form
         }
 
         $settingsFieldset = $this->get('user-settings');
-        $settingsFieldset->setOption('element_groups', []);
+        $settingsFieldset->setOption('element_groups', [
+            'browse_columns' => 'Browse columns', // @translate
+        ]);
         $settingsFieldset->add([
             'name' => 'locale',
             'type' => 'Omeka\Form\Element\LocaleSelect',
@@ -175,6 +178,42 @@ class UserForm extends Form
             'options' => [
                 'label' => 'Default sites for items', // @translate
                 'empty_option' => '',
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'browse_columns_items',
+            'type' => BrowseColumns::class,
+            'options' => [
+                'element_group' => 'browse_columns',
+                'label' => 'Item browse columns', // @translate
+                'browse_columns_resource_name' => 'items',
+            ],
+            'attributes' => [
+                'value' => $userId ? $this->userSettings->get('browse_columns_items', null, $userId) : '',
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'browse_columns_item_sets',
+            'type' => BrowseColumns::class,
+            'options' => [
+                'element_group' => 'browse_columns',
+                'label' => 'Item set browse columns', // @translate
+                'browse_columns_resource_name' => 'item_sets',
+            ],
+            'attributes' => [
+                'value' => $userId ? $this->userSettings->get('browse_columns_item_sets', null, $userId) : '',
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'browse_columns_media',
+            'type' => BrowseColumns::class,
+            'options' => [
+                'element_group' => 'browse_columns',
+                'label' => 'Media browse columns', // @translate
+                'browse_columns_resource_name' => 'media',
+            ],
+            'attributes' => [
+                'value' => $userId ? $this->userSettings->get('browse_columns_media', null, $userId) : '',
             ],
         ]);
 

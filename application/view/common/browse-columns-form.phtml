@@ -1,0 +1,28 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('css/browse-columns-form.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/browse-columns-form.js', 'Omeka'));
+$columnTemplate = sprintf('
+<li>
+    <span class="browse-columns-label"></span>
+    <button type="button" class="browse-columns-edit">%s</button>
+</li>', $this->translate('Edit'));
+?>
+<div class="browse-columns-form-element"
+    data-resource-type="<?php echo $this->escapeHtml($element->getResourceType()); ?>"
+    data-columns="<?php echo $this->escapeHtml($element->getValue()); ?>"
+    data-column-template="<?php echo $this->escapeHtml($columnTemplate); ?>">
+    <select>
+        <option>Select a column type...</option>
+        <option>ID</option>
+        <option>Is public</option>
+        <option>Resource class</option>
+        <option>Resource template</option>
+        <option>Owner</option>
+        <option>Created</option>
+        <option>Modified</option>
+        <option>Property value</option>
+    </select>
+    <button type="button" class="browse-columns-add">Add column</button>
+    <div class="browse-columns-columns"></div>
+    <?php echo $this->formHidden($element); ?>
+</div>

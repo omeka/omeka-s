@@ -30,14 +30,17 @@ $resourceControllers = [
     <?php foreach ($results as $resourceName => $result): ?>
 <div class="<?php echo $resourceName; ?> results">
     <h2><?php echo $translate($resourceLabels[$resourceName]); ?></h2>
-
-        <?php $titleMethod = $resourceName === 'site_pages' ? 'title' : 'displayTitle'; ?>
     <ul>
         <?php foreach ($result['resources'] as $resource): ?>
         <?php $hasThumbnail = $resource->primaryMedia(); ?>
         <li>
             <?php if (!$hasThumbnail): ?>
-            <?php echo $resource->link($resource->$titleMethod()); ?>
+                <?php if ($resourceName === 'site_pages') {
+                    echo $resource->link($resource->title());
+                } else {
+                    echo $resource->link($resource->displayTitle(null, ($filterLocale ? $lang : null)));
+                }
+                ?>
             <?php else: ?>
             <?php echo $resource->linkPretty('square', null, null, null, ($filterLocale ? $lang : null)); ?>
             <?php endif; ?>

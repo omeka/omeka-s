@@ -6,7 +6,7 @@ use Laminas\Form\FormElementManager;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 
-class ResourceClass implements ColumnTypeInterface
+class IsPublic implements ColumnTypeInterface
 {
     protected FormElementManager $formElements;
 
@@ -17,7 +17,7 @@ class ResourceClass implements ColumnTypeInterface
 
     public function getLabel() : string
     {
-        return 'Resource class'; // @translate
+        return 'Is public'; // @translate
     }
 
     public function getResourceTypes() : array
@@ -46,7 +46,7 @@ class ResourceClass implements ColumnTypeInterface
 
     public function getSortBy(array $data) : ?string
     {
-        return 'resource_class_label';
+        return 'is_public';
     }
 
     public function renderHeader(PhpRenderer $view, array $data) : string
@@ -56,6 +56,9 @@ class ResourceClass implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $data) : ?string
     {
-        return $view->translate($resource->displayResourceClassLabel());
+        return $resource->isPublic()
+            ? $view->translate('Yes')
+            : $view->translate('No');
+
     }
 }

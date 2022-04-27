@@ -2,15 +2,15 @@
 namespace Omeka\ColumnType;
 
 use Laminas\Form\Element as LaminasElement;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Form\FormElementManager;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 
 class Created implements ColumnTypeInterface
 {
-    protected $formElements;
+    protected FormElementManager $formElements;
 
-    public function __construct(ServiceLocatorInterface $formElements)
+    public function __construct(FormElementManager $formElements)
     {
         $this->formElements = $formElements;
     }
@@ -30,7 +30,12 @@ class Created implements ColumnTypeInterface
         return 1;
     }
 
-    public function prepareDataForm(PhpRenderer $view) : void
+    public function dataIsValid(array $data) : bool
+    {
+        return true;
+    }
+
+     public function prepareDataForm(PhpRenderer $view) : void
     {
     }
 

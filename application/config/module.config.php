@@ -534,7 +534,7 @@ return [
             'owner' => Service\ColumnType\ColumnTypeFactory::class,
             'created' => Service\ColumnType\ColumnTypeFactory::class,
             'modified' => Service\ColumnType\ColumnTypeFactory::class,
-            'value' => Service\ColumnType\ColumnTypeFactory::class,
+            'value' => Service\ColumnType\ValueFactory::class,
         ],
     ],
     'block_layouts' => [

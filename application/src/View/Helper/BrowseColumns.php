@@ -12,7 +12,22 @@ class BrowseColumns extends AbstractHelper
 {
     const DEFAULT_COLUMNS_DATA = [
         [
+            'type' => 'id',
+            'header' => null,
+            'default' => null,
+        ],
+        [
+            'type' => 'is_public',
+            'header' => null,
+            'default' => null,
+        ],
+        [
             'type' => 'resource_class',
+            'header' => null,
+            'default' => null,
+        ],
+        [
+            'type' => 'resource_template',
             'header' => null,
             'default' => null,
         ],
@@ -25,6 +40,17 @@ class BrowseColumns extends AbstractHelper
             'type' => 'created',
             'header' => null,
             'default' => null,
+        ],
+        [
+            'type' => 'modified',
+            'header' => null,
+            'default' => null,
+        ],
+        [
+            'type' => 'value',
+            'header' => null,
+            'default' => null,
+            'property_term' => 'dcterms:subject',
         ],
     ];
 
@@ -39,14 +65,10 @@ class BrowseColumns extends AbstractHelper
     {
         $view = $this->getView();
         $headers = [];
-        foreach ($this->getColumnsData($resourceType) as $columnData) {
-            $columnType = $this->getColumnType($columnData['type']);
-            if (!$this->columnTypeIsKnown($columnType)) {
-                // Skip unknown column types.
-                continue;
-            }
+        foreach ($this->getValidColumnsData($resourceType) as $columnData) {
             // If the user does not defaine a header, get the one defined by the
             // column service. Note that we don't translate user-defined headers.
+            $columnType = $this->getColumnType($columnData['type']);
             $headers[] = $columnData['header'] ?? $view->translate($columnType->renderHeader($view, $columnData));
         }
         return $headers;
@@ -56,18 +78,13 @@ class BrowseColumns extends AbstractHelper
     {
         $view = $this->getView();
         $contents = [];
-        foreach ($this->getColumnsData($resourceType) as $columnData) {
-            $columnType = $this->getColumnType($columnData['type']);
-            if (!$this->columnTypeIsKnown($columnType)) {
-                // Skip unknown column types.
-                continue;
-            }
+        foreach ($this->getValidColumnsData($resourceType) as $columnData) {
             // If the column service returns null, use the user-defined default,
             // if any. Note that we don't translate user-defined defaults.
+            $columnType = $this->getColumnType($columnData['type']);
             $contents[] = $columnType->renderContent($view, $resource, $columnData) ?? $columnData['default'];
         }
         return $contents;
-
     }
 
     public function getColumnsData(string $resourceType) : array
@@ -88,6 +105,24 @@ class BrowseColumns extends AbstractHelper
             $columnData['type'] ??= '';
             $columnData['header'] ??= null;
             $columnData['default'] ??= null;
+        }
+        return $columnsData;
+    }
+
+    public function getValidColumnsData(string $resourceType) : array
+    {
+        $columnsData = [];
+        foreach ($this->getColumnsData($resourceType) as $columnData) {
+            $columnType = $this->getColumnType($columnData['type']);
+            if (!$this->columnTypeIsKnown($columnType)) {
+                // Skip unknown column types.
+                continue;
+            }
+            if (!$columnType->dataIsValid($columnData)) {
+                // Skip columns with invalid data.
+                continue;
+            }
+            $columnsData[] = $columnData;
         }
         return $columnsData;
     }

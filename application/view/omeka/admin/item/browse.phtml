@@ -70,27 +70,13 @@ $sortHeadings = [
     <thead>
         <tr>
             <th><input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>"><?php echo $translate('Title'); ?></th>
-            <th><?php echo $translate('Class'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
-            <th><?php echo $translate('Created'); ?></th>
+            <?php foreach ($this->browseColumns()->getHeaders('items') as $header): ?>
+            <th><?php echo $header; ?></th>
+            <?php endforeach; ?>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($items as $item): ?>
-        <?php
-        if ($owner = $item->owner()) {
-            $ownerText = $this->hyperlink(
-                $owner->name(),
-                $this->url('admin/id', [
-                    'controller' => 'user',
-                    'action' => 'show',
-                    'id' => $owner->id()]
-                )
-            );
-        } else {
-            $ownerText = $translate('[no owner]');
-        }
-        ?>
         <tr>
             <td>
                 <?php if ($item->userIsAllowed('update') || $item->userIsAllowed('delete')): ?>
@@ -123,9 +109,9 @@ $sortHeadings = [
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($translate($item->displayResourceClassLabel())); ?></td>
-            <td><?php echo $ownerText; ?></td>
-            <td><?php echo $escape($this->i18n()->dateFormat($item->created())); ?></td>
+            <?php foreach ($this->browseColumns()->getContents('items', $item) as $content): ?>
+            <td><?php echo $content; ?></td>
+            <?php endforeach; ?>
         </tr>
         <?php endforeach; ?>
     </tbody>
@@ -215,5 +201,3 @@ $('#sidebar-delete-all').on('click', 'input[name="confirm-delete-all-check"]', f
 </div>
 
 <?php endif; ?>
-
-

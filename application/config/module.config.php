@@ -280,6 +280,7 @@ return [
             'Omeka\Media\FileRenderer\Manager' => Service\Media\FileRenderer\ManagerFactory::class,
             'Omeka\FulltextSearch' => Service\FulltextSearchFactory::class,
             'Omeka\Environment' => Service\EnvironmentFactory::class,
+            'Omeka\ColumnTypeManager' => Service\ColumnType\ManagerFactory::class,
         ],
         'invokables' => [
             'ModuleRouteListener' => \Laminas\Mvc\ModuleRouteListener::class,
@@ -454,6 +455,7 @@ return [
             'status' => Service\ViewHelper\StatusFactory::class,
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
             'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
+            'browseColumns' => Service\ViewHelper\BrowseColumnsFactory::class,
         ],
         'delegators' => [
             'Laminas\Form\View\Helper\FormElement' => [
@@ -522,6 +524,18 @@ return [
             'resource:itemset',
             'resource:media',
         ]
+    ],
+    'column_types' => [
+        'factories' => [
+            'id' => Service\ColumnType\ColumnTypeFactory::class,
+            'is_public' => Service\ColumnType\ColumnTypeFactory::class,
+            'resource_class' => Service\ColumnType\ColumnTypeFactory::class,
+            'resource_template' => Service\ColumnType\ColumnTypeFactory::class,
+            'owner' => Service\ColumnType\ColumnTypeFactory::class,
+            'created' => Service\ColumnType\ColumnTypeFactory::class,
+            'modified' => Service\ColumnType\ColumnTypeFactory::class,
+            'value' => Service\ColumnType\ColumnTypeFactory::class,
+        ],
     ],
     'block_layouts' => [
         'invokables' => [

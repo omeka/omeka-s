@@ -1,0 +1,25 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('css/browse-columns-form.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/browse-columns-form.js', 'Omeka'));
+$this->browseColumns()->prepareDataForms();
+$columnTemplate = sprintf('
+<li class="browse-columns-column">
+    <span class="sortable-handle"></span>
+    <span class="browse-columns-column-label"></span>
+    <a class="browse-columns-column-edit o-icon-edit" title="%1$s" aria-label="%1$s" href="#"></a>
+    <a class="browse-columns-column-remove o-icon-delete" title="%2$s" aria-label="%2$s" href="#"></a>
+</li>',
+    $this->escapeHtml($this->translate('Edit column')),
+    $this->escapeHtml($this->translate('Remove column')),
+);
+?>
+<div class="browse-columns-form-element"
+    data-resource-type="<?php echo $this->escapeHtml($element->getResourceType()); ?>"
+    data-columns-data="<?php echo $this->escapeHtml(json_encode($columnsData)); ?>"
+    data-column-template="<?php echo $this->escapeHtml($columnTemplate); ?>">
+    <?php echo $this->browseColumns()->getColumnTypeSelect($element->getResourceType()); ?>
+    <button type="button" class="browse-columns-column-add-button" disabled><?php echo $this->translate('Add'); ?></button>
+    <ul class="browse-columns-columns"></ul>
+    <?php echo $this->formHidden($element); ?>
+</div>

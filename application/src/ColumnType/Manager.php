@@ -19,28 +19,4 @@ class Manager extends AbstractPluginManager
         }
         return $instance;
     }
-
-    /**
-     * Get column name=>label value options for use in a select element.
-     *
-     * @param string $resourceType
-     * @return array
-     */
-    public function getValueOptions($resourceType)
-    {
-        $valueOptions = [];
-        foreach ($this->getRegisteredNames() as $columnTypeName) {
-            $columnType = $this->get($columnTypeName);
-            if (in_array($resourceType, $columnType->getResourceTypes())) {
-                $valueOptions[] = [
-                    'value' => $columnTypeName,
-                    'label' => $columnType->getLabel(),
-                    'attributes' => [
-                        'data-max-columns' => $columnType->getMaxColumns(),
-                    ],
-                ];
-            }
-        }
-        return $valueOptions;
-    }
 }

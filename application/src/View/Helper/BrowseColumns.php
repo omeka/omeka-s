@@ -121,7 +121,7 @@ class BrowseColumns extends AbstractHelper
                     'label' => $columnType->getLabel(),
                     'attributes' => [
                         'data-max-columns' => $columnType->getMaxColumns(),
-                        'data-default-header' => $columnType->getLabel(),
+                        'data-default-label' => $columnType->getLabel(),
                     ],
                 ];
             }

@@ -15,14 +15,14 @@ class FormBrowseColumns extends AbstractHelper
     {
         $view = $this->getView();
         $columnsData = $view->browseColumns()->getColumnsData($element->getResourceType(), $element->getUserId());
-        $defaultHeaders = [];
+        $columnsLabels = [];
         foreach ($columnsData as $columnData) {
-            $defaultHeaders[] = $view->browseColumns()->getHeader($columnData);
+            $columnsLabels[] = $view->browseColumns()->getHeader($columnData);
         }
         return $view->partial('common/browse-columns-form', [
             'element' => $element,
             'columnsData' => $columnsData,
-            'defaultHeaders' => $defaultHeaders,
+            'columnsLabels' => $columnsLabels,
         ]);
     }
 }

@@ -31,11 +31,11 @@ const resetColumnTypeSelect = function(formElement) {
 /**
  * Add a column to the list.
  */
-const addColumn = function(formElement, defaultHeader, columnData) {
+const addColumn = function(formElement, label, columnData) {
     const column = $($.parseHTML(formElement.data('columnTemplate')));
     column.attr('data-column-type', columnData['type']);
     column.attr('data-column-data', JSON.stringify(columnData));
-    column.find('.browse-columns-column-label').text(defaultHeader);
+    column.find('.browse-columns-column-label').text(label);
     formElement.find('.browse-columns-columns').append(column);
     resetColumnTypeSelect(formElement);
 };
@@ -45,14 +45,12 @@ $('.browse-columns-form-element').each(function() {
     const thisFormElement = $(this);
     const columns = thisFormElement.find('.browse-columns-columns');
     const columnsData = thisFormElement.data('columnsData');
-    const defaultHeaders = thisFormElement.data('defaultHeaders');
+    const columnsLabels = thisFormElement.data('columnsLabels');
     // Enable column sorting.
     new Sortable(columns[0], {draggable: '.browse-columns-column', handle: '.sortable-handle'});
     // Add configured columns to list.
     for (let index in columnsData) {
-        const columnData = columnsData[index];
-        const defaultHeader = defaultHeaders[index];
-        addColumn(thisFormElement, defaultHeader, columnData);
+        addColumn(thisFormElement, columnsLabels[index], columnsData[index]);
     }
 });
 
@@ -68,7 +66,7 @@ $('.browse-columns-column-add-button').on('click', function(e) {
     const thisButton = $(this);
     const formElement = thisButton.closest('.browse-columns-form-element');
     const columnTypeSelect = formElement.find('.browse-columns-column-type-select');
-    addColumn(formElement, columnTypeSelect.find(':selected').data('defaultHeader'), {
+    addColumn(formElement, columnTypeSelect.find(':selected').data('defaultLabel'), {
         type: columnTypeSelect.val(),
         default: null,
         header: null,

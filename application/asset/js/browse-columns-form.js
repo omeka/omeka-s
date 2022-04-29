@@ -66,7 +66,7 @@ $('.browse-columns-column-add-button').on('click', function(e) {
     const thisButton = $(this);
     const formElement = thisButton.closest('.browse-columns-form-element');
     const columnTypeSelect = formElement.find('.browse-columns-column-type-select');
-    addColumn(formElement, columnTypeSelect.find(':selected').data('defaultLabel'), {
+    addColumn(formElement, columnTypeSelect.find(':selected').text(), {
         type: columnTypeSelect.val(),
         default: null,
         header: null,

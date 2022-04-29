@@ -31,11 +31,11 @@ const resetColumnTypeSelect = function(formElement) {
 /**
  * Add a column to the list.
  */
-const addColumn = function(formElement, columnData) {
+const addColumn = function(formElement, defaultHeader, columnData) {
     const column = $($.parseHTML(formElement.data('columnTemplate')));
     column.attr('data-column-type', columnData['type']);
     column.attr('data-column-data', JSON.stringify(columnData));
-    column.find('.browse-columns-column-label').text(columnData['header_default']);
+    column.find('.browse-columns-column-label').text(defaultHeader);
     formElement.find('.browse-columns-columns').append(column);
     resetColumnTypeSelect(formElement);
 };
@@ -45,12 +45,14 @@ $('.browse-columns-form-element').each(function() {
     const thisFormElement = $(this);
     const columns = thisFormElement.find('.browse-columns-columns');
     const columnsData = thisFormElement.data('columnsData');
+    const defaultHeaders = thisFormElement.data('defaultHeaders');
     // Enable column sorting.
     new Sortable(columns[0], {draggable: '.browse-columns-column', handle: '.sortable-handle'});
     // Add configured columns to list.
     for (let index in columnsData) {
         const columnData = columnsData[index];
-        addColumn(thisFormElement, columnData);
+        const defaultHeader = defaultHeaders[index];
+        addColumn(thisFormElement, defaultHeader, columnData);
     }
 });
 
@@ -66,11 +68,10 @@ $('.browse-columns-column-add-button').on('click', function(e) {
     const thisButton = $(this);
     const formElement = thisButton.closest('.browse-columns-form-element');
     const columnTypeSelect = formElement.find('.browse-columns-column-type-select');
-    addColumn(formElement, {
+    addColumn(formElement, columnTypeSelect.find(':selected').data('defaultHeader'), {
         type: columnTypeSelect.val(),
         default: null,
         header: null,
-        header_default: columnTypeSelect.find(':selected').data('headerDefault'),
     });
 });
 

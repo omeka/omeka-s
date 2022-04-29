@@ -17,6 +17,7 @@ $columnTemplate = sprintf('
 <div class="browse-columns-form-element"
     data-resource-type="<?php echo $this->escapeHtml($element->getResourceType()); ?>"
     data-columns-data="<?php echo $this->escapeHtml(json_encode($columnsData)); ?>"
+    data-default-headers="<?php echo $this->escapeHtml(json_encode($defaultHeaders)); ?>"
     data-column-template="<?php echo $this->escapeHtml($columnTemplate); ?>">
     <?php echo $this->browseColumns()->getColumnTypeSelect($element->getResourceType()); ?>
     <button type="button" class="browse-columns-column-add-button" disabled><?php echo $this->translate('Add'); ?></button>

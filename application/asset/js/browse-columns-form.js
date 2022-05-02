@@ -73,4 +73,9 @@ $('.browse-columns-column-add-button').on('click', function(e) {
     });
 });
 
+$('.browse-columns-column-edit-button').on('click', function(e) {
+    e.preventDefault();
+    // @todo: Open sidebar, populate column form
+});
+
 });

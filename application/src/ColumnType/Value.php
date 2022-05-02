@@ -6,6 +6,7 @@ use Laminas\Form\FormElementManager;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
+use Omeka\Form\Element as OmekaElement;
 
 class Value implements ColumnTypeInterface
 {
@@ -46,13 +47,40 @@ class Value implements ColumnTypeInterface
         return true;
     }
 
-     public function prepareDataForm(PhpRenderer $view) : void
+    public function prepareDataForm(PhpRenderer $view) : void
     {
     }
 
     public function renderDataForm(PhpRenderer $view, array $data) : string
     {
-        return '';
+        $propertySelect = $this->formElements->get(OmekaElement\PropertySelect::class);
+        $propertySelect->setName('property_term');
+        $propertySelect->setOptions([
+            'label' => 'Property', // @translate
+            'empty_option' => '',
+            'term_as_value' => true,
+        ]);
+        $propertySelect->setAttributes([
+            'id' => 'value-property-terms',
+            'value' => $data['property_term'] ?? null,
+            'data-placeholder' => 'Select a property…', // @translate
+            'required' => true,
+        ]);
+
+        $maxValuesInput = $this->formElements->get(LaminasElement\Number::class);
+        $maxValuesInput->setName('max_values');
+        $maxValuesInput->setOptions([
+            'label' => 'Max values', // @translate
+            'info' => 'Enter the maximum number of values to display. Set to blank to display all values.', // @translate
+        ]);
+        $maxValuesInput->setAttributes([
+            'id' => 'value-max-values',
+            'value' => $data['max_values'] ?? 1,
+            'min' => 1,
+            'step' => 1,
+        ]);
+
+        return sprintf('%s%s', $view->formRow($propertySelect), $view->formRow($maxValuesInput));
     }
 
     public function getSortBy(array $data) : ?string

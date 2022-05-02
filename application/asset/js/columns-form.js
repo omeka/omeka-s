@@ -71,9 +71,19 @@ $('.columns-column-add-button').on('click', function(e) {
 
 });
 
-$('.columns-column-edit-button').on('click', function(e) {
+$(document).on('click', '.columns-column-edit-button', function(e) {
     e.preventDefault();
-    // @todo: Open sidebar, populate column form
+    const thisButton = $(this);
+    const column = thisButton.closest('.columns-column');
+    const formElement = thisButton.closest('.columns-form-element');
+    $.post(formElement.data('sidebarUrl'), {
+            'resource_type': formElement.data('resourceType'),
+            'user_id': formElement.data('userId'),
+            'column_data': column.data('columnData')
+        }, function(data) {
+            sidebarColumn.html(data);
+            Omeka.openSidebar(sidebarColumn);
+        });
 });
 
 });

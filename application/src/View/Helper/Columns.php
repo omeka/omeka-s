@@ -133,6 +133,34 @@ class Columns extends AbstractHelper
         return $this->getView()->formElement($select);
     }
 
+    public function getColumnForm(array $columnData) : string
+    {
+        $view = $this->getView();
+        $formElements = $this->services->get('FormElementManager');
+        $columnTypes = $this->services->get('Omeka\ColumnTypeManager');
+
+        $headerInput = $formElements->get(Element\Text::class);
+        $headerInput->setName('column_header');
+        $headerInput->setOptions([
+            'label' => 'Header', // @translate
+        ]);
+
+        $defaultInput = $formElements->get(Element\Text::class);
+        $defaultInput->setName('column_default');
+        $defaultInput->setOptions([
+            'label' => 'Default', // @translate
+        ]);
+
+        $columnType = $columnTypes->get($columnData['type']);
+
+        return sprintf(
+            '%s%s%s',
+            $view->formRow($headerInput),
+            $view->formRow($defaultInput),
+            $columnType->renderDataForm($view, $columnData)
+        );
+    }
+
     /**
      * Get a column type by name.
      */

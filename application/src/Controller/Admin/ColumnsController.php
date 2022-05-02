@@ -31,4 +31,18 @@ class ColumnsController extends AbstractActionController
         $view->setVariable('columnData', $columnData);
         return $view;
     }
+
+    public function sidebarAction()
+    {
+        $resourceType = $this->params()->fromPost('resource_type');
+        $userId = $this->params()->fromPost('user_id');
+        $columnData = $this->params()->fromPost('column_data');
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('resourceType', $resourceType);
+        $view->setVariable('userId', $userId);
+        $view->setVariable('columnData', $columnData);
+        return $view;
+    }
 }

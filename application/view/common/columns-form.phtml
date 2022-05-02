@@ -1,0 +1,17 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('css/columns-form.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/columns-form.js', 'Omeka'));
+$this->columns()->prepareDataForms();
+?>
+<div class="columns-form-element"
+    data-resource-type="<?php echo $this->escapeHtml($element->getResourceType()); ?>"
+    data-user-id="<?php echo $this->escapeHtml($element->getUserId()); ?>"
+    data-columns-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'columns'])); ?>"
+    data-column-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'column'])); ?>"
+>
+    <?php echo $this->columns()->getColumnTypeSelect($element->getResourceType()); ?>
+    <button type="button" class="columns-column-add-button" disabled><?php echo $this->translate('Add'); ?></button>
+    <ul class="columns-columns"></ul>
+    <?php echo $this->formHidden($element); ?>
+</div>

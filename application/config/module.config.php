@@ -318,6 +318,7 @@ return [
             'Omeka\Controller\Site\CrossSiteSearch' => Controller\Site\CrossSiteSearchController::class,
             'Omeka\Controller\Admin\Asset' => Controller\Admin\AssetController::class,
             'Omeka\Controller\Admin\Query' => Controller\Admin\QueryController::class,
+            'Omeka\Controller\Admin\Columns' => Controller\Admin\ColumnsController::class,
             'Omeka\Controller\Admin\Index' => Controller\Admin\IndexController::class,
             'Omeka\Controller\Admin\ItemSet' => Controller\Admin\ItemSetController::class,
             'Omeka\Controller\Admin\Job' => Controller\Admin\JobController::class,
@@ -413,7 +414,7 @@ return [
             'queryToHiddenInputs' => View\Helper\QueryToHiddenInputs::class,
             'formAsset' => Form\View\Helper\FormAsset::class,
             'formQuery' => Form\View\Helper\FormQuery::class,
-            'formBrowseColumns' => Form\View\Helper\FormBrowseColumns::class,
+            'formColumns' => Form\View\Helper\FormColumns::class,
             'themeSettingAsset' => View\Helper\ThemeSettingAsset::class,
             'themeSettingAssetUrl' => View\Helper\ThemeSettingAssetUrl::class,
             'formColorPicker' => Form\View\Helper\FormColorPicker::class,
@@ -456,7 +457,7 @@ return [
             'status' => Service\ViewHelper\StatusFactory::class,
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
             'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
-            'browseColumns' => Service\ViewHelper\BrowseColumnsFactory::class,
+            'columns' => Service\ViewHelper\ColumnsFactory::class,
         ],
         'delegators' => [
             'Laminas\Form\View\Helper\FormElement' => [

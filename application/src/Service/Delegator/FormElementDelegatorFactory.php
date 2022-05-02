@@ -20,7 +20,7 @@ class FormElementDelegatorFactory implements DelegatorFactoryInterface
         $formElement->addType('color_picker', 'formColorPicker');
         $formElement->addClass('Omeka\Form\Element\Asset', 'formAsset');
         $formElement->addClass('Omeka\Form\Element\Query', 'formQuery');
-        $formElement->addClass('Omeka\Form\Element\BrowseColumns', 'formBrowseColumns');
+        $formElement->addClass('Omeka\Form\Element\Columns', 'formColumns');
         return $formElement;
     }
 }

@@ -70,7 +70,7 @@ $sortHeadings = [
     <thead>
         <tr>
             <th><input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>"><?php echo $translate('Title'); ?></th>
-            <?php foreach ($this->browseColumns()->getHeaders('items') as $header): ?>
+            <?php foreach ($this->columns()->getHeaders('items') as $header): ?>
             <th><?php echo $header; ?></th>
             <?php endforeach; ?>
         </tr>
@@ -109,7 +109,7 @@ $sortHeadings = [
                     ]); ?></li>
                 </ul>
             </td>
-            <?php foreach ($this->browseColumns()->getContents('items', $item) as $content): ?>
+            <?php foreach ($this->columns()->getContents('items', $item) as $content): ?>
             <td><?php echo $content; ?></td>
             <?php endforeach; ?>
         </tr>

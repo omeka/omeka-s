@@ -4,10 +4,10 @@ namespace Omeka\Form\Element;
 use Laminas\Form\Element;
 use Laminas\InputFilter\InputProviderInterface;
 
-class BrowseColumns extends Element implements InputProviderInterface
+class Columns extends Element implements InputProviderInterface
 {
     protected $attributes = [
-        'class' => 'browse-columns-columns-data',
+        'class' => 'columns-columns-data',
     ];
 
     public function getInputSpecification()
@@ -20,15 +20,15 @@ class BrowseColumns extends Element implements InputProviderInterface
     public function getResourceType()
     {
         $resourceType = 'items';
-        if (in_array($this->getOption('browse_columns_resource_type'), ['items', 'item_sets', 'media'])) {
-            $resourceType = $this->getOption('browse_columns_resource_type');
+        if (in_array($this->getOption('columns_resource_type'), ['items', 'item_sets', 'media'])) {
+            $resourceType = $this->getOption('columns_resource_type');
         }
         return $resourceType;
     }
 
     public function getUserId()
     {
-        $userId = $this->getOption('browse_columns_user_id');
+        $userId = $this->getOption('columns_user_id');
         return is_numeric($userId) ? $userId : null;
     }
 }

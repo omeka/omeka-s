@@ -62,12 +62,18 @@ class Value implements ColumnTypeInterface
 
     public function renderHeader(PhpRenderer $view, array $data) : string
     {
+        if (!isset($data['property_term'])) {
+            return $this->getLabel();
+        }
         $property = $this->api->search('properties', ['term' => $data['property_term']])->getContent()[0];
         return $property->label();
     }
 
     public function renderContent(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $data) : ?string
     {
+        if (!isset($data['property_term'])) {
+            return null;
+        }
         return $resource->value($data['property_term']);
     }
 }

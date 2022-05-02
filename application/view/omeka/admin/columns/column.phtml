@@ -1,0 +1,8 @@
+<li class="columns-column"
+    data-column-type="<?php echo $this->escapeHtml($columnData['type']); ?>"
+    data-column-data="<?php echo $this->escapeHtml(json_encode($columnData)); ?>">
+    <span class="sortable-handle"></span>
+    <span class="columns-column-label"><?php echo $this->columns()->getHeader($columnData); ?></span>
+    <a class="columns-column-edit-button o-icon-edit" title="<?php echo $this->escapeHtml($this->translate('Edit column')) ?>" aria-label="<?php echo $this->escapeHtml($this->translate('Edit column')) ?>" href="#"></a>
+    <a class="columns-column-remove-button o-icon-delete" title="<?php echo $this->escapeHtml($this->translate('Remove column')) ?>" aria-label="<?php echo $this->escapeHtml($this->translate('Remove column')) ?>" href="#"></a>
+</li>

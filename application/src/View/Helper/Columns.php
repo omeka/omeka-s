@@ -9,7 +9,7 @@ use Laminas\Form\Element;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Helper\AbstractHelper;
 
-class BrowseColumns extends AbstractHelper
+class Columns extends AbstractHelper
 {
     const DEFAULT_COLUMNS_DATA = [
         [
@@ -76,7 +76,7 @@ class BrowseColumns extends AbstractHelper
     {
         $view = $this->getView();
         $userSettings = $this->services->get('Omeka\Settings\User');
-        $columnsDataUser = $userSettings->get(sprintf('browse_columns_%s', $resourceType), null, $userId);
+        $columnsDataUser = $userSettings->get(sprintf('columns_%s', $resourceType), null, $userId);
         if (!is_array($columnsDataUser) || !$columnsDataUser) {
             // Columns data not configured or malformed. Set the default.
             $columnsDataUser = self::DEFAULT_COLUMNS_DATA;
@@ -129,7 +129,7 @@ class BrowseColumns extends AbstractHelper
         $select = new Element\Select('column_type_select');
         $select->setValueOptions($valueOptions)
             ->setEmptyOption('Add a column…') // @translate
-            ->setAttribute('class', 'browse-columns-column-type-select');
+            ->setAttribute('class', 'columns-column-type-select');
         return $this->getView()->formElement($select);
     }
 

@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\Form;
 
-use Omeka\Form\Element\BrowseColumns;
+use Omeka\Form\Element\Columns;
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Form\Element\SiteSelect;
 use Omeka\Permissions\Acl;
@@ -127,7 +127,7 @@ class UserForm extends Form
 
         $settingsFieldset = $this->get('user-settings');
         $settingsFieldset->setOption('element_groups', [
-            'browse_columns' => 'Admin browse columns', // @translate
+            'columns' => 'Admin browse columns', // @translate
         ]);
         $settingsFieldset->add([
             'name' => 'locale',
@@ -181,33 +181,33 @@ class UserForm extends Form
             ],
         ]);
         $settingsFieldset->add([
-            'name' => 'browse_columns_items',
-            'type' => BrowseColumns::class,
+            'name' => 'columns_items',
+            'type' => Columns::class,
             'options' => [
-                'element_group' => 'browse_columns',
-                'label' => 'Item browse columns', // @translate
-                'browse_columns_resource_type' => 'items',
-                'browse_columns_user_id' => $userId,
+                'element_group' => 'columns',
+                'label' => 'Item columns', // @translate
+                'columns_resource_type' => 'items',
+                'columns_user_id' => $userId,
             ],
         ]);
         $settingsFieldset->add([
-            'name' => 'browse_columns_item_sets',
-            'type' => BrowseColumns::class,
+            'name' => 'columns_item_sets',
+            'type' => Columns::class,
             'options' => [
-                'element_group' => 'browse_columns',
-                'label' => 'Item set browse columns', // @translate
-                'browse_columns_resource_type' => 'item_sets',
-                'browse_columns_user_id' => $userId,
+                'element_group' => 'columns',
+                'label' => 'Item set columns', // @translate
+                'columns_resource_type' => 'item_sets',
+                'columns_user_id' => $userId,
             ],
         ]);
         $settingsFieldset->add([
-            'name' => 'browse_columns_media',
-            'type' => BrowseColumns::class,
+            'name' => 'columns_media',
+            'type' => Columns::class,
             'options' => [
-                'element_group' => 'browse_columns',
-                'label' => 'Media browse columns', // @translate
-                'browse_columns_resource_type' => 'media',
-                'browse_columns_user_id' => $userId,
+                'element_group' => 'columns',
+                'label' => 'Media columns', // @translate
+                'columns_resource_type' => 'media',
+                'columns_user_id' => $userId,
             ],
         ]);
 

@@ -57,14 +57,13 @@ class Value implements ColumnTypeInterface
         $propertySelect->setName('property_term');
         $propertySelect->setOptions([
             'label' => 'Property', // @translate
-            'empty_option' => '',
+            'empty_option' => 'Select a property…',
             'term_as_value' => true,
         ]);
         $propertySelect->setAttributes([
-            'id' => 'value-property-terms',
             'value' => $data['property_term'] ?? null,
-            'data-placeholder' => 'Select a property…', // @translate
             'required' => true,
+            'data-column-key' => 'property_term',
         ]);
 
         $maxValuesInput = $this->formElements->get(LaminasElement\Number::class);
@@ -74,10 +73,10 @@ class Value implements ColumnTypeInterface
             'info' => 'Enter the maximum number of values to display. Set to blank to display all values.', // @translate
         ]);
         $maxValuesInput->setAttributes([
-            'id' => 'value-max-values',
             'value' => $data['max_values'] ?? 1,
             'min' => 1,
             'step' => 1,
+            'data-column-key' => 'max_values',
         ]);
 
         return sprintf('%s%s', $view->formRow($propertySelect), $view->formRow($maxValuesInput));
@@ -102,6 +101,19 @@ class Value implements ColumnTypeInterface
         if (!isset($data['property_term'])) {
             return null;
         }
-        return $resource->value($data['property_term']);
+
+        // Get the values.
+        $values = $resource->value($data['property_term'], ['all' => true]);
+        if ($data['max_values']) {
+            $values = array_slice($values, 0, $data['max_values']);
+        }
+
+        // Prepare the content.
+        $content = [];
+        foreach ($values as $value) {
+            $content[] = $value->asHtml();
+        }
+
+        return implode('<br>', $content);
     }
 }

@@ -1,6 +1,8 @@
 $(document).ready(function() {
 
-const sidebarColumn = $('<div class="sidebar" id="columns-sidebar"><div class="sidebar-content"></div></div>');
+
+let selectedColumn;
+const sidebarColumn = $('<div class="sidebar" id="columns-sidebar"></div>');
 sidebarColumn.appendTo('#content');
 
 /**
@@ -76,6 +78,7 @@ $(document).on('click', '.columns-column-edit-button', function(e) {
     const thisButton = $(this);
     const column = thisButton.closest('.columns-column');
     const formElement = thisButton.closest('.columns-form-element');
+    selectedColumn = column;
     $.post(formElement.data('sidebarUrl'), {
             'resource_type': formElement.data('resourceType'),
             'user_id': formElement.data('userId'),
@@ -84,6 +87,40 @@ $(document).on('click', '.columns-column-edit-button', function(e) {
             sidebarColumn.html(data);
             Omeka.openSidebar(sidebarColumn);
         });
+});
+
+$(document).on('click', '#columns-column-set-button', function(e) {
+    const columnForm = $('#columns-column-form');
+    const formElement = selectedColumn.closest('.columns-form-element');
+    const columnData = selectedColumn.data('columnData');
+    columnForm.find(':input[data-column-key]').each(function() {
+        const thisInput = $(this);
+        columnData[thisInput.data('columnKey')] = thisInput.val();
+    });
+    selectedColumn.data(columnData);
+    $.post(formElement.data('columnUrl'), {
+        'resource_type': formElement.data('resourceType'),
+        'user_id': formElement.data('userId'),
+        'column_data': columnData
+    }, function(data) {
+        selectedColumn.replaceWith(data);
+        Omeka.closeSidebar(sidebarColumn);
+    });
+});
+
+$(document).on('submit', 'form', function(e) {
+    const thisForm = $(this);
+    $('.columns-form-element').each(function() {
+        const thisFormElement = $(this);
+        const columns = thisFormElement.find('.columns-column');
+        const columnsDataInput = thisFormElement.find('.columns-columns-data');
+        const columnsData = [];
+        columns.each(function() {
+            const thisColumn = $(this);
+            columnsData.push(thisColumn.data('columnData'));
+        });
+        columnsDataInput.val(JSON.stringify(columnsData));
+    });
 });
 
 });

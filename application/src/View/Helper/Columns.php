@@ -51,7 +51,10 @@ class Columns extends AbstractHelper
         $columnType = $this->getColumnType($columnData['type']);
         // If the user does not defaine a header, get the one defined by the
         // column service. Note that we don't translate user-defined headers.
-        return $columnData['header'] ?? $view->translate($columnType->renderHeader($view, $columnData));
+        if (isset($columnData['header']) && '' !== trim($columnData['header'])) {
+            return $columnData['header'];
+        }
+        return $view->translate($columnType->renderHeader($view, $columnData));
     }
 
     public function getContents(string $resourceType, AbstractResourceEntityRepresentation $resource) : array
@@ -103,7 +106,6 @@ class Columns extends AbstractHelper
             // Add required and special keys if not present.
             $columnData['default'] ??= null;
             $columnData['header'] ??= null;
-            // $columnData['header_default'] = $columnType->renderHeader($view, $columnData);
             $columnsData[] = $columnData;
         }
         return $columnsData;
@@ -139,10 +141,26 @@ class Columns extends AbstractHelper
         $formElements = $this->services->get('FormElementManager');
         $columnTypes = $this->services->get('Omeka\ColumnTypeManager');
 
+        $columnType = $columnTypes->get($columnData['type']);
+
+        $columnTypeInput = $formElements->get(Element\Text::class);
+        $columnTypeInput->setName('column_type');
+        $columnTypeInput->setOptions([
+            'label' => 'Column type', // @translate
+        ]);
+        $columnTypeInput->setAttributes([
+            'disabled' => true,
+            'value' => $columnType->getLabel(),
+        ]);
+
         $headerInput = $formElements->get(Element\Text::class);
         $headerInput->setName('column_header');
         $headerInput->setOptions([
             'label' => 'Header', // @translate
+        ]);
+        $headerInput->setAttributes([
+            'value' => $columnData['header'] ?? '',
+            'data-column-key' => 'header',
         ]);
 
         $defaultInput = $formElements->get(Element\Text::class);
@@ -150,11 +168,14 @@ class Columns extends AbstractHelper
         $defaultInput->setOptions([
             'label' => 'Default', // @translate
         ]);
-
-        $columnType = $columnTypes->get($columnData['type']);
+        $defaultInput->setAttributes([
+            'value' => $columnData['default'] ?? '',
+            'data-column-key' => 'default',
+        ]);
 
         return sprintf(
-            '%s%s%s',
+            '%s%s%s%s',
+            $view->formRow($columnTypeInput),
             $view->formRow($headerInput),
             $view->formRow($defaultInput),
             $columnType->renderDataForm($view, $columnData)

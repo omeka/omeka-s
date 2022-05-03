@@ -9,10 +9,9 @@ $this->columns()->prepareDataForms();
     data-user-id="<?php echo $this->escapeHtml($element->getUserId()); ?>"
     data-columns-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'columns'])); ?>"
     data-column-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'column'])); ?>"
-    data-sidebar-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'sidebar'])); ?>"
->
+    data-sidebar-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'sidebar'])); ?>">
+    <?php echo $this->formHidden($element); ?>
     <?php echo $this->columns()->getColumnTypeSelect($element->getResourceType()); ?>
     <button type="button" class="columns-column-add-button" disabled><?php echo $this->translate('Add'); ?></button>
     <ul class="columns-columns"></ul>
-    <?php echo $this->formHidden($element); ?>
 </div>

@@ -43,16 +43,6 @@ class Unknown implements ColumnTypeInterface
 
     public function renderDataForm(PhpRenderer $view, array $data) : string
     {
-        $typeElement = $this->formElements->get(LaminasElement\Text::class);
-        $typeElement->setName('column_type_unknown');
-        $typeElement->setOptions([
-            'label' => 'Unknown column type', // @translate
-        ]);
-        $typeElement->setAttributes([
-            'value' => $this->name,
-            'disabled' => true,
-        ]);
-
         $dataElement = $this->formElements->get(LaminasElement\Textarea::class);
         $dataElement->setName('column_data_unknown');
         $dataElement->setOptions([
@@ -64,11 +54,19 @@ class Unknown implements ColumnTypeInterface
             'disabled' => true,
         ]);
 
-        return sprintf(
-            '%s%s',
-            $view->formRow($typeElement),
-            $view->formRow($dataElement),
-        );
+        $dataForm = [];
+        $dataForm[] = $view->formRow($dataElement);
+        // Convert all column data to hidden form elements so user can set an
+        // unknown column without losing data.
+        foreach ($data as $key => $value) {
+            $hiddenInput = new LaminasElement\Hidden($key);
+            $hiddenInput->setAttributes([
+                'data-column-key' => $key,
+                'value' => $value,
+            ]);
+            $dataForm[] = $view->formRow($hiddenInput);
+        }
+        return implode('', $dataForm);
     }
 
     public function getSortBy(array $data) : ?string
@@ -78,7 +76,7 @@ class Unknown implements ColumnTypeInterface
 
     public function renderHeader(PhpRenderer $view, array $data) : string
     {
-        return '';
+        return $this->getLabel();
     }
 
     public function renderContent(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $data) : ?string

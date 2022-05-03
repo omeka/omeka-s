@@ -39,7 +39,7 @@ class Columns extends AbstractHelper
     public function getHeaders(string $resourceType) : array
     {
         $headers = [];
-        foreach ($this->getColumnsData($resourceType) as $columnData) {
+        foreach ($this->getColumnsDataValid($resourceType) as $columnData) {
             $headers[] = $this->getHeader($columnData);
         }
         return $headers;
@@ -60,7 +60,7 @@ class Columns extends AbstractHelper
     public function getContents(string $resourceType, AbstractResourceEntityRepresentation $resource) : array
     {
         $contents = [];
-        foreach ($this->getColumnsData($resourceType) as $columnData) {
+        foreach ($this->getColumnsDataValid($resourceType) as $columnData) {
             $contents[] = $this->getContent($resource, $columnData);
         }
         return $contents;
@@ -79,13 +79,12 @@ class Columns extends AbstractHelper
     {
         $view = $this->getView();
         $userSettings = $this->services->get('Omeka\Settings\User');
-        $columnsDataUser = $userSettings->get(sprintf('columns_%s', $resourceType), null, $userId);
-        if (!is_array($columnsDataUser) || !$columnsDataUser) {
+        $columnsData = $userSettings->get(sprintf('columns_%s', $resourceType), null, $userId);
+        if (!is_array($columnsData) || !$columnsData) {
             // Columns data not configured or malformed. Set the default.
-            $columnsDataUser = self::DEFAULT_COLUMNS_DATA;
+            $columnsData = self::DEFAULT_COLUMNS_DATA;
         }
-        $columnsData = [];
-        foreach ($columnsDataUser as $index => $columnData) {
+        foreach ($columnsData as $index => &$columnData) {
             if (!is_array($columnData)) {
                 // Skip columns that are not an array.
                 continue;
@@ -94,8 +93,19 @@ class Columns extends AbstractHelper
                 // Skip columns without a type.
                 continue;
             }
+            // Add required keys if not present.
+            $columnData['default'] ??= null;
+            $columnData['header'] ??= null;
+        }
+        return $columnsData;
+    }
+
+    public function getColumnsDataValid(string $resourceType, ?int $userId = null) : array
+    {
+        $columnsData = [];
+        foreach ($this->getColumnsData($resourceType, $userId) as $columnData) {
             $columnType = $this->getColumnType($columnData['type']);
-            if (!$this->columnTypeIsKnown($columnType)) {
+            if (!($this->columnTypeIsKnown($columnType))) {
                 // Skip unknown column types.
                 continue;
             }
@@ -103,9 +113,6 @@ class Columns extends AbstractHelper
                 // Skip columns with invalid data.
                 continue;
             }
-            // Add required and special keys if not present.
-            $columnData['default'] ??= null;
-            $columnData['header'] ??= null;
             $columnsData[] = $columnData;
         }
         return $columnsData;
@@ -143,6 +150,8 @@ class Columns extends AbstractHelper
 
         $columnType = $columnTypes->get($columnData['type']);
 
+        $columnForm = [];
+
         $columnTypeInput = $formElements->get(Element\Text::class);
         $columnTypeInput->setName('column_type');
         $columnTypeInput->setOptions([
@@ -152,34 +161,34 @@ class Columns extends AbstractHelper
             'disabled' => true,
             'value' => $columnType->getLabel(),
         ]);
+        $columnForm[] = $view->formRow($columnTypeInput);
 
-        $headerInput = $formElements->get(Element\Text::class);
-        $headerInput->setName('column_header');
-        $headerInput->setOptions([
-            'label' => 'Header', // @translate
-        ]);
-        $headerInput->setAttributes([
-            'value' => $columnData['header'] ?? '',
-            'data-column-key' => 'header',
-        ]);
+        if ($this->columnTypeIsKnown($columnType)) {
+            $headerInput = $formElements->get(Element\Text::class);
+            $headerInput->setName('column_header');
+            $headerInput->setOptions([
+                'label' => 'Header', // @translate
+            ]);
+            $headerInput->setAttributes([
+                'value' => $columnData['header'] ?? '',
+                'data-column-key' => 'header',
+            ]);
+            $columnForm[] = $view->formRow($headerInput);
 
-        $defaultInput = $formElements->get(Element\Text::class);
-        $defaultInput->setName('column_default');
-        $defaultInput->setOptions([
-            'label' => 'Default', // @translate
-        ]);
-        $defaultInput->setAttributes([
-            'value' => $columnData['default'] ?? '',
-            'data-column-key' => 'default',
-        ]);
+            $defaultInput = $formElements->get(Element\Text::class);
+            $defaultInput->setName('column_default');
+            $defaultInput->setOptions([
+                'label' => 'Default', // @translate
+            ]);
+            $defaultInput->setAttributes([
+                'value' => $columnData['default'] ?? '',
+                'data-column-key' => 'default',
+            ]);
+            $columnForm[] = $view->formRow($defaultInput);
+        }
+        $columnForm[] = $columnType->renderDataForm($view, $columnData);
 
-        return sprintf(
-            '%s%s%s%s',
-            $view->formRow($columnTypeInput),
-            $view->formRow($headerInput),
-            $view->formRow($defaultInput),
-            $columnType->renderDataForm($view, $columnData)
-        );
+        return implode($columnForm);
     }
 
     /**

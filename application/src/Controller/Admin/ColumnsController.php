@@ -6,7 +6,7 @@ use Laminas\Mvc\Controller\AbstractActionController;
 
 class ColumnsController extends AbstractActionController
 {
-    public function columnsAction()
+    public function columnListAction()
     {
         $resourceType = $this->params()->fromPost('resource_type');
         $userId = $this->params()->fromPost('user_id');
@@ -18,7 +18,7 @@ class ColumnsController extends AbstractActionController
         return $view;
     }
 
-    public function columnAction()
+    public function columnRowAction()
     {
         $resourceType = $this->params()->fromPost('resource_type');
         $userId = $this->params()->fromPost('user_id');
@@ -32,7 +32,7 @@ class ColumnsController extends AbstractActionController
         return $view;
     }
 
-    public function sidebarAction()
+    public function columnEditSidebarAction()
     {
         $resourceType = $this->params()->fromPost('resource_type');
         $userId = $this->params()->fromPost('user_id');

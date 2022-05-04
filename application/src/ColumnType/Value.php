@@ -114,6 +114,6 @@ class Value implements ColumnTypeInterface
             $content[] = $value->asHtml();
         }
 
-        return implode('<br>', $content);
+        return $content ? implode('<br>', $content) : null;
     }
 }

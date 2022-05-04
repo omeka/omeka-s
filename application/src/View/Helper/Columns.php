@@ -4,7 +4,6 @@ namespace Omeka\View\Helper;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\ColumnType\ColumnTypeInterface;
-use Omeka\ColumnType\Unknown as UnknownColumnType;
 use Laminas\Form\Element;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Helper\AbstractHelper;
@@ -105,7 +104,7 @@ class Columns extends AbstractHelper
         $columnsData = [];
         foreach ($this->getColumnsData($resourceType, $userId) as $columnData) {
             $columnType = $this->getColumnType($columnData['type']);
-            if (!($this->columnTypeIsKnown($columnType))) {
+            if (!($this->columnTypeIsKnown($columnData['type']))) {
                 // Skip unknown column types.
                 continue;
             }
@@ -120,6 +119,7 @@ class Columns extends AbstractHelper
 
     public function getColumnTypeSelect(string $resourceType)
     {
+        $formElements = $this->services->get('FormElementManager');
         $columnTypes = $this->services->get('Omeka\ColumnTypeManager');
         $valueOptions = [];
         foreach ($columnTypes->getRegisteredNames() as $columnTypeName) {
@@ -135,8 +135,9 @@ class Columns extends AbstractHelper
             }
         }
         usort($valueOptions, fn($a, $b) => strcmp($a['label'], $b['label']));
-        $select = new Element\Select('column_type_select');
-        $select->setValueOptions($valueOptions)
+        $select = $formElements->get(Element\Select::class);
+        $select->setName('column_type_select')
+            ->setValueOptions($valueOptions)
             ->setEmptyOption('Add a column…') // @translate
             ->setAttribute('class', 'columns-column-type-select');
         return $this->getView()->formElement($select);
@@ -147,11 +148,9 @@ class Columns extends AbstractHelper
         $view = $this->getView();
         $formElements = $this->services->get('FormElementManager');
         $columnTypes = $this->services->get('Omeka\ColumnTypeManager');
-
         $columnType = $columnTypes->get($columnData['type']);
 
         $columnForm = [];
-
         $columnTypeInput = $formElements->get(Element\Text::class);
         $columnTypeInput->setName('column_type');
         $columnTypeInput->setOptions([
@@ -162,8 +161,7 @@ class Columns extends AbstractHelper
             'value' => $columnType->getLabel(),
         ]);
         $columnForm[] = $view->formRow($columnTypeInput);
-
-        if ($this->columnTypeIsKnown($columnType)) {
+        if ($this->columnTypeIsKnown($columnData['type'])) {
             $headerInput = $formElements->get(Element\Text::class);
             $headerInput->setName('column_header');
             $headerInput->setOptions([
@@ -187,7 +185,6 @@ class Columns extends AbstractHelper
             $columnForm[] = $view->formRow($defaultInput);
         }
         $columnForm[] = $columnType->renderDataForm($view, $columnData);
-
         return implode($columnForm);
     }
 
@@ -213,8 +210,9 @@ class Columns extends AbstractHelper
     /**
      * Is this column type known?
      */
-    public function columnTypeIsKnown(ColumnTypeInterface $columnType) : bool
+    public function columnTypeIsKnown(string $columnType) : bool
     {
-        return !($columnType instanceof UnknownColumnType);
+        $columnTypes = $this->services->get('Omeka\ColumnTypeManager');
+        return $columnTypes->has($columnType);
     }
 }

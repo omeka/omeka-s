@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form\Element;
 
+use Laminas\Filter\Callback;
 use Laminas\Form\Element;
 use Laminas\InputFilter\InputProviderInterface;
 
@@ -14,6 +15,12 @@ class Columns extends Element implements InputProviderInterface
     {
         return [
             'required' => false,
+            'filters' => [
+                // Decode JSON into a PHP array so data can be stored properly.
+                new Callback(function ($json) {
+                    return json_decode($json, true);
+                })
+            ],
         ];
     }
 

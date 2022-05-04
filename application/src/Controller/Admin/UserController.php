@@ -188,10 +188,6 @@ class UserController extends AbstractActionController
 
                 if (!empty($values['user-settings'])) {
                     foreach ($values['user-settings'] as $settingId => $settingValue) {
-                        if (in_array($settingId, ['columns_items', 'columns_item_sets', 'columns_media'])) {
-                            // JSON decode settings passed as JSON strings.
-                            $settingValue = json_decode($settingValue);
-                        }
                         $this->userSettings()->set($settingId, $settingValue, $id);
                     }
                 }

@@ -1,3 +1,12 @@
+.column-select-group {
+    display: flex;
+    margin-bottom: 0;
+}
+
+button.columns-column-add-button {
+      margin-left: .5rem;
+}
+
 ul.columns-columns {
     padding-left: 0;
     list-style: none;
@@ -8,3 +17,4 @@ li.columns-column {
     align-items: center;
     line-height: 1.5;
 }
+

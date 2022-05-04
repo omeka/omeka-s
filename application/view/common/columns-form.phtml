@@ -11,7 +11,9 @@ $this->columns()->prepareDataForms();
     data-column-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'column'])); ?>"
     data-sidebar-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'sidebar'])); ?>">
     <?php echo $this->formHidden($element); ?>
-    <?php echo $this->columns()->getColumnTypeSelect($element->getResourceType()); ?>
-    <button type="button" class="columns-column-add-button" disabled><?php echo $this->translate('Add'); ?></button>
+    <fieldset class="column-select-group">
+        <?php echo $this->columns()->getColumnTypeSelect($element->getResourceType()); ?>
+        <button type="button" class="columns-column-add-button o-icon-add" disabled aria-label="<?php echo $this->translate('Add'); ?>" title="<?php echo $this->translate('Add'); ?>"></button>
+    </fieldset>
     <ul class="columns-columns"></ul>
 </div>

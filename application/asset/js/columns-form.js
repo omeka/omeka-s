@@ -91,6 +91,28 @@ $(document).on('click', '.columns-column-edit-button', function(e) {
 
 $(document).on('click', '.columns-column-remove-button', function(e) {
     e.preventDefault();
+    const thisButton = $(this);
+    const column = thisButton.closest('.columns-column');
+    column.addClass('delete');
+    column.find('.sortable-handle').hide();
+    column.find('.columns-column-label').hide();
+    column.find('.columns-column-remove-button').hide();
+    column.find('.columns-column-edit-button').hide();
+    column.find('.columns-column-restore-button').show();
+    column.find('.columns-column-restore').show();
+});
+
+$(document).on('click', '.columns-column-restore-button', function(e) {
+    e.preventDefault();
+    const thisButton = $(this);
+    const column = thisButton.closest('.columns-column');
+    column.removeClass('delete');
+    column.find('.sortable-handle').show();
+    column.find('.columns-column-label').show();
+    column.find('.columns-column-remove-button').show();
+    column.find('.columns-column-edit-button').show();
+    column.find('.columns-column-restore-button').hide();
+    column.find('.columns-column-restore').hide();
 });
 
 $(document).on('click', '#columns-column-set-button', function(e) {
@@ -116,7 +138,7 @@ $(document).on('submit', 'form', function(e) {
     const thisForm = $(this);
     $('.columns-form-element').each(function() {
         const thisFormElement = $(this);
-        const columns = thisFormElement.find('.columns-column');
+        const columns = thisFormElement.find('.columns-column:not(.delete)');
         const columnsDataInput = thisFormElement.find('.columns-columns-data');
         const columnsData = [];
         columns.each(function() {

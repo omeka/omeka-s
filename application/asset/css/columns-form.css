@@ -1,0 +1,10 @@
+ul.columns-columns {
+    padding-left: 0;
+    list-style: none;
+}
+
+li.columns-column {
+    display: flex;
+    align-items: center;
+    line-height: 1.5;
+}

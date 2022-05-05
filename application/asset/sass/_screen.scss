@@ -629,6 +629,11 @@ table .icon-sortable {
     @include field-row;
 }
 
+.row.delete {
+    background-color: $delete-bg;
+    overflow: hidden;
+}
+
 .jstree-themeicon,
 .sortable-handle {
     cursor: move;
@@ -2520,11 +2525,6 @@ input[type="text"].value-language,
         }
     }
     
-    .value.delete {
-        background-color: $delete-bg;
-        overflow: hidden;
-    }
-
     .value a.restore-value,
     .value span.restore-value,
     .value.delete a.tab,

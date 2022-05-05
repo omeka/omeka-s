@@ -36,6 +36,50 @@ class Columns extends AbstractHelper
     }
 
     /**
+     * Get the sort configuration for use by the sortSelector view helper.
+     */
+    public function getSortConfig(string $resourceType) : array
+    {
+        $view = $this->getView();
+        // Always include sort by Title.
+        $sortConfig = [
+            [
+                'value' => 'title',
+                'label' => $view->translate('Title'),
+            ]
+        ];
+        foreach ($this->getColumnsData($resourceType) as $columnData) {
+            if (!$this->columnTypeIsKnown($columnData['type'])) {
+                continue; // Skip unknown column types.
+            }
+            $columnType = $this->getColumnType($columnData['type']);
+            $sortBy = $columnType->getSortBy($columnData);
+            if (!$sortBy) {
+                continue; // This column cannot be sorted.
+            }
+            $sortConfig[] = [
+                'value' => $sortBy,
+                'label' => $this->getHeader($columnData),
+            ];
+        }
+        // Always include sort by ID.
+        if (!array_search('id', array_column($sortConfig, 'value'))) {
+            $sortConfig[] = [
+                'value' => 'id',
+                'label' => $view->translate('ID'),
+            ];
+        }
+        // Always include sort by Created.
+        if (!array_search('created', array_column($sortConfig, 'value'))) {
+            $sortConfig[] = [
+                'value' => 'created',
+                'label' => $view->translate('Created'),
+            ];
+        }
+        return $sortConfig;
+    }
+
+    /**
      * Get all column headers for a resource type.
      */
     public function getHeaders(string $resourceType) : array

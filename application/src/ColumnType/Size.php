@@ -6,7 +6,7 @@ use Laminas\Form\FormElementManager;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 
-class IsPublic implements ColumnTypeInterface
+class Size implements ColumnTypeInterface
 {
     protected FormElementManager $formElements;
 
@@ -17,12 +17,12 @@ class IsPublic implements ColumnTypeInterface
 
     public function getLabel() : string
     {
-        return 'Is public'; // @translate
+        return 'Size'; // @translate
     }
 
     public function getResourceTypes() : array
     {
-        return ['items', 'item_sets', 'media'];
+        return ['media'];
     }
 
     public function getMaxColumns() : ?int
@@ -37,7 +37,7 @@ class IsPublic implements ColumnTypeInterface
 
     public function getSortBy(array $data) : ?string
     {
-        return 'is_public';
+        return 'size';
     }
 
     public function renderHeader(PhpRenderer $view, array $data) : string
@@ -47,8 +47,6 @@ class IsPublic implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $data) : ?string
     {
-        return $resource->isPublic()
-            ? $view->translate('Yes')
-            : $view->translate('No');
+        return $resource->size();
     }
 }

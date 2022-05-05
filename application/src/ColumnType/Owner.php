@@ -37,7 +37,7 @@ class Owner implements ColumnTypeInterface
 
     public function getSortBy(array $data) : ?string
     {
-        return 'owner';
+        return 'owner_name';
     }
 
     public function renderHeader(PhpRenderer $view, array $data) : string

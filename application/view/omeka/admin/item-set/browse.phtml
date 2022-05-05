@@ -2,28 +2,6 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
-$sortHeadings = [
-    [
-        'label' => $translate('Title'),
-        'value' => 'title'
-    ],
-    [
-        'label' => $translate('Identifier'),
-        'value' => 'dcterms:identifier'
-    ],
-    [
-        'label' => $translate('Class'),
-        'value' => 'resource_class_label'
-    ],
-    [
-        'label' => $translate('Owner'),
-        'value' => 'owner_name'
-    ],
-    [
-        'label' => $translate('Created'),
-        'value' => 'created'
-    ],
-];
 ?>
 
 <?php echo $this->pageTitle($translate('Item sets')); ?>
@@ -33,7 +11,7 @@ $sortHeadings = [
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->hyperlink($translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
-    <?php echo $this->sortSelector($sortHeadings); ?>
+    <?php echo $this->sortSelector($this->columns()->getSortConfig('item_sets')); ?>
 </div>
 
 
@@ -72,27 +50,13 @@ $sortHeadings = [
                 <input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>">
                 <?php echo $translate('Title'); ?>
             </th>
-            <th><?php echo $translate('Class'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
-            <th><?php echo $translate('Created'); ?></th>
+            <?php foreach ($this->columns()->getHeaders('item_sets') as $header): ?>
+            <th><?php echo $header; ?></th>
+            <?php endforeach; ?>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($itemSets as $itemSet): ?>
-        <?php
-        if ($owner = $itemSet->owner()) {
-            $ownerText = $this->hyperlink(
-                $owner->name(),
-                $this->url('admin/id', [
-                    'controller' => 'user',
-                    'action' => 'show',
-                    'id' => $owner->id()]
-                )
-            );
-        } else {
-            $ownerText = $translate('[no owner]');
-        }
-        ?>
         <tr>
             <td>
                 <?php if ($itemSet->userIsAllowed('update') || $itemSet->userIsAllowed('delete')): ?>
@@ -125,9 +89,9 @@ $sortHeadings = [
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($translate($itemSet->displayResourceClassLabel())); ?></td>
-            <td><?php echo $ownerText; ?></td>
-            <td><?php echo $escape($this->i18n()->dateFormat($itemSet->created())); ?></td>
+            <?php foreach ($this->columns()->getContents('item_sets', $itemSet) as $content): ?>
+            <td><?php echo $content; ?></td>
+            <?php endforeach; ?>
         </tr>
         <?php endforeach; ?>
     </tbody>
@@ -217,5 +181,3 @@ $('#sidebar-delete-all').on('click', 'input[name="confirm-delete-all-check"]', f
 </div>
 
 <?php endif; ?>
-
-

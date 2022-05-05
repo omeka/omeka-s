@@ -37,7 +37,7 @@ class Modified implements ColumnTypeInterface
 
     public function getSortBy(array $data) : ?string
     {
-        return 'created';
+        return 'modified';
     }
 
     public function renderHeader(PhpRenderer $view, array $data) : string

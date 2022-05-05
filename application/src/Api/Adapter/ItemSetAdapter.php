@@ -14,6 +14,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
         'created' => 'created',
         'modified' => 'modified',
         'title' => 'title',
+        'is_open' => 'isOpen',
     ];
 
     protected $scalarFields = [

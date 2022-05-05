@@ -32,15 +32,6 @@ class Unknown implements ColumnTypeInterface
         return null;
     }
 
-    public function dataIsValid(array $data) : bool
-    {
-        return true;
-    }
-
-    public function prepareDataForm(PhpRenderer $view) : void
-    {
-    }
-
     public function renderDataForm(PhpRenderer $view, array $data) : string
     {
         $dataElement = $this->formElements->get(LaminasElement\Textarea::class);

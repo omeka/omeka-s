@@ -35,22 +35,6 @@ class Value implements ColumnTypeInterface
         return null;
     }
 
-    public function dataIsValid(array $data) : bool
-    {
-        if (!isset($data['property_term'])) {
-            return false;
-        }
-        $response = $this->api->search('properties', ['term' => $data['property_term'], 'limit' => 0]);
-        if (!$response->getTotalResults()) {
-            return false;
-        }
-        return true;
-    }
-
-    public function prepareDataForm(PhpRenderer $view) : void
-    {
-    }
-
     public function renderDataForm(PhpRenderer $view, array $data) : string
     {
         $propertySelect = $this->formElements->get(OmekaElement\PropertySelect::class);
@@ -92,8 +76,8 @@ class Value implements ColumnTypeInterface
         if (!isset($data['property_term'])) {
             return $this->getLabel();
         }
-        $property = $this->api->search('properties', ['term' => $data['property_term']])->getContent()[0];
-        return $property->label();
+        $response = $this->api->search('properties', ['term' => $data['property_term']])->getContent();
+        return $response ? $response[0]->label() : $this->getLabel();
     }
 
     public function renderContent(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $data) : ?string
@@ -101,19 +85,16 @@ class Value implements ColumnTypeInterface
         if (!isset($data['property_term'])) {
             return null;
         }
-
         // Get the values.
         $values = $resource->value($data['property_term'], ['all' => true]);
         if ($data['max_values']) {
             $values = array_slice($values, 0, $data['max_values']);
         }
-
         // Prepare the content.
         $content = [];
         foreach ($values as $value) {
             $content[] = $value->asHtml();
         }
-
         return $content ? implode('<br>', $content) : null;
     }
 }

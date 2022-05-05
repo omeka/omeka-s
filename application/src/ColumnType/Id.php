@@ -30,15 +30,6 @@ class Id implements ColumnTypeInterface
         return 1;
     }
 
-    public function dataIsValid(array $data) : bool
-    {
-        return true;
-    }
-
-     public function prepareDataForm(PhpRenderer $view) : void
-    {
-    }
-
     public function renderDataForm(PhpRenderer $view, array $data) : string
     {
         return '';

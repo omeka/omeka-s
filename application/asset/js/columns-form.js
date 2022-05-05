@@ -73,6 +73,7 @@ $('.columns-column-add-button').on('click', function(e) {
 
 });
 
+// Handle column edit button.
 $(document).on('click', '.columns-column-edit-button', function(e) {
     e.preventDefault();
     const thisButton = $(this);
@@ -89,6 +90,7 @@ $(document).on('click', '.columns-column-edit-button', function(e) {
         });
 });
 
+// Handle column remove button.
 $(document).on('click', '.columns-column-remove-button', function(e) {
     e.preventDefault();
     const thisButton = $(this);
@@ -102,6 +104,7 @@ $(document).on('click', '.columns-column-remove-button', function(e) {
     column.find('.columns-column-restore').show();
 });
 
+// Handle column restore button.
 $(document).on('click', '.columns-column-restore-button', function(e) {
     e.preventDefault();
     const thisButton = $(this);
@@ -115,10 +118,13 @@ $(document).on('click', '.columns-column-restore-button', function(e) {
     column.find('.columns-column-restore').hide();
 });
 
+// Handle column set button.
 $(document).on('click', '#columns-column-set-button', function(e) {
     const columnForm = $('#columns-column-form');
     const formElement = selectedColumn.closest('.columns-form-element');
     const columnData = selectedColumn.data('columnData');
+    // Note that we set the value of the input's "data-column-key" attribute as
+    // the columnData key and the input's value as its value.
     columnForm.find(':input[data-column-key]').each(function() {
         const thisInput = $(this);
         columnData[thisInput.data('columnKey')] = thisInput.val();
@@ -134,6 +140,7 @@ $(document).on('click', '#columns-column-set-button', function(e) {
     });
 });
 
+// Handle form submission.
 $(document).on('submit', 'form', function(e) {
     const thisForm = $(this);
     $('.columns-form-element').each(function() {

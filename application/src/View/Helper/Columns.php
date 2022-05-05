@@ -35,89 +35,104 @@ class Columns extends AbstractHelper
         $this->services = $services;
     }
 
+    /**
+     * Get all column headers for a resource type.
+     */
     public function getHeaders(string $resourceType) : array
     {
         $headers = [];
-        foreach ($this->getColumnsDataValid($resourceType) as $columnData) {
+        foreach ($this->getColumnsData($resourceType) as $columnData) {
+            if (!$this->columnTypeIsKnown($columnData['type'])) {
+                continue; // Skip unknown column types.
+            }
             $headers[] = $this->getHeader($columnData);
         }
         return $headers;
     }
 
+    /**
+     * Get a column header.
+     *
+     * If the user does not define a header, get the one defined by the column
+     * service. Note that we don't translate user-defined headers.
+     */
     public function getHeader(array $columnData) : string
     {
         $view = $this->getView();
         $columnType = $this->getColumnType($columnData['type']);
-        // If the user does not defaine a header, get the one defined by the
-        // column service. Note that we don't translate user-defined headers.
         if (isset($columnData['header']) && '' !== trim($columnData['header'])) {
             return $columnData['header'];
         }
         return $view->translate($columnType->renderHeader($view, $columnData));
     }
 
+    /**
+     * Get all column contents for a resource type.
+     */
     public function getContents(string $resourceType, AbstractResourceEntityRepresentation $resource) : array
     {
         $contents = [];
-        foreach ($this->getColumnsDataValid($resourceType) as $columnData) {
+        foreach ($this->getColumnsData($resourceType) as $columnData) {
+            if (!$this->columnTypeIsKnown($columnData['type'])) {
+                continue; // Skip unknown column types.
+            }
             $contents[] = $this->getContent($resource, $columnData);
         }
         return $contents;
     }
 
+    /**
+     * Get a column content.
+     *
+     * If the column service returns null, use the user-defined default, if any.
+     * Note that we don't translate user-defined defaults.
+     */
     public function getContent(AbstractResourceEntityRepresentation $resource, array $columnData) : ?string
     {
         $view = $this->getView();
         $columnType = $this->getColumnType($columnData['type']);
-        // If the column service returns null, use the user-defined default,
-        // if any. Note that we don't translate user-defined defaults.
         return  $columnType->renderContent($view, $resource, $columnData) ?? $columnData['default'];
     }
 
+    /**
+     * Get data for all columns.
+     */
     public function getColumnsData(string $resourceType, ?int $userId = null) : array
     {
         $view = $this->getView();
         $userSettings = $this->services->get('Omeka\Settings\User');
-        $columnsData = $userSettings->get(sprintf('columns_%s', $resourceType), null, $userId);
-        if (!is_array($columnsData) || !$columnsData) {
-            // Columns data not configured or malformed. Set the default.
-            $columnsData = self::DEFAULT_COLUMNS_DATA;
+
+        // First, get the user-configured columns data, if any. Set the default
+        // if data is not configured or malformed
+        $userColumnsData = $userSettings->get(sprintf('columns_%s', $resourceType), null, $userId);
+        if (!is_array($userColumnsData) || !$userColumnsData) {
+            $userColumnsData = self::DEFAULT_COLUMNS_DATA;
         }
-        foreach ($columnsData as $index => &$columnData) {
-            if (!is_array($columnData)) {
+
+        // Standardize the data before returning.
+        $columnsData = [];
+        foreach ($userColumnsData as $index => $userColumnData) {
+            if (!is_array($userColumnData)) {
                 // Skip columns that are not an array.
                 continue;
             }
-            if (!isset($columnData['type'])) {
+            if (!isset($userColumnData['type'])) {
                 // Skip columns without a type.
                 continue;
             }
             // Add required keys if not present.
-            $columnData['default'] ??= null;
-            $columnData['header'] ??= null;
+            $userColumnData['default'] ??= null;
+            $userColumnData['header'] ??= null;
+            $columnsData[] = $userColumnData;
         }
+
         return $columnsData;
     }
 
-    public function getColumnsDataValid(string $resourceType, ?int $userId = null) : array
-    {
-        $columnsData = [];
-        foreach ($this->getColumnsData($resourceType, $userId) as $columnData) {
-            $columnType = $this->getColumnType($columnData['type']);
-            if (!($this->columnTypeIsKnown($columnData['type']))) {
-                // Skip unknown column types.
-                continue;
-            }
-            if (!$columnType->dataIsValid($columnData)) {
-                // Skip columns with invalid data.
-                continue;
-            }
-            $columnsData[] = $columnData;
-        }
-        return $columnsData;
-    }
-
-    public function getColumnTypeSelect(string $resourceType)
+    /**
+     * Get the markup for the column type select element.
+     */
+    public function getColumnTypeSelect(string $resourceType) : string
     {
         $formElements = $this->services->get('FormElementManager');
         $columnTypes = $this->services->get('Omeka\ColumnTypeManager');
@@ -143,6 +158,9 @@ class Columns extends AbstractHelper
         return $this->getView()->formElement($select);
     }
 
+    /**
+     * Get the markup for the column edit form.
+     */
     public function getColumnForm(array $columnData) : string
     {
         $view = $this->getView();
@@ -194,17 +212,6 @@ class Columns extends AbstractHelper
     public function getColumnType(string $columnType) : ColumnTypeInterface
     {
         return $this->services->get('Omeka\ColumnTypeManager')->get($columnType);
-    }
-
-    /**
-     * Prepare the data forms for all column types.
-     */
-    public function prepareDataForms() : void
-    {
-        $columnTypes = $this->services->get('Omeka\ColumnTypeManager');
-        foreach ($columnTypes->getRegisteredNames() as $columnTypeName) {
-            $this->getColumnType($columnTypeName)->prepareDataForm($this->getView());
-        }
     }
 
     /**

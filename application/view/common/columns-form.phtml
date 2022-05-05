@@ -2,7 +2,6 @@
 $this->headLink()->appendStylesheet($this->assetUrl('css/columns-form.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/columns-form.js', 'Omeka'));
-$this->columns()->prepareDataForms();
 ?>
 <div class="columns-form-element"
     data-resource-type="<?php echo $this->escapeHtml($element->getResourceType()); ?>"

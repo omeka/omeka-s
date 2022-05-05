@@ -23,17 +23,10 @@ interface ColumnTypeInterface
     public function getMaxColumns() : ?int;
 
     /**
-     * Is this data valid for this column type?
-     */
-    public function dataIsValid(array $data) : bool;
-
-    /**
-     * Prepare the data form of this column type.
-     */
-    public function prepareDataForm(PhpRenderer $view) : void;
-
-    /**
      * Render the data form of this column type.
+     *
+     * Form elements must have a "data-column-key" attribute with a value that
+     * corresponds to the key in the column data array.
      */
     public function renderDataForm(PhpRenderer $view, array $data) : string;
 
@@ -49,6 +42,8 @@ interface ColumnTypeInterface
 
     /**
      * Render the content of a column of this type.
+     *
+     * Return null to signal the use of a user-defined default.
      */
     public function renderContent(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $data) : ?string;
 }

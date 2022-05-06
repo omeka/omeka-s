@@ -231,7 +231,7 @@ class Columns extends AbstractHelper
             ]);
             $headerInput->setAttributes([
                 'value' => $columnData['header'] ?? '',
-                'data-column-key' => 'header',
+                'data-column-data-key' => 'header',
             ]);
             $columnForm[] = $view->formRow($headerInput);
 
@@ -242,7 +242,7 @@ class Columns extends AbstractHelper
             ]);
             $defaultInput->setAttributes([
                 'value' => $columnData['default'] ?? '',
-                'data-column-key' => 'default',
+                'data-column-data-key' => 'default',
             ]);
             $columnForm[] = $view->formRow($defaultInput);
         }

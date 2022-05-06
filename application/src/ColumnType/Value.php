@@ -47,7 +47,7 @@ class Value implements ColumnTypeInterface
         $propertySelect->setAttributes([
             'value' => $data['property_term'] ?? null,
             'required' => true,
-            'data-column-key' => 'property_term',
+            'data-column-data-key' => 'property_term',
         ]);
 
         $maxValuesInput = $this->formElements->get(LaminasElement\Number::class);
@@ -60,7 +60,7 @@ class Value implements ColumnTypeInterface
             'value' => $data['max_values'] ?? 1,
             'min' => 1,
             'step' => 1,
-            'data-column-key' => 'max_values',
+            'data-column-data-key' => 'max_values',
         ]);
 
         return sprintf('%s%s', $view->formRow($propertySelect), $view->formRow($maxValuesInput));

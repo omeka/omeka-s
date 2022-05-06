@@ -25,8 +25,8 @@ interface ColumnTypeInterface
     /**
      * Render the data form of this column type.
      *
-     * Form elements must have a "data-column-key" attribute with a value that
-     * corresponds to the key in the column data array.
+     * Form elements must have a "data-column-data-key" attribute with a value
+     * that corresponds to the key in the column data array.
      */
     public function renderDataForm(PhpRenderer $view, array $data) : string;
 

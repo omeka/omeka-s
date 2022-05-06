@@ -70,7 +70,6 @@ $('.columns-column-add-button').on('click', function(e) {
         formElement.find('.columns-columns').append(data);
         resetColumnTypeSelect(formElement);
     });
-
 });
 
 // Handle column edit button.
@@ -96,12 +95,8 @@ $(document).on('click', '.columns-column-remove-button', function(e) {
     const thisButton = $(this);
     const column = thisButton.closest('.columns-column');
     column.addClass('delete');
-    column.find('.sortable-handle').hide();
-    column.find('.columns-column-label').hide();
-    column.find('.columns-column-remove-button').hide();
-    column.find('.columns-column-edit-button').hide();
-    column.find('.columns-column-restore-button').show();
-    column.find('.columns-column-restore').show();
+    column.find('.sortable-handle, .columns-column-label, .columns-column-remove-button, .columns-column-edit-button').hide();
+    column.find('.columns-column-restore-button, .columns-column-restore').show();
 });
 
 // Handle column restore button.
@@ -110,12 +105,8 @@ $(document).on('click', '.columns-column-restore-button', function(e) {
     const thisButton = $(this);
     const column = thisButton.closest('.columns-column');
     column.removeClass('delete');
-    column.find('.sortable-handle').show();
-    column.find('.columns-column-label').show();
-    column.find('.columns-column-remove-button').show();
-    column.find('.columns-column-edit-button').show();
-    column.find('.columns-column-restore-button').hide();
-    column.find('.columns-column-restore').hide();
+    column.find('.sortable-handle, .columns-column-label, .columns-column-remove-button, .columns-column-edit-button').show();
+    column.find('.columns-column-restore-button, .columns-column-restore').hide();
 });
 
 // Handle column set button.
@@ -123,11 +114,11 @@ $(document).on('click', '#columns-column-set-button', function(e) {
     const columnForm = $('#columns-column-form');
     const formElement = selectedColumn.closest('.columns-form-element');
     const columnData = selectedColumn.data('columnData');
-    // Note that we set the value of the input's "data-column-key" attribute as
-    // the columnData key and the input's value as its value.
-    columnForm.find(':input[data-column-key]').each(function() {
+    // Note that we set the value of the input's "data-column-data-key" attribute
+    // as the columnData key and the input's value as its value.
+    columnForm.find(':input[data-column-data-key]').each(function() {
         const thisInput = $(this);
-        columnData[thisInput.data('columnKey')] = thisInput.val();
+        columnData[thisInput.data('columnDataKey')] = thisInput.val();
     });
     selectedColumn.data(columnData);
     $.post(formElement.data('columnRowUrl'), {

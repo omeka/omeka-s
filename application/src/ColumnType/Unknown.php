@@ -44,20 +44,7 @@ class Unknown implements ColumnTypeInterface
             'style' => 'height: 300px;',
             'disabled' => true,
         ]);
-
-        $dataForm = [];
-        $dataForm[] = $view->formRow($dataElement);
-        // Convert all column data to hidden form elements so user can set an
-        // unknown column without losing data.
-        foreach ($data as $key => $value) {
-            $hiddenInput = new LaminasElement\Hidden($key);
-            $hiddenInput->setAttributes([
-                'data-column-key' => $key,
-                'value' => $value,
-            ]);
-            $dataForm[] = $view->formRow($hiddenInput);
-        }
-        return implode('', $dataForm);
+        return $view->formRow($dataElement);
     }
 
     public function getSortBy(array $data) : ?string

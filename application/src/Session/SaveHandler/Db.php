@@ -69,9 +69,10 @@ class Db implements SaveHandlerInterface
     {
         $sql = 'INSERT INTO session (id, modified, data) VALUES (:id, :modified, :data) '
              . 'ON DUPLICATE KEY UPDATE modified = :modified, data = :data';
-        return (bool) $this->conn->executeUpdate($sql, [
+        $this->conn->executeStatement($sql, [
             'id' => $id, 'modified' => time(), 'data' => $data,
         ]);
+        return true;
     }
 
     /**

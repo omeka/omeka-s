@@ -8,6 +8,7 @@ use Omeka\Site\Theme\Manager;
 use Omeka\Site\Theme\Theme;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\I18n\Translator\TranslatorInterface as TranslatorInterface;
 use Laminas\Mvc\Application as ZendApplication;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Permissions\Acl\Exception as AclException;
@@ -332,16 +333,16 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
+        $currentTheme = $themeManager->getCurrentTheme();
         // Add the theme view templates to the path stack.
-        $services->get('ViewTemplatePathStack')
-            ->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $site->theme()));
+        $services->get('ViewTemplatePathStack')->addPath($currentTheme->getPath('view'));
 
         // Load theme view helpers on-demand.
         $helpers = $themeManager->getCurrentTheme()->getIni('helpers');
         if (is_array($helpers)) {
             foreach ($helpers as $helper) {
                 $factory = function ($pluginManager) use ($site, $helper) {
-                    require_once sprintf('%s/themes/%s/helper/%s.php', OMEKA_PATH, $site->theme(), $helper);
+                    require_once $currentTheme->getPath('helper', "$helper.php");
                     $helperClass = sprintf('\OmekaTheme\Helper\%s', $helper);
                     return new $helperClass;
                 };
@@ -414,6 +415,15 @@ class MvcListeners extends AbstractListenerAggregate
         }
         $themeManager->setCurrentTheme($currentTheme);
 
+        $hasTranslations = $currentTheme->getIni('has_translations');
+        if ($hasTranslations) {
+            $translator = $services->get(TranslatorInterface::class);
+            $translator->getDelegatedTranslator()->addTranslationFilePattern(
+                'gettext',
+                $currentTheme->getPath('language'),
+                '%s.mo'
+            );
+        }
         return $site;
     }
 

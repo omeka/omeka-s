@@ -210,6 +210,16 @@ class UserForm extends Form
                 'columns_user_id' => $userId,
             ],
         ]);
+        $settingsFieldset->add([
+            'name' => 'columns_sites',
+            'type' => Columns::class,
+            'options' => [
+                'element_group' => 'columns',
+                'label' => 'Site columns', // @translate
+                'columns_resource_type' => 'sites',
+                'columns_user_id' => $userId,
+            ],
+        ]);
 
         if ($this->getOption('include_password')) {
             if ($this->getOption('current_password')) {

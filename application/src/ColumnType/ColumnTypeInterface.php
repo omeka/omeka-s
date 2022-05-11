@@ -2,7 +2,7 @@
 namespace Omeka\ColumnType;
 
 use Laminas\View\Renderer\PhpRenderer;
-use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
+use Omeka\Api\Representation\AbstractEntityRepresentation;
 
 interface ColumnTypeInterface
 {
@@ -45,5 +45,5 @@ interface ColumnTypeInterface
      *
      * Return null to signal the use of a user-defined default.
      */
-    public function renderContent(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $data) : ?string;
+    public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data) : ?string;
 }

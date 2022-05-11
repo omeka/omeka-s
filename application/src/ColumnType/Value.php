@@ -5,7 +5,7 @@ use Laminas\Form\Element as LaminasElement;
 use Laminas\Form\FormElementManager;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Manager as ApiManager;
-use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
+use Omeka\Api\Representation\AbstractEntityRepresentation;
 use Omeka\Form\Element as OmekaElement;
 
 class Value implements ColumnTypeInterface
@@ -80,7 +80,7 @@ class Value implements ColumnTypeInterface
         return $response ? $response[0]->label() : $this->getLabel();
     }
 
-    public function renderContent(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $data) : ?string
+    public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data) : ?string
     {
         if (!isset($data['property_term'])) {
             return null;

@@ -4,17 +4,25 @@ namespace Omeka\ColumnType;
 use Laminas\Form\Element as LaminasElement;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\AbstractEntityRepresentation;
+use Omeka\Site\Theme\Manager as ThemeManager;
 
-class ResourceClass implements ColumnTypeInterface
+class Theme implements ColumnTypeInterface
 {
+    protected $themeManager;
+
+    public function __construct(ThemeManager $themeManager)
+    {
+        $this->themeManager = $themeManager;
+    }
+
     public function getLabel() : string
     {
-        return 'Resource class'; // @translate
+        return 'Theme'; // @translate
     }
 
     public function getResourceTypes() : array
     {
-        return ['items', 'item_sets', 'media'];
+        return ['sites'];
     }
 
     public function getMaxColumns() : ?int
@@ -29,7 +37,7 @@ class ResourceClass implements ColumnTypeInterface
 
     public function getSortBy(array $data) : ?string
     {
-        return 'resource_class_label';
+        return null;
     }
 
     public function renderHeader(PhpRenderer $view, array $data) : string
@@ -39,6 +47,6 @@ class ResourceClass implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data) : ?string
     {
-        return $view->translate($resource->displayResourceClassLabel());
+        return $this->themeManager->getTheme($resource->theme())->getName();
     }
 }

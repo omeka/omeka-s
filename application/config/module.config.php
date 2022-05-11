@@ -539,8 +539,10 @@ return [
             'resource_class' => ColumnType\ResourceClass::class,
             'resource_template' => ColumnType\ResourceTemplate::class,
             'size' => ColumnType\Size::class,
+            'slug' => ColumnType\Slug::class,
         ],
         'factories' => [
+            'theme' => Service\ColumnType\ThemeFactory::class,
             'value' => Service\ColumnType\ValueFactory::class,
         ],
     ],
@@ -557,6 +559,11 @@ return [
         ],
         'media' => [
             ['type' => 'resource_class'],
+            ['type' => 'owner'],
+            ['type' => 'created'],
+        ],
+        'sites' => [
+            ['type' => 'slug'],
             ['type' => 'owner'],
             ['type' => 'created'],
         ],

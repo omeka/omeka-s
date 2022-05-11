@@ -3,7 +3,7 @@ namespace Omeka\ColumnType;
 
 use Laminas\Form\Element as LaminasElement;
 use Laminas\View\Renderer\PhpRenderer;
-use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
+use Omeka\Api\Representation\AbstractEntityRepresentation;
 
 class Owner implements ColumnTypeInterface
 {
@@ -14,7 +14,7 @@ class Owner implements ColumnTypeInterface
 
     public function getResourceTypes() : array
     {
-        return ['items', 'item_sets', 'media'];
+        return ['items', 'item_sets', 'media', 'sites'];
     }
 
     public function getMaxColumns() : ?int
@@ -37,7 +37,7 @@ class Owner implements ColumnTypeInterface
         return $this->getlabel();
     }
 
-    public function renderContent(PhpRenderer $view, AbstractResourceEntityRepresentation $resource, array $data) : ?string
+    public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data) : ?string
     {
         $owner = $resource->owner();
         return $owner

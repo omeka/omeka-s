@@ -26,11 +26,7 @@ class Columns extends Element implements InputProviderInterface
 
     public function getResourceType()
     {
-        $resourceType = 'items';
-        if (in_array($this->getOption('columns_resource_type'), ['items', 'item_sets', 'media'])) {
-            $resourceType = $this->getOption('columns_resource_type');
-        }
-        return $resourceType;
+        return $this->getOption('columns_resource_type');
     }
 
     public function getUserId()

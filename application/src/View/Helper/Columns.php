@@ -2,7 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Omeka\Api\Manager as ApiManager;
-use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
+use Omeka\Api\Representation\AbstractEntityRepresentation;
 use Omeka\ColumnType\ColumnTypeInterface;
 use Laminas\Form\Element;
 use Laminas\ServiceManager\ServiceLocatorInterface;
@@ -88,7 +88,7 @@ class Columns extends AbstractHelper
     /**
      * Get the content row for a resource.
      */
-    public function renderContentRow(string $resourceType, AbstractResourceEntityRepresentation $resource) : string
+    public function renderContentRow(string $resourceType, AbstractEntityRepresentation $resource) : string
     {
         $contentRow = [];
         foreach ($this->getColumnsData($resourceType) as $columnData) {
@@ -110,7 +110,7 @@ class Columns extends AbstractHelper
      * If the column service returns null, use the user-defined default, if any.
      * Note that we don't translate user-defined defaults.
      */
-    public function getContent(AbstractResourceEntityRepresentation $resource, array $columnData) : ?string
+    public function getContent(AbstractEntityRepresentation $resource, array $columnData) : ?string
     {
         $view = $this->getView();
         $columnType = $this->getColumnType($columnData['type']);

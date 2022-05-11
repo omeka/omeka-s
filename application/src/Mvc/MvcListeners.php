@@ -341,7 +341,7 @@ class MvcListeners extends AbstractListenerAggregate
         $helpers = $themeManager->getCurrentTheme()->getIni('helpers');
         if (is_array($helpers)) {
             foreach ($helpers as $helper) {
-                $factory = function ($pluginManager) use ($site, $helper) {
+                $factory = function ($pluginManager) use ($site, $helper, $currentTheme) {
                     require_once $currentTheme->getPath('helper', "$helper.php");
                     $helperClass = sprintf('\OmekaTheme\Helper\%s', $helper);
                     return new $helperClass;

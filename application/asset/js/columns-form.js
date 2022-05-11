@@ -15,7 +15,6 @@ sidebarColumn.appendTo('#content');
 const resetColumnTypeSelect = function(formElement) {
     const columnTypeSelect = formElement.find('.columns-column-type-select');
     const columnAddButton = formElement.find('.columns-column-add-button');
-    columnTypeSelect.val('').trigger('chosen:updated');
     columnAddButton.prop('disabled', true);
     columnTypeSelect.find('option').each(function() {
         const thisOption = $(this);

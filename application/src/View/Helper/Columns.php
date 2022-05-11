@@ -101,18 +101,22 @@ class Columns extends AbstractHelper
     }
 
     /**
-     * Get all column headers for a resource type.
+     * Get the header row for a resource type.
      */
-    public function getHeaders(string $resourceType) : array
+    public function renderHeaderRow(string $resourceType) : string
     {
-        $headers = [];
+        $headerRow = [];
         foreach ($this->getColumnsData($resourceType) as $columnData) {
             if (!$this->columnTypeIsKnown($columnData['type'])) {
                 continue; // Skip unknown column types.
             }
-            $headers[] = $this->getHeader($columnData);
+            $headerRow[] = sprintf(
+                '<th class="column-%s">%s</th>',
+                $columnData['type'],
+                $this->getHeader($columnData)
+            );
         }
-        return $headers;
+        return implode("\n", $headerRow);
     }
 
     /**
@@ -132,18 +136,22 @@ class Columns extends AbstractHelper
     }
 
     /**
-     * Get all column contents for a resource type.
+     * Get the content row for a resource.
      */
-    public function getContents(string $resourceType, AbstractResourceEntityRepresentation $resource) : array
+    public function renderContentRow(string $resourceType, AbstractResourceEntityRepresentation $resource) : string
     {
-        $contents = [];
+        $contentRow = [];
         foreach ($this->getColumnsData($resourceType) as $columnData) {
             if (!$this->columnTypeIsKnown($columnData['type'])) {
                 continue; // Skip unknown column types.
             }
-            $contents[] = $this->getContent($resource, $columnData);
+            $contentRow[] = sprintf(
+                '<td class="column-%s">%s</td>',
+                $columnData['type'],
+                $this->getContent($resource, $columnData)
+            );
         }
-        return $contents;
+        return implode("\n", $contentRow);
     }
 
     /**

@@ -65,9 +65,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter
                 <?php endif; ?>
                 <?php echo $translate('Title'); ?>
             </th>
-            <?php foreach ($this->columns()->getHeaders('media') as $header): ?>
-            <th><?php echo $header; ?></th>
-            <?php endforeach; ?>
+            <?php echo $this->columns()->renderHeaderRow('media'); ?>
         </tr>
     </thead>
     <tbody>
@@ -106,9 +104,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter
                     ]); ?></li>
                 </ul>
             </td>
-            <?php foreach ($this->columns()->getContents('media', $media) as $content): ?>
-            <td><?php echo $content; ?></td>
-            <?php endforeach; ?>
+            <?php echo $this->columns()->renderContentRow('media', $media); ?>
         </tr>
         <?php endforeach; ?>
     </tbody>

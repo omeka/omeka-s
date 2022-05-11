@@ -59,9 +59,7 @@ $this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
                 <input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>">
                 <?php echo $translate('Title'); ?>
             </th>
-            <?php foreach ($this->columns()->getHeaders('item_sets') as $header): ?>
-            <th><?php echo $header; ?></th>
-            <?php endforeach; ?>
+            <?php echo $this->columns()->renderHeaderRow('item_sets'); ?>
         </tr>
     </thead>
     <tbody>
@@ -98,9 +96,7 @@ $this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
                     ]); ?></li>
                 </ul>
             </td>
-            <?php foreach ($this->columns()->getContents('item_sets', $itemSet) as $content): ?>
-            <td><?php echo $content; ?></td>
-            <?php endforeach; ?>
+            <?php echo $this->columns()->renderContentRow('item_sets', $itemSet); ?>
         </tr>
         <?php endforeach; ?>
     </tbody>

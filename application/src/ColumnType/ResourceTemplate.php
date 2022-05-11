@@ -2,19 +2,11 @@
 namespace Omeka\ColumnType;
 
 use Laminas\Form\Element as LaminasElement;
-use Laminas\Form\FormElementManager;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 
 class ResourceTemplate implements ColumnTypeInterface
 {
-    protected FormElementManager $formElements;
-
-    public function __construct(FormElementManager $formElements)
-    {
-        $this->formElements = $formElements;
-    }
-
     public function getLabel() : string
     {
         return 'Resource template'; // @translate

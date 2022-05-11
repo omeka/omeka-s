@@ -11,7 +11,16 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->hyperlink($translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
-    <?php echo $this->sortSelector($this->columns()->getSortConfig('items')); ?>
+    <?php echo $this->sortSelector($this->columns()->getSortConfig('items', [
+        [
+            'value' => 'title',
+            'label' => $this->translate('Title'),
+        ],
+        [
+            'value' => 'created',
+            'label' => $this->translate('Created'),
+        ],
+    ])); ?>
 </div>
 
 <div id="page-actions">

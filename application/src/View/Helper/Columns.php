@@ -11,20 +11,56 @@ use Laminas\View\Helper\AbstractHelper;
 class Columns extends AbstractHelper
 {
     const DEFAULT_COLUMNS_DATA = [
-        [
-            'type' => 'resource_class',
-            'header' => null,
-            'default' => null,
+        'items' => [
+            [
+                'type' => 'resource_class',
+                'header' => null,
+                'default' => null,
+            ],
+            [
+                'type' => 'owner',
+                'header' => null,
+                'default' => null,
+            ],
+            [
+                'type' => 'created',
+                'header' => null,
+                'default' => null,
+            ],
         ],
-        [
-            'type' => 'owner',
-            'header' => null,
-            'default' => null,
+        'item_sets' => [
+            [
+                'type' => 'resource_class',
+                'header' => null,
+                'default' => null,
+            ],
+            [
+                'type' => 'owner',
+                'header' => null,
+                'default' => null,
+            ],
+            [
+                'type' => 'created',
+                'header' => null,
+                'default' => null,
+            ],
         ],
-        [
-            'type' => 'created',
-            'header' => null,
-            'default' => null,
+        'media' => [
+            [
+                'type' => 'resource_class',
+                'header' => null,
+                'default' => null,
+            ],
+            [
+                'type' => 'owner',
+                'header' => null,
+                'default' => null,
+            ],
+            [
+                'type' => 'created',
+                'header' => null,
+                'default' => null,
+            ],
         ],
     ];
 
@@ -38,16 +74,9 @@ class Columns extends AbstractHelper
     /**
      * Get the sort configuration for use by the sortSelector view helper.
      */
-    public function getSortConfig(string $resourceType) : array
+    public function getSortConfig(string $resourceType, array $alwaysInclude = []) : array
     {
         $view = $this->getView();
-        // Always include sort by Title.
-        $sortConfig = [
-            [
-                'value' => 'title',
-                'label' => $view->translate('Title'),
-            ]
-        ];
         foreach ($this->getColumnsData($resourceType) as $columnData) {
             if (!$this->columnTypeIsKnown($columnData['type'])) {
                 continue; // Skip unknown column types.
@@ -62,19 +91,11 @@ class Columns extends AbstractHelper
                 'label' => $this->getHeader($columnData),
             ];
         }
-        // Always include sort by ID.
-        if (!array_search('id', array_column($sortConfig, 'value'))) {
-            $sortConfig[] = [
-                'value' => 'id',
-                'label' => $view->translate('ID'),
-            ];
-        }
-        // Always include sort by Created.
-        if (!array_search('created', array_column($sortConfig, 'value'))) {
-            $sortConfig[] = [
-                'value' => 'created',
-                'label' => $view->translate('Created'),
-            ];
+        // Include any passed sort bys.
+        foreach ($alwaysInclude as $sortBy) {
+            if (!array_search($sortBy['value'], array_column($sortConfig, 'value'))) {
+                array_unshift($sortConfig, $sortBy);
+            }
         }
         return $sortConfig;
     }
@@ -147,10 +168,17 @@ class Columns extends AbstractHelper
         $userSettings = $this->services->get('Omeka\Settings\User');
 
         // First, get the user-configured columns data, if any. Set the default
-        // if data is not configured or malformed
+        // if data is not configured or malformed. If there is no default, just
+        // include an ID column, which is common to all resource types.
         $userColumnsData = $userSettings->get(sprintf('columns_%s', $resourceType), null, $userId);
         if (!is_array($userColumnsData) || !$userColumnsData) {
-            $userColumnsData = self::DEFAULT_COLUMNS_DATA;
+            $userColumnsData = self::DEFAULT_COLUMNS_DATA[$resourceType] ?? [
+                [
+                    'type' => 'id',
+                    'header' => null,
+                    'default' => null,
+                ],
+            ];
         }
 
         // Standardize the data before returning.

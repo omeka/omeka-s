@@ -544,6 +544,23 @@ return [
             'value' => Service\ColumnType\ValueFactory::class,
         ],
     ],
+    'columns_default' => [
+        'items' => [
+            ['type' => 'resource_class'],
+            ['type' => 'owner'],
+            ['type' => 'created'],
+        ],
+        'item_sets' => [
+            ['type' => 'resource_class'],
+            ['type' => 'owner'],
+            ['type' => 'created'],
+        ],
+        'media' => [
+            ['type' => 'resource_class'],
+            ['type' => 'owner'],
+            ['type' => 'created'],
+        ],
+    ],
     'block_layouts' => [
         'invokables' => [
             'pageTitle' => Site\BlockLayout\PageTitle::class,

@@ -10,65 +10,15 @@ use Laminas\View\Helper\AbstractHelper;
 
 class Columns extends AbstractHelper
 {
-    const DEFAULT_COLUMNS_DATA = [
-        'items' => [
-            [
-                'type' => 'resource_class',
-                'header' => null,
-                'default' => null,
-            ],
-            [
-                'type' => 'owner',
-                'header' => null,
-                'default' => null,
-            ],
-            [
-                'type' => 'created',
-                'header' => null,
-                'default' => null,
-            ],
-        ],
-        'item_sets' => [
-            [
-                'type' => 'resource_class',
-                'header' => null,
-                'default' => null,
-            ],
-            [
-                'type' => 'owner',
-                'header' => null,
-                'default' => null,
-            ],
-            [
-                'type' => 'created',
-                'header' => null,
-                'default' => null,
-            ],
-        ],
-        'media' => [
-            [
-                'type' => 'resource_class',
-                'header' => null,
-                'default' => null,
-            ],
-            [
-                'type' => 'owner',
-                'header' => null,
-                'default' => null,
-            ],
-            [
-                'type' => 'created',
-                'header' => null,
-                'default' => null,
-            ],
-        ],
-    ];
-
     protected ServiceLocatorInterface $services;
+
+    protected $defaultColumns;
 
     public function __construct(ServiceLocatorInterface $services)
     {
         $this->services = $services;
+        $config = $services->get('Config');
+        $this->defaultColumns = $config['columns_default'];
     }
 
     /**
@@ -174,21 +124,13 @@ class Columns extends AbstractHelper
     {
         $view = $this->getView();
         $userSettings = $this->services->get('Omeka\Settings\User');
-
         // First, get the user-configured columns data, if any. Set the default
         // if data is not configured or malformed. If there is no default, just
         // include an ID column, which is common to all resource types.
         $userColumnsData = $userSettings->get(sprintf('columns_%s', $resourceType), null, $userId);
         if (!is_array($userColumnsData) || !$userColumnsData) {
-            $userColumnsData = self::DEFAULT_COLUMNS_DATA[$resourceType] ?? [
-                [
-                    'type' => 'id',
-                    'header' => null,
-                    'default' => null,
-                ],
-            ];
+            $userColumnsData = $this->defaultColumns[$resourceType] ?? [['type' => 'id']];
         }
-
         // Standardize the data before returning.
         $columnsData = [];
         foreach ($userColumnsData as $index => $userColumnData) {
@@ -205,7 +147,6 @@ class Columns extends AbstractHelper
             $userColumnData['header'] ??= null;
             $columnsData[] = $userColumnData;
         }
-
         return $columnsData;
     }
 

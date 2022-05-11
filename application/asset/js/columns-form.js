@@ -38,7 +38,7 @@ $('.columns-form-element').each(function() {
     // Enable column sorting.
     new Sortable(columns[0], {draggable: '.columns-column', handle: '.sortable-handle'});
     // Add configured columns to list.
-    $.post(thisFormElement.data('columnListUrl'), {
+    $.get(thisFormElement.data('columnListUrl'), {
         'resource_type': thisFormElement.data('resourceType'),
         'user_id': thisFormElement.data('userId')
     }, function(data) {
@@ -59,7 +59,7 @@ $('.columns-column-add-button').on('click', function(e) {
     const thisButton = $(this);
     const formElement = thisButton.closest('.columns-form-element');
     const columnTypeSelect = formElement.find('.columns-column-type-select');
-    $.post(formElement.data('columnRowUrl'), {
+    $.get(formElement.data('columnRowUrl'), {
         'resource_type': formElement.data('resourceType'),
         'user_id': formElement.data('userId'),
         'column_data': {
@@ -78,7 +78,7 @@ $(document).on('click', '.columns-column-edit-button', function(e) {
     const column = thisButton.closest('.columns-column');
     const formElement = thisButton.closest('.columns-form-element');
     selectedColumn = column;
-    $.post(formElement.data('columnEditSidebarUrl'), {
+    $.get(formElement.data('columnEditSidebarUrl'), {
             'resource_type': formElement.data('resourceType'),
             'user_id': formElement.data('userId'),
             'column_data': column.data('columnData')
@@ -120,7 +120,7 @@ $(document).on('click', '#columns-column-set-button', function(e) {
         columnData[thisInput.data('columnDataKey')] = thisInput.val();
     });
     selectedColumn.data(columnData);
-    $.post(formElement.data('columnRowUrl'), {
+    $.get(formElement.data('columnRowUrl'), {
         'resource_type': formElement.data('resourceType'),
         'user_id': formElement.data('userId'),
         'column_data': columnData

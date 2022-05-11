@@ -8,8 +8,8 @@ class ColumnsController extends AbstractActionController
 {
     public function columnListAction()
     {
-        $resourceType = $this->params()->fromPost('resource_type');
-        $userId = $this->params()->fromPost('user_id');
+        $resourceType = $this->params()->fromQuery('resource_type');
+        $userId = $this->params()->fromQuery('user_id');
 
         $view = new ViewModel;
         $view->setTerminal(true);
@@ -20,9 +20,9 @@ class ColumnsController extends AbstractActionController
 
     public function columnRowAction()
     {
-        $resourceType = $this->params()->fromPost('resource_type');
-        $userId = $this->params()->fromPost('user_id');
-        $columnData = $this->params()->fromPost('column_data');
+        $resourceType = $this->params()->fromQuery('resource_type');
+        $userId = $this->params()->fromQuery('user_id');
+        $columnData = $this->params()->fromQuery('column_data');
 
         $view = new ViewModel;
         $view->setTerminal(true);
@@ -34,9 +34,9 @@ class ColumnsController extends AbstractActionController
 
     public function columnEditSidebarAction()
     {
-        $resourceType = $this->params()->fromPost('resource_type');
-        $userId = $this->params()->fromPost('user_id');
-        $columnData = $this->params()->fromPost('column_data');
+        $resourceType = $this->params()->fromQuery('resource_type');
+        $userId = $this->params()->fromQuery('user_id');
+        $columnData = $this->params()->fromQuery('column_data');
 
         $view = new ViewModel;
         $view->setTerminal(true);

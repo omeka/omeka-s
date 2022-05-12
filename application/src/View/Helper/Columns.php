@@ -13,18 +13,20 @@ class Columns extends AbstractHelper
     protected ServiceLocatorInterface $services;
 
     protected $columnDefaults;
+    protected $sortDefaults;
 
     public function __construct(ServiceLocatorInterface $services)
     {
         $this->services = $services;
         $config = $services->get('Config');
         $this->columnDefaults = $config['column_defaults'];
+        $this->sortDefaults = $config['sort_defaults'];
     }
 
     /**
      * Get the sort configuration for use by the sortSelector view helper.
      */
-    public function getSortConfig(string $resourceType, array $alwaysInclude = []) : array
+    public function getSortConfig(string $resourceType) : array
     {
         $view = $this->getView();
         $context = $view->status()->isAdminRequest() ? 'admin' : 'public';
@@ -43,8 +45,9 @@ class Columns extends AbstractHelper
                 'label' => $this->getHeader($columnData),
             ];
         }
-        // Include any passed sort bys.
-        foreach ($alwaysInclude as $sortBy) {
+        // Include default sort bys that are not configured.
+        $sortDefaults = $this->sortDefaults[$context][$resourceType] ?? [];
+        foreach ($sortDefaults as $sortBy) {
             if (!array_search($sortBy['value'], array_column($sortConfig, 'value'))) {
                 array_unshift($sortConfig, $sortBy);
             }

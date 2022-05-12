@@ -571,6 +571,83 @@ return [
         ],
         'public' => [],
     ],
+    'sort_defaults' => [
+        'admin' => [
+            'items' => [
+                [
+                    'value' => 'title',
+                    'label' => 'Title', // @translate
+                ],
+                [
+                    'value' => 'resource_class_label',
+                    'label' => 'Resource class', // @translate
+                ],
+                [
+                    'value' => 'owner_name',
+                    'label' => 'Owner', // @translate
+                ],
+                [
+                    'value' => 'created',
+                    'label' => 'Created', // @translate
+                ],
+            ],
+            'item_sets' => [
+                [
+                    'value' => 'title',
+                    'label' => 'Title', // @translate
+                ],
+                [
+                    'value' => 'resource_class_label',
+                    'label' => 'Resource class', // @translate
+                ],
+                [
+                    'value' => 'owner_name',
+                    'label' => 'Owner', // @translate
+                ],
+                [
+                    'value' => 'created',
+                    'label' => 'Created', // @translate
+                ],
+            ],
+            'media' => [
+                [
+                    'value' => 'title',
+                    'label' => 'Title', // @translate
+                ],
+                [
+                    'value' => 'resource_class_label',
+                    'label' => 'Resource class', // @translate
+                ],
+                [
+                    'value' => 'owner_name',
+                    'label' => 'Owner', // @translate
+                ],
+                [
+                    'value' => 'created',
+                    'label' => 'Created', // @translate
+                ],
+            ],
+            'sites' => [
+                [
+                    'value' => 'title',
+                    'label' => 'Title', // @translate
+                ],
+                [
+                    'value' => 'slug',
+                    'label' => 'URL slug', // @translate
+                ],
+                [
+                    'value' => 'owner_name',
+                    'label' => 'Owner', // @translate
+                ],
+                [
+                    'value' => 'created',
+                    'label' => 'Created', // @translate
+                ],
+            ],
+        ],
+        'public' => [],
+    ],
     'block_layouts' => [
         'invokables' => [
             'pageTitle' => Site\BlockLayout\PageTitle::class,

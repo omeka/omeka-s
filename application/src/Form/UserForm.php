@@ -181,41 +181,45 @@ class UserForm extends Form
             ],
         ]);
         $settingsFieldset->add([
-            'name' => 'columns_items',
+            'name' => 'admin_columns_items',
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',
                 'label' => 'Item columns', // @translate
+                'columns_context' => 'admin',
                 'columns_resource_type' => 'items',
                 'columns_user_id' => $userId,
             ],
         ]);
         $settingsFieldset->add([
-            'name' => 'columns_item_sets',
+            'name' => 'admin_columns_item_sets',
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',
                 'label' => 'Item set columns', // @translate
+                'columns_context' => 'admin',
                 'columns_resource_type' => 'item_sets',
                 'columns_user_id' => $userId,
             ],
         ]);
         $settingsFieldset->add([
-            'name' => 'columns_media',
+            'name' => 'admin_columns_media',
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',
                 'label' => 'Media columns', // @translate
+                'columns_context' => 'admin',
                 'columns_resource_type' => 'media',
                 'columns_user_id' => $userId,
             ],
         ]);
         $settingsFieldset->add([
-            'name' => 'columns_sites',
+            'name' => 'admin_columns_sites',
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',
                 'label' => 'Site columns', // @translate
+                'columns_context' => 'admin',
                 'columns_resource_type' => 'sites',
                 'columns_user_id' => $userId,
             ],

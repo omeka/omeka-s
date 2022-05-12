@@ -24,6 +24,11 @@ class Columns extends Element implements InputProviderInterface
         ];
     }
 
+    public function getContext()
+    {
+        return $this->getOption('columns_context');
+    }
+
     public function getResourceType()
     {
         return $this->getOption('columns_resource_type');

@@ -39,6 +39,7 @@ $('.columns-form-element').each(function() {
     new Sortable(columns[0], {draggable: '.columns-column', handle: '.sortable-handle'});
     // Add configured columns to list.
     $.get(thisFormElement.data('columnListUrl'), {
+        'context': thisFormElement.data('context'),
         'resource_type': thisFormElement.data('resourceType'),
         'user_id': thisFormElement.data('userId')
     }, function(data) {

@@ -8,11 +8,13 @@ class ColumnsController extends AbstractActionController
 {
     public function columnListAction()
     {
+        $context = $this->params()->fromQuery('context');
         $resourceType = $this->params()->fromQuery('resource_type');
         $userId = $this->params()->fromQuery('user_id');
 
         $view = new ViewModel;
         $view->setTerminal(true);
+        $view->setVariable('context', $context);
         $view->setVariable('resourceType', $resourceType);
         $view->setVariable('userId', $userId);
         return $view;

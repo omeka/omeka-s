@@ -4,6 +4,7 @@ $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.
 $this->headScript()->appendFile($this->assetUrl('js/columns-form.js', 'Omeka'));
 ?>
 <div class="columns-form-element"
+    data-context="<?php echo $this->escapeHtml($element->getContext()); ?>"
     data-resource-type="<?php echo $this->escapeHtml($element->getResourceType()); ?>"
     data-user-id="<?php echo $this->escapeHtml($element->getUserId()); ?>"
     data-column-list-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'column-list'])); ?>"

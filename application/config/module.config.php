@@ -546,27 +546,30 @@ return [
             'value' => Service\ColumnType\ValueFactory::class,
         ],
     ],
-    'columns_default' => [
-        'items' => [
-            ['type' => 'resource_class'],
-            ['type' => 'owner'],
-            ['type' => 'created'],
+    'column_defaults' => [
+        'admin' => [
+            'items' => [
+                ['type' => 'resource_class'],
+                ['type' => 'owner'],
+                ['type' => 'created'],
+            ],
+            'item_sets' => [
+                ['type' => 'resource_class'],
+                ['type' => 'owner'],
+                ['type' => 'created'],
+            ],
+            'media' => [
+                ['type' => 'resource_class'],
+                ['type' => 'owner'],
+                ['type' => 'created'],
+            ],
+            'sites' => [
+                ['type' => 'slug'],
+                ['type' => 'owner'],
+                ['type' => 'created'],
+            ],
         ],
-        'item_sets' => [
-            ['type' => 'resource_class'],
-            ['type' => 'owner'],
-            ['type' => 'created'],
-        ],
-        'media' => [
-            ['type' => 'resource_class'],
-            ['type' => 'owner'],
-            ['type' => 'created'],
-        ],
-        'sites' => [
-            ['type' => 'slug'],
-            ['type' => 'owner'],
-            ['type' => 'created'],
-        ],
+        'public' => [],
     ],
     'block_layouts' => [
         'invokables' => [

@@ -12,13 +12,13 @@ class Columns extends AbstractHelper
 {
     protected ServiceLocatorInterface $services;
 
-    protected $defaultColumns;
+    protected $columnDefaults;
 
     public function __construct(ServiceLocatorInterface $services)
     {
         $this->services = $services;
         $config = $services->get('Config');
-        $this->defaultColumns = $config['columns_default'];
+        $this->columnDefaults = $config['column_defaults'];
     }
 
     /**
@@ -27,7 +27,9 @@ class Columns extends AbstractHelper
     public function getSortConfig(string $resourceType, array $alwaysInclude = []) : array
     {
         $view = $this->getView();
-        foreach ($this->getColumnsData($resourceType) as $columnData) {
+        $context = $view->status()->isAdminRequest() ? 'admin' : 'public';
+        $sortConfig = [];
+        foreach ($this->getColumnsData($context, $resourceType) as $columnData) {
             if (!$this->columnTypeIsKnown($columnData['type'])) {
                 continue; // Skip unknown column types.
             }
@@ -55,8 +57,10 @@ class Columns extends AbstractHelper
      */
     public function renderHeaderRow(string $resourceType) : string
     {
+        $view = $this->getView();
+        $context = $view->status()->isAdminRequest() ? 'admin' : 'public';
         $headerRow = [];
-        foreach ($this->getColumnsData($resourceType) as $columnData) {
+        foreach ($this->getColumnsData($context, $resourceType) as $columnData) {
             if (!$this->columnTypeIsKnown($columnData['type'])) {
                 continue; // Skip unknown column types.
             }
@@ -90,8 +94,10 @@ class Columns extends AbstractHelper
      */
     public function renderContentRow(string $resourceType, AbstractEntityRepresentation $resource) : string
     {
+        $view = $this->getView();
+        $context = $view->status()->isAdminRequest() ? 'admin' : 'public';
         $contentRow = [];
-        foreach ($this->getColumnsData($resourceType) as $columnData) {
+        foreach ($this->getColumnsData($context, $resourceType) as $columnData) {
             if (!$this->columnTypeIsKnown($columnData['type'])) {
                 continue; // Skip unknown column types.
             }
@@ -120,16 +126,16 @@ class Columns extends AbstractHelper
     /**
      * Get data for all columns.
      */
-    public function getColumnsData(string $resourceType, ?int $userId = null) : array
+    public function getColumnsData(string $context, string $resourceType, ?int $userId = null) : array
     {
         $view = $this->getView();
         $userSettings = $this->services->get('Omeka\Settings\User');
         // First, get the user-configured columns data, if any. Set the default
         // if data is not configured or malformed. If there is no default, just
         // include an ID column, which is common to all resource types.
-        $userColumnsData = $userSettings->get(sprintf('columns_%s', $resourceType), null, $userId);
+        $userColumnsData = $userSettings->get(sprintf('admin_columns_%s', $resourceType), null, $userId);
         if (!is_array($userColumnsData) || !$userColumnsData) {
-            $userColumnsData = $this->defaultColumns[$resourceType] ?? [['type' => 'id']];
+            $userColumnsData = $this->columnDefaults[$context][$resourceType] ?? [['type' => 'id']];
         }
         // Standardize the data before returning.
         $columnsData = [];

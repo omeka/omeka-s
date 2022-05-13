@@ -16,6 +16,7 @@ const resetColumnTypeSelect = function(formElement) {
     const columnTypeSelect = formElement.find('.columns-column-type-select');
     const columnAddButton = formElement.find('.columns-column-add-button');
     columnAddButton.prop('disabled', true);
+    columnTypeSelect.val('');
     columnTypeSelect.find('option').each(function() {
         const thisOption = $(this);
         const columnType = thisOption.val();
@@ -26,6 +27,20 @@ const resetColumnTypeSelect = function(formElement) {
                 thisOption.prop('disabled', true);
             }
         }
+    });
+};
+
+/**
+ * Open the column edit sidebar.
+ */
+const openSidebarColumn = function(formElement, column) {
+    $.get(formElement.data('columnEditSidebarUrl'), {
+        'resource_type': formElement.data('resourceType'),
+        'user_id': formElement.data('userId'),
+        'column_data': column.data('columnData')
+    }, function(data) {
+        sidebarColumn.html(data);
+        Omeka.openSidebar(sidebarColumn);
     });
 };
 
@@ -67,7 +82,10 @@ $('.columns-column-add-button').on('click', function(e) {
             'type': columnTypeSelect.val()
         }
     }, function(data) {
-        formElement.find('.columns-columns').append(data);
+        const column = $($.parseHTML(data.trim()));
+        formElement.find('.columns-columns').append(column);
+        selectedColumn = column;
+        openSidebarColumn(formElement, column);
         resetColumnTypeSelect(formElement);
     });
 });
@@ -79,14 +97,7 @@ $(document).on('click', '.columns-column-edit-button', function(e) {
     const column = thisButton.closest('.columns-column');
     const formElement = thisButton.closest('.columns-form-element');
     selectedColumn = column;
-    $.get(formElement.data('columnEditSidebarUrl'), {
-            'resource_type': formElement.data('resourceType'),
-            'user_id': formElement.data('userId'),
-            'column_data': column.data('columnData')
-        }, function(data) {
-            sidebarColumn.html(data);
-            Omeka.openSidebar(sidebarColumn);
-        });
+    openSidebarColumn(formElement, column);
 });
 
 // Handle column remove button.

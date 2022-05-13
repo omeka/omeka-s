@@ -136,7 +136,8 @@ class Columns extends AbstractHelper
         // First, get the user-configured columns data, if any. Set the default
         // if data is not configured or malformed. If there is no default, just
         // include an ID column, which is common to all resource types.
-        $userColumnsData = $userSettings->get(sprintf('admin_columns_%s', $resourceType), null, $userId);
+        $userColumnsSetting = sprintf('columns_%s_%s', $context, $resourceType);
+        $userColumnsData = $userSettings->get($userColumnsSetting, null, $userId);
         if (!is_array($userColumnsData) || !$userColumnsData) {
             $userColumnsData = $this->columnDefaults[$context][$resourceType] ?? [['type' => 'id']];
         }

@@ -68,7 +68,7 @@ class Value implements ColumnTypeInterface
 
     public function getSortBy(array $data) : ?string
     {
-        return $data['property_term'];
+        return $data['property_term'] ?? null;
     }
 
     public function renderHeader(PhpRenderer $view, array $data) : string

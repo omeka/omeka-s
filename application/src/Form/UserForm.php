@@ -181,7 +181,7 @@ class UserForm extends Form
             ],
         ]);
         $settingsFieldset->add([
-            'name' => 'admin_columns_items',
+            'name' => 'columns_admin_items',
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',
@@ -192,7 +192,7 @@ class UserForm extends Form
             ],
         ]);
         $settingsFieldset->add([
-            'name' => 'admin_columns_item_sets',
+            'name' => 'columns_admin_item_sets',
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',
@@ -203,7 +203,7 @@ class UserForm extends Form
             ],
         ]);
         $settingsFieldset->add([
-            'name' => 'admin_columns_media',
+            'name' => 'columns_admin_media',
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',
@@ -214,7 +214,7 @@ class UserForm extends Form
             ],
         ]);
         $settingsFieldset->add([
-            'name' => 'admin_columns_sites',
+            'name' => 'columns_admin_sites',
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',

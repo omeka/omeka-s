@@ -14,8 +14,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
 
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
-    <?php echo $this->sortSelector($this->columns()->getSortConfig('sites')); ?>
-
+    <?php echo $this->browse()->renderSortSelector('sites'); ?>
 </div>
 <?php $this->trigger('view.browse.before'); ?>
 
@@ -24,7 +23,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
     <thead>
         <tr>
             <th><?php echo $translate('Title'); ?></th>
-            <?php echo $this->columns()->renderHeaderRow('sites'); ?>
+            <?php echo $this->browse()->renderHeaderRow('sites'); ?>
         </tr>
     </thead>
     <tbody>
@@ -56,7 +55,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
                     <?php endif; ?>
                 </ul>
             </td>
-            <?php echo $this->columns()->renderContentRow('sites', $site); ?>
+            <?php echo $this->browse()->renderContentRow('sites', $site); ?>
         </tr>
         <?php endforeach; ?>
     </tbody>

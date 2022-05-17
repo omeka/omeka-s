@@ -8,12 +8,12 @@ use Laminas\Form\Element;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Helper\AbstractHelper;
 
-class Columns extends AbstractHelper
+class Browse extends AbstractHelper
 {
     protected ServiceLocatorInterface $services;
 
-    protected $columnDefaults;
-    protected $sortDefaults;
+    protected array $columnDefaults;
+    protected array $sortDefaults;
 
     public function __construct(ServiceLocatorInterface $services)
     {
@@ -24,13 +24,46 @@ class Columns extends AbstractHelper
     }
 
     /**
-     * Get the sort configuration for use by the sortSelector view helper.
+     * Get the sort selector.
+     *
+     * Pass a resource type (string) to use configured/default sorts. Otherwise,
+     * pass a sort configuration (array):
+     *
+     * [
+     *   '<sort_by_query_param>' => '<Sort_By_Label>', // @translate
+     * ]
+     *
+     * @param string|array $resourceTypeOrSortConfig
      */
-    public function getSortConfig(string $resourceType) : array
+    public function renderSortSelector($resourceTypeOrSortConfig) : string
     {
         $view = $this->getView();
         $context = $view->status()->isAdminRequest() ? 'admin' : 'public';
+        if (is_string($resourceTypeOrSortConfig)) {
+            $sortConfig = $this->getSortConfig($context, $resourceTypeOrSortConfig);
+        } elseif (is_array($resourceTypeOrSortConfig)) {
+            $sortConfig = $resourceTypeOrSortConfig;
+        } else {
+            $sortConfig = [];
+        }
+        if (!$sortConfig) {
+            // Do not render the sort selector if there is no configuration.
+            return '';
+        }
+        return $view->partial('common/sort-selector', [
+            'sortConfig' => $sortConfig,
+            'sortByQuery' => $view->params()->fromQuery('sort_by'),
+            'sortOrderQuery' => $view->params()->fromQuery('sort_order'),
+        ]);
+    }
+
+    /**
+     * Get the sort configuration.
+     */
+    public function getSortConfig(string $context, string $resourceType) : array
+    {
         $sortConfig = [];
+        // Include sorts from user-configured columns.
         foreach ($this->getColumnsData($context, $resourceType) as $columnData) {
             if (!$this->columnTypeIsKnown($columnData['type'])) {
                 continue; // Skip unknown column types.
@@ -40,19 +73,24 @@ class Columns extends AbstractHelper
             if (!$sortBy) {
                 continue; // This column cannot be sorted.
             }
-            $sortConfig[] = [
-                'value' => $sortBy,
-                'label' => $this->getHeader($columnData),
-            ];
+            $sortConfig[$sortBy] = $this->getHeader($columnData);
         }
-        // Include default sort bys that are not configured.
+        // Include default sorts that are not configured.
         $sortDefaults = $this->sortDefaults[$context][$resourceType] ?? [];
-        foreach ($sortDefaults as $sortBy) {
-            if (!array_search($sortBy['value'], array_column($sortConfig, 'value'))) {
-                array_unshift($sortConfig, $sortBy);
+        foreach ($sortDefaults as $sortBy => $label) {
+            if (!isset($sortConfig[$sortBy])) {
+                $sortConfig[$sortBy] = $label;
             }
         }
-        return $sortConfig;
+        // Include any other sorts added by the sort-config event.
+        $eventManager = $this->services->get('EventManager');
+        $args = $eventManager->prepareArgs([
+            'context' => $context,
+            'resourceType' => $resourceType,
+            'sortConfig' => $sortConfig,
+        ]);
+        $eventManager->trigger('sort-config', null, $args);
+        return $args['sortConfig'];
     }
 
     /**
@@ -134,12 +172,11 @@ class Columns extends AbstractHelper
         $view = $this->getView();
         $userSettings = $this->services->get('Omeka\Settings\User');
         // First, get the user-configured columns data, if any. Set the default
-        // if data is not configured or malformed. If there is no default, just
-        // include an ID column, which is common to all resource types.
+        // if data is not configured or malformed.
         $userColumnsSetting = sprintf('columns_%s_%s', $context, $resourceType);
         $userColumnsData = $userSettings->get($userColumnsSetting, null, $userId);
         if (!is_array($userColumnsData) || !$userColumnsData) {
-            $userColumnsData = $this->columnDefaults[$context][$resourceType] ?? [['type' => 'id']];
+            $userColumnsData = $this->columnDefaults[$context][$resourceType] ?? [];
         }
         // Standardize the data before returning.
         $columnsData = [];

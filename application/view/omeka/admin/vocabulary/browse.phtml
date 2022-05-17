@@ -2,24 +2,6 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'vocabs browse');
-$sortHeadings = [
-    [
-        'label' => $translate('Label'),
-        'value' => 'label'
-    ],
-    [
-        'label' => $translate('Prefix'),
-        'value' => 'prefix'
-    ],
-    [
-        'label' => $translate('Classes'),
-        'value' => 'resource_class_count'
-    ],
-    [
-        'label' => $translate('Properties'),
-        'value' => 'property_count'
-    ]
-];
 ?>
 
 <?php echo $this->pageTitle($translate('Vocabularies')); ?>
@@ -33,7 +15,7 @@ $sortHeadings = [
 
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
-    <?php echo $this->sortSelector($sortHeadings); ?>
+    <?php echo $this->browse()->renderSortSelector('vocabularies'); ?>
 </div>
 <?php $this->trigger('view.browse.before'); ?>
 

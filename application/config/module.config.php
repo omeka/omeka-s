@@ -393,7 +393,6 @@ return [
             'hyperlink' => View\Helper\Hyperlink::class,
             'messages' => View\Helper\Messages::class,
             'sortLink' => View\Helper\SortLink::class,
-            'sortSelector' => View\Helper\SortSelector::class,
             'filterSelector' => View\Helper\FilterSelector::class,
             'propertySelector' => View\Helper\PropertySelector::class,
             'itemSetSelector' => View\Helper\ItemSetSelector::class,
@@ -457,7 +456,7 @@ return [
             'status' => Service\ViewHelper\StatusFactory::class,
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
             'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
-            'columns' => Service\ViewHelper\ColumnsFactory::class,
+            'browse' => Service\ViewHelper\BrowseFactory::class,
         ],
         'delegators' => [
             'Laminas\Form\View\Helper\FormElement' => [
@@ -574,79 +573,80 @@ return [
     'sort_defaults' => [
         'admin' => [
             'items' => [
-                [
-                    'value' => 'title',
-                    'label' => 'Title', // @translate
-                ],
-                [
-                    'value' => 'resource_class_label',
-                    'label' => 'Resource class', // @translate
-                ],
-                [
-                    'value' => 'owner_name',
-                    'label' => 'Owner', // @translate
-                ],
-                [
-                    'value' => 'created',
-                    'label' => 'Created', // @translate
-                ],
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'owner_name' => 'Owner', // @translate
+                'created' => 'Created', // @translate
             ],
             'item_sets' => [
-                [
-                    'value' => 'title',
-                    'label' => 'Title', // @translate
-                ],
-                [
-                    'value' => 'resource_class_label',
-                    'label' => 'Resource class', // @translate
-                ],
-                [
-                    'value' => 'owner_name',
-                    'label' => 'Owner', // @translate
-                ],
-                [
-                    'value' => 'created',
-                    'label' => 'Created', // @translate
-                ],
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'owner_name' => 'Owner', // @translate
+                'created' => 'Created', // @translate
             ],
             'media' => [
-                [
-                    'value' => 'title',
-                    'label' => 'Title', // @translate
-                ],
-                [
-                    'value' => 'resource_class_label',
-                    'label' => 'Resource class', // @translate
-                ],
-                [
-                    'value' => 'owner_name',
-                    'label' => 'Owner', // @translate
-                ],
-                [
-                    'value' => 'created',
-                    'label' => 'Created', // @translate
-                ],
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'owner_name' => 'Owner', // @translate
+                'created' => 'Created', // @translate
             ],
             'sites' => [
-                [
-                    'value' => 'title',
-                    'label' => 'Title', // @translate
-                ],
-                [
-                    'value' => 'slug',
-                    'label' => 'URL slug', // @translate
-                ],
-                [
-                    'value' => 'owner_name',
-                    'label' => 'Owner', // @translate
-                ],
-                [
-                    'value' => 'created',
-                    'label' => 'Created', // @translate
-                ],
+                'title' => 'Title', // @translate
+                'slug' => 'URL slug', // @translate
+                'owner_name' => 'Owner', // @translate
+                'created' => 'Created', // @translate
+            ],
+            'assets' => [
+                'name' => 'Name', // @translate
+                'id' => 'ID', // @translate
+            ],
+            'jobs' => [
+                'id' => 'ID', // @translate
+                'class' => 'Class', // @translate
+                'status' => 'Status', // @translate
+                'owner_email' => 'Owner email', // @translate
+            ],
+            'resource_templates' => [
+                'label' => 'Label', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'owner_name' => 'Owner', // @translate
+                'item_count' => 'Item count', // @translate
+            ],
+            'users' => [
+                'email' => 'Email', // @translate
+                'role' => 'Role', // @translate
+                'created' => 'Created', // @translate
+            ],
+            'vocabularies' => [
+                'label' => 'Label', // @translate
+                'prefix' => 'Prefix', // @translate
+                'resource_class_count' => 'Resource class count', // @translate
+                'property_count' => 'Property count', // @translate
+            ],
+            'resource_classes' => [
+                'label' => 'Label', // @translate
+                'local_name' => 'Term', // @translate
+                'item_count' => 'Item count', // @translate
+            ],
+            'properties' => [
+                'label' => 'Label', // @translate
+                'local_name' => 'Term', // @translate
+                'item_count' => 'Item count', // @translate
+            ],
+            'site_pages' => [
+                'title' => 'Title', // @translate
+                'slug' => 'URL slug', // @translate
+                'created' => 'Created', // @translate
+                'modified' => 'Modified', // @translate
             ],
         ],
-        'public' => [],
+        'public' => [
+            'items' => [
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'created' => 'Created', // @translate
+            ],
+        ],
     ],
     'block_layouts' => [
         'invokables' => [

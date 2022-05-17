@@ -11,7 +11,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->hyperlink($translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
-    <?php echo $this->sortSelector($this->columns()->getSortConfig('items')); ?>
+    <?php echo $this->browse()->renderSortSelector('items'); ?>
 </div>
 
 <div id="page-actions">
@@ -48,7 +48,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
     <thead>
         <tr>
             <th><input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>"><?php echo $translate('Title'); ?></th>
-            <?php echo $this->columns()->renderHeaderRow('items'); ?>
+            <?php echo $this->browse()->renderHeaderRow('items'); ?>
         </tr>
     </thead>
     <tbody>
@@ -85,7 +85,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
                     ]); ?></li>
                 </ul>
             </td>
-            <?php echo $this->columns()->renderContentRow('items', $item); ?>
+            <?php echo $this->browse()->renderContentRow('items', $item); ?>
         </tr>
         <?php endforeach; ?>
     </tbody>

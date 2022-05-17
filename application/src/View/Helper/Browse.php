@@ -13,14 +13,14 @@ class Browse extends AbstractHelper
     protected ServiceLocatorInterface $services;
 
     protected array $columnDefaults;
-    protected array $sortDefaults;
+    protected array $sortSelectorDefaults;
 
     public function __construct(ServiceLocatorInterface $services)
     {
         $this->services = $services;
         $config = $services->get('Config');
         $this->columnDefaults = $config['column_defaults'];
-        $this->sortDefaults = $config['sort_defaults'];
+        $this->sortSelectorDefaults = $config['sort_selector_defaults'];
     }
 
     /**
@@ -76,8 +76,8 @@ class Browse extends AbstractHelper
             $sortConfig[$sortBy] = $this->getHeader($columnData);
         }
         // Include default sorts that are not configured.
-        $sortDefaults = $this->sortDefaults[$context][$resourceType] ?? [];
-        foreach ($sortDefaults as $sortBy => $label) {
+        $sortSelectorDefaults = $this->sortSelectorDefaults[$context][$resourceType] ?? [];
+        foreach ($sortSelectorDefaults as $sortBy => $label) {
             if (!isset($sortConfig[$sortBy])) {
                 $sortConfig[$sortBy] = $label;
             }
@@ -90,7 +90,9 @@ class Browse extends AbstractHelper
             'sortConfig' => $sortConfig,
         ]);
         $eventManager->trigger('sort-config', null, $args);
-        return $args['sortConfig'];
+        $sortConfig = $args['sortConfig'];
+        natsort($sortConfig);
+        return $sortConfig;
     }
 
     /**

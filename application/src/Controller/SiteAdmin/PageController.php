@@ -56,6 +56,7 @@ class PageController extends AbstractActionController
 
         if (empty($sortBy) || $sortBy === 'nav') {
             $navSorting = true;
+            $this->setBrowseDefaults('nav', 'asc');
             $pages = array_merge($site->linkedPages(), $site->notlinkedPages());
             if ($this->params()->fromQuery('sort_order') === 'desc') {
                 $pages = array_reverse($pages, true);

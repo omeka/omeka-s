@@ -570,7 +570,7 @@ return [
         ],
         'public' => [],
     ],
-    'sort_defaults' => [
+    'sort_selector_defaults' => [
         'admin' => [
             'items' => [
                 'title' => 'Title', // @translate
@@ -638,6 +638,7 @@ return [
                 'slug' => 'URL slug', // @translate
                 'created' => 'Created', // @translate
                 'modified' => 'Modified', // @translate
+                'nav' => 'Navigation', // @translate
             ],
         ],
         'public' => [

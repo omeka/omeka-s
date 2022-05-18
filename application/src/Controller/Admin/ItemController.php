@@ -33,7 +33,7 @@ class ItemController extends AbstractActionController
 
     public function browseAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('items');
         $response = $this->api()->search('items', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 

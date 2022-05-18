@@ -13,26 +13,25 @@ class Browse extends AbstractHelper
     protected ServiceLocatorInterface $services;
 
     protected array $columnDefaults;
-    protected array $sortSelectorDefaults;
+    protected array $browseDefaults;
+    protected array $sortDefaults;
 
     public function __construct(ServiceLocatorInterface $services)
     {
         $this->services = $services;
         $config = $services->get('Config');
         $this->columnDefaults = $config['column_defaults'];
-        $this->sortSelectorDefaults = $config['sort_selector_defaults'];
+        $this->browseDefaults = $config['browse_defaults'];
+        $this->sortDefaults = $config['sort_defaults'];
     }
 
     /**
      * Get the sort selector.
      *
      * Pass a resource type (string) to use configured/default sorts. Otherwise,
-     * pass a sort configuration (array):
+     * pass a sort configuration (array).
      *
-     * [
-     *   '<sort_by_query_param>' => '<Sort_By_Label>', // @translate
-     * ]
-     *
+     * @see self::getSortConfig()
      * @param string|array $resourceTypeOrSortConfig
      */
     public function renderSortSelector($resourceTypeOrSortConfig) : string
@@ -59,6 +58,13 @@ class Browse extends AbstractHelper
 
     /**
      * Get the sort configuration.
+     *
+     * The sort configuration is an array:
+     *
+     * [
+     *   'sort_by_query_param' => 'Sort by label',
+     *   'another_sort_by_query_param' => 'Another sort by label',
+     * ]
      */
     public function getSortConfig(string $context, string $resourceType) : array
     {
@@ -76,8 +82,8 @@ class Browse extends AbstractHelper
             $sortConfig[$sortBy] = $this->getHeader($columnData);
         }
         // Include default sorts that are not configured.
-        $sortSelectorDefaults = $this->sortSelectorDefaults[$context][$resourceType] ?? [];
-        foreach ($sortSelectorDefaults as $sortBy => $label) {
+        $sortDefaults = $this->sortDefaults[$context][$resourceType] ?? [];
+        foreach ($sortDefaults as $sortBy => $label) {
             if (!isset($sortConfig[$sortBy])) {
                 $sortConfig[$sortBy] = $label;
             }
@@ -93,6 +99,34 @@ class Browse extends AbstractHelper
         $sortConfig = $args['sortConfig'];
         natsort($sortConfig);
         return $sortConfig;
+    }
+
+    /**
+     * Get the browse configuration.
+     *
+     * The browse configuration is an array with three elements:
+     *   1. The default sort_by value
+     *   2. The default sort_order value
+     *   3. The default page value
+     */
+    public function getBrowseConfig(string $context, string $resourceType, ?int $userId = null) : array
+    {
+        $view = $this->getView();
+        $userSettings = $this->services->get('Omeka\Settings\User');
+        // First, get the user-configured browse defaults, if any. Set the
+        // defaults from the config file if they're not configured or malformed.
+        $browseDefaultsSetting = sprintf('browse_defaults_%s_%s', $context, $resourceType);
+        $browseConfig = $userSettings->get($browseDefaultsSetting, null, $userId);
+        if (!is_array($browseConfig) || !isset($browseConfig[0]) || !is_string($browseConfig[0])) {
+            $browseConfig = $this->browseDefaults[$context][$resourceType] ?? [null, 'desc', 1];
+        }
+        // Standardize the defaults before returning.
+        $browseConfig = [
+            $browseConfig[0] ?? null,
+            $browseConfig[1] ?? 'desc',
+            $browseConfig[2] ?? 1,
+        ];
+        return $browseConfig;
     }
 
     /**

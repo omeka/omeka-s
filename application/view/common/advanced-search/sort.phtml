@@ -13,7 +13,7 @@ switch ($resourceType) {
     default:
         $sortConfigResourceType = 'items';
 }
-$sortConfig = $this->browse()->getSortConfig($sortConfigContext, $sortConfigResourceType);
+$sortConfig = $this->browse()->getSortSelectorConfig($sortConfigContext, $sortConfigResourceType);
 $sortByQuery = $query['sort_by'] ?? '';
 $sortOrderQuery = $query['sort_order'] ?? '';
 

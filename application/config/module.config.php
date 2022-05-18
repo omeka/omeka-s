@@ -363,6 +363,7 @@ return [
             'userSettings' => Service\ControllerPlugin\UserSettingsFactory::class,
             'status' => Service\ControllerPlugin\StatusFactory::class,
             'viewHelpers' => Service\ControllerPlugin\ViewHelpersFactory::class,
+            'browse' => Service\ControllerPlugin\BrowseFactory::class,
         ],
     ],
     'api_adapters' => [
@@ -393,6 +394,7 @@ return [
             'hyperlink' => View\Helper\Hyperlink::class,
             'messages' => View\Helper\Messages::class,
             'sortLink' => View\Helper\SortLink::class,
+            'sortSelector' => View\Helper\SortSelector::class,
             'filterSelector' => View\Helper\FilterSelector::class,
             'propertySelector' => View\Helper\PropertySelector::class,
             'itemSetSelector' => View\Helper\ItemSetSelector::class,
@@ -414,6 +416,7 @@ return [
             'formAsset' => Form\View\Helper\FormAsset::class,
             'formQuery' => Form\View\Helper\FormQuery::class,
             'formColumns' => Form\View\Helper\FormColumns::class,
+            'formBrowseDefaults' => Form\View\Helper\FormBrowseDefaults::class,
             'themeSettingAsset' => View\Helper\ThemeSettingAsset::class,
             'themeSettingAssetUrl' => View\Helper\ThemeSettingAssetUrl::class,
             'formColorPicker' => Form\View\Helper\FormColorPicker::class,
@@ -570,7 +573,24 @@ return [
         ],
         'public' => [],
     ],
-    'sort_selector_defaults' => [
+    'browse_defaults' => [
+        'admin' => [
+            'items' => ['created', 'desc', 1],
+            'item_sets' => ['created', 'desc', 1],
+            'media' => ['created', 'desc', 1],
+            'sites' => ['title', 'asc', 1],
+            'assets' => ['id', 'desc', 1],
+            'jobs' => ['id'. 'desc', 1],
+            'resource_templates' => ['label', 'asc', 1],
+            'users' => ['email', 'asc', 1],
+            'vocabularies' => ['label', 'asc', 1],
+            'resource_classes' => ['label', 'asc', 1],
+            'properties' => ['label', 'asc', 1],
+            'site_pages' => ['nav', 'asc', 1],
+        ],
+        'public' => [],
+    ],
+    'sort_defaults' => [
         'admin' => [
             'items' => [
                 'title' => 'Title', // @translate

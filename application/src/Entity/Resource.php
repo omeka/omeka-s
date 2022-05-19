@@ -144,7 +144,7 @@ abstract class Resource extends AbstractEntity
     {
         // Unlike a resource value, a resource title cannot be an empty string
         // or a string containing only whitespace.
-        $title = trim($title);
+        $title = trim((string) $title);
         $this->title = ('' === $title) ? null : $title;
     }
 

@@ -281,8 +281,8 @@ var Omeka = {
             var row = $(this).closest('.resource-row');
             var resourceId = row.find('.resource-id').val();
             selector.find('[data-resource-id="' + resourceId + '"]').removeClass('added');
-            updateResourceCount(resourceId);
             row.remove();
+            updateResourceCount(resourceId);
             if ($('.resource-row').length < 1) {
                 table.addClass('empty');
             }

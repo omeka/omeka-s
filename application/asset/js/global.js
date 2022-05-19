@@ -228,11 +228,11 @@ var Omeka = {
             });
             selectorRow.addClass('added');
             table.append(tableRow).removeClass('empty').trigger('appendRow');
-            updateSiteCount(id);
+            updateResourceCount(id);
         }
     
-        var updateSiteCount = function(id) {
-            var resource = $('[data-resource-id="' + id + '"]');
+        var updateResourceCount = function(id) {
+            var resource = selector.find('[data-resource-id="' + id + '"]');
             var resourceParent = resource.parents('.selector-parent');
             var childCount = resourceParent.find('.selector-child-count').first();
             if (resource.hasClass('added')) {
@@ -274,13 +274,13 @@ var Omeka = {
             Omeka.scrollTo(table.find('.resource-row:last-child'));
         });
 
-        // Remove an item set from the edit panel.
+        // Remove a resource from the edit panel.
         table.on('click', '.o-icon-delete', function(e) {
             e.preventDefault();
             var row = $(this).closest('.resource-row');
             var resourceId = row.find('.resource-id').val();
             selector.find('[data-resource-id="' + resourceId + '"]').removeClass('added');
-            updateSiteCount(resourceId);
+            updateResourceCount(resourceId);
             row.remove();
             if ($('.resource-row').length < 1) {
                 table.addClass('empty');

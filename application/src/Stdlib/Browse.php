@@ -1,24 +1,56 @@
 <?php
 namespace Omeka\Stdlib;
 
+use Laminas\EventManager\EventManager;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\View\HelperPluginManager;
 use Omeka\ColumnType\ColumnTypeInterface;
+use Omeka\ColumnType\Manager as ColumnTypeManager;
+use Omeka\Settings\UserSettings;
 
 class Browse
 {
-    protected ServiceLocatorInterface $services;
-
     protected array $columnDefaults;
     protected array $browseDefaults;
     protected array $sortDefaults;
+    protected ColumnTypeManager $columnTypeManager;
+    protected HelperPluginManager $viewHelperManager;
+    protected EventManager $eventManager;
+    protected UserSettings $userSettings;
 
-    public function __construct(ServiceLocatorInterface $services)
+    public function __construct(
+        array $columnDefaults,
+        array $browseDefaults,
+        array $sortDefaults,
+        ColumnTypeManager $columnTypeManager,
+        HelperPluginManager $viewHelperManager,
+        EventManager $eventManager,
+        UserSettings $userSettings
+    ) {
+        $this->columnDefaults = $columnDefaults;
+        $this->browseDefaults = $browseDefaults;
+        $this->sortDefaults = $sortDefaults;
+        $this->columnTypeManager = $columnTypeManager;
+        $this->viewHelperManager = $viewHelperManager;
+        $this->eventManager = $eventManager;
+        $this->userSettings = $userSettings;
+    }
+
+    public function getColumnTypeManager() : ColumnTypeManager
     {
-        $this->services = $services;
-        $config = $services->get('Config');
-        $this->columnDefaults = $config['column_defaults'];
-        $this->browseDefaults = $config['browse_defaults'];
-        $this->sortDefaults = $config['sort_defaults'];
+        return $this->columnTypeManager;
+    }
+    public function getViewHelperManager() : HelperPluginManager
+    {
+        return $this->viewHelperManager;
+    }
+    public function getEventManager() : EventManager
+    {
+        return $this->eventManager;
+    }
+    public function getUserSettings() : UserSettings
+    {
+        return $this->userSettings;
     }
 
     /**
@@ -26,7 +58,7 @@ class Browse
      */
     public function getColumnType(string $columnType) : ColumnTypeInterface
     {
-        return $this->services->get('Omeka\ColumnTypeManager')->get($columnType);
+        return $this->getColumnTypeManager()->get($columnType);
     }
 
     /**
@@ -34,8 +66,7 @@ class Browse
      */
     public function columnTypeIsKnown(string $columnType) : bool
     {
-        $columnTypes = $this->services->get('Omeka\ColumnTypeManager');
-        return $columnTypes->has($columnType);
+        return $this->getColumnTypeManager()->has($columnType);
     }
 
     /**
@@ -50,8 +81,8 @@ class Browse
      */
     public function getSortConfig(string $context, string $resourceType) : array
     {
+        $browseHelper = $this->getViewHelperManager()->get('browse');
         $sortConfig = [];
-        $browseHelper = $this->services->get('ViewHelperManager')->get('browse');
         // Include sorts from user-configured columns.
         foreach ($this->getColumnsData($context, $resourceType) as $columnData) {
             if (!$this->columnTypeIsKnown($columnData['type'])) {
@@ -72,7 +103,7 @@ class Browse
             }
         }
         // Include any other sorts added by the sort-config event.
-        $eventManager = $this->services->get('EventManager');
+        $eventManager = $this->getEventManager();
         $args = $eventManager->prepareArgs([
             'context' => $context,
             'resourceType' => $resourceType,
@@ -94,11 +125,10 @@ class Browse
      */
     public function getBrowseConfig(string $context, string $resourceType, ?int $userId = null) : array
     {
-        $userSettings = $this->services->get('Omeka\Settings\User');
         // First, get the user-configured browse defaults, if any. Set the
         // defaults from the config file if they're not configured or malformed.
         $browseDefaultsSetting = sprintf('browse_defaults_%s_%s', $context, $resourceType);
-        $browseConfig = $userSettings->get($browseDefaultsSetting, null, $userId);
+        $browseConfig = $this->getUserSettings()->get($browseDefaultsSetting, null, $userId);
         if (!is_array($browseConfig) || !isset($browseConfig[0]) || !is_string($browseConfig[0])) {
             $browseConfig = $this->browseDefaults[$context][$resourceType] ?? [null, 'desc', 1];
         }
@@ -116,11 +146,10 @@ class Browse
      */
     public function getColumnsData(string $context, string $resourceType, ?int $userId = null) : array
     {
-        $userSettings = $this->services->get('Omeka\Settings\User');
         // First, get the user-configured columns data, if any. Set the default
         // if data is not configured or malformed.
         $userColumnsSetting = sprintf('columns_%s_%s', $context, $resourceType);
-        $userColumnsData = $userSettings->get($userColumnsSetting, null, $userId);
+        $userColumnsData = $this->getUserSettings()->get($userColumnsSetting, null, $userId);
         if (!is_array($userColumnsData) || !$userColumnsData) {
             $userColumnsData = $this->columnDefaults[$context][$resourceType] ?? [];
         }

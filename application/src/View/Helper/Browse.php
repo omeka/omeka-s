@@ -2,6 +2,7 @@
 namespace Omeka\View\Helper;
 
 use Laminas\Form\Element;
+use Laminas\Form\FormElementManager;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Helper\AbstractHelper;
 use Omeka\Api\Manager as ApiManager;
@@ -11,16 +12,22 @@ use Omeka\Stdlib\Browse as BrowseService;
 
 class Browse extends AbstractHelper
 {
-    protected ServiceLocatorInterface $services;
+    protected BrowseService $browseService;
+    protected FormElementManager $formElementManager;
 
-    public function __construct(ServiceLocatorInterface $services)
+    public function __construct(BrowseService $browseService, FormElementManager $formElementManager)
     {
-        $this->services = $services;
+        $this->browseService = $browseService;
+        $this->formElementManager = $formElementManager;
     }
 
     public function getBrowseService() : BrowseService
     {
-        return $this->services->get('Omeka\Browse');
+        return $this->browseService;
+    }
+    public function getFormElementManager() : FormElementManager
+    {
+        return $this->formElementManager;
     }
 
     /**
@@ -129,8 +136,8 @@ class Browse extends AbstractHelper
      */
     public function getColumnTypeSelect(string $resourceType) : string
     {
-        $formElements = $this->services->get('FormElementManager');
-        $columnTypes = $this->services->get('Omeka\ColumnTypeManager');
+        $formElements = $this->getFormElementManager();
+        $columnTypes = $this->getBrowseService()->getColumnTypeManager();
         $valueOptions = [];
         foreach ($columnTypes->getRegisteredNames() as $columnTypeName) {
             $columnType = $columnTypes->get($columnTypeName);
@@ -159,8 +166,8 @@ class Browse extends AbstractHelper
     public function getColumnForm(array $columnData) : string
     {
         $view = $this->getView();
-        $formElements = $this->services->get('FormElementManager');
-        $columnTypes = $this->services->get('Omeka\ColumnTypeManager');
+        $formElements = $this->getFormElementManager();
+        $columnTypes = $this->getBrowseService()->getColumnTypeManager();
         $columnType = $columnTypes->get($columnData['type']);
 
         $columnForm = [];

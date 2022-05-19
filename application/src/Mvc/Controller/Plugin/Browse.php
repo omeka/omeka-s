@@ -7,16 +7,16 @@ use Omeka\Stdlib\Browse as BrowseService;
 
 class Browse extends AbstractPlugin
 {
-    protected ServiceLocatorInterface $services;
+    protected BrowseService $browseService;
 
-    public function __construct(ServiceLocatorInterface $services)
+    public function __construct(BrowseService $browseService)
     {
-        $this->services = $services;
+        $this->browseService = $browseService;
     }
 
     public function getBrowseService() : BrowseService
     {
-        return $this->services->get('Omeka\Browse');
+        return $this->browseService;
     }
 
     public function setDefaults(string $resourceType) : void

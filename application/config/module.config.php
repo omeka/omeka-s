@@ -281,6 +281,7 @@ return [
             'Omeka\FulltextSearch' => Service\FulltextSearchFactory::class,
             'Omeka\Environment' => Service\EnvironmentFactory::class,
             'Omeka\ColumnTypeManager' => Service\ColumnType\ManagerFactory::class,
+            'Omeka\Browse' => Service\BrowseFactory::class,
         ],
         'invokables' => [
             'ModuleRouteListener' => \Laminas\Mvc\ModuleRouteListener::class,

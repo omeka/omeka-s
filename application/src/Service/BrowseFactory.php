@@ -1,9 +1,9 @@
 <?php
-namespace Omeka\Service\ControllerPlugin;
+namespace Omeka\Service;
 
-use Interop\Container\ContainerInterface;
-use Omeka\Mvc\Controller\Plugin\Browse;
+use Omeka\Stdlib\Browse;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class BrowseFactory implements FactoryInterface
 {

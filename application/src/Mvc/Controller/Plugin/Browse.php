@@ -1,23 +1,29 @@
 <?php
 namespace Omeka\Mvc\Controller\Plugin;
 
-use Laminas\View\HelperPluginManager;
 use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Omeka\Stdlib\Browse as BrowseService;
 
 class Browse extends AbstractPlugin
 {
-    protected HelperPluginManager $viewHelperManager;
+    protected ServiceLocatorInterface $services;
 
-    public function __construct(HelperPluginManager $viewHelperManager)
+    public function __construct(ServiceLocatorInterface $services)
     {
-        $this->viewHelperManager = $viewHelperManager;
+        $this->services = $services;
+    }
+
+    public function getBrowseService() : BrowseService
+    {
+        return $this->services->get('Omeka\Browse');
     }
 
     public function setDefaults(string $resourceType) : void
     {
         $controller = $this->getController();
         $context = $controller->status()->isAdminRequest() ? 'admin' : 'public';
-        $browseConfig = $this->viewHelperManager->get('browse')->getBrowseConfig($context, $resourceType);
+        $browseConfig = $this->getBrowseService()->getBrowseConfig($context, $resourceType);
         $query = $this->getController()->getRequest()->getQuery();
         $query->set('sort_by', $query->get('sort_by', $browseConfig[0]));
         $query->set('sort_order', $query->get('sort_order', $browseConfig[1]));

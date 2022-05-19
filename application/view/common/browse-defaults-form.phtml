@@ -1,7 +1,7 @@
 <?php
 $this->headLink()->appendStylesheet($this->assetUrl('css/browse-defaults-form.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/browse-defaults-form.js', 'Omeka'));
-$sortConfig = $this->browse()->getSortConfig($element->getContext(), $element->getResourceType());
+$sortConfig = $this->browse()->getBrowseService()->getSortConfig($element->getContext(), $element->getResourceType());
 ?>
 <div class="browse-defualts-form-element"
     data-context="<?php echo $this->escapeHtml($element->getContext()); ?>"

@@ -43,7 +43,7 @@ class UserForm extends Form
      */
     protected $userSettings;
 
-    protected $viewHelperManager;
+    protected $browseService;
 
     public function __construct($name = null, $options = [])
     {
@@ -228,7 +228,7 @@ class UserForm extends Form
                 'columns_user_id' => $userId,
             ],
         ]);
-        $browseConfig = $this->viewHelperManager->get('browse')->getBrowseConfig('admin', 'items', $userId);
+        $browseConfig = $this->browseService->getBrowseConfig('admin', 'items', $userId);
         $settingsFieldset->add([
             'name' => 'browse_defaults_admin_items',
             'type' => BrowseDefaults::class,
@@ -245,7 +245,7 @@ class UserForm extends Form
                     : json_encode($browseConfig),
             ],
         ]);
-        $browseConfig = $this->viewHelperManager->get('browse')->getBrowseConfig('admin', 'item_sets', $userId);
+        $browseConfig = $this->browseService->getBrowseConfig('admin', 'item_sets', $userId);
         $settingsFieldset->add([
             'name' => 'browse_defaults_admin_item_sets',
             'type' => BrowseDefaults::class,
@@ -262,7 +262,7 @@ class UserForm extends Form
                     : json_encode($browseConfig),
             ],
         ]);
-        $browseConfig = $this->viewHelperManager->get('browse')->getBrowseConfig('admin', 'media', $userId);
+        $browseConfig = $this->browseService->getBrowseConfig('admin', 'media', $userId);
         $settingsFieldset->add([
             'name' => 'browse_defaults_admin_media',
             'type' => BrowseDefaults::class,
@@ -402,8 +402,8 @@ class UserForm extends Form
         return $this->userSettings;
     }
 
-    public function setViewHelperManager($viewHelperManager)
+    public function setBrowseService($browseService)
     {
-        $this->viewHelperManager = $viewHelperManager;
+        $this->browseService = $browseService;
     }
 }

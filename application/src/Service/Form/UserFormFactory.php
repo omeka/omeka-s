@@ -15,7 +15,7 @@ class UserFormFactory implements FactoryInterface
         $form->setUserSettings($services->get('Omeka\Settings\User'));
         $form->setSettings($services->get('Omeka\Settings'));
         $form->setEventManager($services->get('EventManager'));
-        $form->setViewHelperManager($services->get('ViewHelperManager'));
+        $form->setBrowseService($services->get('Omeka\Browse'));
         return $form;
     }
 }

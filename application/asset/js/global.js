@@ -72,27 +72,26 @@ var Omeka = {
             parent.find('li.selector-child').each(function() {
                 var child = $(this);
                 var label = child.data('child-search').toLowerCase();
-                if (label.indexOf(filter) > -1) {
+                if ((label.indexOf(filter) < 0) || (child.hasClass('added'))) {
+                    // Label doesn't contain the filter string. Hide the child.
+                    child.addClass('filter-hidden');
+                } else {
                     // Label contains the filter string. Show the child.
-                    child.show();
+                    child.removeClass('filter-hidden');
                     totalCount++;
                     count++;
-                } else {
-                    // Label doesn't contain the filter string. Hide the child.
-                    child.hide();
                 }
             });
             if (count > 0) {
-                parent.addClass('show');
-                parent.show();
+                parent.removeClass('empty');
             } else {
-                parent.removeClass('show');
-                parent.hide();
+                parent.addClass('empty');
             }
             parent.children('span.selector-child-count').text(count);
         });
         if (filter == '') {
             selector.find('li.selector-parent').removeClass('show');
+            $('.filter-match').removeClass('filter-match');
         }
         selector.find('span.selector-total-count').text(totalCount);
     },
@@ -204,7 +203,8 @@ var Omeka = {
         var existingRowData = table.data('existing-rows');
         var rowTemplate = $($.parseHTML(table.data('rowTemplate')));
         var selector = $(selectorId);
-        var totalCount = $(selectorId).find('.selector-total-count');
+        var totalCount = selector.find('.resources-available').data('all-resources-count');
+        var selectorCount = selector.find('.selector-total-count');
       
         var parentToggle = function(e) {
             e.stopPropagation();
@@ -236,15 +236,16 @@ var Omeka = {
             var resourceParent = resource.parents('.selector-parent');
             var childCount = resourceParent.find('.selector-child-count').first();
             if (resource.hasClass('added')) {
-                var newTotalCount = parseInt(totalCount.text()) - 1;
+                var newTotalCount = parseInt(selectorCount.text()) - 1;
                 var newChildCount = parseInt(childCount.text()) - 1;
             } else {
-                var newTotalCount = parseInt(totalCount.text()) + 1;
+                var newTotalCount = parseInt(selectorCount.text()) + 1;
                 var newChildCount = parseInt(childCount.text()) + 1;
             }
-            totalCount.text(newTotalCount);
+            selectorCount.text(newTotalCount);
             childCount.text(newChildCount);
-            if (newTotalCount == 0) {
+            var currentRows = table.find('.resource-row').length;
+            if (totalCount - currentRows == 0) {
                 selector.find('.resources-available').addClass('empty');
             } else {
                 selector.find('.resources-available').removeClass('empty');

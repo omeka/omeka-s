@@ -129,7 +129,11 @@ class Browse
         // defaults from the config file if they're not configured or malformed.
         $browseDefaultsSetting = sprintf('browse_defaults_%s_%s', $context, $resourceType);
         $browseConfig = $this->getUserSettings()->get($browseDefaultsSetting, null, $userId);
-        if (!is_array($browseConfig) || !isset($browseConfig[0]) || !is_string($browseConfig[0])) {
+        if (!is_array($browseConfig)
+            || !isset($browseConfig[0])
+            || !is_string($browseConfig[0])
+            || '' === trim($browseConfig[0])
+        ) {
             $browseConfig = $this->browseDefaults[$context][$resourceType] ?? [null, 'desc', 1];
         }
         // Standardize the defaults before returning.

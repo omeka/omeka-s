@@ -22,7 +22,7 @@ class ResourceTemplateController extends AbstractActionController
 
     public function browseAction()
     {
-        $this->setBrowseDefaults('label', 'asc');
+        $this->browse()->setDefaults('resource_templates');
         $response = $this->api()->search('resource_templates', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 

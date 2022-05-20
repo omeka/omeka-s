@@ -18,7 +18,7 @@ class MediaController extends AbstractActionController
 
     public function browseAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('media');
         $response = $this->api()->search('media', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 

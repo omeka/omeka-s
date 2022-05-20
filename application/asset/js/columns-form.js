@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-
 let selectedColumn;
 const sidebarColumn = $('<div class="sidebar" id="columns-sidebar"></div>');
 sidebarColumn.appendTo('#content');

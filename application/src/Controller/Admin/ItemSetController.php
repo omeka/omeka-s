@@ -78,7 +78,7 @@ class ItemSetController extends AbstractActionController
 
     public function browseAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('item_sets');
         $response = $this->api()->search('item_sets', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 

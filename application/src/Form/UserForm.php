@@ -228,7 +228,6 @@ class UserForm extends Form
                 'columns_user_id' => $userId,
             ],
         ]);
-        $browseConfig = $this->browseService->getBrowseConfig('admin', 'items', $userId);
         $settingsFieldset->add([
             'name' => 'browse_defaults_admin_items',
             'type' => BrowseDefaults::class,
@@ -240,12 +239,9 @@ class UserForm extends Form
                 'browse_defaults_user_id' => $userId,
             ],
             'attributes' => [
-                'value' => $userId
-                    ? json_encode($this->userSettings->get('browse_defaults_admin_items', $browseConfig, $userId))
-                    : json_encode($browseConfig),
+                'value' => json_encode($this->browseService->getBrowseConfig('admin', 'items', $userId)),
             ],
         ]);
-        $browseConfig = $this->browseService->getBrowseConfig('admin', 'item_sets', $userId);
         $settingsFieldset->add([
             'name' => 'browse_defaults_admin_item_sets',
             'type' => BrowseDefaults::class,
@@ -257,12 +253,9 @@ class UserForm extends Form
                 'browse_defaults_user_id' => $userId,
             ],
             'attributes' => [
-                'value' => $userId
-                    ? json_encode($this->userSettings->get('browse_defaults_admin_item_sets', $browseConfig, $userId))
-                    : json_encode($browseConfig),
+                'value' => json_encode($this->browseService->getBrowseConfig('admin', 'item_sets', $userId)),
             ],
         ]);
-        $browseConfig = $this->browseService->getBrowseConfig('admin', 'media', $userId);
         $settingsFieldset->add([
             'name' => 'browse_defaults_admin_media',
             'type' => BrowseDefaults::class,
@@ -274,9 +267,21 @@ class UserForm extends Form
                 'browse_defaults_user_id' => $userId,
             ],
             'attributes' => [
-                'value' => $userId
-                    ? json_encode($this->userSettings->get('browse_defaults_admin_media', $browseConfig, $userId))
-                    : json_encode($browseConfig),
+                'value' => json_encode($this->browseService->getBrowseConfig('admin', 'media', $userId)),
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'browse_defaults_admin_sites',
+            'type' => BrowseDefaults::class,
+            'options' => [
+                'element_group' => 'browse_defaults',
+                'label' => 'Site browse defaults', // @translate
+                'browse_defaults_context' => 'admin',
+                'browse_defaults_resource_type' => 'sites',
+                'browse_defaults_user_id' => $userId,
+            ],
+            'attributes' => [
+                'value' => json_encode($this->browseService->getBrowseConfig('admin', 'sites', $userId)),
             ],
         ]);
 

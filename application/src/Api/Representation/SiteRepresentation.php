@@ -208,9 +208,10 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function sitePermissions()
     {
         $sitePermissions = [];
+        $services = $this->getServiceLocator();
         foreach ($this->resource->getSitePermissions() as $sitePermission) {
             $sitePermissions[] = new SitePermissionRepresentation(
-                $sitePermission, $this->getServiceLocator());
+                $sitePermission, $services);
         }
         return $sitePermissions;
     }
@@ -223,8 +224,9 @@ class SiteRepresentation extends AbstractEntityRepresentation
     public function siteItemSets()
     {
         $itemSets = [];
+        $services = $this->getServiceLocator();
         foreach ($this->resource->getSiteItemSets() as $itemSet) {
-            $itemSets[] = new SiteItemSetRepresentation($itemSet, $this->getServiceLocator());
+            $itemSets[] = new SiteItemSetRepresentation($itemSet, $services);
         }
         return $itemSets;
     }

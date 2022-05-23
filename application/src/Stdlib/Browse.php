@@ -81,6 +81,7 @@ class Browse
     public function getSortConfig(string $context, string $resourceType) : array
     {
         $browseHelper = $this->getViewHelperManager()->get('browse');
+        $translateHelper = $this->getViewHelperManager()->get('translate');
         $sortConfig = [];
         // Include sorts from user-configured columns.
         foreach ($this->getColumnsData($context, $resourceType) as $columnData) {
@@ -93,6 +94,12 @@ class Browse
                 continue; // This column cannot be sorted.
             }
             $sortConfig[$sortBy] = $browseHelper->getHeader($columnData);
+        }
+        // Include the custom sort by, if any.
+        $browseConfig = $this->getBrowseConfig($context, $resourceType);
+        if (!isset($sortConfig[$browseConfig['sort_by']])) {
+            $customLabel = 'Custom (%s)'; // @translate
+            $sortConfig[$browseConfig['sort_by']] = sprintf($translateHelper($customLabel), $browseConfig['sort_by']);
         }
         // Include default sorts that are not configured.
         $sortDefaults = $this->sortDefaults[$context][$resourceType] ?? [];

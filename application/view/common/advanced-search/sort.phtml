@@ -13,14 +13,12 @@ switch ($resourceType) {
     default:
         $sortConfigResourceType = 'items';
 }
-$sortConfig = $this->browse()->getSortSelectorConfig($sortConfigContext, $sortConfigResourceType);
-$sortByQuery = $query['sort_by'] ?? '';
-$sortOrderQuery = $query['sort_order'] ?? '';
+$sortConfig = $this->browse()->getBrowseService()->getSortConfig($sortConfigContext, $sortConfigResourceType);
 
 $sortBy = new Element\Select('sort_by');
 $sortBy->setEmptyOption($this->translate('Select sort by…'));
 $sortBy->setValueOptions($sortConfig);
-$sortBy->setValue($sortByQuery);
+$sortBy->setValue($query['sort_by'] ?? '');
 
 $sortOrder = new Element\Select('sort_order');
 $sortOrder->setEmptyOption($this->translate('Select sort order…'));
@@ -28,7 +26,7 @@ $sortOrder->setValueOptions([
     'asc' => $this->translate('Ascending'),
     'desc' => $this->translate('Descending'),
 ]);
-$sortOrder->setValue($sortOrderQuery);
+$sortOrder->setValue($query['sort_order'] ?? '');
 ?>
 <div class="field">
     <div class="field-meta">

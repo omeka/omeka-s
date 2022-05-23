@@ -14,7 +14,7 @@ $sortConfig = $this->browse()->getBrowseService()->getSortConfig($element->getCo
         <option value="<?php echo $this->escapeHtml($sortBy); ?>"><?php echo $label; ?></option>
         <?php endforeach; ?>
     </select>
-    <input type="text" class="browse-defualts-sort-by-custom" placeholder="<?php echo $this->escapeHtml($this->translate('Enter a custom sort by')); ?>" style="display:none;">
+    <input type="text" class="browse-defualts-custom-sort-by" placeholder="<?php echo $this->escapeHtml($this->translate('Enter a custom sort by')); ?>" style="display:none;">
     <select class="browse-defualts-sort-order">
         <option value="desc"><?php echo $this->translate('Descending'); ?></option>
         <option value="asc"><?php echo $this->translate('Ascending'); ?></option>

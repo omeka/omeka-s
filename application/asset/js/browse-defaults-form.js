@@ -5,19 +5,19 @@ $(document).ready(function() {
         const thisFormElement = $(this);
         const browseDefaultsInput = thisFormElement.find('input.browse-defaults');
         const sortBySelect = thisFormElement.find('.browse-defualts-sort-by');
-        const sortByCustomInput = thisFormElement.find('.browse-defualts-sort-by-custom');
+        const customSortByInput = thisFormElement.find('.browse-defualts-custom-sort-by');
         const sortOrderSelect = thisFormElement.find('.browse-defualts-sort-order');
 
         const browseDefaults = JSON.parse(browseDefaultsInput.val());
-        const sortBy = browseDefaults[0];
-        const sortOrder = browseDefaults[1];
+        const sortBy = browseDefaults.sort_by;
+        const sortOrder = browseDefaults.sort_order;
 
         const sortByOption = sortBySelect.find(`option[value="${sortBy}"]`);
         if (sortByOption.length) {
             sortByOption.prop('selected', true);
         } else {
-            sortByCustomInput.val(sortBy);
-            sortByCustomInput.show();
+            customSortByInput.val(sortBy);
+            customSortByInput.show();
         }
         sortOrderSelect.find(`option[value="${sortOrder}"]`).prop('selected', true);
     });
@@ -26,12 +26,12 @@ $(document).ready(function() {
     $(document).on('change', '.browse-defualts-sort-by', function(e) {
         const thisSelect = $(this);
         const formElement = thisSelect.closest('.browse-defualts-form-element');
-        const sortByCustomInput = formElement.find('.browse-defualts-sort-by-custom');
+        const customSortByInput = formElement.find('.browse-defualts-custom-sort-by');
         if ('' === thisSelect.val()) {
-            sortByCustomInput.show();
+            customSortByInput.show();
         } else {
-            sortByCustomInput.hide();
-            sortByCustomInput.val('');
+            customSortByInput.hide();
+            customSortByInput.val('');
         }
     });
 
@@ -42,10 +42,10 @@ $(document).ready(function() {
             const thisFormElement = $(this);
             const browseDefaultsInput = thisFormElement.find('input.browse-defaults');
             const sortBySelect = thisFormElement.find('.browse-defualts-sort-by');
-            const sortByCustomInput = thisFormElement.find('.browse-defualts-sort-by-custom');
+            const customSortByInput = thisFormElement.find('.browse-defualts-custom-sort-by');
             const sortOrderSelect = thisFormElement.find('.browse-defualts-sort-order');
 
-            let sortBy = sortByCustomInput.val().trim();
+            let sortBy = customSortByInput.val().trim();
             if (0 === sortBy.length) {
                 sortBy = sortBySelect.val();
             }

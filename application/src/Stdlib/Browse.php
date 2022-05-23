@@ -129,13 +129,20 @@ class Browse
         // defaults from the config file if they're not configured or malformed.
         $browseDefaultsSetting = sprintf('browse_defaults_%s_%s', $context, $resourceType);
         $browseConfig = $this->getUserSettings()->get($browseDefaultsSetting, null, $userId);
-        if (!is_array($browseConfig)|| !isset($browseConfig['sort_by']) || !isset($browseConfig['sort_order'])) {
-            $browseConfig = $this->browseDefaults[$context][$resourceType] ?? ['sort_by' => null, 'sort_order' => 'desc'];
+        if (!is_array($browseConfig)
+            || !isset($browseConfig['sort_by'])
+            || !is_string($browseConfig['sort_by'])
+            || '' === trim($browseConfig['sort_by'])
+            || !isset($browseConfig['sort_order'])
+            || !is_string($browseConfig['sort_order'])
+            || !in_array($browseConfig['sort_order'], ['desc', 'asc'])
+        ) {
+            $browseConfig = $this->browseDefaults[$context][$resourceType] ?? [];
         }
         // Standardize the defaults before returning.
         $browseConfig = [
-            $browseConfig['sort_by'] ?? null,
-            $browseConfig['sort_order'] ?? 'desc',
+            'sort_by' => $browseConfig['sort_by'] ?? 'id',
+            'sort_order' => $browseConfig['sort_order'] ?? 'desc',
         ];
         return $browseConfig;
     }

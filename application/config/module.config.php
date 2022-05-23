@@ -576,18 +576,54 @@ return [
     ],
     'browse_defaults' => [
         'admin' => [
-            'items' => ['created', 'desc', 1],
-            'item_sets' => ['created', 'desc', 1],
-            'media' => ['created', 'desc', 1],
-            'sites' => ['title', 'asc', 1],
-            'assets' => ['id', 'desc', 1],
-            'jobs' => ['id'. 'desc', 1],
-            'resource_templates' => ['label', 'asc', 1],
-            'users' => ['email', 'asc', 1],
-            'vocabularies' => ['label', 'asc', 1],
-            'resource_classes' => ['label', 'asc', 1],
-            'properties' => ['label', 'asc', 1],
-            'site_pages' => ['nav', 'asc', 1],
+            'items' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+            'item_sets' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+            'media' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+            'sites' => [
+                'sort_by' => 'title',
+                'sort_order' => 'asc',
+            ],
+            'assets' => [
+                'sort_by' => 'id',
+                'sort_order' => 'desc',
+            ],
+            'jobs' => [
+                'sort_by' => 'id',
+                'sort_order' => 'desc',
+            ],
+            'resource_templates' => [
+                'sort_by' => 'label',
+                'sort_order' => 'asc',
+            ],
+            'users' => [
+                'sort_by' => 'email',
+                'sort_order' => 'asc',
+            ],
+            'vocabularies' => [
+                'sort_by' => 'label',
+                'sort_order' => 'asc',
+            ],
+            'resource_classes' => [
+                'sort_by' => 'label',
+                'sort_order' => 'asc',
+            ],
+            'properties' => [
+                'sort_by' => 'label',
+                'sort_order' => 'asc',
+            ],
+            'site_pages' => [
+                'sort_by' => 'nav',
+                'sort_order' => 'asc',
+            ],
         ],
         'public' => [],
     ],

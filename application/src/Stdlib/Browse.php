@@ -73,10 +73,9 @@ class Browse
      * Get the sort configuration.
      *
      * The sort configuration is an array:
-     *
      * [
-     *   'sort_by_query_param' => 'Sort by label',
-     *   'another_sort_by_query_param' => 'Another sort by label',
+     *   '<sort_by_param_1>' => '<Sort by label 1>',
+     *   '<sort_by_param_2' => '<Sort by label 2>',
      * ]
      */
     public function getSortConfig(string $context, string $resourceType) : array
@@ -118,10 +117,11 @@ class Browse
     /**
      * Get the browse configuration.
      *
-     * The browse configuration is an array with three elements:
-     *   1. The default sort_by value
-     *   2. The default sort_order value
-     *   3. The default page value
+     * The browse configuration is an array containing two keys:
+     * [
+     *   'sort_by' => '<sort_by_param>',
+     *   'sort_order' => '<sort_order_param>',
+     * ]
      */
     public function getBrowseConfig(string $context, string $resourceType, ?int $userId = null) : array
     {
@@ -129,18 +129,13 @@ class Browse
         // defaults from the config file if they're not configured or malformed.
         $browseDefaultsSetting = sprintf('browse_defaults_%s_%s', $context, $resourceType);
         $browseConfig = $this->getUserSettings()->get($browseDefaultsSetting, null, $userId);
-        if (!is_array($browseConfig)
-            || !isset($browseConfig[0])
-            || !is_string($browseConfig[0])
-            || '' === trim($browseConfig[0])
-        ) {
-            $browseConfig = $this->browseDefaults[$context][$resourceType] ?? [null, 'desc', 1];
+        if (!is_array($browseConfig)|| !isset($browseConfig['sort_by']) || !isset($browseConfig['sort_order'])) {
+            $browseConfig = $this->browseDefaults[$context][$resourceType] ?? ['sort_by' => null, 'sort_order' => 'desc'];
         }
         // Standardize the defaults before returning.
         $browseConfig = [
-            $browseConfig[0] ?? null,
-            $browseConfig[1] ?? 'desc',
-            $browseConfig[2] ?? 1,
+            $browseConfig['sort_by'] ?? null,
+            $browseConfig['sort_order'] ?? 'desc',
         ];
         return $browseConfig;
     }

@@ -49,7 +49,10 @@ $(document).ready(function() {
             if (0 === sortBy.length) {
                 sortBy = sortBySelect.val();
             }
-            const browseDefaults = [sortBy, sortOrderSelect.val(), 1];
+            const browseDefaults = {
+                sort_by: sortBy,
+                sort_order: sortOrderSelect.val()
+            };
             browseDefaultsInput.val(JSON.stringify(browseDefaults));
         });
     });

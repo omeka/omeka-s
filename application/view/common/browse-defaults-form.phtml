@@ -9,14 +9,13 @@ $sortConfig = $this->browse()->getBrowseService()->getSortConfig($element->getCo
     data-user-id="<?php echo $this->escapeHtml($element->getUserId()); ?>">
     <?php echo $this->formHidden($element); ?>
     <select class="browse-defualts-sort-by">
-        <option value=""><?php echo $this->translate('Default'); ?></option>
+        <option value=""><?php echo $this->translate('[Custom sort by]'); ?></option>
         <?php foreach ($sortConfig as $sortBy => $label): ?>
         <option value="<?php echo $this->escapeHtml($sortBy); ?>"><?php echo $label; ?></option>
         <?php endforeach; ?>
     </select>
-    <input type="text" class="browse-defualts-sort-by-custom" placeholder="<?php echo $this->escapeHtml($this->translate('Custom sort by (optional)')); ?>">
+    <input type="text" class="browse-defualts-sort-by-custom" placeholder="<?php echo $this->escapeHtml($this->translate('Enter a custom sort by')); ?>" style="display:none;">
     <select class="browse-defualts-sort-order">
-        <option value=""><?php echo $this->translate('Default'); ?></option>
         <option value="desc"><?php echo $this->translate('Descending'); ?></option>
         <option value="asc"><?php echo $this->translate('Ascending'); ?></option>
     </select>

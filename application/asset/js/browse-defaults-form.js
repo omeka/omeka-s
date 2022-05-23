@@ -17,8 +17,22 @@ $(document).ready(function() {
             sortByOption.prop('selected', true);
         } else {
             sortByCustomInput.val(sortBy);
+            sortByCustomInput.show();
         }
         sortOrderSelect.find(`option[value="${sortOrder}"]`).prop('selected', true);
+    });
+
+    // Handle sort by change.
+    $(document).on('change', '.browse-defualts-sort-by', function(e) {
+        const thisSelect = $(this);
+        const formElement = thisSelect.closest('.browse-defualts-form-element');
+        const sortByCustomInput = formElement.find('.browse-defualts-sort-by-custom');
+        if ('' === thisSelect.val()) {
+            sortByCustomInput.show();
+        } else {
+            sortByCustomInput.hide();
+            sortByCustomInput.val('');
+        }
     });
 
     // Handle form submission.

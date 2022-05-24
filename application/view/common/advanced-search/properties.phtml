@@ -36,8 +36,7 @@ $queryText = function(array $search, $index) {
 $options_query = array();
 if ($this->status()->isSiteRequest()) {
     if ($this->siteSetting('vocabulary_scope') == 'sitewide') {
-        $site_id = $this->api()->read('sites', ['slug' => $this->params()->fromRoute('site-slug')])->getContent()->id();
-        $options_query['site_id'] = $site_id;
+        $options_query['site_id'] = $this->layout()->site->id();
     }
     if ($this->siteSetting('vocabulary_scope') == 'cross-site') {
         $options_query['used'] = true;

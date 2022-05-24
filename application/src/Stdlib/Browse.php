@@ -6,6 +6,7 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\HelperPluginManager;
 use Omeka\ColumnType\ColumnTypeInterface;
 use Omeka\ColumnType\Manager as ColumnTypeManager;
+use Omeka\Settings\SiteSettings;
 use Omeka\Settings\UserSettings;
 
 class Browse
@@ -25,7 +26,8 @@ class Browse
         ColumnTypeManager $columnTypeManager,
         HelperPluginManager $viewHelperManager,
         EventManager $eventManager,
-        UserSettings $userSettings
+        UserSettings $userSettings,
+        SiteSettings $siteSettings
     ) {
         $this->columnDefaults = $columnDefaults;
         $this->browseDefaults = $browseDefaults;
@@ -34,6 +36,7 @@ class Browse
         $this->viewHelperManager = $viewHelperManager;
         $this->eventManager = $eventManager;
         $this->userSettings = $userSettings;
+        $this->siteSettings = $siteSettings;
     }
 
     public function getColumnTypeManager() : ColumnTypeManager
@@ -51,6 +54,10 @@ class Browse
     public function getUserSettings() : UserSettings
     {
         return $this->userSettings;
+    }
+    public function getSiteSettings() : SiteSettings
+    {
+        return $this->siteSettings;
     }
 
     /**
@@ -95,12 +102,6 @@ class Browse
             }
             $sortConfig[$sortBy] = $browseHelper->getHeader($columnData);
         }
-        // Include the custom sort by, if any.
-        $browseConfig = $this->getBrowseConfig($context, $resourceType);
-        if (!isset($sortConfig[$browseConfig['sort_by']])) {
-            $customLabel = 'Custom (%s)'; // @translate
-            $sortConfig[$browseConfig['sort_by']] = sprintf($translateHelper($customLabel), $browseConfig['sort_by']);
-        }
         // Include default sorts that are not configured.
         $sortDefaults = $this->sortDefaults[$context][$resourceType] ?? [];
         foreach ($sortDefaults as $sortBy => $label) {
@@ -117,6 +118,12 @@ class Browse
         ]);
         $eventManager->trigger('sort-config', null, $args);
         $sortConfig = $args['sortConfig'];
+        // Include the custom sort by, if any.
+        $browseConfig = $this->getBrowseConfig($context, $resourceType);
+        if (!isset($sortConfig[$browseConfig['sort_by']])) {
+            $customLabel = 'Custom (%s)'; // @translate
+            $sortConfig[$browseConfig['sort_by']] = sprintf($translateHelper($customLabel), $browseConfig['sort_by']);
+        }
         natsort($sortConfig);
         return $sortConfig;
     }
@@ -129,13 +136,20 @@ class Browse
      *   'sort_by' => '<sort_by_param>',
      *   'sort_order' => '<sort_order_param>',
      * ]
+     *
+     * Note that context determines the origin of user-configured data: "public"
+     * context derives from site settings; "admin" context derives from user
+     * settings.
      */
     public function getBrowseConfig(string $context, string $resourceType, ?int $userId = null) : array
     {
         // First, get the user-configured browse defaults, if any. Set the
         // defaults from the config file if they're not configured or malformed.
         $browseDefaultsSetting = sprintf('browse_defaults_%s_%s', $context, $resourceType);
-        $browseConfig = $this->getUserSettings()->get($browseDefaultsSetting, null, $userId);
+        $browseConfig = ('public' === $context)
+            ? $this->getSiteSettings()->get($browseDefaultsSetting, null)
+            : $this->getUserSettings()->get($browseDefaultsSetting, null, $userId);
+
         if (!is_array($browseConfig)
             || !isset($browseConfig['sort_by'])
             || !is_string($browseConfig['sort_by'])
@@ -156,13 +170,20 @@ class Browse
 
     /**
      * Get data for all columns.
+     *
+     * Note that context determines the origin of user-configured data: "public"
+     * context derives from site settings; "admin" context derives from user
+     * settings.
      */
     public function getColumnsData(string $context, string $resourceType, ?int $userId = null) : array
     {
         // First, get the user-configured columns data, if any. Set the default
         // if data is not configured or malformed.
         $userColumnsSetting = sprintf('columns_%s_%s', $context, $resourceType);
-        $userColumnsData = $this->getUserSettings()->get($userColumnsSetting, null, $userId);
+        $userColumnsData = ('public' === $context)
+            ? $this->getSiteSettings()->get($userColumnsSetting, null)
+            : $this->getUserSettings()->get($userColumnsSetting, null, $userId);
+
         if (!is_array($userColumnsData) || !$userColumnsData) {
             $userColumnsData = $this->columnDefaults[$context][$resourceType] ?? [];
         }

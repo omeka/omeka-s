@@ -17,7 +17,8 @@ class BrowseFactory implements FactoryInterface
             $services->get('Omeka\ColumnTypeManager'),
             $services->get('ViewHelperManager'),
             $services->get('EventManager'),
-            $services->get('Omeka\Settings\User')
+            $services->get('Omeka\Settings\User'),
+            $services->get('Omeka\Settings\Site')
         );
     }
 }

@@ -625,7 +625,12 @@ return [
                 'sort_order' => 'asc',
             ],
         ],
-        'public' => [],
+        'public' => [
+            'items' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+        ],
     ],
     'sort_defaults' => [
         'admin' => [

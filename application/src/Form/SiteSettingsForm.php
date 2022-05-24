@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Form\Element\BrowseDefaults;
 use Omeka\Form\Element\PropertySelect;
 use Omeka\Settings\SiteSettings;
 use Laminas\Form\Form;
@@ -224,6 +225,20 @@ class SiteSettingsForm extends Form
                 'data-placeholder' => 'Select a property', // @translate
             ],
         ]);
+        $this->add([
+            'name' => 'browse_defaults_public_items',
+            'type' => BrowseDefaults::class,
+            'options' => [
+                'element_group' => 'browse',
+                'label' => 'Item browse defaults', // @translate
+                'browse_defaults_context' => 'public',
+                'browse_defaults_resource_type' => 'items',
+            ],
+            'attributes' => [
+                'value' => json_encode($this->browseService->getBrowseConfig('public', 'items')),
+            ],
+        ]);
+
 
         // Show section
         $this->add([
@@ -376,5 +391,10 @@ class SiteSettingsForm extends Form
     public function getSiteSettings()
     {
         return $this->siteSettings;
+    }
+
+    public function setBrowseService($browseService)
+    {
+        $this->browseService = $browseService;
     }
 }

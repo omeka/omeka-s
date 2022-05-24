@@ -53,12 +53,12 @@ class ListOfPages extends AbstractBlockLayout
         }
         $pageList->setValue(json_encode($pageTree));
 
-        $html = '<button type="button" class="site-page-add"';
-        $html .= 'data-sidebar-content-url="' . $escape($page->url('sidebar-pagelist'));
-        $html .= '">' . $view->translate('Add pages') . '</button>';
-        $html .= '<div class="block-pagelist-tree"';
+        $html = '<div class="block-pagelist-tree"';
         $html .= '" data-jstree-data="' . $escape($pageList->getValue());
-        $html .= '"></div><div class="inputs">' . $view->formRow($pageList) . '</div>';
+        $html .= '"></div>';
+        $html .= '<button type="button" class="site-page-add">';
+        $html .= $view->translate('Add pages') . '</button>';
+        $html .= '<div class="inputs">' . $view->formRow($pageList) . '</div>';
 
         return $html;
     }
@@ -80,16 +80,19 @@ class ListOfPages extends AbstractBlockLayout
     public function getPageNodeURLs($nodes, SitePageBlockRepresentation $block)
     {
         $site = $block->page()->site();
+        $pages = $site->pages();
 
         // Add page URL to jstree node data if not already present
-        $iterate = function (&$value, $key) use (&$iterate, $site) {
+        $iterate = function (&$value, $key) use (&$iterate, $site, $pages) {
             if (is_array($value)) {
                 if (array_key_exists('type', $value)) {
+                    $isPublic = isset($pages[$value['data']['id']]) ? $pages[$value['data']['id']]->isPublic() : true;
                     $manager = $this->linkManager;
                     $linkType = $manager->get($value['type']);
                     $linkData = $value;
                     $pageUrl = $this->navTranslator->getLinkUrl($linkType, $linkData, $site);
                     $value['url'] = $pageUrl;
+                    $value['data']['is_public'] = $isPublic;
                 }
                 array_walk($value, $iterate);
             }

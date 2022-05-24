@@ -17,6 +17,18 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         'title' => 'title',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        'title' => 'title',
+        'created' => 'created',
+        'modified' => 'modified',
+        'is_public' => 'isPublic',
+        'thumbnail' => 'thumbnail',
+        'owner' => 'owner',
+        'resource_class' => 'resourceClass',
+        'resource_template' => 'resourceTemplate',
+    ];
+
     public function getResourceName()
     {
         return 'items';
@@ -88,9 +100,14 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                     $this->createNamedParameter($qb, $query['site_id']))
                 );
             }
-        } elseif (isset($query['in_sites']) && $query['in_sites']) {
+        } elseif (isset($query['in_sites']) && (is_numeric($query['in_sites']) || is_bool($query['in_sites']))) {
             $siteAlias = $this->createAlias();
-            $qb->innerJoin('omeka_root.sites', $siteAlias);
+            if ($query['in_sites']) {
+                $qb->innerJoin('omeka_root.sites', $siteAlias);
+            } else {
+                $qb->leftJoin('omeka_root.sites', $siteAlias);
+                $qb->andWhere($qb->expr()->isNull($siteAlias));
+            }
         }
     }
 
@@ -268,5 +285,21 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         }
 
         return $data;
+    }
+
+    public function getFulltextText($resource)
+    {
+        $texts = [];
+        $texts[] = parent::getFulltextText($resource);
+        // Get media text.
+        $mediaAdapter = $this->getAdapter('media');
+        foreach ($resource->getMedia() as $media) {
+            $texts[] = $mediaAdapter->getFulltextText($media);
+        }
+        // Remove empty texts.
+        $texts = array_filter($texts, function ($text) {
+            return !is_null($text) && $text !== '';
+        });
+        return implode("\n", $texts);
     }
 }

@@ -8,6 +8,7 @@ use Omeka\View\Model\ApiJsonModel;
 use Laminas\Mvc\Controller\AbstractRestfulController;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Stdlib\RequestInterface as Request;
+use Laminas\View\Model\ViewModel;
 
 class ApiController extends AbstractRestfulController
 {
@@ -57,10 +58,26 @@ class ApiController extends AbstractRestfulController
     {
         $this->setBrowseDefaults('id', 'asc');
         $resource = $this->params()->fromRoute('resource');
+
+        if (null === $resource) {
+            $view = new ViewModel;
+            $view->setTerminal(true);
+            $view->setTemplate('omeka/api/root');
+            $apiResources = $this->api->search('api_resources')->getContent();
+            usort($apiResources, function ($a, $b) {
+                return strcmp($a->id(), $b->id());
+            });
+            $view->setVariable('apiResources', $apiResources);
+            return $view;
+        }
+
         $query = $this->params()->fromQuery();
         $response = $this->api->search($resource, $query);
 
         $this->paginator->setCurrentPage($query['page']);
+        if (isset($query['per_page'])) {
+            $this->paginator->setPerPage($query['per_page']);
+        }
         $this->paginator->setTotalCount($response->getTotalResults());
 
         // Add Link header for pagination.

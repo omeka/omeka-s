@@ -87,7 +87,7 @@ function runPhpCommand(cmd, args, options, resolveWith) {
     return runCommand(cliOptions['php-path'], [cmd].concat(args), options, resolveWith);
 }
 
-function composer(args) {
+function composer(args, options) {
     var composerPath = buildDir + '/composer.phar';
     var installerPath = buildDir + '/composer-installer';
     var installerUrl = 'https://getcomposer.org/installer';
@@ -95,16 +95,24 @@ function composer(args) {
 
     return stat(composerPath).catch(function (e) {
         return download(installerUrl, installerPath).then(function () {
-            return runPhpCommand(installerPath, ['--1'], {cwd: buildDir});
+            return runPhpCommand(installerPath, ['--2'], {cwd: buildDir});
         });
     }).then(function () {
-        return runPhpCommand(composerPath, ['self-update']);
+        return runPhpCommand(composerPath, ['self-update', '--2']);
     }).then(function () {
         if (!cliOptions['dev']) {
             args.push('--no-dev');
         }
-        return runPhpCommand(composerPath, args);
+        return runPhpCommand(composerPath, args, options);
     });
+}
+
+function ensureModuleUsesComposer(modulePath) {
+    var composerPath = path.join(modulePath, 'composer.json');
+    return fs.statAsync(composerPath).then(
+        function () { return modulePath; },
+        function () { throw new Error('No composer.json found in this module.'); }
+    );
 }
 
 function cssToSass(dir) {
@@ -187,7 +195,7 @@ function compileToMo(file) {
 function phpCsFixer(fix, modulePath) {
     let args = ['fix', '--verbose'];
     if (!fix) {
-        args = args.concat(['--dry-run', '--diff', '--diff-format=udiff']);
+        args = args.concat(['--dry-run', '--diff']);
     }
     if (modulePath) {
         const [moduleName] = modulePath.split(path.sep).slice(-1);
@@ -294,26 +302,61 @@ function taskDeps() {
 taskDeps.description = 'Install Composer dependencies';
 gulp.task('deps', taskDeps);
 
+function taskDepsModule() {
+    return getModulePath()
+        .then(ensureModuleUsesComposer)
+        .then(function (modulePath) {
+            return composer(['install'], {cwd: modulePath})
+        }
+    );
+}
+taskDepsModule.description = 'Install Composer dependencies for a module';
+taskDepsModule.flags = {'--module-name': 'Folder name of the module'};
+gulp.task('deps:module', taskDepsModule);
+
 function taskDepsUpdate() {
     return composer(['update']);
 }
 taskDepsUpdate.description = 'Update locked Composer dependencies';
 gulp.task('deps:update', taskDepsUpdate);
 
+function taskDepsModuleUpdate() {
+    return getModulePath()
+        .then(ensureModuleUsesComposer)
+        .then(function (modulePath) {
+            return composer(['update'], {cwd: modulePath});
+        }
+    );
+}
+taskDepsModuleUpdate.description = 'Update locked Composer dependencies for a module';
+taskDepsModuleUpdate.flags = {'--module-name': 'Folder name of the module'};
+gulp.task('deps:module:update', taskDepsModuleUpdate);
+
 function taskDepsJs(cb) {
     var deps = {
         'chosen-js': ['**', '!*.proto.*'],
-        'ckeditor': ['**', '!samples/**'],
+        'ckeditor4': ['**', '!samples/**'],
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',
+        'lightgallery': [
+            '**',
+            '!**/*.ts', '!**/*.es5.*', '!**/*.umd.*', '!**/package.json', '!README.md',
+            '!angular/**', '!lib/**', '!lit/**', '!react/**', '!scss/**', '!vue/**',
+            '!plugins/autoplay/**', '!plugins/comment/**', '!plugins/fullscreen/**', '!plugins/mediumZoom/**', '!plugins/pager/**', '!plugins/relativeCaption/**', '!plugins/share/**',
+            '!css/lg-autoplay.css', '!css/lg-fullscreen.css', '!css/lg-pager.css', '!css/lightgallery-bundle.css', '!css/lightgallery-core.css', '!css/lg-comments.css',  '!css/lg-medium-zoom.css', '!css/lg-relative-caption.css', '!css/lg-share.css', '!css/lg-transitions.css', '!css/lightgallery-bundle.min.css'
+        ],
         'openseadragon': 'build/openseadragon/**',
         'semver': 'semver.min.js',
         'sortablejs': 'Sortable.min.js',
         'tablesaw': 'dist/stackonly/**'
     }
+    var depRenames = {
+        'ckeditor4': 'ckeditor'
+    }
 
     Object.keys(deps).forEach(function (module) {
         var moduleDeps = deps[module];
+        var dest = depRenames.hasOwnProperty(module) ? depRenames[module] : module;
         if (!(moduleDeps instanceof Array)) {
             moduleDeps = [moduleDeps];
         }
@@ -324,7 +367,7 @@ function taskDepsJs(cb) {
             return './node_modules/' + module + '/' + value;
         });
         gulp.src(moduleDeps, {nodir: true})
-            .pipe(gulp.dest('./application/asset/vendor/' + module));
+            .pipe(gulp.dest('./application/asset/vendor/' + dest));
     });
     cb();
 }
@@ -449,7 +492,7 @@ taskI18nModuleTemplate.flags = {'--module-name': 'Name of module (required)'}
 gulp.task('i18n:module:template', taskI18nModuleTemplate);
 
 function taskI18nModuleCompile() {
-    return getModulePath(cliOptions['module-name']).then(function (modulePath) {
+    return getModulePath().then(function (modulePath) {
         return glob('language/*.po', {cwd: modulePath, absolute: true}).then(function (files) {
             return Promise.all(files.map(compileToMo));
         });

@@ -24,7 +24,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
         $this->templateProperty = $templateProperty;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'o:property' => $this->property()->getReference(),

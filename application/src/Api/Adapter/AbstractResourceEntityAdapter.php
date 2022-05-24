@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Representation\ValueRepresentation;
@@ -88,11 +89,42 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
         }
 
-        if (isset($query['is_public']) && is_numeric($query['is_public'])) {
+        if (isset($query['is_public']) && (is_numeric($query['is_public']) || is_bool($query['is_public']))) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.isPublic',
                 $this->createNamedParameter($qb, (bool) $query['is_public'])
             ));
+        }
+
+        $dateSearches = [
+            'modified_before' => ['lt', 'modified'],
+            'modified_after' => ['gt', 'modified'],
+            'created_before' => ['lt', 'created'],
+            'created_after' => ['gt', 'created'],
+        ];
+        $dateGranularities = [
+            DateTime::ISO8601,
+            '!Y-m-d\TH:i:s',
+            '!Y-m-d\TH:i',
+            '!Y-m-d\TH',
+            '!Y-m-d',
+            '!Y-m',
+            '!Y',
+        ];
+        foreach ($dateSearches as $dateSearchKey => $dateSearch) {
+            if (isset($query[$dateSearchKey])) {
+                foreach ($dateGranularities as $dateGranularity) {
+                    $date = DateTime::createFromFormat($dateGranularity, $query[$dateSearchKey]);
+                    if (false !== $date) {
+                        break;
+                    }
+                }
+                $qb->andWhere($qb->expr()->{$dateSearch[0]}(
+                    sprintf('omeka_root.%s', $dateSearch[1]),
+                    // If the date is invalid, pass null to ensure no results.
+                    $this->createNamedParameter($qb, $date ?: null)
+                ));
+            }
         }
     }
 
@@ -200,6 +232,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *     - nin: does not contain
      *     - ex: has any value
      *     - nex: has no value
+     *     - sw: starts with
+     *     - nsw: does not start with
+     *     - ew: ends with
+     *     - new: does not end with
+     *     - res: has resource
+     *     - nres: has no resource
      *
      * @param QueryBuilder $qb
      * @param array $query
@@ -221,8 +259,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
             $propertyId = $queryRow['property'];
             $queryType = $queryRow['type'];
-            $joiner = isset($queryRow['joiner']) ? $queryRow['joiner'] : null;
-            $value = isset($queryRow['text']) ? $queryRow['text'] : null;
+            $joiner = $queryRow['joiner'] ?? null;
+            $value = $queryRow['text'] ?? null;
 
             if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
                 continue;
@@ -234,6 +272,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             switch ($queryType) {
                 case 'neq':
                     $positive = false;
+                    // No break.
                 case 'eq':
                     $param = $this->createNamedParameter($qb, $value);
                     $subqueryAlias = $this->createAlias();
@@ -248,8 +287,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         $qb->expr()->eq("$valuesAlias.uri", $param)
                     );
                     break;
+
                 case 'nin':
                     $positive = false;
+                    // No break.
                 case 'in':
                     $param = $this->createNamedParameter($qb, "%$value%");
                     $subqueryAlias = $this->createAlias();
@@ -264,19 +305,60 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         $qb->expr()->like("$valuesAlias.uri", $param)
                     );
                     break;
+
+                case 'nsw':
+                    $positive = false;
+                    // No break.
+                case 'sw':
+                    $param = $this->createNamedParameter($qb, "$value%");
+                    $subqueryAlias = $this->createAlias();
+                    $subquery = $this->getEntityManager()
+                        ->createQueryBuilder()
+                        ->select("$subqueryAlias.id")
+                        ->from('Omeka\Entity\Resource', $subqueryAlias)
+                        ->where($qb->expr()->like("$subqueryAlias.title", $param));
+                    $predicateExpr = $qb->expr()->orX(
+                        $qb->expr()->in("$valuesAlias.valueResource", $subquery->getDQL()),
+                        $qb->expr()->like("$valuesAlias.value", $param),
+                        $qb->expr()->like("$valuesAlias.uri", $param)
+                    );
+                    break;
+
+                case 'new':
+                    $positive = false;
+                    // No break.
+                case 'ew':
+                    $param = $this->createNamedParameter($qb, "%$value");
+                    $subqueryAlias = $this->createAlias();
+                    $subquery = $this->getEntityManager()
+                        ->createQueryBuilder()
+                        ->select("$subqueryAlias.id")
+                        ->from('Omeka\Entity\Resource', $subqueryAlias)
+                        ->where($qb->expr()->like("$subqueryAlias.title", $param));
+                    $predicateExpr = $qb->expr()->orX(
+                        $qb->expr()->in("$valuesAlias.valueResource", $subquery->getDQL()),
+                        $qb->expr()->like("$valuesAlias.value", $param),
+                        $qb->expr()->like("$valuesAlias.uri", $param)
+                    );
+                    break;
+
                 case 'nres':
                     $positive = false;
+                    // No break.
                 case 'res':
                     $predicateExpr = $qb->expr()->eq(
                         "$valuesAlias.valueResource",
                         $this->createNamedParameter($qb, $value)
                     );
                     break;
+
                 case 'nex':
                     $positive = false;
+                    // No break.
                 case 'ex':
                     $predicateExpr = $qb->expr()->isNotNull("$valuesAlias.id");
                     break;
+
                 default:
                     continue 2;
             }
@@ -335,7 +417,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         if (!$this->isTerm($term)) {
             return null;
         }
-        list($prefix, $localName) = explode(':', $term);
+        [$prefix, $localName] = explode(':', $term);
         $dql = 'SELECT p FROM Omeka\Entity\Property p
         JOIN p.vocabulary v WHERE p.localName = :localName
         AND v.prefix = :prefix';
@@ -345,6 +427,43 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 'localName' => $localName,
                 'prefix' => $prefix,
             ])->getOneOrNullResult();
+    }
+
+    /**
+     * Get the query builder needed to get subject values.
+     *
+     * Note that the returned query builder does not include $qb->select().
+     *
+     * @param Resource $resource
+     * @param int|null $property
+     * @return QueryBuilder
+     */
+    public function getSubjectValuesQueryBuilder(Resource $resource, $property = null)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->from('Omeka\Entity\Value', 'v')
+            ->join('v.resource', 'r')
+            ->where($qb->expr()->eq('v.valueResource', $this->createNamedParameter($qb, $resource)))
+            // Limit subject values to those belonging to primary resources.
+            ->andWhere($qb->expr()->orX(
+                'r INSTANCE OF Omeka\Entity\Item',
+                'r INSTANCE OF Omeka\Entity\ItemSet',
+                'r INSTANCE OF Omeka\Entity\Media'
+            ));
+        if ($property) {
+            $qb->andWhere($qb->expr()->eq('v.property', $this->createNamedParameter($qb, $property)));
+        }
+        // Need to check visibility manually here
+        $services = $this->getServiceLocator();
+        $acl = $services->get('Omeka\Acl');
+        $identity = $services->get('Omeka\AuthenticationService')->getIdentity();
+        if (!$acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->eq('r.isPublic', '1'),
+                $qb->expr()->eq('r.owner', $this->createNamedParameter($qb, $identity))
+            ));
+        }
+        return $qb;
     }
 
     /**
@@ -361,39 +480,30 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $offset = (is_numeric($page) && is_numeric($perPage))
             ? (($page - 1) * $perPage)
             : null;
-
-        // Need to check visibility manually here
-        $services = $this->getServiceLocator();
-        $identity = $services->get('Omeka\AuthenticationService')->getIdentity();
-        $acl = $services->get('Omeka\Acl');
-
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-        $qb->select('v')
-            ->from('Omeka\Entity\Value', 'v')
-            ->join('v.resource', 'r')
-            ->where($qb->expr()->eq('v.valueResource', $this->createNamedParameter($qb, $resource)))
-            // Limit subject values to those belonging to primary resources.
-            ->andWhere($qb->expr()->orX(
-                'r INSTANCE OF Omeka\Entity\Item',
-                'r INSTANCE OF Omeka\Entity\ItemSet',
-                'r INSTANCE OF Omeka\Entity\Media'
-            ));
-
-        if (!$acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->eq('r.isPublic', '1'),
-                $qb->expr()->eq('r.owner', $this->createNamedParameter($qb, $identity))
-            ));
-        }
-
-        if ($property) {
-            $qb->andWhere($qb->expr()->eq('v.property', $this->createNamedParameter($qb, $property)));
-        }
-
+        $qb = $this->getSubjectValuesQueryBuilder($resource, $property)
+            ->select('v');
         $qb->setMaxResults($perPage);
         $qb->setFirstResult($offset);
+        return $qb->getQuery()->getResult();
+    }
 
+    /**
+     * Get values where the provided resource is the RDF object.
+     *
+     * This method gets simple value data (term, id, and title) instead of the
+     * value represenations. Because of this there is no need to include
+     * pagination arguments, like self::getSubjectValues().
+     *
+     * @param Resource $resource
+     * @param int $property Filter by property ID
+     * @return array
+     */
+    public function getSubjectValuesSimple(Resource $resource, $property = null)
+    {
+        $qb = $this->getSubjectValuesQueryBuilder($resource, $property)
+            ->select("CONCAT(y.prefix, ':', p.localName) term, IDENTITY(v.valueResource) id, r.title title")
+            ->join('v.property', 'p')
+            ->join('p.vocabulary', 'y');
         return $qb->getQuery()->getResult();
     }
 
@@ -494,6 +604,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         foreach ($resource->getValues()->matching($criteria) as $value) {
             $valueRepresentation = new ValueRepresentation($value, $services);
             $texts[] = $dataTypes->getForExtract($value)->getFulltextText($view, $valueRepresentation);
+            // Add value annotation text, if any.
+            $valueAnnotation = $value->getValueAnnotation();
+            if ($valueAnnotation) {
+                foreach ($valueAnnotation->getValues()->matching($criteria) as $value) {
+                    $valueRepresentation = new ValueRepresentation($value, $services);
+                    $texts[] = $dataTypes->getForExtract($value)->getFulltextText($view, $valueRepresentation);
+                }
+            }
         }
         return implode("\n", $texts);
     }

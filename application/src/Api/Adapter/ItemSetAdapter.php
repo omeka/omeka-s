@@ -15,6 +15,17 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
         'modified' => 'modified',
         'title' => 'title',
     ];
+
+    protected $scalarFields = [
+        'id' => 'id',
+        'title' => 'title',
+        'created' => 'created',
+        'modified' => 'modified',
+        'is_public' => 'isPublic',
+        'thumbnail' => 'thumbnail',
+        'is_open' => 'isOpen',
+    ];
+
     /**
      * Alias of query builder for join clause between `site` and `item_sets`.
      * @var string
@@ -84,9 +95,14 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
                 "$this->siteItemSetsAlias.site",
                 $this->createNamedParameter($qb, $query['site_id']))
             );
-        } elseif (isset($query['in_sites']) && $query['in_sites']) {
+        } elseif (isset($query['in_sites']) && (is_numeric($query['in_sites']) || is_bool($query['in_sites']))) {
             $siteItemSetsAlias = $this->createAlias();
-            $qb->innerJoin('omeka_root.siteItemSets', $siteItemSetsAlias);
+            if ($query['in_sites']) {
+                $qb->innerJoin('omeka_root.siteItemSets', $siteItemSetsAlias);
+            } else {
+                $qb->leftJoin('omeka_root.siteItemSets', $siteItemSetsAlias);
+                $qb->andWhere($qb->expr()->isNull($siteItemSetsAlias));
+            }
         }
     }
 

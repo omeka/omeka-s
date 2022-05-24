@@ -5,8 +5,8 @@
     <?php $asset = $attachment['asset']; ?>
     <div class="asset">
         <?php $assetImage = ($asset) ? $this->thumbnail($asset, 'square') : ''; ?>
-        <?php if (array_key_exists('page', $attachment)): ?>
-            <?php $page = $attachment['page']; ?>
+        <?php $page = (array_key_exists('page', $attachment)) ? $attachment['page'] : null; ?>
+        <?php if ($page): ?>
             <a href="<?php echo $escape($page->siteUrl()); ?>">
                 <?php echo $assetImage; ?>
                 <?php $altLinkTitle = ($attachment['alt_link_title'] !== '') ? $escape($attachment['alt_link_title']) : false; ?>

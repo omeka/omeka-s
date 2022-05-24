@@ -137,7 +137,7 @@ class Installer
      */
     public function getVars($task)
     {
-        return isset($this->vars[$task]) ? $this->vars[$task] : null;
+        return $this->vars[$task] ?? null;
     }
 
     /**

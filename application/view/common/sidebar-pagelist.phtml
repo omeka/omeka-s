@@ -1,0 +1,36 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+?>
+<div class="sidebar" id="add-pages">
+    <form>
+    <div id="nav-selector">
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+        <div class="sidebar-content">
+            <label><?php echo $translate('Add to List of pages'); ?></label>
+            <?php $pages = array_merge($site->linkedPages(), $site->notlinkedPages()); ?>
+            <input type="text" class="page-selector-filter" placeholder="<?php echo $translate('Filter pages'); ?>" aria-label="<?php echo $translate('Filter pages'); ?>">
+            <div id="nav-page-links">
+                <?php foreach ($pages as $page): ?>
+                    <?php $isPublic = $page->isPublic(); ?>
+                    <button class="nav-page-link option"
+                        type="button"
+                        data-type="page"
+                        data-label="<?php echo $escape($page->title()); ?>"
+                        data-id="<?php echo $escape($page->id()); ?>"
+                        data-slug="<?php echo $escape($page->slug()); ?>"
+                        data-is_public="<?php echo ($isPublic) ? '1' : '0'; ?>">
+                        <span class="page-label">
+                        <?php echo sprintf('%s (%s)', $escape($page->title()), $escape($page->slug())); ?>
+                        <?php if ($isPublic == 0): ?>
+                        <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>" title="<?php echo $translate('Private'); ?>" role="presentation"></span>
+                        <?php endif; ?>
+                        </span>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+            <div id="no-pages"><?php echo $translate('There are no available pages.'); ?></div>
+        </div>
+    </div>
+    </form>
+</div>

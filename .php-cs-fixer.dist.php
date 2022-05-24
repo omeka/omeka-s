@@ -6,12 +6,16 @@ return $config
     ->setRules([
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
+        'assign_null_coalescing_to_coalesce_equal' => true,
         'binary_operator_spaces' => true,
         'blank_line_after_namespace' => true,
         'cast_spaces' => true,
         'concat_space' => ['spacing' => 'one'],
         'include' => true,
-        'method_argument_space' => true,
+        'list_syntax' => true,
+        'lowercase_cast' => true,
+        'lowercase_static_reference' => true,
+        'method_argument_space' => ['on_multiline' => 'ignore'],
         'no_blank_lines_after_class_opening' => true,
         'no_blank_lines_after_phpdoc' => true,
         'no_break_comment' => false,
@@ -28,6 +32,9 @@ return $config
         'phpdoc_scalar' => true,
         'phpdoc_to_comment' => true,
         'phpdoc_trim' => true,
+        'short_scalar_cast' => true,
+        'ternary_operator_spaces' => true,
+        'ternary_to_null_coalescing' => true,
         'trailing_comma_in_multiline' => true,
     ])
     ->setFinder(

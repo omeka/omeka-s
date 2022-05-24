@@ -1,13 +1,13 @@
 <?php
 namespace Omeka\Site\BlockLayout;
 
+use Omeka\Api\Exception as ApiException;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 use Laminas\Form\Element\Select;
-use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
 class Asset extends AbstractBlockLayout
@@ -53,21 +53,31 @@ class Asset extends AbstractBlockLayout
         return $html;
     }
 
-    public function prepareAssetAttachments(PhpRenderer $view, $blockData = null)
+    public function prepareAssetAttachments(PhpRenderer $view, $blockData, SiteRepresentation $site)
     {
         $attachments = [];
+        $sitePages = $site->pages();
+        $sitePageArray = [];
+        foreach ($sitePages as $sitePage) {
+            $sitePageArray[$sitePage->id()] = $sitePage;
+        }
         if ($blockData) {
             foreach ($blockData as $key => $value) {
                 if (isset($value['id'])) {
                     if ($value['id'] !== '') {
                         $assetId = $value['id'];
-                        $asset = $view->api()->read('assets', $assetId)->getContent();
-                        $attachments[$key]['asset'] = $asset;
+                        try {
+                            $asset = $view->api()->read('assets', $assetId)->getContent();
+                            $attachments[$key]['asset'] = $asset;
+                        } catch (ApiException\NotFoundException $e) {
+                            $attachments[$key]['asset'] = null;
+                        }
                     } else {
                         $attachments[$key]['asset'] = null;
                     }
                     if ($value['page'] !== '') {
-                        $attachments[$key]['page'] = $view->api()->read('site_pages', $value['page'])->getContent();
+                        $linkPageId = $value['page'];
+                        $attachments[$key]['page'] = (isset($sitePageArray[$linkPageId])) ? $sitePageArray[$linkPageId] : null;
                     }
                     $attachments[$key]['alt_link_title'] = $value['alt_link_title'];
                     $attachments[$key]['caption'] = $value['caption'];
@@ -82,7 +92,7 @@ class Asset extends AbstractBlockLayout
         $siteId = $site->id();
         $apiUrl = $site->apiUrl();
         $blockData = ($block) ? $block->data() : '';
-        $attachments = $this->prepareAssetAttachments($view, $blockData);
+        $attachments = $this->prepareAssetAttachments($view, $blockData, $site);
         $alignmentClassSelect = $this->alignmentClassSelect($view, $block);
         return $view->partial('common/asset-block-form', [
           'block' => $blockData,
@@ -96,7 +106,8 @@ class Asset extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $blockData = ($block) ? $block->data() : '';
-        $attachments = $this->prepareAssetAttachments($view, $blockData);
+        $site = $view->site;
+        $attachments = $this->prepareAssetAttachments($view, $blockData, $site);
         $customClass = $block->dataValue('className');
         $alignment = $block->dataValue('alignment');
         return $view->partial('common/block-layout/asset', [

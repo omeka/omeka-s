@@ -28,11 +28,8 @@ class Db implements SaveHandlerInterface
 
     /**
      * Open session
-     *
-     * @param string $savePath
-     * @param string $name
-     * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function open($savePath, $name)
     {
         $this->lifetime = ini_get('session.gc_maxlifetime');
@@ -41,9 +38,8 @@ class Db implements SaveHandlerInterface
 
     /**
      * Close session
-     *
-     * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function close()
     {
         return true;
@@ -51,10 +47,8 @@ class Db implements SaveHandlerInterface
 
     /**
      * Read session data
-     *
-     * @param string $id
-     * @return string
      */
+    #[\ReturnTypeWillChange]
     public function read($id)
     {
         $session = $this->conn->fetchAssoc('SELECT * FROM session WHERE id = ?', [$id]);
@@ -69,26 +63,22 @@ class Db implements SaveHandlerInterface
 
     /**
      * Write session data
-     *
-     * @param string $id
-     * @param string $data
-     * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function write($id, $data)
     {
         $sql = 'INSERT INTO session (id, modified, data) VALUES (:id, :modified, :data) '
              . 'ON DUPLICATE KEY UPDATE modified = :modified, data = :data';
-        return (bool) $this->conn->executeUpdate($sql, [
+        $this->conn->executeStatement($sql, [
             'id' => $id, 'modified' => time(), 'data' => $data,
         ]);
+        return true;
     }
 
     /**
      * Destroy session
-     *
-     * @param string $id
-     * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function destroy($id)
     {
         return (bool) $this->conn->delete('session', ['id' => $id]);
@@ -96,15 +86,17 @@ class Db implements SaveHandlerInterface
 
     /**
      * Garbage Collection
-     *
-     * @param int $maxlifetime
-     * @return true
      */
+    #[\ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         $sql = 'DELETE FROM session WHERE modified < ?';
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(1, (time() - $this->lifetime));
-        return $stmt->execute();
+        if ($stmt->execute()) {
+            return $stmt->rowCount();
+        } else {
+            return false;
+        }
     }
 }

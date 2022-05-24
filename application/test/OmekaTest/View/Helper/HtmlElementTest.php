@@ -1,30 +1,19 @@
 <?php
 namespace OmekaTest\View\Helper;
 
-use Omeka\Test\TestCase;
-use Omeka\View\Helper\HtmlElement;
+use Omeka\Test\AbstractHttpControllerTestCase;
 
-class HtmlElementTest extends TestCase
+class HtmlElementTest extends AbstractHttpControllerTestCase
 {
-    protected $htmlElement;
-
-    public function setUp(): void
-    {
-        $view = $this->createMock('Laminas\View\Renderer\PhpRenderer');
-        $view->expects($this->any())
-            ->method('plugin')
-            ->will($this->returnValue('htmlspecialchars'));
-
-        $this->htmlElement = new HtmlElement;
-        $this->htmlElement->setView($view);
-    }
-
     public function testToString()
     {
         $element = 'test-element';
         $attributes = ['foo' => 'bar', 'baz' => 'bat'];
 
-        $htmlElement = $this->htmlElement;
+        $application = $this->getApplication();
+        $viewHelperManager = $application->getServiceManager()->get('ViewHelperManager');
+        $htmlElement = $viewHelperManager->get('htmlElement');
+
         $htmlElement($element)->setAttributes($attributes);
         ob_start();
         echo $htmlElement($element);
@@ -44,7 +33,7 @@ class HtmlElementTest extends TestCase
         echo $htmlElement($element);
         $return = ob_get_clean();
 
-        $this->assertEquals('<test-element baz="bat foo">', $return);
+        $this->assertEquals('<test-element baz="bat&#x20;foo">', $return);
 
         $htmlElement($element)->removeAttributes();
         ob_start();

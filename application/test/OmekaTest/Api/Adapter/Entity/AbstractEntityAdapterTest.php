@@ -103,7 +103,7 @@ class TestRepresentation implements RepresentationInterface
     public function setData($data)
     {
     }
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
     }
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)

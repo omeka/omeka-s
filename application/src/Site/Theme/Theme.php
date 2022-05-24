@@ -82,7 +82,7 @@ class Theme
     public function getIni($key = null)
     {
         if ($key) {
-            return isset($this->ini[$key]) ? $this->ini[$key] : null;
+            return $this->ini[$key] ?? null;
         }
         return $this->ini;
     }
@@ -140,5 +140,29 @@ class Theme
     {
         $configSpec = $this->getConfigSpec();
         return $configSpec && $configSpec['elements'];
+    }
+
+    /**
+     * Return whether this theme has resource page blocks configuration.
+     *
+     * @return bool
+     */
+    public function isConfigurableResourcePageBlocks()
+    {
+        $configSpec = $this->getConfigSpec();
+        return $configSpec && isset($configSpec['resource_page_blocks']);
+    }
+
+    /**
+     * Return local path to or within this theme.
+     *
+     * With no arguments, this is the path to the theme's top-level directory.
+     * Arguments are additional path segments to append, and will be joined by
+     * a slash.
+     */
+    public function getPath(string ...$subsegments): string
+    {
+        $segments = array_merge([OMEKA_PATH, 'themes', $this->id], $subsegments);
+        return implode('/', $segments);
     }
 }

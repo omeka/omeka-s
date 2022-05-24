@@ -27,12 +27,16 @@ class SearchFilters extends AbstractHelper
 
         $filters = [];
         $api = $this->getView()->api();
-        $query = $query ?? $this->getView()->params()->fromQuery();
+        $query ??= $this->getView()->params()->fromQuery();
         $queryTypes = [
             'eq' => $translate('is exactly'),
             'neq' => $translate('is not exactly'),
             'in' => $translate('contains'),
             'nin' => $translate('does not contain'),
+            'sw' => $translate('starts with'),
+            'nsw' => $translate('does not start with'),
+            'ew' => $translate('ends with'),
+            'new' => $translate('does not end with'),
             'res' => $translate('is resource with ID'),
             'nres' => $translate('is not resource with ID'),
             'ex' => $translate('has any value'),
@@ -79,8 +83,8 @@ class SearchFilters extends AbstractHelper
                             }
                             $propertyId = $queryRow['property'];
                             $queryType = $queryRow['type'];
-                            $joiner = isset($queryRow['joiner']) ? $queryRow['joiner'] : null;
-                            $value = isset($queryRow['text']) ? $queryRow['text'] : null;
+                            $joiner = $queryRow['joiner'] ?? null;
+                            $value = $queryRow['text'] ?? null;
 
                             if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
                                 continue;

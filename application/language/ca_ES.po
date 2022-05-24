@@ -5,16 +5,16 @@
 # 
 # Translators:
 # John Flatness <john@zerocrates.org>, 2020
-# Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2020
+# Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-26 15:28-0400\n"
+"POT-Creation-Date: 2022-04-06 15:01-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2020\n"
+"Last-Translator: Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2022\n"
 "Language-Team: Catalan (Spain) (https://www.transifex.com/omeka/teams/14184/ca_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +45,7 @@ msgstr "L'adaptador %1$s no implementa l'operació de lectura."
 #: application/src/Api/Adapter/AbstractAdapter.php:80
 #, php-format
 msgid "The %1$s adapter does not implement the update operation."
-msgstr "L'adaptador %1$s no implementa l'operació d'actualització"
+msgstr "L'adaptador %1$s no implementa l'operació d'actualització."
 
 #: application/src/Api/Adapter/AbstractAdapter.php:90
 #, php-format
@@ -80,7 +80,7 @@ msgstr "No s'ha trobat l'entitat %1$samb el criteri %2$s"
 
 #: application/src/Api/Adapter/SiteAdapter.php:140
 msgid "Welcome"
-msgstr "Benvingut"
+msgstr "Benvinguts"
 
 #: application/src/Api/Adapter/SiteAdapter.php:145
 msgid "Welcome to your new site. This is an example page."
@@ -95,7 +95,7 @@ msgstr "Consulta"
 msgid "The API does not support the \"%s\" resource."
 msgstr "L'API no suporta el recurs \"%s\"."
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:530
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:552
 #: application/view/common/block-layout/browse-preview.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:26
 #: application/view/omeka/site/item/browse.phtml:61
@@ -113,11 +113,11 @@ msgstr "Les càrregues de fitxers han d'emprar el mètode POST."
 
 #: application/src/Controller/Admin/ItemController.php:214
 msgid "Add another item?"
-msgstr "Voleu afegir un altre ítem?"
+msgstr "Voleu afegir un altre recurs?"
 
 #: application/src/Controller/Admin/ItemSetController.php:36
 msgid "Add another item set?"
-msgstr "Voleu afegir un altre conjunt d'ítems?"
+msgstr "Voleu afegir un altre conjunt de recursos?"
 
 #: application/src/Controller/Admin/ModuleController.php:70
 #: application/src/Controller/Admin/ModuleController.php:77
@@ -177,10 +177,53 @@ msgstr "Heu de proporcionar un fitxer o URL per al vocabulari."
 msgid "Import another vocabulary?"
 msgstr "Voleu importar un altre vocabulari?"
 
-#: application/src/DataType/Resource/AbstractResource.php:51
+#: application/src/DataType/Resource/AbstractResource.php:62
 #, php-format
 msgid "Resource not found with id %s."
 msgstr "No s'ha trobat el recurs amb id %s."
+
+#: application/src/DataType/Resource/Item.php:27
+#: application/view/common/cross-site-search/results.phtml:40
+#: application/view/common/data-type/resource.phtml:23
+#: application/view/layout/layout-admin.phtml:68
+#: application/view/omeka/admin/item-set/show-details.phtml:22
+#: application/view/omeka/admin/item-set/show.phtml:83
+#: application/view/omeka/admin/item/add.phtml:6
+#: application/view/omeka/admin/item/browse.phtml:29
+#: application/view/omeka/admin/item/edit.phtml:14
+#: application/view/omeka/admin/item/search.phtml:5
+#: application/view/omeka/admin/item/show.phtml:18
+#: application/view/omeka/admin/property/show-details.phtml:18
+#: application/view/omeka/admin/resource-class/show-details.phtml:18
+#: application/view/omeka/admin/resource-template/browse.phtml:19
+#: application/view/omeka/admin/resource-template/show-details.phtml:18
+#: application/view/omeka/admin/user/show-details.phtml:12
+#: application/view/omeka/admin/vocabulary/classes.phtml:15
+#: application/view/omeka/site-admin/index/resources.phtml:22
+#: application/view/omeka/site/item/browse.phtml:42
+#: application/view/omeka/site/item/browse.phtml:44
+msgid "Items"
+msgstr "Recursos"
+
+#: application/src/DataType/Resource/ItemSet.php:27
+msgid "Item Sets"
+msgstr ""
+
+#: application/src/DataType/Resource/Media.php:27
+#: application/view/common/data-type/resource.phtml:37
+#: application/view/layout/layout-admin.phtml:76
+#: application/view/omeka/admin/item/form.phtml:15
+#: application/view/omeka/admin/item/show-details.phtml:40
+#: application/view/omeka/admin/item/show.phtml:92
+#: application/view/omeka/admin/media/browse.phtml:35
+#: application/view/omeka/admin/media/edit.phtml:17
+#: application/view/omeka/admin/media/edit.phtml:25
+#: application/view/omeka/admin/media/search.phtml:5
+#: application/view/omeka/admin/media/show.phtml:11
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:32
+#: application/view/omeka/site/media/show.phtml:8
+msgid "Media"
+msgstr "Multimèdia"
 
 #: application/src/Db/Migration/Manager.php:112
 msgid "Migration file did not contain the expected class"
@@ -297,9 +340,9 @@ msgstr "Opcions"
 msgid "Break type"
 msgstr "Tipus de salt"
 
-#: application/src/Site/BlockLayout/ListOfPages.php:58
+#: application/src/Site/BlockLayout/ListOfPages.php:60
 msgid "Add pages"
-msgstr ""
+msgstr "Afegeix pàgines"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:28
 msgid "Depth"
@@ -312,7 +355,7 @@ msgstr "Nombre de nivells inferiors en la jerarquia de les pàgines"
 #: application/src/Site/Navigation/Link/Page.php:37
 #: application/view/common/block-layout/list-of-pages.phtml:11
 msgid "[Missing Page]"
-msgstr ""
+msgstr "[Pàgina absent]"
 
 #: application/src/Site/Navigation/Translator.php:60
 msgid "Home"
@@ -536,11 +579,11 @@ msgstr "Plantilla desconeguda"
 #: application/src/View/Helper/SearchFilters.php:156
 #: application/view/omeka/site/item/browse.phtml:37
 msgid "Item set"
-msgstr "Conjunt d'ítems"
+msgstr "Conjunt de recursos"
 
 #: application/src/View/Helper/SearchFilters.php:160
 msgid "Unknown item set"
-msgstr "Conjunt d'ítems desconegut"
+msgstr "Conjunt de recursos desconegut"
 
 #: application/src/View/Helper/SearchFilters.php:168
 #: application/view/omeka/site-admin/index/users.phtml:54
@@ -641,28 +684,28 @@ msgstr "Vista"
 
 #: application/view/common/advanced-search/item-sets.phtml:31
 msgid "Search by item set"
-msgstr "Cerca per conjunts d'ítems"
+msgstr "Cerca per conjunts de recursos"
 
 #: application/view/common/advanced-search/item-sets.phtml:32
 #: application/view/common/advanced-search/owner.phtml:4
 #: application/view/common/advanced-search/resource-class.phtml:16
 #: application/view/common/advanced-search/resource-template.phtml:17
 #: application/view/common/advanced-search/site.phtml:4
-#: application/view/common/form-row.phtml:16
+#: application/view/common/form-row.phtml:29
+#: application/view/common/resource-values.phtml:56
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 msgid "Expand"
 msgstr "Expandeix"
 
 #: application/view/common/advanced-search/item-sets.phtml:34
 msgid "Searches for items that are assigned to any of these item sets."
-msgstr ""
-"Cerques per als ítems que pertanyen a un dels conjunts d'ítems següents."
+msgstr "Cerca recursos que pertanyen a un dels conjunts de recursos següents."
 
 #: application/view/common/advanced-search/item-sets.phtml:36
 #: application/view/omeka/admin/index/browse.phtml:23
 #: application/view/omeka/admin/item-set/browse.phtml:42
 msgid "Add new item set"
-msgstr "Afegeix un conjunt d'ítems"
+msgstr "Afegeix un conjunt de recursos"
 
 #: application/view/common/advanced-search/item-sets.phtml:49
 #: application/view/common/advanced-search/properties.phtml:76
@@ -671,6 +714,7 @@ msgstr "Afegeix un conjunt d'ítems"
 #: application/view/common/block-layout.phtml:12
 #: application/view/common/data-type-wrapper.phtml:18
 #: application/view/common/media-field-wrapper.phtml:14
+#: application/view/common/value-annotation-wrapper.phtml:11
 #: application/view/omeka/admin/item/manage-media.phtml:48
 msgid "Remove value"
 msgstr "Suprimeix el valor"
@@ -681,11 +725,11 @@ msgstr "Cerca per tipus MIME"
 
 #: application/view/common/advanced-search/owner.phtml:3
 msgid "Search by owner"
-msgstr ""
+msgstr "Cerca per propietari"
 
 #: application/view/common/advanced-search/owner.phtml:6
 msgid "Searches for resources that are owned by this user."
-msgstr ""
+msgstr "Cerca els recursos que pertanyen a aquest usuari."
 
 #: application/view/common/advanced-search/properties.phtml:33
 msgid "Query text"
@@ -713,7 +757,7 @@ msgstr "Cerca per classe"
 
 #: application/view/common/advanced-search/resource-class.phtml:18
 msgid "Searches for resources that are any of these classes."
-msgstr ""
+msgstr "Cerca els recursos que pertanyen a alguna d'aquestes classes."
 
 #: application/view/common/advanced-search/resource-class.phtml:20
 msgid "Add new class"
@@ -725,7 +769,7 @@ msgstr "Cerca per plantilla"
 
 #: application/view/common/advanced-search/resource-template.phtml:19
 msgid "Searches for resources that use any of these templates."
-msgstr ""
+msgstr "Cerca els recursos que utilitzen algunes d'aquestes plantilles."
 
 #: application/view/common/advanced-search/resource-template.phtml:21
 msgid "Add new template"
@@ -733,11 +777,11 @@ msgstr "Afegeix una plantilla"
 
 #: application/view/common/advanced-search/site.phtml:3
 msgid "Search by site"
-msgstr ""
+msgstr "Cerca per lloc"
 
 #: application/view/common/advanced-search/site.phtml:6
 msgid "Searches for items that are assigned to this site."
-msgstr ""
+msgstr "Cerca els recursos assignats a aquest lloc."
 
 #: application/view/common/advanced-search/sort.phtml:6
 #: application/view/common/linked-resources.phtml:39
@@ -810,18 +854,18 @@ msgstr "Creat"
 
 #: application/view/common/advanced-search/sort.phtml:21
 #: application/view/omeka/admin/media/browse.phtml:29
-#: application/view/omeka/admin/media/show-details.phtml:31
+#: application/view/omeka/admin/media/show-details.phtml:36
 #: application/view/omeka/admin/media/show.phtml:56
 msgid "Size"
 msgstr "Mida"
 
 #: application/view/common/advanced-search/sort.phtml:27
 msgid "Select sort by…"
-msgstr ""
+msgstr "Ordena per..."
 
 #: application/view/common/advanced-search/sort.phtml:32
 msgid "Select sort order…"
-msgstr ""
+msgstr "Selecciona l'ordre..."
 
 #: application/view/common/advanced-search/sort.phtml:34
 #: application/view/common/sort-selector.phtml:14
@@ -857,12 +901,12 @@ msgstr "Cerca per activitat"
 #: application/view/common/asset-block-form.phtml:7
 #: application/view/common/asset-block-form.phtml:40
 msgid "No asset selected"
-msgstr ""
+msgstr "Cap fitxer seleccionat"
 
 #: application/view/common/asset-block-form.phtml:9
 #: application/view/common/asset-block-form.phtml:43
 msgid "Open asset options"
-msgstr ""
+msgstr "Obre les opcions dels actius"
 
 #: application/view/common/asset-block-form.phtml:10
 #: application/view/common/asset-block-form.phtml:44
@@ -891,16 +935,16 @@ msgstr "Col·lapsa"
 #: application/view/omeka/admin/asset/browse.phtml:18
 #: application/view/omeka/admin/asset/edit.phtml:10
 msgid "Assets"
-msgstr ""
+msgstr "Actius"
 
 #: application/view/common/asset-block-form.phtml:54
 msgid "Add asset"
-msgstr ""
+msgstr "Afegeix un actiu"
 
 #: application/view/common/asset-form.phtml:35
 #: application/view/common/asset-options.phtml:15
 msgid "[No asset selected]"
-msgstr "[Sense actius seleccionats]"
+msgstr "[Cap fitxer seleccionat]"
 
 #: application/view/common/asset-form.phtml:38
 #: application/view/common/asset-options.phtml:29
@@ -916,16 +960,16 @@ msgstr "Neteja"
 
 #: application/view/common/asset-options.phtml:10
 msgid "No Asset"
-msgstr ""
+msgstr "Sense actius"
 
 #: application/view/common/asset-options.phtml:19
 #: application/view/omeka/admin/query/sidebar-edit.phtml:12
 msgid "Preview"
-msgstr ""
+msgstr "Previsualització"
 
 #: application/view/common/asset-options.phtml:20
 msgid "[No page selected]"
-msgstr ""
+msgstr "[Cap pàgina seleccionada]"
 
 #: application/view/common/asset-options.phtml:25
 #: application/view/common/delete-confirm.phtml:8
@@ -934,8 +978,10 @@ msgstr ""
 #: application/view/common/property-selector.phtml:6
 #: application/view/common/resource-select-sidebar.phtml:6
 #: application/view/common/resource-select-sidebar.phtml:12
+#: application/view/common/sidebar-pagelist.phtml:8
 #: application/view/common/site-selector.phtml:2
 #: application/view/common/user-selector.phtml:6
+#: application/view/common/value-annotation-sidebar.phtml:2
 #: application/view/omeka/admin/asset/browse.phtml:100
 #: application/view/omeka/admin/asset/browse.phtml:117
 #: application/view/omeka/admin/asset/sidebar-select.phtml:8
@@ -966,17 +1012,16 @@ msgstr ""
 #: application/view/omeka/site-admin/index/navigation.phtml:31
 #: application/view/omeka/site-admin/page/edit.phtml:51
 #: application/view/omeka/site-admin/page/index.phtml:102
-#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:7
 msgid "Close"
 msgstr "Tanca"
 
 #: application/view/common/asset-options.phtml:32
 msgid "Page link"
-msgstr ""
+msgstr "Enllaç a la pàgina"
 
 #: application/view/common/asset-options.phtml:40
 msgid "Alternative link title"
-msgstr ""
+msgstr "Títol alternatiu per a l'enllaç"
 
 #: application/view/common/asset-options.phtml:44
 #: application/view/omeka/site-admin/page/edit.phtml:54
@@ -991,7 +1036,7 @@ msgstr "Aplica els canvis"
 #: application/view/common/attachments-form.phtml:8
 #: application/view/common/attachments-form.phtml:28
 msgid "No item selected"
-msgstr "Sense ítems seleccionats"
+msgstr "Cap recurs seleccionat"
 
 #: application/view/common/attachments-form.phtml:10
 #: application/view/common/attachments-form.phtml:51
@@ -1012,6 +1057,7 @@ msgstr "Bloc que voleu suprimir"
 
 #: application/view/common/block-layout.phtml:13
 #: application/view/common/data-type-wrapper.phtml:19
+#: application/view/common/value-annotation-wrapper.phtml:12
 #: application/view/omeka/admin/item/manage-media.phtml:52
 #: application/view/omeka/admin/resource-template/show-property-row.phtml:41
 msgid "Restore value"
@@ -1019,7 +1065,7 @@ msgstr "Restaura el valor"
 
 #: application/view/common/block-layout/item-with-metadata.phtml:12
 #: application/view/common/cross-site-search/results.phtml:70
-#: application/view/common/data-type/resource.phtml:29
+#: application/view/common/data-type/resource.phtml:30
 #: application/view/common/item-set-selector.phtml:11
 #: application/view/layout/layout-admin.phtml:72
 #: application/view/omeka/admin/item-set/add.phtml:6
@@ -1028,14 +1074,14 @@ msgstr "Restaura el valor"
 #: application/view/omeka/admin/item-set/search.phtml:5
 #: application/view/omeka/admin/item-set/show.phtml:26
 #: application/view/omeka/admin/item/form.phtml:16
-#: application/view/omeka/admin/item/show-details.phtml:19
+#: application/view/omeka/admin/item/show-details.phtml:23
 #: application/view/omeka/admin/item/show.phtml:67
 #: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:11
 #: application/view/omeka/site/item/show.phtml:27
 msgid "Item sets"
-msgstr "Conjunts d'ítems"
+msgstr "Conjunts de recursos"
 
 #: application/view/common/cross-site-search/advanced-item-form.phtml:4
 #: application/view/common/cross-site-search/advanced-item-set-form.phtml:4
@@ -1050,22 +1096,22 @@ msgstr "Reinicia"
 #: application/view/omeka/search/items-advanced.phtml:2
 #: application/view/omeka/site/item/search.phtml:6
 msgid "Advanced item search"
-msgstr "Cerca avançada d'ítems"
+msgstr "Cerca avançada"
 
 #: application/view/common/cross-site-search/item-results.phtml:8
 #, php-format
 msgid "Item results for \"%s\""
-msgstr ""
+msgstr "Resultats per a \"%s\""
 
 #: application/view/common/cross-site-search/item-set-results.phtml:3
 #: application/view/omeka/search/item-sets-advanced.phtml:2
 msgid "Advanced item set search"
-msgstr ""
+msgstr "Cerca avançada de conjunts de recursos"
 
 #: application/view/common/cross-site-search/item-set-results.phtml:8
 #, php-format
 msgid "Item set results for \"%s\""
-msgstr ""
+msgstr "Resultats per a \"%s\""
 
 #: application/view/common/cross-site-search/results.phtml:6
 #: application/view/omeka/site/index/search.phtml:8
@@ -1076,47 +1122,25 @@ msgstr "Resultats de cerca per “%s”"
 #: application/view/common/cross-site-search/results.phtml:13
 #: application/view/omeka/site/item/show.phtml:35
 msgid "Site pages"
-msgstr ""
+msgstr "Pàgines del lloc"
 
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
 #: application/view/common/cross-site-search/results.phtml:85
-#: application/view/omeka/site/index/search.phtml:40
+#: application/view/omeka/site/index/search.phtml:45
 #, php-format
 msgid "View all results (%s total)"
 msgstr "Veure tots els resultats (%s)"
 
-#: application/view/common/cross-site-search/results.phtml:40
-#: application/view/common/data-type/resource.phtml:22
-#: application/view/layout/layout-admin.phtml:68
-#: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:83
-#: application/view/omeka/admin/item/add.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:29
-#: application/view/omeka/admin/item/edit.phtml:14
-#: application/view/omeka/admin/item/search.phtml:5
-#: application/view/omeka/admin/item/show.phtml:18
-#: application/view/omeka/admin/property/show-details.phtml:18
-#: application/view/omeka/admin/resource-class/show-details.phtml:18
-#: application/view/omeka/admin/resource-template/browse.phtml:19
-#: application/view/omeka/admin/resource-template/show-details.phtml:18
-#: application/view/omeka/admin/user/show-details.phtml:12
-#: application/view/omeka/admin/vocabulary/classes.phtml:15
-#: application/view/omeka/site-admin/index/resources.phtml:22
-#: application/view/omeka/site/item/browse.phtml:42
-#: application/view/omeka/site/item/browse.phtml:44
-msgid "Items"
-msgstr "Ítems"
-
 #: application/view/common/cross-site-search/results.phtml:97
 #: application/view/omeka/site/index/search.phtml:11
 msgid "No result found"
-msgstr ""
+msgstr "No s'ha trobat cap resultat"
 
 #: application/view/common/cross-site-search/site-page-results.phtml:3
 #, php-format
 msgid "Site page results for \"%s\""
-msgstr ""
+msgstr "Resultats per a \"%s\""
 
 #: application/view/common/data-type-wrapper.phtml:12
 #: application/view/common/resource-form-templates.phtml:23
@@ -1124,10 +1148,15 @@ msgid "Omeka resource"
 msgstr "recurs Omeka"
 
 #: application/view/common/data-type-wrapper.phtml:16
+#: application/view/common/value-annotation-wrapper.phtml:9
 msgid "Value to be removed"
 msgstr "El valor que se suprimirà"
 
 #: application/view/common/data-type-wrapper.phtml:21
+msgid "More actions"
+msgstr ""
+
+#: application/view/common/data-type-wrapper.phtml:24
 #: application/view/common/media-field-wrapper.phtml:10
 #: application/view/omeka/admin/item-set/form.phtml:43
 #: application/view/omeka/admin/item/form.phtml:52
@@ -1140,7 +1169,13 @@ msgstr "El valor que se suprimirà"
 msgid "Make private"
 msgstr "Fes-lo privat"
 
+#: application/view/common/data-type-wrapper.phtml:27
+#: application/view/common/value-annotation-sidebar.phtml:6
+msgid "Annotate value"
+msgstr ""
+
 #: application/view/common/data-type/literal.phtml:4
+#: application/view/common/data-type/value-annotation-literal.phtml:2
 msgid "Set language"
 msgstr "Estableix l'idioma"
 
@@ -1148,32 +1183,20 @@ msgstr "Estableix l'idioma"
 msgid "Language"
 msgstr "Idioma"
 
-#: application/view/common/data-type/resource.phtml:14
+#: application/view/common/data-type/resource.phtml:15
+#: application/view/common/data-type/value-annotation-resource.phtml:2
 msgid "No resource selected"
 msgstr "No s'ha seleccionat cap recurs"
 
-#: application/view/common/data-type/resource.phtml:36
-#: application/view/layout/layout-admin.phtml:76
-#: application/view/omeka/admin/item/form.phtml:15
-#: application/view/omeka/admin/item/show-details.phtml:36
-#: application/view/omeka/admin/item/show.phtml:92
-#: application/view/omeka/admin/media/browse.phtml:35
-#: application/view/omeka/admin/media/edit.phtml:17
-#: application/view/omeka/admin/media/edit.phtml:25
-#: application/view/omeka/admin/media/search.phtml:5
-#: application/view/omeka/admin/media/show.phtml:11
-#: application/view/omeka/site-admin/page/attachment-item-options.phtml:32
-#: application/view/omeka/site/media/show.phtml:8
-msgid "Media"
-msgstr "Multimèdia"
-
 #: application/view/common/data-type/uri.phtml:6
+#: application/view/common/data-type/value-annotation-uri.phtml:4
 #: application/view/common/property-form-batch-edit.phtml:44
 #: application/view/common/resource-form-templates.phtml:24
 msgid "URI"
 msgstr "URI"
 
 #: application/view/common/data-type/uri.phtml:12
+#: application/view/common/data-type/value-annotation-uri.phtml:10
 #: application/view/common/navigation-link-form/browse.phtml:16
 #: application/view/common/navigation-link-form/page.phtml:15
 #: application/view/common/navigation-link-form/url.phtml:8
@@ -1209,17 +1232,17 @@ msgstr "Sense filtre"
 msgid "Filter"
 msgstr "Filtre"
 
-#: application/view/common/form-row.phtml:20
+#: application/view/common/form-row.phtml:33
 msgid "Learn more"
 msgstr "Més informació"
 
 #: application/view/common/item-set-selector.phtml:8
 msgid "Click on an item set to add it to the edit panel."
-msgstr "Polseu sobre un conjunt d'ítems per afegir-lo al tauler d'edició."
+msgstr "Polseu sobre un conjunt de recursos per afegir-lo al tauler d'edició."
 
 #: application/view/common/item-set-selector.phtml:9
 msgid "Filter item sets"
-msgstr "Filtra els conjunts d'ítems"
+msgstr "Filtra els conjunts de recursos"
 
 #: application/view/common/item-set-selector.phtml:18
 #: application/view/common/site-selector.phtml:10
@@ -1258,7 +1281,7 @@ msgstr "Etiqueta alternativa"
 
 #: application/view/common/navigation-link-form/browse.phtml:8
 msgid "Search query"
-msgstr ""
+msgstr "Equació de cerca"
 
 #: application/view/common/navigation-link-form/browse.phtml:15
 #: application/view/common/navigation-link-form/page.phtml:13
@@ -1282,7 +1305,7 @@ msgstr "URL"
 
 #: application/view/common/page-select-sidebar.phtml:8
 msgid "Select Pages"
-msgstr ""
+msgstr "Selecciona les pàgines"
 
 #: application/view/common/pagination.phtml:9
 #: application/view/common/sidebar-pagination.phtml:6
@@ -1323,11 +1346,11 @@ msgstr "Afegeix un valor textual"
 #: application/view/common/property-form-batch-edit.phtml:31
 #: application/view/common/property-form-batch-edit.phtml:46
 #: application/view/common/property-form-batch-edit.phtml:66
-#: application/view/omeka/admin/item-set/show-details.phtml:14
+#: application/view/omeka/admin/item-set/show-details.phtml:18
 #: application/view/omeka/admin/item-set/show.phtml:79
-#: application/view/omeka/admin/item/show-details.phtml:14
+#: application/view/omeka/admin/item/show-details.phtml:18
 #: application/view/omeka/admin/item/show.phtml:62
-#: application/view/omeka/admin/media/show-details.phtml:38
+#: application/view/omeka/admin/media/show-details.phtml:43
 #: application/view/omeka/admin/media/show.phtml:37
 msgid "Public"
 msgstr "Públic"
@@ -1361,7 +1384,7 @@ msgstr "Afegeix un valor per a l'URI"
 
 #: application/view/common/property-selector.phtml:10
 msgid "Click on a property to add it to the edit panel."
-msgstr "Feu clic sobre una propietat per afegir-la al panel d'edició."
+msgstr "Feu clic sobre una propietat per afegir-la al tauler d'edició."
 
 #: application/view/common/property-selector.phtml:12
 msgid "Filter properties"
@@ -1370,16 +1393,16 @@ msgstr "Propietats del filtre"
 #: application/view/common/query-form.phtml:9
 #: application/view/omeka/admin/query/search-filters.phtml:4
 msgid "[Edit below]"
-msgstr ""
+msgstr "[Edita]"
 
 #: application/view/common/query-form.phtml:25
 msgid "Advanced edit"
-msgstr ""
+msgstr "Edició avançada"
 
 #: application/view/common/query-form.phtml:26
 #: application/view/omeka/admin/query/sidebar-edit.phtml:14
 msgid "Apply"
-msgstr ""
+msgstr "Aplica"
 
 #: application/view/common/query-form.phtml:28
 #: application/view/omeka/site-admin/index/users.phtml:8
@@ -1393,11 +1416,11 @@ msgstr "Afegeix una propietat"
 
 #: application/view/common/resource-form-templates.phtml:13
 msgid "Property term for development use"
-msgstr ""
+msgstr "Terme de propietat per al seu ús en desenvolupament"
 
 #: application/view/common/resource-form-templates.phtml:18
 msgid "Select the first value type."
-msgstr "Selecciona el primer tipus de valor."
+msgstr "Selecciona el tipus de valor."
 
 #: application/view/common/resource-form-templates.phtml:21
 #: application/view/common/resource-form-templates.phtml:27
@@ -1414,21 +1437,55 @@ msgstr "Text"
 msgid "Select resource"
 msgstr "Selecciona un recurs"
 
+#: application/view/common/resource-values.phtml:53
+#: application/view/omeka/admin/item-set/browse.phtml:103
+#: application/view/omeka/admin/item-set/show-details.phtml:18
+#: application/view/omeka/admin/item-set/show.phtml:79
+#: application/view/omeka/admin/item/browse.phtml:101
+#: application/view/omeka/admin/item/show-details.phtml:18
+#: application/view/omeka/admin/item/show.phtml:62
+#: application/view/omeka/admin/media/browse.phtml:115
+#: application/view/omeka/admin/media/show-details.phtml:43
+#: application/view/omeka/admin/media/show.phtml:37
+#: application/view/omeka/admin/resource-template/form.phtml:90
+#: application/view/omeka/site-admin/index/index.phtml:64
+#: application/view/omeka/site-admin/page/index.phtml:66
+msgid "Private"
+msgstr "Privat"
+
+#: application/view/common/resource-values.phtml:57
+msgid "Has annotation"
+msgstr ""
+
+#: application/view/common/sidebar-pagelist.phtml:10
+msgid "Add to List of pages"
+msgstr "Afegeix a la llista de pàgines"
+
+#: application/view/common/sidebar-pagelist.phtml:12
+#: application/view/omeka/site-admin/index/navigation.phtml:51
+msgid "Filter pages"
+msgstr "Filtra les pàgines"
+
+#: application/view/common/sidebar-pagelist.phtml:25
+#: application/view/omeka/site-admin/index/navigation.phtml:65
+msgid "There are no available pages."
+msgstr "No hi ha pàgines disponibles."
+
 #: application/view/common/site-page-pagination.phtml:3
 msgid "Prev"
 msgstr "Anterior"
 
 #: application/view/common/site-selector.phtml:4
 msgid "Click on a site to add it to the edit panel."
-msgstr ""
+msgstr "Feu clic sobre un lloc per afegir-lo al panel d'edició."
 
 #: application/view/common/site-selector.phtml:5
 msgid "Filter sites"
-msgstr ""
+msgstr "Filtra els llocs"
 
 #: application/view/common/site-selector.phtml:7
 #: application/view/omeka/admin/item/form.phtml:17
-#: application/view/omeka/admin/item/show-details.phtml:28
+#: application/view/omeka/admin/item/show-details.phtml:32
 #: application/view/omeka/admin/item/show.phtml:76
 #: application/view/omeka/index/index.phtml:6
 #: application/view/omeka/site-admin/index/add.phtml:12
@@ -1493,6 +1550,30 @@ msgstr "Filtra els usuaris"
 msgid "Users (%s)"
 msgstr "Usuaris (%s)"
 
+#: application/view/common/value-annotation-sidebar.phtml:20
+msgid "Add annotation"
+msgstr ""
+
+#: application/view/common/value-annotation-sidebar.phtml:22
+msgid "Annotations"
+msgstr ""
+
+#: application/view/common/value-annotation-sidebar.phtml:27
+msgid "Set annotations"
+msgstr ""
+
+#: application/view/common/value-annotation-wrapper.phtml:13
+#: application/view/omeka/admin/item-set/form.phtml:49
+#: application/view/omeka/admin/item/form.phtml:58
+#: application/view/omeka/admin/item/manage-media.phtml:36
+#: application/view/omeka/admin/media/edit.phtml:60
+#: application/view/omeka/site-admin/index/add-page.phtml:12
+#: application/view/omeka/site-admin/index/add.phtml:20
+#: application/view/omeka/site-admin/index/edit.phtml:21
+#: application/view/omeka/site-admin/page/edit.phtml:24
+msgid "Make public"
+msgstr "Fes-lo públic"
+
 #: application/view/common/version-notification.phtml:8
 #, php-format
 msgid "A new version of Omeka S is available. %s"
@@ -1517,6 +1598,8 @@ msgid ""
 "The page you are trying to view does not exist. Use the back button to "
 "return to the last page."
 msgstr ""
+"Aquesta pàgina no existeix. Torna a la pàgina anterior o fes servir el menú "
+"per trobar el contingut que busques."
 
 #: application/view/error/404.phtml:14
 #, php-format
@@ -1537,10 +1620,12 @@ msgid ""
 "To learn how to see more detailed information about this error, see the "
 "Omeka S User Manual page on %s."
 msgstr ""
+"Per saber com veure informació més detallada sobre aquest error, vegeu el "
+"manual d'usuari de l'Omeka S a %s."
 
 #: application/view/error/index.phtml:19
 msgid "retrieving error messages"
-msgstr ""
+msgstr "s'estan mostrant els missatges d'error"
 
 #: application/view/layout/layout-admin.phtml:37
 msgid "Skip to main content"
@@ -1572,11 +1657,11 @@ msgstr "Tipus de recurs"
 
 #: application/view/layout/layout-admin.phtml:66
 msgid "Search items"
-msgstr "Cerca ítems"
+msgstr "Cerca recursos"
 
 #: application/view/layout/layout-admin.phtml:70
 msgid "Search item sets"
-msgstr "Cerca conjunts d'ítems"
+msgstr "Cerca conjunts de recursos"
 
 #: application/view/layout/layout-admin.phtml:74
 msgid "Search media"
@@ -1639,17 +1724,20 @@ msgstr "Puja un nou actiu"
 #: application/view/omeka/admin/asset/add-form.phtml:9
 #: application/view/omeka/admin/asset/show-details.phtml:21
 msgid "Alt text"
-msgstr ""
+msgstr "Text alternatiu"
 
 #: application/view/omeka/admin/asset/add-form.phtml:11
 msgid "Upload"
 msgstr "Puja"
 
 #: application/view/omeka/admin/asset/browse.phtml:8
+#: application/view/omeka/admin/item-set/show-details.phtml:13
 #: application/view/omeka/admin/item-set/show.phtml:66
+#: application/view/omeka/admin/item/show-details.phtml:13
 #: application/view/omeka/admin/item/show.phtml:57
 #: application/view/omeka/admin/job/browse.phtml:7
 #: application/view/omeka/admin/job/browse.phtml:37
+#: application/view/omeka/admin/media/show-details.phtml:18
 #: application/view/omeka/admin/media/show.phtml:32
 #: application/view/omeka/admin/user/edit.phtml:39
 msgid "ID"
@@ -1657,7 +1745,7 @@ msgstr "ID"
 
 #: application/view/omeka/admin/asset/browse.phtml:27
 msgid "Add new asset"
-msgstr ""
+msgstr "Afegeix un nou actiu"
 
 #: application/view/omeka/admin/asset/browse.phtml:75
 #: application/view/omeka/admin/asset/edit.phtml:6
@@ -1696,11 +1784,11 @@ msgstr "Detalls"
 
 #: application/view/omeka/admin/asset/browse.phtml:108
 msgid "Omeka could not find any assets."
-msgstr ""
+msgstr "L'Omeka no ha trobat cap actiu."
 
 #: application/view/omeka/admin/asset/show-details.phtml:12
 msgid "Media type"
-msgstr ""
+msgstr "Tipus de mitjà"
 
 #: application/view/omeka/admin/asset/sidebar-select.phtml:16
 msgid "Select asset"
@@ -1716,7 +1804,7 @@ msgstr "Filtra per propietari"
 
 #: application/view/omeka/admin/asset/sidebar-select.phtml:56
 msgid "assets"
-msgstr "fitxers"
+msgstr "actius"
 
 #: application/view/omeka/admin/index/browse.phtml:4
 #: application/view/omeka/index/index.phtml:33
@@ -1735,17 +1823,17 @@ msgstr "Gestiona els recursos"
 #: application/view/omeka/admin/index/browse.phtml:15
 #, php-format
 msgid "Items (%s)"
-msgstr "Items (%s)"
+msgstr "recursos (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:17
 #: application/view/omeka/admin/item/browse.phtml:41
 msgid "Add new item"
-msgstr "Afegeix un nou ítem"
+msgstr "Afegeix un nou recurs"
 
 #: application/view/omeka/admin/index/browse.phtml:21
 #, php-format
 msgid "Item sets (%s)"
-msgstr "Conjunts d'ítems (%s)"
+msgstr "Conjunts de recursos (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:27
 #, php-format
@@ -1777,11 +1865,11 @@ msgstr "Afegeix un lloc"
 
 #: application/view/omeka/admin/item-set/add.phtml:6
 msgid "New item set"
-msgstr "Nou conjunt d'ítems"
+msgstr "Nou conjunt de recursos"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:7
 msgid "Batch edit item sets"
-msgstr "Edició en lot dels conjunts d'ítems"
+msgstr "Edició en lot dels conjunts de recursos"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:19
 #: application/view/omeka/admin/item-set/edit.phtml:20
@@ -1807,17 +1895,17 @@ msgstr "Desa"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:27
 msgid "Affected item sets"
-msgstr "Conjunts d'ítems afectats"
+msgstr "Conjunts de recursos afectats"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:29
 #, php-format
 msgid "You are editing the following %s item sets:"
-msgstr "Esteu editant el conjunt de %s ítems següent:"
+msgstr "Esteu editant el conjunt de %s recursos següent:"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:36
 #, php-format
 msgid "You are editing %s item sets."
-msgstr "Esteu editant %s conjunts d'ítems."
+msgstr "Esteu editant %s conjunts de recursos."
 
 #: application/view/omeka/admin/item-set/browse.phtml:35
 #: application/view/omeka/admin/item-set/search.phtml:5
@@ -1903,31 +1991,16 @@ msgstr "Selecciona-ho tot"
 #: application/view/omeka/admin/item-set/browse.phtml:99
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:8
 msgid "Select item set"
-msgstr "Selecciona el conjunt d'ítems"
-
-#: application/view/omeka/admin/item-set/browse.phtml:103
-#: application/view/omeka/admin/item-set/show-details.phtml:14
-#: application/view/omeka/admin/item-set/show.phtml:79
-#: application/view/omeka/admin/item/browse.phtml:101
-#: application/view/omeka/admin/item/show-details.phtml:14
-#: application/view/omeka/admin/item/show.phtml:62
-#: application/view/omeka/admin/media/browse.phtml:115
-#: application/view/omeka/admin/media/show-details.phtml:38
-#: application/view/omeka/admin/media/show.phtml:37
-#: application/view/omeka/admin/resource-template/form.phtml:90
-#: application/view/omeka/site-admin/index/index.phtml:64
-#: application/view/omeka/site-admin/page/index.phtml:66
-msgid "Private"
-msgstr "Privat"
+msgstr "Selecciona el conjunt de recursos"
 
 #: application/view/omeka/admin/item-set/browse.phtml:157
 #: application/view/omeka/admin/item-set/browse.phtml:175
 msgid "Delete item sets"
-msgstr "Suprimeix els conjunts d'ítems"
+msgstr "Suprimeix els conjunts de recursos"
 
 #: application/view/omeka/admin/item-set/browse.phtml:158
 msgid "Are you sure you would like to delete the selected item sets?"
-msgstr "Esteu segur que voleu suprimir els conjunts d'ítems seleccionats?"
+msgstr "Esteu segur que voleu suprimir els conjunts de recursos seleccionats?"
 
 #: application/view/omeka/admin/item-set/browse.phtml:160
 #: application/view/omeka/admin/item-set/browse.phtml:178
@@ -1936,8 +2009,8 @@ msgid ""
 "%1$s: this action will permanently delete %2$s item sets and cannot be "
 "undone."
 msgstr ""
-"%1$s: aquesta acció suprimirà permanentment %2$s conjunts d'ítems i no et "
-"podrà desfer."
+"%1$s: aquesta acció suprimirà permanentment %2$s conjunts de recursos i no "
+"es podrà desfer."
 
 #: application/view/omeka/admin/item-set/browse.phtml:161
 #: application/view/omeka/admin/item-set/browse.phtml:179
@@ -1955,7 +2028,7 @@ msgid ""
 "Are you sure you would like to delete all item sets on all pages of this "
 "result?"
 msgstr ""
-"Esteu segur que voleu suprimir tots els conjunts d'ítems en totes les "
+"Esteu segur que voleu suprimir tots els conjunts de recursos en totes les "
 "pàgines d'aquest resultat?"
 
 #: application/view/omeka/admin/item-set/browse.phtml:182
@@ -1967,7 +2040,7 @@ msgstr "Esteu segur?"
 
 #: application/view/omeka/admin/item-set/browse.phtml:216
 msgid "Omeka could not find any item sets."
-msgstr "L'Omeka no ha trobat cap conjunt d'ítems."
+msgstr "L'Omeka no ha trobat cap conjunt de recursos"
 
 #: application/view/omeka/admin/item-set/form.phtml:13
 #: application/view/omeka/admin/item/form.phtml:14
@@ -1983,38 +2056,27 @@ msgstr "Avançat"
 
 #: application/view/omeka/admin/item-set/form.phtml:29
 msgid "Close item set"
-msgstr "Tanca el conjunt d'ítems"
+msgstr "Tanca el conjunt de recursos"
 
 #: application/view/omeka/admin/item-set/form.phtml:35
 msgid "Open item set"
-msgstr "Obre el conjunt d'ítems"
+msgstr "Obre el conjunt de recursos"
 
-#: application/view/omeka/admin/item-set/form.phtml:49
-#: application/view/omeka/admin/item/form.phtml:58
-#: application/view/omeka/admin/item/manage-media.phtml:36
-#: application/view/omeka/admin/media/edit.phtml:60
-#: application/view/omeka/site-admin/index/add-page.phtml:12
-#: application/view/omeka/site-admin/index/add.phtml:20
-#: application/view/omeka/site-admin/index/edit.phtml:21
-#: application/view/omeka/site-admin/page/edit.phtml:24
-msgid "Make public"
-msgstr "Fes-lo públic"
-
-#: application/view/omeka/admin/item-set/show-details.phtml:13
+#: application/view/omeka/admin/item-set/show-details.phtml:17
 #: application/view/omeka/admin/item-set/show.phtml:78
-#: application/view/omeka/admin/item/show-details.phtml:13
+#: application/view/omeka/admin/item/show-details.phtml:17
 #: application/view/omeka/admin/item/show.phtml:61
-#: application/view/omeka/admin/media/show-details.phtml:37
+#: application/view/omeka/admin/media/show-details.phtml:42
 #: application/view/omeka/admin/media/show.phtml:36
 msgid "Visibility"
 msgstr "Visibilitat"
 
-#: application/view/omeka/admin/item-set/show-details.phtml:15
+#: application/view/omeka/admin/item-set/show-details.phtml:19
 #: application/view/omeka/admin/item-set/show.phtml:80
 msgid "Open to additions"
 msgstr "Obert a addicions"
 
-#: application/view/omeka/admin/item-set/show-details.phtml:15
+#: application/view/omeka/admin/item-set/show-details.phtml:19
 #: application/view/omeka/admin/item-set/show.phtml:80
 msgid "Closed to additions"
 msgstr "Tancat a addicions"
@@ -2033,27 +2095,27 @@ msgstr "Recursos enllaçats"
 
 #: application/view/omeka/admin/item-set/show.phtml:30
 msgid "Edit item set"
-msgstr "Edita el conjunt d'ítems"
+msgstr "Edita el conjunt de recursos"
 
 #: application/view/omeka/admin/item-set/show.phtml:32
 msgid "View items"
-msgstr "Mostra els ítems"
+msgstr "Mostra els recursos"
 
 #: application/view/omeka/admin/item-set/show.phtml:54
 msgid "The following resources link to this item set:"
-msgstr "Els recursos següents enllacen al conjunt d'ítems:"
+msgstr "Els recursos següents enllacen al conjunt de recursos:"
 
 #: application/view/omeka/admin/item-set/show.phtml:58
 msgid "No resources link to this item set."
-msgstr "No hi ha cap recurs enllaçat a aquest conjunt d'ítems."
+msgstr "No hi ha cap recursos enllaçat a aquest conjunt de recursos."
 
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:39
 msgid "item sets"
-msgstr "Conjunts d'ítems"
+msgstr "Conjunts de recursos"
 
 #: application/view/omeka/admin/item/add.phtml:6
 msgid "New item"
-msgstr "Nou ítem"
+msgstr "Nou recurs"
 
 #: application/view/omeka/admin/item/add.phtml:13
 #: application/view/omeka/admin/resource-template/add.phtml:15
@@ -2065,35 +2127,35 @@ msgstr "Afegeix"
 
 #: application/view/omeka/admin/item/batch-edit.phtml:7
 msgid "Batch edit items"
-msgstr "Edita els ítems en lot"
+msgstr "Edita els recursos en lot"
 
 #: application/view/omeka/admin/item/batch-edit.phtml:27
 msgid "Affected items"
-msgstr "Ítems afectats"
+msgstr "Recursos afectats"
 
 #: application/view/omeka/admin/item/batch-edit.phtml:29
 #, php-format
 msgid "You are editing the following %s items:"
-msgstr "Esteu editants els %s ítems següents:"
+msgstr "Esteu editants els %s recursos següents:"
 
 #: application/view/omeka/admin/item/batch-edit.phtml:36
 #, php-format
 msgid "You are editing %s items."
-msgstr "Esteu editant %s ítems."
+msgstr "Esteu editant %s recursos."
 
 #: application/view/omeka/admin/item/browse.phtml:97
 #: application/view/omeka/admin/item/sidebar-select.phtml:10
 msgid "Select item"
-msgstr "Selecciona l'ítem"
+msgstr "Selecciona el recurs"
 
 #: application/view/omeka/admin/item/browse.phtml:155
 #: application/view/omeka/admin/item/browse.phtml:173
 msgid "Delete items"
-msgstr "Suprimeix els ítems"
+msgstr "Suprimeix els recursos"
 
 #: application/view/omeka/admin/item/browse.phtml:156
 msgid "Are you sure you would like to delete the selected items?"
-msgstr "Esteu segur que voleu suprimir els ítems seleccionats?"
+msgstr "Esteu segur que voleu suprimir els recursos seleccionats?"
 
 #: application/view/omeka/admin/item/browse.phtml:158
 #: application/view/omeka/admin/item/browse.phtml:176
@@ -2101,35 +2163,37 @@ msgstr "Esteu segur que voleu suprimir els ítems seleccionats?"
 msgid ""
 "%1$s: this action will permanently delete %2$s items and cannot be undone."
 msgstr ""
-"%1$s: aquesta acció suprimirà permanentment %2$s ítems i no es podrà desfer."
+"%1$s: aquesta acció suprimirà permanentment %2$s recursos i no es podrà "
+"desfer."
 
 #: application/view/omeka/admin/item/browse.phtml:174
 msgid ""
 "Are you sure you would like to delete all items on all pages of this result?"
 msgstr ""
-"Esteu segur que voleu suprimir tots els ítems de totes pàgines d'aquest "
+"Esteu segur que voleu suprimir tots els recursos de totes pàgines d'aquest "
 "resultat?"
 
 #: application/view/omeka/admin/item/browse.phtml:214
 msgid "Omeka could not find any items."
-msgstr "L'Omeka no ha pogut trobar cap ítem."
+msgstr "L'Omeka no ha pogut trobar cap recurs."
 
 #: application/view/omeka/admin/item/manage-item-sets.phtml:21
 #: application/view/omeka/site-admin/index/resources.phtml:14
 msgid "Remove item set"
-msgstr "Suprimeix el conjunt d'ítems"
+msgstr "Suprimeix el conjunt de recursos"
 
 #: application/view/omeka/admin/item/manage-item-sets.phtml:42
 msgid ""
 "This item is part of no item sets. Add it to an item set using the interface"
 " to the right."
 msgstr ""
-"Aquest ítem no forma part de cap conjunt d'ítems. Afegiu-lo a un conjunt "
-"d'ítems mitjançant les opcions de la part dreta de la interfície."
+"Aquest recurs no forma part de cap conjunt de recursos. Afegiu-lo a un "
+"conjunt de recursos mitjançant les opcions de la part dreta de la "
+"interfície."
 
 #: application/view/omeka/admin/item/manage-item-sets.phtml:45
 msgid "Add to item set"
-msgstr "Afegeix al conjunt d'ítems"
+msgstr "Afegeix al conjunt de recursos"
 
 #: application/view/omeka/admin/item/manage-media.phtml:21
 msgid "Media to be removed"
@@ -2150,29 +2214,31 @@ msgstr "Afegeix un fitxer"
 
 #: application/view/omeka/admin/item/manage-sites.phtml:30
 msgid "Unassign from site"
-msgstr ""
+msgstr "Desvincula del lloc"
 
 #: application/view/omeka/admin/item/manage-sites.phtml:48
 msgid ""
 "This item is part of no sites. Add it to a site using the interface to the "
 "right."
 msgstr ""
+"Aquest recurs no pertany a cap lloc. Afegiu-lo a un lloc amb les opcions "
+"d'aquesta pàgina."
 
 #: application/view/omeka/admin/item/manage-sites.phtml:51
 msgid "Assign to site"
-msgstr ""
+msgstr "Asigna al lloc"
 
 #: application/view/omeka/admin/item/show.phtml:21
 msgid "Edit item"
-msgstr "Edita l'ítem"
+msgstr "Edita el recurs"
 
 #: application/view/omeka/admin/item/show.phtml:44
 msgid "The following resources link to this item:"
-msgstr "Els recursos següents enllacen a aquest ítem:"
+msgstr "Els continguts següents enllacen a aquest recurs:"
 
 #: application/view/omeka/admin/item/show.phtml:48
 msgid "No resources link to this item."
-msgstr "No hi ha cap recurs que enllaci a aquest fitxer."
+msgstr "No hi ha cap recurs que enllaci a aquest recurs."
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 msgid "Filter search"
@@ -2188,11 +2254,11 @@ msgstr "Addició ràpida"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:98
 msgid "items"
-msgstr "ítems"
+msgstr "recursos"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:103
 msgid "Add selected"
-msgstr ""
+msgstr "Afegeix els seleccionats"
 
 #: application/view/omeka/admin/job/browse.phtml:15
 #: application/view/omeka/admin/job/browse.phtml:39
@@ -2247,21 +2313,21 @@ msgstr "[no log]"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:9
 msgid "Batch edit media"
-msgstr ""
+msgstr "Edició en lot dels fitxers"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:29
 msgid "Affected media"
-msgstr ""
+msgstr "Fitxers afectats"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:31
 #, php-format
 msgid "You are editing the following %s media:"
-msgstr ""
+msgstr "Esteu editant el fitxer %s :"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:38
 #, php-format
 msgid "You are editing %s media."
-msgstr ""
+msgstr "Esteu editant el fitxer %s."
 
 #: application/view/omeka/admin/media/browse.phtml:111
 #: application/view/omeka/admin/media/sidebar-select.phtml:8
@@ -2271,11 +2337,11 @@ msgstr "Selecciona el fitxer"
 #: application/view/omeka/admin/media/browse.phtml:171
 #: application/view/omeka/admin/media/browse.phtml:189
 msgid "Delete media"
-msgstr ""
+msgstr "Suprimeix els fitxers"
 
 #: application/view/omeka/admin/media/browse.phtml:172
 msgid "Are you sure you would like to delete the selected media?"
-msgstr ""
+msgstr "Esteu segur que voleu suprimir el fitxer seleccionat?"
 
 #: application/view/omeka/admin/media/browse.phtml:174
 #: application/view/omeka/admin/media/browse.phtml:192
@@ -2283,26 +2349,30 @@ msgstr ""
 msgid ""
 "%1$s: this action will permanently delete %2$s media and cannot be undone."
 msgstr ""
+"%1$s: aquesta acció no es pot desfer i suprimirà permanentment el fitxer "
+"%2$s."
 
 #: application/view/omeka/admin/media/browse.phtml:190
 msgid ""
 "Are you sure you would like to delete all media on all pages of this result?"
 msgstr ""
+"Esteu segur que voleu suprimir tots els fitxers de totes les pàgines "
+"d'aquest resultat?"
 
 #: application/view/omeka/admin/media/browse.phtml:231
 msgid "Omeka could not find any media."
-msgstr ""
+msgstr "L'Omeka no ha trobat cap fitxer."
 
-#: application/view/omeka/admin/media/show-details.phtml:18
+#: application/view/omeka/admin/media/show-details.phtml:23
 msgid "Part of Item"
-msgstr "Part de l'ítem"
+msgstr "Part del recurs"
 
-#: application/view/omeka/admin/media/show-details.phtml:24
+#: application/view/omeka/admin/media/show-details.phtml:29
 #: application/view/omeka/admin/media/show.phtml:50
 msgid "MIME type"
 msgstr "Tipus MIME"
 
-#: application/view/omeka/admin/media/show-details.phtml:32
+#: application/view/omeka/admin/media/show-details.phtml:37
 #: application/view/omeka/admin/media/show.phtml:57
 #, php-format
 msgid "%s bytes"
@@ -2314,11 +2384,11 @@ msgstr "Edita el mèdia"
 
 #: application/view/omeka/admin/media/show.phtml:40
 msgid "Part of item"
-msgstr "Part de l'ítem"
+msgstr "Part del recurs"
 
 #: application/view/omeka/admin/media/show.phtml:61
 msgid "Ingester"
-msgstr "Ingesta"
+msgstr "Mètode d'ingesta"
 
 #: application/view/omeka/admin/media/show.phtml:66
 msgid "Source"
@@ -2433,15 +2503,15 @@ msgstr "Comentari"
 
 #: application/view/omeka/admin/query/sidebar-edit.phtml:4
 msgid "Search query edit"
-msgstr ""
+msgstr "Edita l'equació de cerca"
 
 #: application/view/omeka/admin/query/sidebar-preview.phtml:2
 msgid "Search query preview"
-msgstr ""
+msgstr "Previsualització de l'equació de cerca"
 
 #: application/view/omeka/admin/query/sidebar-preview.phtml:11
 msgid "No resources found."
-msgstr ""
+msgstr "No s'ha trobat cap recurs."
 
 #: application/view/omeka/admin/resource-template/add.phtml:6
 msgid "New resource template"
@@ -2496,12 +2566,12 @@ msgstr "Obligatori"
 #: application/view/omeka/admin/resource-template/review-import.phtml:67
 #: application/view/omeka/admin/resource-template/show.phtml:27
 msgid "Data types"
-msgstr ""
+msgstr "Tipus de dades"
 
 #: application/view/omeka/admin/resource-template/form.phtml:96
 #: application/view/omeka/admin/resource-template/review-import.phtml:98
 msgid "Select data types…"
-msgstr ""
+msgstr "Seleccioneu els tipus de dades..."
 
 #: application/view/omeka/admin/resource-template/form.phtml:101
 msgid "Set changes"
@@ -2521,11 +2591,11 @@ msgstr "Importació completada"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:40
 msgid "Resource title"
-msgstr ""
+msgstr "Títol del recurs"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:40
 msgid "Resource description"
-msgstr ""
+msgstr "Descripció del recurs"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:66
 #: application/view/omeka/admin/resource-template/show.phtml:26
@@ -2535,7 +2605,7 @@ msgstr "Etiqueta original"
 #: application/view/omeka/admin/resource-template/review-import.phtml:69
 #: application/view/omeka/admin/resource-template/show.phtml:29
 msgid "Alternate comment"
-msgstr ""
+msgstr "Comentari personalitzat"
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:70
 #: application/view/omeka/admin/resource-template/show.phtml:30
@@ -2764,6 +2834,17 @@ msgstr "Actualitza"
 msgid "Accept changes"
 msgstr "Accepta els canvis"
 
+#: application/view/omeka/api/root.phtml:2
+msgid ""
+"This is the REST API root endpoint for this Omeka S installation. Below is a"
+" list of available API resources and links to their endpoints. Some "
+"resources and features require authentication."
+msgstr ""
+
+#: application/view/omeka/api/root.phtml:12
+msgid "Omeka S REST API documentation"
+msgstr ""
+
 #: application/view/omeka/index/index.phtml:32
 #, php-format
 msgid "Go to the %1$s to start working with %2$s."
@@ -2898,19 +2979,10 @@ msgstr "Selecciona una pàgina d'inici"
 msgid "Add a custom link"
 msgstr "Afegeix un enllaç personalitzat"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:51
-#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:10
-msgid "Filter pages"
-msgstr "Filtra les pàgines"
-
-#: application/view/omeka/site-admin/index/navigation.phtml:65
-msgid "There are no available pages."
-msgstr "No hi ha pàgines disponibles."
-
 #: application/view/omeka/site-admin/index/resources.phtml:37
 #, php-format
 msgid "There are currently %s items assigned to this site."
-msgstr ""
+msgstr "Hi ha %s recursos vinculats a aquest lloc."
 
 #: application/view/omeka/site-admin/index/resources.phtml:42
 #, php-format
@@ -2918,18 +2990,20 @@ msgid ""
 "This site currently auto-assigns newly created items. Change the setting in "
 "%s."
 msgstr ""
+"Aquest lloc s'autoassigna els nous recursos creats. Podeu modificar aquest "
+"comportament a %s."
 
 #: application/view/omeka/site-admin/index/resources.phtml:43
 msgid "site admin"
-msgstr ""
+msgstr "administrador del lloc"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
 msgid "Keep this query"
-msgstr ""
+msgstr "Manté aquesta consulta"
 
 #: application/view/omeka/site-admin/index/resources.phtml:73
 msgid "No item sets are assigned to this site."
-msgstr "No s'ha assignat cap conjunt d'ítems a aquest lloc."
+msgstr "No s'ha assignat cap conjunt de recursos a aquest lloc."
 
 #: application/view/omeka/site-admin/index/show.phtml:16
 msgid "Back to site list"
@@ -2993,7 +3067,7 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/users.phtml:10
 msgid "Viewer"
-msgstr "Visor"
+msgstr "Espectador"
 
 #: application/view/omeka/site-admin/index/users.phtml:11
 msgid "Creator"
@@ -3001,7 +3075,7 @@ msgstr "Autor"
 
 #: application/view/omeka/site-admin/index/users.phtml:12
 msgid "Manager"
-msgstr ""
+msgstr "Gestor"
 
 #: application/view/omeka/site-admin/index/users.phtml:41
 msgid "User permissions"
@@ -3018,11 +3092,11 @@ msgstr "Feu clic sobre un usuari per afegir-lo al lloc."
 
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:17
 msgid "Change item"
-msgstr ""
+msgstr "Canvia el recurs"
 
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:59
 msgid "No item selected."
-msgstr "Cap ítem seleccionat."
+msgstr "Cap recurs seleccionat."
 
 #: application/view/omeka/site-admin/page/edit.phtml:41
 msgid "Add new block"
@@ -3049,26 +3123,22 @@ msgstr "Pàgina pública"
 msgid "Delete page"
 msgstr "Suprimeix la pàgina"
 
-#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:8
-msgid "Add to List of pages"
-msgstr ""
-
 #: application/view/omeka/site/index/index.phtml:4
 msgid "This site has no pages."
 msgstr "Aquest lloc no té pàgines."
 
 #: application/view/omeka/site/item-set/search.phtml:6
 msgid "Advanced item set Search"
-msgstr "Cerca avançada de conjunts d'ítems"
+msgstr "Cerca avançada"
 
 #: application/view/omeka/site/item/show.phtml:13
 msgid "Item"
-msgstr "Ítem"
+msgstr "Recursos"
 
 #: application/view/omeka/site/media/show.phtml:11
 #, php-format
 msgid "Part of %s"
-msgstr ""
+msgstr "Part de %s"
 
 #: application/view/omeka/site/page/browse.phtml:18
 msgid "No pages found"
@@ -3077,11 +3147,11 @@ msgstr "No s'ha trobat cap pàgina"
 #: application/src/Stdlib/Cli.php:105 application/src/Stdlib/Cli.php:143
 #, php-format
 msgid "Command \"%s\" failed with status code %s."
-msgstr ""
+msgstr "La comanda \"%s\" ha fallat i ha retornat el codi d'estat %s."
 
 #: application/src/Stdlib/Environment.php:52
 msgid "Omeka requires the PHP extension json, but it is not loaded."
-msgstr ""
+msgstr "L'Omeka requereix l'extensió JSON de PHP, però no s'ha carregat."
 
 #: application/src/Stdlib/Environment.php:60
 #, php-format
@@ -3124,25 +3194,26 @@ msgstr ""
 "La versió instal·lada del MariaDB (%1$s) és massa antiga. L'Omeka S "
 "requereix, com a mínim, la versió %2$s."
 
-#: application/src/DataType/Resource/ItemSet.php:13
+#: application/src/DataType/Resource/ItemSet.php:17
 msgid "Item Set"
-msgstr "Conjunt d'ítems"
+msgstr "Conjunt de recursos"
 
-#: application/src/DataType/Resource/AbstractResource.php:16
+#: application/src/DataType/Resource/AbstractResource.php:23
 msgid "Resource"
 msgstr "Recurs"
 
-#: application/src/DataType/Resource/AbstractResource.php:59
-msgid "A value resource cannot be Media."
+#: application/src/DataType/Resource/AbstractResource.php:77
+#, php-format
+msgid "Invalid value resource %s for type %s"
 msgstr ""
 
 #: application/src/Site/BlockLayout/ItemShowcase.php:13
 msgid "Item showcase"
-msgstr "Galeria d'ítems"
+msgstr "Galeria de recursos"
 
 #: application/src/Site/BlockLayout/ListOfPages.php:32
 msgid "List of pages"
-msgstr ""
+msgstr "Llista de pàgines"
 
 #: application/src/Site/BlockLayout/PageTitle.php:13
 msgid "Page title"
@@ -3152,37 +3223,37 @@ msgstr "Títol de la pàgina"
 msgid "Table of contents"
 msgstr "Sumari"
 
-#: application/src/Site/BlockLayout/Asset.php:17
+#: application/src/Site/BlockLayout/Asset.php:18
 msgid "Asset"
-msgstr ""
-
-#: application/src/Site/BlockLayout/Asset.php:34
-#: application/src/Site/BlockLayout/Asset.php:40
-msgid "default"
-msgstr ""
+msgstr "Actiu"
 
 #: application/src/Site/BlockLayout/Asset.php:35
-msgid "float left"
-msgstr ""
+#: application/src/Site/BlockLayout/Asset.php:41
+msgid "default"
+msgstr "per defecte"
 
 #: application/src/Site/BlockLayout/Asset.php:36
-msgid "float right"
-msgstr ""
+msgid "float left"
+msgstr "alineació a l'esquerra"
 
 #: application/src/Site/BlockLayout/Asset.php:37
-#: application/src/Site/BlockLayout/Asset.php:43
-msgid "center"
-msgstr ""
+msgid "float right"
+msgstr "alineació a la dreta"
 
-#: application/src/Site/BlockLayout/Asset.php:41
-msgid "left"
-msgstr ""
+#: application/src/Site/BlockLayout/Asset.php:38
+#: application/src/Site/BlockLayout/Asset.php:44
+msgid "center"
+msgstr "alineació centrada"
 
 #: application/src/Site/BlockLayout/Asset.php:42
-msgid "right"
-msgstr ""
+msgid "left"
+msgstr "esquerra"
 
-#: application/src/Site/BlockLayout/Asset.php:48
+#: application/src/Site/BlockLayout/Asset.php:43
+msgid "right"
+msgstr "dreta"
+
+#: application/src/Site/BlockLayout/Asset.php:49
 #: application/src/Site/BlockLayout/Media.php:61
 msgid "Alignment"
 msgstr "Alineació"
@@ -3209,21 +3280,23 @@ msgstr "Nombre màxim de recursos que es mostraran a la previsualització."
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:80
 msgid "Components"
-msgstr ""
+msgstr "Components"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:81
 msgid ""
 "Components to display for each resource. If not set in Site Settings, "
 "Heading defaults to resource Title and Body to resource Description"
 msgstr ""
+"Components per mostrar a cada recurs. Si no es configura en els paràmetres "
+"del lloc, la capçalera mostrarà el títol i el cos la descripció del recurs."
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:85
 msgid "Heading"
-msgstr ""
+msgstr "Capçalera"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:89
 msgid "Body"
-msgstr ""
+msgstr "Cos"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:102
 msgid "Preview title"
@@ -3231,19 +3304,19 @@ msgstr "Previsualització del títol"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:103
 msgid "Heading above resource list, if any."
-msgstr ""
+msgstr "Encapçalament sobre la llista de recursos."
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:110
 msgid "Link text"
-msgstr ""
+msgstr "Text de l'enllaç "
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:111
 msgid "Text for link to full browse view, if any."
-msgstr ""
+msgstr "Text de l'enllaç per accedir a la vista completa de recursos."
 
 #: application/src/Site/BlockLayout/ItemWithMetadata.php:13
 msgid "Item with metadata"
-msgstr "Ítem amb metadades"
+msgstr "Recurs amb metadades"
 
 #: application/src/Site/BlockLayout/Media.php:14
 msgid "Media Embed"
@@ -3303,7 +3376,7 @@ msgstr "Mostra els resums"
 
 #: application/src/Site/BlockLayout/ListOfSites.php:86
 msgid "Show thumbnails"
-msgstr ""
+msgstr "Mostra les miniatures"
 
 #: application/src/Site/BlockLayout/ListOfSites.php:96
 msgid "Exclude current site"
@@ -3317,7 +3390,7 @@ msgstr "HTML"
 
 #: application/src/Site/BlockLayout/Html.php:48
 msgid "Optional CSS class for styling HTML."
-msgstr ""
+msgstr "Classes CSS opcionals per donar estil a l'HTML."
 
 #: application/src/Site/BlockLayout/Fallback.php:28
 #, php-format
@@ -3330,7 +3403,7 @@ msgstr "URL personalitzada"
 
 #: application/src/Site/Navigation/Link/BrowseItemSets.php:11
 msgid "Browse item sets"
-msgstr "Conjunts d'ítems"
+msgstr "Conjunts de recursos"
 
 #: application/src/File/ThumbnailManager.php:102
 msgid "Missing thumbnail configuration."
@@ -3348,22 +3421,25 @@ msgstr ""
 #: application/src/File/ThumbnailManager.php:113
 msgid "Missing constraint for a thumbnail type configuration."
 msgstr ""
+"No s'ha trobat la restricció per a la configuració del tipus de miniatura."
 
 #: application/src/File/ThumbnailManager.php:117
 msgid "Missing thumbnail fallbacks configuration."
-msgstr ""
+msgstr "No s'han trobat les configuracions alternatives per a les miniatures."
 
 #: application/src/File/ThumbnailManager.php:120
 msgid "Missing default thumbnail fallback configuration."
 msgstr ""
+"No s'han trobat les configuracions alternatives per a les miniatures "
+"predeterminades."
 
 #: application/src/File/ThumbnailManager.php:123
 msgid "Missing thumbnail fallback configuration."
-msgstr ""
+msgstr "No s'ha trobat la configuració alternativa per a les miniatures."
 
 #: application/src/File/ThumbnailManager.php:127
 msgid "Invalid thumbnail fallback configuration."
-msgstr ""
+msgstr "La configuració alternativa per a les miniatures és incorrecta."
 
 #: application/src/File/Downloader.php:71
 #, php-format
@@ -3402,7 +3478,7 @@ msgstr "Administrador global"
 
 #: application/src/Permissions/Acl.php:22
 msgid "Supervisor"
-msgstr ""
+msgstr "Supervisor"
 
 #: application/src/Permissions/Acl.php:23
 msgid "Editor"
@@ -3420,11 +3496,11 @@ msgstr "Autor"
 msgid "Researcher"
 msgstr "Investigador"
 
-#: application/src/Api/Adapter/ItemAdapter.php:103
+#: application/src/Api/Adapter/ItemAdapter.php:108
 msgid "Item sets must be an array"
-msgstr "Els conjunts d'ítems han de ser una matriu"
+msgstr "Els conjunts de recursos han de ser una matriu"
 
-#: application/src/Api/Adapter/ItemAdapter.php:109
+#: application/src/Api/Adapter/ItemAdapter.php:114
 msgid "Media must be an array"
 msgstr "Els fitxers multimèdia han de ser una matriu"
 
@@ -3444,17 +3520,17 @@ msgstr "L'etiqueta no pot estar en blanc."
 msgid "The label is already taken."
 msgstr "L'etiqueta ja està en ús."
 
-#: application/src/Api/Adapter/MediaAdapter.php:112
+#: application/src/Api/Adapter/MediaAdapter.php:94
 msgid "Media must set an ingester."
-msgstr ""
+msgstr "Heu de definir un sistema d'ingesta per als fitxers."
 
-#: application/src/Api/Adapter/MediaAdapter.php:134
+#: application/src/Api/Adapter/MediaAdapter.php:116
 msgid "Media must set a valid ingester."
-msgstr ""
+msgstr "Heu de definir un sistema d'ingesta vàlid per als fitxers."
 
-#: application/src/Api/Adapter/MediaAdapter.php:174
+#: application/src/Api/Adapter/MediaAdapter.php:160
 msgid "Media must belong to an item."
-msgstr "El fitxer multimèdia ha de pertànyer a un ítem."
+msgstr "El fitxer multimèdia ha de pertànyer a un recurs."
 
 #: application/src/Api/Adapter/UserAdapter.php:120
 msgid "The name cannot be empty."
@@ -3530,6 +3606,8 @@ msgstr "Tots els blocs han de tenir un disseny."
 #: application/src/Api/Adapter/SitePageAdapter.php:213
 msgid "Block data must not be a scalar value."
 msgstr ""
+"Les dades del bloc no poden ser valors escalars (nombre real, complex o "
+"racional)."
 
 #: application/src/Api/Adapter/SiteAdapter.php:236
 msgid "A site must have a title."
@@ -3541,7 +3619,7 @@ msgstr "El lloc ha de tenir un tema."
 
 #: application/src/Api/Adapter/SiteAdapter.php:258
 msgid "A site must have item pool data."
-msgstr "Un lloc ha de tenir dades del fons d'ítems."
+msgstr "Un lloc ha de tenir dades del fons de recursos."
 
 #: application/src/Api/Adapter/SiteAdapter.php:263
 msgid "A homepage must belong to its parent site."
@@ -3553,23 +3631,25 @@ msgstr "Navegació invàlida: ha de ser una matriu"
 
 #: application/src/Api/Adapter/SiteAdapter.php:345
 msgid "Invalid navigation: link missing type"
-msgstr ""
+msgstr "Navegació invàlida: falta el tipus d'enllaç"
 
 #: application/src/Api/Adapter/SiteAdapter.php:349
 msgid "Invalid navigation: link missing data"
-msgstr ""
+msgstr "Navegació invàlida: falta l'enllaç"
 
 #: application/src/Api/Adapter/SiteAdapter.php:353
 msgid "Invalid navigation: invalid link data"
-msgstr ""
+msgstr "Navegació invàlida: enllaç incorrecte"
 
 #: application/src/Api/Adapter/SiteAdapter.php:358
 msgid "Invalid navigation: page links must be unique"
-msgstr ""
+msgstr "Navegació invàlida: els enllaços no es poden repetir"
 
 #: application/src/Api/Adapter/SiteAdapter.php:365
 msgid "Invalid navigation: links must be an array"
 msgstr ""
+"Navegació invàlida: els enllaços s'han d'emmagatzemar en una matriu o "
+"vector."
 
 #: application/src/Api/Adapter/VocabularyAdapter.php:59
 msgid "Classes must be an array"
@@ -3822,19 +3902,19 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:251
 msgid "Default content visibility to Private"
-msgstr ""
+msgstr "Visibilitat predeterminada del contingut"
 
 #: application/src/Form/SettingForm.php:252
 msgid ""
 "If checked, all items, item sets and sites newly created will have their "
 "visibility set to private by default."
 msgstr ""
-"Si se selecciona, tots els ítems, conjunts d'ítems i llocs de nova creació "
-"seran privats per defecte."
+"Si se selecciona, tots els recursos, conjunts de recursos i llocs de nova "
+"creació seran privats per defecte."
 
 #: application/src/Form/SettingForm.php:264
 msgid "Suggested languages for values"
-msgstr ""
+msgstr "Idiomes recomanats per als valors"
 
 #: application/src/Form/SettingForm.php:265
 msgid ""
@@ -3842,22 +3922,27 @@ msgid ""
 "List them one by line. The label displayed for a language may be appended "
 "with a \"=\"."
 msgstr ""
+"Llista d'idiomes per facilitar l'emplenament dels valors del formulari dels "
+"recursos. Enumereu-los un per línia. L'etiqueta que es mostra per a un "
+"idioma es pot afegir amb un \"=\"."
 
 #: application/src/Form/SettingForm.php:278
 msgid "Media alt text property"
-msgstr ""
+msgstr "Text alternatiu dels fitxers"
 
 #: application/src/Form/SettingForm.php:279
 msgid "Media property to use as alt text if no alt text is explicitly set."
 msgstr ""
+"Text alternatiu (alt) per als fitxers en el cas que no s'estableixi "
+"explícitament un text alternatiu."
 
 #: application/src/Form/SettingForm.php:280
 msgid "[None]"
-msgstr ""
+msgstr "[Cap]"
 
 #: application/src/Form/SettingForm.php:294
 msgid "Index full-text search"
-msgstr ""
+msgstr "Indexació a text complet"
 
 #: application/src/Form/SettingForm.php:308
 msgid "Security"
@@ -3963,7 +4048,7 @@ msgstr "Afegiu una descripció per al vocabulari."
 
 #: application/src/Form/VocabularyForm.php:69
 msgid "Namespace URI"
-msgstr "URI de l'espai de noms de"
+msgstr "URI de l'espai de noms"
 
 #: application/src/Form/VocabularyForm.php:70
 msgid ""
@@ -4080,7 +4165,7 @@ msgstr ""
 
 #: application/src/Form/SiteForm.php:54
 msgid "Choose or upload a thumbnail to display with site."
-msgstr ""
+msgstr "Seleccioneu o carregueu una miniatura per mostrar amb el lloc."
 
 #: application/src/Form/ResourceTemplateForm.php:27
 msgid "Suggested class"
@@ -4133,33 +4218,33 @@ msgstr "[Classe no configurada]"
 #: application/src/Form/ResourceBatchUpdateForm.php:111
 #: application/src/Form/ResourceBatchUpdateForm.php:125
 msgid "Select item sets"
-msgstr "Selecciona els conjunts d'ítems"
+msgstr "Selecciona els conjunts de recursos"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:114
 msgid "Add to item sets"
-msgstr "Afegeix als conjunts d'ítems"
+msgstr "Afegeix als conjunts de recursos"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:128
 msgid "Remove from item sets"
-msgstr "Suprimeix dels conjunts d'ítems"
+msgstr "Suprimeix dels conjunts de recursos"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:139
 #: application/src/Form/ResourceBatchUpdateForm.php:153
 #: application/src/Form/UserForm.php:170
 msgid "Select sites"
-msgstr ""
+msgstr "Selecciona els llocs"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:142
 msgid "Add to sites"
-msgstr ""
+msgstr "Afegeix als llocs"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:156
 msgid "Remove from sites"
-msgstr ""
+msgstr "Suprimeix dels llocs"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:166
 msgid "Clear language"
-msgstr ""
+msgstr "Suprimeix l'idioma"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:190
 #: application/view/common/property-form-batch-edit.phtml:63
@@ -4168,7 +4253,7 @@ msgstr "Selecciona les propietats"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:193
 msgid "Clear property values"
-msgstr ""
+msgstr "Suprimeix els valors de la propietat"
 
 #: application/src/Form/ModuleStateChangeForm.php:37
 msgid "Install"
@@ -4216,13 +4301,16 @@ msgstr "Format de color no vàlid"
 
 #: application/src/Form/SiteSettingsForm.php:38
 msgid "Auto-assign new items"
-msgstr ""
+msgstr "Autoassigna els nous recursos"
 
 #: application/src/Form/SiteSettingsForm.php:39
 msgid ""
 "Select this if you want new items to be automatically assigned to this site."
 " Note that item owners may unassign their items at any time."
 msgstr ""
+"Seleccioneu aquesta opció si voleu que els nous recursos siguin assignats "
+"automàticament a aquest lloc. Recordeu que els propietaris dels recursos "
+"poden desassignar els seus recursos en qualsevol moment."
 
 #: application/src/Form/SiteSettingsForm.php:50
 msgid "Attachment link type"
@@ -4230,7 +4318,7 @@ msgstr "Tipus d'enllaç adjunt"
 
 #: application/src/Form/SiteSettingsForm.php:52
 msgid "Item page"
-msgstr "Pàgina d'ítem"
+msgstr "Pàgina del recurs"
 
 #: application/src/Form/SiteSettingsForm.php:53
 msgid "Media page"
@@ -4242,7 +4330,7 @@ msgstr "Enllaç directe al fitxer"
 
 #: application/src/Form/SiteSettingsForm.php:66
 msgid "Embed media on item pages"
-msgstr "Multimèdia embeguts en les pàgines d'ítem"
+msgstr "Multimèdia embeguts en les pàgines dels recursos"
 
 #: application/src/Form/SiteSettingsForm.php:77
 msgid "Show page pagination"
@@ -4281,25 +4369,29 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:141
 msgid "Filter values based on site locale"
-msgstr ""
+msgstr "Valors dels filtres basats en l'idioma del lloc"
 
 #: application/src/Form/SiteSettingsForm.php:142
 msgid ""
 "Show only values matching the site language setting and values without "
 "locale ID."
 msgstr ""
+"Mostra només els valors que coincideixen amb l'idioma del lloc i valors "
+"sense un ID d'idioma."
 
 #: application/src/Form/SiteSettingsForm.php:154
 msgid "Show language labels for values"
-msgstr ""
+msgstr "Mostra les etiquetes dels idiomes per als valors"
 
 #: application/src/Form/SiteSettingsForm.php:155
 msgid "Show a label indicating the language of each value on show pages."
 msgstr ""
+"Mostra una etiqueta indicant l'idioma de cada valor en les pàgines "
+"públiques."
 
 #: application/src/Form/SiteSettingsForm.php:176
 msgid "Restrict browse to attached items"
-msgstr "Restringeix la navegació als ítems adjunts"
+msgstr "Restringeix la navegació als recursos adjunts"
 
 #: application/src/Form/SiteSettingsForm.php:188
 msgid ""
@@ -4346,60 +4438,68 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:237
 msgid "Show"
-msgstr ""
+msgstr "Mostra"
 
 #: application/src/Form/SiteSettingsForm.php:245
 msgid "Show attached pages"
-msgstr ""
+msgstr "Mostra les pàgines vinculades"
 
 #: application/src/Form/SiteSettingsForm.php:246
 msgid ""
 "Show site pages to which an item is attached on the public item show page."
+msgstr "Mostra les pàgines públiques en les quals el recurs apareix."
+
+#: application/src/Form/SiteSettingsForm.php:257
+msgid "Show value annotations"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:268
+#: application/src/Form/SiteSettingsForm.php:258
+msgid "Show annotations that are set to a value, if any."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:280
 msgid "Search type"
-msgstr ""
+msgstr "Tipus de cerca"
 
-#: application/src/Form/SiteSettingsForm.php:269
+#: application/src/Form/SiteSettingsForm.php:281
 msgid "Select the type of search the main search field will perform"
-msgstr ""
+msgstr "Seleccioneu el tipus de cerca que la cerca global executarà"
 
-#: application/src/Form/SiteSettingsForm.php:271
+#: application/src/Form/SiteSettingsForm.php:283
 msgid "This site"
 msgstr "Aquest lloc"
 
-#: application/src/Form/SiteSettingsForm.php:272
+#: application/src/Form/SiteSettingsForm.php:284
 msgid "All sites"
 msgstr "Tots els llocs"
 
-#: application/src/Form/SiteSettingsForm.php:289
+#: application/src/Form/SiteSettingsForm.php:301
 msgid "Search resources"
-msgstr ""
+msgstr "Cerca recursos a"
 
-#: application/src/Form/SiteSettingsForm.php:290
+#: application/src/Form/SiteSettingsForm.php:302
 msgid ""
 "Customize which types of resources will be searchable in the main search "
 "field."
-msgstr ""
+msgstr "Tria els tipus de recursos cercables mitjançant la cerca global."
 
-#: application/src/Form/SiteSettingsForm.php:303
+#: application/src/Form/SiteSettingsForm.php:315
 msgid "Templates"
 msgstr "Plantilles"
 
-#: application/src/Form/SiteSettingsForm.php:304
+#: application/src/Form/SiteSettingsForm.php:316
 msgid "Select which templates to apply to the advanced search form."
 msgstr "Seleccioneu quines plantilles voleu aplicar a la cerca avançada."
 
-#: application/src/Form/SiteSettingsForm.php:309
+#: application/src/Form/SiteSettingsForm.php:321
 msgid "Select templates"
 msgstr "Selecciona les plantilles"
 
-#: application/src/Form/SiteSettingsForm.php:317
+#: application/src/Form/SiteSettingsForm.php:329
 msgid "Restrict to templates"
 msgstr "Restringeix a les plantilles"
 
-#: application/src/Form/SiteSettingsForm.php:318
+#: application/src/Form/SiteSettingsForm.php:330
 msgid "Restrict search results to resources of the selected templates."
 msgstr ""
 "Restringeix els resultats de cerca als recursos de les plantilles "
@@ -4427,7 +4527,7 @@ msgstr "Selecciona els llocs..."
 
 #: application/src/Form/UserBatchUpdateForm.php:59
 msgid "Remove from site permission"
-msgstr ""
+msgstr "Suprimeix dels permisos del lloc"
 
 #: application/src/Form/UserBatchUpdateForm.php:61
 #: application/src/Form/UserBatchUpdateForm.php:78
@@ -4436,7 +4536,7 @@ msgstr "[Tots els llocs]"
 
 #: application/src/Form/UserBatchUpdateForm.php:76
 msgid "Add to site permission"
-msgstr ""
+msgstr "Afegeix als permisos del lloc"
 
 #: application/src/Form/UserBatchUpdateForm.php:87
 msgid "Select permission…"
@@ -4444,31 +4544,35 @@ msgstr "Selecciona el permís..."
 
 #: application/src/Form/UserBatchUpdateForm.php:91
 msgid "Add to site permission as"
-msgstr ""
+msgstr "Afegeix als permissos del lloc com"
 
 #: application/src/Form/SiteResourcesForm.php:15
 msgid "Manage current items"
-msgstr ""
+msgstr "Gestiona els recursos actuals"
 
 #: application/src/Form/SiteResourcesForm.php:17
 msgid "Do nothing"
-msgstr ""
+msgstr "No facis res"
 
 #: application/src/Form/SiteResourcesForm.php:18
 msgid "Add - keep existing items and assign items from a new search query"
 msgstr ""
+"Afegeix - mantingues els recursos existents i assigna recursos des d'una "
+"nova cerca"
 
 #: application/src/Form/SiteResourcesForm.php:19
 msgid "Replace - unassign all items and assign items from a new search query"
 msgstr ""
+"Reemplaça - desassigna tots els recursos i assigna de nous des d'una nova "
+"cerca"
 
 #: application/src/Form/SiteResourcesForm.php:20
 msgid "Remove - unassign items from a new search query"
-msgstr ""
+msgstr "Suprimeix - desassigna els recursos des d'una nova cerca"
 
 #: application/src/Form/SiteResourcesForm.php:21
 msgid "Remove all - unassign all items"
-msgstr ""
+msgstr "Suprimeix tot - desassigna tots els recursos"
 
 #: application/src/Form/ResourceTemplateImportForm.php:14
 msgid "Resource template file"
@@ -4480,7 +4584,7 @@ msgstr "Plantilla de recurs per defecte"
 
 #: application/src/Form/UserForm.php:175
 msgid "Default sites for items"
-msgstr ""
+msgstr "Llocs per defecte per als recursos"
 
 #: application/src/Form/UserForm.php:186
 msgid "Current password"
@@ -4520,7 +4624,7 @@ msgstr "Afegeix a la navegació"
 
 #: application/src/Service/CliFactory.php:31
 msgid "Neither \"proc_open()\" nor \"exec()\" are available."
-msgstr ""
+msgstr "Ni \"proc_open()\" ni \"exec()\" es troben disponibles."
 
 #: application/src/View/Helper/SiteSelect.php:39
 msgid "Select site…"
@@ -4556,7 +4660,7 @@ msgstr "Selecciona l'usuari..."
 
 #: application/src/View/Helper/ItemSetSelect.php:39
 msgid "Select item set…"
-msgstr "Selecciona el conjunt d'ítems…"
+msgstr "Selecciona el conjunt de recursos…"
 
 #: application/src/Controller/InstallController.php:52
 msgid "Installation successful. Please log in."
@@ -4594,6 +4698,8 @@ msgstr "Navegació actualitzada correctament"
 msgid ""
 "Item assignment in progress. To see the new item count, refresh the page."
 msgstr ""
+"Assignació en procés. Per veure el nou recompte de recursos, actualitzeu la "
+"pàgina."
 
 #: application/src/Controller/SiteAdmin/IndexController.php:258
 msgid "Site resources successfully updated"
@@ -4607,27 +4713,27 @@ msgstr "Permisos d'usuari actualitzats correctament"
 msgid "Site theme successfully updated"
 msgstr "Tema del lloc actualitzat correctament"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:407
+#: application/src/Controller/SiteAdmin/IndexController.php:403
 msgid "Theme settings successfully updated"
 msgstr "Paràmetres del tema actualitzats correctament"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:424
+#: application/src/Controller/SiteAdmin/IndexController.php:420
 msgid "Site successfully deleted"
 msgstr "Lloc suprimit correctament"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:447
+#: application/src/Controller/SiteAdmin/IndexController.php:443
 msgid "site"
 msgstr "lloc"
 
-#: application/src/Controller/SiteAdmin/PageController.php:28
+#: application/src/Controller/SiteAdmin/PageController.php:29
 msgid "Page successfully updated"
 msgstr "Pàgina actualitzada correctament"
 
-#: application/src/Controller/SiteAdmin/PageController.php:105
+#: application/src/Controller/SiteAdmin/PageController.php:107
 msgid "page"
 msgstr "pàgina"
 
-#: application/src/Controller/SiteAdmin/PageController.php:122
+#: application/src/Controller/SiteAdmin/PageController.php:124
 msgid "Page successfully deleted"
 msgstr "Pàgina suprimida correctament"
 
@@ -4665,7 +4771,7 @@ msgstr "Reviseu el correu electrònic per saber com reiniciar la contrasenya"
 
 #: application/src/Controller/LoginController.php:171
 msgid "Activation unsuccessful"
-msgstr ""
+msgstr "No s'ha pogut activar"
 
 #: application/src/Controller/MigrateController.php:40
 msgid "Migration successful"
@@ -4684,44 +4790,44 @@ msgstr "Confirmeu la supressió"
 
 #: application/src/Controller/Admin/ItemController.php:114
 msgid "item"
-msgstr "ítem"
+msgstr "recurs"
 
 #: application/src/Controller/Admin/ItemController.php:130
 msgid "Item successfully deleted"
-msgstr "L'ítem s'ha suprimit correctament"
+msgstr "El recurs s'ha suprimit correctament"
 
 #: application/src/Controller/Admin/ItemController.php:151
 msgid "You must select at least one item to batch delete."
-msgstr "Heu de seleccionar com a mínim un ítem per suprimir-lo en lot."
+msgstr "Heu de seleccionar com a mínim un recurs per suprimir-lo en lot."
 
 #: application/src/Controller/Admin/ItemController.php:160
 msgid "Items successfully deleted"
-msgstr "Els ítems s'han suprimit correctament"
+msgstr "Els recursos s'han suprimit correctament"
 
 #: application/src/Controller/Admin/ItemController.php:186
 msgid "Deleting items. This may take a while."
-msgstr "S'estan suprimint els ítems. Pot trigar una estona."
+msgstr "S'estan suprimint els recursos. Pot trigar una estona."
 
 #: application/src/Controller/Admin/ItemController.php:210
 #, php-format
 msgid "Item successfully created. %s"
-msgstr "L'ítem s'ha creat correctament. %s"
+msgstr "El recurs s'ha creat correctament. %s"
 
 #: application/src/Controller/Admin/ItemController.php:247
 msgid "Item successfully updated"
-msgstr "L'ítem s'ha actualitzat correctament"
+msgstr "El recurs s'ha actualitzat correctament"
 
 #: application/src/Controller/Admin/ItemController.php:274
 msgid "You must select at least one item to batch edit."
-msgstr "Heu de seleccionar com a mínim un ítem per editar-lo en lot."
+msgstr "Heu de seleccionar com a mínim un recurs per editar-lo en lot."
 
 #: application/src/Controller/Admin/ItemController.php:295
 msgid "Items successfully edited"
-msgstr "Els ítems s'han editat correctament"
+msgstr "Els recursos s'han editat correctament"
 
 #: application/src/Controller/Admin/ItemController.php:347
 msgid "Editing items. This may take a while."
-msgstr "S'estan editant els ítems. Pot trigar una estona."
+msgstr "S'estan editant els recursos. Pot trigar una estona."
 
 #: application/src/Controller/Admin/UserController.php:113
 #, php-format
@@ -4861,7 +4967,7 @@ msgstr "Heu de seleccionar, com a mínim, un fitxer per suprimir en lot."
 
 #: application/src/Controller/Admin/MediaController.php:194
 msgid "Deleting media. This may take a while."
-msgstr ""
+msgstr "S'estan suprimint els fitxers. Pot trigar una estona."
 
 #: application/src/Controller/Admin/MediaController.php:212
 msgid "You must select at least one media to batch edit."
@@ -4869,65 +4975,66 @@ msgstr "Heu de seleccionar, com a mínim, un fitxer per editar en lot."
 
 #: application/src/Controller/Admin/MediaController.php:233
 msgid "Media successfully edited"
-msgstr ""
+msgstr "El fitxer s'ha editat correctament."
 
 #: application/src/Controller/Admin/MediaController.php:285
 msgid "Editing media. This may take a while."
-msgstr ""
+msgstr "S'està editant el fitxer. Pot trigar una estona."
 
 #: application/src/Controller/Admin/AssetController.php:93
 msgid "Asset successfully updated"
-msgstr ""
+msgstr "L'actiu s'ha actualitzat correctament"
 
 #: application/src/Controller/Admin/AssetController.php:124
 msgid "asset"
-msgstr ""
+msgstr "actiu"
 
 #: application/src/Controller/Admin/AssetController.php:137
 msgid "Asset successfully deleted"
-msgstr ""
+msgstr "L'actiu s'ha suprimit correctament"
 
 #: application/src/Controller/Admin/ItemSetController.php:32
 #, php-format
 msgid "Item set successfully created. %s"
-msgstr "L'ítem s'ha creat correctament. %s"
+msgstr "El recurs s'ha creat correctament. %s"
 
 #: application/src/Controller/Admin/ItemSetController.php:69
 msgid "Item set successfully updated"
-msgstr "El conjunt d'ítems s'ha actualitzat correctament"
+msgstr "El conjunt de recursos s'ha actualitzat correctament"
 
 #: application/src/Controller/Admin/ItemSetController.php:155
 msgid "item set"
-msgstr "Conjunt d'ítems"
+msgstr "Conjunt de recursos"
 
 #: application/src/Controller/Admin/ItemSetController.php:170
 msgid "Item set successfully deleted"
-msgstr "El conjunt d'ítems s'ha suprimit correctament"
+msgstr "El conjunt de recursos s'ha suprimit correctament"
 
 #: application/src/Controller/Admin/ItemSetController.php:191
 msgid "You must select at least one item set to batch delete."
 msgstr ""
-"Heu de seleccionar com a mínim un conjunt d'ítems per suprimir en lot."
+"Heu de seleccionar com a mínim un conjunt de recursos per suprimir en lot."
 
 #: application/src/Controller/Admin/ItemSetController.php:200
 msgid "Item sets successfully deleted"
-msgstr "Els conjunts d'ítems s'han actualitzat correctament"
+msgstr "Els conjunts de recursos s'han actualitzat correctament"
 
 #: application/src/Controller/Admin/ItemSetController.php:226
 msgid "Deleting item sets. This may take a while."
-msgstr "S'estan suprimint els conjunts d'ítems. Pot trigar una estona."
+msgstr "S'estan suprimint els conjunts de recursos. Pot trigar una estona."
 
 #: application/src/Controller/Admin/ItemSetController.php:244
 msgid "You must select at least one item set to batch edit."
-msgstr "Heu de seleccionar com a mínim un conjunt d'ítems per editar en lot."
+msgstr ""
+"Heu de seleccionar com a mínim un conjunt de recursos per editar en lot."
 
 #: application/src/Controller/Admin/ItemSetController.php:265
 msgid "Item sets successfully edited"
-msgstr "Els conjunts d'ítems s'han editat correctament"
+msgstr "Els conjunts de recursos s'han editat correctament"
 
 #: application/src/Controller/Admin/ItemSetController.php:317
 msgid "Editing item sets. This may take a while."
-msgstr "S'estan editant els conjunts d'ítems. Pot trigar una estona."
+msgstr "S'estan editant els conjunts de recursos. Pot trigar una estona."
 
 #: application/src/Controller/Admin/VocabularyController.php:59
 msgid "vocabulary"
@@ -4976,45 +5083,45 @@ msgstr "La plantilla de recurs s'ha actualitzat correctament"
 msgid "Resource template successfully created. %s"
 msgstr "La plantilla de recurs s'ha creat correctament. %s"
 
-#: application/config/module.config.php:626
+#: application/config/module.config.php:636
 msgid "Something went wrong"
 msgstr "Vatua l’olla! Alguna cosa ha anat malament"
 
-#: application/config/module.config.php:631
+#: application/config/module.config.php:641
 msgid "You have unsaved changes."
 msgstr "Teniu canvis sense desar."
 
-#: application/config/module.config.php:632
+#: application/config/module.config.php:642
 msgid "Restore item set"
-msgstr "Restaura el conjunt d'ítems"
+msgstr "Restaura el conjunt de recursos"
 
-#: application/config/module.config.php:633
+#: application/config/module.config.php:643
 msgid "Close icon set"
 msgstr "Tanca la col·lecció d'icones"
 
-#: application/config/module.config.php:634
+#: application/config/module.config.php:644
 msgid "Open icon set"
 msgstr "Obre la col·lecció d'icones"
 
-#: application/config/module.config.php:636
+#: application/config/module.config.php:646
 msgid "Failed loading resource template from API"
 msgstr "Error en carregar la plantilla de recurs mitjançant l'API"
 
-#: application/config/module.config.php:637
+#: application/config/module.config.php:647
 msgid "Restore property"
 msgstr "Restaura la propietat"
 
-#: application/config/module.config.php:639
+#: application/config/module.config.php:649
 msgid "Please enter a valid language tag"
 msgstr "Introduïu una etiqueta d'idioma vàlida"
 
-#: application/config/module.config.php:641
+#: application/config/module.config.php:651
 msgid "Description"
 msgstr "Descripció"
 
 #: application/config/navigation.config.php:201
 msgid "Site admin"
-msgstr ""
+msgstr "Administració del lloc"
 
 #: application/view/common/advanced-search/properties.phtml:61
 msgid "[Any Property]"
@@ -5030,7 +5137,7 @@ msgstr "Filtra per classe"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:53
 msgid "Filter by item set"
-msgstr "Filtra per conjunt d'ítems"
+msgstr "Filtra per conjunt de recursos"
 
 #. Vocabulary label for Dublin Core
 msgid "Dublin Core"
@@ -5197,6 +5304,8 @@ msgid ""
 "A plan or course of action by an authority, intended to influence and "
 "determine decisions, actions, and other matters."
 msgstr ""
+"Un pla d'acció d'una autoritat, destinat a influir i determinar decisions, "
+"accions i altres qüestions."
 
 #. Class label for Dublin Core:ProvenanceStatement
 msgid "Provenance Statement"
@@ -5208,6 +5317,9 @@ msgid ""
 "creation that are significant for its authenticity, integrity, and "
 "interpretation."
 msgstr ""
+"Una declaració sobre qualsevol canvi en la propietat i custòdia d'un recurs "
+"des de la seva creació, que sigui significativa per a la seva autenticitat, "
+"integritat o interpretació."
 
 #. Class label for Dublin Core:RightsStatement
 msgid "Rights Statement"
@@ -5219,6 +5331,9 @@ msgid ""
 "Resource, a legal document giving official permission to do something with a"
 " resource, or a statement about access rights."
 msgstr ""
+"Una declaració de drets de propietat intel·lectual del recurs, un document "
+"legal que dóna permís per fer alguna cosa amb el recurs o una declaració "
+"sobre els drets d'accés."
 
 #. Class label for Dublin Core:SizeOrDuration
 msgid "Size or Duration"
@@ -5237,7 +5352,7 @@ msgstr "Estàndard"
 msgid ""
 "A basis for comparison; a reference point against which other things can be "
 "evaluated."
-msgstr ""
+msgstr "Una base o punt de referència amb el qual comparar."
 
 #. Property comment for Dublin Core:title
 msgid "A name given to the resource."
@@ -5349,6 +5464,8 @@ msgstr "Audiència"
 #. Property comment for Dublin Core:audience
 msgid "A class of entity for whom the resource is intended or useful."
 msgstr ""
+"Una classe o entitat que representa al tipus de persones per les quals s'ha "
+"pensat el recurs."
 
 #. Property label for Dublin Core:alternative
 msgid "Alternative Title"
@@ -5734,8 +5851,7 @@ msgstr "Forma d'ingrés"
 
 #. Property comment for Dublin Core:accrualMethod
 msgid "The method by which items are added to a collection."
-msgstr ""
-"El mètode pel qual els objectes digitals s'han afegit a la col·lecció."
+msgstr "El mètode pel qual els recursos s'han afegit a la col·lecció."
 
 #. Property label for Dublin Core:accrualPeriodicity
 msgid "Accrual Periodicity"
@@ -5743,7 +5859,7 @@ msgstr "Periodicitat de l'ingrés"
 
 #. Property comment for Dublin Core:accrualPeriodicity
 msgid "The frequency with which items are added to a collection."
-msgstr "La freqüència amb la qual els elements s'han afegit a la col·lecció."
+msgstr "La freqüència amb la qual els recursos s'han afegit a la col·lecció."
 
 #. Property label for Dublin Core:accrualPolicy
 msgid "Accrual Policy"
@@ -5751,7 +5867,7 @@ msgstr "Política d'ingrés"
 
 #. Property comment for Dublin Core:accrualPolicy
 msgid "The policy governing the addition of items to a collection."
-msgstr "La política que regeix l'ingrés d'elements a la col·lecció."
+msgstr "La política que regeix l'ingrés recursos a la col·lecció."
 
 #. Vocabulary label for Dublin Core Type
 msgid "Dublin Core Type"
@@ -5891,6 +6007,9 @@ msgid ""
 "forming an independent part of a book or other publication, as a newspaper "
 "or magazine."
 msgstr ""
+"Una composició escrita en prosa, generalment, de no-ficció sobre un tema "
+"específic i que representa una part independent d'una monografia o un altre "
+"tipus de publicació, com un diari o una revista."
 
 #. Class label for Bibliographic Ontology:AudioDocument
 msgid "audio document"
@@ -5915,6 +6034,8 @@ msgstr "Bill"
 #. Class comment for Bibliographic Ontology:Bill
 msgid "Draft legislation presented for discussion to a legal body."
 msgstr ""
+"Projecte de legislació presentat  a un òrgan jurídic per a la seva "
+"discussió."
 
 #. Class label for Bibliographic Ontology:Book
 msgid "Book"
@@ -5925,6 +6046,8 @@ msgid ""
 "A written or printed work of fiction or nonfiction, usually on sheets of "
 "paper fastened or bound together within covers."
 msgstr ""
+"Una obra de ficció o no-ficció, normalment sobre fulls de paper "
+"enquadernats."
 
 #. Class label for Bibliographic Ontology:BookSection
 msgid "Book Section"
@@ -5976,7 +6099,7 @@ msgstr "Conference"
 
 #. Class comment for Bibliographic Ontology:Conference
 msgid "A meeting for consultation or discussion."
-msgstr ""
+msgstr "Una trobada per parlar o discutir sobre un tema."
 
 #. Class label for Bibliographic Ontology:CourtReporter
 msgid "Court Reporter"
@@ -5998,6 +6121,9 @@ msgid ""
 "A document may manifest symbolic, diagrammatic or sensory-representational "
 "information."
 msgstr ""
+"Un document és un objecte físic o virtual en el qual hi ha informació "
+"enregistrada. Pot contenir informació en forma de representació simbòlica, "
+"esquemàtica o sensorial."
 
 #. Class label for Bibliographic Ontology:DocumentPart
 msgid "document part"
@@ -6005,7 +6131,7 @@ msgstr "document part"
 
 #. Class comment for Bibliographic Ontology:DocumentPart
 msgid "a distinct part of a larger document or collected document."
-msgstr ""
+msgstr "una part independent d'un document més gran."
 
 #. Class label for Bibliographic Ontology:DocumentStatus
 msgid "Document Status"
@@ -6032,6 +6158,8 @@ msgid ""
 "A written communication addressed to a person or organization and "
 "transmitted electronically."
 msgstr ""
+"Una comunicació escrita dirigida a una persona o organització a través del "
+"correu electrònic."
 
 #. Class label for Bibliographic Ontology:Excerpt
 msgid "Excerpt"
@@ -6039,7 +6167,7 @@ msgstr "Excerpt"
 
 #. Class comment for Bibliographic Ontology:Excerpt
 msgid "A passage selected from a larger work."
-msgstr "El passatget seleccionat d'una obra més gran."
+msgstr "Un passatge seleccionat d'una obra més gran."
 
 #. Class label for Bibliographic Ontology:Film
 msgid "Film"
@@ -6058,6 +6186,8 @@ msgid ""
 "An instance or a session in which testimony and arguments are presented, "
 "esp. before an official, as a judge in a lawsuit."
 msgstr ""
+"Una instància o una sessió en la qual es presenten testimonis i arguments "
+"davant d'un jutge."
 
 #. Class comment for Bibliographic Ontology:Image
 msgid "A document that presents visual or diagrammatic information."
@@ -6080,6 +6210,7 @@ msgid ""
 "something that is printed or published and distributed, esp. a given number "
 "of a periodical"
 msgstr ""
+"un document imprès o publicat i distribuït, p. e., el número d'una revista."
 
 #. Class label for Bibliographic Ontology:Journal
 msgid "Journal"
@@ -6087,7 +6218,7 @@ msgstr "Journal"
 
 #. Class comment for Bibliographic Ontology:Journal
 msgid "A periodical of scholarly journal Articles."
-msgstr ""
+msgstr "Una revista amb articles científics."
 
 #. Class label for Bibliographic Ontology:LegalCaseDocument
 msgid "Legal Case Document"
@@ -6095,7 +6226,7 @@ msgstr "Legal Case Document"
 
 #. Class comment for Bibliographic Ontology:LegalCaseDocument
 msgid "A document accompanying a legal case."
-msgstr ""
+msgstr "Un document que acompanya a un cas legal."
 
 #. Class label for Bibliographic Ontology:LegalDecision
 msgid "Decision"
@@ -6106,6 +6237,8 @@ msgid ""
 "A document containing an authoritative determination (as a decree or "
 "judgment) made after consideration of facts or law."
 msgstr ""
+"Un document que conté un pronunciament autoritzat (p. ex., un decret o "
+"sentència) realitzat després de considerar els fets o la jurisprudència."
 
 #. Class label for Bibliographic Ontology:LegalDocument
 msgid "Legal Document"
@@ -6123,6 +6256,7 @@ msgstr "Legislation"
 #. Class comment for Bibliographic Ontology:Legislation
 msgid "A legal document proposing or enacting a law or a group of laws."
 msgstr ""
+"Un document legal a través del qual es dicta una llei o conjunts de lleis."
 
 #. Class label for Bibliographic Ontology:Letter
 msgid "Letter"
@@ -6133,6 +6267,8 @@ msgid ""
 "A written or printed communication addressed to a person or organization and"
 " usually transmitted by mail."
 msgstr ""
+"Una comunicació escrita o impresa dirigida a una persona o organització, "
+"normalment enviada a través del correu postal."
 
 #. Class label for Bibliographic Ontology:Magazine
 msgid "Magazine"
@@ -6146,6 +6282,10 @@ msgid ""
 "drawings, frequently specializing in a particular subject or area, as "
 "hobbies, news, or sports."
 msgstr ""
+"Una revista és una publicació periòdica que conté assaigs, articles, "
+"poemes... de diversos autors acompanyats per fotografies i dibuixos. "
+"Normalment, estan especialitzades en una àrea de coneixement o matèria com "
+"hobbies, notícies o esports."
 
 #. Class label for Bibliographic Ontology:Manual
 msgid "Manual"
@@ -6165,6 +6305,7 @@ msgid ""
 "An unpublished Document, which may also be submitted to a publisher for "
 "publication."
 msgstr ""
+"Un document inèdit, normalment lliurat a un editor per a la seva publicació."
 
 #. Class label for Bibliographic Ontology:Map
 msgid "Map"
@@ -6172,7 +6313,7 @@ msgstr "Map"
 
 #. Class comment for Bibliographic Ontology:Map
 msgid "A graphical depiction of geographic features."
-msgstr ""
+msgstr "Una representació gràfica d'informació geogràfica. "
 
 #. Class label for Bibliographic Ontology:MultiVolumeBook
 msgid "Multivolume Book"
@@ -6182,6 +6323,7 @@ msgstr "Multivolume Book"
 #. Class comment for Bibliographic Ontology:Series
 msgid "A loose, thematic, collection of Documents, often Books."
 msgstr ""
+"Una col·lecció temàtica de documents independents, habitualment monografies."
 
 #. Class label for Bibliographic Ontology:Newspaper
 msgid "Newspaper"
@@ -6192,6 +6334,9 @@ msgid ""
 "A periodical of documents, usually issued daily or weekly, containing "
 "current news, editorials, feature articles, and usually advertising."
 msgstr ""
+"Una publicació periòdica que acostuma a publicar-se cada dia o setmanalment,"
+" i que conté notícies d'actualitat, editorials, articles i, normalment "
+"també, publicitat."
 
 #. Class label for Bibliographic Ontology:Note
 msgid "Note"
@@ -6211,6 +6356,9 @@ msgid ""
 "inventor to manufacture, use, or sell an invention for a certain number of "
 "years."
 msgstr ""
+"Un document que descriu el dret exclusiu atorgat per un govern a una persona"
+" inventora per fabricar, emprar o vendre un invent durant un període de "
+"temps concret."
 
 #. Class label for Bibliographic Ontology:Performance
 msgid "Performance"
@@ -6242,7 +6390,7 @@ msgstr "Personal Communication Document"
 
 #. Class comment for Bibliographic Ontology:PersonalCommunicationDocument
 msgid "A personal communication manifested in some document."
-msgstr ""
+msgstr "Una comunicació personal en algun tipus de document."
 
 #. Class label for Bibliographic Ontology:Proceedings
 msgid "Proceedings"
@@ -6252,6 +6400,8 @@ msgstr "Proceedings"
 msgid ""
 "A compilation of documents published from an event, such as a conference."
 msgstr ""
+"Una compilació de documents publicats que deriven d'un esdeveniment com, per"
+" exemple, un congrés."
 
 #. Class label for Bibliographic Ontology:Quote
 msgid "Quote"
@@ -6260,6 +6410,8 @@ msgstr "Quote"
 #. Class comment for Bibliographic Ontology:Quote
 msgid "An excerpted collection of words."
 msgstr ""
+"La reproducció un fragment d'una expressió humana respectant la seva "
+"formulació original."
 
 #. Class label for Bibliographic Ontology:ReferenceSource
 msgid "Reference Source"
@@ -6270,6 +6422,8 @@ msgid ""
 "A document that presents authoritative reference information, such as a "
 "dictionary or encylopedia ."
 msgstr ""
+"Un document que presenta informació de referència com, per exemple, un "
+"diccionari o una enciclopèdia."
 
 #. Class label for Bibliographic Ontology:Report
 msgid "Report"
@@ -6281,6 +6435,9 @@ msgid ""
 " situation, or the like, usually as the result of observation, inquiry, "
 "etc.."
 msgstr ""
+"Un document que recull una anàlisi o declaració que descriu en detall un "
+"esdeveniment o situació, generalment com a resultat d'una observació o "
+"recerca."
 
 #. Class label for Bibliographic Ontology:Series
 msgid "Series"
@@ -6303,10 +6460,11 @@ msgid ""
 "A presentation of a series of slides, usually presented in front of an "
 "audience with written text and images."
 msgstr ""
+"Una presentació de diapositives exposada en públic que conté text i imatges."
 
 #. Class comment for Bibliographic Ontology:Standard
 msgid "A document describing a standard"
-msgstr ""
+msgstr "Un document que descriu un estàndard"
 
 #. Class label for Bibliographic Ontology:Statute
 msgid "Statute"
@@ -6314,7 +6472,7 @@ msgstr "Statute"
 
 #. Class comment for Bibliographic Ontology:Statute
 msgid "A bill enacted into law."
-msgstr ""
+msgstr "Un projecte de llei promulgat."
 
 #. Class label for Bibliographic Ontology:Thesis
 msgid "Thesis"
@@ -6332,7 +6490,7 @@ msgstr "Thesis degree"
 
 #. Class comment for Bibliographic Ontology:ThesisDegree
 msgid "The academic degree of a Thesis"
-msgstr ""
+msgstr "El títol acadèmic de tesi de doctorat"
 
 #. Class label for Bibliographic Ontology:Webpage
 msgid "Webpage"
@@ -6346,6 +6504,11 @@ msgid ""
 "documents which use the web primarily as a distribution mechanism alongside "
 "other more traditional methods such as print."
 msgstr ""
+"Una pàgina web és un document en línia disponible a Internet. Una pàgina web"
+" està pensada principalment per consultar-se des d'un navegador, a "
+"diferència d'altres recursos en línia com llibres, manuscrits o àudios que "
+"també poden utilitzar la Web com a canal de distribució complementari a "
+"mètodes més tradicionals."
 
 #. Class label for Bibliographic Ontology:Website
 msgid "Website"
@@ -6364,6 +6527,8 @@ msgid ""
 "A seminar, discussion group, or the like, that emphasizes zxchange of ideas "
 "and the demonstration and application of techniques, skills, etc."
 msgstr ""
+"Un seminari o grup de discussió que posa èmfasi en l'intercanvi d'idees i la"
+" demostració i aplicació de tècniques o habilitats."
 
 #. Property label for Bibliographic Ontology:affirmedBy
 msgid "affirmedBy"
@@ -6371,7 +6536,7 @@ msgstr "affirmedBy"
 
 #. Property comment for Bibliographic Ontology:affirmedBy
 msgid "A legal decision that affirms a ruling."
-msgstr ""
+msgstr "Una decisió legal que confirma una sentència."
 
 #. Property label for Bibliographic Ontology:annotates
 msgid "annotates"
@@ -6379,7 +6544,7 @@ msgstr "annotates"
 
 #. Property comment for Bibliographic Ontology:annotates
 msgid "Critical or explanatory note for a Document."
-msgstr ""
+msgstr "Una nota crítica o explicativa sobre un document."
 
 #. Property label for Bibliographic Ontology:authorList
 msgid "list of authors"
@@ -6389,7 +6554,7 @@ msgstr "list of authors"
 msgid ""
 "An ordered list of authors. Normally, this list is seen as a priority list "
 "that order authors by importance."
-msgstr ""
+msgstr "Una llista ordenada d'autors segons la seva importància."
 
 #. Property label for Bibliographic Ontology:citedBy
 msgid "cited by"
@@ -6399,7 +6564,7 @@ msgstr "cited by"
 msgid ""
 "Relates a document to another document that cites the\n"
 "first document."
-msgstr ""
+msgstr "Relaciona un document amb un altre document que el cita."
 
 #. Property label for Bibliographic Ontology:cites
 msgid "cites"
@@ -6411,6 +6576,8 @@ msgid ""
 "by the first document as reference, comment, review, quotation or for\n"
 "another purpose."
 msgstr ""
+"Relaciona un document amb un altre document que el cita\n"
+"a través d'una referència, un comentari, revisió o cita. "
 
 #. Property label for Bibliographic Ontology:contributorList
 msgid "list of contributors"
@@ -6421,6 +6588,8 @@ msgid ""
 "An ordered list of contributors. Normally, this list is seen as a priority "
 "list that order contributors by importance."
 msgstr ""
+"Una llista ordenada de col·laboradors. Normalment, es tracta d'una llista "
+"jeràrquica segons la importància del col·laborador."
 
 #. Property label for Bibliographic Ontology:court
 msgid "court"
@@ -6431,6 +6600,8 @@ msgid ""
 "A court associated with a legal document; for example, that which issues a "
 "decision."
 msgstr ""
+"Un tribunal relacionat amb un document legal. Per exemple, el que pronuncia "
+"un veredicte."
 
 #. Property label for Bibliographic Ontology:degree
 msgid "degree"
@@ -6454,7 +6625,7 @@ msgstr "distributor"
 
 #. Property comment for Bibliographic Ontology:distributor
 msgid "Distributor of a document or a collection of documents."
-msgstr "Distribuïdor d'un document o d'una col·lecció de documents."
+msgstr "Distribuïdor d'un document o d'una col·lecció de documents."
 
 #. Property label for Bibliographic Ontology:editor
 msgid "editor"
@@ -6466,6 +6637,9 @@ msgid ""
 "the editorial part of a publishing firm or of a newspaper, magazine, or "
 "other publication."
 msgstr ""
+"Una persona que té la responsabilitat administrativa i, a vegades, "
+"d'elaboració de polítiques en una editorial, un diari, revista o qualsevol "
+"altre tipus de publicació."
 
 #. Property label for Bibliographic Ontology:editorList
 msgid "list of editors"
@@ -6475,7 +6649,7 @@ msgstr "list of editors"
 msgid ""
 "An ordered list of editors. Normally, this list is seen as a priority list "
 "that order editors by importance."
-msgstr ""
+msgstr "Una llista ordenada d'editors segons la seva importància."
 
 #. Property label for Bibliographic Ontology:interviewee
 msgid "interviewee"
@@ -6502,6 +6676,8 @@ msgid ""
 "An entity responsible for issuing often informally published documents such "
 "as press releases, reports, etc."
 msgstr ""
+"Una entitat responsable d'emetre documents que sovint es publiquen de manera"
+" informal, com comunicats de premsa, informes, etc."
 
 #. Property label for Bibliographic Ontology:organizer
 msgid "organizer"
@@ -6513,6 +6689,9 @@ msgid ""
 "government agencies or other bodies that are responsible for conducting "
 "hearings."
 msgstr ""
+"L'organitzador d'un esdeveniment; inclou els organitzadors d'una "
+"conferència, però també agències governamentals o altres cossos responsables"
+" d'organitzar audiències de tota mena."
 
 #. Property label for Bibliographic Ontology:owner
 msgid "owner"
@@ -6533,6 +6712,8 @@ msgstr "presented at"
 #. Property comment for Bibliographic Ontology:presentedAt
 msgid "Relates a document to an event; for example, a paper to a conference."
 msgstr ""
+"Relaciona un document amb un esdeveniment ; per exemple, una comunicació i "
+"un congrés."
 
 #. Property label for Bibliographic Ontology:presents
 msgid "presents"
@@ -6543,6 +6724,8 @@ msgid ""
 "Relates an event to associated documents; for example, conference to a "
 "paper."
 msgstr ""
+"Relaciona un esdeveniment amb un conjunt de documents; per exemple, un "
+"congrés i una comunicació."
 
 #. Property label for Bibliographic Ontology:producer
 msgid "producer"
@@ -6550,7 +6733,7 @@ msgstr "producer"
 
 #. Property comment for Bibliographic Ontology:producer
 msgid "Producer of a document or a collection of documents."
-msgstr ""
+msgstr "El productor/a d'un document o una col·lecció de documents."
 
 #. Property label for Bibliographic Ontology:recipient
 msgid "recipient"
@@ -6558,7 +6741,7 @@ msgstr "recipient"
 
 #. Property comment for Bibliographic Ontology:recipient
 msgid "An agent that receives a communication document."
-msgstr ""
+msgstr "Un agent que rep una comunicació."
 
 #. Property label for Bibliographic Ontology:reproducedIn
 msgid "reproducedIn"
@@ -6566,7 +6749,7 @@ msgstr "reproducedIn"
 
 #. Property comment for Bibliographic Ontology:reproducedIn
 msgid "The resource in which another resource is reproduced."
-msgstr ""
+msgstr "El recurs en el qual un altre recurs s'ha reproduït."
 
 #. Property label for Bibliographic Ontology:reversedBy
 msgid "reversedBy"
@@ -6574,7 +6757,7 @@ msgstr "reversedBy"
 
 #. Property comment for Bibliographic Ontology:reversedBy
 msgid "A legal decision that reverses a ruling."
-msgstr ""
+msgstr "Una decisió legal que reverteix una sentència."
 
 #. Property label for Bibliographic Ontology:reviewOf
 msgid "review of"
@@ -6583,6 +6766,7 @@ msgstr "review of"
 #. Property comment for Bibliographic Ontology:reviewOf
 msgid "Relates a review document to a reviewed thing (resource, item, etc.)."
 msgstr ""
+"Relaciona un document que consisteix en una revisió amb el recurs revisat."
 
 #. Property label for Bibliographic Ontology:status
 #. Property label for Friend of a Friend:status
@@ -6601,7 +6785,7 @@ msgstr "subsequentLegalDecision"
 msgid ""
 "A legal decision on appeal that takes action on a case (affirming it, "
 "reversing it, etc.)."
-msgstr ""
+msgstr "Una decisió jurídica sobre una apel·lació que actua sobre un cas."
 
 #. Property label for Bibliographic Ontology:transcriptOf
 msgid "transcript of"
@@ -6640,6 +6824,8 @@ msgid ""
 "The date on which a legal case is argued before a court. Date is of format "
 "xsd:date"
 msgstr ""
+"La data en què s’argumenta un cas judicial davant un tribunal. La data ha "
+"d'anar en format xsd:date"
 
 #. Property label for Bibliographic Ontology:asin
 msgid "asin"
@@ -6667,6 +6853,8 @@ msgid ""
 "While the plain-text content of an entire document could be described by "
 "this property."
 msgstr ""
+"Aquesta propietat està pensada per reproduir text pla. És a dir, el "
+"contingut sencer d'un document, però sense format o estils."
 
 #. Property label for Bibliographic Ontology:doi
 msgid "doi"
@@ -6685,6 +6873,8 @@ msgid ""
 "The name defining a special edition of a document. Normally its a literal "
 "value composed of a version number and words."
 msgstr ""
+"El nom mitjançant el qual es defineix l'edició d'un document. Normalment és "
+"un número, però també pot ser una combinació de números i paraules."
 
 #. Property label for Bibliographic Ontology:eissn
 msgid "eissn"
@@ -6759,6 +6949,8 @@ msgid ""
 "The number of volumes contained in a collection of documents (usually a "
 "series, periodical, etc.)."
 msgstr ""
+"El nombre de volums que conté una col·lecció (de monografies, d'una revista,"
+" etc.)."
 
 #. Property label for Bibliographic Ontology:number
 msgid "number"
@@ -6768,6 +6960,7 @@ msgstr "number"
 msgid ""
 "A generic item or document number. Not to be confused with issue number."
 msgstr ""
+"Un número genèric de recurs o document. No s'ha de confondre amb l'edició."
 
 #. Property label for Bibliographic Ontology:oclcnum
 msgid "oclcnum"
@@ -6799,6 +6992,9 @@ msgid ""
 "Collection. Example: 23-25, 34, 54-56. For continuous page ranges, use the "
 "pageStart and pageEnd properties."
 msgstr ""
+"Una llista de pàgines no consecutives que permeten localitzar un contingut. "
+"Per exemple: 23-25, 34, 54-56. Per a les pàgines consecutives, feu servir "
+"les propietats pageStart i pageEnd."
 
 #. Property label for Bibliographic Ontology:pmid
 msgid "pmid"
@@ -6838,7 +7034,7 @@ msgstr "sici"
 
 #. Property label for Bibliographic Ontology:suffixName
 msgid "suffix name"
-msgstr ""
+msgstr "suffix name"
 
 #. Property comment for Bibliographic Ontology:suffixName
 msgid "The suffix of a name"
@@ -6914,7 +7110,7 @@ msgstr "Una classe d'agents."
 
 #. Class comment for Friend of a Friend:Agent
 msgid "An agent (eg. person, group, software or physical artifact)."
-msgstr ""
+msgstr "Un agent (p. e., una persona, grup, programari o artefacte)."
 
 #. Class label for Friend of a Friend:Project
 msgid "Project"
@@ -6934,7 +7130,7 @@ msgstr "PersonalProfileDocument"
 
 #. Class comment for Friend of a Friend:PersonalProfileDocument
 msgid "A personal profile RDF document."
-msgstr ""
+msgstr "Un document RDF amb el perfil personal."
 
 #. Class label for Friend of a Friend:OnlineAccount
 msgid "Online Account"
@@ -6979,6 +7175,10 @@ msgid ""
 " property', in that  there is (across time and change) at most one "
 "individual that ever has any particular value for foaf:mbox."
 msgstr ""
+"Una bústia de correu electrònic associada a una persona. Es tracta d'una "
+"propietat funcional estàtica i inversa, en el sentit que (al llarg del "
+"temps) com a màxim una persona li ha atorgat un valor particular a "
+"foaf:mbox."
 
 #. Property label for Friend of a Friend:mbox_sha1sum
 msgid "sha1sum of a personal mailbox URI name"
@@ -6989,6 +7189,8 @@ msgid ""
 "The sha1sum of the URI of an Internet mailbox associated with exactly one "
 "owner, the  first owner of the mailbox."
 msgstr ""
+"El sha1sum de l'URI d'una bústia d'Internet associada exclusivament a un "
+"propietari. El primer propietari de la bústia de correu."
 
 #. Property label for Friend of a Friend:gender
 msgid "gender"
@@ -7009,6 +7211,8 @@ msgstr "geekcode"
 msgid ""
 "A textual geekcode for this person, see http://www.geekcode.com/geek.html"
 msgstr ""
+"El codi geek de la persona, vegeu "
+"https://es.wikipedia.org/wiki/C%C3%B3digo_geek"
 
 #. Property label for Friend of a Friend:dnaChecksum
 msgid "DNA checksum"
@@ -7034,7 +7238,7 @@ msgstr "based near"
 msgid ""
 "A location that something is based near, for some broadly human notion of "
 "near."
-msgstr ""
+msgstr "Una localització prop de la qual hi ha alguna altra cosa."
 
 #. Property label for Friend of a Friend:title
 msgid "title"
@@ -7053,6 +7257,8 @@ msgid ""
 "A short informal nickname characterising an agent (includes login "
 "identifiers, IRC and other chat nicknames)."
 msgstr ""
+"Un àlies informal que representa a un agent (inclou identificadors per "
+"iniciar sessió, IRC i altres àlies en plataformes de xat)."
 
 #. Property label for Friend of a Friend:jabberID
 msgid "jabber ID"
@@ -7166,6 +7372,8 @@ msgid ""
 "A phone,  specified using fully qualified tel: URI scheme (refs: "
 "http://www.w3.org/Addressing/schemes.html#tel)."
 msgstr ""
+"Un número de telèfon específicat mitjançant un esquema URI "
+"(http://www.w3.org/Addressing/schemes.html#tel)."
 
 #. Property label for Friend of a Friend:homepage
 msgid "homepage"
@@ -7181,7 +7389,7 @@ msgstr "weblog"
 
 #. Property comment for Friend of a Friend:weblog
 msgid "A weblog of some thing (whether person, group, company etc.)."
-msgstr ""
+msgstr "Un blog sobre qualsevol tema (persona, grup, companyia...)."
 
 #. Property label for Friend of a Friend:openid
 msgid "openid"
@@ -7199,6 +7407,8 @@ msgstr "tipjar"
 msgid ""
 "A tipjar document for this agent, describing means for payment and reward."
 msgstr ""
+"Un document tipjar d'aquest agent que descriu la forma de pagament i "
+"recompensa."
 
 #. Property label for Friend of a Friend:plan
 msgid "plan"
@@ -7207,6 +7417,8 @@ msgstr "plan"
 #. Property comment for Friend of a Friend:plan
 msgid "A .plan comment, in the tradition of finger and '.plan' files."
 msgstr ""
+"Un comentari de tipus .plan, que segueix les pràctiques habituals per als "
+"fitxers 'finger' i '.plan'."
 
 #. Property label for Friend of a Friend:made
 msgid "made"
@@ -7233,7 +7445,7 @@ msgid ""
 "An image that can be used to represent some thing (ie. those depictions "
 "which are particularly representative of something, eg. one's photo on a "
 "homepage)."
-msgstr ""
+msgstr "Una imatge que pot ser emprada per representar quelcom."
 
 #. Property label for Friend of a Friend:depiction
 msgid "depiction"
@@ -7249,7 +7461,7 @@ msgstr "depicts"
 
 #. Property comment for Friend of a Friend:depicts
 msgid "A thing depicted in this representation."
-msgstr ""
+msgstr "Una cosa representada en el recurs."
 
 #. Property label for Friend of a Friend:thumbnail
 msgid "thumbnail"
@@ -7265,7 +7477,7 @@ msgstr "myersBriggs"
 
 #. Property comment for Friend of a Friend:myersBriggs
 msgid "A Myers Briggs (MBTI) personality classification."
-msgstr ""
+msgstr "Classificació de personalitat de Myers Briggs (MBTI)"
 
 #. Property label for Friend of a Friend:workplaceHomepage
 msgid "workplace homepage"
@@ -7276,6 +7488,8 @@ msgid ""
 "A workplace homepage of some person; the homepage of an organization they "
 "work for."
 msgstr ""
+"La pàgina d'inici de lloc de treball d'una persona; la pàgina d'inici de "
+"l'organització per la qual treballa una persona."
 
 #. Property label for Friend of a Friend:workInfoHomepage
 msgid "work info homepage"
@@ -7286,6 +7500,8 @@ msgid ""
 "A work info homepage of some person; a page about their work for some "
 "organization."
 msgstr ""
+"Una pàgina amb informació sobre el currículum professional d'una persona; "
+"una pàgina sobre el seu treball per una organització."
 
 #. Property label for Friend of a Friend:schoolHomepage
 msgid "schoolHomepage"
@@ -7304,6 +7520,8 @@ msgid ""
 "A person known by this person (indicating some level of reciprocated "
 "interaction between the parties)."
 msgstr ""
+"Una persona coneguda per aquesta altra persona (això indica un cert nivell "
+"de reciprocitat en la interacció entre ambdues parts)."
 
 #. Property label for Friend of a Friend:interest
 msgid "interest"
@@ -7386,6 +7604,7 @@ msgid ""
 "The underlying or 'focal' entity associated with some SKOS-described "
 "concept."
 msgstr ""
+"L'entitat fonamental associada a un concepte descrit amb el model SKOS."
 
 #. Property label for Friend of a Friend:isPrimaryTopicOf
 msgid "is primary topic of"
@@ -7415,7 +7634,7 @@ msgstr "account"
 #. Property comment for Friend of a Friend:account
 #. Property comment for Friend of a Friend:holdsAccount
 msgid "Indicates an account held by this agent."
-msgstr ""
+msgstr "Indica un compte que té aquest agent."
 
 #. Property label for Friend of a Friend:accountServiceHomepage
 msgid "account service homepage"

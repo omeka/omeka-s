@@ -17,9 +17,15 @@ $icons = [
         <ul class="actions">
             <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete remove-value', 'title' => $translate('Remove value')]); ?></li>
             <li><?php echo $this->hyperlink('' , '#', ['class' => 'o-icon-undo restore-value', 'title' => $translate('Restore value')]); ?></li>
-            <li>
-                <?php echo $this->hyperlink('' , '#', ['class' => 'value-visibility o-icon-public', 'title' => $translate('Make private'), 'aria-label' => $translate('Make private')]); ?>
-                <input type="hidden" class="is_public">
+            <li class="more-actions">
+                <?php echo $this->hyperlink('' , '#', ['class' => 'o-icon-more', 'title' => $translate('More actions')]); ?>
+                <ul>
+                    <li>
+                        <?php echo $this->hyperlink('' , '#', ['class' => 'value-visibility o-icon-public', 'title' => $translate('Make private'), 'aria-label' => $translate('Make private')]); ?>
+                        <input type="hidden" class="is_public">
+                    </li>
+                    <li><?php echo $this->hyperlink('', '#', ['class' => 'value-annotation-annotate o-icon-annotation', 'title' => $translate('Annotate value')]); ?></li>
+                </ul>
             </li>
         </ul>
     </div>

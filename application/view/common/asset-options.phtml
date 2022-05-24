@@ -26,11 +26,11 @@ $selectedPageTemplate = '
   <div class="sidebar-content confirm-main">
     <div class="asset-form-element" data-default-html="<?php echo $escape($selectedAssetTemplate); ?>">
       <div class="asset-option-selection"><?php echo $selectedAssetTemplate; ?></div>
-      <button type="button" class="asset-form-select" data-sidebar-content-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Select'); ?></button>
+      <button type="button" class="asset-form-select" data-sidebar-content-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Select'); ?></button>
     </div>
     <div class="page-link" data-default-html="<?php echo $escape($selectedPageTemplate); ?>">
       <h3><?php echo $translate('Page link'); ?></h3>
-      <div class="page-status" data-site-url="<?php echo $site->siteUrl(); ?>">
+      <div class="page-status" data-site-url="<?php echo $escape($site->siteUrl()); ?>">
         <div class="asset-option-selection"><?php echo $selectedPageTemplate; ?></div>
       </div>
       <button type="button" class="page-select"><?php echo $translate('Select'); ?></button>

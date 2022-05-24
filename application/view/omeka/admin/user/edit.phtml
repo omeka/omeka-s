@@ -24,7 +24,7 @@ $formElement = $this->plugin('formElement');
     <?php echo $this->formCollection($form->get('user-information'), false); ?>
 </fieldset>
 <fieldset id="user-settings" class="section">
-    <?php echo $this->formCollection($form->get('user-settings'), false); ?>
+    <?php echo $this->formCollectionElementGroups($form->get('user-settings')); ?>
 </fieldset>
 <fieldset id="change-password" class="section">
     <?php echo $this->formCollection($form->get('change-password'), false); ?>

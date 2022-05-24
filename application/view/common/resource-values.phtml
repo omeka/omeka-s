@@ -7,10 +7,12 @@ if ($this->status()->isSiteRequest()) {
     $showLocale = (bool) $this->siteSetting('show_locale_label', true);
     $filterLocale = $this->siteSetting('filter_locale_values');
     $lang = $this->lang();
+    $showValueAnnotations = (bool) $this->siteSetting('show_value_annotations', false);
 } else {
     $showLocale = true;
     $filterLocale = false;
     $lang = null;
+    $showValueAnnotations = true;
 }
 ?>
 <?php foreach ($values as $term => $propertyData): ?>
@@ -32,6 +34,7 @@ if ($this->status()->isSiteRequest()) {
             <?php
             $valueType = $value->type();
             $valueLang = $value->lang();
+            $valueAnnotation = $value->valueAnnotation();
             $class = ['value'];
             if ('resource' == $valueType || strpos($valueType, 'resource') !== false) {
                 $class[] = 'resource';
@@ -39,16 +42,25 @@ if ($this->status()->isSiteRequest()) {
             } elseif ('uri' == $valueType) {
                 $class[] = 'uri';
             }
-            if (!$value->isPublic()) {
-                $class[] = 'private';
-            }
             ?>
             <?php if ((!$filterLocale) || ($valueLang == '') || (strcasecmp($valueLang, $lang) == 0)): ?>
             <div class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($valueLang); ?>">
                 <?php if ($showLocale && $valueLang): ?>
                 <span class="language"><?php echo $valueLang; ?></span>
                 <?php endif; ?>
-                <?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?>
+                <span class="value-content"><?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?></span>
+                <?php if(!$value->isPublic()): ?>
+                    <span class="o-icon-private" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Private')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Private')); ?>"></span>
+                <?php endif; ?>
+                <?php if ($valueAnnotation && $showValueAnnotations): ?>
+                    <a href="#" class="expand" aria-label="<?php echo $this->escapeHtml($translate('Expand')); ?>">
+                        <span class="has-annotation o-icon-annotation" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Has annotation')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Has annotation')); ?>"></span>
+                    </a>
+                    <div class="collapsible annotation">
+                        <?php echo $valueAnnotation->displayValues(); ?>
+                    </div>
+                <?php endif; ?>
+                <?php $this->trigger('view.show.value', ['value' => $value]); ?>
             </div>
             <?php endif; ?>
         <?php endforeach; ?>

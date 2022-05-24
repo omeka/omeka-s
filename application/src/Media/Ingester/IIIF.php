@@ -90,7 +90,7 @@ class IIIF implements IngesterInterface
         } else {
             // Earlier versions
             $URLString = '/full/full/0/native.jpg';
-            $id = isset($IIIFData['@id']) ? $IIIFData['@id'] : null;
+            $id = $IIIFData['@id'] ?? null;
         }
         if ($id) {
             $tempFile = $this->downloader->download($id . $URLString);

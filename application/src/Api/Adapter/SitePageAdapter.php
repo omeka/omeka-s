@@ -71,7 +71,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             ));
         }
 
-        if (isset($query['is_public']) && is_numeric($query['is_public'])) {
+        if (isset($query['is_public']) && (is_numeric($query['is_public']) || is_bool($query['is_public']))) {
             $qb->andWhere($qb->expr()->eq(
                 'omeka_root.isPublic',
                 $this->createNamedParameter($qb, (bool) $query['is_public'])
@@ -220,8 +220,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             // (Re-)order blocks by their order in the input
             $block->setPosition($position++);
 
-            $attachmentData = isset($inputBlock['o:attachment'])
-                ? $inputBlock['o:attachment'] : [];
+            $attachmentData = $inputBlock['o:attachment'] ?? [];
 
             // Hydrate attachments, and abort block hydration if there's an error
             if (!$this->hydrateAttachments($attachmentData, $block, $errorStore)) {
@@ -295,7 +294,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
                 $media = null;
             }
 
-            $caption = isset($inputAttachment['o:caption']) ? $inputAttachment['o:caption'] : '';
+            $caption = $inputAttachment['o:caption'] ?? '';
             $purifier = $this->getServiceLocator()->get('Omeka\HtmlPurifier');
             $caption = $purifier->purify($caption);
 

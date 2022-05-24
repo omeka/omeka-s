@@ -36,7 +36,7 @@ return [
         'use_externals' => true,
         'externals' => [
             'Omeka' => [
-                'vendor/jquery/jquery.min.js' => '//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js',
+                'vendor/jquery/jquery.min.js' => '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js',
             ],
         ],
     ],
@@ -61,6 +61,7 @@ return [
             'Omeka\Entity\Item' => Entity\Item::class,
             'Omeka\Entity\Media' => Entity\Media::class,
             'Omeka\Entity\ItemSet' => Entity\ItemSet::class,
+            'Omeka\Entity\ValueAnnotation' => Entity\ValueAnnotation::class,
         ],
         'filters' => [
             'resource_visibility' => Db\Filter\ResourceVisibilityFilter::class,
@@ -249,6 +250,7 @@ return [
             'Omeka\Mailer' => Service\MailerFactory::class,
             'Omeka\HtmlPurifier' => Service\HtmlPurifierFactory::class,
             'Omeka\BlockLayoutManager' => Service\BlockLayoutManagerFactory::class,
+            'Omeka\ResourcePageBlockLayoutManager' => Service\ResourcePageBlockLayoutManagerFactory::class,
             'Omeka\DataTypeManager' => Service\DataTypeManagerFactory::class,
             'Omeka\Cli' => Service\CliFactory::class,
             'Omeka\Paginator' => Service\PaginatorFactory::class,
@@ -371,6 +373,7 @@ return [
             'items' => Api\Adapter\ItemAdapter::class,
             'media' => Api\Adapter\MediaAdapter::class,
             'item_sets' => Api\Adapter\ItemSetAdapter::class,
+            'value_annotations' => Api\Adapter\ValueAnnotationAdapter::class,
             'modules' => Api\Adapter\ModuleAdapter::class,
             'sites' => Api\Adapter\SiteAdapter::class,
             'site_pages' => Api\Adapter\SitePageAdapter::class,
@@ -378,6 +381,7 @@ return [
             'resources' => Api\Adapter\ResourceAdapter::class,
             'assets' => Api\Adapter\AssetAdapter::class,
             'api_resources' => Api\Adapter\ApiResourceAdapter::class,
+            'data_types' => Api\Adapter\DataTypeAdapter::class,
         ],
     ],
     'view_helpers' => [
@@ -404,6 +408,7 @@ return [
             'formCkeditor' => Form\View\Helper\FormCkeditor::class,
             'formCkeditorInline' => Form\View\Helper\FormCkeditorInline::class,
             'formRestoreTextarea' => Form\View\Helper\FormRestoreTextarea::class,
+            'formCollectionElementGroups' => Form\View\Helper\FormCollectionElementGroups::class,
             'queryToHiddenInputs' => View\Helper\QueryToHiddenInputs::class,
             'formAsset' => Form\View\Helper\FormAsset::class,
             'formQuery' => Form\View\Helper\FormQuery::class,
@@ -413,6 +418,8 @@ return [
             'thumbnail' => View\Helper\Thumbnail::class,
             'userBar' => View\Helper\UserBar::class,
             'cancelButton' => View\Helper\CancelButton::class,
+            'sortMedia' => View\Helper\SortMedia::class,
+            'lightGalleryOutput' => View\Helper\LightGalleryOutput::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,
@@ -446,6 +453,7 @@ return [
             'lang' => Service\ViewHelper\LangFactory::class,
             'status' => Service\ViewHelper\StatusFactory::class,
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
+            'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
         ],
         'delegators' => [
             'Laminas\Form\View\Helper\FormElement' => [
@@ -507,6 +515,13 @@ return [
             'resource:itemset' => DataType\Resource\ItemSet::class,
             'resource:media' => DataType\Resource\Media::class,
         ],
+        'value_annotating' => [
+            'literal',
+            'uri',
+            'resource:item',
+            'resource:itemset',
+            'resource:media',
+        ]
     ],
     'block_layouts' => [
         'invokables' => [
@@ -523,6 +538,29 @@ return [
             'asset' => Service\BlockLayout\AssetFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
             'listOfPages' => Service\BlockLayout\PageListFactory::class,
+        ],
+    ],
+    'resource_page_block_layouts' => [
+        'invokables' => [
+            'itemSets' => Site\ResourcePageBlockLayout\ItemSets::class,
+            'lightboxGallery' => Site\ResourcePageBlockLayout\LightboxGallery::class,
+            'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
+            'mediaEmbeds' => Site\ResourcePageBlockLayout\MediaEmbeds::class,
+            'mediaList' => Site\ResourcePageBlockLayout\MediaList::class,
+            'mediaRender' => Site\ResourcePageBlockLayout\MediaRender::class,
+            'sitePages' => Site\ResourcePageBlockLayout\SitePages::class,
+            'values' => Site\ResourcePageBlockLayout\Values::class,
+        ],
+    ],
+    'resource_page_blocks_default' => [
+        'items' => [
+            'main' => [],
+        ],
+        'item_sets' => [
+            'main' => [],
+        ],
+        'media' => [
+            'main' => [],
         ],
     ],
     'navigation_links' => [
@@ -639,5 +677,6 @@ return [
         'Please enter a valid language tag', // @translate
         'Title', // @translate
         'Description', // @translate
+        'Unknown block layout', // @translate
     ],
 ];

@@ -1,7 +1,6 @@
 @import "font-awesome/fontawesome";
 
 [class*="o-icon-"]:before {
-    @extend .fa;
     @extend .#{$fa-css-prefix};
 }
 
@@ -29,10 +28,6 @@
 .o-icon-text,
 .o-icon-literal {
     @extend .fa-keyboard;
-}
-
-.o-icon-item-set {
-    @extend .fa-archive;
 }
 
 .o-icon-vocab {
@@ -103,14 +98,6 @@
     @extend .fa-link;
 }
 
-.o-icon-flickr {
-    @extend .fa-flickr;
-}
-
-.o-icon-youtube {
-    @extend .fa-youtube;
-}
-
 .o-icon-view,
 .o-icon-public {
     @extend .fa-eye;
@@ -127,6 +114,7 @@
 .o-icon-activate {
     @extend .fa-toggle-off;
 }
+
 .o-icon-deactivate {
     @extend .fa-toggle-on;
 }
@@ -151,7 +139,8 @@
     @extend .fa-info-circle;
 }
 
-.o-icon-revert {
+.o-icon-revert,
+.o-icon-undo {
     @extend .fa-undo;
 }
 
@@ -183,10 +172,6 @@
     @extend .fa-tasks;
 }
 
-.o-icon-undo {
-    @extend .fa-undo;
-}
-
 .o-icon-language {
     @extend .fa-globe;
 }
@@ -201,6 +186,10 @@
 
 .o-icon-external {
     @extend .fa-external-link-alt;
+}
+
+.o-icon-annotation {
+    @extend .fa-comment-dots;
 }
 
 .screen-reader-text {

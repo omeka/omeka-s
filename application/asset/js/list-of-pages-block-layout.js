@@ -1,4 +1,6 @@
 (function ($) {
+    var currentTree;
+
     function loadJStree(index) {
         
         //Initialize unique jsTree for each block
@@ -17,7 +19,7 @@
                 'force_text': true,
                 'data': navTree.data('jstree-data'),
             },
-            'plugins': ['dnd', 'removenode', 'display']
+            'plugins': ['privateStatus', 'dnd', 'removenode', 'display']
         }).on('loaded.jstree', function() {
             // Open all nodes by default.
             navTree.jstree(true).open_all();
@@ -70,29 +72,27 @@
         });
 
         // Add page select sidebar
-        const sidebar = $('<div class="sidebar"><div class="sidebar-content" id="add-pages"></div></div>');
-        sidebar.appendTo('#content');
         $('#blocks').on('click', '.site-page-add', function (e) {
-            currentTree = $(e.currentTarget).siblings('.jstree').jstree();
-            Omeka.populateSidebarContent(
-                sidebar,
-                $(this).data('sidebar-content-url'),
-                {'current_nodes': currentTree.get_json('#', { 'flat': true })}
-            );
-            Omeka.openSidebar(sidebar);
-        });
-        
-        // Show message if no initial pages
-        $('#content').on('o:sidebar-content-loaded', '.sidebar', function(e) {
-                var pageLinks = $('#nav-page-links');
-                if (!pageLinks.children('.nav-page-link').filter(':visible').length) {
-                    pageLinks.siblings('.page-selector-filter').hide();
-                    pageLinks.after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
-                }
+            currentTree = $(e.currentTarget).prev('.jstree').jstree();
+            var pageLinks = $('#nav-page-links .nav-page-link');
+            pageLinks.addClass('active').removeClass('added');
+
+            // Remove already selected pages by comparing slugs
+            $(currentTree.get_json('#', { 'flat': true })).each(function(index, value) {
+                $(pageLinks).each(function() {
+                    if ($(this).attr('data-id') == value['data']['data']['id']) {
+                        $(this).addClass('added').removeClass('active');
+                    };
+                });
             });
 
+            $('.page-selector-filter').val('').removeClass('empty');
+            checkIfEmpty(pageLinks);
+            Omeka.openSidebar($('#add-pages'));
+        });
+
         // Add a site page link to the block tree
-        $('#content').on(
+        $('#add-pages').on(
             'click',
             '.nav-page-link',
             $.proxy(function(e) {
@@ -102,31 +102,45 @@
                     data: {
                         type: link.data('type'),
                         data: {
-                            id: link.data('id')
+                            id: link.data('id'),
+                            'is_public': link.data('is_public')
                         }
                     }
                 });
                 // Remove page links from the available list after they are added.
-                link.hide();
-                var pageLinks = $('#nav-page-links');
-                if (!pageLinks.children('.nav-page-link').filter(':visible').length) {
-                    pageLinks.siblings('.page-selector-filter').hide();
-                    pageLinks.after('<p>' + Omeka.jsTranslate('There are no available pages.') + '</p>');
-                }
+                link.addClass('added').removeClass('active');
+                var activePages = $('.nav-page-link.active');
+                checkIfEmpty(activePages);
             }, this)
         );
+
+        var checkIfEmpty = function(pageLinks) {
+            var pageContainer = $('#nav-page-links');
+            if (pageLinks.length == 0) {
+                pageContainer.addClass('empty');
+            } else {
+                pageContainer.removeClass('empty');
+            }
+            if ($('.added.nav-page-link').length == $('.nav-page-link').length) {
+                $('.page-selector-filter').addClass('empty');
+            }
+        }
 
         var filterPages = function() {
             var thisInput = $(this);
             var search = thisInput.val().toLowerCase();
             var allPages = $('#nav-page-links .nav-page-link');
-            allPages.hide();
+            allPages.removeClass('active');
             var results = allPages.filter(function() {
-                return $(this).attr('data-label').toLowerCase().indexOf(search) >= 0;
+                if (!$(this).hasClass('added')) {
+                    return $(this).attr('data-label').toLowerCase().indexOf(search) >= 0;
+                }
             });
-            results.show();
+            results.addClass('active');
+            checkIfEmpty(results);
         };
-        $('#content').on(
+
+        $('#add-pages').on(
             'keyup',
             '.page-selector-filter',
             (function() {

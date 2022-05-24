@@ -51,13 +51,17 @@ $this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
         <input type="text" class="page-selector-filter" placeholder="<?php echo $translate('Filter pages'); ?>" aria-label="<?php echo $translate('Filter pages'); ?>">
         <div id="nav-page-links">
         <?php foreach ($pages as $page): ?>
-            <button class="nav-page-link option"
+            <button class="nav-page-link option active"
                 type="button"
                 data-type="page"
                 data-label="<?php echo $escape($page->title()); ?>"
                 data-id="<?php echo $escape($page->id()); ?>"
-                data-slug="<?php echo $escape($page->slug()); ?>">
+                data-slug="<?php echo $escape($page->slug()); ?>"
+                data-is_public="<?php echo ($page->isPublic()) ? '1' : '0'; ?>">
                 <?php echo sprintf('%s (%s)', $escape($page->title()), $escape($page->slug())); ?>
+                <?php if ($page->isPublic() == 0): ?>
+                <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>" title="<?php echo $translate('Private'); ?>" role="presentation"></span>
+                <?php endif; ?>
             </button>
         <?php endforeach; ?>
         </div>

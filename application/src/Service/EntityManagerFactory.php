@@ -74,7 +74,7 @@ class EntityManagerFactory implements FactoryInterface
         // Use the underscore naming strategy to preempt potential compatibility
         // issues with the case sensitivity of various operating systems.
         // @see http://dev.mysql.com/doc/refman/5.7/en/identifier-case-sensitivity.html
-        $emConfig->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
+        $emConfig->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER, true));
 
         // Add SQL filters.
         foreach ($config['entity_manager']['filters'] as $name => $className) {

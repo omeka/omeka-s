@@ -106,6 +106,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         if ($this->thumbnail()) {
             $thumbnail = $this->thumbnail()->getReference();
         }
+        // According to the JSON-LD spec, the value of the @reverse key "MUST be
+        // a JSON object containing members representing reverse properties."
+        // Here, we include the key only if the resource has reverse properties.
+        $reverse = $this->subjectValuesForReverse();
+        $reverse = $reverse ? ['@reverse' => $reverse] : [];
 
         return array_merge(
             [
@@ -119,7 +124,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             ],
             $dateTime,
             $this->getResourceJsonLd(),
-            $values
+            $values,
+            $reverse
         );
     }
 
@@ -391,6 +397,27 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         foreach ($values as $value) {
             $valueRep = new ValueRepresentation($value, $this->getServiceLocator());
             $subjectValues[$valueRep->property()->term()][] = $valueRep;
+        }
+        return $subjectValues;
+    }
+
+    /**
+     * Get the subject values for the JSON-LD @reverse array.
+     *
+     * @see https://w3c.github.io/json-ld-syntax/#reverse-properties
+     * @param int $property Filter by property ID
+     * @return array
+     */
+    public function subjectValuesForReverse($property = null)
+    {
+        $url = $this->getViewHelper('Url');
+        $subjectValuesSimple = $this->getAdapter()->getSubjectValuesSimple($this->resource, $property);
+        $subjectValues = [];
+        foreach ($subjectValuesSimple as $subjectValue) {
+            $subjectValues[$subjectValue['term']][] = [
+                '@id' => $url('api/default', ['resource' => 'items', 'id' => $subjectValue['id']], ['force_canonical' => true]),
+                'o:title' => $subjectValue['title'],
+            ];
         }
         return $subjectValues;
     }

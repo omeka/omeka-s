@@ -4,17 +4,17 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Tamás Dombos, 2019
 # John Flatness <john@zerocrates.org>, 2020
+# Tamás Dombos, 2021
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-26 15:28-0400\n"
+"POT-Creation-Date: 2022-04-06 15:01-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: John Flatness <john@zerocrates.org>, 2020\n"
+"Last-Translator: Tamás Dombos, 2021\n"
 "Language-Team: Hungarian (Hungary) (https://www.transifex.com/omeka/teams/14184/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,7 +95,7 @@ msgstr "Böngészés"
 msgid "The API does not support the \"%s\" resource."
 msgstr ""
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:530
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:552
 #: application/view/common/block-layout/browse-preview.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:26
 #: application/view/omeka/site/item/browse.phtml:61
@@ -177,10 +177,53 @@ msgstr ""
 msgid "Import another vocabulary?"
 msgstr "Másik szótár importálása?"
 
-#: application/src/DataType/Resource/AbstractResource.php:51
+#: application/src/DataType/Resource/AbstractResource.php:62
 #, php-format
 msgid "Resource not found with id %s."
 msgstr ""
+
+#: application/src/DataType/Resource/Item.php:27
+#: application/view/common/cross-site-search/results.phtml:40
+#: application/view/common/data-type/resource.phtml:23
+#: application/view/layout/layout-admin.phtml:68
+#: application/view/omeka/admin/item-set/show-details.phtml:22
+#: application/view/omeka/admin/item-set/show.phtml:83
+#: application/view/omeka/admin/item/add.phtml:6
+#: application/view/omeka/admin/item/browse.phtml:29
+#: application/view/omeka/admin/item/edit.phtml:14
+#: application/view/omeka/admin/item/search.phtml:5
+#: application/view/omeka/admin/item/show.phtml:18
+#: application/view/omeka/admin/property/show-details.phtml:18
+#: application/view/omeka/admin/resource-class/show-details.phtml:18
+#: application/view/omeka/admin/resource-template/browse.phtml:19
+#: application/view/omeka/admin/resource-template/show-details.phtml:18
+#: application/view/omeka/admin/user/show-details.phtml:12
+#: application/view/omeka/admin/vocabulary/classes.phtml:15
+#: application/view/omeka/site-admin/index/resources.phtml:22
+#: application/view/omeka/site/item/browse.phtml:42
+#: application/view/omeka/site/item/browse.phtml:44
+msgid "Items"
+msgstr "Elemek"
+
+#: application/src/DataType/Resource/ItemSet.php:27
+msgid "Item Sets"
+msgstr ""
+
+#: application/src/DataType/Resource/Media.php:27
+#: application/view/common/data-type/resource.phtml:37
+#: application/view/layout/layout-admin.phtml:76
+#: application/view/omeka/admin/item/form.phtml:15
+#: application/view/omeka/admin/item/show-details.phtml:40
+#: application/view/omeka/admin/item/show.phtml:92
+#: application/view/omeka/admin/media/browse.phtml:35
+#: application/view/omeka/admin/media/edit.phtml:17
+#: application/view/omeka/admin/media/edit.phtml:25
+#: application/view/omeka/admin/media/search.phtml:5
+#: application/view/omeka/admin/media/show.phtml:11
+#: application/view/omeka/site-admin/page/attachment-item-options.phtml:32
+#: application/view/omeka/site/media/show.phtml:8
+msgid "Media"
+msgstr "Média"
 
 #: application/src/Db/Migration/Manager.php:112
 msgid "Migration file did not contain the expected class"
@@ -295,7 +338,7 @@ msgstr ""
 msgid "Break type"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfPages.php:58
+#: application/src/Site/BlockLayout/ListOfPages.php:60
 msgid "Add pages"
 msgstr ""
 
@@ -628,7 +671,8 @@ msgstr "Keresés elemkészlet alapján"
 #: application/view/common/advanced-search/resource-class.phtml:16
 #: application/view/common/advanced-search/resource-template.phtml:17
 #: application/view/common/advanced-search/site.phtml:4
-#: application/view/common/form-row.phtml:16
+#: application/view/common/form-row.phtml:29
+#: application/view/common/resource-values.phtml:56
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 msgid "Expand"
 msgstr ""
@@ -650,6 +694,7 @@ msgstr "Új elemkészlet hozzáadása"
 #: application/view/common/block-layout.phtml:12
 #: application/view/common/data-type-wrapper.phtml:18
 #: application/view/common/media-field-wrapper.phtml:14
+#: application/view/common/value-annotation-wrapper.phtml:11
 #: application/view/omeka/admin/item/manage-media.phtml:48
 msgid "Remove value"
 msgstr "Érték eltávolítása"
@@ -789,7 +834,7 @@ msgstr "Létrehozva"
 
 #: application/view/common/advanced-search/sort.phtml:21
 #: application/view/omeka/admin/media/browse.phtml:29
-#: application/view/omeka/admin/media/show-details.phtml:31
+#: application/view/omeka/admin/media/show-details.phtml:36
 #: application/view/omeka/admin/media/show.phtml:56
 msgid "Size"
 msgstr "Méret"
@@ -913,8 +958,10 @@ msgstr ""
 #: application/view/common/property-selector.phtml:6
 #: application/view/common/resource-select-sidebar.phtml:6
 #: application/view/common/resource-select-sidebar.phtml:12
+#: application/view/common/sidebar-pagelist.phtml:8
 #: application/view/common/site-selector.phtml:2
 #: application/view/common/user-selector.phtml:6
+#: application/view/common/value-annotation-sidebar.phtml:2
 #: application/view/omeka/admin/asset/browse.phtml:100
 #: application/view/omeka/admin/asset/browse.phtml:117
 #: application/view/omeka/admin/asset/sidebar-select.phtml:8
@@ -945,7 +992,6 @@ msgstr ""
 #: application/view/omeka/site-admin/index/navigation.phtml:31
 #: application/view/omeka/site-admin/page/edit.phtml:51
 #: application/view/omeka/site-admin/page/index.phtml:102
-#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:7
 msgid "Close"
 msgstr "Bezárás"
 
@@ -991,6 +1037,7 @@ msgstr ""
 
 #: application/view/common/block-layout.phtml:13
 #: application/view/common/data-type-wrapper.phtml:19
+#: application/view/common/value-annotation-wrapper.phtml:12
 #: application/view/omeka/admin/item/manage-media.phtml:52
 #: application/view/omeka/admin/resource-template/show-property-row.phtml:41
 msgid "Restore value"
@@ -998,7 +1045,7 @@ msgstr "Érték visszaállítása"
 
 #: application/view/common/block-layout/item-with-metadata.phtml:12
 #: application/view/common/cross-site-search/results.phtml:70
-#: application/view/common/data-type/resource.phtml:29
+#: application/view/common/data-type/resource.phtml:30
 #: application/view/common/item-set-selector.phtml:11
 #: application/view/layout/layout-admin.phtml:72
 #: application/view/omeka/admin/item-set/add.phtml:6
@@ -1007,7 +1054,7 @@ msgstr "Érték visszaállítása"
 #: application/view/omeka/admin/item-set/search.phtml:5
 #: application/view/omeka/admin/item-set/show.phtml:26
 #: application/view/omeka/admin/item/form.phtml:16
-#: application/view/omeka/admin/item/show-details.phtml:19
+#: application/view/omeka/admin/item/show-details.phtml:23
 #: application/view/omeka/admin/item/show.phtml:67
 #: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:23
@@ -1060,32 +1107,10 @@ msgstr ""
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
 #: application/view/common/cross-site-search/results.phtml:85
-#: application/view/omeka/site/index/search.phtml:40
+#: application/view/omeka/site/index/search.phtml:45
 #, php-format
 msgid "View all results (%s total)"
 msgstr ""
-
-#: application/view/common/cross-site-search/results.phtml:40
-#: application/view/common/data-type/resource.phtml:22
-#: application/view/layout/layout-admin.phtml:68
-#: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:83
-#: application/view/omeka/admin/item/add.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:29
-#: application/view/omeka/admin/item/edit.phtml:14
-#: application/view/omeka/admin/item/search.phtml:5
-#: application/view/omeka/admin/item/show.phtml:18
-#: application/view/omeka/admin/property/show-details.phtml:18
-#: application/view/omeka/admin/resource-class/show-details.phtml:18
-#: application/view/omeka/admin/resource-template/browse.phtml:19
-#: application/view/omeka/admin/resource-template/show-details.phtml:18
-#: application/view/omeka/admin/user/show-details.phtml:12
-#: application/view/omeka/admin/vocabulary/classes.phtml:15
-#: application/view/omeka/site-admin/index/resources.phtml:22
-#: application/view/omeka/site/item/browse.phtml:42
-#: application/view/omeka/site/item/browse.phtml:44
-msgid "Items"
-msgstr "Elemek"
 
 #: application/view/common/cross-site-search/results.phtml:97
 #: application/view/omeka/site/index/search.phtml:11
@@ -1103,10 +1128,15 @@ msgid "Omeka resource"
 msgstr "Omeka erőforrás"
 
 #: application/view/common/data-type-wrapper.phtml:16
+#: application/view/common/value-annotation-wrapper.phtml:9
 msgid "Value to be removed"
 msgstr ""
 
 #: application/view/common/data-type-wrapper.phtml:21
+msgid "More actions"
+msgstr ""
+
+#: application/view/common/data-type-wrapper.phtml:24
 #: application/view/common/media-field-wrapper.phtml:10
 #: application/view/omeka/admin/item-set/form.phtml:43
 #: application/view/omeka/admin/item/form.phtml:52
@@ -1119,7 +1149,13 @@ msgstr ""
 msgid "Make private"
 msgstr ""
 
+#: application/view/common/data-type-wrapper.phtml:27
+#: application/view/common/value-annotation-sidebar.phtml:6
+msgid "Annotate value"
+msgstr ""
+
 #: application/view/common/data-type/literal.phtml:4
+#: application/view/common/data-type/value-annotation-literal.phtml:2
 msgid "Set language"
 msgstr "Nyelv beállítása"
 
@@ -1127,32 +1163,20 @@ msgstr "Nyelv beállítása"
 msgid "Language"
 msgstr "Nyelv"
 
-#: application/view/common/data-type/resource.phtml:14
+#: application/view/common/data-type/resource.phtml:15
+#: application/view/common/data-type/value-annotation-resource.phtml:2
 msgid "No resource selected"
 msgstr "Nincs kiválasztva erőforrás"
 
-#: application/view/common/data-type/resource.phtml:36
-#: application/view/layout/layout-admin.phtml:76
-#: application/view/omeka/admin/item/form.phtml:15
-#: application/view/omeka/admin/item/show-details.phtml:36
-#: application/view/omeka/admin/item/show.phtml:92
-#: application/view/omeka/admin/media/browse.phtml:35
-#: application/view/omeka/admin/media/edit.phtml:17
-#: application/view/omeka/admin/media/edit.phtml:25
-#: application/view/omeka/admin/media/search.phtml:5
-#: application/view/omeka/admin/media/show.phtml:11
-#: application/view/omeka/site-admin/page/attachment-item-options.phtml:32
-#: application/view/omeka/site/media/show.phtml:8
-msgid "Media"
-msgstr "Média"
-
 #: application/view/common/data-type/uri.phtml:6
+#: application/view/common/data-type/value-annotation-uri.phtml:4
 #: application/view/common/property-form-batch-edit.phtml:44
 #: application/view/common/resource-form-templates.phtml:24
 msgid "URI"
 msgstr "URI"
 
 #: application/view/common/data-type/uri.phtml:12
+#: application/view/common/data-type/value-annotation-uri.phtml:10
 #: application/view/common/navigation-link-form/browse.phtml:16
 #: application/view/common/navigation-link-form/page.phtml:15
 #: application/view/common/navigation-link-form/url.phtml:8
@@ -1188,7 +1212,7 @@ msgstr "Nincs szűrő"
 msgid "Filter"
 msgstr "Szűrő"
 
-#: application/view/common/form-row.phtml:20
+#: application/view/common/form-row.phtml:33
 msgid "Learn more"
 msgstr ""
 
@@ -1302,11 +1326,11 @@ msgstr ""
 #: application/view/common/property-form-batch-edit.phtml:31
 #: application/view/common/property-form-batch-edit.phtml:46
 #: application/view/common/property-form-batch-edit.phtml:66
-#: application/view/omeka/admin/item-set/show-details.phtml:14
+#: application/view/omeka/admin/item-set/show-details.phtml:18
 #: application/view/omeka/admin/item-set/show.phtml:79
-#: application/view/omeka/admin/item/show-details.phtml:14
+#: application/view/omeka/admin/item/show-details.phtml:18
 #: application/view/omeka/admin/item/show.phtml:62
-#: application/view/omeka/admin/media/show-details.phtml:38
+#: application/view/omeka/admin/media/show-details.phtml:43
 #: application/view/omeka/admin/media/show.phtml:37
 msgid "Public"
 msgstr "Nyilvános"
@@ -1393,6 +1417,40 @@ msgstr "Szöveg"
 msgid "Select resource"
 msgstr "Erőforrás kiválasztása"
 
+#: application/view/common/resource-values.phtml:53
+#: application/view/omeka/admin/item-set/browse.phtml:103
+#: application/view/omeka/admin/item-set/show-details.phtml:18
+#: application/view/omeka/admin/item-set/show.phtml:79
+#: application/view/omeka/admin/item/browse.phtml:101
+#: application/view/omeka/admin/item/show-details.phtml:18
+#: application/view/omeka/admin/item/show.phtml:62
+#: application/view/omeka/admin/media/browse.phtml:115
+#: application/view/omeka/admin/media/show-details.phtml:43
+#: application/view/omeka/admin/media/show.phtml:37
+#: application/view/omeka/admin/resource-template/form.phtml:90
+#: application/view/omeka/site-admin/index/index.phtml:64
+#: application/view/omeka/site-admin/page/index.phtml:66
+msgid "Private"
+msgstr "Nem nyilvános"
+
+#: application/view/common/resource-values.phtml:57
+msgid "Has annotation"
+msgstr ""
+
+#: application/view/common/sidebar-pagelist.phtml:10
+msgid "Add to List of pages"
+msgstr ""
+
+#: application/view/common/sidebar-pagelist.phtml:12
+#: application/view/omeka/site-admin/index/navigation.phtml:51
+msgid "Filter pages"
+msgstr ""
+
+#: application/view/common/sidebar-pagelist.phtml:25
+#: application/view/omeka/site-admin/index/navigation.phtml:65
+msgid "There are no available pages."
+msgstr ""
+
 #: application/view/common/site-page-pagination.phtml:3
 msgid "Prev"
 msgstr "Előző"
@@ -1407,7 +1465,7 @@ msgstr ""
 
 #: application/view/common/site-selector.phtml:7
 #: application/view/omeka/admin/item/form.phtml:17
-#: application/view/omeka/admin/item/show-details.phtml:28
+#: application/view/omeka/admin/item/show-details.phtml:32
 #: application/view/omeka/admin/item/show.phtml:76
 #: application/view/omeka/index/index.phtml:6
 #: application/view/omeka/site-admin/index/add.phtml:12
@@ -1471,6 +1529,30 @@ msgstr "Felhasználók szűrése"
 #, php-format
 msgid "Users (%s)"
 msgstr ""
+
+#: application/view/common/value-annotation-sidebar.phtml:20
+msgid "Add annotation"
+msgstr ""
+
+#: application/view/common/value-annotation-sidebar.phtml:22
+msgid "Annotations"
+msgstr ""
+
+#: application/view/common/value-annotation-sidebar.phtml:27
+msgid "Set annotations"
+msgstr ""
+
+#: application/view/common/value-annotation-wrapper.phtml:13
+#: application/view/omeka/admin/item-set/form.phtml:49
+#: application/view/omeka/admin/item/form.phtml:58
+#: application/view/omeka/admin/item/manage-media.phtml:36
+#: application/view/omeka/admin/media/edit.phtml:60
+#: application/view/omeka/site-admin/index/add-page.phtml:12
+#: application/view/omeka/site-admin/index/add.phtml:20
+#: application/view/omeka/site-admin/index/edit.phtml:21
+#: application/view/omeka/site-admin/page/edit.phtml:24
+msgid "Make public"
+msgstr "Nyilvánossá tesz"
 
 #: application/view/common/version-notification.phtml:8
 #, php-format
@@ -1625,10 +1707,13 @@ msgid "Upload"
 msgstr "Feltöltés"
 
 #: application/view/omeka/admin/asset/browse.phtml:8
+#: application/view/omeka/admin/item-set/show-details.phtml:13
 #: application/view/omeka/admin/item-set/show.phtml:66
+#: application/view/omeka/admin/item/show-details.phtml:13
 #: application/view/omeka/admin/item/show.phtml:57
 #: application/view/omeka/admin/job/browse.phtml:7
 #: application/view/omeka/admin/job/browse.phtml:37
+#: application/view/omeka/admin/media/show-details.phtml:18
 #: application/view/omeka/admin/media/show.phtml:32
 #: application/view/omeka/admin/user/edit.phtml:39
 msgid "ID"
@@ -1884,21 +1969,6 @@ msgstr "Összes kiválasztása"
 msgid "Select item set"
 msgstr "Elemkészlet kiválasztása"
 
-#: application/view/omeka/admin/item-set/browse.phtml:103
-#: application/view/omeka/admin/item-set/show-details.phtml:14
-#: application/view/omeka/admin/item-set/show.phtml:79
-#: application/view/omeka/admin/item/browse.phtml:101
-#: application/view/omeka/admin/item/show-details.phtml:14
-#: application/view/omeka/admin/item/show.phtml:62
-#: application/view/omeka/admin/media/browse.phtml:115
-#: application/view/omeka/admin/media/show-details.phtml:38
-#: application/view/omeka/admin/media/show.phtml:37
-#: application/view/omeka/admin/resource-template/form.phtml:90
-#: application/view/omeka/site-admin/index/index.phtml:64
-#: application/view/omeka/site-admin/page/index.phtml:66
-msgid "Private"
-msgstr "Nem nyilvános"
-
 #: application/view/omeka/admin/item-set/browse.phtml:157
 #: application/view/omeka/admin/item-set/browse.phtml:175
 msgid "Delete item sets"
@@ -1954,7 +2024,7 @@ msgstr "Értékek"
 #: application/view/omeka/admin/item/form.phtml:18
 #: application/view/omeka/admin/media/edit.phtml:14
 msgid "Advanced"
-msgstr ""
+msgstr "Haladó"
 
 #: application/view/omeka/admin/item-set/form.phtml:29
 msgid "Close item set"
@@ -1964,32 +2034,21 @@ msgstr "Elemkészlet bezárása"
 msgid "Open item set"
 msgstr "Elemkészlet megnyitása"
 
-#: application/view/omeka/admin/item-set/form.phtml:49
-#: application/view/omeka/admin/item/form.phtml:58
-#: application/view/omeka/admin/item/manage-media.phtml:36
-#: application/view/omeka/admin/media/edit.phtml:60
-#: application/view/omeka/site-admin/index/add-page.phtml:12
-#: application/view/omeka/site-admin/index/add.phtml:20
-#: application/view/omeka/site-admin/index/edit.phtml:21
-#: application/view/omeka/site-admin/page/edit.phtml:24
-msgid "Make public"
-msgstr "Nyilvánossá tesz"
-
-#: application/view/omeka/admin/item-set/show-details.phtml:13
+#: application/view/omeka/admin/item-set/show-details.phtml:17
 #: application/view/omeka/admin/item-set/show.phtml:78
-#: application/view/omeka/admin/item/show-details.phtml:13
+#: application/view/omeka/admin/item/show-details.phtml:17
 #: application/view/omeka/admin/item/show.phtml:61
-#: application/view/omeka/admin/media/show-details.phtml:37
+#: application/view/omeka/admin/media/show-details.phtml:42
 #: application/view/omeka/admin/media/show.phtml:36
 msgid "Visibility"
 msgstr "Láthatóság"
 
-#: application/view/omeka/admin/item-set/show-details.phtml:15
+#: application/view/omeka/admin/item-set/show-details.phtml:19
 #: application/view/omeka/admin/item-set/show.phtml:80
 msgid "Open to additions"
 msgstr ""
 
-#: application/view/omeka/admin/item-set/show-details.phtml:15
+#: application/view/omeka/admin/item-set/show-details.phtml:19
 #: application/view/omeka/admin/item-set/show.phtml:80
 msgid "Closed to additions"
 msgstr ""
@@ -2261,16 +2320,16 @@ msgstr ""
 msgid "Omeka could not find any media."
 msgstr ""
 
-#: application/view/omeka/admin/media/show-details.phtml:18
+#: application/view/omeka/admin/media/show-details.phtml:23
 msgid "Part of Item"
 msgstr "Elem része"
 
-#: application/view/omeka/admin/media/show-details.phtml:24
+#: application/view/omeka/admin/media/show-details.phtml:29
 #: application/view/omeka/admin/media/show.phtml:50
 msgid "MIME type"
 msgstr "MIME típus"
 
-#: application/view/omeka/admin/media/show-details.phtml:32
+#: application/view/omeka/admin/media/show-details.phtml:37
 #: application/view/omeka/admin/media/show.phtml:57
 #, php-format
 msgid "%s bytes"
@@ -2421,7 +2480,7 @@ msgstr ""
 #: application/view/omeka/admin/resource-template/review-import.phtml:7
 #: application/view/omeka/admin/resource-template/show.phtml:7
 msgid "Resource templates"
-msgstr ""
+msgstr "Sablonok"
 
 #: application/view/omeka/admin/resource-template/browse.phtml:28
 #: application/view/omeka/admin/resource-template/import.phtml:5
@@ -2724,6 +2783,17 @@ msgstr "Frissítés"
 msgid "Accept changes"
 msgstr ""
 
+#: application/view/omeka/api/root.phtml:2
+msgid ""
+"This is the REST API root endpoint for this Omeka S installation. Below is a"
+" list of available API resources and links to their endpoints. Some "
+"resources and features require authentication."
+msgstr ""
+
+#: application/view/omeka/api/root.phtml:12
+msgid "Omeka S REST API documentation"
+msgstr ""
+
 #: application/view/omeka/index/index.phtml:32
 #, php-format
 msgid "Go to the %1$s to start working with %2$s."
@@ -2849,15 +2919,6 @@ msgstr ""
 msgid "Add a custom link"
 msgstr ""
 
-#: application/view/omeka/site-admin/index/navigation.phtml:51
-#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:10
-msgid "Filter pages"
-msgstr ""
-
-#: application/view/omeka/site-admin/index/navigation.phtml:65
-msgid "There are no available pages."
-msgstr ""
-
 #: application/view/omeka/site-admin/index/resources.phtml:37
 #, php-format
 msgid "There are currently %s items assigned to this site."
@@ -2946,7 +3007,7 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/users.phtml:11
 msgid "Creator"
-msgstr ""
+msgstr "Létrehozó"
 
 #: application/view/omeka/site-admin/index/users.phtml:12
 msgid "Manager"
@@ -2995,10 +3056,6 @@ msgstr ""
 
 #: application/view/omeka/site-admin/page/index.phtml:86
 msgid "Delete page"
-msgstr ""
-
-#: application/view/omeka/site-admin/page/sidebar-pagelist.phtml:8
-msgid "Add to List of pages"
 msgstr ""
 
 #: application/view/omeka/site/index/index.phtml:4
@@ -3064,16 +3121,17 @@ msgid ""
 "version %2$s."
 msgstr ""
 
-#: application/src/DataType/Resource/ItemSet.php:13
+#: application/src/DataType/Resource/ItemSet.php:17
 msgid "Item Set"
 msgstr "Elemkészlet"
 
-#: application/src/DataType/Resource/AbstractResource.php:16
+#: application/src/DataType/Resource/AbstractResource.php:23
 msgid "Resource"
 msgstr ""
 
-#: application/src/DataType/Resource/AbstractResource.php:59
-msgid "A value resource cannot be Media."
+#: application/src/DataType/Resource/AbstractResource.php:77
+#, php-format
+msgid "Invalid value resource %s for type %s"
 msgstr ""
 
 #: application/src/Site/BlockLayout/ItemShowcase.php:13
@@ -3092,37 +3150,37 @@ msgstr ""
 msgid "Table of contents"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:17
+#: application/src/Site/BlockLayout/Asset.php:18
 msgid "Asset"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:34
-#: application/src/Site/BlockLayout/Asset.php:40
+#: application/src/Site/BlockLayout/Asset.php:35
+#: application/src/Site/BlockLayout/Asset.php:41
 msgid "default"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:35
+#: application/src/Site/BlockLayout/Asset.php:36
 msgid "float left"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:36
+#: application/src/Site/BlockLayout/Asset.php:37
 msgid "float right"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:37
-#: application/src/Site/BlockLayout/Asset.php:43
+#: application/src/Site/BlockLayout/Asset.php:38
+#: application/src/Site/BlockLayout/Asset.php:44
 msgid "center"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:41
+#: application/src/Site/BlockLayout/Asset.php:42
 msgid "left"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:42
+#: application/src/Site/BlockLayout/Asset.php:43
 msgid "right"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:48
+#: application/src/Site/BlockLayout/Asset.php:49
 #: application/src/Site/BlockLayout/Media.php:61
 msgid "Alignment"
 msgstr ""
@@ -3341,7 +3399,7 @@ msgstr ""
 
 #: application/src/Permissions/Acl.php:23
 msgid "Editor"
-msgstr ""
+msgstr "Szerkesztő"
 
 #: application/src/Permissions/Acl.php:24
 msgid "Reviewer"
@@ -3355,11 +3413,11 @@ msgstr ""
 msgid "Researcher"
 msgstr ""
 
-#: application/src/Api/Adapter/ItemAdapter.php:103
+#: application/src/Api/Adapter/ItemAdapter.php:108
 msgid "Item sets must be an array"
 msgstr "Az elemkészletnek tömbnek kell lennie."
 
-#: application/src/Api/Adapter/ItemAdapter.php:109
+#: application/src/Api/Adapter/ItemAdapter.php:114
 msgid "Media must be an array"
 msgstr ""
 
@@ -3379,15 +3437,15 @@ msgstr ""
 msgid "The label is already taken."
 msgstr ""
 
-#: application/src/Api/Adapter/MediaAdapter.php:112
+#: application/src/Api/Adapter/MediaAdapter.php:94
 msgid "Media must set an ingester."
 msgstr ""
 
-#: application/src/Api/Adapter/MediaAdapter.php:134
+#: application/src/Api/Adapter/MediaAdapter.php:116
 msgid "Media must set a valid ingester."
 msgstr ""
 
-#: application/src/Api/Adapter/MediaAdapter.php:174
+#: application/src/Api/Adapter/MediaAdapter.php:160
 msgid "Media must belong to an item."
 msgstr "A médiának elemhez kell kapcsolódnia."
 
@@ -3829,7 +3887,7 @@ msgstr ""
 #: application/src/Form/ResourceBatchUpdateForm.php:70
 #: application/src/Form/UserForm.php:147
 msgid "Select a template"
-msgstr ""
+msgstr "Sablon kiválasztása"
 
 #: application/src/Form/ResourceForm.php:34
 msgid "Resource template"
@@ -4239,49 +4297,57 @@ msgid ""
 "Show site pages to which an item is attached on the public item show page."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:268
+#: application/src/Form/SiteSettingsForm.php:257
+msgid "Show value annotations"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:258
+msgid "Show annotations that are set to a value, if any."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:280
 msgid "Search type"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:269
+#: application/src/Form/SiteSettingsForm.php:281
 msgid "Select the type of search the main search field will perform"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:271
+#: application/src/Form/SiteSettingsForm.php:283
 msgid "This site"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:272
+#: application/src/Form/SiteSettingsForm.php:284
 msgid "All sites"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:289
+#: application/src/Form/SiteSettingsForm.php:301
 msgid "Search resources"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:290
+#: application/src/Form/SiteSettingsForm.php:302
 msgid ""
 "Customize which types of resources will be searchable in the main search "
 "field."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:303
+#: application/src/Form/SiteSettingsForm.php:315
 msgid "Templates"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:304
+#: application/src/Form/SiteSettingsForm.php:316
 msgid "Select which templates to apply to the advanced search form."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:309
+#: application/src/Form/SiteSettingsForm.php:321
 msgid "Select templates"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:317
+#: application/src/Form/SiteSettingsForm.php:329
 msgid "Restrict to templates"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:318
+#: application/src/Form/SiteSettingsForm.php:330
 msgid "Restrict search results to resources of the selected templates."
 msgstr ""
 
@@ -4487,27 +4553,27 @@ msgstr ""
 msgid "Site theme successfully updated"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:407
+#: application/src/Controller/SiteAdmin/IndexController.php:403
 msgid "Theme settings successfully updated"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:424
+#: application/src/Controller/SiteAdmin/IndexController.php:420
 msgid "Site successfully deleted"
 msgstr "Honlap sikeresen törölve"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:447
+#: application/src/Controller/SiteAdmin/IndexController.php:443
 msgid "site"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/PageController.php:28
+#: application/src/Controller/SiteAdmin/PageController.php:29
 msgid "Page successfully updated"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/PageController.php:105
+#: application/src/Controller/SiteAdmin/PageController.php:107
 msgid "page"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/PageController.php:122
+#: application/src/Controller/SiteAdmin/PageController.php:124
 msgid "Page successfully deleted"
 msgstr "Oldal sikeresen törölve"
 
@@ -4850,41 +4916,41 @@ msgstr ""
 msgid "Resource template successfully created. %s"
 msgstr ""
 
-#: application/config/module.config.php:626
+#: application/config/module.config.php:636
 msgid "Something went wrong"
 msgstr ""
 
-#: application/config/module.config.php:631
+#: application/config/module.config.php:641
 msgid "You have unsaved changes."
 msgstr ""
 
-#: application/config/module.config.php:632
+#: application/config/module.config.php:642
 msgid "Restore item set"
 msgstr ""
 
-#: application/config/module.config.php:633
+#: application/config/module.config.php:643
 msgid "Close icon set"
 msgstr ""
 
-#: application/config/module.config.php:634
+#: application/config/module.config.php:644
 msgid "Open icon set"
 msgstr ""
 
-#: application/config/module.config.php:636
+#: application/config/module.config.php:646
 msgid "Failed loading resource template from API"
 msgstr ""
 
-#: application/config/module.config.php:637
+#: application/config/module.config.php:647
 msgid "Restore property"
 msgstr ""
 
-#: application/config/module.config.php:639
+#: application/config/module.config.php:649
 msgid "Please enter a valid language tag"
 msgstr ""
 
-#: application/config/module.config.php:641
+#: application/config/module.config.php:651
 msgid "Description"
-msgstr ""
+msgstr "Tartalmi leírás"
 
 #: application/config/navigation.config.php:201
 msgid "Site admin"
@@ -5116,7 +5182,7 @@ msgstr ""
 
 #. Property label for Dublin Core:subject
 msgid "Subject"
-msgstr ""
+msgstr "Téma"
 
 #. Property comment for Dublin Core:subject
 msgid "The topic of the resource."
@@ -5136,7 +5202,7 @@ msgstr ""
 
 #. Property label for Dublin Core:contributor
 msgid "Contributor"
-msgstr ""
+msgstr "Közreműködő"
 
 #. Property comment for Dublin Core:contributor
 msgid "An entity responsible for making contributions to the resource."
@@ -5158,7 +5224,7 @@ msgstr ""
 
 #. Property label for Dublin Core:format
 msgid "Format"
-msgstr ""
+msgstr "Formátum"
 
 #. Property comment for Dublin Core:format
 msgid "The file format, physical medium, or dimensions of the resource."
@@ -5186,7 +5252,7 @@ msgstr ""
 
 #. Property label for Dublin Core:coverage
 msgid "Coverage"
-msgstr ""
+msgstr "Tér-idő vonatkozás"
 
 #. Property comment for Dublin Core:coverage
 msgid ""
@@ -5196,7 +5262,7 @@ msgstr ""
 
 #. Property label for Dublin Core:rights
 msgid "Rights"
-msgstr ""
+msgstr "Jogok"
 
 #. Property comment for Dublin Core:rights
 msgid "Information about rights held in and over the resource."
@@ -5228,7 +5294,7 @@ msgstr ""
 
 #. Property label for Dublin Core:abstract
 msgid "Abstract"
-msgstr ""
+msgstr "Kivonat"
 
 #. Property comment for Dublin Core:abstract
 #. Property comment for Bibliographic Ontology:abstract
@@ -6170,7 +6236,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:affirmedBy
 msgid "affirmedBy"
-msgstr ""
+msgstr "megerősítő döntés"
 
 #. Property comment for Bibliographic Ontology:affirmedBy
 msgid "A legal decision that affirms a ruling."
@@ -6178,7 +6244,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:annotates
 msgid "annotates"
-msgstr ""
+msgstr "annotációja ennek"
 
 #. Property comment for Bibliographic Ontology:annotates
 msgid "Critical or explanatory note for a Document."
@@ -6186,7 +6252,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:authorList
 msgid "list of authors"
-msgstr ""
+msgstr "szerzők listája"
 
 #. Property comment for Bibliographic Ontology:authorList
 msgid ""
@@ -6196,7 +6262,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:citedBy
 msgid "cited by"
-msgstr ""
+msgstr "idéző mű"
 
 #. Property comment for Bibliographic Ontology:citedBy
 msgid ""
@@ -6206,7 +6272,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:cites
 msgid "cites"
-msgstr ""
+msgstr "idézi ezt"
 
 #. Property comment for Bibliographic Ontology:cites
 msgid ""
@@ -6217,7 +6283,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:contributorList
 msgid "list of contributors"
-msgstr ""
+msgstr "közreműködők listája"
 
 #. Property comment for Bibliographic Ontology:contributorList
 msgid ""
@@ -6227,7 +6293,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:court
 msgid "court"
-msgstr ""
+msgstr "bíróság"
 
 #. Property comment for Bibliographic Ontology:court
 msgid ""
@@ -6237,7 +6303,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:degree
 msgid "degree"
-msgstr ""
+msgstr "fokozat"
 
 #. Property comment for Bibliographic Ontology:degree
 msgid "The thesis degree."
@@ -6245,7 +6311,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:director
 msgid "director"
-msgstr ""
+msgstr "rendező"
 
 #. Property comment for Bibliographic Ontology:director
 msgid "A Film director."
@@ -6253,7 +6319,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:distributor
 msgid "distributor"
-msgstr ""
+msgstr "terjesztő"
 
 #. Property comment for Bibliographic Ontology:distributor
 msgid "Distributor of a document or a collection of documents."
@@ -6272,7 +6338,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:editorList
 msgid "list of editors"
-msgstr ""
+msgstr "szerkesztők listája"
 
 #. Property comment for Bibliographic Ontology:editorList
 msgid ""
@@ -6282,7 +6348,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:interviewee
 msgid "interviewee"
-msgstr ""
+msgstr "interúalany"
 
 #. Property comment for Bibliographic Ontology:interviewee
 msgid "An agent that is interviewed by another agent."
@@ -6290,7 +6356,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:interviewer
 msgid "interviewer"
-msgstr ""
+msgstr "interjú készítője"
 
 #. Property comment for Bibliographic Ontology:interviewer
 msgid "An agent that interview another agent."
@@ -6298,7 +6364,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:issuer
 msgid "issuer"
-msgstr ""
+msgstr "kibocsátó"
 
 #. Property comment for Bibliographic Ontology:issuer
 msgid ""
@@ -6308,7 +6374,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:organizer
 msgid "organizer"
-msgstr ""
+msgstr "szervező"
 
 #. Property comment for Bibliographic Ontology:organizer
 msgid ""
@@ -6319,7 +6385,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:owner
 msgid "owner"
-msgstr ""
+msgstr "tulajdonos"
 
 #. Property comment for Bibliographic Ontology:owner
 msgid "Owner of a document or a collection of documents."
@@ -6327,11 +6393,11 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:performer
 msgid "performer"
-msgstr ""
+msgstr "előadó"
 
 #. Property label for Bibliographic Ontology:presentedAt
 msgid "presented at"
-msgstr ""
+msgstr "előadva itt"
 
 #. Property comment for Bibliographic Ontology:presentedAt
 msgid "Relates a document to an event; for example, a paper to a conference."
@@ -6357,7 +6423,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:recipient
 msgid "recipient"
-msgstr ""
+msgstr "címzett"
 
 #. Property comment for Bibliographic Ontology:recipient
 msgid "An agent that receives a communication document."
@@ -6365,7 +6431,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:reproducedIn
 msgid "reproducedIn"
-msgstr ""
+msgstr "újraközölve itt"
 
 #. Property comment for Bibliographic Ontology:reproducedIn
 msgid "The resource in which another resource is reproduced."
@@ -6373,7 +6439,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:reversedBy
 msgid "reversedBy"
-msgstr ""
+msgstr "felülbíráló döntés"
 
 #. Property comment for Bibliographic Ontology:reversedBy
 msgid "A legal decision that reverses a ruling."
@@ -6381,7 +6447,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:reviewOf
 msgid "review of"
-msgstr ""
+msgstr "recenziója ennek"
 
 #. Property comment for Bibliographic Ontology:reviewOf
 msgid "Relates a review document to a reviewed thing (resource, item, etc.)."
@@ -6390,7 +6456,7 @@ msgstr ""
 #. Property label for Bibliographic Ontology:status
 #. Property label for Friend of a Friend:status
 msgid "status"
-msgstr ""
+msgstr "állapot"
 
 #. Property comment for Bibliographic Ontology:status
 msgid "The publication status of (typically academic) content."
@@ -6408,7 +6474,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:transcriptOf
 msgid "transcript of"
-msgstr ""
+msgstr "leirata ennek"
 
 #. Property comment for Bibliographic Ontology:transcriptOf
 msgid "Relates a document to some transcribed original."
@@ -6416,7 +6482,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:translationOf
 msgid "translation of"
-msgstr ""
+msgstr "fordítása ennek"
 
 #. Property comment for Bibliographic Ontology:translationOf
 msgid "Relates a translated document to the original document."
@@ -6424,7 +6490,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:translator
 msgid "translator"
-msgstr ""
+msgstr "fordító"
 
 #. Property comment for Bibliographic Ontology:translator
 msgid "A person who translates written document from one language to another."
@@ -6432,11 +6498,11 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:abstract
 msgid "abstract"
-msgstr ""
+msgstr "kivonat"
 
 #. Property label for Bibliographic Ontology:argued
 msgid "date argued"
-msgstr ""
+msgstr "tárgyalás dátuma"
 
 #. Property comment for Bibliographic Ontology:argued
 msgid ""
@@ -6450,7 +6516,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:chapter
 msgid "chapter"
-msgstr ""
+msgstr "fejezet"
 
 #. Property comment for Bibliographic Ontology:chapter
 msgid "An chapter number"
@@ -6462,7 +6528,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:content
 msgid "content"
-msgstr ""
+msgstr "tartalom"
 
 #. Property comment for Bibliographic Ontology:content
 msgid ""
@@ -6481,7 +6547,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:edition
 msgid "edition"
-msgstr ""
+msgstr "kiadás"
 
 #. Property comment for Bibliographic Ontology:edition
 msgid ""
@@ -6503,7 +6569,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:identifier
 msgid "identifier"
-msgstr ""
+msgstr "azonosító"
 
 #. Property label for Bibliographic Ontology:isbn
 msgid "isbn"
@@ -6523,7 +6589,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:issue
 msgid "issue"
-msgstr ""
+msgstr "szám"
 
 #. Property comment for Bibliographic Ontology:issue
 msgid "An issue number"
@@ -6545,7 +6611,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:numPages
 msgid "number of pages"
-msgstr ""
+msgstr "oldalak száma"
 
 #. Property comment for Bibliographic Ontology:numPages
 msgid "The number of pages contained in a document"
@@ -6553,7 +6619,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:numVolumes
 msgid "number of volumes"
-msgstr ""
+msgstr "kötetek száma"
 
 #. Property comment for Bibliographic Ontology:numVolumes
 msgid ""
@@ -6563,7 +6629,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:number
 msgid "number"
-msgstr ""
+msgstr "egyéb szám"
 
 #. Property comment for Bibliographic Ontology:number
 msgid ""
@@ -6576,7 +6642,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:pageEnd
 msgid "page end"
-msgstr ""
+msgstr "utolsó oldal"
 
 #. Property comment for Bibliographic Ontology:pageEnd
 msgid "Ending page number within a continuous page range."
@@ -6584,7 +6650,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:pageStart
 msgid "page start"
-msgstr ""
+msgstr "első oldal"
 
 #. Property comment for Bibliographic Ontology:pageStart
 msgid "Starting page number within a continuous page range."
@@ -6592,7 +6658,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:pages
 msgid "pages"
-msgstr ""
+msgstr "oldal"
 
 #. Property comment for Bibliographic Ontology:pages
 msgid ""
@@ -6607,7 +6673,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:prefixName
 msgid "prefix name"
-msgstr ""
+msgstr "név előtag"
 
 #. Property comment for Bibliographic Ontology:prefixName
 msgid "The prefix of a name"
@@ -6615,7 +6681,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:section
 msgid "section"
-msgstr ""
+msgstr "rovat"
 
 #. Property comment for Bibliographic Ontology:section
 msgid "A section number"
@@ -6623,11 +6689,11 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:shortDescription
 msgid "shortDescription"
-msgstr ""
+msgstr "rövid leírás"
 
 #. Property label for Bibliographic Ontology:shortTitle
 msgid "short title"
-msgstr ""
+msgstr "rövid cím"
 
 #. Property comment for Bibliographic Ontology:shortTitle
 msgid "The abbreviation of a title."
@@ -6639,7 +6705,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:suffixName
 msgid "suffix name"
-msgstr ""
+msgstr "név utótag"
 
 #. Property comment for Bibliographic Ontology:suffixName
 msgid "The suffix of a name"
@@ -6659,7 +6725,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:volume
 msgid "volume"
-msgstr ""
+msgstr "évfolyam"
 
 #. Property comment for Bibliographic Ontology:volume
 msgid "A volume number"

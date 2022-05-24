@@ -10,6 +10,10 @@ $escape = $this->plugin('escapeHtml');
     <?php endif; ?>
     <div class="o-description"><?php echo $escape($resource->displayDescription()); ?></div>
     <div class="meta-group">
+        <h4><?php echo $translate('ID'); ?></h4>
+        <div class="value"><?php echo $escape($resource->id()); ?></div>
+    </div>
+    <div class="meta-group">
         <h4><?php echo $escape($translate('Visibility')); ?></h4>
         <div class="value"><?php echo ($resource->isPublic()) ? $translate('Public') : $translate('Private'); ?></div>
     </div>

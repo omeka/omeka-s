@@ -33,7 +33,7 @@ class Gd extends AbstractThumbnailer
     protected $icc;
 
     /**
-     * Check whether the GD entension is loaded.
+     * Check whether the GD extension is loaded.
      *
      * @throws Exception\InvalidThumbnailer
      */
@@ -164,7 +164,7 @@ class Gd extends AbstractThumbnailer
      */
     public function createSquare($constraint, array $options)
     {
-        $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
+        $gravity = $options['gravity'] ?? 'center';
 
         // Original is landscape
         if ($this->origWidth > $this->origHeight) {

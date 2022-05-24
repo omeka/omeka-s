@@ -15,6 +15,7 @@ class PageController extends AbstractActionController
             'slug' => $this->params('page-slug'),
             'site' => $site->id(),
         ])->getContent();
+        $sitePages = $site->pages();
 
         $form = $this->getForm(SitePageForm::class);
         $form->setData($page->jsonSerialize());
@@ -37,6 +38,7 @@ class PageController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('site', $site);
+        $view->setVariable('sitePages', $sitePages);
         $view->setVariable('page', $page);
         $view->setVariable('form', $form);
         return $view;
@@ -169,23 +171,6 @@ class PageController extends AbstractActionController
         $view->setVariable('attachedItem', $attachedItem);
         $view->setVariable('attachedMedia', $attachedMedia);
         $view->setVariable('site', $this->currentSite());
-        return $view;
-    }
-
-    public function sidebarPagelistAction()
-    {
-        $nodes = $this->params()->fromQuery('current_nodes');
-        $pageNames = [];
-        if ($nodes) {
-            foreach ($nodes as $node) {
-                $pageNames[] = $node['text'];
-            }
-        }
-
-        $view = new ViewModel;
-        $view->setTerminal(true);
-        $view->setVariable('site', $this->currentSite());
-        $view->setVariable('currentPageNames', $pageNames);
         return $view;
     }
 }

@@ -200,7 +200,7 @@ class ItemController extends AbstractActionController
             $data = $this->params()->fromPost();
             $data = $this->mergeValuesJson($data);
             // Prevent the API from setting sites automatically if no sites are set.
-            $data['o:site'] = $data['o:site'] ?? [];
+            $data['o:site'] ??= [];
             $form->setData($data);
             if ($form->isValid()) {
                 $fileData = $this->getRequest()->getFiles()->toArray();
@@ -339,9 +339,9 @@ class ItemController extends AbstractActionController
                 $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'items',
                     'query' => $query,
-                    'data' => isset($data['replace']) ? $data['replace'] : [],
-                    'data_remove' => isset($data['remove']) ? $data['remove'] : [],
-                    'data_append' => isset($data['append']) ? $data['append'] : [],
+                    'data' => $data['replace'] ?? [],
+                    'data_remove' => $data['remove'] ?? [],
+                    'data_append' => $data['append'] ?? [],
                 ]);
 
                 $this->messenger()->addSuccess('Editing items. This may take a while.'); // @translate

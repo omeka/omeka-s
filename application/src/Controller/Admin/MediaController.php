@@ -277,9 +277,9 @@ class MediaController extends AbstractActionController
                 $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'media',
                     'query' => $query,
-                    'data' => isset($data['replace']) ? $data['replace'] : [],
-                    'data_remove' => isset($data['remove']) ? $data['remove'] : [],
-                    'data_append' => isset($data['append']) ? $data['append'] : [],
+                    'data' => $data['replace'] ?? [],
+                    'data_remove' => $data['remove'] ?? [],
+                    'data_append' => $data['append'] ?? [],
                 ]);
 
                 $this->messenger()->addSuccess('Editing media. This may take a while.'); // @translate

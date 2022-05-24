@@ -419,7 +419,6 @@ body {
             padding: (.5 * $spacing-small);
         }
 
-        .chosen-container-multi .chosen-choices li.search-field input[type="search"],
         .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
             font-family: "Lato", sans-serif;
             margin: 0;
@@ -460,7 +459,6 @@ body {
             content: "";
         }
 
-        .chosen-container-multi .chosen-choices li.search-field input[type="search"],
         .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
             min-height: 0;
             margin: 3px;
@@ -492,7 +490,6 @@ body {
             content: fa-content($fa-var-caret-up);
         }
 
-        .chosen-container-single .chosen-search input[type="search"],
         .chosen-container-single .chosen-search input[type="text"] {
             background: none !important;
         }

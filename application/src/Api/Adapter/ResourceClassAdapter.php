@@ -129,7 +129,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             );
         }
         //limit results to classes used by resources
-        if (isset($query['used']) && $query['used']) {
+        if (!empty($query['used'])) {
             $valuesAlias = $this->createAlias();
             $qb->innerJoin(
                 'omeka_root.resources',

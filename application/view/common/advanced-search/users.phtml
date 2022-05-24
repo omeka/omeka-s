@@ -25,7 +25,13 @@ $sitePermissionSiteId = isset($query['site_permission_site_id']) ? $query['site_
         <label for="name"><?php echo $translate('Search by name'); ?></label>
     </div>
     <div class="inputs">
-        <input name="name" value="" type="text">
+        <div class="value">
+            <select name="operator">
+                <option value="like"><?php echo $translate('contains'); ?></option>
+                <option value="eq"><?php echo $translate('is exactly'); ?></option>
+            </select>
+            <input name="name" value="" type="text">
+        </div>
     </div>
 </div>
 <div class="field">

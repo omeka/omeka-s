@@ -79,10 +79,20 @@ class UserAdapter extends AbstractEntityAdapter
         }
 
         if (!empty($query['name'])) {
-            $qb->andWhere($qb->expr()->eq(
-                "omeka_root.name",
-                $this->createNamedParameter($qb, $query['name']))
-            );
+            if ($query['operator'] === 'like') {
+                $qb->andWhere($qb->expr()->like(
+                    "omeka_root.name",
+                    $this->createNamedParameter($qb, '%' . $query['name'] . '%')
+                    )
+                );
+            } else {
+                $qb->andWhere(
+                    $qb->expr()->eq(
+                    "omeka_root.name",
+                    $this->createNamedParameter($qb, $query['name'])
+                )
+                );
+            }
         }
 
         if (!empty($query['role'])) {

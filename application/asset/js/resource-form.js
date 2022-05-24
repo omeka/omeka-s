@@ -265,7 +265,8 @@
             var valueObj = $('.resource-details').data('resource-values');
             var value = $('.selecting-resource');
             if (value.hasClass('value')) {
-                $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
+                var dataType = value.data('data-type');
+                $(document).trigger('o:prepare-value', [dataType, value, valueObj]);
             } else if (value.hasClass('value-annotation')) {
                 const dataTypeName = value.find('input.data_type').val();
                 valueObj.type = dataTypeName;
@@ -288,15 +289,16 @@
         $('#select-resource').on('o:resources-selected', '.select-resources-button', function(e) {
             var value = $('.selecting-resource');
             if (value.hasClass('value')) {
+                var dataType = value.data('data-type');
                 var field = value.closest('.resource-values.field');
                 $('#item-results').find('.resource')
                     .has('input.select-resource-checkbox:checked').each(function(index) {
                         if (0 < index) {
-                            value = makeNewValue(field.data('property-term'), 'resource');
+                            value = makeNewValue(field.data('property-term'), dataType);
                             field.find('.values').append(value);
                         }
                         var valueObj = $(this).data('resource-values');
-                        $(document).trigger('o:prepare-value', ['resource', value, valueObj]);
+                        $(document).trigger('o:prepare-value', [dataType, value, valueObj]);
                     });
             } else if (value.hasClass('value-annotation')) {
                 const dataTypeName = value.find('input.data_type').val();

@@ -73,7 +73,7 @@ class Value implements ColumnTypeInterface
 
     public function renderHeader(PhpRenderer $view, array $data) : string
     {
-        if (!isset($data['property_term'])) {
+        if (!isset($data['property_term']) || '' === trim($data['property_term'])) {
             return $this->getLabel();
         }
         $response = $this->api->search('properties', ['term' => $data['property_term']])->getContent();

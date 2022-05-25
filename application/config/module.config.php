@@ -866,5 +866,6 @@ return [
         'Title', // @translate
         'Description', // @translate
         'Unknown block layout', // @translate
+        'Required field must be completed', // @translate
     ],
 ];

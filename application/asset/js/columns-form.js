@@ -124,12 +124,21 @@ $(document).on('click', '#columns-column-set-button', function(e) {
     const columnForm = $('#columns-column-form');
     const formElement = selectedColumn.closest('.columns-form-element');
     const columnData = selectedColumn.data('columnData');
+    let requiredFieldIncomplete = false;
     // Note that we set the value of the input's "data-column-data-key" attribute
     // as the columnData key and the input's value as its value.
     columnForm.find(':input[data-column-data-key]').each(function() {
         const thisInput = $(this);
+        if (thisInput.prop('required') && '' === thisInput.val()) {
+            alert(Omeka.jsTranslate('Required field must be completed'));
+            requiredFieldIncomplete = true;
+            return false;
+        }
         columnData[thisInput.data('columnDataKey')] = thisInput.val();
     });
+    if (requiredFieldIncomplete) {
+        return;
+    }
     selectedColumn.data(columnData);
     $.get(formElement.data('columnRowUrl'), {
         'resource_type': formElement.data('resourceType'),

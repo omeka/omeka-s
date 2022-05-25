@@ -272,7 +272,6 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
-
         $resourceNames = [
             'site_pages' => 'Site pages', // @translate
             'items' => 'Items', // @translate

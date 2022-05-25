@@ -189,7 +189,7 @@ class UserForm extends Form
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',
-                'label' => 'Item columns', // @translate
+                'label' => 'Item browse columns', // @translate
                 'columns_context' => 'admin',
                 'columns_resource_type' => 'items',
                 'columns_user_id' => $userId,
@@ -200,7 +200,7 @@ class UserForm extends Form
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',
-                'label' => 'Item set columns', // @translate
+                'label' => 'Item set browse columns', // @translate
                 'columns_context' => 'admin',
                 'columns_resource_type' => 'item_sets',
                 'columns_user_id' => $userId,
@@ -211,7 +211,7 @@ class UserForm extends Form
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',
-                'label' => 'Media columns', // @translate
+                'label' => 'Media browse columns', // @translate
                 'columns_context' => 'admin',
                 'columns_resource_type' => 'media',
                 'columns_user_id' => $userId,
@@ -222,7 +222,7 @@ class UserForm extends Form
             'type' => Columns::class,
             'options' => [
                 'element_group' => 'columns',
-                'label' => 'Site columns', // @translate
+                'label' => 'Site browse columns', // @translate
                 'columns_context' => 'admin',
                 'columns_resource_type' => 'sites',
                 'columns_user_id' => $userId,

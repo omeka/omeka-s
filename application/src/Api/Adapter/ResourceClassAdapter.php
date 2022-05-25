@@ -140,18 +140,21 @@ class ResourceClassAdapter extends AbstractEntityAdapter
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
             $siteAlias = $this->createAlias();
             $itemAlias = $this->createAlias();
-            $valuesAlias = $this->createAlias();
-            $qb->innerJoin(
-                'omeka_root.resources',
-                $valuesAlias
-            );
-            $qb->join('Omeka\Entity\Site', $siteAlias);
-            $qb->join(
-                "$siteAlias.items",
-                $itemAlias,
-                'WITH',
-                "$itemAlias.id = $valuesAlias.id"
-            );
+            $resourcesAlias = $this->createAlias();
+            $subquery = $this->getEntityManager()
+                ->createQueryBuilder()
+                ->select("IDENTITY($resourcesAlias.resourceClass)")
+                ->from('Omeka\Entity\Resource', $resourcesAlias)
+                ->join('Omeka\Entity\Site', $siteAlias)
+                ->join(
+                    "$siteAlias.items",
+                    $itemAlias,
+                    'WITH',
+                    "$itemAlias.id = $resourcesAlias.id"
+                )
+                ->andWhere($qb->expr()->eq("$siteAlias.id",
+                    $this->createNamedParameter($qb, $query['site_id'])));
+            $qb->andWhere($qb->expr()->in('omeka_root.id', $subquery->getDQL()));
         }
     }
 

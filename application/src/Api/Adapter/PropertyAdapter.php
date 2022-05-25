@@ -150,16 +150,19 @@ class PropertyAdapter extends AbstractEntityAdapter
             $siteAlias = $this->createAlias();
             $itemAlias = $this->createAlias();
             $valuesAlias = $this->createAlias();
-            $qb->innerJoin('omeka_root.values', $valuesAlias);
-            $qb->join('Omeka\Entity\Site', $siteAlias);
-            $qb->join(
-                "$siteAlias.items",
-                $itemAlias,
-                'WITH',
-                "$itemAlias.id = $valuesAlias.resource"
-            );
-            $qb->andWhere("$siteAlias.id = :site_id");
-            $qb->setParameter('site_id', $query['site_id']);
+            $subquery = $this->getEntityManager()
+                ->createQueryBuilder()
+                ->select("IDENTITY($valuesAlias.property)")
+                ->from('Omeka\Entity\Value', $valuesAlias)
+                ->join('Omeka\Entity\Site', $siteAlias)
+                ->join(
+                    "$siteAlias.items",
+                    $itemAlias,
+                    'WITH',
+                    "$itemAlias.id = $valuesAlias.resource")
+                ->andWhere($qb->expr()->eq("$siteAlias.id",
+                    $this->createNamedParameter($qb, $query['site_id'])));
+            $qb->andWhere($qb->expr()->in('omeka_root.id', $subquery->getDQL()));
         }
     }
 

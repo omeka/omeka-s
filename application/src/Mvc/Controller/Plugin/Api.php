@@ -77,6 +77,9 @@ class Api extends AbstractPlugin
     public function searchOne($resource, $data = [], array $options = [])
     {
         $data['limit'] = 1;
+        if (!isset($options['skipCount'])) {
+            $options['skipCount'] = true;
+        }
         $response = $this->search($resource, $data, $options);
         $content = $response->getContent();
         $content = is_array($content) && count($content) ? reset($content) : null;

@@ -21,7 +21,7 @@ class ItemSetSelector extends AbstractHelper
         if (!$includeClosedSets) {
             $query['is_open'] = true;
         }
-        $response = $this->getView()->api()->search('item_sets', $query);
+        $response = $this->getView()->api()->search('item_sets', $query, ['skipCount' => true]);
 
         // Organize items sets by owner.
         $itemSetOwners = [];

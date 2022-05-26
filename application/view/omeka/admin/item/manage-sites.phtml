@@ -2,11 +2,11 @@
 if ($item) {
     $siteRepresentations = $item->sites();
 } else {
-    $siteRepresentations = $this->api()->search('sites', ['assign_new_items' => true])->getContent();
+    $siteRepresentations = $this->api()->search('sites', ['assign_new_items' => true], ['skipCount' => true])->getContent();
 
     $userDefaultSites = $this->userSetting('default_item_sites');
     if (is_array($userDefaultSites)) {
-        $userDefaultSiteRepresentations = $this->api()->search('sites', ['id' => $userDefaultSites])->getContent();
+        $userDefaultSiteRepresentations = $this->api()->search('sites', ['id' => $userDefaultSites], ['skipCount' => true])->getContent();
         $siteRepresentations = array_merge($siteRepresentations, $userDefaultSiteRepresentations);
     }
 }

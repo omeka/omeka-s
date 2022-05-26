@@ -17,7 +17,7 @@ class UserSelector extends AbstractHelper
      */
     public function __invoke($title = null, $alwaysOpen = true)
     {
-        $users = $this->getView()->api()->search('users', ['sort_by' => 'name'])->getContent();
+        $users = $this->getView()->api()->search('users', ['sort_by' => 'name'], ['skipCount' => true])->getContent();
 
         $usersByInitial = [];
         foreach ($users as $user) {

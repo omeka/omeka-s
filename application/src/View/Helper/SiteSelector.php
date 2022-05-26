@@ -8,7 +8,7 @@ class SiteSelector extends AbstractHelper
     public function __invoke()
     {
         $view = $this->getView();
-        $sites = $view->api()->search('sites', ['sort_by' => 'title'])->getContent();
+        $sites = $view->api()->search('sites', ['sort_by' => 'title'], ['skipCount' => true])->getContent();
         $sitesByOwner = [];
         $totalCount = 0;
         foreach ($sites as $site) {

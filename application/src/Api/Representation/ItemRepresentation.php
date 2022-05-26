@@ -105,7 +105,7 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
     {
         return $this->getServiceLocator()
             ->get('Omeka\ApiManager')
-            ->search('site_pages', ['site_id' => $siteId, 'item_id' => $this->id()])
+            ->search('site_pages', ['site_id' => $siteId, 'item_id' => $this->id()], ['skipCount' => true])
             ->getContent();
     }
 }

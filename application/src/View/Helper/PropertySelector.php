@@ -27,7 +27,7 @@ class PropertySelector extends AbstractHelper
             return $this->selectorMarkup;
         }
 
-        $vocabResponse = $this->getView()->api()->search('vocabularies');
+        $vocabResponse = $this->getView()->api()->search('vocabularies', [], ['skipCount' => true]);
         $propResponse = $this->getView()->api()->search('properties', ['limit' => 0]);
 
         return $this->getView()->partial(

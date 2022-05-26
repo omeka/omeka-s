@@ -50,7 +50,7 @@ abstract class AbstractGroupByOwnerSelect extends Select
             $query = [];
         }
 
-        $response = $this->getApiManager()->search($this->getResourceName(), $query);
+        $response = $this->getApiManager()->search($this->getResourceName(), $query, ['skipCount' => true]);
 
         if ($this->getOption('disable_group_by_owner')) {
             // Group alphabetically by resource label without grouping by owner.

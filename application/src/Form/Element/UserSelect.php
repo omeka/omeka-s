@@ -29,7 +29,7 @@ class UserSelect extends Select
 
     public function getValueOptions(): array
     {
-        $users = $this->getApiManager()->search('users', ['sort_by' => 'name'])->getContent();
+        $users = $this->getApiManager()->search('users', ['sort_by' => 'name'], ['skipCount' => true])->getContent();
         $valueOptions = [];
         foreach ($users as $user) {
             $valueOptions[$user->id()] = sprintf('%s (%s)', $user->name(), $user->email());

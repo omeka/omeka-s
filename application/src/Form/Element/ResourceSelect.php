@@ -50,7 +50,7 @@ class ResourceSelect extends Select
     public function setResourceValueOptions($resource, callable $callback, array $query = [])
     {
         $valueOptions = [];
-        $response = $this->getApiManager()->search($resource, $query);
+        $response = $this->getApiManager()->search($resource, $query, ['skipCount' => true]);
         foreach ($response->getContent() as $representation) {
             $value = $callback($representation);
             if (is_array($value)) {

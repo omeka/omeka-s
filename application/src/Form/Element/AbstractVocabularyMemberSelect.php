@@ -61,7 +61,7 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
         $query = $args['query'];
 
         $valueOptions = [];
-        $response = $this->getApiManager()->search($resourceName, $query);
+        $response = $this->getApiManager()->search($resourceName, $query, ['skipCount' => true]);
         $termAsValue = $this->getOption('term_as_value');
         foreach ($response->getContent() as $member) {
             $attributes = ['data-term' => $member->term()];

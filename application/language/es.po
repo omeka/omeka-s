@@ -152,7 +152,7 @@ msgstr "No instalado"
 #: application/src/Controller/Admin/ModuleController.php:73
 #: application/src/Controller/Admin/ModuleController.php:80
 msgid "Needs upgrade"
-msgstr "Es necesaria una actualización"
+msgstr "Actualización pendiente"
 
 #: application/src/Controller/Admin/ModuleController.php:74
 msgid "Error"

@@ -2087,7 +2087,7 @@ msgstr "Itxita gehiketak egiteko"
 #: application/view/omeka/admin/item/show.phtml:12
 #: application/view/omeka/admin/media/show.phtml:7
 msgid "Metadata"
-msgstr ""
+msgstr "Metadatua"
 
 #: application/view/omeka/admin/item-set/show.phtml:22
 #: application/view/omeka/admin/item/show.phtml:13
@@ -2393,7 +2393,7 @@ msgstr "Jatorria"
 
 #: application/view/omeka/admin/media/show.phtml:72
 msgid "File Derivatives"
-msgstr ""
+msgstr "Fitxategi Deribatuak"
 
 #: application/view/omeka/admin/media/show.phtml:74
 msgid "original"
@@ -2765,7 +2765,7 @@ msgstr "Erakusteko izena"
 #: application/view/omeka/admin/vocabulary/browse.phtml:11
 #: application/view/omeka/admin/vocabulary/browse.phtml:45
 msgid "Prefix"
-msgstr ""
+msgstr "Aurrizkia"
 
 #: application/view/omeka/admin/vocabulary/browse.phtml:15
 #: application/view/omeka/admin/vocabulary/browse.phtml:46
@@ -2795,7 +2795,7 @@ msgstr "Omekak ez du hiztegirik aurkitu."
 #: application/view/omeka/admin/vocabulary/classes.phtml:24
 #: application/view/omeka/admin/vocabulary/properties.phtml:10
 msgid "Prefix:"
-msgstr ""
+msgstr "Aurrizkia:"
 
 #: application/view/omeka/admin/vocabulary/classes.phtml:25
 #: application/view/omeka/admin/vocabulary/properties.phtml:11
@@ -2838,7 +2838,7 @@ msgstr ""
 
 #: application/view/omeka/api/root.phtml:12
 msgid "Omeka S REST API documentation"
-msgstr ""
+msgstr "Omeka S REST API dokumentazioa"
 
 #: application/view/omeka/index/index.phtml:32
 #, php-format
@@ -2896,12 +2896,15 @@ msgid ""
 "The entire site will be down for maintenance until you click the button "
 "below."
 msgstr ""
+"Software bertsio-berritze berri bat dago eta datu basea eguneratu behar da. "
+"Atari osoa mantenu-lanetarako geldituko da beheko botoia sakatu arte."
 
 #: application/view/omeka/migrate/index.phtml:10
 msgid ""
 "There are environment errors that must be resolved before you can update the"
 " database."
 msgstr ""
+"Datu basea eguneratu aurretik zuzendu beharreko ingurune erroreak daude"
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 msgid "New page"
@@ -2939,7 +2942,7 @@ msgstr "Ezarpenak"
 #: application/view/omeka/site-admin/index/show.phtml:20
 #: application/view/omeka/site-admin/page/index.phtml:19
 msgid "URL slug"
-msgstr ""
+msgstr "URL gakoa"
 
 #: application/view/omeka/site-admin/index/index.phtml:25
 msgid "Add new site"
@@ -3053,15 +3056,15 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/users.phtml:10
 msgid "Viewer"
-msgstr ""
+msgstr "Ikuslea"
 
 #: application/view/omeka/site-admin/index/users.phtml:11
 msgid "Creator"
-msgstr ""
+msgstr "Sortzailea"
 
 #: application/view/omeka/site-admin/index/users.phtml:12
 msgid "Manager"
-msgstr ""
+msgstr "Kudeatzailea"
 
 #: application/view/omeka/site-admin/index/users.phtml:41
 msgid "User permissions"
@@ -3098,11 +3101,11 @@ msgstr "Gehitu orri berria"
 
 #: application/view/omeka/site-admin/page/index.phtml:49
 msgid "Slug"
-msgstr ""
+msgstr "Gakoa"
 
 #: application/view/omeka/site-admin/page/index.phtml:74
 msgid "View public page"
-msgstr ""
+msgstr "Ikusi orri publikoa"
 
 #: application/view/omeka/site-admin/page/index.phtml:86
 msgid "Delete page"
@@ -3123,7 +3126,7 @@ msgstr "Elementua"
 #: application/view/omeka/site/media/show.phtml:11
 #, php-format
 msgid "Part of %s"
-msgstr ""
+msgstr "%s en parte da"
 
 #: application/view/omeka/site/page/browse.phtml:18
 msgid "No pages found"
@@ -3144,6 +3147,8 @@ msgid ""
 "You must upgrade Omeka S to at least version 1.0.0 before upgrading to "
 "version %1$s. You are currently on version %2$s."
 msgstr ""
+"Omeka S 1.0.0 bertsiora eguneratu behar duzu gutxienez %1$s bertsiorai "
+"eguneratu aurretik. Une honetan %2$s bertsioan zaude."
 
 #: application/src/Stdlib/Environment.php:67
 #, php-format
@@ -3151,11 +3156,13 @@ msgid ""
 "The installed PHP version (%1$s) is too low. Omeka requires at least version"
 " %2$s."
 msgstr ""
+"Instalatutako PHP bertsioa (%1$s) zaharregia da. Omekak %2$s behar du "
+"gutxienez."
 
 #: application/src/Stdlib/Environment.php:75
 #, php-format
 msgid "Omeka requires the PHP extension %s, but it is not loaded."
-msgstr ""
+msgstr "Omekak %s PHP luzapena behar du, baina ez da kargatu."
 
 #: application/src/Stdlib/Environment.php:94
 #, php-format
@@ -3163,6 +3170,8 @@ msgid ""
 "The installed MySQL version (%1$s) is too low. Omeka requires at least "
 "version %2$s."
 msgstr ""
+"Instalatutako MySQL bertsioa (%1$s) zaharregia da. Omekak %2$s bertsioa "
+"behar du gutxienez."
 
 #: application/src/Stdlib/Environment.php:102
 #, php-format
@@ -3170,6 +3179,8 @@ msgid ""
 "The installed MariaDB version (%1$s) is too low. Omeka requires at least "
 "version %2$s."
 msgstr ""
+"Instalatutako MariaDB bertsioa (%1$s) zaharregia da. Omekak %2$s bertsioa "
+"behar du gutxienez."
 
 #: application/src/DataType/Resource/ItemSet.php:17
 msgid "Item Set"
@@ -3182,7 +3193,7 @@ msgstr "Baliabidea"
 #: application/src/DataType/Resource/AbstractResource.php:77
 #, php-format
 msgid "Invalid value resource %s for type %s"
-msgstr ""
+msgstr "Baliabidearen %s balio desegokia %s motarentzat"
 
 #: application/src/Site/BlockLayout/ItemShowcase.php:13
 msgid "Item showcase"
@@ -3211,11 +3222,11 @@ msgstr "defektuz"
 
 #: application/src/Site/BlockLayout/Asset.php:36
 msgid "float left"
-msgstr ""
+msgstr "flotatu ezkerrera"
 
 #: application/src/Site/BlockLayout/Asset.php:37
 msgid "float right"
-msgstr ""
+msgstr "flotatu eskuinera"
 
 #: application/src/Site/BlockLayout/Asset.php:38
 #: application/src/Site/BlockLayout/Asset.php:44
@@ -3253,7 +3264,7 @@ msgstr "Muga"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:73
 msgid "Maximum number of resources to display in the preview."
-msgstr ""
+msgstr "Aurrebistan erakutsiko den gehienezko baliabide kopurua."
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:80
 msgid "Components"
@@ -3307,7 +3318,7 @@ msgstr "Gardena"
 
 #: application/src/Site/BlockLayout/LineBreak.php:35
 msgid "Opaque"
-msgstr ""
+msgstr "Opakua"
 
 #: application/src/Site/BlockLayout/ListOfSites.php:24
 msgid "List of sites"
@@ -3370,11 +3381,11 @@ msgstr ""
 #: application/src/Site/BlockLayout/Fallback.php:28
 #, php-format
 msgid "Unknown [%s]"
-msgstr ""
+msgstr "Ezezaguna [%s]"
 
 #: application/src/Site/Navigation/Link/Url.php:11
 msgid "Custom URL"
-msgstr ""
+msgstr "Helbide pertsonalizatua"
 
 #: application/src/Site/Navigation/Link/BrowseItemSets.php:11
 msgid "Browse item sets"
@@ -3382,11 +3393,11 @@ msgstr "Arakatu elementu multzoak"
 
 #: application/src/File/ThumbnailManager.php:102
 msgid "Missing thumbnail configuration."
-msgstr ""
+msgstr "Koadro txikien konfigurazioa ez dago."
 
 #: application/src/File/ThumbnailManager.php:106
 msgid "Missing thumbnail types configuration."
-msgstr ""
+msgstr "Koadro txiki moten konfigurazioa ez dago."
 
 #: application/src/File/ThumbnailManager.php:109
 msgid "Missing the large, medium, or square thumbnail type configuration."
@@ -3415,17 +3426,19 @@ msgstr ""
 #: application/src/File/Downloader.php:71
 #, php-format
 msgid "Error downloading %1$s: %2$s"
-msgstr ""
+msgstr "Arazoa %1$s jeistean: %2$s"
 
 #: application/src/File/Downloader.php:83
 #, php-format
 msgid "Error downloading %1$s: %2$s %3$s"
-msgstr ""
+msgstr "Arazoa %1$s jeisten: %2$s %3$s"
 
 #: application/src/File/Validator.php:65
 #, php-format
 msgid "Error validating \"%1$s\". Cannot store files with the media type \"%2$s\"."
 msgstr ""
+"Arazoa \"%1$s\" egiaztatzen. Ezin dira gorde fitxategiak \"%2$s\" multimedia"
+" motarekin."
 
 #: application/src/File/Validator.php:78
 #, php-format
@@ -3433,59 +3446,61 @@ msgid ""
 "Error validating \"%1$s\". Cannot store files with the resolved extension "
 "\"%2$s\"."
 msgstr ""
+"Arazoa \"%1$s egiaztatzen. Ezin dira gorde \"%2$s\" luzapena duten "
+"fitxategiak."
 
 #: application/src/Mvc/MvcListeners.php:326
 #, php-format
 msgid "The current theme is not active. Its current state is \"%s\"."
-msgstr ""
+msgstr "Uneko gaia ez dago aktibo. Bere uneko egoera \"%s\" da."
 
 #: application/src/Permissions/Acl.php:21
 msgid "Global Administrator"
-msgstr ""
+msgstr "Administratzaile Orokorra"
 
 #: application/src/Permissions/Acl.php:22
 msgid "Supervisor"
-msgstr ""
+msgstr "Begiralea"
 
 #: application/src/Permissions/Acl.php:23
 msgid "Editor"
-msgstr ""
+msgstr "Editorea"
 
 #: application/src/Permissions/Acl.php:24
 msgid "Reviewer"
-msgstr ""
+msgstr "Berrikuslea"
 
 #: application/src/Permissions/Acl.php:25
 msgid "Author"
-msgstr ""
+msgstr "Egilea"
 
 #: application/src/Permissions/Acl.php:26
 msgid "Researcher"
-msgstr ""
+msgstr "Ikertzailea"
 
 #: application/src/Api/Adapter/ItemAdapter.php:108
 msgid "Item sets must be an array"
-msgstr ""
+msgstr "Elementu multzoak matrizea izan behar dira"
 
 #: application/src/Api/Adapter/ItemAdapter.php:114
 msgid "Media must be an array"
-msgstr ""
+msgstr "Multimedia matrize bat izan behar da"
 
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:75
 #, php-format
 msgid "Attempting to add duplicate property with ID %s"
-msgstr ""
+msgstr "Bikoiztutako propietatea gehitzeko saiakera %s IDarekin"
 
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:89
 #: application/src/Api/Adapter/PropertyAdapter.php:158
 #: application/src/Api/Adapter/ResourceClassAdapter.php:149
 #: application/src/Api/Adapter/VocabularyAdapter.php:214
 msgid "The label cannot be empty."
-msgstr ""
+msgstr "Etiketa ezin da hutsa izan."
 
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:92
 msgid "The label is already taken."
-msgstr ""
+msgstr "Etiketa lehendik erabilita dago."
 
 #: application/src/Api/Adapter/MediaAdapter.php:94
 msgid "Media must set an ingester."
@@ -3497,16 +3512,16 @@ msgstr ""
 
 #: application/src/Api/Adapter/MediaAdapter.php:160
 msgid "Media must belong to an item."
-msgstr ""
+msgstr "Multimedia elementu batena izan behar da."
 
 #: application/src/Api/Adapter/UserAdapter.php:120
 msgid "The name cannot be empty."
-msgstr ""
+msgstr "Izena ezin da hutsik egon."
 
 #: application/src/Api/Adapter/UserAdapter.php:130
 #, php-format
 msgid "The email %s is already taken."
-msgstr ""
+msgstr "%s posta elektroniko helbidea lehendik erabilita dago."
 
 #: application/src/Api/Adapter/UserAdapter.php:136
 msgid "Users must have a role."
@@ -3515,12 +3530,12 @@ msgstr "Erabiltzaileak rol bat izan behar du."
 #: application/src/Api/Adapter/UserAdapter.php:169
 #, php-format
 msgid "The current user #%d was removed from the batch process."
-msgstr ""
+msgstr "Uneko #%d erabiltzailea sorta prozesutik kendu da."
 
 #: application/src/Api/Adapter/PropertyAdapter.php:153
 #: application/src/Api/Adapter/ResourceClassAdapter.php:144
 msgid "The local name cannot be empty."
-msgstr ""
+msgstr "Izen lokala ezin da hutsa izan."
 
 #: application/src/Api/Adapter/PropertyAdapter.php:171
 #: application/src/Api/Adapter/ResourceClassAdapter.php:162
@@ -3528,7 +3543,7 @@ msgstr ""
 #: application/src/Api/Adapter/VocabularyAdapter.php:235
 #, php-format
 msgid "The local name \"%s\" is already taken."
-msgstr ""
+msgstr "\"%s\" izen lokala lehendik erabilita dago."
 
 #: application/src/Api/Adapter/PropertyAdapter.php:177
 #: application/src/Api/Adapter/ResourceClassAdapter.php:168
@@ -3538,7 +3553,7 @@ msgstr "Hiztegia ezarri behar da."
 #: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:177
 #, php-format
 msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
-msgstr ""
+msgstr "\"%1$s\" baliabide txantiloiak \"%2$s\" balioa behar du"
 
 #: application/src/Api/Adapter/SitePageAdapter.php:144
 msgid "A page must belong to a site."
@@ -3551,22 +3566,23 @@ msgstr "Orrialdeak izenburua izan behar du."
 #: application/src/Api/Adapter/SitePageAdapter.php:154
 #: application/src/Api/Adapter/SiteAdapter.php:240
 msgid "The slug cannot be empty."
-msgstr ""
+msgstr "Gakoa ezin da hutsa izan."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:157
 #: application/src/Api/Adapter/SiteAdapter.php:243
 msgid "A slug can only contain letters, numbers, underscores, and hyphens."
 msgstr ""
+"Gakoak letra, zenbaki, azpimarra eta marratxoak bakarrik onartzen ditu."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:165
 #: application/src/Api/Adapter/SiteAdapter.php:247
 #, php-format
 msgid "The slug \"%s\" is already taken."
-msgstr ""
+msgstr "\"%s\" gakoa lehendik erabilita dago."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:209
 msgid "All blocks must have a layout."
-msgstr ""
+msgstr "Zati guztien diseinua izan behar dute."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:213
 msgid "Block data must not be a scalar value."
@@ -3586,7 +3602,7 @@ msgstr ""
 
 #: application/src/Api/Adapter/SiteAdapter.php:263
 msgid "A homepage must belong to its parent site."
-msgstr ""
+msgstr "Hasierako orria atariarena izan behar da."
 
 #: application/src/Api/Adapter/SiteAdapter.php:336
 msgid "Invalid navigation: navigation must be an array"
@@ -3614,11 +3630,11 @@ msgstr ""
 
 #: application/src/Api/Adapter/VocabularyAdapter.php:59
 msgid "Classes must be an array"
-msgstr ""
+msgstr "Klaseak matrize formatua izan behar du"
 
 #: application/src/Api/Adapter/VocabularyAdapter.php:65
 msgid "Properties must be an array"
-msgstr ""
+msgstr "Propietateak matrizea izean behar dute"
 
 #: application/src/Api/Adapter/VocabularyAdapter.php:182
 msgid "The namespace URI cannot be empty."
@@ -3631,17 +3647,17 @@ msgstr ""
 
 #: application/src/Api/Adapter/VocabularyAdapter.php:194
 msgid "The prefix cannot be empty."
-msgstr ""
+msgstr "Aurrizkia ezin da hutsa izan."
 
 #: application/src/Api/Adapter/VocabularyAdapter.php:198
 #, php-format
 msgid "The prefix \"%s\" is already taken."
-msgstr ""
+msgstr "\"%s\" aurrizkia lehendik hartuta dago."
 
 #: application/src/Api/Adapter/VocabularyAdapter.php:205
 #, php-format
 msgid "The prefix \"%s\" is reserved."
-msgstr ""
+msgstr "\"%s\" aurrizkia lehendik erreserbatua dago."
 
 #: application/src/Api/Representation/JobRepresentation.php:12
 msgid "Starting"
@@ -3673,7 +3689,7 @@ msgstr "gelditzen"
 
 #: application/src/Entity/Job.php:25
 msgid "in_progress"
-msgstr ""
+msgstr "lanean"
 
 #: application/src/Entity/Job.php:26
 msgid "completed"
@@ -3709,11 +3725,11 @@ msgstr ""
 
 #: application/src/Media/Ingester/Youtube.php:90
 msgid "Video URL"
-msgstr ""
+msgstr "Bideo esteka"
 
 #: application/src/Media/Ingester/Youtube.php:91
 msgid "URL for the video to embed."
-msgstr ""
+msgstr "Txertatzeko bideoaren esteka"
 
 #: application/src/Media/Ingester/Youtube.php:99
 msgid "Start"
@@ -3724,6 +3740,7 @@ msgid ""
 "Begin playing the video at the given number of seconds from the start of the"
 " video."
 msgstr ""
+"Jarri bideoa martxan hasierako puntutik adierazitako segundu kopuruan."
 
 #: application/src/Media/Ingester/Youtube.php:104
 msgid "End"
@@ -3733,15 +3750,15 @@ msgstr "Gelditu"
 msgid ""
 "End playing the video at the given number of seconds from the start of the "
 "video."
-msgstr ""
+msgstr "Gelditu bideoa hasierako puntutik adierazitako segundu kopuruan."
 
 #: application/src/Media/Ingester/Url.php:80
 msgid "A URL to the media."
-msgstr ""
+msgstr "Multimedia elementurako esteka."
 
 #: application/src/Media/Ingester/Html.php:80
 msgid "HTML or plain text."
-msgstr ""
+msgstr "HTML edo testu arrunta"
 
 #: application/src/Media/Ingester/OEmbed.php:41
 msgid "oEmbed"
@@ -3758,21 +3775,21 @@ msgstr ""
 #: application/src/Form/SettingForm.php:111
 #: application/src/Form/SiteSettingsForm.php:28
 msgid "General"
-msgstr ""
+msgstr "Orokorra"
 
 #: application/src/Form/SettingForm.php:120
 msgid "Administrator email"
-msgstr ""
+msgstr "Administratzailearen posta elektronikoa"
 
 #: application/src/Form/SettingForm.php:133
 #: application/src/Form/InstallationForm.php:80
 msgid "Installation title"
-msgstr ""
+msgstr "Instalazio titulua"
 
 #: application/src/Form/SettingForm.php:148
 #: application/src/Form/InstallationForm.php:98
 msgid "Time zone"
-msgstr ""
+msgstr "Ordu zona"
 
 #: application/src/Form/SettingForm.php:162
 #: application/src/Form/SiteSettingsForm.php:187
@@ -3781,11 +3798,11 @@ msgstr "Emaitzak orriko"
 
 #: application/src/Form/SettingForm.php:163
 msgid "The maximum number of results per page on browse pages."
-msgstr ""
+msgstr "Orrialdeko emaitza kopurua arakatze orrietan."
 
 #: application/src/Form/SettingForm.php:176
 msgid "Property label information"
-msgstr ""
+msgstr "Propietatearen etiketa informazioa"
 
 #: application/src/Form/SettingForm.php:177
 msgid "The additional information that accompanies labels on resource pages."
@@ -3822,7 +3839,7 @@ msgstr ""
 #: application/src/Form/UserForm.php:132
 #: application/src/Form/InstallationForm.php:112
 msgid "Locale"
-msgstr ""
+msgstr "Lokala"
 
 #: application/src/Form/SettingForm.php:212
 #: application/src/Form/UserForm.php:133
@@ -3883,11 +3900,11 @@ msgstr ""
 
 #: application/src/Form/SettingForm.php:280
 msgid "[None]"
-msgstr ""
+msgstr "[Bat ere ez]"
 
 #: application/src/Form/SettingForm.php:294
 msgid "Index full-text search"
-msgstr ""
+msgstr "Testu osoko indize bilaketa"
 
 #: application/src/Form/SettingForm.php:308
 msgid "Security"
@@ -3895,11 +3912,11 @@ msgstr "Segurtasuna"
 
 #: application/src/Form/SettingForm.php:317
 msgid "Use HTMLPurifier"
-msgstr ""
+msgstr "HTMLPurifier erabili"
 
 #: application/src/Form/SettingForm.php:318
 msgid "Clean up user-entered HTML."
-msgstr ""
+msgstr "Garbitu erabiltzaileak sartutako HTMLa."
 
 #: application/src/Form/SettingForm.php:330
 msgid "Disable file validation"
@@ -3908,6 +3925,7 @@ msgstr "Desgaitu fitxategi balidazioa"
 #: application/src/Form/SettingForm.php:331
 msgid "Check this to disable file media type and extension validation."
 msgstr ""
+"Aukeratu hau multimedia fitxategi mota eta luzapen egiaztatzeak desgaitzeko."
 
 #: application/src/Form/SettingForm.php:340
 msgid "Allowed media types"
@@ -3916,6 +3934,7 @@ msgstr "Onartutako multimedia motak"
 #: application/src/Form/SettingForm.php:341
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr ""
+"Fitxategi igoeretan onartutako multimedia motak, koma bidez bereizita."
 
 #: application/src/Form/SettingForm.php:353
 msgid "Allowed file extensions"
@@ -3923,15 +3942,15 @@ msgstr "Onartutako fitxategi luzapenak"
 
 #: application/src/Form/SettingForm.php:354
 msgid "A comma-separated list of allowed file extensions for file uploads."
-msgstr ""
+msgstr "Fitxategi igoeretan onartutako luzapenak, koma bidez bereizita."
 
 #: application/src/Form/SettingForm.php:368
 msgid "reCAPTCHA site key"
-msgstr ""
+msgstr "reCAPTCHA atari gakoa"
 
 #: application/src/Form/SettingForm.php:379
 msgid "reCAPTCHA secret key"
-msgstr ""
+msgstr "reCAPTCHA gako sekretua"
 
 #: application/src/Form/ResourceForm.php:30
 #: application/src/Form/ResourceBatchUpdateForm.php:70
@@ -3945,7 +3964,7 @@ msgstr "Baliabide txantiloia"
 
 #: application/src/Form/ResourceForm.php:35
 msgid "A pre-defined template for resource creation."
-msgstr ""
+msgstr "Aurrez adierazitako txantiloia baliabide sorkuntzan."
 
 #: application/src/Form/ResourceForm.php:55
 #: application/src/Form/ResourceBatchUpdateForm.php:93
@@ -4021,7 +4040,7 @@ msgstr ""
 
 #: application/src/Form/VocabularyForm.php:116
 msgid "File format"
-msgstr ""
+msgstr "Fitxategi formatua"
 
 #: application/src/Form/VocabularyForm.php:118
 msgid "[Autodetect]"
@@ -4049,7 +4068,7 @@ msgstr ""
 
 #: application/src/Form/VocabularyForm.php:135
 msgid "Preferred language"
-msgstr ""
+msgstr "Hizkuntza lehenetsia"
 
 #: application/src/Form/VocabularyForm.php:136
 msgid ""
@@ -4060,7 +4079,7 @@ msgstr ""
 
 #: application/src/Form/VocabularyForm.php:147
 msgid "Label property"
-msgstr ""
+msgstr "Etiketa propietatea"
 
 #: application/src/Form/VocabularyForm.php:148
 msgid ""
@@ -4071,7 +4090,7 @@ msgstr ""
 
 #: application/src/Form/VocabularyForm.php:158
 msgid "Comment property"
-msgstr ""
+msgstr "Iruzkin propietatea"
 
 #: application/src/Form/VocabularyForm.php:159
 msgid ""
@@ -4086,7 +4105,7 @@ msgstr ""
 
 #: application/src/Form/ResourceTemplateForm.php:27
 msgid "Suggested class"
-msgstr ""
+msgstr "Iradokitako klasea"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:34
 msgid "Set visibility"
@@ -4102,7 +4121,7 @@ msgstr "Ezarri ikusgarritasuna"
 #: application/src/Form/UserBatchUpdateForm.php:77
 #: application/src/Form/UserBatchUpdateForm.php:92
 msgid "[No change]"
-msgstr ""
+msgstr "[Aldaketarik ez]"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:51
 msgid "Set openness"
@@ -4166,19 +4185,19 @@ msgstr "Garbitu hizkuntza"
 #: application/src/Form/ResourceBatchUpdateForm.php:190
 #: application/view/common/property-form-batch-edit.phtml:63
 msgid "Select properties"
-msgstr ""
+msgstr "Hautatu propietateak"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:193
 msgid "Clear property values"
-msgstr ""
+msgstr "Garbitu propietate balioak"
 
 #: application/src/Form/ModuleStateChangeForm.php:37
 msgid "Install"
-msgstr ""
+msgstr "Instalatu"
 
 #: application/src/Form/ModuleStateChangeForm.php:55
 msgid "Deactivate"
-msgstr ""
+msgstr "Desgaitu"
 
 #: application/src/Form/ModuleStateChangeForm.php:64
 msgid "Upgrade"
@@ -4214,7 +4233,7 @@ msgstr ""
 
 #: application/src/Form/Element/ColorPicker.php:29
 msgid "Invalid color format"
-msgstr ""
+msgstr "Kolore formatu desegokia"
 
 #: application/src/Form/SiteSettingsForm.php:38
 msgid "Auto-assign new items"
@@ -4228,7 +4247,7 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:50
 msgid "Attachment link type"
-msgstr ""
+msgstr "Fitxategi erantsiaren esteka mota"
 
 #: application/src/Form/SiteSettingsForm.php:52
 msgid "Item page"
@@ -4257,7 +4276,7 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:89
 msgid "Show user bar on public views"
-msgstr ""
+msgstr "Erakutsi erabiltzaile barra bista publikoetan"
 
 #: application/src/Form/SiteSettingsForm.php:91
 msgid "Never"

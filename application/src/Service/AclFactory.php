@@ -460,6 +460,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\Media',
                 'Omeka\Entity\ResourceTemplate',
                 'Omeka\Entity\Asset',
+                'Omeka\Entity\ValueAnnotation',
             ],
             [
                 'create',
@@ -479,6 +480,11 @@ class AclFactory implements FactoryInterface
                 'delete',
             ],
             new OwnsEntityAssertion
+        );
+        $acl->allow(
+            'author',
+            'Omeka\Entity\ValueAnnotation',
+            ['update', 'delete']
         );
         $acl->allow(
             'author',
@@ -583,6 +589,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\ItemSet',
                 'Omeka\Entity\Media',
                 'Omeka\Entity\Asset',
+                'Omeka\Entity\ValueAnnotation',
             ],
             [
                 'create',
@@ -718,6 +725,7 @@ class AclFactory implements FactoryInterface
                 'Omeka\Entity\Media',
                 'Omeka\Entity\ResourceTemplate',
                 'Omeka\Entity\Asset',
+                'Omeka\Entity\ValueAnnotation',
             ],
             [
                 'create',

@@ -71,7 +71,7 @@ class Imagick extends AbstractThumbnailer
                     $origY = 0;
                     $origX = $this->getOffsetX($tempWidth, $constraint, $gravity);
                 }
-                $imagick->thumbnailImage($tempWidth, $tempHeight);
+                $imagick->thumbnailImage(round($tempWidth), round($tempHeight));
                 $imagick->cropImage($constraint, $constraint, $origX, $origY);
                 $imagick->setImagePage($constraint, $constraint, 0, 0);
                 break;

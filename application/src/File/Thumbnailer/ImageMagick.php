@@ -47,7 +47,7 @@ class ImageMagick extends AbstractThumbnailer
         $mediaType = $this->sourceFile->getMediaType();
         $origPath = sprintf('%s[%s]', $this->source, $this->getOption('page', 0));
         if (strpos($mediaType, 'video/') === 0) {
-            $origPath = 'mpeg:' . $origPath;
+            $origPath = 'mp4:' . $origPath;
         }
 
         switch ($strategy) {

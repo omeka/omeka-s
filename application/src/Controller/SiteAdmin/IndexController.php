@@ -384,6 +384,10 @@ class IndexController extends AbstractActionController
         }
 
         $oldSettings = $this->siteSettings()->get($theme->getSettingsKey());
+        if (!is_array($oldSettings)) {
+            $oldSettings = [];
+        }
+
         if ($oldSettings) {
             $form->setData($oldSettings);
         }

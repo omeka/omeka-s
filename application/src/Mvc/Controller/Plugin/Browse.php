@@ -27,6 +27,6 @@ class Browse extends AbstractPlugin
         $query = $this->getController()->getRequest()->getQuery();
         $query->set('sort_by', $query->get('sort_by', $browseConfig['sort_by']));
         $query->set('sort_order', $query->get('sort_order', $browseConfig['sort_order']));
-        $query->set('page', 1);
+        $query->set('page', $query->get('page', 1));
     }
 }

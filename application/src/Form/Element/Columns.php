@@ -19,7 +19,7 @@ class Columns extends Element implements InputProviderInterface
                 // Decode JSON into a PHP array so data can be stored properly.
                 new Callback(function ($json) {
                     return json_decode($json, true);
-                })
+                }),
             ],
         ];
     }

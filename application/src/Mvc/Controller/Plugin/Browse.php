@@ -2,7 +2,6 @@
 namespace Omeka\Mvc\Controller\Plugin;
 
 use Laminas\Mvc\Controller\Plugin\AbstractPlugin;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 use Omeka\Stdlib\Browse as BrowseService;
 
 class Browse extends AbstractPlugin

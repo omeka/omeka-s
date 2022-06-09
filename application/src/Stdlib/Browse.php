@@ -2,7 +2,6 @@
 namespace Omeka\Stdlib;
 
 use Laminas\EventManager\EventManager;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\HelperPluginManager;
 use Omeka\ColumnType\ColumnTypeInterface;
 use Omeka\ColumnType\Manager as ColumnTypeManager;

@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\ColumnType;
 
-use Laminas\Form\Element as LaminasElement;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\AbstractEntityRepresentation;
 

@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\ColumnType;
 
-use Laminas\Form\Element as LaminasElement;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\AbstractEntityRepresentation;
 
@@ -44,7 +43,7 @@ class Owner implements ColumnTypeInterface
             ? $view->hyperlink($owner->name(), $view->url('admin/id', [
                 'controller' => 'user',
                 'action' => 'show',
-                'id' => $owner->id()]
+                'id' => $owner->id(), ]
             )) : null;
     }
 }

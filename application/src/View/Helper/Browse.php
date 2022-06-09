@@ -3,11 +3,8 @@ namespace Omeka\View\Helper;
 
 use Laminas\Form\Element;
 use Laminas\Form\FormElementManager;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Helper\AbstractHelper;
-use Omeka\Api\Manager as ApiManager;
 use Omeka\Api\Representation\AbstractEntityRepresentation;
-use Omeka\ColumnType\ColumnTypeInterface;
 use Omeka\Stdlib\Browse as BrowseService;
 
 class Browse extends AbstractHelper
@@ -151,7 +148,7 @@ class Browse extends AbstractHelper
                 ];
             }
         }
-        usort($valueOptions, fn($a, $b) => strcmp($a['label'], $b['label']));
+        usort($valueOptions, fn ($a, $b) => strcmp($a['label'], $b['label']));
         $select = $formElements->get(Element\Select::class);
         $select->setName('column_type_select')
             ->setValueOptions($valueOptions)

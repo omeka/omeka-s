@@ -239,7 +239,6 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
-
         // Show section
         $this->add([
             'name' => 'show_attached_pages',

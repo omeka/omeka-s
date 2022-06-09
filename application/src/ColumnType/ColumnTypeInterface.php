@@ -18,7 +18,6 @@ interface ColumnTypeInterface
 
     /**
      * Get the maximum amount of this column type for one category.
-
      */
     public function getMaxColumns() : ?int;
 

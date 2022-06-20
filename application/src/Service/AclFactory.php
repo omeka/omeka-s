@@ -400,7 +400,7 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'author',
-            'Omeka\Controller\Admin\ResourceTemplate',
+           'Omeka\Controller\Admin\ResourceTemplate',
             ['add-new-property-row', 'import']
         );
         $acl->allow(
@@ -768,7 +768,8 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'editor',
-            'Omeka\Api\Adapter\UserAdapter'
+            'Omeka\Api\Adapter\UserAdapter',
+            ['read', 'update', 'search']
         );
         $acl->allow(
             'editor',

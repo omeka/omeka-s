@@ -577,7 +577,7 @@ return [
             'url' => Service\Media\Ingester\UrlFactory::class,
             'html' => Service\Media\Ingester\HtmlFactory::class,
             'iiif' => Service\Media\Ingester\IIIFFactory::class,
-            'iiif_manifest' => Service\Media\Ingester\IiifManifestFactory::class,
+            'iiif_presentation' => Service\Media\Ingester\IiifPresentationFactory::class,
             'oembed' => Service\Media\Ingester\OEmbedFactory::class,
             'youtube' => Service\Media\Ingester\YoutubeFactory::class,
         ],
@@ -588,7 +588,7 @@ return [
             'youtube' => Media\Renderer\Youtube::class,
             'html' => Media\Renderer\Html::class,
             'iiif' => Media\Renderer\IIIF::class,
-            'iiif_manifest' => Media\Renderer\IiifManifest::class,
+            'iiif_presentation' => Media\Renderer\IiifPresentation::class,
         ],
         'factories' => [
             'file' => Service\Media\Renderer\FileFactory::class,

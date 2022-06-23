@@ -1,8 +1,7 @@
 <?php
-$embedMedia = $this->siteSetting('item_media_embed', false);
 $resourceMedia = $resource->media();
 ?>
-<?php if ($embedMedia && $resourceMedia): ?>
+<?php if ($resourceMedia): ?>
 <div class="media-embeds">
     <?php foreach ($resourceMedia as $media): ?>
     <?php echo $media->render(); ?>

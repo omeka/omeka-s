@@ -1,13 +1,8 @@
 <?php
-$embedMediaSetting = $this->siteSetting('item_media_embed');
 $itemMedia = $resource->media();
-if ($embedMediaSetting == 1) {
-    $sortedMedia = $this->sortMedia($itemMedia);
-    $lightMedia = (isset($sortedMedia['lightMedia'])) ? $sortedMedia['lightMedia'] : null;
-    $otherMedia = (isset($sortedMedia['otherMedia'])) ? $sortedMedia['otherMedia'] : null;
-} else {
-    $otherMedia = $itemMedia;
-}
+$sortedMedia = $this->sortMedia($itemMedia);
+$lightMedia = (isset($sortedMedia['lightMedia'])) ? $sortedMedia['lightMedia'] : null;
+$otherMedia = (isset($sortedMedia['otherMedia'])) ? $sortedMedia['otherMedia'] : null;
 ?>
 <?php if (isset($lightMedia)): ?>
     <?php echo $this->lightGalleryOutput($lightMedia); ?>

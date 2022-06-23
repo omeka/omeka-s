@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+    <script src="<?php echo $this->escapeHtml($this->assetUrl('vendor/mirador/mirador.min.js', 'Omeka')); ?>"></script>
+</head>
+<body>
+    <div id="viewer" data-url="<?php echo $this->escapeHtml($url); ?>"></div>
+    <script type="text/javascript">
+    Mirador.viewer({
+        id: 'viewer',
+        workspaceControlPanel: {
+            enabled: false
+        },
+        window: {
+            allowClose: false,
+            allowFullscreen: true,
+            allowMaximize: false
+        },
+        windows: [
+            {
+                manifestId:  document.getElementById('viewer').dataset.url,
+                thumbnailNavigationPosition: 'far-bottom'
+            }
+        ]
+    });
+    </script>
+</body>
+</html>

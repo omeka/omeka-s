@@ -85,46 +85,58 @@ class IiifPresentation implements IngesterInterface
         }
 
         // Validate the IIIF presentation and set it as media data.
-        if (!$this->isValid($iiif)) {
+        $iiifVersion = $this->getVersion($iiif);
+        if (!$iiifVersion) {
             $errorStore->addError('o:source', 'Invalid IIIF presentation JSON');
             return;
         }
         $media->setData($iiif);
 
         // Generate a media thumbnail.
+        $thumbnailUrl = null;
+        if (2 === $iiifVersion) {
+            $thumbnailUrl = $iiif['thumbnail']['@id'] ?? null;
+        } else if (3 === $iiifVersion) {
+            $thumbnailUrl = $iiif['thumbnail'][0]['id'] ?? null;
+        }
+        if (!$thumbnailUrl) {
+            // The resource has no top-level thumbnail.
+            return;
+        }
+        $tempFile = $this->downloader->download($thumbnailUrl);
+        if ($tempFile) {
+            $tempFile->mediaIngestFile($media, $request, $errorStore, false);
+        }
     }
 
-    public function isValid(array $iiif)
+    /**
+     * Get the IIIF Presentation API version (v2, v3).
+     *
+     * Note that IIIF Metadata API (v1) is not compatible. This has a side
+     * effect of validating the JSON, to a minor extent.
+     */
+    public function getVersion(array $iiif)
     {
-        if (!(isset($iiif['@context']) && isset($iiif['@type']))) {
+        if (!isset($iiif['@context'])) {
             return false;
         }
         switch ($iiif['@context']) {
-            // IIIF Presentation API 1.0
-            case 'http://www.shared-canvas.org/ns/context.json':
-            case 'http://iiif.io/api/presentation/1/context.json':
-            case 'https://iiif.io/api/presentation/1/context.json':
-                if (!in_array($iiif['@type'], ['sc:Manifest'])) {
-                    return false;
-                }
-                break;
-            // IIIF Presentation API 2.0
+            // IIIF Presentation API v2
             case 'http://iiif.io/api/presentation/2/context.json':
             case 'https://iiif.io/api/presentation/2/context.json':
-                if (!in_array($iiif['@type'], ['sc:Manifest', 'sc:Collection'])) {
-                    return false;
+                if (isset($iiif['@type']) && in_array($iiif['@type'], ['sc:Manifest', 'sc:Collection'])) {
+                    return 2;
                 }
-                break;
-            // IIIF Presentation API 3.0
+                return false;
+            // IIIF Presentation API v3
             case 'http://iiif.io/api/presentation/3/context.json':
             case 'https://iiif.io/api/presentation/3/context.json':
-                if (!in_array($iiif['@type'], ['Manifest', 'Collection'])) {
-                    return false;
+                if (isset($iiif['type']) && in_array($iiif['type'], ['Manifest', 'Collection'])) {
+                    return 3;
                 }
-                break;
+                return false;
             default:
                 return false;
         }
-        return true;
     }
 }

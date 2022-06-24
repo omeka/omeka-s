@@ -96,7 +96,7 @@ class IiifPresentation implements IngesterInterface
         $thumbnailUrl = null;
         if (2 === $iiifVersion) {
             $thumbnailUrl = $iiif['thumbnail']['@id'] ?? null;
-        } else if (3 === $iiifVersion) {
+        } elseif (3 === $iiifVersion) {
             $thumbnailUrl = $iiif['thumbnail'][0]['id'] ?? null;
         }
         if (!$thumbnailUrl) {

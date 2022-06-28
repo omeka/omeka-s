@@ -192,8 +192,8 @@
             e.preventDefault();
             var block = $(this).parents('.block');
             block.toggleClass('delete');
-            block.find('a.remove-value, a.restore-value').show();
-            $(this).hide();
+            block.find('a.remove-value, a.restore-value').removeClass('inactive');
+            $(this).toggleClass('inactive');
             Omeka.markDirty($(this).closest('form'));
         });
 

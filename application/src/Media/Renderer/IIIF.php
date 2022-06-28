@@ -8,25 +8,30 @@ class IIIF implements RendererInterface
 {
     public function render(PhpRenderer $view, MediaRepresentation $media, array $options = [])
     {
-        $IIIFData = $media->mediaData();
         $view->headScript()->appendFile($view->assetUrl('vendor/openseadragon/openseadragon.min.js', 'Omeka'));
+
+        $id = sprintf('iiif-%s', $media->id());
         $prefixUrl = $view->assetUrl('vendor/openseadragon/images/', 'Omeka', false, false);
-        $noscript = $view->translate('OpenSeadragon is not available unless JavaScript is enabled.');
-        $image =
-            '<div class="openseadragon" id="iiif-' . $media->id() . '" style="height: 400px;"></div>
-            <script type="text/javascript">
-                var viewer = OpenSeadragon({
-                    id: "iiif-' . $media->id() . '",
-                    prefixUrl: "' . $prefixUrl . '",
-                    tileSources: [
-                        ' . json_encode($IIIFData) . '
-                    ]
-                });
-            </script>
-            <noscript>
-                <p>' . $noscript . '</p>
-            </noscript>'
-        ;
-        return $image;
+        $tileSources = json_encode($media->mediaData());
+        $height = $options['height'] ?? 400;
+
+        $html = <<<'HTML'
+        <div class="openseadragon" id="%1$s" data-prefix-url="%2$s" data-tile-sources="%3$s" style="height: %4$spx;"></div>
+        <script>
+        const openSeadragonDiv = document.getElementById('%1$s');
+        const viewer = OpenSeadragon({
+            id: '%1$s',
+            prefixUrl: openSeadragonDiv.dataset.prefixUrl,
+            tileSources: [JSON.parse(openSeadragonDiv.dataset.tileSources)]
+        });
+        </script>
+        HTML;
+        return sprintf(
+            $html,
+            $id,
+            $view->escapeHtml($prefixUrl),
+            $view->escapeHtml($tileSources),
+            $view->escapeHtml($height)
+        );
     }
 }

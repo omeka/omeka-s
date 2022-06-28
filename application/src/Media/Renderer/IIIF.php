@@ -13,10 +13,13 @@ class IIIF implements RendererInterface
         $id = sprintf('iiif-%s', $media->id());
         $prefixUrl = $view->assetUrl('vendor/openseadragon/images/', 'Omeka', false, false);
         $tileSources = json_encode($media->mediaData());
-        $height = $options['height'] ?? 400;
+        $height = '400px';
+        if (isset($options['height'])) {
+            $height = sprintf('%spx', (int) $options['height']);
+        }
 
         $html = <<<'HTML'
-        <div class="openseadragon" id="%1$s" data-prefix-url="%2$s" data-tile-sources="%3$s" style="height: %4$spx;"></div>
+        <div class="openseadragon" id="%1$s" data-prefix-url="%2$s" data-tile-sources="%3$s" style="height: %4$s;"></div>
         <script>
         const openSeadragonDiv = document.getElementById('%1$s');
         const viewer = OpenSeadragon({
@@ -31,7 +34,7 @@ class IIIF implements RendererInterface
             $id,
             $view->escapeHtml($prefixUrl),
             $view->escapeHtml($tileSources),
-            $view->escapeHtml($height)
+            $height
         );
     }
 }

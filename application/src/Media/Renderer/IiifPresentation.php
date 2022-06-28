@@ -10,17 +10,17 @@ class IiifPresentation implements RendererInterface
     {
         $iiifViewerUrl = $view->url('iiif-viewer', [], ['force_canonical' => true, 'query' => ['url' => $media->source()]]);
         $width = '100%';
-        if (isset($options['width']) && is_numeric($options['width'])) {
-            $width = sprintf('%spx', $options['width']);
+        if (isset($options['width'])) {
+            $width = sprintf('%spx', (int) $options['width']);
         }
         $height = '700px';
-        if (isset($options['height']) && is_numeric($options['height'])) {
-            $height = sprintf('%spx', $options['height']);
+        if (isset($options['height'])) {
+            $height = sprintf('%spx', (int) $options['height']);
         }
         return sprintf(
             '<iframe style="width: %s; height: %s;" src="%s"></iframe>%s',
-            $view->escapeHtml($width),
-            $view->escapeHtml($height),
+            $width,
+            $height,
             $view->escapeHtml($iiifViewerUrl),
             $view->hyperlink($view->translate('Full view'), $iiifViewerUrl, ['target' => '_blank'])
         );

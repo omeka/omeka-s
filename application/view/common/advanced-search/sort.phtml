@@ -1,32 +1,24 @@
 <?php
 use Laminas\Form\Element;
 
-$args = [
-    'sortBy' => [
-        ['value' => 'title', 'label' => $this->translate('Title')],
-        ['value' => 'dcterms:identifier', 'label' => $this->translate('Identifier')],
-        ['value' => 'resource_class_label', 'label' => $this->translate('Class')],
-        ['value' => 'owner_name', 'label' => $this->translate('Owner')],
-        ['value' => 'created', 'label' => $this->translate('Created')],
-    ],
-    'sortByQuery' => $query['sort_by'] ?? '',
-    'sortOrderQuery' => $query['sort_order'] ?? '',
-];
-$idRequest = $this->status()->isSiteRequest() ? 'Site' : 'Admin';
-$idController = 'Item';
-if ('itemSet' === $resourceType) {
-    $idController = 'ItemSet';
-} elseif ('media' === $resourceType) {
-    $idController = 'Media';
-    $args['sortBy'][] = ['value' => 'size', 'label' => $this->translate('Size')];
+$sortConfigContext = $this->status()->isAdminRequest() ? 'admin' : 'public';
+switch ($resourceType) {
+    case 'itemSet':
+        $sortConfigResourceType = 'item_sets';
+        break;
+    case 'media':
+        $sortConfigResourceType = 'media';
+        break;
+    case 'item':
+    default:
+        $sortConfigResourceType = 'items';
 }
-$id = [sprintf('Omeka\Controller\%s\%s', $idRequest, $idController)];
-$args = $this->trigger('view.sort-selector', $args, true, $id);
+$sortConfig = $this->browse()->getBrowseService()->getSortConfig($sortConfigContext, $sortConfigResourceType);
 
 $sortBy = new Element\Select('sort_by');
 $sortBy->setEmptyOption($this->translate('Select sort by…'));
-$sortBy->setValueOptions($args['sortBy']);
-$sortBy->setValue($args['sortByQuery']);
+$sortBy->setValueOptions($sortConfig);
+$sortBy->setValue($query['sort_by'] ?? '');
 
 $sortOrder = new Element\Select('sort_order');
 $sortOrder->setEmptyOption($this->translate('Select sort order…'));
@@ -34,7 +26,7 @@ $sortOrder->setValueOptions([
     'asc' => $this->translate('Ascending'),
     'desc' => $this->translate('Descending'),
 ]);
-$sortOrder->setValue($args['sortOrderQuery']);
+$sortOrder->setValue($query['sort_order'] ?? '');
 ?>
 <div class="field">
     <div class="field-meta">

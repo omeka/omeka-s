@@ -1,8 +1,10 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Form\Element\Columns;
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Form\Element\SiteSelect;
+use Omeka\Form\Element\BrowseDefaults;
 use Omeka\Permissions\Acl;
 use Omeka\Settings\Settings;
 use Omeka\Settings\UserSettings;
@@ -40,6 +42,8 @@ class UserForm extends Form
      * @var UserSettings
      */
     protected $userSettings;
+
+    protected $browseService;
 
     public function __construct($name = null, $options = [])
     {
@@ -125,7 +129,10 @@ class UserForm extends Form
         }
 
         $settingsFieldset = $this->get('user-settings');
-        $settingsFieldset->setOption('element_groups', []);
+        $settingsFieldset->setOption('element_groups', [
+            'columns' => 'Admin browse columns', // @translate
+            'browse_defaults' => 'Admin browse defaults', // @translate
+        ]);
         $settingsFieldset->add([
             'name' => 'locale',
             'type' => 'Omeka\Form\Element\LocaleSelect',
@@ -175,6 +182,106 @@ class UserForm extends Form
             'options' => [
                 'label' => 'Default sites for items', // @translate
                 'empty_option' => '',
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'columns_admin_items',
+            'type' => Columns::class,
+            'options' => [
+                'element_group' => 'columns',
+                'label' => 'Item browse columns', // @translate
+                'columns_context' => 'admin',
+                'columns_resource_type' => 'items',
+                'columns_user_id' => $userId,
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'columns_admin_item_sets',
+            'type' => Columns::class,
+            'options' => [
+                'element_group' => 'columns',
+                'label' => 'Item set browse columns', // @translate
+                'columns_context' => 'admin',
+                'columns_resource_type' => 'item_sets',
+                'columns_user_id' => $userId,
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'columns_admin_media',
+            'type' => Columns::class,
+            'options' => [
+                'element_group' => 'columns',
+                'label' => 'Media browse columns', // @translate
+                'columns_context' => 'admin',
+                'columns_resource_type' => 'media',
+                'columns_user_id' => $userId,
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'columns_admin_sites',
+            'type' => Columns::class,
+            'options' => [
+                'element_group' => 'columns',
+                'label' => 'Site browse columns', // @translate
+                'columns_context' => 'admin',
+                'columns_resource_type' => 'sites',
+                'columns_user_id' => $userId,
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'browse_defaults_admin_items',
+            'type' => BrowseDefaults::class,
+            'options' => [
+                'element_group' => 'browse_defaults',
+                'label' => 'Item browse defaults', // @translate
+                'browse_defaults_context' => 'admin',
+                'browse_defaults_resource_type' => 'items',
+                'browse_defaults_user_id' => $userId,
+            ],
+            'attributes' => [
+                'value' => json_encode($this->browseService->getBrowseConfig('admin', 'items', $userId)),
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'browse_defaults_admin_item_sets',
+            'type' => BrowseDefaults::class,
+            'options' => [
+                'element_group' => 'browse_defaults',
+                'label' => 'Item set browse defaults', // @translate
+                'browse_defaults_context' => 'admin',
+                'browse_defaults_resource_type' => 'item_sets',
+                'browse_defaults_user_id' => $userId,
+            ],
+            'attributes' => [
+                'value' => json_encode($this->browseService->getBrowseConfig('admin', 'item_sets', $userId)),
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'browse_defaults_admin_media',
+            'type' => BrowseDefaults::class,
+            'options' => [
+                'element_group' => 'browse_defaults',
+                'label' => 'Media browse defaults', // @translate
+                'browse_defaults_context' => 'admin',
+                'browse_defaults_resource_type' => 'media',
+                'browse_defaults_user_id' => $userId,
+            ],
+            'attributes' => [
+                'value' => json_encode($this->browseService->getBrowseConfig('admin', 'media', $userId)),
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'browse_defaults_admin_sites',
+            'type' => BrowseDefaults::class,
+            'options' => [
+                'element_group' => 'browse_defaults',
+                'label' => 'Site browse defaults', // @translate
+                'browse_defaults_context' => 'admin',
+                'browse_defaults_resource_type' => 'sites',
+                'browse_defaults_user_id' => $userId,
+            ],
+            'attributes' => [
+                'value' => json_encode($this->browseService->getBrowseConfig('admin', 'sites', $userId)),
             ],
         ]);
 
@@ -298,5 +405,10 @@ class UserForm extends Form
     public function getUserSettings()
     {
         return $this->userSettings;
+    }
+
+    public function setBrowseService($browseService)
+    {
+        $this->browseService = $browseService;
     }
 }

@@ -12,7 +12,10 @@ $this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabu
 
 <?php if (count($properties)): ?>
 
-<?php echo $this->pagination(); ?>
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+    <?php echo $this->browse()->renderSortSelector('properties'); ?>
+</div>
 
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>

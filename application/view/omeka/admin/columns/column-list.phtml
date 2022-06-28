@@ -1,0 +1,3 @@
+<?php foreach ($this->browse()->getBrowseService()->getColumnsData($context, $resourceType, $userId) as $columnData): ?>
+<?php echo $this->partial('omeka/admin/columns/column-row', ['columnData' => $columnData]); ?>
+<?php endforeach; ?>

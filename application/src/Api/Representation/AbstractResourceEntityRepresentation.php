@@ -613,6 +613,18 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Get the display resource template label for this resource.
+     *
+     * @param string|null $default
+     * @return string|null
+     */
+    public function displayResourceTemplateLabel($default = null)
+    {
+        $resourceTemplate = $this->resourceTemplate();
+        return $resourceTemplate ? $resourceTemplate->label() : $default;
+    }
+
+    /**
      * Get a "pretty" link to this resource containing a thumbnail and
      * display title.
      *

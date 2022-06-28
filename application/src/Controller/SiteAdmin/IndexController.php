@@ -48,7 +48,7 @@ class IndexController extends AbstractActionController
 
     public function indexAction()
     {
-        $this->setBrowseDefaults('title', 'asc');
+        $this->browse()->setDefaults('sites');
         $response = $this->api()->search('sites', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 

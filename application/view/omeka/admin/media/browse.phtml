@@ -4,32 +4,6 @@ $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'media browse');
 $userIsAllowedBatchUpdate = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_update');
 $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter', 'batch_delete');
-$sortHeadings = [
-    [
-        'label' => $translate('Title'),
-        'value' => 'title'
-    ],
-    [
-        'label' => $translate('Identifier'),
-        'value' => 'dcterms:identifier'
-    ],
-    [
-        'label' => $translate('Class'),
-        'value' => 'resource_class_label'
-    ],
-    [
-        'label' => $translate('Owner'),
-        'value' => 'owner_name'
-    ],
-    [
-        'label' => $translate('Created'),
-        'value' => 'created'
-    ],
-    [
-        'label' => $translate('Size'),
-        'value' => 'size'
-    ],
-];
 ?>
 
 <?php echo $this->pageTitle($translate('Media')); ?>
@@ -39,7 +13,7 @@ $sortHeadings = [
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->hyperlink($translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
-    <?php echo $this->sortSelector($sortHeadings); ?>
+    <?php echo $this->browse()->renderSortSelector('media'); ?>
 </div>
 
 <?php $this->trigger('view.browse.before'); ?>
@@ -82,29 +56,13 @@ $sortHeadings = [
                 <?php endif; ?>
                 <?php echo $translate('Title'); ?>
             </th>
-            <th><?php echo $translate('Class'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
-            <th><?php echo $translate('Created'); ?></th>
+            <?php echo $this->browse()->renderHeaderRow('media'); ?>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($medias as $media): ?>
         <?php $userIsAllowedUpdate = $media->userIsAllowed('update'); ?>
         <?php $userIsAllowedDelete = $media->userIsAllowed('delete'); ?>
-        <?php
-        if ($owner = $media->owner()) {
-            $ownerText = $this->hyperlink(
-                $owner->name(),
-                $this->url('admin/id', [
-                    'controller' => 'user',
-                    'action' => 'show',
-                    'id' => $owner->id()]
-                )
-            );
-        } else {
-            $ownerText = $translate('[no owner]');
-        }
-        ?>
         <tr>
             <td>
                 <?php if ($userIsAllowedBatchUpdate || $userIsAllowedBatchDelete): ?>
@@ -137,9 +95,7 @@ $sortHeadings = [
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($translate($media->displayResourceClassLabel())); ?></td>
-            <td><?php echo $ownerText; ?></td>
-            <td><?php echo $escape($this->i18n()->dateFormat($media->created())); ?></td>
+            <?php echo $this->browse()->renderContentRow('media', $media); ?>
         </tr>
         <?php endforeach; ?>
     </tbody>

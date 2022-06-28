@@ -1,0 +1,12 @@
+<a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $this->translate('Close'); ?></span></a>
+<div class="sidebar-content">
+    <div class="confirm-main">
+        <div id="columns-column-form">
+            <h3><?php echo $this->translate('Edit column'); ?></h3>
+            <?php echo $this->browse()->getColumnForm($columnData); ?>
+        </div>
+    </div>
+    <div class="confirm-panel">
+        <button type="button" id="columns-column-set-button"<?php echo $this->browse()->getBrowseService()->columnTypeIsKnown($columnData['type']) ? '' : ' disabled'; ?>><?php echo $this->translate('Set column'); ?></button>
+    </div>
+</div>

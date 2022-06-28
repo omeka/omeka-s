@@ -13,7 +13,7 @@ class AssetController extends AbstractActionController
 {
     public function browseAction()
     {
-        $this->setBrowseDefaults('id');
+        $this->browse()->setDefaults('assets');
         $response = $this->api()->search('assets', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 

@@ -2,20 +2,6 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites browse');
-$sortHeadings = [
-    [
-        'label' => $translate('Title'),
-        'value' => 'title'
-    ],
-    [
-        'label' => $translate('URL slug'),
-        'value' => 'slug'
-    ],
-    [
-        'label' => $translate('Owner'),
-        'value' => 'owner_name'
-    ]
-];
 ?>
 
 <?php echo $this->pageTitle($translate('Sites')); ?>
@@ -28,7 +14,7 @@ $sortHeadings = [
 
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
-    <?php echo $this->sortSelector($sortHeadings); ?>
+    <?php echo $this->browse()->renderSortSelector('sites'); ?>
 </div>
 <?php $this->trigger('view.browse.before'); ?>
 
@@ -37,26 +23,11 @@ $sortHeadings = [
     <thead>
         <tr>
             <th><?php echo $translate('Title'); ?></th>
-            <th><?php echo $translate('URL slug'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
+            <?php echo $this->browse()->renderHeaderRow('sites'); ?>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($sites as $site): ?>
-        <?php
-        if ($owner = $site->owner()) {
-            $ownerText = $this->hyperlink(
-                $owner->name(),
-                $this->url('admin/id', [
-                    'controller' => 'user',
-                    'action' => 'show',
-                    'id' => $owner->id()]
-                )
-            );
-        } else {
-            $ownerText = $translate('[no owner]');
-        }
-        ?>
         <tr>
             <td>
                 <?php echo $site->link($site->title(), 'show'); ?>
@@ -84,8 +55,7 @@ $sortHeadings = [
                     <?php endif; ?>
                 </ul>
             </td>
-            <td><?php echo $escape($site->slug()); ?></td>
-            <td><?php echo $ownerText; ?></td>
+            <?php echo $this->browse()->renderContentRow('sites', $site); ?>
         </tr>
         <?php endforeach; ?>
     </tbody>

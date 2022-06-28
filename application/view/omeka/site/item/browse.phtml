@@ -12,24 +12,6 @@ if ($itemSetShow):
     $this->htmlElement('body')->appendAttribute('class', 'item-set');
     $query['item_set_id'] = $itemSet->id();
 endif;
-$sortHeadings = [
-    [
-        'label' => $translate('Title'),
-        'value' => 'dcterms:title'
-    ],
-    [
-        'label' => $translate('Identifier'),
-        'value' => 'dcterms:identifier'
-    ],
-    [
-        'label' => $translate('Class'),
-        'value' => 'resource_class_label'
-    ],
-    [
-        'label' => $translate('Created'),
-        'value' => 'created'
-    ],
-];
 ?>
 
 <?php if ($itemSetShow): ?>
@@ -49,7 +31,7 @@ $sortHeadings = [
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->hyperlink($translate('Advanced search'), $this->url('site/resource', ['controller' => 'item', 'action' => 'search'], ['query' => $query], true), ['class' => 'advanced-search']); ?>
-    <?php echo $this->sortSelector($sortHeadings); ?>
+    <?php echo $this->browse()->renderSortSelector('items'); ?>
 </div>
 
 <?php $this->trigger('view.browse.before'); ?>

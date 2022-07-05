@@ -227,6 +227,20 @@
             }
         });
 
+        $('.collapse-all').on('click', function() {
+            $('.block-header.collapse .collapse').click();
+        });
+
+        $('.expand-all').on('click', function() {
+            $('.block-header:not(.collapse) .expand').click();
+        });
+
+        // Toggle block visibility
+        $('#blocks').on('click', '.expand,.collapse', function() {
+            var blockToggle = $(this);
+            blockToggle.parents('.block-header').toggleClass('collapse');
+        });
+
         // Make attachments sortable.
         $('#blocks').on('o:block-added', '.block', function () {
             $(this).find('.attachments').each(function () {

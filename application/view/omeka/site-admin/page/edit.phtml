@@ -33,6 +33,11 @@ $form->prepare();
 
 <?php echo $this->formCollection($form, false); ?>
 
+<div class="expand-collapse-all">
+    <button type="button" class="expand-all"><?php echo $translate('Expand all'); ?></button>
+    <button type="button" class="collapse-all"><?php echo $translate('Collapse all'); ?></button>
+</div>
+
 <?php echo $this->blockLayout()->forms($page); ?>
 
 <?php echo $this->form()->closeTag(); ?>

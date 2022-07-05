@@ -4028,6 +4028,11 @@ body.sidebar-open #content {
         margin-right: -1px;
     }
 
+    .expand-collapse-all {
+        margin-top: $spacing-medium;
+        text-align: right;
+    }
+
     .block {
         margin-bottom: $spacing-small;
     }
@@ -4181,8 +4186,12 @@ body.sidebar-open #content {
         margin: $spacing-small 0 0;
     }
 
-    .block .expand,
-    .block .collapse {
+    .block-header.collapse:after {
+        content: none;
+    }
+
+    .block-content .expand,
+    .block-content .collapse {
         width: 100%;
         display: flex;
         padding: 0 $spacing-small 0 0;
@@ -4200,7 +4209,7 @@ body.sidebar-open #content {
         padding: 0;
     }
 
-    .block .collapse + .collapsible {
+    .block-content .collapse + .collapsible {
         border-top: 1px solid $border-gray;
         padding: -1px 0 0 $spacing-large;
         margin-top: $spacing-small;

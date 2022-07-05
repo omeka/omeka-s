@@ -1384,6 +1384,7 @@ div[role="main"] {
     vertical-align: top;
     border: 0;
     box-shadow: none;
+    display: inline-block;
 }
 
 .actions a,
@@ -1400,6 +1401,10 @@ div[role="main"] {
 .actions a:active,
 .actions button:hover {
     opacity: 1;
+}
+
+.actions .inactive {
+    display: none;
 }
 
 .actions button {
@@ -2525,10 +2530,14 @@ input[type="text"].value-language,
         }
     }
     
-    .value a.restore-value,
+    .value.delete {
+        background-color: $delete-bg;
+        overflow: hidden;
+    }
+
     .value span.restore-value,
     .value.delete a.tab,
-    .value.delete [class*="o-icon-"] {
+    .value.delete [class*="o-icon-"]:not(.restore-value) {
         display: none;
     }
 
@@ -2630,7 +2639,6 @@ input[type="text"].value-language,
     .value.delete span.restore-value {
         display: inline-block;
         padding: 0 $spacing-small;
-        line-height: 1.5 * $base-line-height;
         width: calc(100% - #{1.5 * $spacing-large});
     }
 
@@ -2734,6 +2742,10 @@ input[type="text"].value-language,
         border-bottom: 1px solid $border-gray;
         padding-bottom: $spacing-medium;
         margin-bottom: $spacing-medium;
+    }
+
+    .value-annotation .restore-value {
+        line-height: 1.5 * $base-line-height;
     }
 
     /* @end */
@@ -4044,6 +4056,10 @@ body.sidebar-open #content {
         background-color: opacify($gray-on-white, .08);
         padding: $spacing-small;
         font-weight: bold;
+    }
+
+    .block .block-header .actions a:before {
+        text-align: center;
     }
 
     .block .block-content input[type="hidden"] + * {

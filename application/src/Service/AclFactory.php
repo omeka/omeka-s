@@ -799,17 +799,13 @@ class AclFactory implements FactoryInterface
         );
         $acl->deny(
             'site_admin',
-            'Omeka\Controller\Admin\Vocabulary',
-            ['import']
-        );
-        $acl->deny(
-            'site_admin',
             'Omeka\Controller\Admin\Setting'
         );
         $acl->deny(
             'site_admin',
-            'Omeka\Api\Adapter\VocabularyAdapter',
-            ['create', 'update', 'delete']
+            'Omeka\Entity\Vocabulary',
+            ['update', 'delete'],
+            new AssertionNegation(new OwnsEntityAssertion)
         );
 
         $acl->deny(

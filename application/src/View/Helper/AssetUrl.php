@@ -73,45 +73,28 @@ class AssetUrl extends AbstractHelper
             return $this->externals[$module][$file];
         }
         $basePath = $this->getView()->basePath();
-        $serverUrl = $this->getView()->serverUrl();
+        if ($absolute) {
+            $basePath = $this->getView()->serverUrl() . $basePath;
+        }
         if (null === $module && $this->currentTheme) {
-            return sprintf(
-                self::THEME_ASSETS_PATH,
-                $absolute ? $serverUrl . $basePath : $basePath,
-                $this->currentTheme->getId(),
-                $file,
-                $versioned ? '?v=' . $this->currentTheme->getIni('version') : ''
-            );
+            $versionQuery = $versioned ? '?v=' . $this->currentTheme->getIni('version') : '';
+            return sprintf(self::THEME_ASSETS_PATH, $basePath, $this->currentTheme->getId(), $file, $versionQuery);
         }
         if ($override && $this->currentTheme && ($module === 'Omeka' || array_key_exists($module, $this->activeModules))) {
             $themeId = $this->currentTheme->getId();
             $filepath = sprintf(self::THEME_ASSETS_PATH, OMEKA_PATH, $themeId, $file, '');
             if (is_readable($filepath)) {
-                return sprintf(
-                    self::THEME_ASSETS_PATH,
-                    $absolute ? $serverUrl . $basePath : $basePath,
-                    $themeId,
-                    $file,
-                    $versioned ? '?v=' . $this->currentTheme->getIni('version') : ''
-                );
+                $versionQuery = $versioned ? '?v=' . $this->currentTheme->getIni('version') : '';
+                return sprintf(self::THEME_ASSETS_PATH, $basePath, $themeId, $file, $versionQuery);
             }
         }
         if ('Omeka' == $module) {
-            return sprintf(
-                self::OMEKA_ASSETS_PATH,
-                $absolute ? $serverUrl . $basePath : $basePath,
-                $file,
-                $versioned ? '?v=' . Module::VERSION : ''
-            );
+            $versionQuery = $versioned ? '?v=' . Module::VERSION : '';
+            return sprintf(self::OMEKA_ASSETS_PATH, $basePath, $file, $versionQuery);
         }
         if (array_key_exists($module, $this->activeModules)) {
-            return sprintf(
-                self::MODULE_ASSETS_PATH,
-                $absolute ? $serverUrl . $basePath : $basePath,
-                $module,
-                $file,
-                $versioned ? '?v=' . $this->activeModules[$module]->getIni('version') : ''
-            );
+            $versionQuery = $versioned ? '?v=' . $this->activeModules[$module]->getIni('version') : '';
+            return sprintf(self::MODULE_ASSETS_PATH, $basePath, $module, $file, $versionQuery);
         }
         return null;
     }

@@ -81,7 +81,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             }
 
             $assetUrl = $this->getServiceLocator()->get('ViewHelperManager')->get('assetUrl');
-            return $assetUrl($fallback[0], $fallback[1], true);
+            return $assetUrl($fallback[0], $fallback[1], true, false, true);
         }
         return $this->getFileUrl($type, $this->storageId(), 'jpg');
     }

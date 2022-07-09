@@ -4,30 +4,10 @@
     <script src="<?php echo $this->escapeHtml($this->assetUrl('vendor/mirador/mirador.min.js', 'Omeka')); ?>"></script>
 </head>
 <body>
-    <div id="viewer" data-url="<?php echo $this->escapeHtml($url); ?>"></div>
+    <div id="viewer" data-mirador-config="<?php echo $this->escapeHtml(json_encode($miradorConfig)); ?>"></div>
     <script type="text/javascript">
-    Mirador.viewer({
-        id: 'viewer',
-        workspaceControlPanel: {
-            enabled: false
-        },
-        window: {
-            allowClose: false,
-            allowFullscreen: true,
-            allowMaximize: false,
-            sideBarOpen: true,
-            defaultSidebarPanelWidth: 300
-        },
-        osdConfig: {
-            maxZoomPixelRatio: 100
-        },
-        windows: [
-            {
-                manifestId:  document.getElementById('viewer').dataset.url,
-                thumbnailNavigationPosition: 'far-bottom'
-            }
-        ]
-    });
+    const miradorConfig = JSON.parse(document.getElementById('viewer').dataset.miradorConfig);
+    Mirador.viewer(miradorConfig);
     </script>
 </body>
 </html>

@@ -8,7 +8,13 @@ class IiifPresentation implements RendererInterface
 {
     public function render(PhpRenderer $view, MediaRepresentation $media, array $options = [])
     {
-        $iiifViewerUrl = $view->url('iiif-viewer', [], ['force_canonical' => true, 'query' => ['url' => $media->source()]]);
+        $query = [
+            'url' => $media->source(),
+            'mirador_config' => json_encode([
+                'window.sideBarOpen' => false,
+            ]),
+        ];
+        $iiifViewerUrl = $view->url('iiif-viewer', [], ['force_canonical' => true, 'query' => $query]);
         $width = '100%';
         if (isset($options['width'])) {
             $width = sprintf('%spx', (int) $options['width']);
@@ -18,11 +24,10 @@ class IiifPresentation implements RendererInterface
             $height = sprintf('%spx', (int) $options['height']);
         }
         return sprintf(
-            '<iframe style="width: %s; height: %s;" src="%s"></iframe>%s',
+            '<iframe style="width: %s; height: %s;" src="%s"></iframe>',
             $width,
             $height,
-            $view->escapeHtml($iiifViewerUrl),
-            $view->hyperlink($view->translate('Full view'), $iiifViewerUrl, ['target' => '_blank'])
+            $view->escapeHtml($iiifViewerUrl)
         );
     }
 }

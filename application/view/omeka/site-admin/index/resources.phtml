@@ -1,8 +1,9 @@
 <?php
 $translate = $this->plugin('translate');
 $form->prepare();
-$this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/site-resources.js', 'Omeka'));
+$this->headScript()
+    ->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'), 'text/javascript', ['defer' => 'defer'])
+    ->appendFile($this->assetUrl('js/site-resources.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
 $this->htmlElement('body')->appendAttribute('class', 'sites resources');
 
 $rowTemplate = '

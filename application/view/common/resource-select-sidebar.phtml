@@ -1,7 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
 ?>
-<?php $this->headScript()->appendFile($this->assetUrl('js/resource-selector.js', 'Omeka')); ?>
+<?php $this->headScript()->appendFile($this->assetUrl('js/resource-selector.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']); ?>
 <div id="select-resource" class='sidebar'>
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
     <div class="sidebar-content">

@@ -2,15 +2,17 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'sites edit');
-$this->headScript()->appendFile($this->assetUrl('vendor/jstree/jstree.min.js', 'Omeka'));
+$this->headLink()
+    ->appendStylesheet($this->assetUrl('css/jstree.css', 'Omeka'));
+    ->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
+    ->appendStylesheet($this->assetUrl('css/query-form.css', 'Omeka'));
+$this->headScript()
+    ->appendFile($this->assetUrl('vendor/jstree/jstree.min.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']))
+    ->appendFile($this->assetUrl('js/site-navigation.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']))
+    ->appendFile($this->assetUrl('js/jstree-plugins.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']))
+    ->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']))
+    ->appendFile($this->assetUrl('js/query-form.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']));
 $form->prepare();
-$this->headScript()->appendFile($this->assetUrl('js/site-navigation.js', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/jstree-plugins.js', 'Omeka'));
-$this->headLink()->appendStylesheet($this->assetUrl('css/jstree.css', 'Omeka'));
-$this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
-$this->headLink()->appendStylesheet($this->assetUrl('css/query-form.css', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
 ?>
 <?php echo $this->pageTitle($translate('Navigation'), 1, $translate('Sites')); ?>
 

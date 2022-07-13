@@ -10,7 +10,7 @@ $resourceType = isset($resourceType) ? $resourceType : 'item';
 $partialExcludelist = (isset($partialExcludelist) && is_array($partialExcludelist)) ? $partialExcludelist : [];
 
 $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
-$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
 
 $partials = [];
 $addPartial = function($partial) use (&$partials, $partialExcludelist) {

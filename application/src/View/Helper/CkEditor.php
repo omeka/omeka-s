@@ -15,8 +15,13 @@ class CkEditor extends AbstractHelper
     {
         $view = $this->getView();
         $customConfigUrl = $view->escapeJs($view->assetUrl('js/ckeditor_config.js', 'Omeka'));
-        $view->headScript()->appendFile($view->assetUrl('vendor/ckeditor/ckeditor.js', 'Omeka'));
-        $view->headScript()->appendFile($view->assetUrl('vendor/ckeditor/adapters/jquery.js', 'Omeka'));
-        $view->headScript()->appendScript("CKEDITOR.config.customConfig = '$customConfigUrl'");
+        $view->headScript()
+            ->appendFile($view->assetUrl('vendor/ckeditor/ckeditor.js', 'Omeka'), 'text/javascript', ['defer' => 'defer'])
+            ->appendFile($view->assetUrl('vendor/ckeditor/adapters/jquery.js', 'Omeka'), 'text/javascript', ['defer' => 'defer'])
+            ->appendScript('window.addEventListener("DOMContentLoaded", function() {
+    (function($) {
+        CKEDITOR.config.customConfig = "' . $customConfigUrl . '";
+    })(jQuery);
+});');
     }
 }

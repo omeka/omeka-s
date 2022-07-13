@@ -22,8 +22,11 @@ $itemSetTemplate = '
         ]) . '</li>
     </ul><input type="hidden" class="resource-id" name="o:item_set[]"></td>
 </tr>';
+
+$this->headScript()->appendFile($this->assetUrl('js/item-manage-item-sets.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
 ?>
-<table id="item-item-sets" 
+
+<table id="item-item-sets"
   data-tablesaw-mode="stack"
   data-existing-rows="<?php echo $this->escapeHtml(json_encode($itemSets)); ?>"
   data-row-template="<?php echo $this->escapeHtml($itemSetTemplate); ?>"
@@ -45,7 +48,3 @@ $itemSetTemplate = '
 <button id="item-set-selector-button" class="mobile-only"><?php echo $translate('Add to item set'); ?></button>
 
 <?php echo $this->itemSetSelector(); ?>
-
-<script>
-  Omeka.initializeSelector('#item-item-sets', '#item-set-selector');
-</script>

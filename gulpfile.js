@@ -345,6 +345,7 @@ function taskDepsJs(cb) {
             '!plugins/autoplay/**', '!plugins/comment/**', '!plugins/fullscreen/**', '!plugins/mediumZoom/**', '!plugins/pager/**', '!plugins/relativeCaption/**', '!plugins/share/**',
             '!css/lg-autoplay.css', '!css/lg-fullscreen.css', '!css/lg-pager.css', '!css/lightgallery-bundle.css', '!css/lightgallery-core.css', '!css/lg-comments.css',  '!css/lg-medium-zoom.css', '!css/lg-relative-caption.css', '!css/lg-share.css', '!css/lg-transitions.css', '!css/lightgallery-bundle.min.css'
         ],
+        'mirador': ['dist/**', '!dist/cjs/**', '!dist/es/**'],
         'openseadragon': 'build/openseadragon/**',
         'semver': 'semver.min.js',
         'sortablejs': 'Sortable.min.js',

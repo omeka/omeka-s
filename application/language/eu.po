@@ -3053,6 +3053,9 @@ msgid ""
 "Please contact the Omeka S administrator. This site will not be publicly "
 "available until the problem is resolved or you select another theme below."
 msgstr ""
+"Jarri harremanetan Omeka Sren administratzailearekin mesedez. Atari hau ez "
+"da publikoki erabilgarri egongo arazoa zuzentzen ez den bitartean edota "
+"hurrengo gaien artean beste bat hautatu harte."
 
 #: application/view/omeka/site-admin/index/users.phtml:10
 msgid "Viewer"
@@ -3073,6 +3076,8 @@ msgstr "Erabiltzaile baimenak"
 #: application/view/omeka/site-admin/index/users.phtml:62
 msgid "This site has no users. Add users using the interface to the right."
 msgstr ""
+"Atari honek ez du erabiltzailerik. Gehitu erabiltzaileak eskuineko "
+"interfazea erabiliz."
 
 #: application/view/omeka/site-admin/index/users.phtml:65
 msgid "Click on a user to add them to the site."
@@ -3275,6 +3280,9 @@ msgid ""
 "Components to display for each resource. If not set in Site Settings, "
 "Heading defaults to resource Title and Body to resource Description"
 msgstr ""
+"Baliabide bakoitzean erakutsiko diren osagaiak. Atariaren Ezaugarrietan ez "
+"bada zehaztu, Goiburukoak baliabidearen Titulua eta Gorputzak baliabidearen "
+"Azalpena hartzen du."
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:85
 msgid "Heading"
@@ -4129,11 +4137,11 @@ msgstr ""
 
 #: application/src/Form/ResourceBatchUpdateForm.php:53
 msgid "Open"
-msgstr ""
+msgstr "Ireki"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:54
 msgid "Not open"
-msgstr ""
+msgstr "Ez ireki"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:74
 msgid "Set template"
@@ -4141,7 +4149,7 @@ msgstr "Ezarri txantiloia"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:76
 msgid "[Unset template]"
-msgstr ""
+msgstr "[Txantiloia zehaztu gabe]"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:96
 msgid "Set class"
@@ -4149,7 +4157,7 @@ msgstr "Ezarri klasea"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:97
 msgid "[Unset class]"
-msgstr ""
+msgstr "[Klasea zehaztu gabe]"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:111
 #: application/src/Form/ResourceBatchUpdateForm.php:125
@@ -4237,13 +4245,15 @@ msgstr "Kolore formatu desegokia"
 
 #: application/src/Form/SiteSettingsForm.php:38
 msgid "Auto-assign new items"
-msgstr ""
+msgstr "Automatikoki gehitu elementu berriak"
 
 #: application/src/Form/SiteSettingsForm.php:39
 msgid ""
 "Select this if you want new items to be automatically assigned to this site."
 " Note that item owners may unassign their items at any time."
 msgstr ""
+"Hautatu hau elementu berrian automatikoki atari honi lotzea nahi baduzu. "
+"Kontutan izan elementuaren jabeak nahi duenean ken dezakeela lotura."
 
 #: application/src/Form/SiteSettingsForm.php:50
 msgid "Attachment link type"
@@ -4263,7 +4273,7 @@ msgstr "Esteka zuzena fitxategira"
 
 #: application/src/Form/SiteSettingsForm.php:66
 msgid "Embed media on item pages"
-msgstr ""
+msgstr "Txertatu multimedia elementuaren orrialdean"
 
 #: application/src/Form/SiteSettingsForm.php:77
 msgid "Show page pagination"
@@ -4295,6 +4305,8 @@ msgid ""
 "Locale/language code for this site. Leave blank to use the global locale "
 "setting."
 msgstr ""
+"Atari honen Lokalizazio/hizkuntza kodea. Hutsik utzi balio orokorrak "
+"erabiltzeko."
 
 #: application/src/Form/SiteSettingsForm.php:141
 msgid "Filter values based on site locale"
@@ -4308,29 +4320,32 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:154
 msgid "Show language labels for values"
-msgstr ""
+msgstr "Erakutsi hizkuntza etiketak balioentzat"
 
 #: application/src/Form/SiteSettingsForm.php:155
 msgid "Show a label indicating the language of each value on show pages."
 msgstr ""
+"Erakutsi etiketa balio bakoitzaren hizkuntza adieraziz erakusteko orrietan."
 
 #: application/src/Form/SiteSettingsForm.php:176
 msgid "Restrict browse to attached items"
-msgstr ""
+msgstr "Mugatu erantsitako elementuak arakatzea"
 
 #: application/src/Form/SiteSettingsForm.php:188
 msgid ""
 "The maximum number of results per page on browse pages. Leave blank to use "
 "the global setting."
 msgstr ""
+"Gehienezko orriko emaitza kopurua arakatze orrietan. Hutsik utzi balio "
+"orokorra erabiltzeko."
 
 #: application/src/Form/SiteSettingsForm.php:194
 msgid "Use global setting"
-msgstr ""
+msgstr "Erabili balio orokorrak"
 
 #: application/src/Form/SiteSettingsForm.php:202
 msgid "Browse heading property"
-msgstr ""
+msgstr "Arakatu goiburuko propietatea"
 
 #: application/src/Form/SiteSettingsForm.php:203
 msgid ""
@@ -4341,11 +4356,11 @@ msgstr ""
 #: application/src/Form/SiteSettingsForm.php:211
 #: application/src/Form/SiteSettingsForm.php:228
 msgid "Select a property"
-msgstr ""
+msgstr "Hautatu propietatea"
 
 #: application/src/Form/SiteSettingsForm.php:219
 msgid "Browse body property"
-msgstr ""
+msgstr "Arakatu gorputz propietatea"
 
 #: application/src/Form/SiteSettingsForm.php:220
 msgid ""
@@ -4368,11 +4383,11 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:257
 msgid "Show value annotations"
-msgstr ""
+msgstr "Erakutsi balioen oharrak"
 
 #: application/src/Form/SiteSettingsForm.php:258
 msgid "Show annotations that are set to a value, if any."
-msgstr ""
+msgstr "Erakutsi balio bat lotutako oharrak, baldin badaude."
 
 #: application/src/Form/SiteSettingsForm.php:280
 msgid "Search type"
@@ -4380,7 +4395,7 @@ msgstr "Bilaketa mota"
 
 #: application/src/Form/SiteSettingsForm.php:281
 msgid "Select the type of search the main search field will perform"
-msgstr ""
+msgstr "Hautatu bilaketa nagusiak burutuko duen bilaketa mota"
 
 #: application/src/Form/SiteSettingsForm.php:283
 msgid "This site"
@@ -4399,6 +4414,8 @@ msgid ""
 "Customize which types of resources will be searchable in the main search "
 "field."
 msgstr ""
+"Zehaztu ze baliabide mota bilatu ahalko diren bilaketa nagusiaren "
+"bilatzailean."
 
 #: application/src/Form/SiteSettingsForm.php:315
 msgid "Templates"
@@ -4406,7 +4423,7 @@ msgstr "Txantiloiak"
 
 #: application/src/Form/SiteSettingsForm.php:316
 msgid "Select which templates to apply to the advanced search form."
-msgstr ""
+msgstr "Hautatu bilaketa aurreratuko formularioan erabiltzeko txantiloiak."
 
 #: application/src/Form/SiteSettingsForm.php:321
 msgid "Select templates"
@@ -4414,11 +4431,11 @@ msgstr "Hautatu txantiloiak"
 
 #: application/src/Form/SiteSettingsForm.php:329
 msgid "Restrict to templates"
-msgstr ""
+msgstr "Txantiloietara mugatu"
 
 #: application/src/Form/SiteSettingsForm.php:330
 msgid "Restrict search results to resources of the selected templates."
-msgstr ""
+msgstr "Mugatu bilaketa emaitzak hautatutako txantiloietako baliabideetara."
 
 #: application/src/Form/UserBatchUpdateForm.php:27
 #: application/src/Form/UserForm.php:98
@@ -4433,7 +4450,7 @@ msgstr "Ezarri rola"
 
 #: application/src/Form/UserBatchUpdateForm.php:39
 msgid "Set activity"
-msgstr ""
+msgstr "Ezarri aktibitatea"
 
 #: application/src/Form/UserBatchUpdateForm.php:55
 #: application/src/Form/UserBatchUpdateForm.php:72
@@ -4442,28 +4459,28 @@ msgstr "Hautatu atariak..."
 
 #: application/src/Form/UserBatchUpdateForm.php:59
 msgid "Remove from site permission"
-msgstr ""
+msgstr "Kendu atariko baimenetatik"
 
 #: application/src/Form/UserBatchUpdateForm.php:61
 #: application/src/Form/UserBatchUpdateForm.php:78
 msgid "[All sites]"
-msgstr ""
+msgstr "[Atari guztiak]"
 
 #: application/src/Form/UserBatchUpdateForm.php:76
 msgid "Add to site permission"
-msgstr ""
+msgstr "Gehitu atariko baimenetara"
 
 #: application/src/Form/UserBatchUpdateForm.php:87
 msgid "Select permission…"
-msgstr ""
+msgstr "Hautatu baimena..."
 
 #: application/src/Form/UserBatchUpdateForm.php:91
 msgid "Add to site permission as"
-msgstr ""
+msgstr "Gehitu atariko baimenetara honela:"
 
 #: application/src/Form/SiteResourcesForm.php:15
 msgid "Manage current items"
-msgstr ""
+msgstr "Kudeatu uneko elementuak"
 
 #: application/src/Form/SiteResourcesForm.php:17
 msgid "Do nothing"
@@ -4483,19 +4500,19 @@ msgstr ""
 
 #: application/src/Form/SiteResourcesForm.php:21
 msgid "Remove all - unassign all items"
-msgstr ""
+msgstr "Kendu guztiak - elementuen hautaketak kendu"
 
 #: application/src/Form/ResourceTemplateImportForm.php:14
 msgid "Resource template file"
-msgstr ""
+msgstr "Baliabide txantiloi fitxategia"
 
 #: application/src/Form/UserForm.php:151
 msgid "Default resource template"
-msgstr ""
+msgstr "Defektuzko baliabide txantiloia"
 
 #: application/src/Form/UserForm.php:175
 msgid "Default sites for items"
-msgstr ""
+msgstr "Defektuzko atariak elementuentzat"
 
 #: application/src/Form/UserForm.php:186
 msgid "Current password"
@@ -4511,7 +4528,7 @@ msgstr "Baieztatu pasahitz berria"
 
 #: application/src/Form/UserForm.php:208
 msgid "New key label"
-msgstr ""
+msgstr "Etiketa gako berria"
 
 #: application/src/Form/InstallationForm.php:19
 msgid "Create the first user"
@@ -4563,7 +4580,7 @@ msgstr "Hautatu txantiloia..."
 
 #: application/src/View/Helper/PropertySelect.php:39
 msgid "Select property…"
-msgstr ""
+msgstr "Hautatu propietatea..."
 
 #: application/src/View/Helper/UserSelect.php:39
 msgid "Select user…"
@@ -4658,27 +4675,27 @@ msgstr "Posta elektronikoa edo pasahitz baliogabea"
 
 #: application/src/Controller/LoginController.php:88
 msgid "Successfully logged out"
-msgstr ""
+msgstr "Ongi irten zara"
 
 #: application/src/Controller/LoginController.php:104
 msgid "Invalid password creation key."
-msgstr ""
+msgstr "Pasahitza sortzeko gako baliogabea."
 
 #: application/src/Controller/LoginController.php:113
 msgid "Password creation key expired."
-msgstr ""
+msgstr "Pasahitza sortzeko gakoa iraungita."
 
 #: application/src/Controller/LoginController.php:129
 msgid "Successfully created your password. Please log in."
-msgstr ""
+msgstr "Zure pasahitza ongi sortu da. Hasi saioa mesedez."
 
 #: application/src/Controller/LoginController.php:132
 msgid "Password creation unsuccessful"
-msgstr ""
+msgstr "Ezin izan da pasahitza sortu"
 
 #: application/src/Controller/LoginController.php:168
 msgid "Check your email for instructions on how to reset your password"
-msgstr ""
+msgstr "Begiratu zure mezuko argibideak pasahitza nola berrezarri jakiteko"
 
 #: application/src/Controller/LoginController.php:171
 msgid "Activation unsuccessful"
@@ -4697,27 +4714,28 @@ msgstr ""
 #: application/src/Controller/Admin/ItemSetController.php:87
 #: application/src/Controller/Admin/ItemSetController.php:92
 msgid "Confirm Delete"
-msgstr ""
+msgstr "Baieztatu Ezabaketa"
 
 #: application/src/Controller/Admin/ItemController.php:114
 msgid "item"
-msgstr ""
+msgstr "elementua"
 
 #: application/src/Controller/Admin/ItemController.php:130
 msgid "Item successfully deleted"
-msgstr ""
+msgstr "Elementua ongi ezabatu da"
 
 #: application/src/Controller/Admin/ItemController.php:151
 msgid "You must select at least one item to batch delete."
 msgstr ""
+"Elementu bat gutxienez hautatu behar duzu sorta ezabaketa egin ahal izateko."
 
 #: application/src/Controller/Admin/ItemController.php:160
 msgid "Items successfully deleted"
-msgstr ""
+msgstr "Elementuak ongi ezabatu dira"
 
 #: application/src/Controller/Admin/ItemController.php:186
 msgid "Deleting items. This may take a while."
-msgstr ""
+msgstr "Elementuak ezabatzen. Honek denbora hartu dezake."
 
 #: application/src/Controller/Admin/ItemController.php:210
 #, php-format
@@ -4734,7 +4752,7 @@ msgstr ""
 
 #: application/src/Controller/Admin/ItemController.php:295
 msgid "Items successfully edited"
-msgstr ""
+msgstr "Elementuak ongi editatu dira"
 
 #: application/src/Controller/Admin/ItemController.php:347
 msgid "Editing items. This may take a while."
@@ -4772,232 +4790,236 @@ msgstr ""
 
 #: application/src/Controller/Admin/UserController.php:268
 msgid "user"
-msgstr ""
+msgstr "erabiltzailea"
 
 #: application/src/Controller/Admin/UserController.php:281
 msgid "User successfully deleted"
-msgstr ""
+msgstr "Erabiltzailea ongi ezabatu da"
 
 #: application/src/Controller/Admin/UserController.php:303
 msgid "You must select at least one user to batch delete."
-msgstr ""
+msgstr "Sorta ezabaketarako erabiltzaile bat gutxienez hatutatu behar duzu."
 
 #: application/src/Controller/Admin/UserController.php:310
 msgid "You can’t delete yourself."
-msgstr ""
+msgstr "Ezin duzu zure burua ezabatu."
 
 #: application/src/Controller/Admin/UserController.php:319
 msgid "Users successfully deleted"
-msgstr ""
+msgstr "Erabiltzaileak ongi ezabatu dira"
 
 #: application/src/Controller/Admin/UserController.php:345
 msgid "Deleting users. This may take a while."
-msgstr ""
+msgstr "Erabiltzaileak ezabatzen. Honek denbora hartu dezake."
 
 #: application/src/Controller/Admin/UserController.php:364
 msgid "You must select at least one user to batch edit."
 msgstr ""
+"Erabiltzaile bat gutxienez hautatu behar duzu sorta ezabaketa egiteko."
 
 #: application/src/Controller/Admin/UserController.php:371
 msgid "For security reasons, you can’t batch edit yourself."
 msgstr ""
+"Segurtasun arrazoiengatrik, ezin duzu zure burua sorta edizioan sartu."
 
 #: application/src/Controller/Admin/UserController.php:392
 msgid "Users successfully edited"
-msgstr ""
+msgstr "Erabitlzailea ongi aldatu da"
 
 #: application/src/Controller/Admin/UserController.php:445
 msgid "Editing users. This may take a while."
-msgstr ""
+msgstr "Erabiltzaileak editatzen. Honek denbora iraun dezake."
 
 #: application/src/Controller/Admin/ModuleController.php:122
 msgid "The module was successfully installed"
-msgstr ""
+msgstr "Modulua ongi instalatu da"
 
 #: application/src/Controller/Admin/ModuleController.php:144
 msgid "Confirm uninstall"
-msgstr ""
+msgstr "Baieztatu desinstalatzea"
 
 #: application/src/Controller/Admin/ModuleController.php:173
 msgid "The module was successfully uninstalled"
-msgstr ""
+msgstr "Modulua ongi desinstalatu da"
 
 #: application/src/Controller/Admin/ModuleController.php:199
 msgid "The module was successfully activated"
-msgstr ""
+msgstr "Modulua ongi aktibatu da"
 
 #: application/src/Controller/Admin/ModuleController.php:225
 msgid "The module was successfully deactivated"
-msgstr ""
+msgstr "Modulua ongi desgaitu da"
 
 #: application/src/Controller/Admin/ModuleController.php:251
 msgid "The module was successfully upgraded"
-msgstr ""
+msgstr "Modulua ongi eguneratu da"
 
 #: application/src/Controller/Admin/ModuleController.php:281
 msgid "The module was successfully configured"
-msgstr ""
+msgstr "Modulua ongi konfiguratu da"
 
 #: application/src/Controller/Admin/ModuleController.php:284
 msgid "There was a problem during configuration"
-msgstr ""
+msgstr "Arazo bat egin da konfiguratzerakoan"
 
 #: application/src/Controller/Admin/JobController.php:27
 msgid "Attempt Stop"
-msgstr ""
+msgstr "Saiatu Gelditzen"
 
 #: application/src/Controller/Admin/JobController.php:56
 msgid "Attempting to stop the job."
-msgstr ""
+msgstr "Ataza gelditzen saiatzen."
 
 #: application/src/Controller/Admin/JobController.php:58
 msgid "The job could not be stopped."
-msgstr ""
+msgstr "Ataza ezin da gelditu."
 
 #: application/src/Controller/Admin/SettingController.php:35
 msgid "Settings successfully updated"
-msgstr ""
+msgstr "Ezarpenak ogi aldatu dira"
 
 #: application/src/Controller/Admin/MediaController.php:59
 msgid "Media successfully updated"
-msgstr ""
+msgstr "Multimeida ongi aldatu da"
 
 #: application/src/Controller/Admin/MediaController.php:125
 #: application/src/Controller/Admin/MediaController.php:168
 msgid "Media successfully deleted"
-msgstr ""
+msgstr "Multimedia ongi ezabatu da"
 
 #: application/src/Controller/Admin/MediaController.php:159
 msgid "You must select at least one media to batch delete."
 msgstr ""
+"Multimedia elementu bat gutxienez hautatu behar duzu sorta ezabaketarako."
 
 #: application/src/Controller/Admin/MediaController.php:194
 msgid "Deleting media. This may take a while."
-msgstr ""
+msgstr "Multimedia ezabatzen. Honek denbora iraun dezake."
 
 #: application/src/Controller/Admin/MediaController.php:212
 msgid "You must select at least one media to batch edit."
 msgstr ""
+"Multimedia elementu bat gutxienez hautatu behar duzu sorta ediziorako."
 
 #: application/src/Controller/Admin/MediaController.php:233
 msgid "Media successfully edited"
-msgstr ""
+msgstr "Multimedia ongi aldatu da"
 
 #: application/src/Controller/Admin/MediaController.php:285
 msgid "Editing media. This may take a while."
-msgstr ""
+msgstr "Multimedia editatzen. Honek denbora iraun dezake."
 
 #: application/src/Controller/Admin/AssetController.php:93
 msgid "Asset successfully updated"
-msgstr ""
+msgstr "Baliabidea ongi eguneratu da"
 
 #: application/src/Controller/Admin/AssetController.php:124
 msgid "asset"
-msgstr ""
+msgstr "baliabidea"
 
 #: application/src/Controller/Admin/AssetController.php:137
 msgid "Asset successfully deleted"
-msgstr ""
+msgstr "Baliabidea ongi ezabatu da"
 
 #: application/src/Controller/Admin/ItemSetController.php:32
 #, php-format
 msgid "Item set successfully created. %s"
-msgstr ""
+msgstr "Elementu multzoa ongi sortu da. %s"
 
 #: application/src/Controller/Admin/ItemSetController.php:69
 msgid "Item set successfully updated"
-msgstr ""
+msgstr "Elementu multzoa ongi aldatu da"
 
 #: application/src/Controller/Admin/ItemSetController.php:155
 msgid "item set"
-msgstr ""
+msgstr "elementu multzoa"
 
 #: application/src/Controller/Admin/ItemSetController.php:170
 msgid "Item set successfully deleted"
-msgstr ""
+msgstr "Elementu multzoa ongi ezabatu da"
 
 #: application/src/Controller/Admin/ItemSetController.php:191
 msgid "You must select at least one item set to batch delete."
-msgstr ""
+msgstr "Elementu multzo bat gutxienez hautatu behar duzu sorta ezabaketarako."
 
 #: application/src/Controller/Admin/ItemSetController.php:200
 msgid "Item sets successfully deleted"
-msgstr ""
+msgstr "Elementu multzoak ongi ezabatu dira"
 
 #: application/src/Controller/Admin/ItemSetController.php:226
 msgid "Deleting item sets. This may take a while."
-msgstr ""
+msgstr "Elementu multzoak ezabatzen. Honek denbora iraun dezake."
 
 #: application/src/Controller/Admin/ItemSetController.php:244
 msgid "You must select at least one item set to batch edit."
-msgstr ""
+msgstr "Elementu multzo bat gutxienez hautatu behar duzu sorta ediziorako."
 
 #: application/src/Controller/Admin/ItemSetController.php:265
 msgid "Item sets successfully edited"
-msgstr ""
+msgstr "Elementu multzoa ongi aldatu da"
 
 #: application/src/Controller/Admin/ItemSetController.php:317
 msgid "Editing item sets. This may take a while."
-msgstr ""
+msgstr "Elementu multzoak editatzen. Honek denbora iraun dezake."
 
 #: application/src/Controller/Admin/VocabularyController.php:59
 msgid "vocabulary"
-msgstr ""
+msgstr "hiztegia"
 
 #: application/src/Controller/Admin/VocabularyController.php:97
 #, php-format
 msgid "Vocabulary successfully imported. %s"
-msgstr ""
+msgstr "Hiztegia ongi inportatu da. %s"
 
 #: application/src/Controller/Admin/VocabularyController.php:176
 msgid "Please review these changes before you accept them."
-msgstr ""
+msgstr "Berrikusi hurrengo aldaketak onartu aurretik mesedez."
 
 #: application/src/Controller/Admin/VocabularyController.php:184
 msgid "Vocabulary successfully updated"
-msgstr ""
+msgstr "Hiztegia ongi aldatu da"
 
 #: application/src/Controller/Admin/VocabularyController.php:204
 msgid "Changes to the vocabulary successfully made"
-msgstr ""
+msgstr "Hiztegiko aldaketak ongi osatu dira"
 
 #: application/src/Controller/Admin/VocabularyController.php:220
 msgid "Vocabulary successfully deleted"
-msgstr ""
+msgstr "Hiztegia ongi ezabatu da"
 
 #: application/src/Controller/Admin/ResourceTemplateController.php:437
 msgid "resource template"
-msgstr ""
+msgstr "baliabide txantiloia"
 
 #: application/src/Controller/Admin/ResourceTemplateController.php:450
 msgid "Resource template successfully deleted"
-msgstr ""
+msgstr "Baliabide txantiloia ongi ezabatu da"
 
 #: application/src/Controller/Admin/ResourceTemplateController.php:452
 #: application/src/Controller/Admin/ResourceTemplateController.php:455
 msgid "Resource template could not be deleted"
-msgstr ""
+msgstr "Ezin izan da baliabide txantiloia ezabatu"
 
 #: application/src/Controller/Admin/ResourceTemplateController.php:507
 msgid "Resource template successfully updated"
-msgstr ""
+msgstr "Baliabide txantiloia ongi eguneratu da"
 
 #: application/src/Controller/Admin/ResourceTemplateController.php:510
 #, php-format
 msgid "Resource template successfully created. %s"
-msgstr ""
+msgstr "Baliabide txantiloia ongi sortu da. %s"
 
 #: application/config/module.config.php:636
 msgid "Something went wrong"
-msgstr ""
+msgstr "Zerbait gaizki joan da"
 
 #: application/config/module.config.php:641
 msgid "You have unsaved changes."
-msgstr ""
+msgstr "Gorde gabeko aldaketak dituzu."
 
 #: application/config/module.config.php:642
 msgid "Restore item set"
-msgstr ""
+msgstr "Berrezarri elementu multzoa"
 
 #: application/config/module.config.php:643
 msgid "Close icon set"
@@ -5013,35 +5035,35 @@ msgstr ""
 
 #: application/config/module.config.php:647
 msgid "Restore property"
-msgstr ""
+msgstr "Berrezarri propietatea"
 
 #: application/config/module.config.php:649
 msgid "Please enter a valid language tag"
-msgstr ""
+msgstr "Mesedez, adierazi hizkuntza etiketa egoki bat"
 
 #: application/config/module.config.php:651
 msgid "Description"
-msgstr ""
+msgstr "Azalpena"
 
 #: application/config/navigation.config.php:201
 msgid "Site admin"
-msgstr ""
+msgstr "Atari administratzailea"
 
 #: application/view/common/advanced-search/properties.phtml:61
 msgid "[Any Property]"
-msgstr ""
+msgstr "[Edozein Propietate]"
 
 #: application/view/common/delete-confirm.phtml:4
 msgid "Confirm delete"
-msgstr ""
+msgstr "Baieztatu ezabatzea"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:41
 msgid "Filter by class"
-msgstr ""
+msgstr "Iragazi klasearen arabera"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:53
 msgid "Filter by item set"
-msgstr ""
+msgstr "Iragazi elementu multzoaren arabera"
 
 #. Vocabulary label for Dublin Core
 msgid "Dublin Core"
@@ -5078,11 +5100,11 @@ msgstr ""
 
 #. Class label for Dublin Core:FileFormat
 msgid "File Format"
-msgstr ""
+msgstr "Fitxategi formatua"
 
 #. Class comment for Dublin Core:FileFormat
 msgid "A digital resource format."
-msgstr ""
+msgstr "Baliabide digital formatua."
 
 #. Class label for Dublin Core:Frequency
 msgid "Frequency"
@@ -5102,7 +5124,7 @@ msgstr ""
 
 #. Class label for Dublin Core:LicenseDocument
 msgid "License Document"
-msgstr ""
+msgstr "Lizentzia Dokumentua"
 
 #. Class comment for Dublin Core:LicenseDocument
 msgid ""
@@ -5121,7 +5143,7 @@ msgstr ""
 
 #. Class label for Dublin Core:Location
 msgid "Location"
-msgstr ""
+msgstr "Kokalekua"
 
 #. Class comment for Dublin Core:Location
 msgid "A spatial region or named place."
@@ -5137,7 +5159,7 @@ msgstr ""
 
 #. Class label for Dublin Core:MediaType
 msgid "Media Type"
-msgstr ""
+msgstr "Multimedia Mota"
 
 #. Class comment for Dublin Core:MediaType
 msgid "A file format or physical medium."
@@ -5253,7 +5275,7 @@ msgstr ""
 
 #. Property label for Dublin Core:subject
 msgid "Subject"
-msgstr ""
+msgstr "Gaia"
 
 #. Property comment for Dublin Core:subject
 msgid "The topic of the resource."
@@ -5295,7 +5317,7 @@ msgstr ""
 
 #. Property label for Dublin Core:format
 msgid "Format"
-msgstr ""
+msgstr "Formatua"
 
 #. Property comment for Dublin Core:format
 msgid "The file format, physical medium, or dimensions of the resource."
@@ -5637,7 +5659,7 @@ msgstr ""
 
 #. Property label for Dublin Core:license
 msgid "License"
-msgstr ""
+msgstr "Lizentzia"
 
 #. Property comment for Dublin Core:license
 msgid ""
@@ -5726,7 +5748,7 @@ msgstr ""
 #. Class label for Dublin Core Type:Event
 #. Class label for Bibliographic Ontology:Event
 msgid "Event"
-msgstr ""
+msgstr "Ekintza"
 
 #. Class comment for Dublin Core Type:Event
 msgid "A non-persistent, time-based occurrence."
@@ -5736,7 +5758,7 @@ msgstr ""
 #. Class label for Bibliographic Ontology:Image
 #. Class label for Friend of a Friend:Image
 msgid "Image"
-msgstr ""
+msgstr "Irudia"
 
 #. Class comment for Dublin Core Type:Image
 msgid "A visual representation other than text."
@@ -5754,7 +5776,7 @@ msgstr ""
 
 #. Class label for Dublin Core Type:Service
 msgid "Service"
-msgstr ""
+msgstr "Zerbitzua"
 
 #. Class comment for Dublin Core Type:Service
 msgid "A system that provides one or more functions."
@@ -5770,7 +5792,7 @@ msgstr ""
 
 #. Class label for Dublin Core Type:Sound
 msgid "Sound"
-msgstr ""
+msgstr "Soinua"
 
 #. Class comment for Dublin Core Type:Sound
 msgid "A resource primarily intended to be heard."
@@ -5824,7 +5846,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Article
 msgid "Article"
-msgstr ""
+msgstr "Artikulua"
 
 #. Class comment for Bibliographic Ontology:Article
 msgid ""
@@ -5859,7 +5881,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Book
 msgid "Book"
-msgstr ""
+msgstr "Liburua"
 
 #. Class comment for Bibliographic Ontology:Book
 msgid ""
@@ -5885,7 +5907,7 @@ msgstr ""
 
 #. Class label for Bibliographic Ontology:Chapter
 msgid "Chapter"
-msgstr ""
+msgstr "Atala"
 
 #. Class comment for Bibliographic Ontology:Chapter
 msgid "A chapter of a book."
@@ -5930,7 +5952,7 @@ msgstr ""
 #. Class label for Bibliographic Ontology:Document
 #. Class label for Friend of a Friend:Document
 msgid "Document"
-msgstr ""
+msgstr "Dokumentua"
 
 #. Class comment for Bibliographic Ontology:Document
 msgid ""
@@ -7335,11 +7357,11 @@ msgstr ""
 
 #. Property label for Friend of a Friend:theme
 msgid "theme"
-msgstr ""
+msgstr "gaia"
 
 #. Property comment for Friend of a Friend:theme
 msgid "A theme."
-msgstr ""
+msgstr "Gaia."
 
 #. Property label for Friend of a Friend:account
 #. Property label for Friend of a Friend:holdsAccount
@@ -7394,7 +7416,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:age
 msgid "age"
-msgstr ""
+msgstr "adina"
 
 #. Property comment for Friend of a Friend:age
 msgid "The age in years of some agent."

@@ -214,7 +214,7 @@ msgstr "Contenus"
 
 #: application/src/DataType/Resource/ItemSet.php:27
 msgid "Item Sets"
-msgstr ""
+msgstr "Collections"
 
 #: application/src/DataType/Resource/Media.php:27
 #: application/view/common/data-type/resource.phtml:37
@@ -1171,7 +1171,7 @@ msgstr "Valeur à supprimer"
 
 #: application/view/common/data-type-wrapper.phtml:21
 msgid "More actions"
-msgstr ""
+msgstr "Autres actions"
 
 #: application/view/common/data-type-wrapper.phtml:24
 #: application/view/common/media-field-wrapper.phtml:10
@@ -1189,7 +1189,7 @@ msgstr "Rendre privé"
 #: application/view/common/data-type-wrapper.phtml:27
 #: application/view/common/value-annotation-sidebar.phtml:6
 msgid "Annotate value"
-msgstr ""
+msgstr "Annoter la valeur"
 
 #: application/view/common/data-type/literal.phtml:4
 #: application/view/common/data-type/value-annotation-literal.phtml:2
@@ -1472,7 +1472,7 @@ msgstr "Privé"
 
 #: application/view/common/resource-values.phtml:57
 msgid "Has annotation"
-msgstr ""
+msgstr "A une annotation"
 
 #: application/view/common/sidebar-pagelist.phtml:10
 msgid "Add to List of pages"
@@ -1569,15 +1569,15 @@ msgstr "Utilisateurs (%s)"
 
 #: application/view/common/value-annotation-sidebar.phtml:20
 msgid "Add annotation"
-msgstr ""
+msgstr "Ajouter une annotation"
 
 #: application/view/common/value-annotation-sidebar.phtml:22
 msgid "Annotations"
-msgstr ""
+msgstr "Annotations"
 
 #: application/view/common/value-annotation-sidebar.phtml:27
 msgid "Set annotations"
-msgstr ""
+msgstr "Définir des annotations"
 
 #: application/view/common/value-annotation-wrapper.phtml:13
 #: application/view/omeka/admin/item-set/form.phtml:49
@@ -2857,10 +2857,14 @@ msgid ""
 " list of available API resources and links to their endpoints. Some "
 "resources and features require authentication."
 msgstr ""
+"Cette URL correspond à la racine de l’API REST de cette installation d’Omeka"
+" S. Ci-dessous se trouve la liste des ressources API disponibles et leurs "
+"points d’accès. Certaines ressources et fonctionnalités requièrent une "
+"authentification par une clé d’API."
 
 #: application/view/omeka/api/root.phtml:12
 msgid "Omeka S REST API documentation"
-msgstr ""
+msgstr "Documentation de l’API REST d’Omeka S"
 
 #: application/view/omeka/index/index.phtml:32
 #, php-format
@@ -3223,7 +3227,7 @@ msgstr "Ressource"
 #: application/src/DataType/Resource/AbstractResource.php:77
 #, php-format
 msgid "Invalid value resource %s for type %s"
-msgstr ""
+msgstr "Ressource liée %s incorrecte pour le type %s"
 
 #: application/src/Site/BlockLayout/ItemShowcase.php:13
 msgid "Item showcase"
@@ -4475,11 +4479,11 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:257
 msgid "Show value annotations"
-msgstr ""
+msgstr "Afficher les annotations des valeurs"
 
 #: application/src/Form/SiteSettingsForm.php:258
 msgid "Show annotations that are set to a value, if any."
-msgstr ""
+msgstr "Afficher les annotations définies pour une valeur."
 
 #: application/src/Form/SiteSettingsForm.php:280
 msgid "Search type"
@@ -5309,7 +5313,7 @@ msgstr ""
 
 #. Class label for Dublin Core:MethodOfAccrual
 msgid "Method of Accrual"
-msgstr "Méthode d’accumulation"
+msgstr "Modalité d’entrée"
 
 #. Class comment for Dublin Core:MethodOfAccrual
 msgid "A method by which resources are added to a collection."
@@ -5891,7 +5895,7 @@ msgstr ""
 
 #. Property label for Dublin Core:accrualMethod
 msgid "Accrual Method"
-msgstr "Méthode d’ajout"
+msgstr "Modalité d’entrée"
 
 #. Property comment for Dublin Core:accrualMethod
 msgid "The method by which items are added to a collection."
@@ -5899,7 +5903,7 @@ msgstr "La méthode par laquelle les articles sont ajoutés à la collection."
 
 #. Property label for Dublin Core:accrualPeriodicity
 msgid "Accrual Periodicity"
-msgstr "Périodicité de l’ajout"
+msgstr "Périodicité des entrées"
 
 #. Property comment for Dublin Core:accrualPeriodicity
 msgid "The frequency with which items are added to a collection."
@@ -5907,7 +5911,7 @@ msgstr "La fréquence à laquelle les articles sont ajoutés à la collection."
 
 #. Property label for Dublin Core:accrualPolicy
 msgid "Accrual Policy"
-msgstr "Politique d’ajout"
+msgstr "Politique d’entrée"
 
 #. Property comment for Dublin Core:accrualPolicy
 msgid "The policy governing the addition of items to a collection."

@@ -15,6 +15,9 @@ class IiifViewerController extends AbstractActionController
             'workspaceControlPanel' => [
                 'enabled' => false,
             ],
+            'workspace' => [
+                'showZoomControls' => true,
+            ],
             'window' => [
                 'allowClose' => false,
                 'allowFullscreen' => true,

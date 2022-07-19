@@ -573,6 +573,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:data_type' => $resTemProp->dataTypes(),
                         'o:is_required' => $resTemProp->isRequired(),
                         'o:is_private' => $resTemProp->isPrivate(),
+                        'o:default_lang' => $resTemProp->defaultLang(),
                     ];
                 }
             } else {
@@ -592,6 +593,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:data_type' => null,
                         'o:is_required' => false,
                         'o:is_private' => false,
+                        'o:default_lang' => null,
                     ],
                     [
                         'o:property' => $descriptionProperty,
@@ -600,6 +602,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:data_type' => null,
                         'o:is_required' => false,
                         'o:is_private' => false,
+                        'o:default_lang' => null,
                     ],
                 ];
             }
@@ -627,6 +630,7 @@ class ResourceTemplateController extends AbstractActionController
             'o:data_type' => null,
             'o:is_required' => false,
             'o:is_private' => false,
+            'o:default_lang' => null,
         ];
 
         $view = new ViewModel;

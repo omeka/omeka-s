@@ -598,6 +598,9 @@
         if (templateProperty['o:is_private']) {
             field.addClass('private');
         }
+        if (templateProperty['o:default_lang']) {
+            field.find('input[data-value-key="@language"]').val(templateProperty['o:default_lang']);
+        }
         if (templateProperty['o:alternate_label']) {
             var altLabel = originalLabel.clone();
             var altLabelId = 'property-' + propertyId + '-' + dataTypes.join('-') + '-label';

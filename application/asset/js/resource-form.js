@@ -471,6 +471,15 @@
         value.attr('aria-labelledby', valueLabelID);
         $(document).trigger('o:prepare-value', [dataType, value, valueObj]);
 
+        // Add default language, if any.
+        var templateProperty = field.data('template-property');
+        if (templateProperty && templateProperty['o:default_lang']) {
+            value.find('a.value-language').toggleClass('active');
+            value.find('input.value-language')
+                .toggleClass('active')
+                .val(templateProperty['o:default_lang']);
+        }
+
         return value;
     };
 
@@ -585,6 +594,7 @@
         if (field.length == 0) {
             field = makeNewField(propertyId, dataTypes);
         }
+        field.data('template-property', templateProperty);
 
         var originalLabel = field.find('.field-label');
         var originalDescription = field.find('.field-description');
@@ -597,9 +607,6 @@
         }
         if (templateProperty['o:is_private']) {
             field.addClass('private');
-        }
-        if (templateProperty['o:default_lang']) {
-            field.find('input[data-value-key="@language"]').val(templateProperty['o:default_lang']);
         }
         if (templateProperty['o:alternate_label']) {
             var altLabel = originalLabel.clone();
@@ -678,6 +685,7 @@
         // Fieldsets may have been marked as required or private in a previous state.
         $('.field').removeClass('required');
         $('.field').removeClass('private');
+        $('.field').data('template-property', null);
 
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();

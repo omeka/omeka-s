@@ -347,6 +347,12 @@ class ResourceTemplateController extends AbstractActionController
             } elseif (!is_array($property['data_types']) && !is_null($property['data_types'])) {
                 return false;
             }
+
+            // Validate info introduced in newer versions.
+            if (isset($property['o:default_lang']) && (!is_string($property['o:default_lang']) && !is_null($property['o:default_lang']))) {
+                // o:default_lang introduced in v4.0.0
+                return false;
+            }
         }
         return true;
     }
@@ -405,6 +411,7 @@ class ResourceTemplateController extends AbstractActionController
                 'o:alternate_comment' => $templateProperty->alternateComment(),
                 'o:is_required' => $templateProperty->isRequired(),
                 'o:is_private' => $templateProperty->isPrivate(),
+                'o:default_lang' => $templateProperty->defaultLang(),
                 'data_types' => $templateProperty->dataTypeLabels(),
                 'vocabulary_namespace_uri' => $vocab->namespaceUri(),
                 'vocabulary_label' => $vocab->label(),

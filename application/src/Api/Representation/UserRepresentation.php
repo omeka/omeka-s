@@ -55,6 +55,29 @@ class UserRepresentation extends AbstractEntityRepresentation
         return $this->resource;
     }
 
+    public function sites()
+    {
+        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $sites = $api
+            ->search('sites', ['owner_id' => $this->id()])->getContent();
+        return $sites;
+    }
+
+    public function sitePermissions()
+    {
+        $sitePermissions = [];
+        $services = $this->getServiceLocator();
+        $entityManager = $services->get('Omeka\EntityManager');
+        $sitePermissionRepository = $entityManager->getRepository(\Omeka\Entity\SitePermission::class);
+        $sitePermissionEntities = $sitePermissionRepository
+            ->findBy(['user' => $this->id()]);
+        foreach ($sitePermissionEntities as $sitePermissionEntity) {
+            $sitePermissions[] = new SitePermissionRepresentation(
+                $sitePermissionEntity, $services);
+        }
+        return $sitePermissions;
+    }
+
     public function displayRole()
     {
         $roleIndex = $this->resource->getRole();

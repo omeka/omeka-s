@@ -37,4 +37,52 @@ $this->htmlElement('body')->appendAttribute('class', 'users show');
         <?php echo $escape($user->isActive() ? $translate('yes') : $translate('no')); ?>
     </div>
 </div>
+<div class="property sites">
+    <h4><?php echo $translate('Sites'); ?></h4>
+    <?php $sites = $user->sites(); ?>
+    <?php if (empty($sites)): ?>
+    <div class="value no-value">
+        <?php echo $escape($translate('None')); ?>
+    </div>
+    <?php else: ?>
+    <div class="value">
+    <ul style="list-style: none; margin: 0; padding-left: 0;">
+    <?php foreach ($sites as $site): ?>
+        <li>
+            <span class="actions" style="display: initial; margin-right: 6px;">
+            <?php echo $this->hyperlink('', $site->siteUrl(), [
+                'target' => '_blank',
+                'class' => 'o-icon-external public',
+                'title' => $translate('View public site'),
+            ]); ?>
+            </span>
+            <?php echo $site->link($site->title()); ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+    </div>
+    <?php endif; ?>
+</div>
+<div class="property site-permissions">
+    <h4><?php echo $translate('Site permissions'); ?></h4>
+    <?php $sitePermissions = $user->sitePermissions(); ?>
+    <?php if (empty($sitePermissions)): ?>
+    <div class="value no-value">
+        <?php echo $escape($translate('None')); ?>
+    </div>
+    <?php else: ?>
+    <div class="value">
+    <ul style="margin: 0;">
+    <?php foreach ($sitePermissions as $sitePermission): ?>
+        <li>
+            <?php $site = $sitePermission->site(); ?>
+            <?php echo sprintf('%s (%s)',
+                $site->link($site->title(), 'users'),
+                $escape($translate($sitePermission->role()))); ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+    </div>
+    <?php endif; ?>
+</div>
 <?php $this->trigger('view.show.after'); ?>

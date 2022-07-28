@@ -116,7 +116,9 @@ class SystemInfoController extends AbstractActionController
     public function getImagemagickPath()
     {
         $imagemagickPath = @$this->config['thumbnails']['thumbnailer_options']['imagemagick_dir'];
-        if (!$imagemagickPath) {
+        if ($imagemagickPath) {
+            $imagemagickPath .= 'convert';
+        } else {
             $imagemagickPath = $this->cli->getCommandPath('convert');
         }
         return $imagemagickPath;

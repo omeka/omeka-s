@@ -4,6 +4,7 @@ namespace Omeka\Controller\Admin;
 use PDO;
 use Doctrine\DBAL\Connection;
 use Omeka\Module;
+use Omeka\Stdlib\Cli;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
@@ -15,11 +16,25 @@ class SystemInfoController extends AbstractActionController
     protected $connection;
 
     /**
-     * @param Connection $connection
+     * @var array
      */
-    public function __construct(Connection $connection)
+    protected $config;
+
+    /**
+     * @var Cli
+     */
+    protected $cli;
+
+    /**
+     * @param Connection $connection
+     * @param array $config
+     * @param Cli $cli
+     */
+    public function __construct(Connection $connection, array $config, Cli $cli)
     {
         $this->connection = $connection;
+        $this->config = $config;
+        $this->cli = $cli;
     }
 
     public function browseAction()
@@ -58,6 +73,18 @@ class SystemInfoController extends AbstractActionController
             'OS' => [
                 'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
             ],
+            'Paths' => [
+                'PHP' => sprintf(
+                    '%s %s',
+                    $this->getPhpPath(),
+                    !$this->cli->validateCommand($this->getPhpPath()) ? $this->translate('[invalid]') : ''
+                ),
+                'ImageMagick' => sprintf(
+                    '%s %s',
+                    $this->getImagemagickPath(),
+                    !$this->cli->validateCommand($this->getImagemagickPath()) ? $this->translate('[invalid]') : ''
+                ),
+            ],
         ];
 
         $disabledFunctions = ini_get('disable_functions');
@@ -75,5 +102,23 @@ class SystemInfoController extends AbstractActionController
         }
 
         return $info;
+    }
+
+    public function getPhpPath()
+    {
+        $phpPath = @$this->config['cli']['phpcli_path'];
+        if (!$phpPath) {
+            $phpPath = $this->cli->getCommandPath('php');
+        }
+        return $phpPath;
+    }
+
+    public function getImagemagickPath()
+    {
+        $imagemagickPath = @$this->config['thumbnails']['thumbnailer_options']['imagemagick_dir'];
+        if (!$imagemagickPath) {
+            $imagemagickPath = $this->cli->getCommandPath('convert');
+        }
+        return $imagemagickPath;
     }
 }

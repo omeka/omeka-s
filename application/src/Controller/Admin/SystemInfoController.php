@@ -74,7 +74,7 @@ class SystemInfoController extends AbstractActionController
                 'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
             ],
             'Paths' => [
-                'PHP' => sprintf(
+                'PHP CLI' => sprintf(
                     '%s %s',
                     $this->getPhpPath(),
                     !$this->cli->validateCommand($this->getPhpPath()) ? $this->translate('[invalid]') : ''
@@ -102,6 +102,28 @@ class SystemInfoController extends AbstractActionController
         }
 
         return $info;
+    }
+
+    public function getPhpVersionAction()
+    {
+        $output = $this->cli->execute(sprintf('%s --version', $this->getPhpPath()));
+        if (!$output) {
+            $output = $this->translate('[Unable to execute command]');
+        }
+        $response = $this->getResponse();
+        $response->setContent($output);
+        return $response;
+    }
+
+    public function getImagemagickVersionAction()
+    {
+        $output = $this->cli->execute(sprintf('%s --version', $this->getImagemagickPath()));
+        if (!$output) {
+            $output = $this->translate('[Unable to execute command]');
+        }
+        $response = $this->getResponse();
+        $response->setContent($output);
+        return $response;
     }
 
     public function getPhpPath()

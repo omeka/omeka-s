@@ -26,3 +26,29 @@ echo $this->pageTitle($translate('System information'));
 </tbody>
 <?php endforeach; ?>
 </table>
+
+<div>
+    <button type="button" id="get-php-version-button" data-url="<?php echo $this->escapeHtml($this->url(null, ['action' => 'get-php-version'], true)); ?>"><?php echo $this->translate('Get PHP CLI version'); ?></button>
+    <textarea id="php-version" cols="80" rows="6" style="display: none;" disabled></textarea>
+</div>
+<div>
+    <button type="button" id="get-imagemagick-version-button" data-url="<?php echo $this->escapeHtml($this->url(null, ['action' => 'get-imagemagick-version'], true)); ?>"><?php echo $this->translate('Get ImageMagick version'); ?></button>
+    <textarea id="imagemagick-version" cols="80" rows="6" style="display: none;" disabled></textarea>
+</div>
+
+<script>
+const phpButton = $('#get-php-version-button');
+const imagemagickButton = $('#get-imagemagick-version-button');
+phpButton.on('click', function(e) {
+    $.get(phpButton.data('url'))
+        .done(data => {
+            $('#php-version').show().val(data);
+        });
+});
+imagemagickButton.on('click', function(e) {
+    $.get(imagemagickButton.data('url'))
+        .done(data => {
+            $('#imagemagick-version').show().val(data);
+        });
+});
+</script>

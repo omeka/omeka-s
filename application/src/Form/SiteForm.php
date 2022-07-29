@@ -51,7 +51,7 @@ class SiteForm extends Form
             'type' => 'Omeka\Form\Element\Asset',
             'options' => [
                 'label' => 'Thumbnail', // @translate
-                'info' => 'Choose or upload a thumbnail to display with site.', // @translate
+                'info' => 'Choose or upload an image to display with site. The image will be cropped to a square if not already square.', // @translate
             ],
             'attributes' => [
                 'id' => 'thumbnail',

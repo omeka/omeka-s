@@ -45,7 +45,7 @@ class IiifViewerController extends AbstractActionController
         // Apply user-defined configuration, which is set via the mirador_config
         // query parameter. Here we use an allow-list instead of a recursive
         // merge to prevent malicious configurations.
-        $miradorConfigUser = json_decode($this->params()->fromQuery('mirador_config'), true);
+        $miradorConfigUser = json_decode((string) $this->params()->fromQuery('mirador_config'), true);
         if (isset($miradorConfigUser['window.sideBarOpen'])) {
             $miradorConfig['window']['sideBarOpen'] = $miradorConfigUser['window.sideBarOpen'];
         }

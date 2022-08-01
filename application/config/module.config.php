@@ -427,6 +427,7 @@ return [
             'cancelButton' => View\Helper\CancelButton::class,
             'sortMedia' => View\Helper\SortMedia::class,
             'lightGalleryOutput' => View\Helper\LightGalleryOutput::class,
+            'iiifViewer' => View\Helper\IiifViewer::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,

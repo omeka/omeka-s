@@ -14,20 +14,6 @@ class IiifPresentation implements RendererInterface
                 'window.sideBarOpen' => false,
             ]),
         ];
-        $iiifViewerUrl = $view->url('iiif-viewer', [], ['force_canonical' => true, 'query' => $query]);
-        $width = '100%';
-        if (isset($options['width'])) {
-            $width = sprintf('%spx', (int) $options['width']);
-        }
-        $height = '700px';
-        if (isset($options['height'])) {
-            $height = sprintf('%spx', (int) $options['height']);
-        }
-        return sprintf(
-            '<iframe style="width: %s; height: %s;" src="%s"></iframe>',
-            $width,
-            $height,
-            $view->escapeHtml($iiifViewerUrl)
-        );
+        return $view->iiifViewer($query, $options);
     }
 }

@@ -1387,6 +1387,11 @@ div[role="main"] {
     display: inline-block;
 }
 
+.actions .button:hover,
+.actions button:hover {
+    box-shadow: none !important;
+}
+
 .actions a,
 .actions button {
     opacity: .5;
@@ -4137,7 +4142,8 @@ body.sidebar-open #content {
         display: inline-block;
     }
 
-    .block .delete.attachment .actions .delete {
+    .block .delete.attachment .sortable-handle,
+    .block .delete.attachment .actions li:not(.undo) {
         display: none;
     }
 

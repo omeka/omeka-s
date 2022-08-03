@@ -2535,7 +2535,7 @@ input[type="text"].value-language,
         overflow: hidden;
     }
 
-    .value span.restore-value,
+    .value .restore-value,
     .value.delete a.tab,
     .value.delete [class*="o-icon-"]:not(.restore-value) {
         display: none;

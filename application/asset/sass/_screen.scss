@@ -2870,6 +2870,14 @@ input[type="text"].value-language,
     
     /* @end */
 
+    /* @group ----- Media ----- */
+
+    .media.edit #media .cke_contents {
+        min-height: 500px;
+    }
+
+    /* @end */
+
 /* @end */
 
 /* @group ----- Select Item Sidebar ----- */

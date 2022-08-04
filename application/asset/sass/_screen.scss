@@ -3008,6 +3008,7 @@ input[type="text"].value-language,
     }
 }
 
+.sidebar button.select-all,
 .sidebar button.quick-select-toggle {
     background-color: transparent;
     color: $copy-gray;
@@ -3016,21 +3017,31 @@ input[type="text"].value-language,
     padding: 0;
     line-height: 1;
     min-height: 0;
+}
 
-    &:before {
-        @include font-awesome;
-        content: fa-content($fa-var-toggle-off);
-        display: inline-block;
-        margin-right: $spacing-small;
-    }
+.sidebar button.select-all:before,
+.sidebar button.quick-select-toggle:before {
+    @include font-awesome;
+    content: fa-content($fa-var-toggle-off);
+    display: inline-block;
+    margin-right: $spacing-small;
+}
 
-    &.active:before {
-        content: fa-content($fa-var-toggle-on);
-    }
+.sidebar button.quick-select-toggle.active:before {
+    content: fa-content($fa-var-toggle-on);
+}
 
-    & + .resource-list {
-        border-top: 1px solid $border-gray;
-    }
+.sidebar button.select-all:before {
+    content: fa-content($fa-var-square);
+    font-weight: 400;
+}
+
+.sidebar button.select-all.active:before {
+    content: fa-content($fa-var-check-square);
+}
+
+.sidebar button.quick-select-toggle + .resource-list {
+    border-top: 1px solid $border-gray;
 }
 
 .resource-link {

@@ -56,6 +56,26 @@
             $('#item-results').toggleClass('active').toggleClass('confirm-main');
         });
 
+        $('#select-resource').on('click', '.select-all', function() {
+            $(this).toggleClass('active');
+            if (!$('#item-results').hasClass('confirm-main')) {
+                $('#select-resource .quick-select-toggle').click();
+            }
+            if ($('.select-resource-checkbox:not(:checked)').length > 0) {
+                $('#select-resource .select-resource-checkbox').prop('checked', true);
+            } else {
+                $('#select-resource .select-resource-checkbox').prop('checked', false);
+            }
+        });
+
+        $('#select-resource').on('change', '.select-resource-checkbox', function() {
+            if ($('.select-resource-checkbox:not(:checked)').length > 0) {
+                $('#select-resource button.select-all').removeClass('active');
+            } else if (!$('#select-resource button.select-all').hasClass('active')) {
+                $('#select-resource button.select-all').addClass('active');
+            }
+        });
+
         $('#select-resource').on('click', '.select-resources-button', function(e) {
             Omeka.closeSidebar($(e.delegateTarget));
             $(this).trigger('o:resources-selected');

@@ -74,14 +74,14 @@ class SystemInfoController extends AbstractActionController
                 'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
             ],
             'Paths' => [
-                'PHP CLI' => sprintf(
+                'PHP CLI path' => sprintf(
                     '%s %s',
                     $this->getPhpPath(),
                     !$this->cli->validateCommand($this->getPhpPath()) ? $this->translate('[invalid]') : ''
                 ),
-                'ImageMagick' => sprintf(
+                'ImageMagick directory' => sprintf(
                     '%s %s',
-                    $this->getImagemagickPath(),
+                    $this->getImagemagickDir(),
                     !$this->cli->validateCommand($this->getImagemagickPath()) ? $this->translate('[invalid]') : ''
                 ),
             ],
@@ -135,14 +135,17 @@ class SystemInfoController extends AbstractActionController
         return $phpPath;
     }
 
+    public function getImagemagickDir()
+    {
+        $imagemagickDir = @$this->config['thumbnails']['thumbnailer_options']['imagemagick_dir'];
+        if (!$imagemagickDir) {
+            $imagemagickDir = preg_replace('/convert$/', '', $this->cli->getCommandPath('convert'));
+        }
+        return $imagemagickDir;
+    }
+
     public function getImagemagickPath()
     {
-        $imagemagickPath = @$this->config['thumbnails']['thumbnailer_options']['imagemagick_dir'];
-        if ($imagemagickPath) {
-            $imagemagickPath .= 'convert';
-        } else {
-            $imagemagickPath = $this->cli->getCommandPath('convert');
-        }
-        return $imagemagickPath;
+        return sprintf('%s/convert', $this->getImagemagickDir());
     }
 }

@@ -60,10 +60,6 @@ class SystemInfoController extends AbstractActionController
         $extensions = get_loaded_extensions();
         natcasesort($extensions);
 
-        $getModulesByState = function ($state) {
-            return array_map(fn($module) => sprintf('%s (%s)', $module->getName(), $module->getIni('version') ?? $module->getDb('version')), $this->modules->getModulesByState($state));
-        };
-
         $info = [
             'Omeka S' => [
                 'Version' => Module::VERSION,
@@ -85,16 +81,7 @@ class SystemInfoController extends AbstractActionController
             'OS' => [
                 'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
             ],
-            'Modules' => [
-                Modules::STATE_ACTIVE => $getModulesByState(Modules::STATE_ACTIVE),
-                Modules::STATE_NOT_ACTIVE => $getModulesByState(Modules::STATE_NOT_ACTIVE),
-                Modules::STATE_NOT_INSTALLED => $getModulesByState(Modules::STATE_NOT_INSTALLED),
-                Modules::STATE_NOT_FOUND => $getModulesByState(Modules::STATE_NOT_FOUND),
-                Modules::STATE_INVALID_MODULE => $getModulesByState(Modules::STATE_INVALID_MODULE),
-                Modules::STATE_INVALID_INI => $getModulesByState(Modules::STATE_INVALID_INI),
-                Modules::STATE_INVALID_OMEKA_VERSION => $getModulesByState(Modules::STATE_INVALID_OMEKA_VERSION),
-                Modules::STATE_NEEDS_UPGRADE => $getModulesByState(Modules::STATE_NEEDS_UPGRADE),
-            ],
+            'Modules' => [],
             'Paths' => [
                 'PHP CLI path' => sprintf(
                     '%s %s',
@@ -121,6 +108,18 @@ class SystemInfoController extends AbstractActionController
             $disabledClasses = explode(',', $disabledClasses);
             natcasesort($disabledClasses);
             $info['PHP']['Disabled Classes'] = $disabledClasses;
+        }
+
+        $moduleStates = [
+            Modules::STATE_ACTIVE, Modules::STATE_NOT_ACTIVE, Modules::STATE_NOT_INSTALLED,
+            Modules::STATE_NOT_FOUND, Modules::STATE_INVALID_MODULE, Modules::STATE_INVALID_INI,
+            Modules::STATE_INVALID_OMEKA_VERSION, Modules::STATE_NEEDS_UPGRADE,
+        ];
+        foreach ($moduleStates as $moduleState) {
+            $modules = $this->modules->getModulesByState($moduleState);
+            if ($modules) {
+                $info['Modules'][$moduleState] = array_map(fn($module) => sprintf('%s (%s)', $module->getName(), $module->getIni('version') ?? $module->getDb('version')), $modules);
+            }
         }
 
         return $info;

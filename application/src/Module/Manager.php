@@ -10,36 +10,22 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class Manager implements ResourceInterface
 {
+    // A module that is valid, installed, and active
     const STATE_ACTIVE = 'active';
+    // A module that is valid, installed, and not active
     const STATE_NOT_ACTIVE = 'not_active';
+    // A module that is in the filesystem but not in the database
     const STATE_NOT_INSTALLED = 'not_installed';
+    // A module that is in the database but not in the filesystem
     const STATE_NOT_FOUND = 'not_found';
+    // A module with an invalid Module.php file
     const STATE_INVALID_MODULE = 'invalid_module';
+    // A module with an invalid config/module.ini file
     const STATE_INVALID_INI = 'invalid_ini';
+    // A module with an Omeka version constraint that doesn't match the current version
     const STATE_INVALID_OMEKA_VERSION = 'invalid_omeka_version';
+    // A module where the filesystem version is newer than the installed version
     const STATE_NEEDS_UPGRADE = 'needs_upgrade';
-
-    /**
-     * @var array Valid module states
-     */
-    protected $validStates = [
-        // A module that is valid, installed, and active
-        self::STATE_ACTIVE,
-        // A module that is valid, installed, and not active
-        self::STATE_NOT_ACTIVE,
-        // A module that is in the filesystem but not in the database
-        self::STATE_NOT_INSTALLED,
-        // A module that is in the database but not in the filesystem
-        self::STATE_NOT_FOUND,
-        // A module with an invalid Module.php file
-        self::STATE_INVALID_MODULE,
-        // A module with an invalid config/module.ini file
-        self::STATE_INVALID_INI,
-        // A module with an Omeka version constraint that doesn't match the current version
-        self::STATE_INVALID_OMEKA_VERSION,
-        // A module where the filesystem version is newer than the installed version
-        self::STATE_NEEDS_UPGRADE,
-    ];
 
     /**
      * @var array Registered modules

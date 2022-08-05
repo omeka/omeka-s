@@ -12,7 +12,8 @@ class SystemInfoControllerFactory implements FactoryInterface
         return new SystemInfoController(
             $services->get('Omeka\Connection'),
             $services->get('Config'),
-            $services->get('Omeka\Cli')
+            $services->get('Omeka\Cli'),
+            $services->get('Omeka\ModuleManager')
         );
     }
 }

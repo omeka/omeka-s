@@ -4,6 +4,7 @@ namespace Omeka\Controller\Admin;
 use PDO;
 use Doctrine\DBAL\Connection;
 use Omeka\Module;
+use Omeka\Module\Manager as Modules;
 use Omeka\Stdlib\Cli;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
@@ -26,15 +27,22 @@ class SystemInfoController extends AbstractActionController
     protected $cli;
 
     /**
+     * @var Modules
+     */
+    protected $modules;
+
+    /**
      * @param Connection $connection
      * @param array $config
      * @param Cli $cli
+     * @param Modules $moduleManager
      */
-    public function __construct(Connection $connection, array $config, Cli $cli)
+    public function __construct(Connection $connection, array $config, Cli $cli, Modules $modules)
     {
         $this->connection = $connection;
         $this->config = $config;
         $this->cli = $cli;
+        $this->modules = $modules;
     }
 
     public function browseAction()
@@ -51,6 +59,10 @@ class SystemInfoController extends AbstractActionController
 
         $extensions = get_loaded_extensions();
         natcasesort($extensions);
+
+        $getModulesByState = function ($state) {
+            return array_map(fn($module) => sprintf('%s (%s)', $module->getName(), $module->getIni('version') ?? $module->getDb('version')), $this->modules->getModulesByState($state));
+        };
 
         $info = [
             'Omeka S' => [
@@ -72,6 +84,16 @@ class SystemInfoController extends AbstractActionController
             ],
             'OS' => [
                 'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
+            ],
+            'Modules' => [
+                Modules::STATE_ACTIVE => $getModulesByState(Modules::STATE_ACTIVE),
+                Modules::STATE_NOT_ACTIVE => $getModulesByState(Modules::STATE_NOT_ACTIVE),
+                Modules::STATE_NOT_INSTALLED => $getModulesByState(Modules::STATE_NOT_INSTALLED),
+                Modules::STATE_NOT_FOUND => $getModulesByState(Modules::STATE_NOT_FOUND),
+                Modules::STATE_INVALID_MODULE => $getModulesByState(Modules::STATE_INVALID_MODULE),
+                Modules::STATE_INVALID_INI => $getModulesByState(Modules::STATE_INVALID_INI),
+                Modules::STATE_INVALID_OMEKA_VERSION => $getModulesByState(Modules::STATE_INVALID_OMEKA_VERSION),
+                Modules::STATE_NEEDS_UPGRADE => $getModulesByState(Modules::STATE_NEEDS_UPGRADE),
             ],
             'Paths' => [
                 'PHP CLI path' => sprintf(

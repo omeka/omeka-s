@@ -118,7 +118,9 @@ class SystemInfoController extends AbstractActionController
         foreach ($moduleStates as $moduleState) {
             $modules = $this->modules->getModulesByState($moduleState);
             if ($modules) {
-                $info['Modules'][$moduleState] = array_map(fn($module) => sprintf('%s (%s)', $module->getName(), $module->getIni('version') ?? $module->getDb('version')), $modules);
+                $info['Modules'][$moduleState] = array_map(function ($module) {
+                    return sprintf('%s (%s)', $module->getName(), $module->getIni('version') ?? $module->getDb('version'));
+                }, $modules);
             }
         }
 

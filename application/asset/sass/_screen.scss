@@ -1917,7 +1917,7 @@ fieldset.section > legend {
     vertical-align: top;
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     height: (1.5 * $spacing-large);
     width: (1.5 * $spacing-large);
     line-height: (1.5 * $spacing-large);
@@ -1929,10 +1929,11 @@ fieldset.section > legend {
 
     &.active {
         border-color: transparent;
+        color: $red;
     }
 
     & ~ textarea {
-        padding-left: 1.75 * $spacing-large;
+        padding-right: 1.75 * $spacing-large;
     }
 }
 
@@ -1950,7 +1951,7 @@ input[type="text"].value-language.active {
     background-color: transparent;
     border: 1px solid $border-gray;
     min-height: 0;
-    padding: 0 0 0 (1.75 * $spacing-large);
+    padding: $spacing-small (1.75 * $spacing-large) $spacing-small $spacing-small;
     display: block;
 
     &.active ~ textarea {
@@ -2719,12 +2720,21 @@ input[type="text"].value-language,
         height: (1.5 * $spacing-large);
     }
 
+    .value[data-data-type="uri"] .input-body a.value-language.o-icon-language {
+        border-color: transparent transparent $border-gray $border-gray;
+    }
+
+    .value[data-data-type="uri"] .input-body a.value-language.o-icon-language.active {
+        border-color: transparent;
+        color: $red;
+    }
+
     [data-data-type="uri"] .input-body input.value,
     [data-data-type="uri"] textarea.value-label {
         margin: (-1 * $spacing-small) 0 (-1 * $spacing-small) $spacing-small;
         height: (1.5 * $spacing-large);
         border: 0;
-        padding: $spacing-small;
+        padding: $spacing-small (1.75 * $spacing-large) $spacing-small $spacing-small;
         font-weight: normal;
         background: transparent;
         min-height: 1.5 * $spacing-large;

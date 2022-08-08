@@ -759,8 +759,7 @@
         $('input.value-language').each(function() {
             var languageInput = $(this);
             if (languageInput.val() !== "") {
-                languageInput.addClass('active');
-                languageInput.prev('a.value-language').addClass('active');
+                languageInput.closest('.language-label').addClass('active');
             }
         });
     };

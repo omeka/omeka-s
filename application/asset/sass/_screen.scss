@@ -1922,6 +1922,7 @@ fieldset.section > legend {
     width: (1.5 * $spacing-large);
     line-height: (1.5 * $spacing-large);
     border: 1px solid $border-gray;
+    border-width: 0 0 1px 1px;
     overflow: hidden;
     text-align: center;
     color: lighten($red, 40%);
@@ -1946,10 +1947,10 @@ fieldset.section > legend {
     border-bottom: 1px solid #dfdfdf;
 }
 
-input[type="text"].value-language.active {
+input[type="text"].value-language {
     line-height: $base-line-height;
     background-color: transparent;
-    border: 1px solid $border-gray;
+    border: 0;
     min-height: 0;
     padding: $spacing-small (1.75 * $spacing-large) $spacing-small $spacing-small;
     display: block;
@@ -1960,9 +1961,27 @@ input[type="text"].value-language.active {
     }
 }
 
-input[type="text"].value-language,
-.delete input[type="text"].value-language.active {
+.language-label,
+.delete .language-label.active {
     display: none;
+}
+
+.language-label.active,
+.value[data-data-type="uri"] .input-body label:not(.language-label) {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    margin: 0;
+    padding: 0 (1.75 * $spacing-large) 0 $spacing-small;
+    box-shadow: 0 0 0 1px $border-gray;
+}
+
+.value-label-text {
+    background-color: $gray-on-white;
+    border-radius: 2px;
+    font-size: .875 * $base-font-size;
+    margin: $spacing-small;
+    padding: 0 $spacing-small;
 }
 
 .sidebar .value-annotation .value {
@@ -2588,6 +2607,8 @@ input[type="text"].value-language,
     
     .inputs .value textarea {
         min-height: 3 * $spacing-large;
+        border: 0;
+        box-shadow: 0 0 0 1px $border-gray;
     }
     
     .inputs .value .input-body > textarea {
@@ -2622,7 +2643,7 @@ input[type="text"].value-language,
 
     .inputs .input-body input[type="text"] {
         margin: 0;
-        background-color: #fff;
+        background-color: transparent;
     }
 
     .inputs .input-body .chosen-container {
@@ -2709,7 +2730,6 @@ input[type="text"].value-language,
         }
     }
 
-    [data-data-type="uri"] label,
     .sidebar [data-data-type="uri"] label {
         padding: $spacing-small 0 $spacing-small $spacing-small;
         z-index: 1;
@@ -2720,20 +2740,12 @@ input[type="text"].value-language,
         height: (1.5 * $spacing-large);
     }
 
-    .value[data-data-type="uri"] .input-body a.value-language.o-icon-language {
-        border-color: transparent transparent $border-gray $border-gray;
-    }
-
-    .value[data-data-type="uri"] .input-body a.value-language.o-icon-language.active {
-        border-color: transparent;
-        color: $red;
-    }
-
     [data-data-type="uri"] .input-body input.value,
     [data-data-type="uri"] textarea.value-label {
         margin: (-1 * $spacing-small) 0 (-1 * $spacing-small) $spacing-small;
         height: (1.5 * $spacing-large);
         border: 0;
+        box-shadow: none;
         padding: $spacing-small (1.75 * $spacing-large) $spacing-small $spacing-small;
         font-weight: normal;
         background: transparent;

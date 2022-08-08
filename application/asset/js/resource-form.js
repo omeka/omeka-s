@@ -190,7 +190,7 @@
         $('#resource-values').on('click', 'a.value-language', function(e) {
             e.preventDefault();
             var languageButton = $(this);
-            var languageInput =  languageButton.next('input.value-language');
+            var languageInput =  languageButton.next('.language-label');
             languageButton.toggleClass('active');
             languageInput.toggleClass('active');
             if (languageInput.hasClass('active')) {

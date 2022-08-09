@@ -501,7 +501,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
     public function getSubjectValuesSimple(Resource $resource, $property = null)
     {
         $qb = $this->getSubjectValuesQueryBuilder($resource, $property)
-            ->select("CONCAT(y.prefix, ':', p.localName) term, IDENTITY(v.valueResource) id, r.title title")
+            ->select("CONCAT(y.prefix, ':', p.localName) term, IDENTITY(v.resource) id, r.title title")
             ->join('v.property', 'p')
             ->join('p.vocabulary', 'y');
         return $qb->getQuery()->getResult();

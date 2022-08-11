@@ -497,6 +497,11 @@ class ResourceTemplateController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
+            if (!isset($data['o:resource_template_property'])) {
+                // Must include the o:resource_template_property key if all
+                // properties are removed, else nothing is removed.
+                $data['o:resource_template_property'] = [];
+            }
             $form->setData($data);
             if ($form->isValid()) {
                 $response = ('edit' === $action)

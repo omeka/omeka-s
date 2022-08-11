@@ -33,6 +33,7 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
             'o:data_type' => $this->dataTypes(),
             'o:is_required' => $this->isRequired(),
             'o:is_private' => $this->isPrivate(),
+            'o:default_lang' => $this->defaultLang(),
         ];
     }
 
@@ -161,5 +162,10 @@ class ResourceTemplatePropertyRepresentation extends AbstractRepresentation
     public function isPrivate()
     {
         return $this->templateProperty->isPrivate();
+    }
+
+    public function defaultLang()
+    {
+        return $this->templateProperty->getDefaultLang();
     }
 }

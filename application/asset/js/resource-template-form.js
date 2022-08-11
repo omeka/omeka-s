@@ -76,6 +76,7 @@ propertyList.on('click', '.property-edit', function(e) {
     var altComment = prop.find('.alternate-comment');
     var isRequired = prop.find('.is-required');
     var isPrivate = prop.find('.is-private');
+    var defaultLang = prop.find('.default-lang');
     var dataTypes = prop.find('.data-type');
 
     // Copy values into the sidebar.
@@ -87,6 +88,7 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#is-description-property').prop('checked', propId == descriptionProperty.val());
     $('#is-required').prop('checked', isRequired.val());
     $('#is-private').prop('checked', isPrivate.val());
+    $('#default-lang').val(defaultLang.val());
     $('#data-type option').prop('selected', false);
     dataTypes.val().split(',').filter(function (el) { return el != ''; }).forEach(function(selected) {
         $('#data-type option[value="' + selected + '"]').prop('selected', true);
@@ -116,6 +118,7 @@ propertyList.on('click', '.property-edit', function(e) {
         }
         $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
         $('#is-private').prop('checked') ? isPrivate.val(1) : isPrivate.val(null);
+        defaultLang.val($('#default-lang').val());
         dataTypes.val($('#data-type').val().join(','));
         Omeka.closeSidebar($('#edit-sidebar'));
     });

@@ -540,6 +540,10 @@ body {
     display: none;
 }
 
+.sr-only {
+    left: -9999px;
+}
+
 div[role="main"] > .messages {
     margin-bottom: $spacing-medium;
 
@@ -3017,6 +3021,12 @@ input[type="text"].value-language,
     padding: 0;
     line-height: 1;
     min-height: 0;
+}
+
+// Screen reader ignores inactive status.
+.sidebar button:not(.active) .active.sr-only,
+.sidebar button.active .inactive.sr-only {
+    visibility: hidden;
 }
 
 .sidebar button.select-all:before,

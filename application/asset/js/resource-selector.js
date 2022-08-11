@@ -10,6 +10,7 @@
     }
 
     $(document).ready( function() {
+
         $('#select-resource').on('keydown', '.pagination input', function (e) {
             if ((e.keycode || e.which) == '13') {
                 e.preventDefault();
@@ -52,12 +53,17 @@
         });
 
         $('#select-resource').on('click', '.quick-select-toggle', function() {
-            $(this).toggleClass('active');
+            $(this).toggleClass('active').find('button .sr-only').toggleClass('active');
             $('#item-results').toggleClass('active').toggleClass('confirm-main');
+            if ($(this).hasClass('active')) {
+                $('.quick-select-on.success').focus();
+            } else {
+                $('.quick-select-off.success').focus();
+            }
         });
 
         $('#select-resource').on('click', '.select-all', function() {
-            $(this).toggleClass('active');
+            $(this).toggleClass('active').find('button .sr-only').toggleClass('active');
             if (!$('#item-results').hasClass('confirm-main')) {
                 $('#select-resource .quick-select-toggle').click();
             }
@@ -66,6 +72,7 @@
             } else {
                 $('#select-resource .select-resource-checkbox').prop('checked', false);
             }
+            $('.select-all-on.success').focus();
         });
 
         $('#select-resource').on('change', '.select-resource-checkbox', function() {

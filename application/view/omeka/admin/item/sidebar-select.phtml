@@ -64,14 +64,18 @@ $expanded = $resourceClassId || $itemSetId || $id;
     </div>
 
     <?php if ($itemsFound): ?>
-    <button type="button" class="quick-select-toggle"><?php echo $translate('Quick add'); ?></button>
-    <button type="button" class="select-all"><?php echo $translate('Select all'); ?></button>
+    <span class="sr-only quick-select-on success" tabindex="-1"><?php echo $translate('Quick add checkboxes are now available.'); ?></span>
+    <span class="sr-only quick-select-off success" tabindex="-1"><?php echo $translate('Quick add checkboxes are now hidden.'); ?></span>
+    <button type="button" class="quick-select-toggle"><?php echo $translate('Quick add'); ?> <span class="sr-only active"><?php echo $translate('Is active'); ?></span><span class="sr-only inactive"><?php echo $translate('Inactive'); ?></span></button>
+    <span class="sr-only select-all-on success" tabindex="-1"><?php echo $translate(sprintf('%s All results are now selected.', $translate('Quick add checkboxes are now available.'))); ?></span>
+    <button type="button" class="select-all"><?php echo $translate('Select all'); ?> <span class="active sr-only"><?php echo $translate('Is active'); ?></span><span class="sr-only inactive"><?php echo $translate('Inactive'); ?></span></button>
 
     <div class="items resource-list">
         <?php foreach ($items as $item):?>
+        <?php $itemId = $item->id(); ?>
         <div class="resource item" data-resource-values="<?php echo $escape(json_encode($item->valueRepresentation())); ?>">
             <div class="select-resource-checkbox-wrapper">
-              <input type="checkbox" class="select-resource-checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
+              <input type="checkbox" class="select-resource-checkbox" name="resource_ids[]" aria-labelledby="select-item-<?php echo $itemId; ?>" value="<?php echo $itemId; ?>">
             </div>
             <?php
             $content = sprintf(
@@ -88,6 +92,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
             else:
                 $attrs = [
                     'class' => 'select-resource resource-link',
+                    'id' => 'select-item-' . $itemId,
                 ];
             endif;
             echo $hyperlink->raw($content, '#', $attrs);

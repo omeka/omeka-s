@@ -190,7 +190,7 @@
         $('#resource-values').on('click', 'a.value-language', function(e) {
             e.preventDefault();
             var languageButton = $(this);
-            var languageInput =  languageButton.next('input.value-language');
+            var languageInput =  languageButton.next('.language-label');
             languageButton.toggleClass('active');
             languageInput.toggleClass('active');
             if (languageInput.hasClass('active')) {
@@ -770,8 +770,7 @@
         $('input.value-language').each(function() {
             var languageInput = $(this);
             if (languageInput.val() !== "") {
-                languageInput.addClass('active');
-                languageInput.prev('a.value-language').addClass('active');
+                languageInput.closest('.language-label').addClass('active');
             }
         });
     };

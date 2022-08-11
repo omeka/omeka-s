@@ -34,8 +34,8 @@ $this->htmlElement('body')->appendAttribute('class', 'items browse');
         </select>
         <div class="batch-actions">
             <button type="button" class="default active" disabled="true"><?php echo $translate('Go'); ?></button>
-            <input type="submit" class="update-selected" name="update_selected" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
-            <input type="submit" class="update-all" name="update_all" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+            <input type="submit" class="update-selected" name="update_selected" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], ['query' => $returnQuery], true)); ?>">
+            <input type="submit" class="update-all" name="update_all" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], ['query' => $returnQuery], true)); ?>">
             <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
             <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $translate('Go'); ?></a>
             <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $translate('Go'); ?></a>

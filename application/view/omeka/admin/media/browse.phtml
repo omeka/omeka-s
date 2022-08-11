@@ -35,8 +35,8 @@ $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\MediaAdapter
         <div class="batch-actions">
             <button type="button" class="default active" disabled="disabled"><?php echo $translate('Go'); ?></button>
             <?php if ($userIsAllowedBatchUpdate): ?>
-            <input type="submit" class="update-selected" name="update_selected" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
-            <input type="submit" class="update-all" name="update_all" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+            <input type="submit" class="update-selected" name="update_selected" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], ['query' => $returnQuery], true)); ?>">
+            <input type="submit" class="update-all" name="update_all" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], ['query' => $returnQuery], true)); ?>">
             <?php endif; ?>
             <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
             <?php if ($userIsAllowedBatchDelete): ?>

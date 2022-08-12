@@ -46,6 +46,9 @@
                             .attr('title', Omeka.jsTranslate('Make private'));
                     }
                 }
+                if (thisInput.hasClass('value-language') && thisInput.val() !== "") {
+                    thisInput.closest('.language-wrapper').addClass('active');
+                }
             });
         };
         // Prepare the value annotation markup.

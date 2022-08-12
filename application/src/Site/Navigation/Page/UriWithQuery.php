@@ -12,22 +12,24 @@ class UriWithQuery extends Uri
     {
         if (!$this->active) {
             if ($this->getRequest() instanceof Request) {
-                $uriCurrent = $this->getRequest()->getUri();
-                $uriCurrentQuery = $uriCurrent->getQueryAsArray();
-                unset($uriCurrentQuery['page'], $uriCurrentQuery['sort_by'], $uriCurrentQuery['sort_order']);
-                $uriCurrent->setQuery($uriCurrentQuery);
-
                 $uriPage = UriFactory::factory($this->getUri());
-                $uriPageQuery = $uriPage->getQueryAsArray();
-                unset($uriPageQuery['page'], $uriPageQuery['sort_by'], $uriPageQuery['sort_order']);
-                $uriPage->setQuery($uriPageQuery);
+                if (!$uriPage->isAbsolute()) {
+                    $uriPageQuery = $uriPage->getQueryAsArray();
+                    unset($uriPageQuery['page'], $uriPageQuery['sort_by'], $uriPageQuery['sort_order']);
+                    $uriPage->setQuery($uriPageQuery);
 
-                $identicalPaths = $uriCurrent->getPath() === $uriPage->getPath();
-                $identicalQueries = $uriCurrent->getQuery() === $uriPage->getQuery();
+                    $uriCurrent = $this->getRequest()->getUri();
+                    $uriCurrentQuery = $uriCurrent->getQueryAsArray();
+                    unset($uriCurrentQuery['page'], $uriCurrentQuery['sort_by'], $uriCurrentQuery['sort_order']);
+                    $uriCurrent->setQuery($uriCurrentQuery);
 
-                if ($identicalPaths && $identicalQueries) {
-                    $this->active = true;
-                    return true;
+                    $identicalPaths = $uriCurrent->getPath() === $uriPage->getPath();
+                    $identicalQueries = $uriCurrent->getQuery() === $uriPage->getQuery();
+
+                    if ($identicalPaths && $identicalQueries) {
+                        $this->active = true;
+                        return true;
+                    }
                 }
             }
         }

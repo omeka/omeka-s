@@ -3018,6 +3018,7 @@ input[type="text"].value-language {
             color: #B9B9B9;
         }
     }
+
     textarea {
         resize: vertical;
     }
@@ -3797,6 +3798,9 @@ body.sidebar-open #content {
 .resource-templates #edit-sidebar .field .option label {
     margin: 0;
     padding-bottom: $spacing-small;
+    padding-right: 0;
+    display: flex;
+    justify-content: space-between;
 
     &:only-child {
         padding-bottom: 0;

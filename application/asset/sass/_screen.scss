@@ -1928,14 +1928,14 @@ fieldset.section > legend {
     color: lighten($red, 40%);
     z-index: 1;
 
-    &.active {
-        border-color: transparent;
-        color: $red;
-    }
-
     & ~ textarea {
         padding-right: 1.75 * $spacing-large;
     }
+}
+
+.value .input-body .language-wrapper.active a.value-language {
+    border-color: transparent;
+    color: $red;
 }
 
 .value .actions a.o-icon-more {
@@ -1954,20 +1954,23 @@ input[type="text"].value-language {
     min-height: 0;
     padding: $spacing-small (1.75 * $spacing-large) $spacing-small $spacing-small;
     display: block;
-
-    &.active ~ textarea {
-        padding-left: $spacing-small;
-        border-top: 0;
-    }
 }
 
-.language-label,
-.delete .language-label.active {
+.language-wrapper.active input[type="text"].value-language ~ textarea {
+    padding-left: $spacing-small;
+    border-top: 0;
+}
+
+.input-body .language-wrapper:not(.active) .language-label {
     display: none;
 }
 
-.language-label.active,
-.value[data-data-type="uri"] .input-body label:not(.language-label) {
+.sidebar .language-label {
+    font-weight: inherit;
+}
+
+.language-wrapper .language-label,
+.value[data-data-type="uri"] .input-body label {
     display: flex;
     align-items: center;
     background-color: #fff;

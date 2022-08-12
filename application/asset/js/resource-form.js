@@ -189,12 +189,10 @@
 
         $('#resource-values').on('click', 'a.value-language', function(e) {
             e.preventDefault();
-            var languageButton = $(this);
-            var languageInput =  languageButton.next('.language-label');
-            languageButton.toggleClass('active');
-            languageInput.toggleClass('active');
-            if (languageInput.hasClass('active')) {
-                languageInput.focus();
+            var languageWrapper = $(this).closest('.language-wrapper');
+            languageWrapper.toggleClass('active');
+            if (languageWrapper.hasClass('active')) {
+                languageWrapper.find('input.value-language').focus();
             }
         });
 
@@ -474,10 +472,8 @@
         // Add default language, if any.
         var templateProperty = field.data('template-property');
         if (templateProperty && templateProperty['o:default_lang']) {
-            value.find('a.value-language').toggleClass('active');
-            value.find('input.value-language')
-                .toggleClass('active')
-                .val(templateProperty['o:default_lang']);
+            value.find('.language-wrapper').addClass('active');
+            value.find('input.value-language').val(templateProperty['o:default_lang']);
         }
 
         return value;
@@ -770,7 +766,7 @@
         $('input.value-language').each(function() {
             var languageInput = $(this);
             if (languageInput.val() !== "") {
-                languageInput.closest('.language-label').addClass('active');
+                languageInput.closest('.language-wrapper').addClass('active');
             }
         });
     };

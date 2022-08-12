@@ -2649,6 +2649,11 @@ input[type="text"].value-language {
         background-color: transparent;
     }
 
+    .inputs .input-body input[type="text"]:focus,
+    .inputs .input-body textarea:focus {
+        z-index: 10;
+    }
+
     .inputs .input-body .chosen-container {
         max-width: calc(100% - 12px);
         margin: 6px;
@@ -2734,12 +2739,17 @@ input[type="text"].value-language {
     }
 
     .sidebar [data-data-type="uri"] label {
-        font-weight: inherit;
+        padding: $spacing-small 0 $spacing-small $spacing-small;
+        z-index: 1;
+        font-weight: bold;
+        color: rgba(0,0,0,.35);
+        width: auto;
+        display: flex;
+        height: 100%;
     }
 
     [data-data-type="uri"] .input-body input.value,
     [data-data-type="uri"] textarea.value-label {
-        margin: (-1 * $spacing-small) 0 (-1 * $spacing-small) $spacing-small;
         height: (1.5 * $spacing-large);
         border: 0;
         box-shadow: none;
@@ -2751,6 +2761,7 @@ input[type="text"].value-language {
 
     [data-data-type="uri"] textarea.value-label {
         border-top-width: 0;
+
     }
 
     .annotation-form {
@@ -3006,6 +3017,9 @@ input[type="text"].value-language {
             background-color: #E6E6E6;
             color: #B9B9B9;
         }
+    }
+    textarea {
+        resize: vertical;
     }
 }
 

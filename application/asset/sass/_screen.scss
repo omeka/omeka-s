@@ -3962,11 +3962,17 @@ body.sidebar-open #content {
         padding: 0;
         line-height: 1.75;
         border: none;
+        vertical-align: top;
     }
 
     th[scope="rowgroup"] {
         font-size: 1em;
         border-bottom: 1px solid $border-gray;
+        padding-left: $spacing-small;
+    }
+
+    tbody:not(:last-child) tr:last-child td {
+        padding-bottom: $spacing-large;
     }
 
     th[scope="row"] {

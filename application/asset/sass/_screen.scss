@@ -2739,13 +2739,7 @@ input[type="text"].value-language {
     }
 
     .sidebar [data-data-type="uri"] label {
-        padding: $spacing-small 0 $spacing-small $spacing-small;
-        z-index: 1;
-        font-weight: bold;
-        color: rgba(0,0,0,.35);
-        width: auto;
-        display: flex;
-        height: 100%;
+        font-weight: inherit;
     }
 
     [data-data-type="uri"] .input-body input.value,

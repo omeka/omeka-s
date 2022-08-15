@@ -260,7 +260,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             $propertyId = $queryRow['property'];
             $queryType = $queryRow['type'];
             $joiner = $queryRow['joiner'] ?? null;
-            $value = $queryRow['text'] ?? null;
+            $value = isset($queryRow['text']) ? trim($queryRow['text']) : null;
 
             if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
                 continue;

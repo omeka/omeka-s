@@ -45,6 +45,12 @@ $sectionNavs = [
         <h4><?php echo $translate('Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($media->created())); ?></div>
     </div>
+    <?php if ($media->lang()): ?>
+    <div class="meta-group">
+        <h4><?php echo $translate('Language'); ?></h4>
+        <div class="value"><?php echo $escape($media->lang()); ?></div>
+    </div>
+    <?php endif; ?>
     <?php if ($media->mediaType()): ?>
     <div class="meta-group">
         <h4><?php echo $translate('MIME type'); ?></h4>

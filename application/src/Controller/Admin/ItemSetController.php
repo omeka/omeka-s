@@ -137,6 +137,8 @@ class ItemSetController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('itemSets', $response->getContent());
         $view->setVariable('searchValue', $this->params()->fromQuery('search'));
+        $view->setVariable('resourceClassId', $this->params()->fromQuery('resource_class_id'));
+        $view->setVariable('id', $this->params()->fromQuery('id'));
         $view->setTerminal(true);
         return $view;
     }

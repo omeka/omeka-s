@@ -3,6 +3,7 @@ $resourceMedia = $resource->media();
 ?>
 <?php if ($resourceMedia): ?>
 <div class="media-list">
+    <h4><?php echo $this->translate('Media'); ?></h4>
     <?php foreach ($resourceMedia as $media): ?>
     <?php echo $media->linkPretty(); ?>
     <?php endforeach; ?>

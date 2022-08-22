@@ -53,7 +53,7 @@ class DoctrineWrapper implements StorageInterface
         $identity = $this->storage->read();
         if ($identity) {
             try {
-                return $this->repository->find($identity);
+                return $this->repository->findOneBy(['id' => $identity, 'isActive' => true]);
             } catch (DBALException $e) {
                 // The user table does not exist.
                 return null;

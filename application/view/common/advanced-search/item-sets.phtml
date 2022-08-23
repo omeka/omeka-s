@@ -9,6 +9,14 @@ $ids = array_filter($ids);
 if (!$ids) {
     $ids = [null];
 }
+$notIds = isset($query['not_item_set_id']) ? $query['not_item_set_id'] : [];
+if (!is_array($notIds)) {
+    $notIds = [$notIds];
+}
+$notIds = array_filter($notIds);
+if (!$notIds) {
+    $notIds = [null];
+}
 
 if ($this->status()->isSiteRequest()) {
     if (!$this->layout()->site->siteItemSets()) {
@@ -43,6 +51,31 @@ if ($this->status()->isSiteRequest()) {
                 'attributes' => [
                     'value' => $id,
                     'aria-labelledby' =>  'by-item-set-label'
+                ],
+                'options' => $selectOptions,
+            ]); ?>
+            <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<div id="not-item-sets" class="field removable multi-value" role="group">
+    <div class="field-meta">
+        <span id="by-not-item-set-label" class="label"><?php echo $translate('Search by not item set'); ?></span>
+        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
+        <div class="collapsible">
+            <div class="field-description"><?php echo $translate('Searches for items that are not assigned to any of these item sets.'); ?></div>
+        </div>
+        <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new item set'); ?>" title="<?php echo $translate('Add new item set'); ?>"></button>
+    </div>
+    <div class="inputs">
+        <?php foreach ($notIds as $notId): ?>
+        <div class="value">
+            <?php echo $this->itemSetSelect([
+                'name' => 'not_item_set_id[]',
+                'attributes' => [
+                    'value' => $notId,
+                    'aria-labelledby' =>  'by-not-item-set-label'
                 ],
                 'options' => $selectOptions,
             ]); ?>

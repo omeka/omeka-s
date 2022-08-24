@@ -11,6 +11,16 @@ if (!is_array($notInIds)) {
     $notInIds = [$notInIds];
 }
 $notInIds = array_filter($notInIds);
+$itemSets = [];
+foreach ($inIds as $inId) {
+    $itemSets[] = ['id' => $inId, 'type' => 'in'];
+}
+foreach ($notInIds as $notInId) {
+    $itemSets[] = ['id' => $notInId, 'type' => 'not_in'];
+}
+if (!$itemSets) {
+    $itemSets[] = ['id' => null, 'type' => 'in'];
+}
 
 if ($this->status()->isSiteRequest()) {
     if (!$this->layout()->site->siteItemSets()) {
@@ -38,53 +48,16 @@ if ($this->status()->isSiteRequest()) {
         <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new item set'); ?>" title="<?php echo $translate('Add new item set'); ?>"></button>
     </div>
     <div class="inputs">
-        <?php if ($inIds || $notInIds): ?>
-        <?php foreach ($inIds as $inId): ?>
+        <?php foreach ($itemSets as $itemSet): ?>
         <div class="value">
             <select class="item-set-select-type">
-                <option value="in" selected><?php echo $translate('In'); ?></option>
-                <option value="not_in"><?php echo $translate('Not in'); ?></option>
+                <option value="in"<?php echo 'in' === $itemSet['type'] ? ' selected' : ''; ?>><?php echo $translate('In'); ?></option>
+                <option value="not_in"<?php echo 'not_in' === $itemSet['type'] ? ' selected' : ''; ?>><?php echo $translate('Not in'); ?></option>
             </select>
             <?php echo $this->itemSetSelect([
                 'name' => 'item_set_id[]',
                 'attributes' => [
-                    'value' => $inId,
-                    'class' => 'item-set-select',
-                    'aria-labelledby' =>  'by-item-set-label'
-                ],
-                'options' => $selectOptions,
-            ]); ?>
-            <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
-        </div>
-        <?php endforeach; ?>
-        <?php foreach ($notInIds as $notInId): ?>
-        <div class="value">
-            <select class="item-set-select-type">
-                <option value="in"><?php echo $translate('In'); ?></option>
-                <option value="not_in" selected><?php echo $translate('Not in'); ?></option>
-            </select>
-            <?php echo $this->itemSetSelect([
-                'name' => 'not_item_set_id[]',
-                'attributes' => [
-                    'value' => $notInId,
-                    'class' => 'item-set-select',
-                    'aria-labelledby' =>  'by-item-set-label'
-                ],
-                'options' => $selectOptions,
-            ]); ?>
-            <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
-        </div>
-        <?php endforeach; ?>
-        <?php else: ?>
-        <div class="value">
-            <select class="item-set-select-type">
-                <option value="in" selected><?php echo $translate('In'); ?></option>
-                <option value="not_in"><?php echo $translate('Not in'); ?></option>
-            </select>
-            <?php echo $this->itemSetSelect([
-                'name' => 'item_set_id[]',
-                'attributes' => [
-                    'value' => null,
+                    'value' => $itemSet['id'],
                     'class' => 'item-set-select',
                     'aria-labelledby' => 'by-item-set-label'
                 ],
@@ -92,7 +65,7 @@ if ($this->status()->isSiteRequest()) {
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
         </div>
-        <?php endif; ?>
+        <?php endforeach; ?>
     </div>
 </div>
 <script>

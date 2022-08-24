@@ -15,6 +15,12 @@ class Item extends Resource
     protected $id;
 
     /**
+     * @ManyToOne(targetEntity="Media")
+     * @JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    protected $primaryMedia;
+
+    /**
      * @OneToMany(
      *     targetEntity="Media",
      *     mappedBy="item",
@@ -60,6 +66,16 @@ class Item extends Resource
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setPrimaryMedia(Media $primaryMedia = null)
+    {
+        $this->primaryMedia = $primaryMedia;
+    }
+
+    public function getPrimaryMedia()
+    {
+        return $this->primaryMedia;
     }
 
     public function getMedia()

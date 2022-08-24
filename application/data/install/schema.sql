@@ -38,8 +38,11 @@ CREATE TABLE `fulltext_search` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `item` (
   `id` int NOT NULL,
+  `primary_media_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `FK_1F1B251EBF396750` FOREIGN KEY (`id`) REFERENCES `resource` (`id`) ON DELETE CASCADE
+  KEY `IDX_1F1B251ECBE0B084` (`primary_media_id`),
+  CONSTRAINT `FK_1F1B251EBF396750` FOREIGN KEY (`id`) REFERENCES `resource` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_1F1B251ECBE0B084` FOREIGN KEY (`primary_media_id`) REFERENCES `media` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `item_item_set` (
   `item_id` int NOT NULL,

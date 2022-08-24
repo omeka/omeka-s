@@ -67,10 +67,10 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'sites', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'isPublic', 'created', 'modified', 'values'];
+            return ['__isInitialized__', 'id', 'primaryMedia', 'media', 'siteBlockAttachments', 'itemSets', 'sites', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'isPublic', 'created', 'modified', 'values'];
         }
 
-        return ['__isInitialized__', 'id', 'media', 'siteBlockAttachments', 'itemSets', 'sites', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'isPublic', 'created', 'modified', 'values'];
+        return ['__isInitialized__', 'id', 'primaryMedia', 'media', 'siteBlockAttachments', 'itemSets', 'sites', 'owner', 'resourceClass', 'resourceTemplate', 'thumbnail', 'title', 'isPublic', 'created', 'modified', 'values'];
     }
 
     /**
@@ -201,6 +201,28 @@ class Item extends \Omeka\Entity\Item implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setPrimaryMedia(\Omeka\Entity\Media $primaryMedia = NULL)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPrimaryMedia', [$primaryMedia]);
+
+        return parent::setPrimaryMedia($primaryMedia);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPrimaryMedia()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPrimaryMedia', []);
+
+        return parent::getPrimaryMedia();
     }
 
     /**

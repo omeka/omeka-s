@@ -2,6 +2,12 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->headScript()->appendFile($this->assetUrl('js/item-manage-media.js', 'Omeka'));
+
+$primaryMediaId = null;
+if ($resource) {
+    $primaryMedia = $resource->primaryMedia();
+    $primaryMediaId = $primaryMedia ? $primaryMedia->id() : null;
+}
 ?>
 <?php foreach ($mediaForms as $type => $form): ?>
 <span
@@ -19,6 +25,7 @@ $this->headScript()->appendFile($this->assetUrl('js/item-manage-media.js', 'Omek
     <div class="media value row">
         <span class="sortable-handle"></span>
         <span class='restore-value'><?php echo $translate('Media to be removed'); ?></span>
+        <input type="radio" name="o:primary_media[o:id]" value="<?php echo $escape($media->id()); ?>"<?php echo $media->id() === $primaryMediaId ? ' checked' : '' ?>>
         <?php echo $this->thumbnail($media, 'square'); ?>
         <span class="resource-name"><?php echo $escape($media->displayTitle()); ?></span>
         <input type="hidden" name="o:media[<?php echo $i; ?>][o:id]" value="<?php echo $escape($media->id()); ?>">

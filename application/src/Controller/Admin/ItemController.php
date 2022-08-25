@@ -295,6 +295,8 @@ class ItemController extends AbstractActionController
                 $this->messenger()->addSuccess('Items successfully edited'); // @translate
                 return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
             } else {
+                $form->get('set_value_visibility')->setValue('');
+                $form->get('value')->setValue('');
                 $this->messenger()->addFormErrors($form);
             }
         }

@@ -157,7 +157,25 @@ class SearchFilters extends AbstractHelper
                             if (!is_numeric($subValue)) {
                                 continue;
                             }
-                            $filterLabel = $translate('Item set');
+                            $filterLabel = $translate('In item set');
+                            try {
+                                $filterValue = $api->read('item_sets', $subValue)->getContent()->displayTitle();
+                            } catch (NotFoundException $e) {
+                                $filterValue = $translate('Unknown item set');
+                            }
+                            $filters[$filterLabel][] = $filterValue;
+                        }
+                        break;
+                    // Search not item set
+                    case 'not_item_set_id':
+                        if (!is_array($value)) {
+                            $value = [$value];
+                        }
+                        foreach ($value as $subValue) {
+                            if (!is_numeric($subValue)) {
+                                continue;
+                            }
+                            $filterLabel = $translate('Not in item set');
                             try {
                                 $filterValue = $api->read('item_sets', $subValue)->getContent()->displayTitle();
                             } catch (NotFoundException $e) {

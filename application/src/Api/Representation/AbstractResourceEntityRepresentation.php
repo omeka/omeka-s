@@ -415,7 +415,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $subjectValues = [];
         foreach ($subjectValuesSimple as $subjectValue) {
             $subjectValues[$subjectValue['term']][] = [
-                '@id' => $url('api/default', ['resource' => 'items', 'id' => $subjectValue['id']], ['force_canonical' => true]),
+                '@id' => $url('api/default', ['resource' => 'resources', 'id' => $subjectValue['id']], ['force_canonical' => true]),
                 'o:title' => $subjectValue['title'],
             ];
         }

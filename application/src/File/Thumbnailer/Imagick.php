@@ -55,7 +55,12 @@ class Imagick extends AbstractThumbnailer
         $imagick->setBackgroundColor('white');
         $imagick->setImageBackgroundColor('white');
         $imagick->setImagePage($origWidth, $origHeight, 0, 0);
-        $imagick = $imagick->mergeImageLayers(ImagickPhp::LAYERMETHOD_FLATTEN);
+
+        if (defined('Imagick::ALPHACHANNEL_REMOVE')) {
+            $imagick->setImageAlphaChannel(ImagickPhp::ALPHACHANNEL_REMOVE);
+        } else {
+            $imagick = $imagick->mergeImageLayers(ImagickPhp::LAYERMETHOD_FLATTEN);
+        }
 
         switch ($strategy) {
             case 'square':

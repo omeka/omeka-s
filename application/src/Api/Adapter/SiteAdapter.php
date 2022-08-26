@@ -403,7 +403,8 @@ class SiteAdapter extends AbstractEntityAdapter
         ];
     }
 
-    protected function getFirstPageContent() {
+    protected function getFirstPageContent()
+    {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
         return $translator->translate(<<<EOT
             <p>Welcome to your new site. This is an example page.</p>
@@ -433,9 +434,10 @@ class SiteAdapter extends AbstractEntityAdapter
             <h5>This is an H5 subheader.</h5>
             <h6>This is an H6 subheader.</h6>
         EOT);
-
     }
-    protected function getSecondPageContent() {
+
+    protected function getSecondPageContent()
+    {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
         return $translator->translate(<<<EOT
             <pre>

@@ -738,6 +738,7 @@ return [
             'mediaEmbeds' => Site\ResourcePageBlockLayout\MediaEmbeds::class,
             'mediaList' => Site\ResourcePageBlockLayout\MediaList::class,
             'mediaRender' => Site\ResourcePageBlockLayout\MediaRender::class,
+            'resourceClass' => Site\ResourcePageBlockLayout\ResourceClass::class,
             'sitePages' => Site\ResourcePageBlockLayout\SitePages::class,
             'values' => Site\ResourcePageBlockLayout\Values::class,
         ],

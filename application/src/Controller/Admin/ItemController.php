@@ -295,6 +295,10 @@ class ItemController extends AbstractActionController
                 $this->messenger()->addSuccess('Items successfully edited'); // @translate
                 return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
             } else {
+                // Must set the value of these elements to a string because
+                // their POST returns an array, which would result in an error.
+                $form->get('set_value_visibility')->setValue('');
+                $form->get('value')->setValue('');
                 $this->messenger()->addFormErrors($form);
             }
         }

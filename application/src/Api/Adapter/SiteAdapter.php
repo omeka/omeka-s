@@ -440,9 +440,6 @@ class SiteAdapter extends AbstractEntityAdapter
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
         return $translator->translate(<<<EOT
-            <pre>
-            This text is using the &quot;Formatted&quot; setting in the HTML editor.</pre>
-            <address>This text is using the &quot;address&quot; setting in the HTML editor.</address>
             <h2 style="font-style:italic;">This is the &quot;Italic Title&quot; block style.</h2>
             <h3 style="color:#aaaaaa;font-style:italic;">This is the &quot;Subtitle&quot; block style.</h3>
             <div style="background:#eeeeee;border:1px solid #cccccc;padding:5px 10px;">This is the &quot;Special Container&quot; block style.</div>
@@ -450,12 +447,6 @@ class SiteAdapter extends AbstractEntityAdapter
             <p><big>This is the &quot;Big&quot; inline style.</big> This is normal text.</p>
             <p><small>This text is inside a &quot;small&quot; inline style.</small> This is normal text.</p>
             <p><code>This is the &quot;Computer Code&quot; inline style.</code></p>
-            <p><kbd>This is the &quot;Keyboard Phrase&quot; inline style.</kbd></p>
-            <p><samp>This is the &quot;Sample Text&quot; inline style.</samp></p>
-            <p><var>This is the &quot;Variable&quot; inline style.</var></p>
-            <p><ins>This is the &quot;Inserted Text&quot; inline style.</ins></p>
-            <p><cite>This is the &quot;Cited Work&quot; inline style.</cite></p>
-            <p><q>This is the &#39;Inline Quotation&#39; inline style.</q></p>
             <p><span dir="rtl">لكن لا بد أن أوضح لك أن كل هذه الأفكار المغلوطة حول استنكار النشوة وتمجيد الألم يعرض هذا النص من اليمين إلى اليسار.</span></p>
         EOT);
     }

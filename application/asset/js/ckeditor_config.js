@@ -11,6 +11,8 @@ CKEDITOR.editorConfig = function(config) {
             items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote']
         }
     ];
+
+    config.stylesSet = 'default:../../js/custom-ckeditor-styles.js';
     // Disable content filtering
     config.allowedContent = true;
     // Add extra plugins

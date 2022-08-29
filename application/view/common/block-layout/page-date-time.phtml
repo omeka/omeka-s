@@ -1,0 +1,16 @@
+<?php
+$page = $block->page();
+$created = $page->created();
+$modified = $page->modified();
+$dateFormat = $block->dataValue('date_format');
+$timeFormat = $block->dataValue('time_format');
+$siteLocale = $this->siteSetting('locale');
+$createdFormatted = $this->i18n()->dateFormat($created, $dateFormat, $timeFormat, $siteLocale);
+$modifiedFormatted = $modified ? $this->i18n()->dateFormat($modified, $dateFormat, $timeFormat, $siteLocale) : null;
+?>
+<?php if (in_array($block->dataValue('display'), ['created', 'created_modified'])): ?>
+<p><?php echo sprintf($this->translate('Page created: %s'), $createdFormatted); ?></p>
+<?php endif; ?>
+<?php if ($modified && in_array($block->dataValue('display'), ['modified', 'created_modified'])): ?>
+<p><?php echo sprintf($this->translate('Page modified: %s'), $modifiedFormatted); ?></p>
+<?php endif; ?>

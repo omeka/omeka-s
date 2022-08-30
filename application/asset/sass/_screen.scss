@@ -1693,6 +1693,9 @@ td .o-icon-user-inactive {
         padding-right: 1.5 * $spacing-large;
     }
 
+    .item-set-select-type {
+        max-width: 25%;
+    }
     /* @end */
 
 /* @end */
@@ -1936,6 +1939,10 @@ fieldset.section > legend {
 .value .input-body .language-wrapper.active a.value-language {
     border-color: transparent;
     color: $red;
+}
+
+.value .language-wrapper textarea {
+    padding: $spacing-large;
 }
 
 .value .actions a.o-icon-more {

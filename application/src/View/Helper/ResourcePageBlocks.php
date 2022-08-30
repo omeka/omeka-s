@@ -22,7 +22,7 @@ class ResourcePageBlocks extends AbstractHelper
      */
     public function __invoke(Representation\AbstractResourceEntityRepresentation $resource, $regionName = 'main')
     {
-        if (!$this->isSupported($resource, $regionName)) {
+        if (!$this->hasBlocks($resource, $regionName)) {
             return '';
         }
         $view = $this->getView();
@@ -36,13 +36,13 @@ class ResourcePageBlocks extends AbstractHelper
     }
 
     /**
-     * Is this resource/region supported?
+     * Does this resource/region have blocks?
      *
      * @param Representation\AbstractResourceEntityRepresentation $resource
      * @param string $regionName
      * @return bool
      */
-    public function isSupported(Representation\AbstractResourceEntityRepresentation $resource, $regionName = 'main')
+    public function hasBlocks(Representation\AbstractResourceEntityRepresentation $resource, $regionName = 'main')
     {
         $resourceName = $this->getResourceName($resource);
         return isset($this->resourcePageBlocks[$resourceName][$regionName]);

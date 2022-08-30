@@ -7,6 +7,7 @@ use Omeka\Entity\Media;
 use Omeka\Module\AbstractModule;
 use Laminas\EventManager\Event as ZendEvent;
 use Laminas\EventManager\SharedEventManagerInterface;
+use Laminas\Form\Element;
 use Laminas\View\Renderer\PhpRenderer;
 
 /**
@@ -151,7 +152,7 @@ class Module extends AbstractModule
         $sharedEventManager->attach(
             'Omeka\Controller\Admin\Media',
             'view.edit.form.advanced',
-            [$this, 'addMediaAltTextInput']
+            [$this, 'addMediaAdvancedForm']
         );
 
         $sharedEventManager->attach(
@@ -688,18 +689,24 @@ class Module extends AbstractModule
         $qb->andWhere($constraints);
     }
 
-    public function addMediaAltTextInput(ZendEvent $event)
+    public function addMediaAdvancedForm(ZendEvent $event)
     {
         $view = $event->getTarget();
-        $altText = $view->resource->altText() ?? null;
-        $textarea = new \Laminas\Form\Element\Textarea('o:alt_text');
-        $textarea->setLabel('Alt text'); // @translate
-        $textarea->setAttributes([
-            'value' => $altText,
-            'rows' => 4,
-            'id' => 'alt_text',
-        ]);
-        echo $view->formRow($textarea);
+        $altTextInput = new Element\Textarea('o:alt_text');
+        $altTextInput->setLabel('Alt text') // @translate
+            ->setAttributes([
+                'value' => $view->resource->altText() ?? null,
+                'rows' => 4,
+                'id' => 'alt_text',
+            ]);
+        $langInput = new Element\Text('o:lang');
+        $langInput->setLabel('Language') // @translate
+            ->setAttributes([
+                'value' => $view->resource->lang() ?? null,
+                'id' => 'lang',
+            ]);
+        echo $view->formRow($altTextInput);
+        echo $view->formRow($langInput);
     }
 
     public function noindexItem(ZendEvent $event)

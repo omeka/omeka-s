@@ -1941,8 +1941,8 @@ fieldset.section > legend {
     color: $red;
 }
 
-.value .language-wrapper textarea {
-    padding: $spacing-large;
+.value .language-wrapper:not(.active) ~ textarea {
+    padding-right: 2 * $spacing-large;
 }
 
 .value .actions a.o-icon-more {
@@ -1961,6 +1961,7 @@ input[type="text"].value-language {
     min-height: 0;
     padding: $spacing-small (1.75 * $spacing-large) $spacing-small $spacing-small;
     display: block;
+    background-color: #fff;
 }
 
 .language-wrapper.active input[type="text"].value-language ~ textarea {

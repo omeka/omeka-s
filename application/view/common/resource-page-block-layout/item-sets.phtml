@@ -1,14 +1,12 @@
 <?php
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
-$lang = $this->lang();
-$itemSets = $resource->itemSets()
 ?>
 <?php if ($itemSets): ?>
 <div class="property">
     <h4><?php echo $this->translate('Item sets'); ?></h4>
     <?php foreach ($itemSets as $itemSet): ?>
     <div class="value">
-        <a href="<?php echo $this->escapeHtml($itemSet->url()); ?>"><?php echo $itemSet->displayTitle(null, ($filterLocale ? $lang : null)); ?></a>
+        <a href="<?php echo $this->escapeHtml($itemSet->url()); ?>"><?php echo $itemSet->displayTitle(null, ($filterLocale ? $this->lang() : null)); ?></a>
     </div>
     <?php endforeach; ?>
 </div>

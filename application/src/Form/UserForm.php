@@ -2,6 +2,7 @@
 namespace Omeka\Form;
 
 use Omeka\Form\Element\Columns;
+use Omeka\Form\Element\ItemSetSelect;
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Form\Element\SiteSelect;
 use Omeka\Form\Element\BrowseDefaults;
@@ -170,6 +171,21 @@ class UserForm extends Form
             ],
         ]);
         $settingsFieldset->add([
+            'name' => 'default_item_sets',
+            'type' => ItemSetSelect::class,
+            'attributes' => [
+                'value' => $userId ? $this->userSettings->get('default_item_sets', null, $userId) : [],
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select item sets', // @translate
+                'multiple' => true,
+                'id' => 'default_item_sets',
+            ],
+            'options' => [
+                'label' => 'Default item sets for items', // @translate
+                'empty_option' => '',
+            ],
+        ]);
+        $settingsFieldset->add([
             'name' => 'default_item_sites',
             'type' => SiteSelect::class,
             'attributes' => [
@@ -333,6 +349,10 @@ class UserForm extends Form
         ]);
         $inputFilter->get('user-settings')->add([
             'name' => 'default_resource_template',
+            'allow_empty' => true,
+        ]);
+        $inputFilter->get('user-settings')->add([
+            'name' => 'default_item_sets',
             'allow_empty' => true,
         ]);
         $inputFilter->get('user-settings')->add([

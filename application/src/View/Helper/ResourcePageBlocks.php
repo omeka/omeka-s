@@ -7,6 +7,12 @@ use Laminas\View\Helper\AbstractHelper;
 
 class ResourcePageBlocks extends AbstractHelper
 {
+    protected $resource;
+
+    protected $regionName;
+
+    protected $resourceName;
+
     public function __construct(Manager $blockLayoutManager, array $resourcePageBlocks)
     {
         $this->blockLayoutManager = $blockLayoutManager;
@@ -14,58 +20,60 @@ class ResourcePageBlocks extends AbstractHelper
     }
 
     /**
-     * Return the markup for a region of the resource page.
+     * Set the resource/region and return this object.
      *
      * @param Representation\AbstractResourceEntityRepresentation $resource
      * @param string $regionName
-     * @return string
+     * @return self
      */
     public function __invoke(Representation\AbstractResourceEntityRepresentation $resource, $regionName = 'main')
     {
-        if (!$this->hasBlocks($resource, $regionName)) {
-            return '';
+        $this->resource = $resource;
+        $this->regionName = $regionName;
+
+        $resourceClass = get_class($resource);
+        switch ($resourceClass) {
+            case Representation\ItemRepresentation::class:
+                $this->resourceName = 'items';
+                break;
+            case Representation\ItemSetRepresentation::class:
+                $this->resourceName = 'item_sets';
+                break;
+            case Representation\MediaRepresentation::class:
+                $this->resourceName = 'media';
+                break;
+            default:
+                throw new \Exception('Invalid resource');
         }
-        $view = $this->getView();
-        $resourceName = $this->getResourceName($resource);
-        $blockMarkup = [];
-        foreach ($this->resourcePageBlocks[$resourceName][$regionName] as $blockName) {
-            $blockLayout = $this->blockLayoutManager->get($blockName);
-            $blockMarkup[] = $blockLayout->render($view, $resource);
-        }
-        return implode('', $blockMarkup);
+        return $this;
     }
 
     /**
      * Does this resource/region have blocks?
      *
-     * @param Representation\AbstractResourceEntityRepresentation $resource
-     * @param string $regionName
      * @return bool
      */
-    public function hasBlocks(Representation\AbstractResourceEntityRepresentation $resource, $regionName = 'main')
+    public function hasBlocks()
     {
-        $resourceName = $this->getResourceName($resource);
-        return isset($this->resourcePageBlocks[$resourceName][$regionName]);
+        return isset($this->resourcePageBlocks[$this->resourceName][$this->regionName]);
     }
 
     /**
-     * Get the resource name of the passed resource.
+     * Return the block markup for a region of the resource page.
      *
-     * @param Representation\AbstractResourceEntityRepresentation $resource
      * @return string
      */
-    protected function getResourceName(Representation\AbstractResourceEntityRepresentation $resource)
+    public function getBlocks()
     {
-        $resourceClass = get_class($resource);
-        switch ($resourceClass) {
-            case Representation\ItemRepresentation::class:
-                return 'items';
-            case Representation\ItemSetRepresentation::class:
-                return 'item_sets';
-            case Representation\MediaRepresentation::class:
-                return 'media';
-            default:
-                throw new \Exception('Invalid resource');
+        if (!$this->hasBlocks()) {
+            return '';
         }
+        $view = $this->getView();
+        $blockMarkup = [];
+        foreach ($this->resourcePageBlocks[$this->resourceName][$this->regionName] as $blockName) {
+            $blockLayout = $this->blockLayoutManager->get($blockName);
+            $blockMarkup[] = $blockLayout->render($view, $this->resource);
+        }
+        return implode('', $blockMarkup);
     }
 }

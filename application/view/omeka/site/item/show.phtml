@@ -3,12 +3,9 @@ $translate = $this->plugin('translate');
 $this->htmlElement('body')->appendAttribute('class', 'item resource show');
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $this->lang();
-$resourcePageBlocks = $this->resourcePageBlocks($resource, 'main');
 ?>
 <?php echo $this->pageTitle($item->displayTitle(null, ($filterLocale ? $lang : null)), 2); ?>
 <h3><?php echo $translate('Item'); ?></h3>
 <?php $this->trigger('view.show.before'); ?>
-<?php if ($resourcePageBlocks->hasBlocks()): ?>
-<?php echo $resourcePageBlocks->getBlocks(); ?>
-<?php endif; ?>
+<?php echo $this->resourcePageBlocks($item); ?>
 <?php $this->trigger('view.show.after'); ?>

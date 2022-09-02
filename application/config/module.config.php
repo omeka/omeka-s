@@ -464,6 +464,9 @@ return [
             'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
             'browse' => Service\ViewHelper\BrowseFactory::class,
         ],
+        'shared' => [
+            'resourcePageBlocks' => false,
+        ],
         'delegators' => [
             'Laminas\Form\View\Helper\FormElement' => [
                 Service\Delegator\FormElementDelegatorFactory::class,

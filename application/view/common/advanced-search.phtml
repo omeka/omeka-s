@@ -41,6 +41,7 @@ switch ($resourceType) {
 }
 if ($this->status()->isAdminRequest()) {
     $addPartial('common/advanced-search/owner');
+    $addPartial('common/advanced-search/visibility');
 }
 if ($this->status()->isSiteRequest()) {
     $addPartial('common/advanced-search/resource-template-restrict');

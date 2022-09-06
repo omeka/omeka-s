@@ -20,13 +20,15 @@ if ($this->status()->isSiteRequest()) {
 <div id="linked-resources">
 <div class="linked-header">
     <div id="linked-filter">
-        <h4><?php echo $translate('Filter by property'); ?></h4>
-        <select id="filter-property" name="property" data-url="<?php echo $escape($this->url(null, [], true)); ?>" data-fragment="<?php echo $escape($fragment); ?>">
-            <option value=""><?php echo $translate('All'); ?></option>
-            <?php foreach ($properties as $prop): ?>
-            <option value="<?php echo $escape($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $escape(sprintf('%s (%s)', $translate($prop->label()), $prop->term())); ?></option>
-            <?php endforeach; ?>
-        </select>
+        <label>
+            <?php echo $translate('Filter by property'); ?>
+            <select id="filter-property" name="property" data-url="<?php echo $escape($this->url(null, [], true)); ?>" data-fragment="<?php echo $escape($fragment); ?>">
+                <option value=""><?php echo $translate('All'); ?></option>
+                <?php foreach ($properties as $prop): ?>
+                <option value="<?php echo $escape($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $escape(sprintf('%s (%s)', $translate($prop->label()), $prop->term())); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
     </div>
     <?php echo ($totalCount > $perPage) ? $pagination : ''; ?>
 </div>

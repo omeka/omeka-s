@@ -2,10 +2,12 @@
 $resourceMedia = $resource->media();
 ?>
 <?php if ($resourceMedia): ?>
-<div class="media-list">
-    <h4><?php echo $this->translate('Media'); ?></h4>
+<dl>
+<div class="media-list property">
+    <dt><?php echo $this->translate('Media'); ?></dt>
     <?php foreach ($resourceMedia as $media): ?>
-    <?php echo $media->linkPretty(); ?>
+    <dd class="value"><?php echo $media->linkPretty(); ?></dd>
     <?php endforeach; ?>
 </div>
 <?php endif; ?>
+</dl>

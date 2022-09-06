@@ -2,8 +2,10 @@
 $resourceClass = $resource->resourceClass();
 ?>
 <?php if ($resourceClass): ?>
+<dl>
 <div class="property">
-    <h4><?php echo $this->translate('Resource class'); ?></h4>
-    <div class="value"><?php echo $this->escapeHtml($resourceClass->label()); ?></div>
+    <dt><?php echo $this->translate('Resource class'); ?></dt>
+    <dd class="value"><?php echo $this->escapeHtml($resourceClass->label()); ?></dd>
 </div>
+</dl>
 <?php endif; ?>

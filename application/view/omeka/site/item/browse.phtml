@@ -18,7 +18,7 @@ endif;
     <?php echo $this->pageTitle($itemSet->displayTitle(null, ($filterLocale ? $lang : null)), 2); ?>
     <h3><?php echo $translate('Item set'); ?></h3>
     <div class="metadata">
-        <?php echo $this->resourcePageBlocks($itemSet); ?>
+        <?php echo $this->resourcePageBlocks($itemSet)->getBlocks(); ?>
     </div>
     <div class="item-set-items">
     <?php echo '<h3>' . $escape($translate('Items')) . '</h3>'; ?>

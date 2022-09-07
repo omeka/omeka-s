@@ -704,6 +704,7 @@ class Module extends AbstractModule
             ->setAttributes([
                 'value' => $view->resource->lang() ?? null,
                 'id' => 'lang',
+                'class' => 'validate-language',
             ]);
         echo $view->formRow($altTextInput);
         echo $view->formRow($langInput);

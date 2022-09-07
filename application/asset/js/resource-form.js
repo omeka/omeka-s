@@ -280,6 +280,13 @@
             Omeka.closeSidebar($('#select-resource'));
         });
 
+        // Manage primary media selection labels.
+        $('#media-list').on('change', '.primary-media-input', function() {
+            $newDefaultInput = $(this);
+            $('.primary-media-label-text:not(.sr-only)').addClass('sr-only');
+            $newDefaultInput.parent('.primary-media').find('.primary-media-label-text').removeClass('sr-only');
+        });
+
         // Prevent resource details from opening when quick add is toggled on.
         $('#select-resource').on('click', '.quick-select-toggle', function() {
             $('#item-results').find('a.select-resource').each(function() {

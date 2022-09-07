@@ -181,6 +181,9 @@ class Module extends AbstractModule
                 if (!$services->get('Omeka\Status')->isSiteRequest()) {
                     return;
                 }
+                if (!$services->get('Omeka\Settings\Site')->get('exclude_linked_resources_not_in_site')) {
+                    return;
+                }
                 $currentSite = $services->get('ControllerPluginManager')->get('currentSite')();
                 $values = $event->getParam('values');
                 foreach ($values as $term => $propertyData) {

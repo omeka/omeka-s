@@ -284,6 +284,19 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('show_value_annotations', false),
             ],
         ]);
+        $this->add([
+            'name' => 'exclude_linked_resources_not_in_site',
+            'type' => 'checkbox',
+            'options' => [
+                'element_group' => 'show',
+                'label' => 'Exclude linked resources not in site', // @translate
+                'info' => 'Exclude resources that are not assigned to this site in the "Linked resources" resource page block.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'exclude_linked_resources_not_in_site',
+                'value' => (bool) $settings->get('exclude_linked_resources_not_in_site', false),
+            ],
+        ]);
 
         // Search section
         $this->add([

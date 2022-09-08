@@ -1,10 +1,10 @@
 <?php
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $this->lang();
-$itemSets = $resource->itemSets()
+$itemSets = $resource->itemSets();
 ?>
 <?php if ($itemSets): ?>
-<dl>
+<dl class="item-sets">
     <div class="property">
         <dt><?php echo $this->translate('Item sets'); ?></dt>
         <?php foreach ($itemSets as $itemSet): ?>

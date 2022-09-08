@@ -3,7 +3,7 @@ $showAttachedPages = $this->siteSetting('show_attached_pages', true);
 $sitePages = $resource->sitePages($site->id());
 ?>
 <?php if ($showAttachedPages && $sitePages): ?>
-<dl>
+<dl class="site-pages">
     <div class="property">
         <dt><?php echo $this->translate('Site pages'); ?></dt>
         <?php foreach ($sitePages as $sitePage): ?>

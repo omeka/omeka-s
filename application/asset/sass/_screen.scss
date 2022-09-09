@@ -3361,16 +3361,17 @@ input[type=text].query-form-query {
     justify-content: flex-end;
     flex-wrap: wrap;
 
-    h4 {
+    dt {
         width: span(2 of 9);
         vertical-align: top;
         padding: $spacing-small 0;
+        font-weight: bold;
     }
 
-    h4 + .value,
+    dd,
     .values {
         padding: $spacing-small;
-        margin-bottom: 0;
+        margin: 0;
         word-wrap: break-word;
         width: span(7 of 9);
 

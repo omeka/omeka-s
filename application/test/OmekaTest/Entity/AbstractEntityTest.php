@@ -1,5 +1,5 @@
 <?php
-namespace OmekaTest\Model;
+namespace OmekaTest\Entity;
 
 use Omeka\Test\TestCase;
 

@@ -26,6 +26,11 @@ class Installer
      */
     protected $errors = [];
 
+    /**
+     * @var array Task variables
+     */
+    protected $vars = [];
+
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;

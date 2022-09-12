@@ -4,6 +4,7 @@ namespace Omeka\Form;
 use Omeka\Form\Element\BrowseDefaults;
 use Omeka\Form\Element\PropertySelect;
 use Omeka\Settings\SiteSettings;
+use Omeka\Stdlib\Browse as BrowseService;
 use Laminas\Form\Form;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
@@ -16,6 +17,11 @@ class SiteSettingsForm extends Form
      * @var SiteSettings
      */
     protected $siteSettings;
+
+    /**
+     * @var BrowseService
+     */
+    protected $browseService;
 
     public function init()
     {
@@ -435,7 +441,7 @@ class SiteSettingsForm extends Form
         return $this->siteSettings;
     }
 
-    public function setBrowseService($browseService)
+    public function setBrowseService(BrowseService $browseService)
     {
         $this->browseService = $browseService;
     }

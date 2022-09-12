@@ -17,6 +17,7 @@ class Browse
     protected HelperPluginManager $viewHelperManager;
     protected EventManager $eventManager;
     protected UserSettings $userSettings;
+    protected SiteSettings $siteSettings;
 
     public function __construct(
         array $columnDefaults,

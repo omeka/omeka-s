@@ -37,6 +37,7 @@
         "laminas/laminas-mvc-plugins": "^1.0",
         "laminas/laminas-navigation": "^2.8.1",
         "laminas/laminas-permissions-acl": "^2.6",
+        "laminas/laminas-router": "^3.9",
         "laminas/laminas-servicemanager": "^3.1",
         "laminas/laminas-session": "^2.7.1",
         "laminas/laminas-stdlib": "^3.0.1",

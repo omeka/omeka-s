@@ -1,5 +1,5 @@
 <?php
-namespace OmekaTest\Model;
+namespace OmekaTest\Entity;
 
 use Omeka\Entity\SiteBlockAttachment;
 use Omeka\Entity\SitePageBlock;

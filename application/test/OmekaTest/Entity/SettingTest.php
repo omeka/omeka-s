@@ -1,12 +1,12 @@
 <?php
-namespace OmekaTest\Model;
+namespace OmekaTest\Entity;
 
 use Omeka\Entity\Setting;
 use Omeka\Test\TestCase;
 
 class SettingTest extends TestCase
 {
-    protected $option;
+    protected $setting;
 
     public function setUp(): void
     {

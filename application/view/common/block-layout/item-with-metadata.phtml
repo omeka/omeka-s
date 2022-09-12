@@ -8,22 +8,23 @@ $translate = $this->plugin('translate');
     <div class="resource show">
     <?php echo $item->displayValues(); ?>
     <?php if($item->itemSets()): ?>
-        <div class="property">
-            <h4><?php echo $translate('Item sets'); ?></h4>
-            <?php foreach ($item->itemSets() as $itemSet): ?>
-            <div class="value"><?php echo $itemSet->link($itemSet->displayTitle()); ?></div>
-            <?php endforeach; ?>
-        </div>
+        <dl class="item-sets">
+            <div class="property">
+                <dt><?php echo $translate('Item sets'); ?></dt>
+                <?php foreach ($item->itemSets() as $itemSet): ?>
+                <dd class="value"><?php echo $itemSet->link($itemSet->displayTitle()); ?></dd>
+                <?php endforeach; ?>
+            </div>
+        </dl>
     <?php endif; ?>
     <?php if($item->media()): ?>
-        <div class="media-list">
-        <?php
-        foreach ($item->media() as $media):
-            echo $media->linkRaw($this->thumbnail($media, 'medium', ['title' => $media->displayTitle()]), null, [
-                'class' => 'media resource'
-            ]);
-        endforeach;
-        ?>
+        <dl class="media-list">
+            <div class="property">
+                <dt><?php echo $translate('Media'); ?></dt>
+                <?php foreach ($item->media() as $media): ?>
+                <dd class="value"><?php echo $media->linkPretty('square', $media->displayTitle(), ['class' => 'media resource']); ?></dd>
+                <?php endforeach; ?>
+            </div>
         </div>
     <?php endif; ?>
     </div>

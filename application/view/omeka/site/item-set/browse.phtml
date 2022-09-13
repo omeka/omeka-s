@@ -27,7 +27,7 @@ $heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate
 $body = $bodyTerm ? $itemSet->value($bodyTerm, ['lang' => ($filterLocale ? [$lang, ''] : null)]) : $itemSet->displayDescription(null, ($filterLocale ? [$lang, ''] : null));
 ?>
     <li class="item-set resource">
-        <?php echo $item->linkPretty('medium', $heading); ?>
+        <?php echo $itemSet->linkPretty('medium', $heading); ?>
         <?php if ($body): ?>
         <div class="description"><?php echo $escape($body); ?></div>
         <?php endif; ?>

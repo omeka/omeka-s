@@ -251,6 +251,10 @@
     font-weight: bold;
 }
 
+.page-date-time {
+    margin: 1rem 0;
+}
+
 .page-date-time .property {
     font-weight: bold;
 
@@ -263,4 +267,5 @@
 .page-date-time .property, 
 .page-date-time .value {
     display: inline-block;
+    margin: 0;
 }

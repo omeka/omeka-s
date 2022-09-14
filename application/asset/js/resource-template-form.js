@@ -96,7 +96,11 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#data-type').trigger('chosen:updated');
 
     // When the sidebar fieldset is applied, store new values in the row.
-    $('#set-changes').off('click.setchanges').on('click.setchanges', function(e) {
+    $('#set-changes').off('click').on('click', function(e) {
+        if (!$('#default-lang').trigger('change')[0].reportValidity()) {
+            // The default language is invalid.
+            return false;
+        }
         altLabel.val($('#alternate-label').val());
         prop.find('.alternate-label-cell').text($('#alternate-label').val());
         altComment.val($('#alternate-comment').val());

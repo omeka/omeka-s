@@ -171,7 +171,7 @@ class ResourceBatchUpdateForm extends Form
                     'name' => 'language',
                     'type' => Element\Text::class,
                     'attributes' => [
-                        'class' => 'value-language active',
+                        'class' => 'validate-language',
                     ],
                     'options' => [
                         'label' => 'Set language', // @translate

@@ -5,3 +5,7 @@
 #itemfiles > .media.resource {
     display: none;
 }
+
+.media-list .resource-link .resource-name {
+    word-break: break-word;
+}

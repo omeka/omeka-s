@@ -36,10 +36,12 @@ $sectionNavs = [
 
 <div id="item-set-metadata" class="active section">
     <?php if ( $itemSet->resourceClass()): ?>
+    <dl>
         <div class="meta-group">
-            <h4><?php echo $translate('Class'); ?></h4>
-            <div class="value"><?php echo $escape($itemSet->resourceClass()->label()); ?></div>
+            <dt><?php echo $translate('Class'); ?></dt>
+            <dd class="value"><?php echo $escape($itemSet->resourceClass()->label()); ?></dd>
         </div>
+    </dl>
     <?php endif; ?>
     <?php echo $itemSet->displayValues(); ?>
 </div>

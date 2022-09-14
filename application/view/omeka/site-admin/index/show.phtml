@@ -38,12 +38,12 @@ $this->htmlElement('body')->appendAttribute('class', 'sites show');
         <dd class="value"><?php echo nl2br($escape($summary)); ?></dd>
     </div>
     <?php endif; ?>
+    <?php
+    $thumbnail = $site->thumbnail();
+    if ($thumbnail): ?>
+    <div class="property">
+        <dt><?php echo $escape($translate('Thumbnail')); ?></dt>
+        <dd class="value"><?php echo $this->thumbnail($thumbnail, 'square', ['class' => 'selected-asset-image']); ?></dd>
+    </div>
+    <?php endif; ?>
 </dl>
-<?php
-$thumbnail = $site->thumbnail();
-if ($thumbnail): ?>
-<div class="property">
-    <h4><?php echo $escape($translate('Thumbnail')); ?></h4>
-    <div class="value"><?php echo $this->thumbnail($thumbnail, 'square', ['class' => 'selected-asset-image']); ?></div>
-</div>
-<?php endif; ?>

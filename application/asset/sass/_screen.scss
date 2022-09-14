@@ -5002,12 +5002,10 @@ body.minimal .site.results thead {
 
 .asset-entry img {
     margin-right: $spacing-small;
-    width: 25%;
+    max-height: 2 * $spacing-large;
 }
 
 .asset-entry .asset-name {
-    min-width: 0;
-    width: 0;
     flex-grow: 1;
 }
 

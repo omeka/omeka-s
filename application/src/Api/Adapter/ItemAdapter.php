@@ -160,6 +160,15 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         $append = $isPartial && 'append' === $request->getOption('collectionAction');
         $remove = $isPartial && 'remove' === $request->getOption('collectionAction');
 
+        if ($this->shouldHydrate($request, 'o:primary_media')) {
+            $primaryMedia = $request->getValue('o:primary_media');
+            if (isset($primaryMedia['o:id']) && is_numeric($primaryMedia['o:id'])) {
+                $entity->setPrimaryMedia($this->getAdapter('media')->findEntity($primaryMedia['o:id']));
+            } else {
+                $entity->setPrimaryMedia(null);
+            }
+        }
+
         if ($this->shouldHydrate($request, 'o:item_set')) {
             $itemSetsData = $request->getValue('o:item_set', []);
             $itemSetAdapter = $this->getAdapter('item_sets');

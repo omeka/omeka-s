@@ -15,6 +15,10 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
 
     public function getResourceJsonLd()
     {
+        $primaryMedia = null;
+        if ($this->primaryMedia()) {
+            $primaryMedia = $this->primaryMedia()->getReference();
+        }
         $media = [];
         foreach ($this->media() as $mediaRepresentation) {
             $media[] = $mediaRepresentation->getReference();
@@ -28,6 +32,7 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
             $sites[] = $siteRepresentation->getReference();
         }
         return [
+            'o:primary_media' => $primaryMedia,
             'o:media' => $media,
             'o:item_set' => $itemSets,
             'o:site' => $sites,
@@ -78,6 +83,11 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
 
     public function primaryMedia()
     {
+        // Return the primary media if one is set.
+        $primaryMedia = $this->resource->getPrimaryMedia();
+        if ($primaryMedia) {
+            return $this->getAdapter('media')->getRepresentation($primaryMedia);
+        }
         // Return the first media if one exists.
         $media = $this->media();
         return $media ? $media[0] : null;

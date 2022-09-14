@@ -2816,8 +2816,19 @@ input[type="text"].value-language {
         min-width: 0;
     }
 
-    .media.row .actions {
-        margin-left: auto;
+    .media.row .primary-media {
+        text-transform: uppercase;
+        font-size: (.75 * $base-font-size);
+        font-weight: bold;
+        margin: 0 0 0 auto;
+
+        input {
+            margin-left: $spacing-small;
+        }
+    }
+
+    .media.row .actions { 
+        margin-left: $spacing-large;
     }
 
     .media.value.delete span.restore-value {

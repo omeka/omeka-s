@@ -441,6 +441,18 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'author',
             [
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+            ],
+            [
+                'batch-edit',
+                'batch-delete',
+            ]
+        );
+        $acl->allow(
+            'author',
+            [
                 'Omeka\Api\Adapter\ItemAdapter',
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
@@ -451,6 +463,18 @@ class AclFactory implements FactoryInterface
                 'create',
                 'update',
                 'delete',
+            ]
+        );
+        $acl->allow(
+            'author',
+            [
+                'Omeka\Api\Adapter\ItemAdapter',
+                'Omeka\Api\Adapter\ItemSetAdapter',
+                'Omeka\Api\Adapter\MediaAdapter',
+            ],
+            [
+                'batch_update',
+                'batch_delete',
             ]
         );
         $acl->allow(
@@ -572,6 +596,19 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'reviewer',
             [
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+            ],
+            [
+                'batch-edit',
+                'batch-edit-all',
+                'batch-delete',
+            ]
+        );
+        $acl->allow(
+            'reviewer',
+            [
                 'Omeka\Api\Adapter\ItemAdapter',
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
@@ -581,6 +618,19 @@ class AclFactory implements FactoryInterface
                 'create',
                 'update',
                 'delete',
+            ]
+        );
+        $acl->allow(
+            'reviewer',
+            [
+                'Omeka\Api\Adapter\ItemAdapter',
+                'Omeka\Api\Adapter\ItemSetAdapter',
+                'Omeka\Api\Adapter\MediaAdapter',
+            ],
+            [
+                'batch_update',
+                'batch_update_all',
+                'batch_delete',
             ]
         );
         $acl->allow(
@@ -706,6 +756,20 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             [
+                'Omeka\Controller\Admin\Item',
+                'Omeka\Controller\Admin\ItemSet',
+                'Omeka\Controller\Admin\Media',
+            ],
+            [
+                'batch-edit',
+                'batch-edit-all',
+                'batch-delete',
+                'batch-delete-all',
+            ]
+        );
+        $acl->allow(
+            'editor',
+            [
                 'Omeka\Api\Adapter\ItemAdapter',
                 'Omeka\Api\Adapter\ItemSetAdapter',
                 'Omeka\Api\Adapter\MediaAdapter',
@@ -743,7 +807,9 @@ class AclFactory implements FactoryInterface
             ],
             [
                 'batch_update',
+                'batch_update_all',
                 'batch_delete',
+                'batch_delete_all',
             ]
         );
         $acl->allow(

@@ -9,6 +9,15 @@
         );
     }
 
+    function handleScreenReaderStatuses(selector, activeState) {
+        var successStatuses = $(selector + '.success-statuses');
+        if (activeState == true) {
+            $(selector + '.success-statuses').addClass('active').find('.on').focus();
+        } else {
+            $(selector + '.success-statuses').removeClass('active').find('.off').focus();
+        }
+    }
+
     $(document).ready( function() {
 
         $('#select-resource').on('keydown', '.pagination input', function (e) {
@@ -55,11 +64,8 @@
         $('#select-resource').on('click', '.quick-select-toggle', function() {
             $(this).toggleClass('active').find('button .sr-only').toggleClass('active');
             $('#item-results').toggleClass('active').toggleClass('confirm-main');
-            if ($(this).hasClass('active')) {
-                $('.quick-select-on.success').focus();
-            } else {
-                $('.quick-select-off.success').focus();
-            }
+            var activeState = $('.quick-select-toggle').hasClass('active');
+            handleScreenReaderStatuses('.quick-select', activeState);
         });
 
         $('#select-resource').on('click', '.select-all', function() {
@@ -69,14 +75,17 @@
             }
             if ($('.select-resource-checkbox:not(:checked)').length > 0) {
                 $('#select-resource .select-resource-checkbox').prop('checked', true);
+                var activeState = true;
             } else {
                 $('#select-resource .select-resource-checkbox').prop('checked', false);
+                var activeState = false;
             }
-            $('.select-all-on.success').focus();
+            handleScreenReaderStatuses('.select-all', activeState);
         });
 
         $('#select-resource').on('change', '.select-resource-checkbox', function() {
             if ($('.select-resource-checkbox:not(:checked)').length > 0) {
+                var activeState = ($('.select-resource-checkbox:not(:checked)').length > 0);
                 $('#select-resource button.select-all').removeClass('active');
             } else if (!$('#select-resource button.select-all').hasClass('active')) {
                 $('#select-resource button.select-all').addClass('active');

@@ -3023,10 +3023,21 @@ input[type="text"].value-language,
     min-height: 0;
 }
 
+.success-statuses {
+    position: absolute;
+}
+
 // Screen reader ignores inactive status.
-.sidebar button:not(.active) .active.sr-only,
-.sidebar button.active .inactive.sr-only {
-    visibility: hidden;
+.success-statuses .status,
+.sidebar button .sr-only {
+    display: none;
+}
+
+.sidebar button:not(.active) .sr-only.off,
+.sidebar button.active .sr-only.on,
+.success-statuses:not(.active) .sr-only.off,
+.success-statuses.active .sr-only.on {
+    display: block;
 }
 
 .sidebar button.select-all:before,

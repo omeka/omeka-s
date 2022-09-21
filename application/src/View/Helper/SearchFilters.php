@@ -210,6 +210,11 @@ class SearchFilters extends AbstractHelper
                         $filterLabel = $translate('Visibility');
                         $filters[$filterLabel][] = $value ? $translate('Public') : $translate('Not public');
                         break;
+
+                    case 'has_media':
+                        $filterLabel = $translate('Media presence');
+                        $filters[$filterLabel][] = $value ? $translate('Has media') : $translate('Has no media');
+                        break;
                 }
             }
         }

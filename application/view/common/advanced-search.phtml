@@ -32,6 +32,7 @@ switch ($resourceType) {
         if ($this->status()->isAdminRequest()) {
             $addPartial('common/advanced-search/site');
         }
+        $addPartial('common/advanced-search/has-media');
         break;
     case 'media':
         $addPartial('common/advanced-search/media-type');

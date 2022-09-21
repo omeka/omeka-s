@@ -131,6 +131,16 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 $qb->andWhere($qb->expr()->isNull($siteAlias));
             }
         }
+
+        if (isset($query['has_media']) && (is_numeric($query['has_media']) || is_bool($query['has_media']))) {
+            $mediaAlias = $this->createAlias();
+            if ($query['has_media']) {
+                $qb->innerJoin('omeka_root.media', $mediaAlias);
+            } else {
+                $qb->leftJoin('omeka_root.media', $mediaAlias);
+                $qb->andWhere($qb->expr()->isNull($mediaAlias));
+            }
+        }
     }
 
     public function validateRequest(Request $request, ErrorStore $errorStore)

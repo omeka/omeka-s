@@ -513,6 +513,18 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             return null;
         }
         $partial = $this->getViewHelper('partial');
+        $view = $partial->getView();
+
+        $altLabelProperties = [];
+        if ($view->status()->isSiteRequest()) {
+            $resourceTemplateId = $view->siteSetting('alt_labels_resource_template_id');
+            if ($resourceTemplateId) {
+                foreach ($this->getAdapter()->getAltLabelProperties($resourceTemplateId) as $altLabelProperty) {
+                    $altLabelProperties[$altLabelProperty->getProperty()->getId()] = $altLabelProperty->getAlternateLabel();
+                }
+            }
+        }
+
         return $partial('common/linked-resources', [
             'objectResource' => $this,
             'subjectValues' => $subjectValues,
@@ -521,6 +533,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             'property' => $property,
             'totalCount' => $this->subjectValueTotalCount($property),
             'properties' => $this->subjectValueProperties(),
+            'altLabelProperties' => $altLabelProperties,
         ]);
     }
 

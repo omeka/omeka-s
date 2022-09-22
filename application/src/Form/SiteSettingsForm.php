@@ -290,6 +290,21 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('show_value_annotations', false),
             ],
         ]);
+        $this->add([
+            'type' => 'Omeka\Form\Element\ResourceTemplateSelect',
+            'name' => 'alt_labels_resource_template_id',
+            'options' => [
+                'element_group' => 'show',
+                'label' => 'Linked resources alternate label template', // @translate
+                'info' => 'Select a template to apply its alternate labels to the "Linked resources" section. This will remove the "Alternate label" column and disregard the template of the linking resource.', // @translate
+                'empty_option' => '',
+            ],
+            'attributes' => [
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select template', // @translate
+                'value' => $settings->get('alt_labels_resource_template_id'),
+            ],
+        ]);
 
         // Search section
         $this->add([
@@ -418,6 +433,11 @@ class SiteSettingsForm extends Form
         ]);
         $inputFilter->add([
             'name' => 'search_apply_templates',
+            'required' => false,
+            'allow_empty' => true,
+        ]);
+        $inputFilter->add([
+            'name' => 'alt_labels_resource_template_id',
             'required' => false,
             'allow_empty' => true,
         ]);

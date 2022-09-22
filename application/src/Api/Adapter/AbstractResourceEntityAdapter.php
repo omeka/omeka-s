@@ -579,6 +579,25 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         return $data;
     }
 
+    /**
+     * Get all properties of a resource template with alternate labels.
+     *
+     * @param int $resourceTemplateId
+     * @return array
+     */
+    public function getAltLabelProperties($resourceTemplateId)
+    {
+        $dql = "SELECT rtp
+        FROM Omeka\Entity\ResourceTemplateProperty rtp
+        WHERE rtp.resourceTemplate = :resourceTemplateId
+        AND rtp.alternateLabel IS NOT NULL
+        AND rtp.alternateLabel != ''";
+        return $this->getEntityManager()
+            ->createQuery($dql)
+            ->setParameter('resourceTemplateId', $resourceTemplateId)
+            ->getResult();
+    }
+
     public function getFulltextOwner($resource)
     {
         return $resource->getOwner();

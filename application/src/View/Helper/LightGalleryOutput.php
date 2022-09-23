@@ -7,6 +7,9 @@ class LightGalleryOutput extends AbstractHelper
 {
     public function __invoke($files = null)
     {
+        if (!isset($files)) {
+            return;
+        }
         $view = $this->getView();
         $view->headScript()->prependFile($view->assetUrl('vendor/lightgallery/lightgallery.min.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('vendor/lightgallery/plugins/thumbnail/lg-thumbnail.min.js', 'Omeka'));

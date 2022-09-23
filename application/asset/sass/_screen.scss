@@ -1980,7 +1980,7 @@ input[type="text"].value-language {
 .language-wrapper .language-label,
 .value[data-data-type="uri"] .input-body label {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     background-color: #fff;
     margin: 0;
     padding: 0 (1.75 * $spacing-large) 0 $spacing-small;
@@ -2465,6 +2465,12 @@ input[type="text"].value-language {
         input[type="submit"] {
             margin: $spacing-small 0;
             line-height: $base-line-height;
+        }
+
+        input:focus,
+        textarea:focus {
+            position: relative;
+            z-index: 100;
         }
     }
 

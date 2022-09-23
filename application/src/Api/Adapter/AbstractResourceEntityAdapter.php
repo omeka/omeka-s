@@ -449,7 +449,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 'r INSTANCE OF Omeka\Entity\Item',
                 'r INSTANCE OF Omeka\Entity\ItemSet',
                 'r INSTANCE OF Omeka\Entity\Media'
-            ));
+            ))
+            ->orderBy('r.title', 'ASC');
         if ($property) {
             $qb->andWhere($qb->expr()->eq('v.property', $this->createNamedParameter($qb, $property)));
         }

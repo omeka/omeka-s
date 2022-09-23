@@ -215,6 +215,11 @@ class SearchFilters extends AbstractHelper
                         $filterLabel = $translate('Media presence');
                         $filters[$filterLabel][] = $value ? $translate('Has media') : $translate('Has no media');
                         break;
+
+                    case 'id':
+                        $filterLabel = $translate('ID');
+                        $filters[$filterLabel][] = is_array($value) ? implode(',', $value) : $value;
+                        break;
                 }
             }
         }

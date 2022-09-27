@@ -186,6 +186,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         if ($entity->getItem() instanceof Item) {
             $entity->setOwner($entity->getItem()->getOwner());
         }
+        parent::hydrateOwner($request, $entity);
     }
 
     public function preprocessBatchUpdate(array $data, Request $request)

@@ -183,7 +183,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
 
     public function hydrateOwner(Request $request, EntityInterface $entity)
     {
-        if ($entity->getItem() instanceof Item) {
+        if (Request::CREATE === $request->getOperation() && $entity->getItem() instanceof Item) {
             $entity->setOwner($entity->getItem()->getOwner());
         }
         parent::hydrateOwner($request, $entity);

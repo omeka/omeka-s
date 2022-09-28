@@ -477,14 +477,23 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      */
     public function getSubjectValues(Resource $resource, $page = null, $perPage = null, $property = null)
     {
-        $offset = (is_numeric($page) && is_numeric($perPage))
-            ? (($page - 1) * $perPage)
-            : null;
+        $offset = (is_numeric($page) && is_numeric($perPage)) ? (($page - 1) * $perPage) : null;
         $qb = $this->getSubjectValuesQueryBuilder($resource, $property)
-            ->select('v');
-        $qb->setMaxResults($perPage);
-        $qb->setFirstResult($offset);
-        return $qb->getQuery()->getResult();
+            ->select([
+                'v value',
+                'p.id property_id',
+                'rtp.id resource_template_property_id',
+                'p.label property_label',
+                'rtp.alternateLabel property_alternate_label',
+            ])
+            ->join('v.property', 'p')
+            ->leftJoin('r.resourceTemplate', 'rt')
+            ->leftJoin('rt.resourceTemplateProperties', 'rtp', 'WITH', 'p = rtp.property')
+            ->orderBy('p.label, rtp.alternateLabel, r.title')
+            ->setMaxResults($perPage)
+            ->setFirstResult($offset);
+        $results = $qb->getQuery()->getResult();
+        return $results;
     }
 
     /**

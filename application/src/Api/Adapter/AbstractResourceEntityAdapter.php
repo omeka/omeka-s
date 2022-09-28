@@ -489,7 +489,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ->join('v.property', 'p')
             ->leftJoin('r.resourceTemplate', 'rt')
             ->leftJoin('rt.resourceTemplateProperties', 'rtp', 'WITH', 'p = rtp.property')
-            ->orderBy('p.label, p.id, rtp.alternateLabel, r.title')
+            ->orderBy('p.id, rtp.alternateLabel, r.title')
             ->setMaxResults($perPage)
             ->setFirstResult($offset);
         $results = $qb->getQuery()->getResult();

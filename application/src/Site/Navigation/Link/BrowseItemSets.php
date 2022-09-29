@@ -1,11 +1,20 @@
 <?php
 namespace Omeka\Site\Navigation\Link;
 
+use Laminas\View\HelperPluginManager;
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Site\Navigation\Page\UriWithQuery;
 use Omeka\Stdlib\ErrorStore;
 
 class BrowseItemSets implements LinkInterface
 {
+    protected $viewHelperManager;
+
+    public function __construct(HelperPluginManager $viewHelperManager)
+    {
+        $this->viewHelperManager = $viewHelperManager;
+    }
+
     public function getName()
     {
         return 'Browse item sets'; // @translate
@@ -29,15 +38,15 @@ class BrowseItemSets implements LinkInterface
 
     public function toZend(array $data, SiteRepresentation $site)
     {
-        parse_str($data['query'], $query);
+        $urlHelper = $this->viewHelperManager->get('url');
         return [
-            'route' => 'site/resource',
-            'params' => [
-                'site-slug' => $site->slug(),
-                'controller' => 'item-set',
-                'action' => 'browse',
-            ],
-            'query' => $query,
+            'type' => UriWithQuery::class,
+            'uri' => $urlHelper(
+                'site/resource',
+                ['site-slug' => $site->slug(), 'controller' => 'item-set', 'action' => 'browse'],
+                ['query' => $data['query']],
+            ),
+
         ];
     }
 

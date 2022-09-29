@@ -762,10 +762,10 @@ return [
         'invokables' => [
             'page' => Site\Navigation\Link\Page::class,
             'url' => Site\Navigation\Link\Url::class,
-            'browseItemSets' => Site\Navigation\Link\BrowseItemSets::class,
         ],
         'factories' => [
             'browse' => Service\Site\Navigation\Link\BrowseFactory::class,
+            'browseItemSets' => Service\Site\Navigation\Link\BrowseItemSetsFactory::class,
         ],
     ],
     'media_ingesters' => [

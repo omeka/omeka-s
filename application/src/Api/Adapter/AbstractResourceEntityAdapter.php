@@ -443,6 +443,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->from('Omeka\Entity\Value', 'v')
             ->join('v.resource', 'r')
+            ->join('v.property', 'p')
+            ->join('p.vocabulary', 'y')
+            ->leftJoin('r.resourceTemplate', 'rt')
+            ->leftJoin('rt.resourceTemplateProperties', 'rtp', 'WITH', 'p = rtp.property')
             ->where($qb->expr()->eq('v.valueResource', $this->createNamedParameter($qb, $resource)))
             // Limit subject values to those belonging to primary resources.
             ->andWhere($qb->expr()->orX(
@@ -450,8 +454,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 'r INSTANCE OF Omeka\Entity\ItemSet',
                 'r INSTANCE OF Omeka\Entity\Media'
             ));
-        if ($property) {
-            $qb->andWhere($qb->expr()->eq('v.property', $this->createNamedParameter($qb, $property)));
+        // Filter by property and resource template property.
+        $propertyIds = explode('-', $property);
+        $propertyId = $propertyIds[0];
+        $resourceTemplatePropertyId = $propertyIds[1] ?? null;
+        if ($propertyId) {
+            $qb->andWhere($qb->expr()->eq('v.property', $this->createNamedParameter($qb, $propertyId)));
+            $qb->andWhere($resourceTemplatePropertyId
+                ? $qb->expr()->eq('rtp', $this->createNamedParameter($qb, $resourceTemplatePropertyId))
+                : $qb->expr()->isNull('rtp')
+            );
         }
         // Need to check visibility manually here
         $services = $this->getServiceLocator();
@@ -486,9 +498,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 'p.label property_label',
                 'rtp.alternateLabel property_alternate_label',
             ])
-            ->join('v.property', 'p')
-            ->leftJoin('r.resourceTemplate', 'rt')
-            ->leftJoin('rt.resourceTemplateProperties', 'rtp', 'WITH', 'p = rtp.property')
             ->orderBy('p.id, rtp.alternateLabel, r.title')
             ->setMaxResults($perPage)
             ->setFirstResult($offset);
@@ -510,9 +519,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
     public function getSubjectValuesSimple(Resource $resource, $property = null)
     {
         $qb = $this->getSubjectValuesQueryBuilder($resource, $property)
-            ->select("CONCAT(y.prefix, ':', p.localName) term, IDENTITY(v.resource) id, r.title title")
-            ->join('v.property', 'p')
-            ->join('p.vocabulary', 'y');
+            ->select("CONCAT(y.prefix, ':', p.localName) term, IDENTITY(v.resource) id, r.title title");
         return $qb->getQuery()->getResult();
     }
 
@@ -525,16 +532,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      */
     public function getSubjectValueTotalCount(Resource $resource, $property = null)
     {
-        $dql = 'SELECT COUNT(r.id) FROM Omeka\Entity\Value v JOIN v.resource r WHERE v.valueResource = :resource';
-        $params = ['resource' => $resource];
-        if ($property) {
-            $dql .= ' AND v.property = :property';
-            $params['property'] = $property;
-        }
-        return $this->getEntityManager()
-            ->createQuery($dql)
-            ->setParameters($params)
-            ->getSingleScalarResult();
+        $qb = $this->getSubjectValuesQueryBuilder($resource, $property)
+            ->select('COUNT(r.id)');
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -545,11 +545,18 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      */
     public function getSubjectValueProperties(Resource $resource)
     {
-        $dql = 'SELECT p FROM Omeka\Entity\Property p JOIN p.values v WITH v.valueResource = :resource GROUP BY p.id ORDER BY p.label';
-        return $this->getEntityManager()
-            ->createQuery($dql)
-            ->setParameters(['resource' => $resource])
-            ->getResult();
+        $qb = $this->getSubjectValuesQueryBuilder($resource)
+            ->select([
+                "DISTINCT CONCAT(p.id, '-', COALESCE(rtp.id, '')) id_concat",
+                "CONCAT(y.prefix, ':', p.localName) term",
+                'p.id property_id',
+                'rtp.id resource_template_property_id',
+                'p.label property_label',
+                'rtp.alternateLabel property_alternate_label',
+            ])
+            ->orderBy('id_concat');
+        $results = $qb->getQuery()->getResult();
+        return $results;
     }
 
     public function preprocessBatchUpdate(array $data, Request $request)

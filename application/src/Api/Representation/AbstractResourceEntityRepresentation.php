@@ -442,12 +442,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function subjectValueProperties()
     {
         $propertyAdapter = $this->getAdapter('properties');
-        $properties = $this->getAdapter()->getSubjectValueProperties($this->resource);
-        $subjectProperties = [];
-        foreach ($properties as $property) {
-            $subjectProperties[] = $propertyAdapter->getRepresentation($property);
-        }
-        return $subjectProperties;
+        return $this->getAdapter()->getSubjectValueProperties($this->resource);
     }
 
     /**

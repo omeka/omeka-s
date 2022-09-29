@@ -22,7 +22,8 @@ if ($this->status()->isSiteRequest()) {
             <select id="filter-property" name="property" data-url="<?php echo $this->escapeHtml($this->url(null, [], true)); ?>" data-fragment="<?php echo $this->escapeHtml($fragment); ?>">
                 <option value=""><?php echo $this->translate('All'); ?></option>
                 <?php foreach ($properties as $prop): ?>
-                <option value="<?php echo $this->escapeHtml($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $this->escapeHtml(sprintf('%s (%s)', $this->translate($prop->label()), $prop->term())); ?></option>
+                <?php $label = $prop['property_alternate_label'] ? $this->translate($prop['property_alternate_label']) : $this->translate($prop['property_label']); ?>
+                <option value="<?php echo $this->escapeHtml($prop['id_concat']); ?>"<?php echo $prop['id_concat'] === $property ? ' selected' : ''; ?>><?php echo sprintf('%s (%s)', $label, $prop['term']);  ?></option>
                 <?php endforeach; ?>
             </select>
         </label>

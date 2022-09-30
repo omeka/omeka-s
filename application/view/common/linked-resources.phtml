@@ -22,8 +22,11 @@ if ($this->status()->isSiteRequest()) {
             <select id="filter-property" name="property" data-url="<?php echo $this->escapeHtml($this->url(null, [], true)); ?>" data-fragment="<?php echo $this->escapeHtml($fragment); ?>">
                 <option value=""><?php echo $this->translate('All'); ?></option>
                 <?php foreach ($properties as $prop): ?>
-                <?php $label = $prop['property_alternate_label'] ? $this->translate($prop['property_alternate_label']) : $this->translate($prop['property_label']); ?>
-                <option value="<?php echo $this->escapeHtml($prop['id_concat']); ?>"<?php echo $prop['id_concat'] === $property ? ' selected' : ''; ?>><?php echo sprintf('%s (%s)', $label, $prop['term']);  ?></option>
+                <?php
+                $value = '-' === substr($prop['id_concat'], -1) ? substr($prop['id_concat'], 0, -1) : $prop['id_concat'];
+                $label = $prop['property_alternate_label'] ? $this->translate($prop['property_alternate_label']) : $this->translate($prop['property_label']);
+                ?>
+                <option value="<?php echo $this->escapeHtml($value); ?>"<?php echo $value === $property ? ' selected' : ''; ?>><?php echo sprintf('%s (%s)', $label, $prop['term']);  ?></option>
                 <?php endforeach; ?>
             </select>
         </label>

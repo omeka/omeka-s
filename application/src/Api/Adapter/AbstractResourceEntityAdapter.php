@@ -443,10 +443,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->from('Omeka\Entity\Value', 'v')
             ->join('v.resource', 'r')
-            ->join('v.property', 'p')
-            ->join('p.vocabulary', 'y')
             ->leftJoin('r.resourceTemplate', 'rt')
-            ->leftJoin('rt.resourceTemplateProperties', 'rtp', 'WITH', 'p = rtp.property')
+            ->leftJoin('rt.resourceTemplateProperties', 'rtp', 'WITH', 'v.property = rtp.property')
             ->where($qb->expr()->eq('v.valueResource', $this->createNamedParameter($qb, $resource)))
             // Limit subject values to those belonging to primary resources.
             ->andWhere($qb->expr()->orX(
@@ -491,6 +489,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
     {
         $offset = (is_numeric($page) && is_numeric($perPage)) ? (($page - 1) * $perPage) : null;
         $qb = $this->getSubjectValuesQueryBuilder($resource, $property)
+            ->join('v.property', 'p')
             ->select([
                 'v value',
                 'p.id property_id',
@@ -519,6 +518,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
     public function getSubjectValuesSimple(Resource $resource, $property = null)
     {
         $qb = $this->getSubjectValuesQueryBuilder($resource, $property)
+            ->join('v.property', 'p')
+            ->join('p.vocabulary', 'y')
             ->select("CONCAT(y.prefix, ':', p.localName) term, IDENTITY(v.resource) id, r.title title");
         return $qb->getQuery()->getResult();
     }
@@ -546,6 +547,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
     public function getSubjectValueProperties(Resource $resource)
     {
         $qb = $this->getSubjectValuesQueryBuilder($resource)
+            ->join('v.property', 'p')
+            ->join('p.vocabulary', 'y')
             ->select([
                 "DISTINCT CONCAT(p.id, '-', COALESCE(rtp.id, '')) id_concat",
                 "CONCAT(y.prefix, ':', p.localName) term",

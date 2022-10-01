@@ -434,11 +434,22 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *
      * Note that the returned query builder does not include $qb->select().
      *
+     * The $propertyId argument has three variations, depending on the desired
+     * result:
+     *
+     * - <property-id>: Query all subject values of the specified property. For
+     *   example: 123
+     * - <property-id>-: Query subject values of the specified property where
+     *   there is no corresponding resource template property. For example: 123-
+     * - <property-id>-<resource-template-property-id>: Query subject values of
+     *   the specified property where there is a corresponding resource template
+     *   property. For example: 123-234
+     *
      * @param Resource $resource
-     * @param int|null $property
+     * @param int|string|null $propertyId
      * @return QueryBuilder
      */
-    public function getSubjectValuesQueryBuilder(Resource $resource, $property = null)
+    public function getSubjectValuesQueryBuilder(Resource $resource, $propertyId = null)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->from('Omeka\Entity\Value', 'v')
@@ -453,15 +464,17 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 'r INSTANCE OF Omeka\Entity\Media'
             ));
         // Filter by property and resource template property.
-        $propertyIds = explode('-', $property);
-        $propertyId = $propertyIds[0];
-        $resourceTemplatePropertyId = $propertyIds[1] ?? null;
         if ($propertyId) {
+            if (strstr($propertyId, '-')) {
+                $propertyIds = explode('-', $propertyId);
+                $propertyId = $propertyIds[0];
+                $resourceTemplatePropertyId = $propertyIds[1];
+                $qb->andWhere($resourceTemplatePropertyId
+                    ? $qb->expr()->eq('rtp', $this->createNamedParameter($qb, $resourceTemplatePropertyId))
+                    : $qb->expr()->isNull('rtp')
+                );
+            }
             $qb->andWhere($qb->expr()->eq('v.property', $this->createNamedParameter($qb, $propertyId)));
-            $qb->andWhere($resourceTemplatePropertyId
-                ? $qb->expr()->eq('rtp', $this->createNamedParameter($qb, $resourceTemplatePropertyId))
-                : $qb->expr()->isNull('rtp')
-            );
         }
         // Need to check visibility manually here
         $services = $this->getServiceLocator();

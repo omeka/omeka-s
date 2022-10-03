@@ -494,7 +494,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      * @param Resource $resource
      * @param int $page
      * @param int $perPage
-     * @param int|string|null$propertyId Filter by property ID
+     * @param int|string|null $propertyId Filter by property ID
      * @return array
      */
     public function getSubjectValues(Resource $resource, $page = null, $perPage = null, $propertyId = null)

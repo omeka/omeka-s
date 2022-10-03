@@ -464,7 +464,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ));
         // Filter by property and resource template property.
         if ($propertyId) {
-            if (strstr($propertyId, '-')) {
+            if (false !== strpos($propertyId, '-')) {
                 $propertyIds = explode('-', $propertyId);
                 $propertyId = $propertyIds[0];
                 $resourceTemplatePropertyId = $propertyIds[1];
@@ -569,7 +569,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 'p.label property_label',
                 'rtp.alternateLabel property_alternate_label',
             ])
-            ->orderBy('id_concat');
+            ->orderBy('p.id, rtp.id');
         $results = $qb->getQuery()->getResult();
         return $results;
     }

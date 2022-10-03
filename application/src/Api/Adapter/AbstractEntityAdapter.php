@@ -121,12 +121,17 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     {
         if (isset($query['id'])) {
             $ids = $query['id'];
-            if (!is_array($ids)) {
-                $ids = [$ids];
+            if (is_string($ids) || is_int($ids)) {
+                // Account for comma-delimited IDs.
+                $ids = false === strpos($ids, ',') ? [$ids] : explode(',', $ids);
+            } elseif (!is_array($ids)) {
+                // This is an invalid ID. Set to an empty array.
+                $ids = [];
             }
-            // Exclude null and empty-string ids. Previous resource-only version used
-            // is_numeric, but we want this to be able to work for possible string IDs
-            // also
+            // Exclude null and empty-string IDs. Previous resource-only version
+            // used is_numeric, but we want this to be able to work for possible
+            // string IDs also.
+            $ids = array_map('trim', $ids);
             $ids = array_filter($ids, function ($id) {
                 return !($id === null || $id === '');
             });

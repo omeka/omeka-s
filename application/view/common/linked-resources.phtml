@@ -1,7 +1,4 @@
 <?php
-$translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
-
 $fragment = 'item-linked';
 if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResource)) {
     $fragment = 'item-set-linked';
@@ -9,23 +6,24 @@ if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResour
 $pagination = $this->pagination(null, $totalCount, $page, $perPage);
 $pagination->setFragment($fragment);
 
+$lang = null;
+$filterLocale = false;
 if ($this->status()->isSiteRequest()) {
-    $filterLocale = (bool) $this->siteSetting('filter_locale_values');
     $lang = $this->lang();
-} else {
-    $filterLocale = false;
-    $lang = null;
+    $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 }
 ?>
 <div id="linked-resources">
+
 <div class="linked-header">
     <div id="linked-filter">
         <label>
-            <?php echo $translate('Filter by property'); ?>
-            <select id="filter-property" name="property" data-url="<?php echo $escape($this->url(null, [], true)); ?>" data-fragment="<?php echo $escape($fragment); ?>">
-                <option value=""><?php echo $translate('All'); ?></option>
+            <?php echo $this->translate('Filter by property'); ?>
+            <select id="filter-property" name="property" data-url="<?php echo $this->escapeHtml($this->url(null, [], true)); ?>" data-fragment="<?php echo $this->escapeHtml($fragment); ?>">
+                <option value=""><?php echo $this->translate('All'); ?></option>
                 <?php foreach ($properties as $prop): ?>
-                <option value="<?php echo $escape($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $escape(sprintf('%s (%s)', $translate($prop->label()), $prop->term())); ?></option>
+                <?php $label = $prop['property_alternate_label'] ? $this->translate($prop['property_alternate_label']) : $this->translate($prop['property_label']); ?>
+                <option value="<?php echo $this->escapeHtml($prop['id_concat']); ?>"<?php echo $prop['id_concat'] === $property ? ' selected' : ''; ?>><?php echo sprintf('%s (%s)', $label, $prop['term']);  ?></option>
                 <?php endforeach; ?>
             </select>
         </label>
@@ -33,38 +31,27 @@ if ($this->status()->isSiteRequest()) {
     <?php echo ($totalCount > $perPage) ? $pagination : ''; ?>
 </div>
 
-<?php foreach ($subjectValues as $term => $values): ?>
+<?php foreach ($subjectValues as $values): ?>
 <table>
-<caption class="linked-resource-property"><?php echo $escape($this->translate($values[0]->property()->label())); ?></caption>
-<thead>
-    <tr>
-    <th><?php echo $translate('Title'); ?></th>
-    <th><?php echo $translate('Alternate label'); ?></th>
-    <th><?php echo $translate('Class'); ?></th>
-    </tr>
-</thead>
-<tbody>
-    <?php foreach ($values as $value): ?>
-    <?php
-    $template = $value->resource()->resourceTemplate();
-    $templateProperty = $template ? $template->resourceTemplateProperty($value->property()->id()) : null;
-    $altLabel = $templateProperty ? $templateProperty->alternateLabel() : null;
-    ?>
-    <tr class="linked-resource">
-        <td><?php echo $value->resource()->linkPretty('square', null, null, null, ($filterLocale ? $lang : null)); ?></td>
-        <td>
-        <?php if ($altLabel): ?>
-        <span class="alternate-label"><?php echo $this->escapeHtml($altLabel); ?></span>
-        <?php endif; ?>
-        </td>
-        <td>
-        <?php if ($value->resource()->resourceClass()): ?>
-        <span class="resource-class"><?php echo $this->escapeHtml($translate($value->resource()->resourceClass()->label())); ?></span>
-        <?php endif; ?>
-        </td>
-    </tr>
-    <?php endforeach; ?>
-</tbody>
+    <caption class="linked-resource-property"><?php echo $values[0]['property_alternate_label'] ?? $this->translate($values[0]['property_label']); ?></caption>
+    <thead>
+        <tr>
+            <th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('Class'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($values as $value): ?>
+        <tr class="linked-resource">
+            <td><?php echo $value['value']->resource()->linkPretty('square', null, null, null, ($filterLocale ? $lang : null)); ?></td>
+            <td>
+                <?php if ($value['value']->resource()->resourceClass()): ?>
+                <span class="resource-class"><?php echo $this->escapeHtml($this->translate($value['value']->resource()->resourceClass()->label())); ?></span>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
 <?php endforeach; ?>
 

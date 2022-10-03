@@ -387,16 +387,17 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @param int $page
      * @param int $perPage
-     * @param int $property Filter by property ID
+     * @param int|string|null $propertyId Filter by property ID
      * @return array
      */
-    public function subjectValues($page = null, $perPage = null, $property = null)
+    public function subjectValues($page = null, $perPage = null, $propertyId = null)
     {
-        $values = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $property);
+        $results = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $propertyId);
         $subjectValues = [];
-        foreach ($values as $value) {
-            $valueRep = new ValueRepresentation($value, $this->getServiceLocator());
-            $subjectValues[$valueRep->property()->term()][] = $valueRep;
+        foreach ($results as $result) {
+            $index = sprintf('%s-%s', $result['property_id'], $result['resource_template_property_id']);
+            $result['value'] = new ValueRepresentation($result['value'], $this->getServiceLocator());
+            $subjectValues[$index][] = $result;
         }
         return $subjectValues;
     }
@@ -405,13 +406,13 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * Get the subject values for the JSON-LD @reverse array.
      *
      * @see https://w3c.github.io/json-ld-syntax/#reverse-properties
-     * @param int $property Filter by property ID
+     * @param int|string|null $propertyId Filter by property ID
      * @return array
      */
-    public function subjectValuesForReverse($property = null)
+    public function subjectValuesForReverse($propertyId = null)
     {
         $url = $this->getViewHelper('Url');
-        $subjectValuesSimple = $this->getAdapter()->getSubjectValuesSimple($this->resource, $property);
+        $subjectValuesSimple = $this->getAdapter()->getSubjectValuesSimple($this->resource, $propertyId);
         $subjectValues = [];
         foreach ($subjectValuesSimple as $subjectValue) {
             $subjectValues[$subjectValue['term']][] = [
@@ -425,12 +426,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Get the total count of this resource's subject values.
      *
-     * @param int $property Filter by property ID
+     * @param int|string|null $propertyId Filter by property ID
      * @return int
      */
-    public function subjectValueTotalCount($property = null)
+    public function subjectValueTotalCount($propertyId = null)
     {
-        return $this->getAdapter()->getSubjectValueTotalCount($this->resource, $property);
+        return $this->getAdapter()->getSubjectValueTotalCount($this->resource, $propertyId);
     }
 
     /**
@@ -441,12 +442,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function subjectValueProperties()
     {
         $propertyAdapter = $this->getAdapter('properties');
-        $properties = $this->getAdapter()->getSubjectValueProperties($this->resource);
-        $subjectProperties = [];
-        foreach ($properties as $property) {
-            $subjectProperties[] = $propertyAdapter->getRepresentation($property);
-        }
-        return $subjectProperties;
+        return $this->getAdapter()->getSubjectValueProperties($this->resource);
     }
 
     /**

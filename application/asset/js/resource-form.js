@@ -216,7 +216,7 @@
         $('#properties').on('click', '.add-value', function(e) {
             e.preventDefault();
             var typeButton = $(this);
-            var field = typeButton.closest('.resource-values.field');
+            var field = typeButton.closest('.resource-property');
             var value = makeNewValue(field.data('property-term'), typeButton.data('type'))
             field.find('.values').append(value);
         });
@@ -298,7 +298,7 @@
             var value = $('.selecting-resource');
             if (value.hasClass('value')) {
                 var dataType = value.data('data-type');
-                var field = value.closest('.resource-values.field');
+                var field = value.closest('.resource-property');
                 $('#item-results').find('.resource')
                     .has('input.select-resource-checkbox:checked').each(function(index) {
                         if (0 < index) {
@@ -331,7 +331,7 @@
             e.preventDefault();
             var selectButton = $(this);
             var sidebar = $('#select-resource');
-            var term = selectButton.closest('.resource-values').data('property-term');
+            var term = selectButton.closest('.resource-property').data('property-term');
             $('.selecting-resource').removeClass('selecting-resource');
             selectButton.closest('.value').addClass('selecting-resource');
             $('#select-item a').data('property-term', term);
@@ -355,7 +355,7 @@
             var errors = [];
 
             // Iterate all required properties.
-            var requiredProps = thisForm.find('.resource-values.required');
+            var requiredProps = thisForm.find('.resource-property.required');
             requiredProps.each(function() {
 
                 var thisProp = $(this);
@@ -440,7 +440,7 @@
      * Make a new value.
      */
     var makeNewValue = function(term, dataType, valueObj) {
-        var field = $('.resource-values.field[data-property-term="' + term + '"]');
+        var field = $('.resource-property[data-property-term="' + term + '"]');
         // Get the value node from the templates.
        if (!dataType || typeof dataType !== 'string') {
             dataType = valueObj ? valueObj['type'] : field.find('.add-value:visible:first').data('type');
@@ -560,7 +560,7 @@
         }
 
         var term = propertyLi.data('property-term');
-        var field = $('.resource-values.field.template').clone(true);
+        var field = $('.resource-property.template').clone(true);
         field.removeClass('template');
         field.find('.field-label').text(propertyLi.data('child-search')).attr('id', 'property-' + propertyId + '-label');
         field.find('.field-term').text(term);
@@ -695,7 +695,7 @@
 
         var templateSelect = $('#resource-template-select');
         var templateId = templateSelect.val();
-        var fields = $('#properties .resource-values');
+        var fields = $('#properties .resource-property');
         if (!templateId) {
             // Using the default resource template, so all properties should use the default
             // selector.

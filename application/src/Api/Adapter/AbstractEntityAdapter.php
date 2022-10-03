@@ -131,6 +131,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             // Exclude null and empty-string IDs. Previous resource-only version
             // used is_numeric, but we want this to be able to work for possible
             // string IDs also.
+            $ids = array_map('trim', $ids);
             $ids = array_filter($ids, function ($id) {
                 return !($id === null || $id === '');
             });

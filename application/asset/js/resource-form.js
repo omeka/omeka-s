@@ -736,6 +736,15 @@
                         field.find('div.default-selector').show();
                     }
                 });
+                // Remove unchanged default values (Title, Description) if the
+                // template doesn't define them. This works because we remove
+                // unchanged default values when rewriting property fields.
+                const defaultValueFields = fields.has('.value.default-value');
+                // First, remove the default values.
+                defaultValueFields.find('.value.default-value').remove();
+                // Then remove fields that once contained defualt values and
+                // have no remaining values.
+                defaultValueFields.not(':has(".value")').remove();
             })
             .fail(function() {
                 console.log('Failed loading resource template from API');

@@ -183,6 +183,7 @@ class UserForm extends Form
             'options' => [
                 'label' => 'Default item sets for items', // @translate
                 'empty_option' => '',
+                'query' => ['is_open' => true],
             ],
         ]);
         $settingsFieldset->add([

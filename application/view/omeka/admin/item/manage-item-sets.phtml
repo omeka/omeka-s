@@ -8,7 +8,7 @@ if ($item) {
     $itemSetRepresentations = $item->itemSets();
 } elseif ($defaultItemSets) {
     // Set the logged in user's default item sets when adding an item.
-    $itemSetRepresentations = $this->api()->search('item_sets', ['id' => $defaultItemSets])->getContent();
+    $itemSetRepresentations = $this->api()->search('item_sets', ['id' => $defaultItemSets, 'is_open' => true])->getContent();
 }
 
 $itemSets = [];

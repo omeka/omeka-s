@@ -732,7 +732,7 @@
                 // Remove unchanged default values (Title, Description) if the
                 // template doesn't define them. This works because we remove
                 // unchanged default values when rewriting property fields.
-                const defaultValueFields = fields.find('.value.default-value').closest('.field');
+                const defaultValueFields = fields.has('.value.default-value');
                 // First, remove the default values.
                 defaultValueFields.find('.value.default-value').remove();
                 // Then remove fields that once contained defualt values and

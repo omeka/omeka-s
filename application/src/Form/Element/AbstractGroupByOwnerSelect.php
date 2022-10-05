@@ -91,6 +91,7 @@ abstract class AbstractGroupByOwnerSelect extends Select
                 } else {
                     $label = '[No owner]';
                 }
+                asort($options);
                 $valueOptions[] = ['label' => $label, 'options' => $options];
             }
         }

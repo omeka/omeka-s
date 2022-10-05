@@ -1,9 +1,6 @@
 <?php
-$fragment = 'item-linked';
-if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResource)) {
-    $fragment = 'item-set-linked';
-}
 $pagination = $this->pagination(null, $totalCount, $page, $perPage);
+$fragment = 'resources-linked';
 $pagination->setFragment($fragment);
 
 $lang = null;
@@ -23,7 +20,7 @@ if ($this->status()->isSiteRequest()) {
                 <option value=""><?php echo $this->translate('All'); ?></option>
                 <?php foreach ($properties as $prop): ?>
                 <?php $label = $prop['property_alternate_label'] ? $this->translate($prop['property_alternate_label']) : $this->translate($prop['property_label']); ?>
-                <option value="<?php echo $this->escapeHtml($prop['id_concat']); ?>"<?php echo $prop['id_concat'] === $property ? ' selected' : ''; ?>><?php echo sprintf('%s (%s)', $label, $prop['term']);  ?></option>
+                <option value="<?php echo $this->escapeHtml($prop['id_concat']); ?>"<?php echo $prop['id_concat'] === $propertyId ? ' selected' : ''; ?>><?php echo sprintf('%s (%s)', $label, $prop['term']);  ?></option>
                 <?php endforeach; ?>
             </select>
         </label>

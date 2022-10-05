@@ -499,12 +499,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @param int $page
      * @param int $perPage
-     * @param int $property Filter by property ID
+     * @param int|string|null $propertyId Filter by property ID
      * @return string
      */
-    public function displaySubjectValues($page = null, $perPage = null, $property = null)
+    public function displaySubjectValues($page = null, $perPage = null, $propertyId = null)
     {
-        $subjectValues = $this->subjectValues($page, $perPage, $property);
+        $subjectValues = $this->subjectValues($page, $perPage, $propertyId);
         if (!$subjectValues) {
             return null;
         }
@@ -514,8 +514,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             'subjectValues' => $subjectValues,
             'page' => $page,
             'perPage' => $perPage,
-            'property' => $property,
-            'totalCount' => $this->subjectValueTotalCount($property),
+            'propertyId' => $propertyId,
+            'totalCount' => $this->subjectValueTotalCount($propertyId),
             'properties' => $this->subjectValueProperties(),
         ]);
     }

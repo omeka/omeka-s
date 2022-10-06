@@ -437,31 +437,63 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      * The $propertyId argument has three variations, depending on the desired
      * result:
      *
-     * - <property-id>: Query all subject values of the specified property, e.g. 123
-     * - <property-id>-: Query subject values of the specified property where there
-     *   is no corresponding resource template property, e.g. 123-
-     * - <property-id>-<resource-template-property-id>: Query subject values of the
-     *   specified property where there is a corresponding resource template property,
-     *   e.g. 123-234
+     * - <property-id>: Query all subject values of the specified property, e.g.
+     *      123
+     * - <property-id>-: Query subject values of the specified property where
+     *      there is no corresponding resource template property, e.g. 123-
+     * - <property-id>-<resource-template-property-id>: Query subject values of
+     *      the specified property where there is a corresponding resource
+     *      template property, e.g. 123-234
      *
      * @param Resource $resource
      * @param int|string|null $propertyId
+     * @param string|null $resourceType
+     * @param int|null $siteId
      * @return QueryBuilder
      */
-    public function getSubjectValuesQueryBuilder(Resource $resource, $propertyId = null)
+    public function getSubjectValuesQueryBuilder(Resource $resource, $propertyId = null, $resourceType = null, $siteId = null)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->from('Omeka\Entity\Value', 'v')
-            ->join('v.resource', 'r')
-            ->leftJoin('r.resourceTemplate', 'rt')
-            ->leftJoin('rt.resourceTemplateProperties', 'rtp', 'WITH', 'v.property = rtp.property')
-            ->where($qb->expr()->eq('v.valueResource', $this->createNamedParameter($qb, $resource)))
-            // Limit subject values to those belonging to primary resources.
-            ->andWhere($qb->expr()->orX(
-                'r INSTANCE OF Omeka\Entity\Item',
-                'r INSTANCE OF Omeka\Entity\ItemSet',
-                'r INSTANCE OF Omeka\Entity\Media'
-            ));
+        $qb->from('Omeka\Entity\Value', 'value')
+            ->join('value.resource', 'resource')
+            ->leftJoin('resource.resourceTemplate', 'resource_template')
+            ->leftJoin('resource_template.resourceTemplateProperties', 'resource_template_property', 'WITH', 'value.property = resource_template_property.property')
+            ->where($qb->expr()->eq('value.valueResource', $this->createNamedParameter($qb, $resource)));
+        // Filter according to resource type and site. Note that we can only
+        // filter by site when a resource type is passed because each resource
+        // type requires joins that are mutually incompatible.
+        switch ($resourceType) {
+            case 'item_sets':
+                $qb->andWhere('resource INSTANCE OF Omeka\Entity\ItemSet');
+                if ($siteId) {
+                    $qb->join('Omeka\Entity\SiteItemSet', 'site_item_set', 'WITH', 'resource.id = site_item_set.itemSet')
+                        ->andWhere($qb->expr()->eq('site_item_set.site', $siteId));
+                }
+                break;
+            case 'media':
+                $qb->andWhere('resource INSTANCE OF Omeka\Entity\Media');
+                if ($siteId) {
+                    $qb->join('Omeka\Entity\Media', 'media', 'WITH', 'resource.id = media.id')
+                        ->join('media.item', 'item')
+                        ->join('item.sites', 'site')
+                        ->andWhere($qb->expr()->eq('site.id', $siteId));
+                }
+                break;
+            case 'items':
+                $qb->andWhere('resource INSTANCE OF Omeka\Entity\Item');
+                if ($siteId) {
+                    $qb->join('Omeka\Entity\Item', 'item', 'WITH', 'resource.id = item.id')
+                        ->join('item.sites', 'site')
+                        ->andWhere($qb->expr()->eq('site.id', $siteId));
+                }
+                break;
+            default:
+                $qb->andWhere($qb->expr()->orX(
+                    'resource INSTANCE OF Omeka\Entity\Item',
+                    'resource INSTANCE OF Omeka\Entity\ItemSet',
+                    'resource INSTANCE OF Omeka\Entity\Media'
+                ));
+        }
         // Filter by property and resource template property.
         if ($propertyId) {
             if (false !== strpos($propertyId, '-')) {
@@ -469,11 +501,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $propertyId = $propertyIds[0];
                 $resourceTemplatePropertyId = $propertyIds[1];
                 $qb->andWhere($resourceTemplatePropertyId
-                    ? $qb->expr()->eq('rtp', $this->createNamedParameter($qb, $resourceTemplatePropertyId))
-                    : $qb->expr()->isNull('rtp')
+                    ? $qb->expr()->eq('resource_template_property', $this->createNamedParameter($qb, $resourceTemplatePropertyId))
+                    : $qb->expr()->isNull('resource_template_property')
                 );
             }
-            $qb->andWhere($qb->expr()->eq('v.property', $this->createNamedParameter($qb, $propertyId)));
+            $qb->andWhere($qb->expr()->eq('value.property', $this->createNamedParameter($qb, $propertyId)));
         }
         // Need to check visibility manually here
         $services = $this->getServiceLocator();
@@ -481,8 +513,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $identity = $services->get('Omeka\AuthenticationService')->getIdentity();
         if (!$acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->eq('r.isPublic', '1'),
-                $qb->expr()->eq('r.owner', $this->createNamedParameter($qb, $identity))
+                $qb->expr()->eq('resource.isPublic', '1'),
+                $qb->expr()->eq('resource.owner', $this->createNamedParameter($qb, $identity))
             ));
         }
         return $qb;
@@ -495,21 +527,23 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      * @param int $page
      * @param int $perPage
      * @param int|string|null $propertyId Filter by property ID
+     * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return array
      */
-    public function getSubjectValues(Resource $resource, $page = null, $perPage = null, $propertyId = null)
+    public function getSubjectValues(Resource $resource, $page = null, $perPage = null, $propertyId = null, $resourceType = null, $siteId = null)
     {
         $offset = (is_numeric($page) && is_numeric($perPage)) ? (($page - 1) * $perPage) : null;
-        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId)
-            ->join('v.property', 'p')
+        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
+            ->join('value.property', 'property')
             ->select([
-                'v value',
-                'p.id property_id',
-                'rtp.id resource_template_property_id',
-                'p.label property_label',
-                'rtp.alternateLabel property_alternate_label',
+                'value val',
+                'property.id property_id',
+                'resource_template_property.id resource_template_property_id',
+                'property.label property_label',
+                'resource_template_property.alternateLabel property_alternate_label',
             ])
-            ->orderBy('p.id, rtp.alternateLabel, r.title')
+            ->orderBy('property.id, resource_template_property.alternateLabel, resource.title')
             ->setMaxResults($perPage)
             ->setFirstResult($offset);
         $results = $qb->getQuery()->getResult();
@@ -525,14 +559,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *
      * @param Resource $resource
      * @param int|string|null $propertyId Filter by property ID
+     * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return array
      */
-    public function getSubjectValuesSimple(Resource $resource, $propertyId = null)
+    public function getSubjectValuesSimple(Resource $resource, $propertyId = null, $resourceType = null, $siteId = null)
     {
-        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId)
-            ->join('v.property', 'p')
-            ->join('p.vocabulary', 'y')
-            ->select("CONCAT(y.prefix, ':', p.localName) term, IDENTITY(v.resource) id, r.title title");
+        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
+            ->join('value.property', 'property')
+            ->join('property.vocabulary', 'vocabulary')
+            ->select("CONCAT(vocabulary.prefix, ':', property.localName) term, IDENTITY(value.resource) id, resource.title title");
         return $qb->getQuery()->getResult();
     }
 
@@ -541,12 +577,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *
      * @param Resource $resource
      * @param int|string|null $propertyId Filter by property ID
+     * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return int
      */
-    public function getSubjectValueTotalCount(Resource $resource, $propertyId = null)
+    public function getSubjectValueTotalCount(Resource $resource, $propertyId = null, $resourceType = null, $siteId = null)
     {
-        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId)
-            ->select('COUNT(r.id)');
+        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
+            ->select('COUNT(resource.id)');
         return $qb->getQuery()->getSingleScalarResult();
     }
 
@@ -554,22 +592,24 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      * Get distinct properties (predicates) where the provided resource is the RDF object.
      *
      * @param Resource $resource
+     * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return array
      */
-    public function getSubjectValueProperties(Resource $resource)
+    public function getSubjectValueProperties(Resource $resource, $resourceType = null, $siteId = null)
     {
-        $qb = $this->getSubjectValuesQueryBuilder($resource)
-            ->join('v.property', 'p')
-            ->join('p.vocabulary', 'y')
+        $qb = $this->getSubjectValuesQueryBuilder($resource, null, $resourceType, $siteId)
+            ->join('value.property', 'property')
+            ->join('property.vocabulary', 'vocabulary')
             ->select([
-                "DISTINCT CONCAT(p.id, '-', COALESCE(rtp.id, '')) id_concat",
-                "CONCAT(y.prefix, ':', p.localName) term",
-                'p.id property_id',
-                'rtp.id resource_template_property_id',
-                'p.label property_label',
-                'rtp.alternateLabel property_alternate_label',
+                "DISTINCT CONCAT(property.id, '-', COALESCE(resource_template_property.id, '')) id_concat",
+                "CONCAT(vocabulary.prefix, ':', property.localName) term",
+                'property.id property_id',
+                'resource_template_property.id resource_template_property_id',
+                'property.label property_label',
+                'resource_template_property.alternateLabel property_alternate_label',
             ])
-            ->orderBy('p.id, rtp.id');
+            ->orderBy('property.id, resource_template_property.id');
         $results = $qb->getQuery()->getResult();
         return $results;
     }

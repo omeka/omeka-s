@@ -6,7 +6,13 @@ $translate = $this->plugin('translate');
     <?php $item = $attachment->item(); ?>
     <?php if (empty($item)) continue; ?>
     <div class="resource show">
-    <?php echo $item->displayValues(); ?>
+    <?php
+    $options = [];
+    if ($this->siteSetting('exclude_resources_not_in_site')) {
+        $options['siteId'] = $this->currentSite()->id();
+    }
+    echo $item->displayValues($options);
+    ?>
     <?php if($item->itemSets()): ?>
         <dl class="item-sets">
             <div class="property">

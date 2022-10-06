@@ -290,6 +290,19 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('show_value_annotations', false),
             ],
         ]);
+        $this->add([
+            'name' => 'exclude_resources_not_in_site',
+            'type' => 'checkbox',
+            'options' => [
+                'element_group' => 'show',
+                'label' => 'Exclude resources not in site', // @translate
+                'info' => 'Exclude resources that are not assigned to this site.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'exclude_resources_not_in_site',
+                'value' => (bool) $settings->get('exclude_resources_not_in_site', false),
+            ],
+        ]);
 
         // Search section
         $this->add([

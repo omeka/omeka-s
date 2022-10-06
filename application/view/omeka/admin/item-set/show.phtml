@@ -35,7 +35,7 @@ $sectionNavs = [
 <?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $itemSet); ?>
 
 <div id="item-set-metadata" class="active section">
-    <?php if ( $itemSet->resourceClass()): ?>
+    <?php if ($itemSet->resourceClass()): ?>
     <dl>
         <div class="meta-group">
             <dt><?php echo $translate('Class'); ?></dt>
@@ -48,9 +48,11 @@ $sectionNavs = [
 
 <div id="resources-linked" class="section">
     <?php
-    $page = $this->params()->fromQuery('page', 1);
-    $propertyId = $this->params()->fromQuery('property');
-    $subjectValues = $itemSet->displaySubjectValues($page, 25, $propertyId);
+    $subjectValues = $itemSet->displaySubjectValues([
+        'page' => $this->params()->fromQuery('page', 1),
+        'perPage' => 25,
+        'resourceProperty' => $this->params()->fromQuery('resource_property'),
+    ]);
     ?>
     <?php if ($subjectValues): ?>
         <p><?php echo $translate('The following resources link to this item set:'); ?></p>

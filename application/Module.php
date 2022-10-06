@@ -173,6 +173,41 @@ class Module extends AbstractModule
             [$this, 'noindexItemSet']
         );
 
+        // Exclude resources that are not assigned to the site set in the site
+        // setting "exclude_resources_not_in_site".
+        $sharedEventManager->attach(
+            'Omeka\Api\Representation\ItemRepresentation',
+            'rep.resource.display_values',
+            function (ZendEvent $event) {
+                $services = $this->getServiceLocator();
+                if (!$services->get('Omeka\Status')->isSiteRequest()) {
+                    return;
+                }
+                if (!$services->get('Omeka\Settings\Site')->get('exclude_resources_not_in_site')) {
+                    return;
+                }
+                $currentSite = $services->get('ControllerPluginManager')->get('currentSite')();
+                $values = $event->getParam('values');
+                foreach ($values as $term => $propertyData) {
+                    foreach ($propertyData['values'] as $valueIndex => $value) {
+                        $valueResource = $value->valueResource();
+                        if ($valueResource && in_array($valueResource->resourceName(), ['items', 'item_sets'])) {
+                            $resourceSites = $valueResource->sites();
+                            if (!isset($resourceSites[$currentSite->id()])) {
+                                // This item is not assigned to the current site, so remove it.
+                                unset($values[$term]['values'][$valueIndex]);
+                            }
+                        }
+                    }
+                    if (!$values[$term]['values']) {
+                        // This property no longer has values, so remove it.
+                        unset($values[$term]);
+                    }
+                }
+                $event->setParam('values', $values);
+            }
+        );
+
         $sharedEventManager->attach(
             '*',
             'sql_filter.resource_visibility',

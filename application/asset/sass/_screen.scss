@@ -2740,6 +2740,15 @@ input[type="text"].value-language {
         content: fa-content($fa-var-image);
     }
 
+    [data-data-type="literal"] .sortable-handle ~ .input-body {
+        background-color: #fff;
+    }
+
+    .inputs [data-data-type="literal"] textarea.input-value {
+        background-color: transparent;
+        padding-right: 1.75 * $spacing-large;
+    }
+
     [data-data-type="uri"] .input {
         position: relative;
         clear: both;
@@ -2749,6 +2758,10 @@ input[type="text"].value-language {
         &:first-child {
             border-bottom: 1px solid $border-gray;
         }
+    }
+
+    .value[data-data-type="uri"] .input-body label {
+        padding-right: 0;
     }
 
     .sidebar [data-data-type="uri"] label {
@@ -2768,7 +2781,6 @@ input[type="text"].value-language {
 
     [data-data-type="uri"] textarea.value-label {
         border-top-width: 0;
-
     }
 
     .annotation-form {

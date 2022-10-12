@@ -39,8 +39,7 @@ $itemMedia = $item->media();
 <div id="resources-linked" class="section">
     <?php
     $page = $this->params()->fromQuery('page', 1);
-    $propertyId = $this->params()->fromQuery('property');
-    $subjectValues = $item->displaySubjectValues($page, 25, $propertyId);
+    $subjectValues = $item->displaySubjectValues($page, 25, $this->params()->fromQuery('resource_property'));
     ?>
     <?php if ($subjectValues): ?>
         <p><?php echo $translate('The following resources link to this item:'); ?></p>

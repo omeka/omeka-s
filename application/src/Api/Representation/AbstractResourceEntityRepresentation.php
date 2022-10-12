@@ -388,15 +388,16 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @param int $page
      * @param int $perPage
      * @param int|string|null $propertyId Filter by property ID
+     * @param string|null $resourceType Filter by resource type
      * @return array
      */
-    public function subjectValues($page = null, $perPage = null, $propertyId = null)
+    public function subjectValues($page = null, $perPage = null, $propertyId = null, $resourceType = null)
     {
-        $results = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $propertyId);
+        $results = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $propertyId, $resourceType);
         $subjectValues = [];
         foreach ($results as $result) {
             $index = sprintf('%s-%s', $result['property_id'], $result['resource_template_property_id']);
-            $result['value'] = new ValueRepresentation($result['value'], $this->getServiceLocator());
+            $result['val'] = new ValueRepresentation($result['val'], $this->getServiceLocator());
             $subjectValues[$index][] = $result;
         }
         return $subjectValues;
@@ -407,12 +408,13 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @see https://w3c.github.io/json-ld-syntax/#reverse-properties
      * @param int|string|null $propertyId Filter by property ID
+     * @param string|null $resourceType Filter by resource type
      * @return array
      */
-    public function subjectValuesForReverse($propertyId = null)
+    public function subjectValuesForReverse($propertyId = null, $resourceType = null)
     {
         $url = $this->getViewHelper('Url');
-        $subjectValuesSimple = $this->getAdapter()->getSubjectValuesSimple($this->resource, $propertyId);
+        $subjectValuesSimple = $this->getAdapter()->getSubjectValuesSimple($this->resource, $propertyId, $resourceType);
         $subjectValues = [];
         foreach ($subjectValuesSimple as $subjectValue) {
             $subjectValues[$subjectValue['term']][] = [
@@ -421,28 +423,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             ];
         }
         return $subjectValues;
-    }
-
-    /**
-     * Get the total count of this resource's subject values.
-     *
-     * @param int|string|null $propertyId Filter by property ID
-     * @return int
-     */
-    public function subjectValueTotalCount($propertyId = null)
-    {
-        return $this->getAdapter()->getSubjectValueTotalCount($this->resource, $propertyId);
-    }
-
-    /**
-     * Get distinct properties (predicates) where this resource is the RDF object.
-     *
-     * @return array
-     */
-    public function subjectValueProperties()
-    {
-        $propertyAdapter = $this->getAdapter('properties');
-        return $this->getAdapter()->getSubjectValueProperties($this->resource);
     }
 
     /**
@@ -497,26 +477,57 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Get the display markup for values where this resource is the RDF object.
      *
+     * The $resourceProperty argument takes a compound identifier with the
+     * following pattern:
+     *
+     * <resource_type>:<property_id>
+     *
+     * The <resource_type> can be items (default), item_sets, media; the
+     * <property_id> should follow the pattern laid out in
+     * AbstractResourceEntityAdapter::getSubjectValuesQueryBuilder()
+     *
      * @param int $page
      * @param int $perPage
-     * @param int|string|null $propertyId Filter by property ID
+     * @param string $resourceProperty
      * @return string
      */
-    public function displaySubjectValues($page = null, $perPage = null, $propertyId = null)
+    public function displaySubjectValues($page = null, $perPage = null, $resourceProperty = null)
     {
-        $subjectValues = $this->subjectValues($page, $perPage, $propertyId);
+        $resourceType = 'items';
+        $propertyId = null;
+        if ($resourceProperty) {
+            [$resourceType, $propertyId] = explode(':', $resourceProperty);
+        }
+
+        $adapter = $this->getAdapter();
+
+        $totalCount = $adapter->getSubjectValueTotalCount($this->resource, $propertyId, $resourceType);
+        if (!$totalCount) {
+            return null;
+        }
+
+        $subjectValues = $this->subjectValues($page, $perPage, $propertyId, $resourceType);
         if (!$subjectValues) {
             return null;
         }
+
+        $resourcePropertiesAll = [
+            'items' => $adapter->getSubjectValueProperties($this->resource, 'items'),
+            'item_sets' => $adapter->getSubjectValueProperties($this->resource, 'item_sets'),
+            'media' => $adapter->getSubjectValueProperties($this->resource, 'media'),
+        ];
+
         $partial = $this->getViewHelper('partial');
         return $partial('common/linked-resources', [
             'objectResource' => $this,
             'subjectValues' => $subjectValues,
             'page' => $page,
             'perPage' => $perPage,
+            'totalCount' => $totalCount,
+            'resourceProperty' => $resourceProperty,
             'propertyId' => $propertyId,
-            'totalCount' => $this->subjectValueTotalCount($propertyId),
-            'properties' => $this->subjectValueProperties(),
+            'resourceType' => $resourceType,
+            'resourcePropertiesAll' => $resourcePropertiesAll,
         ]);
     }
 

@@ -343,6 +343,15 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'researcher',
+            'Omeka\Controller\Admin\Columns',
+            [
+                'column-list',
+                'column-row',
+                'column-edit-sidebar',
+            ]
+        );
+        $acl->allow(
+            'researcher',
             [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
@@ -415,6 +424,15 @@ class AclFactory implements FactoryInterface
                 'sidebar-edit',
                 'sidebar-preview',
                 'search-filters',
+            ]
+        );
+        $acl->allow(
+            'author',
+            'Omeka\Controller\Admin\Columns',
+            [
+                'column-list',
+                'column-row',
+                'column-edit-sidebar',
             ]
         );
         $acl->allow(
@@ -590,6 +608,15 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'reviewer',
+            'Omeka\Controller\Admin\Columns',
+            [
+                'column-list',
+                'column-row',
+                'column-edit-sidebar',
+            ]
+        );
+        $acl->allow(
+            'reviewer',
             [
                 'Omeka\Controller\Admin\Item',
                 'Omeka\Controller\Admin\ItemSet',
@@ -749,6 +776,15 @@ class AclFactory implements FactoryInterface
                 'sidebar-edit',
                 'sidebar-preview',
                 'search-filters',
+            ]
+        );
+        $acl->allow(
+            'editor',
+            'Omeka\Controller\Admin\Columns',
+            [
+                'column-list',
+                'column-row',
+                'column-edit-sidebar',
             ]
         );
         $acl->allow(

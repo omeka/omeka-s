@@ -466,14 +466,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             case 'item_sets':
                 $qb->andWhere('resource INSTANCE OF Omeka\Entity\ItemSet');
                 if ($siteId) {
-                    $qb->join('Omeka\Entity\SiteItemSet', 'site_item_set' , 'WITH', 'resource.id = site_item_set.itemSet')
+                    $qb->join('Omeka\Entity\SiteItemSet', 'site_item_set', 'WITH', 'resource.id = site_item_set.itemSet')
                         ->andWhere($qb->expr()->eq('site_item_set.site', $siteId));
                 }
                 break;
             case 'media':
                 $qb->andWhere('resource INSTANCE OF Omeka\Entity\Media');
                 if ($siteId) {
-                    $qb->join('Omeka\Entity\Media', 'media' , 'WITH', 'resource.id = media.id')
+                    $qb->join('Omeka\Entity\Media', 'media', 'WITH', 'resource.id = media.id')
                         ->join('media.item', 'item')
                         ->join('item.sites', 'site')
                         ->andWhere($qb->expr()->eq('site.id', $siteId));
@@ -482,7 +482,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             case 'items':
                 $qb->andWhere('resource INSTANCE OF Omeka\Entity\Item');
                 if ($siteId) {
-                    $qb->join('Omeka\Entity\Item', 'item' , 'WITH', 'resource.id = item.id')
+                    $qb->join('Omeka\Entity\Item', 'item', 'WITH', 'resource.id = item.id')
                         ->join('item.sites', 'site')
                         ->andWhere($qb->expr()->eq('site.id', $siteId));
                 }

@@ -389,11 +389,12 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @param int $perPage
      * @param int|string|null $propertyId Filter by property ID
      * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return array
      */
-    public function subjectValues($page = null, $perPage = null, $propertyId = null, $resourceType = null)
+    public function subjectValues($page = null, $perPage = null, $propertyId = null, $resourceType = null, $siteId = null)
     {
-        $results = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $propertyId, $resourceType);
+        $results = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $propertyId, $resourceType, $siteId);
         $subjectValues = [];
         foreach ($results as $result) {
             $index = sprintf('%s-%s', $result['property_id'], $result['resource_template_property_id']);
@@ -409,12 +410,13 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * @see https://w3c.github.io/json-ld-syntax/#reverse-properties
      * @param int|string|null $propertyId Filter by property ID
      * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return array
      */
-    public function subjectValuesForReverse($propertyId = null, $resourceType = null)
+    public function subjectValuesForReverse($propertyId = null, $resourceType = null, $siteId = null)
     {
         $url = $this->getViewHelper('Url');
-        $subjectValuesSimple = $this->getAdapter()->getSubjectValuesSimple($this->resource, $propertyId, $resourceType);
+        $subjectValuesSimple = $this->getAdapter()->getSubjectValuesSimple($this->resource, $propertyId, $resourceType, $siteId);
         $subjectValues = [];
         foreach ($subjectValuesSimple as $subjectValue) {
             $subjectValues[$subjectValue['term']][] = [
@@ -482,9 +484,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * <resource_type>:<property_id>
      *
-     * The <resource_type> can be items (default), item_sets, media; the
-     * <property_id> should follow the pattern laid out in
-     * AbstractResourceEntityAdapter::getSubjectValuesQueryBuilder()
+     * The <resource_type> can be items, item_sets, media. The <property_id>
+     * should follow the pattern laid out in
+     * AbstractResourceEntityAdapter::getSubjectValuesQueryBuilder().
+     * If a $resourceProperty isn't passed or is invalid, the default is all
+     * properties for the "items" resource type.
      *
      * @param int $page
      * @param int $perPage
@@ -493,28 +497,38 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displaySubjectValues($page = null, $perPage = null, $resourceProperty = null)
     {
-        $resourceType = 'items';
-        $propertyId = null;
-        if ($resourceProperty) {
-            [$resourceType, $propertyId] = explode(':', $resourceProperty);
-        }
-
+        $services = $this->getServiceLocator();
         $adapter = $this->getAdapter();
 
-        $totalCount = $adapter->getSubjectValueTotalCount($this->resource, $propertyId, $resourceType);
+        // Set default arguments.
+        $resourceType = 'items';
+        $propertyId = null;
+        $siteId = null;
+        if ($resourceProperty && false !== strpos($resourceProperty, ':')) {
+            // Derive the resource type and property ID from $resourceProperty.
+            [$resourceType, $propertyId] = explode(':', $resourceProperty);
+        }
+        if ($services->get('Omeka\Status')->isSiteRequest()
+            && $services->get('Omeka\Settings\Site')->get('exclude_resources_not_in_site')
+        ) {
+            // This is a site request and exclude_resources_not_in_site is true.
+            // Set the current site ID.
+            $currentSite = $services->get('ControllerPluginManager')->get('currentSite');
+            $siteId = $currentSite()->id();
+        }
+
+        $totalCount = $adapter->getSubjectValueTotalCount($this->resource, $propertyId, $resourceType, $siteId);
         if (!$totalCount) {
-            return null;
+            return;
         }
-
-        $subjectValues = $this->subjectValues($page, $perPage, $propertyId, $resourceType);
+        $subjectValues = $this->subjectValues($page, $perPage, $propertyId, $resourceType, $siteId);
         if (!$subjectValues) {
-            return null;
+            return;
         }
-
         $resourcePropertiesAll = [
-            'items' => $adapter->getSubjectValueProperties($this->resource, 'items'),
-            'item_sets' => $adapter->getSubjectValueProperties($this->resource, 'item_sets'),
-            'media' => $adapter->getSubjectValueProperties($this->resource, 'media'),
+            'items' => $adapter->getSubjectValueProperties($this->resource, 'items', $siteId),
+            'item_sets' => $adapter->getSubjectValueProperties($this->resource, 'item_sets', $siteId),
+            'media' => $adapter->getSubjectValueProperties($this->resource, 'media', $siteId),
         ];
 
         $partial = $this->getViewHelper('partial');

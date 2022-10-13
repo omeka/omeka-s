@@ -437,12 +437,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      * The $propertyId argument has three variations, depending on the desired
      * result:
      *
-     * - <property-id>: Query all subject values of the specified property, e.g. 123
-     * - <property-id>-: Query subject values of the specified property where there
-     *   is no corresponding resource template property, e.g. 123-
-     * - <property-id>-<resource-template-property-id>: Query subject values of the
-     *   specified property where there is a corresponding resource template property,
-     *   e.g. 123-234
+     * - <property-id>: Query all subject values of the specified property, e.g.
+     *      123
+     * - <property-id>-: Query subject values of the specified property where
+     *      there is no corresponding resource template property, e.g. 123-
+     * - <property-id>-<resource-template-property-id>: Query subject values of
+     *      the specified property where there is a corresponding resource
+     *      template property, e.g. 123-234
      *
      * @param Resource $resource
      * @param int|string|null $propertyId
@@ -527,12 +528,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      * @param int $perPage
      * @param int|string|null $propertyId Filter by property ID
      * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return array
      */
-    public function getSubjectValues(Resource $resource, $page = null, $perPage = null, $propertyId = null, $resourceType = null)
+    public function getSubjectValues(Resource $resource, $page = null, $perPage = null, $propertyId = null, $resourceType = null, $siteId = null)
     {
         $offset = (is_numeric($page) && is_numeric($perPage)) ? (($page - 1) * $perPage) : null;
-        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType)
+        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
             ->join('value.property', 'property')
             ->select([
                 'value val',
@@ -558,11 +560,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      * @param Resource $resource
      * @param int|string|null $propertyId Filter by property ID
      * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return array
      */
-    public function getSubjectValuesSimple(Resource $resource, $propertyId = null, $resourceType = null)
+    public function getSubjectValuesSimple(Resource $resource, $propertyId = null, $resourceType = null, $siteId = null)
     {
-        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType)
+        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
             ->join('value.property', 'property')
             ->join('property.vocabulary', 'vocabulary')
             ->select("CONCAT(vocabulary.prefix, ':', property.localName) term, IDENTITY(value.resource) id, resource.title title");
@@ -575,11 +578,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      * @param Resource $resource
      * @param int|string|null $propertyId Filter by property ID
      * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return int
      */
-    public function getSubjectValueTotalCount(Resource $resource, $propertyId = null, $resourceType = null)
+    public function getSubjectValueTotalCount(Resource $resource, $propertyId = null, $resourceType = null, $siteId = null)
     {
-        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType)
+        $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
             ->select('COUNT(resource.id)');
         return $qb->getQuery()->getSingleScalarResult();
     }
@@ -589,11 +593,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *
      * @param Resource $resource
      * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return array
      */
-    public function getSubjectValueProperties(Resource $resource, $resourceType = null)
+    public function getSubjectValueProperties(Resource $resource, $resourceType = null, $siteId = null)
     {
-        $qb = $this->getSubjectValuesQueryBuilder($resource, null, $resourceType)
+        $qb = $this->getSubjectValuesQueryBuilder($resource, null, $resourceType, $siteId)
             ->join('value.property', 'property')
             ->join('property.vocabulary', 'vocabulary')
             ->select([

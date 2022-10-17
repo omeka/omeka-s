@@ -1,7 +1,9 @@
 <?php
-$page = $this->params()->fromQuery('page', 1);
-$property = $this->params()->fromQuery('property');
-$subjectValues = $resource->displaySubjectValues($page, 25, $this->params()->fromQuery('resource_property'));
+$subjectValues = $resource->displaySubjectValues([
+    'page' => $this->params()->fromQuery('page', 1),
+    'perPage' => 25,
+    'resourceProperty' => $this->params()->fromQuery('resource_property')
+]);
 ?>
 <?php if ($subjectValues): ?>
 <div id="resources-linked">

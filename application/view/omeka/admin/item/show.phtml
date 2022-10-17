@@ -25,7 +25,7 @@ $itemMedia = $item->media();
 <?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $item); ?>
 
 <div id="item-metadata" class="active section">
-    <?php if ( $item->resourceClass()): ?>
+    <?php if ($item->resourceClass()): ?>
     <dl class="resource-class">
         <div class="meta-group">
             <dt><?php echo $translate('Class'); ?></dt>
@@ -38,8 +38,11 @@ $itemMedia = $item->media();
 
 <div id="resources-linked" class="section">
     <?php
-    $page = $this->params()->fromQuery('page', 1);
-    $subjectValues = $item->displaySubjectValues($page, 25, $this->params()->fromQuery('resource_property'));
+    $subjectValues = $item->displaySubjectValues([
+        'page' => $this->params()->fromQuery('page', 1),
+        'perPage' => 25,
+        'resourceProperty' => $this->params()->fromQuery('resource_property')
+    ]);
     ?>
     <?php if ($subjectValues): ?>
         <p><?php echo $translate('The following resources link to this item:'); ?></p>

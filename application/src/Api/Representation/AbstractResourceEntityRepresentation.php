@@ -450,17 +450,14 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * Options:
      *
-     * + viewName: Name of view script, or a view model. Default
-     *   "common/resource-values"
+     * - viewName: Name of view script, or a view model. Default "common/resource-values"
      *
      * @param array $options
      * @return string
      */
     public function displayValues(array $options = [])
     {
-        if (!isset($options['viewName'])) {
-            $options['viewName'] = 'common/resource-values';
-        }
+        $options['viewName'] = $options['viewName'] ?? 'common/resource-values';
         $partial = $this->getViewHelper('partial');
 
         $eventManager = $this->getEventManager();
@@ -479,24 +476,29 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     /**
      * Get the display markup for values where this resource is the RDF object.
      *
-     * The $resourceProperty argument takes a compound identifier with the
-     * following pattern:
+     * Options:
      *
-     * <resource_type>:<property_id>
+     * - viewName: Name of view script, or a view model. Default "common/linked-resources"
+     * - page: The page number
+     * - perPage: The number of resources per page
+     * - resourceProperty: Compound identifier with the pattern: <resource_type>:<property_id>
      *
-     * The <resource_type> can be items, item_sets, media. The <property_id>
-     * should follow the pattern laid out in
-     * AbstractResourceEntityAdapter::getSubjectValuesQueryBuilder().
-     * If a $resourceProperty isn't passed or is invalid, the default is all
+     * For resourceProperty, the <resource_type> can be items, item_sets, media.
+     * The <property_id> should follow the pattern laid out in
+     * AbstractResourceEntityAdapter::getSubjectValuesQueryBuilder(). If a
+     * $resourceProperty isn't passed or is invalid, the default is all
      * properties for the "items" resource type.
      *
-     * @param int $page
-     * @param int $perPage
-     * @param string $resourceProperty
+     * @param array $options
      * @return string
      */
-    public function displaySubjectValues($page = null, $perPage = null, $resourceProperty = null)
+    public function displaySubjectValues(array $options = [])
     {
+        $viewName = $options['viewName'] ?? 'common/linked-resources';
+        $page = $options['page'] ?? null;
+        $perPage = $options['perPage'] ?? null;
+        $resourceProperty = $options['resourceProperty'] ?? null;
+
         $services = $this->getServiceLocator();
         $adapter = $this->getAdapter();
 
@@ -532,7 +534,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         ];
 
         $partial = $this->getViewHelper('partial');
-        return $partial('common/linked-resources', [
+        return $partial($viewName, [
             'objectResource' => $this,
             'subjectValues' => $subjectValues,
             'page' => $page,

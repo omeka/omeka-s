@@ -6,7 +6,7 @@ $translate = $this->plugin('translate');
     <?php $item = $attachment->item(); ?>
     <?php if (empty($item)) continue; ?>
     <div class="resource show">
-    <?php echo $item->displayValues(); ?>
+    <?php echo $item->displayValues(['siteId' => $this->currentSite()->id()]); ?>
     <?php if($item->itemSets()): ?>
         <dl class="item-sets">
             <div class="property">

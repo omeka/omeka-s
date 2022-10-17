@@ -451,6 +451,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * Options:
      *
      * - viewName: Name of view script, or a view model. Default "common/resource-values"
+     * - siteId: A site ID
      *
      * @param array $options
      * @return string
@@ -458,10 +459,34 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     public function displayValues(array $options = [])
     {
         $options['viewName'] = $options['viewName'] ?? 'common/resource-values';
-        $partial = $this->getViewHelper('partial');
+        $options['siteId'] = $options['siteId'] ?? null;
+
+        $services = $this->getServiceLocator();
+        $values = $this->values();
+
+        if ($options['siteId'] && $services->get('Omeka\Settings\Site')->get('exclude_resources_not_in_site')) {
+            // Exclude resources that are not assigned to the site if the
+            // "exclude_resources_not_in_site" site setting is true.
+            foreach ($values as $term => $propertyData) {
+                foreach ($propertyData['values'] as $valueIndex => $value) {
+                    $valueResource = $value->valueResource();
+                    if ($valueResource && in_array($valueResource->resourceName(), ['items', 'item_sets'])) {
+                        $resourceSites = $valueResource->sites();
+                        if (!isset($resourceSites[$options['siteId']])) {
+                            // This item is not assigned to the current site, so remove it.
+                            unset($values[$term]['values'][$valueIndex]);
+                        }
+                    }
+                }
+                if (!$values[$term]['values']) {
+                    // This property no longer has values, so remove it.
+                    unset($values[$term]);
+                }
+            }
+        }
 
         $eventManager = $this->getEventManager();
-        $args = $eventManager->prepareArgs(['values' => $this->values()]);
+        $args = $eventManager->prepareArgs(['values' => $values]);
         $eventManager->trigger('rep.resource.display_values', $this, $args);
         $options['values'] = $args['values'];
 
@@ -470,6 +495,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             ? $template->resourceTemplateProperties()
             : [];
 
+        $partial = $this->getViewHelper('partial');
         return $partial($options['viewName'], $options);
     }
 
@@ -482,6 +508,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * - page: The page number
      * - perPage: The number of resources per page
      * - resourceProperty: Compound identifier with the pattern: <resource_type>:<property_id>
+     * - siteId: A site ID
      *
      * For resourceProperty, the <resource_type> can be items, item_sets, media.
      * The <property_id> should follow the pattern laid out in
@@ -494,29 +521,25 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displaySubjectValues(array $options = [])
     {
+        $services = $this->getServiceLocator();
+        $adapter = $this->getAdapter();
+
         $viewName = $options['viewName'] ?? 'common/linked-resources';
         $page = $options['page'] ?? null;
         $perPage = $options['perPage'] ?? null;
         $resourceProperty = $options['resourceProperty'] ?? null;
+        $siteId = null;
+        if (isset($options['siteId']) && $services->get('Omeka\Settings\Site')->get('exclude_resources_not_in_site')) {
+            // Exclude resources that are not assigned to the site if the
+            // "exclude_resources_not_in_site" site setting is true.
+            $siteId = $options['siteId'];
+        }
 
-        $services = $this->getServiceLocator();
-        $adapter = $this->getAdapter();
-
-        // Set default arguments.
         $resourceType = 'items';
         $propertyId = null;
-        $siteId = null;
         if ($resourceProperty && false !== strpos($resourceProperty, ':')) {
             // Derive the resource type and property ID from $resourceProperty.
             [$resourceType, $propertyId] = explode(':', $resourceProperty);
-        }
-        if ($services->get('Omeka\Status')->isSiteRequest()
-            && $services->get('Omeka\Settings\Site')->get('exclude_resources_not_in_site')
-        ) {
-            // This is a site request and exclude_resources_not_in_site is true.
-            // Set the current site ID.
-            $currentSite = $services->get('ControllerPluginManager')->get('currentSite');
-            $siteId = $currentSite()->id();
         }
 
         $totalCount = $adapter->getSubjectValueTotalCount($this->resource, $propertyId, $resourceType, $siteId);

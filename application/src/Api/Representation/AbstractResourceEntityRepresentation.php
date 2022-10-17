@@ -458,8 +458,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      */
     public function displayValues(array $options = [])
     {
-        $options['viewName'] = $options['viewName'] ?? 'common/resource-values';
-        $options['siteId'] = $options['siteId'] ?? null;
+        $options['viewName'] ??= 'common/resource-values';
+        $options['siteId'] ??= null;
 
         $services = $this->getServiceLocator();
         $values = $this->values();

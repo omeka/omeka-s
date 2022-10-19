@@ -464,7 +464,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $services = $this->getServiceLocator();
         $values = $this->values();
 
-        if ($options['siteId'] && $services->get('Omeka\Settings\Site')->get('exclude_resources_not_in_site')) {
+        if ($options['siteId']) {
             // Exclude resources that are not assigned to the site if the
             // "exclude_resources_not_in_site" site setting is true.
             foreach ($values as $term => $propertyData) {
@@ -528,12 +528,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $page = $options['page'] ?? null;
         $perPage = $options['perPage'] ?? null;
         $resourceProperty = $options['resourceProperty'] ?? null;
-        $siteId = null;
-        if (isset($options['siteId']) && $services->get('Omeka\Settings\Site')->get('exclude_resources_not_in_site')) {
-            // Exclude resources that are not assigned to the site if the
-            // "exclude_resources_not_in_site" site setting is true.
-            $siteId = $options['siteId'];
-        }
+        $siteId = $options['siteId'] ?? null;
 
         $resourceType = 'items';
         $propertyId = null;

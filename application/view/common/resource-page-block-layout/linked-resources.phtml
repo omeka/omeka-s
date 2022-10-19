@@ -1,10 +1,13 @@
 <?php
-$subjectValues = $resource->displaySubjectValues([
+$options = [
     'page' => $this->params()->fromQuery('page', 1),
     'perPage' => 25,
     'resourceProperty' => $this->params()->fromQuery('resource_property'),
-    'siteId' => $this->currentSite()->id(),
-]);
+];
+if ($this->siteSetting('exclude_resources_not_in_site')) {
+    $options['siteId'] = $this->currentSite()->id();
+}
+$subjectValues = $resource->displaySubjectValues($options);
 ?>
 <?php if ($subjectValues): ?>
 <div id="resources-linked">

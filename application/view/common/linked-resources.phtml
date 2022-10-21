@@ -60,8 +60,16 @@ $resourcePropertiesSelect->setValueOptions($valueOptions);
 </div>
 
 <?php foreach ($subjectValues as $values): ?>
+<?php
+$caption = sprintf(
+    $this->translate('%s with "%s: %s"'),
+    $this->translate($labelMap[$resourceType]),
+    $values[0]['property_alternate_label'] ?? $this->translate($values[0]['property_label']),
+    $objectResource->title()
+);
+?>
 <table>
-    <caption class="linked-resource-property"><?php echo $values[0]['property_alternate_label'] ?? $this->translate($values[0]['property_label']); ?></caption>
+    <caption class="linked-resource-property"><?php echo $caption; ?></caption>
     <thead>
         <tr>
             <th><?php echo $this->translate('Title'); ?></th>

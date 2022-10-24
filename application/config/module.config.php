@@ -428,6 +428,7 @@ return [
             'sortMedia' => View\Helper\SortMedia::class,
             'lightGalleryOutput' => View\Helper\LightGalleryOutput::class,
             'iiifViewer' => View\Helper\IiifViewer::class,
+            'currentSite' => View\Helper\CurrentSite::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,

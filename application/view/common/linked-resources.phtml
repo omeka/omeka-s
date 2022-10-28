@@ -69,7 +69,7 @@ $caption = sprintf(
 );
 ?>
 <table>
-    <caption class="linked-resource-property"><?php echo $caption; ?></caption>
+    <caption class="linked-resource-property"><?php echo $this->escapeHtml($caption); ?></caption>
     <thead>
         <tr>
             <th><?php echo $this->translate('Title'); ?></th>

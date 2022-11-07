@@ -15,12 +15,12 @@ class Environment
     /**
      * The MySQL minimum version
      */
-    const MYSQL_MINIMUM_VERSION = '5.6.4';
+    const MYSQL_MINIMUM_VERSION = '8.0.18';
 
     /**
      * The MariaDB minimum version
      */
-    const MARIADB_MINIMUM_VERSION = '10.0.5';
+    const MARIADB_MINIMUM_VERSION = '10.2.27';
 
     /**
      * The required PHP extensions

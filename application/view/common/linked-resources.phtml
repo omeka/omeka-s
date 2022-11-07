@@ -24,7 +24,6 @@ $resourcePropertiesSelect = new Select('resource_property');
 $resourcePropertiesSelect->setValue($resourceProperty);
 $resourcePropertiesSelect->setAttributes([
     'id' => 'resource-property-select',
-    'class' =>'chosen-select',
     'data-url' => $this->url(null, [], true),
     'data-fragment' => $fragment,
 ]);
@@ -35,14 +34,14 @@ foreach ($resourcePropertiesAll as $type => $resourceProperties) {
     }
     $valueOptions[$type] = [
         'label' => $labelMap[$type],
-        'options' => [sprintf('%s:', $type) => 'All'],
+        'options' => [sprintf('%s:', $type) => sprintf('%s: All', $labelMap[$type])],
     ];
     foreach ($resourceProperties as $resourceProperty) {
         $key = sprintf('%s:%s', $type, $resourceProperty['id_concat']);
         $value = $resourceProperty['property_alternate_label']
             ? $this->translate($resourceProperty['property_alternate_label'])
             : $this->translate($resourceProperty['property_label']);
-        $valueOptions[$type]['options'][$key] = $value;
+        $valueOptions[$type]['options'][$key] = sprintf('%s: %s', $labelMap[$type], $value);
     }
 }
 $resourcePropertiesSelect->setValueOptions($valueOptions);
@@ -52,7 +51,7 @@ $resourcePropertiesSelect->setValueOptions($valueOptions);
 <div class="linked-header">
     <div id="linked-filter">
         <label>
-            <?php echo $this->translate('Filter by resource type and property'); ?>
+            <?php echo $this->translate('Filter by resource type and property:'); ?>
             <?php echo $this->formElement($resourcePropertiesSelect); ?>
         </label>
     </div>

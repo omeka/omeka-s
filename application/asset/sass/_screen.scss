@@ -3416,14 +3416,14 @@ input[type=text].query-form-query {
     }
 }
 
-#linked-filter {
+#linked-filter label {
     display: flex;
     align-items: center;
     margin-bottom: $spacing-large;
-}
 
-#linked-filter h4 {
-    margin-right: $spacing-small;
+    select {
+        margin-left: $spacing-medium;
+    }
 }
 
 #linked-resources table {
@@ -3437,6 +3437,7 @@ input[type=text].query-form-query {
     font-family: "Lato", sans-serif;
     font-weight: bold;
     text-align: left;
+    font-size: 1.25 * $base-font-size;
 }
 
 #linked-resources th {

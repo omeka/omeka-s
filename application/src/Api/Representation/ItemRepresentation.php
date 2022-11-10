@@ -86,6 +86,15 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
         // Return the primary media if one is set.
         $primaryMedia = $this->resource->getPrimaryMedia();
         if ($primaryMedia) {
+            // The media may not be public, so fetch the media directly from the
+            // entity manager to leverage the resource visibility filter.
+            // Otherwise, an EntityNotFound exception will be raised when
+            // attempting to fetch data from the Doctrine proxy returned from
+            // getPrimaryMedia().
+            $primaryMedia = $this->getServiceLocator()
+                ->get('Omeka\EntityManager')
+                ->getRepository('Omeka\Entity\Media')
+                ->findOneBy(['id' => $primaryMedia->getId()]);
             return $this->getAdapter('media')->getRepresentation($primaryMedia);
         }
         // Return the first media if one exists.

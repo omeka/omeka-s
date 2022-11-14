@@ -13,11 +13,8 @@ if ($item) {
 
 $itemSets = [];
 foreach ($itemSetRepresentations as $itemSet) {
-    $owner = $itemSet->owner();
     $itemSets[] = [
         'id' => $itemSet->id(),
-        'title' => $itemSet->title(),
-        'email' => $owner ? $owner->email() : null,
     ];
 }
 $itemSetTemplate = '

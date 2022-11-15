@@ -62,12 +62,12 @@ class ArrayTextarea extends Textarea implements InputProviderInterface
         }
         if ($this->asKeyValue) {
             $string = '';
-            foreach ($array as $key => $value) {
+            foreach ($array ?? [] as $key => $value) {
                 $string .= strlen($value) ? "$key $this->keyValueSeparator $value\n" : $key . "\n";
             }
             return $string;
         }
-        return implode("\n", $array);
+        return $array ? implode("\n", $array) : '';
     }
 
     public function stringToArray($string)

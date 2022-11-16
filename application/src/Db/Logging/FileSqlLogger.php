@@ -76,7 +76,7 @@ class FileSqlLogger implements SQLLogger
     public function stopQuery()
     {
         $duration = microtime(true) - $this->startTime;
-        $entry = sprintf('%s (%0.3F)', date('c', $this->startTime), $duration) . PHP_EOL
+        $entry = sprintf('%s (%0.3F)', date('c', (int) $this->startTime), $duration) . PHP_EOL
             . $this->entry
             . PHP_EOL;
         $this->file->fwrite($entry);

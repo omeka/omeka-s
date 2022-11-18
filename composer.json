@@ -12,7 +12,7 @@
         "doctrine/orm": "^2.11.2",
         "doctrine/cache": "^1.12.1",
         "doctrine/dbal": "^2.13.8",
-        "easyrdf/easyrdf": "^1.0",
+        "sweetrdf/easyrdf": "^1.0",
         "ml/json-ld": "^1.1",
         "ezyang/htmlpurifier": "^4.8",
         "composer/semver": "^3.2",

@@ -13,7 +13,7 @@
 # Darío Hereñú, 2019
 # mikasa254 <aferro2k6@gmail.com>, 2019
 # Carlos Rivera <Robertohernande9z9@hotmail.com>, 2019
-# John Flatness <john@zerocrates.org>, 2020
+# John Flatness <john@omeka.org>, 2020
 # Adriana Hernández, 2021
 # Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2021
 # Alfonso Montejo <almontejor@gmail.com>, 2022
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: application/src/Api/Adapter/AbstractAdapter.php:40
 #, php-format

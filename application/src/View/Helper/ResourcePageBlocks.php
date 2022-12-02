@@ -13,6 +13,10 @@ class ResourcePageBlocks extends AbstractHelper
 
     protected $resourceName;
 
+    protected $blockLayoutManager;
+
+    protected $resourcePageBlocks;
+
     public function __construct(Manager $blockLayoutManager, array $resourcePageBlocks)
     {
         $this->blockLayoutManager = $blockLayoutManager;

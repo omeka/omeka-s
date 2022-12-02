@@ -369,7 +369,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             if ($types && empty($types[strtolower($value->type())])) {
                 continue;
             }
-            if ($langs && empty($langs[strtolower($value->lang())])) {
+            if ($langs && empty($langs[strtolower((string) $value->lang())])) {
                 continue;
             }
             $matchingValues[] = $value;

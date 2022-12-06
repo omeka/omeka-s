@@ -153,7 +153,7 @@
                 clearTimeout(timer);
                 timer = setTimeout(Omeka.filterSelector.bind(this), 400);
             }
-        })())
+        })());
 
         // Autoposition tooltip.
         $('body').on('click', '.o-icon-info', function(e) {

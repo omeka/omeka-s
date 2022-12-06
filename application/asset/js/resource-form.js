@@ -282,9 +282,8 @@
 
         // Manage primary media selection labels.
         $('#media-list').on('change', '.primary-media-input', function() {
-            $newDefaultInput = $(this);
             $('.primary-media-label-text:not(.sr-only)').addClass('sr-only');
-            $newDefaultInput.parent('.primary-media').find('.primary-media-label-text').removeClass('sr-only');
+            $(this).parent('.primary-media').find('.primary-media-label-text').removeClass('sr-only');
         });
 
         // Prevent resource details from opening when quick add is toggled on.
@@ -320,8 +319,7 @@
                         hydrateValueAnnotation(value, valueObj);
                         $(document).trigger('o:prepare-value-annotation', [dataTypeName, value, valueObj]);
                     } else {
-                        newValue = makeValueAnnotation(dataTypeName, valueObj);
-                        value.after(newValue);
+                        value.after(makeValueAnnotation(dataTypeName, valueObj));
                     }
                 });
             }
@@ -421,7 +419,7 @@
                 valueData['@annotation'] = value.data('valueAnnotations');
                 value.find(':input[data-value-key]').each(function () {
                     var input = $(this);
-                    valueKey = input.data('valueKey');
+                    var valueKey = input.data('valueKey');
                     if (!valueKey || input.prop('disabled')) {
                         return;
                     }
@@ -564,7 +562,7 @@
         field.removeClass('template');
         field.find('.field-label').text(propertyLi.data('child-search')).attr('id', 'property-' + propertyId + '-label');
         field.find('.field-term').text(term);
-        field.find('.field-description').prepend(propertyLi.find('.field-comment').text());
+        field.find('.field-description').text(propertyLi.find('.field-comment').text());
         field.data('property-term', term);
         field.data('property-id', propertyId);
         field.data('data-types', dataTypes.join(','));
@@ -749,7 +747,7 @@
             .fail(function() {
                 console.log('Failed loading resource template from API');
             });
-    }
+    };
 
     var makeDefaultValue = function (term, dataType) {
         return makeNewValue(term, dataType)

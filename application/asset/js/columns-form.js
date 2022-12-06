@@ -47,8 +47,6 @@ const openSidebarColumn = function(formElement, column) {
 $('.columns-form-element').each(function() {
     const thisFormElement = $(this);
     const columns = thisFormElement.find('.columns-columns');
-    const columnsData = thisFormElement.data('columnsData');
-    const columnsLabels = thisFormElement.data('columnsLabels');
     // Enable column sorting.
     new Sortable(columns[0], {draggable: '.columns-column', handle: '.sortable-handle'});
     // Add configured columns to list.
@@ -152,7 +150,6 @@ $(document).on('click', '#columns-column-set-button', function(e) {
 
 // Handle form submission.
 $(document).on('submit', 'form', function(e) {
-    const thisForm = $(this);
     $('.columns-form-element').each(function() {
         const thisFormElement = $(this);
         const columns = thisFormElement.find('.columns-column:not(.delete)');

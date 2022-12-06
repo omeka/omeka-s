@@ -25,7 +25,7 @@ $('#resourcetemplateform').on('submit', function(e) {
         var inputName = prop.find('.data-type').attr('name');
         prop.find('.data-type').remove();
         dataTypes.forEach(function(dataType) {
-            prop.append('<input type="hidden" name="' + inputName + '" value="' + dataType +'">');
+            prop.append($('<input>', {type: 'hidden', name: inputName, value: dataType}));
         });
     });
 });

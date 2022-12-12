@@ -68,18 +68,6 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $this->add([
-            'name' => 'item_media_embed',
-            'type' => 'checkbox',
-            'options' => [
-                'element_group' => 'general',
-                'label' => 'Embed media on item pages', // @translate
-            ],
-            'attributes' => [
-                'id' => 'item_media_embed',
-                'value' => (bool) $settings->get('item_media_embed', false),
-            ],
-        ]);
-        $this->add([
             'name' => 'show_page_pagination',
             'type' => 'checkbox',
             'options' => [
@@ -301,6 +289,18 @@ class SiteSettingsForm extends Form
             'attributes' => [
                 'id' => 'exclude_resources_not_in_site',
                 'value' => (bool) $settings->get('exclude_resources_not_in_site', false),
+            ],
+        ]);
+        $this->add([
+            'name' => 'item_media_embed',
+            'type' => 'checkbox',
+            'options' => [
+                'element_group' => 'show',
+                'label' => 'Embed media on item pages (legacy)', // @translate
+            ],
+            'attributes' => [
+                'id' => 'item_media_embed',
+                'value' => (bool) $settings->get('item_media_embed', false),
             ],
         ]);
 

@@ -1,0 +1,19 @@
+<?php $translate = $this->plugin('translate'); ?>
+<button type="button" class="quick-select-toggle">
+    <?php echo $translate('Quick add'); ?> 
+    <span class="sr-only status on"><?php echo $translate('Is active'); ?></span>
+    <span class="sr-only status off"><?php echo $translate('Inactive'); ?></span>
+</button>
+<div class="quick-select success-statuses">
+    <span class="sr-only status on" tabindex="-1"><?php echo $translate('Quick add checkboxes are now available.'); ?></span>
+    <span class="sr-only status off" tabindex="-1"><?php echo $translate('Quick add checkboxes are now hidden.'); ?></span>
+</div>
+<button type="button" class="select-all">
+    <?php echo $translate('Select all'); ?> 
+    <span class="sr-only status on"><?php echo $translate('Is active'); ?></span>
+    <span class="sr-only status off"><?php echo $translate('Inactive'); ?></span> 
+</button>
+<div class="select-all success-statuses">
+    <span class="sr-only status on" tabindex="-1"><?php echo $translate('All results are now selected.'); ?></span>
+    <span class="sr-only status off" tabindex="-1"><?php echo $translate('All results are now deselected.') ?></span>
+</div>

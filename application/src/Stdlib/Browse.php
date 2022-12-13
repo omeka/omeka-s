@@ -106,7 +106,7 @@ class Browse
         $sortDefaults = $this->sortDefaults[$context][$resourceType] ?? [];
         foreach ($sortDefaults as $sortBy => $label) {
             if (!isset($sortConfig[$sortBy])) {
-                $sortConfig[$sortBy] = $label;
+                $sortConfig[$sortBy] = $translateHelper($label);
             }
         }
         // Include any other sorts added by the sort-config event.

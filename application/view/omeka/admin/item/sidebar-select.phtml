@@ -97,7 +97,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
         <?php endforeach; ?>
     </div>
     <?php else: ?>
-    <span class="no-resources"><?php sprintf($translate('No %s found.'), $translate('items')); ?></span>
+    <span class="no-resources"><?php $translate('Omeka could not find any items.'); ?></span>
     <?php endif; ?>
 </div>
 

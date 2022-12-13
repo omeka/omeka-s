@@ -39,7 +39,7 @@ echo $this->sectionNav([
 <?php foreach (['items', 'item_sets', 'media'] as $resourceName): ?>
 <div id="<?php echo $this->escapeHtml(sprintf('section-%s', $resourceName)); ?>" class="section<?php echo 'items' === $resourceName ? ' active' : ''; ?>">
     <?php foreach ($resourcePageRegions[$resourceName] as $regionName => $regionLabel): ?>
-    <h3><?php echo sprintf($this->translate('Region: %s'), $regionLabel); ?></h3>
+    <h3><?php echo $this->escapeHtml(sprintf($this->translate('Region: %s'), $regionLabel)); ?></h3>
     <ul class="blocks" data-resource-name="<?php echo $this->escapeHtml($resourceName); ?>" data-region-name="<?php echo $this->escapeHtml($regionName); ?>"></ul>
     <?php endforeach; ?>
 </div>
@@ -53,14 +53,14 @@ echo $this->sectionNav([
         <label><?php echo $this->translate('Select a region'); ?></label>
         <select id="<?php echo $this->escapeHtml(sprintf('region-select-%s', $resourceName)); ?>" class="chosen-select">
             <?php foreach ($resourcePageRegions[$resourceName] as $regionName => $regionLabel): ?>
-            <option value="<?php echo $this->escapeHtml($regionName); ?>"><?php echo $regionLabel; ?></option>
+            <option value="<?php echo $this->escapeHtml($regionName); ?>"><?php echo $this->escapeHtml($regionLabel); ?></option>
             <?php endforeach; ?>
         </select>
     </div>
     <h3><?php echo $this->translate('Add a block to selected region'); ?></h3>
     <?php foreach ($blockLayoutManager->getAllForResource($resourceName) as $blockLayoutName => $blockLayout): ?>
     <button type="button" class="option" data-resource-name="<?php echo $this->escapeHtml($resourceName); ?>" data-block-layout-name="<?php echo $this->escapeHtml($blockLayoutName); ?>">
-        <?php echo $this->translate($blockLayout->getLabel()); ?>
+        <?php echo $this->escapeHtml($this->translate($blockLayout->getLabel())); ?>
     </button>
     <?php endforeach; ?>
     <p class="no-block-layouts" style="display: none;"><?php echo $this->translate('There are no available blocks.'); ?></p>

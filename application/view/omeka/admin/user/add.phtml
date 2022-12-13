@@ -12,7 +12,7 @@ $form->prepare();
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $translate('Add'); ?></button>
 </div>
-<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->formCollection($form->get('user-information'), false); ?>
 <?php $this->trigger('view.add.form.after', ['form' => $form]); ?>
 <?php echo $this->form()->closeTag(); ?>
 

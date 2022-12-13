@@ -1,8 +1,9 @@
 <?php
 $translate = $this->plugin('translate');
 $item = $media->item();
-
-$this->htmlElement('body')->appendAttribute('class', 'media resource show'); ?>
+$this->headLink()->appendStylesheet($this->assetUrl('css/resource-page-blocks.css', 'Omeka'));
+$this->htmlElement('body')->appendAttribute('class', 'media resource show'); 
+?>
 
 <?php echo $this->pageTitle($media->displayTitle(), 2); ?>
 <h3><?php echo $translate('Media'); ?></h3>
@@ -10,5 +11,5 @@ $this->htmlElement('body')->appendAttribute('class', 'media resource show'); ?>
 <p class="media-parent-item">
     <?php echo sprintf($translate('Part of %s'), $item->link($item->displayTitle())); ?>
 </p>
-<?php echo $this->resourcePageBlocks($media); ?>
+<?php echo $this->resourcePageBlocks($media)->getBlocks(); ?>
 <?php $this->trigger('view.show.after'); ?>

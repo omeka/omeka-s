@@ -4,6 +4,7 @@ namespace Omeka\Form;
 use Omeka\Form\Element\BrowseDefaults;
 use Omeka\Form\Element\PropertySelect;
 use Omeka\Settings\SiteSettings;
+use Omeka\Stdlib\Browse as BrowseService;
 use Laminas\Form\Form;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
@@ -16,6 +17,11 @@ class SiteSettingsForm extends Form
      * @var SiteSettings
      */
     protected $siteSettings;
+
+    /**
+     * @var BrowseService
+     */
+    protected $browseService;
 
     public function init()
     {
@@ -284,6 +290,19 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('show_value_annotations', false),
             ],
         ]);
+        $this->add([
+            'name' => 'exclude_resources_not_in_site',
+            'type' => 'checkbox',
+            'options' => [
+                'element_group' => 'show',
+                'label' => 'Exclude resources not in site', // @translate
+                'info' => 'Exclude resources that are not assigned to this site.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'exclude_resources_not_in_site',
+                'value' => (bool) $settings->get('exclude_resources_not_in_site', false),
+            ],
+        ]);
 
         // Search section
         $this->add([
@@ -435,7 +454,7 @@ class SiteSettingsForm extends Form
         return $this->siteSettings;
     }
 
-    public function setBrowseService($browseService)
+    public function setBrowseService(BrowseService $browseService)
     {
         $this->browseService = $browseService;
     }

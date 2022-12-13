@@ -99,7 +99,8 @@ abstract class AbstractTargetSettings extends AbstractSettings
         $sql = sprintf('SELECT * FROM %s WHERE %s = ?', $this->getTableName(), $this->getTargetIdColumnName());
         $settings = $this->connection->fetchAll($sql, [$this->targetId]);
         foreach ($settings as $setting) {
-            $this->cache[$setting['id']] = $this->connection->convertToPHPValue($setting['value'], 'json_array');
+            $id = strtolower($setting['id']);
+            $this->cache[$id] = $this->connection->convertToPHPValue($setting['value'], 'json_array');
         }
     }
 

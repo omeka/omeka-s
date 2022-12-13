@@ -4,6 +4,8 @@ namespace Omeka\Controller\Admin;
 use PDO;
 use Doctrine\DBAL\Connection;
 use Omeka\Module;
+use Omeka\Module\Manager as Modules;
+use Omeka\Stdlib\Cli;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
@@ -15,11 +17,32 @@ class SystemInfoController extends AbstractActionController
     protected $connection;
 
     /**
-     * @param Connection $connection
+     * @var array
      */
-    public function __construct(Connection $connection)
+    protected $config;
+
+    /**
+     * @var Cli
+     */
+    protected $cli;
+
+    /**
+     * @var Modules
+     */
+    protected $modules;
+
+    /**
+     * @param Connection $connection
+     * @param array $config
+     * @param Cli $cli
+     * @param Modules $moduleManager
+     */
+    public function __construct(Connection $connection, array $config, Cli $cli, Modules $modules)
     {
         $this->connection = $connection;
+        $this->config = $config;
+        $this->cli = $cli;
+        $this->modules = $modules;
     }
 
     public function browseAction()
@@ -58,6 +81,19 @@ class SystemInfoController extends AbstractActionController
             'OS' => [
                 'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
             ],
+            'Modules' => [],
+            'Paths' => [
+                'PHP CLI path' => sprintf(
+                    '%s %s',
+                    $this->getPhpPath(),
+                    !$this->cli->validateCommand($this->getPhpPath()) ? $this->translate('[invalid]') : ''
+                ),
+                'ImageMagick directory' => sprintf(
+                    '%s %s',
+                    $this->getImagemagickDir(),
+                    !$this->cli->validateCommand($this->getImagemagickPath()) ? $this->translate('[invalid]') : ''
+                ),
+            ],
         ];
 
         $disabledFunctions = ini_get('disable_functions');
@@ -74,6 +110,65 @@ class SystemInfoController extends AbstractActionController
             $info['PHP']['Disabled Classes'] = $disabledClasses;
         }
 
+        $moduleStates = [
+            Modules::STATE_ACTIVE, Modules::STATE_NOT_ACTIVE, Modules::STATE_NOT_INSTALLED,
+            Modules::STATE_NOT_FOUND, Modules::STATE_INVALID_MODULE, Modules::STATE_INVALID_INI,
+            Modules::STATE_INVALID_OMEKA_VERSION, Modules::STATE_NEEDS_UPGRADE,
+        ];
+        foreach ($moduleStates as $moduleState) {
+            $modules = $this->modules->getModulesByState($moduleState);
+            if ($modules) {
+                $info['Modules'][$moduleState] = array_map(function ($module) {
+                    return sprintf('%s (%s)', $module->getName(), $module->getIni('version') ?? $module->getDb('version'));
+                }, $modules);
+            }
+        }
+
         return $info;
+    }
+
+    public function getPhpVersionAction()
+    {
+        $output = $this->cli->execute(sprintf('%s --version', $this->getPhpPath()));
+        if (!$output) {
+            $output = $this->translate('[Unable to execute command]');
+        }
+        $response = $this->getResponse();
+        $response->setContent($output);
+        return $response;
+    }
+
+    public function getImagemagickVersionAction()
+    {
+        $output = $this->cli->execute(sprintf('%s --version', $this->getImagemagickPath()));
+        if (!$output) {
+            $output = $this->translate('[Unable to execute command]');
+        }
+        $response = $this->getResponse();
+        $response->setContent($output);
+        return $response;
+    }
+
+    public function getPhpPath()
+    {
+        $phpPath = @$this->config['cli']['phpcli_path'];
+        if (!$phpPath) {
+            $phpPath = $this->cli->getCommandPath('php');
+        }
+        return $phpPath;
+    }
+
+    public function getImagemagickDir()
+    {
+        $imagemagickDir = @$this->config['thumbnails']['thumbnailer_options']['imagemagick_dir'];
+        if (!$imagemagickDir) {
+            $imagemagickDir = preg_replace('/convert$/', '', $this->cli->getCommandPath('convert'));
+        }
+        return $imagemagickDir;
+    }
+
+    public function getImagemagickPath()
+    {
+        return sprintf('%s/convert', $this->getImagemagickDir());
     }
 }

@@ -1,13 +1,25 @@
 <?php
 $translate = $this->plugin('translate');
 // Prepare the item set queries
-$ids = isset($query['item_set_id']) ? $query['item_set_id'] : [];
-if (!is_array($ids)) {
-    $ids = [$ids];
+$inIds = $query['item_set_id'] ?? [];
+if (!is_array($inIds)) {
+    $inIds = [$inIds];
 }
-$ids = array_filter($ids);
-if (!$ids) {
-    $ids = [null];
+$inIds = array_filter($inIds);
+$notInIds = $query['not_item_set_id'] ?? [];
+if (!is_array($notInIds)) {
+    $notInIds = [$notInIds];
+}
+$notInIds = array_filter($notInIds);
+$itemSets = [];
+foreach ($inIds as $inId) {
+    $itemSets[] = ['id' => $inId, 'type' => 'in'];
+}
+foreach ($notInIds as $notInId) {
+    $itemSets[] = ['id' => $notInId, 'type' => 'not_in'];
+}
+if (!$itemSets) {
+    $itemSets[] = ['id' => null, 'type' => 'in'];
 }
 
 if ($this->status()->isSiteRequest()) {
@@ -36,13 +48,18 @@ if ($this->status()->isSiteRequest()) {
         <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new item set'); ?>" title="<?php echo $translate('Add new item set'); ?>"></button>
     </div>
     <div class="inputs">
-        <?php foreach ($ids as $id): ?>
+        <?php foreach ($itemSets as $itemSet): ?>
         <div class="value">
+            <select class="item-set-select-type">
+                <option value="in"<?php echo 'in' === $itemSet['type'] ? ' selected' : ''; ?>><?php echo $translate('In'); ?></option>
+                <option value="not_in"<?php echo 'not_in' === $itemSet['type'] ? ' selected' : ''; ?>><?php echo $translate('Not in'); ?></option>
+            </select>
             <?php echo $this->itemSetSelect([
                 'name' => 'item_set_id[]',
                 'attributes' => [
-                    'value' => $id,
-                    'aria-labelledby' =>  'by-item-set-label'
+                    'value' => $itemSet['id'],
+                    'class' => 'item-set-select',
+                    'aria-labelledby' => 'by-item-set-label'
                 ],
                 'options' => $selectOptions,
             ]); ?>
@@ -51,3 +68,17 @@ if ($this->status()->isSiteRequest()) {
         <?php endforeach; ?>
     </div>
 </div>
+<script>
+$('form').on('submit', function(e) {
+    $('#item-sets').find('.value').each(function() {
+        const thisValue = $(this);
+        const typeSelect = thisValue.find('.item-set-select-type');
+        const itemSetSelect = thisValue.find('.item-set-select');
+        if ('not_in' === typeSelect.val()) {
+            itemSetSelect.attr('name', 'not_item_set_id[]');
+        } else {
+            itemSetSelect.attr('name', 'item_set_id[]');
+        }
+    });
+});
+</script>

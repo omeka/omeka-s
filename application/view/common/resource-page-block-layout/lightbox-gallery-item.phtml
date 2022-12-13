@@ -4,18 +4,15 @@ $sortedMedia = $this->sortMedia($itemMedia);
 $lightMedia = (isset($sortedMedia['lightMedia'])) ? $sortedMedia['lightMedia'] : null;
 $otherMedia = (isset($sortedMedia['otherMedia'])) ? $sortedMedia['otherMedia'] : null;
 ?>
-<?php if (isset($lightMedia)): ?>
-    <?php echo $this->lightGalleryOutput($lightMedia); ?>
-<?php endif; ?>
+<?php echo $this->lightGalleryOutput($lightMedia); ?>
 <?php if (isset($otherMedia) && (count($otherMedia) > 0)): ?>
-<div id="other-media" class="property">
-    <h4><?php echo $this->translate('Other Media'); ?></h4>
-    <div class="values">
-        <?php foreach($otherMedia as $media): ?>
-        <div class="value">
-            <?php echo $media->linkPretty(); ?>
-        </div>
-        <?php endforeach; ?>
-    </div>
-</div>
+<dl id="other-media">
+    <div class="property">
+    <dt><?php echo $this->translate('Other Media'); ?></dt>
+    <?php foreach($otherMedia as $media): ?>
+    <dd class="value">
+        <?php echo $media->linkPretty(); ?>
+    </dd>
+    <?php endforeach; ?>
+</dl>
 <?php endif; ?>

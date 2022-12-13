@@ -37,7 +37,6 @@ $(document).ready(function() {
 
     // Handle form submission.
     $(document).on('submit', 'form', function(e) {
-        const thisForm = $(this);
         $('.browse-defualts-form-element').each(function() {
             const thisFormElement = $(this);
             const browseDefaultsInput = thisFormElement.find('input.browse-defaults');

@@ -1,0 +1,16 @@
+#itemfiles {
+    min-height: 60vh;
+}
+
+#itemfiles > .media.resource {
+    display: none;
+}
+
+.media-list .resource-link .resource-name {
+    word-break: break-word;
+}
+
+.iiif,
+.openseadragon {
+    width: 100%;
+}

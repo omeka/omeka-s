@@ -8,13 +8,15 @@ CKEDITOR.editorConfig = function(config) {
         },
         '/',
         {
-            items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote']
+            items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'NumberedList', 'BulletedList', 'Indent', 'Outdent', 'Blockquote', '-', 'RemoveFormat']
         }
     ];
+
+    config.stylesSet = 'default:../../js/custom-ckeditor-styles.js';
     // Disable content filtering
     config.allowedContent = true;
     // Add extra plugins
-    config.extraPlugins = ['sourcedialog'];
+    config.extraPlugins = ['sourcedialog','removeformat'];
     // Allow other scripts to modify configuration.
     $(document).trigger('o:ckeditor-config', config);
 };

@@ -22,13 +22,19 @@ class MediaController extends AbstractActionController
         $response = $this->api()->search('media', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 
+        // Set the return query for batch actions. Note that we remove the page
+        // from the query because there's no assurance that the page will return
+        // results once changes are made.
+        $returnQuery = $this->params()->fromQuery();
+        unset($returnQuery['page']);
+
         $formDeleteSelected = $this->getForm(ConfirmForm::class);
-        $formDeleteSelected->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], true));
+        $formDeleteSelected->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], ['query' => $returnQuery], true));
         $formDeleteSelected->setButtonLabel('Confirm Delete'); // @translate
         $formDeleteSelected->setAttribute('id', 'confirm-delete-selected');
 
         $formDeleteAll = $this->getForm(ConfirmForm::class);
-        $formDeleteAll->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete-all'], true));
+        $formDeleteAll->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete-all'], ['query' => $returnQuery], true));
         $formDeleteAll->setButtonLabel('Confirm Delete'); // @translate
         $formDeleteAll->setAttribute('id', 'confirm-delete-all');
         $formDeleteAll->get('submit')->setAttribute('disabled', true);
@@ -39,6 +45,7 @@ class MediaController extends AbstractActionController
         $view->setVariable('resources', $medias);
         $view->setVariable('formDeleteSelected', $formDeleteSelected);
         $view->setVariable('formDeleteAll', $formDeleteAll);
+        $view->setVariable('returnQuery', $returnQuery);
         return $view;
     }
 
@@ -154,10 +161,11 @@ class MediaController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
 
+        $returnQuery = $this->params()->fromQuery();
         $resourceIds = $this->params()->fromPost('resource_ids', []);
         if (!$resourceIds) {
             $this->messenger()->addError('You must select at least one media to batch delete.'); // @translate
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $returnQuery], true);
         }
 
         $form = $this->getForm(ConfirmForm::class);
@@ -170,7 +178,7 @@ class MediaController extends AbstractActionController
         } else {
             $this->messenger()->addFormErrors($form);
         }
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $returnQuery], true);
     }
 
     public function batchDeleteAllAction()
@@ -195,7 +203,7 @@ class MediaController extends AbstractActionController
         } else {
             $this->messenger()->addFormErrors($form);
         }
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $this->params()->fromQuery()], true);
     }
 
     /**
@@ -207,10 +215,11 @@ class MediaController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
 
+        $returnQuery = $this->params()->fromQuery();
         $resourceIds = $this->params()->fromPost('resource_ids', []);
         if (!$resourceIds) {
             $this->messenger()->addError('You must select at least one media to batch edit.'); // @translate
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $returnQuery], true);
         }
 
         $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'media']);
@@ -231,8 +240,12 @@ class MediaController extends AbstractActionController
                 }
 
                 $this->messenger()->addSuccess('Media successfully edited'); // @translate
-                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $returnQuery], true);
             } else {
+                // Must set the value of these elements to a string because
+                // their POST returns an array, which would result in an error.
+                $form->get('set_value_visibility')->setValue('');
+                $form->get('value')->setValue('');
                 $this->messenger()->addFormErrors($form);
             }
         }
@@ -283,7 +296,7 @@ class MediaController extends AbstractActionController
                 ]);
 
                 $this->messenger()->addSuccess('Editing media. This may take a while.'); // @translate
-                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $this->params()->fromQuery()], true);
             } else {
                 $this->messenger()->addFormErrors($form);
             }

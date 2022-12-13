@@ -65,6 +65,28 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             }
         }
 
+        if (isset($query['not_item_set_id'])) {
+            $itemSets = $query['not_item_set_id'];
+            if (!is_array($itemSets)) {
+                $itemSets = [$itemSets];
+            }
+            $itemSets = array_filter($itemSets, 'is_numeric');
+
+            if ($itemSets) {
+                $subItemAlias = $this->createAlias();
+                $subItemSetAlias = $this->createAlias();
+                $subQb = $this->getEntityManager()->createQueryBuilder();
+                $subQb->select("$subItemAlias.id")
+                    ->from('Omeka\Entity\Item', $subItemAlias)
+                    ->innerJoin(
+                        "$subItemAlias.itemSets",
+                        $subItemSetAlias, 'WITH',
+                        $qb->expr()->in("$subItemSetAlias.id", $this->createNamedParameter($qb, $itemSets))
+                );
+                $qb->andWhere($qb->expr()->notIn("omeka_root.id", $subQb->getDQL()));
+            }
+        }
+
         if (isset($query['site_id']) && is_numeric($query['site_id'])) {
             $siteAlias = $this->createAlias();
             $qb->innerJoin(
@@ -109,6 +131,16 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 $qb->andWhere($qb->expr()->isNull($siteAlias));
             }
         }
+
+        if (isset($query['has_media']) && (is_numeric($query['has_media']) || is_bool($query['has_media']))) {
+            $mediaAlias = $this->createAlias();
+            if ($query['has_media']) {
+                $qb->innerJoin('omeka_root.media', $mediaAlias);
+            } else {
+                $qb->leftJoin('omeka_root.media', $mediaAlias);
+                $qb->andWhere($qb->expr()->isNull($mediaAlias));
+            }
+        }
     }
 
     public function validateRequest(Request $request, ErrorStore $errorStore)
@@ -137,6 +169,15 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         $isPartial = $isUpdate && $request->getOption('isPartial');
         $append = $isPartial && 'append' === $request->getOption('collectionAction');
         $remove = $isPartial && 'remove' === $request->getOption('collectionAction');
+
+        if ($this->shouldHydrate($request, 'o:primary_media')) {
+            $primaryMedia = $request->getValue('o:primary_media');
+            if (isset($primaryMedia['o:id']) && is_numeric($primaryMedia['o:id'])) {
+                $entity->setPrimaryMedia($this->getAdapter('media')->findEntity($primaryMedia['o:id']));
+            } else {
+                $entity->setPrimaryMedia(null);
+            }
+        }
 
         if ($this->shouldHydrate($request, 'o:item_set')) {
             $itemSetsData = $request->getValue('o:item_set', []);

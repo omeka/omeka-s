@@ -45,7 +45,7 @@ class Uri extends AbstractDataType implements ValueAnnotatingInterface
         } else {
             $value->setValue(null); // set default
         }
-        $value->setLang(null); // set default
+        $value->setLang($valueObject['o:lang'] ?? null); // set default
         $value->setValueResource(null); // set default
     }
 
@@ -64,6 +64,9 @@ class Uri extends AbstractDataType implements ValueAnnotatingInterface
         $jsonLd = ['@id' => $value->uri()];
         if ($value->value()) {
             $jsonLd['o:label'] = $value->value();
+        }
+        if ($value->lang()) {
+            $jsonLd['o:lang'] = $value->lang();
         }
         return $jsonLd;
     }

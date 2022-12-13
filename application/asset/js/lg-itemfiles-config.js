@@ -1,7 +1,5 @@
 (function($) {
     $(document).ready(function() {
-        var galleryState = ($('#itemfiles li').length > 1) ? true : false;
-
         var lgContainer = document.getElementById('itemfiles');
         var inlineGallery = lightGallery(lgContainer, {
             container: lgContainer,

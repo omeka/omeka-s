@@ -18,6 +18,21 @@ class ItemSets implements ResourcePageBlockLayoutInterface
 
     public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
     {
-        return $view->partial('common/resource-page-block-layout/item-sets', ['resource' => $resource]);
+        if ($view->siteSetting('exclude_resources_not_in_site')) {
+            // Get only those item sets that are assigned to the current site.
+            $siteItemSetIds = [];
+            foreach ($view->site->siteItemSets() as $siteItemSet) {
+                $siteItemSetIds[] = $siteItemSet->itemSet()->id();
+            }
+            $itemSets = [];
+            foreach ($resource->itemSets() as $itemSet) {
+                if (in_array($itemSet->id(), $siteItemSetIds)) {
+                    $itemSets[] = $itemSet;
+                }
+            }
+        } else {
+            $itemSets = $resource->itemSets();
+        }
+        return $view->partial('common/resource-page-block-layout/item-sets', ['itemSets' => $itemSets]);
     }
 }

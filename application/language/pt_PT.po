@@ -5,12 +5,12 @@
 # 
 # Translators:
 # Filipe <llopes@museus.ul.pt>, 2018
-# Hugo Castelo Branco <hugo.castelobranco@gmail.com>, 2019
-# John Flatness <john@zerocrates.org>, 2020
+# John Flatness <john@omeka.org>, 2020
 # Bruna Santiago <bruna.santiago@campus.fcsh.unl.pt>, 2020
 # Ângela Pité <angelaimp05@gmail.com>, 2020
 # Daniel Alves <daniel_r_alves@hotmail.com>, 2020
 # Joana Paulino <jpaulino@fcsh.unl.pt>, 2020
+# Hugo Castelo Branco <hugo.castelobranco@gmail.com>, 2022
 # 
 #, fuzzy
 msgid ""
@@ -19,13 +19,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-06 15:01-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Joana Paulino <jpaulino@fcsh.unl.pt>, 2020\n"
+"Last-Translator: Hugo Castelo Branco <hugo.castelobranco@gmail.com>, 2022\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/omeka/teams/14184/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_PT\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: application/src/Api/Adapter/AbstractAdapter.php:40
 #, php-format
@@ -212,7 +212,7 @@ msgstr "Itens"
 
 #: application/src/DataType/Resource/ItemSet.php:27
 msgid "Item Sets"
-msgstr ""
+msgstr "Conjuntos de Itens"
 
 #: application/src/DataType/Resource/Media.php:27
 #: application/view/common/data-type/resource.phtml:37
@@ -348,7 +348,7 @@ msgstr "Tipo de quebra"
 
 #: application/src/Site/BlockLayout/ListOfPages.php:60
 msgid "Add pages"
-msgstr ""
+msgstr "Criar páginas"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:28
 msgid "Depth"
@@ -868,7 +868,7 @@ msgstr "Tamanho"
 
 #: application/view/common/advanced-search/sort.phtml:27
 msgid "Select sort by…"
-msgstr ""
+msgstr "Ordenar por..."
 
 #: application/view/common/advanced-search/sort.phtml:32
 msgid "Select sort order…"
@@ -908,12 +908,12 @@ msgstr "Pesquisa por actividade"
 #: application/view/common/asset-block-form.phtml:7
 #: application/view/common/asset-block-form.phtml:40
 msgid "No asset selected"
-msgstr ""
+msgstr "Nenhum recurso selecionado"
 
 #: application/view/common/asset-block-form.phtml:9
 #: application/view/common/asset-block-form.phtml:43
 msgid "Open asset options"
-msgstr ""
+msgstr "Abrir opções de recursos"
 
 #: application/view/common/asset-block-form.phtml:10
 #: application/view/common/asset-block-form.phtml:44
@@ -942,11 +942,11 @@ msgstr "Colapsar"
 #: application/view/omeka/admin/asset/browse.phtml:18
 #: application/view/omeka/admin/asset/edit.phtml:10
 msgid "Assets"
-msgstr ""
+msgstr "Recursos"
 
 #: application/view/common/asset-block-form.phtml:54
 msgid "Add asset"
-msgstr ""
+msgstr "Adicionar recurso"
 
 #: application/view/common/asset-form.phtml:35
 #: application/view/common/asset-options.phtml:15
@@ -967,7 +967,7 @@ msgstr "Limpar"
 
 #: application/view/common/asset-options.phtml:10
 msgid "No Asset"
-msgstr ""
+msgstr "Nenhum recurso"
 
 #: application/view/common/asset-options.phtml:19
 #: application/view/omeka/admin/query/sidebar-edit.phtml:12
@@ -1161,7 +1161,7 @@ msgstr "Valor a remover"
 
 #: application/view/common/data-type-wrapper.phtml:21
 msgid "More actions"
-msgstr ""
+msgstr "Mais ações"
 
 #: application/view/common/data-type-wrapper.phtml:24
 #: application/view/common/media-field-wrapper.phtml:10
@@ -1312,7 +1312,7 @@ msgstr "URL"
 
 #: application/view/common/page-select-sidebar.phtml:8
 msgid "Select Pages"
-msgstr ""
+msgstr "Selecionar Páginas"
 
 #: application/view/common/pagination.phtml:9
 #: application/view/common/sidebar-pagination.phtml:6
@@ -1404,12 +1404,12 @@ msgstr ""
 
 #: application/view/common/query-form.phtml:25
 msgid "Advanced edit"
-msgstr ""
+msgstr "Edição avançada"
 
 #: application/view/common/query-form.phtml:26
 #: application/view/omeka/admin/query/sidebar-edit.phtml:14
 msgid "Apply"
-msgstr ""
+msgstr "Aplicar"
 
 #: application/view/common/query-form.phtml:28
 #: application/view/omeka/site-admin/index/users.phtml:8
@@ -1462,11 +1462,11 @@ msgstr "Privado"
 
 #: application/view/common/resource-values.phtml:57
 msgid "Has annotation"
-msgstr ""
+msgstr "Tem anotação"
 
 #: application/view/common/sidebar-pagelist.phtml:10
 msgid "Add to List of pages"
-msgstr ""
+msgstr "Incluir na lista de páginas"
 
 #: application/view/common/sidebar-pagelist.phtml:12
 #: application/view/omeka/site-admin/index/navigation.phtml:51
@@ -1559,11 +1559,11 @@ msgstr "Utilizadores (%s)"
 
 #: application/view/common/value-annotation-sidebar.phtml:20
 msgid "Add annotation"
-msgstr ""
+msgstr "Criar anotação"
 
 #: application/view/common/value-annotation-sidebar.phtml:22
 msgid "Annotations"
-msgstr ""
+msgstr "Anotações"
 
 #: application/view/common/value-annotation-sidebar.phtml:27
 msgid "Set annotations"
@@ -1752,7 +1752,7 @@ msgstr "ID"
 
 #: application/view/omeka/admin/asset/browse.phtml:27
 msgid "Add new asset"
-msgstr ""
+msgstr "Criar recurso"
 
 #: application/view/omeka/admin/asset/browse.phtml:75
 #: application/view/omeka/admin/asset/edit.phtml:6
@@ -1791,7 +1791,7 @@ msgstr "Detalhes"
 
 #: application/view/omeka/admin/asset/browse.phtml:108
 msgid "Omeka could not find any assets."
-msgstr ""
+msgstr "Omeka não encontrou nenhum recurso"
 
 #: application/view/omeka/admin/asset/show-details.phtml:12
 msgid "Media type"
@@ -2514,7 +2514,7 @@ msgstr ""
 
 #: application/view/omeka/admin/query/sidebar-preview.phtml:11
 msgid "No resources found."
-msgstr ""
+msgstr "Recursos não encontrados"
 
 #: application/view/omeka/admin/resource-template/add.phtml:6
 msgid "New resource template"
@@ -3001,7 +3001,7 @@ msgstr "Administrador do site"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
 msgid "Keep this query"
-msgstr ""
+msgstr "Manter esta consulta"
 
 #: application/view/omeka/site-admin/index/resources.phtml:73
 msgid "No item sets are assigned to this site."
@@ -3229,7 +3229,7 @@ msgstr "Índice"
 
 #: application/src/Site/BlockLayout/Asset.php:18
 msgid "Asset"
-msgstr ""
+msgstr "Recurso"
 
 #: application/src/Site/BlockLayout/Asset.php:35
 #: application/src/Site/BlockLayout/Asset.php:41
@@ -3247,15 +3247,15 @@ msgstr ""
 #: application/src/Site/BlockLayout/Asset.php:38
 #: application/src/Site/BlockLayout/Asset.php:44
 msgid "center"
-msgstr ""
+msgstr "centro"
 
 #: application/src/Site/BlockLayout/Asset.php:42
 msgid "left"
-msgstr ""
+msgstr "esquerda"
 
 #: application/src/Site/BlockLayout/Asset.php:43
 msgid "right"
-msgstr ""
+msgstr "direita"
 
 #: application/src/Site/BlockLayout/Asset.php:49
 #: application/src/Site/BlockLayout/Media.php:61
@@ -3284,7 +3284,7 @@ msgstr "Número máximo de recursos a exibir na pré-visualização."
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:80
 msgid "Components"
-msgstr ""
+msgstr "Componentes"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:81
 msgid ""
@@ -3294,11 +3294,11 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:85
 msgid "Heading"
-msgstr ""
+msgstr "Cabeçalho"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:89
 msgid "Body"
-msgstr ""
+msgstr "Corpo"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:102
 msgid "Preview title"
@@ -4980,15 +4980,15 @@ msgstr ""
 
 #: application/src/Controller/Admin/AssetController.php:93
 msgid "Asset successfully updated"
-msgstr ""
+msgstr "Recurso modificado"
 
 #: application/src/Controller/Admin/AssetController.php:124
 msgid "asset"
-msgstr ""
+msgstr "recurso"
 
 #: application/src/Controller/Admin/AssetController.php:137
 msgid "Asset successfully deleted"
-msgstr ""
+msgstr "Recurso removido"
 
 #: application/src/Controller/Admin/ItemSetController.php:32
 #, php-format

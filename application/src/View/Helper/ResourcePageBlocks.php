@@ -7,6 +7,16 @@ use Laminas\View\Helper\AbstractHelper;
 
 class ResourcePageBlocks extends AbstractHelper
 {
+    protected $resource;
+
+    protected $regionName;
+
+    protected $resourceName;
+
+    protected $blockLayoutManager;
+
+    protected $resourcePageBlocks;
+
     public function __construct(Manager $blockLayoutManager, array $resourcePageBlocks)
     {
         $this->blockLayoutManager = $blockLayoutManager;
@@ -14,39 +24,59 @@ class ResourcePageBlocks extends AbstractHelper
     }
 
     /**
-     * Return the markup for a region of the resource page.
+     * Set the resource/region and return this object.
      *
      * @param Representation\AbstractResourceEntityRepresentation $resource
      * @param string $regionName
-     * @return ResourcePageBlocks
+     * @return self
      */
     public function __invoke(Representation\AbstractResourceEntityRepresentation $resource, $regionName = 'main')
     {
-        $view = $this->getView();
+        $this->resource = $resource;
+        $this->regionName = $regionName;
+
         $resourceClass = get_class($resource);
         switch ($resourceClass) {
             case Representation\ItemRepresentation::class:
-                $resourceName = 'items';
+                $this->resourceName = 'items';
                 break;
             case Representation\ItemSetRepresentation::class:
-                $resourceName = 'item_sets';
+                $this->resourceName = 'item_sets';
                 break;
             case Representation\MediaRepresentation::class:
-                $resourceName = 'media';
+                $this->resourceName = 'media';
                 break;
             default:
-                return '<!-- ' . sprintf($view->translate('Resource page blocks error: invalid resource "%s"'), $resourceClass) . ' -->';
+                throw new \Exception('Invalid resource');
         }
-        if (!isset($this->resourcePageBlocks[$resourceName])) {
-            return '<!-- ' . sprintf($view->translate('Resource page blocks error: resource not supported "%s"'), $resourceName) . ' -->';
+        return $this;
+    }
+
+    /**
+     * Does this resource/region have blocks?
+     *
+     * @return bool
+     */
+    public function hasBlocks()
+    {
+        return isset($this->resourcePageBlocks[$this->resourceName][$this->regionName]);
+    }
+
+    /**
+     * Return the block markup for a region of the resource page.
+     *
+     * @return string
+     */
+    public function getBlocks()
+    {
+        if (!$this->hasBlocks()) {
+            return '';
         }
-        if (!isset($this->resourcePageBlocks[$resourceName][$regionName])) {
-            return '<!-- ' . sprintf($view->translate('Resource page blocks error: region not supported "%s"'), $regionName) . ' -->';
-        }
+        $view = $this->getView();
         $blockMarkup = [];
-        foreach ($this->resourcePageBlocks[$resourceName][$regionName] as $blockName) {
+        foreach ($this->resourcePageBlocks[$this->resourceName][$this->regionName] as $blockName) {
             $blockLayout = $this->blockLayoutManager->get($blockName);
-            $blockMarkup[] = $blockLayout->render($view, $resource);
+            $blockMarkup[] = $blockLayout->render($view, $this->resource);
         }
         return implode('', $blockMarkup);
     }

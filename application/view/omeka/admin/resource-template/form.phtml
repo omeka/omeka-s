@@ -92,6 +92,12 @@ $this->headScript()->appendFile($this->assetUrl('js/resource-template-form.js', 
                 </label>
             </div>
             <div class="option">
+                <label for="default-lang">
+                    <?php echo $translate('Default language'); ?>
+                </label>
+                <input id="default-lang" type="text" class="validate-language">
+            </div>
+            <div class="option">
                 <label for="data-type"><?php echo $translate('Data types'); ?></label>
                 <?php echo $this->dataType()->getSelect('data_type', null, ['id' => 'data-type', 'multiple' => true, 'class' => 'chosen-select', 'data-placeholder' => $translate('Select data types…')]); ?>
             </div>

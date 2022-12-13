@@ -1,13 +1,20 @@
 <div class="input-body">
+    <div class="language-wrapper">
+        <?php echo $this->hyperlink('', '#', ['class' => 'value-language o-icon-language', 'title' => $this->translate('Set language'), ]); ?>
+        <label class="language-label">
+            <span class="value-label-text"><?php echo $this->translate('Language'); ?></span>
+            <input class="value-language" type="text" list="value-languages" data-value-key="o:lang">
+        </label>
+    </div>
     <div class="input">
-        <label class="value">
-            <?php echo $this->translate('URI'); ?>
+        <label>
+            <span class="value-label-text"><?php echo $this->translate('URI'); ?></span>
             <input type="text" class="value to-require touched" data-value-key="@id">
         </label>
     </div>
     <div class="input">
-        <label class="value-label">
-            <?php echo $this->translate('Label'); ?>
+        <label>
+            <span class="value-label-text"><?php echo $this->translate('Label'); ?></span>
             <textarea class="value-label" rows="1" data-value-key="o:label"></textarea>
         </label>
     </div>

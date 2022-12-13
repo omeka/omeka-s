@@ -208,7 +208,7 @@ msgstr "Položky"
 
 #: application/src/DataType/Resource/ItemSet.php:27
 msgid "Item Sets"
-msgstr ""
+msgstr "Sady položek"
 
 #: application/src/DataType/Resource/Media.php:27
 #: application/view/common/data-type/resource.phtml:37
@@ -750,7 +750,7 @@ msgstr ""
 
 #: application/view/common/advanced-search/resource-template.phtml:19
 msgid "Searches for resources that use any of these templates."
-msgstr ""
+msgstr "Vyhledá zdroje, které používají kteroukoli z těchto šablon."
 
 #: application/view/common/advanced-search/resource-template.phtml:21
 msgid "Add new template"
@@ -762,7 +762,7 @@ msgstr ""
 
 #: application/view/common/advanced-search/site.phtml:6
 msgid "Searches for items that are assigned to this site."
-msgstr ""
+msgstr "Vyhledat položky, které jsou přiřazeny k tomuto webu."
 
 #: application/view/common/advanced-search/sort.phtml:6
 #: application/view/common/linked-resources.phtml:39
@@ -1506,7 +1506,7 @@ msgstr "Pořadí řazení"
 #: application/view/layout/layout-admin.phtml:48
 #, php-format
 msgid "Signed in as %s"
-msgstr ""
+msgstr "Přihlášen jako %s"
 
 #: application/view/common/user-bar.phtml:25
 #: application/view/layout/layout-admin.phtml:52
@@ -1791,7 +1791,7 @@ msgstr "Nástěnka administrátora"
 #: application/view/omeka/admin/index/browse.phtml:9
 #, php-format
 msgid "Welcome to the %s admin dashboard!"
-msgstr ""
+msgstr "Vítejte na %s nástěnce správce!"
 
 #: application/view/omeka/admin/index/browse.phtml:12
 msgid "Manage resources"
@@ -1825,7 +1825,7 @@ msgstr "Importovat nový slovník"
 #: application/view/omeka/admin/index/browse.phtml:33
 #, php-format
 msgid "Resource templates (%s)"
-msgstr ""
+msgstr "Šablony zdrojů (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:35
 #: application/view/omeka/admin/resource-template/browse.phtml:30
@@ -2174,21 +2174,23 @@ msgstr ""
 #: application/view/omeka/admin/item/manage-media.phtml:67
 #: application/view/omeka/admin/item/manage-media.phtml:71
 msgid "Add media"
-msgstr ""
+msgstr "Přidat médium"
 
 #: application/view/omeka/admin/item/manage-sites.phtml:30
 msgid "Unassign from site"
-msgstr ""
+msgstr "Zrušit přiřazení k webu"
 
 #: application/view/omeka/admin/item/manage-sites.phtml:48
 msgid ""
 "This item is part of no sites. Add it to a site using the interface to the "
 "right."
 msgstr ""
+"Tato položka není součástí žádných webů. Přidejte jej na web pomocí rozhraní"
+" napravo."
 
 #: application/view/omeka/admin/item/manage-sites.phtml:51
 msgid "Assign to site"
-msgstr ""
+msgstr "Přiřadit k webu"
 
 #: application/view/omeka/admin/item/show.phtml:21
 msgid "Edit item"
@@ -2204,7 +2206,7 @@ msgstr ""
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 msgid "Filter search"
-msgstr ""
+msgstr "Filtrovat vyhledávání"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:57
 msgid "Filter by item ID"
@@ -2212,7 +2214,7 @@ msgstr ""
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:67
 msgid "Quick add"
-msgstr ""
+msgstr "Rychle přidat"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:98
 msgid "items"
@@ -2231,11 +2233,11 @@ msgstr "Stav"
 #: application/view/omeka/admin/job/browse.phtml:25
 #: application/view/omeka/admin/job/show.phtml:21
 msgid "Jobs"
-msgstr ""
+msgstr "Úlohy"
 
 #: application/view/omeka/admin/job/browse.phtml:78
 msgid "Omeka could not find any jobs."
-msgstr ""
+msgstr "Omeka nemohla najít žádnou úlohu."
 
 #: application/view/omeka/admin/job/show.phtml:8
 msgid "[not started]"
@@ -2362,15 +2364,15 @@ msgstr ""
 
 #: application/view/omeka/admin/media/show.phtml:77
 msgid "large"
-msgstr ""
+msgstr "velký"
 
 #: application/view/omeka/admin/media/show.phtml:78
 msgid "medium"
-msgstr ""
+msgstr "střední"
 
 #: application/view/omeka/admin/media/show.phtml:79
 msgid "square"
-msgstr ""
+msgstr "čtvercový"
 
 #: application/view/omeka/admin/media/sidebar-select.phtml:38
 msgid "media"
@@ -2481,7 +2483,7 @@ msgstr ""
 #: application/view/omeka/admin/resource-template/review-import.phtml:7
 #: application/view/omeka/admin/resource-template/show.phtml:7
 msgid "Resource templates"
-msgstr ""
+msgstr "Šablony zdrojů"
 
 #: application/view/omeka/admin/resource-template/browse.phtml:28
 #: application/view/omeka/admin/resource-template/import.phtml:5
@@ -2491,7 +2493,7 @@ msgstr "Import"
 
 #: application/view/omeka/admin/resource-template/browse.phtml:107
 msgid "Omeka could not find any resource templates."
-msgstr ""
+msgstr "Omeka nemohla najít žádné šablony zdrojů."
 
 #: application/view/omeka/admin/resource-template/form.phtml:56
 #: application/view/omeka/admin/resource-template/form.phtml:63
@@ -2814,7 +2816,7 @@ msgstr ""
 
 #: application/view/omeka/login/create-password.phtml:11
 msgid "Activate"
-msgstr ""
+msgstr "Aktivovat"
 
 #: application/view/omeka/login/forgot-password.phtml:6
 msgid "Forgot password"
@@ -2858,14 +2860,14 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 msgid "New page"
-msgstr ""
+msgstr "Nová stránka"
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 #: application/view/omeka/site-admin/page/edit.phtml:11
 #: application/view/omeka/site-admin/page/index.phtml:33
 #: application/view/omeka/site/page/browse.phtml:5
 msgid "Pages"
-msgstr ""
+msgstr "Stránky"
 
 #: application/view/omeka/site-admin/index/add.phtml:7
 #: application/view/omeka/site-admin/index/edit.phtml:32
@@ -2877,15 +2879,15 @@ msgstr ""
 #: application/view/omeka/site-admin/index/theme-settings.phtml:6
 #: application/view/omeka/site-admin/index/theme.phtml:11
 msgid "Theme"
-msgstr ""
+msgstr "Vzhled"
 
 #: application/view/omeka/site-admin/index/add.phtml:12
 msgid "New site"
-msgstr ""
+msgstr "Nový web"
 
 #: application/view/omeka/site-admin/index/edit.phtml:33
 msgid "Settings"
-msgstr ""
+msgstr "Nastavení"
 
 #: application/view/omeka/site-admin/index/index.phtml:11
 #: application/view/omeka/site-admin/index/index.phtml:40
@@ -2923,7 +2925,7 @@ msgstr ""
 #: application/view/omeka/site-admin/index/resources.phtml:37
 #, php-format
 msgid "There are currently %s items assigned to this site."
-msgstr ""
+msgstr "K tomuto webu je aktuálně přiřazeno %s položek."
 
 #: application/view/omeka/site-admin/index/resources.phtml:42
 #, php-format
@@ -2942,7 +2944,7 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/resources.phtml:73
 msgid "No item sets are assigned to this site."
-msgstr ""
+msgstr "K tomuto webu nejsou přiřazeny žádné sady položek."
 
 #: application/view/omeka/site-admin/index/show.phtml:16
 msgid "Back to site list"
@@ -2971,11 +2973,11 @@ msgstr ""
 
 #: application/view/omeka/site-admin/index/theme.phtml:27
 msgid "Current theme"
-msgstr ""
+msgstr "Současný vzhled"
 
 #: application/view/omeka/site-admin/index/theme.phtml:44
 msgid "Edit theme settings"
-msgstr ""
+msgstr "Upravit nastavení  vzhledu"
 
 #: application/view/omeka/site-admin/index/theme.phtml:51
 #, php-format
@@ -3325,11 +3327,11 @@ msgstr ""
 
 #: application/src/Site/Navigation/Link/Url.php:11
 msgid "Custom URL"
-msgstr ""
+msgstr "Vlastní URL"
 
 #: application/src/Site/Navigation/Link/BrowseItemSets.php:11
 msgid "Browse item sets"
-msgstr ""
+msgstr "Procházet sady položek"
 
 #: application/src/File/ThumbnailManager.php:102
 msgid "Missing thumbnail configuration."
@@ -3432,11 +3434,11 @@ msgstr ""
 #: application/src/Api/Adapter/ResourceClassAdapter.php:149
 #: application/src/Api/Adapter/VocabularyAdapter.php:214
 msgid "The label cannot be empty."
-msgstr ""
+msgstr "Štítek nemůže být prázdný."
 
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:92
 msgid "The label is already taken."
-msgstr ""
+msgstr "Štítek je již použit."
 
 #: application/src/Api/Adapter/MediaAdapter.php:94
 msgid "Media must set an ingester."
@@ -3448,20 +3450,20 @@ msgstr ""
 
 #: application/src/Api/Adapter/MediaAdapter.php:160
 msgid "Media must belong to an item."
-msgstr ""
+msgstr "Média musí patřit k položce."
 
 #: application/src/Api/Adapter/UserAdapter.php:120
 msgid "The name cannot be empty."
-msgstr ""
+msgstr "Název nesmí být prázdný."
 
 #: application/src/Api/Adapter/UserAdapter.php:130
 #, php-format
 msgid "The email %s is already taken."
-msgstr ""
+msgstr "E-mail  %s je již obsazen."
 
 #: application/src/Api/Adapter/UserAdapter.php:136
 msgid "Users must have a role."
-msgstr ""
+msgstr "Uživatelé musí mít roli."
 
 #: application/src/Api/Adapter/UserAdapter.php:169
 #, php-format
@@ -4183,7 +4185,7 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:52
 msgid "Item page"
-msgstr ""
+msgstr "Stránka položky"
 
 #: application/src/Form/SiteSettingsForm.php:53
 msgid "Media page"
@@ -4212,15 +4214,15 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:91
 msgid "Never"
-msgstr ""
+msgstr "Nikdy"
 
 #: application/src/Form/SiteSettingsForm.php:92
 msgid "When logged in"
-msgstr ""
+msgstr "Po přihlášení"
 
 #: application/src/Form/SiteSettingsForm.php:93
 msgid "Always"
-msgstr ""
+msgstr "Vždy"
 
 #: application/src/Form/SiteSettingsForm.php:128
 msgid ""
@@ -4334,7 +4336,7 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:315
 msgid "Templates"
-msgstr ""
+msgstr "Vzhledy"
 
 #: application/src/Form/SiteSettingsForm.php:316
 msgid "Select which templates to apply to the advanced search form."
@@ -4346,52 +4348,52 @@ msgstr "Vybrat šablony"
 
 #: application/src/Form/SiteSettingsForm.php:329
 msgid "Restrict to templates"
-msgstr ""
+msgstr "Omezit na vzhledy"
 
 #: application/src/Form/SiteSettingsForm.php:330
 msgid "Restrict search results to resources of the selected templates."
-msgstr ""
+msgstr "Omezit výsledky hledání na zdroje vybraných šablon."
 
 #: application/src/Form/UserBatchUpdateForm.php:27
 #: application/src/Form/UserForm.php:98
 #: application/src/Service/Form/Element/RoleSelectFactory.php:16
 #: application/src/View/Helper/RoleSelect.php:39
 msgid "Select role…"
-msgstr ""
+msgstr "Vybrat roli..."
 
 #: application/src/Form/UserBatchUpdateForm.php:30
 msgid "Set role"
-msgstr ""
+msgstr "Nastavit roli"
 
 #: application/src/Form/UserBatchUpdateForm.php:39
 msgid "Set activity"
-msgstr ""
+msgstr "Nastavit aktivitu"
 
 #: application/src/Form/UserBatchUpdateForm.php:55
 #: application/src/Form/UserBatchUpdateForm.php:72
 msgid "Select sites…"
-msgstr ""
+msgstr "Vybrat weby…"
 
 #: application/src/Form/UserBatchUpdateForm.php:59
 msgid "Remove from site permission"
-msgstr ""
+msgstr "Odebrat z webu oprávnění"
 
 #: application/src/Form/UserBatchUpdateForm.php:61
 #: application/src/Form/UserBatchUpdateForm.php:78
 msgid "[All sites]"
-msgstr ""
+msgstr "[Všechny weby]"
 
 #: application/src/Form/UserBatchUpdateForm.php:76
 msgid "Add to site permission"
-msgstr ""
+msgstr "Přidat k webu oprávnění"
 
 #: application/src/Form/UserBatchUpdateForm.php:87
 msgid "Select permission…"
-msgstr ""
+msgstr "Vybrat oprávnění..."
 
 #: application/src/Form/UserBatchUpdateForm.php:91
 msgid "Add to site permission as"
-msgstr ""
+msgstr "Přidat k webu oprávnění jako"
 
 #: application/src/Form/SiteResourcesForm.php:15
 msgid "Manage current items"
@@ -4399,7 +4401,7 @@ msgstr ""
 
 #: application/src/Form/SiteResourcesForm.php:17
 msgid "Do nothing"
-msgstr ""
+msgstr "Nedělat nic"
 
 #: application/src/Form/SiteResourcesForm.php:18
 msgid "Add - keep existing items and assign items from a new search query"
@@ -4515,15 +4517,15 @@ msgstr ""
 
 #: application/src/Controller/SiteAdmin/IndexController.php:69
 msgid "Site successfully created"
-msgstr ""
+msgstr "Web úspěšně vytvořen"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:119
 msgid "Site successfully updated"
-msgstr ""
+msgstr "Web úspěšně aktualizován"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:169
 msgid "Page successfully created"
-msgstr ""
+msgstr "Stránka úspěšně vytvořena"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:198
 msgid "Homepage"
@@ -4535,7 +4537,7 @@ msgstr ""
 
 #: application/src/Controller/SiteAdmin/IndexController.php:220
 msgid "Navigation successfully updated"
-msgstr ""
+msgstr "Navigace úspěšně vytvořena"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:254
 msgid ""
@@ -4544,11 +4546,11 @@ msgstr ""
 
 #: application/src/Controller/SiteAdmin/IndexController.php:258
 msgid "Site resources successfully updated"
-msgstr ""
+msgstr "Zdroje webu byly úspěšně aktualizovány"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:301
 msgid "User permissions successfully updated"
-msgstr ""
+msgstr "Uživatelská oprávnění byla úspěšně aktualizována"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:333
 msgid "Site theme successfully updated"
@@ -4840,11 +4842,11 @@ msgstr ""
 
 #: application/src/Controller/Admin/ItemSetController.php:155
 msgid "item set"
-msgstr ""
+msgstr "Sada položek"
 
 #: application/src/Controller/Admin/ItemSetController.php:170
 msgid "Item set successfully deleted"
-msgstr ""
+msgstr "Sada položek úspěšně smazána"
 
 #: application/src/Controller/Admin/ItemSetController.php:191
 msgid "You must select at least one item set to batch delete."
@@ -4927,15 +4929,15 @@ msgstr ""
 
 #: application/config/module.config.php:642
 msgid "Restore item set"
-msgstr ""
+msgstr "Obnovit sadu položek"
 
 #: application/config/module.config.php:643
 msgid "Close icon set"
-msgstr ""
+msgstr "Zavřít sadu ikon"
 
 #: application/config/module.config.php:644
 msgid "Open icon set"
-msgstr ""
+msgstr "Otevřít sadu ikon"
 
 #: application/config/module.config.php:646
 msgid "Failed loading resource template from API"
@@ -4971,7 +4973,7 @@ msgstr ""
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:53
 msgid "Filter by item set"
-msgstr ""
+msgstr "Filtrovat podle sady položek"
 
 #. Vocabulary label for Dublin Core
 msgid "Dublin Core"
@@ -5067,19 +5069,19 @@ msgstr ""
 
 #. Class label for Dublin Core:MediaType
 msgid "Media Type"
-msgstr ""
+msgstr "Typ média"
 
 #. Class comment for Dublin Core:MediaType
 msgid "A file format or physical medium."
-msgstr ""
+msgstr "Formát souboru nebo fyzické médium."
 
 #. Class label for Dublin Core:MediaTypeOrExtent
 msgid "Media Type or Extent"
-msgstr ""
+msgstr "Typ média nebo rozsah"
 
 #. Class comment for Dublin Core:MediaTypeOrExtent
 msgid "A media type or extent."
-msgstr ""
+msgstr "Typ média nebo rozsah"
 
 #. Class label for Dublin Core:MethodOfInstruction
 msgid "Method of Instruction"
@@ -5245,11 +5247,11 @@ msgstr "Jazyk zdroje."
 
 #. Property label for Dublin Core:relation
 msgid "Relation"
-msgstr ""
+msgstr "Vztah"
 
 #. Property comment for Dublin Core:relation
 msgid "A related resource."
-msgstr ""
+msgstr "Související zdroj."
 
 #. Property label for Dublin Core:coverage
 msgid "Coverage"
@@ -5371,7 +5373,7 @@ msgstr ""
 
 #. Property label for Dublin Core:hasVersion
 msgid "Has Version"
-msgstr ""
+msgstr "Má verzi"
 
 #. Property comment for Dublin Core:hasVersion
 msgid ""
@@ -5381,7 +5383,7 @@ msgstr ""
 
 #. Property label for Dublin Core:isReplacedBy
 msgid "Is Replaced By"
-msgstr ""
+msgstr "je nahrazen"
 
 #. Property comment for Dublin Core:isReplacedBy
 msgid ""
@@ -6253,13 +6255,13 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:authorList
 msgid "list of authors"
-msgstr ""
+msgstr "seznam autorů"
 
 #. Property comment for Bibliographic Ontology:authorList
 msgid ""
 "An ordered list of authors. Normally, this list is seen as a priority list "
 "that order authors by importance."
-msgstr ""
+msgstr "citovaný kým"
 
 #. Property label for Bibliographic Ontology:citedBy
 msgid "cited by"
@@ -6273,7 +6275,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:cites
 msgid "cites"
-msgstr ""
+msgstr "cituje"
 
 #. Property comment for Bibliographic Ontology:cites
 msgid ""
@@ -6284,7 +6286,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:contributorList
 msgid "list of contributors"
-msgstr ""
+msgstr "seznam přispěvovatelů"
 
 #. Property comment for Bibliographic Ontology:contributorList
 msgid ""
@@ -6682,7 +6684,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:section
 msgid "section"
-msgstr ""
+msgstr "sekce"
 
 #. Property comment for Bibliographic Ontology:section
 msgid "A section number"
@@ -6694,7 +6696,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:shortTitle
 msgid "short title"
-msgstr ""
+msgstr "krátký název"
 
 #. Property comment for Bibliographic Ontology:shortTitle
 msgid "The abbreviation of a title."
@@ -6972,11 +6974,11 @@ msgstr "jméno"
 
 #. Property comment for Friend of a Friend:name
 msgid "A name for some thing."
-msgstr ""
+msgstr "Název pro něco."
 
 #. Property label for Friend of a Friend:firstName
 msgid "firstName"
-msgstr ""
+msgstr "křestníJméno"
 
 #. Property comment for Friend of a Friend:firstName
 msgid "The first name of a person."
@@ -6984,11 +6986,11 @@ msgstr ""
 
 #. Property label for Friend of a Friend:lastName
 msgid "lastName"
-msgstr ""
+msgstr "Příjmení"
 
 #. Property comment for Friend of a Friend:lastName
 msgid "The last name of a person."
-msgstr ""
+msgstr "Příjmení osoby."
 
 #. Property label for Friend of a Friend:givenName
 #. Property label for Friend of a Friend:givenname
@@ -7265,11 +7267,11 @@ msgstr ""
 
 #. Property label for Friend of a Friend:theme
 msgid "theme"
-msgstr ""
+msgstr "vzhled"
 
 #. Property comment for Friend of a Friend:theme
 msgid "A theme."
-msgstr ""
+msgstr "Vzhled"
 
 #. Property label for Friend of a Friend:account
 #. Property label for Friend of a Friend:holdsAccount
@@ -7291,7 +7293,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:accountName
 msgid "account name"
-msgstr ""
+msgstr "jméno účtu"
 
 #. Property comment for Friend of a Friend:accountName
 msgid "Indicates the name (identifier) associated with this online account."

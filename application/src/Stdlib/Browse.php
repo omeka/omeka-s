@@ -17,6 +17,7 @@ class Browse
     protected HelperPluginManager $viewHelperManager;
     protected EventManager $eventManager;
     protected UserSettings $userSettings;
+    protected SiteSettings $siteSettings;
 
     public function __construct(
         array $columnDefaults,
@@ -174,7 +175,7 @@ class Browse
      * context derives from site settings; "admin" context derives from user
      * settings.
      */
-    public function getColumnsData(string $context, string $resourceType, ?int $userId = null) : array
+    public function getColumnsData(string $context, string $resourceType, $userId = null) : array
     {
         // First, get the user-configured columns data, if any. Set the default
         // if data is not configured or malformed.

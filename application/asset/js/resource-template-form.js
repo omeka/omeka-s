@@ -25,7 +25,7 @@ $('#resourcetemplateform').on('submit', function(e) {
         var inputName = prop.find('.data-type').attr('name');
         prop.find('.data-type').remove();
         dataTypes.forEach(function(dataType) {
-            prop.append('<input type="hidden" name="' + inputName + '" value="' + dataType +'">');
+            prop.append($('<input>', {type: 'hidden', name: inputName, value: dataType}));
         });
     });
 });
@@ -76,6 +76,7 @@ propertyList.on('click', '.property-edit', function(e) {
     var altComment = prop.find('.alternate-comment');
     var isRequired = prop.find('.is-required');
     var isPrivate = prop.find('.is-private');
+    var defaultLang = prop.find('.default-lang');
     var dataTypes = prop.find('.data-type');
 
     // Copy values into the sidebar.
@@ -87,6 +88,7 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#is-description-property').prop('checked', propId == descriptionProperty.val());
     $('#is-required').prop('checked', isRequired.val());
     $('#is-private').prop('checked', isPrivate.val());
+    $('#default-lang').val(defaultLang.val());
     $('#data-type option').prop('selected', false);
     dataTypes.val().split(',').filter(function (el) { return el != ''; }).forEach(function(selected) {
         $('#data-type option[value="' + selected + '"]').prop('selected', true);
@@ -94,7 +96,11 @@ propertyList.on('click', '.property-edit', function(e) {
     $('#data-type').trigger('chosen:updated');
 
     // When the sidebar fieldset is applied, store new values in the row.
-    $('#set-changes').off('click.setchanges').on('click.setchanges', function(e) {
+    $('#set-changes').off('click').on('click', function(e) {
+        if (!$('#default-lang').trigger('change')[0].reportValidity()) {
+            // The default language is invalid.
+            return false;
+        }
         altLabel.val($('#alternate-label').val());
         prop.find('.alternate-label-cell').text($('#alternate-label').val());
         altComment.val($('#alternate-comment').val());
@@ -116,6 +122,7 @@ propertyList.on('click', '.property-edit', function(e) {
         }
         $('#is-required').prop('checked') ? isRequired.val(1) : isRequired.val(null);
         $('#is-private').prop('checked') ? isPrivate.val(1) : isPrivate.val(null);
+        defaultLang.val($('#default-lang').val());
         dataTypes.val($('#data-type').val().join(','));
         Omeka.closeSidebar($('#edit-sidebar'));
     });

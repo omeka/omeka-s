@@ -184,12 +184,11 @@ $.jstree.plugins.editlink = function(options, parent) {
 
         // Open closed nodes if their inputs have validation errors
         document.body.addEventListener('invalid', $.proxy(function (e) {
-            var target, section;
-            target = $(e.target);
+            var target = $(e.target);
             if (!target.is(':input')) {
                 return;
             }
-            node = target.closest('.jstree-node');
+            var node = target.closest('.jstree-node');
             if (node.length && !node.hasClass('jstree-editlink-editmode')) {
                 this.toggleLinkEdit(node);
             }

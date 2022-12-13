@@ -38,7 +38,6 @@
     }
 
     $(document).ready(function () {
-        var list = document.getElementById('blocks');
         var blockIndex = 0;
         var jstreeIndex = 1;
 
@@ -97,7 +96,7 @@
             '.nav-page-link',
             $.proxy(function(e) {
                 var link = $(e.currentTarget);
-                var nodeId = currentTree.create_node('#', {
+                currentTree.create_node('#', {
                     text: link.data('label'),
                     data: {
                         type: link.data('type'),
@@ -124,7 +123,7 @@
             if ($('.added.nav-page-link').length == $('.nav-page-link').length) {
                 $('.page-selector-filter').addClass('empty');
             }
-        }
+        };
 
         var filterPages = function() {
             var thisInput = $(this);

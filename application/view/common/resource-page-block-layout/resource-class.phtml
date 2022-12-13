@@ -1,0 +1,11 @@
+<?php
+$resourceClass = $resource->resourceClass();
+?>
+<?php if ($resourceClass): ?>
+<dl class="resource-class">
+    <div class="property">
+        <dt><?php echo $this->translate('Resource class'); ?></dt>
+        <dd class="value"><?php echo $this->escapeHtml($resourceClass->label()); ?></dd>
+    </div>
+</dl>
+<?php endif; ?>

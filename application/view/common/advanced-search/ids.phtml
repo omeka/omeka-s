@@ -1,0 +1,21 @@
+<?php
+$value = null;
+if (isset($query['id'])) {
+    $value = $query['id'];
+    if (is_array($value)) {
+        $value = implode(',', $value);
+    }
+}
+?>
+<div class="field">
+    <div class="field-meta">
+        <label for="id"><?php echo $this->translate('Search by ID'); ?></label>
+        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
+        <div class="collapsible">
+            <div class="field-description"><?php echo $this->translate('Searches for resources by Omeka S ID. You can search for more than one ID by separating them by commas.'); ?></div>
+        </div>
+    </div>
+    <div class="inputs">
+        <input type="text" name="id" id="id" value="<?php echo $this->escapeHtml($value); ?>">
+    </div>
+</div>

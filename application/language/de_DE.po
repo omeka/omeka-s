@@ -6,7 +6,7 @@
 # Translators:
 # Michael Müller <m.mueller@culture-to-go.de>, 2018
 # Joachim Räth <info@ihregeschichte.info>, 2019
-# John Flatness <john@zerocrates.org>, 2020
+# John Flatness <john@omeka.org>, 2020
 # m_art_in <220180@gmail.com>, 2020
 # nebulon42, 2020
 # Wilson <robinnamtab@gmx.net>, 2021

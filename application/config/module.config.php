@@ -428,6 +428,7 @@ return [
             'sortMedia' => View\Helper\SortMedia::class,
             'lightGalleryOutput' => View\Helper\LightGalleryOutput::class,
             'iiifViewer' => View\Helper\IiifViewer::class,
+            'currentSite' => View\Helper\CurrentSite::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,
@@ -463,6 +464,9 @@ return [
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
             'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
             'browse' => Service\ViewHelper\BrowseFactory::class,
+        ],
+        'shared' => [
+            'resourcePageBlocks' => false,
         ],
         'delegators' => [
             'Laminas\Form\View\Helper\FormElement' => [
@@ -723,6 +727,7 @@ return [
             'tableOfContents' => Site\BlockLayout\TableOfContents::class,
             'lineBreak' => Site\BlockLayout\LineBreak::class,
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
+            'pageDateTime' => Site\BlockLayout\PageDateTime::class,
         ],
         'factories' => [
             'asset' => Service\BlockLayout\AssetFactory::class,
@@ -738,6 +743,7 @@ return [
             'mediaEmbeds' => Site\ResourcePageBlockLayout\MediaEmbeds::class,
             'mediaList' => Site\ResourcePageBlockLayout\MediaList::class,
             'mediaRender' => Site\ResourcePageBlockLayout\MediaRender::class,
+            'resourceClass' => Site\ResourcePageBlockLayout\ResourceClass::class,
             'sitePages' => Site\ResourcePageBlockLayout\SitePages::class,
             'values' => Site\ResourcePageBlockLayout\Values::class,
         ],
@@ -757,8 +763,10 @@ return [
         'invokables' => [
             'page' => Site\Navigation\Link\Page::class,
             'url' => Site\Navigation\Link\Url::class,
-            'browse' => Site\Navigation\Link\Browse::class,
-            'browseItemSets' => Site\Navigation\Link\BrowseItemSets::class,
+        ],
+        'factories' => [
+            'browse' => Service\Site\Navigation\Link\BrowseFactory::class,
+            'browseItemSets' => Service\Site\Navigation\Link\BrowseItemSetsFactory::class,
         ],
     ],
     'media_ingesters' => [

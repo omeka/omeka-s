@@ -1,5 +1,10 @@
 <div class="input-body">
-    <?php $this->hyperlink('', '#', ['class' => 'value-language o-icon-language', 'title' => $this->translate('Set language'), ]); ?>
-    <input type="text" class="value-language" data-value-key="@language">
+    <div class="language-wrapper">
+        <?php echo $this->hyperlink('', '#', ['class' => 'value-language o-icon-language', 'title' => $this->translate('Set language'), ]); ?>
+        <label class="language-label">
+            <span class="value-label-text"><?php echo $this->translate('Language'); ?></span>
+            <input class="value-language" type="text" list="value-languages" data-value-key="@language">
+        </label>
+    </div>
     <textarea data-value-key="@value"></textarea>
 </div>

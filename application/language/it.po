@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: application/src/Api/Adapter/AbstractAdapter.php:40
 #, php-format
@@ -3086,7 +3086,7 @@ msgstr "Gestore"
 
 #: application/view/omeka/site-admin/index/users.phtml:41
 msgid "User permissions"
-msgstr "Autorizzazioni dell'utente"
+msgstr "Autorizzazioni utente"
 
 #: application/view/omeka/site-admin/index/users.phtml:62
 msgid "This site has no users. Add users using the interface to the right."
@@ -4721,7 +4721,7 @@ msgstr "Risorse del sito aggiornate con successo"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:301
 msgid "User permissions successfully updated"
-msgstr "Autorizzazioni dell'utente aggiornate con successo"
+msgstr "Autorizzazioni utente aggiornate con successo"
 
 #: application/src/Controller/SiteAdmin/IndexController.php:333
 msgid "Site theme successfully updated"

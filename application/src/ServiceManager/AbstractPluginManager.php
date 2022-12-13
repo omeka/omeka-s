@@ -25,6 +25,8 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
      */
     protected $sortedNames = [];
 
+    protected $translator;
+
     public function __construct($configOrContainerInterface = null, array $v3config = [])
     {
         parent::__construct($configOrContainerInterface, $v3config);

@@ -205,14 +205,14 @@ var Omeka = {
         var selector = $(selectorId);
         var totalCount = selector.find('.resources-available').data('all-resources-count');
         var selectorCount = selector.find('.selector-total-count');
-      
+
         var parentToggle = function(e) {
             e.stopPropagation();
             if ($(this).children('li')) {
                 $(this).toggleClass('show');
             }
         }
-        
+
         var appendRow = function(id) {
             if (table.find(".resource-id[value='" + id + "']").length) {
                 return;
@@ -230,7 +230,7 @@ var Omeka = {
             table.append(tableRow).removeClass('empty').trigger('appendRow');
             updateResourceCount(id);
         }
-    
+
         var updateResourceCount = function(id) {
             var resource = selector.find('[data-resource-id="' + id + '"]');
             var resourceParent = resource.parents('.selector-parent');
@@ -256,14 +256,14 @@ var Omeka = {
                 resourceParent.removeClass('empty');
             }
         }
-    
+
         if (existingRowData.length > 0) {
             $.each(existingRowData, function() {
                 appendRow(this.id);
             });
             table.removeClass('empty');
         }
-    
+
         // Add the selected resource to the edit panel.
         $(selectorId + ' .selector-child').on('click', function(e) {
             e.stopPropagation();
@@ -342,6 +342,9 @@ var Omeka = {
                     'media_type',
                     'sort_by',
                     'sort_order',
+                    'is_public',
+                    'has_media',
+                    'id',
                 ];
                 if (inputNames.includes(inputName)) {
                     input.prop('name', '');

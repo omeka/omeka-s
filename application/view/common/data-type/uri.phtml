@@ -1,15 +1,22 @@
 <?php
 $translate = $this->plugin('translate');
 ?>
+<div class="language-wrapper">
+    <?php echo $this->hyperlink('', '#', ['class' => 'value-language o-icon-language', 'title' => $translate('Set language'), ]); ?>
+    <label class="language-label">
+        <span class="value-label-text"><?php echo $translate('Language'); ?></span>
+        <input class="value-language" type="text" list="value-languages" data-value-key="o:lang">
+    </label>
+</div>
 <div class="input">
-    <label class="value">
-        <?php echo $translate('URI'); ?>
+    <label>
+        <span class="value-label-text"><?php echo $translate('URI'); ?></span>
         <input type="text" class="value to-require" data-value-key="@id">
     </label>
 </div>
 <div class="input">
-    <label class="value-label">
-        <?php echo $translate('Label'); ?>
+    <label>
+        <span class="value-label-text"><?php echo $translate('Label'); ?></span>
         <textarea class="value-label" rows="1" data-value-key="o:label"></textarea>
     </label>
 </div>

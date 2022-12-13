@@ -13,7 +13,7 @@ class LinkedResources implements ResourcePageBlockLayoutInterface
 
     public function getCompatibleResourceNames() : array
     {
-        return ['items', 'media'];
+        return ['items', 'item_sets'];
     }
 
     public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string

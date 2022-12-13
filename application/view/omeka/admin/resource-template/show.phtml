@@ -29,6 +29,7 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
         <th><?php echo $translate('Alternate comment'); ?></th>
         <th><?php echo $translate('Required?'); ?></th>
         <th><?php echo $translate('Private?'); ?></th>
+        <th><?php echo $translate('Default language'); ?></th>
     </tr>
     </thead>
     <tbody>
@@ -56,6 +57,7 @@ $this->htmlElement('body')->appendAttribute('class', 'resource-templates show');
             <td><?php echo $escape($resourceTemplateProperty->alternateComment()); ?></td>
             <td><?php echo $resourceTemplateProperty->isRequired() ? $translate('Yes') : $translate('No'); ?></td>
             <td><?php echo $resourceTemplateProperty->isPrivate() ? $translate('Yes') : $translate('No'); ?></td>
+            <td><?php echo $escape($resourceTemplateProperty->defaultLang()); ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

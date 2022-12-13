@@ -23,8 +23,7 @@ class GettextLoader extends Gettext
         $textDomain = parent::load($locale, $filename);
 
         $hasPlurals = false;
-        foreach ($textDomain as $string)
-        {
+        foreach ($textDomain as $string) {
             if (is_array($string)) {
                 $hasPlurals = true;
                 break;

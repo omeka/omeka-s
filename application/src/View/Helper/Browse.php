@@ -126,7 +126,7 @@ class Browse extends AbstractHelper
     {
         $view = $this->getView();
         $columnType = $this->getBrowseService()->getColumnType($columnData['type']);
-        return  $columnType->renderContent($view, $resource, $columnData) ?? $columnData['default'];
+        return $columnType->renderContent($view, $resource, $columnData) ?? $view->escapeHtml($columnData['default']);
     }
 
     /**

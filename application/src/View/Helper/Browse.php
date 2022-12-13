@@ -63,6 +63,7 @@ class Browse extends AbstractHelper
     public function renderHeaderRow(string $resourceType) : string
     {
         $view = $this->getView();
+        $escapeHelper = $view->plugin('escapeHtml');
         $context = $view->status()->isAdminRequest() ? 'admin' : 'public';
         $headerRow = [];
         foreach ($this->getBrowseService()->getColumnsData($context, $resourceType) as $columnData) {
@@ -71,8 +72,8 @@ class Browse extends AbstractHelper
             }
             $headerRow[] = sprintf(
                 '<th class="column-%s">%s</th>',
-                $columnData['type'],
-                $this->getHeader($columnData)
+                $escapeHelper($columnData['type']),
+                $escapeHelper($this->getHeader($columnData))
             );
         }
         return implode("\n", $headerRow);

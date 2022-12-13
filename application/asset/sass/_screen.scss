@@ -540,6 +540,10 @@ body {
     display: none;
 }
 
+.sr-only {
+    left: -9999px;
+}
+
 div[role="main"] > .messages {
     margin-bottom: $spacing-medium;
 
@@ -3072,6 +3076,7 @@ input[type="text"].value-language {
     }
 }
 
+.sidebar button.select-all,
 .sidebar button.quick-select-toggle {
     background-color: transparent;
     color: $copy-gray;
@@ -3080,21 +3085,48 @@ input[type="text"].value-language {
     padding: 0;
     line-height: 1;
     min-height: 0;
+}
 
-    &:before {
-        @include font-awesome;
-        content: fa-content($fa-var-toggle-off);
-        display: inline-block;
-        margin-right: $spacing-small;
-    }
+.success-statuses {
+    position: absolute;
+}
 
-    &.active:before {
-        content: fa-content($fa-var-toggle-on);
-    }
+// Screen reader ignores inactive status.
+.success-statuses .status,
+.sidebar button .sr-only {
+    display: none;
+}
 
-    & + .resource-list {
-        border-top: 1px solid $border-gray;
-    }
+.sidebar button:not(.active) .sr-only.off,
+.sidebar button.active .sr-only.on,
+.success-statuses:not(.active) .sr-only.off,
+.success-statuses.active .sr-only.on {
+    display: block;
+}
+
+.sidebar button.select-all:before,
+.sidebar button.quick-select-toggle:before {
+    @include font-awesome;
+    content: fa-content($fa-var-toggle-off);
+    display: inline-block;
+    margin-right: $spacing-small;
+}
+
+.sidebar button.quick-select-toggle.active:before {
+    content: fa-content($fa-var-toggle-on);
+}
+
+.sidebar button.select-all:before {
+    content: fa-content($fa-var-square);
+    font-weight: 400;
+}
+
+.sidebar button.select-all.active:before {
+    content: fa-content($fa-var-check-square);
+}
+
+.sidebar button.quick-select-toggle + .resource-list {
+    border-top: 1px solid $border-gray;
 }
 
 .resource-link {
@@ -3577,15 +3609,15 @@ input[type=text].query-form-query {
 
         &:after {
             @include font-awesome;
-            @include fa-icon();
             content: fa-content($fa-var-circle-notch);
+            line-height: 1;
             position: absolute;
             top: .75em;
-            left: calc(50% - .6em);
+            left: calc(50% - .5em);
             font-size: 4em;
             animation: fa-spin 1s infinite linear;
-            height: 0.95em;
-            width: 1.2em;
+            height: 1em;
+            width: 1em;
             text-align: center;
         }
     }

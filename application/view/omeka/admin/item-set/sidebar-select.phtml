@@ -43,7 +43,7 @@ $expanded = $resourceClassId || $id;
 </div>
 
 <?php if ($itemSetsFound): ?>
-<button type="button" class="quick-select-toggle"><?php echo $translate('Quick add'); ?></button>
+<?php echo $this->partial('common/sidebar-select-quick-add'); ?>
 <div class="item-sets resource-list">
     <?php
     foreach ($itemSets as $itemSet): ?>

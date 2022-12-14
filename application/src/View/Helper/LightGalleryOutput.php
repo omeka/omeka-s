@@ -18,11 +18,7 @@ class LightGalleryOutput extends AbstractHelper
         $view->headScript()->appendFile($view->assetUrl('vendor/lightgallery/plugins/rotate/lg-rotate.min.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('vendor/lightgallery/plugins/hash/lg-hash.min.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('js/lg-itemfiles-config.js', 'Omeka'));
-        $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lg-thumbnail.css', 'Omeka'));
-        $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lg-zoom.css', 'Omeka'));
-        $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lg-video.css', 'Omeka'));
-        $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lg-rotate.css', 'Omeka'));
-        $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lightgallery.css', 'Omeka'));
+        $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lightgallery-bundle.min.css', 'Omeka'));
         $escape = $view->plugin('escapeHtml');
 
         $html = '<div id="itemfiles" class="media-list">';

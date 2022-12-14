@@ -36,7 +36,7 @@ return [
         'use_externals' => true,
         'externals' => [
             'Omeka' => [
-                'vendor/jquery/jquery.min.js' => '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js',
+                'vendor/jquery/jquery.min.js' => 'https://code.jquery.com/jquery-3.6.2.min.js',
             ],
         ],
     ],

@@ -338,22 +338,17 @@ function taskDepsJs(cb) {
         'ckeditor4': ['**', '!samples/**'],
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',
-        'lightgallery': [
-            '**',
-            '!**/*.ts', '!**/*.es5.*', '!**/*.umd.*', '!**/package.json', '!README.md',
-            '!angular/**', '!lib/**', '!lit/**', '!react/**', '!scss/**', '!vue/**',
-            '!plugins/autoplay/**', '!plugins/comment/**', '!plugins/fullscreen/**', '!plugins/mediumZoom/**', '!plugins/pager/**', '!plugins/relativeCaption/**', '!plugins/share/**',
-            '!css/lg-autoplay.css', '!css/lg-fullscreen.css', '!css/lg-pager.css', '!css/lightgallery-bundle.css', '!css/lightgallery-core.css', '!css/lg-comments.css',  '!css/lg-medium-zoom.css', '!css/lg-relative-caption.css', '!css/lg-share.css', '!css/lg-transitions.css', '!css/lightgallery-bundle.min.css'
-        ],
+        'lightgallery': ['lightgallery.min.js', '[c]ss/lightgallery-bundle.min.css', '[f]onts/**', '[i]mages/**',
+            '[p]lugins/@(hash|rotate|thumbnail|video|zoom)/*.min.js'],
         'mirador': ['dist/**', '!dist/cjs/**', '!dist/es/**'],
         'openseadragon': 'build/openseadragon/**',
         'semver': 'semver.min.js',
         'sortablejs': 'Sortable.min.js',
         'tablesaw': 'dist/stackonly/**'
-    }
+    };
     var depRenames = {
         'ckeditor4': 'ckeditor'
-    }
+    };
 
     Object.keys(deps).forEach(function (module) {
         var moduleDeps = deps[module];

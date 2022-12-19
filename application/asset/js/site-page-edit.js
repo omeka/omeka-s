@@ -107,7 +107,7 @@
     }
 
      function populateAssetAttachment(attachment) {
-        var asset = $('.selected-asset');
+        var asset = $('.sidebar-content .selected-asset');
         var assetTitle = asset.find('.selected-asset-name').html();
         var assetImage = asset.find('img').clone().attr('class', '');
         var assetId = asset.find('.selected-asset-id').val();
@@ -118,7 +118,7 @@
         }
 
         var pageInput =  attachment.find('input.asset-page-id');
-        pageInput.attr('data-page-title', $('.selected-page').text()).attr('data-page-url', $('.selected-page + a').attr('href')); 
+        pageInput.attr('data-page-title', $('.selected-page').text()).attr('data-page-url', $('.selected-page + a').attr('href'));
 
         $('#asset-options .asset-option').each(function() {
             var assetOption = $(this);
@@ -357,7 +357,7 @@
                 attachment.find('.item-title').empty().append(thumbnail).append(title);
             }
         });
-        
+
         $('#blocks').on('click', '.asset-options-configure', function(e) {
             e.preventDefault();
             Omeka.closeSidebar($('.sidebar.active:not(#new-block)'));
@@ -382,7 +382,7 @@
             $('#asset-page-id').val(pageInput.val());
             $('.selected-page').text(pageInput.attr('data-page-title'));
             $('.selected-page + a').attr('href', pageInput.attr('data-page-url'));
-            
+
             $('#asset-options .asset-option').each(function() {
                 var assetOption = $(this);
                 var optionName = assetOption.attr('name');
@@ -423,7 +423,7 @@
         $('#content').on('click', '#asset-options-confirm-panel', function() {
             var selectingAttachment = $('.selecting.attachment');
             selectingAttachment.removeClass('new');
-            selectingAttachment.find('input[type="hidden"').removeAttr('disabled');
+            selectingAttachment.find('input[type="hidden"]').removeAttr('disabled');
             populateAssetAttachment(selectingAttachment);
             Omeka.closeSidebar($('#asset-options'));
             $('.selecting.attachment').removeClass('selecting');

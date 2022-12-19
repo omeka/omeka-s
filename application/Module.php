@@ -664,11 +664,13 @@ class Module extends AbstractModule
 
         $qb->innerJoin('Omeka\Entity\FulltextSearch', $searchAlias, 'WITH', $joinConditions)
             // Filter out resources with no similarity.
-            ->andWhere(sprintf('%s > 0', $match))
+            ->andWhere(sprintf('%s > 0', $match));
+        if (isset($query['sort_by_default'])) {
             // Order by the relevance. Note the use of orderBy() and not
             // addOrderBy(). This should ensure that ordering by relevance
             // is the first thing being ordered.
-            ->orderBy($match, 'DESC');
+            $qb->orderBy($match, 'DESC');
+        }
 
         // Set visibility constraints.
         $acl = $this->getServiceLocator()->get('Omeka\Acl');

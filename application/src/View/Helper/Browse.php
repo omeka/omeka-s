@@ -50,9 +50,13 @@ class Browse extends AbstractHelper
             // Do not render the sort selector if there is no configuration.
             return '';
         }
+        $query = $view->params()->fromQuery();
+        if (isset($query['fulltext_search']) && '' !== trim($query['fulltext_search'])) {
+            $sortConfig[''] = 'Relevance';
+        }
         $args = [
             'sortConfig' => $sortConfig,
-            'sortByQuery' => $view->params()->fromQuery('sort_by'),
+            'sortByQuery' => isset($query['sort_by_default']) ? '' : $view->params()->fromQuery('sort_by'),
             'sortOrderQuery' => $view->params()->fromQuery('sort_order'),
         ];
         $args = $view->trigger('view.sort-selector', $args, true);

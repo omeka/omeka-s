@@ -100,6 +100,8 @@ class UserController extends AbstractActionController
             'include_admin_roles' => $changeRoleAdmin,
             'include_is_active' => $activateUser,
         ]);
+        $form->remove('user-settings');
+        $form->getInputFilter()->remove('user-settings');
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());

@@ -145,7 +145,7 @@ class Module extends AbstractModule
 
         $sharedEventManager->attach(
             '*',
-            'api.search.query',
+            'api.search.query.finalize',
             [$this, 'searchFulltext']
         );
 
@@ -665,7 +665,7 @@ class Module extends AbstractModule
         $qb->innerJoin('Omeka\Entity\FulltextSearch', $searchAlias, 'WITH', $joinConditions)
             // Filter out resources with no similarity.
             ->andWhere(sprintf('%s > 0', $match));
-        if (isset($query['sort_by_default'])) {
+        if (isset($query['sort_by_default']) || !$qb->getDQLPart('orderBy')) {
             // Order by the relevance. Note the use of orderBy() and not
             // addOrderBy(). This should ensure that ordering by relevance
             // is the first thing being ordered.

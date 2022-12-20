@@ -140,6 +140,7 @@ class BrowsePreview extends AbstractBlockLayout
         $query['limit'] = $block->dataValue('limit', 12);
 
         if (!isset($query['sort_by'])) {
+            $query['sort_by_default'] = '';
             $query['sort_by'] = 'created';
         }
         if (!isset($query['sort_order'])) {

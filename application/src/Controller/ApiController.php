@@ -150,6 +150,12 @@ class ApiController extends AbstractRestfulController
     {
         $request = $this->getRequest();
 
+        // Set output format.
+        $format = $request->getQuery('format');
+        if (null !== $format) {
+            $this->setViewOption('format', $format);
+        }
+
         // Set pretty print.
         $prettyPrint = $request->getQuery('pretty_print');
         if (null !== $prettyPrint) {

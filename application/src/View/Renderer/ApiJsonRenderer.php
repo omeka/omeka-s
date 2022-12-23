@@ -17,6 +17,8 @@ class ApiJsonRenderer extends JsonRenderer
      */
     protected $hasJsonpCallback = false;
 
+    protected $context;
+
     /**
      * Return whether the response is JSONP
      *
@@ -51,6 +53,24 @@ class ApiJsonRenderer extends JsonRenderer
             return null;
         }
 
+        // Render an alternate format, if requested.
+        $format = $model->getOption('format');
+        if (in_array($format, ['turtle', 'ntriples', 'rdfxml'])) {
+            // Render a single representation (get).
+            if ($payload instanceof RepresentationInterface) {
+                $jsonLd = $this->getJsonLdWithContext($payload);
+                return $this->serializeJsonLdToFormat($jsonLd, $format);
+            }
+            // Render multiple representations (getList);
+            if (is_array($payload) && isset($payload[0]) && $payload[0] instanceof RepresentationInterface) {
+                $jsonLd = [];
+                foreach ($payload as $representation) {
+                    $jsonLd[] = $this->getJsonLdWithContext($representation);
+                }
+                return $this->serializeJsonLdToFormat($jsonLd, $format);
+            }
+        }
+
         $output = parent::render($payload);
 
         if ($payload instanceof RepresentationInterface) {
@@ -75,5 +95,40 @@ class ApiJsonRenderer extends JsonRenderer
         }
 
         return $output;
+    }
+
+    /**
+     * Get the JSON-LD array of a representation, adding the @context.
+     *
+     * @param RepresentationInterface $representation
+     * @return array
+     */
+    public function getJsonLdWithContext(RepresentationInterface $representation)
+    {
+        // Add the @context by encoding the output as JSON, then decoding to an array.
+        $eventManager = $representation->getEventManager();
+        $jsonLd = Json::decode(Json::encode($representation), true);
+        if (!$this->context) {
+            // Get the JSON-LD @context
+            $args = $eventManager->prepareArgs(['context' => []]);
+            $eventManager->trigger('api.context', null, $args);
+            $this->context = $args['context'];
+        }
+        $jsonLd['@context'] = $this->context;
+        return $jsonLd;
+    }
+
+    /**
+     * Serialize JSON-LD to another format.
+     *
+     * @param array $jsonLd
+     * @param string $format
+     * @param string
+     */
+    public function serializeJsonLdToFormat(array $jsonLd, string $format)
+    {
+        $graph = new \EasyRdf\Graph;
+        $graph->parse(Json::encode($jsonLd), 'jsonld');
+        return $graph->serialise($format);
     }
 }

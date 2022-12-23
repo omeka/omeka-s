@@ -54,6 +54,17 @@ class ApiJsonStrategy extends JsonStrategy
         $model = $e->getModel();
         $e->getResponse()->setStatusCode($this->getResponseStatusCode($model));
         $e->getResponse()->getHeaders()->addHeaderLine('Omeka-S-Version', Module::VERSION);
+
+        // Add a suitable Content-Type header, depending on requested format.
+        switch ($model->getOption('format')) {
+            case 'rdfxml':
+                $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', 'application/xml');
+                break;
+            case 'turtle':
+            case 'ntriples':
+                $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', 'text/plain');
+                break;
+        }
     }
 
     /**

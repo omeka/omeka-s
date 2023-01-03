@@ -803,7 +803,7 @@ class AclFactory implements FactoryInterface
         $acl->allow(
             'editor',
             'Omeka\Controller\Admin\Asset',
-            'sidebar-select'
+            ['sidebar-select', 'browse', 'show-details']
         );
         $acl->allow(
             'editor',

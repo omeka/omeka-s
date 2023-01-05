@@ -17,6 +17,17 @@ use Laminas\View\ViewEvent;
 class ApiJsonStrategy extends JsonStrategy
 {
     /**
+     * Alternate formats and their media types.
+     */
+    protected $formats = [
+        'rdfxml' => 'application/rdf+xml',
+        'n3' => 'text/n3',
+        'turtle' => 'text/turtle',
+        'ntriples' => 'application/n-triples',
+        'json' => 'application/json',
+    ];
+
+    /**
      * Constructor, sets the renderer object
      *
      * @param \Omeka\View\Renderer\ApiJsonRenderer
@@ -36,6 +47,9 @@ class ApiJsonStrategy extends JsonStrategy
         }
 
         // JsonModel found
+        if (array_key_exists($model->getOption('format'), $this->formats)) {
+            $this->renderer->setFormat($format);
+        }
         return $this->renderer;
     }
 
@@ -56,14 +70,8 @@ class ApiJsonStrategy extends JsonStrategy
         $e->getResponse()->getHeaders()->addHeaderLine('Omeka-S-Version', Module::VERSION);
 
         // Add a suitable Content-Type header, depending on requested format.
-        switch ($model->getOption('format')) {
-            case 'rdfxml':
-                $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', 'application/xml');
-                break;
-            case 'turtle':
-            case 'ntriples':
-                $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', 'text/plain');
-                break;
+        if (array_key_exists($model->getOption('format'), $this->formats)) {
+            $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', $this->formats[$format]);
         }
     }
 

@@ -17,7 +17,15 @@ class ApiJsonRenderer extends JsonRenderer
      */
     protected $hasJsonpCallback = false;
 
+    /**
+     * @var array The JSON-LD context
+     */
     protected $context;
+
+    /**
+     * @var string The alternate format
+     */
+    protected $format;
 
     /**
      * Return whether the response is JSONP
@@ -54,12 +62,11 @@ class ApiJsonRenderer extends JsonRenderer
         }
 
         // Render an alternate format, if requested.
-        $format = $model->getOption('format');
-        if (in_array($format, ['turtle', 'ntriples', 'rdfxml'])) {
+        if ($this->format) {
             // Render a single representation (get).
             if ($payload instanceof RepresentationInterface) {
                 $jsonLd = $this->getJsonLdWithContext($payload);
-                return $this->serializeJsonLdToFormat($jsonLd, $format);
+                return $this->serializeJsonLdToFormat($jsonLd, $this->format);
             }
             // Render multiple representations (getList);
             if (is_array($payload) && isset($payload[0]) && $payload[0] instanceof RepresentationInterface) {
@@ -67,7 +74,7 @@ class ApiJsonRenderer extends JsonRenderer
                 foreach ($payload as $representation) {
                     $jsonLd[] = $this->getJsonLdWithContext($representation);
                 }
-                return $this->serializeJsonLdToFormat($jsonLd, $format);
+                return $this->serializeJsonLdToFormat($jsonLd, $this->format);
             }
         }
 
@@ -130,5 +137,15 @@ class ApiJsonRenderer extends JsonRenderer
         $graph = new \EasyRdf\Graph;
         $graph->parse(Json::encode($jsonLd), 'jsonld');
         return $graph->serialise($format);
+    }
+
+    /**
+     * Set an alternate output format.
+     *
+     * @param string $format
+     */
+    public function setFormat($format)
+    {
+        $this->format = $format;
     }
 }

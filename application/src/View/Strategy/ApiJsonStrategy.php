@@ -138,9 +138,11 @@ class ApiJsonStrategy extends JsonStrategy
             return $format;
         }
         $acceptHeader = $model->getOption('accept_header');
-        foreach ($this->formats as $format => $mediaType) {
-            if ($acceptHeader->match($mediaType)) {
-                return $format;
+        if ($acceptHeader) {
+            foreach ($this->formats as $format => $mediaType) {
+                if ($acceptHeader->match($mediaType)) {
+                    return $format;
+                }
             }
         }
         return null;

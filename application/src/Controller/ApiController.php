@@ -155,6 +155,8 @@ class ApiController extends AbstractRestfulController
         if (null !== $format) {
             $this->setViewOption('format', $format);
         }
+        $acceptHeader = $request->getHeader('Accept');
+        $this->setViewOption('accept_header', $acceptHeader);
 
         // Set pretty print.
         $prettyPrint = $request->getQuery('pretty_print');

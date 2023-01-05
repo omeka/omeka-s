@@ -46,10 +46,7 @@ class ApiJsonStrategy extends JsonStrategy
             return;
         }
 
-        // JsonModel found
-        if (array_key_exists($model->getOption('format'), $this->formats)) {
-            $this->renderer->setFormat($format);
-        }
+        $this->renderer->setFormat($this->getFormat($model));
         return $this->renderer;
     }
 
@@ -69,8 +66,9 @@ class ApiJsonStrategy extends JsonStrategy
         $e->getResponse()->setStatusCode($this->getResponseStatusCode($model));
         $e->getResponse()->getHeaders()->addHeaderLine('Omeka-S-Version', Module::VERSION);
 
-        // Add a suitable Content-Type header, depending on requested format.
-        if (array_key_exists($model->getOption('format'), $this->formats)) {
+        // Add a suitable Content-Type header if an alternate format is set.
+        $format = $this->getFormat($model);
+        if ($format) {
             $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', $this->formats[$format]);
         }
     }
@@ -122,5 +120,29 @@ class ApiJsonStrategy extends JsonStrategy
             return 422; // Unprocessable Entity
         }
         return 500; // Internal Server Error
+    }
+
+    /**
+     * Get the alternate format, if any.
+     *
+     * Prioritizes the "format" query parameter. If none, it respects the Accept
+     * header for content negotiation.
+     *
+     * @param ApiJsonModel $model
+     * @return string|null
+     */
+    protected function getFormat(ApiJsonModel $model)
+    {
+        $format = $model->getOption('format');
+        if (array_key_exists($format, $this->formats)) {
+            return $format;
+        }
+        $acceptHeader = $model->getOption('accept_header');
+        foreach ($this->formats as $format => $mediaType) {
+            if ($acceptHeader->match($mediaType)) {
+                return $format;
+            }
+        }
+        return null;
     }
 }

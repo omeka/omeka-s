@@ -17,7 +17,7 @@ use Laminas\View\ViewEvent;
 class ApiJsonStrategy extends JsonStrategy
 {
     /**
-     * Alternate formats and their media types.
+     * Output formats and their media types.
      */
     protected $formats = [
         'rdfxml' => 'application/rdf+xml',
@@ -25,6 +25,7 @@ class ApiJsonStrategy extends JsonStrategy
         'turtle' => 'text/turtle',
         'ntriples' => 'application/n-triples',
         'json' => 'application/json',
+        'jsonld' => 'application/ld+json',
     ];
 
     /**
@@ -46,6 +47,7 @@ class ApiJsonStrategy extends JsonStrategy
             return;
         }
 
+        // Set the output format.
         $this->renderer->setFormat($this->getFormat($model));
         return $this->renderer;
     }
@@ -66,11 +68,8 @@ class ApiJsonStrategy extends JsonStrategy
         $e->getResponse()->setStatusCode($this->getResponseStatusCode($model));
         $e->getResponse()->getHeaders()->addHeaderLine('Omeka-S-Version', Module::VERSION);
 
-        // Add a suitable Content-Type header if an alternate format is set.
-        $format = $this->getFormat($model);
-        if ($format) {
-            $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', $this->formats[$format]);
-        }
+        // Add a suitable Content-Type header.
+        $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', $this->formats[$this->getFormat($model)]);
     }
 
     /**
@@ -123,28 +122,27 @@ class ApiJsonStrategy extends JsonStrategy
     }
 
     /**
-     * Get the alternate format, if any.
-     *
-     * Prioritizes the "format" query parameter. If none, it respects the Accept
-     * header for content negotiation.
+     * Get the output format.
      *
      * @param ApiJsonModel $model
      * @return string|null
      */
     protected function getFormat(ApiJsonModel $model)
     {
+        // Prioritize the "format" query parameter.
         $format = $model->getOption('format');
         if (array_key_exists($format, $this->formats)) {
             return $format;
         }
+        // Respect the Accept header for content negotiation.
         $acceptHeader = $model->getOption('accept_header');
-        if ($acceptHeader) {
-            foreach ($this->formats as $format => $mediaType) {
-                if ($acceptHeader->match($mediaType)) {
-                    return $format;
-                }
+        if ($acceptHeader && $match = $acceptHeader->match(implode(', ', $this->formats))) {
+            // May match against */* so double check allowed media types.
+            if ($format = array_search($match->getRaw(), $this->formats)) {
+                return $format;
             }
         }
-        return null;
+        // The default output format is jsonld.
+        return 'jsonld';
     }
 }

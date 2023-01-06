@@ -61,8 +61,8 @@ class ApiJsonRenderer extends JsonRenderer
             return null;
         }
 
-        // Render an alternate format, if requested.
-        if ($this->format) {
+        // Render a format that is not JSON-LD, if requested.
+        if ('jsonld' !== $this->format) {
             // Render a single representation (get).
             if ($payload instanceof RepresentationInterface) {
                 $jsonLd = $this->getJsonLdWithContext($payload);

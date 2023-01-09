@@ -651,32 +651,46 @@ class Module extends AbstractModule
             return;
         }
         $qb = $event->getParam('queryBuilder');
+
+        // The table alias and MATCH named parameter must be the same during the
+        // "api.search.query" and "api.search.query.finalize" events.
         $searchAlias = 'omeka_fulltext_search';
+        static $matchNamedParam = null;
+        if (null === $matchNamedParam) {
+            $matchNamedParam = $adapter->createNamedParameter($qb, $query['fulltext_search']);
+        }
+
         $match = sprintf(
             'MATCH(%s.title, %s.text) AGAINST (%s)',
             $searchAlias,
             $searchAlias,
-            $adapter->createNamedParameter($qb, $query['fulltext_search'])
+            $matchNamedParam
         );
+
         if ('api.search.query.finalize' === $event->getName()) {
-            // Order by the relevance during query finalization so we can use
-            // getDQLPart() to determine if this is a default sort. Note that
-            // the use of orderBy() and not addOrderBy() ensures that ordering
-            // by relevance is the first thing being ordered.
+            // Order by relevance if this is a default sort. This must happen during
+            // "api.search.query.finalize" because "api.search.query" happens before
+            // we apply orderBys.
             if (isset($query['sort_by_default']) || !$qb->getDQLPart('orderBy')) {
                 $qb->orderBy($match, 'DESC');
             }
             return;
         }
+
+        // Join the fulltext seaarch table. Note that JOIN and WHERE clauses must
+        // happen during "api.search.query" because "api.search.query.finalize"
+        // happens after we've already gotten the total count.
         $joinConditions = sprintf(
             '%s.id = omeka_root.id AND %s.resource = %s',
             $searchAlias,
             $searchAlias,
             $adapter->createNamedParameter($qb, $adapter->getResourceName())
         );
-        $qb->innerJoin('Omeka\Entity\FulltextSearch', $searchAlias, 'WITH', $joinConditions)
-            // Filter out resources with no similarity.
-            ->andWhere(sprintf('%s > 0', $match));
+        $qb->innerJoin('Omeka\Entity\FulltextSearch', $searchAlias, 'WITH', $joinConditions);
+
+        // Filter out resources with no similarity.
+        $qb->andWhere(sprintf('%s > 0', $match));
+
         // Set visibility constraints.
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {

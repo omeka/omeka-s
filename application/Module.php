@@ -145,6 +145,11 @@ class Module extends AbstractModule
 
         $sharedEventManager->attach(
             '*',
+            'api.search.query',
+            [$this, 'searchFulltext']
+        );
+        $sharedEventManager->attach(
+            '*',
             'api.search.query.finalize',
             [$this, 'searchFulltext']
         );
@@ -646,32 +651,32 @@ class Module extends AbstractModule
             return;
         }
         $qb = $event->getParam('queryBuilder');
-
-        $searchAlias = $adapter->createAlias();
-
+        $searchAlias = 'omeka_fulltext_search';
         $match = sprintf(
             'MATCH(%s.title, %s.text) AGAINST (%s)',
             $searchAlias,
             $searchAlias,
             $adapter->createNamedParameter($qb, $query['fulltext_search'])
         );
+        if ('api.search.query.finalize' === $event->getName()) {
+            // Order by the relevance during query finalization so we can use
+            // getDQLPart() to determine if this is a default sort. Note that
+            // the use of orderBy() and not addOrderBy() ensures that ordering
+            // by relevance is the first thing being ordered.
+            if (isset($query['sort_by_default']) || !$qb->getDQLPart('orderBy')) {
+                $qb->orderBy($match, 'DESC');
+            }
+            return;
+        }
         $joinConditions = sprintf(
             '%s.id = omeka_root.id AND %s.resource = %s',
             $searchAlias,
             $searchAlias,
             $adapter->createNamedParameter($qb, $adapter->getResourceName())
         );
-
         $qb->innerJoin('Omeka\Entity\FulltextSearch', $searchAlias, 'WITH', $joinConditions)
             // Filter out resources with no similarity.
             ->andWhere(sprintf('%s > 0', $match));
-        if (isset($query['sort_by_default']) || !$qb->getDQLPart('orderBy')) {
-            // Order by the relevance. Note the use of orderBy() and not
-            // addOrderBy(). This should ensure that ordering by relevance
-            // is the first thing being ordered.
-            $qb->orderBy($match, 'DESC');
-        }
-
         // Set visibility constraints.
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {

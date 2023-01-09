@@ -50,11 +50,13 @@ class Browse extends AbstractHelper
             // Do not render the sort selector if there is no configuration.
             return '';
         }
-        return $view->partial('common/sort-selector', [
+        $args = [
             'sortConfig' => $sortConfig,
             'sortByQuery' => $view->params()->fromQuery('sort_by'),
             'sortOrderQuery' => $view->params()->fromQuery('sort_order'),
-        ]);
+        ];
+        $args = $view->trigger('view.sort-selector', $args, true);
+        return $view->partial('common/sort-selector', (array) $args);
     }
 
     /**

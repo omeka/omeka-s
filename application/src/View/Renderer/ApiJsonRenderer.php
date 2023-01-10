@@ -23,7 +23,7 @@ class ApiJsonRenderer extends JsonRenderer
     protected $context;
 
     /**
-     * @var string The alternate format
+     * @var string The output format
      */
     protected $format;
 

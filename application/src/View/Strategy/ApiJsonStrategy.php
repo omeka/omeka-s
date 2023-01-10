@@ -47,7 +47,7 @@ class ApiJsonStrategy extends JsonStrategy
             return;
         }
 
-        // Set the output format.
+        // Set the output format to the renderer.
         $this->renderer->setFormat($this->getFormat($model));
         return $this->renderer;
     }
@@ -68,7 +68,7 @@ class ApiJsonStrategy extends JsonStrategy
         $e->getResponse()->setStatusCode($this->getResponseStatusCode($model));
         $e->getResponse()->getHeaders()->addHeaderLine('Omeka-S-Version', Module::VERSION);
 
-        // Add a suitable Content-Type header.
+        // Add the correct Content-Type header for the output format.
         $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', $this->formats[$this->getFormat($model)]);
     }
 
@@ -122,7 +122,7 @@ class ApiJsonStrategy extends JsonStrategy
     }
 
     /**
-     * Get the output format.
+     * Get the recognized output format.
      *
      * @param ApiJsonModel $model
      * @return string|null

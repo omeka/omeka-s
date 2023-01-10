@@ -24,7 +24,6 @@ class ApiJsonStrategy extends JsonStrategy
         'n3' => 'text/n3',
         'turtle' => 'text/turtle',
         'ntriples' => 'application/n-triples',
-        'json' => 'application/json',
         'jsonld' => 'application/ld+json',
     ];
 

@@ -259,6 +259,7 @@ class AclFactory implements FactoryInterface
             null,
             [
                 'Omeka\Controller\Api',
+                'Omeka\Controller\ApiLocal',
                 'Omeka\Controller\Index',
                 'Omeka\Controller\Login',
                 'Omeka\Controller\Maintenance',

@@ -333,6 +333,7 @@ return [
         'factories' => [
             'Omeka\Controller\Login' => Service\Controller\LoginControllerFactory::class,
             'Omeka\Controller\Api' => Service\Controller\ApiControllerFactory::class,
+            'Omeka\Controller\ApiLocal' => Service\Controller\ApiLocalControllerFactory::class,
             'Omeka\Controller\Install' => Service\Controller\InstallControllerFactory::class,
             'Omeka\Controller\Migrate' => Service\Controller\MigrateControllerFactory::class,
             'Omeka\Controller\Admin\Module' => Service\Controller\Admin\ModuleControllerFactory::class,

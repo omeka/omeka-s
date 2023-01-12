@@ -142,6 +142,12 @@ abstract class AbstractApiController extends AbstractRestfulController
     {
         $request = $this->getRequest();
 
+        // Set the output format.
+        $this->setViewOption('format', $request->getQuery('format'));
+
+        // Set the Accept header.
+        $this->setViewOption('accept_header', $request->getHeader('Accept'));
+
         // Set pretty print.
         $prettyPrint = $request->getQuery('pretty_print');
         if (null !== $prettyPrint) {

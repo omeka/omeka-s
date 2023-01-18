@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Form\Element\ResourceClassSelect;
 use Laminas\Form\Form;
@@ -20,6 +21,8 @@ class ResourceForm extends Form
     public function init()
     {
         $urlHelper = $this->getUrlHelper();
+        $resource = $this->getResource();
+
         $this->setAttribute('class', 'resource-form');
         $this->add([
             'name' => 'o:resource_template[o:id]',
@@ -70,6 +73,7 @@ class ResourceForm extends Form
             ],
         ]);
 
+        $owner = $resource ? $resource->owner() : null;
         $this->add([
             'name' => 'o:owner[o:id]',
             'type' => ResourceSelect::class,
@@ -80,6 +84,7 @@ class ResourceForm extends Form
             ],
             'options' => [
                 'label' => 'Owner', // @translate
+                'empty_option' => $owner ? null : '[No owner]',
                 'resource_value_options' => [
                     'resource' => 'users',
                     'query' => [],
@@ -125,5 +130,21 @@ class ResourceForm extends Form
     public function getUrlHelper()
     {
         return $this->urlHelper;
+    }
+
+    /**
+     * @param AbstractResourceEntityRepresentation $resource
+     */
+    public function setResource(?AbstractResourceEntityRepresentation $resource)
+    {
+        $this->resource = $resource;
+    }
+
+    /**
+     * @return ?AbstractResourceEntityRepresentation
+     */
+    public function getResource()
+    {
+        return $this->resource;
     }
 }

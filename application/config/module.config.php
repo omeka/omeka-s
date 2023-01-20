@@ -36,7 +36,7 @@ return [
         'use_externals' => true,
         'externals' => [
             'Omeka' => [
-                'vendor/jquery/jquery.min.js' => '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js',
+                'vendor/jquery/jquery.min.js' => 'https://code.jquery.com/jquery-3.6.2.min.js',
             ],
         ],
     ],
@@ -250,6 +250,7 @@ return [
             'Omeka\Mailer' => Service\MailerFactory::class,
             'Omeka\HtmlPurifier' => Service\HtmlPurifierFactory::class,
             'Omeka\BlockLayoutManager' => Service\BlockLayoutManagerFactory::class,
+            'Omeka\ResourcePageBlockLayoutManager' => Service\ResourcePageBlockLayoutManagerFactory::class,
             'Omeka\DataTypeManager' => Service\DataTypeManagerFactory::class,
             'Omeka\Cli' => Service\CliFactory::class,
             'Omeka\Paginator' => Service\PaginatorFactory::class,
@@ -279,6 +280,8 @@ return [
             'Omeka\Media\FileRenderer\Manager' => Service\Media\FileRenderer\ManagerFactory::class,
             'Omeka\FulltextSearch' => Service\FulltextSearchFactory::class,
             'Omeka\Environment' => Service\EnvironmentFactory::class,
+            'Omeka\ColumnTypeManager' => Service\ColumnType\ManagerFactory::class,
+            'Omeka\Browse' => Service\BrowseFactory::class,
         ],
         'invokables' => [
             'ModuleRouteListener' => \Laminas\Mvc\ModuleRouteListener::class,
@@ -306,6 +309,7 @@ return [
     'controllers' => [
         'invokables' => [
             'Omeka\Controller\Index' => Controller\IndexController::class,
+            'Omeka\Controller\IiifViewer' => Controller\IiifViewerController::class,
             'Omeka\Controller\Search' => Controller\SearchController::class,
             'Omeka\Controller\Maintenance' => Controller\MaintenanceController::class,
             'Omeka\Controller\Site\Index' => Controller\Site\IndexController::class,
@@ -316,6 +320,7 @@ return [
             'Omeka\Controller\Site\CrossSiteSearch' => Controller\Site\CrossSiteSearchController::class,
             'Omeka\Controller\Admin\Asset' => Controller\Admin\AssetController::class,
             'Omeka\Controller\Admin\Query' => Controller\Admin\QueryController::class,
+            'Omeka\Controller\Admin\Columns' => Controller\Admin\ColumnsController::class,
             'Omeka\Controller\Admin\Index' => Controller\Admin\IndexController::class,
             'Omeka\Controller\Admin\ItemSet' => Controller\Admin\ItemSetController::class,
             'Omeka\Controller\Admin\Job' => Controller\Admin\JobController::class,
@@ -360,6 +365,7 @@ return [
             'userSettings' => Service\ControllerPlugin\UserSettingsFactory::class,
             'status' => Service\ControllerPlugin\StatusFactory::class,
             'viewHelpers' => Service\ControllerPlugin\ViewHelpersFactory::class,
+            'browse' => Service\ControllerPlugin\BrowseFactory::class,
         ],
     ],
     'api_adapters' => [
@@ -407,15 +413,22 @@ return [
             'formCkeditor' => Form\View\Helper\FormCkeditor::class,
             'formCkeditorInline' => Form\View\Helper\FormCkeditorInline::class,
             'formRestoreTextarea' => Form\View\Helper\FormRestoreTextarea::class,
+            'formCollectionElementGroups' => Form\View\Helper\FormCollectionElementGroups::class,
             'queryToHiddenInputs' => View\Helper\QueryToHiddenInputs::class,
             'formAsset' => Form\View\Helper\FormAsset::class,
             'formQuery' => Form\View\Helper\FormQuery::class,
+            'formColumns' => Form\View\Helper\FormColumns::class,
+            'formBrowseDefaults' => Form\View\Helper\FormBrowseDefaults::class,
             'themeSettingAsset' => View\Helper\ThemeSettingAsset::class,
             'themeSettingAssetUrl' => View\Helper\ThemeSettingAssetUrl::class,
             'formColorPicker' => Form\View\Helper\FormColorPicker::class,
             'thumbnail' => View\Helper\Thumbnail::class,
             'userBar' => View\Helper\UserBar::class,
             'cancelButton' => View\Helper\CancelButton::class,
+            'sortMedia' => View\Helper\SortMedia::class,
+            'lightGalleryOutput' => View\Helper\LightGalleryOutput::class,
+            'iiifViewer' => View\Helper\IiifViewer::class,
+            'currentSite' => View\Helper\CurrentSite::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,
@@ -449,6 +462,11 @@ return [
             'lang' => Service\ViewHelper\LangFactory::class,
             'status' => Service\ViewHelper\StatusFactory::class,
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
+            'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
+            'browse' => Service\ViewHelper\BrowseFactory::class,
+        ],
+        'shared' => [
+            'resourcePageBlocks' => false,
         ],
         'delegators' => [
             'Laminas\Form\View\Helper\FormElement' => [
@@ -518,6 +536,187 @@ return [
             'resource:media',
         ]
     ],
+    'column_types' => [
+        'invokables' => [
+            'created' => ColumnType\Created::class,
+            'id' => ColumnType\Id::class,
+            'is_open' => ColumnType\IsOpen::class,
+            'is_public' => ColumnType\IsPublic::class,
+            'media_type' => ColumnType\MediaType::class,
+            'modified' => ColumnType\Modified::class,
+            'owner' => ColumnType\Owner::class,
+            'resource_class' => ColumnType\ResourceClass::class,
+            'resource_template' => ColumnType\ResourceTemplate::class,
+            'size' => ColumnType\Size::class,
+            'slug' => ColumnType\Slug::class,
+        ],
+        'factories' => [
+            'theme' => Service\ColumnType\ThemeFactory::class,
+            'value' => Service\ColumnType\ValueFactory::class,
+        ],
+    ],
+    'column_defaults' => [
+        'admin' => [
+            'items' => [
+                ['type' => 'resource_class'],
+                ['type' => 'owner'],
+                ['type' => 'created'],
+            ],
+            'item_sets' => [
+                ['type' => 'resource_class'],
+                ['type' => 'owner'],
+                ['type' => 'created'],
+            ],
+            'media' => [
+                ['type' => 'resource_class'],
+                ['type' => 'owner'],
+                ['type' => 'created'],
+            ],
+            'sites' => [
+                ['type' => 'slug'],
+                ['type' => 'owner'],
+                ['type' => 'created'],
+            ],
+        ],
+        'public' => [],
+    ],
+    'browse_defaults' => [
+        'admin' => [
+            'items' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+            'item_sets' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+            'media' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+            'sites' => [
+                'sort_by' => 'title',
+                'sort_order' => 'asc',
+            ],
+            'assets' => [
+                'sort_by' => 'id',
+                'sort_order' => 'desc',
+            ],
+            'jobs' => [
+                'sort_by' => 'id',
+                'sort_order' => 'desc',
+            ],
+            'resource_templates' => [
+                'sort_by' => 'label',
+                'sort_order' => 'asc',
+            ],
+            'users' => [
+                'sort_by' => 'email',
+                'sort_order' => 'asc',
+            ],
+            'vocabularies' => [
+                'sort_by' => 'label',
+                'sort_order' => 'asc',
+            ],
+            'resource_classes' => [
+                'sort_by' => 'label',
+                'sort_order' => 'asc',
+            ],
+            'properties' => [
+                'sort_by' => 'label',
+                'sort_order' => 'asc',
+            ],
+            'site_pages' => [
+                'sort_by' => 'nav',
+                'sort_order' => 'asc',
+            ],
+        ],
+        'public' => [
+            'items' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+        ],
+    ],
+    'sort_defaults' => [
+        'admin' => [
+            'items' => [
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'owner_name' => 'Owner', // @translate
+                'created' => 'Created', // @translate
+            ],
+            'item_sets' => [
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'owner_name' => 'Owner', // @translate
+                'created' => 'Created', // @translate
+            ],
+            'media' => [
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'owner_name' => 'Owner', // @translate
+                'created' => 'Created', // @translate
+            ],
+            'sites' => [
+                'title' => 'Title', // @translate
+                'slug' => 'URL slug', // @translate
+                'owner_name' => 'Owner', // @translate
+                'created' => 'Created', // @translate
+            ],
+            'assets' => [
+                'name' => 'Name', // @translate
+                'id' => 'ID', // @translate
+            ],
+            'jobs' => [
+                'id' => 'ID', // @translate
+                'class' => 'Class', // @translate
+                'status' => 'Status', // @translate
+                'owner_email' => 'Owner email', // @translate
+            ],
+            'resource_templates' => [
+                'label' => 'Label', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'owner_name' => 'Owner', // @translate
+                'item_count' => 'Item count', // @translate
+            ],
+            'users' => [
+                'email' => 'Email', // @translate
+                'role' => 'Role', // @translate
+                'created' => 'Created', // @translate
+            ],
+            'vocabularies' => [
+                'label' => 'Label', // @translate
+                'prefix' => 'Prefix', // @translate
+                'resource_class_count' => 'Resource class count', // @translate
+                'property_count' => 'Property count', // @translate
+            ],
+            'resource_classes' => [
+                'label' => 'Label', // @translate
+                'local_name' => 'Term', // @translate
+                'item_count' => 'Item count', // @translate
+            ],
+            'properties' => [
+                'label' => 'Label', // @translate
+                'local_name' => 'Term', // @translate
+                'item_count' => 'Item count', // @translate
+            ],
+            'site_pages' => [
+                'title' => 'Title', // @translate
+                'slug' => 'URL slug', // @translate
+                'created' => 'Created', // @translate
+                'modified' => 'Modified', // @translate
+                'nav' => 'Navigation', // @translate
+            ],
+        ],
+        'public' => [
+            'items' => [
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'created' => 'Created', // @translate
+            ],
+        ],
+    ],
     'block_layouts' => [
         'invokables' => [
             'pageTitle' => Site\BlockLayout\PageTitle::class,
@@ -528,6 +727,7 @@ return [
             'tableOfContents' => Site\BlockLayout\TableOfContents::class,
             'lineBreak' => Site\BlockLayout\LineBreak::class,
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
+            'pageDateTime' => Site\BlockLayout\PageDateTime::class,
         ],
         'factories' => [
             'asset' => Service\BlockLayout\AssetFactory::class,
@@ -535,12 +735,38 @@ return [
             'listOfPages' => Service\BlockLayout\PageListFactory::class,
         ],
     ],
+    'resource_page_block_layouts' => [
+        'invokables' => [
+            'itemSets' => Site\ResourcePageBlockLayout\ItemSets::class,
+            'lightboxGallery' => Site\ResourcePageBlockLayout\LightboxGallery::class,
+            'linkedResources' => Site\ResourcePageBlockLayout\LinkedResources::class,
+            'mediaEmbeds' => Site\ResourcePageBlockLayout\MediaEmbeds::class,
+            'mediaList' => Site\ResourcePageBlockLayout\MediaList::class,
+            'mediaRender' => Site\ResourcePageBlockLayout\MediaRender::class,
+            'resourceClass' => Site\ResourcePageBlockLayout\ResourceClass::class,
+            'sitePages' => Site\ResourcePageBlockLayout\SitePages::class,
+            'values' => Site\ResourcePageBlockLayout\Values::class,
+        ],
+    ],
+    'resource_page_blocks_default' => [
+        'items' => [
+            'main' => [],
+        ],
+        'item_sets' => [
+            'main' => [],
+        ],
+        'media' => [
+            'main' => [],
+        ],
+    ],
     'navigation_links' => [
         'invokables' => [
             'page' => Site\Navigation\Link\Page::class,
             'url' => Site\Navigation\Link\Url::class,
-            'browse' => Site\Navigation\Link\Browse::class,
-            'browseItemSets' => Site\Navigation\Link\BrowseItemSets::class,
+        ],
+        'factories' => [
+            'browse' => Service\Site\Navigation\Link\BrowseFactory::class,
+            'browseItemSets' => Service\Site\Navigation\Link\BrowseItemSetsFactory::class,
         ],
     ],
     'media_ingesters' => [
@@ -549,6 +775,7 @@ return [
             'url' => Service\Media\Ingester\UrlFactory::class,
             'html' => Service\Media\Ingester\HtmlFactory::class,
             'iiif' => Service\Media\Ingester\IIIFFactory::class,
+            'iiif_presentation' => Service\Media\Ingester\IiifPresentationFactory::class,
             'oembed' => Service\Media\Ingester\OEmbedFactory::class,
             'youtube' => Service\Media\Ingester\YoutubeFactory::class,
         ],
@@ -559,6 +786,7 @@ return [
             'youtube' => Media\Renderer\Youtube::class,
             'html' => Media\Renderer\Html::class,
             'iiif' => Media\Renderer\IIIF::class,
+            'iiif_presentation' => Media\Renderer\IiifPresentation::class,
         ],
         'factories' => [
             'file' => Service\Media\Renderer\FileFactory::class,
@@ -649,5 +877,7 @@ return [
         'Please enter a valid language tag', // @translate
         'Title', // @translate
         'Description', // @translate
+        'Unknown block layout', // @translate
+        'Required field must be completed', // @translate
     ],
 ];

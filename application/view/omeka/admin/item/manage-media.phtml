@@ -2,6 +2,12 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->headScript()->appendFile($this->assetUrl('js/item-manage-media.js', 'Omeka'));
+
+$primaryMediaId = null;
+if ($resource) {
+    $primaryMedia = $resource->primaryMedia();
+    $primaryMediaId = $primaryMedia ? $primaryMedia->id() : null;
+}
 ?>
 <?php foreach ($mediaForms as $type => $form): ?>
 <span
@@ -15,6 +21,7 @@ $this->headScript()->appendFile($this->assetUrl('js/item-manage-media.js', 'Omek
     <?php
     $i = 0;
     foreach ($resource->media() as $media):
+    $isPrimaryMedia = ($media->id() === $primaryMediaId);
     ?>
     <div class="media value row">
         <span class="sortable-handle"></span>
@@ -22,6 +29,11 @@ $this->headScript()->appendFile($this->assetUrl('js/item-manage-media.js', 'Omek
         <?php echo $this->thumbnail($media, 'square'); ?>
         <span class="resource-name"><?php echo $escape($media->displayTitle()); ?></span>
         <input type="hidden" name="o:media[<?php echo $i; ?>][o:id]" value="<?php echo $escape($media->id()); ?>">
+        <label class="primary-media">
+            <span class="primary-media-label-text <?php echo ($isPrimaryMedia) ? '' : 'sr-only' ?>"><?php echo $translate('Primary media'); ?></span>
+            <span class="primary-media-title sr-only"><?php echo $escape($media->displayTitle()); ?></span> 
+            <input type="radio" name="o:primary_media[o:id]" class="primary-media-input" value="<?php echo $escape($media->id()); ?>"<?php echo ($isPrimaryMedia) ? ' checked' : ''; ?>>
+        </label>
         <ul class='actions'>
             <li>
             <?php if ($media->isPublic()): ?>
@@ -48,7 +60,7 @@ $this->headScript()->appendFile($this->assetUrl('js/item-manage-media.js', 'Omek
                 'title' => $translate('Remove value'),
             ]); ?></li>
             <li><?php echo $this->hyperlink('', '#', [
-                'class' => 'o-icon-undo restore-value',
+                'class' => 'o-icon-undo restore-value inactive',
                 'title' => $translate('Restore value'),
             ]); ?>
             </li>

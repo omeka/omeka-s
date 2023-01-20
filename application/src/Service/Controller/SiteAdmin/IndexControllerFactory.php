@@ -12,7 +12,8 @@ class IndexControllerFactory implements FactoryInterface
         return new IndexController(
             $services->get('Omeka\Site\ThemeManager'),
             $services->get('Omeka\Site\NavigationLinkManager'),
-            $services->get('Omeka\Site\NavigationTranslator')
+            $services->get('Omeka\Site\NavigationTranslator'),
+            $services->get('Omeka\ResourcePageBlockLayoutManager'),
         );
     }
 }

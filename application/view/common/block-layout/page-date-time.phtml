@@ -1,0 +1,23 @@
+<?php
+$page = $block->page();
+$created = $page->created();
+$modified = $page->modified();
+$dateFormat = $block->dataValue('date_format');
+$timeFormat = $block->dataValue('time_format');
+$createdFormatted = $this->i18n()->dateFormat($created, $dateFormat, $timeFormat);
+$modifiedFormatted = $modified ? $this->i18n()->dateFormat($modified, $dateFormat, $timeFormat) : null;
+?>
+<div class="page-date-time block">
+    <?php if (in_array($block->dataValue('display'), ['created', 'created_modified'])): ?>
+    <div class="created">
+        <span class="property"><?php echo $this->translate('Created'); ?></span>
+        <span class="value"><?php echo $createdFormatted; ?></span>
+    </div>
+    <?php endif; ?>
+    <?php if ($modified && in_array($block->dataValue('display'), ['modified', 'created_modified'])): ?>
+    <div class="modified">
+        <span class="property"><?php echo $this->translate('Modified'); ?></span>
+        <span class="value"><?php echo $modifiedFormatted; ?></span>
+    </div>
+    <?php endif; ?>
+</div>

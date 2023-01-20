@@ -15,11 +15,4 @@ use Laminas\EventManager\EventManagerAwareInterface;
  */
 interface RepresentationInterface extends JsonSerializable, EventManagerAwareInterface
 {
-    /**
-     * Serialize the data to a JSON-LD compatible format.
-     *
-     * @link http://www.w3.org/TR/json-ld/
-     * @return array
-     */
-    public function jsonSerialize();
 }

@@ -1,0 +1,22 @@
+<li class="columns-column row"
+    data-column-type="<?php echo $this->escapeHtml($columnData['type']); ?>"
+    data-column-data="<?php echo $this->escapeHtml(json_encode($columnData)); ?>">
+    <span class="sortable-handle"></span>
+    <span class="columns-column-restore" style="display: none;"><?php echo $this->translate('Column to be removed'); ?></span>
+    <span class="columns-column-label"><?php echo $this->escapeHtml($this->browse()->getHeader($columnData)); ?></span>
+    <ul class="actions">
+        <li><?php echo $this->hyperlink('', [], [
+            'class' => 'o-icon-edit columns-column-edit-button',
+            'title' => $this->translate('Edit column'),
+        ]); ?></li>
+        <li><?php echo $this->hyperlink('', [], [
+            'class' => 'o-icon-delete columns-column-remove-button',
+            'title' => $this->translate('Remove column'),
+        ]); ?></li>
+        <li><?php echo $this->hyperlink('', [], [
+            'class' => 'o-icon-undo columns-column-restore-button',
+            'title' => $this->translate('Restore column'),
+            'style' => 'display: none;',
+        ]); ?></li>
+    </ul>
+</li>

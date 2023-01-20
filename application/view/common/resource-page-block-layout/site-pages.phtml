@@ -1,0 +1,14 @@
+<?php
+$showAttachedPages = $this->siteSetting('show_attached_pages', true);
+$sitePages = $resource->sitePages($site->id());
+?>
+<?php if ($showAttachedPages && $sitePages): ?>
+<dl class="site-pages">
+    <div class="property">
+        <dt><?php echo $this->translate('Site pages'); ?></dt>
+        <?php foreach ($sitePages as $sitePage): ?>
+        <dd class="value"><?php echo $sitePage->link($sitePage->title()); ?></dd>
+        <?php endforeach; ?>
+    </div>
+</dl>
+<?php endif; ?>

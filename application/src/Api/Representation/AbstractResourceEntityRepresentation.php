@@ -369,7 +369,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             if ($types && empty($types[strtolower($value->type())])) {
                 continue;
             }
-            if ($langs && empty($langs[strtolower($value->lang())])) {
+            if ($langs && empty($langs[strtolower((string) $value->lang())])) {
                 continue;
             }
             $matchingValues[] = $value;
@@ -387,16 +387,19 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @param int $page
      * @param int $perPage
-     * @param int $property Filter by property ID
+     * @param int|string|null $propertyId Filter by property ID
+     * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return array
      */
-    public function subjectValues($page = null, $perPage = null, $property = null)
+    public function subjectValues($page = null, $perPage = null, $propertyId = null, $resourceType = null, $siteId = null)
     {
-        $values = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $property);
+        $results = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $propertyId, $resourceType, $siteId);
         $subjectValues = [];
-        foreach ($values as $value) {
-            $valueRep = new ValueRepresentation($value, $this->getServiceLocator());
-            $subjectValues[$valueRep->property()->term()][] = $valueRep;
+        foreach ($results as $result) {
+            $index = sprintf('%s-%s', $result['property_id'], $result['resource_template_property_id']);
+            $result['val'] = new ValueRepresentation($result['val'], $this->getServiceLocator());
+            $subjectValues[$index][] = $result;
         }
         return $subjectValues;
     }
@@ -405,13 +408,15 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * Get the subject values for the JSON-LD @reverse array.
      *
      * @see https://w3c.github.io/json-ld-syntax/#reverse-properties
-     * @param int $property Filter by property ID
+     * @param int|string|null $propertyId Filter by property ID
+     * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
      * @return array
      */
-    public function subjectValuesForReverse($property = null)
+    public function subjectValuesForReverse($propertyId = null, $resourceType = null, $siteId = null)
     {
         $url = $this->getViewHelper('Url');
-        $subjectValuesSimple = $this->getAdapter()->getSubjectValuesSimple($this->resource, $property);
+        $subjectValuesSimple = $this->getAdapter()->getSubjectValuesSimple($this->resource, $propertyId, $resourceType, $siteId);
         $subjectValues = [];
         foreach ($subjectValuesSimple as $subjectValue) {
             $subjectValues[$subjectValue['term']][] = [
@@ -420,33 +425,6 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
             ];
         }
         return $subjectValues;
-    }
-
-    /**
-     * Get the total count of this resource's subject values.
-     *
-     * @param int $property Filter by property ID
-     * @return int
-     */
-    public function subjectValueTotalCount($property = null)
-    {
-        return $this->getAdapter()->getSubjectValueTotalCount($this->resource, $property);
-    }
-
-    /**
-     * Get distinct properties (predicates) where this resource is the RDF object.
-     *
-     * @return array
-     */
-    public function subjectValueProperties()
-    {
-        $propertyAdapter = $this->getAdapter('properties');
-        $properties = $this->getAdapter()->getSubjectValueProperties($this->resource);
-        $subjectProperties = [];
-        foreach ($properties as $property) {
-            $subjectProperties[] = $propertyAdapter->getRepresentation($property);
-        }
-        return $subjectProperties;
     }
 
     /**
@@ -472,55 +450,119 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * Options:
      *
-     * + viewName: Name of view script, or a view model. Default
-     *   "common/resource-values"
+     * - viewName: Name of view script, or a view model. Default "common/resource-values"
+     * - siteId: A site ID
      *
      * @param array $options
      * @return string
      */
     public function displayValues(array $options = [])
     {
-        if (!isset($options['viewName'])) {
-            $options['viewName'] = 'common/resource-values';
+        $options['viewName'] ??= 'common/resource-values';
+        $options['siteId'] ??= null;
+
+        $services = $this->getServiceLocator();
+        $values = $this->values();
+
+        if ($options['siteId']) {
+            // Exclude resources that are not assigned to the site if the
+            // "exclude_resources_not_in_site" site setting is true.
+            foreach ($values as $term => $propertyData) {
+                foreach ($propertyData['values'] as $valueIndex => $value) {
+                    $valueResource = $value->valueResource();
+                    if ($valueResource && in_array($valueResource->resourceName(), ['items', 'item_sets'])) {
+                        $resourceSites = $valueResource->sites();
+                        if (!isset($resourceSites[$options['siteId']])) {
+                            // This item is not assigned to the current site, so remove it.
+                            unset($values[$term]['values'][$valueIndex]);
+                        }
+                    }
+                }
+                if (!$values[$term]['values']) {
+                    // This property no longer has values, so remove it.
+                    unset($values[$term]);
+                }
+            }
         }
-        $partial = $this->getViewHelper('partial');
 
         $eventManager = $this->getEventManager();
-        $args = $eventManager->prepareArgs(['values' => $this->values()]);
+        $args = $eventManager->prepareArgs(['values' => $values]);
         $eventManager->trigger('rep.resource.display_values', $this, $args);
-        $options['values'] = $args['values'];
 
         $template = $this->resourceTemplate();
+        $options['resource'] = $this;
+        $options['values'] = $args['values'];
         $options['templateProperties'] = $template
             ? $template->resourceTemplateProperties()
             : [];
 
+        $partial = $this->getViewHelper('partial');
         return $partial($options['viewName'], $options);
     }
 
     /**
      * Get the display markup for values where this resource is the RDF object.
      *
-     * @param int $page
-     * @param int $perPage
-     * @param int $property Filter by property ID
+     * Options:
+     *
+     * - viewName: Name of view script, or a view model. Default "common/linked-resources"
+     * - page: The page number
+     * - perPage: The number of resources per page
+     * - resourceProperty: Compound identifier with the pattern: <resource_type>:<property_id>
+     * - siteId: A site ID
+     *
+     * For resourceProperty, the <resource_type> can be items, item_sets, media.
+     * The <property_id> should follow the pattern laid out in
+     * AbstractResourceEntityAdapter::getSubjectValuesQueryBuilder(). If a
+     * $resourceProperty isn't passed or is invalid, the default is all
+     * properties for the "items" resource type.
+     *
+     * @param array $options
      * @return string
      */
-    public function displaySubjectValues($page = null, $perPage = null, $property = null)
+    public function displaySubjectValues(array $options = [])
     {
-        $subjectValues = $this->subjectValues($page, $perPage, $property);
-        if (!$subjectValues) {
-            return null;
+        $services = $this->getServiceLocator();
+        $adapter = $this->getAdapter();
+
+        $viewName = $options['viewName'] ?? 'common/linked-resources';
+        $page = $options['page'] ?? null;
+        $perPage = $options['perPage'] ?? null;
+        $resourceProperty = $options['resourceProperty'] ?? null;
+        $siteId = $options['siteId'] ?? null;
+
+        $resourceType = 'items';
+        $propertyId = null;
+        if ($resourceProperty && false !== strpos($resourceProperty, ':')) {
+            // Derive the resource type and property ID from $resourceProperty.
+            [$resourceType, $propertyId] = explode(':', $resourceProperty);
         }
+
+        $totalCount = $adapter->getSubjectValueTotalCount($this->resource, $propertyId, $resourceType, $siteId);
+        if (!$totalCount) {
+            return;
+        }
+        $subjectValues = $this->subjectValues($page, $perPage, $propertyId, $resourceType, $siteId);
+        if (!$subjectValues) {
+            return;
+        }
+        $resourcePropertiesAll = [
+            'items' => $adapter->getSubjectValueProperties($this->resource, 'items', $siteId),
+            'item_sets' => $adapter->getSubjectValueProperties($this->resource, 'item_sets', $siteId),
+            'media' => $adapter->getSubjectValueProperties($this->resource, 'media', $siteId),
+        ];
+
         $partial = $this->getViewHelper('partial');
-        return $partial('common/linked-resources', [
+        return $partial($viewName, [
             'objectResource' => $this,
             'subjectValues' => $subjectValues,
             'page' => $page,
             'perPage' => $perPage,
-            'property' => $property,
-            'totalCount' => $this->subjectValueTotalCount($property),
-            'properties' => $this->subjectValueProperties(),
+            'totalCount' => $totalCount,
+            'resourceProperty' => $resourceProperty,
+            'propertyId' => $propertyId,
+            'resourceType' => $resourceType,
+            'resourcePropertiesAll' => $resourcePropertiesAll,
         ]);
     }
 
@@ -610,6 +652,18 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     {
         $resourceClass = $this->resourceClass();
         return $resourceClass ? $resourceClass->label() : $default;
+    }
+
+    /**
+     * Get the display resource template label for this resource.
+     *
+     * @param string|null $default
+     * @return string|null
+     */
+    public function displayResourceTemplateLabel($default = null)
+    {
+        $resourceTemplate = $this->resourceTemplate();
+        return $resourceTemplate ? $resourceTemplate->label() : $default;
     }
 
     /**

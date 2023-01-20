@@ -1,0 +1,13 @@
+<?php
+$resourceMedia = $resource->media();
+?>
+<?php if ($resourceMedia): ?>
+<dl class="media-list">
+    <div class="property">
+        <dt><?php echo $this->translate('Media'); ?></dt>
+        <?php foreach ($resourceMedia as $media): ?>
+        <dd class="value"><?php echo $media->linkPretty(); ?></dd>
+        <?php endforeach; ?>
+    </div>
+</dl>
+<?php endif; ?>

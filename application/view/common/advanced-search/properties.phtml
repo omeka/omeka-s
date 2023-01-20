@@ -25,12 +25,21 @@ $queryOption = function($value, array $search, $key, $text) {
     }
     return sprintf('<option value="%s"%s>%s</option>', $value, $selected, $text);
 };
-$queryText = function(array $search, $index) {
+$queryText = function(array $search, $index) use ($translate) {
     $text = isset($search['text']) ? $search['text'] : null;
     return sprintf('<input type="text" class="query-text" name="%s" value="%s" aria-label="%s">',
         $this->escapeHtml("property[$index][text]"),
         $this->escapeHtml($text),
-        $this->escapeHtml($this->translate('Query text')));
+        $this->escapeHtml($translate('Query text')));
+};
+
+$optionsQuery = [];
+if ($this->status()->isSiteRequest()) {
+    if ($this->siteSetting('vocabulary_scope') === 'sitewide') {
+        $optionsQuery['site_id'] = $this->layout()->site->id();
+    } elseif ($this->siteSetting('vocabulary_scope') === 'cross-site') {
+        $optionsQuery['used'] = true;
+    }
 }
 ?>
 
@@ -60,6 +69,7 @@ $queryText = function(array $search, $index) {
                 'options' => [
                     'empty_option' => '[Any Property]', // @translate
                     'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
+                    'query' => $optionsQuery,
                 ]
             ]); ?>
             <select class="query-type" name="<?php echo $this->escapeHtml($stem . '[type]'); ?>" aria-label="<?php echo $translate('Query type'); ?>">
@@ -67,6 +77,10 @@ $queryText = function(array $search, $index) {
                 <?php echo $queryOption('neq', $property, 'type', $translate('is not exactly')); ?>
                 <?php echo $queryOption('in', $property, 'type', $translate('contains')); ?>
                 <?php echo $queryOption('nin', $property, 'type', $translate('does not contain')); ?>
+                <?php echo $queryOption('sw', $property, 'type', $translate('starts with')); ?>
+                <?php echo $queryOption('nsw', $property, 'type', $translate('does not start with')); ?>
+                <?php echo $queryOption('ew', $property, 'type', $translate('ends with')); ?>
+                <?php echo $queryOption('new', $property, 'type', $translate('does not end with')); ?>
                 <?php echo $queryOption('res', $property, 'type', $translate('is resource with ID')); ?>
                 <?php echo $queryOption('nres', $property, 'type', $translate('is not resource with ID')); ?>
                 <?php echo $queryOption('ex', $property, 'type', $translate('has any value')); ?>

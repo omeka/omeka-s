@@ -73,7 +73,7 @@ class ValueHydrator
         $entityManager = $adapter->getEntityManager();
         $dataTypes = $adapter->getServiceLocator()->get('Omeka\DataTypeManager');
 
-        // Iterate the representation data. Note that we ignore terms.
+        // Iterate the representation data.
         $valuePassed = false;
         foreach ($representation as $term => $valuesData) {
             if (!is_array($valuesData)) {
@@ -113,10 +113,12 @@ class ValueHydrator
                 // Hydrate a single value.
                 $value->setResource($entity);
                 $value->setType($dataType->getName());
-                $value->setProperty($entityManager->getReference(
-                    'Omeka\Entity\Property',
-                    $valueData['property_id']
-                ));
+                // If the property_id is "auto", look out to the value's key for
+                // a property term.
+                $property = 'auto' === $valueData['property_id']
+                    ? $adapter->getPropertyByTerm($term)
+                    : $entityManager->getReference('Omeka\Entity\Property', $valueData['property_id']);
+                $value->setProperty($property);
                 if (isset($valueData['is_public'])) {
                     $value->setIsPublic($valueData['is_public']);
                 }

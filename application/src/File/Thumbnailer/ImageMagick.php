@@ -52,7 +52,7 @@ class ImageMagick extends AbstractThumbnailer
 
         switch ($strategy) {
             case 'square':
-                $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
+                $gravity = $options['gravity'] ?? 'center';
                 $args = [
                     '-background white',
                     '+repage',

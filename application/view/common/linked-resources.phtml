@@ -1,68 +1,92 @@
 <?php
-$translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
+use Laminas\Form\Element\Select;
 
-$fragment = 'item-linked';
-if ('Omeka\Api\Representation\ItemSetRepresentation' === get_class($objectResource)) {
-    $fragment = 'item-set-linked';
-}
+// Set up pagination.
 $pagination = $this->pagination(null, $totalCount, $page, $perPage);
+$fragment = 'resources-linked';
 $pagination->setFragment($fragment);
 
+// Set up locale.
+$lang = null;
+$filterLocale = false;
 if ($this->status()->isSiteRequest()) {
-    $filterLocale = (bool) $this->siteSetting('filter_locale_values');
     $lang = $this->lang();
-} else {
-    $filterLocale = false;
-    $lang = null;
+    $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 }
+
+// Set up resource property select.
+$labelMap = [
+    'items' => 'Items', // @translate
+    'item_sets' => 'Item sets', // @translate
+    'media' => 'Media', // @translate
+];
+$resourcePropertiesSelect = new Select('resource_property');
+$resourcePropertiesSelect->setValue($resourceProperty);
+$resourcePropertiesSelect->setAttributes([
+    'id' => 'resource-property-select',
+    'data-url' => $this->url(null, [], true),
+    'data-fragment' => $fragment,
+]);
+$valueOptions = [];
+foreach ($resourcePropertiesAll as $type => $resourceProperties) {
+    if (!$resourceProperties) {
+        continue;
+    }
+    $valueOptions[$type] = [
+        'label' => $labelMap[$type],
+        'options' => [sprintf('%s:', $type) => sprintf('%s: All', $labelMap[$type])],
+    ];
+    foreach ($resourceProperties as $resourceProperty) {
+        $key = sprintf('%s:%s', $type, $resourceProperty['id_concat']);
+        $value = $resourceProperty['property_alternate_label']
+            ? $this->translate($resourceProperty['property_alternate_label'])
+            : $this->translate($resourceProperty['property_label']);
+        $valueOptions[$type]['options'][$key] = sprintf('%s: %s', $labelMap[$type], $value);
+    }
+}
+$resourcePropertiesSelect->setValueOptions($valueOptions);
 ?>
 <div id="linked-resources">
+
 <div class="linked-header">
     <div id="linked-filter">
-        <h4><?php echo $translate('Filter by property'); ?></h4>
-        <select id="filter-property" name="property" data-url="<?php echo $escape($this->url(null, [], true)); ?>" data-fragment="<?php echo $escape($fragment); ?>">
-            <option value=""><?php echo $translate('All'); ?></option>
-            <?php foreach ($properties as $prop): ?>
-            <option value="<?php echo $escape($prop->id()); ?>"<?php echo $prop->id() == $property ? ' selected="selected"' : ''; ?>><?php echo $escape(sprintf('%s (%s)', $translate($prop->label()), $prop->term())); ?></option>
-            <?php endforeach; ?>
-        </select>
+        <label>
+            <?php echo $this->translate('Filter by resource type and property:'); ?>
+            <?php echo $this->formElement($resourcePropertiesSelect); ?>
+        </label>
     </div>
     <?php echo ($totalCount > $perPage) ? $pagination : ''; ?>
 </div>
 
-<?php foreach ($subjectValues as $term => $values): ?>
+<?php foreach ($subjectValues as $values): ?>
+<?php
+$caption = sprintf(
+    $this->translate('%s with "%s: %s"'),
+    $this->translate($labelMap[$resourceType]),
+    $values[0]['property_alternate_label'] ?? $this->translate($values[0]['property_label']),
+    $objectResource->displayTitle()
+);
+?>
 <table>
-<caption class="linked-resource-property"><?php echo $escape($this->translate($values[0]->property()->label())); ?></caption>
-<thead>
-    <tr>
-    <th><?php echo $translate('Title'); ?></th>
-    <th><?php echo $translate('Alternate label'); ?></th>
-    <th><?php echo $translate('Class'); ?></th>
-    </tr>
-</thead>
-<tbody>
-    <?php foreach ($values as $value): ?>
-    <?php
-    $template = $value->resource()->resourceTemplate();
-    $templateProperty = $template ? $template->resourceTemplateProperty($value->property()->id()) : null;
-    $altLabel = $templateProperty ? $templateProperty->alternateLabel() : null;
-    ?>
-    <tr class="linked-resource">
-        <td><?php echo $value->resource()->linkPretty('square', null, null, null, ($filterLocale ? $lang : null)); ?></td>
-        <td>
-        <?php if ($altLabel): ?>
-        <span class="alternate-label"><?php echo $this->escapeHtml($altLabel); ?></span>
-        <?php endif; ?>
-        </td>
-        <td>
-        <?php if ($value->resource()->resourceClass()): ?>
-        <span class="resource-class"><?php echo $this->escapeHtml($translate($value->resource()->resourceClass()->label())); ?></span>
-        <?php endif; ?>
-        </td>
-    </tr>
-    <?php endforeach; ?>
-</tbody>
+    <caption class="linked-resource-property"><?php echo $this->escapeHtml($caption); ?></caption>
+    <thead>
+        <tr>
+            <th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('Class'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($values as $value): ?>
+        <tr class="linked-resource">
+            <td><?php echo $value['val']->resource()->linkPretty('square', null, null, null, ($filterLocale ? $lang : null)); ?></td>
+            <td>
+                <?php if ($value['val']->resource()->resourceClass()): ?>
+                <span class="resource-class"><?php echo $this->escapeHtml($this->translate($value['val']->resource()->resourceClass()->label())); ?></span>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
 <?php endforeach; ?>
 
@@ -71,11 +95,12 @@ if ($this->status()->isSiteRequest()) {
 </div>
 
 <script>
-$('#filter-property').on('change', function(e) {
-    var thisSelect = $(this);
-    var property = thisSelect.find(':selected').val();
-    var url = thisSelect.data('url');
-    var fragment = thisSelect.data('fragment');
-    window.location = url + '?' + $.param({property: property}) + '#' + fragment;
+const propertySelect = $('#resource-property-select');
+const url = propertySelect.data('url');
+const fragment = propertySelect.data('fragment');
+propertySelect.on('change', function(e) {
+    const selectedOption = propertySelect.find(':selected');
+    const resourceProperty = selectedOption.val();
+    window.location = url + '?' + $.param({resource_property: resourceProperty}) + '#' + fragment;
 });
 </script>

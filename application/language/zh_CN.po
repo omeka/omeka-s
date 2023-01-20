@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# John Flatness <john@zerocrates.org>, 2020
+# John Flatness <john@omeka.org>, 2020
 # Hong Zhang <zhangh@unlv.nevada.edu>, 2021
 # 
 #, fuzzy

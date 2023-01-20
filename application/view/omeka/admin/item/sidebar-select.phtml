@@ -64,13 +64,14 @@ $expanded = $resourceClassId || $itemSetId || $id;
     </div>
 
     <?php if ($itemsFound): ?>
-    <button type="button" class="quick-select-toggle"><?php echo $translate('Quick add'); ?></button>
+    <?php echo $this->partial('common/sidebar-select-quick-add'); ?>
 
     <div class="items resource-list">
         <?php foreach ($items as $item):?>
+        <?php $itemId = $item->id(); ?>
         <div class="resource item" data-resource-values="<?php echo $escape(json_encode($item->valueRepresentation())); ?>">
             <div class="select-resource-checkbox-wrapper">
-              <input type="checkbox" class="select-resource-checkbox" name="resource_ids[]" value="<?php echo $item->id(); ?>">
+              <input type="checkbox" class="select-resource-checkbox" name="resource_ids[]" aria-labelledby="select-item-<?php echo $itemId; ?>" value="<?php echo $itemId; ?>">
             </div>
             <?php
             $content = sprintf(
@@ -87,6 +88,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
             else:
                 $attrs = [
                     'class' => 'select-resource resource-link',
+                    'id' => 'select-item-' . $itemId,
                 ];
             endif;
             echo $hyperlink->raw($content, '#', $attrs);
@@ -95,7 +97,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
         <?php endforeach; ?>
     </div>
     <?php else: ?>
-    <span class="no-resources"><?php echo $translate(sprintf('No %s found.', $translate('items'))); ?></span>
+    <span class="no-resources"><?php $translate('Omeka could not find any items.'); ?></span>
     <?php endif; ?>
 </div>
 

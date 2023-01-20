@@ -540,6 +540,10 @@ body {
     display: none;
 }
 
+.sr-only {
+    left: -9999px;
+}
+
 div[role="main"] > .messages {
     margin-bottom: $spacing-medium;
 
@@ -629,10 +633,16 @@ table .icon-sortable {
     @include field-row;
 }
 
+.row.delete {
+    background-color: $delete-bg;
+    overflow: hidden;
+}
+
 .jstree-themeicon,
 .sortable-handle {
     cursor: move;
     margin-right: $spacing-medium;
+    width: 1.5 * $spacing-medium;
 
     &:before {
         content: fa-content($fa-var-bars);
@@ -1378,6 +1388,12 @@ div[role="main"] {
     vertical-align: top;
     border: 0;
     box-shadow: none;
+    display: inline-block;
+}
+
+.actions .button:hover,
+.actions button:hover {
+    box-shadow: none !important;
 }
 
 .actions a,
@@ -1394,6 +1410,10 @@ div[role="main"] {
 .actions a:active,
 .actions button:hover {
     opacity: 1;
+}
+
+.actions .inactive {
+    display: none;
 }
 
 .actions button {
@@ -1677,6 +1697,9 @@ td .o-icon-user-inactive {
         padding-right: 1.5 * $spacing-large;
     }
 
+    .item-set-select-type {
+        max-width: 25%;
+    }
     /* @end */
 
 /* @end */
@@ -1901,23 +1924,29 @@ fieldset.section > legend {
     vertical-align: top;
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     height: (1.5 * $spacing-large);
     width: (1.5 * $spacing-large);
     line-height: (1.5 * $spacing-large);
     border: 1px solid $border-gray;
+    border-width: 0 0 1px 1px;
     overflow: hidden;
     text-align: center;
     color: lighten($red, 40%);
     z-index: 1;
 
-    &.active {
-        border-color: transparent;
-    }
-
     & ~ textarea {
-        padding-left: 1.75 * $spacing-large;
+        padding-right: 1.75 * $spacing-large;
     }
+}
+
+.value .input-body .language-wrapper.active a.value-language {
+    border-color: transparent;
+    color: $red;
+}
+
+.value .language-wrapper:not(.active) ~ textarea {
+    padding-right: 2 * $spacing-large;
 }
 
 .value .actions a.o-icon-more {
@@ -1929,23 +1958,45 @@ fieldset.section > legend {
     border-bottom: 1px solid #dfdfdf;
 }
 
-input[type="text"].value-language.active {
+input[type="text"].value-language {
     line-height: $base-line-height;
     background-color: transparent;
-    border: 1px solid $border-gray;
+    border: 0;
     min-height: 0;
-    padding: 0 0 0 (1.75 * $spacing-large);
+    padding: $spacing-small (1.75 * $spacing-large) $spacing-small $spacing-small;
     display: block;
-
-    &.active ~ textarea {
-        padding-left: $spacing-small;
-        border-top: 0;
-    }
+    background-color: #fff;
 }
 
-input[type="text"].value-language,
-.delete input[type="text"].value-language.active {
+.language-wrapper.active input[type="text"].value-language ~ textarea {
+    padding-left: $spacing-small;
+    border-top: 0;
+}
+
+.input-body .language-wrapper:not(.active) .language-label {
     display: none;
+}
+
+.sidebar .language-label {
+    font-weight: inherit;
+}
+
+.language-wrapper .language-label,
+.value[data-data-type="uri"] .input-body label {
+    display: flex;
+    align-items: flex-start;
+    background-color: #fff;
+    margin: 0;
+    padding: 0 (1.75 * $spacing-large) 0 $spacing-small;
+    box-shadow: 0 0 0 1px $border-gray;
+}
+
+.value-label-text {
+    background-color: $gray-on-white;
+    border-radius: 2px;
+    font-size: .875 * $base-font-size;
+    margin: $spacing-small;
+    padding: 0 $spacing-small;
 }
 
 .sidebar .value-annotation .value {
@@ -2366,9 +2417,8 @@ input[type="text"].value-language,
         left: -9999px;
     }
 
-    .resource-values .field-term {
+    .resource-property .field-term {
         display: block;
-        font-size: 12px;
     }
 
     .inputs {
@@ -2418,6 +2468,12 @@ input[type="text"].value-language,
         input[type="submit"] {
             margin: $spacing-small 0;
             line-height: $base-line-height;
+        }
+
+        input:focus,
+        textarea:focus {
+            position: relative;
+            z-index: 100;
         }
     }
 
@@ -2524,10 +2580,9 @@ input[type="text"].value-language,
         overflow: hidden;
     }
 
-    .value a.restore-value,
-    .value span.restore-value,
+    .value .restore-value,
     .value.delete a.tab,
-    .value.delete [class*="o-icon-"] {
+    .value.delete [class*="o-icon-"]:not(.restore-value) {
         display: none;
     }
 
@@ -2572,6 +2627,8 @@ input[type="text"].value-language,
     
     .inputs .value textarea {
         min-height: 3 * $spacing-large;
+        border: 0;
+        box-shadow: 0 0 0 1px $border-gray;
     }
     
     .inputs .value .input-body > textarea {
@@ -2606,7 +2663,12 @@ input[type="text"].value-language,
 
     .inputs .input-body input[type="text"] {
         margin: 0;
-        background-color: #fff;
+        background-color: transparent;
+    }
+
+    .inputs .input-body input[type="text"]:focus,
+    .inputs .input-body textarea:focus {
+        z-index: 10;
     }
 
     .inputs .input-body .chosen-container {
@@ -2629,7 +2691,6 @@ input[type="text"].value-language,
     .value.delete span.restore-value {
         display: inline-block;
         padding: 0 $spacing-small;
-        line-height: 1.5 * $base-line-height;
         width: calc(100% - #{1.5 * $spacing-large});
     }
 
@@ -2683,6 +2744,15 @@ input[type="text"].value-language,
         content: fa-content($fa-var-image);
     }
 
+    [data-data-type="literal"] .sortable-handle ~ .input-body {
+        background-color: #fff;
+    }
+
+    .inputs [data-data-type="literal"] textarea.input-value {
+        background-color: transparent;
+        padding-right: 1.75 * $spacing-large;
+    }
+
     [data-data-type="uri"] .input {
         position: relative;
         clear: both;
@@ -2694,23 +2764,20 @@ input[type="text"].value-language,
         }
     }
 
-    [data-data-type="uri"] label,
+    .value[data-data-type="uri"] .input-body label {
+        padding-right: 0;
+    }
+
     .sidebar [data-data-type="uri"] label {
-        padding: $spacing-small 0 $spacing-small $spacing-small;
-        z-index: 1;
-        font-weight: bold;
-        color: rgba(0,0,0,.35);
-        width: auto;
-        display: flex;
-        height: (1.5 * $spacing-large);
+        font-weight: inherit;
     }
 
     [data-data-type="uri"] .input-body input.value,
     [data-data-type="uri"] textarea.value-label {
-        margin: (-1 * $spacing-small) 0 (-1 * $spacing-small) $spacing-small;
         height: (1.5 * $spacing-large);
         border: 0;
-        padding: $spacing-small;
+        box-shadow: none;
+        padding: $spacing-small (1.75 * $spacing-large) $spacing-small $spacing-small;
         font-weight: normal;
         background: transparent;
         min-height: 1.5 * $spacing-large;
@@ -2733,6 +2800,10 @@ input[type="text"].value-language,
         border-bottom: 1px solid $border-gray;
         padding-bottom: $spacing-medium;
         margin-bottom: $spacing-medium;
+    }
+
+    .value-annotation .restore-value {
+        line-height: 1.5 * $base-line-height;
     }
 
     /* @end */
@@ -2766,8 +2837,19 @@ input[type="text"].value-language,
         min-width: 0;
     }
 
-    .media.row .actions {
-        margin-left: auto;
+    .media.row .primary-media {
+        text-transform: uppercase;
+        font-size: (.75 * $base-font-size);
+        font-weight: bold;
+        margin: 0 0 0 auto;
+
+        input {
+            margin-left: $spacing-small;
+        }
+    }
+
+    .media.row .actions { 
+        margin-left: $spacing-large;
     }
 
     .media.value.delete span.restore-value {
@@ -2850,6 +2932,14 @@ input[type="text"].value-language,
         content: fa-content($fa-var-laptop);
     }
     
+    /* @end */
+
+    /* @group ----- Media ----- */
+
+    .media.edit #media .cke_contents {
+        min-height: 500px;
+    }
+
     /* @end */
 
 /* @end */
@@ -2962,6 +3052,10 @@ input[type="text"].value-language,
             color: #B9B9B9;
         }
     }
+
+    textarea {
+        resize: vertical;
+    }
 }
 
 #item-results + .confirm-panel,
@@ -2982,6 +3076,7 @@ input[type="text"].value-language,
     }
 }
 
+.sidebar button.select-all,
 .sidebar button.quick-select-toggle {
     background-color: transparent;
     color: $copy-gray;
@@ -2990,21 +3085,48 @@ input[type="text"].value-language,
     padding: 0;
     line-height: 1;
     min-height: 0;
+}
 
-    &:before {
-        @include font-awesome;
-        content: fa-content($fa-var-toggle-off);
-        display: inline-block;
-        margin-right: $spacing-small;
-    }
+.success-statuses {
+    position: absolute;
+}
 
-    &.active:before {
-        content: fa-content($fa-var-toggle-on);
-    }
+// Screen reader ignores inactive status.
+.success-statuses .status,
+.sidebar button .sr-only {
+    display: none;
+}
 
-    & + .resource-list {
-        border-top: 1px solid $border-gray;
-    }
+.sidebar button:not(.active) .sr-only.off,
+.sidebar button.active .sr-only.on,
+.success-statuses:not(.active) .sr-only.off,
+.success-statuses.active .sr-only.on {
+    display: block;
+}
+
+.sidebar button.select-all:before,
+.sidebar button.quick-select-toggle:before {
+    @include font-awesome;
+    content: fa-content($fa-var-toggle-off);
+    display: inline-block;
+    margin-right: $spacing-small;
+}
+
+.sidebar button.quick-select-toggle.active:before {
+    content: fa-content($fa-var-toggle-on);
+}
+
+.sidebar button.select-all:before {
+    content: fa-content($fa-var-square);
+    font-weight: 400;
+}
+
+.sidebar button.select-all.active:before {
+    content: fa-content($fa-var-check-square);
+}
+
+.sidebar button.quick-select-toggle + .resource-list {
+    border-top: 1px solid $border-gray;
 }
 
 .resource-link {
@@ -3293,22 +3415,23 @@ input[type=text].query-form-query {
 /* @group ----- Show Views ----- */
 
 .show .property,
-#item-metadata .meta-group {
+.meta-group {
     overflow: hidden;
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
 
-    h4 {
+    dt {
         width: span(2 of 9);
         vertical-align: top;
         padding: $spacing-small 0;
+        font-weight: bold;
     }
 
-    h4 + .value,
+    dd,
     .values {
         padding: $spacing-small;
-        margin-bottom: 0;
+        margin: 0;
         word-wrap: break-word;
         width: span(7 of 9);
 
@@ -3325,14 +3448,14 @@ input[type=text].query-form-query {
     }
 }
 
-#linked-filter {
+#linked-filter label {
     display: flex;
     align-items: center;
     margin-bottom: $spacing-large;
-}
 
-#linked-filter h4 {
-    margin-right: $spacing-small;
+    select {
+        margin-left: $spacing-medium;
+    }
 }
 
 #linked-resources table {
@@ -3346,6 +3469,7 @@ input[type=text].query-form-query {
     font-family: "Lato", sans-serif;
     font-weight: bold;
     text-align: left;
+    font-size: 1.25 * $base-font-size;
 }
 
 #linked-resources th {
@@ -3485,15 +3609,15 @@ input[type=text].query-form-query {
 
         &:after {
             @include font-awesome;
-            @include fa-icon();
             content: fa-content($fa-var-circle-notch);
+            line-height: 1;
             position: absolute;
             top: .75em;
-            left: calc(50% - .6em);
+            left: calc(50% - .5em);
             font-size: 4em;
             animation: fa-spin 1s infinite linear;
-            height: 0.95em;
-            width: 1.2em;
+            height: 1em;
+            width: 1em;
             text-align: center;
         }
     }
@@ -3738,6 +3862,9 @@ body.sidebar-open #content {
 .resource-templates #edit-sidebar .field .option label {
     margin: 0;
     padding-bottom: $spacing-small;
+    padding-right: 0;
+    display: flex;
+    justify-content: space-between;
 
     &:only-child {
         padding-bottom: 0;
@@ -3903,11 +4030,17 @@ body.sidebar-open #content {
         padding: 0;
         line-height: 1.75;
         border: none;
+        vertical-align: top;
     }
 
     th[scope="rowgroup"] {
         font-size: 1em;
         border-bottom: 1px solid $border-gray;
+        padding-left: $spacing-small;
+    }
+
+    tbody:not(:last-child) tr:last-child td {
+        padding-bottom: $spacing-large;
     }
 
     th[scope="row"] {
@@ -4027,6 +4160,11 @@ body.sidebar-open #content {
         margin-right: -1px;
     }
 
+    .expand-collapse-all {
+        margin-top: $spacing-medium;
+        text-align: right;
+    }
+
     .block {
         margin-bottom: $spacing-small;
     }
@@ -4038,6 +4176,10 @@ body.sidebar-open #content {
         background-color: opacify($gray-on-white, .08);
         padding: $spacing-small;
         font-weight: bold;
+    }
+
+    .block .block-header .actions a:before {
+        text-align: center;
     }
 
     .block .block-content input[type="hidden"] + * {
@@ -4115,7 +4257,8 @@ body.sidebar-open #content {
         display: inline-block;
     }
 
-    .block .delete.attachment .actions .delete {
+    .block .delete.attachment .sortable-handle,
+    .block .delete.attachment .actions li:not(.undo) {
         display: none;
     }
 
@@ -4180,8 +4323,12 @@ body.sidebar-open #content {
         margin: $spacing-small 0 0;
     }
 
-    .block .expand,
-    .block .collapse {
+    .block-header.collapse:after {
+        content: none;
+    }
+
+    .block-content .expand,
+    .block-content .collapse {
         width: 100%;
         display: flex;
         padding: 0 $spacing-small 0 0;
@@ -4199,7 +4346,7 @@ body.sidebar-open #content {
         padding: 0;
     }
 
-    .block .collapse + .collapsible {
+    .block-content .collapse + .collapsible {
         border-top: 1px solid $border-gray;
         padding: -1px 0 0 $spacing-large;
         margin-top: $spacing-small;
@@ -4541,6 +4688,41 @@ body.sidebar-open #content {
 
 /* @end */
 
+/* @groups ----- Page Block Config ----- */
+
+.theme-resource-pages .blocks {
+    list-style: none;
+    padding-left: 0;
+    border: 1px solid $border-gray; 
+    padding: $spacing-medium; 
+    min-height: 30px;
+}
+
+.theme-resource-pages .block {
+    @include field-row;
+    display: flex;
+    height: 1.5 * $spacing-large;
+
+    &.delete {
+        background-color: $delete-bg;
+        padding-left: 1.5 * $spacing-large;
+    }
+}
+
+.theme-resource-pages .block.delete > *:not(.block-header) {
+    display: block;
+}
+
+.theme-resource-pages .block.delete .sortable-handle {
+    display: none;
+}
+
+.theme-resource-pages button:disabled {
+    display: none;
+}
+
+/* @end */
+
 /* @groups ----- Jobs ----- */
 
 .jobs.browse th:first-child,
@@ -4870,12 +5052,10 @@ body.minimal .site.results thead {
 
 .asset-entry img {
     margin-right: $spacing-small;
-    width: 25%;
+    max-height: 2 * $spacing-large;
 }
 
 .asset-entry .asset-name {
-    min-width: 0;
-    width: 0;
     flex-grow: 1;
 }
 

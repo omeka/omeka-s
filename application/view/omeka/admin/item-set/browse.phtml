@@ -2,28 +2,6 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'item-sets browse');
-$sortHeadings = [
-    [
-        'label' => $translate('Title'),
-        'value' => 'title'
-    ],
-    [
-        'label' => $translate('Identifier'),
-        'value' => 'dcterms:identifier'
-    ],
-    [
-        'label' => $translate('Class'),
-        'value' => 'resource_class_label'
-    ],
-    [
-        'label' => $translate('Owner'),
-        'value' => 'owner_name'
-    ],
-    [
-        'label' => $translate('Created'),
-        'value' => 'created'
-    ],
-];
 ?>
 
 <?php echo $this->pageTitle($translate('Item sets')); ?>
@@ -33,9 +11,8 @@ $sortHeadings = [
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->hyperlink($translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
-    <?php echo $this->sortSelector($sortHeadings); ?>
+    <?php echo $this->browse()->renderSortSelector('item_sets'); ?>
 </div>
-
 
 <div id="page-actions">
     <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'create')): ?>
@@ -51,14 +28,18 @@ $sortHeadings = [
         <select class="batch-actions-select" aria-label="<?php echo $translate('Batch actions'); ?>">
             <option value="default"><?php echo $translate('Batch actions'); ?></option>
             <option value="update-selected" disabled="true"><?php echo $translate('Edit selected'); ?></option>
+            <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'batch_update_all')): ?>
             <option value="update-all"><?php echo $translate('Edit all'); ?></option>
+            <?php endif; ?>
             <option value="delete-selected" disabled="true"><?php echo $translate('Delete selected'); ?></option>
+            <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'batch_delete_all')): ?>
             <option value="delete-all"><?php echo $translate('Delete all'); ?></option>
+            <?php endif; ?>
         </select>
         <div class="batch-actions">
             <button type="button" class="default active" disabled="true"><?php echo $translate('Go'); ?></button>
-            <input type="submit" class="update-selected" name="update_selected" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], true)); ?>">
-            <input type="submit" class="update-all" name="update_all" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+            <input type="submit" class="update-selected" name="update_selected" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit'], ['query' => $returnQuery], true)); ?>">
+            <input type="submit" class="update-all" name="update_all" value="<?php echo $translate('Go'); ?>" formaction="<?php echo $escape($this->url(null, ['action' => 'batch-edit-all'], ['query' => $returnQuery], true)); ?>">
             <input type="hidden" name="query" class="batch-query" value="<?php echo $escape(json_encode($this->params()->fromQuery())); ?>">
             <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?php echo $translate('Go'); ?></a>
             <a class="delete button sidebar-content delete-all" data-sidebar-selector="#sidebar-delete-all"><?php echo $translate('Go'); ?></a>
@@ -72,30 +53,14 @@ $sortHeadings = [
                 <input type="checkbox" class="select-all" aria-label="<?php echo $translate('Select all'); ?>">
                 <?php echo $translate('Title'); ?>
             </th>
-            <th><?php echo $translate('Class'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
-            <th><?php echo $translate('Created'); ?></th>
+            <?php echo $this->browse()->renderHeaderRow('item_sets'); ?>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($itemSets as $itemSet): ?>
-        <?php
-        if ($owner = $itemSet->owner()) {
-            $ownerText = $this->hyperlink(
-                $owner->name(),
-                $this->url('admin/id', [
-                    'controller' => 'user',
-                    'action' => 'show',
-                    'id' => $owner->id()]
-                )
-            );
-        } else {
-            $ownerText = $translate('[no owner]');
-        }
-        ?>
         <tr>
             <td>
-                <?php if ($itemSet->userIsAllowed('update') || $itemSet->userIsAllowed('delete')): ?>
+                <?php if ($this->userIsAllowed('Omeka\Api\Adapter\ItemSetAdapter', 'batch_update') && ($itemSet->userIsAllowed('update') || $itemSet->userIsAllowed('delete'))): ?>
                 <input type="checkbox" name="resource_ids[]" value="<?php echo $itemSet->id(); ?>" aria-label="<?php echo $translate('Select item set'); ?>">
                 <?php endif; ?>
                 <?php echo $itemSet->linkPretty(); ?>
@@ -125,9 +90,7 @@ $sortHeadings = [
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $escape($translate($itemSet->displayResourceClassLabel())); ?></td>
-            <td><?php echo $ownerText; ?></td>
-            <td><?php echo $escape($this->i18n()->dateFormat($itemSet->created())); ?></td>
+            <?php echo $this->browse()->renderContentRow('item_sets', $itemSet); ?>
         </tr>
         <?php endforeach; ?>
     </tbody>
@@ -217,5 +180,3 @@ $('#sidebar-delete-all').on('click', 'input[name="confirm-delete-all-check"]', f
 </div>
 
 <?php endif; ?>
-
-

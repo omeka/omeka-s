@@ -90,7 +90,7 @@ class IIIF implements IngesterInterface
         } else {
             // Earlier versions
             $URLString = '/full/full/0/native.jpg';
-            $id = isset($IIIFData['@id']) ? $IIIFData['@id'] : null;
+            $id = $IIIFData['@id'] ?? null;
         }
         if ($id) {
             $tempFile = $this->downloader->download($id . $URLString);
@@ -105,7 +105,7 @@ class IIIF implements IngesterInterface
         $urlInput = new UrlElement('o:media[__index__][o:source]');
         $urlInput->setOptions([
             'label' => 'IIIF image URL', // @translate
-            'info' => 'URL for the image to embed.', // @translate
+            'info' => 'Enter the URL to a IIIF image information file (ending with /info.json).', // @translate
         ]);
         $urlInput->setAttributes([
             'required' => true,

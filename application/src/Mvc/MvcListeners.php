@@ -8,6 +8,7 @@ use Omeka\Site\Theme\Manager;
 use Omeka\Site\Theme\Theme;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\I18n\Translator\TranslatorInterface as TranslatorInterface;
 use Laminas\Mvc\Application as ZendApplication;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Permissions\Acl\Exception as AclException;
@@ -86,7 +87,7 @@ class MvcListeners extends AbstractListenerAggregate
             'use_only_cookies' => true,
             'gc_maxlifetime' => 1209600,
         ];
-        $userOptions = isset($config['session']['config']) ? $config['session']['config'] : [];
+        $userOptions = $config['session']['config'] ?? [];
         $sessionConfig->setOptions(array_merge($defaultOptions, $userOptions));
 
         $sessionSaveHandler = null;
@@ -332,16 +333,16 @@ class MvcListeners extends AbstractListenerAggregate
             return;
         }
 
+        $currentTheme = $themeManager->getCurrentTheme();
         // Add the theme view templates to the path stack.
-        $services->get('ViewTemplatePathStack')
-            ->addPath(sprintf('%s/themes/%s/view', OMEKA_PATH, $site->theme()));
+        $services->get('ViewTemplatePathStack')->addPath($currentTheme->getPath('view'));
 
         // Load theme view helpers on-demand.
         $helpers = $themeManager->getCurrentTheme()->getIni('helpers');
         if (is_array($helpers)) {
             foreach ($helpers as $helper) {
-                $factory = function ($pluginManager) use ($site, $helper) {
-                    require_once sprintf('%s/themes/%s/helper/%s.php', OMEKA_PATH, $site->theme(), $helper);
+                $factory = function ($pluginManager) use ($site, $helper, $currentTheme) {
+                    require_once $currentTheme->getPath('helper', "$helper.php");
                     $helperClass = sprintf('\OmekaTheme\Helper\%s', $helper);
                     return new $helperClass;
                 };
@@ -401,6 +402,7 @@ class MvcListeners extends AbstractListenerAggregate
         // Inject the site into things that need it.
         $services->get('Omeka\Settings\Site')->setTargetId($site->id());
         $services->get('ControllerPluginManager')->get('currentSite')->setSite($site);
+        $services->get('ViewHelperManager')->get('currentSite')->setSite($site);
 
         // Set the site to the top level view model
         $event->getViewModel()->site = $site;
@@ -414,6 +416,15 @@ class MvcListeners extends AbstractListenerAggregate
         }
         $themeManager->setCurrentTheme($currentTheme);
 
+        $hasTranslations = $currentTheme->getIni('has_translations');
+        if ($hasTranslations) {
+            $translator = $services->get(TranslatorInterface::class);
+            $translator->getDelegatedTranslator()->addTranslationFilePattern(
+                'gettext',
+                $currentTheme->getPath('language'),
+                '%s.mo'
+            );
+        }
         return $site;
     }
 

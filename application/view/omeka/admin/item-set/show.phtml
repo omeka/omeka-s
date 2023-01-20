@@ -19,7 +19,7 @@ if ($owner = $itemSet->owner()) {
 
 $sectionNavs = [
     'item-set-metadata' => $translate('Metadata'),
-    'item-set-linked' => $translate('Linked resources'),
+    'resources-linked' => $translate('Linked resources'),
 ];
 ?>
 
@@ -35,20 +35,24 @@ $sectionNavs = [
 <?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $itemSet); ?>
 
 <div id="item-set-metadata" class="active section">
-    <?php if ( $itemSet->resourceClass()): ?>
+    <?php if ($itemSet->resourceClass()): ?>
+    <dl>
         <div class="meta-group">
-            <h4><?php echo $translate('Class'); ?></h4>
-            <div class="value"><?php echo $escape($itemSet->resourceClass()->label()); ?></div>
+            <dt><?php echo $translate('Class'); ?></dt>
+            <dd class="value"><?php echo $escape($itemSet->resourceClass()->label()); ?></dd>
         </div>
+    </dl>
     <?php endif; ?>
     <?php echo $itemSet->displayValues(); ?>
 </div>
 
-<div id="item-set-linked" class="section">
+<div id="resources-linked" class="section">
     <?php
-    $page = $this->params()->fromQuery('page', 1);
-    $property = $this->params()->fromQuery('property');
-    $subjectValues = $itemSet->displaySubjectValues($page, 25);
+    $subjectValues = $itemSet->displaySubjectValues([
+        'page' => $this->params()->fromQuery('page', 1),
+        'perPage' => 25,
+        'resourceProperty' => $this->params()->fromQuery('resource_property'),
+    ]);
     ?>
     <?php if ($subjectValues): ?>
         <p><?php echo $translate('The following resources link to this item set:'); ?></p>
@@ -59,7 +63,6 @@ $sectionNavs = [
         </div>
     <?php endif; ?>
 </div>
-
 
 <div class="active sidebar">
     <div class="meta-group">

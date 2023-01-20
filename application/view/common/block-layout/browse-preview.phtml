@@ -22,11 +22,12 @@ $lang = $this->lang();
 foreach ($this->resources as $resource):
 $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]')]) : $resource->displayTitle(null, ($filterLocale ? $lang : null));
 $body = $bodyTerm ? $resource->value($bodyTerm) : $resource->displayDescription(null, ($filterLocale ? $lang : null));
+$thumbnail = $this->thumbnail($resource, 'medium', ['title' => $heading]);
 ?>
     <li class="<?php echo $this->resourceType; ?> resource">
         <?php
-        if ($showThumbnail):
-            echo $resource->linkRaw($this->thumbnail($resource, 'medium', ['title' => $heading]));
+        if ($showThumbnail && $thumbnail):
+            echo $resource->linkRaw($thumbnail);
         endif;?>
         <?php
         if ($showHeading):

@@ -19,10 +19,12 @@ $sectionNavs = [
 <div id="media-metadata" class="active section">
     <?php echo $media->render(); ?>
     <?php if ( $media->resourceClass()): ?>
+    <dl class="resource-class">
         <div class="meta-group">
-            <h4><?php echo $translate('Class'); ?></h4>
-            <div class="value"><?php echo $media->resourceClass()->label(); ?></div>
+            <dt><?php echo $translate('Class'); ?></dt>
+            <dd class="value"><?php echo $media->resourceClass()->label(); ?></dd>
         </div>
+    </dl>
     <?php endif; ?>
     <?php echo $media->displayValues(); ?>
 </div>
@@ -45,6 +47,12 @@ $sectionNavs = [
         <h4><?php echo $translate('Created'); ?></h4>
         <div class="value"><?php echo $escape($this->i18n()->dateFormat($media->created())); ?></div>
     </div>
+    <?php if ($media->lang()): ?>
+    <div class="meta-group">
+        <h4><?php echo $translate('Language'); ?></h4>
+        <div class="value"><?php echo $escape($media->lang()); ?></div>
+    </div>
+    <?php endif; ?>
     <?php if ($media->mediaType()): ?>
     <div class="meta-group">
         <h4><?php echo $translate('MIME type'); ?></h4>

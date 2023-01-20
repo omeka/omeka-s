@@ -1,23 +1,26 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$labelInfo = $this->setting('property_label_information');
 
 if ($this->status()->isSiteRequest()) {
+    $labelInfo = $this->siteSetting('property_label_information');
     $showLocale = (bool) $this->siteSetting('show_locale_label', true);
     $filterLocale = $this->siteSetting('filter_locale_values');
     $lang = $this->lang();
     $showValueAnnotations = (bool) $this->siteSetting('show_value_annotations', false);
 } else {
+    $labelInfo = $this->setting('property_label_information');
     $showLocale = true;
     $filterLocale = false;
     $lang = null;
     $showValueAnnotations = true;
 }
 ?>
+
+<dl>
 <?php foreach ($values as $term => $propertyData): ?>
     <div class="property">
-        <h4>
+        <dt>
         <?php if ($propertyData['alternate_label']): ?>
         <?php echo $escape($propertyData['alternate_label']); ?>
         <?php else: ?>
@@ -28,42 +31,41 @@ if ($this->status()->isSiteRequest()) {
         <?php elseif ('vocab' === $labelInfo): ?>
         <span class="field-term">(<?php echo $escape($propertyData['property']->vocabulary()->label()); ?>)</span>
         <?php endif; ?>
-        </h4>
-        <div class="values">
+        </dt>
         <?php foreach ($propertyData['values'] as $value): ?>
-            <?php
-            $valueType = $value->type();
-            $valueLang = $value->lang();
-            $valueAnnotation = $value->valueAnnotation();
-            $class = ['value'];
-            if ('resource' == $valueType || strpos($valueType, 'resource') !== false) {
-                $class[] = 'resource';
-                $class[] = $escape($value->valueResource()->resourceName());
-            } elseif ('uri' == $valueType) {
-                $class[] = 'uri';
-            }
-            ?>
-            <?php if ((!$filterLocale) || ($valueLang == '') || (strcasecmp($valueLang, $lang) == 0)): ?>
-            <div class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($valueLang); ?>">
-                <?php if ($showLocale && $valueLang): ?>
-                <span class="language"><?php echo $valueLang; ?></span>
-                <?php endif; ?>
-                <span class="value-content"><?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?></span>
-                <?php if(!$value->isPublic()): ?>
-                    <span class="o-icon-private" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Private')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Private')); ?>"></span>
-                <?php endif; ?>
-                <?php if ($valueAnnotation && $showValueAnnotations): ?>
-                    <a href="#" class="expand" aria-label="<?php echo $this->escapeHtml($translate('Expand')); ?>">
-                        <span class="has-annotation o-icon-annotation" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Has annotation')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Has annotation')); ?>"></span>
-                    </a>
-                    <div class="collapsible annotation">
-                        <?php echo $valueAnnotation->displayValues(); ?>
-                    </div>
-                <?php endif; ?>
-                <?php $this->trigger('view.show.value', ['value' => $value]); ?>
-            </div>
+        <?php
+        $valueType = $value->type();
+        $valueLang = $value->lang();
+        $valueAnnotation = $value->valueAnnotation();
+        $class = ['value'];
+        if ('resource' == $valueType || strpos($valueType, 'resource') !== false) {
+            $class[] = 'resource';
+            $class[] = $escape($value->valueResource()->resourceName());
+        } elseif ('uri' == $valueType) {
+            $class[] = 'uri';
+        }
+        ?>
+        <?php if ((!$filterLocale) || ($valueLang == '') || (strcasecmp($valueLang, $lang) == 0)): ?>
+        <dd class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($valueLang); ?>">
+            <?php if ($showLocale && $valueLang): ?>
+            <span class="language"><?php echo $valueLang; ?></span>
             <?php endif; ?>
-        <?php endforeach; ?>
-        </div>
+            <span class="value-content"><?php echo $filterLocale ? $value->asHtml($lang) : $value->asHtml(); ?></span>
+            <?php if(!$value->isPublic()): ?>
+                <span class="o-icon-private" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Private')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Private')); ?>"></span>
+            <?php endif; ?>
+            <?php if ($valueAnnotation && $showValueAnnotations): ?>
+                <a href="#" class="expand" aria-label="<?php echo $this->escapeHtml($translate('Expand')); ?>">
+                    <span class="has-annotation o-icon-annotation" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Has annotation')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Has annotation')); ?>"></span>
+                </a>
+                <div class="collapsible annotation">
+                    <?php echo $valueAnnotation->displayValues(); ?>
+                </div>
+            <?php endif; ?>
+            <?php $this->trigger('view.show.value', ['value' => $value]); ?>
+        </dd>
+        <?php endif; ?>
+            <?php endforeach; ?>
     </div>
 <?php endforeach; ?>
+</dl>

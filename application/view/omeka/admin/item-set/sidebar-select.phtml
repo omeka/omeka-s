@@ -3,41 +3,75 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $hyperlink = $this->plugin('hyperlink');
 $itemSetsFound = count($itemSets) > 0;
+$expanded = $resourceClassId || $id;
 ?>
+
+<div id="item-results">
 
 <h3><?php echo $translate('Select item set'); ?></h3>
 <div class="search-nav">
     <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
         <input type="text" name="search" value="<?php echo $escape($searchValue); ?>" id="resource-list-search">
         <button type="button" class="o-icon-search"><?php echo $translate('Search'); ?></button>
+        <div class="resource-search-filters">
+            <a href="#"
+                class="<?php echo $expanded ? 'collapse' : 'expand'; ?>"
+                aria-label="<?php echo $expanded ? $translate('Collapse') : $translate('Expand'); ?>"><?php echo $translate('Filter search'); ?>
+            </a>
+            <div class="collapsible">
+            <?php
+            echo $this->resourceClassSelect([
+                'name' => 'resource_class_id',
+                'options' => [
+                    'empty_option' => '',
+                ],
+                'attributes' => [
+                    'id' => 'filter-resource-class',
+                    'class' => 'chosen-select',
+                    'value' => $resourceClassId,
+                    'data-placeholder' => 'Filter by class', // @translate
+                ],
+            ]);
+            ?>
+            <input type="number" name="id" min="1" step="1" value="<?php echo $this->escapeHtml($id); ?>" placeholder="<?php echo $this->escapeHtml($translate('Filter by item set ID')); ?>">
+            </div>
+        </div>
     </div>
     <?php if ($itemSetsFound): ?>
         <?php echo $this->pagination('common/sidebar-pagination.phtml'); ?>
     <?php endif; ?>
 </div>
 
+<?php if ($itemSetsFound): ?>
+<?php echo $this->partial('common/sidebar-select-quick-add'); ?>
 <div class="item-sets resource-list">
-    <?php if ($itemSetsFound): ?>
-        <?php
-        foreach ($itemSets as $itemSet): ?>
-        <div class="resource item-set">
-            <?php
-            $content = sprintf(
-                '%s<span class="resource-name">%s</span>',
-                $this->thumbnail($itemSet, 'square'),
-                $escape($itemSet->displayTitle())
-            );
-            echo $hyperlink->raw($content, '#', [
-                'class' => 'sidebar-content select-resource resource-link',
-                'data-sidebar-content-url' => $itemSet->url('show-details'),
-                'data-sidebar-selector' => '#resource-details',
-            ]);
-            ?>
+    <?php
+    foreach ($itemSets as $itemSet): ?>
+    <div class="resource item-set" data-resource-values="<?php echo $escape(json_encode($itemSet->valueRepresentation())); ?>">
+        <div class="select-resource-checkbox-wrapper">
+            <input type="checkbox" class="select-resource-checkbox" name="resource_ids[]" value="<?php echo $itemSet->id(); ?>">
         </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <span class="no-resources"><?php echo $translate(sprintf('No %s found.', $translate('item sets'))); ?></span>
-    <?php endif; ?>
+        <?php
+        $content = sprintf(
+            '%s<span class="resource-name">%s</span>',
+            $this->thumbnail($itemSet, 'square'),
+            $escape($itemSet->displayTitle())
+        );
+        echo $hyperlink->raw($content, '#', [
+            'class' => 'sidebar-content select-resource resource-link',
+            'data-sidebar-content-url' => $itemSet->url('show-details'),
+            'data-sidebar-selector' => '#resource-details',
+        ]);
+        ?>
+    </div>
+    <?php endforeach; ?>
+</div>
+<?php else: ?>
+    <span class="no-resources"><?php $translate('Omeka could not find any items.'); ?></span>
+<?php endif; ?>
+
 </div>
 
-
+<div class="confirm-panel">
+    <button type="button" class="select-resources-button"><?php echo $translate('Add selected'); ?></button>
+</div>

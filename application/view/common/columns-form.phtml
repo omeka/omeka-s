@@ -1,0 +1,19 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('css/columns-form.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/columns-form.js', 'Omeka'));
+?>
+<div class="columns-form-element"
+    data-context="<?php echo $this->escapeHtml($element->getContext()); ?>"
+    data-resource-type="<?php echo $this->escapeHtml($element->getResourceType()); ?>"
+    data-user-id="<?php echo $this->escapeHtml($element->getUserId()); ?>"
+    data-column-list-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'column-list'])); ?>"
+    data-column-row-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'column-row'])); ?>"
+    data-column-edit-sidebar-url="<?php echo $this->escapeHtml($this->url('admin/default', ['controller' => 'columns', 'action' => 'column-edit-sidebar'])); ?>">
+    <?php echo $this->formHidden($element); ?>
+    <fieldset class="column-select-group">
+        <?php echo $this->browse()->getColumnTypeSelect($element->getResourceType()); ?>
+        <button type="button" class="columns-column-add-button o-icon-add" disabled aria-label="<?php echo $this->translate('Add'); ?>" title="<?php echo $this->translate('Add'); ?>"></button>
+    </fieldset>
+    <ul class="columns-columns"></ul>
+</div>

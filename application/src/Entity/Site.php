@@ -124,7 +124,6 @@ class Site extends AbstractEntity
 
     public function __construct()
     {
-        $this->siteItems = new ArrayCollection;
         $this->pages = new ArrayCollection;
         $this->sitePermissions = new ArrayCollection;
         $this->siteItemSets = new ArrayCollection;

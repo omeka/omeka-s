@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# John Flatness <john@zerocrates.org>, 2020
+# John Flatness <john@omeka.org>, 2020
 # Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2022
 # 
 #, fuzzy
@@ -207,7 +207,7 @@ msgstr "Recursos"
 
 #: application/src/DataType/Resource/ItemSet.php:27
 msgid "Item Sets"
-msgstr ""
+msgstr "Conjunts de recursos"
 
 #: application/src/DataType/Resource/Media.php:27
 #: application/view/common/data-type/resource.phtml:37
@@ -1154,7 +1154,7 @@ msgstr "El valor que se suprimirà"
 
 #: application/view/common/data-type-wrapper.phtml:21
 msgid "More actions"
-msgstr ""
+msgstr "Més accions"
 
 #: application/view/common/data-type-wrapper.phtml:24
 #: application/view/common/media-field-wrapper.phtml:10
@@ -1172,7 +1172,7 @@ msgstr "Fes-lo privat"
 #: application/view/common/data-type-wrapper.phtml:27
 #: application/view/common/value-annotation-sidebar.phtml:6
 msgid "Annotate value"
-msgstr ""
+msgstr "Valor de l'anotació"
 
 #: application/view/common/data-type/literal.phtml:4
 #: application/view/common/data-type/value-annotation-literal.phtml:2
@@ -1455,7 +1455,7 @@ msgstr "Privat"
 
 #: application/view/common/resource-values.phtml:57
 msgid "Has annotation"
-msgstr ""
+msgstr "Té una anotació"
 
 #: application/view/common/sidebar-pagelist.phtml:10
 msgid "Add to List of pages"
@@ -1552,15 +1552,15 @@ msgstr "Usuaris (%s)"
 
 #: application/view/common/value-annotation-sidebar.phtml:20
 msgid "Add annotation"
-msgstr ""
+msgstr "Afegeix una anotació"
 
 #: application/view/common/value-annotation-sidebar.phtml:22
 msgid "Annotations"
-msgstr ""
+msgstr "Anotacions"
 
 #: application/view/common/value-annotation-sidebar.phtml:27
 msgid "Set annotations"
-msgstr ""
+msgstr "Defineix les anotacions"
 
 #: application/view/common/value-annotation-wrapper.phtml:13
 #: application/view/omeka/admin/item-set/form.phtml:49
@@ -2840,10 +2840,14 @@ msgid ""
 " list of available API resources and links to their endpoints. Some "
 "resources and features require authentication."
 msgstr ""
+"Aquest és el punt final de l'arrel de l'API REST d'aquesta instal·lació de "
+"l'Omeka S. A continuació, trobareu una llista dels recursos disponibles a "
+"través de l'API amb els seus respectius punts finals. Alguns recursos i "
+"funcionalitats requereixen autenticació."
 
 #: application/view/omeka/api/root.phtml:12
 msgid "Omeka S REST API documentation"
-msgstr ""
+msgstr "Documentació de l'API REST de l'Omeka S"
 
 #: application/view/omeka/index/index.phtml:32
 #, php-format
@@ -3205,7 +3209,7 @@ msgstr "Recurs"
 #: application/src/DataType/Resource/AbstractResource.php:77
 #, php-format
 msgid "Invalid value resource %s for type %s"
-msgstr ""
+msgstr "Valor invàlid %s per al tipus %s"
 
 #: application/src/Site/BlockLayout/ItemShowcase.php:13
 msgid "Item showcase"
@@ -4451,11 +4455,11 @@ msgstr "Mostra les pàgines públiques en les quals el recurs apareix."
 
 #: application/src/Form/SiteSettingsForm.php:257
 msgid "Show value annotations"
-msgstr ""
+msgstr "Mostra els valors de les anotacions"
 
 #: application/src/Form/SiteSettingsForm.php:258
 msgid "Show annotations that are set to a value, if any."
-msgstr ""
+msgstr "Mostra les anotacions que tenen un valor."
 
 #: application/src/Form/SiteSettingsForm.php:280
 msgid "Search type"

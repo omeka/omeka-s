@@ -95,10 +95,10 @@ function composer(args, options) {
 
     return stat(composerPath).catch(function (e) {
         return download(installerUrl, installerPath).then(function () {
-            return runPhpCommand(installerPath, ['--1'], {cwd: buildDir});
+            return runPhpCommand(installerPath, ['--2'], {cwd: buildDir});
         });
     }).then(function () {
-        return runPhpCommand(composerPath, ['self-update']);
+        return runPhpCommand(composerPath, ['self-update', '--2']);
     }).then(function () {
         if (!cliOptions['dev']) {
             args.push('--no-dev');
@@ -195,7 +195,7 @@ function compileToMo(file) {
 function phpCsFixer(fix, modulePath) {
     let args = ['fix', '--verbose'];
     if (!fix) {
-        args = args.concat(['--dry-run', '--diff', '--diff-format=udiff']);
+        args = args.concat(['--dry-run', '--diff']);
     }
     if (modulePath) {
         const [moduleName] = modulePath.split(path.sep).slice(-1);
@@ -275,7 +275,7 @@ taskTestPhp.description = 'Run PHPUnit automated tests';
 gulp.task('test:php', taskTestPhp);
 
 var taskTest = gulp.series('test:cs', 'test:php');
-taskTest.description = 'Run all tests'
+taskTest.description = 'Run all tests';
 gulp.task('test', taskTest);
 
 function taskFixCs() {
@@ -338,14 +338,17 @@ function taskDepsJs(cb) {
         'ckeditor4': ['**', '!samples/**'],
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',
+        'lightgallery': ['lightgallery.min.js', '[c]ss/lightgallery-bundle.min.css', '[f]onts/**', '[i]mages/**',
+            '[p]lugins/@(hash|rotate|thumbnail|video|zoom)/*.min.js'],
+        'mirador': ['dist/**', '!dist/cjs/**', '!dist/es/**'],
         'openseadragon': 'build/openseadragon/**',
         'semver': 'semver.min.js',
         'sortablejs': 'Sortable.min.js',
         'tablesaw': 'dist/stackonly/**'
-    }
+    };
     var depRenames = {
         'ckeditor4': 'ckeditor'
-    }
+    };
 
     Object.keys(deps).forEach(function (module) {
         var moduleDeps = deps[module];
@@ -481,7 +484,7 @@ function taskI18nModuleTemplate() {
     });
 }
 taskI18nModuleTemplate.description = 'Update translation template for a module';
-taskI18nModuleTemplate.flags = {'--module-name': 'Name of module (required)'}
+taskI18nModuleTemplate.flags = {'--module-name': 'Name of module (required)'};
 gulp.task('i18n:module:template', taskI18nModuleTemplate);
 
 function taskI18nModuleCompile() {
@@ -492,17 +495,17 @@ function taskI18nModuleCompile() {
     });
 }
 taskI18nModuleCompile.description = 'Build translation files for a module';
-taskI18nModuleCompile.flags = {'--module-name': 'Name of module (required)'}
+taskI18nModuleCompile.flags = {'--module-name': 'Name of module (required)'};
 gulp.task('i18n:module:compile', taskI18nModuleCompile);
 
 function taskCreateMediaTypeMap() {
     return runPhpCommand(scriptsDir + '/create-media-type-map.php');
 }
-taskCreateMediaTypeMap.description = 'Update media type to file extension mappings'
+taskCreateMediaTypeMap.description = 'Update media type to file extension mappings';
 gulp.task('create-media-type-map', taskCreateMediaTypeMap);
 
 var taskInit = gulp.series('dedist', 'deps');
-taskInit.description = 'Run first-time setup for a source checkout'
+taskInit.description = 'Run first-time setup for a source checkout';
 gulp.task('init', taskInit);
 
 function taskClean() {
@@ -510,7 +513,7 @@ function taskClean() {
         rimraf(__dirname + '/vendor');
     });
 }
-taskClean.description = 'Clean build files and installed dependencies'
+taskClean.description = 'Clean build files and installed dependencies';
 gulp.task('clean', taskClean);
 
 var taskZip = gulp.series('clean', 'init', function () {
@@ -539,5 +542,5 @@ var taskZip = gulp.series('clean', 'init', function () {
         .pipe(zip('omeka-s.zip'))
         .pipe(gulp.dest(buildDir))
 });
-taskZip.description = 'Create zip archive'
+taskZip.description = 'Create zip archive';
 gulp.task('zip', taskZip);

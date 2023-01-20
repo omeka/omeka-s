@@ -2,20 +2,6 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabulary-classes');
-$sortHeadings = [
-    [
-        'label' => $translate('Label'),
-        'value' => 'label'
-    ],
-    [
-        'label' => $translate('Term'),
-        'value' => 'local_name'
-    ],
-    [
-        'label' => $translate('Items'),
-        'value' => 'item_count'
-    ]
-];
 ?>
 
 <?php echo $this->pageTitle($translate($vocabulary->label()), 1, $translate('Vocabularies'), $translate('Classes')); ?>
@@ -27,8 +13,7 @@ $sortHeadings = [
 <?php if (count($resourceClasses)): ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
-
-    <?php echo $this->sortSelector($sortHeadings); ?>
+    <?php echo $this->browse()->renderSortSelector('resource_classes'); ?>
 </div>
 
 <table class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">

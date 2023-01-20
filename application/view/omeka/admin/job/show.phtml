@@ -25,44 +25,46 @@ if ($owner = $job->owner()) {
     <?php endif; ?>
 </div>
 
-<div class="meta-group">
-    <h4><?php echo $translate('Status'); ?></h4>
-    <div class="value"><?php echo $job->statusLabel(); ?></div>
-</div>
-<div class="meta-group">
-    <h4><?php echo $translate('Started'); ?></h4>
-    <div class="value"><?php echo $started; ?></div>
-</div>
-<div class="meta-group">
-    <h4><?php echo $translate('Ended'); ?></h4>
-    <div class="value"><?php echo $ended; ?></div>
-</div>
-<div class="meta-group">
-    <h4><?php echo $translate('Class'); ?></h4>
-    <div class="value"><?php echo $job->jobClass(); ?></div>
-</div>
-<div class="meta-group">
-    <h4><?php echo $translate('Owner'); ?></h4>
-    <div class="value"><?php echo $ownerText; ?></div>
-</div>
-<div class="meta-group">
-    <h4><?php echo $translate('Args'); ?></h4>
-    <?php if ($job->args()): ?>
-        <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT); ?>
-        <div class="value"><pre><?php echo $args; ?></pre></div>
-    <?php else: ?>
-    <div class="value"><?php echo $translate('[no args]') ?></div>
-    <?php endif; ?>
-</div>
-<div class="meta-group">
-    <h4><?php echo $translate('Log'); ?></h4>
-    <div class="value">
-    <?php if ($job->log()): ?>
-    <?php echo $this->hyperlink($translate('view log'),
-        $this->url(null, ['action' => 'log'], true),
-        ['target' => '_blank']); ?>
-    <?php else: ?>
-    <?php echo $translate('[no log]'); ?>
-    <?php endif; ?>
+<dl class="job-metadata">
+    <div class="meta-group">
+        <dt><?php echo $translate('Status'); ?></dt>
+        <dd class="value"><?php echo $job->statusLabel(); ?></dd>
     </div>
-</div>
+    <div class="meta-group">
+        <dt><?php echo $translate('Started'); ?></dt>
+        <dd class="value"><?php echo $started; ?></dd>
+    </div>
+    <div class="meta-group">
+        <dt><?php echo $translate('Ended'); ?></dt>
+        <dd class="value"><?php echo $ended; ?></dd>
+    </div>
+    <div class="meta-group">
+        <dt><?php echo $translate('Class'); ?></dt>
+        <dd class="value"><?php echo $job->jobClass(); ?></dd>
+    </div>
+    <div class="meta-group">
+        <dt><?php echo $translate('Owner'); ?></dt>
+        <dd class="value"><?php echo $ownerText; ?></dd>
+    </div>
+    <div class="meta-group">
+        <dt><?php echo $translate('Args'); ?></dt>
+        <?php if ($job->args()): ?>
+            <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT); ?>
+            <dd class="value"><pre><?php echo $args; ?></pre></dd>
+        <?php else: ?>
+            <dd class="value"><?php echo $translate('[no args]') ?></dd>
+        <?php endif; ?>
+    </div>
+    <div class="meta-group">
+        <dt><?php echo $translate('Log'); ?></dt>
+        <dd class="value">
+        <?php if ($job->log()): ?>
+        <?php echo $this->hyperlink($translate('view log'),
+            $this->url(null, ['action' => 'log'], true),
+            ['target' => '_blank']); ?>
+        <?php else: ?>
+        <?php echo $translate('[no log]'); ?>
+        <?php endif; ?>
+        </dd>
+    </div>
+</dl>

@@ -35,6 +35,6 @@ $mediaFound = count($media) > 0;
         </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <span class="no-resources"><?php echo $translate(sprintf('No %s found.', $translate('media'))); ?></span>
+        <span class="no-resources"><?php $translate('Omeka could not find any media.'); ?></span>
     <?php endif; ?>
 </div>

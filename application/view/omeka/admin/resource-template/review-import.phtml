@@ -69,6 +69,7 @@ if (!$hasVocab) {
         <th><?php echo $translate('Alternate comment'); ?></th>
         <th><?php echo $translate('Required?'); ?></th>
         <th><?php echo $translate('Private?'); ?></th>
+        <th><?php echo $translate('Default language'); ?></th>
     </tr>
 </thead>
 <tbody>
@@ -110,6 +111,7 @@ if ($hasProperty) {
         <td><?php echo $escape($property['o:alternate_comment']); ?></td>
         <td><?php echo $property['o:is_required'] ?  $translate('Yes') : $translate('No'); ?></td>
         <td><?php echo $property['o:is_private'] ? $translate('Yes') : $translate('No'); ?></td>
+        <td><?php echo $escape($property['o:default_lang'] ?? ''); ?></td>
     </tr>
     <?php if (!$hasProperty): ?>
     <tr>

@@ -16,32 +16,34 @@ $this->htmlElement('body')->appendAttribute('class', 'sites show');
     <?php echo $this->hyperlink($translate('Back to site list'), $this->url('admin/site'), ['class' => 'o-icon-left']); ?>
 </div>
 
-<div class="property">
-    <h4><?php echo $escape($translate('URL slug')); ?></h4>
-    <div class="value"><?php echo $escape($site->slug()); ?></div>
-</div>
-<div class="property">
-    <h4><?php echo $escape($translate('Title')); ?></h4>
-    <div class="value"><?php echo $escape($site->title()); ?></div>
-</div>
-<div class="property">
-    <h4><?php echo $escape($translate('Theme')); ?></h4>
-    <div class="value"><?php echo $escape($site->theme()); ?></div>
-</div>
-<?php
-$summary = $site->summary();
-if ($summary):
-?>
-<div class="property">
-    <h4><?php echo $escape($translate('Summary')); ?></h4>
-    <div class="value"><?php echo nl2br($escape($summary)); ?></div>
-</div>
-<?php endif; ?>
-<?php
-$thumbnail = $site->thumbnail();
-if ($thumbnail): ?>
-<div class="property">
-    <h4><?php echo $escape($translate('Thumbnail')); ?></h4>
-    <div class="value"><?php echo $this->thumbnail($thumbnail, 'square', ['class' => 'selected-asset-image']); ?></div>
-</div>
-<?php endif; ?>
+<dl>
+    <div class="property">
+        <dt><?php echo $escape($translate('URL slug')); ?></dt>
+        <dd class="value"><?php echo $escape($site->slug()); ?></dd>
+    </div>
+    <div class="property">
+        <dt><?php echo $escape($translate('Title')); ?></dt>
+        <dd class="value"><?php echo $escape($site->title()); ?></dd>
+    </div>
+    <div class="property">
+        <dt><?php echo $escape($translate('Theme')); ?></dt>
+        <dd class="value"><?php echo $escape($site->theme()); ?></dd>
+    </div>
+    <?php
+    $summary = $site->summary();
+    if ($summary):
+    ?>
+    <div class="property">
+        <dt><?php echo $escape($translate('Summary')); ?></dt>
+        <dd class="value"><?php echo nl2br($escape($summary)); ?></dd>
+    </div>
+    <?php endif; ?>
+    <?php
+    $thumbnail = $site->thumbnail();
+    if ($thumbnail): ?>
+    <div class="property">
+        <dt><?php echo $escape($translate('Thumbnail')); ?></dt>
+        <dd class="value"><?php echo $this->thumbnail($thumbnail, 'square', ['class' => 'selected-asset-image']); ?></dd>
+    </div>
+    <?php endif; ?>
+</dl>

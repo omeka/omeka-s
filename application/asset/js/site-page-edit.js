@@ -192,8 +192,8 @@
             e.preventDefault();
             var block = $(this).parents('.block');
             block.toggleClass('delete');
-            block.find('a.remove-value, a.restore-value').show();
-            $(this).hide();
+            block.find('a.remove-value, a.restore-value').removeClass('inactive');
+            $(this).toggleClass('inactive');
             Omeka.markDirty($(this).closest('form'));
         });
 
@@ -225,6 +225,20 @@
                     $(this).removeAttr('disabled');
                 });
             }
+        });
+
+        $('.collapse-all').on('click', function() {
+            $('.block-header.collapse .collapse').click();
+        });
+
+        $('.expand-all').on('click', function() {
+            $('.block-header:not(.collapse) .expand').click();
+        });
+
+        // Toggle block visibility
+        $('#blocks').on('click', '.expand,.collapse', function() {
+            var blockToggle = $(this);
+            blockToggle.parents('.block-header').toggleClass('collapse');
         });
 
         // Make attachments sortable.

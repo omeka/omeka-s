@@ -1,14 +1,20 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$itemSetRepresentations = $item ? $item->itemSets() : [];
+
+$itemSetRepresentations = [];
+$defaultItemSets = (array) $this->userSetting('default_item_sets');
+if ($item) {
+    $itemSetRepresentations = $item->itemSets();
+} elseif ($defaultItemSets) {
+    // Set the logged in user's default item sets when adding an item.
+    $itemSetRepresentations = $this->api()->search('item_sets', ['id' => $defaultItemSets, 'is_open' => true])->getContent();
+}
+
 $itemSets = [];
 foreach ($itemSetRepresentations as $itemSet) {
-    $owner = $itemSet->owner();
     $itemSets[] = [
         'id' => $itemSet->id(),
-        'title' => $itemSet->title(),
-        'email' => $owner ? $owner->email() : null,
     ];
 }
 $itemSetTemplate = '
@@ -23,7 +29,7 @@ $itemSetTemplate = '
     </ul><input type="hidden" class="resource-id" name="o:item_set[]"></td>
 </tr>';
 ?>
-<table id="item-item-sets" 
+<table id="item-item-sets"
   data-tablesaw-mode="stack"
   data-existing-rows="<?php echo $this->escapeHtml(json_encode($itemSets)); ?>"
   data-row-template="<?php echo $this->escapeHtml($itemSetTemplate); ?>"

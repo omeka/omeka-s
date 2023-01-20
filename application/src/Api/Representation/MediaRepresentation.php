@@ -68,7 +68,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
         if (!$this->hasThumbnails() || !$thumbnailManager->typeExists($type)) {
             $fallbacks = $thumbnailManager->getFallbacks();
             $mediaType = $this->mediaType();
-            $topLevelType = strstr($mediaType, '/', true);
+            $topLevelType = strstr((string) $mediaType, '/', true);
 
             if (isset($fallbacks[$mediaType])) {
                 // Prioritize a match against the full media type, e.g. "image/jpeg"
@@ -81,7 +81,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
             }
 
             $assetUrl = $this->getServiceLocator()->get('ViewHelperManager')->get('assetUrl');
-            return $assetUrl($fallback[0], $fallback[1], true);
+            return $assetUrl($fallback[0], $fallback[1], true, false, true);
         }
         return $this->getFileUrl($type, $this->storageId(), 'jpg');
     }
@@ -271,7 +271,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
     public function altTextResolved()
     {
         $altText = $this->altText();
-        if (!strlen($altText)) {
+        if (!strlen((string) $altText)) {
             $settings = $this->getServiceLocator()->get('Omeka\Settings');
             $fallbackProperty = $settings->get('media_alt_text_property');
             if ($fallbackProperty) {

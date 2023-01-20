@@ -1,0 +1,7 @@
+<?php
+$options = [];
+if ($this->siteSetting('exclude_resources_not_in_site')) {
+    $options['siteId'] = $this->currentSite()->id();
+}
+echo $resource->displayValues($options);
+?>

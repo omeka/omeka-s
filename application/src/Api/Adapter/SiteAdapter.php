@@ -142,7 +142,15 @@ class SiteAdapter extends AbstractEntityAdapter
                             'o:block' => [
                                 [
                                     'o:layout' => 'html',
-                                    'o:data' => ['html' => $translator->translate('Welcome to your new site. This is an example page.')],
+                                    'o:data' => ['html' => $this->getFirstPageContent()],
+                                ],
+                                [
+                                    'o:layout' => 'lineBreak',
+                                    'o:data' => ['break_type' => 'opaque'],
+                                ],
+                                [
+                                    'o:layout' => 'html',
+                                    'o:data' => ['html' => $this->getSecondPageContent()],
                                 ],
                             ],
                         ]
@@ -393,5 +401,53 @@ class SiteAdapter extends AbstractEntityAdapter
                 'links' => [],
             ],
         ];
+    }
+
+    protected function getFirstPageContent()
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return $translator->translate(<<<EOT
+            <p>Welcome to your new site. This is an example page.</p>
+            <ul>
+                <li>This is a bullet list.</li>
+                <li>Second entry.</li>
+            </ul>
+            <p>Back to normal again.</p>
+            <ol>
+                <li>This is an ordered list.</li>
+                <li>Second entry.</li>
+            </ol>
+            <p>Back to normal again.</p>
+            <blockquote>This is a blockquote.</blockquote>
+            <p>Back to normal again.</p>
+            <div><a href="#">This text is a link, which currently points to nothing.</a></div>
+            <p><strong>This text is bold, in a &lt;strong&gt; tag.</strong></p>
+            <p><em>This text is italicized, in an &lt;em&gt; tag.</em></p>
+            <p><u>This text is underlined, in a &lt;u&gt; tag.</u></p>
+            <p><s>This text has a strikethrough, in a &lt;s&gt; tag.</s></p>
+            <p>This text is <sub>subscript</sub> and <sup>superscript</sup> using &lt;sub&gt; and &lt;sup&gt;, which can be used for adding notes and citations.</p>
+            <hr>
+            <h1>This is an H1 title. It is bigger than the Page Title, which is rendered in H2.</h1>
+            <h2>This is an H2 header, the same size as the Page Title.</h2>
+            <h3>This is an H3 subheader.</h3>
+            <h4>This is an H4 subheader.</h4>
+            <h5>This is an H5 subheader.</h5>
+            <h6>This is an H6 subheader.</h6>
+        EOT);
+    }
+
+    protected function getSecondPageContent()
+    {
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        return $translator->translate(<<<EOT
+            <h2 style="font-style:italic;">This is the &quot;Italic Title&quot; block style.</h2>
+            <h3 style="color:#aaaaaa;font-style:italic;">This is the &quot;Subtitle&quot; block style.</h3>
+            <div style="background:#eeeeee;border:1px solid #cccccc;padding:5px 10px;">This is the &quot;Special Container&quot; block style.</div>
+            <p><span class="marker">This is the &quot;Marker&quot; inline style. </span></p>
+            <p><big>This is the &quot;Big&quot; inline style.</big> This is normal text.</p>
+            <p><small>This text is inside a &quot;small&quot; inline style.</small> This is normal text.</p>
+            <p><code>This is the &quot;Computer Code&quot; inline style.</code></p>
+            <p><span dir="rtl">لكن لا بد أن أوضح لك أن كل هذه الأفكار المغلوطة حول استنكار النشوة وتمجيد الألم يعرض هذا النص من اليمين إلى اليسار.</span></p>
+        EOT);
     }
 }

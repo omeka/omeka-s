@@ -153,7 +153,7 @@
                 clearTimeout(timer);
                 timer = setTimeout(Omeka.filterSelector.bind(this), 400);
             }
-        })())
+        })());
 
         // Autoposition tooltip.
         $('body').on('click', '.o-icon-info', function(e) {
@@ -196,7 +196,7 @@
 
         $('.batch-edit td input[type="checkbox"]').change(function() {
             if ($('.select-all:checked').length > 0) {
-                $('.select-all').prop('checked', false); 
+                $('.select-all').prop('checked', false);
             }
             Omeka.manageSelectedActions();
         });
@@ -238,6 +238,13 @@
             Omeka.closeOpenPageActionsMenu(e);
         });
 
+        $(document).on('keyup, change', 'input.validate-language', function(e) {
+            if ('' === this.value || Omeka.langIsValid(this.value)) {
+                this.setCustomValidity('');
+            } else {
+                this.setCustomValidity(Omeka.jsTranslate('Please enter a valid language tag'))
+            }
+        });
 
     });
 

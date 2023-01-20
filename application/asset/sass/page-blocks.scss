@@ -250,3 +250,22 @@
     font-size: 1.25rem;
     font-weight: bold;
 }
+
+.page-date-time {
+    margin: 1rem 0;
+}
+
+.page-date-time .property {
+    font-weight: bold;
+
+    &:after {
+        content: ": ";
+    }
+}
+
+.page-date-time > div, 
+.page-date-time .property, 
+.page-date-time .value {
+    display: inline-block;
+    margin: 0;
+}

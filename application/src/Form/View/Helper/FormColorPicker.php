@@ -6,7 +6,7 @@ use Laminas\Form\ElementInterface;
 
 class FormColorPicker extends FormText
 {
-    public function render(ElementInterface $element)
+    public function render(ElementInterface $element): string
     {
         $view = $this->getView();
         $view->headScript()->appendFile($view->assetUrl('js/color-picker.js', 'Omeka'));

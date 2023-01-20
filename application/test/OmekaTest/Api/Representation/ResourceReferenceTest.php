@@ -10,6 +10,7 @@ class ResourceReferenceTest extends TestCase
     protected $data;
     protected $adapter;
     protected $viewHelperManager;
+    protected $resource;
 
     public function setUp(): void
     {

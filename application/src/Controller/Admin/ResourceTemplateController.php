@@ -22,7 +22,7 @@ class ResourceTemplateController extends AbstractActionController
 
     public function browseAction()
     {
-        $this->setBrowseDefaults('label', 'asc');
+        $this->browse()->setDefaults('resource_templates');
         $response = $this->api()->search('resource_templates', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 
@@ -347,6 +347,12 @@ class ResourceTemplateController extends AbstractActionController
             } elseif (!is_array($property['data_types']) && !is_null($property['data_types'])) {
                 return false;
             }
+
+            // Validate info introduced in newer versions.
+            if (isset($property['o:default_lang']) && (!is_string($property['o:default_lang']) && !is_null($property['o:default_lang']))) {
+                // o:default_lang introduced in v4.0.0
+                return false;
+            }
         }
         return true;
     }
@@ -405,6 +411,7 @@ class ResourceTemplateController extends AbstractActionController
                 'o:alternate_comment' => $templateProperty->alternateComment(),
                 'o:is_required' => $templateProperty->isRequired(),
                 'o:is_private' => $templateProperty->isPrivate(),
+                'o:default_lang' => $templateProperty->defaultLang(),
                 'data_types' => $templateProperty->dataTypeLabels(),
                 'vocabulary_namespace_uri' => $vocab->namespaceUri(),
                 'vocabulary_label' => $vocab->label(),
@@ -497,6 +504,11 @@ class ResourceTemplateController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
+            if (!isset($data['o:resource_template_property'])) {
+                // Must include the o:resource_template_property key if all
+                // properties are removed, else nothing is removed.
+                $data['o:resource_template_property'] = [];
+            }
             $form->setData($data);
             if ($form->isValid()) {
                 $response = ('edit' === $action)
@@ -573,6 +585,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:data_type' => $resTemProp->dataTypes(),
                         'o:is_required' => $resTemProp->isRequired(),
                         'o:is_private' => $resTemProp->isPrivate(),
+                        'o:default_lang' => $resTemProp->defaultLang(),
                     ];
                 }
             } else {
@@ -592,6 +605,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:data_type' => null,
                         'o:is_required' => false,
                         'o:is_private' => false,
+                        'o:default_lang' => null,
                     ],
                     [
                         'o:property' => $descriptionProperty,
@@ -600,6 +614,7 @@ class ResourceTemplateController extends AbstractActionController
                         'o:data_type' => null,
                         'o:is_required' => false,
                         'o:is_private' => false,
+                        'o:default_lang' => null,
                     ],
                 ];
             }
@@ -627,6 +642,7 @@ class ResourceTemplateController extends AbstractActionController
             'o:data_type' => null,
             'o:is_required' => false,
             'o:is_private' => false,
+            'o:default_lang' => null,
         ];
 
         $view = new ViewModel;

@@ -13,11 +13,8 @@ if ($item) {
 
 $sites = [];
 foreach ($siteRepresentations as $siteRepresentation) {
-    $id = $siteRepresentation->id();
-    $sites[$id] = [
-        'id' => $id,
-        'title' => $siteRepresentation->title(),
-        'email' => $siteRepresentation->owner(),
+    $sites[] = [
+        'id' => $siteRepresentation->id(),
     ];
 }
 

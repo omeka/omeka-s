@@ -5,20 +5,6 @@ $this->htmlElement('body')->appendAttribute('class', 'users browse');
 $currentUserId = $this->identity()->getId();
 $userIsAllowedBatchUpdate = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'batch_update');
 $userIsAllowedBatchDelete = $this->userIsAllowed('Omeka\Api\Adapter\UserAdapter', 'batch_delete');
-$sortHeadings = [
-    [
-        'label' => $translate('Email'),
-        'value' => 'email'
-    ],
-    [
-        'label' => $translate('Role'),
-        'value' => 'role'
-    ],
-    [
-        'label' => $translate('Created'),
-        'value' => 'created'
-    ]
-]
 ?>
 
 <?php echo $this->pageTitle($translate('Users')); ?>
@@ -28,7 +14,7 @@ $sortHeadings = [
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->hyperlink($translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
-    <?php echo $this->sortSelector($sortHeadings); ?>
+    <?php echo $this->browse()->renderSortSelector('users'); ?>
 </div>
 
 <div id="page-actions">

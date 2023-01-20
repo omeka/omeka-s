@@ -27,12 +27,16 @@ class SearchFilters extends AbstractHelper
 
         $filters = [];
         $api = $this->getView()->api();
-        $query = $query ?? $this->getView()->params()->fromQuery();
+        $query ??= $this->getView()->params()->fromQuery();
         $queryTypes = [
             'eq' => $translate('is exactly'),
             'neq' => $translate('is not exactly'),
             'in' => $translate('contains'),
             'nin' => $translate('does not contain'),
+            'sw' => $translate('starts with'),
+            'nsw' => $translate('does not start with'),
+            'ew' => $translate('ends with'),
+            'new' => $translate('does not end with'),
             'res' => $translate('is resource with ID'),
             'nres' => $translate('is not resource with ID'),
             'ex' => $translate('has any value'),
@@ -79,8 +83,8 @@ class SearchFilters extends AbstractHelper
                             }
                             $propertyId = $queryRow['property'];
                             $queryType = $queryRow['type'];
-                            $joiner = isset($queryRow['joiner']) ? $queryRow['joiner'] : null;
-                            $value = isset($queryRow['text']) ? $queryRow['text'] : null;
+                            $joiner = $queryRow['joiner'] ?? null;
+                            $value = $queryRow['text'] ?? null;
 
                             if (!$value && $queryType !== 'nex' && $queryType !== 'ex') {
                                 continue;
@@ -153,7 +157,25 @@ class SearchFilters extends AbstractHelper
                             if (!is_numeric($subValue)) {
                                 continue;
                             }
-                            $filterLabel = $translate('Item set');
+                            $filterLabel = $translate('In item set');
+                            try {
+                                $filterValue = $api->read('item_sets', $subValue)->getContent()->displayTitle();
+                            } catch (NotFoundException $e) {
+                                $filterValue = $translate('Unknown item set');
+                            }
+                            $filters[$filterLabel][] = $filterValue;
+                        }
+                        break;
+                    // Search not item set
+                    case 'not_item_set_id':
+                        if (!is_array($value)) {
+                            $value = [$value];
+                        }
+                        foreach ($value as $subValue) {
+                            if (!is_numeric($subValue)) {
+                                continue;
+                            }
+                            $filterLabel = $translate('Not in item set');
                             try {
                                 $filterValue = $api->read('item_sets', $subValue)->getContent()->displayTitle();
                             } catch (NotFoundException $e) {
@@ -182,6 +204,31 @@ class SearchFilters extends AbstractHelper
                             $filterValue = $translate('Unknown site');
                         }
                         $filters[$filterLabel][] = $filterValue;
+                        break;
+
+                    case 'is_public':
+                        $filterLabel = $translate('Visibility');
+                        $filters[$filterLabel][] = $value ? $translate('Public') : $translate('Not public');
+                        break;
+
+                    case 'has_media':
+                        $filterLabel = $translate('Media presence');
+                        $filters[$filterLabel][] = $value ? $translate('Has media') : $translate('Has no media');
+                        break;
+
+                    case 'id':
+                        $filterLabel = $translate('ID');
+                        $ids = $value;
+                        if (is_string($ids) || is_int($ids)) {
+                            $ids = false === strpos($ids, ',') ? [$ids] : explode(',', $ids);
+                        } elseif (!is_array($ids)) {
+                            $ids = [];
+                        }
+                        $ids = array_map('trim', $ids);
+                        $ids = array_filter($ids, function ($id) {
+                            return !($id === null || $id === '');
+                        });
+                        $filters[$filterLabel][] = implode(', ', $ids);
                         break;
                 }
             }

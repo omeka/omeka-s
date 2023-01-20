@@ -15,6 +15,10 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
 
     public function getResourceJsonLd()
     {
+        $primaryMedia = null;
+        if ($this->primaryMedia()) {
+            $primaryMedia = $this->primaryMedia()->getReference();
+        }
         $media = [];
         foreach ($this->media() as $mediaRepresentation) {
             $media[] = $mediaRepresentation->getReference();
@@ -28,6 +32,7 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
             $sites[] = $siteRepresentation->getReference();
         }
         return [
+            'o:primary_media' => $primaryMedia,
             'o:media' => $media,
             'o:item_set' => $itemSets,
             'o:site' => $sites,
@@ -78,6 +83,20 @@ class ItemRepresentation extends AbstractResourceEntityRepresentation
 
     public function primaryMedia()
     {
+        // Return the primary media if one is set.
+        $primaryMedia = $this->resource->getPrimaryMedia();
+        if ($primaryMedia) {
+            // The media may not be public, so fetch the media directly from the
+            // entity manager to leverage the resource visibility filter.
+            // Otherwise, an EntityNotFound exception will be raised when
+            // attempting to fetch data from the Doctrine proxy returned from
+            // getPrimaryMedia().
+            $primaryMedia = $this->getServiceLocator()
+                ->get('Omeka\EntityManager')
+                ->getRepository('Omeka\Entity\Media')
+                ->findOneBy(['id' => $primaryMedia->getId()]);
+            return $this->getAdapter('media')->getRepresentation($primaryMedia);
+        }
         // Return the first media if one exists.
         $media = $this->media();
         return $media ? $media[0] : null;

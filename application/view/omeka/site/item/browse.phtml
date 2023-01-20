@@ -9,34 +9,17 @@ $lang = $this->lang();
 $query = $this->params()->fromQuery();
 $itemSetShow = isset($itemSet);
 if ($itemSetShow):
+    $this->headLink()->appendStylesheet($this->assetUrl('css/resource-page-blocks.css', 'Omeka'));
     $this->htmlElement('body')->appendAttribute('class', 'item-set');
     $query['item_set_id'] = $itemSet->id();
 endif;
-$sortHeadings = [
-    [
-        'label' => $translate('Title'),
-        'value' => 'dcterms:title'
-    ],
-    [
-        'label' => $translate('Identifier'),
-        'value' => 'dcterms:identifier'
-    ],
-    [
-        'label' => $translate('Class'),
-        'value' => 'resource_class_label'
-    ],
-    [
-        'label' => $translate('Created'),
-        'value' => 'created'
-    ],
-];
 ?>
 
 <?php if ($itemSetShow): ?>
     <?php echo $this->pageTitle($itemSet->displayTitle(null, ($filterLocale ? $lang : null)), 2); ?>
     <h3><?php echo $translate('Item set'); ?></h3>
     <div class="metadata">
-        <?php echo $itemSet->displayValues(); ?>
+        <?php echo $this->resourcePageBlocks($itemSet)->getBlocks(); ?>
     </div>
     <div class="item-set-items">
     <?php echo '<h3>' . $escape($translate('Items')) . '</h3>'; ?>
@@ -49,7 +32,7 @@ $sortHeadings = [
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
     <?php echo $this->hyperlink($translate('Advanced search'), $this->url('site/resource', ['controller' => 'item', 'action' => 'search'], ['query' => $query], true), ['class' => 'advanced-search']); ?>
-    <?php echo $this->sortSelector($sortHeadings); ?>
+    <?php echo $this->browse()->renderSortSelector('items'); ?>
 </div>
 
 <?php $this->trigger('view.browse.before'); ?>
@@ -62,10 +45,7 @@ foreach ($items as $item):
     $body = $bodyTerm ? $item->value($bodyTerm, ['lang' => ($filterLocale ? [$lang, ''] : null)]) : $item->displayDescription(null, ($filterLocale ? [$lang, ''] : null));
 ?>
     <li class="item resource">
-        <?php if ($itemThumbnail = $this->thumbnail($item, 'medium')): ?>
-        <?php echo $item->linkRaw($itemThumbnail); ?>
-        <?php endif; ?>
-        <h4><?php echo $item->link($heading); ?></h4>
+        <?php echo $item->linkPretty('medium', $heading); ?>
         <?php if ($body): ?>
         <div class="description"><?php echo $escape($body); ?></div>
         <?php endif; ?>

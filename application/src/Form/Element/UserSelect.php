@@ -27,7 +27,7 @@ class UserSelect extends Select
         return $this->apiManager;
     }
 
-    public function getValueOptions()
+    public function getValueOptions(): array
     {
         $users = $this->getApiManager()->search('users', ['sort_by' => 'name'])->getContent();
         $valueOptions = [];

@@ -23,7 +23,7 @@ class SiteItemSetRepresentation extends AbstractRepresentation
         $this->itemSet = $itemSet;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'o:item_set' => $this->itemSet()->getReference(),

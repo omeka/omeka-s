@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: application/src/Api/Adapter/AbstractAdapter.php:40
 #, php-format
@@ -2922,7 +2922,7 @@ msgid ""
 "The entire site will be down for maintenance until you click the button "
 "below."
 msgstr ""
-"Une mise à jour logicielle a récemment eu lieu et la base de donnée doit "
+"Une mise à jour logicielle a récemment eu lieu et la base de données doit "
 "être mise à jour. Le site restera en maintenance jusqu’à ce que vous "
 "cliquiez sur le bouton ci-dessous."
 
@@ -5936,7 +5936,7 @@ msgstr "Un agrégat de ressources."
 
 #. Class label for Dublin Core Type:Dataset
 msgid "Dataset"
-msgstr "Base de données"
+msgstr "Jeu de données"
 
 #. Class comment for Dublin Core Type:Dataset
 msgid "Data encoded in a defined structure."

@@ -78,17 +78,23 @@ class ItemSetController extends AbstractActionController
 
     public function browseAction()
     {
-        $this->setBrowseDefaults('created');
+        $this->browse()->setDefaults('item_sets');
         $response = $this->api()->search('item_sets', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 
+        // Set the return query for batch actions. Note that we remove the page
+        // from the query because there's no assurance that the page will return
+        // results once changes are made.
+        $returnQuery = $this->params()->fromQuery();
+        unset($returnQuery['page']);
+
         $formDeleteSelected = $this->getForm(ConfirmForm::class);
-        $formDeleteSelected->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], true));
+        $formDeleteSelected->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete'], ['query' => $returnQuery], true));
         $formDeleteSelected->setButtonLabel('Confirm Delete'); // @translate
         $formDeleteSelected->setAttribute('id', 'confirm-delete-selected');
 
         $formDeleteAll = $this->getForm(ConfirmForm::class);
-        $formDeleteAll->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete-all'], true));
+        $formDeleteAll->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'batch-delete-all'], ['query' => $returnQuery], true));
         $formDeleteAll->setButtonLabel('Confirm Delete'); // @translate
         $formDeleteAll->setAttribute('id', 'confirm-delete-all');
         $formDeleteAll->get('submit')->setAttribute('disabled', true);
@@ -99,6 +105,7 @@ class ItemSetController extends AbstractActionController
         $view->setVariable('resources', $itemSets);
         $view->setVariable('formDeleteSelected', $formDeleteSelected);
         $view->setVariable('formDeleteAll', $formDeleteAll);
+        $view->setVariable('returnQuery', $returnQuery);
         return $view;
     }
 
@@ -137,6 +144,8 @@ class ItemSetController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('itemSets', $response->getContent());
         $view->setVariable('searchValue', $this->params()->fromQuery('search'));
+        $view->setVariable('resourceClassId', $this->params()->fromQuery('resource_class_id'));
+        $view->setVariable('id', $this->params()->fromQuery('id'));
         $view->setTerminal(true);
         return $view;
     }
@@ -186,10 +195,11 @@ class ItemSetController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
 
+        $returnQuery = $this->params()->fromQuery();
         $resourceIds = $this->params()->fromPost('resource_ids', []);
         if (!$resourceIds) {
             $this->messenger()->addError('You must select at least one item set to batch delete.'); // @translate
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $returnQuery], true);
         }
 
         $form = $this->getForm(ConfirmForm::class);
@@ -202,7 +212,7 @@ class ItemSetController extends AbstractActionController
         } else {
             $this->messenger()->addFormErrors($form);
         }
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $returnQuery], true);
     }
 
     public function batchDeleteAllAction()
@@ -227,7 +237,7 @@ class ItemSetController extends AbstractActionController
         } else {
             $this->messenger()->addFormErrors($form);
         }
-        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+        return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $this->params()->fromQuery()], true);
     }
 
     /**
@@ -239,10 +249,11 @@ class ItemSetController extends AbstractActionController
             return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
         }
 
+        $returnQuery = $this->params()->fromQuery();
         $resourceIds = $this->params()->fromPost('resource_ids', []);
         if (!$resourceIds) {
             $this->messenger()->addError('You must select at least one item set to batch edit.'); // @translate
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $returnQuery], true);
         }
 
         $form = $this->getForm(ResourceBatchUpdateForm::class, ['resource_type' => 'itemSet']);
@@ -263,8 +274,12 @@ class ItemSetController extends AbstractActionController
                 }
 
                 $this->messenger()->addSuccess('Item sets successfully edited'); // @translate
-                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $returnQuery], true);
             } else {
+                // Must set the value of these elements to a string because
+                // their POST returns an array, which would result in an error.
+                $form->get('set_value_visibility')->setValue('');
+                $form->get('value')->setValue('');
                 $this->messenger()->addFormErrors($form);
             }
         }
@@ -309,13 +324,13 @@ class ItemSetController extends AbstractActionController
                 $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchUpdate', [
                     'resource' => 'item_sets',
                     'query' => $query,
-                    'data' => isset($data['replace']) ? $data['replace'] : [],
-                    'data_remove' => isset($data['remove']) ? $data['remove'] : [],
-                    'data_append' => isset($data['append']) ? $data['append'] : [],
+                    'data' => $data['replace'] ?? [],
+                    'data_remove' => $data['remove'] ?? [],
+                    'data_append' => $data['append'] ?? [],
                 ]);
 
                 $this->messenger()->addSuccess('Editing item sets. This may take a while.'); // @translate
-                return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                return $this->redirect()->toRoute(null, ['action' => 'browse'], ['query' => $this->params()->fromQuery()], true);
             } else {
                 $this->messenger()->addFormErrors($form);
             }

@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Diego Ecker <eckerdiego@gmail.com>, 2018
-# John Flatness <john@zerocrates.org>, 2020
+# John Flatness <john@omeka.org>, 2020
 # Deidson Rafael <drafael@usp.br>, 2021
 # Carlos Eduardo Maciel <carlosmaciel1@gmail.com>, 2021
 # 
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: application/src/Api/Adapter/AbstractAdapter.php:40
 #, php-format

@@ -1,0 +1,22 @@
+<?php
+$this->headLink()->appendStylesheet($this->assetUrl('css/browse-defaults-form.css', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('js/browse-defaults-form.js', 'Omeka'));
+$sortConfig = $this->browse()->getBrowseService()->getSortConfig($element->getContext(), $element->getResourceType());
+?>
+<div class="browse-defualts-form-element"
+    data-context="<?php echo $this->escapeHtml($element->getContext()); ?>"
+    data-resource-type="<?php echo $this->escapeHtml($element->getResourceType()); ?>"
+    data-user-id="<?php echo $this->escapeHtml($element->getUserId()); ?>">
+    <?php echo $this->formHidden($element); ?>
+    <select class="browse-defualts-sort-by">
+        <option value=""><?php echo $this->translate('[Custom sort by]'); ?></option>
+        <?php foreach ($sortConfig as $sortBy => $label): ?>
+        <option value="<?php echo $this->escapeHtml($sortBy); ?>"><?php echo $this->escapeHtml($label); ?></option>
+        <?php endforeach; ?>
+    </select>
+    <input type="text" class="browse-defualts-custom-sort-by" placeholder="<?php echo $this->escapeHtml($this->translate('Enter a custom sort by')); ?>" style="display:none;">
+    <select class="browse-defualts-sort-order">
+        <option value="desc"><?php echo $this->translate('Descending'); ?></option>
+        <option value="asc"><?php echo $this->translate('Ascending'); ?></option>
+    </select>
+</div>

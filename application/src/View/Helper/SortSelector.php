@@ -36,6 +36,13 @@ class SortSelector extends AbstractHelper
         ];
         $args = $view->trigger('view.sort-selector', $args, true);
 
+        // Convert to the new sort configuration structure.
+        $sortConfig = [];
+        foreach ($args['sortBy'] as $sortBy) {
+            $sortConfig[$sortBy['value']] = $sortBy['label'];
+        }
+        $args['sortConfig'] = $sortConfig;
+
         return $view->partial($partialName, (array) $args);
     }
 }

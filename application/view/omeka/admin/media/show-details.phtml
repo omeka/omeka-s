@@ -24,6 +24,13 @@ $item = $resource->item();
         <div class="value"><?php echo $item->link($item->displayTitle()); ?></div>
     </div>
 
+    <?php if ($resource->lang()): ?>
+    <div class="meta-group">
+        <h4><?php echo $translate('Language'); ?></h4>
+        <div class="value"><?php echo $escape($resource->lang()); ?></div>
+    </div>
+    <?php endif; ?>
+
     <?php if ($resource->mediaType()): ?>
     <div class="meta-group">
         <h4><?php echo $translate('MIME type'); ?></h4>

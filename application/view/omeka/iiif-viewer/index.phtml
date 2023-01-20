@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head>
+    <script src="<?php echo $this->escapeHtml($this->assetUrl('vendor/mirador/mirador.min.js', 'Omeka')); ?>"></script>
+</head>
+<body>
+    <div id="viewer" data-mirador-config="<?php echo $this->escapeHtml(json_encode($miradorConfig)); ?>"></div>
+    <script type="text/javascript">
+    const miradorConfig = JSON.parse(document.getElementById('viewer').dataset.miradorConfig);
+    Mirador.viewer(miradorConfig);
+    </script>
+</body>
+</html>

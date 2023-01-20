@@ -1,0 +1,10 @@
+<?php
+$resourceMedia = $resource->media();
+?>
+<?php if ($resourceMedia): ?>
+<div class="media-embeds">
+    <?php foreach ($resourceMedia as $media): ?>
+    <?php echo $media->render(); ?>
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>

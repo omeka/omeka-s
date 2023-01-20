@@ -10,7 +10,7 @@ if ($owner = $item->owner()) {
 
 $sectionNavs = [
     'item-metadata' => $translate('Metadata'),
-    'item-linked' => $translate('Linked resources'),
+    'resources-linked' => $translate('Linked resources'),
 ];
 
 $itemMedia = $item->media();
@@ -25,23 +25,26 @@ $itemMedia = $item->media();
 <?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $item); ?>
 
 <div id="item-metadata" class="active section">
-    <?php if ( $item->resourceClass()): ?>
+    <?php if ($item->resourceClass()): ?>
+    <dl class="resource-class">
         <div class="meta-group">
-            <h4><?php echo $translate('Class'); ?></h4>
-            <div class="value"><?php echo $escape($translate($item->resourceClass()->label())); ?></div>
+            <dt><?php echo $translate('Class'); ?></dt>
+            <dd class="value"><?php echo $escape($translate($item->resourceClass()->label())); ?></dd>
         </div>
+    </dl>
     <?php endif; ?>
     <?php echo $item->displayValues(); ?>
 </div>
 
-<div id="item-linked" class="section">
+<div id="resources-linked" class="section">
     <?php
-    $page = $this->params()->fromQuery('page', 1);
-    $property = $this->params()->fromQuery('property');
-    $subjectValues = $item->displaySubjectValues($page, 25, $property);
+    $subjectValues = $item->displaySubjectValues([
+        'page' => $this->params()->fromQuery('page', 1),
+        'perPage' => 25,
+        'resourceProperty' => $this->params()->fromQuery('resource_property'),
+    ]);
     ?>
     <?php if ($subjectValues): ?>
-        <p><?php echo $translate('The following resources link to this item:'); ?></p>
         <?php echo $subjectValues; ?>
     <?php else: ?>
         <div class="no-resources">
@@ -49,7 +52,6 @@ $itemMedia = $item->media();
         </div>
     <?php endif; ?>
 </div>
-
 
 <div class="sidebar active">
     <?php echo $this->thumbnail($item, 'square'); ?>

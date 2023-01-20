@@ -62,12 +62,12 @@ class ArrayTextarea extends Textarea implements InputProviderInterface
         }
         if ($this->asKeyValue) {
             $string = '';
-            foreach ($array as $key => $value) {
+            foreach ($array ?? [] as $key => $value) {
                 $string .= strlen($value) ? "$key $this->keyValueSeparator $value\n" : $key . "\n";
             }
             return $string;
         }
-        return implode("\n", $array);
+        return $array ? implode("\n", $array) : '';
     }
 
     public function stringToArray($string)
@@ -93,7 +93,7 @@ class ArrayTextarea extends Textarea implements InputProviderInterface
             if (strpos($keyValue, $this->keyValueSeparator) === false) {
                 $result[trim($keyValue)] = '';
             } else {
-                list($key, $value) = array_map('trim', explode($this->keyValueSeparator, $keyValue, 2));
+                [$key, $value] = array_map('trim', explode($this->keyValueSeparator, $keyValue, 2));
                 $result[$key] = $value;
             }
         }

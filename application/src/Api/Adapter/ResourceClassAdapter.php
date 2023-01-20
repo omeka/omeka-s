@@ -113,7 +113,7 @@ class ResourceClassAdapter extends AbstractEntityAdapter
             );
         }
         if (isset($query['term']) && $this->isTerm($query['term'])) {
-            list($prefix, $localName) = explode(':', $query['term']);
+            [$prefix, $localName] = explode(':', $query['term']);
             $vocabularyAlias = $this->createAlias();
             $qb->innerJoin(
                 'omeka_root.vocabulary',
@@ -128,12 +128,33 @@ class ResourceClassAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $localName))
             );
         }
+        //limit results to classes used by resources
         if (!empty($query['used'])) {
             $valuesAlias = $this->createAlias();
             $qb->innerJoin(
                 'omeka_root.resources',
                 $valuesAlias
             );
+        }
+        //limit results to classes used by items in the site
+        if (isset($query['site_id']) && is_numeric($query['site_id'])) {
+            $siteAlias = $this->createAlias();
+            $itemAlias = $this->createAlias();
+            $resourcesAlias = $this->createAlias();
+            $subquery = $this->getEntityManager()
+                ->createQueryBuilder()
+                ->select("IDENTITY($resourcesAlias.resourceClass)")
+                ->from('Omeka\Entity\Resource', $resourcesAlias)
+                ->join('Omeka\Entity\Site', $siteAlias)
+                ->join(
+                    "$siteAlias.items",
+                    $itemAlias,
+                    'WITH',
+                    "$itemAlias.id = $resourcesAlias.id"
+                )
+                ->andWhere($qb->expr()->eq("$siteAlias.id",
+                    $this->createNamedParameter($qb, $query['site_id'])));
+            $qb->andWhere($qb->expr()->in('omeka_root.id', $subquery->getDQL()));
         }
     }
 

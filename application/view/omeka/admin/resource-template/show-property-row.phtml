@@ -15,6 +15,7 @@ $propertyId = $escape($property->id());
     <input class="alternate-comment" type="hidden" name="<?php echo $escape($namePrefix . '[o:alternate_comment]'); ?>" value="<?php echo $escape($propertyRow['o:alternate_comment']); ?>">
     <input class="is-required" type="hidden" name="<?php echo $escape($namePrefix . '[o:is_required]'); ?>" value="<?php echo $escape($propertyRow['o:is_required']); ?>">
     <input class="is-private" type="hidden" name="<?php echo $escape($namePrefix . '[o:is_private]'); ?>" value="<?php echo $escape($propertyRow['o:is_private']); ?>">
+    <input class="default-lang" type="hidden" name="<?php echo $escape($namePrefix . '[o:default_lang]'); ?>" value="<?php echo $escape($propertyRow['o:default_lang']); ?>">
     <input class="data-type" type="hidden" name="<?php echo $escape($namePrefix . '[o:data_type][]'); ?>" value="<?php echo is_array($propertyRow['o:data_type']) ? $escape(implode(',', $propertyRow['o:data_type'])) : $propertyRow['o:data_type']; ?>">
 
     <span class="sortable-handle"></span>

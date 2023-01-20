@@ -64,7 +64,7 @@ class Imagick extends AbstractThumbnailer
 
         switch ($strategy) {
             case 'square':
-                $gravity = isset($options['gravity']) ? $options['gravity'] : 'center';
+                $gravity = $options['gravity'] ?? 'center';
                 if ($origWidth < $origHeight) {
                     $tempWidth = $constraint;
                     $tempHeight = $origHeight * ($constraint / $origWidth);
@@ -76,7 +76,7 @@ class Imagick extends AbstractThumbnailer
                     $origY = 0;
                     $origX = $this->getOffsetX($tempWidth, $constraint, $gravity);
                 }
-                $imagick->thumbnailImage($tempWidth, $tempHeight);
+                $imagick->thumbnailImage(round($tempWidth), round($tempHeight));
                 $imagick->cropImage($constraint, $constraint, $origX, $origY);
                 $imagick->setImagePage($constraint, $constraint, 0, 0);
                 break;

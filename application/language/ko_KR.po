@@ -5,7 +5,7 @@
 # 
 # Translators:
 # ESnark <settimeout1000@gmail.com>, 2018
-# John Flatness <john@zerocrates.org>, 2020
+# John Flatness <john@omeka.org>, 2020
 # 이승일 <leesi@archivelab.co.kr>, 2021
 # 
 #, fuzzy

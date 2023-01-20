@@ -1,8 +1,10 @@
 <?php
 namespace Omeka\Form;
 
+use Omeka\Form\Element\BrowseDefaults;
 use Omeka\Form\Element\PropertySelect;
 use Omeka\Settings\SiteSettings;
+use Omeka\Stdlib\Browse as BrowseService;
 use Laminas\Form\Form;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
@@ -16,25 +18,30 @@ class SiteSettingsForm extends Form
      */
     protected $siteSettings;
 
+    /**
+     * @var BrowseService
+     */
+    protected $browseService;
+
     public function init()
     {
         $settings = $this->getSiteSettings();
 
-        // General section
-        $this->add([
-            'type' => 'fieldset',
-            'name' => 'general',
-            'options' => [
-                'label' => 'General', // @translate
-            ],
+        $this->setOption('element_groups', [
+            'general' => 'General', // @translate
+            'language' => 'Language', // @translate
+            'browse' => 'Browse', // @translate
+            'show' => 'Show', // @translate
+            'search' => 'Search', // @translate
         ]);
-        $generalFieldset = $this->get('general');
+
         // o:assign_new_items element is a pseudo-setting that's ultimately set
         // as a property of the site and not as a site setting.
-        $generalFieldset->add([
+        $this->add([
             'name' => 'o:assign_new_items',
             'type' => 'checkbox',
             'options' => [
+                'element_group' => 'general',
                 'label' => 'Auto-assign new items', // @translate
                 'info' => 'Select this if you want new items to be automatically assigned to this site. Note that item owners may unassign their items at any time.', // @translate
             ],
@@ -43,10 +50,11 @@ class SiteSettingsForm extends Form
                 'value' => true,
             ],
         ]);
-        $generalFieldset->add([
+        $this->add([
             'name' => 'attachment_link_type',
             'type' => 'Select',
             'options' => [
+                'element_group' => 'general',
                 'label' => 'Attachment link type', // @translate
                 'value_options' => [
                     'item' => 'Item page', // @translate
@@ -59,21 +67,11 @@ class SiteSettingsForm extends Form
                 'value' => $settings->get('attachment_link_type'),
             ],
         ]);
-        $generalFieldset->add([
-            'name' => 'item_media_embed',
-            'type' => 'checkbox',
-            'options' => [
-                'label' => 'Embed media on item pages', // @translate
-            ],
-            'attributes' => [
-                'id' => 'item_media_embed',
-                'value' => (bool) $settings->get('item_media_embed', false),
-            ],
-        ]);
-        $generalFieldset->add([
+        $this->add([
             'name' => 'show_page_pagination',
             'type' => 'checkbox',
             'options' => [
+                'element_group' => 'general',
                 'label' => 'Show page pagination', // @translate
                 'info' => 'Show pagination that helps users follow a linear narrative through a site.', // @translate
             ],
@@ -82,10 +80,29 @@ class SiteSettingsForm extends Form
                 'value' => $settings->get('show_page_pagination', true),
             ],
         ]);
-        $generalFieldset->add([
+        $this->add([
+            'name' => 'property_label_information',
+            'type' => 'Select',
+            'options' => [
+                'element_group' => 'general',
+                'label' => 'Property label information', // @translate
+                'info' => 'The additional information that accompanies labels on resource pages.', // @translate
+                'value_options' => [
+                    'none' => 'None', // @translate
+                    'vocab' => 'Show Vocabulary', // @translate
+                    'term' => 'Show Term', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'property_label_information',
+                'value' => $settings->get('property_label_information', 'none'),
+            ],
+        ]);
+        $this->add([
             'name' => 'show_user_bar',
             'type' => 'radio',
             'options' => [
+                'element_group' => 'general',
                 'label' => 'Show user bar on public views', // @translate
                 'value_options' => [
                     '-1' => 'Never', // @translate
@@ -97,10 +114,11 @@ class SiteSettingsForm extends Form
                 'value' => $settings->get('show_user_bar', '0'),
             ],
         ]);
-        $generalFieldset->add([
+        $this->add([
             'name' => 'disable_jsonld_embed',
             'type' => 'Checkbox',
             'options' => [
+                'element_group' => 'general',
                 'label' => 'Disable JSON-LD embed', // @translate
                 'info' => 'By default, Omeka embeds JSON-LD in resource browse and show pages for the purpose of machine-readable metadata discovery. Check this to disable embedding.', // @translate
             ],
@@ -112,18 +130,11 @@ class SiteSettingsForm extends Form
 
         // Language section
         $this->add([
-            'type' => 'fieldset',
-            'name' => 'language',
-            'options' => [
-                'label' => 'Language', // @translate
-            ],
-        ]);
-        $langFieldset = $this->get('language');
-        $langFieldset->add([
             'name' => 'locale',
             'id' => 'locale',
             'type' => 'Omeka\Form\Element\LocaleSelect',
             'options' => [
+                'element_group' => 'language',
                 'label' => 'Locale', // @translate
                 'info' => 'Locale/language code for this site. Leave blank to use the global locale setting.', // @translate
             ],
@@ -134,10 +145,11 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
-        $langFieldset->add([
+        $this->add([
             'name' => 'filter_locale_values',
             'type' => 'checkbox',
             'options' => [
+                'element_group' => 'language',
                 'label' => 'Filter values based on site locale', // @translate
                 'info' => 'Show only values matching the site language setting and values without locale ID.', // @translate
             ],
@@ -147,10 +159,11 @@ class SiteSettingsForm extends Form
             ],
         ]);
 
-        $langFieldset->add([
+        $this->add([
             'name' => 'show_locale_label',
             'type' => 'checkbox',
             'options' => [
+                'element_group' => 'language',
                 'label' => 'Show language labels for values', // @translate
                 'info' => 'Show a label indicating the language of each value on show pages.', // @translate
             ],
@@ -162,17 +175,10 @@ class SiteSettingsForm extends Form
 
         // Browse section
         $this->add([
-            'type' => 'fieldset',
-            'name' => 'browse',
-            'options' => [
-                'label' => 'Browse', // @translate
-            ],
-        ]);
-        $browseFieldset = $this->get('browse');
-        $browseFieldset->add([
             'name' => 'browse_attached_items',
             'type' => 'checkbox',
             'options' => [
+                'element_group' => 'browse',
                 'label' => 'Restrict browse to attached items', // @translate
             ],
             'attributes' => [
@@ -180,10 +186,11 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('browse_attached_items', false),
             ],
         ]);
-        $browseFieldset->add([
+        $this->add([
             'name' => 'pagination_per_page',
             'type' => 'Text',
             'options' => [
+                'element_group' => 'browse',
                 'label' => 'Results per page', // @translate
                 'info' => 'The maximum number of results per page on browse pages. Leave blank to use the global setting.', // @translate
             ],
@@ -195,10 +202,11 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $headingTerm = $settings->get('browse_heading_property_term');
-        $browseFieldset->add([
+        $this->add([
             'name' => 'browse_heading_property_term',
             'type' => PropertySelect::class,
             'options' => [
+                'element_group' => 'browse',
                 'label' => 'Browse heading property', // @translate
                 'info' => 'Use this property for the heading of each resource on a browse page. Keep unselected to use the default title property of each resource.', // @translate
                 'term_as_value' => true,
@@ -212,10 +220,11 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $bodyTerm = $settings->get('browse_body_property_term');
-        $browseFieldset->add([
+        $this->add([
             'name' => 'browse_body_property_term',
             'type' => PropertySelect::class,
             'options' => [
+                'element_group' => 'browse',
                 'label' => 'Browse body property', // @translate
                 'info' => 'Use this property for the body of each resource on a browse page. Keep unselected to use the default description property of each resource.', // @translate
                 'term_as_value' => true,
@@ -228,20 +237,26 @@ class SiteSettingsForm extends Form
                 'data-placeholder' => 'Select a property', // @translate
             ],
         ]);
+        $this->add([
+            'name' => 'browse_defaults_public_items',
+            'type' => BrowseDefaults::class,
+            'options' => [
+                'element_group' => 'browse',
+                'label' => 'Item browse defaults', // @translate
+                'browse_defaults_context' => 'public',
+                'browse_defaults_resource_type' => 'items',
+            ],
+            'attributes' => [
+                'value' => json_encode($this->browseService->getBrowseConfig('public', 'items')),
+            ],
+        ]);
 
         // Show section
         $this->add([
-            'type' => 'fieldset',
-            'name' => 'show',
-            'options' => [
-                'label' => 'Show', // @translate
-            ],
-        ]);
-        $showFieldset = $this->get('show');
-        $showFieldset->add([
             'name' => 'show_attached_pages',
             'type' => 'checkbox',
             'options' => [
+                'element_group' => 'show',
                 'label' => 'Show attached pages', // @translate
                 'info' => 'Show site pages to which an item is attached on the public item show page.', // @translate
             ],
@@ -250,10 +265,11 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('show_attached_pages', true),
             ],
         ]);
-        $showFieldset->add([
+        $this->add([
             'name' => 'show_value_annotations',
             'type' => 'checkbox',
             'options' => [
+                'element_group' => 'show',
                 'label' => 'Show value annotations', // @translate
                 'info' => 'Show annotations that are set to a value, if any.', // @translate
             ],
@@ -262,21 +278,38 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('show_value_annotations', false),
             ],
         ]);
+        $this->add([
+            'name' => 'exclude_resources_not_in_site',
+            'type' => 'checkbox',
+            'options' => [
+                'element_group' => 'show',
+                'label' => 'Exclude resources not in site', // @translate
+                'info' => 'Exclude resources that are not assigned to this site.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'exclude_resources_not_in_site',
+                'value' => (bool) $settings->get('exclude_resources_not_in_site', false),
+            ],
+        ]);
+        $this->add([
+            'name' => 'item_media_embed',
+            'type' => 'checkbox',
+            'options' => [
+                'element_group' => 'show',
+                'label' => 'Embed media on item pages (legacy)', // @translate
+            ],
+            'attributes' => [
+                'id' => 'item_media_embed',
+                'value' => (bool) $settings->get('item_media_embed', false),
+            ],
+        ]);
 
         // Search section
         $this->add([
-            'type' => 'fieldset',
-            'name' => 'search',
-            'options' => [
-                'label' => 'Search', // @translate
-            ],
-        ]);
-        $searchFieldset = $this->get('search');
-
-        $searchFieldset->add([
             'name' => 'search_type',
             'type' => 'Select',
             'options' => [
+                'element_group' => 'search',
                 'label' => 'Search type', // @translate
                 'info' => 'Select the type of search the main search field will perform', // @translate
                 'value_options' => [
@@ -289,15 +322,17 @@ class SiteSettingsForm extends Form
                 'value' => $settings->get('search_type', 'sitewide'),
             ],
         ]);
+
         $resourceNames = [
             'site_pages' => 'Site pages', // @translate
             'items' => 'Items', // @translate
             'item_sets' => 'Item sets', // @translate
         ];
-        $searchFieldset->add([
+        $this->add([
             'name' => 'search_resource_names',
             'type' => \Laminas\Form\Element\MultiCheckbox::class,
             'options' => [
+                'element_group' => 'search',
                 'label' => 'Search resources', // @translate
                 'info' => 'Customize which types of resources will be searchable in the main search field.', // @translate
                 'value_options' => $resourceNames,
@@ -308,10 +343,31 @@ class SiteSettingsForm extends Form
                 'required' => false,
             ],
         ]);
-        $searchFieldset->add([
+
+        $this->add([
+            'name' => 'vocabulary_scope',
+            'type' => 'Select',
+            'options' => [
+                'element_group' => 'search',
+                'label' => 'Advanced search vocabulary members', // @translate
+                'info' => 'Limit the search options for property and class', // @translate
+                'empty_option' => 'All vocabulary members', // @translate
+                'value_options' => [
+                    'sitewide' => 'Used by resources in this site', // @translate
+                    'cross-site' => 'Used by any resource in the installation', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'vocabulary_scope',
+                'value' => $settings->get('vocabulary_scope'),
+            ],
+        ]);
+
+        $this->add([
             'type' => 'Omeka\Form\Element\ResourceTemplateSelect',
             'name' => 'search_apply_templates',
             'options' => [
+                'element_group' => 'search',
                 'label' => 'Templates', // @translate
                 'info' => 'Select which templates to apply to the advanced search form.', // @translate
             ],
@@ -322,10 +378,11 @@ class SiteSettingsForm extends Form
                 'value' => $settings->get('search_apply_templates', []),
             ],
         ]);
-        $searchFieldset->add([
+        $this->add([
             'type' => 'checkbox',
             'name' => 'search_restrict_templates',
             'options' => [
+                'element_group' => 'search',
                 'label' => 'Restrict to templates', // @translate
                 'info' => 'Restrict search results to resources of the selected templates.', // @translate
             ],
@@ -338,11 +395,11 @@ class SiteSettingsForm extends Form
         $this->getEventManager()->triggerEvent($addEvent);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->get('language')->add([
+        $inputFilter->add([
             'name' => 'locale',
             'allow_empty' => true,
         ]);
-        $inputFilter->get('browse')->add([
+        $inputFilter->add([
             'name' => 'pagination_per_page',
             'required' => false,
             'filters' => [
@@ -353,22 +410,26 @@ class SiteSettingsForm extends Form
                 ['name' => 'Digits'],
             ],
         ]);
-        $inputFilter->get('browse')->add([
+        $inputFilter->add([
             'name' => 'browse_heading_property_term',
             'required' => false,
             'allow_empty' => true,
         ]);
-        $inputFilter->get('browse')->add([
+        $inputFilter->add([
             'name' => 'browse_body_property_term',
             'required' => false,
             'allow_empty' => true,
         ]);
-        $inputFilter->get('search')->add([
+        $inputFilter->add([
             'name' => 'search_resource_names',
             'required' => false,
             'allow_empty' => true,
         ]);
-        $inputFilter->get('search')->add([
+        $inputFilter->add([
+            'name' => 'vocabulary_scope',
+            'allow_empty' => true,
+        ]);
+        $inputFilter->add([
             'name' => 'search_apply_templates',
             'required' => false,
             'allow_empty' => true,
@@ -391,5 +452,10 @@ class SiteSettingsForm extends Form
     public function getSiteSettings()
     {
         return $this->siteSettings;
+    }
+
+    public function setBrowseService(BrowseService $browseService)
+    {
+        $this->browseService = $browseService;
     }
 }

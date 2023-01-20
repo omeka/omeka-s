@@ -67,10 +67,8 @@ abstract class AbstractResourceRepresentation extends AbstractRepresentation
 
     /**
      * Compose the complete JSON-LD object.
-     *
-     * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $childJsonLd = $this->getJsonLd();
         $type = $this->getJsonLdType();

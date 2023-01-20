@@ -1,0 +1,68 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'sites theme-resource-pages');
+$this->headScript()->appendFile($this->assetUrl('js/site-theme-resource-pages.js', 'Omeka'));
+$this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.js', 'Omeka'));
+
+$removeBlockText = $this->escapeHtml($this->translate('Remove block'));
+$restoreBlockText = $this->escapeHtml($this->translate('Restore block'));
+$blockTemplate = <<<EOT
+<li class="block">
+    <span class="sortable-handle"></span>
+    <span class="block-layout-label"></span>
+    <ul class="actions">
+        <li><a href="#" class="o-icon-delete block-remove" aria-label="$removeBlockText" title="$removeBlockText"></a></li>
+        <li><a href="#" class="o-icon-undo block-restore" aria-label="$restoreBlockText" title="$restoreBlockText" style="display: none;"></a></li>
+    </ul>
+    <input type="hidden" class="block-layout-name" name="">
+</li>
+EOT;
+$form->setAttribute('data-block-template', $blockTemplate);
+?>
+<?php echo $this->pageTitle($theme->getName(), 1, $this->translate('Theme'), $this->translate('Configure resource pages')); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<?php echo $this->formCollection($form, false); ?>
+
+<div id="page-actions">
+    <?php echo $this->cancelButton(); ?>
+    <button><?php echo $this->translate('Save'); ?></button>
+</div>
+
+<?php
+echo $this->sectionNav([
+    'section-items' => $this->translate('Item page'),
+    'section-media' => $this->translate('Media page'),
+    'section-item_sets' => $this->translate('Item set page'),
+]);
+?>
+
+<?php foreach (['items', 'item_sets', 'media'] as $resourceName): ?>
+<div id="<?php echo $this->escapeHtml(sprintf('section-%s', $resourceName)); ?>" class="section<?php echo 'items' === $resourceName ? ' active' : ''; ?>">
+    <?php foreach ($resourcePageRegions[$resourceName] as $regionName => $regionLabel): ?>
+    <h3><?php echo $this->escapeHtml(sprintf($this->translate('Region: %s'), $regionLabel)); ?></h3>
+    <ul class="blocks" data-resource-name="<?php echo $this->escapeHtml($resourceName); ?>" data-region-name="<?php echo $this->escapeHtml($regionName); ?>"></ul>
+    <?php endforeach; ?>
+</div>
+<?php endforeach; ?>
+
+<?php echo $this->form()->closeTag(); ?>
+
+<?php foreach (['items', 'item_sets', 'media'] as $resourceName): ?>
+<div id="<?php echo $this->escapeHtml(sprintf('block-selector-%s', $resourceName)); ?>" class="sidebar">
+    <div class="field">
+        <label><?php echo $this->translate('Select a region'); ?></label>
+        <select id="<?php echo $this->escapeHtml(sprintf('region-select-%s', $resourceName)); ?>" class="chosen-select">
+            <?php foreach ($resourcePageRegions[$resourceName] as $regionName => $regionLabel): ?>
+            <option value="<?php echo $this->escapeHtml($regionName); ?>"><?php echo $this->escapeHtml($regionLabel); ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <h3><?php echo $this->translate('Add a block to selected region'); ?></h3>
+    <?php foreach ($blockLayoutManager->getAllForResource($resourceName) as $blockLayoutName => $blockLayout): ?>
+    <button type="button" class="option" data-resource-name="<?php echo $this->escapeHtml($resourceName); ?>" data-block-layout-name="<?php echo $this->escapeHtml($blockLayoutName); ?>">
+        <?php echo $this->escapeHtml($this->translate($blockLayout->getLabel())); ?>
+    </button>
+    <?php endforeach; ?>
+    <p class="no-block-layouts" style="display: none;"><?php echo $this->translate('There are no available blocks.'); ?></p>
+</div>
+<?php endforeach; ?>

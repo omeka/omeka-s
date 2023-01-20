@@ -32,6 +32,7 @@ switch ($resourceType) {
         if ($this->status()->isAdminRequest()) {
             $addPartial('common/advanced-search/site');
         }
+        $addPartial('common/advanced-search/has-media');
         break;
     case 'media':
         $addPartial('common/advanced-search/media-type');
@@ -41,10 +42,12 @@ switch ($resourceType) {
 }
 if ($this->status()->isAdminRequest()) {
     $addPartial('common/advanced-search/owner');
+    $addPartial('common/advanced-search/visibility');
 }
 if ($this->status()->isSiteRequest()) {
     $addPartial('common/advanced-search/resource-template-restrict');
 }
+$addPartial('common/advanced-search/ids');
 $addPartial('common/advanced-search/sort');
 
 $filterResults = $this->trigger(

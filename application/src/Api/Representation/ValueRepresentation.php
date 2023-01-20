@@ -63,7 +63,7 @@ class ValueRepresentation extends AbstractRepresentation
         return $args['html'];
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $valueObject = [
             'type' => $this->type(),

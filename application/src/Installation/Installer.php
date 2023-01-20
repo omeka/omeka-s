@@ -26,6 +26,11 @@ class Installer
      */
     protected $errors = [];
 
+    /**
+     * @var array Task variables
+     */
+    protected $vars = [];
+
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
@@ -137,7 +142,7 @@ class Installer
      */
     public function getVars($task)
     {
-        return isset($this->vars[$task]) ? $this->vars[$task] : null;
+        return $this->vars[$task] ?? null;
     }
 
     /**

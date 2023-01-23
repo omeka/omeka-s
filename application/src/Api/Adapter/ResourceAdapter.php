@@ -33,7 +33,6 @@ class ResourceAdapter extends AbstractEntityAdapter
      *
      * This version simply proxies to the "real" getRepresentation for each resource's adapter.
      *
-     * @param string|int $id The unique identifier of the resource
      * @param mixed $data Whatever data is needed to compose the representation.
      * @return ResourceInterface|null
      */

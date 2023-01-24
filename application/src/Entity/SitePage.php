@@ -39,6 +39,11 @@ class SitePage extends AbstractEntity
     protected $isPublic = true;
 
     /**
+     * @Column(type="smallint", nullable=true)
+     */
+    protected $columns;
+
+    /**
      * @ManyToOne(targetEntity="Site", inversedBy="pages")
      * @JoinColumn(nullable=false)
      */
@@ -103,6 +108,16 @@ class SitePage extends AbstractEntity
     public function isPublic()
     {
         return (bool) $this->isPublic;
+    }
+
+    public function setColumns($columns)
+    {
+        $this->columns = $columns;
+    }
+
+    public function getColumns()
+    {
+        return $this->columns;
     }
 
     public function setSite(Site $site)

@@ -25,6 +25,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
             'o:slug' => $this->slug(),
             'o:title' => $this->title(),
             'o:is_public' => $this->isPublic(),
+            'o:columns' => $this->columns(),
             'o:block' => $this->blocks(),
             'o:site' => $this->site()->getReference(),
             'o:created' => $created,
@@ -70,6 +71,14 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     public function isPublic()
     {
         return $this->resource->isPublic();
+    }
+
+    /**
+     * @return int|null
+     */
+    public function columns()
+    {
+        return $this->resource->getColumns();
     }
 
     /**

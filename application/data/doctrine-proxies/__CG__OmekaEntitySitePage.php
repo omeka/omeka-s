@@ -67,10 +67,10 @@ class SitePage extends \Omeka\Entity\SitePage implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'title', 'isPublic', 'site', 'created', 'modified', 'blocks'];
+            return ['__isInitialized__', 'id', 'slug', 'title', 'isPublic', 'columns', 'site', 'created', 'modified', 'blocks'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'title', 'isPublic', 'site', 'created', 'modified', 'blocks'];
+        return ['__isInitialized__', 'id', 'slug', 'title', 'isPublic', 'columns', 'site', 'created', 'modified', 'blocks'];
     }
 
     /**

@@ -29,6 +29,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
         return [
             'o:layout' => $this->layout(),
             'o:data' => $this->data(),
+            'o:location' => $this->location(),
             'o:attachment' => $this->attachments(),
         ];
     }
@@ -77,6 +78,14 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     {
         $data = $this->block->getData();
         return $data[$key] ?? $default;
+    }
+
+    /**
+     * @return string
+     */
+    public function location()
+    {
+        return $this->block->getLocation();
     }
 
     public function attachments()

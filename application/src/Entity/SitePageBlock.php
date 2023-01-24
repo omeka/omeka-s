@@ -39,6 +39,11 @@ class SitePageBlock extends AbstractEntity
     protected $position;
 
     /**
+     * @Column(type="string", length=2, nullable=true)
+     */
+    protected $location;
+
+    /**
      * @ManyToOne(targetEntity="SitePage", inversedBy="blocks")
      * @JoinColumn(nullable=false)
      */
@@ -93,6 +98,16 @@ class SitePageBlock extends AbstractEntity
     public function getPosition()
     {
         return $this->position;
+    }
+
+    public function setLocation($location)
+    {
+        $this->location = $location;
+    }
+
+    public function getLocation()
+    {
+        return $this->location;
     }
 
     public function setPage(SitePage $page)

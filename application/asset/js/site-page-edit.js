@@ -118,7 +118,7 @@
         }
 
         var pageInput =  attachment.find('input.asset-page-id');
-        pageInput.attr('data-page-title', $('.selected-page').text()).attr('data-page-url', $('.selected-page + a').attr('href')); 
+        pageInput.attr('data-page-title', $('.selected-page').text()).attr('data-page-url', $('.selected-page + a').attr('href'));
 
         $('#asset-options .asset-option').each(function() {
             var assetOption = $(this);
@@ -357,7 +357,7 @@
                 attachment.find('.item-title').empty().append(thumbnail).append(title);
             }
         });
-        
+
         $('#blocks').on('click', '.asset-options-configure', function(e) {
             e.preventDefault();
             Omeka.closeSidebar($('.sidebar.active:not(#new-block)'));
@@ -382,7 +382,7 @@
             $('#asset-page-id').val(pageInput.val());
             $('.selected-page').text(pageInput.attr('data-page-title'));
             $('.selected-page + a').attr('href', pageInput.attr('data-page-url'));
-            
+
             $('#asset-options .asset-option').each(function() {
                 var assetOption = $(this);
                 var optionName = assetOption.attr('name');
@@ -447,6 +447,30 @@
 
         $('#content').on('click', '.page-clear', function() {
             resetAssetOption('#asset-options .page-link');
+        });
+
+        const prepareBlockLocationSelects = function() {
+            const columns = $('#page-columns-select').val();
+            const blockLocationSelects = $('.block').find('.block-location-select');
+            if ('' === columns) {
+                blockLocationSelects.hide();
+            } else if ('1' === columns) {
+                blockLocationSelects.hide();
+            } else if ('2' === columns) {
+                blockLocationSelects.show();
+            } else if ('3' === columns) {
+                blockLocationSelects.show();
+            }
+        };
+
+        prepareBlockLocationSelects();
+
+        $('#blocks').on('o:block-added', '.block', function(e) {
+            prepareBlockLocationSelects();
+        });
+
+        $('#page-columns-select').on('change', function(e) {
+            prepareBlockLocationSelects();
         });
     });
 })(window.jQuery);

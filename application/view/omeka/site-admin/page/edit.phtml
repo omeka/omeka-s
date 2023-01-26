@@ -7,6 +7,12 @@ $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.
 $this->headScript()->appendFile($this->assetUrl('js/site-page-edit.js', 'Omeka'));
 $this->blockLayout()->prepareForm();
 $form->prepare();
+$pageColumns = [
+    '' => $translate('Normal flow'),
+    '1' => $translate('One column'),
+    '2' => $translate('Two columns'),
+    '3' => $translate('Three columns'),
+];
 ?>
 <?php echo $this->pageTitle($page->title(), 1, $translate('Pages'), $translate('Edit')); ?>
 <?php $this->trigger('view.edit.before'); ?>
@@ -36,6 +42,16 @@ $form->prepare();
 <div class="expand-collapse-all">
     <button type="button" class="expand-all"><?php echo $translate('Expand all'); ?></button>
     <button type="button" class="collapse-all"><?php echo $translate('Collapse all'); ?></button>
+</div>
+
+<div id="layout-controls" style="text-align: right;">
+    <?php echo $translate('Layout:'); ?>
+    <select name="o:columns" id="page-columns-select" data-columns="<?php echo $escape($page->columns()); ?>">
+        <?php foreach ($pageColumns as $pageColumnValue => $pageColumnLabel): ?>
+        <option value="<?php echo $escape($pageColumnValue); ?>"<?php echo $page->columns() === $pageColumnValue ? ' selected' : '' ?>><?php echo $pageColumnLabel; ?></option>
+        <?php endforeach; ?>
+    </select>
+    <button type="button" id="layout-restore" class=""><?php echo $translate('Restore layout'); ?></button>
 </div>
 
 <?php echo $this->blockLayout()->forms($page); ?>

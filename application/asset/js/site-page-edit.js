@@ -449,28 +449,62 @@
             resetAssetOption('#asset-options .page-link');
         });
 
+        // Prepare block locations according to the page layout.
         const prepareBlockLocationSelects = function() {
             const columns = $('#page-columns-select').val();
-            const blockLocationSelects = $('.block').find('.block-location-select');
-            if ('' === columns) {
-                blockLocationSelects.hide();
-            } else if ('1' === columns) {
-                blockLocationSelects.hide();
-            } else if ('2' === columns) {
-                blockLocationSelects.show();
-            } else if ('3' === columns) {
-                blockLocationSelects.show();
+            const blockLocationSelects = $('.block-location-select');
+            // Show all selects and all options by default.
+            blockLocationSelects.show().find('option').show();
+            // Conditionally hide selects and options.
+            switch (columns) {
+                case '':
+                case '1':
+                    // No need for location select on normal flow and 1-column layouts.
+                    blockLocationSelects.hide();
+                    break;
+                case '2':
+                    // No need for s3/p3-locations on 2-column layouts.
+                    blockLocationSelects.find('option[value="s3"],option[value="p3"]').hide();
+                    break;
+                case '3':
+                default:
+                    // Do nothing.
+                    break;
             }
         };
 
+        // Prepare block locations on page load.
         prepareBlockLocationSelects();
 
+        // Prepare block locations when a block is added.
         $('#blocks').on('o:block-added', '.block', function(e) {
             prepareBlockLocationSelects();
         });
 
+        // Handle a change to page layout.
         $('#page-columns-select').on('change', function(e) {
+            $('.block-location-select').val('');
+            $('.block-location-input').val('');
             prepareBlockLocationSelects();
+        });
+
+        // Handle a change to a block location.
+        $('#blocks').on('change', '.block-location-select', function(e) {
+            const thisSelect = $(this);
+            thisSelect.closest('.block').find('.block-location-input').val(thisSelect.val());
+        });
+
+        // Restore the page layout / block locations to original state.
+        $('#layout-restore').on('click', function(e) {
+            const pageColumnsSelect = $('#page-columns-select');
+            const blockLocationSelects = $('.block-location-select');
+            pageColumnsSelect.val(pageColumnsSelect.data('columns'));
+            prepareBlockLocationSelects();
+            blockLocationSelects.each(function() {
+                const thisSelect = $(this);
+                thisSelect.val(thisSelect.data('location'));
+                thisSelect.closest('.block').find('.block-location-input').val(thisSelect.val());
+            });
         });
     });
 })(window.jQuery);

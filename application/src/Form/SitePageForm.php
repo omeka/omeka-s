@@ -31,23 +31,6 @@ class SitePageForm extends Form
                 'required' => false,
             ],
         ]);
-        $this->add([
-            'name' => 'o:columns',
-            'type' => 'Select',
-            'options' => [
-                'label' => 'Layout', // @translate
-                'empty_option'=> 'Normal flow',
-                'value_options' => [
-                    '1' => 'One column grid', // @translate
-                    '2' => 'Two columns grid', // @translate
-                    '3' => 'Three columns grid', // @translate
-                ],
-            ],
-            'attributes' => [
-                'id' => 'page-columns-select',
-                'required' => false,
-            ],
-        ]);
         if ($this->getOption('addPage')) {
             $this->add([
                 'name' => 'add_to_navigation',
@@ -57,11 +40,5 @@ class SitePageForm extends Form
                 ],
             ]);
         }
-
-        $inputFilter = $this->getInputFilter();
-        $inputFilter->add([
-            'name' => 'o:columns',
-            'allow_empty' => true,
-        ]);
     }
 }

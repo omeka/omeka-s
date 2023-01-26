@@ -2,13 +2,13 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $blockLocations = [
-    '' => $this->translate('Default location'),
-    's1' => $this->translate('Span: one'),
-    's2' => $this->translate('Span: two'),
-    's3' => $this->translate('Span: three'),
-    'p1' => $this->translate('Position: one'),
-    'p2' => $this->translate('Position: two'),
-    'p3' => $this->translate('Position: three'),
+    '' => $translate('Default location'),
+    's1' => $translate('Span: one'),
+    's2' => $translate('Span: two'),
+    's3' => $translate('Span: three'),
+    'p1' => $translate('Position: one'),
+    'p2' => $translate('Position: two'),
+    'p3' => $translate('Position: three'),
 ];
 ?>
 
@@ -22,11 +22,12 @@ $blockLocations = [
             <li><a href="#" class="o-icon-delete remove-value" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></a></li>
             <li><a href="#" class="o-icon-undo restore-value inactive" aria-label="<?php echo $translate('Restore value'); ?>" title="<?php echo $translate('Restore value'); ?>"></a></li>
         </ul>
-        <select class="block-location-select" name="o:block[__blockIndex__][o:location]" style="display: none;">
+        <select class="block-location-select" data-location="<?php echo $this->escapeHtml($location); ?>" style="display: none;">
             <?php foreach ($blockLocations as $blockLocationValue => $blockLocationLabel): ?>
-            <option value="<?php echo $this->escapeHtml($blockLocationValue); ?>"<?php echo $location === $blockLocationValue ? ' selected' : '' ?>><?php echo $blockLocationLabel; ?></option>
+            <option value="<?php echo $escape($blockLocationValue); ?>"<?php echo $location === $blockLocationValue ? ' selected' : '' ?>><?php echo $blockLocationLabel; ?></option>
             <?php endforeach; ?>
         </select>
+        <input name="o:block[__blockIndex__][o:location]" type="hidden" class="block-location-input" value="<?php echo $this->escapeHtml($location); ?>">
     </div>
     <div class="block-content collapsible">
     <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="<?php echo $escape($layout); ?>">

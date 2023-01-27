@@ -485,6 +485,7 @@
         $('#page-columns-select').on('change', function(e) {
             $('.block-location-select').val('');
             $('.block-location-input').val('');
+            $('#layout-restore').show();
             prepareBlockLocationSelects();
         });
 
@@ -492,6 +493,7 @@
         $('#blocks').on('change', '.block-location-select', function(e) {
             const thisSelect = $(this);
             thisSelect.closest('.block').find('.block-location-input').val(thisSelect.val());
+            $('#layout-restore').show();
         });
 
         // Restore the page layout / block locations to original state.
@@ -505,6 +507,7 @@
                 thisSelect.val(thisSelect.data('location'));
                 thisSelect.closest('.block').find('.block-location-input').val(thisSelect.val());
             });
+            $('#layout-restore').hide();
         });
     });
 })(window.jQuery);

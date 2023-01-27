@@ -51,7 +51,7 @@ $pageColumns = [
         <option value="<?php echo $escape($pageColumnValue); ?>"<?php echo $page->columns() === $pageColumnValue ? ' selected' : '' ?>><?php echo $pageColumnLabel; ?></option>
         <?php endforeach; ?>
     </select>
-    <button type="button" id="layout-restore" class=""><?php echo $translate('Restore layout'); ?></button>
+    <button type="button" id="layout-restore" style="display: none;"><?php echo $translate('Restore'); ?></button>
 </div>
 
 <?php echo $this->blockLayout()->forms($page); ?>

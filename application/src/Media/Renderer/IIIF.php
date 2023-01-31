@@ -21,12 +21,14 @@ class IIIF implements RendererInterface
         $html = <<<'HTML'
         <div class="openseadragon" id="%1$s" data-prefix-url="%2$s" data-tile-sources="%3$s" style="height: %4$s;"></div>
         <script>
-        const openSeadragonDiv = document.getElementById('%1$s');
-        const viewer = OpenSeadragon({
-            id: '%1$s',
-            prefixUrl: openSeadragonDiv.dataset.prefixUrl,
-            tileSources: [JSON.parse(openSeadragonDiv.dataset.tileSources)]
-        });
+        {
+            const openSeadragonDiv = document.getElementById('%1$s');
+            const viewer = OpenSeadragon({
+                id: '%1$s',
+                prefixUrl: openSeadragonDiv.dataset.prefixUrl,
+                tileSources: [JSON.parse(openSeadragonDiv.dataset.tileSources)]
+            });
+        }
         </script>
         HTML;
         return sprintf(

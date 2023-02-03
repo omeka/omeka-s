@@ -449,65 +449,76 @@
             resetAssetOption('#asset-options .page-link');
         });
 
-        // Prepare block locations according to the page layout.
-        const prepareBlockLocationSelects = function() {
-            const columns = $('#page-columns-select').val();
-            const blockLocationSelects = $('.block-location-select');
-            // Show all selects and all options by default.
-            blockLocationSelects.show().find('option').show();
-            // Conditionally hide selects and options.
-            switch (columns) {
+        const preparePageLayout = function() {
+            const layoutSelect = $('#page-layout-select');
+            const gridColumnsSelect = $('#page-layout-grid-columns-select');
+            const gridPositionSelects = $('.block-page-layout-grid-position-select');
+            const gridSpanSelects = $('.block-page-layout-grid-span-select');
+            // Disable and hide all layout-specific controls by default.
+            gridColumnsSelect.prop('disabled', true).hide();
+            gridPositionSelects.prop('disabled', true).hide();
+            gridSpanSelects.prop('disabled', true).hide();
+            switch (layoutSelect.val()) {
+                case 'grid':
+                    // Prepare grid layout.
+                    gridColumnsSelect.prop('disabled', false).show();
+                    gridPositionSelects.prop('disabled', false).show();
+                    gridSpanSelects.prop('disabled', false).show();
+                    preparePageGridLayout();
+                    break;
                 case '':
-                case '1':
-                    // No need for location select on normal flow and 1-column layouts.
-                    blockLocationSelects.hide();
-                    break;
-                case '2':
-                    // No need for s3/p3-locations on 2-column layouts.
-                    blockLocationSelects.find('option[value="s3"],option[value="p3"]').hide();
-                    break;
-                case '3':
                 default:
-                    // Do nothing.
+                    // Prepare normal flow layout. Do nothing.
                     break;
             }
         };
 
-        // Prepare block locations on page load.
-        prepareBlockLocationSelects();
-
-        // Prepare block locations when a block is added.
-        $('#blocks').on('o:block-added', '.block', function(e) {
-            prepareBlockLocationSelects();
-        });
-
-        // Handle a change to page layout.
-        $('#page-columns-select').on('change', function(e) {
-            $('.block-location-select').val('');
-            $('.block-location-input').val('');
-            $('#layout-restore').show();
-            prepareBlockLocationSelects();
-        });
-
-        // Handle a change to a block location.
-        $('#blocks').on('change', '.block-location-select', function(e) {
-            const thisSelect = $(this);
-            thisSelect.closest('.block').find('.block-location-input').val(thisSelect.val());
-            $('#layout-restore').show();
-        });
-
-        // Restore the page layout / block locations to original state.
-        $('#layout-restore').on('click', function(e) {
-            const pageColumnsSelect = $('#page-columns-select');
-            const blockLocationSelects = $('.block-location-select');
-            pageColumnsSelect.val(pageColumnsSelect.data('columns'));
-            prepareBlockLocationSelects();
-            blockLocationSelects.each(function() {
-                const thisSelect = $(this);
-                thisSelect.val(thisSelect.data('location'));
-                thisSelect.closest('.block').find('.block-location-input').val(thisSelect.val());
+        const preparePageGridLayout = function() {
+            const gridColumns = $('#page-layout-grid-columns-select').val();
+            $('.block').each(function() {
+                const thisBlock = $(this);
+                const gridPositionSelect = thisBlock.find('.block-page-layout-grid-position-select');
+                const gridSpanSelect = thisBlock.find('.block-page-layout-grid-span-select');
+                // Hide invalid positions according to the column # and span #.
+                gridPositionSelect.find('option').show()
+                    .filter(function() {
+                        const thisOption = $(this);
+                        return (parseInt(thisOption.attr('value')) > parseInt(gridColumns))
+                            || (parseInt(thisOption.attr('value')) > (1 + parseInt(gridColumns) - parseInt(gridSpanSelect.val())));
+                    }).hide();
+                // Hide invalid spans according to the column # and position #.
+                gridSpanSelect.find('option').show()
+                    .filter(function() {
+                        const thisOption = $(this);
+                        return (parseInt(thisOption.attr('value')) > parseInt(gridColumns))
+                            || (parseInt(thisOption.attr('value')) > (1 + parseInt(gridColumns) - parseInt(gridPositionSelect.val())));
+                    }).hide();
             });
-            $('#layout-restore').hide();
+        };
+
+        preparePageLayout();
+
+        $('#blocks').on('o:block-added', '.block', function(e) {
+            preparePageLayout();
+        });
+
+        $('#page-layout-select').on('change', function() {
+            // Must reset all layout-specific controls when layout changes.
+            $('#page-layout-grid-columns-select').val('1');
+            $('.block-page-layout-grid-position-select').val('');
+            $('.block-page-layout-grid-span-select').val('');
+            preparePageLayout();
+        });
+
+        $('#page-layout-grid-columns-select').on('change', function() {
+            // Must reset the position and span #s when column # changes.
+            $('.block-page-layout-grid-position-select').val('');
+            $('.block-page-layout-grid-span-select').val('');
+            preparePageGridLayout();
+        });
+
+        $('#blocks').on('change', '.block-page-layout-grid-position-select, .block-page-layout-grid-span-select', function() {
+            preparePageGridLayout();
         });
     });
 })(window.jQuery);

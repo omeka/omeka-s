@@ -1,10 +1,11 @@
 <?php
-if ($page->columns()) {
+if ('grid' === $page->layout()) {
+    $pageLayoutData = $page->layoutData();
     echo <<<STYLE
     <style>
     #grid {
         display: grid;
-        grid-template-columns: repeat({$page->columns()}, 1fr);
+        grid-template-columns: repeat({$pageLayoutData['grid_columns']}, 1fr);
         gap: 10px;
     }
     #grid > div {
@@ -22,35 +23,24 @@ foreach ($page->blocks() as $block) {
         $layouts[$block->layout()] = null;
         $this->blockLayout()->prepareRender($block->layout());
     }
-    if ($page->columns()) {
-        switch ($block->location()) {
-            case 's1':
-                echo '<div style="grid-column: span 1">';
-                break;
-            case 's2':
-                echo '<div style="grid-column: span 2">';
-                break;
-            case 's3':
-                echo '<div style="grid-column: span 3">';
-                break;
-            case 'p1':
-                echo '<div style="grid-column: 1">';
-                break;
-            case 'p2':
-                echo '<div style="grid-column: 2">';
-                break;
-            case 'p3':
-                echo '<div style="grid-column: 3">';
-                break;
-            default:
-                echo '<div>';
+    if ('grid' === $page->layout()) {
+        $blockPageLayoutData = $block->pageLayoutData();
+        $gridPosition = $blockPageLayoutData['grid_position'] ?? 1;
+        $gridSpan = $blockPageLayoutData['grid_span'] ?? 1;
+        if ($gridPosition && $gridSpan) {
+            $gridColumn = sprintf('%s / span %s', $gridPosition, $gridSpan);
+        } elseif ($gridSpan) {
+            $gridColumn = sprintf('span %s', $gridSpan);
+        } else {
+            $gridColumn = $gridPosition;
         }
+        echo sprintf('<div style="grid-column: %s">', $gridColumn);
     }
     echo $this->blockLayout()->render($block);
-    if ($page->columns()) {
+    if ('grid' === $page->layout()) {
         echo '</div>';
     }
 }
-if ($page->columns()) {
+if ('grid' === $page->layout()) {
     echo '</div>';
 }

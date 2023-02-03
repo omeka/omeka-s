@@ -7,12 +7,6 @@ $this->headScript()->appendFile($this->assetUrl('vendor/sortablejs/Sortable.min.
 $this->headScript()->appendFile($this->assetUrl('js/site-page-edit.js', 'Omeka'));
 $this->blockLayout()->prepareForm();
 $form->prepare();
-$pageColumns = [
-    '' => $translate('Normal flow'),
-    '1' => $translate('One column'),
-    '2' => $translate('Two columns'),
-    '3' => $translate('Three columns'),
-];
 ?>
 <?php echo $this->pageTitle($page->title(), 1, $translate('Pages'), $translate('Edit')); ?>
 <?php $this->trigger('view.edit.before'); ?>
@@ -44,14 +38,33 @@ $pageColumns = [
     <button type="button" class="collapse-all"><?php echo $translate('Collapse all'); ?></button>
 </div>
 
-<div id="layout-controls" style="text-align: right;">
+<?php
+$pageLayout = $page->layout();
+$pageLayoutData = $page->layoutData();
+$pageLayoutOptions = [
+    '' => $translate('Normal flow'),
+    'grid' => $translate('Grid'),
+];
+$pageLayoutGridColumnsOptions = [1 => $translate('1 column')];
+foreach (range(2, 12) as $value) {
+    $pageLayoutGridColumnsOptions[$value] = sprintf($translate('%s columns'), $value);
+}
+$pageLayoutGridColumns = $pageLayoutData['grid_columns'] ?? '';
+
+?>
+<div id="page-layout-controls" style="text-align: right;">
     <?php echo $translate('Layout:'); ?>
-    <select name="o:columns" id="page-columns-select" data-columns="<?php echo $escape($page->columns()); ?>">
-        <?php foreach ($pageColumns as $pageColumnValue => $pageColumnLabel): ?>
-        <option value="<?php echo $escape($pageColumnValue); ?>"<?php echo $page->columns() === $pageColumnValue ? ' selected' : '' ?>><?php echo $pageColumnLabel; ?></option>
+    <select name="o:layout" id="page-layout-select">
+        <?php foreach ($pageLayoutOptions as $key => $value): ?>
+        <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayout == $key) ? ' selected' : ''; ?>><?php echo $value; ?></option>
         <?php endforeach; ?>
     </select>
-    <button type="button" id="layout-restore" style="display: none;"><?php echo $translate('Restore'); ?></button>
+    <select name="o:layout_data[grid_columns]" id="page-layout-grid-columns-select" style="display: none;" disabled>
+        <?php foreach ($pageLayoutGridColumnsOptions as $key => $value): ?>
+        <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridColumns == $key) ? ' selected' : '' ?>><?php echo $value; ?></option>
+        <?php endforeach; ?>
+    </select>
+    <button type="button" id="page-layout-restore" style="display: none;"><?php echo $translate('Restore'); ?></button>
 </div>
 
 <?php echo $this->blockLayout()->forms($page); ?>

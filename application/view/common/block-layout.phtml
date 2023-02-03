@@ -1,15 +1,17 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$blockLocations = [
-    '' => $translate('Default location'),
-    's1' => $translate('Span: one'),
-    's2' => $translate('Span: two'),
-    's3' => $translate('Span: three'),
-    'p1' => $translate('Position: one'),
-    'p2' => $translate('Position: two'),
-    'p3' => $translate('Position: three'),
-];
+
+$pageLayoutGridPositionOptions = ['' => $translate('Default position')];
+foreach (range(1, 12) as $value) {
+    $pageLayoutGridPositionOptions[$value] = sprintf($translate('Position %s'), $value);
+}
+$pageLayoutGridSpanOptions = ['' => $translate('No span')];
+foreach (range(1, 12) as $value) {
+    $pageLayoutGridSpanOptions[$value] = sprintf($translate('Span %s'), $value);
+}
+$pageLayoutGridPosition = $pageLayoutData['grid_position'] ?? '';
+$pageLayoutGridSpan = $pageLayoutData['grid_span'] ?? '';
 ?>
 
 <div class="block value" data-block-layout="<?php echo $escape($layout); ?>">
@@ -22,12 +24,16 @@ $blockLocations = [
             <li><a href="#" class="o-icon-delete remove-value" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></a></li>
             <li><a href="#" class="o-icon-undo restore-value inactive" aria-label="<?php echo $translate('Restore value'); ?>" title="<?php echo $translate('Restore value'); ?>"></a></li>
         </ul>
-        <select class="block-location-select" data-location="<?php echo $this->escapeHtml($location); ?>" style="display: none;">
-            <?php foreach ($blockLocations as $blockLocationValue => $blockLocationLabel): ?>
-            <option value="<?php echo $escape($blockLocationValue); ?>"<?php echo $location === $blockLocationValue ? ' selected' : '' ?>><?php echo $blockLocationLabel; ?></option>
+        <select name="o:block[__blockIndex__][o:page_layout_data][grid_position]" class="block-page-layout-grid-position-select" style="display: none" disabled>
+            <?php foreach ($pageLayoutGridPositionOptions as $key => $value): ?>
+            <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridPosition == $key) ? ' selected' : '' ?>><?php echo $value; ?></option>
             <?php endforeach; ?>
         </select>
-        <input name="o:block[__blockIndex__][o:location]" type="hidden" class="block-location-input" value="<?php echo $this->escapeHtml($location); ?>">
+        <select name="o:block[__blockIndex__][o:page_layout_data][grid_span]" class="block-page-layout-grid-span-select" style="display: none" disabled>
+            <?php foreach ($pageLayoutGridSpanOptions as $key => $value): ?>
+            <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridSpan == $key) ? ' selected' : '' ?>><?php echo $value; ?></option>
+            <?php endforeach; ?>
+        </select>
     </div>
     <div class="block-content collapsible">
     <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="<?php echo $escape($layout); ?>">

@@ -39,9 +39,14 @@ class SitePage extends AbstractEntity
     protected $isPublic = true;
 
     /**
-     * @Column(type="smallint", nullable=true)
+     * @Column(type="string", nullable=true)
      */
-    protected $columns;
+    protected $layout;
+
+    /**
+     * @Column(type="json", nullable=true)
+     */
+    protected $layoutData;
 
     /**
      * @ManyToOne(targetEntity="Site", inversedBy="pages")
@@ -110,14 +115,24 @@ class SitePage extends AbstractEntity
         return (bool) $this->isPublic;
     }
 
-    public function setColumns($columns)
+    public function setLayout($layout)
     {
-        $this->columns = $columns;
+        $this->layout = $layout;
     }
 
-    public function getColumns()
+    public function getLayout()
     {
-        return $this->columns;
+        return $this->layout;
+    }
+
+    public function setLayoutData($layoutData)
+    {
+        $this->layoutData = $layoutData;
+    }
+
+    public function getLayoutData()
+    {
+        return $this->layoutData;
     }
 
     public function setSite(Site $site)

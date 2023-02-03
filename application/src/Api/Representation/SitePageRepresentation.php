@@ -25,7 +25,8 @@ class SitePageRepresentation extends AbstractEntityRepresentation
             'o:slug' => $this->slug(),
             'o:title' => $this->title(),
             'o:is_public' => $this->isPublic(),
-            'o:columns' => $this->columns(),
+            'o:layout' => $this->layout(),
+            'o:layout_data' => $this->layoutData(),
             'o:block' => $this->blocks(),
             'o:site' => $this->site()->getReference(),
             'o:created' => $created,
@@ -74,11 +75,19 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * @return int|null
+     * @return ?string
      */
-    public function columns()
+    public function layout()
     {
-        return $this->resource->getColumns();
+        return $this->resource->getLayout();
+    }
+
+    /**
+     * @return ?array
+     */
+    public function layoutData()
+    {
+        return $this->resource->getLayoutData();
     }
 
     /**

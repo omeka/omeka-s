@@ -86,13 +86,13 @@ class BlockLayout extends AbstractHelper
     ) {
         $view = $this->getView();
         $block = null;
-        $location = null;
+        $pageLayoutData = [];
         if ($layout instanceof SitePageBlockRepresentation) {
             $block = $layout;
             $layout = $block->layout();
             $page = $block->page();
             $site = $page->site();
-            $location = $block->location();
+            $pageLayoutData = $block->pageLayoutData();
         }
         $partialName = $partialName ?: self::PARTIAL_NAME;
         return $view->partial(
@@ -100,7 +100,7 @@ class BlockLayout extends AbstractHelper
             [
                 'layout' => $layout,
                 'layoutLabel' => $this->getLayoutLabel($layout),
-                'location' => $location,
+                'pageLayoutData' => $pageLayoutData,
                 'blockContent' => $this->manager->get($layout)->form($this->getView(), $site, $page, $block),
             ]
         );

@@ -449,6 +449,7 @@
             resetAssetOption('#asset-options .page-link');
         });
 
+        // Prepare page layout.
         const preparePageLayout = function() {
             const layoutSelect = $('#page-layout-select');
             const gridColumnsSelect = $('#page-layout-grid-columns-select');
@@ -473,6 +474,7 @@
             }
         };
 
+        // Prepare page grid layout.
         const preparePageGridLayout = function() {
             const gridColumns = $('#page-layout-grid-columns-select').val();
             $('.block').each(function() {
@@ -496,20 +498,25 @@
             });
         };
 
+        // Prepare page layout on initial load.
         preparePageLayout();
 
+        // Handle adding a block.
         $('#blocks').on('o:block-added', '.block', function(e) {
             preparePageLayout();
         });
 
+        // Handle a page layout change.
         $('#page-layout-select').on('change', function() {
             // Must reset all layout-specific controls when layout changes.
             $('#page-layout-grid-columns-select').val('1');
             $('.block-page-layout-grid-position-select').val('');
             $('.block-page-layout-grid-span-select').val('');
             preparePageLayout();
+            $('#page-layout-restore').show();
         });
 
+        // Handle a grid columns change.
         $('#page-layout-grid-columns-select').on('change', function() {
             // Must reset the position and span #s when column # changes.
             $('.block-page-layout-grid-position-select').val('');
@@ -517,8 +524,35 @@
             preparePageGridLayout();
         });
 
+        // Handle a grid position and grid span change.
         $('#blocks').on('change', '.block-page-layout-grid-position-select, .block-page-layout-grid-span-select', function() {
             preparePageGridLayout();
+        });
+
+        // Handle a layout restore click.
+        $('#page-layout-restore').on('click', function() {
+            const layoutSelect = $('#page-layout-select');
+            layoutSelect.val(layoutSelect.data('page-layout'));
+            preparePageLayout();
+            switch (layoutSelect.val()) {
+                case 'grid':
+                    // Restore grid layout.
+                    const gridColumnsSelect = $('#page-layout-grid-columns-select');
+                    gridColumnsSelect.val(gridColumnsSelect.data('page-layout-grid-columns'));
+                    $('.block').each(function() {
+                        const thisBlock = $(this);
+                        const gridPositionSelect = thisBlock.find('.block-page-layout-grid-position-select');
+                        const gridSpanSelect = thisBlock.find('.block-page-layout-grid-span-select');
+                        gridPositionSelect.val(gridPositionSelect.data('block-page-layout-grid-position'));
+                        gridSpanSelect.val(gridSpanSelect.data('block-page-layout-grid-span'));
+                    });
+                    preparePageGridLayout();
+                    break;
+                case '':
+                default:
+                    // Restore normal flow layout. Do nothing.
+                    break;
+            }
         });
     });
 })(window.jQuery);

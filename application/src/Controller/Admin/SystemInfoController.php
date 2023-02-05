@@ -82,6 +82,7 @@ class SystemInfoController extends AbstractActionController
                 'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
             ],
             'Modules' => [],
+            'Free space' => [],
             'Paths' => [
                 'PHP CLI path' => sprintf(
                     '%s %s',
@@ -123,6 +124,15 @@ class SystemInfoController extends AbstractActionController
                 }, $modules);
             }
         }
+
+        $freeSpace = $this->getFreeSpace('.');
+        $info['Free space']['System'] = $freeSpace;
+        $freeSpace = $this->getFreeSpaceFiles();
+        if (!is_null($freeSpace)) {
+            $info['Free space']['Local files'] = $freeSpace;
+        }
+        $freeSpace = $this->getFreeSpaceTempDir();
+        $info['Free space']['Temp dir'] = $freeSpace;
 
         return $info;
     }
@@ -170,5 +180,27 @@ class SystemInfoController extends AbstractActionController
     public function getImagemagickPath()
     {
         return sprintf('%s/convert', $this->getImagemagickDir());
+    }
+
+    protected function getFreeSpaceFiles(): ?string
+    {
+        $fileStore = $this->config['service_manager']['aliases']['Omeka\File\Store'];
+        if ($fileStore === 'Omeka\File\Store\Local') {
+            $dir = $this->config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
+            return $this->getFreeSpace($dir);
+        }
+        return null;
+    }
+
+    protected function getFreeSpaceTempDir(): ?string
+    {
+        $dir = $this->config['temp_dir'] ?: sys_get_temp_dir();
+        return $this->getFreeSpace($dir);
+    }
+
+    protected function getFreeSpace(string $dir): string
+    {
+        $bytes = disk_free_space($dir);
+        return sprintf('%1$.1f GB', $bytes / 1000000000);
     }
 }

@@ -2,15 +2,14 @@
 namespace Omeka\Service\Controller\Admin;
 
 use Interop\Container\ContainerInterface;
-use Omeka\Controller\Admin\ItemController;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Omeka\Controller\Admin\ItemSetController;
 
-class ItemControllerFactory implements FactoryInterface
+class ItemSetControllerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new ItemController(
-            $services->get('Omeka\Media\Ingester\Manager'),
+        return new ItemSetController(
             $services->get('Omeka\EntityManager')
         );
     }

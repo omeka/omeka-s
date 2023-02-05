@@ -383,12 +383,13 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->preprocessData();
 
-                foreach ($data as $collectionAction => $properties) {
-                    $this->api($form)->batchUpdate('users', $resourceIds, $properties, [
+                foreach ($data as $collectionAction => $dataToProcess) {
+                    $this->api($form)->batchUpdate('users', $resourceIds, $dataToProcess, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,
                         'detachEntities' => false,
                     ]);
+                    $this->entityManager->clear();
                 }
 
                 $this->messenger()->addSuccess('Users successfully edited'); // @translate

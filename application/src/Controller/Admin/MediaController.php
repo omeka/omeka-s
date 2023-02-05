@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Doctrine\ORM\EntityManager;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
 use Omeka\Form\ResourceBatchUpdateForm;
@@ -9,6 +10,19 @@ use Laminas\View\Model\ViewModel;
 
 class MediaController extends AbstractActionController
 {
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function searchAction()
     {
         $view = new ViewModel;
@@ -231,12 +245,13 @@ class MediaController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->preprocessData();
 
-                foreach ($data as $collectionAction => $properties) {
-                    $this->api($form)->batchUpdate('media', $resourceIds, $properties, [
+                foreach ($data as $collectionAction => $dataToProcess) {
+                    $this->api($form)->batchUpdate('media', $resourceIds, $dataToProcess, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,
                         'detachEntities' => false,
                     ]);
+                    $this->entityManager->clear();
                 }
 
                 $this->messenger()->addSuccess('Media successfully edited'); // @translate

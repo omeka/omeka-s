@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Doctrine\ORM\EntityManager;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
 use Omeka\Form\ResourceBatchUpdateForm;
@@ -17,11 +18,18 @@ class ItemController extends AbstractActionController
     protected $mediaIngesters;
 
     /**
-     * @param Manager $mediaIngesters
+     * @var EntityManager
      */
-    public function __construct(Manager $mediaIngesters)
+    protected $entityManager;
+
+    /**
+     * @param Manager $mediaIngesters
+     * @param EntityManager $entityManager
+     */
+    public function __construct(Manager $mediaIngesters, EntityManager $entityManager)
     {
         $this->mediaIngesters = $mediaIngesters;
+        $this->entityManager = $entityManager;
     }
 
     public function searchAction()
@@ -292,13 +300,13 @@ class ItemController extends AbstractActionController
 
             if ($form->isValid()) {
                 $data = $form->preprocessData();
-
-                foreach ($data as $collectionAction => $properties) {
-                    $this->api($form)->batchUpdate('items', $resourceIds, $properties, [
+                foreach ($data as $collectionAction => $dataToProcess) {
+                    $this->api($form)->batchUpdate('items', $resourceIds, $dataToProcess, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,
                         'detachEntities' => false,
                     ]);
+                    $this->entityManager->clear();
                 }
 
                 $this->messenger()->addSuccess('Items successfully edited'); // @translate

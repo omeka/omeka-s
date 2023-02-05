@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\Admin;
 
+use Doctrine\ORM\EntityManager;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
 use Omeka\Form\ResourceBatchUpdateForm;
@@ -10,6 +11,19 @@ use Laminas\View\Model\ViewModel;
 
 class ItemSetController extends AbstractActionController
 {
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function searchAction()
     {
         $view = new ViewModel;
@@ -265,12 +279,13 @@ class ItemSetController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->preprocessData();
 
-                foreach ($data as $collectionAction => $properties) {
-                    $this->api($form)->batchUpdate('item_sets', $resourceIds, $properties, [
+                foreach ($data as $collectionAction => $dataToProcess) {
+                    $this->api($form)->batchUpdate('item_sets', $resourceIds, $dataToProcess, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,
                         'detachEntites' => false,
                     ]);
+                    $this->entityManager->clear();
                 }
 
                 $this->messenger()->addSuccess('Item sets successfully edited'); // @translate

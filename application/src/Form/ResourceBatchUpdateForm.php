@@ -370,9 +370,9 @@ class ResourceBatchUpdateForm extends Form
             'is_public', 'is_open', 'resource_template', 'resource_class',
             'remove_from_item_set', 'add_to_item_set',
             'remove_from_sites', 'add_to_sites',
-            'clear_property_values', 'value',
+            'clear_property_values', 'set_value_visibility',
             'clear_language', 'language',
-            'csrf', 'id', 'o:id',
+            'csrf', 'id', 'o:id', 'value',
         ];
 
         foreach ($data as $key => $value) {

@@ -246,6 +246,9 @@ class MediaController extends AbstractActionController
                 $data = $form->preprocessData();
 
                 foreach ($data as $collectionAction => $dataToProcess) {
+                    if (!$dataToProcess) {
+                        continue;
+                    }
                     $this->api($form)->batchUpdate('media', $resourceIds, $dataToProcess, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,

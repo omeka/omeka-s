@@ -301,6 +301,9 @@ class ItemController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->preprocessData();
                 foreach ($data as $collectionAction => $dataToProcess) {
+                    if (!$dataToProcess) {
+                        continue;
+                    }
                     $this->api($form)->batchUpdate('items', $resourceIds, $dataToProcess, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,

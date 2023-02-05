@@ -280,6 +280,9 @@ class ItemSetController extends AbstractActionController
                 $data = $form->preprocessData();
 
                 foreach ($data as $collectionAction => $dataToProcess) {
+                    if (!$dataToProcess) {
+                        continue;
+                    }
                     $this->api($form)->batchUpdate('item_sets', $resourceIds, $dataToProcess, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,

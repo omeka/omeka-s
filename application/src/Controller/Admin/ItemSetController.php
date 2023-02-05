@@ -286,7 +286,7 @@ class ItemSetController extends AbstractActionController
                     $this->api($form)->batchUpdate('item_sets', $resourceIds, $dataToProcess, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,
-                        'detachEntites' => false,
+                        'detachEntities' => false,
                     ]);
                     $this->entityManager->clear();
                 }

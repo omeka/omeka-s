@@ -4197,13 +4197,13 @@ body.sidebar-open #content {
         text-align: center;
     }
 
+    .block .block-header .block-type {
+        margin-right: auto;
+    }
+
     .block .block-header select {
         margin-right: $spacing-small;
         font-weight: normal;
-    }
-
-    .block-page-layout-grid-position-select {
-        margin-left: auto;
     }
 
     .block-page-layout-grid-span-select + .actions {

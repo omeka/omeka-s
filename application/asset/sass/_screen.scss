@@ -4155,6 +4155,21 @@ body.sidebar-open #content {
 
     /* @group ----- Pages ----- */
 
+    #page-layout-controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: $spacing-medium;
+    }
+
+    #page-layout-controls > *:not(:last-child) {
+        margin-right: $spacing-small;
+    }
+
+    #page-layout-controls button {
+        margin-bottom: 0;
+    }
+
     .indent:before {
         content: "\2014";
         margin-right: -1px;
@@ -4180,6 +4195,19 @@ body.sidebar-open #content {
 
     .block .block-header .actions a:before {
         text-align: center;
+    }
+
+    .block .block-header select {
+        margin-right: $spacing-small;
+        font-weight: normal;
+    }
+
+    .block-page-layout-grid-position-select {
+        margin-left: auto;
+    }
+
+    .block-page-layout-grid-span-select + .actions {
+        margin-left: 0;
     }
 
     .block .block-content input[type="hidden"] + * {
@@ -4689,6 +4717,7 @@ body.sidebar-open #content {
 /* @end */
 
 /* @groups ----- Page Block Config ----- */
+
 
 .theme-resource-pages .blocks {
     list-style: none;

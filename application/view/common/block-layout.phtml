@@ -19,11 +19,6 @@ $pageLayoutGridSpan = $pageLayoutData['grid_span'] ?? '';
         <span class="sortable-handle"></span>
         <span class="block-type"><?php echo $translate($layoutLabel); ?></span>
         <span class="restore-value"><?php echo $translate('Block to be removed'); ?></span>
-        <ul class="actions">
-            <li><a href="#" class="o-icon-expand collapse" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>"></a></li>
-            <li><a href="#" class="o-icon-delete remove-value" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></a></li>
-            <li><a href="#" class="o-icon-undo restore-value inactive" aria-label="<?php echo $translate('Restore value'); ?>" title="<?php echo $translate('Restore value'); ?>"></a></li>
-        </ul>
         <select name="o:block[__blockIndex__][o:page_layout_data][grid_position]" class="block-page-layout-grid-position-select" data-block-page-layout-grid-position="<?php echo $escape($pageLayoutGridPosition); ?>" style="display: none" disabled>
             <?php foreach ($pageLayoutGridPositionOptions as $key => $value): ?>
             <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridPosition == $key) ? ' selected' : '' ?>><?php echo $value; ?></option>
@@ -34,6 +29,11 @@ $pageLayoutGridSpan = $pageLayoutData['grid_span'] ?? '';
             <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridSpan == $key) ? ' selected' : '' ?>><?php echo $value; ?></option>
             <?php endforeach; ?>
         </select>
+        <ul class="actions">
+            <li><a href="#" class="o-icon-expand collapse" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>"></a></li>
+            <li><a href="#" class="o-icon-delete remove-value" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></a></li>
+            <li><a href="#" class="o-icon-undo restore-value inactive" aria-label="<?php echo $translate('Restore value'); ?>" title="<?php echo $translate('Restore value'); ?>"></a></li>
+        </ul>
     </div>
     <div class="block-content collapsible">
     <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="<?php echo $escape($layout); ?>">

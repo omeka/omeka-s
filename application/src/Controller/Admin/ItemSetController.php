@@ -51,10 +51,10 @@ class ItemSetController extends AbstractActionController
 
     public function editAction()
     {
-        $form = $this->getForm(ResourceForm::class);
+        $itemSet = $this->api()->read('item_sets', $this->params('id'))->getContent();
+
+        $form = $this->getForm(ResourceForm::class, ['resource' => $itemSet]);
         $form->setAttribute('id', 'edit-item-set');
-        $response = $this->api()->read('item_sets', $this->params('id'));
-        $itemSet = $response->getContent();
 
         $view = new ViewModel;
         $view->setVariable('form', $form);

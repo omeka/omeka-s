@@ -7,7 +7,7 @@ foreach (range(1, 12) as $value) {
     $pageLayoutGridPositionOptions[$value] = sprintf($translate('Position %s'), $value);
 }
 $pageLayoutGridSpanOptions = ['' => $translate('No span')];
-foreach (range(1, 12) as $value) {
+foreach (range(2, 12) as $value) {
     $pageLayoutGridSpanOptions[$value] = sprintf($translate('Span %s'), $value);
 }
 $pageLayoutGridPosition = $pageLayoutData['grid_position'] ?? '';

@@ -18,6 +18,11 @@ class ResourceForm extends Form
      */
     protected $urlHelper;
 
+    /**
+     * @var AbstractResourceEntityRepresentation|null
+     */
+    protected $resource;
+
     public function init()
     {
         $urlHelper = $this->getUrlHelper();

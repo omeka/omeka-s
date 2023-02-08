@@ -89,7 +89,7 @@ class ResourceForm extends Form
             ],
             'options' => [
                 'label' => 'Owner', // @translate
-                'empty_option' => $owner ? null : '[No owner]',
+                'empty_option' => $owner ? null : '[No owner]', // @translate
                 'resource_value_options' => [
                     'resource' => 'users',
                     'query' => [],

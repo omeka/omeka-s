@@ -4527,6 +4527,19 @@ body.sidebar-open #content {
 
     /* @end */
 
+    /* @group ----- Site Admin ----- */
+    
+    .browse-defualts-form-element {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .browse-defualts-form-element select {
+        width: 49.5%;
+    }
+
+    /* @end */
+    
     /* @group ----- Site Navigation/List of Pages ----- */
 
     input[type="text"].page-selector-filter {

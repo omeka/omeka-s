@@ -5053,6 +5053,7 @@ body.minimal .site.results thead {
 .asset-entry img {
     margin-right: $spacing-small;
     max-height: 2 * $spacing-large;
+    max-width: 50%;
 }
 
 .asset-entry .asset-name {

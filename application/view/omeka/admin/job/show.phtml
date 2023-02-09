@@ -5,17 +5,17 @@ $this->htmlElement('body')->appendAttribute('class', 'jobs show');
 if ($job->started()) {
     $started = $this->i18n()->dateFormat($job->started(), 'long', 'long');
 } else {
-    $started = $translate('[not started]');
+    $started = $translate('[Not started]');
 }
 if ($job->ended()) {
     $ended = $this->i18n()->dateFormat($job->ended(), 'long', 'long');
 } else {
-    $ended = $translate('[not ended]');
+    $ended = $translate('[Not ended]');
 }
 if ($owner = $job->owner()) {
     $ownerText = $this->escapeHtml($owner->email());
 } else {
-    $ownerText = $translate('[no owner]');
+    $ownerText = $translate('[No owner]');
 }
 ?>
 <?php echo $this->pageTitle('#' . $escape($job->id()), 1, $translate('Jobs')); ?>
@@ -52,7 +52,7 @@ if ($owner = $job->owner()) {
             <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT); ?>
             <dd class="value"><pre><?php echo $args; ?></pre></dd>
         <?php else: ?>
-            <dd class="value"><?php echo $translate('[no args]') ?></dd>
+            <dd class="value"><?php echo $translate('[No args]') ?></dd>
         <?php endif; ?>
     </div>
     <div class="meta-group">
@@ -63,7 +63,7 @@ if ($owner = $job->owner()) {
             $this->url(null, ['action' => 'log'], true),
             ['target' => '_blank']); ?>
         <?php else: ?>
-        <?php echo $translate('[no log]'); ?>
+        <?php echo $translate('[No log]'); ?>
         <?php endif; ?>
         </dd>
     </div>

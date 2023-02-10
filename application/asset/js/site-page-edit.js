@@ -453,18 +453,15 @@
         const preparePageLayout = function() {
             const layoutSelect = $('#page-layout-select');
             const gridColumnsSelect = $('#page-layout-grid-columns-select');
-            const gridPositionSelects = $('.block-page-layout-grid-position-select');
-            const gridSpanSelects = $('.block-page-layout-grid-span-select');
+            const gridColumnControls = $('.block-page-layout-grid-controls');
             // Disable and hide all layout-specific controls by default.
             gridColumnsSelect.prop('disabled', true).hide();
-            gridPositionSelects.prop('disabled', true).hide();
-            gridSpanSelects.prop('disabled', true).hide();
+            gridColumnControls.hide().find(':input').prop('disabled', true);
             switch (layoutSelect.val()) {
                 case 'grid':
                     // Prepare grid layout.
                     gridColumnsSelect.prop('disabled', false).show();
-                    gridPositionSelects.prop('disabled', false).show();
-                    gridSpanSelects.prop('disabled', false).show();
+                    gridColumnControls.show().find(':input').prop('disabled', false);
                     preparePageGridLayout();
                     break;
                 case '':
@@ -479,21 +476,21 @@
             const gridColumns = $('#page-layout-grid-columns-select').val();
             $('.block').each(function() {
                 const thisBlock = $(this);
-                const gridPositionSelect = thisBlock.find('.block-page-layout-grid-position-select');
-                const gridSpanSelect = thisBlock.find('.block-page-layout-grid-span-select');
+                const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
                 // Hide invalid positions according to the column # and span #.
-                gridPositionSelect.find('option').show()
+                gridColumnPositionSelect.find('option').show()
                     .filter(function() {
                         const thisOption = $(this);
                         return (parseInt(thisOption.attr('value')) > parseInt(gridColumns))
-                            || (parseInt(thisOption.attr('value')) > (1 + parseInt(gridColumns) - parseInt(gridSpanSelect.val())));
+                            || (parseInt(thisOption.attr('value')) > (1 + parseInt(gridColumns) - parseInt(gridColumnSpanSelect.val())));
                     }).hide();
                 // Hide invalid spans according to the column # and position #.
-                gridSpanSelect.find('option').show()
+                gridColumnSpanSelect.find('option').show()
                     .filter(function() {
                         const thisOption = $(this);
                         return (parseInt(thisOption.attr('value')) > parseInt(gridColumns))
-                            || (parseInt(thisOption.attr('value')) > (1 + parseInt(gridColumns) - parseInt(gridPositionSelect.val())));
+                            || (parseInt(thisOption.attr('value')) > (1 + parseInt(gridColumns) - parseInt(gridColumnPositionSelect.val())));
                     }).hide();
             });
         };
@@ -510,8 +507,8 @@
         $('#page-layout-select').on('change', function() {
             // Must reset all layout-specific controls when layout changes.
             $('#page-layout-grid-columns-select').val('1');
-            $('.block-page-layout-grid-position-select').val('');
-            $('.block-page-layout-grid-span-select').val('');
+            $('.block-page-layout-grid-column-position-select').val('auto');
+            $('.block-page-layout-grid-column-span-select').val('1');
             preparePageLayout();
             $('#page-layout-restore').show();
         });
@@ -519,13 +516,13 @@
         // Handle a grid columns change.
         $('#page-layout-grid-columns-select').on('change', function() {
             // Must reset the position and span #s when column # changes.
-            $('.block-page-layout-grid-position-select').val('');
-            $('.block-page-layout-grid-span-select').val('');
+            $('.block-page-layout-grid-column-position-select').val('auto');
+            $('.block-page-layout-grid-column-span-select').val('1');
             preparePageGridLayout();
         });
 
         // Handle a grid position and grid span change.
-        $('#blocks').on('change', '.block-page-layout-grid-position-select, .block-page-layout-grid-span-select', function() {
+        $('#blocks').on('change', '.block-page-layout-grid-column-position-select, .block-page-layout-grid-column-span-select', function() {
             preparePageGridLayout();
         });
 
@@ -541,10 +538,10 @@
                     gridColumnsSelect.val(gridColumnsSelect.data('page-layout-grid-columns'));
                     $('.block').each(function() {
                         const thisBlock = $(this);
-                        const gridPositionSelect = thisBlock.find('.block-page-layout-grid-position-select');
-                        const gridSpanSelect = thisBlock.find('.block-page-layout-grid-span-select');
-                        gridPositionSelect.val(gridPositionSelect.data('block-page-layout-grid-position'));
-                        gridSpanSelect.val(gridSpanSelect.data('block-page-layout-grid-span'));
+                        const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                        const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                        gridColumnPositionSelect.val(gridColumnPositionSelect.data('block-page-layout-grid-column-position'));
+                        gridColumnSpanSelect.val(gridColumnSpanSelect.data('block-page-layout-grid-column-span'));
                     });
                     preparePageGridLayout();
                     break;

@@ -519,15 +519,18 @@
             $('.block-page-layout-grid-column-position-select').val('auto');
             $('.block-page-layout-grid-column-span-select').val('1');
             preparePageGridLayout();
+            $('#page-layout-restore').show();
         });
 
         // Handle a grid position and grid span change.
         $('#blocks').on('change', '.block-page-layout-grid-column-position-select, .block-page-layout-grid-column-span-select', function() {
             preparePageGridLayout();
+            $('#page-layout-restore').show();
         });
 
         // Handle a layout restore click.
         $('#page-layout-restore').on('click', function() {
+            const restoreButton = $(this);
             const layoutSelect = $('#page-layout-select');
             layoutSelect.val(layoutSelect.data('page-layout'));
             preparePageLayout();
@@ -550,6 +553,7 @@
                     // Restore normal flow layout. Do nothing.
                     break;
             }
+            restoreButton.hide();
         });
     });
 })(window.jQuery);

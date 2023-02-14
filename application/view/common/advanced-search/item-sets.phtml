@@ -32,7 +32,7 @@ if ($this->status()->isSiteRequest()) {
     $selectOptions = [
         'disable_group_by_owner' => true,
         'query' => ['site_id' => $this->layout()->site->id()],
-        'lang' => ($filterLocale == 1 ? $lang : null)
+        'lang' => $filterLocale ? [$lang, ''] : null
     ];
 } else {
     $selectOptions = [];

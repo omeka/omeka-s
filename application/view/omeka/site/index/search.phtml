@@ -6,6 +6,7 @@ $this->htmlElement('body')->appendAttribute('class', 'index search');
 
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $this->lang();
+$valueLang = $filterLocale ? [$lang, ''] : null;
 ?>
 
 <?php echo $this->pageTitle(sprintf($translate('Search results for “%s”'), $query)); ?>
@@ -38,11 +39,11 @@ $resourceControllers = [
                 <?php if ($resourceName === 'site_pages') {
                     echo $resource->link($resource->title());
                 } else {
-                    echo $resource->link($resource->displayTitle(null, ($filterLocale ? $lang : null)));
+                    echo $resource->link($resource->displayTitle(null, $valueLang));
                 }
                 ?>
             <?php else: ?>
-            <?php echo $resource->linkPretty('square', null, null, null, ($filterLocale ? $lang : null)); ?>
+            <?php echo $resource->linkPretty('square', null, null, null, $valueLang); ?>
             <?php endif; ?>
         </li>
         <?php endforeach; ?>

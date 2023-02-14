@@ -1,6 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$thumbnail = $this->plugin('thumbnail');
 ?>
 <div class="preview-block">
 
@@ -18,21 +19,25 @@ $bodyTerm = $this->siteSetting('browse_body_property_term');
 
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $this->lang();
+$valueLang = $filterLocale ? [$lang, ''] : null;
 
 foreach ($this->resources as $resource):
-$heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]')]) : $resource->displayTitle(null, ($filterLocale ? $lang : null));
-$body = $bodyTerm ? $resource->value($bodyTerm) : $resource->displayDescription(null, ($filterLocale ? $lang : null));
-$thumbnail = $this->thumbnail($resource, 'medium', ['title' => $heading]);
+    $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => $valueLang]) : $resource->displayTitle(null, $valueLang);
+    $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $valueLang]) : $resource->displayDescription(null, $valueLang);
 ?>
     <li class="<?php echo $this->resourceType; ?> resource">
         <?php
-        if ($showThumbnail && $thumbnail):
-            echo $resource->linkRaw($thumbnail);
-        endif;?>
-        <?php
+        $linkContent = '';
+        if ($showThumbnail):
+            $linkContent .= $this->thumbnail($resource, 'medium');
+        endif;
         if ($showHeading):
-            echo '<h4>' . $resource->link($heading) . '</h4>';
-        endif;?>
+            $linkContent .= '<span class="resource-name">' . $escape($heading) . '</span>';
+        endif;
+        if ($linkContent !== '') {
+            echo $resource->linkRaw($linkContent, null, ['class' => 'resource-link']);
+        }
+        ?>
         <?php if ($showBody && $body): ?>
         <div class="description"><?php echo $escape($body); ?></div>
         <?php endif; ?>

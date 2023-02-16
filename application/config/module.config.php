@@ -282,6 +282,7 @@ return [
             'Omeka\Environment' => Service\EnvironmentFactory::class,
             'Omeka\ColumnTypeManager' => Service\ColumnType\ManagerFactory::class,
             'Omeka\Browse' => Service\BrowseFactory::class,
+            'Omeka\Oembed' => Service\OembedFactory::class,
         ],
         'invokables' => [
             'ModuleRouteListener' => \Laminas\Mvc\ModuleRouteListener::class,
@@ -849,6 +850,7 @@ return [
             '#^https?://(www\.)?mixcloud\.com/.*$#i',
             '#^https?://(www\.|embed\.)?ted\.com/talks/.*$#i',
             '#^https?://(www\.)?(animoto|video214)\.com/play/.*$#i',
+            '#^https?://[^/]+/s/[^/]+/item/\d+#i',
         ],
     ],
     'mail' => [

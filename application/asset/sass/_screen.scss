@@ -2591,6 +2591,10 @@ input[type="text"].value-language {
         width: 100%;
     }
 
+    .value.delete .restore-value {
+        display: inline-block;
+    }
+
     .value [class*="o-icon-"].label {
         position: absolute;
         top: 0;

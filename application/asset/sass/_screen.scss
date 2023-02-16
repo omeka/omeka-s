@@ -2582,7 +2582,8 @@ input[type="text"].value-language {
 
     .value .restore-value,
     .value.delete a.tab,
-    .value.delete [class*="o-icon-"]:not(.restore-value) {
+    .value.delete [class*="o-icon-"]:not(.restore-value),
+    .value.delete .block-page-layout-grid-controls {
         display: none;
     }
 

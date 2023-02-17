@@ -54,13 +54,13 @@ class Oembed
         }
         $dom = new Query($response->getBody());
         $oembedLinks = $dom->queryXpath('//link[@rel="alternate" or @rel="alternative"][@type="application/json+oembed" or @type="text/json+oembed"]');
-        if (!$oembedLinks) {
+        if (!$oembedLinks->count()) {
             $errorStore->addError($errorKey, sprintf($this->translator->translate('oEmbed: links cannot be found at %s'), $url));
             return false;
         }
 
         // Get the oEmbed response.
-        $oembedLinkUrl = $oembedLinks[0]->getAttribute('href');
+        $oembedLinkUrl = $oembedLinks->current()->getAttribute('href');
         $response = $this->getResponse($oembedLinkUrl, $errorStore, $errorKey);
         if (!$response) {
             return false;
@@ -119,7 +119,6 @@ class Oembed
         }
         $this->client->setUri($uri);
         $response = $this->client->send();
-        var_dump(get_class($response));exit;
         if (!$response->isSuccess()) {
             $errorStore->addError($errorKey, sprintf(
                 $this->translator->translate('oEmbed: URL is unreadable at %s: %s (%s)'),

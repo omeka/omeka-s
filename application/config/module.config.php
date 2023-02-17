@@ -734,6 +734,7 @@ return [
             'asset' => Service\BlockLayout\AssetFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
             'listOfPages' => Service\BlockLayout\PageListFactory::class,
+            'oembed' => Service\BlockLayout\OembedFactory::class,
         ],
     ],
     'resource_page_block_layouts' => [

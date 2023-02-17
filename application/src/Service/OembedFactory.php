@@ -13,6 +13,7 @@ class OembedFactory implements FactoryInterface
         return new Oembed(
             $config['oembed']['whitelist'],
             $services->get('Omeka\HttpClient'),
+            $services->get('MvcTranslator')
         );
     }
 }

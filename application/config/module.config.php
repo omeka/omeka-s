@@ -783,7 +783,6 @@ return [
     ],
     'media_renderers' => [
         'invokables' => [
-            'oembed' => Media\Renderer\OEmbed::class,
             'youtube' => Media\Renderer\Youtube::class,
             'html' => Media\Renderer\Html::class,
             'iiif' => Media\Renderer\IIIF::class,
@@ -791,6 +790,7 @@ return [
         ],
         'factories' => [
             'file' => Service\Media\Renderer\FileFactory::class,
+            'oembed' => Service\Media\Renderer\OEmbedFactory::class,
         ],
     ],
     'file_renderers' => [

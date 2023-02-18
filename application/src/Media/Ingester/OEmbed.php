@@ -1,18 +1,19 @@
 <?php
 namespace Omeka\Media\Ingester;
 
+use Omeka\Api\Representation\MediaRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\File\Downloader;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Oembed as StdlibOembed;
 use Laminas\Dom\Query;
-use Laminas\Form\Element\Url as UrlElement;
+use Laminas\Form;
 use Laminas\Http\Client as HttpClient;
 use Laminas\Uri\Http as HttpUri;
 use Laminas\View\Renderer\PhpRenderer;
 
-class OEmbed implements IngesterInterface
+class OEmbed implements MutableIngesterInterface
 {
     protected $oembed;
 
@@ -60,15 +61,66 @@ class OEmbed implements IngesterInterface
 
     public function form(PhpRenderer $view, array $options = [])
     {
-        $urlInput = new UrlElement('o:media[__index__][o:source]');
-        $urlInput->setOptions([
-            'label' => 'oEmbed URL', // @translate
-            'info' => 'URL for the media to embed.', // @translate
+        $form = new Form\Form;
+        $form->add([
+            'type' => Form\Element\Url::class,
+            'name' => 'o:media[__index__][o:source]',
+            'options' => [
+                'label' => 'oEmbed URL', // @translate
+                'info' => 'URL for the media to embed.', // @translate
+            ],
+            'attributes' => [
+                'required' => true,
+            ],
         ]);
-        $urlInput->setAttributes([
-            'id' => 'media-oembed-source-__index__',
-            'required' => true,
+        return $view->formCollection($form, false);
+    }
+
+    public function update(Media $media, Request $request, ErrorStore $errorStore)
+    {
+        $data = $request->getContent();
+        if ($data['update_oembed']) {
+            $oembed = $this->oembed->getOembed($media->getSource(), $errorStore, 'o:source');
+            if (!$oembed) {
+                return;
+            }
+            $media->setData($oembed);
+        }
+    }
+
+    public function updateForm(PhpRenderer $view, MediaRepresentation $media, array $options = [])
+    {
+        $form = new Form\Form;
+        $form->add([
+            'type' => Form\Element\Checkbox::class,
+            'name' => 'update_oembed',
+            'options' => [
+                'label' => 'Update oEmbed',
+            ],
         ]);
-        return $view->formRow($urlInput);
+        $form->add([
+            'type' => Form\Element\Text::class,
+            'name' => 'oembed_url',
+            'options' => [
+                'label' => 'oEmbed URL',
+            ],
+            'attributes' => [
+                'value' => $media->source(),
+                'disabled' => true,
+            ],
+        ]);
+        $form->add([
+            'type' => Form\Element\Textarea::class,
+            'name' => 'oembed_oembed',
+            'options' => [
+                'label' => 'oEmbed',
+            ],
+            'attributes' => [
+                'value' => json_encode($media->mediaData(), JSON_PRETTY_PRINT),
+                'rows' => 6,
+                'disabled' => true,
+            ],
+        ]);
+        return $view->formCollection($form, false);
     }
 }

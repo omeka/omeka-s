@@ -96,7 +96,7 @@ class Oembed extends AbstractBlockLayout
             ]);
         } else {
             $form->add([
-                'type' => Form\Element\Text::class,
+                'type' => Form\Element\Url::class,
                 'name' => 'o:block[__blockIndex__][o:data][url]',
                 'options' => [
                     'label' => 'oEmbed URL', // @translate

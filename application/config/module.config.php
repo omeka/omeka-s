@@ -311,6 +311,7 @@ return [
         'invokables' => [
             'Omeka\Controller\Index' => Controller\IndexController::class,
             'Omeka\Controller\IiifViewer' => Controller\IiifViewerController::class,
+            'Omeka\Controller\Oembed' => Controller\OembedController::class,
             'Omeka\Controller\Search' => Controller\SearchController::class,
             'Omeka\Controller\Maintenance' => Controller\MaintenanceController::class,
             'Omeka\Controller\Site\Index' => Controller\Site\IndexController::class,
@@ -851,7 +852,7 @@ return [
             '#^https?://(www\.)?mixcloud\.com/.*$#i',
             '#^https?://(www\.|embed\.)?ted\.com/talks/.*$#i',
             '#^https?://(www\.)?(animoto|video214)\.com/play/.*$#i',
-            '#^https?://[^/]+/s/[^/]+/item/\d+#i',
+            '#^https?://.+/s/(.+)/(item|media)/(\d+)$#i',
         ],
     ],
     'mail' => [

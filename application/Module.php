@@ -220,6 +220,29 @@ class Module extends AbstractModule
                 }
             );
         }
+
+        $resources = [
+            'Omeka\Controller\Site\Item',
+            'Omeka\Controller\Site\Media',
+        ];
+        foreach ($resources as $resource) {
+            $sharedEventManager->attach(
+                $resource,
+                'view.show.after',
+                function (ZendEvent $event) {
+                    $view = $event->getTarget();
+                    $resource = $view->resource;
+                    $resourceUrl = $view->url(null, [], ['force_canonical' => true], true);
+                    $href = $view->url('oembed', [], ['force_canonical' => true, 'query' => ['url' => $resourceUrl]]);
+                    $view->headLink([
+                        'rel' => 'alternate',
+                        'type' => 'application/json+oembed',
+                        'title' => $resource->title(),
+                        'href' => $href,
+                    ]);
+                }
+            );
+        }
     }
 
     /**

@@ -113,6 +113,6 @@ class Oembed extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $data = $block->data() + $this->defaultData;
-        return $this->oembed->renderOembed($data['oembed'], $view);
+        return $this->oembed->renderOembed($view, $data['oembed']);
     }
 }

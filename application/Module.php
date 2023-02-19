@@ -221,6 +221,7 @@ class Module extends AbstractModule
             );
         }
 
+        // Add discoverable oEmbed head links to public resource pages.
         $resources = [
             'Omeka\Controller\Site\Item',
             'Omeka\Controller\Site\Media',
@@ -231,15 +232,10 @@ class Module extends AbstractModule
                 'view.show.after',
                 function (ZendEvent $event) {
                     $view = $event->getTarget();
-                    $resource = $view->resource;
                     $resourceUrl = $view->url(null, [], ['force_canonical' => true], true);
-                    $href = $view->url('oembed', [], ['force_canonical' => true, 'query' => ['url' => $resourceUrl]]);
-                    $view->headLink([
-                        'rel' => 'alternate',
-                        'type' => 'application/json+oembed',
-                        'title' => $resource->title(),
-                        'href' => $href,
-                    ]);
+                    $resourceTitle = $view->resource->displayTitle();
+                    $oembed = $this->getServiceLocator()->get('Omeka\Oembed');
+                    $oembed->addHeadLink($view, $resourceUrl, $resourceTitle);
                 }
             );
         }

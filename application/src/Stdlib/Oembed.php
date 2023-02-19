@@ -76,11 +76,11 @@ class Oembed
     /**
      * Get oEmbed HTML markup.
      *
-     * @param array $oembed
      * @param PhpRenderer $view
+     * @param array $oembed
      * @return string|false
      */
-    public function renderOembed(array $oembed, PhpRenderer $view)
+    public function renderOembed(PhpRenderer $view, array $oembed)
     {
         if (isset($oembed['html'])) {
             return $oembed['html'];
@@ -97,6 +97,24 @@ class Oembed
             );
         }
         return false;
+    }
+
+    /**
+     * Add a discoverable oEmbed head link to a view.
+     *
+     * @param PhpRenderer $view
+     * @param string $url
+     * @param string $title
+     */
+    public function addHeadLink(PhpRenderer $view, string $url, string $title)
+    {
+        $href = $view->url('oembed', [], ['force_canonical' => true, 'query' => ['url' => $url]]);
+        $view->headLink([
+            'rel' => 'alternate',
+            'type' => 'application/json+oembed',
+            'title' => $title,
+            'href' => $href,
+        ]);
     }
 
     /**

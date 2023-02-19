@@ -17,7 +17,7 @@ class OEmbed implements RendererInterface
     public function render(PhpRenderer $view, MediaRepresentation $media, array $options = [])
     {
         $data = $media->mediaData();
-        $markup = $this->oembed->renderOembed($data, $view);
+        $markup = $this->oembed->renderOembed($view, $data);
         if ($markup) {
             return $markup;
         }

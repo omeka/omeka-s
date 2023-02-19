@@ -67,7 +67,7 @@ class Oembed
         }
         $oembed = json_decode($response->getBody(), true);
         if (!$oembed) {
-            $errorStore->addError($errorStore, sprintf($this->translator->translate('oEmbed: response cannot be decoded to JSON %s'), $oembedLinkUrl));
+            $errorStore->addError($errorKey, sprintf($this->translator->translate('oEmbed: response cannot be decoded to JSON %s'), $oembedLinkUrl));
             return false;
         }
         return $oembed;

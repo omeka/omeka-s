@@ -17,18 +17,17 @@ class OembedController extends AbstractActionController
             $response->setStatusCode(501);
             return $response;
         }
-        $url = $this->params()->fromQuery('url');
-        if (!$url) {
+        $url = new HttpUrl($this->params()->fromQuery('url'));
+        if (!$url->isValid()) {
             $response->setStatusCode(404);
             return $response;
         }
-        $url = new HttpUrl($url);
         $isMatch = preg_match('#^.+/s/.+/(item|media)/(\d+)$#i', $url->getPath(), $matches);
         if (!$isMatch) {
             $response->setStatusCode(404);
             return $response;
         }
-        [$url, $resourceType, $resourceId] = $matches;
+        [$path, $resourceType, $resourceId] = $matches;
         if ('item' === $resourceType) {
             $resourceType = 'items';
         } elseif ('media' === $resourceType) {
@@ -44,7 +43,7 @@ class OembedController extends AbstractActionController
             'type' => 'rich',
             'version' => '1.0',
             'title' => $resource->displayTitle(),
-            'html' => $resource->displayValues(),
+            'html' => sprintf('<iframe width="800" height="600" src="%s"></iframe>', htmlspecialchars($url->toString())),
         ];
         return new JsonModel($oembed);
     }

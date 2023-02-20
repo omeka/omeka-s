@@ -125,20 +125,24 @@ class SystemInfoController extends AbstractActionController
             }
         }
 
-        $freeSpace = disk_free_space('.');
-        $info['Free space']['System'] = $this->formatSpace($freeSpace);
-        $freeSpaceFiles = $this->getDirFiles();
-        if ($freeSpaceFiles) {
-            $freeSpace = disk_free_space($freeSpaceFiles);
-            $info['Free space']['Local files'] = $this->formatSpace($freeSpace);
+        $freeSpaceSystem = disk_free_space('.');
+        $info['Free space']['System'] = $this->formatSpace($freeSpaceSystem);
+        $freeSpaceFilesDir = $this->getDirFiles();
+        if ($freeSpaceFilesDir) {
+            $freeSpaceFiles = disk_free_space($freeSpaceFilesDir);
+            if ($freeSpaceFiles !== $freeSpaceSystem) {
+                $info['Free space']['Local files'] = $this->formatSpace($freeSpaceFiles);
+            }
             // Manage the case where directory "original" is mounted separately.
-            $freeSpaceOriginal = disk_free_space($freeSpaceFiles . '/original');
-            if ($freeSpace !== $freeSpaceOriginal) {
+            $freeSpaceOriginal = disk_free_space($freeSpaceFilesDir . '/original');
+            if ($freeSpaceFiles !== $freeSpaceOriginal) {
                 $info['Free space']['Local files (original)'] = $this->formatSpace($freeSpaceOriginal);
             }
         }
-        $freeSpace = disk_free_space($this->getDirTemp());
-        $info['Free space']['Temp dir'] = $this->formatSpace($freeSpace);
+        $freeSpaceTemp = disk_free_space($this->getDirTemp());
+        if ($freeSpaceTemp !== $freeSpaceSystem) {
+            $info['Free space']['Temp dir'] = $this->formatSpace($freeSpaceTemp);
+        }
 
         return $info;
     }

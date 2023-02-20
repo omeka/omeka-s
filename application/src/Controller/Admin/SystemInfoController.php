@@ -125,14 +125,20 @@ class SystemInfoController extends AbstractActionController
             }
         }
 
-        $freeSpace = $this->getFreeSpace('.');
-        $info['Free space']['System'] = $freeSpace;
-        $freeSpace = $this->getFreeSpaceFiles();
-        if (!is_null($freeSpace)) {
-            $info['Free space']['Local files'] = $freeSpace;
+        $freeSpace = disk_free_space('.');
+        $info['Free space']['System'] = $this->formatSpace($freeSpace);
+        $freeSpaceFiles = $this->getDirFiles();
+        if ($freeSpaceFiles) {
+            $freeSpace = disk_free_space($freeSpaceFiles);
+            $info['Free space']['Local files'] = $this->formatSpace($freeSpace);
+            // Manage the case where directory "original" is mounted separately.
+            $freeSpaceOriginal = disk_free_space($freeSpaceFiles . '/original');
+            if ($freeSpace !== $freeSpaceOriginal) {
+                $info['Free space']['Local files (original)'] = $this->formatSpace($freeSpaceOriginal);
+            }
         }
-        $freeSpace = $this->getFreeSpaceTempDir();
-        $info['Free space']['Temp dir'] = $freeSpace;
+        $freeSpace = disk_free_space($this->getDirTemp());
+        $info['Free space']['Temp dir'] = $this->formatSpace($freeSpace);
 
         return $info;
     }
@@ -182,25 +188,22 @@ class SystemInfoController extends AbstractActionController
         return sprintf('%s/convert', $this->getImagemagickDir());
     }
 
-    protected function getFreeSpaceFiles(): ?string
+    protected function getDirFiles(): ?string
     {
         $fileStore = $this->config['service_manager']['aliases']['Omeka\File\Store'];
         if ($fileStore === 'Omeka\File\Store\Local') {
-            $dir = $this->config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
-            return $this->getFreeSpace($dir);
+            return $this->config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
         }
         return null;
     }
 
-    protected function getFreeSpaceTempDir(): ?string
+    protected function getDirTemp(): ?string
     {
-        $dir = $this->config['temp_dir'] ?: sys_get_temp_dir();
-        return $this->getFreeSpace($dir);
+        return $this->config['temp_dir'] ?: sys_get_temp_dir();
     }
 
-    protected function getFreeSpace(string $dir): string
+    protected function formatSpace($bytes): string
     {
-        $bytes = disk_free_space($dir);
         return sprintf('%1$.1f GB', $bytes / 1000000000);
     }
 }

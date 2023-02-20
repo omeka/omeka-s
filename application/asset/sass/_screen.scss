@@ -1731,6 +1731,11 @@ fieldset.section > legend {
         border-width: 1px 0;
     }
 
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
     a {
         display: block;
         float: left;

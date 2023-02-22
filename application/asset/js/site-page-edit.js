@@ -449,7 +449,7 @@
             resetAssetOption('#asset-options .page-link');
         });
 
-        // Prepare page layout.
+        // Prepare page layout for use.
         const preparePageLayout = function() {
             const layoutSelect = $('#page-layout-select');
             const gridColumnsSelect = $('#page-layout-grid-columns-select');
@@ -471,29 +471,51 @@
             }
         };
 
-        // Prepare page grid layout.
+        // Prepare page grid layout for use.
         const preparePageGridLayout = function() {
-            const gridColumns = $('#page-layout-grid-columns-select').val();
+            const gridColumns = parseInt($('#page-layout-grid-columns-select').val(), 10);
             $('.block').each(function() {
                 const thisBlock = $(this);
                 const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                const gridColumnPositionSelectValue = parseInt(gridColumnPositionSelect.val(), 10);
                 const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                const gridColumnSpanSelectValue = parseInt(gridColumnSpanSelect.val(), 10);
                 // Hide invalid positions according to the column # and span #.
                 gridColumnPositionSelect.find('option').show()
                     .filter(function() {
                         const thisOption = $(this);
-                        return (parseInt(thisOption.attr('value')) > parseInt(gridColumns))
-                            || (parseInt(thisOption.attr('value')) > (1 + parseInt(gridColumns) - parseInt(gridColumnSpanSelect.val())));
+                        const thisValue = parseInt(thisOption.attr('value'), 10);
+                        return (thisValue > gridColumns) || (thisValue > (1 + gridColumns - gridColumnSpanSelectValue));
                     }).hide();
                 // Hide invalid spans according to the column # and position #.
                 gridColumnSpanSelect.find('option').show()
                     .filter(function() {
                         const thisOption = $(this);
-                        return (parseInt(thisOption.attr('value')) > parseInt(gridColumns))
-                            || (parseInt(thisOption.attr('value')) > (1 + parseInt(gridColumns) - parseInt(gridColumnPositionSelect.val())));
+                        const thisValue = parseInt(thisOption.attr('value'), 10);
+                        return (thisValue > gridColumns) || (thisValue > (1 + gridColumns - gridColumnPositionSelectValue));
                     }).hide();
             });
         };
+
+        // Set layout-specific block controls to their default values.
+        const setPageLayoutBlockDefaults = function(blockElements) {
+            const layoutSelect = $('#page-layout-select');
+            switch (layoutSelect.val()) {
+                case 'grid':
+                    // Set grid layout defaults.
+                    const gridColumns = $('#page-layout-grid-columns-select').val();
+                    blockElements.each(function() {
+                        const thisBlock = $(this);
+                        thisBlock.find('.block-page-layout-grid-column-position-select').val('auto');
+                        thisBlock.find('.block-page-layout-grid-column-span-select').val(gridColumns);
+                    });
+                    break;
+                case '':
+                default:
+                    // Set normal flow layout defaults. Do nothing.
+                    break;
+            }
+        }
 
         // Prepare page layout on initial load.
         preparePageLayout();
@@ -501,27 +523,22 @@
         // Handle adding a block.
         $('#blocks').on('o:block-added', '.block', function(e) {
             const thisBlock = $(this);
-            // Must set all layout-specific controls to their default values.
-            thisBlock.find('.block-page-layout-grid-column-position-select').val('auto');
-            thisBlock.find('.block-page-layout-grid-column-span-select').val($('#page-layout-grid-columns-select').val());
+            setPageLayoutBlockDefaults(thisBlock);
             preparePageLayout();
         });
 
         // Handle a page layout change.
         $('#page-layout-select').on('change', function() {
             // Must reset all layout-specific controls when layout changes.
-            $('#page-layout-grid-columns-select').val('1');
-            $('.block-page-layout-grid-column-position-select').val('auto');
-            $('.block-page-layout-grid-column-span-select').val($('#page-layout-grid-columns-select').val());
+            $('#page-layout-grid-columns-select').val('12');
+            setPageLayoutBlockDefaults($('.block'));
             preparePageLayout();
             $('#page-layout-restore').show();
         });
 
         // Handle a grid columns change.
         $('#page-layout-grid-columns-select').on('change', function() {
-            // Must reset the position and span #s when column # changes.
-            $('.block-page-layout-grid-column-position-select').val('auto');
-            $('.block-page-layout-grid-column-span-select').val($('#page-layout-grid-columns-select').val());
+            setPageLayoutBlockDefaults($('.block'));
             preparePageGridLayout();
             $('#page-layout-restore').show();
         });

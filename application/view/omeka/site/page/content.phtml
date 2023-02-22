@@ -1,13 +1,14 @@
 <?php
 // Prepare the page layout.
+$pageLayoutData = $page->layoutData();
 switch ($page->layout()) {
     case 'grid':
         $pageLayoutClass = 'page-layout-grid';
-        $pageLayoutData = $page->layoutData();
+        $gridColumns = (int) $pageLayoutData['grid_columns'];
         $this->headStyle()->appendStyle(<<<CSS
             .page-layout-grid {
                 display: grid;
-                grid-template-columns: repeat({$pageLayoutData['grid_columns']}, 1fr);
+                grid-template-columns: repeat({$gridColumns}, 1fr);
                 gap: 10px;
             }
             .page-layout-grid > div {
@@ -31,9 +32,10 @@ foreach ($page->blocks() as $block) {
     // Render each block according to page layout.
     switch ($page->layout()) {
         case 'grid':
+            $gridColumns = (int) $pageLayoutData['grid_columns'];
             $blockPageLayoutData = $block->pageLayoutData();
-            $getValidPosition = fn($columnPosition) => in_array($columnPosition, ['auto',...range(1,12)]) ? $columnPosition : 'auto';
-            $getValidSpan = fn($columnSpan) => in_array($columnSpan, range(1,12)) ? $columnSpan : '1';
+            $getValidPosition = fn($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? $columnPosition : 'auto';
+            $getValidSpan = fn($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? $columnSpan : $gridColumns;
             echo sprintf(
                 '<div style="grid-column: %s / span %s">%s</div>',
                 $getValidPosition($blockPageLayoutData['grid_column_position'] ?? 'auto'),

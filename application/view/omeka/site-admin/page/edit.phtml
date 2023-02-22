@@ -59,7 +59,7 @@ $pageLayoutGridColumns = $pageLayoutData['grid_columns'] ?? '';
         <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayout == $key) ? ' selected' : ''; ?>><?php echo $value; ?></option>
         <?php endforeach; ?>
     </select>
-    <select name="o:layout_data[grid_columns]" id="page-layout-grid-columns-select" data-page-layout-grid-columns="<?php echo $escape($pageLayoutGridColumns); ?>" style="display: none;" disabled>
+    <select name="o:layout_data[grid_columns]" id="page-layout-grid-columns-select" data-page-layout-grid-columns="<?php echo $escape($pageLayoutGridColumns); ?>">
         <?php foreach ($pageLayoutGridColumnsOptions as $key => $value): ?>
         <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridColumns == $key) ? ' selected' : '' ?>><?php echo $value; ?></option>
         <?php endforeach; ?>

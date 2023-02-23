@@ -1,7 +1,6 @@
 <?php
 $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
-$this->headLink()->appendStylesheet($this->assetUrl('css/query-form.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/query-form.js', 'Omeka'));
 
 $searchFilters = $this->searchFilters(null, $queryArray);

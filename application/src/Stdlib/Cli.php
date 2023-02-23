@@ -138,7 +138,7 @@ class Cli
         // issues with stream_get_contents() where either stream could hang.
         $output = '';
         $errors = '';
-        while (!feof($pipes[1]) && !feof($pipes[2])) {
+        while (!feof($pipes[1]) || !feof($pipes[2])) {
             if (!feof($pipes[1])) {
                 $output .= fread($pipes[1], 4096);
             }

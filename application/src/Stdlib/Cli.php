@@ -139,11 +139,13 @@ class Cli
         $output = '';
         $errors = '';
         while (!feof($pipes[1]) || !feof($pipes[2])) {
+            // Sleep to avoid tight busy-looping on the streams
+            usleep(25000);
             if (!feof($pipes[1])) {
-                $output .= fread($pipes[1], 4096);
+                $output .= stream_get_contents($pipes[1]);
             }
             if (!feof($pipes[2])) {
-                $errors .= fread($pipes[2], 4096);
+                $errors .= stream_get_contents($pipes[2]);
             }
         }
 

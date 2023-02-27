@@ -24,6 +24,16 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
         'slug' => 'slug',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        'slug' => 'slug',
+        'title' => 'title',
+        'is_public' => 'isPublic',
+        'site' => 'site',
+        'created' => 'created',
+        'modified' => 'modified',
+    ];
+
     public function getResourceName()
     {
         return 'site_pages';

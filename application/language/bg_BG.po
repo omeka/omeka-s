@@ -7,15 +7,16 @@
 # Evgeni Ivanov <evgeni.ivanov89@abv.bg>, 2018
 # Tzvetan Tzvetanski <ceibg.org@gmail.com>, 2021
 # Emil Stoyanov <emostoyanov@gmail.com>, 2021
+# Svetaketi Aruni <svetliok26@gmail.com>, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-06 15:01-0400\n"
+"POT-Creation-Date: 2022-12-13 15:06-0500\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Emil Stoyanov <emostoyanov@gmail.com>, 2021\n"
+"Last-Translator: Svetaketi Aruni <svetliok26@gmail.com>, 2022\n"
 "Language-Team: Bulgarian (Bulgaria) (https://www.transifex.com/omeka/teams/14184/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,18 +64,23 @@ msgstr "%1$s aдаптерът не изпълнява операцията за
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "%1$saдаптерът не изпълнява операцията за групово изтриване."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:280
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:292
+#, php-format
+msgid "The \"%1$s\" field is not available in the %2$s adapter class."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:308
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s entity class."
 msgstr "Полето %1$sне е налично в %2$s класа на обектa."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:645
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:673
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s resource."
 msgstr "Отказано разрешение за текущия потребител  за%1$s ресурса %2$s."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:687
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:715
 #, php-format
 msgid "%1$s entity with criteria %2$s not found"
 msgstr "%1$s обект с критерии %2$s не са намерени"
@@ -83,11 +89,7 @@ msgstr "%1$s обект с критерии %2$s не са намерени"
 msgid "Welcome"
 msgstr "Добре дошли"
 
-#: application/src/Api/Adapter/SiteAdapter.php:145
-msgid "Welcome to your new site. This is an example page."
-msgstr "Добре дошъл в твоя нов уеб сайт. Това е примерна страница."
-
-#: application/src/Api/Adapter/SiteAdapter.php:390
+#: application/src/Api/Adapter/SiteAdapter.php:398
 msgid "Browse"
 msgstr "Преглед"
 
@@ -96,23 +98,43 @@ msgstr "Преглед"
 msgid "The API does not support the \"%s\" resource."
 msgstr "API не поддържа \"%s\" ресурса."
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:552
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:599
 #: application/view/common/block-layout/browse-preview.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:26
-#: application/view/omeka/site/item/browse.phtml:61
+#: application/view/omeka/site/item/browse.phtml:44
 msgid "[Untitled]"
 msgstr "[Без име]"
 
-#: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:128
-#: application/view/omeka/admin/resource-template/review-import.phtml:87
+#: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:129
+#: application/view/omeka/admin/resource-template/review-import.phtml:88
 msgid "Default"
 msgstr "По подразбиране"
+
+#: application/src/ColumnType/IsOpen.php:42
+#: application/src/ColumnType/IsPublic.php:42
+#: application/view/omeka/admin/resource-template/review-import.phtml:112
+#: application/view/omeka/admin/resource-template/review-import.phtml:113
+#: application/view/omeka/admin/resource-template/show.phtml:58
+#: application/view/omeka/admin/resource-template/show.phtml:59
+#: application/view/omeka/admin/system-info/browse.phtml:18
+msgid "Yes"
+msgstr "Да"
+
+#: application/src/ColumnType/IsOpen.php:43
+#: application/src/ColumnType/IsPublic.php:43
+#: application/view/omeka/admin/resource-template/review-import.phtml:112
+#: application/view/omeka/admin/resource-template/review-import.phtml:113
+#: application/view/omeka/admin/resource-template/show.phtml:58
+#: application/view/omeka/admin/resource-template/show.phtml:59
+#: application/view/omeka/admin/system-info/browse.phtml:18
+msgid "No"
+msgstr "Не"
 
 #: application/src/Controller/Admin/AssetController.php:73
 msgid "Asset uploads must be POSTed."
 msgstr "Нещата, които са качени трябва да бъдат публикувани POSTed."
 
-#: application/src/Controller/Admin/ItemController.php:214
+#: application/src/Controller/Admin/ItemController.php:222
 msgid "Add another item?"
 msgstr "Добавяне на друг елемент?"
 
@@ -162,9 +184,19 @@ msgstr "Невалиден инициализационен файл INI"
 msgid "Invalid Omeka S version"
 msgstr "Невалидна версия на Omeka S"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:514
+#: application/src/Controller/Admin/ResourceTemplateController.php:526
 msgid "Add another resource template?"
 msgstr "Добавяне на друг шаблон за ресурс?"
+
+#: application/src/Controller/Admin/SystemInfoController.php:89
+#: application/src/Controller/Admin/SystemInfoController.php:94
+msgid "[invalid]"
+msgstr ""
+
+#: application/src/Controller/Admin/SystemInfoController.php:134
+#: application/src/Controller/Admin/SystemInfoController.php:145
+msgid "[Unable to execute command]"
+msgstr ""
 
 #: application/src/Controller/Admin/UserController.php:117
 msgid "Add another user?"
@@ -188,41 +220,41 @@ msgstr "Не е намерен ресурс с ID %s "
 #: application/view/common/data-type/resource.phtml:23
 #: application/view/layout/layout-admin.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:22
-#: application/view/omeka/admin/item-set/show.phtml:83
+#: application/view/omeka/admin/item-set/show.phtml:86
 #: application/view/omeka/admin/item/add.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:29
+#: application/view/omeka/admin/item/browse.phtml:7
 #: application/view/omeka/admin/item/edit.phtml:14
 #: application/view/omeka/admin/item/search.phtml:5
 #: application/view/omeka/admin/item/show.phtml:18
 #: application/view/omeka/admin/property/show-details.phtml:18
 #: application/view/omeka/admin/resource-class/show-details.phtml:18
-#: application/view/omeka/admin/resource-template/browse.phtml:19
 #: application/view/omeka/admin/resource-template/show-details.phtml:18
 #: application/view/omeka/admin/user/show-details.phtml:12
-#: application/view/omeka/admin/vocabulary/classes.phtml:15
 #: application/view/omeka/site-admin/index/resources.phtml:22
-#: application/view/omeka/site/item/browse.phtml:42
-#: application/view/omeka/site/item/browse.phtml:44
+#: application/view/omeka/site/item/browse.phtml:25
+#: application/view/omeka/site/item/browse.phtml:27
 msgid "Items"
 msgstr "Елементи"
 
 #: application/src/DataType/Resource/ItemSet.php:27
 msgid "Item Sets"
-msgstr ""
+msgstr "Набори от елементи"
 
 #: application/src/DataType/Resource/Media.php:27
+#: application/view/common/block-layout/item-with-metadata.phtml:29
 #: application/view/common/data-type/resource.phtml:37
+#: application/view/common/resource-page-block-layout/media-list.phtml:7
 #: application/view/layout/layout-admin.phtml:76
 #: application/view/omeka/admin/item/form.phtml:15
 #: application/view/omeka/admin/item/show-details.phtml:40
-#: application/view/omeka/admin/item/show.phtml:92
-#: application/view/omeka/admin/media/browse.phtml:35
+#: application/view/omeka/admin/item/show.phtml:94
+#: application/view/omeka/admin/media/browse.phtml:7
 #: application/view/omeka/admin/media/edit.phtml:17
 #: application/view/omeka/admin/media/edit.phtml:25
 #: application/view/omeka/admin/media/search.phtml:5
 #: application/view/omeka/admin/media/show.phtml:11
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:32
-#: application/view/omeka/site/media/show.phtml:8
+#: application/view/omeka/site/media/show.phtml:9
 msgid "Media"
 msgstr "Медия"
 
@@ -230,32 +262,32 @@ msgstr "Медия"
 msgid "Migration file did not contain the expected class"
 msgstr "Файлът за миграция не съдържа очаквания клас"
 
-#: application/src/Form/Element/PasswordConfirm.php:22
+#: application/src/Form/Element/PasswordConfirm.php:27
 #, php-format
 msgid "be a minimum of %s characters in length."
 msgstr "трябва да бъде с дължина минимум %s символи."
 
-#: application/src/Form/Element/PasswordConfirm.php:26
+#: application/src/Form/Element/PasswordConfirm.php:31
 #, php-format
 msgid "contain at least %s lowercase characters."
 msgstr "съдържат поне малки %sбукви."
 
-#: application/src/Form/Element/PasswordConfirm.php:30
+#: application/src/Form/Element/PasswordConfirm.php:35
 #, php-format
 msgid "contain at least %s uppercase characters."
 msgstr "съдържа най-малко %s главни букви."
 
-#: application/src/Form/Element/PasswordConfirm.php:34
+#: application/src/Form/Element/PasswordConfirm.php:39
 #, php-format
 msgid "contain at least %s numbers."
 msgstr "съдържа поне %s цифри."
 
-#: application/src/Form/Element/PasswordConfirm.php:41
+#: application/src/Form/Element/PasswordConfirm.php:46
 #, php-format
 msgid "contain at least %1$s symbols: %2$s"
 msgstr "съдържа поне %1$s символа: %2$s"
 
-#: application/src/Form/Element/PasswordConfirm.php:45
+#: application/src/Form/Element/PasswordConfirm.php:50
 msgid "Password must:"
 msgstr "Паролата трябва да:"
 
@@ -264,61 +296,57 @@ msgstr "Паролата трябва да:"
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: application/src/Media/Renderer/IIIF.php:14
-msgid "OpenSeadragon is not available unless JavaScript is enabled."
-msgstr "OpenSeadragon не е наличен, освен ако не е активиран JavaScript."
-
-#: application/src/Module/Manager.php:170
+#: application/src/Module/Manager.php:156
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be activated"
 msgstr "Модул „%1$s“ е маркиран като „%2$s“ и не може да бъде активиран"
 
-#: application/src/Module/Manager.php:181
+#: application/src/Module/Manager.php:167
 #, php-format
 msgid "Module \"%s\" not in database during activation"
 msgstr "Модул \"%s\" не е в базата данни по време на активиране"
 
-#: application/src/Module/Manager.php:202
+#: application/src/Module/Manager.php:188
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be deactivated"
 msgstr "Модул „%1$s“ е маркиран като „%2$s“ и не може да бъде деактивиран"
 
-#: application/src/Module/Manager.php:213
+#: application/src/Module/Manager.php:199
 #, php-format
 msgid "Module \"%s\" not in database during deactivation"
 msgstr "Модул \"%s\" не е в базата данни по време на деактивиране"
 
-#: application/src/Module/Manager.php:233
+#: application/src/Module/Manager.php:219
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be installed"
 msgstr "Модул \"%1$s\" е маркиран като \"%2$s\" и не може да бъде инсталиран"
 
-#: application/src/Module/Manager.php:271
+#: application/src/Module/Manager.php:257
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be uninstalled"
 msgstr "Модул \"%1$s\" е маркиран като \"%2$s\" и не може да бъде деинсталиран"
 
-#: application/src/Module/Manager.php:288
+#: application/src/Module/Manager.php:274
 #, php-format
 msgid "Module \"%s\" not found in database during uninstallation"
 msgstr "Модул \"%s\" не е намерен в базата данни по време на деинсталиране"
 
-#: application/src/Module/Manager.php:309
+#: application/src/Module/Manager.php:295
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be upgraded"
 msgstr "Модул \"%1$s\" е маркиран като \"%2$s\" и не може да бъде надграден"
 
-#: application/src/Module/Manager.php:331
+#: application/src/Module/Manager.php:317
 #, php-format
 msgid "Module \"%s\" not found in database during upgrade"
 msgstr "Модул \"%s\" не е намерен в базата данни по време на надстройка"
 
-#: application/src/Module/Manager.php:410
+#: application/src/Module/Manager.php:396
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s module."
 msgstr "Отказано разрешение за текущия потребител %1$sна модула %2$s."
 
-#: application/src/Mvc/MvcListeners.php:445
+#: application/src/Mvc/MvcListeners.php:456
 #, php-format
 msgid ""
 "Permission denied for the current user to access the %1$s action of the %2$s"
@@ -343,7 +371,7 @@ msgstr "Тип прекъсване"
 
 #: application/src/Site/BlockLayout/ListOfPages.php:60
 msgid "Add pages"
-msgstr ""
+msgstr "Добавяне на страници"
 
 #: application/src/Site/BlockLayout/TableOfContents.php:28
 msgid "Depth"
@@ -458,97 +486,107 @@ msgid "Password must contain at least %1$s symbols: <code>%2$s</code>"
 msgstr "Паролата трябва да съдържа поне %1$sсимволи:<code>%2$s</code>"
 
 #: application/src/View/Helper/SearchFilters.php:32
-#: application/view/common/advanced-search/properties.phtml:66
+#: application/view/common/advanced-search/properties.phtml:76
 msgid "is exactly"
 msgstr "е точно"
 
 #: application/src/View/Helper/SearchFilters.php:33
-#: application/view/common/advanced-search/properties.phtml:67
+#: application/view/common/advanced-search/properties.phtml:77
 msgid "is not exactly"
 msgstr "не е точно"
 
 #: application/src/View/Helper/SearchFilters.php:34
-#: application/view/common/advanced-search/properties.phtml:68
+#: application/view/common/advanced-search/properties.phtml:78
 msgid "contains"
 msgstr "съдържа"
 
 #: application/src/View/Helper/SearchFilters.php:35
-#: application/view/common/advanced-search/properties.phtml:69
+#: application/view/common/advanced-search/properties.phtml:79
 msgid "does not contain"
 msgstr "не съдържа"
 
 #: application/src/View/Helper/SearchFilters.php:36
-#: application/view/common/advanced-search/properties.phtml:70
+#: application/view/common/advanced-search/properties.phtml:80
+msgid "starts with"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:37
+#: application/view/common/advanced-search/properties.phtml:81
+msgid "does not start with"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:38
+#: application/view/common/advanced-search/properties.phtml:82
+msgid "ends with"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:39
+#: application/view/common/advanced-search/properties.phtml:83
+msgid "does not end with"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:40
+#: application/view/common/advanced-search/properties.phtml:84
 msgid "is resource with ID"
 msgstr "e ресурс с ID"
 
-#: application/src/View/Helper/SearchFilters.php:37
-#: application/view/common/advanced-search/properties.phtml:71
+#: application/src/View/Helper/SearchFilters.php:41
+#: application/view/common/advanced-search/properties.phtml:85
 msgid "is not resource with ID"
 msgstr "нe е ресурс с ID"
 
-#: application/src/View/Helper/SearchFilters.php:38
-#: application/view/common/advanced-search/properties.phtml:72
+#: application/src/View/Helper/SearchFilters.php:42
+#: application/view/common/advanced-search/properties.phtml:86
 msgid "has any value"
 msgstr "има произволна стойност"
 
-#: application/src/View/Helper/SearchFilters.php:39
-#: application/view/common/advanced-search/properties.phtml:73
+#: application/src/View/Helper/SearchFilters.php:43
+#: application/view/common/advanced-search/properties.phtml:87
 msgid "has no values"
 msgstr "няма стойности"
 
-#: application/src/View/Helper/SearchFilters.php:47
+#: application/src/View/Helper/SearchFilters.php:51
 #: application/view/common/advanced-search/fulltext.phtml:6
 msgid "Search full-text"
 msgstr "Пълнотекстово търсене"
 
-#: application/src/View/Helper/SearchFilters.php:60
-#: application/view/common/advanced-search/sort.phtml:8
+#: application/src/View/Helper/SearchFilters.php:64
 #: application/view/common/asset-block-form.phtml:63
-#: application/view/common/linked-resources.phtml:41
-#: application/view/omeka/admin/item-set/browse.phtml:15
-#: application/view/omeka/admin/item-set/browse.phtml:75
-#: application/view/omeka/admin/item-set/show.phtml:40
-#: application/view/omeka/admin/item/browse.phtml:15
-#: application/view/omeka/admin/item/browse.phtml:73
-#: application/view/omeka/admin/item/show.phtml:30
-#: application/view/omeka/admin/job/browse.phtml:11
-#: application/view/omeka/admin/job/browse.phtml:38
-#: application/view/omeka/admin/job/show.phtml:41
-#: application/view/omeka/admin/media/browse.phtml:17
-#: application/view/omeka/admin/media/browse.phtml:85
-#: application/view/omeka/admin/media/show.phtml:23
-#: application/view/omeka/admin/resource-template/browse.phtml:11
-#: application/view/omeka/admin/resource-template/browse.phtml:45
+#: application/view/common/linked-resources.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:41
+#: application/view/omeka/admin/item/show.phtml:31
+#: application/view/omeka/admin/job/browse.phtml:20
+#: application/view/omeka/admin/job/show.phtml:42
+#: application/view/omeka/admin/media/show.phtml:24
+#: application/view/omeka/admin/resource-template/browse.phtml:27
 #: application/view/omeka/admin/resource-template/review-import.phtml:32
 #: application/view/omeka/admin/resource-template/show.phtml:18
-#: application/view/omeka/site/item/browse.phtml:25
 msgid "Class"
 msgstr "Клас"
 
-#: application/src/View/Helper/SearchFilters.php:64
+#: application/src/View/Helper/SearchFilters.php:68
 msgid "Unknown class"
 msgstr "Неизвестен клас"
 
-#: application/src/View/Helper/SearchFilters.php:102
+#: application/src/View/Helper/SearchFilters.php:106
 msgid "Unknown property"
 msgstr "Неизвестно свойство"
 
-#: application/src/View/Helper/SearchFilters.php:105
+#: application/src/View/Helper/SearchFilters.php:109
 msgid "[Any property]"
 msgstr "[Всяко едно свойство]"
 
-#: application/src/View/Helper/SearchFilters.php:113
-#: application/view/common/advanced-search/properties.phtml:51
+#: application/src/View/Helper/SearchFilters.php:117
+#: application/view/common/advanced-search/properties.phtml:60
 msgid "OR"
 msgstr "ИЛИ"
 
-#: application/src/View/Helper/SearchFilters.php:115
-#: application/view/common/advanced-search/properties.phtml:50
+#: application/src/View/Helper/SearchFilters.php:119
+#: application/view/common/advanced-search/properties.phtml:59
 msgid "AND"
 msgstr "И"
 
-#: application/src/View/Helper/SearchFilters.php:124
+#: application/src/View/Helper/SearchFilters.php:128
 #: application/view/common/cross-site-search/advanced-item-form.phtml:5
 #: application/view/common/cross-site-search/advanced-item-set-form.phtml:5
 #: application/view/common/cross-site-search/fulltext-form.phtml:7
@@ -557,7 +595,7 @@ msgstr "И"
 #: application/view/common/search-form.phtml:19
 #: application/view/layout/layout-admin.phtml:62
 #: application/view/omeka/admin/item-set/search.phtml:13
-#: application/view/omeka/admin/item-set/sidebar-select.phtml:12
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:15
 #: application/view/omeka/admin/item/search.phtml:13
 #: application/view/omeka/admin/item/sidebar-select.phtml:24
 #: application/view/omeka/admin/media/search.phtml:13
@@ -569,82 +607,145 @@ msgstr "И"
 msgid "Search"
 msgstr "Търсене"
 
-#: application/src/View/Helper/SearchFilters.php:137
+#: application/src/View/Helper/SearchFilters.php:141
 msgid "Template"
 msgstr "Шаблон"
 
-#: application/src/View/Helper/SearchFilters.php:141
+#: application/src/View/Helper/SearchFilters.php:145
 msgid "Unknown template"
 msgstr "Неизвестен шаблон"
 
-#: application/src/View/Helper/SearchFilters.php:156
-#: application/view/omeka/site/item/browse.phtml:37
-msgid "Item set"
-msgstr "Набор елементи"
-
 #: application/src/View/Helper/SearchFilters.php:160
+msgid "In item set"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:164
+#: application/src/View/Helper/SearchFilters.php:182
 msgid "Unknown item set"
 msgstr "Неизвестен набор от елементи"
 
-#: application/src/View/Helper/SearchFilters.php:168
+#: application/src/View/Helper/SearchFilters.php:178
+msgid "Not in item set"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:190
 #: application/view/omeka/site-admin/index/users.phtml:54
 msgid "User"
 msgstr "Потребител"
 
-#: application/src/View/Helper/SearchFilters.php:172
+#: application/src/View/Helper/SearchFilters.php:194
 msgid "Unknown user"
 msgstr "Неизвестен потребител"
 
-#: application/src/View/Helper/SearchFilters.php:178
+#: application/src/View/Helper/SearchFilters.php:200
 msgid "Site"
 msgstr "Сайт"
 
-#: application/src/View/Helper/SearchFilters.php:182
-#: application/src/View/Helper/SearchUserFilters.php:75
+#: application/src/View/Helper/SearchFilters.php:204
+#: application/src/View/Helper/SearchUserFilters.php:74
 msgid "Unknown site"
 msgstr "Неизвестен сайт"
 
+#: application/src/View/Helper/SearchFilters.php:210
+#: application/view/omeka/admin/item-set/show-details.phtml:17
+#: application/view/omeka/admin/item-set/show.phtml:81
+#: application/view/omeka/admin/item/show-details.phtml:17
+#: application/view/omeka/admin/item/show.phtml:63
+#: application/view/omeka/admin/media/show-details.phtml:49
+#: application/view/omeka/admin/media/show.phtml:38
+msgid "Visibility"
+msgstr "Видимост"
+
+#: application/src/View/Helper/SearchFilters.php:211
+#: application/view/common/advanced-search/visibility.phtml:5
+#: application/view/common/property-form-batch-edit.phtml:17
+#: application/view/common/property-form-batch-edit.phtml:31
+#: application/view/common/property-form-batch-edit.phtml:46
+#: application/view/common/property-form-batch-edit.phtml:66
+#: application/view/omeka/admin/item-set/show-details.phtml:18
+#: application/view/omeka/admin/item-set/show.phtml:82
+#: application/view/omeka/admin/item/show-details.phtml:18
+#: application/view/omeka/admin/item/show.phtml:64
+#: application/view/omeka/admin/media/show-details.phtml:50
+#: application/view/omeka/admin/media/show.phtml:39
+msgid "Public"
+msgstr "Публичен"
+
+#: application/src/View/Helper/SearchFilters.php:211
+#: application/view/common/advanced-search/visibility.phtml:6
+#: application/view/common/property-form-batch-edit.phtml:18
+#: application/view/common/property-form-batch-edit.phtml:32
+#: application/view/common/property-form-batch-edit.phtml:47
+#: application/view/common/property-form-batch-edit.phtml:67
+msgid "Not public"
+msgstr "Не-публичен"
+
+#: application/src/View/Helper/SearchFilters.php:215
+msgid "Media presence"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:216
+#: application/view/common/advanced-search/has-media.phtml:5
+msgid "Has media"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:216
+#: application/view/common/advanced-search/has-media.phtml:6
+msgid "Has no media"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:220
+#: application/view/omeka/admin/item-set/show-details.phtml:13
+#: application/view/omeka/admin/item-set/show.phtml:69
+#: application/view/omeka/admin/item/show-details.phtml:13
+#: application/view/omeka/admin/item/show.phtml:59
+#: application/view/omeka/admin/job/browse.phtml:19
+#: application/view/omeka/admin/media/show-details.phtml:18
+#: application/view/omeka/admin/media/show.phtml:34
+#: application/view/omeka/admin/user/edit.phtml:39
+msgid "ID"
+msgstr "ID"
+
 #: application/src/View/Helper/SearchUserFilters.php:49
-#: application/view/omeka/admin/user/browse.phtml:10
-#: application/view/omeka/admin/user/browse.phtml:78
-#: application/view/omeka/admin/user/show.phtml:17
+#: application/view/omeka/admin/user/browse.phtml:64
+#: application/view/omeka/admin/user/show.phtml:18
 msgid "Email"
 msgstr "Имейл"
 
 #: application/src/View/Helper/SearchUserFilters.php:54
-#: application/view/omeka/admin/asset/browse.phtml:12
-#: application/view/omeka/admin/asset/browse.phtml:37
+#: application/view/omeka/admin/asset/browse.phtml:27
 msgid "Name"
 msgstr "Име"
 
 #: application/src/View/Helper/SearchUserFilters.php:59
-#: application/view/omeka/admin/user/browse.phtml:14
-#: application/view/omeka/admin/user/browse.phtml:80
-#: application/view/omeka/admin/user/show.phtml:29
+#: application/view/omeka/admin/user/browse.phtml:66
+#: application/view/omeka/admin/user/show.phtml:30
 #: application/view/omeka/site-admin/index/users.phtml:55
 msgid "Role"
 msgstr "Роля"
 
-#: application/src/View/Helper/SearchUserFilters.php:62
+#: application/src/View/Helper/SearchUserFilters.php:61
 msgid "Unknown role"
 msgstr "Неизвестна роля"
 
-#: application/src/View/Helper/SearchUserFilters.php:66
-#: application/view/omeka/admin/user/show.phtml:35
+#: application/src/View/Helper/SearchUserFilters.php:65
+#: application/view/common/sidebar-select-quick-add.phtml:4
+#: application/view/common/sidebar-select-quick-add.phtml:13
+#: application/view/omeka/admin/user/show.phtml:36
 msgid "Is active"
 msgstr "Е активно"
 
-#: application/src/View/Helper/SearchUserFilters.php:67
-#: application/view/omeka/admin/user/show.phtml:37
+#: application/src/View/Helper/SearchUserFilters.php:66
+#: application/view/omeka/admin/user/show.phtml:38
 msgid "yes"
 msgstr "да"
 
-#: application/src/View/Helper/SearchUserFilters.php:67
-#: application/view/omeka/admin/user/show.phtml:37
+#: application/src/View/Helper/SearchUserFilters.php:66
+#: application/view/omeka/admin/user/show.phtml:38
 msgid "no"
 msgstr "не"
 
-#: application/src/View/Helper/SearchUserFilters.php:71
+#: application/src/View/Helper/SearchUserFilters.php:70
 #: application/view/common/advanced-search/users.phtml:53
 msgid "Has permission in site"
 msgstr "Има разрешение в сайта"
@@ -657,23 +758,23 @@ msgstr "Максималният размер на качването е  %sMB."
 #: application/src/View/Helper/UserBar.php:120
 #: application/src/View/Helper/UserBar.php:166
 #: application/view/common/query-form.phtml:24
-#: application/view/omeka/admin/asset/browse.phtml:67
+#: application/view/omeka/admin/asset/browse.phtml:57
 #: application/view/omeka/admin/asset/edit.phtml:10
-#: application/view/omeka/admin/item-set/browse.phtml:109
+#: application/view/omeka/admin/item-set/browse.phtml:74
 #: application/view/omeka/admin/item-set/edit.phtml:14
-#: application/view/omeka/admin/item/browse.phtml:107
+#: application/view/omeka/admin/item/browse.phtml:73
 #: application/view/omeka/admin/item/edit.phtml:14
-#: application/view/omeka/admin/item/manage-media.phtml:43
-#: application/view/omeka/admin/media/browse.phtml:121
-#: application/view/omeka/admin/resource-template/browse.phtml:72
-#: application/view/omeka/admin/user/browse.phtml:101
+#: application/view/omeka/admin/item/manage-media.phtml:55
+#: application/view/omeka/admin/media/browse.phtml:69
+#: application/view/omeka/admin/resource-template/browse.phtml:54
+#: application/view/omeka/admin/user/browse.phtml:87
 #: application/view/omeka/admin/user/edit.phtml:14
-#: application/view/omeka/admin/vocabulary/browse.phtml:60
+#: application/view/omeka/admin/vocabulary/browse.phtml:42
 #: application/view/omeka/admin/vocabulary/edit.phtml:7
-#: application/view/omeka/site-admin/index/index.phtml:75
+#: application/view/omeka/site-admin/index/index.phtml:46
 #: application/view/omeka/site-admin/index/show.phtml:11
 #: application/view/omeka/site-admin/page/edit.phtml:11
-#: application/view/omeka/site-admin/page/index.phtml:80
+#: application/view/omeka/site-admin/page/index.phtml:56
 msgid "Edit"
 msgstr "Редактиране"
 
@@ -683,41 +784,69 @@ msgstr "Редактиране"
 msgid "View"
 msgstr "Преглед"
 
-#: application/view/common/advanced-search/item-sets.phtml:31
-msgid "Search by item set"
-msgstr "Търсене по набор елементи"
+#: application/view/common/advanced-search/has-media.phtml:3
+msgid "Search by media presence"
+msgstr ""
 
-#: application/view/common/advanced-search/item-sets.phtml:32
+#: application/view/common/advanced-search/has-media.phtml:8
+msgid "Select media presence…"
+msgstr ""
+
+#: application/view/common/advanced-search/ids.phtml:12
+msgid "Search by ID"
+msgstr ""
+
+#: application/view/common/advanced-search/ids.phtml:13
+#: application/view/common/advanced-search/item-sets.phtml:44
 #: application/view/common/advanced-search/owner.phtml:4
-#: application/view/common/advanced-search/resource-class.phtml:16
+#: application/view/common/advanced-search/resource-class.phtml:25
 #: application/view/common/advanced-search/resource-template.phtml:17
 #: application/view/common/advanced-search/site.phtml:4
-#: application/view/common/form-row.phtml:29
-#: application/view/common/resource-values.phtml:56
+#: application/view/common/form-row.phtml:16
+#: application/view/common/resource-values.phtml:58
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:19
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 msgid "Expand"
 msgstr "Разгърнете"
 
-#: application/view/common/advanced-search/item-sets.phtml:34
+#: application/view/common/advanced-search/ids.phtml:15
+msgid ""
+"Searches for resources by Omeka S ID. You can search for more than one ID by"
+" separating them by commas."
+msgstr ""
+
+#: application/view/common/advanced-search/item-sets.phtml:43
+msgid "Search by item set"
+msgstr "Търсене по набор елементи"
+
+#: application/view/common/advanced-search/item-sets.phtml:46
 msgid "Searches for items that are assigned to any of these item sets."
 msgstr ""
 "Търси елементи, които са назначени на някой от тези набори от елементи."
 
-#: application/view/common/advanced-search/item-sets.phtml:36
+#: application/view/common/advanced-search/item-sets.phtml:48
 #: application/view/omeka/admin/index/browse.phtml:23
-#: application/view/omeka/admin/item-set/browse.phtml:42
+#: application/view/omeka/admin/item-set/browse.phtml:19
 msgid "Add new item set"
 msgstr "Добавете нов набор от елементи"
 
-#: application/view/common/advanced-search/item-sets.phtml:49
-#: application/view/common/advanced-search/properties.phtml:76
-#: application/view/common/advanced-search/resource-class.phtml:32
+#: application/view/common/advanced-search/item-sets.phtml:54
+msgid "In"
+msgstr ""
+
+#: application/view/common/advanced-search/item-sets.phtml:55
+msgid "Not in"
+msgstr ""
+
+#: application/view/common/advanced-search/item-sets.phtml:66
+#: application/view/common/advanced-search/properties.phtml:90
+#: application/view/common/advanced-search/resource-class.phtml:44
 #: application/view/common/advanced-search/resource-template.phtml:33
-#: application/view/common/block-layout.phtml:12
+#: application/view/common/block-layout.phtml:13
 #: application/view/common/data-type-wrapper.phtml:18
 #: application/view/common/media-field-wrapper.phtml:14
 #: application/view/common/value-annotation-wrapper.phtml:11
-#: application/view/omeka/admin/item/manage-media.phtml:48
+#: application/view/omeka/admin/item/manage-media.phtml:60
 msgid "Remove value"
 msgstr "Премахване на стойността"
 
@@ -737,31 +866,31 @@ msgstr "Търси ресурси, които са собственост на �
 msgid "Query text"
 msgstr "Текст на заявката"
 
-#: application/view/common/advanced-search/properties.phtml:39
+#: application/view/common/advanced-search/properties.phtml:48
 msgid "Search by value"
 msgstr "Търсене по стойност"
 
-#: application/view/common/advanced-search/properties.phtml:40
+#: application/view/common/advanced-search/properties.phtml:49
 msgid "Add new value"
 msgstr "Добави нова стойност"
 
-#: application/view/common/advanced-search/properties.phtml:58
+#: application/view/common/advanced-search/properties.phtml:67
 msgid "Property"
 msgstr "Свойство"
 
-#: application/view/common/advanced-search/properties.phtml:65
+#: application/view/common/advanced-search/properties.phtml:75
 msgid "Query type"
 msgstr "Типа на заявката"
 
-#: application/view/common/advanced-search/resource-class.phtml:15
+#: application/view/common/advanced-search/resource-class.phtml:24
 msgid "Search by class"
 msgstr "Търсене по клас"
 
-#: application/view/common/advanced-search/resource-class.phtml:18
+#: application/view/common/advanced-search/resource-class.phtml:27
 msgid "Searches for resources that are any of these classes."
 msgstr "Търсенене на ресурси, които са нв якой от тези класове."
 
-#: application/view/common/advanced-search/resource-class.phtml:20
+#: application/view/common/advanced-search/resource-class.phtml:29
 msgid "Add new class"
 msgstr "Добавяне на нов клас"
 
@@ -785,102 +914,28 @@ msgstr "Търсене по сайт"
 msgid "Searches for items that are assigned to this site."
 msgstr "Търсене на елементи, които са свързани с този сайт."
 
-#: application/view/common/advanced-search/sort.phtml:6
-#: application/view/common/linked-resources.phtml:39
-#: application/view/omeka/admin/item-set/browse.phtml:7
-#: application/view/omeka/admin/item-set/browse.phtml:73
-#: application/view/omeka/admin/item/browse.phtml:7
-#: application/view/omeka/admin/item/browse.phtml:72
-#: application/view/omeka/admin/item/manage-item-sets.phtml:33
-#: application/view/omeka/admin/item/manage-sites.phtml:39
-#: application/view/omeka/admin/media/browse.phtml:9
-#: application/view/omeka/admin/media/browse.phtml:83
-#: application/view/omeka/site-admin/index/index.phtml:7
-#: application/view/omeka/site-admin/index/index.phtml:39
-#: application/view/omeka/site-admin/index/resources.phtml:66
-#: application/view/omeka/site-admin/index/show.phtml:24
-#: application/view/omeka/site-admin/page/index.phtml:15
-#: application/view/omeka/site-admin/page/index.phtml:48
-#: application/view/omeka/site/item/browse.phtml:17
-msgid "Title"
-msgstr "Заглавие"
-
-#: application/view/common/advanced-search/sort.phtml:7
-#: application/view/omeka/admin/item-set/browse.phtml:11
-#: application/view/omeka/admin/item/browse.phtml:11
-#: application/view/omeka/admin/media/browse.phtml:13
-#: application/view/omeka/site/item/browse.phtml:21
-msgid "Identifier"
-msgstr "Идентификатор"
-
-#: application/view/common/advanced-search/sort.phtml:9
-#: application/view/omeka/admin/asset/browse.phtml:38
-#: application/view/omeka/admin/item-set/browse.phtml:19
-#: application/view/omeka/admin/item-set/browse.phtml:76
-#: application/view/omeka/admin/item-set/show.phtml:74
-#: application/view/omeka/admin/item/browse.phtml:19
-#: application/view/omeka/admin/item/browse.phtml:74
-#: application/view/omeka/admin/item/manage-item-sets.phtml:34
-#: application/view/omeka/admin/item/manage-sites.phtml:40
-#: application/view/omeka/admin/item/show.phtml:87
-#: application/view/omeka/admin/job/browse.phtml:19
-#: application/view/omeka/admin/job/browse.phtml:40
-#: application/view/omeka/admin/job/show.phtml:45
-#: application/view/omeka/admin/media/browse.phtml:21
-#: application/view/omeka/admin/media/browse.phtml:86
-#: application/view/omeka/admin/resource-template/browse.phtml:15
-#: application/view/omeka/admin/resource-template/browse.phtml:46
-#: application/view/omeka/site-admin/index/index.phtml:15
-#: application/view/omeka/site-admin/index/index.phtml:41
-#: application/view/omeka/site-admin/index/resources.phtml:67
-msgid "Owner"
-msgstr "Собственик"
-
-#: application/view/common/advanced-search/sort.phtml:10
-#: application/view/omeka/admin/item-set/browse.phtml:23
-#: application/view/omeka/admin/item-set/browse.phtml:77
-#: application/view/omeka/admin/item-set/show.phtml:70
-#: application/view/omeka/admin/item/browse.phtml:23
-#: application/view/omeka/admin/item/browse.phtml:75
-#: application/view/omeka/admin/item/show.phtml:83
-#: application/view/omeka/admin/media/browse.phtml:25
-#: application/view/omeka/admin/media/browse.phtml:87
-#: application/view/omeka/admin/media/show.phtml:45
-#: application/view/omeka/admin/user/browse.phtml:18
-#: application/view/omeka/admin/user/browse.phtml:81
-#: application/view/omeka/site-admin/page/index.phtml:23
-#: application/view/omeka/site-admin/page/index.phtml:50
-#: application/view/omeka/site/item/browse.phtml:29
-msgid "Created"
-msgstr "Създаден"
-
-#: application/view/common/advanced-search/sort.phtml:21
-#: application/view/omeka/admin/media/browse.phtml:29
-#: application/view/omeka/admin/media/show-details.phtml:36
-#: application/view/omeka/admin/media/show.phtml:56
-msgid "Size"
-msgstr "Размер"
-
-#: application/view/common/advanced-search/sort.phtml:27
+#: application/view/common/advanced-search/sort.phtml:19
 msgid "Select sort by…"
 msgstr ""
 
-#: application/view/common/advanced-search/sort.phtml:32
+#: application/view/common/advanced-search/sort.phtml:24
 msgid "Select sort order…"
 msgstr ""
 
-#: application/view/common/advanced-search/sort.phtml:34
-#: application/view/common/sort-selector.phtml:14
+#: application/view/common/advanced-search/sort.phtml:26
+#: application/view/common/browse-defaults-form.phtml:20
+#: application/view/common/sort-selector.phtml:13
 msgid "Ascending"
 msgstr "Възходящ"
 
-#: application/view/common/advanced-search/sort.phtml:35
-#: application/view/common/sort-selector.phtml:15
+#: application/view/common/advanced-search/sort.phtml:27
+#: application/view/common/browse-defaults-form.phtml:19
+#: application/view/common/sort-selector.phtml:14
 msgid "Descending"
 msgstr "Низходящ"
 
-#: application/view/common/advanced-search/sort.phtml:41
-#: application/view/common/sort-selector.phtml:17
+#: application/view/common/advanced-search/sort.phtml:33
+#: application/view/common/sort-selector.phtml:16
 msgid "Sort"
 msgstr "Сортиране"
 
@@ -900,10 +955,18 @@ msgstr "Търсене по роля"
 msgid "Search by activity"
 msgstr "Търсене по вид дейност"
 
+#: application/view/common/advanced-search/visibility.phtml:3
+msgid "Search by visibility"
+msgstr ""
+
+#: application/view/common/advanced-search/visibility.phtml:8
+msgid "Select visibility…"
+msgstr ""
+
 #: application/view/common/asset-block-form.phtml:7
 #: application/view/common/asset-block-form.phtml:40
 msgid "No asset selected"
-msgstr ""
+msgstr "Не е избран актив"
 
 #: application/view/common/asset-block-form.phtml:9
 #: application/view/common/asset-block-form.phtml:43
@@ -926,22 +989,24 @@ msgstr "Възстановяване на прикачения файл."
 
 #: application/view/common/asset-block-form.phtml:20
 #: application/view/common/asset-block-form.phtml:57
+#: application/view/common/block-layout.phtml:12
 #: application/view/common/resource-form-templates.phtml:10
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:19
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:35
-#: application/view/omeka/site-admin/page/edit.phtml:57
+#: application/view/omeka/site-admin/page/edit.phtml:62
 msgid "Collapse"
 msgstr "Свиване"
 
 #: application/view/common/asset-block-form.phtml:20
-#: application/view/omeka/admin/asset/browse.phtml:18
+#: application/view/omeka/admin/asset/browse.phtml:8
 #: application/view/omeka/admin/asset/edit.phtml:10
 msgid "Assets"
-msgstr ""
+msgstr "Aктиви"
 
 #: application/view/common/asset-block-form.phtml:54
 msgid "Add asset"
-msgstr ""
+msgstr "Добавяне на актив"
 
 #: application/view/common/asset-form.phtml:35
 #: application/view/common/asset-options.phtml:15
@@ -962,16 +1027,16 @@ msgstr "Изчисти"
 
 #: application/view/common/asset-options.phtml:10
 msgid "No Asset"
-msgstr ""
+msgstr "Няма актив"
 
 #: application/view/common/asset-options.phtml:19
 #: application/view/omeka/admin/query/sidebar-edit.phtml:12
 msgid "Preview"
-msgstr ""
+msgstr "Преглед"
 
 #: application/view/common/asset-options.phtml:20
 msgid "[No page selected]"
-msgstr ""
+msgstr "[Няма избрана страница]"
 
 #: application/view/common/asset-options.phtml:25
 #: application/view/common/delete-confirm.phtml:8
@@ -984,36 +1049,37 @@ msgstr ""
 #: application/view/common/site-selector.phtml:2
 #: application/view/common/user-selector.phtml:6
 #: application/view/common/value-annotation-sidebar.phtml:2
-#: application/view/omeka/admin/asset/browse.phtml:100
-#: application/view/omeka/admin/asset/browse.phtml:117
+#: application/view/omeka/admin/asset/browse.phtml:90
+#: application/view/omeka/admin/asset/browse.phtml:107
 #: application/view/omeka/admin/asset/sidebar-select.phtml:8
-#: application/view/omeka/admin/item-set/browse.phtml:146
-#: application/view/omeka/admin/item-set/browse.phtml:153
-#: application/view/omeka/admin/item-set/browse.phtml:171
-#: application/view/omeka/admin/item/browse.phtml:144
-#: application/view/omeka/admin/item/browse.phtml:151
-#: application/view/omeka/admin/item/browse.phtml:169
-#: application/view/omeka/admin/item/manage-media.phtml:70
-#: application/view/omeka/admin/media/browse.phtml:158
-#: application/view/omeka/admin/media/browse.phtml:167
-#: application/view/omeka/admin/media/browse.phtml:185
-#: application/view/omeka/admin/module/browse.phtml:159
+#: application/view/omeka/admin/columns/column-edit-sidebar.phtml:1
+#: application/view/omeka/admin/item-set/browse.phtml:109
+#: application/view/omeka/admin/item-set/browse.phtml:116
+#: application/view/omeka/admin/item-set/browse.phtml:134
+#: application/view/omeka/admin/item/browse.phtml:108
+#: application/view/omeka/admin/item/browse.phtml:115
+#: application/view/omeka/admin/item/browse.phtml:133
+#: application/view/omeka/admin/item/manage-media.phtml:82
+#: application/view/omeka/admin/media/browse.phtml:104
+#: application/view/omeka/admin/media/browse.phtml:112
+#: application/view/omeka/admin/media/browse.phtml:130
+#: application/view/omeka/admin/module/browse.phtml:158
 #: application/view/omeka/admin/query/sidebar-edit.phtml:3
 #: application/view/omeka/admin/query/sidebar-preview.phtml:1
-#: application/view/omeka/admin/resource-template/browse.phtml:99
+#: application/view/omeka/admin/resource-template/browse.phtml:81
 #: application/view/omeka/admin/resource-template/form.phtml:43
 #: application/view/omeka/admin/resource-template/form.phtml:52
-#: application/view/omeka/admin/resource-template/show.phtml:67
-#: application/view/omeka/admin/user/browse.phtml:137
-#: application/view/omeka/admin/user/browse.phtml:146
-#: application/view/omeka/admin/user/browse.phtml:164
-#: application/view/omeka/admin/vocabulary/browse.phtml:93
-#: application/view/omeka/admin/vocabulary/classes.phtml:67
-#: application/view/omeka/admin/vocabulary/properties.phtml:50
-#: application/view/omeka/site-admin/index/index.phtml:101
+#: application/view/omeka/admin/resource-template/show.phtml:69
+#: application/view/omeka/admin/user/browse.phtml:123
+#: application/view/omeka/admin/user/browse.phtml:132
+#: application/view/omeka/admin/user/browse.phtml:150
+#: application/view/omeka/admin/vocabulary/browse.phtml:75
+#: application/view/omeka/admin/vocabulary/classes.phtml:52
+#: application/view/omeka/admin/vocabulary/properties.phtml:53
+#: application/view/omeka/site-admin/index/index.phtml:71
 #: application/view/omeka/site-admin/index/navigation.phtml:31
-#: application/view/omeka/site-admin/page/edit.phtml:51
-#: application/view/omeka/site-admin/page/index.phtml:102
+#: application/view/omeka/site-admin/page/edit.phtml:56
+#: application/view/omeka/site-admin/page/index.phtml:78
 msgid "Close"
 msgstr "Затваряне"
 
@@ -1026,12 +1092,12 @@ msgid "Alternative link title"
 msgstr ""
 
 #: application/view/common/asset-options.phtml:44
-#: application/view/omeka/site-admin/page/edit.phtml:54
+#: application/view/omeka/site-admin/page/edit.phtml:59
 msgid "Caption"
 msgstr "Надпис"
 
 #: application/view/common/asset-options.phtml:50
-#: application/view/omeka/site-admin/page/edit.phtml:65
+#: application/view/omeka/site-admin/page/edit.phtml:70
 msgid "Apply changes"
 msgstr "Прилагане на промени"
 
@@ -1057,33 +1123,64 @@ msgstr "Добавяне на прикачен файл."
 msgid "Block to be removed"
 msgstr "Блок, който трябва да бъде премахнат"
 
-#: application/view/common/block-layout.phtml:13
+#: application/view/common/block-layout.phtml:14
 #: application/view/common/data-type-wrapper.phtml:19
 #: application/view/common/value-annotation-wrapper.phtml:12
-#: application/view/omeka/admin/item/manage-media.phtml:52
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:41
+#: application/view/omeka/admin/item/manage-media.phtml:64
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:42
 msgid "Restore value"
 msgstr "Възстановяване на стойността"
 
-#: application/view/common/block-layout/item-with-metadata.phtml:12
+#: application/view/common/block-layout/item-with-metadata.phtml:19
 #: application/view/common/cross-site-search/results.phtml:70
 #: application/view/common/data-type/resource.phtml:30
 #: application/view/common/item-set-selector.phtml:11
+#: application/view/common/resource-page-block-layout/item-sets.phtml:7
 #: application/view/layout/layout-admin.phtml:72
 #: application/view/omeka/admin/item-set/add.phtml:6
-#: application/view/omeka/admin/item-set/browse.phtml:29
+#: application/view/omeka/admin/item-set/browse.phtml:7
 #: application/view/omeka/admin/item-set/edit.phtml:14
 #: application/view/omeka/admin/item-set/search.phtml:5
 #: application/view/omeka/admin/item-set/show.phtml:26
 #: application/view/omeka/admin/item/form.phtml:16
 #: application/view/omeka/admin/item/show-details.phtml:23
-#: application/view/omeka/admin/item/show.phtml:67
+#: application/view/omeka/admin/item/show.phtml:69
 #: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:11
-#: application/view/omeka/site/item/show.phtml:27
 msgid "Item sets"
 msgstr "Набори от елементи"
+
+#: application/view/common/block-layout/page-date-time.phtml:13
+#: application/view/omeka/admin/item-set/show.phtml:73
+#: application/view/omeka/admin/item/show.phtml:85
+#: application/view/omeka/admin/media/show.phtml:47
+#: application/view/omeka/admin/user/browse.phtml:67
+#: application/view/omeka/site-admin/page/index.phtml:26
+msgid "Created"
+msgstr "Създаден"
+
+#: application/view/common/block-layout/page-date-time.phtml:19
+#: application/view/omeka/site-admin/page/index.phtml:26
+msgid "Modified"
+msgstr "Променен"
+
+#: application/view/common/browse-defaults-form.phtml:12
+msgid "[Custom sort by]"
+msgstr ""
+
+#: application/view/common/browse-defaults-form.phtml:17
+msgid "Enter a custom sort by"
+msgstr ""
+
+#: application/view/common/columns-form.phtml:16
+#: application/view/omeka/admin/item/add.phtml:13
+#: application/view/omeka/admin/resource-template/add.phtml:15
+#: application/view/omeka/admin/user/add.phtml:13
+#: application/view/omeka/site-admin/index/add-page.phtml:23
+#: application/view/omeka/site-admin/index/add.phtml:31
+msgid "Add"
+msgstr "Добави"
 
 #: application/view/common/cross-site-search/advanced-item-form.phtml:4
 #: application/view/common/cross-site-search/advanced-item-set-form.phtml:4
@@ -1116,26 +1213,26 @@ msgid "Item set results for \"%s\""
 msgstr "Резултати от набора от елементи за „%s“"
 
 #: application/view/common/cross-site-search/results.phtml:6
-#: application/view/omeka/site/index/search.phtml:8
+#: application/view/omeka/site/index/search.phtml:11
 #, php-format
 msgid "Search results for “%s”"
 msgstr "Резултати от търсенето на „%s“"
 
 #: application/view/common/cross-site-search/results.phtml:13
-#: application/view/omeka/site/item/show.phtml:35
+#: application/view/common/resource-page-block-layout/site-pages.phtml:8
 msgid "Site pages"
 msgstr "Страници в сайта"
 
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
 #: application/view/common/cross-site-search/results.phtml:85
-#: application/view/omeka/site/index/search.phtml:45
+#: application/view/omeka/site/index/search.phtml:51
 #, php-format
 msgid "View all results (%s total)"
 msgstr "Преглед на всички резултати (%s общо)"
 
 #: application/view/common/cross-site-search/results.phtml:97
-#: application/view/omeka/site/index/search.phtml:11
+#: application/view/omeka/site/index/search.phtml:14
 msgid "No result found"
 msgstr "Не е намерен резултат"
 
@@ -1156,13 +1253,13 @@ msgstr "Стойността, която трябва да бъде премах
 
 #: application/view/common/data-type-wrapper.phtml:21
 msgid "More actions"
-msgstr ""
+msgstr "Още действия"
 
 #: application/view/common/data-type-wrapper.phtml:24
 #: application/view/common/media-field-wrapper.phtml:10
 #: application/view/omeka/admin/item-set/form.phtml:43
 #: application/view/omeka/admin/item/form.phtml:52
-#: application/view/omeka/admin/item/manage-media.phtml:30
+#: application/view/omeka/admin/item/manage-media.phtml:42
 #: application/view/omeka/admin/media/edit.phtml:54
 #: application/view/omeka/site-admin/index/add-page.phtml:18
 #: application/view/omeka/site-admin/index/add.phtml:26
@@ -1176,12 +1273,19 @@ msgstr "Направете частен"
 msgid "Annotate value"
 msgstr ""
 
-#: application/view/common/data-type/literal.phtml:4
-#: application/view/common/data-type/value-annotation-literal.phtml:2
+#: application/view/common/data-type/literal.phtml:5
+#: application/view/common/data-type/uri.phtml:5
+#: application/view/common/data-type/value-annotation-literal.phtml:3
+#: application/view/common/data-type/value-annotation-uri.phtml:3
 msgid "Set language"
 msgstr "Задайте език"
 
-#: application/view/common/data-type/literal.phtml:5
+#: application/view/common/data-type/literal.phtml:7
+#: application/view/common/data-type/uri.phtml:7
+#: application/view/common/data-type/value-annotation-literal.phtml:5
+#: application/view/common/data-type/value-annotation-uri.phtml:5
+#: application/view/omeka/admin/media/show-details.phtml:29
+#: application/view/omeka/admin/media/show.phtml:52
 msgid "Language"
 msgstr "Език"
 
@@ -1190,28 +1294,25 @@ msgstr "Език"
 msgid "No resource selected"
 msgstr "Не е избран ресурс"
 
-#: application/view/common/data-type/uri.phtml:6
-#: application/view/common/data-type/value-annotation-uri.phtml:4
+#: application/view/common/data-type/uri.phtml:13
+#: application/view/common/data-type/value-annotation-uri.phtml:11
 #: application/view/common/property-form-batch-edit.phtml:44
 #: application/view/common/resource-form-templates.phtml:24
 msgid "URI"
 msgstr "URI"
 
-#: application/view/common/data-type/uri.phtml:12
-#: application/view/common/data-type/value-annotation-uri.phtml:10
+#: application/view/common/data-type/uri.phtml:19
+#: application/view/common/data-type/value-annotation-uri.phtml:17
 #: application/view/common/navigation-link-form/browse.phtml:16
 #: application/view/common/navigation-link-form/page.phtml:15
 #: application/view/common/navigation-link-form/url.phtml:8
 #: application/view/common/property-form-batch-edit.phtml:45
-#: application/view/omeka/admin/resource-template/browse.phtml:7
-#: application/view/omeka/admin/resource-template/browse.phtml:44
+#: application/view/omeka/admin/resource-template/browse.phtml:26
 #: application/view/omeka/admin/resource-template/form.phtml:55
 #: application/view/omeka/admin/user/edit.phtml:38
-#: application/view/omeka/admin/vocabulary/browse.phtml:7
-#: application/view/omeka/admin/vocabulary/browse.phtml:44
-#: application/view/omeka/admin/vocabulary/classes.phtml:7
-#: application/view/omeka/admin/vocabulary/classes.phtml:37
-#: application/view/omeka/admin/vocabulary/properties.phtml:20
+#: application/view/omeka/admin/vocabulary/browse.phtml:26
+#: application/view/omeka/admin/vocabulary/classes.phtml:22
+#: application/view/omeka/admin/vocabulary/properties.phtml:23
 msgid "Label"
 msgstr "Етикет"
 
@@ -1234,7 +1335,7 @@ msgstr "Без филтър"
 msgid "Filter"
 msgstr "Филтър"
 
-#: application/view/common/form-row.phtml:33
+#: application/view/common/form-row.phtml:20
 msgid "Learn more"
 msgstr "Научи повече"
 
@@ -1250,16 +1351,12 @@ msgstr "Филтрирайте набори от елементи"
 
 #: application/view/common/item-set-selector.phtml:18
 #: application/view/common/site-selector.phtml:10
-#: application/view/omeka/admin/asset/browse.phtml:54
-#: application/view/omeka/admin/item-set/browse.phtml:93
+#: application/view/omeka/admin/asset/browse.phtml:44
 #: application/view/omeka/admin/item-set/show.phtml:17
-#: application/view/omeka/admin/item/browse.phtml:91
 #: application/view/omeka/admin/item/show.phtml:8
-#: application/view/omeka/admin/job/browse.phtml:56
+#: application/view/omeka/admin/job/browse.phtml:38
 #: application/view/omeka/admin/job/show.phtml:18
-#: application/view/omeka/admin/media/browse.phtml:105
-#: application/view/omeka/admin/resource-template/browse.phtml:62
-#: application/view/omeka/site-admin/index/index.phtml:57
+#: application/view/omeka/admin/resource-template/browse.phtml:44
 msgid "[no owner]"
 msgstr "[без собственик]"
 
@@ -1269,19 +1366,27 @@ msgstr "[без собственик]"
 msgid "More info"
 msgstr "Повече информация"
 
-#: application/view/common/linked-resources.phtml:23
-msgid "Filter by property"
-msgstr "Филтриране по свойство"
+#: application/view/common/linked-resources.phtml:54
+msgid "Filter by resource type and property:"
+msgstr ""
 
-#: application/view/common/linked-resources.phtml:25
-msgid "All"
-msgstr "Всички"
+#: application/view/common/linked-resources.phtml:64
+#, php-format
+msgid "%s with \"%s: %s\""
+msgstr ""
 
-#: application/view/common/linked-resources.phtml:40
-#: application/view/omeka/admin/resource-template/review-import.phtml:68
-#: application/view/omeka/admin/resource-template/show.phtml:28
-msgid "Alternate label"
-msgstr "Алтернативен етикет"
+#: application/view/common/linked-resources.phtml:74
+#: application/view/omeka/admin/item-set/browse.phtml:54
+#: application/view/omeka/admin/item/browse.phtml:54
+#: application/view/omeka/admin/item/manage-item-sets.phtml:39
+#: application/view/omeka/admin/item/manage-sites.phtml:36
+#: application/view/omeka/admin/media/browse.phtml:49
+#: application/view/omeka/site-admin/index/index.phtml:25
+#: application/view/omeka/site-admin/index/resources.phtml:66
+#: application/view/omeka/site-admin/index/show.phtml:25
+#: application/view/omeka/site-admin/page/index.phtml:24
+msgid "Title"
+msgstr "Заглавие"
 
 #: application/view/common/navigation-link-form/browse.phtml:8
 msgid "Search query"
@@ -1309,7 +1414,7 @@ msgstr "URL"
 
 #: application/view/common/page-select-sidebar.phtml:8
 msgid "Select Pages"
-msgstr ""
+msgstr "Избор на страници"
 
 #: application/view/common/pagination.phtml:9
 #: application/view/common/sidebar-pagination.phtml:6
@@ -1345,26 +1450,6 @@ msgstr "Избор на свойство"
 #: application/view/common/property-form-batch-edit.phtml:76
 msgid "Add text value"
 msgstr "Добавете текстова стойност"
-
-#: application/view/common/property-form-batch-edit.phtml:17
-#: application/view/common/property-form-batch-edit.phtml:31
-#: application/view/common/property-form-batch-edit.phtml:46
-#: application/view/common/property-form-batch-edit.phtml:66
-#: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:79
-#: application/view/omeka/admin/item/show-details.phtml:18
-#: application/view/omeka/admin/item/show.phtml:62
-#: application/view/omeka/admin/media/show-details.phtml:43
-#: application/view/omeka/admin/media/show.phtml:37
-msgid "Public"
-msgstr "Публичен"
-
-#: application/view/common/property-form-batch-edit.phtml:18
-#: application/view/common/property-form-batch-edit.phtml:32
-#: application/view/common/property-form-batch-edit.phtml:47
-#: application/view/common/property-form-batch-edit.phtml:67
-msgid "Not public"
-msgstr "Не-публичен"
 
 #: application/view/common/property-form-batch-edit.phtml:20
 #: application/view/common/property-form-batch-edit.phtml:34
@@ -1406,7 +1491,7 @@ msgstr ""
 #: application/view/common/query-form.phtml:26
 #: application/view/omeka/admin/query/sidebar-edit.phtml:14
 msgid "Apply"
-msgstr ""
+msgstr "Приложи"
 
 #: application/view/common/query-form.phtml:28
 #: application/view/omeka/site-admin/index/users.phtml:8
@@ -1437,29 +1522,45 @@ msgstr "Добавяне на стойност"
 msgid "Text"
 msgstr "Текст"
 
+#: application/view/common/resource-page-block-layout/lightbox-gallery-item.phtml:11
+msgid "Other Media"
+msgstr ""
+
+#: application/view/common/resource-page-block-layout/linked-resources.phtml:14
+#: application/view/omeka/admin/item-set/show.phtml:22
+#: application/view/omeka/admin/item/show.phtml:13
+msgid "Linked resources"
+msgstr "Свързани ресурси"
+
+#: application/view/common/resource-page-block-layout/resource-class.phtml:7
+msgid "Resource class"
+msgstr ""
+
 #: application/view/common/resource-select-sidebar.phtml:20
 msgid "Select resource"
 msgstr "Избиране на ресурс"
 
-#: application/view/common/resource-values.phtml:53
-#: application/view/omeka/admin/item-set/browse.phtml:103
+#: application/view/common/resource-values.phtml:55
+#: application/view/common/sidebar-pagelist.phtml:26
+#: application/view/omeka/admin/item-set/browse.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:79
-#: application/view/omeka/admin/item/browse.phtml:101
+#: application/view/omeka/admin/item-set/show.phtml:82
+#: application/view/omeka/admin/item/browse.phtml:67
 #: application/view/omeka/admin/item/show-details.phtml:18
-#: application/view/omeka/admin/item/show.phtml:62
-#: application/view/omeka/admin/media/browse.phtml:115
-#: application/view/omeka/admin/media/show-details.phtml:43
-#: application/view/omeka/admin/media/show.phtml:37
+#: application/view/omeka/admin/item/show.phtml:64
+#: application/view/omeka/admin/media/browse.phtml:63
+#: application/view/omeka/admin/media/show-details.phtml:50
+#: application/view/omeka/admin/media/show.phtml:39
 #: application/view/omeka/admin/resource-template/form.phtml:90
-#: application/view/omeka/site-admin/index/index.phtml:64
-#: application/view/omeka/site-admin/page/index.phtml:66
+#: application/view/omeka/site-admin/index/index.phtml:35
+#: application/view/omeka/site-admin/index/navigation.phtml:63
+#: application/view/omeka/site-admin/page/index.phtml:42
 msgid "Private"
 msgstr "Частен"
 
-#: application/view/common/resource-values.phtml:57
+#: application/view/common/resource-values.phtml:59
 msgid "Has annotation"
-msgstr ""
+msgstr "Има анотация"
 
 #: application/view/common/sidebar-pagelist.phtml:10
 msgid "Add to List of pages"
@@ -1470,10 +1571,43 @@ msgstr ""
 msgid "Filter pages"
 msgstr "Филтриране по страници"
 
-#: application/view/common/sidebar-pagelist.phtml:25
-#: application/view/omeka/site-admin/index/navigation.phtml:65
+#: application/view/common/sidebar-pagelist.phtml:32
+#: application/view/omeka/site-admin/index/navigation.phtml:69
 msgid "There are no available pages."
 msgstr "Няма достъпни страници."
+
+#: application/view/common/sidebar-select-quick-add.phtml:3
+msgid "Quick add"
+msgstr "Бързо добавяне"
+
+#: application/view/common/sidebar-select-quick-add.phtml:5
+#: application/view/common/sidebar-select-quick-add.phtml:14
+#: application/view/omeka/admin/user/browse.phtml:81
+msgid "Inactive"
+msgstr "Неактивен"
+
+#: application/view/common/sidebar-select-quick-add.phtml:8
+msgid "Quick add checkboxes are now available."
+msgstr ""
+
+#: application/view/common/sidebar-select-quick-add.phtml:9
+msgid "Quick add checkboxes are now hidden."
+msgstr ""
+
+#: application/view/common/sidebar-select-quick-add.phtml:12
+#: application/view/omeka/admin/item-set/browse.phtml:53
+#: application/view/omeka/admin/item/browse.phtml:54
+#: application/view/omeka/admin/media/browse.phtml:48
+msgid "Select all"
+msgstr "Избор на всички"
+
+#: application/view/common/sidebar-select-quick-add.phtml:17
+msgid "All results are now selected."
+msgstr ""
+
+#: application/view/common/sidebar-select-quick-add.phtml:18
+msgid "All results are now deselected."
+msgstr ""
 
 #: application/view/common/site-page-pagination.phtml:3
 msgid "Prev"
@@ -1490,17 +1624,17 @@ msgstr "Филтриране на сайтове"
 #: application/view/common/site-selector.phtml:7
 #: application/view/omeka/admin/item/form.phtml:17
 #: application/view/omeka/admin/item/show-details.phtml:32
-#: application/view/omeka/admin/item/show.phtml:76
+#: application/view/omeka/admin/item/show.phtml:78
 #: application/view/omeka/index/index.phtml:6
 #: application/view/omeka/site-admin/index/add.phtml:12
 #: application/view/omeka/site-admin/index/edit.phtml:8
-#: application/view/omeka/site-admin/index/index.phtml:21
+#: application/view/omeka/site-admin/index/index.phtml:7
 #: application/view/omeka/site-admin/index/navigation.phtml:15
 #: application/view/omeka/site-admin/index/resources.phtml:20
 #: application/view/omeka/site-admin/index/show.phtml:7
 #: application/view/omeka/site-admin/index/theme.phtml:11
 #: application/view/omeka/site-admin/index/users.phtml:41
-#: application/view/omeka/site-admin/page/index.phtml:33
+#: application/view/omeka/site-admin/page/index.phtml:9
 msgid "Sites"
 msgstr "Сайтове"
 
@@ -1521,7 +1655,7 @@ msgstr "Подреждане по %s"
 msgid "Sort by"
 msgstr "Подреждане по"
 
-#: application/view/common/sort-selector.phtml:13
+#: application/view/common/sort-selector.phtml:12
 msgid "Sort order"
 msgstr "Ред та сортиране"
 
@@ -1557,11 +1691,11 @@ msgstr "Потребители  (%s)"
 
 #: application/view/common/value-annotation-sidebar.phtml:20
 msgid "Add annotation"
-msgstr ""
+msgstr "Добави анотация"
 
 #: application/view/common/value-annotation-sidebar.phtml:22
 msgid "Annotations"
-msgstr ""
+msgstr "Анотации"
 
 #: application/view/common/value-annotation-sidebar.phtml:27
 msgid "Set annotations"
@@ -1570,7 +1704,7 @@ msgstr ""
 #: application/view/common/value-annotation-wrapper.phtml:13
 #: application/view/omeka/admin/item-set/form.phtml:49
 #: application/view/omeka/admin/item/form.phtml:58
-#: application/view/omeka/admin/item/manage-media.phtml:36
+#: application/view/omeka/admin/item/manage-media.phtml:48
 #: application/view/omeka/admin/media/edit.phtml:60
 #: application/view/omeka/site-admin/index/add-page.phtml:12
 #: application/view/omeka/site-admin/index/add.phtml:20
@@ -1586,7 +1720,7 @@ msgstr "Нова версия на Омека S е налична. %s"
 
 #: application/view/common/version-notification.phtml:12
 #: application/view/omeka/admin/module/browse.phtml:62
-#: application/view/omeka/site-admin/index/theme.phtml:55
+#: application/view/omeka/site-admin/index/theme.phtml:58
 msgid "Get the new version."
 msgstr "Вземи новата версия."
 
@@ -1674,7 +1808,7 @@ msgstr "Търсене на медия"
 
 #: application/view/layout/layout-admin.phtml:85
 #: application/view/omeka/admin/index/browse.phtml:50
-#: application/view/omeka/site-admin/index/index.phtml:70
+#: application/view/omeka/site-admin/index/index.phtml:41
 msgid "View public site"
 msgstr "Преглед на публичния сайт"
 
@@ -1735,65 +1869,64 @@ msgstr ""
 msgid "Upload"
 msgstr "Качване"
 
-#: application/view/omeka/admin/asset/browse.phtml:8
-#: application/view/omeka/admin/item-set/show-details.phtml:13
-#: application/view/omeka/admin/item-set/show.phtml:66
-#: application/view/omeka/admin/item/show-details.phtml:13
-#: application/view/omeka/admin/item/show.phtml:57
-#: application/view/omeka/admin/job/browse.phtml:7
-#: application/view/omeka/admin/job/browse.phtml:37
-#: application/view/omeka/admin/media/show-details.phtml:18
-#: application/view/omeka/admin/media/show.phtml:32
-#: application/view/omeka/admin/user/edit.phtml:39
-msgid "ID"
-msgstr "ID"
-
-#: application/view/omeka/admin/asset/browse.phtml:27
+#: application/view/omeka/admin/asset/browse.phtml:17
 msgid "Add new asset"
-msgstr ""
+msgstr "Добавяне на нов актив"
 
-#: application/view/omeka/admin/asset/browse.phtml:75
+#: application/view/omeka/admin/asset/browse.phtml:28
+#: application/view/omeka/admin/item-set/show.phtml:77
+#: application/view/omeka/admin/item/manage-item-sets.phtml:40
+#: application/view/omeka/admin/item/manage-sites.phtml:37
+#: application/view/omeka/admin/item/show.phtml:89
+#: application/view/omeka/admin/job/browse.phtml:22
+#: application/view/omeka/admin/job/show.phtml:46
+#: application/view/omeka/admin/resource-template/browse.phtml:28
+#: application/view/omeka/site-admin/index/resources.phtml:67
+msgid "Owner"
+msgstr "Собственик"
+
+#: application/view/omeka/admin/asset/browse.phtml:65
 #: application/view/omeka/admin/asset/edit.phtml:6
-#: application/view/omeka/admin/item-set/browse.phtml:117
+#: application/view/omeka/admin/item-set/browse.phtml:82
 #: application/view/omeka/admin/item-set/edit.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:115
+#: application/view/omeka/admin/item/browse.phtml:81
 #: application/view/omeka/admin/item/edit.phtml:6
-#: application/view/omeka/admin/media/browse.phtml:129
+#: application/view/omeka/admin/media/browse.phtml:77
 #: application/view/omeka/admin/media/edit.phtml:65
-#: application/view/omeka/admin/resource-template/browse.phtml:79
+#: application/view/omeka/admin/resource-template/browse.phtml:61
 #: application/view/omeka/admin/resource-template/form.phtml:13
-#: application/view/omeka/admin/user/browse.phtml:108
+#: application/view/omeka/admin/user/browse.phtml:94
 #: application/view/omeka/admin/user/edit.phtml:40
-#: application/view/omeka/admin/vocabulary/browse.phtml:67
+#: application/view/omeka/admin/vocabulary/browse.phtml:49
 #: application/view/omeka/admin/vocabulary/edit.phtml:11
 #: application/view/omeka/site-admin/index/edit.phtml:26
-#: application/view/omeka/site-admin/index/index.phtml:82
+#: application/view/omeka/site-admin/index/index.phtml:53
 #: application/view/omeka/site-admin/index/users.phtml:7
 #: application/view/omeka/site-admin/page/edit.phtml:29
 msgid "Delete"
 msgstr "Изтриване"
 
-#: application/view/omeka/admin/asset/browse.phtml:82
-#: application/view/omeka/admin/item-set/browse.phtml:124
-#: application/view/omeka/admin/item/browse.phtml:122
-#: application/view/omeka/admin/media/browse.phtml:136
-#: application/view/omeka/admin/resource-template/browse.phtml:85
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:27
-#: application/view/omeka/admin/resource-template/show.phtml:44
-#: application/view/omeka/admin/user/browse.phtml:115
-#: application/view/omeka/admin/vocabulary/browse.phtml:74
-#: application/view/omeka/admin/vocabulary/classes.phtml:52
-#: application/view/omeka/admin/vocabulary/properties.phtml:35
+#: application/view/omeka/admin/asset/browse.phtml:72
+#: application/view/omeka/admin/item-set/browse.phtml:89
+#: application/view/omeka/admin/item/browse.phtml:88
+#: application/view/omeka/admin/media/browse.phtml:84
+#: application/view/omeka/admin/resource-template/browse.phtml:67
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:28
+#: application/view/omeka/admin/resource-template/show.phtml:45
+#: application/view/omeka/admin/user/browse.phtml:101
+#: application/view/omeka/admin/vocabulary/browse.phtml:56
+#: application/view/omeka/admin/vocabulary/classes.phtml:37
+#: application/view/omeka/admin/vocabulary/properties.phtml:38
 msgid "Details"
 msgstr "Детайли"
 
-#: application/view/omeka/admin/asset/browse.phtml:108
+#: application/view/omeka/admin/asset/browse.phtml:98
 msgid "Omeka could not find any assets."
 msgstr ""
 
 #: application/view/omeka/admin/asset/show-details.phtml:12
 msgid "Media type"
-msgstr ""
+msgstr "Вид медия"
 
 #: application/view/omeka/admin/asset/sidebar-select.phtml:16
 msgid "Select asset"
@@ -1810,6 +1943,27 @@ msgstr "Филтриране по собственик"
 #: application/view/omeka/admin/asset/sidebar-select.phtml:56
 msgid "assets"
 msgstr "активи"
+
+#: application/view/omeka/admin/columns/column-edit-sidebar.phtml:5
+#: application/view/omeka/admin/columns/column-row.phtml:10
+msgid "Edit column"
+msgstr ""
+
+#: application/view/omeka/admin/columns/column-edit-sidebar.phtml:10
+msgid "Set column"
+msgstr ""
+
+#: application/view/omeka/admin/columns/column-row.phtml:5
+msgid "Column to be removed"
+msgstr ""
+
+#: application/view/omeka/admin/columns/column-row.phtml:14
+msgid "Remove column"
+msgstr ""
+
+#: application/view/omeka/admin/columns/column-row.phtml:18
+msgid "Restore column"
+msgstr ""
 
 #: application/view/omeka/admin/index/browse.phtml:4
 #: application/view/omeka/index/index.phtml:33
@@ -1831,7 +1985,7 @@ msgid "Items (%s)"
 msgstr "Елементи  (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:17
-#: application/view/omeka/admin/item/browse.phtml:41
+#: application/view/omeka/admin/item/browse.phtml:19
 msgid "Add new item"
 msgstr "Добавяне на нов елемент"
 
@@ -1846,7 +2000,7 @@ msgid "Vocabularies (%s)"
 msgstr "Речници (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:29
-#: application/view/omeka/admin/vocabulary/browse.phtml:29
+#: application/view/omeka/admin/vocabulary/browse.phtml:11
 msgid "Import new vocabulary"
 msgstr "Импортиране на нов речник"
 
@@ -1856,7 +2010,7 @@ msgid "Resource templates (%s)"
 msgstr "Шаблони за ресурси (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:35
-#: application/view/omeka/admin/resource-template/browse.phtml:30
+#: application/view/omeka/admin/resource-template/browse.phtml:12
 msgid "Add new resource template"
 msgstr "Добавяне на нов шаблон за ресурс"
 
@@ -1891,6 +2045,7 @@ msgstr "акетно редактиране на набори от елемен�
 #: application/view/omeka/site-admin/index/edit.phtml:29
 #: application/view/omeka/site-admin/index/navigation.phtml:22
 #: application/view/omeka/site-admin/index/resources.phtml:31
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:28
 #: application/view/omeka/site-admin/index/theme-settings.phtml:12
 #: application/view/omeka/site-admin/index/theme.phtml:18
 #: application/view/omeka/site-admin/index/users.phtml:48
@@ -1912,103 +2067,97 @@ msgstr "Редактирате следните %s набори от елеме�
 msgid "You are editing %s item sets."
 msgstr "Редактирате %s набори от елементи."
 
-#: application/view/omeka/admin/item-set/browse.phtml:35
+#: application/view/omeka/admin/item-set/browse.phtml:13
 #: application/view/omeka/admin/item-set/search.phtml:5
-#: application/view/omeka/admin/item/browse.phtml:35
+#: application/view/omeka/admin/item/browse.phtml:13
 #: application/view/omeka/admin/item/search.phtml:5
-#: application/view/omeka/admin/media/browse.phtml:41
+#: application/view/omeka/admin/media/browse.phtml:13
 #: application/view/omeka/admin/media/search.phtml:5
-#: application/view/omeka/admin/user/browse.phtml:30
+#: application/view/omeka/admin/user/browse.phtml:16
 #: application/view/omeka/admin/user/search.phtml:5
 #: application/view/omeka/site/item-set/browse.phtml:17
-#: application/view/omeka/site/item/browse.phtml:51
+#: application/view/omeka/site/item/browse.phtml:34
 msgid "Advanced search"
 msgstr "Разширено търсене"
 
-#: application/view/omeka/admin/item-set/browse.phtml:51
-#: application/view/omeka/admin/item-set/browse.phtml:52
-#: application/view/omeka/admin/item/browse.phtml:50
-#: application/view/omeka/admin/item/browse.phtml:51
-#: application/view/omeka/admin/media/browse.phtml:50
-#: application/view/omeka/admin/media/browse.phtml:51
-#: application/view/omeka/admin/user/browse.phtml:45
-#: application/view/omeka/admin/user/browse.phtml:46
+#: application/view/omeka/admin/item-set/browse.phtml:28
+#: application/view/omeka/admin/item-set/browse.phtml:29
+#: application/view/omeka/admin/item/browse.phtml:28
+#: application/view/omeka/admin/item/browse.phtml:29
+#: application/view/omeka/admin/media/browse.phtml:22
+#: application/view/omeka/admin/media/browse.phtml:23
+#: application/view/omeka/admin/user/browse.phtml:31
+#: application/view/omeka/admin/user/browse.phtml:32
 msgid "Batch actions"
 msgstr "Групови действия"
 
-#: application/view/omeka/admin/item-set/browse.phtml:53
-#: application/view/omeka/admin/item/browse.phtml:52
-#: application/view/omeka/admin/media/browse.phtml:53
-#: application/view/omeka/admin/user/browse.phtml:48
+#: application/view/omeka/admin/item-set/browse.phtml:30
+#: application/view/omeka/admin/item/browse.phtml:30
+#: application/view/omeka/admin/media/browse.phtml:24
+#: application/view/omeka/admin/user/browse.phtml:34
 msgid "Edit selected"
 msgstr "Редактиране на избраните"
 
-#: application/view/omeka/admin/item-set/browse.phtml:54
-#: application/view/omeka/admin/item/browse.phtml:53
-#: application/view/omeka/admin/media/browse.phtml:54
-#: application/view/omeka/admin/user/browse.phtml:49
+#: application/view/omeka/admin/item-set/browse.phtml:32
+#: application/view/omeka/admin/item/browse.phtml:32
+#: application/view/omeka/admin/media/browse.phtml:26
+#: application/view/omeka/admin/user/browse.phtml:35
 msgid "Edit all"
 msgstr "Редактирай всички"
 
-#: application/view/omeka/admin/item-set/browse.phtml:55
-#: application/view/omeka/admin/item/browse.phtml:54
-#: application/view/omeka/admin/media/browse.phtml:57
-#: application/view/omeka/admin/user/browse.phtml:52
+#: application/view/omeka/admin/item-set/browse.phtml:34
+#: application/view/omeka/admin/item/browse.phtml:34
+#: application/view/omeka/admin/media/browse.phtml:28
+#: application/view/omeka/admin/user/browse.phtml:38
 msgid "Delete selected"
 msgstr "Изтриване на избраните"
 
-#: application/view/omeka/admin/item-set/browse.phtml:56
-#: application/view/omeka/admin/item/browse.phtml:55
-#: application/view/omeka/admin/media/browse.phtml:58
-#: application/view/omeka/admin/user/browse.phtml:53
+#: application/view/omeka/admin/item-set/browse.phtml:36
+#: application/view/omeka/admin/item/browse.phtml:36
+#: application/view/omeka/admin/media/browse.phtml:30
+#: application/view/omeka/admin/user/browse.phtml:39
 msgid "Delete all"
 msgstr "Изтрии всички"
 
-#: application/view/omeka/admin/item-set/browse.phtml:59
-#: application/view/omeka/admin/item-set/browse.phtml:60
-#: application/view/omeka/admin/item-set/browse.phtml:61
-#: application/view/omeka/admin/item-set/browse.phtml:63
-#: application/view/omeka/admin/item-set/browse.phtml:64
-#: application/view/omeka/admin/item/browse.phtml:58
-#: application/view/omeka/admin/item/browse.phtml:59
-#: application/view/omeka/admin/item/browse.phtml:60
-#: application/view/omeka/admin/item/browse.phtml:62
-#: application/view/omeka/admin/item/browse.phtml:63
-#: application/view/omeka/admin/media/browse.phtml:62
-#: application/view/omeka/admin/media/browse.phtml:64
-#: application/view/omeka/admin/media/browse.phtml:65
-#: application/view/omeka/admin/media/browse.phtml:69
-#: application/view/omeka/admin/media/browse.phtml:70
-#: application/view/omeka/admin/user/browse.phtml:57
-#: application/view/omeka/admin/user/browse.phtml:59
-#: application/view/omeka/admin/user/browse.phtml:60
-#: application/view/omeka/admin/user/browse.phtml:64
-#: application/view/omeka/admin/user/browse.phtml:65
+#: application/view/omeka/admin/item-set/browse.phtml:40
+#: application/view/omeka/admin/item-set/browse.phtml:41
+#: application/view/omeka/admin/item-set/browse.phtml:42
+#: application/view/omeka/admin/item-set/browse.phtml:44
+#: application/view/omeka/admin/item-set/browse.phtml:45
+#: application/view/omeka/admin/item/browse.phtml:40
+#: application/view/omeka/admin/item/browse.phtml:41
+#: application/view/omeka/admin/item/browse.phtml:42
+#: application/view/omeka/admin/item/browse.phtml:44
+#: application/view/omeka/admin/item/browse.phtml:45
+#: application/view/omeka/admin/media/browse.phtml:34
+#: application/view/omeka/admin/media/browse.phtml:35
+#: application/view/omeka/admin/media/browse.phtml:36
+#: application/view/omeka/admin/media/browse.phtml:38
+#: application/view/omeka/admin/media/browse.phtml:39
+#: application/view/omeka/admin/user/browse.phtml:43
+#: application/view/omeka/admin/user/browse.phtml:45
+#: application/view/omeka/admin/user/browse.phtml:46
+#: application/view/omeka/admin/user/browse.phtml:50
+#: application/view/omeka/admin/user/browse.phtml:51
 msgid "Go"
 msgstr "Давай"
 
-#: application/view/omeka/admin/item-set/browse.phtml:72
-#: application/view/omeka/admin/item/browse.phtml:72
-#: application/view/omeka/admin/media/browse.phtml:81
-msgid "Select all"
-msgstr "Избор на всички"
-
-#: application/view/omeka/admin/item-set/browse.phtml:99
-#: application/view/omeka/admin/item-set/sidebar-select.phtml:8
+#: application/view/omeka/admin/item-set/browse.phtml:64
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:11
 msgid "Select item set"
 msgstr "Избор на набор от елементи"
 
-#: application/view/omeka/admin/item-set/browse.phtml:157
-#: application/view/omeka/admin/item-set/browse.phtml:175
+#: application/view/omeka/admin/item-set/browse.phtml:120
+#: application/view/omeka/admin/item-set/browse.phtml:138
 msgid "Delete item sets"
 msgstr "изтриване на набори от елементи"
 
-#: application/view/omeka/admin/item-set/browse.phtml:158
+#: application/view/omeka/admin/item-set/browse.phtml:121
 msgid "Are you sure you would like to delete the selected item sets?"
 msgstr "Наистина ли искате да изтриете избраните набори от елементи?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:160
-#: application/view/omeka/admin/item-set/browse.phtml:178
+#: application/view/omeka/admin/item-set/browse.phtml:123
+#: application/view/omeka/admin/item-set/browse.phtml:141
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s item sets and cannot be "
@@ -2017,18 +2166,18 @@ msgstr ""
 "%1$s: това действие ще изтрие за постоянно %2$s набори от елементи и не може"
 " да бъде отменено."
 
-#: application/view/omeka/admin/item-set/browse.phtml:161
-#: application/view/omeka/admin/item-set/browse.phtml:179
-#: application/view/omeka/admin/item/browse.phtml:159
-#: application/view/omeka/admin/item/browse.phtml:177
-#: application/view/omeka/admin/media/browse.phtml:175
-#: application/view/omeka/admin/media/browse.phtml:193
-#: application/view/omeka/admin/user/browse.phtml:154
-#: application/view/omeka/admin/user/browse.phtml:172
+#: application/view/omeka/admin/item-set/browse.phtml:124
+#: application/view/omeka/admin/item-set/browse.phtml:142
+#: application/view/omeka/admin/item/browse.phtml:123
+#: application/view/omeka/admin/item/browse.phtml:141
+#: application/view/omeka/admin/media/browse.phtml:120
+#: application/view/omeka/admin/media/browse.phtml:138
+#: application/view/omeka/admin/user/browse.phtml:140
+#: application/view/omeka/admin/user/browse.phtml:158
 msgid "Warning"
 msgstr "Внимание"
 
-#: application/view/omeka/admin/item-set/browse.phtml:176
+#: application/view/omeka/admin/item-set/browse.phtml:139
 msgid ""
 "Are you sure you would like to delete all item sets on all pages of this "
 "result?"
@@ -2036,14 +2185,14 @@ msgstr ""
 "Наистина ли искате да изтриете всички набори от елементи на всички страници "
 "на този резултат?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:182
-#: application/view/omeka/admin/item/browse.phtml:180
-#: application/view/omeka/admin/media/browse.phtml:196
-#: application/view/omeka/admin/user/browse.phtml:175
+#: application/view/omeka/admin/item-set/browse.phtml:145
+#: application/view/omeka/admin/item/browse.phtml:144
+#: application/view/omeka/admin/media/browse.phtml:141
+#: application/view/omeka/admin/user/browse.phtml:161
 msgid "Are you sure?"
 msgstr "Сигурни ли сте?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:216
+#: application/view/omeka/admin/item-set/browse.phtml:179
 msgid "Omeka could not find any item sets."
 msgstr "Omeka не може да намери никакви набори елементи."
 
@@ -2067,22 +2216,13 @@ msgstr "Затваряне на набор от елементи"
 msgid "Open item set"
 msgstr "Отваряне на набор от елементи"
 
-#: application/view/omeka/admin/item-set/show-details.phtml:17
-#: application/view/omeka/admin/item-set/show.phtml:78
-#: application/view/omeka/admin/item/show-details.phtml:17
-#: application/view/omeka/admin/item/show.phtml:61
-#: application/view/omeka/admin/media/show-details.phtml:42
-#: application/view/omeka/admin/media/show.phtml:36
-msgid "Visibility"
-msgstr "Видимост"
-
 #: application/view/omeka/admin/item-set/show-details.phtml:19
-#: application/view/omeka/admin/item-set/show.phtml:80
+#: application/view/omeka/admin/item-set/show.phtml:83
 msgid "Open to additions"
 msgstr "Отворен за допълнения"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:19
-#: application/view/omeka/admin/item-set/show.phtml:80
+#: application/view/omeka/admin/item-set/show.phtml:83
 msgid "Closed to additions"
 msgstr "Затворен за допълнения"
 
@@ -2092,12 +2232,6 @@ msgstr "Затворен за допълнения"
 msgid "Metadata"
 msgstr "Метаданни"
 
-#: application/view/omeka/admin/item-set/show.phtml:22
-#: application/view/omeka/admin/item/show.phtml:13
-#: application/view/omeka/site/item/show.phtml:58
-msgid "Linked resources"
-msgstr "Свързани ресурси"
-
 #: application/view/omeka/admin/item-set/show.phtml:30
 msgid "Edit item set"
 msgstr "Редакция на набор от елементи"
@@ -2106,29 +2240,37 @@ msgstr "Редакция на набор от елементи"
 msgid "View items"
 msgstr "Преглед на елементи"
 
-#: application/view/omeka/admin/item-set/show.phtml:54
+#: application/view/omeka/admin/item-set/show.phtml:58
 msgid "The following resources link to this item set:"
 msgstr "Следните ресурси водят към този набор от елементи:"
 
-#: application/view/omeka/admin/item-set/show.phtml:58
+#: application/view/omeka/admin/item-set/show.phtml:62
 msgid "No resources link to this item set."
 msgstr "Към този елемент няма връзка към ресурси."
 
-#: application/view/omeka/admin/item-set/sidebar-select.phtml:39
-msgid "item sets"
-msgstr "набори елементи"
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:19
+#: application/view/omeka/admin/item/sidebar-select.phtml:28
+msgid "Filter search"
+msgstr "Филтриране на търсене"
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:36
+msgid "Filter by item set ID"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:70
+#: application/view/omeka/admin/item/browse.phtml:178
+#: application/view/omeka/admin/item/sidebar-select.phtml:100
+msgid "Omeka could not find any items."
+msgstr "Omeka не можа да намери елементи."
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:76
+#: application/view/omeka/admin/item/sidebar-select.phtml:105
+msgid "Add selected"
+msgstr ""
 
 #: application/view/omeka/admin/item/add.phtml:6
 msgid "New item"
 msgstr "Нов елемент"
-
-#: application/view/omeka/admin/item/add.phtml:13
-#: application/view/omeka/admin/resource-template/add.phtml:15
-#: application/view/omeka/admin/user/add.phtml:13
-#: application/view/omeka/site-admin/index/add-page.phtml:23
-#: application/view/omeka/site-admin/index/add.phtml:31
-msgid "Add"
-msgstr "Добави"
 
 #: application/view/omeka/admin/item/batch-edit.phtml:7
 msgid "Batch edit items"
@@ -2148,22 +2290,22 @@ msgstr "Редактирате следните %s елементи:"
 msgid "You are editing %s items."
 msgstr "Редактирате %s елементи."
 
-#: application/view/omeka/admin/item/browse.phtml:97
+#: application/view/omeka/admin/item/browse.phtml:63
 #: application/view/omeka/admin/item/sidebar-select.phtml:10
 msgid "Select item"
 msgstr "Избор на елемент"
 
-#: application/view/omeka/admin/item/browse.phtml:155
-#: application/view/omeka/admin/item/browse.phtml:173
+#: application/view/omeka/admin/item/browse.phtml:119
+#: application/view/omeka/admin/item/browse.phtml:137
 msgid "Delete items"
 msgstr "Изтриване на елемент"
 
-#: application/view/omeka/admin/item/browse.phtml:156
+#: application/view/omeka/admin/item/browse.phtml:120
 msgid "Are you sure you would like to delete the selected items?"
 msgstr "Сигурни ли сте, че искате да изтриете избраните елементи?"
 
-#: application/view/omeka/admin/item/browse.phtml:158
-#: application/view/omeka/admin/item/browse.phtml:176
+#: application/view/omeka/admin/item/browse.phtml:122
+#: application/view/omeka/admin/item/browse.phtml:140
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s items and cannot be undone."
@@ -2171,23 +2313,19 @@ msgstr ""
 "%1$s: това действие ще изтрие за постоянно %2$s елементи и не може да бъде "
 "отменено."
 
-#: application/view/omeka/admin/item/browse.phtml:174
+#: application/view/omeka/admin/item/browse.phtml:138
 msgid ""
 "Are you sure you would like to delete all items on all pages of this result?"
 msgstr ""
 "Наистина ли искате да изтриете всички елементи на всички страници от този "
 "резултат?"
 
-#: application/view/omeka/admin/item/browse.phtml:214
-msgid "Omeka could not find any items."
-msgstr "Omeka не можа да намери елементи."
-
-#: application/view/omeka/admin/item/manage-item-sets.phtml:21
+#: application/view/omeka/admin/item/manage-item-sets.phtml:27
 #: application/view/omeka/site-admin/index/resources.phtml:14
 msgid "Remove item set"
 msgstr "Премахване на набор елементи"
 
-#: application/view/omeka/admin/item/manage-item-sets.phtml:42
+#: application/view/omeka/admin/item/manage-item-sets.phtml:48
 msgid ""
 "This item is part of no item sets. Add it to an item set using the interface"
 " to the right."
@@ -2195,15 +2333,19 @@ msgstr ""
 "Този елемент не част от набори с елементи. Добавете го към набор от "
 "елементи, като използвате интерфейса отдясно."
 
-#: application/view/omeka/admin/item/manage-item-sets.phtml:45
+#: application/view/omeka/admin/item/manage-item-sets.phtml:51
 msgid "Add to item set"
 msgstr "Добавяне към набор елементи"
 
-#: application/view/omeka/admin/item/manage-media.phtml:21
+#: application/view/omeka/admin/item/manage-media.phtml:28
 msgid "Media to be removed"
 msgstr "Медия, която ще бъде премахната"
 
-#: application/view/omeka/admin/item/manage-media.phtml:63
+#: application/view/omeka/admin/item/manage-media.phtml:33
+msgid "Primary media"
+msgstr ""
+
+#: application/view/omeka/admin/item/manage-media.phtml:75
 msgid ""
 "This resource has no media.<br>Start adding media using the sidebar to the "
 "right."
@@ -2211,16 +2353,16 @@ msgstr ""
 "Този ресурс няма медия. <br>Започнете да добавяте медия, като използвате "
 "страничната лента вдясно."
 
-#: application/view/omeka/admin/item/manage-media.phtml:67
-#: application/view/omeka/admin/item/manage-media.phtml:71
+#: application/view/omeka/admin/item/manage-media.phtml:79
+#: application/view/omeka/admin/item/manage-media.phtml:83
 msgid "Add media"
 msgstr "Добавяне на медия"
 
-#: application/view/omeka/admin/item/manage-sites.phtml:30
+#: application/view/omeka/admin/item/manage-sites.phtml:27
 msgid "Unassign from site"
 msgstr "Премахване на задаване към сайт"
 
-#: application/view/omeka/admin/item/manage-sites.phtml:48
+#: application/view/omeka/admin/item/manage-sites.phtml:45
 msgid ""
 "This item is part of no sites. Add it to a site using the interface to the "
 "right."
@@ -2228,7 +2370,7 @@ msgstr ""
 "Този елемент нее част от сайт. Добавете го към сайт, като използвате "
 "интерфейса отдясно."
 
-#: application/view/omeka/admin/item/manage-sites.phtml:51
+#: application/view/omeka/admin/item/manage-sites.phtml:48
 msgid "Assign to site"
 msgstr "Задаване към сайт"
 
@@ -2236,46 +2378,25 @@ msgstr "Задаване към сайт"
 msgid "Edit item"
 msgstr "Редакция на елемент"
 
-#: application/view/omeka/admin/item/show.phtml:44
-msgid "The following resources link to this item:"
-msgstr "Следните ресурси са свързани към този елемент:"
-
-#: application/view/omeka/admin/item/show.phtml:48
+#: application/view/omeka/admin/item/show.phtml:51
 msgid "No resources link to this item."
 msgstr "Няма ресурси, които са свързани към този елемент."
-
-#: application/view/omeka/admin/item/sidebar-select.phtml:28
-msgid "Filter search"
-msgstr "Филтриране на търсене"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:57
 msgid "Filter by item ID"
 msgstr "Филтриране по ID на елемент "
 
-#: application/view/omeka/admin/item/sidebar-select.phtml:67
-msgid "Quick add"
-msgstr "Бързо добавяне"
-
-#: application/view/omeka/admin/item/sidebar-select.phtml:98
-msgid "items"
-msgstr "елементи"
-
-#: application/view/omeka/admin/item/sidebar-select.phtml:103
-msgid "Add selected"
-msgstr ""
-
-#: application/view/omeka/admin/job/browse.phtml:15
-#: application/view/omeka/admin/job/browse.phtml:39
-#: application/view/omeka/admin/job/show.phtml:29
-msgid "Status"
-msgstr "Статус"
-
-#: application/view/omeka/admin/job/browse.phtml:25
+#: application/view/omeka/admin/job/browse.phtml:7
 #: application/view/omeka/admin/job/show.phtml:21
 msgid "Jobs"
 msgstr "Задачи"
 
-#: application/view/omeka/admin/job/browse.phtml:78
+#: application/view/omeka/admin/job/browse.phtml:21
+#: application/view/omeka/admin/job/show.phtml:30
+msgid "Status"
+msgstr "Статус"
+
+#: application/view/omeka/admin/job/browse.phtml:60
 msgid "Omeka could not find any jobs."
 msgstr "Omeka не може да намери никакви задачи."
 
@@ -2287,31 +2408,31 @@ msgstr "[не е стартирана]"
 msgid "[not ended]"
 msgstr "[не е завършила]"
 
-#: application/view/omeka/admin/job/show.phtml:33
+#: application/view/omeka/admin/job/show.phtml:34
 msgid "Started"
 msgstr "Стартирана"
 
-#: application/view/omeka/admin/job/show.phtml:37
+#: application/view/omeka/admin/job/show.phtml:38
 msgid "Ended"
 msgstr "Завършила"
 
-#: application/view/omeka/admin/job/show.phtml:49
+#: application/view/omeka/admin/job/show.phtml:50
 msgid "Args"
 msgstr "Аргументи"
 
-#: application/view/omeka/admin/job/show.phtml:54
+#: application/view/omeka/admin/job/show.phtml:55
 msgid "[no args]"
 msgstr "[няма аргументи]"
 
-#: application/view/omeka/admin/job/show.phtml:58
+#: application/view/omeka/admin/job/show.phtml:59
 msgid "Log"
 msgstr "Журнал"
 
-#: application/view/omeka/admin/job/show.phtml:61
+#: application/view/omeka/admin/job/show.phtml:62
 msgid "view log"
 msgstr "преглед на журнал"
 
-#: application/view/omeka/admin/job/show.phtml:65
+#: application/view/omeka/admin/job/show.phtml:66
 msgid "[no log]"
 msgstr "[няма журнал]"
 
@@ -2333,33 +2454,34 @@ msgstr ""
 msgid "You are editing %s media."
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:111
+#: application/view/omeka/admin/media/browse.phtml:59
 #: application/view/omeka/admin/media/sidebar-select.phtml:8
 msgid "Select media"
 msgstr "Избор на медия"
 
-#: application/view/omeka/admin/media/browse.phtml:171
-#: application/view/omeka/admin/media/browse.phtml:189
+#: application/view/omeka/admin/media/browse.phtml:116
+#: application/view/omeka/admin/media/browse.phtml:134
 msgid "Delete media"
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:172
+#: application/view/omeka/admin/media/browse.phtml:117
 msgid "Are you sure you would like to delete the selected media?"
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:174
-#: application/view/omeka/admin/media/browse.phtml:192
+#: application/view/omeka/admin/media/browse.phtml:119
+#: application/view/omeka/admin/media/browse.phtml:137
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s media and cannot be undone."
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:190
+#: application/view/omeka/admin/media/browse.phtml:135
 msgid ""
 "Are you sure you would like to delete all media on all pages of this result?"
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:231
+#: application/view/omeka/admin/media/browse.phtml:175
+#: application/view/omeka/admin/media/sidebar-select.phtml:38
 msgid "Omeka could not find any media."
 msgstr ""
 
@@ -2367,13 +2489,18 @@ msgstr ""
 msgid "Part of Item"
 msgstr "Част от елемент"
 
-#: application/view/omeka/admin/media/show-details.phtml:29
-#: application/view/omeka/admin/media/show.phtml:50
+#: application/view/omeka/admin/media/show-details.phtml:36
+#: application/view/omeka/admin/media/show.phtml:58
 msgid "MIME type"
 msgstr "Тип MIME"
 
-#: application/view/omeka/admin/media/show-details.phtml:37
-#: application/view/omeka/admin/media/show.phtml:57
+#: application/view/omeka/admin/media/show-details.phtml:43
+#: application/view/omeka/admin/media/show.phtml:64
+msgid "Size"
+msgstr "Размер"
+
+#: application/view/omeka/admin/media/show-details.phtml:44
+#: application/view/omeka/admin/media/show.phtml:65
 #, php-format
 msgid "%s bytes"
 msgstr "%s байта"
@@ -2382,41 +2509,37 @@ msgstr "%s байта"
 msgid "Edit media"
 msgstr "Редакция на медия"
 
-#: application/view/omeka/admin/media/show.phtml:40
+#: application/view/omeka/admin/media/show.phtml:42
 msgid "Part of item"
 msgstr "Част от елемент"
 
-#: application/view/omeka/admin/media/show.phtml:61
+#: application/view/omeka/admin/media/show.phtml:69
 msgid "Ingester"
 msgstr "Инджестър"
 
-#: application/view/omeka/admin/media/show.phtml:66
+#: application/view/omeka/admin/media/show.phtml:74
 msgid "Source"
 msgstr "Източник"
 
-#: application/view/omeka/admin/media/show.phtml:72
+#: application/view/omeka/admin/media/show.phtml:80
 msgid "File Derivatives"
 msgstr "Производни на файл"
 
-#: application/view/omeka/admin/media/show.phtml:74
+#: application/view/omeka/admin/media/show.phtml:82
 msgid "original"
 msgstr "оригинал"
 
-#: application/view/omeka/admin/media/show.phtml:77
+#: application/view/omeka/admin/media/show.phtml:85
 msgid "large"
 msgstr "голям"
 
-#: application/view/omeka/admin/media/show.phtml:78
+#: application/view/omeka/admin/media/show.phtml:86
 msgid "medium"
 msgstr "среден"
 
-#: application/view/omeka/admin/media/show.phtml:79
+#: application/view/omeka/admin/media/show.phtml:87
 msgid "square"
 msgstr "квадратен"
-
-#: application/view/omeka/admin/media/sidebar-select.phtml:38
-msgid "media"
-msgstr "медия"
 
 #: application/view/omeka/admin/module/browse.phtml:15
 msgid "All modules"
@@ -2438,34 +2561,32 @@ msgid "A new version of this module is available. %s"
 msgstr "Налична е нова версия на този модул. %s"
 
 #: application/view/omeka/admin/module/browse.phtml:75
-#: application/view/omeka/admin/module/browse.phtml:83
 #: application/view/omeka/admin/module/configure.phtml:6
-#: application/view/omeka/site-admin/index/theme-settings.phtml:6
 msgid "Configure"
 msgstr "Конфигуриране"
 
-#: application/view/omeka/admin/module/browse.phtml:127
+#: application/view/omeka/admin/module/browse.phtml:126
 msgid "Uninstall"
 msgstr "Деинсталиране"
 
-#: application/view/omeka/admin/module/browse.phtml:144
+#: application/view/omeka/admin/module/browse.phtml:143
 msgid "Error: invalid Module.php file"
 msgstr "Грешка: невалиден файл Module.php"
 
-#: application/view/omeka/admin/module/browse.phtml:146
+#: application/view/omeka/admin/module/browse.phtml:145
 msgid "Error: invalid config/module.ini file"
 msgstr "Грешка: невалиден файл config / module.ini"
 
-#: application/view/omeka/admin/module/browse.phtml:148
+#: application/view/omeka/admin/module/browse.phtml:147
 #, php-format
 msgid "Error: %1$s requires Omeka S %2$s"
 msgstr "Грешка: %1$sизисква Омека S %2$s"
 
-#: application/view/omeka/admin/module/browse.phtml:150
+#: application/view/omeka/admin/module/browse.phtml:149
 msgid "Error: module in database but not in filesystem"
 msgstr "Грешка: модул в базата данни, но не и във файловата система"
 
-#: application/view/omeka/admin/module/browse.phtml:167
+#: application/view/omeka/admin/module/browse.phtml:166
 msgid "Omeka could not find any modules."
 msgstr "Омека не може да намери никакви модули."
 
@@ -2488,9 +2609,8 @@ msgstr "Речник"
 
 #: application/view/omeka/admin/property/show-details.phtml:10
 #: application/view/omeka/admin/resource-class/show-details.phtml:10
-#: application/view/omeka/admin/vocabulary/classes.phtml:11
-#: application/view/omeka/admin/vocabulary/classes.phtml:38
-#: application/view/omeka/admin/vocabulary/properties.phtml:21
+#: application/view/omeka/admin/vocabulary/classes.phtml:23
+#: application/view/omeka/admin/vocabulary/properties.phtml:24
 msgid "Term"
 msgstr "Термин"
 
@@ -2502,22 +2622,22 @@ msgstr "Коментар"
 
 #: application/view/omeka/admin/query/sidebar-edit.phtml:4
 msgid "Search query edit"
-msgstr ""
+msgstr "Редактирай заявката за търсене"
 
 #: application/view/omeka/admin/query/sidebar-preview.phtml:2
 msgid "Search query preview"
-msgstr ""
+msgstr "Преглед на заявката за търсене"
 
 #: application/view/omeka/admin/query/sidebar-preview.phtml:11
 msgid "No resources found."
-msgstr ""
+msgstr "Няма намерени ресурси"
 
 #: application/view/omeka/admin/resource-template/add.phtml:6
 msgid "New resource template"
 msgstr "Нов шаблон за ресурс"
 
 #: application/view/omeka/admin/resource-template/add.phtml:6
-#: application/view/omeka/admin/resource-template/browse.phtml:25
+#: application/view/omeka/admin/resource-template/browse.phtml:7
 #: application/view/omeka/admin/resource-template/edit.phtml:6
 #: application/view/omeka/admin/resource-template/import.phtml:5
 #: application/view/omeka/admin/resource-template/review-import.phtml:7
@@ -2525,13 +2645,13 @@ msgstr "Нов шаблон за ресурс"
 msgid "Resource templates"
 msgstr "Шаблони за ресурс"
 
-#: application/view/omeka/admin/resource-template/browse.phtml:28
+#: application/view/omeka/admin/resource-template/browse.phtml:10
 #: application/view/omeka/admin/resource-template/import.phtml:5
 #: application/view/omeka/admin/vocabulary/import.phtml:12
 msgid "Import"
 msgstr "Импорт"
 
-#: application/view/omeka/admin/resource-template/browse.phtml:107
+#: application/view/omeka/admin/resource-template/browse.phtml:89
 msgid "Omeka could not find any resource templates."
 msgstr "Омека не може да намери никакъв шаблон за ресурси."
 
@@ -2561,18 +2681,24 @@ msgstr "Използвайте за описание на ресурса"
 msgid "Required"
 msgstr "Задължително"
 
-#: application/view/omeka/admin/resource-template/form.phtml:95
+#: application/view/omeka/admin/resource-template/form.phtml:96
+#: application/view/omeka/admin/resource-template/review-import.phtml:72
+#: application/view/omeka/admin/resource-template/show.phtml:32
+msgid "Default language"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:101
 #: application/view/omeka/admin/resource-template/review-import.phtml:67
 #: application/view/omeka/admin/resource-template/show.phtml:27
 msgid "Data types"
 msgstr "Типове данни"
 
-#: application/view/omeka/admin/resource-template/form.phtml:96
-#: application/view/omeka/admin/resource-template/review-import.phtml:98
+#: application/view/omeka/admin/resource-template/form.phtml:102
+#: application/view/omeka/admin/resource-template/review-import.phtml:99
 msgid "Select data types…"
 msgstr "Изберете типове данни ..."
 
-#: application/view/omeka/admin/resource-template/form.phtml:101
+#: application/view/omeka/admin/resource-template/form.phtml:107
 msgid "Set changes"
 msgstr "Задаване на промени"
 
@@ -2601,6 +2727,11 @@ msgstr "Описание на ресурса"
 msgid "Original label"
 msgstr "Оригинален етикет"
 
+#: application/view/omeka/admin/resource-template/review-import.phtml:68
+#: application/view/omeka/admin/resource-template/show.phtml:28
+msgid "Alternate label"
+msgstr "Алтернативен етикет"
+
 #: application/view/omeka/admin/resource-template/review-import.phtml:69
 #: application/view/omeka/admin/resource-template/show.phtml:29
 msgid "Alternate comment"
@@ -2616,27 +2747,11 @@ msgstr "Задължително?"
 msgid "Private?"
 msgstr "Частен?"
 
-#: application/view/omeka/admin/resource-template/review-import.phtml:111
-#: application/view/omeka/admin/resource-template/review-import.phtml:112
-#: application/view/omeka/admin/resource-template/show.phtml:57
-#: application/view/omeka/admin/resource-template/show.phtml:58
-#: application/view/omeka/admin/system-info/browse.phtml:18
-msgid "Yes"
-msgstr "Да"
-
-#: application/view/omeka/admin/resource-template/review-import.phtml:111
-#: application/view/omeka/admin/resource-template/review-import.phtml:112
-#: application/view/omeka/admin/resource-template/show.phtml:57
-#: application/view/omeka/admin/resource-template/show.phtml:58
-#: application/view/omeka/admin/system-info/browse.phtml:18
-msgid "No"
-msgstr "Не"
-
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:33
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:34
 msgid "Edit property"
 msgstr "Редакция на  свойство"
 
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:37
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:38
 msgid "Remove property"
 msgstr "Премахване на собствеността"
 
@@ -2652,12 +2767,20 @@ msgstr "Редактиране на ресурсен шаблон"
 msgid "Global settings"
 msgstr "Глобални настройки"
 
+#: application/view/omeka/admin/system-info/browse.phtml:31
+msgid "Get PHP CLI version"
+msgstr ""
+
+#: application/view/omeka/admin/system-info/browse.phtml:35
+msgid "Get ImageMagick version"
+msgstr ""
+
 #: application/view/omeka/admin/user/add.phtml:7
 msgid "New user"
 msgstr "Нов потребител"
 
 #: application/view/omeka/admin/user/add.phtml:7
-#: application/view/omeka/admin/user/browse.phtml:24
+#: application/view/omeka/admin/user/browse.phtml:10
 #: application/view/omeka/admin/user/edit.phtml:14
 #: application/view/omeka/admin/user/search.phtml:5
 #: application/view/omeka/admin/user/show.phtml:7
@@ -2682,25 +2805,21 @@ msgstr "Редактирате следните %s потребители:"
 msgid "You are editing %s users (except yourself)."
 msgstr "Редактирате %s потребители (с изключение на себе си)."
 
-#: application/view/omeka/admin/user/browse.phtml:36
+#: application/view/omeka/admin/user/browse.phtml:22
 #: application/view/omeka/site-admin/index/users.phtml:64
 msgid "Add new user"
 msgstr "Добавяне на нов потребител"
 
-#: application/view/omeka/admin/user/browse.phtml:95
-msgid "Inactive"
-msgstr "Неактивен"
-
-#: application/view/omeka/admin/user/browse.phtml:150
-#: application/view/omeka/admin/user/browse.phtml:168
+#: application/view/omeka/admin/user/browse.phtml:136
+#: application/view/omeka/admin/user/browse.phtml:154
 msgid "Delete users"
 msgstr "Изтриване на потребители"
 
-#: application/view/omeka/admin/user/browse.phtml:151
+#: application/view/omeka/admin/user/browse.phtml:137
 msgid "Are you sure you would like to delete the selected users?"
 msgstr "Сигурни ли сте, че искате да изтриете избраните потребители?"
 
-#: application/view/omeka/admin/user/browse.phtml:153
+#: application/view/omeka/admin/user/browse.phtml:139
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s users and cannot be undone."
@@ -2708,7 +2827,7 @@ msgstr ""
 "%1$s: това действие ще изтрие за постоянно %2$s потребителите и не може да "
 "бъде отменено."
 
-#: application/view/omeka/admin/user/browse.phtml:169
+#: application/view/omeka/admin/user/browse.phtml:155
 msgid ""
 "Are you sure you would like to delete all users (except yourself) on all "
 "pages of this result?"
@@ -2716,7 +2835,7 @@ msgstr ""
 "Наистина ли искате да изтриете всички потребители (с изключение на себе си) "
 "на всички страници на този резултат?"
 
-#: application/view/omeka/admin/user/browse.phtml:171
+#: application/view/omeka/admin/user/browse.phtml:157
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s users (except yourself) and "
@@ -2725,7 +2844,7 @@ msgstr ""
 "%1$s: това действие ще изтрие за постоянно %2$s потребителите (освен вас "
 "самите) и не може да бъде отменено."
 
-#: application/view/omeka/admin/user/browse.phtml:210
+#: application/view/omeka/admin/user/browse.phtml:196
 msgid "Omeka could not find any users."
 msgstr "Омека не може да намери никакви потребители."
 
@@ -2761,29 +2880,12 @@ msgstr "(неактивен)"
 msgid "Edit user"
 msgstr "Редактиране на потребител"
 
-#: application/view/omeka/admin/user/show.phtml:23
+#: application/view/omeka/admin/user/show.phtml:24
 msgid "Display name"
 msgstr "Име, което ще се показва"
 
-#: application/view/omeka/admin/vocabulary/browse.phtml:11
-#: application/view/omeka/admin/vocabulary/browse.phtml:45
-msgid "Prefix"
-msgstr "Представка"
-
-#: application/view/omeka/admin/vocabulary/browse.phtml:15
-#: application/view/omeka/admin/vocabulary/browse.phtml:46
-#: application/view/omeka/admin/vocabulary/classes.phtml:21
-msgid "Classes"
-msgstr "Класове"
-
-#: application/view/omeka/admin/vocabulary/browse.phtml:19
-#: application/view/omeka/admin/vocabulary/browse.phtml:47
-#: application/view/omeka/admin/vocabulary/properties.phtml:7
-msgid "Properties"
-msgstr "Свойства"
-
-#: application/view/omeka/admin/vocabulary/browse.phtml:25
-#: application/view/omeka/admin/vocabulary/classes.phtml:21
+#: application/view/omeka/admin/vocabulary/browse.phtml:7
+#: application/view/omeka/admin/vocabulary/classes.phtml:7
 #: application/view/omeka/admin/vocabulary/edit.phtml:7
 #: application/view/omeka/admin/vocabulary/import.phtml:7
 #: application/view/omeka/admin/vocabulary/properties.phtml:7
@@ -2791,22 +2893,36 @@ msgstr "Свойства"
 msgid "Vocabularies"
 msgstr "Речници"
 
-#: application/view/omeka/admin/vocabulary/browse.phtml:101
+#: application/view/omeka/admin/vocabulary/browse.phtml:27
+msgid "Prefix"
+msgstr "Представка"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:28
+#: application/view/omeka/admin/vocabulary/classes.phtml:7
+msgid "Classes"
+msgstr "Класове"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:29
+#: application/view/omeka/admin/vocabulary/properties.phtml:7
+msgid "Properties"
+msgstr "Свойства"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:83
 msgid "Omeka could not find any vocabularies."
 msgstr "Омека не може да намери никакви речници"
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:24
+#: application/view/omeka/admin/vocabulary/classes.phtml:10
 #: application/view/omeka/admin/vocabulary/properties.phtml:10
 msgid "Prefix:"
 msgstr "Представка:"
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:25
+#: application/view/omeka/admin/vocabulary/classes.phtml:11
 #: application/view/omeka/admin/vocabulary/properties.phtml:11
 #: application/view/omeka/admin/vocabulary/show-details.phtml:7
 msgid "Namespace URI:"
 msgstr "URI на пространството за име:"
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:75
+#: application/view/omeka/admin/vocabulary/classes.phtml:60
 msgid "This vocabulary has no classes."
 msgstr "Този речник няма класове"
 
@@ -2822,7 +2938,7 @@ msgstr ""
 msgid "New vocabulary"
 msgstr "Нов речник"
 
-#: application/view/omeka/admin/vocabulary/properties.phtml:58
+#: application/view/omeka/admin/vocabulary/properties.phtml:61
 msgid "This vocabulary has no properties."
 msgstr "Този речник няма зададени свойства."
 
@@ -2919,7 +3035,7 @@ msgstr "Нова страница"
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 #: application/view/omeka/site-admin/page/edit.phtml:11
-#: application/view/omeka/site-admin/page/index.phtml:33
+#: application/view/omeka/site-admin/page/index.phtml:9
 #: application/view/omeka/site/page/browse.phtml:5
 msgid "Pages"
 msgstr "Страници"
@@ -2930,7 +3046,8 @@ msgid "Info"
 msgstr "Информация"
 
 #: application/view/omeka/site-admin/index/add.phtml:8
-#: application/view/omeka/site-admin/index/show.phtml:28
+#: application/view/omeka/site-admin/index/show.phtml:29
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:21
 #: application/view/omeka/site-admin/index/theme-settings.phtml:6
 #: application/view/omeka/site-admin/index/theme.phtml:11
 msgid "Theme"
@@ -2945,22 +3062,14 @@ msgid "Settings"
 msgstr "Настройки"
 
 #: application/view/omeka/site-admin/index/index.phtml:11
-#: application/view/omeka/site-admin/index/index.phtml:40
-#: application/view/omeka/site-admin/index/show.phtml:20
-#: application/view/omeka/site-admin/page/index.phtml:19
-msgid "URL slug"
-msgstr "URL низ/slug"
-
-#: application/view/omeka/site-admin/index/index.phtml:25
 msgid "Add new site"
 msgstr "Добавяне на нов сайт"
 
-#: application/view/omeka/site-admin/index/index.phtml:109
+#: application/view/omeka/site-admin/index/index.phtml:79
 msgid "Omeka could not find any sites."
 msgstr "Омека не може да намери сайтове"
 
 #: application/view/omeka/site-admin/index/navigation.phtml:15
-#: application/view/omeka/site-admin/page/index.phtml:11
 msgid "Navigation"
 msgstr "Навигация"
 
@@ -2997,7 +3106,7 @@ msgstr "администратор на сайт"
 
 #: application/view/omeka/site-admin/index/resources.phtml:52
 msgid "Keep this query"
-msgstr ""
+msgstr "Остави тази заявка"
 
 #: application/view/omeka/site-admin/index/resources.phtml:73
 msgid "No item sets are assigned to this site."
@@ -3007,13 +3116,59 @@ msgstr "За този сайт няма зададени набори от ел�
 msgid "Back to site list"
 msgstr "Обратно към списъка със сайтове"
 
-#: application/view/omeka/site-admin/index/show.phtml:36
+#: application/view/omeka/site-admin/index/show.phtml:21
+msgid "URL slug"
+msgstr "URL низ/slug"
+
+#: application/view/omeka/site-admin/index/show.phtml:37
 msgid "Summary"
 msgstr "Резюме"
 
-#: application/view/omeka/site-admin/index/show.phtml:44
+#: application/view/omeka/site-admin/index/show.phtml:45
 msgid "Thumbnail"
 msgstr "Малко изображение"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:6
+msgid "Remove block"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:7
+msgid "Restore block"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:21
+#: application/view/omeka/site-admin/index/theme.phtml:47
+msgid "Configure resource pages"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:33
+msgid "Item page"
+msgstr "Страница на елемент"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:34
+msgid "Media page"
+msgstr "Страница на медиен елемент"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:35
+msgid "Item set page"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:42
+#, php-format
+msgid "Region: %s"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:53
+msgid "Select a region"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:60
+msgid "Add a block to selected region"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:66
+msgid "There are no available blocks."
+msgstr ""
 
 #: application/view/omeka/site-admin/index/theme-selector.phtml:26
 msgid "Invalid theme.ini file"
@@ -3023,6 +3178,10 @@ msgstr "Невалиден файл theme.ini"
 #, php-format
 msgid "This theme requires Omeka S %s"
 msgstr "Тази тема изисква Омека S %s"
+
+#: application/view/omeka/site-admin/index/theme-settings.phtml:6
+msgid "Edit settings"
+msgstr ""
 
 #: application/view/omeka/site-admin/index/theme-settings.phtml:17
 msgid "The current theme has no configuration options."
@@ -3036,26 +3195,26 @@ msgstr "Текуща тема"
 msgid "Edit theme settings"
 msgstr "Редактиране настройките на темата"
 
-#: application/view/omeka/site-admin/index/theme.phtml:51
+#: application/view/omeka/site-admin/index/theme.phtml:54
 #, php-format
 msgid "A new version of this theme is available. %s"
 msgstr "Достъпна е нова версия на тази тема. %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:61
+#: application/view/omeka/site-admin/index/theme.phtml:64
 msgid "Error: this theme is invalid."
 msgstr "Грешка: тази тема е невалидна."
 
-#: application/view/omeka/site-admin/index/theme.phtml:63
+#: application/view/omeka/site-admin/index/theme.phtml:66
 #, php-format
 msgid "ID: %s"
 msgstr "ID: %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:64
+#: application/view/omeka/site-admin/index/theme.phtml:67
 #, php-format
 msgid "Status: %s"
 msgstr "Статус: %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:66
+#: application/view/omeka/site-admin/index/theme.phtml:69
 msgid ""
 "Please contact the Omeka S administrator. This site will not be publicly "
 "available until the problem is resolved or you select another theme below."
@@ -3098,28 +3257,31 @@ msgstr "Промяна на елемента"
 msgid "No item selected."
 msgstr "Не е избран елемент."
 
-#: application/view/omeka/site-admin/page/edit.phtml:41
+#: application/view/omeka/site-admin/page/edit.phtml:37
+msgid "Expand all"
+msgstr ""
+
+#: application/view/omeka/site-admin/page/edit.phtml:38
+msgid "Collapse all"
+msgstr ""
+
+#: application/view/omeka/site-admin/page/edit.phtml:46
 msgid "Add new block"
 msgstr "Добавяне на нов блок"
 
-#: application/view/omeka/site-admin/page/index.phtml:27
-#: application/view/omeka/site-admin/page/index.phtml:50
-msgid "Modified"
-msgstr "Променен"
-
-#: application/view/omeka/site-admin/page/index.phtml:41
+#: application/view/omeka/site-admin/page/index.phtml:17
 msgid "Add new page"
 msgstr "Добавяне на нова страница"
 
-#: application/view/omeka/site-admin/page/index.phtml:49
+#: application/view/omeka/site-admin/page/index.phtml:25
 msgid "Slug"
 msgstr "Низ / Слъг"
 
-#: application/view/omeka/site-admin/page/index.phtml:74
+#: application/view/omeka/site-admin/page/index.phtml:50
 msgid "View public page"
 msgstr "Преглед на публичната страница"
 
-#: application/view/omeka/site-admin/page/index.phtml:86
+#: application/view/omeka/site-admin/page/index.phtml:62
 msgid "Delete page"
 msgstr "Изтриване на страница"
 
@@ -3131,11 +3293,15 @@ msgstr "Този сайт няма страници."
 msgid "Advanced item set Search"
 msgstr "Разширен набор от елементи Търсене"
 
-#: application/view/omeka/site/item/show.phtml:13
+#: application/view/omeka/site/item/browse.phtml:20
+msgid "Item set"
+msgstr "Набор елементи"
+
+#: application/view/omeka/site/item/show.phtml:9
 msgid "Item"
 msgstr "Елемент"
 
-#: application/view/omeka/site/media/show.phtml:11
+#: application/view/omeka/site/media/show.phtml:12
 #, php-format
 msgid "Part of %s"
 msgstr "Част от: %s"
@@ -3143,6 +3309,11 @@ msgstr "Част от: %s"
 #: application/view/omeka/site/page/browse.phtml:18
 msgid "No pages found"
 msgstr "Няма намерени страници"
+
+#: application/src/Stdlib/Browse.php:124
+#, php-format
+msgid "Custom (%s)"
+msgstr ""
 
 #: application/src/Stdlib/Cli.php:105 application/src/Stdlib/Cli.php:143
 #, php-format
@@ -3207,13 +3378,17 @@ msgstr "Ресурс"
 msgid "Invalid value resource %s for type %s"
 msgstr ""
 
+#: application/src/DataType/Resource/All.php:15
+msgid "All"
+msgstr "Всички"
+
 #: application/src/Site/BlockLayout/ItemShowcase.php:13
 msgid "Item showcase"
 msgstr "Витрина на артикули"
 
 #: application/src/Site/BlockLayout/ListOfPages.php:32
 msgid "List of pages"
-msgstr ""
+msgstr "Списък на страниците"
 
 #: application/src/Site/BlockLayout/PageTitle.php:13
 msgid "Page title"
@@ -3223,37 +3398,37 @@ msgstr "Заглавие на страница"
 msgid "Table of contents"
 msgstr "Съдържание"
 
-#: application/src/Site/BlockLayout/Asset.php:18
+#: application/src/Site/BlockLayout/Asset.php:17
 msgid "Asset"
-msgstr ""
+msgstr "Aктив"
+
+#: application/src/Site/BlockLayout/Asset.php:34
+#: application/src/Site/BlockLayout/Asset.php:40
+msgid "default"
+msgstr "по подразбиране"
 
 #: application/src/Site/BlockLayout/Asset.php:35
-#: application/src/Site/BlockLayout/Asset.php:41
-msgid "default"
-msgstr ""
+msgid "float left"
+msgstr "подравни вляво"
 
 #: application/src/Site/BlockLayout/Asset.php:36
-msgid "float left"
-msgstr ""
+msgid "float right"
+msgstr "подравни вдясно"
 
 #: application/src/Site/BlockLayout/Asset.php:37
-msgid "float right"
-msgstr ""
-
-#: application/src/Site/BlockLayout/Asset.php:38
-#: application/src/Site/BlockLayout/Asset.php:44
+#: application/src/Site/BlockLayout/Asset.php:43
 msgid "center"
-msgstr ""
+msgstr "център"
+
+#: application/src/Site/BlockLayout/Asset.php:41
+msgid "left"
+msgstr "ляво"
 
 #: application/src/Site/BlockLayout/Asset.php:42
-msgid "left"
-msgstr ""
-
-#: application/src/Site/BlockLayout/Asset.php:43
 msgid "right"
-msgstr ""
+msgstr "дясно"
 
-#: application/src/Site/BlockLayout/Asset.php:49
+#: application/src/Site/BlockLayout/Asset.php:48
 #: application/src/Site/BlockLayout/Media.php:61
 msgid "Alignment"
 msgstr "Подчертаване"
@@ -3280,7 +3455,7 @@ msgstr "Максимален брой ресурси за показване в 
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:80
 msgid "Components"
-msgstr ""
+msgstr "Компоненти"
 
 #: application/src/Site/BlockLayout/BrowsePreview.php:81
 msgid ""
@@ -3317,8 +3492,8 @@ msgid "Item with metadata"
 msgstr "Eлемент с метаданни"
 
 #: application/src/Site/BlockLayout/Media.php:14
-msgid "Media Embed"
-msgstr "Вграждане на медия"
+msgid "Media embed"
+msgstr ""
 
 #: application/src/Site/BlockLayout/LineBreak.php:14
 msgid "Line break"
@@ -3331,6 +3506,53 @@ msgstr "Трансперантен"
 #: application/src/Site/BlockLayout/LineBreak.php:35
 msgid "Opaque"
 msgstr "Непрозрачно"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:20
+msgid "Page date/time"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:30
+msgid "Display date/time"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:32
+msgid "Created & modified"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:42
+msgid "Date format"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:44
+#: application/src/Site/BlockLayout/PageDateTime.php:58
+#: application/src/Form/SettingForm.php:180
+#: application/src/Form/SiteSettingsForm.php:91
+msgid "None"
+msgstr "Нито един"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:45
+#: application/src/Site/BlockLayout/PageDateTime.php:59
+msgid "Short"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:46
+#: application/src/Site/BlockLayout/PageDateTime.php:60
+msgid "Medium"
+msgstr "Среда, медия, носител"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:47
+#: application/src/Site/BlockLayout/PageDateTime.php:61
+msgid "Long"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:48
+#: application/src/Site/BlockLayout/PageDateTime.php:62
+msgid "Full"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:56
+msgid "Time format"
+msgstr ""
 
 #: application/src/Site/BlockLayout/ListOfSites.php:24
 msgid "List of sites"
@@ -3391,15 +3613,36 @@ msgid "Optional CSS class for styling HTML."
 msgstr ""
 
 #: application/src/Site/BlockLayout/Fallback.php:28
+#: application/src/Site/ResourcePageBlockLayout/Fallback.php:18
 #, php-format
 msgid "Unknown [%s]"
 msgstr "Непознато [%s]"
+
+#: application/src/Site/ResourcePageBlockLayout/MediaRender.php:11
+msgid "Media render"
+msgstr ""
+
+#: application/src/Site/ResourcePageBlockLayout/MediaList.php:11
+msgid "Media list"
+msgstr ""
+
+#: application/src/Site/ResourcePageBlockLayout/Manager.php:210
+msgid "Main"
+msgstr ""
+
+#: application/src/Site/ResourcePageBlockLayout/LightboxGallery.php:13
+msgid "Lightbox gallery"
+msgstr ""
+
+#: application/src/Site/ResourcePageBlockLayout/MediaEmbeds.php:11
+msgid "Media embeds"
+msgstr ""
 
 #: application/src/Site/Navigation/Link/Url.php:11
 msgid "Custom URL"
 msgstr "Персонализиран URL"
 
-#: application/src/Site/Navigation/Link/BrowseItemSets.php:11
+#: application/src/Site/Navigation/Link/BrowseItemSets.php:20
 msgid "Browse item sets"
 msgstr "Преглед на набори елементи"
 
@@ -3461,7 +3704,7 @@ msgstr ""
 "Грешка при потвърждаването на „%1$s“. Не могат да се съхраняват файлове с "
 "разрешено разширение \"%2$s\"."
 
-#: application/src/Mvc/MvcListeners.php:326
+#: application/src/Mvc/MvcListeners.php:327
 #, php-format
 msgid "The current theme is not active. Its current state is \"%s\"."
 msgstr "Текущата тема не е активна. Настоящото ѝ състояние е \"%s\"."
@@ -3490,11 +3733,46 @@ msgstr "Автор"
 msgid "Researcher"
 msgstr "Изследовател"
 
-#: application/src/Api/Adapter/ItemAdapter.php:108
+#: application/src/ColumnType/IsPublic.php:11
+msgid "Is public"
+msgstr ""
+
+#: application/src/ColumnType/Value.php:25
+msgid "Value"
+msgstr ""
+
+#: application/src/ColumnType/Value.php:56
+msgid "Max values"
+msgstr ""
+
+#: application/src/ColumnType/Value.php:57
+msgid ""
+"Enter the maximum number of values to display. Set to blank to display all "
+"values."
+msgstr ""
+
+#: application/src/ColumnType/IsOpen.php:11
+msgid "Is open"
+msgstr ""
+
+#: application/src/ColumnType/ResourceTemplate.php:11
+#: application/src/Form/ResourceForm.php:34
+msgid "Resource template"
+msgstr "Шаблон за ресурс"
+
+#: application/src/ColumnType/Unknown.php:22
+msgid "[Unknown]"
+msgstr ""
+
+#: application/src/ColumnType/Unknown.php:40
+msgid "Unknown column data"
+msgstr ""
+
+#: application/src/Api/Adapter/ItemAdapter.php:152
 msgid "Item sets must be an array"
 msgstr "Наборите елементи трябва да са масив"
 
-#: application/src/Api/Adapter/ItemAdapter.php:114
+#: application/src/Api/Adapter/ItemAdapter.php:158
 msgid "Media must be an array"
 msgstr "Медията трябва да бъде масив"
 
@@ -3504,8 +3782,8 @@ msgid "Attempting to add duplicate property with ID %s"
 msgstr "Опит за добавяне на дублирано свойство с ID %s"
 
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:89
-#: application/src/Api/Adapter/PropertyAdapter.php:158
-#: application/src/Api/Adapter/ResourceClassAdapter.php:149
+#: application/src/Api/Adapter/PropertyAdapter.php:178
+#: application/src/Api/Adapter/ResourceClassAdapter.php:170
 #: application/src/Api/Adapter/VocabularyAdapter.php:214
 msgid "The label cannot be empty."
 msgstr "Етикетът име не може да е празен."
@@ -3514,15 +3792,15 @@ msgstr "Етикетът име не може да е празен."
 msgid "The label is already taken."
 msgstr "Този етикет е вече зает."
 
-#: application/src/Api/Adapter/MediaAdapter.php:94
+#: application/src/Api/Adapter/MediaAdapter.php:113
 msgid "Media must set an ingester."
 msgstr "Медията трябва да задава инджестър"
 
-#: application/src/Api/Adapter/MediaAdapter.php:116
+#: application/src/Api/Adapter/MediaAdapter.php:135
 msgid "Media must set a valid ingester."
 msgstr "Медията трябва да задава валиден инджестър"
 
-#: application/src/Api/Adapter/MediaAdapter.php:160
+#: application/src/Api/Adapter/MediaAdapter.php:179
 msgid "Media must belong to an item."
 msgstr "Медията трябва да принадлежи на елемент."
 
@@ -3544,25 +3822,25 @@ msgstr "Потребителите трябва да имат роля."
 msgid "The current user #%d was removed from the batch process."
 msgstr "Текущият потребител #%d беше премахнат от груповия процес."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:153
-#: application/src/Api/Adapter/ResourceClassAdapter.php:144
+#: application/src/Api/Adapter/PropertyAdapter.php:173
+#: application/src/Api/Adapter/ResourceClassAdapter.php:165
 msgid "The local name cannot be empty."
 msgstr "Локалното име не може да е празно."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:171
-#: application/src/Api/Adapter/ResourceClassAdapter.php:162
+#: application/src/Api/Adapter/PropertyAdapter.php:191
+#: application/src/Api/Adapter/ResourceClassAdapter.php:183
 #: application/src/Api/Adapter/VocabularyAdapter.php:222
 #: application/src/Api/Adapter/VocabularyAdapter.php:235
 #, php-format
 msgid "The local name \"%s\" is already taken."
 msgstr "Локалното име \"%s\" вече е взето."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:177
-#: application/src/Api/Adapter/ResourceClassAdapter.php:168
+#: application/src/Api/Adapter/PropertyAdapter.php:197
+#: application/src/Api/Adapter/ResourceClassAdapter.php:189
 msgid "A vocabulary must be set."
 msgstr "Трябва да се зададе речник"
 
-#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:177
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:209
 #, php-format
 msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
 msgstr "Шаблонът на ресурса %1$s изисква \"%2$s\" стойност"
@@ -3576,18 +3854,18 @@ msgid "A page must have a title."
 msgstr "Страницата трябва да има заглавие."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:154
-#: application/src/Api/Adapter/SiteAdapter.php:240
+#: application/src/Api/Adapter/SiteAdapter.php:248
 msgid "The slug cannot be empty."
 msgstr "Низът за слъг не може да е празен."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:157
-#: application/src/Api/Adapter/SiteAdapter.php:243
+#: application/src/Api/Adapter/SiteAdapter.php:251
 msgid "A slug can only contain letters, numbers, underscores, and hyphens."
 msgstr ""
 "Низът за слъг може да съдържа само букви, цифри, долни черти и тирета."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:165
-#: application/src/Api/Adapter/SiteAdapter.php:247
+#: application/src/Api/Adapter/SiteAdapter.php:255
 #, php-format
 msgid "The slug \"%s\" is already taken."
 msgstr "Низът за слъг \"%s\" е вече зает."
@@ -3600,43 +3878,43 @@ msgstr "Всички блокове трябва да имат оформлен�
 msgid "Block data must not be a scalar value."
 msgstr "Данните в блока не трябва да са скаларна стойност."
 
-#: application/src/Api/Adapter/SiteAdapter.php:236
+#: application/src/Api/Adapter/SiteAdapter.php:244
 msgid "A site must have a title."
 msgstr "Сайтът трябва да има заглавие."
 
-#: application/src/Api/Adapter/SiteAdapter.php:253
+#: application/src/Api/Adapter/SiteAdapter.php:261
 msgid "A site must have a theme."
 msgstr "Сайтът трябва да има тема."
 
-#: application/src/Api/Adapter/SiteAdapter.php:258
+#: application/src/Api/Adapter/SiteAdapter.php:266
 msgid "A site must have item pool data."
 msgstr "Сайтът трябва да съдържа данни за пула от елементи."
 
-#: application/src/Api/Adapter/SiteAdapter.php:263
+#: application/src/Api/Adapter/SiteAdapter.php:271
 msgid "A homepage must belong to its parent site."
 msgstr "Началната страница трябва да принадлежи на нейния родителски сайт."
 
-#: application/src/Api/Adapter/SiteAdapter.php:336
+#: application/src/Api/Adapter/SiteAdapter.php:344
 msgid "Invalid navigation: navigation must be an array"
 msgstr "Невалидна навигация: навигацията трябва да е масив"
 
-#: application/src/Api/Adapter/SiteAdapter.php:345
+#: application/src/Api/Adapter/SiteAdapter.php:353
 msgid "Invalid navigation: link missing type"
 msgstr "Невалидна навигация: липсва тип на връзката"
 
-#: application/src/Api/Adapter/SiteAdapter.php:349
+#: application/src/Api/Adapter/SiteAdapter.php:357
 msgid "Invalid navigation: link missing data"
 msgstr "Невалидна навигация: липсват данни на връзката"
 
-#: application/src/Api/Adapter/SiteAdapter.php:353
+#: application/src/Api/Adapter/SiteAdapter.php:361
 msgid "Invalid navigation: invalid link data"
 msgstr "Невалидна навигация: невалидни данни на връзката"
 
-#: application/src/Api/Adapter/SiteAdapter.php:358
+#: application/src/Api/Adapter/SiteAdapter.php:366
 msgid "Invalid navigation: page links must be unique"
 msgstr "Невалидна навигация: връзките на страниците трябва да са уникални"
 
-#: application/src/Api/Adapter/SiteAdapter.php:365
+#: application/src/Api/Adapter/SiteAdapter.php:373
 msgid "Invalid navigation: links must be an array"
 msgstr "Невалидна навигация: връзките трябва да са масив"
 
@@ -3715,6 +3993,18 @@ msgstr "спряна"
 msgid "error"
 msgstr "грешка"
 
+#: application/src/Media/Ingester/IiifPresentation.php:27
+msgid "IIIF presentation"
+msgstr ""
+
+#: application/src/Media/Ingester/IiifPresentation.php:39
+msgid "IIIF presentation URL"
+msgstr ""
+
+#: application/src/Media/Ingester/IiifPresentation.php:40
+msgid "Enter the URL to a IIIF collection or manifest."
+msgstr ""
+
 #: application/src/Media/Ingester/IIIF.php:33
 msgid "IIIF image"
 msgstr "IIIF изображение"
@@ -3724,8 +4014,9 @@ msgid "IIIF image URL"
 msgstr "URL на IIIF изображение "
 
 #: application/src/Media/Ingester/IIIF.php:108
-msgid "URL for the image to embed."
-msgstr "URL за изображението за вграждане."
+msgid ""
+"Enter the URL to a IIIF image information file (ending with /info.json)."
+msgstr ""
 
 #: application/src/Media/Ingester/Upload.php:69
 msgid "Upload file"
@@ -3787,27 +4078,31 @@ msgstr "oВграждане URL"
 msgid "URL for the media to embed."
 msgstr "URL до медията за вграждане."
 
-#: application/src/Form/SettingForm.php:111
-#: application/src/Form/SiteSettingsForm.php:28
+#: application/src/Form/SettingForm.php:106
+#: application/src/Form/SiteSettingsForm.php:31
 msgid "General"
 msgstr "Общи"
 
-#: application/src/Form/SettingForm.php:120
+#: application/src/Form/SettingForm.php:107
+msgid "Security"
+msgstr "Сигурност"
+
+#: application/src/Form/SettingForm.php:117
 msgid "Administrator email"
 msgstr "Имейл на администратор"
 
-#: application/src/Form/SettingForm.php:133
+#: application/src/Form/SettingForm.php:131
 #: application/src/Form/InstallationForm.php:80
 msgid "Installation title"
 msgstr "Заглавие на инсталацията"
 
-#: application/src/Form/SettingForm.php:148
+#: application/src/Form/SettingForm.php:147
 #: application/src/Form/InstallationForm.php:98
 msgid "Time zone"
 msgstr "Времева зона"
 
 #: application/src/Form/SettingForm.php:162
-#: application/src/Form/SiteSettingsForm.php:187
+#: application/src/Form/SiteSettingsForm.php:194
 msgid "Results per page"
 msgstr "Брой резултати на страница"
 
@@ -3815,33 +4110,33 @@ msgstr "Брой резултати на страница"
 msgid "The maximum number of results per page on browse pages."
 msgstr "Максималният брой резултати на страница на страниците за сърфиране."
 
-#: application/src/Form/SettingForm.php:176
+#: application/src/Form/SettingForm.php:177
+#: application/src/Form/SiteSettingsForm.php:88
 msgid "Property label information"
 msgstr "Информация за етикет на свойство"
 
-#: application/src/Form/SettingForm.php:177
+#: application/src/Form/SettingForm.php:178
+#: application/src/Form/SiteSettingsForm.php:89
 msgid "The additional information that accompanies labels on resource pages."
 msgstr ""
 "Допълнителната информация, която придружава етикетите на ресурсните "
 "страници."
 
-#: application/src/Form/SettingForm.php:179
-msgid "None"
-msgstr "Нито един"
-
-#: application/src/Form/SettingForm.php:180
+#: application/src/Form/SettingForm.php:181
+#: application/src/Form/SiteSettingsForm.php:92
 msgid "Show Vocabulary"
 msgstr "Показване на речник"
 
-#: application/src/Form/SettingForm.php:181
+#: application/src/Form/SettingForm.php:182
+#: application/src/Form/SiteSettingsForm.php:93
 msgid "Show Term"
 msgstr "Показване на термин"
 
-#: application/src/Form/SettingForm.php:194
+#: application/src/Form/SettingForm.php:196
 msgid "Default site"
 msgstr "Сайт по подразбиране"
 
-#: application/src/Form/SettingForm.php:195
+#: application/src/Form/SettingForm.php:197
 msgid ""
 "Select which site should appear when users go to the front page of the "
 "installation."
@@ -3849,27 +4144,27 @@ msgstr ""
 "Изберете кой сайт да се показва, когато потребителите отиват на първата "
 "страница на инсталацията."
 
-#: application/src/Form/SettingForm.php:200
+#: application/src/Form/SettingForm.php:202
 msgid "No default (show index of sites)"
 msgstr "Няма по подразбиране (показване индекса на сайтове)"
 
-#: application/src/Form/SettingForm.php:211
-#: application/src/Form/SiteSettingsForm.php:127
-#: application/src/Form/UserForm.php:132
+#: application/src/Form/SettingForm.php:214
+#: application/src/Form/SiteSettingsForm.php:138
+#: application/src/Form/UserForm.php:141
 #: application/src/Form/InstallationForm.php:112
 msgid "Locale"
 msgstr "Езикова настройка"
 
-#: application/src/Form/SettingForm.php:212
-#: application/src/Form/UserForm.php:133
+#: application/src/Form/SettingForm.php:215
+#: application/src/Form/UserForm.php:142
 msgid "Global locale/language code for all interfaces."
 msgstr "Глобален локал / езиков код за всички интерфейси."
 
-#: application/src/Form/SettingForm.php:225
+#: application/src/Form/SettingForm.php:229
 msgid "Enable version notifications"
 msgstr "Активиране на известията за версията"
 
-#: application/src/Form/SettingForm.php:226
+#: application/src/Form/SettingForm.php:230
 msgid ""
 "Enable notifications when a new version of Omeka S, modules, or themes are "
 "available."
@@ -3877,13 +4172,13 @@ msgstr ""
 "Активирайте известията, когато са налични нова версия на Omeka S, модули или"
 " теми."
 
-#: application/src/Form/SettingForm.php:238
-#: application/src/Form/SiteSettingsForm.php:104
+#: application/src/Form/SettingForm.php:243
+#: application/src/Form/SiteSettingsForm.php:122
 msgid "Disable JSON-LD embed"
 msgstr "Деактивирайте вграждането на JSON-LD"
 
-#: application/src/Form/SettingForm.php:239
-#: application/src/Form/SiteSettingsForm.php:105
+#: application/src/Form/SettingForm.php:244
+#: application/src/Form/SiteSettingsForm.php:123
 msgid ""
 "By default, Omeka embeds JSON-LD in resource browse and show pages for the "
 "purpose of machine-readable metadata discovery. Check this to disable "
@@ -3893,11 +4188,11 @@ msgstr ""
 " цел машинно четимо откриване на метаданни. Включете тук, за да деактивирате"
 " вграждането."
 
-#: application/src/Form/SettingForm.php:251
+#: application/src/Form/SettingForm.php:257
 msgid "Default content visibility to Private"
 msgstr "По подразбиране видимостта на съдържанието е частна."
 
-#: application/src/Form/SettingForm.php:252
+#: application/src/Form/SettingForm.php:258
 msgid ""
 "If checked, all items, item sets and sites newly created will have their "
 "visibility set to private by default."
@@ -3905,11 +4200,11 @@ msgstr ""
 "Ако е отметнато, всички елементи, набори от елементи и новосъздадени сайтове"
 " ще имат по подразбиране видимост, зададена  като частна."
 
-#: application/src/Form/SettingForm.php:264
+#: application/src/Form/SettingForm.php:271
 msgid "Suggested languages for values"
 msgstr "Предлагани езици за стойности"
 
-#: application/src/Form/SettingForm.php:265
+#: application/src/Form/SettingForm.php:272
 msgid ""
 "List of languages to facilitate filling of the values in the resource form. "
 "List them one by line. The label displayed for a language may be appended "
@@ -3919,80 +4214,72 @@ msgstr ""
 "на ресурса. Избройте ги по един на ред. Етикетът, показан за език, може да "
 "бъде добавен със \"=\"."
 
-#: application/src/Form/SettingForm.php:278
+#: application/src/Form/SettingForm.php:286
 msgid "Media alt text property"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:279
+#: application/src/Form/SettingForm.php:287
 msgid "Media property to use as alt text if no alt text is explicitly set."
 msgstr ""
 
-#: application/src/Form/SettingForm.php:280
+#: application/src/Form/SettingForm.php:288
 msgid "[None]"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:294
+#: application/src/Form/SettingForm.php:303
 msgid "Index full-text search"
 msgstr "Индексиране на пълнотекстово търсене"
 
-#: application/src/Form/SettingForm.php:308
-msgid "Security"
-msgstr "Сигурност"
-
-#: application/src/Form/SettingForm.php:317
+#: application/src/Form/SettingForm.php:318
 msgid "Use HTMLPurifier"
 msgstr "Използвайте HTMLPurifier"
 
-#: application/src/Form/SettingForm.php:318
+#: application/src/Form/SettingForm.php:319
 msgid "Clean up user-entered HTML."
 msgstr "Почистване на въведения от потребителя HTML."
 
-#: application/src/Form/SettingForm.php:330
+#: application/src/Form/SettingForm.php:332
 msgid "Disable file validation"
 msgstr "Деактивиране на валидация на файла"
 
-#: application/src/Form/SettingForm.php:331
+#: application/src/Form/SettingForm.php:333
 msgid "Check this to disable file media type and extension validation."
 msgstr ""
 "Отбележете тук, за да деактивирате проверката на типа и разширението на "
 "медия."
 
-#: application/src/Form/SettingForm.php:340
+#: application/src/Form/SettingForm.php:342
 msgid "Allowed media types"
 msgstr "Позволени типове медия"
 
-#: application/src/Form/SettingForm.php:341
+#: application/src/Form/SettingForm.php:343
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr ""
 "Списък с разделени със запетая разрешени типове медия за качване на файлове."
 
-#: application/src/Form/SettingForm.php:353
+#: application/src/Form/SettingForm.php:356
 msgid "Allowed file extensions"
 msgstr "Разрешени файлови разширения"
 
-#: application/src/Form/SettingForm.php:354
+#: application/src/Form/SettingForm.php:357
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr ""
 "Списък на разделени със запетая файлови разширения на  разрешени за качване "
 "файлове."
 
-#: application/src/Form/SettingForm.php:368
+#: application/src/Form/SettingForm.php:373
 msgid "reCAPTCHA site key"
 msgstr "ключ на сайта reCAPTCHA"
 
-#: application/src/Form/SettingForm.php:379
+#: application/src/Form/SettingForm.php:385
 msgid "reCAPTCHA secret key"
 msgstr "таен ключ reCAPTCHA"
 
 #: application/src/Form/ResourceForm.php:30
 #: application/src/Form/ResourceBatchUpdateForm.php:70
-#: application/src/Form/UserForm.php:147
+#: application/src/Form/UserForm.php:156
 msgid "Select a template"
 msgstr "Избор на шаблон"
-
-#: application/src/Form/ResourceForm.php:34
-msgid "Resource template"
-msgstr "Шаблон за ресурс"
 
 #: application/src/Form/ResourceForm.php:35
 msgid "A pre-defined template for resource creation."
@@ -4207,6 +4494,7 @@ msgstr "[Изключване на клас]"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:111
 #: application/src/Form/ResourceBatchUpdateForm.php:125
+#: application/src/Form/UserForm.php:179
 msgid "Select item sets"
 msgstr "Избор на набори от елементи"
 
@@ -4220,7 +4508,7 @@ msgstr "Премахване от наборите от елементи"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:139
 #: application/src/Form/ResourceBatchUpdateForm.php:153
-#: application/src/Form/UserForm.php:170
+#: application/src/Form/UserForm.php:195
 msgid "Select sites"
 msgstr "Избор на сайтове"
 
@@ -4261,15 +4549,15 @@ msgstr "Ъпгрейд"
 msgid "Invalid or missing CSRF token"
 msgstr "Невалиден или липсващ CSRF токън"
 
-#: application/src/Form/Element/PasswordConfirm.php:68
+#: application/src/Form/Element/PasswordConfirm.php:73
 msgid "Confirm password"
 msgstr "Потвърждаване на парола"
 
-#: application/src/Form/Element/PasswordConfirm.php:87
+#: application/src/Form/Element/PasswordConfirm.php:92
 msgid "The password is invalid"
 msgstr "Паролата не е валидна"
 
-#: application/src/Form/Element/PasswordConfirm.php:102
+#: application/src/Form/Element/PasswordConfirm.php:107
 msgid "The passwords did not match"
 msgstr "Паролите не съвпадат"
 
@@ -4289,11 +4577,15 @@ msgstr "три- или шестцифрен шестнадесетичен цв�
 msgid "Invalid color format"
 msgstr "Невалиден цветен формат"
 
-#: application/src/Form/SiteSettingsForm.php:38
+#: application/src/Form/SiteSettingsForm.php:34
+msgid "Show"
+msgstr "Показване"
+
+#: application/src/Form/SiteSettingsForm.php:45
 msgid "Auto-assign new items"
 msgstr "Автоматично задаване на нови елементи"
 
-#: application/src/Form/SiteSettingsForm.php:39
+#: application/src/Form/SiteSettingsForm.php:46
 msgid ""
 "Select this if you want new items to be automatically assigned to this site."
 " Note that item owners may unassign their items at any time."
@@ -4302,54 +4594,42 @@ msgstr ""
 "сайт. Имайте предвид, че собствениците на елементи могат по всяко време да "
 "променят това за своите елементи."
 
-#: application/src/Form/SiteSettingsForm.php:50
+#: application/src/Form/SiteSettingsForm.php:58
 msgid "Attachment link type"
 msgstr "Тип връзка към прикачения файл"
 
-#: application/src/Form/SiteSettingsForm.php:52
-msgid "Item page"
-msgstr "Страница на елемент"
-
-#: application/src/Form/SiteSettingsForm.php:53
-msgid "Media page"
-msgstr "Страница на медиен елемент"
-
-#: application/src/Form/SiteSettingsForm.php:54
+#: application/src/Form/SiteSettingsForm.php:62
 msgid "Direct link to file"
 msgstr "Директна връзка към файл"
 
-#: application/src/Form/SiteSettingsForm.php:66
-msgid "Embed media on item pages"
-msgstr "Вмъкване на медия в страниците на елементите"
-
-#: application/src/Form/SiteSettingsForm.php:77
+#: application/src/Form/SiteSettingsForm.php:75
 msgid "Show page pagination"
 msgstr "Показване на странирането на страницата"
 
-#: application/src/Form/SiteSettingsForm.php:78
+#: application/src/Form/SiteSettingsForm.php:76
 msgid ""
 "Show pagination that helps users follow a linear narrative through a site."
 msgstr ""
 "Показване на страниране, което помага на потребителите да следват линеен "
 "наратив през даден сайт."
 
-#: application/src/Form/SiteSettingsForm.php:89
+#: application/src/Form/SiteSettingsForm.php:106
 msgid "Show user bar on public views"
 msgstr "Показване на потребителската лента на публични изгледи"
 
-#: application/src/Form/SiteSettingsForm.php:91
+#: application/src/Form/SiteSettingsForm.php:108
 msgid "Never"
 msgstr "Никога"
 
-#: application/src/Form/SiteSettingsForm.php:92
+#: application/src/Form/SiteSettingsForm.php:109
 msgid "When logged in"
 msgstr "Когато сте влезли в акаунта си"
 
-#: application/src/Form/SiteSettingsForm.php:93
+#: application/src/Form/SiteSettingsForm.php:110
 msgid "Always"
 msgstr "Винаги"
 
-#: application/src/Form/SiteSettingsForm.php:128
+#: application/src/Form/SiteSettingsForm.php:139
 msgid ""
 "Locale/language code for this site. Leave blank to use the global locale "
 "setting."
@@ -4357,29 +4637,29 @@ msgstr ""
 "Езиков код / език за този сайт. Оставете празно, за да използвате глобалната"
 " езикова настройка."
 
-#: application/src/Form/SiteSettingsForm.php:141
+#: application/src/Form/SiteSettingsForm.php:153
 msgid "Filter values based on site locale"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:142
+#: application/src/Form/SiteSettingsForm.php:154
 msgid ""
 "Show only values matching the site language setting and values without "
 "locale ID."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:154
+#: application/src/Form/SiteSettingsForm.php:167
 msgid "Show language labels for values"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:155
+#: application/src/Form/SiteSettingsForm.php:168
 msgid "Show a label indicating the language of each value on show pages."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:176
+#: application/src/Form/SiteSettingsForm.php:182
 msgid "Restrict browse to attached items"
 msgstr "Ограничаване на прегледа до прикачените елементи"
 
-#: application/src/Form/SiteSettingsForm.php:188
+#: application/src/Form/SiteSettingsForm.php:195
 msgid ""
 "The maximum number of results per page on browse pages. Leave blank to use "
 "the global setting."
@@ -4387,15 +4667,15 @@ msgstr ""
 "Максимален брой резултати на страница в страниците за преглед. Оставете "
 "празно, за да използвате глобалната настройка."
 
-#: application/src/Form/SiteSettingsForm.php:194
+#: application/src/Form/SiteSettingsForm.php:201
 msgid "Use global setting"
 msgstr "Използване на глобална настройка"
 
-#: application/src/Form/SiteSettingsForm.php:202
+#: application/src/Form/SiteSettingsForm.php:210
 msgid "Browse heading property"
 msgstr "Свойство Заглавие за преглед"
 
-#: application/src/Form/SiteSettingsForm.php:203
+#: application/src/Form/SiteSettingsForm.php:211
 msgid ""
 "Use this property for the heading of each resource on a browse page. Keep "
 "unselected to use the default title property of each resource."
@@ -4404,16 +4684,16 @@ msgstr ""
 "преглед. Не избирайте, за да използвате свойството за заглавие по "
 "подразбиране за всеки ресурс."
 
-#: application/src/Form/SiteSettingsForm.php:211
-#: application/src/Form/SiteSettingsForm.php:228
+#: application/src/Form/SiteSettingsForm.php:219
+#: application/src/Form/SiteSettingsForm.php:237
 msgid "Select a property"
 msgstr "Избор на свойство"
 
-#: application/src/Form/SiteSettingsForm.php:219
+#: application/src/Form/SiteSettingsForm.php:228
 msgid "Browse body property"
 msgstr "Преглед по свойство"
 
-#: application/src/Form/SiteSettingsForm.php:220
+#: application/src/Form/SiteSettingsForm.php:229
 msgid ""
 "Use this property for the body of each resource on a browse page. Keep "
 "unselected to use the default description property of each resource."
@@ -4422,50 +4702,63 @@ msgstr ""
 "сърфиране. Не избирайте, за да използвате свойството по подразбиране за "
 "описание на всеки ресурс."
 
-#: application/src/Form/SiteSettingsForm.php:237
-msgid "Show"
-msgstr "Показване"
-
 #: application/src/Form/SiteSettingsForm.php:245
+#: application/src/Form/UserForm.php:253
+msgid "Item browse defaults"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:260
 msgid "Show attached pages"
 msgstr "Показване на прикачени страници"
 
-#: application/src/Form/SiteSettingsForm.php:246
+#: application/src/Form/SiteSettingsForm.php:261
 msgid ""
 "Show site pages to which an item is attached on the public item show page."
 msgstr ""
 "Показване на страниците на сайта, към които е прикачен елемент на публичната"
 " страница за показване на елементи."
 
-#: application/src/Form/SiteSettingsForm.php:257
+#: application/src/Form/SiteSettingsForm.php:273
 msgid "Show value annotations"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:258
+#: application/src/Form/SiteSettingsForm.php:274
 msgid "Show annotations that are set to a value, if any."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:280
+#: application/src/Form/SiteSettingsForm.php:286
+msgid "Exclude resources not in site"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:287
+msgid "Exclude resources that are not assigned to this site."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:299
+msgid "Embed media on item pages (legacy)"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:313
 msgid "Search type"
 msgstr "Тип търсене"
 
-#: application/src/Form/SiteSettingsForm.php:281
+#: application/src/Form/SiteSettingsForm.php:314
 msgid "Select the type of search the main search field will perform"
 msgstr "Изберете вида търсене, което ще изпълнява основното поле за търсене"
 
-#: application/src/Form/SiteSettingsForm.php:283
+#: application/src/Form/SiteSettingsForm.php:316
 msgid "This site"
 msgstr "Този сайт"
 
-#: application/src/Form/SiteSettingsForm.php:284
+#: application/src/Form/SiteSettingsForm.php:317
 msgid "All sites"
 msgstr "Всички сайтове"
 
-#: application/src/Form/SiteSettingsForm.php:301
+#: application/src/Form/SiteSettingsForm.php:336
 msgid "Search resources"
 msgstr "Търсене на ресурси"
 
-#: application/src/Form/SiteSettingsForm.php:302
+#: application/src/Form/SiteSettingsForm.php:337
 msgid ""
 "Customize which types of resources will be searchable in the main search "
 "field."
@@ -4473,30 +4766,50 @@ msgstr ""
 "Задаване на видове ресурси, които ще могат да се търсят в главното поле за "
 "търсене."
 
-#: application/src/Form/SiteSettingsForm.php:315
+#: application/src/Form/SiteSettingsForm.php:352
+msgid "Advanced search vocabulary members"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:353
+msgid "Limit the search options for property and class"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:354
+msgid "All vocabulary members"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:356
+msgid "Used by resources in this site"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:357
+msgid "Used by any resource in the installation"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:371
 msgid "Templates"
 msgstr "Шаблони"
 
-#: application/src/Form/SiteSettingsForm.php:316
+#: application/src/Form/SiteSettingsForm.php:372
 msgid "Select which templates to apply to the advanced search form."
 msgstr ""
 "Избор на шаблони, които да бъдат приложени към формата за разширено търсене."
 
-#: application/src/Form/SiteSettingsForm.php:321
+#: application/src/Form/SiteSettingsForm.php:377
 msgid "Select templates"
 msgstr "Избор на шаблони"
 
-#: application/src/Form/SiteSettingsForm.php:329
+#: application/src/Form/SiteSettingsForm.php:386
 msgid "Restrict to templates"
 msgstr "Ограничаване до шаблони"
 
-#: application/src/Form/SiteSettingsForm.php:330
+#: application/src/Form/SiteSettingsForm.php:387
 msgid "Restrict search results to resources of the selected templates."
 msgstr ""
 "Ограничаване на резултатите от търсенето до ресурсите на избраните шаблони."
 
 #: application/src/Form/UserBatchUpdateForm.php:27
-#: application/src/Form/UserForm.php:98
+#: application/src/Form/UserForm.php:103
 #: application/src/Service/Form/Element/RoleSelectFactory.php:16
 #: application/src/View/Helper/RoleSelect.php:39
 msgid "Select role…"
@@ -4564,27 +4877,67 @@ msgstr "Премахване на всички елементи"
 msgid "Resource template file"
 msgstr "Файл за шаблон на ресурс"
 
-#: application/src/Form/UserForm.php:151
+#: application/src/Form/UserForm.php:134
+msgid "Admin browse columns"
+msgstr ""
+
+#: application/src/Form/UserForm.php:135
+msgid "Admin browse defaults"
+msgstr ""
+
+#: application/src/Form/UserForm.php:160
 msgid "Default resource template"
 msgstr "Шаблон за ресурс по подразбиране"
 
-#: application/src/Form/UserForm.php:175
+#: application/src/Form/UserForm.php:184
+msgid "Default item sets for items"
+msgstr ""
+
+#: application/src/Form/UserForm.php:200
 msgid "Default sites for items"
 msgstr "Сайтове по подразбиране за елемента"
 
-#: application/src/Form/UserForm.php:186
+#: application/src/Form/UserForm.php:209
+msgid "Item browse columns"
+msgstr ""
+
+#: application/src/Form/UserForm.php:220
+msgid "Item set browse columns"
+msgstr ""
+
+#: application/src/Form/UserForm.php:231
+msgid "Media browse columns"
+msgstr ""
+
+#: application/src/Form/UserForm.php:242
+msgid "Site browse columns"
+msgstr ""
+
+#: application/src/Form/UserForm.php:267
+msgid "Item set browse defaults"
+msgstr ""
+
+#: application/src/Form/UserForm.php:281
+msgid "Media browse defaults"
+msgstr ""
+
+#: application/src/Form/UserForm.php:295
+msgid "Site browse defaults"
+msgstr ""
+
+#: application/src/Form/UserForm.php:311
 msgid "Current password"
 msgstr "Настояща парола"
 
-#: application/src/Form/UserForm.php:198
+#: application/src/Form/UserForm.php:323
 msgid "New password"
 msgstr "Нова парола"
 
-#: application/src/Form/UserForm.php:199
+#: application/src/Form/UserForm.php:324
 msgid "Confirm new password"
 msgstr "Потвърждаване на новата парола"
 
-#: application/src/Form/UserForm.php:208
+#: application/src/Form/UserForm.php:333
 msgid "New key label"
 msgstr "Нов етикет за ключ"
 
@@ -4632,6 +4985,18 @@ msgstr "заглавие на медия"
 msgid "no title"
 msgstr "няма заглавие"
 
+#: application/src/View/Helper/Browse.php:155
+msgid "Add a column…"
+msgstr ""
+
+#: application/src/View/Helper/Browse.php:174
+msgid "Column type"
+msgstr ""
+
+#: application/src/View/Helper/Browse.php:185
+msgid "Header"
+msgstr ""
+
 #: application/src/View/Helper/ResourceTemplateSelect.php:39
 msgid "Select template…"
 msgstr "Избор на шаблон..."
@@ -4656,58 +5021,62 @@ msgstr "Успешна инсталация. Моля влезте в акаун
 msgid "There were errors during installation."
 msgstr "Възникна грешка по време на инсталация."
 
-#: application/src/Controller/SiteAdmin/IndexController.php:69
+#: application/src/Controller/SiteAdmin/IndexController.php:76
 msgid "Site successfully created"
 msgstr "Сайтът е създаден успешно"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:119
+#: application/src/Controller/SiteAdmin/IndexController.php:118
 msgid "Site successfully updated"
 msgstr "Сайтът е актуализиран успешно"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:169
+#: application/src/Controller/SiteAdmin/IndexController.php:168
 msgid "Page successfully created"
 msgstr "Страницата е създадена успешно"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:198
+#: application/src/Controller/SiteAdmin/IndexController.php:197
 msgid "Homepage"
 msgstr "Начална страница"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:204
+#: application/src/Controller/SiteAdmin/IndexController.php:203
 msgid "First page in navigation"
 msgstr "Първа страница в навигацията"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:220
+#: application/src/Controller/SiteAdmin/IndexController.php:219
 msgid "Navigation successfully updated"
 msgstr "Навигацията е актуализирана успешно"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:254
+#: application/src/Controller/SiteAdmin/IndexController.php:253
 msgid ""
 "Item assignment in progress. To see the new item count, refresh the page."
 msgstr ""
 "Задаването на елемент е в процес на изпълнение. За да видите броя на новите "
 "елементи, опреснете страницата."
 
-#: application/src/Controller/SiteAdmin/IndexController.php:258
+#: application/src/Controller/SiteAdmin/IndexController.php:257
 msgid "Site resources successfully updated"
 msgstr "Ресурсите в сайта са актуализирани успешно"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:301
+#: application/src/Controller/SiteAdmin/IndexController.php:300
 msgid "User permissions successfully updated"
 msgstr "Потребителските права са актуализирани успешно"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:333
+#: application/src/Controller/SiteAdmin/IndexController.php:332
 msgid "Site theme successfully updated"
 msgstr "Темата на сайта са актуализирана успешно"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:403
+#: application/src/Controller/SiteAdmin/IndexController.php:407
 msgid "Theme settings successfully updated"
 msgstr "Настройките на темата са актуализирани успешно"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:420
+#: application/src/Controller/SiteAdmin/IndexController.php:447
+msgid "Theme resource pages successfully updated"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:470
 msgid "Site successfully deleted"
 msgstr "Сайтът е изтрит успешно"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:443
+#: application/src/Controller/SiteAdmin/IndexController.php:493
 msgid "site"
 msgstr "сайт"
 
@@ -4715,11 +5084,11 @@ msgstr "сайт"
 msgid "Page successfully updated"
 msgstr "Страницата е актуализирана успешно"
 
-#: application/src/Controller/SiteAdmin/PageController.php:107
+#: application/src/Controller/SiteAdmin/PageController.php:108
 msgid "page"
 msgstr "страница"
 
-#: application/src/Controller/SiteAdmin/PageController.php:124
+#: application/src/Controller/SiteAdmin/PageController.php:125
 msgid "Page successfully deleted"
 msgstr "Страницата е изтрита успешно"
 
@@ -4763,55 +5132,55 @@ msgstr "Активацията е неуспешна"
 msgid "Migration successful"
 msgstr "Миграцията е успешна."
 
-#: application/src/Controller/Admin/ItemController.php:42
-#: application/src/Controller/Admin/ItemController.php:47
+#: application/src/Controller/Admin/ItemController.php:48
+#: application/src/Controller/Admin/ItemController.php:53
 #: application/src/Controller/Admin/UserController.php:44
 #: application/src/Controller/Admin/UserController.php:49
-#: application/src/Controller/Admin/MediaController.php:27
-#: application/src/Controller/Admin/MediaController.php:32
-#: application/src/Controller/Admin/ItemSetController.php:87
-#: application/src/Controller/Admin/ItemSetController.php:92
+#: application/src/Controller/Admin/MediaController.php:33
+#: application/src/Controller/Admin/MediaController.php:38
+#: application/src/Controller/Admin/ItemSetController.php:93
+#: application/src/Controller/Admin/ItemSetController.php:98
 msgid "Confirm Delete"
 msgstr "Потвърждаване на изтриване"
 
-#: application/src/Controller/Admin/ItemController.php:114
+#: application/src/Controller/Admin/ItemController.php:121
 msgid "item"
 msgstr "елемент"
 
-#: application/src/Controller/Admin/ItemController.php:130
+#: application/src/Controller/Admin/ItemController.php:137
 msgid "Item successfully deleted"
 msgstr "Елементът е изтрит успешно"
 
-#: application/src/Controller/Admin/ItemController.php:151
+#: application/src/Controller/Admin/ItemController.php:159
 msgid "You must select at least one item to batch delete."
 msgstr "Трябва да изберете поне един елемент за групово изтриване."
 
-#: application/src/Controller/Admin/ItemController.php:160
+#: application/src/Controller/Admin/ItemController.php:168
 msgid "Items successfully deleted"
 msgstr "Елементите са изтрити успешно"
 
-#: application/src/Controller/Admin/ItemController.php:186
+#: application/src/Controller/Admin/ItemController.php:194
 msgid "Deleting items. This may take a while."
 msgstr "Изтриване на елементи. Това може да отнеме известно време."
 
-#: application/src/Controller/Admin/ItemController.php:210
+#: application/src/Controller/Admin/ItemController.php:218
 #, php-format
 msgid "Item successfully created. %s"
 msgstr "Елементът е създаден успешно. %s"
 
-#: application/src/Controller/Admin/ItemController.php:247
+#: application/src/Controller/Admin/ItemController.php:255
 msgid "Item successfully updated"
 msgstr "Елементът е актуализиран успешно"
 
-#: application/src/Controller/Admin/ItemController.php:274
+#: application/src/Controller/Admin/ItemController.php:283
 msgid "You must select at least one item to batch edit."
 msgstr "Трябва да изберете поне един елемент за групово редактиране."
 
-#: application/src/Controller/Admin/ItemController.php:295
+#: application/src/Controller/Admin/ItemController.php:304
 msgid "Items successfully edited"
 msgstr "Елементите са редактирани успешно"
 
-#: application/src/Controller/Admin/ItemController.php:347
+#: application/src/Controller/Admin/ItemController.php:360
 msgid "Editing items. This may take a while."
 msgstr "Редакция на елементи. Това може да отнеме известно време."
 
@@ -4934,50 +5303,54 @@ msgstr "Опит за спиране на работата."
 msgid "The job could not be stopped."
 msgstr "Задачата не може да бъде спряна."
 
-#: application/src/Controller/Admin/SettingController.php:35
+#: application/src/Controller/Admin/SettingController.php:27
 msgid "Settings successfully updated"
 msgstr "Настройките са актуализирани успешно"
 
-#: application/src/Controller/Admin/MediaController.php:59
+#: application/src/Controller/Admin/MediaController.php:66
 msgid "Media successfully updated"
 msgstr "Медията е актуализирана успешно"
 
-#: application/src/Controller/Admin/MediaController.php:125
-#: application/src/Controller/Admin/MediaController.php:168
+#: application/src/Controller/Admin/MediaController.php:117
+msgid "media"
+msgstr "медия"
+
+#: application/src/Controller/Admin/MediaController.php:132
+#: application/src/Controller/Admin/MediaController.php:176
 msgid "Media successfully deleted"
 msgstr "Медията е изтрита успешно"
 
-#: application/src/Controller/Admin/MediaController.php:159
+#: application/src/Controller/Admin/MediaController.php:167
 msgid "You must select at least one media to batch delete."
 msgstr "Трябва да изберете поне една медия, за групово изтриване."
 
-#: application/src/Controller/Admin/MediaController.php:194
+#: application/src/Controller/Admin/MediaController.php:202
 msgid "Deleting media. This may take a while."
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:212
+#: application/src/Controller/Admin/MediaController.php:221
 msgid "You must select at least one media to batch edit."
 msgstr "Трябва да изберете поне една медия за групово редактиране."
 
-#: application/src/Controller/Admin/MediaController.php:233
+#: application/src/Controller/Admin/MediaController.php:242
 msgid "Media successfully edited"
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:285
+#: application/src/Controller/Admin/MediaController.php:298
 msgid "Editing media. This may take a while."
 msgstr ""
 
 #: application/src/Controller/Admin/AssetController.php:93
 msgid "Asset successfully updated"
-msgstr ""
+msgstr "Активът е актуализиран успешно"
 
 #: application/src/Controller/Admin/AssetController.php:124
 msgid "asset"
-msgstr ""
+msgstr "актив"
 
 #: application/src/Controller/Admin/AssetController.php:137
 msgid "Asset successfully deleted"
-msgstr ""
+msgstr "Активът е изтрит успешно"
 
 #: application/src/Controller/Admin/ItemSetController.php:32
 #, php-format
@@ -4988,35 +5361,35 @@ msgstr "Наборът елементи е създаден успешно. %s"
 msgid "Item set successfully updated"
 msgstr "Набора от елементи е актуализиран успешно"
 
-#: application/src/Controller/Admin/ItemSetController.php:155
+#: application/src/Controller/Admin/ItemSetController.php:164
 msgid "item set"
 msgstr "набор елементи"
 
-#: application/src/Controller/Admin/ItemSetController.php:170
+#: application/src/Controller/Admin/ItemSetController.php:179
 msgid "Item set successfully deleted"
 msgstr "Наборът елементи е изтрит успешно"
 
-#: application/src/Controller/Admin/ItemSetController.php:191
+#: application/src/Controller/Admin/ItemSetController.php:201
 msgid "You must select at least one item set to batch delete."
 msgstr "Трябва да изберете поне един набор елементи за групово изтриване."
 
-#: application/src/Controller/Admin/ItemSetController.php:200
+#: application/src/Controller/Admin/ItemSetController.php:210
 msgid "Item sets successfully deleted"
 msgstr "Наборите елементи са изтрити успешно"
 
-#: application/src/Controller/Admin/ItemSetController.php:226
+#: application/src/Controller/Admin/ItemSetController.php:236
 msgid "Deleting item sets. This may take a while."
 msgstr "Изтриване на набори елементи. Това може да отнеме известно време."
 
-#: application/src/Controller/Admin/ItemSetController.php:244
+#: application/src/Controller/Admin/ItemSetController.php:255
 msgid "You must select at least one item set to batch edit."
 msgstr "Трябва да изберете поне едни набор елементи за групово редактиране."
 
-#: application/src/Controller/Admin/ItemSetController.php:265
+#: application/src/Controller/Admin/ItemSetController.php:276
 msgid "Item sets successfully edited"
 msgstr "Наборите от елементи са редактирани успешно"
 
-#: application/src/Controller/Admin/ItemSetController.php:317
+#: application/src/Controller/Admin/ItemSetController.php:332
 msgid "Editing item sets. This may take a while."
 msgstr "Редакция на набори от елементи. Това може да отнеме известно време."
 
@@ -5045,69 +5418,95 @@ msgstr "Промените в речника са направени успеш�
 msgid "Vocabulary successfully deleted"
 msgstr "Речникът е изтрит успешно."
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:437
+#: application/src/Controller/Admin/ResourceTemplateController.php:444
 msgid "resource template"
 msgstr "шаблон за ресурс"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:450
+#: application/src/Controller/Admin/ResourceTemplateController.php:457
 msgid "Resource template successfully deleted"
 msgstr "Ресурсния шаблон е изтрит успешно"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:452
-#: application/src/Controller/Admin/ResourceTemplateController.php:455
+#: application/src/Controller/Admin/ResourceTemplateController.php:459
+#: application/src/Controller/Admin/ResourceTemplateController.php:462
 msgid "Resource template could not be deleted"
 msgstr "Шаблонът за ресурс не може да бъде изтрит"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:507
+#: application/src/Controller/Admin/ResourceTemplateController.php:519
 msgid "Resource template successfully updated"
 msgstr "Шаблонът за ресурс е актуализиран успешно"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:510
+#: application/src/Controller/Admin/ResourceTemplateController.php:522
 #, php-format
 msgid "Resource template successfully created. %s"
 msgstr "Шаблонът за ресурс е създаден успешно. %s"
 
-#: application/config/module.config.php:636
+#: application/config/module.config.php:675
+msgid "Owner email"
+msgstr ""
+
+#: application/config/module.config.php:681
+#: application/config/module.config.php:697
+#: application/config/module.config.php:702
+msgid "Item count"
+msgstr ""
+
+#: application/config/module.config.php:691
+msgid "Resource class count"
+msgstr ""
+
+#: application/config/module.config.php:692
+msgid "Property count"
+msgstr ""
+
+#: application/config/module.config.php:864
 msgid "Something went wrong"
 msgstr "Нещо се обърка"
 
-#: application/config/module.config.php:641
+#: application/config/module.config.php:869
 msgid "You have unsaved changes."
 msgstr "Имате промени, които не са запазени."
 
-#: application/config/module.config.php:642
+#: application/config/module.config.php:870
 msgid "Restore item set"
 msgstr "Възстановяване на набора от елементи"
 
-#: application/config/module.config.php:643
+#: application/config/module.config.php:871
 msgid "Close icon set"
 msgstr "Затваряне на набор с икони"
 
-#: application/config/module.config.php:644
+#: application/config/module.config.php:872
 msgid "Open icon set"
 msgstr "Отвараряне на набор с икони"
 
-#: application/config/module.config.php:646
+#: application/config/module.config.php:874
 msgid "Failed loading resource template from API"
 msgstr "Неуспешно зареждане на шаблон за ресурс от API"
 
-#: application/config/module.config.php:647
+#: application/config/module.config.php:875
 msgid "Restore property"
 msgstr "Възстановяване на свойство"
 
-#: application/config/module.config.php:649
+#: application/config/module.config.php:877
 msgid "Please enter a valid language tag"
 msgstr "Моля, въведете валиден езиков етикет"
 
-#: application/config/module.config.php:651
+#: application/config/module.config.php:879
 msgid "Description"
 msgstr "Описание"
+
+#: application/config/module.config.php:880
+msgid "Unknown block layout"
+msgstr ""
+
+#: application/config/module.config.php:881
+msgid "Required field must be completed"
+msgstr ""
 
 #: application/config/navigation.config.php:201
 msgid "Site admin"
 msgstr "Администратор на сайт"
 
-#: application/view/common/advanced-search/properties.phtml:61
+#: application/view/common/advanced-search/properties.phtml:70
 msgid "[Any Property]"
 msgstr "[Всяко свойство]"
 
@@ -5116,6 +5515,7 @@ msgid "Confirm delete"
 msgstr "Потвърди изтриването"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:41
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:32
 msgid "Filter by class"
 msgstr "Филтриране по клас"
 
@@ -5398,6 +5798,10 @@ msgstr "Формат"
 msgid "The file format, physical medium, or dimensions of the resource."
 msgstr "Форматът на файла, физическият носител или размерите на ресурса."
 
+#. Property label for Dublin Core:identifier
+msgid "Identifier"
+msgstr "Идентификатор"
+
 #. Property comment for Dublin Core:identifier
 msgid "An unambiguous reference to the resource within a given context."
 msgstr "Еднозначна препратка към ресурса в даден контекст."
@@ -5519,10 +5923,6 @@ msgstr "Обхват"
 #. Property comment for Dublin Core:extent
 msgid "The size or duration of the resource."
 msgstr "Размер или продължителност на ресурса"
-
-#. Property label for Dublin Core:medium
-msgid "Medium"
-msgstr "Среда, медия, носител"
 
 #. Property comment for Dublin Core:medium
 msgid "The material or physical carrier of the resource."

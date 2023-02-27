@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-06 15:01-0400\n"
+"POT-Creation-Date: 2022-12-13 15:06-0500\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
 "Last-Translator: Josip Ilic <josip.ilic@ericsson.com>, 2021\n"
 "Language-Team: Croatian (https://www.transifex.com/omeka/teams/14184/hr/)\n"
@@ -61,18 +61,23 @@ msgstr "%1$s adapter ne implementira operaciju za brisanje."
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "%1$s adapter ne implementira operaciju za skupno brisanje."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:280
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:292
+#, php-format
+msgid "The \"%1$s\" field is not available in the %2$s adapter class."
+msgstr ""
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:308
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s entity class."
 msgstr "\"%1$s\" polje nije dostupno u %2$s klasi entiteta."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:645
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:673
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s resource."
 msgstr "Odbijena dozvola trenutnom korisniku da %1$s %2$s resurs."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:687
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:715
 #, php-format
 msgid "%1$s entity with criteria %2$s not found"
 msgstr "%1$s entitet s kriterijem %2$s nije pronađen"
@@ -81,11 +86,7 @@ msgstr "%1$s entitet s kriterijem %2$s nije pronađen"
 msgid "Welcome"
 msgstr "Dobrodošli"
 
-#: application/src/Api/Adapter/SiteAdapter.php:145
-msgid "Welcome to your new site. This is an example page."
-msgstr "Dobrodošli na vaše novo web-mjesto. Ovo je primjerna stranice."
-
-#: application/src/Api/Adapter/SiteAdapter.php:390
+#: application/src/Api/Adapter/SiteAdapter.php:398
 msgid "Browse"
 msgstr "Pretražite"
 
@@ -94,23 +95,43 @@ msgstr "Pretražite"
 msgid "The API does not support the \"%s\" resource."
 msgstr "API ne podržava \"%s\" resurs."
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:552
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:599
 #: application/view/common/block-layout/browse-preview.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:26
-#: application/view/omeka/site/item/browse.phtml:61
+#: application/view/omeka/site/item/browse.phtml:44
 msgid "[Untitled]"
 msgstr "[Bez naslova]"
 
-#: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:128
-#: application/view/omeka/admin/resource-template/review-import.phtml:87
+#: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:129
+#: application/view/omeka/admin/resource-template/review-import.phtml:88
 msgid "Default"
 msgstr "Zadano"
+
+#: application/src/ColumnType/IsOpen.php:42
+#: application/src/ColumnType/IsPublic.php:42
+#: application/view/omeka/admin/resource-template/review-import.phtml:112
+#: application/view/omeka/admin/resource-template/review-import.phtml:113
+#: application/view/omeka/admin/resource-template/show.phtml:58
+#: application/view/omeka/admin/resource-template/show.phtml:59
+#: application/view/omeka/admin/system-info/browse.phtml:18
+msgid "Yes"
+msgstr "Da"
+
+#: application/src/ColumnType/IsOpen.php:43
+#: application/src/ColumnType/IsPublic.php:43
+#: application/view/omeka/admin/resource-template/review-import.phtml:112
+#: application/view/omeka/admin/resource-template/review-import.phtml:113
+#: application/view/omeka/admin/resource-template/show.phtml:58
+#: application/view/omeka/admin/resource-template/show.phtml:59
+#: application/view/omeka/admin/system-info/browse.phtml:18
+msgid "No"
+msgstr "Ne"
 
 #: application/src/Controller/Admin/AssetController.php:73
 msgid "Asset uploads must be POSTed."
 msgstr "Prebacivanja sredstava moraju biti POSTani."
 
-#: application/src/Controller/Admin/ItemController.php:214
+#: application/src/Controller/Admin/ItemController.php:222
 msgid "Add another item?"
 msgstr "Dodajte još jedan predmet?"
 
@@ -160,9 +181,19 @@ msgstr "Neispravan INI"
 msgid "Invalid Omeka S version"
 msgstr "Neispravna Omeka S verzija"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:514
+#: application/src/Controller/Admin/ResourceTemplateController.php:526
 msgid "Add another resource template?"
 msgstr "Dodajte još jedan predložak resursa?"
+
+#: application/src/Controller/Admin/SystemInfoController.php:89
+#: application/src/Controller/Admin/SystemInfoController.php:94
+msgid "[invalid]"
+msgstr ""
+
+#: application/src/Controller/Admin/SystemInfoController.php:134
+#: application/src/Controller/Admin/SystemInfoController.php:145
+msgid "[Unable to execute command]"
+msgstr ""
 
 #: application/src/Controller/Admin/UserController.php:117
 msgid "Add another user?"
@@ -186,21 +217,19 @@ msgstr "Resurs s ID-om %s nije pronađen."
 #: application/view/common/data-type/resource.phtml:23
 #: application/view/layout/layout-admin.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:22
-#: application/view/omeka/admin/item-set/show.phtml:83
+#: application/view/omeka/admin/item-set/show.phtml:86
 #: application/view/omeka/admin/item/add.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:29
+#: application/view/omeka/admin/item/browse.phtml:7
 #: application/view/omeka/admin/item/edit.phtml:14
 #: application/view/omeka/admin/item/search.phtml:5
 #: application/view/omeka/admin/item/show.phtml:18
 #: application/view/omeka/admin/property/show-details.phtml:18
 #: application/view/omeka/admin/resource-class/show-details.phtml:18
-#: application/view/omeka/admin/resource-template/browse.phtml:19
 #: application/view/omeka/admin/resource-template/show-details.phtml:18
 #: application/view/omeka/admin/user/show-details.phtml:12
-#: application/view/omeka/admin/vocabulary/classes.phtml:15
 #: application/view/omeka/site-admin/index/resources.phtml:22
-#: application/view/omeka/site/item/browse.phtml:42
-#: application/view/omeka/site/item/browse.phtml:44
+#: application/view/omeka/site/item/browse.phtml:25
+#: application/view/omeka/site/item/browse.phtml:27
 msgid "Items"
 msgstr "Predmeti"
 
@@ -209,18 +238,20 @@ msgid "Item Sets"
 msgstr ""
 
 #: application/src/DataType/Resource/Media.php:27
+#: application/view/common/block-layout/item-with-metadata.phtml:29
 #: application/view/common/data-type/resource.phtml:37
+#: application/view/common/resource-page-block-layout/media-list.phtml:7
 #: application/view/layout/layout-admin.phtml:76
 #: application/view/omeka/admin/item/form.phtml:15
 #: application/view/omeka/admin/item/show-details.phtml:40
-#: application/view/omeka/admin/item/show.phtml:92
-#: application/view/omeka/admin/media/browse.phtml:35
+#: application/view/omeka/admin/item/show.phtml:94
+#: application/view/omeka/admin/media/browse.phtml:7
 #: application/view/omeka/admin/media/edit.phtml:17
 #: application/view/omeka/admin/media/edit.phtml:25
 #: application/view/omeka/admin/media/search.phtml:5
 #: application/view/omeka/admin/media/show.phtml:11
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:32
-#: application/view/omeka/site/media/show.phtml:8
+#: application/view/omeka/site/media/show.phtml:9
 msgid "Media"
 msgstr "Medij"
 
@@ -228,32 +259,32 @@ msgstr "Medij"
 msgid "Migration file did not contain the expected class"
 msgstr "Datoteka za migraciju nije sadržavala očekivanu klasu"
 
-#: application/src/Form/Element/PasswordConfirm.php:22
+#: application/src/Form/Element/PasswordConfirm.php:27
 #, php-format
 msgid "be a minimum of %s characters in length."
 msgstr "imati najmanje %s znakova."
 
-#: application/src/Form/Element/PasswordConfirm.php:26
+#: application/src/Form/Element/PasswordConfirm.php:31
 #, php-format
 msgid "contain at least %s lowercase characters."
 msgstr "sadržavati najmanje %s malih slova."
 
-#: application/src/Form/Element/PasswordConfirm.php:30
+#: application/src/Form/Element/PasswordConfirm.php:35
 #, php-format
 msgid "contain at least %s uppercase characters."
 msgstr "sadržavati najmanje %s velikih slova."
 
-#: application/src/Form/Element/PasswordConfirm.php:34
+#: application/src/Form/Element/PasswordConfirm.php:39
 #, php-format
 msgid "contain at least %s numbers."
 msgstr "sadržavati najmanje %s brojeva."
 
-#: application/src/Form/Element/PasswordConfirm.php:41
+#: application/src/Form/Element/PasswordConfirm.php:46
 #, php-format
 msgid "contain at least %1$s symbols: %2$s"
 msgstr "sadržavati najmanje %1$s simbola: %2$s"
 
-#: application/src/Form/Element/PasswordConfirm.php:45
+#: application/src/Form/Element/PasswordConfirm.php:50
 msgid "Password must:"
 msgstr "Lozinka mora:"
 
@@ -262,61 +293,57 @@ msgstr "Lozinka mora:"
 msgid "Unknown"
 msgstr "Nepoznato"
 
-#: application/src/Media/Renderer/IIIF.php:14
-msgid "OpenSeadragon is not available unless JavaScript is enabled."
-msgstr "OpenSeadragon nije dostupan osim ako je JavaScript omogućen."
-
-#: application/src/Module/Manager.php:170
+#: application/src/Module/Manager.php:156
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be activated"
 msgstr "Modul \"%1$s\" je označen kao \"%2$s\" i ne može se aktivirati"
 
-#: application/src/Module/Manager.php:181
+#: application/src/Module/Manager.php:167
 #, php-format
 msgid "Module \"%s\" not in database during activation"
 msgstr "Modul \"%s\" nije u bazi podataka tijekom aktivacije"
 
-#: application/src/Module/Manager.php:202
+#: application/src/Module/Manager.php:188
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be deactivated"
 msgstr "Modul \"%1$s\" je označen kao \"%2$s\" i ne može se deaktivirati"
 
-#: application/src/Module/Manager.php:213
+#: application/src/Module/Manager.php:199
 #, php-format
 msgid "Module \"%s\" not in database during deactivation"
 msgstr "Modul \"%s\" nije u bazi podataka tijekom deaktivacije"
 
-#: application/src/Module/Manager.php:233
+#: application/src/Module/Manager.php:219
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be installed"
 msgstr "Modul \"%1$s\" je označen kao \"%2$s\" i ne može se instalirati"
 
-#: application/src/Module/Manager.php:271
+#: application/src/Module/Manager.php:257
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be uninstalled"
 msgstr "Modul \"%1$s\" je označen kao \"%2$s\" i ne može se deinstalirati"
 
-#: application/src/Module/Manager.php:288
+#: application/src/Module/Manager.php:274
 #, php-format
 msgid "Module \"%s\" not found in database during uninstallation"
 msgstr "Modul \"%s\" nije pronađen u bazi podataka tijekom deinstalacije"
 
-#: application/src/Module/Manager.php:309
+#: application/src/Module/Manager.php:295
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be upgraded"
 msgstr "Modul \"%1$s\" je označen kao \"%2$s\" i ne može se nadograditi"
 
-#: application/src/Module/Manager.php:331
+#: application/src/Module/Manager.php:317
 #, php-format
 msgid "Module \"%s\" not found in database during upgrade"
 msgstr "Modul \"%s\" nije pronađen u bazi podataka tijekom nadogradnje"
 
-#: application/src/Module/Manager.php:410
+#: application/src/Module/Manager.php:396
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s module."
 msgstr "Odbijena dozvola trenutnom korisniku da %1$s %2$s modul."
 
-#: application/src/Mvc/MvcListeners.php:445
+#: application/src/Mvc/MvcListeners.php:456
 #, php-format
 msgid ""
 "Permission denied for the current user to access the %1$s action of the %2$s"
@@ -456,97 +483,107 @@ msgid "Password must contain at least %1$s symbols: <code>%2$s</code>"
 msgstr "Lozinka mora sadržavati najmanje %1$s simbola: <code>%2$s</code>"
 
 #: application/src/View/Helper/SearchFilters.php:32
-#: application/view/common/advanced-search/properties.phtml:66
+#: application/view/common/advanced-search/properties.phtml:76
 msgid "is exactly"
 msgstr "je točno"
 
 #: application/src/View/Helper/SearchFilters.php:33
-#: application/view/common/advanced-search/properties.phtml:67
+#: application/view/common/advanced-search/properties.phtml:77
 msgid "is not exactly"
 msgstr "nije točno "
 
 #: application/src/View/Helper/SearchFilters.php:34
-#: application/view/common/advanced-search/properties.phtml:68
+#: application/view/common/advanced-search/properties.phtml:78
 msgid "contains"
 msgstr "sadrži"
 
 #: application/src/View/Helper/SearchFilters.php:35
-#: application/view/common/advanced-search/properties.phtml:69
+#: application/view/common/advanced-search/properties.phtml:79
 msgid "does not contain"
 msgstr "ne sadrži "
 
 #: application/src/View/Helper/SearchFilters.php:36
-#: application/view/common/advanced-search/properties.phtml:70
+#: application/view/common/advanced-search/properties.phtml:80
+msgid "starts with"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:37
+#: application/view/common/advanced-search/properties.phtml:81
+msgid "does not start with"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:38
+#: application/view/common/advanced-search/properties.phtml:82
+msgid "ends with"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:39
+#: application/view/common/advanced-search/properties.phtml:83
+msgid "does not end with"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:40
+#: application/view/common/advanced-search/properties.phtml:84
 msgid "is resource with ID"
 msgstr "je resurs s ID-om"
 
-#: application/src/View/Helper/SearchFilters.php:37
-#: application/view/common/advanced-search/properties.phtml:71
+#: application/src/View/Helper/SearchFilters.php:41
+#: application/view/common/advanced-search/properties.phtml:85
 msgid "is not resource with ID"
 msgstr "nije resurs s ID-om"
 
-#: application/src/View/Helper/SearchFilters.php:38
-#: application/view/common/advanced-search/properties.phtml:72
+#: application/src/View/Helper/SearchFilters.php:42
+#: application/view/common/advanced-search/properties.phtml:86
 msgid "has any value"
 msgstr "ima ikakvu vrijednost"
 
-#: application/src/View/Helper/SearchFilters.php:39
-#: application/view/common/advanced-search/properties.phtml:73
+#: application/src/View/Helper/SearchFilters.php:43
+#: application/view/common/advanced-search/properties.phtml:87
 msgid "has no values"
 msgstr "nema vrijednosti"
 
-#: application/src/View/Helper/SearchFilters.php:47
+#: application/src/View/Helper/SearchFilters.php:51
 #: application/view/common/advanced-search/fulltext.phtml:6
 msgid "Search full-text"
 msgstr "Pretražite cijeli tekst"
 
-#: application/src/View/Helper/SearchFilters.php:60
-#: application/view/common/advanced-search/sort.phtml:8
+#: application/src/View/Helper/SearchFilters.php:64
 #: application/view/common/asset-block-form.phtml:63
-#: application/view/common/linked-resources.phtml:41
-#: application/view/omeka/admin/item-set/browse.phtml:15
-#: application/view/omeka/admin/item-set/browse.phtml:75
-#: application/view/omeka/admin/item-set/show.phtml:40
-#: application/view/omeka/admin/item/browse.phtml:15
-#: application/view/omeka/admin/item/browse.phtml:73
-#: application/view/omeka/admin/item/show.phtml:30
-#: application/view/omeka/admin/job/browse.phtml:11
-#: application/view/omeka/admin/job/browse.phtml:38
-#: application/view/omeka/admin/job/show.phtml:41
-#: application/view/omeka/admin/media/browse.phtml:17
-#: application/view/omeka/admin/media/browse.phtml:85
-#: application/view/omeka/admin/media/show.phtml:23
-#: application/view/omeka/admin/resource-template/browse.phtml:11
-#: application/view/omeka/admin/resource-template/browse.phtml:45
+#: application/view/common/linked-resources.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:41
+#: application/view/omeka/admin/item/show.phtml:31
+#: application/view/omeka/admin/job/browse.phtml:20
+#: application/view/omeka/admin/job/show.phtml:42
+#: application/view/omeka/admin/media/show.phtml:24
+#: application/view/omeka/admin/resource-template/browse.phtml:27
 #: application/view/omeka/admin/resource-template/review-import.phtml:32
 #: application/view/omeka/admin/resource-template/show.phtml:18
-#: application/view/omeka/site/item/browse.phtml:25
 msgid "Class"
 msgstr "Klasa"
 
-#: application/src/View/Helper/SearchFilters.php:64
+#: application/src/View/Helper/SearchFilters.php:68
 msgid "Unknown class"
 msgstr "Nepoznata klasa"
 
-#: application/src/View/Helper/SearchFilters.php:102
+#: application/src/View/Helper/SearchFilters.php:106
 msgid "Unknown property"
 msgstr "Nepoznato svojstvo"
 
-#: application/src/View/Helper/SearchFilters.php:105
+#: application/src/View/Helper/SearchFilters.php:109
 msgid "[Any property]"
 msgstr "[Bilo koje svojstvo]"
 
-#: application/src/View/Helper/SearchFilters.php:113
-#: application/view/common/advanced-search/properties.phtml:51
+#: application/src/View/Helper/SearchFilters.php:117
+#: application/view/common/advanced-search/properties.phtml:60
 msgid "OR"
 msgstr "ILI"
 
-#: application/src/View/Helper/SearchFilters.php:115
-#: application/view/common/advanced-search/properties.phtml:50
+#: application/src/View/Helper/SearchFilters.php:119
+#: application/view/common/advanced-search/properties.phtml:59
 msgid "AND"
 msgstr "I"
 
-#: application/src/View/Helper/SearchFilters.php:124
+#: application/src/View/Helper/SearchFilters.php:128
 #: application/view/common/cross-site-search/advanced-item-form.phtml:5
 #: application/view/common/cross-site-search/advanced-item-set-form.phtml:5
 #: application/view/common/cross-site-search/fulltext-form.phtml:7
@@ -555,7 +592,7 @@ msgstr "I"
 #: application/view/common/search-form.phtml:19
 #: application/view/layout/layout-admin.phtml:62
 #: application/view/omeka/admin/item-set/search.phtml:13
-#: application/view/omeka/admin/item-set/sidebar-select.phtml:12
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:15
 #: application/view/omeka/admin/item/search.phtml:13
 #: application/view/omeka/admin/item/sidebar-select.phtml:24
 #: application/view/omeka/admin/media/search.phtml:13
@@ -567,82 +604,145 @@ msgstr "I"
 msgid "Search"
 msgstr "Tražite"
 
-#: application/src/View/Helper/SearchFilters.php:137
+#: application/src/View/Helper/SearchFilters.php:141
 msgid "Template"
 msgstr "Predložak"
 
-#: application/src/View/Helper/SearchFilters.php:141
+#: application/src/View/Helper/SearchFilters.php:145
 msgid "Unknown template"
 msgstr "Nepoznati predložak"
 
-#: application/src/View/Helper/SearchFilters.php:156
-#: application/view/omeka/site/item/browse.phtml:37
-msgid "Item set"
-msgstr "Zbirka"
-
 #: application/src/View/Helper/SearchFilters.php:160
+msgid "In item set"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:164
+#: application/src/View/Helper/SearchFilters.php:182
 msgid "Unknown item set"
 msgstr "Nepoznata zbirka¸¸"
 
-#: application/src/View/Helper/SearchFilters.php:168
+#: application/src/View/Helper/SearchFilters.php:178
+msgid "Not in item set"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:190
 #: application/view/omeka/site-admin/index/users.phtml:54
 msgid "User"
 msgstr "Korisnik"
 
-#: application/src/View/Helper/SearchFilters.php:172
+#: application/src/View/Helper/SearchFilters.php:194
 msgid "Unknown user"
 msgstr "Nepoznati korisnik"
 
-#: application/src/View/Helper/SearchFilters.php:178
+#: application/src/View/Helper/SearchFilters.php:200
 msgid "Site"
 msgstr "Web-mjesto"
 
-#: application/src/View/Helper/SearchFilters.php:182
-#: application/src/View/Helper/SearchUserFilters.php:75
+#: application/src/View/Helper/SearchFilters.php:204
+#: application/src/View/Helper/SearchUserFilters.php:74
 msgid "Unknown site"
 msgstr "Nepoznato web-mjesto"
 
+#: application/src/View/Helper/SearchFilters.php:210
+#: application/view/omeka/admin/item-set/show-details.phtml:17
+#: application/view/omeka/admin/item-set/show.phtml:81
+#: application/view/omeka/admin/item/show-details.phtml:17
+#: application/view/omeka/admin/item/show.phtml:63
+#: application/view/omeka/admin/media/show-details.phtml:49
+#: application/view/omeka/admin/media/show.phtml:38
+msgid "Visibility"
+msgstr "Vidljivost"
+
+#: application/src/View/Helper/SearchFilters.php:211
+#: application/view/common/advanced-search/visibility.phtml:5
+#: application/view/common/property-form-batch-edit.phtml:17
+#: application/view/common/property-form-batch-edit.phtml:31
+#: application/view/common/property-form-batch-edit.phtml:46
+#: application/view/common/property-form-batch-edit.phtml:66
+#: application/view/omeka/admin/item-set/show-details.phtml:18
+#: application/view/omeka/admin/item-set/show.phtml:82
+#: application/view/omeka/admin/item/show-details.phtml:18
+#: application/view/omeka/admin/item/show.phtml:64
+#: application/view/omeka/admin/media/show-details.phtml:50
+#: application/view/omeka/admin/media/show.phtml:39
+msgid "Public"
+msgstr "Javno"
+
+#: application/src/View/Helper/SearchFilters.php:211
+#: application/view/common/advanced-search/visibility.phtml:6
+#: application/view/common/property-form-batch-edit.phtml:18
+#: application/view/common/property-form-batch-edit.phtml:32
+#: application/view/common/property-form-batch-edit.phtml:47
+#: application/view/common/property-form-batch-edit.phtml:67
+msgid "Not public"
+msgstr "Nije javno"
+
+#: application/src/View/Helper/SearchFilters.php:215
+msgid "Media presence"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:216
+#: application/view/common/advanced-search/has-media.phtml:5
+msgid "Has media"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:216
+#: application/view/common/advanced-search/has-media.phtml:6
+msgid "Has no media"
+msgstr ""
+
+#: application/src/View/Helper/SearchFilters.php:220
+#: application/view/omeka/admin/item-set/show-details.phtml:13
+#: application/view/omeka/admin/item-set/show.phtml:69
+#: application/view/omeka/admin/item/show-details.phtml:13
+#: application/view/omeka/admin/item/show.phtml:59
+#: application/view/omeka/admin/job/browse.phtml:19
+#: application/view/omeka/admin/media/show-details.phtml:18
+#: application/view/omeka/admin/media/show.phtml:34
+#: application/view/omeka/admin/user/edit.phtml:39
+msgid "ID"
+msgstr "ID"
+
 #: application/src/View/Helper/SearchUserFilters.php:49
-#: application/view/omeka/admin/user/browse.phtml:10
-#: application/view/omeka/admin/user/browse.phtml:78
-#: application/view/omeka/admin/user/show.phtml:17
+#: application/view/omeka/admin/user/browse.phtml:64
+#: application/view/omeka/admin/user/show.phtml:18
 msgid "Email"
 msgstr "E-mail"
 
 #: application/src/View/Helper/SearchUserFilters.php:54
-#: application/view/omeka/admin/asset/browse.phtml:12
-#: application/view/omeka/admin/asset/browse.phtml:37
+#: application/view/omeka/admin/asset/browse.phtml:27
 msgid "Name"
 msgstr "Ime"
 
 #: application/src/View/Helper/SearchUserFilters.php:59
-#: application/view/omeka/admin/user/browse.phtml:14
-#: application/view/omeka/admin/user/browse.phtml:80
-#: application/view/omeka/admin/user/show.phtml:29
+#: application/view/omeka/admin/user/browse.phtml:66
+#: application/view/omeka/admin/user/show.phtml:30
 #: application/view/omeka/site-admin/index/users.phtml:55
 msgid "Role"
 msgstr "Uloga"
 
-#: application/src/View/Helper/SearchUserFilters.php:62
+#: application/src/View/Helper/SearchUserFilters.php:61
 msgid "Unknown role"
 msgstr "Nepoznata uloga"
 
-#: application/src/View/Helper/SearchUserFilters.php:66
-#: application/view/omeka/admin/user/show.phtml:35
+#: application/src/View/Helper/SearchUserFilters.php:65
+#: application/view/common/sidebar-select-quick-add.phtml:4
+#: application/view/common/sidebar-select-quick-add.phtml:13
+#: application/view/omeka/admin/user/show.phtml:36
 msgid "Is active"
 msgstr "Je aktivan"
 
-#: application/src/View/Helper/SearchUserFilters.php:67
-#: application/view/omeka/admin/user/show.phtml:37
+#: application/src/View/Helper/SearchUserFilters.php:66
+#: application/view/omeka/admin/user/show.phtml:38
 msgid "yes"
 msgstr "da"
 
-#: application/src/View/Helper/SearchUserFilters.php:67
-#: application/view/omeka/admin/user/show.phtml:37
+#: application/src/View/Helper/SearchUserFilters.php:66
+#: application/view/omeka/admin/user/show.phtml:38
 msgid "no"
 msgstr "no"
 
-#: application/src/View/Helper/SearchUserFilters.php:71
+#: application/src/View/Helper/SearchUserFilters.php:70
 #: application/view/common/advanced-search/users.phtml:53
 msgid "Has permission in site"
 msgstr "Ima dozvole na web-mjestu"
@@ -655,23 +755,23 @@ msgstr "Maksimalna upload veličina je %s MB."
 #: application/src/View/Helper/UserBar.php:120
 #: application/src/View/Helper/UserBar.php:166
 #: application/view/common/query-form.phtml:24
-#: application/view/omeka/admin/asset/browse.phtml:67
+#: application/view/omeka/admin/asset/browse.phtml:57
 #: application/view/omeka/admin/asset/edit.phtml:10
-#: application/view/omeka/admin/item-set/browse.phtml:109
+#: application/view/omeka/admin/item-set/browse.phtml:74
 #: application/view/omeka/admin/item-set/edit.phtml:14
-#: application/view/omeka/admin/item/browse.phtml:107
+#: application/view/omeka/admin/item/browse.phtml:73
 #: application/view/omeka/admin/item/edit.phtml:14
-#: application/view/omeka/admin/item/manage-media.phtml:43
-#: application/view/omeka/admin/media/browse.phtml:121
-#: application/view/omeka/admin/resource-template/browse.phtml:72
-#: application/view/omeka/admin/user/browse.phtml:101
+#: application/view/omeka/admin/item/manage-media.phtml:55
+#: application/view/omeka/admin/media/browse.phtml:69
+#: application/view/omeka/admin/resource-template/browse.phtml:54
+#: application/view/omeka/admin/user/browse.phtml:87
 #: application/view/omeka/admin/user/edit.phtml:14
-#: application/view/omeka/admin/vocabulary/browse.phtml:60
+#: application/view/omeka/admin/vocabulary/browse.phtml:42
 #: application/view/omeka/admin/vocabulary/edit.phtml:7
-#: application/view/omeka/site-admin/index/index.phtml:75
+#: application/view/omeka/site-admin/index/index.phtml:46
 #: application/view/omeka/site-admin/index/show.phtml:11
 #: application/view/omeka/site-admin/page/edit.phtml:11
-#: application/view/omeka/site-admin/page/index.phtml:80
+#: application/view/omeka/site-admin/page/index.phtml:56
 msgid "Edit"
 msgstr "Uredite"
 
@@ -681,40 +781,68 @@ msgstr "Uredite"
 msgid "View"
 msgstr "Pogledajte"
 
-#: application/view/common/advanced-search/item-sets.phtml:31
-msgid "Search by item set"
-msgstr "Potražite po zbirki"
+#: application/view/common/advanced-search/has-media.phtml:3
+msgid "Search by media presence"
+msgstr ""
 
-#: application/view/common/advanced-search/item-sets.phtml:32
+#: application/view/common/advanced-search/has-media.phtml:8
+msgid "Select media presence…"
+msgstr ""
+
+#: application/view/common/advanced-search/ids.phtml:12
+msgid "Search by ID"
+msgstr ""
+
+#: application/view/common/advanced-search/ids.phtml:13
+#: application/view/common/advanced-search/item-sets.phtml:44
 #: application/view/common/advanced-search/owner.phtml:4
-#: application/view/common/advanced-search/resource-class.phtml:16
+#: application/view/common/advanced-search/resource-class.phtml:25
 #: application/view/common/advanced-search/resource-template.phtml:17
 #: application/view/common/advanced-search/site.phtml:4
-#: application/view/common/form-row.phtml:29
-#: application/view/common/resource-values.phtml:56
+#: application/view/common/form-row.phtml:16
+#: application/view/common/resource-values.phtml:58
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:19
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 msgid "Expand"
 msgstr "Proširi"
 
-#: application/view/common/advanced-search/item-sets.phtml:34
+#: application/view/common/advanced-search/ids.phtml:15
+msgid ""
+"Searches for resources by Omeka S ID. You can search for more than one ID by"
+" separating them by commas."
+msgstr ""
+
+#: application/view/common/advanced-search/item-sets.phtml:43
+msgid "Search by item set"
+msgstr "Potražite po zbirki"
+
+#: application/view/common/advanced-search/item-sets.phtml:46
 msgid "Searches for items that are assigned to any of these item sets."
 msgstr "Traži predmete koji su dodijeljeni bilo kojoj od ovih zbirki."
 
-#: application/view/common/advanced-search/item-sets.phtml:36
+#: application/view/common/advanced-search/item-sets.phtml:48
 #: application/view/omeka/admin/index/browse.phtml:23
-#: application/view/omeka/admin/item-set/browse.phtml:42
+#: application/view/omeka/admin/item-set/browse.phtml:19
 msgid "Add new item set"
 msgstr "Dodjte novu zbirku"
 
-#: application/view/common/advanced-search/item-sets.phtml:49
-#: application/view/common/advanced-search/properties.phtml:76
-#: application/view/common/advanced-search/resource-class.phtml:32
+#: application/view/common/advanced-search/item-sets.phtml:54
+msgid "In"
+msgstr ""
+
+#: application/view/common/advanced-search/item-sets.phtml:55
+msgid "Not in"
+msgstr ""
+
+#: application/view/common/advanced-search/item-sets.phtml:66
+#: application/view/common/advanced-search/properties.phtml:90
+#: application/view/common/advanced-search/resource-class.phtml:44
 #: application/view/common/advanced-search/resource-template.phtml:33
-#: application/view/common/block-layout.phtml:12
+#: application/view/common/block-layout.phtml:13
 #: application/view/common/data-type-wrapper.phtml:18
 #: application/view/common/media-field-wrapper.phtml:14
 #: application/view/common/value-annotation-wrapper.phtml:11
-#: application/view/omeka/admin/item/manage-media.phtml:48
+#: application/view/omeka/admin/item/manage-media.phtml:60
 msgid "Remove value"
 msgstr "Uklonite vrijednost"
 
@@ -734,31 +862,31 @@ msgstr "Traži resurse koji su u vlasništvu ovog korisnika."
 msgid "Query text"
 msgstr "Tekst upita"
 
-#: application/view/common/advanced-search/properties.phtml:39
+#: application/view/common/advanced-search/properties.phtml:48
 msgid "Search by value"
 msgstr "Potražite po vrijednosti"
 
-#: application/view/common/advanced-search/properties.phtml:40
+#: application/view/common/advanced-search/properties.phtml:49
 msgid "Add new value"
 msgstr "Dodajte novu vrijednost"
 
-#: application/view/common/advanced-search/properties.phtml:58
+#: application/view/common/advanced-search/properties.phtml:67
 msgid "Property"
 msgstr "Svojstvo"
 
-#: application/view/common/advanced-search/properties.phtml:65
+#: application/view/common/advanced-search/properties.phtml:75
 msgid "Query type"
 msgstr "Vrsta upita"
 
-#: application/view/common/advanced-search/resource-class.phtml:15
+#: application/view/common/advanced-search/resource-class.phtml:24
 msgid "Search by class"
 msgstr "Potražite po klasi"
 
-#: application/view/common/advanced-search/resource-class.phtml:18
+#: application/view/common/advanced-search/resource-class.phtml:27
 msgid "Searches for resources that are any of these classes."
 msgstr "Traži resurse koji su bilo koja od ovih klasa."
 
-#: application/view/common/advanced-search/resource-class.phtml:20
+#: application/view/common/advanced-search/resource-class.phtml:29
 msgid "Add new class"
 msgstr "Dodaj novu klasu"
 
@@ -782,102 +910,28 @@ msgstr "Potraži po web-mjestu"
 msgid "Searches for items that are assigned to this site."
 msgstr "Traži predmete koji su dodijeljeni ovom web-mjestu."
 
-#: application/view/common/advanced-search/sort.phtml:6
-#: application/view/common/linked-resources.phtml:39
-#: application/view/omeka/admin/item-set/browse.phtml:7
-#: application/view/omeka/admin/item-set/browse.phtml:73
-#: application/view/omeka/admin/item/browse.phtml:7
-#: application/view/omeka/admin/item/browse.phtml:72
-#: application/view/omeka/admin/item/manage-item-sets.phtml:33
-#: application/view/omeka/admin/item/manage-sites.phtml:39
-#: application/view/omeka/admin/media/browse.phtml:9
-#: application/view/omeka/admin/media/browse.phtml:83
-#: application/view/omeka/site-admin/index/index.phtml:7
-#: application/view/omeka/site-admin/index/index.phtml:39
-#: application/view/omeka/site-admin/index/resources.phtml:66
-#: application/view/omeka/site-admin/index/show.phtml:24
-#: application/view/omeka/site-admin/page/index.phtml:15
-#: application/view/omeka/site-admin/page/index.phtml:48
-#: application/view/omeka/site/item/browse.phtml:17
-msgid "Title"
-msgstr "Naslov"
-
-#: application/view/common/advanced-search/sort.phtml:7
-#: application/view/omeka/admin/item-set/browse.phtml:11
-#: application/view/omeka/admin/item/browse.phtml:11
-#: application/view/omeka/admin/media/browse.phtml:13
-#: application/view/omeka/site/item/browse.phtml:21
-msgid "Identifier"
-msgstr "Identifikator"
-
-#: application/view/common/advanced-search/sort.phtml:9
-#: application/view/omeka/admin/asset/browse.phtml:38
-#: application/view/omeka/admin/item-set/browse.phtml:19
-#: application/view/omeka/admin/item-set/browse.phtml:76
-#: application/view/omeka/admin/item-set/show.phtml:74
-#: application/view/omeka/admin/item/browse.phtml:19
-#: application/view/omeka/admin/item/browse.phtml:74
-#: application/view/omeka/admin/item/manage-item-sets.phtml:34
-#: application/view/omeka/admin/item/manage-sites.phtml:40
-#: application/view/omeka/admin/item/show.phtml:87
-#: application/view/omeka/admin/job/browse.phtml:19
-#: application/view/omeka/admin/job/browse.phtml:40
-#: application/view/omeka/admin/job/show.phtml:45
-#: application/view/omeka/admin/media/browse.phtml:21
-#: application/view/omeka/admin/media/browse.phtml:86
-#: application/view/omeka/admin/resource-template/browse.phtml:15
-#: application/view/omeka/admin/resource-template/browse.phtml:46
-#: application/view/omeka/site-admin/index/index.phtml:15
-#: application/view/omeka/site-admin/index/index.phtml:41
-#: application/view/omeka/site-admin/index/resources.phtml:67
-msgid "Owner"
-msgstr "Vlasnik"
-
-#: application/view/common/advanced-search/sort.phtml:10
-#: application/view/omeka/admin/item-set/browse.phtml:23
-#: application/view/omeka/admin/item-set/browse.phtml:77
-#: application/view/omeka/admin/item-set/show.phtml:70
-#: application/view/omeka/admin/item/browse.phtml:23
-#: application/view/omeka/admin/item/browse.phtml:75
-#: application/view/omeka/admin/item/show.phtml:83
-#: application/view/omeka/admin/media/browse.phtml:25
-#: application/view/omeka/admin/media/browse.phtml:87
-#: application/view/omeka/admin/media/show.phtml:45
-#: application/view/omeka/admin/user/browse.phtml:18
-#: application/view/omeka/admin/user/browse.phtml:81
-#: application/view/omeka/site-admin/page/index.phtml:23
-#: application/view/omeka/site-admin/page/index.phtml:50
-#: application/view/omeka/site/item/browse.phtml:29
-msgid "Created"
-msgstr "Stvoreno"
-
-#: application/view/common/advanced-search/sort.phtml:21
-#: application/view/omeka/admin/media/browse.phtml:29
-#: application/view/omeka/admin/media/show-details.phtml:36
-#: application/view/omeka/admin/media/show.phtml:56
-msgid "Size"
-msgstr "Veličina"
-
-#: application/view/common/advanced-search/sort.phtml:27
+#: application/view/common/advanced-search/sort.phtml:19
 msgid "Select sort by…"
 msgstr ""
 
-#: application/view/common/advanced-search/sort.phtml:32
+#: application/view/common/advanced-search/sort.phtml:24
 msgid "Select sort order…"
 msgstr ""
 
-#: application/view/common/advanced-search/sort.phtml:34
-#: application/view/common/sort-selector.phtml:14
+#: application/view/common/advanced-search/sort.phtml:26
+#: application/view/common/browse-defaults-form.phtml:20
+#: application/view/common/sort-selector.phtml:13
 msgid "Ascending"
 msgstr "Ulazno"
 
-#: application/view/common/advanced-search/sort.phtml:35
-#: application/view/common/sort-selector.phtml:15
+#: application/view/common/advanced-search/sort.phtml:27
+#: application/view/common/browse-defaults-form.phtml:19
+#: application/view/common/sort-selector.phtml:14
 msgid "Descending"
 msgstr "Silazno"
 
-#: application/view/common/advanced-search/sort.phtml:41
-#: application/view/common/sort-selector.phtml:17
+#: application/view/common/advanced-search/sort.phtml:33
+#: application/view/common/sort-selector.phtml:16
 msgid "Sort"
 msgstr "Poredaj"
 
@@ -896,6 +950,14 @@ msgstr "Potraži po ulozi"
 #: application/view/common/advanced-search/users.phtml:44
 msgid "Search by activity"
 msgstr "Potraži po aktivnosti"
+
+#: application/view/common/advanced-search/visibility.phtml:3
+msgid "Search by visibility"
+msgstr ""
+
+#: application/view/common/advanced-search/visibility.phtml:8
+msgid "Select visibility…"
+msgstr ""
 
 #: application/view/common/asset-block-form.phtml:7
 #: application/view/common/asset-block-form.phtml:40
@@ -923,15 +985,17 @@ msgstr "Vratite prilog"
 
 #: application/view/common/asset-block-form.phtml:20
 #: application/view/common/asset-block-form.phtml:57
+#: application/view/common/block-layout.phtml:12
 #: application/view/common/resource-form-templates.phtml:10
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:19
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:35
-#: application/view/omeka/site-admin/page/edit.phtml:57
+#: application/view/omeka/site-admin/page/edit.phtml:62
 msgid "Collapse"
 msgstr "Sažmite"
 
 #: application/view/common/asset-block-form.phtml:20
-#: application/view/omeka/admin/asset/browse.phtml:18
+#: application/view/omeka/admin/asset/browse.phtml:8
 #: application/view/omeka/admin/asset/edit.phtml:10
 msgid "Assets"
 msgstr ""
@@ -981,36 +1045,37 @@ msgstr ""
 #: application/view/common/site-selector.phtml:2
 #: application/view/common/user-selector.phtml:6
 #: application/view/common/value-annotation-sidebar.phtml:2
-#: application/view/omeka/admin/asset/browse.phtml:100
-#: application/view/omeka/admin/asset/browse.phtml:117
+#: application/view/omeka/admin/asset/browse.phtml:90
+#: application/view/omeka/admin/asset/browse.phtml:107
 #: application/view/omeka/admin/asset/sidebar-select.phtml:8
-#: application/view/omeka/admin/item-set/browse.phtml:146
-#: application/view/omeka/admin/item-set/browse.phtml:153
-#: application/view/omeka/admin/item-set/browse.phtml:171
-#: application/view/omeka/admin/item/browse.phtml:144
-#: application/view/omeka/admin/item/browse.phtml:151
-#: application/view/omeka/admin/item/browse.phtml:169
-#: application/view/omeka/admin/item/manage-media.phtml:70
-#: application/view/omeka/admin/media/browse.phtml:158
-#: application/view/omeka/admin/media/browse.phtml:167
-#: application/view/omeka/admin/media/browse.phtml:185
-#: application/view/omeka/admin/module/browse.phtml:159
+#: application/view/omeka/admin/columns/column-edit-sidebar.phtml:1
+#: application/view/omeka/admin/item-set/browse.phtml:109
+#: application/view/omeka/admin/item-set/browse.phtml:116
+#: application/view/omeka/admin/item-set/browse.phtml:134
+#: application/view/omeka/admin/item/browse.phtml:108
+#: application/view/omeka/admin/item/browse.phtml:115
+#: application/view/omeka/admin/item/browse.phtml:133
+#: application/view/omeka/admin/item/manage-media.phtml:82
+#: application/view/omeka/admin/media/browse.phtml:104
+#: application/view/omeka/admin/media/browse.phtml:112
+#: application/view/omeka/admin/media/browse.phtml:130
+#: application/view/omeka/admin/module/browse.phtml:158
 #: application/view/omeka/admin/query/sidebar-edit.phtml:3
 #: application/view/omeka/admin/query/sidebar-preview.phtml:1
-#: application/view/omeka/admin/resource-template/browse.phtml:99
+#: application/view/omeka/admin/resource-template/browse.phtml:81
 #: application/view/omeka/admin/resource-template/form.phtml:43
 #: application/view/omeka/admin/resource-template/form.phtml:52
-#: application/view/omeka/admin/resource-template/show.phtml:67
-#: application/view/omeka/admin/user/browse.phtml:137
-#: application/view/omeka/admin/user/browse.phtml:146
-#: application/view/omeka/admin/user/browse.phtml:164
-#: application/view/omeka/admin/vocabulary/browse.phtml:93
-#: application/view/omeka/admin/vocabulary/classes.phtml:67
-#: application/view/omeka/admin/vocabulary/properties.phtml:50
-#: application/view/omeka/site-admin/index/index.phtml:101
+#: application/view/omeka/admin/resource-template/show.phtml:69
+#: application/view/omeka/admin/user/browse.phtml:123
+#: application/view/omeka/admin/user/browse.phtml:132
+#: application/view/omeka/admin/user/browse.phtml:150
+#: application/view/omeka/admin/vocabulary/browse.phtml:75
+#: application/view/omeka/admin/vocabulary/classes.phtml:52
+#: application/view/omeka/admin/vocabulary/properties.phtml:53
+#: application/view/omeka/site-admin/index/index.phtml:71
 #: application/view/omeka/site-admin/index/navigation.phtml:31
-#: application/view/omeka/site-admin/page/edit.phtml:51
-#: application/view/omeka/site-admin/page/index.phtml:102
+#: application/view/omeka/site-admin/page/edit.phtml:56
+#: application/view/omeka/site-admin/page/index.phtml:78
 msgid "Close"
 msgstr "Zatvorite"
 
@@ -1023,12 +1088,12 @@ msgid "Alternative link title"
 msgstr ""
 
 #: application/view/common/asset-options.phtml:44
-#: application/view/omeka/site-admin/page/edit.phtml:54
+#: application/view/omeka/site-admin/page/edit.phtml:59
 msgid "Caption"
 msgstr "Natpis"
 
 #: application/view/common/asset-options.phtml:50
-#: application/view/omeka/site-admin/page/edit.phtml:65
+#: application/view/omeka/site-admin/page/edit.phtml:70
 msgid "Apply changes"
 msgstr "Primijenite promjene"
 
@@ -1054,33 +1119,64 @@ msgstr "Dodajte prilog"
 msgid "Block to be removed"
 msgstr "Blok koji će se ukloniti "
 
-#: application/view/common/block-layout.phtml:13
+#: application/view/common/block-layout.phtml:14
 #: application/view/common/data-type-wrapper.phtml:19
 #: application/view/common/value-annotation-wrapper.phtml:12
-#: application/view/omeka/admin/item/manage-media.phtml:52
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:41
+#: application/view/omeka/admin/item/manage-media.phtml:64
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:42
 msgid "Restore value"
 msgstr "Vratite vrijednost"
 
-#: application/view/common/block-layout/item-with-metadata.phtml:12
+#: application/view/common/block-layout/item-with-metadata.phtml:19
 #: application/view/common/cross-site-search/results.phtml:70
 #: application/view/common/data-type/resource.phtml:30
 #: application/view/common/item-set-selector.phtml:11
+#: application/view/common/resource-page-block-layout/item-sets.phtml:7
 #: application/view/layout/layout-admin.phtml:72
 #: application/view/omeka/admin/item-set/add.phtml:6
-#: application/view/omeka/admin/item-set/browse.phtml:29
+#: application/view/omeka/admin/item-set/browse.phtml:7
 #: application/view/omeka/admin/item-set/edit.phtml:14
 #: application/view/omeka/admin/item-set/search.phtml:5
 #: application/view/omeka/admin/item-set/show.phtml:26
 #: application/view/omeka/admin/item/form.phtml:16
 #: application/view/omeka/admin/item/show-details.phtml:23
-#: application/view/omeka/admin/item/show.phtml:67
+#: application/view/omeka/admin/item/show.phtml:69
 #: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:11
-#: application/view/omeka/site/item/show.phtml:27
 msgid "Item sets"
 msgstr "Zbirke"
+
+#: application/view/common/block-layout/page-date-time.phtml:13
+#: application/view/omeka/admin/item-set/show.phtml:73
+#: application/view/omeka/admin/item/show.phtml:85
+#: application/view/omeka/admin/media/show.phtml:47
+#: application/view/omeka/admin/user/browse.phtml:67
+#: application/view/omeka/site-admin/page/index.phtml:26
+msgid "Created"
+msgstr "Stvoreno"
+
+#: application/view/common/block-layout/page-date-time.phtml:19
+#: application/view/omeka/site-admin/page/index.phtml:26
+msgid "Modified"
+msgstr "Promijenjeno"
+
+#: application/view/common/browse-defaults-form.phtml:12
+msgid "[Custom sort by]"
+msgstr ""
+
+#: application/view/common/browse-defaults-form.phtml:17
+msgid "Enter a custom sort by"
+msgstr ""
+
+#: application/view/common/columns-form.phtml:16
+#: application/view/omeka/admin/item/add.phtml:13
+#: application/view/omeka/admin/resource-template/add.phtml:15
+#: application/view/omeka/admin/user/add.phtml:13
+#: application/view/omeka/site-admin/index/add-page.phtml:23
+#: application/view/omeka/site-admin/index/add.phtml:31
+msgid "Add"
+msgstr "Dodajte"
 
 #: application/view/common/cross-site-search/advanced-item-form.phtml:4
 #: application/view/common/cross-site-search/advanced-item-set-form.phtml:4
@@ -1113,26 +1209,26 @@ msgid "Item set results for \"%s\""
 msgstr "Rezultati zbirki za \"%s\""
 
 #: application/view/common/cross-site-search/results.phtml:6
-#: application/view/omeka/site/index/search.phtml:8
+#: application/view/omeka/site/index/search.phtml:11
 #, php-format
 msgid "Search results for “%s”"
 msgstr "Rezultati pretraživanja za \"%s\""
 
 #: application/view/common/cross-site-search/results.phtml:13
-#: application/view/omeka/site/item/show.phtml:35
+#: application/view/common/resource-page-block-layout/site-pages.phtml:8
 msgid "Site pages"
 msgstr "Stranice web-mjesta"
 
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
 #: application/view/common/cross-site-search/results.phtml:85
-#: application/view/omeka/site/index/search.phtml:45
+#: application/view/omeka/site/index/search.phtml:51
 #, php-format
 msgid "View all results (%s total)"
 msgstr "Pogledaj sve rezultate (%s ukupno)"
 
 #: application/view/common/cross-site-search/results.phtml:97
-#: application/view/omeka/site/index/search.phtml:11
+#: application/view/omeka/site/index/search.phtml:14
 msgid "No result found"
 msgstr "Nema pronađenih rezultata"
 
@@ -1159,7 +1255,7 @@ msgstr ""
 #: application/view/common/media-field-wrapper.phtml:10
 #: application/view/omeka/admin/item-set/form.phtml:43
 #: application/view/omeka/admin/item/form.phtml:52
-#: application/view/omeka/admin/item/manage-media.phtml:30
+#: application/view/omeka/admin/item/manage-media.phtml:42
 #: application/view/omeka/admin/media/edit.phtml:54
 #: application/view/omeka/site-admin/index/add-page.phtml:18
 #: application/view/omeka/site-admin/index/add.phtml:26
@@ -1173,12 +1269,19 @@ msgstr "Učinite privatnim"
 msgid "Annotate value"
 msgstr ""
 
-#: application/view/common/data-type/literal.phtml:4
-#: application/view/common/data-type/value-annotation-literal.phtml:2
+#: application/view/common/data-type/literal.phtml:5
+#: application/view/common/data-type/uri.phtml:5
+#: application/view/common/data-type/value-annotation-literal.phtml:3
+#: application/view/common/data-type/value-annotation-uri.phtml:3
 msgid "Set language"
 msgstr "Postavite jezik"
 
-#: application/view/common/data-type/literal.phtml:5
+#: application/view/common/data-type/literal.phtml:7
+#: application/view/common/data-type/uri.phtml:7
+#: application/view/common/data-type/value-annotation-literal.phtml:5
+#: application/view/common/data-type/value-annotation-uri.phtml:5
+#: application/view/omeka/admin/media/show-details.phtml:29
+#: application/view/omeka/admin/media/show.phtml:52
 msgid "Language"
 msgstr "Jezik"
 
@@ -1187,28 +1290,25 @@ msgstr "Jezik"
 msgid "No resource selected"
 msgstr "Resurs nije odabran"
 
-#: application/view/common/data-type/uri.phtml:6
-#: application/view/common/data-type/value-annotation-uri.phtml:4
+#: application/view/common/data-type/uri.phtml:13
+#: application/view/common/data-type/value-annotation-uri.phtml:11
 #: application/view/common/property-form-batch-edit.phtml:44
 #: application/view/common/resource-form-templates.phtml:24
 msgid "URI"
 msgstr "URI"
 
-#: application/view/common/data-type/uri.phtml:12
-#: application/view/common/data-type/value-annotation-uri.phtml:10
+#: application/view/common/data-type/uri.phtml:19
+#: application/view/common/data-type/value-annotation-uri.phtml:17
 #: application/view/common/navigation-link-form/browse.phtml:16
 #: application/view/common/navigation-link-form/page.phtml:15
 #: application/view/common/navigation-link-form/url.phtml:8
 #: application/view/common/property-form-batch-edit.phtml:45
-#: application/view/omeka/admin/resource-template/browse.phtml:7
-#: application/view/omeka/admin/resource-template/browse.phtml:44
+#: application/view/omeka/admin/resource-template/browse.phtml:26
 #: application/view/omeka/admin/resource-template/form.phtml:55
 #: application/view/omeka/admin/user/edit.phtml:38
-#: application/view/omeka/admin/vocabulary/browse.phtml:7
-#: application/view/omeka/admin/vocabulary/browse.phtml:44
-#: application/view/omeka/admin/vocabulary/classes.phtml:7
-#: application/view/omeka/admin/vocabulary/classes.phtml:37
-#: application/view/omeka/admin/vocabulary/properties.phtml:20
+#: application/view/omeka/admin/vocabulary/browse.phtml:26
+#: application/view/omeka/admin/vocabulary/classes.phtml:22
+#: application/view/omeka/admin/vocabulary/properties.phtml:23
 msgid "Label"
 msgstr "Oznaka"
 
@@ -1231,7 +1331,7 @@ msgstr "Bez filtera"
 msgid "Filter"
 msgstr "Filtriraj"
 
-#: application/view/common/form-row.phtml:33
+#: application/view/common/form-row.phtml:20
 msgid "Learn more"
 msgstr "Saznajte više"
 
@@ -1245,16 +1345,12 @@ msgstr "Filtrirajte zbirke"
 
 #: application/view/common/item-set-selector.phtml:18
 #: application/view/common/site-selector.phtml:10
-#: application/view/omeka/admin/asset/browse.phtml:54
-#: application/view/omeka/admin/item-set/browse.phtml:93
+#: application/view/omeka/admin/asset/browse.phtml:44
 #: application/view/omeka/admin/item-set/show.phtml:17
-#: application/view/omeka/admin/item/browse.phtml:91
 #: application/view/omeka/admin/item/show.phtml:8
-#: application/view/omeka/admin/job/browse.phtml:56
+#: application/view/omeka/admin/job/browse.phtml:38
 #: application/view/omeka/admin/job/show.phtml:18
-#: application/view/omeka/admin/media/browse.phtml:105
-#: application/view/omeka/admin/resource-template/browse.phtml:62
-#: application/view/omeka/site-admin/index/index.phtml:57
+#: application/view/omeka/admin/resource-template/browse.phtml:44
 msgid "[no owner]"
 msgstr "[nema vlasnika]"
 
@@ -1264,19 +1360,27 @@ msgstr "[nema vlasnika]"
 msgid "More info"
 msgstr "Više informacija"
 
-#: application/view/common/linked-resources.phtml:23
-msgid "Filter by property"
-msgstr "Filtriraj po svojstvu"
+#: application/view/common/linked-resources.phtml:54
+msgid "Filter by resource type and property:"
+msgstr ""
 
-#: application/view/common/linked-resources.phtml:25
-msgid "All"
-msgstr "Sve"
+#: application/view/common/linked-resources.phtml:64
+#, php-format
+msgid "%s with \"%s: %s\""
+msgstr ""
 
-#: application/view/common/linked-resources.phtml:40
-#: application/view/omeka/admin/resource-template/review-import.phtml:68
-#: application/view/omeka/admin/resource-template/show.phtml:28
-msgid "Alternate label"
-msgstr "Zamjenska oznaka"
+#: application/view/common/linked-resources.phtml:74
+#: application/view/omeka/admin/item-set/browse.phtml:54
+#: application/view/omeka/admin/item/browse.phtml:54
+#: application/view/omeka/admin/item/manage-item-sets.phtml:39
+#: application/view/omeka/admin/item/manage-sites.phtml:36
+#: application/view/omeka/admin/media/browse.phtml:49
+#: application/view/omeka/site-admin/index/index.phtml:25
+#: application/view/omeka/site-admin/index/resources.phtml:66
+#: application/view/omeka/site-admin/index/show.phtml:25
+#: application/view/omeka/site-admin/page/index.phtml:24
+msgid "Title"
+msgstr "Naslov"
 
 #: application/view/common/navigation-link-form/browse.phtml:8
 msgid "Search query"
@@ -1340,26 +1444,6 @@ msgstr "Odaberite svojstvo"
 #: application/view/common/property-form-batch-edit.phtml:76
 msgid "Add text value"
 msgstr "Dodajte vrijednost teksta"
-
-#: application/view/common/property-form-batch-edit.phtml:17
-#: application/view/common/property-form-batch-edit.phtml:31
-#: application/view/common/property-form-batch-edit.phtml:46
-#: application/view/common/property-form-batch-edit.phtml:66
-#: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:79
-#: application/view/omeka/admin/item/show-details.phtml:18
-#: application/view/omeka/admin/item/show.phtml:62
-#: application/view/omeka/admin/media/show-details.phtml:43
-#: application/view/omeka/admin/media/show.phtml:37
-msgid "Public"
-msgstr "Javno"
-
-#: application/view/common/property-form-batch-edit.phtml:18
-#: application/view/common/property-form-batch-edit.phtml:32
-#: application/view/common/property-form-batch-edit.phtml:47
-#: application/view/common/property-form-batch-edit.phtml:67
-msgid "Not public"
-msgstr "Nije javno"
 
 #: application/view/common/property-form-batch-edit.phtml:20
 #: application/view/common/property-form-batch-edit.phtml:34
@@ -1432,27 +1516,43 @@ msgstr "Dodajte vrijednost"
 msgid "Text"
 msgstr "Tekst"
 
+#: application/view/common/resource-page-block-layout/lightbox-gallery-item.phtml:11
+msgid "Other Media"
+msgstr ""
+
+#: application/view/common/resource-page-block-layout/linked-resources.phtml:14
+#: application/view/omeka/admin/item-set/show.phtml:22
+#: application/view/omeka/admin/item/show.phtml:13
+msgid "Linked resources"
+msgstr "Povezani resursi"
+
+#: application/view/common/resource-page-block-layout/resource-class.phtml:7
+msgid "Resource class"
+msgstr ""
+
 #: application/view/common/resource-select-sidebar.phtml:20
 msgid "Select resource"
 msgstr "Odaberite resurs"
 
-#: application/view/common/resource-values.phtml:53
-#: application/view/omeka/admin/item-set/browse.phtml:103
+#: application/view/common/resource-values.phtml:55
+#: application/view/common/sidebar-pagelist.phtml:26
+#: application/view/omeka/admin/item-set/browse.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:79
-#: application/view/omeka/admin/item/browse.phtml:101
+#: application/view/omeka/admin/item-set/show.phtml:82
+#: application/view/omeka/admin/item/browse.phtml:67
 #: application/view/omeka/admin/item/show-details.phtml:18
-#: application/view/omeka/admin/item/show.phtml:62
-#: application/view/omeka/admin/media/browse.phtml:115
-#: application/view/omeka/admin/media/show-details.phtml:43
-#: application/view/omeka/admin/media/show.phtml:37
+#: application/view/omeka/admin/item/show.phtml:64
+#: application/view/omeka/admin/media/browse.phtml:63
+#: application/view/omeka/admin/media/show-details.phtml:50
+#: application/view/omeka/admin/media/show.phtml:39
 #: application/view/omeka/admin/resource-template/form.phtml:90
-#: application/view/omeka/site-admin/index/index.phtml:64
-#: application/view/omeka/site-admin/page/index.phtml:66
+#: application/view/omeka/site-admin/index/index.phtml:35
+#: application/view/omeka/site-admin/index/navigation.phtml:63
+#: application/view/omeka/site-admin/page/index.phtml:42
 msgid "Private"
 msgstr "Privatno"
 
-#: application/view/common/resource-values.phtml:57
+#: application/view/common/resource-values.phtml:59
 msgid "Has annotation"
 msgstr ""
 
@@ -1465,10 +1565,43 @@ msgstr ""
 msgid "Filter pages"
 msgstr "Filtriraj stranice"
 
-#: application/view/common/sidebar-pagelist.phtml:25
-#: application/view/omeka/site-admin/index/navigation.phtml:65
+#: application/view/common/sidebar-pagelist.phtml:32
+#: application/view/omeka/site-admin/index/navigation.phtml:69
 msgid "There are no available pages."
 msgstr "Nema dostupnih stranica."
+
+#: application/view/common/sidebar-select-quick-add.phtml:3
+msgid "Quick add"
+msgstr "Brzo dodajte"
+
+#: application/view/common/sidebar-select-quick-add.phtml:5
+#: application/view/common/sidebar-select-quick-add.phtml:14
+#: application/view/omeka/admin/user/browse.phtml:81
+msgid "Inactive"
+msgstr "Neaktivan"
+
+#: application/view/common/sidebar-select-quick-add.phtml:8
+msgid "Quick add checkboxes are now available."
+msgstr ""
+
+#: application/view/common/sidebar-select-quick-add.phtml:9
+msgid "Quick add checkboxes are now hidden."
+msgstr ""
+
+#: application/view/common/sidebar-select-quick-add.phtml:12
+#: application/view/omeka/admin/item-set/browse.phtml:53
+#: application/view/omeka/admin/item/browse.phtml:54
+#: application/view/omeka/admin/media/browse.phtml:48
+msgid "Select all"
+msgstr "Odaberite sve"
+
+#: application/view/common/sidebar-select-quick-add.phtml:17
+msgid "All results are now selected."
+msgstr ""
+
+#: application/view/common/sidebar-select-quick-add.phtml:18
+msgid "All results are now deselected."
+msgstr ""
 
 #: application/view/common/site-page-pagination.phtml:3
 msgid "Prev"
@@ -1485,17 +1618,17 @@ msgstr "Filtrirajte web-mjesta"
 #: application/view/common/site-selector.phtml:7
 #: application/view/omeka/admin/item/form.phtml:17
 #: application/view/omeka/admin/item/show-details.phtml:32
-#: application/view/omeka/admin/item/show.phtml:76
+#: application/view/omeka/admin/item/show.phtml:78
 #: application/view/omeka/index/index.phtml:6
 #: application/view/omeka/site-admin/index/add.phtml:12
 #: application/view/omeka/site-admin/index/edit.phtml:8
-#: application/view/omeka/site-admin/index/index.phtml:21
+#: application/view/omeka/site-admin/index/index.phtml:7
 #: application/view/omeka/site-admin/index/navigation.phtml:15
 #: application/view/omeka/site-admin/index/resources.phtml:20
 #: application/view/omeka/site-admin/index/show.phtml:7
 #: application/view/omeka/site-admin/index/theme.phtml:11
 #: application/view/omeka/site-admin/index/users.phtml:41
-#: application/view/omeka/site-admin/page/index.phtml:33
+#: application/view/omeka/site-admin/page/index.phtml:9
 msgid "Sites"
 msgstr "Web-mjesta"
 
@@ -1516,7 +1649,7 @@ msgstr "Poredajte po %s"
 msgid "Sort by"
 msgstr "Poredajte po"
 
-#: application/view/common/sort-selector.phtml:13
+#: application/view/common/sort-selector.phtml:12
 msgid "Sort order"
 msgstr "Redoslijed"
 
@@ -1564,7 +1697,7 @@ msgstr ""
 #: application/view/common/value-annotation-wrapper.phtml:13
 #: application/view/omeka/admin/item-set/form.phtml:49
 #: application/view/omeka/admin/item/form.phtml:58
-#: application/view/omeka/admin/item/manage-media.phtml:36
+#: application/view/omeka/admin/item/manage-media.phtml:48
 #: application/view/omeka/admin/media/edit.phtml:60
 #: application/view/omeka/site-admin/index/add-page.phtml:12
 #: application/view/omeka/site-admin/index/add.phtml:20
@@ -1580,7 +1713,7 @@ msgstr "Nova verzija Omeka S je dostupna. %s"
 
 #: application/view/common/version-notification.phtml:12
 #: application/view/omeka/admin/module/browse.phtml:62
-#: application/view/omeka/site-admin/index/theme.phtml:55
+#: application/view/omeka/site-admin/index/theme.phtml:58
 msgid "Get the new version."
 msgstr "Nabavite novu verziju."
 
@@ -1668,7 +1801,7 @@ msgstr "Pretražite medije"
 
 #: application/view/layout/layout-admin.phtml:85
 #: application/view/omeka/admin/index/browse.phtml:50
-#: application/view/omeka/site-admin/index/index.phtml:70
+#: application/view/omeka/site-admin/index/index.phtml:41
 msgid "View public site"
 msgstr "Pogledajte javno web-mjesto"
 
@@ -1729,59 +1862,58 @@ msgstr ""
 msgid "Upload"
 msgstr "Prebacite"
 
-#: application/view/omeka/admin/asset/browse.phtml:8
-#: application/view/omeka/admin/item-set/show-details.phtml:13
-#: application/view/omeka/admin/item-set/show.phtml:66
-#: application/view/omeka/admin/item/show-details.phtml:13
-#: application/view/omeka/admin/item/show.phtml:57
-#: application/view/omeka/admin/job/browse.phtml:7
-#: application/view/omeka/admin/job/browse.phtml:37
-#: application/view/omeka/admin/media/show-details.phtml:18
-#: application/view/omeka/admin/media/show.phtml:32
-#: application/view/omeka/admin/user/edit.phtml:39
-msgid "ID"
-msgstr "ID"
-
-#: application/view/omeka/admin/asset/browse.phtml:27
+#: application/view/omeka/admin/asset/browse.phtml:17
 msgid "Add new asset"
 msgstr ""
 
-#: application/view/omeka/admin/asset/browse.phtml:75
+#: application/view/omeka/admin/asset/browse.phtml:28
+#: application/view/omeka/admin/item-set/show.phtml:77
+#: application/view/omeka/admin/item/manage-item-sets.phtml:40
+#: application/view/omeka/admin/item/manage-sites.phtml:37
+#: application/view/omeka/admin/item/show.phtml:89
+#: application/view/omeka/admin/job/browse.phtml:22
+#: application/view/omeka/admin/job/show.phtml:46
+#: application/view/omeka/admin/resource-template/browse.phtml:28
+#: application/view/omeka/site-admin/index/resources.phtml:67
+msgid "Owner"
+msgstr "Vlasnik"
+
+#: application/view/omeka/admin/asset/browse.phtml:65
 #: application/view/omeka/admin/asset/edit.phtml:6
-#: application/view/omeka/admin/item-set/browse.phtml:117
+#: application/view/omeka/admin/item-set/browse.phtml:82
 #: application/view/omeka/admin/item-set/edit.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:115
+#: application/view/omeka/admin/item/browse.phtml:81
 #: application/view/omeka/admin/item/edit.phtml:6
-#: application/view/omeka/admin/media/browse.phtml:129
+#: application/view/omeka/admin/media/browse.phtml:77
 #: application/view/omeka/admin/media/edit.phtml:65
-#: application/view/omeka/admin/resource-template/browse.phtml:79
+#: application/view/omeka/admin/resource-template/browse.phtml:61
 #: application/view/omeka/admin/resource-template/form.phtml:13
-#: application/view/omeka/admin/user/browse.phtml:108
+#: application/view/omeka/admin/user/browse.phtml:94
 #: application/view/omeka/admin/user/edit.phtml:40
-#: application/view/omeka/admin/vocabulary/browse.phtml:67
+#: application/view/omeka/admin/vocabulary/browse.phtml:49
 #: application/view/omeka/admin/vocabulary/edit.phtml:11
 #: application/view/omeka/site-admin/index/edit.phtml:26
-#: application/view/omeka/site-admin/index/index.phtml:82
+#: application/view/omeka/site-admin/index/index.phtml:53
 #: application/view/omeka/site-admin/index/users.phtml:7
 #: application/view/omeka/site-admin/page/edit.phtml:29
 msgid "Delete"
 msgstr "Izbrišite"
 
-#: application/view/omeka/admin/asset/browse.phtml:82
-#: application/view/omeka/admin/item-set/browse.phtml:124
-#: application/view/omeka/admin/item/browse.phtml:122
-#: application/view/omeka/admin/media/browse.phtml:136
-#: application/view/omeka/admin/resource-template/browse.phtml:85
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:27
-#: application/view/omeka/admin/resource-template/show.phtml:44
-#: application/view/omeka/admin/user/browse.phtml:115
-#: application/view/omeka/admin/vocabulary/browse.phtml:74
-#: application/view/omeka/admin/vocabulary/classes.phtml:52
-#: application/view/omeka/admin/vocabulary/properties.phtml:35
+#: application/view/omeka/admin/asset/browse.phtml:72
+#: application/view/omeka/admin/item-set/browse.phtml:89
+#: application/view/omeka/admin/item/browse.phtml:88
+#: application/view/omeka/admin/media/browse.phtml:84
+#: application/view/omeka/admin/resource-template/browse.phtml:67
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:28
+#: application/view/omeka/admin/resource-template/show.phtml:45
+#: application/view/omeka/admin/user/browse.phtml:101
+#: application/view/omeka/admin/vocabulary/browse.phtml:56
+#: application/view/omeka/admin/vocabulary/classes.phtml:37
+#: application/view/omeka/admin/vocabulary/properties.phtml:38
 msgid "Details"
 msgstr "Detalji"
 
-#: application/view/omeka/admin/asset/browse.phtml:108
+#: application/view/omeka/admin/asset/browse.phtml:98
 msgid "Omeka could not find any assets."
 msgstr ""
 
@@ -1805,6 +1937,27 @@ msgstr "Filtrirajte po vlasniku"
 msgid "assets"
 msgstr "sredstva"
 
+#: application/view/omeka/admin/columns/column-edit-sidebar.phtml:5
+#: application/view/omeka/admin/columns/column-row.phtml:10
+msgid "Edit column"
+msgstr ""
+
+#: application/view/omeka/admin/columns/column-edit-sidebar.phtml:10
+msgid "Set column"
+msgstr ""
+
+#: application/view/omeka/admin/columns/column-row.phtml:5
+msgid "Column to be removed"
+msgstr ""
+
+#: application/view/omeka/admin/columns/column-row.phtml:14
+msgid "Remove column"
+msgstr ""
+
+#: application/view/omeka/admin/columns/column-row.phtml:18
+msgid "Restore column"
+msgstr ""
+
 #: application/view/omeka/admin/index/browse.phtml:4
 #: application/view/omeka/index/index.phtml:33
 msgid "Admin dashboard"
@@ -1825,7 +1978,7 @@ msgid "Items (%s)"
 msgstr "Predmeti (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:17
-#: application/view/omeka/admin/item/browse.phtml:41
+#: application/view/omeka/admin/item/browse.phtml:19
 msgid "Add new item"
 msgstr "Dodajte novi predmet"
 
@@ -1840,7 +1993,7 @@ msgid "Vocabularies (%s)"
 msgstr "Vokabulari (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:29
-#: application/view/omeka/admin/vocabulary/browse.phtml:29
+#: application/view/omeka/admin/vocabulary/browse.phtml:11
 msgid "Import new vocabulary"
 msgstr "Uvedite novi vokabular"
 
@@ -1850,7 +2003,7 @@ msgid "Resource templates (%s)"
 msgstr "Predlošci resursa (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:35
-#: application/view/omeka/admin/resource-template/browse.phtml:30
+#: application/view/omeka/admin/resource-template/browse.phtml:12
 msgid "Add new resource template"
 msgstr "Dodajte novi predložak resursa"
 
@@ -1885,6 +2038,7 @@ msgstr "Skupno uredite zbirke"
 #: application/view/omeka/site-admin/index/edit.phtml:29
 #: application/view/omeka/site-admin/index/navigation.phtml:22
 #: application/view/omeka/site-admin/index/resources.phtml:31
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:28
 #: application/view/omeka/site-admin/index/theme-settings.phtml:12
 #: application/view/omeka/site-admin/index/theme.phtml:18
 #: application/view/omeka/site-admin/index/users.phtml:48
@@ -1906,103 +2060,97 @@ msgstr "Uređujete sljedećih %s zbirki:"
 msgid "You are editing %s item sets."
 msgstr "Uređujete %s zbirki."
 
-#: application/view/omeka/admin/item-set/browse.phtml:35
+#: application/view/omeka/admin/item-set/browse.phtml:13
 #: application/view/omeka/admin/item-set/search.phtml:5
-#: application/view/omeka/admin/item/browse.phtml:35
+#: application/view/omeka/admin/item/browse.phtml:13
 #: application/view/omeka/admin/item/search.phtml:5
-#: application/view/omeka/admin/media/browse.phtml:41
+#: application/view/omeka/admin/media/browse.phtml:13
 #: application/view/omeka/admin/media/search.phtml:5
-#: application/view/omeka/admin/user/browse.phtml:30
+#: application/view/omeka/admin/user/browse.phtml:16
 #: application/view/omeka/admin/user/search.phtml:5
 #: application/view/omeka/site/item-set/browse.phtml:17
-#: application/view/omeka/site/item/browse.phtml:51
+#: application/view/omeka/site/item/browse.phtml:34
 msgid "Advanced search"
 msgstr "Napredno pretraživanje"
 
-#: application/view/omeka/admin/item-set/browse.phtml:51
-#: application/view/omeka/admin/item-set/browse.phtml:52
-#: application/view/omeka/admin/item/browse.phtml:50
-#: application/view/omeka/admin/item/browse.phtml:51
-#: application/view/omeka/admin/media/browse.phtml:50
-#: application/view/omeka/admin/media/browse.phtml:51
-#: application/view/omeka/admin/user/browse.phtml:45
-#: application/view/omeka/admin/user/browse.phtml:46
+#: application/view/omeka/admin/item-set/browse.phtml:28
+#: application/view/omeka/admin/item-set/browse.phtml:29
+#: application/view/omeka/admin/item/browse.phtml:28
+#: application/view/omeka/admin/item/browse.phtml:29
+#: application/view/omeka/admin/media/browse.phtml:22
+#: application/view/omeka/admin/media/browse.phtml:23
+#: application/view/omeka/admin/user/browse.phtml:31
+#: application/view/omeka/admin/user/browse.phtml:32
 msgid "Batch actions"
 msgstr "Skupne akcije"
 
-#: application/view/omeka/admin/item-set/browse.phtml:53
-#: application/view/omeka/admin/item/browse.phtml:52
-#: application/view/omeka/admin/media/browse.phtml:53
-#: application/view/omeka/admin/user/browse.phtml:48
+#: application/view/omeka/admin/item-set/browse.phtml:30
+#: application/view/omeka/admin/item/browse.phtml:30
+#: application/view/omeka/admin/media/browse.phtml:24
+#: application/view/omeka/admin/user/browse.phtml:34
 msgid "Edit selected"
 msgstr "Uredite odabrano"
 
-#: application/view/omeka/admin/item-set/browse.phtml:54
-#: application/view/omeka/admin/item/browse.phtml:53
-#: application/view/omeka/admin/media/browse.phtml:54
-#: application/view/omeka/admin/user/browse.phtml:49
+#: application/view/omeka/admin/item-set/browse.phtml:32
+#: application/view/omeka/admin/item/browse.phtml:32
+#: application/view/omeka/admin/media/browse.phtml:26
+#: application/view/omeka/admin/user/browse.phtml:35
 msgid "Edit all"
 msgstr "Uredite sve"
 
-#: application/view/omeka/admin/item-set/browse.phtml:55
-#: application/view/omeka/admin/item/browse.phtml:54
-#: application/view/omeka/admin/media/browse.phtml:57
-#: application/view/omeka/admin/user/browse.phtml:52
+#: application/view/omeka/admin/item-set/browse.phtml:34
+#: application/view/omeka/admin/item/browse.phtml:34
+#: application/view/omeka/admin/media/browse.phtml:28
+#: application/view/omeka/admin/user/browse.phtml:38
 msgid "Delete selected"
 msgstr "Izbrišite odabrano"
 
-#: application/view/omeka/admin/item-set/browse.phtml:56
-#: application/view/omeka/admin/item/browse.phtml:55
-#: application/view/omeka/admin/media/browse.phtml:58
-#: application/view/omeka/admin/user/browse.phtml:53
+#: application/view/omeka/admin/item-set/browse.phtml:36
+#: application/view/omeka/admin/item/browse.phtml:36
+#: application/view/omeka/admin/media/browse.phtml:30
+#: application/view/omeka/admin/user/browse.phtml:39
 msgid "Delete all"
 msgstr "Izbrišite sve"
 
-#: application/view/omeka/admin/item-set/browse.phtml:59
-#: application/view/omeka/admin/item-set/browse.phtml:60
-#: application/view/omeka/admin/item-set/browse.phtml:61
-#: application/view/omeka/admin/item-set/browse.phtml:63
-#: application/view/omeka/admin/item-set/browse.phtml:64
-#: application/view/omeka/admin/item/browse.phtml:58
-#: application/view/omeka/admin/item/browse.phtml:59
-#: application/view/omeka/admin/item/browse.phtml:60
-#: application/view/omeka/admin/item/browse.phtml:62
-#: application/view/omeka/admin/item/browse.phtml:63
-#: application/view/omeka/admin/media/browse.phtml:62
-#: application/view/omeka/admin/media/browse.phtml:64
-#: application/view/omeka/admin/media/browse.phtml:65
-#: application/view/omeka/admin/media/browse.phtml:69
-#: application/view/omeka/admin/media/browse.phtml:70
-#: application/view/omeka/admin/user/browse.phtml:57
-#: application/view/omeka/admin/user/browse.phtml:59
-#: application/view/omeka/admin/user/browse.phtml:60
-#: application/view/omeka/admin/user/browse.phtml:64
-#: application/view/omeka/admin/user/browse.phtml:65
+#: application/view/omeka/admin/item-set/browse.phtml:40
+#: application/view/omeka/admin/item-set/browse.phtml:41
+#: application/view/omeka/admin/item-set/browse.phtml:42
+#: application/view/omeka/admin/item-set/browse.phtml:44
+#: application/view/omeka/admin/item-set/browse.phtml:45
+#: application/view/omeka/admin/item/browse.phtml:40
+#: application/view/omeka/admin/item/browse.phtml:41
+#: application/view/omeka/admin/item/browse.phtml:42
+#: application/view/omeka/admin/item/browse.phtml:44
+#: application/view/omeka/admin/item/browse.phtml:45
+#: application/view/omeka/admin/media/browse.phtml:34
+#: application/view/omeka/admin/media/browse.phtml:35
+#: application/view/omeka/admin/media/browse.phtml:36
+#: application/view/omeka/admin/media/browse.phtml:38
+#: application/view/omeka/admin/media/browse.phtml:39
+#: application/view/omeka/admin/user/browse.phtml:43
+#: application/view/omeka/admin/user/browse.phtml:45
+#: application/view/omeka/admin/user/browse.phtml:46
+#: application/view/omeka/admin/user/browse.phtml:50
+#: application/view/omeka/admin/user/browse.phtml:51
 msgid "Go"
 msgstr "Kreni"
 
-#: application/view/omeka/admin/item-set/browse.phtml:72
-#: application/view/omeka/admin/item/browse.phtml:72
-#: application/view/omeka/admin/media/browse.phtml:81
-msgid "Select all"
-msgstr "Odaberite sve"
-
-#: application/view/omeka/admin/item-set/browse.phtml:99
-#: application/view/omeka/admin/item-set/sidebar-select.phtml:8
+#: application/view/omeka/admin/item-set/browse.phtml:64
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:11
 msgid "Select item set"
 msgstr "Odaberite zbirku"
 
-#: application/view/omeka/admin/item-set/browse.phtml:157
-#: application/view/omeka/admin/item-set/browse.phtml:175
+#: application/view/omeka/admin/item-set/browse.phtml:120
+#: application/view/omeka/admin/item-set/browse.phtml:138
 msgid "Delete item sets"
 msgstr "Izbrišite zbirke"
 
-#: application/view/omeka/admin/item-set/browse.phtml:158
+#: application/view/omeka/admin/item-set/browse.phtml:121
 msgid "Are you sure you would like to delete the selected item sets?"
 msgstr "Jeste li sigurni da biste htjeli izbrisati odabrane zbirke?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:160
-#: application/view/omeka/admin/item-set/browse.phtml:178
+#: application/view/omeka/admin/item-set/browse.phtml:123
+#: application/view/omeka/admin/item-set/browse.phtml:141
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s item sets and cannot be "
@@ -2010,18 +2158,18 @@ msgid ""
 msgstr ""
 "%1$s: ova akcija će trajno izbrisati %2$s zbirke i ne može se poništiti."
 
-#: application/view/omeka/admin/item-set/browse.phtml:161
-#: application/view/omeka/admin/item-set/browse.phtml:179
-#: application/view/omeka/admin/item/browse.phtml:159
-#: application/view/omeka/admin/item/browse.phtml:177
-#: application/view/omeka/admin/media/browse.phtml:175
-#: application/view/omeka/admin/media/browse.phtml:193
-#: application/view/omeka/admin/user/browse.phtml:154
-#: application/view/omeka/admin/user/browse.phtml:172
+#: application/view/omeka/admin/item-set/browse.phtml:124
+#: application/view/omeka/admin/item-set/browse.phtml:142
+#: application/view/omeka/admin/item/browse.phtml:123
+#: application/view/omeka/admin/item/browse.phtml:141
+#: application/view/omeka/admin/media/browse.phtml:120
+#: application/view/omeka/admin/media/browse.phtml:138
+#: application/view/omeka/admin/user/browse.phtml:140
+#: application/view/omeka/admin/user/browse.phtml:158
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: application/view/omeka/admin/item-set/browse.phtml:176
+#: application/view/omeka/admin/item-set/browse.phtml:139
 msgid ""
 "Are you sure you would like to delete all item sets on all pages of this "
 "result?"
@@ -2029,14 +2177,14 @@ msgstr ""
 "Jeste li sigurni da biste htjeli izbrisati sve zbirke na svim stranicama "
 "ovog rezultata?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:182
-#: application/view/omeka/admin/item/browse.phtml:180
-#: application/view/omeka/admin/media/browse.phtml:196
-#: application/view/omeka/admin/user/browse.phtml:175
+#: application/view/omeka/admin/item-set/browse.phtml:145
+#: application/view/omeka/admin/item/browse.phtml:144
+#: application/view/omeka/admin/media/browse.phtml:141
+#: application/view/omeka/admin/user/browse.phtml:161
 msgid "Are you sure?"
 msgstr "Jeste li sigurni?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:216
+#: application/view/omeka/admin/item-set/browse.phtml:179
 msgid "Omeka could not find any item sets."
 msgstr "Omeka nije mogla nači ikakve zbirke."
 
@@ -2060,22 +2208,13 @@ msgstr "Zatvorite zbirku"
 msgid "Open item set"
 msgstr "Otvorite zbirku"
 
-#: application/view/omeka/admin/item-set/show-details.phtml:17
-#: application/view/omeka/admin/item-set/show.phtml:78
-#: application/view/omeka/admin/item/show-details.phtml:17
-#: application/view/omeka/admin/item/show.phtml:61
-#: application/view/omeka/admin/media/show-details.phtml:42
-#: application/view/omeka/admin/media/show.phtml:36
-msgid "Visibility"
-msgstr "Vidljivost"
-
 #: application/view/omeka/admin/item-set/show-details.phtml:19
-#: application/view/omeka/admin/item-set/show.phtml:80
+#: application/view/omeka/admin/item-set/show.phtml:83
 msgid "Open to additions"
 msgstr "Otvoreno dopunama"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:19
-#: application/view/omeka/admin/item-set/show.phtml:80
+#: application/view/omeka/admin/item-set/show.phtml:83
 msgid "Closed to additions"
 msgstr "Zatvoreno dopunama"
 
@@ -2085,12 +2224,6 @@ msgstr "Zatvoreno dopunama"
 msgid "Metadata"
 msgstr "Metapodaci"
 
-#: application/view/omeka/admin/item-set/show.phtml:22
-#: application/view/omeka/admin/item/show.phtml:13
-#: application/view/omeka/site/item/show.phtml:58
-msgid "Linked resources"
-msgstr "Povezani resursi"
-
 #: application/view/omeka/admin/item-set/show.phtml:30
 msgid "Edit item set"
 msgstr "Uredite zbirku"
@@ -2099,29 +2232,37 @@ msgstr "Uredite zbirku"
 msgid "View items"
 msgstr "Pogledajte predmete"
 
-#: application/view/omeka/admin/item-set/show.phtml:54
+#: application/view/omeka/admin/item-set/show.phtml:58
 msgid "The following resources link to this item set:"
 msgstr "Sljedeći resursi vode do ove zbirke: "
 
-#: application/view/omeka/admin/item-set/show.phtml:58
+#: application/view/omeka/admin/item-set/show.phtml:62
 msgid "No resources link to this item set."
 msgstr "Niti jedan resurs ne vodi do ove zbirke."
 
-#: application/view/omeka/admin/item-set/sidebar-select.phtml:39
-msgid "item sets"
-msgstr "zbirke"
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:19
+#: application/view/omeka/admin/item/sidebar-select.phtml:28
+msgid "Filter search"
+msgstr "Filtrirajte pretragu"
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:36
+msgid "Filter by item set ID"
+msgstr ""
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:70
+#: application/view/omeka/admin/item/browse.phtml:178
+#: application/view/omeka/admin/item/sidebar-select.phtml:100
+msgid "Omeka could not find any items."
+msgstr "Omeka nije mogla naći ikakve predmete."
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:76
+#: application/view/omeka/admin/item/sidebar-select.phtml:105
+msgid "Add selected"
+msgstr ""
 
 #: application/view/omeka/admin/item/add.phtml:6
 msgid "New item"
 msgstr "Novi predmet"
-
-#: application/view/omeka/admin/item/add.phtml:13
-#: application/view/omeka/admin/resource-template/add.phtml:15
-#: application/view/omeka/admin/user/add.phtml:13
-#: application/view/omeka/site-admin/index/add-page.phtml:23
-#: application/view/omeka/site-admin/index/add.phtml:31
-msgid "Add"
-msgstr "Dodajte"
 
 #: application/view/omeka/admin/item/batch-edit.phtml:7
 msgid "Batch edit items"
@@ -2141,45 +2282,41 @@ msgstr "Uređujete sljedećih %s setova predmeta:"
 msgid "You are editing %s items."
 msgstr "Uređujete %s predmeta."
 
-#: application/view/omeka/admin/item/browse.phtml:97
+#: application/view/omeka/admin/item/browse.phtml:63
 #: application/view/omeka/admin/item/sidebar-select.phtml:10
 msgid "Select item"
 msgstr "Odaberite predmet"
 
-#: application/view/omeka/admin/item/browse.phtml:155
-#: application/view/omeka/admin/item/browse.phtml:173
+#: application/view/omeka/admin/item/browse.phtml:119
+#: application/view/omeka/admin/item/browse.phtml:137
 msgid "Delete items"
 msgstr "Izbrišite predmete"
 
-#: application/view/omeka/admin/item/browse.phtml:156
+#: application/view/omeka/admin/item/browse.phtml:120
 msgid "Are you sure you would like to delete the selected items?"
 msgstr "Jeste li sigurni da biste htjeli izbrisati odabrane predmete?"
 
-#: application/view/omeka/admin/item/browse.phtml:158
-#: application/view/omeka/admin/item/browse.phtml:176
+#: application/view/omeka/admin/item/browse.phtml:122
+#: application/view/omeka/admin/item/browse.phtml:140
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s items and cannot be undone."
 msgstr ""
 "%1$s: ova akcija će trajno izbrisati %2$s predmeta i ne može se poništiti."
 
-#: application/view/omeka/admin/item/browse.phtml:174
+#: application/view/omeka/admin/item/browse.phtml:138
 msgid ""
 "Are you sure you would like to delete all items on all pages of this result?"
 msgstr ""
 "Jeste li sigurni da biste htjeli izbrisati sve predmete na svim stranicama "
 "ovog rezultata?"
 
-#: application/view/omeka/admin/item/browse.phtml:214
-msgid "Omeka could not find any items."
-msgstr "Omeka nije mogla naći ikakve predmete."
-
-#: application/view/omeka/admin/item/manage-item-sets.phtml:21
+#: application/view/omeka/admin/item/manage-item-sets.phtml:27
 #: application/view/omeka/site-admin/index/resources.phtml:14
 msgid "Remove item set"
 msgstr "Uklonite zbirku"
 
-#: application/view/omeka/admin/item/manage-item-sets.phtml:42
+#: application/view/omeka/admin/item/manage-item-sets.phtml:48
 msgid ""
 "This item is part of no item sets. Add it to an item set using the interface"
 " to the right."
@@ -2187,15 +2324,19 @@ msgstr ""
 "Ovaj predmet nije dio niti jedne zbirke. Dodajte ga u zbirku koristeći "
 "sučelje s desne strane."
 
-#: application/view/omeka/admin/item/manage-item-sets.phtml:45
+#: application/view/omeka/admin/item/manage-item-sets.phtml:51
 msgid "Add to item set"
 msgstr "Dodajte u zbirku"
 
-#: application/view/omeka/admin/item/manage-media.phtml:21
+#: application/view/omeka/admin/item/manage-media.phtml:28
 msgid "Media to be removed"
 msgstr "Medij koji će se ukloniti "
 
-#: application/view/omeka/admin/item/manage-media.phtml:63
+#: application/view/omeka/admin/item/manage-media.phtml:33
+msgid "Primary media"
+msgstr ""
+
+#: application/view/omeka/admin/item/manage-media.phtml:75
 msgid ""
 "This resource has no media.<br>Start adding media using the sidebar to the "
 "right."
@@ -2203,16 +2344,16 @@ msgstr ""
 "Ovaj resurs nema medija.<br>Počnite dodavati medije koristeći sučelje s "
 "desne strane.."
 
-#: application/view/omeka/admin/item/manage-media.phtml:67
-#: application/view/omeka/admin/item/manage-media.phtml:71
+#: application/view/omeka/admin/item/manage-media.phtml:79
+#: application/view/omeka/admin/item/manage-media.phtml:83
 msgid "Add media"
 msgstr "Dodajte medij"
 
-#: application/view/omeka/admin/item/manage-sites.phtml:30
+#: application/view/omeka/admin/item/manage-sites.phtml:27
 msgid "Unassign from site"
 msgstr "Poništite dodijelu ovom web-mjestu"
 
-#: application/view/omeka/admin/item/manage-sites.phtml:48
+#: application/view/omeka/admin/item/manage-sites.phtml:45
 msgid ""
 "This item is part of no sites. Add it to a site using the interface to the "
 "right."
@@ -2220,7 +2361,7 @@ msgstr ""
 "Ovaj predmet nije dio ikakvog web-mjesta. Dodajte ga na stranicu koristeći "
 "sučelje s desne strane."
 
-#: application/view/omeka/admin/item/manage-sites.phtml:51
+#: application/view/omeka/admin/item/manage-sites.phtml:48
 msgid "Assign to site"
 msgstr "Dodijelite ovom web-mjestu"
 
@@ -2228,46 +2369,25 @@ msgstr "Dodijelite ovom web-mjestu"
 msgid "Edit item"
 msgstr "Uredite predmet"
 
-#: application/view/omeka/admin/item/show.phtml:44
-msgid "The following resources link to this item:"
-msgstr "Sljedeći resursi vode do ovog predmeta:"
-
-#: application/view/omeka/admin/item/show.phtml:48
+#: application/view/omeka/admin/item/show.phtml:51
 msgid "No resources link to this item."
 msgstr "Niti jedan resurs ne vodi do ovog predmeta."
-
-#: application/view/omeka/admin/item/sidebar-select.phtml:28
-msgid "Filter search"
-msgstr "Filtrirajte pretragu"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:57
 msgid "Filter by item ID"
 msgstr "Filtriraj po ID-u predmeta"
 
-#: application/view/omeka/admin/item/sidebar-select.phtml:67
-msgid "Quick add"
-msgstr "Brzo dodajte"
-
-#: application/view/omeka/admin/item/sidebar-select.phtml:98
-msgid "items"
-msgstr "predmeti"
-
-#: application/view/omeka/admin/item/sidebar-select.phtml:103
-msgid "Add selected"
-msgstr ""
-
-#: application/view/omeka/admin/job/browse.phtml:15
-#: application/view/omeka/admin/job/browse.phtml:39
-#: application/view/omeka/admin/job/show.phtml:29
-msgid "Status"
-msgstr "Status"
-
-#: application/view/omeka/admin/job/browse.phtml:25
+#: application/view/omeka/admin/job/browse.phtml:7
 #: application/view/omeka/admin/job/show.phtml:21
 msgid "Jobs"
 msgstr "Poslovi"
 
-#: application/view/omeka/admin/job/browse.phtml:78
+#: application/view/omeka/admin/job/browse.phtml:21
+#: application/view/omeka/admin/job/show.phtml:30
+msgid "Status"
+msgstr "Status"
+
+#: application/view/omeka/admin/job/browse.phtml:60
 msgid "Omeka could not find any jobs."
 msgstr "Omeka nije mogla naći ikakve poslove. "
 
@@ -2279,31 +2399,31 @@ msgstr "[nije započeto]"
 msgid "[not ended]"
 msgstr "[nije završeno]"
 
-#: application/view/omeka/admin/job/show.phtml:33
+#: application/view/omeka/admin/job/show.phtml:34
 msgid "Started"
 msgstr "Započeto"
 
-#: application/view/omeka/admin/job/show.phtml:37
+#: application/view/omeka/admin/job/show.phtml:38
 msgid "Ended"
 msgstr "Završeno"
 
-#: application/view/omeka/admin/job/show.phtml:49
+#: application/view/omeka/admin/job/show.phtml:50
 msgid "Args"
 msgstr "Argumenti"
 
-#: application/view/omeka/admin/job/show.phtml:54
+#: application/view/omeka/admin/job/show.phtml:55
 msgid "[no args]"
 msgstr "[nema argumenata]"
 
-#: application/view/omeka/admin/job/show.phtml:58
+#: application/view/omeka/admin/job/show.phtml:59
 msgid "Log"
 msgstr "Zapis"
 
-#: application/view/omeka/admin/job/show.phtml:61
+#: application/view/omeka/admin/job/show.phtml:62
 msgid "view log"
 msgstr "Pogledajte zapis"
 
-#: application/view/omeka/admin/job/show.phtml:65
+#: application/view/omeka/admin/job/show.phtml:66
 msgid "[no log]"
 msgstr "[nema zapisa]"
 
@@ -2325,33 +2445,34 @@ msgstr ""
 msgid "You are editing %s media."
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:111
+#: application/view/omeka/admin/media/browse.phtml:59
 #: application/view/omeka/admin/media/sidebar-select.phtml:8
 msgid "Select media"
 msgstr "Odaberite medij"
 
-#: application/view/omeka/admin/media/browse.phtml:171
-#: application/view/omeka/admin/media/browse.phtml:189
+#: application/view/omeka/admin/media/browse.phtml:116
+#: application/view/omeka/admin/media/browse.phtml:134
 msgid "Delete media"
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:172
+#: application/view/omeka/admin/media/browse.phtml:117
 msgid "Are you sure you would like to delete the selected media?"
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:174
-#: application/view/omeka/admin/media/browse.phtml:192
+#: application/view/omeka/admin/media/browse.phtml:119
+#: application/view/omeka/admin/media/browse.phtml:137
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s media and cannot be undone."
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:190
+#: application/view/omeka/admin/media/browse.phtml:135
 msgid ""
 "Are you sure you would like to delete all media on all pages of this result?"
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:231
+#: application/view/omeka/admin/media/browse.phtml:175
+#: application/view/omeka/admin/media/sidebar-select.phtml:38
 msgid "Omeka could not find any media."
 msgstr ""
 
@@ -2359,13 +2480,18 @@ msgstr ""
 msgid "Part of Item"
 msgstr "Dio Predmeta"
 
-#: application/view/omeka/admin/media/show-details.phtml:29
-#: application/view/omeka/admin/media/show.phtml:50
+#: application/view/omeka/admin/media/show-details.phtml:36
+#: application/view/omeka/admin/media/show.phtml:58
 msgid "MIME type"
 msgstr "MIME vrsta"
 
-#: application/view/omeka/admin/media/show-details.phtml:37
-#: application/view/omeka/admin/media/show.phtml:57
+#: application/view/omeka/admin/media/show-details.phtml:43
+#: application/view/omeka/admin/media/show.phtml:64
+msgid "Size"
+msgstr "Veličina"
+
+#: application/view/omeka/admin/media/show-details.phtml:44
+#: application/view/omeka/admin/media/show.phtml:65
 #, php-format
 msgid "%s bytes"
 msgstr "%s bajtova"
@@ -2374,41 +2500,37 @@ msgstr "%s bajtova"
 msgid "Edit media"
 msgstr "Uredite medij"
 
-#: application/view/omeka/admin/media/show.phtml:40
+#: application/view/omeka/admin/media/show.phtml:42
 msgid "Part of item"
 msgstr "Dio predmeta"
 
-#: application/view/omeka/admin/media/show.phtml:61
+#: application/view/omeka/admin/media/show.phtml:69
 msgid "Ingester"
 msgstr "Ingester"
 
-#: application/view/omeka/admin/media/show.phtml:66
+#: application/view/omeka/admin/media/show.phtml:74
 msgid "Source"
 msgstr "Izvor"
 
-#: application/view/omeka/admin/media/show.phtml:72
+#: application/view/omeka/admin/media/show.phtml:80
 msgid "File Derivatives"
 msgstr "Derivati Datoteke"
 
-#: application/view/omeka/admin/media/show.phtml:74
+#: application/view/omeka/admin/media/show.phtml:82
 msgid "original"
 msgstr "original"
 
-#: application/view/omeka/admin/media/show.phtml:77
+#: application/view/omeka/admin/media/show.phtml:85
 msgid "large"
 msgstr "veliko"
 
-#: application/view/omeka/admin/media/show.phtml:78
+#: application/view/omeka/admin/media/show.phtml:86
 msgid "medium"
 msgstr "medij"
 
-#: application/view/omeka/admin/media/show.phtml:79
+#: application/view/omeka/admin/media/show.phtml:87
 msgid "square"
 msgstr "kocka"
-
-#: application/view/omeka/admin/media/sidebar-select.phtml:38
-msgid "media"
-msgstr "medij"
 
 #: application/view/omeka/admin/module/browse.phtml:15
 msgid "All modules"
@@ -2430,34 +2552,32 @@ msgid "A new version of this module is available. %s"
 msgstr "Nova verzija ovog modula je dostupna. %s"
 
 #: application/view/omeka/admin/module/browse.phtml:75
-#: application/view/omeka/admin/module/browse.phtml:83
 #: application/view/omeka/admin/module/configure.phtml:6
-#: application/view/omeka/site-admin/index/theme-settings.phtml:6
 msgid "Configure"
 msgstr "Konfigurirajte"
 
-#: application/view/omeka/admin/module/browse.phtml:127
+#: application/view/omeka/admin/module/browse.phtml:126
 msgid "Uninstall"
 msgstr "Deinstalirajte"
 
-#: application/view/omeka/admin/module/browse.phtml:144
+#: application/view/omeka/admin/module/browse.phtml:143
 msgid "Error: invalid Module.php file"
 msgstr "Greška: neispravna Modul.php datoteka"
 
-#: application/view/omeka/admin/module/browse.phtml:146
+#: application/view/omeka/admin/module/browse.phtml:145
 msgid "Error: invalid config/module.ini file"
 msgstr "Greška: neispravna config/module.ini datoteka"
 
-#: application/view/omeka/admin/module/browse.phtml:148
+#: application/view/omeka/admin/module/browse.phtml:147
 #, php-format
 msgid "Error: %1$s requires Omeka S %2$s"
 msgstr "Greška: %1$szahtijeva Omeka S %2$s"
 
-#: application/view/omeka/admin/module/browse.phtml:150
+#: application/view/omeka/admin/module/browse.phtml:149
 msgid "Error: module in database but not in filesystem"
 msgstr "Greška: modul u bazi podataka ali ne u sustavu datoteka"
 
-#: application/view/omeka/admin/module/browse.phtml:167
+#: application/view/omeka/admin/module/browse.phtml:166
 msgid "Omeka could not find any modules."
 msgstr "Omeka nije mogla naći ikakve module."
 
@@ -2480,9 +2600,8 @@ msgstr "Vokabular"
 
 #: application/view/omeka/admin/property/show-details.phtml:10
 #: application/view/omeka/admin/resource-class/show-details.phtml:10
-#: application/view/omeka/admin/vocabulary/classes.phtml:11
-#: application/view/omeka/admin/vocabulary/classes.phtml:38
-#: application/view/omeka/admin/vocabulary/properties.phtml:21
+#: application/view/omeka/admin/vocabulary/classes.phtml:23
+#: application/view/omeka/admin/vocabulary/properties.phtml:24
 msgid "Term"
 msgstr "Pojam"
 
@@ -2509,7 +2628,7 @@ msgid "New resource template"
 msgstr "Novi predložak resursa"
 
 #: application/view/omeka/admin/resource-template/add.phtml:6
-#: application/view/omeka/admin/resource-template/browse.phtml:25
+#: application/view/omeka/admin/resource-template/browse.phtml:7
 #: application/view/omeka/admin/resource-template/edit.phtml:6
 #: application/view/omeka/admin/resource-template/import.phtml:5
 #: application/view/omeka/admin/resource-template/review-import.phtml:7
@@ -2517,13 +2636,13 @@ msgstr "Novi predložak resursa"
 msgid "Resource templates"
 msgstr "Predlošci resursa"
 
-#: application/view/omeka/admin/resource-template/browse.phtml:28
+#: application/view/omeka/admin/resource-template/browse.phtml:10
 #: application/view/omeka/admin/resource-template/import.phtml:5
 #: application/view/omeka/admin/vocabulary/import.phtml:12
 msgid "Import"
 msgstr "Uvezite"
 
-#: application/view/omeka/admin/resource-template/browse.phtml:107
+#: application/view/omeka/admin/resource-template/browse.phtml:89
 msgid "Omeka could not find any resource templates."
 msgstr "Omeka nije mogla naći ikakve predloške resursa."
 
@@ -2553,18 +2672,24 @@ msgstr "Iskorstite za opis resursa"
 msgid "Required"
 msgstr "Potrebno"
 
-#: application/view/omeka/admin/resource-template/form.phtml:95
+#: application/view/omeka/admin/resource-template/form.phtml:96
+#: application/view/omeka/admin/resource-template/review-import.phtml:72
+#: application/view/omeka/admin/resource-template/show.phtml:32
+msgid "Default language"
+msgstr ""
+
+#: application/view/omeka/admin/resource-template/form.phtml:101
 #: application/view/omeka/admin/resource-template/review-import.phtml:67
 #: application/view/omeka/admin/resource-template/show.phtml:27
 msgid "Data types"
 msgstr "Vrste podataka"
 
-#: application/view/omeka/admin/resource-template/form.phtml:96
-#: application/view/omeka/admin/resource-template/review-import.phtml:98
+#: application/view/omeka/admin/resource-template/form.phtml:102
+#: application/view/omeka/admin/resource-template/review-import.phtml:99
 msgid "Select data types…"
 msgstr "Odaberi vrste podataka..."
 
-#: application/view/omeka/admin/resource-template/form.phtml:101
+#: application/view/omeka/admin/resource-template/form.phtml:107
 msgid "Set changes"
 msgstr "Postavite promjene"
 
@@ -2593,6 +2718,11 @@ msgstr "Opis resursa"
 msgid "Original label"
 msgstr "Originalna oznaka"
 
+#: application/view/omeka/admin/resource-template/review-import.phtml:68
+#: application/view/omeka/admin/resource-template/show.phtml:28
+msgid "Alternate label"
+msgstr "Zamjenska oznaka"
+
 #: application/view/omeka/admin/resource-template/review-import.phtml:69
 #: application/view/omeka/admin/resource-template/show.phtml:29
 msgid "Alternate comment"
@@ -2608,27 +2738,11 @@ msgstr "Potrebno?"
 msgid "Private?"
 msgstr "Privatno?"
 
-#: application/view/omeka/admin/resource-template/review-import.phtml:111
-#: application/view/omeka/admin/resource-template/review-import.phtml:112
-#: application/view/omeka/admin/resource-template/show.phtml:57
-#: application/view/omeka/admin/resource-template/show.phtml:58
-#: application/view/omeka/admin/system-info/browse.phtml:18
-msgid "Yes"
-msgstr "Da"
-
-#: application/view/omeka/admin/resource-template/review-import.phtml:111
-#: application/view/omeka/admin/resource-template/review-import.phtml:112
-#: application/view/omeka/admin/resource-template/show.phtml:57
-#: application/view/omeka/admin/resource-template/show.phtml:58
-#: application/view/omeka/admin/system-info/browse.phtml:18
-msgid "No"
-msgstr "Ne"
-
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:33
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:34
 msgid "Edit property"
 msgstr "Uredite svojstvo"
 
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:37
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:38
 msgid "Remove property"
 msgstr "Uklonite svojstvo"
 
@@ -2644,12 +2758,20 @@ msgstr "Uredite predložak resursa"
 msgid "Global settings"
 msgstr "Globalne postavke"
 
+#: application/view/omeka/admin/system-info/browse.phtml:31
+msgid "Get PHP CLI version"
+msgstr ""
+
+#: application/view/omeka/admin/system-info/browse.phtml:35
+msgid "Get ImageMagick version"
+msgstr ""
+
 #: application/view/omeka/admin/user/add.phtml:7
 msgid "New user"
 msgstr "Novi korisnik"
 
 #: application/view/omeka/admin/user/add.phtml:7
-#: application/view/omeka/admin/user/browse.phtml:24
+#: application/view/omeka/admin/user/browse.phtml:10
 #: application/view/omeka/admin/user/edit.phtml:14
 #: application/view/omeka/admin/user/search.phtml:5
 #: application/view/omeka/admin/user/show.phtml:7
@@ -2674,32 +2796,28 @@ msgstr "Uređujete sljedećih %s korisnika:"
 msgid "You are editing %s users (except yourself)."
 msgstr "Uređujete %s korisnika (osim vas):"
 
-#: application/view/omeka/admin/user/browse.phtml:36
+#: application/view/omeka/admin/user/browse.phtml:22
 #: application/view/omeka/site-admin/index/users.phtml:64
 msgid "Add new user"
 msgstr "Dodajte novog korisnika"
 
-#: application/view/omeka/admin/user/browse.phtml:95
-msgid "Inactive"
-msgstr "Neaktivan"
-
-#: application/view/omeka/admin/user/browse.phtml:150
-#: application/view/omeka/admin/user/browse.phtml:168
+#: application/view/omeka/admin/user/browse.phtml:136
+#: application/view/omeka/admin/user/browse.phtml:154
 msgid "Delete users"
 msgstr "Izbriši korisnike"
 
-#: application/view/omeka/admin/user/browse.phtml:151
+#: application/view/omeka/admin/user/browse.phtml:137
 msgid "Are you sure you would like to delete the selected users?"
 msgstr "Jeste li sigurni da biste htjeli izbrisati odabrane korisnike?"
 
-#: application/view/omeka/admin/user/browse.phtml:153
+#: application/view/omeka/admin/user/browse.phtml:139
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s users and cannot be undone."
 msgstr ""
 "%1$s: ova akcija će trajno izbrisati %2$s korisnika i ne može se poništiti."
 
-#: application/view/omeka/admin/user/browse.phtml:169
+#: application/view/omeka/admin/user/browse.phtml:155
 msgid ""
 "Are you sure you would like to delete all users (except yourself) on all "
 "pages of this result?"
@@ -2707,7 +2825,7 @@ msgstr ""
 "Jeste li sigurni da biste htjeli izbrisati sve korisnike (osim vas) na svim "
 "stranicama ovog rezultata?"
 
-#: application/view/omeka/admin/user/browse.phtml:171
+#: application/view/omeka/admin/user/browse.phtml:157
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s users (except yourself) and "
@@ -2716,7 +2834,7 @@ msgstr ""
 "%1$s: ova akcija će trajno izbrisati %2$s korisnika (osim vas) i ne može se "
 "poništiti."
 
-#: application/view/omeka/admin/user/browse.phtml:210
+#: application/view/omeka/admin/user/browse.phtml:196
 msgid "Omeka could not find any users."
 msgstr "Omeka nije mogla naći ikakve korisnike."
 
@@ -2752,29 +2870,12 @@ msgstr "(neaktivan)"
 msgid "Edit user"
 msgstr "Uredite korisnika"
 
-#: application/view/omeka/admin/user/show.phtml:23
+#: application/view/omeka/admin/user/show.phtml:24
 msgid "Display name"
 msgstr "Prikažite ime"
 
-#: application/view/omeka/admin/vocabulary/browse.phtml:11
-#: application/view/omeka/admin/vocabulary/browse.phtml:45
-msgid "Prefix"
-msgstr "Prefiks"
-
-#: application/view/omeka/admin/vocabulary/browse.phtml:15
-#: application/view/omeka/admin/vocabulary/browse.phtml:46
-#: application/view/omeka/admin/vocabulary/classes.phtml:21
-msgid "Classes"
-msgstr "Klase"
-
-#: application/view/omeka/admin/vocabulary/browse.phtml:19
-#: application/view/omeka/admin/vocabulary/browse.phtml:47
-#: application/view/omeka/admin/vocabulary/properties.phtml:7
-msgid "Properties"
-msgstr "Svojstva"
-
-#: application/view/omeka/admin/vocabulary/browse.phtml:25
-#: application/view/omeka/admin/vocabulary/classes.phtml:21
+#: application/view/omeka/admin/vocabulary/browse.phtml:7
+#: application/view/omeka/admin/vocabulary/classes.phtml:7
 #: application/view/omeka/admin/vocabulary/edit.phtml:7
 #: application/view/omeka/admin/vocabulary/import.phtml:7
 #: application/view/omeka/admin/vocabulary/properties.phtml:7
@@ -2782,22 +2883,36 @@ msgstr "Svojstva"
 msgid "Vocabularies"
 msgstr "Vokabulari"
 
-#: application/view/omeka/admin/vocabulary/browse.phtml:101
+#: application/view/omeka/admin/vocabulary/browse.phtml:27
+msgid "Prefix"
+msgstr "Prefiks"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:28
+#: application/view/omeka/admin/vocabulary/classes.phtml:7
+msgid "Classes"
+msgstr "Klase"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:29
+#: application/view/omeka/admin/vocabulary/properties.phtml:7
+msgid "Properties"
+msgstr "Svojstva"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:83
 msgid "Omeka could not find any vocabularies."
 msgstr "Omeka nije mogla naći ikakve vokabulare."
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:24
+#: application/view/omeka/admin/vocabulary/classes.phtml:10
 #: application/view/omeka/admin/vocabulary/properties.phtml:10
 msgid "Prefix:"
 msgstr "Prefiks:"
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:25
+#: application/view/omeka/admin/vocabulary/classes.phtml:11
 #: application/view/omeka/admin/vocabulary/properties.phtml:11
 #: application/view/omeka/admin/vocabulary/show-details.phtml:7
 msgid "Namespace URI:"
 msgstr "URI polja imena (namespace): "
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:75
+#: application/view/omeka/admin/vocabulary/classes.phtml:60
 msgid "This vocabulary has no classes."
 msgstr "Ovaj vokabular nema klasa."
 
@@ -2813,7 +2928,7 @@ msgstr ""
 msgid "New vocabulary"
 msgstr "Novi vokabular"
 
-#: application/view/omeka/admin/vocabulary/properties.phtml:58
+#: application/view/omeka/admin/vocabulary/properties.phtml:61
 msgid "This vocabulary has no properties."
 msgstr "Ovaj vokabular nema svojstva."
 
@@ -2910,7 +3025,7 @@ msgstr "Nova stranica"
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 #: application/view/omeka/site-admin/page/edit.phtml:11
-#: application/view/omeka/site-admin/page/index.phtml:33
+#: application/view/omeka/site-admin/page/index.phtml:9
 #: application/view/omeka/site/page/browse.phtml:5
 msgid "Pages"
 msgstr "Stranice"
@@ -2921,7 +3036,8 @@ msgid "Info"
 msgstr "Informacije"
 
 #: application/view/omeka/site-admin/index/add.phtml:8
-#: application/view/omeka/site-admin/index/show.phtml:28
+#: application/view/omeka/site-admin/index/show.phtml:29
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:21
 #: application/view/omeka/site-admin/index/theme-settings.phtml:6
 #: application/view/omeka/site-admin/index/theme.phtml:11
 msgid "Theme"
@@ -2936,22 +3052,14 @@ msgid "Settings"
 msgstr "Postavke"
 
 #: application/view/omeka/site-admin/index/index.phtml:11
-#: application/view/omeka/site-admin/index/index.phtml:40
-#: application/view/omeka/site-admin/index/show.phtml:20
-#: application/view/omeka/site-admin/page/index.phtml:19
-msgid "URL slug"
-msgstr "URL slug"
-
-#: application/view/omeka/site-admin/index/index.phtml:25
 msgid "Add new site"
 msgstr "Dodajte novo web-mjesto"
 
-#: application/view/omeka/site-admin/index/index.phtml:109
+#: application/view/omeka/site-admin/index/index.phtml:79
 msgid "Omeka could not find any sites."
 msgstr "Omeka nije mogla naći ikakva web-mjesta."
 
 #: application/view/omeka/site-admin/index/navigation.phtml:15
-#: application/view/omeka/site-admin/page/index.phtml:11
 msgid "Navigation"
 msgstr "Navigacija"
 
@@ -2998,13 +3106,59 @@ msgstr "Ovom web-mjestu nije dodijeljena niti jedna zbirka."
 msgid "Back to site list"
 msgstr "Povratak na popis web-mjesta"
 
-#: application/view/omeka/site-admin/index/show.phtml:36
+#: application/view/omeka/site-admin/index/show.phtml:21
+msgid "URL slug"
+msgstr "URL slug"
+
+#: application/view/omeka/site-admin/index/show.phtml:37
 msgid "Summary"
 msgstr "Sažetak "
 
-#: application/view/omeka/site-admin/index/show.phtml:44
+#: application/view/omeka/site-admin/index/show.phtml:45
 msgid "Thumbnail"
 msgstr "Sličica"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:6
+msgid "Remove block"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:7
+msgid "Restore block"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:21
+#: application/view/omeka/site-admin/index/theme.phtml:47
+msgid "Configure resource pages"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:33
+msgid "Item page"
+msgstr "Stranica predmeta"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:34
+msgid "Media page"
+msgstr "Stranica medija"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:35
+msgid "Item set page"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:42
+#, php-format
+msgid "Region: %s"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:53
+msgid "Select a region"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:60
+msgid "Add a block to selected region"
+msgstr ""
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:66
+msgid "There are no available blocks."
+msgstr ""
 
 #: application/view/omeka/site-admin/index/theme-selector.phtml:26
 msgid "Invalid theme.ini file"
@@ -3014,6 +3168,10 @@ msgstr "Neispravna theme.ini datoteka"
 #, php-format
 msgid "This theme requires Omeka S %s"
 msgstr "Ova tema zahtijeva Omeka S %s"
+
+#: application/view/omeka/site-admin/index/theme-settings.phtml:6
+msgid "Edit settings"
+msgstr ""
 
 #: application/view/omeka/site-admin/index/theme-settings.phtml:17
 msgid "The current theme has no configuration options."
@@ -3027,26 +3185,26 @@ msgstr "Trenutna tema"
 msgid "Edit theme settings"
 msgstr "Uredite postavke teme"
 
-#: application/view/omeka/site-admin/index/theme.phtml:51
+#: application/view/omeka/site-admin/index/theme.phtml:54
 #, php-format
 msgid "A new version of this theme is available. %s"
 msgstr "Nova verzija ove teme je dostupna. %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:61
+#: application/view/omeka/site-admin/index/theme.phtml:64
 msgid "Error: this theme is invalid."
 msgstr "Greška: ova tema je neispravna."
 
-#: application/view/omeka/site-admin/index/theme.phtml:63
+#: application/view/omeka/site-admin/index/theme.phtml:66
 #, php-format
 msgid "ID: %s"
 msgstr "ID: %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:64
+#: application/view/omeka/site-admin/index/theme.phtml:67
 #, php-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:66
+#: application/view/omeka/site-admin/index/theme.phtml:69
 msgid ""
 "Please contact the Omeka S administrator. This site will not be publicly "
 "available until the problem is resolved or you select another theme below."
@@ -3089,28 +3247,31 @@ msgstr "Promijenite predmet"
 msgid "No item selected."
 msgstr "Predmet nije odabran."
 
-#: application/view/omeka/site-admin/page/edit.phtml:41
+#: application/view/omeka/site-admin/page/edit.phtml:37
+msgid "Expand all"
+msgstr ""
+
+#: application/view/omeka/site-admin/page/edit.phtml:38
+msgid "Collapse all"
+msgstr ""
+
+#: application/view/omeka/site-admin/page/edit.phtml:46
 msgid "Add new block"
 msgstr "Dodajte novi blok"
 
-#: application/view/omeka/site-admin/page/index.phtml:27
-#: application/view/omeka/site-admin/page/index.phtml:50
-msgid "Modified"
-msgstr "Promijenjeno"
-
-#: application/view/omeka/site-admin/page/index.phtml:41
+#: application/view/omeka/site-admin/page/index.phtml:17
 msgid "Add new page"
 msgstr "Dodajte novu stranicu"
 
-#: application/view/omeka/site-admin/page/index.phtml:49
+#: application/view/omeka/site-admin/page/index.phtml:25
 msgid "Slug"
 msgstr "Slug"
 
-#: application/view/omeka/site-admin/page/index.phtml:74
+#: application/view/omeka/site-admin/page/index.phtml:50
 msgid "View public page"
 msgstr "Pogledajte javnu stranicu"
 
-#: application/view/omeka/site-admin/page/index.phtml:86
+#: application/view/omeka/site-admin/page/index.phtml:62
 msgid "Delete page"
 msgstr "Izbrišite stranicu"
 
@@ -3122,11 +3283,15 @@ msgstr "Ovo web-mjesto nema stranica."
 msgid "Advanced item set Search"
 msgstr "Napredna Pretraga zbirki"
 
-#: application/view/omeka/site/item/show.phtml:13
+#: application/view/omeka/site/item/browse.phtml:20
+msgid "Item set"
+msgstr "Zbirka"
+
+#: application/view/omeka/site/item/show.phtml:9
 msgid "Item"
 msgstr "Predmet"
 
-#: application/view/omeka/site/media/show.phtml:11
+#: application/view/omeka/site/media/show.phtml:12
 #, php-format
 msgid "Part of %s"
 msgstr "Dio %s"
@@ -3134,6 +3299,11 @@ msgstr "Dio %s"
 #: application/view/omeka/site/page/browse.phtml:18
 msgid "No pages found"
 msgstr "Nema pronađenih stranica"
+
+#: application/src/Stdlib/Browse.php:124
+#, php-format
+msgid "Custom (%s)"
+msgstr ""
 
 #: application/src/Stdlib/Cli.php:105 application/src/Stdlib/Cli.php:143
 #, php-format
@@ -3198,6 +3368,10 @@ msgstr "Resurs"
 msgid "Invalid value resource %s for type %s"
 msgstr ""
 
+#: application/src/DataType/Resource/All.php:15
+msgid "All"
+msgstr "Sve"
+
 #: application/src/Site/BlockLayout/ItemShowcase.php:13
 msgid "Item showcase"
 msgstr "Izlog predmeta"
@@ -3214,37 +3388,37 @@ msgstr "Naslov stranice"
 msgid "Table of contents"
 msgstr "Sadržaj"
 
-#: application/src/Site/BlockLayout/Asset.php:18
+#: application/src/Site/BlockLayout/Asset.php:17
 msgid "Asset"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:35
-#: application/src/Site/BlockLayout/Asset.php:41
+#: application/src/Site/BlockLayout/Asset.php:34
+#: application/src/Site/BlockLayout/Asset.php:40
 msgid "default"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:36
+#: application/src/Site/BlockLayout/Asset.php:35
 msgid "float left"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:37
+#: application/src/Site/BlockLayout/Asset.php:36
 msgid "float right"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:38
-#: application/src/Site/BlockLayout/Asset.php:44
+#: application/src/Site/BlockLayout/Asset.php:37
+#: application/src/Site/BlockLayout/Asset.php:43
 msgid "center"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:42
+#: application/src/Site/BlockLayout/Asset.php:41
 msgid "left"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:43
+#: application/src/Site/BlockLayout/Asset.php:42
 msgid "right"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Asset.php:49
+#: application/src/Site/BlockLayout/Asset.php:48
 #: application/src/Site/BlockLayout/Media.php:61
 msgid "Alignment"
 msgstr "Poravnanje"
@@ -3308,8 +3482,8 @@ msgid "Item with metadata"
 msgstr "Predmet s metapodacima"
 
 #: application/src/Site/BlockLayout/Media.php:14
-msgid "Media Embed"
-msgstr "Ugradnja Medija"
+msgid "Media embed"
+msgstr ""
 
 #: application/src/Site/BlockLayout/LineBreak.php:14
 msgid "Line break"
@@ -3322,6 +3496,53 @@ msgstr "Prozirno"
 #: application/src/Site/BlockLayout/LineBreak.php:35
 msgid "Opaque"
 msgstr "Prozirnost"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:20
+msgid "Page date/time"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:30
+msgid "Display date/time"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:32
+msgid "Created & modified"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:42
+msgid "Date format"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:44
+#: application/src/Site/BlockLayout/PageDateTime.php:58
+#: application/src/Form/SettingForm.php:180
+#: application/src/Form/SiteSettingsForm.php:91
+msgid "None"
+msgstr "Ništa"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:45
+#: application/src/Site/BlockLayout/PageDateTime.php:59
+msgid "Short"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:46
+#: application/src/Site/BlockLayout/PageDateTime.php:60
+msgid "Medium"
+msgstr "Medij"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:47
+#: application/src/Site/BlockLayout/PageDateTime.php:61
+msgid "Long"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:48
+#: application/src/Site/BlockLayout/PageDateTime.php:62
+msgid "Full"
+msgstr ""
+
+#: application/src/Site/BlockLayout/PageDateTime.php:56
+msgid "Time format"
+msgstr ""
 
 #: application/src/Site/BlockLayout/ListOfSites.php:24
 msgid "List of sites"
@@ -3382,15 +3603,36 @@ msgid "Optional CSS class for styling HTML."
 msgstr ""
 
 #: application/src/Site/BlockLayout/Fallback.php:28
+#: application/src/Site/ResourcePageBlockLayout/Fallback.php:18
 #, php-format
 msgid "Unknown [%s]"
 msgstr "Nepoznato [%s]"
+
+#: application/src/Site/ResourcePageBlockLayout/MediaRender.php:11
+msgid "Media render"
+msgstr ""
+
+#: application/src/Site/ResourcePageBlockLayout/MediaList.php:11
+msgid "Media list"
+msgstr ""
+
+#: application/src/Site/ResourcePageBlockLayout/Manager.php:210
+msgid "Main"
+msgstr ""
+
+#: application/src/Site/ResourcePageBlockLayout/LightboxGallery.php:13
+msgid "Lightbox gallery"
+msgstr ""
+
+#: application/src/Site/ResourcePageBlockLayout/MediaEmbeds.php:11
+msgid "Media embeds"
+msgstr ""
 
 #: application/src/Site/Navigation/Link/Url.php:11
 msgid "Custom URL"
 msgstr "Prilagođeni URL"
 
-#: application/src/Site/Navigation/Link/BrowseItemSets.php:11
+#: application/src/Site/Navigation/Link/BrowseItemSets.php:20
 msgid "Browse item sets"
 msgstr "Pretražite zbirke"
 
@@ -3453,7 +3695,7 @@ msgstr ""
 "Greška prilikom validacije \"%1$s\". Nije moguće pohraniti datoteke sa "
 "produžetkom \"%2$s\"."
 
-#: application/src/Mvc/MvcListeners.php:326
+#: application/src/Mvc/MvcListeners.php:327
 #, php-format
 msgid "The current theme is not active. Its current state is \"%s\"."
 msgstr "Trenutna tema nije aktivna. Njeno trenutno stanje je \"%s\"."
@@ -3482,11 +3724,46 @@ msgstr "Autor"
 msgid "Researcher"
 msgstr "Istraživač"
 
-#: application/src/Api/Adapter/ItemAdapter.php:108
+#: application/src/ColumnType/IsPublic.php:11
+msgid "Is public"
+msgstr ""
+
+#: application/src/ColumnType/Value.php:25
+msgid "Value"
+msgstr ""
+
+#: application/src/ColumnType/Value.php:56
+msgid "Max values"
+msgstr ""
+
+#: application/src/ColumnType/Value.php:57
+msgid ""
+"Enter the maximum number of values to display. Set to blank to display all "
+"values."
+msgstr ""
+
+#: application/src/ColumnType/IsOpen.php:11
+msgid "Is open"
+msgstr ""
+
+#: application/src/ColumnType/ResourceTemplate.php:11
+#: application/src/Form/ResourceForm.php:34
+msgid "Resource template"
+msgstr "Predložak resursa"
+
+#: application/src/ColumnType/Unknown.php:22
+msgid "[Unknown]"
+msgstr ""
+
+#: application/src/ColumnType/Unknown.php:40
+msgid "Unknown column data"
+msgstr ""
+
+#: application/src/Api/Adapter/ItemAdapter.php:152
 msgid "Item sets must be an array"
 msgstr "Zbirke moraju biti niz"
 
-#: application/src/Api/Adapter/ItemAdapter.php:114
+#: application/src/Api/Adapter/ItemAdapter.php:158
 msgid "Media must be an array"
 msgstr "Medij mora biti niz."
 
@@ -3496,8 +3773,8 @@ msgid "Attempting to add duplicate property with ID %s"
 msgstr "Pokušaj dodavanja dupliciranog svojstva s ID-om %s"
 
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:89
-#: application/src/Api/Adapter/PropertyAdapter.php:158
-#: application/src/Api/Adapter/ResourceClassAdapter.php:149
+#: application/src/Api/Adapter/PropertyAdapter.php:178
+#: application/src/Api/Adapter/ResourceClassAdapter.php:170
 #: application/src/Api/Adapter/VocabularyAdapter.php:214
 msgid "The label cannot be empty."
 msgstr "Oznaka ne može biti prazna."
@@ -3506,15 +3783,15 @@ msgstr "Oznaka ne može biti prazna."
 msgid "The label is already taken."
 msgstr "Ova oznaka je zauzeta. "
 
-#: application/src/Api/Adapter/MediaAdapter.php:94
+#: application/src/Api/Adapter/MediaAdapter.php:113
 msgid "Media must set an ingester."
 msgstr "Medij mora biti ingester."
 
-#: application/src/Api/Adapter/MediaAdapter.php:116
+#: application/src/Api/Adapter/MediaAdapter.php:135
 msgid "Media must set a valid ingester."
 msgstr "Medij mora biti ispravan ingester."
 
-#: application/src/Api/Adapter/MediaAdapter.php:160
+#: application/src/Api/Adapter/MediaAdapter.php:179
 msgid "Media must belong to an item."
 msgstr "Medij mora pripadati predmetu."
 
@@ -3536,25 +3813,25 @@ msgstr "Korisnici moraju imati ulogu."
 msgid "The current user #%d was removed from the batch process."
 msgstr "Trenutni korisnik #%d je uklonjen iz skupnog procesa."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:153
-#: application/src/Api/Adapter/ResourceClassAdapter.php:144
+#: application/src/Api/Adapter/PropertyAdapter.php:173
+#: application/src/Api/Adapter/ResourceClassAdapter.php:165
 msgid "The local name cannot be empty."
 msgstr "Lokalno ime ne može biti prazno."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:171
-#: application/src/Api/Adapter/ResourceClassAdapter.php:162
+#: application/src/Api/Adapter/PropertyAdapter.php:191
+#: application/src/Api/Adapter/ResourceClassAdapter.php:183
 #: application/src/Api/Adapter/VocabularyAdapter.php:222
 #: application/src/Api/Adapter/VocabularyAdapter.php:235
 #, php-format
 msgid "The local name \"%s\" is already taken."
 msgstr "Lokalno ime \"%s\" je zauzeto."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:177
-#: application/src/Api/Adapter/ResourceClassAdapter.php:168
+#: application/src/Api/Adapter/PropertyAdapter.php:197
+#: application/src/Api/Adapter/ResourceClassAdapter.php:189
 msgid "A vocabulary must be set."
 msgstr "Vokabular mora biti postavljen."
 
-#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:177
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:209
 #, php-format
 msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
 msgstr "\"%1$s\" predložak resursa zahtijeva \"%2$s\" vrijednost"
@@ -3568,17 +3845,17 @@ msgid "A page must have a title."
 msgstr "Stranica mora imati naslov."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:154
-#: application/src/Api/Adapter/SiteAdapter.php:240
+#: application/src/Api/Adapter/SiteAdapter.php:248
 msgid "The slug cannot be empty."
 msgstr "Slug ne može biti prazan."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:157
-#: application/src/Api/Adapter/SiteAdapter.php:243
+#: application/src/Api/Adapter/SiteAdapter.php:251
 msgid "A slug can only contain letters, numbers, underscores, and hyphens."
 msgstr "Slug može sadržavati samo slova, brojeve, donje crte, i crtice."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:165
-#: application/src/Api/Adapter/SiteAdapter.php:247
+#: application/src/Api/Adapter/SiteAdapter.php:255
 #, php-format
 msgid "The slug \"%s\" is already taken."
 msgstr "Slug \"%s\" je zauzet."
@@ -3591,43 +3868,43 @@ msgstr "Svi blokovi moraju imati raspored."
 msgid "Block data must not be a scalar value."
 msgstr "Podaci o bloku ne mogu biti skalarne vrijednosti."
 
-#: application/src/Api/Adapter/SiteAdapter.php:236
+#: application/src/Api/Adapter/SiteAdapter.php:244
 msgid "A site must have a title."
 msgstr "Web-mjesto mora imati naslov."
 
-#: application/src/Api/Adapter/SiteAdapter.php:253
+#: application/src/Api/Adapter/SiteAdapter.php:261
 msgid "A site must have a theme."
 msgstr "Web-mjesto mora imati temu."
 
-#: application/src/Api/Adapter/SiteAdapter.php:258
+#: application/src/Api/Adapter/SiteAdapter.php:266
 msgid "A site must have item pool data."
 msgstr "Web-mjesto mora imati podatke o rezervi predmeta."
 
-#: application/src/Api/Adapter/SiteAdapter.php:263
+#: application/src/Api/Adapter/SiteAdapter.php:271
 msgid "A homepage must belong to its parent site."
 msgstr "Početna stranica mora pripadati njenom matičnom web-mjestu."
 
-#: application/src/Api/Adapter/SiteAdapter.php:336
+#: application/src/Api/Adapter/SiteAdapter.php:344
 msgid "Invalid navigation: navigation must be an array"
 msgstr "Neispravna navigacija: navigacija mora biti niz"
 
-#: application/src/Api/Adapter/SiteAdapter.php:345
+#: application/src/Api/Adapter/SiteAdapter.php:353
 msgid "Invalid navigation: link missing type"
 msgstr "Neispravna navigacija: poveznici nedostaje vrsta"
 
-#: application/src/Api/Adapter/SiteAdapter.php:349
+#: application/src/Api/Adapter/SiteAdapter.php:357
 msgid "Invalid navigation: link missing data"
 msgstr "Neispravna navigacija: poveznici nedostaju podaci"
 
-#: application/src/Api/Adapter/SiteAdapter.php:353
+#: application/src/Api/Adapter/SiteAdapter.php:361
 msgid "Invalid navigation: invalid link data"
 msgstr "Neispravna navigacija: nevaljani podaci poveznice"
 
-#: application/src/Api/Adapter/SiteAdapter.php:358
+#: application/src/Api/Adapter/SiteAdapter.php:366
 msgid "Invalid navigation: page links must be unique"
 msgstr "Neispravna navigacija: poveznice stranice moraju biti jedinstveni"
 
-#: application/src/Api/Adapter/SiteAdapter.php:365
+#: application/src/Api/Adapter/SiteAdapter.php:373
 msgid "Invalid navigation: links must be an array"
 msgstr "Neispravna navigacija: poveznice moraju biti niz"
 
@@ -3706,6 +3983,18 @@ msgstr "zaustavljeno"
 msgid "error"
 msgstr "greška"
 
+#: application/src/Media/Ingester/IiifPresentation.php:27
+msgid "IIIF presentation"
+msgstr ""
+
+#: application/src/Media/Ingester/IiifPresentation.php:39
+msgid "IIIF presentation URL"
+msgstr ""
+
+#: application/src/Media/Ingester/IiifPresentation.php:40
+msgid "Enter the URL to a IIIF collection or manifest."
+msgstr ""
+
 #: application/src/Media/Ingester/IIIF.php:33
 msgid "IIIF image"
 msgstr "IIIF slika"
@@ -3715,8 +4004,9 @@ msgid "IIIF image URL"
 msgstr "URL IIIF slike"
 
 #: application/src/Media/Ingester/IIIF.php:108
-msgid "URL for the image to embed."
-msgstr "URL koji će slika ugraditi."
+msgid ""
+"Enter the URL to a IIIF image information file (ending with /info.json)."
+msgstr ""
 
 #: application/src/Media/Ingester/Upload.php:69
 msgid "Upload file"
@@ -3778,27 +4068,31 @@ msgstr "oEmbed URL"
 msgid "URL for the media to embed."
 msgstr "URL koji će medij ugraditi."
 
-#: application/src/Form/SettingForm.php:111
-#: application/src/Form/SiteSettingsForm.php:28
+#: application/src/Form/SettingForm.php:106
+#: application/src/Form/SiteSettingsForm.php:31
 msgid "General"
 msgstr "Generalno"
 
-#: application/src/Form/SettingForm.php:120
+#: application/src/Form/SettingForm.php:107
+msgid "Security"
+msgstr "SIgurnost"
+
+#: application/src/Form/SettingForm.php:117
 msgid "Administrator email"
 msgstr "E-mail administratora"
 
-#: application/src/Form/SettingForm.php:133
+#: application/src/Form/SettingForm.php:131
 #: application/src/Form/InstallationForm.php:80
 msgid "Installation title"
 msgstr "Naslov instalacije"
 
-#: application/src/Form/SettingForm.php:148
+#: application/src/Form/SettingForm.php:147
 #: application/src/Form/InstallationForm.php:98
 msgid "Time zone"
 msgstr "Vremenska zona"
 
 #: application/src/Form/SettingForm.php:162
-#: application/src/Form/SiteSettingsForm.php:187
+#: application/src/Form/SiteSettingsForm.php:194
 msgid "Results per page"
 msgstr "Rezultati po stranici"
 
@@ -3806,31 +4100,31 @@ msgstr "Rezultati po stranici"
 msgid "The maximum number of results per page on browse pages."
 msgstr "Maksimalni broj rezultata po stranici na stanicama za pretraživanje."
 
-#: application/src/Form/SettingForm.php:176
+#: application/src/Form/SettingForm.php:177
+#: application/src/Form/SiteSettingsForm.php:88
 msgid "Property label information"
 msgstr "Informacije o oznaci svojstva"
 
-#: application/src/Form/SettingForm.php:177
+#: application/src/Form/SettingForm.php:178
+#: application/src/Form/SiteSettingsForm.php:89
 msgid "The additional information that accompanies labels on resource pages."
 msgstr "Dodatne informacije koje prate oznake na stranicama resursa."
 
-#: application/src/Form/SettingForm.php:179
-msgid "None"
-msgstr "Ništa"
-
-#: application/src/Form/SettingForm.php:180
+#: application/src/Form/SettingForm.php:181
+#: application/src/Form/SiteSettingsForm.php:92
 msgid "Show Vocabulary"
 msgstr "Prikažite Vokabular"
 
-#: application/src/Form/SettingForm.php:181
+#: application/src/Form/SettingForm.php:182
+#: application/src/Form/SiteSettingsForm.php:93
 msgid "Show Term"
 msgstr "Prikažite Pojam"
 
-#: application/src/Form/SettingForm.php:194
+#: application/src/Form/SettingForm.php:196
 msgid "Default site"
 msgstr "Zadano web-mjesto"
 
-#: application/src/Form/SettingForm.php:195
+#: application/src/Form/SettingForm.php:197
 msgid ""
 "Select which site should appear when users go to the front page of the "
 "installation."
@@ -3838,40 +4132,40 @@ msgstr ""
 "Odaberite koje web-mjesto bi se trebalo pojaviti kada korisnici odu na "
 "naslovnu stranicu instalacije."
 
-#: application/src/Form/SettingForm.php:200
+#: application/src/Form/SettingForm.php:202
 msgid "No default (show index of sites)"
 msgstr "Nema zadanog (prikaži indeks web-mjesta)"
 
-#: application/src/Form/SettingForm.php:211
-#: application/src/Form/SiteSettingsForm.php:127
-#: application/src/Form/UserForm.php:132
+#: application/src/Form/SettingForm.php:214
+#: application/src/Form/SiteSettingsForm.php:138
+#: application/src/Form/UserForm.php:141
 #: application/src/Form/InstallationForm.php:112
 msgid "Locale"
 msgstr "Mjesto"
 
-#: application/src/Form/SettingForm.php:212
-#: application/src/Form/UserForm.php:133
+#: application/src/Form/SettingForm.php:215
+#: application/src/Form/UserForm.php:142
 msgid "Global locale/language code for all interfaces."
 msgstr "Globalni lokacijski/jezični kod za sva sučelja."
 
-#: application/src/Form/SettingForm.php:225
+#: application/src/Form/SettingForm.php:229
 msgid "Enable version notifications"
 msgstr "Omogućite obavijesti o verziji"
 
-#: application/src/Form/SettingForm.php:226
+#: application/src/Form/SettingForm.php:230
 msgid ""
 "Enable notifications when a new version of Omeka S, modules, or themes are "
 "available."
 msgstr ""
 "Obavijesti me kad budu dostupne nove verzije Omeka S, modula, ili tema. "
 
-#: application/src/Form/SettingForm.php:238
-#: application/src/Form/SiteSettingsForm.php:104
+#: application/src/Form/SettingForm.php:243
+#: application/src/Form/SiteSettingsForm.php:122
 msgid "Disable JSON-LD embed"
 msgstr "Onemogućite JSON-LD ugradnju"
 
-#: application/src/Form/SettingForm.php:239
-#: application/src/Form/SiteSettingsForm.php:105
+#: application/src/Form/SettingForm.php:244
+#: application/src/Form/SiteSettingsForm.php:123
 msgid ""
 "By default, Omeka embeds JSON-LD in resource browse and show pages for the "
 "purpose of machine-readable metadata discovery. Check this to disable "
@@ -3881,11 +4175,11 @@ msgstr ""
 "prikazu stranica u svrhu strojno čitljivog otkrivanja metapodataka. Označite"
 " ovo da biste onemogućili ugrađivanje."
 
-#: application/src/Form/SettingForm.php:251
+#: application/src/Form/SettingForm.php:257
 msgid "Default content visibility to Private"
 msgstr "Postavite zadanu vidljivost sadržaja na Privatno"
 
-#: application/src/Form/SettingForm.php:252
+#: application/src/Form/SettingForm.php:258
 msgid ""
 "If checked, all items, item sets and sites newly created will have their "
 "visibility set to private by default."
@@ -3893,11 +4187,11 @@ msgstr ""
 "Ako je označeno, vidljivost svih novostvorenih predmeta, zbirki, i web-"
 "mjesta bit će postavljena na privatno. "
 
-#: application/src/Form/SettingForm.php:264
+#: application/src/Form/SettingForm.php:271
 msgid "Suggested languages for values"
 msgstr "Predloženi jezici za vrijednosti"
 
-#: application/src/Form/SettingForm.php:265
+#: application/src/Form/SettingForm.php:272
 msgid ""
 "List of languages to facilitate filling of the values in the resource form. "
 "List them one by line. The label displayed for a language may be appended "
@@ -3907,76 +4201,68 @@ msgstr ""
 "Nabrajaju se jedan po retku. Oznaka prikazana za jezik se može dodati s "
 "\"=\"."
 
-#: application/src/Form/SettingForm.php:278
+#: application/src/Form/SettingForm.php:286
 msgid "Media alt text property"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:279
+#: application/src/Form/SettingForm.php:287
 msgid "Media property to use as alt text if no alt text is explicitly set."
 msgstr ""
 
-#: application/src/Form/SettingForm.php:280
+#: application/src/Form/SettingForm.php:288
 msgid "[None]"
 msgstr ""
 
-#: application/src/Form/SettingForm.php:294
+#: application/src/Form/SettingForm.php:303
 msgid "Index full-text search"
 msgstr "Pretraga cijelog teksta indeksa"
 
-#: application/src/Form/SettingForm.php:308
-msgid "Security"
-msgstr "SIgurnost"
-
-#: application/src/Form/SettingForm.php:317
+#: application/src/Form/SettingForm.php:318
 msgid "Use HTMLPurifier"
 msgstr "Iskoristite HTMLPurifier"
 
-#: application/src/Form/SettingForm.php:318
+#: application/src/Form/SettingForm.php:319
 msgid "Clean up user-entered HTML."
 msgstr "Očistite HTML koji je korisnik unijeo."
 
-#: application/src/Form/SettingForm.php:330
+#: application/src/Form/SettingForm.php:332
 msgid "Disable file validation"
 msgstr "Onemogućite validiranje datoteka"
 
-#: application/src/Form/SettingForm.php:331
+#: application/src/Form/SettingForm.php:333
 msgid "Check this to disable file media type and extension validation."
 msgstr ""
 "Označite ovo da biste onemogućili validiranje vrste medija i nastavka."
 
-#: application/src/Form/SettingForm.php:340
+#: application/src/Form/SettingForm.php:342
 msgid "Allowed media types"
 msgstr "Dozvoljene vrste medija"
 
-#: application/src/Form/SettingForm.php:341
+#: application/src/Form/SettingForm.php:343
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr "CSV popis dozvoljenih vrsta medija za upload datoteka."
 
-#: application/src/Form/SettingForm.php:353
+#: application/src/Form/SettingForm.php:356
 msgid "Allowed file extensions"
 msgstr "Dozvoljeni nastavci datoteka"
 
-#: application/src/Form/SettingForm.php:354
+#: application/src/Form/SettingForm.php:357
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr "CSV popis dozvoljenih nastavaka datoteka za upload fajlova."
 
-#: application/src/Form/SettingForm.php:368
+#: application/src/Form/SettingForm.php:373
 msgid "reCAPTCHA site key"
 msgstr "Ključ reCAPTCHA web-mjesta"
 
-#: application/src/Form/SettingForm.php:379
+#: application/src/Form/SettingForm.php:385
 msgid "reCAPTCHA secret key"
 msgstr "reCAPTCHA tajni ključ"
 
 #: application/src/Form/ResourceForm.php:30
 #: application/src/Form/ResourceBatchUpdateForm.php:70
-#: application/src/Form/UserForm.php:147
+#: application/src/Form/UserForm.php:156
 msgid "Select a template"
 msgstr "Odaberite predložak"
-
-#: application/src/Form/ResourceForm.php:34
-msgid "Resource template"
-msgstr "Predložak resursa"
 
 #: application/src/Form/ResourceForm.php:35
 msgid "A pre-defined template for resource creation."
@@ -4187,6 +4473,7 @@ msgstr "[Isključena klasa]"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:111
 #: application/src/Form/ResourceBatchUpdateForm.php:125
+#: application/src/Form/UserForm.php:179
 msgid "Select item sets"
 msgstr "Odaberite zbirke"
 
@@ -4200,7 +4487,7 @@ msgstr "Uklonite iz zbirki"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:139
 #: application/src/Form/ResourceBatchUpdateForm.php:153
-#: application/src/Form/UserForm.php:170
+#: application/src/Form/UserForm.php:195
 msgid "Select sites"
 msgstr "Odaberite web-mjesta"
 
@@ -4241,15 +4528,15 @@ msgstr "Nadogradite"
 msgid "Invalid or missing CSRF token"
 msgstr "Neispravni ili nedostajući CSRF token"
 
-#: application/src/Form/Element/PasswordConfirm.php:68
+#: application/src/Form/Element/PasswordConfirm.php:73
 msgid "Confirm password"
 msgstr "Potvrdite lozinku"
 
-#: application/src/Form/Element/PasswordConfirm.php:87
+#: application/src/Form/Element/PasswordConfirm.php:92
 msgid "The password is invalid"
 msgstr "Lozinka  je neispravna"
 
-#: application/src/Form/Element/PasswordConfirm.php:102
+#: application/src/Form/Element/PasswordConfirm.php:107
 msgid "The passwords did not match"
 msgstr "Lozinke ne odgovaraju"
 
@@ -4269,11 +4556,15 @@ msgstr "tro- ili šesteroznamenkasta heksadecimalna boja, ili \"prozirno\""
 msgid "Invalid color format"
 msgstr "neispravan format boja"
 
-#: application/src/Form/SiteSettingsForm.php:38
+#: application/src/Form/SiteSettingsForm.php:34
+msgid "Show"
+msgstr "Prikažite"
+
+#: application/src/Form/SiteSettingsForm.php:45
 msgid "Auto-assign new items"
 msgstr "Automatski dodijeli nove predmete"
 
-#: application/src/Form/SiteSettingsForm.php:39
+#: application/src/Form/SiteSettingsForm.php:46
 msgid ""
 "Select this if you want new items to be automatically assigned to this site."
 " Note that item owners may unassign their items at any time."
@@ -4282,54 +4573,42 @@ msgstr ""
 "mjestu. Imajte na umu da vlasnici predmeta mogu poništiti dodijelu njihovih "
 "predmeta u bilo kojem trenutku."
 
-#: application/src/Form/SiteSettingsForm.php:50
+#: application/src/Form/SiteSettingsForm.php:58
 msgid "Attachment link type"
 msgstr "Vrsta poveznice priloga"
 
-#: application/src/Form/SiteSettingsForm.php:52
-msgid "Item page"
-msgstr "Stranica predmeta"
-
-#: application/src/Form/SiteSettingsForm.php:53
-msgid "Media page"
-msgstr "Stranica medija"
-
-#: application/src/Form/SiteSettingsForm.php:54
+#: application/src/Form/SiteSettingsForm.php:62
 msgid "Direct link to file"
 msgstr "Izravna poveznica na datoteku"
 
-#: application/src/Form/SiteSettingsForm.php:66
-msgid "Embed media on item pages"
-msgstr "Ugradite medij na stranice predmeta"
-
-#: application/src/Form/SiteSettingsForm.php:77
+#: application/src/Form/SiteSettingsForm.php:75
 msgid "Show page pagination"
 msgstr "Prikažite paginaciju stranice"
 
-#: application/src/Form/SiteSettingsForm.php:78
+#: application/src/Form/SiteSettingsForm.php:76
 msgid ""
 "Show pagination that helps users follow a linear narrative through a site."
 msgstr ""
 "Prikažite paginaciju koja će pomoći korisniku da prati linearnu narativu "
 "kroz web-mjesto."
 
-#: application/src/Form/SiteSettingsForm.php:89
+#: application/src/Form/SiteSettingsForm.php:106
 msgid "Show user bar on public views"
 msgstr "Dodajte korisničku traku na javnim pregledima"
 
-#: application/src/Form/SiteSettingsForm.php:91
+#: application/src/Form/SiteSettingsForm.php:108
 msgid "Never"
 msgstr "Nikad"
 
-#: application/src/Form/SiteSettingsForm.php:92
+#: application/src/Form/SiteSettingsForm.php:109
 msgid "When logged in"
 msgstr "Kada ste prijavljeni"
 
-#: application/src/Form/SiteSettingsForm.php:93
+#: application/src/Form/SiteSettingsForm.php:110
 msgid "Always"
 msgstr "Uvijek"
 
-#: application/src/Form/SiteSettingsForm.php:128
+#: application/src/Form/SiteSettingsForm.php:139
 msgid ""
 "Locale/language code for this site. Leave blank to use the global locale "
 "setting."
@@ -4337,29 +4616,29 @@ msgstr ""
 "Lokacijski/jezični kod za ovo web-mjesto. Ostavite prazno da biste "
 "iskoristili globalne lokacijske postavke."
 
-#: application/src/Form/SiteSettingsForm.php:141
+#: application/src/Form/SiteSettingsForm.php:153
 msgid "Filter values based on site locale"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:142
+#: application/src/Form/SiteSettingsForm.php:154
 msgid ""
 "Show only values matching the site language setting and values without "
 "locale ID."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:154
+#: application/src/Form/SiteSettingsForm.php:167
 msgid "Show language labels for values"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:155
+#: application/src/Form/SiteSettingsForm.php:168
 msgid "Show a label indicating the language of each value on show pages."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:176
+#: application/src/Form/SiteSettingsForm.php:182
 msgid "Restrict browse to attached items"
 msgstr "Ograničite pretraživanje na priložene predmete."
 
-#: application/src/Form/SiteSettingsForm.php:188
+#: application/src/Form/SiteSettingsForm.php:195
 msgid ""
 "The maximum number of results per page on browse pages. Leave blank to use "
 "the global setting."
@@ -4367,15 +4646,15 @@ msgstr ""
 "Maksimalni broj rezultata po stranici na stranicama za pretraživanje. "
 "Ostavite prazno da biste  iskoristili globalne postavke."
 
-#: application/src/Form/SiteSettingsForm.php:194
+#: application/src/Form/SiteSettingsForm.php:201
 msgid "Use global setting"
 msgstr "Iskoristite globalne postavke"
 
-#: application/src/Form/SiteSettingsForm.php:202
+#: application/src/Form/SiteSettingsForm.php:210
 msgid "Browse heading property"
 msgstr "Pretražite svojstvo zaglavlja"
 
-#: application/src/Form/SiteSettingsForm.php:203
+#: application/src/Form/SiteSettingsForm.php:211
 msgid ""
 "Use this property for the heading of each resource on a browse page. Keep "
 "unselected to use the default title property of each resource."
@@ -4384,16 +4663,16 @@ msgstr ""
 "pretraživanje. Ostavite neodabrano da biste iskoristili postavljeno svojstvo"
 " naslova za svaki resurs. "
 
-#: application/src/Form/SiteSettingsForm.php:211
-#: application/src/Form/SiteSettingsForm.php:228
+#: application/src/Form/SiteSettingsForm.php:219
+#: application/src/Form/SiteSettingsForm.php:237
 msgid "Select a property"
 msgstr "Odaberite svojstvo"
 
-#: application/src/Form/SiteSettingsForm.php:219
+#: application/src/Form/SiteSettingsForm.php:228
 msgid "Browse body property"
 msgstr "Pretražite svojstvo tijela"
 
-#: application/src/Form/SiteSettingsForm.php:220
+#: application/src/Form/SiteSettingsForm.php:229
 msgid ""
 "Use this property for the body of each resource on a browse page. Keep "
 "unselected to use the default description property of each resource."
@@ -4402,51 +4681,64 @@ msgstr ""
 "pretraživanje. Ostavite neodabrano da biste iskoristili postavljeno svojstvo"
 " opisa za svaki resurs."
 
-#: application/src/Form/SiteSettingsForm.php:237
-msgid "Show"
-msgstr "Prikažite"
-
 #: application/src/Form/SiteSettingsForm.php:245
+#: application/src/Form/UserForm.php:253
+msgid "Item browse defaults"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:260
 msgid "Show attached pages"
 msgstr "Prikažite priložene stranice"
 
-#: application/src/Form/SiteSettingsForm.php:246
+#: application/src/Form/SiteSettingsForm.php:261
 msgid ""
 "Show site pages to which an item is attached on the public item show page."
 msgstr ""
 "Prikažite stranice web-mjesta kojima je predmet priložen na javnoj stranici "
 "za prikaz predmeta."
 
-#: application/src/Form/SiteSettingsForm.php:257
+#: application/src/Form/SiteSettingsForm.php:273
 msgid "Show value annotations"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:258
+#: application/src/Form/SiteSettingsForm.php:274
 msgid "Show annotations that are set to a value, if any."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:280
+#: application/src/Form/SiteSettingsForm.php:286
+msgid "Exclude resources not in site"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:287
+msgid "Exclude resources that are not assigned to this site."
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:299
+msgid "Embed media on item pages (legacy)"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:313
 msgid "Search type"
 msgstr "Vrsta pretrage"
 
-#: application/src/Form/SiteSettingsForm.php:281
+#: application/src/Form/SiteSettingsForm.php:314
 msgid "Select the type of search the main search field will perform"
 msgstr ""
 "Odaberite vrstu pretrage koju će glavno polje za pretraživanje izvesti"
 
-#: application/src/Form/SiteSettingsForm.php:283
+#: application/src/Form/SiteSettingsForm.php:316
 msgid "This site"
 msgstr "Ovo web-mjesto"
 
-#: application/src/Form/SiteSettingsForm.php:284
+#: application/src/Form/SiteSettingsForm.php:317
 msgid "All sites"
 msgstr "Sva web-mjesta"
 
-#: application/src/Form/SiteSettingsForm.php:301
+#: application/src/Form/SiteSettingsForm.php:336
 msgid "Search resources"
 msgstr "Pretražite resurse"
 
-#: application/src/Form/SiteSettingsForm.php:302
+#: application/src/Form/SiteSettingsForm.php:337
 msgid ""
 "Customize which types of resources will be searchable in the main search "
 "field."
@@ -4454,30 +4746,50 @@ msgstr ""
 "Prilagodite koje će se vrste resursa moći pretražiti u glavnom polju za "
 "pretraživanje."
 
-#: application/src/Form/SiteSettingsForm.php:315
+#: application/src/Form/SiteSettingsForm.php:352
+msgid "Advanced search vocabulary members"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:353
+msgid "Limit the search options for property and class"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:354
+msgid "All vocabulary members"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:356
+msgid "Used by resources in this site"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:357
+msgid "Used by any resource in the installation"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:371
 msgid "Templates"
 msgstr "Predlošci"
 
-#: application/src/Form/SiteSettingsForm.php:316
+#: application/src/Form/SiteSettingsForm.php:372
 msgid "Select which templates to apply to the advanced search form."
 msgstr ""
 "Odaberite koji predlošci će se primijeniti na obrazac za napredno "
 "pretraživanje."
 
-#: application/src/Form/SiteSettingsForm.php:321
+#: application/src/Form/SiteSettingsForm.php:377
 msgid "Select templates"
 msgstr "Odaberite predloške "
 
-#: application/src/Form/SiteSettingsForm.php:329
+#: application/src/Form/SiteSettingsForm.php:386
 msgid "Restrict to templates"
 msgstr "Ograničite na predloške"
 
-#: application/src/Form/SiteSettingsForm.php:330
+#: application/src/Form/SiteSettingsForm.php:387
 msgid "Restrict search results to resources of the selected templates."
 msgstr "Ograničite rezultate pretrage na resurse odabranih predložaka."
 
 #: application/src/Form/UserBatchUpdateForm.php:27
-#: application/src/Form/UserForm.php:98
+#: application/src/Form/UserForm.php:103
 #: application/src/Service/Form/Element/RoleSelectFactory.php:16
 #: application/src/View/Helper/RoleSelect.php:39
 msgid "Select role…"
@@ -4545,27 +4857,67 @@ msgstr "Uklonite sve - poništite dodijelu svih predmeta"
 msgid "Resource template file"
 msgstr "Datoteka predloška resursa"
 
-#: application/src/Form/UserForm.php:151
+#: application/src/Form/UserForm.php:134
+msgid "Admin browse columns"
+msgstr ""
+
+#: application/src/Form/UserForm.php:135
+msgid "Admin browse defaults"
+msgstr ""
+
+#: application/src/Form/UserForm.php:160
 msgid "Default resource template"
 msgstr "Zadani predložak resursa"
 
-#: application/src/Form/UserForm.php:175
+#: application/src/Form/UserForm.php:184
+msgid "Default item sets for items"
+msgstr ""
+
+#: application/src/Form/UserForm.php:200
 msgid "Default sites for items"
 msgstr "Zadana web-mjesta za predmete"
 
-#: application/src/Form/UserForm.php:186
+#: application/src/Form/UserForm.php:209
+msgid "Item browse columns"
+msgstr ""
+
+#: application/src/Form/UserForm.php:220
+msgid "Item set browse columns"
+msgstr ""
+
+#: application/src/Form/UserForm.php:231
+msgid "Media browse columns"
+msgstr ""
+
+#: application/src/Form/UserForm.php:242
+msgid "Site browse columns"
+msgstr ""
+
+#: application/src/Form/UserForm.php:267
+msgid "Item set browse defaults"
+msgstr ""
+
+#: application/src/Form/UserForm.php:281
+msgid "Media browse defaults"
+msgstr ""
+
+#: application/src/Form/UserForm.php:295
+msgid "Site browse defaults"
+msgstr ""
+
+#: application/src/Form/UserForm.php:311
 msgid "Current password"
 msgstr "Trenutna lozinka"
 
-#: application/src/Form/UserForm.php:198
+#: application/src/Form/UserForm.php:323
 msgid "New password"
 msgstr "Nova lozinka"
 
-#: application/src/Form/UserForm.php:199
+#: application/src/Form/UserForm.php:324
 msgid "Confirm new password"
 msgstr "Potvrdite novu lozinku"
 
-#: application/src/Form/UserForm.php:208
+#: application/src/Form/UserForm.php:333
 msgid "New key label"
 msgstr "Nova ključna oznaka"
 
@@ -4613,6 +4965,18 @@ msgstr "naslov medija"
 msgid "no title"
 msgstr "Nema naslova"
 
+#: application/src/View/Helper/Browse.php:155
+msgid "Add a column…"
+msgstr ""
+
+#: application/src/View/Helper/Browse.php:174
+msgid "Column type"
+msgstr ""
+
+#: application/src/View/Helper/Browse.php:185
+msgid "Header"
+msgstr ""
+
 #: application/src/View/Helper/ResourceTemplateSelect.php:39
 msgid "Select template…"
 msgstr "Odaberite predložak..."
@@ -4637,58 +5001,62 @@ msgstr "Instalacija je uspješna. Molimo vas da se prijavite."
 msgid "There were errors during installation."
 msgstr "Pojavile su se greške prilikom instalacije."
 
-#: application/src/Controller/SiteAdmin/IndexController.php:69
+#: application/src/Controller/SiteAdmin/IndexController.php:76
 msgid "Site successfully created"
 msgstr "Web-mjesto uspješno stvoreno"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:119
+#: application/src/Controller/SiteAdmin/IndexController.php:118
 msgid "Site successfully updated"
 msgstr "Web-mjesto uspješno ažurirano"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:169
+#: application/src/Controller/SiteAdmin/IndexController.php:168
 msgid "Page successfully created"
 msgstr "Stranica uspješno stvorena"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:198
+#: application/src/Controller/SiteAdmin/IndexController.php:197
 msgid "Homepage"
 msgstr "Početna stranica"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:204
+#: application/src/Controller/SiteAdmin/IndexController.php:203
 msgid "First page in navigation"
 msgstr "Prva stranica u navigaciji"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:220
+#: application/src/Controller/SiteAdmin/IndexController.php:219
 msgid "Navigation successfully updated"
 msgstr "Navigacija uspješno ažurirana"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:254
+#: application/src/Controller/SiteAdmin/IndexController.php:253
 msgid ""
 "Item assignment in progress. To see the new item count, refresh the page."
 msgstr ""
 "Dodjela predmeta u tijeku. Da biste vidjeli novi broj predmeta, osvježite "
 "stranicu."
 
-#: application/src/Controller/SiteAdmin/IndexController.php:258
+#: application/src/Controller/SiteAdmin/IndexController.php:257
 msgid "Site resources successfully updated"
 msgstr "Resursi web-mjesta uspješno ažurirani."
 
-#: application/src/Controller/SiteAdmin/IndexController.php:301
+#: application/src/Controller/SiteAdmin/IndexController.php:300
 msgid "User permissions successfully updated"
 msgstr "Korisničke dozvole uspješno ažurirane"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:333
+#: application/src/Controller/SiteAdmin/IndexController.php:332
 msgid "Site theme successfully updated"
 msgstr "Tema web-mjesta uspješno ažurirana"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:403
+#: application/src/Controller/SiteAdmin/IndexController.php:407
 msgid "Theme settings successfully updated"
 msgstr "Postavke teme uspješno ažurirane"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:420
+#: application/src/Controller/SiteAdmin/IndexController.php:447
+msgid "Theme resource pages successfully updated"
+msgstr ""
+
+#: application/src/Controller/SiteAdmin/IndexController.php:470
 msgid "Site successfully deleted"
 msgstr "Web-mjesto uspješno izbrisano"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:443
+#: application/src/Controller/SiteAdmin/IndexController.php:493
 msgid "site"
 msgstr "web-mjesto"
 
@@ -4696,11 +5064,11 @@ msgstr "web-mjesto"
 msgid "Page successfully updated"
 msgstr "Stranica uspješno ažurirana"
 
-#: application/src/Controller/SiteAdmin/PageController.php:107
+#: application/src/Controller/SiteAdmin/PageController.php:108
 msgid "page"
 msgstr "stranica"
 
-#: application/src/Controller/SiteAdmin/PageController.php:124
+#: application/src/Controller/SiteAdmin/PageController.php:125
 msgid "Page successfully deleted"
 msgstr "Stranica uspješno izbrisana"
 
@@ -4745,58 +5113,58 @@ msgstr "Neuspješna aktivacija"
 msgid "Migration successful"
 msgstr "Uspješna migracija"
 
-#: application/src/Controller/Admin/ItemController.php:42
-#: application/src/Controller/Admin/ItemController.php:47
+#: application/src/Controller/Admin/ItemController.php:48
+#: application/src/Controller/Admin/ItemController.php:53
 #: application/src/Controller/Admin/UserController.php:44
 #: application/src/Controller/Admin/UserController.php:49
-#: application/src/Controller/Admin/MediaController.php:27
-#: application/src/Controller/Admin/MediaController.php:32
-#: application/src/Controller/Admin/ItemSetController.php:87
-#: application/src/Controller/Admin/ItemSetController.php:92
+#: application/src/Controller/Admin/MediaController.php:33
+#: application/src/Controller/Admin/MediaController.php:38
+#: application/src/Controller/Admin/ItemSetController.php:93
+#: application/src/Controller/Admin/ItemSetController.php:98
 msgid "Confirm Delete"
 msgstr "Potvrdite Brisanje"
 
-#: application/src/Controller/Admin/ItemController.php:114
+#: application/src/Controller/Admin/ItemController.php:121
 msgid "item"
 msgstr "Predmet"
 
-#: application/src/Controller/Admin/ItemController.php:130
+#: application/src/Controller/Admin/ItemController.php:137
 msgid "Item successfully deleted"
 msgstr "Predmet uspješno izbrisan"
 
-#: application/src/Controller/Admin/ItemController.php:151
+#: application/src/Controller/Admin/ItemController.php:159
 msgid "You must select at least one item to batch delete."
 msgstr ""
 "Morate odabrati barem jedan predmet da bi mogli izvršiti skupno brisanje."
 
-#: application/src/Controller/Admin/ItemController.php:160
+#: application/src/Controller/Admin/ItemController.php:168
 msgid "Items successfully deleted"
 msgstr "Predmeti uspješno izbrisani"
 
-#: application/src/Controller/Admin/ItemController.php:186
+#: application/src/Controller/Admin/ItemController.php:194
 msgid "Deleting items. This may take a while."
 msgstr "Brisanje predmeta u tijeku. Ovo bi moglo potrajati."
 
-#: application/src/Controller/Admin/ItemController.php:210
+#: application/src/Controller/Admin/ItemController.php:218
 #, php-format
 msgid "Item successfully created. %s"
 msgstr "Predmet uspješno stvoren. %s"
 
-#: application/src/Controller/Admin/ItemController.php:247
+#: application/src/Controller/Admin/ItemController.php:255
 msgid "Item successfully updated"
 msgstr "Predmet uspješno ažuriran"
 
-#: application/src/Controller/Admin/ItemController.php:274
+#: application/src/Controller/Admin/ItemController.php:283
 msgid "You must select at least one item to batch edit."
 msgstr ""
 "Morate odabrati barem jedan predmet da biste mogli izvršiti skupno "
 "uređivanje."
 
-#: application/src/Controller/Admin/ItemController.php:295
+#: application/src/Controller/Admin/ItemController.php:304
 msgid "Items successfully edited"
 msgstr "Predmeti uspješno uređeni"
 
-#: application/src/Controller/Admin/ItemController.php:347
+#: application/src/Controller/Admin/ItemController.php:360
 msgid "Editing items. This may take a while."
 msgstr "Uređivanje predmeta u tijeku. Ovo bi moglo potrajati."
 
@@ -4922,38 +5290,42 @@ msgstr "Pokušaj zaustavljanja posla."
 msgid "The job could not be stopped."
 msgstr "Posao se nije mogao zaustaviti."
 
-#: application/src/Controller/Admin/SettingController.php:35
+#: application/src/Controller/Admin/SettingController.php:27
 msgid "Settings successfully updated"
 msgstr "Postavke uspješno ažurirane"
 
-#: application/src/Controller/Admin/MediaController.php:59
+#: application/src/Controller/Admin/MediaController.php:66
 msgid "Media successfully updated"
 msgstr "Medij uspješno ažurirani"
 
-#: application/src/Controller/Admin/MediaController.php:125
-#: application/src/Controller/Admin/MediaController.php:168
+#: application/src/Controller/Admin/MediaController.php:117
+msgid "media"
+msgstr "medij"
+
+#: application/src/Controller/Admin/MediaController.php:132
+#: application/src/Controller/Admin/MediaController.php:176
 msgid "Media successfully deleted"
 msgstr "Medij uspješno izbrisan."
 
-#: application/src/Controller/Admin/MediaController.php:159
+#: application/src/Controller/Admin/MediaController.php:167
 msgid "You must select at least one media to batch delete."
 msgstr ""
 "Morate odabrati barem jedan medij da biste mogli izvršiti skupno brisanje."
 
-#: application/src/Controller/Admin/MediaController.php:194
+#: application/src/Controller/Admin/MediaController.php:202
 msgid "Deleting media. This may take a while."
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:212
+#: application/src/Controller/Admin/MediaController.php:221
 msgid "You must select at least one media to batch edit."
 msgstr ""
 "Morate odabrati barem jedan medij da biste mogli izvršiti skupno uređivanje."
 
-#: application/src/Controller/Admin/MediaController.php:233
+#: application/src/Controller/Admin/MediaController.php:242
 msgid "Media successfully edited"
 msgstr ""
 
-#: application/src/Controller/Admin/MediaController.php:285
+#: application/src/Controller/Admin/MediaController.php:298
 msgid "Editing media. This may take a while."
 msgstr ""
 
@@ -4978,38 +5350,38 @@ msgstr "Zbirka uspješno stvorena. %s"
 msgid "Item set successfully updated"
 msgstr "Zbirka uspješno ažurirana"
 
-#: application/src/Controller/Admin/ItemSetController.php:155
+#: application/src/Controller/Admin/ItemSetController.php:164
 msgid "item set"
 msgstr "zbirka"
 
-#: application/src/Controller/Admin/ItemSetController.php:170
+#: application/src/Controller/Admin/ItemSetController.php:179
 msgid "Item set successfully deleted"
 msgstr "Zbirka uspješno izbrisana"
 
-#: application/src/Controller/Admin/ItemSetController.php:191
+#: application/src/Controller/Admin/ItemSetController.php:201
 msgid "You must select at least one item set to batch delete."
 msgstr ""
 "Morate odabrati barem jednu zbirku da biste mogli izvršiti skupno brisanje."
 
-#: application/src/Controller/Admin/ItemSetController.php:200
+#: application/src/Controller/Admin/ItemSetController.php:210
 msgid "Item sets successfully deleted"
 msgstr "Zbirka uspješno izbrisana"
 
-#: application/src/Controller/Admin/ItemSetController.php:226
+#: application/src/Controller/Admin/ItemSetController.php:236
 msgid "Deleting item sets. This may take a while."
 msgstr "Brisanje zbirki u tijeku. Ovo bi moglo potrajati."
 
-#: application/src/Controller/Admin/ItemSetController.php:244
+#: application/src/Controller/Admin/ItemSetController.php:255
 msgid "You must select at least one item set to batch edit."
 msgstr ""
 "Morate odabrati barem jednu zbirku da biste mogli izvršiti skupno "
 "uređivanje."
 
-#: application/src/Controller/Admin/ItemSetController.php:265
+#: application/src/Controller/Admin/ItemSetController.php:276
 msgid "Item sets successfully edited"
 msgstr "Zbirke uspješno uređene"
 
-#: application/src/Controller/Admin/ItemSetController.php:317
+#: application/src/Controller/Admin/ItemSetController.php:332
 msgid "Editing item sets. This may take a while."
 msgstr "Uređivanje zbirki u tijeku. Ovo bi moglo potrajati."
 
@@ -5038,69 +5410,95 @@ msgstr "Promjene vokabularu uspješno napravljene"
 msgid "Vocabulary successfully deleted"
 msgstr "Vokabular uspješno izbrisan"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:437
+#: application/src/Controller/Admin/ResourceTemplateController.php:444
 msgid "resource template"
 msgstr "predložak resursa"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:450
+#: application/src/Controller/Admin/ResourceTemplateController.php:457
 msgid "Resource template successfully deleted"
 msgstr "Predložak resursa uspješno izbrisan"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:452
-#: application/src/Controller/Admin/ResourceTemplateController.php:455
+#: application/src/Controller/Admin/ResourceTemplateController.php:459
+#: application/src/Controller/Admin/ResourceTemplateController.php:462
 msgid "Resource template could not be deleted"
 msgstr "Predložak resursa se nije mogao izbrisati"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:507
+#: application/src/Controller/Admin/ResourceTemplateController.php:519
 msgid "Resource template successfully updated"
 msgstr "Predložak resursa uspješno ažuriran."
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:510
+#: application/src/Controller/Admin/ResourceTemplateController.php:522
 #, php-format
 msgid "Resource template successfully created. %s"
 msgstr "Predložak resursa uspješno stvoren. %s"
 
-#: application/config/module.config.php:636
+#: application/config/module.config.php:675
+msgid "Owner email"
+msgstr ""
+
+#: application/config/module.config.php:681
+#: application/config/module.config.php:697
+#: application/config/module.config.php:702
+msgid "Item count"
+msgstr ""
+
+#: application/config/module.config.php:691
+msgid "Resource class count"
+msgstr ""
+
+#: application/config/module.config.php:692
+msgid "Property count"
+msgstr ""
+
+#: application/config/module.config.php:864
 msgid "Something went wrong"
 msgstr "Nešto je pošlo po zlu"
 
-#: application/config/module.config.php:641
+#: application/config/module.config.php:869
 msgid "You have unsaved changes."
 msgstr "Imate nespremljene promjene."
 
-#: application/config/module.config.php:642
+#: application/config/module.config.php:870
 msgid "Restore item set"
 msgstr "Vratite zbirku"
 
-#: application/config/module.config.php:643
+#: application/config/module.config.php:871
 msgid "Close icon set"
 msgstr "Zatvorite set ikona"
 
-#: application/config/module.config.php:644
+#: application/config/module.config.php:872
 msgid "Open icon set"
 msgstr "Otvorite set ikona"
 
-#: application/config/module.config.php:646
+#: application/config/module.config.php:874
 msgid "Failed loading resource template from API"
 msgstr "Neuspješno učitavanje predloška resursa s API-a"
 
-#: application/config/module.config.php:647
+#: application/config/module.config.php:875
 msgid "Restore property"
 msgstr "Vratite svojstvo"
 
-#: application/config/module.config.php:649
+#: application/config/module.config.php:877
 msgid "Please enter a valid language tag"
 msgstr "Molimo vas da unesete ispravnu jezičnu oznaku"
 
-#: application/config/module.config.php:651
+#: application/config/module.config.php:879
 msgid "Description"
 msgstr "Opis"
+
+#: application/config/module.config.php:880
+msgid "Unknown block layout"
+msgstr ""
+
+#: application/config/module.config.php:881
+msgid "Required field must be completed"
+msgstr ""
 
 #: application/config/navigation.config.php:201
 msgid "Site admin"
 msgstr "Admin web-mjesta"
 
-#: application/view/common/advanced-search/properties.phtml:61
+#: application/view/common/advanced-search/properties.phtml:70
 msgid "[Any Property]"
 msgstr "[Bilo Koje Svojstvo]"
 
@@ -5109,6 +5507,7 @@ msgid "Confirm delete"
 msgstr "Potvrdite brisanje"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:41
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:32
 msgid "Filter by class"
 msgstr "Filtriraj po klasi"
 
@@ -5393,6 +5792,10 @@ msgstr "Format"
 msgid "The file format, physical medium, or dimensions of the resource."
 msgstr "Format datoteke, fizički medij, ili dimenzije resursa."
 
+#. Property label for Dublin Core:identifier
+msgid "Identifier"
+msgstr "Identifikator"
+
 #. Property comment for Dublin Core:identifier
 msgid "An unambiguous reference to the resource within a given context."
 msgstr "Jednoznačna referenca na resurs unutar zadanog konteksta."
@@ -5515,10 +5918,6 @@ msgstr "Opseg"
 #. Property comment for Dublin Core:extent
 msgid "The size or duration of the resource."
 msgstr "Veličina ili trajanje resursa."
-
-#. Property label for Dublin Core:medium
-msgid "Medium"
-msgstr "Medij"
 
 #. Property comment for Dublin Core:medium
 msgid "The material or physical carrier of the resource."

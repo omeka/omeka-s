@@ -20,7 +20,6 @@ class BrowsePreview extends AbstractBlockLayout
     {
         $view->headLink()->prependStylesheet($view->assetUrl('css/advanced-search.css', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('js/advanced-search.js', 'Omeka'));
-        $view->headLink()->appendStylesheet($view->assetUrl('css/query-form.css', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('js/query-form.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('js/browse-preview-block-layout.js', 'Omeka'));
     }

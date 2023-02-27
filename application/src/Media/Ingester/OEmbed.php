@@ -79,7 +79,7 @@ class OEmbed implements MutableIngesterInterface
     public function update(Media $media, Request $request, ErrorStore $errorStore)
     {
         $data = $request->getContent();
-        if ($data['update_oembed']) {
+        if ($data['refresh_oembed']) {
             $oembed = $this->oembed->getOembed($media->getSource(), $errorStore, 'o:source');
             if (!$oembed) {
                 return;
@@ -91,13 +91,6 @@ class OEmbed implements MutableIngesterInterface
     public function updateForm(PhpRenderer $view, MediaRepresentation $media, array $options = [])
     {
         $form = new Form\Form;
-        $form->add([
-            'type' => Form\Element\Checkbox::class,
-            'name' => 'update_oembed',
-            'options' => [
-                'label' => 'Update oEmbed',
-            ],
-        ]);
         $form->add([
             'type' => Form\Element\Text::class,
             'name' => 'oembed_url',
@@ -117,8 +110,15 @@ class OEmbed implements MutableIngesterInterface
             ],
             'attributes' => [
                 'value' => json_encode($media->mediaData(), JSON_PRETTY_PRINT),
-                'rows' => 6,
+                'rows' => 8,
                 'disabled' => true,
+            ],
+        ]);
+        $form->add([
+            'type' => Form\Element\Checkbox::class,
+            'name' => 'refresh_oembed',
+            'options' => [
+                'label' => 'Refresh oEmbed',
             ],
         ]);
         return $view->formCollection($form, false);

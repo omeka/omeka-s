@@ -16,7 +16,7 @@ class Oembed extends AbstractBlockLayout
     protected $defaultData = [
         'url' => null,
         'oembed' => null,
-        'update' => false,
+        'refresh' => false,
     ];
 
     public function __construct($oembed)
@@ -39,7 +39,7 @@ class Oembed extends AbstractBlockLayout
         if (is_string($data['oembed'])) {
             $data['oembed'] = json_decode($data['oembed'], true);
         }
-        if (!$data['oembed'] || $data['update']) {
+        if (!$data['oembed'] || $data['refresh']) {
             $data['oembed'] = $this->oembed->getOembed($data['url'], $errorStore);
         }
         $block->setData($data);
@@ -49,52 +49,7 @@ class Oembed extends AbstractBlockLayout
     {
         $data = $block ? $block->data() + $this->defaultData : $this->defaultData;
         $form = new Form\Form;
-        if ($data['oembed']) {
-            $form->add([
-                'type' => Form\Element\Checkbox::class,
-                'name' => 'o:block[__blockIndex__][o:data][update]',
-                'options' => [
-                    'label' => 'Update oEmbed',
-                ],
-            ]);
-            $form->add([
-                'type' => Form\Element\Text::class,
-                'name' => 'oembed_url',
-                'options' => [
-                    'label' => 'oEmbed URL',
-                ],
-                'attributes' => [
-                    'value' => $data['url'],
-                    'disabled' => true,
-                ],
-            ]);
-            $form->add([
-                'type' => Form\Element\Textarea::class,
-                'name' => 'oembed_oembed',
-                'options' => [
-                    'label' => 'oEmbed',
-                ],
-                'attributes' => [
-                    'value' => json_encode($data['oembed'], JSON_PRETTY_PRINT),
-                    'rows' => 6,
-                    'disabled' => true,
-                ],
-            ]);
-            $form->add([
-                'type' => Form\Element\Hidden::class,
-                'name' => 'o:block[__blockIndex__][o:data][url]',
-                'attributes' => [
-                    'value' => $data['url'],
-                ],
-            ]);
-            $form->add([
-                'type' => Form\Element\Hidden::class,
-                'name' => 'o:block[__blockIndex__][o:data][oembed]',
-                'attributes' => [
-                    'value' => json_encode($data['oembed']),
-                ],
-            ]);
-        } else {
+        if (!$data['oembed']) {
             $form->add([
                 'type' => Form\Element\Url::class,
                 'name' => 'o:block[__blockIndex__][o:data][url]',
@@ -106,13 +61,66 @@ class Oembed extends AbstractBlockLayout
                     'required' => true,
                 ],
             ]);
+            return $view->formCollection($form, false);
         }
-        return $view->formCollection($form, false);
+        $form->add([
+            'type' => Form\Element\Text::class,
+            'name' => 'oembed_url',
+            'options' => [
+                'label' => 'oEmbed URL',
+            ],
+            'attributes' => [
+                'value' => $data['url'],
+                'disabled' => true,
+            ],
+        ]);
+        $form->add([
+            'type' => Form\Element\Textarea::class,
+            'name' => 'oembed_oembed',
+            'options' => [
+                'label' => 'oEmbed',
+            ],
+            'attributes' => [
+                'value' => json_encode($data['oembed'], JSON_PRETTY_PRINT),
+                'rows' => 8,
+                'disabled' => true,
+            ],
+        ]);
+        $form->add([
+            'type' => Form\Element\Checkbox::class,
+            'name' => 'o:block[__blockIndex__][o:data][refresh]',
+            'options' => [
+                'label' => 'Refresh oEmbed',
+            ],
+        ]);
+        $form->add([
+            'type' => Form\Element\Hidden::class,
+            'name' => 'o:block[__blockIndex__][o:data][url]',
+            'attributes' => [
+                'value' => $data['url'],
+            ],
+        ]);
+        $form->add([
+            'type' => Form\Element\Hidden::class,
+            'name' => 'o:block[__blockIndex__][o:data][oembed]',
+            'attributes' => [
+                'value' => json_encode($data['oembed']),
+            ],
+        ]);
+        return sprintf(
+            '%s<a href="#" class="expand" aria-label="expand"><h4>%s</h4></a><div class="collapsible">%s%s%s%s</div>',
+            $view->formRow($form->get('oembed_url')),
+            $view->translate('Advanced'),
+            $view->formRow($form->get('oembed_oembed')),
+            $view->formRow($form->get('o:block[__blockIndex__][o:data][refresh]')),
+            $view->formRow($form->get('o:block[__blockIndex__][o:data][url]')),
+            $view->formRow($form->get('o:block[__blockIndex__][o:data][oembed]')),
+        );
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $data = $block->data() + $this->defaultData;
-        return $this->oembed->renderOembed($view, $data['oembed']);
+        return sprintf('<div>%s</div>', $this->oembed->renderOembed($view, $data['oembed']));
     }
 }

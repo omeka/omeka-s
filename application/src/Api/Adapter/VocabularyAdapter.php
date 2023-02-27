@@ -17,6 +17,15 @@ class VocabularyAdapter extends AbstractEntityAdapter
         'comment' => 'comment',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        'namespace_uri' => 'namespaceUri',
+        'prefix' => 'prefix',
+        'label' => 'label',
+        'comment' => 'comment',
+        'owner' => 'owner',
+    ];
+
     /**
      * @var array Reserved vocabulary prefixes
      */

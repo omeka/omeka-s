@@ -1958,7 +1958,7 @@ fieldset.section > legend {
     border-bottom: 1px solid #dfdfdf;
 }
 
-input[type="text"].value-language {
+.language-wrapper input[type="text"].value-language {
     line-height: $base-line-height;
     background-color: transparent;
     border: 0;

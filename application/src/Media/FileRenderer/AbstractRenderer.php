@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Media\FileRenderer;
 
-use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\MediaRepresentation;
 
 abstract class AbstractRenderer implements RendererInterface

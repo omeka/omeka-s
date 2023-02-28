@@ -5,8 +5,7 @@ use Laminas\Dom\Query;
 use Laminas\Http\Client as HttpClient;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Uri\Http as HttpUri;
-use Laminas\View\Renderer\PhpRenderer;;
-use Omeka\Stdlib\ErrorStore;
+use Laminas\View\Renderer\PhpRenderer;
 
 class Oembed
 {

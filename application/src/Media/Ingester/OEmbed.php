@@ -7,10 +7,7 @@ use Omeka\Entity\Media;
 use Omeka\File\Downloader;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Stdlib\Oembed as StdlibOembed;
-use Laminas\Dom\Query;
 use Laminas\Form;
-use Laminas\Http\Client as HttpClient;
-use Laminas\Uri\Http as HttpUri;
 use Laminas\View\Renderer\PhpRenderer;
 
 class OEmbed implements MutableIngesterInterface

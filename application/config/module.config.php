@@ -311,7 +311,6 @@ return [
         'invokables' => [
             'Omeka\Controller\Index' => Controller\IndexController::class,
             'Omeka\Controller\IiifViewer' => Controller\IiifViewerController::class,
-            'Omeka\Controller\Oembed' => Controller\OembedController::class,
             'Omeka\Controller\Search' => Controller\SearchController::class,
             'Omeka\Controller\Maintenance' => Controller\MaintenanceController::class,
             'Omeka\Controller\Site\Index' => Controller\Site\IndexController::class,

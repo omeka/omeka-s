@@ -265,7 +265,6 @@ class AclFactory implements FactoryInterface
                 'Omeka\Controller\Migrate',
                 'Omeka\Controller\Search',
                 'Omeka\Controller\IiifViewer',
-                'Omeka\Controller\Oembed',
             ]
         );
         $acl->allow(

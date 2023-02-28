@@ -220,25 +220,6 @@ class Module extends AbstractModule
                 }
             );
         }
-
-        // Add discoverable oEmbed head links to public resource pages.
-        $resources = [
-            'Omeka\Controller\Site\Item',
-            'Omeka\Controller\Site\Media',
-        ];
-        foreach ($resources as $resource) {
-            $sharedEventManager->attach(
-                $resource,
-                'view.show.after',
-                function (ZendEvent $event) {
-                    $view = $event->getTarget();
-                    $resourceUrl = $view->url(null, [], ['force_canonical' => true], true);
-                    $resourceTitle = $view->resource->displayTitle();
-                    $oembed = $this->getServiceLocator()->get('Omeka\Oembed');
-                    $oembed->addHeadLink($view, $resourceUrl, $resourceTitle);
-                }
-            );
-        }
     }
 
     /**

@@ -354,16 +354,6 @@ return [
                     ],
                 ],
             ],
-            'oembed' => [
-                'type' => \Laminas\Router\Http\Literal::class,
-                'options' => [
-                    'route' => '/oembed',
-                    'defaults' => [
-                        'controller' => 'Omeka\Controller\Oembed',
-                        'action' => 'index',
-                    ],
-                ],
-            ],
         ],
     ],
 ];

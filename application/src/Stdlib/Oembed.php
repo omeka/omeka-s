@@ -99,24 +99,6 @@ class Oembed
     }
 
     /**
-     * Add a discoverable oEmbed head link to a view.
-     *
-     * @param PhpRenderer $view
-     * @param string $url
-     * @param string $title
-     */
-    public function addHeadLink(PhpRenderer $view, string $url, string $title)
-    {
-        $href = $view->url('oembed', [], ['force_canonical' => true, 'query' => ['url' => $url]]);
-        $view->headLink([
-            'rel' => 'alternate',
-            'type' => 'application/json+oembed',
-            'title' => $title,
-            'href' => $href,
-        ]);
-    }
-
-    /**
      * Make a HTTP request.
      *
      * @param string $url

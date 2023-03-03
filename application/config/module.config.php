@@ -851,8 +851,6 @@ return [
             '#^https?://(www\.)?mixcloud\.com/.*$#i',
             '#^https?://(www\.|embed\.)?ted\.com/talks/.*$#i',
             '#^https?://(www\.)?(animoto|video214)\.com/play/.*$#i',
-            '#^https?://.+/s/(.+)/(item|media)/(\d+)$#i',
-            '#^https?://.+/s/(.+)/page/(.+)$#i',
         ],
     ],
     'mail' => [

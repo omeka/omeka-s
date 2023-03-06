@@ -118,7 +118,7 @@
         }
 
         var pageInput =  attachment.find('input.asset-page-id');
-        pageInput.attr('data-page-title', $('.selected-page').text()).attr('data-page-url', $('.selected-page + a').attr('href')); 
+        pageInput.attr('data-page-title', $('.selected-page').text()).attr('data-page-url', $('.selected-page + a').attr('href'));
 
         $('#asset-options .asset-option').each(function() {
             var assetOption = $(this);
@@ -357,7 +357,7 @@
                 attachment.find('.item-title').empty().append(thumbnail).append(title);
             }
         });
-        
+
         $('#blocks').on('click', '.asset-options-configure', function(e) {
             e.preventDefault();
             Omeka.closeSidebar($('.sidebar.active:not(#new-block)'));
@@ -382,7 +382,7 @@
             $('#asset-page-id').val(pageInput.val());
             $('.selected-page').text(pageInput.attr('data-page-title'));
             $('.selected-page + a').attr('href', pageInput.attr('data-page-url'));
-            
+
             $('#asset-options .asset-option').each(function() {
                 var assetOption = $(this);
                 var optionName = assetOption.attr('name');
@@ -394,36 +394,15 @@
         $('#content').on('click', '.add-asset-attachment', function() {
             var selectingAttachmentButton = $(this);
             var newAsset = selectingAttachmentButton.parents('.attachments').data('template');
-            selectingAttachmentButton.before(newAsset).addClass('asset-selecting-button');
+            selectingAttachmentButton.before(newAsset);
             $('.new.attachment .asset-options-configure').click();
             $('#asset-options .asset-form-select').click();
-        });
-
-        $('#content').on('click', '.change-selected-asset', function () {
-            var assetSidebar = $('#asset-sidebar');
-            var selectingAttachmentButton = $(this);
-            Omeka.openSidebar(assetSidebar);
-            Omeka.populateSidebarContent(assetSidebar, selectingAttachmentButton.data('sidebar-content-url'));
-            if (selectingAttachmentButton.hasClass('add-asset-attachment')) {
-                $('.asset-selecting-button').removeClass('asset-selecting-button');
-            }
-            selectingAttachmentButton.addClass('asset-selecting-button');
-        });
-
-        $('#content').on('click', '.asset-list .select-asset', function (e) {
-            var assetOptions = $('#asset-options');
-            assetOptions.addClass('active');
-            assetOptions.find('h3.selected-asset-name').text($(this).find('.asset-name').text());
-            if ($('.add-asset-attachment').hasClass('asset-selecting-button')) {
-                assetOptions.find('.asset-option').val('');
-                resetAssetOption($('#asset-options .page-link'));
-            }
         });
 
         $('#content').on('click', '#asset-options-confirm-panel', function() {
             var selectingAttachment = $('.selecting.attachment');
             selectingAttachment.removeClass('new');
-            selectingAttachment.find('input[type="hidden"').removeAttr('disabled');
+            selectingAttachment.find('input[type="hidden"]').removeAttr('disabled');
             populateAssetAttachment(selectingAttachment);
             Omeka.closeSidebar($('#asset-options'));
             $('.selecting.attachment').removeClass('selecting');

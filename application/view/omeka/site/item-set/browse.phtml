@@ -1,9 +1,11 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$thumbnail = $this->plugin('thumbnail');
 
 $filterLocale = (bool) $this->siteSetting('filter_locale_values');
 $lang = $this->lang();
+$valueLang = $filterLocale ? [$lang, ''] : null;
 
 $this->htmlElement('body')->appendAttribute('class', 'item-set resource browse');
 ?>
@@ -23,11 +25,16 @@ $this->htmlElement('body')->appendAttribute('class', 'item-set resource browse')
 $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
 foreach ($itemSets as $itemSet):
-$heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => ($filterLocale ? [$lang, ''] : null)]) : $itemSet->displayTitle(null, ($filterLocale ? [$lang, ''] : null));
-$body = $bodyTerm ? $itemSet->value($bodyTerm, ['lang' => ($filterLocale ? [$lang, ''] : null)]) : $itemSet->displayDescription(null, ($filterLocale ? [$lang, ''] : null));
+    $heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => $valueLang]) : $itemSet->displayTitle(null, $valueLang);
+    $body = $bodyTerm ? $itemSet->value($bodyTerm, ['lang' => $valueLang]) : $itemSet->displayDescription(null, $valueLang);
 ?>
     <li class="item-set resource">
-        <?php echo $itemSet->linkPretty('medium', $heading); ?>
+        <?php
+        $linkContent = sprintf('%s<span class="resource-name">%s</span>',
+            $thumbnail($itemSet, 'medium'),
+            $escape($heading));
+        echo $itemSet->linkRaw($linkContent, null, ['class' => 'resource-link']);
+        ?>
         <?php if ($body): ?>
         <div class="description"><?php echo $escape($body); ?></div>
         <?php endif; ?>

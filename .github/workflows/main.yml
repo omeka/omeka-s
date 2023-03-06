@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        php-versions: ['7.4', '8.0', '8.1']
+        php-versions: ['7.4', '8.0', '8.1', '8.2']
       fail-fast: false
     steps:
     - name: Checkout
@@ -80,3 +80,5 @@ jobs:
         
     - name: Run tests
       run: npx gulp test --continue
+      env:
+        PHP_CS_FIXER_IGNORE_ENV: 1

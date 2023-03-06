@@ -1958,7 +1958,7 @@ fieldset.section > legend {
     border-bottom: 1px solid #dfdfdf;
 }
 
-input[type="text"].value-language {
+.language-wrapper input[type="text"].value-language {
     line-height: $base-line-height;
     background-color: transparent;
     border: 0;
@@ -2589,6 +2589,10 @@ input[type="text"].value-language {
     .value.delete .input-footer {
         background-color: transparent;
         width: 100%;
+    }
+
+    .value.delete .restore-value {
+        display: inline-block;
     }
 
     .value [class*="o-icon-"].label {
@@ -4527,6 +4531,19 @@ body.sidebar-open #content {
 
     /* @end */
 
+    /* @group ----- Site Admin ----- */
+    
+    .browse-defualts-form-element {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .browse-defualts-form-element select {
+        width: 49.5%;
+    }
+
+    /* @end */
+    
     /* @group ----- Site Navigation/List of Pages ----- */
 
     input[type="text"].page-selector-filter {
@@ -5053,6 +5070,7 @@ body.minimal .site.results thead {
 .asset-entry img {
     margin-right: $spacing-small;
     max-height: 2 * $spacing-large;
+    max-width: 50%;
 }
 
 .asset-entry .asset-name {

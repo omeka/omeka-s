@@ -11,7 +11,7 @@ $serviceLocator = $application->getServiceManager();
 $entityManager = $serviceLocator->get('Omeka\EntityManager');
 $logger = $serviceLocator->get('Omeka\Logger');
 
-$options = getopt(null, ['job-id:', 'base-path:', 'server-url:']);
+$options = getopt('', ['job-id:', 'base-path:', 'server-url:']);
 if (!isset($options['job-id'])) {
     $logger->err('No job ID given; use --job-id <id>');
     exit;

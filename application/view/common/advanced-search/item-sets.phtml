@@ -32,7 +32,7 @@ if ($this->status()->isSiteRequest()) {
     $selectOptions = [
         'disable_group_by_owner' => true,
         'query' => ['site_id' => $this->layout()->site->id()],
-        'lang' => ($filterLocale == 1 ? $lang : null)
+        'lang' => $filterLocale ? [$lang, ''] : null
     ];
 } else {
     $selectOptions = [];
@@ -55,7 +55,7 @@ if ($this->status()->isSiteRequest()) {
                 <option value="not_in"<?php echo 'not_in' === $itemSet['type'] ? ' selected' : ''; ?>><?php echo $translate('Not in'); ?></option>
             </select>
             <?php echo $this->itemSetSelect([
-                'name' => 'item_set_id[]',
+                'name' => ('not_in' === $itemSet['type']) ? 'not_item_set_id[]' : 'item_set_id[]',
                 'attributes' => [
                     'value' => $itemSet['id'],
                     'class' => 'item-set-select',
@@ -69,16 +69,13 @@ if ($this->status()->isSiteRequest()) {
     </div>
 </div>
 <script>
-$('form').on('submit', function(e) {
-    $('#item-sets').find('.value').each(function() {
-        const thisValue = $(this);
-        const typeSelect = thisValue.find('.item-set-select-type');
-        const itemSetSelect = thisValue.find('.item-set-select');
-        if ('not_in' === typeSelect.val()) {
-            itemSetSelect.attr('name', 'not_item_set_id[]');
-        } else {
-            itemSetSelect.attr('name', 'item_set_id[]');
-        }
-    });
+$('#content').on('change', '.item-set-select-type', function() {
+    const typeSelect = $(this);
+    const itemSetSelect = typeSelect.closest('.value').find('.item-set-select');
+    if ('not_in' === typeSelect.val()) {
+        itemSetSelect.attr('name', 'not_item_set_id[]');
+    } else {
+        itemSetSelect.attr('name', 'item_set_id[]');
+    }
 });
 </script>

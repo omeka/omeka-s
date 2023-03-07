@@ -7,7 +7,7 @@
         <li class="total-count-heading"><?php echo $this->translate('Sites'); ?> (<span class="selector-total-count"><?php echo $totalCount; ?></span>)
             <ul class="selectable-list">
                 <?php foreach ($sitesByOwner as $email => $siteByOwner): ?>
-                <?php $ownerText = $siteByOwner['owner'] ? $this->escapeHtml($siteByOwner['owner']->name()) : $this->translate('[no owner]'); ?>
+                <?php $ownerText = $siteByOwner['owner'] ? $this->escapeHtml($siteByOwner['owner']->name()) : $this->translate('[No owner]'); ?>
                 <li class='selector-parent'>
                     <span><?php echo $ownerText; ?></span> (<span class="selector-child-count"><?php echo count($siteByOwner['sites']); ?></span>)
                     <ul>
@@ -32,5 +32,5 @@
     </div>
     <div class="resources-unavailable">
         <p><?php echo sprintf('All %s have been added.', 'sites'); ?></p>
-    </div>    
+    </div>
 </div>

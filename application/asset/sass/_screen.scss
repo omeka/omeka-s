@@ -1731,11 +1731,6 @@ fieldset.section > legend {
         border-width: 1px 0;
     }
 
-    ul {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
     a {
         display: block;
         float: left;
@@ -1763,6 +1758,7 @@ fieldset.section > legend {
 
 .section.active {
     display: block;
+    clear: both;
 }
 
 #page-actions {

@@ -289,6 +289,11 @@ class IndexController extends AbstractActionController
     public function usersAction()
     {
         $site = $this->currentSite();
+        if (!$site->userIsAllowed('update')) {
+            throw new Exception\PermissionDeniedException(
+                'User does not have permission to edit site theme settings'
+            );
+        }
         $form = $this->getForm(Form::class)->setAttribute('id', 'site-form');
 
         if ($this->getRequest()->isPost()) {
@@ -298,6 +303,11 @@ class IndexController extends AbstractActionController
                 $response = $this->api($form)->update('sites', $site->id(), $formData, [], ['isPartial' => true]);
                 if ($response) {
                     $this->messenger()->addSuccess('User permissions successfully updated'); // @translate
+                    if (!$site->userIsAllowed('update')) {
+                        // The current user may have deauthorized themself during
+                        // this request. Redirect to pages.
+                        return $this->redirect()->toRoute('admin/site/slug/page', [], true);
+                    }
                     return $this->redirect()->refresh();
                 }
             } else {

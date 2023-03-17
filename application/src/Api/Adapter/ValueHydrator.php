@@ -31,6 +31,7 @@ class ValueHydrator
         $append = $isPartial && 'append' === $request->getOption('collectionAction');
         $remove = $isPartial && 'remove' === $request->getOption('collectionAction');
         $valueAnnotationAdapter = $adapter->getAdapter('value_annotations');
+        $entityManager = $adapter->getEntityManager();
 
         $representation = $request->getContent();
         $valueCollection = $entity->getValues();
@@ -40,9 +41,12 @@ class ValueHydrator
         if ($isUpdate && isset($representation['clear_property_values'])
             && is_array($representation['clear_property_values'])
         ) {
-            $criteria = Criteria::create()->where(
-                Criteria::expr()->in('property', $representation['clear_property_values']
-            ));
+            // Change IDs to entity references to avoid issues with strict Criteria matching.
+            $propertyIds = [];
+            foreach ($representation['clear_property_values'] as $propertyId) {
+                $propertyIds[] = $entityManager->getReference('Omeka\Entity\Property', $propertyId);
+            }
+            $criteria = Criteria::create()->where(Criteria::expr()->in('property', $propertyIds));
             foreach ($valueCollection->matching($criteria) as $value) {
                 $valueCollection->removeElement($value);
             }
@@ -54,9 +58,12 @@ class ValueHydrator
             && is_array($representation['set_value_visibility']['property_id'])
             && isset($representation['set_value_visibility']['is_public'])
         ) {
-            $criteria = Criteria::create()->where(
-                Criteria::expr()->in('property', $representation['set_value_visibility']['property_id']
-            ));
+            // Change IDs to entity references to avoid issues with strict Criteria matching.
+            $propertyIds = [];
+            foreach ($representation['set_value_visibility']['property_id'] as $propertyId) {
+                $propertyIds[] = $entityManager->getReference('Omeka\Entity\Property', $propertyId);
+            }
+            $criteria = Criteria::create()->where(Criteria::expr()->in('property', $propertyIds));
             foreach ($valueCollection->matching($criteria) as $value) {
                 $value->setIsPublic($representation['set_value_visibility']['is_public']);
             }

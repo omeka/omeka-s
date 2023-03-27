@@ -2777,7 +2777,7 @@ fieldset.section > legend {
         font-weight: inherit;
     }
 
-    [data-data-type="uri"] .input-body input.value,
+    [data-data-type="uri"] .input-body input.uri-value,
     [data-data-type="uri"] textarea.value-label {
         height: (1.5 * $spacing-large);
         border: 0;

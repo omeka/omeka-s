@@ -107,7 +107,7 @@
     }
 
      function populateAssetAttachment(attachment) {
-        var asset = $('.selected-asset');
+        var asset = $('#asset-options .selected-asset');
         var assetTitle = asset.find('.selected-asset-name').html();
         var assetImage = asset.find('img').clone().attr('class', '');
         var assetId = asset.find('.selected-asset-id').val();

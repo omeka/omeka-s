@@ -4,7 +4,7 @@ namespace Omeka\Media\FileRenderer;
 use Omeka\Api\Representation\MediaRepresentation;
 use Laminas\View\Renderer\PhpRenderer;
 
-class AudioRenderer implements RendererInterface
+class AudioRenderer extends AbstractRenderer
 {
     const DEFAULT_OPTIONS = [
         'controls' => true,

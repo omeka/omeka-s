@@ -5,7 +5,7 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Laminas\View\Helper\AbstractHelper;
 
 /**
- * CView helper for getting the current site representation.
+ * View helper for getting the current site representation.
  */
 class CurrentSite extends AbstractHelper
 {

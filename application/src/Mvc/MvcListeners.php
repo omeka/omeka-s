@@ -293,9 +293,7 @@ class MvcListeners extends AbstractListenerAggregate
 
         $event->getViewModel()->setTemplate('layout/layout-admin');
 
-        if ($routeMatch->getParam('__SITEADMIN__')
-            && $routeMatch->getParam('site-slug')
-        ) {
+        if ($routeMatch->getParam('__SITEADMIN__')) {
             $this->prepareSite($event);
         }
     }
@@ -387,6 +385,10 @@ class MvcListeners extends AbstractListenerAggregate
     {
         $services = $event->getApplication()->getServiceManager();
         $siteSlug = $event->getRouteMatch()->getParam('site-slug');
+
+        if (!is_string($siteSlug) || !strlen($siteSlug)) {
+            return false;
+        }
 
         try {
             $site = $services->get('Omeka\ApiManager')

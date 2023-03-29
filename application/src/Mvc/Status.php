@@ -64,7 +64,7 @@ class Status
     /**
      * Get the route match.
      *
-     * @return Laminas\Router\Http\RouteMatch
+     * @return \Laminas\Router\Http\RouteMatch
      */
     public function getRouteMatch()
     {

@@ -15,10 +15,23 @@ if ($this->status()->isSiteRequest()) {
     $lang = null;
     $showValueAnnotations = true;
 }
+$filterLocaleCallback = function ($value) use ($lang) {
+    $valueLang = $value->lang();
+    return $valueLang == '' || strcasecmp($valueLang, $lang) === 0;
+};
 ?>
 
 <dl>
-<?php foreach ($values as $term => $propertyData): ?>
+<?php
+foreach ($values as $term => $propertyData):
+    $propertyValues = $propertyData['values'];
+    if ($filterLocale) {
+        $propertyValues = array_filter($propertyValues, $filterLocaleCallback);
+    }
+    if (!$propertyValues) {
+        continue;
+    }
+?>
     <div class="property">
         <dt>
         <?php if ($propertyData['alternate_label']): ?>
@@ -32,7 +45,7 @@ if ($this->status()->isSiteRequest()) {
         <span class="field-term">(<?php echo $escape($propertyData['property']->vocabulary()->label()); ?>)</span>
         <?php endif; ?>
         </dt>
-        <?php foreach ($propertyData['values'] as $value): ?>
+        <?php foreach ($propertyValues as $value): ?>
         <?php
         $valueType = $value->type();
         $valueLang = $value->lang();
@@ -45,7 +58,6 @@ if ($this->status()->isSiteRequest()) {
             $class[] = 'uri';
         }
         ?>
-        <?php if ((!$filterLocale) || ($valueLang == '') || (strcasecmp($valueLang, $lang) == 0)): ?>
         <dd class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($valueLang); ?>">
             <?php if ($showLocale && $valueLang): ?>
             <span class="language"><?php echo $valueLang; ?></span>
@@ -64,8 +76,7 @@ if ($this->status()->isSiteRequest()) {
             <?php endif; ?>
             <?php $this->trigger('view.show.value', ['value' => $value]); ?>
         </dd>
-        <?php endif; ?>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
     </div>
 <?php endforeach; ?>
 </dl>

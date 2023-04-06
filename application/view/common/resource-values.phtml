@@ -31,18 +31,21 @@ foreach ($values as $term => $propertyData):
     if (!$propertyValues) {
         continue;
     }
+    $property = $propertyData['property'];
+    $propertyLabel = $propertyData['alternate_label'] ?: $translate($property->label());
+    if ('term' === $labelInfo) {
+        $propertyTerm = $property->term();
+    } elseif ('vocab' === $labelInfo) {
+        $propertyTerm = $property->vocabulary()->label();
+    } else {
+        $propertyTerm = null;
+    }
 ?>
     <div class="property">
         <dt>
-        <?php if ($propertyData['alternate_label']): ?>
-        <?php echo $escape($propertyData['alternate_label']); ?>
-        <?php else: ?>
-        <?php echo $escape($translate($propertyData['property']->label())); ?>
-        <?php endif; ?>
-        <?php if ('term' === $labelInfo): ?>
-        <span class="field-term">(<?php echo $escape($propertyData['property']->term()); ?>)</span>
-        <?php elseif ('vocab' === $labelInfo): ?>
-        <span class="field-term">(<?php echo $escape($propertyData['property']->vocabulary()->label()); ?>)</span>
+        <?php echo $escape($propertyLabel); ?>
+        <?php if ($propertyTerm !== null): ?>
+        <span class="field-term">(<?php echo $escape($propertyTerm); ?>)</span>
         <?php endif; ?>
         </dt>
         <?php foreach ($propertyValues as $value): ?>

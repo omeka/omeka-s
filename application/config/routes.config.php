@@ -242,6 +242,27 @@ return [
                     ],
                 ],
             ],
+            'api-local' => [
+                'type' => \Laminas\Router\Http\Literal::class,
+                'options' => [
+                    'route' => '/api-local',
+                    'defaults' => [
+                        'controller' => 'Omeka\Controller\ApiLocal',
+                    ],
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'default' => [
+                        'type' => \Laminas\Router\Http\Segment::class,
+                        'options' => [
+                            'route' => '[/:resource[/:id]]',
+                            'constraints' => [
+                                'resource' => '[a-zA-Z0-9_-]+',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
             'api-context' => [
                 'type' => \Laminas\Router\Http\Literal::class,
                 'options' => [

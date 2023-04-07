@@ -17,6 +17,17 @@ use Laminas\View\ViewEvent;
 class ApiJsonStrategy extends JsonStrategy
 {
     /**
+     * Output formats and their media types.
+     */
+    protected $formats = [
+        'rdfxml' => 'application/rdf+xml',
+        'n3' => 'text/n3',
+        'turtle' => 'text/turtle',
+        'ntriples' => 'application/n-triples',
+        'jsonld' => 'application/ld+json',
+    ];
+
+    /**
      * Constructor, sets the renderer object
      *
      * @param \Omeka\View\Renderer\ApiJsonRenderer
@@ -35,7 +46,8 @@ class ApiJsonStrategy extends JsonStrategy
             return;
         }
 
-        // JsonModel found
+        // Set the output format to the renderer.
+        $this->renderer->setFormat($this->getFormat($model));
         return $this->renderer;
     }
 
@@ -54,6 +66,9 @@ class ApiJsonStrategy extends JsonStrategy
         $model = $e->getModel();
         $e->getResponse()->setStatusCode($this->getResponseStatusCode($model));
         $e->getResponse()->getHeaders()->addHeaderLine('Omeka-S-Version', Module::VERSION);
+
+        // Add the correct Content-Type header for the output format.
+        $e->getResponse()->getHeaders()->addHeaderLine('Content-Type', $this->formats[$this->getFormat($model)]);
     }
 
     /**
@@ -103,5 +118,30 @@ class ApiJsonStrategy extends JsonStrategy
             return 422; // Unprocessable Entity
         }
         return 500; // Internal Server Error
+    }
+
+    /**
+     * Get the recognized output format.
+     *
+     * @param ApiJsonModel $model
+     * @return string|null
+     */
+    protected function getFormat(ApiJsonModel $model)
+    {
+        // Prioritize the "format" query parameter.
+        $format = $model->getOption('format');
+        if (array_key_exists($format, $this->formats)) {
+            return $format;
+        }
+        // Respect the Accept header for content negotiation.
+        $acceptHeader = $model->getOption('accept_header');
+        if ($acceptHeader && $match = $acceptHeader->match(implode(', ', $this->formats))) {
+            // May match against */* so double check allowed media types.
+            if ($format = array_search($match->getRaw(), $this->formats)) {
+                return $format;
+            }
+        }
+        // The default output format is jsonld.
+        return 'jsonld';
     }
 }

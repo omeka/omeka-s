@@ -52,7 +52,7 @@ class Browse extends AbstractHelper
         }
         $query = $view->params()->fromQuery();
         if (isset($query['fulltext_search']) && '' !== trim($query['fulltext_search'])) {
-            $sortConfig[''] = 'Relevance';
+            $sortConfig[''] = 'Relevance'; // @translate
         }
         $args = [
             'sortConfig' => $sortConfig,

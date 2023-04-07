@@ -688,7 +688,6 @@ class Module extends AbstractModule
                 );
             }
             $qb->andWhere($constraints);
-
         } elseif ('api.search.query.finalize' === $event->getName()) {
 
             // Order by relevance if this is a default sort. This must happen

@@ -265,11 +265,6 @@ class SiteSettingsForm extends Form
                 'value' => (bool) $settings->get('show_attached_pages', true),
             ],
         ]);
-        $showValueAnnotations = $settings->get('show_value_annotations');
-        // "1" was equivalent to "collapsed" in a previous version.
-        if ('1' == $showValueAnnotations) {
-            $showValueAnnotations = 'collapsed';
-        }
         $this->add([
             'name' => 'show_value_annotations',
             'type' => 'select',
@@ -284,7 +279,7 @@ class SiteSettingsForm extends Form
             ],
             'attributes' => [
                 'id' => 'show_value_annotations',
-                'value' => $showValueAnnotations,
+                'value' => $settings->get('show_value_annotations'),
             ],
         ]);
         $this->add([

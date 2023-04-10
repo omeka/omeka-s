@@ -6,6 +6,7 @@ use Omeka\Form\Element\PropertySelect;
 use Omeka\Form\Element\ResourceClassSelect;
 use Omeka\Form\Element\SiteSelect;
 use Omeka\Form\Element\ResourceSelect;
+use Omeka\Permissions\Acl;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\Form\Element;
@@ -20,6 +21,8 @@ class ResourceBatchUpdateForm extends Form
      * @var Url
      */
     protected $urlHelper;
+
+    protected $acl;
 
     public function init()
     {
@@ -99,25 +102,27 @@ class ResourceBatchUpdateForm extends Form
             ],
         ]);
 
-        $this->add([
-            'name' => 'owner',
-            'type' => ResourceSelect::class,
-            'attributes' => [
-                'id' => 'owner-select',
-                'class' => 'chosen-select',
-            ],
-            'options' => [
-                'label' => 'Set owner', // @translate
-                'empty_option' => '[No change]', // @translate
-                'resource_value_options' => [
-                    'resource' => 'users',
-                    'query' => [],
-                    'option_text_callback' => function ($user) {
-                        return $user->name();
-                    },
+        if ($this->getAcl()->userIsAllowed('Omeka\Entity\User', 'update')) {
+            $this->add([
+                'name' => 'owner',
+                'type' => ResourceSelect::class,
+                'attributes' => [
+                    'id' => 'owner-select',
+                    'class' => 'chosen-select',
                 ],
-            ],
-        ]);
+                'options' => [
+                    'label' => 'Set owner', // @translate
+                    'empty_option' => '[No change]', // @translate
+                    'resource_value_options' => [
+                        'resource' => 'users',
+                        'query' => [],
+                        'option_text_callback' => function ($user) {
+                            return $user->name();
+                        },
+                    ],
+                ],
+            ]);
+        }
 
         switch ($resourceType) {
             case 'item':
@@ -299,6 +304,16 @@ class ResourceBatchUpdateForm extends Form
     public function getUrlHelper()
     {
         return $this->urlHelper;
+    }
+
+    public function setAcl(Acl $acl)
+    {
+        $this->acl = $acl;
+    }
+
+    public function getAcl()
+    {
+        return $this->acl;
     }
 
     /**

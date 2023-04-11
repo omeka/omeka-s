@@ -102,7 +102,7 @@ class ResourceBatchUpdateForm extends Form
             ],
         ]);
 
-        if ($this->getAcl()->userIsAllowed('Omeka\Entity\User', 'update')) {
+        if ($this->getAcl()->userIsAllowed('Omeka\Entity\User', 'change-owner')) {
             $this->add([
                 'name' => 'owner',
                 'type' => ResourceSelect::class,

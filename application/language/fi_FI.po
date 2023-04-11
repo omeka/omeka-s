@@ -1352,7 +1352,7 @@ msgstr "Suodata kokoelmia"
 #: application/view/omeka/admin/job/browse.phtml:38
 #: application/view/omeka/admin/job/show.phtml:18
 #: application/view/omeka/admin/resource-template/browse.phtml:44
-msgid "[no owner]"
+msgid "[No owner]"
 msgstr "[ei omistajaa]"
 
 #: application/view/common/item-set-selector.phtml:31
@@ -2387,11 +2387,11 @@ msgid "Omeka could not find any jobs."
 msgstr "Omeka ei löytänyt taustaprosesseja"
 
 #: application/view/omeka/admin/job/show.phtml:8
-msgid "[not started]"
+msgid "[Not started]"
 msgstr "[ei aloitettu]"
 
 #: application/view/omeka/admin/job/show.phtml:13
-msgid "[not ended]"
+msgid "[Not ended]"
 msgstr "[ei päätetty]"
 
 #: application/view/omeka/admin/job/show.phtml:34
@@ -2407,8 +2407,8 @@ msgid "Args"
 msgstr "Args"
 
 #: application/view/omeka/admin/job/show.phtml:55
-msgid "[no args]"
-msgstr "[no args]"
+msgid "[No args]"
+msgstr "[No args]"
 
 #: application/view/omeka/admin/job/show.phtml:59
 msgid "Log"
@@ -2419,7 +2419,7 @@ msgid "view log"
 msgstr "näytä loki"
 
 #: application/view/omeka/admin/job/show.phtml:66
-msgid "[no log]"
+msgid "[No log]"
 msgstr "[ei lokia]"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:9

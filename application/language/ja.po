@@ -1354,7 +1354,7 @@ msgstr "アイテムセットをフィルター"
 #: application/view/omeka/admin/job/browse.phtml:38
 #: application/view/omeka/admin/job/show.phtml:18
 #: application/view/omeka/admin/resource-template/browse.phtml:44
-msgid "[no owner]"
+msgid "[No owner]"
 msgstr "[オーナーなし]"
 
 #: application/view/common/item-set-selector.phtml:31
@@ -2379,11 +2379,11 @@ msgid "Omeka could not find any jobs."
 msgstr "Omekaにジョブがありません。"
 
 #: application/view/omeka/admin/job/show.phtml:8
-msgid "[not started]"
+msgid "[Not started]"
 msgstr "[開始していない]"
 
 #: application/view/omeka/admin/job/show.phtml:13
-msgid "[not ended]"
+msgid "[Not ended]"
 msgstr "[終了していない]"
 
 #: application/view/omeka/admin/job/show.phtml:34
@@ -2399,7 +2399,7 @@ msgid "Args"
 msgstr "引数"
 
 #: application/view/omeka/admin/job/show.phtml:55
-msgid "[no args]"
+msgid "[No args]"
 msgstr "[引数無し]"
 
 #: application/view/omeka/admin/job/show.phtml:59
@@ -2411,7 +2411,7 @@ msgid "view log"
 msgstr "ログを表示"
 
 #: application/view/omeka/admin/job/show.phtml:66
-msgid "[no log]"
+msgid "[No log]"
 msgstr "[ログなし]"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:9

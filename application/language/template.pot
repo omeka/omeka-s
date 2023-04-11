@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-10 20:54-0400\n"
+"POT-Creation-Date: 2023-04-10 21:23-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4194,10 +4194,6 @@ msgid ""
 "Omeka S automatically selects a thumbnail from among attached media for a "
 "resource. You may use an image of your choice instead by choosing an asset "
 "here."
-msgstr ""
-
-#: application/src/Form/ResourceForm.php:92
-msgid "[no owner]"
 msgstr ""
 
 #: application/src/Form/VocabularyForm.php:23

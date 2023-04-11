@@ -695,7 +695,8 @@ class Module extends AbstractModule
             // happens before we apply orderBys.
 
             if (isset($query['sort_by_default']) || !$qb->getDQLPart('orderBy')) {
-                $qb->orderBy($match, 'DESC');
+                $sortOrder = 'asc' === $query['sort_order'] ? 'ASC' : 'DESC';
+                $qb->orderBy($match, $sortOrder);
             }
         }
     }

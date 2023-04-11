@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Mvc;
 
-use Composer\Semver\Comparator;
 use Omeka\Service\Delegator\SitePaginatorDelegatorFactory;
 use Omeka\Session\SaveHandler\Db;
 use Omeka\Site\Theme\Manager;
@@ -79,6 +78,11 @@ class MvcListeners extends AbstractListenerAggregate
         $services = $event->getApplication()->getServiceManager();
         $config = $services->get('Config');
 
+        // Skip session setup pre-install
+        if (!$services->get('Omeka\Status')->isInstalled()) {
+            return;
+        }
+
         $sessionConfig = new SessionConfig;
         $defaultOptions = [
             'name' => md5(OMEKA_PATH),
@@ -92,10 +96,7 @@ class MvcListeners extends AbstractListenerAggregate
 
         $sessionSaveHandler = null;
         if (empty($config['session']['save_handler'])) {
-            $currentVersion = $services->get('Omeka\Settings')->get('version');
-            if (Comparator::greaterThanOrEqualTo($currentVersion, '0.4.1-alpha')) {
-                $sessionSaveHandler = new Db($services->get('Omeka\Connection'));
-            }
+            $sessionSaveHandler = new Db($services->get('Omeka\Connection'));
         } else {
             $sessionSaveHandler = $services->get($config['session']['save_handler']);
         }

@@ -1351,7 +1351,7 @@ msgstr "Filtrirajte zbirke"
 #: application/view/omeka/admin/job/browse.phtml:38
 #: application/view/omeka/admin/job/show.phtml:18
 #: application/view/omeka/admin/resource-template/browse.phtml:44
-msgid "[no owner]"
+msgid "[No owner]"
 msgstr "[nema vlasnika]"
 
 #: application/view/common/item-set-selector.phtml:31
@@ -2392,11 +2392,11 @@ msgid "Omeka could not find any jobs."
 msgstr "Omeka nije mogla naći ikakve poslove. "
 
 #: application/view/omeka/admin/job/show.phtml:8
-msgid "[not started]"
+msgid "[Not started]"
 msgstr "[nije započeto]"
 
 #: application/view/omeka/admin/job/show.phtml:13
-msgid "[not ended]"
+msgid "[Not ended]"
 msgstr "[nije završeno]"
 
 #: application/view/omeka/admin/job/show.phtml:34
@@ -2412,7 +2412,7 @@ msgid "Args"
 msgstr "Argumenti"
 
 #: application/view/omeka/admin/job/show.phtml:55
-msgid "[no args]"
+msgid "[No args]"
 msgstr "[nema argumenata]"
 
 #: application/view/omeka/admin/job/show.phtml:59
@@ -2424,7 +2424,7 @@ msgid "view log"
 msgstr "Pogledajte zapis"
 
 #: application/view/omeka/admin/job/show.phtml:66
-msgid "[no log]"
+msgid "[No log]"
 msgstr "[nema zapisa]"
 
 #: application/view/omeka/admin/media/batch-edit.phtml:9

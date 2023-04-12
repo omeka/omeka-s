@@ -46,8 +46,8 @@ $this->trigger('view.layout');
                 <div id="user">
                     <?php if ($this->identity()): ?>
                     <p class="user-id">
-                        <?php echo sprintf($translate('Signed in as %s'), $this->hyperlink($this->identity()->getName(), $this->url('admin/id', ['controller' => 'user', 'id' => $this->identity()->getId()]))); ?>
-                        <?php echo $this->hyperlink('⚙', $this->url('admin/id', ['controller' => 'user', 'action' => 'edit', 'id' => $this->identity()->getId()], ['fragment' => 'user-settings'])); ?>
+                        <?php echo $this->hyperlink($this->identity()->getName(), $this->url('admin/id', ['controller' => 'user', 'id' => $this->identity()->getId()]),['class' => 'user-show o-icon-user button']); ?>
+                        <?php echo $this->plugin('hyperlink')->raw('<span class="sr-only">' . $translate('Edit user') . '</span>', $this->url('admin/id', ['controller' => 'user', 'action' => 'edit', 'id' => $this->identity()->getId()], ['fragment' => 'user-settings']), ['class' => 'user-settings button', 'title' => $translate('Edit user')]); ?>
                     </p>
                     <p class="logout"><a href="<?php echo $this->url('logout'); ?>"><?php echo $translate('Logout'); ?></a></p>
                     <?php else: ?>

@@ -267,15 +267,19 @@ class SiteSettingsForm extends Form
         ]);
         $this->add([
             'name' => 'show_value_annotations',
-            'type' => 'checkbox',
+            'type' => 'select',
             'options' => [
                 'element_group' => 'show',
-                'label' => 'Show value annotations', // @translate
-                'info' => 'Show annotations that are set to a value, if any.', // @translate
+                'label' => 'Value annotations', // @translate
+                'empty_option' => 'Hide value annotations', // @translate
+                'value_options' => [
+                    'collapsed' => 'Show value annotations (collapsed)', // @translate
+                    'expanded' => 'Show value annotations (expanded)', // @translate
+                ],
             ],
             'attributes' => [
                 'id' => 'show_value_annotations',
-                'value' => (bool) $settings->get('show_value_annotations', false),
+                'value' => $settings->get('show_value_annotations'),
             ],
         ]);
         $this->add([
@@ -431,6 +435,11 @@ class SiteSettingsForm extends Form
         ]);
         $inputFilter->add([
             'name' => 'search_apply_templates',
+            'required' => false,
+            'allow_empty' => true,
+        ]);
+        $inputFilter->add([
+            'name' => 'show_value_annotations',
             'required' => false,
             'allow_empty' => true,
         ]);

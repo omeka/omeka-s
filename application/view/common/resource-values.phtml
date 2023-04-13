@@ -7,7 +7,7 @@ if ($this->status()->isSiteRequest()) {
     $showLocale = (bool) $this->siteSetting('show_locale_label', true);
     $filterLocale = $this->siteSetting('filter_locale_values');
     $lang = $this->lang();
-    $showValueAnnotations = (bool) $this->siteSetting('show_value_annotations', false);
+    $showValueAnnotations = $this->siteSetting('show_value_annotations');
 } else {
     $labelInfo = $this->setting('property_label_information');
     $showLocale = true;
@@ -70,7 +70,7 @@ foreach ($values as $term => $propertyData):
                 <span class="o-icon-private" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Private')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Private')); ?>"></span>
             <?php endif; ?>
             <?php if ($valueAnnotation && $showValueAnnotations): ?>
-                <a href="#" class="expand" aria-label="<?php echo $this->escapeHtml($translate('Expand')); ?>">
+                <a href="#" class="<?php echo ('expanded' === $showValueAnnotations) ? 'collapse' : 'expand'; ?>" aria-label="<?php echo ('expanded' === $showValueAnnotations) ? $this->escapeHtml($translate('Collapse')) : $this->escapeHtml($translate('Expand')); ?>">
                     <span class="has-annotation o-icon-annotation" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Has annotation')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Has annotation')); ?>"></span>
                 </a>
                 <div class="collapsible annotation">

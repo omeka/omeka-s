@@ -24,6 +24,20 @@ class SiteAdapter extends AbstractEntityAdapter
         'slug' => 'slug',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        'slug' => 'slug',
+        'theme' => 'theme',
+        'title' => 'title',
+        'is_public' => 'isPublic',
+        'created' => 'created',
+        'modified' => 'modified',
+        'homepage' => 'homepage',
+        'owner' => 'owner',
+        'summary' => 'summary',
+        'thumbnail' => 'thumbnail',
+    ];
+
     public function getResourceName()
     {
         return 'sites';

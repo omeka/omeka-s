@@ -19,6 +19,16 @@ class UserAdapter extends AbstractEntityAdapter
         'role' => 'role',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        'email' => 'email',
+        'name' => 'name',
+        'created' => 'created',
+        'modified' => 'modified',
+        'role' => 'role',
+        'is_active' => 'isActive',
+    ];
+
     public function getResourceName()
     {
         return 'users';

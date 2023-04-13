@@ -106,7 +106,7 @@ class OEmbed implements MutableIngesterInterface
                 'label' => 'oEmbed',
             ],
             'attributes' => [
-                'value' => json_encode($media->mediaData(), JSON_PRETTY_PRINT),
+                'value' => json_encode($media->mediaData(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
                 'rows' => 8,
                 'disabled' => true,
             ],

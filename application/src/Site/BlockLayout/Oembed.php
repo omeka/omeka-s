@@ -81,7 +81,7 @@ class Oembed extends AbstractBlockLayout
                 'label' => 'oEmbed',
             ],
             'attributes' => [
-                'value' => json_encode($data['oembed'], JSON_PRETTY_PRINT),
+                'value' => json_encode($data['oembed'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
                 'rows' => 8,
                 'disabled' => true,
             ],

@@ -629,6 +629,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         if (isset($rawData['o:resource_template'])) {
             $data['o:resource_template'] = $rawData['o:resource_template'];
         }
+        if (isset($rawData['o:owner'])) {
+            $data['o:owner'] = $rawData['o:owner'];
+        }
         if (isset($rawData['o:resource_class'])) {
             $data['o:resource_class'] = $rawData['o:resource_class'];
         }

@@ -6,6 +6,7 @@ use Omeka\Form\Element\PropertySelect;
 use Omeka\Form\Element\ResourceClassSelect;
 use Omeka\Form\Element\SiteSelect;
 use Omeka\Form\Element\ResourceSelect;
+use Omeka\Permissions\Acl;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\Form\Element;
@@ -20,6 +21,8 @@ class ResourceBatchUpdateForm extends Form
      * @var Url
      */
     protected $urlHelper;
+
+    protected $acl;
 
     public function init()
     {
@@ -98,6 +101,28 @@ class ResourceBatchUpdateForm extends Form
                 'empty_option' => '[No change]', // @translate
             ],
         ]);
+
+        if ($this->getAcl()->userIsAllowed('Omeka\Entity\User', 'change-owner')) {
+            $this->add([
+                'name' => 'owner',
+                'type' => ResourceSelect::class,
+                'attributes' => [
+                    'id' => 'owner-select',
+                    'class' => 'chosen-select',
+                ],
+                'options' => [
+                    'label' => 'Set owner', // @translate
+                    'empty_option' => '[No change]', // @translate
+                    'resource_value_options' => [
+                        'resource' => 'users',
+                        'query' => [],
+                        'option_text_callback' => function ($user) {
+                            return $user->name();
+                        },
+                    ],
+                ],
+            ]);
+        }
 
         switch ($resourceType) {
             case 'item':
@@ -233,6 +258,10 @@ class ResourceBatchUpdateForm extends Form
             'required' => false,
         ]);
         $inputFilter->add([
+            'name' => 'owner',
+            'required' => false,
+        ]);
+        $inputFilter->add([
             'name' => 'add_to_item_set',
             'required' => false,
         ]);
@@ -277,6 +306,16 @@ class ResourceBatchUpdateForm extends Form
         return $this->urlHelper;
     }
 
+    public function setAcl(Acl $acl)
+    {
+        $this->acl = $acl;
+    }
+
+    public function getAcl()
+    {
+        return $this->acl;
+    }
+
     /**
      * Preprocess data to get data to replace, to remove and to append.
      *
@@ -315,6 +354,9 @@ class ResourceBatchUpdateForm extends Form
             $preData['remove']['o:resource_class'] = ['o:id' => null];
         } elseif (is_numeric($data['resource_class'])) {
             $preData['remove']['o:resource_class'] = ['o:id' => $data['resource_class']];
+        }
+        if (is_numeric($data['owner'])) {
+            $preData['remove']['o:owner'] = ['o:id' => $data['owner']];
         }
         if (isset($data['remove_from_item_set'])) {
             $preData['remove']['o:item_set'] = $data['remove_from_item_set'];
@@ -367,7 +409,7 @@ class ResourceBatchUpdateForm extends Form
 
         // Set remaining elements according to attribute data-collection-action.
         $processeds = [
-            'is_public', 'is_open', 'resource_template', 'resource_class',
+            'is_public', 'is_open', 'resource_template', 'resource_class', 'owner',
             'remove_from_item_set', 'add_to_item_set',
             'remove_from_sites', 'add_to_sites',
             'clear_property_values', 'set_value_visibility',

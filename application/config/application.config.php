@@ -2,6 +2,21 @@
 namespace Omeka;
 
 $reader = new \Laminas\Config\Reader\Ini;
+
+$url = getenv('OMEKA_DB_CONNECTION_URL');
+
+try {
+  $database = $reader->fromFile(OMEKA_PATH . '/config/database.ini');
+} catch (\Laminas\Config\Exception\RuntimeException $e) {
+  if (!$url) {
+    throw $e;
+  }
+} finally {
+  if ($url) {
+    $database['url'] = $url;
+  }
+}
+
 return [
     'modules' => [
         'Laminas\Form',
@@ -29,5 +44,5 @@ return [
             'Omeka\Status' => Service\StatusFactory::class,
         ],
     ],
-    'connection' => $reader->fromFile(OMEKA_PATH . '/config/database.ini'),
+    'connection' => $database,
 ];

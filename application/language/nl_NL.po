@@ -1989,12 +1989,12 @@ msgstr "Collecties (%s)"
 #: application/view/omeka/admin/index/browse.phtml:27
 #, php-format
 msgid "Vocabularies (%s)"
-msgstr "Woordenschatten (%s)"
+msgstr "Vocabulaires (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:29
 #: application/view/omeka/admin/vocabulary/browse.phtml:11
 msgid "Import new vocabulary"
-msgstr "Woordenschat importeren"
+msgstr "Vocabulaire importeren"
 
 #: application/view/omeka/admin/index/browse.phtml:33
 #, php-format
@@ -2591,7 +2591,7 @@ msgstr "Weet je zeker dat je deze module wil verwijderen?"
 #: application/view/omeka/admin/property/show-details.phtml:6
 #: application/view/omeka/admin/resource-class/show-details.phtml:6
 msgid "Vocabulary"
-msgstr "Woordenschat"
+msgstr "Vocabulaire"
 
 #: application/view/omeka/admin/property/show-details.phtml:10
 #: application/view/omeka/admin/resource-class/show-details.phtml:10
@@ -2873,7 +2873,7 @@ msgstr "Naam"
 #: application/view/omeka/admin/vocabulary/properties.phtml:7
 #: application/view/omeka/admin/vocabulary/update.phtml:20
 msgid "Vocabularies"
-msgstr "Woordenlijsten"
+msgstr "Vocabulaires"
 
 #: application/view/omeka/admin/vocabulary/browse.phtml:27
 msgid "Prefix"
@@ -4295,7 +4295,7 @@ msgstr ""
 
 #: application/src/Form/VocabularyForm.php:94
 msgid "Vocabulary file"
-msgstr "Woordenlijstbestand"
+msgstr "Vocabulairebestand"
 
 #: application/src/Form/VocabularyForm.php:95
 msgid ""
@@ -4304,7 +4304,7 @@ msgstr ""
 
 #: application/src/Form/VocabularyForm.php:105
 msgid "Vocabulary URL"
-msgstr "Woordenlijst URL"
+msgstr "Vocabulaire URL"
 
 #: application/src/Form/VocabularyForm.php:106
 msgid ""
@@ -5308,7 +5308,7 @@ msgstr "woordenlijst"
 #: application/src/Controller/Admin/VocabularyController.php:97
 #, php-format
 msgid "Vocabulary successfully imported. %s"
-msgstr "Woordenlijst succesvol geïmporteerd. %s"
+msgstr "Vocabulaire succesvol geïmporteerd. %s"
 
 #: application/src/Controller/Admin/VocabularyController.php:176
 msgid "Please review these changes before you accept them."
@@ -5316,7 +5316,7 @@ msgstr ""
 
 #: application/src/Controller/Admin/VocabularyController.php:184
 msgid "Vocabulary successfully updated"
-msgstr "Woordenlijst succesvol bijgewerkt"
+msgstr "Vocabulaire succesvol bijgewerkt"
 
 #: application/src/Controller/Admin/VocabularyController.php:204
 msgid "Changes to the vocabulary successfully made"
@@ -5324,7 +5324,7 @@ msgstr "Wijzigingen in de woordenlijst zijn succesvol aangebracht"
 
 #: application/src/Controller/Admin/VocabularyController.php:220
 msgid "Vocabulary successfully deleted"
-msgstr "Woordenlijst succesvol verwijderd"
+msgstr "Vocabulaire succesvol verwijderd"
 
 #: application/src/Controller/Admin/ResourceTemplateController.php:444
 msgid "resource template"

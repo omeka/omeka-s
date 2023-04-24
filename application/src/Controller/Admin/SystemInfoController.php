@@ -208,6 +208,6 @@ class SystemInfoController extends AbstractActionController
 
     protected function formatSpace($bytes): string
     {
-        return sprintf('%1$.1f GB', $bytes / 1000000000);
+        return sprintf('%1$.1f GiB', $bytes / (1024 * 1024 * 1024));
     }
 }

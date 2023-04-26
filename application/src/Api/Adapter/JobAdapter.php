@@ -16,6 +16,16 @@ class JobAdapter extends AbstractEntityAdapter
         'ended' => 'ended',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        // 'pid' => 'pid',
+        'status' => 'status',
+        'class' => 'class',
+        'started' => 'started',
+        'ended' => 'ended',
+        'owner' => 'owner',
+    ];
+
     public function getResourceName()
     {
         return 'jobs';

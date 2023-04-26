@@ -18,6 +18,16 @@ class AssetAdapter extends AbstractEntityAdapter
         'extension' => 'extension',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        'media_type' => 'mediaType',
+        'name' => 'name',
+        'extension' => 'extension',
+        'storage_id' => 'storageId',
+        'alt_text' => 'altText',
+        'owner' => 'owner',
+    ];
+
     public function getResourceName()
     {
         return 'assets';

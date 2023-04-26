@@ -238,11 +238,12 @@ class ItemController extends AbstractActionController
 
     public function editAction()
     {
-        $form = $this->getForm(ResourceForm::class);
+        $item = $this->api()->read('items', $this->params('id'))->getContent();
+
+        $form = $this->getForm(ResourceForm::class, ['resource' => $item]);
         $form->setAttribute('action', $this->url()->fromRoute(null, [], true));
         $form->setAttribute('enctype', 'multipart/form-data');
         $form->setAttribute('id', 'edit-item');
-        $item = $this->api()->read('items', $this->params('id'))->getContent();
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
@@ -293,8 +294,11 @@ class ItemController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->preprocessData();
 
-                foreach ($data as $collectionAction => $properties) {
-                    $this->api($form)->batchUpdate('items', $resourceIds, $properties, [
+                foreach ($data as $collectionAction => $dataToProcess) {
+                    if (!$dataToProcess) {
+                        continue;
+                    }
+                    $this->api($form)->batchUpdate('items', $resourceIds, $dataToProcess, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,
                         'detachEntities' => false,

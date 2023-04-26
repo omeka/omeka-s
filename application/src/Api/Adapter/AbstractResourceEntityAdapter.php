@@ -250,6 +250,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $valuesJoin = 'omeka_root.values';
         $where = '';
 
+        $escapeSqlLike = function ($string) {
+            return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], (string) $string);
+        };
+
         foreach ($query['property'] as $queryRow) {
             if (!(is_array($queryRow)
                 && array_key_exists('property', $queryRow)
@@ -292,7 +296,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     $positive = false;
                     // No break.
                 case 'in':
-                    $param = $this->createNamedParameter($qb, "%$value%");
+                    $param = $this->createNamedParameter($qb, '%' . $escapeSqlLike($value) . '%');
                     $subqueryAlias = $this->createAlias();
                     $subquery = $this->getEntityManager()
                         ->createQueryBuilder()
@@ -310,7 +314,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     $positive = false;
                     // No break.
                 case 'sw':
-                    $param = $this->createNamedParameter($qb, "$value%");
+                    $param = $this->createNamedParameter($qb, $escapeSqlLike($value) . '%');
                     $subqueryAlias = $this->createAlias();
                     $subquery = $this->getEntityManager()
                         ->createQueryBuilder()
@@ -328,7 +332,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     $positive = false;
                     // No break.
                 case 'ew':
-                    $param = $this->createNamedParameter($qb, "%$value");
+                    $param = $this->createNamedParameter($qb, '%' . $escapeSqlLike($value));
                     $subqueryAlias = $this->createAlias();
                     $subquery = $this->getEntityManager()
                         ->createQueryBuilder()
@@ -624,6 +628,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         }
         if (isset($rawData['o:resource_template'])) {
             $data['o:resource_template'] = $rawData['o:resource_template'];
+        }
+        if (isset($rawData['o:owner'])) {
+            $data['o:owner'] = $rawData['o:owner'];
         }
         if (isset($rawData['o:resource_class'])) {
             $data['o:resource_class'] = $rawData['o:resource_class'];

@@ -749,27 +749,56 @@ header {
     color: #fff;
     padding-top: $spacing-medium;
     margin-bottom: -($spacing-small);
+    display: flex;
+    flex-wrap: wrap;
 }
 
 #user p {
-    margin: 0;
-    display: inline-block;
+    margin: 0 0 $spacing-small;
+    display: inline-flex;
     vertical-align: top;
 }
 
 #user .user-id {
     text-transform: uppercase;
     font-size: .75 * $base-font-size;
-    width: 75%;
-    margin-bottom: $spacing-small;
-    margin-right: -4px;
+    margin-right: auto;
 }
 
-#user .user-id a {
-    display: block;
-    font-size: $base-font-size;
+#user .user-id a.button {
+    display: inline-block;
+    font-size: .75 * $base-font-size;
     text-transform: none;
-    margin-top: -($spacing-small);
+    margin-bottom: 0;
+    background-color: darken($blue, 15%);
+    padding: 0 $spacing-small;
+    min-height: 0;
+    border: 0;
+}
+
+#user .user-show {
+    border-radius: 3px 0 0 3px;
+    margin-right: 1px;
+    display: inline-flex;
+    max-width: 85%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#user .user-show:before {
+    margin-right: $spacing-small;
+}
+
+#user .user-settings {
+    border-radius: 0 3px 3px 0;
+    border-left: 0;
+}
+
+#user .user-settings:before {
+    content: "\f013";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
 }
 
 #user .logout {
@@ -1758,6 +1787,7 @@ fieldset.section > legend {
 
 .section.active {
     display: block;
+    clear: both;
 }
 
 #page-actions {
@@ -1958,7 +1988,7 @@ fieldset.section > legend {
     border-bottom: 1px solid #dfdfdf;
 }
 
-input[type="text"].value-language {
+.language-wrapper input[type="text"].value-language {
     line-height: $base-line-height;
     background-color: transparent;
     border: 0;
@@ -2777,7 +2807,7 @@ input[type="text"].value-language {
         font-weight: inherit;
     }
 
-    [data-data-type="uri"] .input-body input.value,
+    [data-data-type="uri"] .input-body input.uri-value,
     [data-data-type="uri"] textarea.value-label {
         height: (1.5 * $spacing-large);
         border: 0;
@@ -4560,6 +4590,19 @@ body.sidebar-open #content {
 
     /* @end */
 
+    /* @group ----- Site Admin ----- */
+    
+    .browse-defualts-form-element {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .browse-defualts-form-element select {
+        width: 49.5%;
+    }
+
+    /* @end */
+    
     /* @group ----- Site Navigation/List of Pages ----- */
 
     input[type="text"].page-selector-filter {
@@ -5087,6 +5130,7 @@ body.minimal .site.results thead {
 .asset-entry img {
     margin-right: $spacing-small;
     max-height: 2 * $spacing-large;
+    max-width: 50%;
 }
 
 .asset-entry .asset-name {

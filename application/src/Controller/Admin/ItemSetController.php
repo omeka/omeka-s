@@ -51,10 +51,10 @@ class ItemSetController extends AbstractActionController
 
     public function editAction()
     {
-        $form = $this->getForm(ResourceForm::class);
+        $itemSet = $this->api()->read('item_sets', $this->params('id'))->getContent();
+
+        $form = $this->getForm(ResourceForm::class, ['resource' => $itemSet]);
         $form->setAttribute('id', 'edit-item-set');
-        $response = $this->api()->read('item_sets', $this->params('id'));
-        $itemSet = $response->getContent();
 
         $view = new ViewModel;
         $view->setVariable('form', $form);
@@ -265,11 +265,14 @@ class ItemSetController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->preprocessData();
 
-                foreach ($data as $collectionAction => $properties) {
-                    $this->api($form)->batchUpdate('item_sets', $resourceIds, $properties, [
+                foreach ($data as $collectionAction => $dataToProcess) {
+                    if (!$dataToProcess) {
+                        continue;
+                    }
+                    $this->api($form)->batchUpdate('item_sets', $resourceIds, $dataToProcess, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,
-                        'detachEntites' => false,
+                        'detachEntities' => false,
                     ]);
                 }
 

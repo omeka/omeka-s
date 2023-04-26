@@ -7,7 +7,7 @@ if ($this->status()->isSiteRequest()) {
     $showLocale = (bool) $this->siteSetting('show_locale_label', true);
     $filterLocale = $this->siteSetting('filter_locale_values');
     $lang = $this->lang();
-    $showValueAnnotations = (bool) $this->siteSetting('show_value_annotations', false);
+    $showValueAnnotations = $this->siteSetting('show_value_annotations');
 } else {
     $labelInfo = $this->setting('property_label_information');
     $showLocale = true;
@@ -15,24 +15,40 @@ if ($this->status()->isSiteRequest()) {
     $lang = null;
     $showValueAnnotations = true;
 }
+$filterLocaleCallback = function ($value) use ($lang) {
+    $valueLang = $value->lang();
+    return $valueLang == '' || strcasecmp($valueLang, $lang) === 0;
+};
 ?>
 
 <dl>
-<?php foreach ($values as $term => $propertyData): ?>
+<?php
+foreach ($values as $term => $propertyData):
+    $propertyValues = $propertyData['values'];
+    if ($filterLocale) {
+        $propertyValues = array_filter($propertyValues, $filterLocaleCallback);
+    }
+    if (!$propertyValues) {
+        continue;
+    }
+    $property = $propertyData['property'];
+    $propertyLabel = $propertyData['alternate_label'] ?: $translate($property->label());
+    if ('term' === $labelInfo) {
+        $propertyTerm = $property->term();
+    } elseif ('vocab' === $labelInfo) {
+        $propertyTerm = $property->vocabulary()->label();
+    } else {
+        $propertyTerm = null;
+    }
+?>
     <div class="property">
         <dt>
-        <?php if ($propertyData['alternate_label']): ?>
-        <?php echo $escape($propertyData['alternate_label']); ?>
-        <?php else: ?>
-        <?php echo $escape($translate($propertyData['property']->label())); ?>
-        <?php endif; ?>
-        <?php if ('term' === $labelInfo): ?>
-        <span class="field-term">(<?php echo $escape($propertyData['property']->term()); ?>)</span>
-        <?php elseif ('vocab' === $labelInfo): ?>
-        <span class="field-term">(<?php echo $escape($propertyData['property']->vocabulary()->label()); ?>)</span>
+        <?php echo $escape($propertyLabel); ?>
+        <?php if ($propertyTerm !== null): ?>
+        <span class="field-term">(<?php echo $escape($propertyTerm); ?>)</span>
         <?php endif; ?>
         </dt>
-        <?php foreach ($propertyData['values'] as $value): ?>
+        <?php foreach ($propertyValues as $value): ?>
         <?php
         $valueType = $value->type();
         $valueLang = $value->lang();
@@ -45,7 +61,6 @@ if ($this->status()->isSiteRequest()) {
             $class[] = 'uri';
         }
         ?>
-        <?php if ((!$filterLocale) || ($valueLang == '') || (strcasecmp($valueLang, $lang) == 0)): ?>
         <dd class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($valueLang); ?>">
             <?php if ($showLocale && $valueLang): ?>
             <span class="language"><?php echo $valueLang; ?></span>
@@ -55,7 +70,7 @@ if ($this->status()->isSiteRequest()) {
                 <span class="o-icon-private" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Private')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Private')); ?>"></span>
             <?php endif; ?>
             <?php if ($valueAnnotation && $showValueAnnotations): ?>
-                <a href="#" class="expand" aria-label="<?php echo $this->escapeHtml($translate('Expand')); ?>">
+                <a href="#" class="<?php echo ('expanded' === $showValueAnnotations) ? 'collapse' : 'expand'; ?>" aria-label="<?php echo ('expanded' === $showValueAnnotations) ? $this->escapeHtml($translate('Collapse')) : $this->escapeHtml($translate('Expand')); ?>">
                     <span class="has-annotation o-icon-annotation" aria-role="tooltip" title="<?php echo $this->escapeHtml($translate('Has annotation')); ?>" aria-label="<?php echo $this->escapeHtml($translate('Has annotation')); ?>"></span>
                 </a>
                 <div class="collapsible annotation">
@@ -64,8 +79,7 @@ if ($this->status()->isSiteRequest()) {
             <?php endif; ?>
             <?php $this->trigger('view.show.value', ['value' => $value]); ?>
         </dd>
-        <?php endif; ?>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
     </div>
 <?php endforeach; ?>
 </dl>

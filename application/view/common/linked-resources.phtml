@@ -7,11 +7,11 @@ $fragment = 'resources-linked';
 $pagination->setFragment($fragment);
 
 // Set up locale.
-$lang = null;
-$filterLocale = false;
+$valueLang = null;
 if ($this->status()->isSiteRequest()) {
     $lang = $this->lang();
     $filterLocale = (bool) $this->siteSetting('filter_locale_values');
+    $valueLang = $filterLocale ? [$lang, ''] : null;
 }
 
 // Set up resource property select.
@@ -78,7 +78,7 @@ $caption = sprintf(
     <tbody>
         <?php foreach ($values as $value): ?>
         <tr class="linked-resource">
-            <td><?php echo $value['val']->resource()->linkPretty('square', null, null, null, ($filterLocale ? $lang : null)); ?></td>
+            <td><?php echo $value['val']->resource()->linkPretty('square', null, null, null, $valueLang); ?></td>
             <td>
                 <?php if ($value['val']->resource()->resourceClass()): ?>
                 <span class="resource-class"><?php echo $this->escapeHtml($this->translate($value['val']->resource()->resourceClass()->label())); ?></span>

@@ -319,6 +319,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             return $response;
         }
 
+        // Trigger the api.search.query.finalize event.
+        $event = new Event('api.search.query.finalize', $this, [
+            'queryBuilder' => $qb,
+            'request' => $request,
+        ]);
+        $this->getEventManager()->triggerEvent($event);
+
         $paginator = new Paginator($qb, false);
         $entities = [];
         // Don't make the request if the LIMIT is set to zero. Useful if the

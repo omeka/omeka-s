@@ -384,7 +384,7 @@
                 });
                 if (!propIsCompleted) {
                     // No completed values found for this required property.
-                    var propLabel = thisProp.find('.field-label').text();
+                    var propLabel = thisProp.find('.field-label').last().text();
                     errors.push('The following field is required: ' + propLabel);
                 }
             });

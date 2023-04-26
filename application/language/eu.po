@@ -5,18 +5,19 @@
 # 
 # Translators:
 # Margari León <margarileon@i2basque.es>, 2019
-# Iametza Interaktiboa, 2022
 # Ereiten Omeka, 2022
+# Iametza Interaktiboa, 2022
+# John Flatness <john@omeka.org>, 2023
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-06 15:01-0400\n"
+"POT-Creation-Date: 2023-04-10 21:23-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: Ereiten Omeka, 2022\n"
-"Language-Team: Basque (https://www.transifex.com/omeka/teams/14184/eu/)\n"
+"Last-Translator: John Flatness <john@omeka.org>, 2023\n"
+"Language-Team: Basque (https://app.transifex.com/omeka/teams/14184/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -63,19 +64,24 @@ msgstr "%1$s egokitzaileak ez du ezabatze eragiketa burutzen."
 msgid "The %1$s adapter does not implement the batch delete operation."
 msgstr "%1$s egokitzaileak ez du batch ezabatze eragiketa burutzen."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:280
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:292
+#, php-format
+msgid "The \"%1$s\" field is not available in the %2$s adapter class."
+msgstr "\"%1$s\" eremua ez dago eskuragarri %2$s egokitzaile klasean."
+
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:308
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s entity class."
 msgstr "\"%1$s\" eremua %2$s entitate klasean ez dago eskuragarri."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:645
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:680
 #: application/src/Api/Manager.php:209
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s resource."
 msgstr ""
 "Baimena ukatua %2$s baliabideko %1$s-era sartzeko uneko erabiltzaileari."
 
-#: application/src/Api/Adapter/AbstractEntityAdapter.php:687
+#: application/src/Api/Adapter/AbstractEntityAdapter.php:722
 #, php-format
 msgid "%1$s entity with criteria %2$s not found"
 msgstr "%2$s irizpidedun %1$s entitatea ez da aurkitu."
@@ -84,11 +90,7 @@ msgstr "%2$s irizpidedun %1$s entitatea ez da aurkitu."
 msgid "Welcome"
 msgstr "Ongi etorri"
 
-#: application/src/Api/Adapter/SiteAdapter.php:145
-msgid "Welcome to your new site. This is an example page."
-msgstr "Ongi etorri zure gune berrira. Hau eredu orria da."
-
-#: application/src/Api/Adapter/SiteAdapter.php:390
+#: application/src/Api/Adapter/SiteAdapter.php:398
 msgid "Browse"
 msgstr "Nabigatu"
 
@@ -97,23 +99,43 @@ msgstr "Nabigatu"
 msgid "The API does not support the \"%s\" resource."
 msgstr "API-ak ezin du \"%s\" baliabidea jasan."
 
-#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:552
-#: application/view/common/block-layout/browse-preview.phtml:23
-#: application/view/omeka/site/item-set/browse.phtml:26
-#: application/view/omeka/site/item/browse.phtml:61
+#: application/src/Api/Representation/AbstractResourceEntityRepresentation.php:599
+#: application/view/common/block-layout/browse-preview.phtml:25
+#: application/view/omeka/site/item-set/browse.phtml:28
+#: application/view/omeka/site/item/browse.phtml:46
 msgid "[Untitled]"
 msgstr "[Izenbururik gabe]"
 
-#: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:128
-#: application/view/omeka/admin/resource-template/review-import.phtml:87
+#: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:129
+#: application/view/omeka/admin/resource-template/review-import.phtml:88
 msgid "Default"
 msgstr "Lehenetsia"
+
+#: application/src/ColumnType/IsOpen.php:42
+#: application/src/ColumnType/IsPublic.php:42
+#: application/view/omeka/admin/resource-template/review-import.phtml:112
+#: application/view/omeka/admin/resource-template/review-import.phtml:113
+#: application/view/omeka/admin/resource-template/show.phtml:58
+#: application/view/omeka/admin/resource-template/show.phtml:59
+#: application/view/omeka/admin/system-info/browse.phtml:18
+msgid "Yes"
+msgstr "Bai"
+
+#: application/src/ColumnType/IsOpen.php:43
+#: application/src/ColumnType/IsPublic.php:43
+#: application/view/omeka/admin/resource-template/review-import.phtml:112
+#: application/view/omeka/admin/resource-template/review-import.phtml:113
+#: application/view/omeka/admin/resource-template/show.phtml:58
+#: application/view/omeka/admin/resource-template/show.phtml:59
+#: application/view/omeka/admin/system-info/browse.phtml:18
+msgid "No"
+msgstr "Ez"
 
 #: application/src/Controller/Admin/AssetController.php:73
 msgid "Asset uploads must be POSTed."
 msgstr "Baliabideak kargatzeko POST metodoa erabili behar da."
 
-#: application/src/Controller/Admin/ItemController.php:214
+#: application/src/Controller/Admin/ItemController.php:222
 msgid "Add another item?"
 msgstr "Beste fitxa bat gehitu?"
 
@@ -163,11 +185,21 @@ msgstr "INI baliogabea"
 msgid "Invalid Omeka S version"
 msgstr "Omeka S bertsio baliogabea"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:514
+#: application/src/Controller/Admin/ResourceTemplateController.php:526
 msgid "Add another resource template?"
 msgstr "Gehitu beste baliabide-txantiloi bat?"
 
-#: application/src/Controller/Admin/UserController.php:117
+#: application/src/Controller/Admin/SystemInfoController.php:89
+#: application/src/Controller/Admin/SystemInfoController.php:94
+msgid "[invalid]"
+msgstr "[Desegokia]"
+
+#: application/src/Controller/Admin/SystemInfoController.php:134
+#: application/src/Controller/Admin/SystemInfoController.php:145
+msgid "[Unable to execute command]"
+msgstr "[Ezin izan da agindua jaurti]"
+
+#: application/src/Controller/Admin/UserController.php:119
 msgid "Add another user?"
 msgstr "Beste erabiltzaile bat gehitu?"
 
@@ -189,21 +221,19 @@ msgstr "%s id duen baliabidea ez da aurkitu."
 #: application/view/common/data-type/resource.phtml:23
 #: application/view/layout/layout-admin.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:22
-#: application/view/omeka/admin/item-set/show.phtml:83
+#: application/view/omeka/admin/item-set/show.phtml:86
 #: application/view/omeka/admin/item/add.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:29
+#: application/view/omeka/admin/item/browse.phtml:7
 #: application/view/omeka/admin/item/edit.phtml:14
 #: application/view/omeka/admin/item/search.phtml:5
 #: application/view/omeka/admin/item/show.phtml:18
 #: application/view/omeka/admin/property/show-details.phtml:18
 #: application/view/omeka/admin/resource-class/show-details.phtml:18
-#: application/view/omeka/admin/resource-template/browse.phtml:19
 #: application/view/omeka/admin/resource-template/show-details.phtml:18
 #: application/view/omeka/admin/user/show-details.phtml:12
-#: application/view/omeka/admin/vocabulary/classes.phtml:15
 #: application/view/omeka/site-admin/index/resources.phtml:22
-#: application/view/omeka/site/item/browse.phtml:42
-#: application/view/omeka/site/item/browse.phtml:44
+#: application/view/omeka/site/item/browse.phtml:27
+#: application/view/omeka/site/item/browse.phtml:29
 msgid "Items"
 msgstr "Fitxak"
 
@@ -212,51 +242,53 @@ msgid "Item Sets"
 msgstr "Elementu Multzoak"
 
 #: application/src/DataType/Resource/Media.php:27
+#: application/view/common/block-layout/item-with-metadata.phtml:29
 #: application/view/common/data-type/resource.phtml:37
+#: application/view/common/resource-page-block-layout/media-list.phtml:7
 #: application/view/layout/layout-admin.phtml:76
 #: application/view/omeka/admin/item/form.phtml:15
 #: application/view/omeka/admin/item/show-details.phtml:40
-#: application/view/omeka/admin/item/show.phtml:92
-#: application/view/omeka/admin/media/browse.phtml:35
+#: application/view/omeka/admin/item/show.phtml:94
+#: application/view/omeka/admin/media/browse.phtml:7
 #: application/view/omeka/admin/media/edit.phtml:17
 #: application/view/omeka/admin/media/edit.phtml:25
 #: application/view/omeka/admin/media/search.phtml:5
 #: application/view/omeka/admin/media/show.phtml:11
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:32
-#: application/view/omeka/site/media/show.phtml:8
+#: application/view/omeka/site/media/show.phtml:12
 msgid "Media"
-msgstr "Media"
+msgstr "Multimedia"
 
 #: application/src/Db/Migration/Manager.php:112
 msgid "Migration file did not contain the expected class"
 msgstr "Migrazio fitxategiak ez zeukan esperotako klasea"
 
-#: application/src/Form/Element/PasswordConfirm.php:22
+#: application/src/Form/Element/PasswordConfirm.php:27
 #, php-format
 msgid "be a minimum of %s characters in length."
 msgstr "gutxienez %s karaktere luze izatea."
 
-#: application/src/Form/Element/PasswordConfirm.php:26
+#: application/src/Form/Element/PasswordConfirm.php:31
 #, php-format
 msgid "contain at least %s lowercase characters."
 msgstr "gutxienez %s karaktere izan behar ditu minuskulaz."
 
-#: application/src/Form/Element/PasswordConfirm.php:30
+#: application/src/Form/Element/PasswordConfirm.php:35
 #, php-format
 msgid "contain at least %s uppercase characters."
 msgstr "gutxienez %s karaktere izan behar ditu maiuskulaz."
 
-#: application/src/Form/Element/PasswordConfirm.php:34
+#: application/src/Form/Element/PasswordConfirm.php:39
 #, php-format
 msgid "contain at least %s numbers."
 msgstr "gutxienez %s zenbaki izan behar ditu."
 
-#: application/src/Form/Element/PasswordConfirm.php:41
+#: application/src/Form/Element/PasswordConfirm.php:46
 #, php-format
 msgid "contain at least %1$s symbols: %2$s"
 msgstr "%1$s sinbolo izan behar ditu gutxienez: %2$s"
 
-#: application/src/Form/Element/PasswordConfirm.php:45
+#: application/src/Form/Element/PasswordConfirm.php:50
 msgid "Password must:"
 msgstr "Pasahitzak beharko luke:"
 
@@ -265,61 +297,57 @@ msgstr "Pasahitzak beharko luke:"
 msgid "Unknown"
 msgstr "Ezezaguna"
 
-#: application/src/Media/Renderer/IIIF.php:14
-msgid "OpenSeadragon is not available unless JavaScript is enabled."
-msgstr "JavaScript gaitu ezean OpenSeadragon ez da eskuragarri izango."
-
-#: application/src/Module/Manager.php:170
+#: application/src/Module/Manager.php:156
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be activated"
 msgstr "\"%1$s\" modulua \"%2$s\" gisa markatua dago eta ezin da aktibatu"
 
-#: application/src/Module/Manager.php:181
+#: application/src/Module/Manager.php:167
 #, php-format
 msgid "Module \"%s\" not in database during activation"
 msgstr "\"%s\" modulua ez zegoen datubasean aktibatze prozesuan"
 
-#: application/src/Module/Manager.php:202
+#: application/src/Module/Manager.php:188
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be deactivated"
 msgstr "\"%1$s\" modulua \"%2$s\" gisa markatua dago eta ezin da desaktibatu"
 
-#: application/src/Module/Manager.php:213
+#: application/src/Module/Manager.php:199
 #, php-format
 msgid "Module \"%s\" not in database during deactivation"
 msgstr "\"%s\" modulua ez zegoen datubasean desaktibatze prozesuan"
 
-#: application/src/Module/Manager.php:233
+#: application/src/Module/Manager.php:219
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be installed"
 msgstr "\"%1$s\" modulua \"%2$s\" gisa markatua dago eta ezin da instalatu"
 
-#: application/src/Module/Manager.php:271
+#: application/src/Module/Manager.php:257
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be uninstalled"
 msgstr "\"%1$s\" modulua \"%2$s\" gisa markatua dago eta ezin da desinstalatu"
 
-#: application/src/Module/Manager.php:288
+#: application/src/Module/Manager.php:274
 #, php-format
 msgid "Module \"%s\" not found in database during uninstallation"
 msgstr "Ez da aurkitu\"%s\" modulua datubasea desinstalatu bitartean"
 
-#: application/src/Module/Manager.php:309
+#: application/src/Module/Manager.php:295
 #, php-format
 msgid "Module \"%1$s\" is marked as \"%2$s\" and cannot be upgraded"
 msgstr "\"%1$s\" modulua \"%2$s\" gisa markatua izan da eta ezin da eguneratu"
 
-#: application/src/Module/Manager.php:331
+#: application/src/Module/Manager.php:317
 #, php-format
 msgid "Module \"%s\" not found in database during upgrade"
 msgstr "Ez da aurkitu \"%s\" modulua datubasea eguneratu bitartean"
 
-#: application/src/Module/Manager.php:410
+#: application/src/Module/Manager.php:396
 #, php-format
 msgid "Permission denied for the current user to %1$s the %2$s module."
 msgstr "Baimena ukatua %2$s moduluko %1$s-era sartzeko uneko erabiltzaileari."
 
-#: application/src/Mvc/MvcListeners.php:445
+#: application/src/Mvc/MvcListeners.php:458
 #, php-format
 msgid ""
 "Permission denied for the current user to access the %1$s action of the %2$s"
@@ -426,7 +454,7 @@ msgid "Thumbnail type"
 msgstr "Miniatura mota"
 
 #: application/src/View/Helper/CancelButton.php:14
-#: application/view/common/query-form.phtml:27
+#: application/view/common/query-form.phtml:26
 #: application/view/omeka/admin/vocabulary/update.phtml:23
 msgid "Cancel"
 msgstr "Ezeztatu"
@@ -457,97 +485,107 @@ msgid "Password must contain at least %1$s symbols: <code>%2$s</code>"
 msgstr "Pasahitzak gutxienez %1$s sinbolo izan behar ditu:: <code>%2$s</code>"
 
 #: application/src/View/Helper/SearchFilters.php:32
-#: application/view/common/advanced-search/properties.phtml:66
+#: application/view/common/advanced-search/properties.phtml:76
 msgid "is exactly"
 msgstr "zehazki da"
 
 #: application/src/View/Helper/SearchFilters.php:33
-#: application/view/common/advanced-search/properties.phtml:67
+#: application/view/common/advanced-search/properties.phtml:77
 msgid "is not exactly"
 msgstr "ez da zehazki"
 
 #: application/src/View/Helper/SearchFilters.php:34
-#: application/view/common/advanced-search/properties.phtml:68
+#: application/view/common/advanced-search/properties.phtml:78
 msgid "contains"
 msgstr "d(it)u"
 
 #: application/src/View/Helper/SearchFilters.php:35
-#: application/view/common/advanced-search/properties.phtml:69
+#: application/view/common/advanced-search/properties.phtml:79
 msgid "does not contain"
 msgstr "ez d(it)u"
 
 #: application/src/View/Helper/SearchFilters.php:36
-#: application/view/common/advanced-search/properties.phtml:70
+#: application/view/common/advanced-search/properties.phtml:80
+msgid "starts with"
+msgstr "honekin hasten da"
+
+#: application/src/View/Helper/SearchFilters.php:37
+#: application/view/common/advanced-search/properties.phtml:81
+msgid "does not start with"
+msgstr "ez da honekin hasten"
+
+#: application/src/View/Helper/SearchFilters.php:38
+#: application/view/common/advanced-search/properties.phtml:82
+msgid "ends with"
+msgstr "honekin bukatzen da"
+
+#: application/src/View/Helper/SearchFilters.php:39
+#: application/view/common/advanced-search/properties.phtml:83
+msgid "does not end with"
+msgstr "ez da honekin bukatzen"
+
+#: application/src/View/Helper/SearchFilters.php:40
+#: application/view/common/advanced-search/properties.phtml:84
 msgid "is resource with ID"
 msgstr "IDa duen baliabidea da"
 
-#: application/src/View/Helper/SearchFilters.php:37
-#: application/view/common/advanced-search/properties.phtml:71
+#: application/src/View/Helper/SearchFilters.php:41
+#: application/view/common/advanced-search/properties.phtml:85
 msgid "is not resource with ID"
 msgstr "ez da IDa duen baliabidea"
 
-#: application/src/View/Helper/SearchFilters.php:38
-#: application/view/common/advanced-search/properties.phtml:72
+#: application/src/View/Helper/SearchFilters.php:42
+#: application/view/common/advanced-search/properties.phtml:86
 msgid "has any value"
 msgstr "informazioa du"
 
-#: application/src/View/Helper/SearchFilters.php:39
-#: application/view/common/advanced-search/properties.phtml:73
+#: application/src/View/Helper/SearchFilters.php:43
+#: application/view/common/advanced-search/properties.phtml:87
 msgid "has no values"
 msgstr "ez du informazioarik"
 
-#: application/src/View/Helper/SearchFilters.php:47
+#: application/src/View/Helper/SearchFilters.php:51
 #: application/view/common/advanced-search/fulltext.phtml:6
 msgid "Search full-text"
 msgstr "Bilatu edozein eremutan"
 
-#: application/src/View/Helper/SearchFilters.php:60
-#: application/view/common/advanced-search/sort.phtml:8
+#: application/src/View/Helper/SearchFilters.php:64
 #: application/view/common/asset-block-form.phtml:63
-#: application/view/common/linked-resources.phtml:41
-#: application/view/omeka/admin/item-set/browse.phtml:15
-#: application/view/omeka/admin/item-set/browse.phtml:75
-#: application/view/omeka/admin/item-set/show.phtml:40
-#: application/view/omeka/admin/item/browse.phtml:15
-#: application/view/omeka/admin/item/browse.phtml:73
-#: application/view/omeka/admin/item/show.phtml:30
-#: application/view/omeka/admin/job/browse.phtml:11
-#: application/view/omeka/admin/job/browse.phtml:38
-#: application/view/omeka/admin/job/show.phtml:41
-#: application/view/omeka/admin/media/browse.phtml:17
-#: application/view/omeka/admin/media/browse.phtml:85
-#: application/view/omeka/admin/media/show.phtml:23
-#: application/view/omeka/admin/resource-template/browse.phtml:11
-#: application/view/omeka/admin/resource-template/browse.phtml:45
+#: application/view/common/linked-resources.phtml:75
+#: application/view/omeka/admin/item-set/show.phtml:41
+#: application/view/omeka/admin/item/show.phtml:31
+#: application/view/omeka/admin/job/browse.phtml:20
+#: application/view/omeka/admin/job/show.phtml:42
+#: application/view/omeka/admin/media/show.phtml:24
+#: application/view/omeka/admin/resource-template/browse.phtml:27
 #: application/view/omeka/admin/resource-template/review-import.phtml:32
 #: application/view/omeka/admin/resource-template/show.phtml:18
-#: application/view/omeka/site/item/browse.phtml:25
 msgid "Class"
 msgstr "Mota"
 
-#: application/src/View/Helper/SearchFilters.php:64
+#: application/src/View/Helper/SearchFilters.php:68
 msgid "Unknown class"
 msgstr "Mota ezezaguna"
 
-#: application/src/View/Helper/SearchFilters.php:102
+#: application/src/View/Helper/SearchFilters.php:106
 msgid "Unknown property"
 msgstr "Ezaugarri ezezaguna"
 
-#: application/src/View/Helper/SearchFilters.php:105
+#: application/src/View/Helper/SearchFilters.php:109
 msgid "[Any property]"
 msgstr "[Edozein ezaugarri]"
 
-#: application/src/View/Helper/SearchFilters.php:113
-#: application/view/common/advanced-search/properties.phtml:51
+#: application/src/View/Helper/SearchFilters.php:117
+#: application/view/common/advanced-search/properties.phtml:60
 msgid "OR"
 msgstr "EDO"
 
-#: application/src/View/Helper/SearchFilters.php:115
-#: application/view/common/advanced-search/properties.phtml:50
+#: application/src/View/Helper/SearchFilters.php:119
+#: application/view/common/advanced-search/properties.phtml:59
 msgid "AND"
 msgstr "ETA"
 
-#: application/src/View/Helper/SearchFilters.php:124
+#: application/src/View/Helper/SearchFilters.php:128
 #: application/view/common/cross-site-search/advanced-item-form.phtml:5
 #: application/view/common/cross-site-search/advanced-item-set-form.phtml:5
 #: application/view/common/cross-site-search/fulltext-form.phtml:7
@@ -556,7 +594,7 @@ msgstr "ETA"
 #: application/view/common/search-form.phtml:19
 #: application/view/layout/layout-admin.phtml:62
 #: application/view/omeka/admin/item-set/search.phtml:13
-#: application/view/omeka/admin/item-set/sidebar-select.phtml:12
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:15
 #: application/view/omeka/admin/item/search.phtml:13
 #: application/view/omeka/admin/item/sidebar-select.phtml:24
 #: application/view/omeka/admin/media/search.phtml:13
@@ -568,82 +606,145 @@ msgstr "ETA"
 msgid "Search"
 msgstr "Bilatu"
 
-#: application/src/View/Helper/SearchFilters.php:137
+#: application/src/View/Helper/SearchFilters.php:141
 msgid "Template"
 msgstr "Txantiloi"
 
-#: application/src/View/Helper/SearchFilters.php:141
+#: application/src/View/Helper/SearchFilters.php:145
 msgid "Unknown template"
 msgstr "Txantiloi ezezaguna"
 
-#: application/src/View/Helper/SearchFilters.php:156
-#: application/view/omeka/site/item/browse.phtml:37
-msgid "Item set"
-msgstr "Fitxa multzoa"
-
 #: application/src/View/Helper/SearchFilters.php:160
+msgid "In item set"
+msgstr "Elementu multzo barruan"
+
+#: application/src/View/Helper/SearchFilters.php:164
+#: application/src/View/Helper/SearchFilters.php:182
 msgid "Unknown item set"
 msgstr "Fitxa multzo ezezaguna"
 
-#: application/src/View/Helper/SearchFilters.php:168
+#: application/src/View/Helper/SearchFilters.php:178
+msgid "Not in item set"
+msgstr "Ez elementu multzo barruan"
+
+#: application/src/View/Helper/SearchFilters.php:190
 #: application/view/omeka/site-admin/index/users.phtml:54
 msgid "User"
 msgstr "Erabiltzaile"
 
-#: application/src/View/Helper/SearchFilters.php:172
+#: application/src/View/Helper/SearchFilters.php:194
 msgid "Unknown user"
 msgstr "Erabiltzaile ezezaguna"
 
-#: application/src/View/Helper/SearchFilters.php:178
+#: application/src/View/Helper/SearchFilters.php:200
 msgid "Site"
 msgstr "Gunea"
 
-#: application/src/View/Helper/SearchFilters.php:182
-#: application/src/View/Helper/SearchUserFilters.php:75
+#: application/src/View/Helper/SearchFilters.php:204
+#: application/src/View/Helper/SearchUserFilters.php:74
 msgid "Unknown site"
 msgstr "Gune ezezaguna"
 
+#: application/src/View/Helper/SearchFilters.php:210
+#: application/view/omeka/admin/item-set/show-details.phtml:17
+#: application/view/omeka/admin/item-set/show.phtml:81
+#: application/view/omeka/admin/item/show-details.phtml:17
+#: application/view/omeka/admin/item/show.phtml:63
+#: application/view/omeka/admin/media/show-details.phtml:49
+#: application/view/omeka/admin/media/show.phtml:38
+msgid "Visibility"
+msgstr "Ikusgarritasuna"
+
+#: application/src/View/Helper/SearchFilters.php:211
+#: application/view/common/advanced-search/visibility.phtml:5
+#: application/view/common/property-form-batch-edit.phtml:17
+#: application/view/common/property-form-batch-edit.phtml:31
+#: application/view/common/property-form-batch-edit.phtml:46
+#: application/view/common/property-form-batch-edit.phtml:66
+#: application/view/omeka/admin/item-set/show-details.phtml:18
+#: application/view/omeka/admin/item-set/show.phtml:82
+#: application/view/omeka/admin/item/show-details.phtml:18
+#: application/view/omeka/admin/item/show.phtml:64
+#: application/view/omeka/admin/media/show-details.phtml:50
+#: application/view/omeka/admin/media/show.phtml:39
+msgid "Public"
+msgstr "Publikoa"
+
+#: application/src/View/Helper/SearchFilters.php:211
+#: application/view/common/advanced-search/visibility.phtml:6
+#: application/view/common/property-form-batch-edit.phtml:18
+#: application/view/common/property-form-batch-edit.phtml:32
+#: application/view/common/property-form-batch-edit.phtml:47
+#: application/view/common/property-form-batch-edit.phtml:67
+msgid "Not public"
+msgstr "Pribatua"
+
+#: application/src/View/Helper/SearchFilters.php:215
+msgid "Media presence"
+msgstr "Multimedia presentzia"
+
+#: application/src/View/Helper/SearchFilters.php:216
+#: application/view/common/advanced-search/has-media.phtml:5
+msgid "Has media"
+msgstr "Multimedia dauka"
+
+#: application/src/View/Helper/SearchFilters.php:216
+#: application/view/common/advanced-search/has-media.phtml:6
+msgid "Has no media"
+msgstr "Ez dauka multimediarik"
+
+#: application/src/View/Helper/SearchFilters.php:220
+#: application/view/omeka/admin/item-set/show-details.phtml:13
+#: application/view/omeka/admin/item-set/show.phtml:69
+#: application/view/omeka/admin/item/show-details.phtml:13
+#: application/view/omeka/admin/item/show.phtml:59
+#: application/view/omeka/admin/job/browse.phtml:19
+#: application/view/omeka/admin/media/show-details.phtml:18
+#: application/view/omeka/admin/media/show.phtml:34
+#: application/view/omeka/admin/user/edit.phtml:39
+msgid "ID"
+msgstr "ID"
+
 #: application/src/View/Helper/SearchUserFilters.php:49
-#: application/view/omeka/admin/user/browse.phtml:10
-#: application/view/omeka/admin/user/browse.phtml:78
-#: application/view/omeka/admin/user/show.phtml:17
+#: application/view/omeka/admin/user/browse.phtml:64
+#: application/view/omeka/admin/user/show.phtml:18
 msgid "Email"
 msgstr "Posta elektronikoa"
 
 #: application/src/View/Helper/SearchUserFilters.php:54
-#: application/view/omeka/admin/asset/browse.phtml:12
-#: application/view/omeka/admin/asset/browse.phtml:37
+#: application/view/omeka/admin/asset/browse.phtml:27
 msgid "Name"
 msgstr "Izena"
 
 #: application/src/View/Helper/SearchUserFilters.php:59
-#: application/view/omeka/admin/user/browse.phtml:14
-#: application/view/omeka/admin/user/browse.phtml:80
-#: application/view/omeka/admin/user/show.phtml:29
+#: application/view/omeka/admin/user/browse.phtml:66
+#: application/view/omeka/admin/user/show.phtml:30
 #: application/view/omeka/site-admin/index/users.phtml:55
 msgid "Role"
 msgstr "Rola"
 
-#: application/src/View/Helper/SearchUserFilters.php:62
+#: application/src/View/Helper/SearchUserFilters.php:61
 msgid "Unknown role"
 msgstr "Rol ezezaguna"
 
-#: application/src/View/Helper/SearchUserFilters.php:66
-#: application/view/omeka/admin/user/show.phtml:35
+#: application/src/View/Helper/SearchUserFilters.php:65
+#: application/view/common/sidebar-select-quick-add.phtml:4
+#: application/view/common/sidebar-select-quick-add.phtml:13
+#: application/view/omeka/admin/user/show.phtml:36
 msgid "Is active"
 msgstr "Kontu aktiboa"
 
-#: application/src/View/Helper/SearchUserFilters.php:67
-#: application/view/omeka/admin/user/show.phtml:37
+#: application/src/View/Helper/SearchUserFilters.php:66
+#: application/view/omeka/admin/user/show.phtml:38
 msgid "yes"
 msgstr "bai"
 
-#: application/src/View/Helper/SearchUserFilters.php:67
-#: application/view/omeka/admin/user/show.phtml:37
+#: application/src/View/Helper/SearchUserFilters.php:66
+#: application/view/omeka/admin/user/show.phtml:38
 msgid "no"
 msgstr "ez"
 
-#: application/src/View/Helper/SearchUserFilters.php:71
+#: application/src/View/Helper/SearchUserFilters.php:70
 #: application/view/common/advanced-search/users.phtml:53
 msgid "Has permission in site"
 msgstr "Gunean baimena duzu"
@@ -655,24 +756,24 @@ msgstr "Igoeraren tamaina maximoa %s MB da."
 
 #: application/src/View/Helper/UserBar.php:120
 #: application/src/View/Helper/UserBar.php:166
-#: application/view/common/query-form.phtml:24
-#: application/view/omeka/admin/asset/browse.phtml:67
+#: application/view/common/query-form.phtml:23
+#: application/view/omeka/admin/asset/browse.phtml:57
 #: application/view/omeka/admin/asset/edit.phtml:10
-#: application/view/omeka/admin/item-set/browse.phtml:109
+#: application/view/omeka/admin/item-set/browse.phtml:74
 #: application/view/omeka/admin/item-set/edit.phtml:14
-#: application/view/omeka/admin/item/browse.phtml:107
+#: application/view/omeka/admin/item/browse.phtml:73
 #: application/view/omeka/admin/item/edit.phtml:14
-#: application/view/omeka/admin/item/manage-media.phtml:43
-#: application/view/omeka/admin/media/browse.phtml:121
-#: application/view/omeka/admin/resource-template/browse.phtml:72
-#: application/view/omeka/admin/user/browse.phtml:101
+#: application/view/omeka/admin/item/manage-media.phtml:55
+#: application/view/omeka/admin/media/browse.phtml:69
+#: application/view/omeka/admin/resource-template/browse.phtml:54
+#: application/view/omeka/admin/user/browse.phtml:87
 #: application/view/omeka/admin/user/edit.phtml:14
-#: application/view/omeka/admin/vocabulary/browse.phtml:60
+#: application/view/omeka/admin/vocabulary/browse.phtml:42
 #: application/view/omeka/admin/vocabulary/edit.phtml:7
-#: application/view/omeka/site-admin/index/index.phtml:75
+#: application/view/omeka/site-admin/index/index.phtml:46
 #: application/view/omeka/site-admin/index/show.phtml:11
 #: application/view/omeka/site-admin/page/edit.phtml:11
-#: application/view/omeka/site-admin/page/index.phtml:80
+#: application/view/omeka/site-admin/page/index.phtml:56
 msgid "Edit"
 msgstr "Editatu"
 
@@ -682,40 +783,70 @@ msgstr "Editatu"
 msgid "View"
 msgstr "Ikusi"
 
-#: application/view/common/advanced-search/item-sets.phtml:31
-msgid "Search by item set"
-msgstr "Bilatu fitxa-multzoaren arabera"
+#: application/view/common/advanced-search/has-media.phtml:3
+msgid "Search by media presence"
+msgstr "Bilatu multimedia presentziaren arabera"
 
-#: application/view/common/advanced-search/item-sets.phtml:32
+#: application/view/common/advanced-search/has-media.phtml:8
+msgid "Select media presence…"
+msgstr "Hautatu multimedia presentzia..."
+
+#: application/view/common/advanced-search/ids.phtml:12
+msgid "Search by ID"
+msgstr "Bilatu IDaren arabera"
+
+#: application/view/common/advanced-search/ids.phtml:13
+#: application/view/common/advanced-search/item-sets.phtml:44
 #: application/view/common/advanced-search/owner.phtml:4
-#: application/view/common/advanced-search/resource-class.phtml:16
+#: application/view/common/advanced-search/resource-class.phtml:25
 #: application/view/common/advanced-search/resource-template.phtml:17
 #: application/view/common/advanced-search/site.phtml:4
-#: application/view/common/form-row.phtml:29
-#: application/view/common/resource-values.phtml:56
+#: application/view/common/form-row.phtml:16
+#: application/view/common/resource-values.phtml:73
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:19
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 msgid "Expand"
 msgstr "Zabaldu"
 
-#: application/view/common/advanced-search/item-sets.phtml:34
+#: application/view/common/advanced-search/ids.phtml:15
+msgid ""
+"Searches for resources by Omeka S ID. You can search for more than one ID by"
+" separating them by commas."
+msgstr ""
+"Omeka S ID arabera bilatu baliabideak. ID bat baino gehiagoren arabera egin "
+"dezakezu bilaketa balioak komaz bereiziz."
+
+#: application/view/common/advanced-search/item-sets.phtml:43
+msgid "Search by item set"
+msgstr "Bilatu fitxa-multzoaren arabera"
+
+#: application/view/common/advanced-search/item-sets.phtml:46
 msgid "Searches for items that are assigned to any of these item sets."
 msgstr "Hauetako edozein fitxa multzori lotutako fitxak bilatzen ditu."
 
-#: application/view/common/advanced-search/item-sets.phtml:36
+#: application/view/common/advanced-search/item-sets.phtml:48
 #: application/view/omeka/admin/index/browse.phtml:23
-#: application/view/omeka/admin/item-set/browse.phtml:42
+#: application/view/omeka/admin/item-set/browse.phtml:19
 msgid "Add new item set"
 msgstr "Fitxa multzo berria gehitu"
 
-#: application/view/common/advanced-search/item-sets.phtml:49
-#: application/view/common/advanced-search/properties.phtml:76
-#: application/view/common/advanced-search/resource-class.phtml:32
+#: application/view/common/advanced-search/item-sets.phtml:54
+msgid "In"
+msgstr "Barruan"
+
+#: application/view/common/advanced-search/item-sets.phtml:55
+msgid "Not in"
+msgstr "Ez barruan"
+
+#: application/view/common/advanced-search/item-sets.phtml:66
+#: application/view/common/advanced-search/properties.phtml:90
+#: application/view/common/advanced-search/resource-class.phtml:44
 #: application/view/common/advanced-search/resource-template.phtml:33
-#: application/view/common/block-layout.phtml:12
+#: application/view/common/block-layout.phtml:13
 #: application/view/common/data-type-wrapper.phtml:18
 #: application/view/common/media-field-wrapper.phtml:14
 #: application/view/common/value-annotation-wrapper.phtml:11
-#: application/view/omeka/admin/item/manage-media.phtml:48
+#: application/view/omeka/admin/item/manage-media.phtml:60
 msgid "Remove value"
 msgstr "Balioa ezabatu"
 
@@ -735,31 +866,31 @@ msgstr "Kontu honetako baliabideen arabera bilatu."
 msgid "Query text"
 msgstr "Testu kontsulta"
 
-#: application/view/common/advanced-search/properties.phtml:39
+#: application/view/common/advanced-search/properties.phtml:48
 msgid "Search by value"
 msgstr "Bilatu balioaren arabera"
 
-#: application/view/common/advanced-search/properties.phtml:40
+#: application/view/common/advanced-search/properties.phtml:49
 msgid "Add new value"
 msgstr "Balio berria gehitu"
 
-#: application/view/common/advanced-search/properties.phtml:58
+#: application/view/common/advanced-search/properties.phtml:67
 msgid "Property"
 msgstr "Ezaugarria"
 
-#: application/view/common/advanced-search/properties.phtml:65
+#: application/view/common/advanced-search/properties.phtml:75
 msgid "Query type"
 msgstr "Kontsulta mota"
 
-#: application/view/common/advanced-search/resource-class.phtml:15
+#: application/view/common/advanced-search/resource-class.phtml:24
 msgid "Search by class"
 msgstr "Bilatu klasearen arabera"
 
-#: application/view/common/advanced-search/resource-class.phtml:18
+#: application/view/common/advanced-search/resource-class.phtml:27
 msgid "Searches for resources that are any of these classes."
 msgstr "Mota hauetako edozein baliabideren arabera bilatu."
 
-#: application/view/common/advanced-search/resource-class.phtml:20
+#: application/view/common/advanced-search/resource-class.phtml:29
 msgid "Add new class"
 msgstr "Klase berria gehitu"
 
@@ -784,102 +915,28 @@ msgstr "Bilatu gunearen arabera"
 msgid "Searches for items that are assigned to this site."
 msgstr "Gune honi lotutako fitxak bilatu"
 
-#: application/view/common/advanced-search/sort.phtml:6
-#: application/view/common/linked-resources.phtml:39
-#: application/view/omeka/admin/item-set/browse.phtml:7
-#: application/view/omeka/admin/item-set/browse.phtml:73
-#: application/view/omeka/admin/item/browse.phtml:7
-#: application/view/omeka/admin/item/browse.phtml:72
-#: application/view/omeka/admin/item/manage-item-sets.phtml:33
-#: application/view/omeka/admin/item/manage-sites.phtml:39
-#: application/view/omeka/admin/media/browse.phtml:9
-#: application/view/omeka/admin/media/browse.phtml:83
-#: application/view/omeka/site-admin/index/index.phtml:7
-#: application/view/omeka/site-admin/index/index.phtml:39
-#: application/view/omeka/site-admin/index/resources.phtml:66
-#: application/view/omeka/site-admin/index/show.phtml:24
-#: application/view/omeka/site-admin/page/index.phtml:15
-#: application/view/omeka/site-admin/page/index.phtml:48
-#: application/view/omeka/site/item/browse.phtml:17
-msgid "Title"
-msgstr "Izenburua"
-
-#: application/view/common/advanced-search/sort.phtml:7
-#: application/view/omeka/admin/item-set/browse.phtml:11
-#: application/view/omeka/admin/item/browse.phtml:11
-#: application/view/omeka/admin/media/browse.phtml:13
-#: application/view/omeka/site/item/browse.phtml:21
-msgid "Identifier"
-msgstr "Identifikatzailea"
-
-#: application/view/common/advanced-search/sort.phtml:9
-#: application/view/omeka/admin/asset/browse.phtml:38
-#: application/view/omeka/admin/item-set/browse.phtml:19
-#: application/view/omeka/admin/item-set/browse.phtml:76
-#: application/view/omeka/admin/item-set/show.phtml:74
-#: application/view/omeka/admin/item/browse.phtml:19
-#: application/view/omeka/admin/item/browse.phtml:74
-#: application/view/omeka/admin/item/manage-item-sets.phtml:34
-#: application/view/omeka/admin/item/manage-sites.phtml:40
-#: application/view/omeka/admin/item/show.phtml:87
-#: application/view/omeka/admin/job/browse.phtml:19
-#: application/view/omeka/admin/job/browse.phtml:40
-#: application/view/omeka/admin/job/show.phtml:45
-#: application/view/omeka/admin/media/browse.phtml:21
-#: application/view/omeka/admin/media/browse.phtml:86
-#: application/view/omeka/admin/resource-template/browse.phtml:15
-#: application/view/omeka/admin/resource-template/browse.phtml:46
-#: application/view/omeka/site-admin/index/index.phtml:15
-#: application/view/omeka/site-admin/index/index.phtml:41
-#: application/view/omeka/site-admin/index/resources.phtml:67
-msgid "Owner"
-msgstr "Jabea"
-
-#: application/view/common/advanced-search/sort.phtml:10
-#: application/view/omeka/admin/item-set/browse.phtml:23
-#: application/view/omeka/admin/item-set/browse.phtml:77
-#: application/view/omeka/admin/item-set/show.phtml:70
-#: application/view/omeka/admin/item/browse.phtml:23
-#: application/view/omeka/admin/item/browse.phtml:75
-#: application/view/omeka/admin/item/show.phtml:83
-#: application/view/omeka/admin/media/browse.phtml:25
-#: application/view/omeka/admin/media/browse.phtml:87
-#: application/view/omeka/admin/media/show.phtml:45
-#: application/view/omeka/admin/user/browse.phtml:18
-#: application/view/omeka/admin/user/browse.phtml:81
-#: application/view/omeka/site-admin/page/index.phtml:23
-#: application/view/omeka/site-admin/page/index.phtml:50
-#: application/view/omeka/site/item/browse.phtml:29
-msgid "Created"
-msgstr "Sortua"
-
-#: application/view/common/advanced-search/sort.phtml:21
-#: application/view/omeka/admin/media/browse.phtml:29
-#: application/view/omeka/admin/media/show-details.phtml:36
-#: application/view/omeka/admin/media/show.phtml:56
-msgid "Size"
-msgstr "Tamaina"
-
-#: application/view/common/advanced-search/sort.phtml:27
+#: application/view/common/advanced-search/sort.phtml:19
 msgid "Select sort by…"
 msgstr "Honen arabera ordena aukeratu..."
 
-#: application/view/common/advanced-search/sort.phtml:32
+#: application/view/common/advanced-search/sort.phtml:24
 msgid "Select sort order…"
 msgstr "Sailkapen ordena aukeratu..."
 
-#: application/view/common/advanced-search/sort.phtml:34
-#: application/view/common/sort-selector.phtml:14
+#: application/view/common/advanced-search/sort.phtml:26
+#: application/view/common/browse-defaults-form.phtml:20
+#: application/view/common/sort-selector.phtml:13
 msgid "Ascending"
 msgstr "Goranzkoa"
 
-#: application/view/common/advanced-search/sort.phtml:35
-#: application/view/common/sort-selector.phtml:15
+#: application/view/common/advanced-search/sort.phtml:27
+#: application/view/common/browse-defaults-form.phtml:19
+#: application/view/common/sort-selector.phtml:14
 msgid "Descending"
 msgstr "Beheranzkoa"
 
-#: application/view/common/advanced-search/sort.phtml:41
-#: application/view/common/sort-selector.phtml:17
+#: application/view/common/advanced-search/sort.phtml:33
+#: application/view/common/sort-selector.phtml:16
 msgid "Sort"
 msgstr "Ordenatu"
 
@@ -898,6 +955,14 @@ msgstr "Rolaren araberako bilaketa"
 #: application/view/common/advanced-search/users.phtml:44
 msgid "Search by activity"
 msgstr "Bilatu jardueraren arabera"
+
+#: application/view/common/advanced-search/visibility.phtml:3
+msgid "Search by visibility"
+msgstr "Bilatu ikusgaitasunagatik"
+
+#: application/view/common/advanced-search/visibility.phtml:8
+msgid "Select visibility…"
+msgstr "Hautatu ikusgaitasuna..."
 
 #: application/view/common/asset-block-form.phtml:7
 #: application/view/common/asset-block-form.phtml:40
@@ -925,15 +990,17 @@ msgstr "Berreskuratu eranskina"
 
 #: application/view/common/asset-block-form.phtml:20
 #: application/view/common/asset-block-form.phtml:57
+#: application/view/common/block-layout.phtml:12
 #: application/view/common/resource-form-templates.phtml:10
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:19
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:35
-#: application/view/omeka/site-admin/page/edit.phtml:57
+#: application/view/omeka/site-admin/page/edit.phtml:62
 msgid "Collapse"
 msgstr "Tolestu"
 
 #: application/view/common/asset-block-form.phtml:20
-#: application/view/omeka/admin/asset/browse.phtml:18
+#: application/view/omeka/admin/asset/browse.phtml:8
 #: application/view/omeka/admin/asset/edit.phtml:10
 msgid "Assets"
 msgstr "Aktiboak"
@@ -955,7 +1022,7 @@ msgstr "Aukeratu"
 
 #: application/view/common/asset-form.phtml:41
 #: application/view/common/asset-options.phtml:37
-#: application/view/common/query-form.phtml:29
+#: application/view/common/query-form.phtml:28
 msgid "Clear"
 msgstr "Garbitu"
 
@@ -983,36 +1050,37 @@ msgstr "[Ez da orririk aukeratu]"
 #: application/view/common/site-selector.phtml:2
 #: application/view/common/user-selector.phtml:6
 #: application/view/common/value-annotation-sidebar.phtml:2
-#: application/view/omeka/admin/asset/browse.phtml:100
-#: application/view/omeka/admin/asset/browse.phtml:117
+#: application/view/omeka/admin/asset/browse.phtml:90
+#: application/view/omeka/admin/asset/browse.phtml:107
 #: application/view/omeka/admin/asset/sidebar-select.phtml:8
-#: application/view/omeka/admin/item-set/browse.phtml:146
-#: application/view/omeka/admin/item-set/browse.phtml:153
-#: application/view/omeka/admin/item-set/browse.phtml:171
-#: application/view/omeka/admin/item/browse.phtml:144
-#: application/view/omeka/admin/item/browse.phtml:151
-#: application/view/omeka/admin/item/browse.phtml:169
-#: application/view/omeka/admin/item/manage-media.phtml:70
-#: application/view/omeka/admin/media/browse.phtml:158
-#: application/view/omeka/admin/media/browse.phtml:167
-#: application/view/omeka/admin/media/browse.phtml:185
-#: application/view/omeka/admin/module/browse.phtml:159
+#: application/view/omeka/admin/columns/column-edit-sidebar.phtml:1
+#: application/view/omeka/admin/item-set/browse.phtml:109
+#: application/view/omeka/admin/item-set/browse.phtml:116
+#: application/view/omeka/admin/item-set/browse.phtml:134
+#: application/view/omeka/admin/item/browse.phtml:108
+#: application/view/omeka/admin/item/browse.phtml:115
+#: application/view/omeka/admin/item/browse.phtml:133
+#: application/view/omeka/admin/item/manage-media.phtml:82
+#: application/view/omeka/admin/media/browse.phtml:104
+#: application/view/omeka/admin/media/browse.phtml:112
+#: application/view/omeka/admin/media/browse.phtml:130
+#: application/view/omeka/admin/module/browse.phtml:158
 #: application/view/omeka/admin/query/sidebar-edit.phtml:3
 #: application/view/omeka/admin/query/sidebar-preview.phtml:1
-#: application/view/omeka/admin/resource-template/browse.phtml:99
+#: application/view/omeka/admin/resource-template/browse.phtml:81
 #: application/view/omeka/admin/resource-template/form.phtml:43
 #: application/view/omeka/admin/resource-template/form.phtml:52
-#: application/view/omeka/admin/resource-template/show.phtml:67
-#: application/view/omeka/admin/user/browse.phtml:137
-#: application/view/omeka/admin/user/browse.phtml:146
-#: application/view/omeka/admin/user/browse.phtml:164
-#: application/view/omeka/admin/vocabulary/browse.phtml:93
-#: application/view/omeka/admin/vocabulary/classes.phtml:67
-#: application/view/omeka/admin/vocabulary/properties.phtml:50
-#: application/view/omeka/site-admin/index/index.phtml:101
-#: application/view/omeka/site-admin/index/navigation.phtml:31
-#: application/view/omeka/site-admin/page/edit.phtml:51
-#: application/view/omeka/site-admin/page/index.phtml:102
+#: application/view/omeka/admin/resource-template/show.phtml:69
+#: application/view/omeka/admin/user/browse.phtml:123
+#: application/view/omeka/admin/user/browse.phtml:132
+#: application/view/omeka/admin/user/browse.phtml:150
+#: application/view/omeka/admin/vocabulary/browse.phtml:75
+#: application/view/omeka/admin/vocabulary/classes.phtml:52
+#: application/view/omeka/admin/vocabulary/properties.phtml:53
+#: application/view/omeka/site-admin/index/index.phtml:71
+#: application/view/omeka/site-admin/index/navigation.phtml:30
+#: application/view/omeka/site-admin/page/edit.phtml:56
+#: application/view/omeka/site-admin/page/index.phtml:78
 msgid "Close"
 msgstr "Itxi"
 
@@ -1025,12 +1093,12 @@ msgid "Alternative link title"
 msgstr "Estekaren ordezko izenburua"
 
 #: application/view/common/asset-options.phtml:44
-#: application/view/omeka/site-admin/page/edit.phtml:54
+#: application/view/omeka/site-admin/page/edit.phtml:59
 msgid "Caption"
 msgstr "Izenburua"
 
 #: application/view/common/asset-options.phtml:50
-#: application/view/omeka/site-admin/page/edit.phtml:65
+#: application/view/omeka/site-admin/page/edit.phtml:70
 msgid "Apply changes"
 msgstr "Aplikatu aldaketak"
 
@@ -1056,33 +1124,64 @@ msgstr "Eranskina gehitu"
 msgid "Block to be removed"
 msgstr "Ezabatu beharreko blokea"
 
-#: application/view/common/block-layout.phtml:13
+#: application/view/common/block-layout.phtml:14
 #: application/view/common/data-type-wrapper.phtml:19
 #: application/view/common/value-annotation-wrapper.phtml:12
-#: application/view/omeka/admin/item/manage-media.phtml:52
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:41
+#: application/view/omeka/admin/item/manage-media.phtml:64
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:42
 msgid "Restore value"
 msgstr "Berrezarri balioa"
 
-#: application/view/common/block-layout/item-with-metadata.phtml:12
+#: application/view/common/block-layout/item-with-metadata.phtml:19
 #: application/view/common/cross-site-search/results.phtml:70
 #: application/view/common/data-type/resource.phtml:30
 #: application/view/common/item-set-selector.phtml:11
+#: application/view/common/resource-page-block-layout/item-sets.phtml:9
 #: application/view/layout/layout-admin.phtml:72
 #: application/view/omeka/admin/item-set/add.phtml:6
-#: application/view/omeka/admin/item-set/browse.phtml:29
+#: application/view/omeka/admin/item-set/browse.phtml:7
 #: application/view/omeka/admin/item-set/edit.phtml:14
 #: application/view/omeka/admin/item-set/search.phtml:5
 #: application/view/omeka/admin/item-set/show.phtml:26
 #: application/view/omeka/admin/item/form.phtml:16
 #: application/view/omeka/admin/item/show-details.phtml:23
-#: application/view/omeka/admin/item/show.phtml:67
+#: application/view/omeka/admin/item/show.phtml:69
 #: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:23
-#: application/view/omeka/site/item-set/browse.phtml:11
-#: application/view/omeka/site/item/show.phtml:27
+#: application/view/omeka/site/item-set/browse.phtml:13
 msgid "Item sets"
 msgstr "Fitxa multzoa"
+
+#: application/view/common/block-layout/page-date-time.phtml:13
+#: application/view/omeka/admin/item-set/show.phtml:73
+#: application/view/omeka/admin/item/show.phtml:85
+#: application/view/omeka/admin/media/show.phtml:47
+#: application/view/omeka/admin/user/browse.phtml:67
+#: application/view/omeka/site-admin/page/index.phtml:26
+msgid "Created"
+msgstr "Sortua"
+
+#: application/view/common/block-layout/page-date-time.phtml:19
+#: application/view/omeka/site-admin/page/index.phtml:26
+msgid "Modified"
+msgstr "Aldatua"
+
+#: application/view/common/browse-defaults-form.phtml:12
+msgid "[Custom sort by]"
+msgstr "[Ordenazio pertsonalizatua]"
+
+#: application/view/common/browse-defaults-form.phtml:17
+msgid "Enter a custom sort by"
+msgstr "Sartu ordenazio pertsonalizatua"
+
+#: application/view/common/columns-form.phtml:16
+#: application/view/omeka/admin/item/add.phtml:13
+#: application/view/omeka/admin/resource-template/add.phtml:15
+#: application/view/omeka/admin/user/add.phtml:13
+#: application/view/omeka/site-admin/index/add-page.phtml:23
+#: application/view/omeka/site-admin/index/add.phtml:31
+msgid "Add"
+msgstr "Gehitu"
 
 #: application/view/common/cross-site-search/advanced-item-form.phtml:4
 #: application/view/common/cross-site-search/advanced-item-set-form.phtml:4
@@ -1115,26 +1214,26 @@ msgid "Item set results for \"%s\""
 msgstr "Fitxa multzoetako \"%s\"-rako emaitzak"
 
 #: application/view/common/cross-site-search/results.phtml:6
-#: application/view/omeka/site/index/search.phtml:8
+#: application/view/omeka/site/index/search.phtml:12
 #, php-format
 msgid "Search results for “%s”"
 msgstr "“%s”-ko bilaketa emaitzak"
 
 #: application/view/common/cross-site-search/results.phtml:13
-#: application/view/omeka/site/item/show.phtml:35
+#: application/view/common/resource-page-block-layout/site-pages.phtml:8
 msgid "Site pages"
 msgstr "Gunearen orriak"
 
 #: application/view/common/cross-site-search/results.phtml:24
 #: application/view/common/cross-site-search/results.phtml:55
 #: application/view/common/cross-site-search/results.phtml:85
-#: application/view/omeka/site/index/search.phtml:45
+#: application/view/omeka/site/index/search.phtml:52
 #, php-format
 msgid "View all results (%s total)"
 msgstr "Emaitza guztiak ikusi (%s total)"
 
 #: application/view/common/cross-site-search/results.phtml:97
-#: application/view/omeka/site/index/search.phtml:11
+#: application/view/omeka/site/index/search.phtml:15
 msgid "No result found"
 msgstr "Ez da emaitzarik aurkitu"
 
@@ -1161,7 +1260,7 @@ msgstr "Ekintza gehiago"
 #: application/view/common/media-field-wrapper.phtml:10
 #: application/view/omeka/admin/item-set/form.phtml:43
 #: application/view/omeka/admin/item/form.phtml:52
-#: application/view/omeka/admin/item/manage-media.phtml:30
+#: application/view/omeka/admin/item/manage-media.phtml:42
 #: application/view/omeka/admin/media/edit.phtml:54
 #: application/view/omeka/site-admin/index/add-page.phtml:18
 #: application/view/omeka/site-admin/index/add.phtml:26
@@ -1175,12 +1274,19 @@ msgstr "Pribatu egin"
 msgid "Annotate value"
 msgstr "Idatzi balioa"
 
-#: application/view/common/data-type/literal.phtml:4
-#: application/view/common/data-type/value-annotation-literal.phtml:2
+#: application/view/common/data-type/literal.phtml:5
+#: application/view/common/data-type/uri.phtml:5
+#: application/view/common/data-type/value-annotation-literal.phtml:3
+#: application/view/common/data-type/value-annotation-uri.phtml:3
 msgid "Set language"
 msgstr "Hizkuntza ezarri"
 
-#: application/view/common/data-type/literal.phtml:5
+#: application/view/common/data-type/literal.phtml:7
+#: application/view/common/data-type/uri.phtml:7
+#: application/view/common/data-type/value-annotation-literal.phtml:5
+#: application/view/common/data-type/value-annotation-uri.phtml:5
+#: application/view/omeka/admin/media/show-details.phtml:29
+#: application/view/omeka/admin/media/show.phtml:52
 msgid "Language"
 msgstr "Hizkuntza"
 
@@ -1189,28 +1295,25 @@ msgstr "Hizkuntza"
 msgid "No resource selected"
 msgstr "Ez da baliabiderik aukeratu"
 
-#: application/view/common/data-type/uri.phtml:6
-#: application/view/common/data-type/value-annotation-uri.phtml:4
+#: application/view/common/data-type/uri.phtml:13
+#: application/view/common/data-type/value-annotation-uri.phtml:11
 #: application/view/common/property-form-batch-edit.phtml:44
 #: application/view/common/resource-form-templates.phtml:24
 msgid "URI"
 msgstr "URI"
 
-#: application/view/common/data-type/uri.phtml:12
-#: application/view/common/data-type/value-annotation-uri.phtml:10
+#: application/view/common/data-type/uri.phtml:19
+#: application/view/common/data-type/value-annotation-uri.phtml:17
 #: application/view/common/navigation-link-form/browse.phtml:16
 #: application/view/common/navigation-link-form/page.phtml:15
 #: application/view/common/navigation-link-form/url.phtml:8
 #: application/view/common/property-form-batch-edit.phtml:45
-#: application/view/omeka/admin/resource-template/browse.phtml:7
-#: application/view/omeka/admin/resource-template/browse.phtml:44
+#: application/view/omeka/admin/resource-template/browse.phtml:26
 #: application/view/omeka/admin/resource-template/form.phtml:55
 #: application/view/omeka/admin/user/edit.phtml:38
-#: application/view/omeka/admin/vocabulary/browse.phtml:7
-#: application/view/omeka/admin/vocabulary/browse.phtml:44
-#: application/view/omeka/admin/vocabulary/classes.phtml:7
-#: application/view/omeka/admin/vocabulary/classes.phtml:37
-#: application/view/omeka/admin/vocabulary/properties.phtml:20
+#: application/view/omeka/admin/vocabulary/browse.phtml:26
+#: application/view/omeka/admin/vocabulary/classes.phtml:22
+#: application/view/omeka/admin/vocabulary/properties.phtml:23
 msgid "Label"
 msgstr "Etiketa"
 
@@ -1233,7 +1336,7 @@ msgstr "Iragazkirik gabe"
 msgid "Filter"
 msgstr "Iragazkia"
 
-#: application/view/common/form-row.phtml:33
+#: application/view/common/form-row.phtml:20
 msgid "Learn more"
 msgstr "Gehiago ikasi"
 
@@ -1247,17 +1350,13 @@ msgstr "Fitxa multzoak iragazi"
 
 #: application/view/common/item-set-selector.phtml:18
 #: application/view/common/site-selector.phtml:10
-#: application/view/omeka/admin/asset/browse.phtml:54
-#: application/view/omeka/admin/item-set/browse.phtml:93
+#: application/view/omeka/admin/asset/browse.phtml:44
 #: application/view/omeka/admin/item-set/show.phtml:17
-#: application/view/omeka/admin/item/browse.phtml:91
 #: application/view/omeka/admin/item/show.phtml:8
-#: application/view/omeka/admin/job/browse.phtml:56
+#: application/view/omeka/admin/job/browse.phtml:38
 #: application/view/omeka/admin/job/show.phtml:18
-#: application/view/omeka/admin/media/browse.phtml:105
-#: application/view/omeka/admin/resource-template/browse.phtml:62
-#: application/view/omeka/site-admin/index/index.phtml:57
-msgid "[no owner]"
+#: application/view/omeka/admin/resource-template/browse.phtml:44
+msgid "[No owner]"
 msgstr "[jaberik gabe]"
 
 #: application/view/common/item-set-selector.phtml:31
@@ -1266,19 +1365,27 @@ msgstr "[jaberik gabe]"
 msgid "More info"
 msgstr "Informazio gehiago"
 
-#: application/view/common/linked-resources.phtml:23
-msgid "Filter by property"
-msgstr "Iragazi ezaugarriaren arabera"
+#: application/view/common/linked-resources.phtml:54
+msgid "Filter by resource type and property:"
+msgstr "Iragazi baliabide mota eta propietatearen arabera:"
 
-#: application/view/common/linked-resources.phtml:25
-msgid "All"
-msgstr "Denak"
+#: application/view/common/linked-resources.phtml:64
+#, php-format
+msgid "%s with \"%s: %s\""
+msgstr "%s honekin \"%s: %s\""
 
-#: application/view/common/linked-resources.phtml:40
-#: application/view/omeka/admin/resource-template/review-import.phtml:68
-#: application/view/omeka/admin/resource-template/show.phtml:28
-msgid "Alternate label"
-msgstr "Ordezko etiketa"
+#: application/view/common/linked-resources.phtml:74
+#: application/view/omeka/admin/item-set/browse.phtml:54
+#: application/view/omeka/admin/item/browse.phtml:54
+#: application/view/omeka/admin/item/manage-item-sets.phtml:39
+#: application/view/omeka/admin/item/manage-sites.phtml:36
+#: application/view/omeka/admin/media/browse.phtml:49
+#: application/view/omeka/site-admin/index/index.phtml:25
+#: application/view/omeka/site-admin/index/resources.phtml:66
+#: application/view/omeka/site-admin/index/show.phtml:25
+#: application/view/omeka/site-admin/page/index.phtml:24
+msgid "Title"
+msgstr "Izenburua"
 
 #: application/view/common/navigation-link-form/browse.phtml:8
 msgid "Search query"
@@ -1343,26 +1450,6 @@ msgstr "Ezaugarria aukeratu"
 msgid "Add text value"
 msgstr "Testu balioa gehitu"
 
-#: application/view/common/property-form-batch-edit.phtml:17
-#: application/view/common/property-form-batch-edit.phtml:31
-#: application/view/common/property-form-batch-edit.phtml:46
-#: application/view/common/property-form-batch-edit.phtml:66
-#: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:79
-#: application/view/omeka/admin/item/show-details.phtml:18
-#: application/view/omeka/admin/item/show.phtml:62
-#: application/view/omeka/admin/media/show-details.phtml:43
-#: application/view/omeka/admin/media/show.phtml:37
-msgid "Public"
-msgstr "Publikoa"
-
-#: application/view/common/property-form-batch-edit.phtml:18
-#: application/view/common/property-form-batch-edit.phtml:32
-#: application/view/common/property-form-batch-edit.phtml:47
-#: application/view/common/property-form-batch-edit.phtml:67
-msgid "Not public"
-msgstr "Pribatua"
-
 #: application/view/common/property-form-batch-edit.phtml:20
 #: application/view/common/property-form-batch-edit.phtml:34
 #: application/view/common/property-form-batch-edit.phtml:49
@@ -1391,21 +1478,21 @@ msgstr "Klikatu ezaugarri bat edizio panelera gehitzeko"
 msgid "Filter properties"
 msgstr "Ezaugarriak iragazi"
 
-#: application/view/common/query-form.phtml:9
+#: application/view/common/query-form.phtml:8
 #: application/view/omeka/admin/query/search-filters.phtml:4
 msgid "[Edit below]"
 msgstr "Editatu jarraian"
 
-#: application/view/common/query-form.phtml:25
+#: application/view/common/query-form.phtml:24
 msgid "Advanced edit"
 msgstr "Edizio aurreratua"
 
-#: application/view/common/query-form.phtml:26
+#: application/view/common/query-form.phtml:25
 #: application/view/omeka/admin/query/sidebar-edit.phtml:14
 msgid "Apply"
 msgstr "Aplikatu"
 
-#: application/view/common/query-form.phtml:28
+#: application/view/common/query-form.phtml:27
 #: application/view/omeka/site-admin/index/users.phtml:8
 msgid "Restore"
 msgstr "Berrezarri"
@@ -1434,27 +1521,43 @@ msgstr "Balioa gehitu"
 msgid "Text"
 msgstr "Testua"
 
+#: application/view/common/resource-page-block-layout/lightbox-gallery-item.phtml:11
+msgid "Other Media"
+msgstr "Beste Multimedia"
+
+#: application/view/common/resource-page-block-layout/linked-resources.phtml:14
+#: application/view/omeka/admin/item-set/show.phtml:22
+#: application/view/omeka/admin/item/show.phtml:13
+msgid "Linked resources"
+msgstr "Lotutako baliabideak"
+
+#: application/view/common/resource-page-block-layout/resource-class.phtml:7
+msgid "Resource class"
+msgstr "Baliabide klasea"
+
 #: application/view/common/resource-select-sidebar.phtml:20
 msgid "Select resource"
 msgstr "Baliabidea aukeratu"
 
-#: application/view/common/resource-values.phtml:53
-#: application/view/omeka/admin/item-set/browse.phtml:103
+#: application/view/common/resource-values.phtml:70
+#: application/view/common/sidebar-pagelist.phtml:26
+#: application/view/omeka/admin/item-set/browse.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:79
-#: application/view/omeka/admin/item/browse.phtml:101
+#: application/view/omeka/admin/item-set/show.phtml:82
+#: application/view/omeka/admin/item/browse.phtml:67
 #: application/view/omeka/admin/item/show-details.phtml:18
-#: application/view/omeka/admin/item/show.phtml:62
-#: application/view/omeka/admin/media/browse.phtml:115
-#: application/view/omeka/admin/media/show-details.phtml:43
-#: application/view/omeka/admin/media/show.phtml:37
+#: application/view/omeka/admin/item/show.phtml:64
+#: application/view/omeka/admin/media/browse.phtml:63
+#: application/view/omeka/admin/media/show-details.phtml:50
+#: application/view/omeka/admin/media/show.phtml:39
 #: application/view/omeka/admin/resource-template/form.phtml:90
-#: application/view/omeka/site-admin/index/index.phtml:64
-#: application/view/omeka/site-admin/page/index.phtml:66
+#: application/view/omeka/site-admin/index/index.phtml:35
+#: application/view/omeka/site-admin/index/navigation.phtml:62
+#: application/view/omeka/site-admin/page/index.phtml:42
 msgid "Private"
 msgstr "Pribatua"
 
-#: application/view/common/resource-values.phtml:57
+#: application/view/common/resource-values.phtml:74
 msgid "Has annotation"
 msgstr "Oharpena dauka"
 
@@ -1463,14 +1566,47 @@ msgid "Add to List of pages"
 msgstr "Orrialde zerrendara gehitu"
 
 #: application/view/common/sidebar-pagelist.phtml:12
-#: application/view/omeka/site-admin/index/navigation.phtml:51
+#: application/view/omeka/site-admin/index/navigation.phtml:50
 msgid "Filter pages"
 msgstr "Orriak iragazi"
 
-#: application/view/common/sidebar-pagelist.phtml:25
-#: application/view/omeka/site-admin/index/navigation.phtml:65
+#: application/view/common/sidebar-pagelist.phtml:32
+#: application/view/omeka/site-admin/index/navigation.phtml:68
 msgid "There are no available pages."
 msgstr "Ez dago orrialderik eskuragarri."
+
+#: application/view/common/sidebar-select-quick-add.phtml:3
+msgid "Quick add"
+msgstr "Azkar gehitu"
+
+#: application/view/common/sidebar-select-quick-add.phtml:5
+#: application/view/common/sidebar-select-quick-add.phtml:14
+#: application/view/omeka/admin/user/browse.phtml:81
+msgid "Inactive"
+msgstr "Inaktiboa"
+
+#: application/view/common/sidebar-select-quick-add.phtml:8
+msgid "Quick add checkboxes are now available."
+msgstr "Azkar gehitzeko kontrol-laukiak eskuragarri daude."
+
+#: application/view/common/sidebar-select-quick-add.phtml:9
+msgid "Quick add checkboxes are now hidden."
+msgstr "Azkar gehitzeko kontrol-laukiak ezkutatuta daude orain."
+
+#: application/view/common/sidebar-select-quick-add.phtml:12
+#: application/view/omeka/admin/item-set/browse.phtml:53
+#: application/view/omeka/admin/item/browse.phtml:54
+#: application/view/omeka/admin/media/browse.phtml:48
+msgid "Select all"
+msgstr "Guztiak aukeratu"
+
+#: application/view/common/sidebar-select-quick-add.phtml:17
+msgid "All results are now selected."
+msgstr "Emaitza guztiak aukeratuta daude orain."
+
+#: application/view/common/sidebar-select-quick-add.phtml:18
+msgid "All results are now deselected."
+msgstr "Emaitza guztiak desautatuta daude orain."
 
 #: application/view/common/site-page-pagination.phtml:3
 msgid "Prev"
@@ -1487,17 +1623,17 @@ msgstr "Guneak iragazi"
 #: application/view/common/site-selector.phtml:7
 #: application/view/omeka/admin/item/form.phtml:17
 #: application/view/omeka/admin/item/show-details.phtml:32
-#: application/view/omeka/admin/item/show.phtml:76
+#: application/view/omeka/admin/item/show.phtml:78
 #: application/view/omeka/index/index.phtml:6
 #: application/view/omeka/site-admin/index/add.phtml:12
 #: application/view/omeka/site-admin/index/edit.phtml:8
-#: application/view/omeka/site-admin/index/index.phtml:21
-#: application/view/omeka/site-admin/index/navigation.phtml:15
+#: application/view/omeka/site-admin/index/index.phtml:7
+#: application/view/omeka/site-admin/index/navigation.phtml:14
 #: application/view/omeka/site-admin/index/resources.phtml:20
 #: application/view/omeka/site-admin/index/show.phtml:7
 #: application/view/omeka/site-admin/index/theme.phtml:11
 #: application/view/omeka/site-admin/index/users.phtml:41
-#: application/view/omeka/site-admin/page/index.phtml:33
+#: application/view/omeka/site-admin/page/index.phtml:9
 msgid "Sites"
 msgstr "Guneak"
 
@@ -1518,7 +1654,7 @@ msgstr "%s-ren arabera ordenatua"
 msgid "Sort by"
 msgstr "Honen arabera ordenatu"
 
-#: application/view/common/sort-selector.phtml:13
+#: application/view/common/sort-selector.phtml:12
 msgid "Sort order"
 msgstr "Sailkapen ordena"
 
@@ -1566,7 +1702,7 @@ msgstr "Ezarri oharpenak"
 #: application/view/common/value-annotation-wrapper.phtml:13
 #: application/view/omeka/admin/item-set/form.phtml:49
 #: application/view/omeka/admin/item/form.phtml:58
-#: application/view/omeka/admin/item/manage-media.phtml:36
+#: application/view/omeka/admin/item/manage-media.phtml:48
 #: application/view/omeka/admin/media/edit.phtml:60
 #: application/view/omeka/site-admin/index/add-page.phtml:12
 #: application/view/omeka/site-admin/index/add.phtml:20
@@ -1582,7 +1718,7 @@ msgstr "Omeka S bertsio berri bat eskuragarri dago. %s"
 
 #: application/view/common/version-notification.phtml:12
 #: application/view/omeka/admin/module/browse.phtml:62
-#: application/view/omeka/site-admin/index/theme.phtml:55
+#: application/view/omeka/site-admin/index/theme.phtml:58
 msgid "Get the new version."
 msgstr "Bertsio berria eskuratu."
 
@@ -1670,7 +1806,7 @@ msgstr "Media bilatu"
 
 #: application/view/layout/layout-admin.phtml:85
 #: application/view/omeka/admin/index/browse.phtml:50
-#: application/view/omeka/site-admin/index/index.phtml:70
+#: application/view/omeka/site-admin/index/index.phtml:41
 msgid "View public site"
 msgstr "Gune publikoa ikusi"
 
@@ -1731,59 +1867,59 @@ msgstr "Ordezko testua"
 msgid "Upload"
 msgstr "Igo"
 
-#: application/view/omeka/admin/asset/browse.phtml:8
-#: application/view/omeka/admin/item-set/show-details.phtml:13
-#: application/view/omeka/admin/item-set/show.phtml:66
-#: application/view/omeka/admin/item/show-details.phtml:13
-#: application/view/omeka/admin/item/show.phtml:57
-#: application/view/omeka/admin/job/browse.phtml:7
-#: application/view/omeka/admin/job/browse.phtml:37
-#: application/view/omeka/admin/media/show-details.phtml:18
-#: application/view/omeka/admin/media/show.phtml:32
-#: application/view/omeka/admin/user/edit.phtml:39
-msgid "ID"
-msgstr "ID"
-
-#: application/view/omeka/admin/asset/browse.phtml:27
+#: application/view/omeka/admin/asset/browse.phtml:17
 msgid "Add new asset"
 msgstr "Aktibo berria gehitu"
 
-#: application/view/omeka/admin/asset/browse.phtml:75
+#: application/view/omeka/admin/asset/browse.phtml:28
+#: application/view/omeka/admin/item-set/show.phtml:77
+#: application/view/omeka/admin/item/manage-item-sets.phtml:40
+#: application/view/omeka/admin/item/manage-sites.phtml:37
+#: application/view/omeka/admin/item/show.phtml:89
+#: application/view/omeka/admin/job/browse.phtml:22
+#: application/view/omeka/admin/job/show.phtml:46
+#: application/view/omeka/admin/resource-template/browse.phtml:28
+#: application/view/omeka/site-admin/index/resources.phtml:67
+msgid "Owner"
+msgstr "Jabea"
+
+#: application/view/omeka/admin/asset/browse.phtml:65
 #: application/view/omeka/admin/asset/edit.phtml:6
-#: application/view/omeka/admin/item-set/browse.phtml:117
+#: application/view/omeka/admin/item-set/browse.phtml:82
 #: application/view/omeka/admin/item-set/edit.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:115
+#: application/view/omeka/admin/item/browse.phtml:81
 #: application/view/omeka/admin/item/edit.phtml:6
-#: application/view/omeka/admin/media/browse.phtml:129
+#: application/view/omeka/admin/media/browse.phtml:77
 #: application/view/omeka/admin/media/edit.phtml:65
-#: application/view/omeka/admin/resource-template/browse.phtml:79
+#: application/view/omeka/admin/resource-template/browse.phtml:61
 #: application/view/omeka/admin/resource-template/form.phtml:13
-#: application/view/omeka/admin/user/browse.phtml:108
+#: application/view/omeka/admin/user/browse.phtml:94
 #: application/view/omeka/admin/user/edit.phtml:40
-#: application/view/omeka/admin/vocabulary/browse.phtml:67
+#: application/view/omeka/admin/vocabulary/browse.phtml:49
 #: application/view/omeka/admin/vocabulary/edit.phtml:11
 #: application/view/omeka/site-admin/index/edit.phtml:26
-#: application/view/omeka/site-admin/index/index.phtml:82
+#: application/view/omeka/site-admin/index/index.phtml:53
 #: application/view/omeka/site-admin/index/users.phtml:7
 #: application/view/omeka/site-admin/page/edit.phtml:29
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: application/view/omeka/admin/asset/browse.phtml:82
-#: application/view/omeka/admin/item-set/browse.phtml:124
-#: application/view/omeka/admin/item/browse.phtml:122
-#: application/view/omeka/admin/media/browse.phtml:136
-#: application/view/omeka/admin/resource-template/browse.phtml:85
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:27
-#: application/view/omeka/admin/resource-template/show.phtml:44
-#: application/view/omeka/admin/user/browse.phtml:115
-#: application/view/omeka/admin/vocabulary/browse.phtml:74
-#: application/view/omeka/admin/vocabulary/classes.phtml:52
-#: application/view/omeka/admin/vocabulary/properties.phtml:35
+#: application/view/omeka/admin/asset/browse.phtml:72
+#: application/view/omeka/admin/item-set/browse.phtml:89
+#: application/view/omeka/admin/item/browse.phtml:88
+#: application/view/omeka/admin/media/browse.phtml:84
+#: application/view/omeka/admin/resource-template/browse.phtml:67
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:28
+#: application/view/omeka/admin/resource-template/show.phtml:45
+#: application/view/omeka/admin/user/browse.phtml:101
+#: application/view/omeka/admin/vocabulary/browse.phtml:56
+#: application/view/omeka/admin/vocabulary/classes.phtml:37
+#: application/view/omeka/admin/vocabulary/properties.phtml:38
 msgid "Details"
 msgstr "Xehetasunak"
 
-#: application/view/omeka/admin/asset/browse.phtml:108
+#: application/view/omeka/admin/asset/browse.phtml:98
+#: application/view/omeka/admin/asset/sidebar-select.phtml:56
 msgid "Omeka could not find any assets."
 msgstr "Omekak ezin izan du aktibo berririk aurkitu"
 
@@ -1803,9 +1939,26 @@ msgstr "Jaberik gabe"
 msgid "Filter by owner"
 msgstr "Iragazi jabearen arabera"
 
-#: application/view/omeka/admin/asset/sidebar-select.phtml:56
-msgid "assets"
-msgstr "baliabideak"
+#: application/view/omeka/admin/columns/column-edit-sidebar.phtml:5
+#: application/view/omeka/admin/columns/column-row.phtml:10
+msgid "Edit column"
+msgstr "Editatu zutabea"
+
+#: application/view/omeka/admin/columns/column-edit-sidebar.phtml:10
+msgid "Set column"
+msgstr "Ezarri zutabea"
+
+#: application/view/omeka/admin/columns/column-row.phtml:5
+msgid "Column to be removed"
+msgstr "Ezabatzeko zutabea"
+
+#: application/view/omeka/admin/columns/column-row.phtml:14
+msgid "Remove column"
+msgstr "Ezabatu zutabea"
+
+#: application/view/omeka/admin/columns/column-row.phtml:18
+msgid "Restore column"
+msgstr "Berrezarri zutabea"
 
 #: application/view/omeka/admin/index/browse.phtml:4
 #: application/view/omeka/index/index.phtml:33
@@ -1827,7 +1980,7 @@ msgid "Items (%s)"
 msgstr "($s) fitxak"
 
 #: application/view/omeka/admin/index/browse.phtml:17
-#: application/view/omeka/admin/item/browse.phtml:41
+#: application/view/omeka/admin/item/browse.phtml:19
 msgid "Add new item"
 msgstr "Fitxa berria gehitu"
 
@@ -1842,7 +1995,7 @@ msgid "Vocabularies (%s)"
 msgstr "(%s) hiztegiak"
 
 #: application/view/omeka/admin/index/browse.phtml:29
-#: application/view/omeka/admin/vocabulary/browse.phtml:29
+#: application/view/omeka/admin/vocabulary/browse.phtml:11
 msgid "Import new vocabulary"
 msgstr "Hiztegi berria inportatu"
 
@@ -1852,7 +2005,7 @@ msgid "Resource templates (%s)"
 msgstr "(%s) baliabide txantiloiak"
 
 #: application/view/omeka/admin/index/browse.phtml:35
-#: application/view/omeka/admin/resource-template/browse.phtml:30
+#: application/view/omeka/admin/resource-template/browse.phtml:12
 msgid "Add new resource template"
 msgstr "Baliabide txantiloi berria gehitu"
 
@@ -1873,26 +2026,11 @@ msgid "Batch edit item sets"
 msgstr "Fitxa multzoak batch editatu"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:19
-#: application/view/omeka/admin/item-set/edit.phtml:20
-#: application/view/omeka/admin/item-set/form.phtml:56
 #: application/view/omeka/admin/item/batch-edit.phtml:19
-#: application/view/omeka/admin/item/edit.phtml:22
-#: application/view/omeka/admin/media/batch-edit.phtml:21
-#: application/view/omeka/admin/media/edit.phtml:68
-#: application/view/omeka/admin/resource-template/edit.phtml:15
-#: application/view/omeka/admin/setting/browse.phtml:11
-#: application/view/omeka/admin/user/batch-edit.phtml:19
-#: application/view/omeka/admin/user/edit.phtml:19
-#: application/view/omeka/admin/vocabulary/edit.phtml:13
-#: application/view/omeka/site-admin/index/edit.phtml:29
-#: application/view/omeka/site-admin/index/navigation.phtml:22
-#: application/view/omeka/site-admin/index/resources.phtml:31
-#: application/view/omeka/site-admin/index/theme-settings.phtml:12
-#: application/view/omeka/site-admin/index/theme.phtml:18
-#: application/view/omeka/site-admin/index/users.phtml:48
-#: application/view/omeka/site-admin/page/edit.phtml:31
-msgid "Save"
-msgstr "Gorde"
+#: application/view/omeka/admin/media/batch-edit.phtml:19
+#: application/view/omeka/admin/module/configure.phtml:10
+msgid "Submit"
+msgstr "Bidali"
 
 #: application/view/omeka/admin/item-set/batch-edit.phtml:27
 msgid "Affected item sets"
@@ -1908,103 +2046,97 @@ msgstr "Ondorengo %s fitxa multzoak editatzen ari zara:"
 msgid "You are editing %s item sets."
 msgstr "%s fitxa multzoak editatzen ari zara."
 
-#: application/view/omeka/admin/item-set/browse.phtml:35
+#: application/view/omeka/admin/item-set/browse.phtml:13
 #: application/view/omeka/admin/item-set/search.phtml:5
-#: application/view/omeka/admin/item/browse.phtml:35
+#: application/view/omeka/admin/item/browse.phtml:13
 #: application/view/omeka/admin/item/search.phtml:5
-#: application/view/omeka/admin/media/browse.phtml:41
+#: application/view/omeka/admin/media/browse.phtml:13
 #: application/view/omeka/admin/media/search.phtml:5
-#: application/view/omeka/admin/user/browse.phtml:30
+#: application/view/omeka/admin/user/browse.phtml:16
 #: application/view/omeka/admin/user/search.phtml:5
-#: application/view/omeka/site/item-set/browse.phtml:17
-#: application/view/omeka/site/item/browse.phtml:51
+#: application/view/omeka/site/item-set/browse.phtml:19
+#: application/view/omeka/site/item/browse.phtml:36
 msgid "Advanced search"
 msgstr "Bilaketa aurreratua"
 
-#: application/view/omeka/admin/item-set/browse.phtml:51
-#: application/view/omeka/admin/item-set/browse.phtml:52
-#: application/view/omeka/admin/item/browse.phtml:50
-#: application/view/omeka/admin/item/browse.phtml:51
-#: application/view/omeka/admin/media/browse.phtml:50
-#: application/view/omeka/admin/media/browse.phtml:51
-#: application/view/omeka/admin/user/browse.phtml:45
-#: application/view/omeka/admin/user/browse.phtml:46
+#: application/view/omeka/admin/item-set/browse.phtml:28
+#: application/view/omeka/admin/item-set/browse.phtml:29
+#: application/view/omeka/admin/item/browse.phtml:28
+#: application/view/omeka/admin/item/browse.phtml:29
+#: application/view/omeka/admin/media/browse.phtml:22
+#: application/view/omeka/admin/media/browse.phtml:23
+#: application/view/omeka/admin/user/browse.phtml:31
+#: application/view/omeka/admin/user/browse.phtml:32
 msgid "Batch actions"
 msgstr "Batch ekintzak"
 
-#: application/view/omeka/admin/item-set/browse.phtml:53
-#: application/view/omeka/admin/item/browse.phtml:52
-#: application/view/omeka/admin/media/browse.phtml:53
-#: application/view/omeka/admin/user/browse.phtml:48
+#: application/view/omeka/admin/item-set/browse.phtml:30
+#: application/view/omeka/admin/item/browse.phtml:30
+#: application/view/omeka/admin/media/browse.phtml:24
+#: application/view/omeka/admin/user/browse.phtml:34
 msgid "Edit selected"
 msgstr "Editatu aukeratuak"
 
-#: application/view/omeka/admin/item-set/browse.phtml:54
-#: application/view/omeka/admin/item/browse.phtml:53
-#: application/view/omeka/admin/media/browse.phtml:54
-#: application/view/omeka/admin/user/browse.phtml:49
+#: application/view/omeka/admin/item-set/browse.phtml:32
+#: application/view/omeka/admin/item/browse.phtml:32
+#: application/view/omeka/admin/media/browse.phtml:26
+#: application/view/omeka/admin/user/browse.phtml:35
 msgid "Edit all"
 msgstr "Guztiak editatu"
 
-#: application/view/omeka/admin/item-set/browse.phtml:55
-#: application/view/omeka/admin/item/browse.phtml:54
-#: application/view/omeka/admin/media/browse.phtml:57
-#: application/view/omeka/admin/user/browse.phtml:52
+#: application/view/omeka/admin/item-set/browse.phtml:34
+#: application/view/omeka/admin/item/browse.phtml:34
+#: application/view/omeka/admin/media/browse.phtml:28
+#: application/view/omeka/admin/user/browse.phtml:38
 msgid "Delete selected"
 msgstr "Aukeratuak ezabatu"
 
-#: application/view/omeka/admin/item-set/browse.phtml:56
-#: application/view/omeka/admin/item/browse.phtml:55
-#: application/view/omeka/admin/media/browse.phtml:58
-#: application/view/omeka/admin/user/browse.phtml:53
+#: application/view/omeka/admin/item-set/browse.phtml:36
+#: application/view/omeka/admin/item/browse.phtml:36
+#: application/view/omeka/admin/media/browse.phtml:30
+#: application/view/omeka/admin/user/browse.phtml:39
 msgid "Delete all"
 msgstr "Guztiak ezabatu"
 
-#: application/view/omeka/admin/item-set/browse.phtml:59
-#: application/view/omeka/admin/item-set/browse.phtml:60
-#: application/view/omeka/admin/item-set/browse.phtml:61
-#: application/view/omeka/admin/item-set/browse.phtml:63
-#: application/view/omeka/admin/item-set/browse.phtml:64
-#: application/view/omeka/admin/item/browse.phtml:58
-#: application/view/omeka/admin/item/browse.phtml:59
-#: application/view/omeka/admin/item/browse.phtml:60
-#: application/view/omeka/admin/item/browse.phtml:62
-#: application/view/omeka/admin/item/browse.phtml:63
-#: application/view/omeka/admin/media/browse.phtml:62
-#: application/view/omeka/admin/media/browse.phtml:64
-#: application/view/omeka/admin/media/browse.phtml:65
-#: application/view/omeka/admin/media/browse.phtml:69
-#: application/view/omeka/admin/media/browse.phtml:70
-#: application/view/omeka/admin/user/browse.phtml:57
-#: application/view/omeka/admin/user/browse.phtml:59
-#: application/view/omeka/admin/user/browse.phtml:60
-#: application/view/omeka/admin/user/browse.phtml:64
-#: application/view/omeka/admin/user/browse.phtml:65
+#: application/view/omeka/admin/item-set/browse.phtml:40
+#: application/view/omeka/admin/item-set/browse.phtml:41
+#: application/view/omeka/admin/item-set/browse.phtml:42
+#: application/view/omeka/admin/item-set/browse.phtml:44
+#: application/view/omeka/admin/item-set/browse.phtml:45
+#: application/view/omeka/admin/item/browse.phtml:40
+#: application/view/omeka/admin/item/browse.phtml:41
+#: application/view/omeka/admin/item/browse.phtml:42
+#: application/view/omeka/admin/item/browse.phtml:44
+#: application/view/omeka/admin/item/browse.phtml:45
+#: application/view/omeka/admin/media/browse.phtml:34
+#: application/view/omeka/admin/media/browse.phtml:35
+#: application/view/omeka/admin/media/browse.phtml:36
+#: application/view/omeka/admin/media/browse.phtml:38
+#: application/view/omeka/admin/media/browse.phtml:39
+#: application/view/omeka/admin/user/browse.phtml:43
+#: application/view/omeka/admin/user/browse.phtml:45
+#: application/view/omeka/admin/user/browse.phtml:46
+#: application/view/omeka/admin/user/browse.phtml:50
+#: application/view/omeka/admin/user/browse.phtml:51
 msgid "Go"
 msgstr "Joan"
 
-#: application/view/omeka/admin/item-set/browse.phtml:72
-#: application/view/omeka/admin/item/browse.phtml:72
-#: application/view/omeka/admin/media/browse.phtml:81
-msgid "Select all"
-msgstr "Guztiak aukeratu"
-
-#: application/view/omeka/admin/item-set/browse.phtml:99
-#: application/view/omeka/admin/item-set/sidebar-select.phtml:8
+#: application/view/omeka/admin/item-set/browse.phtml:64
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:11
 msgid "Select item set"
 msgstr "Fitxa multzoa aukeratu"
 
-#: application/view/omeka/admin/item-set/browse.phtml:157
-#: application/view/omeka/admin/item-set/browse.phtml:175
+#: application/view/omeka/admin/item-set/browse.phtml:120
+#: application/view/omeka/admin/item-set/browse.phtml:138
 msgid "Delete item sets"
 msgstr "Fitxa multzoak ezabatu"
 
-#: application/view/omeka/admin/item-set/browse.phtml:158
+#: application/view/omeka/admin/item-set/browse.phtml:121
 msgid "Are you sure you would like to delete the selected item sets?"
 msgstr "Ziur aukeratutako fitxa multzoak ezabatu nahi dituzula?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:160
-#: application/view/omeka/admin/item-set/browse.phtml:178
+#: application/view/omeka/admin/item-set/browse.phtml:123
+#: application/view/omeka/admin/item-set/browse.phtml:141
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s item sets and cannot be "
@@ -2013,18 +2145,18 @@ msgstr ""
 "%1$s: akzio honek betirako ezabatuko ditu %2$s fitxa multzoak eta ezingo da "
 "desegin"
 
-#: application/view/omeka/admin/item-set/browse.phtml:161
-#: application/view/omeka/admin/item-set/browse.phtml:179
-#: application/view/omeka/admin/item/browse.phtml:159
-#: application/view/omeka/admin/item/browse.phtml:177
-#: application/view/omeka/admin/media/browse.phtml:175
-#: application/view/omeka/admin/media/browse.phtml:193
-#: application/view/omeka/admin/user/browse.phtml:154
-#: application/view/omeka/admin/user/browse.phtml:172
+#: application/view/omeka/admin/item-set/browse.phtml:124
+#: application/view/omeka/admin/item-set/browse.phtml:142
+#: application/view/omeka/admin/item/browse.phtml:123
+#: application/view/omeka/admin/item/browse.phtml:141
+#: application/view/omeka/admin/media/browse.phtml:120
+#: application/view/omeka/admin/media/browse.phtml:138
+#: application/view/omeka/admin/user/browse.phtml:140
+#: application/view/omeka/admin/user/browse.phtml:158
 msgid "Warning"
 msgstr "Oharra"
 
-#: application/view/omeka/admin/item-set/browse.phtml:176
+#: application/view/omeka/admin/item-set/browse.phtml:139
 msgid ""
 "Are you sure you would like to delete all item sets on all pages of this "
 "result?"
@@ -2032,16 +2164,36 @@ msgstr ""
 "Ziur emaitza honen orrialde guztien fitxa multzo guztiak ezabatu nahi "
 "dituzula?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:182
-#: application/view/omeka/admin/item/browse.phtml:180
-#: application/view/omeka/admin/media/browse.phtml:196
-#: application/view/omeka/admin/user/browse.phtml:175
+#: application/view/omeka/admin/item-set/browse.phtml:145
+#: application/view/omeka/admin/item/browse.phtml:144
+#: application/view/omeka/admin/media/browse.phtml:141
+#: application/view/omeka/admin/user/browse.phtml:161
 msgid "Are you sure?"
 msgstr "Ziur al zaude?"
 
-#: application/view/omeka/admin/item-set/browse.phtml:216
+#: application/view/omeka/admin/item-set/browse.phtml:179
 msgid "Omeka could not find any item sets."
 msgstr "Omekak ezin izan du fitxa multzorik aurkitu"
+
+#: application/view/omeka/admin/item-set/edit.phtml:20
+#: application/view/omeka/admin/item-set/form.phtml:56
+#: application/view/omeka/admin/item/edit.phtml:22
+#: application/view/omeka/admin/media/edit.phtml:68
+#: application/view/omeka/admin/resource-template/edit.phtml:15
+#: application/view/omeka/admin/setting/browse.phtml:11
+#: application/view/omeka/admin/user/batch-edit.phtml:19
+#: application/view/omeka/admin/user/edit.phtml:19
+#: application/view/omeka/admin/vocabulary/edit.phtml:13
+#: application/view/omeka/site-admin/index/edit.phtml:29
+#: application/view/omeka/site-admin/index/navigation.phtml:21
+#: application/view/omeka/site-admin/index/resources.phtml:31
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:28
+#: application/view/omeka/site-admin/index/theme-settings.phtml:12
+#: application/view/omeka/site-admin/index/theme.phtml:18
+#: application/view/omeka/site-admin/index/users.phtml:48
+#: application/view/omeka/site-admin/page/edit.phtml:31
+msgid "Save"
+msgstr "Gorde"
 
 #: application/view/omeka/admin/item-set/form.phtml:13
 #: application/view/omeka/admin/item/form.phtml:14
@@ -2063,22 +2215,13 @@ msgstr "Fitxa multzoa itxi"
 msgid "Open item set"
 msgstr "Fitxa multzoa ireki"
 
-#: application/view/omeka/admin/item-set/show-details.phtml:17
-#: application/view/omeka/admin/item-set/show.phtml:78
-#: application/view/omeka/admin/item/show-details.phtml:17
-#: application/view/omeka/admin/item/show.phtml:61
-#: application/view/omeka/admin/media/show-details.phtml:42
-#: application/view/omeka/admin/media/show.phtml:36
-msgid "Visibility"
-msgstr "Ikusgarritasuna"
-
 #: application/view/omeka/admin/item-set/show-details.phtml:19
-#: application/view/omeka/admin/item-set/show.phtml:80
+#: application/view/omeka/admin/item-set/show.phtml:83
 msgid "Open to additions"
 msgstr "Eransketetara irekia"
 
 #: application/view/omeka/admin/item-set/show-details.phtml:19
-#: application/view/omeka/admin/item-set/show.phtml:80
+#: application/view/omeka/admin/item-set/show.phtml:83
 msgid "Closed to additions"
 msgstr "Eransketetara itxia"
 
@@ -2088,12 +2231,6 @@ msgstr "Eransketetara itxia"
 msgid "Metadata"
 msgstr "Metadatuak"
 
-#: application/view/omeka/admin/item-set/show.phtml:22
-#: application/view/omeka/admin/item/show.phtml:13
-#: application/view/omeka/site/item/show.phtml:58
-msgid "Linked resources"
-msgstr "Lotutako baliabideak"
-
 #: application/view/omeka/admin/item-set/show.phtml:30
 msgid "Edit item set"
 msgstr "Fitxa multzoa editatu"
@@ -2102,29 +2239,37 @@ msgstr "Fitxa multzoa editatu"
 msgid "View items"
 msgstr "Fitxak ikusi"
 
-#: application/view/omeka/admin/item-set/show.phtml:54
+#: application/view/omeka/admin/item-set/show.phtml:58
 msgid "The following resources link to this item set:"
 msgstr "Ondorengo baliabideak fitxa multzo honekin lotzen dira:"
 
-#: application/view/omeka/admin/item-set/show.phtml:58
+#: application/view/omeka/admin/item-set/show.phtml:62
 msgid "No resources link to this item set."
 msgstr "Ez dago fitxa multzo honekin lotzen den baliabiderik."
 
-#: application/view/omeka/admin/item-set/sidebar-select.phtml:39
-msgid "item sets"
-msgstr "fitxa multzoa"
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:19
+#: application/view/omeka/admin/item/sidebar-select.phtml:28
+msgid "Filter search"
+msgstr "Iragazkiak bilatu"
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:36
+msgid "Filter by item set ID"
+msgstr "Iragazi elementu multzo ID arabera"
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:70
+#: application/view/omeka/admin/item/browse.phtml:178
+#: application/view/omeka/admin/item/sidebar-select.phtml:100
+msgid "Omeka could not find any items."
+msgstr "Omekak ezin izan du fitxarik aurkitu."
+
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:76
+#: application/view/omeka/admin/item/sidebar-select.phtml:105
+msgid "Add selected"
+msgstr "Aukeraketa gehitu"
 
 #: application/view/omeka/admin/item/add.phtml:6
 msgid "New item"
 msgstr "Fitxa berria"
-
-#: application/view/omeka/admin/item/add.phtml:13
-#: application/view/omeka/admin/resource-template/add.phtml:15
-#: application/view/omeka/admin/user/add.phtml:13
-#: application/view/omeka/site-admin/index/add-page.phtml:23
-#: application/view/omeka/site-admin/index/add.phtml:31
-msgid "Add"
-msgstr "Gehitu"
 
 #: application/view/omeka/admin/item/batch-edit.phtml:7
 msgid "Batch edit items"
@@ -2144,44 +2289,40 @@ msgstr "Ondorengo %s fitxak editatzen ari zara:"
 msgid "You are editing %s items."
 msgstr "%s fitxak editatzen ari zara."
 
-#: application/view/omeka/admin/item/browse.phtml:97
+#: application/view/omeka/admin/item/browse.phtml:63
 #: application/view/omeka/admin/item/sidebar-select.phtml:10
 msgid "Select item"
 msgstr "Fitxa aukeratu"
 
-#: application/view/omeka/admin/item/browse.phtml:155
-#: application/view/omeka/admin/item/browse.phtml:173
+#: application/view/omeka/admin/item/browse.phtml:119
+#: application/view/omeka/admin/item/browse.phtml:137
 msgid "Delete items"
 msgstr "Fitxak ezabatu"
 
-#: application/view/omeka/admin/item/browse.phtml:156
+#: application/view/omeka/admin/item/browse.phtml:120
 msgid "Are you sure you would like to delete the selected items?"
 msgstr "Ziur aukeratutako fitxak ezabatu nahi dituzula?"
 
-#: application/view/omeka/admin/item/browse.phtml:158
-#: application/view/omeka/admin/item/browse.phtml:176
+#: application/view/omeka/admin/item/browse.phtml:122
+#: application/view/omeka/admin/item/browse.phtml:140
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s items and cannot be undone."
 msgstr ""
 "%1$s: akzio honek betirako ezabatuko ditu %2$s fitxak eta ezingo da desegin"
 
-#: application/view/omeka/admin/item/browse.phtml:174
+#: application/view/omeka/admin/item/browse.phtml:138
 msgid ""
 "Are you sure you would like to delete all items on all pages of this result?"
 msgstr ""
 "Ziur emaitza honen orrialde guztietako fitxa guztiak ezabatu nahi dituzula?"
 
-#: application/view/omeka/admin/item/browse.phtml:214
-msgid "Omeka could not find any items."
-msgstr "Omekak ezin izan du fitxarik aurkitu."
-
-#: application/view/omeka/admin/item/manage-item-sets.phtml:21
+#: application/view/omeka/admin/item/manage-item-sets.phtml:27
 #: application/view/omeka/site-admin/index/resources.phtml:14
 msgid "Remove item set"
 msgstr "Fitxa multzoa ezabatu"
 
-#: application/view/omeka/admin/item/manage-item-sets.phtml:42
+#: application/view/omeka/admin/item/manage-item-sets.phtml:48
 msgid ""
 "This item is part of no item sets. Add it to an item set using the interface"
 " to the right."
@@ -2189,15 +2330,19 @@ msgstr ""
 "Fitxa hau ez da inongo fitxa multzoren parte. Multzo batera gehitu eskuineko"
 " interfazea erabiliz."
 
-#: application/view/omeka/admin/item/manage-item-sets.phtml:45
+#: application/view/omeka/admin/item/manage-item-sets.phtml:51
 msgid "Add to item set"
 msgstr "Fitxa multzora gehitu"
 
-#: application/view/omeka/admin/item/manage-media.phtml:21
+#: application/view/omeka/admin/item/manage-media.phtml:28
 msgid "Media to be removed"
 msgstr "Ezabatzeko media"
 
-#: application/view/omeka/admin/item/manage-media.phtml:63
+#: application/view/omeka/admin/item/manage-media.phtml:33
+msgid "Primary media"
+msgstr "Multimedia nagusia"
+
+#: application/view/omeka/admin/item/manage-media.phtml:75
 msgid ""
 "This resource has no media.<br>Start adding media using the sidebar to the "
 "right."
@@ -2205,16 +2350,16 @@ msgstr ""
 "Baliabide honek ez du mediarik.<br>Eskuineko alboko barra erabiliz gehitu "
 "daitezke"
 
-#: application/view/omeka/admin/item/manage-media.phtml:67
-#: application/view/omeka/admin/item/manage-media.phtml:71
+#: application/view/omeka/admin/item/manage-media.phtml:79
+#: application/view/omeka/admin/item/manage-media.phtml:83
 msgid "Add media"
 msgstr "Gehitu media"
 
-#: application/view/omeka/admin/item/manage-sites.phtml:30
+#: application/view/omeka/admin/item/manage-sites.phtml:27
 msgid "Unassign from site"
 msgstr "Kendu esleipena gunetik"
 
-#: application/view/omeka/admin/item/manage-sites.phtml:48
+#: application/view/omeka/admin/item/manage-sites.phtml:45
 msgid ""
 "This item is part of no sites. Add it to a site using the interface to the "
 "right."
@@ -2222,7 +2367,7 @@ msgstr ""
 "Fitxa hau ez da inongo gunekoa. Eskuineko interfaza erabiliz gune batera "
 "gehitu"
 
-#: application/view/omeka/admin/item/manage-sites.phtml:51
+#: application/view/omeka/admin/item/manage-sites.phtml:48
 msgid "Assign to site"
 msgstr "Gunera esleitu"
 
@@ -2230,119 +2375,98 @@ msgstr "Gunera esleitu"
 msgid "Edit item"
 msgstr "Fitxa editatu"
 
-#: application/view/omeka/admin/item/show.phtml:44
-msgid "The following resources link to this item:"
-msgstr "Ondorengo baliabideak fitxa honekin lotzen dira:"
-
-#: application/view/omeka/admin/item/show.phtml:48
+#: application/view/omeka/admin/item/show.phtml:51
 msgid "No resources link to this item."
 msgstr "Ez dago fitxa honekin loturarik duen baliabiderik"
-
-#: application/view/omeka/admin/item/sidebar-select.phtml:28
-msgid "Filter search"
-msgstr "Iragazkiak bilatu"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:57
 msgid "Filter by item ID"
 msgstr "ID fitxaren arabera iragazi"
 
-#: application/view/omeka/admin/item/sidebar-select.phtml:67
-msgid "Quick add"
-msgstr "Azkar gehitu"
-
-#: application/view/omeka/admin/item/sidebar-select.phtml:98
-msgid "items"
-msgstr "fitxak"
-
-#: application/view/omeka/admin/item/sidebar-select.phtml:103
-msgid "Add selected"
-msgstr "Aukeraketa gehitu"
-
-#: application/view/omeka/admin/job/browse.phtml:15
-#: application/view/omeka/admin/job/browse.phtml:39
-#: application/view/omeka/admin/job/show.phtml:29
-msgid "Status"
-msgstr "Egoera"
-
-#: application/view/omeka/admin/job/browse.phtml:25
+#: application/view/omeka/admin/job/browse.phtml:7
 #: application/view/omeka/admin/job/show.phtml:21
 msgid "Jobs"
 msgstr "Lanak"
 
-#: application/view/omeka/admin/job/browse.phtml:78
+#: application/view/omeka/admin/job/browse.phtml:21
+#: application/view/omeka/admin/job/show.phtml:30
+msgid "Status"
+msgstr "Egoera"
+
+#: application/view/omeka/admin/job/browse.phtml:60
 msgid "Omeka could not find any jobs."
 msgstr "Omekak ezin izan du lanik aurkitu."
 
 #: application/view/omeka/admin/job/show.phtml:8
-msgid "[not started]"
+msgid "[Not started]"
 msgstr "[hasi gabea]"
 
 #: application/view/omeka/admin/job/show.phtml:13
-msgid "[not ended]"
+msgid "[Not ended]"
 msgstr "[amaitu gabea]"
 
-#: application/view/omeka/admin/job/show.phtml:33
+#: application/view/omeka/admin/job/show.phtml:34
 msgid "Started"
 msgstr "Hasia"
 
-#: application/view/omeka/admin/job/show.phtml:37
+#: application/view/omeka/admin/job/show.phtml:38
 msgid "Ended"
 msgstr "Amaitua"
 
-#: application/view/omeka/admin/job/show.phtml:49
+#: application/view/omeka/admin/job/show.phtml:50
 msgid "Args"
 msgstr "Argudioak"
 
-#: application/view/omeka/admin/job/show.phtml:54
-msgid "[no args]"
+#: application/view/omeka/admin/job/show.phtml:55
+msgid "[No args]"
 msgstr "[argudiorik ez]"
 
-#: application/view/omeka/admin/job/show.phtml:58
+#: application/view/omeka/admin/job/show.phtml:59
 msgid "Log"
 msgstr "erregistroa"
 
-#: application/view/omeka/admin/job/show.phtml:61
+#: application/view/omeka/admin/job/show.phtml:62
 msgid "view log"
 msgstr "erregistroa ikusi"
 
-#: application/view/omeka/admin/job/show.phtml:65
-msgid "[no log]"
+#: application/view/omeka/admin/job/show.phtml:66
+msgid "[No log]"
 msgstr "[erregistrorik gabe]"
 
-#: application/view/omeka/admin/media/batch-edit.phtml:9
+#: application/view/omeka/admin/media/batch-edit.phtml:7
 msgid "Batch edit media"
 msgstr "Batch fitxa edizioa"
 
-#: application/view/omeka/admin/media/batch-edit.phtml:29
+#: application/view/omeka/admin/media/batch-edit.phtml:27
 msgid "Affected media"
 msgstr "Eragindako media"
 
-#: application/view/omeka/admin/media/batch-edit.phtml:31
+#: application/view/omeka/admin/media/batch-edit.phtml:29
 #, php-format
 msgid "You are editing the following %s media:"
 msgstr "Ondorengo %s media editatzen ari zara:"
 
-#: application/view/omeka/admin/media/batch-edit.phtml:38
+#: application/view/omeka/admin/media/batch-edit.phtml:36
 #, php-format
 msgid "You are editing %s media."
 msgstr "%s media editatzen ari zara"
 
-#: application/view/omeka/admin/media/browse.phtml:111
+#: application/view/omeka/admin/media/browse.phtml:59
 #: application/view/omeka/admin/media/sidebar-select.phtml:8
 msgid "Select media"
 msgstr "Media aukeratu"
 
-#: application/view/omeka/admin/media/browse.phtml:171
-#: application/view/omeka/admin/media/browse.phtml:189
+#: application/view/omeka/admin/media/browse.phtml:116
+#: application/view/omeka/admin/media/browse.phtml:134
 msgid "Delete media"
 msgstr "Media ezabatu"
 
-#: application/view/omeka/admin/media/browse.phtml:172
+#: application/view/omeka/admin/media/browse.phtml:117
 msgid "Are you sure you would like to delete the selected media?"
 msgstr "Ziur aukeratutako media ezabatu nahi duzula?"
 
-#: application/view/omeka/admin/media/browse.phtml:174
-#: application/view/omeka/admin/media/browse.phtml:192
+#: application/view/omeka/admin/media/browse.phtml:119
+#: application/view/omeka/admin/media/browse.phtml:137
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s media and cannot be undone."
@@ -2350,13 +2474,14 @@ msgstr ""
 "%1$s: ekintza honek betirako ezabatuko ditu %2$s mediak eta ezingo da "
 "desegin"
 
-#: application/view/omeka/admin/media/browse.phtml:190
+#: application/view/omeka/admin/media/browse.phtml:135
 msgid ""
 "Are you sure you would like to delete all media on all pages of this result?"
 msgstr ""
 "Ziur emaitza honen orrialde guztien media guztiak ezabatu nahi dituzula?"
 
-#: application/view/omeka/admin/media/browse.phtml:231
+#: application/view/omeka/admin/media/browse.phtml:175
+#: application/view/omeka/admin/media/sidebar-select.phtml:38
 msgid "Omeka could not find any media."
 msgstr "Omekak ezin izan du mediarik aurkitu"
 
@@ -2364,13 +2489,18 @@ msgstr "Omekak ezin izan du mediarik aurkitu"
 msgid "Part of Item"
 msgstr "Fitxaren zati"
 
-#: application/view/omeka/admin/media/show-details.phtml:29
-#: application/view/omeka/admin/media/show.phtml:50
+#: application/view/omeka/admin/media/show-details.phtml:36
+#: application/view/omeka/admin/media/show.phtml:58
 msgid "MIME type"
 msgstr "MIME mota"
 
-#: application/view/omeka/admin/media/show-details.phtml:37
-#: application/view/omeka/admin/media/show.phtml:57
+#: application/view/omeka/admin/media/show-details.phtml:43
+#: application/view/omeka/admin/media/show.phtml:64
+msgid "Size"
+msgstr "Tamaina"
+
+#: application/view/omeka/admin/media/show-details.phtml:44
+#: application/view/omeka/admin/media/show.phtml:65
 #, php-format
 msgid "%s bytes"
 msgstr "%s byte"
@@ -2379,41 +2509,37 @@ msgstr "%s byte"
 msgid "Edit media"
 msgstr "mediak editatu"
 
-#: application/view/omeka/admin/media/show.phtml:40
+#: application/view/omeka/admin/media/show.phtml:42
 msgid "Part of item"
 msgstr "Fitxaren zati"
 
-#: application/view/omeka/admin/media/show.phtml:61
+#: application/view/omeka/admin/media/show.phtml:69
 msgid "Ingester"
 msgstr "Sartzeko modua"
 
-#: application/view/omeka/admin/media/show.phtml:66
+#: application/view/omeka/admin/media/show.phtml:74
 msgid "Source"
 msgstr "Iturria"
 
-#: application/view/omeka/admin/media/show.phtml:72
+#: application/view/omeka/admin/media/show.phtml:80
 msgid "File Derivatives"
 msgstr "Artxibo eratorriak"
 
-#: application/view/omeka/admin/media/show.phtml:74
+#: application/view/omeka/admin/media/show.phtml:82
 msgid "original"
 msgstr "originala"
 
-#: application/view/omeka/admin/media/show.phtml:77
+#: application/view/omeka/admin/media/show.phtml:85
 msgid "large"
 msgstr "handia"
 
-#: application/view/omeka/admin/media/show.phtml:78
+#: application/view/omeka/admin/media/show.phtml:86
 msgid "medium"
 msgstr "ertaina"
 
-#: application/view/omeka/admin/media/show.phtml:79
+#: application/view/omeka/admin/media/show.phtml:87
 msgid "square"
 msgstr "karratua"
-
-#: application/view/omeka/admin/media/sidebar-select.phtml:38
-msgid "media"
-msgstr "media"
 
 #: application/view/omeka/admin/module/browse.phtml:15
 msgid "All modules"
@@ -2435,40 +2561,34 @@ msgid "A new version of this module is available. %s"
 msgstr "Eskuragarri dago modulo honen bertsio berria. %s"
 
 #: application/view/omeka/admin/module/browse.phtml:75
-#: application/view/omeka/admin/module/browse.phtml:83
 #: application/view/omeka/admin/module/configure.phtml:6
-#: application/view/omeka/site-admin/index/theme-settings.phtml:6
 msgid "Configure"
 msgstr "Konfiguratu"
 
-#: application/view/omeka/admin/module/browse.phtml:127
+#: application/view/omeka/admin/module/browse.phtml:126
 msgid "Uninstall"
 msgstr "Desinstalatu"
 
-#: application/view/omeka/admin/module/browse.phtml:144
+#: application/view/omeka/admin/module/browse.phtml:143
 msgid "Error: invalid Module.php file"
 msgstr "Errorea: Module.php fitxategi baliogabea"
 
-#: application/view/omeka/admin/module/browse.phtml:146
+#: application/view/omeka/admin/module/browse.phtml:145
 msgid "Error: invalid config/module.ini file"
 msgstr "Errorea: config/module.ini fitxategi baliogabea"
 
-#: application/view/omeka/admin/module/browse.phtml:148
+#: application/view/omeka/admin/module/browse.phtml:147
 #, php-format
 msgid "Error: %1$s requires Omeka S %2$s"
 msgstr "Errorea: %1$s(e)k Omeka S %2$s behar du"
 
-#: application/view/omeka/admin/module/browse.phtml:150
+#: application/view/omeka/admin/module/browse.phtml:149
 msgid "Error: module in database but not in filesystem"
 msgstr "Errorea: modulua datubasean dago, baina ez fitxategi sisteman"
 
-#: application/view/omeka/admin/module/browse.phtml:167
+#: application/view/omeka/admin/module/browse.phtml:166
 msgid "Omeka could not find any modules."
 msgstr "Omekak ezin izan du modulorik aurkitu"
-
-#: application/view/omeka/admin/module/configure.phtml:10
-msgid "Submit"
-msgstr "Bidali"
 
 #: application/view/omeka/admin/module/uninstall-confirm.phtml:5
 msgid "Uninstall module"
@@ -2485,9 +2605,8 @@ msgstr "Hiztegia"
 
 #: application/view/omeka/admin/property/show-details.phtml:10
 #: application/view/omeka/admin/resource-class/show-details.phtml:10
-#: application/view/omeka/admin/vocabulary/classes.phtml:11
-#: application/view/omeka/admin/vocabulary/classes.phtml:38
-#: application/view/omeka/admin/vocabulary/properties.phtml:21
+#: application/view/omeka/admin/vocabulary/classes.phtml:23
+#: application/view/omeka/admin/vocabulary/properties.phtml:24
 msgid "Term"
 msgstr "Termino"
 
@@ -2514,7 +2633,7 @@ msgid "New resource template"
 msgstr "Baliabide txantiloi berria"
 
 #: application/view/omeka/admin/resource-template/add.phtml:6
-#: application/view/omeka/admin/resource-template/browse.phtml:25
+#: application/view/omeka/admin/resource-template/browse.phtml:7
 #: application/view/omeka/admin/resource-template/edit.phtml:6
 #: application/view/omeka/admin/resource-template/import.phtml:5
 #: application/view/omeka/admin/resource-template/review-import.phtml:7
@@ -2522,13 +2641,13 @@ msgstr "Baliabide txantiloi berria"
 msgid "Resource templates"
 msgstr "Baliabide txantiloiak"
 
-#: application/view/omeka/admin/resource-template/browse.phtml:28
+#: application/view/omeka/admin/resource-template/browse.phtml:10
 #: application/view/omeka/admin/resource-template/import.phtml:5
 #: application/view/omeka/admin/vocabulary/import.phtml:12
 msgid "Import"
 msgstr "Inportatu"
 
-#: application/view/omeka/admin/resource-template/browse.phtml:107
+#: application/view/omeka/admin/resource-template/browse.phtml:89
 msgid "Omeka could not find any resource templates."
 msgstr "Omekak ezin izan du baliabide txantiloirik aurkitu."
 
@@ -2558,18 +2677,24 @@ msgstr "Baliabide deskripzio gisa erabili"
 msgid "Required"
 msgstr "Nahitaezkoa"
 
-#: application/view/omeka/admin/resource-template/form.phtml:95
+#: application/view/omeka/admin/resource-template/form.phtml:96
+#: application/view/omeka/admin/resource-template/review-import.phtml:72
+#: application/view/omeka/admin/resource-template/show.phtml:32
+msgid "Default language"
+msgstr "Defektuzko hizkuntza"
+
+#: application/view/omeka/admin/resource-template/form.phtml:101
 #: application/view/omeka/admin/resource-template/review-import.phtml:67
 #: application/view/omeka/admin/resource-template/show.phtml:27
 msgid "Data types"
 msgstr "Datu motak"
 
-#: application/view/omeka/admin/resource-template/form.phtml:96
-#: application/view/omeka/admin/resource-template/review-import.phtml:98
+#: application/view/omeka/admin/resource-template/form.phtml:102
+#: application/view/omeka/admin/resource-template/review-import.phtml:99
 msgid "Select data types…"
 msgstr "Datu motak aukeratu..."
 
-#: application/view/omeka/admin/resource-template/form.phtml:101
+#: application/view/omeka/admin/resource-template/form.phtml:107
 msgid "Set changes"
 msgstr "Aldaketak ezarri"
 
@@ -2598,6 +2723,11 @@ msgstr "Baliabide deskribapena"
 msgid "Original label"
 msgstr "Jatorrizko etiketa"
 
+#: application/view/omeka/admin/resource-template/review-import.phtml:68
+#: application/view/omeka/admin/resource-template/show.phtml:28
+msgid "Alternate label"
+msgstr "Ordezko etiketa"
+
 #: application/view/omeka/admin/resource-template/review-import.phtml:69
 #: application/view/omeka/admin/resource-template/show.phtml:29
 msgid "Alternate comment"
@@ -2613,27 +2743,11 @@ msgstr "Nahitaezkoa?"
 msgid "Private?"
 msgstr "Pribatua?"
 
-#: application/view/omeka/admin/resource-template/review-import.phtml:111
-#: application/view/omeka/admin/resource-template/review-import.phtml:112
-#: application/view/omeka/admin/resource-template/show.phtml:57
-#: application/view/omeka/admin/resource-template/show.phtml:58
-#: application/view/omeka/admin/system-info/browse.phtml:18
-msgid "Yes"
-msgstr "Bai"
-
-#: application/view/omeka/admin/resource-template/review-import.phtml:111
-#: application/view/omeka/admin/resource-template/review-import.phtml:112
-#: application/view/omeka/admin/resource-template/show.phtml:57
-#: application/view/omeka/admin/resource-template/show.phtml:58
-#: application/view/omeka/admin/system-info/browse.phtml:18
-msgid "No"
-msgstr "Ez"
-
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:33
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:34
 msgid "Edit property"
 msgstr "Ezaugarria editatu"
 
-#: application/view/omeka/admin/resource-template/show-property-row.phtml:37
+#: application/view/omeka/admin/resource-template/show-property-row.phtml:38
 msgid "Remove property"
 msgstr "Ezaugarria ezabatu"
 
@@ -2649,12 +2763,20 @@ msgstr "Baliabide txantiloia editatu"
 msgid "Global settings"
 msgstr "Ezarpen orokorrak"
 
+#: application/view/omeka/admin/system-info/browse.phtml:31
+msgid "Get PHP CLI version"
+msgstr "Lortu PHP CLI bertsioa"
+
+#: application/view/omeka/admin/system-info/browse.phtml:35
+msgid "Get ImageMagick version"
+msgstr "Lortu ImageMagick bertsioa"
+
 #: application/view/omeka/admin/user/add.phtml:7
 msgid "New user"
 msgstr "Erabiltzaile berria"
 
 #: application/view/omeka/admin/user/add.phtml:7
-#: application/view/omeka/admin/user/browse.phtml:24
+#: application/view/omeka/admin/user/browse.phtml:10
 #: application/view/omeka/admin/user/edit.phtml:14
 #: application/view/omeka/admin/user/search.phtml:5
 #: application/view/omeka/admin/user/show.phtml:7
@@ -2679,25 +2801,21 @@ msgstr "Ondorengo %s erabiltzaileak editatzen ari zara:"
 msgid "You are editing %s users (except yourself)."
 msgstr "%s erabiltzaileak (zu izan ezik) ediatzen ari zara"
 
-#: application/view/omeka/admin/user/browse.phtml:36
+#: application/view/omeka/admin/user/browse.phtml:22
 #: application/view/omeka/site-admin/index/users.phtml:64
 msgid "Add new user"
 msgstr "Erabiltzaile berria gehitu"
 
-#: application/view/omeka/admin/user/browse.phtml:95
-msgid "Inactive"
-msgstr "Inaktiboa"
-
-#: application/view/omeka/admin/user/browse.phtml:150
-#: application/view/omeka/admin/user/browse.phtml:168
+#: application/view/omeka/admin/user/browse.phtml:136
+#: application/view/omeka/admin/user/browse.phtml:154
 msgid "Delete users"
 msgstr "Erabiltzaileak ezabatu"
 
-#: application/view/omeka/admin/user/browse.phtml:151
+#: application/view/omeka/admin/user/browse.phtml:137
 msgid "Are you sure you would like to delete the selected users?"
 msgstr "Ziur aukeratutako erabiltzaileak ezabatu nahi dituzula?"
 
-#: application/view/omeka/admin/user/browse.phtml:153
+#: application/view/omeka/admin/user/browse.phtml:139
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s users and cannot be undone."
@@ -2705,7 +2823,7 @@ msgstr ""
 "%1$s: ekintza honek %2$s erabiltzaileak betirako ezabatuko ditu eta ezingo "
 "da desegin"
 
-#: application/view/omeka/admin/user/browse.phtml:169
+#: application/view/omeka/admin/user/browse.phtml:155
 msgid ""
 "Are you sure you would like to delete all users (except yourself) on all "
 "pages of this result?"
@@ -2713,7 +2831,7 @@ msgstr ""
 "Ziur emaitza honen orri guztien erabiltzaile kontu guztiak (zu izan ezik) "
 "ezabatu nahi dituzula?"
 
-#: application/view/omeka/admin/user/browse.phtml:171
+#: application/view/omeka/admin/user/browse.phtml:157
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s users (except yourself) and "
@@ -2722,7 +2840,7 @@ msgstr ""
 "%1$s: akzio honek %2$s erabiltzaileak (zurea izan ezik) betirako ezabatuko "
 "ditu eta ezingo da desegin"
 
-#: application/view/omeka/admin/user/browse.phtml:210
+#: application/view/omeka/admin/user/browse.phtml:196
 msgid "Omeka could not find any users."
 msgstr "Omekak ezin izan du erabiltzailerik aurkitu."
 
@@ -2758,29 +2876,12 @@ msgstr "(inaktibo)"
 msgid "Edit user"
 msgstr "Erabiltzailea editatu"
 
-#: application/view/omeka/admin/user/show.phtml:23
+#: application/view/omeka/admin/user/show.phtml:24
 msgid "Display name"
 msgstr "Izena bistaratu"
 
-#: application/view/omeka/admin/vocabulary/browse.phtml:11
-#: application/view/omeka/admin/vocabulary/browse.phtml:45
-msgid "Prefix"
-msgstr "Aurrizkiak"
-
-#: application/view/omeka/admin/vocabulary/browse.phtml:15
-#: application/view/omeka/admin/vocabulary/browse.phtml:46
-#: application/view/omeka/admin/vocabulary/classes.phtml:21
-msgid "Classes"
-msgstr "Klaseak"
-
-#: application/view/omeka/admin/vocabulary/browse.phtml:19
-#: application/view/omeka/admin/vocabulary/browse.phtml:47
-#: application/view/omeka/admin/vocabulary/properties.phtml:7
-msgid "Properties"
-msgstr "Ezaugarriak"
-
-#: application/view/omeka/admin/vocabulary/browse.phtml:25
-#: application/view/omeka/admin/vocabulary/classes.phtml:21
+#: application/view/omeka/admin/vocabulary/browse.phtml:7
+#: application/view/omeka/admin/vocabulary/classes.phtml:7
 #: application/view/omeka/admin/vocabulary/edit.phtml:7
 #: application/view/omeka/admin/vocabulary/import.phtml:7
 #: application/view/omeka/admin/vocabulary/properties.phtml:7
@@ -2788,22 +2889,36 @@ msgstr "Ezaugarriak"
 msgid "Vocabularies"
 msgstr "Hiztegiak"
 
-#: application/view/omeka/admin/vocabulary/browse.phtml:101
+#: application/view/omeka/admin/vocabulary/browse.phtml:27
+msgid "Prefix"
+msgstr "Aurrizkiak"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:28
+#: application/view/omeka/admin/vocabulary/classes.phtml:7
+msgid "Classes"
+msgstr "Klaseak"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:29
+#: application/view/omeka/admin/vocabulary/properties.phtml:7
+msgid "Properties"
+msgstr "Ezaugarriak"
+
+#: application/view/omeka/admin/vocabulary/browse.phtml:83
 msgid "Omeka could not find any vocabularies."
 msgstr "Omekak ezin izan du hiztegirik aurkitu."
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:24
+#: application/view/omeka/admin/vocabulary/classes.phtml:10
 #: application/view/omeka/admin/vocabulary/properties.phtml:10
 msgid "Prefix:"
 msgstr "Aurrizkiak:"
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:25
+#: application/view/omeka/admin/vocabulary/classes.phtml:11
 #: application/view/omeka/admin/vocabulary/properties.phtml:11
 #: application/view/omeka/admin/vocabulary/show-details.phtml:7
 msgid "Namespace URI:"
 msgstr "URI izen eremua:"
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:75
+#: application/view/omeka/admin/vocabulary/classes.phtml:60
 msgid "This vocabulary has no classes."
 msgstr "Hiztegi honek ez du klaserik."
 
@@ -2819,7 +2934,7 @@ msgstr ""
 msgid "New vocabulary"
 msgstr "Hiztegi berria"
 
-#: application/view/omeka/admin/vocabulary/properties.phtml:58
+#: application/view/omeka/admin/vocabulary/properties.phtml:61
 msgid "This vocabulary has no properties."
 msgstr "Hiztegi honek ez du ezaugarririk."
 
@@ -2884,11 +2999,11 @@ msgstr "Gunea mantentze lanetan"
 
 #: application/view/omeka/maintenance/index.phtml:5
 msgid ""
-"This site is down for maintenance. Please contact the site administrator for\n"
-"more information."
+"This site is down for maintenance. Please contact the site administrator for"
+" more information."
 msgstr ""
 "Gune hau mantentze lanetan dago. Informazio gehiago nahi izanez gero, jarri "
-"harremanetan guneko administraritzarekin"
+"harremanetan guneko administraritzarekin."
 
 #: application/view/omeka/migrate/index.phtml:4
 #: application/view/omeka/migrate/index.phtml:7
@@ -2918,7 +3033,7 @@ msgstr "Orrialde berria"
 
 #: application/view/omeka/site-admin/index/add-page.phtml:6
 #: application/view/omeka/site-admin/page/edit.phtml:11
-#: application/view/omeka/site-admin/page/index.phtml:33
+#: application/view/omeka/site-admin/page/index.phtml:9
 #: application/view/omeka/site/page/browse.phtml:5
 msgid "Pages"
 msgstr "Orrialdeak"
@@ -2929,7 +3044,8 @@ msgid "Info"
 msgstr "Iinformazioa"
 
 #: application/view/omeka/site-admin/index/add.phtml:8
-#: application/view/omeka/site-admin/index/show.phtml:28
+#: application/view/omeka/site-admin/index/show.phtml:29
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:21
 #: application/view/omeka/site-admin/index/theme-settings.phtml:6
 #: application/view/omeka/site-admin/index/theme.phtml:11
 msgid "Theme"
@@ -2944,35 +3060,27 @@ msgid "Settings"
 msgstr "Konfigurazioa"
 
 #: application/view/omeka/site-admin/index/index.phtml:11
-#: application/view/omeka/site-admin/index/index.phtml:40
-#: application/view/omeka/site-admin/index/show.phtml:20
-#: application/view/omeka/site-admin/page/index.phtml:19
-msgid "URL slug"
-msgstr "URL ibilbidea (\"slug\")"
-
-#: application/view/omeka/site-admin/index/index.phtml:25
 msgid "Add new site"
 msgstr "Gune berria gehitu"
 
-#: application/view/omeka/site-admin/index/index.phtml:109
+#: application/view/omeka/site-admin/index/index.phtml:79
 msgid "Omeka could not find any sites."
 msgstr "Omekak ezin izan du gunerik aurkitu."
 
-#: application/view/omeka/site-admin/index/navigation.phtml:15
-#: application/view/omeka/site-admin/page/index.phtml:11
+#: application/view/omeka/site-admin/index/navigation.phtml:14
 msgid "Navigation"
 msgstr "Nabigazioa"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:29
-#: application/view/omeka/site-admin/index/navigation.phtml:49
+#: application/view/omeka/site-admin/index/navigation.phtml:28
+#: application/view/omeka/site-admin/index/navigation.phtml:48
 msgid "Add a link to a site page"
 msgstr "Guneko orri bati lotura gehitu"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:33
+#: application/view/omeka/site-admin/index/navigation.phtml:32
 msgid "Select a homepage"
 msgstr "Hasiera orria aukeratu"
 
-#: application/view/omeka/site-admin/index/navigation.phtml:37
+#: application/view/omeka/site-admin/index/navigation.phtml:36
 msgid "Add a custom link"
 msgstr "Lotura pertsonalizatua gehitu"
 
@@ -3006,13 +3114,59 @@ msgstr "Ez dago fitxa multzorik esleitua gune honetara."
 msgid "Back to site list"
 msgstr "Guneko zerrendara itzuli"
 
-#: application/view/omeka/site-admin/index/show.phtml:36
+#: application/view/omeka/site-admin/index/show.phtml:21
+msgid "URL slug"
+msgstr "URL ibilbidea (\"slug\")"
+
+#: application/view/omeka/site-admin/index/show.phtml:37
 msgid "Summary"
 msgstr "Laburpena"
 
-#: application/view/omeka/site-admin/index/show.phtml:44
+#: application/view/omeka/site-admin/index/show.phtml:45
 msgid "Thumbnail"
 msgstr "Miniatura"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:6
+msgid "Remove block"
+msgstr "Kendu blokea"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:7
+msgid "Restore block"
+msgstr "Berrezarri blokea"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:21
+#: application/view/omeka/site-admin/index/theme.phtml:47
+msgid "Configure resource pages"
+msgstr "Konfiguratu baliabide orrialdeak"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:33
+msgid "Item page"
+msgstr "Fitxa orrialdea"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:34
+msgid "Media page"
+msgstr "Media orrialdea"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:35
+msgid "Item set page"
+msgstr "Baliabide multzo orria"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:42
+#, php-format
+msgid "Region: %s"
+msgstr "Eskualdea: %s"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:53
+msgid "Select a region"
+msgstr "Hautatu eskualdea"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:60
+msgid "Add a block to selected region"
+msgstr "Gehitu blokea hautatutako eskualdera"
+
+#: application/view/omeka/site-admin/index/theme-resource-pages.phtml:66
+msgid "There are no available blocks."
+msgstr "Ez dago blokerik eskuragarri."
 
 #: application/view/omeka/site-admin/index/theme-selector.phtml:26
 msgid "Invalid theme.ini file"
@@ -3022,6 +3176,10 @@ msgstr "theme.ini fitxategiak ez du balio"
 #, php-format
 msgid "This theme requires Omeka S %s"
 msgstr "Gai honek Omeka S %s behar du"
+
+#: application/view/omeka/site-admin/index/theme-settings.phtml:6
+msgid "Edit settings"
+msgstr "Editatu ezarpenak"
 
 #: application/view/omeka/site-admin/index/theme-settings.phtml:17
 msgid "The current theme has no configuration options."
@@ -3035,26 +3193,26 @@ msgstr "Uneko gaia"
 msgid "Edit theme settings"
 msgstr "Gai ezarpenak editatu"
 
-#: application/view/omeka/site-admin/index/theme.phtml:51
+#: application/view/omeka/site-admin/index/theme.phtml:54
 #, php-format
 msgid "A new version of this theme is available. %s"
 msgstr "Gai honen bertsio berria eskuragarri dago. %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:61
+#: application/view/omeka/site-admin/index/theme.phtml:64
 msgid "Error: this theme is invalid."
 msgstr "Errorea: gai honek ez du balio."
 
-#: application/view/omeka/site-admin/index/theme.phtml:63
+#: application/view/omeka/site-admin/index/theme.phtml:66
 #, php-format
 msgid "ID: %s"
 msgstr "ID: %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:64
+#: application/view/omeka/site-admin/index/theme.phtml:67
 #, php-format
 msgid "Status: %s"
 msgstr "Egoera: %s"
 
-#: application/view/omeka/site-admin/index/theme.phtml:66
+#: application/view/omeka/site-admin/index/theme.phtml:69
 msgid ""
 "Please contact the Omeka S administrator. This site will not be publicly "
 "available until the problem is resolved or you select another theme below."
@@ -3097,28 +3255,31 @@ msgstr "Fitxa aldatu"
 msgid "No item selected."
 msgstr "Ez da fitxarik aukeratu."
 
-#: application/view/omeka/site-admin/page/edit.phtml:41
+#: application/view/omeka/site-admin/page/edit.phtml:37
+msgid "Expand all"
+msgstr "Zabaldu dena"
+
+#: application/view/omeka/site-admin/page/edit.phtml:38
+msgid "Collapse all"
+msgstr "Bildu dena"
+
+#: application/view/omeka/site-admin/page/edit.phtml:46
 msgid "Add new block"
 msgstr "Bloke berria gehitu"
 
-#: application/view/omeka/site-admin/page/index.phtml:27
-#: application/view/omeka/site-admin/page/index.phtml:50
-msgid "Modified"
-msgstr "Aldatua"
-
-#: application/view/omeka/site-admin/page/index.phtml:41
+#: application/view/omeka/site-admin/page/index.phtml:17
 msgid "Add new page"
 msgstr "Orrialde berria gehitu"
 
-#: application/view/omeka/site-admin/page/index.phtml:49
+#: application/view/omeka/site-admin/page/index.phtml:25
 msgid "Slug"
 msgstr "Ibilbidea (\"slug\")"
 
-#: application/view/omeka/site-admin/page/index.phtml:74
+#: application/view/omeka/site-admin/page/index.phtml:50
 msgid "View public page"
 msgstr "Orrialde publikoa ikusi"
 
-#: application/view/omeka/site-admin/page/index.phtml:86
+#: application/view/omeka/site-admin/page/index.phtml:62
 msgid "Delete page"
 msgstr "Orrialdea ezabatu"
 
@@ -3130,11 +3291,15 @@ msgstr "Gune honek ez du orrialderik."
 msgid "Advanced item set Search"
 msgstr "Fitxa multzo bilaketa aurreratua"
 
-#: application/view/omeka/site/item/show.phtml:13
+#: application/view/omeka/site/item/browse.phtml:22
+msgid "Item set"
+msgstr "Fitxa multzoa"
+
+#: application/view/omeka/site/item/show.phtml:10
 msgid "Item"
 msgstr "Fitxa"
 
-#: application/view/omeka/site/media/show.phtml:11
+#: application/view/omeka/site/media/show.phtml:15
 #, php-format
 msgid "Part of %s"
 msgstr "%s-ren parte"
@@ -3143,7 +3308,12 @@ msgstr "%s-ren parte"
 msgid "No pages found"
 msgstr "Ez da orrialderik aurkitu"
 
-#: application/src/Stdlib/Cli.php:105 application/src/Stdlib/Cli.php:143
+#: application/src/Stdlib/Browse.php:124
+#, php-format
+msgid "Custom (%s)"
+msgstr "Pertsonalizatua (%s)"
+
+#: application/src/Stdlib/Cli.php:105 application/src/Stdlib/Cli.php:160
 #, php-format
 msgid "Command \"%s\" failed with status code %s."
 msgstr "\"%s\" komandoak huts egin du egoera kodigoarekin %s."
@@ -3206,6 +3376,10 @@ msgstr "Baliabidea"
 msgid "Invalid value resource %s for type %s"
 msgstr "Baliabidearen %s balio desegokia %s motarentzat"
 
+#: application/src/DataType/Resource/All.php:15
+msgid "All"
+msgstr "Denak"
+
 #: application/src/Site/BlockLayout/ItemShowcase.php:13
 msgid "Item showcase"
 msgstr "Fitxen aurkezpena"
@@ -3222,37 +3396,37 @@ msgstr "Orrialde izenburua"
 msgid "Table of contents"
 msgstr "Eduki taula"
 
-#: application/src/Site/BlockLayout/Asset.php:18
+#: application/src/Site/BlockLayout/Asset.php:17
 msgid "Asset"
 msgstr "Aktibo"
 
-#: application/src/Site/BlockLayout/Asset.php:35
-#: application/src/Site/BlockLayout/Asset.php:41
+#: application/src/Site/BlockLayout/Asset.php:34
+#: application/src/Site/BlockLayout/Asset.php:40
 msgid "default"
 msgstr "lehenetsia"
 
-#: application/src/Site/BlockLayout/Asset.php:36
+#: application/src/Site/BlockLayout/Asset.php:35
 msgid "float left"
 msgstr "ezkerrera flotatu"
 
-#: application/src/Site/BlockLayout/Asset.php:37
+#: application/src/Site/BlockLayout/Asset.php:36
 msgid "float right"
 msgstr "eskuinera flotatu"
 
-#: application/src/Site/BlockLayout/Asset.php:38
-#: application/src/Site/BlockLayout/Asset.php:44
+#: application/src/Site/BlockLayout/Asset.php:37
+#: application/src/Site/BlockLayout/Asset.php:43
 msgid "center"
 msgstr "erdigunea"
 
-#: application/src/Site/BlockLayout/Asset.php:42
+#: application/src/Site/BlockLayout/Asset.php:41
 msgid "left"
 msgstr "ezkerra"
 
-#: application/src/Site/BlockLayout/Asset.php:43
+#: application/src/Site/BlockLayout/Asset.php:42
 msgid "right"
 msgstr "eskuina"
 
-#: application/src/Site/BlockLayout/Asset.php:49
+#: application/src/Site/BlockLayout/Asset.php:48
 #: application/src/Site/BlockLayout/Media.php:61
 msgid "Alignment"
 msgstr "Lerrokadura"
@@ -3261,27 +3435,27 @@ msgstr "Lerrokadura"
 msgid "Browse preview"
 msgstr "Aurrebista ikusi"
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:37
+#: application/src/Site/BlockLayout/BrowsePreview.php:36
 msgid "Browse all"
 msgstr "Dena erakutsi"
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:63
+#: application/src/Site/BlockLayout/BrowsePreview.php:62
 msgid "Display resources using this search query"
 msgstr "Erakutsi baliabideak bilaketa kontsulta hau erabiliz."
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:72
+#: application/src/Site/BlockLayout/BrowsePreview.php:71
 msgid "Limit"
 msgstr "Muga"
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:73
+#: application/src/Site/BlockLayout/BrowsePreview.php:72
 msgid "Maximum number of resources to display in the preview."
 msgstr "Aurrebistan bistaratzeko gehienezko baliabide kopurua."
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:80
+#: application/src/Site/BlockLayout/BrowsePreview.php:79
 msgid "Components"
 msgstr "Osagaiak"
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:81
+#: application/src/Site/BlockLayout/BrowsePreview.php:80
 msgid ""
 "Components to display for each resource. If not set in Site Settings, "
 "Heading defaults to resource Title and Body to resource Description"
@@ -3290,27 +3464,27 @@ msgstr ""
 "zehazten ez bada, goiburua markatuta ezartzen da baliabidearen izenbururako,"
 " eta gorputza, berriz, deskribapenerako"
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:85
+#: application/src/Site/BlockLayout/BrowsePreview.php:84
 msgid "Heading"
 msgstr "Goiburua"
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:89
+#: application/src/Site/BlockLayout/BrowsePreview.php:88
 msgid "Body"
 msgstr "Gorputza"
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:102
+#: application/src/Site/BlockLayout/BrowsePreview.php:101
 msgid "Preview title"
 msgstr "Aurrebistaren izenburua"
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:103
+#: application/src/Site/BlockLayout/BrowsePreview.php:102
 msgid "Heading above resource list, if any."
 msgstr "Goiburua baliabide zerrendaren gainean, halakorik bada."
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:110
+#: application/src/Site/BlockLayout/BrowsePreview.php:109
 msgid "Link text"
 msgstr "Loturaren testua"
 
-#: application/src/Site/BlockLayout/BrowsePreview.php:111
+#: application/src/Site/BlockLayout/BrowsePreview.php:110
 msgid "Text for link to full browse view, if any."
 msgstr "Nabigazio ikuspegi osorako loturarako testua, halakorik bada."
 
@@ -3319,8 +3493,8 @@ msgid "Item with metadata"
 msgstr "Fitxa metadatuekin"
 
 #: application/src/Site/BlockLayout/Media.php:14
-msgid "Media Embed"
-msgstr "Media txertatu"
+msgid "Media embed"
+msgstr "Txertatu media"
 
 #: application/src/Site/BlockLayout/LineBreak.php:14
 msgid "Line break"
@@ -3333,6 +3507,53 @@ msgstr "Gardena"
 #: application/src/Site/BlockLayout/LineBreak.php:35
 msgid "Opaque"
 msgstr "Opakua"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:20
+msgid "Page date/time"
+msgstr "Orri data/ordua"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:30
+msgid "Display date/time"
+msgstr "Erakutsi data/ordua"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:32
+msgid "Created & modified"
+msgstr "Sortua eta aldatua"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:42
+msgid "Date format"
+msgstr "Data formatua"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:44
+#: application/src/Site/BlockLayout/PageDateTime.php:58
+#: application/src/Form/SettingForm.php:180
+#: application/src/Form/SiteSettingsForm.php:91
+msgid "None"
+msgstr "Bat ere ez"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:45
+#: application/src/Site/BlockLayout/PageDateTime.php:59
+msgid "Short"
+msgstr "Laburra"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:46
+#: application/src/Site/BlockLayout/PageDateTime.php:60
+msgid "Medium"
+msgstr "Bitartekoa"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:47
+#: application/src/Site/BlockLayout/PageDateTime.php:61
+msgid "Long"
+msgstr "Luzea"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:48
+#: application/src/Site/BlockLayout/PageDateTime.php:62
+msgid "Full"
+msgstr "Guztia"
+
+#: application/src/Site/BlockLayout/PageDateTime.php:56
+msgid "Time format"
+msgstr "Denbora formatua"
 
 #: application/src/Site/BlockLayout/ListOfSites.php:24
 msgid "List of sites"
@@ -3393,15 +3614,36 @@ msgid "Optional CSS class for styling HTML."
 msgstr "HTML diseinurako CSS aukerazkoa"
 
 #: application/src/Site/BlockLayout/Fallback.php:28
+#: application/src/Site/ResourcePageBlockLayout/Fallback.php:18
 #, php-format
 msgid "Unknown [%s]"
 msgstr "Ezezaguna [%s]"
+
+#: application/src/Site/ResourcePageBlockLayout/MediaRender.php:11
+msgid "Media render"
+msgstr "Multimedia renderizazioa"
+
+#: application/src/Site/ResourcePageBlockLayout/MediaList.php:11
+msgid "Media list"
+msgstr "Multimedia zerrenda"
+
+#: application/src/Site/ResourcePageBlockLayout/Manager.php:210
+msgid "Main"
+msgstr "Nagusia"
+
+#: application/src/Site/ResourcePageBlockLayout/LightboxGallery.php:13
+msgid "Lightbox gallery"
+msgstr "Lightbox galeria"
+
+#: application/src/Site/ResourcePageBlockLayout/MediaEmbeds.php:11
+msgid "Media embeds"
+msgstr "Txertatutako multimediak"
 
 #: application/src/Site/Navigation/Link/Url.php:11
 msgid "Custom URL"
 msgstr "URL pertsonalizatua"
 
-#: application/src/Site/Navigation/Link/BrowseItemSets.php:11
+#: application/src/Site/Navigation/Link/BrowseItemSets.php:20
 msgid "Browse item sets"
 msgstr "Fitxa multzoak aztertu"
 
@@ -3463,7 +3705,7 @@ msgstr ""
 "Akatsa baliozkotzean \"%1$s\". Ezin dira fitxategiak biltegiratu \"%2$s\" "
 "luzapenarekin."
 
-#: application/src/Mvc/MvcListeners.php:326
+#: application/src/Mvc/MvcListeners.php:325
 #, php-format
 msgid "The current theme is not active. Its current state is \"%s\"."
 msgstr "Uneko gaia ez dago aktibo. Bere egoera \"%s\" da."
@@ -3492,11 +3734,48 @@ msgstr "Egilea"
 msgid "Researcher"
 msgstr "Ikertzailea"
 
-#: application/src/Api/Adapter/ItemAdapter.php:108
+#: application/src/ColumnType/IsPublic.php:11
+msgid "Is public"
+msgstr "Publikoa da"
+
+#: application/src/ColumnType/Value.php:25
+msgid "Value"
+msgstr "Balioa"
+
+#: application/src/ColumnType/Value.php:56
+msgid "Max values"
+msgstr "Gehienezko balioak"
+
+#: application/src/ColumnType/Value.php:57
+msgid ""
+"Enter the maximum number of values to display. Set to blank to display all "
+"values."
+msgstr ""
+"Sartu gehienez erakutsi daitezkeen balioa kopurua. Utzi hutsik balio denak "
+"erakusteko."
+
+#: application/src/ColumnType/IsOpen.php:11
+msgid "Is open"
+msgstr "Irekita dago"
+
+#: application/src/ColumnType/ResourceTemplate.php:11
+#: application/src/Form/ResourceForm.php:42
+msgid "Resource template"
+msgstr "Baliabide txantiloia"
+
+#: application/src/ColumnType/Unknown.php:22
+msgid "[Unknown]"
+msgstr "[Ezezaguna]"
+
+#: application/src/ColumnType/Unknown.php:40
+msgid "Unknown column data"
+msgstr "Zutabe datu ezezaguna"
+
+#: application/src/Api/Adapter/ItemAdapter.php:152
 msgid "Item sets must be an array"
 msgstr "Fitxa multzoak bektore edo \"array\" batean biltegiratu behar dira"
 
-#: application/src/Api/Adapter/ItemAdapter.php:114
+#: application/src/Api/Adapter/ItemAdapter.php:158
 msgid "Media must be an array"
 msgstr "Baliabideak bektore edo \"array\" batean biltegiratu behar dira"
 
@@ -3506,8 +3785,8 @@ msgid "Attempting to add duplicate property with ID %s"
 msgstr "Ezaugarri bikoiztua gehitzen saiatzen ID %s-rekin"
 
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:89
-#: application/src/Api/Adapter/PropertyAdapter.php:158
-#: application/src/Api/Adapter/ResourceClassAdapter.php:149
+#: application/src/Api/Adapter/PropertyAdapter.php:178
+#: application/src/Api/Adapter/ResourceClassAdapter.php:170
 #: application/src/Api/Adapter/VocabularyAdapter.php:214
 msgid "The label cannot be empty."
 msgstr "Etiketak ezin du hutsik egon."
@@ -3516,15 +3795,15 @@ msgstr "Etiketak ezin du hutsik egon."
 msgid "The label is already taken."
 msgstr "Etiketa dagoeneko hartu da."
 
-#: application/src/Api/Adapter/MediaAdapter.php:94
+#: application/src/Api/Adapter/MediaAdapter.php:113
 msgid "Media must set an ingester."
 msgstr "Mediaren sarbide moduek zehaztuak behar dute."
 
-#: application/src/Api/Adapter/MediaAdapter.php:116
+#: application/src/Api/Adapter/MediaAdapter.php:135
 msgid "Media must set a valid ingester."
 msgstr "Mediaren baliozko sarbide moduak izan behar dute."
 
-#: application/src/Api/Adapter/MediaAdapter.php:160
+#: application/src/Api/Adapter/MediaAdapter.php:179
 msgid "Media must belong to an item."
 msgstr "Mediak fitxa batenak izan behar dute."
 
@@ -3546,25 +3825,25 @@ msgstr "Erabiltzaileek rol bat izan behar dute."
 msgid "The current user #%d was removed from the batch process."
 msgstr "Uneko #%d erabiltzailea batch pozesutik baztertua izan da."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:153
-#: application/src/Api/Adapter/ResourceClassAdapter.php:144
+#: application/src/Api/Adapter/PropertyAdapter.php:173
+#: application/src/Api/Adapter/ResourceClassAdapter.php:165
 msgid "The local name cannot be empty."
 msgstr "Izen lokala ezin da hutsik egon."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:171
-#: application/src/Api/Adapter/ResourceClassAdapter.php:162
+#: application/src/Api/Adapter/PropertyAdapter.php:191
+#: application/src/Api/Adapter/ResourceClassAdapter.php:183
 #: application/src/Api/Adapter/VocabularyAdapter.php:222
 #: application/src/Api/Adapter/VocabularyAdapter.php:235
 #, php-format
 msgid "The local name \"%s\" is already taken."
 msgstr "\"%s\" izen lokala dagoeneko hartu da."
 
-#: application/src/Api/Adapter/PropertyAdapter.php:177
-#: application/src/Api/Adapter/ResourceClassAdapter.php:168
+#: application/src/Api/Adapter/PropertyAdapter.php:197
+#: application/src/Api/Adapter/ResourceClassAdapter.php:189
 msgid "A vocabulary must be set."
 msgstr "Hiztegi bat ezarri behar da."
 
-#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:177
+#: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:209
 #, php-format
 msgid "The \"%1$s\" resource template requires a \"%2$s\" value"
 msgstr "\"%1$s\" baliabide txantiloiak \"%2$s\" balioa behar du."
@@ -3578,19 +3857,19 @@ msgid "A page must have a title."
 msgstr "Orrialde batek izenburu bat izan behar du."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:154
-#: application/src/Api/Adapter/SiteAdapter.php:240
+#: application/src/Api/Adapter/SiteAdapter.php:248
 msgid "The slug cannot be empty."
 msgstr "Ibilbidea (\"slug\") ezin da hutsik egon."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:157
-#: application/src/Api/Adapter/SiteAdapter.php:243
+#: application/src/Api/Adapter/SiteAdapter.php:251
 msgid "A slug can only contain letters, numbers, underscores, and hyphens."
 msgstr ""
 "Ibilbideak (\"slug\") letrak, zenbakiak, gidoiak eta gidoi baxuak bakarrik "
 "izan ditzake."
 
 #: application/src/Api/Adapter/SitePageAdapter.php:165
-#: application/src/Api/Adapter/SiteAdapter.php:247
+#: application/src/Api/Adapter/SiteAdapter.php:255
 #, php-format
 msgid "The slug \"%s\" is already taken."
 msgstr "\"%s\" ibilbidea (\"slug\") jada hartuta dago."
@@ -3603,43 +3882,43 @@ msgstr "Bloke guztiek diseinu bat izan behar dute."
 msgid "Block data must not be a scalar value."
 msgstr "Datu blokeek ezin dute balio eskalagarririk izan."
 
-#: application/src/Api/Adapter/SiteAdapter.php:236
+#: application/src/Api/Adapter/SiteAdapter.php:244
 msgid "A site must have a title."
 msgstr "Guneak izenburua izan behar du."
 
-#: application/src/Api/Adapter/SiteAdapter.php:253
+#: application/src/Api/Adapter/SiteAdapter.php:261
 msgid "A site must have a theme."
 msgstr "Guneak gai bat izan behar du."
 
-#: application/src/Api/Adapter/SiteAdapter.php:258
+#: application/src/Api/Adapter/SiteAdapter.php:266
 msgid "A site must have item pool data."
 msgstr "Guneek fitxak esleituak izan behar dituzte."
 
-#: application/src/Api/Adapter/SiteAdapter.php:263
+#: application/src/Api/Adapter/SiteAdapter.php:271
 msgid "A homepage must belong to its parent site."
 msgstr "Hasiera orriak bere gune nagusiaren parte izan behar du."
 
-#: application/src/Api/Adapter/SiteAdapter.php:336
+#: application/src/Api/Adapter/SiteAdapter.php:344
 msgid "Invalid navigation: navigation must be an array"
 msgstr "Nabigazio baliogabea: bektore edo \"array\" batean biltegiratu behar da"
 
-#: application/src/Api/Adapter/SiteAdapter.php:345
+#: application/src/Api/Adapter/SiteAdapter.php:353
 msgid "Invalid navigation: link missing type"
 msgstr "Nabigazio baligabea: lotura mota falta da"
 
-#: application/src/Api/Adapter/SiteAdapter.php:349
+#: application/src/Api/Adapter/SiteAdapter.php:357
 msgid "Invalid navigation: link missing data"
 msgstr "Nabigazio baliogabea: lotura datuak falta dira"
 
-#: application/src/Api/Adapter/SiteAdapter.php:353
+#: application/src/Api/Adapter/SiteAdapter.php:361
 msgid "Invalid navigation: invalid link data"
 msgstr "Nabigazio baliogabea: lotura datu baliogabeak"
 
-#: application/src/Api/Adapter/SiteAdapter.php:358
+#: application/src/Api/Adapter/SiteAdapter.php:366
 msgid "Invalid navigation: page links must be unique"
 msgstr "Nabigazio baliogabea: orrien loturek bakarrak izan behar dute"
 
-#: application/src/Api/Adapter/SiteAdapter.php:365
+#: application/src/Api/Adapter/SiteAdapter.php:373
 msgid "Invalid navigation: links must be an array"
 msgstr ""
 "Nabigazio baliogabea: loturak bektore edo \"array\" batean biltegiratu behar"
@@ -3720,6 +3999,18 @@ msgstr "geratuta"
 msgid "error"
 msgstr "akatsa"
 
+#: application/src/Media/Ingester/IiifPresentation.php:27
+msgid "IIIF presentation"
+msgstr "IIIF aurkezpena"
+
+#: application/src/Media/Ingester/IiifPresentation.php:39
+msgid "IIIF presentation URL"
+msgstr "IIF aurkezpen helbidea"
+
+#: application/src/Media/Ingester/IiifPresentation.php:40
+msgid "Enter the URL to a IIIF collection or manifest."
+msgstr "Sartu IIF bilduma edo manifesturako helbidea"
+
 #: application/src/Media/Ingester/IIIF.php:33
 msgid "IIIF image"
 msgstr "IIIF irudia"
@@ -3729,8 +4020,9 @@ msgid "IIIF image URL"
 msgstr "IIIF irudiaren URLa"
 
 #: application/src/Media/Ingester/IIIF.php:108
-msgid "URL for the image to embed."
-msgstr "Txertatu beharreko irudiaren URLa."
+msgid ""
+"Enter the URL to a IIIF image information file (ending with /info.json)."
+msgstr ""
 
 #: application/src/Media/Ingester/Upload.php:69
 msgid "Upload file"
@@ -3790,27 +4082,31 @@ msgstr "oEmbed URL"
 msgid "URL for the media to embed."
 msgstr "Txertatu beharreko mediarentzako URLa."
 
-#: application/src/Form/SettingForm.php:111
-#: application/src/Form/SiteSettingsForm.php:28
+#: application/src/Form/SettingForm.php:106
+#: application/src/Form/SiteSettingsForm.php:31
 msgid "General"
 msgstr "Orokorra"
 
-#: application/src/Form/SettingForm.php:120
+#: application/src/Form/SettingForm.php:107
+msgid "Security"
+msgstr "Segurtasuna"
+
+#: application/src/Form/SettingForm.php:117
 msgid "Administrator email"
 msgstr "Administratzailearen posta elektronikoa"
 
-#: application/src/Form/SettingForm.php:133
+#: application/src/Form/SettingForm.php:131
 #: application/src/Form/InstallationForm.php:80
 msgid "Installation title"
 msgstr "Instalazioaren izenburua"
 
-#: application/src/Form/SettingForm.php:148
+#: application/src/Form/SettingForm.php:147
 #: application/src/Form/InstallationForm.php:98
 msgid "Time zone"
 msgstr "Ordu eremua"
 
 #: application/src/Form/SettingForm.php:162
-#: application/src/Form/SiteSettingsForm.php:187
+#: application/src/Form/SiteSettingsForm.php:194
 msgid "Results per page"
 msgstr "Orrialde bakoitzeko emaitzak"
 
@@ -3818,31 +4114,31 @@ msgstr "Orrialde bakoitzeko emaitzak"
 msgid "The maximum number of results per page on browse pages."
 msgstr "Nabigazio orrietako gehienezko emaitza kopurua orrialde bakoitzeko"
 
-#: application/src/Form/SettingForm.php:176
+#: application/src/Form/SettingForm.php:177
+#: application/src/Form/SiteSettingsForm.php:88
 msgid "Property label information"
 msgstr "Etiketaren ezaugarrien informazioa"
 
-#: application/src/Form/SettingForm.php:177
+#: application/src/Form/SettingForm.php:178
+#: application/src/Form/SiteSettingsForm.php:89
 msgid "The additional information that accompanies labels on resource pages."
 msgstr "Baliabide orrialdeetako etiketek duten informazio gehigarria."
 
-#: application/src/Form/SettingForm.php:179
-msgid "None"
-msgstr "Bat ere ez"
-
-#: application/src/Form/SettingForm.php:180
+#: application/src/Form/SettingForm.php:181
+#: application/src/Form/SiteSettingsForm.php:92
 msgid "Show Vocabulary"
 msgstr "Hiztegia erakutsi"
 
-#: application/src/Form/SettingForm.php:181
+#: application/src/Form/SettingForm.php:182
+#: application/src/Form/SiteSettingsForm.php:93
 msgid "Show Term"
 msgstr "Terminoa erakutsi"
 
-#: application/src/Form/SettingForm.php:194
+#: application/src/Form/SettingForm.php:196
 msgid "Default site"
 msgstr "Gune lehenetsia"
 
-#: application/src/Form/SettingForm.php:195
+#: application/src/Form/SettingForm.php:197
 msgid ""
 "Select which site should appear when users go to the front page of the "
 "installation."
@@ -3850,27 +4146,27 @@ msgstr ""
 "Hautatu zer leku agertu behar den erabiltzaileak instalazioaren orri "
 "nagusira joaten direnean."
 
-#: application/src/Form/SettingForm.php:200
+#: application/src/Form/SettingForm.php:202
 msgid "No default (show index of sites)"
 msgstr "Lehenetsi gabea (erakutsi guneen aurkibidea)"
 
-#: application/src/Form/SettingForm.php:211
-#: application/src/Form/SiteSettingsForm.php:127
-#: application/src/Form/UserForm.php:132
+#: application/src/Form/SettingForm.php:214
+#: application/src/Form/SiteSettingsForm.php:138
+#: application/src/Form/UserForm.php:141
 #: application/src/Form/InstallationForm.php:112
 msgid "Locale"
 msgstr "Hizkuntza"
 
-#: application/src/Form/SettingForm.php:212
-#: application/src/Form/UserForm.php:133
+#: application/src/Form/SettingForm.php:215
+#: application/src/Form/UserForm.php:142
 msgid "Global locale/language code for all interfaces."
 msgstr "Eskualdearen kodea eta hizkuntza globala interfaze guztietarako."
 
-#: application/src/Form/SettingForm.php:225
+#: application/src/Form/SettingForm.php:229
 msgid "Enable version notifications"
 msgstr "Gaitu bertsio berrien jakinarazpenak"
 
-#: application/src/Form/SettingForm.php:226
+#: application/src/Form/SettingForm.php:230
 msgid ""
 "Enable notifications when a new version of Omeka S, modules, or themes are "
 "available."
@@ -3878,13 +4174,13 @@ msgstr ""
 "Jakinarazi gaien, moduluen eta Omeka S-ren bertsio berriak eskuragarri "
 "daudenean."
 
-#: application/src/Form/SettingForm.php:238
-#: application/src/Form/SiteSettingsForm.php:104
+#: application/src/Form/SettingForm.php:243
+#: application/src/Form/SiteSettingsForm.php:122
 msgid "Disable JSON-LD embed"
 msgstr "JSON-LD-ren sarrerak desgaitu"
 
-#: application/src/Form/SettingForm.php:239
-#: application/src/Form/SiteSettingsForm.php:105
+#: application/src/Form/SettingForm.php:244
+#: application/src/Form/SiteSettingsForm.php:123
 msgid ""
 "By default, Omeka embeds JSON-LD in resource browse and show pages for the "
 "purpose of machine-readable metadata discovery. Check this to disable "
@@ -3894,11 +4190,11 @@ msgstr ""
 "ikusarazten ditumetadatuak erakutsi eta modu automatizatuan irakurriak izan "
 "daitezen.Markatu aukera hori desgaitzeko."
 
-#: application/src/Form/SettingForm.php:251
+#: application/src/Form/SettingForm.php:257
 msgid "Default content visibility to Private"
 msgstr "Ikuspen lehenetsia pribatu gisa"
 
-#: application/src/Form/SettingForm.php:252
+#: application/src/Form/SettingForm.php:258
 msgid ""
 "If checked, all items, item sets and sites newly created will have their "
 "visibility set to private by default."
@@ -3906,11 +4202,11 @@ msgstr ""
 "Markatu, sortu berri diren fitxa, fitxa-multzo eta gune guztiek ikuspegi "
 "pribatua lehenetsia izan dezaten."
 
-#: application/src/Form/SettingForm.php:264
+#: application/src/Form/SettingForm.php:271
 msgid "Suggested languages for values"
 msgstr "Balioetarako iradokitako hizkuntzak"
 
-#: application/src/Form/SettingForm.php:265
+#: application/src/Form/SettingForm.php:272
 msgid ""
 "List of languages to facilitate filling of the values in the resource form. "
 "List them one by line. The label displayed for a language may be appended "
@@ -3920,93 +4216,85 @@ msgstr ""
 " bakoitzeko bat jarri. Hizkuntza bat erakusteko etiketa amaieran berdin "
 "ikurra gehituz jar daiteke, adibidez: \"eu = Euskera\"."
 
-#: application/src/Form/SettingForm.php:278
+#: application/src/Form/SettingForm.php:286
 msgid "Media alt text property"
 msgstr "Aukerazko testu baliabidea mediarako"
 
-#: application/src/Form/SettingForm.php:279
+#: application/src/Form/SettingForm.php:287
 msgid "Media property to use as alt text if no alt text is explicitly set."
 msgstr ""
 "Aukerazko testu (\"alt text\") gisa erabiltzeko media baliabideatestu "
 "alternatiborik esplizituki ezartzen ez bada."
 
-#: application/src/Form/SettingForm.php:280
+#: application/src/Form/SettingForm.php:288
 msgid "[None]"
 msgstr "[Bat ere ez]"
 
-#: application/src/Form/SettingForm.php:294
+#: application/src/Form/SettingForm.php:303
 msgid "Index full-text search"
 msgstr "Testu osoaren bilaketa indizea"
 
-#: application/src/Form/SettingForm.php:308
-msgid "Security"
-msgstr "Segurtasuna"
-
-#: application/src/Form/SettingForm.php:317
+#: application/src/Form/SettingForm.php:318
 msgid "Use HTMLPurifier"
 msgstr "HTMLPurifier erabili"
 
-#: application/src/Form/SettingForm.php:318
+#: application/src/Form/SettingForm.php:319
 msgid "Clean up user-entered HTML."
 msgstr "Eskuz txertatutako HTML-a garbitu"
 
-#: application/src/Form/SettingForm.php:330
+#: application/src/Form/SettingForm.php:332
 msgid "Disable file validation"
 msgstr "Fitxategien baliozkotzea desgaitu"
 
-#: application/src/Form/SettingForm.php:331
+#: application/src/Form/SettingForm.php:333
 msgid "Check this to disable file media type and extension validation."
 msgstr ""
 "Markatu laukia fitxategi medietarako moten eta luzapenen baliozkotzea "
 "desgaitzeko."
 
-#: application/src/Form/SettingForm.php:340
+#: application/src/Form/SettingForm.php:342
 msgid "Allowed media types"
 msgstr "Onartutako media motak"
 
-#: application/src/Form/SettingForm.php:341
+#: application/src/Form/SettingForm.php:343
 msgid "A comma-separated list of allowed media types for file uploads."
 msgstr ""
 "Fitxategiak igotzeko onartutako media moten koma bidez banandutako zerrenda."
 
-#: application/src/Form/SettingForm.php:353
+#: application/src/Form/SettingForm.php:356
 msgid "Allowed file extensions"
 msgstr "Baimendutako fitxategi luzapenak"
 
-#: application/src/Form/SettingForm.php:354
+#: application/src/Form/SettingForm.php:357
 msgid "A comma-separated list of allowed file extensions for file uploads."
 msgstr ""
 "Artxiboak igotzeko onartutako artxibo luzeeren koma bidez banandutako "
 "zerrenda."
 
-#: application/src/Form/SettingForm.php:368
+#: application/src/Form/SettingForm.php:373
 msgid "reCAPTCHA site key"
 msgstr "reCAPTCHA gune gakoa"
 
-#: application/src/Form/SettingForm.php:379
+#: application/src/Form/SettingForm.php:385
 msgid "reCAPTCHA secret key"
 msgstr "ReCAPTCHA ezkutuko gakoa"
 
-#: application/src/Form/ResourceForm.php:30
+#: application/src/Form/ResourceForm.php:38
 #: application/src/Form/ResourceBatchUpdateForm.php:70
-#: application/src/Form/UserForm.php:147
+#: application/src/Form/UserForm.php:156
 msgid "Select a template"
 msgstr "Txantiloia aukeratu"
 
-#: application/src/Form/ResourceForm.php:34
-msgid "Resource template"
-msgstr "Baliabide txantiloia"
-
-#: application/src/Form/ResourceForm.php:35
+#: application/src/Form/ResourceForm.php:43
 msgid "A pre-defined template for resource creation."
 msgstr "Baliabide sorrerarako aurrez ezarritako txantiloia."
 
-#: application/src/Form/ResourceForm.php:55
+#: application/src/Form/ResourceForm.php:63
 #: application/src/Form/ResourceBatchUpdateForm.php:93
 msgid "Select a class"
 msgstr "Mota bat aukeratu"
 
-#: application/src/Form/ResourceForm.php:59
+#: application/src/Form/ResourceForm.php:67
 msgid ""
 "A type for the resource. Different types have different default properties "
 "attached to them."
@@ -4014,7 +4302,7 @@ msgstr ""
 "Baliabiderako mota bat. Mota desberdinek lehenetsitako ezaugarri desberdinak"
 " dituzte atxikita."
 
-#: application/src/Form/ResourceForm.php:69
+#: application/src/Form/ResourceForm.php:77
 msgid ""
 "Omeka S automatically selects a thumbnail from among attached media for a "
 "resource. You may use an image of your choice instead by choosing an asset "
@@ -4103,22 +4391,18 @@ msgid "N-Triples (.nt)"
 msgstr "N-Triples (.nt)"
 
 #: application/src/Form/VocabularyForm.php:121
-msgid "Notation3 (.n3)"
-msgstr "Notation3 (.n3)"
-
-#: application/src/Form/VocabularyForm.php:122
 msgid "RDF/XML (.rdf)"
 msgstr "RDF/XML (.rdf)"
 
-#: application/src/Form/VocabularyForm.php:123
+#: application/src/Form/VocabularyForm.php:122
 msgid "Turtle (.ttl)"
 msgstr "Turtle (.ttl)"
 
-#: application/src/Form/VocabularyForm.php:135
+#: application/src/Form/VocabularyForm.php:134
 msgid "Preferred language"
 msgstr "Gogoko hizkuntza"
 
-#: application/src/Form/VocabularyForm.php:136
+#: application/src/Form/VocabularyForm.php:135
 msgid ""
 "Enter the preferred language of the labels and comments using an <a "
 "target=\"_blank\" href=\"https://www.w3.org/International/articles/language-"
@@ -4128,11 +4412,11 @@ msgstr ""
 "href=\"https://www.w3.org/International/articles/language-tags/\">código de "
 "idioma IETF</a> erabiliz.Eskuragarri dagoen lehena lehenetsiko da."
 
-#: application/src/Form/VocabularyForm.php:147
+#: application/src/Form/VocabularyForm.php:146
 msgid "Label property"
 msgstr "Etiketaren ezaugarria"
 
-#: application/src/Form/VocabularyForm.php:148
+#: application/src/Form/VocabularyForm.php:147
 msgid ""
 "Enter the label property. This is typically only needed if the vocabulary "
 "uses an unconventional property for labels. Please use the full property URI"
@@ -4142,11 +4426,11 @@ msgstr ""
 "ezaugarria erabiltzen badu baino ez da beharrezkoa.Ezaugarriaren URI osoa "
 "kortxete artean erabili behar da."
 
-#: application/src/Form/VocabularyForm.php:158
+#: application/src/Form/VocabularyForm.php:157
 msgid "Comment property"
 msgstr "Ezaugarriaren iruzkina"
 
-#: application/src/Form/VocabularyForm.php:159
+#: application/src/Form/VocabularyForm.php:158
 msgid ""
 "Enter the comment property. This is typically only needed if the vocabulary "
 "uses an unconventional property for comments. Please use the full property "
@@ -4210,6 +4494,7 @@ msgstr "[Zehaztu gabeko mota]"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:111
 #: application/src/Form/ResourceBatchUpdateForm.php:125
+#: application/src/Form/UserForm.php:179
 msgid "Select item sets"
 msgstr "Fitxa multzoak aukeratu"
 
@@ -4223,7 +4508,7 @@ msgstr "Fitxa multzotik ezabatu"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:139
 #: application/src/Form/ResourceBatchUpdateForm.php:153
-#: application/src/Form/UserForm.php:170
+#: application/src/Form/UserForm.php:195
 msgid "Select sites"
 msgstr "Guneak aukeratu"
 
@@ -4268,15 +4553,15 @@ msgstr ""
 "konfigurazio bategatik izan daiteke,edo zenbait fitxatan edizio-saio asko "
 "hasi direlako.Kontsultatu datu-baseko administrazioko langileei."
 
-#: application/src/Form/Element/PasswordConfirm.php:68
+#: application/src/Form/Element/PasswordConfirm.php:73
 msgid "Confirm password"
 msgstr "Pasahitza berretsi"
 
-#: application/src/Form/Element/PasswordConfirm.php:87
+#: application/src/Form/Element/PasswordConfirm.php:92
 msgid "The password is invalid"
 msgstr "Pasahitzak ez du balio"
 
-#: application/src/Form/Element/PasswordConfirm.php:102
+#: application/src/Form/Element/PasswordConfirm.php:107
 msgid "The passwords did not match"
 msgstr "Pasahitzak ez datoz bat"
 
@@ -4296,11 +4581,15 @@ msgstr "kolore hamaseitarreko hiru edo sei digitu, edo \"transparent\""
 msgid "Invalid color format"
 msgstr "Kolore formatu baliogabea"
 
-#: application/src/Form/SiteSettingsForm.php:38
+#: application/src/Form/SiteSettingsForm.php:34
+msgid "Show"
+msgstr "Erakutsi"
+
+#: application/src/Form/SiteSettingsForm.php:45
 msgid "Auto-assign new items"
 msgstr "Fitxa berriak automatikoki esleitu"
 
-#: application/src/Form/SiteSettingsForm.php:39
+#: application/src/Form/SiteSettingsForm.php:46
 msgid ""
 "Select this if you want new items to be automatically assigned to this site."
 " Note that item owners may unassign their items at any time."
@@ -4308,54 +4597,42 @@ msgstr ""
 "Aukeratu hau fitxa berriak gune honi automatikoki esleitzea nahi izanez "
 "gero.Kontuan izan fitxen jabeek edozein unetan ken ditzaketela beren fitxak."
 
-#: application/src/Form/SiteSettingsForm.php:50
+#: application/src/Form/SiteSettingsForm.php:58
 msgid "Attachment link type"
 msgstr "Erantsitako lotura mota"
 
-#: application/src/Form/SiteSettingsForm.php:52
-msgid "Item page"
-msgstr "Fitxa orrialdea"
-
-#: application/src/Form/SiteSettingsForm.php:53
-msgid "Media page"
-msgstr "Media orrialdea"
-
-#: application/src/Form/SiteSettingsForm.php:54
+#: application/src/Form/SiteSettingsForm.php:62
 msgid "Direct link to file"
 msgstr "Fitxategirako lotura zuzena"
 
-#: application/src/Form/SiteSettingsForm.php:66
-msgid "Embed media on item pages"
-msgstr "Fitxen orrialdeetan media txertatu"
-
-#: application/src/Form/SiteSettingsForm.php:77
+#: application/src/Form/SiteSettingsForm.php:75
 msgid "Show page pagination"
 msgstr "Erakutsi orrialdeen zenbakitzea"
 
-#: application/src/Form/SiteSettingsForm.php:78
+#: application/src/Form/SiteSettingsForm.php:76
 msgid ""
 "Show pagination that helps users follow a linear narrative through a site."
 msgstr ""
 "Erabiltzaileei gune baten bidez narrazio lineala egiten laguntzen duen "
 "orrialde zenbakitzea erakutsi."
 
-#: application/src/Form/SiteSettingsForm.php:89
+#: application/src/Form/SiteSettingsForm.php:106
 msgid "Show user bar on public views"
 msgstr "Bistaratu erabiltzaile barra ikuspegi publikoen gainean"
 
-#: application/src/Form/SiteSettingsForm.php:91
+#: application/src/Form/SiteSettingsForm.php:108
 msgid "Never"
 msgstr "Inoiz"
 
-#: application/src/Form/SiteSettingsForm.php:92
+#: application/src/Form/SiteSettingsForm.php:109
 msgid "When logged in"
 msgstr "Saio hastean"
 
-#: application/src/Form/SiteSettingsForm.php:93
+#: application/src/Form/SiteSettingsForm.php:110
 msgid "Always"
 msgstr "Beti"
 
-#: application/src/Form/SiteSettingsForm.php:128
+#: application/src/Form/SiteSettingsForm.php:139
 msgid ""
 "Locale/language code for this site. Leave blank to use the global locale "
 "setting."
@@ -4363,11 +4640,11 @@ msgstr ""
 "Gune honetarako eskualdearen eta hizkuntzaren kodea. Hutsik utziz "
 "gero,lehenespenez ezarritako konfigurazioa erabiliko da."
 
-#: application/src/Form/SiteSettingsForm.php:141
+#: application/src/Form/SiteSettingsForm.php:153
 msgid "Filter values based on site locale"
 msgstr "Gunearen kokapenean oinarritutako iragazki balioak"
 
-#: application/src/Form/SiteSettingsForm.php:142
+#: application/src/Form/SiteSettingsForm.php:154
 msgid ""
 "Show only values matching the site language setting and values without "
 "locale ID."
@@ -4375,21 +4652,21 @@ msgstr ""
 "Guneko hizkuntzaren ingurunearekin bat datozen balioak eta ID lokalizaziorik"
 " gabeko balioak bakarrik erakutsi."
 
-#: application/src/Form/SiteSettingsForm.php:154
+#: application/src/Form/SiteSettingsForm.php:167
 msgid "Show language labels for values"
 msgstr "Balioetarako hizkuntza etiketak erakutsi"
 
-#: application/src/Form/SiteSettingsForm.php:155
+#: application/src/Form/SiteSettingsForm.php:168
 msgid "Show a label indicating the language of each value on show pages."
 msgstr ""
 "Aurkezpen-orrietan balio bakoitzaren hizkuntza adierazten duen etiketa "
 "erakusten du."
 
-#: application/src/Form/SiteSettingsForm.php:176
+#: application/src/Form/SiteSettingsForm.php:182
 msgid "Restrict browse to attached items"
 msgstr "Guneari esleitutako baliabideetara mugatu nabigazioa"
 
-#: application/src/Form/SiteSettingsForm.php:188
+#: application/src/Form/SiteSettingsForm.php:195
 msgid ""
 "The maximum number of results per page on browse pages. Leave blank to use "
 "the global setting."
@@ -4397,15 +4674,15 @@ msgstr ""
 "Baliabideetatik nabigatzean, orrialde bakoitzeko gehienezko emaitza "
 "kopurua.Utzi hutsik konfigurazio orokorra erabiltzeko."
 
-#: application/src/Form/SiteSettingsForm.php:194
+#: application/src/Form/SiteSettingsForm.php:201
 msgid "Use global setting"
 msgstr "Konfigurazio orokorra erabili"
 
-#: application/src/Form/SiteSettingsForm.php:202
+#: application/src/Form/SiteSettingsForm.php:210
 msgid "Browse heading property"
 msgstr "Nabigazioko goiburuarentzako ezaugarria"
 
-#: application/src/Form/SiteSettingsForm.php:203
+#: application/src/Form/SiteSettingsForm.php:211
 msgid ""
 "Use this property for the heading of each resource on a browse page. Keep "
 "unselected to use the default title property of each resource."
@@ -4414,16 +4691,16 @@ msgstr ""
 "aukera hau.Ez da hautatu behar baliabide edo fitxa bakoitzaren izenburu "
 "lehenetsia erabili nahi bada."
 
-#: application/src/Form/SiteSettingsForm.php:211
-#: application/src/Form/SiteSettingsForm.php:228
+#: application/src/Form/SiteSettingsForm.php:219
+#: application/src/Form/SiteSettingsForm.php:237
 msgid "Select a property"
 msgstr "Ezaugarri bat aukeratu"
 
-#: application/src/Form/SiteSettingsForm.php:219
+#: application/src/Form/SiteSettingsForm.php:228
 msgid "Browse body property"
 msgstr "Nabigaziorako gorputz ezaugarria"
 
-#: application/src/Form/SiteSettingsForm.php:220
+#: application/src/Form/SiteSettingsForm.php:229
 msgid ""
 "Use this property for the body of each resource on a browse page. Keep "
 "unselected to use the default description property of each resource."
@@ -4432,50 +4709,63 @@ msgstr ""
 "deskribapena behartzeko.Ez da hautatu behar baliabide edo fitxa bakoitzaren "
 "deskribapen lehenetsia erabili nahi bada."
 
-#: application/src/Form/SiteSettingsForm.php:237
-msgid "Show"
-msgstr "Erakutsi"
-
 #: application/src/Form/SiteSettingsForm.php:245
+#: application/src/Form/UserForm.php:253
+msgid "Item browse defaults"
+msgstr "Defektuzko elementu arakatzea"
+
+#: application/src/Form/SiteSettingsForm.php:260
 msgid "Show attached pages"
 msgstr "Erantsitako orriak erakutsi"
 
-#: application/src/Form/SiteSettingsForm.php:246
+#: application/src/Form/SiteSettingsForm.php:261
 msgid ""
 "Show site pages to which an item is attached on the public item show page."
 msgstr ""
 "Fitxa bat erantsi zaien guneko orrialdeak erakutsi fitxa hau aurkezteko "
 "orrialde publikoan."
 
-#: application/src/Form/SiteSettingsForm.php:257
+#: application/src/Form/SiteSettingsForm.php:273
 msgid "Show value annotations"
 msgstr "Erakutsi balioen oharrak"
 
-#: application/src/Form/SiteSettingsForm.php:258
+#: application/src/Form/SiteSettingsForm.php:274
 msgid "Show annotations that are set to a value, if any."
 msgstr "Erakutsi balio bat lotutako oharrak, baldin badaude."
 
-#: application/src/Form/SiteSettingsForm.php:280
+#: application/src/Form/SiteSettingsForm.php:286
+msgid "Exclude resources not in site"
+msgstr "Baztertu atarian ez dauden baliabideak"
+
+#: application/src/Form/SiteSettingsForm.php:287
+msgid "Exclude resources that are not assigned to this site."
+msgstr "Baztertu atari honetara esleituta ez dauden baliabideak."
+
+#: application/src/Form/SiteSettingsForm.php:299
+msgid "Embed media on item pages (legacy)"
+msgstr "Txertatu multimedia elementu orrietan (legacy)"
+
+#: application/src/Form/SiteSettingsForm.php:313
 msgid "Search type"
 msgstr "Bilaketa mota"
 
-#: application/src/Form/SiteSettingsForm.php:281
+#: application/src/Form/SiteSettingsForm.php:314
 msgid "Select the type of search the main search field will perform"
 msgstr "Hautatu bilaketa eremu nagusiak egingo duen bilaketa mota"
 
-#: application/src/Form/SiteSettingsForm.php:283
+#: application/src/Form/SiteSettingsForm.php:316
 msgid "This site"
 msgstr "Gune hau"
 
-#: application/src/Form/SiteSettingsForm.php:284
+#: application/src/Form/SiteSettingsForm.php:317
 msgid "All sites"
 msgstr "Gune guztiak"
 
-#: application/src/Form/SiteSettingsForm.php:301
+#: application/src/Form/SiteSettingsForm.php:336
 msgid "Search resources"
 msgstr "Baliabideak bilatu"
 
-#: application/src/Form/SiteSettingsForm.php:302
+#: application/src/Form/SiteSettingsForm.php:337
 msgid ""
 "Customize which types of resources will be searchable in the main search "
 "field."
@@ -4483,28 +4773,48 @@ msgstr ""
 "Bilaketa nagusiaren eremuan zein baliabide mota bila daitezkeen "
 "pertsonalizatu."
 
-#: application/src/Form/SiteSettingsForm.php:315
+#: application/src/Form/SiteSettingsForm.php:352
+msgid "Advanced search vocabulary members"
+msgstr "Hiztegi kideen bilaketa aurreratua"
+
+#: application/src/Form/SiteSettingsForm.php:353
+msgid "Limit the search options for property and class"
+msgstr "Mugatu bilaketa aukerak propietate eta klasera"
+
+#: application/src/Form/SiteSettingsForm.php:354
+msgid "All vocabulary members"
+msgstr "Hiztegi kide guztiak"
+
+#: application/src/Form/SiteSettingsForm.php:356
+msgid "Used by resources in this site"
+msgstr "Atari honetako baliabideek erabilia"
+
+#: application/src/Form/SiteSettingsForm.php:357
+msgid "Used by any resource in the installation"
+msgstr "Instalazioko edozein baliabidek erabilia"
+
+#: application/src/Form/SiteSettingsForm.php:371
 msgid "Templates"
 msgstr "Txantiloiak"
 
-#: application/src/Form/SiteSettingsForm.php:316
+#: application/src/Form/SiteSettingsForm.php:372
 msgid "Select which templates to apply to the advanced search form."
 msgstr "Hautatu bilaketa aurreratuko formularioari zein txantiloi aplikatu."
 
-#: application/src/Form/SiteSettingsForm.php:321
+#: application/src/Form/SiteSettingsForm.php:377
 msgid "Select templates"
 msgstr "Aukeratu txantiloiak"
 
-#: application/src/Form/SiteSettingsForm.php:329
+#: application/src/Form/SiteSettingsForm.php:386
 msgid "Restrict to templates"
 msgstr "Txantiloietara mugatu"
 
-#: application/src/Form/SiteSettingsForm.php:330
+#: application/src/Form/SiteSettingsForm.php:387
 msgid "Restrict search results to resources of the selected templates."
 msgstr "Bilaketa emaitzak aukeratutako txantiloietako baliabideetara mugatu."
 
 #: application/src/Form/UserBatchUpdateForm.php:27
-#: application/src/Form/UserForm.php:98
+#: application/src/Form/UserForm.php:103
 #: application/src/Service/Form/Element/RoleSelectFactory.php:16
 #: application/src/View/Helper/RoleSelect.php:39
 msgid "Select role…"
@@ -4577,27 +4887,67 @@ msgstr "Ezabatu dena - baztertu fitxa guztien egokitzea"
 msgid "Resource template file"
 msgstr "Baliabide txantiloi fitxategia"
 
-#: application/src/Form/UserForm.php:151
+#: application/src/Form/UserForm.php:134
+msgid "Admin browse columns"
+msgstr "Kudeatu zutabe arakatzea"
+
+#: application/src/Form/UserForm.php:135
+msgid "Admin browse defaults"
+msgstr "Defektuzko administrazio arakatzea"
+
+#: application/src/Form/UserForm.php:160
 msgid "Default resource template"
 msgstr "Lehenetsitako baliabide txantiloia"
 
-#: application/src/Form/UserForm.php:175
+#: application/src/Form/UserForm.php:184
+msgid "Default item sets for items"
+msgstr "Defektuzko elementuen elementu multzoak"
+
+#: application/src/Form/UserForm.php:200
 msgid "Default sites for items"
 msgstr "Lehenetsitako fitxentzako guneak"
 
-#: application/src/Form/UserForm.php:186
+#: application/src/Form/UserForm.php:209
+msgid "Item browse columns"
+msgstr "Elementu arakatze zutabeak"
+
+#: application/src/Form/UserForm.php:220
+msgid "Item set browse columns"
+msgstr "Elementu multzo arakatze zutabeak"
+
+#: application/src/Form/UserForm.php:231
+msgid "Media browse columns"
+msgstr "Multimedia arakatze zutabeak"
+
+#: application/src/Form/UserForm.php:242
+msgid "Site browse columns"
+msgstr "Atari arakatze zutabeak"
+
+#: application/src/Form/UserForm.php:267
+msgid "Item set browse defaults"
+msgstr "Defektuzko elementu multzo arakatzea"
+
+#: application/src/Form/UserForm.php:281
+msgid "Media browse defaults"
+msgstr "Defektuzko multimedia arakatzea"
+
+#: application/src/Form/UserForm.php:295
+msgid "Site browse defaults"
+msgstr "Atariaren defektuzko arakatzea"
+
+#: application/src/Form/UserForm.php:311
 msgid "Current password"
 msgstr "Uneko pasahitza"
 
-#: application/src/Form/UserForm.php:198
+#: application/src/Form/UserForm.php:323
 msgid "New password"
 msgstr "Pasahitz berria"
 
-#: application/src/Form/UserForm.php:199
+#: application/src/Form/UserForm.php:324
 msgid "Confirm new password"
 msgstr "Pasahitz berria baieztatu"
 
-#: application/src/Form/UserForm.php:208
+#: application/src/Form/UserForm.php:333
 msgid "New key label"
 msgstr "Gako etiketa berria"
 
@@ -4645,6 +4995,22 @@ msgstr "media izenburua"
 msgid "no title"
 msgstr "izenbururik gabe"
 
+#: application/src/View/Helper/Browse.php:55
+msgid "Relevance"
+msgstr ""
+
+#: application/src/View/Helper/Browse.php:162
+msgid "Add a column…"
+msgstr "Gehitu zutabea..."
+
+#: application/src/View/Helper/Browse.php:181
+msgid "Column type"
+msgstr "Zutabe mota"
+
+#: application/src/View/Helper/Browse.php:192
+msgid "Header"
+msgstr "Goiburua"
+
 #: application/src/View/Helper/ResourceTemplateSelect.php:39
 msgid "Select template…"
 msgstr "Txantiloia aukeratu..."
@@ -4669,57 +5035,61 @@ msgstr "Instalazio arrakastatsua. Mesedez, hasi saioa."
 msgid "There were errors during installation."
 msgstr "Instalazioan zehar akatsak egon dira."
 
-#: application/src/Controller/SiteAdmin/IndexController.php:69
+#: application/src/Controller/SiteAdmin/IndexController.php:76
 msgid "Site successfully created"
 msgstr "Ongi sortutako gunea"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:119
+#: application/src/Controller/SiteAdmin/IndexController.php:118
 msgid "Site successfully updated"
 msgstr "Gunea behar bezala eguneratu da"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:169
+#: application/src/Controller/SiteAdmin/IndexController.php:168
 msgid "Page successfully created"
 msgstr "Orria ondo sortu da"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:198
+#: application/src/Controller/SiteAdmin/IndexController.php:197
 msgid "Homepage"
 msgstr "Orrialde nagusia"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:204
+#: application/src/Controller/SiteAdmin/IndexController.php:203
 msgid "First page in navigation"
 msgstr "Nabigazioko lehen orrialdea"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:220
+#: application/src/Controller/SiteAdmin/IndexController.php:219
 msgid "Navigation successfully updated"
 msgstr "Behar bezala eguneratutako nabigazioa"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:254
+#: application/src/Controller/SiteAdmin/IndexController.php:253
 msgid ""
 "Item assignment in progress. To see the new item count, refresh the page."
 msgstr ""
 "Fitxa esleipena martxan. Fitxen zenbaketa berria ikusteko orria freskatu."
 
-#: application/src/Controller/SiteAdmin/IndexController.php:258
+#: application/src/Controller/SiteAdmin/IndexController.php:257
 msgid "Site resources successfully updated"
 msgstr "Guneko baliabideak behar bezala eguneratu dira"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:301
+#: application/src/Controller/SiteAdmin/IndexController.php:305
 msgid "User permissions successfully updated"
 msgstr "Erabiltzaile baimenak behar bezala eguneratu dira"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:333
+#: application/src/Controller/SiteAdmin/IndexController.php:342
 msgid "Site theme successfully updated"
 msgstr "Guneko gaia behar bezala eguneratu da"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:403
+#: application/src/Controller/SiteAdmin/IndexController.php:417
 msgid "Theme settings successfully updated"
 msgstr "Gai konfigurazioa behar bezala eguneratu da"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:420
+#: application/src/Controller/SiteAdmin/IndexController.php:457
+msgid "Theme resource pages successfully updated"
+msgstr "Gaiaren baliabide orriak ongi eguneratu dira"
+
+#: application/src/Controller/SiteAdmin/IndexController.php:480
 msgid "Site successfully deleted"
 msgstr "Gunea behar bezala ezabatu da"
 
-#: application/src/Controller/SiteAdmin/IndexController.php:443
+#: application/src/Controller/SiteAdmin/IndexController.php:503
 msgid "site"
 msgstr "gunea"
 
@@ -4727,11 +5097,11 @@ msgstr "gunea"
 msgid "Page successfully updated"
 msgstr "Orria behar bezala eguneratu da"
 
-#: application/src/Controller/SiteAdmin/PageController.php:107
+#: application/src/Controller/SiteAdmin/PageController.php:108
 msgid "page"
 msgstr "orrialdea"
 
-#: application/src/Controller/SiteAdmin/PageController.php:124
+#: application/src/Controller/SiteAdmin/PageController.php:125
 msgid "Page successfully deleted"
 msgstr "Orrialdea behar bezala ezabatu da"
 
@@ -4777,80 +5147,80 @@ msgstr "Aktibazioak akatsak izan ditu"
 msgid "Migration successful"
 msgstr "Migrazio arrakastatsua"
 
-#: application/src/Controller/Admin/ItemController.php:42
-#: application/src/Controller/Admin/ItemController.php:47
+#: application/src/Controller/Admin/ItemController.php:48
+#: application/src/Controller/Admin/ItemController.php:53
 #: application/src/Controller/Admin/UserController.php:44
 #: application/src/Controller/Admin/UserController.php:49
-#: application/src/Controller/Admin/MediaController.php:27
-#: application/src/Controller/Admin/MediaController.php:32
-#: application/src/Controller/Admin/ItemSetController.php:87
-#: application/src/Controller/Admin/ItemSetController.php:92
+#: application/src/Controller/Admin/MediaController.php:33
+#: application/src/Controller/Admin/MediaController.php:38
+#: application/src/Controller/Admin/ItemSetController.php:93
+#: application/src/Controller/Admin/ItemSetController.php:98
 msgid "Confirm Delete"
 msgstr "Ezabatzea baieztatu"
 
-#: application/src/Controller/Admin/ItemController.php:114
+#: application/src/Controller/Admin/ItemController.php:121
 msgid "item"
 msgstr "fitxa"
 
-#: application/src/Controller/Admin/ItemController.php:130
+#: application/src/Controller/Admin/ItemController.php:137
 msgid "Item successfully deleted"
 msgstr "Fitxa behar bezala ezabatu da"
 
-#: application/src/Controller/Admin/ItemController.php:151
+#: application/src/Controller/Admin/ItemController.php:159
 msgid "You must select at least one item to batch delete."
 msgstr "Batch ezabatzeko fitxa bat aukeratu behar da gutxienez."
 
-#: application/src/Controller/Admin/ItemController.php:160
+#: application/src/Controller/Admin/ItemController.php:168
 msgid "Items successfully deleted"
 msgstr "Fitxak behar bezala ezabatu dira"
 
-#: application/src/Controller/Admin/ItemController.php:186
+#: application/src/Controller/Admin/ItemController.php:194
 msgid "Deleting items. This may take a while."
 msgstr "Fitxak ezabatzen. Denbora bat iraun dezake."
 
-#: application/src/Controller/Admin/ItemController.php:210
+#: application/src/Controller/Admin/ItemController.php:218
 #, php-format
 msgid "Item successfully created. %s"
 msgstr "Fitxa behar bezala sortua. %s"
 
-#: application/src/Controller/Admin/ItemController.php:247
+#: application/src/Controller/Admin/ItemController.php:256
 msgid "Item successfully updated"
 msgstr "Fitxa behar bezala eguneratua"
 
-#: application/src/Controller/Admin/ItemController.php:274
+#: application/src/Controller/Admin/ItemController.php:284
 msgid "You must select at least one item to batch edit."
 msgstr "Batch editatzeko fitxa bat aukeratu behar da gutxienez"
 
-#: application/src/Controller/Admin/ItemController.php:295
+#: application/src/Controller/Admin/ItemController.php:308
 msgid "Items successfully edited"
 msgstr "Fitxa behar bezala editatua"
 
-#: application/src/Controller/Admin/ItemController.php:347
+#: application/src/Controller/Admin/ItemController.php:364
 msgid "Editing items. This may take a while."
 msgstr "Fitxa editatzen. Denbora bat iraun dezake."
 
-#: application/src/Controller/Admin/UserController.php:113
+#: application/src/Controller/Admin/UserController.php:115
 #, php-format
 msgid "User successfully created. %s"
 msgstr "Erabiltzailea behar bezala sortua. %s"
 
-#: application/src/Controller/Admin/UserController.php:187
+#: application/src/Controller/Admin/UserController.php:189
 msgid "User successfully updated"
 msgstr "Erabiltzailea behar bezala eguneratua"
 
-#: application/src/Controller/Admin/UserController.php:202
+#: application/src/Controller/Admin/UserController.php:204
 msgid "The current password entered was invalid"
 msgstr "Erabilitako pasahitzak ez du balio"
 
-#: application/src/Controller/Admin/UserController.php:206
+#: application/src/Controller/Admin/UserController.php:208
 msgid "Password successfully changed"
 msgstr "Pasahitza behar bezala aldatua"
 
-#: application/src/Controller/Admin/UserController.php:234
+#: application/src/Controller/Admin/UserController.php:236
 msgid "Key(s) successfully deleted"
 msgstr "Gakoa(k) behar bezala ezabatuak"
 
-#: application/src/Controller/Admin/UserController.php:242
+#: application/src/Controller/Admin/UserController.php:244
 #, php-format
 msgid ""
 "API key successfully created.<br><br>Here is your key ID and credential for "
@@ -4864,44 +5234,44 @@ msgstr ""
 "ateratzean.<br><br>key_identity:<code>%1$s</code><br>key_credential: "
 "<code>%2$s</code>"
 
-#: application/src/Controller/Admin/UserController.php:268
+#: application/src/Controller/Admin/UserController.php:270
 msgid "user"
 msgstr "erabiltzailea"
 
-#: application/src/Controller/Admin/UserController.php:281
+#: application/src/Controller/Admin/UserController.php:283
 msgid "User successfully deleted"
 msgstr "Erabiltzailea behar bezala ezabatua"
 
-#: application/src/Controller/Admin/UserController.php:303
+#: application/src/Controller/Admin/UserController.php:305
 msgid "You must select at least one user to batch delete."
 msgstr "Batch ezabatzeko gutxienez erabiltzaile bat aukeratu behar da."
 
-#: application/src/Controller/Admin/UserController.php:310
+#: application/src/Controller/Admin/UserController.php:312
 msgid "You can’t delete yourself."
 msgstr "Ezin duzu zure kontua ezabatu."
 
-#: application/src/Controller/Admin/UserController.php:319
+#: application/src/Controller/Admin/UserController.php:321
 msgid "Users successfully deleted"
 msgstr "Erabiltzaileak behar bezala ezabatuak"
 
-#: application/src/Controller/Admin/UserController.php:345
+#: application/src/Controller/Admin/UserController.php:347
 msgid "Deleting users. This may take a while."
 msgstr "Erabiltzaileak ezabatzen. Denbora bat iraun dezake."
 
-#: application/src/Controller/Admin/UserController.php:364
+#: application/src/Controller/Admin/UserController.php:366
 msgid "You must select at least one user to batch edit."
 msgstr "Batch editatzeko gutxienez erabiltzaile bat aukeratu behar duzu."
 
-#: application/src/Controller/Admin/UserController.php:371
+#: application/src/Controller/Admin/UserController.php:373
 msgid "For security reasons, you can’t batch edit yourself."
 msgstr ""
 "Segurtasun arrazoiengatik, ezin duzu zure kontuaren batch edizioa egin."
 
-#: application/src/Controller/Admin/UserController.php:392
+#: application/src/Controller/Admin/UserController.php:394
 msgid "Users successfully edited"
 msgstr "Erabiltzaileak behar bezala editatuak"
 
-#: application/src/Controller/Admin/UserController.php:445
+#: application/src/Controller/Admin/UserController.php:447
 msgid "Editing users. This may take a while."
 msgstr "Erabiltzaileak editatzen. Denbora bat iraun dezake."
 
@@ -4949,36 +5319,40 @@ msgstr "Lana gelditzen saiatzen"
 msgid "The job could not be stopped."
 msgstr "Ezin izan da lana gelditu"
 
-#: application/src/Controller/Admin/SettingController.php:35
+#: application/src/Controller/Admin/SettingController.php:27
 msgid "Settings successfully updated"
 msgstr "Konfigurazioa behar bezala eguneratua"
 
-#: application/src/Controller/Admin/MediaController.php:59
+#: application/src/Controller/Admin/MediaController.php:66
 msgid "Media successfully updated"
 msgstr "Media behar bezala eguneratua"
 
-#: application/src/Controller/Admin/MediaController.php:125
-#: application/src/Controller/Admin/MediaController.php:168
+#: application/src/Controller/Admin/MediaController.php:117
+msgid "media"
+msgstr "media"
+
+#: application/src/Controller/Admin/MediaController.php:132
+#: application/src/Controller/Admin/MediaController.php:176
 msgid "Media successfully deleted"
 msgstr "Media behar bezala ezabatua"
 
-#: application/src/Controller/Admin/MediaController.php:159
+#: application/src/Controller/Admin/MediaController.php:167
 msgid "You must select at least one media to batch delete."
 msgstr "Batch ezabatzeko media bat hautatu behar duzu gutxienez."
 
-#: application/src/Controller/Admin/MediaController.php:194
+#: application/src/Controller/Admin/MediaController.php:202
 msgid "Deleting media. This may take a while."
 msgstr "Media ezabatzen. Denbora bat iraun dezake."
 
-#: application/src/Controller/Admin/MediaController.php:212
+#: application/src/Controller/Admin/MediaController.php:221
 msgid "You must select at least one media to batch edit."
 msgstr "Batch editatzeko media bat hautatu behar duzu gutxienez."
 
-#: application/src/Controller/Admin/MediaController.php:233
+#: application/src/Controller/Admin/MediaController.php:245
 msgid "Media successfully edited"
 msgstr "Media behar bezala editatua"
 
-#: application/src/Controller/Admin/MediaController.php:285
+#: application/src/Controller/Admin/MediaController.php:301
 msgid "Editing media. This may take a while."
 msgstr "Media editatzen. Denbora bat iraun dezake."
 
@@ -5003,36 +5377,36 @@ msgstr "Fitxa multzoa behar bezala sortua. %s"
 msgid "Item set successfully updated"
 msgstr "Fitxa multzoa behar bezala eguneratua"
 
-#: application/src/Controller/Admin/ItemSetController.php:155
+#: application/src/Controller/Admin/ItemSetController.php:164
 msgid "item set"
 msgstr "fitxa multzoa"
 
-#: application/src/Controller/Admin/ItemSetController.php:170
+#: application/src/Controller/Admin/ItemSetController.php:179
 msgid "Item set successfully deleted"
 msgstr "Fitxa multzoa behar bezala ezabatua"
 
-#: application/src/Controller/Admin/ItemSetController.php:191
+#: application/src/Controller/Admin/ItemSetController.php:201
 msgid "You must select at least one item set to batch delete."
 msgstr ""
 "Fitxa multzo bat aukeratu behar da gutxienez batch ezabatu ahal izateko."
 
-#: application/src/Controller/Admin/ItemSetController.php:200
+#: application/src/Controller/Admin/ItemSetController.php:210
 msgid "Item sets successfully deleted"
 msgstr "Fitxa multzoa behar bezala ezabatua"
 
-#: application/src/Controller/Admin/ItemSetController.php:226
+#: application/src/Controller/Admin/ItemSetController.php:236
 msgid "Deleting item sets. This may take a while."
 msgstr "Fitxa multzoa ezabatzen. Denbora bat iraun dezake."
 
-#: application/src/Controller/Admin/ItemSetController.php:244
+#: application/src/Controller/Admin/ItemSetController.php:255
 msgid "You must select at least one item set to batch edit."
 msgstr "Batch editatzeko fitxa multzo bat hautatu behar duzu gutxienez."
 
-#: application/src/Controller/Admin/ItemSetController.php:265
+#: application/src/Controller/Admin/ItemSetController.php:279
 msgid "Item sets successfully edited"
 msgstr "Fitxa multzoa behar bezala editatua."
 
-#: application/src/Controller/Admin/ItemSetController.php:317
+#: application/src/Controller/Admin/ItemSetController.php:335
 msgid "Editing item sets. This may take a while."
 msgstr "Fitxa multzoak editatzen. Denbora bat iraun dezake."
 
@@ -5061,69 +5435,95 @@ msgstr "Hiztegi aldaketak behar bezala eginak"
 msgid "Vocabulary successfully deleted"
 msgstr "Hiztegia behar bezala ezabatua"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:437
+#: application/src/Controller/Admin/ResourceTemplateController.php:444
 msgid "resource template"
 msgstr "baliabide txantiloia"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:450
+#: application/src/Controller/Admin/ResourceTemplateController.php:457
 msgid "Resource template successfully deleted"
 msgstr "Baliabide txantiloia behar bezala ezabatua"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:452
-#: application/src/Controller/Admin/ResourceTemplateController.php:455
+#: application/src/Controller/Admin/ResourceTemplateController.php:459
+#: application/src/Controller/Admin/ResourceTemplateController.php:462
 msgid "Resource template could not be deleted"
 msgstr "Ezin da baliabide txantiloia ezabatu"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:507
+#: application/src/Controller/Admin/ResourceTemplateController.php:519
 msgid "Resource template successfully updated"
 msgstr "Baliabide txantiloia behar bezala eguneratua"
 
-#: application/src/Controller/Admin/ResourceTemplateController.php:510
+#: application/src/Controller/Admin/ResourceTemplateController.php:522
 #, php-format
 msgid "Resource template successfully created. %s"
 msgstr "Baliabide txantiloia behar bezala sortua. %s"
 
-#: application/config/module.config.php:636
+#: application/config/module.config.php:676
+msgid "Owner email"
+msgstr "Jabearen posta helbidea"
+
+#: application/config/module.config.php:682
+#: application/config/module.config.php:698
+#: application/config/module.config.php:703
+msgid "Item count"
+msgstr "Elementu kopurua"
+
+#: application/config/module.config.php:692
+msgid "Resource class count"
+msgstr "Baliabide klase kopurua"
+
+#: application/config/module.config.php:693
+msgid "Property count"
+msgstr "Propietate kopurua"
+
+#: application/config/module.config.php:865
 msgid "Something went wrong"
 msgstr "Zerbait gaizki atera da"
 
-#: application/config/module.config.php:641
+#: application/config/module.config.php:870
 msgid "You have unsaved changes."
 msgstr "Gorde gabeko aldaketak daude."
 
-#: application/config/module.config.php:642
+#: application/config/module.config.php:871
 msgid "Restore item set"
 msgstr "Fitxa multzoa berrezarri"
 
-#: application/config/module.config.php:643
+#: application/config/module.config.php:872
 msgid "Close icon set"
 msgstr "Ikono multzoa itxi"
 
-#: application/config/module.config.php:644
+#: application/config/module.config.php:873
 msgid "Open icon set"
 msgstr "Ikono multzoa ireki"
 
-#: application/config/module.config.php:646
+#: application/config/module.config.php:875
 msgid "Failed loading resource template from API"
 msgstr "Akatsa API-tik baliabide txantiloia kargatzean"
 
-#: application/config/module.config.php:647
+#: application/config/module.config.php:876
 msgid "Restore property"
 msgstr "Ezaugarria berrezarri"
 
-#: application/config/module.config.php:649
+#: application/config/module.config.php:878
 msgid "Please enter a valid language tag"
 msgstr "Sartu baliozko hizkuntza etiketa"
 
-#: application/config/module.config.php:651
+#: application/config/module.config.php:880
 msgid "Description"
 msgstr "Deskripzioa"
+
+#: application/config/module.config.php:881
+msgid "Unknown block layout"
+msgstr "Bloke diseinu ezezaguna"
+
+#: application/config/module.config.php:882
+msgid "Required field must be completed"
+msgstr "Beharrezko eremuak osatu behar dira"
 
 #: application/config/navigation.config.php:201
 msgid "Site admin"
 msgstr "Guneko administrazioa"
 
-#: application/view/common/advanced-search/properties.phtml:61
+#: application/view/common/advanced-search/properties.phtml:70
 msgid "[Any Property]"
 msgstr "[Edozein ezaugarri]"
 
@@ -5132,6 +5532,7 @@ msgid "Confirm delete"
 msgstr "Ezabatzea baieztatu"
 
 #: application/view/omeka/admin/item/sidebar-select.phtml:41
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:32
 msgid "Filter by class"
 msgstr "Klaseka iragazi"
 
@@ -5437,6 +5838,10 @@ msgstr ""
 "hautatzea da (adibidez, Interneteko bitartekoenzerrenda [MIME], ekipoetako "
 "bitartekoen formatuak definitzen dituena)."
 
+#. Property label for Dublin Core:identifier
+msgid "Identifier"
+msgstr "Identifikatzailea"
+
 #. Property comment for Dublin Core:identifier
 msgid "An unambiguous reference to the resource within a given context."
 msgstr "Baliabideari buruzko erreferentzia argia testuinguru jakin batean."
@@ -5564,10 +5969,6 @@ msgstr "Hedadura"
 #. Property comment for Dublin Core:extent
 msgid "The size or duration of the resource."
 msgstr "Baliabidearen tamaina edo iraupena."
-
-#. Property label for Dublin Core:medium
-msgid "Medium"
-msgstr "Bitartekoa"
 
 #. Property comment for Dublin Core:medium
 msgid "The material or physical carrier of the resource."
@@ -7433,6 +7834,8 @@ msgid ""
 "A phone,  specified using fully qualified tel: URI scheme (refs: "
 "http://www.w3.org/Addressing/schemes.html#tel)."
 msgstr ""
+"Telefonoa, guztiz kualifikatutako telefonoa erabiliz zehaztuta: URI eskema "
+"(erreferentzia: http://www.w3.org/Addressing/schemes.html#tel)."
 
 #. Property label for Friend of a Friend:homepage
 msgid "homepage"

@@ -2,29 +2,24 @@
 namespace Omeka\Media\Renderer;
 
 use Omeka\Api\Representation\MediaRepresentation;
+use Omeka\Stdlib\Oembed as StdlibOembed;
 use Laminas\View\Renderer\PhpRenderer;
 
 class OEmbed implements RendererInterface
 {
-    public function render(PhpRenderer $view, MediaRepresentation $media,
-        array $options = []
-    ) {
-        $data = $media->mediaData();
+    protected $oembed;
 
-        if ($data['type'] == 'photo') {
-            $url = $data['url'];
-            $width = $data['width'];
-            $height = $data['height'];
-            $title = empty($data['title']) ? $url : $data['title'];
-            return sprintf(
-                '<img src="%s" width="%s" height="%s" alt="%s">',
-                $view->escapeHtml($url),
-                $view->escapeHtml($width),
-                $view->escapeHtml($height),
-                $view->escapeHtml($title)
-            );
-        } elseif (!empty($data['html'])) {
-            return $data['html'];
+    public function __construct(StdlibOembed $oembed)
+    {
+        $this->oembed = $oembed;
+    }
+
+    public function render(PhpRenderer $view, MediaRepresentation $media, array $options = [])
+    {
+        $data = $media->mediaData();
+        $markup = $this->oembed->renderOembed($view, $data);
+        if ($markup) {
+            return $markup;
         }
         $source = $media->source();
         $title = empty($data['title']) ? $source : $data['title'];

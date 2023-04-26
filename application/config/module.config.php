@@ -282,6 +282,7 @@ return [
             'Omeka\Environment' => Service\EnvironmentFactory::class,
             'Omeka\ColumnTypeManager' => Service\ColumnType\ManagerFactory::class,
             'Omeka\Browse' => Service\BrowseFactory::class,
+            'Omeka\Oembed' => Service\OembedFactory::class,
         ],
         'invokables' => [
             'ModuleRouteListener' => \Laminas\Mvc\ModuleRouteListener::class,
@@ -333,6 +334,7 @@ return [
         'factories' => [
             'Omeka\Controller\Login' => Service\Controller\LoginControllerFactory::class,
             'Omeka\Controller\Api' => Service\Controller\ApiControllerFactory::class,
+            'Omeka\Controller\ApiLocal' => Service\Controller\ApiLocalControllerFactory::class,
             'Omeka\Controller\Install' => Service\Controller\InstallControllerFactory::class,
             'Omeka\Controller\Migrate' => Service\Controller\MigrateControllerFactory::class,
             'Omeka\Controller\Admin\Module' => Service\Controller\Admin\ModuleControllerFactory::class,
@@ -733,6 +735,7 @@ return [
             'asset' => Service\BlockLayout\AssetFactory::class,
             'html' => Service\BlockLayout\HtmlFactory::class,
             'listOfPages' => Service\BlockLayout\PageListFactory::class,
+            'oembed' => Service\BlockLayout\OembedFactory::class,
         ],
     ],
     'resource_page_block_layouts' => [
@@ -782,7 +785,6 @@ return [
     ],
     'media_renderers' => [
         'invokables' => [
-            'oembed' => Media\Renderer\OEmbed::class,
             'youtube' => Media\Renderer\Youtube::class,
             'html' => Media\Renderer\Html::class,
             'iiif' => Media\Renderer\IIIF::class,
@@ -790,6 +792,7 @@ return [
         ],
         'factories' => [
             'file' => Service\Media\Renderer\FileFactory::class,
+            'oembed' => Service\Media\Renderer\OEmbedFactory::class,
         ],
     ],
     'file_renderers' => [

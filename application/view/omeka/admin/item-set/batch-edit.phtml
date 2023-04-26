@@ -16,7 +16,7 @@ $this->htmlElement('body')->appendAttribute('class', 'batch-edit item-sets');
 <input type="hidden" name="query" value="<?php echo $this->escapeHtml(json_encode($query)); ?>">
 
 <div id="page-actions">
-    <input type="submit" name="batch_update" value="<?php echo $this->escapeHtml($translate('Save')); ?>">
+    <input type="submit" name="batch_update" value="<?php echo $this->escapeHtml($translate('Submit')); ?>">
 </div>
 
 <?php echo $this->formCollection($form, false); ?>

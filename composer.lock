@@ -4088,12 +4088,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/omeka-s-themes/default.git",
-                "reference": "a430adadba0623b0d1c7de7bf8a6707a08a508dd"
+                "reference": "b9679ff37c977e337cb045201c1a81b4ebcf15d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/a430adadba0623b0d1c7de7bf8a6707a08a508dd",
-                "reference": "a430adadba0623b0d1c7de7bf8a6707a08a508dd",
+                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/b9679ff37c977e337cb045201c1a81b4ebcf15d6",
+                "reference": "b9679ff37c977e337cb045201c1a81b4ebcf15d6",
                 "shasum": ""
             },
             "require": {
@@ -4102,10 +4102,10 @@
             "default-branch": true,
             "type": "omeka-s-theme",
             "support": {
-                "source": "https://github.com/omeka-s-themes/default/tree/v1.7.0",
+                "source": "https://github.com/omeka-s-themes/default/tree/v1.7.1",
                 "issues": "https://github.com/omeka-s-themes/default/issues"
             },
-            "time": "2022-12-13T18:47:07+00:00"
+            "time": "2023-02-07T19:12:25+00:00"
         },
         {
             "name": "omeka/composer-addon-installer",

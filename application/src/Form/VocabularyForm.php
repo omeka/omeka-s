@@ -118,7 +118,6 @@ class VocabularyForm extends Form
                     'guess' => '[Autodetect]', // @translate
                     'jsonld' => 'JSON-LD (.jsonld)', // @translate
                     'ntriples' => 'N-Triples (.nt)', // @translate
-                    'n3' => 'Notation3 (.n3)', // @translate
                     'rdfxml' => 'RDF/XML (.rdf)', // @translate
                     'turtle' => 'Turtle (.ttl)', // @translate
                 ],

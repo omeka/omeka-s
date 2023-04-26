@@ -16,8 +16,7 @@ class OEmbedFactory implements FactoryInterface
     {
         $config = $services->get('Config');
         return new OEmbed(
-            $config['oembed']['whitelist'],
-            $services->get('Omeka\HttpClient'),
+            $services->get('Omeka\Oembed'),
             $services->get('Omeka\File\Downloader')
         );
     }

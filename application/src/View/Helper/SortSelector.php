@@ -22,6 +22,12 @@ class SortSelector extends AbstractHelper
      */
     public function __invoke($sortBy, $partialName = null)
     {
+        // Convert to the new sort configuration structure.
+        $sortConfig = [];
+        foreach ($sortBy as $sortByOption) {
+            $sortConfig[$sortByOption['value']] = $sortByOption['label'];
+        }
+
         $partialName = $partialName ?: self::PARTIAL_NAME;
 
         $view = $this->getView();
@@ -30,18 +36,11 @@ class SortSelector extends AbstractHelper
         $sortOrderQuery = $params->fromQuery('sort_order');
 
         $args = [
-            'sortBy' => $sortBy,
+            'sortConfig' => $sortConfig,
             'sortByQuery' => $sortByQuery,
             'sortOrderQuery' => $sortOrderQuery,
         ];
         $args = $view->trigger('view.sort-selector', $args, true);
-
-        // Convert to the new sort configuration structure.
-        $sortConfig = [];
-        foreach ($args['sortBy'] as $sortBy) {
-            $sortConfig[$sortBy['value']] = $sortBy['label'];
-        }
-        $args['sortConfig'] = $sortConfig;
 
         return $view->partial($partialName, (array) $args);
     }

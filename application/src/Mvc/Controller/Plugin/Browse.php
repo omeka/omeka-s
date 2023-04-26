@@ -23,9 +23,6 @@ class Browse extends AbstractPlugin
         $controller = $this->getController();
         $context = $controller->status()->isAdminRequest() ? 'admin' : 'public';
         $browseConfig = $this->getBrowseService()->getBrowseConfig($context, $resourceType);
-        $query = $this->getController()->getRequest()->getQuery();
-        $query->set('sort_by', $query->get('sort_by', $browseConfig['sort_by']));
-        $query->set('sort_order', $query->get('sort_order', $browseConfig['sort_order']));
-        $query->set('page', $query->get('page', 1));
+        $controller->setBrowseDefaults($browseConfig['sort_by'], $browseConfig['sort_order']);
     }
 }

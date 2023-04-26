@@ -148,6 +148,11 @@ class Module extends AbstractModule
             'api.search.query',
             [$this, 'searchFulltext']
         );
+        $sharedEventManager->attach(
+            '*',
+            'api.search.query.finalize',
+            [$this, 'searchFulltext']
+        );
 
         $sharedEventManager->attach(
             'Omeka\Controller\Admin\Media',
@@ -647,46 +652,53 @@ class Module extends AbstractModule
         }
         $qb = $event->getParam('queryBuilder');
 
-        $searchAlias = $adapter->createAlias();
+        $match = 'MATCH(omeka_fulltext_search.title, omeka_fulltext_search.text) AGAINST (:omeka_fulltext_search)';
 
-        $match = sprintf(
-            'MATCH(%s.title, %s.text) AGAINST (%s)',
-            $searchAlias,
-            $searchAlias,
-            $adapter->createNamedParameter($qb, $query['fulltext_search'])
-        );
-        $joinConditions = sprintf(
-            '%s.id = omeka_root.id AND %s.resource = %s',
-            $searchAlias,
-            $searchAlias,
-            $adapter->createNamedParameter($qb, $adapter->getResourceName())
-        );
+        if ('api.search.query' === $event->getName()) {
 
-        $qb->innerJoin('Omeka\Entity\FulltextSearch', $searchAlias, 'WITH', $joinConditions)
-            // Filter out resources with no similarity.
-            ->andWhere(sprintf('%s > 0', $match))
-            // Order by the relevance. Note the use of orderBy() and not
-            // addOrderBy(). This should ensure that ordering by relevance
-            // is the first thing being ordered.
-            ->orderBy($match, 'DESC');
+            // Join the fulltext search table and filter items. This must happen
+            // during "api.search.query" because "api.search.query.finalize"
+            // happens after we've already gotten the total count.
 
-        // Set visibility constraints.
-        $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
-            // Users with the "view-all" privilege can view all resources.
-            return;
-        }
-        // Users can view public resources they do not own.
-        $constraints = $qb->expr()->eq(sprintf('%s.isPublic', $searchAlias), true);
-        $identity = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
-        if ($identity) {
-            // Users can view all resources they own.
-            $constraints = $qb->expr()->orX(
-                $constraints,
-                $qb->expr()->eq(sprintf('%s.owner', $searchAlias), $identity->getId())
+            $qb->setParameter('omeka_fulltext_search', $query['fulltext_search']);
+
+            $joinConditions = sprintf(
+                'omeka_fulltext_search.id = omeka_root.id AND omeka_fulltext_search.resource = %s',
+                $adapter->createNamedParameter($qb, $adapter->getResourceName())
             );
+            $qb->innerJoin('Omeka\Entity\FulltextSearch', 'omeka_fulltext_search', 'WITH', $joinConditions);
+
+            // Filter out resources with no similarity.
+            $qb->andWhere(sprintf('%s > 0', $match));
+
+            // Set visibility constraints.
+            $acl = $this->getServiceLocator()->get('Omeka\Acl');
+            if ($acl->userIsAllowed('Omeka\Entity\Resource', 'view-all')) {
+                // Users with the "view-all" privilege can view all resources.
+                return;
+            }
+            // Users can view public resources they do not own.
+            $constraints = $qb->expr()->eq('omeka_fulltext_search.isPublic', true);
+            $identity = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
+            if ($identity) {
+                // Users can view all resources they own.
+                $constraints = $qb->expr()->orX(
+                    $constraints,
+                    $qb->expr()->eq('omeka_fulltext_search.owner', $identity->getId())
+                );
+            }
+            $qb->andWhere($constraints);
+        } elseif ('api.search.query.finalize' === $event->getName()) {
+
+            // Order by relevance if this is a default sort. This must happen
+            // during "api.search.query.finalize" because "api.search.query"
+            // happens before we apply orderBys.
+
+            if (isset($query['sort_by_default']) || !$qb->getDQLPart('orderBy')) {
+                $sortOrder = 'asc' === $query['sort_order'] ? 'ASC' : 'DESC';
+                $qb->orderBy($match, $sortOrder);
+            }
         }
-        $qb->andWhere($constraints);
     }
 
     public function addMediaAdvancedForm(ZendEvent $event)

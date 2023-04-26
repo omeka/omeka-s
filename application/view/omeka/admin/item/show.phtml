@@ -5,7 +5,7 @@ $this->htmlElement('body')->appendAttribute('class', 'items show');
 if ($owner = $item->owner()) {
     $ownerText = $escape($item->owner()->name());
 } else {
-    $ownerText = $translate('[no owner]');
+    $ownerText = $translate('[No owner]');
 }
 
 $sectionNavs = [

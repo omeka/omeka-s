@@ -107,7 +107,7 @@
     }
 
      function populateAssetAttachment(attachment) {
-        var asset = $('.selected-asset');
+        var asset = $('#asset-options .selected-asset');
         var assetTitle = asset.find('.selected-asset-name').html();
         var assetImage = asset.find('img').clone().attr('class', '');
         var assetId = asset.find('.selected-asset-id').val();
@@ -394,36 +394,15 @@
         $('#content').on('click', '.add-asset-attachment', function() {
             var selectingAttachmentButton = $(this);
             var newAsset = selectingAttachmentButton.parents('.attachments').data('template');
-            selectingAttachmentButton.before(newAsset).addClass('asset-selecting-button');
+            selectingAttachmentButton.before(newAsset);
             $('.new.attachment .asset-options-configure').click();
             $('#asset-options .asset-form-select').click();
-        });
-
-        $('#content').on('click', '.change-selected-asset', function () {
-            var assetSidebar = $('#asset-sidebar');
-            var selectingAttachmentButton = $(this);
-            Omeka.openSidebar(assetSidebar);
-            Omeka.populateSidebarContent(assetSidebar, selectingAttachmentButton.data('sidebar-content-url'));
-            if (selectingAttachmentButton.hasClass('add-asset-attachment')) {
-                $('.asset-selecting-button').removeClass('asset-selecting-button');
-            }
-            selectingAttachmentButton.addClass('asset-selecting-button');
-        });
-
-        $('#content').on('click', '.asset-list .select-asset', function (e) {
-            var assetOptions = $('#asset-options');
-            assetOptions.addClass('active');
-            assetOptions.find('h3.selected-asset-name').text($(this).find('.asset-name').text());
-            if ($('.add-asset-attachment').hasClass('asset-selecting-button')) {
-                assetOptions.find('.asset-option').val('');
-                resetAssetOption($('#asset-options .page-link'));
-            }
         });
 
         $('#content').on('click', '#asset-options-confirm-panel', function() {
             var selectingAttachment = $('.selecting.attachment');
             selectingAttachment.removeClass('new');
-            selectingAttachment.find('input[type="hidden"').removeAttr('disabled');
+            selectingAttachment.find('input[type="hidden"]').removeAttr('disabled');
             populateAssetAttachment(selectingAttachment);
             Omeka.closeSidebar($('#asset-options'));
             $('.selecting.attachment').removeClass('selecting');

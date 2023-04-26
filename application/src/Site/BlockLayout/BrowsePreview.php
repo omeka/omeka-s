@@ -20,7 +20,6 @@ class BrowsePreview extends AbstractBlockLayout
     {
         $view->headLink()->prependStylesheet($view->assetUrl('css/advanced-search.css', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('js/advanced-search.js', 'Omeka'));
-        $view->headLink()->appendStylesheet($view->assetUrl('css/query-form.css', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('js/query-form.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('js/browse-preview-block-layout.js', 'Omeka'));
     }
@@ -140,6 +139,7 @@ class BrowsePreview extends AbstractBlockLayout
         $query['limit'] = $block->dataValue('limit', 12);
 
         if (!isset($query['sort_by'])) {
+            $query['sort_by_default'] = '';
             $query['sort_by'] = 'created';
         }
         if (!isset($query['sort_order'])) {

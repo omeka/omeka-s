@@ -2,6 +2,7 @@
 namespace Omeka\Job;
 
 use Omeka\Api\Adapter\FulltextSearchableInterface;
+use Omeka\Api\Adapter\ValueAnnotationAdapter;
 
 class IndexFulltextSearch extends AbstractJob
 {
@@ -17,7 +18,8 @@ class IndexFulltextSearch extends AbstractJob
         $adapters = $services->get('Omeka\ApiAdapterManager');
         foreach ($adapters->getRegisteredNames() as $adapterName) {
             $adapter = $adapters->get($adapterName);
-            if ($adapter instanceof FulltextSearchableInterface) {
+            if ($adapter instanceof FulltextSearchableInterface
+                && !($adapter instanceof ValueAnnotationAdapter)) {
                 $page = 1;
                 do {
                     if ($this->shouldStop()) {

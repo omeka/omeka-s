@@ -18,7 +18,7 @@ $sortConfig = $this->browse()->getBrowseService()->getSortConfig($sortConfigCont
 $sortBy = new Element\Select('sort_by');
 $sortBy->setEmptyOption($this->translate('Select sort by…'));
 $sortBy->setValueOptions($sortConfig);
-$sortBy->setValue($query['sort_by'] ?? '');
+$sortBy->setValue((!isset($query['sort_by_default']) && isset($query['sort_by'])) ? $query['sort_by'] : '');
 
 $sortOrder = new Element\Select('sort_order');
 $sortOrder->setEmptyOption($this->translate('Select sort order…'));

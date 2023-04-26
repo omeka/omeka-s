@@ -51,10 +51,10 @@ class MediaController extends AbstractActionController
 
     public function editAction()
     {
-        $form = $this->getForm(ResourceForm::class);
+        $media = $this->api()->read('media', $this->params('id'))->getContent();
+
+        $form = $this->getForm(ResourceForm::class, ['resource' => $media]);
         $form->setAttribute('id', 'edit-media');
-        $response = $this->api()->read('media', $this->params('id'));
-        $media = $response->getContent();
 
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
@@ -231,8 +231,11 @@ class MediaController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->preprocessData();
 
-                foreach ($data as $collectionAction => $properties) {
-                    $this->api($form)->batchUpdate('media', $resourceIds, $properties, [
+                foreach ($data as $collectionAction => $dataToProcess) {
+                    if (!$dataToProcess) {
+                        continue;
+                    }
+                    $this->api($form)->batchUpdate('media', $resourceIds, $dataToProcess, [
                         'continueOnError' => true,
                         'collectionAction' => $collectionAction,
                         'detachEntities' => false,

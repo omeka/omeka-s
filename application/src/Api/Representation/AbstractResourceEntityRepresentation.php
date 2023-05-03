@@ -515,7 +515,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * The <property_id> should follow the pattern laid out in
      * AbstractResourceEntityAdapter::getSubjectValuesQueryBuilder(). If a
      * $resourceProperty isn't passed or is invalid, the default is all
-     * properties for the "items" resource type.
+     * properties for the current resource type.
      *
      * @param array $options
      * @return string
@@ -531,7 +531,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $resourceProperty = $options['resourceProperty'] ?? null;
         $siteId = $options['siteId'] ?? null;
 
-        $resourceType = 'items';
+        $resourceType = $adapter->getResourceName();
         $propertyId = null;
         if ($resourceProperty && false !== strpos($resourceProperty, ':')) {
             // Derive the resource type and property ID from $resourceProperty.

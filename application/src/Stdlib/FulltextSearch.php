@@ -4,7 +4,6 @@ namespace Omeka\Stdlib;
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Adapter\FulltextSearchableInterface;
 use Omeka\Api\ResourceInterface;
-use Omeka\Entity\FulltextSearch as FulltextSearchEntity;
 
 class FulltextSearch
 {

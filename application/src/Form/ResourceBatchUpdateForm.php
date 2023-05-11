@@ -367,7 +367,7 @@ class ResourceBatchUpdateForm extends Form
         if (isset($data['clear_property_values'])) {
             $preData['remove']['clear_property_values'] = $data['clear_property_values'];
         }
-        if (isset($data['set_value_visibility'])) {
+        if (!empty($data['set_value_visibility'])) {
             $preData['remove']['set_value_visibility'] = $data['set_value_visibility'];
         }
         if (!empty($data['clear_language'])) {

@@ -13,7 +13,6 @@ jQuery(function ($) {
         }).done(function () {
             window.location.reload();
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log();
             var errorList = form.find('ul.errors');
             errorList.empty();
             if ('application/json' === jqXHR.getResponseHeader('content-type')) {

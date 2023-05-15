@@ -80,6 +80,12 @@ $pageLayoutGridColumns = $pageLayoutData['grid_columns'] ?? '';
     <?php endforeach; ?>
 </div>
 
+<div id="grid-layout-preview-sidebar" class="sidebar">
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+    <h3><?php echo $translate('Grid layout preview'); ?></h3>
+    <div id="grid-layout-preview"></div>
+</div>
+
 <div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">
     <div id="attachment-options-main" class="confirm-main">
         <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>

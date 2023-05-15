@@ -528,6 +528,39 @@
             $('#page-layout-restore').show();
         });
 
+        // Handle a grid preview click.
+        $('#blocks').on('click', '.block-page-layout-grid-preview', function(e) {
+            e.preventDefault();
+            Omeka.openSidebar($('#grid-layout-preview-sidebar'));
+            const gridLayoutPreview = $('#grid-layout-preview');
+            const gridColumns = parseInt($('#page-layout-grid-columns-select').val(), 10);
+            const blocks = $('.block');
+            // Flag block as previewing block
+            blocks.removeClass('grid-layout-previewing');
+            $(this).closest('.block').addClass('grid-layout-previewing');
+            // Set the grid styles on the preview.
+            gridLayoutPreview
+                .empty()
+                .css('display', 'grid')
+                .css('grid-template-columns', `repeat(${gridColumns}, 1fr)`)
+                .css('gap', '2px');
+            blocks.each(function() {
+                const thisBlock = $(this);
+                const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                const gridColumnPositionSelectValue = parseInt(gridColumnPositionSelect.val(), 10) || 'auto';
+                const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                const gridColumnSpanSelectValue = parseInt(gridColumnSpanSelect.val(), 10);
+                const blockDiv = $('<div>')
+                    .css('grid-column', `${gridColumnPositionSelectValue} / span ${gridColumnSpanSelectValue}`)
+                    .css('min-height', '60px')
+                    .css('border', '1px solid grey');
+                if (thisBlock.hasClass('grid-layout-previewing')) {
+                    blockDiv.css('background-color', 'yellow');
+                }
+                gridLayoutPreview.append(blockDiv);
+            });
+        });
+
         // Handle a layout restore click.
         $('#page-layout-restore').on('click', function() {
             const restoreButton = $(this);

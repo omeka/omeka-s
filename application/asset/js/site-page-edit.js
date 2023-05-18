@@ -433,17 +433,20 @@
             const layoutSelect = $('#page-layout-select');
             const gridColumnsSelect = $('#page-layout-grid-columns-select');
             const gridPreview = $('#page-layout-grid-preview');
-            const gridColumnControls = $('.block-page-layout-grid-controls');
+            const blockGridControls = $('.block-page-layout-grid-controls');
+            const blockGridPreview = $('.block-page-layout-grid-preview');
             // Disable and hide all layout-specific controls by default.
             gridColumnsSelect.prop('disabled', true).hide();
             gridPreview.hide();
-            gridColumnControls.hide().find(':input').prop('disabled', true);
+            blockGridControls.hide().find(':input').prop('disabled', true);
+            blockGridPreview.hide();
             switch (layoutSelect.val()) {
                 case 'grid':
                     // Prepare grid layout.
                     gridColumnsSelect.prop('disabled', false).show();
                     gridPreview.show();
-                    gridColumnControls.show().find(':input').prop('disabled', false);
+                    blockGridControls.show().find(':input').prop('disabled', false);
+                    blockGridPreview.show();
                     preparePageGridLayout();
                     break;
                 case '':
@@ -507,7 +510,7 @@
                 .empty()
                 .css('display', 'grid')
                 .css('grid-template-columns', `repeat(${gridColumns}, 1fr)`)
-                .css('gap', '2px');
+                .css('gap', '4px');
             $('.block').each(function() {
                 const thisBlock = $(this);
                 const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
@@ -519,8 +522,20 @@
                     .css('min-height', '60px')
                     .css('border', '1px solid grey');
                 if (thisBlock.hasClass('grid-layout-previewing')) {
-                    blockDiv.css('background-color', 'yellow');
+                    blockDiv.css('background-color', '#FDFD96')
+                    .css('display', 'flex')
+                    .css('justify-content', 'center')
+                    .css('align-items', 'center')
+                    .append('*');
                 }
+                blockDiv.hover(
+                    function() {
+                        thisBlock.css('border', '1px solid grey');
+                    },
+                    function() {
+                        thisBlock.css('border', '');
+                    }
+                );
                 gridLayoutPreview.append(blockDiv);
             });
             Omeka.openSidebar($('#grid-layout-preview-sidebar'));

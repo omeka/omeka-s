@@ -16,11 +16,13 @@ switch ($resourceType) {
 $sortConfig = $this->browse()->getBrowseService()->getSortConfig($sortConfigContext, $sortConfigResourceType);
 
 $sortBy = new Element\Select('sort_by');
+$sortBy->setAttribute('aria-label', $this->translate('Sort by'));
 $sortBy->setEmptyOption($this->translate('Select sort by…'));
 $sortBy->setValueOptions($sortConfig);
 $sortBy->setValue($query['sort_by'] ?? '');
 
 $sortOrder = new Element\Select('sort_order');
+$sortOrder->setAttribute('aria-label', $this->translate('Sort order'));
 $sortOrder->setEmptyOption($this->translate('Select sort order…'));
 $sortOrder->setValueOptions([
     'asc' => $this->translate('Ascending'),

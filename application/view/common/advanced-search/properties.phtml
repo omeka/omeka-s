@@ -55,7 +55,7 @@ if ($this->status()->isSiteRequest()) {
         $stem = "property[$index]";
         ?>
         <div class="value">
-            <select class="joiner" name="<?php echo $this->escapeHtml($stem . '[joiner]'); ?>">
+            <select class="joiner" name="<?php echo $this->escapeHtml($stem . '[joiner]'); ?>" aria-label="<?php echo $translate('Joiner'); ?>">
                 <?php echo $queryOption('and', $property, 'joiner', $translate('AND')); ?>
                 <?php echo $queryOption('or', $property, 'joiner', $translate('OR')); ?>
             </select>

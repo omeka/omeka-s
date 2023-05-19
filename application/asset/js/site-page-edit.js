@@ -588,6 +588,11 @@
             previewPageLayoutGrid();
         });
 
+        $('#blocks').on('click', '.block-layout-config', function(e) {
+            e.preventDefault();
+            Omeka.openSidebar($('#block-layout-config-sidebar'));
+        });
+
         // Handle a layout restore click.
         $('#page-layout-restore').on('click', function() {
             const restoreButton = $(this);

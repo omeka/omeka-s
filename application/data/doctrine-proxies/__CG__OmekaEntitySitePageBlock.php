@@ -67,10 +67,10 @@ class SitePageBlock extends \Omeka\Entity\SitePageBlock implements \Doctrine\ORM
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'layout', 'data', 'position', 'layoutData', 'page', 'attachments'];
+            return ['__isInitialized__', 'id', 'layout', 'data', 'layoutData', 'position', 'page', 'attachments'];
         }
 
-        return ['__isInitialized__', 'id', 'layout', 'data', 'position', 'layoutData', 'page', 'attachments'];
+        return ['__isInitialized__', 'id', 'layout', 'data', 'layoutData', 'position', 'page', 'attachments'];
     }
 
     /**

@@ -34,14 +34,14 @@ class SitePageBlock extends AbstractEntity
     protected $data;
 
     /**
+     * @Column(type="json", nullable=true)
+     */
+    protected $layoutData;
+
+    /**
      * @Column(type="integer")
      */
     protected $position;
-
-    /**
-     * @Column(type="json", nullable=true)
-     */
-    protected $pageLayoutData;
 
     /**
      * @ManyToOne(targetEntity="SitePage", inversedBy="blocks")
@@ -100,14 +100,14 @@ class SitePageBlock extends AbstractEntity
         return $this->position;
     }
 
-    public function setPageLayoutData($pageLayoutData)
+    public function setLayoutData($layoutData)
     {
-        $this->pageLayoutData = $pageLayoutData;
+        $this->layoutData = $layoutData;
     }
 
-    public function getPageLayoutData()
+    public function getLayoutData()
     {
-        return $this->pageLayoutData;
+        return $this->layoutData;
     }
 
     public function setPage(SitePage $page)

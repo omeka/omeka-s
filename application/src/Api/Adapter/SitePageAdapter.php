@@ -234,7 +234,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
 
             $block->setLayout($inputBlock['o:layout']);
             $block->setData($inputBlock['o:data']);
-            $block->setPageLayoutData($inputBlock['o:page_layout_data'] ?? null);
+            $block->setLayoutData($inputBlock['o:layout_data'] ?? null);
 
             // (Re-)order blocks by their order in the input
             $block->setPosition($position++);

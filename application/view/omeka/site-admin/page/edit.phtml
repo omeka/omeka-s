@@ -64,7 +64,7 @@ $pageLayoutGridColumns = $pageLayoutData['grid_columns'] ?? '';
         <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridColumns == $key) ? ' selected' : '' ?>><?php echo $value; ?></option>
         <?php endforeach; ?>
     </select>
-    <a href="#" id="page-layout-grid-preview" class="o-icon-search" aria-label="<?php echo $translate('Preview'); ?>" title="<?php echo $translate('Preview'); ?>"></a>
+    <a href="#" id="page-layout-grid-preview" class="o-icon-search" aria-label="<?php echo $translate('Preview layout'); ?>" title="<?php echo $translate('Preview layout'); ?>"></a>
     <button type="button" id="page-layout-restore" style="display: none;"><?php echo $translate('Restore'); ?></button>
 </div>
 
@@ -85,6 +85,11 @@ $pageLayoutGridColumns = $pageLayoutData['grid_columns'] ?? '';
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
     <h3><?php echo $translate('Grid layout preview'); ?></h3>
     <div id="grid-layout-preview"></div>
+</div>
+
+<div id="block-layout-config-sidebar" class="sidebar">
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+    <h3><?php echo $translate('Block layout configuration'); ?></h3>
 </div>
 
 <div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">

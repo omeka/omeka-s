@@ -29,7 +29,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
         return [
             'o:layout' => $this->layout(),
             'o:data' => $this->data(),
-            'o:page_layout_data' => $this->pageLayoutData(),
+            'o:layout_data' => $this->layoutData(),
             'o:attachment' => $this->attachments(),
         ];
     }
@@ -83,9 +83,9 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     /**
      * @return array
      */
-    public function pageLayoutData()
+    public function layoutData()
     {
-        return $this->block->getPageLayoutData();
+        return $this->block->getLayoutData();
     }
 
     public function attachments()

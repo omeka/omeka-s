@@ -15,6 +15,11 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
 
     public function getResourceJsonLd()
     {
+        $sites = [];
+        foreach ($this->sites() as $siteRepresentation) {
+            $sites[] = $siteRepresentation->getReference();
+        }
+
         $url = $this->getViewHelper('Url');
         $itemsUrl = $url(
             'api/default',
@@ -27,6 +32,7 @@ class ItemSetRepresentation extends AbstractResourceEntityRepresentation
         return [
             'o:is_open' => $this->isOpen(),
             'o:items' => ['@id' => $itemsUrl],
+            'o:site' => $sites,
         ];
     }
 

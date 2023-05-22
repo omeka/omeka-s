@@ -1,10 +1,12 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
+use Omeka\Entity\SiteItemSet;
 use Omeka\Stdlib\ErrorStore;
 
 class ItemSetAdapter extends AbstractResourceEntityAdapter
@@ -127,8 +129,92 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
     ) {
         parent::hydrate($request, $entity, $errorStore);
 
+        $isCreate = Request::CREATE === $request->getOperation();
+        $isUpdate = Request::UPDATE === $request->getOperation();
+        $isPartial = $isUpdate && $request->getOption('isPartial');
+        $append = $isPartial && 'append' === $request->getOption('collectionAction');
+        $remove = $isPartial && 'remove' === $request->getOption('collectionAction');
+
         if ($this->shouldHydrate($request, 'o:is_open')) {
             $entity->setIsOpen($request->getValue('o:is_open'));
+        }
+
+        // For now, use the same key "assign_new_items". In fact, there should be two
+        // columns (or a site setting) or one "assign_new_resources". The same for acl.
+
+        // Similar to ItemAdapter and SiteAdapter, except getSites() is getSiteItemSets()
+        // and subsequent differences.
+        if ($isCreate && !is_array($request->getValue('o:site'))) {
+            // On CREATE and when no "o:site" array is passed, assign this item
+            // to all sites where assignNewItems=true.
+            $dql = '
+                SELECT site
+                FROM Omeka\Entity\Site site
+                WHERE site.assignNewItems = true';
+            $entityManager = $this->getEntityManager();
+            $query = $entityManager->createQuery($dql);
+            $siteItemSets = $entity->getSiteItemSets();
+            $position = 1;
+            foreach ($query->getResult() as $site) {
+                $siteItemSet = new SiteItemSet;
+                $siteItemSet->setSite($site);
+                $siteItemSet->setItemSet($entity);
+                $siteItemSet->setPosition($position++);
+                $siteItemSets->add($siteItemSet);
+                $entityManager->persist($siteItemSet);
+            }
+        } elseif ($this->shouldHydrate($request, 'o:site')) {
+            $entityManager = $this->getEntityManager();
+            $acl = $this->getServiceLocator()->get('Omeka\Acl');
+            $sitesData = $request->getValue('o:site', []);
+            $siteAdapter = $this->getAdapter('sites');
+            $siteItemSets = $entity->getSiteItemSets();
+            $sitesToRetain = [];
+
+            foreach ($sitesData as $siteData) {
+                if (is_array($siteData) && isset($siteData['o:id'])) {
+                    $siteId = $siteData['o:id'];
+                } elseif (is_numeric($siteData)) {
+                    $siteId = $siteData;
+                } else {
+                    continue;
+                }
+                $site = $siteAdapter->findEntity($siteId);
+                if (!$site) {
+                    continue;
+                }
+                $criteria = Criteria::create()->where(Criteria::expr()->eq('site', $site));
+                $siteItemSet = $siteItemSets->matching($criteria)->first();
+                if ($remove) {
+                    if ($siteItemSet && $acl->userIsAllowed($site, 'can-assign-items')) {
+                        $siteItemSets->removeElement($siteItemSet);
+                        $entityManager->remove($siteItemSet);
+                    }
+                    continue;
+                }
+                // Assign site that was not already assigned.
+                if (!$siteItemSet && $acl->userIsAllowed($site, 'can-assign-items')) {
+                    $siteItemSet = new SiteItemSet;
+                    $siteItemSet->setSite($site);
+                    $siteItemSet->setItemSet($entity);
+                    $siteItemSet->setPosition($siteItemSets->count() + 1);
+                    $siteItemSets->add($siteItemSet);
+                    $entityManager->persist($siteItemSet);
+                }
+                $sitesToRetain[] = $site;
+            }
+
+            if (!$append && !$remove) {
+                // Remove sites that were not included in the passed data.
+                $criteria = Criteria::create()->where(Criteria::expr()->notIn('site', $sitesToRetain));
+                foreach ($siteItemSets->matching($criteria) as $siteItemSet) {
+                    $site = $siteItemSet->getSite();
+                    if ($acl->userIsAllowed($site, 'can-assign-items')) {
+                        $siteItemSets->removeElement($siteItemSet);
+                        $entityManager->remove($siteItemSet);
+                    }
+                }
+            }
         }
     }
 

@@ -40,6 +40,9 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         'item' => 'item',
         'lang' => 'lang',
         'alt_text' => 'altText',
+        'owner' => 'owner',
+        'resource_class' => 'resourceClass',
+        'resource_template' => 'resourceTemplate',
     ];
 
     public function getResourceName()

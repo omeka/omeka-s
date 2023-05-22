@@ -27,6 +27,9 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
         'is_public' => 'isPublic',
         'thumbnail' => 'thumbnail',
         'is_open' => 'isOpen',
+        'owner' => 'owner',
+        'resource_class' => 'resourceClass',
+        'resource_template' => 'resourceTemplate',
     ];
 
     /**

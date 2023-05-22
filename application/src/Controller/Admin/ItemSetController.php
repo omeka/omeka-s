@@ -24,6 +24,8 @@ class ItemSetController extends AbstractActionController
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $data = $this->mergeValuesJson($data);
+            // Prevent the API from setting sites automatically if no sites are set.
+            $data['o:site'] ??= [];
             $form->setData($data);
             if ($form->isValid()) {
                 $response = $this->api($form)->create('item_sets', $data);
@@ -59,6 +61,7 @@ class ItemSetController extends AbstractActionController
         $view = new ViewModel;
         $view->setVariable('form', $form);
         $view->setVariable('itemSet', $itemSet);
+        $view->setVariable('resource', $itemSet);
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $data = $this->mergeValuesJson($data);

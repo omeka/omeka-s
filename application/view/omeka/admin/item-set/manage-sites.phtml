@@ -2,16 +2,15 @@
 if ($itemSet) {
     $siteRepresentations = $itemSet->sites();
 } else {
-    $siteRepresentations = [];
-    /*
+    // For now, use the same key "assign_new_items". In fact, there should be two
+    // columns (or a site setting) or one "assign_new_resources". The same for acl.
     $siteRepresentations = $this->api()->search('sites', ['assign_new_items' => true])->getContent();
 
-    $userDefaultSites = $this->userSetting('default_item_sites');
-    if (is_array($userDefaultSites)) {
+    $userDefaultSites = $this->userSetting('default_item_set_sites');
+    if (is_array($userDefaultSites) && !empty($userDefaultSites)) {
         $userDefaultSiteRepresentations = $this->api()->search('sites', ['id' => $userDefaultSites])->getContent();
         $siteRepresentations = array_merge($siteRepresentations, $userDefaultSiteRepresentations);
     }
-    */
 }
 
 $sites = [];

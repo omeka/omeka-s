@@ -82,6 +82,15 @@ $sectionNavs = [
         <div class="value"><?php echo ($itemSet->isPublic()) ? $escape($translate('Public')) : $escape($translate('Private')); ?></div>
         <div class="value"><?php echo ($itemSet->isOpen()) ? $escape($translate('Open to additions')) : $escape($translate('Closed to additions')); ?></div>
     </div>
+    <?php $sites = $itemSet->sites(); ?>
+    <?php if (count($sites) > 0): ?>
+    <div class="meta-group">
+        <h4><?php echo $translate('Sites'); ?></h4>
+        <?php foreach ($sites as $site): ?>
+        <div class="value item-sets"><?php echo $site->link($site->title()); ?></div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
     <div class="meta-group">
         <h4><?php echo $translate('Items'); ?></h4>
         <div class="value"><?php echo $this->hyperlink($itemSet->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $itemSet->id()]])); ?></div>

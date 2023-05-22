@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Controller\SiteAdmin;
 
+use Omeka\Form\BlockLayoutDataForm;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\SitePageForm;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -22,6 +23,10 @@ class PageController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $post = $this->params()->fromPost();
+            // Prepare block layout data.
+            foreach ($post['o:block'] as $key => $blockData) {
+                $post['o:block'][$key]['o:layout_data'] = json_decode($blockData['o:layout_data'], true);
+            }
             $form->setData($post);
             if ($form->isValid()) {
                 $response = $this->api($form)->update('site_pages', $page->id(), $post);
@@ -41,6 +46,7 @@ class PageController extends AbstractActionController
         $view->setVariable('sitePages', $sitePages);
         $view->setVariable('page', $page);
         $view->setVariable('form', $form);
+        $view->setVariable('blockLayoutDataForm', $this->getForm(BlockLayoutDataForm::class));
         return $view;
     }
 

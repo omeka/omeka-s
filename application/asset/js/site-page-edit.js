@@ -208,6 +208,11 @@
                         replaceIndex(thisAttachment, 'attachmentIndex', attachmentIndex);
                     });
                 }
+                // Set block layout data to form.
+                const blockLayoutData = thisBlock.data('block-layout-data');
+                blockLayoutData.grid_column_position = thisBlock.find('.block-page-layout-grid-column-position-select').val();
+                blockLayoutData.grid_column_span = thisBlock.find('.block-page-layout-grid-column-span-select').val();
+                thisBlock.find('.block-layout-data').val(JSON.stringify(blockLayoutData));
             });
         });
 
@@ -432,9 +437,9 @@
         const preparePageLayout = function() {
             const layoutSelect = $('#page-layout-select');
             const gridColumnsSelect = $('#page-layout-grid-columns-select');
-            const gridPreview = $('#page-layout-grid-preview');
+            const gridPreview = $('#preview-page-layout-grid');
             const blockGridControls = $('.block-page-layout-grid-controls');
-            const blockGridPreview = $('.block-page-layout-grid-preview');
+            const blockGridPreview = $('.preview-block-page-layout-grid');
             // Disable and hide all layout-specific controls by default.
             gridColumnsSelect.prop('disabled', true).hide();
             gridPreview.hide();
@@ -574,23 +579,42 @@
         });
 
         // Handle a page layout grid preview click.
-        $('#page-layout-grid-preview').on('click', function(e) {
+        $('#preview-page-layout-grid').on('click', function(e) {
             e.preventDefault();
             $('.block').removeClass('grid-layout-previewing');
             previewPageLayoutGrid();
         })
 
         // Handle a page layout grid preview click for a specific block.
-        $('#blocks').on('click', '.block-page-layout-grid-preview', function(e) {
+        $('#blocks').on('click', '.preview-block-page-layout-grid', function(e) {
             e.preventDefault();
             $('.block').removeClass('grid-layout-previewing');
             $(this).closest('.block').addClass('grid-layout-previewing');
             previewPageLayoutGrid();
         });
 
-        $('#blocks').on('click', '.block-layout-config', function(e) {
+        $('#blocks').on('click', '.configure-block-layout-data', function(e) {
             e.preventDefault();
-            Omeka.openSidebar($('#block-layout-config-sidebar'));
+            const thisBlock = $(this).closest('.block');
+            const blockLayoutData = thisBlock.data('block-layout-data');
+            $('.block').removeClass('block-layout-data-configuring');
+            thisBlock.addClass('block-layout-data-configuring');
+
+            // Populate form with block layout data.
+            $('#block-layout-data-class').val(blockLayoutData.class);
+
+            Omeka.openSidebar($('#block-layout-data-sidebar'));
+        });
+
+        $('#apply-block-layout-data').on('click', function(e) {
+            e.preventDefault();
+            const block = $('.block-layout-data-configuring');
+            const blockLayoutData = block.data('block-layout-data');
+
+            // Apply block layout data.
+            blockLayoutData.class = $('#block-layout-data-class').val();
+
+            Omeka.closeSidebar($('#block-layout-data-sidebar'));
         });
 
         // Handle a layout restore click.

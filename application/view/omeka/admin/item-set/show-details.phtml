@@ -18,6 +18,15 @@ $escape = $this->plugin('escapeHtml');
         <div class="value"><?php echo ($resource->isPublic()) ? $translate('Public') : $translate('Private'); ?></div>
         <div class="value"><?php echo ($resource->isOpen()) ? $escape($translate('Open to additions')) : $escape($translate('Closed to additions')); ?></div>
     </div>
+    <?php $sites = $resource->sites(); ?>
+    <?php if ($sites): ?>
+    <div class="meta-group">
+        <h4><?php echo $translate('Sites'); ?></h4>
+        <?php foreach ($sites as $site): ?>
+        <div class="value sites"><?php echo $site->link($site->title()); ?></div>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
     <div class="meta-group">
         <h4><?php echo $translate('Items'); ?></h4>
         <div class="value"><?php echo $this->hyperlink($resource->itemCount(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['item_set_id' => $resource->id()]])); ?></div>

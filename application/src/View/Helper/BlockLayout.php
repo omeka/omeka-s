@@ -5,6 +5,8 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Site\BlockLayout\Manager as BlockLayoutManager;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManager;
 use Laminas\View\Helper\AbstractHelper;
 
 /**
@@ -22,9 +24,12 @@ class BlockLayout extends AbstractHelper
      */
     protected $manager;
 
-    public function __construct(BlockLayoutManager $manager)
+    protected $eventManager;
+
+    public function __construct(BlockLayoutManager $manager, EventManager $eventManager)
     {
         $this->manager = $manager;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -124,6 +129,36 @@ class BlockLayout extends AbstractHelper
      */
     public function render(SitePageBlockRepresentation $block)
     {
-        return $this->manager->get($block->layout())->render($this->getView(), $block);
+        // Allow modules to add classes for styling the layout.
+        $eventArgs = $this->eventManager->prepareArgs(['classes' => []]);
+        $this->eventManager->triggerEvent(new Event('block_layout.classes', $block, $eventArgs));
+        $classes = $eventArgs['classes'];
+
+        // Allow modules to add inline styles for styling the layout.
+        $eventArgs = $this->eventManager->prepareArgs(['inline_styles' => []]);
+        $this->eventManager->triggerEvent(new Event('block_layout.inline_styles', $block, $eventArgs));
+        $inlineStyles = $eventArgs['inline_styles'];
+
+        // Add classes and inline styles, if any.
+        $layoutData = $block->layoutData();
+        if (isset($layoutData['class']) && is_string($layoutData['class']) && '' !== trim($layoutData['class'])) {
+            $classes[] = $layoutData['class'];
+        }
+
+        $view = $this->getView();
+        $blockLayout = $this->manager->get($block->layout());
+
+        // Wrap block markup in a div only if the layout declares special
+        // styling via classes or inline styles.
+        if ($classes || $inlineStyles) {
+            return sprintf(
+                '<div class="%s" style="%s">%s</div>',
+                $view->escapeHtml(implode(' ', $classes)),
+                $view->escapeHtml(implode(' ', $inlineStyles)),
+                $blockLayout->render($this->getView(), $block)
+            );
+        }
+
+        return $blockLayout->render($this->getView(), $block);
     }
 }

@@ -33,13 +33,13 @@ foreach ($page->blocks() as $block) {
     switch ($page->layout()) {
         case 'grid':
             $gridColumns = (int) $pageLayoutData['grid_columns'];
-            $blockPageLayoutData = $block->pageLayoutData();
+            $blockLayoutData = $block->layoutData();
             $getValidPosition = fn($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? $columnPosition : 'auto';
             $getValidSpan = fn($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? $columnSpan : $gridColumns;
             echo sprintf(
                 '<div style="grid-column: %s / span %s">%s</div>',
-                $getValidPosition($blockPageLayoutData['grid_column_position'] ?? 'auto'),
-                $getValidSpan($blockPageLayoutData['grid_column_span'] ?? '1'),
+                $getValidPosition($blockLayoutData['grid_column_position'] ?? 'auto'),
+                $getValidSpan($blockLayoutData['grid_column_span'] ?? '1'),
                 $this->blockLayout()->render($block)
             );
             break;

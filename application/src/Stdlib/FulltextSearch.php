@@ -4,6 +4,7 @@ namespace Omeka\Stdlib;
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Adapter\FulltextSearchableInterface;
 use Omeka\Api\ResourceInterface;
+use PDO;
 
 class FulltextSearch
 {
@@ -38,12 +39,12 @@ class FulltextSearch
             `owner_id` = :owner_id, `is_public` = :is_public, `title` = :title, `text` = :text';
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindValue('id', $resourceId);
-        $stmt->bindValue('resource', $resourceName);
-        $stmt->bindValue('owner_id', $ownerId);
-        $stmt->bindValue('is_public', $adapter->getFulltextIsPublic($resource));
-        $stmt->bindValue('title', $adapter->getFulltextTitle($resource));
-        $stmt->bindValue('text', $adapter->getFulltextText($resource));
+        $stmt->bindValue('id', $resourceId, PDO::PARAM_INT);
+        $stmt->bindValue('resource', $resourceName, PDO::PARAM_STR);
+        $stmt->bindValue('owner_id', $ownerId, PDO::PARAM_INT);
+        $stmt->bindValue('is_public', $adapter->getFulltextIsPublic($resource), PDO::PARAM_BOOL);
+        $stmt->bindValue('title', $adapter->getFulltextTitle($resource), PDO::PARAM_STR);
+        $stmt->bindValue('text', $adapter->getFulltextText($resource), PDO::PARAM_STR);
         $stmt->executeStatement();
     }
 
@@ -63,8 +64,8 @@ class FulltextSearch
         $sql = 'DELETE FROM `fulltext_search` WHERE `id` = :id AND `resource` = :resource';
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindValue('id', $resourceId);
-        $stmt->bindValue('resource', $resourceName);
+        $stmt->bindValue('id', $resourceId, PDO::PARAM_INT);
+        $stmt->bindValue('resource', $resourceName, PDO::PARAM_STR);
         $stmt->executeStatement();
     }
 }

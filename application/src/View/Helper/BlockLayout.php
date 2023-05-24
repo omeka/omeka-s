@@ -140,9 +140,23 @@ class BlockLayout extends AbstractHelper
         $inlineStyles = $eventArgs['inline_styles'];
 
         // Add classes and inline styles, if any.
-        $layoutData = $block->layoutData();
-        if (isset($layoutData['class']) && is_string($layoutData['class']) && '' !== trim($layoutData['class'])) {
-            $classes[] = $layoutData['class'];
+        $class = $block->layoutDataValue('class');
+        if (is_string($class) && '' !== trim($class)) {
+            $classes[] = $class;
+        }
+        $alignment = $block->layoutDataValue('alignment');
+        switch ($alignment) {
+            case 'left':
+                $classes[] = 'block-layout-alignment-left';
+                break;
+            case 'right':
+                $classes[] = 'block-layout-alignment-right';
+                break;
+            case 'center':
+                $classes[] = 'block-layout-alignment-center';
+                break;
+            default:
+                // No alignment
         }
 
         $view = $this->getView();

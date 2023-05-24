@@ -81,6 +81,19 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     }
 
     /**
+     * Get block layout data by key.
+     *
+     * @param string $key The layout data key
+     * @param mixed $default Return this if key does not exist
+     * @return mixed
+     */
+    public function layoutDataValue($key, $default = null)
+    {
+        $layoutData = $this->block->getLayoutData();
+        return $layoutData[$key] ?? $default;
+    }
+
+    /**
      * @return array
      */
     public function layoutData()

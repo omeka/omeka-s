@@ -13,12 +13,28 @@ class BlockLayoutDataForm extends Form
     {
         $this->add([
             'name' => 'class',
-            'type' => 'Text',
+            'type' => 'text',
             'options' => [
                 'label' => 'Class', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-class',
+            ],
+        ]);
+        $this->add([
+            'name' => 'alignment',
+            'type' => 'select',
+            'options' => [
+                'label' => 'Alignment', // @translate
+                'empty_option' => 'Default', // @translate
+                'value_options' => [
+                    'left' => 'Float left', // @translate
+                    'right' => 'Float right', // @translate
+                    'center' => 'Center', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-alignment',
             ],
         ]);
 

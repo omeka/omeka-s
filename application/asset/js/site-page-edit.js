@@ -602,6 +602,7 @@
 
             // Populate form with block layout data.
             $('#block-layout-data-class').val(blockLayoutData.class);
+            $('#block-layout-data-alignment').val(blockLayoutData.alignment);
 
             Omeka.openSidebar($('#block-layout-data-sidebar'));
         });
@@ -613,6 +614,7 @@
 
             // Apply block layout data.
             blockLayoutData.class = $('#block-layout-data-class').val();
+            blockLayoutData.alignment = $('#block-layout-data-alignment').val();
 
             Omeka.closeSidebar($('#block-layout-data-sidebar'));
         });

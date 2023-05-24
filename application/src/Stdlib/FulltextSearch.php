@@ -4,15 +4,15 @@ namespace Omeka\Stdlib;
 use Omeka\Api\Adapter\AdapterInterface;
 use Omeka\Api\Adapter\FulltextSearchableInterface;
 use Omeka\Api\ResourceInterface;
-use Omeka\Entity\FulltextSearch as FulltextSearchEntity;
+use PDO;
 
 class FulltextSearch
 {
-    protected $em;
+    protected $conn;
 
-    public function __construct($em)
+    public function __construct($conn)
     {
-        $this->em = $em;
+        $this->conn = $conn;
     }
 
     /**
@@ -26,21 +26,26 @@ class FulltextSearch
         if (!($adapter instanceof FulltextSearchableInterface)) {
             return;
         }
-        $searchId = $resource->getId();
-        $searchResource = $adapter->getResourceName();
-        $search = $this->em->find(
-            'Omeka\Entity\FulltextSearch',
-            ['id' => $searchId, 'resource' => $searchResource]
-        );
-        if (!$search) {
-            $search = new FulltextSearchEntity($searchId, $searchResource);
-            $this->em->persist($search);
-        }
-        $search->setOwner($adapter->getFulltextOwner($resource));
-        $search->setIsPublic($adapter->getFulltextIsPublic($resource));
-        $search->setTitle($adapter->getFulltextTitle($resource));
-        $search->setText($adapter->getFulltextText($resource));
-        $this->em->flush($search);
+        $resourceId = $resource->getId();
+        $resourceName = $adapter->getResourceName();
+        $owner = $adapter->getFulltextOwner($resource);
+        $ownerId = $owner ? $owner->getId() : null;
+
+        $sql = 'INSERT INTO `fulltext_search` (
+            `id`, `resource`, `owner_id`, `is_public`, `title`, `text`
+        ) VALUES (
+            :id, :resource, :owner_id, :is_public, :title, :text
+        ) ON DUPLICATE KEY UPDATE
+            `owner_id` = :owner_id, `is_public` = :is_public, `title` = :title, `text` = :text';
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue('id', $resourceId, PDO::PARAM_INT);
+        $stmt->bindValue('resource', $resourceName, PDO::PARAM_STR);
+        $stmt->bindValue('owner_id', $ownerId, PDO::PARAM_INT);
+        $stmt->bindValue('is_public', $adapter->getFulltextIsPublic($resource), PDO::PARAM_BOOL);
+        $stmt->bindValue('title', $adapter->getFulltextTitle($resource), PDO::PARAM_STR);
+        $stmt->bindValue('text', $adapter->getFulltextText($resource), PDO::PARAM_STR);
+        $stmt->executeStatement();
     }
 
     /**
@@ -54,14 +59,13 @@ class FulltextSearch
         if (!($adapter instanceof FulltextSearchableInterface)) {
             return;
         }
-        $searchResource = $adapter->getResourceName();
-        $search = $this->em->find(
-            'Omeka\Entity\FulltextSearch',
-            ['id' => $resourceId, 'resource' => $searchResource]
-        );
-        if ($search) {
-            $this->em->remove($search);
-            $this->em->flush($search);
-        }
+        $resourceName = $adapter->getResourceName();
+
+        $sql = 'DELETE FROM `fulltext_search` WHERE `id` = :id AND `resource` = :resource';
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue('id', $resourceId, PDO::PARAM_INT);
+        $stmt->bindValue('resource', $resourceName, PDO::PARAM_STR);
+        $stmt->executeStatement();
     }
 }

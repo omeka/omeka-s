@@ -22,7 +22,6 @@ class Media extends AbstractBlockLayout
         $html .= '<a href="#" class="collapse" aria-label="collapse"><h4>' . $view->translate('Options') . '</h4></a>';
         $html .= '<div class="collapsible">';
         $html .= $view->blockThumbnailTypeSelect($block);
-        $html .= $this->alignmentClassSelect($view, $block);
         $html .= $view->blockShowTitleSelect($block);
         $html .= '</div>';
         return $html;
@@ -35,7 +34,6 @@ class Media extends AbstractBlockLayout
             return '';
         }
 
-        $alignmentClass = $block->dataValue('alignment', 'left');
         $thumbnailType = $block->dataValue('thumbnail_type', 'square');
         $linkType = $view->siteSetting('attachment_link_type', 'item');
         $showTitleOption = $block->dataValue('show_title_option', 'item_title');
@@ -43,26 +41,9 @@ class Media extends AbstractBlockLayout
         return $view->partial('common/block-layout/file', [
             'block' => $block,
             'attachments' => $attachments,
-            'alignmentClass' => $alignmentClass,
             'thumbnailType' => $thumbnailType,
             'link' => $linkType,
             'showTitleOption' => $showTitleOption,
         ]);
-    }
-
-    public function alignmentClassSelect(PhpRenderer $view,
-        SitePageBlockRepresentation $block = null
-    ) {
-        $alignmentLabels = ['float left', 'float right', 'center'];
-        $alignmentValues = ['left', 'right', 'center'];
-        $alignment = $block ? $block->dataValue('alignment', 'left') : 'left';
-        $select = new Select('o:block[__blockIndex__][o:data][alignment]');
-        $select->setValueOptions(array_combine($alignmentValues, $alignmentLabels))->setValue($alignment);
-        $selectLabel = 'Alignment'; // @translate
-        $select->setAttributes(['title' => $selectLabel, 'aria-label' => $selectLabel]);
-        $html = '<div class="field"><div class="field-meta">';
-        $html .= '<label class="thumbnail-option" for="o:block[__blockIndex__][o:data][alignment]">' . $selectLabel . '</label></div>';
-        $html .= '<div class="inputs">' . $view->formSelect($select) . '</div></div>';
-        return $html;
     }
 }

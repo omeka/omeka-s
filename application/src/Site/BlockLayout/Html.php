@@ -42,17 +42,10 @@ class Html extends AbstractBlockLayout
         $form = new Form();
         $html = new Element\Textarea("o:block[__blockIndex__][o:data][html]");
         $html->setAttribute('class', 'block-html full wysiwyg');
-        $divClass = new Element\Text("o:block[__blockIndex__][o:data][divclass]");
-        $divClass->setOptions([
-            'label' => 'Class', // @translate
-            'info' => 'Optional CSS class for styling HTML.', // @translate
-        ]);
         if ($block) {
             $html->setValue($block->dataValue('html'));
-            $divClass->setValue($block->dataValue('divclass'));
         }
         $form->add($html);
-        $form->add($divClass);
 
         return $view->formCollection($form);
     }

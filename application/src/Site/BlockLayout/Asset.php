@@ -28,31 +28,6 @@ class Asset extends AbstractBlockLayout
         $block->setData($data);
     }
 
-    public function alignmentClassSelect(PhpRenderer $view, SitePageBlockRepresentation $block = null
-    ) {
-        $alignmentLabels = [
-          'default', // @translate
-          'float left', // @translate
-          'float right', // @translate
-          'center', // @translate
-        ];
-        $alignmentValues = [
-          'default', // @translate
-          'left', // @translate
-          'right', // @translate
-          'center', // @translate
-        ];
-        $alignment = $block ? $block->dataValue('alignment', 'default') : 'default';
-        $select = new Select('o:block[__blockIndex__][o:data][alignment]');
-        $select->setValueOptions(array_combine($alignmentValues, $alignmentLabels))->setValue($alignment);
-        $selectLabel = 'Alignment'; // @translate
-        $select->setAttributes(['title' => $selectLabel, 'aria-label' => $selectLabel]);
-        $html = '<div class="field"><div class="field-meta">';
-        $html .= '<label for="o:block[__blockIndex__][o:data][alignment]">' . $selectLabel . '</label></div>';
-        $html .= '<div class="inputs">' . $view->formSelect($select) . '</div></div>';
-        return $html;
-    }
-
     public function prepareAssetAttachments(PhpRenderer $view, $blockData, SiteRepresentation $site)
     {
         $attachments = [];
@@ -93,13 +68,11 @@ class Asset extends AbstractBlockLayout
         $apiUrl = $site->apiUrl();
         $blockData = ($block) ? $block->data() : '';
         $attachments = $this->prepareAssetAttachments($view, $blockData, $site);
-        $alignmentClassSelect = $this->alignmentClassSelect($view, $block);
         return $view->partial('common/asset-block-form', [
           'block' => $blockData,
           'siteId' => $siteId,
           'apiUrl' => $apiUrl,
           'attachments' => $attachments,
-          'alignmentClassSelect' => $alignmentClassSelect,
         ]);
     }
 
@@ -108,12 +81,8 @@ class Asset extends AbstractBlockLayout
         $blockData = ($block) ? $block->data() : '';
         $site = $view->site;
         $attachments = $this->prepareAssetAttachments($view, $blockData, $site);
-        $customClass = $block->dataValue('className');
-        $alignment = $block->dataValue('alignment');
         return $view->partial('common/block-layout/asset', [
           'attachments' => $attachments,
-          'className' => $customClass,
-          'alignment' => $alignment,
         ]);
     }
 }

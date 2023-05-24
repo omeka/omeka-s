@@ -2,8 +2,8 @@
 namespace Omeka\Db\Migrations;
 
 use Doctrine\DBAL\Connection;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Omeka\Db\Migration\ConstructedMigrationInterface;
-use Omeka\Db\Migration\MigrationInterface;
 
 class MigrateBlockLayoutData implements ConstructedMigrationInterface
 {
@@ -26,7 +26,7 @@ class MigrateBlockLayoutData implements ConstructedMigrationInterface
         // Migrate "HTML" (html) blocks.
         foreach ($blocksRepository->findBy(['layout' => 'html']) as $block) {
             $data = $block->getData();
-            $layoutData = [];
+            $layoutData = $block->getLayoutData();
             if (isset($data['divclass'])) {
                 $layoutData['class'] = $data['divclass'];
                 unset($data['divclass']);
@@ -34,10 +34,27 @@ class MigrateBlockLayoutData implements ConstructedMigrationInterface
                 $block->setLayoutData($layoutData);
             }
         }
-        // Migrate "Media embed" (html) blocks.
+        // Migrate "Media embed" (media) blocks.
         foreach ($blocksRepository->findBy(['layout' => 'media']) as $block) {
             $data = $block->getData();
-            $layoutData = [];
+            $layoutData = $block->getLayoutData();
+            if (isset($data['alignment'])) {
+                $layoutData['alignment'] = $data['alignment'];
+                unset($data['alignment']);
+                $block->setData($data);
+                $block->setLayoutData($layoutData);
+            }
+        }
+        // Migrate "Asset" (asset) blocks.
+        foreach ($blocksRepository->findBy(['layout' => 'asset']) as $block) {
+            $data = $block->getData();
+            $layoutData = $block->getLayoutData();
+            if (isset($data['className'])) {
+                $layoutData['class'] = $data['className'];
+                unset($data['className']);
+                $block->setData($data);
+                $block->setLayoutData($layoutData);
+            }
             if (isset($data['alignment'])) {
                 $layoutData['alignment'] = $data['alignment'];
                 unset($data['alignment']);

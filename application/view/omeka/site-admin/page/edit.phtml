@@ -49,7 +49,7 @@ $pageLayoutGridColumnsOptions = [1 => $translate('1 column')];
 foreach (range(2, 12) as $value) {
     $pageLayoutGridColumnsOptions[$value] = sprintf($translate('%s columns'), $value);
 }
-$pageLayoutGridColumns = $pageLayoutData['grid_columns'] ?? '';
+$pageLayoutGridColumns = $pageLayoutData['grid_columns'] ?? '12';
 
 ?>
 <div id="page-layout-controls">

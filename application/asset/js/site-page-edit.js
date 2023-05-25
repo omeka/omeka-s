@@ -441,16 +441,16 @@
             const blockGridControls = $('.block-page-layout-grid-controls');
             const blockGridPreview = $('.preview-block-page-layout-grid');
             // Disable and hide all layout-specific controls by default.
-            gridColumnsSelect.prop('disabled', true).hide();
+            gridColumnsSelect.hide();
             gridPreview.hide();
-            blockGridControls.hide().find(':input').prop('disabled', true);
+            blockGridControls.hide();
             blockGridPreview.hide();
             switch (layoutSelect.val()) {
                 case 'grid':
                     // Prepare grid layout.
-                    gridColumnsSelect.prop('disabled', false).show();
+                    gridColumnsSelect.show();
                     gridPreview.show();
-                    blockGridControls.show().find(':input').prop('disabled', false);
+                    blockGridControls.show();
                     blockGridPreview.show();
                     preparePageGridLayout();
                     break;
@@ -558,9 +558,17 @@
 
         // Handle a page layout change.
         $('#page-layout-select').on('change', function() {
-            // Must reset all layout-specific controls when layout changes.
-            $('#page-layout-grid-columns-select').val('12');
-            setPageLayoutBlockDefaults($('.block'));
+            // Revert to the previous grid state, if any.
+            const columnsSelect = $('#page-layout-grid-columns-select');
+            columnsSelect.val(columnsSelect.data('page-layout-grid-columns'));
+            console.log(columnsSelect.data('page-layout-grid-columns'));
+            $('.block').each(function() {
+                const thisBlock = $(this);
+                const positionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                const spanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                positionSelect.val(positionSelect.data('block-page-layout-grid-column-position'));
+                spanSelect.val(spanSelect.data('block-page-layout-grid-column-span'));
+            });
             preparePageLayout();
             $('#page-layout-restore').show();
         });

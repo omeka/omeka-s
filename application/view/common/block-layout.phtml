@@ -10,8 +10,8 @@ $layoutGridColumnSpanOptions = [];
 foreach (range(1, 12) as $value) {
     $layoutGridColumnSpanOptions[$value] = sprintf($translate('Span %s'), $value);
 }
-$layoutGridColumnPosition = $layoutData['grid_column_position'] ?? '';
-$layoutGridColumnSpan = $layoutData['grid_column_span'] ?? '';
+$layoutGridColumnPosition = $layoutData['grid_column_position'] ?? 'auto';
+$layoutGridColumnSpan = $layoutData['grid_column_span'] ?? '12';
 ?>
 
 <div class="block value" data-block-layout="<?php echo $escape($layout); ?>" data-block-layout-data="<?php echo $escape($layoutData ? json_encode($layoutData) : '{}'); ?>">

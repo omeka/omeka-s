@@ -14,7 +14,7 @@ $layoutGridColumnPosition = $layoutData['grid_column_position'] ?? '';
 $layoutGridColumnSpan = $layoutData['grid_column_span'] ?? '';
 ?>
 
-<div class="block value" data-block-layout="<?php echo $escape($layout); ?>" data-block-layout-data="<?php echo $escape(json_encode($layoutData)); ?>">
+<div class="block value" data-block-layout="<?php echo $escape($layout); ?>" data-block-layout-data="<?php echo $escape($layoutData ? json_encode($layoutData) : '{}'); ?>">
     <div class="block-header collapse">
         <span class="sortable-handle"></span>
         <span class="block-type"><?php echo $translate($layoutLabel); ?></span>

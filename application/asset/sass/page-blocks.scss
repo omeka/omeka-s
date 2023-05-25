@@ -103,15 +103,13 @@
     margin-bottom: 1rem;
 }
 
-.left.file,
-.left.assets {
+.block-layout-alignment-left {
     float: left;
     clear: left;
     margin: 0 1rem 1rem 0;
 }
 
-.right.file,
-.right.assets {
+.block-layout-alignment-right {
     float: right;
     clear: right;
     margin: 0 0 1rem 1rem;

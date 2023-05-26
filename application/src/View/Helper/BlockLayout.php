@@ -129,6 +129,8 @@ class BlockLayout extends AbstractHelper
      */
     public function render(SitePageBlockRepresentation $block)
     {
+        $view = $this->getView();
+
         // Allow modules to add classes for styling the layout.
         $eventArgs = $this->eventManager->prepareArgs(['classes' => []]);
         $this->eventManager->triggerEvent(new Event('block_layout.classes', $block, $eventArgs));
@@ -157,6 +159,13 @@ class BlockLayout extends AbstractHelper
                 break;
             default:
                 // No alignment
+        }
+        $backgroundImageAsset = $block->layoutDataValue('background_image_asset');
+        if ($backgroundImageAsset) {
+            $asset = $view->api()->searchOne('assets', ['id' => $backgroundImageAsset])->getContent();
+            if ($asset) {
+                $inlineStyles[] = sprintf('background-image: url("%s");', $view->escapeCss($asset->assetUrl()));
+            }
         }
 
         $view = $this->getView();

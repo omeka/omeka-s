@@ -87,7 +87,7 @@ $pageLayoutGridColumns = $pageLayoutData['grid_columns'] ?? '12';
     <div id="grid-layout-preview"></div>
 </div>
 
-<div id="block-layout-data-sidebar" class="sidebar">
+<div id="block-layout-data-sidebar" class="sidebar" data-api-endpoint-url="<?php echo $escape($this->url('api')); ?>">
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
     <h3><?php echo $translate('Block layout configuration'); ?></h3>
     <?php echo $this->formCollection($blockLayoutDataForm); ?>

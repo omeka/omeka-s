@@ -605,14 +605,31 @@
             e.preventDefault();
             const thisBlock = $(this).closest('.block');
             const blockLayoutData = thisBlock.data('block-layout-data');
+            const blockLayoutDataSidebar = $('#block-layout-data-sidebar');
             $('.block').removeClass('block-layout-data-configuring');
             thisBlock.addClass('block-layout-data-configuring');
 
             // Populate form with block layout data.
             $('#block-layout-data-class').val(blockLayoutData.class);
             $('#block-layout-data-alignment').val(blockLayoutData.alignment);
+            if (blockLayoutData.background_image_asset) {
+                const apiEndpointUrl = blockLayoutDataSidebar.data('api-endpoint-url');
+                const assetId = parseInt(blockLayoutData.background_image_asset, 10);
+                $('#block-layout-data-background-image-asset').val(blockLayoutData.background_image_asset);
+                $.get(`${apiEndpointUrl}/assets/${assetId}`, function(data) {
+                    blockLayoutDataSidebar.find('.selected-asset').show();
+                    blockLayoutDataSidebar.find('img.selected-asset-image').attr('src', data['o:asset_url']);
+                    blockLayoutDataSidebar.find('selected-asset-name').attr('src', data['o:name']);
+                    blockLayoutDataSidebar.find('.no-selected-asset').hide();
+                    blockLayoutDataSidebar.find('.asset-form-clear').show();
+                });
+            } else {
+                blockLayoutDataSidebar.find('.selected-asset').hide();
+                blockLayoutDataSidebar.find('.no-selected-asset').show();
+                blockLayoutDataSidebar.find('.asset-form-clear').hide();
+            }
 
-            Omeka.openSidebar($('#block-layout-data-sidebar'));
+            Omeka.openSidebar(blockLayoutDataSidebar);
         });
 
         $('#apply-block-layout-data').on('click', function(e) {
@@ -623,6 +640,8 @@
             // Apply block layout data.
             blockLayoutData.class = $('#block-layout-data-class').val();
             blockLayoutData.alignment = $('#block-layout-data-alignment').val();
+            blockLayoutData.background_image_asset = $('#block-layout-data-background-image-asset').val();
+            console.log(blockLayoutData);
 
             Omeka.closeSidebar($('#block-layout-data-sidebar'));
         });

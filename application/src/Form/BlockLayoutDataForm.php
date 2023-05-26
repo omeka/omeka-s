@@ -37,6 +37,16 @@ class BlockLayoutDataForm extends Form
                 'id' => 'block-layout-data-alignment',
             ],
         ]);
+        $this->add([
+            'name' => 'background-image-asset',
+            'type' => \Omeka\Form\Element\Asset::class,
+            'options' => [
+                'label' => 'Background image',
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-background-image-asset',
+            ],
+        ]);
 
         $event = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($event);

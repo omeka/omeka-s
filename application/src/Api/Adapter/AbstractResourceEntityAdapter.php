@@ -557,7 +557,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             'propertyId' => $propertyId,
             'resourceType' => $resourceType,
             'siteId' => $siteId,
-            'isSimple' => false,
         ]);
         $this->getEventManager()->triggerEvent($event);
         $results = $qb->getQuery()->getResult();
@@ -583,13 +582,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ->join('value.property', 'property')
             ->join('property.vocabulary', 'vocabulary')
             ->select("CONCAT(vocabulary.prefix, ':', property.localName) term, IDENTITY(value.resource) id, resource.title title");
-        $event = new Event('api.subject_values.query', $this, [
+        $event = new Event('api.subject_values_simple.query', $this, [
             'queryBuilder' => $qb,
             'resource' => $resource,
             'propertyId' => $propertyId,
             'resourceType' => $resourceType,
             'siteId' => $siteId,
-            'isSimple' => true,
         ]);
         $this->getEventManager()->triggerEvent($event);
         return $qb->getQuery()->getResult();

@@ -167,6 +167,38 @@ class BlockLayout extends AbstractHelper
                 $inlineStyles[] = sprintf('background-image: url("%s");', $view->escapeCss($asset->assetUrl()));
             }
         }
+        $backgroundPositionY = $block->layoutDataValue('background_position_y');
+        if ($backgroundPositionY) {
+            switch ($backgroundPositionY) {
+                case 'top':
+                    $classes[] = 'block-layout-background-position-y-top';
+                    break;
+                case 'center':
+                    $classes[] = 'block-layout-background-position-y-center';
+                    break;
+                case 'bottom':
+                    $classes[] = 'block-layout-background-position-y-bottom';
+                    break;
+                default:
+                    // No background position Y
+            }
+        }
+        $backgroundPositionX = $block->layoutDataValue('background_position_x');
+        if ($backgroundPositionX) {
+            switch ($backgroundPositionX) {
+                case 'left':
+                    $classes[] = 'block-layout-background-position-x-left';
+                    break;
+                case 'center':
+                    $classes[] = 'block-layout-background-position-x-center';
+                    break;
+                case 'right':
+                    $classes[] = 'block-layout-background-position-x-right';
+                    break;
+                default:
+                    // No background position X
+            }
+        }
 
         $view = $this->getView();
         $blockLayout = $this->manager->get($block->layout());

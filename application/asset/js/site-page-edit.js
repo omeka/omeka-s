@@ -628,6 +628,8 @@
                 blockLayoutDataSidebar.find('.no-selected-asset').show();
                 blockLayoutDataSidebar.find('.asset-form-clear').hide();
             }
+            $('#block-layout-data-background-position-y').val(blockLayoutData.background_position_y);
+            $('#block-layout-data-background-position-x').val(blockLayoutData.background_position_x);
 
             Omeka.openSidebar(blockLayoutDataSidebar);
         });
@@ -641,6 +643,8 @@
             blockLayoutData.class = $('#block-layout-data-class').val();
             blockLayoutData.alignment = $('#block-layout-data-alignment').val();
             blockLayoutData.background_image_asset = $('#block-layout-data-background-image-asset').val();
+            blockLayoutData.background_position_y = $('#block-layout-data-background-position-y').val();
+            blockLayoutData.background_position_x = $('#block-layout-data-background-position-x').val();
             console.log(blockLayoutData);
 
             Omeka.closeSidebar($('#block-layout-data-sidebar'));

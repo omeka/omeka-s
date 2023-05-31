@@ -41,10 +41,42 @@ class BlockLayoutDataForm extends Form
             'name' => 'background-image-asset',
             'type' => \Omeka\Form\Element\Asset::class,
             'options' => [
-                'label' => 'Background image',
+                'label' => 'Background: image', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-background-image-asset',
+            ],
+        ]);
+        $this->add([
+            'name' => 'background-position-y',
+            'type' => 'select',
+            'options' => [
+                'label' => 'Background: image vertical anchor position', // @translate
+                'empty_option' => 'Default', // @translate
+                'value_options' => [
+                    'top' => 'Top', // @translate
+                    'center' => 'Center', // @translate
+                    'bottom' => 'Bottom', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-background-position-y',
+            ],
+        ]);
+        $this->add([
+            'name' => 'background-position-x',
+            'type' => 'select',
+            'options' => [
+                'label' => 'Background: image horizontal anchor position', // @translate
+                'empty_option' => 'Default', // @translate
+                'value_options' => [
+                    'left' => 'Left', // @translate
+                    'center' => 'Center', // @translate
+                    'right' => 'Right', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-background-position-x',
             ],
         ]);
 

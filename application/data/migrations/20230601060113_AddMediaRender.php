@@ -29,8 +29,7 @@ class AddMediaRender implements ConstructedMigrationInterface
         foreach ($siteSettings as $siteSetting) {
             $value = $siteSetting->getValue();
             if (isset($value['resource_page_blocks']['media']['main'])
-                && 1 === count($value['resource_page_blocks']['media']['main'])
-                && 'values' === reset($value['resource_page_blocks']['media']['main'])
+                && ['values'] === $value['resource_page_blocks']['media']['main']
             ) {
                 $value['resource_page_blocks']['media']['main'] = ['mediaRender', 'values'];
                 $siteSetting->setValue($value);

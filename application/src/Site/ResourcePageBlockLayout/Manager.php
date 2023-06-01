@@ -33,8 +33,8 @@ class Manager extends AbstractPluginManager
         ],
         'media' => [
             'main' => [
-                'values',
                 'mediaRender',
+                'values',
             ],
         ],
     ];

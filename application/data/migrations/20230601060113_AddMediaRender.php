@@ -32,7 +32,7 @@ class AddMediaRender implements ConstructedMigrationInterface
                 && 1 === count($value['resource_page_blocks']['media']['main'])
                 && 'values' === reset($value['resource_page_blocks']['media']['main'])
             ) {
-                $value['resource_page_blocks']['media']['main'][] = 'mediaRender';
+                $value['resource_page_blocks']['media']['main'] = ['mediaRender', 'values'];
                 $siteSetting->setValue($value);
             }
         }

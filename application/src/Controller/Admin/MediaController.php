@@ -94,6 +94,7 @@ class MediaController extends AbstractActionController
         $response = $this->api()->read('media', $this->params('id'));
         $media = $response->getContent();
         $values = $media->valueRepresentation();
+        $values['url'] = $media->url();
 
         $view = new ViewModel;
         $view->setTerminal(true);

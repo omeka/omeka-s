@@ -8,7 +8,7 @@ $deleteButton = $itemSet->userIsAllowed('delete')
 ?>
 
 <script type='text/javascript'>
-var valuesJson = <?php echo json_encode($itemSet->values()); ?>;
+var valuesJson = <?php echo json_encode($itemSet->valuesJson()); ?>;
 </script>
 
 <?php echo $this->pageTitle($itemSet->displayTitle(), 1, $translate('Item sets'), $translate('Edit')); ?>

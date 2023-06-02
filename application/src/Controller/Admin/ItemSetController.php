@@ -126,6 +126,7 @@ class ItemSetController extends AbstractActionController
         $response = $this->api()->read('item_sets', $this->params('id'));
         $itemSet = $response->getContent();
         $values = $itemSet->valueRepresentation();
+        $values['url'] = $itemSet->url();
 
         $view = new ViewModel;
         $view->setTerminal(true);

@@ -19,7 +19,7 @@ if ($mediaForm) {
 ?>
 
 <script type='text/javascript'>
-var valuesJson = <?php echo json_encode($media->values()); ?>;
+var valuesJson = <?php echo json_encode($media->valuesJson()); ?>;
 </script>
 
 <?php echo $this->pageTitle($media->displayTitle(), 1, $translate('Media')); ?>

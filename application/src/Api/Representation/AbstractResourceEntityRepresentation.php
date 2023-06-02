@@ -314,6 +314,26 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Get all values as an array suitable for use as non-API JSON.
+     *
+     * @return array
+     */
+    public function valuesJson()
+    {
+        $url = $this->getViewHelper('Url');
+        $valuesJson = json_decode(json_encode($this->values()), true);
+        foreach ($valuesJson as $valuesKey => $valueJson) {
+            foreach ($valueJson['values'] as $valueKey => $value) {
+                if (isset($value['value_resource_id'])) {
+                    // Add a value resource's URL to the array.
+                    $valuesJson[$valuesKey]['values'][$valueKey]['url'] = $url(null, ['action' => 'show', 'id' => $value['value_resource_id']], true);
+                }
+            }
+        }
+        return $valuesJson;
+    }
+
+    /**
      * Get value representations.
      *
      * @param string $term The prefix:local_part

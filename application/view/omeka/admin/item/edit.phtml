@@ -5,10 +5,19 @@ $this->htmlElement('body')->appendAttribute('class', 'edit items');
 $deleteButton = $item->userIsAllowed('delete')
     ? '<a href="#" class="delete button">' . $translate('Delete') . '</a>'
     : null;
+// Add URLs to resource value JSON.
+$resourceValues = json_decode(json_encode($item->values()), true);
+foreach ($resourceValues as $resourceValueKey => $resourceValue) {
+    foreach ($resourceValue['values'] as $valueKey => $value) {
+        if (isset($value['value_resource_id'])) {
+            $resourceValues[$resourceValueKey]['values'][$valueKey]['url'] = $this->url(null, ['action' => 'show', 'id' => $value['value_resource_id']], true);
+        }
+    }
+}
 ?>
 
 <script type='text/javascript'>
-var valuesJson = <?php echo json_encode($item->values()); ?>;
+var valuesJson = <?php echo json_encode($resourceValues); ?>;
 </script>
 
 <?php echo $this->pageTitle($item->displayTitle(), 1, $translate('Items'), $translate('Edit')); ?>

@@ -81,6 +81,7 @@ class ItemController extends AbstractActionController
         $response = $this->api()->read('items', $this->params('id'));
         $item = $response->getContent();
         $values = $item->valueRepresentation();
+        $values['url'] = $item->url();
 
         $view = new ViewModel;
         $view->setTerminal(true);

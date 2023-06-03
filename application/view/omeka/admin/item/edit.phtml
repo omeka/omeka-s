@@ -8,7 +8,7 @@ $deleteButton = $item->userIsAllowed('delete')
 ?>
 
 <script type='text/javascript'>
-var valuesJson = <?php echo json_encode($item->values()); ?>;
+var valuesJson = <?php echo json_encode($item->values(['include_value_resource_url' => true])); ?>;
 </script>
 
 <?php echo $this->pageTitle($item->displayTitle(), 1, $translate('Items'), $translate('Edit')); ?>

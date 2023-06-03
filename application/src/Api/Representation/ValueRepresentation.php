@@ -17,18 +17,21 @@ class ValueRepresentation extends AbstractRepresentation
      */
     protected $dataType;
 
+    protected $options;
+
     /**
      * Construct the value representation object.
      *
      * @param Value $value
      * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(Value $value, ServiceLocatorInterface $serviceLocator)
+    public function __construct(Value $value, ServiceLocatorInterface $serviceLocator, array $options = [])
     {
         // Set the service locator first.
         $this->setServiceLocator($serviceLocator);
         $this->value = $value;
         $this->dataType = $serviceLocator->get('Omeka\DataTypeManager')->getForExtract($value);
+        $this->options = $options;
     }
 
     /**
@@ -84,7 +87,7 @@ class ValueRepresentation extends AbstractRepresentation
                 $valueObject['@annotation'] = $valueAnnotations;
             }
         }
-        $jsonLd = $this->dataType->getJsonLd($this);
+        $jsonLd = $this->dataType->getJsonLd($this, $this->options);
         if (!is_array($jsonLd)) {
             $jsonLd = [];
         }

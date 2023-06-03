@@ -95,9 +95,9 @@ abstract class AbstractResource implements DataTypeWithOptionsInterface
         return (string) $value->valueResource()->url(null, true);
     }
 
-    public function getJsonLd(ValueRepresentation $value)
+    public function getJsonLd(ValueRepresentation $value, array $options = [])
     {
-        return $value->valueResource()->valueRepresentation();
+        return $value->valueResource()->valueRepresentation($options);
     }
 
     public function getFulltextText(PhpRenderer $view, ValueRepresentation $value)

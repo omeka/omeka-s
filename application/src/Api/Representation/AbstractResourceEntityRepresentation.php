@@ -249,7 +249,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return array
      */
-    public function values()
+    public function values(array $options = [])
     {
         if (isset($this->values)) {
             return $this->values;
@@ -277,7 +277,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         // Get this resource's values.
         $values = [];
         foreach ($this->resource->getValues() as $valueEntity) {
-            $value = new ValueRepresentation($valueEntity, $this->getServiceLocator());
+            $value = new ValueRepresentation($valueEntity, $this->getServiceLocator(), $options);
             if ($value->isHidden()) {
                 // Skip this resource value if the resource is not available
                 // (most likely because it is private).
@@ -705,19 +705,21 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      *
      * @return array
      */
-    public function valueRepresentation()
+    public function valueRepresentation(array $options = [])
     {
         $representation = [];
         $representation['@id'] = $this->apiUrl();
         $representation['type'] = 'resource';
         $representation['value_resource_id'] = $this->id();
         $representation['value_resource_name'] = $this->resourceName();
-        $representation['url'] = $this->url();
         $representation['display_title'] = $this->displayTitle();
         if ($primaryMedia = $this->primaryMedia()) {
             $representation['thumbnail_url'] = $primaryMedia->thumbnailUrl('square');
             $representation['thumbnail_title'] = $primaryMedia->displayTitle();
             $representation['thumbnail_type'] = $primaryMedia->mediaType();
+        }
+        if (isset($options['include_value_resource_url']) && $options['include_value_resource_url']) {
+            $representation['url'] = $this->url();
         }
 
         return $representation;

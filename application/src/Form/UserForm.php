@@ -205,7 +205,7 @@ class UserForm extends Form
             'name' => 'default_item_set_sites',
             'type' => SiteSelect::class,
             'attributes' => [
-                'value' => $userId ? $this->userSettings->get('default_item_sets_sites', null, $userId) : [],
+                'value' => $userId ? $this->userSettings->get('default_item_set_sites', null, $userId) : [],
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select sites', // @translate
                 'multiple' => true,

@@ -6,6 +6,7 @@ $element->setLabel($this->translate('Search by media presence'))
         '0' => $this->translate('Has no media'),
     ])
     ->setEmptyOption($this->translate('Select media presence…'))
-    ->setValue($query['has_media'] ?? '');
+    ->setValue($query['has_media'] ?? '')
+    ->setAttribute('id', 'has_media');
 echo $this->formRow($element);
 ?>

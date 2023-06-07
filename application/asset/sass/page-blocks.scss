@@ -1,5 +1,29 @@
 @import "base";
 
+.block-layout-background-position-y-top {
+    background-position-y: top;
+}
+
+.block-layout-background-position-y-center {
+    background-position-y: center;
+}
+
+.block-layout-background-position-y-bottom {
+    background-position-y: bottom;
+}
+
+.block-layout-background-position-x-left {
+    background-position-x: left;
+}
+
+.block-layout-background-position-x-center {
+    background-position-x: center;
+}
+
+.block-layout-background-position-x-right {
+    background-position-x: right;
+}
+
 .item-showcase {
     margin: 1rem 0;
     border-top: 1px solid $border-gray;

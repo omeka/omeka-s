@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter;
 use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
+use Laminas\EventManager\Event;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
@@ -550,6 +551,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ->orderBy('property.id, resource_template_property.alternateLabel, resource.title')
             ->setMaxResults($perPage)
             ->setFirstResult($offset);
+        $event = new Event('api.subject_values.query', $this, [
+            'queryBuilder' => $qb,
+            'resource' => $resource,
+            'propertyId' => $propertyId,
+            'resourceType' => $resourceType,
+            'siteId' => $siteId,
+        ]);
+        $this->getEventManager()->triggerEvent($event);
         $results = $qb->getQuery()->getResult();
         return $results;
     }
@@ -573,6 +582,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ->join('value.property', 'property')
             ->join('property.vocabulary', 'vocabulary')
             ->select("CONCAT(vocabulary.prefix, ':', property.localName) term, IDENTITY(value.resource) id, resource.title title");
+        $event = new Event('api.subject_values_simple.query', $this, [
+            'queryBuilder' => $qb,
+            'resource' => $resource,
+            'propertyId' => $propertyId,
+            'resourceType' => $resourceType,
+            'siteId' => $siteId,
+        ]);
+        $this->getEventManager()->triggerEvent($event);
         return $qb->getQuery()->getResult();
     }
 

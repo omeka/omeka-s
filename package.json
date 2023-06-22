@@ -32,7 +32,7 @@
     "lightgallery": "^2.4.0",
     "mirador": "^3.3.0",
     "openseadragon": "^2.4.2",
-    "semver": "^4.3.6",
+    "semver": "^7.5.2",
     "sortablejs": "^1.5.1",
     "tablesaw": "^3.0.9"
   },

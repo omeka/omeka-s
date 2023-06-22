@@ -24,6 +24,19 @@ if ($itemSet) {
             $cannotAssignItemsSites[$site->id()] = $site;
         }
     }
+
+    // Get all sites that the user set as default in user settings.
+    $defaultItemSetSites = $this->userSetting('default_item_set_sites');
+    $sites = is_array($defaultItemSetSites)
+        ? $this->api()->search('sites', ['id' => $defaultItemSetSites])->getContent()
+        : [];
+    foreach ($sites as $site) {
+        if ($site->userIsAllowed('can-assign-items')) {
+            $canAssignItemsSites[] = ['id' => $site->id()];
+        } else {
+            $cannotAssignItemsSites[$site->id()] = $site;
+        }
+    }
 }
 
 $siteTemplate = '

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Exception;
@@ -139,19 +140,26 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
             $entity->setIsOpen($request->getValue('o:is_open'));
         }
 
-        // Manage the sites the item set is assigned to, similar to ItemAdapter
-        // and SiteAdapter, except getSites() is getSiteItemSets() and
-        // subsequent differences.
+        if ($isCreate) {
+            // On create, the sites configured to auto-assign new item sets are
+            // needed both to auto-assign them and to let a user without the
+            // "can-assign-items" privilege assign them at creation time.
+            $assignNewItemSetsSites = new ArrayCollection(
+                $this->getServiceLocator()->get('Omeka\ApiManager')
+                    ->search('sites', ['assign_new_item_sets' => true], ['responseContent' => 'resource'])
+                    ->getContent()
+            );
+        }
+
+        // Manage the sites the item set is assigned to, similar to ItemAdapter,
+        // except getSites() is getSiteItemSets() and subsequent differences.
         if ($isCreate && !is_array($request->getValue('o:site'))) {
             // On create without an explicit "o:site", assign the item set to
             // all sites configured to auto-assign new item sets (site setting).
             $entityManager = $this->getEntityManager();
-            $sites = $this->getServiceLocator()->get('Omeka\ApiManager')
-                ->search('sites', ['assign_new_item_sets' => true], ['responseContent' => 'resource'])
-                ->getContent();
             $siteItemSets = $entity->getSiteItemSets();
             $position = 1;
-            foreach ($sites as $site) {
+            foreach ($assignNewItemSetsSites as $site) {
                 $siteItemSet = new SiteItemSet;
                 $siteItemSet->setSite($site);
                 $siteItemSet->setItemSet($entity);
@@ -188,8 +196,14 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
                     }
                     continue;
                 }
-                // Assign site that was not already assigned.
-                if (!$siteItemSet && $acl->userIsAllowed($site, 'can-assign-items')) {
+                // A user with the "can-assign-items" privilege can assign a
+                // site at any time. A user without it can assign a site only on
+                // create when the site is configured to auto-assign new item
+                // sets.
+                if (!$siteItemSet
+                    && ($acl->userIsAllowed($site, 'can-assign-items')
+                        || ($isCreate && $assignNewItemSetsSites->contains($site)))
+                ) {
                     $siteItemSet = new SiteItemSet;
                     $siteItemSet->setSite($site);
                     $siteItemSet->setItemSet($entity);

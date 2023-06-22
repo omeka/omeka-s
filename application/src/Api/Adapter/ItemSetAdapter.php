@@ -129,6 +129,7 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
     ) {
         parent::hydrate($request, $entity, $errorStore);
 
+        $isCreate = Request::CREATE === $request->getOperation();
         $isUpdate = Request::UPDATE === $request->getOperation();
         $isPartial = $isUpdate && $request->getOption('isPartial');
         $append = $isPartial && 'append' === $request->getOption('collectionAction');
@@ -141,7 +142,24 @@ class ItemSetAdapter extends AbstractResourceEntityAdapter
         // Manage the sites the item set is assigned to, similar to ItemAdapter
         // and SiteAdapter, except getSites() is getSiteItemSets() and
         // subsequent differences.
-        if ($this->shouldHydrate($request, 'o:site')) {
+        if ($isCreate && !is_array($request->getValue('o:site'))) {
+            // On create without an explicit "o:site", assign the item set to
+            // all sites configured to auto-assign new item sets (site setting).
+            $entityManager = $this->getEntityManager();
+            $sites = $this->getServiceLocator()->get('Omeka\ApiManager')
+                ->search('sites', ['assign_new_item_sets' => true], ['responseContent' => 'resource'])
+                ->getContent();
+            $siteItemSets = $entity->getSiteItemSets();
+            $position = 1;
+            foreach ($sites as $site) {
+                $siteItemSet = new SiteItemSet;
+                $siteItemSet->setSite($site);
+                $siteItemSet->setItemSet($entity);
+                $siteItemSet->setPosition($position++);
+                $siteItemSets->add($siteItemSet);
+                $entityManager->persist($siteItemSet);
+            }
+        } elseif ($this->shouldHydrate($request, 'o:site')) {
             $entityManager = $this->getEntityManager();
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
             $sitesData = $request->getValue('o:site', []);

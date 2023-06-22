@@ -345,6 +345,31 @@ class SiteAdapter extends AbstractEntityAdapter
                 $qb->createNamedParameter((bool) $query['assign_new_items'])
             ));
         }
+
+        // The "assign new item sets" option is stored as a site setting and is
+        // enabled by default (opt-out), so the filter targets the sites that
+        // did not explicitly disable it. The disabled site ids are fetched with
+        // a raw query to avoid comparing the json-encoded setting value in dql.
+        if (isset($query['assign_new_item_sets']) && (is_numeric($query['assign_new_item_sets']) || is_bool($query['assign_new_item_sets']))) {
+            $disabledSiteIds = $this->getEntityManager()->getConnection()->executeQuery(
+                "SELECT site_id FROM site_setting WHERE id = 'assign_new_item_sets' AND value IN ('false', '\"0\"', '0', '\"\"', 'null')"
+            )->fetchFirstColumn();
+            if ($query['assign_new_item_sets']) {
+                if ($disabledSiteIds) {
+                    $qb->andWhere($qb->expr()->notIn(
+                        'omeka_root.id',
+                        $this->createNamedParameter($qb, $disabledSiteIds)
+                    ));
+                }
+            } else {
+                // Fall back to an impossible id so the result is empty when no
+                // site disabled the option.
+                $qb->andWhere($qb->expr()->in(
+                    'omeka_root.id',
+                    $this->createNamedParameter($qb, $disabledSiteIds ?: [0])
+                ));
+            }
+        }
     }
 
     public function sortQuery(QueryBuilder $qb, array $query)

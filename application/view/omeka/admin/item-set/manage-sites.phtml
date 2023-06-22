@@ -14,7 +14,16 @@ if ($itemSet) {
     }
 } else {
     // This is a new item set.
-    $sites = [];
+
+    // Get all sites configured to auto-assign new item sets in site settings.
+    $sites = $this->api()->search('sites', ['assign_new_item_sets' => true])->getContent();
+    foreach ($sites as $site) {
+        if ($site->userIsAllowed('can-assign-items')) {
+            $canAssignItemsSites[] = ['id' => $site->id()];
+        } else {
+            $cannotAssignItemsSites[$site->id()] = $site;
+        }
+    }
 }
 
 $siteTemplate = '

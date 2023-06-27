@@ -50,6 +50,8 @@ $templateUri = '
     </div>
 </div>';
 ?>
+<fieldset>
+<legend><?php echo $translate('Values'); ?></legend>
 <div class="field">
     <div class="field-meta">
         <label>Set value visibility</label>
@@ -77,6 +79,7 @@ $templateUri = '
     <button type="button" class="value-add-button" data-type="resource"><?php echo $translate('Add resource value'); ?></button>
     <button type="button" class="value-add-button" data-type="uri"><?php echo $translate('Add URI value'); ?></button>
 </div>
+</fieldset>
 <script>
 $(document).ready(function() {
     // Add a value field.

@@ -4,6 +4,7 @@ namespace Omeka\View\Renderer;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Api\Response;
+use Laminas\EventManager\EventManager;
 use Laminas\Json\Json;
 use Laminas\View\Renderer\JsonRenderer;
 
@@ -26,6 +27,13 @@ class ApiJsonRenderer extends JsonRenderer
      * @var string The output format
      */
     protected $format;
+
+    protected $eventManager;
+
+    public function __construct(EventManager $eventManager)
+    {
+        $this->eventManager = $eventManager;
+    }
 
     /**
      * Return whether the response is JSONP
@@ -81,9 +89,8 @@ class ApiJsonRenderer extends JsonRenderer
         $output = parent::render($payload);
 
         if ($payload instanceof RepresentationInterface) {
-            $eventManager = $payload->getEventManager();
-            $args = $eventManager->prepareArgs(['jsonLd' => $output]);
-            $eventManager->trigger('rep.resource.json_output', $payload, $args);
+            $args = $this->eventManager->prepareArgs(['jsonLd' => $output]);
+            $this->eventManager->trigger('rep.resource.json_output', $payload, $args);
             $output = $args['jsonLd'];
         }
 
@@ -113,12 +120,11 @@ class ApiJsonRenderer extends JsonRenderer
     public function getJsonLdWithContext(RepresentationInterface $representation)
     {
         // Add the @context by encoding the output as JSON, then decoding to an array.
-        $eventManager = $representation->getEventManager();
         $jsonLd = Json::decode(Json::encode($representation), true);
         if (!$this->context) {
             // Get the JSON-LD @context
-            $args = $eventManager->prepareArgs(['context' => []]);
-            $eventManager->trigger('api.context', null, $args);
+            $args = $this->eventManager->prepareArgs(['context' => []]);
+            $this->eventManager->trigger('api.context', null, $args);
             $this->context = $args['context'];
         }
         $jsonLd['@context'] = $this->context;
@@ -134,9 +140,20 @@ class ApiJsonRenderer extends JsonRenderer
      */
     public function serializeJsonLdToFormat(array $jsonLd, string $format)
     {
-        $graph = new \EasyRdf\Graph;
-        $graph->parse(Json::encode($jsonLd), 'jsonld');
-        return $graph->serialise($format);
+        $output = null;
+        if (in_array($format, ['rdfxml', 'n3', 'turtle', 'ntriples'])) {
+            $graph = new \EasyRdf\Graph;
+            $graph->parse(Json::encode($jsonLd), 'jsonld');
+            $output = $graph->serialise($format);
+        }
+        // Allow modules to return custom output.
+        $args = $this->eventManager->prepareArgs([
+            'jsonLd' => $jsonLd,
+            'output' => $output,
+            'format' => $format,
+        ]);
+        $this->eventManager->trigger('api.output.serialize', $this, $args);
+        return $args['output'];
     }
 
     /**

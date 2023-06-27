@@ -246,6 +246,7 @@ return [
             'Omeka\Logger' => Service\LoggerFactory::class,
             'Omeka\MigrationManager' => Service\MigrationManagerFactory::class,
             'Omeka\ViewApiJsonStrategy' => Service\ViewApiJsonStrategyFactory::class,
+            'Omeka\ViewApiJsonRenderer' => Service\ViewApiJsonRendererFactory::class,
             'Omeka\HttpClient' => Service\HttpClientFactory::class,
             'Omeka\Mailer' => Service\MailerFactory::class,
             'Omeka\HtmlPurifier' => Service\HtmlPurifierFactory::class,
@@ -288,7 +289,6 @@ return [
             'ModuleRouteListener' => \Laminas\Mvc\ModuleRouteListener::class,
             'Omeka\MvcExceptionListener' => Mvc\ExceptionListener::class,
             'Omeka\MvcListeners' => Mvc\MvcListeners::class,
-            'Omeka\ViewApiJsonRenderer' => View\Renderer\ApiJsonRenderer::class,
         ],
         'delegators' => [
             'Laminas\I18n\Translator\TranslatorInterface' => [

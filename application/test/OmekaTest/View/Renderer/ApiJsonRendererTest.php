@@ -9,6 +9,13 @@ use Omeka\Test\TestCase;
 
 class ApiJsonRendererTest extends TestCase
 {
+    protected $eventManager;
+
+    public function setUp(): void
+    {
+        $this->eventManager = $this->createMock('Laminas\EventManager\EventManager');
+    }
+
     public function testRendererUsesApiResponse()
     {
         $testValue = ['test' => 'foo'];
@@ -22,7 +29,7 @@ class ApiJsonRendererTest extends TestCase
               ->method('getApiResponse')
               ->will($this->returnValue($response));
 
-        $renderer = new ApiJsonRenderer;
+        $renderer = new ApiJsonRenderer($this->eventManager);
         $this->assertEquals(Json::encode($testValue), $renderer->render($model));
     }
 
@@ -38,7 +45,7 @@ class ApiJsonRendererTest extends TestCase
               ->method('getApiResponse')
               ->will($this->returnValue($response));
 
-        $renderer = new ApiJsonRenderer;
+        $renderer = new ApiJsonRenderer($this->eventManager);
         $this->assertEquals(null, $renderer->render($model));
     }
 
@@ -57,7 +64,7 @@ class ApiJsonRendererTest extends TestCase
               ->method('getException')
               ->will($this->returnValue($exception));
 
-        $renderer = new ApiJsonRenderer;
+        $renderer = new ApiJsonRenderer($this->eventManager);
         $this->assertEquals(Json::encode(['errors' => ['foo' => ['bar']]]), $renderer->render($model));
     }
 }

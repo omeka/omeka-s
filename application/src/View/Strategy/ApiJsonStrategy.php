@@ -28,6 +28,8 @@ class ApiJsonStrategy extends JsonStrategy
         'jsonld' => 'application/ld+json',
     ];
 
+    protected $eventManager;
+
     /**
      * Constructor, sets the renderer object
      *

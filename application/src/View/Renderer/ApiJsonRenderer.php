@@ -77,7 +77,7 @@ class ApiJsonRenderer extends JsonRenderer
                 return $this->serializeJsonLdToFormat($this->format, $jsonLd, [$payload]);
             }
             // Render multiple representations (getList);
-            if (is_array($payload) && array_filter($payload, fn($object) => ($object instanceof RepresentationInterface))) {
+            if (is_array($payload) && array_filter($payload, fn ($object) => ($object instanceof RepresentationInterface))) {
                 $jsonLd = [];
                 foreach ($payload as $representation) {
                     $jsonLd[] = $this->getJsonLdWithContext($representation);

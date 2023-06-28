@@ -74,15 +74,15 @@ class ApiJsonRenderer extends JsonRenderer
             // Render a single representation (get).
             if ($payload instanceof RepresentationInterface) {
                 $jsonLd = $this->getJsonLdWithContext($payload);
-                return $this->serializeJsonLdToFormat($jsonLd, $this->format);
+                return $this->serializeJsonLdToFormat($this->format, $jsonLd, [$payload]);
             }
             // Render multiple representations (getList);
-            if (is_array($payload) && isset($payload[0]) && $payload[0] instanceof RepresentationInterface) {
+            if (is_array($payload) && array_filter($payload, fn($object) => ($object instanceof RepresentationInterface))) {
                 $jsonLd = [];
                 foreach ($payload as $representation) {
                     $jsonLd[] = $this->getJsonLdWithContext($representation);
                 }
-                return $this->serializeJsonLdToFormat($jsonLd, $this->format);
+                return $this->serializeJsonLdToFormat($this->format, $jsonLd, $payload);
             }
         }
 
@@ -138,7 +138,7 @@ class ApiJsonRenderer extends JsonRenderer
      * @param string $format
      * @param string
      */
-    public function serializeJsonLdToFormat(array $jsonLd, string $format)
+    public function serializeJsonLdToFormat(string $format, array $jsonLd, array $representations)
     {
         $output = null;
         if (in_array($format, ['rdfxml', 'n3', 'turtle', 'ntriples'])) {
@@ -148,9 +148,10 @@ class ApiJsonRenderer extends JsonRenderer
         }
         // Allow modules to return custom output.
         $args = $this->eventManager->prepareArgs([
+            'format' => $format,
             'jsonLd' => $jsonLd,
             'output' => $output,
-            'format' => $format,
+            'representations' => $representations,
         ]);
         $this->eventManager->trigger('api.output.serialize', $this, $args);
         return $args['output'];

@@ -2,7 +2,6 @@
 namespace Omeka\View\Renderer;
 
 use Omeka\Api\Exception\ValidationException;
-use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Api\Response;
 use Laminas\EventManager\EventManager;
 use Laminas\Json\Json;

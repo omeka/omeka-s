@@ -14,6 +14,12 @@ class ApiJsonRendererTest extends TestCase
     public function setUp(): void
     {
         $this->eventManager = $this->createMock('Laminas\EventManager\EventManager');
+        $this->eventManager->expects($this->any())
+            ->method('prepareArgs')
+            ->will($this->returnCallback(function ($arg) {
+                return $arg;
+            })
+        );
     }
 
     public function testRendererUsesApiResponse()

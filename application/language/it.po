@@ -8,8 +8,8 @@
 # Latino Imparato <latino.imparato@gmail.com>, 2018
 # Simone Falteri <s.falteri@ifnet.it>, 2018
 # Tommaso Vitale, 2019
-# Giorgio Comai <g@giorgiocomai.eu>, 2023
 # John Flatness <john@omeka.org>, 2023
+# Giorgio Comai <g@giorgiocomai.eu>, 2023
 # 
 #, fuzzy
 msgid ""
@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-10 21:23-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: John Flatness <john@omeka.org>, 2023\n"
+"Last-Translator: Giorgio Comai <g@giorgiocomai.eu>, 2023\n"
 "Language-Team: Italian (https://app.transifex.com/omeka/teams/14184/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5013,7 +5013,7 @@ msgstr "nessun titolo"
 
 #: application/src/View/Helper/Browse.php:55
 msgid "Relevance"
-msgstr ""
+msgstr "Rilevanza"
 
 #: application/src/View/Helper/Browse.php:162
 msgid "Add a column…"

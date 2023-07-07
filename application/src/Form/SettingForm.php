@@ -64,6 +64,7 @@ class SettingForm extends Form
         'image/pjpeg',
         'image/png',
         'image/tiff',
+        'image/webp',
         'image/x-icon',
         // text/*
         'text/css',
@@ -91,8 +92,8 @@ class SettingForm extends Form
         'mp2', 'mp3', 'mp4', 'mpa', 'mpe', 'mpeg', 'mpg', 'mpp', 'odb', 'odc',
         'odf', 'odg', 'odp', 'ods', 'odt', 'ogg', 'opus', 'pdf', 'png', 'pot', 'pps',
         'ppt', 'pptx', 'qt', 'ra', 'ram', 'rtf', 'rtx', 'swf', 'tar', 'tif',
-        'tiff', 'txt', 'wav', 'wax', 'webm', 'wma', 'wmv', 'wmx', 'wri', 'xla', 'xls',
-        'xlsx', 'xlt', 'xlw', 'zip',
+        'tiff', 'txt', 'wav', 'wax', 'webm', 'webp', 'wma', 'wmv', 'wmx', 'wri', 'xla',
+        'xls', 'xlsx', 'xlt', 'xlw', 'zip',
     ];
 
     /**

@@ -20,6 +20,7 @@ $addPartial = function($partial) use (&$partials, $partialExcludelist) {
     }
 };
 
+$addPartial('common/advanced-search/sort');
 $addPartial('common/advanced-search/fulltext');
 $addPartial('common/advanced-search/properties');
 $addPartial('common/advanced-search/resource-class');
@@ -48,7 +49,6 @@ if ($this->status()->isSiteRequest()) {
     $addPartial('common/advanced-search/resource-template-restrict');
 }
 $addPartial('common/advanced-search/ids');
-$addPartial('common/advanced-search/sort');
 
 $filterResults = $this->trigger(
     'view.advanced_search',

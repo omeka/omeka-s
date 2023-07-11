@@ -173,6 +173,18 @@ class Module extends AbstractModule
             [$this, 'noindexItemSet']
         );
 
+        // Add favicon to layouts.
+        $sharedEventManager->attach(
+            '*',
+            'view.layout',
+            function (ZendEvent $event) {
+                $view = $event->getTarget();
+                $faviconAssetId = $this->getServiceLocator()->get('Omeka\Settings')->get('favicon');
+                $faviconAsset = $view->api()->searchOne('assets', ['id' => $faviconAssetId])->getContent();
+                $view->headLink(['rel' => 'icon', 'href' => $faviconAsset ? $faviconAsset->assetUrl() : null], 'PREPEND');
+            }
+        );
+
         $sharedEventManager->attach(
             '*',
             'sql_filter.resource_visibility',

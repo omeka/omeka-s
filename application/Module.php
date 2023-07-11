@@ -179,9 +179,20 @@ class Module extends AbstractModule
             'view.layout',
             function (ZendEvent $event) {
                 $view = $event->getTarget();
-                $faviconAssetId = $this->getServiceLocator()->get('Omeka\Settings')->get('favicon');
-                $faviconAsset = $view->api()->searchOne('assets', ['id' => $faviconAssetId])->getContent();
-                $view->headLink(['rel' => 'icon', 'href' => $faviconAsset ? $faviconAsset->assetUrl() : null], 'PREPEND');
+                // Get the favicon asset ID.
+                if ($view->status()->isSiteRequest()) {
+                    $faviconAssetId = $view->siteSetting('favicon');
+                } else {
+                    $faviconAssetId = $view->setting('favicon');
+                }
+                // Get the favicon href.
+                if (is_numeric($faviconAssetId)) {
+                    $faviconAsset = $view->api()->searchOne('assets', ['id' => $faviconAssetId])->getContent();
+                    $href = $faviconAsset ? $faviconAsset->assetUrl() : null;
+                } else {
+                    $href = null; // Passing null clears the favicon.
+                }
+                $view->headLink(['rel' => 'icon', 'href' => $href], 'PREPEND');
             }
         );
 

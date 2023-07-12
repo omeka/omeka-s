@@ -182,6 +182,9 @@ class Module extends AbstractModule
                 // Get the favicon asset ID.
                 if ($view->status()->isSiteRequest()) {
                     $faviconAssetId = $view->siteSetting('favicon');
+                    if (!is_numeric($faviconAssetId)) {
+                        $faviconAssetId = $view->setting('favicon');
+                    }
                 } else {
                     $faviconAssetId = $view->setting('favicon');
                 }

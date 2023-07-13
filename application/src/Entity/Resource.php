@@ -12,6 +12,15 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity
  * @InheritanceType("JOINED")
  * @DiscriminatorColumn(name="resource_type", type="string")
+ * @Table(
+ *     indexes={
+ *         @Index(
+ *             name="title",
+ *             columns={"title"},
+ *             options={"lengths":{190}}
+ *         )
+ *     }
+ * )
  *
  * @see \Omeka\Db\Event\Listener\ResourceDiscriminatorMap
  */

@@ -155,6 +155,7 @@ CREATE TABLE `resource` (
   KEY `IDX_BC91F416448CC1BD` (`resource_class_id`),
   KEY `IDX_BC91F41616131EA` (`resource_template_id`),
   KEY `IDX_BC91F416FDFF2E92` (`thumbnail_id`),
+  KEY `title` (`title`(190)),
   CONSTRAINT `FK_BC91F41616131EA` FOREIGN KEY (`resource_template_id`) REFERENCES `resource_template` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK_BC91F416448CC1BD` FOREIGN KEY (`resource_class_id`) REFERENCES `resource_class` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK_BC91F4167E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL,

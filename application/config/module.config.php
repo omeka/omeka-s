@@ -40,6 +40,14 @@ return [
             ],
         ],
     ],
+    'api_assets' => [
+        'allowed_media_types' => [
+            'image/jpeg',
+            'image/png',
+            'image/gif',
+            'image/webp',
+        ],
+    ],
     'permissions' => [
         'acl_resources' => [
             'Omeka\Module\Manager',

@@ -107,8 +107,11 @@ class VocabularyController extends AbstractActionController
                 } catch (ValidationException $e) {
                     $messages = [];
                     // A message may be thrown directly from the RDF importer.
+                    // Here, we set a generic message because error messages
+                    // thrown by the RDF library may make the target server
+                    // vulnerable to Server Side Request Forgery (SSRF).
                     if ($e->getMessage()) {
-                        $messages[] = $e->getMessage();
+                        $messages[] = $this->translate('Error importing the vocabulary. Check the file or URL.');
                     }
                     // Messages may be thrown from the API via the importer.
                     foreach ($e->getErrorStore()->getErrors() as $message) {

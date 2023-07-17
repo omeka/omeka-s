@@ -9,8 +9,6 @@ use Omeka\Stdlib\ErrorStore;
 
 class AssetAdapter extends AbstractEntityAdapter
 {
-    const ALLOWED_MEDIA_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/svg', 'image/svgz', 'image/svg+xml', 'image/webp'];
-
     protected $sortFields = [
         'id' => 'id',
         'media_type' => 'mediaType',
@@ -81,7 +79,8 @@ class AssetAdapter extends AbstractEntityAdapter
             }
 
             $tempFile->setSourceName($fileData['file']['name']);
-            $validator = new Validator(self::ALLOWED_MEDIA_TYPES);
+            $config = $this->getServiceLocator()->get('Config');
+            $validator = new Validator($config['api_assets']['allowed_media_types']);
             if (!$validator->validate($tempFile, $errorStore)) {
                 return;
             }

@@ -77,7 +77,7 @@ $itemMedia = $item->media();
     <div class="meta-group">
         <h4><?php echo $translate('Sites'); ?></h4>
         <?php foreach ($sites as $site): ?>
-        <div class="value item-sets"><?php echo $site->link($site->title()); ?></div>
+        <div class="value item-sets"><?php echo $site->link($site->title()); ?> <?php echo $this->hyperlink('', $this->url('site/resource-id', ['site-slug' => $site->slug(), 'controller' => 'item', 'id' => $item->id()]), ['class' => 'o-icon-external', 'target' => '_blank']); ?></div>
         <?php endforeach; ?>
     </div>
     <?php endif; ?>

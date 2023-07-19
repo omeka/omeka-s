@@ -68,6 +68,9 @@ return [
             'site_page_visibility' => Db\Filter\SitePageVisibilityFilter::class,
             'value_visibility' => Db\Filter\ValueVisibilityFilter::class,
         ],
+        'data_types' => [
+            'ip_address' => Db\Type\IpAddress::class,
+        ],
         'functions' => [
              'datetime' => [
                 'convert_tz' => \DoctrineExtensions\Query\Mysql\ConvertTz::class,

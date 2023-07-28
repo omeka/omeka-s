@@ -37,7 +37,7 @@ $this->trigger('view.layout');
         <a href="#content" class="skip"><?php echo $translate('Skip to main content'); ?></a>
         <div class="flex">
             <header>
-                <div class="logo"><a href="<?php echo $this->url('admin'); ?>"><?php echo $this->setting('installation_title', 'Omeka S'); ?></a></div>
+                <div class="logo"><a href="<?php echo $this->url('admin'); ?>"><?php echo $escape($this->setting('installation_title', 'Omeka S')); ?></a></div>
                 <div id="mobile-nav">
                     <a href="#" class="o-icon-menu button"><span class="screen-reader-text"><?php echo $translate('Navigation menu'); ?></span></a>
                     <a href="#" class="o-icon-search button"><span class="screen-reader-text"><?php echo $translate('Search site'); ?></span></a>

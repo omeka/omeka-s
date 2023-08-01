@@ -113,7 +113,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         // Here, we include the key only if the resource has reverse properties.
         $reverse = [];
         if (!$settings->get('disable_jsonld_reverse')) {
-            $reverse =  $this->subjectValuesForReverse();
+            $reverse = $this->subjectValuesForReverse();
             $reverse = $reverse ? ['@reverse' => $reverse] : [];
         }
 

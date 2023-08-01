@@ -67,6 +67,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
     public function getJsonLd()
     {
+        $settings = $this->getServiceLocator()->get('Omeka\Settings');
+
         // Set the date time value objects.
         $dateTime = [
             'o:created' => [
@@ -109,8 +111,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         // According to the JSON-LD spec, the value of the @reverse key "MUST be
         // a JSON object containing members representing reverse properties."
         // Here, we include the key only if the resource has reverse properties.
-        $reverse = $this->subjectValuesForReverse();
-        $reverse = $reverse ? ['@reverse' => $reverse] : [];
+        $reverse = [];
+        if (!$settings->get('disable_jsonld_reverse')) {
+            $reverse =  $this->subjectValuesForReverse();
+            $reverse = $reverse ? ['@reverse' => $reverse] : [];
+        }
 
         return array_merge(
             [

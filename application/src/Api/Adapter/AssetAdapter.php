@@ -80,7 +80,7 @@ class AssetAdapter extends AbstractEntityAdapter
 
             $tempFile->setSourceName($fileData['file']['name']);
             $config = $this->getServiceLocator()->get('Config');
-            $validator = new Validator($config['api_assets']['allowed_media_types']);
+            $validator = new Validator($config['api_assets']['allowed_media_types'], $config['api_assets']['allowed_extensions']);
             if (!$validator->validate($tempFile, $errorStore)) {
                 return;
             }

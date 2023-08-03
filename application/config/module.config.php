@@ -47,6 +47,13 @@ return [
             'image/gif',
             'image/webp',
         ],
+        'allowed_extensions' => [
+            'jpeg',
+            'jpg',
+            'png',
+            'gif',
+            'webp',
+        ],
     ],
     'permissions' => [
         'acl_resources' => [

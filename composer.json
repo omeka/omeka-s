@@ -48,8 +48,7 @@
         "omeka/composer-addon-installer": "*",
         "omeka-s-themes/default": "dev-develop",
         "beberlei/doctrineextensions": "^1.0",
-        "lsolesen/pel": "^0.9.6",
-        "longitude-one/doctrine-spatial": "^3.0"
+        "lsolesen/pel": "^0.9.6"
     },
     "require-dev": {
         "phpunit/phpunit": "^9",

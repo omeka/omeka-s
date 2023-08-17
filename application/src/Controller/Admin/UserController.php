@@ -139,6 +139,11 @@ class UserController extends AbstractActionController
         $readResponse = $this->api()->read('users', $id);
         $user = $readResponse->getContent();
         $userEntity = $user->getEntity();
+
+        if (!$this->userIsAllowed($userEntity, 'update')) {
+            throw new Exception\PermissionDeniedException;
+        }
+
         $currentUser = $userEntity === $this->identity();
         $keys = $userEntity->getKeys();
 

@@ -1497,7 +1497,7 @@ msgstr "Filtrer les propriétés"
 #: application/view/common/query-form.phtml:8
 #: application/view/omeka/admin/query/search-filters.phtml:4
 msgid "[Edit below]"
-msgstr "[Modifier plus bas]"
+msgstr "[Modifier ci-dessous]"
 
 #: application/view/common/query-form.phtml:24
 msgid "Advanced edit"

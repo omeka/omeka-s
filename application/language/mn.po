@@ -5,9 +5,9 @@
 # 
 # Translators:
 # Jishee Oyutan <jisheelibrary@gmail.com>, 2017
-# Khaidav Tumur <khaidaw@gmail.com>, 2020
-# Khaidav T. <khaidaw@yahoo.com>, 2021
 # John Flatness <john@omeka.org>, 2023
+# Khaidav Tumur <khaidaw@gmail.com>, 2023
+# Khaidav T. <khaidaw@yahoo.com>, 2023
 # 
 #, fuzzy
 msgid ""
@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-10 21:23-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: John Flatness <john@omeka.org>, 2023\n"
+"Last-Translator: Khaidav T. <khaidaw@yahoo.com>, 2023\n"
 "Language-Team: Mongolian (https://app.transifex.com/omeka/teams/14184/mn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -191,7 +191,7 @@ msgstr "Өөр нөөцийн загвар нэмэх үү?"
 #: application/src/Controller/Admin/SystemInfoController.php:89
 #: application/src/Controller/Admin/SystemInfoController.php:94
 msgid "[invalid]"
-msgstr ""
+msgstr "[хүчингүй]"
 
 #: application/src/Controller/Admin/SystemInfoController.php:134
 #: application/src/Controller/Admin/SystemInfoController.php:145
@@ -238,7 +238,7 @@ msgstr "Баримтууд"
 
 #: application/src/DataType/Resource/ItemSet.php:27
 msgid "Item Sets"
-msgstr ""
+msgstr "Баримтын бүрдлүүд"
 
 #: application/src/DataType/Resource/Media.php:27
 #: application/view/common/block-layout/item-with-metadata.phtml:29
@@ -355,7 +355,7 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/Fallback.php:37
 msgid "This layout is invalid."
-msgstr ""
+msgstr "Энэ бүдүүвч хүчингүй байна"
 
 #: application/src/Site/BlockLayout/ItemShowcase.php:22
 #: application/src/Site/BlockLayout/Media.php:22
@@ -488,7 +488,7 @@ msgstr "агуулагдаагүй"
 #: application/src/View/Helper/SearchFilters.php:36
 #: application/view/common/advanced-search/properties.phtml:80
 msgid "starts with"
-msgstr ""
+msgstr "-р эхэлсэн"
 
 #: application/src/View/Helper/SearchFilters.php:37
 #: application/view/common/advanced-search/properties.phtml:81
@@ -498,7 +498,7 @@ msgstr ""
 #: application/src/View/Helper/SearchFilters.php:38
 #: application/view/common/advanced-search/properties.phtml:82
 msgid "ends with"
-msgstr ""
+msgstr "-р төгссөн"
 
 #: application/src/View/Helper/SearchFilters.php:39
 #: application/view/common/advanced-search/properties.phtml:83
@@ -542,11 +542,11 @@ msgstr "Бүтэн текстээр хайх"
 #: application/view/omeka/admin/resource-template/review-import.phtml:32
 #: application/view/omeka/admin/resource-template/show.phtml:18
 msgid "Class"
-msgstr ""
+msgstr "Анги"
 
 #: application/src/View/Helper/SearchFilters.php:68
 msgid "Unknown class"
-msgstr ""
+msgstr "Тодорхойгүй анги"
 
 #: application/src/View/Helper/SearchFilters.php:106
 msgid "Unknown property"
@@ -634,7 +634,7 @@ msgstr "Тодорхойгүй сайт"
 #: application/view/omeka/admin/media/show-details.phtml:49
 #: application/view/omeka/admin/media/show.phtml:38
 msgid "Visibility"
-msgstr ""
+msgstr "Харагдах байдал"
 
 #: application/src/View/Helper/SearchFilters.php:211
 #: application/view/common/advanced-search/visibility.phtml:5
@@ -684,7 +684,7 @@ msgstr ""
 #: application/view/omeka/admin/media/show.phtml:34
 #: application/view/omeka/admin/user/edit.phtml:39
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: application/src/View/Helper/SearchUserFilters.php:49
 #: application/view/omeka/admin/user/browse.phtml:64
@@ -3150,7 +3150,7 @@ msgstr ""
 #: application/view/omeka/site-admin/index/theme.phtml:67
 #, php-format
 msgid "Status: %s"
-msgstr ""
+msgstr "Статус: 1%s"
 
 #: application/view/omeka/site-admin/index/theme.phtml:69
 msgid ""
@@ -4185,7 +4185,7 @@ msgstr ""
 #: application/src/Form/ResourceForm.php:63
 #: application/src/Form/ResourceBatchUpdateForm.php:93
 msgid "Select a class"
-msgstr ""
+msgstr "Анги сонгох"
 
 #: application/src/Form/ResourceForm.php:67
 msgid ""
@@ -4264,7 +4264,7 @@ msgstr ""
 
 #: application/src/Form/VocabularyForm.php:119
 msgid "JSON-LD (.jsonld)"
-msgstr ""
+msgstr "JSON-LD (.jsonld)"
 
 #: application/src/Form/VocabularyForm.php:120
 msgid "N-Triples (.nt)"
@@ -4291,7 +4291,7 @@ msgstr ""
 
 #: application/src/Form/VocabularyForm.php:146
 msgid "Label property"
-msgstr ""
+msgstr "Шошгын шинж чанар"
 
 #: application/src/Form/VocabularyForm.php:147
 msgid ""
@@ -4333,7 +4333,7 @@ msgstr ""
 #: application/src/Form/UserBatchUpdateForm.php:77
 #: application/src/Form/UserBatchUpdateForm.php:92
 msgid "[No change]"
-msgstr ""
+msgstr "[Өөрчлөгдөөгүй]"
 
 #: application/src/Form/ResourceBatchUpdateForm.php:51
 msgid "Set openness"
@@ -6926,7 +6926,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:content
 msgid "content"
-msgstr ""
+msgstr "агуулга"
 
 #. Property comment for Bibliographic Ontology:content
 msgid ""
@@ -6937,7 +6937,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:doi
 msgid "doi"
-msgstr ""
+msgstr "doi"
 
 #. Property label for Bibliographic Ontology:eanucc13
 msgid "eanucc13"
@@ -6945,7 +6945,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:edition
 msgid "edition"
-msgstr ""
+msgstr "хэвлэлт"
 
 #. Property comment for Bibliographic Ontology:edition
 msgid ""
@@ -7027,7 +7027,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:number
 msgid "number"
-msgstr ""
+msgstr "дугаар"
 
 #. Property comment for Bibliographic Ontology:number
 msgid ""
@@ -7040,7 +7040,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:pageEnd
 msgid "page end"
-msgstr ""
+msgstr "хуудасны төгсгөл"
 
 #. Property comment for Bibliographic Ontology:pageEnd
 msgid "Ending page number within a continuous page range."
@@ -7048,7 +7048,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:pageStart
 msgid "page start"
-msgstr ""
+msgstr "хуудасны эхлэл"
 
 #. Property comment for Bibliographic Ontology:pageStart
 msgid "Starting page number within a continuous page range."
@@ -7056,7 +7056,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:pages
 msgid "pages"
-msgstr ""
+msgstr "хуудас"
 
 #. Property comment for Bibliographic Ontology:pages
 msgid ""
@@ -7091,7 +7091,7 @@ msgstr ""
 
 #. Property label for Bibliographic Ontology:shortTitle
 msgid "short title"
-msgstr ""
+msgstr "хураангуй нэр - гарчиг"
 
 #. Property comment for Bibliographic Ontology:shortTitle
 msgid "The abbreviation of a title."
@@ -7149,7 +7149,7 @@ msgstr ""
 
 #. Class label for Friend of a Friend:Person
 msgid "Person"
-msgstr ""
+msgstr "Хувь хүн"
 
 #. Class comment for Friend of a Friend:Person
 msgid "A person."
@@ -7169,7 +7169,7 @@ msgstr ""
 
 #. Class label for Friend of a Friend:Group
 msgid "Group"
-msgstr ""
+msgstr "Бүлэг"
 
 #. Class comment for Friend of a Friend:Group
 msgid "A class of Agents."
@@ -7201,7 +7201,7 @@ msgstr ""
 
 #. Class label for Friend of a Friend:OnlineAccount
 msgid "Online Account"
-msgstr ""
+msgstr "Онлайн бүртгэл"
 
 #. Class comment for Friend of a Friend:OnlineAccount
 msgid "An online account."
@@ -7233,7 +7233,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:mbox
 msgid "personal mailbox"
-msgstr ""
+msgstr "хувийн шуудангийн хайрцаг"
 
 #. Property comment for Friend of a Friend:mbox
 msgid ""
@@ -7420,7 +7420,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:phone
 msgid "phone"
-msgstr ""
+msgstr "утас"
 
 #. Property comment for Friend of a Friend:phone
 msgid ""
@@ -7430,7 +7430,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:homepage
 msgid "homepage"
-msgstr ""
+msgstr "нүүр хуудас"
 
 #. Property comment for Friend of a Friend:homepage
 msgid "A homepage for some thing."
@@ -7540,7 +7540,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:workInfoHomepage
 msgid "work info homepage"
-msgstr ""
+msgstr "ажлын мэдээллийн нүүр хуудас"
 
 #. Property comment for Friend of a Friend:workInfoHomepage
 msgid ""
@@ -7550,7 +7550,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:schoolHomepage
 msgid "schoolHomepage"
-msgstr ""
+msgstr "сургуулийнНүүрхуудас"
 
 #. Property comment for Friend of a Friend:schoolHomepage
 msgid "A homepage of a school attended by the person."
@@ -7616,7 +7616,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:logo
 msgid "logo"
-msgstr ""
+msgstr "лого"
 
 #. Property comment for Friend of a Friend:logo
 msgid "A logo representing some thing."
@@ -7624,7 +7624,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:topic
 msgid "topic"
-msgstr ""
+msgstr "сэдэв"
 
 #. Property comment for Friend of a Friend:topic
 msgid "A topic of some page or document."
@@ -7640,7 +7640,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:focus
 msgid "focus"
-msgstr ""
+msgstr "фокус"
 
 #. Property comment for Friend of a Friend:focus
 msgid ""
@@ -7662,7 +7662,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:theme
 msgid "theme"
-msgstr ""
+msgstr "загвар"
 
 #. Property comment for Friend of a Friend:theme
 msgid "A theme."
@@ -7696,7 +7696,7 @@ msgstr ""
 
 #. Property label for Friend of a Friend:member
 msgid "member"
-msgstr ""
+msgstr "гишүүн"
 
 #. Property comment for Friend of a Friend:member
 msgid "Indicates a member of a Group"

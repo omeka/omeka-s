@@ -5,10 +5,10 @@
 # 
 # Translators:
 # Diego Ecker <eckerdiego@gmail.com>, 2018
-# Amarilis Correa <amgc@usp.br>, 2023
 # Carlos Eduardo Maciel <carlosmaciel1@gmail.com>, 2023
 # Deidson Rafael Trindade <drafael@usp.br>, 2023
 # John Flatness <john@omeka.org>, 2023
+# Amarilis Correa <amgc@usp.br>, 2023
 # 
 #, fuzzy
 msgid ""
@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-10 21:23-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: John Flatness <john@omeka.org>, 2023\n"
+"Last-Translator: Amarilis Correa <amgc@usp.br>, 2023\n"
 "Language-Team: Portuguese (Brazil) (https://app.transifex.com/omeka/teams/14184/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3720,15 +3720,15 @@ msgstr "Administrador Global"
 
 #: application/src/Permissions/Acl.php:22
 msgid "Supervisor"
-msgstr ""
+msgstr "Supervisor"
 
 #: application/src/Permissions/Acl.php:23
 msgid "Editor"
-msgstr ""
+msgstr "Editor"
 
 #: application/src/Permissions/Acl.php:24
 msgid "Reviewer"
-msgstr ""
+msgstr "Revisor"
 
 #: application/src/Permissions/Acl.php:25
 msgid "Author"
@@ -3740,11 +3740,11 @@ msgstr "Pesquisador"
 
 #: application/src/ColumnType/IsPublic.php:11
 msgid "Is public"
-msgstr ""
+msgstr "É público"
 
 #: application/src/ColumnType/Value.php:25
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 #: application/src/ColumnType/Value.php:56
 msgid "Max values"
@@ -3784,7 +3784,7 @@ msgstr ""
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:75
 #, php-format
 msgid "Attempting to add duplicate property with ID %s"
-msgstr ""
+msgstr "Tentativa de adicionar propriedade duplicada com ID %s"
 
 #: application/src/Api/Adapter/ResourceTemplateAdapter.php:89
 #: application/src/Api/Adapter/PropertyAdapter.php:178

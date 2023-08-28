@@ -163,8 +163,8 @@ class PropertyAdapter extends AbstractEntityAdapter
                 ->createQueryBuilder()
                 ->select("IDENTITY($valuesAlias.property)")
                 ->from('Omeka\Entity\Value', $valuesAlias)
-                ->join('Omeka\Entity\Site', $siteAlias)
-                ->join(
+                ->innerJoin('Omeka\Entity\Site', $siteAlias)
+                ->innerJoin(
                     "$siteAlias.items",
                     $itemAlias,
                     'WITH',

@@ -460,7 +460,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->from('Omeka\Entity\Value', 'value')
-            ->join('value.resource', 'resource')
+            ->innerJoin('value.resource', 'resource')
             ->leftJoin('resource.resourceTemplate', 'resource_template')
             ->leftJoin('resource_template.resourceTemplateProperties', 'resource_template_property', 'WITH', 'value.property = resource_template_property.property')
             ->where($qb->expr()->eq('value.valueResource', $this->createNamedParameter($qb, $resource)));
@@ -471,24 +471,24 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             case 'item_sets':
                 $qb->andWhere('resource INSTANCE OF Omeka\Entity\ItemSet');
                 if ($siteId) {
-                    $qb->join('Omeka\Entity\SiteItemSet', 'site_item_set', 'WITH', 'resource.id = site_item_set.itemSet')
+                    $qb->innerJoin('Omeka\Entity\SiteItemSet', 'site_item_set', 'WITH', 'resource.id = site_item_set.itemSet')
                         ->andWhere($qb->expr()->eq('site_item_set.site', $siteId));
                 }
                 break;
             case 'media':
                 $qb->andWhere('resource INSTANCE OF Omeka\Entity\Media');
                 if ($siteId) {
-                    $qb->join('Omeka\Entity\Media', 'media', 'WITH', 'resource.id = media.id')
-                        ->join('media.item', 'item')
-                        ->join('item.sites', 'site')
+                    $qb->innerJoin('Omeka\Entity\Media', 'media', 'WITH', 'resource.id = media.id')
+                        ->innerJoin('media.item', 'item')
+                        ->innerJoin('item.sites', 'site')
                         ->andWhere($qb->expr()->eq('site.id', $siteId));
                 }
                 break;
             case 'items':
                 $qb->andWhere('resource INSTANCE OF Omeka\Entity\Item');
                 if ($siteId) {
-                    $qb->join('Omeka\Entity\Item', 'item', 'WITH', 'resource.id = item.id')
-                        ->join('item.sites', 'site')
+                    $qb->innerJoin('Omeka\Entity\Item', 'item', 'WITH', 'resource.id = item.id')
+                        ->innerJoin('item.sites', 'site')
                         ->andWhere($qb->expr()->eq('site.id', $siteId));
                 }
                 break;
@@ -540,7 +540,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
     {
         $offset = (is_numeric($page) && is_numeric($perPage)) ? (($page - 1) * $perPage) : null;
         $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
-            ->join('value.property', 'property')
+            ->innerJoin('value.property', 'property')
             ->select([
                 'value val',
                 'property.id property_id',
@@ -579,8 +579,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
     public function getSubjectValuesSimple(Resource $resource, $propertyId = null, $resourceType = null, $siteId = null)
     {
         $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
-            ->join('value.property', 'property')
-            ->join('property.vocabulary', 'vocabulary')
+            ->innerJoin('value.property', 'property')
+            ->innerJoin('property.vocabulary', 'vocabulary')
             ->select("CONCAT(vocabulary.prefix, ':', property.localName) term, IDENTITY(value.resource) id, resource.title title");
         $event = new Event('api.subject_values_simple.query', $this, [
             'queryBuilder' => $qb,
@@ -620,8 +620,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
     public function getSubjectValueProperties(Resource $resource, $resourceType = null, $siteId = null)
     {
         $qb = $this->getSubjectValuesQueryBuilder($resource, null, $resourceType, $siteId)
-            ->join('value.property', 'property')
-            ->join('property.vocabulary', 'vocabulary')
+            ->innerJoin('value.property', 'property')
+            ->innerJoin('property.vocabulary', 'vocabulary')
             ->select([
                 "DISTINCT CONCAT(property.id, '-', COALESCE(resource_template_property.id, '')) id_concat",
                 "CONCAT(vocabulary.prefix, ':', property.localName) term",

@@ -7,7 +7,11 @@ namespace Omeka\Entity;
  * @Entity
  * @Table(name="`value`", indexes={
  *     @Index(name="`value`", columns={"`value`"}, options={"lengths":{190}}),
- *     @Index(name="`uri`", columns={"`uri`"}, options={"lengths":{190}})
+ *     @Index(name="`uri`", columns={"`uri`"}, options={"lengths":{190}}),
+ *     @Index(
+ *         name="idx_public_resource_property",
+ *         columns={"is_public", "resource_id", "property_id"}
+ *     )
  * })
  */
 class Value extends AbstractEntity

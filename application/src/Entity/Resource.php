@@ -18,6 +18,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  *             name="title",
  *             columns={"title"},
  *             options={"lengths":{190}}
+ *         ),
+ *         @Index(
+ *             name="idx_public_type_id_title",
+ *             columns={"is_public", "resource_type", "id", "title"},
+ *             options={"lengths":{null, null, null, 190}}
  *         )
  *     }
  * )

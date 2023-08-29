@@ -1,3 +1,8 @@
+#SDS 2.0 Version of Omeka S
+
+This branch contains the SDS Version of Omeka S.
+
+
 # Omeka S
 
 Omeka S is a web publication system for universities, galleries, libraries, archives, and museums. It consists of a local network of independently curated exhibits sharing a collaboratively built pool of items, media, and their metadata.

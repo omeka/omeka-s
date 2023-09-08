@@ -72,6 +72,7 @@ class VocabularyForm extends Form
                 'attributes' => [
                     'required' => true,
                     'id' => 'o:namespace_uri',
+                    'data-confirm-message' => 'The namespace URI you entered does not end with a / or #, as is normally expected for namespace URIs. Would you like to import anyway?', // @translate
                 ],
             ]);
             $this->get('vocabulary-info')->add([

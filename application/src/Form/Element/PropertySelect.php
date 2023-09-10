@@ -44,6 +44,7 @@ class PropertySelect extends AbstractVocabularyMemberSelect
                         'attributes' => [
                             'data-term' => $property->term(),
                             'data-property-id' => $property->id(),
+                            'title' => $member->comment(),
                         ],
                     ];
                 }

@@ -187,6 +187,20 @@ class SettingForm extends Form
             ],
         ]);
 
+        $this->add([
+            'type' => 'checkbox',
+            'name' => 'disable_jsonld_reverse',
+            'options' => [
+                'element_group' => 'general',
+                'label' => 'Disable JSON-LD @reverse', // @translate
+                'info' => 'Disable JSON-LD reverse properties in the API output for resources.', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('disable_jsonld_reverse'),
+                'id' => 'disable-jsonld-reverse',
+            ],
+        ]);
+
         // Display element group
 
         $this->add([

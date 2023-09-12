@@ -335,8 +335,7 @@ class RdfImporter
         foreach ($types as $type) {
             foreach ($graph->allOfType($type) as $resource) {
                 // The resource must be a local member of the vocabulary.
-                $output = strncmp($resource->getUri(), $namespaceUri, strlen($namespaceUri));
-                if (0 === $output) {
+                if ($resource->getUri() === $namespaceUri . $resource->localName()) {
                     $members[$resource->localName()] = [
                         'label' => $this->getLabel($resource, $labelProperty, $lang, $resource->localName()),
                         'comment' => $this->getComment($resource, $commentProperty, $lang),

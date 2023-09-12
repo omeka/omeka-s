@@ -5,8 +5,10 @@ use Laminas\Form\Form;
 
 class VocabularyForm extends Form
 {
+    protected $translator;
+
     protected $options = [
-        'include_namespace' => false,
+        'vocabulary' => null,
     ];
 
     public function __construct($name = null, $options = [])
@@ -16,6 +18,8 @@ class VocabularyForm extends Form
 
     public function init()
     {
+        $vocabulary = $this->getOption('vocabulary');
+        $this->setAttribute('id', 'vocabulary-form');
         $this->add([
             'name' => 'vocabulary-info',
             'type' => 'fieldset',
@@ -61,20 +65,23 @@ class VocabularyForm extends Form
                 'id' => 'o:comment',
             ],
         ]);
-        if ($this->getOption('include_namespace')) {
-            $this->get('vocabulary-info')->add([
-                'name' => 'o:namespace_uri',
-                'type' => 'text',
-                'options' => [
-                    'label' => 'Namespace URI', // @translate
-                    'info' => 'Enter the unique namespace URI used to identify the classes and properties of the vocabulary.', // @translate
-                ],
-                'attributes' => [
-                    'required' => true,
-                    'id' => 'o:namespace_uri',
-                    'data-confirm-message' => 'The namespace URI you entered does not end with a / or #, as is normally expected for namespace URIs. Would you like to import anyway?', // @translate
-                ],
-            ]);
+        $this->get('vocabulary-info')->add([
+            'name' => 'o:namespace_uri',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Namespace URI', // @translate
+                'info' => 'Enter the unique namespace URI used to identify the classes and properties of the vocabulary.', // @translate
+            ],
+            'attributes' => [
+                'required' => true,
+                'id' => 'o:namespace_uri',
+                'placeholder' => $vocabulary ? $vocabulary->namespaceUri() : null,
+                'data-confirm-ends-with' => $this->translator->translate('The namespace URI you entered does not end with a / or #, as is normally expected for namespace URIs. Would you like to save anyway?'),
+                'data-confirm-change' => $this->translator->translate('The namespace URI you entered does not match the saved namespace URI. Would you like to save anyway?'),
+                'data-original-namespace-uri' => $vocabulary ? $vocabulary->namespaceUri() : null,
+            ],
+        ]);
+        if (!$vocabulary) {
             $this->get('vocabulary-info')->add([
                 'name' => 'o:prefix',
                 'type' => 'text',
@@ -182,5 +189,10 @@ class VocabularyForm extends Form
                 ['name' => 'ToNull'],
             ],
         ]);
+    }
+
+    public function setTranslator($translator)
+    {
+        $this->translator = $translator;
     }
 }

@@ -1,6 +1,7 @@
 <?php
-$translate = $this->plugin('translate');
+$this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', 'vocabularies import');
+$translate = $this->plugin('translate');
 $form->prepare();
 ?>
 
@@ -13,15 +14,3 @@ $form->prepare();
 </div>
 <?php echo $this->formCollection($form); ?>
 <?php echo $this->form()->closeTag(); ?>
-<script>
-$('#vocabularyform').on('submit', function(e) {
-    const namespaceUriInput = $('#o\\:namespace_uri');
-    const namespaceUri = namespaceUriInput.val();
-    // Confirm that the namespace URI ends with / or #.
-    if (!(namespaceUri.endsWith('/') || namespaceUri.endsWith('#'))) {
-        if (!window.confirm(namespaceUriInput.data('confirmMessage'))) {
-            e.preventDefault();
-        }
-    }
-});
-</script>

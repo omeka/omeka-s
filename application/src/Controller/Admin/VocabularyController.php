@@ -63,7 +63,7 @@ class VocabularyController extends AbstractActionController
 
     public function importAction()
     {
-        $form = $this->getForm(VocabularyForm::class, ['include_namespace' => true]);
+        $form = $this->getForm(VocabularyForm::class);
 
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -131,8 +131,8 @@ class VocabularyController extends AbstractActionController
 
     public function editAction()
     {
-        $form = $this->getForm(VocabularyForm::class);
         $vocabulary = $this->api()->read('vocabularies', $this->params('id'))->getContent();
+        $form = $this->getForm(VocabularyForm::class, ['vocabulary' => $vocabulary]);
 
         if ($vocabulary->isPermanent()) {
             throw new Exception\PermissionDeniedException('Cannot edit a permanent vocabulary');
@@ -142,6 +142,7 @@ class VocabularyController extends AbstractActionController
             'vocabulary-info' => [
                 'o:label' => $vocabulary->label(),
                 'o:comment' => $vocabulary->comment(),
+                'o:namespace_uri' => $vocabulary->namespaceUri(),
             ],
         ];
         $form->setData($data);

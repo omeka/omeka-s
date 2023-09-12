@@ -99,12 +99,12 @@ class RdfImporter
                 }
                 $file = $options['file'];
                 if (!is_readable($file)) {
-                    throw new ValidationException('File not readable.');
+                    throw new ValidationException('Could not read vocabulary file.');
                 }
                 try {
                     $graph->parseFile($file, $options['format'], $namespaceUri);
                 } catch (\EasyRdf\Exception $e) {
-                    throw new ValidationException($e->getMessage(), $e->getCode(), $e);
+                    throw new ValidationException('Could not parse vocabulary file.');
                 }
                 break;
             case 'url':
@@ -115,7 +115,7 @@ class RdfImporter
                 try {
                     $graph->load($options['url'], $options['format']);
                 } catch (\EasyRdf\Exception $e) {
-                    throw new ValidationException($e->getMessage(), $e->getCode(), $e);
+                    throw new ValidationException('Could not load vocabulary from URL.');
                 }
                 break;
             default:

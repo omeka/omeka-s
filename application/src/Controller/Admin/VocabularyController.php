@@ -111,7 +111,7 @@ class VocabularyController extends AbstractActionController
                     // thrown by the RDF library may make the target server
                     // vulnerable to Server Side Request Forgery (SSRF).
                     if ($e->getMessage()) {
-                        $messages[] = $this->translate('Error importing the vocabulary. Check the file or URL.');
+                        $messages[] = $e->getMessage();
                     }
                     // Messages may be thrown from the API via the importer.
                     foreach ($e->getErrorStore()->getErrors() as $message) {

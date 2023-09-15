@@ -7,7 +7,7 @@ use Omeka\Form\LoginForm;
 use Omeka\Form\ActivateForm;
 use Omeka\Form\ForgotPasswordForm;
 use Laminas\Authentication\AuthenticationService;
-use Laminas\Mail\Transport\Exception\RuntimeException as MailTansportRuntimeException;
+use Laminas\Mail\Exception\ExceptionInterface as MailException;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Session\Container;
 use Laminas\View\Model\ViewModel;
@@ -166,7 +166,8 @@ class LoginController extends AbstractActionController
                     }
                     try {
                         $this->mailer()->sendResetPassword($user);
-                    } catch (MailTansportRuntimeException $e) {
+                    } catch (MailException $e) {
+                        $this->logger()->err((string) $e);
                         $this->messenger()->addWarning('Unable to send password reset email.'); // @translate
                     }
                 }

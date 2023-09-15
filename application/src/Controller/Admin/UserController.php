@@ -8,7 +8,7 @@ use Omeka\Form\UserBatchUpdateForm;
 use Omeka\Form\UserForm;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\Message;
-use Laminas\Mail\Transport\Exception\RuntimeException as MailTansportRuntimeException;
+use Laminas\Mail\Exception\ExceptionInterface as MailException;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
@@ -113,7 +113,8 @@ class UserController extends AbstractActionController
                     $user = $response->getContent()->getEntity();
                     try {
                         $this->mailer()->sendUserActivation($user);
-                    } catch (MailTansportRuntimeException $e) {
+                    } catch (MailException $e) {
+                        $this->logger()->err((string) $e);
                         $this->messenger()->addWarning('Unable to send user activation email.'); // @translate
                     }
                     $message = new Message(

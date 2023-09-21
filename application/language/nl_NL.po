@@ -7,6 +7,7 @@
 # PaddoInWonderland <martijnrichardk@gmail.com>, 2018
 # Blair Kneppers <blair.kneppers@gmail.com>, 2019
 # John Flatness <john@omeka.org>, 2023
+# Bob Coret, 2023
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-10 21:23-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: John Flatness <john@omeka.org>, 2023\n"
+"Last-Translator: Bob Coret, 2023\n"
 "Language-Team: Dutch (Netherlands) (https://app.transifex.com/omeka/teams/14184/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -204,11 +205,11 @@ msgstr "Nog een gebruiker toevoegen?"
 
 #: application/src/Controller/Admin/VocabularyController.php:92
 msgid "Must provide a vocabulary file or a vocabulary URL"
-msgstr ""
+msgstr "Je moet een vocabulaire bestand or URL opgeven"
 
 #: application/src/Controller/Admin/VocabularyController.php:101
 msgid "Import another vocabulary?"
-msgstr "Nog een woordenschat importeren?"
+msgstr "Nog een vocabulaire importeren?"
 
 #: application/src/DataType/Resource/AbstractResource.php:62
 #, php-format
@@ -1989,12 +1990,12 @@ msgstr "Collecties (%s)"
 #: application/view/omeka/admin/index/browse.phtml:27
 #, php-format
 msgid "Vocabularies (%s)"
-msgstr "Woordenschatten (%s)"
+msgstr "Vocabulaires (%s)"
 
 #: application/view/omeka/admin/index/browse.phtml:29
 #: application/view/omeka/admin/vocabulary/browse.phtml:11
 msgid "Import new vocabulary"
-msgstr "Woordenschat importeren"
+msgstr "Vocabulaire importeren"
 
 #: application/view/omeka/admin/index/browse.phtml:33
 #, php-format
@@ -2591,7 +2592,7 @@ msgstr "Weet je zeker dat je deze module wil verwijderen?"
 #: application/view/omeka/admin/property/show-details.phtml:6
 #: application/view/omeka/admin/resource-class/show-details.phtml:6
 msgid "Vocabulary"
-msgstr "Woordenschat"
+msgstr "Vocabulaire"
 
 #: application/view/omeka/admin/property/show-details.phtml:10
 #: application/view/omeka/admin/resource-class/show-details.phtml:10
@@ -2873,7 +2874,7 @@ msgstr "Naam"
 #: application/view/omeka/admin/vocabulary/properties.phtml:7
 #: application/view/omeka/admin/vocabulary/update.phtml:20
 msgid "Vocabularies"
-msgstr "Woordenlijsten"
+msgstr "Vocabulaires"
 
 #: application/view/omeka/admin/vocabulary/browse.phtml:27
 msgid "Prefix"
@@ -2891,7 +2892,7 @@ msgstr "Eigenschappen"
 
 #: application/view/omeka/admin/vocabulary/browse.phtml:83
 msgid "Omeka could not find any vocabularies."
-msgstr "Omeka kon geen enkele woordenlijst vinden."
+msgstr "Omeka kon geen enkel vocabulaire vinden."
 
 #: application/view/omeka/admin/vocabulary/classes.phtml:10
 #: application/view/omeka/admin/vocabulary/properties.phtml:10
@@ -2906,23 +2907,23 @@ msgstr "Naamruimte URI:"
 
 #: application/view/omeka/admin/vocabulary/classes.phtml:60
 msgid "This vocabulary has no classes."
-msgstr "Deze woordenlijst heeft geen klassen."
+msgstr "Dit vocabulaire heeft geen klassen."
 
 #: application/view/omeka/admin/vocabulary/edit.phtml:18
 msgid ""
 "You may update this vocabulary to a newer version. You will be able to "
 "review the changes before you accept."
 msgstr ""
-"Je kunt deze woordenlijst bijwerken naar een nieuwere versie. Je kunt de "
+"U kunt dit vocabulaire bijwerken naar een nieuwere versie. U kunt de "
 "wijzigingen bekijken voordat je accepteert."
 
 #: application/view/omeka/admin/vocabulary/import.phtml:7
 msgid "New vocabulary"
-msgstr "Nieuwe woordenlijst"
+msgstr "Nieuw vocabulaire"
 
 #: application/view/omeka/admin/vocabulary/properties.phtml:61
 msgid "This vocabulary has no properties."
-msgstr "Deze woordenlijst heeft geen eigenschappen."
+msgstr "Dit vocabulaire heeft geen eigenschappen."
 
 #: application/view/omeka/admin/vocabulary/update.phtml:20
 msgid "Update"
@@ -3801,7 +3802,7 @@ msgstr ""
 #: application/src/Api/Adapter/PropertyAdapter.php:197
 #: application/src/Api/Adapter/ResourceClassAdapter.php:189
 msgid "A vocabulary must be set."
-msgstr ""
+msgstr "Er moet een vocabulaire ingesteld worden."
 
 #: application/src/Api/Adapter/AbstractResourceEntityAdapter.php:209
 #, php-format
@@ -4081,7 +4082,7 @@ msgstr ""
 #: application/src/Form/SettingForm.php:181
 #: application/src/Form/SiteSettingsForm.php:92
 msgid "Show Vocabulary"
-msgstr "Toon woordenlijst"
+msgstr "Toon vocabulaire"
 
 #: application/src/Form/SettingForm.php:182
 #: application/src/Form/SiteSettingsForm.php:93
@@ -4267,11 +4268,11 @@ msgstr ""
 
 #: application/src/Form/VocabularyForm.php:46
 msgid "Enter a human-readable title of the vocabulary."
-msgstr ""
+msgstr "Voer een voor mensen leesbare titel van het vocabulaire in."
 
 #: application/src/Form/VocabularyForm.php:58
 msgid "Enter a human-readable description of the vocabulary."
-msgstr ""
+msgstr "Voer een voor mensen leesbare beschrijving van het vocabulaire in."
 
 #: application/src/Form/VocabularyForm.php:69
 msgid "Namespace URI"
@@ -4282,6 +4283,8 @@ msgid ""
 "Enter the unique namespace URI used to identify the classes and properties "
 "of the vocabulary."
 msgstr ""
+"Voer de unieke naamruimte-URI in die wordt gebruikt om de klassen en "
+"eigenschappen van het vocabulaire te identificeren."
 
 #: application/src/Form/VocabularyForm.php:81
 msgid "Namespace prefix"
@@ -4292,24 +4295,30 @@ msgid ""
 "Enter a concise vocabulary identifier used as a shorthand for the namespace "
 "URI."
 msgstr ""
+"Voer een beknopte vocabulaire-identificatie in die wordt gebruikt als "
+"afkorting voor de naamruimte-URI."
 
 #: application/src/Form/VocabularyForm.php:94
 msgid "Vocabulary file"
-msgstr "Woordenlijstbestand"
+msgstr "Vocabulairebestand"
 
 #: application/src/Form/VocabularyForm.php:95
 msgid ""
 "Choose a RDF vocabulary file. You must choose a file or enter a URL below."
 msgstr ""
+"Kies een RDF-vocabulairebestand. U moet een bestand kiezen of hieronder een "
+"URL invoeren."
 
 #: application/src/Form/VocabularyForm.php:105
 msgid "Vocabulary URL"
-msgstr "Woordenlijst URL"
+msgstr "Vocabulaire URL"
 
 #: application/src/Form/VocabularyForm.php:106
 msgid ""
 "Enter a RDF vocabulary URL. You must enter a URL or choose a file above."
 msgstr ""
+"Voer een RDF-vocabulaire-URL in. U moet hierboven een URL invoeren of een "
+"bestand kiezen."
 
 #: application/src/Form/VocabularyForm.php:116
 msgid "File format"
@@ -4356,6 +4365,9 @@ msgid ""
 "uses an unconventional property for labels. Please use the full property URI"
 " enclosed in angle brackets."
 msgstr ""
+"Voer de labeleigenschap in. Dit is meestal alleen nodig als het vocabulaire "
+"een onconventionele eigenschap voor labels gebruikt. Gebruik de volledige "
+"eigendoms-URI tussen punthaken."
 
 #: application/src/Form/VocabularyForm.php:157
 msgid "Comment property"
@@ -4367,6 +4379,9 @@ msgid ""
 "uses an unconventional property for comments. Please use the full property "
 "URI enclosed in angle brackets."
 msgstr ""
+"Voer de opmerkingseigenschap in. Dit is meestal alleen nodig als het "
+"vocabulaire een onconventionele eigenschap voor opmerkingen gebruikt. "
+"Gebruik de volledige eigendoms-URI tussen punthaken."
 
 #: application/src/Form/SiteForm.php:54
 msgid "Choose or upload a thumbnail to display with site."
@@ -4681,7 +4696,7 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:352
 msgid "Advanced search vocabulary members"
-msgstr ""
+msgstr "Geavanceerd zoeken in vocabulaire onderdelen"
 
 #: application/src/Form/SiteSettingsForm.php:353
 msgid "Limit the search options for property and class"
@@ -4689,7 +4704,7 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:354
 msgid "All vocabulary members"
-msgstr ""
+msgstr "Alle vocabulaire onderdelen"
 
 #: application/src/Form/SiteSettingsForm.php:356
 msgid "Used by resources in this site"
@@ -5303,12 +5318,12 @@ msgstr "Collecties worden bijgewerkt. Dat kan even duren."
 
 #: application/src/Controller/Admin/VocabularyController.php:59
 msgid "vocabulary"
-msgstr "woordenlijst"
+msgstr "vocabulaire"
 
 #: application/src/Controller/Admin/VocabularyController.php:97
 #, php-format
 msgid "Vocabulary successfully imported. %s"
-msgstr "Woordenlijst succesvol geïmporteerd. %s"
+msgstr "Vocabulaire succesvol geïmporteerd. %s"
 
 #: application/src/Controller/Admin/VocabularyController.php:176
 msgid "Please review these changes before you accept them."
@@ -5316,15 +5331,15 @@ msgstr ""
 
 #: application/src/Controller/Admin/VocabularyController.php:184
 msgid "Vocabulary successfully updated"
-msgstr "Woordenlijst succesvol bijgewerkt"
+msgstr "Vocabulaire succesvol bijgewerkt"
 
 #: application/src/Controller/Admin/VocabularyController.php:204
 msgid "Changes to the vocabulary successfully made"
-msgstr "Wijzigingen in de woordenlijst zijn succesvol aangebracht"
+msgstr "Wijzigingen in het vocabulaire zijn succesvol aangebracht"
 
 #: application/src/Controller/Admin/VocabularyController.php:220
 msgid "Vocabulary successfully deleted"
-msgstr "Woordenlijst succesvol verwijderd"
+msgstr "Vocabulaire succesvol verwijderd"
 
 #: application/src/Controller/Admin/ResourceTemplateController.php:444
 msgid "resource template"

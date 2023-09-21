@@ -81,7 +81,14 @@ class EntityManagerFactory implements FactoryInterface
             $emConfig->addFilter($name, $className);
         }
 
-        // Add user defined functions.
+        // Add custom data types.
+        foreach ($config['entity_manager']['data_types'] as $name => $className) {
+            if (!Type::hasType($name)) {
+                Type::addType($name, $className);
+            }
+        }
+
+        // Add custom functions.
         $emConfig->setCustomNumericFunctions($config['entity_manager']['functions']['numeric']);
         $emConfig->setCustomStringFunctions($config['entity_manager']['functions']['string']);
         $emConfig->setCustomDatetimeFunctions($config['entity_manager']['functions']['datetime']);
@@ -102,6 +109,7 @@ class EntityManagerFactory implements FactoryInterface
             new ResourceDiscriminatorMap($config['entity_manager']['resource_discriminator_map'])
         );
         $em->getEventManager()->addEventSubscriber(new Entity($serviceLocator->get('EventManager')));
+
         // Instantiate the visibility filters and inject the service locator.
         $em->getFilters()->enable('resource_visibility');
         $em->getFilters()->getFilter('resource_visibility')->setServiceLocator($serviceLocator);
@@ -109,11 +117,6 @@ class EntityManagerFactory implements FactoryInterface
         $em->getFilters()->getFilter('value_visibility')->setServiceLocator($serviceLocator);
         $em->getFilters()->enable('site_page_visibility');
         $em->getFilters()->getFilter('site_page_visibility')->setServiceLocator($serviceLocator);
-
-        // Register a custom mapping type for an IP address.
-        if (!Type::hasType('ip_address')) {
-            Type::addType('ip_address', 'Omeka\Db\Type\IpAddress');
-        }
 
         return $em;
     }

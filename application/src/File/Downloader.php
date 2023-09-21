@@ -73,6 +73,7 @@ class Downloader
                             );
                         $errorStore->addError('download', $message);
                     }
+                    $tempFile->delete();
                     return false;
                 }
             }
@@ -87,6 +88,7 @@ class Downloader
                 $errorStore->addError('download', $message);
             }
             $this->logger->err($message);
+            $tempFile->delete();
             return false;
         }
 

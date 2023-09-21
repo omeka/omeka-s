@@ -40,6 +40,21 @@ return [
             ],
         ],
     ],
+    'api_assets' => [
+        'allowed_media_types' => [
+            'image/jpeg',
+            'image/png',
+            'image/gif',
+            'image/webp',
+        ],
+        'allowed_extensions' => [
+            'jpeg',
+            'jpg',
+            'png',
+            'gif',
+            'webp',
+        ],
+    ],
     'permissions' => [
         'acl_resources' => [
             'Omeka\Module\Manager',
@@ -67,6 +82,9 @@ return [
             'resource_visibility' => Db\Filter\ResourceVisibilityFilter::class,
             'site_page_visibility' => Db\Filter\SitePageVisibilityFilter::class,
             'value_visibility' => Db\Filter\ValueVisibilityFilter::class,
+        ],
+        'data_types' => [
+            'ip_address' => Db\Type\IpAddress::class,
         ],
         'functions' => [
              'datetime' => [

@@ -55,7 +55,7 @@ $resourcePropertiesSelect->setValueOptions($valueOptions);
             <?php echo $this->formElement($resourcePropertiesSelect); ?>
         </label>
     </div>
-    <?php echo ($totalCount > $perPage) ? $pagination : ''; ?>
+    <?php echo $pagination; ?>
 </div>
 
 <?php foreach ($subjectValues as $values): ?>

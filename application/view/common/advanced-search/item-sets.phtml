@@ -38,7 +38,7 @@ if ($this->status()->isSiteRequest()) {
     $selectOptions = [];
 }
 ?>
-<div id="item-sets" class="field removable multi-value" role="group">
+<div id="item-sets" class="field removable multi-value" role="group" aria-labelledby="by-item-set-label">
     <div class="field-meta">
         <span id="by-item-set-label" class="label"><?php echo $translate('Search by item set'); ?></span>
         <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
@@ -50,7 +50,7 @@ if ($this->status()->isSiteRequest()) {
     <div class="inputs">
         <?php foreach ($itemSets as $itemSet): ?>
         <div class="value">
-            <select class="item-set-select-type">
+            <select class="item-set-select-type" aria-label="<?php echo $translate('Condition'); ?>">
                 <option value="in"<?php echo 'in' === $itemSet['type'] ? ' selected' : ''; ?>><?php echo $translate('In'); ?></option>
                 <option value="not_in"<?php echo 'not_in' === $itemSet['type'] ? ' selected' : ''; ?>><?php echo $translate('Not in'); ?></option>
             </select>

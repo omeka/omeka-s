@@ -6,6 +6,7 @@ $element->setLabel($this->translate('Search by visibility'))
         '0' => $this->translate('Not public'),
     ])
     ->setEmptyOption($this->translate('Select visibility…'))
-    ->setValue($query['is_public'] ?? '');
+    ->setValue($query['is_public'] ?? '')
+    ->setAttribute('id', 'is_public');
 echo $this->formRow($element);
 ?>

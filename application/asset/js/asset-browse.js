@@ -12,14 +12,20 @@ jQuery(function ($) {
             processData: false
         }).done(function () {
             window.location.reload();
-        }).fail(function (jqXHR) {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
             var errorList = form.find('ul.errors');
             errorList.empty();
-            $.each(JSON.parse(jqXHR.responseText), function () {
+            if ('application/json' === jqXHR.getResponseHeader('content-type')) {
+                $.each(JSON.parse(jqXHR.responseText), function () {
+                    errorList.append($('<li>', {
+                        text: this
+                    }));
+                })
+            } else {
                 errorList.append($('<li>', {
-                    text: this
+                    text: errorThrown
                 }));
-            })
+            }
         });
     });
 });

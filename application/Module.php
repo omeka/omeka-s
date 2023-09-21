@@ -3,6 +3,7 @@ namespace Omeka;
 
 use Omeka\Api\Adapter\FulltextSearchableInterface;
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
+use Omeka\Entity\Item;
 use Omeka\Entity\Media;
 use Omeka\Module\AbstractModule;
 use Laminas\EventManager\Event as ZendEvent;
@@ -18,7 +19,7 @@ class Module extends AbstractModule
     /**
      * This Omeka version.
      */
-    const VERSION = '4.1.0-alpha3';
+    const VERSION = '4.1.0-alpha7';
 
     /**
      * The vocabulary IRI used to define Omeka application data.
@@ -121,20 +122,14 @@ class Module extends AbstractModule
 
         $sharedEventManager->attach(
             'Omeka\Entity\Media',
-            'entity.persist.post',
-            [$this, 'saveFulltextOnMediaSave']
-        );
-
-        $sharedEventManager->attach(
-            'Omeka\Entity\Media',
-            'entity.update.post',
-            [$this, 'saveFulltextOnMediaSave']
+            'entity.remove.pre',
+            [$this, 'deleteFulltextMedia']
         );
 
         $sharedEventManager->attach(
             'Omeka\Api\Adapter\SitePageAdapter',
             'api.delete.pre',
-            [$this, 'deleteFulltextPre']
+            [$this, 'deleteFulltextPreSitePage']
         );
 
         $sharedEventManager->attach(
@@ -564,34 +559,42 @@ class Module extends AbstractModule
     {
         $adapter = $event->getTarget();
         $entity = $event->getParam('response')->getContent();
-        if ($entity instanceof Media) {
-            // Media get special handling during entity.persist.post and
-            // entity.update.post in self::saveFulltextOnMediaSave(). There's no
-            // need to process them here.
-            return;
+        $fulltextSearch = $this->getServiceLocator()->get('Omeka\FulltextSearch');
+        $fulltextSearch->save($entity, $adapter);
+
+        // Item create needs special handling. We must save media fulltext here
+        // because media is created via cascade persist (during item create/update),
+        // which is invisible to normal API events.
+        if ($entity instanceof Item) {
+            $mediaAdapter = $adapter->getAdapter('media');
+            foreach ($entity->getMedia() as $mediaEntity) {
+                $fulltextSearch->save($mediaEntity, $mediaAdapter);
+            }
         }
-        $fulltext = $this->getServiceLocator()->get('Omeka\FulltextSearch');
-        $fulltext->save($entity, $adapter);
+        // Item media needs special handling. We must update the item's fulltext
+        // to append updated media data.
+        if ($entity instanceof Media) {
+            $itemEntity = $entity->getItem();
+            $itemAdapter = $adapter->getAdapter('items');
+            $fulltextSearch->save($itemEntity, $itemAdapter);
+        }
     }
 
     /**
-     * Save fulltext on media save.
+     * Delete the fulltext of a media.
      *
-     * This method does two things. First, it updates the parent item's fulltext
-     * to contain any new text introduced by this media. Second it ensures that
-     * the fulltext of newly created media is saved. Otherwise, media created
-     * in the item context (via cascade persist) will not have fulltext.
+     * We must delete media fulltext here because media may be deleted via cascade
+     * remove (during item update), which is invisible to normal API events.
      *
      * @param ZendEvent $event
      */
-    public function saveFulltextOnMediaSave(ZendEvent $event)
+    public function deleteFulltextMedia(ZendEvent $event)
     {
         $fulltextSearch = $this->getServiceLocator()->get('Omeka\FulltextSearch');
         $adapterManager = $this->getServiceLocator()->get('Omeka\ApiAdapterManager');
         $mediaEntity = $event->getTarget();
-        $itemEntity = $mediaEntity->getItem();
-        $fulltextSearch->save($mediaEntity, $adapterManager->get('media'));
-        $fulltextSearch->save($itemEntity, $adapterManager->get('items'));
+        $mediaAdapter = $adapterManager->get('media');
+        $fulltextSearch->delete($mediaEntity->getId(), $mediaAdapter);
     }
 
     /**
@@ -603,7 +606,7 @@ class Module extends AbstractModule
      *
      * @param ZendEvent $event
      */
-    public function deleteFulltextPre(ZendEvent $event)
+    public function deleteFulltextPreSitePage(ZendEvent $event)
     {
         $request = $event->getParam('request');
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
@@ -624,10 +627,24 @@ class Module extends AbstractModule
      */
     public function deleteFulltext(ZendEvent $event)
     {
-        $fulltext = $this->getServiceLocator()->get('Omeka\FulltextSearch');
+        $adapter = $event->getTarget();
+        $entity = $event->getParam('response')->getContent();
         $request = $event->getParam('request');
-        $fulltext->delete(
-            // Note that the resource may not have an ID after being deleted.
+        $fulltextSearch = $this->getServiceLocator()->get('Omeka\FulltextSearch');
+
+        // Media delete needs special handling. We must update the item's fulltext
+        // to remove the appended media data. We return here because deleting media
+        // fulltext is handled by self::deleteFulltextMedia().
+        if ($entity instanceof Media) {
+            $itemEntity = $entity->getItem();
+            $itemAdapter = $adapter->getAdapter('items');
+            $fulltextSearch->save($itemEntity, $itemAdapter);
+            return;
+        }
+
+        // Note that the resource may not have an ID after being deleted. This
+        // is why we must use $request->getId() rather than $entity->getId().
+        $fulltextSearch->delete(
             $request->getOption('deleted_entity_id') ?? $request->getId(),
             $event->getTarget()
         );

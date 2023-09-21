@@ -82,6 +82,7 @@ class SystemInfoController extends AbstractActionController
                 'Version' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
             ],
             'Modules' => [],
+            'Free space' => [],
             'Paths' => [
                 'PHP CLI path' => sprintf(
                     '%s %s',
@@ -122,6 +123,25 @@ class SystemInfoController extends AbstractActionController
                     return sprintf('%s (%s)', $module->getName(), $module->getIni('version') ?? $module->getDb('version'));
                 }, $modules);
             }
+        }
+
+        $freeSpaceSystem = disk_free_space('.');
+        $info['Free space']['System'] = $this->formatSpace($freeSpaceSystem);
+        $freeSpaceFilesDir = $this->getDirFiles();
+        if ($freeSpaceFilesDir) {
+            $freeSpaceFiles = disk_free_space($freeSpaceFilesDir);
+            if ($freeSpaceFiles !== $freeSpaceSystem) {
+                $info['Free space']['Local files'] = $this->formatSpace($freeSpaceFiles);
+            }
+            // Manage the case where directory "original" is mounted separately.
+            $freeSpaceOriginal = disk_free_space($freeSpaceFilesDir . '/original');
+            if ($freeSpaceFiles !== $freeSpaceOriginal) {
+                $info['Free space']['Local files (original)'] = $this->formatSpace($freeSpaceOriginal);
+            }
+        }
+        $freeSpaceTemp = disk_free_space($this->getDirTemp());
+        if ($freeSpaceTemp !== $freeSpaceSystem) {
+            $info['Free space']['Temp dir'] = $this->formatSpace($freeSpaceTemp);
         }
 
         return $info;
@@ -170,5 +190,24 @@ class SystemInfoController extends AbstractActionController
     public function getImagemagickPath()
     {
         return sprintf('%s/convert', $this->getImagemagickDir());
+    }
+
+    protected function getDirFiles(): ?string
+    {
+        $fileStore = $this->config['service_manager']['aliases']['Omeka\File\Store'];
+        if ($fileStore === 'Omeka\File\Store\Local') {
+            return $this->config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
+        }
+        return null;
+    }
+
+    protected function getDirTemp(): ?string
+    {
+        return $this->config['temp_dir'] ?: sys_get_temp_dir();
+    }
+
+    protected function formatSpace($bytes): string
+    {
+        return sprintf('%1$.1f GiB', $bytes / (1024 * 1024 * 1024));
     }
 }

@@ -8,6 +8,7 @@ use Omeka\Form\UserBatchUpdateForm;
 use Omeka\Form\UserForm;
 use Omeka\Mvc\Exception;
 use Omeka\Stdlib\Message;
+use Laminas\Mail\Exception\ExceptionInterface as MailException;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
@@ -110,7 +111,12 @@ class UserController extends AbstractActionController
                 $response = $this->api($form)->create('users', $formData['user-information']);
                 if ($response) {
                     $user = $response->getContent()->getEntity();
-                    $this->mailer()->sendUserActivation($user);
+                    try {
+                        $this->mailer()->sendUserActivation($user);
+                    } catch (MailException $e) {
+                        $this->logger()->err((string) $e);
+                        $this->messenger()->addWarning('Unable to send user activation email.'); // @translate
+                    }
                     $message = new Message(
                         'User successfully created. %s', // @translate
                         sprintf(
@@ -139,6 +145,11 @@ class UserController extends AbstractActionController
         $readResponse = $this->api()->read('users', $id);
         $user = $readResponse->getContent();
         $userEntity = $user->getEntity();
+
+        if (!$this->userIsAllowed($userEntity, 'update')) {
+            throw new Exception\PermissionDeniedException;
+        }
+
         $currentUser = $userEntity === $this->identity();
         $keys = $userEntity->getKeys();
 

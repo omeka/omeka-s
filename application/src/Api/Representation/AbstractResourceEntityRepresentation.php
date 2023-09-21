@@ -67,6 +67,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
     public function getJsonLd()
     {
+        $settings = $this->getServiceLocator()->get('Omeka\Settings');
+
         // Set the date time value objects.
         $dateTime = [
             'o:created' => [
@@ -109,8 +111,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         // According to the JSON-LD spec, the value of the @reverse key "MUST be
         // a JSON object containing members representing reverse properties."
         // Here, we include the key only if the resource has reverse properties.
-        $reverse = $this->subjectValuesForReverse();
-        $reverse = $reverse ? ['@reverse' => $reverse] : [];
+        $reverse = [];
+        if (!$settings->get('disable_jsonld_reverse')) {
+            $reverse = $this->subjectValuesForReverse();
+            $reverse = $reverse ? ['@reverse' => $reverse] : [];
+        }
 
         return array_merge(
             [
@@ -515,7 +520,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * The <property_id> should follow the pattern laid out in
      * AbstractResourceEntityAdapter::getSubjectValuesQueryBuilder(). If a
      * $resourceProperty isn't passed or is invalid, the default is all
-     * properties for the "items" resource type.
+     * properties for the current resource type.
      *
      * @param array $options
      * @return string
@@ -531,7 +536,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $resourceProperty = $options['resourceProperty'] ?? null;
         $siteId = $options['siteId'] ?? null;
 
-        $resourceType = 'items';
+        $resourceType = $adapter->getResourceName();
         $propertyId = null;
         if ($resourceProperty && false !== strpos($resourceProperty, ':')) {
             // Derive the resource type and property ID from $resourceProperty.

@@ -5,7 +5,7 @@ use Omeka\Settings\Settings;
 use Omeka\Settings\SiteSettings;
 use Omeka\Settings\UserSettings;
 
-class PrioritySetting
+class PrioritySettings
 {
     protected $settings;
     protected $siteSettings;
@@ -21,11 +21,11 @@ class PrioritySetting
     /**
      * Get a setting according to priority.
      *
-     * Can select from "global", "site", and/or "user" settings sources.
+     * Can select from the following setting sources: global, site, user.
      *
-     * @param string $id
+     * @param string $id The setting ID
      * @param array $sources An array of setting sources in priority order
-     * @param mixed $default
+     * @param mixed $default The default value
      * @return mixed
      */
     public function get($id, array $sources, $default = null)
@@ -43,11 +43,15 @@ class PrioritySetting
                     try {
                         $setting = $this->siteSettings->get($id);
                     } catch (\Exception $e) {
-                        // Not in a site context.
+                        // Not in a site context
                     }
                     break;
                 case 'user':
-                    $setting = $this->userSettings->get($id);
+                    try {
+                        $setting = $this->userSettings->get($id);
+                    } catch (\Exception $e) {
+                        // No authenticated user
+                    }
                     break;
             }
             if (!(null === $setting || '' === $setting)) {

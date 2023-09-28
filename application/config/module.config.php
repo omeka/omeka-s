@@ -290,6 +290,7 @@ return [
             'Omeka\Settings' => Service\Settings\SettingsFactory::class,
             'Omeka\Settings\Site' => Service\Settings\SiteSettingsFactory::class,
             'Omeka\Settings\User' => Service\Settings\UserSettingsFactory::class,
+            'Omeka\Settings\Priority' => Service\Settings\PrioritySettingFactory::class,
             'Omeka\Job\Dispatcher' => Service\Job\DispatcherFactory::class,
             'Omeka\Job\DispatchStrategy\PhpCli' => Service\Job\DispatchStrategy\PhpCliFactory::class,
             'Omeka\Job\DispatchStrategy\Synchronous' => Service\Job\DispatchStrategy\SynchronousFactory::class,

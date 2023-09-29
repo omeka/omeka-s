@@ -5,7 +5,7 @@ use Omeka\Settings\Settings;
 use Omeka\Settings\SiteSettings;
 use Omeka\Settings\UserSettings;
 
-class PrioritySettings
+class MultiSettings
 {
     protected $settings;
     protected $siteSettings;
@@ -19,9 +19,9 @@ class PrioritySettings
     }
 
     /**
-     * Get a setting according to priority.
+     * Get a setting prioritized by source.
      *
-     * Can select from the following setting sources: global, site, user.
+     * Can select from the following sources: global, site, user.
      *
      * @param string $id The setting ID
      * @param array $sources An array of setting sources in priority order
@@ -30,11 +30,8 @@ class PrioritySettings
      */
     public function get($id, array $sources, $default = null)
     {
-        $sources = array_filter(array_unique($sources), function($value) {
-            return in_array($value, ['global', 'site', 'user']);
-        });
         $setting = null;
-        foreach ($sources as $source) {
+        foreach (array_unique($sources) as $source) {
             switch ($source) {
                 case 'global':
                     $setting = $this->settings->get($id);

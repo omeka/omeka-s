@@ -5,7 +5,7 @@ use Omeka\Settings\Settings;
 use Omeka\Settings\SiteSettings;
 use Omeka\Settings\UserSettings;
 
-class MultiSettings
+class FallbackSettings
 {
     protected $settings;
     protected $siteSettings;
@@ -24,7 +24,7 @@ class MultiSettings
      * Can select from the following sources: global, site, user.
      *
      * @param string $id The setting ID
-     * @param array $sources An array of setting sources in priority order
+     * @param array $sources An array of setting sources in fallback order
      * @param mixed $default The default value
      * @return mixed
      */

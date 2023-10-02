@@ -2,14 +2,14 @@
 
 namespace Omeka\Service\ViewHelper;
 
-use Omeka\View\Helper\MultiSetting;
+use Omeka\View\Helper\FallbackSetting;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
-class MultiSettingFactory implements FactoryInterface
+class FallbackSettingFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        return new MultiSetting($services->get('Omeka\Settings\Multi'));
+        return new FallbackSetting($services->get('Omeka\Settings\Fallback'));
     }
 }

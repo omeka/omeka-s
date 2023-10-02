@@ -1,10 +1,6 @@
 <?php
 namespace Omeka\Settings;
 
-use Omeka\Settings\Settings;
-use Omeka\Settings\SiteSettings;
-use Omeka\Settings\UserSettings;
-
 class FallbackSettings
 {
     protected $settings;

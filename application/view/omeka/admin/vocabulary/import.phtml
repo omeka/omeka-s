@@ -1,7 +1,6 @@
 <?php
-$this->headScript()->appendFile($this->assetUrl('js/vocabulary-form.js', 'Omeka'));
-$this->htmlElement('body')->appendAttribute('class', 'vocabularies import');
 $translate = $this->plugin('translate');
+$this->htmlElement('body')->appendAttribute('class', 'vocabularies import');
 $form->prepare();
 ?>
 
@@ -14,3 +13,19 @@ $form->prepare();
 </div>
 <?php echo $this->formCollection($form); ?>
 <?php echo $this->form()->closeTag(); ?>
+
+<script>
+const uploadField = $('#file-upload').closest('.field');
+const urlField = $('#file-url').closest('.field');
+urlField.hide();
+$('.import-type-select').on('change', function(e) {
+    const thisRadio = $(this);
+    if ('upload' === thisRadio.val()) {
+        uploadField.show();
+        urlField.hide();
+    } else if ('url' === thisRadio.val()) {
+        uploadField.hide();
+        urlField.show();
+    }
+});
+</script>

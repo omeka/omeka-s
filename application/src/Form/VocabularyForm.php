@@ -96,25 +96,40 @@ class VocabularyForm extends Form
             ]);
         }
         $this->get('vocabulary-file')->add([
+            'name' => 'select_import_type',
+            'type' => 'radio',
+            'options' => [
+                'label' => 'Import type', // @translate
+                'value_options' => [
+                    'upload' => 'Upload', // @translate
+                    'url' => 'URL', // @translate
+                ],
+            ],
+            'attributes' => [
+                'value' => 'upload',
+                'class' => 'import-type-select',
+            ],
+        ]);
+        $this->get('vocabulary-file')->add([
             'name' => 'file',
             'type' => 'file',
             'options' => [
-                'label' => 'Vocabulary file', // @translate
-                'info' => 'Choose a RDF vocabulary file. You must choose a file or enter a URL below.', // @translate
+                'label' => 'File upload', // @translate
+                'info' => 'Choose a RDF vocabulary file.', // @translate
             ],
             'attributes' => [
-                'id' => 'file',
+                'id' => 'file-upload',
             ],
         ]);
         $this->get('vocabulary-file')->add([
             'name' => 'url',
             'type' => 'url',
             'options' => [
-                'label' => 'Vocabulary URL', // @translate
-                'info' => 'Enter a RDF vocabulary URL. You must enter a URL or choose a file above.', // @translate
+                'label' => 'File URL', // @translate
+                'info' => 'Enter a URL to a RDF vocabulary file.', // @translate
             ],
             'attributes' => [
-                'id' => 'url',
+                'id' => 'file-url',
             ],
         ]);
         $this->get('vocabulary-file')->add([

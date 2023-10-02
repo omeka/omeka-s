@@ -82,10 +82,10 @@ class VocabularyController extends AbstractActionController
                         'label_property' => $data['vocabulary-advanced']['label_property'],
                         'comment_property' => $data['vocabulary-advanced']['comment_property'],
                     ];
-                    if (\UPLOAD_ERR_OK === $data['vocabulary-file']['file']['error']) {
+                    if ('upload' === $data['vocabulary-file']['import_type'] && \UPLOAD_ERR_OK === $data['vocabulary-file']['file']['error']) {
                         $strategy = 'file';
                         $options['file'] = $data['vocabulary-file']['file']['tmp_name'];
-                    } elseif ($data['vocabulary-file']['url']) {
+                    } elseif ('url' === $data['vocabulary-file']['import_type']) {
                         $strategy = 'url';
                         $options['url'] = $data['vocabulary-file']['url'];
                     } else {

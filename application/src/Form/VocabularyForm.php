@@ -96,7 +96,7 @@ class VocabularyForm extends Form
             ]);
         }
         $this->get('vocabulary-file')->add([
-            'name' => 'select_import_type',
+            'name' => 'import_type',
             'type' => 'radio',
             'options' => [
                 'label' => 'Import type', // @translate

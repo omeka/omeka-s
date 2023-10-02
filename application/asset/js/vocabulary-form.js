@@ -1,4 +1,29 @@
-$(document).ready( function() {
+$(document).ready(function() {
+
+const fileUpload = $('#file-upload');
+const fileUrl = $('#file-url');
+const fileUploadField = fileUpload.closest('.field');
+const fileUrlField = fileUrl.closest('.field');
+
+const selectedImportType = $('.import-type-select:checked');
+if ('upload' === selectedImportType.val()) {
+    fileUploadField.show();
+    fileUrlField.hide();
+} else if ('url' === selectedImportType.val()) {
+    fileUploadField.hide();
+    fileUrlField.show();
+}
+
+$('.import-type-select').on('change', function(e) {
+    const thisRadio = $(this);
+    if ('upload' === thisRadio.val()) {
+        fileUploadField.show();
+        fileUrlField.hide();
+    } else if ('url' === thisRadio.val()) {
+        fileUploadField.hide();
+        fileUrlField.show();
+    }
+});
 
 $('#vocabulary-form').on('submit', function(e) {
     const namespaceUriInput = $('#o\\:namespace_uri');

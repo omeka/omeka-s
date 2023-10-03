@@ -64,7 +64,6 @@ class VocabularyController extends AbstractActionController
     public function importAction()
     {
         $form = $this->getForm(VocabularyForm::class);
-
         $request = $this->getRequest();
         if ($request->isPost()) {
             $post = array_merge_recursive(
@@ -74,48 +73,39 @@ class VocabularyController extends AbstractActionController
             $form->setData($post);
             if ($form->isValid()) {
                 $data = $form->getData();
+                $strategy = null;
+                $options = [
+                    'format' => $data['vocabulary-file']['format'],
+                    'lang' => $data['vocabulary-advanced']['lang'],
+                    'label_property' => $data['vocabulary-advanced']['label_property'],
+                    'comment_property' => $data['vocabulary-advanced']['comment_property'],
+                ];
+                if ('upload' === $data['vocabulary-file']['import_type']) {
+                    $strategy = 'file';
+                    $options['file'] = $data['vocabulary-file']['file']['tmp_name'];
+                } elseif ('url' === $data['vocabulary-file']['import_type']) {
+                    $strategy = 'url';
+                    $options['url'] = $data['vocabulary-file']['url'];
+                }
                 try {
-                    $strategy = null;
-                    $options = [
-                        'format' => $data['vocabulary-file']['format'],
-                        'lang' => $data['vocabulary-advanced']['lang'],
-                        'label_property' => $data['vocabulary-advanced']['label_property'],
-                        'comment_property' => $data['vocabulary-advanced']['comment_property'],
-                    ];
-                    if ('upload' === $data['vocabulary-file']['import_type'] && \UPLOAD_ERR_OK === $data['vocabulary-file']['file']['error']) {
-                        $strategy = 'file';
-                        $options['file'] = $data['vocabulary-file']['file']['tmp_name'];
-                    } elseif ('url' === $data['vocabulary-file']['import_type']) {
-                        $strategy = 'url';
-                        $options['url'] = $data['vocabulary-file']['url'];
-                    } else {
-                        throw new ValidationException($this->translate('Must provide a vocabulary file or a vocabulary URL'));
-                    }
                     $response = $this->rdfImporter->import($strategy, $data['vocabulary-info'], $options);
-                    if ($response) {
-                        $message = new Message(
-                            'Vocabulary successfully imported. %s', // @translate
-                            sprintf(
-                                '<a href="%s">%s</a>',
-                                htmlspecialchars($this->url()->fromRoute(null, [], true)),
-                                $this->translate('Import another vocabulary?')
-                            ));
-                        $message->setEscapeHtml(false);
-                        $this->messenger()->addSuccess($message);
-                        return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
-                    }
-                } catch (ValidationException $e) {
+                    $message = new Message(
+                        'Vocabulary successfully imported. %s', // @translate
+                        sprintf('<a href="%s">%s</a>', htmlspecialchars($this->url()->fromRoute(null, [], true)), $this->translate('Import another vocabulary?'))
+                    );
+                    $message->setEscapeHtml(false);
+                    $this->messenger()->addSuccess($message);
+                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                } catch (\Exception $e) {
                     $messages = [];
-                    // A message may be thrown directly from the RDF importer.
-                    // Here, we set a generic message because error messages
-                    // thrown by the RDF library may make the target server
-                    // vulnerable to Server Side Request Forgery (SSRF).
                     if ($e->getMessage()) {
                         $messages[] = $e->getMessage();
                     }
                     // Messages may be thrown from the API via the importer.
-                    foreach ($e->getErrorStore()->getErrors() as $message) {
-                        $messages[] = $message;
+                    if (method_exists($e, 'getErrorStore')) {
+                        foreach ($e->getErrorStore()->getErrors() as $message) {
+                            $messages[] = $message;
+                        }
                     }
                     $this->messenger()->addErrors($messages);
                 }
@@ -123,7 +113,6 @@ class VocabularyController extends AbstractActionController
                 $this->messenger()->addFormErrors($form);
             }
         }
-
         $view = new ViewModel;
         $view->setVariable('form', $form);
         return $view;
@@ -133,11 +122,9 @@ class VocabularyController extends AbstractActionController
     {
         $vocabulary = $this->api()->read('vocabularies', $this->params('id'))->getContent();
         $form = $this->getForm(VocabularyForm::class, ['vocabulary' => $vocabulary]);
-
         if ($vocabulary->isPermanent()) {
             throw new Exception\PermissionDeniedException('Cannot edit a permanent vocabulary');
         }
-
         $data = [
             'vocabulary-info' => [
                 'o:label' => $vocabulary->label(),
@@ -146,10 +133,8 @@ class VocabularyController extends AbstractActionController
             ],
         ];
         $form->setData($data);
-
         $view = new ViewModel;
         $view->setVariable('vocabulary', $vocabulary);
-
         $request = $this->getRequest();
         if ($request->isPost()) {
             $post = array_merge_recursive(
@@ -160,7 +145,6 @@ class VocabularyController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
                 $response = $this->api($form)->update('vocabularies', $this->params('id'), $data['vocabulary-info'], [], ['isPartial' => true]);
-
                 $strategy = null;
                 $options = [
                     'format' => $data['vocabulary-file']['format'],
@@ -168,31 +152,32 @@ class VocabularyController extends AbstractActionController
                     'label_property' => $data['vocabulary-advanced']['label_property'],
                     'comment_property' => $data['vocabulary-advanced']['comment_property'],
                 ];
-                if (\UPLOAD_ERR_OK === $data['vocabulary-file']['file']['error']) {
+                if ('upload' === $data['vocabulary-file']['import_type']) {
                     $strategy = 'file';
                     $options['file'] = $data['vocabulary-file']['file']['tmp_name'];
-                } elseif ($data['vocabulary-file']['url']) {
+                } elseif ('url' === $data['vocabulary-file']['import_type']) {
                     $strategy = 'url';
                     $options['url'] = $data['vocabulary-file']['url'];
                 }
-
-                if (null !== $strategy) {
-                    $this->messenger()->addSuccess('Please review these changes before you accept them.'); // @translate
+                if (null === $strategy) {
+                    $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
+                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                }
+                try {
                     $diff = $this->rdfImporter->getDiff($strategy, $vocabulary->namespaceUri(), $options);
+                    $this->messenger()->addSuccess('Please review these changes before you accept them.'); // @translate
                     $form = $this->getForm(VocabularyUpdateForm::class);
                     $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'update'], true));
                     $form->get('diff')->setValue(json_encode($diff));
                     $view->setVariable('diff', $diff);
                     $view->setTemplate('omeka/admin/vocabulary/update');
-                } else {
-                    $this->messenger()->addSuccess('Vocabulary successfully updated'); // @translate
-                    return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+                } catch (\Exception $e) {
+                    $this->messenger()->addError($e->getMessage());
                 }
             } else {
                 $this->messenger()->addFormErrors($form);
             }
         }
-
         $view->setVariable('form', $form);
         return $view;
     }

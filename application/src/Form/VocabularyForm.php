@@ -143,6 +143,7 @@ class VocabularyForm extends Form
                     'ntriples' => 'N-Triples (.nt)', // @translate
                     'rdfxml' => 'RDF/XML (.rdf)', // @translate
                     'turtle' => 'Turtle (.ttl)', // @translate
+                    'turtle' => 'Notation3 (.n3)', // @translate
                 ],
             ],
             'attributes' => [

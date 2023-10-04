@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Controller\Admin;
 
-use Omeka\Api\Exception\ValidationException;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\VocabularyForm;
 use Omeka\Form\VocabularyUpdateForm;

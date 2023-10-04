@@ -146,7 +146,7 @@ class VocabularyForm extends Form
                     [
                         'value' => 'turtle',
                         'label' => 'Notation3 (.n3)',
-                    ]
+                    ],
                 ],
             ],
             'attributes' => [

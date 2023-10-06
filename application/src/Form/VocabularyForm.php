@@ -145,7 +145,7 @@ class VocabularyForm extends Form
                     'turtle' => 'Turtle (.ttl)', // @translate
                     [
                         'value' => 'turtle',
-                        'label' => 'Notation3 (.n3)',
+                        'label' => 'Notation3 (.n3)', // @translate
                     ],
                 ],
             ],

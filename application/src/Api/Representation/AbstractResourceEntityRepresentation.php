@@ -432,6 +432,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         return $subjectValues;
     }
 
+    public function subjectValueTotalCount($propertyId = null, $resourceType = null, $siteId = null)
+    {
+        return $this->getAdapter()->getSubjectValueTotalCount($this->resource, $propertyId, $resourceType, $siteId);
+    }
+
     /**
      * Get value representations where this resource is the RDF subject.
      *
@@ -533,7 +538,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $viewName = $options['viewName'] ?? 'common/linked-resources';
         $page = $options['page'] ?? null;
         $perPage = $options['perPage'] ?? null;
-        $resourceProperty = $options['resourceProperty'] ?? null;
+        $resourceProperty = $options['resourceProperty'] ?? 'items:';
         $siteId = $options['siteId'] ?? null;
 
         $resourceType = $adapter->getResourceName();
@@ -544,13 +549,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         $totalCount = $adapter->getSubjectValueTotalCount($this->resource, $propertyId, $resourceType, $siteId);
-        if (!$totalCount) {
-            return;
-        }
         $subjectValues = $this->subjectValues($page, $perPage, $propertyId, $resourceType, $siteId);
-        if (!$subjectValues) {
-            return;
-        }
         $resourcePropertiesAll = [
             'items' => $adapter->getSubjectValueProperties($this->resource, 'items', $siteId),
             'item_sets' => $adapter->getSubjectValueProperties($this->resource, 'item_sets', $siteId),

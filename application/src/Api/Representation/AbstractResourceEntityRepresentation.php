@@ -433,6 +433,19 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Get the total count of this resource's subject values.
+     *
+     * @param int|string|null $propertyId Filter by property ID
+     * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
+     * @return int
+     */
+    public function subjectValueTotalCount($propertyId = null, $resourceType = null, $siteId = null)
+    {
+        return $this->getAdapter()->getSubjectValueTotalCount($this->resource, $propertyId, $resourceType, $siteId);
+    }
+
+    /**
      * Get value representations where this resource is the RDF subject.
      *
      * @return array
@@ -533,8 +546,23 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $viewName = $options['viewName'] ?? 'common/linked-resources';
         $page = $options['page'] ?? null;
         $perPage = $options['perPage'] ?? null;
-        $resourceProperty = $options['resourceProperty'] ?? null;
         $siteId = $options['siteId'] ?? null;
+
+        $resourcePropertiesAll = [
+            'items' => $adapter->getSubjectValueProperties($this->resource, 'items', $siteId),
+            'item_sets' => $adapter->getSubjectValueProperties($this->resource, 'item_sets', $siteId),
+            'media' => $adapter->getSubjectValueProperties($this->resource, 'media', $siteId),
+        ];
+        // Find the default resource property by detecting the first resource
+        // type that has properties.
+        $defaultResourceProperty = null;
+        foreach ($resourcePropertiesAll as $resourceType => $resourceProperties) {
+            if ($resourceProperties) {
+                $defaultResourceProperty = sprintf('%s:', $resourceType);
+                break;
+            }
+        }
+        $resourceProperty = $options['resourceProperty'] ?? $defaultResourceProperty;
 
         $resourceType = $adapter->getResourceName();
         $propertyId = null;
@@ -544,18 +572,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         $totalCount = $adapter->getSubjectValueTotalCount($this->resource, $propertyId, $resourceType, $siteId);
-        if (!$totalCount) {
-            return;
-        }
         $subjectValues = $this->subjectValues($page, $perPage, $propertyId, $resourceType, $siteId);
-        if (!$subjectValues) {
-            return;
-        }
-        $resourcePropertiesAll = [
-            'items' => $adapter->getSubjectValueProperties($this->resource, 'items', $siteId),
-            'item_sets' => $adapter->getSubjectValueProperties($this->resource, 'item_sets', $siteId),
-            'media' => $adapter->getSubjectValueProperties($this->resource, 'media', $siteId),
-        ];
 
         $partial = $this->getViewHelper('partial');
         return $partial($viewName, [

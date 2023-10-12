@@ -37,15 +37,12 @@ $itemMedia = $item->media();
 </div>
 
 <div id="resources-linked" class="section">
-    <?php
-    $subjectValues = $item->displaySubjectValues([
-        'page' => $this->params()->fromQuery('page', 1),
-        'perPage' => 25,
-        'resourceProperty' => $this->params()->fromQuery('resource_property'),
-    ]);
-    ?>
-    <?php if ($subjectValues): ?>
-        <?php echo $subjectValues; ?>
+    <?php if ($item->subjectValueTotalCount()): ?>
+        <?php echo $item->displaySubjectValues([
+            'page' => $this->params()->fromQuery('page', 1),
+            'perPage' => 25,
+            'resourceProperty' => $this->params()->fromQuery('resource_property'),
+        ]); ?>
     <?php else: ?>
         <div class="no-resources">
             <p><?php echo $translate('No resources link to this item.'); ?></p>

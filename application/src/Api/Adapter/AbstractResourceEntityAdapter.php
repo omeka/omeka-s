@@ -255,6 +255,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], (string) $string);
         };
 
+        $previousPropertyId = null;
+        $previousPositive = null;
+        $previousAlias = null;
+
         foreach ($query['property'] as $queryRow) {
             if (!(is_array($queryRow)
                 && array_key_exists('property', $queryRow)
@@ -271,13 +275,27 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 continue;
             }
 
-            $valuesAlias = $this->createAlias();
             $positive = true;
+            if (in_array($queryType, ['neq', 'nin', 'nsw', 'new', 'nres', 'nex'])) {
+                $positive = false;
+                $queryType = substr($queryType, 1);
+            }
+            if (!in_array($queryType, ['eq', 'in', 'sw', 'ew', 'res', 'ex'])) {
+                continue;
+            }
+
+            if ($previousPropertyId === $propertyId
+                && $previousPositive === $positive
+                && $joiner === 'or'
+            ) {
+                $valuesAlias = $previousAlias;
+                $usePrevious = true;
+            } else {
+                $valuesAlias = $this->createAlias();
+                $usePrevious = false;
+            }
 
             switch ($queryType) {
-                case 'neq':
-                    $positive = false;
-                    // No break.
                 case 'eq':
                     $param = $this->createNamedParameter($qb, $value);
                     $subqueryAlias = $this->createAlias();
@@ -293,9 +311,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nin':
-                    $positive = false;
-                    // No break.
                 case 'in':
                     $param = $this->createNamedParameter($qb, '%' . $escapeSqlLike($value) . '%');
                     $subqueryAlias = $this->createAlias();
@@ -311,9 +326,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nsw':
-                    $positive = false;
-                    // No break.
                 case 'sw':
                     $param = $this->createNamedParameter($qb, $escapeSqlLike($value) . '%');
                     $subqueryAlias = $this->createAlias();
@@ -329,9 +341,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'new':
-                    $positive = false;
-                    // No break.
                 case 'ew':
                     $param = $this->createNamedParameter($qb, '%' . $escapeSqlLike($value));
                     $subqueryAlias = $this->createAlias();
@@ -347,9 +356,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nres':
-                    $positive = false;
-                    // No break.
                 case 'res':
                     $predicateExpr = $qb->expr()->eq(
                         "$valuesAlias.valueResource",
@@ -357,9 +363,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nex':
-                    $positive = false;
-                    // No break.
                 case 'ex':
                     $predicateExpr = $qb->expr()->isNotNull("$valuesAlias.id");
                     break;
@@ -391,10 +394,12 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $whereClause = $qb->expr()->isNull("$valuesAlias.id");
             }
 
-            if ($joinConditions) {
-                $qb->leftJoin($valuesJoin, $valuesAlias, 'WITH', $qb->expr()->andX(...$joinConditions));
-            } else {
-                $qb->leftJoin($valuesJoin, $valuesAlias);
+            if (!$usePrevious) {
+                if ($joinConditions) {
+                    $qb->leftJoin($valuesJoin, $valuesAlias, 'WITH', $qb->expr()->andX(...$joinConditions));
+                } else {
+                    $qb->leftJoin($valuesJoin, $valuesAlias);
+                }
             }
 
             if ($where == '') {
@@ -404,6 +409,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             } else {
                 $where .= " AND $whereClause";
             }
+
+            $previousPropertyId = $propertyId;
+            $previousPositive = $positive;
+            $previousAlias = $valuesAlias;
         }
 
         if ($where) {

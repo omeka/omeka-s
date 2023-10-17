@@ -255,6 +255,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], (string) $string);
         };
 
+        // See below "Consecutive OR optimization" comment
         $previousPropertyId = null;
         $previousAlias = null;
         $previousPositive = null;
@@ -284,6 +285,19 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 continue;
             }
 
+            // Consecutive OR optimization
+            //
+            // When we have a run of query rows that are joined by OR and share
+            // the same property ID (or lack thereof), we don't actually need a
+            // separate join to the values table; we can just tack additional OR
+            // clauses onto the WHERE while using the same join and alias. The
+            // extra joins are expensive, so doing this improves performance where
+            // many ORs are used.
+            //
+            // Rows using "negative" searches need their own separate join to the
+            // values table, so they're excluded from this optimization on both
+            // sides: if either the current or previous row is a negative query,
+            // the current row does a new join.
             if ($previousPropertyId === $propertyId
                 && $previousPositive
                 && $positive
@@ -395,6 +409,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $whereClause = $qb->expr()->isNull("$valuesAlias.id");
             }
 
+            // See above "Consecutive OR optimization" comment
             if (!$usePrevious) {
                 if ($joinConditions) {
                     $qb->leftJoin($valuesJoin, $valuesAlias, 'WITH', $qb->expr()->andX(...$joinConditions));
@@ -411,6 +426,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $where .= " AND $whereClause";
             }
 
+            // See above "Consecutive OR optimization" comment
             $previousPropertyId = $propertyId;
             $previousPositive = $positive;
             $previousAlias = $valuesAlias;

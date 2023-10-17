@@ -513,32 +513,27 @@
             const gridColumns = parseInt($('#page-layout-grid-columns-select').val(), 10);
             gridLayoutPreview
                 .empty()
-                .css('display', 'grid')
-                .css('grid-template-columns', `repeat(${gridColumns}, 1fr)`)
-                .css('gap', '4px');
+                .css('grid-template-columns', `repeat(${gridColumns}, 1fr)`);
             $('.block').each(function() {
                 const thisBlock = $(this);
                 const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
                 const gridColumnPositionSelectValue = parseInt(gridColumnPositionSelect.val(), 10) || 'auto';
                 const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
                 const gridColumnSpanSelectValue = parseInt(gridColumnSpanSelect.val(), 10);
-                const blockDiv = $('<div>')
-                    .css('grid-column', `${gridColumnPositionSelectValue} / span ${gridColumnSpanSelectValue}`)
-                    .css('min-height', '60px')
-                    .css('border', '1px solid grey');
-                if (thisBlock.hasClass('grid-layout-previewing')) {
-                    blockDiv.css('background-color', '#FDFD96')
-                    .css('display', 'flex')
-                    .css('justify-content', 'center')
-                    .css('align-items', 'center')
-                    .append('*');
+                const selectedTooltip = $('<div class="selected-tooltip" title="Selected">');
+                const blockDiv = $('<div class="grid-layout-previewing-block">')
+                    .css('grid-column', `${gridColumnPositionSelectValue} / span ${gridColumnSpanSelectValue}`);                if (thisBlock.hasClass('grid-layout-previewing')) {
+                    blockDiv.addClass('grid-layout-previewing')
+                    .append(selectedTooltip);
                 }
                 blockDiv.hover(
                     function() {
-                        thisBlock.css('border', '1px solid grey');
+                        thisBlock.addClass('hovered-block');
+                        $(this).addClass('hovered-block');
                     },
                     function() {
-                        thisBlock.css('border', '');
+                        thisBlock.removeClass('hovered-block');
+                        $(this).removeClass('hovered-block');
                     }
                 );
                 gridLayoutPreview.append(blockDiv);

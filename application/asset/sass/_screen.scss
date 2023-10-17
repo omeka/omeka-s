@@ -4592,6 +4592,41 @@ body.sidebar-open #content {
         margin-left: $spacing-small;
     }
 
+        /* @group ----- Page Grid ----- */
+
+        #grid-layout-preview {
+            display: grid;
+            gap: $spacing-small;
+        }
+
+        .grid-layout-previewing-block {
+            min-height: 60px;
+            background-color: $border-gray;
+        }
+
+        .hovered-block {
+            box-shadow: 0 0 0 1px $copy-gray inset;
+        }
+
+        #grid-layout-preview .grid-layout-previewing {            
+            box-shadow: 0 0 0 2px $copy-gray inset;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .grid-layout-previewing.block {
+            box-shadow: 0 0 0 2px $copy-gray inset;
+        }
+
+        .selected-tooltip:before {
+            content: fa-content($fa-var-asterisk);
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+        }
+
+        /* @end */
+
     /* @end */
 
     /* @group ----- Site Admin ----- */

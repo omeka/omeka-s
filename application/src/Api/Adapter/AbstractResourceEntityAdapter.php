@@ -257,6 +257,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
 
         $previousPropertyId = null;
         $previousAlias = null;
+        $previousPositive = null;
 
         foreach ($query['property'] as $queryRow) {
             if (!(is_array($queryRow)
@@ -284,6 +285,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
 
             if ($previousPropertyId === $propertyId
+                && $previousPositive
                 && $positive
                 && $joiner === 'or'
             ) {
@@ -410,6 +412,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
 
             $previousPropertyId = $propertyId;
+            $previousPositive = $positive;
             $previousAlias = $valuesAlias;
         }
 

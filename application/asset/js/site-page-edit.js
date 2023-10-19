@@ -522,9 +522,9 @@
                 const gridColumnSpanSelectValue = parseInt(gridColumnSpanSelect.val(), 10);
                 const selectedTooltip = $('<div class="selected-tooltip" title="Selected">');
                 const blockDiv = $('<div class="grid-layout-previewing-block">')
-                    .css('grid-column', `${gridColumnPositionSelectValue} / span ${gridColumnSpanSelectValue}`);                if (thisBlock.hasClass('grid-layout-previewing')) {
-                    blockDiv.addClass('grid-layout-previewing')
-                    .append(selectedTooltip);
+                    .css('grid-column', `${gridColumnPositionSelectValue} / span ${gridColumnSpanSelectValue}`);
+                if (thisBlock.hasClass('grid-layout-previewing')) {
+                    blockDiv.addClass('grid-layout-previewing').append(selectedTooltip);
                 }
                 blockDiv.hover(
                     function() {
@@ -556,7 +556,6 @@
             // Revert to the previous grid state, if any.
             const columnsSelect = $('#page-layout-grid-columns-select');
             columnsSelect.val(columnsSelect.data('page-layout-grid-columns'));
-            console.log(columnsSelect.data('page-layout-grid-columns'));
             $('.block').each(function() {
                 const thisBlock = $(this);
                 const positionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
@@ -596,6 +595,7 @@
             previewPageLayoutGrid();
         });
 
+        // Handle a configure block layout click. (open the sidebar)
         $('#blocks').on('click', '.configure-block-layout-data', function(e) {
             e.preventDefault();
             const thisBlock = $(this).closest('.block');
@@ -629,6 +629,7 @@
             Omeka.openSidebar(blockLayoutDataSidebar);
         });
 
+        // Handle a configure block layout apply changes click (close the sidebar).
         $('#apply-block-layout-data').on('click', function(e) {
             e.preventDefault();
             const block = $('.block-layout-data-configuring');
@@ -640,7 +641,6 @@
             blockLayoutData.background_image_asset = $('#block-layout-data-background-image-asset').val();
             blockLayoutData.background_position_y = $('#block-layout-data-background-position-y').val();
             blockLayoutData.background_position_x = $('#block-layout-data-background-position-x').val();
-            console.log(blockLayoutData);
 
             Omeka.closeSidebar($('#block-layout-data-sidebar'));
         });

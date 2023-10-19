@@ -1,7 +1,6 @@
 <?php
 namespace Omeka\Site\BlockLayout;
 
-use Laminas\Form\Element\Select;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;

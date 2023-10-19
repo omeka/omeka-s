@@ -5,14 +5,10 @@ switch ($page->layout()) {
     case 'grid':
         $pageLayoutClass = 'page-layout-grid';
         $gridColumns = (int) $pageLayoutData['grid_columns'];
+        $this->headLink()->appendStylesheet($this->assetUrl('css/page-grid.css', 'Omeka'));
         $this->headStyle()->appendStyle(<<<CSS
             .page-layout-grid {
-                display: grid;
                 grid-template-columns: repeat({$gridColumns}, 1fr);
-                gap: 10px;
-            }
-            .page-layout-grid > div {
-                min-height: 50px;
             }
         CSS);
         break;

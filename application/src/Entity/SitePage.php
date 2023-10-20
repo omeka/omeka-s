@@ -11,6 +11,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  *         @UniqueConstraint(
  *             columns={"site_id", "slug"}
  *         )
+ *     },
+ *     indexes={
+ *         @Index(
+ *             name="is_public",
+ *             columns={"is_public"}
+ *         )
  *     }
  * )
  */

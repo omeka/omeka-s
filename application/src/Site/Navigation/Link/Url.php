@@ -2,6 +2,7 @@
 namespace Omeka\Site\Navigation\Link;
 
 use Omeka\Api\Representation\SiteRepresentation;
+use Omeka\Site\Navigation\Page\UriTargetBlank;
 use Omeka\Stdlib\ErrorStore;
 
 class Url implements LinkInterface
@@ -37,8 +38,9 @@ class Url implements LinkInterface
 
     public function toZend(array $data, SiteRepresentation $site)
     {
+        $targetBlank = isset($data['target_blank']) ? (bool) $data['target_blank'] : false;
         return [
-            'type' => 'uri',
+            'type' => $targetBlank ? UriTargetBlank::class : 'uri',
             'uri' => $data['url'],
         ];
     }
@@ -48,6 +50,7 @@ class Url implements LinkInterface
         return [
             'label' => $data['label'],
             'url' => $data['url'],
+            'target_blank' => $data['target_blank'],
         ];
     }
 }

@@ -203,6 +203,14 @@ class BlockLayout extends AbstractHelper
         $view = $this->getView();
         $blockLayout = $this->manager->get($block->layout());
 
+        // Set the configured block template, if any.
+        $templateName = $block->layoutDataValue('template_name');
+        $templateViewScript = null;
+        if ($templateName) {
+            // @todo: verify that the theme provides this template; if not, pass null
+            $templateViewScript = sprintf('common/block-template/%s', $templateName);
+        }
+
         // Wrap block markup in a div only if the layout declares special
         // styling via classes or inline styles.
         if ($classes || $inlineStyles) {
@@ -210,10 +218,10 @@ class BlockLayout extends AbstractHelper
                 '<div class="%s" style="%s">%s</div>',
                 $view->escapeHtml(implode(' ', $classes)),
                 $view->escapeHtml(implode(' ', $inlineStyles)),
-                $blockLayout->render($this->getView(), $block)
+                $blockLayout->render($this->getView(), $block, $templateViewScript)
             );
         }
 
-        return $blockLayout->render($this->getView(), $block);
+        return $blockLayout->render($this->getView(), $block, $templateViewScript);
     }
 }

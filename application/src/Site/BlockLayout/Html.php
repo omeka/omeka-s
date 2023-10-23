@@ -11,7 +11,7 @@ use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Html extends AbstractBlockLayout
+class Html implements TemplateableBlockLayoutInterface
 {
     /**
      * @var HtmlPurifier
@@ -36,6 +36,14 @@ class Html extends AbstractBlockLayout
         $block->setData($data);
     }
 
+    public function prepareForm(PhpRenderer $view)
+    {
+    }
+
+    public function prepareRender(PhpRenderer $view)
+    {
+    }
+
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
@@ -50,9 +58,11 @@ class Html extends AbstractBlockLayout
         return $view->formCollection($form);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = null)
     {
-        return $block->dataValue('html', '');
+        return $templateViewScript
+            ? $view->partial($templateViewScript, ['block' => $block])
+            : $block->dataValue('html', '');
     }
 
     public function getFulltextText(PhpRenderer $view, SitePageBlockRepresentation $block)

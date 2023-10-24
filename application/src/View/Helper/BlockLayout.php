@@ -5,6 +5,7 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Site\BlockLayout\Manager as BlockLayoutManager;
+use Omeka\Site\Theme\Theme;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManager;
 use Laminas\View\Helper\AbstractHelper;
@@ -26,10 +27,13 @@ class BlockLayout extends AbstractHelper
 
     protected $eventManager;
 
-    public function __construct(BlockLayoutManager $manager, EventManager $eventManager)
+    protected $currentTheme;
+
+    public function __construct(BlockLayoutManager $manager, EventManager $eventManager, ?Theme $currentTheme)
     {
         $this->manager = $manager;
         $this->eventManager = $eventManager;
+        $this->currentTheme = $currentTheme;
     }
 
     /**
@@ -207,8 +211,11 @@ class BlockLayout extends AbstractHelper
         $templateName = $block->layoutDataValue('template_name');
         $templateViewScript = null;
         if ($templateName) {
-            // @todo: verify that the theme provides this template; if not, pass null
-            $templateViewScript = sprintf('common/block-template/%s', $templateName);
+            // Verify that the current theme provides this template.
+            $config = $this->currentTheme->getConfigSpec();
+            if (isset($config['block_templates'][$block->layout()][$templateName])) {
+                $templateViewScript = sprintf('common/block-template/%s', $templateName);
+            }
         }
 
         // Wrap block markup in a div only if the layout declares special

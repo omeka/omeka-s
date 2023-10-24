@@ -20,7 +20,8 @@ class BlockLayoutFactory implements FactoryInterface
     {
         return new BlockLayout(
             $services->get('Omeka\BlockLayoutManager'),
-            $services->get('EventManager')
+            $services->get('EventManager'),
+            $services->get('Omeka\Site\ThemeManager')->getCurrentTheme()
         );
     }
 }

@@ -4,13 +4,45 @@ namespace Omeka\Form;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 use Laminas\Form\Form;
+use Omeka\Site\Theme\Theme;
 
 class BlockLayoutDataForm extends Form
 {
     use EventManagerAwareTrait;
 
+    protected $currentTheme;
+
     public function init()
     {
+        $config = $this->currentTheme->getConfigSpec();
+        $blockTemplates = [];
+        if (isset($config['block_templates']) && is_array($config['block_templates'])) {
+            $blockTemplates = $config['block_templates'];
+        }
+        $valueOptions = [];
+        foreach ($blockTemplates as $layoutName => $templates) {
+            $valueOptions[$layoutName] = '';
+            foreach ($templates as $templateName => $templateLabel) {
+                $valueOptions[$layoutName] .= sprintf(
+                    '<option value="%s">%s</option>',
+                    htmlspecialchars($templateName),
+                    htmlspecialchars($templateLabel)
+                );
+            }
+        }
+        $this->add([
+            'type' => 'select',
+            'name' => 'block_template',
+            'options' => [
+                'label' => 'Template',
+                'value_options' => [],
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-block-template',
+                'data-empty-option' => sprintf('<option value="">%s</option>', '[Default]'),
+                'data-value-options' => json_encode($valueOptions),
+            ],
+        ]);
         $this->add([
             'name' => 'class',
             'type' => 'text',
@@ -86,5 +118,10 @@ class BlockLayoutDataForm extends Form
         $inputFilter = $this->getInputFilter();
         $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
         $this->getEventManager()->triggerEvent($event);
+    }
+
+    public function setCurrentTheme(Theme $currentTheme)
+    {
+        $this->currentTheme = $currentTheme;
     }
 }

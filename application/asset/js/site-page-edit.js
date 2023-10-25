@@ -599,12 +599,19 @@
         $('#blocks').on('click', '.configure-block-layout-data', function(e) {
             e.preventDefault();
             const thisBlock = $(this).closest('.block');
+            const blockLayout = thisBlock.data('block-layout');
             const blockLayoutData = thisBlock.data('block-layout-data');
             const blockLayoutDataSidebar = $('#block-layout-data-sidebar');
+            const blockTemplateInput = $('#block-layout-data-block-template');
+            const blockTemplateValueOptions = blockTemplateInput.data('value-options');
             $('.block').removeClass('block-layout-data-configuring');
             thisBlock.addClass('block-layout-data-configuring');
 
             // Populate form with block layout data.
+            blockTemplateInput.empty()
+                .append(blockTemplateInput.data('empty-option'))
+                .append(blockTemplateValueOptions[blockLayout]);
+            blockTemplateInput.val(blockLayoutData.block_template);
             $('#block-layout-data-class').val(blockLayoutData.class);
             $('#block-layout-data-alignment').val(blockLayoutData.alignment);
             if (blockLayoutData.background_image_asset) {
@@ -636,6 +643,7 @@
             const blockLayoutData = block.data('block-layout-data');
 
             // Apply block layout data.
+            blockLayoutData.block_template = $('#block-layout-data-block-template').val();
             blockLayoutData.class = $('#block-layout-data-class').val();
             blockLayoutData.alignment = $('#block-layout-data-alignment').val();
             blockLayoutData.background_image_asset = $('#block-layout-data-background-image-asset').val();

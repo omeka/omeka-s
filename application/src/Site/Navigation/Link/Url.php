@@ -50,7 +50,7 @@ class Url implements LinkInterface
         return [
             'label' => $data['label'],
             'url' => $data['url'],
-            'target_blank' => $data['target_blank'],
+            'target_blank' => $data['target_blank'] ?? false,
         ];
     }
 }

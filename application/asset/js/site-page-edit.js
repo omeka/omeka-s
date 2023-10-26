@@ -602,13 +602,13 @@
             const blockLayout = thisBlock.data('block-layout');
             const blockLayoutData = thisBlock.data('block-layout-data');
             const blockLayoutDataSidebar = $('#block-layout-data-sidebar');
-            const templateNameInput = $('#block-layout-data-template-name');
             $('.block').removeClass('block-layout-data-configuring');
             thisBlock.addClass('block-layout-data-configuring');
 
             // Populate form with block layout data.
-            let templateName = '';
+            const templateNameInput = $('#block-layout-data-template-name');
             const blockTemplates = templateNameInput.data('block-templates');
+            let templateName = '';
             if (blockTemplates[blockLayout] && blockTemplates[blockLayout][blockLayoutData.template_name]) {
                 // Verify that the current theme provides this template.
                 templateName = blockLayoutData.template_name;

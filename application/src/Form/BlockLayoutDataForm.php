@@ -4,6 +4,7 @@ namespace Omeka\Form;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 use Laminas\Form\Form;
+use Laminas\View\HelperPluginManager;
 use Omeka\Site\Theme\Theme;
 
 class BlockLayoutDataForm extends Form
@@ -12,21 +13,28 @@ class BlockLayoutDataForm extends Form
 
     protected $currentTheme;
 
+    protected $viewHelpers;
+
     public function init()
     {
+        $escapeHtml = $this->viewHelpers->get('escapeHtml');
+        $translate = $this->viewHelpers->get('translate');
+
+        // Get block templates configured by the current theme, if any.
         $config = $this->currentTheme->getConfigSpec();
         $blockTemplates = [];
         if (isset($config['block_templates']) && is_array($config['block_templates'])) {
             $blockTemplates = $config['block_templates'];
         }
+        // Build select options for every block layout that has templates.
         $valueOptions = [];
         foreach ($blockTemplates as $layoutName => $templates) {
             $valueOptions[$layoutName] = '';
             foreach ($templates as $templateName => $templateLabel) {
                 $valueOptions[$layoutName] .= sprintf(
                     '<option value="%s">%s</option>',
-                    htmlspecialchars($templateName),
-                    htmlspecialchars($templateLabel)
+                    $escapeHtml($templateName),
+                    $escapeHtml($translate($templateLabel))
                 );
             }
         }
@@ -40,7 +48,7 @@ class BlockLayoutDataForm extends Form
             'attributes' => [
                 'id' => 'block-layout-data-template-name',
                 'data-block-templates' => json_encode($blockTemplates),
-                'data-empty-option' => sprintf('<option value="">%s</option>', '[Default]'),
+                'data-empty-option' => sprintf('<option value="">%s</option>', $translate('Default')),
                 'data-value-options' => json_encode($valueOptions),
             ],
         ]);
@@ -124,5 +132,10 @@ class BlockLayoutDataForm extends Form
     public function setCurrentTheme(Theme $currentTheme)
     {
         $this->currentTheme = $currentTheme;
+    }
+
+    public function setViewHelpers(HelperPluginManager $viewHelpers)
+    {
+        $this->viewHelpers = $viewHelpers;
     }
 }

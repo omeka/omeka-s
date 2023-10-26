@@ -11,6 +11,7 @@ class BlockLayoutDataFormFactory implements FactoryInterface
     {
         $form = new BlockLayoutDataForm;
         $form->setCurrentTheme($services->get('Omeka\Site\ThemeManager')->getCurrentTheme());
+        $form->setViewHelpers($services->get('ViewHelperManager'));
         return $form;
     }
 }

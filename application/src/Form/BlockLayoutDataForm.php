@@ -32,13 +32,14 @@ class BlockLayoutDataForm extends Form
         }
         $this->add([
             'type' => 'select',
-            'name' => 'block_template',
+            'name' => 'template_name',
             'options' => [
                 'label' => 'Template',
                 'value_options' => [],
             ],
             'attributes' => [
-                'id' => 'block-layout-data-block-template',
+                'id' => 'block-layout-data-template-name',
+                'data-block-templates' => json_encode($blockTemplates),
                 'data-empty-option' => sprintf('<option value="">%s</option>', '[Default]'),
                 'data-value-options' => json_encode($valueOptions),
             ],

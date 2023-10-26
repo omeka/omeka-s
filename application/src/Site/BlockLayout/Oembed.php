@@ -9,7 +9,7 @@ use Omeka\Stdlib\ErrorStore;
 use Laminas\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Oembed extends AbstractBlockLayout
+class Oembed extends AbstractTemplateableBlockLayout
 {
     protected $oembed;
 
@@ -118,9 +118,12 @@ class Oembed extends AbstractBlockLayout
         );
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/oembed')
     {
-        $data = $block->data() + $this->defaultData;
-        return sprintf('<div>%s</div>', $this->oembed->renderOembed($view, $data['oembed']));
+        return $view->partial($templateViewScript, [
+            'block' => $block,
+            'oembed' => $this->oembed,
+            'data' => $block->data() + $this->defaultData,
+        ]);
     }
 }

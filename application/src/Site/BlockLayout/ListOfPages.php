@@ -9,7 +9,7 @@ use Omeka\Site\Navigation\Translator;
 use Laminas\Form\Element\Hidden;
 use Laminas\View\Renderer\PhpRenderer;
 
-class ListOfPages extends AbstractBlockLayout
+class ListOfPages extends AbstractTemplateableBlockLayout
 {
     /**
      * @var LinkManager
@@ -63,7 +63,7 @@ class ListOfPages extends AbstractBlockLayout
         return $html;
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/list-of-pages')
     {
         $nodes = json_decode($block->dataValue('pagelist'), true);
         if (!$nodes) {
@@ -72,7 +72,8 @@ class ListOfPages extends AbstractBlockLayout
 
         $pageTree = $this->getPageNodeURLs($nodes, $block);
 
-        return $view->partial('common/block-layout/list-of-pages', [
+        return $view->partial($templateViewScript, [
+            'block' => $block,
             'pageList' => $pageTree,
         ]);
     }

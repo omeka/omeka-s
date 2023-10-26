@@ -225,10 +225,14 @@ class BlockLayout extends AbstractHelper
                 '<div class="%s" style="%s">%s</div>',
                 $view->escapeHtml(implode(' ', $classes)),
                 $view->escapeHtml(implode(' ', $inlineStyles)),
-                $blockLayout->render($this->getView(), $block, $templateViewScript)
+                $templateViewScript
+                    ? $blockLayout->render($this->getView(), $block, $templateViewScript)
+                    : $blockLayout->render($this->getView(), $block)
             );
         }
 
-        return $blockLayout->render($this->getView(), $block, $templateViewScript);
+        return $templateViewScript
+            ? $blockLayout->render($this->getView(), $block, $templateViewScript)
+            : $blockLayout->render($this->getView(), $block);
     }
 }

@@ -7,7 +7,7 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Laminas\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
-class PageDateTime extends AbstractBlockLayout
+class PageDateTime extends AbstractTemplateableBlockLayout
 {
     protected $defaultData = [
         'display' => 'created_modified',
@@ -72,9 +72,9 @@ class PageDateTime extends AbstractBlockLayout
         return $view->formCollection($form, false);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/page-date-time')
     {
-        return $view->partial('common/block-layout/page-date-time', [
+        return $view->partial($templateViewScript, [
             'block' => $block,
         ]);
     }

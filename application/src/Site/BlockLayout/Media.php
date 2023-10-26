@@ -6,7 +6,7 @@ use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Media extends AbstractBlockLayout
+class Media extends AbstractTemplateableBlockLayout
 {
     public function getLabel()
     {
@@ -26,7 +26,7 @@ class Media extends AbstractBlockLayout
         return $html;
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/file')
     {
         $attachments = $block->attachments();
         if (!$attachments) {
@@ -37,7 +37,7 @@ class Media extends AbstractBlockLayout
         $linkType = $view->siteSetting('attachment_link_type', 'item');
         $showTitleOption = $block->dataValue('show_title_option', 'item_title');
 
-        return $view->partial('common/block-layout/file', [
+        return $view->partial($templateViewScript, [
             'block' => $block,
             'attachments' => $attachments,
             'thumbnailType' => $thumbnailType,

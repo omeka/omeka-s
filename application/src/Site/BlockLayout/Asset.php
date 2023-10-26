@@ -9,7 +9,7 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Asset extends AbstractBlockLayout
+class Asset extends AbstractTemplateableBlockLayout
 {
     public function getLabel()
     {
@@ -75,13 +75,14 @@ class Asset extends AbstractBlockLayout
         ]);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/asset')
     {
         $blockData = ($block) ? $block->data() : '';
         $site = $view->site;
         $attachments = $this->prepareAssetAttachments($view, $blockData, $site);
-        return $view->partial('common/block-layout/asset', [
-          'attachments' => $attachments,
+        return $view->partial($templateViewScript, [
+            'block' => $block,
+            'attachments' => $attachments,
         ]);
     }
 }

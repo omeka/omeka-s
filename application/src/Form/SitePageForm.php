@@ -41,7 +41,7 @@ class SitePageForm extends Form
         }
         $this->add([
             'type' => 'select',
-            'name' => 'template_name',
+            'name' => 'o:layout_data[template_name]',
             'options' => [
                 'label' => 'Template',
                 'empty_option' => 'Default', // @translate
@@ -60,6 +60,12 @@ class SitePageForm extends Form
                 ],
             ]);
         }
+
+        $inputFilter = $this->getInputFilter();
+        $inputFilter->add([
+            'name' => 'o:layout_data[template_name]',
+            'allow_empty' => true,
+        ]);
     }
 
     public function setCurrentTheme(Theme $currentTheme)

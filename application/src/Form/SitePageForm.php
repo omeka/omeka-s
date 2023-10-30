@@ -41,7 +41,7 @@ class SitePageForm extends Form
         }
         $this->add([
             'type' => 'select',
-            'name' => 'o:layout_data[template_name]',
+            'name' => 'template_name',
             'options' => [
                 'label' => 'Template',
                 'empty_option' => 'Default', // @translate

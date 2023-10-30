@@ -20,12 +20,12 @@ class PageController extends AbstractActionController
 
         $form = $this->getForm(SitePageForm::class);
         $pageData = $page->jsonSerialize();
-        $pageData['o:layout_data[template_name]'] = $pageData['o:layout_data']['template_name'] ?? '';
+        $pageData['template_name'] = $pageData['o:layout_data']['template_name'] ?? '';
         $form->setData($pageData);
 
         if ($this->getRequest()->isPost()) {
             $post = $this->params()->fromPost();
-            $post['o:layout_data[template_name]'] = $post['o:layout_data']['template_name'];
+            $post['o:layout_data']['template_name'] = $post['template_name'];
             // Prepare block layout data.
             foreach ($post['o:block'] as $key => $blockData) {
                 $post['o:block'][$key]['o:layout_data'] = json_decode($blockData['o:layout_data'], true);

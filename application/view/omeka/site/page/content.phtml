@@ -1,10 +1,9 @@
 <?php
 // Prepare the page layout.
-$pageLayoutData = $page->layoutData();
 switch ($page->layout()) {
     case 'grid':
         $pageLayoutClass = 'page-layout-grid';
-        $gridColumns = (int) $pageLayoutData['grid_columns'];
+        $gridColumns = (int) $page->layoutDataValue('grid_columns');
         $this->headLink()->appendStylesheet($this->assetUrl('css/page-grid.css', 'Omeka'));
         $this->headStyle()->appendStyle(<<<CSS
             .page-layout-grid {
@@ -28,7 +27,7 @@ foreach ($page->blocks() as $block) {
     // Render each block according to page layout.
     switch ($page->layout()) {
         case 'grid':
-            $gridColumns = (int) $pageLayoutData['grid_columns'];
+            $gridColumns = (int) $page->layoutDataValue('grid_columns');
             $blockLayoutData = $block->layoutData();
             $getValidPosition = fn($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? $columnPosition : 'auto';
             $getValidSpan = fn($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? $columnSpan : $gridColumns;

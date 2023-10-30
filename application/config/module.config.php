@@ -335,7 +335,6 @@ return [
             'Omeka\Controller\Site\Item' => Controller\Site\ItemController::class,
             'Omeka\Controller\Site\ItemSet' => Controller\Site\ItemSetController::class,
             'Omeka\Controller\Site\Media' => Controller\Site\MediaController::class,
-            'Omeka\Controller\Site\Page' => Controller\Site\PageController::class,
             'Omeka\Controller\Site\CrossSiteSearch' => Controller\Site\CrossSiteSearchController::class,
             'Omeka\Controller\Admin\Asset' => Controller\Admin\AssetController::class,
             'Omeka\Controller\Admin\Query' => Controller\Admin\QueryController::class,
@@ -362,6 +361,7 @@ return [
             'Omeka\Controller\Admin\Vocabulary' => Service\Controller\Admin\VocabularyControllerFactory::class,
             'Omeka\Controller\Admin\Item' => Service\Controller\Admin\ItemControllerFactory::class,
             'Omeka\Controller\SiteAdmin\Index' => Service\Controller\SiteAdmin\IndexControllerFactory::class,
+            'Omeka\Controller\Site\Page' => Service\Controller\Site\PageControllerFactory::class,
         ],
     ],
     'controller_plugins' => [

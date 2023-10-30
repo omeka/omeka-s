@@ -91,6 +91,19 @@ class SitePageRepresentation extends AbstractEntityRepresentation
     }
 
     /**
+     * Get layout data by key.
+     *
+     * @param string $key The layout data key
+     * @param mixed $default Return this if key does not exist
+     * @return mixed
+     */
+    public function layoutDataValue($key, $default = null)
+    {
+        $layoutData = $this->resource->getLayoutData();
+        return $layoutData[$key] ?? $default;
+    }
+
+    /**
      * Get the blocks assigned to this page.
      *
      * @return array

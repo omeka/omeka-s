@@ -63,7 +63,7 @@ class SitePageForm extends Form
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
-            'name' => 'o:layout_data[template_name]',
+            'name' => 'template_name',
             'allow_empty' => true,
         ]);
     }

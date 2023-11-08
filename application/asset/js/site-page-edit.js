@@ -605,7 +605,7 @@
             $('.block').removeClass('block-layout-data-configuring');
             thisBlock.addClass('block-layout-data-configuring');
 
-            // Populate form with block layout data.
+            // Prepare form elements that need special handling.
             const templateNameInput = $('#block-layout-data-template-name');
             const blockTemplates = templateNameInput.data('block-templates');
             let templateName = '';
@@ -616,13 +616,9 @@
             templateNameInput.empty()
                 .append(templateNameInput.data('empty-option'))
                 .append(templateNameInput.data('value-options')[blockLayout]);
-            templateNameInput.val(templateName);
-            $('#block-layout-data-class').val(blockLayoutData.class);
-            $('#block-layout-data-alignment').val(blockLayoutData.alignment);
             if (blockLayoutData.background_image_asset) {
                 const apiEndpointUrl = blockLayoutDataSidebar.data('api-endpoint-url');
                 const assetId = parseInt(blockLayoutData.background_image_asset, 10);
-                $('#block-layout-data-background-image-asset').val(blockLayoutData.background_image_asset);
                 $.get(`${apiEndpointUrl}/assets/${assetId}`, function(data) {
                     blockLayoutDataSidebar.find('.selected-asset').show();
                     blockLayoutDataSidebar.find('img.selected-asset-image').attr('src', data['o:asset_url']);
@@ -635,8 +631,16 @@
                 blockLayoutDataSidebar.find('.no-selected-asset').show();
                 blockLayoutDataSidebar.find('.asset-form-clear').hide();
             }
-            $('#block-layout-data-background-position-y').val(blockLayoutData.background_position_y);
-            $('#block-layout-data-background-position-x').val(blockLayoutData.background_position_x);
+
+            // Automatically populate block layout data for inputs with a data-key attribute.
+            blockLayoutDataSidebar.find(':input[data-key]').each(function() {
+                const thisInput = $(this);
+                const key = thisInput.data('key');
+                thisInput.val(blockLayoutData[key]);
+            });
+
+            // Allow special handling of block layout data.
+            $(document).trigger('o:prepare-block-layout-data', [thisBlock]);
 
             Omeka.openSidebar(blockLayoutDataSidebar);
         });
@@ -647,13 +651,15 @@
             const block = $('.block-layout-data-configuring');
             const blockLayoutData = block.data('block-layout-data');
 
-            // Apply block layout data.
-            blockLayoutData.template_name = $('#block-layout-data-template-name').val();
-            blockLayoutData.class = $('#block-layout-data-class').val();
-            blockLayoutData.alignment = $('#block-layout-data-alignment').val();
-            blockLayoutData.background_image_asset = $('#block-layout-data-background-image-asset').val();
-            blockLayoutData.background_position_y = $('#block-layout-data-background-position-y').val();
-            blockLayoutData.background_position_x = $('#block-layout-data-background-position-x').val();
+            // Automatically apply block layout data for inputs with a data-key attribute.
+            $('#block-layout-data-sidebar').find(':input[data-key]').each(function() {
+                const thisInput = $(this);
+                const key = thisInput.data('key');
+                blockLayoutData[key] = thisInput.val();
+            });
+
+            // Allow special handling of block layout data.
+            $(document).trigger('o:apply-block-layout-data', [block]);
 
             Omeka.closeSidebar($('#block-layout-data-sidebar'));
         });

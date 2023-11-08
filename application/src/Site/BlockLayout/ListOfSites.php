@@ -8,7 +8,7 @@ use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
-class ListOfSites extends AbstractTemplateableBlockLayout
+class ListOfSites extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     protected $defaults = [
         'sort' => 'alpha',

@@ -7,7 +7,7 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Laminas\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
-class PageDateTime extends AbstractTemplateableBlockLayout
+class PageDateTime extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     protected $defaultData = [
         'display' => 'created_modified',

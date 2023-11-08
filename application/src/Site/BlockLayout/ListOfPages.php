@@ -9,7 +9,7 @@ use Omeka\Site\Navigation\Translator;
 use Laminas\Form\Element\Hidden;
 use Laminas\View\Renderer\PhpRenderer;
 
-class ListOfPages extends AbstractTemplateableBlockLayout
+class ListOfPages extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**
      * @var LinkManager

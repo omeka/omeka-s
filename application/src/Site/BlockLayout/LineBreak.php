@@ -7,7 +7,7 @@ use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Laminas\View\Renderer\PhpRenderer;
 
-class LineBreak extends AbstractTemplateableBlockLayout
+class LineBreak extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {

@@ -9,7 +9,7 @@ use Omeka\Stdlib\ErrorStore;
 use Laminas\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Oembed extends AbstractTemplateableBlockLayout
+class Oembed extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     protected $oembed;
 

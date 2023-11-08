@@ -20,6 +20,9 @@ class BlockLayoutDataForm extends Form
         $escapeHtml = $this->viewHelpers->get('escapeHtml');
         $translate = $this->viewHelpers->get('translate');
 
+        // No need for CSRF protection on what is essentially a fieldset.
+        $this->remove('csrf');
+
         // Get block templates configured by the current theme, if any.
         $config = $this->currentTheme->getConfigSpec();
         $blockTemplates = [];
@@ -50,6 +53,7 @@ class BlockLayoutDataForm extends Form
                 'data-block-templates' => json_encode($blockTemplates),
                 'data-empty-option' => sprintf('<option value="">%s</option>', $translate('Default')),
                 'data-value-options' => json_encode($valueOptions),
+                'data-key' => 'template_name',
             ],
         ]);
         $this->add([
@@ -60,6 +64,7 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-class',
+                'data-key' => 'class',
             ],
         ]);
         $this->add([
@@ -76,20 +81,22 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-alignment',
+                'data-key' => 'alignment',
             ],
         ]);
         $this->add([
-            'name' => 'background-image-asset',
+            'name' => 'background_image_asset',
             'type' => \Omeka\Form\Element\Asset::class,
             'options' => [
                 'label' => 'Background: image', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-background-image-asset',
+                'data-key' => 'background_image_asset',
             ],
         ]);
         $this->add([
-            'name' => 'background-position-y',
+            'name' => 'background_position_y',
             'type' => 'select',
             'options' => [
                 'label' => 'Background: image vertical anchor position', // @translate
@@ -102,10 +109,11 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-background-position-y',
+                'data-key' => 'background_position_y',
             ],
         ]);
         $this->add([
-            'name' => 'background-position-x',
+            'name' => 'background_position_x',
             'type' => 'select',
             'options' => [
                 'label' => 'Background: image horizontal anchor position', // @translate
@@ -118,15 +126,24 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-background-position-x',
+                'data-key' => 'background_position_x',
             ],
         ]);
 
+        /**
+         * Modules can add elements to this fieldset using the form.add_elements
+         * event. They can opt-in to automatically populate and apply the values
+         * by adding a "data-key" attribute containing the corresponding block
+         * layout data key. Elements that need more complex handling must attach
+         * to the following JS events on the document:
+         *   - o:prepare-block-layout-data
+         *   - o:apply-block-layout-data
+         */
         $event = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($event);
 
-        $inputFilter = $this->getInputFilter();
-        $event = new Event('form.add_input_filters', $this, ['inputFilter' => $inputFilter]);
-        $this->getEventManager()->triggerEvent($event);
+        // Note that we don't trigger form.add_input_filters because JS handles
+        // validation.
     }
 
     public function setCurrentTheme(Theme $currentTheme)

@@ -9,7 +9,7 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Stdlib\ErrorStore;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Asset extends AbstractTemplateableBlockLayout
+class Asset extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {

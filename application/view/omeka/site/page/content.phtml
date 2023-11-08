@@ -34,7 +34,7 @@ foreach ($page->blocks() as $block) {
             echo sprintf(
                 '<div style="grid-column: %s / span %s">%s</div>',
                 $getValidPosition($blockLayoutData['grid_column_position'] ?? 'auto'),
-                $getValidSpan($blockLayoutData['grid_column_span'] ?? '1'),
+                $getValidSpan($blockLayoutData['grid_column_span'] ?? $gridColumns),
                 $this->blockLayout()->render($block)
             );
             break;

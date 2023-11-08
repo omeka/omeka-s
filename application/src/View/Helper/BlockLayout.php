@@ -5,6 +5,7 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Site\BlockLayout\Manager as BlockLayoutManager;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 use Omeka\Site\Theme\Theme;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManager;
@@ -210,7 +211,7 @@ class BlockLayout extends AbstractHelper
         // Set the configured block template, if any.
         $templateName = $block->layoutDataValue('template_name');
         $templateViewScript = null;
-        if ($templateName) {
+        if ($templateName && $blockLayout instanceof TemplateableBlockLayoutInterface) {
             // Verify that the current theme provides this template.
             $config = $this->currentTheme->getConfigSpec();
             if (isset($config['block_templates'][$block->layout()][$templateName])) {

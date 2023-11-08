@@ -9,7 +9,7 @@ use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
-class BrowsePreview extends AbstractTemplateableBlockLayout
+class BrowsePreview extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {

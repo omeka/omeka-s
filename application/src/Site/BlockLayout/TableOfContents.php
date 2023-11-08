@@ -8,7 +8,7 @@ use Laminas\Navigation\Navigation;
 use Laminas\Form\Element\Number;
 use Laminas\View\Renderer\PhpRenderer;
 
-class TableOfContents extends AbstractTemplateableBlockLayout
+class TableOfContents extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {

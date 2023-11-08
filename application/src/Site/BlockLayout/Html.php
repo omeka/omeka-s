@@ -11,7 +11,7 @@ use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Html extends AbstractTemplateableBlockLayout
+class Html extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**
      * @var HtmlPurifier

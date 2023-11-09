@@ -1,6 +1,5 @@
 .page-layout-grid {
     display: grid;
-    gap: 10px;
 }
 
 .page-layout-grid > div {
@@ -55,11 +54,11 @@
     &:last-of-type {
         padding-bottom: -1px;
     }
-    
+
     .media-render a {
         display: block;
     }
-    
+
     audio,
     canvas,
     video,
@@ -88,7 +87,7 @@
     justify-content: center;
     flex-wrap: wrap;
     text-align: center;
-    
+
     .item {
         width: 100%;
     }

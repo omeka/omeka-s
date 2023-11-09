@@ -4,10 +4,14 @@ switch ($page->layout()) {
     case 'grid':
         $pageLayoutClass = 'page-layout-grid';
         $gridColumns = (int) $page->layoutDataValue('grid_columns');
+        $gridColumnGap = (int) $page->layoutDataValue('grid_column_gap');
+        $gridRowGap = (int) $page->layoutDataValue('grid_row_gap');
         $this->headLink()->appendStylesheet($this->assetUrl('css/page-grid.css', 'Omeka'));
         $this->headStyle()->appendStyle(<<<CSS
             .page-layout-grid {
                 grid-template-columns: repeat({$gridColumns}, 1fr);
+                column-gap: {$gridColumnGap}px;
+                row-gap: {$gridRowGap}px;
             }
         CSS);
         break;

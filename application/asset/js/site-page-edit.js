@@ -437,11 +437,15 @@
         const preparePageLayout = function() {
             const layoutSelect = $('#page-layout-select');
             const gridColumnsSelect = $('#page-layout-grid-columns-select');
+            const gridColumnGapInput = $('#page-layout-grid-column-gap-input');
+            const gridRowGapInput = $('#page-layout-grid-row-gap-input');
             const gridPreview = $('#preview-page-layout-grid');
             const blockGridControls = $('.block-page-layout-grid-controls');
             const blockGridPreview = $('.preview-block-page-layout-grid');
             // Disable and hide all layout-specific controls by default.
             gridColumnsSelect.hide();
+            gridColumnGapInput.closest('label').hide();
+            gridRowGapInput.closest('label').hide();
             gridPreview.hide();
             blockGridControls.hide();
             blockGridPreview.hide();
@@ -449,6 +453,8 @@
                 case 'grid':
                     // Prepare grid layout.
                     gridColumnsSelect.show();
+                    gridColumnGapInput.closest('label').show();
+                    gridRowGapInput.closest('label').show();
                     gridPreview.show();
                     blockGridControls.show();
                     blockGridPreview.show();
@@ -574,6 +580,16 @@
             $('#page-layout-restore').show();
         });
 
+        // Handle a grid column gap change.
+        $('#page-layout-grid-column-gap-input').on('change', function() {
+            $('#page-layout-restore').show();
+        });
+
+        // Handle a grid row gap change.
+        $('#page-layout-grid-row-gap-input').on('change', function() {
+            $('#page-layout-restore').show();
+        });
+
         // Handle a grid position and grid span change.
         $('#blocks').on('change', '.block-page-layout-grid-column-position-select, .block-page-layout-grid-column-span-select', function() {
             preparePageGridLayout();
@@ -674,7 +690,11 @@
                 case 'grid':
                     // Restore grid layout.
                     const gridColumnsSelect = $('#page-layout-grid-columns-select');
+                    const gridColumnGapInput = $('#page-layout-grid-column-gap-input');
+                    const gridRowGapInput = $('#page-layout-grid-row-gap-input');
                     gridColumnsSelect.val(gridColumnsSelect.data('page-layout-grid-columns'));
+                    gridColumnGapInput.val(gridColumnGapInput.data('page-layout-grid-column-gap'));
+                    gridRowGapInput.val(gridRowGapInput.data('page-layout-grid-row-gap'));
                     $('.block').each(function() {
                         const thisBlock = $(this);
                         const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');

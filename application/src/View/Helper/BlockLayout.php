@@ -204,6 +204,19 @@ class BlockLayout extends AbstractHelper
                     // No background position X
             }
         }
+        $backgroundSize = $block->layoutDataValue('background_size');
+        if ($backgroundSize) {
+            switch ($backgroundSize) {
+                case 'cover':
+                    $classes[] = 'block-layout-background-size-cover';
+                    break;
+                case 'contain':
+                    $classes[] = 'block-layout-background-size-contain';
+                    break;
+                default:
+                    // No background size
+            }
+        }
 
         $view = $this->getView();
         $blockLayout = $this->manager->get($block->layout());

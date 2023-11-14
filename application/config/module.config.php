@@ -439,6 +439,7 @@ return [
             'formQuery' => Form\View\Helper\FormQuery::class,
             'formColumns' => Form\View\Helper\FormColumns::class,
             'formBrowseDefaults' => Form\View\Helper\FormBrowseDefaults::class,
+            'formBackground' => Form\View\Helper\FormBackground::class,
             'themeSettingAsset' => View\Helper\ThemeSettingAsset::class,
             'themeSettingAssetUrl' => View\Helper\ThemeSettingAssetUrl::class,
             'formColorPicker' => Form\View\Helper\FormColorPicker::class,

@@ -85,48 +85,10 @@ class BlockLayoutDataForm extends Form
             ],
         ]);
         $this->add([
-            'name' => 'background_image_asset',
-            'type' => \Omeka\Form\Element\Asset::class,
+            'name' => 'background',
+            'type' => 'Omeka\Form\Element\Background',
             'options' => [
-                'label' => 'Background: image', // @translate
-            ],
-            'attributes' => [
-                'id' => 'block-layout-data-background-image-asset',
-                'data-key' => 'background_image_asset',
-            ],
-        ]);
-        $this->add([
-            'name' => 'background_position_y',
-            'type' => 'select',
-            'options' => [
-                'label' => 'Background: image vertical anchor position', // @translate
-                'empty_option' => 'Default', // @translate
-                'value_options' => [
-                    'top' => 'Top', // @translate
-                    'center' => 'Center', // @translate
-                    'bottom' => 'Bottom', // @translate
-                ],
-            ],
-            'attributes' => [
-                'id' => 'block-layout-data-background-position-y',
-                'data-key' => 'background_position_y',
-            ],
-        ]);
-        $this->add([
-            'name' => 'background_position_x',
-            'type' => 'select',
-            'options' => [
-                'label' => 'Background: image horizontal anchor position', // @translate
-                'empty_option' => 'Default', // @translate
-                'value_options' => [
-                    'left' => 'Left', // @translate
-                    'center' => 'Center', // @translate
-                    'right' => 'Right', // @translate
-                ],
-            ],
-            'attributes' => [
-                'id' => 'block-layout-data-background-position-x',
-                'data-key' => 'background_position_x',
+                'label' => 'Background',
             ],
         ]);
 

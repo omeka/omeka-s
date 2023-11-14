@@ -217,6 +217,10 @@ class BlockLayout extends AbstractHelper
                     // No background size
             }
         }
+        $minHeight = $block->layoutDataValue('min_height');
+        if ($minHeight) {
+            $inlineStyles[] = sprintf('min-height: %spx', (int) $minHeight);
+        }
 
         $view = $this->getView();
         $blockLayout = $this->manager->get($block->layout());

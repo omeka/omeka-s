@@ -91,6 +91,18 @@ class BlockLayoutDataForm extends Form
                 'label' => 'Background',
             ],
         ]);
+        $this->add([
+            'name' => 'min_height',
+            'type' => 'number',
+            'options' => [
+                'label' => 'Minimum height', // @translate
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-min-height',
+                'data-key' => 'min_height',
+                'min' => '0',
+            ],
+        ]);
 
         /**
          * Modules can add elements to this fieldset using the form.add_elements

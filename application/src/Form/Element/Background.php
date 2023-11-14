@@ -2,7 +2,6 @@
 namespace Omeka\Form\Element;
 
 use Laminas\Form\Element as LaminasElement;
-use NumericDataTypes\DataType\Integer as IntegerDataType;
 use Omeka\Form\Element as OmekaElement;
 
 class Background extends LaminasElement

@@ -454,6 +454,7 @@ return [
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,
             'assetUrl' => Service\ViewHelper\AssetUrlFactory::class,
+            'pageLayout' => Service\ViewHelper\PageLayoutFactory::class,
             'blockLayout' => Service\ViewHelper\BlockLayoutFactory::class,
             'blockThumbnailTypeSelect' => Service\ViewHelper\BlockThumbnailTypeSelectFactory::class,
             'dataType' => Service\ViewHelper\DataTypeFactory::class,

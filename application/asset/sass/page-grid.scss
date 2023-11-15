@@ -109,3 +109,16 @@
 .block-layout-alignment-right .item.resource + p {
     margin-top: 0;
 }
+
+.block-layout-background-size-cover,
+.block-layout-background-size-contain {
+    background-repeat: no-repeat;
+}
+
+.block-layout-background-size-cover {
+    background-size: cover;
+}
+
+.block-layout-background-size-contain {
+    background-size: contain;
+}

@@ -50,8 +50,6 @@ foreach (range(2, 12) as $value) {
     $pageLayoutGridColumnsOptions[$value] = sprintf($translate('%s columns'), $value);
 }
 $pageLayoutGridColumns = $pageLayoutData['grid_columns'] ?? '12';
-$pageLayoutGridColumnGap = $pageLayoutData['grid_column_gap'] ?? '10';
-$pageLayoutGridRowGap = $pageLayoutData['grid_row_gap'] ?? '10';
 
 ?>
 <div id="page-layout-controls">
@@ -69,18 +67,17 @@ $pageLayoutGridRowGap = $pageLayoutData['grid_row_gap'] ?? '10';
         <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridColumns == $key) ? ' selected' : '' ?>><?php echo $escape($value); ?></option>
         <?php endforeach; ?>
     </select>
-    <label>
-        <?php echo $translate('Gap (col)'); ?>
-        <input type="number" name="o:layout_data[grid_column_gap]" id="page-layout-grid-column-gap-input" data-page-layout-grid-column-gap="<?php echo $escape($pageLayoutGridColumnGap); ?>" value="<?php echo $escape($pageLayoutGridColumnGap); ?>" min="0" style="width: 60px;">
-    </label>
-    <label>
-        <?php echo $translate('Gap (row)'); ?>
-        <input type="number" name="o:layout_data[grid_row_gap]" id="page-layout-grid-row-gap-input" data-page-layout-grid-row-gap="<?php echo $escape($pageLayoutGridRowGap); ?>" value="<?php echo $escape($pageLayoutGridRowGap); ?>" min="0" style="width: 60px;">
-    </label>
-    <a href="#" id="preview-page-layout-grid" class="o-icon-search" aria-label="<?php echo $translate('Preview layout'); ?>" title="<?php echo $translate('Preview layout'); ?>"></a>
+    <a href="#" id="preview-page-layout-grid" class="o-icon-search" aria-label="<?php echo $escape($translate('Preview layout')); ?>" title="<?php echo $escape($translate('Preview layout')); ?>"></a>
+    <a href="#" id="configure-page-layout-data" class="o-icon-settings" aria-label="<?php echo $escape($translate('Configure layout')); ?>" title="<?php echo $escape($translate('Configure layout')); ?>"></a>
 </div>
 
 <?php echo $this->blockLayout()->forms($page); ?>
+
+<div id="page-layout-data-sidebar" class="sidebar">
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+    <h3><?php echo $translate('Page layout configuration'); ?></h3>
+    <?php echo $this->formCollection($pageLayoutDataForm); ?>
+</div>
 
 <?php echo $this->form()->closeTag(); ?>
 

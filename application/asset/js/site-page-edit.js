@@ -444,8 +444,8 @@
             const blockGridPreview = $('.preview-block-page-layout-grid');
             // Disable and hide all layout-specific controls by default.
             gridColumnsSelect.hide();
-            gridColumnGapInput.closest('label').hide();
-            gridRowGapInput.closest('label').hide();
+            gridColumnGapInput.closest('.field').hide();
+            gridRowGapInput.closest('.field').hide();
             gridPreview.hide();
             blockGridControls.hide();
             blockGridPreview.hide();
@@ -453,8 +453,8 @@
                 case 'grid':
                     // Prepare grid layout.
                     gridColumnsSelect.show();
-                    gridColumnGapInput.closest('label').show();
-                    gridRowGapInput.closest('label').show();
+                    gridColumnGapInput.closest('.field').show();
+                    gridRowGapInput.closest('.field').show();
                     gridPreview.show();
                     blockGridControls.show();
                     blockGridPreview.show();
@@ -580,16 +580,6 @@
             $('#page-layout-restore').show();
         });
 
-        // Handle a grid column gap change.
-        $('#page-layout-grid-column-gap-input').on('change', function() {
-            $('#page-layout-restore').show();
-        });
-
-        // Handle a grid row gap change.
-        $('#page-layout-grid-row-gap-input').on('change', function() {
-            $('#page-layout-restore').show();
-        });
-
         // Handle a grid position and grid span change.
         $('#blocks').on('change', '.block-page-layout-grid-column-position-select, .block-page-layout-grid-column-span-select', function() {
             preparePageGridLayout();
@@ -602,6 +592,12 @@
             $('.block').removeClass('grid-layout-previewing');
             previewPageLayoutGrid();
         })
+
+        $('#configure-page-layout-data').on('click', function(e) {
+            e.preventDefault();
+            const pageLayoutDataSidebar = $('#page-layout-data-sidebar');
+            Omeka.openSidebar(pageLayoutDataSidebar);
+        });
 
         // Handle a page layout grid preview click for a specific block.
         $('#blocks').on('click', '.preview-block-page-layout-grid', function(e) {
@@ -690,11 +686,7 @@
                 case 'grid':
                     // Restore grid layout.
                     const gridColumnsSelect = $('#page-layout-grid-columns-select');
-                    const gridColumnGapInput = $('#page-layout-grid-column-gap-input');
-                    const gridRowGapInput = $('#page-layout-grid-row-gap-input');
                     gridColumnsSelect.val(gridColumnsSelect.data('page-layout-grid-columns'));
-                    gridColumnGapInput.val(gridColumnGapInput.data('page-layout-grid-column-gap'));
-                    gridRowGapInput.val(gridRowGapInput.data('page-layout-grid-row-gap'));
                     $('.block').each(function() {
                         const thisBlock = $(this);
                         const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');

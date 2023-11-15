@@ -523,6 +523,7 @@ return [
             'Omeka\Form\SiteForm' => Service\Form\SiteFormFactory::class,
             'Omeka\Form\SiteSettingsForm' => Service\Form\SiteSettingsFormFactory::class,
             'Omeka\Form\UserBatchUpdateForm' => Service\Form\UserBatchUpdateFormFactory::class,
+            'Omeka\Form\PageLayoutDataForm' => Service\Form\PageLayoutDataFormFactory::class,
             'Omeka\Form\BlockLayoutDataForm' => Service\Form\BlockLayoutDataFormFactory::class,
             'Omeka\Form\SitePageForm' => Service\Form\SitePageFormFactory::class,
             'Omeka\Form\Element\ResourceSelect' => Service\Form\Element\ResourceSelectFactory::class,

@@ -34,23 +34,6 @@ class SitePageForm extends Form
                 'required' => false,
             ],
         ]);
-        $config = $this->currentTheme->getConfigSpec();
-        $valueOptions = [];
-        if (isset($config['page_templates']) && is_array($config['page_templates'])) {
-            $valueOptions = $config['page_templates'];
-        }
-        $this->add([
-            'type' => 'select',
-            'name' => 'template_name',
-            'options' => [
-                'label' => 'Template',
-                'empty_option' => 'Default', // @translate
-                'value_options' => $valueOptions,
-            ],
-            'attributes' => [
-                'id' => 'template-name',
-            ],
-        ]);
         if ($this->getOption('addPage')) {
             $this->add([
                 'name' => 'add_to_navigation',
@@ -62,10 +45,6 @@ class SitePageForm extends Form
         }
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add([
-            'name' => 'template_name',
-            'allow_empty' => true,
-        ]);
     }
 
     public function setCurrentTheme(Theme $currentTheme)

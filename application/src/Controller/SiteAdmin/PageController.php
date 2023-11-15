@@ -2,6 +2,7 @@
 namespace Omeka\Controller\SiteAdmin;
 
 use Omeka\Form\BlockLayoutDataForm;
+use Omeka\Form\PageLayoutDataForm;
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\SitePageForm;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -20,12 +21,10 @@ class PageController extends AbstractActionController
 
         $form = $this->getForm(SitePageForm::class);
         $pageData = $page->jsonSerialize();
-        $pageData['template_name'] = $pageData['o:layout_data']['template_name'] ?? '';
         $form->setData($pageData);
 
         if ($this->getRequest()->isPost()) {
             $post = $this->params()->fromPost();
-            $post['o:layout_data']['template_name'] = $post['template_name'];
             // Prepare block layout data.
             foreach ($post['o:block'] as $key => $blockData) {
                 $post['o:block'][$key]['o:layout_data'] = json_decode($blockData['o:layout_data'], true);
@@ -44,11 +43,20 @@ class PageController extends AbstractActionController
             }
         }
 
+        // Populate the page layout data fieldset.
+        $pageLayoutDataForm = $this->getForm(PageLayoutDataForm::class);
+        $pageLayoutDataFormData = [];
+        foreach ($pageData['o:layout_data'] as $key => $value) {
+            $pageLayoutDataFormData[sprintf('o:layout_data[%s]', $key)] = $value;
+        }
+        $pageLayoutDataForm->setData($pageLayoutDataFormData);
+
         $view = new ViewModel;
         $view->setVariable('site', $site);
         $view->setVariable('sitePages', $sitePages);
         $view->setVariable('page', $page);
         $view->setVariable('form', $form);
+        $view->setVariable('pageLayoutDataForm', $pageLayoutDataForm);
         $view->setVariable('blockLayoutDataForm', $this->getForm(BlockLayoutDataForm::class));
         return $view;
     }

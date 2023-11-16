@@ -69,8 +69,8 @@ class PageLayout extends AbstractHelper
                 case 'grid':
                     $gridColumns = (int) $page->layoutDataValue('grid_columns');
                     $blockLayoutData = $block->layoutData();
-                    $getValidPosition = fn($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? $columnPosition : 'auto';
-                    $getValidSpan = fn($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? $columnSpan : $gridColumns;
+                    $getValidPosition = fn ($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? $columnPosition : 'auto';
+                    $getValidSpan = fn ($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? $columnSpan : $gridColumns;
                     echo sprintf(
                         '<div style="grid-column: %s / span %s">%s</div>',
                         $getValidPosition($blockLayoutData['grid_column_position'] ?? 'auto'),
@@ -85,6 +85,5 @@ class PageLayout extends AbstractHelper
             }
         }
         echo '</div>';
-
     }
 }

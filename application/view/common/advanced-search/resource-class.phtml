@@ -38,6 +38,7 @@ if ($this->status()->isSiteRequest()) {
                     'aria-labelledby' =>  'by-resource-class-label'
                 ],
                 'options' => [
+                    'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
                     'query' => $optionsQuery
                 ]
             ]); ?>

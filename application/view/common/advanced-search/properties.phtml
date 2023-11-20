@@ -63,8 +63,8 @@ if ($this->status()->isSiteRequest()) {
                 'name' => $stem . '[property]',
                 'attributes' => [
                     'class' => 'query-property',
-                    'value' => isset($property['property']) ? $property['property'] : null,
-                    'aria-label' => $translate('Property'),
+                    'value' => $property['property'] ?? null,
+                    'aria-label' => 'Property', // @translate
                 ],
                 'options' => [
                     'empty_option' => '[Any Property]', // @translate

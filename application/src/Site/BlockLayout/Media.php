@@ -56,9 +56,9 @@ class Media extends AbstractBlockLayout
         $alignmentLabels = ['float left', 'float right', 'center'];
         $alignmentValues = ['left', 'right', 'center'];
         $alignment = $block ? $block->dataValue('alignment', 'left') : 'left';
+        $selectLabel = 'Alignment'; // @translate
         $select = new Select('o:block[__blockIndex__][o:data][alignment]');
         $select->setValueOptions(array_combine($alignmentValues, $alignmentLabels))->setValue($alignment);
-        $selectLabel = 'Alignment'; // @translate
         $select->setAttributes(['title' => $selectLabel, 'aria-label' => $selectLabel]);
         $html = '<div class="field"><div class="field-meta">';
         $html .= '<label class="thumbnail-option" for="o:block[__blockIndex__][o:data][alignment]">' . $selectLabel . '</label></div>';

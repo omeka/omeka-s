@@ -43,9 +43,9 @@ class Asset extends AbstractBlockLayout
           'center', // @translate
         ];
         $alignment = $block ? $block->dataValue('alignment', 'default') : 'default';
+        $selectLabel = 'Alignment'; // @translate
         $select = new Select('o:block[__blockIndex__][o:data][alignment]');
         $select->setValueOptions(array_combine($alignmentValues, $alignmentLabels))->setValue($alignment);
-        $selectLabel = 'Alignment'; // @translate
         $select->setAttributes(['title' => $selectLabel, 'aria-label' => $selectLabel]);
         $html = '<div class="field"><div class="field-meta">';
         $html .= '<label for="o:block[__blockIndex__][o:data][alignment]">' . $selectLabel . '</label></div>';

@@ -10,6 +10,8 @@ class FormSelectDelegatorFactory implements DelegatorFactoryInterface
         callable $callback, array $options = null
     ) {
         $formSelect = $callback();
+        $formSelect->addTranslatableAttribute('aria-label');
+        $formSelect->addTranslatableAttribute('title');
         // The data-placeholder attribute is used by Chosen to display default
         // field text. This will make sure that attribute is translated.
         $formSelect->addTranslatableAttribute('data-placeholder');

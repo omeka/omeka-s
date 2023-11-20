@@ -2,8 +2,8 @@
 $translate = $this->plugin('translate');
 $this->headMeta()->setCharset('utf-8');
 $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
-$this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
 $this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
+$this->headLink()->prependStylesheet($this->assetUrl('css/fonts.css', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/style.css', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));

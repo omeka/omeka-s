@@ -1,28 +1,33 @@
 <?php
-$translate = $this->plugin('translate');
+$plugins = $this->getHelperPluginManager();
+$status = $plugins->get('status');
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+$siteSetting = $plugins->get('siteSetting');
+$resourceClassSelect = $plugins->get('resourceClassSelect');
+
+$isSiteRequest = $status->isSiteRequest();
+$applyTemplates = $isSiteRequest ? $siteSetting('search_apply_templates') : false;
+
 // Prepare the resource class query.
-$ids = isset($query['resource_class_id']) ? $query['resource_class_id'] : [];
+$ids = $query['resource_class_id'] ?? [];
 if (!is_array($ids)) {
     $ids = [$ids];
 }
-$ids = array_filter($ids);
-if (!$ids) {
-    $ids = [null];
-}
+$ids = array_filter($ids) ?: [null];
 $optionsQuery = [];
-if ($this->status()->isSiteRequest()) {
-    if ($this->siteSetting('vocabulary_scope') === 'sitewide') {
+if ($isSiteRequest) {
+    if ($siteSetting('vocabulary_scope') === 'sitewide') {
         $optionsQuery['site_id'] = $this->layout()->site->id();
-    } elseif ($this->siteSetting('vocabulary_scope') === 'cross-site') {
+    } elseif ($siteSetting('vocabulary_scope') === 'cross-site') {
         $optionsQuery['used'] = true;
     }
 }
-
 ?>
 <div id="resource-class" class="field removable multi-value" role="group">
     <div class="field-meta">
         <span id="by-resource-class-label" class="label"><?php echo $translate('Search by class'); ?></span>
-        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
+        <?php echo $hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
         <div class="collapsible">
             <div class="field-description"><?php echo $translate('Searches for resources that are any of these classes.'); ?></div>
         </div>
@@ -31,15 +36,15 @@ if ($this->status()->isSiteRequest()) {
     <div class="inputs">
         <?php foreach ($ids as $id): ?>
         <div class="value">
-            <?php echo $this->resourceClassSelect([
+            <?php echo $resourceClassSelect([
                 'name' => 'resource_class_id[]',
                 'attributes' => [
                     'value' => $id,
-                    'aria-labelledby' =>  'by-resource-class-label'
+                    'aria-labelledby' => 'by-resource-class-label',
                 ],
                 'options' => [
-                    'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
-                    'query' => $optionsQuery
+                    'apply_templates' => $applyTemplates,
+                    'query' => $optionsQuery,
                 ]
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>

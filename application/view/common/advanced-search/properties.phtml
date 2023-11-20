@@ -1,7 +1,16 @@
 <?php
-$translate = $this->plugin('translate');
+$plugins = $this->getHelperPluginManager();
+$status = $plugins->get('status');
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$siteSetting = $plugins->get('siteSetting');
+$propertySelect = $plugins->get('propertySelect');
+
+$isSiteRequest = $status->isSiteRequest();
+$applyTemplates = $isSiteRequest ? $siteSetting('search_apply_templates') : false;
+
 // Prepare the property queries.
-$properties = isset($query['property']) ? $query['property'] : [];
+$properties = $query['property'] ?? [];
 $properties = array_filter($properties, function ($value) {
     return isset($value['text']) ? '' !== trim($value['text']) : true;
 });
@@ -14,7 +23,7 @@ if (isset($query['search'])) {
     array_unshift($properties, [
         'property' => '',
         'type' => 'in',
-        'text' => $query['search']
+        'text' => $query['search'],
     ]);
 }
 
@@ -25,19 +34,19 @@ $queryOption = function($value, array $search, $key, $text) {
     }
     return sprintf('<option value="%s"%s>%s</option>', $value, $selected, $text);
 };
-$queryText = function(array $search, $index) use ($translate) {
-    $text = isset($search['text']) ? $search['text'] : null;
+$queryText = function (array $search, $index) use ($escape, $translate) {
+    $text = $search['text'] ?? null;
     return sprintf('<input type="text" class="query-text" name="%s" value="%s" aria-label="%s">',
-        $this->escapeHtml("property[$index][text]"),
-        $this->escapeHtml($text),
-        $this->escapeHtml($translate('Query text')));
+        $escape("property[$index][text]"),
+        $escape($text),
+        $escape($translate('Query text')));
 };
 
 $optionsQuery = [];
-if ($this->status()->isSiteRequest()) {
-    if ($this->siteSetting('vocabulary_scope') === 'sitewide') {
+if ($isSiteRequest) {
+    if ($siteSetting('vocabulary_scope') === 'sitewide') {
         $optionsQuery['site_id'] = $this->layout()->site->id();
-    } elseif ($this->siteSetting('vocabulary_scope') === 'cross-site') {
+    } elseif ($siteSetting('vocabulary_scope') === 'cross-site') {
         $optionsQuery['used'] = true;
     }
 }
@@ -55,24 +64,24 @@ if ($this->status()->isSiteRequest()) {
         $stem = "property[$index]";
         ?>
         <div class="value">
-            <select class="joiner" name="<?php echo $this->escapeHtml($stem . '[joiner]'); ?>" aria-label="<?php echo $translate('Joiner'); ?>">
+            <select class="joiner" name="<?php echo $escape($stem . '[joiner]'); ?>" aria-label="<?php echo $translate('Joiner'); ?>">
                 <?php echo $queryOption('and', $property, 'joiner', $translate('AND')); ?>
                 <?php echo $queryOption('or', $property, 'joiner', $translate('OR')); ?>
             </select>
-            <?php echo $this->propertySelect([
+            <?php echo $propertySelect([
                 'name' => $stem . '[property]',
                 'attributes' => [
                     'class' => 'query-property',
-                    'value' => isset($property['property']) ? $property['property'] : null,
+                    'value' => $property['property'] ?? null,
                     'aria-label' => $translate('Property'),
                 ],
                 'options' => [
                     'empty_option' => '[Any Property]', // @translate
-                    'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
+                    'apply_templates' => $applyTemplates,
                     'query' => $optionsQuery,
                 ]
             ]); ?>
-            <select class="query-type" name="<?php echo $this->escapeHtml($stem . '[type]'); ?>" aria-label="<?php echo $translate('Query type'); ?>">
+            <select class="query-type" name="<?php echo $escape($stem . '[type]'); ?>" aria-label="<?php echo $translate('Query type'); ?>">
                 <?php echo $queryOption('eq', $property, 'type', $translate('is exactly')); ?>
                 <?php echo $queryOption('neq', $property, 'type', $translate('is not exactly')); ?>
                 <?php echo $queryOption('in', $property, 'type', $translate('contains')); ?>

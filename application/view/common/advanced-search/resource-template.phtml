@@ -1,20 +1,24 @@
 <?php
-$translate = $this->plugin('translate');
+$plugins = $this->getHelperPluginManager();
+$status = $plugins->get('status');
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+$resourceTemplateSelect = $plugins->get('resourceTemplateSelect');
+
+$isSiteRequest = $status->isSiteRequest();
+$applyTemplates = $isSiteRequest ? $siteSetting('search_apply_templates') : false;
 
 // Prepare the resource template query.
-$ids = isset($query['resource_template_id']) ? $query['resource_template_id'] : [];
+$ids = $query['resource_template_id'] ?? [];
 if (!is_array($ids)) {
     $ids = [$ids];
 }
-$ids = array_filter($ids);
-if (!$ids) {
-    $ids = [null];
-}
+$ids = array_filter($ids) ?: [null];
 ?>
 <div id="resource-templates" class="field removable multi-value" role="group">
     <div class="field-meta">
         <span id="by-resource-template-label" class="label"><?php echo $translate('Search by template'); ?></span>
-        <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
+        <?php echo $hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
         <div class="collapsible">
             <div class="field-description"><?php echo $translate('Searches for resources that use any of these templates.'); ?></div>
         </div>
@@ -26,11 +30,11 @@ if (!$ids) {
             <?php echo $this->resourceTemplateSelect([
                 'name' => 'resource_template_id[]',
                 'options' => [
-                    'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
+                    'apply_templates' => $applyTemplates,
                 ],
                 'attributes' => [
                     'value' => $id,
-                    'aria-labelledby' =>  'by-resource-template-label'
+                    'aria-labelledby' =>  'by-resource-template-label',
                 ],
             ]); ?>
             <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>

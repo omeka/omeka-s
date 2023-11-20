@@ -25,6 +25,9 @@ if (!$ids) {
         <div class="value">
             <?php echo $this->resourceTemplateSelect([
                 'name' => 'resource_template_id[]',
+                'options' => [
+                    'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
+                ],
                 'attributes' => [
                     'value' => $id,
                     'aria-labelledby' =>  'by-resource-template-label'

@@ -48,7 +48,7 @@ class SearchFilters extends AbstractHelper
                 switch ($key) {
                     // Fulltext
                     case 'fulltext_search':
-                        $filterLabel = $translate('Search full-text');
+                        $filterLabel = $translate('Search full-text'); // @translate
                         $filters[$filterLabel][] = $value;
                         break;
 
@@ -57,15 +57,15 @@ class SearchFilters extends AbstractHelper
                         if (!is_array($value)) {
                             $value = [$value];
                         }
+                        $filterLabel = $translate('Class'); // @translate
                         foreach ($value as $subValue) {
                             if (!is_numeric($subValue)) {
                                 continue;
                             }
-                            $filterLabel = $translate('Class');
                             try {
                                 $filterValue = $translate($api->read('resource_classes', $subValue)->getContent()->label());
                             } catch (NotFoundException $e) {
-                                $filterValue = $translate('Unknown class');
+                                $filterValue = $translate('Unknown class'); // @translate
                             }
                             $filters[$filterLabel][] = $filterValue;
                         }
@@ -103,10 +103,10 @@ class SearchFilters extends AbstractHelper
                                 if ($property) {
                                     $propertyLabel = $translate($property->label());
                                 } else {
-                                    $propertyLabel = $translate('Unknown property');
+                                    $propertyLabel = $translate('Unknown property'); // @translate
                                 }
                             } else {
-                                $propertyLabel = $translate('[Any property]');
+                                $propertyLabel = $translate('[Any property]'); // @translate
                             }
                             if (!isset($queryTypes[$queryType])) {
                                 continue;
@@ -125,7 +125,7 @@ class SearchFilters extends AbstractHelper
                         }
                         break;
                     case 'search':
-                        $filterLabel = $translate('Search');
+                        $filterLabel = $translate('Search'); // @translate
                         $filters[$filterLabel][] = $value;
                         break;
 
@@ -134,15 +134,15 @@ class SearchFilters extends AbstractHelper
                         if (!is_array($value)) {
                             $value = [$value];
                         }
+                        $filterLabel = $translate('Template'); // @translate
                         foreach ($value as $subValue) {
                             if (!is_numeric($subValue)) {
                                 continue;
                             }
-                            $filterLabel = $translate('Template');
                             try {
                                 $filterValue = $api->read('resource_templates', $subValue)->getContent()->label();
                             } catch (NotFoundException $e) {
-                                $filterValue = $translate('Unknown template');
+                                $filterValue = $translate('Unknown template'); // @translate
                             }
                             $filters[$filterLabel][] = $filterValue;
                         }
@@ -153,15 +153,15 @@ class SearchFilters extends AbstractHelper
                         if (!is_array($value)) {
                             $value = [$value];
                         }
+                        $filterLabel = $translate('In item set'); // @translate
                         foreach ($value as $subValue) {
                             if (!is_numeric($subValue)) {
                                 continue;
                             }
-                            $filterLabel = $translate('In item set');
                             try {
                                 $filterValue = $api->read('item_sets', $subValue)->getContent()->displayTitle();
                             } catch (NotFoundException $e) {
-                                $filterValue = $translate('Unknown item set');
+                                $filterValue = $translate('Unknown item set'); // @translate
                             }
                             $filters[$filterLabel][] = $filterValue;
                         }
@@ -171,15 +171,15 @@ class SearchFilters extends AbstractHelper
                         if (!is_array($value)) {
                             $value = [$value];
                         }
+                        $filterLabel = $translate('Not in item set'); // @translate
                         foreach ($value as $subValue) {
                             if (!is_numeric($subValue)) {
                                 continue;
                             }
-                            $filterLabel = $translate('Not in item set');
                             try {
                                 $filterValue = $api->read('item_sets', $subValue)->getContent()->displayTitle();
                             } catch (NotFoundException $e) {
-                                $filterValue = $translate('Unknown item set');
+                                $filterValue = $translate('Unknown item set'); // @translate
                             }
                             $filters[$filterLabel][] = $filterValue;
                         }
@@ -187,37 +187,41 @@ class SearchFilters extends AbstractHelper
 
                     // Search user
                     case 'owner_id':
-                        $filterLabel = $translate('User');
+                        $filterLabel = $translate('User'); // @translate
                         try {
                             $filterValue = $api->read('users', $value)->getContent()->name();
                         } catch (NotFoundException $e) {
-                            $filterValue = $translate('Unknown user');
+                            $filterValue = $translate('Unknown user'); // @translate
                         }
                         $filters[$filterLabel][] = $filterValue;
                         break;
 
                     case 'site_id':
-                        $filterLabel = $translate('Site');
+                        $filterLabel = $translate('Site'); // @translate
                         try {
                             $filterValue = $api->read('sites', $value)->getContent()->title();
                         } catch (NotFoundException $e) {
-                            $filterValue = $translate('Unknown site');
+                            $filterValue = $translate('Unknown site'); // @translate
                         }
                         $filters[$filterLabel][] = $filterValue;
                         break;
 
                     case 'is_public':
-                        $filterLabel = $translate('Visibility');
-                        $filters[$filterLabel][] = $value ? $translate('Public') : $translate('Not public');
+                        $filterLabel = $translate('Visibility'); // @translate
+                        $filters[$filterLabel][] = $value
+                            ? $translate('Public') // @translate
+                            : $translate('Not public'); // @translate
                         break;
 
                     case 'has_media':
-                        $filterLabel = $translate('Media presence');
-                        $filters[$filterLabel][] = $value ? $translate('Has media') : $translate('Has no media');
+                        $filterLabel = $translate('Media presence'); // @translate
+                        $filters[$filterLabel][] = $value
+                            ? $translate('Has media') // @translate
+                            : $translate('Has no media'); // @translate
                         break;
 
                     case 'id':
-                        $filterLabel = $translate('ID');
+                        $filterLabel = $translate('ID'); // @translate
                         $ids = $value;
                         if (is_string($ids) || is_int($ids)) {
                             $ids = false === strpos($ids, ',') ? [$ids] : explode(',', $ids);

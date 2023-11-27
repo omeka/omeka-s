@@ -607,6 +607,11 @@
             previewPageLayoutGrid();
         });
 
+        // Handle closing a page layout grid preview.
+        $('#grid-layout-preview-sidebar').on('o:sidebar-closed', function(e) {
+            $('.block').removeClass('grid-layout-previewing');
+        });
+
         // Handle a configure block layout click. (open the sidebar)
         $('#blocks').on('click', '.configure-block-layout-data', function(e) {
             e.preventDefault();

@@ -26,7 +26,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
             'o:title' => $this->title(),
             'o:is_public' => $this->isPublic(),
             'o:layout' => $this->layout(),
-            'o:layout_data' => $this->layoutData(),
+            'o:layout_data' => $this->layoutData() ?? [],
             'o:block' => $this->blocks(),
             'o:site' => $this->site()->getReference(),
             'o:created' => $created,

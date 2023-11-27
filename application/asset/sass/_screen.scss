@@ -4194,6 +4194,13 @@ body.sidebar-open #content {
 
     /* @group ----- Pages ----- */
 
+    #block-controls-header {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: $spacing-medium;
+    }
+
     #page-layout-controls {
         display: flex;
         align-items: center;
@@ -4224,7 +4231,6 @@ body.sidebar-open #content {
     }
 
     .expand-collapse-all {
-        margin-top: $spacing-medium;
         text-align: right;
     }
 

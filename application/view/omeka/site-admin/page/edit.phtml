@@ -54,7 +54,7 @@ $pageLayoutGridColumns = $pageLayoutData['grid_columns'] ?? '12';
 ?>
 <div id="page-layout-controls">
     <button type="button" id="page-layout-restore" style="display: none;"><?php echo $translate('Restore'); ?></button>
-    <label>
+    <label id="page-layout-label">
         <?php echo $translate('Layout'); ?>
         <select name="o:layout" id="page-layout-select" data-page-layout="<?php echo $escape($pageLayout); ?>">
             <?php foreach ($pageLayoutOptions as $key => $value): ?>

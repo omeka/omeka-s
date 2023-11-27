@@ -4201,6 +4201,15 @@ body.sidebar-open #content {
         margin-bottom: $spacing-medium;
     }
 
+    #page-layout-label {
+        display: flex;
+        align-items: center;
+    }
+
+    #page-layout-select {
+        margin-left: $spacing-small;
+    }
+
     #page-layout-controls > *:not(:last-child) {
         margin-right: $spacing-small;
     }

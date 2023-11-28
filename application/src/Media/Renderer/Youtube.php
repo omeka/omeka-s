@@ -24,11 +24,11 @@ class Youtube implements RendererInterface
             $options['allowfullscreen'] = self::ALLOWFULLSCREEN;
         }
         if (!isset($options['title'])) {
-	    if ($media->displayTitle() != $media->source()) {
+            if ($media->displayTitle() != $media->source()) {
                 $options['title'] = $media->displayTitle();
-	    } else {
-	        $options['title'] = 'YouTube video';
-	    }
+            } else {
+                $options['title'] = 'YouTube video';
+            }
         }
 
         // Compose the YouTube embed URL and build the markup.

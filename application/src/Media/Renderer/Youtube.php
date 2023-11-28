@@ -23,6 +23,13 @@ class Youtube implements RendererInterface
         if (!isset($options['allowfullscreen'])) {
             $options['allowfullscreen'] = self::ALLOWFULLSCREEN;
         }
+        if (!isset($options['title'])) {
+	    if ($media->displayTitle() != $media->source()) {
+                $options['title'] = $media->displayTitle();
+	    } else {
+	        $options['title'] = 'YouTube video';
+	    }
+        }
 
         // Compose the YouTube embed URL and build the markup.
         $data = $media->mediaData();
@@ -36,7 +43,8 @@ class Youtube implements RendererInterface
         }
         $url->setQuery($query);
         $embed = sprintf(
-            '<iframe width="%s" height="%s" src="%s" frameborder="0"%s></iframe>',
+            '<iframe title="%s" width="%s" height="%s" src="%s" frameborder="0"%s></iframe>',
+            $view->escapeHtml($options['title']),
             $view->escapeHtml($options['width']),
             $view->escapeHtml($options['height']),
             $view->escapeHtml($url),

@@ -45,19 +45,19 @@ class Upload implements IngesterInterface
         }
 
         $index = $data['file_index'];
-        if (!isset($fileData['file'][$index])) {
+        if (!isset($fileData['file'][$index][0])) {
             $errorStore->addError('error', 'No file uploaded for the specified index');
             return;
         }
 
-        $tempFile = $this->uploader->upload($fileData['file'][$index], $errorStore);
+        $tempFile = $this->uploader->upload($fileData['file'][$index][0], $errorStore);
         if (!$tempFile) {
             return;
         }
 
-        $tempFile->setSourceName($fileData['file'][$index]['name']);
+        $tempFile->setSourceName($fileData['file'][$index][0]['name']);
         if (!array_key_exists('o:source', $data)) {
-            $media->setSource($fileData['file'][$index]['name']);
+            $media->setSource($fileData['file'][$index]['name'][0]);
         }
         $tempFile->mediaIngestFile($media, $request, $errorStore);
     }
@@ -71,7 +71,9 @@ class Upload implements IngesterInterface
         ]);
         $fileInput->setAttributes([
             'id' => 'media-file-input-__index__',
+            'class' => 'media-file-input',
             'required' => true,
+            'multiple' => true,
         ]);
         $field = $view->formRow($fileInput);
         return $field . '<input type="hidden" name="o:media[__index__][file_index]" value="__index__">';

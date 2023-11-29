@@ -10,6 +10,11 @@ const createMediaFromTemplate = function(type) {
     return $(mediaTemplate);
 }
 
+const humanFileSize = function(size) {
+    const i = size == 0 ? 0 : Math.floor(Math.log(size) / Math.log(1024));
+    return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+}
+
 new Sortable(mediaList[0], {
     draggable: '.media',
     handle: '.sortable-handle'
@@ -47,8 +52,8 @@ $(document).on('change', '.media-file-input', function(e) {
         let fileInput;
 
         // Use the DataTransfer API to create a new FileList containing one
-        // file, then set the FileList to this file input or additional file
-        // inputs if the original FileList contains more than one file.
+        // file, then set the FileList to this file input or an additional file
+        // input if the original FileList contains more than one file.
         const dataTransfer = new DataTransfer();
         dataTransfer.items.add(file);
         if (0 == fileIndex) {
@@ -63,20 +68,28 @@ $(document).on('change', '.media-file-input', function(e) {
         }
         fileInput[0].files = dataTransfer.files;
 
+        // Display file info.
+        const fileInfo = uploadMedia.find('.media-file-info');
+        const fileThumbnail = fileInfo.find('.media-file-thumbnail');
+        const fileSize = fileInfo.find('.media-file-size');
+        fileInfo.show();
+        fileThumbnail.empty();
+
+        // Add the formatted file size.
+        fileSize.html(humanFileSize(file.size));
+
         // Add a thumbnail when the file is an image.
-        uploadMedia.find('.media-file-image').remove();
         if ((/^image\/(png|jpe?g|gif)$/).test(file.type)) {
             const imageSrc = URL.createObjectURL(file);
             const img = new Image();
             img.onload = function() {
-                const maxSize = 200;
+                const maxSize = 100;
                 const smallestPercent = Math.min(maxSize / this.width, maxSize / this.height);
                 img.width = this.width * smallestPercent;
                 img.height = this.height * smallestPercent;
-                uploadMedia.append(img);
+                fileThumbnail.html(img);
             }
             img.src = imageSrc;
-            img.className = 'media-file-image';
         }
     }
 

@@ -29,6 +29,7 @@ class SitePageBlockRepresentation extends AbstractRepresentation
         return [
             'o:layout' => $this->layout(),
             'o:data' => $this->data(),
+            'o:layout_data' => $this->layoutData(),
             'o:attachment' => $this->attachments(),
         ];
     }
@@ -77,6 +78,27 @@ class SitePageBlockRepresentation extends AbstractRepresentation
     {
         $data = $this->block->getData();
         return $data[$key] ?? $default;
+    }
+
+    /**
+     * Get block layout data by key.
+     *
+     * @param string $key The layout data key
+     * @param mixed $default Return this if key does not exist
+     * @return mixed
+     */
+    public function layoutDataValue($key, $default = null)
+    {
+        $layoutData = $this->block->getLayoutData();
+        return $layoutData[$key] ?? $default;
+    }
+
+    /**
+     * @return array
+     */
+    public function layoutData()
+    {
+        return $this->block->getLayoutData();
     }
 
     public function attachments()

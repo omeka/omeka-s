@@ -6,7 +6,7 @@ use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Laminas\View\Renderer\PhpRenderer;
 
-class ItemShowcase extends AbstractBlockLayout
+class ItemShowcase extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {
@@ -28,7 +28,7 @@ class ItemShowcase extends AbstractBlockLayout
         return $html;
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/item-showcase')
     {
         $attachments = $block->attachments();
         if (!$attachments) {
@@ -37,7 +37,7 @@ class ItemShowcase extends AbstractBlockLayout
 
         $thumbnailType = $block->dataValue('thumbnail_type', 'square');
         $showTitleOption = $block->dataValue('show_title_option', 'item_title');
-        return $view->partial('common/block-layout/item-showcase', [
+        return $view->partial($templateViewScript, [
             'block' => $block,
             'attachments' => $attachments,
             'thumbnailType' => $thumbnailType,

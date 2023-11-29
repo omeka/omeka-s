@@ -67,10 +67,10 @@ class SitePage extends \Omeka\Entity\SitePage implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'slug', 'title', 'isPublic', 'site', 'created', 'modified', 'blocks'];
+            return ['__isInitialized__', 'id', 'slug', 'title', 'isPublic', 'layout', 'layoutData', 'site', 'created', 'modified', 'blocks'];
         }
 
-        return ['__isInitialized__', 'id', 'slug', 'title', 'isPublic', 'site', 'created', 'modified', 'blocks'];
+        return ['__isInitialized__', 'id', 'slug', 'title', 'isPublic', 'layout', 'layoutData', 'site', 'created', 'modified', 'blocks'];
     }
 
     /**
@@ -256,6 +256,50 @@ class SitePage extends \Omeka\Entity\SitePage implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublic', []);
 
         return parent::isPublic();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLayout($layout)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLayout', [$layout]);
+
+        return parent::setLayout($layout);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLayout()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLayout', []);
+
+        return parent::getLayout();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLayoutData($layoutData)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLayoutData', [$layoutData]);
+
+        return parent::setLayoutData($layoutData);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLayoutData()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLayoutData', []);
+
+        return parent::getLayoutData();
     }
 
     /**

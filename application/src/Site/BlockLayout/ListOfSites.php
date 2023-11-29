@@ -8,7 +8,7 @@ use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\View\Renderer\PhpRenderer;
 
-class ListOfSites extends AbstractBlockLayout
+class ListOfSites extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     protected $defaults = [
         'sort' => 'alpha',
@@ -112,7 +112,7 @@ class ListOfSites extends AbstractBlockLayout
         return $view->formCollection($form, false);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/list-of-sites')
     {
         $sort = $block->dataValue('sort', $this->defaults['sort']);
         $limit = $block->dataValue('limit', $this->defaults['limit']);
@@ -157,7 +157,8 @@ class ListOfSites extends AbstractBlockLayout
 
         $sites = $response->getContent();
 
-        return $view->partial('common/block-layout/list-of-sites', [
+        return $view->partial($templateViewScript, [
+            'block' => $block,
             'sites' => $sites,
             'pagination' => $pagination,
             'summaries' => $summaries,

@@ -74,15 +74,13 @@ class Upload implements IngesterInterface
             'class' => 'media-file-input',
             'required' => true,
             'multiple' => true,
+            'data-info-template' => '
+            <div class="media-file-info">
+                <div class="media-file-thumbnail"></div>
+                <div class="media-file-size"></div>
+            </div>',
         ]);
         $field = $view->formRow($fileInput);
-        echo <<<END
-        $field
-        <div class="media-file-info" style="display: none;">
-            <div class="media-file-thumbnail"></div>
-            <div class="media-file-size"></div>
-        </div>
-        <input type="hidden" name="o:media[__index__][file_index]" value="__index__">
-        END;
+        echo $field . '<input type="hidden" name="o:media[__index__][file_index]" value="__index__">';
     }
 }

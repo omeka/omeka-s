@@ -69,11 +69,11 @@ $(document).on('change', '.media-file-input', function(e) {
         fileInput[0].files = dataTransfer.files;
 
         // Display file info.
-        const fileInfo = uploadMedia.find('.media-file-info');
+        uploadMedia.find('.media-file-info').remove()
+        const fileInfoTemplate = uploadMedia.find('.media-file-input').data('info-template');
+        const fileInfo = $(fileInfoTemplate);
         const fileThumbnail = fileInfo.find('.media-file-thumbnail');
         const fileSize = fileInfo.find('.media-file-size');
-        fileInfo.show();
-        fileThumbnail.empty();
 
         // Add the formatted file size.
         fileSize.html(humanFileSize(file.size));
@@ -91,6 +91,8 @@ $(document).on('change', '.media-file-input', function(e) {
             }
             img.src = imageSrc;
         }
+
+        uploadMedia.find('.inputs').append(fileInfo);
     }
 
     // Append the additional upload interfaces in the order they were added.

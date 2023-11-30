@@ -209,7 +209,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
             ->get($resource->getRenderer());
         $fulltextText = parent::getFulltextText($resource);
         if ($renderer instanceof FulltextSearchableInterface) {
-            $fulltextText .= $renderer->getFulltextText($this->getRepresentation($resource));
+            $fulltextText .= ' ' . $renderer->getFulltextText($this->getRepresentation($resource));
         }
         return $fulltextText;
     }

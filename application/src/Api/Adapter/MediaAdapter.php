@@ -207,10 +207,10 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         $renderer = $this->getServiceLocator()
             ->get('Omeka\Media\Renderer\Manager')
             ->get($resource->getRenderer());
-        $mediaText = '';
+        $fulltextText = parent::getFulltextText($resource);
         if ($renderer instanceof FulltextSearchableInterface) {
-            $mediaText = $renderer->getFulltextText($this->getRepresentation($resource));
+            $fulltextText .= $renderer->getFulltextText($this->getRepresentation($resource));
         }
-        return sprintf('%s %s', parent::getFulltextText($resource), $mediaText);
+        return $fulltextText;
     }
 }

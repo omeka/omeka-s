@@ -69,14 +69,11 @@ $(document).on('change', '.media-file-input', function(e) {
         fileInput[0].files = dataTransfer.files;
 
         // Display file info.
-        uploadMedia.find('.media-file-info').remove()
-        const fileInfoTemplate = uploadMedia.find('.media-file-input').data('info-template');
-        const fileInfo = $(fileInfoTemplate);
-        const fileThumbnail = fileInfo.find('.media-file-thumbnail');
-        const fileSize = fileInfo.find('.media-file-size');
+        uploadMedia.find('.media-file-info').remove();
+        const fileInfo = $(fileInput.data('info-template'));
 
         // Add the formatted file size.
-        fileSize.html(humanFileSize(file.size));
+        fileInfo.find('.media-file-size').html(humanFileSize(file.size));
 
         // Add a thumbnail when the file is an image.
         if ((/^image\/(png|jpe?g|gif)$/).test(file.type)) {
@@ -87,12 +84,12 @@ $(document).on('change', '.media-file-input', function(e) {
                 const smallestPercent = Math.min(maxSize / this.width, maxSize / this.height);
                 img.width = this.width * smallestPercent;
                 img.height = this.height * smallestPercent;
-                fileThumbnail.html(img);
+                fileInfo.find('.media-file-thumbnail').html(img);
             }
             img.src = imageSrc;
         }
 
-        uploadMedia.find('.inputs').append(fileInfo);
+        fileInput.closest('.inputs').append(fileInfo);
     }
 
     // Append the additional upload interfaces in the order they were added.

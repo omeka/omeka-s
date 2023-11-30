@@ -255,6 +255,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], (string) $string);
         };
 
+        // See below "Consecutive OR optimization" comment
+        $previousPropertyId = null;
+        $previousAlias = null;
+        $previousPositive = null;
+
         foreach ($query['property'] as $queryRow) {
             if (!(is_array($queryRow)
                 && array_key_exists('property', $queryRow)
@@ -271,13 +276,41 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 continue;
             }
 
-            $valuesAlias = $this->createAlias();
             $positive = true;
+            if (in_array($queryType, ['neq', 'nin', 'nsw', 'new', 'nres', 'nex'])) {
+                $positive = false;
+                $queryType = substr($queryType, 1);
+            }
+            if (!in_array($queryType, ['eq', 'in', 'sw', 'ew', 'res', 'ex'])) {
+                continue;
+            }
+
+            // Consecutive OR optimization
+            //
+            // When we have a run of query rows that are joined by OR and share
+            // the same property ID (or lack thereof), we don't actually need a
+            // separate join to the values table; we can just tack additional OR
+            // clauses onto the WHERE while using the same join and alias. The
+            // extra joins are expensive, so doing this improves performance where
+            // many ORs are used.
+            //
+            // Rows using "negative" searches need their own separate join to the
+            // values table, so they're excluded from this optimization on both
+            // sides: if either the current or previous row is a negative query,
+            // the current row does a new join.
+            if ($previousPropertyId === $propertyId
+                && $previousPositive
+                && $positive
+                && $joiner === 'or'
+            ) {
+                $valuesAlias = $previousAlias;
+                $usePrevious = true;
+            } else {
+                $valuesAlias = $this->createAlias();
+                $usePrevious = false;
+            }
 
             switch ($queryType) {
-                case 'neq':
-                    $positive = false;
-                    // No break.
                 case 'eq':
                     $param = $this->createNamedParameter($qb, $value);
                     $subqueryAlias = $this->createAlias();
@@ -293,9 +326,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nin':
-                    $positive = false;
-                    // No break.
                 case 'in':
                     $param = $this->createNamedParameter($qb, '%' . $escapeSqlLike($value) . '%');
                     $subqueryAlias = $this->createAlias();
@@ -311,9 +341,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nsw':
-                    $positive = false;
-                    // No break.
                 case 'sw':
                     $param = $this->createNamedParameter($qb, $escapeSqlLike($value) . '%');
                     $subqueryAlias = $this->createAlias();
@@ -329,9 +356,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'new':
-                    $positive = false;
-                    // No break.
                 case 'ew':
                     $param = $this->createNamedParameter($qb, '%' . $escapeSqlLike($value));
                     $subqueryAlias = $this->createAlias();
@@ -347,9 +371,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nres':
-                    $positive = false;
-                    // No break.
                 case 'res':
                     $predicateExpr = $qb->expr()->eq(
                         "$valuesAlias.valueResource",
@@ -357,9 +378,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nex':
-                    $positive = false;
-                    // No break.
                 case 'ex':
                     $predicateExpr = $qb->expr()->isNotNull("$valuesAlias.id");
                     break;
@@ -391,10 +409,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $whereClause = $qb->expr()->isNull("$valuesAlias.id");
             }
 
-            if ($joinConditions) {
-                $qb->leftJoin($valuesJoin, $valuesAlias, 'WITH', $qb->expr()->andX(...$joinConditions));
-            } else {
-                $qb->leftJoin($valuesJoin, $valuesAlias);
+            // See above "Consecutive OR optimization" comment
+            if (!$usePrevious) {
+                if ($joinConditions) {
+                    $qb->leftJoin($valuesJoin, $valuesAlias, 'WITH', $qb->expr()->andX(...$joinConditions));
+                } else {
+                    $qb->leftJoin($valuesJoin, $valuesAlias);
+                }
             }
 
             if ($where == '') {
@@ -404,6 +425,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             } else {
                 $where .= " AND $whereClause";
             }
+
+            // See above "Consecutive OR optimization" comment
+            $previousPropertyId = $propertyId;
+            $previousPositive = $positive;
+            $previousAlias = $valuesAlias;
         }
 
         if ($where) {

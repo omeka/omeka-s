@@ -41,6 +41,7 @@ class Response
     public function setRequest(Request $request)
     {
         $this->request = $request;
+        return $this;
     }
 
     /**
@@ -61,6 +62,7 @@ class Response
     public function setTotalResults($totalResults)
     {
         $this->totalResults = $totalResults;
+        return $this;
     }
 
     /**
@@ -81,6 +83,7 @@ class Response
     public function setContent($value)
     {
         $this->content = $value;
+        return $this;
     }
 
     /**

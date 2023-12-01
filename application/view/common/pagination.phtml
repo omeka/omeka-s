@@ -4,7 +4,7 @@ $translate = $this->plugin('translate');
 <nav class="pagination" role="navigation">
 <?php if ($totalCount): ?>
     <form method="GET" action="">
-        <?php echo $this->queryToHiddenInputs(['page']); ?>
+        <?php echo $this->queryToHiddenInputs(['page', 'sort_by_default']); ?>
         <input type="text" name="page" class="page-input-top" value="<?php echo $currentPage; ?>" size="4" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?> aria-label="<?php echo $translate('Page'); ?>">
         <span class="page-count"><?php echo sprintf($translate('of %s'), $pageCount); ?></span>
     </form>

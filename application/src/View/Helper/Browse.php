@@ -51,12 +51,13 @@ class Browse extends AbstractHelper
             return '';
         }
         $query = $view->params()->fromQuery();
-        if (isset($query['fulltext_search']) && '' !== trim($query['fulltext_search'])) {
+        $isFulltextSearch = (isset($query['fulltext_search']) && '' !== trim($query['fulltext_search']));
+        if ($isFulltextSearch) {
             $sortConfig[''] = 'Relevance'; // @translate
         }
         $args = [
             'sortConfig' => $sortConfig,
-            'sortByQuery' => isset($query['sort_by_default']) ? '' : $view->params()->fromQuery('sort_by'),
+            'sortByQuery' => (isset($query['sort_by_default']) && $isFulltextSearch) ? '' : $view->params()->fromQuery('sort_by'),
             'sortOrderQuery' => $view->params()->fromQuery('sort_order'),
         ];
         $args = $view->trigger('view.sort-selector', $args, true);

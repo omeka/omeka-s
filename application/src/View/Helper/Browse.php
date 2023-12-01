@@ -53,6 +53,7 @@ class Browse extends AbstractHelper
         $query = $view->params()->fromQuery();
         $isFulltextSearch = (isset($query['fulltext_search']) && '' !== trim($query['fulltext_search']));
         if ($isFulltextSearch) {
+            // Add "Relevance" to sort_by if this is a fulltext search.
             $sortConfig[''] = 'Relevance'; // @translate
         }
         $args = [

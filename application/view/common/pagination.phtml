@@ -1,7 +1,10 @@
 <?php
 $translate = $this->plugin('translate');
+
+// Do not emit the sort_by_default flag.
 $removeQueries = ['page', 'sort_by_default'];
 if (isset($query['sort_by_default'])) {
+    // Do not emit sort_by if the sort_by_default flag is set.
     $removeQueries[] = 'sort_by';
 }
 ?>

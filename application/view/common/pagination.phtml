@@ -1,10 +1,14 @@
 <?php
 $translate = $this->plugin('translate');
+$removeQueries = ['page', 'sort_by_default'];
+if (isset($query['sort_by_default'])) {
+    $removeQueries[] = 'sort_by';
+}
 ?>
 <nav class="pagination" role="navigation">
 <?php if ($totalCount): ?>
     <form method="GET" action="">
-        <?php echo $this->queryToHiddenInputs(['page', 'sort_by_default']); ?>
+        <?php echo $this->queryToHiddenInputs($removeQueries); ?>
         <input type="text" name="page" class="page-input-top" value="<?php echo $currentPage; ?>" size="4" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?> aria-label="<?php echo $translate('Page'); ?>">
         <span class="page-count"><?php echo sprintf($translate('of %s'), $pageCount); ?></span>
     </form>

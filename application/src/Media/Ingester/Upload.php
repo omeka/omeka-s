@@ -81,6 +81,6 @@ class Upload implements IngesterInterface
             </div>',
         ]);
         $field = $view->formRow($fileInput);
-        echo $field . '<input type="hidden" name="o:media[__index__][file_index]" value="__index__">';
+        return $field . '<input type="hidden" name="o:media[__index__][file_index]" value="__index__">';
     }
 }

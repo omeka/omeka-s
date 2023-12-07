@@ -45,42 +45,43 @@ class Upload implements IngesterInterface
         }
 
         $index = $data['file_index'];
-        if (!isset($fileData['file'][$index][0])) {
+        if (!isset($fileData['file'][$index])) {
             $errorStore->addError('error', 'No file uploaded for the specified index');
             return;
         }
 
-        $tempFile = $this->uploader->upload($fileData['file'][$index][0], $errorStore);
+        $tempFile = $this->uploader->upload($fileData['file'][$index], $errorStore);
         if (!$tempFile) {
             return;
         }
 
-        $tempFile->setSourceName($fileData['file'][$index][0]['name']);
+        $tempFile->setSourceName($fileData['file'][$index]['name']);
         if (!array_key_exists('o:source', $data)) {
-            $media->setSource($fileData['file'][$index]['name'][0]);
+            $media->setSource($fileData['file'][$index]['name']);
         }
         $tempFile->mediaIngestFile($media, $request, $errorStore);
     }
 
     public function form(PhpRenderer $view, array $options = [])
     {
-        $fileInput = new File('file[__index__]');
-        $fileInput->setOptions([
-            'label' => 'Upload file', // @translate
-            'info' => $view->uploadLimit(),
-        ]);
-        $fileInput->setAttributes([
-            'id' => 'media-file-input-__index__',
-            'class' => 'media-file-input',
-            'required' => true,
-            'multiple' => true,
-            'data-info-template' => '
-            <div class="media-file-info">
-                <div class="media-file-thumbnail"></div>
-                <div class="media-file-size"></div>
-            </div>',
-        ]);
-        $field = $view->formRow($fileInput);
-        return $field . '<input type="hidden" name="o:media[__index__][file_index]" value="__index__">';
+        $infoTemplate = '
+        <div class="media-file-info">
+            <div class="media-file-thumbnail"></div>
+            <div class="media-file-size">
+        </div>';
+        return '
+        <div class="field">
+            <div class="field-meta">
+                <label for="media-file-input-__index__">' . $view->translate('Upload file') . '</label>
+                <a href="#" class="expand" aria-label="' . $view->translate('Expand') . '" title="' . $view->translate('Expand') . '"></a>
+                <div class="collapsible">
+                    <div class="field-description">' . $view->uploadLimit() . '</div>
+                </div>
+            </div>
+            <div class="inputs">
+                <input type="file" name="file[__index__]" id="media-file-input-__index__" class="media-file-input" data-info-template="' . $view->escapeHtml($infoTemplate) . '" multiple required>
+                <input type="hidden" name="o:media[__index__][file_index]" value="__index__">
+            </div>
+        </div>';
     }
 }

@@ -206,6 +206,7 @@ class ItemController extends AbstractActionController
         $form->setAttribute('id', 'add-item');
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
+            // echo '<pre>';print_r($data);exit;
             $data = $this->mergeValuesJson($data);
             // Prevent the API from setting sites automatically if no sites are set.
             $data['o:site'] ??= [];

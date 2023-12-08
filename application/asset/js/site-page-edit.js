@@ -522,27 +522,33 @@
                 .css('grid-template-columns', `repeat(${gridColumns}, 1fr)`);
             $('.block').each(function() {
                 const thisBlock = $(this);
-                const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
-                const gridColumnPositionSelectValue = parseInt(gridColumnPositionSelect.val(), 10) || 'auto';
-                const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
-                const gridColumnSpanSelectValue = parseInt(gridColumnSpanSelect.val(), 10);
-                const selectedTooltip = $('<div class="selected-tooltip" title="Selected">');
-                const blockDiv = $('<div class="grid-layout-previewing-block">')
-                    .css('grid-column', `${gridColumnPositionSelectValue} / span ${gridColumnSpanSelectValue}`);
-                if (thisBlock.hasClass('grid-layout-previewing')) {
-                    blockDiv.addClass('grid-layout-previewing').append(selectedTooltip);
-                }
-                blockDiv.hover(
-                    function() {
-                        thisBlock.addClass('hovered-block');
-                        $(this).addClass('hovered-block');
-                    },
-                    function() {
-                        thisBlock.removeClass('hovered-block');
-                        $(this).removeClass('hovered-block');
+                const blockLayout = thisBlock.data('block-layout');
+                if ('blockGroup' == blockLayout) {
+                    const blockGroupSpan = thisBlock.find('.block-group-span').val();
+                    // @todo: fix preview to account for groups (use PageLayout::render() for example code)
+                } else {
+                    const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                    const gridColumnPositionSelectValue = parseInt(gridColumnPositionSelect.val(), 10) || 'auto';
+                    const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                    const gridColumnSpanSelectValue = parseInt(gridColumnSpanSelect.val(), 10);
+                    const selectedTooltip = $('<div class="selected-tooltip" title="Selected">');
+                    const blockDiv = $('<div class="grid-layout-previewing-block">')
+                        .css('grid-column', `${gridColumnPositionSelectValue} / span ${gridColumnSpanSelectValue}`);
+                    if (thisBlock.hasClass('grid-layout-previewing')) {
+                        blockDiv.addClass('grid-layout-previewing').append(selectedTooltip);
                     }
-                );
-                gridLayoutPreview.append(blockDiv);
+                    blockDiv.hover(
+                        function() {
+                            thisBlock.addClass('hovered-block');
+                            $(this).addClass('hovered-block');
+                        },
+                        function() {
+                            thisBlock.removeClass('hovered-block');
+                            $(this).removeClass('hovered-block');
+                        }
+                    );
+                    gridLayoutPreview.append(blockDiv);
+                }
             });
             Omeka.openSidebar($('#grid-layout-preview-sidebar'));
         };

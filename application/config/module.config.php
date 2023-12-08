@@ -753,6 +753,7 @@ return [
             'lineBreak' => Site\BlockLayout\LineBreak::class,
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
             'pageDateTime' => Site\BlockLayout\PageDateTime::class,
+            'blockGroup' => Site\BlockLayout\BlockGroup::class,
         ],
         'factories' => [
             'asset' => Service\BlockLayout\AssetFactory::class,

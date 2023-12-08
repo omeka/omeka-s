@@ -64,25 +64,55 @@ class PageLayout extends AbstractHelper
                 $layouts[$block->layout()] = null;
                 $view->blockLayout()->prepareRender($block->layout());
             }
-            // Render each block according to page layout.
-            switch ($page->layout()) {
-                case 'grid':
-                    $gridColumns = (int) $page->layoutDataValue('grid_columns');
-                    $blockLayoutData = $block->layoutData();
-                    $getValidPosition = fn ($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? $columnPosition : 'auto';
-                    $getValidSpan = fn ($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? $columnSpan : $gridColumns;
-                    echo sprintf(
-                        '<div style="grid-column: %s / span %s">%s</div>',
-                        $getValidPosition($blockLayoutData['grid_column_position'] ?? 'auto'),
-                        $getValidSpan($blockLayoutData['grid_column_span'] ?? $gridColumns),
-                        $view->blockLayout()->render($block)
-                    );
-                    break;
-                case '':
-                default:
-                    echo $view->blockLayout()->render($block);
-                    break;
+            if ('blockGroup' === $block->layout()) {
+                // The blockGroup block gets special treatment.
+                if (isset($blockGroupSpan) && $blockGroupCurrentSpan < $blockGroupSpan) {
+                    // Blocks may not overlap.
+                    echo '</div>';
+                    unset($blockGroupSpan, $blockGroupCurrentSpan);
+                }
+                $blockGroupSpan = (int) $block->dataValue('span');
+                $blockGroupCurrentSpan = 0;
+                echo sprintf(
+                    '<div class="block-group %s" style="display: grid; grid-template-columns: repeat(%s, 1fr); grid-column: span %s;">',
+                    $view->escapeHtml($block->dataValue('class')),
+                    $view->escapeHtml((int) $page->layoutDataValue('grid_columns')),
+                    $view->escapeHtml((int) $page->layoutDataValue('grid_columns'))
+                );
+            } else {
+                // Render each block according to page layout.
+                switch ($page->layout()) {
+                    case 'grid':
+                        $gridColumns = (int) $page->layoutDataValue('grid_columns');
+                        $blockLayoutData = $block->layoutData();
+                        $getValidPosition = fn ($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? $columnPosition : 'auto';
+                        $getValidSpan = fn ($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? $columnSpan : $gridColumns;
+                        echo sprintf(
+                            '<div style="grid-column: %s / span %s">%s</div>',
+                            $getValidPosition($blockLayoutData['grid_column_position'] ?? 'auto'),
+                            $getValidSpan($blockLayoutData['grid_column_span'] ?? $gridColumns),
+                            $view->blockLayout()->render($block)
+                        );
+                        break;
+                    case '':
+                    default:
+                        echo $view->blockLayout()->render($block);
+                        break;
+                }
             }
+            // The blockGroup block gets special treatment.
+            if (isset($blockGroupSpan)) {
+                if ($blockGroupCurrentSpan == $blockGroupSpan) {
+                    echo '</div>';
+                    unset($blockGroupSpan, $blockGroupCurrentSpan);
+                } else {
+                    $blockGroupCurrentSpan++;
+                }
+            }
+        }
+        if (isset($blockGroupSpan)) {
+            // Close the blockGroup block if not already closed.
+            echo '</div>';
         }
         echo '</div>';
     }

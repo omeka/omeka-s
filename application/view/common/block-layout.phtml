@@ -19,6 +19,7 @@ $layoutGridColumnSpan = $layoutData['grid_column_span'] ?? '12';
         <span class="sortable-handle"></span>
         <span class="block-type"><?php echo $translate($layoutLabel); ?></span>
         <span class="restore-value"><?php echo $translate('Block to be removed'); ?></span>
+        <?php if ('blockGroup' !== $layout): ?>
         <span class="block-page-layout-grid-controls">
             <select class="block-page-layout-grid-column-position-select" data-block-page-layout-grid-column-position="<?php echo $escape($layoutGridColumnPosition); ?>">
                 <?php foreach ($layoutGridColumnPositionOptions as $key => $value): ?>
@@ -31,6 +32,7 @@ $layoutGridColumnSpan = $layoutData['grid_column_span'] ?? '12';
                 <?php endforeach; ?>
             </select>
         </span>
+        <?php endif; ?>
         <ul class="actions">
             <li><a href="#" class="o-icon-search preview-block-page-layout-grid" aria-label="<?php echo $translate('Preview layout'); ?>" title="<?php echo $translate('Preview layout'); ?>"></a></li>
             <li><a href="#" class="o-icon-settings configure-block-layout-data" aria-label="<?php echo $translate('Configure layout'); ?>" title="<?php echo $translate('Configure layout'); ?>"></a></li>

@@ -2933,6 +2933,17 @@ fieldset.section > legend {
         text-align: left;
     }
 
+    .media-file-info {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .media-file-thumbnail img {
+        vertical-align: bottom;
+        margin: $spacing-small $spacing-medium 0 0;
+    }    
+
     /* @end */
 
     /* @group ----- Item Sets ----- */

@@ -26,6 +26,7 @@ class BlockGroup extends AbstractBlockLayout
                 'info' => 'Number of blocks to include in this group. Groups may not overlap.', // @translate
             ])
             ->setAttribute('min', '1')
+            ->setAttribute('class', 'block-group-span')
             ->setValue($block ? $block->dataValue('span') : '1');
         $form->add($elementSpan);
 
@@ -33,9 +34,6 @@ class BlockGroup extends AbstractBlockLayout
         $elementClass->setOptions([
                 'label' => 'Class', // @translate
                 'info' => 'Optional CSS class for this group.', // @translate
-            ])
-            ->setAttributes([
-                'class' => 'block-group-span',
             ])
             ->setValue($block ? $block->dataValue('class') : '');
         $form->add($elementClass);

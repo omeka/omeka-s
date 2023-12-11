@@ -29,23 +29,18 @@ class PageLayout extends AbstractHelper
         $this->eventManager->triggerEvent(new Event('page_layout.inline_styles', $page, $eventArgs));
         $inlineStyles = $eventArgs['inline_styles'];
 
+        $gridColumns = (int) $page->layoutDataValue('grid_columns');
+        $gridColumnGap = (int) $page->layoutDataValue('grid_column_gap', 10);
+        $gridRowGap = (int) $page->layoutDataValue('grid_row_gap', 10);
+
         // Prepare the page layout.
         switch ($page->layout()) {
             case 'grid':
                 $view->headLink()->appendStylesheet($view->assetUrl('css/page-grid.css', 'Omeka'));
                 $classes[] = 'page-layout-grid';
-                $inlineStyles[] = sprintf(
-                    'grid-template-columns: repeat(%s, 1fr);',
-                    (int) $page->layoutDataValue('grid_columns')
-                );
-                $inlineStyles[] = sprintf(
-                    'column-gap: %spx;',
-                    (int) $page->layoutDataValue('grid_column_gap', 10)
-                );
-                $inlineStyles[] = sprintf(
-                    'row-gap: %spx;',
-                    (int) $page->layoutDataValue('grid_row_gap', 10)
-                );
+                $inlineStyles[] = sprintf('grid-template-columns: repeat(%s, 1fr);', $gridColumns);
+                $inlineStyles[] = sprintf('column-gap: %spx;', $gridColumnGap);
+                $inlineStyles[] = sprintf('row-gap: %spx;', $gridRowGap);
                 break;
             case '':
             default:
@@ -58,6 +53,7 @@ class PageLayout extends AbstractHelper
             $view->escapeHtml(implode(' ', $inlineStyles))
         );
         $layouts = [];
+        $inBlockGroup = false;
         foreach ($page->blocks() as $block) {
             if (!array_key_exists($block->layout(), $layouts)) {
                 // Prepare render only once per block layout type.
@@ -66,24 +62,21 @@ class PageLayout extends AbstractHelper
             }
             if ('blockGroup' === $block->layout()) {
                 // The blockGroup block gets special treatment.
-                if (isset($blockGroupSpan) && $blockGroupCurrentSpan < $blockGroupSpan) {
-                    // Blocks may not overlap.
-                    echo '</div>';
-                    unset($blockGroupSpan, $blockGroupCurrentSpan);
+                if ($inBlockGroup) {
+                    echo '</div>'; // Blocks may not overlap.
                 }
+                $inBlockGroup = true;
                 $blockGroupSpan = (int) $block->dataValue('span');
                 $blockGroupCurrentSpan = 0;
                 echo sprintf(
-                    '<div class="block-group %s" style="display: grid; grid-template-columns: repeat(%s, 1fr); grid-column: span %s;">',
+                    '<div class="block-group %1$s" style="display: grid; grid-template-columns: repeat(%2$s, 1fr); grid-column: span %2$s;">',
                     $view->escapeHtml($block->dataValue('class')),
-                    $view->escapeHtml((int) $page->layoutDataValue('grid_columns')),
-                    $view->escapeHtml((int) $page->layoutDataValue('grid_columns'))
+                    $view->escapeHtml($gridColumns)
                 );
             } else {
                 // Render each block according to page layout.
                 switch ($page->layout()) {
                     case 'grid':
-                        $gridColumns = (int) $page->layoutDataValue('grid_columns');
                         $blockLayoutData = $block->layoutData();
                         $getValidPosition = fn ($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? $columnPosition : 'auto';
                         $getValidSpan = fn ($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? $columnSpan : $gridColumns;
@@ -101,18 +94,17 @@ class PageLayout extends AbstractHelper
                 }
             }
             // The blockGroup block gets special treatment.
-            if (isset($blockGroupSpan)) {
+            if ($inBlockGroup) {
                 if ($blockGroupCurrentSpan == $blockGroupSpan) {
                     echo '</div>';
-                    unset($blockGroupSpan, $blockGroupCurrentSpan);
+                    $inBlockGroup = false;
                 } else {
                     $blockGroupCurrentSpan++;
                 }
             }
         }
-        if (isset($blockGroupSpan)) {
-            // Close the blockGroup block if not already closed.
-            echo '</div>';
+        if ($inBlockGroup) {
+            echo '</div>'; // Close the blockGroup block if not already closed.
         }
         echo '</div>';
     }

@@ -35,5 +35,14 @@ $(document).ready(function () {
         Omeka.cleanSearchQuery($(this));
     });
 
-});
+    $('#content').on('change', '.item-set-select-type', function() {
+        const typeSelect = $(this);
+        const itemSetSelect = typeSelect.closest('.value').find('.item-set-select');
+        if ('not_in' === typeSelect.val()) {
+            itemSetSelect.attr('name', 'not_item_set_id[]');
+        } else {
+            itemSetSelect.attr('name', 'item_set_id[]');
+        }
+    });
 
+});

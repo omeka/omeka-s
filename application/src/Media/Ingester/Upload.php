@@ -5,7 +5,6 @@ use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\File\Uploader;
 use Omeka\Stdlib\ErrorStore;
-use Laminas\Form\Element\File;
 use Laminas\View\Renderer\PhpRenderer;
 
 class Upload implements IngesterInterface

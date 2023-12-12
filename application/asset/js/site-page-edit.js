@@ -515,25 +515,34 @@
 
         // Preview the page layout grid.
         const previewPageLayoutGrid = function() {
-            const gridLayoutPreview = $('#grid-layout-preview');
+            const previewDiv = $('#grid-layout-preview');
             const gridColumns = parseInt($('#page-layout-grid-columns-select').val(), 10);
-            gridLayoutPreview
-                .empty()
-                .css('grid-template-columns', `repeat(${gridColumns}, 1fr)`);
+            previewDiv.css('grid-template-columns', `repeat(${gridColumns}, 1fr)`).empty();
+            let inBlockGroup = false;
+            let blockGroupSpan;
+            let blockGroupCurrentSpan;
+            let blockGroupDiv;
             $('.block').each(function() {
                 const thisBlock = $(this);
                 const blockLayout = thisBlock.data('block-layout');
                 if ('blockGroup' == blockLayout) {
-                    const blockGroupSpan = thisBlock.find('.block-group-span').val();
-                    // @todo: fix preview to account for groups (use PageLayout::render() for example code)
+                    // The blockGroup block gets special treatment.
+                    if (inBlockGroup) {
+                        // Blocks may not overlap.
+                        previewDiv.append(blockGroupDiv);
+                    }
+                    inBlockGroup = true;
+                    blockGroupSpan = parseInt(thisBlock.find('.block-group-span').val(), 10);
+                    blockGroupCurrentSpan = 0;
+                    blockGroupDiv = $(`<div style="display: grid; grid-template-columns: repeat(${gridColumns}, 1fr); grid-column: span ${gridColumns};">`);
                 } else {
-                    const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
-                    const gridColumnPositionSelectValue = parseInt(gridColumnPositionSelect.val(), 10) || 'auto';
-                    const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
-                    const gridColumnSpanSelectValue = parseInt(gridColumnSpanSelect.val(), 10);
+                    const positionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                    const positionSelectValue = parseInt(positionSelect.val(), 10) || 'auto';
+                    const spanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                    const spanSelectValue = parseInt(spanSelect.val(), 10);
                     const selectedTooltip = $('<div class="selected-tooltip" title="Selected">');
                     const blockDiv = $('<div class="grid-layout-previewing-block">')
-                        .css('grid-column', `${gridColumnPositionSelectValue} / span ${gridColumnSpanSelectValue}`);
+                        .css('grid-column', `${positionSelectValue} / span ${spanSelectValue}`);
                     if (thisBlock.hasClass('grid-layout-previewing')) {
                         blockDiv.addClass('grid-layout-previewing').append(selectedTooltip);
                     }
@@ -547,9 +556,24 @@
                             $(this).removeClass('hovered-block');
                         }
                     );
-                    gridLayoutPreview.append(blockDiv);
+                    inBlockGroup
+                        ? blockGroupDiv.append(blockDiv)
+                        : previewDiv.append(blockDiv);
+                }
+                if (inBlockGroup) {
+                    // The blockGroup block gets special treatment.
+                    if (blockGroupCurrentSpan == blockGroupSpan) {
+                        previewDiv.append(blockGroupDiv);
+                        inBlockGroup = false;
+                    } else {
+                        blockGroupCurrentSpan++;
+                    }
                 }
             });
+            if (inBlockGroup) {
+                // Close the blockGroup block if not already closed.
+                previewDiv.append(blockGroupDiv);
+            }
             Omeka.openSidebar($('#grid-layout-preview-sidebar'));
         };
 

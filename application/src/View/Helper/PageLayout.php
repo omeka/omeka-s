@@ -29,14 +29,15 @@ class PageLayout extends AbstractHelper
         $this->eventManager->triggerEvent(new Event('page_layout.inline_styles', $page, $eventArgs));
         $inlineStyles = $eventArgs['inline_styles'];
 
-        $gridColumns = (int) $page->layoutDataValue('grid_columns');
-        $gridColumnGap = (int) $page->layoutDataValue('grid_column_gap', 10);
-        $gridRowGap = (int) $page->layoutDataValue('grid_row_gap', 10);
-
         // Prepare the page layout.
         switch ($page->layout()) {
             case 'grid':
                 $view->headLink()->appendStylesheet($view->assetUrl('css/page-grid.css', 'Omeka'));
+
+                $gridColumns = (int) $page->layoutDataValue('grid_columns');
+                $gridColumnGap = (int) $page->layoutDataValue('grid_column_gap', 10);
+                $gridRowGap = (int) $page->layoutDataValue('grid_row_gap', 10);
+
                 $classes[] = 'page-layout-grid';
                 $inlineStyles[] = sprintf('grid-template-columns: repeat(%s, 1fr);', $gridColumns);
                 $inlineStyles[] = sprintf('column-gap: %spx;', $gridColumnGap);
@@ -68,11 +69,22 @@ class PageLayout extends AbstractHelper
                 $inBlockGroup = true;
                 $blockGroupSpan = (int) $block->dataValue('span');
                 $blockGroupCurrentSpan = 0;
-                echo sprintf(
-                    '<div class="block-group %1$s" style="display: grid; grid-template-columns: repeat(%2$s, 1fr); grid-column: span %2$s;">',
-                    $view->escapeHtml($block->dataValue('class')),
-                    $view->escapeHtml($gridColumns)
-                );
+                switch ($page->layout()) {
+                    case 'grid':
+                        echo sprintf(
+                            '<div class="block-group %1$s" style="display: grid; grid-template-columns: repeat(%2$s, 1fr); grid-column: span %2$s;">',
+                            $view->escapeHtml($block->dataValue('class')),
+                            $view->escapeHtml($gridColumns)
+                        );
+                        break;
+                    case '':
+                    default:
+                        echo sprintf(
+                            '<div class="block-group %1$s">',
+                            $view->escapeHtml($block->dataValue('class')),
+                        );
+                        break;
+                }
             } else {
                 // Render each block according to page layout.
                 switch ($page->layout()) {

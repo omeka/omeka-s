@@ -720,7 +720,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $services = $this->getServiceLocator();
         $dataTypes = $services->get('Omeka\DataTypeManager');
         $view = $services->get('ViewRenderer');
+        $eventManager = $this->getEventManager();
+
         $criteria = Criteria::create()->where(Criteria::expr()->eq('isPublic', true));
+        $args = $eventManager->prepareArgs(['resource' => $resource, 'criteria' => $criteria]);
+        $event = new Event('api.get_fulltext_text.value_criteria', $this, $args);
+        $eventManager->triggerEvent($event);
+        $criteria = $args['criteria'];
+
         $texts = [];
         foreach ($resource->getValues()->matching($criteria) as $value) {
             $valueRepresentation = new ValueRepresentation($value, $services);
@@ -728,7 +735,17 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             // Add value annotation text, if any.
             $valueAnnotation = $value->getValueAnnotation();
             if ($valueAnnotation) {
-                foreach ($valueAnnotation->getValues()->matching($criteria) as $value) {
+                $valueAnnotationCriteria = Criteria::create()->where(Criteria::expr()->eq('isPublic', true));
+                $args = $eventManager->prepareArgs([
+                    'resource' => $resource,
+                    'value' => $value,
+                    'criteria' => $valueAnnotationCriteria,
+                ]);
+                $event = new Event('api.get_fulltext_text.value_annotation_criteria', $this, $args);
+                $eventManager->triggerEvent($event);
+                $valueAnnotationCriteria = $args['criteria'];
+
+                foreach ($valueAnnotation->getValues()->matching($valueAnnotationCriteria) as $value) {
                     $valueRepresentation = new ValueRepresentation($value, $services);
                     $texts[] = $dataTypes->getForExtract($value)->getFulltextText($view, $valueRepresentation);
                 }

@@ -176,6 +176,32 @@ class Module extends AbstractModule
             [$this, 'noindexItemSet']
         );
 
+        // Add favicon to layouts.
+        $sharedEventManager->attach(
+            '*',
+            'view.layout',
+            function (ZendEvent $event) {
+                $view = $event->getTarget();
+                // Get the favicon asset ID.
+                if ($view->status()->isSiteRequest()) {
+                    $faviconAssetId = $view->siteSetting('favicon');
+                    if (!is_numeric($faviconAssetId)) {
+                        $faviconAssetId = $view->setting('favicon');
+                    }
+                } else {
+                    $faviconAssetId = $view->setting('favicon');
+                }
+                // Get the favicon href.
+                if (is_numeric($faviconAssetId)) {
+                    $faviconAsset = $view->api()->searchOne('assets', ['id' => $faviconAssetId])->getContent();
+                    $href = $faviconAsset ? $faviconAsset->assetUrl() : null;
+                } else {
+                    $href = null; // Passing null clears the favicon.
+                }
+                $view->headLink(['rel' => 'icon', 'href' => $href], 'PREPEND');
+            }
+        );
+
         $sharedEventManager->attach(
             '*',
             'api.output.serialize',

@@ -127,6 +127,18 @@ class SiteSettingsForm extends Form
                 'id' => 'disable_jsonld_embed',
             ],
         ]);
+        $this->add([
+            'name' => 'favicon',
+            'type' => 'Omeka\Form\Element\Asset',
+            'options' => [
+                'element_group' => 'general',
+                'label' => 'Favicon', // @translate
+            ],
+            'attributes' => [
+                'value' => $settings->get('favicon'),
+                'id' => 'favicon',
+            ],
+        ]);
 
         // Language section
         $this->add([

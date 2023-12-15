@@ -121,7 +121,7 @@ class ArrayTextarea extends Textarea implements InputProviderInterface
      */
     protected function fixEndOfLine($string)
     {
-        return str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], $string);
+        return str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], (string) $string);
     }
 
     /**

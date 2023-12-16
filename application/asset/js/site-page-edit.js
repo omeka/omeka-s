@@ -147,22 +147,56 @@
         })
     });
 
-    $(document).ready(function () {
-        var list = document.getElementById('blocks');
-        var blockIndex = 0;
-        new Sortable(list, {
-            draggable: ".block",
-            handle: ".sortable-handle",
-            onStart: function (e) {
+    /**
+     * Enable block sorting.
+     *
+     * @param object blockList
+     */
+    function enableSorting(blockList) {
+        new Sortable(blockList, {
+            draggable: '.block',
+            handle: '.sortable-handle',
+            group: 'block-list',
+            onStart: function(e) {
                 var editor = $(e.item).find('.wysiwyg').ckeditor().editor;
                 if (editor) {
                     editor.destroy();
                 }
             },
-            onEnd: function (e) {
+            onEnd: function(e) {
                 wysiwyg($(e.item));
             },
+            onMove: function(e) {
+                // Prevent users from dropping blockGroups into other blockGroups.
+                const toList = $(e.to);
+                const block = $(e.dragged);
+                if (toList.hasClass('block-group-blocks') && 'blockGroup' === block.data('block-layout')) {
+                    return false;
+                }
+            },
+            onAdd: function(e) {
+                // Set the span of a blockGroup when adding a block to it.
+                const toList = $(e.to);
+                if (toList.hasClass('block-group-blocks')) {
+                    const blockGroup = toList.closest('.block-group');
+                    const blocks = toList.find('.block');
+                    blockGroup.find('input.block-group-span').val(blocks.length);
+                }
+            },
+            onRemove: function(e) {
+                // Set the span of a blockGroup when removing a block from it.
+                const fromList = $(e.from);
+                if (fromList.hasClass('block-group-blocks')) {
+                    const blockGroup = fromList.closest('.block-group');
+                    const blocks = fromList.find('.block');
+                    blockGroup.find('input.block-group-span').val(blocks.length);
+                }
+            },
         });
+    }
+
+    $(document).ready(function () {
+        var blockIndex = 0;
 
         $('#new-block button').click(function() {
             $.post(
@@ -175,6 +209,7 @@
             });
         });
 
+        // Index the inputs.
         $('#blocks .block').each(function () {
             $(this).data('blockIndex', blockIndex);
             replaceIndex($(this), 'blockIndex', blockIndex);
@@ -186,6 +221,31 @@
             wysiwyg($(this));
             blockIndex++;
         });
+
+        // Place blocks in block groups as needed. Must happen after indexing inputs.
+        $('.block-group').each(function() {
+            const blockGroup = $(this);
+            const blockGroupSpanInput = blockGroup.find('input.block-group-span');
+            const blocksInGroup = blockGroup.nextUntil('.block-group').slice(0, blockGroupSpanInput.val());
+            blockGroup.find('.block-group-blocks').append(blocksInGroup);
+            blockGroupSpanInput.val(blocksInGroup.length);
+        });
+
+        // Enable sorting for blocks and block groups.
+        enableSorting(document.getElementById('blocks'));
+        $('.block').each(function() {
+            const thisBlock = $(this);
+            if ('blockGroup' === thisBlock.data('block-layout')) {
+                enableSorting(thisBlock.find('.block-group-blocks')[0]);
+            }
+        });
+        $(document).on('o:block-added', function(e) {
+            const thisBlock = $(e.target);
+            if ('blockGroup' === thisBlock.data('block-layout')) {
+                enableSorting(thisBlock.find('.block-group-blocks')[0]);
+            }
+        });
+
         wysiwyg($('body'));
 
         $('#blocks').on('click', 'a.remove-value, a.restore-value', function (e) {

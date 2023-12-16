@@ -38,7 +38,7 @@ class BlockGroup extends AbstractBlockLayout
             ->setValue($block ? $block->dataValue('class') : '');
         $form->add($elementClass);
 
-        return $view->formCollection($form);
+        return $view->formCollection($form) . '<div class="block-group-blocks" style="min-height: 100px;"></div>';
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

@@ -712,6 +712,13 @@
             $('.block').removeClass('block-layout-data-configuring');
             thisBlock.addClass('block-layout-data-configuring');
 
+
+            if ('blockGroup' === blockLayout) {
+                // @todo: hide all inputs but class and the background controls
+            } else {
+                // @todo: show all inputs
+            }
+
             // Prepare form elements that need special handling.
             const templateNameInput = $('#block-layout-data-template-name');
             const blockTemplates = templateNameInput.data('block-templates');

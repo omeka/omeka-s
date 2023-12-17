@@ -20,25 +20,15 @@ class BlockGroup extends AbstractBlockLayout
     ) {
         $form = new Form;
 
-        $elementSpan = new Element\Number("o:block[__blockIndex__][o:data][span]");
-        $elementSpan->setOptions([
-                'label' => 'Block span', // @translate
-                'info' => 'Number of blocks to include in this group. Groups may not overlap.', // @translate
-            ])
-            ->setAttribute('min', '1')
-            ->setAttribute('class', 'block-group-span')
+        $elementSpan = new Element\Hidden("o:block[__blockIndex__][o:data][span]");
+        $elementSpan->setAttribute('class', 'block-group-span')
             ->setValue($block ? $block->dataValue('span') : '1');
         $form->add($elementSpan);
 
-        $elementClass = new Element\Text("o:block[__blockIndex__][o:data][class]");
-        $elementClass->setOptions([
-                'label' => 'Class', // @translate
-                'info' => 'Optional CSS class for this group.', // @translate
-            ])
-            ->setValue($block ? $block->dataValue('class') : '');
-        $form->add($elementClass);
-
-        return $view->formCollection($form) . '<div class="block-group-blocks" style="min-height: 100px;"></div>';
+        return <<<END
+            {$view->formCollection($form, false)}
+            <div class="block-group-blocks" style="border-left: 8px solid #e0e0e0; padding: 2px; min-height: 40px;"></div>
+        END;
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

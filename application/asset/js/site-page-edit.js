@@ -712,13 +712,6 @@
             $('.block').removeClass('block-layout-data-configuring');
             thisBlock.addClass('block-layout-data-configuring');
 
-
-            if ('blockGroup' === blockLayout) {
-                // @todo: hide all inputs but class and the background controls
-            } else {
-                // @todo: show all inputs
-            }
-
             // Prepare form elements that need special handling.
             const templateNameInput = $('#block-layout-data-template-name');
             const blockTemplates = templateNameInput.data('block-templates');
@@ -755,6 +748,16 @@
 
             // Allow special handling of block layout data.
             $(document).trigger('o:prepare-block-layout-data', [thisBlock]);
+
+            // blockGroup blocks use a subset of block layout data. Hide the rest.
+            blockLayoutDataSidebar.find('.field').each(function(e) {
+                const thisField = $(this);
+                thisField.show();
+                const blockGroupInputs = '#block-layout-data-class,#block-layout-data-background-image-asset';
+                if ('blockGroup' === blockLayout && !thisField.find(blockGroupInputs).length) {
+                    thisField.hide();
+                }
+            });
 
             Omeka.openSidebar(blockLayoutDataSidebar);
         });

@@ -4,9 +4,8 @@ namespace Omeka\View\Helper;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManager;
-use Laminas\View\Helper\AbstractHelper;
 
-class PageLayout extends AbstractHelper
+class PageLayout extends AbstractLayout
 {
     protected $eventManager;
 
@@ -69,22 +68,18 @@ class PageLayout extends AbstractHelper
                 $inBlockGroup = true;
                 $blockGroupSpan = (int) $block->dataValue('span');
                 $blockGroupCurrentSpan = 0;
-                switch ($page->layout()) {
-                    case 'grid':
-                        echo sprintf(
-                            '<div class="block-group %1$s" style="display: grid; grid-template-columns: repeat(%2$s, 1fr); grid-column: span %2$s;">',
-                            $view->escapeHtml($block->dataValue('class')),
-                            $view->escapeHtml($gridColumns)
-                        );
-                        break;
-                    case '':
-                    default:
-                        echo sprintf(
-                            '<div class="block-group %1$s">',
-                            $view->escapeHtml($block->dataValue('class')),
-                        );
-                        break;
+                $blockGroupClasses = $this->getBlockClasses($block);
+                $blockGroupInlineStyles = $this->getBlockInlineStyles($block);
+                if ('grid' === $page->layout()) {
+                    $blockGroupInlineStyles[] = 'display: grid;';
+                    $blockGroupInlineStyles[] = sprintf('grid-template-columns: repeat(%s, 1fr);', $gridColumns);
+                    $blockGroupInlineStyles[] = sprintf('grid-column: span %s;', $gridColumns);
                 }
+                echo sprintf(
+                    '<div class="block-group %s" style="%s">',
+                    $view->escapeHtml(implode(' ', $blockGroupClasses)),
+                    $view->escapeHtml(implode(' ', $blockGroupInlineStyles))
+                );
             } else {
                 // Render each block according to page layout.
                 switch ($page->layout()) {

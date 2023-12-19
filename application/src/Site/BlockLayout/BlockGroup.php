@@ -27,7 +27,7 @@ class BlockGroup extends AbstractBlockLayout
 
         return <<<END
             {$view->formCollection($form, false)}
-            <div class="block-group-blocks" style="border-left: 8px solid #e0e0e0; padding: 2px; min-height: 40px;"></div>
+            <div class="block-group-blocks"></div>
         END;
     }
 

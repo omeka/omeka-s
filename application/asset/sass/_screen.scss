@@ -4451,6 +4451,31 @@ body.sidebar-open #content {
         max-height: 12 * $spacing-large;
     }
 
+    .block-group > .block-content {
+        background-color: #fff;
+        border: 1px solid $border-gray;
+        padding: $spacing-small #{$spacing-small + 1px};
+    }
+
+    .block-group-blocks {
+        border-left: $spacing-small solid $border-gray; 
+        padding: $spacing-medium 0 0 $spacing-small;
+        min-height: 40px;
+
+        .block-header.collapse {
+            padding: $spacing-small;
+        }
+
+        .collapse + .collapsible {
+            margin-top: 0;
+        }
+
+        a.collapse,
+        a.expand {
+            width: $base-font-size;
+        }
+    }
+
     #attachment-options .option {
         position: relative;
         margin-bottom: $spacing-medium;

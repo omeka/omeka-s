@@ -198,27 +198,12 @@
     $(document).ready(function () {
         var blockIndex = 0;
 
-        $('#new-block button').click(function() {
-            $.post(
-                $(this).parents('#new-block').data('url'),
-                {layout: $(this).val()}
-            ).done(function(data) {
-                var newBlock = $(data).appendTo('#blocks');
-                newBlock.trigger('o:block-added');
-                Omeka.scrollTo(newBlock);
-            });
-        });
-
-        // Index the inputs.
+        // Prepare the blocks.
         $('#blocks .block').each(function () {
-            $(this).data('blockIndex', blockIndex);
-            replaceIndex($(this), 'blockIndex', blockIndex);
-            blockIndex++;
-        });
-        $('#blocks').on('o:block-added', '.block', function () {
-            $(this).data('blockIndex', blockIndex);
-            replaceIndex($(this), 'blockIndex', blockIndex);
-            wysiwyg($(this));
+            const thisBlock = $(this);
+            // Index the inputs.
+            thisBlock.data('blockIndex', blockIndex);
+            replaceIndex(thisBlock, 'blockIndex', blockIndex);
             blockIndex++;
         });
 
@@ -239,6 +224,37 @@
                 enableSorting(thisBlock.find('.block-group-blocks')[0]);
             }
         });
+
+        wysiwyg($('body'));
+
+        // Make attachments sortable.
+        $('.attachments').each(function() {
+            new Sortable(this, {
+                draggable: ".attachment",
+                handle: ".sortable-handle"
+            });
+        });
+
+        $('#new-block button').on('click', function() {
+            $.post(
+                $(this).parents('#new-block').data('url'),
+                {layout: $(this).val()}
+            ).done(function(data) {
+                var newBlock = $(data).appendTo('#blocks');
+                newBlock.trigger('o:block-added');
+                Omeka.scrollTo(newBlock);
+            });
+        });
+
+        $('#blocks').on('o:block-added', '.block', function () {
+            const thisBlock = $(this);
+            // Index the inputs.
+            thisBlock.data('blockIndex', blockIndex);
+            replaceIndex(thisBlock, 'blockIndex', blockIndex);
+            wysiwyg(thisBlock);
+            blockIndex++;
+        });
+
         $(document).on('o:block-added', function(e) {
             const thisBlock = $(e.target);
             if ('blockGroup' === thisBlock.data('block-layout')) {
@@ -246,11 +262,9 @@
             }
         });
 
-        wysiwyg($('body'));
-
         $('#blocks').on('click', 'a.remove-value, a.restore-value', function (e) {
             e.preventDefault();
-            var block = $(this).parents('.block');
+            var block = $(this).closest('.block');
             block.toggleClass('delete');
             block.find('a.remove-value, a.restore-value').removeClass('inactive');
             $(this).toggleClass('inactive');
@@ -292,18 +306,32 @@
             }
         });
 
+        // Handle collapse all button.
         $('.collapse-all').on('click', function() {
-            $('.block-header.collapse .collapse').click();
+            $('.block:not(.block-group) > .block-content').hide();
+            $('.block-header .toggle-visibility').removeClass('collapse').addClass('expand');
         });
 
+        // Handle the expand all button.
         $('.expand-all').on('click', function() {
-            $('.block-header:not(.collapse) .expand').click();
+            $('.block:not(.block-group) > .block-content').show();
+            $('.block-header .toggle-visibility').removeClass('expand').addClass('collapse');
         });
 
-        // Toggle block visibility
+        // Toggle block visibility.
         $('#blocks').on('click', '.expand,.collapse', function() {
-            var blockToggle = $(this);
-            blockToggle.parents('.block-header').toggleClass('collapse');
+            const thisToggle = $(this);
+            const block = thisToggle.closest('.block');
+            const blockLayout = block.data('block-layout');
+            if (thisToggle.hasClass('expand')) {
+                block.find('.block-content').show();
+            } else if (thisToggle.hasClass('collapse')) {
+                if ('blockGroup' === blockLayout) {
+                    block.find('.block > .block-content').hide();
+                } else {
+                    block.find('.block-content').hide();
+                }
+            }
         });
 
         // Make attachments sortable.
@@ -313,12 +341,6 @@
                     draggable: ".attachment",
                     handle: ".sortable-handle"
                 });
-            });
-        });
-        $('.attachments').each(function() {
-            new Sortable(this, {
-                draggable: ".attachment",
-                handle: ".sortable-handle"
             });
         });
 

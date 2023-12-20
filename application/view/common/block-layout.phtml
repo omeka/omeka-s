@@ -20,7 +20,7 @@ if ('blockGroup' === $layout) {
 ?>
 
 <div class="<?php echo implode(' ', $blockClasses); ?>" data-block-layout="<?php echo $escape($layout); ?>" data-block-layout-data="<?php echo $escape($layoutData ? json_encode($layoutData) : '{}'); ?>">
-    <div class="block-header collapse">
+    <div class="block-header">
         <span class="sortable-handle"></span>
         <span class="block-type"><?php echo $translate($layoutLabel); ?></span>
         <span class="restore-value"><?php echo $translate('Block to be removed'); ?></span>
@@ -45,10 +45,10 @@ if ('blockGroup' === $layout) {
             <li><a href="#" class="o-icon-settings configure-block-layout-data" aria-label="<?php echo $translate('Configure layout'); ?>" title="<?php echo $translate('Configure layout'); ?>"></a></li>
             <li><a href="#" class="o-icon-delete remove-value" aria-label="<?php echo $translate('Remove block'); ?>" title="<?php echo $translate('Remove block'); ?>"></a></li>
             <li><a href="#" class="o-icon-undo restore-value inactive" aria-label="<?php echo $translate('Restore block'); ?>" title="<?php echo $translate('Restore block'); ?>"></a></li>
-            <li><a href="#" class="o-icon-expand collapse" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>"></a></li>
+            <li><a href="#" class="o-icon-expand toggle-visibility collapse" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>"></a></li>
         </ul>
     </div>
-    <div class="block-content collapsible">
+    <div class="block-content">
     <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="<?php echo $escape($layout); ?>">
     <input type="hidden" name="o:block[__blockIndex__][o:layout_data]" class="block-layout-data" value="<?php echo $escape(json_encode($layoutData)); ?>">
     <?php echo $blockContent; ?>

@@ -5,9 +5,9 @@
 # 
 # Translators:
 # Sami Varjo <sami.varjo@vaasa.fi>, 2017
-# Matti Lassila <matti.lassila@gmail.com>, 2018
 # Kai Metsävainio <kai.metsavainio@gmail.com>, 2022
 # John Flatness <john@omeka.org>, 2023
+# Matti Lassila <matti.lassila@gmail.com>, 2023
 # 
 #, fuzzy
 msgid ""
@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-10 21:23-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: John Flatness <john@omeka.org>, 2023\n"
+"Last-Translator: Matti Lassila <matti.lassila@gmail.com>, 2023\n"
 "Language-Team: Finnish (Finland) (https://app.transifex.com/omeka/teams/14184/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,12 +32,12 @@ msgstr "Sovitin %1$s ei toteuta hakutoimintoa."
 #: application/src/Api/Adapter/AbstractAdapter.php:50
 #, php-format
 msgid "The %1$s adapter does not implement the create operation."
-msgstr "The %1$s adapter does not implement the create operation."
+msgstr "Sovitin %1$s ei toteuta luontioperaatiota."
 
 #: application/src/Api/Adapter/AbstractAdapter.php:60
 #, php-format
 msgid "The %1$s adapter does not implement the batch create operation."
-msgstr "The %1$s adapter does not implement the batch create operation."
+msgstr "Sovitin %1$s ei toteuta massaluontioperaatiota."
 
 #: application/src/Api/Adapter/AbstractAdapter.php:70
 #, php-format
@@ -191,12 +191,12 @@ msgstr "Lisää toinen tallennuspohja?"
 #: application/src/Controller/Admin/SystemInfoController.php:89
 #: application/src/Controller/Admin/SystemInfoController.php:94
 msgid "[invalid]"
-msgstr ""
+msgstr "[virheellinen]"
 
 #: application/src/Controller/Admin/SystemInfoController.php:134
 #: application/src/Controller/Admin/SystemInfoController.php:145
 msgid "[Unable to execute command]"
-msgstr ""
+msgstr "[toimintoa ei voida suorittaa]"
 
 #: application/src/Controller/Admin/UserController.php:119
 msgid "Add another user?"
@@ -238,7 +238,7 @@ msgstr "Aineistot"
 
 #: application/src/DataType/Resource/ItemSet.php:27
 msgid "Item Sets"
-msgstr ""
+msgstr "Kokoelmat"
 
 #: application/src/DataType/Resource/Media.php:27
 #: application/view/common/block-layout/item-with-metadata.phtml:29
@@ -506,22 +506,22 @@ msgstr "ei sisällä"
 #: application/src/View/Helper/SearchFilters.php:36
 #: application/view/common/advanced-search/properties.phtml:80
 msgid "starts with"
-msgstr ""
+msgstr "alkaa merkkijonolla"
 
 #: application/src/View/Helper/SearchFilters.php:37
 #: application/view/common/advanced-search/properties.phtml:81
 msgid "does not start with"
-msgstr ""
+msgstr "ei ala merkkijonoilla"
 
 #: application/src/View/Helper/SearchFilters.php:38
 #: application/view/common/advanced-search/properties.phtml:82
 msgid "ends with"
-msgstr ""
+msgstr "alkaa merkkijonoilla"
 
 #: application/src/View/Helper/SearchFilters.php:39
 #: application/view/common/advanced-search/properties.phtml:83
 msgid "does not end with"
-msgstr ""
+msgstr "ei pääty merkkijonoilla"
 
 #: application/src/View/Helper/SearchFilters.php:40
 #: application/view/common/advanced-search/properties.phtml:84
@@ -607,15 +607,15 @@ msgstr "Hae"
 
 #: application/src/View/Helper/SearchFilters.php:141
 msgid "Template"
-msgstr ""
+msgstr "Tallennuspohja"
 
 #: application/src/View/Helper/SearchFilters.php:145
 msgid "Unknown template"
-msgstr ""
+msgstr "Tuntematon tallennuspohja"
 
 #: application/src/View/Helper/SearchFilters.php:160
 msgid "In item set"
-msgstr ""
+msgstr "Kokoelmassa"
 
 #: application/src/View/Helper/SearchFilters.php:164
 #: application/src/View/Helper/SearchFilters.php:182
@@ -624,7 +624,7 @@ msgstr "Tuntematon kokoelma"
 
 #: application/src/View/Helper/SearchFilters.php:178
 msgid "Not in item set"
-msgstr ""
+msgstr "Ei sisälly kokoelmaan"
 
 #: application/src/View/Helper/SearchFilters.php:190
 #: application/view/omeka/site-admin/index/users.phtml:54
@@ -792,7 +792,7 @@ msgstr ""
 
 #: application/view/common/advanced-search/ids.phtml:12
 msgid "Search by ID"
-msgstr ""
+msgstr "Hae tunnisteella"
 
 #: application/view/common/advanced-search/ids.phtml:13
 #: application/view/common/advanced-search/item-sets.phtml:44
@@ -812,6 +812,8 @@ msgid ""
 "Searches for resources by Omeka S ID. You can search for more than one ID by"
 " separating them by commas."
 msgstr ""
+"Hae tunnisteella. Voit käyttää useampaa tunnistetta erottamalla tunnisteet "
+"pilkulla."
 
 #: application/view/common/advanced-search/item-sets.phtml:43
 msgid "Search by item set"
@@ -829,11 +831,11 @@ msgstr "Lisää kokoelma hakuehtoihin"
 
 #: application/view/common/advanced-search/item-sets.phtml:54
 msgid "In"
-msgstr ""
+msgstr "Sisältyy"
 
 #: application/view/common/advanced-search/item-sets.phtml:55
 msgid "Not in"
-msgstr ""
+msgstr "Ei sisälly"
 
 #: application/view/common/advanced-search/item-sets.phtml:66
 #: application/view/common/advanced-search/properties.phtml:90
@@ -893,15 +895,15 @@ msgstr "Lisää uusi aineistotyyppi"
 
 #: application/view/common/advanced-search/resource-template.phtml:16
 msgid "Search by template"
-msgstr ""
+msgstr "Hae tallennuspohjan mukaan"
 
 #: application/view/common/advanced-search/resource-template.phtml:19
 msgid "Searches for resources that use any of these templates."
-msgstr ""
+msgstr "Hakee aineistoja jotka käyttävät tallennuspohjaa"
 
 #: application/view/common/advanced-search/resource-template.phtml:21
 msgid "Add new template"
-msgstr ""
+msgstr "Lisää uusi tallennuspohja"
 
 #: application/view/common/advanced-search/site.phtml:3
 msgid "Search by site"
@@ -954,21 +956,21 @@ msgstr "Etsi aktiviteetillä"
 
 #: application/view/common/advanced-search/visibility.phtml:3
 msgid "Search by visibility"
-msgstr ""
+msgstr "Hae näkyvyyden mukaan"
 
 #: application/view/common/advanced-search/visibility.phtml:8
 msgid "Select visibility…"
-msgstr ""
+msgstr "Valitse näkyvyys..."
 
 #: application/view/common/asset-block-form.phtml:7
 #: application/view/common/asset-block-form.phtml:40
 msgid "No asset selected"
-msgstr ""
+msgstr "Ei valittua tiedostoa"
 
 #: application/view/common/asset-block-form.phtml:9
 #: application/view/common/asset-block-form.phtml:43
 msgid "Open asset options"
-msgstr ""
+msgstr "Avaa tiedostoasetukset"
 
 #: application/view/common/asset-block-form.phtml:10
 #: application/view/common/asset-block-form.phtml:44
@@ -999,11 +1001,11 @@ msgstr "Sulje"
 #: application/view/omeka/admin/asset/browse.phtml:8
 #: application/view/omeka/admin/asset/edit.phtml:10
 msgid "Assets"
-msgstr ""
+msgstr "Tiedostot"
 
 #: application/view/common/asset-block-form.phtml:54
 msgid "Add asset"
-msgstr ""
+msgstr "Lisää tiedosto"
 
 #: application/view/common/asset-form.phtml:35
 #: application/view/common/asset-options.phtml:15
@@ -1024,7 +1026,7 @@ msgstr "Tyhjennä"
 
 #: application/view/common/asset-options.phtml:10
 msgid "No Asset"
-msgstr ""
+msgstr "Ei tiedostoja"
 
 #: application/view/common/asset-options.phtml:19
 #: application/view/omeka/admin/query/sidebar-edit.phtml:12
@@ -1164,11 +1166,11 @@ msgstr "Tallenteen muokkausajankohta"
 
 #: application/view/common/browse-defaults-form.phtml:12
 msgid "[Custom sort by]"
-msgstr ""
+msgstr "[muokattu järjestys]"
 
 #: application/view/common/browse-defaults-form.phtml:17
 msgid "Enter a custom sort by"
-msgstr ""
+msgstr "Lisää järjestysehto"
 
 #: application/view/common/columns-form.phtml:16
 #: application/view/omeka/admin/item/add.phtml:13
@@ -1250,7 +1252,7 @@ msgstr "Poistettava arvo"
 
 #: application/view/common/data-type-wrapper.phtml:21
 msgid "More actions"
-msgstr ""
+msgstr "Lisää toimintoja"
 
 #: application/view/common/data-type-wrapper.phtml:24
 #: application/view/common/media-field-wrapper.phtml:10
@@ -1685,15 +1687,15 @@ msgstr "Käyttäjät (%s)"
 
 #: application/view/common/value-annotation-sidebar.phtml:20
 msgid "Add annotation"
-msgstr ""
+msgstr "Lisää merkkaus"
 
 #: application/view/common/value-annotation-sidebar.phtml:22
 msgid "Annotations"
-msgstr ""
+msgstr "Merkkaukset"
 
 #: application/view/common/value-annotation-sidebar.phtml:27
 msgid "Set annotations"
-msgstr ""
+msgstr "Kokoelmien merkkaukset"
 
 #: application/view/common/value-annotation-wrapper.phtml:13
 #: application/view/omeka/admin/item-set/form.phtml:49
@@ -1865,7 +1867,7 @@ msgstr "Lataa"
 
 #: application/view/omeka/admin/asset/browse.phtml:17
 msgid "Add new asset"
-msgstr ""
+msgstr "Lisää tiedosto"
 
 #: application/view/omeka/admin/asset/browse.phtml:28
 #: application/view/omeka/admin/item-set/show.phtml:77
@@ -1917,7 +1919,7 @@ msgstr "Lisätietoja"
 #: application/view/omeka/admin/asset/browse.phtml:98
 #: application/view/omeka/admin/asset/sidebar-select.phtml:56
 msgid "Omeka could not find any assets."
-msgstr ""
+msgstr "Omeka ei löytänyt tiedostoja"
 
 #: application/view/omeka/admin/asset/show-details.phtml:12
 msgid "Media type"
@@ -1938,7 +1940,7 @@ msgstr "Suodata omistajan mukaan"
 #: application/view/omeka/admin/columns/column-edit-sidebar.phtml:5
 #: application/view/omeka/admin/columns/column-row.phtml:10
 msgid "Edit column"
-msgstr ""
+msgstr "Muokkaa saraketta"
 
 #: application/view/omeka/admin/columns/column-edit-sidebar.phtml:10
 msgid "Set column"
@@ -2668,7 +2670,7 @@ msgstr "Pakollinen"
 #: application/view/omeka/admin/resource-template/review-import.phtml:72
 #: application/view/omeka/admin/resource-template/show.phtml:32
 msgid "Default language"
-msgstr ""
+msgstr "Oletuskieli"
 
 #: application/view/omeka/admin/resource-template/form.phtml:101
 #: application/view/omeka/admin/resource-template/review-import.phtml:67
@@ -2752,11 +2754,11 @@ msgstr "Yleisasetukset"
 
 #: application/view/omeka/admin/system-info/browse.phtml:31
 msgid "Get PHP CLI version"
-msgstr ""
+msgstr "Tunnista PHP CLI -versio"
 
 #: application/view/omeka/admin/system-info/browse.phtml:35
 msgid "Get ImageMagick version"
-msgstr ""
+msgstr "Tunnista ImageMagick -versio"
 
 #: application/view/omeka/admin/user/add.phtml:7
 msgid "New user"
@@ -2942,7 +2944,7 @@ msgstr ""
 
 #: application/view/omeka/api/root.phtml:12
 msgid "Omeka S REST API documentation"
-msgstr ""
+msgstr "Omeka S REST-rajapinnan dokumentaatio"
 
 #: application/view/omeka/index/index.phtml:32
 #, php-format
@@ -3111,11 +3113,11 @@ msgstr "Esikatselukuva"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:6
 msgid "Remove block"
-msgstr ""
+msgstr "Poista lohko"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:7
 msgid "Restore block"
-msgstr ""
+msgstr "Palauta lohko"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:21
 #: application/view/omeka/site-admin/index/theme.phtml:47
@@ -3137,11 +3139,11 @@ msgstr ""
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:42
 #, php-format
 msgid "Region: %s"
-msgstr ""
+msgstr "Alue: %s"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:53
 msgid "Select a region"
-msgstr ""
+msgstr "Valitse alue"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:60
 msgid "Add a block to selected region"
@@ -3162,7 +3164,7 @@ msgstr "Teema vaatii Omeka S -version %s"
 
 #: application/view/omeka/site-admin/index/theme-settings.phtml:6
 msgid "Edit settings"
-msgstr ""
+msgstr "Muokkaa asetuksia"
 
 #: application/view/omeka/site-admin/index/theme-settings.phtml:17
 msgid "The current theme has no configuration options."
@@ -3239,11 +3241,11 @@ msgstr "Ei valittua aineistoa."
 
 #: application/view/omeka/site-admin/page/edit.phtml:37
 msgid "Expand all"
-msgstr ""
+msgstr "Laajenna kaikki"
 
 #: application/view/omeka/site-admin/page/edit.phtml:38
 msgid "Collapse all"
-msgstr ""
+msgstr "Sulje kaikki"
 
 #: application/view/omeka/site-admin/page/edit.phtml:46
 msgid "Add new block"
@@ -3380,7 +3382,7 @@ msgstr "Sisällysluettelo"
 
 #: application/src/Site/BlockLayout/Asset.php:17
 msgid "Asset"
-msgstr ""
+msgstr "Tiedosto"
 
 #: application/src/Site/BlockLayout/Asset.php:34
 #: application/src/Site/BlockLayout/Asset.php:40
@@ -3489,11 +3491,11 @@ msgstr "Näkyvä"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:20
 msgid "Page date/time"
-msgstr ""
+msgstr "Muokkaus- tai luontiajankohta"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:30
 msgid "Display date/time"
-msgstr ""
+msgstr "Näytä ajankohta"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:32
 msgid "Created & modified"
@@ -3501,7 +3503,7 @@ msgstr ""
 
 #: application/src/Site/BlockLayout/PageDateTime.php:42
 msgid "Date format"
-msgstr ""
+msgstr "Päivämäärän esitysmuoto"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:44
 #: application/src/Site/BlockLayout/PageDateTime.php:58
@@ -3513,7 +3515,7 @@ msgstr "Ei lisätietoja"
 #: application/src/Site/BlockLayout/PageDateTime.php:45
 #: application/src/Site/BlockLayout/PageDateTime.php:59
 msgid "Short"
-msgstr ""
+msgstr "Lyhyt"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:46
 #: application/src/Site/BlockLayout/PageDateTime.php:60
@@ -3523,16 +3525,16 @@ msgstr "Tietoväline"
 #: application/src/Site/BlockLayout/PageDateTime.php:47
 #: application/src/Site/BlockLayout/PageDateTime.php:61
 msgid "Long"
-msgstr ""
+msgstr "Pitkä"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:48
 #: application/src/Site/BlockLayout/PageDateTime.php:62
 msgid "Full"
-msgstr ""
+msgstr "Täysi"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:56
 msgid "Time format"
-msgstr ""
+msgstr "Aikaleiman muoto"
 
 #: application/src/Site/BlockLayout/ListOfSites.php:24
 msgid "List of sites"
@@ -3711,7 +3713,7 @@ msgstr "Lukija"
 
 #: application/src/ColumnType/IsPublic.php:11
 msgid "Is public"
-msgstr ""
+msgstr "Julkinen"
 
 #: application/src/ColumnType/Value.php:25
 msgid "Value"
@@ -3738,7 +3740,7 @@ msgstr "Tallennuspohja"
 
 #: application/src/ColumnType/Unknown.php:22
 msgid "[Unknown]"
-msgstr ""
+msgstr "[tuntematon]"
 
 #: application/src/ColumnType/Unknown.php:40
 msgid "Unknown column data"
@@ -4719,11 +4721,11 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:377
 msgid "Select templates"
-msgstr ""
+msgstr "Valitse tallennuspohja"
 
 #: application/src/Form/SiteSettingsForm.php:386
 msgid "Restrict to templates"
-msgstr ""
+msgstr "Rajoita tallennuspohjiin"
 
 #: application/src/Form/SiteSettingsForm.php:387
 msgid "Restrict search results to resources of the selected templates."
@@ -4911,11 +4913,11 @@ msgstr "ei nimekettä"
 
 #: application/src/View/Helper/Browse.php:55
 msgid "Relevance"
-msgstr ""
+msgstr "Relevanssi"
 
 #: application/src/View/Helper/Browse.php:162
 msgid "Add a column…"
-msgstr ""
+msgstr "Lisää sarake..."
 
 #: application/src/View/Helper/Browse.php:181
 msgid "Column type"
@@ -4927,7 +4929,7 @@ msgstr ""
 
 #: application/src/View/Helper/ResourceTemplateSelect.php:39
 msgid "Select template…"
-msgstr ""
+msgstr "Valitse tallennuspohja..."
 
 #: application/src/View/Helper/PropertySelect.php:39
 msgid "Select property…"
@@ -5273,7 +5275,7 @@ msgstr ""
 
 #: application/src/Controller/Admin/AssetController.php:137
 msgid "Asset successfully deleted"
-msgstr ""
+msgstr "Tiedosto on poistettu"
 
 #: application/src/Controller/Admin/ItemSetController.php:32
 #, php-format
@@ -5365,7 +5367,7 @@ msgstr "Tallennuspohjan luonti onnistui. %s"
 
 #: application/config/module.config.php:676
 msgid "Owner email"
-msgstr ""
+msgstr "Omistajan sähköpostiosoite"
 
 #: application/config/module.config.php:682
 #: application/config/module.config.php:698

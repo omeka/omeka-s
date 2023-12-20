@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-20 13:28-0500\n"
+"POT-Creation-Date: 2023-12-20 13:32-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -312,7 +312,7 @@ msgstr ""
 #: application/view/common/advanced-search/resource-template.phtml:17
 #: application/view/common/advanced-search/site.phtml:4
 #: application/view/common/form-row.phtml:16
-#: application/view/common/resource-values.phtml:73
+#: application/view/common/resource-values.phtml:66
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:19
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 msgid "Expand"
@@ -969,7 +969,7 @@ msgstr ""
 #: application/view/common/asset-block-form.phtml:20
 #: application/view/common/block-layout.phtml:39
 #: application/view/common/resource-form-templates.phtml:10
-#: application/view/common/resource-values.phtml:73
+#: application/view/common/resource-values.phtml:66
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:19
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:35
@@ -1590,7 +1590,7 @@ msgstr ""
 msgid "Select resource"
 msgstr ""
 
-#: application/view/common/resource-values.phtml:70
+#: application/view/common/resource-values.phtml:63
 #: application/view/common/sidebar-pagelist.phtml:26
 #: application/view/omeka/admin/item-set/browse.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:18
@@ -1608,7 +1608,7 @@ msgstr ""
 msgid "Private"
 msgstr ""
 
-#: application/view/common/resource-values.phtml:74
+#: application/view/common/resource-values.phtml:67
 msgid "Has annotation"
 msgstr ""
 
@@ -3517,7 +3517,7 @@ msgstr ""
 #: application/src/Site/BlockLayout/PageDateTime.php:44
 #: application/src/Site/BlockLayout/PageDateTime.php:58
 #: application/src/Form/SettingForm.php:242
-#: application/src/Form/SiteSettingsForm.php:91
+#: application/src/Form/SiteSettingsForm.php:287
 msgid "None"
 msgstr ""
 
@@ -4082,7 +4082,7 @@ msgid "Time zone"
 msgstr ""
 
 #: application/src/Form/SettingForm.php:166
-#: application/src/Form/SiteSettingsForm.php:150
+#: application/src/Form/SiteSettingsForm.php:149
 #: application/src/Form/UserForm.php:141
 #: application/src/Form/InstallationForm.php:112
 msgid "Locale"
@@ -4112,12 +4112,12 @@ msgid "Disable JSON-LD reverse properties in the API output for resources."
 msgstr ""
 
 #: application/src/Form/SettingForm.php:209
-#: application/src/Form/SiteSettingsForm.php:135
+#: application/src/Form/SiteSettingsForm.php:117
 msgid "Favicon"
 msgstr ""
 
 #: application/src/Form/SettingForm.php:224
-#: application/src/Form/SiteSettingsForm.php:206
+#: application/src/Form/SiteSettingsForm.php:205
 msgid "Results per page"
 msgstr ""
 
@@ -4126,22 +4126,22 @@ msgid "The maximum number of results per page on browse pages."
 msgstr ""
 
 #: application/src/Form/SettingForm.php:239
-#: application/src/Form/SiteSettingsForm.php:88
+#: application/src/Form/SiteSettingsForm.php:284
 msgid "Property label information"
 msgstr ""
 
 #: application/src/Form/SettingForm.php:240
-#: application/src/Form/SiteSettingsForm.php:89
+#: application/src/Form/SiteSettingsForm.php:285
 msgid "The additional information that accompanies labels on resource pages."
 msgstr ""
 
 #: application/src/Form/SettingForm.php:243
-#: application/src/Form/SiteSettingsForm.php:92
+#: application/src/Form/SiteSettingsForm.php:288
 msgid "Show Vocabulary"
 msgstr ""
 
 #: application/src/Form/SettingForm.php:244
-#: application/src/Form/SiteSettingsForm.php:93
+#: application/src/Form/SiteSettingsForm.php:289
 msgid "Show Term"
 msgstr ""
 
@@ -4160,12 +4160,12 @@ msgid "No default (show index of sites)"
 msgstr ""
 
 #: application/src/Form/SettingForm.php:276
-#: application/src/Form/SiteSettingsForm.php:122
+#: application/src/Form/SiteSettingsForm.php:104
 msgid "Disable JSON-LD embed"
 msgstr ""
 
 #: application/src/Form/SettingForm.php:277
-#: application/src/Form/SiteSettingsForm.php:123
+#: application/src/Form/SiteSettingsForm.php:105
 msgid ""
 "By default, Omeka embeds JSON-LD in resource browse and show pages for the "
 "purpose of machine-readable metadata discovery. Check this to disable "
@@ -4597,190 +4597,206 @@ msgid ""
 "Show pagination that helps users follow a linear narrative through a site."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:106
+#: application/src/Form/SiteSettingsForm.php:88
 msgid "Show user bar on public views"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:108
+#: application/src/Form/SiteSettingsForm.php:90
 msgid "Never"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:109
+#: application/src/Form/SiteSettingsForm.php:91
 msgid "When logged in"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:110
+#: application/src/Form/SiteSettingsForm.php:92
 msgid "Always"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:151
+#: application/src/Form/SiteSettingsForm.php:129
+msgid "Page subnavigation display"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:130
+msgid "Hide on leaf pages (default)"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:132
+msgid "Hide on all pages"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:133
+msgid "Show on all pages"
+msgstr ""
+
+#: application/src/Form/SiteSettingsForm.php:150
 msgid ""
 "Locale/language code for this site. Leave blank to use the global locale "
 "setting."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:165
+#: application/src/Form/SiteSettingsForm.php:164
 msgid "Filter values based on site locale"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:166
+#: application/src/Form/SiteSettingsForm.php:165
 msgid ""
 "Show only values matching the site language setting and values without "
 "locale ID."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:179
+#: application/src/Form/SiteSettingsForm.php:178
 msgid "Show language labels for values"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:180
+#: application/src/Form/SiteSettingsForm.php:179
 msgid "Show a label indicating the language of each value on show pages."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:194
+#: application/src/Form/SiteSettingsForm.php:193
 msgid "Restrict browse to attached items"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:207
+#: application/src/Form/SiteSettingsForm.php:206
 msgid ""
 "The maximum number of results per page on browse pages. Leave blank to use "
 "the global setting."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:213
+#: application/src/Form/SiteSettingsForm.php:212
 msgid "Use global setting"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:222
+#: application/src/Form/SiteSettingsForm.php:221
 msgid "Browse heading property"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:223
+#: application/src/Form/SiteSettingsForm.php:222
 msgid ""
 "Use this property for the heading of each resource on a browse page. Keep "
 "unselected to use the default title property of each resource."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:231
-#: application/src/Form/SiteSettingsForm.php:249
+#: application/src/Form/SiteSettingsForm.php:230
+#: application/src/Form/SiteSettingsForm.php:248
 msgid "Select a property"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:240
+#: application/src/Form/SiteSettingsForm.php:239
 msgid "Browse body property"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:241
+#: application/src/Form/SiteSettingsForm.php:240
 msgid ""
 "Use this property for the body of each resource on a browse page. Keep "
 "unselected to use the default description property of each resource."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:257
+#: application/src/Form/SiteSettingsForm.php:256
 #: application/src/Form/UserForm.php:253
 msgid "Item browse defaults"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:272
+#: application/src/Form/SiteSettingsForm.php:271
 msgid "Show attached pages"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:273
+#: application/src/Form/SiteSettingsForm.php:272
 msgid ""
 "Show site pages to which an item is attached on the public item show page."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:285
+#: application/src/Form/SiteSettingsForm.php:302
 msgid "Value annotations"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:286
+#: application/src/Form/SiteSettingsForm.php:303
 msgid "Hide value annotations"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:288
+#: application/src/Form/SiteSettingsForm.php:305
 msgid "Show value annotations (collapsed)"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:289
+#: application/src/Form/SiteSettingsForm.php:306
 msgid "Show value annotations (expanded)"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:302
+#: application/src/Form/SiteSettingsForm.php:319
 msgid "Exclude resources not in site"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:303
+#: application/src/Form/SiteSettingsForm.php:320
 msgid "Exclude resources that are not assigned to this site."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:315
+#: application/src/Form/SiteSettingsForm.php:332
 msgid "Embed media on item pages (legacy)"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:329
+#: application/src/Form/SiteSettingsForm.php:346
 msgid "Search type"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:330
+#: application/src/Form/SiteSettingsForm.php:347
 msgid "Select the type of search the main search field will perform"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:332
+#: application/src/Form/SiteSettingsForm.php:349
 msgid "This site"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:333
+#: application/src/Form/SiteSettingsForm.php:350
 msgid "All sites"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:352
+#: application/src/Form/SiteSettingsForm.php:369
 msgid "Search resources"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:353
+#: application/src/Form/SiteSettingsForm.php:370
 msgid ""
 "Customize which types of resources will be searchable in the main search "
 "field."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:368
+#: application/src/Form/SiteSettingsForm.php:385
 msgid "Advanced search vocabulary members"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:369
+#: application/src/Form/SiteSettingsForm.php:386
 msgid "Limit the search options for property and class"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:370
+#: application/src/Form/SiteSettingsForm.php:387
 msgid "All vocabulary members"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:372
+#: application/src/Form/SiteSettingsForm.php:389
 msgid "Used by resources in this site"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:373
+#: application/src/Form/SiteSettingsForm.php:390
 msgid "Used by any resource in the installation"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:387
+#: application/src/Form/SiteSettingsForm.php:404
 msgid "Templates"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:388
+#: application/src/Form/SiteSettingsForm.php:405
 msgid "Select which templates to apply to the advanced search form."
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:393
+#: application/src/Form/SiteSettingsForm.php:410
 msgid "Select templates"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:402
+#: application/src/Form/SiteSettingsForm.php:419
 msgid "Restrict to templates"
 msgstr ""
 
-#: application/src/Form/SiteSettingsForm.php:403
+#: application/src/Form/SiteSettingsForm.php:420
 msgid "Restrict search results to resources of the selected templates."
 msgstr ""
 
@@ -5441,65 +5457,65 @@ msgstr ""
 msgid "Resource template successfully created. %s"
 msgstr ""
 
-#: application/config/module.config.php:701
+#: application/config/module.config.php:704
 msgid "Owner email"
 msgstr ""
 
-#: application/config/module.config.php:707
-#: application/config/module.config.php:723
-#: application/config/module.config.php:728
+#: application/config/module.config.php:710
+#: application/config/module.config.php:726
+#: application/config/module.config.php:731
 msgid "Item count"
 msgstr ""
 
-#: application/config/module.config.php:717
+#: application/config/module.config.php:720
 msgid "Resource class count"
 msgstr ""
 
-#: application/config/module.config.php:718
+#: application/config/module.config.php:721
 msgid "Property count"
 msgstr ""
 
-#: application/config/module.config.php:891
+#: application/config/module.config.php:894
 msgid "Something went wrong"
 msgstr ""
 
-#: application/config/module.config.php:896
+#: application/config/module.config.php:899
 msgid "You have unsaved changes."
 msgstr ""
 
-#: application/config/module.config.php:897
+#: application/config/module.config.php:900
 msgid "Restore item set"
 msgstr ""
 
-#: application/config/module.config.php:898
+#: application/config/module.config.php:901
 msgid "Close icon set"
 msgstr ""
 
-#: application/config/module.config.php:899
+#: application/config/module.config.php:902
 msgid "Open icon set"
 msgstr ""
 
-#: application/config/module.config.php:901
+#: application/config/module.config.php:904
 msgid "Failed loading resource template from API"
 msgstr ""
 
-#: application/config/module.config.php:902
+#: application/config/module.config.php:905
 msgid "Restore property"
 msgstr ""
 
-#: application/config/module.config.php:904
+#: application/config/module.config.php:907
 msgid "Please enter a valid language tag"
 msgstr ""
 
-#: application/config/module.config.php:906
+#: application/config/module.config.php:909
 msgid "Description"
 msgstr ""
 
-#: application/config/module.config.php:907
+#: application/config/module.config.php:910
 msgid "Unknown block layout"
 msgstr ""
 
-#: application/config/module.config.php:908
+#: application/config/module.config.php:911
 msgid "Required field must be completed"
 msgstr ""
 

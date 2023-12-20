@@ -139,6 +139,23 @@ class SiteSettingsForm extends Form
                 'id' => 'favicon',
             ],
         ]);
+        $this->add([
+            'name' => 'subnav_display',
+            'type' => 'select',
+            'options' => [
+                'element_group' => 'general',
+                'label' => 'Page subnavigation display', // @translate
+                'empty_option' => 'Hide on leaf pages (default)', // @translate
+                'value_options' => [
+                    'hide' => 'Hide on all pages', // @translate
+                    'show' => 'Show on all pages', // @translate
+                ],
+            ],
+            'attributes' => [
+                'value' => $settings->get('subnav_display'),
+                'id' => 'disable_jsonld_embed',
+            ],
+        ]);
 
         // Language section
         $this->add([
@@ -413,6 +430,10 @@ class SiteSettingsForm extends Form
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'locale',
+            'allow_empty' => true,
+        ]);
+        $inputFilter->add([
+            'name' => 'subnav_display',
             'allow_empty' => true,
         ]);
         $inputFilter->add([

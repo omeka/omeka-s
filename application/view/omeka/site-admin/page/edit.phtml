@@ -62,7 +62,7 @@ $form->prepare();
             <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridColumns == $key) ? ' selected' : '' ?>><?php echo $escape($value); ?></option>
             <?php endforeach; ?>
         </select>
-        <a href="#" id="preview-page-layout-grid" class="o-icon-search" aria-label="<?php echo $escape($translate('Preview layout')); ?>" title="<?php echo $escape($translate('Preview layout')); ?>"></a>
+        <a href="#" id="preview-page-layout" class="o-icon-search" aria-label="<?php echo $escape($translate('Preview layout')); ?>" title="<?php echo $escape($translate('Preview layout')); ?>"></a>
         <a href="#" id="configure-page-layout-data" class="o-icon-settings" aria-label="<?php echo $escape($translate('Configure layout')); ?>" title="<?php echo $escape($translate('Configure layout')); ?>"></a>
         <button type="button" id="page-layout-restore" style="display: none;"><?php echo $translate('Restore'); ?></button>
     </div>
@@ -92,10 +92,10 @@ $form->prepare();
     <?php endforeach; ?>
 </div>
 
-<div id="grid-layout-preview-sidebar" class="sidebar">
+<div id="layout-preview-sidebar" class="sidebar">
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
-    <h3><?php echo $translate('Grid layout preview'); ?></h3>
-    <div id="grid-layout-preview"></div>
+    <h3><?php echo $translate('Layout preview'); ?></h3>
+    <div id="layout-preview"></div>
 </div>
 
 <div id="block-layout-data-sidebar" class="sidebar" data-api-endpoint-url="<?php echo $escape($this->url('api')); ?>">

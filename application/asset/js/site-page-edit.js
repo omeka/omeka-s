@@ -521,25 +521,19 @@
             const gridColumnsSelect = $('#page-layout-grid-columns-select');
             const gridColumnGapInput = $('#page-layout-grid-column-gap-input');
             const gridRowGapInput = $('#page-layout-grid-row-gap-input');
-            const gridPreview = $('#preview-page-layout-grid');
             const blockGridControls = $('.block-page-layout-grid-controls');
-            const blockGridPreview = $('.preview-block-page-layout-grid');
             // Disable and hide all layout-specific controls by default.
             gridColumnsSelect.hide();
             gridColumnGapInput.closest('.field').hide();
             gridRowGapInput.closest('.field').hide();
-            gridPreview.hide();
             blockGridControls.hide();
-            blockGridPreview.hide();
             switch (layoutSelect.val()) {
                 case 'grid':
                     // Prepare grid layout.
                     gridColumnsSelect.show();
                     gridColumnGapInput.closest('.field').show();
                     gridRowGapInput.closest('.field').show();
-                    gridPreview.show();
                     blockGridControls.show();
-                    blockGridPreview.show();
                     preparePageGridLayout();
                     break;
                 case '':
@@ -595,11 +589,15 @@
             }
         }
 
-        // Preview the page layout grid.
-        const previewPageLayoutGrid = function() {
-            const previewDiv = $('#grid-layout-preview');
+        // Preview the page layout.
+        const previewPageLayout = function() {
+            const previewDiv = $('#layout-preview');
+            previewDiv.empty();
+            const pageLayoutSelect = $('#page-layout-select');
             const gridColumns = parseInt($('#page-layout-grid-columns-select').val(), 10);
-            previewDiv.css('grid-template-columns', `repeat(${gridColumns}, 1fr)`).empty();
+            if ('grid' === pageLayoutSelect.val()) {
+                previewDiv.css('grid-template-columns', `repeat(${gridColumns}, 1fr)`).empty();
+            }
             let inBlockGroup = false;
             let blockGroupSpan;
             let blockGroupCurrentSpan;
@@ -616,17 +614,23 @@
                     inBlockGroup = true;
                     blockGroupSpan = parseInt(thisBlock.find('.block-group-span').val(), 10);
                     blockGroupCurrentSpan = 0;
-                    blockGroupDiv = $(`<div style="display: grid; grid-template-columns: repeat(${gridColumns}, 1fr); grid-column: span ${gridColumns};">`);
+                    if ('grid' === pageLayoutSelect.val()) {
+                        blockGroupDiv = $(`<div style="display: grid; grid-template-columns: repeat(${gridColumns}, 1fr); grid-column: span ${gridColumns};">`);
+                    } else {
+                        blockGroupDiv = $('<div class="layout-previewing-block-group">');
+                    }
                 } else {
-                    const positionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
-                    const positionSelectValue = parseInt(positionSelect.val(), 10) || 'auto';
-                    const spanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
-                    const spanSelectValue = parseInt(spanSelect.val(), 10);
                     const selectedTooltip = $('<div class="selected-tooltip" title="Selected">');
-                    const blockDiv = $('<div class="grid-layout-previewing-block">')
-                        .css('grid-column', `${positionSelectValue} / span ${spanSelectValue}`);
-                    if (thisBlock.hasClass('grid-layout-previewing')) {
-                        blockDiv.addClass('grid-layout-previewing').append(selectedTooltip);
+                    const blockDiv = $('<div class="layout-previewing-block">');
+                    if ('grid' === pageLayoutSelect.val()) {
+                        const positionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                        const positionSelectValue = parseInt(positionSelect.val(), 10) || 'auto';
+                        const spanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                        const spanSelectValue = parseInt(spanSelect.val(), 10);
+                        blockDiv.css('grid-column', `${positionSelectValue} / span ${spanSelectValue}`)
+                    }
+                    if (thisBlock.hasClass('layout-previewing')) {
+                        blockDiv.addClass('layout-previewing').append(selectedTooltip);
                     }
                     blockDiv.hover(
                         function() {
@@ -656,7 +660,7 @@
                 // Close the blockGroup block if not already closed.
                 previewDiv.append(blockGroupDiv);
             }
-            Omeka.openSidebar($('#grid-layout-preview-sidebar'));
+            Omeka.openSidebar($('#layout-preview-sidebar'));
         };
 
         // Prepare page layout on initial load.
@@ -698,11 +702,11 @@
             $('#page-layout-restore').show();
         });
 
-        // Handle a page layout grid preview click.
-        $('#preview-page-layout-grid').on('click', function(e) {
+        // Handle a page layout preview click.
+        $('#preview-page-layout').on('click', function(e) {
             e.preventDefault();
-            $('.block').removeClass('grid-layout-previewing');
-            previewPageLayoutGrid();
+            $('.block').removeClass('layout-previewing');
+            previewPageLayout();
         })
 
         $('#configure-page-layout-data').on('click', function(e) {
@@ -711,17 +715,17 @@
             Omeka.openSidebar(pageLayoutDataSidebar);
         });
 
-        // Handle a page layout grid preview click for a specific block.
-        $('#blocks').on('click', '.preview-block-page-layout-grid', function(e) {
+        // Handle a page layout preview click for a specific block.
+        $('#blocks').on('click', '.preview-block-page-layout', function(e) {
             e.preventDefault();
-            $('.block').removeClass('grid-layout-previewing');
-            $(this).closest('.block').addClass('grid-layout-previewing');
-            previewPageLayoutGrid();
+            $('.block').removeClass('layout-previewing');
+            $(this).closest('.block').addClass('layout-previewing');
+            previewPageLayout();
         });
 
         // Handle closing a page layout grid preview.
-        $('#grid-layout-preview-sidebar').on('o:sidebar-closed', function(e) {
-            $('.block').removeClass('grid-layout-previewing');
+        $('#layout-preview-sidebar').on('o:sidebar-closed', function(e) {
+            $('.block').removeClass('layout-previewing');
         });
 
         // Handle a configure block layout click. (open the sidebar)

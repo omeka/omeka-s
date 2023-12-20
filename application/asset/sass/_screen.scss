@@ -4266,9 +4266,19 @@ body.sidebar-open #content {
         margin-right: auto;
     }
 
+    .delete.block .block-header .block-type {
+        margin-right: 0;
+    }
+
     .block .block-header select {
         margin-right: $spacing-small;
         font-weight: normal;
+    }
+
+    .block .actions,
+    .block-page-layout-grid-controls,
+    .delete .block-page-layout-grid-controls + .actions {
+        margin-left: auto;
     }
 
     .block-page-layout-grid-controls + .actions {

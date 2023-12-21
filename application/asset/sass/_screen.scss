@@ -4655,12 +4655,21 @@ body.sidebar-open #content {
 
         /* @group ----- Page Grid ----- */
 
-        #grid-layout-preview {
+        #layout-preview {
             display: grid;
             gap: $spacing-small;
         }
 
-        .grid-layout-previewing-block {
+        .layout-previewing-block-group {
+            border: 3px solid $border-gray;
+            padding: .5 * $spacing-small;
+
+            .layout-previewing-block:not(:last-child) {
+                margin-bottom: .5 * $spacing-small;
+            }
+        }
+
+        .layout-previewing-block {
             min-height: 60px;
             background-color: $border-gray;
         }
@@ -4669,14 +4678,14 @@ body.sidebar-open #content {
             box-shadow: 0 0 0 1px $copy-gray inset;
         }
 
-        #grid-layout-preview .grid-layout-previewing {            
+        #layout-preview .layout-previewing {            
             box-shadow: 0 0 0 2px $copy-gray inset;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .grid-layout-previewing.block {
+        .layout-previewing.block {
             box-shadow: 0 0 0 2px $copy-gray inset;
         }
 

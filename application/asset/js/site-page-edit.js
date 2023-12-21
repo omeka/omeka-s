@@ -615,7 +615,7 @@
                     blockGroupSpan = parseInt(thisBlock.find('.block-group-span').val(), 10);
                     blockGroupCurrentSpan = 0;
                     if ('grid' === pageLayoutSelect.val()) {
-                        blockGroupDiv = $(`<div style="display: grid; grid-template-columns: repeat(${gridColumns}, 1fr); grid-column: span ${gridColumns};">`);
+                        blockGroupDiv = $(`<div class="layout-previewing-block-group" style="display: grid; grid-template-columns: repeat(${gridColumns}, 1fr); grid-column: span ${gridColumns};">`);
                     } else {
                         blockGroupDiv = $('<div class="layout-previewing-block-group">');
                     }

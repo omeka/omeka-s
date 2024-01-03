@@ -25,7 +25,7 @@ class Media extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
                 'horizontal' => 'Horizontal', // @translate
             ],
         ]);
-        $layoutSelect->setValue($block->dataValue('layout'));
+        $layoutSelect->setValue($block ? $block->dataValue('layout') : '');
 
         $displaySelect = new Element\Select('o:block[__blockIndex__][o:data][media_display]');
         $displaySelect->setOptions([
@@ -35,7 +35,7 @@ class Media extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
                 'thumbnail' => 'Thumbnail only', // @translate
             ],
         ]);
-        $displaySelect->setValue($block->dataValue('media_display'));
+        $displaySelect->setValue($block ? $block->dataValue('media_display') : '');
 
         $html = '';
         $html .= $view->blockAttachmentsForm($block);

@@ -1,11 +1,8 @@
-<div class="<?php echo $this->thumbnailType; ?> file">
-    <div class="attachments">
-<?php foreach($this->attachments as $attachment): ?>
+<div class="<?php echo $this->escapeHtml(implode(' ', $classes)); ?>">
+    <?php foreach($attachments as $attachment): ?>
     <div class="item resource">
-    <?php
-    $item = $attachment->item();
-    if ($item):
-    ?>
+        <?php $item = $attachment->item(); ?>
+        <?php if ($item): ?>
         <?php
         $media = $attachment->media() ?: $item->primaryMedia();
         if ($media):
@@ -15,21 +12,16 @@
             ]);
         endif;
         ?>
-        <?php $showTitleOption = $this->showTitleOption; ?>
-        <?php if ($showTitleOption == 'item_title'): ?>
+        <?php if ($showTitleOption === 'item_title'): ?>
         <h3><?php echo $item->link($item->displayTitle()); ?></h3>
-        <?php elseif ($showTitleOption == 'file_name'): ?>
+        <?php elseif ($showTitleOption === 'file_name'): ?>
         <h3><?php echo $media->displayTitle(); ?></h3>
         <?php endif; ?>
-    <?php endif; ?>
-
-    <?php
-    $caption = $attachment->caption();
-    if ($caption):
-    ?>
+        <?php endif; ?>
+        <?php $caption = $attachment->caption(); ?>
+        <?php if ($caption): ?>
         <div class="caption"><?php echo $caption; ?></div>
-    <?php endif; ?>
+        <?php endif; ?>
     </div>
-<?php endforeach; ?>
-    </div>
+    <?php endforeach; ?>
 </div>

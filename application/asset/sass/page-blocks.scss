@@ -1,79 +1,57 @@
 @import "base";
 
-.item-showcase {
+.media-embed {
     margin: 1rem 0;
-    border-top: 1px solid $border-gray;
-    border-bottom: 1px solid $border-gray;
-    padding: calc(1rem - 1px) 0 0;
-    overflow: hidden;
-    text-align: center;
-    clear: both;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
-.item.resource .caption {
-    font-size: .875rem;
-    line-height: 1.5rem;
+.media-embed.layout-horizontal {
+    --grid-layout-gap: $spacing-large;
+    --grid-column-count: 4;
+    --grid-item--min-width: 100px; 
 
-    * {
-        margin: 0 0 1rem 0;
-    }
+    --gap-count: calc(var(--grid-column-count) - 1);
+    --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
+    --grid-item--max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
 
-    & > *:last-child {
-        margin-bottom: 0;
-    }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(23%, 1fr));
+    grid-gap: var(--grid-layout-gap);
 }
 
-.item-showcase .resource.item {
+.media-embed .resource {
+    margin: $spacing-large;
     vertical-align: top;
     margin-bottom: 1rem;
 
-    img {
-        margin-right: .5rem;
-        max-width: 100%;
+    &:only-child {
+        margin: $spacing-large auto;
+        text-align: center;
     }
 
-    &:only-child img {
-        margin: 0 auto;
-    }
-
-    &:not(:only-child) {
-        width: 25%;
-        clear: none;
-        padding: 0 .5rem;
-    }
-
-    &:not(:only-child) h3 {
-        clear: left;
+    h3 {
         font-size: 1rem;
         line-height: 1.5rem;
         margin: .5rem 0 0;
     }
 
     &:not(:only-child) img {
-        max-height: 7rem;
         width: auto;
-        float: none;
-        margin-right: 0;
         vertical-align: top;
     }
-}
 
-/* IE/Edge min-content alternative */
-.file {
-    border-top: 1px solid $border-gray;
-    border-bottom: 1px solid $border-gray;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
+    .caption {
+        font-size: .875rem;
+        line-height: 1.5rem;
 
-.medium .item.resource > h3,
-.square .item.resource > h3 {
-    font-size: $base-font-size;
-    line-height: 1.5rem;
-}
+        * {
+            margin: 0 0 1rem 0;
+        }
+
+        & > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+} 
 
 .break {
     width: 100%;

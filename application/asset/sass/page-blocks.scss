@@ -23,11 +23,6 @@
     vertical-align: top;
     margin-bottom: 1rem;
 
-    &:only-child {
-        margin: $spacing-large auto;
-        text-align: center;
-    }
-
     h3 {
         font-size: 1rem;
         line-height: 1.5rem;

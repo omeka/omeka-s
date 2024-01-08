@@ -5,21 +5,20 @@
 }
 
 .media-embed.layout-horizontal {
-    --grid-layout-gap: $spacing-large;
+    --grid-layout-gap: #{$spacing-medium};
     --grid-column-count: 4;
-    --grid-item--min-width: 100px; 
+    --grid-item--min-width: 200px; 
 
     --gap-count: calc(var(--grid-column-count) - 1);
     --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
     --grid-item--max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
 
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(23%, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
     grid-gap: var(--grid-layout-gap);
 }
 
 .media-embed .resource {
-    margin: $spacing-large;
     vertical-align: top;
     margin-bottom: 1rem;
 

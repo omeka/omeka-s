@@ -24,10 +24,11 @@ class BlockGroup extends AbstractBlockLayout
         $elementSpan->setAttribute('class', 'block-group-span')
             ->setValue($block ? $block->dataValue('span') : '1');
         $form->add($elementSpan);
+        $dropZoneString = $view->translate('Drag blocks here to group.');
 
         return <<<END
             {$view->formCollection($form, false)}
-            <div class="block-group-blocks"></div>
+            <div class="block-group-blocks"><span class="empty-drop-zone">{$dropZoneString}</span></div>
         END;
     }
 

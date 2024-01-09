@@ -4472,6 +4472,17 @@ body.sidebar-open #content {
         padding: $spacing-medium 0 0 $spacing-small;
         min-height: 40px;
 
+        .empty-drop-zone {
+            display: none;
+            padding: (2 * $spacing-large) $spacing-large;
+            background-color: $gray-on-white;
+            text-align: center;
+        }
+
+        .empty-drop-zone:only-child {
+            display: block;
+        }
+
         .block-header.collapse {
             padding: $spacing-small;
         }

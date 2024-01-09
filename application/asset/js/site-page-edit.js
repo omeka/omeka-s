@@ -309,17 +309,17 @@
         // Handle collapse all button.
         $('.collapse-all').on('click', function() {
             $('.block:not(.block-group) > .block-content').hide();
-            $('.block-header .toggle-visibility').removeClass('collapse').addClass('expand');
+            $('.block-header .toggle-block-visibility').removeClass('collapse').addClass('expand');
         });
 
         // Handle the expand all button.
         $('.expand-all').on('click', function() {
             $('.block:not(.block-group) > .block-content').show();
-            $('.block-header .toggle-visibility').removeClass('expand').addClass('collapse');
+            $('.block-header .toggle-block-visibility').removeClass('expand').addClass('collapse');
         });
 
         // Toggle block visibility.
-        $('#blocks').on('click', '.expand,.collapse', function() {
+        $('#blocks').on('click', '.toggle-block-visibility', function() {
             const thisToggle = $(this);
             const block = thisToggle.closest('.block');
             const blockLayout = block.data('block-layout');

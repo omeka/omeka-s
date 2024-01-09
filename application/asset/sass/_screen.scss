@@ -4657,16 +4657,13 @@ body.sidebar-open #content {
 
         #layout-preview {
             display: grid;
-            gap: $spacing-small;
+            grid-gap: $spacing-small;
         }
 
         .layout-previewing-block-group {
             border: 3px solid $border-gray;
             padding: .5 * $spacing-small;
-
-            .layout-previewing-block:not(:last-child) {
-                margin-bottom: .5 * $spacing-small;
-            }
+            grid-gap: (.5 * $spacing-small);
         }
 
         .layout-previewing-block {

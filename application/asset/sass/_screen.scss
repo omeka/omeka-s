@@ -4470,11 +4470,11 @@ body.sidebar-open #content {
     .block-group-blocks {
         border-left: $spacing-small solid $border-gray; 
         padding: $spacing-medium 0 0 $spacing-small;
-        min-height: 40px;
+        min-height: 4 * $spacing-large;
 
         .empty-drop-zone {
             display: none;
-            padding: (2 * $spacing-large) $spacing-large;
+            padding: (1.5 * $spacing-large) $spacing-large;
             background-color: $gray-on-white;
             text-align: center;
         }

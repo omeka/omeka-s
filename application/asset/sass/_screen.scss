@@ -3588,6 +3588,26 @@ input[type=text].query-form-query {
     width: span(4 of 16);
     padding: $spacing-medium;
 
+    .sidebar-header {
+        background-color: $border-gray;
+        margin: (-1 * $spacing-medium) (-1 * $spacing-medium) $spacing-medium;
+        padding: $spacing-medium;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .sidebar-header button {
+        background-color: #fff;
+        color: $copy-gray;
+        padding: $spacing-small;
+        line-height: 1;
+        font-size: .875 * $base-font-size;
+        min-height: 0;
+        margin: 0;
+    }
+
     body.transitions-enabled & {
         transition: left .5s, visibility .5s;
     }
@@ -3738,6 +3758,16 @@ input[type=text].query-form-query {
             background-color: $border-gray;
             z-index: -1;
         }
+    }
+
+    .sidebar-header h3 {
+        width: auto;
+        margin: 0;
+        padding: 0;
+    }
+
+    .sidebar-header h3:after {
+        content: none;
     }
 
     .field {
@@ -4241,6 +4271,12 @@ body.sidebar-open #content {
 
     .expand-collapse-all {
         text-align: right;
+    }
+
+    .add-block-group:before {
+        content: "\f247";
+        @include font-awesome;
+        margin-right: $spacing-small;
     }
 
     .block {

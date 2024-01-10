@@ -3052,58 +3052,6 @@ fieldset.section > legend {
     }
 }
 
-.sidebar {
-    .pagination {
-        font-size: .8175 * $base-font-size;
-        border-bottom: 1px solid rgba(0,0,0,.08);
-        padding-bottom: ($spacing-medium - 1px);
-        margin-bottom: 0;
-        overflow: hidden;
-        width: 100%;
-
-        li {
-            float: left;
-        }
-
-        li:first-of-type {
-            padding-right: 10px;
-        }
-
-        input {
-            width: 3em;
-            text-align: center;
-            color: #333;
-            margin: 0 3px;
-        }
-
-        .next.button {
-            margin-right: 5px;
-        }
-
-        input[type="text"] {
-            float: left;
-            line-height: .8175 * $spacing-large;
-            height: $spacing-large;
-            border: 1px solid $border-gray;
-            margin-left: 0;
-        }
-
-        .page-count {
-            float: left;
-            margin-right: $spacing-medium;
-        }
-
-        .inactive {
-            background-color: #E6E6E6;
-            color: #B9B9B9;
-        }
-    }
-
-    textarea {
-        resize: vertical;
-    }
-}
-
 #item-results + .confirm-panel,
 #item-results .select-resource-checkbox-wrapper {
     display: none;
@@ -3698,6 +3646,56 @@ input[type=text].query-form-query {
         &:last-child {
             border-color: transparent;
             margin-bottom: 0;
+        }
+
+        .pagination {
+            font-size: .8175 * $base-font-size;
+            border-bottom: 1px solid rgba(0,0,0,.08);
+            padding-bottom: ($spacing-medium - 1px);
+            margin-bottom: 0;
+            overflow: hidden;
+            width: 100%;
+
+            li {
+                float: left;
+            }
+
+            li:first-of-type {
+                padding-right: 10px;
+            }
+
+            input {
+                width: 3em;
+                text-align: center;
+                color: #333;
+                margin: 0 3px;
+            }
+
+            .next.button {
+                margin-right: 5px;
+            }
+
+            input[type="text"] {
+                float: left;
+                line-height: .8175 * $spacing-large;
+                height: $spacing-large;
+                border: 1px solid $border-gray;
+                margin-left: 0;
+            }
+
+            .page-count {
+                float: left;
+                margin-right: $spacing-medium;
+            }
+
+            .inactive {
+                background-color: #E6E6E6;
+                color: #B9B9B9;
+            }
+        }
+
+        textarea {
+            resize: vertical;
         }
     }
 

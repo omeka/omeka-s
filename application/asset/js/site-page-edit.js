@@ -157,6 +157,7 @@
             draggable: '.block',
             handle: '.sortable-handle',
             group: 'block-list',
+            swapThreshold: 0.5,
             onStart: function(e) {
                 var editor = $(e.item).find('.wysiwyg').ckeditor().editor;
                 if (editor) {

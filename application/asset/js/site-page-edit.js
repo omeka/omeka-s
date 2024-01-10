@@ -158,6 +158,7 @@
             handle: '.sortable-handle',
             group: 'block-list',
             swapThreshold: 0.9,
+            forceAutoScrollFallback: true,
             onStart: function(e) {
                 var editor = $(e.item).find('.wysiwyg').ckeditor().editor;
                 if (editor) {

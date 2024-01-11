@@ -62,8 +62,10 @@ $form->prepare();
             <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridColumns == $key) ? ' selected' : '' ?>><?php echo $escape($value); ?></option>
             <?php endforeach; ?>
         </select>
-        <a href="#" id="preview-page-layout" aria-label="<?php echo $escape($translate('Preview layout')); ?>" title="<?php echo $escape($translate('Preview layout')); ?>"></a>
-        <a href="#" id="configure-page-layout-data" class="o-icon-settings" aria-label="<?php echo $escape($translate('Configure layout')); ?>" title="<?php echo $escape($translate('Configure layout')); ?>"></a>
+        <ul class="actions center">
+            <li><a href="#" id="preview-page-layout" aria-label="<?php echo $escape($translate('Preview layout')); ?>" title="<?php echo $escape($translate('Preview layout')); ?>"></a></li>
+            <li><a href="#" id="configure-page-layout-data" class="o-icon-settings" aria-label="<?php echo $escape($translate('Configure layout')); ?>" title="<?php echo $escape($translate('Configure layout')); ?>"></a></li>
+        </ul>
         <button type="button" id="page-layout-restore" style="display: none;"><?php echo $translate('Restore'); ?></button>
     </div>
 

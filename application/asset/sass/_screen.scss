@@ -1435,6 +1435,11 @@ div[role="main"] {
     text-align: right;
 }
 
+.center.actions a:before,
+.center.actions button:before {
+    text-align: center;
+}
+
 .actions a:hover,
 .actions a:active,
 .actions button:hover {
@@ -4340,10 +4345,6 @@ body.sidebar-open #content {
 
     .block .block-header .sortable-handle:before {
         font-size: 16px;
-    }
-
-    .block .block-header .actions a:before {
-        text-align: center;
     }
 
     .block .block-header .block-type {

@@ -310,14 +310,12 @@
 
         // Handle collapse all button.
         $('.collapse-all').on('click', function() {
-            $('.block:not(.block-group) > .block-content').hide();
-            $('.block-header .toggle-block-visibility').removeClass('collapse').addClass('expand');
+            $('.toggle-block-visibility.collapse').trigger('click');
         });
 
         // Handle the expand all button.
         $('.expand-all').on('click', function() {
-            $('.block:not(.block-group) > .block-content').show();
-            $('.block-header .toggle-block-visibility').removeClass('expand').addClass('collapse');
+            $('.toggle-block-visibility.expand').trigger('click');
         });
 
         // Toggle block visibility.

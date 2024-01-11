@@ -4264,6 +4264,12 @@ body.sidebar-open #content {
         margin-bottom: $spacing-medium;
     }
 
+    #preview-page-layout:before,
+    .preview-block-page-layout:before {
+        content: fa-content($fa-var-grip-vertical);
+        @include font-awesome;
+    }
+
     #page-layout-label {
         display: flex;
         align-items: center;

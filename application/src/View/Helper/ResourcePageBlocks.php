@@ -80,4 +80,42 @@ class ResourcePageBlocks extends AbstractHelper
         }
         return implode('', $blockMarkup);
     }
+
+
+    /**
+     * Return a block markup for a block of the resource page.
+     *
+     * @return string
+     */
+    public function getBlock($blockName)
+    {
+        if (!$this->hasBlocks()) {
+            return '';
+        }
+        $view = $this->getView();
+        $blockLayout = $this->blockLayoutManager->get($blockName);
+        $blockMarkup = $blockLayout->render($view, $this->resource);
+
+        return $blockMarkup;
+    }
+
+
+    /**
+     * Return list  of block markup for a region of the resource page.
+     *
+     * @return array
+     */
+    public function getBlocksList()
+    {
+        if (!$this->hasBlocks()) {
+            return [];
+        }
+        $view = $this->getView();
+        $blockMarkupList = [];
+        foreach ($this->resourcePageBlocks[$this->resourceName][$this->regionName] as $blockName) {
+            $blockLayout = $this->blockLayoutManager->get($blockName);
+            $blockMarkupList[$blockName] = $blockLayout->render($view, $this->resource);
+        }
+        return $blockMarkupList;
+    }
 }

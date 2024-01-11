@@ -22,7 +22,7 @@ class BlockGroup extends AbstractBlockLayout
 
         $elementSpan = new Element\Hidden("o:block[__blockIndex__][o:data][span]");
         $elementSpan->setAttribute('class', 'block-group-span')
-            ->setValue($block ? $block->dataValue('span') : '1');
+            ->setValue($block ? $block->dataValue('span') : '0');
         $form->add($elementSpan);
         $dropZoneString = $view->translate('Drag blocks here to group.');
 

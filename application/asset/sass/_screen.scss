@@ -4238,6 +4238,22 @@ body.sidebar-open #content {
         justify-content: space-between;
         flex-wrap: wrap;
         margin-top: $spacing-medium;
+        font-size: .875 * $base-font-size;
+
+        select,
+        button {
+            font-size: .875 * $base-font-size;
+            line-height: 1;
+            margin-bottom: 0;
+            height: auto;
+            min-height: 0;
+            border: 0;
+            box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+        }
+
+        select {
+            padding: $spacing-small $spacing-large $spacing-small $spacing-small
+        }
     }
 
     #page-layout-controls {

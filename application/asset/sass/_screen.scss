@@ -4252,7 +4252,8 @@ body.sidebar-open #content {
         }
 
         select {
-            padding: $spacing-small $spacing-large $spacing-small $spacing-small
+            padding: $spacing-small $spacing-large $spacing-small $spacing-small;
+            background-size: 6px;
         }
     }
 
@@ -4287,6 +4288,20 @@ body.sidebar-open #content {
 
     .expand-collapse-all {
         text-align: right;
+    }
+
+    .expand-all:before,
+    .collapse-all:before {
+        @include font-awesome;
+        margin-right: $spacing-small;
+    }
+
+    .expand-all:before {
+        content: fa-content($fa-var-caret-down);
+    }
+
+    .collapse-all:before {
+        content: fa-content($fa-var-caret-right);
     }
 
     .add-block-group:before {

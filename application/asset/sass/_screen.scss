@@ -4239,22 +4239,26 @@ body.sidebar-open #content {
         flex-wrap: wrap;
         margin-top: $spacing-medium;
         font-size: .875 * $base-font-size;
+    }
 
-        select,
-        button {
-            font-size: .875 * $base-font-size;
-            line-height: 1;
-            margin-bottom: 0;
-            height: auto;
-            min-height: 0;
-            border: 0;
-            box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
-        }
 
-        select {
-            padding: $spacing-small $spacing-large $spacing-small $spacing-small;
-            background-size: 6px;
-        }
+    #block-controls-header select,
+    #block-controls-header button,
+    .block-header select,
+    .block-header button {
+        font-size: .875 * $base-font-size;
+        line-height: 1;
+        margin-bottom: 0;
+        height: auto;
+        min-height: 0;
+        border: 0;
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+    }
+
+    #block-controls-header select,
+    .block-header select {
+        padding: $spacing-small $spacing-large $spacing-small $spacing-small;
+        background-size: 6px;
     }
 
     #page-layout-controls {
@@ -4327,6 +4331,15 @@ body.sidebar-open #content {
         background-color: opacify($gray-on-white, .08);
         padding: $spacing-small;
         font-weight: bold;
+        font-size: .875 * $base-font-size;
+    }
+
+    .block .block-header .sortable-handle {
+        margin-right: $spacing-small;
+    }
+
+    .block .block-header .sortable-handle:before {
+        font-size: 16px;
     }
 
     .block .block-header .actions a:before {

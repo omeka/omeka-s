@@ -310,27 +310,54 @@
 
         // Handle collapse all button.
         $('.collapse-all').on('click', function() {
-            $('.toggle-block-visibility.collapse').trigger('click');
+            // First, flag all block groups as being collapsable.
+            $('#blocks > .block.block-group > .block-header .toggle-block-visibility')
+                .removeClass('expand')
+                .addClass('collapse');
+            // Then, trigger a click on all top-level blocks, which lets the
+            // o:collapsed handler do the collapsing.
+            $('#blocks > .block > .block-header .toggle-block-visibility.collapse')
+                .trigger('click');
         });
 
         // Handle the expand all button.
         $('.expand-all').on('click', function() {
-            $('.toggle-block-visibility.expand').trigger('click');
+            // First, flag all block groups as being expandable.
+            $('#blocks > .block.block-group > .block-header .toggle-block-visibility')
+                .removeClass('collapse')
+                .addClass('expand');
+            // Then, trigger a click on all top-level blocks, which lets the
+            // o:expanded handler do the expanding.
+            $('#blocks > .block > .block-header .toggle-block-visibility.expand')
+                .trigger('click');
         });
 
-        // Toggle block visibility.
-        $('#blocks').on('click', '.toggle-block-visibility', function() {
+        // Handle a collapsed block.
+        $('#blocks').on('o:collapsed', '.toggle-block-visibility', function() {
             const thisToggle = $(this);
             const block = thisToggle.closest('.block');
-            const blockLayout = block.data('block-layout');
-            if (thisToggle.hasClass('expand')) {
+            if (block.hasClass('block-group')) {
+                // Collapse all child blocks of this block group.
+                block.find('.block > .block-header .toggle-block-visibility')
+                    .removeClass('expand')
+                    .addClass('collapse')
+                    .trigger('click');
+            } else {
+                block.find('.block-content').hide();
+            }
+        });
+        // Handle an expanded block.
+        $('#blocks').on('o:expanded', '.toggle-block-visibility', function() {
+            const thisToggle = $(this);
+            const block = thisToggle.closest('.block');
+            if (block.hasClass('block-group')) {
+                // Expand all child blocks of this block group.
+                block.find('.block > .block-header .toggle-block-visibility')
+                    .removeClass('collapse')
+                    .addClass('expand')
+                    .trigger('click');
+            } else {
                 block.find('.block-content').show();
-            } else if (thisToggle.hasClass('collapse')) {
-                if ('blockGroup' === blockLayout) {
-                    block.find('.block > .block-content').hide();
-                } else {
-                    block.find('.block-content').hide();
-                }
             }
         });
 

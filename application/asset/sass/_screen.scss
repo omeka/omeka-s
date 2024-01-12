@@ -665,7 +665,9 @@ table .icon-sortable {
 }
 
 a.expand,
-a.collapse {
+a.collapse,
+a.expand-group,
+a.collapse-group {
     color: $copy-gray;
 }
 
@@ -4306,17 +4308,25 @@ body.sidebar-open #content {
     }
 
     .expand-all:before,
-    .collapse-all:before {
+    .collapse-all:before,
+    .expand-group:before,
+    .collapse-group:before {
         @include font-awesome;
+    }
+
+    .expand-all:before,
+    .collapse-all:before {
         margin-right: $spacing-small;
     }
 
-    .expand-all:before {
-        content: fa-content($fa-var-caret-down);
+    .expand-all:before,
+    .expand-group:before {
+        content: fa-content($fa-var-expand-alt);
     }
 
-    .collapse-all:before {
-        content: fa-content($fa-var-caret-right);
+    .collapse-all:before,
+    .collapse-group:before {
+        content: fa-content($fa-var-compress-alt);
     }
 
     .add-block-group:before {
@@ -4555,7 +4565,7 @@ body.sidebar-open #content {
     .block-group-blocks {
         border-left: $spacing-small solid $border-gray; 
         padding: $spacing-medium 0 0 $spacing-small;
-        min-height: 4 * $spacing-large;
+        min-height: 1.5 * $spacing-large;
 
         .empty-drop-zone {
             display: none;

@@ -45,7 +45,12 @@ if ('blockGroup' === $layout) {
             <li><a href="#" class="o-icon-settings configure-block-layout-data" aria-label="<?php echo $translate('Configure layout'); ?>" title="<?php echo $translate('Configure layout'); ?>"></a></li>
             <li><a href="#" class="o-icon-delete remove-value" aria-label="<?php echo $translate('Remove block'); ?>" title="<?php echo $translate('Remove block'); ?>"></a></li>
             <li><a href="#" class="o-icon-undo restore-value inactive" aria-label="<?php echo $translate('Restore block'); ?>" title="<?php echo $translate('Restore block'); ?>"></a></li>
+            <?php if ('blockGroup' === $layout): ?>
+            <li><a href="#" class="expand-group" aria-label="<?php echo $escape($translate('Expand group')); ?>" title="<?php echo $escape($translate('Expand group')); ?>">e</a></li>
+            <li><a href="#" class="collapse-group" aria-label="<?php echo $escape($translate('Collapse group')); ?>" title="<?php echo $escape($translate('Collapse group')); ?>">c</a></li>
+            <?php else: ?>
             <li><a href="#" class="o-icon-expand toggle-block-visibility collapse" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>"></a></li>
+            <?php endif; ?>
         </ul>
     </div>
     <div class="block-content">

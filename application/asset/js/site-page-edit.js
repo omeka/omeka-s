@@ -308,57 +308,28 @@
             }
         });
 
-        // Handle collapse all button.
+        // Handle expand/collapse.
         $('.collapse-all').on('click', function() {
-            // First, flag all block groups as being collapsable.
-            $('#blocks > .block.block-group > .block-header .toggle-block-visibility')
-                .removeClass('expand')
-                .addClass('collapse');
-            // Then, trigger a click on all top-level blocks, which lets the
-            // o:collapsed handler do the collapsing.
-            $('#blocks > .block > .block-header .toggle-block-visibility.collapse')
-                .trigger('click');
+            $('.toggle-block-visibility.collapse').trigger('click');
         });
-
-        // Handle the expand all button.
         $('.expand-all').on('click', function() {
-            // First, flag all block groups as being expandable.
-            $('#blocks > .block.block-group > .block-header .toggle-block-visibility')
-                .removeClass('collapse')
-                .addClass('expand');
-            // Then, trigger a click on all top-level blocks, which lets the
-            // o:expanded handler do the expanding.
-            $('#blocks > .block > .block-header .toggle-block-visibility.expand')
-                .trigger('click');
+            $('.toggle-block-visibility.expand').trigger('click');
         });
-
-        // Handle a collapsed block.
+        $('#blocks').on('click', '.collapse-group', function(e) {
+            e.preventDefault();
+            const childBlocks = $(this).closest('.block').find('.block');
+            childBlocks.find('.toggle-block-visibility.collapse').trigger('click');
+        });
+        $('#blocks').on('click', '.expand-group', function(e) {
+            e.preventDefault();
+            const childBlocks = $(this).closest('.block').find('.block');
+            childBlocks.find('.toggle-block-visibility.expand').trigger('click');
+        });
         $('#blocks').on('o:collapsed', '.toggle-block-visibility', function() {
-            const thisToggle = $(this);
-            const block = thisToggle.closest('.block');
-            if (block.hasClass('block-group')) {
-                // Collapse all child blocks of this block group.
-                block.find('.block > .block-header .toggle-block-visibility')
-                    .removeClass('expand')
-                    .addClass('collapse')
-                    .trigger('click');
-            } else {
-                block.find('.block-content').hide();
-            }
+            $(this).closest('.block').find('.block-content').hide();
         });
-        // Handle an expanded block.
         $('#blocks').on('o:expanded', '.toggle-block-visibility', function() {
-            const thisToggle = $(this);
-            const block = thisToggle.closest('.block');
-            if (block.hasClass('block-group')) {
-                // Expand all child blocks of this block group.
-                block.find('.block > .block-header .toggle-block-visibility')
-                    .removeClass('collapse')
-                    .addClass('expand')
-                    .trigger('click');
-            } else {
-                block.find('.block-content').show();
-            }
+            $(this).closest('.block').find('.block-content').show();
         });
 
         // Make attachments sortable.

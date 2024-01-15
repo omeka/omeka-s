@@ -12,7 +12,7 @@ switch ($this->siteSetting('subnav_display')) {
         $displaySubnav = false;
         break;
     default:
-        $displaySubnav = $this->displayNavigation && $activePage['page']->hasPages();
+        $displaySubnav = $this->displayNavigation && $activePage && $activePage['page']->hasPages();
 }
 $showPagePagination = $this->siteSetting('show_page_pagination', true);
 ?>

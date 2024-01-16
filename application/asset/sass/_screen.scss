@@ -4321,12 +4321,12 @@ body.sidebar-open #content {
 
     .expand-all:before,
     .expand-group:before {
-        content: fa-content($fa-var-expand-alt);
+        content: fa-content($fa-var-angle-double-down);
     }
 
     .collapse-all:before,
     .collapse-group:before {
-        content: fa-content($fa-var-compress-alt);
+        content: fa-content($fa-var-angle-double-up);
     }
 
     .add-block-group:before {

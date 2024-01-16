@@ -38,7 +38,7 @@ class PageLayout extends AbstractLayout
                 $gridRowGap = (int) $page->layoutDataValue('grid_row_gap', 10);
 
                 $classes[] = 'page-layout-grid';
-                $inlineStyles[] = sprintf('grid-template-columns: repeat(%s, 1fr);', $gridColumns);
+                $classes[] = sprintf('grid-template-columns-%s', $gridColumns);
                 $inlineStyles[] = sprintf('column-gap: %spx;', $gridColumnGap);
                 $inlineStyles[] = sprintf('row-gap: %spx;', $gridRowGap);
                 break;
@@ -71,9 +71,10 @@ class PageLayout extends AbstractLayout
                 $blockGroupClasses = $this->getBlockClasses($block);
                 $blockGroupInlineStyles = $this->getBlockInlineStyles($block);
                 if ('grid' === $page->layout()) {
-                    $blockGroupInlineStyles[] = 'display: grid;';
-                    $blockGroupInlineStyles[] = sprintf('grid-template-columns: repeat(%s, 1fr);', $gridColumns);
-                    $blockGroupInlineStyles[] = sprintf('grid-column: span %s;', $gridColumns);
+                    $blockGroupClasses[] = 'block-group-grid';
+                    $blockGroupClasses[] = sprintf('grid-template-columns-%s', $gridColumns);
+                    $blockGroupClasses[] = 'grid-position-1';
+                    $blockGroupClasses[] = sprintf('grid-span-%s', $gridColumns);
                 }
                 echo sprintf(
                     '<div class="block-group %s" style="%s">',
@@ -85,12 +86,15 @@ class PageLayout extends AbstractLayout
                 switch ($page->layout()) {
                     case 'grid':
                         $blockLayoutData = $block->layoutData();
-                        $getValidPosition = fn ($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? $columnPosition : 'auto';
-                        $getValidSpan = fn ($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? $columnSpan : $gridColumns;
+                        // Get the valid position and span classes, which in CSS map to:
+                        //  - grid-column-start: <position>;
+                        //  - grid-column-end: span <span>;
+                        $getValidPositionClass = fn ($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? sprintf('grid-position-%s', $columnPosition) : 'grid-position-auto';
+                        $getValidSpanClass = fn ($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? sprintf('grid-span-%s', $columnSpan) : sprintf('grid-span-%s', $gridColumns);
                         echo sprintf(
-                            '<div style="grid-column: %s / span %s">%s</div>',
-                            $getValidPosition($blockLayoutData['grid_column_position'] ?? 'auto'),
-                            $getValidSpan($blockLayoutData['grid_column_span'] ?? $gridColumns),
+                            '<div class="%s %s">%s</div>',
+                            $getValidPositionClass($blockLayoutData['grid_column_position'] ?? 'grid-position-auto'),
+                            $getValidSpanClass($blockLayoutData['grid_column_span'] ?? sprintf('grid-span-%s', $gridColumns)),
                             $view->blockLayout()->render($block)
                         );
                         break;

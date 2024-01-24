@@ -4,11 +4,19 @@
 $.jstree.plugins.removenode = function(options, parent) {
     var removeIcon = $('<i>', {
         class: 'jstree-icon jstree-removenode-remove',
-        attr:{role:'presentation'}
+        attr:{
+            role:'presentation',
+            'title':Omeka.jsTranslate('Remove link'),
+            'aria-label':Omeka.jsTranslate('Remove link')
+        },
     });
     var undoIcon = $('<i>', {
         class: 'jstree-icon jstree-removenode-undo',
-        attr:{role:'presentation'}
+        attr:{
+            role:'presentation',
+            'title':Omeka.jsTranslate('Restore link'),
+            'aria-label':Omeka.jsTranslate('Restore link')
+        }
     });
     this.bind = function() {
         parent.bind.call(this);
@@ -22,6 +30,7 @@ $.jstree.plugins.removenode = function(options, parent) {
                 icon.hide();
                 if (icon.hasClass('jstree-removenode-remove')) {
                     // Handle node removal.
+                    node.find('.jstree-anchor').children().hide();
                     icon.siblings('.jstree-removenode-undo').show();
                     node.addClass('jstree-removenode-removed');
                     nodeObj.data.remove = true;
@@ -31,6 +40,7 @@ $.jstree.plugins.removenode = function(options, parent) {
                     required.prop('required', false);
                 } else {
                     // Handle undo node removal.
+                    node.find('.jstree-anchor').children(':not(.jstree-removenode-undo)').show();
                     icon.siblings('.jstree-removenode-remove').show();
                     node.removeClass('jstree-removenode-removed');
                     nodeObj.data.remove = false;
@@ -103,7 +113,11 @@ $.jstree.plugins.editlink = function(options, parent) {
     });
     var editIcon = $('<i>', {
         class: 'jstree-icon jstree-editlink-edit',
-        attr:{role:'presentation'},
+        attr:{
+            role:'presentation',
+            'title':Omeka.jsTranslate('Edit link'),
+            'aria-label':Omeka.jsTranslate('Edit link')
+        },
     });
     // Toggle edit link container.
     this.toggleLinkEdit = function(node) {
@@ -225,7 +239,11 @@ $.jstree.plugins.editlink = function(options, parent) {
 $.jstree.plugins.display = function(options, parent) {
     var displayIcon = $('<i>', {
         class: 'jstree-icon jstree-displaylink',
-        attr:{role: 'presentation'}
+        attr:{
+            role: 'presentation',
+            'title':Omeka.jsTranslate('View public page'),
+            'aria-label':Omeka.jsTranslate('View public page')
+        }
     });
     this.bind = function() {
         parent.bind.call(this);

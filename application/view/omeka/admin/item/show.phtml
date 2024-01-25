@@ -17,6 +17,7 @@ $itemMedia = $item->media();
 ?>
 <?php echo $this->pageTitle($item->displayTitle(), 1, $translate('Items')); ?>
 <div id="page-actions">
+    <?php echo $this->hyperlink($translate('Public view'), $this->publicResourceUrl($item), ['class' => 'button', 'target' => '_blank']); ?>
     <?php if ($item->userIsAllowed('update')): ?>
     <?php echo $item->link($translate('Edit item'), 'edit', ['class' => 'button']); ?>
     <?php endif; ?>

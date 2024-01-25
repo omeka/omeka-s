@@ -11,6 +11,7 @@ $form->prepare();
 
 <?php echo $this->sectionNav([
     'resource-values' => $translate('Values'),
+    'sites' => $translate('Sites'),
     'advanced-settings' => $translate('Advanced'),
 ], $sectionNavEvent); ?>
 
@@ -21,6 +22,12 @@ $form->prepare();
     'resource' => $itemSet,
     'action' => $action,
 ]); ?>
+
+<fieldset id="sites" class="section" aria-labelledby="sites-label">
+    <?php echo $this->partial('omeka/admin/item-set/manage-sites', [
+        'itemSet' => $itemSet,
+    ]); ?>
+</fieldset>
 
 <div id="page-actions">
     <?php if ($itemSet && $itemSet->isOpen()): ?>

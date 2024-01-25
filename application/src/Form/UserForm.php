@@ -194,10 +194,25 @@ class UserForm extends Form
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select sites', // @translate
                 'multiple' => true,
-                'id' => 'default_sites',
+                'id' => 'default_item_sites',
             ],
             'options' => [
                 'label' => 'Default sites for items', // @translate
+                'empty_option' => '',
+            ],
+        ]);
+        $settingsFieldset->add([
+            'name' => 'default_item_set_sites',
+            'type' => SiteSelect::class,
+            'attributes' => [
+                'value' => $userId ? $this->userSettings->get('default_item_sets_sites', null, $userId) : [],
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select sites', // @translate
+                'multiple' => true,
+                'id' => 'default_item_set_sites',
+            ],
+            'options' => [
+                'label' => 'Default sites for item sets', // @translate
                 'empty_option' => '',
             ],
         ]);

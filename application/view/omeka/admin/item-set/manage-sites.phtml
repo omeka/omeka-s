@@ -1,10 +1,12 @@
 <?php
-if ($item) {
-    $siteRepresentations = $item->sites();
+if ($itemSet) {
+    $siteRepresentations = $itemSet->sites();
 } else {
+    // For now, use the same key "assign_new_items". In fact, there should be two
+    // columns (or a site setting) or one "assign_new_resources". The same for acl.
     $siteRepresentations = $this->api()->search('sites', ['assign_new_items' => true])->getContent();
 
-    $userDefaultSites = $this->userSetting('default_item_sites');
+    $userDefaultSites = $this->userSetting('default_item_set_sites');
     if (is_array($userDefaultSites) && !empty($userDefaultSites)) {
         $userDefaultSiteRepresentations = $this->api()->search('sites', ['id' => $userDefaultSites])->getContent();
         $siteRepresentations = array_merge($siteRepresentations, $userDefaultSiteRepresentations);
@@ -30,7 +32,7 @@ $siteTemplate = '
     </td>
 </tr>';
 ?>
-<table id="item-sites" data-existing-rows="<?php echo $this->escapeHtml(json_encode(array_values($sites))); ?>" data-row-template="<?php echo $this->escapeHtml($siteTemplate); ?>" data-tablesaw-mode="stack" class="selector-table tablesaw tablesaw-stack <?php echo ($item && (count($sites) > 0)) ? '' : 'empty'; ?>">
+<table id="item-set-sites" data-existing-rows="<?php echo $this->escapeHtml(json_encode(array_values($sites))); ?>" data-row-template="<?php echo $this->escapeHtml($siteTemplate); ?>" data-tablesaw-mode="stack" class="selector-table tablesaw tablesaw-stack <?php echo ($itemSet && (count($sites) > 0)) ? '' : 'empty'; ?>">
     <thead>
     <tr>
         <th><?php echo $this->translate('Title'); ?></th>
@@ -50,5 +52,5 @@ $siteTemplate = '
 <?php echo $this->siteSelector(); ?>
 
 <script>
-  Omeka.initializeSelector('#item-sites', '#site-selector');
+    Omeka.initializeSelector('#item-set-sites', '#site-selector');
 </script>

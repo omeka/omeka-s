@@ -85,22 +85,32 @@ class BlockLayoutDataForm extends Form
             ],
         ]);
         $this->add([
-            'name' => 'background',
-            'type' => 'Omeka\Form\Element\Background',
+            'name' => 'max_width',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
-                'label' => 'Background',
+                'label' => 'Maximum width', // @translate
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-max-width',
+                'data-key' => 'max_width',
             ],
         ]);
         $this->add([
             'name' => 'min_height',
-            'type' => 'number',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
                 'label' => 'Minimum height', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-min-height',
                 'data-key' => 'min_height',
-                'min' => '0',
+            ],
+        ]);
+        $this->add([
+            'name' => 'background',
+            'type' => 'Omeka\Form\Element\Background',
+            'options' => [
+                'label' => 'Background',
             ],
         ]);
 

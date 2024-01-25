@@ -791,9 +791,15 @@
             e.preventDefault();
             const block = $('.block-layout-data-configuring');
             const blockLayoutData = block.data('block-layout-data');
+            let isValid = true;
 
             // Automatically apply block layout data for inputs with a data-key attribute.
             $('#block-layout-data-sidebar').find(':input[data-key]').each(function() {
+                if (!this.checkValidity()) {
+                    // Report invalid fields.
+                    this.reportValidity();
+                    isValid = false;
+                }
                 const thisInput = $(this);
                 const key = thisInput.data('key');
                 blockLayoutData[key] = thisInput.val();
@@ -802,7 +808,9 @@
             // Allow special handling of block layout data.
             $(document).trigger('o:apply-block-layout-data', [block]);
 
-            Omeka.closeSidebar($('#block-layout-data-sidebar'));
+            if (isValid) {
+                Omeka.closeSidebar($('#block-layout-data-sidebar'));
+            }
         });
 
         // Handle a layout restore click.

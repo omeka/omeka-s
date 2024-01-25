@@ -4,6 +4,7 @@ namespace Omeka\View\Helper;
 use Laminas\EventManager\Event;
 use Laminas\View\Helper\AbstractHelper;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
+use Omeka\Form\Element\LengthCssDataType;
 
 abstract class AbstractLayout extends AbstractHelper
 {
@@ -109,9 +110,13 @@ abstract class AbstractLayout extends AbstractHelper
                 $inlineStyles[] = sprintf('background-image: url("%s");', $view->escapeCss($asset->assetUrl()));
             }
         }
+        $maxWidth = $block->layoutDataValue('max_width');
+        if (is_string($maxWidth) && preg_match(sprintf('/%s/', LengthCssDataType::PATTERN), $maxWidth)) {
+            $inlineStyles[] = sprintf('max-width: %s;', $maxWidth);
+        }
         $minHeight = $block->layoutDataValue('min_height');
-        if ($minHeight) {
-            $inlineStyles[] = sprintf('min-height: %spx', (int) $minHeight);
+        if (is_string($minHeight) && preg_match(sprintf('/%s/', LengthCssDataType::PATTERN), $minHeight)) {
+            $inlineStyles[] = sprintf('min-height: %s;', $minHeight);
         }
 
         return $inlineStyles;

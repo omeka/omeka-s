@@ -36,12 +36,15 @@ $changeItemButton = '<button id="attachment-item-select" data-sidebar-content-ur
     ]); ?>
     <div class="collapsible">
         <ul class="media-list">
+            <?php $attached = $attachedMedia ? '' : 'attached'; ?>
+            <li class="media <?php echo $attached ?>">
+                <img class="media-thumbnail" title="<?php echo $translate('No media (primary media will be used, if any)'); ?>" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+            </li>
+
             <?php foreach ($allMedia as $media): ?>
             <?php
             $attached = null;
-            if (($attachedMedia && ($attachedMedia->id() === $media->id()))
-                || (!$attachedMedia && ($primaryMedia->id() === $media->id()))
-            ) {
+            if ($attachedMedia && ($attachedMedia->id() === $media->id())) {
                 $attached = 'attached';
             }
             ?>

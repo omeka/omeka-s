@@ -112,7 +112,9 @@ class UserBar extends AbstractHelper
                     'url' => $url('admin/site/slug/action', ['site-slug' => $site->slug(), 'action' => 'page']),
                 ];
                 try {
-                    $page = $view->api()->read('site_pages', ['site' => $site->id(), 'slug' => $routeParams['page-slug']])->getContent();
+                    $page = empty($routeParams['page-slug'])
+                        ? $site->homepage()
+                        : $view->api()->read('site_pages', ['site' => $site->id(), 'slug' => $routeParams['page-slug']])->getContent();
                     if ($page->userIsAllowed('edit')) {
                         $links[] = [
                             'resource' => $controller,

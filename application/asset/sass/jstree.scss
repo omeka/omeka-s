@@ -61,6 +61,10 @@
     }
 }
 
+.value .jstree-editlink-container label {
+    line-height: 1.5 * $base-line-height;
+}
+
 .jstree-hovered,
 .jstree-clicked {
     background-color: opacify($gray-on-white, .08);

@@ -2,24 +2,31 @@
 $this->headLink()->appendStylesheet($this->assetUrl('css/page-blocks.css', 'Omeka'));
 $this->htmlElement('body')->appendAttribute('class', $pageBodyClass);
 $this->pageTitle($page->title(), 2);
+$nav = $site->publicNav();
+$activePage = $nav->findActive($nav->getContainer());
+switch ($this->siteSetting('subnav_display')) {
+    case 'show';
+        $displaySubnav = $this->displayNavigation;
+        break;
+    case 'hide':
+        $displaySubnav = false;
+        break;
+    default:
+        $displaySubnav = $this->displayNavigation && $activePage && $activePage['page']->hasPages();
+}
 $showPagePagination = $this->siteSetting('show_page_pagination', true);
 ?>
 
-<?php
-$nav = $site->publicNav();
-$container = $nav->getContainer();
-$activePage = $nav->findActive($container);
-if ($activePage):
-?>
-    <?php if ($activePage['depth'] !== 0): ?>
-    <nav class="breadcrumbs"><?php echo $nav->breadcrumbs(); ?></nav>
-    <?php endif; ?>
+<?php if ($activePage): ?>
+<?php if ($activePage['depth'] !== 0): ?>
+<nav class="breadcrumbs"><?php echo $nav->breadcrumbs(); ?></nav>
+<?php endif; ?>
 <?php endif; ?>
 
 <?php if ($activePage): ?>
-    <?php if ($this->displayNavigation && $activePage['page']->hasPages()): ?>
-    <nav class="sub-menu"><?php echo $nav->menu()->renderSubMenu(); ?></nav>
-    <?php endif; ?>
+<?php if ($displaySubnav): ?>
+<nav class="sub-menu"><?php echo $nav->menu()->renderSubMenu(); ?></nav>
+<?php endif; ?>
 <?php endif; ?>
 
 <?php $this->trigger('view.show.before'); ?>

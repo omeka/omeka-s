@@ -81,24 +81,6 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $this->add([
-            'name' => 'property_label_information',
-            'type' => 'Select',
-            'options' => [
-                'element_group' => 'general',
-                'label' => 'Property label information', // @translate
-                'info' => 'The additional information that accompanies labels on resource pages.', // @translate
-                'value_options' => [
-                    'none' => 'None', // @translate
-                    'vocab' => 'Show Vocabulary', // @translate
-                    'term' => 'Show Term', // @translate
-                ],
-            ],
-            'attributes' => [
-                'id' => 'property_label_information',
-                'value' => $settings->get('property_label_information', 'none'),
-            ],
-        ]);
-        $this->add([
             'name' => 'show_user_bar',
             'type' => 'radio',
             'options' => [
@@ -124,6 +106,35 @@ class SiteSettingsForm extends Form
             ],
             'attributes' => [
                 'value' => $settings->get('disable_jsonld_embed'),
+                'id' => 'disable_jsonld_embed',
+            ],
+        ]);
+        $this->add([
+            'name' => 'favicon',
+            'type' => 'Omeka\Form\Element\Asset',
+            'options' => [
+                'element_group' => 'general',
+                'label' => 'Favicon', // @translate
+            ],
+            'attributes' => [
+                'value' => $settings->get('favicon'),
+                'id' => 'favicon',
+            ],
+        ]);
+        $this->add([
+            'name' => 'subnav_display',
+            'type' => 'select',
+            'options' => [
+                'element_group' => 'general',
+                'label' => 'Page subnavigation display', // @translate
+                'empty_option' => 'Hide on leaf pages (default)', // @translate
+                'value_options' => [
+                    'hide' => 'Hide on all pages', // @translate
+                    'show' => 'Show on all pages', // @translate
+                ],
+            ],
+            'attributes' => [
+                'value' => $settings->get('subnav_display'),
                 'id' => 'disable_jsonld_embed',
             ],
         ]);
@@ -266,6 +277,24 @@ class SiteSettingsForm extends Form
             ],
         ]);
         $this->add([
+            'name' => 'property_label_information',
+            'type' => 'Select',
+            'options' => [
+                'element_group' => 'show',
+                'label' => 'Property label information', // @translate
+                'info' => 'The additional information that accompanies labels on resource pages.', // @translate
+                'value_options' => [
+                    'none' => 'None', // @translate
+                    'vocab' => 'Show Vocabulary', // @translate
+                    'term' => 'Show Term', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'property_label_information',
+                'value' => $settings->get('property_label_information', 'none'),
+            ],
+        ]);
+        $this->add([
             'name' => 'show_value_annotations',
             'type' => 'select',
             'options' => [
@@ -401,6 +430,10 @@ class SiteSettingsForm extends Form
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'locale',
+            'allow_empty' => true,
+        ]);
+        $inputFilter->add([
+            'name' => 'subnav_display',
             'allow_empty' => true,
         ]);
         $inputFilter->add([

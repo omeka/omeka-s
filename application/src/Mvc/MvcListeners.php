@@ -260,7 +260,7 @@ class MvcListeners extends AbstractListenerAggregate
     public function authenticateApiKey(MvcEvent $event)
     {
         $routeMatch = $event->getRouteMatch();
-        if (!$routeMatch->getParam('__API__')) {
+        if (!$routeMatch->getParam('__KEYAUTH__')) {
             // This is not an API request.
             return;
         }

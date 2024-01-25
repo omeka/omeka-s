@@ -71,7 +71,8 @@ msgstr "L’adaptateur %1$s n’exécute pas l’opération de suppression en lo
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:292
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s adapter class."
-msgstr "Le champ « %1$s » n’est pas disponible dans classe d’adaptateur %2$s."
+msgstr ""
+"Le champ « %1$s » n’est pas disponible dans la classe d’adaptateur %2$s."
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:308
 #, php-format
@@ -702,7 +703,7 @@ msgstr "Présence de médias"
 #: application/src/View/Helper/SearchFilters.php:216
 #: application/view/common/advanced-search/has-media.phtml:5
 msgid "Has media"
-msgstr "A le média"
+msgstr "A un média"
 
 #: application/src/View/Helper/SearchFilters.php:216
 #: application/view/common/advanced-search/has-media.phtml:6
@@ -2093,7 +2094,7 @@ msgstr "Traitements en lot"
 #: application/view/omeka/admin/media/browse.phtml:24
 #: application/view/omeka/admin/user/browse.phtml:34
 msgid "Edit selected"
-msgstr "Modifier sélectionnés"
+msgstr "Modifier la sélection"
 
 #: application/view/omeka/admin/item-set/browse.phtml:32
 #: application/view/omeka/admin/item/browse.phtml:32
@@ -2107,7 +2108,7 @@ msgstr "Modifier tout"
 #: application/view/omeka/admin/media/browse.phtml:28
 #: application/view/omeka/admin/user/browse.phtml:38
 msgid "Delete selected"
-msgstr "Supprimer sélectionnés"
+msgstr "Supprimer la selection"
 
 #: application/view/omeka/admin/item-set/browse.phtml:36
 #: application/view/omeka/admin/item/browse.phtml:36
@@ -2474,7 +2475,7 @@ msgstr "Vous allez modifier %s médias."
 #: application/view/omeka/admin/media/browse.phtml:59
 #: application/view/omeka/admin/media/sidebar-select.phtml:8
 msgid "Select media"
-msgstr "Choisir le média"
+msgstr "Choisir un média"
 
 #: application/view/omeka/admin/media/browse.phtml:116
 #: application/view/omeka/admin/media/browse.phtml:134

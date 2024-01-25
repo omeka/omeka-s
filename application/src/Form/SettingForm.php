@@ -201,6 +201,19 @@ class SettingForm extends Form
             ],
         ]);
 
+        $this->add([
+            'name' => 'favicon',
+            'type' => 'Omeka\Form\Element\Asset',
+            'options' => [
+                'element_group' => 'general',
+                'label' => 'Favicon', // @translate
+            ],
+            'attributes' => [
+                'value' => $this->settings->get('favicon'),
+                'id' => 'favicon',
+            ],
+        ]);
+
         // Display element group
 
         $this->add([

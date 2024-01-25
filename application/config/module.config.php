@@ -264,6 +264,7 @@ return [
             'Omeka\Logger' => Service\LoggerFactory::class,
             'Omeka\MigrationManager' => Service\MigrationManagerFactory::class,
             'Omeka\ViewApiJsonStrategy' => Service\ViewApiJsonStrategyFactory::class,
+            'Omeka\ViewApiJsonRenderer' => Service\ViewApiJsonRendererFactory::class,
             'Omeka\HttpClient' => Service\HttpClientFactory::class,
             'Omeka\Mailer' => Service\MailerFactory::class,
             'Omeka\HtmlPurifier' => Service\HtmlPurifierFactory::class,
@@ -290,6 +291,7 @@ return [
             'Omeka\Settings' => Service\Settings\SettingsFactory::class,
             'Omeka\Settings\Site' => Service\Settings\SiteSettingsFactory::class,
             'Omeka\Settings\User' => Service\Settings\UserSettingsFactory::class,
+            'Omeka\Settings\Fallback' => Service\Settings\FallbackSettingsFactory::class,
             'Omeka\Job\Dispatcher' => Service\Job\DispatcherFactory::class,
             'Omeka\Job\DispatchStrategy\PhpCli' => Service\Job\DispatchStrategy\PhpCliFactory::class,
             'Omeka\Job\DispatchStrategy\Synchronous' => Service\Job\DispatchStrategy\SynchronousFactory::class,
@@ -306,7 +308,6 @@ return [
             'ModuleRouteListener' => \Laminas\Mvc\ModuleRouteListener::class,
             'Omeka\MvcExceptionListener' => Mvc\ExceptionListener::class,
             'Omeka\MvcListeners' => Mvc\MvcListeners::class,
-            'Omeka\ViewApiJsonRenderer' => View\Renderer\ApiJsonRenderer::class,
         ],
         'delegators' => [
             'Laminas\I18n\Translator\TranslatorInterface' => [
@@ -383,6 +384,7 @@ return [
             'settings' => Service\ControllerPlugin\SettingsFactory::class,
             'siteSettings' => Service\ControllerPlugin\SiteSettingsFactory::class,
             'userSettings' => Service\ControllerPlugin\UserSettingsFactory::class,
+            'fallbackSettings' => Service\ControllerPlugin\FallbackSettingsFactory::class,
             'status' => Service\ControllerPlugin\StatusFactory::class,
             'viewHelpers' => Service\ControllerPlugin\ViewHelpersFactory::class,
             'browse' => Service\ControllerPlugin\BrowseFactory::class,
@@ -467,6 +469,7 @@ return [
             'setting' => Service\ViewHelper\SettingFactory::class,
             'userSetting' => Service\ViewHelper\UserSettingFactory::class,
             'siteSetting' => Service\ViewHelper\SiteSettingFactory::class,
+            'fallbackSetting' => Service\ViewHelper\FallbackSettingFactory::class,
             'themeSetting' => Service\ViewHelper\ThemeSettingFactory::class,
             'trigger' => Service\ViewHelper\TriggerFactory::class,
             'userIsAllowed' => Service\ViewHelper\UserIsAllowedFactory::class,
@@ -517,6 +520,7 @@ return [
         ],
         'factories' => [
             'Omeka\Form\ResourceForm' => Service\Form\ResourceFormFactory::class,
+            'Omeka\Form\VocabularyForm' => Service\Form\VocabularyFormFactory::class,
             'Omeka\Form\ResourceBatchUpdateForm' => Service\Form\ResourceBatchUpdateFormFactory::class,
             'Omeka\Form\UserForm' => Service\Form\UserFormFactory::class,
             'Omeka\Form\SettingForm' => Service\Form\SettingFormFactory::class,

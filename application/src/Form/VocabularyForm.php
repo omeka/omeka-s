@@ -5,8 +5,10 @@ use Laminas\Form\Form;
 
 class VocabularyForm extends Form
 {
+    protected $translator;
+
     protected $options = [
-        'include_namespace' => false,
+        'vocabulary' => null,
     ];
 
     public function __construct($name = null, $options = [])
@@ -16,6 +18,8 @@ class VocabularyForm extends Form
 
     public function init()
     {
+        $vocabulary = $this->getOption('vocabulary');
+        $this->setAttribute('id', 'vocabulary-form');
         $this->add([
             'name' => 'vocabulary-info',
             'type' => 'fieldset',
@@ -61,19 +65,23 @@ class VocabularyForm extends Form
                 'id' => 'o:comment',
             ],
         ]);
-        if ($this->getOption('include_namespace')) {
-            $this->get('vocabulary-info')->add([
-                'name' => 'o:namespace_uri',
-                'type' => 'text',
-                'options' => [
-                    'label' => 'Namespace URI', // @translate
-                    'info' => 'Enter the unique namespace URI used to identify the classes and properties of the vocabulary.', // @translate
-                ],
-                'attributes' => [
-                    'required' => true,
-                    'id' => 'o:namespace_uri',
-                ],
-            ]);
+        $this->get('vocabulary-info')->add([
+            'name' => 'o:namespace_uri',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Namespace URI', // @translate
+                'info' => 'Enter the unique namespace URI used to identify the classes and properties of the vocabulary.', // @translate
+            ],
+            'attributes' => [
+                'required' => true,
+                'id' => 'o:namespace_uri',
+                'placeholder' => $vocabulary ? $vocabulary->namespaceUri() : null,
+                'data-confirm-ends-with' => $this->translator->translate('The namespace URI you entered does not end with a / or #, as is normally expected for namespace URIs. Would you like to save anyway?'),
+                'data-confirm-change' => $this->translator->translate('The namespace URI you entered does not match the saved namespace URI. Would you like to save anyway?'),
+                'data-original-namespace-uri' => $vocabulary ? $vocabulary->namespaceUri() : null,
+            ],
+        ]);
+        if (!$vocabulary) {
             $this->get('vocabulary-info')->add([
                 'name' => 'o:prefix',
                 'type' => 'text',
@@ -88,25 +96,40 @@ class VocabularyForm extends Form
             ]);
         }
         $this->get('vocabulary-file')->add([
+            'name' => 'import_type',
+            'type' => 'radio',
+            'options' => [
+                'label' => 'Import type', // @translate
+                'value_options' => [
+                    'upload' => 'Upload', // @translate
+                    'url' => 'URL', // @translate
+                ],
+            ],
+            'attributes' => [
+                'value' => 'upload',
+                'class' => 'import-type-select',
+            ],
+        ]);
+        $this->get('vocabulary-file')->add([
             'name' => 'file',
             'type' => 'file',
             'options' => [
-                'label' => 'Vocabulary file', // @translate
-                'info' => 'Choose a RDF vocabulary file. You must choose a file or enter a URL below.', // @translate
+                'label' => 'File upload', // @translate
+                'info' => 'Choose a RDF vocabulary file.', // @translate
             ],
             'attributes' => [
-                'id' => 'file',
+                'id' => 'file-upload',
             ],
         ]);
         $this->get('vocabulary-file')->add([
             'name' => 'url',
             'type' => 'url',
             'options' => [
-                'label' => 'Vocabulary URL', // @translate
-                'info' => 'Enter a RDF vocabulary URL. You must enter a URL or choose a file above.', // @translate
+                'label' => 'File URL', // @translate
+                'info' => 'Enter a URL to a RDF vocabulary file.', // @translate
             ],
             'attributes' => [
-                'id' => 'url',
+                'id' => 'file-url',
             ],
         ]);
         $this->get('vocabulary-file')->add([
@@ -120,6 +143,10 @@ class VocabularyForm extends Form
                     'ntriples' => 'N-Triples (.nt)', // @translate
                     'rdfxml' => 'RDF/XML (.rdf)', // @translate
                     'turtle' => 'Turtle (.ttl)', // @translate
+                    [
+                        'value' => 'turtle',
+                        'label' => 'Notation3 (.n3)', // @translate
+                    ],
                 ],
             ],
             'attributes' => [
@@ -181,5 +208,10 @@ class VocabularyForm extends Form
                 ['name' => 'ToNull'],
             ],
         ]);
+    }
+
+    public function setTranslator($translator)
+    {
+        $this->translator = $translator;
     }
 }

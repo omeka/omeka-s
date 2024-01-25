@@ -2,8 +2,8 @@
 namespace Omeka\View\Renderer;
 
 use Omeka\Api\Exception\ValidationException;
-use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Api\Response;
+use Laminas\EventManager\EventManager;
 use Laminas\Json\Json;
 use Laminas\View\Renderer\JsonRenderer;
 
@@ -18,14 +18,16 @@ class ApiJsonRenderer extends JsonRenderer
     protected $hasJsonpCallback = false;
 
     /**
-     * @var array The JSON-LD context
-     */
-    protected $context;
-
-    /**
      * @var string The output format
      */
     protected $format;
+
+    protected $eventManager;
+
+    public function __construct(EventManager $eventManager)
+    {
+        $this->eventManager = $eventManager;
+    }
 
     /**
      * Return whether the response is JSONP
@@ -39,6 +41,11 @@ class ApiJsonRenderer extends JsonRenderer
     public function hasJsonpCallback()
     {
         return $this->hasJsonpCallback;
+    }
+
+    public function setHasJsonpCallback(bool $hasJsonpCallback)
+    {
+        $this->hasJsonpCallback = $hasJsonpCallback;
     }
 
     public function render($model, $values = null)
@@ -61,82 +68,17 @@ class ApiJsonRenderer extends JsonRenderer
             return null;
         }
 
-        // Render a format that is not JSON-LD, if requested.
-        if ('jsonld' !== $this->format) {
-            // Render a single representation (get).
-            if ($payload instanceof RepresentationInterface) {
-                $jsonLd = $this->getJsonLdWithContext($payload);
-                return $this->serializeJsonLdToFormat($jsonLd, $this->format);
-            }
-            // Render multiple representations (getList);
-            if (is_array($payload) && isset($payload[0]) && $payload[0] instanceof RepresentationInterface) {
-                $jsonLd = [];
-                foreach ($payload as $representation) {
-                    $jsonLd[] = $this->getJsonLdWithContext($representation);
-                }
-                return $this->serializeJsonLdToFormat($jsonLd, $this->format);
-            }
-        }
-
         $output = parent::render($payload);
 
-        if ($payload instanceof RepresentationInterface) {
-            $eventManager = $payload->getEventManager();
-            $args = $eventManager->prepareArgs(['jsonLd' => $output]);
-            $eventManager->trigger('rep.resource.json_output', $payload, $args);
-            $output = $args['jsonLd'];
-        }
-
-        if (null !== $model->getOption('pretty_print')) {
-            // Pretty print the JSON.
-            $output = Json::prettyPrint($output);
-        }
-
-        $jsonpCallback = (string) $model->getOption('callback');
-        if (!empty($jsonpCallback)) {
-            // Wrap the JSON in a JSONP callback. Normally this would be done
-            // via `$this->setJsonpCallback()` but we don't want to pass the
-            // wrapped string to `rep.resource.json_output` handlers.
-            $output = sprintf('%s(%s);', $jsonpCallback, $output);
-            $this->hasJsonpCallback = true;
-        }
-
-        return $output;
-    }
-
-    /**
-     * Get the JSON-LD array of a representation, adding the @context.
-     *
-     * @param RepresentationInterface $representation
-     * @return array
-     */
-    public function getJsonLdWithContext(RepresentationInterface $representation)
-    {
-        // Add the @context by encoding the output as JSON, then decoding to an array.
-        $eventManager = $representation->getEventManager();
-        $jsonLd = Json::decode(Json::encode($representation), true);
-        if (!$this->context) {
-            // Get the JSON-LD @context
-            $args = $eventManager->prepareArgs(['context' => []]);
-            $eventManager->trigger('api.context', null, $args);
-            $this->context = $args['context'];
-        }
-        $jsonLd['@context'] = $this->context;
-        return $jsonLd;
-    }
-
-    /**
-     * Serialize JSON-LD to another format.
-     *
-     * @param array $jsonLd
-     * @param string $format
-     * @param string
-     */
-    public function serializeJsonLdToFormat(array $jsonLd, string $format)
-    {
-        $graph = new \EasyRdf\Graph;
-        $graph->parse(Json::encode($jsonLd), 'jsonld');
-        return $graph->serialise($format);
+        // Allow modules to return custom output.
+        $args = $this->eventManager->prepareArgs([
+            'model' => $model,
+            'payload' => $payload,
+            'format' => $this->format,
+            'output' => $output,
+        ]);
+        $this->eventManager->trigger('api.output.serialize', $this, $args);
+        return $args['output'];
     }
 
     /**

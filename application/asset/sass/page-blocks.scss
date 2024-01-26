@@ -75,7 +75,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    text-align: center;
+    margin: auto;
 
     .item {
         width: 100%;
@@ -171,14 +171,6 @@
         margin-right: 0;
         vertical-align: top;
     }
-}
-
-/* IE/Edge min-content alternative */
-.file {
-    border-top: 1px solid $border-gray;
-    border-bottom: 1px solid $border-gray;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
 }
 
 .medium .item.resource > h3,

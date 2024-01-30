@@ -4,7 +4,7 @@ namespace Omeka\Form\View\Helper;
 use Laminas\Form\View\Helper\AbstractHelper;
 use Laminas\Form\ElementInterface;
 
-class FormBackground extends AbstractHelper
+class FormBackgroundImage extends AbstractHelper
 {
     public function __invoke(ElementInterface $element)
     {
@@ -13,6 +13,6 @@ class FormBackground extends AbstractHelper
 
     public function render(ElementInterface $element)
     {
-        return $this->getView()->partial('common/background-form', ['element' => $element]);
+        return $this->getView()->partial('common/background-image-form', ['element' => $element]);
     }
 }

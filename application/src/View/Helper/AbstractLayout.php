@@ -39,49 +39,49 @@ abstract class AbstractLayout extends AbstractHelper
             default:
                 // No alignment
         }
-        $backgroundPositionY = $block->layoutDataValue('background_position_y');
-        if ($backgroundPositionY) {
-            switch ($backgroundPositionY) {
+        $backgroundImagePositionY = $block->layoutDataValue('background_image_position_y');
+        if ($backgroundImagePositionY) {
+            switch ($backgroundImagePositionY) {
                 case 'top':
-                    $classes[] = 'block-layout-background-position-y-top';
+                    $classes[] = 'block-layout-background-image-position-y-top';
                     break;
                 case 'center':
-                    $classes[] = 'block-layout-background-position-y-center';
+                    $classes[] = 'block-layout-background-image-position-y-center';
                     break;
                 case 'bottom':
-                    $classes[] = 'block-layout-background-position-y-bottom';
+                    $classes[] = 'block-layout-background-image-position-y-bottom';
                     break;
                 default:
-                    // No background position Y
+                    // No background image position Y
             }
         }
-        $backgroundPositionX = $block->layoutDataValue('background_position_x');
-        if ($backgroundPositionX) {
-            switch ($backgroundPositionX) {
+        $backgroundImagePositionX = $block->layoutDataValue('background_image_position_x');
+        if ($backgroundImagePositionX) {
+            switch ($backgroundImagePositionX) {
                 case 'left':
-                    $classes[] = 'block-layout-background-position-x-left';
+                    $classes[] = 'block-layout-background-image-position-x-left';
                     break;
                 case 'center':
-                    $classes[] = 'block-layout-background-position-x-center';
+                    $classes[] = 'block-layout-background-image-position-x-center';
                     break;
                 case 'right':
-                    $classes[] = 'block-layout-background-position-x-right';
+                    $classes[] = 'block-layout-background-image-position-x-right';
                     break;
                 default:
-                    // No background position X
+                    // No background image position X
             }
         }
-        $backgroundSize = $block->layoutDataValue('background_size');
-        if ($backgroundSize) {
-            switch ($backgroundSize) {
+        $backgroundImageSize = $block->layoutDataValue('background_image_size');
+        if ($backgroundImageSize) {
+            switch ($backgroundImageSize) {
                 case 'cover':
-                    $classes[] = 'block-layout-background-size-cover';
+                    $classes[] = 'block-layout-background-image-size-cover';
                     break;
                 case 'contain':
-                    $classes[] = 'block-layout-background-size-contain';
+                    $classes[] = 'block-layout-background-image-size-contain';
                     break;
                 default:
-                    // No background size
+                    // No background image size
             }
         }
 

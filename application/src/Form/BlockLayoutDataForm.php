@@ -107,10 +107,10 @@ class BlockLayoutDataForm extends Form
             ],
         ]);
         $this->add([
-            'name' => 'background',
-            'type' => 'Omeka\Form\Element\Background',
+            'name' => 'background_image',
+            'type' => 'Omeka\Form\Element\BackgroundImage',
             'options' => [
-                'label' => 'Background',
+                'label' => 'Background image',
             ],
         ]);
 

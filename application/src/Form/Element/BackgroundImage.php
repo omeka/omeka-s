@@ -4,9 +4,9 @@ namespace Omeka\Form\Element;
 use Laminas\Form\Element as LaminasElement;
 use Omeka\Form\Element as OmekaElement;
 
-class Background extends LaminasElement
+class BackgroundImage extends LaminasElement
 {
-    protected $imageAssetElement;
+    protected $assetElement;
     protected $positionYElement;
     protected $positionXElement;
     protected $sizeElement;
@@ -15,13 +15,13 @@ class Background extends LaminasElement
     {
         parent::__construct($name, $options);
 
-        $this->imageAssetElement = (new OmekaElement\Asset('background_image_asset'))
+        $this->assetElement = (new OmekaElement\Asset('background_image_asset'))
             ->setAttributes([
                 'id' => 'block-layout-data-background-image-asset',
                 'data-key' => 'background_image_asset',
             ]);
 
-        $this->positionYElement = (new LaminasElement\Select('background_position_y'))
+        $this->positionYElement = (new LaminasElement\Select('background_image_position_y'))
             ->setEmptyOption('Default') // @translate
             ->setValueOptions([
                 'top' => 'Top', // @translate
@@ -29,11 +29,11 @@ class Background extends LaminasElement
                 'bottom' => 'Bottom', // @translate
             ])
             ->setAttributes([
-                'id' => 'block-layout-data-background-position-y',
-                'data-key' => 'background_position_y',
+                'id' => 'block-layout-data-background-image-position-y',
+                'data-key' => 'background_image_position_y',
             ]);
 
-        $this->positionXElement = (new LaminasElement\Select('background_position_x'))
+        $this->positionXElement = (new LaminasElement\Select('background_image_position_x'))
             ->setEmptyOption('Default') // @translate
             ->setValueOptions([
                 'left' => 'Left', // @translate
@@ -41,24 +41,24 @@ class Background extends LaminasElement
                 'right' => 'Right', // @translate
             ])
             ->setAttributes([
-                'id' => 'block-layout-data-background-position-x',
-                'data-key' => 'background_position_x',
+                'id' => 'block-layout-data-background-image-position-x',
+                'data-key' => 'background_image_position_x',
             ]);
-        $this->sizeElement = (new LaminasElement\Select('background_size'))
+        $this->sizeElement = (new LaminasElement\Select('background_image_size'))
             ->setEmptyOption('Default') // @translate
             ->setValueOptions([
                 'cover' => 'Cover', // @translate
                 'contain' => 'Contain', // @translate
             ])
             ->setAttributes([
-                'id' => 'block-layout-data-background-size',
-                'data-key' => 'background_size',
+                'id' => 'block-layout-data-background-image-size',
+                'data-key' => 'background_image_size',
             ]);
     }
 
-    public function getImageAssetElement()
+    public function getAssetElement()
     {
-        return $this->imageAssetElement;
+        return $this->assetElement;
     }
 
     public function getPositionYElement()

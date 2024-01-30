@@ -23,6 +23,7 @@ class FormElementDelegatorFactory implements DelegatorFactoryInterface
         $formElement->addClass('Omeka\Form\Element\Columns', 'formColumns');
         $formElement->addClass('Omeka\Form\Element\BrowseDefaults', 'formBrowseDefaults');
         $formElement->addClass('Omeka\Form\Element\BackgroundImage', 'formBackgroundImage');
+        $formElement->addClass('Omeka\Form\Element\Padding', 'formPadding');
         return $formElement;
     }
 }

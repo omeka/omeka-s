@@ -107,6 +107,13 @@ class BlockLayoutDataForm extends Form
             ],
         ]);
         $this->add([
+            'name' => 'padding',
+            'type' => 'Omeka\Form\Element\Padding',
+            'options' => [
+                'label' => 'Padding',
+            ],
+        ]);
+        $this->add([
             'name' => 'background_color',
             'type' => 'color',
             'options' => [

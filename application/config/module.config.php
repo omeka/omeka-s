@@ -442,6 +442,7 @@ return [
             'formColumns' => Form\View\Helper\FormColumns::class,
             'formBrowseDefaults' => Form\View\Helper\FormBrowseDefaults::class,
             'formBackgroundImage' => Form\View\Helper\FormBackgroundImage::class,
+            'formPadding' => Form\View\Helper\FormPadding::class,
             'themeSettingAsset' => View\Helper\ThemeSettingAsset::class,
             'themeSettingAssetUrl' => View\Helper\ThemeSettingAssetUrl::class,
             'formColorPicker' => Form\View\Helper\FormColorPicker::class,

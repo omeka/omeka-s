@@ -25,19 +25,36 @@ abstract class AbstractLayout extends AbstractHelper
         if (is_string($class) && '' !== trim($class)) {
             $classes[] = $class;
         }
-        $alignment = $block->layoutDataValue('alignment');
-        switch ($alignment) {
+        $alignmentBlock = $block->layoutDataValue('alignment_block');
+        switch ($alignmentBlock) {
             case 'left':
-                $classes[] = 'block-layout-alignment-left';
+                $classes[] = 'block-layout-alignment-block-left';
                 break;
             case 'right':
-                $classes[] = 'block-layout-alignment-right';
+                $classes[] = 'block-layout-alignment-block-right';
                 break;
             case 'center':
-                $classes[] = 'block-layout-alignment-center';
+                $classes[] = 'block-layout-alignment-block-center';
                 break;
             default:
-                // No alignment
+                // No block alignment
+        }
+        $alignmentText = $block->layoutDataValue('alignment_text');
+        switch ($alignmentText) {
+            case 'left':
+                $classes[] = 'block-layout-alignment-text-left';
+                break;
+            case 'center':
+                $classes[] = 'block-layout-alignment-text-center';
+                break;
+            case 'right':
+                $classes[] = 'block-layout-alignment-text-right';
+                break;
+            case 'justify':
+                $classes[] = 'block-layout-alignment-text-justify';
+                break;
+            default:
+                // No text alignment
         }
         $backgroundImagePositionY = $block->layoutDataValue('background_image_position_y');
         if ($backgroundImagePositionY) {

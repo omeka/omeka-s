@@ -68,10 +68,10 @@ class BlockLayoutDataForm extends Form
             ],
         ]);
         $this->add([
-            'name' => 'alignment',
+            'name' => 'alignment_block',
             'type' => 'select',
             'options' => [
-                'label' => 'Alignment', // @translate
+                'label' => 'Block alignment', // @translate
                 'empty_option' => 'Default', // @translate
                 'value_options' => [
                     'left' => 'Float left', // @translate
@@ -80,8 +80,26 @@ class BlockLayoutDataForm extends Form
                 ],
             ],
             'attributes' => [
-                'id' => 'block-layout-data-alignment',
-                'data-key' => 'alignment',
+                'id' => 'block-layout-data-alignment-block',
+                'data-key' => 'alignment_block',
+            ],
+        ]);
+        $this->add([
+            'name' => 'alignment_text',
+            'type' => 'select',
+            'options' => [
+                'label' => 'Text alignment', // @translate
+                'empty_option' => 'Default', // @translate
+                'value_options' => [
+                    'left' => 'Left', // @translate
+                    'center' => 'Center', // @translate
+                    'right' => 'Right', // @translate
+                    'justify' => 'Justify', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-alignment-text',
+                'data-key' => 'alignment_text',
             ],
         ]);
         $this->add([

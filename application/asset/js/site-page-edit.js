@@ -783,6 +783,16 @@
                 }
             });
 
+            // Update the background color swatch.
+            const bgColorInput = $('#block-layout-data-background-color');
+            const bgColorSwatch = bgColorInput.siblings('.color-picker-sample');
+            const bgColor = bgColorInput.val();
+            if ('' !== bgColor && bgColorInput[0].checkValidity()) {
+                bgColorSwatch.css('background-color', bgColor);
+            } else {
+                bgColorSwatch.css('background-color', 'transparent');
+            }
+
             Omeka.openSidebar(blockLayoutDataSidebar);
         });
 

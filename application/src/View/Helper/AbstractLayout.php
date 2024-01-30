@@ -125,17 +125,29 @@ abstract class AbstractLayout extends AbstractHelper
         $this->eventManager->triggerEvent(new Event('block_layout.inline_styles', $block, $eventArgs));
         $inlineStyles = $eventArgs['inline_styles'];
 
-        $backgroundColor = $block->layoutDataValue('background_color');
-        if ($backgroundColor && $isValidHexColor($backgroundColor)) {
-            $inlineStyles[] = sprintf('background-color: %s;', $backgroundColor);
-        }
+        // Add inline styles for background.
+        $hasBackgroundUrl = false;
         $backgroundImageAsset = $block->layoutDataValue('background_image_asset');
         if ($backgroundImageAsset) {
             $asset = $view->api()->searchOne('assets', ['id' => $backgroundImageAsset])->getContent();
             if ($asset) {
-                $inlineStyles[] = sprintf('background-image: url("%s");', $view->escapeCss($asset->assetUrl()));
+                $hasBackgroundUrl = true;
+                $backgroundUrl = $asset->assetUrl();
             }
         }
+        $hasBackgroundColor = false;
+        $backgroundColor = $block->layoutDataValue('background_color');
+        if ($backgroundColor && $isValidHexColor($backgroundColor)) {
+            $hasBackgroundColor = true;
+        }
+        if ($hasBackgroundUrl && $hasBackgroundColor) {
+            $inlineStyles[] = sprintf('background: url("%s"), %s;', $view->escapeCss($backgroundUrl), $backgroundColor);
+        } elseif ($hasBackgroundUrl) {
+            $inlineStyles[] = sprintf('background-image: url("%s");', $view->escapeCss($backgroundUrl));
+        } elseif ($hasBackgroundColor) {
+            $inlineStyles[] = sprintf('background-color: %s;', $backgroundColor);
+        }
+
         $maxWidth = $block->layoutDataValue('max_width');
         if (is_string($maxWidth) && $isValidLength($maxWidth)) {
             $inlineStyles[] = sprintf('max-width: %s;', $maxWidth);

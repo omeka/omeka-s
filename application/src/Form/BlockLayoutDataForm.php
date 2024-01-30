@@ -133,7 +133,7 @@ class BlockLayoutDataForm extends Form
         ]);
         $this->add([
             'name' => 'background_color',
-            'type' => 'color',
+            'type' => 'Omeka\Form\Element\ColorPicker',
             'options' => [
                 'label' => 'Background color', // @translate
             ],

@@ -107,6 +107,17 @@ class BlockLayoutDataForm extends Form
             ],
         ]);
         $this->add([
+            'name' => 'background_color',
+            'type' => 'color',
+            'options' => [
+                'label' => 'Background color', // @translate
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-background-color',
+                'data-key' => 'background_color',
+            ],
+        ]);
+        $this->add([
             'name' => 'background_image',
             'type' => 'Omeka\Form\Element\BackgroundImage',
             'options' => [

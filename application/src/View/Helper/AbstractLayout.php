@@ -103,6 +103,11 @@ abstract class AbstractLayout extends AbstractHelper
         $this->eventManager->triggerEvent(new Event('block_layout.inline_styles', $block, $eventArgs));
         $inlineStyles = $eventArgs['inline_styles'];
 
+        $backgroundColor = $block->layoutDataValue('background_color');
+        // Validate a hexadecimal color code.
+        if ($backgroundColor && preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $backgroundColor)) {
+            $inlineStyles[] = sprintf('background-color: %s;', $backgroundColor);
+        }
         $backgroundImageAsset = $block->layoutDataValue('background_image_asset');
         if ($backgroundImageAsset) {
             $asset = $view->api()->searchOne('assets', ['id' => $backgroundImageAsset])->getContent();

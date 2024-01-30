@@ -1,27 +1,27 @@
 @import "base";
 
 
-.block-layout-background-position-y-top {
+.block-layout-background-image-position-y-top {
     background-position-y: top;
 }
 
-.block-layout-background-position-y-center {
+.block-layout-background-image-position-y-center {
     background-position-y: center;
 }
 
-.block-layout-background-position-y-bottom {
+.block-layout-background-image-position-y-bottom {
     background-position-y: bottom;
 }
 
-.block-layout-background-position-x-left {
+.block-layout-background-image-position-x-left {
     background-position-x: left;
 }
 
-.block-layout-background-position-x-center {
+.block-layout-background-image-position-x-center {
     background-position-x: center;
 }
 
-.block-layout-background-position-x-right {
+.block-layout-background-image-position-x-right {
     background-position-x: right;
 }
 
@@ -99,16 +99,16 @@
     margin-top: 0;
 }
 
-.block-layout-background-size-cover,
-.block-layout-background-size-contain {
+.block-layout-background-image-size-cover,
+.block-layout-background-image-size-contain {
     background-repeat: no-repeat;
 }
 
-.block-layout-background-size-cover {
+.block-layout-background-image-size-cover {
     background-size: cover;
 }
 
-.block-layout-background-size-contain {
+.block-layout-background-image-size-contain {
     background-size: contain;
 }
 

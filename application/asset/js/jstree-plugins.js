@@ -21,7 +21,7 @@ $.jstree.plugins.removenode = function(options, parent) {
     var toBeRemovedSpan = $('<span>', {
         class: 'jstree-removenode-toberemoved',
         style: 'display: none;'
-    }).text('link to be removed');
+    }).text(Omeka.jsTranslate('link to be removed'));
     this.bind = function() {
         parent.bind.call(this);
         this.element.on(

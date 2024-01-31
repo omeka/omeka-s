@@ -47,6 +47,7 @@ class ListOfPages extends AbstractBlockLayout
         $pageList = new Hidden("o:block[__blockIndex__][o:data][pagelist]");
         if ($block) {
             $nodes = json_decode($block->dataValue('pagelist'), true);
+            $nodes = is_array($nodes) ? $nodes : [];
             $pageTree = $this->getPageNodeURLs($nodes, $block);
         } else {
             $pageTree = '';
@@ -66,7 +67,7 @@ class ListOfPages extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
         $nodes = json_decode($block->dataValue('pagelist'), true);
-        if (!$nodes) {
+        if (!is_array($nodes)) {
             return '';
         }
 

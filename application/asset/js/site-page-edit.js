@@ -208,6 +208,11 @@
                         replaceIndex(thisAttachment, 'attachmentIndex', attachmentIndex);
                     });
                 }
+                // Set block layout data to form.
+                const blockLayoutData = thisBlock.data('block-layout-data');
+                blockLayoutData.grid_column_position = thisBlock.find('.block-page-layout-grid-column-position-select').val();
+                blockLayoutData.grid_column_span = thisBlock.find('.block-page-layout-grid-column-span-select').val();
+                thisBlock.find('.block-layout-data').val(JSON.stringify(blockLayoutData));
             });
         });
 
@@ -426,6 +431,291 @@
 
         $('#content').on('click', '.page-clear', function() {
             resetAssetOption('#asset-options .page-link');
+        });
+
+        // Prepare page layout for use.
+        const preparePageLayout = function() {
+            const layoutSelect = $('#page-layout-select');
+            const gridColumnsSelect = $('#page-layout-grid-columns-select');
+            const gridColumnGapInput = $('#page-layout-grid-column-gap-input');
+            const gridRowGapInput = $('#page-layout-grid-row-gap-input');
+            const gridPreview = $('#preview-page-layout-grid');
+            const blockGridControls = $('.block-page-layout-grid-controls');
+            const blockGridPreview = $('.preview-block-page-layout-grid');
+            // Disable and hide all layout-specific controls by default.
+            gridColumnsSelect.hide();
+            gridColumnGapInput.closest('.field').hide();
+            gridRowGapInput.closest('.field').hide();
+            gridPreview.hide();
+            blockGridControls.hide();
+            blockGridPreview.hide();
+            switch (layoutSelect.val()) {
+                case 'grid':
+                    // Prepare grid layout.
+                    gridColumnsSelect.show();
+                    gridColumnGapInput.closest('.field').show();
+                    gridRowGapInput.closest('.field').show();
+                    gridPreview.show();
+                    blockGridControls.show();
+                    blockGridPreview.show();
+                    preparePageGridLayout();
+                    break;
+                case '':
+                default:
+                    // Prepare normal flow layout. Do nothing.
+                    break;
+            }
+        };
+
+        // Prepare page grid layout for use.
+        const preparePageGridLayout = function() {
+            const gridColumns = parseInt($('#page-layout-grid-columns-select').val(), 10);
+            $('.block').each(function() {
+                const thisBlock = $(this);
+                const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                const gridColumnPositionSelectValue = parseInt(gridColumnPositionSelect.val(), 10);
+                const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                const gridColumnSpanSelectValue = parseInt(gridColumnSpanSelect.val(), 10);
+                // Hide invalid positions according to the column # and span #.
+                gridColumnPositionSelect.find('option').show()
+                    .filter(function() {
+                        const thisOption = $(this);
+                        const thisValue = parseInt(thisOption.attr('value'), 10);
+                        return (thisValue > gridColumns) || (thisValue > (1 + gridColumns - gridColumnSpanSelectValue));
+                    }).hide();
+                // Hide invalid spans according to the column # and position #.
+                gridColumnSpanSelect.find('option').show()
+                    .filter(function() {
+                        const thisOption = $(this);
+                        const thisValue = parseInt(thisOption.attr('value'), 10);
+                        return (thisValue > gridColumns) || (thisValue > (1 + gridColumns - gridColumnPositionSelectValue));
+                    }).hide();
+            });
+        };
+
+        // Set layout-specific block controls to their default values.
+        const setPageLayoutBlockDefaults = function(blockElements) {
+            const layoutSelect = $('#page-layout-select');
+            switch (layoutSelect.val()) {
+                case 'grid':
+                    // Set grid layout defaults.
+                    const gridColumns = $('#page-layout-grid-columns-select').val();
+                    blockElements.each(function() {
+                        const thisBlock = $(this);
+                        thisBlock.find('.block-page-layout-grid-column-position-select').val('auto');
+                        thisBlock.find('.block-page-layout-grid-column-span-select').val(gridColumns);
+                    });
+                    break;
+                case '':
+                default:
+                    // Set normal flow layout defaults. Do nothing.
+                    break;
+            }
+        }
+
+        // Preview the page layout grid.
+        const previewPageLayoutGrid = function() {
+            const gridLayoutPreview = $('#grid-layout-preview');
+            const gridColumns = parseInt($('#page-layout-grid-columns-select').val(), 10);
+            gridLayoutPreview
+                .empty()
+                .css('grid-template-columns', `repeat(${gridColumns}, 1fr)`);
+            $('.block').each(function() {
+                const thisBlock = $(this);
+                const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                const gridColumnPositionSelectValue = parseInt(gridColumnPositionSelect.val(), 10) || 'auto';
+                const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                const gridColumnSpanSelectValue = parseInt(gridColumnSpanSelect.val(), 10);
+                const selectedTooltip = $('<div class="selected-tooltip" title="Selected">');
+                const blockDiv = $('<div class="grid-layout-previewing-block">')
+                    .css('grid-column', `${gridColumnPositionSelectValue} / span ${gridColumnSpanSelectValue}`);
+                if (thisBlock.hasClass('grid-layout-previewing')) {
+                    blockDiv.addClass('grid-layout-previewing').append(selectedTooltip);
+                }
+                blockDiv.hover(
+                    function() {
+                        thisBlock.addClass('hovered-block');
+                        $(this).addClass('hovered-block');
+                    },
+                    function() {
+                        thisBlock.removeClass('hovered-block');
+                        $(this).removeClass('hovered-block');
+                    }
+                );
+                gridLayoutPreview.append(blockDiv);
+            });
+            Omeka.openSidebar($('#grid-layout-preview-sidebar'));
+        };
+
+        // Prepare page layout on initial load.
+        preparePageLayout();
+
+        // Handle adding a block.
+        $('#blocks').on('o:block-added', '.block', function(e) {
+            const thisBlock = $(this);
+            setPageLayoutBlockDefaults(thisBlock);
+            preparePageLayout();
+        });
+
+        // Handle a page layout change.
+        $('#page-layout-select').on('change', function() {
+            // Revert to the previous grid state, if any.
+            const columnsSelect = $('#page-layout-grid-columns-select');
+            columnsSelect.val(columnsSelect.data('page-layout-grid-columns'));
+            $('.block').each(function() {
+                const thisBlock = $(this);
+                const positionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                const spanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                positionSelect.val(positionSelect.data('block-page-layout-grid-column-position'));
+                spanSelect.val(spanSelect.data('block-page-layout-grid-column-span'));
+            });
+            preparePageLayout();
+            $('#page-layout-restore').show();
+        });
+
+        // Handle a grid columns change.
+        $('#page-layout-grid-columns-select').on('change', function() {
+            setPageLayoutBlockDefaults($('.block'));
+            preparePageGridLayout();
+            $('#page-layout-restore').show();
+        });
+
+        // Handle a grid position and grid span change.
+        $('#blocks').on('change', '.block-page-layout-grid-column-position-select, .block-page-layout-grid-column-span-select', function() {
+            preparePageGridLayout();
+            $('#page-layout-restore').show();
+        });
+
+        // Handle a page layout grid preview click.
+        $('#preview-page-layout-grid').on('click', function(e) {
+            e.preventDefault();
+            $('.block').removeClass('grid-layout-previewing');
+            previewPageLayoutGrid();
+        })
+
+        $('#configure-page-layout-data').on('click', function(e) {
+            e.preventDefault();
+            const pageLayoutDataSidebar = $('#page-layout-data-sidebar');
+            Omeka.openSidebar(pageLayoutDataSidebar);
+        });
+
+        // Handle a page layout grid preview click for a specific block.
+        $('#blocks').on('click', '.preview-block-page-layout-grid', function(e) {
+            e.preventDefault();
+            $('.block').removeClass('grid-layout-previewing');
+            $(this).closest('.block').addClass('grid-layout-previewing');
+            previewPageLayoutGrid();
+        });
+
+        // Handle closing a page layout grid preview.
+        $('#grid-layout-preview-sidebar').on('o:sidebar-closed', function(e) {
+            $('.block').removeClass('grid-layout-previewing');
+        });
+
+        // Handle a configure block layout click. (open the sidebar)
+        $('#blocks').on('click', '.configure-block-layout-data', function(e) {
+            e.preventDefault();
+            const thisBlock = $(this).closest('.block');
+            const blockLayout = thisBlock.data('block-layout');
+            const blockLayoutData = thisBlock.data('block-layout-data');
+            const blockLayoutDataSidebar = $('#block-layout-data-sidebar');
+            $('.block').removeClass('block-layout-data-configuring');
+            thisBlock.addClass('block-layout-data-configuring');
+
+            // Prepare form elements that need special handling.
+            const templateNameInput = $('#block-layout-data-template-name');
+            const blockTemplates = templateNameInput.data('block-templates');
+            let templateName = '';
+            if (blockTemplates[blockLayout] && blockTemplates[blockLayout][blockLayoutData.template_name]) {
+                // Verify that the current theme provides this template.
+                templateName = blockLayoutData.template_name;
+            }
+            templateNameInput.empty()
+                .append(templateNameInput.data('empty-option'))
+                .append(templateNameInput.data('value-options')[blockLayout]);
+            if (blockLayoutData.background_image_asset) {
+                const apiEndpointUrl = blockLayoutDataSidebar.data('api-endpoint-url');
+                const assetId = parseInt(blockLayoutData.background_image_asset, 10);
+                $.get(`${apiEndpointUrl}/assets/${assetId}`, function(data) {
+                    blockLayoutDataSidebar.find('.selected-asset').show();
+                    blockLayoutDataSidebar.find('img.selected-asset-image').attr('src', data['o:asset_url']);
+                    blockLayoutDataSidebar.find('selected-asset-name').attr('src', data['o:name']);
+                    blockLayoutDataSidebar.find('.no-selected-asset').hide();
+                    blockLayoutDataSidebar.find('.asset-form-clear').show();
+                });
+            } else {
+                blockLayoutDataSidebar.find('.selected-asset').hide();
+                blockLayoutDataSidebar.find('.no-selected-asset').show();
+                blockLayoutDataSidebar.find('.asset-form-clear').hide();
+            }
+
+            // Automatically populate block layout data for inputs with a data-key attribute.
+            blockLayoutDataSidebar.find(':input[data-key]').each(function() {
+                const thisInput = $(this);
+                const key = thisInput.data('key');
+                thisInput.val(blockLayoutData[key]);
+            });
+
+            // Allow special handling of block layout data.
+            $(document).trigger('o:prepare-block-layout-data', [thisBlock]);
+
+            Omeka.openSidebar(blockLayoutDataSidebar);
+        });
+
+        // Handle a configure block layout apply changes click (close the sidebar).
+        $('#apply-block-layout-data').on('click', function(e) {
+            e.preventDefault();
+            const block = $('.block-layout-data-configuring');
+            const blockLayoutData = block.data('block-layout-data');
+
+            // Automatically apply block layout data for inputs with a data-key attribute.
+            $('#block-layout-data-sidebar').find(':input[data-key]').each(function() {
+                const thisInput = $(this);
+                const key = thisInput.data('key');
+                blockLayoutData[key] = thisInput.val();
+            });
+
+            // Allow special handling of block layout data.
+            $(document).trigger('o:apply-block-layout-data', [block]);
+
+            Omeka.closeSidebar($('#block-layout-data-sidebar'));
+        });
+
+        // Handle a layout restore click.
+        $('#page-layout-restore').on('click', function() {
+            const restoreButton = $(this);
+            const layoutSelect = $('#page-layout-select');
+            layoutSelect.val(layoutSelect.data('page-layout'));
+            preparePageLayout();
+            switch (layoutSelect.val()) {
+                case 'grid':
+                    // Restore grid layout.
+                    const gridColumnsSelect = $('#page-layout-grid-columns-select');
+                    gridColumnsSelect.val(gridColumnsSelect.data('page-layout-grid-columns'));
+                    $('.block').each(function() {
+                        const thisBlock = $(this);
+                        const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                        const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                        let originalGridColumnPosition = gridColumnPositionSelect.data('block-page-layout-grid-column-position');
+                        let originalGridColumnSpan = gridColumnSpanSelect.data('block-page-layout-grid-column-span');
+                        // Set default values if this is a new block.
+                        if ('' === originalGridColumnPosition) {
+                            originalGridColumnPosition = 'auto';
+                        }
+                        if ('' === originalGridColumnSpan) {
+                            originalGridColumnSpan = $('#page-layout-grid-columns-select').val();
+                        }
+                        gridColumnPositionSelect.val(originalGridColumnPosition);
+                        gridColumnSpanSelect.val(originalGridColumnSpan);
+                    });
+                    preparePageGridLayout();
+                    break;
+                case '':
+                default:
+                    // Restore normal flow layout. Do nothing.
+                    break;
+            }
+            restoreButton.hide();
         });
     });
 })(window.jQuery);

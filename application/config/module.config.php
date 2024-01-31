@@ -40,6 +40,21 @@ return [
             ],
         ],
     ],
+    'api_assets' => [
+        'allowed_media_types' => [
+            'image/jpeg',
+            'image/png',
+            'image/gif',
+            'image/webp',
+        ],
+        'allowed_extensions' => [
+            'jpeg',
+            'jpg',
+            'png',
+            'gif',
+            'webp',
+        ],
+    ],
     'permissions' => [
         'acl_resources' => [
             'Omeka\Module\Manager',
@@ -67,6 +82,9 @@ return [
             'resource_visibility' => Db\Filter\ResourceVisibilityFilter::class,
             'site_page_visibility' => Db\Filter\SitePageVisibilityFilter::class,
             'value_visibility' => Db\Filter\ValueVisibilityFilter::class,
+        ],
+        'data_types' => [
+            'ip_address' => Db\Type\IpAddress::class,
         ],
         'functions' => [
              'datetime' => [
@@ -246,6 +264,7 @@ return [
             'Omeka\Logger' => Service\LoggerFactory::class,
             'Omeka\MigrationManager' => Service\MigrationManagerFactory::class,
             'Omeka\ViewApiJsonStrategy' => Service\ViewApiJsonStrategyFactory::class,
+            'Omeka\ViewApiJsonRenderer' => Service\ViewApiJsonRendererFactory::class,
             'Omeka\HttpClient' => Service\HttpClientFactory::class,
             'Omeka\Mailer' => Service\MailerFactory::class,
             'Omeka\HtmlPurifier' => Service\HtmlPurifierFactory::class,
@@ -272,6 +291,7 @@ return [
             'Omeka\Settings' => Service\Settings\SettingsFactory::class,
             'Omeka\Settings\Site' => Service\Settings\SiteSettingsFactory::class,
             'Omeka\Settings\User' => Service\Settings\UserSettingsFactory::class,
+            'Omeka\Settings\Fallback' => Service\Settings\FallbackSettingsFactory::class,
             'Omeka\Job\Dispatcher' => Service\Job\DispatcherFactory::class,
             'Omeka\Job\DispatchStrategy\PhpCli' => Service\Job\DispatchStrategy\PhpCliFactory::class,
             'Omeka\Job\DispatchStrategy\Synchronous' => Service\Job\DispatchStrategy\SynchronousFactory::class,
@@ -288,7 +308,6 @@ return [
             'ModuleRouteListener' => \Laminas\Mvc\ModuleRouteListener::class,
             'Omeka\MvcExceptionListener' => Mvc\ExceptionListener::class,
             'Omeka\MvcListeners' => Mvc\MvcListeners::class,
-            'Omeka\ViewApiJsonRenderer' => View\Renderer\ApiJsonRenderer::class,
         ],
         'delegators' => [
             'Laminas\I18n\Translator\TranslatorInterface' => [
@@ -317,7 +336,6 @@ return [
             'Omeka\Controller\Site\Item' => Controller\Site\ItemController::class,
             'Omeka\Controller\Site\ItemSet' => Controller\Site\ItemSetController::class,
             'Omeka\Controller\Site\Media' => Controller\Site\MediaController::class,
-            'Omeka\Controller\Site\Page' => Controller\Site\PageController::class,
             'Omeka\Controller\Site\CrossSiteSearch' => Controller\Site\CrossSiteSearchController::class,
             'Omeka\Controller\Admin\Asset' => Controller\Admin\AssetController::class,
             'Omeka\Controller\Admin\Query' => Controller\Admin\QueryController::class,
@@ -344,6 +362,7 @@ return [
             'Omeka\Controller\Admin\Vocabulary' => Service\Controller\Admin\VocabularyControllerFactory::class,
             'Omeka\Controller\Admin\Item' => Service\Controller\Admin\ItemControllerFactory::class,
             'Omeka\Controller\SiteAdmin\Index' => Service\Controller\SiteAdmin\IndexControllerFactory::class,
+            'Omeka\Controller\Site\Page' => Service\Controller\Site\PageControllerFactory::class,
         ],
     ],
     'controller_plugins' => [
@@ -365,6 +384,7 @@ return [
             'settings' => Service\ControllerPlugin\SettingsFactory::class,
             'siteSettings' => Service\ControllerPlugin\SiteSettingsFactory::class,
             'userSettings' => Service\ControllerPlugin\UserSettingsFactory::class,
+            'fallbackSettings' => Service\ControllerPlugin\FallbackSettingsFactory::class,
             'status' => Service\ControllerPlugin\StatusFactory::class,
             'viewHelpers' => Service\ControllerPlugin\ViewHelpersFactory::class,
             'browse' => Service\ControllerPlugin\BrowseFactory::class,
@@ -421,6 +441,7 @@ return [
             'formQuery' => Form\View\Helper\FormQuery::class,
             'formColumns' => Form\View\Helper\FormColumns::class,
             'formBrowseDefaults' => Form\View\Helper\FormBrowseDefaults::class,
+            'formBackground' => Form\View\Helper\FormBackground::class,
             'themeSettingAsset' => View\Helper\ThemeSettingAsset::class,
             'themeSettingAssetUrl' => View\Helper\ThemeSettingAssetUrl::class,
             'formColorPicker' => Form\View\Helper\FormColorPicker::class,
@@ -435,6 +456,7 @@ return [
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,
             'assetUrl' => Service\ViewHelper\AssetUrlFactory::class,
+            'pageLayout' => Service\ViewHelper\PageLayoutFactory::class,
             'blockLayout' => Service\ViewHelper\BlockLayoutFactory::class,
             'blockThumbnailTypeSelect' => Service\ViewHelper\BlockThumbnailTypeSelectFactory::class,
             'dataType' => Service\ViewHelper\DataTypeFactory::class,
@@ -447,6 +469,7 @@ return [
             'setting' => Service\ViewHelper\SettingFactory::class,
             'userSetting' => Service\ViewHelper\UserSettingFactory::class,
             'siteSetting' => Service\ViewHelper\SiteSettingFactory::class,
+            'fallbackSetting' => Service\ViewHelper\FallbackSettingFactory::class,
             'themeSetting' => Service\ViewHelper\ThemeSettingFactory::class,
             'trigger' => Service\ViewHelper\TriggerFactory::class,
             'userIsAllowed' => Service\ViewHelper\UserIsAllowedFactory::class,
@@ -497,6 +520,7 @@ return [
         ],
         'factories' => [
             'Omeka\Form\ResourceForm' => Service\Form\ResourceFormFactory::class,
+            'Omeka\Form\VocabularyForm' => Service\Form\VocabularyFormFactory::class,
             'Omeka\Form\ResourceBatchUpdateForm' => Service\Form\ResourceBatchUpdateFormFactory::class,
             'Omeka\Form\UserForm' => Service\Form\UserFormFactory::class,
             'Omeka\Form\SettingForm' => Service\Form\SettingFormFactory::class,
@@ -504,6 +528,9 @@ return [
             'Omeka\Form\SiteForm' => Service\Form\SiteFormFactory::class,
             'Omeka\Form\SiteSettingsForm' => Service\Form\SiteSettingsFormFactory::class,
             'Omeka\Form\UserBatchUpdateForm' => Service\Form\UserBatchUpdateFormFactory::class,
+            'Omeka\Form\PageLayoutDataForm' => Service\Form\PageLayoutDataFormFactory::class,
+            'Omeka\Form\BlockLayoutDataForm' => Service\Form\BlockLayoutDataFormFactory::class,
+            'Omeka\Form\SitePageForm' => Service\Form\SitePageFormFactory::class,
             'Omeka\Form\Element\ResourceSelect' => Service\Form\Element\ResourceSelectFactory::class,
             'Omeka\Form\Element\ResourceClassSelect' => Service\Form\Element\ResourceClassSelectFactory::class,
             'Omeka\Form\Element\ResourceTemplateSelect' => Service\Form\Element\ResourceTemplateSelectFactory::class,

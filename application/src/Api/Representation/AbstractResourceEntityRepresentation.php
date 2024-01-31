@@ -67,6 +67,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
 
     public function getJsonLd()
     {
+        $settings = $this->getServiceLocator()->get('Omeka\Settings');
+
         // Set the date time value objects.
         $dateTime = [
             'o:created' => [
@@ -109,8 +111,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         // According to the JSON-LD spec, the value of the @reverse key "MUST be
         // a JSON object containing members representing reverse properties."
         // Here, we include the key only if the resource has reverse properties.
-        $reverse = $this->subjectValuesForReverse();
-        $reverse = $reverse ? ['@reverse' => $reverse] : [];
+        $reverse = [];
+        if (!$settings->get('disable_jsonld_reverse')) {
+            $reverse = $this->subjectValuesForReverse();
+            $reverse = $reverse ? ['@reverse' => $reverse] : [];
+        }
 
         return array_merge(
             [
@@ -428,6 +433,19 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
     }
 
     /**
+     * Get the total count of this resource's subject values.
+     *
+     * @param int|string|null $propertyId Filter by property ID
+     * @param string|null $resourceType Filter by resource type
+     * @param int|null $siteId Filter by site ID
+     * @return int
+     */
+    public function subjectValueTotalCount($propertyId = null, $resourceType = null, $siteId = null)
+    {
+        return $this->getAdapter()->getSubjectValueTotalCount($this->resource, $propertyId, $resourceType, $siteId);
+    }
+
+    /**
      * Get value representations where this resource is the RDF subject.
      *
      * @return array
@@ -515,7 +533,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * The <property_id> should follow the pattern laid out in
      * AbstractResourceEntityAdapter::getSubjectValuesQueryBuilder(). If a
      * $resourceProperty isn't passed or is invalid, the default is all
-     * properties for the "items" resource type.
+     * properties for the current resource type.
      *
      * @param array $options
      * @return string
@@ -528,10 +546,34 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $viewName = $options['viewName'] ?? 'common/linked-resources';
         $page = $options['page'] ?? null;
         $perPage = $options['perPage'] ?? null;
-        $resourceProperty = $options['resourceProperty'] ?? null;
         $siteId = $options['siteId'] ?? null;
 
-        $resourceType = 'items';
+        $subjectValuePropertiesItems = $adapter->getSubjectValueProperties($this->resource, 'items', $siteId);
+        $subjectValuePropertiesItemSets = $adapter->getSubjectValueProperties($this->resource, 'item_sets', $siteId);
+        $subjectValuePropertiesMedia = $adapter->getSubjectValueProperties($this->resource, 'media', $siteId);
+
+        if (!$subjectValuePropertiesItems && !$subjectValuePropertiesItemSets && !$subjectValuePropertiesMedia) {
+            // This resource has no subject values;
+            return null;
+        }
+
+        $resourcePropertiesAll = [
+            'items' => $subjectValuePropertiesItems,
+            'item_sets' => $subjectValuePropertiesItemSets,
+            'media' => $subjectValuePropertiesMedia,
+        ];
+        // Find the default resource property by detecting the first resource
+        // type that has properties.
+        $defaultResourceProperty = null;
+        foreach ($resourcePropertiesAll as $resourceType => $resourceProperties) {
+            if ($resourceProperties) {
+                $defaultResourceProperty = sprintf('%s:', $resourceType);
+                break;
+            }
+        }
+        $resourceProperty = $options['resourceProperty'] ?? $defaultResourceProperty;
+
+        $resourceType = $adapter->getResourceName();
         $propertyId = null;
         if ($resourceProperty && false !== strpos($resourceProperty, ':')) {
             // Derive the resource type and property ID from $resourceProperty.
@@ -539,18 +581,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         }
 
         $totalCount = $adapter->getSubjectValueTotalCount($this->resource, $propertyId, $resourceType, $siteId);
-        if (!$totalCount) {
-            return;
-        }
         $subjectValues = $this->subjectValues($page, $perPage, $propertyId, $resourceType, $siteId);
-        if (!$subjectValues) {
-            return;
-        }
-        $resourcePropertiesAll = [
-            'items' => $adapter->getSubjectValueProperties($this->resource, 'items', $siteId),
-            'item_sets' => $adapter->getSubjectValueProperties($this->resource, 'item_sets', $siteId),
-            'media' => $adapter->getSubjectValueProperties($this->resource, 'media', $siteId),
-        ];
 
         $partial = $this->getViewHelper('partial');
         return $partial($viewName, [

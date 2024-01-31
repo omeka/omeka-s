@@ -48,6 +48,7 @@ class Uploader
                     $errorStore->addError('upload', $message);
                 }
             }
+            $tempFile->delete();
             return false;
         }
         $fileInput->getValue();

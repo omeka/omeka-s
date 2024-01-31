@@ -9,9 +9,9 @@
 # symac <wikitipiac@laposte.net>, 2018
 # Laurent Thomas, 2020
 # Julian Maurice <julian.maurice@biblibre.com>, 2021
-# Daniel Berthereau <daniel.transifex@berthereau.net>, 2022
 # Pols12 <poltron54@gmail.com>, 2023
 # John Flatness <john@omeka.org>, 2023
+# Daniel Berthereau <daniel.transifex@berthereau.net>, 2023
 # 
 #, fuzzy
 msgid ""
@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-10 21:23-0400\n"
 "PO-Revision-Date: 2017-06-13 18:56+0000\n"
-"Last-Translator: John Flatness <john@omeka.org>, 2023\n"
+"Last-Translator: Daniel Berthereau <daniel.transifex@berthereau.net>, 2023\n"
 "Language-Team: French (https://app.transifex.com/omeka/teams/14184/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -71,7 +71,8 @@ msgstr "L’adaptateur %1$s n’exécute pas l’opération de suppression en lo
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:292
 #, php-format
 msgid "The \"%1$s\" field is not available in the %2$s adapter class."
-msgstr "Le champ « %1$s » n’est pas disponible dans classe d’adaptateur %2$s."
+msgstr ""
+"Le champ « %1$s » n’est pas disponible dans la classe d’adaptateur %2$s."
 
 #: application/src/Api/Adapter/AbstractEntityAdapter.php:308
 #, php-format
@@ -452,7 +453,7 @@ msgstr ""
 "Cliquez sur ce lien pour définir un mot de passe et commencer à utiliser Omeka S :\n"
 "%3$s\n"
 "\n"
-"Votre lien d’activation expirera à %4$s. Si vous n’avez pas terminé le processus d’activation de l’utilisateur au moment où le lien expire, vous devrez demander un autre email d’activation de votre administrateur de site."
+"Votre lien d’activation expirera à %4$s. Si vous n’avez pas terminé le processus d’activation de l’utilisateur au moment où le lien expire, vous devrez demander un autre mail d’activation de votre administrateur de site."
 
 #: application/src/Stdlib/Mailer.php:233
 #, php-format
@@ -702,7 +703,7 @@ msgstr "Présence de médias"
 #: application/src/View/Helper/SearchFilters.php:216
 #: application/view/common/advanced-search/has-media.phtml:5
 msgid "Has media"
-msgstr "A le média"
+msgstr "A un média"
 
 #: application/src/View/Helper/SearchFilters.php:216
 #: application/view/common/advanced-search/has-media.phtml:6
@@ -725,7 +726,7 @@ msgstr "ID"
 #: application/view/omeka/admin/user/browse.phtml:64
 #: application/view/omeka/admin/user/show.phtml:18
 msgid "Email"
-msgstr "E-mail"
+msgstr "Mail"
 
 #: application/src/View/Helper/SearchUserFilters.php:54
 #: application/view/omeka/admin/asset/browse.phtml:27
@@ -1388,7 +1389,7 @@ msgstr "Filtrer par type de ressource et par propriété :"
 #: application/view/common/linked-resources.phtml:64
 #, php-format
 msgid "%s with \"%s: %s\""
-msgstr ""
+msgstr "%s avec \" %s : %s \""
 
 #: application/view/common/linked-resources.phtml:74
 #: application/view/omeka/admin/item-set/browse.phtml:54
@@ -1497,7 +1498,7 @@ msgstr "Filtrer les propriétés"
 #: application/view/common/query-form.phtml:8
 #: application/view/omeka/admin/query/search-filters.phtml:4
 msgid "[Edit below]"
-msgstr "[Modifier plus bas]"
+msgstr "[Modifier ci-dessous]"
 
 #: application/view/common/query-form.phtml:24
 msgid "Advanced edit"
@@ -1539,7 +1540,7 @@ msgstr "Texte"
 
 #: application/view/common/resource-page-block-layout/lightbox-gallery-item.phtml:11
 msgid "Other Media"
-msgstr ""
+msgstr "Autres médias"
 
 #: application/view/common/resource-page-block-layout/linked-resources.phtml:14
 #: application/view/omeka/admin/item-set/show.phtml:22
@@ -1549,7 +1550,7 @@ msgstr "Ressources liées"
 
 #: application/view/common/resource-page-block-layout/resource-class.phtml:7
 msgid "Resource class"
-msgstr ""
+msgstr "Classe de ressource"
 
 #: application/view/common/resource-select-sidebar.phtml:20
 msgid "Select resource"
@@ -1604,10 +1605,12 @@ msgstr "Inactif"
 #: application/view/common/sidebar-select-quick-add.phtml:8
 msgid "Quick add checkboxes are now available."
 msgstr ""
+"L’ajout rapide de contenus avec les cases à cocher est désormais disponible."
 
 #: application/view/common/sidebar-select-quick-add.phtml:9
 msgid "Quick add checkboxes are now hidden."
 msgstr ""
+"L’ajout rapide de contenus avec les cases à cocher est désormais caché."
 
 #: application/view/common/sidebar-select-quick-add.phtml:12
 #: application/view/omeka/admin/item-set/browse.phtml:53
@@ -1618,11 +1621,11 @@ msgstr "Tout sélectionner"
 
 #: application/view/common/sidebar-select-quick-add.phtml:17
 msgid "All results are now selected."
-msgstr ""
+msgstr "Tous les résultats sont sélectionnés."
 
 #: application/view/common/sidebar-select-quick-add.phtml:18
 msgid "All results are now deselected."
-msgstr ""
+msgstr "Tous les résultats sont désélectionnés."
 
 #: application/view/common/site-page-pagination.phtml:3
 msgid "Prev"
@@ -1958,23 +1961,23 @@ msgstr "Filtrer par propriétaire"
 #: application/view/omeka/admin/columns/column-edit-sidebar.phtml:5
 #: application/view/omeka/admin/columns/column-row.phtml:10
 msgid "Edit column"
-msgstr ""
+msgstr "Modifier la colonne"
 
 #: application/view/omeka/admin/columns/column-edit-sidebar.phtml:10
 msgid "Set column"
-msgstr ""
+msgstr "Choisir la colonne"
 
 #: application/view/omeka/admin/columns/column-row.phtml:5
 msgid "Column to be removed"
-msgstr ""
+msgstr "Colonne à supprimer"
 
 #: application/view/omeka/admin/columns/column-row.phtml:14
 msgid "Remove column"
-msgstr ""
+msgstr "Supprimer la colonne"
 
 #: application/view/omeka/admin/columns/column-row.phtml:18
 msgid "Restore column"
-msgstr ""
+msgstr "Restaurer la colonne"
 
 #: application/view/omeka/admin/index/browse.phtml:4
 #: application/view/omeka/index/index.phtml:33
@@ -2091,7 +2094,7 @@ msgstr "Traitements en lot"
 #: application/view/omeka/admin/media/browse.phtml:24
 #: application/view/omeka/admin/user/browse.phtml:34
 msgid "Edit selected"
-msgstr "Modifier sélectionnés"
+msgstr "Modifier la sélection"
 
 #: application/view/omeka/admin/item-set/browse.phtml:32
 #: application/view/omeka/admin/item/browse.phtml:32
@@ -2105,7 +2108,7 @@ msgstr "Modifier tout"
 #: application/view/omeka/admin/media/browse.phtml:28
 #: application/view/omeka/admin/user/browse.phtml:38
 msgid "Delete selected"
-msgstr "Supprimer sélectionnés"
+msgstr "Supprimer la selection"
 
 #: application/view/omeka/admin/item-set/browse.phtml:36
 #: application/view/omeka/admin/item/browse.phtml:36
@@ -2270,7 +2273,7 @@ msgstr "Filtre de recherche"
 
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:36
 msgid "Filter by item set ID"
-msgstr ""
+msgstr "Filtrer par numéro de collection"
 
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:70
 #: application/view/omeka/admin/item/browse.phtml:178
@@ -2358,7 +2361,7 @@ msgstr "Média à enlever"
 
 #: application/view/omeka/admin/item/manage-media.phtml:33
 msgid "Primary media"
-msgstr ""
+msgstr "Média principal"
 
 #: application/view/omeka/admin/item/manage-media.phtml:75
 msgid ""
@@ -2472,7 +2475,7 @@ msgstr "Vous allez modifier %s médias."
 #: application/view/omeka/admin/media/browse.phtml:59
 #: application/view/omeka/admin/media/sidebar-select.phtml:8
 msgid "Select media"
-msgstr "Choisir le média"
+msgstr "Choisir un média"
 
 #: application/view/omeka/admin/media/browse.phtml:116
 #: application/view/omeka/admin/media/browse.phtml:134
@@ -2701,7 +2704,7 @@ msgstr "Requis"
 #: application/view/omeka/admin/resource-template/review-import.phtml:72
 #: application/view/omeka/admin/resource-template/show.phtml:32
 msgid "Default language"
-msgstr ""
+msgstr "Langue par défaut"
 
 #: application/view/omeka/admin/resource-template/form.phtml:101
 #: application/view/omeka/admin/resource-template/review-import.phtml:67
@@ -2785,11 +2788,11 @@ msgstr "Paramètres généraux"
 
 #: application/view/omeka/admin/system-info/browse.phtml:31
 msgid "Get PHP CLI version"
-msgstr ""
+msgstr "Voir la version PHP en ligne de commandes"
 
 #: application/view/omeka/admin/system-info/browse.phtml:35
 msgid "Get ImageMagick version"
-msgstr ""
+msgstr "Voir la version d’ImageMagick"
 
 #: application/view/omeka/admin/user/add.phtml:7
 msgid "New user"
@@ -3008,7 +3011,7 @@ msgstr "Mot de passe oublié"
 
 #: application/view/omeka/login/forgot-password.phtml:11
 msgid "Send password reset email"
-msgstr "Envoyer un email de réinitialisation de mot de passe"
+msgstr "Envoyer un mail de réinitialisation de mot de passe"
 
 #: application/view/omeka/login/login.phtml:7
 msgid "Forgot password?"
@@ -3150,16 +3153,16 @@ msgstr "Vignette"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:6
 msgid "Remove block"
-msgstr ""
+msgstr "Supprimer le bloc"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:7
 msgid "Restore block"
-msgstr ""
+msgstr "Restaurer le bloc"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:21
 #: application/view/omeka/site-admin/index/theme.phtml:47
 msgid "Configure resource pages"
-msgstr ""
+msgstr "Configurer les pages de ressources"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:33
 msgid "Item page"
@@ -3171,24 +3174,24 @@ msgstr "Page de média"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:35
 msgid "Item set page"
-msgstr ""
+msgstr "Page de collection"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:42
 #, php-format
 msgid "Region: %s"
-msgstr ""
+msgstr "Région : %s"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:53
 msgid "Select a region"
-msgstr ""
+msgstr "Choisir une région"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:60
 msgid "Add a block to selected region"
-msgstr ""
+msgstr "Ajouter un bloc dans la région choisie"
 
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:66
 msgid "There are no available blocks."
-msgstr ""
+msgstr "Aucun bloc n’est disponible."
 
 #: application/view/omeka/site-admin/index/theme-selector.phtml:26
 msgid "Invalid theme.ini file"
@@ -3201,7 +3204,7 @@ msgstr "Ce thème requiert Omeka S %s"
 
 #: application/view/omeka/site-admin/index/theme-settings.phtml:6
 msgid "Edit settings"
-msgstr ""
+msgstr "Modifier les paramètres"
 
 #: application/view/omeka/site-admin/index/theme-settings.phtml:17
 msgid "The current theme has no configuration options."
@@ -3278,11 +3281,11 @@ msgstr "Pas de contenu sélectionné."
 
 #: application/view/omeka/site-admin/page/edit.phtml:37
 msgid "Expand all"
-msgstr ""
+msgstr "Tout étendre"
 
 #: application/view/omeka/site-admin/page/edit.phtml:38
 msgid "Collapse all"
-msgstr ""
+msgstr "Tout réduire"
 
 #: application/view/omeka/site-admin/page/edit.phtml:46
 msgid "Add new block"
@@ -3332,7 +3335,7 @@ msgstr "Aucune page correspondante"
 #: application/src/Stdlib/Browse.php:124
 #, php-format
 msgid "Custom (%s)"
-msgstr ""
+msgstr "Personnalisé (%s)"
 
 #: application/src/Stdlib/Cli.php:105 application/src/Stdlib/Cli.php:160
 #, php-format
@@ -3517,7 +3520,7 @@ msgstr "Contenus avec métadonnées"
 
 #: application/src/Site/BlockLayout/Media.php:14
 msgid "Media embed"
-msgstr ""
+msgstr "Média"
 
 #: application/src/Site/BlockLayout/LineBreak.php:14
 msgid "Line break"
@@ -3533,19 +3536,19 @@ msgstr "Opaque"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:20
 msgid "Page date/time"
-msgstr ""
+msgstr "Date et heure de la page"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:30
 msgid "Display date/time"
-msgstr ""
+msgstr "Afficher la date et l’heure"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:32
 msgid "Created & modified"
-msgstr ""
+msgstr "Créée et modifiée"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:42
 msgid "Date format"
-msgstr ""
+msgstr "Format de la date"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:44
 #: application/src/Site/BlockLayout/PageDateTime.php:58
@@ -3557,7 +3560,7 @@ msgstr "Aucun"
 #: application/src/Site/BlockLayout/PageDateTime.php:45
 #: application/src/Site/BlockLayout/PageDateTime.php:59
 msgid "Short"
-msgstr ""
+msgstr "Court"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:46
 #: application/src/Site/BlockLayout/PageDateTime.php:60
@@ -3567,16 +3570,16 @@ msgstr "Moyen"
 #: application/src/Site/BlockLayout/PageDateTime.php:47
 #: application/src/Site/BlockLayout/PageDateTime.php:61
 msgid "Long"
-msgstr ""
+msgstr "Long"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:48
 #: application/src/Site/BlockLayout/PageDateTime.php:62
 msgid "Full"
-msgstr ""
+msgstr "Complet"
 
 #: application/src/Site/BlockLayout/PageDateTime.php:56
 msgid "Time format"
-msgstr ""
+msgstr "Format de l’heure"
 
 #: application/src/Site/BlockLayout/ListOfSites.php:24
 msgid "List of sites"
@@ -3644,23 +3647,23 @@ msgstr "Inconnu [%s]"
 
 #: application/src/Site/ResourcePageBlockLayout/MediaRender.php:11
 msgid "Media render"
-msgstr ""
+msgstr "Affichage du média"
 
 #: application/src/Site/ResourcePageBlockLayout/MediaList.php:11
 msgid "Media list"
-msgstr ""
+msgstr "Liste de médias"
 
 #: application/src/Site/ResourcePageBlockLayout/Manager.php:210
 msgid "Main"
-msgstr ""
+msgstr "Principal"
 
 #: application/src/Site/ResourcePageBlockLayout/LightboxGallery.php:13
 msgid "Lightbox gallery"
-msgstr ""
+msgstr "Galerie Lightbox"
 
 #: application/src/Site/ResourcePageBlockLayout/MediaEmbeds.php:11
 msgid "Media embeds"
-msgstr ""
+msgstr "Affichage d’une liste de médias"
 
 #: application/src/Site/Navigation/Link/Url.php:11
 msgid "Custom URL"
@@ -3760,25 +3763,27 @@ msgstr "Chercheur"
 
 #: application/src/ColumnType/IsPublic.php:11
 msgid "Is public"
-msgstr ""
+msgstr "Est public"
 
 #: application/src/ColumnType/Value.php:25
 msgid "Value"
-msgstr ""
+msgstr "Valeur"
 
 #: application/src/ColumnType/Value.php:56
 msgid "Max values"
-msgstr ""
+msgstr "Nombre de valeurs maximum"
 
 #: application/src/ColumnType/Value.php:57
 msgid ""
 "Enter the maximum number of values to display. Set to blank to display all "
 "values."
 msgstr ""
+"Indiquer le nombre de valeurs maximum à afficher. Laisser vide pour afficher"
+" toutes les valeurs."
 
 #: application/src/ColumnType/IsOpen.php:11
 msgid "Is open"
-msgstr ""
+msgstr "Est ouvert"
 
 #: application/src/ColumnType/ResourceTemplate.php:11
 #: application/src/Form/ResourceForm.php:42
@@ -3787,11 +3792,11 @@ msgstr "Modèle de ressource"
 
 #: application/src/ColumnType/Unknown.php:22
 msgid "[Unknown]"
-msgstr ""
+msgstr "[Inconnu]"
 
 #: application/src/ColumnType/Unknown.php:40
 msgid "Unknown column data"
-msgstr ""
+msgstr "Colonne de données inconnues"
 
 #: application/src/Api/Adapter/ItemAdapter.php:152
 msgid "Item sets must be an array"
@@ -3836,7 +3841,7 @@ msgstr "Le nom doit être renseigné."
 #: application/src/Api/Adapter/UserAdapter.php:130
 #, php-format
 msgid "The email %s is already taken."
-msgstr "L’email %s est déjà pris."
+msgstr "L’adresse mail %s est déjà pris."
 
 #: application/src/Api/Adapter/UserAdapter.php:136
 msgid "Users must have a role."
@@ -4021,15 +4026,15 @@ msgstr "erreur"
 
 #: application/src/Media/Ingester/IiifPresentation.php:27
 msgid "IIIF presentation"
-msgstr ""
+msgstr "Présentation IIIF"
 
 #: application/src/Media/Ingester/IiifPresentation.php:39
 msgid "IIIF presentation URL"
-msgstr ""
+msgstr "Url de la présentation IIIF"
 
 #: application/src/Media/Ingester/IiifPresentation.php:40
 msgid "Enter the URL to a IIIF collection or manifest."
-msgstr ""
+msgstr "Indiquer l’url du manifeste ou de la collection IIIF"
 
 #: application/src/Media/Ingester/IIIF.php:33
 msgid "IIIF image"
@@ -4043,6 +4048,8 @@ msgstr "URL de l’image IIIF"
 msgid ""
 "Enter the URL to a IIIF image information file (ending with /info.json)."
 msgstr ""
+"Indiquer l’url du fichier d’information IIIF de l’image (se termine par "
+"info.json)."
 
 #: application/src/Media/Ingester/Upload.php:69
 msgid "Upload file"
@@ -4115,7 +4122,7 @@ msgstr "Sécurité"
 
 #: application/src/Form/SettingForm.php:117
 msgid "Administrator email"
-msgstr "Email de l’administrateur"
+msgstr "Mail de l’administrateur"
 
 #: application/src/Form/SettingForm.php:131
 #: application/src/Form/InstallationForm.php:80
@@ -4740,7 +4747,7 @@ msgstr ""
 #: application/src/Form/SiteSettingsForm.php:245
 #: application/src/Form/UserForm.php:253
 msgid "Item browse defaults"
-msgstr ""
+msgstr "Configuration par défaut de la liste des contenus"
 
 #: application/src/Form/SiteSettingsForm.php:260
 msgid "Show attached pages"
@@ -4755,7 +4762,7 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:273
 msgid "Show value annotations"
-msgstr "Afficher les annotations des valeurs"
+msgstr "Afficher les annotations de valeur"
 
 #: application/src/Form/SiteSettingsForm.php:274
 msgid "Show annotations that are set to a value, if any."
@@ -4763,15 +4770,15 @@ msgstr "Afficher les annotations définies pour une valeur."
 
 #: application/src/Form/SiteSettingsForm.php:286
 msgid "Exclude resources not in site"
-msgstr ""
+msgstr "Exclure les ressources absentes du site"
 
 #: application/src/Form/SiteSettingsForm.php:287
 msgid "Exclude resources that are not assigned to this site."
-msgstr ""
+msgstr "Exclure les ressources qui ne sont pas assignées à ce site"
 
 #: application/src/Form/SiteSettingsForm.php:299
 msgid "Embed media on item pages (legacy)"
-msgstr ""
+msgstr "Afficher les médias dans la page du contenu (anciens thèmes)"
 
 #: application/src/Form/SiteSettingsForm.php:313
 msgid "Search type"
@@ -4805,23 +4812,23 @@ msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:352
 msgid "Advanced search vocabulary members"
-msgstr ""
+msgstr "Éléments des ontologies en recherche avancée "
 
 #: application/src/Form/SiteSettingsForm.php:353
 msgid "Limit the search options for property and class"
-msgstr ""
+msgstr "Liste des propriétés et classes dans la recherche avancée"
 
 #: application/src/Form/SiteSettingsForm.php:354
 msgid "All vocabulary members"
-msgstr ""
+msgstr "Tous les éléments des ontologies"
 
 #: application/src/Form/SiteSettingsForm.php:356
 msgid "Used by resources in this site"
-msgstr ""
+msgstr "Éléments utilisés dans les ressources de ce site"
 
 #: application/src/Form/SiteSettingsForm.php:357
 msgid "Used by any resource in the installation"
-msgstr ""
+msgstr "Éléments utilisés par les ressources dans toute la base"
 
 #: application/src/Form/SiteSettingsForm.php:371
 msgid "Templates"
@@ -4921,11 +4928,11 @@ msgstr "Fichier Modèle de ressource"
 
 #: application/src/Form/UserForm.php:134
 msgid "Admin browse columns"
-msgstr ""
+msgstr "Colonnes pour les listes en admin"
 
 #: application/src/Form/UserForm.php:135
 msgid "Admin browse defaults"
-msgstr ""
+msgstr "Configuration par défaut des listes en admin"
 
 #: application/src/Form/UserForm.php:160
 msgid "Default resource template"
@@ -4933,7 +4940,7 @@ msgstr "Modèle de ressource par défaut"
 
 #: application/src/Form/UserForm.php:184
 msgid "Default item sets for items"
-msgstr ""
+msgstr "Collections par défaut pour les contenus"
 
 #: application/src/Form/UserForm.php:200
 msgid "Default sites for items"
@@ -4941,31 +4948,31 @@ msgstr "Sites par défaut pour les contenus"
 
 #: application/src/Form/UserForm.php:209
 msgid "Item browse columns"
-msgstr ""
+msgstr "Colonnes de la liste des contenus"
 
 #: application/src/Form/UserForm.php:220
 msgid "Item set browse columns"
-msgstr ""
+msgstr "Colonnes de la liste des collections"
 
 #: application/src/Form/UserForm.php:231
 msgid "Media browse columns"
-msgstr ""
+msgstr "Colonnes de la liste des médias"
 
 #: application/src/Form/UserForm.php:242
 msgid "Site browse columns"
-msgstr ""
+msgstr "Colonnes de la liste des sites"
 
 #: application/src/Form/UserForm.php:267
 msgid "Item set browse defaults"
-msgstr ""
+msgstr "Configuration par défaut de la liste des collections"
 
 #: application/src/Form/UserForm.php:281
 msgid "Media browse defaults"
-msgstr ""
+msgstr "Configuration par défaut de la liste des médias"
 
 #: application/src/Form/UserForm.php:295
 msgid "Site browse defaults"
-msgstr ""
+msgstr "Configuration par défaut de la liste des sites"
 
 #: application/src/Form/UserForm.php:311
 msgid "Current password"
@@ -4989,11 +4996,11 @@ msgstr "Créer le premier utilisateur"
 
 #: application/src/Form/InstallationForm.php:52
 msgid "Confirm email"
-msgstr "Confirmer l’email"
+msgstr "Confirmer l’adresse mail"
 
 #: application/src/Form/InstallationForm.php:128
 msgid "The emails did not match"
-msgstr "Les email ne correspondent pas"
+msgstr "Les adresses mails ne correspondent pas"
 
 #: application/src/Form/ConfirmForm.php:17
 msgid "Confirm"
@@ -5029,19 +5036,19 @@ msgstr "Sans titre"
 
 #: application/src/View/Helper/Browse.php:55
 msgid "Relevance"
-msgstr ""
+msgstr "Pertinence"
 
 #: application/src/View/Helper/Browse.php:162
 msgid "Add a column…"
-msgstr ""
+msgstr "Ajouter une colonne…"
 
 #: application/src/View/Helper/Browse.php:181
 msgid "Column type"
-msgstr ""
+msgstr "Type de colonne"
 
 #: application/src/View/Helper/Browse.php:192
 msgid "Header"
-msgstr ""
+msgstr "Entête"
 
 #: application/src/View/Helper/ResourceTemplateSelect.php:39
 msgid "Select template…"
@@ -5117,6 +5124,8 @@ msgstr "Paramètres du thème mis à jour avec succès"
 #: application/src/Controller/SiteAdmin/IndexController.php:457
 msgid "Theme resource pages successfully updated"
 msgstr ""
+"La configuration des pages de ressource du thème a été enregistrée avec "
+"succès."
 
 #: application/src/Controller/SiteAdmin/IndexController.php:480
 msgid "Site successfully deleted"
@@ -5144,7 +5153,7 @@ msgstr "Connexion réussie"
 
 #: application/src/Controller/LoginController.php:65
 msgid "Email or password is invalid"
-msgstr "Email ou mot de passe invalide"
+msgstr "Adresse mail ou mot de passe invalide"
 
 #: application/src/Controller/LoginController.php:88
 msgid "Successfully logged out"
@@ -5507,21 +5516,21 @@ msgstr "Modèle de ressource créé avec succès. %s"
 
 #: application/config/module.config.php:676
 msgid "Owner email"
-msgstr ""
+msgstr "Mail du propriétaire"
 
 #: application/config/module.config.php:682
 #: application/config/module.config.php:698
 #: application/config/module.config.php:703
 msgid "Item count"
-msgstr ""
+msgstr "Total des contenus"
 
 #: application/config/module.config.php:692
 msgid "Resource class count"
-msgstr ""
+msgstr "Total des classes de ressources"
 
 #: application/config/module.config.php:693
 msgid "Property count"
-msgstr ""
+msgstr "Total des propriétés"
 
 #: application/config/module.config.php:865
 msgid "Something went wrong"
@@ -5561,11 +5570,11 @@ msgstr "Description"
 
 #: application/config/module.config.php:881
 msgid "Unknown block layout"
-msgstr ""
+msgstr "Bloc inconnu"
 
 #: application/config/module.config.php:882
 msgid "Required field must be completed"
-msgstr ""
+msgstr "Les champs obligatoires doivent être complétés."
 
 #: application/config/navigation.config.php:201
 msgid "Site admin"
@@ -5918,7 +5927,7 @@ msgstr "Une information à propos des droits détenus dans et sur la ressource."
 
 #. Property label for Dublin Core:audience
 msgid "Audience"
-msgstr "Auditoire"
+msgstr "Public"
 
 #. Property comment for Dublin Core:audience
 msgid "A class of entity for whom the resource is intended or useful."
@@ -6214,7 +6223,7 @@ msgstr "La date de soumission de la ressource."
 
 #. Property label for Dublin Core:educationLevel
 msgid "Audience Education Level"
-msgstr "Niveau d’éducation de l’auditoire"
+msgstr "Niveau d’éducation du public"
 
 #. Property comment for Dublin Core:educationLevel
 msgid ""
@@ -6551,7 +6560,7 @@ msgstr "Une assemblée pour consultation ou discussion."
 
 #. Class label for Bibliographic Ontology:CourtReporter
 msgid "Court Reporter"
-msgstr "Rapport de cour"
+msgstr "Recueil de jurisprudence"
 
 #. Class comment for Bibliographic Ontology:CourtReporter
 msgid "A collection of legal cases."
@@ -6602,7 +6611,7 @@ msgstr "Un livre édité."
 
 #. Class label for Bibliographic Ontology:Email
 msgid "EMail"
-msgstr "Email"
+msgstr "Mail"
 
 #. Class comment for Bibliographic Ontology:Email
 msgid ""

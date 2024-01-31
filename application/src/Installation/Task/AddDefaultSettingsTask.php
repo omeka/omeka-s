@@ -14,6 +14,7 @@ class AddDefaultSettingsTask implements TaskInterface
         'media_type_whitelist' => SettingForm::MEDIA_TYPE_WHITELIST,
         'extension_whitelist' => SettingForm::EXTENSION_WHITELIST,
         'version_notifications' => '1',
+        'use_htmlpurifier' => '1',
     ];
 
     public function perform(Installer $installer)

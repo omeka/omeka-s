@@ -4,7 +4,7 @@ use Omeka\Module\Manager;
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'modules browse');
-$this->headScript()->prependFile($this->assetUrl('vendor/semver/semver.min.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('vendor/compare-versions/index.js', 'Omeka'));
 $this->plugin('formRow')->setPartial(null);
 ?>
 
@@ -182,7 +182,7 @@ $.get('https://omeka.org/add-ons/json/s_module.json')
             var addon = $(this);
             var addonId = addon.data('addon-id');
             if (addonId in data) {
-                if (semver.lt(addon.data('current-version'), data[addonId]['latest_version'])) {
+                if (compareVersions.compareVersions(addon.data('current-version'), data[addonId]['latest_version']) === -1) {
                     addon.show();
                 }
             }

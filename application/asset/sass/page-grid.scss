@@ -1,0 +1,13 @@
+.page-layout-grid {
+    display: grid;
+}
+
+.page-layout-grid > div {
+    min-height: 50px;
+}
+
+@media screen and (max-width:896px) {
+    .page-layout-grid {
+        display: block;
+    }
+}

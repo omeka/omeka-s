@@ -40,6 +40,8 @@ class Url implements LinkInterface
         return [
             'type' => 'uri',
             'uri' => $data['url'],
+            'target' => (isset($data['target_blank']) && $data['target_blank']) ? '_blank' : null,
+
         ];
     }
 
@@ -48,6 +50,7 @@ class Url implements LinkInterface
         return [
             'label' => $data['label'],
             'url' => $data['url'],
+            'target_blank' => $data['target_blank'] ?? false,
         ];
     }
 }

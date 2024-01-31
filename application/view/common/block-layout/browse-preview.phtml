@@ -6,7 +6,7 @@ $thumbnail = $this->plugin('thumbnail');
 <div class="preview-block">
 
 <?php if ($this->heading): ?>
-<h2><?php echo $this->heading; ?></h2>
+<h2><?php echo $escape($this->heading); ?></h2>
 <?php endif; ?>
 
 <ul class="resource-list preview">

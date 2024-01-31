@@ -143,6 +143,14 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             $entity->setIsPublic($request->getValue('o:is_public', true));
         }
 
+        if ($this->shouldHydrate($request, 'o:layout')) {
+            $entity->setLayout($request->getValue('o:layout', null));
+        }
+
+        if ($this->shouldHydrate($request, 'o:layout_data')) {
+            $entity->setLayoutData($request->getValue('o:layout_data', null));
+        }
+
         $appendBlocks = $request->getOperation() === Request::UPDATE && $request->getOption('isPartial', false);
         $this->hydrateBlocks($blockData, $entity, $errorStore, $appendBlocks);
         $this->updateTimestamps($request, $entity);
@@ -226,6 +234,7 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
 
             $block->setLayout($inputBlock['o:layout']);
             $block->setData($inputBlock['o:data']);
+            $block->setLayoutData($inputBlock['o:layout_data'] ?? null);
 
             // (Re-)order blocks by their order in the input
             $block->setPosition($position++);

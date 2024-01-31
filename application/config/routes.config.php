@@ -226,6 +226,7 @@ return [
                     'route' => '/api',
                     'defaults' => [
                         '__API__' => true,
+                        '__KEYAUTH__' => true,
                         'controller' => 'Omeka\Controller\Api',
                     ],
                 ],
@@ -247,6 +248,7 @@ return [
                 'options' => [
                     'route' => '/api-local',
                     'defaults' => [
+                        '__API__' => true,
                         'controller' => 'Omeka\Controller\ApiLocal',
                     ],
                 ],

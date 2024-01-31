@@ -6,7 +6,7 @@ use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Laminas\View\Renderer\PhpRenderer;
 
-class PageTitle extends AbstractBlockLayout
+class PageTitle extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {
@@ -19,9 +19,10 @@ class PageTitle extends AbstractBlockLayout
         return $view->escapeHtml($page->title());
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/page-title')
     {
-        return $view->partial('common/block-layout/page-title', [
+        return $view->partial($templateViewScript, [
+            'block' => $block,
             'pageTitle' => $block->page()->title(),
         ]);
     }

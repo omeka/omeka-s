@@ -336,13 +336,13 @@ function taskDepsJs(cb) {
     var deps = {
         'chosen-js': ['**', '!*.proto.*'],
         'ckeditor4': ['**', '!samples/**'],
+        'compare-versions': 'lib/umd/index.js',
         'jquery': 'dist/jquery.min.js',
         'jstree': 'dist/jstree.min.js',
         'lightgallery': ['lightgallery.min.js', '[c]ss/lightgallery-bundle.min.css', '[f]onts/**', '[i]mages/**',
             '[p]lugins/@(hash|rotate|thumbnail|video|zoom)/*.min.js'],
         'mirador': ['dist/**', '!dist/cjs/**', '!dist/es/**'],
         'openseadragon': 'build/openseadragon/**',
-        'semver': 'semver.min.js',
         'sortablejs': 'Sortable.min.js',
         'tablesaw': 'dist/stackonly/**'
     };

@@ -7,7 +7,7 @@ use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Laminas\View\Renderer\PhpRenderer;
 
-class LineBreak extends AbstractBlockLayout
+class LineBreak extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {
@@ -20,11 +20,9 @@ class LineBreak extends AbstractBlockLayout
         return $this->breakTypeSelect($view, $site, $block);
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/line-break')
     {
-        $breakType = $block->dataValue('break_type');
-
-        return "<div class='break $breakType'></div>";
+        return $view->partial($templateViewScript, ['block' => $block]);
     }
 
     public function breakTypeSelect(PhpRenderer $view, SiteRepresentation $site,

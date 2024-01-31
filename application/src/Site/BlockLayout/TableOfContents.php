@@ -8,7 +8,7 @@ use Laminas\Navigation\Navigation;
 use Laminas\Form\Element\Number;
 use Laminas\View\Renderer\PhpRenderer;
 
-class TableOfContents extends AbstractBlockLayout
+class TableOfContents extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {
@@ -33,7 +33,7 @@ class TableOfContents extends AbstractBlockLayout
         return $html;
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/table-of-contents')
     {
         $view->pageViewModel->setVariable('displayNavigation', false);
 
@@ -55,7 +55,7 @@ class TableOfContents extends AbstractBlockLayout
 
         $depth = $block->dataValue('depth', 1);
 
-        return $view->partial('common/block-layout/table-of-contents', [
+        return $view->partial($templateViewScript, [
             'block' => $block,
             'subNav' => $subNav,
             'maxDepth' => $depth - 1,

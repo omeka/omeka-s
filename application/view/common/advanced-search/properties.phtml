@@ -55,7 +55,7 @@ if ($this->status()->isSiteRequest()) {
         $stem = "property[$index]";
         ?>
         <div class="value">
-            <select class="joiner" name="<?php echo $this->escapeHtml($stem . '[joiner]'); ?>">
+            <select class="joiner" name="<?php echo $this->escapeHtml($stem . '[joiner]'); ?>" aria-label="<?php echo $translate('Joiner'); ?>">
                 <?php echo $queryOption('and', $property, 'joiner', $translate('AND')); ?>
                 <?php echo $queryOption('or', $property, 'joiner', $translate('OR')); ?>
             </select>
@@ -63,8 +63,8 @@ if ($this->status()->isSiteRequest()) {
                 'name' => $stem . '[property]',
                 'attributes' => [
                     'class' => 'query-property',
-                    'value' => isset($property['property']) ? $property['property'] : null,
-                    'aria-label' => $translate('Property'),
+                    'value' => $property['property'] ?? null,
+                    'aria-label' => 'Property', // @translate
                 ],
                 'options' => [
                     'empty_option' => '[Any Property]', // @translate

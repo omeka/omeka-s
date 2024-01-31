@@ -7,6 +7,7 @@ use Omeka\Form\LoginForm;
 use Omeka\Form\ActivateForm;
 use Omeka\Form\ForgotPasswordForm;
 use Laminas\Authentication\AuthenticationService;
+use Laminas\Mail\Exception\ExceptionInterface as MailException;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Session\Container;
 use Laminas\View\Model\ViewModel;
@@ -60,7 +61,10 @@ class LoginController extends AbstractActionController
                     if ($redirectUrl = $session->offsetGet('redirect_url')) {
                         return $this->redirect()->toUrl($redirectUrl);
                     }
-                    return $this->redirect()->toRoute('admin');
+                    if ($this->userIsAllowed('Omeka\Controller\Admin\Index', 'browse')) {
+                        return $this->redirect()->toRoute('admin');
+                    }
+                    return $this->redirect()->toRoute('top');
                 } else {
                     $this->messenger()->addError('Email or password is invalid'); // @translate
                 }
@@ -163,7 +167,12 @@ class LoginController extends AbstractActionController
                         $this->entityManager->remove($passwordCreation);
                         $this->entityManager->flush();
                     }
-                    $this->mailer()->sendResetPassword($user);
+                    try {
+                        $this->mailer()->sendResetPassword($user);
+                    } catch (MailException $e) {
+                        $this->logger()->err((string) $e);
+                        $this->messenger()->addWarning('Unable to send password reset email.'); // @translate
+                    }
                 }
                 $this->messenger()->addSuccess('Check your email for instructions on how to reset your password'); // @translate
                 return $this->redirect()->toRoute('login');

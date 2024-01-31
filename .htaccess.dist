@@ -5,7 +5,7 @@ RewriteEngine On
 # The following rule tells Apache that if the requested filename
 # exists, simply serve it.
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule !\.(php[0-9]?|phtml|phps)$ - [NC,C]
+RewriteRule !\.(php[0-9]?|phtml|phps|phar|hphp)$ - [NC,C]
 RewriteRule !(?:^|/)\.(?!well-known(?:/.*)?$) - [C]
 RewriteRule .* - [L]
 

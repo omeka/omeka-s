@@ -25,6 +25,11 @@ class Status
     /**
      * @var bool
      */
+    protected $isKeyauthRequest;
+
+    /**
+     * @var bool
+     */
     protected $isAdminRequest;
 
     /**
@@ -103,6 +108,20 @@ class Status
         }
         $this->isApiRequest = (bool) $this->getRouteParam('__API__');
         return $this->isApiRequest;
+    }
+
+    /**
+     * Check whether the current HTTP request requires key authentication (api).
+     *
+     * @return bool
+     */
+    public function isKeyauthRequest()
+    {
+        if (isset($this->isKeyauthRequest)) {
+            return $this->isKeyauthRequest;
+        }
+        $this->isKeyauthRequest = (bool) $this->getRouteParam('__KEYAUTH__');
+        return $this->isKeyauthRequest;
     }
 
     /**

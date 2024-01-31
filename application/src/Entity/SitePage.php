@@ -11,6 +11,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  *         @UniqueConstraint(
  *             columns={"site_id", "slug"}
  *         )
+ *     },
+ *     indexes={
+ *         @Index(
+ *             name="is_public",
+ *             columns={"is_public"}
+ *         )
  *     }
  * )
  */
@@ -37,6 +43,16 @@ class SitePage extends AbstractEntity
      * @Column(type="boolean")
      */
     protected $isPublic = true;
+
+    /**
+     * @Column(type="string", nullable=true)
+     */
+    protected $layout;
+
+    /**
+     * @Column(type="json", nullable=true)
+     */
+    protected $layoutData;
 
     /**
      * @ManyToOne(targetEntity="Site", inversedBy="pages")
@@ -103,6 +119,26 @@ class SitePage extends AbstractEntity
     public function isPublic()
     {
         return (bool) $this->isPublic;
+    }
+
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
+    }
+
+    public function getLayout()
+    {
+        return $this->layout;
+    }
+
+    public function setLayoutData($layoutData)
+    {
+        $this->layoutData = $layoutData;
+    }
+
+    public function getLayoutData()
+    {
+        return $this->layoutData;
     }
 
     public function setSite(Site $site)

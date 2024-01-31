@@ -36,7 +36,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
             <?php if ($page->userIsAllowed('update')): ?>
             <?php echo $page->link($page->title(), 'edit'); ?>
             <?php else: ?>
-            <?php echo $page->title(); ?>
+            <?php echo $escape($page->title()); ?>
             <?php endif; ?>
             <?php if (!$page->isPublic()): ?>
                 <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>
@@ -65,7 +65,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
                 <?php endif; ?>
             </ul>
         </td>
-        <td><?php echo $page->slug(); ?></td>
+        <td><?php echo $escape($page->slug()); ?></td>
         <td><?php echo $escape($i18n->dateFormat($sortBy === 'created' ? $page->created() : $page->modified())); ?></td>
     </tr>
 <?php endforeach; ?>

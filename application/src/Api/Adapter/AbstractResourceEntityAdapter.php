@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter;
 use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
+use Laminas\EventManager\Event;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
@@ -254,6 +255,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], (string) $string);
         };
 
+        // See below "Consecutive OR optimization" comment
+        $previousPropertyId = null;
+        $previousAlias = null;
+        $previousPositive = null;
+
         foreach ($query['property'] as $queryRow) {
             if (!(is_array($queryRow)
                 && array_key_exists('property', $queryRow)
@@ -270,13 +276,41 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 continue;
             }
 
-            $valuesAlias = $this->createAlias();
             $positive = true;
+            if (in_array($queryType, ['neq', 'nin', 'nsw', 'new', 'nres', 'nex'])) {
+                $positive = false;
+                $queryType = substr($queryType, 1);
+            }
+            if (!in_array($queryType, ['eq', 'in', 'sw', 'ew', 'res', 'ex'])) {
+                continue;
+            }
+
+            // Consecutive OR optimization
+            //
+            // When we have a run of query rows that are joined by OR and share
+            // the same property ID (or lack thereof), we don't actually need a
+            // separate join to the values table; we can just tack additional OR
+            // clauses onto the WHERE while using the same join and alias. The
+            // extra joins are expensive, so doing this improves performance where
+            // many ORs are used.
+            //
+            // Rows using "negative" searches need their own separate join to the
+            // values table, so they're excluded from this optimization on both
+            // sides: if either the current or previous row is a negative query,
+            // the current row does a new join.
+            if ($previousPropertyId === $propertyId
+                && $previousPositive
+                && $positive
+                && $joiner === 'or'
+            ) {
+                $valuesAlias = $previousAlias;
+                $usePrevious = true;
+            } else {
+                $valuesAlias = $this->createAlias();
+                $usePrevious = false;
+            }
 
             switch ($queryType) {
-                case 'neq':
-                    $positive = false;
-                    // No break.
                 case 'eq':
                     $param = $this->createNamedParameter($qb, $value);
                     $subqueryAlias = $this->createAlias();
@@ -292,9 +326,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nin':
-                    $positive = false;
-                    // No break.
                 case 'in':
                     $param = $this->createNamedParameter($qb, '%' . $escapeSqlLike($value) . '%');
                     $subqueryAlias = $this->createAlias();
@@ -310,9 +341,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nsw':
-                    $positive = false;
-                    // No break.
                 case 'sw':
                     $param = $this->createNamedParameter($qb, $escapeSqlLike($value) . '%');
                     $subqueryAlias = $this->createAlias();
@@ -328,9 +356,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'new':
-                    $positive = false;
-                    // No break.
                 case 'ew':
                     $param = $this->createNamedParameter($qb, '%' . $escapeSqlLike($value));
                     $subqueryAlias = $this->createAlias();
@@ -346,9 +371,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nres':
-                    $positive = false;
-                    // No break.
                 case 'res':
                     $predicateExpr = $qb->expr()->eq(
                         "$valuesAlias.valueResource",
@@ -356,9 +378,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     );
                     break;
 
-                case 'nex':
-                    $positive = false;
-                    // No break.
                 case 'ex':
                     $predicateExpr = $qb->expr()->isNotNull("$valuesAlias.id");
                     break;
@@ -390,10 +409,13 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $whereClause = $qb->expr()->isNull("$valuesAlias.id");
             }
 
-            if ($joinConditions) {
-                $qb->leftJoin($valuesJoin, $valuesAlias, 'WITH', $qb->expr()->andX(...$joinConditions));
-            } else {
-                $qb->leftJoin($valuesJoin, $valuesAlias);
+            // See above "Consecutive OR optimization" comment
+            if (!$usePrevious) {
+                if ($joinConditions) {
+                    $qb->leftJoin($valuesJoin, $valuesAlias, 'WITH', $qb->expr()->andX(...$joinConditions));
+                } else {
+                    $qb->leftJoin($valuesJoin, $valuesAlias);
+                }
             }
 
             if ($where == '') {
@@ -403,6 +425,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             } else {
                 $where .= " AND $whereClause";
             }
+
+            // See above "Consecutive OR optimization" comment
+            $previousPropertyId = $propertyId;
+            $previousPositive = $positive;
+            $previousAlias = $valuesAlias;
         }
 
         if ($where) {
@@ -550,6 +577,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ->orderBy('property.id, resource_template_property.alternateLabel, resource.title')
             ->setMaxResults($perPage)
             ->setFirstResult($offset);
+        $event = new Event('api.subject_values.query', $this, [
+            'queryBuilder' => $qb,
+            'resource' => $resource,
+            'propertyId' => $propertyId,
+            'resourceType' => $resourceType,
+            'siteId' => $siteId,
+        ]);
+        $this->getEventManager()->triggerEvent($event);
         $results = $qb->getQuery()->getResult();
         return $results;
     }
@@ -573,6 +608,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ->join('value.property', 'property')
             ->join('property.vocabulary', 'vocabulary')
             ->select("CONCAT(vocabulary.prefix, ':', property.localName) term, IDENTITY(value.resource) id, resource.title title");
+        $event = new Event('api.subject_values_simple.query', $this, [
+            'queryBuilder' => $qb,
+            'resource' => $resource,
+            'propertyId' => $propertyId,
+            'resourceType' => $resourceType,
+            'siteId' => $siteId,
+        ]);
+        $this->getEventManager()->triggerEvent($event);
         return $qb->getQuery()->getResult();
     }
 
@@ -677,7 +720,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $services = $this->getServiceLocator();
         $dataTypes = $services->get('Omeka\DataTypeManager');
         $view = $services->get('ViewRenderer');
+        $eventManager = $this->getEventManager();
+
         $criteria = Criteria::create()->where(Criteria::expr()->eq('isPublic', true));
+        $args = $eventManager->prepareArgs(['resource' => $resource, 'criteria' => $criteria]);
+        $event = new Event('api.get_fulltext_text.value_criteria', $this, $args);
+        $eventManager->triggerEvent($event);
+        $criteria = $args['criteria'];
+
         $texts = [];
         foreach ($resource->getValues()->matching($criteria) as $value) {
             $valueRepresentation = new ValueRepresentation($value, $services);
@@ -685,7 +735,17 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             // Add value annotation text, if any.
             $valueAnnotation = $value->getValueAnnotation();
             if ($valueAnnotation) {
-                foreach ($valueAnnotation->getValues()->matching($criteria) as $value) {
+                $valueAnnotationCriteria = Criteria::create()->where(Criteria::expr()->eq('isPublic', true));
+                $args = $eventManager->prepareArgs([
+                    'resource' => $resource,
+                    'value' => $value,
+                    'criteria' => $valueAnnotationCriteria,
+                ]);
+                $event = new Event('api.get_fulltext_text.value_annotation_criteria', $this, $args);
+                $eventManager->triggerEvent($event);
+                $valueAnnotationCriteria = $args['criteria'];
+
+                foreach ($valueAnnotation->getValues()->matching($valueAnnotationCriteria) as $value) {
                     $valueRepresentation = new ValueRepresentation($value, $services);
                     $texts[] = $dataTypes->getForExtract($value)->getFulltextText($view, $valueRepresentation);
                 }

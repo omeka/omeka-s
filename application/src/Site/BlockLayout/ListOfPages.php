@@ -54,11 +54,8 @@ class ListOfPages extends AbstractBlockLayout implements TemplateableBlockLayout
         }
         $pageList->setValue(json_encode($pageTree));
 
-        $html = '<div class="block-pagelist-tree"';
-        $html .= '" data-jstree-data="' . $escape($pageList->getValue());
-        $html .= '"></div>';
-        $html .= '<button type="button" class="site-page-add">';
-        $html .= $view->translate('Add pages') . '</button>';
+        $html = '<div class="block-pagelist-tree" data-jstree-data="' . $escape($pageList->getValue()) . '"></div>';
+        $html .= '<button type="button" class="site-page-add">' . $view->translate('Add pages') . '</button>';
         $html .= '<div class="inputs">' . $view->formRow($pageList) . '</div>';
 
         return $html;

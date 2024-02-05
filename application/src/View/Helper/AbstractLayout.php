@@ -125,27 +125,17 @@ abstract class AbstractLayout extends AbstractHelper
         $this->eventManager->triggerEvent(new Event('block_layout.inline_styles', $block, $eventArgs));
         $inlineStyles = $eventArgs['inline_styles'];
 
-        // Add inline styles for background.
-        $hasBackgroundUrl = false;
+        $backgroundColor = $block->layoutDataValue('background_color');
+        if ($backgroundColor && $isValidHexColor($backgroundColor)) {
+            $inlineStyles[] = sprintf('background-color: %s;', $backgroundColor);
+        }
+
         $backgroundImageAsset = $block->layoutDataValue('background_image_asset');
         if ($backgroundImageAsset) {
             $asset = $view->api()->searchOne('assets', ['id' => $backgroundImageAsset])->getContent();
             if ($asset) {
-                $hasBackgroundUrl = true;
-                $backgroundUrl = $asset->assetUrl();
+                $inlineStyles[] = sprintf('background-image: url("%s");', $view->escapeCss($asset->assetUrl()));
             }
-        }
-        $hasBackgroundColor = false;
-        $backgroundColor = $block->layoutDataValue('background_color');
-        if ($backgroundColor && $isValidHexColor($backgroundColor)) {
-            $hasBackgroundColor = true;
-        }
-        if ($hasBackgroundUrl && $hasBackgroundColor) {
-            $inlineStyles[] = sprintf('background: url("%s"), %s;', $view->escapeCss($backgroundUrl), $backgroundColor);
-        } elseif ($hasBackgroundUrl) {
-            $inlineStyles[] = sprintf('background-image: url("%s");', $view->escapeCss($backgroundUrl));
-        } elseif ($hasBackgroundColor) {
-            $inlineStyles[] = sprintf('background-color: %s;', $backgroundColor);
         }
 
         $maxWidth = $block->layoutDataValue('max_width');
@@ -156,6 +146,7 @@ abstract class AbstractLayout extends AbstractHelper
         if (is_string($minHeight) && $isValidLength($minHeight)) {
             $inlineStyles[] = sprintf('min-height: %s;', $minHeight);
         }
+
         $paddingTop = $block->layoutDataValue('padding_top');
         if (is_string($paddingTop) && $isValidLength($paddingTop)) {
             $inlineStyles[] = sprintf('padding-top: %s;', $paddingTop);

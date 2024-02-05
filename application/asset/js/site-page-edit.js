@@ -805,12 +805,13 @@
 
             // Automatically apply block layout data for inputs with a data-key attribute.
             $('#block-layout-data-sidebar').find(':input[data-key]').each(function() {
+                const thisInput = $(this);
                 if (!this.checkValidity()) {
-                    // Report invalid fields.
+                    // Report invalid fields. First, expand the sidebar group if collapsed.
+                    thisInput.closest('.sidebar-group').children('a.expand').click();
                     this.reportValidity();
                     isValid = false;
                 }
-                const thisInput = $(this);
                 const key = thisInput.data('key');
                 blockLayoutData[key] = thisInput.val();
             });

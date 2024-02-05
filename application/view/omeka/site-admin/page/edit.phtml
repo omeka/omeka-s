@@ -106,14 +106,11 @@ $form->prepare();
 </div>
 
 <div id="block-layout-data-sidebar" class="sidebar" data-api-endpoint-url="<?php echo $escape($this->url('api')); ?>">
-    <div class="confirm-main">
-        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
-        <h3><?php echo $translate('Block layout configuration'); ?></h3>
-        <?php echo $this->formCollection($blockLayoutDataForm); ?>
-    </div>
-    <div class="confirm-panel">
-        <button id="apply-block-layout-data"><?php echo $translate('Apply changes'); ?></button>
-    </div>
+    <?php 
+        echo $this->partial('common/block-layout-sidebar.phtml', [
+            'blockLayoutDataForm' => $blockLayoutDataForm
+        ]); 
+    ?>
 </div>
 
 <div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">

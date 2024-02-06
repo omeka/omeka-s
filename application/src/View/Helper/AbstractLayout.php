@@ -116,9 +116,9 @@ abstract class AbstractLayout extends AbstractHelper
         $view = $this->getView();
 
         // Validate a CSS <hex-color>.
-        $isValidHexColor = fn($hexColor) => preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $hexColor);
+        $isValidHexColor = fn ($hexColor) => preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $hexColor);
         // Validate a CSS <length>
-        $isValidLength = fn($length) => preg_match(sprintf('/%s/', LengthCssDataType::PATTERN), $length);
+        $isValidLength = fn ($length) => preg_match(sprintf('/%s/', LengthCssDataType::PATTERN), $length);
 
         // Allow modules to add inline styles for styling the layout.
         $eventArgs = $this->eventManager->prepareArgs(['inline_styles' => []]);

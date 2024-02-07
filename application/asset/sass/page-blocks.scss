@@ -34,15 +34,6 @@
 .block-layout-alignment-right .item.resource {
     margin: 0 0 1rem 0;
 
-    &:first-of-type {
-        padding-top: calc(1rem - 1px);
-        margin-top: 0;
-    }
-
-    &:last-of-type {
-        padding-bottom: -1px;
-    }
-
     .media-render a {
         display: block;
     }
@@ -115,11 +106,10 @@
     margin: 1rem 0;
 }
 
-.media-embed.layout-horizontal {
-    --grid-layout-gap: #{$spacing-medium};
-    --grid-column-count: 4;
+.media-embed.layout-horizontal.multiple-attachments {
     --grid-item--min-width: 200px; 
-
+    --grid-column-count: 4;
+    --grid-layout-gap: #{$spacing-large};
     --gap-count: calc(var(--grid-column-count) - 1);
     --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
     --grid-item--max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
@@ -127,6 +117,12 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
     grid-gap: var(--grid-layout-gap);
+    width: 100vw;
+    max-width: 100%;
+}
+
+.media-embed.layout-horizontal.multiple-attachments .item.resource {
+    margin-bottom: 0;
 }
 
 .media-embed .resource {
@@ -142,6 +138,11 @@
     &:not(:only-child) img {
         width: auto;
         vertical-align: top;
+        margin-bottom: 0;
+    }
+
+    .media-render > a:not(:only-child) {
+        margin-bottom: $spacing-small;
     }
 
     .caption {

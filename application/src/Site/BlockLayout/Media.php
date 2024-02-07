@@ -80,6 +80,10 @@ class Media extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
                 $classes[] = 'media-display-embed';
         }
 
+        if (count($attachments) > 1) {
+            $classes[] = 'multiple-attachments';
+        }
+
         return $view->partial($templateViewScript, [
             'block' => $block,
             'attachments' => $attachments,

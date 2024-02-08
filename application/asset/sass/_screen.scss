@@ -3284,9 +3284,22 @@ fieldset.section > legend {
 }
 
 .sidebar-group .collapse {
-    border-bottom: 3px solid $border-gray;
     padding-bottom: .5 * $spacing-small;
     margin-bottom: $spacing-small;
+}
+
+.sidebar-group .collapse + .collapsible {
+    padding: 0 0 $spacing-medium $spacing-medium;
+    border-bottom: 1px solid $border-gray;
+}
+
+.sidebar-group .collapsible .field:last-child {
+    margin-bottom: 0;
+}
+
+.sidebar-group .collapsible label,
+.sidebar-group .collapsible .label {
+    font-weight: normal;
 }
 
 .sidebar-group .collapse label,
@@ -4329,12 +4342,14 @@ body.sidebar-open #content {
         @include font-awesome;
     }
 
-    #page-layout-label {
-        display: flex;
+    #page-layout-controls label,
+    .block-page-layout-grid-controls label {
+        display: inline-flex;
         align-items: center;
     }
 
-    #page-layout-select {
+    #page-layout-controls select,
+    .block-page-layout-grid-controls select {
         margin-left: $spacing-small;
     }
 
@@ -4428,7 +4443,11 @@ body.sidebar-open #content {
         margin-left: 0;
     }
 
-    .block .block-content input[type="hidden"] + * {
+    .block-page-layout-grid-controls select {
+        vertical-align: baseline;
+    }
+    
+.block .block-content input[type="hidden"] + * {
         padding-top: 0;
         margin-top: 0;
     }
@@ -4816,6 +4835,7 @@ body.sidebar-open #content {
         display: inline-flex;
         justify-content: space-between;
         padding: 0;
+        align-items: center;
 
         &:after {
             content: none;

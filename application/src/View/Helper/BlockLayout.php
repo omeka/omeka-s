@@ -152,7 +152,7 @@ class BlockLayout extends AbstractLayout
         return sprintf(
             '<div class="%s" style="%s">%s</div>',
             $view->escapeHtml(implode(' ', $classes)),
-            $view->escapeHtml(implode(' ', $inlineStyles)),
+            $view->escapeHtml(implode('; ', $inlineStyles)),
             $templateViewScript
                 ? $blockLayout->render($this->getView(), $block, $templateViewScript)
                 : $blockLayout->render($this->getView(), $block)

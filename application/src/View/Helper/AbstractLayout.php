@@ -22,10 +22,10 @@ abstract class AbstractLayout extends AbstractHelper
         $classes = $eventArgs['classes'];
 
         $classes[] = 'block';
-        $classes[] = $block->layout();
+        $classes[] = sprintf('block-%s', $block->layout());
 
         $page = $block->page();
-        if ('grid' ===  $page->layout()) {
+        if ('grid' === $page->layout()) {
             $gridColumns = (int) $page->layoutDataValue('grid_columns');
             // Get the valid position and span classes, which in CSS map to:
             //  - grid-column-start: <position>;
@@ -142,41 +142,41 @@ abstract class AbstractLayout extends AbstractHelper
 
         $backgroundColor = $block->layoutDataValue('background_color');
         if ($backgroundColor && $isValidHexColor($backgroundColor)) {
-            $inlineStyles[] = sprintf('background-color: %s;', $backgroundColor);
+            $inlineStyles[] = sprintf('background-color: %s', $backgroundColor);
         }
 
         $backgroundImageAsset = $block->layoutDataValue('background_image_asset');
         if ($backgroundImageAsset) {
             $asset = $view->api()->searchOne('assets', ['id' => $backgroundImageAsset])->getContent();
             if ($asset) {
-                $inlineStyles[] = sprintf('background-image: url("%s");', $view->escapeCss($asset->assetUrl()));
+                $inlineStyles[] = sprintf('background-image: url("%s")', $view->escapeCss($asset->assetUrl()));
             }
         }
 
         $maxWidth = $block->layoutDataValue('max_width');
         if (is_string($maxWidth) && $isValidLength($maxWidth)) {
-            $inlineStyles[] = sprintf('max-width: %s;', $maxWidth);
+            $inlineStyles[] = sprintf('max-width: %s', $maxWidth);
         }
         $minHeight = $block->layoutDataValue('min_height');
         if (is_string($minHeight) && $isValidLength($minHeight)) {
-            $inlineStyles[] = sprintf('min-height: %s;', $minHeight);
+            $inlineStyles[] = sprintf('min-height: %s', $minHeight);
         }
 
         $paddingTop = $block->layoutDataValue('padding_top');
         if (is_string($paddingTop) && $isValidLength($paddingTop)) {
-            $inlineStyles[] = sprintf('padding-top: %s;', $paddingTop);
+            $inlineStyles[] = sprintf('padding-top: %s', $paddingTop);
         }
         $paddingRight = $block->layoutDataValue('padding_right');
         if (is_string($paddingRight) && $isValidLength($paddingRight)) {
-            $inlineStyles[] = sprintf('padding-right: %s;', $paddingRight);
+            $inlineStyles[] = sprintf('padding-right: %s', $paddingRight);
         }
         $paddingBottom = $block->layoutDataValue('padding_bottom');
         if (is_string($paddingBottom) && $isValidLength($paddingBottom)) {
-            $inlineStyles[] = sprintf('padding-bottom: %s;', $paddingBottom);
+            $inlineStyles[] = sprintf('padding-bottom: %s', $paddingBottom);
         }
         $paddingLeft = $block->layoutDataValue('padding_left');
         if (is_string($paddingLeft) && $isValidLength($paddingLeft)) {
-            $inlineStyles[] = sprintf('padding-left: %s;', $paddingLeft);
+            $inlineStyles[] = sprintf('padding-left: %s', $paddingLeft);
         }
 
         return $inlineStyles;

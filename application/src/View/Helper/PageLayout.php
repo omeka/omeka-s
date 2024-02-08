@@ -80,7 +80,7 @@ class PageLayout extends AbstractLayout
                 $output[] = sprintf(
                     '<div class="%s" style="%s">',
                     $view->escapeHtml(implode(' ', $blockGroupClasses)),
-                    $view->escapeHtml(implode(' ', $blockGroupInlineStyles))
+                    $view->escapeHtml(implode('; ', $blockGroupInlineStyles))
                 );
             } else {
                 $output[] = $view->blockLayout()->render($block);

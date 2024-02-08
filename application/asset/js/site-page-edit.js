@@ -516,7 +516,7 @@
         // Prepare page layout for use.
         const preparePageLayout = function() {
             const layoutSelect = $('#page-layout-select');
-            const gridColumnsSelect = $('#page-layout-grid-columns-select');
+            const gridColumnsSelect = $('#page-layout-grid-columns-label');
             const gridColumnGapInput = $('#page-layout-grid-column-gap-input');
             const gridRowGapInput = $('#page-layout-grid-row-gap-input');
             const blockGridControls = $('.block-page-layout-grid-controls');

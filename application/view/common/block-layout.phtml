@@ -2,7 +2,7 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 
-$layoutGridColumnPositionOptions = ['auto' => $translate('Auto placement')];
+$layoutGridColumnPositionOptions = ['auto' => $translate('Auto')];
 foreach (range(1, 12) as $value) {
     $layoutGridColumnPositionOptions[$value] = sprintf($translate('Position %s'), $value);
 }
@@ -26,16 +26,20 @@ if ('blockGroup' === $layout) {
         <span class="restore-value"><?php echo $translate('Block to be removed'); ?></span>
         <?php if ('blockGroup' !== $layout): ?>
         <span class="block-page-layout-grid-controls">
-            <select class="block-page-layout-grid-column-position-select" data-block-page-layout-grid-column-position="<?php echo $escape($layoutGridColumnPosition); ?>">
-                <?php foreach ($layoutGridColumnPositionOptions as $key => $value): ?>
-                <option value="<?php echo $escape($key); ?>"<?php echo ($layoutGridColumnPosition == $key) ? ' selected' : '' ?>><?php echo $escape($value); ?></option>
-                <?php endforeach; ?>
-            </select>
-            <select class="block-page-layout-grid-column-span-select" data-block-page-layout-grid-column-span="<?php echo $escape($layoutGridColumnSpan); ?>">
-                <?php foreach ($layoutGridColumnSpanOptions as $key => $value): ?>
-                <option value="<?php echo $escape($key); ?>"<?php echo ($layoutGridColumnSpan == $key) ? ' selected' : '' ?>><?php echo $escape($value); ?></option>
-                <?php endforeach; ?>
-            </select>
+            <label><?php echo $translate('Position'); ?>
+                <select class="block-page-layout-grid-column-position-select" data-block-page-layout-grid-column-position="<?php echo $escape($layoutGridColumnPosition); ?>">
+                    <?php foreach ($layoutGridColumnPositionOptions as $key => $value): ?>
+                    <option value="<?php echo $escape($key); ?>"<?php echo ($layoutGridColumnPosition == $key) ? ' selected' : '' ?>><?php echo $escape($key); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+            <label><?php echo $translate('Span'); ?> 
+                <select class="block-page-layout-grid-column-span-select" data-block-page-layout-grid-column-span="<?php echo $escape($layoutGridColumnSpan); ?>">
+                    <?php foreach ($layoutGridColumnSpanOptions as $key => $value): ?>
+                    <option value="<?php echo $escape($key); ?>"<?php echo ($layoutGridColumnSpan == $key) ? ' selected' : '' ?>><?php echo $escape($key); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
         </span>
         <?php endif; ?>
         <ul class="actions center">

@@ -21,6 +21,21 @@ abstract class AbstractLayout extends AbstractHelper
         $this->eventManager->triggerEvent(new Event('block_layout.classes', $block, $eventArgs));
         $classes = $eventArgs['classes'];
 
+        $classes[] = 'block';
+        $classes[] = $block->layout();
+
+        $page = $block->page();
+        if ('grid' ===  $page->layout()) {
+            $gridColumns = (int) $page->layoutDataValue('grid_columns');
+            // Get the valid position and span classes, which in CSS map to:
+            //  - grid-column-start: <position>;
+            //  - grid-column-end: span <span>;
+            $getValidPositionClass = fn ($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? sprintf('grid-position-%s', $columnPosition) : 'grid-position-auto';
+            $getValidSpanClass = fn ($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? sprintf('grid-span-%s', $columnSpan) : sprintf('grid-span-%s', $gridColumns);
+            $classes[] = $getValidPositionClass($block->layoutDataValue('grid_column_position') ?? 'grid-position-auto');
+            $classes[] = $getValidSpanClass($block->layoutDataValue('grid_column_span') ?? sprintf('grid-span-%s', $gridColumns));
+        }
+
         $class = $block->layoutDataValue('class');
         if (is_string($class) && '' !== trim($class)) {
             $classes[] = $class;

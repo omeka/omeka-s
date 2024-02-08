@@ -17,6 +17,7 @@ class PageLayout extends AbstractLayout
     public function render(SitePageRepresentation $page)
     {
         $view = $this->getView();
+        $output = [];
 
         // Allow modules to add classes for styling the layout.
         $eventArgs = $this->eventManager->prepareArgs(['classes' => []]);
@@ -47,7 +48,7 @@ class PageLayout extends AbstractLayout
                 $classes[] = 'page-layout-normal';
                 break;
         }
-        echo sprintf(
+        $output[] = sprintf(
             '<div class="blocks-inner %s" style="%s">',
             $view->escapeHtml(implode(' ', $classes)),
             $view->escapeHtml(implode(' ', $inlineStyles))
@@ -63,7 +64,7 @@ class PageLayout extends AbstractLayout
             if ('blockGroup' === $block->layout()) {
                 // The blockGroup block gets special treatment.
                 if ($inBlockGroup) {
-                    echo '</div>'; // Blocks may not overlap.
+                    $output[] = '</div>'; // Blocks may not overlap.
                 }
                 $inBlockGroup = true;
                 $blockGroupSpan = (int) $block->dataValue('span');
@@ -76,38 +77,18 @@ class PageLayout extends AbstractLayout
                     $blockGroupClasses[] = 'grid-position-1';
                     $blockGroupClasses[] = sprintf('grid-span-%s', $gridColumns);
                 }
-                echo sprintf(
-                    '<div class="block-group %s" style="%s">',
+                $output[] = sprintf(
+                    '<div class="%s" style="%s">',
                     $view->escapeHtml(implode(' ', $blockGroupClasses)),
                     $view->escapeHtml(implode(' ', $blockGroupInlineStyles))
                 );
             } else {
-                // Render each block according to page layout.
-                switch ($page->layout()) {
-                    case 'grid':
-                        $blockLayoutData = $block->layoutData();
-                        // Get the valid position and span classes, which in CSS map to:
-                        //  - grid-column-start: <position>;
-                        //  - grid-column-end: span <span>;
-                        $getValidPositionClass = fn ($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? sprintf('grid-position-%s', $columnPosition) : 'grid-position-auto';
-                        $getValidSpanClass = fn ($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? sprintf('grid-span-%s', $columnSpan) : sprintf('grid-span-%s', $gridColumns);
-                        echo sprintf(
-                            '<div class="%s %s">%s</div>',
-                            $getValidPositionClass($blockLayoutData['grid_column_position'] ?? 'grid-position-auto'),
-                            $getValidSpanClass($blockLayoutData['grid_column_span'] ?? sprintf('grid-span-%s', $gridColumns)),
-                            $view->blockLayout()->render($block)
-                        );
-                        break;
-                    case '':
-                    default:
-                        echo $view->blockLayout()->render($block);
-                        break;
-                }
+                $output[] = $view->blockLayout()->render($block);
             }
             // The blockGroup block gets special treatment.
             if ($inBlockGroup) {
                 if ($blockGroupCurrentSpan == $blockGroupSpan) {
-                    echo '</div>';
+                    $output[] = '</div>';
                     $inBlockGroup = false;
                 } else {
                     $blockGroupCurrentSpan++;
@@ -115,8 +96,9 @@ class PageLayout extends AbstractLayout
             }
         }
         if ($inBlockGroup) {
-            echo '</div>'; // Close the blockGroup block if not already closed.
+            $output[] = '</div>'; // Close the blockGroup block if not already closed.
         }
-        echo '</div>';
+        $output[] = '</div>';
+        return implode('', $output);
     }
 }

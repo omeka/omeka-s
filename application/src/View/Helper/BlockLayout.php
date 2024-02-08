@@ -149,21 +149,13 @@ class BlockLayout extends AbstractLayout
         $classes = $this->getBlockClasses($block);
         $inlineStyles = $this->getBlockInlineStyles($block);
 
-        // Wrap block markup in a div only if the layout declares special
-        // styling via classes or inline styles.
-        if ($classes || $inlineStyles) {
-            return sprintf(
-                '<div class="%s" style="%s">%s</div>',
-                $view->escapeHtml(implode(' ', $classes)),
-                $view->escapeHtml(implode(' ', $inlineStyles)),
-                $templateViewScript
-                    ? $blockLayout->render($this->getView(), $block, $templateViewScript)
-                    : $blockLayout->render($this->getView(), $block)
-            );
-        }
-
-        return $templateViewScript
-            ? $blockLayout->render($this->getView(), $block, $templateViewScript)
-            : $blockLayout->render($this->getView(), $block);
+        return sprintf(
+            '<div class="%s" style="%s">%s</div>',
+            $view->escapeHtml(implode(' ', $classes)),
+            $view->escapeHtml(implode(' ', $inlineStyles)),
+            $templateViewScript
+                ? $blockLayout->render($this->getView(), $block, $templateViewScript)
+                : $blockLayout->render($this->getView(), $block)
+        );
     }
 }

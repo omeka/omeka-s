@@ -441,7 +441,8 @@ return [
             'formQuery' => Form\View\Helper\FormQuery::class,
             'formColumns' => Form\View\Helper\FormColumns::class,
             'formBrowseDefaults' => Form\View\Helper\FormBrowseDefaults::class,
-            'formBackground' => Form\View\Helper\FormBackground::class,
+            'formBackgroundImage' => Form\View\Helper\FormBackgroundImage::class,
+            'formPadding' => Form\View\Helper\FormPadding::class,
             'themeSettingAsset' => View\Helper\ThemeSettingAsset::class,
             'themeSettingAssetUrl' => View\Helper\ThemeSettingAssetUrl::class,
             'formColorPicker' => Form\View\Helper\FormColorPicker::class,
@@ -757,6 +758,7 @@ return [
             'lineBreak' => Site\BlockLayout\LineBreak::class,
             'itemWithMetadata' => Site\BlockLayout\ItemWithMetadata::class,
             'pageDateTime' => Site\BlockLayout\PageDateTime::class,
+            'blockGroup' => Site\BlockLayout\BlockGroup::class,
         ],
         'factories' => [
             'asset' => Service\BlockLayout\AssetFactory::class,

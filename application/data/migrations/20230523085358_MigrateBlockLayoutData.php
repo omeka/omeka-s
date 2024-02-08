@@ -39,8 +39,11 @@ class MigrateBlockLayoutData implements ConstructedMigrationInterface
             $data = $block->getData();
             $layoutData = $block->getLayoutData();
             if (isset($data['alignment'])) {
-                $layoutData['alignment'] = $data['alignment'];
+                $layoutData['alignment_block'] = $data['alignment'];
                 unset($data['alignment']);
+                if ('center' === $data['alignment']) {
+                    $layoutData['alignment_text'] = 'center';
+                }
                 $block->setData($data);
                 $block->setLayoutData($layoutData);
             }
@@ -56,8 +59,11 @@ class MigrateBlockLayoutData implements ConstructedMigrationInterface
                 $block->setLayoutData($layoutData);
             }
             if (isset($data['alignment'])) {
-                $layoutData['alignment'] = $data['alignment'];
+                $layoutData['alignment_block'] = $data['alignment'];
                 unset($data['alignment']);
+                if ('center' === $data['alignment']) {
+                    $layoutData['alignment_text'] = 'center';
+                }
                 $block->setData($data);
                 $block->setLayoutData($layoutData);
             }

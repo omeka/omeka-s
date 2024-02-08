@@ -2,7 +2,7 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 
-$layoutGridColumnPositionOptions = ['auto' => $translate('Auto placement')];
+$layoutGridColumnPositionOptions = ['auto' => $translate('Auto')];
 foreach (range(1, 12) as $value) {
     $layoutGridColumnPositionOptions[$value] = sprintf($translate('Position %s'), $value);
 }
@@ -12,34 +12,52 @@ foreach (range(1, 12) as $value) {
 }
 $layoutGridColumnPosition = $layoutData['grid_column_position'] ?? 'auto';
 $layoutGridColumnSpan = $layoutData['grid_column_span'] ?? '12';
+
+$blockClasses = ['block', 'value'];
+if ('blockGroup' === $layout) {
+    $blockClasses[] = 'block-group';
+}
 ?>
 
-<div class="block value" data-block-layout="<?php echo $escape($layout); ?>" data-block-layout-data="<?php echo $escape($layoutData ? json_encode($layoutData) : '{}'); ?>">
-    <div class="block-header collapse">
+<div class="<?php echo implode(' ', $blockClasses); ?>" data-block-layout="<?php echo $escape($layout); ?>" data-block-layout-data="<?php echo $escape($layoutData ? json_encode($layoutData) : '{}'); ?>">
+    <div class="block-header">
         <span class="sortable-handle"></span>
         <span class="block-type"><?php echo $translate($layoutLabel); ?></span>
         <span class="restore-value"><?php echo $translate('Block to be removed'); ?></span>
+        <?php if ('blockGroup' !== $layout): ?>
         <span class="block-page-layout-grid-controls">
-            <select class="block-page-layout-grid-column-position-select" data-block-page-layout-grid-column-position="<?php echo $escape($layoutGridColumnPosition); ?>">
-                <?php foreach ($layoutGridColumnPositionOptions as $key => $value): ?>
-                <option value="<?php echo $escape($key); ?>"<?php echo ($layoutGridColumnPosition == $key) ? ' selected' : '' ?>><?php echo $escape($value); ?></option>
-                <?php endforeach; ?>
-            </select>
-            <select class="block-page-layout-grid-column-span-select" data-block-page-layout-grid-column-span="<?php echo $escape($layoutGridColumnSpan); ?>">
-                <?php foreach ($layoutGridColumnSpanOptions as $key => $value): ?>
-                <option value="<?php echo $escape($key); ?>"<?php echo ($layoutGridColumnSpan == $key) ? ' selected' : '' ?>><?php echo $escape($value); ?></option>
-                <?php endforeach; ?>
-            </select>
+            <label><?php echo $translate('Position'); ?>
+                <select class="block-page-layout-grid-column-position-select" data-block-page-layout-grid-column-position="<?php echo $escape($layoutGridColumnPosition); ?>">
+                    <?php foreach ($layoutGridColumnPositionOptions as $key => $value): ?>
+                    <option value="<?php echo $escape($key); ?>"<?php echo ($layoutGridColumnPosition == $key) ? ' selected' : '' ?>><?php echo $escape($key); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+            <label><?php echo $translate('Span'); ?> 
+                <select class="block-page-layout-grid-column-span-select" data-block-page-layout-grid-column-span="<?php echo $escape($layoutGridColumnSpan); ?>">
+                    <?php foreach ($layoutGridColumnSpanOptions as $key => $value): ?>
+                    <option value="<?php echo $escape($key); ?>"<?php echo ($layoutGridColumnSpan == $key) ? ' selected' : '' ?>><?php echo $escape($key); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
         </span>
-        <ul class="actions">
-            <li><a href="#" class="o-icon-search preview-block-page-layout-grid" aria-label="<?php echo $translate('Preview layout'); ?>" title="<?php echo $translate('Preview layout'); ?>"></a></li>
+        <?php endif; ?>
+        <ul class="actions center">
+            <?php if ('blockGroup' !== $layout): ?>
+            <li><a href="#" class="preview-block-page-layout" aria-label="<?php echo $translate('Preview layout'); ?>" title="<?php echo $translate('Preview layout'); ?>"></a></li>
+            <?php endif; ?>
             <li><a href="#" class="o-icon-settings configure-block-layout-data" aria-label="<?php echo $translate('Configure layout'); ?>" title="<?php echo $translate('Configure layout'); ?>"></a></li>
             <li><a href="#" class="o-icon-delete remove-value" aria-label="<?php echo $translate('Remove block'); ?>" title="<?php echo $translate('Remove block'); ?>"></a></li>
             <li><a href="#" class="o-icon-undo restore-value inactive" aria-label="<?php echo $translate('Restore block'); ?>" title="<?php echo $translate('Restore block'); ?>"></a></li>
-            <li><a href="#" class="o-icon-expand collapse" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>"></a></li>
+            <?php if ('blockGroup' === $layout): ?>
+            <li><a href="#" class="expand-group" aria-label="<?php echo $escape($translate('Expand group')); ?>" title="<?php echo $escape($translate('Expand group')); ?>"></a></li>
+            <li><a href="#" class="collapse-group" aria-label="<?php echo $escape($translate('Collapse group')); ?>" title="<?php echo $escape($translate('Collapse group')); ?>"></a></li>
+            <?php else: ?>
+            <li><a href="#" class="o-icon-expand toggle-block-visibility collapse" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>"></a></li>
+            <?php endif; ?>
         </ul>
     </div>
-    <div class="block-content collapsible">
+    <div class="block-content">
     <input type="hidden" name="o:block[__blockIndex__][o:layout]" value="<?php echo $escape($layout); ?>">
     <input type="hidden" name="o:block[__blockIndex__][o:layout_data]" class="block-layout-data" value="<?php echo $escape(json_encode($layoutData)); ?>">
     <?php echo $blockContent; ?>

@@ -147,24 +147,97 @@
         })
     });
 
-    $(document).ready(function () {
-        var list = document.getElementById('blocks');
-        var blockIndex = 0;
-        new Sortable(list, {
-            draggable: ".block",
-            handle: ".sortable-handle",
-            onStart: function (e) {
+    /**
+     * Enable block sorting.
+     *
+     * @param object blockList
+     */
+    function enableSorting(blockList) {
+        new Sortable(blockList, {
+            draggable: '.block',
+            handle: '.sortable-handle',
+            group: 'block-list',
+            swapThreshold: 0.9,
+            forceAutoScrollFallback: true,
+            onStart: function(e) {
                 var editor = $(e.item).find('.wysiwyg').ckeditor().editor;
                 if (editor) {
                     editor.destroy();
                 }
             },
-            onEnd: function (e) {
+            onEnd: function(e) {
                 wysiwyg($(e.item));
             },
+            onMove: function(e) {
+                // Prevent users from dropping blockGroups into other blockGroups.
+                const toList = $(e.to);
+                const block = $(e.dragged);
+                if (toList.hasClass('block-group-blocks') && 'blockGroup' === block.data('block-layout')) {
+                    return false;
+                }
+            },
+            onAdd: function(e) {
+                // Set the span of a blockGroup when adding a block to it.
+                const toList = $(e.to);
+                if (toList.hasClass('block-group-blocks')) {
+                    const blockGroup = toList.closest('.block-group');
+                    const blocks = toList.find('.block');
+                    blockGroup.find('input.block-group-span').val(blocks.length);
+                }
+            },
+            onRemove: function(e) {
+                // Set the span of a blockGroup when removing a block from it.
+                const fromList = $(e.from);
+                if (fromList.hasClass('block-group-blocks')) {
+                    const blockGroup = fromList.closest('.block-group');
+                    const blocks = fromList.find('.block');
+                    blockGroup.find('input.block-group-span').val(blocks.length);
+                }
+            },
+        });
+    }
+
+    $(document).ready(function () {
+        var blockIndex = 0;
+
+        // Prepare the blocks.
+        $('#blocks .block').each(function () {
+            const thisBlock = $(this);
+            // Index the inputs.
+            thisBlock.data('blockIndex', blockIndex);
+            replaceIndex(thisBlock, 'blockIndex', blockIndex);
+            blockIndex++;
         });
 
-        $('#new-block button').click(function() {
+        // Place blocks in block groups as needed. Must happen after indexing inputs.
+        $('.block-group').each(function() {
+            const blockGroup = $(this);
+            const blockGroupSpanInput = blockGroup.find('input.block-group-span');
+            const blocksInGroup = blockGroup.nextUntil('.block-group').slice(0, blockGroupSpanInput.val());
+            blockGroup.find('.block-group-blocks').append(blocksInGroup);
+            blockGroupSpanInput.val(blocksInGroup.length);
+        });
+
+        // Enable sorting for blocks and block groups.
+        enableSorting(document.getElementById('blocks'));
+        $('.block').each(function() {
+            const thisBlock = $(this);
+            if ('blockGroup' === thisBlock.data('block-layout')) {
+                enableSorting(thisBlock.find('.block-group-blocks')[0]);
+            }
+        });
+
+        wysiwyg($('body'));
+
+        // Make attachments sortable.
+        $('.attachments').each(function() {
+            new Sortable(this, {
+                draggable: ".attachment",
+                handle: ".sortable-handle"
+            });
+        });
+
+        $('#new-block button').on('click', function() {
             $.post(
                 $(this).parents('#new-block').data('url'),
                 {layout: $(this).val()}
@@ -175,22 +248,25 @@
             });
         });
 
-        $('#blocks .block').each(function () {
-            $(this).data('blockIndex', blockIndex);
-            replaceIndex($(this), 'blockIndex', blockIndex);
-            blockIndex++;
-        });
         $('#blocks').on('o:block-added', '.block', function () {
-            $(this).data('blockIndex', blockIndex);
-            replaceIndex($(this), 'blockIndex', blockIndex);
-            wysiwyg($(this));
+            const thisBlock = $(this);
+            // Index the inputs.
+            thisBlock.data('blockIndex', blockIndex);
+            replaceIndex(thisBlock, 'blockIndex', blockIndex);
+            wysiwyg(thisBlock);
             blockIndex++;
         });
-        wysiwyg($('body'));
+
+        $(document).on('o:block-added', function(e) {
+            const thisBlock = $(e.target);
+            if ('blockGroup' === thisBlock.data('block-layout')) {
+                enableSorting(thisBlock.find('.block-group-blocks')[0]);
+            }
+        });
 
         $('#blocks').on('click', 'a.remove-value, a.restore-value', function (e) {
             e.preventDefault();
-            var block = $(this).parents('.block');
+            var block = $(this).closest('.block');
             block.toggleClass('delete');
             block.find('a.remove-value, a.restore-value').removeClass('inactive');
             $(this).toggleClass('inactive');
@@ -232,18 +308,28 @@
             }
         });
 
+        // Handle expand/collapse.
         $('.collapse-all').on('click', function() {
-            $('.block-header.collapse .collapse').click();
+            $('.toggle-block-visibility.collapse').trigger('click');
         });
-
         $('.expand-all').on('click', function() {
-            $('.block-header:not(.collapse) .expand').click();
+            $('.toggle-block-visibility.expand').trigger('click');
         });
-
-        // Toggle block visibility
-        $('#blocks').on('click', '.expand,.collapse', function() {
-            var blockToggle = $(this);
-            blockToggle.parents('.block-header').toggleClass('collapse');
+        $('#blocks').on('click', '.collapse-group', function(e) {
+            e.preventDefault();
+            const childBlocks = $(this).closest('.block').find('.block');
+            childBlocks.find('.toggle-block-visibility.collapse').trigger('click');
+        });
+        $('#blocks').on('click', '.expand-group', function(e) {
+            e.preventDefault();
+            const childBlocks = $(this).closest('.block').find('.block');
+            childBlocks.find('.toggle-block-visibility.expand').trigger('click');
+        });
+        $('#blocks').on('o:collapsed', '.toggle-block-visibility', function() {
+            $(this).closest('.block').find('.block-content').hide();
+        });
+        $('#blocks').on('o:expanded', '.toggle-block-visibility', function() {
+            $(this).closest('.block').find('.block-content').show();
         });
 
         // Make attachments sortable.
@@ -253,12 +339,6 @@
                     draggable: ".attachment",
                     handle: ".sortable-handle"
                 });
-            });
-        });
-        $('.attachments').each(function() {
-            new Sortable(this, {
-                draggable: ".attachment",
-                handle: ".sortable-handle"
             });
         });
 
@@ -439,25 +519,19 @@
             const gridColumnsSelect = $('#page-layout-grid-columns-select');
             const gridColumnGapInput = $('#page-layout-grid-column-gap-input');
             const gridRowGapInput = $('#page-layout-grid-row-gap-input');
-            const gridPreview = $('#preview-page-layout-grid');
             const blockGridControls = $('.block-page-layout-grid-controls');
-            const blockGridPreview = $('.preview-block-page-layout-grid');
             // Disable and hide all layout-specific controls by default.
             gridColumnsSelect.hide();
             gridColumnGapInput.closest('.field').hide();
             gridRowGapInput.closest('.field').hide();
-            gridPreview.hide();
             blockGridControls.hide();
-            blockGridPreview.hide();
             switch (layoutSelect.val()) {
                 case 'grid':
                     // Prepare grid layout.
                     gridColumnsSelect.show();
                     gridColumnGapInput.closest('.field').show();
                     gridRowGapInput.closest('.field').show();
-                    gridPreview.show();
                     blockGridControls.show();
-                    blockGridPreview.show();
                     preparePageGridLayout();
                     break;
                 case '':
@@ -513,38 +587,78 @@
             }
         }
 
-        // Preview the page layout grid.
-        const previewPageLayoutGrid = function() {
-            const gridLayoutPreview = $('#grid-layout-preview');
+        // Preview the page layout.
+        const previewPageLayout = function() {
+            const previewDiv = $('#layout-preview');
+            previewDiv.empty();
+            const pageLayoutSelect = $('#page-layout-select');
             const gridColumns = parseInt($('#page-layout-grid-columns-select').val(), 10);
-            gridLayoutPreview
-                .empty()
-                .css('grid-template-columns', `repeat(${gridColumns}, 1fr)`);
+            if ('grid' === pageLayoutSelect.val()) {
+                previewDiv.css('grid-template-columns', `repeat(${gridColumns}, 1fr)`).empty();
+            }
+            let inBlockGroup = false;
+            let blockGroupSpan;
+            let blockGroupCurrentSpan;
+            let blockGroupDiv;
             $('.block').each(function() {
                 const thisBlock = $(this);
-                const gridColumnPositionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
-                const gridColumnPositionSelectValue = parseInt(gridColumnPositionSelect.val(), 10) || 'auto';
-                const gridColumnSpanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
-                const gridColumnSpanSelectValue = parseInt(gridColumnSpanSelect.val(), 10);
-                const selectedTooltip = $('<div class="selected-tooltip" title="Selected">');
-                const blockDiv = $('<div class="grid-layout-previewing-block">')
-                    .css('grid-column', `${gridColumnPositionSelectValue} / span ${gridColumnSpanSelectValue}`);
-                if (thisBlock.hasClass('grid-layout-previewing')) {
-                    blockDiv.addClass('grid-layout-previewing').append(selectedTooltip);
-                }
-                blockDiv.hover(
-                    function() {
-                        thisBlock.addClass('hovered-block');
-                        $(this).addClass('hovered-block');
-                    },
-                    function() {
-                        thisBlock.removeClass('hovered-block');
-                        $(this).removeClass('hovered-block');
+                const blockLayout = thisBlock.data('block-layout');
+                if ('blockGroup' == blockLayout) {
+                    // The blockGroup block gets special treatment.
+                    if (inBlockGroup) {
+                        // Blocks may not overlap.
+                        previewDiv.append(blockGroupDiv);
                     }
-                );
-                gridLayoutPreview.append(blockDiv);
+                    inBlockGroup = true;
+                    blockGroupSpan = parseInt(thisBlock.find('.block-group-span').val(), 10);
+                    blockGroupCurrentSpan = 0;
+                    if ('grid' === pageLayoutSelect.val()) {
+                        blockGroupDiv = $(`<div class="layout-previewing-block-group" style="display: grid; grid-template-columns: repeat(${gridColumns}, 1fr); grid-column: span ${gridColumns};">`);
+                    } else {
+                        blockGroupDiv = $('<div class="layout-previewing-block-group">');
+                    }
+                } else {
+                    const selectedTooltip = $('<div class="selected-tooltip" title="Selected">');
+                    const blockDiv = $('<div class="layout-previewing-block">');
+                    if ('grid' === pageLayoutSelect.val()) {
+                        const positionSelect = thisBlock.find('.block-page-layout-grid-column-position-select');
+                        const positionSelectValue = parseInt(positionSelect.val(), 10) || 'auto';
+                        const spanSelect = thisBlock.find('.block-page-layout-grid-column-span-select');
+                        const spanSelectValue = parseInt(spanSelect.val(), 10);
+                        blockDiv.css('grid-column', `${positionSelectValue} / span ${spanSelectValue}`)
+                    }
+                    if (thisBlock.hasClass('layout-previewing')) {
+                        blockDiv.addClass('layout-previewing').append(selectedTooltip);
+                    }
+                    blockDiv.hover(
+                        function() {
+                            thisBlock.addClass('hovered-block');
+                            $(this).addClass('hovered-block');
+                        },
+                        function() {
+                            thisBlock.removeClass('hovered-block');
+                            $(this).removeClass('hovered-block');
+                        }
+                    );
+                    inBlockGroup
+                        ? blockGroupDiv.append(blockDiv)
+                        : previewDiv.append(blockDiv);
+                }
+                if (inBlockGroup) {
+                    // The blockGroup block gets special treatment.
+                    if (blockGroupCurrentSpan == blockGroupSpan) {
+                        previewDiv.append(blockGroupDiv);
+                        inBlockGroup = false;
+                    } else {
+                        blockGroupCurrentSpan++;
+                    }
+                }
             });
-            Omeka.openSidebar($('#grid-layout-preview-sidebar'));
+            if (inBlockGroup) {
+                // Close the blockGroup block if not already closed.
+                previewDiv.append(blockGroupDiv);
+            }
+            Omeka.openSidebar($('#layout-preview-sidebar'));
         };
 
         // Prepare page layout on initial load.
@@ -586,11 +700,11 @@
             $('#page-layout-restore').show();
         });
 
-        // Handle a page layout grid preview click.
-        $('#preview-page-layout-grid').on('click', function(e) {
+        // Handle a page layout preview click.
+        $('#preview-page-layout').on('click', function(e) {
             e.preventDefault();
-            $('.block').removeClass('grid-layout-previewing');
-            previewPageLayoutGrid();
+            $('.block').removeClass('layout-previewing');
+            previewPageLayout();
         })
 
         $('#configure-page-layout-data').on('click', function(e) {
@@ -599,17 +713,17 @@
             Omeka.openSidebar(pageLayoutDataSidebar);
         });
 
-        // Handle a page layout grid preview click for a specific block.
-        $('#blocks').on('click', '.preview-block-page-layout-grid', function(e) {
+        // Handle a page layout preview click for a specific block.
+        $('#blocks').on('click', '.preview-block-page-layout', function(e) {
             e.preventDefault();
-            $('.block').removeClass('grid-layout-previewing');
-            $(this).closest('.block').addClass('grid-layout-previewing');
-            previewPageLayoutGrid();
+            $('.block').removeClass('layout-previewing');
+            $(this).closest('.block').addClass('layout-previewing');
+            previewPageLayout();
         });
 
         // Handle closing a page layout grid preview.
-        $('#grid-layout-preview-sidebar').on('o:sidebar-closed', function(e) {
-            $('.block').removeClass('grid-layout-previewing');
+        $('#layout-preview-sidebar').on('o:sidebar-closed', function(e) {
+            $('.block').removeClass('layout-previewing');
         });
 
         // Handle a configure block layout click. (open the sidebar)
@@ -659,6 +773,26 @@
             // Allow special handling of block layout data.
             $(document).trigger('o:prepare-block-layout-data', [thisBlock]);
 
+            // blockGroup blocks use a subset of block layout data. Hide the rest.
+            blockLayoutDataSidebar.find('.field').each(function(e) {
+                const thisField = $(this);
+                thisField.show();
+                const blockGroupInputs = '#block-layout-data-class,#block-layout-data-background-image-asset';
+                if ('blockGroup' === blockLayout && !thisField.find(blockGroupInputs).length) {
+                    thisField.hide();
+                }
+            });
+
+            // Update the background color swatch.
+            const bgColorInput = $('#block-layout-data-background-color');
+            const bgColorSwatch = bgColorInput.siblings('.color-picker-sample');
+            const bgColor = bgColorInput.val();
+            if ('' !== bgColor && bgColorInput[0].checkValidity()) {
+                bgColorSwatch.css('background-color', bgColor);
+            } else {
+                bgColorSwatch.css('background-color', 'transparent');
+            }
+
             Omeka.openSidebar(blockLayoutDataSidebar);
         });
 
@@ -667,10 +801,17 @@
             e.preventDefault();
             const block = $('.block-layout-data-configuring');
             const blockLayoutData = block.data('block-layout-data');
+            let isValid = true;
 
             // Automatically apply block layout data for inputs with a data-key attribute.
             $('#block-layout-data-sidebar').find(':input[data-key]').each(function() {
                 const thisInput = $(this);
+                if (!this.checkValidity()) {
+                    // Report invalid fields. First, expand the sidebar group if collapsed.
+                    thisInput.closest('.sidebar-group').children('a.expand').click();
+                    this.reportValidity();
+                    isValid = false;
+                }
                 const key = thisInput.data('key');
                 blockLayoutData[key] = thisInput.val();
             });
@@ -678,7 +819,9 @@
             // Allow special handling of block layout data.
             $(document).trigger('o:apply-block-layout-data', [block]);
 
-            Omeka.closeSidebar($('#block-layout-data-sidebar'));
+            if (isValid) {
+                Omeka.closeSidebar($('#block-layout-data-sidebar'));
+            }
         });
 
         // Handle a layout restore click.

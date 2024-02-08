@@ -68,10 +68,10 @@ class BlockLayoutDataForm extends Form
             ],
         ]);
         $this->add([
-            'name' => 'alignment',
+            'name' => 'alignment_block',
             'type' => 'select',
             'options' => [
-                'label' => 'Alignment', // @translate
+                'label' => 'Block alignment', // @translate
                 'empty_option' => 'Default', // @translate
                 'value_options' => [
                     'left' => 'Float left', // @translate
@@ -80,27 +80,73 @@ class BlockLayoutDataForm extends Form
                 ],
             ],
             'attributes' => [
-                'id' => 'block-layout-data-alignment',
-                'data-key' => 'alignment',
+                'id' => 'block-layout-data-alignment-block',
+                'data-key' => 'alignment_block',
             ],
         ]);
         $this->add([
-            'name' => 'background',
-            'type' => 'Omeka\Form\Element\Background',
+            'name' => 'alignment_text',
+            'type' => 'select',
             'options' => [
-                'label' => 'Background',
+                'label' => 'Text alignment', // @translate
+                'empty_option' => 'Default', // @translate
+                'value_options' => [
+                    'left' => 'Left', // @translate
+                    'center' => 'Center', // @translate
+                    'right' => 'Right', // @translate
+                    'justify' => 'Justify', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-alignment-text',
+                'data-key' => 'alignment_text',
+            ],
+        ]);
+        $this->add([
+            'name' => 'max_width',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
+            'options' => [
+                'label' => 'Maximum width', // @translate
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-max-width',
+                'data-key' => 'max_width',
             ],
         ]);
         $this->add([
             'name' => 'min_height',
-            'type' => 'number',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
                 'label' => 'Minimum height', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-min-height',
                 'data-key' => 'min_height',
-                'min' => '0',
+            ],
+        ]);
+        $this->add([
+            'name' => 'padding',
+            'type' => 'Omeka\Form\Element\Padding',
+            'options' => [
+                'label' => 'Padding',
+            ],
+        ]);
+        $this->add([
+            'name' => 'background_color',
+            'type' => 'Omeka\Form\Element\ColorPicker',
+            'options' => [
+                'label' => 'Background color', // @translate
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-background-color',
+                'data-key' => 'background_color',
+            ],
+        ]);
+        $this->add([
+            'name' => 'background_image',
+            'type' => 'Omeka\Form\Element\BackgroundImage',
+            'options' => [
+                'label' => 'Background image',
             ],
         ]);
 

@@ -665,7 +665,9 @@ table .icon-sortable {
 }
 
 a.expand,
-a.collapse {
+a.collapse,
+a.expand-group,
+a.collapse-group {
     color: $copy-gray;
 }
 
@@ -1433,6 +1435,11 @@ div[role="main"] {
 .actions a:before,
 .actions button:before {
     text-align: right;
+}
+
+.center.actions a:before,
+.center.actions button:before {
+    text-align: center;
 }
 
 .actions a:hover,
@@ -3052,58 +3059,6 @@ fieldset.section > legend {
     }
 }
 
-.sidebar {
-    .pagination {
-        font-size: .8175 * $base-font-size;
-        border-bottom: 1px solid rgba(0,0,0,.08);
-        padding-bottom: ($spacing-medium - 1px);
-        margin-bottom: 0;
-        overflow: hidden;
-        width: 100%;
-
-        li {
-            float: left;
-        }
-
-        li:first-of-type {
-            padding-right: 10px;
-        }
-
-        input {
-            width: 3em;
-            text-align: center;
-            color: #333;
-            margin: 0 3px;
-        }
-
-        .next.button {
-            margin-right: 5px;
-        }
-
-        input[type="text"] {
-            float: left;
-            line-height: .8175 * $spacing-large;
-            height: $spacing-large;
-            border: 1px solid $border-gray;
-            margin-left: 0;
-        }
-
-        .page-count {
-            float: left;
-            margin-right: $spacing-medium;
-        }
-
-        .inactive {
-            background-color: #E6E6E6;
-            color: #B9B9B9;
-        }
-    }
-
-    textarea {
-        resize: vertical;
-    }
-}
-
 #item-results + .confirm-panel,
 #item-results .select-resource-checkbox-wrapper {
     display: none;
@@ -3305,6 +3260,54 @@ fieldset.section > legend {
 
 .sidebar .inputs {
     width: 100%;
+}
+
+.sidebar-group {
+    margin-bottom: $spacing-medium;
+}
+
+.sidebar-group .expand,
+.sidebar-group .collapse {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sidebar-group .expand label,
+.sidebar-group .expand .label {
+    font-weight: normal;
+}
+
+.sidebar-group:not(:last-child) .expand {
+    border-bottom: 1px solid $border-gray;
+    padding-bottom: #{$spacing-medium - 1px};
+    margin-bottom: $spacing-medium;
+}
+
+.sidebar-group .collapse {
+    border-bottom: 3px solid $border-gray;
+    padding-bottom: .5 * $spacing-small;
+    margin-bottom: $spacing-small;
+}
+
+.sidebar-group .collapse label,
+.sidebar-group .expand label,
+.sidebar-group .collapse .label,
+.sidebar-group .expand .label {
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-group .collapse label:after,
+.sidebar-group .expand label:after,
+.sidebar-group .collapse .label:after,
+.sidebar-group .expand .label:after {
+    content: none;
+}
+
+.sidebar-group .collapsible .field-meta {
+    border-bottom: 0;
+    margin-bottom: 0;
 }
 
 .sidebar #advanced-search .value {
@@ -3640,6 +3643,26 @@ input[type=text].query-form-query {
     width: span(4 of 16);
     padding: $spacing-medium;
 
+    .sidebar-header {
+        background-color: $border-gray;
+        margin: (-1 * $spacing-medium) (-1 * $spacing-medium) $spacing-medium;
+        padding: $spacing-medium;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .sidebar-header button {
+        background-color: #fff;
+        color: $copy-gray;
+        padding: $spacing-small;
+        line-height: 1;
+        font-size: .875 * $base-font-size;
+        min-height: 0;
+        margin: 0;
+    }
+
     body.transitions-enabled & {
         transition: left .5s, visibility .5s;
     }
@@ -3699,6 +3722,56 @@ input[type=text].query-form-query {
             border-color: transparent;
             margin-bottom: 0;
         }
+
+        .pagination {
+            font-size: .8175 * $base-font-size;
+            border-bottom: 1px solid rgba(0,0,0,.08);
+            padding-bottom: ($spacing-medium - 1px);
+            margin-bottom: 0;
+            overflow: hidden;
+            width: 100%;
+
+            li {
+                float: left;
+            }
+
+            li:first-of-type {
+                padding-right: 10px;
+            }
+
+            input {
+                width: 3em;
+                text-align: center;
+                color: #333;
+                margin: 0 3px;
+            }
+
+            .next.button {
+                margin-right: 5px;
+            }
+
+            input[type="text"] {
+                float: left;
+                line-height: .8175 * $spacing-large;
+                height: $spacing-large;
+                border: 1px solid $border-gray;
+                margin-left: 0;
+            }
+
+            .page-count {
+                float: left;
+                margin-right: $spacing-medium;
+            }
+
+            .inactive {
+                background-color: #E6E6E6;
+                color: #B9B9B9;
+            }
+        }
+
+        textarea {
+            resize: vertical;
+        }
     }
 
     input,
@@ -3740,6 +3813,16 @@ input[type=text].query-form-query {
             background-color: $border-gray;
             z-index: -1;
         }
+    }
+
+    .sidebar-header h3 {
+        width: auto;
+        margin: 0;
+        padding: 0;
+    }
+
+    .sidebar-header h3:after {
+        content: none;
     }
 
     .field {
@@ -4210,6 +4293,27 @@ body.sidebar-open #content {
         justify-content: space-between;
         flex-wrap: wrap;
         margin-top: $spacing-medium;
+        font-size: .875 * $base-font-size;
+    }
+
+
+    #block-controls-header select,
+    #block-controls-header button,
+    .block-header select,
+    .block-header button {
+        font-size: .875 * $base-font-size;
+        line-height: 1;
+        margin-bottom: 0;
+        height: auto;
+        min-height: 0;
+        border: 0;
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+    }
+
+    #block-controls-header select,
+    .block-header select {
+        padding: $spacing-small $spacing-large $spacing-small $spacing-small;
+        background-size: 6px;
     }
 
     #page-layout-controls {
@@ -4217,6 +4321,12 @@ body.sidebar-open #content {
         align-items: center;
         justify-content: flex-end;
         margin-bottom: $spacing-medium;
+    }
+
+    #preview-page-layout:before,
+    .preview-block-page-layout:before {
+        content: fa-content($fa-var-grip-vertical);
+        @include font-awesome;
     }
 
     #page-layout-label {
@@ -4245,6 +4355,34 @@ body.sidebar-open #content {
         text-align: right;
     }
 
+    .expand-all:before,
+    .collapse-all:before,
+    .expand-group:before,
+    .collapse-group:before {
+        @include font-awesome;
+    }
+
+    .expand-all:before,
+    .collapse-all:before {
+        margin-right: $spacing-small;
+    }
+
+    .expand-all:before,
+    .expand-group:before {
+        content: fa-content($fa-var-angle-double-down);
+    }
+
+    .collapse-all:before,
+    .collapse-group:before {
+        content: fa-content($fa-var-angle-double-up);
+    }
+
+    .add-block-group:before {
+        content: "\f247";
+        @include font-awesome;
+        margin-right: $spacing-small;
+    }
+
     .block {
         margin-bottom: $spacing-small;
     }
@@ -4256,19 +4394,34 @@ body.sidebar-open #content {
         background-color: opacify($gray-on-white, .08);
         padding: $spacing-small;
         font-weight: bold;
+        font-size: .875 * $base-font-size;
     }
 
-    .block .block-header .actions a:before {
-        text-align: center;
+    .block .block-header .sortable-handle {
+        margin-right: $spacing-small;
+    }
+
+    .block .block-header .sortable-handle:before {
+        font-size: 16px;
     }
 
     .block .block-header .block-type {
         margin-right: auto;
     }
 
+    .delete.block .block-header .block-type {
+        margin-right: 0;
+    }
+
     .block .block-header select {
         margin-right: $spacing-small;
         font-weight: normal;
+    }
+
+    .block .actions,
+    .block-page-layout-grid-controls,
+    .delete .block-page-layout-grid-controls + .actions {
+        margin-left: auto;
     }
 
     .block-page-layout-grid-controls + .actions {
@@ -4451,6 +4604,42 @@ body.sidebar-open #content {
         max-height: 12 * $spacing-large;
     }
 
+    .block-group > .block-content {
+        background-color: #fff;
+        border: 1px solid $border-gray;
+        padding: $spacing-small #{$spacing-small + 1px};
+    }
+
+    .block-group-blocks {
+        border-left: $spacing-small solid $border-gray; 
+        padding: $spacing-medium 0 0 $spacing-small;
+        min-height: 1.5 * $spacing-large;
+
+        .empty-drop-zone {
+            display: none;
+            padding: (1.5 * $spacing-large) $spacing-large;
+            background-color: $gray-on-white;
+            text-align: center;
+        }
+
+        .empty-drop-zone:only-child {
+            display: block;
+        }
+
+        .block-header.collapse {
+            padding: $spacing-small;
+        }
+
+        .collapse + .collapsible {
+            margin-top: 0;
+        }
+
+        a.collapse,
+        a.expand {
+            width: $base-font-size;
+        }
+    }
+
     #attachment-options .option {
         position: relative;
         margin-bottom: $spacing-medium;
@@ -4618,14 +4807,43 @@ body.sidebar-open #content {
         margin-left: $spacing-small;
     }
 
-        /* @group ----- Page Grid ----- */
+    .padding.sidebar-group .collapse + .collapsible {
+        columns: 2;
+        column-gap: $spacing-large;
+    }
 
-        #grid-layout-preview {
-            display: grid;
-            gap: $spacing-small;
+    .padding.sidebar-group label {
+        display: inline-flex;
+        justify-content: space-between;
+        padding: 0;
+
+        &:after {
+            content: none;
         }
 
-        .grid-layout-previewing-block {
+        .label-text {
+            margin-right: $spacing-small;
+        }
+
+        input {
+            width: 50%;
+        }
+    }
+
+        /* @group ----- Page Grid ----- */
+
+        #layout-preview {
+            display: grid;
+            grid-gap: $spacing-small;
+        }
+
+        .layout-previewing-block-group {
+            border: 3px solid $border-gray;
+            padding: .5 * $spacing-small;
+            grid-gap: (.5 * $spacing-small);
+        }
+
+        .layout-previewing-block {
             min-height: 60px;
             background-color: $border-gray;
         }
@@ -4634,14 +4852,14 @@ body.sidebar-open #content {
             box-shadow: 0 0 0 1px $copy-gray inset;
         }
 
-        #grid-layout-preview .grid-layout-previewing {            
+        #layout-preview .layout-previewing {            
             box-shadow: 0 0 0 2px $copy-gray inset;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .grid-layout-previewing.block {
+        .layout-previewing.block {
             box-shadow: 0 0 0 2px $copy-gray inset;
         }
 

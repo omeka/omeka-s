@@ -4,9 +4,8 @@ namespace Omeka\View\Helper;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManager;
-use Laminas\View\Helper\AbstractHelper;
 
-class PageLayout extends AbstractHelper
+class PageLayout extends AbstractLayout
 {
     protected $eventManager;
 
@@ -18,6 +17,7 @@ class PageLayout extends AbstractHelper
     public function render(SitePageRepresentation $page)
     {
         $view = $this->getView();
+        $output = [];
 
         // Allow modules to add classes for styling the layout.
         $eventArgs = $this->eventManager->prepareArgs(['classes' => []]);
@@ -33,57 +33,72 @@ class PageLayout extends AbstractHelper
         switch ($page->layout()) {
             case 'grid':
                 $view->headLink()->appendStylesheet($view->assetUrl('css/page-grid.css', 'Omeka'));
+
+                $gridColumns = (int) $page->layoutDataValue('grid_columns');
+                $gridColumnGap = (int) $page->layoutDataValue('grid_column_gap', 10);
+                $gridRowGap = (int) $page->layoutDataValue('grid_row_gap', 10);
+
                 $classes[] = 'page-layout-grid';
-                $inlineStyles[] = sprintf(
-                    'grid-template-columns: repeat(%s, 1fr);',
-                    (int) $page->layoutDataValue('grid_columns')
-                );
-                $inlineStyles[] = sprintf(
-                    'column-gap: %spx;',
-                    (int) $page->layoutDataValue('grid_column_gap', 10)
-                );
-                $inlineStyles[] = sprintf(
-                    'row-gap: %spx;',
-                    (int) $page->layoutDataValue('grid_row_gap', 10)
-                );
+                $classes[] = sprintf('grid-template-columns-%s', $gridColumns);
+                $inlineStyles[] = sprintf('column-gap: %spx;', $gridColumnGap);
+                $inlineStyles[] = sprintf('row-gap: %spx;', $gridRowGap);
                 break;
             case '':
             default:
                 $classes[] = 'page-layout-normal';
                 break;
         }
-        echo sprintf(
+        $output[] = sprintf(
             '<div class="blocks-inner %s" style="%s">',
             $view->escapeHtml(implode(' ', $classes)),
             $view->escapeHtml(implode(' ', $inlineStyles))
         );
         $layouts = [];
+        $inBlockGroup = false;
         foreach ($page->blocks() as $block) {
             if (!array_key_exists($block->layout(), $layouts)) {
                 // Prepare render only once per block layout type.
                 $layouts[$block->layout()] = null;
                 $view->blockLayout()->prepareRender($block->layout());
             }
-            // Render each block according to page layout.
-            switch ($page->layout()) {
-                case 'grid':
-                    $gridColumns = (int) $page->layoutDataValue('grid_columns');
-                    $blockLayoutData = $block->layoutData();
-                    $getValidPosition = fn ($columnPosition) => in_array($columnPosition, ['auto',...range(1, $gridColumns)]) ? $columnPosition : 'auto';
-                    $getValidSpan = fn ($columnSpan) => in_array($columnSpan, range(1, $gridColumns)) ? $columnSpan : $gridColumns;
-                    echo sprintf(
-                        '<div style="grid-column: %s / span %s">%s</div>',
-                        $getValidPosition($blockLayoutData['grid_column_position'] ?? 'auto'),
-                        $getValidSpan($blockLayoutData['grid_column_span'] ?? $gridColumns),
-                        $view->blockLayout()->render($block)
-                    );
-                    break;
-                case '':
-                default:
-                    echo $view->blockLayout()->render($block);
-                    break;
+            if ('blockGroup' === $block->layout()) {
+                // The blockGroup block gets special treatment.
+                if ($inBlockGroup) {
+                    $output[] = '</div>'; // Blocks may not overlap.
+                }
+                $inBlockGroup = true;
+                $blockGroupSpan = (int) $block->dataValue('span');
+                $blockGroupCurrentSpan = 0;
+                $blockGroupClasses = $this->getBlockClasses($block);
+                $blockGroupInlineStyles = $this->getBlockInlineStyles($block);
+                if ('grid' === $page->layout()) {
+                    $blockGroupClasses[] = 'block-group-grid';
+                    $blockGroupClasses[] = sprintf('grid-template-columns-%s', $gridColumns);
+                    $blockGroupClasses[] = 'grid-position-1';
+                    $blockGroupClasses[] = sprintf('grid-span-%s', $gridColumns);
+                }
+                $output[] = sprintf(
+                    '<div class="%s" style="%s">',
+                    $view->escapeHtml(implode(' ', $blockGroupClasses)),
+                    $view->escapeHtml(implode('; ', $blockGroupInlineStyles))
+                );
+            } else {
+                $output[] = $view->blockLayout()->render($block);
+            }
+            // The blockGroup block gets special treatment.
+            if ($inBlockGroup) {
+                if ($blockGroupCurrentSpan == $blockGroupSpan) {
+                    $output[] = '</div>';
+                    $inBlockGroup = false;
+                } else {
+                    $blockGroupCurrentSpan++;
+                }
             }
         }
-        echo '</div>';
+        if ($inBlockGroup) {
+            $output[] = '</div>'; // Close the blockGroup block if not already closed.
+        }
+        $output[] = '</div>';
+        return implode('', $output);
     }
 }

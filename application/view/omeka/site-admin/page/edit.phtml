@@ -57,13 +57,18 @@ $form->prepare();
                 <?php endforeach; ?>
             </select>
         </label>
-        <select name="o:layout_data[grid_columns]" id="page-layout-grid-columns-select" data-page-layout-grid-columns="<?php echo $escape($pageLayoutGridColumns); ?>">
-            <?php foreach ($pageLayoutGridColumnsOptions as $key => $value): ?>
-            <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridColumns == $key) ? ' selected' : '' ?>><?php echo $escape($value); ?></option>
-            <?php endforeach; ?>
-        </select>
-        <a href="#" id="preview-page-layout-grid" class="o-icon-search" aria-label="<?php echo $escape($translate('Preview layout')); ?>" title="<?php echo $escape($translate('Preview layout')); ?>"></a>
-        <a href="#" id="configure-page-layout-data" class="o-icon-settings" aria-label="<?php echo $escape($translate('Configure layout')); ?>" title="<?php echo $escape($translate('Configure layout')); ?>"></a>
+        <label id="total-columns-label">
+            <?php echo $translate('Columns'); ?> 
+            <select name="o:layout_data[grid_columns]" id="page-layout-grid-columns-select" data-page-layout-grid-columns="<?php echo $escape($pageLayoutGridColumns); ?>">
+                <?php foreach ($pageLayoutGridColumnsOptions as $key => $value): ?>
+                <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridColumns == $key) ? ' selected' : '' ?>><?php echo $escape($key); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
+        <ul class="actions center">
+            <li><a href="#" id="preview-page-layout" aria-label="<?php echo $escape($translate('Preview layout')); ?>" title="<?php echo $escape($translate('Preview layout')); ?>"></a></li>
+            <li><a href="#" id="configure-page-layout-data" class="o-icon-settings" aria-label="<?php echo $escape($translate('Configure layout')); ?>" title="<?php echo $escape($translate('Configure layout')); ?>"></a></li>
+        </ul>
         <button type="button" id="page-layout-restore" style="display: none;"><?php echo $translate('Restore'); ?></button>
     </div>
 
@@ -84,29 +89,31 @@ $form->prepare();
 <?php echo $this->form()->closeTag(); ?>
 
 <div id="new-block" class="active sidebar" data-url="<?php echo $this->url('admin/site/slug/page/default', ['action' => 'block'], true); ?>">
-    <h3><?php echo $translate('Add new block'); ?></h3>
+    <div class="sidebar-header">
+        <h3><?php echo $translate('Add new block'); ?></h3>
+        <button type="button" value="blockGroup" class="add-block-group"><?php echo $translate('Add block group'); ?></button>
+    </div>
     <?php foreach ($this->blockLayout()->getLayouts() as $layout): ?>
+    <?php if ('blockGroup' !== $layout): ?>
     <button type="button" value="<?php echo $escape($layout); ?>" class="option">
         <?php echo $escape($translate($this->blockLayout()->getLayoutLabel($layout))); ?>
     </button>
+    <?php endif; ?>
     <?php endforeach; ?>
 </div>
 
-<div id="grid-layout-preview-sidebar" class="sidebar">
+<div id="layout-preview-sidebar" class="sidebar">
     <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
-    <h3><?php echo $translate('Grid layout preview'); ?></h3>
-    <div id="grid-layout-preview"></div>
+    <h3><?php echo $translate('Layout preview'); ?></h3>
+    <div id="layout-preview"></div>
 </div>
 
 <div id="block-layout-data-sidebar" class="sidebar" data-api-endpoint-url="<?php echo $escape($this->url('api')); ?>">
-    <div class="confirm-main">
-        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
-        <h3><?php echo $translate('Block layout configuration'); ?></h3>
-        <?php echo $this->formCollection($blockLayoutDataForm); ?>
-    </div>
-    <div class="confirm-panel">
-        <button id="apply-block-layout-data"><?php echo $translate('Apply changes'); ?></button>
-    </div>
+    <?php 
+        echo $this->partial('common/block-layout-sidebar.phtml', [
+            'blockLayoutDataForm' => $blockLayoutDataForm
+        ]); 
+    ?>
 </div>
 
 <div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">

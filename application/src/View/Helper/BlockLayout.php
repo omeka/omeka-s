@@ -7,14 +7,12 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Site\BlockLayout\Manager as BlockLayoutManager;
 use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 use Omeka\Site\Theme\Theme;
-use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManager;
-use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper for rendering block layouts.
  */
-class BlockLayout extends AbstractHelper
+class BlockLayout extends AbstractLayout
 {
     /**
      * The default partial view script.
@@ -135,94 +133,6 @@ class BlockLayout extends AbstractHelper
     public function render(SitePageBlockRepresentation $block)
     {
         $view = $this->getView();
-
-        // Allow modules to add classes for styling the layout.
-        $eventArgs = $this->eventManager->prepareArgs(['classes' => []]);
-        $this->eventManager->triggerEvent(new Event('block_layout.classes', $block, $eventArgs));
-        $classes = $eventArgs['classes'];
-
-        // Allow modules to add inline styles for styling the layout.
-        $eventArgs = $this->eventManager->prepareArgs(['inline_styles' => []]);
-        $this->eventManager->triggerEvent(new Event('block_layout.inline_styles', $block, $eventArgs));
-        $inlineStyles = $eventArgs['inline_styles'];
-
-        // Add classes and inline styles, if any.
-        $class = $block->layoutDataValue('class');
-        if (is_string($class) && '' !== trim($class)) {
-            $classes[] = $class;
-        }
-        $alignment = $block->layoutDataValue('alignment');
-        switch ($alignment) {
-            case 'left':
-                $classes[] = 'block-layout-alignment-left';
-                break;
-            case 'right':
-                $classes[] = 'block-layout-alignment-right';
-                break;
-            case 'center':
-                $classes[] = 'block-layout-alignment-center';
-                break;
-            default:
-                // No alignment
-        }
-        $backgroundImageAsset = $block->layoutDataValue('background_image_asset');
-        if ($backgroundImageAsset) {
-            $asset = $view->api()->searchOne('assets', ['id' => $backgroundImageAsset])->getContent();
-            if ($asset) {
-                $inlineStyles[] = sprintf('background-image: url("%s");', $view->escapeCss($asset->assetUrl()));
-            }
-        }
-        $backgroundPositionY = $block->layoutDataValue('background_position_y');
-        if ($backgroundPositionY) {
-            switch ($backgroundPositionY) {
-                case 'top':
-                    $classes[] = 'block-layout-background-position-y-top';
-                    break;
-                case 'center':
-                    $classes[] = 'block-layout-background-position-y-center';
-                    break;
-                case 'bottom':
-                    $classes[] = 'block-layout-background-position-y-bottom';
-                    break;
-                default:
-                    // No background position Y
-            }
-        }
-        $backgroundPositionX = $block->layoutDataValue('background_position_x');
-        if ($backgroundPositionX) {
-            switch ($backgroundPositionX) {
-                case 'left':
-                    $classes[] = 'block-layout-background-position-x-left';
-                    break;
-                case 'center':
-                    $classes[] = 'block-layout-background-position-x-center';
-                    break;
-                case 'right':
-                    $classes[] = 'block-layout-background-position-x-right';
-                    break;
-                default:
-                    // No background position X
-            }
-        }
-        $backgroundSize = $block->layoutDataValue('background_size');
-        if ($backgroundSize) {
-            switch ($backgroundSize) {
-                case 'cover':
-                    $classes[] = 'block-layout-background-size-cover';
-                    break;
-                case 'contain':
-                    $classes[] = 'block-layout-background-size-contain';
-                    break;
-                default:
-                    // No background size
-            }
-        }
-        $minHeight = $block->layoutDataValue('min_height');
-        if ($minHeight) {
-            $inlineStyles[] = sprintf('min-height: %spx', (int) $minHeight);
-        }
-
-        $view = $this->getView();
         $blockLayout = $this->manager->get($block->layout());
 
         // Set the configured block template, if any.
@@ -236,21 +146,16 @@ class BlockLayout extends AbstractHelper
             }
         }
 
-        // Wrap block markup in a div only if the layout declares special
-        // styling via classes or inline styles.
-        if ($classes || $inlineStyles) {
-            return sprintf(
-                '<div class="%s" style="%s">%s</div>',
-                $view->escapeHtml(implode(' ', $classes)),
-                $view->escapeHtml(implode(' ', $inlineStyles)),
-                $templateViewScript
-                    ? $blockLayout->render($this->getView(), $block, $templateViewScript)
-                    : $blockLayout->render($this->getView(), $block)
-            );
-        }
+        $classes = $this->getBlockClasses($block);
+        $inlineStyles = $this->getBlockInlineStyles($block);
 
-        return $templateViewScript
-            ? $blockLayout->render($this->getView(), $block, $templateViewScript)
-            : $blockLayout->render($this->getView(), $block);
+        return sprintf(
+            '<div class="%s" style="%s">%s</div>',
+            $view->escapeHtml(implode(' ', $classes)),
+            $view->escapeHtml(implode('; ', $inlineStyles)),
+            $templateViewScript
+                ? $blockLayout->render($this->getView(), $block, $templateViewScript)
+                : $blockLayout->render($this->getView(), $block)
+        );
     }
 }

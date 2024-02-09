@@ -237,7 +237,9 @@
             });
         });
 
-        // Group the block layout configuration form.
+        // Inject the group markup into the block layout configuration form. We
+        // must do this because the method that renders the form does not include
+        // the group markup.
         $('.block-layout-fieldset').each(function() {
             const thisFieldset = $(this);
             const fields = thisFieldset.children('.field').detach();

@@ -774,14 +774,10 @@
             $(document).trigger('o:prepare-block-layout-data', [thisBlock]);
 
             // blockGroup blocks use a subset of block layout data. Hide the rest.
-            blockLayoutDataSidebar.find('.field').each(function(e) {
-                const thisField = $(this);
-                thisField.show();
-                const blockGroupInputs = '#block-layout-data-class,#block-layout-data-background-image-asset';
-                if ('blockGroup' === blockLayout && !thisField.find(blockGroupInputs).length) {
-                    thisField.hide();
-                }
-            });
+            blockLayoutDataSidebar.find('.block-layout-fieldset').show();
+            if ('blockGroup' === blockLayout) {
+                $('#block-layout-fieldset-template,#block-layout-fieldset-alignment,#block-layout-fieldset-constraints').hide();
+            }
 
             // Update the background color swatch.
             const bgColorInput = $('#block-layout-data-background-color');

@@ -237,6 +237,14 @@
             });
         });
 
+        // Group the block layout configuration form.
+        $('.block-layout-fieldset').each(function() {
+            const thisFieldset = $(this);
+            const fields = thisFieldset.children('.field').detach();
+            thisFieldset.append($('#block-layout-data-sidebar').data('groupTemplate'));
+            thisFieldset.children('.collapsible').append(fields);
+        });
+
         $('#new-block button').on('click', function() {
             $.post(
                 $(this).parents('#new-block').data('url'),

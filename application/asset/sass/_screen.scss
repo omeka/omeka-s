@@ -3261,63 +3261,57 @@ fieldset.section > legend {
     width: 100%;
 }
 
-.sidebar-group {
+.block-layout-fieldset {
+    border-bottom: 1px solid $border-gray;
     margin-bottom: $spacing-medium;
+    padding-bottom: $spacing-medium;
 }
 
-.sidebar-group .expand,
-.sidebar-group .collapse {
-    display: flex;
-    justify-content: space-between;
+.block-layout-fieldset legend {
+    font-size: $base-font-size;
+    float: left;
+    max-width: calc(100% - #{2 * $spacing-large});
+    padding: 0;
 }
 
-.sidebar-group .expand label,
-.sidebar-group .expand .label {
+.block-layout-fieldset .expand, 
+.block-layout-fieldset .collapse {
+    float: right;
+}
+
+.block-layout-fieldset .expand label,
+.block-layout-fieldset .expand .label {
     font-weight: normal;
 }
 
-.sidebar-group:not(:last-child) .expand {
-    border-bottom: 1px solid $border-gray;
-    padding-bottom: #{$spacing-medium - 1px};
-    margin-bottom: $spacing-medium;
+.block-layout-fieldset .collapse + .collapsible {
+    padding: 0 0 0 $spacing-medium;
 }
 
-.sidebar-group .collapse {
-    padding-bottom: .5 * $spacing-small;
-    margin-bottom: $spacing-small;
-}
-
-.sidebar-group .collapse + .collapsible {
-    padding: 0 0 $spacing-medium $spacing-medium;
-    border-bottom: 1px solid $border-gray;
-}
-
-.sidebar-group .collapsible .field:last-child {
+.block-layout-fieldset .collapsible .field:last-child {
     margin-bottom: 0;
 }
 
-.sidebar-group .collapsible label,
-.sidebar-group .collapsible .label {
+.block-layout-fieldset .collapsible label,
+.block-layout-fieldset .collapsible .label {
     font-weight: normal;
 }
 
-.sidebar-group .collapse label,
-.sidebar-group .expand label,
-.sidebar-group .collapse .label,
-.sidebar-group .expand .label {
+.block-layout-fieldset .collapse label,
+.block-layout-fieldset .expand label,
+.block-layout-fieldset .collapse .label,
+.block-layout-fieldset .expand .label {
     width: auto;
     margin: 0;
     padding: 0;
 }
 
-.sidebar-group .collapse label:after,
-.sidebar-group .expand label:after,
-.sidebar-group .collapse .label:after,
-.sidebar-group .expand .label:after {
+.block-layout-fieldset .collapsible .label:after, 
+.block-layout-fieldset .collapsible label:after {
     content: none;
 }
 
-.sidebar-group .collapsible .field-meta {
+.block-layout-fieldset .collapsible .field-meta {
     border-bottom: 0;
     margin-bottom: 0;
 }
@@ -4825,12 +4819,12 @@ body.sidebar-open #content {
         margin-left: $spacing-small;
     }
 
-    .padding.sidebar-group .collapse + .collapsible {
+    [name="block-layout-fieldset-padding"].block-layout-fieldset .collapse + .collapsible {
         columns: 2;
         column-gap: $spacing-large;
     }
 
-    .padding.sidebar-group label {
+    [name="block-layout-fieldset-padding"].block-layout-fieldset label {
         display: inline-flex;
         justify-content: space-between;
         padding: 0;

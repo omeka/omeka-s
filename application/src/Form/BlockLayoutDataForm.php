@@ -138,11 +138,51 @@ class BlockLayoutDataForm extends Form
             ],
         ]);
         $this->add([
-            'name' => 'padding',
-            'type' => 'Omeka\Form\Element\Padding',
+            'name' => 'padding_top',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
                 'element_group' => 'block-layout-fieldset-padding',
-                'label' => 'Padding',
+                'label' => 'Top',
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-padding-top',
+                'data-key' => 'padding_top',
+            ],
+        ]);
+        $this->add([
+            'name' => 'padding_right',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
+            'options' => [
+                'element_group' => 'block-layout-fieldset-padding',
+                'label' => 'Right',
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-padding-right',
+                'data-key' => 'padding_right',
+            ],
+        ]);
+        $this->add([
+            'name' => 'padding_bottom',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
+            'options' => [
+                'element_group' => 'block-layout-fieldset-padding',
+                'label' => 'Bottom',
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-padding-bottom',
+                'data-key' => 'padding_bottom',
+            ],
+        ]);
+        $this->add([
+            'name' => 'padding_left',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
+            'options' => [
+                'element_group' => 'block-layout-fieldset-padding',
+                'label' => 'Left',
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-padding-left',
+                'data-key' => 'padding_left',
             ],
         ]);
         $this->add([

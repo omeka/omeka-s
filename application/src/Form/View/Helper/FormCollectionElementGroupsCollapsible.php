@@ -28,8 +28,9 @@ class FormCollectionElementGroupsCollapsible extends AbstractFormCollectionGroup
                 // No elements belong to this group.
                 continue;
             }
-            $markup .= sprintf('<fieldset name="%s" id="%s" class="block-layout-fieldset">', $view->escapeHtml($elementGroupName), $view->escapeHtml($elementGroupName));
-            $markup .= sprintf('<a href="#" class="expand" title="%s"><span class="fieldset-label">%s</span></a>', $view->escapeHtml($view->translate('Expand')), $view->escapeHtml($view->translate($elementGroupLabel)));
+            $groupName = $view->escapeHtml($elementGroupName);
+            $markup .= sprintf('<fieldset name="%s" id="%s" class="block-layout-fieldset" aria-labelledby="%s">', $groupName, $groupName, $groupName . '-label');
+            $markup .= sprintf('<a href="#" class="expand" title="%s"><span class="fieldset-label" id="%s-label">%s</span></a>', $view->escapeHtml($view->translate('Expand')), $view->escapeHtml($elementGroupName), $view->escapeHtml($view->translate($elementGroupLabel)));
             $markup .= '<div class="collapsible">';
             foreach ($elementsInGroups[$elementGroupName] as $elementInGroups) {
                 $markup .= $view->formRow($elementInGroups);

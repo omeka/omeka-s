@@ -44,8 +44,6 @@ class BlockLayoutDataForm extends Form
             }
         }
         $this->setOption('element_groups', [
-            'block-layout-fieldset-template' => 'Template', // @translate
-            'block-layout-fieldset-class' => 'Class', // @translate
             'block-layout-fieldset-alignment' => 'Alignment', // @translate
             'block-layout-fieldset-constraints' => 'Constraints', // @translate
             'block-layout-fieldset-padding' => 'Padding', // @translate
@@ -56,7 +54,6 @@ class BlockLayoutDataForm extends Form
             'type' => 'select',
             'name' => 'template_name',
             'options' => [
-                'element_group' => 'block-layout-fieldset-template',
                 'label' => 'Template',
                 'value_options' => [],
             ],
@@ -72,7 +69,6 @@ class BlockLayoutDataForm extends Form
             'name' => 'class',
             'type' => 'text',
             'options' => [
-                'element_group' => 'block-layout-fieldset-class',
                 'label' => 'Class', // @translate
             ],
             'attributes' => [

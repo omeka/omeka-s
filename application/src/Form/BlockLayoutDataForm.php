@@ -142,7 +142,7 @@ class BlockLayoutDataForm extends Form
             'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
                 'element_group' => 'block-layout-fieldset-padding',
-                'label' => 'Top',
+                'label' => 'Top', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-padding-top',
@@ -154,7 +154,7 @@ class BlockLayoutDataForm extends Form
             'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
                 'element_group' => 'block-layout-fieldset-padding',
-                'label' => 'Right',
+                'label' => 'Right', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-padding-right',
@@ -166,7 +166,7 @@ class BlockLayoutDataForm extends Form
             'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
                 'element_group' => 'block-layout-fieldset-padding',
-                'label' => 'Bottom',
+                'label' => 'Bottom', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-padding-bottom',
@@ -178,7 +178,7 @@ class BlockLayoutDataForm extends Form
             'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
                 'element_group' => 'block-layout-fieldset-padding',
-                'label' => 'Left',
+                'label' => 'Left', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-padding-left',

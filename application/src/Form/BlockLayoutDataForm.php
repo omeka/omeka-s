@@ -73,6 +73,7 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-class',
+                'class' => 'block-group-include',
                 'data-key' => 'class',
             ],
         ]);
@@ -146,6 +147,7 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-padding-top',
+                'class' => 'block-group-include',
                 'data-key' => 'padding_top',
             ],
         ]);
@@ -158,6 +160,7 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-padding-right',
+                'class' => 'block-group-include',
                 'data-key' => 'padding_right',
             ],
         ]);
@@ -170,6 +173,7 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-padding-bottom',
+                'class' => 'block-group-include',
                 'data-key' => 'padding_bottom',
             ],
         ]);
@@ -182,6 +186,7 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-padding-left',
+                'class' => 'block-group-include',
                 'data-key' => 'padding_left',
             ],
         ]);
@@ -190,10 +195,11 @@ class BlockLayoutDataForm extends Form
             'type' => 'Omeka\Form\Element\ColorPicker',
             'options' => [
                 'element_group' => 'block-layout-fieldset-background',
-                'label' => 'Background color', // @translate
+                'label' => 'Color', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-background-color',
+                'class' => 'block-group-include',
                 'data-key' => 'background_color',
             ],
         ]);
@@ -202,10 +208,11 @@ class BlockLayoutDataForm extends Form
             'name' => 'background_image_asset',
             'options' => [
                 'element_group' => 'block-layout-fieldset-background',
-                'label' => 'Background image', // @translate
+                'label' => 'Image', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-background-image-asset',
+                'class' => 'block-group-include',
                 'data-key' => 'background_image_asset',
             ],
         ]);
@@ -224,6 +231,7 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-background-image-position-y',
+                'class' => 'block-group-include',
                 'data-key' => 'background_image_position_y',
             ],
         ]);
@@ -242,6 +250,7 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-background-image-position-x',
+                'class' => 'block-group-include',
                 'data-key' => 'background_image_position_x',
             ],
         ]);
@@ -259,16 +268,18 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-background-image-size',
+                'class' => 'block-group-include',
                 'data-key' => 'background_image_size',
             ],
         ]);
 
         /**
          * Modules can add elements to this fieldset using the form.add_elements
-         * event. They can opt-in to automatically populate and apply the values
-         * by adding a "data-key" attribute containing the corresponding block
-         * layout data key. Elements that need more complex handling must attach
-         * to the following JS events on the document:
+         * event. They can include elements in the blockGroup configuration by
+         * adding the "block-group-include" class They can opt-in to automatically
+         * populate and apply the values by adding a "data-key" attribute containing
+         * the corresponding block layout data key. Elements that need more complex
+         * handling must attach to the following JS events on the document:
          *   - o:prepare-block-layout-data
          *   - o:apply-block-layout-data
          */

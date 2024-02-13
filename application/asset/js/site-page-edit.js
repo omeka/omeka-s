@@ -777,7 +777,7 @@
             blockLayoutDataSidebar.find('.block-layout-fieldset,.field').show();
             if ('blockGroup' === blockLayout) {
                 // First, hide all fields that don't include themselves in blockGroup.
-                blockLayoutDataSidebar.find(':input:not(.block-group-include)').closest('.field').hide();
+                blockLayoutDataSidebar.find(':input:not(.block-group-include,button)').closest('.field').hide();
                 // Then, hide fieldsets that have no included fields.
                 blockLayoutDataSidebar.find('.block-layout-fieldset:not(:has(:input.block-group-include))').hide();
             }

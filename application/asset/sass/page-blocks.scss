@@ -103,6 +103,10 @@
     background-size: contain;
 }
 
+.media-embed.attachment-count-1 {
+    width: 100%;
+}
+
 .media-embed.layout-horizontal.attachment-count-2 {
     --grid-column-count: 2;
 }

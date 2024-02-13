@@ -113,7 +113,7 @@ $form->prepare();
     <div class="confirm-main">
         <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
         <h3><?php echo $translate('Block layout configuration'); ?></h3>
-        <?php echo $this->formCollection($blockLayoutDataForm); ?>
+        <?php echo $this->formCollectionElementGroupsCollapsible($blockLayoutDataForm); ?>
     </div>
     <div class="confirm-panel">
         <button id="apply-block-layout-data"><?php echo $translate('Apply changes'); ?></button>

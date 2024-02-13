@@ -43,78 +43,20 @@ class BlockLayoutDataForm extends Form
                 );
             }
         }
-        // Add the fieldsets.
-        $this->add([
-            'type' => 'fieldset',
-            'name' => 'block-layout-fieldset-template',
-            'options' => [
-                'label' => 'Template', // @translate
-            ],
-            'attributes' => [
-                'id' => 'block-layout-fieldset-template',
-                'class' => 'block-layout-fieldset',
-            ],
-        ]);
-        $this->add([
-            'type' => 'fieldset',
-            'name' => 'block-layout-fieldset-class',
-            'options' => [
-                'label' => 'Class', // @translate
-            ],
-            'attributes' => [
-                'id' => 'block-layout-fieldset-class',
-                'class' => 'block-layout-fieldset',
-            ],
-        ]);
-        $this->add([
-            'type' => 'fieldset',
-            'name' => 'block-layout-fieldset-alignment',
-            'options' => [
-                'label' => 'Alignment', // @translate
-            ],
-            'attributes' => [
-                'id' => 'block-layout-fieldset-alignment',
-                'class' => 'block-layout-fieldset',
-            ],
-        ]);
-        $this->add([
-            'type' => 'fieldset',
-            'name' => 'block-layout-fieldset-constraints',
-            'options' => [
-                'label' => 'Constraints', // @translate
-            ],
-            'attributes' => [
-                'id' => 'block-layout-fieldset-constraints',
-                'class' => 'block-layout-fieldset',
-            ],
-        ]);
-        $this->add([
-            'type' => 'fieldset',
-            'name' => 'block-layout-fieldset-padding',
-            'options' => [
-                'label' => 'Padding', // @translate
-            ],
-            'attributes' => [
-                'id' => 'block-layout-fieldset-padding',
-                'class' => 'block-layout-fieldset',
-            ],
-        ]);
-        $this->add([
-            'type' => 'fieldset',
-            'name' => 'block-layout-fieldset-background',
-            'options' => [
-                'label' => 'Background', // @translate
-            ],
-            'attributes' => [
-                'id' => 'block-layout-fieldset-background',
-                'class' => 'block-layout-fieldset',
-            ],
+        $this->setOption('element_groups', [
+            'block-layout-fieldset-template' => 'Template', // @translate
+            'block-layout-fieldset-class' => 'Class', // @translate
+            'block-layout-fieldset-alignment' => 'Alignment', // @translate
+            'block-layout-fieldset-constraints' => 'Constraints', // @translate
+            'block-layout-fieldset-padding' => 'Padding', // @translate
+            'block-layout-fieldset-background' => 'Background', // @translate
         ]);
         // Add the elements.
-        $this->get('block-layout-fieldset-template')->add([
+        $this->add([
             'type' => 'select',
             'name' => 'template_name',
             'options' => [
+                'element_group' => 'block-layout-fieldset-template',
                 'label' => 'Template',
                 'value_options' => [],
             ],
@@ -126,10 +68,11 @@ class BlockLayoutDataForm extends Form
                 'data-key' => 'template_name',
             ],
         ]);
-        $this->get('block-layout-fieldset-class')->add([
+        $this->add([
             'name' => 'class',
             'type' => 'text',
             'options' => [
+                'element_group' => 'block-layout-fieldset-class',
                 'label' => 'Class', // @translate
             ],
             'attributes' => [
@@ -137,10 +80,11 @@ class BlockLayoutDataForm extends Form
                 'data-key' => 'class',
             ],
         ]);
-        $this->get('block-layout-fieldset-alignment')->add([
+        $this->add([
             'name' => 'alignment_block',
             'type' => 'select',
             'options' => [
+                'element_group' => 'block-layout-fieldset-alignment',
                 'label' => 'Block alignment', // @translate
                 'empty_option' => 'Default', // @translate
                 'value_options' => [
@@ -154,10 +98,11 @@ class BlockLayoutDataForm extends Form
                 'data-key' => 'alignment_block',
             ],
         ]);
-        $this->get('block-layout-fieldset-alignment')->add([
+        $this->add([
             'name' => 'alignment_text',
             'type' => 'select',
             'options' => [
+                'element_group' => 'block-layout-fieldset-alignment',
                 'label' => 'Text alignment', // @translate
                 'empty_option' => 'Default', // @translate
                 'value_options' => [
@@ -172,10 +117,11 @@ class BlockLayoutDataForm extends Form
                 'data-key' => 'alignment_text',
             ],
         ]);
-        $this->get('block-layout-fieldset-constraints')->add([
+        $this->add([
             'name' => 'max_width',
             'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
+                'element_group' => 'block-layout-fieldset-constraints',
                 'label' => 'Maximum width', // @translate
             ],
             'attributes' => [
@@ -183,10 +129,11 @@ class BlockLayoutDataForm extends Form
                 'data-key' => 'max_width',
             ],
         ]);
-        $this->get('block-layout-fieldset-constraints')->add([
+        $this->add([
             'name' => 'min_height',
             'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
+                'element_group' => 'block-layout-fieldset-constraints',
                 'label' => 'Minimum height', // @translate
             ],
             'attributes' => [
@@ -194,17 +141,19 @@ class BlockLayoutDataForm extends Form
                 'data-key' => 'min_height',
             ],
         ]);
-        $this->get('block-layout-fieldset-padding')->add([
+        $this->add([
             'name' => 'padding',
             'type' => 'Omeka\Form\Element\Padding',
             'options' => [
+                'element_group' => 'block-layout-fieldset-padding',
                 'label' => 'Padding',
             ],
         ]);
-        $this->get('block-layout-fieldset-background')->add([
+        $this->add([
             'name' => 'background_color',
             'type' => 'Omeka\Form\Element\ColorPicker',
             'options' => [
+                'element_group' => 'block-layout-fieldset-background',
                 'label' => 'Background color', // @translate
             ],
             'attributes' => [
@@ -212,10 +161,11 @@ class BlockLayoutDataForm extends Form
                 'data-key' => 'background_color',
             ],
         ]);
-        $this->get('block-layout-fieldset-background')->add([
+        $this->add([
             'type' => 'Omeka\Form\Element\Asset',
             'name' => 'background_image_asset',
             'options' => [
+                'element_group' => 'block-layout-fieldset-background',
                 'label' => 'Background image', // @translate
             ],
             'attributes' => [
@@ -223,10 +173,11 @@ class BlockLayoutDataForm extends Form
                 'data-key' => 'background_image_asset',
             ],
         ]);
-        $this->get('block-layout-fieldset-background')->add([
+        $this->add([
             'type' => 'select',
             'name' => 'background_image_position_y',
             'options' => [
+                'element_group' => 'block-layout-fieldset-background',
                 'label' => 'Vertical anchor position', // @translate
                 'empty_option' => 'Default', // @translate
                 'value_options' => [
@@ -240,10 +191,11 @@ class BlockLayoutDataForm extends Form
                 'data-key' => 'background_image_position_y',
             ],
         ]);
-        $this->get('block-layout-fieldset-background')->add([
+        $this->add([
             'type' => 'select',
             'name' => 'background_image_position_x',
             'options' => [
+                'element_group' => 'block-layout-fieldset-background',
                 'label' => 'Horizontal anchor position', // @translate
                 'empty_option' => 'Default', // @translate
                 'value_options' => [
@@ -257,10 +209,11 @@ class BlockLayoutDataForm extends Form
                 'data-key' => 'background_image_position_x',
             ],
         ]);
-        $this->get('block-layout-fieldset-background')->add([
+        $this->add([
             'type' => 'select',
             'name' => 'background_image_size',
             'options' => [
+                'element_group' => 'block-layout-fieldset-background',
                 'label' => 'Size', // @translate
                 'empty_option' => 'Default', // @translate
                 'value_options' => [

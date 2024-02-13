@@ -237,16 +237,6 @@
             });
         });
 
-        // Inject the group markup into the block layout configuration form. We
-        // must do this because the method that renders the form does not include
-        // the group markup.
-        $('.block-layout-fieldset').each(function() {
-            const thisFieldset = $(this);
-            const fields = thisFieldset.children('.field').detach();
-            thisFieldset.append($('#block-layout-data-sidebar').data('groupTemplate'));
-            thisFieldset.children('.collapsible').append(fields);
-        });
-
         $('#new-block button').on('click', function() {
             $.post(
                 $(this).parents('#new-block').data('url'),

@@ -3,10 +3,8 @@ namespace Omeka\Form;
 
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
-use Laminas\Form\Element as LaminasElement;
 use Laminas\Form\Form;
 use Laminas\View\HelperPluginManager;
-use Omeka\Form\Element as OmekaElement;
 use Omeka\Site\Theme\Theme;
 
 class BlockLayoutDataForm extends Form

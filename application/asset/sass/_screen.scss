@@ -3276,7 +3276,13 @@ fieldset.section > legend {
 
 .block-layout-fieldset .expand, 
 .block-layout-fieldset .collapse {
-    float: right;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.block-layout-fieldset .collapse {
+    font-weight: bold;
 }
 
 .block-layout-fieldset .expand label,

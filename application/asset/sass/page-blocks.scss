@@ -166,6 +166,13 @@
             margin-bottom: 0;
         }
     }
+
+    .media-render img,
+    .media-render video,
+    .media-render audio {
+        max-width: 100%;
+        height: auto;
+    }
 } 
 
 .break {

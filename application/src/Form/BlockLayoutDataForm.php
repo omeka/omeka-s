@@ -41,6 +41,13 @@ class BlockLayoutDataForm extends Form
                 );
             }
         }
+        $this->setOption('element_groups', [
+            'block-layout-fieldset-alignment' => 'Alignment', // @translate
+            'block-layout-fieldset-constraints' => 'Constraints', // @translate
+            'block-layout-fieldset-padding' => 'Padding', // @translate
+            'block-layout-fieldset-background' => 'Background', // @translate
+        ]);
+        // Add the elements.
         $this->add([
             'type' => 'select',
             'name' => 'template_name',
@@ -64,6 +71,7 @@ class BlockLayoutDataForm extends Form
             ],
             'attributes' => [
                 'id' => 'block-layout-data-class',
+                'class' => 'block-group-include',
                 'data-key' => 'class',
             ],
         ]);
@@ -71,6 +79,7 @@ class BlockLayoutDataForm extends Form
             'name' => 'alignment_block',
             'type' => 'select',
             'options' => [
+                'element_group' => 'block-layout-fieldset-alignment',
                 'label' => 'Block alignment', // @translate
                 'empty_option' => 'Default', // @translate
                 'value_options' => [
@@ -88,6 +97,7 @@ class BlockLayoutDataForm extends Form
             'name' => 'alignment_text',
             'type' => 'select',
             'options' => [
+                'element_group' => 'block-layout-fieldset-alignment',
                 'label' => 'Text alignment', // @translate
                 'empty_option' => 'Default', // @translate
                 'value_options' => [
@@ -106,6 +116,7 @@ class BlockLayoutDataForm extends Form
             'name' => 'max_width',
             'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
+                'element_group' => 'block-layout-fieldset-constraints',
                 'label' => 'Maximum width', // @translate
             ],
             'attributes' => [
@@ -117,6 +128,7 @@ class BlockLayoutDataForm extends Form
             'name' => 'min_height',
             'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
+                'element_group' => 'block-layout-fieldset-constraints',
                 'label' => 'Minimum height', // @translate
             ],
             'attributes' => [
@@ -125,37 +137,147 @@ class BlockLayoutDataForm extends Form
             ],
         ]);
         $this->add([
-            'name' => 'padding',
-            'type' => 'Omeka\Form\Element\Padding',
+            'name' => 'padding_top',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
             'options' => [
-                'label' => 'Padding',
+                'element_group' => 'block-layout-fieldset-padding',
+                'label' => 'Top', // @translate
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-padding-top',
+                'class' => 'block-group-include',
+                'data-key' => 'padding_top',
+            ],
+        ]);
+        $this->add([
+            'name' => 'padding_right',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
+            'options' => [
+                'element_group' => 'block-layout-fieldset-padding',
+                'label' => 'Right', // @translate
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-padding-right',
+                'class' => 'block-group-include',
+                'data-key' => 'padding_right',
+            ],
+        ]);
+        $this->add([
+            'name' => 'padding_bottom',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
+            'options' => [
+                'element_group' => 'block-layout-fieldset-padding',
+                'label' => 'Bottom', // @translate
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-padding-bottom',
+                'class' => 'block-group-include',
+                'data-key' => 'padding_bottom',
+            ],
+        ]);
+        $this->add([
+            'name' => 'padding_left',
+            'type' => 'Omeka\Form\Element\LengthCssDataType',
+            'options' => [
+                'element_group' => 'block-layout-fieldset-padding',
+                'label' => 'Left', // @translate
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-padding-left',
+                'class' => 'block-group-include',
+                'data-key' => 'padding_left',
             ],
         ]);
         $this->add([
             'name' => 'background_color',
             'type' => 'Omeka\Form\Element\ColorPicker',
             'options' => [
-                'label' => 'Background color', // @translate
+                'element_group' => 'block-layout-fieldset-background',
+                'label' => 'Color', // @translate
             ],
             'attributes' => [
                 'id' => 'block-layout-data-background-color',
+                'class' => 'block-group-include',
                 'data-key' => 'background_color',
             ],
         ]);
         $this->add([
-            'name' => 'background_image',
-            'type' => 'Omeka\Form\Element\BackgroundImage',
+            'type' => 'Omeka\Form\Element\Asset',
+            'name' => 'background_image_asset',
             'options' => [
-                'label' => 'Background image',
+                'element_group' => 'block-layout-fieldset-background',
+                'label' => 'Image', // @translate
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-background-image-asset',
+                'class' => 'block-group-include',
+                'data-key' => 'background_image_asset',
+            ],
+        ]);
+        $this->add([
+            'type' => 'select',
+            'name' => 'background_image_position_y',
+            'options' => [
+                'element_group' => 'block-layout-fieldset-background',
+                'label' => 'Vertical anchor position', // @translate
+                'empty_option' => 'Default', // @translate
+                'value_options' => [
+                    'top' => 'Top', // @translate
+                    'center' => 'Center', // @translate
+                    'bottom' => 'Bottom', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-background-image-position-y',
+                'class' => 'block-group-include',
+                'data-key' => 'background_image_position_y',
+            ],
+        ]);
+        $this->add([
+            'type' => 'select',
+            'name' => 'background_image_position_x',
+            'options' => [
+                'element_group' => 'block-layout-fieldset-background',
+                'label' => 'Horizontal anchor position', // @translate
+                'empty_option' => 'Default', // @translate
+                'value_options' => [
+                    'left' => 'Left', // @translate
+                    'center' => 'Center', // @translate
+                    'right' => 'Right', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-background-image-position-x',
+                'class' => 'block-group-include',
+                'data-key' => 'background_image_position_x',
+            ],
+        ]);
+        $this->add([
+            'type' => 'select',
+            'name' => 'background_image_size',
+            'options' => [
+                'element_group' => 'block-layout-fieldset-background',
+                'label' => 'Size', // @translate
+                'empty_option' => 'Default', // @translate
+                'value_options' => [
+                    'cover' => 'Cover', // @translate
+                    'contain' => 'Contain', // @translate
+                ],
+            ],
+            'attributes' => [
+                'id' => 'block-layout-data-background-image-size',
+                'class' => 'block-group-include',
+                'data-key' => 'background_image_size',
             ],
         ]);
 
         /**
          * Modules can add elements to this fieldset using the form.add_elements
-         * event. They can opt-in to automatically populate and apply the values
-         * by adding a "data-key" attribute containing the corresponding block
-         * layout data key. Elements that need more complex handling must attach
-         * to the following JS events on the document:
+         * event. They can include elements in the blockGroup configuration by
+         * adding the "block-group-include" class They can opt-in to automatically
+         * populate and apply the values by adding a "data-key" attribute containing
+         * the corresponding block layout data key. Elements that need more complex
+         * handling must attach to the following JS events on the document:
          *   - o:prepare-block-layout-data
          *   - o:apply-block-layout-data
          */

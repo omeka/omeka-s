@@ -134,6 +134,8 @@ abstract class AbstractLayout extends AbstractHelper
         $isValidHexColor = fn ($hexColor) => preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $hexColor);
         // Validate a CSS <length>
         $isValidLength = fn ($length) => preg_match(sprintf('/%s/', LengthCssDataType::PATTERN), $length);
+        // Prepare a CSS <length> for use in an inline style. Note that we convert bare numbers as pixels.
+        $prepareLength = fn ($length) => is_numeric($length) ? sprintf('%spx', $length) : $length;
 
         // Allow modules to add inline styles for styling the layout.
         $eventArgs = $this->eventManager->prepareArgs(['inline_styles' => []]);
@@ -155,28 +157,28 @@ abstract class AbstractLayout extends AbstractHelper
 
         $maxWidth = $block->layoutDataValue('max_width');
         if (is_string($maxWidth) && $isValidLength($maxWidth)) {
-            $inlineStyles[] = sprintf('max-width: %s', $maxWidth);
+            $inlineStyles[] = sprintf('max-width: %s', $prepareLength($maxWidth));
         }
         $minHeight = $block->layoutDataValue('min_height');
         if (is_string($minHeight) && $isValidLength($minHeight)) {
-            $inlineStyles[] = sprintf('min-height: %s', $minHeight);
+            $inlineStyles[] = sprintf('min-height: %s', $prepareLength($minHeight));
         }
 
         $paddingTop = $block->layoutDataValue('padding_top');
         if (is_string($paddingTop) && $isValidLength($paddingTop)) {
-            $inlineStyles[] = sprintf('padding-top: %s', $paddingTop);
+            $inlineStyles[] = sprintf('padding-top: %s', $prepareLength($paddingTop));
         }
         $paddingRight = $block->layoutDataValue('padding_right');
         if (is_string($paddingRight) && $isValidLength($paddingRight)) {
-            $inlineStyles[] = sprintf('padding-right: %s', $paddingRight);
+            $inlineStyles[] = sprintf('padding-right: %s', $prepareLength($paddingRight));
         }
         $paddingBottom = $block->layoutDataValue('padding_bottom');
         if (is_string($paddingBottom) && $isValidLength($paddingBottom)) {
-            $inlineStyles[] = sprintf('padding-bottom: %s', $paddingBottom);
+            $inlineStyles[] = sprintf('padding-bottom: %s', $prepareLength($paddingBottom));
         }
         $paddingLeft = $block->layoutDataValue('padding_left');
         if (is_string($paddingLeft) && $isValidLength($paddingLeft)) {
-            $inlineStyles[] = sprintf('padding-left: %s', $paddingLeft);
+            $inlineStyles[] = sprintf('padding-left: %s', $prepareLength($paddingLeft));
         }
 
         return $inlineStyles;

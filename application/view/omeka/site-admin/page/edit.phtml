@@ -58,7 +58,7 @@ $form->prepare();
             </select>
         </label>
         <label id="page-layout-grid-columns-label">
-            <?php echo $translate('Columns'); ?> 
+            <?php echo $translate('Columns'); ?>
             <select name="o:layout_data[grid_columns]" id="page-layout-grid-columns-select" data-page-layout-grid-columns="<?php echo $escape($pageLayoutGridColumns); ?>">
                 <?php foreach ($pageLayoutGridColumnsOptions as $key => $value): ?>
                 <option value="<?php echo $escape($key); ?>"<?php echo ($pageLayoutGridColumns == $key) ? ' selected' : '' ?>><?php echo $escape($key); ?></option>
@@ -109,11 +109,14 @@ $form->prepare();
 </div>
 
 <div id="block-layout-data-sidebar" class="sidebar" data-api-endpoint-url="<?php echo $escape($this->url('api')); ?>">
-    <?php 
-        echo $this->partial('common/block-layout-sidebar.phtml', [
-            'blockLayoutDataForm' => $blockLayoutDataForm
-        ]); 
-    ?>
+    <div class="confirm-main">
+        <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
+        <h3><?php echo $translate('Block layout configuration'); ?></h3>
+        <?php echo $this->formCollectionElementGroupsCollapsible($blockLayoutDataForm); ?>
+    </div>
+    <div class="confirm-panel">
+        <button id="apply-block-layout-data"><?php echo $translate('Apply changes'); ?></button>
+    </div>
 </div>
 
 <div id="attachment-options" class="sidebar" data-url="<?php echo $this->url(null, ['action' => 'attachment-item-options'], true); ?>">

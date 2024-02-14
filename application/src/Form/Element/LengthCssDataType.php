@@ -11,7 +11,7 @@ use Laminas\Form\Element\Text;
 class LengthCssDataType extends Text
 {
     // A number followed by a unit.
-    const PATTERN = '^(\d*\.?\d+)(%|cap|ch|em|ex|ic|lh|rem|rlh|vh|svh|lvh|dvh|vw|svw|lvw|dvw|vmax|svmax|lvmax|dvmax|vmin|svmin|lvmin|dvmin|vb|svb|lvb|dvb|vi|svi|lvi|dvi|cqw|cqh|cqi|cqb|cqmin|cqmax|px|cm|mm|Q|in|pc|pt)$';
+    const PATTERN = '^(\d*\.?\d+)(%|cap|ch|em|ex|ic|lh|rem|rlh|vh|svh|lvh|dvh|vw|svw|lvw|dvw|vmax|svmax|lvmax|dvmax|vmin|svmin|lvmin|dvmin|vb|svb|lvb|dvb|vi|svi|lvi|dvi|cqw|cqh|cqi|cqb|cqmin|cqmax|px|cm|mm|Q|in|pc|pt)?$';
 
     public function __construct($name = null, iterable $options = [])
     {

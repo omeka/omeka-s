@@ -773,15 +773,14 @@
             // Allow special handling of block layout data.
             $(document).trigger('o:prepare-block-layout-data', [thisBlock]);
 
-            // blockGroup blocks use a subset of block layout data. Hide the rest.
-            blockLayoutDataSidebar.find('.field').each(function(e) {
-                const thisField = $(this);
-                thisField.show();
-                const blockGroupInputs = '#block-layout-data-class,#block-layout-data-background-image-asset';
-                if ('blockGroup' === blockLayout && !thisField.find(blockGroupInputs).length) {
-                    thisField.hide();
-                }
-            });
+            // blockGroup blocks use a subset of block layout data.
+            blockLayoutDataSidebar.find('.block-layout-fieldset,.field').show();
+            if ('blockGroup' === blockLayout) {
+                // First, hide all fields that don't include themselves in blockGroup.
+                blockLayoutDataSidebar.find(':input:not(.block-group-include,button)').closest('.field').hide();
+                // Then, hide fieldsets that have no included fields.
+                blockLayoutDataSidebar.find('.block-layout-fieldset:not(:has(:input.block-group-include))').hide();
+            }
 
             // Update the background color swatch.
             const bgColorInput = $('#block-layout-data-background-color');

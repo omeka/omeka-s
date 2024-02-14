@@ -4826,8 +4826,19 @@ body.sidebar-open #content {
     }
 
     [name="block-layout-fieldset-padding"].block-layout-fieldset .collapse + .collapsible {
-        columns: 2;
-        column-gap: $spacing-large;
+        display: grid;
+        grid-template-columns: 1fr 50%;
+        grid-column-gap: $spacing-large;
+        grid-row-gap: $spacing-medium;
+
+        .field {
+            margin-bottom: 0;
+        }
+
+        .field-meta,
+        .inputs {
+            width: 50%;
+        }
     }
 
     [name="block-layout-fieldset-padding"].block-layout-fieldset label {

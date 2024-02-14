@@ -108,8 +108,7 @@ $form->prepare();
     <div id="layout-preview"></div>
 </div>
 
-<?php $collapsibleTemplate = sprintf('<a href="#" class="expand" aria-label="%1$s" title="%1$s"></a><div class="collapsible"></div>', $translate('Expand')); ?>
-<div id="block-layout-data-sidebar" class="sidebar" data-api-endpoint-url="<?php echo $escape($this->url('api')); ?>" data-group-template="<?php echo $escape($collapsibleTemplate); ?>">
+<div id="block-layout-data-sidebar" class="sidebar" data-api-endpoint-url="<?php echo $escape($this->url('api')); ?>">
     <div class="confirm-main">
         <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
         <h3><?php echo $translate('Block layout configuration'); ?></h3>

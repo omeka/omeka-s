@@ -3,7 +3,7 @@ namespace Omeka\Form\View\Helper;
 
 use Laminas\Form\ElementInterface;
 
-class FormCollectionElementGroupsCollapsible extends AbstractFormCollectionGroups
+class FormCollectionElementGroupsCollapsible extends FormCollectionElementGroups
 {
     public function render(ElementInterface $element): string
     {

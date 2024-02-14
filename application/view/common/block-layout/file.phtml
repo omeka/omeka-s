@@ -1,7 +1,6 @@
 <div class="<?php echo $this->escapeHtml(implode(' ', $classes)); ?>">
     <?php foreach($attachments as $attachment): ?>
     <?php $item = $attachment->item(); ?>
-    <?php if ($item): ?>
     <div class="item resource">
         <?php
         $media = $attachment->media() ?: $item->primaryMedia();
@@ -22,6 +21,5 @@
         <div class="caption"><?php echo $caption; ?></div>
         <?php endif; ?>
     </div>
-    <?php endif; ?>
     <?php endforeach; ?>
 </div>

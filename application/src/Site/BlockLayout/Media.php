@@ -55,6 +55,11 @@ class Media extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
         if (!$attachments) {
             return '';
         }
+        foreach ($attachments as $key => $attachment) {
+            if (!$attachment->item()) {
+                unset($attachments[$key]);
+            }
+        }
 
         $layout = $block->dataValue('layout');
         $mediaDisplay = $block->dataValue('media_display');

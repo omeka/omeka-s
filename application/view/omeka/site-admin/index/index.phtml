@@ -35,6 +35,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
                     <span class="o-icon-private" aria-label="<?php echo $translate('Private'); ?>"></span>
                 <?php endif; ?>
                 <ul class="actions">
+                    <?php $this->trigger('view.browse.actions', ['resource' => $site]); ?>
                     <li><?php echo $this->hyperlink('', $site->siteUrl(), [
                         'target' => '_blank',
                         'class' => 'o-icon-external public',

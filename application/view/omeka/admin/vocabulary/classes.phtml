@@ -31,6 +31,7 @@ $this->htmlElement('body')->appendAttribute('class', 'browse vocabularies vocabu
                     <?php echo $escape($translate($resourceClass->label())); ?>
                 </span>
                 <ul class="actions">
+                    <?php $this->trigger('view.browse.actions', ['resource' => $resourceClass]); ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-content-url' => $resourceClass->url('show-details'),
                         'class' => 'o-icon-more sidebar-content',

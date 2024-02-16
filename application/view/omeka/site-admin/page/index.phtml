@@ -43,6 +43,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites pages browse');
             <?php endif; ?>
             <input type="hidden" name="o:page[][o:id]" value="<?php echo $escape($page->id()); ?>">
             <ul class="actions">
+                <?php $this->trigger('view.browse.actions', ['resource' => $page]); ?>
                 <?php if ($page->userIsAllowed('read')): ?>
                 <li><?php echo $hyperlink('', $page->siteUrl(), [
                     'target' => '_blank',

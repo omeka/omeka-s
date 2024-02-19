@@ -43,7 +43,7 @@ class ResourceClass extends AbstractEntity
     protected $localName;
 
     /**
-     * @Column
+     * @Column(length=190)
      */
     protected $label;
 

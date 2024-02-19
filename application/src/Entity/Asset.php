@@ -20,7 +20,7 @@ class Asset extends AbstractEntity
     protected $owner;
 
     /**
-     * @Column
+     * @Column(length=190)
      */
     protected $name;
 

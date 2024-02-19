@@ -31,7 +31,7 @@ class ApiKey extends AbstractEntity
     protected $id;
 
     /**
-     * @Column
+     * @Column(length=190)
      */
     protected $label;
 

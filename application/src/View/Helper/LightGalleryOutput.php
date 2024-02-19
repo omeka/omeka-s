@@ -26,10 +26,27 @@ class LightGalleryOutput extends AbstractHelper
 
         foreach ($files as $file) {
             $media = $file['media'];
+            //echo(json_encode($media->value('dcterms:rightsHolder')->asHtml(), TRUE));
             $source = ($media->originalUrl()) ? $media->originalUrl() : $media->source();
+            $mediaTitle = $media->displayTitle();
+            $mediaCredits = $media->value('dcterms:rightsHolder', ['all'=>true]);
+            $renderCredits = [];
+            foreach ($mediaCredits as $mediaCredit){
+                $creditValueType =$mediaCredit->type();
+                if ('resource' == $creditValueType) {
+                    $renderCredits[] = "<a href=" . $mediaCredit . ">" . $mediaCredit->valueResource()->title() . "</a>";
+                } elseif ('uri' == $creditValueType) {
+                    $renderCredits[] =  "<a href=" . $mediaCredit->uri() . ">" . $mediaCredit . "</a>";
+                } elseif ('literal' == $creditValueType) {
+                    $renderCredits[] =  $mediaCredit;
+                };
+            }
+            if (empty($renderCredits)){$renderCredits[] = 'unknown';};
+            $dataSub = "<p>" . $mediaTitle . "</p><p> © ". implode(', © ', $renderCredits) . "</p>";
             $mediaCaptionOptions = [
                 'none' => '',
-                'title' => 'data-sub-html="' . $media->displayTitle() . '"',
+                'title' => 'data-sub-html="' . $dataSub . '"'  ,
+                // 'title' => 'data-sub-html="' . $media->displayTitle() . '"',
                 'description' => 'data-sub-html="' . $media->displayDescription() . '"',
             ];
             $mediaCaptionAttribute = ($mediaCaption) ? $mediaCaptionOptions[$mediaCaption] : '';

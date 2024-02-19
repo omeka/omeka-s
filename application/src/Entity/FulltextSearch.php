@@ -5,6 +5,7 @@ namespace Omeka\Entity;
  * @Entity
  * @Table(
  *   indexes={
+ *     @Index(name="is_public", columns={"is_public"}),
  *     @Index(columns={"title", "text"}, flags={"fulltext"})
  *   }
  * )

@@ -9,11 +9,12 @@ class PageTitleTest extends TestCase
     public function testPageTitle()
     {
         $title = 'A Title';
+        $level = 1;
         $subhead = 'Section';
         $action = 'Action';
 
         $view = $this->getMockBuilder('Laminas\View\Renderer\PhpRenderer')
-            ->setMethods(['escapeHtml', 'headTitle'])
+            ->setMethods(['escapeHtml', 'headTitle', 'partial'])
             ->getMock();
         $view->expects($this->any())
             ->method('escapeHtml')
@@ -21,9 +22,20 @@ class PageTitleTest extends TestCase
         $view->expects($this->exactly(3))
             ->method('headTitle')
             ->withConsecutive([$subhead], [$title], [$action]);
+        $view->expects($this->once())
+            ->method('partial')
+            ->with(
+                $this->equalTo('common/page-title'),
+                $this->equalTo([
+                    'title' => $title,
+                    'level' => 1,
+                    'subheadLabel' => $subhead,
+                    'actionLabel' => $action,
+                ])
+            );
 
         $helper = new PageTitle;
         $helper->setView($view);
-        $this->assertEquals("<h1><span class=\"subhead\">$subhead</span><span class=\"title\">$title</span><span class=\"action\">$action</span></h1>", $helper($title, 1, $subhead, $action));
+        $helper->__invoke($title, $level, $subhead, $action);
     }
 }

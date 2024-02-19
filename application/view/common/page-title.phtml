@@ -1,0 +1,20 @@
+<?php
+    if ($level > 0):
+        echo "<h$level>"; ?>
+
+    <?php if ($subheadLabel): ?>
+        <span class="subhead"><?php echo $subheadLabel; ?> </span>
+    <?php endif; ?>
+
+    <span class="title"><?php echo $title; ?></span>
+
+    <?php if ($actionLabel): ?>
+        <span class="action"><?php echo $actionLabel; ?> </span>
+    <?php endif; ?>
+
+<?php
+        echo "</$level>";
+    else:
+        echo $view->escapeHtml($title);
+    endif;
+?>

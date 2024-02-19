@@ -25,7 +25,7 @@ class Asset extends AbstractEntity
     protected $name;
 
     /**
-     * @Column
+     * @Column(length=190)
      */
     protected $mediaType;
 
@@ -35,7 +35,7 @@ class Asset extends AbstractEntity
     protected $storageId;
 
     /**
-     * @Column(nullable=true)
+     * @Column(nullable=true, length=190)
      */
     protected $extension;
 

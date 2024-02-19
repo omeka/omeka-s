@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @Entity
  * @InheritanceType("JOINED")
- * @DiscriminatorColumn(name="resource_type", type="string")
+ * @DiscriminatorColumn(name="resource_type", type="string", length=190)
  * @Table(
  *     indexes={
  *         @Index(

@@ -45,7 +45,7 @@ class SitePage extends AbstractEntity
     protected $isPublic = true;
 
     /**
-     * @Column(type="string", nullable=true)
+     * @Column(type="string", nullable=true, length=190)
      */
     protected $layout;
 

@@ -1,3 +1,4 @@
+*.dist
 /.ant-targets-build.xml
 /.htaccess
 /.php_cs.cache
@@ -17,3 +18,4 @@
 .sass-cache
 .DS_Store
 /application/language/debug.*
+/logs/

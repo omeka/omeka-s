@@ -8,7 +8,7 @@ interface FulltextSearchableInterface
     /**
      * Get the the text of the passed media.
      *
-     * @param Media $media
+     * @param MediaRepresentation $media
      * @return string
      */
     public function getFulltextText(MediaRepresentation $media);

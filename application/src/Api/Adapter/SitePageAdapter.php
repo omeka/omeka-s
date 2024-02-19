@@ -355,6 +355,11 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
         return $resource->getTitle();
     }
 
+    public function getFulltextRecord($resource)
+    {
+        return '';
+    }
+
     public function getFulltextText($resource)
     {
         $services = $this->getServiceLocator();

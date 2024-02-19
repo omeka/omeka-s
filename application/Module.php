@@ -710,7 +710,7 @@ class Module extends AbstractModule
         }
         $qb = $event->getParam('queryBuilder');
 
-        $match = 'MATCH(omeka_fulltext_search.title, omeka_fulltext_search.text) AGAINST (:omeka_fulltext_search)';
+        $match = 'MATCH(omeka_fulltext_search.title, omeka_fulltext_search.record, omeka_fulltext_search.text) AGAINST (:omeka_fulltext_search)';
 
         if ('api.search.query' === $event->getName()) {
 

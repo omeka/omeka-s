@@ -26,9 +26,7 @@ class LightGalleryOutput extends AbstractHelper
 
         foreach ($files as $file) {
             $media = $file['media'];
-            //echo(json_encode($media->value('dcterms:rightsHolder')->asHtml(), TRUE));
             $source = ($media->originalUrl()) ? $media->originalUrl() : $media->source();
-            $mediaTitle = $media->displayTitle();
             $mediaCredits = $media->value('dcterms:rightsHolder', ['all'=>true]);
             $renderCredits = [];
             foreach ($mediaCredits as $mediaCredit){
@@ -42,11 +40,11 @@ class LightGalleryOutput extends AbstractHelper
                 };
             }
             if (empty($renderCredits)){$renderCredits[] = 'unknown';};
-            $dataSub = "<p>" . $mediaTitle . "</p><p> © ". implode(', © ', $renderCredits) . "</p>";
+            $titleCredit = "<p>" . $media->displayTitle() . "</p><p> © ". implode(', © ', $renderCredits) . "</p>";
             $mediaCaptionOptions = [
                 'none' => '',
-                'title' => 'data-sub-html="' . $dataSub . '"'  ,
-                // 'title' => 'data-sub-html="' . $media->displayTitle() . '"',
+                'titlecredit' => 'data-sub-html="' . $titleCredit . '"'  ,
+                'title' => 'data-sub-html="' . $media->displayTitle() . '"',
                 'description' => 'data-sub-html="' . $media->displayDescription() . '"',
             ];
             $mediaCaptionAttribute = ($mediaCaption) ? $mediaCaptionOptions[$mediaCaption] : '';

@@ -43,7 +43,8 @@
 }
 
 .block-blockGroup.block-group-grid {
-  gap: inherit;
+    gap: inherit;
+    grid-template-columns: inherit;
 }
 
 .page-layout-grid {

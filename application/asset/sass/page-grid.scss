@@ -42,6 +42,11 @@
     display: grid; 
 }
 
+.block-blockGroup.block-group-grid {
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+}
+
 .page-layout-grid {
     display: grid;
 }

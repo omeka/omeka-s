@@ -25,7 +25,8 @@ abstract class AbstractLayout extends AbstractHelper
         $classes[] = sprintf('block-%s', $block->layout());
 
         $page = $block->page();
-        if ('grid' === $page->layout()) {
+        if ('grid' === $page->layout() && 'blockGroup' !== $block->layout()) {
+            // Note that blockGroup position and span is set in PageLayout::render().
             $gridColumns = (int) $page->layoutDataValue('grid_columns');
             // Get the valid position and span classes, which in CSS map to:
             //  - grid-column-start: <position>;

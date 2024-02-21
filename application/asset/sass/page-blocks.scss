@@ -78,8 +78,6 @@
     vertical-align: top;
 }
 
-
-
 .block-layout-alignment-block-left .item.resource > h3,
 .block-layout-alignment-block-right .item.resource > h3 {
     margin: 0;
@@ -88,6 +86,18 @@
 .block-layout-alignment-block-left .item.resource + p,
 .block-layout-alignment-block-right .item.resource + p {
     margin-top: 0;
+}
+
+.block-layout-alignment-text-right {
+    text-align: right;
+}
+
+.block-layout-alignment-text-center {
+    text-align: center;
+}
+
+.block-layout-alignment-text-justify {
+    text-align: justify;
 }
 
 .block-layout-background-image-size-cover,

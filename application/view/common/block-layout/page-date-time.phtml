@@ -7,7 +7,7 @@ $timeFormat = $block->dataValue('time_format');
 $createdFormatted = $this->i18n()->dateFormat($created, $dateFormat, $timeFormat);
 $modifiedFormatted = $modified ? $this->i18n()->dateFormat($modified, $dateFormat, $timeFormat) : null;
 ?>
-<div class="page-date-time block">
+<div class="page-date-time">
     <?php if (in_array($block->dataValue('display'), ['created', 'created_modified'])): ?>
     <div class="created">
         <span class="property"><?php echo $this->translate('Created'); ?></span>

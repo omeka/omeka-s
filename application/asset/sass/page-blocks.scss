@@ -209,10 +209,9 @@
     }
 }
 
-.preview-block {
-    margin: 1rem 0;
-    overflow: hidden;
-    width: 100%;
+.preview-block:after {
+    content: "";
+    display: block;
     clear: both;
 }
 

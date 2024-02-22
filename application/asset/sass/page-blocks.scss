@@ -322,3 +322,11 @@
     display: block;
     clear: both;
 }
+
+.block-html.has-background > *:first-child {
+    margin-top: 0;
+}
+
+.block-html.has-background > *:last-child {
+    margin-bottom: 0;
+}

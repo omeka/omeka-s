@@ -1,4 +1,5 @@
 @import "base";
+@import "mixins";
 
 .block-layout-background-image-position-y-top {
     background-position-y: top;
@@ -26,8 +27,8 @@
 
 .page-layout-normal .block-layout-alignment-block-right,
 .page-layout-normal .block-layout-alignment-block-left {
-    overflow: hidden;
     max-width: 33.33%;
+    @include clearfix;
 }
 
 .block-layout-alignment-block-left .item.resource,
@@ -244,9 +245,7 @@
 }
 
 .item-with-metadata {
-    width: 100%;
-    overflow: hidden;
-    margin: 1rem 0;
+    @include clearfix;
 }
 
 .item-with-metadata .show.resource {
@@ -256,7 +255,7 @@
 .list-of-sites .site-list {
     .site {
         margin-bottom: .5rem;
-        overflow: auto;
+        @include clearfix;
     }
 
     .site-link {
@@ -293,12 +292,12 @@
     font-weight: bold;
 }
 
-.block-pageTitle.has-background h2 {
-    margin: 0;
+.page-layout-normal .block {
+    margin: 1rem 0;
 }
 
-.page-date-time {
-    margin: 1rem 0;
+.block-pageTitle.has-background h2 {
+    margin: 0;
 }
 
 .page-date-time .property {

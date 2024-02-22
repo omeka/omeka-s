@@ -317,3 +317,8 @@
     margin: 0;
 }
 
+.block-blockGroup:after {
+    content: "";
+    display: block;
+    clear: both;
+}

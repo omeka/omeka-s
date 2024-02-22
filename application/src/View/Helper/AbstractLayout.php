@@ -72,6 +72,11 @@ abstract class AbstractLayout extends AbstractHelper
             default:
                 // No text alignment
         }
+        $backgroundImage = $block->layoutDataValue('background_image_asset');
+        $backgroundColor = $block->layoutDataValue('background_color');
+        if ($backgroundImage || $backgroundColor) {
+            $classes[] = 'has-background';
+        }
         $backgroundImagePositionY = $block->layoutDataValue('background_image_position_y');
         if ($backgroundImagePositionY) {
             switch ($backgroundImagePositionY) {

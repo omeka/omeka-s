@@ -302,10 +302,6 @@
 
 .page-date-time .property {
     font-weight: bold;
-
-    &:after {
-        content: ": ";
-    }
 }
 
 .page-date-time > div, 
@@ -313,6 +309,11 @@
 .page-date-time .value {
     display: inline-block;
     margin: 0;
+    width: max-content;
+}
+
+.page-date-time > div {
+    margin-right: 1rem;
 }
 
 .block-blockGroup:after {

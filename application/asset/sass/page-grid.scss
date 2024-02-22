@@ -55,6 +55,18 @@
     min-height: 50px;
 }
 
+.page-layout-grid .block-layout-alignment-block-left {
+    justify-self: left;
+}
+
+.page-layout-grid .block-layout-alignment-block-right {
+    justify-self: right;
+}
+
+.page-layout-grid .block-layout-alignment-block-center {
+    justify-self: center;
+}
+
 @media screen and (max-width:896px) {
     .page-layout-grid {
         display: block;

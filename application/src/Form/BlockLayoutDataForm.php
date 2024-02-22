@@ -83,8 +83,8 @@ class BlockLayoutDataForm extends Form
                 'label' => 'Block alignment', // @translate
                 'empty_option' => 'Default', // @translate
                 'value_options' => [
-                    'left' => 'Float left', // @translate
-                    'right' => 'Float right', // @translate
+                    'left' => 'Left', // @translate
+                    'right' => 'Right', // @translate
                     'center' => 'Center', // @translate
                 ],
             ],

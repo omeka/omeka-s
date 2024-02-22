@@ -49,23 +49,23 @@
     }
 }
 
-.block-layout-alignment-block-left {
+.page-layout-normal .block-layout-alignment-block-left {
     float: left;
     clear: left;
     margin: 0 1rem 1rem 0;
 }
 
-.block-layout-alignment-block-right {
+.page-layout-normal .block-layout-alignment-block-right {
     float: right;
     clear: right;
     margin: 0 0 1rem 1rem;
 }
 
-.block-layout-alignment-block-center {
+.page-layout-normal .block-layout-alignment-block-center {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: auto;
+    margin: 1rem auto;
     clear: both;
 
     .item:only-child {

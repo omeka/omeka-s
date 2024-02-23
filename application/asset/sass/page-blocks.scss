@@ -35,8 +35,8 @@
     @include clearfix;
 }
 
-.block-layout-alignment-block-left .item.resource,
-.block-layout-alignment-block-right .item.resource {
+.block-layout-alignment-block-left .item.resource:not(:only-child),
+.block-layout-alignment-block-right .item.resource:not(:only-child) {
     margin: 0 0 1rem 0;
 
     .media-render a {
@@ -119,7 +119,7 @@
 }
 
 .media-embed.attachment-count-1 {
-    width: 100%;
+    width: 100% !important;
 }
 
 .media-embed.layout-horizontal.attachment-count-2 {

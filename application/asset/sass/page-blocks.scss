@@ -1,6 +1,10 @@
 @import "base";
 @import "mixins";
 
+.blocks-inner {
+    @include clearfix;
+}
+
 .block-layout-background-image-position-y-top {
     background-position-y: top;
 }

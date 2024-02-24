@@ -651,7 +651,7 @@ class Module extends AbstractModule
     {
         $request = $event->getParam('request');
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $sitePage = $em->getRepository('Omeka\Entity\SitePage')->findOneBy($request->getId());
+        $sitePage = $em->getRepository('Omeka\Entity\SitePage')->findOneBy(['id' => $request->getId()]);
         $request->setOption('deleted_entity_id', $sitePage->getId());
     }
 

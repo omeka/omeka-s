@@ -66,7 +66,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites browse');
     <?php echo $this->pagination(); ?>
 </div>
 
-<div class="sidebar">
+<div id="sidebar" class="sidebar">
     <?php echo $this->hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
         'title' => $translate('Close'),

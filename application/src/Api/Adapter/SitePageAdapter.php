@@ -228,8 +228,16 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
                 return;
             }
             if (!is_array($inputBlock['o:data'])) {
-                $errorStore->addError('o:block', 'Block data must not be a scalar value.'); // @translate
-                return;
+                // Attempt to convert the data to an array before returning with
+                // an error. This is needed in part so fallback blocks don't
+                // lose their data onced saved.
+                $blockData = json_decode($inputBlock['o:data'], true);
+                if (is_array($blockData)) {
+                    $inputBlock['o:data'] = $blockData;
+                } else {
+                    $errorStore->addError('o:block', 'Block data must not be a scalar value.'); // @translate
+                    return;
+                }
             }
 
             $block->setLayout($inputBlock['o:layout']);

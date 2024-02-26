@@ -28,9 +28,13 @@ ALTER TABLE `fulltext_search`
 ADD `record` longtext COLLATE 'utf8mb4_unicode_ci' NULL AFTER `title`;
 
 ALTER TABLE `fulltext_search`
-ADD FULLTEXT `IDX_AA31FE4A2B36786B9B349F91` (`title`, `record`),
-ADD FULLTEXT `IDX_AA31FE4A3B8BA7C7` (`text`),
 DROP INDEX `IDX_AA31FE4A2B36786B3B8BA7C7`;
+
+ALTER TABLE `fulltext_search`
+ADD FULLTEXT `IDX_AA31FE4A2B36786B9B349F91` (`title`, `record`);
+
+ALTER TABLE `fulltext_search`
+ADD FULLTEXT `IDX_AA31FE4A3B8BA7C7` (`text`);
 
 SQL;
         $conn->executeStatement($sql);

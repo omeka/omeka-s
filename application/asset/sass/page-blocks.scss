@@ -342,3 +342,10 @@
 .block-html.has-background > *:last-child {
     margin-bottom: 0;
 }
+
+@media screen and (max-width:640px) {
+    .page-layout-normal .block-layout-alignment-block-right,
+    .page-layout-normal .block-layout-alignment-block-left {
+        max-width: 40%;
+    }    
+}

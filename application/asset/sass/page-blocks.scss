@@ -38,7 +38,15 @@
 .block-layout-alignment-block-left .item.resource:not(:last-child),
 .block-layout-alignment-block-right .item.resource:not(:last-child) {
     margin-bottom: $spacing-large;
+}
+
+.block-layout-alignment-block-left .item.resource,
+.block-layout-alignment-block-right .item.resource {
     margin-right: $spacing-large;
+
+    .media-render:not(:last-child) {
+        margin-bottom: $spacing-small;
+    }
 
     .media-render a {
         display: block;
@@ -51,7 +59,6 @@
     img {
         max-width: 100%;
         vertical-align: bottom;
-        margin-bottom: .5rem;
     }
 }
 
@@ -283,7 +290,7 @@
     }
     
     .site-thumbnail-image {
-        max-width: 25%;
+        max-height: 3 * $base-line-height;
         float: left;
         margin-right: 1rem;
     }

@@ -67,6 +67,12 @@
     justify-self: center;
 }
 
+.page-layout-grid .block-layout-alignment-block-center,
+.page-layout-grid .block-layout-alignment-block-left,
+.page-layout-grid .block-layout-alignment-block-right {
+    max-width: 100%;
+}
+
 @media screen and (max-width:896px) {
     .page-layout-grid {
         display: block;

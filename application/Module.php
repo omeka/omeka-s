@@ -710,7 +710,8 @@ class Module extends AbstractModule
         }
         $qb = $event->getParam('queryBuilder');
 
-        $match = 'MATCH(omeka_fulltext_search.title, omeka_fulltext_search.record, omeka_fulltext_search.text) AGAINST (:omeka_fulltext_search)';
+        $match = '(MATCH(omeka_fulltext_search.title, omeka_fulltext_search.record) AGAINST (:omeka_fulltext_search) > 0 OR MATCH(omeka_fulltext_search.text) AGAINST (:omeka_fulltext_search) > 0)';
+        $matchOrder = '(MATCH(omeka_fulltext_search.title, omeka_fulltext_search.record) AGAINST (:omeka_fulltext_search) OR MATCH(omeka_fulltext_search.text) AGAINST (:omeka_fulltext_search))';
 
         if ('api.search.query' === $event->getName()) {
 
@@ -727,7 +728,7 @@ class Module extends AbstractModule
             $qb->innerJoin('Omeka\Entity\FulltextSearch', 'omeka_fulltext_search', 'WITH', $joinConditions);
 
             // Filter out resources with no similarity.
-            $qb->andWhere(sprintf('%s > 0', $match));
+            $qb->andWhere($match);
 
             // Set visibility constraints.
             $acl = $this->getServiceLocator()->get('Omeka\Acl');
@@ -754,7 +755,7 @@ class Module extends AbstractModule
 
             if (isset($query['sort_by_default']) || !$qb->getDQLPart('orderBy')) {
                 $sortOrder = 'asc' === $query['sort_order'] ? 'ASC' : 'DESC';
-                $qb->orderBy($match, $sortOrder);
+                $qb->orderBy($matchOrder, $sortOrder);
             }
         }
     }

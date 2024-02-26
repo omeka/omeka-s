@@ -31,13 +31,14 @@
 
 .page-layout-normal .block-layout-alignment-block-right,
 .page-layout-normal .block-layout-alignment-block-left {
-    max-width: 33.33%;
+    max-width: 20%;
     @include clearfix;
 }
 
-.block-layout-alignment-block-left .item.resource:not(:only-child),
-.block-layout-alignment-block-right .item.resource:not(:only-child) {
-    margin: 0 0 1rem 0;
+.block-layout-alignment-block-left .item.resource:not(:last-child),
+.block-layout-alignment-block-right .item.resource:not(:last-child) {
+    margin-bottom: $spacing-large;
+    margin-right: $spacing-large;
 
     .media-render a {
         display: block;
@@ -64,6 +65,11 @@
     float: right;
     clear: right;
     margin: 0 0 1rem 1rem;
+}
+
+.page-layout-normal .block.block-layout-alignment-block-left + .block, 
+.page-layout-normal .block.block-layout-alignment-block-right + .block {
+    margin-top: 0;
 }
 
 .page-layout-normal .block.block-layout-alignment-block-center {
@@ -155,7 +161,6 @@
 
 .media-embed .resource {
     vertical-align: top;
-    margin-bottom: 1rem;
 
     h3 {
         font-size: 1rem;
@@ -253,7 +258,7 @@
 }
 
 .item-with-metadata .show.resource {
-    margin: (2rem) 0;
+    margin: 0;
 }
 
 .list-of-sites .site-list {
@@ -286,7 +291,7 @@
     height: auto;
 }
 
-.assets .asset {
+.assets .asset:not(:last-child) {
     margin-bottom: 1rem;
 }
 

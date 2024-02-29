@@ -9,6 +9,7 @@ $form->prepare();
 <?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
+    <?php $this->trigger('view.edit.page_actions', ['resource' => $vocabulary]); ?>
     <a href="#" class="delete button"><?php echo $translate('Delete'); ?></a>
     <?php echo $this->cancelButton(); ?>
     <button><?php echo $translate('Save'); ?></button>

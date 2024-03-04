@@ -516,11 +516,15 @@
         // Prepare page layout for use.
         const preparePageLayout = function() {
             const layoutSelect = $('#page-layout-select');
+            const previewPageButton = $('#preview-page-layout');
+            const previewBlockButtons = $('.preview-block-page-layout');
             const gridColumnsSelect = $('#page-layout-grid-columns-label');
             const gridColumnGapInput = $('#page-layout-grid-column-gap-input');
             const gridRowGapInput = $('#page-layout-grid-row-gap-input');
             const blockGridControls = $('.block-page-layout-grid-controls');
             // Disable and hide all layout-specific controls by default.
+            previewPageButton.hide();
+            previewBlockButtons.hide();
             gridColumnsSelect.hide();
             gridColumnGapInput.closest('.field').hide();
             gridRowGapInput.closest('.field').hide();
@@ -528,6 +532,8 @@
             switch (layoutSelect.val()) {
                 case 'grid':
                     // Prepare grid layout.
+                    previewPageButton.show();
+                    previewBlockButtons.show();
                     gridColumnsSelect.show();
                     gridColumnGapInput.closest('.field').show();
                     gridRowGapInput.closest('.field').show();

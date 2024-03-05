@@ -137,10 +137,15 @@
 
 .media-embed .resource {
     display: inline-block;
+    max-width: 100%;
 }
 
 .media-embed.attachment-count-1 {
     width: 100% !important;
+}
+
+.media-embed.layout-vertical {
+    display: grid;
 }
 
 .media-embed.layout-horizontal.attachment-count-2 {
@@ -191,6 +196,11 @@
         width: auto;
         vertical-align: top;
         margin-bottom: 0;
+    }
+
+    .iiif_presentation {
+        width: 100vb;
+        max-width: 100%;
     }
 
     .media-render > a:not(:only-child) {

@@ -144,7 +144,7 @@
     width: 100% !important;
 }
 
-.media-embed.layout-vertical {
+.media-embed.layout-vertical:not(.attachment-count-1) {
     display: grid;
 }
 

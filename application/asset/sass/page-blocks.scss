@@ -40,8 +40,8 @@
     margin-bottom: $spacing-large;
 }
 
-.block-layout-alignment-block-left .item.resource,
-.block-layout-alignment-block-right .item.resource {
+.block-layout-alignment-block-left .item.resource:not(:only-child),
+.block-layout-alignment-block-right .item.resource:not(:only-child) {
     margin-right: $spacing-large;
 
     .media-render:not(:last-child) {
@@ -129,6 +129,10 @@
 
 .block-layout-background-image-size-contain {
     background-size: contain;
+}
+
+.media-embed .resource {
+    display: inline-block;
 }
 
 .media-embed.attachment-count-1 {

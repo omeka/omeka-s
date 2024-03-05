@@ -51,6 +51,7 @@ $this->headScript()->appendFile($this->assetUrl('js/asset-browse.js', 'Omeka'));
                     <span class="asset-name"><?php echo $escape($asset->name()); ?></span>
                 </span>
                 <ul class="actions">
+                    <?php $this->trigger('view.browse.actions', ['resource' => $asset]); ?>
                     <?php if ($asset->userIsAllowed('update')): ?>
                     <li><?php echo $asset->link('', 'edit', [
                         'class' => 'o-icon-edit',

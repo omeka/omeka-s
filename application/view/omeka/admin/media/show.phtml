@@ -11,6 +11,7 @@ $sectionNavs = [
 <?php echo $this->pageTitle($media->displayTitle(), 1, $translate('Media')); ?>
 
 <div id="page-actions">
+    <?php $this->trigger('view.show.page_actions', ['resource' => $media]); ?>
     <?php echo $media->link($translate('Edit media'), 'edit', ['class' => 'button']); ?>
 </div>
 

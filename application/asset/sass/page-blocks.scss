@@ -40,9 +40,13 @@
     margin-bottom: $spacing-large;
 }
 
-.block-layout-alignment-block-left .item.resource:not(:only-child),
-.block-layout-alignment-block-right .item.resource:not(:only-child) {
+.block-layout-alignment-block-left.media-embed.layout-horizontal .item.resource:not(:only-child),
+.block-layout-alignment-block-right.media-embed.layout-horizontal .item.resource:not(:only-child) {
     margin-right: $spacing-large;
+}
+
+.block-layout-alignment-block-left .item.resource,
+.block-layout-alignment-block-right .item.resource {
 
     .media-render:not(:last-child) {
         margin-bottom: $spacing-small;

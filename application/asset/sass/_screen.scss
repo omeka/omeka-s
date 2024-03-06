@@ -1007,6 +1007,7 @@ nav.pagination input[type="text"],
     line-height: $base-line-height;
     vertical-align: top;
     background-size: .4088 * $base-font-size;
+    width: auto;
 }
 
 nav.pagination .button {

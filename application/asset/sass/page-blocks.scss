@@ -233,6 +233,10 @@
     }
 } 
 
+.block-oembed iframe {
+    max-width: 100%;
+}
+
 .break {
     width: 100%;
     clear: both;

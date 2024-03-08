@@ -347,11 +347,14 @@
     font-weight: bold;
 }
 
-.page-date-time > div, 
-.page-date-time .property, 
-.page-date-time .value {
+.page-date-time > div {
     display: inline-block;
     margin: 0;
+}
+
+.page-date-time .property, 
+.page-date-time .value {
+    display: inline;
 }
 
 .page-date-time > div {

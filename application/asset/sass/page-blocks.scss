@@ -222,7 +222,6 @@
 
     .media-render img,
     .media-render video,
-    .media-render iframe,
     .media-render audio {
         max-width: 100%;
         height: auto;
@@ -233,6 +232,7 @@
     }
 } 
 
+.media-render iframe,
 .block-oembed iframe {
     max-width: 100%;
 }

@@ -67,10 +67,10 @@ class FulltextSearch extends \Omeka\Entity\FulltextSearch implements \Doctrine\O
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'resource', 'owner', 'isPublic', 'title', 'text'];
+            return ['__isInitialized__', 'id', 'resource', 'owner', 'isPublic', 'title', 'record', 'text'];
         }
 
-        return ['__isInitialized__', 'id', 'resource', 'owner', 'isPublic', 'title', 'text'];
+        return ['__isInitialized__', 'id', 'resource', 'owner', 'isPublic', 'title', 'record', 'text'];
     }
 
     /**
@@ -271,6 +271,28 @@ class FulltextSearch extends \Omeka\Entity\FulltextSearch implements \Doctrine\O
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitle', []);
 
         return parent::getTitle();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRecord($record)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRecord', [$record]);
+
+        return parent::setRecord($record);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRecord()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRecord', []);
+
+        return parent::getRecord();
     }
 
     /**

@@ -715,7 +715,17 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         return $resource->getTitle();
     }
 
+    public function getFulltextRecord($resource)
+    {
+        return $this->getFulltext($resource, 'record');
+    }
+
     public function getFulltextText($resource)
+    {
+        return $this->getFulltext($resource, 'text');
+    }
+
+    protected function getFulltext($resource, string $type)
     {
         $services = $this->getServiceLocator();
         $dataTypes = $services->get('Omeka\DataTypeManager');
@@ -723,7 +733,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $eventManager = $this->getEventManager();
 
         $criteria = Criteria::create()->where(Criteria::expr()->eq('isPublic', true));
-        $args = $eventManager->prepareArgs(['resource' => $resource, 'criteria' => $criteria]);
+        $args = $eventManager->prepareArgs([
+            'resource' => $resource,
+            'type' => $type,
+            'criteria' => $criteria,
+        ]);
         $event = new Event('api.get_fulltext_text.value_criteria', $this, $args);
         $eventManager->triggerEvent($event);
         $criteria = $args['criteria'];
@@ -738,6 +752,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $valueAnnotationCriteria = Criteria::create()->where(Criteria::expr()->eq('isPublic', true));
                 $args = $eventManager->prepareArgs([
                     'resource' => $resource,
+                    'type' => $type,
                     'value' => $value,
                     'criteria' => $valueAnnotationCriteria,
                 ]);

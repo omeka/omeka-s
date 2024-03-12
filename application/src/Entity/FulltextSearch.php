@@ -5,7 +5,9 @@ namespace Omeka\Entity;
  * @Entity
  * @Table(
  *   indexes={
- *     @Index(columns={"title", "text"}, flags={"fulltext"})
+ *     @Index(name="is_public", columns={"is_public"}),
+ *     @Index(columns={"title", "record"}, flags={"fulltext"}),
+ *     @Index(columns={"text"}, flags={"fulltext"})
  *   }
  * )
  */
@@ -38,6 +40,11 @@ class FulltextSearch
      * @Column(type="text", nullable=true)
      */
     protected $title;
+
+    /**
+     * @Column(type="text", nullable=true)
+     */
+    protected $record;
 
     /**
      * @Column(type="text", nullable=true)
@@ -92,6 +99,16 @@ class FulltextSearch
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function setRecord($record)
+    {
+        $this->record = $record;
+    }
+
+    public function getRecord()
+    {
+        return $this->record;
     }
 
     public function setText($text)

@@ -36,17 +36,17 @@ class Job extends AbstractEntity
     protected $id;
 
     /**
-     * @Column(nullable=true)
+     * @Column(nullable=true, length=190)
      */
     protected $pid;
 
     /**
-     * @Column(nullable=true)
+     * @Column(nullable=true, length=190)
      */
     protected $status;
 
     /**
-     * @Column
+     * @Column(length=190)
      */
     protected $class;
 

@@ -8,6 +8,10 @@ namespace Omeka\Entity;
  *         @Index(
  *             name="item_position",
  *             columns={"item_id", "position"}
+ *         ),
+ *         @Index(
+ *             name="media_type",
+ *             columns={"media_type"}
  *         )
  *     }
  * )
@@ -21,12 +25,12 @@ class Media extends Resource
     protected $id;
 
     /**
-     * @Column
+     * @Column(length=190)
      */
     protected $ingester;
 
     /**
-     * @Column
+     * @Column(length=190)
      */
     protected $renderer;
 
@@ -41,7 +45,7 @@ class Media extends Resource
     protected $source;
 
     /**
-     * @Column(nullable=true)
+     * @Column(nullable=true, length=190)
      */
     protected $mediaType;
 
@@ -51,7 +55,7 @@ class Media extends Resource
     protected $storageId;
 
     /**
-     * @Column(nullable=true)
+     * @Column(nullable=true, length=190)
      */
     protected $extension;
 

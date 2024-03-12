@@ -36,7 +36,7 @@ class Vocabulary extends AbstractEntity
     protected $prefix;
 
     /**
-     * @Column
+     * @Column(length=190)
      */
     protected $label;
 

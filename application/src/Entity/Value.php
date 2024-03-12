@@ -33,12 +33,12 @@ class Value extends AbstractEntity
     protected $property;
 
     /**
-     * @Column
+     * @Column(length=190)
      */
     protected $type;
 
     /**
-     * @Column(nullable=true)
+     * @Column(nullable=true, length=190)
      */
     protected $lang;
 

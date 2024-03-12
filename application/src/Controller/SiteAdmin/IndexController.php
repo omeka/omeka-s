@@ -152,7 +152,7 @@ class IndexController extends AbstractActionController
                 $formData = $form->getData();
                 $formData['o:site']['o:id'] = $site->id();
                 $formData['o:is_public'] = !empty($post['o:is_public']);
-                $formData['o:layout_data']['template_name'] = $post['template_name'];
+                $formData['o:layout_data']['template_name'] = $post['template_name'] ?? null;
                 $response = $this->api($form)->create('site_pages', $formData);
                 if ($response) {
                     $page = $response->getContent();

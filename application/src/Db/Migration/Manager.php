@@ -82,6 +82,8 @@ class Manager
         }
 
         $this->clearDoctrineCache();
+
+        $this->clearCache();
     }
 
     /**
@@ -204,5 +206,18 @@ class Manager
         }
 
         $cache->deleteAll();
+    }
+
+    protected function clearCache()
+    {
+        if (function_exists('opcache_reset')) {
+            opcache_reset();
+        }
+        if (extension_loaded('apcu')) {
+            apcu_clear_cache();
+        }
+        if (function_exists('clearstatcache')) {
+            clearstatcache(true);
+        }
     }
 }

@@ -13,6 +13,10 @@ if ($item) {
 
 $sites = [];
 foreach ($siteRepresentations as $siteRepresentation) {
+    // The user must have permission to assign items to the site.
+    if (!$siteRepresentation->userIsAllowed('can-assign-items')) {
+        continue;
+    }
     $sites[] = [
         'id' => $siteRepresentation->id(),
     ];

@@ -69,7 +69,7 @@ $siteTemplate = '
                 <ul class="actions">
                     <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $this->translate('Unassign from site')]); ?></li>
                 </ul>
-                <input type="hidden" name="o:site[]" class="resource-id">
+                <input type="hidden" name="o:site[]" class="resource-id" value="<?php echo $this->escapeHtml($site->id()); ?>">
             </td>
         </tr>
         <?php endforeach; ?>

@@ -295,7 +295,7 @@
     margin: 0;
 }
 
-.list-of-sites .site-list {
+.block-listOfSites .site-list {
     .site {
         margin-bottom: .5rem;
         @include clearfix;
@@ -316,6 +316,16 @@
         max-height: 3 * $base-line-height;
         float: left;
         margin-right: 1rem;
+    }
+}
+
+.block-listOfSites .omeka-pagination {
+    width: auto;
+    margin: 0 0 $spacing-large;
+    flex-wrap: wrap;
+
+    & > * {
+        margin-bottom: $spacing-small;
     }
 }
 

@@ -299,6 +299,11 @@
     .site {
         margin-bottom: .5rem;
         @include clearfix;
+        display: flex;
+    }
+
+    .site-thumbnail {
+        flex: 0 0 auto;
     }
 
     .site-link {
@@ -314,7 +319,6 @@
     
     .site-thumbnail-image {
         max-height: 3 * $base-line-height;
-        float: left;
         margin-right: 1rem;
     }
 }

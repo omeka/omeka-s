@@ -234,7 +234,7 @@
 
 .media-render iframe,
 .block-oembed iframe {
-    max-width: 100%;
+    max-width: 100% !important;
 }
 
 .break {
@@ -331,7 +331,7 @@
     }
 }
 
-.block-listOfSites .omeka-pagination {
+.block-listOfSites .pagination {
     width: auto;
     margin: 0 0 $spacing-large;
     flex-wrap: wrap;

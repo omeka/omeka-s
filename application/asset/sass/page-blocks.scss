@@ -296,6 +296,8 @@
 }
 
 .block-listOfSites .site-list {
+    container-type: inline-size;
+
     .site {
         margin-bottom: .5rem;
         @include clearfix;
@@ -320,6 +322,12 @@
     .site-thumbnail-image {
         max-height: 3 * $base-line-height;
         margin-right: 1rem;
+    }
+}
+
+@container (max-width: 300px) {
+    .block-listOfSites .site-list .site {
+        flex-wrap: wrap;
     }
 }
 

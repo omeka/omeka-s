@@ -334,7 +334,9 @@
 .block-listOfSites .pagination {
     width: auto;
     margin: 0 0 $spacing-large;
+    display: flex;
     flex-wrap: wrap;
+    align-items: center;
 
     & > * {
         margin-bottom: $spacing-small;

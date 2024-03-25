@@ -973,6 +973,8 @@ nav ul {
 nav.pagination {
     margin-bottom: $spacing-medium;
     overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 nav.pagination form,

@@ -258,13 +258,11 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 if (!$site) {
                     // Assign site that was not already assigned.
                     $site = $siteAdapter->findEntity($siteId);
-                    if ($acl->userIsAllowed($site, 'can-assign-items')) {
+                    if ($acl->userIsAllowed($site, 'can-assign-items') || ($isCreate && $assignNewItemsSites->contains($site))) {
                         // A user with the "can-assign-items" privilege can assign
-                        // a site at any time.
-                        $sites->set($site->getId(), $site);
-                    } elseif ($isCreate && $assignNewItemsSites->contains($site)) {
-                        // A user without the "can-assign-items" privilege can assign
-                        // a site only on CREATE when the site has assignNewItems=true.
+                        // a site at any time. A user without the "can-assign-items"
+                        // privilege can assign a site only on CREATE when the site
+                        // has assignNewItems=true.
                         $sites->set($site->getId(), $site);
                     }
                 }

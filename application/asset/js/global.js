@@ -227,7 +227,7 @@ var Omeka = {
                 tableRowCell.text(tableRowValue);
             });
             selectorRow.addClass('added');
-            table.append(tableRow).removeClass('empty').trigger('appendRow');
+            table.children('.resource-rows').append(tableRow).removeClass('empty').trigger('appendRow');
             updateResourceCount(id);
         }
 
@@ -235,6 +235,10 @@ var Omeka = {
             var resource = selector.find('[data-resource-id="' + id + '"]');
             var resourceParent = resource.parents('.selector-parent');
             var childCount = resourceParent.find('.selector-child-count').first();
+            // Update the count only when the resource exists in the selector.
+            if (!selector.find(`.selector-child[data-resource-id="${id}"]`).length) {
+                return;
+            }
             if (resource.hasClass('added')) {
                 var newTotalCount = parseInt(selectorCount.text()) - 1;
                 var newChildCount = parseInt(childCount.text()) - 1;

@@ -1,6 +1,7 @@
 <?php
 namespace Omeka\Api\Adapter;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Exception;
 use Omeka\Api\Request;
@@ -217,16 +218,19 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 }
             }
         }
-        if ($isCreate && !is_array($request->getValue('o:site'))) {
-            // On CREATE and when no "o:site" array is passed, assign this item
-            // to all sites where assignNewItems=true.
-            $dql = '
-                SELECT site
+        if ($isCreate) {
+            // On CREATE we will need sites where assignNewItems=true.
+            $dql = 'SELECT site
                 FROM Omeka\Entity\Site site
                 WHERE site.assignNewItems = true';
             $query = $this->getEntityManager()->createQuery($dql);
+            $assignNewItemsSites = new ArrayCollection($query->getResult());
+        }
+        if ($isCreate && !is_array($request->getValue('o:site'))) {
+            // On CREATE and when no "o:site" array is passed, assign this item
+            // to all sites where assignNewItems=true.
             $sites = $entity->getSites();
-            foreach ($query->getResult() as $site) {
+            foreach ($assignNewItemsSites as $site) {
                 $sites->set($site->getId(), $site);
             }
         } elseif ($this->shouldHydrate($request, 'o:site')) {
@@ -254,7 +258,11 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                 if (!$site) {
                     // Assign site that was not already assigned.
                     $site = $siteAdapter->findEntity($siteId);
-                    if ($acl->userIsAllowed($site, 'can-assign-items')) {
+                    if ($acl->userIsAllowed($site, 'can-assign-items') || ($isCreate && $assignNewItemsSites->contains($site))) {
+                        // A user with the "can-assign-items" privilege can assign
+                        // a site at any time. A user without the "can-assign-items"
+                        // privilege can assign a site only on CREATE when the site
+                        // has assignNewItems=true.
                         $sites->set($site->getId(), $site);
                     }
                 }

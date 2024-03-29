@@ -1,3 +1,6 @@
+<?php
+$hyperlink = $this->plugin('hyperlink');
+?>
 <div class="<?php echo $this->escapeHtml(implode(' ', $classes)); ?>">
     <?php foreach($attachments as $attachment): ?>
     <?php $item = $attachment->item(); ?>
@@ -5,10 +8,27 @@
         <?php
         $media = $attachment->media() ?: $item->primaryMedia();
         if ($media):
-            echo $media->render([
-                'thumbnailType' => $thumbnailType,
-                'link' => $link,
-            ]);
+            if ($mediaDisplay === 'thumbnail') {
+                switch ($link) {
+                    case 'original':
+                        $url = $media->originalUrl();
+                        break;
+                    case 'item':
+                        $url = $item->url();
+                        break;
+                    case 'media':
+                        $url = $media->url();
+                        break;
+                    default:
+                        throw new \InvalidArgumentException(sprintf('Invalid link type "%s"', $linkType));
+                }
+                echo $hyperlink->raw($this->thumbnail($media, $thumbnailType), $url);
+            } else {
+                echo $media->render([
+                    'thumbnailType' => $thumbnailType,
+                    'link' => $link,
+                ]);
+            }
         endif;
         ?>
         <?php if ($showTitleOption === 'item_title'): ?>

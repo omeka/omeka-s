@@ -272,7 +272,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             if (!$append && !$remove) {
                 // Remove sites that were not included in the passed data.
                 foreach ($sites as $site) {
-                    if (!in_array($site, $sitesToRetain)) {
+                    if (!in_array($site, $sitesToRetain) && $acl->userIsAllowed($site, 'can-assign-items')) {
                         $sites->removeElement($site);
                     }
                 }

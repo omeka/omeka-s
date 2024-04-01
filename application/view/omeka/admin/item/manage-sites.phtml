@@ -65,12 +65,7 @@ $siteTemplate = '
         <tr class="resource-row">
             <td class="data-value" data-row-key="child-search"><?php echo $this->escapeHtml($site->title()); ?></td>
             <td class="data-value" data-row-key="resource-email"><?php echo $this->escapeHtml($site->owner()->email()); ?></td>
-            <td>
-                <ul class="actions">
-                    <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete', 'title' => $this->translate('Unassign from site')]); ?></li>
-                </ul>
-                <input type="hidden" name="o:site[]" class="resource-id" value="<?php echo $this->escapeHtml($site->id()); ?>">
-            </td>
+            <td></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

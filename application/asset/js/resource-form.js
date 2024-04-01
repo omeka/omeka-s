@@ -199,7 +199,7 @@
             }
         });
 
-        $('input.value-language').on('keyup, change', function(e) {
+        $('input.value-language').on('keyup change', function(e) {
             if ('' === this.value || Omeka.langIsValid(this.value)) {
                 this.setCustomValidity('');
             } else {

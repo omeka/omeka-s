@@ -3270,13 +3270,6 @@ fieldset.section > legend {
     padding-bottom: $spacing-medium;
 }
 
-.block-layout-fieldset legend {
-    font-size: $base-font-size;
-    float: left;
-    max-width: calc(100% - #{2 * $spacing-large});
-    padding: 0;
-}
-
 .block-layout-fieldset .expand, 
 .block-layout-fieldset .collapse {
     width: 100%;
@@ -3286,11 +3279,6 @@ fieldset.section > legend {
 
 .block-layout-fieldset .collapse {
     font-weight: bold;
-}
-
-.block-layout-fieldset .expand label,
-.block-layout-fieldset .expand .label {
-    font-weight: normal;
 }
 
 .block-layout-fieldset .collapse + .collapsible {
@@ -3304,15 +3292,6 @@ fieldset.section > legend {
 .block-layout-fieldset .collapsible label,
 .block-layout-fieldset .collapsible .label {
     font-weight: normal;
-}
-
-.block-layout-fieldset .collapse label,
-.block-layout-fieldset .expand label,
-.block-layout-fieldset .collapse .label,
-.block-layout-fieldset .expand .label {
-    width: auto;
-    margin: 0;
-    padding: 0;
 }
 
 .block-layout-fieldset .collapsible .label:after, 

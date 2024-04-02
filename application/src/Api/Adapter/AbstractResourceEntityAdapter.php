@@ -472,9 +472,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *      123
      * - <property-id>-: Query subject values of the specified property where
      *      there is no corresponding resource template property, e.g. 123-
-     * - <property-id>-<resource-template-property-id>: Query subject values of
-     *      the specified property where there is a corresponding resource
-     *      template property, e.g. 123-234
+     * - <property-id>-<resource-template-property-ids>: Query subject values of
+     *      the specified property where there are corresponding resource
+     *      template properties, e.g. 123-234,345
      *
      * @param Resource $resource
      * @param int|string|null $propertyId
@@ -530,11 +530,15 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             if (false !== strpos($propertyId, '-')) {
                 $propertyIds = explode('-', $propertyId);
                 $propertyId = $propertyIds[0];
-                $resourceTemplatePropertyId = $propertyIds[1];
-                $qb->andWhere($resourceTemplatePropertyId
-                    ? $qb->expr()->eq('resource_template_property', $this->createNamedParameter($qb, $resourceTemplatePropertyId))
-                    : $qb->expr()->isNull('resource_template_property')
-                );
+                $resourceTemplatePropertyIds = array_map('intval', explode(',', $propertyIds[1]));
+                if (in_array(0, $resourceTemplatePropertyIds)) {
+                    $qb->andWhere($qb->expr()->orX(
+                        $qb->expr()->isNull('resource_template_property'),
+                        $qb->expr()->in('resource_template_property', $this->createNamedParameter($qb, $resourceTemplatePropertyIds))
+                    ));
+                } else {
+                    $qb->andWhere($qb->expr()->in('resource_template_property', $this->createNamedParameter($qb, $resourceTemplatePropertyIds)));
+                }
             }
             $qb->andWhere($qb->expr()->eq('value.property', $this->createNamedParameter($qb, $propertyId)));
         }
@@ -649,7 +653,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ->join('value.property', 'property')
             ->join('property.vocabulary', 'vocabulary')
             ->select([
-                "DISTINCT CONCAT(property.id, '-', COALESCE(resource_template_property.id, '')) id_concat",
                 "CONCAT(vocabulary.prefix, ':', property.localName) term",
                 'property.id property_id',
                 'resource_template_property.id resource_template_property_id',
@@ -657,8 +660,34 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 'resource_template_property.alternateLabel property_alternate_label',
             ])
             ->orderBy('property.id, resource_template_property.id');
-        $results = $qb->getQuery()->getResult();
-        return $results;
+
+        $results = [];
+        foreach ($qb->getQuery()->getResult() as $result) {
+            if ($result['property_alternate_label']) {
+                $label = $result['property_alternate_label'];
+                $resourceTemplatePropertyId = $result['resource_template_property_id'];
+            } elseif ($result['resource_template_property_id']) {
+                $label = $result['property_label'];
+                $resourceTemplatePropertyId = $result['resource_template_property_id'];
+            } else {
+                $label = $result['property_label'];
+                $resourceTemplatePropertyId = 0;
+            }
+            $results[$result['property_id']][$label]['resource_template_property_ids'][] = $resourceTemplatePropertyId;
+            $results[$result['property_id']][$label]['term'] = $result['term'];
+        }
+
+        $subjectValueProperties = [];
+        foreach ($results as $propertyId => $properties) {
+            foreach ($properties as $label => $data) {
+                $subjectValueProperties[] = [
+                    'label' => $label,
+                    'term' => $data['term'],
+                    'compound_id' => sprintf('%s:%s-%s', $resourceType, $propertyId, implode(',', array_unique($data['resource_template_property_ids']))),
+                ];
+            }
+        }
+        return $subjectValueProperties;
     }
 
     public function preprocessBatchUpdate(array $data, Request $request)

@@ -575,16 +575,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $offset = (is_numeric($page) && is_numeric($perPage)) ? (($page - 1) * $perPage) : null;
         $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
             ->join('value.property', 'property')
-            ->join('property.vocabulary', 'vocabulary')
             ->select([
                 'value val',
                 'property.id property_id',
-                'resource_template_property.id resource_template_property_id',
                 'property.label property_label',
+                'resource_template_property.id resource_template_property_id',
                 'resource_template_property.alternateLabel property_alternate_label',
-                "CONCAT(vocabulary.prefix, ':', property.localName) term",
             ])
-            ->orderBy('property.id, resource_template_property.alternateLabel, resource.title')
+            ->orderBy('resource_template_property.alternateLabel, property.label, property.id, resource.title')
             ->setMaxResults($perPage)
             ->setFirstResult($offset);
         $event = new Event('api.subject_values.query', $this, [

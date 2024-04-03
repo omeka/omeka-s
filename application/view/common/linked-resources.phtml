@@ -63,11 +63,10 @@ $resourcePropertiesSelect->setValueOptions($valueOptions);
 <?php foreach ($subjectValues as $values): ?>
 <?php
 $caption = sprintf(
-    $this->translate('%s with "%s: %s" (%s)'),
+    $this->translate('%s with "%s: %s"'),
     $this->translate($labelMap[$resourceType]),
     $values[0]['property_alternate_label'] ?? $this->translate($values[0]['property_label']),
-    $objectResource->displayTitle(),
-    $values[0]['term']
+    $objectResource->displayTitle()
 );
 ?>
 <table>

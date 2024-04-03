@@ -474,7 +474,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
      *      there is no corresponding resource template property, e.g. 123-
      * - <property-id>-<resource-template-property-ids>: Query subject values of
      *      the specified property where there are corresponding resource
-     *      template properties, e.g. 123-234,345
+     *      template properties, e.g. 123-234,345. Note that you can add subject
+     *      values of the specified property where there is no corresponding
+     *      resource template property by adding a zero ID, e.g. 123-0,234,345
      *
      * @param Resource $resource
      * @param int|string|null $propertyId
@@ -532,6 +534,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 $propertyId = $propertyIds[0];
                 $resourceTemplatePropertyIds = array_map('intval', explode(',', $propertyIds[1]));
                 if (in_array(0, $resourceTemplatePropertyIds)) {
+                    // A zero ID means subject values of the specified property
+                    // where there is no corresponding resource template property.
                     $qb->andWhere($qb->expr()->orX(
                         $qb->expr()->isNull('resource_template_property'),
                         $qb->expr()->in('resource_template_property', $this->createNamedParameter($qb, $resourceTemplatePropertyIds))
@@ -571,12 +575,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $offset = (is_numeric($page) && is_numeric($perPage)) ? (($page - 1) * $perPage) : null;
         $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
             ->join('value.property', 'property')
+            ->join('property.vocabulary', 'vocabulary')
             ->select([
                 'value val',
                 'property.id property_id',
                 'resource_template_property.id resource_template_property_id',
                 'property.label property_label',
                 'resource_template_property.alternateLabel property_alternate_label',
+                "CONCAT(vocabulary.prefix, ':', property.localName) term",
             ])
             ->orderBy('property.id, resource_template_property.alternateLabel, resource.title')
             ->setMaxResults($perPage)
@@ -611,7 +617,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         $qb = $this->getSubjectValuesQueryBuilder($resource, $propertyId, $resourceType, $siteId)
             ->join('value.property', 'property')
             ->join('property.vocabulary', 'vocabulary')
-            ->select("CONCAT(vocabulary.prefix, ':', property.localName) term, IDENTITY(value.resource) id, resource.title title");
+            ->select([
+                "CONCAT(vocabulary.prefix, ':', property.localName) term",
+                'IDENTITY(value.resource) id',
+                'resource.title title',
+            ]);
         $event = new Event('api.subject_values_simple.query', $this, [
             'queryBuilder' => $qb,
             'resource' => $resource,
@@ -660,7 +670,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 'resource_template_property.alternateLabel property_alternate_label',
             ])
             ->orderBy('property.id, resource_template_property.id');
-
+        // Group the properties by label.
         $results = [];
         foreach ($qb->getQuery()->getResult() as $result) {
             if ($result['property_alternate_label']) {
@@ -676,7 +686,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             $results[$result['property_id']][$label]['resource_template_property_ids'][] = $resourceTemplatePropertyId;
             $results[$result['property_id']][$label]['term'] = $result['term'];
         }
-
+        // Build the properties array from grouped array.
         $subjectValueProperties = [];
         foreach ($results as $propertyId => $properties) {
             foreach ($properties as $label => $data) {

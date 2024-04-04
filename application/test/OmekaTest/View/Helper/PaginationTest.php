@@ -82,6 +82,7 @@ class PaginationTest extends TestCase
                     'lastPageUrl' => null,
                     'pagelessUrl' => null,
                     'offset' => null,
+                    'options' => [],
                 ])
             )
             ->will($this->returnValue(''));

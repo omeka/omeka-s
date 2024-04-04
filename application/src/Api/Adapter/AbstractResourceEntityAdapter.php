@@ -581,8 +581,9 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                 'property.label property_label',
                 'resource_template_property.id resource_template_property_id',
                 'resource_template_property.alternateLabel property_alternate_label',
+                "CASE WHEN resource_template_property.alternateLabel IS NOT NULL AND resource_template_property.alternateLabel NOT LIKE '' THEN resource_template_property.alternateLabel ELSE property.label END order_by_label",
             ])
-            ->orderBy('resource_template_property.alternateLabel, property.label, property.id, resource.title')
+            ->orderBy('property.id, order_by_label, resource.title')
             ->setMaxResults($perPage)
             ->setFirstResult($offset);
         $event = new Event('api.subject_values.query', $this, [
@@ -661,14 +662,16 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             ->join('value.property', 'property')
             ->join('property.vocabulary', 'vocabulary')
             ->select([
-                "CONCAT(vocabulary.prefix, ':', property.localName) term",
                 'property.id property_id',
                 'resource_template_property.id resource_template_property_id',
                 'property.label property_label',
                 'resource_template_property.alternateLabel property_alternate_label',
+                "CONCAT(vocabulary.prefix, ':', property.localName) term",
             ])
             ->orderBy('property.id, resource_template_property.id');
-        // Group the properties by label.
+        // Group the properties by property ID then label. We must use code to
+        // group instead of a SQL "GROUP BY" because of the special case where
+        // there is no resource template property.
         $results = [];
         foreach ($qb->getQuery()->getResult() as $result) {
             if ($result['property_alternate_label']) {
@@ -690,11 +693,14 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             foreach ($properties as $label => $data) {
                 $subjectValueProperties[] = [
                     'label' => $label,
+                    'property_id' => $propertyId,
                     'term' => $data['term'],
                     'compound_id' => sprintf('%s:%s-%s', $resourceType, $propertyId, implode(',', array_unique($data['resource_template_property_ids']))),
                 ];
             }
         }
+        // Sort the properties by property ID then label.
+        usort($subjectValueProperties, fn($a, $b) => strcmp($a['property_id'] . $a['label'], $b['property_id'] . $b['label']));
         return $subjectValueProperties;
     }
 

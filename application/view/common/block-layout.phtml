@@ -14,8 +14,10 @@ $layoutGridColumnPosition = $layoutData['grid_column_position'] ?? 'auto';
 $layoutGridColumnSpan = $layoutData['grid_column_span'] ?? '12';
 
 $blockClasses = ['block', 'value'];
+$toBeRemovedMessage = $this->translate('Block to be removed');
 if ('blockGroup' === $layout) {
     $blockClasses[] = 'block-group';
+    $toBeRemovedMessage = $this->translate('Block and contents to be removed');
 }
 ?>
 
@@ -23,7 +25,7 @@ if ('blockGroup' === $layout) {
     <div class="block-header">
         <span class="sortable-handle"></span>
         <span class="block-type"><?php echo $translate($layoutLabel); ?></span>
-        <span class="restore-value"><?php echo $translate('Block to be removed'); ?></span>
+        <span class="restore-value"><?php echo $toBeRemovedMessage; ?></span>
         <?php if ('blockGroup' !== $layout): ?>
         <span class="block-page-layout-grid-controls">
             <label><?php echo $translate('Position'); ?>
@@ -33,7 +35,7 @@ if ('blockGroup' === $layout) {
                     <?php endforeach; ?>
                 </select>
             </label>
-            <label><?php echo $translate('Span'); ?> 
+            <label><?php echo $translate('Span'); ?>
                 <select class="block-page-layout-grid-column-span-select" data-block-page-layout-grid-column-span="<?php echo $escape($layoutGridColumnSpan); ?>">
                     <?php foreach ($layoutGridColumnSpanOptions as $key => $value): ?>
                     <option value="<?php echo $escape($key); ?>"<?php echo ($layoutGridColumnSpan == $key) ? ' selected' : '' ?>><?php echo $escape($key); ?></option>

@@ -2,6 +2,7 @@
 namespace Omeka\Form\View\Helper;
 
 use Laminas\Form\ElementInterface;
+use Laminas\Form\FieldsetInterface;
 use Laminas\Form\View\Helper\FormCollection;
 
 class FormCollectionElementGroups extends FormCollection

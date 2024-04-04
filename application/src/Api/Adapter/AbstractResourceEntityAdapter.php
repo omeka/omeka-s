@@ -700,7 +700,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
         }
         // Sort the properties by property ID then label.
-        usort($subjectValueProperties, fn($a, $b) => strcmp($a['property_id'] . $a['label'], $b['property_id'] . $b['label']));
+        usort($subjectValueProperties, fn ($a, $b) => strcmp($a['property_id'] . $a['label'], $b['property_id'] . $b['label']));
         return $subjectValueProperties;
     }
 

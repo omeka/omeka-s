@@ -40,7 +40,7 @@ $itemMedia = $item->media();
 <div id="resources-linked" class="section">
     <?php if ($item->subjectValueTotalCount()): ?>
         <?php echo $item->displaySubjectValues([
-            'page' => $this->params()->fromQuery('page', 1),
+            'page' => $this->params()->fromQuery('linked_resources_page', 1),
             'perPage' => 25,
             'resourceProperty' => $this->params()->fromQuery('resource_property'),
         ]); ?>

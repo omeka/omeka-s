@@ -2,7 +2,7 @@
 use Laminas\Form\Element\Select;
 
 // Set up pagination.
-$pagination = $this->pagination(null, $totalCount, $page, $perPage);
+$pagination = $this->pagination(null, $totalCount, $page, $perPage, ['page_key' => 'linked_resources_page']);
 $fragment = 'resources-linked';
 $pagination->setFragment($fragment);
 

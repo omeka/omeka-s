@@ -31,6 +31,8 @@ class Pagination extends AbstractHelper
      */
     protected $fragment;
 
+    protected $options;
+
     /**
      * Construct the helper.
      *
@@ -44,14 +46,18 @@ class Pagination extends AbstractHelper
     /**
      * Configure the pagination.
      *
+     * Options:
+     *   - page_key: The page # key passed in the URL query (defualt: "page")
+     *
      * @param string|null $partialName Name of view script
      * @param int|null $totalCount The total record count
      * @param int|null $currentPage The current page number
      * @param int|null $perPage The number of records per page
+     * @param array $options
      * @return self
      */
     public function __invoke($partialName = null, $totalCount = null, $currentPage = null,
-        $perPage = null
+        $perPage = null, array $options = []
     ) {
         if (null !== $totalCount) {
             $this->getPaginator()->setTotalCount($totalCount);
@@ -63,6 +69,7 @@ class Pagination extends AbstractHelper
             $this->getPaginator()->setPerPage($perPage);
         }
         $this->partialName = $partialName ?: self::PARTIAL_NAME;
+        $this->options = $options;
         return $this;
     }
 
@@ -99,6 +106,7 @@ class Pagination extends AbstractHelper
                 'lastPageUrl' => $this->getUrl($pageCount),
                 'pagelessUrl' => $this->getPagelessUrl(),
                 'offset' => $paginator->getOffset(),
+                'options' => $this->options,
             ]
         );
     }
@@ -127,7 +135,7 @@ class Pagination extends AbstractHelper
     protected function getUrl($page)
     {
         $query = $this->getView()->params()->fromQuery();
-        $query['page'] = (int) $page;
+        $query[$this->options['page_key'] ?? 'page'] = (int) $page;
         if (isset($query['sort_by_default'])) {
             // Do not emit sort_by if the sort_by_default flag is set.
             unset($query['sort_by']);

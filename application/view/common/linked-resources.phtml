@@ -93,14 +93,3 @@ $caption = sprintf(
 <?php echo ($totalCount > $perPage) ? '<div class="linked-footer">' . $pagination . '</div>' : ''; ?>
 
 </div>
-
-<script>
-const propertySelect = $('#resource-property-select');
-const url = propertySelect.data('url');
-const fragment = propertySelect.data('fragment');
-propertySelect.on('change', function(e) {
-    const selectedOption = propertySelect.find(':selected');
-    const resourceProperty = selectedOption.val();
-    window.location = url + '?' + $.param({resource_property: resourceProperty}) + '#' + fragment;
-});
-</script>

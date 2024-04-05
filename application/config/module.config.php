@@ -363,6 +363,7 @@ return [
             'Omeka\Controller\Admin\Item' => Service\Controller\Admin\ItemControllerFactory::class,
             'Omeka\Controller\SiteAdmin\Index' => Service\Controller\SiteAdmin\IndexControllerFactory::class,
             'Omeka\Controller\Site\Page' => Service\Controller\Site\PageControllerFactory::class,
+            'Omeka\Controller\LinkedResources' => Service\Controller\LinkedResourcesControllerFactory::class,
         ],
     ],
     'controller_plugins' => [
@@ -489,6 +490,7 @@ return [
             'passwordRequirements' => Service\ViewHelper\PasswordRequirementsFactory::class,
             'resourcePageBlocks' => Service\ViewHelper\ResourcePageBlocksFactory::class,
             'browse' => Service\ViewHelper\BrowseFactory::class,
+            'linkedResources' => Service\ViewHelper\LinkedResourcesFactory::class,
         ],
         'shared' => [
             'resourcePageBlocks' => false,

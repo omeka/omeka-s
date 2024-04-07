@@ -2,16 +2,19 @@ $(document).ready(function () {
 
     // Render linked resources.
     const renderLinkedResources = function(page, resourceProperty) {
-        let url = container.data('url');
-        searchParams = new URLSearchParams;
+        const url = container.data('url');
+        const siteId = container.data('siteId');
+        const query = {};
+        if (siteId) {
+            query.site_id = siteId;
+        }
         if (page) {
-            searchParams.append('page', page);
+            query.page = page;
         }
         if (resourceProperty) {
-            searchParams.append('resource_property', resourceProperty);
+            query.resource_property = resourceProperty
         }
-        url += '?' + searchParams.toString();
-        $.get(url, function(data) {
+        $.get(url, query, function(data) {
             container.html(data);
         });
     };

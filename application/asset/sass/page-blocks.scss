@@ -175,6 +175,10 @@
     align-items: center;
 }
 
+.media-embed.layout-vertical .iiif_presentation {
+    width: 100vw;
+}
+
 .media-embed.layout-horizontal.multiple-attachments .item.resource {
     margin-bottom: 0;
 }
@@ -199,7 +203,6 @@
     }
 
     .iiif_presentation {
-        width: 100vw;
         max-width: 100%;
     }
 

@@ -107,7 +107,7 @@ class Oembed
                 $view->escapeHtml($url),
                 $view->escapeHtml($oembed['width'] ?? ''),
                 $view->escapeHtml($oembed['height'] ?? ''),
-                $view->escapeHtml($data['title'] ?? $url)
+                $view->escapeHtml($oembed['title'] ?? $url)
             );
         }
         return false;

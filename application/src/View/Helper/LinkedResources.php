@@ -7,7 +7,8 @@ use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 class LinkedResources extends AbstractHelper
 {
     public function __construct()
-    {}
+    {
+    }
 
     public function __invoke(AbstractResourceEntityRepresentation $resource, int $siteId = null)
     {

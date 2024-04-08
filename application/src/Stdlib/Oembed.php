@@ -88,7 +88,7 @@ class Oembed
         if ('photo' === $type) {
             $url = $oembed['url'] ?? null;
             return sprintf(
-                '<img src="%s" width="%s" height="%s" alt="%s">',
+                '<img loading="lazy" src="%s" width="%s" height="%s" alt="%s">',
                 $view->escapeHtml($url),
                 $view->escapeHtml($oembed['width'] ?? ''),
                 $view->escapeHtml($oembed['height'] ?? ''),

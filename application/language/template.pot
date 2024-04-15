@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-20 13:32-0500\n"
+"POT-Creation-Date: 2024-04-15 12:26-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,7 +99,7 @@ msgid "[Untitled]"
 msgstr ""
 
 #: application/src/Api/Representation/ResourceTemplatePropertyRepresentation.php:129
-#: application/src/Form/BlockLayoutDataForm.php:54
+#: application/src/Form/BlockLayoutDataForm.php:61
 #: application/view/omeka/admin/resource-template/review-import.phtml:88
 msgid "Default"
 msgstr ""
@@ -109,8 +109,8 @@ msgstr ""
 #: application/view/common/navigation-link-form/url.phtml:15
 #: application/view/omeka/admin/resource-template/review-import.phtml:112
 #: application/view/omeka/admin/resource-template/review-import.phtml:113
-#: application/view/omeka/admin/resource-template/show.phtml:58
 #: application/view/omeka/admin/resource-template/show.phtml:59
+#: application/view/omeka/admin/resource-template/show.phtml:60
 #: application/view/omeka/admin/system-info/browse.phtml:18
 msgid "Yes"
 msgstr ""
@@ -120,8 +120,8 @@ msgstr ""
 #: application/view/common/navigation-link-form/url.phtml:14
 #: application/view/omeka/admin/resource-template/review-import.phtml:112
 #: application/view/omeka/admin/resource-template/review-import.phtml:113
-#: application/view/omeka/admin/resource-template/show.phtml:58
 #: application/view/omeka/admin/resource-template/show.phtml:59
+#: application/view/omeka/admin/resource-template/show.phtml:60
 #: application/view/omeka/admin/system-info/browse.phtml:18
 msgid "No"
 msgstr ""
@@ -212,7 +212,7 @@ msgstr ""
 #: application/view/common/data-type/resource.phtml:23
 #: application/view/layout/layout-admin.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:22
-#: application/view/omeka/admin/item-set/show.phtml:83
+#: application/view/omeka/admin/item-set/show.phtml:84
 #: application/view/omeka/admin/item/add.phtml:6
 #: application/view/omeka/admin/item/browse.phtml:7
 #: application/view/omeka/admin/item/edit.phtml:14
@@ -239,7 +239,7 @@ msgstr ""
 #: application/view/layout/layout-admin.phtml:76
 #: application/view/omeka/admin/item/form.phtml:15
 #: application/view/omeka/admin/item/show-details.phtml:48
-#: application/view/omeka/admin/item/show.phtml:99
+#: application/view/omeka/admin/item/show.phtml:100
 #: application/view/omeka/admin/media/browse.phtml:7
 #: application/view/omeka/admin/media/edit.phtml:17
 #: application/view/omeka/admin/media/edit.phtml:25
@@ -283,6 +283,21 @@ msgstr ""
 msgid "Password must:"
 msgstr ""
 
+#: application/src/Form/View/Helper/FormCollectionElementGroupsCollapsible.php:33
+#: application/src/Media/Ingester/Upload.php:75
+#: application/view/common/advanced-search/ids.phtml:13
+#: application/view/common/advanced-search/item-sets.phtml:44
+#: application/view/common/advanced-search/owner.phtml:4
+#: application/view/common/advanced-search/resource-class.phtml:25
+#: application/view/common/advanced-search/resource-template.phtml:17
+#: application/view/common/advanced-search/site.phtml:4
+#: application/view/common/form-row.phtml:16
+#: application/view/common/resource-values.phtml:66
+#: application/view/omeka/admin/item-set/sidebar-select.phtml:19
+#: application/view/omeka/admin/item/sidebar-select.phtml:28
+msgid "Expand"
+msgstr ""
+
 #: application/src/Form/VocabularyForm.php:79
 msgid ""
 "The namespace URI you entered does not end with a / or #, as is normally "
@@ -302,20 +317,6 @@ msgstr ""
 
 #: application/src/Media/Ingester/Upload.php:74
 msgid "Upload file"
-msgstr ""
-
-#: application/src/Media/Ingester/Upload.php:75
-#: application/view/common/advanced-search/ids.phtml:13
-#: application/view/common/advanced-search/item-sets.phtml:44
-#: application/view/common/advanced-search/owner.phtml:4
-#: application/view/common/advanced-search/resource-class.phtml:25
-#: application/view/common/advanced-search/resource-template.phtml:17
-#: application/view/common/advanced-search/site.phtml:4
-#: application/view/common/form-row.phtml:16
-#: application/view/common/resource-values.phtml:66
-#: application/view/omeka/admin/item-set/sidebar-select.phtml:19
-#: application/view/omeka/admin/item/sidebar-select.phtml:28
-msgid "Expand"
 msgstr ""
 
 #: application/src/Module/Manager.php:156
@@ -375,21 +376,24 @@ msgid ""
 "controller."
 msgstr ""
 
-#: application/src/Site/BlockLayout/Fallback.php:37
-msgid "This layout is invalid."
+#: application/src/Site/BlockLayout/BlockGroup.php:27
+msgid "Drag blocks here to group."
 msgstr ""
 
-#: application/src/Site/BlockLayout/ItemShowcase.php:22
-#: application/src/Site/BlockLayout/Media.php:21
-msgid "Options"
+#: application/src/Site/BlockLayout/Fallback.php:41
+msgid "This layout is invalid."
 msgstr ""
 
 #: application/src/Site/BlockLayout/LineBreak.php:41
 msgid "Break type"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ListOfPages.php:60
+#: application/src/Site/BlockLayout/ListOfPages.php:58
 msgid "Add pages"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Media.php:42
+msgid "Options"
 msgstr ""
 
 #: application/src/Site/BlockLayout/Oembed.php:113
@@ -399,11 +403,11 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
-#: application/src/Site/BlockLayout/TableOfContents.php:28
+#: application/src/Site/BlockLayout/TableOfContents.php:35
 msgid "Depth"
 msgstr ""
 
-#: application/src/Site/BlockLayout/TableOfContents.php:29
+#: application/src/Site/BlockLayout/TableOfContents.php:36
 msgid "Number of child page levels to display"
 msgstr ""
 
@@ -583,14 +587,14 @@ msgstr ""
 
 #: application/src/View/Helper/SearchFilters.php:64
 #: application/view/common/linked-resources.phtml:75
-#: application/view/omeka/admin/item-set/show.phtml:41
-#: application/view/omeka/admin/item/show.phtml:31
+#: application/view/omeka/admin/item-set/show.phtml:42
+#: application/view/omeka/admin/item/show.phtml:32
 #: application/view/omeka/admin/job/browse.phtml:20
 #: application/view/omeka/admin/job/show.phtml:42
-#: application/view/omeka/admin/media/show.phtml:24
+#: application/view/omeka/admin/media/show.phtml:25
 #: application/view/omeka/admin/resource-template/browse.phtml:27
 #: application/view/omeka/admin/resource-template/review-import.phtml:32
-#: application/view/omeka/admin/resource-template/show.phtml:18
+#: application/view/omeka/admin/resource-template/show.phtml:19
 msgid "Class"
 msgstr ""
 
@@ -678,11 +682,11 @@ msgstr ""
 
 #: application/src/View/Helper/SearchFilters.php:210
 #: application/view/omeka/admin/item-set/show-details.phtml:17
-#: application/view/omeka/admin/item-set/show.phtml:78
+#: application/view/omeka/admin/item-set/show.phtml:79
 #: application/view/omeka/admin/item/show-details.phtml:17
-#: application/view/omeka/admin/item/show.phtml:60
+#: application/view/omeka/admin/item/show.phtml:61
 #: application/view/omeka/admin/media/show-details.phtml:49
-#: application/view/omeka/admin/media/show.phtml:38
+#: application/view/omeka/admin/media/show.phtml:39
 msgid "Visibility"
 msgstr ""
 
@@ -692,11 +696,11 @@ msgstr ""
 #: application/view/common/property-form-batch-edit.phtml:46
 #: application/view/common/property-form-batch-edit.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:79
+#: application/view/omeka/admin/item-set/show.phtml:80
 #: application/view/omeka/admin/item/show-details.phtml:18
-#: application/view/omeka/admin/item/show.phtml:61
+#: application/view/omeka/admin/item/show.phtml:62
 #: application/view/omeka/admin/media/show-details.phtml:50
-#: application/view/omeka/admin/media/show.phtml:39
+#: application/view/omeka/admin/media/show.phtml:40
 msgid "Public"
 msgstr ""
 
@@ -722,19 +726,19 @@ msgstr ""
 
 #: application/src/View/Helper/SearchFilters.php:220
 #: application/view/omeka/admin/item-set/show-details.phtml:13
-#: application/view/omeka/admin/item-set/show.phtml:66
+#: application/view/omeka/admin/item-set/show.phtml:67
 #: application/view/omeka/admin/item/show-details.phtml:13
-#: application/view/omeka/admin/item/show.phtml:56
+#: application/view/omeka/admin/item/show.phtml:57
 #: application/view/omeka/admin/job/browse.phtml:19
 #: application/view/omeka/admin/media/show-details.phtml:18
-#: application/view/omeka/admin/media/show.phtml:34
+#: application/view/omeka/admin/media/show.phtml:35
 #: application/view/omeka/admin/user/edit.phtml:39
 msgid "ID"
 msgstr ""
 
 #: application/src/View/Helper/SearchUserFilters.php:49
 #: application/view/omeka/admin/user/browse.phtml:64
-#: application/view/omeka/admin/user/show.phtml:18
+#: application/view/omeka/admin/user/show.phtml:19
 msgid "Email"
 msgstr ""
 
@@ -745,7 +749,7 @@ msgstr ""
 
 #: application/src/View/Helper/SearchUserFilters.php:59
 #: application/view/omeka/admin/user/browse.phtml:66
-#: application/view/omeka/admin/user/show.phtml:30
+#: application/view/omeka/admin/user/show.phtml:31
 #: application/view/omeka/site-admin/index/users.phtml:55
 msgid "Role"
 msgstr ""
@@ -757,17 +761,17 @@ msgstr ""
 #: application/src/View/Helper/SearchUserFilters.php:65
 #: application/view/common/sidebar-select-quick-add.phtml:4
 #: application/view/common/sidebar-select-quick-add.phtml:13
-#: application/view/omeka/admin/user/show.phtml:36
+#: application/view/omeka/admin/user/show.phtml:37
 msgid "Is active"
 msgstr ""
 
 #: application/src/View/Helper/SearchUserFilters.php:66
-#: application/view/omeka/admin/user/show.phtml:38
+#: application/view/omeka/admin/user/show.phtml:39
 msgid "yes"
 msgstr ""
 
 #: application/src/View/Helper/SearchUserFilters.php:66
-#: application/view/omeka/admin/user/show.phtml:38
+#: application/view/omeka/admin/user/show.phtml:39
 msgid "no"
 msgstr ""
 
@@ -784,29 +788,29 @@ msgstr ""
 #: application/src/View/Helper/UserBar.php:120
 #: application/src/View/Helper/UserBar.php:166
 #: application/view/common/query-form.phtml:23
-#: application/view/omeka/admin/asset/browse.phtml:57
+#: application/view/omeka/admin/asset/browse.phtml:58
 #: application/view/omeka/admin/asset/edit.phtml:10
-#: application/view/omeka/admin/item-set/browse.phtml:74
+#: application/view/omeka/admin/item-set/browse.phtml:75
 #: application/view/omeka/admin/item-set/edit.phtml:14
-#: application/view/omeka/admin/item/browse.phtml:73
+#: application/view/omeka/admin/item/browse.phtml:74
 #: application/view/omeka/admin/item/edit.phtml:14
 #: application/view/omeka/admin/item/manage-media.phtml:55
-#: application/view/omeka/admin/media/browse.phtml:69
-#: application/view/omeka/admin/resource-template/browse.phtml:54
-#: application/view/omeka/admin/user/browse.phtml:87
+#: application/view/omeka/admin/media/browse.phtml:70
+#: application/view/omeka/admin/resource-template/browse.phtml:55
+#: application/view/omeka/admin/user/browse.phtml:88
 #: application/view/omeka/admin/user/edit.phtml:14
-#: application/view/omeka/admin/vocabulary/browse.phtml:42
+#: application/view/omeka/admin/vocabulary/browse.phtml:43
 #: application/view/omeka/admin/vocabulary/edit.phtml:8
-#: application/view/omeka/site-admin/index/index.phtml:46
-#: application/view/omeka/site-admin/index/show.phtml:11
+#: application/view/omeka/site-admin/index/index.phtml:47
+#: application/view/omeka/site-admin/index/show.phtml:12
 #: application/view/omeka/site-admin/page/edit.phtml:11
-#: application/view/omeka/site-admin/page/index.phtml:56
+#: application/view/omeka/site-admin/page/index.phtml:57
 msgid "Edit"
 msgstr ""
 
 #: application/src/View/Helper/UserBar.php:159
-#: application/view/omeka/site-admin/index/show.phtml:13
-#: application/view/omeka/site-admin/page/edit.phtml:28
+#: application/view/omeka/site-admin/index/show.phtml:14
+#: application/view/omeka/site-admin/page/edit.phtml:29
 msgid "View"
 msgstr ""
 
@@ -967,13 +971,13 @@ msgid "Restore attachment"
 msgstr ""
 
 #: application/view/common/asset-block-form.phtml:20
-#: application/view/common/block-layout.phtml:39
+#: application/view/common/block-layout.phtml:58
 #: application/view/common/resource-form-templates.phtml:10
 #: application/view/common/resource-values.phtml:66
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:19
 #: application/view/omeka/admin/item/sidebar-select.phtml:28
 #: application/view/omeka/site-admin/page/attachment-item-options.phtml:35
-#: application/view/omeka/site-admin/page/edit.phtml:120
+#: application/view/omeka/site-admin/page/edit.phtml:131
 msgid "Collapse"
 msgstr ""
 
@@ -1028,40 +1032,40 @@ msgstr ""
 #: application/view/common/site-selector.phtml:2
 #: application/view/common/user-selector.phtml:6
 #: application/view/common/value-annotation-sidebar.phtml:2
-#: application/view/omeka/admin/asset/browse.phtml:90
-#: application/view/omeka/admin/asset/browse.phtml:107
+#: application/view/omeka/admin/asset/browse.phtml:91
+#: application/view/omeka/admin/asset/browse.phtml:108
 #: application/view/omeka/admin/asset/sidebar-select.phtml:8
 #: application/view/omeka/admin/columns/column-edit-sidebar.phtml:1
-#: application/view/omeka/admin/item-set/browse.phtml:109
-#: application/view/omeka/admin/item-set/browse.phtml:116
-#: application/view/omeka/admin/item-set/browse.phtml:134
-#: application/view/omeka/admin/item/browse.phtml:108
-#: application/view/omeka/admin/item/browse.phtml:115
-#: application/view/omeka/admin/item/browse.phtml:133
+#: application/view/omeka/admin/item-set/browse.phtml:110
+#: application/view/omeka/admin/item-set/browse.phtml:117
+#: application/view/omeka/admin/item-set/browse.phtml:135
+#: application/view/omeka/admin/item/browse.phtml:109
+#: application/view/omeka/admin/item/browse.phtml:116
+#: application/view/omeka/admin/item/browse.phtml:134
 #: application/view/omeka/admin/item/manage-media.phtml:82
-#: application/view/omeka/admin/media/browse.phtml:104
-#: application/view/omeka/admin/media/browse.phtml:112
-#: application/view/omeka/admin/media/browse.phtml:130
+#: application/view/omeka/admin/media/browse.phtml:105
+#: application/view/omeka/admin/media/browse.phtml:113
+#: application/view/omeka/admin/media/browse.phtml:131
 #: application/view/omeka/admin/module/browse.phtml:158
 #: application/view/omeka/admin/query/sidebar-edit.phtml:3
 #: application/view/omeka/admin/query/sidebar-preview.phtml:1
-#: application/view/omeka/admin/resource-template/browse.phtml:81
+#: application/view/omeka/admin/resource-template/browse.phtml:82
 #: application/view/omeka/admin/resource-template/form.phtml:43
 #: application/view/omeka/admin/resource-template/form.phtml:52
-#: application/view/omeka/admin/resource-template/show.phtml:69
-#: application/view/omeka/admin/user/browse.phtml:123
-#: application/view/omeka/admin/user/browse.phtml:132
-#: application/view/omeka/admin/user/browse.phtml:150
-#: application/view/omeka/admin/vocabulary/browse.phtml:75
-#: application/view/omeka/admin/vocabulary/classes.phtml:52
-#: application/view/omeka/admin/vocabulary/properties.phtml:53
-#: application/view/omeka/site-admin/index/index.phtml:71
+#: application/view/omeka/admin/resource-template/show.phtml:70
+#: application/view/omeka/admin/user/browse.phtml:124
+#: application/view/omeka/admin/user/browse.phtml:133
+#: application/view/omeka/admin/user/browse.phtml:151
+#: application/view/omeka/admin/vocabulary/browse.phtml:76
+#: application/view/omeka/admin/vocabulary/classes.phtml:53
+#: application/view/omeka/admin/vocabulary/properties.phtml:54
+#: application/view/omeka/site-admin/index/index.phtml:72
 #: application/view/omeka/site-admin/index/navigation.phtml:30
-#: application/view/omeka/site-admin/page/edit.phtml:79
-#: application/view/omeka/site-admin/page/edit.phtml:96
-#: application/view/omeka/site-admin/page/edit.phtml:103
+#: application/view/omeka/site-admin/page/edit.phtml:85
+#: application/view/omeka/site-admin/page/edit.phtml:107
 #: application/view/omeka/site-admin/page/edit.phtml:114
-#: application/view/omeka/site-admin/page/index.phtml:78
+#: application/view/omeka/site-admin/page/edit.phtml:125
+#: application/view/omeka/site-admin/page/index.phtml:79
 msgid "Close"
 msgstr ""
 
@@ -1074,13 +1078,13 @@ msgid "Alternative link title"
 msgstr ""
 
 #: application/view/common/asset-options.phtml:44
-#: application/view/omeka/site-admin/page/edit.phtml:117
+#: application/view/omeka/site-admin/page/edit.phtml:128
 msgid "Caption"
 msgstr ""
 
 #: application/view/common/asset-options.phtml:50
-#: application/view/omeka/site-admin/page/edit.phtml:108
-#: application/view/omeka/site-admin/page/edit.phtml:128
+#: application/view/omeka/site-admin/page/edit.phtml:119
+#: application/view/omeka/site-admin/page/edit.phtml:139
 msgid "Apply changes"
 msgstr ""
 
@@ -1102,22 +1106,8 @@ msgstr ""
 msgid "Add attachment"
 msgstr ""
 
-#: application/view/common/background-form.phtml:2
-msgid "Vertical anchor position"
-msgstr ""
-
-#: application/view/common/background-form.phtml:4
-msgid "Horizontal anchor position"
-msgstr ""
-
-#: application/view/common/background-form.phtml:6
-#: application/view/omeka/admin/media/show-details.phtml:43
-#: application/view/omeka/admin/media/show.phtml:64
-msgid "Size"
-msgstr ""
-
 #: application/view/common/block-layout.phtml:5
-msgid "Auto placement"
+msgid "Auto"
 msgstr ""
 
 #: application/view/common/block-layout.phtml:7
@@ -1130,28 +1120,48 @@ msgstr ""
 msgid "Span %s"
 msgstr ""
 
-#: application/view/common/block-layout.phtml:21
+#: application/view/common/block-layout.phtml:17
 msgid "Block to be removed"
 msgstr ""
 
-#: application/view/common/block-layout.phtml:35
-#: application/view/omeka/site-admin/page/edit.phtml:65
+#: application/view/common/block-layout.phtml:20
+msgid "Block and contents to be removed"
+msgstr ""
+
+#: application/view/common/block-layout.phtml:31
+msgid "Position"
+msgstr ""
+
+#: application/view/common/block-layout.phtml:38
+msgid "Span"
+msgstr ""
+
+#: application/view/common/block-layout.phtml:49
+#: application/view/omeka/site-admin/page/edit.phtml:70
 msgid "Preview layout"
 msgstr ""
 
-#: application/view/common/block-layout.phtml:36
-#: application/view/omeka/site-admin/page/edit.phtml:66
+#: application/view/common/block-layout.phtml:51
+#: application/view/omeka/site-admin/page/edit.phtml:71
 msgid "Configure layout"
 msgstr ""
 
-#: application/view/common/block-layout.phtml:37
+#: application/view/common/block-layout.phtml:52
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:6
 msgid "Remove block"
 msgstr ""
 
-#: application/view/common/block-layout.phtml:38
+#: application/view/common/block-layout.phtml:53
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:7
 msgid "Restore block"
+msgstr ""
+
+#: application/view/common/block-layout.phtml:55
+msgid "Expand group"
+msgstr ""
+
+#: application/view/common/block-layout.phtml:56
+msgid "Collapse group"
 msgstr ""
 
 #: application/view/common/block-layout/item-with-metadata.phtml:19
@@ -1167,7 +1177,7 @@ msgstr ""
 #: application/view/omeka/admin/item-set/show.phtml:26
 #: application/view/omeka/admin/item/form.phtml:16
 #: application/view/omeka/admin/item/show-details.phtml:23
-#: application/view/omeka/admin/item/show.phtml:66
+#: application/view/omeka/admin/item/show.phtml:67
 #: application/view/omeka/admin/user/show-details.phtml:17
 #: application/view/omeka/site-admin/index/resources.phtml:23
 #: application/view/omeka/site/item-set/browse.phtml:13
@@ -1175,9 +1185,9 @@ msgid "Item sets"
 msgstr ""
 
 #: application/view/common/block-layout/page-date-time.phtml:13
-#: application/view/omeka/admin/item-set/show.phtml:70
-#: application/view/omeka/admin/item/show.phtml:90
-#: application/view/omeka/admin/media/show.phtml:47
+#: application/view/omeka/admin/item-set/show.phtml:71
+#: application/view/omeka/admin/item/show.phtml:91
+#: application/view/omeka/admin/media/show.phtml:48
 #: application/view/omeka/admin/user/browse.phtml:67
 #: application/view/omeka/site-admin/page/index.phtml:26
 msgid "Created"
@@ -1304,7 +1314,7 @@ msgstr ""
 #: application/view/omeka/site-admin/index/add-page.phtml:18
 #: application/view/omeka/site-admin/index/add.phtml:26
 #: application/view/omeka/site-admin/index/edit.phtml:15
-#: application/view/omeka/site-admin/page/edit.phtml:18
+#: application/view/omeka/site-admin/page/edit.phtml:19
 msgid "Make private"
 msgstr ""
 
@@ -1325,7 +1335,7 @@ msgstr ""
 #: application/view/common/data-type/value-annotation-literal.phtml:5
 #: application/view/common/data-type/value-annotation-uri.phtml:5
 #: application/view/omeka/admin/media/show-details.phtml:29
-#: application/view/omeka/admin/media/show.phtml:52
+#: application/view/omeka/admin/media/show.phtml:53
 msgid "Language"
 msgstr ""
 
@@ -1417,11 +1427,11 @@ msgstr ""
 #: application/view/omeka/admin/item-set/browse.phtml:54
 #: application/view/omeka/admin/item/browse.phtml:54
 #: application/view/omeka/admin/item/manage-item-sets.phtml:39
-#: application/view/omeka/admin/item/manage-sites.phtml:36
+#: application/view/omeka/admin/item/manage-sites.phtml:58
 #: application/view/omeka/admin/media/browse.phtml:49
 #: application/view/omeka/site-admin/index/index.phtml:25
 #: application/view/omeka/site-admin/index/resources.phtml:66
-#: application/view/omeka/site-admin/index/show.phtml:25
+#: application/view/omeka/site-admin/index/show.phtml:26
 #: application/view/omeka/site-admin/page/index.phtml:24
 msgid "Title"
 msgstr ""
@@ -1442,7 +1452,7 @@ msgstr ""
 
 #: application/view/common/navigation-link-form/page.phtml:14
 #: application/view/common/pagination.phtml:15
-#: application/view/common/sidebar-pagination.phtml:5
+#: application/view/common/sidebar-pagination.phtml:6
 msgid "Page"
 msgstr ""
 
@@ -1454,33 +1464,49 @@ msgstr ""
 msgid "Open in new tab"
 msgstr ""
 
+#: application/view/common/padding-form.phtml:1
+msgid "Top"
+msgstr ""
+
+#: application/view/common/padding-form.phtml:2
+msgid "Right"
+msgstr ""
+
+#: application/view/common/padding-form.phtml:3
+msgid "Bottom"
+msgstr ""
+
+#: application/view/common/padding-form.phtml:4
+msgid "Left"
+msgstr ""
+
 #: application/view/common/page-select-sidebar.phtml:8
 msgid "Select Pages"
 msgstr ""
 
 #: application/view/common/pagination.phtml:16
-#: application/view/common/sidebar-pagination.phtml:6
+#: application/view/common/sidebar-pagination.phtml:7
 #, php-format
 msgid "of %s"
 msgstr ""
 
-#: application/view/common/pagination.phtml:20
-#: application/view/common/sidebar-pagination.phtml:9
+#: application/view/common/pagination.phtml:21
+#: application/view/common/sidebar-pagination.phtml:11
 msgid "Previous"
 msgstr ""
 
-#: application/view/common/pagination.phtml:26
-#: application/view/common/sidebar-pagination.phtml:15
+#: application/view/common/pagination.phtml:27
+#: application/view/common/sidebar-pagination.phtml:17
 #: application/view/common/site-page-pagination.phtml:4
 msgid "Next"
 msgstr ""
 
-#: application/view/common/pagination.phtml:35
+#: application/view/common/pagination.phtml:37
 #, php-format
 msgid "%1$s–%2$s of %3$s"
 msgstr ""
 
-#: application/view/common/pagination.phtml:37
+#: application/view/common/pagination.phtml:39
 msgid "0 results"
 msgstr ""
 
@@ -1544,7 +1570,7 @@ msgstr ""
 
 #: application/view/common/query-form.phtml:27
 #: application/view/omeka/site-admin/index/users.phtml:8
-#: application/view/omeka/site-admin/page/edit.phtml:67
+#: application/view/omeka/site-admin/page/edit.phtml:73
 msgid "Restore"
 msgstr ""
 
@@ -1594,13 +1620,13 @@ msgstr ""
 #: application/view/common/sidebar-pagelist.phtml:26
 #: application/view/omeka/admin/item-set/browse.phtml:68
 #: application/view/omeka/admin/item-set/show-details.phtml:18
-#: application/view/omeka/admin/item-set/show.phtml:79
+#: application/view/omeka/admin/item-set/show.phtml:80
 #: application/view/omeka/admin/item/browse.phtml:67
 #: application/view/omeka/admin/item/show-details.phtml:18
-#: application/view/omeka/admin/item/show.phtml:61
+#: application/view/omeka/admin/item/show.phtml:62
 #: application/view/omeka/admin/media/browse.phtml:63
 #: application/view/omeka/admin/media/show-details.phtml:50
-#: application/view/omeka/admin/media/show.phtml:39
+#: application/view/omeka/admin/media/show.phtml:40
 #: application/view/omeka/admin/resource-template/form.phtml:90
 #: application/view/omeka/site-admin/index/index.phtml:35
 #: application/view/omeka/site-admin/index/navigation.phtml:62
@@ -1674,7 +1700,7 @@ msgstr ""
 #: application/view/common/site-selector.phtml:7
 #: application/view/omeka/admin/item/form.phtml:17
 #: application/view/omeka/admin/item/show-details.phtml:32
-#: application/view/omeka/admin/item/show.phtml:75
+#: application/view/omeka/admin/item/show.phtml:76
 #: application/view/omeka/index/index.phtml:6
 #: application/view/omeka/site-admin/index/add.phtml:12
 #: application/view/omeka/site-admin/index/edit.phtml:8
@@ -1757,7 +1783,7 @@ msgstr ""
 #: application/view/omeka/site-admin/index/add-page.phtml:12
 #: application/view/omeka/site-admin/index/add.phtml:20
 #: application/view/omeka/site-admin/index/edit.phtml:21
-#: application/view/omeka/site-admin/page/edit.phtml:24
+#: application/view/omeka/site-admin/page/edit.phtml:25
 msgid "Make public"
 msgstr ""
 
@@ -1827,7 +1853,7 @@ msgid "User menu"
 msgstr ""
 
 #: application/view/layout/layout-admin.phtml:50
-#: application/view/omeka/admin/user/show.phtml:11
+#: application/view/omeka/admin/user/show.phtml:12
 msgid "Edit user"
 msgstr ""
 
@@ -1857,7 +1883,7 @@ msgstr ""
 
 #: application/view/layout/layout-admin.phtml:85
 #: application/view/omeka/admin/index/browse.phtml:50
-#: application/view/omeka/site-admin/index/index.phtml:41
+#: application/view/omeka/site-admin/index/index.phtml:42
 msgid "View public site"
 msgstr ""
 
@@ -1923,10 +1949,10 @@ msgid "Add new asset"
 msgstr ""
 
 #: application/view/omeka/admin/asset/browse.phtml:28
-#: application/view/omeka/admin/item-set/show.phtml:74
+#: application/view/omeka/admin/item-set/show.phtml:75
 #: application/view/omeka/admin/item/manage-item-sets.phtml:40
-#: application/view/omeka/admin/item/manage-sites.phtml:37
-#: application/view/omeka/admin/item/show.phtml:94
+#: application/view/omeka/admin/item/manage-sites.phtml:59
+#: application/view/omeka/admin/item/show.phtml:95
 #: application/view/omeka/admin/job/browse.phtml:22
 #: application/view/omeka/admin/job/show.phtml:46
 #: application/view/omeka/admin/resource-template/browse.phtml:28
@@ -1934,42 +1960,42 @@ msgstr ""
 msgid "Owner"
 msgstr ""
 
-#: application/view/omeka/admin/asset/browse.phtml:65
+#: application/view/omeka/admin/asset/browse.phtml:66
 #: application/view/omeka/admin/asset/edit.phtml:6
-#: application/view/omeka/admin/item-set/browse.phtml:82
+#: application/view/omeka/admin/item-set/browse.phtml:83
 #: application/view/omeka/admin/item-set/edit.phtml:6
-#: application/view/omeka/admin/item/browse.phtml:81
+#: application/view/omeka/admin/item/browse.phtml:82
 #: application/view/omeka/admin/item/edit.phtml:6
-#: application/view/omeka/admin/media/browse.phtml:77
+#: application/view/omeka/admin/media/browse.phtml:78
 #: application/view/omeka/admin/media/edit.phtml:65
-#: application/view/omeka/admin/resource-template/browse.phtml:61
+#: application/view/omeka/admin/resource-template/browse.phtml:62
 #: application/view/omeka/admin/resource-template/form.phtml:13
-#: application/view/omeka/admin/user/browse.phtml:94
+#: application/view/omeka/admin/user/browse.phtml:95
 #: application/view/omeka/admin/user/edit.phtml:40
-#: application/view/omeka/admin/vocabulary/browse.phtml:49
-#: application/view/omeka/admin/vocabulary/edit.phtml:12
+#: application/view/omeka/admin/vocabulary/browse.phtml:50
+#: application/view/omeka/admin/vocabulary/edit.phtml:13
 #: application/view/omeka/site-admin/index/edit.phtml:26
-#: application/view/omeka/site-admin/index/index.phtml:53
+#: application/view/omeka/site-admin/index/index.phtml:54
 #: application/view/omeka/site-admin/index/users.phtml:7
-#: application/view/omeka/site-admin/page/edit.phtml:29
+#: application/view/omeka/site-admin/page/edit.phtml:30
 msgid "Delete"
 msgstr ""
 
-#: application/view/omeka/admin/asset/browse.phtml:72
-#: application/view/omeka/admin/item-set/browse.phtml:89
-#: application/view/omeka/admin/item/browse.phtml:88
-#: application/view/omeka/admin/media/browse.phtml:84
-#: application/view/omeka/admin/resource-template/browse.phtml:67
+#: application/view/omeka/admin/asset/browse.phtml:73
+#: application/view/omeka/admin/item-set/browse.phtml:90
+#: application/view/omeka/admin/item/browse.phtml:89
+#: application/view/omeka/admin/media/browse.phtml:85
+#: application/view/omeka/admin/resource-template/browse.phtml:68
 #: application/view/omeka/admin/resource-template/show-property-row.phtml:28
-#: application/view/omeka/admin/resource-template/show.phtml:45
-#: application/view/omeka/admin/user/browse.phtml:101
-#: application/view/omeka/admin/vocabulary/browse.phtml:56
-#: application/view/omeka/admin/vocabulary/classes.phtml:37
-#: application/view/omeka/admin/vocabulary/properties.phtml:38
+#: application/view/omeka/admin/resource-template/show.phtml:46
+#: application/view/omeka/admin/user/browse.phtml:102
+#: application/view/omeka/admin/vocabulary/browse.phtml:57
+#: application/view/omeka/admin/vocabulary/classes.phtml:38
+#: application/view/omeka/admin/vocabulary/properties.phtml:39
 msgid "Details"
 msgstr ""
 
-#: application/view/omeka/admin/asset/browse.phtml:98
+#: application/view/omeka/admin/asset/browse.phtml:99
 #: application/view/omeka/admin/asset/sidebar-select.phtml:56
 msgid "Omeka could not find any assets."
 msgstr ""
@@ -2177,48 +2203,48 @@ msgstr ""
 msgid "Select item set"
 msgstr ""
 
-#: application/view/omeka/admin/item-set/browse.phtml:120
-#: application/view/omeka/admin/item-set/browse.phtml:138
+#: application/view/omeka/admin/item-set/browse.phtml:121
+#: application/view/omeka/admin/item-set/browse.phtml:139
 msgid "Delete item sets"
 msgstr ""
 
-#: application/view/omeka/admin/item-set/browse.phtml:121
+#: application/view/omeka/admin/item-set/browse.phtml:122
 msgid "Are you sure you would like to delete the selected item sets?"
 msgstr ""
 
-#: application/view/omeka/admin/item-set/browse.phtml:123
-#: application/view/omeka/admin/item-set/browse.phtml:141
+#: application/view/omeka/admin/item-set/browse.phtml:124
+#: application/view/omeka/admin/item-set/browse.phtml:142
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s item sets and cannot be "
 "undone."
 msgstr ""
 
-#: application/view/omeka/admin/item-set/browse.phtml:124
-#: application/view/omeka/admin/item-set/browse.phtml:142
-#: application/view/omeka/admin/item/browse.phtml:123
-#: application/view/omeka/admin/item/browse.phtml:141
-#: application/view/omeka/admin/media/browse.phtml:120
-#: application/view/omeka/admin/media/browse.phtml:138
-#: application/view/omeka/admin/user/browse.phtml:140
-#: application/view/omeka/admin/user/browse.phtml:158
+#: application/view/omeka/admin/item-set/browse.phtml:125
+#: application/view/omeka/admin/item-set/browse.phtml:143
+#: application/view/omeka/admin/item/browse.phtml:124
+#: application/view/omeka/admin/item/browse.phtml:142
+#: application/view/omeka/admin/media/browse.phtml:121
+#: application/view/omeka/admin/media/browse.phtml:139
+#: application/view/omeka/admin/user/browse.phtml:141
+#: application/view/omeka/admin/user/browse.phtml:159
 msgid "Warning"
 msgstr ""
 
-#: application/view/omeka/admin/item-set/browse.phtml:139
+#: application/view/omeka/admin/item-set/browse.phtml:140
 msgid ""
 "Are you sure you would like to delete all item sets on all pages of this "
 "result?"
 msgstr ""
 
-#: application/view/omeka/admin/item-set/browse.phtml:145
-#: application/view/omeka/admin/item/browse.phtml:144
-#: application/view/omeka/admin/media/browse.phtml:141
-#: application/view/omeka/admin/user/browse.phtml:161
+#: application/view/omeka/admin/item-set/browse.phtml:146
+#: application/view/omeka/admin/item/browse.phtml:145
+#: application/view/omeka/admin/media/browse.phtml:142
+#: application/view/omeka/admin/user/browse.phtml:162
 msgid "Are you sure?"
 msgstr ""
 
-#: application/view/omeka/admin/item-set/browse.phtml:179
+#: application/view/omeka/admin/item-set/browse.phtml:180
 msgid "Omeka could not find any item sets."
 msgstr ""
 
@@ -2230,7 +2256,7 @@ msgstr ""
 #: application/view/omeka/admin/setting/browse.phtml:11
 #: application/view/omeka/admin/user/batch-edit.phtml:19
 #: application/view/omeka/admin/user/edit.phtml:19
-#: application/view/omeka/admin/vocabulary/edit.phtml:14
+#: application/view/omeka/admin/vocabulary/edit.phtml:15
 #: application/view/omeka/site-admin/index/edit.phtml:29
 #: application/view/omeka/site-admin/index/navigation.phtml:21
 #: application/view/omeka/site-admin/index/resources.phtml:31
@@ -2238,7 +2264,7 @@ msgstr ""
 #: application/view/omeka/site-admin/index/theme-settings.phtml:12
 #: application/view/omeka/site-admin/index/theme.phtml:18
 #: application/view/omeka/site-admin/index/users.phtml:48
-#: application/view/omeka/site-admin/page/edit.phtml:31
+#: application/view/omeka/site-admin/page/edit.phtml:32
 msgid "Save"
 msgstr ""
 
@@ -2251,12 +2277,12 @@ msgid "Open item set"
 msgstr ""
 
 #: application/view/omeka/admin/item-set/show-details.phtml:19
-#: application/view/omeka/admin/item-set/show.phtml:80
+#: application/view/omeka/admin/item-set/show.phtml:81
 msgid "Open to additions"
 msgstr ""
 
 #: application/view/omeka/admin/item-set/show-details.phtml:19
-#: application/view/omeka/admin/item-set/show.phtml:80
+#: application/view/omeka/admin/item-set/show.phtml:81
 msgid "Closed to additions"
 msgstr ""
 
@@ -2266,19 +2292,19 @@ msgstr ""
 msgid "Metadata"
 msgstr ""
 
-#: application/view/omeka/admin/item-set/show.phtml:30
+#: application/view/omeka/admin/item-set/show.phtml:31
 msgid "Edit item set"
 msgstr ""
 
-#: application/view/omeka/admin/item-set/show.phtml:32
+#: application/view/omeka/admin/item-set/show.phtml:33
 msgid "View items"
 msgstr ""
 
-#: application/view/omeka/admin/item-set/show.phtml:51
+#: application/view/omeka/admin/item-set/show.phtml:52
 msgid "The following resources link to this item set:"
 msgstr ""
 
-#: application/view/omeka/admin/item-set/show.phtml:59
+#: application/view/omeka/admin/item-set/show.phtml:60
 msgid "No resources link to this item set."
 msgstr ""
 
@@ -2292,7 +2318,7 @@ msgid "Filter by item set ID"
 msgstr ""
 
 #: application/view/omeka/admin/item-set/sidebar-select.phtml:70
-#: application/view/omeka/admin/item/browse.phtml:178
+#: application/view/omeka/admin/item/browse.phtml:179
 #: application/view/omeka/admin/item/sidebar-select.phtml:100
 msgid "Omeka could not find any items."
 msgstr ""
@@ -2329,23 +2355,23 @@ msgstr ""
 msgid "Select item"
 msgstr ""
 
-#: application/view/omeka/admin/item/browse.phtml:119
-#: application/view/omeka/admin/item/browse.phtml:137
+#: application/view/omeka/admin/item/browse.phtml:120
+#: application/view/omeka/admin/item/browse.phtml:138
 msgid "Delete items"
 msgstr ""
 
-#: application/view/omeka/admin/item/browse.phtml:120
+#: application/view/omeka/admin/item/browse.phtml:121
 msgid "Are you sure you would like to delete the selected items?"
 msgstr ""
 
-#: application/view/omeka/admin/item/browse.phtml:122
-#: application/view/omeka/admin/item/browse.phtml:140
+#: application/view/omeka/admin/item/browse.phtml:123
+#: application/view/omeka/admin/item/browse.phtml:141
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s items and cannot be undone."
 msgstr ""
 
-#: application/view/omeka/admin/item/browse.phtml:138
+#: application/view/omeka/admin/item/browse.phtml:139
 msgid ""
 "Are you sure you would like to delete all items on all pages of this result?"
 msgstr ""
@@ -2384,31 +2410,31 @@ msgstr ""
 msgid "Add media"
 msgstr ""
 
-#: application/view/omeka/admin/item/manage-sites.phtml:27
+#: application/view/omeka/admin/item/manage-sites.phtml:49
 msgid "Unassign from site"
 msgstr ""
 
-#: application/view/omeka/admin/item/manage-sites.phtml:45
+#: application/view/omeka/admin/item/manage-sites.phtml:75
 msgid ""
 "This item is part of no sites. Add it to a site using the interface to the "
 "right."
 msgstr ""
 
-#: application/view/omeka/admin/item/manage-sites.phtml:48
+#: application/view/omeka/admin/item/manage-sites.phtml:78
 msgid "Assign to site"
 msgstr ""
 
 #: application/view/omeka/admin/item/show-details.phtml:37
-#: application/view/omeka/admin/item/show.phtml:80
+#: application/view/omeka/admin/item/show.phtml:81
 #, php-format
 msgid "View this item in \"%s\""
 msgstr ""
 
-#: application/view/omeka/admin/item/show.phtml:21
+#: application/view/omeka/admin/item/show.phtml:22
 msgid "Edit item"
 msgstr ""
 
-#: application/view/omeka/admin/item/show.phtml:48
+#: application/view/omeka/admin/item/show.phtml:49
 msgid "No resources link to this item."
 msgstr ""
 
@@ -2489,28 +2515,28 @@ msgstr ""
 msgid "Select media"
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:116
-#: application/view/omeka/admin/media/browse.phtml:134
+#: application/view/omeka/admin/media/browse.phtml:117
+#: application/view/omeka/admin/media/browse.phtml:135
 msgid "Delete media"
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:117
+#: application/view/omeka/admin/media/browse.phtml:118
 msgid "Are you sure you would like to delete the selected media?"
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:119
-#: application/view/omeka/admin/media/browse.phtml:137
+#: application/view/omeka/admin/media/browse.phtml:120
+#: application/view/omeka/admin/media/browse.phtml:138
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s media and cannot be undone."
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:135
+#: application/view/omeka/admin/media/browse.phtml:136
 msgid ""
 "Are you sure you would like to delete all media on all pages of this result?"
 msgstr ""
 
-#: application/view/omeka/admin/media/browse.phtml:175
+#: application/view/omeka/admin/media/browse.phtml:176
 #: application/view/omeka/admin/media/sidebar-select.phtml:38
 msgid "Omeka could not find any media."
 msgstr ""
@@ -2520,49 +2546,54 @@ msgid "Part of Item"
 msgstr ""
 
 #: application/view/omeka/admin/media/show-details.phtml:36
-#: application/view/omeka/admin/media/show.phtml:58
+#: application/view/omeka/admin/media/show.phtml:59
 msgid "MIME type"
 msgstr ""
 
-#: application/view/omeka/admin/media/show-details.phtml:44
+#: application/view/omeka/admin/media/show-details.phtml:43
 #: application/view/omeka/admin/media/show.phtml:65
+msgid "Size"
+msgstr ""
+
+#: application/view/omeka/admin/media/show-details.phtml:44
+#: application/view/omeka/admin/media/show.phtml:66
 #, php-format
 msgid "%s bytes"
 msgstr ""
 
-#: application/view/omeka/admin/media/show.phtml:14
+#: application/view/omeka/admin/media/show.phtml:15
 msgid "Edit media"
 msgstr ""
 
-#: application/view/omeka/admin/media/show.phtml:42
+#: application/view/omeka/admin/media/show.phtml:43
 msgid "Part of item"
 msgstr ""
 
-#: application/view/omeka/admin/media/show.phtml:69
+#: application/view/omeka/admin/media/show.phtml:70
 msgid "Ingester"
 msgstr ""
 
-#: application/view/omeka/admin/media/show.phtml:74
+#: application/view/omeka/admin/media/show.phtml:75
 msgid "Source"
 msgstr ""
 
-#: application/view/omeka/admin/media/show.phtml:80
+#: application/view/omeka/admin/media/show.phtml:81
 msgid "File Derivatives"
 msgstr ""
 
-#: application/view/omeka/admin/media/show.phtml:82
+#: application/view/omeka/admin/media/show.phtml:83
 msgid "original"
 msgstr ""
 
-#: application/view/omeka/admin/media/show.phtml:85
+#: application/view/omeka/admin/media/show.phtml:86
 msgid "large"
 msgstr ""
 
-#: application/view/omeka/admin/media/show.phtml:86
+#: application/view/omeka/admin/media/show.phtml:87
 msgid "medium"
 msgstr ""
 
-#: application/view/omeka/admin/media/show.phtml:87
+#: application/view/omeka/admin/media/show.phtml:88
 msgid "square"
 msgstr ""
 
@@ -2672,7 +2703,7 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: application/view/omeka/admin/resource-template/browse.phtml:89
+#: application/view/omeka/admin/resource-template/browse.phtml:90
 msgid "Omeka could not find any resource templates."
 msgstr ""
 
@@ -2704,13 +2735,13 @@ msgstr ""
 
 #: application/view/omeka/admin/resource-template/form.phtml:96
 #: application/view/omeka/admin/resource-template/review-import.phtml:72
-#: application/view/omeka/admin/resource-template/show.phtml:32
+#: application/view/omeka/admin/resource-template/show.phtml:33
 msgid "Default language"
 msgstr ""
 
 #: application/view/omeka/admin/resource-template/form.phtml:101
 #: application/view/omeka/admin/resource-template/review-import.phtml:67
-#: application/view/omeka/admin/resource-template/show.phtml:27
+#: application/view/omeka/admin/resource-template/show.phtml:28
 msgid "Data types"
 msgstr ""
 
@@ -2744,27 +2775,27 @@ msgid "Resource description"
 msgstr ""
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:66
-#: application/view/omeka/admin/resource-template/show.phtml:26
+#: application/view/omeka/admin/resource-template/show.phtml:27
 msgid "Original label"
 msgstr ""
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:68
-#: application/view/omeka/admin/resource-template/show.phtml:28
+#: application/view/omeka/admin/resource-template/show.phtml:29
 msgid "Alternate label"
 msgstr ""
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:69
-#: application/view/omeka/admin/resource-template/show.phtml:29
+#: application/view/omeka/admin/resource-template/show.phtml:30
 msgid "Alternate comment"
 msgstr ""
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:70
-#: application/view/omeka/admin/resource-template/show.phtml:30
+#: application/view/omeka/admin/resource-template/show.phtml:31
 msgid "Required?"
 msgstr ""
 
 #: application/view/omeka/admin/resource-template/review-import.phtml:71
-#: application/view/omeka/admin/resource-template/show.phtml:31
+#: application/view/omeka/admin/resource-template/show.phtml:32
 msgid "Private?"
 msgstr ""
 
@@ -2776,11 +2807,11 @@ msgstr ""
 msgid "Remove property"
 msgstr ""
 
-#: application/view/omeka/admin/resource-template/show.phtml:10
+#: application/view/omeka/admin/resource-template/show.phtml:11
 msgid "Export"
 msgstr ""
 
-#: application/view/omeka/admin/resource-template/show.phtml:12
+#: application/view/omeka/admin/resource-template/show.phtml:13
 msgid "Edit resource template"
 msgstr ""
 
@@ -2831,35 +2862,35 @@ msgstr ""
 msgid "Add new user"
 msgstr ""
 
-#: application/view/omeka/admin/user/browse.phtml:136
-#: application/view/omeka/admin/user/browse.phtml:154
+#: application/view/omeka/admin/user/browse.phtml:137
+#: application/view/omeka/admin/user/browse.phtml:155
 msgid "Delete users"
 msgstr ""
 
-#: application/view/omeka/admin/user/browse.phtml:137
+#: application/view/omeka/admin/user/browse.phtml:138
 msgid "Are you sure you would like to delete the selected users?"
 msgstr ""
 
-#: application/view/omeka/admin/user/browse.phtml:139
+#: application/view/omeka/admin/user/browse.phtml:140
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s users and cannot be undone."
 msgstr ""
 
-#: application/view/omeka/admin/user/browse.phtml:155
+#: application/view/omeka/admin/user/browse.phtml:156
 msgid ""
 "Are you sure you would like to delete all users (except yourself) on all "
 "pages of this result?"
 msgstr ""
 
-#: application/view/omeka/admin/user/browse.phtml:157
+#: application/view/omeka/admin/user/browse.phtml:158
 #, php-format
 msgid ""
 "%1$s: this action will permanently delete %2$s users (except yourself) and "
 "cannot be undone."
 msgstr ""
 
-#: application/view/omeka/admin/user/browse.phtml:196
+#: application/view/omeka/admin/user/browse.phtml:197
 msgid "Omeka could not find any users."
 msgstr ""
 
@@ -2891,7 +2922,7 @@ msgstr ""
 msgid "(inactive)"
 msgstr ""
 
-#: application/view/omeka/admin/user/show.phtml:24
+#: application/view/omeka/admin/user/show.phtml:25
 msgid "Display name"
 msgstr ""
 
@@ -2918,7 +2949,7 @@ msgstr ""
 msgid "Properties"
 msgstr ""
 
-#: application/view/omeka/admin/vocabulary/browse.phtml:83
+#: application/view/omeka/admin/vocabulary/browse.phtml:84
 msgid "Omeka could not find any vocabularies."
 msgstr ""
 
@@ -2933,11 +2964,11 @@ msgstr ""
 msgid "Namespace URI:"
 msgstr ""
 
-#: application/view/omeka/admin/vocabulary/classes.phtml:60
+#: application/view/omeka/admin/vocabulary/classes.phtml:61
 msgid "This vocabulary has no classes."
 msgstr ""
 
-#: application/view/omeka/admin/vocabulary/edit.phtml:19
+#: application/view/omeka/admin/vocabulary/edit.phtml:20
 msgid ""
 "You may update this vocabulary to a newer version. You will be able to "
 "review the changes before you accept."
@@ -2947,7 +2978,7 @@ msgstr ""
 msgid "New vocabulary"
 msgstr ""
 
-#: application/view/omeka/admin/vocabulary/properties.phtml:61
+#: application/view/omeka/admin/vocabulary/properties.phtml:62
 msgid "This vocabulary has no properties."
 msgstr ""
 
@@ -3048,7 +3079,7 @@ msgid "Info"
 msgstr ""
 
 #: application/view/omeka/site-admin/index/add.phtml:8
-#: application/view/omeka/site-admin/index/show.phtml:29
+#: application/view/omeka/site-admin/index/show.phtml:30
 #: application/view/omeka/site-admin/index/theme-resource-pages.phtml:21
 #: application/view/omeka/site-admin/index/theme-settings.phtml:6
 #: application/view/omeka/site-admin/index/theme.phtml:11
@@ -3067,7 +3098,7 @@ msgstr ""
 msgid "Add new site"
 msgstr ""
 
-#: application/view/omeka/site-admin/index/index.phtml:79
+#: application/view/omeka/site-admin/index/index.phtml:80
 msgid "Omeka could not find any sites."
 msgstr ""
 
@@ -3112,19 +3143,19 @@ msgstr ""
 msgid "No item sets are assigned to this site."
 msgstr ""
 
-#: application/view/omeka/site-admin/index/show.phtml:16
+#: application/view/omeka/site-admin/index/show.phtml:17
 msgid "Back to site list"
 msgstr ""
 
-#: application/view/omeka/site-admin/index/show.phtml:21
+#: application/view/omeka/site-admin/index/show.phtml:22
 msgid "URL slug"
 msgstr ""
 
-#: application/view/omeka/site-admin/index/show.phtml:37
+#: application/view/omeka/site-admin/index/show.phtml:38
 msgid "Summary"
 msgstr ""
 
-#: application/view/omeka/site-admin/index/show.phtml:45
+#: application/view/omeka/site-admin/index/show.phtml:46
 msgid "Thumbnail"
 msgstr ""
 
@@ -3244,48 +3275,56 @@ msgstr ""
 msgid "No item selected."
 msgstr ""
 
-#: application/view/omeka/site-admin/page/edit.phtml:41
+#: application/view/omeka/site-admin/page/edit.phtml:42
 msgid "Normal flow"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/edit.phtml:42
+#: application/view/omeka/site-admin/page/edit.phtml:43
 msgid "Grid"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/edit.phtml:44
+#: application/view/omeka/site-admin/page/edit.phtml:45
 msgid "1 column"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/edit.phtml:46
+#: application/view/omeka/site-admin/page/edit.phtml:47
 #, php-format
 msgid "%s columns"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/edit.phtml:53
+#: application/view/omeka/site-admin/page/edit.phtml:54
 msgid "Layout"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/edit.phtml:71
+#: application/view/omeka/site-admin/page/edit.phtml:62
+msgid "Columns"
+msgstr ""
+
+#: application/view/omeka/site-admin/page/edit.phtml:77
 msgid "Expand all"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/edit.phtml:72
+#: application/view/omeka/site-admin/page/edit.phtml:78
 msgid "Collapse all"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/edit.phtml:80
+#: application/view/omeka/site-admin/page/edit.phtml:86
 msgid "Page layout configuration"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/edit.phtml:87
+#: application/view/omeka/site-admin/page/edit.phtml:94
 msgid "Add new block"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/edit.phtml:97
-msgid "Grid layout preview"
+#: application/view/omeka/site-admin/page/edit.phtml:95
+msgid "Add block group"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/edit.phtml:104
+#: application/view/omeka/site-admin/page/edit.phtml:108
+msgid "Layout preview"
+msgstr ""
+
+#: application/view/omeka/site-admin/page/edit.phtml:115
 msgid "Block layout configuration"
 msgstr ""
 
@@ -3297,11 +3336,11 @@ msgstr ""
 msgid "Slug"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/index.phtml:50
+#: application/view/omeka/site-admin/page/index.phtml:51
 msgid "View public page"
 msgstr ""
 
-#: application/view/omeka/site-admin/page/index.phtml:62
+#: application/view/omeka/site-admin/page/index.phtml:63
 msgid "Delete page"
 msgstr ""
 
@@ -3394,10 +3433,6 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: application/src/Site/BlockLayout/ItemShowcase.php:13
-msgid "Item showcase"
-msgstr ""
-
 #: application/src/Site/BlockLayout/ListOfPages.php:32
 msgid "List of pages"
 msgstr ""
@@ -3472,8 +3507,24 @@ msgstr ""
 msgid "Item with metadata"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Media.php:13
+#: application/src/Site/BlockLayout/Media.php:14
 msgid "Media embed"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Media.php:23
+msgid "Vertical"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Media.php:25
+msgid "Horizontal"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Media.php:33
+msgid "Embed media"
+msgstr ""
+
+#: application/src/Site/BlockLayout/Media.php:35
+msgid "Thumbnail only"
 msgstr ""
 
 #: application/src/Site/BlockLayout/LineBreak.php:14
@@ -3496,6 +3547,10 @@ msgstr ""
 #: application/src/Site/BlockLayout/Oembed.php:57
 #: application/src/Media/Ingester/OEmbed.php:66
 msgid "oEmbed URL"
+msgstr ""
+
+#: application/src/Site/BlockLayout/BlockGroup.php:15
+msgid "Block group"
 msgstr ""
 
 #: application/src/Site/BlockLayout/PageDateTime.php:20
@@ -3599,7 +3654,7 @@ msgstr ""
 msgid "HTML"
 msgstr ""
 
-#: application/src/Site/BlockLayout/Fallback.php:28
+#: application/src/Site/BlockLayout/Fallback.php:29
 #: application/src/Site/ResourcePageBlockLayout/Fallback.php:18
 #, php-format
 msgid "Unknown [%s]"
@@ -3757,11 +3812,11 @@ msgstr ""
 msgid "Unknown column data"
 msgstr ""
 
-#: application/src/Api/Adapter/ItemAdapter.php:152
+#: application/src/Api/Adapter/ItemAdapter.php:153
 msgid "Item sets must be an array"
 msgstr ""
 
-#: application/src/Api/Adapter/ItemAdapter.php:158
+#: application/src/Api/Adapter/ItemAdapter.php:159
 msgid "Media must be an array"
 msgstr ""
 
@@ -3862,7 +3917,7 @@ msgstr ""
 msgid "All blocks must have a layout."
 msgstr ""
 
-#: application/src/Api/Adapter/SitePageAdapter.php:231
+#: application/src/Api/Adapter/SitePageAdapter.php:238
 msgid "Block data must not be a scalar value."
 msgstr ""
 
@@ -4508,36 +4563,6 @@ msgstr ""
 msgid "Invalid or missing CSRF token"
 msgstr ""
 
-#: application/src/Form/Element/Background.php:27
-msgid "Top"
-msgstr ""
-
-#: application/src/Form/Element/Background.php:28
-#: application/src/Form/Element/Background.php:40
-#: application/src/Form/BlockLayoutDataForm.php:79
-msgid "Center"
-msgstr ""
-
-#: application/src/Form/Element/Background.php:29
-msgid "Bottom"
-msgstr ""
-
-#: application/src/Form/Element/Background.php:39
-msgid "Left"
-msgstr ""
-
-#: application/src/Form/Element/Background.php:41
-msgid "Right"
-msgstr ""
-
-#: application/src/Form/Element/Background.php:50
-msgid "Cover"
-msgstr ""
-
-#: application/src/Form/Element/Background.php:51
-msgid "Contain"
-msgstr ""
-
 #: application/src/Form/Element/PasswordConfirm.php:73
 msgid "Confirm password"
 msgstr ""
@@ -4693,7 +4718,7 @@ msgid ""
 msgstr ""
 
 #: application/src/Form/SiteSettingsForm.php:256
-#: application/src/Form/UserForm.php:253
+#: application/src/Form/UserForm.php:262
 msgid "Item browse defaults"
 msgstr ""
 
@@ -4889,47 +4914,47 @@ msgstr ""
 msgid "Default sites for items"
 msgstr ""
 
-#: application/src/Form/UserForm.php:209
+#: application/src/Form/UserForm.php:218
 msgid "Item browse columns"
 msgstr ""
 
-#: application/src/Form/UserForm.php:220
+#: application/src/Form/UserForm.php:229
 msgid "Item set browse columns"
 msgstr ""
 
-#: application/src/Form/UserForm.php:231
+#: application/src/Form/UserForm.php:240
 msgid "Media browse columns"
 msgstr ""
 
-#: application/src/Form/UserForm.php:242
+#: application/src/Form/UserForm.php:251
 msgid "Site browse columns"
 msgstr ""
 
-#: application/src/Form/UserForm.php:267
+#: application/src/Form/UserForm.php:276
 msgid "Item set browse defaults"
 msgstr ""
 
-#: application/src/Form/UserForm.php:281
+#: application/src/Form/UserForm.php:290
 msgid "Media browse defaults"
 msgstr ""
 
-#: application/src/Form/UserForm.php:295
+#: application/src/Form/UserForm.php:304
 msgid "Site browse defaults"
 msgstr ""
 
-#: application/src/Form/UserForm.php:311
+#: application/src/Form/UserForm.php:320
 msgid "Current password"
 msgstr ""
 
-#: application/src/Form/UserForm.php:323
+#: application/src/Form/UserForm.php:332
 msgid "New password"
 msgstr ""
 
-#: application/src/Form/UserForm.php:324
+#: application/src/Form/UserForm.php:333
 msgid "Confirm new password"
 msgstr ""
 
-#: application/src/Form/UserForm.php:333
+#: application/src/Form/UserForm.php:342
 msgid "New key label"
 msgstr ""
 
@@ -4945,20 +4970,71 @@ msgstr ""
 msgid "The emails did not match"
 msgstr ""
 
-#: application/src/Form/BlockLayoutDataForm.php:74
+#: application/src/Form/BlockLayoutDataForm.php:45
 msgid "Alignment"
 msgstr ""
 
-#: application/src/Form/BlockLayoutDataForm.php:77
-msgid "Float left"
+#: application/src/Form/BlockLayoutDataForm.php:46
+msgid "Constraints"
 msgstr ""
 
-#: application/src/Form/BlockLayoutDataForm.php:78
-msgid "Float right"
+#: application/src/Form/BlockLayoutDataForm.php:47
+msgid "Padding"
 msgstr ""
 
-#: application/src/Form/BlockLayoutDataForm.php:98
+#: application/src/Form/BlockLayoutDataForm.php:48
+msgid "Background"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:83
+msgid "Block alignment"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:88
+#: application/src/Form/BlockLayoutDataForm.php:105
+#: application/src/Form/BlockLayoutDataForm.php:226
+#: application/src/Form/BlockLayoutDataForm.php:245
+msgid "Center"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:101
+msgid "Text alignment"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:107
+msgid "Justify"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:120
+msgid "Maximum width"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:132
 msgid "Minimum height"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:196
+msgid "Color"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:209
+msgid "Image"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:222
+msgid "Vertical anchor position"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:241
+msgid "Horizontal anchor position"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:263
+msgid "Cover"
+msgstr ""
+
+#: application/src/Form/BlockLayoutDataForm.php:264
+msgid "Contain"
 msgstr ""
 
 #: application/src/Form/ConfirmForm.php:17
@@ -5022,7 +5098,7 @@ msgid "Select user…"
 msgstr ""
 
 #: application/src/View/Helper/BlockThumbnailTypeSelect.php:42
-msgid "Thumbnail type"
+msgid "Image type"
 msgstr ""
 
 #: application/src/View/Helper/ItemSetSelect.php:39
@@ -5045,52 +5121,52 @@ msgstr ""
 msgid "Site successfully updated"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:169
+#: application/src/Controller/SiteAdmin/IndexController.php:168
 msgid "Page successfully created"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:198
+#: application/src/Controller/SiteAdmin/IndexController.php:197
 msgid "Homepage"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:204
+#: application/src/Controller/SiteAdmin/IndexController.php:203
 msgid "First page in navigation"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:220
+#: application/src/Controller/SiteAdmin/IndexController.php:219
 msgid "Navigation successfully updated"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:254
+#: application/src/Controller/SiteAdmin/IndexController.php:253
 msgid ""
 "Item assignment in progress. To see the new item count, refresh the page."
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:258
+#: application/src/Controller/SiteAdmin/IndexController.php:257
 msgid "Site resources successfully updated"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:306
+#: application/src/Controller/SiteAdmin/IndexController.php:305
 msgid "User permissions successfully updated"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:343
+#: application/src/Controller/SiteAdmin/IndexController.php:342
 msgid "Site theme successfully updated"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:418
+#: application/src/Controller/SiteAdmin/IndexController.php:417
 msgid "Theme settings successfully updated"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:458
+#: application/src/Controller/SiteAdmin/IndexController.php:457
 msgid "Theme resource pages successfully updated"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:481
+#: application/src/Controller/SiteAdmin/IndexController.php:480
 msgid "Site successfully deleted"
 msgstr ""
 
-#: application/src/Controller/SiteAdmin/IndexController.php:504
+#: application/src/Controller/SiteAdmin/IndexController.php:503
 msgid "site"
 msgstr ""
 
@@ -6249,12 +6325,6 @@ msgstr ""
 
 #. Class comment for Dublin Core Type:Event
 msgid "A non-persistent, time-based occurrence."
-msgstr ""
-
-#. Class label for Dublin Core Type:Image
-#. Class label for Bibliographic Ontology:Image
-#. Class label for Friend of a Friend:Image
-msgid "Image"
 msgstr ""
 
 #. Class comment for Dublin Core Type:Image

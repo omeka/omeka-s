@@ -12,6 +12,7 @@ $form->prepare();
 <?php $this->trigger('view.edit.before'); ?>
 <?php echo $this->form()->openTag($form); ?>
 <div id="page-actions">
+    <?php $this->trigger('view.edit.page_actions', ['resource' => $page]); ?>
     <?php if ($page->isPublic()): ?>
     <?php echo $this->hyperlink('', '#', [
         'class' => 'o-icon-public button',

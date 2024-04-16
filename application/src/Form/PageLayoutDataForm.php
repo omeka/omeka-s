@@ -38,7 +38,7 @@ class PageLayoutDataForm extends Form
             'type' => 'number',
             'name' => 'o:layout_data[grid_column_gap]',
             'options' => [
-                'label' => 'Column gap',
+                'label' => 'Column gap (px)',
             ],
             'attributes' => [
                 'id' => 'page-layout-grid-column-gap-input',
@@ -50,7 +50,7 @@ class PageLayoutDataForm extends Form
             'type' => 'number',
             'name' => 'o:layout_data[grid_row_gap]',
             'options' => [
-                'label' => 'Row gap',
+                'label' => 'Row gap (px)',
             ],
             'attributes' => [
                 'id' => 'page-layout-grid-row-gap-input',

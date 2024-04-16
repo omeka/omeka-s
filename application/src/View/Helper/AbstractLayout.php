@@ -25,7 +25,8 @@ abstract class AbstractLayout extends AbstractHelper
         $classes[] = sprintf('block-%s', $block->layout());
 
         $page = $block->page();
-        if ('grid' === $page->layout()) {
+        if ('grid' === $page->layout() && 'blockGroup' !== $block->layout()) {
+            // Note that blockGroup position and span is set in PageLayout::render().
             $gridColumns = (int) $page->layoutDataValue('grid_columns');
             // Get the valid position and span classes, which in CSS map to:
             //  - grid-column-start: <position>;
@@ -70,6 +71,11 @@ abstract class AbstractLayout extends AbstractHelper
                 break;
             default:
                 // No text alignment
+        }
+        $backgroundImage = $block->layoutDataValue('background_image_asset');
+        $backgroundColor = $block->layoutDataValue('background_color');
+        if ($backgroundImage || $backgroundColor) {
+            $classes[] = 'has-background';
         }
         $backgroundImagePositionY = $block->layoutDataValue('background_image_position_y');
         if ($backgroundImagePositionY) {

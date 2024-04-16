@@ -650,8 +650,12 @@ class Module extends AbstractModule
     public function deleteFulltextPreSitePage(ZendEvent $event)
     {
         $request = $event->getParam('request');
+        $conditions = $request->getId();
+        if (!is_array($conditions)) {
+            $conditions = ['id' => $conditions];
+        }
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
-        $sitePage = $em->getRepository('Omeka\Entity\SitePage')->findOneBy($request->getId());
+        $sitePage = $em->getRepository('Omeka\Entity\SitePage')->findOneBy($conditions);
         $request->setOption('deleted_entity_id', $sitePage->getId());
     }
 

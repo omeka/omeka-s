@@ -7,6 +7,7 @@ $this->htmlElement('body')->appendAttribute('class', 'sites show');
 <?php echo $this->pageTitle($site->title(), 1, $translate('Sites')); ?>
 
 <div id="page-actions">
+    <?php $this->trigger('view.show.page_actions', ['resource' => $site]); ?>
     <?php if ($site->userIsAllowed('update')): ?>
         <?php echo $site->link($translate('Edit'), null, ['class' => 'button']); ?>
     <?php endif; ?>
@@ -47,3 +48,5 @@ $this->htmlElement('body')->appendAttribute('class', 'sites show');
     </div>
     <?php endif; ?>
 </dl>
+
+<?php $this->trigger('view.show.after'); ?>

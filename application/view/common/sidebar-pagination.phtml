@@ -2,8 +2,10 @@
 $translate = $this->plugin('translate');
 ?>
 <nav class="pagination" role="navigation">
-    <input type="text" name="page" class="page-input-top" value="<?php echo $currentPage; ?>" size="4" data-pagination-url="<?php echo $this->escapeHtml($pagelessUrl); ?>" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?> aria-label="<?php echo $translate('Page'); ?>">
-    <span class="page-count"><?php echo sprintf($translate('of %s'), $pageCount); ?></span>
+    <form method="GET" action="">
+        <input type="text" name="page" class="page-input-top" value="<?php echo $currentPage; ?>" size="4" data-pagination-url="<?php echo $this->escapeHtml($pagelessUrl); ?>" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?> aria-label="<?php echo $translate('Page'); ?>">
+        <span class="page-count"><?php echo sprintf($translate('of %s'), $pageCount); ?></span>
+    </form>
 
     <?php if ($currentPage != 1): ?>
     <?php echo $this->hyperlink('', $previousPageUrl, ['class' => 'previous o-icon-prev button', 'title' => $translate('Previous'), 'aria-label' => $translate('Previous')]); ?>

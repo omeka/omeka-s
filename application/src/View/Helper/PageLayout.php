@@ -73,7 +73,6 @@ class PageLayout extends AbstractLayout
                 $blockGroupInlineStyles = $this->getBlockInlineStyles($block);
                 if ('grid' === $page->layout()) {
                     $blockGroupClasses[] = 'block-group-grid';
-                    $blockGroupClasses[] = sprintf('grid-template-columns-%s', $gridColumns);
                     $blockGroupClasses[] = 'grid-position-1';
                     $blockGroupClasses[] = sprintf('grid-span-%s', $gridColumns);
                 }

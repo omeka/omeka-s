@@ -98,6 +98,7 @@ class Media extends AbstractBlockLayout implements TemplateableBlockLayoutInterf
             'link' => $linkType,
             'showTitleOption' => $showTitleOption,
             'classes' => $classes,
+            'mediaDisplay' => $mediaDisplay,
         ]);
     }
 }

@@ -973,6 +973,8 @@ nav ul {
 nav.pagination {
     margin-bottom: $spacing-medium;
     overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 nav.pagination form,
@@ -1007,6 +1009,7 @@ nav.pagination input[type="text"],
     line-height: $base-line-height;
     vertical-align: top;
     background-size: .4088 * $base-font-size;
+    width: auto;
 }
 
 nav.pagination .button {
@@ -2618,7 +2621,7 @@ fieldset.section > legend {
 
     .value .restore-value,
     .value.delete a.tab,
-    .value.delete [class*="o-icon-"]:not(.restore-value),
+    .value.delete .actions a:not(.restore-value),
     .value.delete .block-page-layout-grid-controls {
         display: none;
     }
@@ -3267,13 +3270,6 @@ fieldset.section > legend {
     padding-bottom: $spacing-medium;
 }
 
-.block-layout-fieldset legend {
-    font-size: $base-font-size;
-    float: left;
-    max-width: calc(100% - #{2 * $spacing-large});
-    padding: 0;
-}
-
 .block-layout-fieldset .expand, 
 .block-layout-fieldset .collapse {
     width: 100%;
@@ -3283,11 +3279,6 @@ fieldset.section > legend {
 
 .block-layout-fieldset .collapse {
     font-weight: bold;
-}
-
-.block-layout-fieldset .expand label,
-.block-layout-fieldset .expand .label {
-    font-weight: normal;
 }
 
 .block-layout-fieldset .collapse + .collapsible {
@@ -3301,15 +3292,6 @@ fieldset.section > legend {
 .block-layout-fieldset .collapsible label,
 .block-layout-fieldset .collapsible .label {
     font-weight: normal;
-}
-
-.block-layout-fieldset .collapse label,
-.block-layout-fieldset .expand label,
-.block-layout-fieldset .collapse .label,
-.block-layout-fieldset .expand .label {
-    width: auto;
-    margin: 0;
-    padding: 0;
 }
 
 .block-layout-fieldset .collapsible .label:after, 
@@ -4367,6 +4349,7 @@ body.sidebar-open #content {
 
     .expand-collapse-all {
         text-align: right;
+        margin-bottom: $spacing-medium;
     }
 
     .expand-all:before,
@@ -4492,7 +4475,7 @@ body.sidebar-open #content {
 
     .delete .block-type,
     .block .delete div.item-title {
-        margin-left: 1.25 * $spacing-large;
+        margin-left: $spacing-large;
     }
 
     .delete .block-type {

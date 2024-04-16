@@ -5,6 +5,7 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Stdlib\Message;
+use Laminas\Form\Element;
 use Laminas\View\Renderer\PhpRenderer;
 
 class Fallback extends AbstractBlockLayout
@@ -34,7 +35,10 @@ class Fallback extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
         SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
-        return $view->translate('This layout is invalid.');
+        // Preserve the original data.
+        $element = new Element\Hidden("o:block[__blockIndex__][o:data]");
+        $element->setValue(json_encode($block->data()));
+        return $view->translate('This layout is invalid.') . $view->formElement($element);
     }
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)

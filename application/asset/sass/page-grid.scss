@@ -42,12 +42,31 @@
     display: grid; 
 }
 
+.block-blockGroup.block-group-grid {
+    gap: inherit;
+    grid-template-columns: inherit;
+}
+
 .page-layout-grid {
     display: grid;
 }
 
-.page-layout-grid > div {
-    min-height: 50px;
+.page-layout-grid .block-layout-alignment-block-left {
+    justify-self: left;
+}
+
+.page-layout-grid .block-layout-alignment-block-right {
+    justify-self: right;
+}
+
+.page-layout-grid .block-layout-alignment-block-center {
+    justify-self: center;
+}
+
+.page-layout-grid .block-layout-alignment-block-center,
+.page-layout-grid .block-layout-alignment-block-left,
+.page-layout-grid .block-layout-alignment-block-right {
+    max-width: 100%;
 }
 
 @media screen and (max-width:896px) {

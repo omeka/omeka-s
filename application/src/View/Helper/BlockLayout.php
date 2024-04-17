@@ -128,16 +128,16 @@ class BlockLayout extends AbstractLayout
      * Return the HTML necessary to render the provided block.
      *
      * @param SitePageBlockRepresentation $block
+     * @param ?string $templateViewScript
      * @return string
      */
-    public function render(SitePageBlockRepresentation $block)
+    public function render(SitePageBlockRepresentation $block, string $templateViewScript = null)
     {
         $view = $this->getView();
         $blockLayout = $this->manager->get($block->layout());
 
         // Set the configured block template, if any.
         $templateName = $block->layoutDataValue('template_name');
-        $templateViewScript = null;
         if ($templateName && $blockLayout instanceof TemplateableBlockLayoutInterface) {
             // Verify that the current theme provides this template.
             $config = $this->currentTheme->getConfigSpec();

@@ -676,16 +676,29 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         foreach ($qb->getQuery()->getResult() as $result) {
             if ($result['property_alternate_label']) {
                 $label = $result['property_alternate_label'];
+                $labelIsTranslatable = false;
                 $resourceTemplatePropertyId = $result['resource_template_property_id'];
             } elseif ($result['resource_template_property_id']) {
                 $label = $result['property_label'];
+                $labelIsTranslatable = true;
                 $resourceTemplatePropertyId = $result['resource_template_property_id'];
             } else {
                 $label = $result['property_label'];
+                $labelIsTranslatable = true;
                 $resourceTemplatePropertyId = 0;
             }
             $results[$result['property_id']][$label]['resource_template_property_ids'][] = $resourceTemplatePropertyId;
             $results[$result['property_id']][$label]['term'] = $result['term'];
+            // The shared label is translatable if at least one of the individual
+            // labels is a property label. A shared label is not translatable if
+            // all the individual labels are alternate labels.
+            if (isset($results[$result['property_id']][$label]['label_is_translatable'])) {
+                if (true === $labelIsTranslatable) {
+                    $results[$result['property_id']][$label]['label_is_translatable'] = true;
+                }
+            } else {
+                $results[$result['property_id']][$label]['label_is_translatable'] = $labelIsTranslatable;
+            }
         }
         // Build the properties array from grouped array.
         $subjectValueProperties = [];
@@ -695,6 +708,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     'label' => $label,
                     'property_id' => $propertyId,
                     'term' => $data['term'],
+                    'label_is_translatable' => $data['label_is_translatable'],
                     'compound_id' => sprintf('%s:%s-%s', $resourceType, $propertyId, implode(',', array_unique($data['resource_template_property_ids']))),
                 ];
             }

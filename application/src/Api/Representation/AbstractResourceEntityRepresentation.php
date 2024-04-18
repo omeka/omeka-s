@@ -391,9 +391,9 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
      * Unset a term in the representations.
      *
      * @param string $term The prefix:local_part
-     * @return null
      */
-    public function unsetTerm($term){
+    public function unsetTerm($term)
+    {
         unset($this->{'values'}[$term]);
     }
 

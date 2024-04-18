@@ -692,12 +692,8 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             // The shared label is translatable if at least one of the individual
             // labels is a property label. A shared label is not translatable if
             // all the individual labels are alternate labels.
-            if (isset($results[$result['property_id']][$label]['label_is_translatable'])) {
-                if (true === $labelIsTranslatable) {
-                    $results[$result['property_id']][$label]['label_is_translatable'] = true;
-                }
-            } else {
-                $results[$result['property_id']][$label]['label_is_translatable'] = $labelIsTranslatable;
+            if ($labelIsTranslatable) {
+                $results[$result['property_id']][$label]['label_is_translatable'] = true;
             }
         }
         // Build the properties array from grouped array.
@@ -708,7 +704,7 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                     'label' => $label,
                     'property_id' => $propertyId,
                     'term' => $data['term'],
-                    'label_is_translatable' => $data['label_is_translatable'],
+                    'label_is_translatable' => $data['label_is_translatable'] ?? false,
                     'compound_id' => sprintf('%s:%s-%s', $resourceType, $propertyId, implode(',', array_unique($data['resource_template_property_ids']))),
                 ];
             }

@@ -27,20 +27,22 @@ class LightGalleryOutput extends AbstractHelper
         foreach ($files as $file) {
             $media = $file['media'];
             $source = ($media->originalUrl()) ? $media->originalUrl() : $media->source();
-            $mediaCredits = $media->value('dcterms:rightsHolder', ['all'=>true]);
+            $mediaCredits = $media->value('dcterms:rightsHolder', ['all' => true]);
             $renderCredits = [];
-            foreach ($mediaCredits as $mediaCredit){
-                $creditValueType =$mediaCredit->type();
+            foreach ($mediaCredits as $mediaCredit) {
+                $creditValueType = $mediaCredit->type();
                 if ('resource' == $creditValueType) {
                     $renderCredits[] = "<a href=" . $mediaCredit . ">" . $mediaCredit->valueResource()->title() . "</a>";
                 } elseif ('uri' == $creditValueType) {
-                    $renderCredits[] =  "<a href=" . $mediaCredit->uri() . ">" . $mediaCredit . "</a>";
+                    $renderCredits[] = "<a href=" . $mediaCredit->uri() . ">" . $mediaCredit . "</a>";
                 } elseif ('literal' == $creditValueType) {
-                    $renderCredits[] =  $mediaCredit;
-                };
+                    $renderCredits[] = $mediaCredit;
+                }
             }
-            if (empty($renderCredits)){$renderCredits[] = 'unknown';};
-            $titleCredit = "<p>" . $media->displayTitle() . "</p><p> © ". implode(', © ', $renderCredits) . "</p>";
+            if (empty($renderCredits)) {
+                $renderCredits[] = 'unknown';
+            }
+            $titleCredit = "<p>" . $media->displayTitle() . "</p><p> © " . implode(', © ', $renderCredits) . "</p>";
             $mediaCaptionOptions = [
                 'none' => '',
                 'titlecredit' => 'data-sub-html="' . $titleCredit . '"'  ,

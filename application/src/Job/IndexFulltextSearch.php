@@ -21,7 +21,7 @@ class IndexFulltextSearch extends AbstractJob
 
         // First delete all rows from the fulltext table to clear out the
         // resources that don't belong.
-        $conn->executeStatement('DELETE FROM `fulltext_search`');
+        $conn->executeStatement('TRUNCATE TABLE `fulltext_search`');
 
         // Then iterate through all resource types and index the ones that are
         // fulltext searchable. Note that we don't index "resource" and "value

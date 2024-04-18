@@ -28,7 +28,15 @@ interface FulltextSearchableInterface
     public function getFulltextTitle($resource);
 
     /**
-     * Get the the text of the passed resource.
+     * Get the record of the passed resource.
+     *
+     * @param mixed $resource
+     * @return string
+     */
+    public function getFulltextRecord($resource);
+
+    /**
+     * Get the the raw text (transcription, ocr, etc.) of the passed resource.
      *
      * @param mixed $resource
      * @return string

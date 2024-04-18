@@ -336,6 +336,22 @@ class ItemAdapter extends AbstractResourceEntityAdapter
         return $data;
     }
 
+    public function getFulltextRecord($resource)
+    {
+        $texts = [];
+        $texts[] = parent::getFulltextRecord($resource);
+        // Get media text.
+        $mediaAdapter = $this->getAdapter('media');
+        foreach ($resource->getMedia() as $media) {
+            $texts[] = $mediaAdapter->getFulltextRecord($media);
+        }
+        // Remove empty texts.
+        $texts = array_filter($texts, function ($text) {
+            return !is_null($text) && $text !== '';
+        });
+        return implode("\n", $texts);
+    }
+
     public function getFulltextText($resource)
     {
         $texts = [];

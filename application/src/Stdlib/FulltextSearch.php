@@ -32,11 +32,11 @@ class FulltextSearch
         $ownerId = $owner ? $owner->getId() : null;
 
         $sql = 'INSERT INTO `fulltext_search` (
-            `id`, `resource`, `owner_id`, `is_public`, `title`, `text`
+            `id`, `resource`, `owner_id`, `is_public`, `title`, `record`, `text`
         ) VALUES (
-            :id, :resource, :owner_id, :is_public, :title, :text
+            :id, :resource, :owner_id, :is_public, :title, :record, :text
         ) ON DUPLICATE KEY UPDATE
-            `owner_id` = :owner_id, `is_public` = :is_public, `title` = :title, `text` = :text';
+            `owner_id` = :owner_id, `is_public` = :is_public, `title` = :title, `record` = :record, `text` = :text';
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindValue('id', $resourceId, PDO::PARAM_INT);
@@ -44,6 +44,7 @@ class FulltextSearch
         $stmt->bindValue('owner_id', $ownerId, PDO::PARAM_INT);
         $stmt->bindValue('is_public', $adapter->getFulltextIsPublic($resource), PDO::PARAM_BOOL);
         $stmt->bindValue('title', $adapter->getFulltextTitle($resource), PDO::PARAM_STR);
+        $stmt->bindValue('record', $adapter->getFulltextRecord($resource), PDO::PARAM_STR);
         $stmt->bindValue('text', $adapter->getFulltextText($resource), PDO::PARAM_STR);
         $stmt->executeStatement();
     }

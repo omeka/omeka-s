@@ -30,10 +30,13 @@ CREATE TABLE `fulltext_search` (
   `owner_id` int DEFAULT NULL,
   `is_public` tinyint(1) NOT NULL,
   `title` longtext COLLATE utf8mb4_unicode_ci,
+  `record` longtext COLLATE utf8mb4_unicode_ci,
   `text` longtext COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`,`resource`),
   KEY `IDX_AA31FE4A7E3C61F9` (`owner_id`),
-  FULLTEXT KEY `IDX_AA31FE4A2B36786B3B8BA7C7` (`title`,`text`),
+  KEY `is_public` (`is_public`),
+  FULLTEXT KEY `IDX_AA31FE4A2B36786B9B349F91` (`title`,`record`),
+  FULLTEXT KEY `IDX_AA31FE4A3B8BA7C7` (`text`),
   CONSTRAINT `FK_AA31FE4A7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `item` (

@@ -412,7 +412,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $results = $this->getAdapter()->getSubjectValues($this->resource, $page, $perPage, $propertyId, $resourceType, $siteId);
         $subjectValues = [];
         foreach ($results as $result) {
-            $index = sprintf('%s-%s', $result['property_id'], $result['resource_template_property_id']);
+            $index = $result['property_alternate_label'] ?: $result['property_label'];
             $result['val'] = new ValueRepresentation($result['val'], $this->getServiceLocator());
             $subjectValues[$index][] = $result;
         }

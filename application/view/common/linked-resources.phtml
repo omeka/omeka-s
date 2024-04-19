@@ -37,11 +37,16 @@ foreach ($resourcePropertiesAll as $type => $resourceProperties) {
         'options' => [sprintf('%s:', $type) => sprintf('%s: All', $labelMap[$type])],
     ];
     foreach ($resourceProperties as $resourceProperty) {
-        $key = sprintf('%s:%s', $type, $resourceProperty['id_concat']);
-        $value = $resourceProperty['property_alternate_label']
-            ? $this->translate($resourceProperty['property_alternate_label'])
-            : $this->translate($resourceProperty['property_label']);
-        $valueOptions[$type]['options'][$key] = sprintf('%s: %s', $labelMap[$type], $value);
+        $label = $resourceProperty['label_is_translatable']
+            ? $this->translate($resourceProperty['label'])
+            : $resourceProperty['label'];
+        $valueOptions[$type]['options'][] = [
+            'value' => $resourceProperty['compound_id'],
+            'label' => sprintf('%s: %s', $labelMap[$type], $label),
+            'attributes' => [
+                'title' => $resourceProperty['term'],
+            ],
+        ];
     }
 }
 $resourcePropertiesSelect->setValueOptions($valueOptions);

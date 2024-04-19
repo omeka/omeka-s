@@ -4088,12 +4088,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/omeka-s-themes/default.git",
-                "reference": "aafbfc2725d1e96f25f520913efaea896c5baf0c"
+                "reference": "28feecbfc7622c1764d1a6aa338e9fe8471e171f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/aafbfc2725d1e96f25f520913efaea896c5baf0c",
-                "reference": "aafbfc2725d1e96f25f520913efaea896c5baf0c",
+                "url": "https://api.github.com/repos/omeka-s-themes/default/zipball/28feecbfc7622c1764d1a6aa338e9fe8471e171f",
+                "reference": "28feecbfc7622c1764d1a6aa338e9fe8471e171f",
                 "shasum": ""
             },
             "require": {
@@ -4102,10 +4102,10 @@
             "default-branch": true,
             "type": "omeka-s-theme",
             "support": {
-                "source": "https://github.com/omeka-s-themes/default/tree/v1.7.2",
+                "source": "https://github.com/omeka-s-themes/default/tree/v1.8.0",
                 "issues": "https://github.com/omeka-s-themes/default/issues"
             },
-            "time": "2023-06-01T20:43:55+00:00"
+            "time": "2024-04-17T20:56:07+00:00"
         },
         {
             "name": "omeka/composer-addon-installer",
@@ -8461,5 +8461,5 @@
     "platform-overrides": {
         "php": "7.4"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

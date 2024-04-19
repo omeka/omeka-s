@@ -45,7 +45,7 @@ class LightGalleryOutput extends AbstractHelper
             $titleCredit = "<p>" . $media->displayTitle() . "</p><p> © " . implode(', © ', $renderCredits) . "</p>";
             $mediaCaptionOptions = [
                 'none' => '',
-                'titlecredit' => 'data-sub-html="' . $titleCredit . '"'  ,
+                'titleCredit' => 'data-sub-html="' . $titleCredit . '"'  ,
                 'title' => 'data-sub-html="' . $media->displayTitle() . '"',
                 'description' => 'data-sub-html="' . $media->displayDescription() . '"',
             ];

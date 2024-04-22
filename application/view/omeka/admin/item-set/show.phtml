@@ -26,6 +26,7 @@ $sectionNavs = [
 <?php echo $this->pageTitle($itemSet->displayTitle(), 1, $translate('Item sets')); ?>
 
 <div id="page-actions">
+    <?php $this->trigger('view.show.page_actions', ['resource' => $itemSet]); ?>
     <?php if ($itemSet->userIsAllowed('update')): ?>
     <?php echo $itemSet->link($translate('Edit item set'), 'edit', ['class' => 'button']); ?>
     <?php endif; ?>
@@ -47,16 +48,13 @@ $sectionNavs = [
 </div>
 
 <div id="resources-linked" class="section">
-    <?php
-    $subjectValues = $itemSet->displaySubjectValues([
-        'page' => $this->params()->fromQuery('page', 1),
-        'perPage' => 25,
-        'resourceProperty' => $this->params()->fromQuery('resource_property'),
-    ]);
-    ?>
-    <?php if ($subjectValues): ?>
+    <?php if ($itemSet->subjectValueTotalCount()): ?>
         <p><?php echo $translate('The following resources link to this item set:'); ?></p>
-        <?php echo $subjectValues; ?>
+        <?php echo $itemSet->displaySubjectValues([
+            'page' => $this->params()->fromQuery('page', 1),
+            'perPage' => 25,
+            'resourceProperty' => $this->params()->fromQuery('resource_property'),
+        ]); ?>
     <?php else: ?>
         <div class="no-resources">
             <p><?php echo $translate('No resources link to this item set.'); ?></p>

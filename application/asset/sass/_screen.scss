@@ -665,7 +665,9 @@ table .icon-sortable {
 }
 
 a.expand,
-a.collapse {
+a.collapse,
+a.expand-group,
+a.collapse-group {
     color: $copy-gray;
 }
 
@@ -689,11 +691,11 @@ a.collapse {
 .selector-table + .no-resources {
     display: none;
 }
-    
+
 .selector-table.empty + .no-resources {
     display: block;
 }
-      
+
 .selector .resources-available.empty,
 .selector .resources-available + .resources-unavailable {
     display: none;
@@ -749,27 +751,56 @@ header {
     color: #fff;
     padding-top: $spacing-medium;
     margin-bottom: -($spacing-small);
+    display: flex;
+    flex-wrap: wrap;
 }
 
 #user p {
-    margin: 0;
-    display: inline-block;
+    margin: 0 0 $spacing-small;
+    display: inline-flex;
     vertical-align: top;
 }
 
 #user .user-id {
     text-transform: uppercase;
     font-size: .75 * $base-font-size;
-    width: 75%;
-    margin-bottom: $spacing-small;
-    margin-right: -4px;
+    margin-right: auto;
 }
 
-#user .user-id a {
-    display: block;
-    font-size: $base-font-size;
+#user .user-id a.button {
+    display: inline-block;
+    font-size: .75 * $base-font-size;
     text-transform: none;
-    margin-top: -($spacing-small);
+    margin-bottom: 0;
+    background-color: darken($blue, 15%);
+    padding: 0 $spacing-small;
+    min-height: 0;
+    border: 0;
+}
+
+#user .user-show {
+    border-radius: 3px 0 0 3px;
+    margin-right: 1px;
+    display: inline-flex;
+    max-width: 85%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#user .user-show:before {
+    margin-right: $spacing-small;
+}
+
+#user .user-settings {
+    border-radius: 0 3px 3px 0;
+    border-left: 0;
+}
+
+#user .user-settings:before {
+    content: "\f013";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
 }
 
 #user .logout {
@@ -942,6 +973,8 @@ nav ul {
 nav.pagination {
     margin-bottom: $spacing-medium;
     overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 nav.pagination form,
@@ -976,6 +1009,7 @@ nav.pagination input[type="text"],
     line-height: $base-line-height;
     vertical-align: top;
     background-size: .4088 * $base-font-size;
+    width: auto;
 }
 
 nav.pagination .button {
@@ -1406,6 +1440,11 @@ div[role="main"] {
     text-align: right;
 }
 
+.center.actions a:before,
+.center.actions button:before {
+    text-align: center;
+}
+
 .actions a:hover,
 .actions a:active,
 .actions button:hover {
@@ -1659,7 +1698,7 @@ td .o-icon-user-inactive {
     .multi-value .value {
         display: flex;
     }
-    
+
     .multi-value .add-value,
     .multi-value.field .remove-value {
         background-color: transparent;
@@ -1686,13 +1725,13 @@ td .o-icon-user-inactive {
             color: $red;
         }
     }
-    
+
     .multi-value .add-value {
         position: absolute;
         top: 0;
         right: 0;
     }
-    
+
     .multi-value .field-meta {
         padding-right: 1.5 * $spacing-large;
     }
@@ -2020,7 +2059,7 @@ fieldset.section > legend {
     padding: 0;
     border-bottom: 0;
 
-    a:empty { 
+    a:empty {
         display: none;
     }
 
@@ -2050,7 +2089,7 @@ fieldset.section > legend {
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     &:before {
         font-size: 10px;
     }
@@ -2148,7 +2187,7 @@ fieldset.section > legend {
             border-radius: 0 0 3px 3px;
         }
     }
-    
+
     .selector li.selector-parent.empty {
         display: none;
     }
@@ -2409,7 +2448,6 @@ fieldset.section > legend {
     .collapse + .collapsible {
         display: block;
         clear: both;
-        overflow: hidden;
     }
 
     .field-description .field-comment {
@@ -2481,7 +2519,7 @@ fieldset.section > legend {
     #resource-values div.value {
         display: flex;
         align-items: stretch;
-        
+
         &:only-of-type .sortable-handle {
             display: none;
         }
@@ -2575,7 +2613,7 @@ fieldset.section > legend {
             display: block;
         }
     }
-    
+
     .value.delete {
         background-color: $delete-bg;
         overflow: hidden;
@@ -2583,7 +2621,8 @@ fieldset.section > legend {
 
     .value .restore-value,
     .value.delete a.tab,
-    .value.delete [class*="o-icon-"]:not(.restore-value) {
+    .value.delete .actions a:not(.restore-value),
+    .value.delete .block-page-layout-grid-controls {
         display: none;
     }
 
@@ -2629,13 +2668,13 @@ fieldset.section > legend {
         width: 100%;
         margin: 0;
     }
-    
+
     .inputs .value textarea {
         min-height: 3 * $spacing-large;
         border: 0;
         box-shadow: 0 0 0 1px $border-gray;
     }
-    
+
     .inputs .value .input-body > textarea {
         padding: $spacing-small $spacing-medium;
     }
@@ -2721,7 +2760,7 @@ fieldset.section > legend {
     .selected-resource a {
         width: calc(100% - #{3 * $spacing-large});
     }
-    
+
     .selected-resource + a.button {
         margin-left: $spacing-small;
     }
@@ -2853,7 +2892,7 @@ fieldset.section > legend {
         }
     }
 
-    .media.row .actions { 
+    .media.row .actions {
         margin-left: $spacing-large;
     }
 
@@ -2903,6 +2942,17 @@ fieldset.section > legend {
         text-align: left;
     }
 
+    .media-file-info {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .media-file-thumbnail img {
+        vertical-align: bottom;
+        margin: $spacing-small $spacing-medium 0 0;
+    }    
+
     /* @end */
 
     /* @group ----- Item Sets ----- */
@@ -2911,7 +2961,7 @@ fieldset.section > legend {
     #site-item-sets + .no-resources:before {
         content: fa-content($fa-var-cubes);
     }
-    
+
     #item-item-sets tr.delete {
         background-color: $delete-bg;
     }
@@ -2930,13 +2980,13 @@ fieldset.section > legend {
     }
 
     /* @end */
-    
+
     /* @group ----- Sites ----- */
-    
+
     #item-sites.empty + .no-resources:before {
         content: fa-content($fa-var-laptop);
     }
-    
+
     /* @end */
 
     /* @group ----- Media ----- */
@@ -3008,58 +3058,6 @@ fieldset.section > legend {
     .collapsible {
         margin-top: $spacing-small;
         overflow: visible;
-    }
-}
-
-.sidebar {
-    .pagination {
-        font-size: .8175 * $base-font-size;
-        border-bottom: 1px solid rgba(0,0,0,.08);
-        padding-bottom: ($spacing-medium - 1px);
-        margin-bottom: 0;
-        overflow: hidden;
-        width: 100%;
-
-        li {
-            float: left;
-        }
-
-        li:first-of-type {
-            padding-right: 10px;
-        }
-
-        input {
-            width: 3em;
-            text-align: center;
-            color: #333;
-            margin: 0 3px;
-        }
-
-        .next.button {
-            margin-right: 5px;
-        }
-
-        input[type="text"] {
-            float: left;
-            line-height: .8175 * $spacing-large;
-            height: $spacing-large;
-            border: 1px solid $border-gray;
-            margin-left: 0;
-        }
-
-        .page-count {
-            float: left;
-            margin-right: $spacing-medium;
-        }
-
-        .inactive {
-            background-color: #E6E6E6;
-            color: #B9B9B9;
-        }
-    }
-
-    textarea {
-        resize: vertical;
     }
 }
 
@@ -3229,7 +3227,7 @@ fieldset.section > legend {
     margin-bottom: $spacing-medium;
     border-bottom: 3px solid $border-gray;
 
-    .label, 
+    .label,
     label {
         margin: 0;
         width: auto;
@@ -3266,6 +3264,46 @@ fieldset.section > legend {
     width: 100%;
 }
 
+.block-layout-fieldset {
+    border-bottom: 1px solid $border-gray;
+    margin-bottom: $spacing-medium;
+    padding-bottom: $spacing-medium;
+}
+
+.block-layout-fieldset .expand, 
+.block-layout-fieldset .collapse {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.block-layout-fieldset .collapse {
+    font-weight: bold;
+}
+
+.block-layout-fieldset .collapse + .collapsible {
+    padding: 0 0 0 $spacing-medium;
+}
+
+.block-layout-fieldset .collapsible .field:last-child {
+    margin-bottom: 0;
+}
+
+.block-layout-fieldset .collapsible label,
+.block-layout-fieldset .collapsible .label {
+    font-weight: normal;
+}
+
+.block-layout-fieldset .collapsible .label:after, 
+.block-layout-fieldset .collapsible label:after {
+    content: none;
+}
+
+.block-layout-fieldset .collapsible .field-meta {
+    border-bottom: 0;
+    margin-bottom: 0;
+}
+
 .sidebar #advanced-search .value {
     flex-wrap: wrap;
 
@@ -3292,7 +3330,7 @@ fieldset.section > legend {
     bottom: 0;;
 }
 
-.sidebar #advanced-search .value select, 
+.sidebar #advanced-search .value select,
 .sidebar #advanced-search .value input {
     margin-left: 0;
 }
@@ -3518,7 +3556,7 @@ input[type=text].query-form-query {
     width: 100%;
 }
 
-.collapsible.annotation h4, 
+.collapsible.annotation h4,
 .collapsible.annotation .values {
     width: 100%;
     padding: 0;
@@ -3561,6 +3599,10 @@ input[type=text].query-form-query {
         content: fa-content($fa-var-cubes);
     }
 
+    .sidebar .meta-group.item-sites .o-icon-external {
+        float: right;
+    }
+
     /* @end */
 
     /* @group ----- Resource Template: Show ----- */
@@ -3594,6 +3636,26 @@ input[type=text].query-form-query {
     overflow-x: hidden;
     width: span(4 of 16);
     padding: $spacing-medium;
+
+    .sidebar-header {
+        background-color: $border-gray;
+        margin: (-1 * $spacing-medium) (-1 * $spacing-medium) $spacing-medium;
+        padding: $spacing-medium;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .sidebar-header button {
+        background-color: #fff;
+        color: $copy-gray;
+        padding: $spacing-small;
+        line-height: 1;
+        font-size: .875 * $base-font-size;
+        min-height: 0;
+        margin: 0;
+    }
 
     body.transitions-enabled & {
         transition: left .5s, visibility .5s;
@@ -3654,6 +3716,56 @@ input[type=text].query-form-query {
             border-color: transparent;
             margin-bottom: 0;
         }
+
+        .pagination {
+            font-size: .8175 * $base-font-size;
+            border-bottom: 1px solid rgba(0,0,0,.08);
+            padding-bottom: ($spacing-medium - 1px);
+            margin-bottom: 0;
+            overflow: hidden;
+            width: 100%;
+
+            li {
+                float: left;
+            }
+
+            li:first-of-type {
+                padding-right: 10px;
+            }
+
+            input {
+                width: 3em;
+                text-align: center;
+                color: #333;
+                margin: 0 3px;
+            }
+
+            .next.button {
+                margin-right: 5px;
+            }
+
+            input[type="text"] {
+                float: left;
+                line-height: .8175 * $spacing-large;
+                height: $spacing-large;
+                border: 1px solid $border-gray;
+                margin-left: 0;
+            }
+
+            .page-count {
+                float: left;
+                margin-right: $spacing-medium;
+            }
+
+            .inactive {
+                background-color: #E6E6E6;
+                color: #B9B9B9;
+            }
+        }
+
+        textarea {
+            resize: vertical;
+        }
     }
 
     input,
@@ -3695,6 +3807,16 @@ input[type=text].query-form-query {
             background-color: $border-gray;
             z-index: -1;
         }
+    }
+
+    .sidebar-header h3 {
+        width: auto;
+        margin: 0;
+        padding: 0;
+    }
+
+    .sidebar-header h3:after {
+        content: none;
     }
 
     .field {
@@ -3888,7 +4010,7 @@ body.sidebar-open #content {
   padding: 0 $spacing-small;
   margin: 0 $spacing-small;
   position: relative;
-  
+
   &:after {
       content: "";
       border-top: $spacing-medium solid transparent;
@@ -3909,14 +4031,14 @@ body.sidebar-open #content {
     font-weight: bold;
     margin-left: auto;
     margin-right: $spacing-medium;
-    
+
     &:after {
         content: "\f00c";
         @include font-awesome;
         display: inline-block;
         margin-left: $spacing-small;
     }
-    
+
     ~ .actions {
         margin-left: 0;
     }
@@ -4080,43 +4202,43 @@ body.sidebar-open #content {
 }
 
     /* @group ----- Resources ----- */
-      
+
     #site-item-sets th:first-child,
     #site-item-sets th:last-child {
         width: 1.5 * $spacing-large;
     }
-    
+
     .manual-assignment .inputs label {
         display: block;
         padding: 0;
         margin: $spacing-small 0 0;
         min-height: 0;
         line-height: $base-line-height;
-        
+
         &:last-child {
           margin-bottom: $spacing-small;
         }
     }
-    
+
     .manual-assignment #advanced-search {
         margin-top: -1 * $spacing-small;
         padding: $spacing-medium 0 $spacing-small;
         background-color: $gray-on-white;
         border-top: 1px solid $border-gray;
-        
+
         &.inactive {
             display: none;
         }
     }
-    
+
     .manual-assignment .advanced-search-header {
         padding: 0 $spacing-small;
     }
-    
+
     .manual-assignment .advanced-search-header a.button {
         margin-bottom: $spacing-small;
     }
-    
+
     .manual-assignment .advanced-search-content .field {
         background-color: transparent;
     }
@@ -4125,9 +4247,9 @@ body.sidebar-open #content {
     .keep-search input {
         margin: 0 0 0 $spacing-small;
     }
-    
-    
-    
+
+
+
     /* @end */
 
     /* @group ----- User Permissions ----- */
@@ -4136,7 +4258,7 @@ body.sidebar-open #content {
     tr.value.delete > td:not(.input-footer) {
         display: table-cell;
     }
-    
+
     tr.value.delete .user-name,
     tr.value.delete select,
     tr.value.delete .o-icon-delete {
@@ -4160,14 +4282,102 @@ body.sidebar-open #content {
 
     /* @group ----- Pages ----- */
 
+    #block-controls-header {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: $spacing-medium;
+        font-size: .875 * $base-font-size;
+    }
+
+
+    #block-controls-header select,
+    #block-controls-header button,
+    .block-header select,
+    .block-header button {
+        font-size: .875 * $base-font-size;
+        line-height: 1;
+        margin-bottom: 0;
+        height: auto;
+        min-height: 0;
+        border: 0;
+        box-shadow: 0 0 0 1px rgba(0,0,0,.15) inset;
+    }
+
+    #block-controls-header select,
+    .block-header select {
+        padding: $spacing-small $spacing-large $spacing-small $spacing-small;
+        background-size: 6px;
+    }
+
+    #page-layout-controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: $spacing-medium;
+    }
+
+    #preview-page-layout:before,
+    .preview-block-page-layout:before {
+        content: fa-content($fa-var-grip-vertical);
+        @include font-awesome;
+    }
+
+    #page-layout-controls label,
+    .block-page-layout-grid-controls label {
+        display: inline-flex;
+        align-items: baseline;
+    }
+
+    #page-layout-controls select,
+    .block-page-layout-grid-controls select {
+        margin-left: $spacing-small;
+    }
+
+    #page-layout-controls > *:not(:last-child) {
+        margin-right: $spacing-small;
+    }
+
+    #page-layout-controls button {
+        margin-bottom: 0;
+    }
+
     .indent:before {
         content: "\2014";
         margin-right: -1px;
     }
 
     .expand-collapse-all {
-        margin-top: $spacing-medium;
         text-align: right;
+        margin-bottom: $spacing-medium;
+    }
+
+    .expand-all:before,
+    .collapse-all:before,
+    .expand-group:before,
+    .collapse-group:before {
+        @include font-awesome;
+    }
+
+    .expand-all:before,
+    .collapse-all:before {
+        margin-right: $spacing-small;
+    }
+
+    .expand-all:before,
+    .expand-group:before {
+        content: fa-content($fa-var-angle-double-down);
+    }
+
+    .collapse-all:before,
+    .collapse-group:before {
+        content: fa-content($fa-var-angle-double-up);
+    }
+
+    .add-block-group:before {
+        content: "\f247";
+        @include font-awesome;
+        margin-right: $spacing-small;
     }
 
     .block {
@@ -4181,13 +4391,45 @@ body.sidebar-open #content {
         background-color: opacify($gray-on-white, .08);
         padding: $spacing-small;
         font-weight: bold;
+        font-size: .875 * $base-font-size;
     }
 
-    .block .block-header .actions a:before {
-        text-align: center;
+    .block .block-header .sortable-handle {
+        margin-right: $spacing-small;
     }
 
-    .block .block-content input[type="hidden"] + * {
+    .block .block-header .sortable-handle:before {
+        font-size: 16px;
+    }
+
+    .block .block-header .block-type {
+        margin-right: auto;
+    }
+
+    .delete.block .block-header .block-type {
+        margin-right: 0;
+    }
+
+    .block .block-header select {
+        margin-right: $spacing-small;
+        font-weight: normal;
+    }
+
+    .block .actions,
+    .block-page-layout-grid-controls,
+    .delete .block-page-layout-grid-controls + .actions {
+        margin-left: auto;
+    }
+
+    .block-page-layout-grid-controls + .actions {
+        margin-left: 0;
+    }
+
+    .block-page-layout-grid-controls select {
+        vertical-align: baseline;
+    }
+    
+.block .block-content input[type="hidden"] + * {
         padding-top: 0;
         margin-top: 0;
     }
@@ -4233,7 +4475,7 @@ body.sidebar-open #content {
 
     .delete .block-type,
     .block .delete div.item-title {
-        margin-left: 1.25 * $spacing-large;
+        margin-left: $spacing-large;
     }
 
     .delete .block-type {
@@ -4363,6 +4605,42 @@ body.sidebar-open #content {
         max-height: 12 * $spacing-large;
     }
 
+    .block-group > .block-content {
+        background-color: #fff;
+        border: 1px solid $border-gray;
+        padding: $spacing-small #{$spacing-small + 1px};
+    }
+
+    .block-group-blocks {
+        border-left: $spacing-small solid $border-gray; 
+        padding: $spacing-medium 0 0 $spacing-small;
+        min-height: 1.5 * $spacing-large;
+
+        .empty-drop-zone {
+            display: none;
+            padding: (1.5 * $spacing-large) $spacing-large;
+            background-color: $gray-on-white;
+            text-align: center;
+        }
+
+        .empty-drop-zone:only-child {
+            display: block;
+        }
+
+        .block-header.collapse {
+            padding: $spacing-small;
+        }
+
+        .collapse + .collapsible {
+            margin-top: 0;
+        }
+
+        a.collapse,
+        a.expand {
+            width: $base-font-size;
+        }
+    }
+
     #attachment-options .option {
         position: relative;
         margin-bottom: $spacing-medium;
@@ -4485,25 +4763,25 @@ body.sidebar-open #content {
     .add-asset-attachment {
         margin-top: $spacing-small;
     }
-      
+
     #asset-options .sidebar-content > div {
         margin-bottom: 2rem;
     }
-      
+
     .asset-attachment-select {
         margin-top: .5rem;
     }
-      
+
     .asset-title {
         display: flex;
         align-items: center;
     }
-      
+
     .asset-title img {
         height: 100%;
         width: auto;
     }
-      
+
     .asset-title .thumbnail:not(:empty) {
         height: 2rem;
         position: relative;
@@ -4513,7 +4791,7 @@ body.sidebar-open #content {
         display: inline-flex;
         justify-content: center;
     }
-    
+
     #asset-options .none-selected.inactive {
         display: none;
     }
@@ -4529,6 +4807,103 @@ body.sidebar-open #content {
     #asset-options .selected-page + .o-icon-external {
         margin-left: $spacing-small;
     }
+
+    [name="block-layout-fieldset-padding"].block-layout-fieldset .collapse + .collapsible {
+        display: grid;
+        grid-column-gap: $spacing-large;
+        grid-row-gap: $spacing-medium;
+        grid-auto-columns: 1fr;
+        grid-auto-rows: 1fr;
+
+        .field {
+            margin-bottom: 0;
+            display: block;
+        }
+
+        .field:first-child {
+            grid-column: 2 / 3;
+        }
+
+        .field:nth-child(2) {
+            grid-column: 3 / 3;
+            grid-row: 2 / 3;
+        }
+
+        .field:nth-child(3) {
+            grid-column: 2 / 3;
+            grid-row: 3 / 3;
+        }
+
+        .field:last-child {
+            grid-row: 2 / 3;
+        }
+
+        .field-meta {
+            padding: 0 0 $spacing-small;
+            width: auto;
+        }
+    }
+
+    [name="block-layout-fieldset-padding"].block-layout-fieldset label {
+        display: inline-flex;
+        justify-content: space-between;
+        padding: 0;
+        align-items: center;
+        height: 100%;
+
+        &:after {
+            content: none;
+        }
+
+        .label-text {
+            margin-right: $spacing-small;
+        }
+
+        input {
+            width: 50%;
+        }
+    }
+
+        /* @group ----- Page Grid ----- */
+
+        #layout-preview {
+            display: grid;
+            grid-gap: $spacing-small;
+        }
+
+        .layout-previewing-block-group {
+            border: 3px solid $border-gray;
+            padding: .5 * $spacing-small;
+            grid-gap: (.5 * $spacing-small);
+        }
+
+        .layout-previewing-block {
+            min-height: 60px;
+            background-color: $border-gray;
+        }
+
+        .hovered-block {
+            box-shadow: 0 0 0 1px $copy-gray inset;
+        }
+
+        #layout-preview .layout-previewing {            
+            box-shadow: 0 0 0 2px $copy-gray inset;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .layout-previewing.block {
+            box-shadow: 0 0 0 2px $copy-gray inset;
+        }
+
+        .selected-tooltip:before {
+            content: fa-content($fa-var-asterisk);
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+        }
+
+        /* @end */
 
     /* @end */
 
@@ -4611,7 +4986,7 @@ body.sidebar-open #content {
             order: 2;
         }
     }
-    
+
     .theme-thumbnail {
       align-self: flex-start;
     }
@@ -4684,7 +5059,7 @@ body.sidebar-open #content {
         margin: 0 $spacing-large 0 0;
         border: 1px solid $border-gray;
     }
-    
+
     .current-theme .current-theme-info {
         width: calc(50% - #{$spacing-large});
     }
@@ -4708,11 +5083,12 @@ body.sidebar-open #content {
 
 /* @groups ----- Page Block Config ----- */
 
+
 .theme-resource-pages .blocks {
     list-style: none;
     padding-left: 0;
-    border: 1px solid $border-gray; 
-    padding: $spacing-medium; 
+    border: 1px solid $border-gray;
+    padding: $spacing-medium;
     min-height: 30px;
 }
 
@@ -4832,7 +5208,7 @@ body.minimal {
         margin-bottom: $spacing-large;
         display: flex;
         flex-wrap: wrap;
-        
+
         .site {
             margin-bottom: $spacing-medium;
             overflow: auto;
@@ -4845,12 +5221,12 @@ body.minimal {
             display: inline-block;
             font-size: 1.125 * $base-font-size;
         }
-        
+
         .site-summary {
             margin: 0;
             line-height: 20px;
         }
-        
+
         .site-thumbnail {
             float: left;
             display: block;
@@ -4866,23 +5242,23 @@ body.minimal {
     .results {
       margin-bottom: $spacing-large;
     }
-    
+
     .results > ul {
       padding-left: 0;
     }
-    
+
     .results > ul > li {
         list-style-type: none;
     }
-    
+
     .advanced-search {
       margin: (-1 * $spacing-medium) 0 $spacing-large;
       display: block;
     }
-    
+
     .advanced-search-actions {
       margin: $spacing-medium 0;
-      
+
       input[type="submit"] {
         width: auto;
         display: inline-block;
@@ -4894,15 +5270,15 @@ body.minimal {
     margin: $spacing-small 0;
 }
 
-.sitewide-search-form {    
+.sitewide-search-form {
     display: flex;
     margin-bottom: $spacing-large;
 
     input[type="text"] {
       min-width: 60%;
-      margin-right: $spacing-small;      
+      margin-right: $spacing-small;
     }
-    
+
     input[type="submit"] {
       width: auto;
       margin: 0;
@@ -4926,7 +5302,7 @@ body.minimal .site.results thead {
   padding: $spacing-small $spacing-small 0;
   margin-bottom: $spacing-medium;
   width: calc(50% - #{$spacing-medium});
-  
+
   &:nth-child(2n) {
     margin-left: $spacing-medium;
   }

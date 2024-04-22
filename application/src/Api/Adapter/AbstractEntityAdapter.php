@@ -121,20 +121,21 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     {
         if (isset($query['id'])) {
             $ids = $query['id'];
-            if (is_string($ids) || is_int($ids)) {
+            if (is_int($ids)) {
+                $ids = [(string) $ids];
+            } elseif (is_string($ids)) {
                 // Account for comma-delimited IDs.
                 $ids = false === strpos($ids, ',') ? [$ids] : explode(',', $ids);
-            } elseif (!is_array($ids)) {
+            } elseif (is_array($ids)) {
+                $ids = array_map('strval', $ids);
+            } else {
                 // This is an invalid ID. Set to an empty array.
                 $ids = [];
             }
             // Exclude null and empty-string IDs. Previous resource-only version
             // used is_numeric, but we want this to be able to work for possible
             // string IDs also.
-            $ids = array_map('trim', $ids);
-            $ids = array_filter($ids, function ($id) {
-                return !($id === null || $id === '');
-            });
+            $ids = array_filter(array_map('trim', $ids), 'strlen');
             if ($ids) {
                 $qb->andWhere($qb->expr()->in(
                     'omeka_root.id',
@@ -318,6 +319,13 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             $response->setTotalResults(count($content));
             return $response;
         }
+
+        // Trigger the api.search.query.finalize event.
+        $event = new Event('api.search.query.finalize', $this, [
+            'queryBuilder' => $qb,
+            'request' => $request,
+        ]);
+        $this->getEventManager()->triggerEvent($event);
 
         $paginator = new Paginator($qb, false);
         $entities = [];

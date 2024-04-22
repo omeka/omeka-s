@@ -17,6 +17,15 @@ class PropertyAdapter extends AbstractEntityAdapter
         'comment' => 'comment',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        'local_name' => 'localName',
+        'label' => 'label',
+        'comment' => 'comment',
+        'owner' => 'owner',
+        'vocabulary' => 'vocabulary',
+    ];
+
     public function getResourceName()
     {
         return 'properties';

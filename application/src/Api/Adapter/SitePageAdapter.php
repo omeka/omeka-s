@@ -24,6 +24,16 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
         'slug' => 'slug',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        'slug' => 'slug',
+        'title' => 'title',
+        'is_public' => 'isPublic',
+        'site' => 'site',
+        'created' => 'created',
+        'modified' => 'modified',
+    ];
+
     public function getResourceName()
     {
         return 'site_pages';
@@ -133,6 +143,14 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
             $entity->setIsPublic($request->getValue('o:is_public', true));
         }
 
+        if ($this->shouldHydrate($request, 'o:layout')) {
+            $entity->setLayout($request->getValue('o:layout', null));
+        }
+
+        if ($this->shouldHydrate($request, 'o:layout_data')) {
+            $entity->setLayoutData($request->getValue('o:layout_data', null));
+        }
+
         $appendBlocks = $request->getOperation() === Request::UPDATE && $request->getOption('isPartial', false);
         $this->hydrateBlocks($blockData, $entity, $errorStore, $appendBlocks);
         $this->updateTimestamps($request, $entity);
@@ -210,12 +228,21 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
                 return;
             }
             if (!is_array($inputBlock['o:data'])) {
-                $errorStore->addError('o:block', 'Block data must not be a scalar value.'); // @translate
-                return;
+                // Attempt to convert the data to an array before returning with
+                // an error. This is needed in part so fallback blocks don't
+                // lose their data onced saved.
+                $blockData = json_decode($inputBlock['o:data'], true);
+                if (is_array($blockData)) {
+                    $inputBlock['o:data'] = $blockData;
+                } else {
+                    $errorStore->addError('o:block', 'Block data must not be a scalar value.'); // @translate
+                    return;
+                }
             }
 
             $block->setLayout($inputBlock['o:layout']);
             $block->setData($inputBlock['o:data']);
+            $block->setLayoutData($inputBlock['o:layout_data'] ?? null);
 
             // (Re-)order blocks by their order in the input
             $block->setPosition($position++);

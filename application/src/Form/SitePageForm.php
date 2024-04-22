@@ -2,9 +2,12 @@
 namespace Omeka\Form;
 
 use Laminas\Form\Form;
+use Omeka\Site\Theme\Theme;
 
 class SitePageForm extends Form
 {
+    protected $currentTheme;
+
     public function init()
     {
         $this->setAttribute('id', 'site-page-form');
@@ -40,5 +43,12 @@ class SitePageForm extends Form
                 ],
             ]);
         }
+
+        $inputFilter = $this->getInputFilter();
+    }
+
+    public function setCurrentTheme(Theme $currentTheme)
+    {
+        $this->currentTheme = $currentTheme;
     }
 }

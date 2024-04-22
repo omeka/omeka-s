@@ -8,7 +8,7 @@ use Laminas\Navigation\Navigation;
 use Laminas\Form\Element\Number;
 use Laminas\View\Renderer\PhpRenderer;
 
-class TableOfContents extends AbstractBlockLayout
+class TableOfContents extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     public function getLabel()
     {
@@ -20,7 +20,14 @@ class TableOfContents extends AbstractBlockLayout
     ) {
         $depth = new Number("o:block[__blockIndex__][o:data][depth]");
 
-        $depth->setValue($block ? $block->dataValue('depth', 1) : 1);
+        $depthValue = 1;
+        if ($block) {
+            $blockDepth = (int) $block->dataValue('depth');
+            if ($blockDepth > 1) {
+                $depthValue = $blockDepth;
+            }
+        }
+        $depth->setValue($depthValue);
         $depth->setAttribute('min', 1);
 
         $html = '';
@@ -33,7 +40,7 @@ class TableOfContents extends AbstractBlockLayout
         return $html;
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/table-of-contents')
     {
         $view->pageViewModel->setVariable('displayNavigation', false);
 
@@ -53,9 +60,13 @@ class TableOfContents extends AbstractBlockLayout
         }
         $subNav = new Navigation($newPages);
 
-        $depth = $block->dataValue('depth', 1);
+        // Don't use dataValue's default here; we need to handle empty/non-numerics anyway
+        $depth = (int) $block->dataValue('depth');
+        if ($depth < 1) {
+            $depth = 1;
+        }
 
-        return $view->partial('common/block-layout/table-of-contents', [
+        return $view->partial($templateViewScript, [
             'block' => $block,
             'subNav' => $subNav,
             'maxDepth' => $depth - 1,

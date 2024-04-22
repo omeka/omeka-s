@@ -5,7 +5,6 @@ use Omeka\Api\Request;
 use Omeka\Entity\Media;
 use Omeka\File\Uploader;
 use Omeka\Stdlib\ErrorStore;
-use Laminas\Form\Element\File;
 use Laminas\View\Renderer\PhpRenderer;
 
 class Upload implements IngesterInterface
@@ -64,16 +63,24 @@ class Upload implements IngesterInterface
 
     public function form(PhpRenderer $view, array $options = [])
     {
-        $fileInput = new File('file[__index__]');
-        $fileInput->setOptions([
-            'label' => 'Upload file', // @translate
-            'info' => $view->uploadLimit(),
-        ]);
-        $fileInput->setAttributes([
-            'id' => 'media-file-input-__index__',
-            'required' => true,
-        ]);
-        $field = $view->formRow($fileInput);
-        return $field . '<input type="hidden" name="o:media[__index__][file_index]" value="__index__">';
+        $infoTemplate = '
+        <div class="media-file-info">
+            <div class="media-file-thumbnail"></div>
+            <div class="media-file-size">
+        </div>';
+        return '
+        <div class="field">
+            <div class="field-meta">
+                <label for="media-file-input-__index__">' . $view->translate('Upload file') . '</label>
+                <a href="#" class="expand" aria-label="' . $view->translate('Expand') . '" title="' . $view->translate('Expand') . '"></a>
+                <div class="collapsible">
+                    <div class="field-description">' . $view->uploadLimit() . '</div>
+                </div>
+            </div>
+            <div class="inputs">
+                <input type="file" name="file[__index__]" id="media-file-input-__index__" class="media-file-input" data-info-template="' . $view->escapeHtml($infoTemplate) . '" multiple required>
+                <input type="hidden" name="o:media[__index__][file_index]" value="__index__">
+            </div>
+        </div>';
     }
 }

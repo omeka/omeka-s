@@ -4,6 +4,7 @@ namespace Omeka\Api\Adapter;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Request;
 use Omeka\Media\Ingester\MutableIngesterInterface;
+use Omeka\Media\Renderer\FulltextSearchableInterface;
 use Omeka\Entity\EntityInterface;
 use Omeka\Entity\Item;
 use Omeka\Media\Ingester\Fallback;
@@ -199,5 +200,17 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         }
 
         return $data;
+    }
+
+    public function getFulltextText($resource)
+    {
+        $renderer = $this->getServiceLocator()
+            ->get('Omeka\Media\Renderer\Manager')
+            ->get($resource->getRenderer());
+        $fulltextText = parent::getFulltextText($resource);
+        if ($renderer instanceof FulltextSearchableInterface) {
+            $fulltextText .= ' ' . $renderer->getFulltextText($this->getRepresentation($resource));
+        }
+        return $fulltextText;
     }
 }

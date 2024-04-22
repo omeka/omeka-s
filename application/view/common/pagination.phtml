@@ -1,14 +1,22 @@
 <?php
 $translate = $this->plugin('translate');
+
+// Do not emit the sort_by_default flag.
+$removeQueries = ['page', 'sort_by_default'];
+if (isset($query['sort_by_default'])) {
+    // Do not emit sort_by if the sort_by_default flag is set.
+    $removeQueries[] = 'sort_by';
+}
 ?>
 <nav class="pagination" role="navigation">
 <?php if ($totalCount): ?>
     <form method="GET" action="">
-        <?php echo $this->queryToHiddenInputs(['page']); ?>
+        <?php echo $this->queryToHiddenInputs($removeQueries); ?>
         <input type="text" name="page" class="page-input-top" value="<?php echo $currentPage; ?>" size="4" <?php echo ($pageCount == 1) ? 'readonly' : ''; ?> aria-label="<?php echo $translate('Page'); ?>">
         <span class="page-count"><?php echo sprintf($translate('of %s'), $pageCount); ?></span>
     </form>
 
+    <div class="pagination-buttons">
     <?php if ($currentPage != 1): ?>
     <?php echo $this->hyperlink('', $previousPageUrl, ['class' => 'previous o-icon-prev button', 'title' => $translate('Previous'), 'aria-label' => $translate('Previous')]); ?>
     <?php else: ?>
@@ -20,6 +28,7 @@ $translate = $this->plugin('translate');
     <?php else: ?>
     <span class="next o-icon-next button inactive"></span>
     <?php endif; ?>
+    </div>
 
     <?php
     $from = $offset + 1;

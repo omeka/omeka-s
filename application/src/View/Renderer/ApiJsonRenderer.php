@@ -2,8 +2,8 @@
 namespace Omeka\View\Renderer;
 
 use Omeka\Api\Exception\ValidationException;
-use Omeka\Api\Representation\RepresentationInterface;
 use Omeka\Api\Response;
+use Laminas\EventManager\EventManager;
 use Laminas\Json\Json;
 use Laminas\View\Renderer\JsonRenderer;
 
@@ -18,6 +18,18 @@ class ApiJsonRenderer extends JsonRenderer
     protected $hasJsonpCallback = false;
 
     /**
+     * @var string The output format
+     */
+    protected $format;
+
+    protected $eventManager;
+
+    public function __construct(EventManager $eventManager)
+    {
+        $this->eventManager = $eventManager;
+    }
+
+    /**
      * Return whether the response is JSONP
      *
      * The view strategy checks this to decide what Content-Type to send, and
@@ -29,6 +41,11 @@ class ApiJsonRenderer extends JsonRenderer
     public function hasJsonpCallback()
     {
         return $this->hasJsonpCallback;
+    }
+
+    public function setHasJsonpCallback(bool $hasJsonpCallback)
+    {
+        $this->hasJsonpCallback = $hasJsonpCallback;
     }
 
     public function render($model, $values = null)
@@ -53,27 +70,24 @@ class ApiJsonRenderer extends JsonRenderer
 
         $output = parent::render($payload);
 
-        if ($payload instanceof RepresentationInterface) {
-            $eventManager = $payload->getEventManager();
-            $args = $eventManager->prepareArgs(['jsonLd' => $output]);
-            $eventManager->trigger('rep.resource.json_output', $payload, $args);
-            $output = $args['jsonLd'];
-        }
+        // Allow modules to return custom output.
+        $args = $this->eventManager->prepareArgs([
+            'model' => $model,
+            'payload' => $payload,
+            'format' => $this->format,
+            'output' => $output,
+        ]);
+        $this->eventManager->trigger('api.output.serialize', $this, $args);
+        return $args['output'];
+    }
 
-        if (null !== $model->getOption('pretty_print')) {
-            // Pretty print the JSON.
-            $output = Json::prettyPrint($output);
-        }
-
-        $jsonpCallback = (string) $model->getOption('callback');
-        if (!empty($jsonpCallback)) {
-            // Wrap the JSON in a JSONP callback. Normally this would be done
-            // via `$this->setJsonpCallback()` but we don't want to pass the
-            // wrapped string to `rep.resource.json_output` handlers.
-            $output = sprintf('%s(%s);', $jsonpCallback, $output);
-            $this->hasJsonpCallback = true;
-        }
-
-        return $output;
+    /**
+     * Set an alternate output format.
+     *
+     * @param string $format
+     */
+    public function setFormat($format)
+    {
+        $this->format = $format;
     }
 }

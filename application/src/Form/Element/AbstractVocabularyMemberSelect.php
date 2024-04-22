@@ -70,6 +70,7 @@ abstract class AbstractVocabularyMemberSelect extends Select implements EventMan
             } elseif ('resource_classes' === $resourceName) {
                 $attributes['data-resource-class-id'] = $member->id();
             }
+            $attributes['title'] = $member->term();
             $option = [
                 'label' => $member->label(),
                 'value' => $termAsValue ? $member->term() : $member->id(),

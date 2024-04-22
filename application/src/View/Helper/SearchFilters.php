@@ -218,16 +218,19 @@ class SearchFilters extends AbstractHelper
 
                     case 'id':
                         $filterLabel = $translate('ID');
+                        // Avoid a deprecated issue, so convert ids as string.
                         $ids = $value;
-                        if (is_string($ids) || is_int($ids)) {
-                            $ids = false === strpos($ids, ',') ? [$ids] : explode(',', $ids);
-                        } elseif (!is_array($ids)) {
+                        if (is_int($ids)) {
+                            $ids = [(string) $ids];
+                        } elseif (is_string($ids)) {
+                            $ids = strpos($ids, ',') === false ? [$ids] : explode(',', $ids);
+                        } elseif (is_array($ids)) {
+                            $ids = array_map('strval', $ids);
+                        } else {
                             $ids = [];
                         }
                         $ids = array_map('trim', $ids);
-                        $ids = array_filter($ids, function ($id) {
-                            return !($id === null || $id === '');
-                        });
+                        $ids = array_filter($ids, 'strlen');
                         $filters[$filterLabel][] = implode(', ', $ids);
                         break;
                 }

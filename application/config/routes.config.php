@@ -226,7 +226,30 @@ return [
                     'route' => '/api',
                     'defaults' => [
                         '__API__' => true,
+                        '__KEYAUTH__' => true,
                         'controller' => 'Omeka\Controller\Api',
+                    ],
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'default' => [
+                        'type' => \Laminas\Router\Http\Segment::class,
+                        'options' => [
+                            'route' => '[/:resource[/:id]]',
+                            'constraints' => [
+                                'resource' => '[a-zA-Z0-9_-]+',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'api-local' => [
+                'type' => \Laminas\Router\Http\Literal::class,
+                'options' => [
+                    'route' => '/api-local',
+                    'defaults' => [
+                        '__API__' => true,
+                        'controller' => 'Omeka\Controller\ApiLocal',
                     ],
                 ],
                 'may_terminate' => true,

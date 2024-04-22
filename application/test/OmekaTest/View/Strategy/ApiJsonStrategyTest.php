@@ -11,14 +11,22 @@ use Omeka\Test\TestCase;
 class ApiJsonStrategyTest extends TestCase
 {
     public $renderer;
+    public $eventManager;
     public $strategy;
     public $event;
 
     public function setUp(): void
     {
         $this->renderer = $this->createMock('Omeka\View\Renderer\ApiJsonRenderer');
+        $this->eventManager = $this->createMock('Laminas\EventManager\EventManager');
+        $this->eventManager->expects($this->any())
+            ->method('prepareArgs')
+            ->will($this->returnCallback(function ($arg) {
+                return $arg;
+            })
+        );
 
-        $this->strategy = new ApiJsonStrategy($this->renderer);
+        $this->strategy = new ApiJsonStrategy($this->renderer, $this->eventManager);
 
         $this->event = new ViewEvent;
         $httpResponse = new HttpResponse;

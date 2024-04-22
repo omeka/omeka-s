@@ -11,6 +11,7 @@ class ResourceBatchUpdateFormFactory implements FactoryInterface
     {
         $form = new ResourceBatchUpdateForm(null, $options);
         $form->setUrlHelper($services->get('ViewHelperManager')->get('Url'));
+        $form->setAcl($services->get('Omeka\Acl'));
         $form->setEventManager($services->get('EventManager'));
         return $form;
     }

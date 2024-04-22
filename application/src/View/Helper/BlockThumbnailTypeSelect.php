@@ -39,7 +39,7 @@ class BlockThumbnailTypeSelect extends AbstractHelper
             $type = $block->dataValue('thumbnail_type');
         }
 
-        $selectLabel = $view->translate('Thumbnail type');
+        $selectLabel = 'Image type'; // @translate
         $select = new Select('o:block[__blockIndex__][o:data][thumbnail_type]');
         $select->setValueOptions(array_combine($this->thumbnailTypes, $this->thumbnailTypes))->setValue($type);
         $select->setAttributes(['title' => $selectLabel, 'aria-label' => $selectLabel]);

@@ -23,7 +23,7 @@ $attachmentRowTemplate = '
     <?php foreach($attachments as $attachment): ?>
       <div class="attachment">
         <span class="sortable-handle"></span>
-        <?php 
+        <?php
                 $asset = $attachment['asset'];
                 $assetId = ($asset) ? $escape($asset->id()) : '';
                 $page = (array_key_exists('page', $attachment)) ? $attachment['page'] : null;
@@ -53,19 +53,4 @@ $attachmentRowTemplate = '
         <?php endif; ?>
         <button type="button" class="add-asset-attachment" data-sidebar-content-url="<?php echo $escape($this->url('admin/default', ['controller' => 'asset', 'action' => 'sidebar-select'])); ?>"><?php echo $translate('Add asset'); ?></button>
     </div>
-</div>
-<a class="collapse" href="#" aria-label="<?php echo $translate('Collapse'); ?>" title="<?php echo $translate('Collapse'); ?>">
-    <h4><?php echo $translate('Options'); ?></h4>
-</a>
-<div class="collapsible">
-  <div class="field">
-    <div class="field-meta">
-      <label for="o:block[__blockIndex__][o:data][className]"><?php echo $translate('Class'); ?></label>
-    </div>
-    <div class="inputs">
-      <?php $className = (isset($block['className'])) ? $escape($block['className']) : ''; ?>
-      <input type="text" name="o:block[__blockIndex__][o:data][className]" value="<?php echo $className; ?>">
-    </div>
-  </div>
-  <?php echo $alignmentClassSelect; ?>
 </div>

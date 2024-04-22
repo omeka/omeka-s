@@ -61,6 +61,10 @@
     }
 }
 
+.value .jstree-editlink-container label {
+    line-height: 1.5 * $base-line-height;
+}
+
 .jstree-hovered,
 .jstree-clicked {
     background-color: opacify($gray-on-white, .08);
@@ -225,9 +229,17 @@ i.jstree-displaylink {
     background-color: #ffcccc;
 }
 
-.jstree-removenode-removed .jstree-children .jstree-removenode-remove,
-.jstree-removenode-removed .jstree-children .jstree-removenode-undo {
+.jstree-removenode-removed .jstree-icon:not(.jstree-removenode-undo), 
+.jstree-removenode-removed .jstree-children .jstree-icon {
     display: none;
+}
+
+.jstree-removenode-removed > .jstree-anchor .jstree-removenode-undo, {
+    right: $spacing-medium;
+}
+
+.jstree-removenode-toberemoved {
+    margin-left: .5 * $spacing-small;
 }
 
 .jstree-removenode-removed.jstree-open > .jstree-ocl,

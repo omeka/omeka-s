@@ -19,7 +19,7 @@ $this->htmlElement('body')->appendAttribute('class', 'batch-edit item-sets');
     <input type="submit" name="batch_update" value="<?php echo $this->escapeHtml($translate('Submit')); ?>">
 </div>
 
-<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->formCollectionElementGroups($form, false); ?>
 <?php echo $this->partial('common/property-form-batch-edit.phtml', ['resourceType' => 'item_sets']); ?>
 <?php echo $this->form()->closeTag(); ?>
 

@@ -199,6 +199,15 @@ class UserForm extends Form
             'options' => [
                 'label' => 'Default sites for items', // @translate
                 'empty_option' => '',
+                'filter_resource_representations' => function ($sites) {
+                    // The user must have permission to assign items to the site.
+                    foreach ($sites as $index => $site) {
+                        if (!$site->userIsAllowed('can-assign-items')) {
+                            unset($sites[$index]);
+                        }
+                    }
+                    return $sites;
+                },
             ],
         ]);
         $settingsFieldset->add([

@@ -9,7 +9,7 @@ use Omeka\Site\Navigation\Translator;
 use Laminas\Form\Element\Hidden;
 use Laminas\View\Renderer\PhpRenderer;
 
-class ListOfPages extends AbstractBlockLayout
+class ListOfPages extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
 {
     /**
      * @var LinkManager
@@ -47,32 +47,31 @@ class ListOfPages extends AbstractBlockLayout
         $pageList = new Hidden("o:block[__blockIndex__][o:data][pagelist]");
         if ($block) {
             $nodes = json_decode($block->dataValue('pagelist'), true);
+            $nodes = is_array($nodes) ? $nodes : [];
             $pageTree = $this->getPageNodeURLs($nodes, $block);
         } else {
             $pageTree = '';
         }
         $pageList->setValue(json_encode($pageTree));
 
-        $html = '<div class="block-pagelist-tree"';
-        $html .= '" data-jstree-data="' . $escape($pageList->getValue());
-        $html .= '"></div>';
-        $html .= '<button type="button" class="site-page-add">';
-        $html .= $view->translate('Add pages') . '</button>';
+        $html = '<div class="block-pagelist-tree" data-jstree-data="' . $escape($pageList->getValue()) . '"></div>';
+        $html .= '<button type="button" class="site-page-add">' . $view->translate('Add pages') . '</button>';
         $html .= '<div class="inputs">' . $view->formRow($pageList) . '</div>';
 
         return $html;
     }
 
-    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block, $templateViewScript = 'common/block-layout/list-of-pages')
     {
         $nodes = json_decode($block->dataValue('pagelist'), true);
-        if (!$nodes) {
+        if (!is_array($nodes)) {
             return '';
         }
 
         $pageTree = $this->getPageNodeURLs($nodes, $block);
 
-        return $view->partial('common/block-layout/list-of-pages', [
+        return $view->partial($templateViewScript, [
+            'block' => $block,
             'pageList' => $pageTree,
         ]);
     }

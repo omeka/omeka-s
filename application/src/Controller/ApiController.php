@@ -36,6 +36,34 @@ class ApiController extends AbstractRestfulController
         $this->api = $api;
     }
 
+    public function create($data, $fileData = [])
+    {
+        $resource = $this->params()->fromRoute('resource');
+        $response = $this->api->create($resource, $data, $fileData);
+        return new ApiJsonModel($response, $this->getViewOptions());
+    }
+
+    public function update($id, $data)
+    {
+        $resource = $this->params()->fromRoute('resource');
+        $response = $this->api->update($resource, $id, $data);
+        return new ApiJsonModel($response, $this->getViewOptions());
+    }
+
+    public function patch($id, $data)
+    {
+        $resource = $this->params()->fromRoute('resource');
+        $response = $this->api->update($resource, $id, $data, [], ['isPartial' => true]);
+        return new ApiJsonModel($response, $this->getViewOptions());
+    }
+
+    public function delete($id)
+    {
+        $resource = $this->params()->fromRoute('resource');
+        $response = $this->api->delete($resource, $id);
+        return new ApiJsonModel($response, $this->getViewOptions());
+    }
+
     /**
      * Fetch all contexts and render a JSON-LD context object.
      */
@@ -109,39 +137,6 @@ class ApiController extends AbstractRestfulController
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @param array $fileData PHP file upload data
-     */
-    public function create($data, $fileData = [])
-    {
-        $resource = $this->params()->fromRoute('resource');
-        $response = $this->api->create($resource, $data, $fileData);
-        return new ApiJsonModel($response, $this->getViewOptions());
-    }
-
-    public function update($id, $data)
-    {
-        $resource = $this->params()->fromRoute('resource');
-        $response = $this->api->update($resource, $id, $data);
-        return new ApiJsonModel($response, $this->getViewOptions());
-    }
-
-    public function patch($id, $data)
-    {
-        $resource = $this->params()->fromRoute('resource');
-        $response = $this->api->update($resource, $id, $data, [], ['isPartial' => true]);
-        return new ApiJsonModel($response, $this->getViewOptions());
-    }
-
-    public function delete($id)
-    {
-        $resource = $this->params()->fromRoute('resource');
-        $response = $this->api->delete($resource, $id);
-        return new ApiJsonModel($response, $this->getViewOptions());
-    }
-
-    /**
      * Validate the API request and set global options.
      *
      * @param MvcEvent $event
@@ -149,6 +144,12 @@ class ApiController extends AbstractRestfulController
     public function onDispatch(MvcEvent $event)
     {
         $request = $this->getRequest();
+
+        // Set the output format.
+        $this->setViewOption('format', $request->getQuery('format'));
+
+        // Set the Accept header.
+        $this->setViewOption('accept_header', $request->getHeader('Accept'));
 
         // Set pretty print.
         $prettyPrint = $request->getQuery('pretty_print');

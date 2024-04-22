@@ -1,35 +1,45 @@
-<div class="<?php echo $this->alignmentClass . ' ' . $this->thumbnailType; ?> file">
-    <div class="attachments">
-<?php foreach($this->attachments as $attachment): ?>
+<?php
+$hyperlink = $this->plugin('hyperlink');
+?>
+<div class="<?php echo $this->escapeHtml(implode(' ', $classes)); ?>">
+    <?php foreach($attachments as $attachment): ?>
+    <?php $item = $attachment->item(); ?>
     <div class="item resource">
-    <?php
-    $item = $attachment->item();
-    if ($item):
-    ?>
         <?php
         $media = $attachment->media() ?: $item->primaryMedia();
         if ($media):
-            echo $media->render([
-                'thumbnailType' => $thumbnailType,
-                'link' => $link,
-            ]);
+            if ($mediaDisplay === 'thumbnail') {
+                switch ($link) {
+                    case 'original':
+                        $url = $media->originalUrl();
+                        break;
+                    case 'item':
+                        $url = $item->url();
+                        break;
+                    case 'media':
+                        $url = $media->url();
+                        break;
+                    default:
+                        throw new \InvalidArgumentException(sprintf('Invalid link type "%s"', $linkType));
+                }
+                echo $hyperlink->raw($this->thumbnail($media, $thumbnailType), $url);
+            } else {
+                echo $media->render([
+                    'thumbnailType' => $thumbnailType,
+                    'link' => $link,
+                ]);
+            }
         endif;
         ?>
-        <?php $showTitleOption = $this->showTitleOption; ?>
-        <?php if ($showTitleOption == 'item_title'): ?>
+        <?php if ($showTitleOption === 'item_title'): ?>
         <h3><?php echo $item->link($item->displayTitle()); ?></h3>
-        <?php elseif ($showTitleOption == 'file_name'): ?>
+        <?php elseif ($showTitleOption === 'file_name'): ?>
         <h3><?php echo $media->displayTitle(); ?></h3>
         <?php endif; ?>
-    <?php endif; ?>
-
-    <?php
-    $caption = $attachment->caption();
-    if ($caption):
-    ?>
+        <?php $caption = $attachment->caption(); ?>
+        <?php if ($caption): ?>
         <div class="caption"><?php echo $caption; ?></div>
-    <?php endif; ?>
+        <?php endif; ?>
     </div>
-<?php endforeach; ?>
-    </div>
+    <?php endforeach; ?>
 </div>

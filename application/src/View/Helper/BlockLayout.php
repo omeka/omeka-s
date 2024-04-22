@@ -5,12 +5,14 @@ use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Site\BlockLayout\Manager as BlockLayoutManager;
-use Laminas\View\Helper\AbstractHelper;
+use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
+use Omeka\Site\Theme\Theme;
+use Laminas\EventManager\EventManager;
 
 /**
  * View helper for rendering block layouts.
  */
-class BlockLayout extends AbstractHelper
+class BlockLayout extends AbstractLayout
 {
     /**
      * The default partial view script.
@@ -22,9 +24,15 @@ class BlockLayout extends AbstractHelper
      */
     protected $manager;
 
-    public function __construct(BlockLayoutManager $manager)
+    protected $eventManager;
+
+    protected $currentTheme;
+
+    public function __construct(BlockLayoutManager $manager, EventManager $eventManager, ?Theme $currentTheme)
     {
         $this->manager = $manager;
+        $this->eventManager = $eventManager;
+        $this->currentTheme = $currentTheme;
     }
 
     /**
@@ -86,11 +94,13 @@ class BlockLayout extends AbstractHelper
     ) {
         $view = $this->getView();
         $block = null;
+        $layoutData = [];
         if ($layout instanceof SitePageBlockRepresentation) {
             $block = $layout;
             $layout = $block->layout();
             $page = $block->page();
             $site = $page->site();
+            $layoutData = $block->layoutData();
         }
         $partialName = $partialName ?: self::PARTIAL_NAME;
         return $view->partial(
@@ -98,6 +108,7 @@ class BlockLayout extends AbstractHelper
             [
                 'layout' => $layout,
                 'layoutLabel' => $this->getLayoutLabel($layout),
+                'layoutData' => $layoutData,
                 'blockContent' => $this->manager->get($layout)->form($this->getView(), $site, $page, $block),
             ]
         );
@@ -117,10 +128,34 @@ class BlockLayout extends AbstractHelper
      * Return the HTML necessary to render the provided block.
      *
      * @param SitePageBlockRepresentation $block
+     * @param ?string $templateViewScript
      * @return string
      */
-    public function render(SitePageBlockRepresentation $block)
+    public function render(SitePageBlockRepresentation $block, string $templateViewScript = null)
     {
-        return $this->manager->get($block->layout())->render($this->getView(), $block);
+        $view = $this->getView();
+        $blockLayout = $this->manager->get($block->layout());
+
+        // Set the configured block template, if any.
+        $templateName = $block->layoutDataValue('template_name');
+        if ($templateName && $blockLayout instanceof TemplateableBlockLayoutInterface) {
+            // Verify that the current theme provides this template.
+            $config = $this->currentTheme->getConfigSpec();
+            if (isset($config['block_templates'][$block->layout()][$templateName])) {
+                $templateViewScript = sprintf('common/block-template/%s', $templateName);
+            }
+        }
+
+        $classes = $this->getBlockClasses($block);
+        $inlineStyles = $this->getBlockInlineStyles($block);
+
+        return sprintf(
+            '<div class="%s" style="%s">%s</div>',
+            $view->escapeHtml(implode(' ', $classes)),
+            $view->escapeHtml(implode('; ', $inlineStyles)),
+            $templateViewScript
+                ? $blockLayout->render($this->getView(), $block, $templateViewScript)
+                : $blockLayout->render($this->getView(), $block)
+        );
     }
 }

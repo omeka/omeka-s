@@ -14,6 +14,15 @@ class ResourceTemplateAdapter extends AbstractEntityAdapter
         'label' => 'label',
     ];
 
+    protected $scalarFields = [
+        'id' => 'id',
+        'label' => 'label',
+        'owner' => 'owner',
+        'resource_class' => 'resourceClass',
+        'title_property' => 'titleProperty',
+        'description_property' => 'descriptionProperty',
+    ];
+
     public function getResourceName()
     {
         return 'resource_templates';

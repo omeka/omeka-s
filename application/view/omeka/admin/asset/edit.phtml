@@ -18,6 +18,7 @@ $deleteButton = $asset->userIsAllowed('delete')
 <?php echo $this->formCollection($form, false); ?>
 
 <div id="page-actions">
+    <?php $this->trigger('view.edit.page_actions', ['resource' => $asset]); ?>
     <?php echo (isset($deleteButton)) ? $deleteButton : ''; ?>
     <?php echo $this->cancelButton(); ?>
     <button type="submit"><?php echo $escape('Save'); ?></button>

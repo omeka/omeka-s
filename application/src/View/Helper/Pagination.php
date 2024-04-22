@@ -128,6 +128,12 @@ class Pagination extends AbstractHelper
     {
         $query = $this->getView()->params()->fromQuery();
         $query['page'] = (int) $page;
+        if (isset($query['sort_by_default'])) {
+            // Do not emit sort_by if the sort_by_default flag is set.
+            unset($query['sort_by']);
+        }
+        // Do not emit the sort_by_default flag
+        unset($query['sort_by_default']);
         $options = ['query' => $query];
         if (is_string($this->fragment)) {
             $options['fragment'] = $this->fragment;

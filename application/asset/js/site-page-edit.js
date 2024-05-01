@@ -237,6 +237,26 @@
             });
         });
 
+        // Hide "Add attachment" buttons when the number of attachments equal or
+        // exceed the maxAttachments setting.
+        $('.attachments').each(function() {
+            var attachmentsContainer = $(this);
+            var attachments = attachmentsContainer.children('.attachment');
+            var maxAttachments = parseInt(attachmentsContainer.data('maxAttachments'), 10);
+            if (maxAttachments && attachments.length >= maxAttachments) {
+                attachmentsContainer.children('button.attachment-add').hide();
+            }
+        });
+
+        // Hide the bulk select controls when there is a maxAttachment setting.
+        $('#select-resource').on('o:sidebar-content-loaded', function() {
+            var thisSidebar = $(this);
+            var attachmentsContainer = $('.selecting-attachment').closest('.attachments');
+            var maxAttachments = parseInt(attachmentsContainer.data('maxAttachments'), 10);
+            var bulkSelectControls = thisSidebar.find('.quick-select-toggle, .select-all');
+            maxAttachments ? bulkSelectControls.hide() : bulkSelectControls.show();
+        });
+
         $('#new-block button').on('click', function() {
             $.post(
                 $(this).parents('#new-block').data('url'),
@@ -440,6 +460,15 @@
                     thumbnail = $('<img>', {src: thumbnailUrl});
                 }
                 attachment.find('.item-title').empty().append(thumbnail).append(title);
+            }
+
+            // Hide the "Add attachment" button when the number of attachments
+            // equal or exceed the maxAttachments setting.
+            var attachmentsContainer = $('.selecting-attachment').closest('.attachments');
+            var attachments = attachmentsContainer.children('.attachment');
+            var maxAttachments = parseInt(attachmentsContainer.data('maxAttachments'), 10);
+            if (maxAttachments && attachments.length >= maxAttachments) {
+                attachmentsContainer.children('button.attachment-add').hide();
             }
         });
 

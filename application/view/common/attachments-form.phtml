@@ -18,7 +18,7 @@ $attachmentRowTemplate = '
 ?>
 <div class="attachments-form<?php echo $this->itemOnly ? ' attachments-item-only' : ''; ?>" data-item-query="<?php echo $escape(json_encode($this->itemQuery)); ?>">
     <a href="#" class="collapse"><h4><?php echo $translate('Attachments'); ?></h4></a>
-    <div class="attachments collapsible" data-template="<?php echo $escape($attachmentRowTemplate); ?>">
+    <div class="attachments collapsible" data-template="<?php echo $escape($attachmentRowTemplate); ?>" data-max-attachments="<?php echo $this->escapeHtml($maxAttachments); ?>">
         <?php foreach ($attachments as $attachment): ?>
         <?php
         $itemId = null;

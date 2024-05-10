@@ -227,7 +227,8 @@ var Omeka = {
                 tableRowCell.text(tableRowValue);
             });
             selectorRow.addClass('added');
-            table.children('.resource-rows').append(tableRow).removeClass('empty').trigger('appendRow');
+            table.children('.resource-rows').append(tableRow);
+            table.removeClass('empty').trigger('appendRow');
             updateResourceCount(id);
         }
 

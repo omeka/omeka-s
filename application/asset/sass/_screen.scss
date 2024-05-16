@@ -4775,19 +4775,18 @@ body.sidebar-open #content {
     .asset-title {
         display: flex;
         align-items: center;
+        word-break: break-word;
     }
 
     .asset-title img {
-        height: 100%;
-        width: auto;
+        height: 2rem;
+        width: 2rem;
+        object-fit: contain;
     }
 
     .asset-title .thumbnail:not(:empty) {
-        height: 2rem;
         position: relative;
-        width: 2rem;
         margin: .25rem .25rem .25rem 0;
-        overflow: hidden;
         display: inline-flex;
         justify-content: center;
     }
@@ -5452,6 +5451,7 @@ body.minimal .site.results thead {
 
 .asset-entry .asset-name {
     flex-grow: 1;
+    word-break: break-word;
 }
 
 /* @end */

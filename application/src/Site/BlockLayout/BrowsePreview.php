@@ -143,6 +143,7 @@ class BrowsePreview extends AbstractBlockLayout implements TemplateableBlockLayo
             $query['sort_by'] = 'created';
         }
         if (!isset($query['sort_order'])) {
+            $query['sort_order_default'] = '';
             $query['sort_order'] = 'desc';
         }
 

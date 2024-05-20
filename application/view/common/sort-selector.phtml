@@ -3,7 +3,7 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 ?>
 <form class="sorting" action="">
-    <?php echo $this->queryToHiddenInputs(['sort_by', 'sort_order', 'sort_by_default']); ?>
+    <?php echo $this->queryToHiddenInputs(['sort_by', 'sort_order', 'sort_by_default', 'sort_order_default']); ?>
     <select name="sort_by" aria-label="<?php echo $translate('Sort by'); ?>">
     <?php foreach($sortConfig as $sortBy => $label): ?>
         <option value="<?php echo $escape($sortBy); ?>"<?php echo ($sortByQuery === $sortBy) ? ' selected' : ''; ?>><?php echo $escape($label); ?></option>

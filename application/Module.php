@@ -758,6 +758,12 @@ class Module extends AbstractModule
 
             if (isset($query['sort_by_default']) || !$qb->getDQLPart('orderBy')) {
                 $sortOrder = 'asc' === $query['sort_order'] ? 'ASC' : 'DESC';
+                if (isset($query['sort_order_default']) && isset($query['fulltext_search'])) {
+                    // The default sort order for fulltext searches must be
+                    // descending to account for the natural order of relevance
+                    // scores.
+                    $sortOrder = 'DESC';
+                }
                 $qb->orderBy($match, $sortOrder);
             }
         }

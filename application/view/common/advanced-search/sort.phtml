@@ -20,6 +20,7 @@ $sortBy->setAttribute('aria-label', 'Sort by'); // @translate
 $sortBy->setEmptyOption('Select sort by…'); // @translate
 $sortBy->setValueOptions($sortConfig);
 $sortBy->setValue((!isset($query['sort_by_default']) && isset($query['sort_by'])) ? $query['sort_by'] : '');
+$sortBy->setValue((!isset($query['sort_order_default']) && isset($query['sort_order'])) ? $query['sort_order'] : '');
 
 $sortOrder = new Element\Select('sort_order');
 $sortOrder->setAttribute('aria-label', 'Sort order'); // @translate

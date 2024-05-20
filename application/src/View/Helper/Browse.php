@@ -59,7 +59,7 @@ class Browse extends AbstractHelper
         $args = [
             'sortConfig' => $sortConfig,
             'sortByQuery' => (isset($query['sort_by_default']) && $isFulltextSearch) ? '' : $view->params()->fromQuery('sort_by'),
-            'sortOrderQuery' => $view->params()->fromQuery('sort_order'),
+            'sortOrderQuery' => (isset($query['sort_order_default']) && $isFulltextSearch) ? 'desc' : $view->params()->fromQuery('sort_order'),
         ];
         $args = $view->trigger('view.sort-selector', $args, true);
         return $view->partial('common/sort-selector', (array) $args);

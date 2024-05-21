@@ -119,7 +119,17 @@ abstract class AbstractRepresentation implements RepresentationInterface
             return null;
         }
 
-        return $thumbnail ? $thumbnail->assetUrl() : $primaryMedia->thumbnailUrl($type);
+        if ($thumbnail) {
+            // Return the asset URL if the resource has a custom thumbnail.
+            return $thumbnail->assetUrl();
+        }
+        $primaryMediaThumbnail = $primaryMedia->thumbnail();
+        if ($primaryMediaThumbnail) {
+            // Return the asset URL if the primary media has a custom thumbnail.
+            return $primaryMediaThumbnail->assetUrl();
+        }
+        // Return the primary media's thumbnail URL.
+        return $primaryMedia->thumbnailUrl($type);
     }
 
     /**

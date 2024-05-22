@@ -316,7 +316,7 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             }
             $content = array_column($qb->getQuery()->getScalarResult(), $scalarField, 'id');
             $response = new Response($content);
-            $response->setTotalResults(count($content));
+            $response->setTotalResults($countPaginator->count());
             return $response;
         }
 

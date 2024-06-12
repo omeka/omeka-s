@@ -746,6 +746,8 @@ return [
             ],
         ],
     ],
+    'page_templates' => [],
+    'block_templates' => [],
     'block_layouts' => [
         'invokables' => [
             'pageTitle' => Site\BlockLayout\PageTitle::class,

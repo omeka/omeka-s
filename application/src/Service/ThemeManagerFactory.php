@@ -14,6 +14,11 @@ class ThemeManagerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
+        // Prepare injection of module templates.
+        $config = $serviceLocator->get('Config');
+        $modulePageTemplates = $config['page_templates'];
+        $moduleBlockTemplates = $config['block_templates'];
+
         $manager = new ThemeManager;
         $iniReader = new IniReader;
 
@@ -62,6 +67,19 @@ class ThemeManagerFactory implements FactoryInterface
             }
 
             $theme->setState(ThemeManager::STATE_ACTIVE);
+
+            // Inject module templates.
+            if (count($modulePageTemplates)) {
+                $configSpec['page_templates'] = empty($configSpec['page_templates'])
+                    ? $modulePageTemplates
+                    : array_merge_recursive($configSpec['page_templates'], $modulePageTemplates);
+            }
+            if (count($moduleBlockTemplates)) {
+                $configSpec['block_templates'] = empty($configSpec['block_templates'])
+                    ? $moduleBlockTemplates
+                    : array_merge_recursive($configSpec['block_templates'], $moduleBlockTemplates);
+            }
+            $theme->setConfigSpec($configSpec);
         }
 
         // Note that, unlike the ModuleManagerFactory, this does not register

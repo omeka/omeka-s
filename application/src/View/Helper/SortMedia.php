@@ -18,7 +18,7 @@ class SortMedia extends AbstractHelper
             $mediaRenderer = $media->renderer();
             if (in_array($mediaType, $whitelist) || (strpos($mediaRenderer, 'youtube') !== false)) {
                 $sortedMedia['lightMedia'][$mediaCount]['media'] = $media;
-                if (strpos($mediaType, 'video') !== false) {
+                if (null !== $mediaType && strpos($mediaType, 'video') !== false) {
                     $html5videos[$mediaCount] = pathinfo($media->source(), PATHINFO_FILENAME);
                     $sortedMedia['lightMedia'][$mediaCount]['tracks'] = [];
                 }

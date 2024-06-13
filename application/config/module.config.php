@@ -830,6 +830,7 @@ return [
             'thumbnail' => Media\FileRenderer\ThumbnailRenderer::class,
             'audio' => Media\FileRenderer\AudioRenderer::class,
             'video' => Media\FileRenderer\VideoRenderer::class,
+            'glb' => Media\FileRenderer\GlbRenderer::class,
         ],
         'aliases' => [
             'audio/ogg' => 'audio',
@@ -845,6 +846,7 @@ return [
             'video/ogg' => 'video',
             'video/webm' => 'video',
             'mp3' => 'audio',
+            'model/gltf-binary' => 'glb',
         ],
     ],
     'oembed' => [

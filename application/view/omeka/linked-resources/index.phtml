@@ -1,0 +1,5 @@
+<?php echo $resource->displaySubjectValues([
+    'page' => $this->params()->fromQuery('page', 1),
+    'perPage' => 25,
+    'resourceProperty' => $this->params()->fromQuery('resource_property'),
+]); ?>

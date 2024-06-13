@@ -34,7 +34,7 @@ class LightGalleryOutput extends AbstractHelper
             ];
             $mediaCaptionAttribute = ($mediaCaption) ? $mediaCaptionOptions[$mediaCaption] : '';
             $mediaType = $media->mediatype();
-            if (strpos($mediaType, 'video') !== false) {
+            if (null !== $mediaType && strpos($mediaType, 'video') !== false) {
                 $videoSrcObject = [
                     'source' => [
                         [

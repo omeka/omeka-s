@@ -284,19 +284,38 @@ class SettingForm extends Form
 
         // Editing element group
 
-        $this->add([
-            'name' => 'default_to_private',
-            'type' => 'Checkbox',
-            'options' => [
-                'element_group' => 'editing',
-              'label' => 'Default content visibility to Private', // @translate
-              'info' => 'If checked, all items, item sets and sites newly created will have their visibility set to private by default.', // @translate
+        $defaultToPrivateElements = [
+            [
+                'name' => 'default_to_private_items',
+                'label' => 'Set default item visibility to private', // @translate
             ],
-            'attributes' => [
-                'value' => $this->settings->get('default_to_private'),
-                'id' => 'default_to_private',
+            [
+                'name' => 'default_to_private_item_sets',
+                'label' => 'Set default item set visibility to private', // @translate
             ],
-        ]);
+            [
+                'name' => 'default_to_private_sites',
+                'label' => 'Set default site visibility to private', // @translate
+            ],
+            [
+                'name' => 'default_to_private_site_pages',
+                'label' => 'Set default site page visibility to private', // @translate
+            ],
+        ];
+        foreach ($defaultToPrivateElements as $defaultToPrivateElement) {
+            $this->add([
+                'type' => 'checkbox',
+                'name' => $defaultToPrivateElement['name'],
+                'options' => [
+                    'element_group' => 'editing',
+                    'label' => $defaultToPrivateElement['label'],
+                ],
+                'attributes' => [
+                    'id' => $defaultToPrivateElement['name'],
+                    'value' => $this->settings->get($defaultToPrivateElement['name'], false),
+                ]
+            ]);
+        }
 
         $this->add([
             'name' => 'value_languages',

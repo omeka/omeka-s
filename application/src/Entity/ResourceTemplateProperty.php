@@ -33,7 +33,7 @@ class ResourceTemplateProperty extends AbstractEntity
     protected $property;
 
     /**
-     * @Column(nullable=true)
+     * @Column(nullable=true, length=190)
      */
     protected $alternateLabel;
 
@@ -63,7 +63,7 @@ class ResourceTemplateProperty extends AbstractEntity
     protected $isPrivate = false;
 
     /**
-     * @Column(nullable=true)
+     * @Column(nullable=true, length=190)
      */
     protected $defaultLang;
 

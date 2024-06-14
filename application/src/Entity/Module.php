@@ -18,7 +18,7 @@ class Module extends AbstractEntity
     protected $isActive = false;
 
     /**
-     * @Column
+     * @Column(length=190)
      */
     protected $version;
 

@@ -10,6 +10,11 @@ use Laminas\View\Helper\Placeholder\Container\AbstractContainer;
 class PageTitle extends AbstractHelper
 {
     /**
+     * The default partial view script.
+     */
+    const PARTIAL_NAME = 'common/page-title';
+
+    /**
      * Render a title heading for a page.
      *
      * The passed title is added to the title element to the head as well as
@@ -20,26 +25,21 @@ class PageTitle extends AbstractHelper
      *  or a negative value will omit the heading tag.
      * @return string
      */
-    public function __invoke($title, $level = 1, $subheadLabel = null, $actionLabel = null)
+    public function __invoke($title, $level = 1, $subheadLabel = null, $actionLabel = null, $partialName = null)
     {
+        $partialName = $partialName ?: self::PARTIAL_NAME;
         $view = $this->getView();
         $view->headTitle($subheadLabel, AbstractContainer::PREPEND);
         $view->headTitle($title, AbstractContainer::PREPEND);
         $view->headTitle($actionLabel, AbstractContainer::PREPEND);
-        $subhead = '';
-        $action = '';
-        if ($subheadLabel) {
-            $subhead = '<span class="subhead">' . $view->escapeHtml($subheadLabel) . '</span>';
-        }
-        if ($actionLabel) {
-            $action = '<span class="action">' . $view->escapeHtml($actionLabel) . '</span>';
-        }
-
-        $level = (int) $level;
-        if ($level > 0) {
-            return "<h$level>" . $subhead . '<span class="title">' . $view->escapeHtml($title) . '</span>' . $action . "</h$level>";
-        }
-
-        return $view->escapeHtml($title);
+        return $view->partial(
+            $partialName,
+            [
+                'title' => $title,
+                'level' => $level,
+                'subheadLabel' => $subheadLabel,
+                'actionLabel' => $actionLabel,
+            ]
+        );
     }
 }

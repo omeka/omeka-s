@@ -184,6 +184,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $itemSetsData = $request->getValue('o:item_set', []);
             $itemSetAdapter = $this->getAdapter('item_sets');
             $itemSets = $entity->getItemSets();
+            $itemSetsAssigned = [];
             $itemSetsToRetain = [];
 
             foreach ($itemSetsData as $itemSetData) {
@@ -201,10 +202,11 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                     }
                     continue;
                 }
-                if (!$itemSet) {
+                if (!$itemSet && !in_array($itemSetId, $itemSetsAssigned)) {
                     // Assign item set that was not already assigned.
                     $itemSet = $itemSetAdapter->findEntity($itemSetId);
                     $itemSets->add($itemSet);
+                    $itemSetsAssigned[] = $itemSetId;
                 }
                 $itemSetsToRetain[] = $itemSet;
             }
@@ -283,17 +285,23 @@ class ItemAdapter extends AbstractResourceEntityAdapter
             $mediasData = $request->getValue('o:media', []);
             $adapter = $this->getAdapter('media');
             $class = $adapter->getEntityClass();
-            $retainMedia = [];
+            $mediaUpdated = [];
+            $mediaToRetain = [];
+
             $position = 1;
             foreach ($mediasData as $mediaData) {
                 $subErrorStore = new ErrorStore;
                 if (isset($mediaData['o:id'])) {
+                    if (in_array($mediaData['o:id'], $mediaUpdated)) {
+                        continue;
+                    }
                     $media = $adapter->findEntity($mediaData['o:id']);
                     $media->setPosition($position);
                     if (isset($mediaData['o:is_public'])) {
                         $media->setIsPublic($mediaData['o:is_public']);
                     }
-                    $retainMedia[] = $media;
+                    $mediaToRetain[] = $media;
+                    $mediaUpdated[] = $media->getId();
                 } else {
                     // Create a new media.
                     $media = new $class;
@@ -308,13 +316,13 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                         $errorStore->mergeErrors($e->getErrorStore(), 'o:media');
                     }
                     $entity->getMedia()->add($media);
-                    $retainMedia[] = $media;
+                    $mediaToRetain[] = $media;
                 }
                 $position++;
             }
             // Remove media not included in request.
             foreach ($entity->getMedia() as $media) {
-                if (!in_array($media, $retainMedia, true)) {
+                if (!in_array($media, $mediaToRetain, true)) {
                     $entity->getMedia()->removeElement($media);
                 }
             }

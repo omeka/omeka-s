@@ -313,7 +313,7 @@ class SettingForm extends Form
                 'attributes' => [
                     'id' => $defaultToPrivateElement['name'],
                     'value' => $this->settings->get($defaultToPrivateElement['name'], false),
-                ]
+                ],
             ]);
         }
 

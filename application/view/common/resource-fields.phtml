@@ -18,7 +18,7 @@ if (isset($resource)) {
     if ($owner = $resource->owner()) {
         $ownerSelect->setValue($owner->id());
     }
-} else {
+} elseif (!$resourceTemplateSelect->getValue()) {
     // Set the logged in user's default template when adding a resource.
     $resourceTemplateSelect->setValue($this->userSetting('default_resource_template'));
 }

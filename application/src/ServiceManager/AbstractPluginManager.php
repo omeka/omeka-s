@@ -39,6 +39,24 @@ abstract class AbstractPluginManager extends ZendAbstractPluginManager
     }
 
     /**
+     * Register service names that were set via setFactory().
+     */
+    public function setFactory($name, $factory)
+    {
+        parent::setFactory($name, $factory);
+        $this->registeredNames[$name] = $name;
+    }
+
+    /**
+     * Register service names that were set via setInvokableClass().
+     */
+    public function setInvokableClass($name, $class = null)
+    {
+        parent::setInvokableClass($name, $factory);
+        $this->registeredNames[$name] = $name;
+    }
+
+    /**
      * Set the registered names.
      *
      * @param array $config

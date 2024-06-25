@@ -8,6 +8,16 @@ $expanded = $resourceClassId || $itemSetId || $id;
 
 <div id="item-results">
     <h3><?php echo $translate('Select item'); ?></h3>
+    <a type="button" class="exiting-item"><?php echo 'Existing item'; ?></a>
+    <a type="button" class="new-item"><?php echo 'New item'; ?></a>
+    <div>
+        <?php echo $this->formRow((new \Laminas\Form\Element\Select('resource_template'))->setLabel('Resource template')->setEmptyOption('Select one...')); ?>
+        <?php echo $this->formRow((new \Laminas\Form\Element\Select('resource_class'))->setLabel('Resource class')->setEmptyOption('Select one...')); ?>
+        <?php echo $this->formRow((new \Laminas\Form\Element\Textarea('title'))->setLabel('Title')); ?>
+        <?php echo $this->formRow((new \Laminas\Form\Element\Textarea('description'))->setLabel('Description')); ?>
+        <button><?php echo 'Add item'; ?></button>
+    </div>
+
 
     <div class="search-nav">
         <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">

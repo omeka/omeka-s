@@ -3,6 +3,7 @@ namespace Omeka\Mvc;
 
 use Omeka\Service\Delegator\SitePaginatorDelegatorFactory;
 use Omeka\Session\SaveHandler\Db;
+use Omeka\Site\ResourcePageBlockLayout\ThemeProvidedResourcePageBlockLayout;
 use Omeka\Site\Theme\Manager;
 use Omeka\Site\Theme\Theme;
 use Laminas\EventManager\EventManagerInterface;
@@ -428,6 +429,23 @@ class MvcListeners extends AbstractListenerAggregate
                 '%s.mo'
             );
         }
+
+        // Set theme-provided resource page block layouts.
+        $configSpec = $currentTheme->getConfigSpec();
+        $layouts = $configSpec['resource_page_block_layouts'] ?? [];
+        $layouts = is_array($layouts) ? $layouts : [];
+        $layouts = array_filter($layouts, function ($layout) {
+            return isset($layout['label']) && is_string($layout['label'])
+                && isset($layout['compatible_resource_names']) && is_array($layout['compatible_resource_names'])
+                && isset($layout['partial']) && is_string($layout['partial']);
+        });
+        foreach ($layouts as $layoutName => $layoutSpec) {
+            $factory = function ($services) use ($currentTheme, $layoutSpec) {
+                return new ThemeProvidedResourcePageBlockLayout($layoutSpec['label'], $layoutSpec['compatible_resource_names'], $layoutSpec['partial']);
+            };
+            $services->get('Omeka\ResourcePageBlockLayoutManager')->setFactory($layoutName, $factory);
+        }
+
         return $site;
     }
 

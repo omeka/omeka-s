@@ -12,7 +12,9 @@ $sectionNavs = [
 
 <div id="page-actions">
     <?php $this->trigger('view.show.page_actions', ['resource' => $media]); ?>
+    <?php if ($media->userIsAllowed('update')): ?>
     <?php echo $media->link($translate('Edit media'), 'edit', ['class' => 'button']); ?>
+    <?php endif; ?>
 </div>
 
 <?php echo $this->sectionNav($sectionNavs, 'view.show.section_nav', $media); ?>

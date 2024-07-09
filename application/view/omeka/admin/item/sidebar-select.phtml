@@ -7,11 +7,11 @@ $expanded = $resourceClassId || $itemSetId || $id;
 ?>
 
 <?php echo $this->sectionNav([
-    'existing-resource-section' => $translate('Existing item'),
-    'new-resource-section' => $translate('New item'),
+    'resource-section' => $translate('Existing item'),
+    'resource-stub-section' => $translate('New item'),
 ]); ?>
 
-<div id="existing-resource-section" class="active section">
+<div id="resource-section" class="active section">
 
 <div id="item-results">
     <h3><?php echo $translate('Select item'); ?></h3>
@@ -113,21 +113,31 @@ $expanded = $resourceClassId || $itemSetId || $id;
 
 </div>
 
-<div id="new-resource-section" class="section">
+<div id="resource-stub-section" class="section">
     <?php echo $this->formCollection($resourceStubForm, false); ?>
-    <button><?php echo $translate('Add item'); ?></button>
+    <button type="button" id="add-resource-stub"><?php echo $translate('Add item'); ?></button>
 </div>
 
 <script>
-    $('#new-resource-section-label').on('click', function(e) {
+    $('#resource-stub-section-label').on('click', function(e) {
         $(this).closest('.section-nav').find('li').toggleClass('active');
-        $('#existing-resource-section').hide();
-        $('#new-resource-section').show();
+        $('#resource-section').hide();
+        $('#resource-stub-section').show();
         $('.chosen-select').chosen();
     });
-    $('#existing-resource-section-label').on('click', function(e) {
+    $('#resource-section-label').on('click', function(e) {
         $(this).closest('.section-nav').find('li').toggleClass('active');
-        $('#new-resource-section').hide();
-        $('#existing-resource-section').show();
+        $('#resource-section').show();
+        $('#resource-stub-section').hide();
+    });
+    $('#add-resource-stub').on('click', function(e) {
+        console.log('#add-resource-stub');
+        // @todo: gather data and post against the API
+        // @todo: get created resource and add it to the form
+    });
+    $('#resource-stub-resource-template-select').on('change', function(e) {
+        console.log('#resource-stub-resource-template-select');
+        // @todo: get resource template from the API (via data attribute)
+        // @todo: change resource class, title property, description property accordingly
     });
 </script>

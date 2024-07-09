@@ -6,9 +6,15 @@ $itemsFound = count($items) > 0;
 $expanded = $resourceClassId || $itemSetId || $id;
 ?>
 
+<?php echo $this->sectionNav([
+    'existing-resource-section' => $translate('Existing item'),
+    'new-resource-section' => $translate('New item'),
+]); ?>
+
+<div id="existing-resource-section" class="active section">
+
 <div id="item-results">
     <h3><?php echo $translate('Select item'); ?></h3>
-
     <div class="search-nav">
         <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
             <?php
@@ -104,3 +110,24 @@ $expanded = $resourceClassId || $itemSetId || $id;
 <div class="confirm-panel">
     <button type="button" class="select-resources-button"><?php echo $translate('Add selected'); ?></button>
 </div>
+
+</div>
+
+<div id="new-resource-section" class="section">
+    <?php echo $this->formCollection($resourceStubForm, false); ?>
+    <button><?php echo $translate('Add item'); ?></button>
+</div>
+
+<script>
+    $('#new-resource-section-label').on('click', function(e) {
+        $(this).closest('.section-nav').find('li').toggleClass('active');
+        $('#existing-resource-section').hide();
+        $('#new-resource-section').show();
+        $('.chosen-select').chosen();
+    });
+    $('#existing-resource-section-label').on('click', function(e) {
+        $(this).closest('.section-nav').find('li').toggleClass('active');
+        $('#new-resource-section').hide();
+        $('#existing-resource-section').show();
+    });
+</script>

@@ -3,6 +3,7 @@ namespace Omeka\Controller\Admin;
 
 use Omeka\Form\ConfirmForm;
 use Omeka\Form\ResourceForm;
+use Omeka\Form\ResourceStubForm;
 use Omeka\Form\ResourceBatchUpdateForm;
 use Omeka\Media\Ingester\Manager;
 use Omeka\Stdlib\Message;
@@ -103,6 +104,7 @@ class ItemController extends AbstractActionController
         $view->setVariable('itemSetId', $this->params()->fromQuery('item_set_id'));
         $view->setVariable('id', $this->params()->fromQuery('id'));
         $view->setVariable('showDetails', true);
+        $view->setVariable('resourceStubForm', $this->getForm(ResourceStubForm::class));
         $view->setTerminal(true);
         return $view;
     }

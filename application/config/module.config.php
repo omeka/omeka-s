@@ -520,7 +520,7 @@ return [
         ],
         'factories' => [
             'Omeka\Form\ResourceForm' => Service\Form\ResourceFormFactory::class,
-            'Omeka\Form\ResourceStubForm' => Service\Form\ResourceStubFormFactory::class,
+            'Omeka\Form\ItemStubForm' => Service\Form\ItemStubFormFactory::class,
             'Omeka\Form\VocabularyForm' => Service\Form\VocabularyFormFactory::class,
             'Omeka\Form\ResourceBatchUpdateForm' => Service\Form\ResourceBatchUpdateFormFactory::class,
             'Omeka\Form\UserForm' => Service\Form\UserFormFactory::class,

@@ -1,24 +1,32 @@
 <?php
 namespace Omeka\Form;
 
+use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\Form\Form;
 use Laminas\View\Helper\Url;
-use Omeka\Form\Element\ResourceSelect;
-use Omeka\Form\Element\ResourceClassSelect;
+use Omeka\Api\Manager as ApiManager;
+use Omeka\Form\Element as OmekaElement;
 
-class ResourceStubForm extends Form
+class ItemStubForm extends Form
 {
     use EventManagerAwareTrait;
 
-    protected $urlHelper;
+    protected $viewHelperManager;
 
     public function init()
     {
-        $urlHelper = $this->getUrlHelper();
+        $urlHelper = $this->viewHelperManager->get('url');
+        $apiHelper = $this->viewHelperManager->get('api');
+
+        $titleProperty = $apiHelper->searchOne('properties', ['term' => 'dcterms:title'])->getContent();
+        $descriptionProperty = $apiHelper->searchOne('properties', ['term' => 'dcterms:description'])->getContent();
+
+        $this->setAttribute('id', 'item-stub-form');
+        $this->setAttribute('data-url', $urlHelper('admin/default', ['controller' => 'item', 'action' => 'add-resource-stub']));
 
         $this->add([
-            'type' => ResourceSelect::class,
+            'type' => OmekaElement\ResourceSelect::class,
             'name' => 'resource_template',
             'options' => [
                 'label' => 'Resource template', // @translate
@@ -34,21 +42,20 @@ class ResourceStubForm extends Form
                 ],
             ],
             'attributes' => [
-                'id' => 'resource-stub-resource-template-select',
+                'id' => 'item-stub-resource-template',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a template', // @translate
-                'data-api-base-url' => $urlHelper('api/default', ['resource' => 'resource_templates']),
             ],
         ]);
         $this->add([
-            'type' => ResourceClassSelect::class,
+            'type' => OmekaElement\ResourceClassSelect::class,
             'name' => 'resource_class',
             'options' => [
                 'label' => 'Class', // @translate
                 'empty_option' => '',
             ],
             'attributes' => [
-                'id' => 'resource-stub-resource-class-select',
+                'id' => 'item-stub-resource-class',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a class', // @translate
             ],
@@ -60,7 +67,7 @@ class ResourceStubForm extends Form
                 'label' => 'Title', // @translate
             ],
             'attributes' => [
-                'id' => 'resource-stub-title-textarea',
+                'data-property-term' => $titleProperty->term(),
             ],
         ]);
         $this->add([
@@ -70,18 +77,25 @@ class ResourceStubForm extends Form
                 'label' => 'Description', // @translate
             ],
             'attributes' => [
-                'id' => 'resource-stub-description-textarea',
+                'data-property-term' => $descriptionProperty->term(),
             ],
         ]);
+        $this->add([
+            'type' => 'submit',
+            'name' => 'submit',
+            'attributes' => [
+                'id' => 'item-stub-submit',
+                'value' => 'Add and select item', // @translate
+            ],
+        ]);
+
+        // Allow modules to add elements to the item stub form.
+        $addEvent = new Event('form.add_elements', $this);
+        $this->getEventManager()->triggerEvent($addEvent);
     }
 
-    public function setUrlHelper(Url $urlHelper)
+    public function setViewHelperManager($viewHelperManager)
     {
-        $this->urlHelper = $urlHelper;
-    }
-
-    public function getUrlHelper()
-    {
-        return $this->urlHelper;
+        $this->viewHelperManager = $viewHelperManager;
     }
 }

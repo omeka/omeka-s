@@ -397,6 +397,57 @@
             $('#values-json').val(JSON.stringify(collectValues()));
         });
 
+        // Item stub form: handle "New item" nav click.
+        $(document).on('click', '#item-stub-section-label', function(e) {
+            $(this).closest('.section-nav').find('li').toggleClass('active');
+            $('#item-section').hide();
+            $('#item-stub-section').show();
+            $('.chosen-select').chosen();
+        });
+        // Item stub form: handle "Existing item" nav click.
+        $(document).on('click', '#item-section-label', function(e) {
+            $(this).closest('.section-nav').find('li').toggleClass('active');
+            $('#item-section').show();
+            $('#item-stub-section').hide();
+        });
+        // Item stub form: handle item stub form submission.
+        $(document).on('click', '#item-stub-submit', function(e) {
+            e.preventDefault();
+            const itemStubForm = $('#item-stub-form');
+            const resourceTemplate = $('#item-stub-resource-template');
+            const resourceClass = $('#item-stub-resource-class');
+            const itemData = {};
+            if (resourceTemplate.val()) {
+                itemData['o:resource_template'] = {'o:id': resourceTemplate.val()};
+            }
+            if (resourceClass.val()) {
+                itemData['o:resource_class'] = {'o:id': resourceClass.val()};
+            }
+            itemStubForm.find('[data-property-term]').each(function() {
+                const propertyValue = $(this);
+                if (propertyValue.val()) {
+                    const propertyTerm = propertyValue.data('propertyTerm');
+                    itemData[propertyTerm] = [{
+                        'type': 'literal',
+                        'property_id': 'auto',
+                        '@value': propertyValue.val()
+                    }];
+                }
+            });
+            $.post(itemStubForm.data('url'), itemData, function(data) {
+                const selectedResource = $('.selecting-resource').find('.selected-resource');
+                const img = $('<img>', {src: data['thumbnail_display_urls']['square']});
+                const a = $('<a>', {href: data['admin_url']}).text(data['o:title']);
+                selectedResource.find('.o-title').addClass('items').empty().append(img, a);
+                selectedResource.find('.value').val(data['o:id']);
+            });
+        });
+        $(document).on('change', '#item-stub-resource-template', function(e) {
+            console.log('#item-stub-resource-template');
+            // @todo: get resource template from the API (via data attribute)
+            // @todo: change resource class, title property, description property accordingly
+        });
+
         initPage();
     });
 

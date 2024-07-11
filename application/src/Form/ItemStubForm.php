@@ -23,7 +23,7 @@ class ItemStubForm extends Form
         $descriptionProperty = $apiHelper->searchOne('properties', ['term' => 'dcterms:description'])->getContent();
 
         $this->setAttribute('id', 'item-stub-form');
-        $this->setAttribute('data-url', $urlHelper('admin/default', ['controller' => 'item', 'action' => 'add-resource-stub']));
+        $this->setAttribute('data-url', $urlHelper('admin/default', ['controller' => 'item', 'action' => 'add-item-stub']));
 
         $this->add([
             'type' => OmekaElement\ResourceSelect::class,

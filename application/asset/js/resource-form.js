@@ -436,9 +436,8 @@
             });
             $.post(itemStubForm.data('url'), itemData, function(data) {
                 const selectedResource = $('.selecting-resource').find('.selected-resource');
-                const img = $('<img>', {src: data['thumbnail_display_urls']['square']});
-                const a = $('<a>', {href: data['admin_url']}).text(data['o:title']);
-                selectedResource.find('.o-title').addClass('items').empty().append(img, a);
+                const a = $('<a>', {href: data['admin_url']}).text(data['display_title']);
+                selectedResource.find('.o-title').removeClass().addClass('o-title items').html(a);
                 selectedResource.find('.value').val(data['o:id']);
             });
         });

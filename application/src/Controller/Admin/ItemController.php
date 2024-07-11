@@ -238,7 +238,7 @@ class ItemController extends AbstractActionController
         return $view;
     }
 
-    public function addResourceStubAction()
+    public function addItemStubAction()
     {
         $request = $this->getRequest();
         $response = $this->getResponse();
@@ -249,6 +249,7 @@ class ItemController extends AbstractActionController
         $item = $this->api()->create('items', $itemData)->getContent();
         $itemJson = json_decode(json_encode($item), true);
         $itemJson['admin_url'] = $this->url()->fromRoute('admin/id', ['action' => 'show', 'id' => $item->id()], true);
+        $itemJson['display_title'] = $item->displayTitle();
         $response->getHeaders()->addHeaders(['Content-Type' => 'application/ld+json']);
         $response->setContent(json_encode($itemJson));
         return $response;

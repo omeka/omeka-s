@@ -417,6 +417,7 @@
             const resourceTemplate = $('#item-stub-resource-template');
             const resourceClass = $('#item-stub-resource-class');
             const itemData = {};
+
             if (resourceTemplate.val()) {
                 itemData['o:resource_template'] = {'o:id': resourceTemplate.val()};
             }
@@ -427,18 +428,23 @@
                 const propertyValue = $(this);
                 if (propertyValue.val()) {
                     const propertyTerm = propertyValue.data('propertyTerm');
-                    itemData[propertyTerm] = [{
+                    if (!itemData.hasOwnProperty(propertyTerm)) {
+                        itemData[propertyTerm] = [];
+                    }
+                    itemData[propertyTerm].push({
                         'type': 'literal',
                         'property_id': 'auto',
                         '@value': propertyValue.val()
-                    }];
+                    });
                 }
             });
+            itemData['csrf'] = itemStubForm.find('input[name="csrf"]').val();
             $.post(itemStubForm.data('url'), itemData, function(data) {
                 const selectedResource = $('.selecting-resource').find('.selected-resource');
                 const a = $('<a>', {href: data['admin_url']}).text(data['display_title']);
                 selectedResource.find('.o-title').removeClass().addClass('o-title items').html(a);
                 selectedResource.find('.value').val(data['o:id']);
+                Omeka.closeSidebar($('#select-resource'));
             });
         });
         $(document).on('change', '#item-stub-resource-template', function(e) {

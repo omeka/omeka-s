@@ -243,9 +243,16 @@ class ItemController extends AbstractActionController
         $request = $this->getRequest();
         $response = $this->getResponse();
         if (!$request->isPost()) {
-            return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
+            $response->setStatusCode(500);
+            return $response;
         }
         $itemData = $this->params()->fromPost();
+        $form = $this->getForm(ItemStubForm::class);
+        $form->setData($itemData);
+        if (!$form->isValid()) {
+            $response->setStatusCode(500);
+            return $response;
+        }
         $item = $this->api()->create('items', $itemData)->getContent();
         $itemJson = json_decode(json_encode($item), true);
         $itemJson['admin_url'] = $this->url()->fromRoute('admin/id', ['action' => 'show', 'id' => $item->id()], true);

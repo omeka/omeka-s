@@ -94,7 +94,9 @@ class ItemStubForm extends Form
             ],
         ]);
 
-        // Allow modules to modify this form.
+        // Allow modules to modify this form. Modules can add value elements by
+        // setting a "data-property-term" attribute with the property's term
+        // (e.g. dcterms:creator).
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 

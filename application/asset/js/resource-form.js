@@ -417,7 +417,6 @@
             const resourceTemplate = $('#item-stub-resource-template');
             const resourceClass = $('#item-stub-resource-class');
             const itemData = {};
-
             if (resourceTemplate.val()) {
                 itemData['o:resource_template'] = {'o:id': resourceTemplate.val()};
             }
@@ -441,6 +440,7 @@
             itemData['csrf'] = itemStubForm.find('input[name="csrf"]').val();
             $.post(itemStubForm.data('url'), itemData, function(data) {
                 const selectedResource = $('.selecting-resource').find('.selected-resource');
+                selectedResource.prev('span.default').hide();
                 const a = $('<a>', {href: data['admin_url']}).text(data['display_title']);
                 selectedResource.find('.o-title').removeClass().addClass('o-title items').html(a);
                 selectedResource.find('.value').val(data['o:id']);

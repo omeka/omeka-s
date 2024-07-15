@@ -423,22 +423,23 @@
             if (resourceClass.val()) {
                 itemData['o:resource_class'] = {'o:id': resourceClass.val()};
             }
-            itemStubForm.find('[data-property-term]').each(function() {
+            itemStubForm.find('[data-property-id]').each(function() {
                 const propertyValue = $(this);
                 if (propertyValue.val()) {
-                    const propertyTerm = propertyValue.data('propertyTerm');
-                    if (!itemData.hasOwnProperty(propertyTerm)) {
-                        itemData[propertyTerm] = [];
+                    const propertyId = propertyValue.data('propertyId');
+                    const type = propertyValue.data('type');
+                    if (!itemData.hasOwnProperty(propertyId)) {
+                        itemData[propertyId] = [];
                     }
-                    itemData[propertyTerm].push({
-                        'type': 'literal',
-                        'property_id': 'auto',
+                    itemData[propertyId].push({
+                        'property_id': propertyId,
+                        'type': type,
                         '@value': propertyValue.val()
                     });
                 }
             });
             itemData['csrf'] = itemStubForm.find('input[name="csrf"]').val();
-            $.post(itemStubForm.data('url'), itemData, function(data) {
+            $.post(itemStubForm.data('submitUrl'), itemData, function(data) {
                 const selectedResource = $('.selecting-resource').find('.selected-resource');
                 selectedResource.prev('span.default').hide();
                 const a = $('<a>', {href: data['admin_url']}).text(data['display_title']);
@@ -448,9 +449,26 @@
             });
         });
         $(document).on('change', '#item-stub-resource-template', function(e) {
-            console.log('#item-stub-resource-template');
-            // @todo: get resource template from the API (via data attribute)
-            // @todo: change resource class, title property, description property accordingly
+            const itemStubForm = $('#item-stub-form');
+            const resourceTemplate = $('#item-stub-resource-template');
+            const resourceClass = $('#item-stub-resource-class');
+            const title = $('#item-stub-title');
+            const description = $('#item-stub-description');
+            const resourceTemplateUrl = itemStubForm.data('templateUrl') + '/' + resourceTemplate.val();
+            $.get(resourceTemplateUrl, function(data) {
+                const templateResourceClass = data['o:resource_class'];
+                const templateTitleProperty = data['o:title_property'];
+                const templateDescriptionProperty = data['o:description_property'];
+                if (templateResourceClass) {
+                    resourceClass.val(templateResourceClass['o:id']);
+                    resourceClass.trigger('chosen:updated');
+                }
+                if (templateTitleProperty) {
+                    // @todo: get property data from API (for label in particular)
+                    title.data('property-id', templateTitleProperty['o:id']);
+                    // @todo: get and set alt label, if any
+                }
+            });
         });
 
         initPage();

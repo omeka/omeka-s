@@ -12,17 +12,21 @@ class ItemStubForm extends Form
 {
     use EventManagerAwareTrait;
 
-    protected $viewHelperManager;
+    protected $apiManager;
 
-    protected $valueIndex = [];
+    protected $urlHelper;
 
     public function init()
     {
-        $urlHelper = $this->viewHelperManager->get('url');
-        $apiHelper = $this->viewHelperManager->get('api');
-
         $this->setAttribute('id', 'item-stub-form');
-        $this->setAttribute('data-url', $urlHelper('admin/default', ['controller' => 'item', 'action' => 'add-item-stub']));
+        $this->setAttribute('data-submit-url', $this->getUrlHelper()(
+            'admin/default',
+            ['controller' => 'item', 'action' => 'add-item-stub']
+        ));
+        $this->setAttribute('data-template-url', $this->getUrlHelper()(
+            'api/default',
+            ['resource' => 'resource_templates']
+        ));
 
         $this->add([
             'type' => OmekaElement\ResourceSelect::class,
@@ -61,6 +65,10 @@ class ItemStubForm extends Form
             ],
         ]);
 
+        $property = $this->getApiManager()->search(
+            'properties',
+            ['term' => 'dcterms:title']
+        )->getContent()[0];
         $this->add([
             'type' => 'textarea',
             'name' => 'title',
@@ -69,10 +77,17 @@ class ItemStubForm extends Form
             ],
             'attributes' => [
                 'id' => 'item-stub-title',
-                'data-property-term' => 'dcterms:title',
+                'data-property-id' => $property->id(),
+                'data-type' => 'literal',
+                'data-property-id-original' => $property->id(),
+                'data-property-label-original' => 'Title', // @translate
             ],
         ]);
 
+        $property = $this->getApiManager()->search(
+            'properties',
+            ['term' => 'dcterms:description']
+        )->getContent()[0];
         $this->add([
             'type' => 'textarea',
             'name' => 'description',
@@ -81,7 +96,10 @@ class ItemStubForm extends Form
             ],
             'attributes' => [
                 'id' => 'item-stub-description',
-                'data-property-term' => 'dcterms:description',
+                'data-property-id' => $property->id(),
+                'data-type' => 'literal',
+                'data-property-id-original' => $property->id(),
+                'data-property-label-original' => 'Description', // @translate
             ],
         ]);
 
@@ -94,9 +112,7 @@ class ItemStubForm extends Form
             ],
         ]);
 
-        // Allow modules to modify this form. Modules can add value elements by
-        // setting a "data-property-term" attribute with the property's term
-        // (e.g. dcterms:creator).
+        // Allow modules to modify this form.
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 
@@ -117,8 +133,23 @@ class ItemStubForm extends Form
         $this->getEventManager()->triggerEvent($filterEvent);
     }
 
-    public function setViewHelperManager($viewHelperManager)
+    public function setApiManager(ApiManager $apiManager)
     {
-        $this->viewHelperManager = $viewHelperManager;
+        $this->apiManager = $apiManager;
+    }
+
+    public function getApiManager()
+    {
+        return $this->apiManager;
+    }
+
+    public function setUrlHelper(Url $urlHelper)
+    {
+        $this->urlHelper = $urlHelper;
+    }
+
+    public function getUrlHelper()
+    {
+        return $this->urlHelper;
     }
 }

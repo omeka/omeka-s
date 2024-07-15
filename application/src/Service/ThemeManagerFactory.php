@@ -68,16 +68,19 @@ class ThemeManagerFactory implements FactoryInterface
 
             $theme->setState(ThemeManager::STATE_ACTIVE);
 
-            // Inject module templates.
+            // Inject module templates, with priority to theme templates.
+            // Take care of merge with duplicate template keys.
             if (count($modulePageTemplates)) {
                 $configSpec['page_templates'] = empty($configSpec['page_templates'])
                     ? $modulePageTemplates
-                    : array_merge_recursive($configSpec['page_templates'], $modulePageTemplates);
+                    : array_replace($modulePageTemplates, $configSpec['page_templates']);
             }
             if (count($moduleBlockTemplates)) {
                 $configSpec['block_templates'] = empty($configSpec['block_templates'])
                     ? $moduleBlockTemplates
-                    : array_merge_recursive($configSpec['block_templates'], $moduleBlockTemplates);
+                    // Array_merge_recursive() converts duplicate keys to array.
+                    // Array_map() removes keys.
+                    : array_replace_recursive($moduleBlockTemplates, $configSpec['block_templates']);
             }
             $theme->setConfigSpec($configSpec);
         }

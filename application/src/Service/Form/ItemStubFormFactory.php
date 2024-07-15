@@ -11,7 +11,7 @@ class ItemStubFormFactory implements FactoryInterface
     {
         $form = new ItemStubForm;
         $form->setApiManager($services->get('Omeka\ApiManager'));
-        $form->setUrlHelper($services->get('ViewHelperManager')->get('Url'));
+        $form->setViewHelperManager($services->get('ViewHelperManager'));
         $form->setEventManager($services->get('EventManager'));
         return $form;
     }

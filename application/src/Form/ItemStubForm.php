@@ -4,7 +4,7 @@ namespace Omeka\Form;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\Form\Form;
-use Laminas\View\Helper\Url;
+use Laminas\View\HelperPluginManager;
 use Omeka\Api\Manager as ApiManager;
 use Omeka\Form\Element as OmekaElement;
 
@@ -14,18 +14,25 @@ class ItemStubForm extends Form
 
     protected $apiManager;
 
-    protected $urlHelper;
+    protected $viewHelperManager;
 
     public function init()
     {
+        $urlHelper = $this->getViewHelperManager()->get('url');
+        $apiHelper = $this->getViewHelperManager()->get('api');
+
         $this->setAttribute('id', 'item-stub-form');
-        $this->setAttribute('data-submit-url', $this->getUrlHelper()(
+        $this->setAttribute('data-submit-url', $urlHelper(
             'admin/default',
             ['controller' => 'item', 'action' => 'add-item-stub']
         ));
-        $this->setAttribute('data-template-url', $this->getUrlHelper()(
+        $this->setAttribute('data-resource-template-url', $urlHelper(
             'api/default',
             ['resource' => 'resource_templates']
+        ));
+        $this->setAttribute('data-property-url', $urlHelper(
+            'api/default',
+            ['resource' => 'properties']
         ));
 
         $this->add([
@@ -65,10 +72,10 @@ class ItemStubForm extends Form
             ],
         ]);
 
-        $property = $this->getApiManager()->search(
+        $property = $apiHelper->searchOne(
             'properties',
             ['term' => 'dcterms:title']
-        )->getContent()[0];
+        )->getContent();
         $this->add([
             'type' => 'textarea',
             'name' => 'title',
@@ -79,15 +86,15 @@ class ItemStubForm extends Form
                 'id' => 'item-stub-title',
                 'data-property-id' => $property->id(),
                 'data-type' => 'literal',
-                'data-property-id-original' => $property->id(),
-                'data-property-label-original' => 'Title', // @translate
+                'data-property-id-default' => $property->id(),
+                'data-property-label-default' => 'Title', // @translate
             ],
         ]);
 
-        $property = $this->getApiManager()->search(
+        $property = $apiHelper->searchOne(
             'properties',
             ['term' => 'dcterms:description']
-        )->getContent()[0];
+        )->getContent();
         $this->add([
             'type' => 'textarea',
             'name' => 'description',
@@ -98,8 +105,8 @@ class ItemStubForm extends Form
                 'id' => 'item-stub-description',
                 'data-property-id' => $property->id(),
                 'data-type' => 'literal',
-                'data-property-id-original' => $property->id(),
-                'data-property-label-original' => 'Description', // @translate
+                'data-property-id-default' => $property->id(),
+                'data-property-label-default' => 'Description', // @translate
             ],
         ]);
 
@@ -143,13 +150,13 @@ class ItemStubForm extends Form
         return $this->apiManager;
     }
 
-    public function setUrlHelper(Url $urlHelper)
+    public function setViewHelperManager(HelperPluginManager $viewHelperManager)
     {
-        $this->urlHelper = $urlHelper;
+        $this->viewHelperManager = $viewHelperManager;
     }
 
-    public function getUrlHelper()
+    public function getViewHelperManager()
     {
-        return $this->urlHelper;
+        return $this->viewHelperManager;
     }
 }

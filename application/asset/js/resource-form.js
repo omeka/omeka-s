@@ -448,25 +448,60 @@
                 Omeka.closeSidebar($('#select-resource'));
             });
         });
+        // Item stub form: handle resource template change.
         $(document).on('change', '#item-stub-resource-template', function(e) {
             const itemStubForm = $('#item-stub-form');
             const resourceTemplate = $('#item-stub-resource-template');
             const resourceClass = $('#item-stub-resource-class');
             const title = $('#item-stub-title');
             const description = $('#item-stub-description');
-            const resourceTemplateUrl = itemStubForm.data('templateUrl') + '/' + resourceTemplate.val();
-            $.get(resourceTemplateUrl, function(data) {
-                const templateResourceClass = data['o:resource_class'];
-                const templateTitleProperty = data['o:title_property'];
-                const templateDescriptionProperty = data['o:description_property'];
+            const resourceTemplateUrl = itemStubForm.data('resourceTemplateUrl') + '/' + resourceTemplate.val();
+            $.get(resourceTemplateUrl, function(resourceTemplateData) {
+                const templateResourceClass = resourceTemplateData['o:resource_class'];
+                const templateTitleProperty = resourceTemplateData['o:title_property'];
+                const templateDescriptionProperty = resourceTemplateData['o:description_property'];
                 if (templateResourceClass) {
+                    // Set the template-defined class.
                     resourceClass.val(templateResourceClass['o:id']);
                     resourceClass.trigger('chosen:updated');
                 }
                 if (templateTitleProperty) {
-                    // @todo: get property data from API (for label in particular)
-                    title.data('property-id', templateTitleProperty['o:id']);
-                    // @todo: get and set alt label, if any
+                    // Set the title defined by the template (including alt label).
+                    const propertyUrl = itemStubForm.data('propertyUrl') + '/' + templateTitleProperty['o:id'];
+                    $.get(propertyUrl, function(propertyData) {
+                        let propertyLabel = propertyData['o:label'];
+                        $.each(resourceTemplateData['o:resource_template_property'], function(key, value) {
+                            if (value['o:property']['o:id'] === templateTitleProperty['o:id']) {
+                                if (value['o:alternate_label']) propertyLabel = value['o:alternate_label'];
+                                return false;
+                            }
+                        });
+                        title.data('propertyId', templateTitleProperty['o:id']);
+                        title.closest('.field').find('[for="item-stub-title"]').text(propertyLabel);
+                    });
+                } else {
+                    // Set the default title.
+                    title.data('propertyId', title.data('propertyIdDefault'));
+                    title.closest('.field').find('[for="item-stub-title"]').text(title.data('propertyLabelDefault'));
+                }
+                if (templateDescriptionProperty) {
+                    // Set the description defined by the template (including alt label).
+                    const propertyUrl = itemStubForm.data('propertyUrl') + '/' + templateDescriptionProperty['o:id'];
+                    $.get(propertyUrl, function(propertyData) {
+                        let propertyLabel = propertyData['o:label'];
+                        $.each(resourceTemplateData['o:resource_template_property'], function(key, value) {
+                            if (value['o:property']['o:id'] === templateDescriptionProperty['o:id']) {
+                                if (value['o:alternate_label']) propertyLabel = value['o:alternate_label'];
+                                return false;
+                            }
+                        });
+                        description.data('propertyId', templateDescriptionProperty['o:id']);
+                        description.closest('.field').find('[for="item-stub-description"]').text(propertyLabel);
+                    });
+                } else {
+                    // Set the default description.
+                    description.data('propertyId', description.data('propertyIdDefault'));
+                    description.closest('.field').find('[for="item-stub-description"]').text(description.data('propertyLabelDefault'));
                 }
             });
         });

@@ -18,19 +18,20 @@ class ItemStubForm extends Form
 
     public function init()
     {
-        $urlHelper = $this->getViewHelperManager()->get('url');
-        $apiHelper = $this->getViewHelperManager()->get('api');
+        $url = $this->getViewHelperManager()->get('url');
+        $translate = $this->getViewHelperManager()->get('translate');
+        $api = $this->getViewHelperManager()->get('api');
 
         $this->setAttribute('id', 'item-stub-form');
-        $this->setAttribute('data-submit-url', $urlHelper(
+        $this->setAttribute('data-submit-url', $url(
             'admin/default',
             ['controller' => 'item', 'action' => 'add-item-stub']
         ));
-        $this->setAttribute('data-resource-template-url', $urlHelper(
+        $this->setAttribute('data-resource-template-url', $url(
             'api/default',
             ['resource' => 'resource_templates']
         ));
-        $this->setAttribute('data-property-url', $urlHelper(
+        $this->setAttribute('data-property-url', $url(
             'api/default',
             ['resource' => 'properties']
         ));
@@ -72,7 +73,7 @@ class ItemStubForm extends Form
             ],
         ]);
 
-        $property = $apiHelper->searchOne(
+        $property = $api->searchOne(
             'properties',
             ['term' => 'dcterms:title']
         )->getContent();
@@ -87,11 +88,11 @@ class ItemStubForm extends Form
                 'data-property-id' => $property->id(),
                 'data-type' => 'literal',
                 'data-property-id-default' => $property->id(),
-                'data-property-label-default' => 'Title', // @translate
+                'data-property-label-default' => $translate('Title'),
             ],
         ]);
 
-        $property = $apiHelper->searchOne(
+        $property = $api->searchOne(
             'properties',
             ['term' => 'dcterms:description']
         )->getContent();
@@ -106,7 +107,7 @@ class ItemStubForm extends Form
                 'data-property-id' => $property->id(),
                 'data-type' => 'literal',
                 'data-property-id-default' => $property->id(),
-                'data-property-label-default' => 'Description', // @translate
+                'data-property-label-default' => $translate('Description'),
             ],
         ]);
 

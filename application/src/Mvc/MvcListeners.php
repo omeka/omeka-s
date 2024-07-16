@@ -135,13 +135,29 @@ class MvcListeners extends AbstractListenerAggregate
             // The translator already loaded the configured locale.
             $locale = $translator->getDelegatedTranslator()->getLocale();
         }
-        if (extension_loaded('intl')) {
-            \Locale::setDefault($locale);
-        }
+        $this->setDefaultLocale($locale);
         $translator->getDelegatedTranslator()->setLocale($locale);
 
         // Enable automatic translation for validation error messages.
         AbstractValidator::setDefaultTranslator($translator);
+    }
+
+    /**
+     * Set the default locale.
+     *
+     * Note that we only set a defualt locale when the intl extension is loaded
+     * and when the locale isn't "debug". The "debug" locale is a special case
+     * used by Omeka to detect translated strings on the page wihout switching
+     * to another language. Otherwise there will be a "Found unconstructed
+     * IntlDateFormatter" error.
+     *
+     * @param string $locale
+     */
+    public function setDefaultLocale($locale)
+    {
+        if (extension_loaded('intl') && 'debug' !== $locale) {
+            \Locale::setDefault($locale);
+        }
     }
 
     /**
@@ -354,9 +370,7 @@ class MvcListeners extends AbstractListenerAggregate
         // locale.
         $locale = $services->get('Omeka\Settings\Site')->get('locale');
         if ($locale) {
-            if (extension_loaded('intl')) {
-                \Locale::setDefault($locale);
-            }
+            $this->setDefaultLocale($locale);
             $services->get('MvcTranslator')->getDelegatedTranslator()->setLocale($locale);
         }
     }

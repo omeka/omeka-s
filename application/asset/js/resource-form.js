@@ -402,7 +402,7 @@
             $(this).closest('.section-nav').find('li').toggleClass('active');
             $('#item-section').hide();
             $('#item-stub-section').show();
-            $('.chosen-select').chosen();
+            $('.chosen-select').chosen({allow_single_deselect: true});
         });
         // Item stub form: handle "Existing item" nav click.
         $(document).on('click', '#item-section-label', function(e) {

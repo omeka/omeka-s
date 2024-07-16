@@ -427,7 +427,7 @@
                 const propertyValue = $(this);
                 if (propertyValue.val()) {
                     const propertyId = propertyValue.data('propertyId');
-                    const type = propertyValue.data('type');
+                    const type = propertyValue.data('type') ?? 'literal';
                     if (!itemData.hasOwnProperty(propertyId)) {
                         itemData[propertyId] = [];
                     }

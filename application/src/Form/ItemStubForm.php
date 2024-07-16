@@ -86,7 +86,6 @@ class ItemStubForm extends Form
             'attributes' => [
                 'id' => 'item-stub-title',
                 'data-property-id' => $property->id(),
-                'data-type' => 'literal',
                 'data-property-id-default' => $property->id(),
                 'data-property-label-default' => $translate('Title'),
             ],
@@ -105,7 +104,6 @@ class ItemStubForm extends Form
             'attributes' => [
                 'id' => 'item-stub-description',
                 'data-property-id' => $property->id(),
-                'data-type' => 'literal',
                 'data-property-id-default' => $property->id(),
                 'data-property-label-default' => $translate('Description'),
             ],
@@ -120,7 +118,10 @@ class ItemStubForm extends Form
             ],
         ]);
 
-        // Allow modules to modify this form.
+        // Allow modules to modify this form. Modules may add value elements by
+        // adding a "data-property-id" attribute to the element, set to the
+        // property ID. They may also add a "data-type" attribute to the element
+        // to set a data type that is not "literal".
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 

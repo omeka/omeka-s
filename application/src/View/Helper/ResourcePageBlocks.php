@@ -77,7 +77,7 @@ class ResourcePageBlocks extends AbstractHelper
     /**
      * Return an array of block markup for a region of the resource page.
      *
-     * @return array
+     * @return array An array of block markup keyed by the block name
      */
     public function getBlocksArray()
     {
@@ -88,7 +88,7 @@ class ResourcePageBlocks extends AbstractHelper
         $blocksArray = [];
         foreach ($this->resourcePageBlocks[$this->resourceName][$this->regionName] as $blockName) {
             $blockLayout = $this->blockLayoutManager->get($blockName);
-            $blocksArray[] = $blockLayout->render($view, $this->resource);
+            $blocksArray[$blockName] = $blockLayout->render($view, $this->resource);
         }
         return $blocksArray;
     }

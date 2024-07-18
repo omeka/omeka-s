@@ -397,6 +397,15 @@
             $('#values-json').val(JSON.stringify(collectValues()));
         });
 
+        /** ITEM STUB */
+
+        $('#select-resource').on('o:sidebar-content-loaded', function(e) {
+            const itemStubForm = $('#item-stub-form');
+            $.post(itemStubForm.data('getItemStubPropertyValuesUrl'), function(data) {
+                console.log(data);
+            });
+        });
+
         // Item stub form: handle "New item" nav click.
         $(document).on('click', '#item-stub-section-label', function(e) {
             $(this).closest('.section-nav').find('li').toggleClass('active');

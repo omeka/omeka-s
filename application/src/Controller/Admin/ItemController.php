@@ -238,6 +238,28 @@ class ItemController extends AbstractActionController
         return $view;
     }
 
+    public function getItemStubPropertyValuesAction()
+    {
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+        if (!$request->isPost()) {
+            $response->setStatusCode(500);
+            return $response;
+        }
+        $postData = $this->params()->fromPost();
+        $resourceTemplateId = $postData['resource_template_id'] ?? 0;
+        try {
+            $resourceTemplate = $this->api()->read('resource_templates', $resourceTemplateId)->getContent();
+        } catch (\Omeka\Api\Exception\NotFoundException $e) {
+            $resourceTemplate = null;
+        }
+
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('resourceTemplate', $resourceTemplate);
+        return $view;
+    }
+
     public function addItemStubAction()
     {
         $request = $this->getRequest();

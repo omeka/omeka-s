@@ -27,16 +27,20 @@ class ItemStubForm extends Form
             'admin/default',
             ['controller' => 'item', 'action' => 'add-item-stub']
         ));
-        $this->setAttribute('data-resource-template-url', $url(
-            'api/default',
-            ['resource' => 'resource_templates']
-        ));
-        $this->setAttribute('data-property-url', $url(
-            'api/default',
-            ['resource' => 'properties']
+        $this->setAttribute('data-get-item-stub-property-values-url', $url(
+            'admin/default',
+            ['controller' => 'item', 'action' => 'get-item-stub-property-values']
         ));
 
         $this->add([
+            'type' => 'fieldset',
+            'name' => 'fieldset-main',
+            'attributes' => [
+                'id' => 'item-stub-fieldset-main'
+            ],
+        ]);
+        $fieldsetMain = $this->get('fieldset-main');
+        $fieldsetMain->add([
             'type' => OmekaElement\ResourceSelect::class,
             'name' => 'resource_template',
             'options' => [
@@ -58,8 +62,7 @@ class ItemStubForm extends Form
                 'data-placeholder' => 'Select a template', // @translate
             ],
         ]);
-
-        $this->add([
+        $fieldsetMain->add([
             'type' => OmekaElement\ResourceClassSelect::class,
             'name' => 'resource_class',
             'options' => [
@@ -72,43 +75,13 @@ class ItemStubForm extends Form
                 'data-placeholder' => 'Select a class', // @translate
             ],
         ]);
-
-        $property = $api->searchOne(
-            'properties',
-            ['term' => 'dcterms:title']
-        )->getContent();
         $this->add([
-            'type' => 'textarea',
-            'name' => 'title',
-            'options' => [
-                'label' => 'Title', // @translate
-            ],
+            'type' => 'fieldset',
+            'name' => 'fieldset-property-values',
             'attributes' => [
-                'id' => 'item-stub-title',
-                'data-property-id' => $property->id(),
-                'data-property-id-default' => $property->id(),
-                'data-property-label-default' => $translate('Title'),
+                'id' => 'item-stub-property-values'
             ],
         ]);
-
-        $property = $api->searchOne(
-            'properties',
-            ['term' => 'dcterms:description']
-        )->getContent();
-        $this->add([
-            'type' => 'textarea',
-            'name' => 'description',
-            'options' => [
-                'label' => 'Description', // @translate
-            ],
-            'attributes' => [
-                'id' => 'item-stub-description',
-                'data-property-id' => $property->id(),
-                'data-property-id-default' => $property->id(),
-                'data-property-label-default' => $translate('Description'),
-            ],
-        ]);
-
         $this->add([
             'type' => 'submit',
             'name' => 'submit',
@@ -118,10 +91,7 @@ class ItemStubForm extends Form
             ],
         ]);
 
-        // Allow modules to modify this form. Modules may add value elements by
-        // adding a "data-property-id" attribute to the element, set to the
-        // property ID. They may also add a "data-type" attribute to the element
-        // to set a data type that is not "literal".
+        // Allow modules to modify this form.
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 

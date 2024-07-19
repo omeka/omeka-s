@@ -27,9 +27,13 @@ class ItemStubForm extends Form
             'admin/default',
             ['controller' => 'item', 'action' => 'add-item-stub']
         ));
-        $this->setAttribute('data-get-item-stub-property-values-url', $url(
+        $this->setAttribute('data-get-item-stub-fieldset-url', $url(
             'admin/default',
-            ['controller' => 'item', 'action' => 'get-item-stub-property-values']
+            ['controller' => 'item', 'action' => 'get-item-stub-fieldset']
+        ));
+        $this->setAttribute('data-resource-template-url', $url(
+            'api/default',
+            ['resource' => 'resource_templates']
         ));
 
         $this->add([

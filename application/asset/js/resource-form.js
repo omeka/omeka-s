@@ -397,29 +397,28 @@
             $('#values-json').val(JSON.stringify(collectValues()));
         });
 
-        /** ITEM STUB */
+        /** ITEM STUB FORM */
 
         $('#select-resource').on('o:sidebar-content-loaded', function(e) {
             const itemStubForm = $('#item-stub-form');
-            $.post(itemStubForm.data('getItemStubPropertyValuesUrl'), function(data) {
-                console.log(data);
+            $.post(itemStubForm.data('getItemStubFieldsetUrl'), function(data) {
+                $('#item-stub-property-values').html(data);
             });
         });
-
-        // Item stub form: handle "New item" nav click.
+        // Handle "New item" nav click.
         $(document).on('click', '#item-stub-section-label', function(e) {
             $(this).closest('.section-nav').find('li').toggleClass('active');
             $('#item-section').hide();
             $('#item-stub-section').show();
             $('.chosen-select').chosen({allow_single_deselect: true});
         });
-        // Item stub form: handle "Existing item" nav click.
+        // Handle "Existing item" nav click.
         $(document).on('click', '#item-section-label', function(e) {
             $(this).closest('.section-nav').find('li').toggleClass('active');
             $('#item-section').show();
             $('#item-stub-section').hide();
         });
-        // Item stub form: handle item stub form submission.
+        // Handle item stub form submission.
         $(document).on('click', '#item-stub-submit', function(e) {
             e.preventDefault();
             const itemStubForm = $('#item-stub-form');
@@ -432,21 +431,7 @@
             if (resourceClass.val()) {
                 itemData['o:resource_class'] = {'o:id': resourceClass.val()};
             }
-            itemStubForm.find('[data-property-id]').each(function() {
-                const propertyValue = $(this);
-                if (propertyValue.val()) {
-                    const propertyId = propertyValue.data('propertyId');
-                    const type = propertyValue.data('type') ?? 'literal';
-                    if (!itemData.hasOwnProperty(propertyId)) {
-                        itemData[propertyId] = [];
-                    }
-                    itemData[propertyId].push({
-                        'property_id': propertyId,
-                        'type': type,
-                        '@value': propertyValue.val()
-                    });
-                }
-            });
+            // @todo: Build the item data object.
             itemData['csrf'] = itemStubForm.find('input[name="csrf"]').val();
             $.post(itemStubForm.data('submitUrl'), itemData, function(data) {
                 const selectedResource = $('.selecting-resource').find('.selected-resource');
@@ -457,63 +442,26 @@
                 Omeka.closeSidebar($('#select-resource'));
             });
         });
-        // Item stub form: handle resource template change.
+        // Handle resource template change.
         $(document).on('change', '#item-stub-resource-template', function(e) {
             const itemStubForm = $('#item-stub-form');
             const resourceTemplate = $('#item-stub-resource-template');
             const resourceClass = $('#item-stub-resource-class');
-            const title = $('#item-stub-title');
-            const description = $('#item-stub-description');
             const resourceTemplateUrl = itemStubForm.data('resourceTemplateUrl') + '/' + resourceTemplate.val();
-            $.get(resourceTemplateUrl, function(resourceTemplateData) {
-                const templateResourceClass = resourceTemplateData['o:resource_class'];
-                const templateTitleProperty = resourceTemplateData['o:title_property'];
-                const templateDescriptionProperty = resourceTemplateData['o:description_property'];
+            $.get(resourceTemplateUrl, function(data) {
+                const templateResourceClass = data['o:resource_class'];
                 if (templateResourceClass) {
                     // Set the template-defined class.
                     resourceClass.val(templateResourceClass['o:id']);
                     resourceClass.trigger('chosen:updated');
                 }
-                if (templateTitleProperty) {
-                    // Set the title defined by the template (including alt label).
-                    const propertyUrl = itemStubForm.data('propertyUrl') + '/' + templateTitleProperty['o:id'];
-                    $.get(propertyUrl, function(propertyData) {
-                        let propertyLabel = propertyData['o:label'];
-                        $.each(resourceTemplateData['o:resource_template_property'], function(key, value) {
-                            if (value['o:property']['o:id'] === templateTitleProperty['o:id']) {
-                                if (value['o:alternate_label']) propertyLabel = value['o:alternate_label'];
-                                return false;
-                            }
-                        });
-                        title.data('propertyId', templateTitleProperty['o:id']);
-                        title.closest('.field').find('[for="item-stub-title"]').text(propertyLabel);
-                    });
-                } else {
-                    // Set the default title.
-                    title.data('propertyId', title.data('propertyIdDefault'));
-                    title.closest('.field').find('[for="item-stub-title"]').text(title.data('propertyLabelDefault'));
-                }
-                if (templateDescriptionProperty) {
-                    // Set the description defined by the template (including alt label).
-                    const propertyUrl = itemStubForm.data('propertyUrl') + '/' + templateDescriptionProperty['o:id'];
-                    $.get(propertyUrl, function(propertyData) {
-                        let propertyLabel = propertyData['o:label'];
-                        $.each(resourceTemplateData['o:resource_template_property'], function(key, value) {
-                            if (value['o:property']['o:id'] === templateDescriptionProperty['o:id']) {
-                                if (value['o:alternate_label']) propertyLabel = value['o:alternate_label'];
-                                return false;
-                            }
-                        });
-                        description.data('propertyId', templateDescriptionProperty['o:id']);
-                        description.closest('.field').find('[for="item-stub-description"]').text(propertyLabel);
-                    });
-                } else {
-                    // Set the default description.
-                    description.data('propertyId', description.data('propertyIdDefault'));
-                    description.closest('.field').find('[for="item-stub-description"]').text(description.data('propertyLabelDefault'));
-                }
+            });
+            $.post(itemStubForm.data('getItemStubFieldsetUrl'), {resource_template_id: resourceTemplate.val()}, function(data) {
+                $('#item-stub-property-values').html(data);
             });
         });
+
+        /** END ITEM STUB FORM */
 
         initPage();
     });

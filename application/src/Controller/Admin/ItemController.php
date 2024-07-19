@@ -238,7 +238,7 @@ class ItemController extends AbstractActionController
         return $view;
     }
 
-    public function getItemStubPropertyValuesAction()
+    public function getItemStubFieldsetAction()
     {
         $request = $this->getRequest();
         $response = $this->getResponse();

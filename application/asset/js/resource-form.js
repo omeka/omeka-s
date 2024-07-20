@@ -401,9 +401,7 @@
 
         $('#select-resource').on('o:sidebar-content-loaded', function(e) {
             const itemStubForm = $('#item-stub-form');
-            $.post(itemStubForm.data('getItemStubFieldsetUrl'), function(data) {
-                $('#item-stub-property-values').html(data);
-            });
+            // @todo: Set the default property values (title and description)
         });
         // Handle "New item" nav click.
         $(document).on('click', '#item-stub-section-label', function(e) {
@@ -447,17 +445,28 @@
             const itemStubForm = $('#item-stub-form');
             const resourceTemplate = $('#item-stub-resource-template');
             const resourceClass = $('#item-stub-resource-class');
+            const propertyValues = $('#item-stub-property-values');
             const resourceTemplateUrl = itemStubForm.data('resourceTemplateUrl') + '/' + resourceTemplate.val();
-            $.get(resourceTemplateUrl, function(data) {
-                const templateResourceClass = data['o:resource_class'];
+            $.get(resourceTemplateUrl, function(rtData) {
+                const templateResourceClass = rtData['o:resource_class'];
+                // Set the template-defined class.
                 if (templateResourceClass) {
-                    // Set the template-defined class.
                     resourceClass.val(templateResourceClass['o:id']);
                     resourceClass.trigger('chosen:updated');
                 }
-            });
-            $.post(itemStubForm.data('getItemStubFieldsetUrl'), {resource_template_id: resourceTemplate.val()}, function(data) {
-                $('#item-stub-property-values').html(data);
+                // Set the proprerty values.
+                propertyValues.empty();
+                $.each(rtData['o:resource_template_property'], function(index, rtProperty) {
+                    let dataTypeName = rtProperty['o:data_type'][0];
+                    // // Set non-supported and "resource" data types to "literal".
+                    if (dataTypeName === undefined || !(dataTypeName in vaTemplates) || ['resource', 'resource:item', 'resource:itemset', 'resource:media'].includes(dataTypeName)) {
+                        dataTypeName = 'literal';
+                    }
+                    const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
+                    // @todo: Hydrate the markup
+                    $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation]);
+                    propertyValues.append(valueAnnotation);
+                });
             });
         });
 

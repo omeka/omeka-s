@@ -179,48 +179,4 @@ class DataType extends AbstractHelper
         }
         return $templates;
     }
-
-    public function getItemStubFieldset($resourceTemplate = null)
-    {
-        $view = $this->getView();
-        $form = [];
-        if ($resourceTemplate) {
-            // Build the form defined by the resource template.
-            foreach ($resourceTemplate->resourceTemplateProperties() as $rtProperty) {
-                $dataTypeNames = $rtProperty->dataTypes();
-                if ($dataTypeNames) {
-                    $dataTypeName = $dataTypeNames[0];
-                    if (in_array($dataTypeName, ['resource', 'resource:item', 'resource:itemset', 'resource:media', ])) {
-                        // Set "resource" data types to "literal".
-                        $dataTypeName = 'literal';
-                    }
-                    $dataType = $this->manager->get($dataTypeName);
-                    if (!($dataType instanceof ValueAnnotatingInterface)) {
-                        // Set non-supported data types to "literal".
-                        $dataType = $this->manager->get('literal');
-                    }
-                } else {
-                    $dataType = $this->manager->get('literal');
-                }
-                $property = $rtProperty->property();
-                $form[] = $view->partial('common/value-annotation-wrapper', [
-                    'dataType' => $dataType,
-                    'propertyId' => $property->id(),
-                    'propertyLabel' => $rtProperty->alternateLabel() ?? $property->label(),
-                ]);
-            }
-        } else {
-            // Build the default form.
-            $dataType = $this->manager->get('literal');
-            foreach (['dcterms:title', 'dcterms:description'] as $propertyTerm) {
-                $property = $view->api()->searchOne('properties', ['term' => $propertyTerm])->getContent();
-                $form[] = $view->partial('common/value-annotation-wrapper', [
-                    'dataType' => $dataType,
-                    'propertyId' => $property->id(),
-                    'propertyLabel' => $property->label(),
-                ]);
-            }
-        }
-        return implode('', $form);
-    }
 }

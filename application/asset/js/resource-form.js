@@ -399,9 +399,21 @@
 
         /** ITEM STUB FORM */
 
+        // Handle building the initial item stub form.
         $('#select-resource').on('o:sidebar-content-loaded', function(e) {
             const itemStubForm = $('#item-stub-form');
-            // @todo: Set the default property values (title and description)
+            const propertyValues = $('#item-stub-property-values');
+            const properties = [
+                itemStubForm.data('titleProperty'),
+                itemStubForm.data('descriptionProperty')
+            ];
+            $.each(properties, function(key, property) {
+                const valueAnnotation = $($.parseHTML(vaTemplates['literal']));
+                valueAnnotation.find('.value-annotation-heading').text(property['o:label']);
+                valueAnnotation.find('input.is_public').val('1');
+                valueAnnotation.find('input.property_id').val(property['o:id']);
+                propertyValues.append(valueAnnotation);
+            });
         });
         // Handle "New item" nav click.
         $(document).on('click', '#item-stub-section-label', function(e) {
@@ -458,12 +470,12 @@
                 propertyValues.empty();
                 $.each(rtData['o:resource_template_property'], function(index, rtProperty) {
                     let dataTypeName = rtProperty['o:data_type'][0];
-                    // // Set non-supported and "resource" data types to "literal".
+                    // Set non-supported and "resource" data types to "literal".
                     if (dataTypeName === undefined || !(dataTypeName in vaTemplates) || ['resource', 'resource:item', 'resource:itemset', 'resource:media'].includes(dataTypeName)) {
                         dataTypeName = 'literal';
                     }
                     const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
-                    // @todo: Hydrate the markup
+                    // @todo: Hydrate the markup (including alt label)
                     $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation]);
                     propertyValues.append(valueAnnotation);
                 });

@@ -31,6 +31,10 @@ class ItemStubForm extends Form
             'api/default',
             ['resource' => 'resource_templates']
         ));
+        $titleProperty = $api->searchOne('properties', ['term' => 'dcterms:title'])->getContent();
+        $this->setAttribute('data-title-property', json_encode($titleProperty));
+        $descriptionProperty = $api->searchOne('properties', ['term' => 'dcterms:description'])->getContent();
+        $this->setAttribute('data-description-property', json_encode($descriptionProperty));
 
         $this->add([
             'type' => 'fieldset',

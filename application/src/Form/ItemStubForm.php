@@ -100,12 +100,12 @@ class ItemStubForm extends Form
         $this->getEventManager()->triggerEvent($addEvent);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add([
+        $inputFilter->get('fieldset-main')->add([
             'name' => 'resource_template',
             'required' => false,
             'allow_empty' => true,
         ]);
-        $inputFilter->add([
+        $inputFilter->get('fieldset-main')->add([
             'name' => 'resource_class',
             'required' => false,
             'allow_empty' => true,

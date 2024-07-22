@@ -435,14 +435,31 @@
             const resourceTemplate = $('#item-stub-resource-template');
             const resourceClass = $('#item-stub-resource-class');
             const itemData = {};
+            itemData['csrf'] = itemStubForm.find('input[name="csrf"]').val();
             if (resourceTemplate.val()) {
                 itemData['o:resource_template'] = {'o:id': resourceTemplate.val()};
             }
             if (resourceClass.val()) {
                 itemData['o:resource_class'] = {'o:id': resourceClass.val()};
             }
-            // @todo: Build the item data object.
-            itemData['csrf'] = itemStubForm.find('input[name="csrf"]').val();
+            // Build the property values.
+            $('#item-stub-property-values').children('.value-annotation').each(function() {
+                const valueAnnotation = $(this);
+                const value = valueAnnotation.find('[data-value-key="@value"]').val();
+                if (value) {
+                    const propertyId = valueAnnotation.find('input.property_id').val();
+                    const type = valueAnnotation.find('input.data_type').val();
+                    const isPublic = valueAnnotation.find('input.is_public').val();
+                    const language = valueAnnotation.find('[data-value-key="@language"]').val();
+                    itemData[propertyId] = [{
+                        'type': type,
+                        'property_id': propertyId,
+                        'is_public': isPublic,
+                        '@value': value,
+                        '@language': language,
+                    }];
+                }
+            });
             $.post(itemStubForm.data('submitUrl'), itemData, function(data) {
                 const selectedResource = $('.selecting-resource').find('.selected-resource');
                 selectedResource.prev('span.default').hide();
@@ -466,16 +483,26 @@
                     resourceClass.val(templateResourceClass['o:id']);
                     resourceClass.trigger('chosen:updated');
                 }
-                // Set the proprerty values.
+                // Get, hydrate, and append the property value markup.
                 propertyValues.empty();
                 $.each(rtData['o:resource_template_property'], function(index, rtProperty) {
                     let dataTypeName = rtProperty['o:data_type'][0];
                     // Set non-supported and "resource" data types to "literal".
-                    if (dataTypeName === undefined || !(dataTypeName in vaTemplates) || ['resource', 'resource:item', 'resource:itemset', 'resource:media'].includes(dataTypeName)) {
+                    if (dataTypeName === undefined
+                        || !(dataTypeName in vaTemplates)
+                        || ['resource', 'resource:item', 'resource:itemset', 'resource:media'].includes(dataTypeName)
+                    ) {
                         dataTypeName = 'literal';
                     }
                     const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
-                    // @todo: Hydrate the markup (including alt label)
+                    const propertyId = rtProperty['o:property']['o:id'];
+                    // Account for an alternate label set by the resource template.
+                    // Otherwise get the label from an existing property select.
+                    const propertyLabel = rtProperty['o:alternate_label']
+                        ?? $('#value-annotation-property-select').find(`option[data-property-id="${propertyId}"]`).text();
+                    valueAnnotation.find('.value-annotation-heading').text(propertyLabel);
+                    valueAnnotation.find('input.is_public').val('1');
+                    valueAnnotation.find('input.property_id').val(propertyId);
                     $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation]);
                     propertyValues.append(valueAnnotation);
                 });

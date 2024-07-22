@@ -2,10 +2,10 @@
 namespace Omeka\Service\File\Thumbnailer;
 
 use Interop\Container\ContainerInterface;
-use Omeka\File\Thumbnailer\NoThumbnail;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Omeka\File\Thumbnailer\NoThumbnail;
 
-class NothumbnailFactory implements FactoryInterface
+class NoThumbnailFactory implements FactoryInterface
 {
     /**
      * Create the NoThumbnail thumbnailer service.

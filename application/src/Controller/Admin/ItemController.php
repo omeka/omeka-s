@@ -253,7 +253,7 @@ class ItemController extends AbstractActionController
             $response->setStatusCode(500);
             return $response;
         }
-        $item = $this->api()->create('items', $itemData)->getContent();
+        $item = $this->api(null, true)->create('items', $itemData)->getContent();
         $itemJson = json_decode(json_encode($item), true);
         $itemJson['admin_url'] = $this->url()->fromRoute('admin/id', ['action' => 'show', 'id' => $item->id()], true);
         $itemJson['display_title'] = $item->displayTitle();

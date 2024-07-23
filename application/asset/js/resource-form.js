@@ -107,27 +107,7 @@
         // Handle "Set annotations" click.
         vaSetButton.on('click', function(e) {
             e.preventDefault();
-            const values = {};
-            vaContainer.find('.value-annotation').each(function() {
-                const thisValueAnnotation = $(this);
-                if (thisValueAnnotation.data('removed')) {
-                    // This annotation was flagged for removal.
-                    return;
-                }
-                const value = {};
-                // Map the the data-value-key attributes to the values object.
-                thisValueAnnotation.find(':input').each(function() {
-                    const thisInput = $(this);
-                    const valueKey = thisInput.data('valueKey');
-                    if (!valueKey) return;
-                    value[valueKey] = thisInput.val();
-                });
-                const propertyTerm = thisValueAnnotation.find('.property_term').val();
-                if (!values.hasOwnProperty(propertyTerm)) {
-                    values[propertyTerm] = [];
-                }
-                values[propertyTerm].push(value);
-            });
+            const values = collectValueAnnotationValues(vaContainer);
             annotatingValue.data('valueAnnotations', values);
             Omeka.closeSidebar(vaSidebar);
         });
@@ -399,22 +379,6 @@
 
         /** ITEM STUB FORM */
 
-        // Handle building the initial item stub form.
-        $('#select-resource').on('o:sidebar-content-loaded', function(e) {
-            const itemStubForm = $('#item-stub-form');
-            const propertyValues = $('#item-stub-property-values');
-            const properties = [
-                itemStubForm.data('titleProperty'),
-                itemStubForm.data('descriptionProperty')
-            ];
-            $.each(properties, function(key, property) {
-                const valueAnnotation = $($.parseHTML(vaTemplates['literal']));
-                valueAnnotation.find('.value-annotation-heading').text(property['o:label']);
-                valueAnnotation.find('input.is_public').val('1');
-                valueAnnotation.find('input.property_id').val(property['o:id']);
-                propertyValues.append(valueAnnotation);
-            });
-        });
         // Handle "New item" nav click.
         $(document).on('click', '#item-stub-section-label', function(e) {
             $(this).closest('.section-nav').find('li').toggleClass('active');
@@ -428,45 +392,21 @@
             $('#item-section').show();
             $('#item-stub-section').hide();
         });
-        // Handle item stub form submission.
-        $(document).on('click', '#item-stub-submit', function(e) {
-            e.preventDefault();
+        // Handle building the initial item stub form.
+        $('#select-resource').on('o:sidebar-content-loaded', function(e) {
             const itemStubForm = $('#item-stub-form');
-            const resourceTemplate = $('#item-stub-resource-template');
-            const resourceClass = $('#item-stub-resource-class');
-            const itemData = {};
-            itemData['csrf'] = itemStubForm.find('input[name="csrf"]').val();
-            if (resourceTemplate.val()) {
-                itemData['o:resource_template'] = {'o:id': resourceTemplate.val()};
-            }
-            if (resourceClass.val()) {
-                itemData['o:resource_class'] = {'o:id': resourceClass.val()};
-            }
-            // Build the property values.
-            $('#item-stub-property-values').children('.value-annotation').each(function() {
-                const valueAnnotation = $(this);
-                const value = valueAnnotation.find('[data-value-key="@value"]').val();
-                if (value) {
-                    const propertyId = valueAnnotation.find('input.property_id').val();
-                    const type = valueAnnotation.find('input.data_type').val();
-                    const isPublic = valueAnnotation.find('input.is_public').val();
-                    const language = valueAnnotation.find('[data-value-key="@language"]').val();
-                    itemData[propertyId] = [{
-                        'type': type,
-                        'property_id': propertyId,
-                        'is_public': isPublic,
-                        '@value': value,
-                        '@language': language,
-                    }];
-                }
-            });
-            $.post(itemStubForm.data('submitUrl'), itemData, function(data) {
-                const selectedResource = $('.selecting-resource').find('.selected-resource');
-                selectedResource.prev('span.default').hide();
-                const a = $('<a>', {href: data['admin_url']}).text(data['display_title']);
-                selectedResource.find('.o-title').removeClass().addClass('o-title items').html(a);
-                selectedResource.find('.value').val(data['o:id']);
-                Omeka.closeSidebar($('#select-resource'));
+            const propertyValues = $('#item-stub-property-values');
+            const properties = {
+                'dcterms:title': itemStubForm.data('titleProperty'),
+                'dcterms:description': itemStubForm.data('descriptionProperty')
+            };
+            $.each(properties, function(key, property) {
+                const valueAnnotation = $($.parseHTML(vaTemplates['literal']));
+                valueAnnotation.find('.value-annotation-heading').text(property['o:label']);
+                valueAnnotation.find('input.is_public').val('1');
+                valueAnnotation.find('input.property_id').val(property['o:id']);
+                valueAnnotation.find('input.property_term').val(key);
+                propertyValues.append(valueAnnotation);
             });
         });
         // Handle resource template change.
@@ -494,18 +434,46 @@
                     ) {
                         dataTypeName = 'literal';
                     }
-                    const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
+                    // Hydrate the property values. Get property data (term and
+                    // label) from an existing property select. We account for an
+                    // alternate label set by the resource template.
                     const propertyId = rtProperty['o:property']['o:id'];
-                    // Account for an alternate label set by the resource template.
-                    // Otherwise get the label from an existing property select.
-                    const propertyLabel = rtProperty['o:alternate_label']
-                        ?? $('#value-annotation-property-select').find(`option[data-property-id="${propertyId}"]`).text();
+                    const property = $('#value-annotation-property-select').find(`option[data-property-id="${propertyId}"]`);
+                    const propertyTerm = property.data('term');
+                    const propertyLabel = rtProperty['o:alternate_label'] ?? property.text();
+                    const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
                     valueAnnotation.find('.value-annotation-heading').text(propertyLabel);
                     valueAnnotation.find('input.is_public').val('1');
                     valueAnnotation.find('input.property_id').val(propertyId);
+                    valueAnnotation.find('input.property_term').val(propertyTerm);
                     $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation]);
                     propertyValues.append(valueAnnotation);
                 });
+            });
+        });
+        // Handle item stub form submission.
+        $(document).on('click', '#item-stub-submit', function(e) {
+            e.preventDefault();
+            const itemStubForm = $('#item-stub-form');
+            const resourceTemplate = $('#item-stub-resource-template');
+            const resourceClass = $('#item-stub-resource-class');
+            const itemData = {};
+            itemData['csrf'] = itemStubForm.find('input[name="csrf"]').val();
+            if (resourceTemplate.val()) {
+                itemData['o:resource_template'] = {'o:id': resourceTemplate.val()};
+            }
+            if (resourceClass.val()) {
+                itemData['o:resource_class'] = {'o:id': resourceClass.val()};
+            }
+            // Collect the property values, create the item, and populate the field.
+            const values = collectValueAnnotationValues($('#item-stub-property-values'));
+            $.post(itemStubForm.data('submitUrl'), {...itemData, ...values}, function(data) {
+                const selectedResource = $('.selecting-resource').find('.selected-resource');
+                selectedResource.prev('span.default').hide();
+                const a = $('<a>', {href: data['admin_url']}).text(data['display_title']);
+                selectedResource.find('.o-title').removeClass().addClass('o-title items').html(a);
+                selectedResource.find('.value').val(data['o:id']);
+                Omeka.closeSidebar($('#select-resource'));
             });
         });
 
@@ -544,6 +512,31 @@
             if (propertyValues.length) {
                 values[propertyTerm] = propertyValues;
             }
+        });
+        return values;
+    };
+
+    var collectValueAnnotationValues = function (vaContainer) {
+        const values = {};
+        vaContainer.find('.value-annotation').each(function() {
+            const thisValueAnnotation = $(this);
+            if (thisValueAnnotation.data('removed')) {
+                // This annotation was flagged for removal.
+                return;
+            }
+            const value = {};
+            // Map the the data-value-key attributes to the values object.
+            thisValueAnnotation.find(':input').each(function() {
+                const thisInput = $(this);
+                const valueKey = thisInput.data('valueKey');
+                if (!valueKey) return;
+                value[valueKey] = thisInput.val();
+            });
+            const propertyTerm = thisValueAnnotation.find('.property_term').val();
+            if (!values.hasOwnProperty(propertyTerm)) {
+                values[propertyTerm] = [];
+            }
+            values[propertyTerm].push(value);
         });
         return values;
     };

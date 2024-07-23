@@ -465,16 +465,20 @@
             if (resourceClass.val()) {
                 itemData['o:resource_class'] = {'o:id': resourceClass.val()};
             }
-            // Collect the property values, create the item, and populate the field.
+            // Collect property values, create the item, and populate the field.
             const values = collectValueAnnotationValues($('#item-stub-property-values'));
-            $.post(itemStubForm.data('submitUrl'), {...itemData, ...values}, function(data) {
-                const selectedResource = $('.selecting-resource').find('.selected-resource');
-                selectedResource.prev('span.default').hide();
-                const a = $('<a>', {href: data['admin_url']}).text(data['display_title']);
-                selectedResource.find('.o-title').removeClass().addClass('o-title items').html(a);
-                selectedResource.find('.value').val(data['o:id']);
-                Omeka.closeSidebar($('#select-resource'));
-            });
+            $.post(itemStubForm.data('submitUrl'), {...itemData, ...values})
+                .done(function(data) {
+                    const selectedResource = $('.selecting-resource').find('.selected-resource');
+                    selectedResource.prev('span.default').hide();
+                    const a = $('<a>', {href: data['admin_url']}).text(data['display_title']);
+                    selectedResource.find('.o-title').removeClass().addClass('o-title items').html(a);
+                    selectedResource.find('.value').val(data['o:id']);
+                    Omeka.closeSidebar($('#select-resource'));
+                })
+                .fail(function(data) {
+                    Omeka.closeSidebar($('#select-resource'));
+                });
         });
 
         /** END ITEM STUB FORM */

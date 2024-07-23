@@ -446,6 +446,9 @@
                     valueAnnotation.find('input.is_public').val('1');
                     valueAnnotation.find('input.property_id').val(propertyId);
                     valueAnnotation.find('input.property_term').val(propertyTerm);
+                    if (rtProperty['o:is_required']) {
+                        valueAnnotation.addClass('required');
+                    }
                     $(document).trigger('o:prepare-value-annotation', [dataTypeName, valueAnnotation]);
                     propertyValues.append(valueAnnotation);
                 });
@@ -465,8 +468,22 @@
             if (resourceClass.val()) {
                 itemData['o:resource_class'] = {'o:id': resourceClass.val()};
             }
-            // Collect property values, create the item, and populate the field.
-            const values = collectValueAnnotationValues($('#item-stub-property-values'));
+            // Validate the values according to the required flag.
+            const propertyValues = $('#item-stub-property-values');
+            let hasError = false;
+            propertyValues.children('.value-annotation').each(function(key, value) {
+                const valueAnnotation = $(this);
+                const valueInput = valueAnnotation.find('[data-value-key="@value"]');
+                if (valueAnnotation.hasClass('required') && !valueInput.val()) {
+                    valueInput[0].setCustomValidity('This value is required');
+                    valueInput[0].reportValidity();
+                    hasError = true;
+                    return false;
+                }
+            });
+            if (hasError) return;
+            // Collect values, create the item, and populate the field.
+            const values = collectValueAnnotationValues(propertyValues);
             $.post(itemStubForm.data('submitUrl'), {...itemData, ...values})
                 .done(function(data) {
                     const selectedResource = $('.selecting-resource').find('.selected-resource');

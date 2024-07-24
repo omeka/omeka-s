@@ -2039,6 +2039,32 @@ fieldset.section > legend {
     padding: 0 $spacing-small;
 }
 
+.sidebar .value-annotation-heading {
+    display: inline-block;
+    margin-right: $spacing-small;
+}
+
+.sidebar .value-annotation {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sidebar .value-annotation .required-tag {
+    display: none;
+}
+
+.sidebar .value-annotation.required .required-tag {
+    display: inline-block;
+    padding: .5 * $spacing-small;
+    font-size: .75 * $base-font-size;
+    background-color: #FDEFEF;
+    color: $red;
+    border-radius: 2px;
+    margin: (.5 * $spacing-small) 0 (.5 * $spacing-small);
+    line-height: 1;
+    align-self: center;
+}
+
 .sidebar .value-annotation .value {
     padding-bottom: 0;
 }

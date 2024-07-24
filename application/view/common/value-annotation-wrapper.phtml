@@ -3,6 +3,7 @@ $dataTypeName = (strpos('resource', $dataType->getName()) !== false) ? 'resource
 ?>
 <div class="value-annotation">
     <h4 class="value-annotation-heading"></h4>
+    <span class="required-tag"><?php echo $this->translate('Required'); ?></span>
     <div class="value" data-data-type="<?php echo $dataTypeName; ?>" data-data-type-label="<?php echo $dataType->getLabel(); ?>" data-data-type-icon="" role="group">
         <?php echo $dataType->valueAnnotationForm($this); ?>
         <div class="input-footer">

@@ -2066,6 +2066,7 @@ fieldset.section > legend {
 }
 
 .sidebar .value-annotation .value {
+    width: 100%;
     padding-bottom: 0;
 }
 
@@ -3236,7 +3237,7 @@ fieldset.section > legend {
 }
 
 .sidebar-section-nav button[type="button"] {
-    background-color: $gray-on-white;
+    background-color: rgba(0,0,0,.08);
     color: $copy-gray;
     border-radius: $spacing-large;
     box-shadow: none;

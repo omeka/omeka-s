@@ -400,12 +400,12 @@
                 'dcterms:title': itemStubForm.data('titleProperty'),
                 'dcterms:description': itemStubForm.data('descriptionProperty')
             };
-            $.each(properties, function(key, property) {
+            $.each(properties, function(term, property) {
                 const valueAnnotation = $($.parseHTML(vaTemplates['literal']));
                 valueAnnotation.find('.value-annotation-heading').text(property['o:label']);
-                valueAnnotation.find('input.is_public').val('1');
                 valueAnnotation.find('input.property_id').val(property['o:id']);
-                valueAnnotation.find('input.property_term').val(key);
+                valueAnnotation.find('input.property_term').val(term);
+                valueAnnotation.find('input.is_public').val('1');
                 propertyValues.append(valueAnnotation);
             });
         });
@@ -445,7 +445,6 @@
                     valueAnnotation.find('.value-annotation-heading').text(propertyLabel);
                     valueAnnotation.find('input.property_id').val(propertyId);
                     valueAnnotation.find('input.property_term').val(propertyTerm);
-                    valueAnnotation.find('input.is_public').val(rtProperty['o:is_private'] ? '0' : '1');
                     if (rtProperty['o:is_private']) {
                         valueAnnotation.find('input.is_public').val('0');
                         valueAnnotation.find('.value-annotation-visibility').removeClass('o-icon-public').addClass('o-icon-private');
@@ -466,6 +465,7 @@
             const itemStubForm = $('#item-stub-form');
             const resourceTemplate = $('#item-stub-resource-template');
             const resourceClass = $('#item-stub-resource-class');
+            // Build the item data.
             const itemData = {};
             itemData['csrf'] = itemStubForm.find('input[name="csrf"]').val();
             if (resourceTemplate.val()) {
@@ -481,7 +481,7 @@
                 const valueAnnotation = $(this);
                 const valueInput = valueAnnotation.find('[data-value-key="@value"]');
                 if (valueAnnotation.hasClass('required') && !valueInput.val()) {
-                    valueInput[0].setCustomValidity('This value is required');
+                    valueInput[0].setCustomValidity(Omeka.jsTranslate('Required field must be completed'));
                     valueInput[0].reportValidity();
                     hasError = true;
                     return false;
@@ -500,6 +500,7 @@
                     Omeka.closeSidebar($('#select-resource'));
                 })
                 .fail(function(data) {
+                    alert(Omeka.jsTranslate('Something went wrong'));
                     Omeka.closeSidebar($('#select-resource'));
                 });
         });

@@ -147,7 +147,17 @@
             e.preventDefault();
             const thisVisibilityIcon = $(this);
             const isPublicInput = thisVisibilityIcon.closest('.value').find('input.is_public');
-            isPublicInput.val(thisVisibilityIcon.hasClass('o-icon-public') ? 1 : 0);
+            if (thisVisibilityIcon.hasClass('o-icon-public')) {
+                thisVisibilityIcon
+                    .attr('title', Omeka.jsTranslate('Make private'))
+                    .attr('aria-label', Omeka.jsTranslate('Make private'));
+                isPublicInput.val('1');
+            } else {
+                thisVisibilityIcon
+                    .attr('title', Omeka.jsTranslate('Make public'))
+                    .attr('aria-label', Omeka.jsTranslate('Make public'));
+                isPublicInput.val('0');
+            }
         });
 
         // Select property

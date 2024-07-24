@@ -10,7 +10,7 @@ $dataTypeName = (strpos('resource', $dataType->getName()) !== false) ? 'resource
             <ul class="actions">
                 <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-delete value-annotation-remove', 'title' => $this->translate('Remove value'), 'aria-label' => $this->translate('Remove value')]); ?></li>
                 <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-undo value-annotation-restore', 'title' => $this->translate('Restore value'), 'aria-label' => $this->translate('Restore value'), 'style' => 'display: none;']); ?></li>
-                <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-public value-annotation-visibility', 'title' => $this->translate('Make public'), 'aria-label' => $this->translate('Make public')]); ?></li>
+                <li><?php echo $this->hyperlink('', '#', ['class' => 'o-icon-public value-annotation-visibility', 'title' => $this->translate('Make private'), 'aria-label' => $this->translate('Make private')]); ?></li>
             </ul>
             <input type="hidden" class="is_public" data-value-key="is_public">
             <input type="hidden" class="data_type" data-value-key="type" value="<?php echo $this->escapeHtml($dataType->getName()); ?>">

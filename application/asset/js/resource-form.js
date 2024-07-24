@@ -389,18 +389,14 @@
 
         /** ITEM STUB FORM */
 
-        // Handle "New item" nav click.
-        $(document).on('click', '#item-stub-section-label', function(e) {
-            $(this).closest('.section-nav').find('li').toggleClass('active');
-            $('#item-section').hide();
-            $('#item-stub-section').show();
-            $('.chosen-select').chosen({allow_single_deselect: true});
-        });
-        // Handle "Existing item" nav click.
-        $(document).on('click', '#item-section-label', function(e) {
-            $(this).closest('.section-nav').find('li').toggleClass('active');
-            $('#item-section').show();
-            $('#item-stub-section').hide();
+        $(document).on('click', '.sidebar-section-nav button', function(e) {
+            const thisButton = $(this);
+            // Set "active" status on nav list items.
+            thisButton.closest('.sidebar-section-nav').find('li').removeClass('active');
+            thisButton.closest('li').addClass('active');
+            // Set "active" status on sections.
+            $('.sidebar-section').removeClass('active');
+            $(`#${thisButton.data('id')}`).addClass('active');
         });
         // Handle building the initial item stub form.
         $('#select-resource').on('o:sidebar-content-loaded', function(e) {

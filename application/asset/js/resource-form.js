@@ -405,6 +405,9 @@
         // Handle building the initial item stub form.
         $('#select-resource').on('o:sidebar-content-loaded', function(e) {
             const itemStubForm = $('#item-stub-form');
+            if (!itemStubForm.length) {
+                return; // Build the form only when needed.
+            }
             const propertyValues = $('#item-stub-property-values');
             const properties = {
                 'dcterms:title': itemStubForm.data('titleProperty'),

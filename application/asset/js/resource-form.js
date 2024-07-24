@@ -443,9 +443,15 @@
                     const propertyLabel = rtProperty['o:alternate_label'] ?? property.text();
                     const valueAnnotation = $($.parseHTML(vaTemplates[dataTypeName]));
                     valueAnnotation.find('.value-annotation-heading').text(propertyLabel);
-                    valueAnnotation.find('input.is_public').val('1');
                     valueAnnotation.find('input.property_id').val(propertyId);
                     valueAnnotation.find('input.property_term').val(propertyTerm);
+                    valueAnnotation.find('input.is_public').val(rtProperty['o:is_private'] ? '0' : '1');
+                    if (rtProperty['o:is_private']) {
+                        valueAnnotation.find('input.is_public').val('0');
+                        valueAnnotation.find('.value-annotation-visibility').removeClass('o-icon-public').addClass('o-icon-private');
+                    } else {
+                        valueAnnotation.find('input.is_public').val('1');
+                    }
                     if (rtProperty['o:is_required']) {
                         valueAnnotation.addClass('required');
                     }

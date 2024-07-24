@@ -6,12 +6,10 @@ $itemsFound = count($items) > 0;
 $expanded = $resourceClassId || $itemSetId || $id;
 ?>
 
-<nav class="sidebar-section-nav">
-    <ul>
-        <li class="active"><button type="button" data-id="sidebar-section-item"><?php echo $translate('Existing item'); ?></button></li>
-        <li><button type="button" data-id="sidebar-section-item-stub"><?php echo $translate('New item'); ?></button></li>
-    </ul>
-</nav>
+<?php echo $this->sidebarSectionNav([
+    'sidebar-section-item' => $translate('Existing item'),
+    'sidebar-section-item-stub' => $translate('New item'),
+]); ?>
 
 <div id="sidebar-section-item" class="sidebar-section active">
 

@@ -387,17 +387,20 @@
             $('#values-json').val(JSON.stringify(collectValues()));
         });
 
-        /** ITEM STUB FORM */
-
+        // Handle tabbed navigation in sidebar.
         $(document).on('click', '.sidebar-section-nav button', function(e) {
             const thisButton = $(this);
+            const sidebarSectionNav = thisButton.closest('.sidebar-section-nav');
             // Set "active" status on nav list items.
-            thisButton.closest('.sidebar-section-nav').find('li').removeClass('active');
+            sidebarSectionNav.find('li').removeClass('active');
             thisButton.closest('li').addClass('active');
             // Set "active" status on sections.
-            $('.sidebar-section').removeClass('active');
+            sidebarSectionNav.siblings('.sidebar-section').removeClass('active');
             $(`#${thisButton.data('id')}`).addClass('active');
         });
+
+        /** ITEM STUB FORM */
+
         // Handle building the initial item stub form.
         $('#select-resource').on('o:sidebar-content-loaded', function(e) {
             const itemStubForm = $('#item-stub-form');
@@ -417,6 +420,11 @@
                 valueAnnotation.find('input.is_public').val('1');
                 propertyValues.append(valueAnnotation);
             });
+        });
+        // Handle applying chosen to item stub form select elements.
+        $(document).on('click', '[data-id="sidebar-section-item-stub"]', function(e) {
+            const itemStubForm = $('#item-stub-form');
+            itemStubForm.find('.chosen-select').chosen({allow_single_deselect: true});
         });
         // Handle resource template change.
         $(document).on('change', '#item-stub-resource-template', function(e) {

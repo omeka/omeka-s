@@ -430,6 +430,7 @@ return [
             'ckEditor' => View\Helper\CkEditor::class,
             'sitePagePagination' => View\Helper\SitePagePagination::class,
             'sectionNav' => View\Helper\SectionNav::class,
+            'sidebarSectionNav' => View\Helper\SidebarSectionNav::class,
             'uploadLimit' => View\Helper\UploadLimit::class,
             'formRecaptcha' => Form\View\Helper\FormRecaptcha::class,
             'formCkeditor' => Form\View\Helper\FormCkeditor::class,

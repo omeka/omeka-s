@@ -3215,6 +3215,48 @@ fieldset.section > legend {
     }
 }
 
+.sidebar-section-nav {
+    margin-bottom: $spacing-medium;
+    position: relative;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: -$spacing-large;
+        bottom: 0;
+        right: -$spacing-large;
+        left: -$spacing-large;
+        background-color: #fff;
+        z-index: -1;
+    }
+}
+
+.sidebar-section-nav li {
+    display: inline-block;
+}
+
+.sidebar-section-nav button[type="button"] {
+    background-color: $gray-on-white;
+    color: $copy-gray;
+    border-radius: $spacing-large;
+    box-shadow: none;
+    font-size: .875 * $base-font-size;
+    padding: $spacing-small $spacing-medium;
+    min-height: 0;
+    line-height: 1;
+}
+.sidebar-section-nav .active button[type="button"] {
+    font-weight: bold;
+}
+
+.sidebar-section {
+    display: none;
+
+    &.active {
+        display: block;
+    }
+}
+
 .confirm-main {
     position: absolute;
     top: 0;
@@ -3224,7 +3266,6 @@ fieldset.section > legend {
     right: 0;
     padding: $spacing-medium $spacing-medium 0;
 }
-
 
 .confirm-panel {
     position: absolute;

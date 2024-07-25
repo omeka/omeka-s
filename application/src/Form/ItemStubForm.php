@@ -40,7 +40,7 @@ class ItemStubForm extends Form
             'type' => 'fieldset',
             'name' => 'fieldset-main',
             'attributes' => [
-                'id' => 'item-stub-fieldset-main'
+                'id' => 'item-stub-fieldset-main',
             ],
         ]);
         $fieldsetMain = $this->get('fieldset-main');
@@ -83,7 +83,7 @@ class ItemStubForm extends Form
             'type' => 'fieldset',
             'name' => 'fieldset-property-values',
             'attributes' => [
-                'id' => 'item-stub-property-values'
+                'id' => 'item-stub-property-values',
             ],
         ]);
         $this->add([

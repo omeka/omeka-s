@@ -395,7 +395,9 @@
             sidebarSectionNav.find('li').removeClass('active');
             thisButton.closest('li').addClass('active');
             // Set "active" status on sections.
-            sidebarSectionNav.siblings('.sidebar-section').removeClass('active');
+            sidebarSectionNav.find('button').each(function() {
+                $(`#${$(this).data('id')}`).removeClass('active');
+            });
             $(`#${thisButton.data('id')}`).addClass('active');
         });
 

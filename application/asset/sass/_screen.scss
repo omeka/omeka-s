@@ -3232,8 +3232,14 @@ fieldset.section > legend {
     }
 }
 
+.sidebar-section-nav ul {
+    margin: 0;
+    padding: 0;
+}
+
 .sidebar-section-nav li {
     display: inline-block;
+    margin-right: $spacing-small;
 }
 
 .sidebar-section-nav button[type="button"] {

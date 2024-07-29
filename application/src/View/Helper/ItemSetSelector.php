@@ -31,6 +31,12 @@ class ItemSetSelector extends AbstractHelper
             $itemSetOwners[$email]['owner'] = $owner;
             $itemSetOwners[$email]['item_sets'][] = $itemSet;
         }
+        // Sort the item sets by title.
+        foreach ($itemSetOwners as $email => $itemSetOwner) {
+            usort($itemSetOwners[$email]['item_sets'], function ($a, $b) {
+                return strcmp($a->displayTitle(), $b->displayTitle());
+            });
+        }
 
         return $this->getView()->partial(
             'common/item-set-selector',

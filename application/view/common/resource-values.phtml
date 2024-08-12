@@ -13,7 +13,7 @@ $filterLocaleCallback = function ($value) use ($lang) {
     return $valueLang == '' || strcasecmp($valueLang, $lang) === 0;
 };
 ?>
-
+<?php if (count($values) > 0): ?>
 <dl>
 <?php
 foreach ($values as $term => $propertyData):
@@ -76,3 +76,4 @@ foreach ($values as $term => $propertyData):
     </div>
 <?php endforeach; ?>
 </dl>
+<?php endif; ?>

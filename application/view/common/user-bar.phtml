@@ -5,7 +5,7 @@ $urlHelper = $this->plugin('url');
 $this->headLink()->prependStylesheet($this->assetUrl('css/user-bar.css', 'Omeka'));
 $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic');
 ?>
-<div id="user-bar">
+<nav id="user-bar" aria-label="<?php echo $translate('Omeka User'); ?>">
 <?php if ($user): ?>
 	<div class="site-links">
     <?php foreach ($links as $link): ?>
@@ -27,4 +27,4 @@ $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+C
 <?php else: ?>
     <?php echo $hyperlink($translate('Log in'), $urlHelper('login'), ['class' => 'login']); ?>
 <?php endif; ?>
-</div>
+</nav>

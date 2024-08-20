@@ -19,7 +19,7 @@ if ($this->status()->isSiteRequest()) {
 }
 
 ?>
-<div id="resource-class" class="field removable multi-value" role="group">
+<div id="resource-class" class="field removable multi-value" role="group" aria-labelledby="by-resource-class-label">
     <div class="field-meta">
         <span id="by-resource-class-label" class="label"><?php echo $translate('Search by class'); ?></span>
         <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>

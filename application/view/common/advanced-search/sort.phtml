@@ -31,9 +31,9 @@ $sortOrder->setValueOptions([
 ]);
 $sortOrder->setValue($query['sort_order'] ?? '');
 ?>
-<div class="field" id="sort_field">
+<div class="field" id="sort_field" role="group" aria-labelledby="sort-group-label">
     <div class="field-meta">
-        <label><?php echo $this->translate('Sort'); ?></label>
+        <label id="sort-group-label"><?php echo $this->translate('Sort'); ?></label>
     </div>
     <div class="inputs">
         <?php echo $this->formSelect($sortBy); ?>

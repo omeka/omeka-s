@@ -31,7 +31,7 @@ $sortOrder->setValueOptions([
 ]);
 $sortOrder->setValue($query['sort_order'] ?? '');
 ?>
-<div class="field">
+<div class="field" id="sort_field">
     <div class="field-meta">
         <label><?php echo $this->translate('Sort'); ?></label>
     </div>

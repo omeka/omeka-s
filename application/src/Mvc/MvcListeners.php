@@ -92,6 +92,13 @@ class MvcListeners extends AbstractListenerAggregate
             'use_only_cookies' => true,
             'gc_maxlifetime' => 1209600,
         ];
+
+        // Override PHP defaults that configure for no GC
+        if (empty($config['session']['allow_no_gc']) && ini_get('session.gc_probability') == 0) {
+            $defaultOptions['gc_probability'] = 1;
+            $defaultOptions['gc_divisor'] = 1000;
+        }
+
         $userOptions = $config['session']['config'] ?? [];
         $sessionConfig->setOptions(array_merge($defaultOptions, $userOptions));
 

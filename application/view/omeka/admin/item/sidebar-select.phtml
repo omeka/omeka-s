@@ -6,9 +6,15 @@ $itemsFound = count($items) > 0;
 $expanded = $resourceClassId || $itemSetId || $id;
 ?>
 
+<?php echo $this->sidebarSectionNav([
+    'sidebar-section-item' => $translate('Existing item'),
+    'sidebar-section-item-stub' => $translate('New item'),
+]); ?>
+
+<div id="sidebar-section-item" class="sidebar-section active">
+
 <div id="item-results">
     <h3><?php echo $translate('Select item'); ?></h3>
-
     <div class="search-nav">
         <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">
             <?php
@@ -103,4 +109,11 @@ $expanded = $resourceClassId || $itemSetId || $id;
 
 <div class="confirm-panel">
     <button type="button" class="select-resources-button"><?php echo $translate('Add selected'); ?></button>
+</div>
+
+</div>
+
+<div id="sidebar-section-item-stub" class="sidebar-section">
+    <h3><?php echo $translate('Add item'); ?></h3>
+    <?php echo $this->form($itemStubForm); ?>
 </div>

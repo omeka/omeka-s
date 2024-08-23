@@ -2039,7 +2039,34 @@ fieldset.section > legend {
     padding: 0 $spacing-small;
 }
 
+.sidebar .value-annotation-heading {
+    display: inline-block;
+    margin-right: $spacing-small;
+}
+
+.sidebar .value-annotation {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sidebar .value-annotation .required-tag {
+    display: none;
+}
+
+.sidebar .value-annotation.required .required-tag {
+    display: inline-block;
+    padding: .5 * $spacing-small;
+    font-size: .75 * $base-font-size;
+    background-color: #FDEFEF;
+    color: $red;
+    border-radius: 2px;
+    margin: (.5 * $spacing-small) 0 (.5 * $spacing-small);
+    line-height: 1;
+    align-self: center;
+}
+
 .sidebar .value-annotation .value {
+    width: 100%;
     padding-bottom: 0;
 }
 
@@ -3189,6 +3216,54 @@ fieldset.section > legend {
     }
 }
 
+.sidebar-section-nav {
+    margin-bottom: $spacing-medium;
+    position: relative;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: -$spacing-large;
+        bottom: 0;
+        right: -$spacing-large;
+        left: -$spacing-large;
+        background-color: #fff;
+        z-index: -1;
+    }
+}
+
+.sidebar-section-nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-section-nav li {
+    display: inline-block;
+    margin-right: $spacing-small;
+}
+
+.sidebar-section-nav button[type="button"] {
+    background-color: rgba(0,0,0,.08);
+    color: $copy-gray;
+    border-radius: $spacing-large;
+    box-shadow: none;
+    font-size: .875 * $base-font-size;
+    padding: $spacing-small $spacing-medium;
+    min-height: 0;
+    line-height: 1;
+}
+.sidebar-section-nav .active button[type="button"] {
+    font-weight: bold;
+}
+
+.sidebar-section {
+    display: none;
+
+    &.active {
+        display: block;
+    }
+}
+
 .confirm-main {
     position: absolute;
     top: 0;
@@ -3198,7 +3273,6 @@ fieldset.section > legend {
     right: 0;
     padding: $spacing-medium $spacing-medium 0;
 }
-
 
 .confirm-panel {
     position: absolute;

@@ -52,8 +52,9 @@ class ApiController extends AbstractRestfulController
 
     public function patch($id, $data)
     {
+        $collectionAction = $this->getRequest()->getHeader('Omeka-S-Collection-Action')->getFieldValue();
         $resource = $this->params()->fromRoute('resource');
-        $response = $this->api->update($resource, $id, $data, [], ['isPartial' => true]);
+        $response = $this->api->update($resource, $id, $data, [], ['isPartial' => true, 'collectionAction' => $collectionAction]);
         return new ApiJsonModel($response, $this->getViewOptions());
     }
 

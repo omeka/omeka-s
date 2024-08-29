@@ -90,7 +90,6 @@ var Omeka = {
             parent.children('span.selector-child-count').text(count);
         });
         if (filter == '') {
-            selector.find('li.selector-parent').removeClass('show');
             $('.filter-match').removeClass('filter-match');
         }
         selector.find('span.selector-total-count').text(totalCount);

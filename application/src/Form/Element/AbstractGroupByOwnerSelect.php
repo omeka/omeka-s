@@ -82,6 +82,12 @@ abstract class AbstractGroupByOwnerSelect extends Select
                 $resourceOwners[$index]['resources'][] = $resource;
             }
             ksort($resourceOwners);
+            // Sort the resources by label.
+            foreach ($resourceOwners as $email => $resourceOwner) {
+                usort($resourceOwners[$email]['resources'], function ($a, $b) {
+                    return strcmp($this->getValueLabel($a), $this->getValueLabel($b));
+                });
+            }
 
             $valueOptions = [];
             foreach ($resourceOwners as $resourceOwner) {

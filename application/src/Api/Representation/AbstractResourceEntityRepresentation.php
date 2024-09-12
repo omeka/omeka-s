@@ -487,13 +487,11 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         $values = $this->values();
 
         // Filter values by the "properties" and "excludeProperties" options.
-        foreach ($values as $term => $value) {
-            if ($options['properties'] && !in_array($term, $options['properties'])) {
-                unset($values[$term]);
-            }
-            if ($options['excludeProperties'] && in_array($term, $options['excludeProperties'])) {
-                unset($values[$term]);
-            }
+        if ($options['properties']) {
+            $values = array_intersect_key($values, array_flip($options['properties']));
+        }
+        if ($options['excludeProperties']) {
+            $values = array_diff_key($values, array_flip($options['excludeProperties']));
         }
 
         if ($options['siteId']) {

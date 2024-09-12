@@ -314,6 +314,19 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
             } else {
                 $qb->select(['omeka_root.id', 'omeka_root.' . $scalarField]);
             }
+
+            // Manage exception "only_full_group_by" when searching full text
+            // via scalar.
+            // See \Omeka\Module::searchFulltext().
+            $matchOrder = 'MATCH(omeka_fulltext_search.title, omeka_fulltext_search.text) AGAINST (:omeka_fulltext_search)';
+            $dqlOrder = $qb->getDQLPart('orderBy');
+            $hasFullTextSearchOrder = isset($dqlOrder[0]) && $matchOrder === (string) $dqlOrder[0];
+            if ($hasFullTextSearchOrder) {
+                $qb
+                    ->addSelect($matchOrder . ' AS HIDDEN orderMatch')
+                    ->addGroupBy('orderMatch');
+            }
+
             $content = array_column($qb->getQuery()->getScalarResult(), $scalarField, 'id');
             $response = new Response($content);
             $response->setTotalResults($countPaginator->count());

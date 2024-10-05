@@ -19,10 +19,10 @@ $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Source+C
 	    <span class="user-id">
 	        <?php
 	        $url = $urlHelper('admin/id', ['controller' => 'user', 'id' => $user->getId()]);
-	        echo sprintf($translate('Signed in as %s'), $hyperlink($user->getName(), $url));
+	        echo sprintf($translate('Signed in as %s', null, $userLocale), $hyperlink($user->getName(), $url));
 	        ?>
 	    </span>
-        <?php echo $hyperlink($translate('Logout'), $urlHelper('logout'), ['class' => 'logout']); ?>
+        <?php echo $hyperlink($translate('Logout', null, $userLocale), $urlHelper('logout'), ['class' => 'logout']); ?>
 	</div>
 <?php else: ?>
     <?php echo $hyperlink($translate('Log in'), $urlHelper('login'), ['class' => 'login']); ?>

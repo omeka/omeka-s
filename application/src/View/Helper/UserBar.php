@@ -20,6 +20,9 @@ class UserBar extends AbstractHelper
     /**
      * Render the user bar.
      *
+     * The bar is translated in the user language if any, else the install
+     * language, else the site language.
+     *
      * @param string|null $partialName Name of view script, or a view model
      * @return string
      */
@@ -42,7 +45,9 @@ class UserBar extends AbstractHelper
             return '';
         }
 
-        $links = $user ? $this->links($view, $site, $user) : [];
+        $locale = $view->userSetting('locale') ?: ($view->setting('locale') ?: null);
+
+        $links = $user ? $this->links($view, $site, $user, $locale) : [];
 
         $partialName = $partialName ?: self::PARTIAL_NAME;
 
@@ -52,6 +57,7 @@ class UserBar extends AbstractHelper
                 'site' => $site,
                 'user' => $user,
                 'links' => $links,
+                'userLocale' => $locale,
             ]
         );
     }
@@ -62,9 +68,10 @@ class UserBar extends AbstractHelper
      * @param RendererInterface $view
      * @param SiteRepresentation $site
      * @param User $user
+     * @param string|null $locale
      * @return array
      */
-    protected function links(RendererInterface $view, SiteRepresentation $site, User $user)
+    protected function links(RendererInterface $view, SiteRepresentation $site, User $user, ?string $locale = null)
     {
         if (!$view->userIsAllowed('Omeka\Controller\Admin\Index', 'index')) {
             return [];
@@ -108,7 +115,7 @@ class UserBar extends AbstractHelper
                 $links[] = [
                     'resource' => $controller,
                     'action' => 'browse',
-                    'text' => $translate($mapPluralLabels[$controller]),
+                    'text' => $translate($mapPluralLabels[$controller], null, $locale),
                     'url' => $url('admin/site/slug/action', ['site-slug' => $site->slug(), 'action' => 'page']),
                 ];
                 try {
@@ -117,7 +124,7 @@ class UserBar extends AbstractHelper
                         $links[] = [
                             'resource' => $controller,
                             'action' => 'edit',
-                            'text' => $translate('Edit'),
+                            'text' => $translate('Edit', null, $locale),
                             'url' => $page->adminUrl('edit'),
                         ];
                     }
@@ -140,7 +147,7 @@ class UserBar extends AbstractHelper
             $links[] = [
                 'resource' => $controller,
                 'action' => 'browse',
-                'text' => $translate($mapPluralLabels[$controller]),
+                'text' => $translate($mapPluralLabels[$controller], null, $locale),
                 'url' => $url('admin/default', ['controller' => $controller], ['query' => ['site_id' => $site->id()]]),
             ];
 
@@ -156,14 +163,14 @@ class UserBar extends AbstractHelper
                 $links[] = [
                     'resource' => $controller,
                     'action' => 'show',
-                    'text' => $translate('View'),
+                    'text' => $translate('View', null, $locale),
                     'url' => $resource->adminUrl(),
                 ];
                 if ($resource->userIsAllowed('edit')) {
                     $links[] = [
                         'resource' => $controller,
                         'action' => 'edit',
-                        'text' => $translate('Edit'),
+                        'text' => $translate('Edit', null, $locale),
                         'url' => $resource->adminUrl('edit'),
                     ];
                 }

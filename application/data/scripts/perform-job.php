@@ -6,6 +6,7 @@ use Omeka\Entity\Job;
 
 require dirname(dirname(dirname(__DIR__))) . '/bootstrap.php';
 
+/** @var \Doctrine\ORM\EntityManager $entityManager */
 $application = Omeka\Mvc\Application::init(require OMEKA_PATH . '/application/config/application.config.php');
 $serviceLocator = $application->getServiceManager();
 $entityManager = $serviceLocator->get('Omeka\EntityManager');
@@ -25,7 +26,17 @@ if (!isset($options['server-url'])) {
     exit;
 }
 
-$job = $entityManager->find(Job::class, $options['job-id']);
+try {
+    /** @var \Omeka\Entity\Job $job */
+    $job = $entityManager->find(Job::class, $options['job-id']);
+} catch (\Exception $e) {
+    $message = $e->getMessage();
+    $logger->err($message);
+    if (mb_strpos($message, 'could not find driver') !== false) {
+        $logger->err('Database is not available. Check if php-mysql is installed with the php version available on cli.');
+    }
+    exit;
+}
 if (!$job) {
     $logger->err('There is no job with the given ID');
     exit;

@@ -22,6 +22,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         'title' => 'title',
         'media_type' => 'mediaType',
         'size' => 'size',
+        'position' => 'position',
     ];
 
     protected $scalarFields = [
@@ -38,6 +39,7 @@ class MediaAdapter extends AbstractResourceEntityAdapter
         'media_type' => 'mediaType',
         'sha256' => 'sha256',
         'size' => 'size',
+        'position' => 'position',
         'item' => 'item',
         'lang' => 'lang',
         'alt_text' => 'altText',

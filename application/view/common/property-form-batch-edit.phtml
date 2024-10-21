@@ -49,6 +49,15 @@ $templateUri = '
         <button type="button" class="remove-value">' . $translate('Remove') . '</button>
     </div>
 </div>';
+
+$convertableDataTypes = $this->api()->search('data_types', ['is_convertable' => 1])->getContent();
+$valueOptions = [];
+foreach ($convertableDataTypes as $convertableDataType) {
+    $valueOptions[$convertableDataType->getName()] = $convertableDataType->getLabel();
+}
+$dataTypeSelect = new \Laminas\Form\Element\Select('convert_data_types[__INDEX__][type]');
+$dataTypeSelect->setValueOptions($valueOptions);
+$dataTypeSelect->setEmptyOption($this->translate('Select data type…'));
 ?>
 <fieldset>
 <legend><?php echo $translate('Values'); ?></legend>
@@ -67,6 +76,15 @@ $templateUri = '
         ]); ?>
         <label><input type="radio" name="set_value_visibility[is_public]" value="1"> <?php echo $translate('Public'); ?></label>
         <label><input type="radio" name="set_value_visibility[is_public]" value="0"> <?php echo $translate('Not public'); ?></label>
+    </div>
+</div>
+<div class="field">
+    <div class="field-meta">
+        <label><?php echo $this->translate('Convert data types'); ?></label>
+    </div>
+    <div class="inputs">
+        <?php echo $this->propertySelect(['name' => 'convert_data_types[__INDEX__][property_id]']); ?>
+        <?php echo $this->formSelect($dataTypeSelect); ?>
     </div>
 </div>
 <div id="values"

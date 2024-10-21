@@ -6,7 +6,7 @@ use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Value;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Uri extends AbstractDataType implements ValueAnnotatingInterface
+class Uri extends AbstractDataType implements ValueAnnotatingInterface, ConvertableInterface
 {
     public function getName()
     {
@@ -25,16 +25,17 @@ class Uri extends AbstractDataType implements ValueAnnotatingInterface
 
     public function isValid(array $valueObject)
     {
-        if (!isset($valueObject['@id'])
-            || !is_string($valueObject['@id'])
-        ) {
+        return $this->uriIsValid($valueObject['@id'] ?? null);
+    }
+
+    public function uriIsValid($uri)
+    {
+        if (!is_string($uri)) {
             return false;
         }
-
-        $trimmed = trim($valueObject['@id']);
-        $scheme = parse_url($trimmed, \PHP_URL_SCHEME);
-
-        return !('' === $trimmed || $scheme === 'javascript');
+        $uri = trim($uri);
+        $scheme = parse_url($uri, \PHP_URL_SCHEME);
+        return !('' === $uri || 'javascript' === $scheme);
     }
 
     public function hydrate(array $valueObject, Value $value, AbstractEntityAdapter $adapter)
@@ -83,5 +84,16 @@ class Uri extends AbstractDataType implements ValueAnnotatingInterface
     public function valueAnnotationForm(PhpRenderer $view)
     {
         return $view->partial('common/data-type/value-annotation-uri');
+    }
+
+    public function convert(Value $valueEntity, $dataTypeName)
+    {
+        if ($this->uriIsValid($valueEntity->getUri())) {
+            $valueEntity->setType($this->getName());
+        } elseif ($this->uriIsValid($valueEntity->getValue())) {
+            $valueEntity->setType($this->getName());
+            $valueEntity->setUri($valueEntity->getValue());
+            $valueEntity->setValue(null);
+        }
     }
 }

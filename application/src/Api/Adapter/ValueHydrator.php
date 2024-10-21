@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Doctrine\Common\Collections\Criteria;
 use Omeka\Api\Request;
+use Omeka\DataType\ConvertableInterface;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
 use Omeka\Entity\ValueAnnotation;
@@ -169,6 +170,23 @@ class ValueHydrator
         // Add any new values that had to be created.
         foreach ($newValues as $newValue) {
             $valueCollection->add($newValue);
+        }
+
+        // Convert data types.
+        $convertSpecs = $representation['convert_data_types'] ?? [];
+        foreach ($convertSpecs as $convertSpec) {
+            $dataTypeName = $convertSpec['type'] ?? null;
+            $propertyId = $convertSpec['property_id'] ?? null;
+            $dataType = $dataTypes->get($dataTypeName);
+            if (!($dataType instanceof ConvertableInterface)) {
+                continue;
+            }
+            $property = $entityManager->getReference('Omeka\Entity\Property', $propertyId);
+            $criteria = Criteria::create()->where(Criteria::expr()->eq('property', $property));
+            $values = $valueCollection->matching($criteria);
+            foreach ($values as $value) {
+                $dataType->convert($value, $dataTypeName);
+            }
         }
     }
 }

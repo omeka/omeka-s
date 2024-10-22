@@ -63,7 +63,7 @@ class DataType extends AbstractHelper
                 $optgroupKey = md5($optgroupLabel);
                 // Put resource data types before ones added by modules.
                 $optionsVal = in_array($dataTypeName, ['resource', 'resource:item', 'resource:itemset', 'resource:media'])
-                    ? 'options' : 'optgroupOptions';
+                    ? 'valueOptions' : 'optgroupOptions';
                 if (!isset(${$optionsVal}[$optgroupKey])) {
                     ${$optionsVal}[$optgroupKey] = [
                         'label' => $optgroupLabel,

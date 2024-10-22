@@ -46,7 +46,38 @@ $templateUri = '
         <label><input type="radio" name="value[__INDEX__][is_public]" value="1" checked> ' . $translate('Public') . '</label>
         <label><input type="radio" name="value[__INDEX__][is_public]" value="0"> ' . $translate('Not public') . '</label><br>
         <input type="hidden" name="value[__INDEX__][type]" value="uri">
-        <button type="button" class="remove-value">' . $translate('Remove') . '</button>
+        <button type="button" class="remove-convert-data-type">' . $translate('Remove') . '</button>
+    </div>
+</div>';
+
+$convertDataTypePropertySelect = $this->propertySelect([
+    'name' => 'convert_data_types[__INDEX__][property_id]',
+    'options' => [
+        'empty_option' => '',
+    ],
+    'attributes' => [
+        'class' => 'property-select chosen-select',
+        'data-placeholder' => 'Select property…',
+    ],
+]);
+$convertDataTypeDataTypeSelect = $this->dataType()->getSelect(
+    'convert_data_types[__INDEX__][type]',
+    null,
+    [
+        'class' => 'data-type-select chosen-select',
+        'data-placeholder' => 'Select data type…',
+    ],
+    ['is_convertable' => true]
+);
+$convertDataTypeTemplate = '
+<div class="field">
+    <div class="field-meta">
+        <label>' . $translate('Convert data type') . '</label>
+    </div>
+    <div class="inputs">
+        ' . $convertDataTypePropertySelect . '
+        ' . $convertDataTypeDataTypeSelect . '
+        <button type="button" class="remove-convert-data-type">' . $translate('Remove') . '</button>
     </div>
 </div>';
 ?>
@@ -69,14 +100,11 @@ $templateUri = '
         <label><input type="radio" name="set_value_visibility[is_public]" value="0"> <?php echo $translate('Not public'); ?></label>
     </div>
 </div>
-<div class="field">
-    <div class="field-meta">
-        <label><?php echo $this->translate('Convert data types'); ?></label>
-    </div>
-    <div class="inputs">
-        <?php echo $this->propertySelect(['name' => 'convert_data_types[__INDEX__][property_id]']); ?>
-        <?php echo $this->dataType()->getSelect('convert_data_types[__INDEX__][type]', null, [], ['is_convertable' => true]); ?>
-    </div>
+<div id="convert-data-types"
+    data-template="<?php echo $this->escapeHtml($convertDataTypeTemplate); ?>"
+>
+    <div class="field-container"></div>
+    <button type="button" class="add-convert-data-type"><?php echo $this->translate('Convert data type'); ?></button>
 </div>
 <div id="values"
     data-template-literal="<?php echo $this->escapeHtml($templateLiteral); ?>"
@@ -91,8 +119,21 @@ $templateUri = '
 </fieldset>
 <script>
 $(document).ready(function() {
-    // Add a value field.
     var index = 0;
+
+    // Add a convert data type field.
+    $('.add-convert-data-type').on('click', function(e) {
+        const container = $('#convert-data-types');
+        const template = container.data('template');
+        container.children('.field-container').append($.parseHTML(template.replace(/__INDEX__/g, index++)));
+        container.find('.property-select').chosen();
+        container.find('.data-type-select').chosen();
+    });
+    $(document).on('click', '.remove-convert-data-type', function(e) {
+        $(this).closest('.field').remove();
+    });
+
+    // Add a value field.
     var addValueField = function(type) {
         var container = $('#values');
         switch (type) {

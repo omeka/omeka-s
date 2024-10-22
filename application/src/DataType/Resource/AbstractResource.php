@@ -4,6 +4,7 @@ namespace Omeka\DataType\Resource;
 use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\ValueRepresentation;
+use Omeka\DataType\ConvertableInterface;
 use Omeka\DataType\DataTypeWithOptionsInterface;
 use Omeka\Entity;
 use Laminas\View\Renderer\PhpRenderer;
@@ -105,7 +106,7 @@ abstract class AbstractResource implements DataTypeWithOptionsInterface, Convert
         return $value->valueResource()->title();
     }
 
-    public function convert(Value $valueObject, string $dataTypeName)
+    public function convert(Entity\Value $valueObject, string $dataTypeName)
     {
         $value = $valueObject->getValue();
         $uri = $valueObject->getUri();

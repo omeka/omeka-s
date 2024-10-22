@@ -86,14 +86,19 @@ class Uri extends AbstractDataType implements ValueAnnotatingInterface, Converta
         return $view->partial('common/data-type/value-annotation-uri');
     }
 
-    public function convert(Value $valueEntity, $dataTypeName)
+    public function convert(Value $valueObject, string $dataTypeName)
     {
-        if ($this->uriIsValid($valueEntity->getUri())) {
-            $valueEntity->setType($this->getName());
-        } elseif ($this->uriIsValid($valueEntity->getValue())) {
-            $valueEntity->setType($this->getName());
-            $valueEntity->setUri($valueEntity->getValue());
-            $valueEntity->setValue(null);
+        $value = $valueObject->getValue();
+        $uri = $valueObject->getUri();
+
+        // Note that we cannot convert to the URI data type if the Value
+        // object's URI and value are invalid URIs.
+        if ($this->uriIsValid($uri)) {
+            $valueObject->setType($this->getName());
+        } elseif ($this->uriIsValid($value)) {
+            $valueObject->setType($this->getName());
+            $valueEntity->setUri($value);
+            $valueObject->setValue(null);
         }
     }
 }

@@ -49,15 +49,6 @@ $templateUri = '
         <button type="button" class="remove-value">' . $translate('Remove') . '</button>
     </div>
 </div>';
-
-$convertableDataTypes = $this->api()->search('data_types', ['is_convertable' => 1])->getContent();
-$valueOptions = [];
-foreach ($convertableDataTypes as $convertableDataType) {
-    $valueOptions[$convertableDataType->getName()] = $convertableDataType->getLabel();
-}
-$dataTypeSelect = new \Laminas\Form\Element\Select('convert_data_types[__INDEX__][type]');
-$dataTypeSelect->setValueOptions($valueOptions);
-$dataTypeSelect->setEmptyOption($this->translate('Select data type…'));
 ?>
 <fieldset>
 <legend><?php echo $translate('Values'); ?></legend>
@@ -84,7 +75,7 @@ $dataTypeSelect->setEmptyOption($this->translate('Select data type…'));
     </div>
     <div class="inputs">
         <?php echo $this->propertySelect(['name' => 'convert_data_types[__INDEX__][property_id]']); ?>
-        <?php echo $this->formSelect($dataTypeSelect); ?>
+        <?php echo $this->dataType()->getSelect('convert_data_types[__INDEX__][type]', null, [], ['is_convertable' => true]); ?>
     </div>
 </div>
 <div id="values"

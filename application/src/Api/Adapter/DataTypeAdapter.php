@@ -5,7 +5,6 @@ use Omeka\Api\Representation\DataTypeRepresentation;
 use Omeka\Api\Resource;
 use Omeka\Api\Request;
 use Omeka\Api\Response;
-use Omeka\DataType\ConvertableInterface;
 
 /**
  * Data type adapter.
@@ -29,20 +28,7 @@ class DataTypeAdapter extends AbstractAdapter
         foreach ($manager->getRegisteredNames() as $resourceId) {
             $resources[] = new Resource($resourceId);
         }
-
-        // Filter for is_convertable.
-        $isConvertable = $request->getValue('is_convertable', null);
-        if (null !== $isConvertable) {
-            $resources = array_filter($resources, function ($resource) use ($isConvertable, $manager) {
-                $dataType = $manager->get($resource->getId());
-                if ($isConvertable) {
-                    return ($dataType instanceof ConvertableInterface);
-                } else {
-                    return !($dataType instanceof ConvertableInterface);
-                }
-            });
-        }
-        return new Response(array_values($resources));
+        return new Response($resources);
     }
 
     public function read(Request $request)

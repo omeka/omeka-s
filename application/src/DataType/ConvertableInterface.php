@@ -11,13 +11,13 @@ interface ConvertableInterface
     /**
      * Convert the data type.
      *
-     * This method is responsible for making all changes to the Value entity
+     * This method is responsible for making all changes to the Value object
      * that are needed to convert from one data type to this one. Do nothing if
      * the conversion is not possible. Remember to set the value's new type
      * using Value::setType();
      *
-     * @param Value $valueEntity
+     * @param Value $valueObject
      * @param string $dataTypeName
      */
-    public function convert(Value $valueEntity, string $dataTypeName);
+    public function convert(Value $valueObject, string $dataTypeName);
 }

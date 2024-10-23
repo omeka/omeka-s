@@ -4,7 +4,13 @@ $escape = $this->plugin('escapeHtml');
 
 $selectProperty = $this->propertySelect([
     'name' => 'value[__INDEX__][property_id]',
-    'options' => ['empty_option' => $translate('Select property')],
+    'options' => [
+        'empty_option' => '',
+    ],
+    'attributes' => [
+        'class' => 'property-select',
+        'data-placeholder' => $translate('Select property'),
+    ],
 ]);
 $templateLiteral = '
 <div class="field">
@@ -57,7 +63,7 @@ $convertDataTypePropertySelect = $this->propertySelect([
     ],
     'attributes' => [
         'class' => 'property-select chosen-select',
-        'data-placeholder' => 'Select property…',
+        'data-placeholder' => $translate('Select property'),
     ],
 ]);
 $convertDataTypeDataTypeSelect = $this->dataType()->getSelect(
@@ -65,7 +71,7 @@ $convertDataTypeDataTypeSelect = $this->dataType()->getSelect(
     null,
     [
         'class' => 'data-type-select chosen-select',
-        'data-placeholder' => 'Select data type…',
+        'data-placeholder' => $translate('Select data type'),
     ],
     ['is_convertable' => true]
 );
@@ -119,24 +125,25 @@ $convertDataTypeTemplate = '
 </fieldset>
 <script>
 $(document).ready(function() {
-    var index = 0;
+    let index = 0;
+    const chosenOptions = {allow_single_deselect: true};
 
     // Add a convert data type field.
     $('.add-convert-data-type').on('click', function(e) {
         const container = $('#convert-data-types');
         const template = container.data('template');
         container.children('.field-container').append($.parseHTML(template.replace(/__INDEX__/g, index++)));
-        container.find('.property-select').chosen();
-        container.find('.data-type-select').chosen();
+        container.find('.property-select').chosen(chosenOptions);
+        container.find('.data-type-select').chosen(chosenOptions);
     });
     $(document).on('click', '.remove-convert-data-type', function(e) {
         $(this).closest('.field').remove();
     });
 
     // Add a value field.
-    var addValueField = function(type) {
-        var container = $('#values');
-        switch (type) {
+    $('.value-add-button').on('click', function(e) {
+        const container = $('#values');
+        switch ($(this).data('type')) {
             case 'resource':
                 template = container.data('template-resource');
                 break;
@@ -148,9 +155,7 @@ $(document).ready(function() {
                 template = container.data('template-literal');
         }
         container.children('.field-container').append($.parseHTML(template.replace(/__INDEX__/g, index++)));
-    };
-    $('.value-add-button').on('click', function(e) {
-        addValueField($(this).data('type'));
+        container.find('.property-select').chosen(chosenOptions);
     });
     $(document).on('click', '.field-container .remove-value', function(e) {
         $(this).closest('.field').remove();

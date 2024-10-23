@@ -97,7 +97,7 @@ class Uri extends AbstractDataType implements ValueAnnotatingInterface, Converta
             $valueObject->setType($this->getName());
         } elseif ($this->uriIsValid($value)) {
             $valueObject->setType($this->getName());
-            $valueEntity->setUri($value);
+            $valueObject->setUri($value);
             $valueObject->setValue(null);
         }
     }

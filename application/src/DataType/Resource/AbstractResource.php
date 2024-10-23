@@ -4,12 +4,13 @@ namespace Omeka\DataType\Resource;
 use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\ValueRepresentation;
+use Omeka\DataType\ConvertableInterface;
 use Omeka\DataType\DataTypeWithOptionsInterface;
 use Omeka\Entity;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Stdlib\Message;
 
-abstract class AbstractResource implements DataTypeWithOptionsInterface
+abstract class AbstractResource implements DataTypeWithOptionsInterface, ConvertableInterface
 {
     /**
      * Get the class names of valid value resources.
@@ -103,5 +104,16 @@ abstract class AbstractResource implements DataTypeWithOptionsInterface
     public function getFulltextText(PhpRenderer $view, ValueRepresentation $value)
     {
         return $value->valueResource()->title();
+    }
+
+    public function convert(Entity\Value $valueObject, string $dataTypeName)
+    {
+        $value = $valueObject->getValue();
+        $uri = $valueObject->getUri();
+        $valueResource = $valueObject->getValueResource();
+
+        if (is_numeric($valueResource)) {
+            $valueObject->setType($this->getName());
+        }
     }
 }

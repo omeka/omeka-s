@@ -737,9 +737,15 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
         if (isset($rawData['set_value_visibility'])) {
             $data['set_value_visibility'] = $rawData['set_value_visibility'];
         }
+        if (isset($rawData['convert_data_types'])) {
+            $data['convert_data_types'] = $rawData['convert_data_types'];
+        }
 
         // Add values that satisfy the bare minimum needed to identify them.
         foreach ($rawData as $term => $valueObjects) {
+            if ('convert_data_types' === $term) {
+                continue;
+            }
             if (!is_array($valueObjects)) {
                 continue;
             }

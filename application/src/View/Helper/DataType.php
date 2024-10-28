@@ -1,7 +1,7 @@
 <?php
 namespace Omeka\View\Helper;
 
-use Omeka\DataType\ConvertableInterface;
+use Omeka\DataType\ConversionTargetInterface;
 use Omeka\DataType\Manager as DataTypeManager;
 use Omeka\DataType\ValueAnnotatingInterface;
 use Laminas\Form\Element\Select;
@@ -52,7 +52,7 @@ class DataType extends AbstractHelper
         $optgroupOptions = [];
         foreach ($this->dataTypes as $dataTypeName) {
             $dataType = $this->manager->get($dataTypeName);
-            if (isset($options['is_convertable']) && !($dataType instanceof ConvertableInterface)) {
+            if (isset($options['is_conversion_target']) && !($dataType instanceof ConversionTargetInterface)) {
                 // Filter out data types that are not convertable.
                 continue;
             }

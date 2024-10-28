@@ -57,23 +57,23 @@ $templateUri = '
 </div>';
 
 $convertDataTypePropertySelect = $this->propertySelect([
-    'name' => 'convert_data_types[__INDEX__][property_id]',
+    'name' => 'convert_data_types[__INDEX__][convert_property_id]',
     'options' => [
         'empty_option' => '',
     ],
     'attributes' => [
-        'class' => 'property-select chosen-select',
+        'class' => 'property-id-select chosen-select',
         'data-placeholder' => $translate('Select property'),
     ],
 ]);
 $convertDataTypeDataTypeSelect = $this->dataType()->getSelect(
-    'convert_data_types[__INDEX__][type]',
+    'convert_data_types[__INDEX__][convert_data_type_target]',
     null,
     [
-        'class' => 'data-type-select chosen-select',
+        'class' => 'data-type-target-select chosen-select',
         'data-placeholder' => $translate('Select data type'),
     ],
-    ['is_convertable' => true]
+    ['is_conversion_target' => true]
 );
 $convertDataTypeTemplate = '
 <div class="field">
@@ -133,8 +133,8 @@ $(document).ready(function() {
         const container = $('#convert-data-types');
         const template = container.data('template');
         container.children('.field-container').append($.parseHTML(template.replace(/__INDEX__/g, index++)));
-        container.find('.property-select').chosen(chosenOptions);
-        container.find('.data-type-select').chosen(chosenOptions);
+        container.find('.property-id-select').chosen(chosenOptions);
+        container.find('.data-type-target-select').chosen(chosenOptions);
     });
     $(document).on('click', '.remove-convert-data-type', function(e) {
         $(this).closest('.field').remove();

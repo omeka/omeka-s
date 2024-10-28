@@ -743,9 +743,6 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
 
         // Add values that satisfy the bare minimum needed to identify them.
         foreach ($rawData as $term => $valueObjects) {
-            if ('convert_data_types' === $term) {
-                continue;
-            }
             if (!is_array($valueObjects)) {
                 continue;
             }

@@ -4,13 +4,13 @@ namespace Omeka\DataType\Resource;
 use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Exception;
 use Omeka\Api\Representation\ValueRepresentation;
-use Omeka\DataType\ConvertableInterface;
+use Omeka\DataType\ConversionTargetInterface;
 use Omeka\DataType\DataTypeWithOptionsInterface;
-use Omeka\Entity;
+use Omeka\Entity\Value;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Stdlib\Message;
 
-abstract class AbstractResource implements DataTypeWithOptionsInterface, ConvertableInterface
+abstract class AbstractResource implements DataTypeWithOptionsInterface, ConversionTargetInterface
 {
     /**
      * Get the class names of valid value resources.
@@ -46,7 +46,7 @@ abstract class AbstractResource implements DataTypeWithOptionsInterface, Convert
         return false;
     }
 
-    public function hydrate(array $valueObject, Entity\Value $value, AbstractEntityAdapter $adapter)
+    public function hydrate(array $valueObject, Value $value, AbstractEntityAdapter $adapter)
     {
         $serviceLocator = $adapter->getServiceLocator();
 
@@ -106,14 +106,14 @@ abstract class AbstractResource implements DataTypeWithOptionsInterface, Convert
         return $value->valueResource()->title();
     }
 
-    public function convert(Entity\Value $valueObject, string $dataTypeName)
+    public function convert(Value $valueObject, string $dataTypeTarget) : bool
     {
         $value = $valueObject->getValue();
         $uri = $valueObject->getUri();
-        $valueResource = $valueObject->getValueResource();
 
-        if (is_numeric($valueResource)) {
-            $valueObject->setType($this->getName());
+        if (is_numeric($valueObject->getValueResource())) {
+            return true;
         }
+        return false;
     }
 }

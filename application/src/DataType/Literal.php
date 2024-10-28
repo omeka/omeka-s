@@ -6,7 +6,7 @@ use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Value;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Literal extends AbstractDataType implements ValueAnnotatingInterface, ConvertableInterface
+class Literal extends AbstractDataType implements ValueAnnotatingInterface, ConversionTargetInterface
 {
     public function getName()
     {
@@ -68,18 +68,21 @@ class Literal extends AbstractDataType implements ValueAnnotatingInterface, Conv
         return $view->partial('common/data-type/value-annotation-literal');
     }
 
-    public function convert(Value $valueObject, string $dataTypeName)
+    public function convert(Value $valueObject, string $dataTypeTarget) : bool
     {
         $value = $valueObject->getValue();
         $uri = $valueObject->getUri();
 
-        // Convert all data types to literal.
-        $valueObject->setType($this->getName());
-
-        // For value entities with a URI but no value, move the URI to the value.
-        if (!$this->literalIsValid($value) && $this->literalIsValid($uri)) {
+        // Note that, in order to prevent data loss, we do not convert if a URI
+        // and value are present.
+        if ($this->literalIsValid($uri) && !$this->literalIsValid($value)) {
             $valueObject->setValue($uri);
             $valueObject->setUri(null);
+            return true;
         }
+        if ($this->literalIsValid($value) && !$this->literalIsValid($uri)) {
+            return true;
+        }
+        return false;
     }
 }

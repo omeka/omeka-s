@@ -6,7 +6,7 @@ use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Entity\Value;
 use Laminas\View\Renderer\PhpRenderer;
 
-class Uri extends AbstractDataType implements ValueAnnotatingInterface, ConvertableInterface
+class Uri extends AbstractDataType implements ValueAnnotatingInterface, ConversionTargetInterface
 {
     public function getName()
     {
@@ -86,19 +86,20 @@ class Uri extends AbstractDataType implements ValueAnnotatingInterface, Converta
         return $view->partial('common/data-type/value-annotation-uri');
     }
 
-    public function convert(Value $valueObject, string $dataTypeName)
+    public function convert(Value $valueObject, string $dataTypeTarget) : bool
     {
         $value = $valueObject->getValue();
         $uri = $valueObject->getUri();
 
-        // Note that we cannot convert to the URI data type if the Value
-        // object's URI and value are invalid URIs.
         if ($this->uriIsValid($uri)) {
-            $valueObject->setType($this->getName());
-        } elseif ($this->uriIsValid($value)) {
-            $valueObject->setType($this->getName());
+            return true;
+        }
+        if ($this->uriIsValid($value)) {
+            // Move the value to the URI.
             $valueObject->setUri($value);
             $valueObject->setValue(null);
+            return true;
         }
+        return false;
     }
 }

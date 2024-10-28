@@ -519,6 +519,7 @@ return [
             Form\Initializer\Csrf::class,
         ],
         'factories' => [
+            'Omeka\Form\AssetEditForm' => Service\Form\FormWithEventManagerFactory::class,
             'Omeka\Form\ResourceForm' => Service\Form\ResourceFormFactory::class,
             'Omeka\Form\VocabularyForm' => Service\Form\VocabularyFormFactory::class,
             'Omeka\Form\ResourceBatchUpdateForm' => Service\Form\ResourceBatchUpdateFormFactory::class,

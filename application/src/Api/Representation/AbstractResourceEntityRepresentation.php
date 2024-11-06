@@ -112,7 +112,7 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         // a JSON object containing members representing reverse properties."
         // Here, we include the key only if the resource has reverse properties.
         $reverse = [];
-        if (!$settings->get('disable_jsonld_reverse')) {
+        if ($this->id() && !$settings->get('disable_jsonld_reverse')) {
             $reverse = $this->subjectValuesForReverse();
             $reverse = $reverse ? ['@reverse' => $reverse] : [];
         }

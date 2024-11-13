@@ -8,12 +8,13 @@ use Omeka\Form\Element\SiteSelect;
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Permissions\Acl;
 use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\View\Helper\Url;
 
-class ResourceBatchUpdateForm extends Form
+class ResourceBatchUpdateForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 

@@ -2,10 +2,11 @@
 namespace Omeka\Form;
 
 use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 
-class SiteForm extends Form
+class SiteForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 

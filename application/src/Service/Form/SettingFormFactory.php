@@ -11,7 +11,6 @@ class SettingFormFactory implements FactoryInterface
     {
         $form = new SettingForm;
         $form->setSettings($services->get('Omeka\Settings'));
-        $form->setEventManager($services->get('EventManager'));
         return $form;
     }
 }

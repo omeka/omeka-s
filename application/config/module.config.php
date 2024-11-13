@@ -517,6 +517,7 @@ return [
     'form_elements' => [
         'initializers' => [
             Form\Initializer\Csrf::class,
+            Form\Initializer\EventManager::class,
         ],
         'factories' => [
             'Omeka\Form\ResourceForm' => Service\Form\ResourceFormFactory::class,
@@ -525,9 +526,7 @@ return [
             'Omeka\Form\UserForm' => Service\Form\UserFormFactory::class,
             'Omeka\Form\SettingForm' => Service\Form\SettingFormFactory::class,
             'Omeka\Form\ModuleStateChangeForm' => Service\Form\ModuleStateChangeFormFactory::class,
-            'Omeka\Form\SiteForm' => Service\Form\SiteFormFactory::class,
             'Omeka\Form\SiteSettingsForm' => Service\Form\SiteSettingsFormFactory::class,
-            'Omeka\Form\UserBatchUpdateForm' => Service\Form\UserBatchUpdateFormFactory::class,
             'Omeka\Form\PageLayoutDataForm' => Service\Form\PageLayoutDataFormFactory::class,
             'Omeka\Form\BlockLayoutDataForm' => Service\Form\BlockLayoutDataFormFactory::class,
             'Omeka\Form\SitePageForm' => Service\Form\SitePageFormFactory::class,

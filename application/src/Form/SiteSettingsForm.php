@@ -6,10 +6,11 @@ use Omeka\Form\Element\PropertySelect;
 use Omeka\Settings\SiteSettings;
 use Omeka\Stdlib\Browse as BrowseService;
 use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 
-class SiteSettingsForm extends Form
+class SiteSettingsForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 

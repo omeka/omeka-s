@@ -10,10 +10,11 @@ use Omeka\Permissions\Acl;
 use Omeka\Settings\Settings;
 use Omeka\Settings\UserSettings;
 use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 
-class UserForm extends Form
+class UserForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 

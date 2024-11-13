@@ -11,7 +11,6 @@ class ResourceClassSelectFactory implements FactoryInterface
     {
         $element = new ResourceClassSelect;
         $element->setApiManager($services->get('Omeka\ApiManager'));
-        $element->setEventManager($services->get('EventManager'));
         return $element;
     }
 }

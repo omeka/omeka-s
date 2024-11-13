@@ -8,10 +8,11 @@ use Omeka\Form\Element\RestoreTextarea;
 use Omeka\Form\Element\SiteSelect;
 use Omeka\Settings\Settings;
 use Laminas\Form\Form;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 
-class SettingForm extends Form
+class SettingForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 

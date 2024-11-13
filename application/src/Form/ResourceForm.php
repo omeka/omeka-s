@@ -6,10 +6,11 @@ use Omeka\Form\Element\ResourceSelect;
 use Omeka\Form\Element\ResourceClassSelect;
 use Laminas\Form\Form;
 use Laminas\View\Helper\Url;
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 
-class ResourceForm extends Form
+class ResourceForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 

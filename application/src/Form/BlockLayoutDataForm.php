@@ -1,13 +1,14 @@
 <?php
 namespace Omeka\Form;
 
+use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\EventManagerAwareTrait;
 use Laminas\EventManager\Event;
 use Laminas\Form\Form;
 use Laminas\View\HelperPluginManager;
 use Omeka\Site\Theme\Theme;
 
-class BlockLayoutDataForm extends Form
+class BlockLayoutDataForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 

@@ -41,6 +41,9 @@ class SitePageForm extends Form
                 'options' => [
                     'label' => 'Add to navigation', // @translate
                 ],
+                'attributes' => [
+                    'id' => 'add_to_navigation',
+                ],
             ]);
         }
 

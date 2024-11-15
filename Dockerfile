@@ -24,6 +24,8 @@ RUN docker-php-ext-enable imagick
 
 RUN docker-php-ext-install pdo_mysql intl
 
+RUN echo "upload_max_filesize = 25M\npost_max_size = 25M" > /usr/local/etc/php/conf.d/uploads.ini
+
 RUN npx gulp init
 
 RUN a2enmod rewrite

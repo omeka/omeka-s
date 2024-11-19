@@ -5,12 +5,12 @@ $showRequired = $element->getOption('show_required');
 $isRequired = null === $showRequired ? $required : $showRequired;
 $class = $isRequired ? 'field required' : 'field';
 $escapeInfo = (false !== $element->getOption('escape_info'));
-$fieldId = $element->getAttribute('id');
+$fieldId = ($element->getAttribute('id')) ? 'id="' . $element->getAttribute('id') . '_field"' : '';
 ?>
 <?php if (null === $label || 'hidden' === $element->getAttribute('type')): ?>
 <?php echo $this->formElement($element); ?>
 <?php else: ?>
-<div class="<?php echo $class ?>" id="<?php echo $fieldId; ?>_field">
+<div class="<?php echo $class ?>" <?php echo $fieldId; ?>>
     <div class="field-meta">
         <?php echo $this->formLabel($element); ?>
         <?php if ($info = $element->getOption('info')): ?>

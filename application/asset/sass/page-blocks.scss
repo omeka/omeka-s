@@ -177,6 +177,10 @@
     width: 100vw;
     max-width: 100%;
     align-items: center;
+
+    .resource:last-child {
+        margin-bottom: $spacing-large;
+    }
 }
 
 .media-embed.layout-vertical .iiif_presentation {

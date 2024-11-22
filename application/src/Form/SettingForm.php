@@ -337,7 +337,7 @@ class SettingForm extends Form implements EventManagerAwareInterface
             'options' => [
                 'element_group' => 'editing',
                 'label' => 'Batch chunk size', // @translate
-                'info' => 'Enter the size of each chunk of resources when batch editing and deleting.'
+                'info' => 'Enter the size of each chunk of resources when batch editing and deleting.', // @translate
             ],
             'attributes' => [
                 'id' => 'batch_chunk_size',

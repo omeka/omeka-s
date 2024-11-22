@@ -11,7 +11,8 @@ class BatchDelete extends AbstractJob
         $response = $api->search($resource, $query, ['returnScalar' => 'id']);
 
         // Batch delete the resources in chunks.
-        foreach (array_chunk($response->getContent(), 100) as $idsChunk) {
+        $batchChunkSize = $settings->get('batch_chunk_size', 100);
+        foreach (array_chunk($response->getContent(), $batchChunkSize) as $idsChunk) {
             if ($this->shouldStop()) {
                 return;
             }

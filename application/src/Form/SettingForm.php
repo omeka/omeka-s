@@ -21,6 +21,8 @@ class SettingForm extends Form implements EventManagerAwareInterface
      */
     const MEDIA_TYPE_WHITELIST = [
         // application/*
+        'application/json',
+        'application/ld+json',
         'application/msword',
         'application/ogg',
         'application/pdf',

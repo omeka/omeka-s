@@ -1,7 +1,33 @@
 <?php
 namespace Omeka;
 
+use \Omeka\Permissions\Acl;
+
 return [
+    'acl' => [
+        // Roles are defined as keys to allow inheritance of roles and rights.
+        'roles' => [
+            Acl::ROLE_GLOBAL_ADMIN => [],
+            Acl::ROLE_SITE_ADMIN => [],
+            Acl::ROLE_EDITOR => [],
+            Acl::ROLE_REVIEWER => [],
+            Acl::ROLE_AUTHOR => [],
+            Acl::ROLE_RESEARCHER => [],
+        ],
+        // Roles that are "admins" and restricted for editing.
+        'admin_roles' => [
+            Acl::ROLE_GLOBAL_ADMIN => Acl::ROLE_GLOBAL_ADMIN,
+            Acl::ROLE_SITE_ADMIN => Acl::ROLE_SITE_ADMIN,
+        ],
+        'labels' => [
+            Acl::ROLE_GLOBAL_ADMIN => 'Global Administrator', // @translate
+            Acl::ROLE_SITE_ADMIN => 'Supervisor', // @translate
+            Acl::ROLE_EDITOR => 'Editor', // @translate
+            Acl::ROLE_REVIEWER => 'Reviewer', // @translate
+            Acl::ROLE_AUTHOR => 'Author', // @translate
+            Acl::ROLE_RESEARCHER => 'Researcher', // @translate
+        ],
+    ],
     'password' => [
         'min_length' => 6,
         'min_lowercase' => null,

@@ -19,6 +19,16 @@ use Omeka\Permissions\Assertion\UserIsAdminAssertion;
 class AclFactory implements FactoryInterface
 {
     /**
+     * @var \Laminas\ServiceManager\ServiceLocatorInterface
+     */
+    protected $services;
+
+    /**
+     * @var array
+     */
+    protected $configAcl;
+
+    /**
      * Create the access control list.
      *
      * @param ContainerInterface $serviceLocator
@@ -28,11 +38,16 @@ class AclFactory implements FactoryInterface
     {
         $acl = new Acl;
 
+        $this->services = $serviceLocator;
+
         $auth = $serviceLocator->get('Omeka\AuthenticationService');
         $acl->setAuthenticationService($auth);
 
+        $this->configAcl = $serviceLocator->get('Config')['acl'];
+        $acl->setConfigAcl($this->configAcl);
+
         $this->addRoles($acl);
-        $this->addResources($acl, $serviceLocator);
+        $this->addResources($acl);
 
         $status = $serviceLocator->get('Omeka\Status');
         if (!$status->isInstalled()
@@ -54,12 +69,9 @@ class AclFactory implements FactoryInterface
      */
     protected function addRoles(Acl $acl)
     {
-        $acl->addRole(Acl::ROLE_RESEARCHER)
-            ->addRole(Acl::ROLE_AUTHOR)
-            ->addRole(Acl::ROLE_REVIEWER)
-            ->addRole(Acl::ROLE_EDITOR)
-            ->addRole(Acl::ROLE_SITE_ADMIN)
-            ->addRole(Acl::ROLE_GLOBAL_ADMIN);
+        foreach ($this->configAcl['roles'] as $role => $parents) {
+            $acl->addRole($role, $parents ?: null);
+        }
     }
 
     /**
@@ -72,11 +84,10 @@ class AclFactory implements FactoryInterface
      * - Controller classes
      *
      * @param Acl $acl
-     * @param ContainerInterface $serviceLocator
      */
-    protected function addResources(Acl $acl, ContainerInterface $serviceLocator)
+    protected function addResources(Acl $acl)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $this->services->get('Config');
 
         // Add resources from configuration.
         if (isset($config['permissions']['acl_resources'])
@@ -100,7 +111,7 @@ class AclFactory implements FactoryInterface
 
         // Add Doctrine entities as ACL resources. These resources are used to
         // set rules for access to specific entities.
-        $entities = $serviceLocator->get('Omeka\EntityManager')->getConfiguration()
+        $entities = $this->services->get('Omeka\EntityManager')->getConfiguration()
             ->getMetadataDriverImpl()->getAllClassNames();
         foreach ($entities as $entityClass) {
             if (is_subclass_of($entityClass, 'Laminas\Permissions\Acl\Resource\ResourceInterface')) {

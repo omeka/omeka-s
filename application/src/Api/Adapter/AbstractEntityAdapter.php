@@ -255,7 +255,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         // Begin building the search query.
         $entityClass = $this->getEntityClass();
 
-        $this->index = 0;
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select('omeka_root')
@@ -700,7 +699,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         }
 
         $entityClass = $this->getEntityClass();
-        $this->index = 0;
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('omeka_root')->from($entityClass, 'omeka_root');
         foreach ($criteria as $field => $value) {
@@ -759,6 +757,14 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
     }
 
     /**
+     * Reset the index for query builder named parameters / aliases.
+     */
+    public function resetIndex()
+    {
+        $this->index = 0;
+    }
+
+    /**
      * Determine whether a string is a valid JSON-LD term.
      *
      * @param string $term
@@ -779,7 +785,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
      */
     public function isUnique(EntityInterface $entity, array $criteria)
     {
-        $this->index = 0;
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('e.id')
             ->from($this->getEntityClass(), 'e');

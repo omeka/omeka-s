@@ -3,6 +3,7 @@ namespace Omeka\Api\Adapter;
 
 use Doctrine\Common\Collections\Criteria;
 use Omeka\Api\Request;
+use Omeka\DataType\ConversionTargetInterface;
 use Omeka\Entity\Resource;
 use Omeka\Entity\Value;
 use Omeka\Entity\ValueAnnotation;
@@ -169,6 +170,53 @@ class ValueHydrator
         // Add any new values that had to be created.
         foreach ($newValues as $newValue) {
             $valueCollection->add($newValue);
+        }
+
+        // Convert data types.
+        if ($isUpdate) {
+            $logger = $adapter->getServiceLocator()->get('Omeka\Logger');
+            $convertSpecs = $representation['convert_data_types'] ?? [];
+            foreach ($convertSpecs as $convertSpec) {
+                $propertyId = $convertSpec['convert_property_id'] ?? null;
+                $dataTypeSource = $convertSpec['convert_data_type_source'] ?? null;
+                $dataTypeTarget = $convertSpec['convert_data_type_target'] ?? null;
+
+                // Get the target data type.
+                $dataType = $dataTypes->get($dataTypeTarget);
+                if (!($dataType instanceof ConversionTargetInterface)) {
+                    // Cannot convert to this data type.
+                    continue;
+                }
+
+                // Filter values by property and source data type (if given).
+                $property = $entityManager->getReference('Omeka\Entity\Property', $propertyId);
+                $criteria = Criteria::create()->where(Criteria::expr()->eq('property', $property));
+                if ($dataTypeSource) {
+                    $criteria->andWhere(Criteria::expr()->eq('type', $dataTypeSource));
+                }
+                $values = $valueCollection->matching($criteria);
+
+                // Iterate each value, converting if possible.
+                foreach ($values as $value) {
+                    $converted = $dataType->convert($value, $dataTypeTarget);
+                    if ($converted) {
+                        // The conversion was successful. Set the new data type.
+                        $value->setType($dataTypeTarget);
+                    } else {
+                        // The conversion was not successful. Log a NOTICE message.
+                        $property = $value->getProperty();
+                        $vocabulary = $property->getVocabulary();
+                        $message = sprintf(
+                            'Convert data type - could not convert to "%s" from "%s" for property "%s" resource "%s"', // @translate
+                            $dataTypeTarget,
+                            $value->getType(),
+                            sprintf('%s:%s', $vocabulary->getPrefix(), $property->getLocalName()),
+                            $value->getResource()->getId()
+                        );
+                        $logger->notice($message);
+                    }
+                }
+            }
         }
     }
 }

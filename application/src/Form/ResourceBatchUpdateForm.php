@@ -238,6 +238,15 @@ class ResourceBatchUpdateForm extends Form implements EventManagerAwareInterface
             ],
         ]);
 
+        // This hidden element manages the elements "convert_data_types" added in the view.
+        $this->add([
+            'name' => 'convert_data_types',
+            'type' => Element\Hidden::class,
+            'attributes' => [
+                'value' => '',
+            ],
+        ]);
+
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 
@@ -401,6 +410,9 @@ class ResourceBatchUpdateForm extends Form implements EventManagerAwareInterface
                 $preData['append'][$value['property_id']][] = $valueObj;
             }
         }
+        if (isset($data['convert_data_types'])) {
+            $preData['replace']['convert_data_types'] = $data['convert_data_types'];
+        }
         if (isset($data['add_to_item_set'])) {
             $preData['append']['o:item_set'] = array_unique($data['add_to_item_set']);
         }
@@ -415,7 +427,7 @@ class ResourceBatchUpdateForm extends Form implements EventManagerAwareInterface
             'remove_from_sites', 'add_to_sites',
             'clear_property_values', 'set_value_visibility',
             'clear_language', 'language',
-            'csrf', 'id', 'o:id', 'value',
+            'csrf', 'id', 'o:id', 'value', 'convert_data_types',
         ];
 
         foreach ($data as $key => $value) {

@@ -38,7 +38,9 @@ class PageController extends AbstractActionController
             'site' => $site->id(),
         ])->getContent();
 
-        $pageBodyClass = 'page site-page-' . preg_replace('([^a-zA-Z0-9\-])', '-', $slug);
+        $pageBodyClass = 'page '
+            . $page->layoutDataValue('class')
+            . ' site-page-' . preg_replace('([^a-zA-Z0-9\-])', '-', $slug);
 
         $this->viewHelpers()->get('sitePagePagination')->setPage($page);
 

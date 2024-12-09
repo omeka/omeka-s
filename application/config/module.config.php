@@ -4,28 +4,42 @@ namespace Omeka;
 use \Omeka\Permissions\Acl;
 
 return [
-    'acl' => [
-        // Roles are defined as keys to allow inheritance of roles and rights.
-        'roles' => [
-            Acl::ROLE_GLOBAL_ADMIN => [],
-            Acl::ROLE_SITE_ADMIN => [],
-            Acl::ROLE_EDITOR => [],
-            Acl::ROLE_REVIEWER => [],
-            Acl::ROLE_AUTHOR => [],
-            Acl::ROLE_RESEARCHER => [],
+    'roles' => [
+        Acl::ROLE_GLOBAL_ADMIN => [
+            'role' => Acl::ROLE_GLOBAL_ADMIN,
+            'label' => 'Global Administrator', // @translate
+            'admin' => true,
+            'parents' => [],
         ],
-        // Roles that are "admins" and restricted for editing.
-        'admin_roles' => [
-            Acl::ROLE_GLOBAL_ADMIN => Acl::ROLE_GLOBAL_ADMIN,
-            Acl::ROLE_SITE_ADMIN => Acl::ROLE_SITE_ADMIN,
+        Acl::ROLE_SITE_ADMIN => [
+            'role' => Acl::ROLE_SITE_ADMIN,
+            'label' => 'Supervisor', // @translate
+            'admin' => true,
+            'parents' => [],
         ],
-        'labels' => [
-            Acl::ROLE_GLOBAL_ADMIN => 'Global Administrator', // @translate
-            Acl::ROLE_SITE_ADMIN => 'Supervisor', // @translate
-            Acl::ROLE_EDITOR => 'Editor', // @translate
-            Acl::ROLE_REVIEWER => 'Reviewer', // @translate
-            Acl::ROLE_AUTHOR => 'Author', // @translate
-            Acl::ROLE_RESEARCHER => 'Researcher', // @translate
+        Acl::ROLE_EDITOR => [
+            'role' => Acl::ROLE_EDITOR,
+            'label' => 'Editor', // @translate
+            'admin' => false,
+            'parents' => [],
+        ],
+        Acl::ROLE_REVIEWER => [
+            'role' => Acl::ROLE_REVIEWER,
+            'label' => 'Reviewer', // @translate
+            'admin' => false,
+            'parents' => [],
+        ],
+        Acl::ROLE_AUTHOR => [
+            'role' => Acl::ROLE_AUTHOR,
+            'label' => 'Author', // @translate
+            'admin' => false,
+            'parents' => [],
+        ],
+        Acl::ROLE_RESEARCHER => [
+            'role' => Acl::ROLE_RESEARCHER,
+            'label' => 'Researcher', // @translate
+            'admin' => false,
+            'parents' => [],
         ],
     ],
     'password' => [

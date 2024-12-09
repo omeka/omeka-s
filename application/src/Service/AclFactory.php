@@ -26,7 +26,7 @@ class AclFactory implements FactoryInterface
     /**
      * @var array
      */
-    protected $configAcl;
+    protected $configRoles;
 
     /**
      * Create the access control list.
@@ -43,8 +43,8 @@ class AclFactory implements FactoryInterface
         $auth = $serviceLocator->get('Omeka\AuthenticationService');
         $acl->setAuthenticationService($auth);
 
-        $this->configAcl = $serviceLocator->get('Config')['acl'];
-        $acl->setConfigAcl($this->configAcl);
+        $this->configRoles = $serviceLocator->get('Config')['roles'];
+        $acl->setConfigRoles($this->configRoles);
 
         $this->addRoles($acl);
         $this->addResources($acl);
@@ -69,8 +69,8 @@ class AclFactory implements FactoryInterface
      */
     protected function addRoles(Acl $acl)
     {
-        foreach ($this->configAcl['roles'] as $role => $parents) {
-            $acl->addRole($role, $parents ?: null);
+        foreach ($this->configRoles as $role => $roleData) {
+            $acl->addRole($role, empty($roleData['parents']) ? null : $roleData['parents']);
         }
     }
 

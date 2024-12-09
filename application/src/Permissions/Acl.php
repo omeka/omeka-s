@@ -22,7 +22,7 @@ class Acl extends LaminasAcl
     /**
      * @var array
      */
-    protected $configAcl;
+    protected $configRoles;
 
     public function setAuthenticationService(AuthenticationServiceInterface $auth)
     {
@@ -34,9 +34,9 @@ class Acl extends LaminasAcl
         return $this->auth;
     }
 
-    public function setConfigAcl(array $configAcl)
+    public function setConfigRoles(array $configRoles)
     {
-        $this->configAcl = $configAcl;
+        $this->configRoles = $configRoles;
     }
 
     /**
@@ -47,9 +47,10 @@ class Acl extends LaminasAcl
      */
     public function getRoleLabels($excludeAdminRoles = false): array
     {
+        $labels = array_column($this->configRoles, 'label', 'role');
         return $excludeAdminRoles
-            ? array_diff_key($this->configAcl['labels'], $this->configAcl['admin_roles'])
-            : $this->configAcl['labels'];
+            ? array_diff_key($labels, array_filter(array_column($this->configRoles, 'admin', 'role')))
+            : $labels;
     }
 
     /**
@@ -72,7 +73,7 @@ class Acl extends LaminasAcl
      */
     public function isAdminRole($role): bool
     {
-        return in_array($role, $this->configAcl['admin_roles']);
+        return !empty($this->configRoles[$role]['admin']);
     }
 
     /**
@@ -85,7 +86,7 @@ class Acl extends LaminasAcl
      */
     public function addRoleLabel($roleId, $roleLabel)
     {
-        $this->configAcl['labels'][$roleId] = $roleLabel;
+        $this->configRoles[$roleId]['label'] = $roleLabel;
     }
 
     /**
@@ -98,6 +99,6 @@ class Acl extends LaminasAcl
      */
     public function removeRoleLabel($roleId)
     {
-        unset($this->configAcl['labels'][$roleId]);
+        $this->configRoles[$roleId]['label'] = null;
     }
 }

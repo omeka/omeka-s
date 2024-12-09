@@ -277,11 +277,11 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
             }
 
             $positive = true;
-            if (in_array($queryType, ['neq', 'nin', 'nsw', 'new', 'nres', 'nex'])) {
+            if (in_array($queryType, ['neq', 'nin', 'nsw', 'new', 'nre', 'nres', 'nex'])) {
                 $positive = false;
                 $queryType = substr($queryType, 1);
             }
-            if (!in_array($queryType, ['eq', 'in', 'sw', 'ew', 'res', 'ex'])) {
+            if (!in_array($queryType, ['eq', 'in', 'sw', 'ew', 're', 'res', 'ex'])) {
                 continue;
             }
 
@@ -376,6 +376,10 @@ abstract class AbstractResourceEntityAdapter extends AbstractEntityAdapter imple
                         "$valuesAlias.valueResource",
                         $this->createNamedParameter($qb, $value)
                     );
+                    break;
+
+                case 're':
+                    $predicateExpr = $qb->expr()->isNotNull("$valuesAlias.valueResource");
                     break;
 
                 case 'ex':

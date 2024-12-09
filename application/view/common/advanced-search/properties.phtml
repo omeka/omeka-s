@@ -81,6 +81,8 @@ if ($this->status()->isSiteRequest()) {
                 <?php echo $queryOption('nsw', $property, 'type', $translate('does not start with')); ?>
                 <?php echo $queryOption('ew', $property, 'type', $translate('ends with')); ?>
                 <?php echo $queryOption('new', $property, 'type', $translate('does not end with')); ?>
+                <?php echo $queryOption('re', $property, 'type', $translate('is resource')); ?>
+                <?php echo $queryOption('nre', $property, 'type', $translate('is not resource')); ?>
                 <?php echo $queryOption('res', $property, 'type', $translate('is resource with ID')); ?>
                 <?php echo $queryOption('nres', $property, 'type', $translate('is not resource with ID')); ?>
                 <?php echo $queryOption('ex', $property, 'type', $translate('has any value')); ?>

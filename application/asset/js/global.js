@@ -322,7 +322,7 @@ var Omeka = {
     disableQueryTextInput: function() {
         var queryType = $(this);
         var queryText = queryType.siblings('.query-text');
-        if (queryType.val() === 'ex' || queryType.val() === 'nex') {
+        if (['ex', 'nex', 're', 'nre'].includes(queryType.val())) {
             queryText.prop('disabled', true);
         } else {
             queryText.prop('disabled', false);

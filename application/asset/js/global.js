@@ -322,10 +322,16 @@ var Omeka = {
     disableQueryTextInput: function() {
         var queryType = $(this);
         var queryText = queryType.siblings('.query-text');
-        if (queryType.val() === 'ex' || queryType.val() === 'nex') {
+        var queryTextDataType = queryType.siblings('.query-text-data-type');
+        if (['dt', 'ndt'].includes(queryType.val())) {
             queryText.prop('disabled', true);
+            queryTextDataType.prop('disabled', false).show();
+        } else if (['ex', 'nex'].includes(queryType.val())) {
+            queryText.prop('disabled', true);
+            queryTextDataType.prop('disabled', true).hide();
         } else {
             queryText.prop('disabled', false);
+            queryTextDataType.prop('disabled', true).hide();
         }
     },
 

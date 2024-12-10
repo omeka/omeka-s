@@ -89,7 +89,7 @@ if ($this->status()->isSiteRequest()) {
                 <?php echo $queryOption('ndt', $property, 'type', $translate('does not have data type')); ?>
             </select>
             <?php echo $queryText($property, $index); ?>
-            <?php echo $this->dataType()->getSelect($stem . '[text]', $property['text'] ?? null, ['class' => 'query-text-data-type']); ?>
+            <?php echo $this->dataType()->getSelect($stem . '[text]', $property['text'] ?? null, ['class' => 'query-text-data-type'], ['empty_option' => $translate('Select data type…')]); ?>
             <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
         </div>
         <?php

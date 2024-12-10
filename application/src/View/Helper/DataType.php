@@ -80,7 +80,7 @@ class DataType extends AbstractHelper
         $valueOptions = array_merge($valueOptions, $optgroupOptions);
 
         $element = new Select($name);
-        $element->setEmptyOption('')
+        $element->setEmptyOption($options['empty_option'] ?? '')
             ->setValueOptions($valueOptions)
             ->setAttributes($attributes);
         if (!$element->getAttribute('multiple') && is_array($value)) {

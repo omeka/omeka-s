@@ -21,13 +21,14 @@ class SearchFilters extends AbstractHelper
      */
     public function __invoke($partialName = null, array $query = null)
     {
+        $view = $this->getView();
         $partialName = $partialName ?: self::PARTIAL_NAME;
 
-        $translate = $this->getView()->plugin('translate');
+        $translate = $view->plugin('translate');
 
         $filters = [];
-        $api = $this->getView()->api();
-        $query ??= $this->getView()->params()->fromQuery();
+        $api = $view->api();
+        $query ??= $view->params()->fromQuery();
         $queryTypes = [
             'eq' => $translate('is exactly'),
             'neq' => $translate('is not exactly'),
@@ -41,6 +42,8 @@ class SearchFilters extends AbstractHelper
             'nres' => $translate('is not resource with ID'),
             'ex' => $translate('has any value'),
             'nex' => $translate('has no values'),
+            'dt' => $translate('has data type'),
+            'ndt' => $translate('does not have data type'),
         ];
 
         foreach ($query as $key => $value) {
@@ -120,6 +123,11 @@ class SearchFilters extends AbstractHelper
                                 }
                             }
 
+                            // If this is a data type query, convert the value to
+                            // the data type's label.
+                            $value = in_array($queryType, ['dt', 'ndt'])
+                                ? $view->dataType()->getLabel($value)
+                                : $value;
                             $filters[$filterLabel][] = $value;
                             $index++;
                         }
@@ -237,14 +245,14 @@ class SearchFilters extends AbstractHelper
             }
         }
 
-        $result = $this->getView()->trigger(
+        $result = $view->trigger(
             'view.search.filters',
             ['filters' => $filters, 'query' => $query],
             true
         );
         $filters = $result['filters'];
 
-        return $this->getView()->partial(
+        return $view->partial(
             $partialName,
             [
                 'filters' => $filters,

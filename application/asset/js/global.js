@@ -324,7 +324,7 @@ var Omeka = {
         var queryText = queryType.siblings('.query-text');
         var queryTextDataType = queryType.siblings('.query-text-data-type');
         if (['dt', 'ndt'].includes(queryType.val())) {
-            queryText.prop('disabled', true);
+            queryText.prop('disabled', true).val('');
             queryTextDataType.prop('disabled', false).show();
         } else if (['ex', 'nex'].includes(queryType.val())) {
             queryText.prop('disabled', true);

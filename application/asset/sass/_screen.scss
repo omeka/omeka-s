@@ -3888,7 +3888,8 @@ body.sidebar-open #content {
 .sidebar .meta-group {
     margin-bottom: $spacing-medium;
 
-    .value {
+    .value, 
+    .comment {
         width: 100%;
         padding: $spacing-small 0;
         margin: 0;

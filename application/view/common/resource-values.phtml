@@ -52,6 +52,8 @@ foreach ($values as $term => $propertyData):
             $class[] = $escape($value->valueResource()->resourceName());
         } elseif ('uri' == $valueType) {
             $class[] = 'uri';
+        } else {
+            $class[] = $escape(str_replace(['_', ':'], '-', $valueType));
         }
         ?>
         <dd class="<?php echo implode(' ', $class); ?>" lang="<?php echo $escape($valueLang); ?>">

@@ -36,6 +36,16 @@ class PageLayoutDataForm extends Form implements EventManagerAwareInterface
             ],
         ]);
         $this->add([
+            'name' => 'o:layout_data[class]',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Class', // @translate
+            ],
+            'attributes' => [
+                'id' => 'page-layout-data-class',
+            ],
+        ]);
+        $this->add([
             'type' => 'number',
             'name' => 'o:layout_data[grid_column_gap]',
             'options' => [

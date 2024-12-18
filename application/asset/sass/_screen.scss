@@ -3262,6 +3262,18 @@ fieldset.section > legend {
 
 .sidebar .inputs {
     width: 100%;
+
+    label,
+    .label {
+        padding: 0;
+        margin: 0;
+        font-weight: normal;
+    }
+
+    label:after,
+    .label:after {
+        content: none;
+    }
 }
 
 .block-layout-fieldset {

@@ -43,7 +43,10 @@ if ($this->status()->isSiteRequest()) {
 }
 ?>
 
-<div id="property-queries" class="field removable multi-value" role="group" aria-labelledby="by-value-label">
+<div id="property-queries-alerts" class="sr-only alerts" aria-atomic="true" aria-live="polite">
+    <p><?php echo sprintf($translate('Number of rows in %s:'), $translate('Search by value')); ?> <span class="count">1</span></p>
+</div> 
+<div id="property-queries" class="field removable multi-value" role="group" aria-labelledby="by-value-label" data-index="1">
     <div class="field-meta">
         <span id="by-value-label" class="label"><?php echo $translate('Search by value'); ?></span>
         <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new value'); ?>" title="<?php echo $translate('Add new value'); ?>"></button>
@@ -53,8 +56,9 @@ if ($this->status()->isSiteRequest()) {
         $index = 0;
         foreach ($properties as $property):
         $stem = "property[$index]";
+        $rowAriaLabel = $translate(sprintf('Row %s', $index+1));
         ?>
-        <div class="value">
+        <div class="value" id="property-queries-row-<?php echo $index+1; ?>" aria-label="<?php echo $rowAriaLabel; ?>">
             <select class="joiner" name="<?php echo $this->escapeHtml($stem . '[joiner]'); ?>" aria-label="<?php echo $translate('Joiner'); ?>">
                 <?php echo $queryOption('and', $property, 'joiner', $translate('AND')); ?>
                 <?php echo $queryOption('or', $property, 'joiner', $translate('OR')); ?>

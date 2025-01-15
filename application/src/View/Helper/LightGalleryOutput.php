@@ -17,7 +17,7 @@ class LightGalleryOutput extends AbstractHelper
         $view->headScript()->appendFile($view->assetUrl('vendor/lightgallery/plugins/video/lg-video.min.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('vendor/lightgallery/plugins/rotate/lg-rotate.min.js', 'Omeka'));
         $view->headScript()->appendFile($view->assetUrl('vendor/lightgallery/plugins/hash/lg-hash.min.js', 'Omeka'));
-        $view->headScript()->appendFile($view->assetUrl('js/lg-itemfiles-config.js', 'Omeka'));
+        $view->headScript()->appendFile($view->assetUrl('js/lg-itemfiles-config.js'));
         $view->headLink()->prependStylesheet($view->assetUrl('vendor/lightgallery/css/lightgallery-bundle.min.css', 'Omeka'));
         $escape = $view->plugin('escapeHtml');
 

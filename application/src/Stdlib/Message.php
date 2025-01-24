@@ -1,10 +1,12 @@
 <?php
 namespace Omeka\Stdlib;
 
+use Laminas\I18n\Translator\TranslatorInterface;
+
 /**
- * Manage a message with a a list of placeholders formatted for sprintf().
+ * Message with a a list of placeholders formatted for sprintf().
  */
-class Message implements MessageInterface, \JsonSerializable
+class Message implements MessageInterface
 {
     /**
      * @var string
@@ -36,16 +38,6 @@ class Message implements MessageInterface, \JsonSerializable
     public function getMessage()
     {
         return $this->message;
-    }
-
-    public function getContext()
-    {
-        return $this->args;
-    }
-
-    public function hasContext()
-    {
-        return (bool) $this->args;
     }
 
     /**
@@ -87,7 +79,12 @@ class Message implements MessageInterface, \JsonSerializable
 
     public function __toString()
     {
-        return $this->interpolate($this->getMessage(), $this->getContext());
+        return $this->interpolate($this->getMessage(), $this->getArgs());
+    }
+
+    public function translate(TranslatorInterface $translator, $textDomain = 'default', $locale = null)
+    {
+        return $this->interpolate($translator->translate($this->getMessage(), $textDomain, $locale), $this->getArgs());
     }
 
     public function jsonSerialize()

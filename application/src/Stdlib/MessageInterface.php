@@ -1,32 +1,14 @@
 <?php
 namespace Omeka\Stdlib;
 
+use JsonSerializable;
+use Laminas\I18n\Translator\TranslatorInterface;
+
 /**
  * Message interface.
  */
-interface MessageInterface
+interface MessageInterface extends JsonSerializable
 {
-    /**
-     * Get the message string.
-     *
-     * @return string
-     */
-    public function getMessage();
-
-    /**
-     * Get the context of the message (the arguments, if any).
-     *
-     * @return array
-     */
-    public function getContext();
-
-    /**
-     * Does this message have a context (arguments)?
-     *
-     * @return bool
-     */
-    public function hasContext();
-
     /**
      * Indicate if the message should be escaped for html.
      *
@@ -35,11 +17,12 @@ interface MessageInterface
     public function escapeHtml();
 
     /**
-     * Get the interpolated message string with context.
-     *
-     * @param string $message
-     * @param array $context
-     * @return string
+     * Get the interpolated message
      */
-    public function interpolate($message, array $context = []);
+    public function __toString();
+
+    /**
+     * Get the interpolated message, translated
+     */
+    public function translate(TranslatorInterface $translator, $textDomain = 'default', $locale = null);
 }

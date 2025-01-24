@@ -50,13 +50,9 @@ class Messages extends AbstractHelper
         foreach ($allMessages as $type => $messages) {
             $class = isset($typeToClass[$type]) ? $typeToClass[$type] : 'notice';
             foreach ($messages as $message) {
-                $translation = $message instanceof TranslatorAwareInterface
-                    ? $message->setTranslator($translator)->translate()
-                    : $translate($message);
-                $escapeHtml = $message instanceof MessageInterface
-                    ? $message->escapeHtml()
-                    : true; // escape HTML by default
-                if ($escapeHtml) {
+                $translation = $view->translate($message);
+
+                if (!($message instanceof MessageInterface) || $message->escapeHtml()) {
                     $translation = $escape($translation);
                 }
                 $output .= sprintf('<li class="%s">%s</li>', $class, $translation);

@@ -2,37 +2,16 @@
 
 namespace Omeka\Stdlib;
 
-use Laminas\I18n\Translator\TranslatorAwareInterface;
-use Laminas\I18n\Translator\TranslatorAwareTrait;
+use Laminas\I18n\Translator\TranslatorInterface;
 
 /**
- * Manage a message with a context list of placeholders formatted as psr-3.
- *
- * Copy of Omeka Message, except the constructor, that requires an array, and
- * the possibility to translate automatically when the translator is enabled.
- * Generally, the translator is not set, as it is usually managed internally.
- *
- * ```
- * // To get a translator in a controller:
- * $translator = $this->getEvent()->getApplication()->getServiceManager()->get('MvcTranslator');
- * // or:
- * $translator = $this->viewHelpers()->get('translate')->getTranslator();
- *
- * // To get translator in a view:
- * $translator = $this->plugin('translate')->getTranslator();
- *
- * // To set the translator:
- * $psrMessage->setTranslator($translator);
- * // To disable the translation when the translator is set:
- * $psrMessage->setTranslatorEnabled(false);
- * ```
+ * Message with a context list of placeholders formatted as psr-3.
  *
  * @see \Omeka\Stdlib\Message
  */
-class PsrMessage implements MessageInterface, TranslatorAwareInterface, \JsonSerializable, PsrInterpolateInterface
+class PsrMessage implements MessageInterface, PsrInterpolateInterface
 {
     use PsrInterpolateTrait;
-    use TranslatorAwareTrait;
 
     /**
      * @var string
@@ -82,28 +61,6 @@ class PsrMessage implements MessageInterface, TranslatorAwareInterface, \JsonSer
         return (bool) $this->context;
     }
 
-    /**
-     * Get the message arguments for compatibility purpose only.
-     *
-     * @deprecated Use hasContext() instead.
-     * @return array Non-associative array in order to comply with sprintf.
-     */
-    public function getArgs()
-    {
-        return array_values($this->getContext());
-    }
-
-    /**
-     * Does this message have arguments? For compatibility purpose only.
-     *
-     * @deprecated Use hasContext() instead.
-     * @return bool
-     */
-    public function hasArgs()
-    {
-        return $this->hasContext();
-    }
-
     public function setEscapeHtml($escapeHtml): self
     {
         $this->escapeHtml = (bool) $escapeHtml;
@@ -117,9 +74,7 @@ class PsrMessage implements MessageInterface, TranslatorAwareInterface, \JsonSer
 
     public function __toString()
     {
-        return $this->isTranslatorEnabled()
-            ? $this->translate()
-            : $this->interpolate($this->getMessage(), $this->getContext());
+        return $this->interpolate($this->getMessage(), $this->getContext());
     }
 
     /**
@@ -127,11 +82,9 @@ class PsrMessage implements MessageInterface, TranslatorAwareInterface, \JsonSer
      *
      * Same as TranslatorInterface::translate(), but the message is the current one.
      */
-    public function translate($textDomain = 'default', $locale = null): string
+    public function translate(TranslatorInterface $translator, $textDomain = 'default', $locale = null)
     {
-        return $this->hasTranslator()
-            ? $this->interpolate($this->translator->translate($this->getMessage(), $textDomain, $locale), $this->getContext())
-            : $this->interpolate($this->getMessage(), $this->getContext());
+        return $this->interpolate($translator->translate($this->getMessage(), $textDomain, $locale), $this->getContext());
     }
 
     public function jsonSerialize()

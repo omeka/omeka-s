@@ -175,7 +175,8 @@ class ValueHydrator
         // Convert data types.
         if ($isUpdate) {
             $logger = $adapter->getServiceLocator()->get('Omeka\Logger');
-            $convertSpecs = $representation['convert_data_types'] ?? [];
+            $convertSpecs = (isset($representation['convert_data_types']) && is_array($representation['convert_data_types']))
+                ? $representation['convert_data_types'] : [];
             foreach ($convertSpecs as $convertSpec) {
                 $propertyId = $convertSpec['convert_property_id'] ?? null;
                 $dataTypeSource = $convertSpec['convert_data_type_source'] ?? null;

@@ -25,12 +25,12 @@ $queryOption = function($value, array $search, $key, $text) {
     }
     return sprintf('<option value="%s"%s>%s</option>', $value, $selected, $text);
 };
-$queryText = function(array $search, $index) use ($translate) {
+$queryText = function(array $search, $index, $ariaLabelledby) use ($translate) {
     $text = isset($search['text']) ? $search['text'] : null;
-    return sprintf('<input type="text" class="query-text" name="%s" value="%s" aria-label="%s">',
+    return sprintf('<input type="text" class="query-text" name="%s" value="%s" aria-labelledby="%s">',
         $this->escapeHtml("property[$index][text]"),
         $this->escapeHtml($text),
-        $this->escapeHtml($translate('Query text')));
+        $ariaLabelledby); 
 };
 
 $optionsQuery = [];
@@ -50,6 +50,11 @@ if ($this->status()->isSiteRequest()) {
     <div class="field-meta">
         <span id="by-value-label" class="label"><?php echo $translate('Search by value'); ?></span>
         <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new value'); ?>" title="<?php echo $translate('Add new value'); ?>"></button>
+        <div id="search-by-value-property" class="label sr-only" aria-hidden="true"><?php echo $translate('Property'); ?></div>
+        <div id="search-by-value-type" class="label sr-only" aria-hidden="true"><?php echo $translate('Type'); ?></div>
+        <div id="search-by-value-value" class="label sr-only" aria-hidden="true"><?php echo $translate('Value'); ?></div>
+        <div id="search-by-value-joiner" class="label sr-only" aria-hidden="true"><?php echo $translate('Joiner'); ?></div>
+        <div id="search-by-value-remove" class="label sr-only" aria-hidden="true"><?php echo $translate('Remove value'); ?></div>
     </div>
     <div class="inputs">
         <?php
@@ -57,41 +62,55 @@ if ($this->status()->isSiteRequest()) {
         foreach ($properties as $property):
         $stem = "property[$index]";
         $rowAriaLabel = $translate(sprintf('Row %s', $index+1));
+        $currentIndex = $index+1;
+        $rowLabels = 'property-queries-row-' . $currentIndex . ' by-value-label';
         ?>
-        <div class="value" id="property-queries-row-<?php echo $index+1; ?>" aria-label="<?php echo $rowAriaLabel; ?>">
-            <select class="joiner" name="<?php echo $this->escapeHtml($stem . '[joiner]'); ?>" aria-label="<?php echo $translate('Joiner'); ?>">
-                <?php echo $queryOption('and', $property, 'joiner', $translate('AND')); ?>
-                <?php echo $queryOption('or', $property, 'joiner', $translate('OR')); ?>
-            </select>
-            <?php echo $this->propertySelect([
-                'name' => $stem . '[property]',
-                'attributes' => [
-                    'class' => 'query-property',
-                    'value' => $property['property'] ?? null,
-                    'aria-label' => 'Property', // @translate
-                ],
-                'options' => [
-                    'empty_option' => '[Any Property]', // @translate
-                    'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
-                    'query' => $optionsQuery,
-                ]
-            ]); ?>
-            <select class="query-type" name="<?php echo $this->escapeHtml($stem . '[type]'); ?>" aria-label="<?php echo $translate('Query type'); ?>">
-                <?php echo $queryOption('eq', $property, 'type', $translate('is exactly')); ?>
-                <?php echo $queryOption('neq', $property, 'type', $translate('is not exactly')); ?>
-                <?php echo $queryOption('in', $property, 'type', $translate('contains')); ?>
-                <?php echo $queryOption('nin', $property, 'type', $translate('does not contain')); ?>
-                <?php echo $queryOption('sw', $property, 'type', $translate('starts with')); ?>
-                <?php echo $queryOption('nsw', $property, 'type', $translate('does not start with')); ?>
-                <?php echo $queryOption('ew', $property, 'type', $translate('ends with')); ?>
-                <?php echo $queryOption('new', $property, 'type', $translate('does not end with')); ?>
-                <?php echo $queryOption('res', $property, 'type', $translate('is resource with ID')); ?>
-                <?php echo $queryOption('nres', $property, 'type', $translate('is not resource with ID')); ?>
-                <?php echo $queryOption('ex', $property, 'type', $translate('has any value')); ?>
-                <?php echo $queryOption('nex', $property, 'type', $translate('has no values')); ?>
-            </select>
-            <?php echo $queryText($property, $index); ?>
-            <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
+        <div class="value" id="property-queries-row-<?php echo $currentIndex; ?>" aria-label="<?php echo $rowAriaLabel; ?>">
+            <div class="advanced-search-joiner input">
+                <span class="visible-label" aria-hidden="true"><?php echo $translate('Joiner'); ?></span>
+                <select name="<?php echo $this->escapeHtml($stem . '[joiner]'); ?>" aria-labelledby="search-by-value-joiner <?php echo $rowLabels; ?>">
+                    <?php echo $queryOption('and', $property, 'joiner', $translate('AND')); ?>
+                    <?php echo $queryOption('or', $property, 'joiner', $translate('OR')); ?>
+                </select>
+            </div>
+            <div class="advanced-search-property input">
+                <span class="visible-label" aria-hidden="true"><?php echo $translate('Property'); ?></span>
+                <?php echo $this->propertySelect([
+                    'name' => $stem . '[property]',
+                    'attributes' => [
+                        'class' => 'query-property',
+                        'value' => $property['property'] ?? null,
+                        'aria-labelledby' => 'search-by-value-property by-value-label property-queries-row-' . $currentIndex,
+                    ],
+                    'options' => [
+                        'empty_option' => '[Any Property]', // @translate
+                        'apply_templates' => $this->status()->isSiteRequest() ? $this->siteSetting('search_apply_templates') : false,
+                        'query' => $optionsQuery,
+                    ]
+                ]); ?>
+            </div>
+            <div class="advanced-search-type input">
+                <span class="visible-label" aria-hidden="true"><?php echo $translate('Type'); ?></span>
+                <select class="query-type" name="<?php echo $this->escapeHtml($stem . '[type]'); ?>" aria-labelledby="search-by-value-type <?php echo $rowLabels; ?>">
+                    <?php echo $queryOption('eq', $property, 'type', $translate('is exactly')); ?>
+                    <?php echo $queryOption('neq', $property, 'type', $translate('is not exactly')); ?>
+                    <?php echo $queryOption('in', $property, 'type', $translate('contains')); ?>
+                    <?php echo $queryOption('nin', $property, 'type', $translate('does not contain')); ?>
+                    <?php echo $queryOption('sw', $property, 'type', $translate('starts with')); ?>
+                    <?php echo $queryOption('nsw', $property, 'type', $translate('does not start with')); ?>
+                    <?php echo $queryOption('ew', $property, 'type', $translate('ends with')); ?>
+                    <?php echo $queryOption('new', $property, 'type', $translate('does not end with')); ?>
+                    <?php echo $queryOption('res', $property, 'type', $translate('is resource with ID')); ?>
+                    <?php echo $queryOption('nres', $property, 'type', $translate('is not resource with ID')); ?>
+                    <?php echo $queryOption('ex', $property, 'type', $translate('has any value')); ?>
+                    <?php echo $queryOption('nex', $property, 'type', $translate('has no values')); ?>
+                </select>
+            </div>
+            <div class="advanced-search-terms input">
+                <span class="visible-label" aria-hidden="true"><?php echo $translate('Value'); ?></span>
+                <?php echo $queryText($property, $index, 'search-by-value-value ' . $rowLabels); ?>
+            </div>
+            <button type="button" class="o-icon-delete remove-value button" aria-labelledby="search-by-value-remove <?php echo $rowLabels; ?>" title="<?php echo $translate('Remove value'); ?>"></button>
         </div>
         <?php
         $index++;

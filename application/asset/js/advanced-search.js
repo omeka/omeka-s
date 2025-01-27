@@ -28,6 +28,9 @@ $(document).ready(function () {
         newValue.children('select').prop('selectedIndex', 0);
         incrementScreenReaderLabels('aria-label', newValue, index);
         incrementScreenReaderLabels('id', newValue, index);
+        newValue.find('select, input, button').each(function() {
+            incrementScreenReaderLabels('aria-labelledby', $(this), index);
+        });
         newValue.appendTo(fieldContainer.find('.inputs'));
         newValue.trigger('o:value-created');
         updateAdvancedSearchCount(fieldId, '.value');

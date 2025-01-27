@@ -18,6 +18,10 @@
     width: auto;
 }
 
+#advanced-search .input:not(:last-of-type) {
+    margin-right: $spacing-small;
+}
+
 #advanced-search .inputs select, 
 #advanced-search .inputs input,
 #advanced-search .inputs button, 
@@ -40,12 +44,16 @@
     margin-left: 0;
 }
 
-#advanced-search .multi-value .value:first-child .joiner,
+#advanced-search .multi-value .value:first-child .advanced-search-joiner,
 #advanced-search .multi-value .value:only-child button.remove-value {
     display: none;
 }
 
-#advanced-search #property-queries .joiner {
+#advanced-search #property-queries .value:not(:last-of-type) {
+    margin-bottom: $spacing-medium;
+}
+
+#advanced-search #property-queries .advanced-search-joiner {
     width: initial;
     min-width: initial;
 }

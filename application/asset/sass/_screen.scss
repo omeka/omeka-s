@@ -1713,7 +1713,7 @@ td .o-icon-user-inactive {
 
         &:before{
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 1.5 * $base-line-height;
             line-height: 1.5 * $base-line-height;
@@ -2461,7 +2461,6 @@ fieldset.section > legend {
     }
 
     .inputs {
-        line-height: 1.5 * $spacing-large;
         width: 70%;
 
         &:only-child {

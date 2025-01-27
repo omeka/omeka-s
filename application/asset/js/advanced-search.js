@@ -43,11 +43,15 @@ $(document).ready(function () {
         var field = removeButton.parents('.field');
         var fieldId = field.attr('id');
         var value = removeButton.parents('.value');
+        var addValueButton = field.find('.add-value');
+        var nextFocusButton = value.next('.value').find('.remove-value');
         if (field.find('.value').length > 2) {
-            var nextFocusButton = value.next('.value').find('.remove-value');
+            if (value.is(':last-child')) {
+                nextFocusButton = value.prev('.value').find('.remove-value');
+            }
             nextFocusButton.focus();
         } else {
-            field.find('.add-value').focus();
+            addValueButton.focus();
         }
         removeButton.closest('.value').remove();
         updateAdvancedSearchCount(fieldId, '.value');

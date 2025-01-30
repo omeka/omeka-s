@@ -150,25 +150,25 @@ class SiteAdapter extends AbstractEntityAdapter
                 $subErrorStore = new ErrorStore;
                 $subrequest = new Request(Request::CREATE, 'site_pages');
                 $subrequest->setContent(
-                        [
-                            'o:title' => $translator->translate('Welcome'),
-                            'o:slug' => 'welcome',
-                            'o:block' => [
-                                [
-                                    'o:layout' => 'html',
-                                    'o:data' => ['html' => $this->getFirstPageContent()],
-                                ],
-                                [
-                                    'o:layout' => 'lineBreak',
-                                    'o:data' => ['break_type' => 'opaque'],
-                                ],
-                                [
-                                    'o:layout' => 'html',
-                                    'o:data' => ['html' => $this->getSecondPageContent()],
-                                ],
+                    [
+                        'o:title' => $translator->translate('Welcome'),
+                        'o:slug' => 'welcome',
+                        'o:block' => [
+                            [
+                                'o:layout' => 'html',
+                                'o:data' => ['html' => $this->getFirstPageContent()],
                             ],
-                        ]
-                    );
+                            [
+                                'o:layout' => 'lineBreak',
+                                'o:data' => ['break_type' => 'opaque'],
+                            ],
+                            [
+                                'o:layout' => 'html',
+                                'o:data' => ['html' => $this->getSecondPageContent()],
+                            ],
+                        ],
+                    ]
+                );
                 try {
                     $adapter->hydrateEntity($subrequest, $page, $subErrorStore);
                 } catch (ValidationException $e) {

@@ -290,8 +290,8 @@ class SettingForm extends Form implements EventManagerAwareInterface
             'type' => 'Checkbox',
             'options' => [
                 'element_group' => 'editing',
-              'label' => 'Default content visibility to Private', // @translate
-              'info' => 'If checked, all items, item sets and sites newly created will have their visibility set to private by default.', // @translate
+                'label' => 'Default content visibility to Private', // @translate
+                'info' => 'If checked, all items, item sets and sites newly created will have their visibility set to private by default.', // @translate
             ],
             'attributes' => [
                 'value' => $this->settings->get('default_to_private'),
@@ -352,7 +352,7 @@ class SettingForm extends Form implements EventManagerAwareInterface
             'type' => 'Checkbox',
             'options' => [
                 'element_group' => 'search',
-              'label' => 'Index full-text search', // @translate
+                'label' => 'Index full-text search', // @translate
             ],
             'attributes' => [
                 'value' => '',

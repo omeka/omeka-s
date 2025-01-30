@@ -18,8 +18,7 @@ class ApiJsonRendererTest extends TestCase
             ->method('prepareArgs')
             ->will($this->returnCallback(function ($arg) {
                 return $arg;
-            })
-        );
+            }));
     }
 
     public function testRendererUsesApiResponse()

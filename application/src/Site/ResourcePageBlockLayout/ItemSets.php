@@ -6,17 +6,17 @@ use Laminas\View\Renderer\PhpRenderer;
 
 class ItemSets implements ResourcePageBlockLayoutInterface
 {
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return 'Item sets'; // @translate
     }
 
-    public function getCompatibleResourceNames() : array
+    public function getCompatibleResourceNames(): array
     {
         return ['items'];
     }
 
-    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource): string
     {
         if ($view->siteSetting('exclude_resources_not_in_site')) {
             // Get only those item sets that are assigned to the current site.

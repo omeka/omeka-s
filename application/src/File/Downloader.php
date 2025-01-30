@@ -70,7 +70,7 @@ class Downloader
                         $message = new Message(
                             'Error downloading %1$s: %2$s', // @translate
                             (string) $uri, $e->getMessage()
-                            );
+                        );
                         $errorStore->addError('download', $message);
                     }
                     $tempFile->delete();
@@ -83,7 +83,7 @@ class Downloader
             $message = sprintf(
                 'Error downloading %1$s: %2$s %3$s', // @translate
                 (string) $uri, $response->getStatusCode(), $response->getReasonPhrase()
-                );
+            );
             if ($errorStore) {
                 $errorStore->addError('download', $message);
             }

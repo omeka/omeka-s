@@ -195,9 +195,9 @@ class AclFactory implements FactoryInterface
         );
 
         $editorAssertion = $this->aggregate([
-                new OwnsEntityAssertion,
-                new HasSitePermissionAssertion('editor'),
-            ], AssertionAggregate::MODE_AT_LEAST_ONE);
+            new OwnsEntityAssertion,
+            new HasSitePermissionAssertion('editor'),
+        ], AssertionAggregate::MODE_AT_LEAST_ONE);
         $acl->allow(
             null,
             'Omeka\Entity\Site',
@@ -438,7 +438,7 @@ class AclFactory implements FactoryInterface
         );
         $acl->allow(
             'author',
-           'Omeka\Controller\Admin\ResourceTemplate',
+            'Omeka\Controller\Admin\ResourceTemplate',
             ['add-new-property-row', 'import']
         );
         $acl->allow(

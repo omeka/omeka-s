@@ -39,23 +39,23 @@ class Browse
         $this->siteSettings = $siteSettings;
     }
 
-    public function getColumnTypeManager() : ColumnTypeManager
+    public function getColumnTypeManager(): ColumnTypeManager
     {
         return $this->columnTypeManager;
     }
-    public function getViewHelperManager() : HelperPluginManager
+    public function getViewHelperManager(): HelperPluginManager
     {
         return $this->viewHelperManager;
     }
-    public function getEventManager() : EventManager
+    public function getEventManager(): EventManager
     {
         return $this->eventManager;
     }
-    public function getUserSettings() : UserSettings
+    public function getUserSettings(): UserSettings
     {
         return $this->userSettings;
     }
-    public function getSiteSettings() : SiteSettings
+    public function getSiteSettings(): SiteSettings
     {
         return $this->siteSettings;
     }
@@ -63,7 +63,7 @@ class Browse
     /**
      * Get a column type by name.
      */
-    public function getColumnType(string $columnType) : ColumnTypeInterface
+    public function getColumnType(string $columnType): ColumnTypeInterface
     {
         return $this->getColumnTypeManager()->get($columnType);
     }
@@ -71,7 +71,7 @@ class Browse
     /**
      * Is this column type known?
      */
-    public function columnTypeIsKnown(string $columnType) : bool
+    public function columnTypeIsKnown(string $columnType): bool
     {
         return $this->getColumnTypeManager()->has($columnType);
     }
@@ -85,7 +85,7 @@ class Browse
      *   '<sort_by_param_2' => '<Sort by label 2>',
      * ]
      */
-    public function getSortConfig(string $context, string $resourceType) : array
+    public function getSortConfig(string $context, string $resourceType): array
     {
         $browseHelper = $this->getViewHelperManager()->get('browse');
         $translateHelper = $this->getViewHelperManager()->get('translate');
@@ -141,7 +141,7 @@ class Browse
      * context derives from site settings; "admin" context derives from user
      * settings.
      */
-    public function getBrowseConfig(string $context, string $resourceType, ?int $userId = null) : array
+    public function getBrowseConfig(string $context, string $resourceType, ?int $userId = null): array
     {
         // First, get the user-configured browse defaults, if any. Set the
         // defaults from the config file if they're not configured or malformed.
@@ -175,7 +175,7 @@ class Browse
      * context derives from site settings; "admin" context derives from user
      * settings.
      */
-    public function getColumnsData(string $context, string $resourceType, $userId = null) : array
+    public function getColumnsData(string $context, string $resourceType, $userId = null): array
     {
         // First, get the user-configured columns data, if any. Set the default
         // if data is not configured or malformed.

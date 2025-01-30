@@ -59,11 +59,9 @@ abstract class AbstractResource implements DataTypeWithOptionsInterface, Convers
         );
         if (null === $valueResource) {
             throw new Exception\NotFoundException(sprintf(
-                $serviceLocator->get('MvcTranslator')->translate(
-                    'Resource not found with id %s.'),
-                    $valueObject['value_resource_id']
-                )
-            );
+                $serviceLocator->get('MvcTranslator')->translate('Resource not found with id %s.'),
+                $valueObject['value_resource_id']
+            ));
         }
         // Limit value resources to those that are valid for the data type.
         $isValid = false;
@@ -106,7 +104,7 @@ abstract class AbstractResource implements DataTypeWithOptionsInterface, Convers
         return $value->valueResource()->title();
     }
 
-    public function convert(Value $valueObject, string $dataTypeTarget) : bool
+    public function convert(Value $valueObject, string $dataTypeTarget): bool
     {
         $value = $valueObject->getValue();
         $uri = $valueObject->getUri();

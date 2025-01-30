@@ -68,7 +68,7 @@ class Literal extends AbstractDataType implements ValueAnnotatingInterface, Conv
         return $view->partial('common/data-type/value-annotation-literal');
     }
 
-    public function convert(Value $valueObject, string $dataTypeTarget) : bool
+    public function convert(Value $valueObject, string $dataTypeTarget): bool
     {
         $value = $valueObject->getValue();
         $uri = $valueObject->getUri();

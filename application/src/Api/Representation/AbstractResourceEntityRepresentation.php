@@ -79,8 +79,8 @@ abstract class AbstractResourceEntityRepresentation extends AbstractEntityRepres
         ];
         if ($this->modified()) {
             $dateTime['o:modified'] = [
-               '@value' => $this->getDateTime($this->modified()),
-               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+                '@value' => $this->getDateTime($this->modified()),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             ];
         }
 

@@ -57,8 +57,8 @@ class SiteRepresentation extends AbstractEntityRepresentation
         $modified = null;
         if ($this->modified()) {
             $modified = [
-               '@value' => $this->getDateTime($this->modified()),
-               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+                '@value' => $this->getDateTime($this->modified()),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             ];
         }
         $url = $this->getViewHelper('Url');
@@ -280,7 +280,7 @@ class SiteRepresentation extends AbstractEntityRepresentation
 
         $iterator = new RecursiveIteratorIterator($nav->getContainer(), RecursiveIteratorIterator::SELF_FIRST);
         foreach ($iterator as $page) {
-            if ($page->getPrivilege() && ! $page->getResource()) {
+            if ($page->getPrivilege() && !$page->getResource()) {
                 $page->setResource($this->resource);
             }
         }

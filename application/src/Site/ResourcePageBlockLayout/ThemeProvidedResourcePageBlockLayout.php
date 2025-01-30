@@ -17,17 +17,17 @@ class ThemeProvidedResourcePageBlockLayout implements ResourcePageBlockLayoutInt
         $this->partial = $partial;
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    public function getCompatibleResourceNames() : array
+    public function getCompatibleResourceNames(): array
     {
         return $this->compatibleResourceNames;
     }
 
-    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource) : string
+    public function render(PhpRenderer $view, AbstractResourceEntityRepresentation $resource): string
     {
         return $view->partial(sprintf('common/resource-page-block-layout/%s', $this->partial), ['resource' => $resource]);
     }

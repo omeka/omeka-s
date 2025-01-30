@@ -28,7 +28,7 @@ class Fallback extends AbstractBlockLayout
         $message = new Message(
             'Unknown [%s]', //@translate
             $this->name
-            );
+        );
         return $message;
     }
 

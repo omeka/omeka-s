@@ -86,7 +86,7 @@ class Uri extends AbstractDataType implements ValueAnnotatingInterface, Conversi
         return $view->partial('common/data-type/value-annotation-uri');
     }
 
-    public function convert(Value $valueObject, string $dataTypeTarget) : bool
+    public function convert(Value $valueObject, string $dataTypeTarget): bool
     {
         $value = $valueObject->getValue();
         $uri = $valueObject->getUri();

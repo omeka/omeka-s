@@ -19,5 +19,5 @@ interface ConversionTargetInterface
      *     the data type does not know its own name.
      * @return bool
      */
-    public function convert(Value $valueObject, string $dataTypeTarget) : bool;
+    public function convert(Value $valueObject, string $dataTypeTarget): bool;
 }

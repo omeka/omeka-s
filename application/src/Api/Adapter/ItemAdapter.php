@@ -83,7 +83,7 @@ class ItemAdapter extends AbstractResourceEntityAdapter
                         "$subItemAlias.itemSets",
                         $subItemSetAlias, 'WITH',
                         $qb->expr()->in("$subItemSetAlias.id", $this->createNamedParameter($qb, $itemSets))
-                );
+                    );
                 $qb->andWhere($qb->expr()->notIn("omeka_root.id", $subQb->getDQL()));
             }
         }

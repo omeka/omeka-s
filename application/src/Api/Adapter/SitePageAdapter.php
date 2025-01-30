@@ -176,8 +176,8 @@ class SitePageAdapter extends AbstractEntityAdapter implements FulltextSearchabl
         }
         $site = $entity->getSite();
         if ($site && $site->getId() && !$this->isUnique($entity, [
-                'slug' => $slug,
-                'site' => $entity->getSite(),
+            'slug' => $slug,
+            'site' => $entity->getSite(),
         ])) {
             $errorStore->addError('o:slug', new Message(
                 'The slug "%s" is already taken.', // @translate

@@ -46,13 +46,11 @@ class SearchFilters extends AbstractHelper
         foreach ($query as $key => $value) {
             if ($value != null) {
                 switch ($key) {
-                    // Fulltext
                     case 'fulltext_search':
                         $filterLabel = $translate('Search full-text');
                         $filters[$filterLabel][] = $value;
                         break;
 
-                    // Search by class
                     case 'resource_class_id':
                         if (!is_array($value)) {
                             $value = [$value];
@@ -71,7 +69,6 @@ class SearchFilters extends AbstractHelper
                         }
                         break;
 
-                    // Search values (by property or all)
                     case 'property':
                         $index = 0;
                         foreach ($value as $queryRow) {
@@ -129,7 +126,6 @@ class SearchFilters extends AbstractHelper
                         $filters[$filterLabel][] = $value;
                         break;
 
-                    // Search resource template
                     case 'resource_template_id':
                         if (!is_array($value)) {
                             $value = [$value];
@@ -148,7 +144,6 @@ class SearchFilters extends AbstractHelper
                         }
                         break;
 
-                    // Search item set
                     case 'item_set_id':
                         if (!is_array($value)) {
                             $value = [$value];
@@ -166,7 +161,6 @@ class SearchFilters extends AbstractHelper
                             $filters[$filterLabel][] = $filterValue;
                         }
                         break;
-                    // Search not item set
                     case 'not_item_set_id':
                         if (!is_array($value)) {
                             $value = [$value];
@@ -185,7 +179,6 @@ class SearchFilters extends AbstractHelper
                         }
                         break;
 
-                    // Search user
                     case 'owner_id':
                         $filterLabel = $translate('User');
                         try {

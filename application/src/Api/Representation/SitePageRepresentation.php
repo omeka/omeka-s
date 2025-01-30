@@ -17,8 +17,8 @@ class SitePageRepresentation extends AbstractEntityRepresentation
         $modified = null;
         if ($this->modified()) {
             $modified = [
-               '@value' => $this->getDateTime($this->modified()),
-               '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
+                '@value' => $this->getDateTime($this->modified()),
+                '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
             ];
         }
         return [

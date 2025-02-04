@@ -11,6 +11,10 @@ if (!$ids) {
     $ids = [null];
 }
 ?>
+<div id="resource-templates-alerts" class="sr-only alerts" aria-atomic="true" aria-live="polite">
+    <p><?php echo sprintf($translate('Number of rows in %s:'), $translate('Search by template')); ?> <span class="count">1</span></p>
+</div> 
+
 <div id="resource-templates" class="field removable multi-value" role="group">
     <div class="field-meta">
         <span id="by-resource-template-label" class="label"><?php echo $translate('Search by template'); ?></span>

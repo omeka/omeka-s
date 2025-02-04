@@ -58,14 +58,13 @@ if ($this->status()->isSiteRequest()) {
     </div>
     <div class="inputs">
         <?php
-        $index = 0;
+        $index = 1;
         foreach ($properties as $property):
         $stem = "property[$index]";
-        $rowAriaLabel = $translate(sprintf('Row %s', $index+1));
-        $currentIndex = $index+1;
-        $rowLabels = 'property-queries-row-' . $currentIndex . ' by-value-label';
+        $rowAriaLabel = $translate(sprintf('Row %s', $index));
+        $rowLabels = 'property-queries-row-' . $index . ' by-value-label';
         ?>
-        <div class="value" id="property-queries-row-<?php echo $currentIndex; ?>" aria-label="<?php echo $rowAriaLabel; ?>">
+        <div class="value" id="property-queries-row-<?php echo $index; ?>" aria-label="<?php echo $rowAriaLabel; ?>">
             <div class="advanced-search-joiner input">
                 <span class="visible-label" aria-hidden="true"><?php echo $translate('Joiner'); ?></span>
                 <select name="<?php echo $this->escapeHtml($stem . '[joiner]'); ?>" aria-labelledby="search-by-value-joiner <?php echo $rowLabels; ?>">
@@ -80,7 +79,7 @@ if ($this->status()->isSiteRequest()) {
                     'attributes' => [
                         'class' => 'query-property',
                         'value' => $property['property'] ?? null,
-                        'aria-labelledby' => 'search-by-value-property by-value-label property-queries-row-' . $currentIndex,
+                        'aria-labelledby' => 'search-by-value-property by-value-label property-queries-row-' . $index,
                     ],
                     'options' => [
                         'empty_option' => '[Any Property]', // @translate

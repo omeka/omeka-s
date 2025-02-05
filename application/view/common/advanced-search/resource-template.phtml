@@ -15,7 +15,7 @@ if (!$ids) {
     <p><?php echo sprintf($translate('Number of rows in %s:'), $translate('Search by template')); ?> <span class="count">1</span></p>
 </div> 
 
-<div id="resource-templates" class="field removable multi-value" role="group">
+<div id="resource-templates" class="field removable multi-value" role="group" aria-labelledby="by-resource-template-label" data-index="1">
     <div class="field-meta">
         <span id="by-resource-template-label" class="label"><?php echo $translate('Search by template'); ?></span>
         <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
@@ -23,19 +23,28 @@ if (!$ids) {
             <div class="field-description"><?php echo $translate('Searches for resources that use any of these templates.'); ?></div>
         </div>
         <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new template'); ?>" title="<?php echo $translate('Add new template'); ?>"></button>
+        <div id="resource-templates-remove" class="label sr-only" aria-hidden="true"><?php echo $translate('Remove value'); ?></div>
     </div>
     <div class="inputs">
+        <?php
+            $index = 1;
+            $rowAriaLabel = $translate(sprintf('Row %s', $index));
+            $rowLabels = 'resource-templates-row-' . $index . ' by-resource-template-label';
+        ?>
         <?php foreach ($ids as $id): ?>
-        <div class="value">
+        <div class="value" id="resource-templates-row-<?php echo $index; ?>" aria-label="<?php echo $rowAriaLabel; ?>" aria-labelledby="by-resource-template-label">
             <?php echo $this->resourceTemplateSelect([
                 'name' => 'resource_template_id[]',
                 'attributes' => [
                     'value' => $id,
-                    'aria-labelledby' =>  'by-resource-template-label'
+                    'aria-labelledby' =>  'resource-templates-row-' . $index . ' by-resource-template-label',
                 ],
             ]); ?>
-            <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
+            <button type="button" class="o-icon-delete remove-value button" aria-labelledby="resource-class-remove <?php echo $rowLabels; ?>" title="<?php echo $translate('Remove value'); ?>"></button>
         </div>
-        <?php endforeach; ?>
+        <?php 
+        $index++;
+        endforeach; 
+        ?>
     </div>
 </div>

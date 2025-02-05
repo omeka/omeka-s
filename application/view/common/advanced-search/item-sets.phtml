@@ -41,7 +41,7 @@ if ($this->status()->isSiteRequest()) {
 <div id="item-sets-alerts" class="sr-only alerts" aria-atomic="true" aria-live="polite">
     <p><?php echo sprintf($translate('Number of rows in %s:'), $translate('Search by item set')); ?> <span class="count">1</span></p>
 </div> 
-<div id="item-sets" class="field removable multi-value" role="group" aria-labelledby="by-item-set-label">
+<div id="item-sets" class="field removable multi-value" role="group" aria-labelledby="by-item-set-label" data-index="1">
     <div class="field-meta">
         <span id="by-item-set-label" class="label"><?php echo $translate('Search by item set'); ?></span>
         <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $translate('Expand')]); ?>
@@ -49,26 +49,43 @@ if ($this->status()->isSiteRequest()) {
             <div class="field-description"><?php echo $translate('Searches for items that are assigned to any of these item sets.'); ?></div>
         </div>
         <button type="button" class="add-value o-icon-add button" aria-label="<?php echo $translate('Add new item set'); ?>" title="<?php echo $translate('Add new item set'); ?>"></button>
+        <div id="item-set-condition" class="label sr-only" aria-hidden="true"><?php echo $translate('Condition'); ?></div>
+        <div id="item-set-title" class="label sr-only" aria-hidden="true"><?php echo $translate('Item set'); ?></div>
+        <div id="item-set-remove" class="label sr-only" aria-hidden="true"><?php echo $translate('Remove value'); ?></div>
     </div>
     <div class="inputs">
+        <?php
+            $index = 1;
+            $rowAriaLabel = $translate(sprintf('Row %s', $index));
+            $rowLabels = 'item-sets-row-' . $index . ' by-item-set-label';
+        ?>
         <?php foreach ($itemSets as $itemSet): ?>
-        <div class="value">
-            <select class="item-set-select-type" aria-label="<?php echo $translate('Condition'); ?>">
-                <option value="in"<?php echo 'in' === $itemSet['type'] ? ' selected' : ''; ?>><?php echo $translate('In'); ?></option>
-                <option value="not_in"<?php echo 'not_in' === $itemSet['type'] ? ' selected' : ''; ?>><?php echo $translate('Not in'); ?></option>
-            </select>
-            <?php echo $this->itemSetSelect([
-                'name' => ('not_in' === $itemSet['type']) ? 'not_item_set_id[]' : 'item_set_id[]',
-                'attributes' => [
-                    'value' => $itemSet['id'],
-                    'class' => 'item-set-select',
-                    'aria-labelledby' => 'by-item-set-label',
-                ],
-                'options' => $selectOptions,
-            ]); ?>
-            <button type="button" class="o-icon-delete remove-value button" aria-label="<?php echo $translate('Remove value'); ?>" title="<?php echo $translate('Remove value'); ?>"></button>
+        <div class="value" id="item-sets-row-<?php echo $index; ?>" aria-label="<?php echo $rowAriaLabel; ?>" aria-labelledby="by-item-set-label">
+            <div class="item-set-condition input">
+                <span class="visible-label" aria-hidden="true"><?php echo $translate('Condition'); ?></span>
+                <select class="item-set-select-type" aria-labelledby="item-set-condition <?php echo $rowLabels; ?>">
+                    <option value="in"<?php echo 'in' === $itemSet['type'] ? ' selected' : ''; ?>><?php echo $translate('In'); ?></option>
+                    <option value="not_in"<?php echo 'not_in' === $itemSet['type'] ? ' selected' : ''; ?>><?php echo $translate('Not in'); ?></option>
+                </select>
+            </div>
+            <div class="item-set-title input">
+                <span class="visible-label" aria-hidden="true"><?php echo $translate('Item set'); ?></span>
+                <?php echo $this->itemSetSelect([
+                    'name' => ('not_in' === $itemSet['type']) ? 'not_item_set_id[]' : 'item_set_id[]',
+                    'attributes' => [
+                        'value' => $itemSet['id'],
+                        'class' => 'item-set-select',
+                        'aria-labelledby' => 'item-set-title ' . $rowLabels,
+                    ],
+                    'options' => $selectOptions,
+                ]); ?>
+            </div>
+            <button type="button" class="o-icon-delete remove-value button" aria-labelledby="item-set-remove <?php echo $rowLabels; ?>" title="<?php echo $translate('Remove value'); ?>"></button>
         </div>
-        <?php endforeach; ?>
+        <?php 
+        $index++;
+        endforeach; 
+        ?>
     </div>
 </div>
 <script>

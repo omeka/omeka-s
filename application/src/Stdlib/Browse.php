@@ -85,8 +85,17 @@ class Browse
      *   '<sort_by_param_2' => '<Sort by label 2>',
      * ]
      */
-    public function getSortConfig(string $context, string $resourceType): array
+    public function getSortConfig(?string $context, string $resourceType): array
     {
+        if (null === $context && in_array($resourceType, ['items', 'item_sets', 'media'])) {
+            // Return a simple, default sort config for items, item sets, and
+            // media when no context is set.
+            return [
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'created' => 'Created', // @translate
+            ];
+        }
         $browseHelper = $this->getViewHelperManager()->get('browse');
         $translateHelper = $this->getViewHelperManager()->get('translate');
         $sortConfig = [];

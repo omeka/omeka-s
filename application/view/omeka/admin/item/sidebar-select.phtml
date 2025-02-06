@@ -8,6 +8,7 @@ $expanded = $resourceClassId || $itemSetId || $id;
 
 <div id="item-results">
     <h3><?php echo $translate('Select item'); ?></h3>
+    <a href="#" class="sidebar-close o-icon-close"><span class="screen-reader-text"><?php echo $translate('Close'); ?></span></a>
 
     <div class="search-nav">
         <div id="sidebar-resource-search" class="resource-search" data-search-url="<?php echo $escape($this->url(null, [], [], true)); ?>">

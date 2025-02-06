@@ -314,7 +314,7 @@ class MediaRepresentation extends AbstractResourceEntityRepresentation
 
     public function siteUrl($siteSlug = null, $canonical = false)
     {
-        if (!$siteSlug) {
+        if ($siteSlug === null) {
             $siteSlug = $this->getServiceLocator()->get('Application')
                 ->getMvcEvent()->getRouteMatch()->getParam('site-slug');
         }

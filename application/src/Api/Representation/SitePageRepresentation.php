@@ -139,7 +139,7 @@ class SitePageRepresentation extends AbstractEntityRepresentation
 
     public function siteUrl($siteSlug = null, $canonical = false)
     {
-        if (!$siteSlug) {
+        if ($siteSlug === null) {
             $siteSlug = $this->site()->slug();
         }
         $url = $this->getViewHelper('Url');

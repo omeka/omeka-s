@@ -146,9 +146,13 @@ class Browse
         // First, get the user-configured browse defaults, if any. Set the
         // defaults from the config file if they're not configured or malformed.
         $browseDefaultsSetting = sprintf('browse_defaults_%s_%s', $context, $resourceType);
-        $browseConfig = ('public' === $context)
-            ? $this->getSiteSettings()->get($browseDefaultsSetting, null)
-            : $this->getUserSettings()->get($browseDefaultsSetting, null, $userId);
+        if ('public' === $context) {
+            $browseConfig = $this->getSiteSettings()->get($browseDefaultsSetting, null);
+        } elseif ('admin' === $context) {
+            $browseConfig = $this->getUserSettings()->get($browseDefaultsSetting, null, $userId);
+        } elseif ('none' === $context) {
+            $browseConfig = $this->browseDefaults['none'][$resourceType] ?? [];
+        }
 
         if (!is_array($browseConfig)
             || !isset($browseConfig['sort_by'])
@@ -180,10 +184,12 @@ class Browse
         // First, get the user-configured columns data, if any. Set the default
         // if data is not configured or malformed.
         $userColumnsSetting = sprintf('columns_%s_%s', $context, $resourceType);
-        $userColumnsData = ('public' === $context)
-            ? $this->getSiteSettings()->get($userColumnsSetting, null)
-            : $this->getUserSettings()->get($userColumnsSetting, null, $userId);
-
+        $userColumnsData = null;
+        if ('public' === $context) {
+            $userColumnsData = $this->getSiteSettings()->get($userColumnsSetting, null);
+        } elseif ('admin' === $context) {
+            $userColumnsData = $this->getUserSettings()->get($userColumnsSetting, null, $userId);
+        }
         if (!is_array($userColumnsData) || !$userColumnsData) {
             $userColumnsData = $this->columnDefaults[$context][$resourceType] ?? [];
         }

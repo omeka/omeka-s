@@ -667,6 +667,16 @@ return [
                 'sort_order' => 'desc',
             ],
         ],
+        'none' => [
+            'items' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+            'item_sets' => [
+                'sort_by' => 'created',
+                'sort_order' => 'desc',
+            ],
+        ],
     ],
     'sort_defaults' => [
         'admin' => [
@@ -741,6 +751,18 @@ return [
         ],
         'public' => [
             'items' => [
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'created' => 'Created', // @translate
+            ],
+        ],
+        'none' => [
+            'items' => [
+                'title' => 'Title', // @translate
+                'resource_class_label' => 'Resource class', // @translate
+                'created' => 'Created', // @translate
+            ],
+            'item_sets' => [
                 'title' => 'Title', // @translate
                 'resource_class_label' => 'Resource class', // @translate
                 'created' => 'Created', // @translate

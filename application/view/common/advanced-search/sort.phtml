@@ -7,7 +7,7 @@ if ($this->status()->isAdminRequest()) {
 } elseif ($this->status()->isSiteRequest()) {
     $sortConfigContext = 'public';
 } else {
-    $sortConfigContext = null;
+    $sortConfigContext = 'none';
 }
 // Set the sort config resource type.
 switch ($resourceType) {

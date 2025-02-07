@@ -146,12 +146,11 @@ class Browse
         // First, get the user-configured browse defaults, if any. Set the
         // defaults from the config file if they're not configured or malformed.
         $browseDefaultsSetting = sprintf('browse_defaults_%s_%s', $context, $resourceType);
+        $browseConfig = null;
         if ('public' === $context) {
             $browseConfig = $this->getSiteSettings()->get($browseDefaultsSetting, null);
         } elseif ('admin' === $context) {
             $browseConfig = $this->getUserSettings()->get($browseDefaultsSetting, null, $userId);
-        } elseif ('none' === $context) {
-            $browseConfig = $this->browseDefaults['none'][$resourceType] ?? [];
         }
 
         if (!is_array($browseConfig)

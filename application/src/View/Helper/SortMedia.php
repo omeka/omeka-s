@@ -9,7 +9,7 @@ class SortMedia extends AbstractHelper
     {
         $sortedMedia = [];
         $whitelist = ['image/bmp', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp', 'video/flv', 'video/x-flv', 'video/mp4', 'video/m4v',
-            'video/webm', 'video/wmv', 'video/quicktime', 'application/pdf', ];
+                    'video/webm', 'video/wmv', 'video/quicktime', 'application/pdf', ];
         $html5videos = [];
         $mediaCount = 0;
 
@@ -22,10 +22,6 @@ class SortMedia extends AbstractHelper
                     $html5videos[$mediaCount] = pathinfo($media->source(), PATHINFO_FILENAME);
                     $sortedMedia['lightMedia'][$mediaCount]['tracks'] = [];
                 }
-                $mediaCount++;
-            } elseif (strpos($mediaType ?? '', 'image/') === 0 && $media->hasThumbnails()) {
-                $sortedMedia['lightMedia'][$mediaCount]['media'] = $media;
-                $sortedMedia['lightMedia'][$mediaCount]['forceThumbnail'] = true;
                 $mediaCount++;
             } else {
                 $sortedMedia['otherMedia'][] = $media;

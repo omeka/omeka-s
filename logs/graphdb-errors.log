@@ -1,0 +1,5 @@
+2025-02-06T10:44:36+00:00 INFO (6): Response Status: 415 | Response Body: Unsupported MIME type: application/x-turtle
+2025-02-06T10:45:55+00:00 INFO (6): Response Status: 415 | Response Body: Unsupported MIME type: text/x-turtle
+2025-02-06T10:46:01+00:00 INFO (6): Response Status: 415 | Response Body: Unsupported MIME type: text/x-turtle
+2025-02-06T10:46:24+00:00 INFO (6): Response Status: 415 | Response Body: Unsupported MIME type: text/turtle
+2025-02-06T10:49:45+00:00 INFO (6): Response Status: 204 | Response Body:

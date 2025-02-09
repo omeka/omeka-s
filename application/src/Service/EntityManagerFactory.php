@@ -97,7 +97,7 @@ class EntityManagerFactory implements FactoryInterface
         // HACK: Doctrine takes an integer here and just happens to do nothing (which is
         // what we want) if the number is not one of the defined proxy generation
         // constants.
-        $emConfig->setAutoGenerateProxyClasses(-1);
+        $emConfig->setAutoGenerateProxyClasses(2);
         ProxyAutoloader::register($config['entity_manager']['proxy_paths'],
             $emConfig->getProxyNamespace());
 

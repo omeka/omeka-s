@@ -10,3 +10,218 @@
 2025-02-11T11:32:05+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-02-11T11:33:17+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-02-11T11:33:29+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-11T12:02:44+00:00 ERR (3): Exception: Turtle Parse Error: namespace prefix 'ex' used but not defined on line 24, column 4
+2025-02-11T12:06:32+00:00 ERR (3): Exception: Turtle Parse Error: expected an RDF value here, found '/' on line 30, column 33
+2025-02-11T12:17:06+00:00 ERR (3): Exception: Turtle Parse Error: expected an RDF value here, found '/' on line 40, column 35
+2025-02-11T12:17:11+00:00 ERR (3): Exception: Turtle Parse Error: expected an RDF value here, found '/' on line 40, column 35
+2025-02-11T12:19:05+00:00 ERR (3): Exception: Turtle Parse Error: namespace prefix 'ex' used but not defined on line 49, column 20
+2025-02-11T12:19:44+00:00 ERR (3): Exception: Turtle Parse Error: expected an RDF value here, found '/' on line 124, column 32
+2025-02-11T12:25:04+00:00 ERR (3): Exception: Turtle Parse Error: expected an RDF value here, found '/' on line 170, column 40
+2025-02-11T12:31:35+00:00 ERR (3): Exception: Turtle Parse Error: namespace prefix 'http' used but not defined on line 206, column 21
+2025-02-11T12:31:39+00:00 ERR (3): Exception: Turtle Parse Error: namespace prefix 'http' used but not defined on line 206, column 21
+2025-02-11T12:32:34+00:00 ERR (3): Exception: Turtle Parse Error: expected '.', found '/' on line 10, column 32
+2025-02-11T12:35:02+00:00 ERR (3): Exception: Turtle Parse Error: namespace prefix 'ex' used but not defined on line 12, column 25
+2025-02-11T12:35:36+00:00 ERR (3): Exception: Turtle Parse Error: expected '.', found 'a' on line 18, column 6
+2025-02-11T12:37:53+00:00 ERR (3): Exception: Turtle Parse Error: expected an RDF value here, found ';' on line 33, column 82
+2025-02-12T11:36:08+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-12T18:52:16+00:00 INFO (6): Response Status: 500 | Response Body: _:547ce2f2603643e08845b23118959f0367980 <http://www.w3.org/ns/shacl#conforms> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:547ce2f2603643e08845b23118959f0367980 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationReport> .
+_:547ce2f2603643e08845b23118959f0367980 <http://rdf4j.org/schema/rdf4j#truncated> "false"^^<http://www.w3.org/2001/XMLSchema#boolean> .
+_:547ce2f2603643e08845b23118959f0367980 <http://www.w3.org/ns/shacl#result> _:547ce2f2603643e08845b23118959f0367981 .
+_:547ce2f2603643e08845b23118959f0367981 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:547ce2f2603643e08845b23118959f0367981 <http://www.w3.org/ns/shacl#focusNode> <http://www.purl.com/ah/ms/ahMS#arrowhead1> .
+_:547ce2f2603643e08845b23118959f0367981 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:547ce2f2603643e08845b23118959f0367981 <http://www.w3.org/ns/shacl#value> "flat" .
+_:547ce2f2603643e08845b23118959f0367981 <http://www.w3.org/ns/shacl#resultPath> <http://www.purl.com/ah/ms/ahMS#variant> .
+_:547ce2f2603643e08845b23118959f0367981 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#InConstraintComponent> .
+_:547ce2f2603643e08845b23118959f0367981 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:08334836-224e-4246-9b71-e07b4236d95f-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:547ce2f2603643e08845b23118959f0367981 <http://www.w3.org/ns/shacl#sourceShape> _:08334836-224e-4246-9b71-e07b4236d95f-5 .
+_:08334836-224e-4246-9b71-e07b4236d95f-5 <http://www.w3.org/ns/shacl#path> <http://www.purl.com/ah/ms/ahMS#variant> .
+_:08334836-224e-4246-9b71-e07b4236d95f-5 <http://www.w3.org/ns/shacl#in> _:94b43df6-44e8-4347-8cb5-97c37ef4385f-6 .
+_:94b43df6-44e8-4347-8cb5-97c37ef4385f-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-variant/thick> .
+_:94b43df6-44e8-4347-8cb5-97c37ef4385f-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:94b43df6-44e8-4347-8cb5-97c37ef4385f-642f8522c-466e-4d66-958e-47031354f34c0 .
+_:94b43df6-44e8-4347-8cb5-97c37ef4385f-642f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-variant/raised> .
+_:94b43df6-44e8-4347-8cb5-97c37ef4385f-642f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:94b43df6-44e8-4347-8cb5-97c37ef4385f-642f8522c-466e-4d66-958e-47031354f34c1 .
+_:94b43df6-44e8-4347-8cb5-97c37ef4385f-642f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-variant/flat> .
+_:94b43df6-44e8-4347-8cb5-97c37ef4385f-642f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+_:547ce2f2603643e08845b23118959f0367980 <http://www.w3.org/ns/shacl#result> _:547ce2f2603643e08845b23118959f0367982 .
+_:547ce2f2603643e08845b23118959f0367982 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:547ce2f2603643e08845b23118959f0367982 <http://www.w3.org/ns/shacl#focusNode> <http://www.purl.com/ah/ms/ahMS#arrowhead1> .
+_:547ce2f2603643e08845b23118959f0367982 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:547ce2f2603643e08845b23118959f0367982 <http://www.w3.org/ns/shacl#value> <http://www.purl.com/ah/ms/ahMS#chipping1> .
+_:547ce2f2603643e08845b23118959f0367982 <http://www.w3.org/ns/shacl#resultPath> <http://www.purl.com/ah/ms/ahMS#hasChipping> .
+_:547ce2f2603643e08845b23118959f0367982 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#NodeConstraintComponent> .
+_:547ce2f2603643e08845b23118959f0367982 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:265183ac-a471-47e7-9e59-c52b3c2cefc6-11 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+_:547ce2f2603643e08845b23118959f0367982 <http://www.w3.org/ns/shacl#sourceShape> _:265183ac-a471-47e7-9e59-c52b3c2cefc6-11 .
+_:265183ac-a471-47e7-9e59-c52b3c2cefc6-11 <http://www.w3.org/ns/shacl#path> <http://www.purl.com/ah/ms/ahMS#hasChipping> .
+<http://www.purl.com/ah/ms/ahMS#ChippingShape> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#NodeShape> .
+_:265183ac-a471-47e7-9e59-c52b3c2cefc6-11 <http://www.w3.org/ns/shacl#node> <http://www.purl.com/ah/ms/ahMS#ChippingShape> .
+_:4d3aec7b-b37b-4ac0-be65-a412176f71c5-32 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+<http://www.purl.com/ah/ms/ahMS#ChippingShape> <http://www.w3.org/ns/shacl#property> _:4d3aec7b-b37b-4ac0-be65-a412176f71c5-32 .
+_:4d3aec7b-b37b-4ac0-be65-a412176f71c5-32 <http://www.w3.org/ns/shacl#path> <http://www.purl.com/ah/ms/ahMS#mode> .
+_:4d3aec7b-b37b-4ac0-be65-a412176f71c5-32 <http://www.w3.org/ns/shacl#maxCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:4d3aec7b-b37b-4ac0-be65-a412176f71c5-32 <http://www.w3.org/ns/shacl#in> _:3e566a92-e7c5-441c-91f2-966e957eb17f-33 .
+_:3e566a92-e7c5-441c-91f2-966e957eb17f-33 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingMode/plane> .
+_:3e566a92-e7c5-441c-91f2-966e957eb17f-33 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:3e566a92-e7c5-441c-91f2-966e957eb17f-3342f8522c-466e-4d66-958e-47031354f34c0 .
+_:3e566a92-e7c5-441c-91f2-966e957eb17f-3342f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingMode/parallel> .
+_:3e566a92-e7c5-441c-91f2-966e957eb17f-3342f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:3e566a92-e7c5-441c-91f2-966e957eb17f-3342f8522c-466e-4d66-958e-47031354f34c1 .
+_:3e566a92-e7c5-441c-91f2-966e957eb17f-3342f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingMode/sub-parallel> .
+_:3e566a92-e7c5-441c-91f2-966e957eb17f-3342f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+_:cc9e76b6-8459-4e2b-aee4-520a933830c7-36 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+<http://www.purl.com/ah/ms/ahMS#ChippingShape> <http://www.w3.org/ns/shacl#property> _:cc9e76b6-8459-4e2b-aee4-520a933830c7-36 .
+_:cc9e76b6-8459-4e2b-aee4-520a933830c7-36 <http://www.w3.org/ns/shacl#path> <http://www.purl.com/ah/ms/ahMS#amplitude> .
+_:cc9e76b6-8459-4e2b-aee4-520a933830c7-36 <http://www.w3.org/ns/shacl#maxCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:cc9e76b6-8459-4e2b-aee4-520a933830c7-36 <http://www.w3.org/ns/shacl#datatype> <http://www.w3.org/2001/XMLSchema#boolean> .
+_:ee3da4fd-4b13-4f0d-918e-3133ce9fcb28-37 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+<http://www.purl.com/ah/ms/ahMS#ChippingShape> <http://www.w3.org/ns/shacl#property> _:ee3da4fd-4b13-4f0d-918e-3133ce9fcb28-37 .
+_:ee3da4fd-4b13-4f0d-918e-3133ce9fcb28-37 <http://www.w3.org/ns/shacl#path> <http://www.purl.com/ah/ms/ahMS#direction> .
+_:ee3da4fd-4b13-4f0d-918e-3133ce9fcb28-37 <http://www.w3.org/ns/shacl#maxCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:ee3da4fd-4b13-4f0d-918e-3133ce9fcb28-37 <http://www.w3.org/ns/shacl#in> _:39c824af-c614-4c18-bbe6-d11bc2325110-38 .
+_:39c824af-c614-4c18-bbe6-d11bc2325110-38 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingDirection/direct> .
+_:39c824af-c614-4c18-bbe6-d11bc2325110-38 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:39c824af-c614-4c18-bbe6-d11bc2325110-3842f8522c-466e-4d66-958e-47031354f34c0 .
+_:39c824af-c614-4c18-bbe6-d11bc2325110-3842f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingDirection/reverse> .
+_:39c824af-c614-4c18-bbe6-d11bc2325110-3842f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:39c824af-c614-4c18-bbe6-d11bc2325110-3842f8522c-466e-4d66-958e-47031354f34c1 .
+_:39c824af-c614-4c18-bbe6-d11bc2325110-3842f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingDirection/bifacial> .
+_:39c824af-c614-4c18-bbe6-d11bc2325110-3842f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+_:80aa6a80-5461-463f-bc06-79e46bfb8c09-41 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+<http://www.purl.com/ah/ms/ahMS#ChippingShape> <http://www.w3.org/ns/shacl#property> _:80aa6a80-5461-463f-bc06-79e46bfb8c09-41 .
+_:80aa6a80-5461-463f-bc06-79e46bfb8c09-41 <http://www.w3.org/ns/shacl#path> <http://www.purl.com/ah/ms/ahMS#orientation> .
+_:80aa6a80-5461-463f-bc06-79e46bfb8c09-41 <http://www.w3.org/ns/shacl#maxCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:80aa6a80-5461-463f-bc06-79e46bfb8c09-41 <http://www.w3.org/ns/shacl#datatype> <http://www.w3.org/2001/XMLSchema#boolean> .
+_:11e6d7d1-b0fd-4fde-b726-98d35ec54c03-42 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+<http://www.purl.com/ah/ms/ahMS#ChippingShape> <http://www.w3.org/ns/shacl#property> _:11e6d7d1-b0fd-4fde-b726-98d35ec54c03-42 .
+_:11e6d7d1-b0fd-4fde-b726-98d35ec54c03-42 <http://www.w3.org/ns/shacl#path> <http://www.purl.com/ah/ms/ahMS#delineation> .
+_:11e6d7d1-b0fd-4fde-b726-98d35ec54c03-42 <http://www.w3.org/ns/shacl#maxCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:11e6d7d1-b0fd-4fde-b726-98d35ec54c03-42 <http://www.w3.org/ns/shacl#in> _:bee771e5-cc08-40f1-8ab8-38de83a7d891-43 .
+_:bee771e5-cc08-40f1-8ab8-38de83a7d891-43 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingDelineation/continuous> .
+_:bee771e5-cc08-40f1-8ab8-38de83a7d891-43 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:bee771e5-cc08-40f1-8ab8-38de83a7d891-4342f8522c-466e-4d66-958e-47031354f34c0 .
+_:bee771e5-cc08-40f1-8ab8-38de83a7d891-4342f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingDelineation/composite> .
+_:bee771e5-cc08-40f1-8ab8-38de83a7d891-4342f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:bee771e5-cc08-40f1-8ab8-38de83a7d891-4342f8522c-466e-4d66-958e-47031354f34c1 .
+_:bee771e5-cc08-40f1-8ab8-38de83a7d891-4342f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingDelineation/denticulated> .
+_:bee771e5-cc08-40f1-8ab8-38de83a7d891-4342f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+_:7d86c1d3-392b-4677-913e-25c4b1258844-46 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+<http://www.purl.com/ah/ms/ahMS#ChippingShape> <http://www.w3.org/ns/shacl#property> _:7d86c1d3-392b-4677-913e-25c4b1258844-46 .
+_:7d86c1d3-392b-4677-913e-25c4b1258844-46 <http://www.w3.org/ns/shacl#path> <http://www.purl.com/ah/ms/ahMS#chippinglocation-Side> .
+_:7d86c1d3-392b-4677-913e-25c4b1258844-46 <http://www.w3.org/ns/shacl#maxCount> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:7d86c1d3-392b-4677-913e-25c4b1258844-46 <http://www.w3.org/ns/shacl#in> _:c30485fe-3257-4390-9e4d-33ff0c11d7cd-47 .
+_:c30485fe-3257-4390-9e4d-33ff0c11d7cd-47 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingLocation/distal> .
+_:c30485fe-3257-4390-9e4d-33ff0c11d7cd-47 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:c30485fe-3257-4390-9e4d-33ff0c11d7cd-4742f8522c-466e-4d66-958e-47031354f34c0 .
+_:c30485fe-3257-4390-9e4d-33ff0c11d7cd-4742f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingLocation/median> .
+_:c30485fe-3257-4390-9e4d-33ff0c11d7cd-4742f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:c30485fe-3257-4390-9e4d-33ff0c11d7cd-4742f8522c-466e-4d66-958e-47031354f34c1 .
+_:c30485fe-3257-4390-9e4d-33ff0c11d7cd-4742f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingLocation/proximal> .
+_:c30485fe-3257-4390-9e4d-33ff0c11d7cd-4742f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+_:854619a4-3490-4e47-b9ef-ca6e183fea51-50 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+<http://www.purl.com/ah/ms/ahMS#ChippingShape> <http://www.w3.org/ns/shacl#property> _:854619a4-3490-4e47-b9ef-ca6e183fea51-50 .
+_:854619a4-3490-4e47-b9ef-ca6e183fea51-50 <http://www.w3.org/ns/shacl#path> <http://www.purl.com/ah/ms/ahMS#chippingLocation-Transversal> .
+_:854619a4-3490-4e47-b9ef-ca6e183fea51-50 <http://www.w3.org/ns/shacl#maxCount> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:854619a4-3490-4e47-b9ef-ca6e183fea51-50 <http://www.w3.org/ns/shacl#in> _:b22f7cc2-03d5-4246-8834-8cdb92900a9a-51 .
+_:b22f7cc2-03d5-4246-8834-8cdb92900a9a-51 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingLocation/distal> .
+_:b22f7cc2-03d5-4246-8834-8cdb92900a9a-51 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:b22f7cc2-03d5-4246-8834-8cdb92900a9a-5142f8522c-466e-4d66-958e-47031354f34c0 .
+_:b22f7cc2-03d5-4246-8834-8cdb92900a9a-5142f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingLocation/median> .
+_:b22f7cc2-03d5-4246-8834-8cdb92900a9a-5142f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:b22f7cc2-03d5-4246-8834-8cdb92900a9a-5142f8522c-466e-4d66-958e-47031354f34c1 .
+_:b22f7cc2-03d5-4246-8834-8cdb92900a9a-5142f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingLocation/proximal> .
+_:b22f7cc2-03d5-4246-8834-8cdb92900a9a-5142f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+_:74174cf7-b77e-4fc0-a20a-05e5308e0f77-54 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#PropertyShape> .
+<http://www.purl.com/ah/ms/ahMS#ChippingShape> <http://www.w3.org/ns/shacl#property> _:74174cf7-b77e-4fc0-a20a-05e5308e0f77-54 .
+_:74174cf7-b77e-4fc0-a20a-05e5308e0f77-54 <http://www.w3.org/ns/shacl#path> <http://www.purl.com/ah/ms/ahMS#chippingShape> .
+_:74174cf7-b77e-4fc0-a20a-05e5308e0f77-54 <http://www.w3.org/ns/shacl#maxCount> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:74174cf7-b77e-4fc0-a20a-05e5308e0f77-54 <http://www.w3.org/ns/shacl#in> _:6385a901-a3c0-4b52-87bc-717f82af1174-55 .
+_:6385a901-a3c0-4b52-87bc-717f82af1174-55 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingLocation/straight> .
+_:6385a901-a3c0-4b52-87bc-717f82af1174-55 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:6385a901-a3c0-4b52-87bc-717f82af1174-5542f8522c-466e-4d66-958e-47031354f34c0 .
+_:6385a901-a3c0-4b52-87bc-717f82af1174-5542f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingLocation/convex> .
+_:6385a901-a3c0-4b52-87bc-717f82af1174-5542f8522c-466e-4d66-958e-47031354f34c0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:6385a901-a3c0-4b52-87bc-717f82af1174-5542f8522c-466e-4d66-958e-47031354f34c1 .
+_:6385a901-a3c0-4b52-87bc-717f82af1174-5542f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <http://www.purl.com/ah/kos/ah-chippingLocation/concave> .
+_:6385a901-a3c0-4b52-87bc-717f82af1174-5542f8522c-466e-4d66-958e-47031354f34c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:6385a901-a3c0-4b52-87bc-717f82af1174-5542f8522c-466e-4d66-958e-47031354f34c2 .
+_:6385a901-a3c0-4b52-87bc-717f82af1174-5542f8522c-466e-4d66-958e-47031354f34c2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://www.purl.com/ah/kos/ah-chippingLocation/sinuous> .
+_:6385a901-a3c0-4b52-87bc-717f82af1174-5542f8522c-466e-4d66-958e-47031354f34c2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+_:547ce2f2603643e08845b23118959f0367980 <http://www.w3.org/ns/shacl#result> _:547ce2f2603643e08845b23118959f0367983 .
+_:547ce2f2603643e08845b23118959f0367983 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:547ce2f2603643e08845b23118959f0367983 <http://www.w3.org/ns/shacl#focusNode> <http://www.purl.com/ah/ms/ahMS#chipping1> .
+_:547ce2f2603643e08845b23118959f0367983 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:547ce2f2603643e08845b23118959f0367983 <http://www.w3.org/ns/shacl#value> <http://www.purl.com/ah/kos/ah-chippingDirection/plane> .
+_:547ce2f2603643e08845b23118959f0367983 <http://www.w3.org/ns/shacl#resultPath> <http://www.purl.com/ah/ms/ahMS#direction> .
+_:547ce2f2603643e08845b23118959f0367983 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#InConstraintComponent> .
+_:547ce2f2603643e08845b23118959f0367983 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:547ce2f2603643e08845b23118959f0367983 <http://www.w3.org/ns/shacl#sourceShape> _:ee3da4fd-4b13-4f0d-918e-3133ce9fcb28-37 .
+_:547ce2f2603643e08845b23118959f0367980 <http://www.w3.org/ns/shacl#result> _:547ce2f2603643e08845b23118959f0367984 .
+_:547ce2f2603643e08845b23118959f0367984 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/shacl#ValidationResult> .
+_:547ce2f2603643e08845b23118959f0367984 <http://www.w3.org/ns/shacl#focusNode> <http://www.purl.com/ah/ms/ahMS#chipping1> .
+_:547ce2f2603643e08845b23118959f0367984 <http://rdf4j.org/shacl-extensions#shapesGraph> <http://rdf4j.org/schema/rdf4j#SHACLShapeGraph> .
+_:547ce2f2603643e08845b23118959f0367984 <http://www.w3.org/ns/shacl#value> <http://www.purl.com/ah/kos/ah-chippingShape/straight> .
+_:547ce2f2603643e08845b23118959f0367984 <http://www.w3.org/ns/shacl#resultPath> <http://www.purl.com/ah/ms/ahMS#chippingShape> .
+_:547ce2f2603643e08845b23118959f0367984 <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#InConstraintComponent> .
+_:547ce2f2603643e08845b23118959f0367984 <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation> .
+_:547ce2f2603643e08845b23118959f0367984 <http://www.w3.org/ns/shacl#sourceShape> _:74174cf7-b77e-4fc0-a20a-05e5308e0f77-54 .
+
+2025-02-12T19:38:52+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-12T19:38:52+00:00 ERR (3): Exception: A plugin by the name "triggerGraphDBValidation" was not found in the plugin manager Laminas\Mvc\Controller\PluginManager
+2025-02-12T19:39:16+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-12T19:45:07+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;statements?graph=&lt;http:&#47;&#47;arch-project&#47;data&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;statements?graph=&lt;http:&#47;&#47;arch-project&#47;data&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-12T19:47:19+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;statements?graph=&lt;http:&#47;&#47;arch-project&#47;data&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;statements?graph=&lt;http:&#47;&#47;arch-project&#47;data&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-12T19:48:51+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;statements?graph=&lt;http:&#47;&#47;arch-project&#47;data&gt;?graph=%3Chttp%3A%2F%2Farch-project%2Fdata%3E ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;statements?graph=&lt;http:&#47;&#47;arch-project&#47;data&gt;?graph=%3Chttp%3A%2F%2Farch-project%2Fdata%3E ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-12T19:49:27+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;statements?graph=&lt;http:&#47;&#47;arch-project&#47;data&gt;?graph=%3Chttp%3A%2F%2Farch-project%2Fdata%3E ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;statements?graph=&lt;http:&#47;&#47;arch-project&#47;data&gt;?graph=%3Chttp%3A%2F%2Farch-project%2Fdata%3E ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-12T19:49:39+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;statements?graph=&lt;http:&#47;&#47;arch-project&#47;data&gt;?graph=%3Chttp%3A%2F%2Farch-project%2Fdata%3E ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;statements?graph=&lt;http:&#47;&#47;arch-project&#47;data&gt;?graph=%3Chttp%3A%2F%2Farch-project%2Fdata%3E ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-12T19:54:08+00:00 INFO (6): Response Status: 400 | Response Body: MALFORMED DATA: Expected '.', found '/' [line 10]
+2025-02-12T19:55:26+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-12T19:55:44+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-12T19:55:47+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-12T19:55:53+00:00 INFO (6): Response Status: 400 | Response Body: MALFORMED DATA: Expected '.', found '/' [line 10]
+2025-02-12T19:55:58+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-12T19:58:46+00:00 INFO (6): Response Status: 400 | Response Body: MALFORMED DATA: Expected '.', found '/' [line 10]

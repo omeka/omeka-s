@@ -50,8 +50,7 @@
         "lsolesen/pel": "^0.9.6",
         "symfony/cache": "^5.4",
         "doctrine/persistence": "^2.5",
-        "sweetrdf/easyrdf": "^1.8",
-        "easyrdf/easyrdf": "*"
+        "easyrdf/easyrdf": "^1.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9",

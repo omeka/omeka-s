@@ -225,3 +225,102 @@ _:547ce2f2603643e08845b23118959f0367984 <http://www.w3.org/ns/shacl#sourceShape>
 2025-02-12T19:55:53+00:00 INFO (6): Response Status: 400 | Response Body: MALFORMED DATA: Expected '.', found '/' [line 10]
 2025-02-12T19:55:58+00:00 INFO (6): Response Status: 204 | Response Body:
 2025-02-12T19:58:46+00:00 INFO (6): Response Status: 400 | Response Body: MALFORMED DATA: Expected '.', found '/' [line 10]
+2025-02-13T14:26:26+00:00 INFO (6): Response Status: 400 | Response Body: MALFORMED DATA: Expected '.', found '/' [line 10]
+2025-02-13T14:26:33+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-13T15:39:31+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-13T15:40:23+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-13T15:41:47+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-13T15:41:59+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-13T15:44:30+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-13T15:44:43+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-13T15:51:58+00:00 INFO (6): Response Status: 400 | Response Body: Invalid value for parameter 'graph': <http://arhc-project.com/data/67ae151eb2343>
+2025-02-13T15:52:12+00:00 INFO (6): Response Status: 400 | Response Body: Invalid value for parameter 'graph': <http://arhc-project.com/data/67ae152cb81d4>
+2025-02-13T15:55:46+00:00 INFO (6): Response Status: 500 | Response Body: Invalid IRI value
+2025-02-13T15:56:22+00:00 INFO (6): Response Status: 400 | Response Body: Invalid value for parameter 'graph': <http://arhc-project.com/data/67ae16268ff2a>
+2025-02-13T15:57:13+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http:&#47;&#47;arhc-project.com&#47;data&#47;67ae16597f5f6&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http:&#47;&#47;arhc-project.com&#47;data&#47;67ae16597f5f6&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-13T15:58:28+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http%3A%2F%2Farhc-project.com%2Fdata%2F67ae16a44f20b&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http%3A%2F%2Farhc-project.com%2Fdata%2F67ae16a44f20b&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-13T15:59:16+00:00 ERR (3): Exception: Unable to connect to :0 . Error #0: stream_socket_client(): Unable to connect to : (Failed to parse address &quot;:&quot;)
+2025-02-13T16:01:17+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http%3A%2F%2Farhc-project.com%2Fdata%2F67ae174d7bb5f&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http%3A%2F%2Farhc-project.com%2Fdata%2F67ae174d7bb5f&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-13T16:02:16+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http%3A%2F%2Farhc-project.com%2Fdata%2F67ae178825fdb&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http%3A%2F%2Farhc-project.com%2Fdata%2F67ae178825fdb&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-13T16:02:59+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http:&#47;&#47;arhc-project.com&#47;data&#47;67ae17b3769f0&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http:&#47;&#47;arhc-project.com&#47;data&#47;67ae17b3769f0&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-13T16:03:35+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http:&#47;&#47;arhc-project.com&#47;data&#47;67ae17d79dc57&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http:&#47;&#47;arhc-project.com&#47;data&#47;67ae17d79dc57&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-13T16:07:00+00:00 INFO (6): Response Status: 400 | Response Body: <!doctype html><html lang="en"><head><title>HTTP Status 400 – Bad Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400 – Bad Request</h1><hr class="line" /><p><b>Type</b> Exception Report</p><p><b>Message</b> Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http:&#47;&#47;arch-project.com&#47;data&#47;67ae18a4d09ef&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986</p><p><b>Description</b> The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).</p><p><b>Exception</b></p><pre>java.lang.IllegalArgumentException: Invalid character found in the request target [&#47;repositories&#47;arch-project-shacl&#47;rdf-graphs&#47;service?graph=&lt;http:&#47;&#47;arch-project.com&#47;data&#47;67ae18a4d09ef&gt; ]. The valid characters are defined in RFC 7230 and RFC 3986
+	org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:261)
+	org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:936)
+	org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	java.base&#47;java.lang.Thread.run(Unknown Source)
+</pre><p><b>Note</b> The full stack trace of the root cause is available in the server logs.</p><hr class="line" /><h3>Apache Tomcat/9.0.90</h3></body></html>
+2025-02-13T16:07:40+00:00 INFO (6): Response Status: 204 | Response Body:
+2025-02-13T16:07:54+00:00 INFO (6): Response Status: 204 | Response Body:
